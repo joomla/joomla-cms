@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /** @var PrivacyViewDashboard $this */
 
@@ -51,8 +51,8 @@ $activeRequests = 0;
 							<?php $totalRequests += $row->count; ?>
 						<?php endforeach; ?>
 						<div class="row-fluid">
-							<div class="span5"><?php echo JText::plural('COM_PRIVACY_DASHBOARD_BADGE_TOTAL_REQUESTS', $totalRequests); ?></div>
-							<div class="span7"><?php echo JText::plural('COM_PRIVACY_DASHBOARD_BADGE_ACTIVE_REQUESTS', $activeRequests); ?></div>
+							<div class="span5"><?php echo Text::plural('COM_PRIVACY_DASHBOARD_BADGE_TOTAL_REQUESTS', $totalRequests); ?></div>
+							<div class="span7"><?php echo Text::plural('COM_PRIVACY_DASHBOARD_BADGE_ACTIVE_REQUESTS', $activeRequests); ?></div>
 						</div>
 					<?php else : ?>
 						<div class="row-fluid">
@@ -95,6 +95,9 @@ $activeRequests = 0;
 							<div><?php echo Text::_('COM_PRIVACY_STATUS_CHECK_PRIVACY_POLICY_PUBLISHED'); ?></div>
 							<?php if ($this->privacyPolicyInfo['editLink'] !== '') : ?>
 								<small><a href="<?php echo $this->privacyPolicyInfo['editLink']; ?>"><?php echo Text::_('COM_PRIVACY_EDIT_PRIVACY_POLICY'); ?></a></small>
+							<?php else : ?>
+								<?php $link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . $this->privacyConsentPluginId); ?>
+								<small><a href="<?php echo $link; ?>"><?php echo Text::_('COM_PRIVACY_EDIT_PRIVACY_CONSENT_PLUGIN'); ?></a></small>
 							<?php endif; ?>
 						</div>
 					</div>
@@ -140,7 +143,7 @@ $activeRequests = 0;
 						</div>
 						<div class="span9">
 							<div><?php echo Text::_('COM_PRIVACY_STATUS_CHECK_OUTSTANDING_URGENT_REQUESTS'); ?></div>
-							<small><?php echo JText::plural('COM_PRIVACY_STATUS_CHECK_OUTSTANDING_URGENT_REQUESTS_DESCRIPTION', $this->urgentRequestDays); ?></small>
+							<small><?php echo Text::plural('COM_PRIVACY_STATUS_CHECK_OUTSTANDING_URGENT_REQUESTS_DESCRIPTION', $this->urgentRequestDays); ?></small>
 							<?php if ($this->numberOfUrgentRequests > 0) : ?>
 								<small><a href="<?php echo Route::_('index.php?option=com_privacy&view=requests&filter[status]=1&list[fullordering]=a.requested_at ASC'); ?>"><?php echo Text::_('COM_PRIVACY_SHOW_URGENT_REQUESTS'); ?></a></small>
 							<?php endif; ?>
