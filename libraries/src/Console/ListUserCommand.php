@@ -63,7 +63,7 @@ class ListUserCommand extends AbstractCommand
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['u.id', 'u.username', 'u.name', 'u.email', 'u.block']))
-			->select('GROUP_CONCAT(' . $db->quoteName('g.group_id') . ') AS ' . $db->quoteName(groups))
+			->select('GROUP_CONCAT(' . $db->quoteName('g.group_id') . ') AS ' . $db->quoteName('groups'))
 			->innerJoin($db->quoteName('#__user_usergroup_map', 'g'), $db->quoteName('g.user_id') . ' = ' . $db->quoteName('u.id'))
 			->from($db->quoteName('#__users', 'u'))
 			->group($db->quoteName('u.id'));
