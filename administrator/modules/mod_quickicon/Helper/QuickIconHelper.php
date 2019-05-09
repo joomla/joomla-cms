@@ -44,7 +44,7 @@ abstract class QuickIconHelper
 	 * @since   1.6
 	 */
 	protected static $buttons = array();
-	
+
 	/**
 	 * Helper method to return button list.
 	 *
@@ -114,7 +114,7 @@ abstract class QuickIconHelper
 			{
 				// Load mod_quickicon language file in case this method is called before rendering the module
 				$application->getLanguage()->load('mod_quickicon');
-				
+
 				if ($params->get('show_checkin', '1'))
 				{
 					self::$buttons[$key][] = [
@@ -138,7 +138,7 @@ abstract class QuickIconHelper
 					];
 				}
 				if ($params->get('show_global', '1'))
-				{				
+				{
 					self::$buttons[$key][] = [
 						'link'   => Route::_('index.php?option=com_config'),
 						'image'  => 'fa fa-cog',
@@ -153,7 +153,7 @@ abstract class QuickIconHelper
 				if ($params->get('show_users', '1'))
 				{
 					$amount = self::countUsers();
-					
+
 					self::$buttons[$key][] = [
 						'amount' => $amount,
 						'link'   => Route::_('index.php?option=com_users'),
@@ -169,10 +169,10 @@ abstract class QuickIconHelper
 				if ($params->get('show_menuItems', '1'))
 				{
 					$amount = self::countMenuItems();
-					
+
 					self::$buttons[$key][] = [
 						'amount' => $amount,
-						'link'   => Route::_('index.php?option=com_menus'),						
+						'link'   => Route::_('index.php?option=com_menus'),
 						'image'  => 'fa fa-list',
 						'linkadd'   => Route::_('index.php?option=com_menus&task=item.add'),
 						'addwhat' => Text::plural('MOD_QUICKICON_MENUITEMS_MANAGER', 1),
@@ -185,7 +185,7 @@ abstract class QuickIconHelper
 				if ($params->get('show_articles', '1'))
 				{
 					$amount = self::countArticles();
-					
+
 					self::$buttons[$key][] = [
 						'amount' => $amount,
 						'link'   => Route::_('index.php?option=com_content'),
@@ -201,7 +201,7 @@ abstract class QuickIconHelper
 				if ($params->get('show_categories', '1'))
 				{
 					$amount = self::countArticleCategories();
-					
+
 					self::$buttons[$key][] = [
 						'amount' => $amount,
 						'link'   => Route::_('index.php?option=com_categories'),
@@ -228,7 +228,7 @@ abstract class QuickIconHelper
 				if ($params->get('show_modules', '1'))
 				{
 					$amount = self::countModules();
-					
+
 					self::$buttons[$key][] = [
 						'amount' => $amount,
 						'link'   => Route::_('index.php?option=com_modules'),
@@ -244,7 +244,7 @@ abstract class QuickIconHelper
 				if ($params->get('show_plugins', '1'))
 				{
 					$amount = self::countPlugins();
-					
+
 					self::$buttons[$key][] = [
 						'amount' => $amount,
 						'link'   => Route::_('index.php?option=com_plugins'),
@@ -274,7 +274,7 @@ abstract class QuickIconHelper
 
 	/**
 	 * Method to get the number of published modules in frontend.
-	 * 
+	 *
 	 * @return  integer  The amount of published modules in frontend
 	 *
 	 * @since   4.0
@@ -298,7 +298,7 @@ abstract class QuickIconHelper
 	}
 	/**
 	 * Method to get the number of published articles.
-	 * 
+	 *
 	 * @return  integer  The amount of published articles
 	 *
 	 * @since   4.0
@@ -306,7 +306,7 @@ abstract class QuickIconHelper
 	private static function countArticles()
 	{
 		$app = Factory::getApplication();
-		
+
 		// Get an instance of the generic articles model (administrator)
 		$model = $app->bootComponent('com_content')->getMVCFactory()
 			->createModel('Articles', 'Administrator', ['ignore_request' => true]);
@@ -321,15 +321,15 @@ abstract class QuickIconHelper
 		// Too big amounts must be truncated
 		if ($amount > 9999)
 		{
-			$amount = floor($amount / 10000) . '<span class="thsd"> ' . Text::_('MOD_QUICKICON_AMOUNT_THSD' ) . '</span>';
+			$amount = floor($amount / 10000) . '<span class="thsd"> ' . Text::_('MOD_QUICKICON_AMOUNT_THSD') . '</span>';
 		}
 
 		return $amount;
 	}
-	
+
 	/**
 	 * Method to get the number of published menu tems.
-	 * 
+	 *
 	 * @return  integer  The amount of active menu Items
 	 *
 	 * @since   4.0
@@ -337,7 +337,7 @@ abstract class QuickIconHelper
 	private static function countMenuItems()
 	{
 		$app = Factory::getApplication();
-		
+
 		// Get an instance of the menuitems model (administrator)
 		$model = $app->bootComponent('com_menus')->getMVCFactory()->createModel('Items', 'Administrator', ['ignore_request' => true]);
 
@@ -352,10 +352,10 @@ abstract class QuickIconHelper
 
 		return count($model->getItems());
 	}
-	
+
 	/**
 	 * Method to get the number of users
-	 * 
+	 *
 	 * @return  integer  The amount of active users
 	 *
 	 * @since   4.0
@@ -378,7 +378,7 @@ abstract class QuickIconHelper
 
 	/**
 	 * Method to get the number of enabled Plugins
-	 * 
+	 *
 	 * @return  integer  The amount of enabled plugins
 	 *
 	 * @since   4.0
@@ -397,11 +397,11 @@ abstract class QuickIconHelper
 		$model->setState('filter.enabled', 1);
 
 		return count($model->getItems());
-	}	
-	
+	}
+
 	/**
 	 * Method to get the number of content categories
-	 * 
+	 *
 	 * @return  integer  The amount of published content categories
 	 *
 	 * @since   4.0
@@ -409,7 +409,7 @@ abstract class QuickIconHelper
 	private static function countArticleCategories()
 	{
 		$app = Factory::getApplication();
-		
+
 		$model = $app->bootComponent('com_categories')->getMVCFactory()->createModel('Categories', 'Administrator', ['ignore_request' => true]);
 
 		$model->setState('list.select', 'a.id');
@@ -424,7 +424,7 @@ abstract class QuickIconHelper
 
 	/**
 	 * Method to get checkin
-	 * 
+	 *
 	 * @return  integer  The amount of checkins
 	 *
 	 * @since   4.0
@@ -440,7 +440,7 @@ abstract class QuickIconHelper
 
 	/**
 	 * Method to get Templates
-	 * 
+	 *
 	 * @return  integer  The amount of Templates
 	 *
 	 * @since   4.0
@@ -450,13 +450,13 @@ abstract class QuickIconHelper
 		$app = Factory::getApplication();
 
 		$model = $app->bootComponent('com_templates')->getMVCFactory()->createModel('Templates', 'Administrator', ['ignore_request' => true]);
-		
+
 		return count($model->getItems());
 	}
-	
+
 	/**
 	 * Method to get The Cache Size
-	 * 
+	 *
 	 * @return  integer  The cache size in kB
 	 *
 	 * @since   4.0
@@ -481,7 +481,7 @@ abstract class QuickIconHelper
 
 		// Number bytes are returned in format xxx.xx MB
 		$mb = explode(' ', HTMLHelper::_('number.bytes', $size, 'MB', 1, false));
-		
+
 		// Return number only
 		return $mb[0];
 

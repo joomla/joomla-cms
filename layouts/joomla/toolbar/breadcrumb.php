@@ -20,7 +20,7 @@ $buttons = false;
 
 if (array_key_exists('buttons', $items))
 {
-    $buttons = true;
+	$buttons = true;
 }
 ?>
 <div class="row">
@@ -36,7 +36,8 @@ if (array_key_exists('buttons', $items))
 				<?php else : ?>
 					<?php $breadcrumbItem = HTMLHelper::_('link', $item->link,
 						'<span itemprop="name">' . $item->name . '</span>',
-						array('itemprop' => 'item', 'class' => 'pathway')); ?>
+						array('itemprop' => 'item', 'class' => 'pathway')
+					); ?>
 				<?php endif; ?>
                 <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"
                     class="breadcrumb-item"><?php echo $breadcrumbItem; ?>
