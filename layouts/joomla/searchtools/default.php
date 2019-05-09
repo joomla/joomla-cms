@@ -91,11 +91,13 @@ HTMLHelper::_('searchtools.form', $data['options']['formSelector'], $data['optio
 	</div>
 	<?php endif; ?>
 	<div class="js-stools-container-bar">
-		<?php echo $this->sublayout('bar', $data); ?>
+		<div class="btn-toolbar">
+			<?php echo $this->sublayout('bar', $data); ?>
+			<?php echo $this->sublayout('list', $data); ?>
+		</div>
 	</div>
 	<!-- Filters div -->
 	<div class="js-stools-container-filters clearfix<?php echo $filtersActiveClass; ?>">
-		<?php echo $this->sublayout('list', $data); ?>
 		<?php if ($data['options']['filterButton']) : ?>
 		<?php echo $this->sublayout('filters', $data); ?>
 		<?php endif; ?>

@@ -36,8 +36,8 @@ html[dir=rtl] .js-stools .js-stools-container-selector-first {
 	margin-left: 8px;
 	margin-right: 0;
 }
-.js-stools .js-stools-container-bar {
-	float: left;
+.js-stools .js-stools-container-bar .btn-toolbar{
+	justify-content: flex-end;
 }
 html[dir=rtl] .js-stools .js-stools-container-bar {
 	float: right;

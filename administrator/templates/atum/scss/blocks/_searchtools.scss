@@ -4,17 +4,11 @@
 
 .js-stools {
   position: relative;
-  display: flex;
-  justify-content: flex-end;
   padding: 5px 0 0;
 
   .js-stools-container-filters {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    z-index: $zindex-popover;
     display: none;
-    flex-direction: column;
+    flex-direction: row;
     padding: 10px;
     margin: 0;
     background-color: $white;
