@@ -11,8 +11,9 @@ namespace Joomla\Component\Privacy\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Menu\MenuItem;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
@@ -87,11 +88,6 @@ class DashboardModel extends BaseDatabaseModel
 	 */
 	public function getRequestFormPublished()
 	{
-		$app  = Factory::getApplication();
-		$menu = $app->getMenu('site');
-
-		$item = $menu->getItems('link', 'index.php?option=com_privacy&view=request', true);
-
 		$status = [
 			'exists'    => false,
 			'published' => false,
@@ -100,28 +96,68 @@ class DashboardModel extends BaseDatabaseModel
 
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName('id'))
+			->select($db->quoteName('id') . ', ' . $db->quoteName('published') . ', ' . $db->quoteName('language'))
 			->from($db->quoteName('#__menu'))
 			->where($db->quoteName('client_id') . ' = 0')
 			->where($db->quoteName('link') . ' = ' . $db->quote('index.php?option=com_privacy&view=request'));
 		$db->setQuery($query);
 
+		$menuItem = $db->loadObject();
+
 		// Check if the menu item exists in database
-		if ($db->loadResult())
+		if ($menuItem)
 		{
 			$status['exists'] = true;
+
+			// Check if the menu item is published
+			if ($menuItem->published == 1)
+			{
+				$status['published'] = true;
+			}
+
+			// Add language to the url if the site is multilingual
+			if (Multilanguage::isEnabled() && $menuItem->language && $menuItem->language !== '*')
+			{
+				$lang = '&lang=' . $menuItem->language;
+			}
+			else
+			{
+				$lang = '';
+			}
 		}
 
-		$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
+		$linkMode = Factory::getApplication()->get('force_ssl', 0) == 2 ? 1 : -1;
 
-		if (!($item instanceof MenuItem))
+		if (!$menuItem)
 		{
-			$status['link'] = Route::link('site', 'index.php?option=com_privacy&view=request', true, $linkMode);
+			if (Multilanguage::isEnabled())
+			{
+				// Find the Itemid of the home menu item tagged to the site default language
+				$params = ComponentHelper::getParams('com_languages');
+				$defaultSiteLanguage = $params->get('site');
+
+				$db    = $this->getDbo();
+				$query = $db->getQuery(true)
+					->select($db->quoteName('id'))
+					->from($db->quoteName('#__menu'))
+					->where($db->quoteName('client_id') . ' = 0')
+					->where($db->quoteName('home') . ' = 1')
+					->where($db->quoteName('language') . ' = ' . $db->quote($defaultSiteLanguage));
+				$db->setQuery($query);
+
+				$homeId = (int) $db->loadResult();
+				$itemId = $homeId ? '&Itemid=' . $homeId : '';
+			}
+			else
+			{
+				$itemId = '';
+			}
+
+			$status['link'] = Route::link('site', 'index.php?option=com_privacy&view=request' . $itemId, true, $linkMode);
 		}
 		else
 		{
-			$status['published'] = true;
-			$status['link']      = Route::link('site', 'index.php?Itemid=' . $item->id, true, $linkMode);
+			$status['link'] = Route::link('site', 'index.php?Itemid=' . $menuItem->id . $lang, true, $linkMode);
 		}
 
 		return $status;

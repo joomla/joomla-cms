@@ -9,7 +9,10 @@
 
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('predefinedlist');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('predefinedlist');
 
 /**
  * Field to show a list of range dates to sort with
@@ -53,7 +56,7 @@ class JFormFieldLogsDateRange extends JFormFieldPredefinedList
 		parent::__construct($form);
 
 		// Load the required language
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load('com_actionlogs', JPATH_ADMINISTRATOR);
 	}
 }

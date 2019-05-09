@@ -1001,7 +1001,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		$active = $this->getMenu()->getActive();
 
-		if ($active !== null && $active->type === 'alias')
+		if ($active !== null
+			&& $active->type === 'alias'
+			&& $active->params->get('alias_redirect')
+			&& in_array($this->input->getMethod(), array('GET', 'HEAD'), true))
 		{
 			$item = $this->getMenu()->getItem($active->params->get('aliasoptions'));
 
