@@ -56,8 +56,7 @@ $displayValues = explode(',', $display);
 $allSliders    = $display === 'full' || empty($display);
 $displayData   = ' data-display="' . ($display ? $display : 'full') . '"';
 
-HTMLHelper::_('stylesheet', 'system/fields/joomla-field-color-slider.min.css',
-	['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'system/fields/joomla-field-color-slider.min.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'system/fields/joomla-field-color-slider.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
 

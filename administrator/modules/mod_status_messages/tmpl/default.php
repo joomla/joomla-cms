@@ -29,7 +29,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
                     <span class="fa fa-envelope" aria-hidden="true"></span>
                 </div>
                 <div class="d-flex align-items-center tiny">
-                   <?php echo Text::_('MOD_STATUS_PRIVATE_MESSAGES'); ?>
+                   <?php echo Text::_('MOD_STATUS_MESSAGES_PRIVATE_MESSAGES'); ?>
                 </div>
 				<?php $countUnread = $app->getSession()->get('messages.unread'); ?>
 				<?php if ($countUnread > 0) : ?>
