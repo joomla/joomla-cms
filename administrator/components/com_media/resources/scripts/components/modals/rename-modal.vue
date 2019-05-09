@@ -1,14 +1,13 @@
 <template>
-    <media-modal v-if="$store.state.showRenameModal" :size="'sm'" @close="close()" :show-close="false">
-        <h3 slot="header" class="modal-title">{{ translate('COM_MEDIA_RENAME') }}</h3>
+    <media-modal v-if="$store.state.showRenameModal" :size="'sm'" @close="close()" :show-close="false" label-element="renameTitle">
+        <h3 slot="header" id="renameTitle" class="modal-title">{{ translate('COM_MEDIA_RENAME') }}</h3>
         <div slot="body">
             <form class="form" @submit.prevent="save" novalidate>
                 <div class="form-group">
                     <label for="name">{{ translate('COM_MEDIA_NAME') }}</label>
                     <div :class="{'input-group': extension.length}">
-                        <input id="name" class="form-control" placeholder="Name"
-                               v-model.trim="name" @input="name = $event.target.value"
-                               required autocomplete="off">
+                        <input id="name" class="form-control" :placeholder="translate('COM_MEDIA_NAME')"
+                               :value="name" required autocomplete="off" ref="nameField">
                         <span class="input-group-addon" v-if="extension.length">{{extension }}</span>
                     </div>
                 </div>
@@ -27,30 +26,12 @@
 
     export default {
         name: 'media-rename-modal',
-        data() {
-            return {
-                originalName: '',
-            }
-        },
         computed: {
             item() {
-                // TODO @DN this is not allowed in vuex strict mode!
                 return this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1];
             },
-            name: {
-                get() {
-                    if (this.originalName.length === 0) {
-                        this.originalName = this.item.name;
-                    }
-                    return this.item.name.replace('.' + this.item.extension, '');
-                },
-                set(value) {
-                    // TODO @DN this is not allowed in vuex strict mode!
-                    if (this.extension.length) {
-                        value += '.' + this.item.extension;
-                    }
-                    this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1].name = value;
-                }
+            name() {
+                return this.item.name.replace('.' + this.item.extension, '');
             },
             extension() {
                 return this.item.extension;
@@ -63,11 +44,6 @@
             },
             /* Close the modal instance */
             close() {
-                // Reset state
-                // TODO @DN this is not allowed in vuex strict mode!
-                this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1].name = this.originalName;
-                this.originalName = '';
-
                 this.$store.commit(types.HIDE_RENAME_MODAL);
             },
             /* Save the form and create the folder */
@@ -77,20 +53,22 @@
                     // TODO mark the field as invalid
                     return;
                 }
+                let newName = this.$refs.nameField.value;
+                if (this.extension.length) {
+                    newName += '.' + this.item.extension;
+                }
 
                 let newPath = this.item.directory;
                 if (newPath.substr(-1) !== '/') {
                     newPath += '/';
                 }
-                newPath += this.item.name;
 
                 // Rename the item
                 this.$store.dispatch('renameItem', {
                     path: this.item.path,
-                    newPath: newPath,
+                    newPath: newPath + newName,
+                    newName: newName,
                 });
-
-                this.originalName = '';
             },
         }
     }
