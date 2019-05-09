@@ -124,7 +124,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 					)
 					->where($db->quoteName('g.group_id') . " = :groupId")
 					->where($db->quoteName('u.block') . " = 0")
-					->bind(':groupId', $userGroup, ParameterType::INTEGER);
+					->bind(':groupId', $userGroup);
 
 				$db->setQuery($queryUser);
 				$activeSuperUser = $db->loadResult();
