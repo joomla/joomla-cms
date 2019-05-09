@@ -98,10 +98,12 @@ class DeleteUserCommand extends AbstractCommand
 					$queryUser = $db->getQuery(true);
 					$queryUser->select('COUNT(*)')
 						->from($db->quoteName('#__users', 'u'))
-						->join('LEFT', '#__user_usergroup_map AS g', '(u.id = g.user_id)')
+						->leftJoin($db->quoteName('#__user_usergroup_map') . ' AS' . $db->quoteName('g'),
+							'(' . $db->quoteName('u.id') . ' = ' . $db->quoteName('g.user_id') . ')'
+						)
 						->where($db->quoteName('g.group_id') . " = :groupId")
 						->where($db->quoteName('u.block') . " = 0")
-						->bind(':groupId', $groupId, ParameterType::INTEGER);
+						->bind(':groupId', $groupId);
 
 					$db->setQuery($queryUser);
 					$activeSuperUser = $db->loadResult();

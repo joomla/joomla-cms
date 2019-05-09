@@ -178,7 +178,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__usergroups'))
-				->whereIn($db->quoteName('id'), $user->groups, ParameterType::INTEGER);
+				->whereIn($db->quoteName('id'), $user->groups);
 			$db->setQuery($query);
 
 			$result = $db->loadColumn();
