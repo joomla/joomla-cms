@@ -8,7 +8,6 @@
 
 namespace Joomla\CMS\Console;
 
-
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
@@ -250,7 +249,7 @@ class AddUserCommand extends AbstractCommand
 		$query = $db->getQuery(true)
 			->select($db->quoteName('title'))
 			->from($db->quoteName('#__usergroups'))
-			->order('id ASC');
+			->order($db->quoteName('id') . 'ASC');
 		$db->setQuery($query);
 
 		$list = $db->loadColumn();
