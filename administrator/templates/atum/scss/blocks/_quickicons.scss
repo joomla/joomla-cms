@@ -191,7 +191,9 @@
     }
 
     &.success {
-      border: 1px solid var(--success);
+      color: $success-txt;
+      background:  $success-bg;
+      border: 1px solid lighten($success-txt, 20%);
 
       .fa,
       .fab {
