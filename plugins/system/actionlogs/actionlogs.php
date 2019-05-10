@@ -39,14 +39,6 @@ class PlgSystemActionLogs extends JPlugin
 	protected $db;
 
 	/**
-	 * Load plugin language file automatically so that it can be used inside component
-	 *
-	 * @var    boolean
-	 * @since  3.9.0
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe.
