@@ -89,6 +89,8 @@ class DisplayController extends BaseController
 
 		$model = $this->getModel('Checkin');
 
-		echo new JsonResponse(count($model->getItems()));
+		$amount = count($model->getItems()) ? count($model->getItems()) : '0';
+
+		echo new JsonResponse(count($amount));
 	}
 }

@@ -150,6 +150,8 @@ class ArticlesController extends AdminController
 		$model->setState('list.limit', 0);
 		$model->setState('filter.published', 1);
 
-		echo new JsonResponse(1);
+		$amount = count($model->getItems()) ? count($model->getItems()) : '0';
+
+		echo new JsonResponse($amount);
 	}
 }
