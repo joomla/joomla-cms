@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Response\JsonResponse;
 
 /**
  * Requests management controller class.
@@ -36,4 +37,25 @@ class RequestsController extends AdminController
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
+	
+	/**
+	 * Method to get the number of urgent Requests 
+	 * 
+	 * @return  integer  The amount of urgent requests
+	 *
+	 * @since   4.0
+	 */
+	public function quickiconAmount()
+	{
+		$model = $this->getModel('Requests');
+
+		$model->setState('list.start', 0);
+		$model->setState('list.limit', 0);
+		$model->setState('filter.status', 1);
+
+		$amount = count($model->getItems()) ? count($model->getItems()) : '0';
+
+		echo new JsonResponse('1');
+	}
+	
 }

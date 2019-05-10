@@ -76,11 +76,6 @@ abstract class QuickIconHelper
 				// Include buttons defined by published quickicon plugins
 				PluginHelper::importPlugin('quickicon', 'overridecheck');
 			}
-			if ($params->get('show_privacy', '0'))
-			{
-				// Include buttons defined by published quickicon plugins
-				PluginHelper::importPlugin('quickicon', 'privacycheck');
-			}
 
 				$arrays = (array) $application->triggerEvent(
 					'onGetIcons',
@@ -109,7 +104,17 @@ abstract class QuickIconHelper
 						}
 					}
 				}
-
+				if ($params->get('show_privacy', '1'))
+				{
+					self::$buttons[$key][] = [
+						'ajaxurl' => 'index.php?option=com_privacy&amp;task=requests.quickiconAmount&amp;format=json',
+						'image'   => 'fa fa-users',
+						'link'    => Route::_('index.php?option=com_privacy&view=requests'),
+						'name'    => 'MOD_QUICKICON_PRIVACYREQUESTS',
+						'access'  => array('core.admin', 'com_privacy'),
+						'group'   => 'MOD_QUICKICON_USERS'
+					];
+				}
 				if ($params->get('show_checkin', '1'))
 				{
 					self::$buttons[$key][] = [
