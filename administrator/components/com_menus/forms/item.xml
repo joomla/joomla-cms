@@ -154,6 +154,7 @@
 			label="COM_MENUS_ITEM_FIELD_TEMPLATE_LABEL"
 			client="site"
 			filter="int"
+			showon="params.alias_redirect:0"
 			>
 			<option value="0">JOPTION_USE_DEFAULT</option>
 		</field>
