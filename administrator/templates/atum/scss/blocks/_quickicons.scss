@@ -91,7 +91,6 @@
     transition: all .25s ease;
     text-align: center;
     border: 1px solid $gray-400;
-    border-radius: 0.3rem;
 
     @include hover-focus-active {
       text-decoration: none;
