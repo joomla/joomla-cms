@@ -136,28 +136,28 @@
 
     if (mobileSmall.matches) {
       toggleArrowIcon();
-      if(menu) {
+      if (menu) {
         wrapper.classList.remove('closed');
       }
     }
 
-    if (mobileTablet.matches && menu){
-        wrapper.classList.add('closed');
+    if (mobileTablet.matches && menu) {
+      wrapper.classList.add('closed');
     }
 
-    if(mobileSmallLandscape.matches){
-      if(sidebarNav) sidebarNav.classList.add('collapse');
-      if(subHeadToolbar) subHeadToolbar.classList.add('collapse');
+    if (mobileSmallLandscape.matches) {
+      if (sidebarNav) sidebarNav.classList.add('collapse');
+      if (subHeadToolbar) subHeadToolbar.classList.add('collapse');
     }
 
     window.addEventListener('resize', () => {
       /* eslint no-unused-expressions: ["error", { "allowTernary": true }] */
       (mobile.matches) ? changeLogo('closed') : changeLogo();
       (mobileSmall.matches) ? toggleArrowIcon() : toggleArrowIcon('top');
-      if(sidebarNav) (mobileSmallLandscape.matches)? sidebarNav.classList.add('collapse') :  sidebarNav.classList.remove('collapse');
-      if(subHeadToolbar) (mobileSmallLandscape.matches)? subHeadToolbar.classList.add('collapse') : subHeadToolbar.classList.remove('collapse');
+      if (sidebarNav) (mobileSmallLandscape.matches) ? sidebarNav.classList.add('collapse') : sidebarNav.classList.remove('collapse');
+      if (subHeadToolbar) (mobileSmallLandscape.matches) ? subHeadToolbar.classList.add('collapse') : subHeadToolbar.classList.remove('collapse');
 
-      if(menu) {
+      if (menu) {
         if (mobileSmall.matches) {
           wrapper.classList.remove('closed');
         }
@@ -165,7 +165,6 @@
           wrapper.classList.add('closed');
         }
       }
-
     });
   });
 })(window.Joomla, document);
