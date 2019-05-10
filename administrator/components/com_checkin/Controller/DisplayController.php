@@ -91,6 +91,6 @@ class DisplayController extends BaseController
 
 		$amount = count($model->getItems()) ? count($model->getItems()) : '0';
 
-		echo new JsonResponse(count($amount));
+		echo new JsonResponse($amount);
 	}
 }
