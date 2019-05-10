@@ -59,13 +59,28 @@ abstract class QuickIconHelper
 		{
 			// Load mod_quickicon language file in case this method is called before rendering the module
 			$application->getLanguage()->load('mod_quickicon');
-			$type = $params->get('icon_type', 'site');
 
 			// Update Panel, icons come from plugins quickicons
-			if ($type === 'update')
+			if ($params->get('show_jupdate', '1'))
 			{
 				// Include buttons defined by published quickicon plugins
-				PluginHelper::importPlugin('quickicon');
+				PluginHelper::importPlugin('quickicon', 'joomlaupdate');
+			}
+			if ($params->get('show_eupdate', '0'))
+			{
+				// Include buttons defined by published quickicon plugins
+				PluginHelper::importPlugin('quickicon', 'extensionupdate');
+			}
+			if ($params->get('show_oupdate', '1'))
+			{
+				// Include buttons defined by published quickicon plugins
+				PluginHelper::importPlugin('quickicon', 'overridecheck');
+			}
+			if ($params->get('show_privacy', '0'))
+			{
+				// Include buttons defined by published quickicon plugins
+				PluginHelper::importPlugin('quickicon', 'privacycheck');
+			}
 
 				$arrays = (array) $application->triggerEvent(
 					'onGetIcons',
@@ -94,9 +109,7 @@ abstract class QuickIconHelper
 						}
 					}
 				}
-			}
-			elseif ($type === 'system')
-			{
+
 				if ($params->get('show_checkin', '1'))
 				{
 					self::$buttons[$key][] = [
@@ -129,9 +142,7 @@ abstract class QuickIconHelper
 						'group'  => 'MOD_QUICKICON_SYSTEM',
 					];
 				}
-			}
-			elseif ($type === 'site')
-			{
+
 				if ($params->get('show_users', '1'))
 				{
 					self::$buttons[$key][] = [
@@ -231,7 +242,6 @@ abstract class QuickIconHelper
 					];
 				}
 			}
-		}
 
 		return self::$buttons[$key];
 	}
