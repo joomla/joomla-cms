@@ -63,6 +63,24 @@ class PlgSystemActionLogs extends JPlugin
 	}
 
 	/**
+	 * Listener for the `onAfterInitialise` event
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
+	public function onAfterInitialise()
+	{
+		if (!$this->app->isClient('administrator'))
+		{
+			return;
+		}
+
+		// Load plugin language files only when needed (ex: they are not needed in site client).
+		$this->loadLanguage();
+	}
+
+	/**
 	 * Adds additional fields to the user editing form for logs e-mail notifications
 	 *
 	 * @param   JForm  $form  The form to be altered.
