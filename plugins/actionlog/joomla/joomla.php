@@ -97,12 +97,12 @@ class PlgActionlogJoomla extends ActionLogPlugin
 		if ($isNew)
 		{
 			$messageLanguageKey = $params->text_prefix . '_' . $params->type_title . '_ADDED';
-			$defaultLanguageKey = 'PLG_ACTIONLOG_JOOMLA_CONTENT_ADDED';
+			$defaultLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_ADDED';
 		}
 		else
 		{
 			$messageLanguageKey = $params->text_prefix . '_' . $params->type_title . '_UPDATED';
-			$defaultLanguageKey = 'PLG_ACTIONLOG_JOOMLA_CONTENT_UPDATED';
+			$defaultLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_UPDATED';
 		}
 
 		// If the content type doesn't has it own language key, use default language key
@@ -160,7 +160,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 		}
 		else
 		{
-			$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_CONTENT_DELETED';
+			$messageLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_DELETED';
 		}
 
 		$id = empty($params->id_holder) ? 0 : $article->get($params->id_holder);
@@ -211,22 +211,22 @@ class PlgActionlogJoomla extends ActionLogPlugin
 		{
 			case 0:
 				$messageLanguageKey = $params->text_prefix . '_' . $params->type_title . '_UNPUBLISHED';
-				$defaultLanguageKey = 'PLG_ACTIONLOG_JOOMLA_CONTENT_UNPUBLISHED';
+				$defaultLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_UNPUBLISHED';
 				$action             = 'unpublish';
 				break;
 			case 1:
 				$messageLanguageKey = $params->text_prefix . '_' . $params->type_title . '_PUBLISHED';
-				$defaultLanguageKey = 'PLG_ACTIONLOG_JOOMLA_CONTENT_PUBLISHED';
+				$defaultLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_PUBLISHED';
 				$action             = 'publish';
 				break;
 			case 2:
 				$messageLanguageKey = $params->text_prefix . '_' . $params->type_title . '_ARCHIVED';
-				$defaultLanguageKey = 'PLG_ACTIONLOG_JOOMLA_CONTENT_ARCHIVED';
+				$defaultLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_ARCHIVED';
 				$action             = 'archive';
 				break;
 			case -2:
 				$messageLanguageKey = $params->text_prefix . '_' . $params->type_title . '_TRASHED';
-				$defaultLanguageKey = 'PLG_ACTIONLOG_JOOMLA_CONTENT_TRASHED';
+				$defaultLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_TRASHED';
 				$action             = 'trash';
 				break;
 			default:
@@ -507,12 +507,12 @@ class PlgActionlogJoomla extends ActionLogPlugin
 		if ($isNew)
 		{
 			$messageLanguageKey = $params->text_prefix . '_' . $params->type_title . '_ADDED';
-			$defaultLanguageKey = 'PLG_ACTIONLOG_JOOMLA_CONTENT_ADDED';
+			$defaultLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_ADDED';
 		}
 		else
 		{
 			$messageLanguageKey = $params->text_prefix . '_' . $params->type_title . '_UPDATED';
-			$defaultLanguageKey = 'PLG_ACTIONLOG_JOOMLA_CONTENT_UPDATED';
+			$defaultLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_UPDATED';
 		}
 
 		// If the extension type doesn't have it own language key, use default language key
@@ -559,7 +559,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_CONTENT_DELETED';
+		$messageLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_DELETED';
 
 		$message = array(
 			'action' => 'delete',
@@ -618,12 +618,12 @@ class PlgActionlogJoomla extends ActionLogPlugin
 		}
 		elseif ($isnew)
 		{
-			$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_CONTENT_ADDED';
+			$messageLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_ADDED';
 			$action             = 'add';
 		}
 		else
 		{
-			$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_CONTENT_UPDATED';
+			$messageLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_UPDATED';
 			$action             = 'update';
 		}
 
@@ -666,7 +666,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_CONTENT_DELETED';
+		$messageLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_DELETED';
 
 		$message = array(
 			'action'      => 'delete',
@@ -702,12 +702,12 @@ class PlgActionlogJoomla extends ActionLogPlugin
 
 		if ($isNew)
 		{
-			$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_CONTENT_ADDED';
+			$messageLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_ADDED';
 			$action             = 'add';
 		}
 		else
 		{
-			$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_CONTENT_UPDATED';
+			$messageLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_UPDATED';
 			$action             = 'update';
 		}
 
@@ -744,7 +744,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_CONTENT_DELETED';
+		$messageLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_DELETED';
 
 		$message = array(
 			'action'      => 'delete',
