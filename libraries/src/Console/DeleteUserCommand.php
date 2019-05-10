@@ -98,7 +98,8 @@ class DeleteUserCommand extends AbstractCommand
 					$queryUser = $db->getQuery(true);
 					$queryUser->select('COUNT(*)')
 						->from($db->quoteName('#__users', 'u'))
-						->leftJoin($db->quoteName('#__user_usergroup_map', 'g'),
+						->leftJoin(
+							$db->quoteName('#__user_usergroup_map', 'g'),
 							'(' . $db->quoteName('u.id') . ' = ' . $db->quoteName('g.user_id') . ')'
 						)
 						->where($db->quoteName('g.group_id') . " = :groupId")
