@@ -2476,6 +2476,7 @@ ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX "time" ON "#__session" ("time");
 CREATE NONCLUSTERED INDEX "userid" ON "#__session" ("userid");
+CREATE NONCLUSTERED INDEX "client_id_guest" ON "#__session" ("client_id", "guest");
 
 --
 -- Table structure for table `#__tags`
