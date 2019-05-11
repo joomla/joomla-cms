@@ -194,9 +194,15 @@
 		});
 	};
 
-	// Initialise all defaults
-	$(document).ready(function(){
-		$('.field-media-wrapper').fieldMedia();
+	// Initialise all defaults on load and again when subform rows are added
+	$(function($) {
+		initMediaField();
+		$(document).on('subform-row-add', initMediaField);
+
+		function initMediaField (event, container)
+		{
+			$(container || document).find('.field-media-wrapper').fieldMedia();
+		}
 	});
 
 })(jQuery);

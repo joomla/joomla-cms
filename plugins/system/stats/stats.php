@@ -21,19 +21,25 @@ defined('_JEXEC') or die;
 class PlgSystemStats extends JPlugin
 {
 	/**
-	 * @const  integer
+	 * Indicates sending statistics is always allowed.
+	 *
+	 * @var    integer
 	 * @since  3.5
 	 */
 	const MODE_ALLOW_ALWAYS = 1;
 
 	/**
-	 * @const  integer
+	 * Indicates sending statistics is only allowed one time.
+	 *
+	 * @var    integer
 	 * @since  3.5
 	 */
 	const MODE_ALLOW_ONCE = 2;
 
 	/**
-	 * @const  integer
+	 * Indicates sending statistics is never allowed.
+	 *
+	 * @var    integer
 	 * @since  3.5
 	 */
 	const MODE_ALLOW_NEVER = 3;

@@ -325,31 +325,6 @@ class FieldsModelGroup extends JModelAdmin
 			{
 				$item->params = new Registry($item->params);
 			}
-
-			// Convert the created and modified dates to local user time for display in the form.
-			$tz = new DateTimeZone(JFactory::getApplication()->get('offset'));
-
-			if ((int) $item->created)
-			{
-				$date = new JDate($item->created);
-				$date->setTimezone($tz);
-				$item->created = $date->toSql(true);
-			}
-			else
-			{
-				$item->created = null;
-			}
-
-			if ((int) $item->modified)
-			{
-				$date = new JDate($item->modified);
-				$date->setTimezone($tz);
-				$item->modified = $date->toSql(true);
-			}
-			else
-			{
-				$item->modified = null;
-			}
 		}
 
 		return $item;
