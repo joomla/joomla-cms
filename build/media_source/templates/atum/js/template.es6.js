@@ -22,7 +22,7 @@
     }
 
     const state = change
-        || (storageEnabled && localStorage.getItem('atum-sidebar'));
+      || (storageEnabled && localStorage.getItem('atum-sidebar'));
 
     if (state === 'closed') {
       logo.classList.add('small');
@@ -55,7 +55,7 @@
       if (transitAction) {
         // Transition class depends on the width of the sidebar
         if (storageEnabled
-            && localStorage.getItem('atum-sidebar') === 'closed') {
+          && localStorage.getItem('atum-sidebar') === 'closed') {
           sidebar.classList.add(`transit-${transitAction}-closed`);
           changeLogo('small');
         } else {
@@ -96,7 +96,7 @@
    *
    * @since   4.0.0
    */
-  function changeSVGLogoColor () {
+  function changeSVGLogoColor() {
     const logoImgs = [].slice.call(document.querySelectorAll('.logo img'));
 
     logoImgs.forEach((img) => {
@@ -104,20 +104,22 @@
       const imgClass = img.getAttribute('class');
       const imgURL = img.getAttribute('src');
 
-      const xhr = new XMLHttpRequest();
-      xhr.onreadystatechange  = () => {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-
+      Joomla.request({
+        url: imgURL,
+        method: 'GET',
+        onSuccess: (response) => {
           // Get the SVG tag, ignore the rest
-          let svg = xhr.responseXML.getElementsByTagName('svg')[0];
+          const parsedImg = new DOMParser().parseFromString(response, 'image/svg+xml');
+          const svg = parsedImg.getElementsByTagName('svg')[0];
 
           // Add replaced image's ID to the new SVG
-          if (imgID != null) {
+          if (imgID) {
             svg.setAttribute('id', imgID);
           }
+
           // Add replaced image's classes to the new SVG
-          if (imgClass != null) {
-            svg.setAttribute('class', imgClass + ' replaced-svg');
+          if (imgClass) {
+            svg.setAttribute('class', `${imgClass} replaced-svg`);
           }
 
           // Remove any invalid XML tags as per http://validator.w3.org
@@ -125,15 +127,13 @@
 
           // Check if the viewport is set, if the viewport is not set the SVG wont't scale.
           if (!svg.hasAttribute('viewBox') && svg.hasAttribute('height') && svg.hasAttribute('width')) {
-            svg.setAttribute('viewBox', '0 0 ' + svg.getAttribute('height') + ' ' + svg.getAttribute('width'));
+            svg.setAttribute('viewBox', `0 0 ${svg.getAttribute('height')} ${svg.getAttribute('width')}`);
           }
 
           // Replace image with new SVG
           img.parentElement.replaceChild(svg, img);
-        }
-      };
-      xhr.open('GET', imgURL, true);
-      xhr.send(null);
+        },
+      });
     });
   }
 
