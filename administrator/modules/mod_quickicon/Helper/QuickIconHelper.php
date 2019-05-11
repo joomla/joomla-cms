@@ -107,11 +107,12 @@ abstract class QuickIconHelper
 				if ($params->get('show_privacy', '1'))
 				{
 					self::$buttons[$key][] = [
-						'ajaxurl' => 'index.php?option=com_privacy&amp;task=requests.quickiconAmount&amp;format=json',
-						'image'   => 'fa fa-users',
+						'ajaxurl' => Route::_('index.php?option=com_privacy&amp;task=requests.quickiconAmount&amp;format=json'),
+						'image'   => 'fa fa-address-card',
 						'link'    => Route::_('index.php?option=com_privacy&view=requests'),
 						'name'    => 'MOD_QUICKICON_PRIVACYREQUESTS',
 						'access'  => array('core.admin', 'com_privacy'),
+						'class' => 'pulse',
 						'group'   => 'MOD_QUICKICON_USERS'
 					];
 				}
