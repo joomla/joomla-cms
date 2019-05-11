@@ -153,7 +153,7 @@ class UsersController extends AdminController
 
 		$this->setRedirect('index.php?option=com_users&view=users');
 	}
-		
+
 	/**
 	 * Method to get the number of active users
 	 * 
@@ -161,14 +161,14 @@ class UsersController extends AdminController
 	 *
 	 * @since   4.0
 	 */
-	public function quickiconAmount()
+	public function getQuickiconContent()
 	{
 		$model = $this->getModel('Users');
 
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', 0);
 		$model->setState('filter.state', 0);
 
-		echo new JsonResponse(count($model->getItems()));
+		$amount = $model->getTotal() ? $model->getTotal() : '0';
+
+		echo new JsonResponse($amount);
 	}
 }

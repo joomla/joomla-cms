@@ -37,7 +37,7 @@ class RequestsController extends AdminController
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
-	
+
 	/**
 	 * Method to get the number of urgent Requests 
 	 * 
@@ -45,15 +45,13 @@ class RequestsController extends AdminController
 	 *
 	 * @since   4.0
 	 */
-	public function quickiconAmount()
+	public function getQuickiconContent()
 	{
 		$model = $this->getModel('Requests');
 
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', 0);
 		$model->setState('filter.status', 1);
 
-		$amount = count($model->getItems()) ? count($model->getItems()) : '0';
+		$amount = $model->getTotal() ? $model->getTotal() : '0';
 
 		echo new JsonResponse($amount);
 	}
