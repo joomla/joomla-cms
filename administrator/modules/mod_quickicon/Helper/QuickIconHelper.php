@@ -217,7 +217,7 @@ abstract class QuickIconHelper
 						'ajaxurl' => 'index.php?option=com_modules&amp;task=modules.quickiconAmount&amp;format=json',
 						'image'   => 'fa fa-cube',
 						'link'    => Route::_('index.php?option=com_modules'),
-						'linkadd' => Route::_('index.php?option=com_categories&task=type.select'),
+						'linkadd' => Route::_('index.php?option=com_modules&view=elect'),
 						'name'    => 'MOD_QUICKICON_MODULE_MANAGER',
 						'access'  => array('core.manage', 'com_modules'),
 						'group'   => 'MOD_QUICKICON_SITE'

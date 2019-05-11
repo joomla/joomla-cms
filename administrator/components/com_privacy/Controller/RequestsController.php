@@ -55,7 +55,6 @@ class RequestsController extends AdminController
 
 		$amount = count($model->getItems()) ? count($model->getItems()) : '0';
 
-		echo new JsonResponse('1');
+		echo new JsonResponse($amount);
 	}
-	
 }
