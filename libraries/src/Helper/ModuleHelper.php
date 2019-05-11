@@ -267,7 +267,7 @@ abstract class ModuleHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function renderRawModule ($module, Registry $params, $attribs = array())
+	public static function renderRawModule($module, Registry $params, $attribs = array())
 	{
 		if (!empty($module->contentRendered))
 		{
