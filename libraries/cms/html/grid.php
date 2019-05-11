@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,43 +21,6 @@ use Joomla\CMS\Table\Table;
  */
 abstract class JHtmlGrid
 {
-	/**
-	 * Display a boolean setting widget.
-	 *
-	 * @param   integer  $i        The row index.
-	 * @param   integer  $value    The value of the boolean field.
-	 * @param   string   $taskOn   Task to turn the boolean setting on.
-	 * @param   string   $taskOff  Task to turn the boolean setting off.
-	 *
-	 * @return  string   The boolean setting widget.
-	 *
-	 * @since   1.6
-	 */
-	public static function boolean($i, $value, $taskOn = null, $taskOff = null)
-	{
-		// Load the behavior.
-		static::behavior();
-
-		// Build the title.
-		$title = $value ? Text::_('JYES') : Text::_('JNO');
-		$title = HTMLHelper::_('tooltipText', $title, Text::_('JGLOBAL_CLICK_TO_TOGGLE_STATE'), 0);
-
-		// Build the <a> tag.
-		$bool = $value ? 'true' : 'false';
-		$task = $value ? $taskOff : $taskOn;
-		$toggle = (!$task) ? false : true;
-
-		if ($toggle)
-		{
-			return '<a class="grid_' . $bool . ' hasTooltip" title="' . $title . '" rel="{id:\'cb' . $i . '\', task:\'' . $task
-				. '\'}" href="#toggle"></a>';
-		}
-		else
-		{
-			return '<a class="grid_' . $bool . '"></a>';
-		}
-	}
-
 	/**
 	 * Method to sort a column in a grid
 	 *
@@ -148,15 +111,24 @@ abstract class JHtmlGrid
 	 * @param   string   $name        The name of the form element
 	 * @param   string   $stub        The name of stub identifier
 	 * @param   string   $title       The name of the item
+	 * @param   string   $formId      An optional form selector.
 	 *
 	 * @return  mixed    String of html with a checkbox if item is not checked out, null if checked out.
 	 *
 	 * @since   1.5
 	 */
-	public static function id($rowNum, $recId, $checkedOut = false, $name = 'cid', $stub = 'cb', $title = '')
+	public static function id($rowNum, $recId, $checkedOut = false, $name = 'cid', $stub = 'cb', $title = '', $formId = null)
 	{
+		if ($formId !== null)
+		{
+			return $checkedOut ? '' : '<label for="' . $stub . $rowNum . '"><span class="sr-only">' . Text::_('JSELECT')
+				. ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>'
+				. '<input type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
+				. '" onclick="Joomla.isChecked(this.checked, \'' . $formId . '\');">';
+		}
+
 		return $checkedOut ? '' : '<label for="' . $stub . $rowNum . '"><span class="sr-only">' . Text::_('JSELECT')
-			. ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>' 
+			. ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>'
 			. '<input type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
 			. '" onclick="Joomla.isChecked(this.checked);">';
 	}
@@ -228,7 +200,7 @@ abstract class JHtmlGrid
 		$alt = $value ? Text::_('JPUBLISHED') : Text::_('JUNPUBLISHED');
 		$action = $value ? Text::_('JLIB_HTML_UNPUBLISH_ITEM') : Text::_('JLIB_HTML_PUBLISH_ITEM');
 
-		return '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $prefix . $task . '\')" title="' . $action . '">'
+		return '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $prefix . $task . '\')" title="' . $action . '">'
 			. HTMLHelper::_('image', 'admin/' . $img, $alt, null, true) . '</a>';
 	}
 
@@ -314,55 +286,5 @@ abstract class JHtmlGrid
 		}
 
 		return $hover . HTMLHelper::_('image', 'admin/checked_out.png', null, null, true) . '</span>';
-	}
-
-	/**
-	 * Method to build the behavior script and add it to the document head.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public static function behavior()
-	{
-		static $loaded;
-
-		if (!$loaded)
-		{
-			// Include jQuery
-			HTMLHelper::_('jquery.framework');
-
-			// Build the behavior script.
-			$js = '
-		jQuery(function($){
-			$actions = $(\'a.move_up, a.move_down, a.grid_true, a.grid_false, a.grid_trash\');
-			$actions.each(function(){
-				$(this).on(\'click\', function(){
-					args = JSON.decode(this.rel);
-					listItemTask(args.id, args.task);
-				});
-			});
-			$(\'input.check-all-toggle\').each(function(){
-				$(this).on(\'click\', function(){
-					if (this.checked) {
-						$(this).closest(\'form\').find(\'input[type="checkbox"]\').each(function(){
-							this.checked = true;
-						})
-					}
-					else {
-						$(this).closest(\'form\').find(\'input[type="checkbox"]\').each(function(){
-							this.checked = false;
-						})
-					}
-				});
-			});
-		});';
-
-			// Add the behavior to the document head.
-			$document = Factory::getDocument();
-			$document->addScriptDeclaration($js);
-
-			$loaded = true;
-		}
 	}
 }

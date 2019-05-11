@@ -16,7 +16,6 @@
 			name="name"
 			type="text"
 			label="COM_CONTACT_FIELD_NAME_LABEL"
-			class="input-xxlarge input-large-text"
 			size="40"
 			required="true"
 		 />
@@ -409,17 +408,6 @@
 			</field>
 
 			<field
-				name="presentation_style"
-				type="list"
-				label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
-				useglobal="true"
-				>
-				<option value="sliders">COM_CONTACT_FIELD_VALUE_SLIDERS</option>
-				<option value="tabs">COM_CONTACT_FIELD_VALUE_TABS</option>
-				<option value="plain">COM_CONTACT_FIELD_VALUE_PLAIN</option>
-			</field>
-
-			<field
 				name="show_tags"
 				type="list"
 				label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
@@ -760,6 +748,7 @@
 				name="contact_layout"
 				type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
+				class="custom-select"
 				extension="com_contact"
 				view="contact"
 				useglobal="true"

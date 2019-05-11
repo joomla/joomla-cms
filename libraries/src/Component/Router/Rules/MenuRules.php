@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -75,6 +75,12 @@ class MenuRules implements RulesInterface
 
 		// Get query language
 		$language = isset($query['lang']) ? $query['lang'] : '*';
+
+		// Set the language to the current one when multilang is enabled and item is tagged to ALL
+		if (Multilanguage::isEnabled() && $language === '*')
+		{
+			$language = $this->router->app->get('language');
+		}
 
 		if (!isset($this->lookup[$language]))
 		{
@@ -257,7 +263,6 @@ class MenuRules implements RulesInterface
 						if (!isset($this->lookup[$language][$view . $layout]) || $item->language !== '*')
 						{
 							$this->lookup[$language][$view . $layout] = $item->id;
-							$this->lookup[$language][$view] = $item->id;
 						}
 					}
 				}

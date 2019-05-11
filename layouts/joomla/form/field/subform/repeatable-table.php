@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,7 @@ extract($displayData);
 // Add script
 if ($multiple)
 {
-	HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-subform.min.js', ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
+	HTMLHelper::_('webcomponent', 'system/fields/joomla-field-subform.min.js', ['version' => 'auto', 'relative' => true]);
 }
 
 // Build heading
@@ -76,7 +76,7 @@ else
 		<joomla-field-subform class="subform-repeatable" name="<?php echo $name; ?>"
 			button-add=".group-add" button-remove=".group-remove" button-move="<?php echo empty($buttons['move']) ? '' : '.group-move' ?>"
 			repeatable-element=".subform-repeatable-group"
-			rows-container="tbody.subform-repeatable-rows-container" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
+			rows-container="tbody.subform-repeatable-container" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
 
 		<table class="adminlist table table-striped table-bordered">
 			<thead>
@@ -94,7 +94,7 @@ else
 					<?php endif; ?>
 				</tr>
 			</thead>
-			<tbody class="subform-repeatable-rows-container">
+			<tbody class="subform-repeatable-container">
 			<?php
 			foreach ($forms as $k => $form) :
 				echo $this->sublayout($sublayout, array('form' => $form, 'basegroup' => $fieldname, 'group' => $fieldname . $k, 'buttons' => $buttons));

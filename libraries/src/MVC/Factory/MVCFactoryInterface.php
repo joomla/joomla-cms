@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\CMS\MVC\Factory;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\MVC\Model\ModelInterface;
 use Joomla\Input\Input;
 
 /**
@@ -23,9 +24,9 @@ interface MVCFactoryInterface
 	/**
 	 * Method to load and return a controller object.
 	 *
-	 * @param   string                   $name    The name of the view.
-	 * @param   string                   $prefix  Optional view prefix.
-	 * @param   array                    $config  Optional configuration array for the view.
+	 * @param   string                   $name    The name of the controller
+	 * @param   string                   $prefix  The controller prefix
+	 * @param   array                    $config  The configuration array for the controller
 	 * @param   CMSApplicationInterface  $app     The app
 	 * @param   Input                    $input   The input
 	 *
@@ -34,7 +35,7 @@ interface MVCFactoryInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createController($name, $prefix = '', array $config = [], CMSApplicationInterface $app = null, Input $input = null);
+	public function createController($name, $prefix, array $config, CMSApplicationInterface $app, Input $input);
 
 	/**
 	 * Method to load and return a model object.
@@ -43,7 +44,7 @@ interface MVCFactoryInterface
 	 * @param   string  $prefix  Optional model prefix.
 	 * @param   array   $config  Optional configuration array for the model.
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model object
+	 * @return  ModelInterface  The model object
 	 *
 	 * @since   4.0.0
 	 * @throws  \Exception
@@ -58,7 +59,7 @@ interface MVCFactoryInterface
 	 * @param   string  $type    Optional type of view.
 	 * @param   array   $config  Optional configuration array for the view.
 	 *
-	 * @return  \Joomla\CMS\MVC\View\AbstractView  The view object
+	 * @return  \Joomla\CMS\MVC\View\ViewInterface  The view object
 	 *
 	 * @since   4.0.0
 	 * @throws  \Exception

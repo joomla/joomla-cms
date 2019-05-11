@@ -3,19 +3,22 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\CMS\Table\Table;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\Utilities\IpHelper;
 
 /**
  * Content Component Article Model
@@ -55,13 +58,15 @@ class ArticleModel extends ItemModel
 		$params = $app->getParams();
 		$this->setState('params', $params);
 
-		// TODO: Tune these values based on other permissions.
 		$user = Factory::getUser();
 
-		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
+		// If $pk is set then authorise on complete asset, else on component only
+		$asset = empty($pk) ? 'com_content' : 'com_content.article.' . $pk;
+
+		if ((!$user->authorise('core.edit.state', $asset)) && (!$user->authorise('core.edit', $asset)))
 		{
-			$this->setState('filter.published', 1);
-			$this->setState('filter.archived', 2);
+			$this->setState('filter.published', ContentComponent::CONDITION_PUBLISHED);
+			$this->setState('filter.archived', ContentComponent::CONDITION_ARCHIVED);
 		}
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
@@ -105,8 +110,16 @@ class ArticleModel extends ItemModel
 				$query->from('#__content AS a')
 					->where('a.id = ' . (int) $pk);
 
+				$query->select($db->quoteName('ws.condition'))
+					->innerJoin($db->quoteName('#__workflow_stages', 'ws'))
+					->innerJoin($db->quoteName('#__workflow_associations', 'wa'))
+					->where($db->quoteName('a.id') . ' = ' . $db->quoteName('wa.item_id'))
+					->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'))
+					->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'));
+
 				// Join on category table.
-				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access')
+				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access,' .
+						'c.language AS category_language')
 					->innerJoin('#__categories AS c on c.id = a.catid')
 					->where('c.published > 0');
 
@@ -121,14 +134,15 @@ class ArticleModel extends ItemModel
 				}
 
 				// Join over the categories to get parent category titles
-				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
+				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route,' .
+						'parent.alias as parent_alias, parent.language as parent_language')
 					->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
 
 				// Join on voting table
 				$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count')
 					->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 
-				if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
+				if ((!$user->authorise('core.edit.state', 'com_content.article.' . $pk)) && (!$user->authorise('core.edit', 'com_content.article.' . $pk)))
 				{
 					// Filter by start and end dates.
 					$nullDate = $db->quote($db->getNullDate());
@@ -146,7 +160,7 @@ class ArticleModel extends ItemModel
 
 				if (is_numeric($published))
 				{
-					$query->where('(a.state = ' . (int) $published . ' OR a.state =' . (int) $archived . ')');
+					$query->whereIn($db->quoteName('ws.condition'), [(int) $published, (int) $archived]);
 				}
 
 				$db->setQuery($query);
@@ -159,7 +173,7 @@ class ArticleModel extends ItemModel
 				}
 
 				// Check for published state if filter set.
-				if ((is_numeric($published) || is_numeric($archived)) && (($data->state != $published) && ($data->state != $archived)))
+				if ((is_numeric($published) || is_numeric($archived)) && ($data->condition != $published && $data->condition != $archived))
 				{
 					throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}
@@ -273,7 +287,7 @@ class ArticleModel extends ItemModel
 	{
 		if ($rate >= 1 && $rate <= 5 && $pk > 0)
 		{
-			$userIP = $_SERVER['REMOTE_ADDR'];
+			$userIP = IpHelper::getIp();
 
 			// Initialize variables.
 			$db    = $this->getDbo();

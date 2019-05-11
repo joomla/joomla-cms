@@ -3,23 +3,24 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Contact\Site\View\Contact;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
 use Joomla\CMS\Categories\Categories;
-use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
 
 /**
  * HTML Contact View class for the Contact component
@@ -68,15 +69,6 @@ class HtmlView extends BaseHtmlView
 	 * @since 3.6.3
 	 */
 	protected $captchaEnabled = false;
-
-	/**
-	 * The item object details (a duplicate of $item)
-	 *
-	 * @var         \JObject
-	 * @since       4.0.0
-	 * @deprecated  4.0
-	 */
-	protected $contact;
 
 	/**
 	 * The page parameters
@@ -130,10 +122,13 @@ class HtmlView extends BaseHtmlView
 
 		$active = $app->getMenu()->getActive();
 
-		if (empty($item->catid))
-		{
-			$app->setUserState('com_contact.contact.data', array('catid' => $item->catid));
-		}
+		// Get submitted values
+		$data = $app->getUserState('com_contact.contact.data', array());
+
+		// Add catid for selecting custom fields
+		$data['catid'] = $item->catid;
+
+		$app->setUserState('com_contact.contact.data', $data);
 
 		if ($active)
 		{
@@ -175,7 +170,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Check if access is not public
@@ -334,10 +329,10 @@ class HtmlView extends BaseHtmlView
 		{
 			foreach ($contacts as &$contact)
 			{
-				$contact->link = Route::_(ContactHelperRoute::getContactRoute($contact->slug, $contact->catid));
+				$contact->link = Route::_(ContactHelperRoute::getContactRoute($contact->slug, $contact->catid, $contact->language));
 			}
 
-			$item->link = Route::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid), false);
+			$item->link = Route::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid, $item->language), false);
 		}
 
 		// Process the content plugins.
@@ -386,7 +381,6 @@ class HtmlView extends BaseHtmlView
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($item->params->get('pageclass_sfx'));
 
-		$this->contact     = &$item;
 		$this->params      = &$item->params;
 		$this->state       = &$state;
 		$this->item        = &$item;
@@ -471,12 +465,12 @@ class HtmlView extends BaseHtmlView
 				$title = $this->item->name;
 			}
 
-			$path = array(array('title' => $this->contact->name, 'link' => ''));
-			$category = Categories::getInstance('Contact')->get($this->contact->catid);
+			$path = array(array('title' => $this->item->name, 'link' => ''));
+			$category = Categories::getInstance('Contact')->get($this->item->catid);
 
 			while ($category && ($menu->query['option'] !== 'com_contact' || $menu->query['view'] === 'contact' || $id != $category->id) && $category->id > 1)
 			{
-				$path[] = array('title' => $category->title, 'link' => ContactHelperRoute::getCategoryRoute($this->contact->catid));
+				$path[] = array('title' => $category->title, 'link' => ContactHelperRoute::getCategoryRoute($category->id, $category->language));
 				$category = $category->getParent();
 			}
 

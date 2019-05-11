@@ -3,19 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
+use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 $app = Factory::getApplication();
 
@@ -39,7 +39,7 @@ $iconStates = array(
 );
 
 Factory::getDocument()->addScriptOptions('assosiations-modal', ['func' => $function]);
-HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', false, true);
+HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <form action="<?php echo Route::_('index.php?option=com_associations&view=associations&layout=modal&tmpl=component&function='
 . $function . '&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
@@ -54,36 +54,41 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', fals
 <?php endif; ?>
 <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 	<?php if (empty($this->items)) : ?>
-		<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+		<div class="alert alert-warning">
+			<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+		</div>
 	<?php else : ?>
 		<table class="table" id="associationsList">
+			<caption id="captionTable" class="sr-only">
+				?php echo Text::_('COM_ASSOCIATIONS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+			</caption>
 			<thead>
 				<tr>
 					<?php if (!empty($this->typeSupports['state'])) : ?>
-						<th scope="col" style="width:1%" class="center nowrap">
+						<th scope="col" style="width:1%" class="center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'state', $listDirn, $listOrder); ?>
 						</th>
 					<?php endif; ?>
-					<th scope="col" class="nowrap">
+					<th scope="col">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'title', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:15%" class="nowrap">
+					<th scope="col" style="width:15%">
 						<?php echo Text::_('JGRID_HEADING_LANGUAGE'); ?>
 					</th>
-					<th scope="col" style="width:5%" class="nowrap">
+					<th scope="col" style="width:5%">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 					</th>
 					<?php if (!empty($this->typeFields['menutype'])) : ?>
-						<th scope="col" style="width:10%" class="nowrap">
+						<th scope="col" style="width:10%">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_MENUTYPE', 'menutype_title', $listDirn, $listOrder); ?>
 						</th>
 					<?php endif; ?>
 					<?php if (!empty($this->typeSupports['acl'])) : ?>
-						<th scope="col" style="width:5%" class="nowrap d-none d-sm-table-cell">
+						<th scope="col" style="width:5%" class="d-none d-sm-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
 					<?php endif; ?>
-					<th scope="col" style="width:1%" class="nowrap d-none d-sm-table-cell">
+					<th scope="col" style="width:1%" class="d-none d-sm-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -100,7 +105,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', fals
 							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
 						</td>
 					<?php endif; ?>
-					<th scope="row" class="nowrap has-context">
+					<th scope="row" class="has-context">
 						<?php if (isset($item->level)) : ?>
 							<?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 						<?php endif; ?>

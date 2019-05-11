@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,6 +46,20 @@ JLoader::registerAlias('JRouterInstallation', \Joomla\CMS\Installation\Router\In
 // Get the dependency injection container
 $container = \Joomla\CMS\Factory::getContainer();
 $container->registerServiceProvider(new \Joomla\CMS\Installation\Service\Provider\Application);
+
+/*
+ * Alias the session service keys to the web session service as that is the primary session backend for this application
+ *
+ * In addition to aliasing "common" service keys, we also create aliases for the PHP classes to ensure autowiring objects
+ * is supported.  This includes aliases for aliased class names, and the keys for alised class names should be considered
+ * deprecated to be removed when the class name alias is removed as well.
+ */
+$container->alias('session.web', 'session.web.installation')
+	->alias('session', 'session.web.installation')
+	->alias('JSession', 'session.web.installation')
+	->alias(\Joomla\CMS\Session\Session::class, 'session.web.installation')
+	->alias(\Joomla\Session\Session::class, 'session.web.installation')
+	->alias(\Joomla\Session\SessionInterface::class, 'session.web.installation');
 
 // Instantiate and execute the application
 $container->get(\Joomla\CMS\Installation\Application\InstallationApplication::class)->execute();

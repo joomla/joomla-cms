@@ -3,25 +3,24 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Contact\Site\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\FormModel;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
-use Joomla\Component\Users\Administrator\Model\UserModel;
-use Joomla\CMS\Form\Form;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * Single item model for a contact
@@ -151,6 +150,12 @@ class ContactModel extends FormModel
 		if (empty($data['language']) && Multilanguage::isEnabled())
 		{
 			$data['language'] = Factory::getLanguage()->getTag();
+		}
+
+		// Add contact id to contact form data, so fields plugin can work properly
+		if (empty($data['catid']))
+		{
+			$data['catid'] = $this->getItem()->catid;
 		}
 
 		$this->preprocessData('com_contact.contact', $data);
@@ -367,7 +372,8 @@ class ContactModel extends FormModel
 		}
 
 		// Get the profile information for the linked user
-		$userModel = new UserModel(array('ignore_request' => true));
+		$userModel = $this->bootComponent('com_users')->getMVCFactory()
+			->createModel('User', 'Administrator', ['ignore_request' => true]);
 		$data = $userModel->getItem((int) $contact->user_id);
 
 		PluginHelper::importPlugin('user');
@@ -417,6 +423,7 @@ class ContactModel extends FormModel
 	 * @return  mixed    The contact object on success, false on failure
 	 *
 	 * @throws  \Exception  On database failure
+	 * @deprecated  4.0    Use ContactModelContact::getItem() instead
 	 */
 	protected function getContactQuery($pk = null)
 	{
@@ -534,7 +541,8 @@ class ContactModel extends FormModel
 				}
 
 				// Get the profile information for the linked user
-				$userModel = new UserModel(array('ignore_request' => true));
+				$userModel = $this->bootComponent('com_users')->getMVCFactory()
+					->createModel('User', 'Administrator', ['ignore_request' => true]);
 				$data = $userModel->getItem((int) $result->user_id);
 
 				PluginHelper::importPlugin('user');

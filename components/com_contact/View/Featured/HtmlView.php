@@ -3,18 +3,20 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Contact\Site\View\Featured;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Mail\MailHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Mail\MailHelper;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
  * Featured View class
@@ -48,38 +50,12 @@ class HtmlView extends BaseHtmlView
 	protected $pagination;
 
 	/**
-	 * Who knows what this variable was intended for - but it's never been used
-	 *
-	 * @var         integer
-	 * @deprecated  4.0  This variable has never been used ever
-	 */
-	protected $maxLevel;
-
-	/**
-	 * Who knows what this variable was intended for - but it's never been used
-	 *
-	 * @var         array
-	 * @since       1.6.0
-	 * @deprecated  4.0  This variable has been null since 1.6.0-beta8
-	 */
-	protected $children;
-
-	/**
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
 	 * @since  4.0.0
 	 */
 	protected $params = null;
-
-	/**
-	 * Who knows what this variable was intended for - but it's never been used
-	 *
-	 * @var         array
-	 * @since       1.6.0
-	 * @deprecated  4.0  This variable has been null since 1.6.0-beta8
-	 */
-	protected $parent;
 
 	/**
 	 * The page class suffix
@@ -111,10 +87,13 @@ class HtmlView extends BaseHtmlView
 		$parent     = $this->get('Parent');
 		$pagination = $this->get('Pagination');
 
+		// Flag indicates to not add limitstart=0 to URL
+		$pagination->hideEmptyLimitstart = true;
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Prepare the data.

@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,15 +12,17 @@ namespace Joomla\CMS\Installation\Application;
 defined('_JEXEC') or die;
 
 use Joomla\Application\Web\WebClient;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Document\HtmlDocument;
+use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\FactoryInterface;
+use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Document\Document;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseInterface;
@@ -108,7 +110,7 @@ final class InstallationApplication extends CMSApplication
 		}
 
 		$lang   = Factory::getLanguage();
-		$output = '<h4>' . \JText::_('JDEBUG_LANGUAGE_FILES_IN_ERROR') . '</h4>';
+		$output = '<h4>' . Text::_('JDEBUG_LANGUAGE_FILES_IN_ERROR') . '</h4>';
 
 		$errorfiles = $lang->getErrorFiles();
 
@@ -125,10 +127,10 @@ final class InstallationApplication extends CMSApplication
 		}
 		else
 		{
-			$output .= '<pre>' . \JText::_('JNONE') . '</pre>';
+			$output .= '<pre>' . Text::_('JNONE') . '</pre>';
 		}
 
-		$output .= '<h4>' . \JText::_('JDEBUG_LANGUAGE_UNTRANSLATED_STRING') . '</h4>';
+		$output .= '<h4>' . Text::_('JDEBUG_LANGUAGE_UNTRANSLATED_STRING') . '</h4>';
 		$output .= '<pre>';
 		$orphans = $lang->getOrphans();
 
@@ -164,7 +166,7 @@ final class InstallationApplication extends CMSApplication
 		}
 		else
 		{
-			$output .= '<pre>' . \JText::_('JNONE') . '</pre>';
+			$output .= '<pre>' . Text::_('JNONE') . '</pre>';
 		}
 
 		$output .= '</pre>';
@@ -210,7 +212,7 @@ final class InstallationApplication extends CMSApplication
 		$this->getDocument()->setBuffer($contents, 'component');
 
 		// Set the document title
-		$document->setTitle(\JText::_('INSTL_PAGE_TITLE'));
+		$document->setTitle(Text::_('INSTL_PAGE_TITLE'));
 	}
 
 	/**
@@ -276,7 +278,7 @@ final class InstallationApplication extends CMSApplication
 	 *
 	 * @return  mixed   Either an array or object to be loaded into the configuration object.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	protected function fetchConfigurationData($file = '', $class = 'JConfig')
@@ -376,8 +378,8 @@ final class InstallationApplication extends CMSApplication
 		// Read the folder names in the site and admin area.
 		else
 		{
-			$langfiles['site']  = \JFolder::folders(LanguageHelper::getLanguagePath(JPATH_SITE));
-			$langfiles['admin'] = \JFolder::folders(LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
+			$langfiles['site']  = Folder::folders(LanguageHelper::getLanguagePath(JPATH_SITE));
+			$langfiles['admin'] = Folder::folders(LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
 		}
 
 		return $langfiles;

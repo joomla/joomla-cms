@@ -3,26 +3,27 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Modules\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Factory;
 
 /**
  * Module model.
@@ -571,8 +572,6 @@ class ModuleModel extends AdminModel
 			return false;
 		}
 
-		$form->setFieldAttribute('position', 'client', $this->getState('item.client_id') == 0 ? 'site' : 'administrator');
-
 		$user = Factory::getUser();
 
 		/**
@@ -624,7 +623,7 @@ class ModuleModel extends AdminModel
 				$data->set('published', $app->input->getInt('published', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
 				$data->set('position', $app->input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null)));
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
-				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : Factory::getConfig()->get('access'))));
+				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access'))));
 			}
 
 			// Avoid to delete params of a second module opened in a new browser tab while new one is not saved yet.
@@ -836,8 +835,6 @@ class ModuleModel extends AdminModel
 	 */
 	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
-		jimport('joomla.filesystem.path');
-
 		$lang     = Factory::getLanguage();
 		$clientId = $this->getState('item.client_id');
 		$module   = $this->getState('item.module');
@@ -938,7 +935,7 @@ class ModuleModel extends AdminModel
 
 			if ($data['title'] == $orig_table->title)
 			{
-				$data['title'] .= ' ' . Text::_('JGLOBAL_COPY');
+				$data['title'] = StringHelper::increment($data['title']);
 			}
 		}
 
@@ -1068,10 +1065,14 @@ class ModuleModel extends AdminModel
 
 		// Compute the extension id of this module in case the controller wants it.
 		$query->clear()
-			->select('extension_id')
-			->from('#__extensions AS e')
-			->join('LEFT', '#__modules AS m ON e.element = m.module')
-			->where('m.id = ' . (int) $table->id);
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions', 'e'))
+			->join(
+				'LEFT',
+				$db->quoteName('#__modules', 'm') . ' ON ' . $db->quoteName('e.client_id') . ' = ' . (int) $table->client_id .
+				' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('m.module')
+			)
+			->where($db->quoteName('m.id') . ' = ' . (int) $table->id);
 		$db->setQuery($query);
 
 		try
@@ -1102,17 +1103,16 @@ class ModuleModel extends AdminModel
 	 *
 	 * @param   object  $table  A record object.
 	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
 	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
 	{
-		$condition = array();
-		$condition[] = 'client_id = ' . (int) $table->client_id;
-		$condition[] = 'position = ' . $this->_db->quote($table->position);
-
-		return $condition;
+		return [
+			$this->_db->quoteName('client_id') . ' = ' . (int) $table->client_id,
+			$this->_db->quoteName('position') . ' = ' . $this->_db->quote($table->position),
+		];
 	}
 
 	/**

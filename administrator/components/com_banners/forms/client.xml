@@ -14,7 +14,6 @@
 			name="name"
 			type="text"
 			label="COM_BANNERS_FIELD_NAME_LABEL"
-			class="input-xxlarge input-large-text"
 			size="40"
 			required="true"
 		/>

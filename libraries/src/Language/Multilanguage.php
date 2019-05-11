@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,6 @@ namespace Joomla\CMS\Language;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Language\LanguageHelper;
 
 /**
  * Utitlity class for multilang
@@ -77,21 +75,6 @@ class Multilanguage
 		}
 
 		return (bool) static::$enabled;
-	}
-
-	/**
-	 * Method to return a list of published site languages.
-	 *
-	 * @return  array of language extension objects.
-	 *
-	 * @since   3.5
-	 * @deprecated   3.7.0  Use LanguageHelper::getInstalledLanguages(0) instead.
-	 */
-	public static function getSiteLangs()
-	{
-		Log::add(__METHOD__ . ' is deprecated. Use LanguageHelper::getInstalledLanguages(0) instead.', Log::WARNING, 'deprecated');
-
-		return LanguageHelper::getInstalledLanguages(0);
 	}
 
 	/**

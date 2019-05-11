@@ -3,20 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\Database\UTF8MB4SupportInterface;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Extension\ExtensionHelper;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\Database\UTF8MB4SupportInterface;
 
 /**
  * Script file of Joomla CMS
@@ -931,6 +931,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_languages/helpers/languages.php',
 			'/administrator/components/com_languages/helpers/multilangstatus.php',
 			'/administrator/components/com_languages/languages.php',
+			'/administrator/components/com_languages/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_languages/models/forms/filter_installed.xml',
 			'/administrator/components/com_languages/models/forms/filter_languages.xml',
 			'/administrator/components/com_languages/models/forms/language.xml',
@@ -1087,6 +1088,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_modules/controllers/module.php',
 			'/administrator/components/com_modules/controllers/modules.php',
 			'/administrator/components/com_modules/helpers/xml.php',
+			'/administrator/components/com_modules/layouts/toolbar/newmodule.php',
 			'/administrator/components/com_modules/models/fields/modulesmodule.php',
 			'/administrator/components/com_modules/models/fields/modulesposition.php',
 			'/administrator/components/com_modules/models/forms/advanced.xml',
@@ -3947,8 +3949,6 @@ class JoomlaInstallerScript
 			'/media/jui/less',
 		);
 
-		jimport('joomla.filesystem.file');
-
 		foreach ($files as $file)
 		{
 			if (File::exists(JPATH_ROOT . $file) && !File::delete(JPATH_ROOT . $file))
@@ -3956,8 +3956,6 @@ class JoomlaInstallerScript
 				echo Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file) . '<br>';
 			}
 		}
-
-		jimport('joomla.filesystem.folder');
 
 		foreach ($folders as $folder)
 		{
@@ -4057,7 +4055,7 @@ class JoomlaInstallerScript
 				// Non-MySQL databases, use a simple DELETE FROM query
 				default:
 					$query = $db->getQuery(true)
-						->delete($db->qn('#__session'));
+						->delete($db->quoteName('#__session'));
 					$db->setQuery($query)->execute();
 					break;
 			}

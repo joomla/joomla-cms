@@ -3,19 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 ?>
-<fieldset class="adminform">
-	<legend><?php echo Text::_('COM_ADMIN_RELEVANT_PHP_SETTINGS'); ?></legend>
+<div class="sysinfo">
 	<table class="table">
+		<caption class="sr-only">
+			<?php echo Text::_('COM_ADMIN_PHP_SETTINGS'); ?>
+		</caption>
 		<thead>
 			<tr>
 				<th scope="col" style="width:250px">
@@ -26,12 +28,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 				</th>
 			</tr>
 		</thead>
-		<tfoot>
-			<tr>
-				<td colspan="2">&#160;
-				</td>
-			</tr>
-		</tfoot>
 		<tbody>
 			<tr>
 				<th scope="row">
@@ -86,7 +82,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 					<?php echo Text::_('COM_ADMIN_SESSION_AUTO_START'); ?>
 				</th>
 				<td>
-					<?php echo HTMLHelper::_('phpsetting.integer', $this->php_settings['session.auto_start']); ?>
+					<?php echo (int) $this->php_settings['session.auto_start']; ?>
 				</td>
 			</tr>
 			<tr>
@@ -142,9 +138,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 					<?php echo Text::_('COM_ADMIN_MAX_INPUT_VARS'); ?>
 				</th>
 				<td>
-					<?php echo HTMLHelper::_('phpsetting.integer', $this->php_settings['max_input_vars']); ?>
+					<?php echo (int) $this->php_settings['max_input_vars']; ?>
 				</td>
 			</tr>
 		</tbody>
 	</table>
-</fieldset>
+</div>

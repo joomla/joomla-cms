@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,9 +49,8 @@ echo HTMLHelper::_(
 );
 ?>
 <button<?php echo $id ?? ''; ?>
-    onclick="document.getElementById('versionsModal').open()"
+	onclick="document.getElementById('versionsModal').open()"
 	class="btn btn-primary"
-	data-toggle="modal"
-	title="<?php echo $title; ?>">
-	<span class="fa fa-code-fork" aria-hidden="true"></span><?php echo $title; ?>
+	data-toggle="modal">
+	<span class="fa fa-code-branch" aria-hidden="true"></span><?php echo $title; ?>
 </button>

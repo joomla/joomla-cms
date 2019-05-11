@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +30,7 @@ $blockPosition = $displayData['params']->get('info_block_position', 0);
 			<?php echo $this->sublayout('author', $displayData); ?>
 		<?php endif; ?>
 
-		<?php if ($displayData['params']->get('show_parent_category') && !empty($displayData['item']->parent_slug)) : ?>
+		<?php if ($displayData['params']->get('show_parent_category') && !empty($displayData['item']->parent_id)) : ?>
 			<?php echo $this->sublayout('parent_category', $displayData); ?>
 		<?php endif; ?>
 

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,8 +32,7 @@ interface RulesInterface
 	public function preprocess(&$query);
 
 	/**
-	 * Parses a URI to retrieve informations for the right route through
-	 * the component.
+	 * Parses a URI to retrieve information for the right route through the component.
 	 * This method should retrieve all its input from its method arguments.
 	 *
 	 * @param   array  &$segments  The URL segments to parse
@@ -46,8 +45,7 @@ interface RulesInterface
 	public function parse(&$segments, &$vars);
 
 	/**
-	 * Builds URI segments from a query to encode the necessary informations
-	 * for a route in a human-readable URL.
+	 * Builds URI segments from a query to encode the necessary information for a route in a human-readable URL.
 	 * This method should retrieve all its input from its method arguments.
 	 *
 	 * @param   array  &$query     The vars that should be converted

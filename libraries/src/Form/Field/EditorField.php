@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,6 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Editor\Editor;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('textarea');
 
 /**
  * A textarea field for content creation
@@ -22,7 +19,7 @@ FormHelper::loadFieldClass('textarea');
  * @see    JEditor
  * @since  1.6
  */
-class EditorField extends \JFormFieldTextarea
+class EditorField extends TextareaField
 {
 	/**
 	 * The form field type.
@@ -246,12 +243,24 @@ class EditorField extends \JFormFieldTextarea
 	{
 		// Get an editor object.
 		$editor = $this->getEditor();
-		$readonly = $this->readonly || $this->disabled;
+		$params = array(
+			'autofocus' => $this->autofocus,
+			'readonly'  => $this->readonly || $this->disabled,
+			'syntax'    => (string) $this->element['syntax'],
+		);
 
 		return $editor->display(
-			$this->name, htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'), $this->width, $this->height, $this->columns, $this->rows,
-			$this->buttons ? (is_array($this->buttons) ? array_merge($this->buttons, $this->hide) : $this->hide) : false, $this->id, $this->asset,
-			$this->form->getValue($this->authorField), array('syntax' => (string) $this->element['syntax'], 'readonly' => $readonly)
+			$this->name,
+			htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'),
+			$this->width,
+			$this->height,
+			$this->columns,
+			$this->rows,
+			$this->buttons ? (is_array($this->buttons) ? array_merge($this->buttons, $this->hide) : $this->hide) : false,
+			$this->id,
+			$this->asset,
+			$this->form->getValue($this->authorField),
+			$params
 		);
 	}
 
@@ -277,7 +286,7 @@ class EditorField extends \JFormFieldTextarea
 				// Get the database object.
 				$db = Factory::getDbo();
 
-				// Iterate over teh types looking for an existing editor.
+				// Iterate over the types looking for an existing editor.
 				foreach ($types as $element)
 				{
 					// Build the query.
@@ -303,7 +312,7 @@ class EditorField extends \JFormFieldTextarea
 			// Create the JEditor instance based on the given editor.
 			if ($editor === null)
 			{
-				$editor = Factory::getConfig()->get('editor');
+				$editor = Factory::getApplication()->get('editor');
 			}
 
 			$this->editor = Editor::getInstance($editor);
@@ -317,7 +326,9 @@ class EditorField extends \JFormFieldTextarea
 	 *
 	 * @return  string  The JEditor object output.
 	 *
-	 * @since   1.6
+	 * @since       1.6
+	 * @deprecated  4.0  Will be removed without replacement
+	 * @see         Editor::save()
 	 */
 	public function save()
 	{

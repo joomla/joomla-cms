@@ -3,18 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\Form\FormHelper;
-use Joomla\Component\Users\Administrator\Helper\UsersHelperDebug;
 use Joomla\CMS\Form\Field\ListField;
-
-FormHelper::loadFieldClass('list');
+use Joomla\Component\Users\Administrator\Helper\UsersHelperDebug;
 
 /**
  * Access Levels field.

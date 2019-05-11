@@ -3,19 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Model\AdminModel;
 
 /**
  * Users mail model.
@@ -27,7 +29,7 @@ class MailModel extends AdminModel
 	/**
 	 * Method to get the row form.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  \JForm	A \JForm object on success, false on failure
@@ -170,28 +172,46 @@ class MailModel extends AdminModel
 		$mailer = Factory::getMailer();
 		$params = ComponentHelper::getParams('com_users');
 
-		// Build email message format.
-		$mailer->setSender(array($app->get('mailfrom'), $app->get('fromname')));
-		$mailer->setSubject($params->get('mailSubjectPrefix') . stripslashes($subject));
-		$mailer->setBody($message_body . $params->get('mailBodySuffix'));
-		$mailer->IsHtml($mode);
-
-		// Add recipients
-		if ($bcc)
+		try
 		{
-			$mailer->addBcc($rows);
-			$mailer->addRecipient($app->get('mailfrom'));
-		}
-		else
-		{
-			$mailer->addRecipient($rows);
-		}
+			// Build email message format.
+			$mailer->setSender(array($app->get('mailfrom'), $app->get('fromname')));
+			$mailer->setSubject($params->get('mailSubjectPrefix') . stripslashes($subject));
+			$mailer->setBody($message_body . $params->get('mailBodySuffix'));
+			$mailer->IsHtml($mode);
 
-		// Send the Mail
-		$rs = $mailer->Send();
+			// Add recipients
+			if ($bcc)
+			{
+				$mailer->addBcc($rows);
+				$mailer->addRecipient($app->get('mailfrom'));
+			}
+			else
+			{
+				$mailer->addRecipient($rows);
+			}
+
+			// Send the Mail
+			$rs = $mailer->Send();
+		}
+		catch (\Exception $exception)
+		{
+			try
+			{
+				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+				$rs = false;
+			}
+			catch (\RuntimeException $exception)
+			{
+				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+				$rs = false;
+			}
+		}
 
 		// Check for an error
-		if ($rs instanceof \Exception)
+		if ($rs !== true)
 		{
 			$app->setUserState('com_users.display.mail.data', $data);
 			$this->setError($rs->getError());

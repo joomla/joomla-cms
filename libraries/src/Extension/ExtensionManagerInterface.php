@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,4 +27,16 @@ interface ExtensionManagerInterface
 	 * @since   4.0.0
 	 */
 	public function bootComponent($component): ComponentInterface;
+
+	/**
+	 * Boots the module with the given name.
+	 *
+	 * @param   string  $module           The module to boot
+	 * @param   string  $applicationName  The application name
+	 *
+	 * @return  ModuleInterface
+	 *
+	 * @since   4.0.0
+	 */
+	public function bootModule($module, $applicationName): ModuleInterface;
 }

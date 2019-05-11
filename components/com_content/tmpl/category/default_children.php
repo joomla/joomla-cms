@@ -3,16 +3,16 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
 
 $lang   = Factory::getLanguage();
 $user   = Factory::getUser();
@@ -28,11 +28,11 @@ $groups = $user->getAuthorisedViewLevels();
 				<?php if ($lang->isRtl()) : ?>
 				<h3 class="page-header item-title">
 					<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
-						<span class="badge badge-info tip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_CONTENT_NUM_ITEMS_TIP'); ?>">
+						<span class="badge badge-info tip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_CONTENT_NUM_ITEMS'); ?>">
 							<?php echo $child->getNumItems(true); ?>
 						</span>
 					<?php endif; ?>
-					<a href="<?php echo Route::_(ContentHelperRoute::getCategoryRoute($child->id)); ?>">
+					<a href="<?php echo Route::_(ContentHelperRoute::getCategoryRoute($child->id, $child->language)); ?>">
 					<?php echo $this->escape($child->title); ?></a>
 
 					<?php if (count($child->getChildren()) > 0 && $this->maxLevel > 1) : ?>
@@ -40,10 +40,10 @@ $groups = $user->getAuthorisedViewLevels();
 					<?php endif; ?>
 				</h3>
 				<?php else : ?>
-				<h3 class="page-header item-title"><a href="<?php echo Route::_(ContentHelperRoute::getCategoryRoute($child->id)); ?>">
+				<h3 class="page-header item-title"><a href="<?php echo Route::_(ContentHelperRoute::getCategoryRoute($child->id, $child->language)); ?>">
 					<?php echo $this->escape($child->title); ?></a>
 					<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
-						<span class="badge badge-info tip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_CONTENT_NUM_ITEMS_TIP'); ?>">
+						<span class="badge badge-info tip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_CONTENT_NUM_ITEMS'); ?>">
 							<?php echo $child->getNumItems(true); ?>
 						</span>
 					<?php endif; ?>

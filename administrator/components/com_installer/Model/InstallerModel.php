@@ -3,13 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
@@ -141,13 +144,13 @@ class InstallerModel extends ListModel
 	/**
 	 * Translate a list of objects
 	 *
-	 * @param   array  &$items  The array of objects
+	 * @param   array  $items  The array of objects
 	 *
 	 * @return  array The array of translated objects
 	 */
 	protected function translate(&$items)
 	{
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		foreach ($items as &$item)
 		{
@@ -166,10 +169,10 @@ class InstallerModel extends ListModel
 			}
 
 			$item->author_info       = @$item->authorEmail . '<br>' . @$item->authorUrl;
-			$item->client            = $item->client_id ? \JText::_('JADMINISTRATOR') : \JText::_('JSITE');
+			$item->client            = $item->client_id ? Text::_('JADMINISTRATOR') : Text::_('JSITE');
 			$item->client_translated = $item->client;
-			$item->type_translated   = \JText::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));
-			$item->folder_translated = @$item->folder ? $item->folder : \JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
+			$item->type_translated   = Text::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));
+			$item->folder_translated = @$item->folder ? $item->folder : Text::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
 
 			$path = $item->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
@@ -186,8 +189,15 @@ class InstallerModel extends ListModel
 						$lang->load("$extension.sys", JPATH_SITE, null, false, true);
 				break;
 				case 'library':
-					$extension = 'lib_' . $item->element;
-						$lang->load("$extension.sys", JPATH_SITE, null, false, true);
+					$parts = explode('/', $item->element);
+					$vendor = (isset($parts[1]) ? $parts[0] : null);
+					$extension = 'lib_' . ($vendor ? implode('_', $parts) : $item->element);
+
+					if (!$lang->load("$extension.sys", $path, null, false, true))
+					{
+						$source = $path . '/libraries/' . ($vendor ? $vendor . '/' . $parts[1] : $item->element);
+						$lang->load("$extension.sys", $source, null, false, true);
+					}
 				break;
 				case 'module':
 					$extension = $item->element;
@@ -215,13 +225,13 @@ class InstallerModel extends ListModel
 			}
 
 			// Translate the extension name if possible
-			$item->name = \JText::_($item->name);
+			$item->name = Text::_($item->name);
 
 			settype($item->description, 'string');
 
 			if (!in_array($item->type, array('language')))
 			{
-				$item->description = \JText::_($item->description);
+				$item->description = Text::_($item->description);
 			}
 		}
 	}

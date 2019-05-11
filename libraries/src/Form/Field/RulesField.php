@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,14 +14,13 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Helper\UserGroupsHelper;
-use Joomla\CMS\Layout\LayoutHelper;
 
 /**
  * Form Field class for the Joomla Platform.
  * Field for assigning permissions to groups for a given asset
  *
  * @see    JAccess
- * @since  11.1
+ * @since  1.7.0
  */
 class RulesField extends FormField
 {
@@ -29,7 +28,7 @@ class RulesField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Rules';
 
@@ -146,7 +145,7 @@ class RulesField extends FormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @todo:   Add access check.
 	 */
 	protected function getInput()
@@ -160,7 +159,10 @@ class RulesField extends FormField
 		$this->isGlobalConfig = $component === 'root.1';
 
 		// Get the actions for the asset.
-		$this->actions = Access::getActions($component, $section);
+		$this->actions = Access::getActionsFromFile(
+			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
+			"/access/section[@name='" . $section . "']/"
+		);
 
 		// Iterate over the children and add to the actions.
 		foreach ($this->element->children() as $el)
@@ -259,7 +261,7 @@ class RulesField extends FormField
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getUserGroups()
 	{

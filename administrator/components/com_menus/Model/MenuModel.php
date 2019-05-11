@@ -3,19 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Menus\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Factory;
 
 /**
  * Menu Item Model for Menus.
@@ -103,6 +104,10 @@ class MenuModel extends FormModel
 		// Load the parameters.
 		$params = ComponentHelper::getParams('com_menus');
 		$this->setState('params', $params);
+
+		// Load the clientId.
+		$clientId = $app->getUserStateFromRequest('com_menus.menus.client_id', 'client_id', 0, 'int');
+		$this->setState('client_id', $clientId);
 	}
 
 	/**
@@ -158,6 +163,11 @@ class MenuModel extends FormModel
 			return false;
 		}
 
+		if (!$this->getState('client_id', 0))
+		{
+			$form->removeField('preset');
+		}
+
 		return $form;
 	}
 
@@ -176,6 +186,11 @@ class MenuModel extends FormModel
 		if (empty($data))
 		{
 			$data = $this->getItem();
+
+			if (empty($data->id))
+			{
+				$data->client_id = $this->state->get('client_id', 0);
+			}
 		}
 		else
 		{
@@ -231,7 +246,7 @@ class MenuModel extends FormModel
 		}
 
 		// Trigger the before event.
-		$result = Factory::getApplication()->triggerEvent('onContentBeforeSave', array($this->_context, &$table, $isNew));
+		$result = Factory::getApplication()->triggerEvent('onContentBeforeSave', array($this->_context, &$table, $isNew, $data));
 
 		// Store the data.
 		if (in_array(false, $result, true) || !$table->store())

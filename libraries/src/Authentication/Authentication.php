@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,79 +10,88 @@ namespace Joomla\CMS\Authentication;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Log\Log;
 
 /**
  * Authentication class, provides an interface for the Joomla authentication system
  *
- * @since  11.1
+ * @since  1.7.0
  */
-class Authentication extends CMSObject
+class Authentication
 {
 	use DispatcherAwareTrait;
 
 	/**
 	 * This is the status code returned when the authentication is success (permit login)
 	 * @const  STATUS_SUCCESS successful response
-	 * @since  11.2
+	 * @since  1.7.0
 	 */
 	const STATUS_SUCCESS = 1;
 
 	/**
 	 * Status to indicate cancellation of authentication (unused)
 	 * @const  STATUS_CANCEL cancelled request (unused)
-	 * @since  11.2
+	 * @since  1.7.0
 	 */
 	const STATUS_CANCEL = 2;
 
 	/**
 	 * This is the status code returned when the authentication failed (prevent login if no success)
 	 * @const  STATUS_FAILURE failed request
-	 * @since  11.2
+	 * @since  1.7.0
 	 */
 	const STATUS_FAILURE = 4;
 
 	/**
 	 * This is the status code returned when the account has expired (prevent login)
 	 * @const  STATUS_EXPIRED an expired account (will prevent login)
-	 * @since  11.2
+	 * @since  1.7.0
 	 */
 	const STATUS_EXPIRED = 8;
 
 	/**
 	 * This is the status code returned when the account has been denied (prevent login)
 	 * @const  STATUS_DENIED denied request (will prevent login)
-	 * @since  11.2
+	 * @since  1.7.0
 	 */
 	const STATUS_DENIED = 16;
 
 	/**
 	 * This is the status code returned when the account doesn't exist (not an error)
 	 * @const  STATUS_UNKNOWN unknown account (won't permit or prevent login)
-	 * @since  11.2
+	 * @since  1.7.0
 	 */
 	const STATUS_UNKNOWN = 32;
 
 	/**
-	 * @var    Authentication  JAuthentication instances container.
-	 * @since  11.3
+	 * @var    Authentication[]  JAuthentication instances container.
+	 * @since  1.7.3
 	 */
-	protected static $instance;
+	protected static $instance = [];
+
+	/**
+	 * Plugin Type to run
+	 *
+	 * @type   string
+	 * @since  4.0.0
+	 */
+	protected $pluginType;
 
 	/**
 	 * Constructor
 	 *
+	 * @param   string               $pluginType  The plugin type to run authorisation and authentication on
 	 * @param   DispatcherInterface  $dispatcher  The event dispatcher we're going to use
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
-	public function __construct(DispatcherInterface $dispatcher = null)
+	public function __construct(string $pluginType = 'authentication', DispatcherInterface $dispatcher = null)
 	{
 		// Set the dispatcher
 		if (!is_object($dispatcher))
@@ -91,8 +100,9 @@ class Authentication extends CMSObject
 		}
 
 		$this->setDispatcher($dispatcher);
+		$this->pluginType = $pluginType;
 
-		$isLoaded = PluginHelper::importPlugin('authentication');
+		$isLoaded = PluginHelper::importPlugin($this->pluginType);
 
 		if (!$isLoaded)
 		{
@@ -104,18 +114,20 @@ class Authentication extends CMSObject
 	 * Returns the global authentication object, only creating it
 	 * if it doesn't already exist.
 	 *
+	 * @param   string  $pluginType  The plugin type to run authorisation and authentication on
+	 *
 	 * @return  Authentication  The global Authentication object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
-	public static function getInstance()
+	public static function getInstance(string $pluginType = 'authentication')
 	{
-		if (empty(self::$instance))
+		if (empty(self::$instance[$pluginType]))
 		{
-			self::$instance = new static;
+			self::$instance[$pluginType] = new static($pluginType);
 		}
 
-		return self::$instance;
+		return self::$instance[$pluginType];
 	}
 
 	/**
@@ -128,12 +140,12 @@ class Authentication extends CMSObject
 	 * @return  AuthenticationResponse  Response object with status variable filled in for last plugin or first successful plugin.
 	 *
 	 * @see     AuthenticationResponse
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function authenticate($credentials, $options = array())
 	{
 		// Get plugins
-		$plugins = PluginHelper::getPlugin('authentication');
+		$plugins = PluginHelper::getPlugin($this->pluginType);
 
 		// Create authentication response
 		$response = new AuthenticationResponse;
@@ -150,7 +162,7 @@ class Authentication extends CMSObject
 		 */
 		foreach ($plugins as $plugin)
 		{
-			$className = 'plg' . $plugin->type . $plugin->name;
+			$className = 'plg' . str_replace('-', '', $plugin->type) . $plugin->name;
 
 			if (class_exists($className))
 			{
@@ -204,13 +216,13 @@ class Authentication extends CMSObject
 	 *
 	 * @return  AuthenticationResponse[]  Array of authentication response objects
 	 *
-	 * @since  11.2
+	 * @since  1.7.0
+	 * @throws \Exception
 	 */
-	public static function authorise($response, $options = array())
+	public function authorise($response, $options = array())
 	{
 		// Get plugins in case they haven't been imported already
 		PluginHelper::importPlugin('user');
-		PluginHelper::importPlugin('authentication');
 		$results = Factory::getApplication()->triggerEvent('onUserAuthorisation', array($response, $options));
 
 		return $results;

@@ -3,12 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  System.HttpHeader
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
@@ -60,6 +61,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		'x-content-type-options',
 		'referrer-policy',
 		'expect-ct',
+		'feature-policy',
 	];
 
 	/**
@@ -96,6 +98,9 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		{
 			$this->db = Factory::getDbo();
 		}
+
+		// Get the com_csp params that include the content-security-policy configuration
+		$this->comCspParams = ComponentHelper::getParams('com_csp');
 	}
 
 	/**
@@ -124,12 +129,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		// Set the default header when they are enabled
 		$this->setDefaultHeader();
 
-		// Nonce generation 
+		// Nonce generation
 		$cspNonce = base64_encode(bin2hex(random_bytes(64)));
 		$this->app->set('csp_nonce', $cspNonce);
 
 		// Handle CSP Header configuration
-		$cspOptions = (int) $this->params->get('contentsecuritypolicy', 0);
+		$cspOptions = (int) $this->comCspParams->get('contentsecuritypolicy', 0);
 
 		if ($cspOptions)
 		{
@@ -223,7 +228,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	private function setCspHeader($cspNonce)
 	{
 		// Mode Selector
-		$cspMode = $this->params->get('contentsecuritypolicy_mode', 'custom');
+		$cspMode = $this->comCspParams->get('contentsecuritypolicy_mode', 'custom');
 
 		// In detecting mode we set this default rule so any report gets collected by com_csp
 		if ($cspMode === 'detect')
@@ -238,7 +243,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
-		$cspReadOnly = (int) $this->params->get('contentsecuritypolicy_report_only', 1);
+		$cspReadOnly = (int) $this->comCspParams->get('contentsecuritypolicy_report_only', 1);
 		$cspHeader   = $cspReadOnly === 0 ? 'content-security-policy' : 'content-security-policy-report-only';
 
 		// In automatic mode we compile the automatic header values and append it to the header
@@ -258,8 +263,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		}
 
 		// In custom mode we compile the header from the values configured
-		$cspValues    = $this->params->get('contentsecuritypolicy_values', array());
-		$nonceEnabled = (int) $this->params->get('nonce_enabled', 0);
+		$cspValues    = $this->comCspParams->get('contentsecuritypolicy_values', array());
+		$nonceEnabled = (int) $this->comCspParams->get('nonce_enabled', 0);
 
 		foreach ($cspValues as $cspValue)
 		{
@@ -300,7 +305,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	{
 		$maxAge        = (int) $this->params->get('hsts_maxage', 31536000);
 		$hstsOptions   = array();
-		$hstsOptions[] = $maxAge < 300 ? 'max-age: 300' : 'max-age: ' . $maxAge;
+		$hstsOptions[] = $maxAge < 300 ? 'max-age=300' : 'max-age=' . $maxAge;
 
 		if ($this->params->get('hsts_subdomains', 0))
 		{
@@ -347,7 +352,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 		$automaticCspHeader  = [];
 		$cspHeaderCollection = [];
-		$nonceEnabled        = (int) $this->params->get('nonce_enabled', 0);
+		$nonceEnabled        = (int) $this->comCspParams->get('nonce_enabled', 0);
 
 		foreach ($rows as $row)
 		{

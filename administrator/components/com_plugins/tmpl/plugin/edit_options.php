@@ -3,14 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 foreach ($this->fieldsets as $name => $fieldset)
 {
@@ -18,7 +18,7 @@ foreach ($this->fieldsets as $name => $fieldset)
 	{
 		$label = !empty($fieldset->label) ? Text::_($fieldset->label) : Text::_('COM_PLUGINS_' . $fieldset->name . '_FIELDSET_LABEL', true);
 		$optionsname = 'options-' . $fieldset->name;
-		echo HTMLHelper::_('bootstrap.addTab', 'myTab', $optionsname,  $label);
+		echo HTMLHelper::_('uitab.addTab', 'myTab', $optionsname,  $label);
 
 		if (isset($fieldset->description) && trim($fieldset->description))
 		{
@@ -49,6 +49,6 @@ foreach ($this->fieldsets as $name => $fieldset)
 		}
 		echo $hidden_fields;
 
-		echo HTMLHelper::_('bootstrap.endTab');
+		echo HTMLHelper::_('uitab.endTab');
 	}
 }

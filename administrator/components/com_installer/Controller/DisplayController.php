@@ -3,13 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Installer\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 
@@ -33,7 +35,7 @@ class DisplayController extends BaseController
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Get the document object.
-		$document = \JFactory::getDocument();
+		$document = $this->app->getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', 'install');
@@ -43,7 +45,7 @@ class DisplayController extends BaseController
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat))
 		{
-			$ftp = \JClientHelper::setCredentialsFromRequest('ftp');
+			$ftp = ClientHelper::setCredentialsFromRequest('ftp');
 			$view->ftp = &$ftp;
 
 			// Get the model for the view.
@@ -56,8 +58,6 @@ class DisplayController extends BaseController
 			// Push document object into the view.
 			$view->document = $document;
 
-			// Load the submenu.
-			InstallerHelper::addSubmenu($vName);
 			$view->display();
 		}
 

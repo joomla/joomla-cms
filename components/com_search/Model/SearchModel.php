@@ -3,17 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Search\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Factory;
 
 /**
  * Search Component Search Model
@@ -25,46 +26,44 @@ class SearchModel extends BaseDatabaseModel
 	/**
 	 * Search data array
 	 *
-	 * @var array
+	 * @var   array
 	 */
 	protected $_data = null;
 
 	/**
 	 * Search total
 	 *
-	 * @var integer
+	 * @var   integer
 	 */
 	protected $_total = null;
 
 	/**
 	 * Search areas
 	 *
-	 * @var integer
+	 * @var   integer
 	 */
-	protected  $_areas = null;
+	protected $_areas = null;
 
 	/**
 	 * Pagination object
 	 *
-	 * @var object
+	 * @var   object
 	 */
 	protected $_pagination = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @since 1.5
+	 * @since  1.5
 	 */
 	public function __construct()
 	{
 		parent::__construct();
 
-		// Get configuration
-		$app    = Factory::getApplication();
-		$config = Factory::getConfig();
+		$app = Factory::getApplication();
 
 		// Get the pagination request variables
-		$this->setState('limit', $app->getUserStateFromRequest('com_search.limit', 'limit', $config->get('list_limit'), 'uint'));
+		$this->setState('limit', $app->getUserStateFromRequest('com_search.limit', 'limit', $app->get('list_limit'), 'uint'));
 		$this->setState('limitstart', $app->input->get('limitstart', 0, 'uint'));
 
 		// Get parameters.
@@ -101,9 +100,9 @@ class SearchModel extends BaseDatabaseModel
 	 * @param   string  $match     matching option, exact|any|all
 	 * @param   string  $ordering  option, newest|oldest|popular|alpha|category
 	 *
-	 * @return  void
+	 * @access  public
 	 *
-	 * @access	public
+	 * @return  void
 	 */
 	public function setSearch($keyword, $match = 'all', $ordering = 'newest')
 	{
@@ -133,7 +132,8 @@ class SearchModel extends BaseDatabaseModel
 	/**
 	 * Method to get search results for a given query
 	 *
-	 * @return array
+	 * @access  public
+	 * @return  array
 	 */
 	public function getData()
 	{
@@ -219,9 +219,9 @@ class SearchModel extends BaseDatabaseModel
 	/**
 	 * Method to get the search areas
 	 *
-	 * @return int
+	 * @return  integer
 	 *
-	 * @since 1.5
+	 * @since   1.5
 	 */
 	public function getAreas()
 	{

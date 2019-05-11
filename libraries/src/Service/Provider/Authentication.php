@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,11 +10,11 @@ namespace Joomla\CMS\Service\Provider;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Authentication\Password\Argon2iHandler as BaseArgon2iHandler;
 use Joomla\Authentication\Password\Argon2idHandler as BaseArgon2idHandler;
+use Joomla\Authentication\Password\Argon2iHandler as BaseArgon2iHandler;
 use Joomla\Authentication\Password\BCryptHandler as BaseBCryptHandler;
-use Joomla\CMS\Authentication\Password\Argon2iHandler;
 use Joomla\CMS\Authentication\Password\Argon2idHandler;
+use Joomla\CMS\Authentication\Password\Argon2iHandler;
 use Joomla\CMS\Authentication\Password\BCryptHandler;
 use Joomla\CMS\Authentication\Password\ChainedHandler;
 use Joomla\CMS\Authentication\Password\MD5Handler;

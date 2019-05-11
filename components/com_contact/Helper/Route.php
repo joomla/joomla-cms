@@ -3,15 +3,16 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Contact\Site\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Categories\CategoryNode;
+use Joomla\CMS\Language\Multilanguage;
 
 /**
  * Contact Component Route Helper

@@ -3,18 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Finder\Administrator\View\Searches;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
  * View class for a list of search terms.
@@ -84,7 +87,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app                 = \JFactory::getApplication();
+		$app                 = Factory::getApplication();
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->state         = $this->get('State');
@@ -96,19 +99,15 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		FinderHelper::addSubmenu('searches');
 
 		// Check if plugin is enabled
-		if ($this->enabled)
+		if (!$this->enabled)
 		{
-			$app->enqueueMessage(\JText::_('COM_FINDER_LOGGING_ENABLED'), 'notice');
-		}
-		else
-		{
-			$app->enqueueMessage(\JText::_('COM_FINDER_LOGGING_DISABLED'), 'warning');
+			$app->enqueueMessage(Text::_('COM_FINDER_LOGGING_DISABLED'), 'warning');
 		}
 
 		// Prepare the view.
@@ -129,7 +128,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = $this->canDo;
 
-		ToolbarHelper::title(\JText::_('COM_FINDER_MANAGER_SEARCHES'), 'search');
+		ToolbarHelper::title(Text::_('COM_FINDER_MANAGER_SEARCHES'), 'search');
 
 		if ($canDo->get('core.edit.state'))
 		{

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,8 +10,8 @@ namespace Joomla\CMS\Plugin;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Event\DispatcherInterface;
 use Joomla\CMS\Factory;
+use Joomla\Event\DispatcherInterface;
 
 /**
  * Plugin helper class
@@ -244,6 +244,17 @@ abstract class PluginHelper
 				if ($autocreate)
 				{
 					$className = 'Plg' . str_replace('-', '', $plugin->type) . $plugin->name;
+
+					if ($plugin->type == 'editors-xtd')
+					{
+						// This type doesn't follow the convention
+						$className = 'PlgEditorsXtd' . $plugin->name;
+
+						if (!class_exists($className))
+						{
+							$className = 'PlgButton' . $plugin->name;
+						}
+					}
 
 					if (class_exists($className))
 					{

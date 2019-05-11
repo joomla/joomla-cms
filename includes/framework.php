@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Site
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -76,13 +76,9 @@ switch ($config->error_reporting)
 		break;
 }
 
-define('JDEBUG', $config->debug);
+if (!defined('JDEBUG'))
+{
+	define('JDEBUG', $config->debug);
+}
 
 unset($config);
-
-// System profiler
-if (JDEBUG)
-{
-	// @deprecated 4.0 - The $_PROFILER global will be removed
-	$_PROFILER = JProfiler::getInstance('Application');
-}

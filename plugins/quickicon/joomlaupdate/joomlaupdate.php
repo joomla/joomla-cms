@@ -3,18 +3,19 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
 
@@ -32,6 +33,14 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 	 * @since  3.1
 	 */
 	protected $autoloadLanguage = true;
+
+	/**
+	 * Application object.
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  3.7.0
+	 */
+	protected $app;
 
 	/**
 	 * Returns an array of events this subscriber will listen to.
@@ -62,22 +71,27 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 	{
 		$context = $event->getContext();
 
-		if ($context !== $this->params->get('context', 'mod_quickicon') || !Factory::getUser()->authorise('core.manage', 'com_installer'))
+		if ($context !== $this->params->get('context', 'mod_quickicon') || !$this->app->getIdentity()->authorise('core.manage', 'com_installer'))
 		{
 			return;
 		}
 
-		Text::script('PLG_QUICKICON_JOOMLAUPDATE_ERROR', true);
-		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_BUTTON', true);
-		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE', true);
-		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND', true);
-		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE', true);
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_ERROR');
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_BUTTON');
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE');
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND');
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE');
+		Text::script('MESSAGE');
+		Text::script('ERROR');
+		Text::script('INFO');
+		Text::script('WARNING');
 
-		Factory::getDocument()->addScriptOptions(
+		$this->app->getDocument()->addScriptOptions(
 			'js-joomla-update',
 			[
 				'url'     => Uri::base() . 'index.php?option=com_joomlaupdate',
-				'ajaxUrl' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . Session::getFormToken() . '=1',
+				'ajaxUrl' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&'
+					. Session::getFormToken() . '=1&eid=' . ExtensionHelper::getExtensionRecord('files_joomla')->extension_id,
 				'version' => JVERSION,
 			]
 		);
@@ -91,7 +105,7 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 		$result[] = [
 			[
 				'link'  => 'index.php?option=com_joomlaupdate',
-				'image' => 'fa fa-joomla',
+				'image' => 'fab fa-joomla',
 				'icon'  => '',
 				'text'  => Text::_('PLG_QUICKICON_JOOMLAUPDATE_CHECKING'),
 				'id'    => 'plg_quickicon_joomlaupdate',

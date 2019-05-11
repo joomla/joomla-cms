@@ -3,18 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Postinstall\Administrator\View\Messages;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
 
 /**
  * Model class to display postinstall messages
@@ -39,11 +40,12 @@ class HtmlView extends BaseHtmlView
 
 		$this->items = $model->getItems();
 
-		$this->eid = (int) $model->getState('eid', '700', 'int');
+		$this->joomlaFilesExtensionId = $model->getJoomlaFilesExtensionId();
+		$this->eid                    = (int) $model->getState('eid', $this->joomlaFilesExtensionId, 'int');
 
 		if (empty($this->eid))
 		{
-			$this->eid = 700;
+			$this->eid = $this->joomlaFilesExtensionId;
 		}
 
 		$this->toolbar();
@@ -70,6 +72,11 @@ class HtmlView extends BaseHtmlView
 		{
 			ToolbarHelper::preferences('com_postinstall', 550, 875);
 			ToolbarHelper::help('JHELP_COMPONENTS_POST_INSTALLATION_MESSAGES');
+		}
+
+		if (!empty($this->items))
+		{
+			ToolbarHelper::custom('message.hideAll', 'unpublish.png', 'unpublish_f2.png', 'COM_POSTINSTALL_HIDE_ALL_MESSAGES', false);
 		}
 	}
 }

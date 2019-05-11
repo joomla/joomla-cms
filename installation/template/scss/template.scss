@@ -1,15 +1,14 @@
 // Variables
 @import "../../../administrator/templates/atum/scss/variables";
-$fa-font-path: "../../../media/vendor/font-awesome/fonts";
+$fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 
 // Bootstrap
 @import "../../../media/vendor/bootstrap/scss/bootstrap";
 
-// FontAwesome
-@import "../../../media/vendor/font-awesome/scss/font-awesome";
-
-// Switcher
-// @import "../../../administrator/templates/atum/scss/blocks/switcher";
+// "Font Awesome 5 Free"
+@import "../../../media/vendor/fontawesome-free/scss/fontawesome";
+@import "../../../media/vendor/fontawesome-free/scss/solid";
+@import "../../../media/vendor/fontawesome-free/scss/brands";
 
 body {
   background-color: #1c3d5c;
@@ -36,6 +35,10 @@ body {
   width: 100%;
   max-width: 620px;
   margin: 0 auto;
+  h1 {
+    color: #fff;
+    text-align: center;
+  }
 }
 
 .j-footer {
@@ -45,6 +48,13 @@ body {
   color: #fff;
   text-align: right;
   background-color: #0b3257;
+  a {
+    color: $white;
+    text-decoration: underline;
+    &:hover {
+      color: $white;
+    }
+  }
 }
 
 .j-header-logo {
@@ -149,6 +159,7 @@ body {
 }
 
 .alert-text {
+  width: 75%;
   padding: 10px 20px;
 }
 
@@ -180,7 +191,7 @@ body {
 // Form
 
 .form-control {
-  background-color: $white-offset;
+  background-color: var(--white-offset);
 
   &.input-full {
     max-width: 100%;
@@ -253,32 +264,31 @@ legend {
   margin-bottom: 0;
 }
 
-// Validation
-.invalid {
-  color: $switcher-color-danger;
-  border-color: $switcher-color-danger;
-}
-.valid {
-  border-color: $switcher-color-success;
-}
-
 // Possibly temporary until Bootstrap support it themselves
 .custom-select[multiple] {
   height: auto;
   background: none;
 }
 
-// Validation
-.invalid {
-  color: $switcher-color-danger;
-  border-color: $switcher-color-danger;
-}
-
-.valid {
-  border-color: $switcher-color-success;
-}
-
 // Block display for the validation message
 .form-control-feedback {
   display: block;
+  color: $red;
+}
+
+// Language Table
+caption {
+  caption-side: top;
+}
+
+.fa-eye:before, .icon-eye-open:before, .icon-eye:before {
+  font-family:"Font Awesome 5 Free";
+  cursor: pointer;
+  content: "\f06e";
+}
+
+.fa-eye-slash:before, .icon-eye-close:before, .icon-eye-blocked:before, .icon-eye-2:before {
+  font-family:"Font Awesome 5 Free";
+  cursor: pointer;
+  content: "\f070";
 }

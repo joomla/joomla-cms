@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -129,6 +129,7 @@ class ExceptionHandler
 
 			// Reset the document object in the factory, this gives us a clean slate and lets everything render properly
 			Factory::$document = $renderer->getDocument();
+			Factory::getApplication()->loadDocument(Factory::$document);
 
 			$data = $renderer->render($error);
 

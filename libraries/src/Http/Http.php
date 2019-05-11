@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\Http\TransportInterface as FrameworkTransportInterface;
 /**
  * HTTP client class.
  *
- * @since  11.3
+ * @since  1.7.3
  */
 class Http extends FrameworkHttp
 {
@@ -27,7 +27,7 @@ class Http extends FrameworkHttp
 	 *                                                   these will be added to the request headers.
 	 * @param   FrameworkTransportInterface  $transport  The HTTP transport object.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \InvalidArgumentException
 	 */
 	public function __construct($options = [], FrameworkTransportInterface $transport = null)

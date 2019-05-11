@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,16 +12,16 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\DI\Container;
-use Joomla\Registry\Registry;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\DI\Container;
+use Joomla\Registry\Registry;
 
 /**
  * Joomla! Administrator Application class
@@ -97,6 +97,11 @@ class AdministratorApplication extends CMSApplication
 				// Store the template and its params to the config
 				$this->set('theme', $template->template);
 				$this->set('themeParams', $template->params);
+
+				// Add Asset registry files
+				$document->getWebAssetManager()->getRegistry()
+					->addRegistryFile('media/' . $component . '/joomla.asset.json')
+					->addRegistryFile('administrator/templates/' . $template->template . '/joomla.asset.json');
 
 				break;
 

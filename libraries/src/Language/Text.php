@@ -2,22 +2,22 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Language;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Log\Log;
 
-defined('JPATH_PLATFORM') or die;
-
 /**
  * Text handling class.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Text
 {
@@ -25,7 +25,7 @@ class Text
 	 * JavaScript strings
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $strings = array();
 
@@ -33,7 +33,7 @@ class Text
 	 * Translates a string into the current language.
 	 *
 	 * Examples:
-	 * `<script>alert(Joomla.JText._('<?php echo Text::_("JDEFAULT", array("script"=>true)); ?>'));</script>`
+	 * `<script>alert(Joomla.Text._('<?php echo Text::_("JDEFAULT", array("script"=>true)); ?>'));</script>`
 	 * will generate an alert message containing 'Default'
 	 * `<?php echo Text::_("JDEFAULT"); ?>` will generate a 'Default' string
 	 *
@@ -44,7 +44,7 @@ class Text
 	 *
 	 * @return  string  The translated string or the key if $script is true
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function _($string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
@@ -156,7 +156,7 @@ class Text
 	 *
 	 * @return  string  The translated string or the key if $script is true
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function alt($string, $alt, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
@@ -184,7 +184,7 @@ class Text
 	 * script is a boolean to indicate that the string will be push in the javascript language store.
 	 *
 	 * Examples:
-	 * `<script>alert(Joomla.JText._('<?php echo Text::plural("COM_PLUGINS_N_ITEMS_UNPUBLISHED", 1, array("script"=>true)); ?>'));</script>`
+	 * `<script>alert(Joomla.Text._('<?php echo Text::plural("COM_PLUGINS_N_ITEMS_UNPUBLISHED", 1, array("script"=>true)); ?>'));</script>`
 	 * will generate an alert message containing '1 plugin successfully disabled'
 	 * `<?php echo Text::plural('COM_PLUGINS_N_ITEMS_UNPUBLISHED', 1); ?>` will generate a '1 plugin successfully disabled' string
 	 *
@@ -193,7 +193,7 @@ class Text
 	 *
 	 * @return  string  The translated strings or the key if 'script' is true in the array of options
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function plural($string, $n)
 	{
@@ -277,7 +277,7 @@ class Text
 	 *
 	 * @return  string  The translated strings or the key if 'script' is true in the array of options.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function sprintf($string)
 	{
@@ -324,7 +324,7 @@ class Text
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function printf($string)
 	{
@@ -361,7 +361,7 @@ class Text
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function script($string = null, $jsSafe = false, $interpretBackSlashes = true)
 	{
@@ -405,7 +405,7 @@ class Text
 			// Load core.js dependency
 			HTMLHelper::_('behavior.core');
 
-			// Update Joomla.JText script options
+			// Update Joomla.Text script options
 			Factory::getDocument()->addScriptOptions('joomla.jtext', static::$strings, false);
 		}
 

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Console;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
-use Joomla\Input\Cli;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Console\Application;
 use Joomla\DI\Container;
@@ -23,7 +23,6 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Joomla\CMS\Factory;
 
 /**
  * The Joomla! CMS Console Application
@@ -32,7 +31,7 @@ use Joomla\CMS\Factory;
  */
 class ConsoleApplication extends Application implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait;
+	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper;
 
 	/**
 	 * The application message queue.
@@ -53,23 +52,31 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	/**
 	 * Class constructor.
 	 *
-	 * @param   Cli                  $input       An optional argument to provide dependency injection for the application's
-	 *                                            input object.  If the argument is a JInputCli object that object will become
-	 *                                            the application's input object, otherwise a default input object is created.
-	 * @param   Registry             $config      An optional argument to provide dependency injection for the application's
-	 *                                            config object.  If the argument is a Registry object that object will become
-	 *                                            the application's config object, otherwise a default config object is created.
-	 * @param   DispatcherInterface  $dispatcher  An optional argument to provide dependency injection for the application's
-	 *                                            event dispatcher.  If the argument is a DispatcherInterface object that object will become
-	 *                                            the application's event dispatcher, if it is null then the default event dispatcher
-	 *                                            will be created based on the application's loadDispatcher() method.
+	 * @param   InputInterface       $input       An optional argument to provide dependency injection for the application's input object. If the
+	 *                                            argument is an InputInterface object that object will become the application's input object,
+	 *                                            otherwise a default input object is created.
+	 * @param   OutputInterface      $output      An optional argument to provide dependency injection for the application's output object. If the
+	 *                                            argument is an OutputInterface object that object will become the application's output object,
+	 *                                            otherwise a default output object is created.
+	 * @param   Registry             $config      An optional argument to provide dependency injection for the application's config object. If the
+	 *                                            argument is a Registry object that object will become the application's config object,
+	 *                                            otherwise a default config object is created.
+	 * @param   DispatcherInterface  $dispatcher  An optional argument to provide dependency injection for the application's event dispatcher. If the
+	 *                                            argument is a DispatcherInterface object that object will become the application's event dispatcher,
+	 *                                            if it is null then the default event dispatcher will be created based on the application's
+	 *                                            loadDispatcher() method.
 	 * @param   Container            $container   Dependency injection container.
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(Cli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null, Container $container = null)
+	public function __construct(
+		InputInterface $input = null,
+		OutputInterface $output = null,
+		Registry $config = null,
+		DispatcherInterface $dispatcher = null,
+		Container $container = null)
 	{
-		parent::__construct($input, $config);
+		parent::__construct($input, $output, $config);
 
 		$this->setName('Joomla!');
 		$this->setVersion(JVERSION);
@@ -81,6 +88,9 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		{
 			$this->setDispatcher($dispatcher);
 		}
+
+		// Load extension namespaces
+		$this->createExtensionNamespaceMap();
 
 		// Set the execution datetime and timestamp;
 		$this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
@@ -97,25 +107,26 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	/**
 	 * Method to run the application routines.
 	 *
-	 * @return  void
+	 * @return  integer  The exit code for the application
 	 *
 	 * @since   4.0.0
+	 * @throws  \Throwable
 	 */
 	protected function doExecute()
 	{
-		parent::doExecute();
+		$exitCode = parent::doExecute();
 
 		$style = new SymfonyStyle($this->getConsoleInput(), $this->getConsoleOutput());
 
 		$methodMap = [
-			self::MSG_ALERT => 'error',
-			self::MSG_CRITICAL => 'caution',
-			self::MSG_DEBUG => 'comment',
+			self::MSG_ALERT     => 'error',
+			self::MSG_CRITICAL  => 'caution',
+			self::MSG_DEBUG     => 'comment',
 			self::MSG_EMERGENCY => 'caution',
-			self::MSG_ERROR => 'error',
-			self::MSG_INFO => 'note',
-			self::MSG_NOTICE => 'note',
-			self::MSG_WARNING => 'warning',
+			self::MSG_ERROR     => 'error',
+			self::MSG_INFO      => 'note',
+			self::MSG_NOTICE    => 'note',
+			self::MSG_WARNING   => 'warning',
 		];
 
 		// Output any enqueued messages before the app exits
@@ -125,6 +136,8 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 
 			$style->$method($messages);
 		}
+
+		return $exitCode;
 	}
 
 	/**
@@ -208,6 +221,18 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	}
 
 	/**
+	 * Method to get the application session object.
+	 *
+	 * @return  SessionInterface  The session object
+	 *
+	 * @since   4.0.0
+	 */
+	public function getSession()
+	{
+		return $this->session;
+	}
+
+	/**
 	 * Check the client interface by name.
 	 *
 	 * @param   string  $identifier  String identifier for the application interface
@@ -219,18 +244,6 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	public function isClient($identifier)
 	{
 		return $identifier === 'cli';
-	}
-
-	/**
-	 * Method to get the application session object.
-	 *
-	 * @return  SessionInterface  The session object
-	 *
-	 * @since   4.0.0
-	 */
-	public function getSession()
-	{
-		return $this->session;
 	}
 
 	/**
@@ -262,5 +275,20 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		$this->session = $session;
 
 		return $this;
+	}
+
+	/**
+	 * Returns the application \JMenu object.
+	 *
+	 * @param   string  $name     The name of the application/client.
+	 * @param   array   $options  An optional associative array of configuration settings.
+	 *
+	 * @return  null
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getMenu($name = null, $options = array())
+	{
+		return null;
 	}
 }

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,16 +10,16 @@ namespace Joomla\CMS\Installer;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Manifest\PackageManifest;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
-use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Log\Log;
 
 /**
  * Abstract adapter for the installer.
@@ -28,6 +28,14 @@ use Joomla\CMS\Log\Log;
  */
 abstract class InstallerAdapter
 {
+	/**
+	 * Changelog URL of extensions
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 * */
+	protected $changelogurl = null;
+
 	/**
 	 * ID for the currently installed extension if present
 	 *
@@ -153,8 +161,11 @@ abstract class InstallerAdapter
 		{
 			// This assumes the adapter short class name in its namespace is `<foo>Adapter`, replace this logic in subclasses if needed
 			$reflection = new \ReflectionClass(get_called_class());
-			$this->type = strtolower(str_replace('Adapter', '', $reflection->getShortName()));
+			$this->type = str_replace('Adapter', '', $reflection->getShortName());
 		}
+
+		// Extension type is stored as lowercase in the database
+		$this->type = strtolower($this->type);
 	}
 
 	/**
@@ -202,9 +213,6 @@ abstract class InstallerAdapter
 	 */
 	protected function checkExistingExtension()
 	{
-		// Extension type is stored as lowercase on the #__extensions table field type
-		$this->type = strtolower($this->type);
-
 		try
 		{
 			$this->currentExtensionId = $this->extension->find(
@@ -666,20 +674,18 @@ abstract class InstallerAdapter
 	public function install()
 	{
 		// Get the extension's description
-		$description = (string) $this->getManifest()->description;
+		$description           = (string) $this->getManifest()->description;
+		$this->parent->message = '';
 
 		if ($description)
 		{
 			$this->parent->message = Text::_($description);
 		}
-		else
-		{
-			$this->parent->message = '';
-		}
 
 		// Set the extension's name and element
-		$this->name    = $this->getName();
-		$this->element = $this->getElement();
+		$this->name         = $this->getName();
+		$this->element      = $this->getElement();
+		$this->changelogurl = (string) $this->getManifest()->changelogurl;
 
 		/*
 		 * ---------------------------------------------------------------------------------------------

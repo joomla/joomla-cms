@@ -3,22 +3,22 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Categories\Categories;
-use Joomla\CMS\Factory;
 
 /**
  * This models supports retrieving a category, the articles associated with the category,
@@ -59,7 +59,7 @@ class CategoryModel extends ListModel
 	protected $_category = null;
 
 	/**
-	 * The list of other newfeed categories.
+	 * The list of categories.
 	 *
 	 * @access	protected
 	 * @var		array
@@ -147,11 +147,11 @@ class CategoryModel extends ListModel
 		if ((!$user->authorise('core.edit.state', $asset)) &&  (!$user->authorise('core.edit', $asset)))
 		{
 			// Limit to published for people who can't edit or edit.state.
-			$this->setState('filter.published', 1);
+			$this->setState('filter.condition', 1);
 		}
 		else
 		{
-			$this->setState('filter.published', array(0, 1, 2));
+			$this->setState('filter.condition', array(0, 1));
 		}
 
 		// Process show_noauth parameter
@@ -237,10 +237,11 @@ class CategoryModel extends ListModel
 
 		if ($this->_articles === null && $category = $this->getCategory())
 		{
-			$model = new ArticlesModel(array('ignore_request' => true));
+			$model = $this->bootComponent('com_content')->getMVCFactory()
+				->createModel('Articles', 'Site', ['ignore_request' => true]);
 			$model->setState('params', Factory::getApplication()->getParams());
 			$model->setState('filter.category_id', $category->id);
-			$model->setState('filter.published', $this->getState('filter.published'));
+			$model->setState('filter.condition', $this->getState('filter.condition'));
 			$model->setState('filter.access', $this->getState('filter.access'));
 			$model->setState('filter.language', $this->getState('filter.language'));
 			$model->setState('filter.featured', $this->getState('filter.featured'));
@@ -324,7 +325,7 @@ class CategoryModel extends ListModel
 	 *
 	 * @return  \JPagination  A JPagination object for the data set.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getPagination()
 	{

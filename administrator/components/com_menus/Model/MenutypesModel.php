@@ -3,21 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Menus\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Factory;
 
-jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.path');
 /**
  * Menu Item Types Model for Menus.
  *
@@ -42,7 +41,7 @@ class MenutypesModel extends BaseDatabaseModel
 	 * @return  void
 	 *
 	 * @note    Calling getState in this method will result in recursion.
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	protected function populateState()
 	{
@@ -79,8 +78,6 @@ class MenutypesModel extends BaseDatabaseModel
 	 */
 	public function getTypeOptions()
 	{
-		jimport('joomla.filesystem.file');
-
 		$lang = Factory::getLanguage();
 		$list = array();
 

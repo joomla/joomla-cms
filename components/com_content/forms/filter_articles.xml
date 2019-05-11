@@ -130,7 +130,6 @@
 			type="limitbox"
 			label="COM_CONTENT_LIST_LIMIT"
 			description="COM_CONTENT_LIST_LIMIT_DESC"
-			class="inputbox input-mini"
 			default="25"
 			onchange="this.form.submit();"
 		/>

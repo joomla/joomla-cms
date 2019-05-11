@@ -3,16 +3,17 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.categories
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Language\Multilanguage;
+use Joomla\Component\Search\Administrator\Helper\SearchHelper;
 
 JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
@@ -126,7 +127,7 @@ class PlgSearchCategories extends CMSPlugin
 					$wheres2[] = 'a.description LIKE ' . $word;
 					$wheres[] = implode(' OR ', $wheres2);
 				}
-				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
+				$where = '(' . implode(($phrase === 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
 		*/
@@ -154,14 +155,14 @@ class PlgSearchCategories extends CMSPlugin
 
 		$query->select('a.title, a.description AS text, a.created_time AS created')
 			->select($db->quote('2') . ' AS browsernav')
-			->select('a.id AS catid')
+			->select('a.id AS catid, a.language AS category_language')
 			->select($case_when)
 			->from($db->quoteName('#__categories', 'a'))
 			->where(
 				'(a.title LIKE ' . $text . ' OR a.description LIKE ' . $text . ') AND a.published IN (' . implode(',', $state) . ') AND a.extension = '
 				. $db->quote('com_content') . 'AND a.access IN (' . $groups . ')'
 			)
-			->group('a.id, a.title, a.description, a.alias, a.created_time')
+			->group('a.id, a.title, a.description, a.alias, a.created_time, a.language')
 			->order($order);
 
 		if ($app->isClient('site') && Multilanguage::isEnabled())
@@ -187,9 +188,9 @@ class PlgSearchCategories extends CMSPlugin
 		{
 			foreach ($rows as $i => $row)
 			{
-				if (searchHelper::checkNoHtml($row, $searchText, array('name', 'title', 'text')))
+				if (SearchHelper::checkNoHtml($row, $searchText, array('name', 'title', 'text')))
 				{
-					$row->href = ContentHelperRoute::getCategoryRoute($row->slug);
+					$row->href = ContentHelperRoute::getCategoryRoute($row->slug, $row->category_language);
 					$row->section = Text::_('JCATEGORY');
 
 					$return[] = $row;

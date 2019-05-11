@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -168,7 +168,7 @@ class NumberField extends FormField
 			// Try with global configuration
 			if (is_null($value))
 			{
-				$value = Factory::getConfig()->get($this->fieldname);
+				$value = Factory::getApplication()->get($this->fieldname);
 			}
 
 			// Try with menu configuration

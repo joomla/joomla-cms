@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,18 +11,19 @@ namespace Joomla\CMS\Installer;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
-use Joomla\Database\Exception\ExecutionFailureException;
-use Joomla\Database\UTF8MB4SupportInterface;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Filesystem\Path;
+use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
+use Joomla\Database\UTF8MB4SupportInterface;
 
 \JLoader::import('joomla.base.adapter');
 
@@ -61,7 +62,7 @@ class Installer extends \JAdapter
 	 * True if existing files can be overwritten
 	 *
 	 * @var    boolean
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $overwrite = false;
 
@@ -398,10 +399,12 @@ class Installer extends \JAdapter
 					// Get database connector object
 					$db = $this->getDbo();
 					$query = $db->getQuery(true);
+					$stepId = (int) $step['id'];
 
 					// Remove the entry from the #__extensions table
 					$query->delete($db->quoteName('#__extensions'))
-						->where($db->quoteName('extension_id') . ' = ' . (int) $step['id']);
+						->where($db->quoteName('extension_id') . ' = :step_id')
+						->bind(':step_id', $stepId, ParameterType::INTEGER);
 					$db->setQuery($query);
 
 					try
@@ -794,7 +797,7 @@ class Installer extends \JAdapter
 
 			if ($this->extension->state == -1)
 			{
-				$this->abort(Text::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE'));
+				$this->abort(Text::sprintf('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE', $this->extension->name));
 
 				return false;
 			}
@@ -992,7 +995,7 @@ class Installer extends \JAdapter
 				if (count($queries) === 0)
 				{
 					// No queries to process
-					return 0;
+					continue;
 				}
 
 				$isUtf8mb4Db = $db instanceof UTF8MB4SupportInterface;
@@ -1071,15 +1074,20 @@ class Installer extends \JAdapter
 					// Update the database
 					$query = $db->getQuery(true)
 						->delete('#__schemas')
-						->where('extension_id = ' . $eid);
+						->where('extension_id = :extension_id')
+						->bind(':extension_id', $eid, ParameterType::INTEGER);
 					$db->setQuery($query);
 
 					if ($db->execute())
 					{
+						$schemaVersion = end($files);
+
 						$query->clear()
 							->insert($db->quoteName('#__schemas'))
 							->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')))
-							->values($eid . ', ' . $db->quote(end($files)));
+							->values(':extension_id, :version_id')
+							->bind(':extension_id', $eid, ParameterType::INTEGER)
+							->bind(':version_id', $schemaVersion);
 						$db->setQuery($query);
 						$db->execute();
 					}
@@ -1139,18 +1147,21 @@ class Installer extends \JAdapter
 
 				if ($schemapath !== '')
 				{
-					$files = str_replace('.sql', '', Folder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$'));
-					usort($files, 'version_compare');
+					$files = Folder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$');
 
-					if (!count($files))
+					if (empty($files))
 					{
 						return $update_count;
 					}
 
+					$files = str_replace('.sql', '', $files);
+					usort($files, 'version_compare');
+
 					$query = $db->getQuery(true)
 						->select('version_id')
 						->from('#__schemas')
-						->where('extension_id = ' . $eid);
+						->where('extension_id = :extension_id')
+						->bind(':extension_id', $eid, ParameterType::INTEGER);
 					$db->setQuery($query);
 
 					try
@@ -1224,17 +1235,22 @@ class Installer extends \JAdapter
 					// Update the database
 					$query = $db->getQuery(true)
 						->delete('#__schemas')
-						->where('extension_id = ' . $eid);
+						->where('extension_id = :extension_id')
+						->bind(':extension_id', $eid, ParameterType::INTEGER);
 					$db->setQuery($query);
 
 					try
 					{
 						$db->execute();
 
+						$schemaVersion = end($files);
+
 						$query->clear()
 							->insert($db->quoteName('#__schemas'))
 							->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')))
-							->values($eid . ', ' . $db->quote(end($files)));
+							->values(':extension_id, :version_id')
+							->bind(':extension_id', $eid, ParameterType::INTEGER)
+							->bind(':version_id', $schemaVersion);
 						$db->setQuery($query);
 						$db->execute();
 					}
@@ -2062,11 +2078,15 @@ class Installer extends \JAdapter
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__extensions'))
-			->where('type = ' . $db->quote($type))
-			->where('element = ' . $db->quote($element))
-			->where('folder = ' . $db->quote($folder))
-			->where('client_id = ' . (int) $client)
-			->where('state = -1');
+			->where('type = :type')
+			->where('element = :element')
+			->where('folder = :folder')
+			->where('client_id = :client_id')
+			->where('state = -1')
+			->bind(':type', $type)
+			->bind(':element', $element)
+			->bind(':folder', $folder)
+			->bind(':client_id', $client, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		return $db->execute();
@@ -2222,7 +2242,7 @@ class Installer extends \JAdapter
 	 *
 	 * @return  array  XML metadata.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function parseXMLInstallFile($path)
 	{
@@ -2269,11 +2289,10 @@ class Installer extends \JAdapter
 		$data['version'] = (string) $xml->version;
 		$data['description'] = (string) $xml->description;
 		$data['group'] = (string) $xml->group;
-		$data['namespace'] = (string) $xml->namespace;
 
 		if ($xml->files && count($xml->files->children()))
 		{
-			$filename = File::getName($path);
+			$filename = basename($path);
 			$data['filename'] = File::stripExt($filename);
 
 			foreach ($xml->files->children() as $oneFile)
@@ -2393,7 +2412,7 @@ class Installer extends \JAdapter
 		$options['type'] = $adapter;
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (Factory::getContainer()->exists($class))
+		if (Factory::getContainer()->has($class))
 		{
 			return Factory::getContainer()->get($class);
 		}

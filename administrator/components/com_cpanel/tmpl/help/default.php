@@ -3,13 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+
 ?>
 
 <div class="com-cpanel-help">
@@ -19,9 +20,11 @@ use Joomla\CMS\Language\Text;
 	</h2>
 	<ul class="list-group list-group-flush">
 		<?php foreach ($this->links as $link) : ?>
-			<li class="list-group-item">
-				<span class="item-title"><a href="<?php echo $link['link']; ?>"><?php echo Text::_($link['label']); ?></a></span>
-			</li>
+			<?php if ($link['link']) : ?>
+				<li class="list-group-item">
+					<span class="item-title"><a href="<?php echo $link['link']; ?>"><?php echo Text::_($link['label']); ?></a></span>
+				</li>
+			<?php endif; ?>
 		<?php endforeach; ?>
 	</ul>
 </div>

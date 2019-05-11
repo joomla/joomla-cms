@@ -3,17 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Form\Field\ListField;
-
-jimport('joomla.form.helper');
-
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Generates the list of options for available skins.
@@ -37,7 +34,7 @@ class JFormFieldSkins extends ListField
 	{
 		$options = array();
 
-		$directories = glob(JPATH_ROOT . '/media/vendor/tinymce/skins' . '/*', GLOB_ONLYDIR);
+		$directories = glob(JPATH_ROOT . '/media/vendor/tinymce/skins/ui' . '/*', GLOB_ONLYDIR);
 
 		for ($i = 0, $iMax = count($directories); $i < $iMax; ++$i)
 		{

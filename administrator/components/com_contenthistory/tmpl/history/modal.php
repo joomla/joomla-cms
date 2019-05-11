@@ -3,22 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('jquery.framework');
 
 $input          = Factory::getApplication()->input;
 $field          = $input->getCmd('field');
@@ -77,16 +76,16 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 					<th scope="col" style="width:15%">
 						<?php echo Text::_('JDATE'); ?>
 					</th>
-					<th scope="col" style="width:15%" class="nowrap d-none d-md-table-cell">
+					<th scope="col" style="width:15%" class="d-none d-md-table-cell">
 						<?php echo Text::_('COM_CONTENTHISTORY_VERSION_NOTE'); ?>
 					</th>
-					<th scope="col" style="width:10%" class="nowrap">
+					<th scope="col" style="width:10%">
 						<?php echo Text::_('COM_CONTENTHISTORY_KEEP_VERSION'); ?>
 					</th>
-					<th scope="col" style="width:15%" class="nowrap d-none d-md-table-cell">
+					<th scope="col" style="width:15%" class="d-none d-md-table-cell">
 						<?php echo Text::_('JAUTHOR'); ?>
 					</th>
-					<th scope="col" style="width:10%" class="nowrap text-center">
+					<th scope="col" style="width:10%" class="text-right">
 						<?php echo Text::_('COM_CONTENTHISTORY_CHARACTER_COUNT'); ?>
 					</th>
 				</tr>
@@ -101,7 +100,7 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 					<th scope="row">
 						<a class="save-date" onclick="window.open(this.href,'win2','width=800,height=600,resizable=yes,scrollbars=yes'); return false;"
 							href="<?php echo Route::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . Session::getFormToken() . '=1&version_id=' . $item->version_id); ?>">
-							<?php echo HTMLHelper::_('date', $item->save_date, 'Y-m-d H:i:s'); ?>
+							<?php echo HTMLHelper::_('date', $item->save_date, Text::_('DATE_FORMAT_LC6')); ?>
 						</a>
 						<?php if ($item->sha1_hash == $hash) : ?>
 							<span class="icon-featured" aria-hidden="true"><span class="sr-only"><?php echo Text::_('JFEATURED'); ?></span></span>&nbsp;
@@ -112,15 +111,13 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 					</td>
 					<td>
 						<?php if ($item->keep_forever) : ?>
-							<a class="btn btn-secondary btn-xs active" rel="tooltip" href="javascript:void(0);"
-								onclick="return listItemTask('cb<?php echo $i; ?>','history.keep')"
-								data-original-title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_KEEP_TOGGLE_OFF'); ?>">
+							<a class="btn btn-secondary btn-sm active" rel="tooltip" href="javascript:void(0);"
+								onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')">
 								<?php echo Text::_('JYES'); ?>&nbsp;<span class="icon-lock" aria-hidden="true"></span>
 							</a>
 						<?php else : ?>
-							<a class="btn btn-secondary btn-xs active" rel="tooltip" href="javascript:void(0);"
-								onclick="return listItemTask('cb<?php echo $i; ?>','history.keep')"
-								data-original-title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_KEEP_TOGGLE_ON'); ?>">
+							<a class="btn btn-secondary btn-sm active" rel="tooltip" href="javascript:void(0);"
+								onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')">
 								<?php echo Text::_('JNO'); ?>
 							</a>
 						<?php endif; ?>
@@ -128,7 +125,7 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 					<td class="d-none d-md-table-cell">
 						<?php echo htmlspecialchars($item->editor); ?>
 					</td>
-					<td class="text-center">
+					<td class="text-right">
 						<?php echo number_format((int) $item->character_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')); ?>
 					</td>
 				</tr>

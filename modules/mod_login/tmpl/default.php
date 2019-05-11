@@ -3,19 +3,17 @@
  * @package     Joomla.Site
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
-
-JLoader::register('UsersHelperRoute', JPATH_SITE . '/components/com_users/helpers/route.php');
 
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.keepalive');
@@ -24,7 +22,7 @@ HTMLHelper::_('script', 'system/fields/passwordview.min.js', array('version' => 
 Text::script('JSHOW');
 Text::script('JHIDE');
 ?>
-<form id="login-form" class="mod-login" action="<?php echo Route::_('index.php', true); ?>" method="post">
+<form id="login-form-<?php echo $module->id; ?>" class="mod-login" action="<?php echo Route::_('index.php', true); ?>" method="post">
 
 	<?php if ($params->get('pretext')) : ?>
 		<div class="mod-login__pretext pretext">
@@ -34,7 +32,7 @@ Text::script('JHIDE');
 
 	<div class="mod-login__userdata userdata">
 		<div class="mod-login__username form-group">
-			<?php if (!$params->get('usetext')) : ?>
+			<?php if (!$params->get('usetext', 0)) : ?>
 				<div class="input-group">
 					<input id="modlgn-username" type="text" name="username" class="form-control" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
 					<span class="input-group-append">
@@ -49,7 +47,7 @@ Text::script('JHIDE');
 		</div>
 
 		<div class="mod-login__password form-group">
-			<?php if (!$params->get('usetext')) : ?>
+			<?php if (!$params->get('usetext', 0)) : ?>
 				<div class="input-group">
 					<input id="modlgn-passwd" type="password" name="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
 					<span class="input-group-append">
@@ -65,7 +63,7 @@ Text::script('JHIDE');
 
 		<?php if (count($twofactormethods) > 1) : ?>
 			<div class="mod-login__twofactor form-group">
-				<?php if (!$params->get('usetext')) : ?>
+				<?php if (!$params->get('usetext', 0)) : ?>
 					<div class="input-group">
 						<span class="input-group-prepend">
 							<span class="input-group-text icon-star hasTooltip" title="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>"></span>

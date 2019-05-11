@@ -3,9 +3,10 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Installer\Administrator\Controller;
 
 defined('_JEXEC') or die;
@@ -15,7 +16,6 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Installer\Administrator\Model\DatabaseModel;
-use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 
 /**
  * Installer Database Controller
@@ -36,8 +36,8 @@ class DatabaseController extends BaseController
 	 */
 	public function fix()
 	{
-		// Check for request forgeries
-		Session::checkToken() or die(Text::_('JINVALID_TOKEN'));
+		// Check for request forgeries.
+		$this->checkToken();
 
 		// Get items to fix the database.
 		$cid = $this->input->get('cid', array(), 'array');
@@ -54,10 +54,11 @@ class DatabaseController extends BaseController
 		{
 			// Get the model
 			/** @var DatabaseModel $model */
-			$model = $this->getModel('database');
+			$model = $this->getModel('Database');
 			$model->fix($cid);
 
-			$updateModel = new UpdateModel;
+			$updateModel = $this->app->bootComponent('com_joomlaupdate')
+				->getMVCFactory()->createModel('Update', 'Administrator', ['ignore_request' => true]);
 			$updateModel->purge();
 
 			// Refresh versionable assets cache

@@ -3,17 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Templates\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\FormController;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\FormController;
 
 /**
  * Template style controller class.
@@ -42,10 +41,7 @@ class StyleController extends FormController
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		if (!Session::checkToken())
-		{
-			Factory::getApplication()->redirect('index.php', Text::_('JINVALID_TOKEN'));
-		}
+		$this->checkToken();
 
 		$document = Factory::getDocument();
 
@@ -55,7 +51,7 @@ class StyleController extends FormController
 			$model = $this->getModel('Style', 'Administrator');
 			$table = $model->getTable();
 			$data  = $this->input->post->get('params', array(), 'array');
-			$checkin = property_exists($table, 'checked_out');
+			$checkin = $table->hasField('checked_out');
 			$context = $this->option . '.edit.' . $this->context;
 
 			$item = $model->getItem($app->getTemplate(true)->id);
@@ -156,9 +152,7 @@ class StyleController extends FormController
 
 			return true;
 		}
-		else
-		{
-			parent::save($key, $urlVar);
-		}
+
+		return parent::save($key, $urlVar);
 	}
 }

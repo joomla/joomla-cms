@@ -3,20 +3,21 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
 // Create shortcuts to some parameters.
 $params  = $this->item->params;
@@ -30,7 +31,7 @@ $info    = $params->get('info_block_position', 0);
 $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 ?>
 <div class="com-content-article item-page<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Article">
-	<meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? Factory::getConfig()->get('language') : $this->item->language; ?>">
+	<meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? Factory::getApplication()->get('language') : $this->item->language; ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 	<div class="page-header">
 		<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
@@ -48,7 +49,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 
 	<?php if (!$useDefList && $this->print) : ?>
 		<div id="pop-print" class="btn hidden-print">
-			<?php echo HTMLHelper::_('contenticon.print_screen', $this->item, $params); ?>
+			<?php echo HTMLHelper::_('contenticon.print_screen', $params); ?>
 		</div>
 		<div class="clearfix"> </div>
 	<?php endif; ?>
@@ -59,8 +60,8 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 				<?php echo $this->escape($this->item->title); ?>
 			</h2>
 		<?php endif; ?>
-		<?php if ($this->item->state == 0) : ?>
-			<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
+		<?php if ($this->item->condition == ContentComponent::CONDITION_UNPUBLISHED) : ?>
+			<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
 		<?php if (strtotime($this->item->publish_up) > strtotime(Factory::getDate())) : ?>
 			<span class="badge badge-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
@@ -77,7 +78,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 	<?php else : ?>
 		<?php if ($useDefList) : ?>
 			<div id="pop-print" class="btn hidden-print">
-				<?php echo HTMLHelper::_('contenticon.print_screen', $this->item, $params); ?>
+				<?php echo HTMLHelper::_('contenticon.print_screen', $params); ?>
 			</div>
 		<?php endif; ?>
 	<?php endif; ?>

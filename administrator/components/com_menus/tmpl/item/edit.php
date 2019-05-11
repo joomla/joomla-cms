@@ -3,26 +3,25 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-
-// Include the component HTML helpers.
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.tabstate');
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
+
+$this->useCoreUI = true;
 
 Text::script('ERROR');
 Text::script('JGLOBAL_VALIDATION_FORM_FAILED');
@@ -65,16 +64,37 @@ $isModal  = $input->get('layout') == 'modal' ? true : false;
 $layout   = $isModal ? 'modal' : 'edit';
 $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 $clientId = $this->state->get('item.client_id', 0);
+$lang     = Factory::getLanguage()->getTag();
+
+// Load mod_menu.ini file when client is administrator
+if ($clientId === 1)
+{
+	Factory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR, null, false, true);
+}
 ?>
 <form action="<?php echo Route::_('index.php?option=com_menus&view=item&client_id=' . $clientId . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
+	<?php // Add the translation of the menu item title when client is administrator ?>
+	<?php if ($clientId === 1 && $this->item->id != 0) : ?>
+		<div class="form-inline form-inline-header">
+			<div class="control-group">
+				<div class="control-label">
+					<label for="menus_title_translation"><?php echo Text::sprintf('COM_MENUS_TITLE_TRANSLATION', $lang); ?></label>
+				</div>
+				<div class="controls">
+					<input id="menus_title_translation" class="form-control" value="<?php echo Text::_($this->item->title); ?>" readonly="readonly" type="text">
+				</div>
+			</div>
+		</div>
+	<?php endif; ?>
+
 	<div>
 
-		<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'details', Text::_('COM_MENUS_ITEM_DETAILS')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_MENUS_ITEM_DETAILS')); ?>
 		<div class="row">
 			<div class="col-md-9">
 				<?php
@@ -82,7 +102,7 @@ $clientId = $this->state->get('item.client_id', 0);
 
 				if ($this->item->type == 'alias')
 				{
-					echo $this->form->renderFieldset('aliasoptions');
+					echo $this->form->renderField('aliasoptions', 'params');
 				}
 
 				if ($this->item->type == 'separator')
@@ -95,9 +115,15 @@ $clientId = $this->state->get('item.client_id', 0);
 				if ($this->item->type == 'url')
 				{
 					$this->form->setFieldAttribute('link', 'readonly', 'false');
+					$this->form->setFieldAttribute('link', 'required', 'true');
 				}
 
 				echo $this->form->renderField('link');
+
+				if ($this->item->type == 'alias')
+				{
+					echo $this->form->renderField('alias_redirect', 'params');
+				}
 
 				echo $this->form->renderField('browserNav');
 				echo $this->form->renderField('template_style_id');
@@ -120,6 +146,8 @@ $clientId = $this->state->get('item.client_id', 0);
 							'parent_id',
 							'menuordering',
 							'published',
+							'publish_up',
+							'publish_down',
 							'home',
 							'access',
 							'language',
@@ -129,6 +157,8 @@ $clientId = $this->state->get('item.client_id', 0);
 						if ($this->item->type != 'component')
 						{
 							$this->fields = array_diff($this->fields, array('home'));
+							$this->form->setFieldAttribute('publish_up', 'showon', '');
+							$this->form->setFieldAttribute('publish_down', 'showon', '');
 						}
 
 						echo LayoutHelper::render('joomla.edit.global', $this); ?>
@@ -136,7 +166,7 @@ $clientId = $this->state->get('item.client_id', 0);
 				</div>
 			</div>
 		</div>
-		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php
 		$this->fieldsets = array();
@@ -147,21 +177,21 @@ $clientId = $this->state->get('item.client_id', 0);
 		<?php if (!$isModal && $assoc && $this->state->get('item.client_id') != 1) : ?>
 			<?php if ($this->item->type !== 'alias' && $this->item->type !== 'url'
 				&& $this->item->type !== 'separator' && $this->item->type !== 'heading') : ?>
-				<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
+				<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
 				<?php echo $this->loadTemplate('associations'); ?>
-				<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+				<?php echo HTMLHelper::_('uitab.endTab'); ?>
 			<?php endif; ?>
 		<?php elseif ($isModal && $assoc && $this->state->get('item.client_id') != 1) : ?>
 			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
 		<?php endif; ?>
 
 		<?php if (!empty($this->modules)) : ?>
-			<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'modules', Text::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT')); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'modules', Text::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT')); ?>
 			<?php echo $this->loadTemplate('modules'); ?>
-			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
-		<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
+		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	</div>
 
 	<input type="hidden" name="task" value="">
