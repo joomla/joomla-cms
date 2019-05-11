@@ -210,7 +210,6 @@ class UsersModelUser extends JModelAdmin
 			$app = JFactory::getApplication();
 
 			// Compile the notification mail values.
-			$data = $user->getProperties();
 			$data['fromname']   = $app->get('fromname');
 			$data['mailfrom']   = $app->get('mailfrom');
 			$data['sitename']   = $app->get('sitename');
