@@ -103,8 +103,8 @@ class MenutypeField extends ListField
 				'height'     => '300px',
 				'modalWidth' => 80,
 				'bodyHeight' => 70,
-				'footer'     => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+				'footer'     => '<button type="button" class="btn btn-secondary" data-dismiss="modal">'
+						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 			)
 		);
 		$html[] = '<input type="hidden" name="' . $this->name . '" value="'

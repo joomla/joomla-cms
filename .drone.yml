@@ -48,22 +48,34 @@ steps:
       - name: cache
         path: /cache
 
-  - name: php70-unit
-    depends_on: [ rebuild-cache ]
-    image: joomlaprojects/docker-php70:develop
-    commands:
-      - ./libraries/vendor/bin/phpunit
-
-  - name: php71-unit
-    depends_on: [ rebuild-cache ]
-    image: joomlaprojects/docker-php71:develop
-    commands:
-      - ./libraries/vendor/bin/phpunit
-
   - name: php72-unit
     depends_on: [ rebuild-cache ]
-    image: joomlaprojects/docker-php72:develop
+    image: php:7.2
     commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit
+
+  - name: php73-unit
+    depends_on: [ rebuild-cache ]
+    image: php:7.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit
+
+  - name: php74-unit
+    depends_on: [ rebuild-cache ]
+    image: phpdaily/php:7.4-dev
+    errignore: true
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit
+
+  - name: php80-unit
+    depends_on: [ rebuild-cache ]
+    image: phpdaily/php:8.0-dev
+    errignore: true
+    commands:
+      - php -v
       - ./libraries/vendor/bin/phpunit
 
   - name: javascript-cs
