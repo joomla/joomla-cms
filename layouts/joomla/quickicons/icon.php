@@ -23,7 +23,25 @@ $title = empty($displayData['title']) ? '' : (' title="' . $this->escape($displa
 // The information
 $text = empty($displayData['text']) ? '' : ('<span class="j-links-link">' . $displayData['text'] . '</span>');
 
-$class = empty($displayData['class']) ? '' : (' class ="' . $this->escape($displayData['class']) . '"');
+$tmp = [];
+
+// Set id and class pulse for update icons 
+if ($id && ($displayData['id'] === 'plg_quickicon_joomlaupdate'
+	|| $displayData['id'] === 'plg_quickicon_extensionupdate'
+	|| $displayData['id'] === 'plg_quickicon_overridecheck'
+	|| !empty($displayData['class'])))
+{	
+	$tmp[] = 'pulse'; 
+}
+
+// Add the button class
+if (!empty($displayData['class']))
+{
+	$tmp[] = $this->escape($displayData['class']);
+}
+
+// Make the class string
+$class = !empty($tmp) ? 'class="' . implode(' ' , array_unique($tmp)) . '"' : '';
 
 if (isset($displayData['name']))
 {
@@ -38,7 +56,7 @@ else
 ?>
 
 <li class="quickicon col mb-3 d-flex <?php echo !empty($displayData['linkadd']) ? 'flex-column' : ''; ?>">
-    <a <?php echo $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
+    <a <?php echo $id . $class ; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
 		<?php if (isset($displayData['image'])): ?>
             <div class="quickicon-icon d-flex align-items-end <?php echo $size ?>">
                 <div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
