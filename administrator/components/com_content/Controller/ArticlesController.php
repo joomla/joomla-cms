@@ -134,7 +134,7 @@ class ArticlesController extends AdminController
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
-		
+
 	/**
 	 * Method to get the number of published articles for quickicons
 	 * 
@@ -142,15 +142,13 @@ class ArticlesController extends AdminController
 	 *
 	 * @since   4.0
 	 */
-	public function quickiconAmount()
+	public function getQuickiconContent()
 	{
-		$model = $this->getModel('Articles');
-
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', 0);
+		$model = $this->getModel('articles');
+		
 		$model->setState('filter.published', 1);
 
-		$amount = count($model->getItems()) ? count($model->getItems()) : '0';
+		$amount = $model->getTotal() ? $model->getTotal() : '0';
 
 		echo new JsonResponse($amount);
 	}

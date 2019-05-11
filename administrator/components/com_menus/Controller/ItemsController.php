@@ -59,7 +59,7 @@ class ItemsController extends AdminController
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
-	
+
 	/**
 	 * Method to get the number of published frontend menu items for quickicons
 	 * 
@@ -67,16 +67,16 @@ class ItemsController extends AdminController
 	 *
 	 * @since   4.0
 	 */
-	public function quickiconAmount()
+	public function getQuickiconContent()
 	{
-		$model = $this->getModel('items');
+		$model = $this->getModel('Items');
 
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', 0);
 		$model->setState('filter.published', 1);
 		$model->setState('filter.client_id', 0);
 
-		echo new JsonResponse(count($model->getItems()));
+		$amount = $model->getTotal() ? $model->getTotal() : '0';
+
+		echo new JsonResponse($amount);
 	}
 
 	/**

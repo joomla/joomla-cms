@@ -36,7 +36,7 @@ class PluginsController extends AdminController
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
-	
+
 	/**
 	 * Method to get the number of activated plugins
 	 * 
@@ -44,14 +44,14 @@ class PluginsController extends AdminController
 	 *
 	 * @since   4.0
 	 */
-	public function quickiconAmount()
+	public function getQuickiconContent()
 	{
 		$model = $this->getModel('Plugins');
 
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', 0);
 		$model->setState('filter.enabled', 1);
 
-		echo new JsonResponse(count($model->getItems()));
+		$amount = $model->getTotal() ? $model->getTotal() : '0';
+
+		echo new JsonResponse($amount);
 	}
 }

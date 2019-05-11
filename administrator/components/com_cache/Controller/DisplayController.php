@@ -68,7 +68,6 @@ class DisplayController extends BaseController
 		}
 	}
 
-		
 	/**
 	 * Method to get The Cache Size
 	 * 
@@ -76,10 +75,10 @@ class DisplayController extends BaseController
 	 *
 	 * @since   4.0
 	 */
-	public function quickiconAmount()
+	public function getQuickiconContent()
 	{
 		$model = $this->getModel('Cache');
-		
+
 		$data = $model->getData();
 
 		$size = 0;
@@ -94,10 +93,9 @@ class DisplayController extends BaseController
 
 		// Number bytes are returned in format xxx.xx MB
 		$mb = explode(' ', HTMLHelper::_('number.bytes', $size, 'MB', 1, false));
-		
+
 		// Return number only
 		echo new JsonResponse($mb[0]);
-
 	}
 
 	/**

@@ -39,7 +39,7 @@ class CategoriesController extends AdminController
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
-	
+
 	/**
 	 * Method to get the number of content categories
 	 * 
@@ -47,18 +47,17 @@ class CategoriesController extends AdminController
 	 *
 	 * @since   4.0
 	 */
-	public function quickiconAmount()
+	public function getQuickiconContent()
 	{
 		$model = $this->getModel('Categories');
-
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', 0);
 		$model->setState('filter.published', 1);
 		$model->setState('filter.extension', 'com_content');
 
-		echo new JsonResponse(count($model->getItems()));
+		$amount = $model->getTotal() ? $model->getTotal() : '0';
+
+		echo new JsonResponse($amount);
 	}
-	
+
 	/**
 	 * Rebuild the nested set tree.
 	 *
