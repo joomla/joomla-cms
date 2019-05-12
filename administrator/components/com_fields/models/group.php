@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -324,31 +324,6 @@ class FieldsModelGroup extends JModelAdmin
 			if (property_exists($item, 'params'))
 			{
 				$item->params = new Registry($item->params);
-			}
-
-			// Convert the created and modified dates to local user time for display in the form.
-			$tz = new DateTimeZone(JFactory::getApplication()->get('offset'));
-
-			if ((int) $item->created)
-			{
-				$date = new JDate($item->created);
-				$date->setTimezone($tz);
-				$item->created = $date->toSql(true);
-			}
-			else
-			{
-				$item->created = null;
-			}
-
-			if ((int) $item->modified)
-			{
-				$date = new JDate($item->modified);
-				$date->setTimezone($tz);
-				$item->modified = $date->toSql(true);
-			}
-			else
-			{
-				$item->modified = null;
 			}
 		}
 
