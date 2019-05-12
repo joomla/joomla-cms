@@ -56,42 +56,39 @@ else
 ?>
 
 <li class="quickicon col mb-3 d-flex <?php echo !empty($displayData['linkadd']) ? 'flex-column' : ''; ?>">
-    <a <?php echo $id . $class ; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
+	<a <?php echo $id . $class ; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
 		<?php if (isset($displayData['image'])): ?>
-            <div class="quickicon-icon d-flex align-items-end <?php echo $size ?>">
-                <div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
-            </div>
+			<div class="quickicon-icon d-flex align-items-end <?php echo $size ?>">
+				<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
+			</div>
 		<?php endif; ?>
-        <div class="quickicon-amount" <?php echo $dataUrl ?>>
-			<?php if (isset($displayData['ajaxurl'])): ?>
-                <span class="fa fa-spinner"></span>
-			<?php elseif (isset($displayData['amount'])): ?>
-				<?php echo $displayData['amount']; ?>
-			<?php endif; ?>
-        </div>
+		<?php if (isset($displayData['ajaxurl'])) : ?>
+			<div class="quickicon-amount" <?php echo $dataUrl ?>>
+				<span class="fa fa-spinner" aria-hidden="true"></span>
+			</div>
+		<?php endif; ?>
 		<?php // Name indicates the component
 		if (isset($displayData['name'])): ?>
-            <div class="quickicon-name d-flex align-items-end"
-                 data-name-singular="<?php echo $add ?>"
-                 data-name-plural="<?php echo $name ?>">
+			<div class="quickicon-name d-flex align-items-end"
+				 data-name-singular="<?php echo $add ?>"
+				 data-name-plural="<?php echo $name ?>">
 				<?php echo htmlspecialchars($name); ?>
-            </div>
+			</div>
 		<?php endif; ?>
 		<?php // Information or action from plugins
 		if (isset($displayData['text'])): ?>
-            <div class="quickicon-text d-flex align-items-center">
+			<div class="quickicon-text d-flex align-items-center">
 				<?php echo $text; ?>
-            </div>
+			</div>
 		<?php endif; ?>
-    </a>
+	</a>
 	<?php // Add the link to the edit-form
 	if (!empty($displayData['linkadd'])): ?>
-        <a class="btn-block text-center quickicon-linkadd j-links-link"
-           href="<?php echo $displayData['linkadd']; ?>">
-            <span class="fa fa-plus mr-2" aria-hidden="true"></span>
-            <span class="sr-only"><?php echo Text::sprintf('MOD_QUICKICON_ADD_NEW', $add); ?></span>
-            <span aria-hidden="true"><?php echo $add; ?></span>
-        </a>
+			<a class="btn-block text-center quickicon-linkadd j-links-link" href="<?php echo $displayData['linkadd']; ?>">
+				<span class="fa fa-plus mr-2" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::sprintf('MOD_QUICKICON_ADD_NEW', $add); ?></span>
+				<span aria-hidden="true"><?php echo $add; ?></span>
+			</a>
 	<?php endif; ?>
 </li>
 
