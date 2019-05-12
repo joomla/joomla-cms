@@ -4870,7 +4870,6 @@ a.badge:focus {
 	.input-prepend input[class*="span"],
 	.input-append input[class*="span"] {
 		display: inline-block;
-		width: auto;
 	}
 	.controls-row [class*="span"] + [class*="span"] {
 		margin-left: 0;
@@ -7736,6 +7735,9 @@ ul.manager .height-50 .icon-folder-2 {
 }
 .finder-selects {
 	margin: 0 15px 15px 0;
+}
+.header-search .mod-languages ul {
+	margin: 0 0 5px 0;
 }
 .rtl .navigation .nav-child {
 	left: auto;

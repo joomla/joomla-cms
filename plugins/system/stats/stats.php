@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.stats
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,19 +21,25 @@ defined('_JEXEC') or die;
 class PlgSystemStats extends JPlugin
 {
 	/**
-	 * @const  integer
+	 * Indicates sending statistics is always allowed.
+	 *
+	 * @var    integer
 	 * @since  3.5
 	 */
 	const MODE_ALLOW_ALWAYS = 1;
 
 	/**
-	 * @const  integer
+	 * Indicates sending statistics is only allowed one time.
+	 *
+	 * @var    integer
 	 * @since  3.5
 	 */
 	const MODE_ALLOW_ONCE = 2;
 
 	/**
-	 * @const  integer
+	 * Indicates sending statistics is never allowed.
+	 *
+	 * @var    integer
 	 * @since  3.5
 	 */
 	const MODE_ALLOW_NEVER = 3;

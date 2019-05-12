@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -99,7 +99,7 @@
 		 */
 		getImageFolder: function ()
 		{
-			return this.getQueryObject(this.frame.location.search.substring(1)).folder;
+			return this.getQueryObject(this.frame.location.search.substring(1)).folder.replace(/%2F/gi, "/");
 		},
 
 		/**
@@ -178,6 +178,7 @@
 		 */
 		setFolder: function (folder, asset, author)
 		{
+                       folder = folder.replace(/%2F/gi, "/");
 			for (var i = 0, l = this.folderlist.length; i < l; i++)
 			{
 				if (folder == this.folderlist.options[i].value)

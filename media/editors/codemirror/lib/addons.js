@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -41,7 +41,7 @@
 });
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -59,13 +59,15 @@
     var info = this.state.panels;
     var wrapper = info.wrapper;
     var cmWrapper = this.getWrapperElement();
+    var replace = options.replace instanceof Panel && !options.replace.cleared;
 
     if (options.after instanceof Panel && !options.after.cleared) {
       wrapper.insertBefore(node, options.before.node.nextSibling);
     } else if (options.before instanceof Panel && !options.before.cleared) {
       wrapper.insertBefore(node, options.before.node);
-    } else if (options.replace instanceof Panel && !options.replace.cleared) {
+    } else if (replace) {
       wrapper.insertBefore(node, options.replace.node);
+      info.panels++;
       options.replace.clear();
     } else if (options.position == "bottom") {
       wrapper.appendChild(node);
@@ -79,7 +81,9 @@
 
     var height = (options && options.height) || node.offsetHeight;
     this._setSize(null, info.heightLeft -= height);
-    info.panels++;
+    if (!replace) {
+      info.panels++;
+    }
     if (options.stable && isAtTop(this, node))
       this.scrollTo(null, this.getScrollInfo().top + height)
 
@@ -165,7 +169,7 @@
 });
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -302,9 +306,7 @@
         var prev = cur.ch == 0 ? " " : cm.getRange(Pos(cur.line, cur.ch - 1), cur)
         if (!CodeMirror.isWordChar(next) && prev != ch && !CodeMirror.isWordChar(prev)) curType = "both";
         else return CodeMirror.Pass;
-      } else if (opening && (cm.getLine(cur.line).length == cur.ch ||
-                             isClosingBracket(next, pairs) ||
-                             /\s/.test(next))) {
+      } else if (opening) {
         curType = "both";
       } else {
         return CodeMirror.Pass;
@@ -341,11 +343,6 @@
     });
   }
 
-  function isClosingBracket(ch, pairs) {
-    var pos = pairs.lastIndexOf(ch);
-    return pos > -1 && pos % 2 == 1;
-  }
-
   function charsAround(cm, pos) {
     var str = cm.getRange(Pos(pos.line, pos.ch - 1),
                           Pos(pos.line, pos.ch + 1));
@@ -360,7 +357,7 @@
 });
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 /**
  * Tag-closer extension for CodeMirror.
@@ -536,7 +533,7 @@
 });
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -682,7 +679,7 @@
 });
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -749,7 +746,7 @@
 });
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -855,7 +852,7 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
 });
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -1008,7 +1005,7 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
 });
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -1155,7 +1152,7 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
 });
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -1293,12 +1290,14 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
   CodeMirror.registerHelper("fold", "xml", function(cm, start) {
     var iter = new Iter(cm, start.line, 0);
     for (;;) {
-      var openTag = toNextTag(iter), end;
-      if (!openTag || !(end = toTagEnd(iter)) || iter.line != start.line) return;
+      var openTag = toNextTag(iter)
+      if (!openTag || iter.line != start.line) return
+      var end = toTagEnd(iter)
+      if (!end) return
       if (!openTag[1] && end != "selfClose") {
         var startPos = Pos(iter.line, iter.ch);
         var endPos = findMatchingClose(iter, openTag[2]);
-        return endPos && {from: startPos, to: endPos.from};
+        return endPos && cmp(endPos.from, startPos) > 0 ? {from: startPos, to: endPos.from} : null
       }
     }
   });
@@ -1338,7 +1337,7 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
 });
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -1403,7 +1402,7 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
 });
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -1454,7 +1453,15 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           if (found == stream.pos) {
             if (!other.parseDelimiters) stream.match(other.open);
             state.innerActive = other;
-            state.inner = CodeMirror.startState(other.mode, outer.indent ? outer.indent(state.outer, "") : 0);
+
+            // Get the outer indent, making sure to handle CodeMirror.Pass
+            var outerIndent = 0;
+            if (outer.indent) {
+              var possibleOuterIndent = outer.indent(state.outer, "");
+              if (possibleOuterIndent !== CodeMirror.Pass) outerIndent = possibleOuterIndent;
+            }
+
+            state.inner = CodeMirror.startState(other.mode, outerIndent);
             return other.delimStyle && (other.delimStyle + " " + other.delimStyle + "-open");
           } else if (found != -1 && found < cutOff) {
             cutOff = found;
@@ -1527,7 +1534,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
 });
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -1650,7 +1657,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
 });
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -1803,7 +1810,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
 });
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -1901,7 +1908,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
 });
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 // Highlighting text that matches the selection
 //
@@ -1992,7 +1999,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     var state = cm.state.matchHighlighter;
     cm.addOverlay(state.overlay = makeOverlay(query, hasBoundary, style));
     if (state.options.annotateScrollbar && cm.showMatchesOnScrollbar) {
-      var searchFor = hasBoundary ? new RegExp("\\b" + query.replace(/[\\\[+*?(){|^$]/g, "\\$&") + "\\b") : query;
+      var searchFor = hasBoundary ? new RegExp("\\b" + query.replace(/[\\\[.+*?(){|^$]/g, "\\$&") + "\\b") : query;
       state.matchesonscroll = cm.showMatchesOnScrollbar(searchFor, false,
         {className: "CodeMirror-selection-highlight-scrollbar"});
     }
@@ -2067,7 +2074,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
 });
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -2361,7 +2368,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
 });
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -2434,7 +2441,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
 });
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -2510,7 +2517,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     {name: "JSON", mimes: ["application/json", "application/x-json"], mode: "javascript", ext: ["json", "map"], alias: ["json5"]},
     {name: "JSON-LD", mime: "application/ld+json", mode: "javascript", ext: ["jsonld"], alias: ["jsonld"]},
     {name: "JSX", mime: "text/jsx", mode: "jsx", ext: ["jsx"]},
-    {name: "Jinja2", mime: "null", mode: "jinja2"},
+    {name: "Jinja2", mime: "null", mode: "jinja2", ext: ["j2", "jinja", "jinja2"]},
     {name: "Julia", mime: "text/x-julia", mode: "julia", ext: ["jl"]},
     {name: "Kotlin", mime: "text/x-kotlin", mode: "clike", ext: ["kt"]},
     {name: "LESS", mime: "text/x-less", mode: "css", ext: ["less"]},

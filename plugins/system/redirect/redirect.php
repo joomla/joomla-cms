@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.redirect
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -295,7 +295,7 @@ class PlgSystemRedirect extends JPlugin
 		{
 			$params = new Registry(JPluginHelper::getPlugin('system', 'redirect')->params);
 
-			if ((bool) $params->get('collect_urls', true))
+			if ((bool) $params->get('collect_urls', 1))
 			{
 				if (!$params->get('includeUrl', 1))
 				{
