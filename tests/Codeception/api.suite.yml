@@ -1,0 +1,8 @@
+actor: ApiTester
+modules:
+    enabled:
+        - \Helper\Api
+        - REST:
+             url: http://localhost/test-install/api/index.php/v1
+             depends: PhpBrowser
+             part: Json
