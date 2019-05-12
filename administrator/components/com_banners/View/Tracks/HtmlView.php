@@ -74,8 +74,6 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		$this->sidebar = \JHtmlSidebar::render();
-
 		return parent::display($tpl);
 	}
 
