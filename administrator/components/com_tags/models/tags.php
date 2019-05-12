@@ -43,6 +43,7 @@ class TagsModelTags extends JModelList
 				'rgt', 'a.rgt',
 				'level', 'a.level',
 				'path', 'a.path',
+				'tag',
 			);
 		}
 
@@ -79,6 +80,8 @@ class TagsModelTags extends JModelList
 		$this->setState('filter.language', $language);
 
 		$extension = $this->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
+
+		$this->setState('filter.tag', $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '', 'string'));
 
 		$this->setState('filter.extension', $extension);
 		$parts = explode('.', $extension);
@@ -119,6 +122,7 @@ class TagsModelTags extends JModelList
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.published');
 		$id .= ':' . $this->getState('filter.language');
+		$id .= ':' . $this->getState('filter.tag');
 
 		return parent::getStoreId($id);
 	}
@@ -134,8 +138,38 @@ class TagsModelTags extends JModelList
 	{
 		// Create a new query object.
 		$db = $this->getDbo();
+		$cte = $db->getQuery(true);
 		$query = $db->getQuery(true);
 		$user = JFactory::getUser();
+
+		// Filter by root tag.
+		if ($tag = $this->getState('filter.tag'))
+		{
+			$initialQuery = $db->getQuery(true);
+			$initialQuery->select('*');
+			$initialQuery->from('#__tags');
+			$initialQuery->where('parent_id = ' . (int) $tag);
+			$initialQuery->orWhere('id = ' . (int) $tag);
+
+			$recursiveQuery = $db->getQuery(true);
+			$recursiveQuery->select('t.*');
+			$recursiveQuery->from('#__tags AS t, RootTagTable AS r');
+			$recursiveQuery->where('t.parent_id = r.id');
+
+			$cte->setQuery(
+				'WITH recursive RootTagTable AS (' .
+				$initialQuery->union($recursiveQuery) .
+				')'
+			);
+
+			$query->from('RootTagTable AS a')
+				->where('a.alias <> ' . $db->quote('root'));
+		}
+		else
+		{
+			$query->from('#__tags AS a')
+				->where('a.alias <> ' . $db->quote('root'));
+		}
 
 		// Select the required fields from the table.
 		$query->select(
@@ -147,8 +181,6 @@ class TagsModelTags extends JModelList
 					', a.language'
 			)
 		);
-		$query->from('#__tags AS a')
-			->where('a.alias <> ' . $db->quote('root'));
 
 		// Join over the language
 		$query->select('l.title AS language_title, l.image AS language_image')
@@ -231,7 +263,7 @@ class TagsModelTags extends JModelList
 			$query->order($db->escape($listOrdering) . ' ' . $listDirn);
 		}
 
-		return $query;
+		return $cte . ' ' . $query;
 	}
 
 	/**
