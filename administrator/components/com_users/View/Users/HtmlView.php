@@ -88,14 +88,6 @@ class HtmlView extends BaseHtmlView
 	protected $db;
 
 	/**
-	 * The sidebar markup
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $sidebar;
-
-	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -121,8 +113,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$this->addToolbar();
-		$this->sidebar = HTMLHelper::_('sidebar.render');
-
 		parent::display($tpl);
 	}
 
