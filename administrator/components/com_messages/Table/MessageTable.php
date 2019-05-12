@@ -34,6 +34,8 @@ class MessageTable extends Table
 	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__messages', 'message_id', $db);
+
+		$this->setColumnAlias('published', 'state');
 	}
 
 	/**

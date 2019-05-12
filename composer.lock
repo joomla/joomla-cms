@@ -721,22 +721,25 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "5e1d0c9eecde05ff6620b8313736d9a1faf09741"
+                "reference": "a48b1a53fd2501ca3a331f4e724e1a7709a88c26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/5e1d0c9eecde05ff6620b8313736d9a1faf09741",
-                "reference": "5e1d0c9eecde05ff6620b8313736d9a1faf09741",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/a48b1a53fd2501ca3a331f4e724e1a7709a88c26",
+                "reference": "a48b1a53fd2501ca3a331f4e724e1a7709a88c26",
                 "shasum": ""
             },
             "require": {
-                "joomla/event": "~2.0@dev",
+                "joomla/event": "~2.0",
                 "php": "~7.0",
                 "psr/log": "~1.0"
             },
             "require-dev": {
+                "joomla/archive": "~2.0",
                 "joomla/coding-standards": "~2.0@alpha",
+                "joomla/console": "~2.0",
                 "joomla/di": "~1.0|~2.0",
+                "joomla/filesystem": "~1.3|~2.0",
                 "joomla/registry": "^1.4.5|~2.0",
                 "joomla/test": "~1.2",
                 "phpunit/dbunit": "~3.0",
@@ -747,7 +750,10 @@
                 "ext-pdo": "To connect to a MySQL, Oracle, PostgreSQL, or SQLite database via PDO",
                 "ext-pgsql": "To connect to a PostgreSQL database",
                 "ext-sqlsrv": "To connect to a SQL Server database",
+                "joomla/archive": "To use the ExportCommand class, install joomla/archive",
+                "joomla/console": "To use the ExportCommand and ImportCommand classes, install joomla/console",
                 "joomla/di": "To use the Database ServiceProviderInterface objects, install joomla/di.",
+                "joomla/filesystem": "To use the ExportCommand and ImportCommand classes, install joomla/filesystem",
                 "joomla/registry": "To use the Database ServiceProviderInterface objects, install joomla/registry."
             },
             "type": "joomla-package",
@@ -772,7 +778,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-05-01T11:59:25+00:00"
+            "time": "2019-05-05T16:05:23+00:00"
         },
         {
             "name": "joomla/di",
@@ -2096,7 +2102,7 @@
         },
         {
             "name": "symfony/console",
-            "version": "v3.4.27",
+            "version": "v3.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
@@ -2168,7 +2174,7 @@
         },
         {
             "name": "symfony/debug",
-            "version": "v3.4.27",
+            "version": "v3.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
@@ -2224,7 +2230,7 @@
         },
         {
             "name": "symfony/ldap",
-            "version": "v3.4.27",
+            "version": "v3.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ldap.git",
@@ -2280,7 +2286,7 @@
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v3.4.27",
+            "version": "v3.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
@@ -2672,16 +2678,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v3.4.27",
+            "version": "v3.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "ca5fef348a0440411bbca0f9ec14e9a11625bd6a"
+                "reference": "f0883812642a6d6583a9e2ae6aec4ba134436f40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/ca5fef348a0440411bbca0f9ec14e9a11625bd6a",
-                "reference": "ca5fef348a0440411bbca0f9ec14e9a11625bd6a",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/f0883812642a6d6583a9e2ae6aec4ba134436f40",
+                "reference": "f0883812642a6d6583a9e2ae6aec4ba134436f40",
                 "shasum": ""
             },
             "require": {
@@ -2737,11 +2743,11 @@
                 "debug",
                 "dump"
             ],
-            "time": "2019-05-01T09:52:10+00:00"
+            "time": "2019-04-16T13:58:17+00:00"
         },
         {
             "name": "symfony/web-link",
-            "version": "v3.4.27",
+            "version": "v3.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/web-link.git",
@@ -2786,7 +2792,7 @@
             ],
             "authors": [
                 {
-                    "name": "K??vin Dunglas",
+                    "name": "Kévin Dunglas",
                     "email": "dunglas@gmail.com"
                 },
                 {
@@ -2812,7 +2818,7 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.4.27",
+            "version": "v3.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
@@ -3142,16 +3148,16 @@
         },
         {
             "name": "codeception/codeception",
-            "version": "2.5.6",
+            "version": "2.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "b83a9338296e706fab2ceb49de8a352fbca3dc98"
+                "reference": "547a64cb31edcf1902b296c511f5ca74101bcb4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/b83a9338296e706fab2ceb49de8a352fbca3dc98",
-                "reference": "b83a9338296e706fab2ceb49de8a352fbca3dc98",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/547a64cb31edcf1902b296c511f5ca74101bcb4c",
+                "reference": "547a64cb31edcf1902b296c511f5ca74101bcb4c",
                 "shasum": ""
             },
             "require": {
@@ -3230,7 +3236,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2019-04-24T11:28:19+00:00"
+            "time": "2019-03-23T17:57:45+00:00"
         },
         {
             "name": "codeception/phpunit-wrapper",
@@ -4268,16 +4274,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v2.14.3",
+            "version": "v2.14.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "a9132a872dab61e37161c6db2fb8a6f46141d17e"
+                "reference": "ff401e58261ffc5934a58f795b3f95b355e276cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/a9132a872dab61e37161c6db2fb8a6f46141d17e",
-                "reference": "a9132a872dab61e37161c6db2fb8a6f46141d17e",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/ff401e58261ffc5934a58f795b3f95b355e276cb",
+                "reference": "ff401e58261ffc5934a58f795b3f95b355e276cb",
                 "shasum": ""
             },
             "require": {
@@ -4305,10 +4311,10 @@
                 "mikey179/vfsstream": "^1.6",
                 "php-coveralls/php-coveralls": "^2.1",
                 "php-cs-fixer/accessible-object": "^1.0",
-                "php-cs-fixer/phpunit-constraint-isidenticalstring": "^1.1",
-                "php-cs-fixer/phpunit-constraint-xmlmatchesxsd": "^1.1",
+                "php-cs-fixer/phpunit-constraint-isidenticalstring": "^1.0.1",
+                "php-cs-fixer/phpunit-constraint-xmlmatchesxsd": "^1.0.1",
                 "phpunit/phpunit": "^5.7.27 || ^6.5.8 || ^7.1",
-                "phpunitgoodpractices/traits": "^1.8",
+                "phpunitgoodpractices/traits": "^1.5.1",
                 "symfony/phpunit-bridge": "^4.0"
             },
             "suggest": {
@@ -4343,7 +4349,7 @@
             ],
             "authors": [
                 {
-                    "name": "Dariusz Rumi??ski",
+                    "name": "Dariusz Rumiński",
                     "email": "dariusz.ruminski@gmail.com"
                 },
                 {
@@ -4352,7 +4358,7 @@
                 }
             ],
             "description": "A tool to automatically fix PHP code style",
-            "time": "2019-05-04T21:34:42+00:00"
+            "time": "2019-02-17T17:44:13+00:00"
         },
         {
             "name": "grasmash/expander",
@@ -4757,7 +4763,7 @@
                     "email": "puneet.kala@community.joomla.org"
                 },
                 {
-                    "name": "Javier G??mez",
+                    "name": "Javier Gomez",
                     "email": "javier.gomez@community.joomla.org"
                 }
             ],
@@ -5202,16 +5208,16 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "4.3.1",
+            "version": "4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "bdd9f737ebc2a01c06ea7ff4308ec6697db9b53c"
+                "reference": "94fd0001232e47129dd3504189fa1c7225010d08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/bdd9f737ebc2a01c06ea7ff4308ec6697db9b53c",
-                "reference": "bdd9f737ebc2a01c06ea7ff4308ec6697db9b53c",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/94fd0001232e47129dd3504189fa1c7225010d08",
+                "reference": "94fd0001232e47129dd3504189fa1c7225010d08",
                 "shasum": ""
             },
             "require": {
@@ -5249,7 +5255,7 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "time": "2019-04-30T17:48:53+00:00"
+            "time": "2017-11-30T07:14:17+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -6544,7 +6550,7 @@
         },
         {
             "name": "symfony/browser-kit",
-            "version": "v3.4.27",
+            "version": "v3.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/browser-kit.git",
@@ -6601,7 +6607,7 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v3.4.27",
+            "version": "v3.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
@@ -6636,7 +6642,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jean-Fran??ois Simon",
+                    "name": "Jean-François Simon",
                     "email": "jeanfrancois.simon@sensiolabs.com"
                 },
                 {
@@ -6654,7 +6660,7 @@
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v3.4.27",
+            "version": "v3.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
@@ -6711,7 +6717,7 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v3.4.27",
+            "version": "v3.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
@@ -6774,7 +6780,7 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v3.4.27",
+            "version": "v3.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
@@ -6824,7 +6830,7 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v3.4.27",
+            "version": "v3.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
@@ -6987,7 +6993,7 @@
         },
         {
             "name": "symfony/process",
-            "version": "v3.4.27",
+            "version": "v3.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
@@ -7036,7 +7042,7 @@
         },
         {
             "name": "symfony/stopwatch",
-            "version": "v3.4.27",
+            "version": "v3.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/stopwatch.git",

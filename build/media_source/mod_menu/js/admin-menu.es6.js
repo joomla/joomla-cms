@@ -173,7 +173,7 @@
 
         wrapper.classList.remove('closed');
         localStorage.setItem('atum-sidebar', 'open');
-        if (menuToggleIcon.classList.contains('fa-toggle-off')){
+        if (menuToggleIcon.classList.contains('fa-toggle-off')) {
           menuToggleIcon.classList.toggle('fa-toggle-off');
           menuToggleIcon.classList.toggle('fa-toggle-on');
         }

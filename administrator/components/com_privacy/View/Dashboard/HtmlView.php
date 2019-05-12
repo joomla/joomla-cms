@@ -14,8 +14,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Privacy\Administrator\Helper\PrivacyHelper;
+use Joomla\Component\Privacy\Administrator\Model\RequestsModel;
 
 /**
  * Dashboard view class
@@ -73,6 +76,14 @@ class HtmlView extends BaseHtmlView
 	protected $sidebar;
 
 	/**
+	 * Id of the system privacy consent plugin
+	 *
+	 * @var    integer
+	 * @since  3.9.2
+	 */
+	protected $privacyConsentPluginId;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -81,17 +92,18 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @see     BaseHtmlView::loadTemplate()
 	 * @since   3.9.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
 		// Initialise variables
-		$this->privacyPolicyInfo    = $this->get('PrivacyPolicyInfo');
-		$this->requestCounts        = $this->get('RequestCounts');
-		$this->requestFormPublished = $this->get('RequestFormPublished');
-		$this->sendMailEnabled      = (bool) Factory::getConfig()->get('mailonline', 1);
+		$this->privacyConsentPluginId = PrivacyHelper::getPrivacyConsentPluginId();
+		$this->privacyPolicyInfo      = $this->get('PrivacyPolicyInfo');
+		$this->requestCounts          = $this->get('RequestCounts');
+		$this->requestFormPublished   = $this->get('RequestFormPublished');
+		$this->sendMailEnabled        = (bool) Factory::getConfig()->get('mailonline', 1);
 
-		/** @var PrivacyModelRequests $requestsModel */
+		/** @var RequestsModel $requestsModel */
 		$requestsModel = $this->getModel('requests');
 
 		$this->numberOfUrgentRequests = $requestsModel->getNumberUrgentRequests();
@@ -99,7 +111,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->urgentRequestDays = (int) ComponentHelper::getParams('com_privacy')->get('notify', 14);
