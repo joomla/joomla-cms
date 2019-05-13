@@ -13,6 +13,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 
+HTMLHelper::_('behavior.core');
+HTMLHelper::_('webcomponent', 'system/joomla-toolbar-button.min.js', ['version' => 'auto', 'relative' => true]);
+
 /**
  * @var  string  $id
  * @var  string  $itemId
@@ -48,9 +51,13 @@ echo HTMLHelper::_(
 	)
 );
 ?>
-<button<?php echo $id ?? ''; ?>
-	onclick="document.getElementById('versionsModal').open()"
-	class="btn btn-primary"
-	data-toggle="modal">
-	<span class="fa fa-code-branch" aria-hidden="true"></span><?php echo $title; ?>
-</button>
+<joomla-toolbar-button id="toolbar-versions">
+	<button
+		class="btn btn-sm btn-primary"
+		type="button"
+		onclick="document.getElementById('versionsModal').open()"
+		data-toggle="modal">
+		<span class="fa fa-code-branch" aria-hidden="true"></span>
+		<?php echo $title; ?>
+	</button>
+</joomla-toolbar-button>
