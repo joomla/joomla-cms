@@ -28,6 +28,7 @@ $tmp = [];
 // Set id and class pulse for update icons 
 if ($id && ($displayData['id'] === 'plg_quickicon_joomlaupdate'
 	|| $displayData['id'] === 'plg_quickicon_extensionupdate'
+	|| $displayData['id'] === 'plg_quickicon_privacycheck'
 	|| $displayData['id'] === 'plg_quickicon_overridecheck'
 	|| !empty($displayData['class'])))
 {	

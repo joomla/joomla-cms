@@ -24,6 +24,13 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
+					name="context"
+					type="text"
+					label="MOD_QUICKICON_GROUP_LABEL"
+					description="MOD_QUICKICON_GROUP_DESC"
+					default="mod_quickicon"
+				/>
+				<field
 					name="show_global"
 					type="radio"
 					class="switcher"
