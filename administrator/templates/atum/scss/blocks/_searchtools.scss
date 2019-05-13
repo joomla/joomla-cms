@@ -59,6 +59,19 @@
 
     .btn-toolbar {
       margin-bottom: 8px;
+
+      .js-stools-btn-clear{
+        background-color: var(--atum-bg-dark);
+        color: var(--atum-text-light);
+
+      }
+      .js-stools-btn-filter{
+        border:1px solid var(--border);
+      }
+
+      .form-control{
+        height:auto;
+      }
     }
 
     .input-append {
