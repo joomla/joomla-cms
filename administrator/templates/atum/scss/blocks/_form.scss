@@ -108,9 +108,8 @@ legend {
 
 // Tooltip
 /* make the containers relative */
-.input-group > div,
-.control-group > div {
-  position: relative; 
+.control-group > .controls {
+  position: relative;
 }
 
 /* set up hidden tooltip */

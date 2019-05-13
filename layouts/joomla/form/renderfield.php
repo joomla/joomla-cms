@@ -29,7 +29,6 @@ if (!empty($options['showonEnabled']))
 }
 $class = empty($options['class']) ? '' : ' ' . $options['class'];
 $rel   = empty($options['rel']) ? '' : ' ' . $options['rel'];
-$id    = $name . '-desc';
 
 ?>
 <div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>
@@ -38,5 +37,10 @@ $id    = $name . '-desc';
 	<?php endif; ?>
 	<div class="controls">
 		<?php echo $input; ?>
+		<?php if (!empty($description)) : ?>
+		<div role="tooltip" id="<?php echo $name . '-desc'; ?>">
+			<?php echo htmlspecialchars($description, ENT_COMPAT, 'UTF-8'); ?>
+		</div>
+		<?php endif; ?>
 	</div>
 </div>

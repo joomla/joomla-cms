@@ -99,6 +99,5 @@ else
 	$listoptions['list.attr'] = trim($attr);
 	$html[] = HTMLHelper::_('select.genericlist', $options, $name, $listoptions);
 }
-$html[] = !empty($description) ? '<div role="tooltip" id="' . $name . '-desc">' . htmlspecialchars($description) . '</div>' : '';
 
 echo implode($html);

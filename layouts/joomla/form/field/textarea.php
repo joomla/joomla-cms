@@ -70,8 +70,3 @@ $attributes = array(
 echo $name; ?>" id="<?php
 echo $id; ?>" <?php
 echo implode(' ', $attributes); ?> ><?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?></textarea>
-<?php if (!empty($description)) : ?>
-	<div role="tooltip" id="<?php echo $name . '-desc'; ?>">
-		<?php echo htmlspecialchars($description); ?>
-	</div>
-<?php endif; ?>
