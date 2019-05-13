@@ -13,6 +13,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 
+HTMLHelper::_('behavior.core');
+HTMLHelper::_('webcomponent', 'system/joomla-toolbar-button.min.js', ['version' => 'auto', 'relative' => true]);
+
 /**
  * @var  string  $id
  * @var  string  $itemId
