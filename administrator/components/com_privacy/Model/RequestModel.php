@@ -358,8 +358,6 @@ class RequestModel extends AdminModel
 			$mailer->setBody($emailBody);
 			$mailer->addRecipient($table->email);
 
-			$mailResult = $mailer->Send();
-
 			if ($mailer->Send() === false)
 			{
 				$this->setError($mailer->ErrorInfo);
