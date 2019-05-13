@@ -3,18 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
- * Form Field to load a list of content authors
+ * Field to load a list of all users that have logged actions
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class JFormFieldLogCreator extends JFormFieldList
 {
@@ -22,7 +25,7 @@ class JFormFieldLogCreator extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $type = 'LogCreator';
 
@@ -30,7 +33,7 @@ class JFormFieldLogCreator extends JFormFieldList
 	 * Cached array of the category items.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected static $options = array();
 
@@ -39,7 +42,7 @@ class JFormFieldLogCreator extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function getOptions()
 	{
@@ -52,7 +55,7 @@ class JFormFieldLogCreator extends JFormFieldList
 
 			$options = array();
 
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 
 			// Construct the query
 			$query = $db->getQuery(true)

@@ -6,12 +6,14 @@
   "assets": {
     "core": {
       "name": "core",
+      "class": "CoreAssetItem",
       "js": [
         "media/system/js/core.min.js"
       ]
     },
     "keepalive": {
       "name": "keepalive",
+      "class": "KeepaliveAssetItem",
       "dependencies": [
         "core"
       ],
@@ -47,6 +49,12 @@
       ],
       "js": [
         "media/system/js/showon.min.js"
+      ]
+    },
+    "switcher": {
+      "name": "switcher",
+      "css": [
+        "media/system/css/fields/switcher.min.css"
       ]
     },
     "fields.validate": {

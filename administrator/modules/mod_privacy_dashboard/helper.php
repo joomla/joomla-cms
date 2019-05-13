@@ -3,18 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_privacy_dashboard
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\Factory;
+use Joomla\Component\Privacy\Administrator\Model\DashboardModel;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
  * Helper class for admin privacy dashboard module
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class ModPrivacyDashboardHelper
 {
@@ -23,22 +25,23 @@ class ModPrivacyDashboardHelper
 	 *
 	 * @return  array  Array containing site privacy requests
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function getData()
 	{
-		BaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_privacy/models', 'PrivacyModel');
-
-		/** @var PrivacyModelDashboard $model */
-		$model = BaseModel::getInstance('Dashboard', 'PrivacyModel');
+		/** @var DashboardModel $model */
+		$model = Factory::getApplication()
+			->bootComponent('com_privacy')
+			->getMVCFactory()
+			->createModel('Dashboard', 'Administrator', ['ignore_request' => true]);
 
 		try
 		{
 			return $model->getRequestCounts();
 		}
-		catch (JDatabaseException $e)
+		catch (ExecutionFailureException $e)
 		{
-			return array();
+			return [];
 		}
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,7 @@ use XMLReader;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Feed
- * @since       12.3
+ * @since       3.1.4
  */
 class AtomParserTest extends UnitTestCase
 {
@@ -32,7 +32,7 @@ class AtomParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandleAuthor()
 	{
@@ -68,7 +68,7 @@ class AtomParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandleContributor()
 	{
@@ -104,7 +104,7 @@ class AtomParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandleGenerator()
 	{
@@ -133,7 +133,7 @@ class AtomParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandleId()
 	{
@@ -162,7 +162,7 @@ class AtomParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandleLink()
 	{
@@ -193,7 +193,7 @@ class AtomParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandleRights()
 	{
@@ -222,7 +222,7 @@ class AtomParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandleSubtitle()
 	{
@@ -251,7 +251,7 @@ class AtomParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandleTitle()
 	{
@@ -280,7 +280,7 @@ class AtomParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandleUpdated()
 	{
@@ -307,7 +307,7 @@ class AtomParserTest extends UnitTestCase
 	/**
 	 * Tests AtomParser::initialise()
 	 *
-	 * @since         12.3
+	 * @since         3.1.4
 	 */
 	public function testInitialiseSetsDefaultVersion()
 	{
@@ -331,7 +331,7 @@ class AtomParserTest extends UnitTestCase
 	/**
 	 * Tests AtomParser::initialise()
 	 *
-	 * @since         12.3
+	 * @since         3.1.4
 	 */
 	public function testInitialiseSetsOldVersion()
 	{
@@ -357,7 +357,7 @@ class AtomParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testProcessFeedEntry()
 	{
