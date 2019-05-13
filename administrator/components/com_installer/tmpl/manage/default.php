@@ -15,6 +15,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
+HTMLHelper::_('script', 'com_installer/changelog.js', ['version' => 'auto', 'relative' => true]);
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -106,7 +107,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<td class="d-none d-md-table-cell">
 									<?php if ($item->version !== '') : ?>
 										<?php if ($item->changelogurl !== null) : ?>
-											<a href="#changelogModal<?php echo $item->extension_id; ?>" onclick="Joomla.loadChangelog(<?php echo $item->extension_id; ?>, 'manage'); return false;" data-toggle="modal">
+											<a href="#changelogModal<?php echo $item->extension_id; ?>" class="changelogModal" data-js-extensionid="<?php echo $item->extension_id; ?>" data-js-view="manage" data-toggle="modal">
 												<?php echo $item->version?>
 											</a>
 											<?php
