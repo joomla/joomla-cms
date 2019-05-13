@@ -29,7 +29,7 @@
         }
       };
 
-      const langaugeStrings = options.plg_quickicon_privacycheck_text;
+      const languageStrings = options.plg_quickicon_privacycheck_text;
 
       Joomla.request({
         url: options.plg_quickicon_privacycheck_ajax_url,
@@ -41,17 +41,19 @@
 
           if (privacyRequestsList.data.number_urgent_requests === 0) {
             // No requests
-            update('success', langaugeStrings.NOREQUEST, '');
+            update('success', languageStrings.NOREQUEST, '');
           } else {
             // Requests
             const messages = {
               warning: [
-                `<span class="badge badge-pill badge-danger">
+                `<div class="message-alert">
+<span class="badge badge-pill badge-danger">
   ${privacyRequestsList.data.number_urgent_requests}
-</span>&nbsp;${langaugeStrings.REQUESTFOUND_MESSAGE}
+</span>&nbsp;${languageStrings.REQUESTFOUND_MESSAGE}
 <button class="btn btn-sm btn-primary" onclick="document.location='${options.plg_quickicon_privacycheck_url}'">
-  ${langaugeStrings.REQUESTFOUND_BUTTON}
-</button>`,
+  ${languageStrings.REQUESTFOUND_BUTTON}
+</button>
+</div>`,
               ],
             };
 
@@ -59,14 +61,14 @@
 
             update(
               'danger',
-              `${langaugeStrings.REQUESTFOUND}&nbsp;<span class="badge badge-light">${privacyRequestsList.data.number_urgent_requests}</span>`,
+              `${languageStrings.REQUESTFOUND}&nbsp;<span class="badge badge-light">${privacyRequestsList.data.number_urgent_requests}</span>`,
               options.plg_quickicon_privacycheck_url,
             );
           }
         },
         onError: () => {
           // An error occurred
-          update('danger', langaugeStrings.ERROR, '');
+          update('danger', languageStrings.ERROR, '');
         },
       });
     }
