@@ -58,6 +58,7 @@
     border: 1px solid $gray-400;
     text-decoration: none;
     box-shadow: $atum-box-shadow;
+    display:flex;
 
     @include media-breakpoint-up(md) {
       line-height: 2rem;
@@ -76,9 +77,11 @@
       height: auto;
       line-height: 2rem;
       color: var(--white);
-      position: absolute;
-      left: 0;
+      position: relative;
+      float:left;
       background-color: var(--atum-link-color);
+      text-align: center;
+      margin-right:2rem;
     }
   }
 
