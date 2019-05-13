@@ -9,7 +9,7 @@
       "dependencies": [
         "core",
         "jquery-noconflict",
-        "font-awesome",
+        "fontawesome-free",
         "bootstrap.js.bundle"
       ],
       "js": [

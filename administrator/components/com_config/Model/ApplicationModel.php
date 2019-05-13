@@ -305,7 +305,7 @@ class ApplicationModel extends FormModel
 					$revisedDbo->truncateTable('#__session');
 				}
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				/*
 				 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
@@ -513,8 +513,21 @@ class ApplicationModel extends FormModel
 		$this->cleanCache('_system', 0);
 		$this->cleanCache('_system', 1);
 
+		$result = $app->triggerEvent('onApplicationBeforeSave', array($config));
+
+		// Store the data.
+		if (in_array(false, $result, true))
+		{
+			throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_UNKNOWN_BEFORE_SAVING'));
+		}
+
 		// Write the configuration file.
-		return $this->writeConfigFile($config);
+		$result = $this->writeConfigFile($config);
+
+		// Trigger the after save event.
+		$app->triggerEvent('onApplicationAfterSave', array($config));
+
+		return $result;
 	}
 
 	/**
@@ -529,6 +542,8 @@ class ApplicationModel extends FormModel
 	 */
 	public function removeroot()
 	{
+		$app = Factory::getApplication();
+
 		// Get the previous configuration.
 		$prev = new \JConfig;
 		$prev = ArrayHelper::fromObject($prev);
@@ -537,8 +552,21 @@ class ApplicationModel extends FormModel
 		unset($prev['root_user']);
 		$config = new Registry($prev);
 
+		$result = $app->triggerEvent('onApplicationBeforeSave', array($config));
+
+		// Store the data.
+		if (in_array(false, $result, true))
+		{
+			throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_UNKNOWN_BEFORE_SAVING'));
+		}
+
 		// Write the configuration file.
-		return $this->writeConfigFile($config);
+		$result = $this->writeConfigFile($config);
+
+		// Trigger the after save event.
+		$app->triggerEvent('onApplicationAfterSave', array($config));
+
+		return $result;
 	}
 
 	/**
@@ -573,6 +601,12 @@ class ApplicationModel extends FormModel
 		if (!File::write($file, $configuration))
 		{
 			throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'));
+		}
+
+		// Invalidates the cached configuration file
+		if (function_exists('opcache_invalidate'))
+		{
+			opcache_invalidate($file);
 		}
 
 		// Attempt to make the file unwriteable if using FTP.

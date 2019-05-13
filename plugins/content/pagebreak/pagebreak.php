@@ -14,6 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Utility\Utility;
 use Joomla\String\StringHelper;
@@ -177,6 +178,9 @@ class PlgContentPagebreak extends CMSPlugin
 				// Traditional mos page navigation
 				$pageNav = new Pagination($n, $page, 1);
 
+				// Flag indicates to not add limitstart=0 to URL
+				$pageNav->hideEmptyLimitstart = true;
+
 				// Page counter.
 				$row->text .= '<div class="pagenavcounter">';
 				$row->text .= $pageNav->getPagesCounter();
@@ -308,7 +312,7 @@ class PlgContentPagebreak extends CMSPlugin
 
 		// TOC first Page link.
 		$list[1]         = new stdClass;
-		$list[1]->link   = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=';
+		$list[1]->link   = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language);
 		$list[1]->title  = $heading;
 		$list[1]->active = ($limitstart === 0 && $showall === 0);
 
@@ -339,7 +343,7 @@ class PlgContentPagebreak extends CMSPlugin
 			}
 
 			$list[$i]         = new stdClass;
-			$list[$i]->link   = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=' . ($i - 1);
+			$list[$i]->link   = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($i - 1);
 			$list[$i]->title  = $title;
 			$list[$i]->active = ($limitstart === $i - 1);
 
@@ -349,7 +353,7 @@ class PlgContentPagebreak extends CMSPlugin
 		if ($this->params->get('showall'))
 		{
 			$list[$i]         = new stdClass;
-			$list[$i]->link   = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1&limitstart=';
+			$list[$i]->link   = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1';
 			$list[$i]->title  = Text::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES');
 			$list[$i]->active = ($limitstart === $i - 1);
 		}
@@ -373,41 +377,32 @@ class PlgContentPagebreak extends CMSPlugin
 	 */
 	protected function _createNavigation(&$row, $page, $n)
 	{
-		$pnSpace = '';
+		$links = array(
+			'next' => '',
+			'previous' => ''
+		);
 
-		if (Text::_('JGLOBAL_LT') || Text::_('JGLOBAL_LT'))
-		{
-			$pnSpace = ' ';
-		}
 
 		if ($page < $n - 1)
 		{
-			$page_next = $page + 1;
-
-			$link_next = Route::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=' . $page_next);
-
-			// Next >>
-			$next = '<a href="' . $link_next . '">' . Text::_('JNEXT') . $pnSpace . Text::_('JGLOBAL_GT') . Text::_('JGLOBAL_GT') . '</a>';
-		}
-		else
-		{
-			$next = Text::_('JNEXT');
+			$links['next'] = Route::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($page + 1));
 		}
 
 		if ($page > 0)
 		{
-			$page_prev = $page - 1 === 0 ? '' : $page - 1;
+			$links['previous'] = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language);
 
-			$link_prev = Route::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=' . $page_prev);
+			if ($page > 1)
+			{
+				$links['previous'] .= '&limitstart=' . ($page - 1);
+			}
 
-			// << Prev
-			$prev = '<a href="' . $link_prev . '">' . Text::_('JGLOBAL_LT') . Text::_('JGLOBAL_LT') . $pnSpace . Text::_('JPREV') . '</a>';
-		}
-		else
-		{
-			$prev = Text::_('JPREV');
+			$links['previous'] = Route::_($links['previous']);
 		}
 
-		$row->text .= '<ul><li>' . $prev . ' </li><li>' . $next . '</li></ul>';
+		$path = PluginHelper::getLayoutPath('content', 'pagebreak', 'navigation');
+		ob_start();
+		include $path;
+		$row->text .= ob_get_clean();
 	}
 }
