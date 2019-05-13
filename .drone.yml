@@ -1,63 +1,85 @@
-pipeline:
-  clone:
-    image: plugins/git
-    depth: 1
+---
+kind: pipeline
+name: default
 
-  phpcs:
+clone:
+  depth: 42
+
+steps:
+  - name: phpcs
     image: joomlaprojects/docker-phpcs
     commands:
       - echo $(date)
       - /root/.composer/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
       - echo $(date)
 
-  restore-cache:
-      image: drillster/drone-volume-cache
+  - name: restore-cache
+    image: drillster/drone-volume-cache
+    depends_on: [ phpcs ]
+    settings:
       restore: true
       mount:
         - ./node_modules
         - ./libraries/vendor
-      volumes:
-        - /tmp/cache:/cache
+        - ./administrator/components/com_media/node_modules
+      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
+    volumes:
+      - name: cache
+        path: /cache
 
-  prepare:
+  - name: prepare
     image: joomlaprojects/docker-tools:develop
+    depends_on: [ restore-cache ]
     commands:
       - composer install --no-progress --no-suggest
-      # needed for system testing
-      - composer update joomla/test-system --no-progress --no-suggest
-      - composer update joomla/test-api --no-progress --no-suggest
-      - composer update joomla-projects/selenium-server-standalone --no-progress --no-suggest
-      - composer update joomla-projects/joomla-browser --no-progress --no-suggest
       - npm install --unsafe-perm
 
-  rebuild-cache:
-      image: drillster/drone-volume-cache
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    depends_on: [ prepare ]
+    settings:
       rebuild: true
       mount:
         - ./node_modules
         - ./libraries/vendor
-      volumes:
-        - /tmp/cache:/cache
+        - ./administrator/components/com_media/node_modules
+      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
+    volumes:
+      - name: cache
+        path: /cache
 
-  php70-unit:
-    group: unit
-    image: joomlaprojects/docker-php70:develop
+  - name: php72-unit
+    depends_on: [ rebuild-cache ]
+    image: php:7.2
     commands:
+      - php -v
       - ./libraries/vendor/bin/phpunit
 
-  php71-unit:
-    group: unit
-    image: joomlaprojects/docker-php71:develop
+  - name: php73-unit
+    depends_on: [ rebuild-cache ]
+    image: php:7.3
     commands:
+      - php -v
       - ./libraries/vendor/bin/phpunit
 
-  php72-unit:
-    group: unit
-    image: joomlaprojects/docker-php72:develop
+  - name: php74-unit
+    depends_on: [ rebuild-cache ]
+    image: phpdaily/php:7.4-dev
+    errignore: true
     commands:
+      - php -v
       - ./libraries/vendor/bin/phpunit
 
-  javascript-cs:
+  - name: php80-unit
+    depends_on: [ rebuild-cache ]
+    image: phpdaily/php:8.0-dev
+    errignore: true
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit
+
+  - name: javascript-cs
+    depends_on: [ rebuild-cache ]
     image: joomlaprojects/docker-systemtests:develop
     commands:
       - export DISPLAY=:0
@@ -66,7 +88,8 @@ pipeline:
       - fluxbox  > /dev/null 2>&1 &
       - npm run lint:js
 
-  javascript-tests:
+  - name: javascript-tests
+    depends_on: [ rebuild-cache ]
     image: joomlaprojects/docker-systemtests:develop
     commands:
       - export DISPLAY=:0
@@ -75,45 +98,44 @@ pipeline:
       - fluxbox  > /dev/null 2>&1 &
       - npm run test
 
-  system-tests:
-      image: joomlaprojects/docker-systemtests:develop
-      commands:
-        - bash libraries/vendor/joomla/test-system/src/drone-run.sh "$(pwd)"
+  - name: system-tests
+    depends_on: [ javascript-tests ]
+    image: joomlaprojects/docker-systemtests:develop
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)"
 
-  api-tests:
+  - name: api-tests
+    depends_on: [ system-tests ]
     image: joomlaprojects/docker-systemtests:latest
     commands:
-      - bash libraries/vendor/joomla/test-api/drone-run.sh "$(pwd)"
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)"
 
-  analysis3x:
-      image: rips/rips-cli:1.2.1
-      secrets:  [rips_username, rips_password]
-      when:
-        branch: staging
-      commands:
-        - export RIPS_BASE_URI='https://api.rips.joomla.org'
-        - export RIPS_USERNAME=$RIPS_USERNAME
-        - export RIPS_PASSWORD=$RIPS_PASSWORD
-        - if [ $DRONE_REPO_OWNER != 'joomla' ]; then echo "The analysis check only run on the main repos"; exit 0; fi
-        - rips-cli rips:scan:start -a 1 -t 1 -R -k -p $(pwd) -t 1 -T $DRONE_REPO_OWNER-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
-
-  analysis4x:
+  - name: analysis4x
     image: rips/rips-cli:1.2.1
-    secrets:  [rips_username, rips_password]
+    depends_on: [ api-tests ]
     when:
       branch: 4.0-dev
     commands:
       - export RIPS_BASE_URI='https://api.rips.joomla.org'
-      - export RIPS_USERNAME=$RIPS_USERNAME
-      - export RIPS_PASSWORD=$RIPS_PASSWORD
-      - if [ $DRONE_REPO_OWNER != 'joomla' ]; then echo "The analysis check only run on the main repos"; exit 0; fi
-      - rips-cli rips:scan:start -a 3 -t 1 -R -k -p $(pwd) -t 1 -T $DRONE_REPO_OWNER-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
+      - if [ $DRONE_REPO_NAMESPACE != 'joomla' ]; then echo "The analysis check only run on the main repos"; exit 0; fi
+      - rips-cli rips:scan:start -a 3 -t 1 -R -k -p $(pwd) -t 1 -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
+    environment:
+      RIPS_USERNAME:
+        from_secret: RIPS_USERNAME
+      RIPS_PASSWORD:
+        from_secret: RIPS_PASSWORD
 
 branches:
   exclude: [ l10n_* ]
 
+
+volumes:
+- name: cache
+  host:
+    path: /tmp/cache
+
 services:
-  mysql:
+  - name: mysql
     image: mysql:5.7
     environment:
       MYSQL_USER: joomla_ut
@@ -121,11 +143,17 @@ services:
       MYSQL_ROOT_PASSWORD: joomla_ut
       MYSQL_DATABASE: test_joomla
 
-  memcached:
+  - name: memcached
     image: memcached:alpine
 
-  redis:
+  - name: redis
     image: redis:alpine
 
-  postgres:
+  - name: postgres
     image: postgres
+
+---
+kind: signature
+hmac: b3612d74787777acabd3dde88d2a002b0c893d054831525464f4db51e31493b8
+
+...
