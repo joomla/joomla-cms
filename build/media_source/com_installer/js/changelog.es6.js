@@ -11,7 +11,7 @@ Joomla = window.Joomla || {};
   document.addEventListener('DOMContentLoaded', () => {
     const modals = document.getElementsByClassName('changelogModal');
 
-    Array.from(modals).forEach(function (element) {
+    Array.from(modals).forEach((element) => {
       element.addEventListener('click', function (modal) {
         Joomla.loadChangelog(modal.target.dataset.jsExtensionid, modal.target.dataset.jsView);
       });
