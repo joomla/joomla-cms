@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,7 @@ class LanguagesControllerInstalled extends JControllerLegacy
 	public function setDefault()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$cid = $this->input->get('cid', '');
 		$model = $this->getModel('installed');
@@ -62,7 +62,7 @@ class LanguagesControllerInstalled extends JControllerLegacy
 	public function switchAdminLanguage()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$cid   = $this->input->get('cid', '');
 		$model = $this->getModel('installed');

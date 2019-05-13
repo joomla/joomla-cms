@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,6 +30,7 @@ class ContentViewFeatured extends JViewLegacy
 
 	protected $link_items = array();
 
+	/** @deprecated  4.0 */
 	protected $columns = 1;
 
 	/**
@@ -54,6 +55,9 @@ class ContentViewFeatured extends JViewLegacy
 		$state      = $this->get('State');
 		$items      = $this->get('Items');
 		$pagination = $this->get('Pagination');
+
+		// Flag indicates to not add limitstart=0 to URL
+		$pagination->hideEmptyLimitstart = true;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
