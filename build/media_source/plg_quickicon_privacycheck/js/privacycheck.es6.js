@@ -47,9 +47,7 @@
             const messages = {
               warning: [
                 `<div class="message-alert">
-<span class="badge badge-pill badge-danger">
-  ${privacyRequestsList.data.number_urgent_requests}
-</span>&nbsp;${languageStrings.REQUESTFOUND_MESSAGE}
+  ${languageStrings.REQUESTFOUND_MESSAGE.replace ('%s', `<span class="badge badge-pill badge-danger">${privacyRequestsList.data.number_urgent_requests}</span>`)}
 <button class="btn btn-sm btn-primary" onclick="document.location='${options.plg_quickicon_privacycheck_url}'">
   ${languageStrings.REQUESTFOUND_BUTTON}
 </button>
