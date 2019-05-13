@@ -9,7 +9,7 @@ Joomla = window.Joomla || {};
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-    let modals = document.getElementsByClassName('changelogModal');
+    const modals = document.getElementsByClassName('changelogModal');
 
     Array.from(modals).forEach(function (element) {
       element.addEventListener('click', function (modal) {
@@ -30,10 +30,10 @@ Joomla = window.Joomla || {};
   Joomla.loadChangelog = (extensionId, view) => {
     Joomla.request({
       url: `index.php?option=com_installer&task=manage.loadChangelog&eid=${extensionId}&source=${view}&format=json`,
-        onSuccess: (response) => {
-          const result = JSON.parse(response);
-            document.querySelectorAll(`#changelogModal${extensionId} .modal-body`)[0].innerHTML = result.data;
-            },
+      onSuccess: (response) => {
+        const result = JSON.parse(response);
+          document.querySelectorAll(`#changelogModal${extensionId} .modal-body`)[0].innerHTML = result.data;
+      },
     });
   };
 })(Joomla);
