@@ -224,7 +224,7 @@ class ArticlesModel extends ListModel
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the parent categories.
-		$query->select('parent.title AS parent_category_title, parent.id AS parent_category_id, 
+		$query->select('parent.title AS parent_category_title, parent.id AS parent_category_id,
 								parent.created_user_id AS parent_category_uid, parent.level AS parent_category_level')
 			->join('LEFT', '#__categories AS parent ON parent.id = c.parent_id');
 
@@ -306,9 +306,9 @@ class ArticlesModel extends ListModel
 		// Join over the associations.
 		if (Associations::isEnabled())
 		{
-			$query->select('COUNT(asso2.id)>1 as association')
+			$query->select('CASE WHEN COUNT(asso2.id)>1 THEN 1 ELSE 0 END as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_content.item'))
-				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
+				->join('LEFT', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key'))
 				->group($db->quoteName($associationsGroupBy));
 		}
 
@@ -515,6 +515,11 @@ class ArticlesModel extends ListModel
 		$user = Factory::getUser();
 
 		$items = $this->getItems();
+
+		if ($items === false)
+		{
+			return false;
+		}
 
 		$ids = ArrayHelper::getColumn($items, 'stage_id');
 		$ids = ArrayHelper::toInteger($ids);

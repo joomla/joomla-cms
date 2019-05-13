@@ -39,7 +39,7 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clearfix"> </div>
 		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-no-items">
+			<div class="alert alert-warning">
 				<?php echo JText::_('COM_PRIVACY_MSG_REQUESTS_NO_REQUESTS'); ?>
 			</div>
 		<?php else : ?>
