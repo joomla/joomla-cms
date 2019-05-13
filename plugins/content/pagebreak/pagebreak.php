@@ -358,7 +358,7 @@ class PlgContentPagebreak extends CMSPlugin
 			$list[$i]->active = ($limitstart === $i - 1);
 		}
 
-		$path = JPluginHelper::getLayoutPath('content', 'pagebreak', 'toc');
+		$path = PluginHelper::getLayoutPath('content', 'pagebreak', 'toc');
 		ob_start();
 		include $path;
 		$row->toc = ob_get_clean();
