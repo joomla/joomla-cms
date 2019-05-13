@@ -249,11 +249,6 @@
 			$select.attr('href', oldHref.replace(/&fieldid=(.+)&/, '&fieldid=' + inputId + '&'));
 		});
 
-		// bootstrap based Media field
-		if($.fn.fieldMedia){
-			$row.find('.field-media-wrapper').fieldMedia();
-		}
-
 		// bootstrap based User field
 		if($.fn.fieldUser){
 			$row.find('.field-user-wrapper').fieldUser();
