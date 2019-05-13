@@ -174,6 +174,7 @@ export const renameItem = (context, payload) => {
             context.commit(types.RENAME_SUCCESS, {
                 item: item,
                 oldPath: payload.path,
+                newName: payload.newName,
             });
             context.commit(types.HIDE_RENAME_MODAL);
             context.commit(types.SET_IS_LOADING, false);

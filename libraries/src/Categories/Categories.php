@@ -195,6 +195,18 @@ class Categories implements CategoryInterface
 	}
 
 	/**
+	 * Returns the extension of the category.
+	 *
+	 * @return   string  The extension
+	 *
+	 * @since   3.9.0
+	 */
+	public function getExtension()
+	{
+		return $this->_extension;
+	}
+
+	/**
 	 * Load method
 	 *
 	 * @param   integer  $id  Id of category to load
