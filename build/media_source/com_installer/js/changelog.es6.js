@@ -32,7 +32,7 @@ Joomla = window.Joomla || {};
       url: `index.php?option=com_installer&task=manage.loadChangelog&eid=${extensionId}&source=${view}&format=json`,
       onSuccess: (response) => {
         const result = JSON.parse(response);
-          document.querySelectorAll(`#changelogModal${extensionId} .modal-body`)[0].innerHTML = result.data;
+        document.querySelectorAll(`#changelogModal${extensionId} .modal-body`)[0].innerHTML = result.data;
       },
     });
   };
