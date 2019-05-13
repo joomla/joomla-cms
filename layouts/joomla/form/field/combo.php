@@ -72,6 +72,6 @@ foreach ($options as $option)
 	data-list="<?php echo implode(', ', $val); ?>">
 <?php if (!empty($description)) : ?>
 	<div role="tooltip" id="<?php echo $name . '-desc'; ?>">
-		<?php echo $description; ?>
+		<?php echo htmlspecialchars($description); ?>
 	</div>
 <?php endif; ?>

@@ -116,7 +116,7 @@ HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, ['version' =
 			data-alt-value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" autocomplete="off">
 		<?php if (!empty($description)) : ?>
 			<div role="tooltip" id="<?php echo $name . '-desc'; ?>">
-				<?php echo $description; ?>
+				<?php echo htmlspecialchars($description); ?>
 			</div>
 		<?php endif; ?>
 		<span class="input-group-append">

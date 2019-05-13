@@ -74,6 +74,6 @@ $attributes = array(
 	<?php echo implode(' ', $attributes); ?>>
 <?php if (!empty($description)) : ?>
 	<div role="tooltip" id="<?php echo $name . '-desc'; ?>">
-		<?php echo $description; ?>
+		<?php echo htmlspecialchars($description); ?>
 	</div>
 <?php endif; ?>
