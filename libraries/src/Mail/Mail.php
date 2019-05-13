@@ -134,10 +134,16 @@ class Mail extends PHPMailer
 			if (!$result && $this->SMTPAutoTLS)
 			{
 				$this->SMTPAutoTLS = false;
-				$result = parent::send();
 
-				// Reset the value for any future emails
-				$this->SMTPAutoTLS = true;
+				try
+				{
+					$result = parent::send();
+				}
+				finally
+				{
+					// Reset the value for any future emails
+					$this->SMTPAutoTLS = true;
+				}
 			}
 
 			return $result;
