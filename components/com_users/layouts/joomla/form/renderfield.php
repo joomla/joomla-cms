@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Language\Text;
+
 extract($displayData);
 
 /**
@@ -50,7 +52,7 @@ $typeOfSpacer = (strpos($label, 'spacer-lbl') !== false);
 		<div class="control-label">
 			<?php echo $label; ?>
 			<?php if (!$required && !$typeOfSpacer) : ?>
-				<span class="optional"><?php echo JText::_('COM_USERS_OPTIONAL'); ?></span>
+				<span class="optional"><?php echo Text::_('COM_USERS_OPTIONAL'); ?></span>
 			<?php endif; ?>
 		</div>
 	<?php endif; ?>

@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\Router;
@@ -569,8 +570,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		$this->loadLanguage();
 
 		return array(
-			JText::_('PLG_SYSTEM_LANGUAGEFILTER') => array(
-				JText::_('PLG_SYSTEM_LANGUAGEFILTER_PRIVACY_CAPABILITY_LANGUAGE_COOKIE'),
+			Text::_('PLG_SYSTEM_LANGUAGEFILTER') => array(
+				Text::_('PLG_SYSTEM_LANGUAGEFILTER_PRIVACY_CAPABILITY_LANGUAGE_COOKIE'),
 			)
 		);
 	}

@@ -52,7 +52,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								</th>
 								<?php if ($clientId === 0) : ?>
 									<th scope="col" style="width:12%" class="d-none d-md-table-cell">
-										<?php echo JText::_('COM_TEMPLATES_HEADING_PAGES'); ?>
+										<?php echo Text::_('COM_TEMPLATES_HEADING_PAGES'); ?>
 									</th>
 								<?php endif; ?>
 								<th scope="col" style="width:12%" class="d-none d-md-table-cell">
@@ -75,7 +75,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								</td>
 								<th scope="row">
 									<?php if ($canEdit) : ?>
-										<a href="<?php echo JRoute::_('index.php?option=com_templates&task=style.edit&id=' . (int) $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+										<a href="<?php echo JRoute::_('index.php?option=com_templates&task=style.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 											<span class="fa fa-pen-square mr-2" aria-hidden="true"></span><?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>

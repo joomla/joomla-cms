@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\IpHelper; 
 
 /**
@@ -39,8 +40,8 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 		$this->loadLanguage();
 
 		return array(
-			JText::_('PLG_CAPTCHA_RECAPTCHA_INVISIBLE') => array(
-				JText::_('PLG_RECAPTCHA_INVISIBLE_PRIVACY_CAPABILITY_IP_ADDRESS'),
+			Text::_('PLG_CAPTCHA_RECAPTCHA_INVISIBLE') => array(
+				Text::_('PLG_RECAPTCHA_INVISIBLE_PRIVACY_CAPABILITY_IP_ADDRESS'),
 			)
 		);
 	}
@@ -61,7 +62,7 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 
 		if ($pubkey === '')
 		{
-			throw new \RuntimeException(JText::_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_PUBLIC_KEY'));
+			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_PUBLIC_KEY'));
 		}
 
 		// Load callback first for browser compatibility
@@ -137,19 +138,19 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 		// Check for Private Key
 		if (empty($privatekey))
 		{
-			throw new \RuntimeException(JText::_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_PRIVATE_KEY'));
+			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_PRIVATE_KEY'));
 		}
 
 		// Check for IP
 		if (empty($remoteip))
 		{
-			throw new \RuntimeException(JText::_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_IP'));
+			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_IP'));
 		}
 
 		// Discard spam submissions
 		if (trim($response) == '')
 		{
-			throw new \RuntimeException(JText::_('PLG_RECAPTCHA_INVISIBLE_ERROR_EMPTY_SOLUTION'));
+			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_INVISIBLE_ERROR_EMPTY_SOLUTION'));
 		}
 
 		return $this->getResponse($privatekey, $remoteip, $response);

@@ -252,7 +252,7 @@ abstract class AdminModel extends FormModel
 			), $config['events_map']
 		);
 
-		// Guess the \JText message prefix. Defaults to the option.
+		// Guess the \Text message prefix. Defaults to the option.
 		if (isset($config['text_prefix']))
 		{
 			$this->text_prefix = strtoupper($config['text_prefix']);
@@ -1595,7 +1595,7 @@ abstract class AdminModel extends FormModel
 
 		if ($id == 0)
 		{
-			$app->enqueueMessage(\JText::_('JGLOBAL_ASSOCIATIONS_NEW_ITEM_WARNING'), 'error');
+			$app->enqueueMessage(Text::_('JGLOBAL_ASSOCIATIONS_NEW_ITEM_WARNING'), 'error');
 			$app->redirect(
 				\JRoute::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
 			);
@@ -1605,7 +1605,7 @@ abstract class AdminModel extends FormModel
 
 		if ($data['language'] === '*')
 		{
-			$app->enqueueMessage(\JText::_('JGLOBAL_ASSOC_NOT_POSSIBLE'), 'notice');
+			$app->enqueueMessage(Text::_('JGLOBAL_ASSOC_NOT_POSSIBLE'), 'notice');
 			$app->redirect(
 				\JRoute::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
 			);

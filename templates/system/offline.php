@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /** @var JDocumentHtml $this */
 
@@ -49,29 +50,29 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 		<p>
 			<?php echo $app->get('offline_message'); ?>
 		</p>
-	<?php elseif ($app->get('display_offline_message', 1) == 2 && str_replace(' ', '', JText::_('JOFFLINE_MESSAGE')) !== '') : ?>
+	<?php elseif ($app->get('display_offline_message', 1) == 2 && str_replace(' ', '', Text::_('JOFFLINE_MESSAGE')) !== '') : ?>
 		<p>
-			<?php echo JText::_('JOFFLINE_MESSAGE'); ?>
+			<?php echo Text::_('JOFFLINE_MESSAGE'); ?>
 		</p>
 	<?php endif; ?>
 	<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login">
 	<fieldset class="input">
 		<p id="form-login-username">
-			<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
-			<input name="username" id="username" type="text" class="inputbox" alt="<?php echo JText::_('JGLOBAL_USERNAME'); ?>" autocomplete="off" autocapitalize="none" />
+			<label for="username"><?php echo Text::_('JGLOBAL_USERNAME'); ?></label>
+			<input name="username" id="username" type="text" class="inputbox" alt="<?php echo Text::_('JGLOBAL_USERNAME'); ?>" autocomplete="off" autocapitalize="none" />
 		</p>
 		<p id="form-login-password">
-			<label for="passwd"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
-			<input type="password" name="password" class="inputbox" alt="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" id="passwd" />
+			<label for="passwd"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
+			<input type="password" name="password" class="inputbox" alt="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>" id="passwd" />
 		</p>
 		<?php if (count($twofactormethods) > 1) : ?>
 			<p id="form-login-secretkey">
-				<label for="secretkey"><?php echo JText::_('JGLOBAL_SECRETKEY'); ?></label>
-				<input type="text" name="secretkey" class="inputbox" alt="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" id="secretkey" />
+				<label for="secretkey"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
+				<input type="text" name="secretkey" class="inputbox" alt="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>" id="secretkey" />
 			</p>
 		<?php endif; ?>
 		<p id="submit-button">
-			<input type="submit" name="Submit" class="button login" value="<?php echo JText::_('JLOGIN'); ?>" />
+			<input type="submit" name="Submit" class="button login" value="<?php echo Text::_('JLOGIN'); ?>" />
 		</p>
 		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="user.login" />
