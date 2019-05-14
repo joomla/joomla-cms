@@ -459,6 +459,7 @@ class UpdateModel extends ListModel
 		if ($package === false || !isset($package['type']) || $package['type'] === false)
 		{
 			$app->enqueueMessage(JText::sprintf('COM_INSTALLER_MSG_UPDATE_INVALID_PKG', $url));
+
 			return false;
 		}
 
