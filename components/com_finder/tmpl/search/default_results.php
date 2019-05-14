@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Router\Route;
+
 ?>
 <?php // Display the suggested search if it is different from the current search. ?>
 <?php if (($this->suggested && $this->params->get('show_suggested_query', 1)) || ($this->explained && $this->params->get('show_explained_query', 1))) : ?>
@@ -19,7 +21,7 @@ defined('_JEXEC') or die;
 			<?php $uri = JUri::getInstance($this->query->toUri()); ?>
 			<?php $uri->setVar('q', $this->suggested); ?>
 			<?php // Compile the suggested query link. ?>
-			<?php $linkUrl = JRoute::_($uri->toString(array('path', 'query'))); ?>
+			<?php $linkUrl = Route::_($uri->toString(array('path', 'query'))); ?>
 			<?php $link = '<a href="' . $linkUrl . '">' . $this->escape($this->suggested) . '</a>'; ?>
 			<?php echo JText::sprintf('COM_FINDER_SEARCH_SIMILAR', $link); ?>
 		<?php elseif ($this->explained && $this->params->get('show_explained_query', 1)) : ?>

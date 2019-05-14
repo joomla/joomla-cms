@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Router\Route;
 use Joomla\String\StringHelper;
 
 $user = JFactory::getUser();
@@ -51,7 +52,7 @@ if ($show_description)
 <dt class="result-title">
 	<h4 class="result-title <?php echo $mime; ?>">
 		<?php if ($this->result->route) : ?>
-			<a href="<?php echo JRoute::_($this->result->route); ?>">
+			<a href="<?php echo Route::_($this->result->route); ?>">
 				<?php echo $this->result->title; ?>
 			</a>
 		<?php else : ?>
@@ -94,6 +95,6 @@ if ($show_description)
 <?php endif; ?>
 <?php if ($this->params->get('show_url', 1)) : ?>
 	<dd class="result-url small">
-		<?php echo $this->baseUrl, JRoute::_($this->result->cleanURL); ?>
+		<?php echo $this->baseUrl, Route::_($this->result->cleanURL); ?>
 	</dd>
 <?php endif; ?>

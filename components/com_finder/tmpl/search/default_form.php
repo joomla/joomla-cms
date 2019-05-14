@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 
 /*
 * This segment of code sets up the autocompleter.
@@ -17,12 +18,12 @@ use Joomla\CMS\Language\Text;
 if ($this->params->get('show_autosuggest', 1))
 {
 	$this->document->getWebAssetManager()->enableAsset('awesomplete');
-	$this->document->addScriptOptions('finder-search', array('url' => JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
+	$this->document->addScriptOptions('finder-search', array('url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
 }
 
 ?>
 
-<form action="<?php echo JRoute::_($this->query->toUri()); ?>" method="get" class="js-finder-searchform">
+<form action="<?php echo Route::_($this->query->toUri()); ?>" method="get" class="js-finder-searchform">
 	<?php echo $this->getFields(); ?>
 
 	<?php //DISABLED UNTIL WEIRD VALUES CAN BE TRACKED DOWN. ?>

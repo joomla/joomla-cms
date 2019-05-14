@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /** @var JDocumentHtml $this */
 
@@ -55,7 +56,7 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 			<?php echo Text::_('JOFFLINE_MESSAGE'); ?>
 		</p>
 	<?php endif; ?>
-	<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login">
+	<form action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login">
 	<fieldset class="input">
 		<p id="form-login-username">
 			<label for="username"><?php echo Text::_('JGLOBAL_USERNAME'); ?></label>

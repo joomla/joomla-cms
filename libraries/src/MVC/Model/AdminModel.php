@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -1597,7 +1598,7 @@ abstract class AdminModel extends FormModel
 		{
 			$app->enqueueMessage(Text::_('JGLOBAL_ASSOCIATIONS_NEW_ITEM_WARNING'), 'error');
 			$app->redirect(
-				\JRoute::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
+				Route::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
 			);
 
 			return false;
@@ -1607,7 +1608,7 @@ abstract class AdminModel extends FormModel
 		{
 			$app->enqueueMessage(Text::_('JGLOBAL_ASSOC_NOT_POSSIBLE'), 'notice');
 			$app->redirect(
-				\JRoute::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
+				Route::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
 			);
 
 			return false;
@@ -1643,7 +1644,7 @@ abstract class AdminModel extends FormModel
 		}
 
 		$app->redirect(
-			\JRoute::_(
+			Route::_(
 				'index.php?option=com_associations&view=association&layout=edit&itemtype=' . $this->typeAlias
 				. '&task=association.edit&id=' . $id . $target, false
 			)
