@@ -5,7 +5,7 @@
 /**
  * Ajax call to get the update status of Joomla
  */
-((window, document, Joomla) => {
+((document, Joomla) => {
   'use strict';
 
   const checkForJoomlaUpdates = () => {
@@ -75,4 +75,4 @@
 
   // Initialize
   document.addEventListener('DOMContentLoaded', onBoot);
-})(window, document, Joomla);
+})(document, Joomla);
