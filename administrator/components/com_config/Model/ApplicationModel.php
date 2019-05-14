@@ -334,9 +334,9 @@ class ApplicationModel extends FormModel
 				{
 					try
 					{
-						\JLog::add(
+						Log::add(
 							Text::sprintf('COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT', $data['session_filesystem_path']),
-							\JLog::WARNING,
+							Log::WARNING,
 							'jerror'
 						);
 					}
