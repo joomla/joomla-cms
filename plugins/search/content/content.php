@@ -239,7 +239,7 @@ class PlgSearchContent extends CMSPlugin
 		switch ($ordering)
 		{
 			case 'oldest':
-				$order = 'a.created ASC';
+				$order = 'a.publish_up ASC';
 				break;
 
 			case 'popular':
@@ -256,7 +256,7 @@ class PlgSearchContent extends CMSPlugin
 
 			case 'newest':
 			default:
-				$order = 'a.created DESC';
+				$order = 'a.publish_up DESC';
 				break;
 		}
 
