@@ -23,7 +23,7 @@
 				quicktask-title="MOD_MENU_COM_CONTENT_NEW_ARTICLE"
 				type="component"
 				element="com_content"
-				link="index.php?option=com_content"
+				link="index.php?option=com_content&amp;view=articles"
 				quicktask="index.php?option=com_content&amp;task=article.add"
 				>
 		</menuitem>
@@ -32,7 +32,7 @@
 				quicktask-title="MOD_MENU_COM_CONTENT_NEW_CATEGORY"
 				type="component"
 				element="com_categories"
-				link="index.php?option=com_categories&amp;extension=com_content"
+				link="index.php?option=com_categories&amp;view=categories&amp;extension=com_content"
 				quicktask="index.php?option=com_categories&amp;extension=com_content&amp;task=category.add"
 				>
 		</menuitem>
@@ -47,7 +47,7 @@
 			title="MOD_MENU_COM_CONTENT_WORKFLOW"
 			type="component"
 			element="com_workflow"
-			link="index.php?option=com_workflow&amp;extension=com_content">
+			link="index.php?option=com_workflow&amp;view=workflows&amp;extension=com_content">
 		</menuitem>
 		<menuitem
 				type="separator"
@@ -56,7 +56,7 @@
 				title="MOD_MENU_FIELDS"
 				type="component"
 				element="com_fields"
-				link="index.php?option=com_fields&amp;context=com_content.article"
+				link="index.php?option=com_fields&amp;view=fields&amp;context=com_content.article"
 		/>
 		<menuitem
 				title="MOD_MENU_FIELDS_GROUP"
@@ -79,14 +79,14 @@
 				quicktask-title="MOD_MENU_COM_CONTENT_NEW_MODULE"
 				type="component"
 				element="com_modules"
-				link="index.php?option=com_modules&amp;client_id=0"
+				link="index.php?option=com_modules&amp;view=modules&amp;client_id=0"
 				quicktask="index.php?option=com_modules&amp;view=select"
 		/>
 		<menuitem
 				title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_ADMINISTRATOR"
 				type="component"
 				element="com_modules"
-				link="index.php?option=com_modules&amp;client_id=1"
+				link="index.php?option=com_modules&amp;view=modules&amp;client_id=1"
 		/>
 	</menuitem>
 
@@ -203,7 +203,7 @@
 				title="MOD_MENU_FIELDS"
 				type="component"
 				element="com_fields"
-				link="index.php?option=com_fields&amp;context=com_users.user"
+				link="index.php?option=com_fields&amp;view=fields&amp;context=com_users.user"
 		/>
 		<menuitem
 				title="MOD_MENU_FIELDS_GROUP"
@@ -233,14 +233,14 @@
 				title="MOD_MENU_COM_PRIVACY"
 				type="component"
 				element="com_privacy"
-				link="index.php?option=com_privacy"
+				link="index.php?option=com_privacy&amp;view=dashboard"
 				class="class:privacy"
 		/>
 		<menuitem
 				title="MOD_MENU_COM_ACTIONLOGS"
 				type="component"
 				element="com_actionlogs"
-				link="index.php?option=com_actionlogs"
+				link="index.php?option=com_actionlogs&amp;view=actionlogs"
 				class="class:userlogs"
 		/>
 		<menuitem

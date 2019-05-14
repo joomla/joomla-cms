@@ -847,16 +847,7 @@ class Language
 				continue;
 			}
 
-			// Remove the "_QQ_" from the equation
-			$line = str_replace('"_QQ_"', '', $line);
 			$realNumber = $lineNumber + 1;
-
-			// Check for any incorrect uses of _QQ_.
-			if (strpos($line, '_QQ_') !== false)
-			{
-				$errors[] = $realNumber;
-				continue;
-			}
 
 			// Check for odd number of double quotes.
 			if (substr_count($line, '"') % 2 != 0)

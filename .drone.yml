@@ -32,11 +32,6 @@ steps:
     depends_on: [ restore-cache ]
     commands:
       - composer install --no-progress --no-suggest
-      # needed for system testing
-      - composer update joomla/test-system --no-progress --no-suggest
-      - composer update joomla/test-api --no-progress --no-suggest
-      - composer update joomla-projects/selenium-server-standalone --no-progress --no-suggest
-      - composer update joomla-projects/joomla-browser --no-progress --no-suggest
       - npm install --unsafe-perm
 
   - name: rebuild-cache
@@ -107,13 +102,13 @@ steps:
     depends_on: [ javascript-tests ]
     image: joomlaprojects/docker-systemtests:develop
     commands:
-      - bash libraries/vendor/joomla/test-system/src/drone-run.sh "$(pwd)"
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)"
 
   - name: api-tests
     depends_on: [ system-tests ]
     image: joomlaprojects/docker-systemtests:latest
     commands:
-      - bash libraries/vendor/joomla/test-api/drone-run.sh "$(pwd)"
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)"
 
   - name: analysis4x
     image: rips/rips-cli:1.2.1
@@ -159,6 +154,6 @@ services:
 
 ---
 kind: signature
-hmac: ccc8d591031582b24518b4f77723665fc0cae6d4b2c670f12ce13ca2e37e7e90
+hmac: b3612d74787777acabd3dde88d2a002b0c893d054831525464f4db51e31493b8
 
 ...

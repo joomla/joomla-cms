@@ -39,7 +39,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 
 ?>
 <?php // Set up the filter bar. ?>
-<form action="<?php echo Route::_('index.php?option=com_menus&view=items'); ?>" method="post" name="adminForm"
+<form action="<?php echo Route::_('index.php?option=com_menus&view=items&menutype='); ?>" method="post" name="adminForm"
 	  id="adminForm">
 	<div class="row">
 		<?php if (!empty($this->sidebar)) : ?>
