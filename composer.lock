@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c3c93211991df95760298aeb4f24d5fc",
+    "content-hash": "76b7914fe3f668f254985fa1c8d62044",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -721,22 +721,25 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "5e1d0c9eecde05ff6620b8313736d9a1faf09741"
+                "reference": "29c007d2706dd5f2f237a23e87755a93a2a34de9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/5e1d0c9eecde05ff6620b8313736d9a1faf09741",
-                "reference": "5e1d0c9eecde05ff6620b8313736d9a1faf09741",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/29c007d2706dd5f2f237a23e87755a93a2a34de9",
+                "reference": "29c007d2706dd5f2f237a23e87755a93a2a34de9",
                 "shasum": ""
             },
             "require": {
-                "joomla/event": "~2.0@dev",
+                "joomla/event": "~2.0",
                 "php": "~7.0",
                 "psr/log": "~1.0"
             },
             "require-dev": {
+                "joomla/archive": "~2.0",
                 "joomla/coding-standards": "~2.0@alpha",
+                "joomla/console": "~2.0",
                 "joomla/di": "~1.0|~2.0",
+                "joomla/filesystem": "~1.3|~2.0",
                 "joomla/registry": "^1.4.5|~2.0",
                 "joomla/test": "~1.2",
                 "phpunit/dbunit": "~3.0",
@@ -747,7 +750,10 @@
                 "ext-pdo": "To connect to a MySQL, Oracle, PostgreSQL, or SQLite database via PDO",
                 "ext-pgsql": "To connect to a PostgreSQL database",
                 "ext-sqlsrv": "To connect to a SQL Server database",
+                "joomla/archive": "To use the ExportCommand class, install joomla/archive",
+                "joomla/console": "To use the ExportCommand and ImportCommand classes, install joomla/console",
                 "joomla/di": "To use the Database ServiceProviderInterface objects, install joomla/di.",
+                "joomla/filesystem": "To use the ExportCommand and ImportCommand classes, install joomla/filesystem",
                 "joomla/registry": "To use the Database ServiceProviderInterface objects, install joomla/registry."
             },
             "type": "joomla-package",
@@ -772,7 +778,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-05-01T11:59:25+00:00"
+            "time": "2019-05-07T11:36:04+00:00"
         },
         {
             "name": "joomla/di",
@@ -1704,16 +1710,16 @@
         },
         {
             "name": "paragonie/sodium_compat",
-            "version": "v1.9.1",
+            "version": "v1.9.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/sodium_compat.git",
-                "reference": "87125d5b265f98c4d1b8d83a1f0726607c229421"
+                "reference": "91c1362bb0084c02828d43bbc9ee38831297329e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/87125d5b265f98c4d1b8d83a1f0726607c229421",
-                "reference": "87125d5b265f98c4d1b8d83a1f0726607c229421",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/91c1362bb0084c02828d43bbc9ee38831297329e",
+                "reference": "91c1362bb0084c02828d43bbc9ee38831297329e",
                 "shasum": ""
             },
             "require": {
@@ -1782,7 +1788,7 @@
                 "secret-key cryptography",
                 "side-channel resistant"
             ],
-            "time": "2019-03-20T17:19:05+00:00"
+            "time": "2019-05-09T23:30:36+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -2786,7 +2792,7 @@
             ],
             "authors": [
                 {
-                    "name": "K??vin Dunglas",
+                    "name": "Kévin Dunglas",
                     "email": "dunglas@gmail.com"
                 },
                 {
@@ -4268,16 +4274,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v2.14.3",
+            "version": "v2.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "a9132a872dab61e37161c6db2fb8a6f46141d17e"
+                "reference": "adfab51ae979ee8b0fcbc55aa231ec2786cb1f91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/a9132a872dab61e37161c6db2fb8a6f46141d17e",
-                "reference": "a9132a872dab61e37161c6db2fb8a6f46141d17e",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/adfab51ae979ee8b0fcbc55aa231ec2786cb1f91",
+                "reference": "adfab51ae979ee8b0fcbc55aa231ec2786cb1f91",
                 "shasum": ""
             },
             "require": {
@@ -4321,6 +4327,11 @@
                 "php-cs-fixer"
             ],
             "type": "application",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.15-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "PhpCsFixer\\": "src/"
@@ -4343,7 +4354,7 @@
             ],
             "authors": [
                 {
-                    "name": "Dariusz Rumi??ski",
+                    "name": "Dariusz Rumiński",
                     "email": "dariusz.ruminski@gmail.com"
                 },
                 {
@@ -4352,7 +4363,7 @@
                 }
             ],
             "description": "A tool to automatically fix PHP code style",
-            "time": "2019-05-04T21:34:42+00:00"
+            "time": "2019-05-06T07:13:51+00:00"
         },
         {
             "name": "grasmash/expander",
@@ -4757,7 +4768,7 @@
                     "email": "puneet.kala@community.joomla.org"
                 },
                 {
-                    "name": "Javier G??mez",
+                    "name": "Javier Gómez",
                     "email": "javier.gomez@community.joomla.org"
                 }
             ],
@@ -4817,71 +4828,6 @@
                 "mediawiki"
             ],
             "time": "2018-10-16T23:34:41+00:00"
-        },
-        {
-            "name": "joomla/test-api",
-            "version": "dev-4.0-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/joomla/test-api.git",
-                "reference": "a14f21d7643ff592d9c5115ace518a84797c46c4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/joomla/test-api/zipball/a14f21d7643ff592d9c5115ace518a84797c46c4",
-                "reference": "a14f21d7643ff592d9c5115ace518a84797c46c4",
-                "shasum": ""
-            },
-            "require": {
-                "codeception/codeception": "~2.3",
-                "php": ">=7.0.0"
-            },
-            "type": "project",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "description": "Joomla CMS API tests",
-            "homepage": "https://github.com/joomla/joomla-cms",
-            "keywords": [
-                "cms",
-                "joomla"
-            ],
-            "time": "2019-03-05T12:15:00+00:00"
-        },
-        {
-            "name": "joomla/test-system",
-            "version": "dev-4.0-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/joomla/test-system.git",
-                "reference": "9285560c06a80e1f6f7fcbf6e1ed7953b59c4c3f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/joomla/test-system/zipball/9285560c06a80e1f6f7fcbf6e1ed7953b59c4c3f",
-                "reference": "9285560c06a80e1f6f7fcbf6e1ed7953b59c4c3f",
-                "shasum": ""
-            },
-            "require": {
-                "codeception/codeception": "~2.3",
-                "consolidation/robo": "^1.0.0",
-                "joomla-projects/joomla-browser": "v4.0.0.x-dev",
-                "joomla-projects/selenium-server-standalone": "~v3",
-                "php": ">=7.0.0"
-            },
-            "type": "project",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "description": "Joomla CMS system tests using Codeception",
-            "homepage": "https://github.com/joomla/joomla-cms",
-            "keywords": [
-                "cms",
-                "joomla"
-            ],
-            "time": "2019-04-23T13:40:12+00:00"
         },
         {
             "name": "league/container",
@@ -5360,59 +5306,6 @@
                 "stub"
             ],
             "time": "2018-08-05T17:53:17+00:00"
-        },
-        {
-            "name": "phpunit/dbunit",
-            "version": "3.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sebastianbergmann/dbunit.git",
-                "reference": "0fa4329e490480ab957fe7b1185ea0996ca11f44"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/dbunit/zipball/0fa4329e490480ab957fe7b1185ea0996ca11f44",
-                "reference": "0fa4329e490480ab957fe7b1185ea0996ca11f44",
-                "shasum": ""
-            },
-            "require": {
-                "ext-pdo": "*",
-                "ext-simplexml": "*",
-                "php": "^7.0",
-                "phpunit/phpunit": "^6.0",
-                "symfony/yaml": "^3.0 || ^4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.0.x-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
-                }
-            ],
-            "description": "PHPUnit extension for database interaction testing",
-            "homepage": "https://github.com/sebastianbergmann/dbunit/",
-            "keywords": [
-                "database",
-                "testing",
-                "xunit"
-            ],
-            "abandoned": true,
-            "time": "2018-01-23T13:32:26+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -6636,7 +6529,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jean-Fran??ois Simon",
+                    "name": "Jean-François Simon",
                     "email": "jeanfrancois.simon@sensiolabs.com"
                 },
                 {
@@ -7200,9 +7093,7 @@
         "joomla/utilities": 20,
         "joomla/mediawiki": 20,
         "joomla-projects/joomla-browser": 20,
-        "joomla-projects/robo-joomla": 20,
-        "joomla/test-system": 20,
-        "joomla/test-api": 20
+        "joomla-projects/robo-joomla": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

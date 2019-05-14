@@ -85,15 +85,6 @@ class Toolbar
 	protected $factory;
 
 	/**
-	 * Breadcrumbs array
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	protected $breadcrumbs = [];
-
-
-	/**
 	 * Constructor
 	 *
 	 * @param   string                   $name     The toolbar name.
@@ -126,15 +117,6 @@ class Toolbar
 
 		// Set base path to find buttons.
 		$this->_buttonPath[] = __DIR__ . '/Button';
-
-		// Load the mod_menu language file for the breadcrumbs
-		$app      = Factory::getApplication();
-		$language = $app->getLanguage();
-		$language->load('mod_menu');
-
-		// Get the breadcrumb items
-		/** @var \Joomla\CMS\Pathway\AdministratorPathway $pathway */
-		$this->breadcrumbs['breadcrumbs'] = $app->getPathway()->getPathWay();
 	}
 
 	/**
@@ -322,32 +304,15 @@ class Toolbar
 		{
 			if ($button instanceof ToolbarButton)
 			{
-				switch (strtolower($button->getName()))
-				{
-					// Special buttons shown on the breadcrumb bar
-					case 'options':
-					case 'help':
-						$this->breadcrumbs['buttons'][] = $button->render();
-						break;
-					default:
-						// Child dropdown only support new syntax
-						$button->setOption('is_child', $isChild);
+				// Child dropdown only support new syntax
+				$button->setOption('is_child', $isChild);
 
-						$html[] = $button->render();
-						break;
-				}
+				$html[] = $button->render();
 			}
 			// B/C
 			else
 			{
-				if (preg_grep("/options|help/i", $button))
-				{
-					$this->breadcrumbs['buttons'][] = $this->renderButton($button);
-				}
-				else
-				{
-					$html[] = $this->renderButton($button);
-				}
+				$html[] = $this->renderButton($button);
 			}
 		}
 
@@ -357,11 +322,6 @@ class Toolbar
 			$layout = new FileLayout('joomla.toolbar.containerclose');
 
 			$html[] = $layout->render([]);
-		}
-
-		if (strtolower($this->getName()) === 'toolbar' && Factory::getApplication()->input->get('layout') !== 'edit')
-		{
-			array_unshift($html, LayoutHelper::render('joomla.toolbar.breadcrumb', ['items' => $this->breadcrumbs]));
 		}
 
 		return implode('', $html);
