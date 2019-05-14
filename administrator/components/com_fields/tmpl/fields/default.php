@@ -156,11 +156,7 @@ if ($saveOrder && !empty($this->items))
                                                         <?php echo implode(', ', $categories); ?>
                                                     <?php else: ?>
 	                                                    <?php $category_ids = FieldsHelper::getAssignedCategoriesIds($item->id); ?>
-	                                                    <?php if (in_array('-1', $category_ids)) : ?>
-		                                                    <?php echo JText::_('JNONE'); ?>
-	                                                    <?php else: ?>
-		                                                    <?php echo JText::_('JALL'); ?>
-	                                                    <?php endif; ?>
+                                                            <?php echo (in_array('-1', $category_ids)) ? Text::_('JNONE') : Text::_('JALL'); ?>
                                                     <?php endif; ?>
                                                 </div>
                                             <?php endif; ?>

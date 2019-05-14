@@ -625,7 +625,7 @@ class FieldsHelper
 
 		if (!$fieldId)
 		{
-			return array();
+			return [];
 		}
 
 		$db    = Factory::getDbo();
