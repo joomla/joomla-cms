@@ -1,12 +1,12 @@
 <template>
-    <media-modal v-if="$store.state.showCreateFolderModal" :size="'md'" @close="close()">
-        <h3 slot="header" class="modal-title">{{ translate('COM_MEDIA_CREATE_NEW_FOLDER') }}</h3>
+    <media-modal v-if="$store.state.showCreateFolderModal" :size="'md'" @close="close()" label-element="createFolderTitle">
+        <h3 slot="header" id="createFolderTitle" class="modal-title">{{ translate('COM_MEDIA_CREATE_NEW_FOLDER') }}</h3>
         <div slot="body">
             <form class="form" @submit.prevent="save" novalidate>
                 <div class="form-group">
                     <label for="folder">{{ translate('COM_MEDIA_FOLDER_NAME') }}</label>
                     <input id="folder" class="form-control"
-                           v-focus="true" v-model.trim="folder" @input="folder = $event.target.value"
+                           v-model.trim="folder" @input="folder = $event.target.value"
                            required autocomplete="off">
                 </div>
             </form>
@@ -21,11 +21,9 @@
 
 <script>
     import * as types from "./../../store/mutation-types";
-    import {focus} from 'vue-focus';
 
     export default {
         name: 'media-create-folder-modal',
-        directives: {focus: focus},
         data() {
             return {
                 folder: '',

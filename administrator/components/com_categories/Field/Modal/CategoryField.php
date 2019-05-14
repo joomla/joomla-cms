@@ -141,7 +141,7 @@ class CategoryField extends FormField
 			$html .= '<span class="input-group">';
 		}
 
-		$html .= '<input class="form-control" id="' . $this->id . '_name" type="text" value="' . $title . '" disabled="disabled" size="35">';
+		$html .= '<input class="form-control" id="' . $this->id . '_name" type="text" value="' . $title . '" readonly size="35">';
 
 		if ($allowSelect || $allowNew || $allowEdit || $allowClear)
 		{
@@ -237,8 +237,8 @@ class CategoryField extends FormField
 					'width'       => '800px',
 					'bodyHeight'  => 70,
 					'modalWidth'  => 80,
-					'footer'      => '<a role="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-										. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>',
+					'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal">'
+										. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 				)
 			);
 		}
@@ -259,15 +259,15 @@ class CategoryField extends FormField
 					'width'       => '800px',
 					'bodyHeight'  => 70,
 					'modalWidth'  => 80,
-					'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
+					'footer'      => '<button type="button" class="btn btn-secondary"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'cancel\', \'item-form\'); return false;">'
-							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
-							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
+							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+							. '<button type="button" class="btn btn-primary"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'save\', \'item-form\'); return false;">'
-							. Text::_('JSAVE') . '</a>'
-							. '<a role="button" class="btn btn-success" aria-hidden="true"'
+							. Text::_('JSAVE') . '</button>'
+							. '<button type="button" class="btn btn-success"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'apply\', \'item-form\'); return false;">'
-							. Text::_('JAPPLY') . '</a>',
+							. Text::_('JAPPLY') . '</button>',
 				)
 			);
 		}
@@ -288,15 +288,15 @@ class CategoryField extends FormField
 					'width'       => '800px',
 					'bodyHeight'  => 70,
 					'modalWidth'  => 80,
-					'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
+					'footer'      => '<button type="button" class="btn btn-secondary"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'cancel\', \'item-form\'); return false;">'
-							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
-							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
+							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+							. '<button type="button" class="btn btn-primary"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'save\', \'item-form\'); return false;">'
-							. Text::_('JSAVE') . '</a>'
-							. '<a role="button" class="btn btn-success" aria-hidden="true"'
+							. Text::_('JSAVE') . '</button>'
+							. '<button type="button" class="btn btn-success"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'apply\', \'item-form\'); return false;">'
-							. Text::_('JAPPLY') . '</a>',
+							. Text::_('JAPPLY') . '</button>',
 				)
 			);
 		}
@@ -319,6 +319,6 @@ class CategoryField extends FormField
 	 */
 	protected function getLabel()
 	{
-		return str_replace($this->id, $this->id . '_id', parent::getLabel());
+		return str_replace($this->id, $this->id . '_name', parent::getLabel());
 	}
 }

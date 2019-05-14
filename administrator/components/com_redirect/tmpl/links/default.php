@@ -40,12 +40,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					'closeButton' => false,
 					'backdrop'    => 'static',
 					'keyboard'    => false,
-					'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
+					'footer'      => '<button type="button" class="btn" data-dismiss="modal"'
 						. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#closeBtn\'})">'
 						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-						. '<button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
+						. '<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
 						. Text::_("JSAVE") . '</button>'
-						. '<button type="button" class="btn btn-success" aria-hidden="true" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
+						. '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
 						. Text::_("JAPPLY") . '</button>'
 				)
 			); ?>
@@ -108,7 +108,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th scope="row" class="break-word">
 							<?php if ($canEdit) : ?>
 								<a href="<?php echo Route::_('index.php?option=com_redirect&task=link.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->old_url); ?>">
-									<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape(str_replace(Uri::root(), '', rawurldecode($item->old_url))); ?></a>
+									<span class="fa fa-pen-square mr-2" aria-hidden="true"></span><?php echo $this->escape(str_replace(Uri::root(), '', rawurldecode($item->old_url))); ?></a>
 							<?php else : ?>
 									<?php echo $this->escape(str_replace(Uri::root(), '', rawurldecode($item->old_url))); ?>
 							<?php endif; ?>

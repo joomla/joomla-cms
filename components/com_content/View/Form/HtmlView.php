@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 
@@ -138,7 +139,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Create a shortcut to the parameters.
