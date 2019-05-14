@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
- * Legacy plugin.
+ * Placeholder plugin.
  *
  * @since  __DEPLOY_VERSION__
  */
