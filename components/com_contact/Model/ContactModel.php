@@ -327,6 +327,8 @@ class ContactModel extends FormModel
 				->select('a.created')
 				->select('a.language')
 				->select('a.publish_up')
+				->select('a.introtext')
+				->select('a.images')
 				->select($this->getSlugColumn($query, 'a.id', 'a.alias') . ' AS slug')
 				->select($this->getSlugColumn($query, 'c.id', 'c.alias') . ' AS catslug')
 				->from($db->quoteName('#__content', 'a'))
