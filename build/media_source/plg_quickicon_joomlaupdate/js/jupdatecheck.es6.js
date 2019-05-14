@@ -42,24 +42,7 @@
               const updateInfo = updateInfoList.shift();
 
               if (updateInfo.version !== options.version) {
-                const messages = {
-                  warning: [
-                    `<div class="message-alert">
-  ${Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE').replace('%s', `<span class="badge badge-danger"> \u200E ${updateInfo.version}</span>`)}
-  <button type="button" class="btn btn-sm btn-primary" onclick="document.location='${options.url}'">
-    ${Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_BUTTON')}
-  </button>
-</div>`,
-                  ],
-                };
-
-                // Render the message
-                Joomla.renderMessages(messages);
-
-                // Scroll to page top
-                window.scrollTo(0, 0);
-
-                update('warning', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND').replace('%s', `<span class="badge badge-light"> \u200E ${updateInfo.version}</span>`));
+                update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND').replace('%s', `<span class="badge badge-light"> \u200E ${updateInfo.version}</span>`));
               } else {
                 update('success', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE'));
               }
