@@ -52,12 +52,10 @@
   .quickicon-linkadd {
     position: relative;
     overflow: hidden;
-    font-size: .9rem;
     line-height: 3.4rem;
     margin-top: 0.4rem;
     border: 1px solid $gray-400;
     text-decoration: none;
-    box-shadow: $atum-box-shadow;
     display:flex;
 
     @include media-breakpoint-up(md) {
@@ -75,17 +73,13 @@
       display: inline-block;
       width: 35px;
       height: auto;
-      line-height: 3.4rem;
+      line-height: 2rem;
       color: var(--white);
       position: relative;
       float:left;
       background-color: var(--atum-link-color);
       text-align: center;
       margin-right:2rem;
-
-      @include media-breakpoint-up(md) {
-        line-height: 2rem;
-      }
     }
   }
 
