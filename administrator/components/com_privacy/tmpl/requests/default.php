@@ -36,7 +36,7 @@ $urgentRequestDate = clone $now;
 $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 ?>
 <form action="<?php echo Route::_('index.php?option=com_privacy&view=requests'); ?>" method="post" name="adminForm" id="adminForm">
-    <div id="j-main-container">
+	<div id="j-main-container">
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clearfix"> </div>
 		<?php if (empty($this->items)) : ?>
