@@ -83,7 +83,7 @@ abstract class JHtmlJGrid
 			$html[] = '>';
 			$html[] = '<span class="icon-' . $active_class . '" aria-hidden="true"></span>';
 			$html[] = '</a>';
-			$html[] = $tip ? '<div role="tooltip" id="' . $ariaid .'">' . $title . '</div>' : '';
+			$html[] = $tip ? '<div role="tooltip" id="' . $ariaid . '">' . $title . '</div>' : '';
 		}
 		else
 		{
