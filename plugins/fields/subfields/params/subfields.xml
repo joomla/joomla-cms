@@ -12,7 +12,6 @@
 				name="repeat"
 				type="radio"
 				label="PLG_FIELDS_SUBFIELDS_PARAMS_REPEAT_LABEL"
-				description="PLG_FIELDS_SUBFIELDS_PARAMS_REPEAT_DESC"
 				class="btn-group btn-group-yesno"
 				default="1"
 				>
@@ -37,7 +36,6 @@
 						name="customfield"
 						type="subfieldstype"
 						label="PLG_FIELDS_SUBFIELDS_PARAMS_CUSTOMFIELD_LABEL"
-						description="PLG_FIELDS_SUBFIELDS_PARAMS_CUSTOMFIELD_DESC"
 						default=""
 						required="true"
 					/>
