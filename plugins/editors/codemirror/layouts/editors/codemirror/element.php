@@ -22,7 +22,7 @@ $rows            = $displayData->rows;
 $content         = $displayData->content;
 $extJS           = JDEBUG ? '.js' : '.min.js';
 $extCSS          = JDEBUG ? '.css' : '.min.css';
-$modifier        = $params->get('fullScreenMod', '') !== '' ? implode($params->get('fullScreenMod', ''), ' + ') . ' + ' : '';
+$modifier        = $params->get('fullScreenMod', array()) ? implode(' + ', $params->get('fullScreenMod', array())) . ' + ' : '';
 $basePath        = $params->get('basePath', 'media/vendor/codemirror/');
 $modePath        = $params->get('modePath', 'media/vendor/codemirror/mode/%N/%N');
 $modPath         = 'mod-path="' . Uri::root() . $modePath . $extJS . '"';

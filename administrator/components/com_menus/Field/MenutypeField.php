@@ -46,7 +46,7 @@ class MenutypeField extends ListField
 		$html     = array();
 		$recordId = (int) $this->form->getValue('id');
 		$size     = (string) ($v = $this->element['size']) ? ' size="' . $v . '"' : '';
-		$class    = (string) ($v = $this->element['class']) ? ' class="form-control ' . $v . '"' : 'class="form-control"';
+		$class    = (string) ($v = $this->element['class']) ? ' class="form-control ' . $v . '"' : ' class="form-control"';
 		$required = (string) $this->element['required'] ? ' required="required"' : '';
 		$clientId = (int) $this->element['clientid'] ?: 0;
 
@@ -90,7 +90,7 @@ class MenutypeField extends ListField
 		$link = Route::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId);
 		$html[] = '<span class="input-group"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id
 			. '" value="' . $value . '"' . $size . $class . '>';
-		$html[] = '<span class="input-group-append"><button type="button" data-target="#menuTypeModal" class="btn btn-primary" data-toggle="modal" '
+		$html[] = '<span class="input-group-append"><button type="button" data-target="#menuTypeModal" class="btn btn-primary" data-toggle="modal">'
 			. '<span class="icon-list icon-white" aria-hidden="true"></span> '
 			. Text::_('JSELECT') . '</button></span></span>';
 		$html[] = HTMLHelper::_(
@@ -103,8 +103,8 @@ class MenutypeField extends ListField
 				'height'     => '300px',
 				'modalWidth' => 80,
 				'bodyHeight' => 70,
-				'footer'     => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+				'footer'     => '<button type="button" class="btn btn-secondary" data-dismiss="modal">'
+						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 			)
 		);
 		$html[] = '<input type="hidden" name="' . $this->name . '" value="'
