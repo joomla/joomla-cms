@@ -192,7 +192,17 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 		// Include the plugins for the delete events.
 		PluginHelper::importPlugin($this->events_map['validate']);
 
-		Factory::getApplication()->triggerEvent('onUserBeforeDataValidation', array($form, &$data));
+		$dispatcher = JFactory::getContainer()->get('dispatcher');
+
+		if (!empty($dispatcher->getListeners('onUserBeforeDataValidation')))
+		{
+			@trigger_error('The `onUserBeforeDataValidation` event is deprecated and will be removed in 5.0, ' .
+				'use the `onContentValidateData` event instead.', E_USER_DEPRECATED
+			);
+			JFactory::getApplication()->triggerEvent('onUserBeforeDataValidation', array($form, &$data));
+		}
+
+		JFactory::getApplication()->triggerEvent('onContentValidateData', array($form, &$data));
 
 		// Filter and validate the form data.
 		$data = $form->filter($data);
