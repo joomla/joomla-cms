@@ -124,7 +124,8 @@ legend {
 }
 
  /* reveal associated tooltip on focus */
-:focus + [role="tooltip"] {
+:focus + [role="tooltip"],
+:hover + [role="tooltip"] {
   display: block;
   position: absolute;
   bottom: 100%;
