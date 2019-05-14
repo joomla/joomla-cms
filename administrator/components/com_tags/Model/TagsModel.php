@@ -53,6 +53,7 @@ class TagsModel extends ListModel
 				'rgt', 'a.rgt',
 				'level', 'a.level',
 				'path', 'a.path',
+				'tag',
 			);
 		}
 
@@ -84,6 +85,8 @@ class TagsModel extends ListModel
 		// Extract the optional section name
 		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
 
+		$tag = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
+
 		// Load the parameters.
 		$params = ComponentHelper::getParams('com_tags');
 		$this->setState('params', $params);
@@ -114,6 +117,7 @@ class TagsModel extends ListModel
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.published');
 		$id .= ':' . $this->getState('filter.language');
+		$id .= ':' . $this->getState('filter.tag');
 
 		return parent::getStoreId($id);
 	}
@@ -234,6 +238,17 @@ class TagsModel extends ListModel
 		{
 			$query->where($db->quoteName('a.language') . ' = :language')
 				->bind(':language', $language);
+		}
+
+		// Filter by starting tag.
+		if ($tag = $this->getState('filter.tag'))
+		{
+			$startTagQuery = $db->getQuery(true);
+			$startTagQuery->select('lft, rgt');
+			$startTagQuery->from('#__tags');
+			$startTagQuery->where('id = ' . (int) $tag);
+
+			$query->join('INNER', '(' . $startTagQuery . ') AS tr ON a.lft >= tr.lft AND a.rgt <= tr.rgt');
 		}
 
 		// Add the list ordering clause

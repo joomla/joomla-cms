@@ -33,6 +33,17 @@
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 			<option value="*">JALL</option>
 		</field>
+		<field
+			name="tag"
+			type="tag"
+			multiple="false"
+			label="COM_TAGS_FILTER_START_LABEL"
+			description="COM_TAGS_FILTER_START_DESC"
+			hint="COM_TAGS_FILTER_START_LABEL"
+			mode="nested"
+			custom="deny"
+			onchange="this.form.submit();"
+		/>
         <field
 			name="level"
 			type="integer"
