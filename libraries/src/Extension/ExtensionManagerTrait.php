@@ -211,7 +211,7 @@ trait ExtensionManagerTrait
 		// Return an empty class when the file doesn't exist
 		if (!file_exists($path))
 		{
-			return new LegacyPlugin($dispatcher);
+			return new DummyPlugin($dispatcher);
 		}
 
 		// Include the file of the plugin
@@ -234,7 +234,7 @@ trait ExtensionManagerTrait
 		// Return an empty class when the class doesn't exist
 		if (!class_exists($className))
 		{
-			return new LegacyPlugin($dispatcher);
+			return new DummyPlugin($dispatcher);
 		}
 
 		// Instantiate the plugin

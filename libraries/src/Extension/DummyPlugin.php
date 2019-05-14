@@ -17,6 +17,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
  *
  * @since  __DEPLOY_VERSION__
  */
-class LegacyPlugin extends CMSPlugin
+class DummyPlugin extends CMSPlugin
 {
 }
