@@ -193,6 +193,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 		PluginHelper::importPlugin($this->events_map['validate']);
 
 		$dispatcher = \JFactory::getContainer()->get('dispatcher');
+
 		if (!empty($dispatcher->getListeners('onUserBeforeDataValidation')))
 		{
 			@trigger_error('The `onUserBeforeDataValidation` event is deprecated and will be removed in 5.0, ' .
