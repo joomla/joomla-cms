@@ -29,9 +29,9 @@ endif;
 <ul id="new-modules-list" class="list-group">
 <?php foreach ($this->items as &$item) : ?>
 	<?php // Prepare variables for the link. ?>
-	<?php $link       = 'index.php?option=com_modules&task=module.add' . $this->modalLink . '&eid=' . $item->extension_id; ?>
-	<?php $name       = $this->escape($item->name); ?>
-	<?php $desc       = HTMLHelper::_('string.truncate', $this->escape(strip_tags($item->desc)), 200); ?>
+	<?php $link = 'index.php?option=com_modules&task=module.add&client_id=' . $this->state->get('client_id', 0) . $this->modalLink . '&eid=' . $item->extension_id; ?>
+	<?php $name = $this->escape($item->name); ?>
+	<?php $desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($item->desc)), 200); ?>
 
 	<?php if ($document->direction != 'rtl') : ?>
 	<li class="list-group-item">

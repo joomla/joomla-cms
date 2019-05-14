@@ -192,6 +192,7 @@ if ($clientId === 1)
 
 	<input type="hidden" name="task" value="">
 	<input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>">
+	<input type="hidden" name="menutype" value="<?php echo $input->get('menutype', '', 'cmd'); ?>">
 	<?php echo $this->form->getInput('component_id'); ?>
 	<?php echo HTMLHelper::_('form.token'); ?>
 	<input type="hidden" id="fieldtype" name="fieldtype" value="">

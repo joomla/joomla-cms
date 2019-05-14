@@ -101,7 +101,6 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~6.0",
-        "phpunit/dbunit": "~3.0",
         "phpunit/phpunit-dom-assertions": "~2.0",
         "joomla/mediawiki": "dev-master",
         "friendsofphp/php-cs-fixer": "~2.12",
