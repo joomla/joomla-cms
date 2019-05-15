@@ -115,10 +115,12 @@ steps:
     image: rips/rips-cli:1.2.1
     depends_on: [ api-tests ]
     when:
-      branch: 4.0-dev
+      repo: 
+        - joomla/joomla-cms
+      branch: 
+        - 4.0-dev
     commands:
       - export RIPS_BASE_URI='https://api.rips.joomla.org'
-      - if [ $DRONE_REPO_NAMESPACE != 'joomla' ]; then echo "The analysis check only run on the main repos"; exit 0; fi
       - rips-cli rips:scan:start -a 3 -t 1 -R -k -p $(pwd) -t 1 -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
     environment:
       RIPS_USERNAME:
@@ -128,7 +130,6 @@ steps:
 
 branches:
   exclude: [ l10n_* ]
-
 
 volumes:
 - name: cache
@@ -155,6 +156,6 @@ services:
 
 ---
 kind: signature
-hmac: 49c97e4834e5d8c4b76545f78fae3ccd3bb3ff9ea3b1abed898f450b084760a3
+hmac: 088007f71889ffc654a8662c4cf1ec86bbf5be082183d73d65f45cf2f39bad2b
 
 ...
