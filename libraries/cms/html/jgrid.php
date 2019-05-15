@@ -62,7 +62,7 @@ abstract class JHtmlJGrid
 		{
 			$title = $enabled ? $active_title : $inactive_title;
 			$title = $translate ? Text::_($title) : $title;
-			$ariaid  = $checkbox . $task . $i . '-desc';
+			$ariaid = $checkbox . $task . $i . '-desc';
 		}
 
 		if ($enabled)
