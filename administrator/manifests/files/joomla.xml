@@ -22,7 +22,7 @@
 	<fileset>
 		<files>
 			<folder>administrator</folder>
-			<folder>bin</folder>
+			<folder>api</folder>
 			<folder>cache</folder>
 			<folder>cli</folder>
 			<folder>components</folder>

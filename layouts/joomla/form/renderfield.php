@@ -41,7 +41,9 @@ $id    = $name . '-desc';
 	</div>
 	<?php if (!empty($description)) : ?>
 		<div id="<?php echo $id; ?>">
-			<small class="form-text text-muted"><?php echo $description; ?></small>
+			<small class="form-text text-muted">
+				<?php echo htmlspecialchars(($description), ENT_COMPAT, 'UTF-8'); ?>
+			</small>
 		</div>
 	<?php endif; ?>
 </div>
