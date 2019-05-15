@@ -31,7 +31,7 @@ Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 	<?php foreach ($this->warnings as $warning) : ?>
 		<div class="alert alert-warning">
 			<h4 class="alert-heading"><?php echo $warning['message']; ?></h4>
-			<p class="m-b-0"><?php echo $warning['description']; ?></p>
+			<p class="mb-0"><?php echo $warning['description']; ?></p>
 		</div>
 	<?php endforeach; ?>
 	<div class="alert alert-info">
