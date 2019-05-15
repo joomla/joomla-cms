@@ -86,27 +86,25 @@ caption {
 body .container-main {
   position: relative;
   min-height: calc(100vh - #{$header-height});
-  background-color: var(--atum-bg-light);
   padding-left: 0;
   padding-right: 0;
 
-	&:before, &:after {
-		content: '';
-		width: 100%;
-		height: 100%;
-		position: fixed;
-		top: 0;
-		left: 0;
-		z-index: -1;
-		background-color: var(--atum-bg-light);
-		background-image: url(../images/joomla-pattern-gray.svg);
-	}
+  &:before, &:after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    // Note IDE's will consider this file import to fail in SCSS but this is correct for the final compiled CSS file
+    background: var(--atum-bg-light) url("../images/joomla-pattern.svg");
+    background-size: 15rem;
+  }
 
-	&:after {
-		background: -moz-linear-gradient(-45deg, var(--atum-bg-light) 0%, var(--atum-bg-light) 20%, rgba(225, 229, 231, 0) 100%);
-		background: -webkit-linear-gradient(-45deg, var(--atum-bg-light) 0%, var(--atum-bg-light) 20%, rgba(225, 229, 231, 0) 100%);
-		background: linear-gradient(135deg, var(--atum-bg-light) 0%, var(--atum-bg-light) 20%, rgba(225, 229, 231, 0) 100%);
-	}
+  &:after {
+    background: linear-gradient(135deg, var(--atum-bg-light) 0%, var(--atum-bg-light) 20%, rgba(225, 229, 231, 0) 100%);
+  }
 }
 
 .content {
