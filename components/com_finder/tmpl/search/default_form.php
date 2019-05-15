@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
@@ -76,7 +77,7 @@ if ($this->params->get('show_autosuggest', 1))
 				</div>
 			<?php endif; ?>
 			<div id="finder-filter-window" class="com-finder__filter">
-				<?php echo JHtml::_('filter.select', $this->query, $this->params); ?>
+				<?php echo HTMLHelper::_('filter.select', $this->query, $this->params); ?>
 			</div>
 		</div>
 	<?php endif; ?>

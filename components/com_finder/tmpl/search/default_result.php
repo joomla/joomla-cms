@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\String\StringHelper;
 
@@ -46,7 +47,7 @@ if ($show_description)
 	$space = StringHelper::strpos($full_description, ' ', $start > 0 ? $start - 1 : 0);
 	$start = ($space && $space < $pos) ? $space + 1 : $start;
 
-	$description = JHtml::_('string.truncate', StringHelper::substr($full_description, $start), $desc_length, true);
+	$description = HTMLHelper::_('string.truncate', StringHelper::substr($full_description, $start), $desc_length, true);
 }
 ?>
 <dt class="result-title">
@@ -90,7 +91,7 @@ if ($show_description)
 <?php endif; ?>
 <?php if ($this->result->start_date && $this->params->get('show_date', 1)) : ?>
 	<dd class="result-date small">
-		<?php echo \JHtml::_('date', $this->result->start_date, \JText::_('DATE_FORMAT_LC3')); ?>
+		<?php echo HTMLHelper::_('date', $this->result->start_date, \JText::_('DATE_FORMAT_LC3')); ?>
 	</dd>
 <?php endif; ?>
 <?php if ($this->params->get('show_url', 1)) : ?>

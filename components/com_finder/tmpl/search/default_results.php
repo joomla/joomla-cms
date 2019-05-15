@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 
 ?>
@@ -42,7 +43,7 @@ use Joomla\CMS\Router\Route;
 <?php endif; ?>
 <?php // Activate the highlighter if enabled. ?>
 <?php if (!empty($this->query->highlight) && $this->params->get('highlight_terms', 1)) : ?>
-	<?php JHtml::_('behavior.highlighter', $this->query->highlight); ?>
+	<?php HTMLHelper::_('behavior.highlighter', $this->query->highlight); ?>
 <?php endif; ?>
 <?php // Display a list of results ?>
 <br id="highlighter-start" />

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -179,9 +180,9 @@ class HtmlView extends BaseHtmlView
 		FinderHelper::logSearch($this->query, $this->total);
 
 		// Push out the query data.
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-		$this->suggested = \JHtml::_('query.suggested', $this->query);
-		$this->explained = \JHtml::_('query.explained', $this->query);
+		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		$this->suggested = HTMLHelper::_('query.suggested', $this->query);
+		$this->explained = HTMLHelper::_('query.explained', $this->query);
 
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));

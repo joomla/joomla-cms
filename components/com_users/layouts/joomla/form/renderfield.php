@@ -9,6 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 extract($displayData);
@@ -23,8 +24,8 @@ extract($displayData);
 
 if (!empty($options['showonEnabled']))
 {
-	JHtml::_('jquery.framework');
-	JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true));
+	HTMLHelper::_('jquery.framework');
+	HTMLHelper::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true));
 }
 
 $class = empty($options['class']) ? '' : ' ' . $options['class'];

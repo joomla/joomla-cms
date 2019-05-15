@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\IpHelper; 
 
@@ -66,7 +67,7 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 		}
 
 		// Load callback first for browser compatibility
-		\JHtml::_(
+		HTMLHelper::_(
 			'script',
 			'plg_captcha_recaptcha_invisible/recaptcha.min.js',
 			array('version' => 'auto', 'relative' => true),
@@ -78,7 +79,7 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 			. '?onload=JoomlaInitReCaptchaInvisible'
 			. '&render=explicit'
 			. '&hl=' . \JFactory::getLanguage()->getTag();
-		\JHtml::_(
+		HTMLHelper::_(
 			'script',
 			$file,
 			array(),

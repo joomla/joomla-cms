@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
@@ -18,17 +19,17 @@ use Joomla\CMS\Router\Route;
 $app = Factory::getApplication();
 
 // Styles
-JHtml::_('stylesheet', 'templates/system/css/offline.css', ['version' => 'auto']);
+HTMLHelper::_('stylesheet', 'templates/system/css/offline.css', ['version' => 'auto']);
 
 if ($this->direction === 'rtl')
 {
-	JHtml::_('stylesheet', 'templates/system/css/offline_rtl.css', ['version' => 'auto']);
+	HTMLHelper::_('stylesheet', 'templates/system/css/offline_rtl.css', ['version' => 'auto']);
 }
 
-JHtml::_('stylesheet', 'templates/system/css/general.css', ['version' => 'auto']);
+HTMLHelper::_('stylesheet', 'templates/system/css/general.css', ['version' => 'auto']);
 
 // Add JavaScript Frameworks
-JHtml::_('bootstrap.framework');
+HTMLHelper::_('bootstrap.framework');
 
 $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 ?>
@@ -78,7 +79,7 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="user.login" />
 		<input type="hidden" name="return" value="<?php echo base64_encode(JUri::base()); ?>" />
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</fieldset>
 	</form>
 	</div>
