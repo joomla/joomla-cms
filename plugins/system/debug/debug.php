@@ -373,13 +373,13 @@ class PlgSystemDebug extends CMSPlugin
 		// Log the deprecated API.
 		if ($this->params->get('log-deprecated'))
 		{
-			JLog::addLogger(array('text_file' => 'deprecated.php'), JLog::ALL, array('deprecated'));
+			Log::addLogger(array('text_file' => 'deprecated.php'), Log::ALL, array('deprecated'));
 		}
 
 		// Log everything (except deprecated APIs, these are logged separately with the option above).
 		if ($this->params->get('log-everything', 0))
 		{
-			JLog::addLogger(array('text_file' => 'everything.php'), JLog::ALL, array('deprecated', 'databasequery'), true);
+			Log::addLogger(array('text_file' => 'everything.php'), Log::ALL, array('deprecated', 'databasequery'), true);
 		}
 
 		if ($this->params->get('logs', 1))
@@ -400,20 +400,20 @@ class PlgSystemDebug extends CMSPlugin
 			$categories = array_filter(preg_split('/[^A-Z0-9_\.-]/i', $this->params->get('log_categories', '')));
 			$mode = $this->params->get('log_category_mode', 0);
 
-			JLog::addLogger(array('logger' => 'callback', 'callback' => array($this, 'logger')), $priority, $categories, $mode);
+			Log::addLogger(array('logger' => 'callback', 'callback' => array($this, 'logger')), $priority, $categories, $mode);
 		}
 
 		// Log deprecated class aliases
 		foreach (JLoader::getDeprecatedAliases() as $deprecation)
 		{
-			JLog::add(
+			Log::add(
 				sprintf(
 					'%1$s has been aliased to %2$s and the former class name is deprecated. The alias will be removed in %3$s.',
 					$deprecation['old'],
 					$deprecation['new'],
 					$deprecation['version']
 				),
-				JLog::WARNING,
+				Log::WARNING,
 				'deprecation-notes'
 			);
 		}
