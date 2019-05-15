@@ -101,14 +101,15 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~6.0",
-        "phpunit/dbunit": "~3.0",
         "phpunit/phpunit-dom-assertions": "~2.0",
         "joomla/mediawiki": "dev-master",
         "friendsofphp/php-cs-fixer": "~2.12",
         "squizlabs/php_codesniffer": "~1.5",
         "joomla-projects/joomla-browser": "~4.0@dev",
         "joomla-projects/robo-joomla": "dev-develop",
-        "joomla/test-system": "dev-4.0-dev",
-        "joomla/test-api": "dev-4.0-dev"
+        "joomla-projects/selenium-server-standalone": "~v3",
+        "codeception/codeception": "~2.3",
+        "consolidation/robo": "^1.0.0"
+
     }
 }

@@ -39,14 +39,6 @@ class PlgSystemActionLogs extends JPlugin
 	protected $db;
 
 	/**
-	 * Load plugin language file automatically so that it can be used inside component
-	 *
-	 * @var    boolean
-	 * @since  3.9.0
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe.
@@ -60,6 +52,24 @@ class PlgSystemActionLogs extends JPlugin
 
 		// Import actionlog plugin group so that these plugins will be triggered for events
 		PluginHelper::importPlugin('actionlog');
+	}
+
+	/**
+	 * Listener for the `onAfterInitialise` event
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
+	public function onAfterInitialise()
+	{
+		if (!$this->app->isClient('administrator'))
+		{
+			return;
+		}
+
+		// Load plugin language files only when needed (ex: they are not needed in site client).
+		$this->loadLanguage();
 	}
 
 	/**
