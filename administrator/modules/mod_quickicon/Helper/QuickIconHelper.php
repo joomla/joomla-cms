@@ -39,8 +39,8 @@ abstract class QuickIconHelper
 	 * This method returns the array by reference so it can be
 	 * used to add custom buttons or remove default ones.
 	 *
-	 * @param   Registry       $params      The module parameters
-	 * @param   CMSApplication $application The application
+	 * @param   Registry        $params       The module parameters
+	 * @param   CMSApplication  $application  The application
 	 *
 	 * @return  array  An array of buttons
 	 *
@@ -52,9 +52,9 @@ abstract class QuickIconHelper
 		{
 			$application = Factory::getApplication();
 		}
-		
+
 		$context = $params->get('context', 'mod_quickicon');
-		
+
 		$key = (string) $params;
 
 		if (!isset(self::$buttons[$key]))

@@ -42,7 +42,7 @@ if (!empty($displayData['class']))
 }
 
 // Make the class string
-$class = !empty($tmp) ? 'class="' . implode(' ' , array_unique($tmp)) . '"' : '';
+$class = !empty($tmp) ? 'class="' . implode(' ', array_unique($tmp)) . '"' : '';
 
 if (isset($displayData['name']))
 {
@@ -57,7 +57,7 @@ else
 ?>
 
 <li class="quickicon col mb-3 d-flex <?php echo !empty($displayData['linkadd']) ? 'flex-column' : ''; ?>">
-	<a <?php echo $id . $class ; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
+	<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
 		<?php if (isset($displayData['image'])): ?>
 			<div class="quickicon-icon d-flex align-items-end <?php echo $size ?>">
 				<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
