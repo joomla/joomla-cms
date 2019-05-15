@@ -4,9 +4,6 @@
 .view-login {
 
   .container-main {
-    background: var(--atum-bg-light) url("../images/joomla-pattern.svg");
-    // Note IDE's will consider this file import to fail in SCSS but this is correct for the final compiled CSS file
-    background-size: 200px;
 
     @include media-breakpoint-down(sm) {
       min-height: calc(100vh - 35vh);
