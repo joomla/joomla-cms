@@ -85,7 +85,7 @@ if($this->params->get('monochrome'))
 
 		try
 		{
-			$root[] = '--atum-contrast: ' . (clone $bgcolor)->lighten(-6)->spin(-30)->toHex() . ';';
+			$root[] = '--atum-contrast: ' . (new Hsl("hsl(" . $this->params->get('hue') . ", 0, 42)"))->spin(30)->toHex() . ';';
 			$root[] = '--atum-bg-dark-0: ' . (clone $bgcolor)->lighten(71.4)->spin(-6)->toHex() . ';';
 			$root[] = '--atum-bg-dark-5: ' . (clone $bgcolor)->lighten(65.1)->spin(-6)->toHex() . ';';
 			$root[] = '--atum-bg-dark-10: ' . (clone $bgcolor)->lighten(59.4)->spin(-6)->toHex() . ';';
@@ -110,11 +110,11 @@ else
 	if ($this->params->get('hue'))
 	{
 		$bgcolor = new Hsl("hsl(" . $this->params->get('hue') . ", 61, 26)");
-		$root[] = '--atum-bg-dark: ' .$bgcolor->toHex() . ';';
+		$root[] = '--atum-bg-dark: ' . (new Hsl("hsl(" . $this->params->get('hue') . ", 61, 26)"))->toHex() . ';';
 
 		try
 		{
-			$root[] = '--atum-contrast: ' . (clone $bgcolor)->lighten(-6)->spin(-30)->toHex() . ';';
+			$root[] = '--atum-contrast: ' . (new Hsl("hsl(" . $this->params->get('hue') . ", 61, 42)"))->spin(30)->toHex() . ';';
 			$root[] = '--atum-bg-dark-0: ' . (clone $bgcolor)->desaturate(86)->lighten(71.4)->spin(-6)->toHex() . ';';
 			$root[] = '--atum-bg-dark-5: ' . (clone $bgcolor)->desaturate(86)->lighten(65.1)->spin(-6)->toHex() . ';';
 			$root[] = '--atum-bg-dark-10: ' . (clone $bgcolor)->desaturate(86)->lighten(59.4)->spin(-6)->toHex() . ';';
@@ -134,7 +134,20 @@ else
 
 	if ($this->params->get('bg-light'))
 	{
-		$root[] = '--atum-bg-light: ' . $this->params->get('bg-light') . ';';
+		$lightcolor = trim($this->params->get('bg-light'), '#');
+		list($red, $green, $blue) = str_split($lightcolor, 2);
+		$root[] = '--atum-bg-light: #' . $lightcolor . ';';
+
+		try
+		{
+			$color = new Hex($lightcolor);
+			$root[] = '--toolbar-bg: ' . (clone $color)->lighten(5) . ';';
+		}
+		catch (Exception $ex)
+		{
+
+		}
+
 	}
 
 	if ($this->params->get('text-dark'))

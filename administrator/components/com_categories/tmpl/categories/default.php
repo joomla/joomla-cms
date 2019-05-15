@@ -48,7 +48,7 @@ if ($saveOrder && !empty($this->items))
 	HTMLHelper::_('draggablelist.draggable');
 }
 ?>
-<form action="<?php echo Route::_('index.php?option=com_categories&view=categories'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_categories&view=categories&extension=' . $this->state->get('filter.extension')); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<?php if (!empty($this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="col-md-2">
