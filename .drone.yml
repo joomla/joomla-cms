@@ -103,6 +103,7 @@ steps:
     image: joomlaprojects/docker-systemtests:develop
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)"
+    shm_size: 1024000000  
 
   - name: api-tests
     depends_on: [ system-tests ]
@@ -154,6 +155,6 @@ services:
 
 ---
 kind: signature
-hmac: b3612d74787777acabd3dde88d2a002b0c893d054831525464f4db51e31493b8
+hmac: 49c97e4834e5d8c4b76545f78fae3ccd3bb3ff9ea3b1abed898f450b084760a3
 
 ...
