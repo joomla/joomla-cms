@@ -77,14 +77,6 @@ class HtmlView extends BaseHtmlView
 	protected $urgentRequestDays = 14;
 
 	/**
-	 * The HTML markup for the sidebar
-	 *
-	 * @var    string
-	 * @since  3.9.0
-	 */
-	protected $sidebar;
-
-	/**
 	 * Id of the system privacy consent plugin
 	 *
 	 * @var    integer

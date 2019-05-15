@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Pagination\Pagination;
@@ -71,14 +72,6 @@ class HtmlView extends BaseHtmlView
 	protected $sendMailEnabled;
 
 	/**
-	 * The HTML markup for the sidebar
-	 *
-	 * @var    string
-	 * @since  3.9.0
-	 */
-	protected $sidebar;
-
-	/**
 	 * The state information
 	 *
 	 * @var    CMSObject
@@ -120,7 +113,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new Genericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
