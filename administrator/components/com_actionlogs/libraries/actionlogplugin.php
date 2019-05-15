@@ -8,7 +8,8 @@
  */
 defined('_JEXEC') or die;
 
-use \Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\BaseModel;
 
 BaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
 
@@ -59,7 +60,7 @@ abstract class ActionLogPlugin extends JPlugin
 	 */
 	protected function addLog($messages, $messageLanguageKey, $context, $userId = null)
 	{
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 
 		foreach ($messages as $index => $message)
 		{

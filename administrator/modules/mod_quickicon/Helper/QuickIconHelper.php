@@ -235,7 +235,7 @@ abstract class QuickIconHelper
 						'image'  => 'fa fa-cube',
 						'name'   => Text::plural('MOD_QUICKICON_MODULE_MANAGER', $amount),
 						'addwhat' => Text::plural('MOD_QUICKICON_MODULE_MANAGER', 1),
-						'linkadd'   => Route::_('index.php?option=com_categories&task=type.select'),
+						'linkadd'   => Route::_('index.php?option=com_modules&view=select&client_id=0'),
 						'access' => array('core.manage', 'com_modules'),
 						'group'  => 'MOD_QUICKICON_SITE'
 					];

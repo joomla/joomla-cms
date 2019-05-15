@@ -15,11 +15,13 @@ steps:
 
   - name: restore-cache
     image: drillster/drone-volume-cache
+    depends_on: [ phpcs ]
     settings:
       restore: true
       mount:
         - ./node_modules
         - ./libraries/vendor
+        - ./administrator/components/com_media/node_modules
       cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
     volumes:
       - name: cache
@@ -27,46 +29,57 @@ steps:
 
   - name: prepare
     image: joomlaprojects/docker-tools:develop
+    depends_on: [ restore-cache ]
     commands:
       - composer install --no-progress --no-suggest
-      # needed for system testing
-      - composer update joomla/test-system --no-progress --no-suggest
-      - composer update joomla/test-api --no-progress --no-suggest
-      - composer update joomla-projects/selenium-server-standalone --no-progress --no-suggest
-      - composer update joomla-projects/joomla-browser --no-progress --no-suggest
       - npm install --unsafe-perm
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
+    depends_on: [ prepare ]
     settings:
       rebuild: true
       mount:
         - ./node_modules
         - ./libraries/vendor
+        - ./administrator/components/com_media/node_modules
       cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
     volumes:
       - name: cache
         path: /cache
 
-  - name: php70-unit
-    group: unit
-    image: joomlaprojects/docker-php70:develop
-    commands:
-      - ./libraries/vendor/bin/phpunit
-
-  - name: php71-unit
-    group: unit
-    image: joomlaprojects/docker-php71:develop
-    commands:
-      - ./libraries/vendor/bin/phpunit
-
   - name: php72-unit
-    group: unit
-    image: joomlaprojects/docker-php72:develop
+    depends_on: [ rebuild-cache ]
+    image: php:7.2
     commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit
+
+  - name: php73-unit
+    depends_on: [ rebuild-cache ]
+    image: php:7.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit
+
+  - name: php74-unit
+    depends_on: [ rebuild-cache ]
+    image: phpdaily/php:7.4-dev
+    errignore: true
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit
+
+  - name: php80-unit
+    depends_on: [ rebuild-cache ]
+    image: phpdaily/php:8.0-dev
+    errignore: true
+    commands:
+      - php -v
       - ./libraries/vendor/bin/phpunit
 
   - name: javascript-cs
+    depends_on: [ rebuild-cache ]
     image: joomlaprojects/docker-systemtests:develop
     commands:
       - export DISPLAY=:0
@@ -76,6 +89,7 @@ steps:
       - npm run lint:js
 
   - name: javascript-tests
+    depends_on: [ rebuild-cache ]
     image: joomlaprojects/docker-systemtests:develop
     commands:
       - export DISPLAY=:0
@@ -85,17 +99,20 @@ steps:
       - npm run test
 
   - name: system-tests
+    depends_on: [ javascript-tests ]
     image: joomlaprojects/docker-systemtests:develop
     commands:
-      - bash libraries/vendor/joomla/test-system/src/drone-run.sh "$(pwd)"
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)"
 
   - name: api-tests
+    depends_on: [ system-tests ]
     image: joomlaprojects/docker-systemtests:latest
     commands:
-      - bash libraries/vendor/joomla/test-api/drone-run.sh "$(pwd)"
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)"
 
   - name: analysis4x
     image: rips/rips-cli:1.2.1
+    depends_on: [ api-tests ]
     when:
       branch: 4.0-dev
     commands:
@@ -137,6 +154,6 @@ services:
 
 ---
 kind: signature
-hmac: 2112baeb140bcfc7f7137fa633704ca31a88bbafacb363fa258a8a6a17b79899
+hmac: b3612d74787777acabd3dde88d2a002b0c893d054831525464f4db51e31493b8
 
 ...

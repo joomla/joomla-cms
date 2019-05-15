@@ -194,7 +194,7 @@ class FieldsHelper
 
 					/*
 					 * On before field prepare
-					 * Event allow plugins to modfify the output of the field before it is prepared
+					 * Event allow plugins to modify the output of the field before it is prepared
 					 */
 					Factory::getApplication()->triggerEvent('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
 

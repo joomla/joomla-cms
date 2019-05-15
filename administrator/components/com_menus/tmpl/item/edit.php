@@ -102,7 +102,7 @@ if ($clientId === 1)
 
 				if ($this->item->type == 'alias')
 				{
-					echo $this->form->renderFieldset('aliasoptions');
+					echo $this->form->renderField('aliasoptions', 'params');
 				}
 
 				if ($this->item->type == 'separator')
@@ -119,6 +119,11 @@ if ($clientId === 1)
 				}
 
 				echo $this->form->renderField('link');
+
+				if ($this->item->type == 'alias')
+				{
+					echo $this->form->renderField('alias_redirect', 'params');
+				}
 
 				echo $this->form->renderField('browserNav');
 				echo $this->form->renderField('template_style_id');
@@ -187,6 +192,7 @@ if ($clientId === 1)
 
 	<input type="hidden" name="task" value="">
 	<input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>">
+	<input type="hidden" name="menutype" value="<?php echo $input->get('menutype', '', 'cmd'); ?>">
 	<?php echo $this->form->getInput('component_id'); ?>
 	<?php echo HTMLHelper::_('form.token'); ?>
 	<input type="hidden" id="fieldtype" name="fieldtype" value="">
