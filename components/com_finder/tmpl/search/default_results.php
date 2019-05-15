@@ -24,7 +24,7 @@ use Joomla\CMS\Router\Route;
 			<?php // Compile the suggested query link. ?>
 			<?php $linkUrl = Route::_($uri->toString(array('path', 'query'))); ?>
 			<?php $link = '<a href="' . $linkUrl . '">' . $this->escape($this->suggested) . '</a>'; ?>
-			<?php echo JText::sprintf('COM_FINDER_SEARCH_SIMILAR', $link); ?>
+			<?php echo Text::sprintf('COM_FINDER_SEARCH_SIMILAR', $link); ?>
 		<?php elseif ($this->explained && $this->params->get('show_explained_query', 1)) : ?>
 			<?php // Display the explained search query. ?>
 			<?php echo $this->explained; ?>
