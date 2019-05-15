@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "76b7914fe3f668f254985fa1c8d62044",
+    "content-hash": "2a894d139e6519ee43ae1ecddfe4984c",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1710,16 +1710,16 @@
         },
         {
             "name": "paragonie/sodium_compat",
-            "version": "v1.9.4",
+            "version": "v1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/sodium_compat.git",
-                "reference": "91c1362bb0084c02828d43bbc9ee38831297329e"
+                "reference": "228a9fc64cf4ba84c7967c1076d94209db03e0ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/91c1362bb0084c02828d43bbc9ee38831297329e",
-                "reference": "91c1362bb0084c02828d43bbc9ee38831297329e",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/228a9fc64cf4ba84c7967c1076d94209db03e0ee",
+                "reference": "228a9fc64cf4ba84c7967c1076d94209db03e0ee",
                 "shasum": ""
             },
             "require": {
@@ -1788,7 +1788,7 @@
                 "secret-key cryptography",
                 "side-channel resistant"
             ],
-            "time": "2019-05-09T23:30:36+00:00"
+            "time": "2019-05-13T16:04:50+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -5639,67 +5639,6 @@
                 "xunit"
             ],
             "time": "2019-02-01T05:22:47+00:00"
-        },
-        {
-            "name": "phpunit/phpunit-dom-assertions",
-            "version": "v2.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lstrojny/phpunit-dom-assertions.git",
-                "reference": "9d8bbe28d49da80c1de56225226b835f1ee17d3e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lstrojny/phpunit-dom-assertions/zipball/9d8bbe28d49da80c1de56225226b835f1ee17d3e",
-                "reference": "9d8bbe28d49da80c1de56225226b835f1ee17d3e",
-                "shasum": ""
-            },
-            "require": {
-                "php": "~7",
-                "phpunit/phpunit": ">=4.0 <7",
-                "symfony/css-selector": ">=2.4 <4",
-                "symfony/dom-crawler": ">=2.4 <4"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Lars Strojny",
-                    "email": "lars@strojny.net"
-                },
-                {
-                    "name": "Jeff Welch",
-                    "email": "whatthejeff@gmail.com"
-                },
-                {
-                    "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de"
-                }
-            ],
-            "description": "DOM assertions for PHPUnit",
-            "homepage": "http://github.com/phpunit/phpunit-dom-assertions",
-            "keywords": [
-                "Xpath",
-                "assertions",
-                "css",
-                "dom",
-                "phpunit",
-                "tests"
-            ],
-            "time": "2017-02-19T12:24:39+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
