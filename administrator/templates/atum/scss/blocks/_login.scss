@@ -189,6 +189,11 @@
       }
     }
 
+    ul{
+      list-style-type: none;
+      padding-left:0;
+    }
+
     @include media-breakpoint-down(sm) {
       position: relative;
       bottom: 0;
