@@ -88,7 +88,7 @@ class MediaControllerFolder extends JControllerLegacy
 		{
 			$fullPath = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path)));
 
-			if (strpos(realpath($fullPath), JPath::clean(COM_MEDIA_BASE)) !== 0)
+			if (strpos(realpath($fullPath), JPath::clean(realpath(COM_MEDIA_BASE))) !== 0)
 			{
 				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNINVALID_FOLDER'));
 
@@ -198,10 +198,10 @@ class MediaControllerFolder extends JControllerLegacy
 
 			$path = JPath::clean(COM_MEDIA_BASE . '/' . $parent . '/' . $folder);
 
-			if (strpos(realpath(COM_MEDIA_BASE . '/' . $parent), JPath::clean(COM_MEDIA_BASE)) !== 0)
+			if (strpos(realpath(COM_MEDIA_BASE . '/' . $parent), JPath::clean(realpath(COM_MEDIA_BASE))) !== 0)
 			{
 				$app = JFactory::getApplication();
-				$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNINVALID_FOLDER'));
+				$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNINVALID_FOLDER'), 'error');
 
 				return false;
 			}
