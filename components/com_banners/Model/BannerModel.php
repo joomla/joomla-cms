@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 /**
@@ -40,6 +41,13 @@ class BannerModel extends BaseDatabaseModel
 	 */
 	public function click()
 	{
+		$item = $this->getItem();
+
+		if (empty($item))
+		{
+			throw new Exception(Text::_('JERROR_PAGE_NOT_FOUND'), 404);
+		}
+
 		$id = $this->getState('banner.id');
 
 		// Update click count
@@ -59,8 +67,6 @@ class BannerModel extends BaseDatabaseModel
 		{
 			throw new \Exception($e->getMessage(), 500);
 		}
-
-		$item = $this->getItem();
 
 		// Track clicks
 		$trackClicks = $item->track_clicks;

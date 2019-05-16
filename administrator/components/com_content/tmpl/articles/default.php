@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,8 +19,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
+use Joomla\Utilities\ArrayHelper;
 
 HTMLHelper::_('behavior.multiselect');
 
@@ -71,12 +73,21 @@ JS;
 // @todo move the script to a file
 Factory::getDocument()->addScriptDeclaration($js);
 
+$collection = new \stdClass;
+
+$collection->publish = [];
+$collection->unpublish = [];
+$collection->archive = [];
+$collection->trash = [];
+
 $assoc = Associations::isEnabled();
 
 // Configure featured button renderer.
 $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 	->addState(0, 'articles.featured', 'unfeatured', 'COM_CONTENT_UNFEATURED')
 	->addState(1, 'articles.unfeatured', 'featured', 'COM_CONTENT_FEATURED');
+
+HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
@@ -109,6 +120,9 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
+								<th scope="col" style="width:1%" class="text-center">
+									<?php echo HTMLHelper::_('searchtools.sort', 'JFEATURED', 'a.featured', $listDirn, $listOrder); ?>
+								</th>
 								<th scope="col" style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 								</th>
@@ -159,11 +173,44 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 							$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 							$canEditOwn = $user->authorise('core.edit.own', 'com_content.article.' . $item->id) && $item->created_by == $userId;
 							$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
+							$canEditCat       = $user->authorise('core.edit',       'com_content.category.' . $item->catid);
+							$canEditOwnCat    = $user->authorise('core.edit.own',   'com_content.category.' . $item->catid) && $item->category_uid == $userId;
+							$canEditParCat    = $user->authorise('core.edit',       'com_content.category.' . $item->parent_category_id);
+							$canEditOwnParCat = $user->authorise('core.edit.own',   'com_content.category.' . $item->parent_category_id) && $item->parent_category_uid == $userId;
 
 							$transitions = ContentHelper::filterTransitions($this->transitions, $item->stage_id, $item->workflow_id);
 
+							$publish = 0;
+							$unpublish = 0;
+							$archive = 0;
+							$trash = 0;
+
+							foreach ($transitions as $transition) :
+								switch ($transition['stage_condition']) :
+									case ContentComponent::CONDITION_PUBLISHED:
+										++$publish;
+										break;
+									case ContentComponent::CONDITION_UNPUBLISHED:
+										++$unpublish;
+										break;
+									case ContentComponent::CONDITION_ARCHIVED:
+										++$archive;
+										break;
+									case ContentComponent::CONDITION_TRASHED:
+										++$trash;
+										break;
+								endswitch;
+							endforeach;
+
 							?>
-							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>">
+							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>"
+								data-condition-publish="<?php echo (int) $publish > 0; ?>"
+								data-condition-unpublish="<?php echo (int) $unpublish > 0; ?>"
+								data-condition-archive="<?php echo (int) $archive > 0; ?>"
+								data-condition-trash="<?php echo (int) $trash > 0; ?>"
+								data-workflow_id="<?php echo (int) $item->workflow_id; ?>"
+								data-stage_id="<?php echo (int) $item->stage_id; ?>"
+							>
 								<td class="order text-center d-none d-md-table-cell">
 									<?php
 									$iconClass = '';
@@ -186,10 +233,12 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 								</td>
+								<td class="text-center">
+									<?php echo $featuredButton->render($item->featured, $i, ['disabled' => !$canChange]); ?>
+								</td>
 								<td class="article-status">
 									<div class="d-flex">
 										<div class="btn-group tbody-icon mr-1">
-										<?php echo $featuredButton->render($item->featured, $i, ['disabled' => !$canChange]); ?>
 										<?php
 
 											$options = [
@@ -219,17 +268,71 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 											<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
 										<?php endif; ?>
 										<?php if ($canEdit || $canEditOwn) : ?>
-											<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
+											<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pen-square mr-2" aria-hidden="true"></span>'; ?>
 											<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_content&task=article.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 												<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
 										<?php else : ?>
 											<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 										<?php endif; ?>
 											<span class="small break-word">
-												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+												<?php if (empty($item->note)) : ?>
+													<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+												<?php else : ?>
+													<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+												<?php endif; ?>
 											</span>
 											<div class="small">
-												<?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
+												<?php
+												$ParentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content');
+												$CurrentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->catid . '&extension=com_content');
+												$EditCatTxt = Text::_('JACTION_EDIT') . ' ' . Text::_('JCATEGORY');
+												echo Text::_('JCATEGORY') . ': ';
+												if ($item->category_level != '1') :
+													if ($item->parent_category_level != '1') :
+														echo ' &#187; ';
+													endif;
+												endif;
+												if (Factory::getLanguage()->isRtl())
+												{
+													if ($canEditCat || $canEditOwnCat) :
+														echo '<a class="hasTooltip" href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
+													endif;
+													echo $this->escape($item->category_title);
+													if ($canEditCat || $canEditOwnCat) :
+														echo '</a>';
+													endif;
+													if ($item->category_level != '1') :
+														echo ' &#171; ';
+														if ($canEditParCat || $canEditOwnParCat) :
+															echo '<a class="hasTooltip" href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
+														endif;
+														echo $this->escape($item->parent_category_title);
+														if ($canEditParCat || $canEditOwnParCat) :
+															echo '</a>';
+														endif;
+													endif;
+												}
+												else
+												{
+													if ($item->category_level != '1') :
+														if ($canEditParCat || $canEditOwnParCat) :
+															echo '<a class="hasTooltip" href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
+														endif;
+														echo $this->escape($item->parent_category_title);
+														if ($canEditParCat || $canEditOwnParCat) :
+															echo '</a>';
+														endif;
+														echo ' &#187; ';
+													endif;
+													if ($canEditCat || $canEditOwnCat) :
+														echo '<a class="hasTooltip" href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
+													endif;
+													echo $this->escape($item->category_title);
+													if ($canEditCat || $canEditOwnCat) :
+														echo '</a>';
+													endif;
+												}
+												?>
 											</div>
 									</div>
 								</th>
@@ -315,6 +418,15 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 							$this->loadTemplate('batch_body')
 						); ?>
 					<?php endif; ?>
+					<?php echo HTMLHelper::_(
+						'bootstrap.renderModal',
+						'stageModal',
+						array(
+							'title'  => Text::_('JTOOLBAR_CHANGE_STATUS'),
+							'footer' => $this->loadTemplate('stage_footer'),
+						),
+						$this->loadTemplate('stage_body')
+					); ?>
 				<?php endif; ?>
 
 				<input type="hidden" name="task" value="">

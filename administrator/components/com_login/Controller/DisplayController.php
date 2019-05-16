@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_login
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -69,7 +68,7 @@ class DisplayController extends BaseController
 	public function login()
 	{
 		// Check for request forgeries.
-		Session::checkToken('request') or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		$app = $this->app;
 
@@ -106,7 +105,7 @@ class DisplayController extends BaseController
 	 */
 	public function logout()
 	{
-		Session::checkToken('request') or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		$app = $this->app;
 

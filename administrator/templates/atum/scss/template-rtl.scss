@@ -115,18 +115,37 @@ body {
     border-radius: $border-radius 0 0 $border-radius;
   }
 
-  .close {
-    float: left;
-  }
-
   .parent .collapse-arrow::after {
     right: auto;
     left: 15px;
     content: "\f0d9";
   }
 
-  li a span {
-    float: right;
+  .has-arrow::after {
+    left: 1rem;
+    right: inherit;
+    transform: rotate(135deg) translate(0,-50%);
+  }
+
+  ul a::before {
+    right: 18px;
+  }
+
+  .active .no-dropdown .sidebar-item-title {
+    margin-right: 28px;
+  }
+
+  .dropdown-submenu .sidebar-item-title {
+    margin-right: 28px;
+  }
+
+  .dropdown-submenu .no-dropdown .sidebar-item-title {
+    margin-right: 44px;
+  }
+
+  ul ul a::before {
+    right: 34px;
+    left: 0;
   }
 }
 
@@ -209,6 +228,11 @@ body {
       }
     }
   }
+
+  .module-actions {
+    right: auto;
+    left: 0;
+  }
 }
 
 .js-stools .js-stools-container-filters {
@@ -249,7 +273,20 @@ body {
   float: right;
 }
 
-
 .field-media-input {
   margin-right: 220px;
+}
+
+// Quickicon specific
+.message-alert {
+  text-align: left !important;
+}
+
+// Bootstrap overrides
+.text-left {
+  text-align: right !important;
+}
+
+.text-right {
+  text-align: left !important;
 }

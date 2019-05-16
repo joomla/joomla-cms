@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,7 +50,7 @@ extract($displayData);
 
 if (!$readonly)
 {
-	HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-user.min.js', ['version' => 'auto', 'relative' => true]);
+	HTMLHelper::_('webcomponent', 'system/fields/joomla-field-user.min.js', ['version' => 'auto', 'relative' => true]);
 }
 
 $uri = new Uri('index.php?option=com_users&view=users&layout=modal&tmpl=component&required=0');
@@ -111,7 +111,7 @@ if (!$readonly)
 		<input <?php echo ArrayHelper::toString($inputAttributes); ?> readonly>
 		<?php if (!$readonly) : ?>
 			<span class="input-group-append">
-					<a class="btn btn-primary button-select" title="<?php echo Text::_('JLIB_FORM_CHANGE_USER') ?>"><span class="fa fa-user icon-white" aria-hidden="true"></span></a>
+					<button type="button" class="btn btn-primary button-select" title="<?php echo Text::_('JLIB_FORM_CHANGE_USER') ?>"><span class="fa fa-user icon-white" aria-hidden="true"></span></button>
 				<?php echo HTMLHelper::_(
 					'bootstrap.renderModal',
 					'userModal_' . $id,
@@ -123,7 +123,7 @@ if (!$readonly)
 						'width'       => '100%',
 						'modalWidth'  => 80,
 						'bodyHeight'  => 60,
-						'footer'      => '<a type="button" class="btn btn-secondary" data-dismiss="modal">' . Text::_('JCANCEL') . '</a>'
+						'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal">' . Text::_('JCANCEL') . '</button>'
 					)
 				); ?>
 				</span>

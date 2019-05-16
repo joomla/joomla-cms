@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\CMS\Installation\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
@@ -147,14 +148,6 @@ class DatabaseModel extends BaseInstallationModel
 			return false;
 		}
 
-		// Ensure that a database name was input.
-		if (empty($options->db_name))
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_EMPTY_NAME'), 'warning');
-
-			return false;
-		}
-
 		// Validate database table prefix.
 		if (isset($options->db_prefix) && !preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix))
 		{
@@ -180,9 +173,16 @@ class DatabaseModel extends BaseInstallationModel
 		}
 
 		// Validate database name.
-		if (!preg_match('#^[a-zA-Z][0-9a-zA-Z_$]*$#', $options->db_name))
+		if (in_array($options->db_type, ['pgsql', 'postgresql'], true) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options->db_name))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_MSG'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_MSG_POSTGRESQL'), 'warning');
+
+			return false;
+		}
+
+		if (in_array($options->db_type, ['mysql', 'mysqli']) && preg_match('#[\\\\\/\.]#', $options->db_name))
+		{
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_MSG_MYSQL'), 'warning');
 
 			return false;
 		}
@@ -289,7 +289,7 @@ class DatabaseModel extends BaseInstallationModel
 				$options->db_type,
 				$options->db_host,
 				$options->db_user,
-				$options->db_pass,
+				$options->db_pass_plain,
 				$options->db_name,
 				$options->db_prefix,
 				isset($options->db_select) ? $options->db_select : false
@@ -362,7 +362,7 @@ class DatabaseModel extends BaseInstallationModel
 					'driver'   => $options->db_type,
 					'host'     => $options->db_host,
 					'user'     => $options->db_user,
-					'password' => $options->db_pass,
+					'password' => $options->db_pass_plain,
 					'prefix'   => $options->db_prefix,
 					'select'   => $options->db_select,
 				);
@@ -612,6 +612,13 @@ class DatabaseModel extends BaseInstallationModel
 			}
 		}
 
+		$query = $db->getQuery(true)
+			->select('extension_id')
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('name') . ' = ' . $db->quote('files_joomla'));
+		$db->setQuery($query);
+		$eid = $db->loadResult();
+
 		$query->clear()
 			->insert($db->quoteName('#__schemas'))
 			->columns(
@@ -620,7 +627,7 @@ class DatabaseModel extends BaseInstallationModel
 					$db->quoteName('version_id')
 				)
 			)
-			->values('700, ' . $db->quote($version));
+			->values($eid . ', ' . $db->quote($version));
 		$db->setQuery($query);
 
 		try
@@ -731,7 +738,7 @@ class DatabaseModel extends BaseInstallationModel
 	 */
 	public function installSampleData()
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Build the path to the sample data file.
 		$type = $db->getServerType();
@@ -924,6 +931,7 @@ class DatabaseModel extends BaseInstallationModel
 				$query = $db->getQuery(true)
 					->update($db->quoteName($table))
 					->set($db->quoteName($field) . ' = ' . $db->quote($currentDate))
+					->where($db->quoteName($field) . ' IS NOT NULL')
 					->where($db->quoteName($field) . ' != ' . $db->quote($nullDate));
 
 				$db->setQuery($query);

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,8 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Base controller class for Menu Manager.
@@ -44,6 +46,21 @@ class DisplayController extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
+		// Verify menu
+		$menuType = $this->input->post->getCmd('menutype', '');
+
+		if ($menuType !== '')
+		{
+			$uri = Uri::getInstance();
+
+			if ($uri->getVar('menutype') !== $menuType)
+			{
+				$this->setRedirect(Route::_('index.php?option=com_menus&view=items&menutype=' . $menuType, false));
+
+				return false;
+			}
+		}
+
 		// Check custom administrator menu modules
 		if (ModuleHelper::isAdminMultilang())
 		{

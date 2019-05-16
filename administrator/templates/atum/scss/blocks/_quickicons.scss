@@ -42,9 +42,15 @@
       line-height: 1.1;
     }
 
-    .fa {
+    .fa,
+    .fab {
       margin: 5px auto 0;
       font-size: 2.5rem;
+    }
+
+    &.warning {
+      color: var(--warning);
+      box-shadow: $quickicon-box-shadow-warning;
     }
 
     &.danger {

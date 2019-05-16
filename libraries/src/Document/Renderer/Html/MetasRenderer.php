@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -49,13 +49,13 @@ class MetasRenderer extends DocumentRenderer
 			HTMLHelper::_('behavior.core');
 		}
 
-		// Attach Assets
-		$wa = $this->_doc->getWebAssetManager();
-		$wa->attachActiveAssetsToDocument($this->_doc);
-
 		// Trigger the onBeforeCompileHead event
 		$app = Factory::getApplication();
 		$app->triggerEvent('onBeforeCompileHead');
+		
+		// Attach Assets
+		$wa = $this->_doc->getWebAssetManager();
+		$wa->attachActiveAssetsToDocument($this->_doc);
 
 		// Get line endings
 		$lnEnd        = $this->_doc->_getLineEnd();

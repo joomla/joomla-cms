@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Service
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,7 +42,7 @@ class Application implements ServiceProviderInterface
 			{
 				$app = new InstallationApplication(null, $container->get('config'), null, $container);
 
-				// The session service provider needs JFactory::$application, set it if still null
+				// The session service provider needs Factory::$application, set it if still null
 				if (Factory::$application === null)
 				{
 					Factory::$application = $app;

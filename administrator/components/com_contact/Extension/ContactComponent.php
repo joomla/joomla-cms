@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -119,7 +119,7 @@ class ContactComponent extends MVCComponent implements
 	 */
 	protected function getTableNameForSection(string $section = null)
 	{
-		return '#__contact_details';
+		return ($section === 'category' ? 'categories' : 'contact_details');
 	}
 
 	/**

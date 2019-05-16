@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -85,7 +85,7 @@ class FeaturedModel extends ArticlesModel
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid, a.state, a.access, a.created, a.hits,' .
-					'a.created_by, a.featured, a.language, a.created_by_alias, a.publish_up, a.publish_down'
+					'a.created_by, a.featured, a.language, a.created_by_alias, a.publish_up, a.publish_down, a.note'
 			)
 		);
 		$query->from('#__content AS a');
@@ -107,8 +107,13 @@ class FeaturedModel extends ArticlesModel
 			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the categories.
-		$query->select('c.title AS category_title')
+		$query->select('c.title AS category_title, c.created_user_id AS category_uid, c.level AS category_level')
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
+
+		// Join over the parent categories.
+		$query->select('parent.title AS parent_category_title, parent.id AS parent_category_id, 
+								parent.created_user_id AS parent_category_uid, parent.level AS parent_category_level')
+			->join('LEFT', '#__categories AS parent ON parent.id = c.parent_id');
 
 		// Join over the users for the author.
 		$query->select('ua.name AS author_name')
@@ -133,8 +138,7 @@ class FeaturedModel extends ArticlesModel
 					]
 					)
 				)
-				->innerJoin($query->quoteName('#__workflow_stages', 'ws'))
-				->where($query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id'));
+				->join('INNER', '#__workflow_stages AS ws ON ' . $query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id'));
 
 		// Join on voting table
 		if (PluginHelper::isEnabled('content', 'vote'))
@@ -145,15 +149,24 @@ class FeaturedModel extends ArticlesModel
 		}
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access'))
+		$access = $this->getState('filter.access');
+
+		if (is_numeric($access))
 		{
 			$query->where('a.access = ' . (int) $access);
+		}
+		elseif (is_array($access))
+		{
+			$access = ArrayHelper::toInteger($access);
+			$access = implode(',', $access);
+			$query->where('a.access IN (' . $access . ')');
 		}
 
 		// Filter by access level on categories.
 		if (!$user->authorise('core.admin'))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
+			$query->where('a.access IN (' . $groups . ')');
 			$query->where('c.access IN (' . $groups . ')');
 		}
 
@@ -242,10 +255,15 @@ class FeaturedModel extends ArticlesModel
 				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
 				$query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
 			}
+			elseif (stripos($search, 'content:') === 0)
+			{
+				$search = $db->quote('%' . $db->escape(substr($search, 8), true) . '%');
+				$query->where('(a.introtext LIKE ' . $search . ' OR a.fulltext LIKE ' . $search . ')');
+			}
 			else
 			{
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search);
+				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
 			}
 		}
 
@@ -255,18 +273,38 @@ class FeaturedModel extends ArticlesModel
 			$query->where('a.language = ' . $db->quote($language));
 		}
 
-		// Filter by a single tag.
+		// Filter by a single or group of tags.
 		$tagId = $this->getState('filter.tag');
 
-		if (is_numeric($tagId))
+		if (is_array($tagId) && count($tagId) === 1)
 		{
-			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
-				->join(
-					'LEFT',
-					$db->quoteName('#__contentitem_tag_map', 'tagmap')
-					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
-				);
+			$tagId = current($tagId);
+		}
+
+		if (is_array($tagId))
+		{
+			$tagId = implode(',', ArrayHelper::toInteger($tagId));
+
+			if ($tagId)
+			{
+				$subQuery = $db->getQuery(true)
+					->select('DISTINCT content_item_id')
+					->from($db->quoteName('#__contentitem_tag_map'))
+					->where('tag_id IN (' . $tagId . ')')
+					->where('type_alias = ' . $db->quote('com_content.article'));
+
+				$query->join('INNER', '(' . (string) $subQuery . ') AS tagmap ON tagmap.content_item_id = a.id');
+			}
+		}
+		elseif ($tagId)
+		{
+			$query->join(
+				'INNER',
+				$db->quoteName('#__contentitem_tag_map', 'tagmap')
+				. ' ON tagmap.tag_id = ' . (int) $tagId
+				. ' AND tagmap.content_item_id = a.id'
+				. ' AND tagmap.type_alias = ' . $db->quote('com_content.article')
+			);
 		}
 
 		// Add the list ordering clause.

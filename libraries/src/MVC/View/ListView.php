@@ -3,7 +3,7 @@
  * @package     Joomla.Cms
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,6 @@ namespace Joomla\CMS\MVC\View;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Object\CMSObject;
@@ -150,7 +149,9 @@ class ListView extends HtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
+     *
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
@@ -160,14 +161,13 @@ class ListView extends HtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Build toolbar
 		$this->addToolbar();
 
-		// Render the view
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -252,8 +252,8 @@ class ListView extends HtmlView
 		{
 			$title = Text::_('JTOOLBAR_BATCH');
 
-			// Instantiate a new LayoutFile instance and render the batch button
-			$layout = new FileLayout('joomla.toolbar.batch');
+			// Instantiate a new LayoutFile instance and render the popup button
+			$layout = new FileLayout('joomla.toolbar.popup');
 
 			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
