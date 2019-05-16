@@ -9,56 +9,83 @@
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 $id      = empty($displayData['id']) ? '' : (' id="' . $displayData['id'] . '"');
 $target  = empty($displayData['target']) ? '' : (' target="' . $displayData['target'] . '"');
 $onclick = empty($displayData['onclick']) ? '' : (' onclick="' . $displayData['onclick'] . '"');
+$size    = isset($displayData['amount']) ? 'small' : 'big';
+$dataUrl = isset($displayData['ajaxurl']) ? 'data-url="' . $displayData['ajaxurl'] . '"' : '';
 
 // The title for the link (a11y)
-$title   = empty($displayData['title']) ? '' : (' title="' . $this->escape($displayData['title']) . '"');
-$add	  = empty($displayData['addwhat']) ? '' : $displayData['addwhat'];
+$title = empty($displayData['title']) ? '' : (' title="' . $this->escape($displayData['title']) . '"');
+
 // The information
-$text    = empty($displayData['text']) ? '' : ('<span class="j-links-link">' . $displayData['text'] . '</span>');
+$text = empty($displayData['text']) ? '' : ('<span class="j-links-link">' . $displayData['text'] . '</span>');
 
-$iconclass = isset($displayData['iconclass']) ? $displayData['iconclass'] : '';
+$tmp = [];
 
-$class = '';
-
-if ($id !== '')
+// Set id and class pulse for update icons
+if ($id && ($displayData['id'] === 'plg_quickicon_joomlaupdate'
+	|| $displayData['id'] === 'plg_quickicon_extensionupdate'
+	|| $displayData['id'] === 'plg_quickicon_privacycheck'
+	|| $displayData['id'] === 'plg_quickicon_overridecheck'
+	|| !empty($displayData['class'])))
 {
-	$class = ($displayData['id'] === 'plg_quickicon_joomlaupdate'
-		|| $displayData['id'] === 'plg_quickicon_extensionupdate'
-		|| $displayData['id'] === 'plg_quickicon_privacycheck'
-		|| $displayData['id'] === 'plg_quickicon_overridecheck') ? ' class="pulse"' : '';
+	$tmp[] = 'pulse';
 }
 
+// Add the button class
+if (!empty($displayData['class']))
+{
+	$tmp[] = $this->escape($displayData['class']);
+}
+
+// Make the class string
+$class = !empty($tmp) ? 'class="' . implode(' ', array_unique($tmp)) . '"' : '';
+
+if (isset($displayData['name']))
+{
+	$add  = Text::plural($displayData['name'], 1);
+	$name = Text::plural($displayData['name'], 2);
+}
+else
+{
+	$add  = '';
+	$name = '';
+}
 ?>
-<li class="col mb-3 d-flex <?php echo !empty($displayData['linkadd']) ? 'flex-column' : ''; ?>">
+
+<li class="quickicon col mb-3 d-flex <?php echo !empty($displayData['linkadd']) ? 'flex-column' : ''; ?>">
 	<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
 		<?php if (isset($displayData['image'])): ?>
-			<div class="quickicon-icon d-flex align-items-end <?php isset($displayData['amount']) ? 'small' : 'big'; ?>">
+			<div class="quickicon-icon d-flex align-items-end <?php echo $size ?>">
 				<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
 			</div>
 		<?php endif; ?>
-		<?php if (isset($displayData['amount'])): ?>
-			<div class="quickicon-amount <?php isset($displayData['image']) ? 'small' : 'big'; ?>">
-				<?php echo $displayData['amount']; ?>
+		<?php if (isset($displayData['ajaxurl'])) : ?>
+			<div class="quickicon-amount" <?php echo $dataUrl ?>>
+				<span class="fa fa-spinner" aria-hidden="true"></span>
 			</div>
 		<?php endif; ?>
 		<?php // Name indicates the component
-			if (isset($displayData['name'])): ?>
-			<div class="quickicon-name d-flex align-items-end"><?php echo htmlspecialchars($displayData['name']); ?></div>
+		if (isset($displayData['name'])): ?>
+			<div class="quickicon-name d-flex align-items-end"
+				 data-name-singular="<?php echo $add ?>"
+				 data-name-plural="<?php echo $name ?>">
+				<?php echo htmlspecialchars($name); ?>
+			</div>
 		<?php endif; ?>
 		<?php // Information or action from plugins
-			if (isset($displayData['text'])): ?>
-				<div class="quickicon-text d-flex align-items-center"><?php echo $text; ?></div>
+		if (isset($displayData['text'])): ?>
+			<div class="quickicon-text d-flex align-items-center">
+				<?php echo $text; ?>
+			</div>
 		<?php endif; ?>
 	</a>
 	<?php // Add the link to the edit-form
-		if (!empty($displayData['linkadd'])): ?>
-			<a class="btn-block text-center quickicon-linkadd j-links-link" href="<?php echo $displayData['linkadd']; ?>">
+	if (!empty($displayData['linkadd'])): ?>
+			<a class="btn-block quickicon-linkadd j-links-link" href="<?php echo $displayData['linkadd']; ?>">
 				<span class="fa fa-plus mr-2" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::sprintf('MOD_QUICKICON_ADD_NEW', $add); ?></span>
 				<span aria-hidden="true"><?php echo $add; ?></span>
