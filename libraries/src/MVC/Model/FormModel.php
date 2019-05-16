@@ -200,7 +200,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 					E_USER_DEPRECATED
 				);
 
-		    Factory::getApplication()->triggerEvent('onUserBeforeDataValidation', array($form, &$data));
+			Factory::getApplication()->triggerEvent('onUserBeforeDataValidation', array($form, &$data));
 		}
 
 		Factory::getApplication()->triggerEvent('onContentValidateData', array($form, &$data));
