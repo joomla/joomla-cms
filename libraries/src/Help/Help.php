@@ -48,15 +48,8 @@ class Help
 		}
 		else
 		{
-			// Get the user help URL.
-			$user = \JFactory::getUser();
-			$url  = $user->getParam('helpsite');
-
-			// If user hasn't specified a help URL, then get the global one.
-			if ($url == '')
-			{
-				$url = $app->get('helpurl');
-			}
+			// Get the global help URL.
+			$url = $app->get('helpurl');
 
 			// Component help URL overrides user and global.
 			if ($useComponent)
