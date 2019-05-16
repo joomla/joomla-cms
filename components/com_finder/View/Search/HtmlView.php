@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -179,9 +180,9 @@ class HtmlView extends BaseHtmlView
 		FinderHelper::logSearch($this->query, $this->total);
 
 		// Push out the query data.
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-		$this->suggested = \JHtml::_('query.suggested', $this->query);
-		$this->explained = \JHtml::_('query.explained', $this->query);
+		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		$this->suggested = HTMLHelper::_('query.suggested', $this->query);
+		$this->explained = HTMLHelper::_('query.explained', $this->query);
 
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
@@ -218,7 +219,7 @@ class HtmlView extends BaseHtmlView
 		$fields = null;
 
 		// Get the URI.
-		$uri = \JUri::getInstance(\JRoute::_($this->query->toUri()));
+		$uri = \JUri::getInstance(Route::_($this->query->toUri()));
 		$uri->delVar('q');
 		$uri->delVar('o');
 		$uri->delVar('t');
@@ -351,12 +352,12 @@ class HtmlView extends BaseHtmlView
 		{
 			// Add the RSS link.
 			$props = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$route = \JRoute::_($this->query->toUri() . '&format=feed&type=rss');
+			$route = Route::_($this->query->toUri() . '&format=feed&type=rss');
 			$this->document->addHeadLink($route, 'alternate', 'rel', $props);
 
 			// Add the ATOM link.
 			$props = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$route = \JRoute::_($this->query->toUri() . '&format=feed&type=atom');
+			$route = Route::_($this->query->toUri() . '&format=feed&type=atom');
 			$this->document->addHeadLink($route, 'alternate', 'rel', $props);
 		}
 	}
