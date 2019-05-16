@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension version="3.9" type="plugin" group="system" method="upgrade">
-	<name>PLG_SYSTEM_ACTIONLOGS</name>
+	<name>plg_system_actionlogs</name>
 	<author>Joomla! Project</author>
 	<creationDate>May 2018</creationDate>
 	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
