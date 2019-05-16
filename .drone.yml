@@ -131,7 +131,6 @@ steps:
 branches:
   exclude: [ l10n_* ]
 
-
 volumes:
 - name: cache
   host:
