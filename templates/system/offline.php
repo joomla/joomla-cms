@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /** @var JDocumentHtml $this */
 
@@ -78,7 +79,7 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 		</p>
 		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="user.login" />
-		<input type="hidden" name="return" value="<?php echo base64_encode(JUri::base()); ?>" />
+		<input type="hidden" name="return" value="<?php echo base64_encode(Uri::base()); ?>" />
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</fieldset>
 	</form>

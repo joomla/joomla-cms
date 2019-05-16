@@ -11,7 +11,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\UserHelper;
 use Joomla\Utilities\ArrayHelper;
+
 
 /**
  * An example custom privacyconsent plugin.
@@ -225,10 +230,10 @@ class PlgSystemPrivacyconsent extends JPlugin
 				'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
 			);
 
-			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+			BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
 
 			/* @var ActionlogsModelActionlog $model */
-			$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
+			$model = BaseDatabaseModel::getInstance('Actionlog', 'ActionlogsModel');
 			$model->addLog(array($message), 'PLG_SYSTEM_PRIVACYCONSENT_CONSENT', 'plg_system_privacyconsent', $userId);
 		}
 
@@ -328,7 +333,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 			// Redirect to com_users profile edit
 			$this->app->enqueueMessage($this->getRedirectMessage(), 'notice');
 			$link = 'index.php?option=com_users&view=profile&layout=edit';
-			$this->app->redirect(\JRoute::_($link, false));
+			$this->app->redirect(Route::_($link, false));
 		}
 	}
 
@@ -378,7 +383,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 		}
 
 		$policy['published'] = true;
-		$policy['editLink']  = JRoute::_('index.php?option=com_content&task=article.edit&id=' . $articleId);
+		$policy['editLink']  = Route::_('index.php?option=com_content&task=article.edit&id=' . $articleId);
 	}
 
 	/**
@@ -437,7 +442,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 		if ($privacyArticleId > 0 && JLanguageAssociations::isEnabled())
 		{
 			$privacyAssociated = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $privacyArticleId);
-			$currentLang = JFactory::getLanguage()->getTag();
+			$currentLang = Factory::getLanguage()->getTag();
 
 			if (isset($privacyAssociated[$currentLang]))
 			{
@@ -546,7 +551,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 		// Load the parameters.
 		$expire = (int) $this->params->get('consentexpiration', 365);
 		$remind = (int) $this->params->get('remind', 30);
-		$now    = JFactory::getDate()->toSql();
+		$now    = Factory::getDate()->toSql();
 		$period = '-' . ($expire - $remind);
 
 		$db    = $this->db;
@@ -567,28 +572,28 @@ class PlgSystemPrivacyconsent extends JPlugin
 			return false;
 		}
 
-		$app      = JFactory::getApplication();
+		$app      = Factory::getApplication();
 		$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
 
 		foreach ($users as $user)
 		{
-			$token       = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
-			$hashedToken = JUserHelper::hashPassword($token);
+			$token       = JApplicationHelper::getHash(UserHelper::genRandomPassword());
+			$hashedToken = UserHelper::hashPassword($token);
 
 			// The mail
 			try
 			{
 				$substitutions = array(
 					'[SITENAME]' => $app->get('sitename'),
-					'[URL]'      => JUri::root(),
-					'[TOKENURL]' => JRoute::link('site', 'index.php?option=com_privacy&view=remind&remind_token=' . $token, false, $linkMode),
-					'[FORMURL]'  => JRoute::link('site', 'index.php?option=com_privacy&view=remind', false, $linkMode),
+					'[URL]'      => Uri::root(),
+					'[TOKENURL]' => Route::link('site', 'index.php?option=com_privacy&view=remind&remind_token=' . $token, false, $linkMode),
+					'[FORMURL]'  => Route::link('site', 'index.php?option=com_privacy&view=remind', false, $linkMode),
 					'[TOKEN]'    => $token,
 					'\\n'        => "\n",
 				);
 
-				$emailSubject = JText::_('PLG_SYSTEM_PRIVACYCONSENT_EMAIL_REMIND_SUBJECT');
-				$emailBody = JText::_('PLG_SYSTEM_PRIVACYCONSENT_EMAIL_REMIND_BODY');
+				$emailSubject = Text::_('PLG_SYSTEM_PRIVACYCONSENT_EMAIL_REMIND_SUBJECT');
+				$emailBody = Text::_('PLG_SYSTEM_PRIVACYCONSENT_EMAIL_REMIND_BODY');
 
 				foreach ($substitutions as $k => $v)
 				{
@@ -596,7 +601,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 					$emailBody    = str_replace($k, $v, $emailBody);
 				}
 
-				$mailer = JFactory::getMailer();
+				$mailer = Factory::getMailer();
 				$mailer->setSubject($emailSubject);
 				$mailer->setBody($emailBody);
 				$mailer->addRecipient($user->email);
@@ -647,7 +652,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	{
 		// Load the parameters.
 		$expire = (int) $this->params->get('consentexpiration', 365);
-		$now    = JFactory::getDate()->toSql();
+		$now    = Factory::getDate()->toSql();
 		$period = '-' . $expire;
 
 		$db    = $this->db;
@@ -675,10 +680,10 @@ class PlgSystemPrivacyconsent extends JPlugin
 		}
 
 		// Push a notification to the site's super users
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/models', 'MessagesModel');
+		BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/models', 'MessagesModel');
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/tables');
 		/** @var MessagesModelMessage $messageModel */
-		$messageModel = JModelLegacy::getInstance('Message', 'MessagesModel');
+		$messageModel = BaseDatabaseModel::getInstance('Message', 'MessagesModel');
 
 		foreach ($users as $user)
 		{
@@ -698,8 +703,8 @@ class PlgSystemPrivacyconsent extends JPlugin
 			}
 
 			$messageModel->notifySuperUsers(
-				JText::_('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_SUBJECT'),
-				JText::sprintf('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_MESSAGE', $user->user_id)
+				Text::_('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_SUBJECT'),
+				Text::sprintf('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_MESSAGE', $user->user_id)
 			);
 		}
 
@@ -717,7 +722,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 */
 	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
 	{
-		$conf = JFactory::getConfig();
+		$conf = Factory::getConfig();
 
 		foreach ($clearGroups as $group)
 		{

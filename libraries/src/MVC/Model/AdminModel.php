@@ -1572,7 +1572,7 @@ abstract class AdminModel extends FormModel
 		// Save the item
 		$this->save($data);
 
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$id  = $data['id'];
 
 		// Deal with categories associations

@@ -631,7 +631,7 @@ class PlgContentJoomla extends CMSPlugin
 		$user = Factory::getUser();
 
 		// Messaging for changed items
-		$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
+		$default_language = ComponentHelper::getParams('com_languages')->get('administrator');
 		$debug = Factory::getApplication()->get('debug_lang');
 		$result = true;
 

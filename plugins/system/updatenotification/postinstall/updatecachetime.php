@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 
 /**
@@ -18,7 +19,7 @@ use Joomla\CMS\Factory;
  */
 function updatecachetime_postinstall_condition()
 {
-	$cacheTimeout = (int) JComponentHelper::getComponent('com_installer')->params->get('cachetimeout', 6);
+	$cacheTimeout = (int) ComponentHelper::getComponent('com_installer')->params->get('cachetimeout', 6);
 
 	// Check if cachetimeout is eq zero
 	if ($cacheTimeout === 0 && JPluginHelper::isEnabled('system', 'updatenotification'))
@@ -38,7 +39,7 @@ function updatecachetime_postinstall_condition()
  */
 function updatecachetime_postinstall_action()
 {
-	$installer = JComponentHelper::getComponent('com_installer');
+	$installer = ComponentHelper::getComponent('com_installer');
 
 	// Sets the cachtimeout back to the default (6 hours)
 	$installer->params->set('cachetimeout', 6);

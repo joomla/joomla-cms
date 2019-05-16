@@ -11,6 +11,7 @@ namespace Joomla\CMS\Installation\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\Database\DatabaseDriver;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -367,7 +368,7 @@ class DatabaseModel extends BaseInstallationModel
 					'select'   => $options->db_select,
 				);
 
-				$altDB = \JDatabaseDriver::getInstance($altDBoptions);
+				$altDB = DatabaseDriver::getInstance($altDBoptions);
 
 				// Try to create the database now using the alternate driver
 				try
