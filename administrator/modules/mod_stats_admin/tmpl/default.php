@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('jquery.framework');
+use Joomla\CMS\HTML\HTMLHelper;
+
+HTMLHelper::_('jquery.framework');
 JFactory::getDocument()->addScriptDeclaration('
 	jQuery(document).ready(function($) {
 		$("a.js-revert").on("click", function(e) {

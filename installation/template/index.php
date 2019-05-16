@@ -28,7 +28,7 @@ HTMLHelper::_('script', 'installation/template/js/template.js', ['version' => 'a
 HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Add script options
-$this->addScriptOptions('system.installation', ['url' => JRoute::_('index.php')]);
+$this->addScriptOptions('system.installation', ['url' => Route::_('index.php')]);
 
 // Load JavaScript message titles
 Text::script('ERROR');
