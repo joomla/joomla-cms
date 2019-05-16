@@ -106,6 +106,7 @@ $alert-color-level:                0;
 $atum-box-shadow:                  1px 1px 1px 0px rgba($black,0.25);
 $enable-rounded:                   false;
 $border-radius:                    none;
+$border-radius-s:                  .2rem;
 $input-btn-padding-y:              .6rem;
 $input-btn-padding-x:              1rem;
 $input-max-width:                  15rem;
@@ -233,8 +234,8 @@ $list-group-bg:                    var(--white-offset);
 $custom-select-bg:                 var(--white-offset);
 
 //input
-$input-padding:						.6rem 1rem;
-$input-select-padding:				.6rem 3rem .6rem 1rem;
+$input-padding:						        .6rem 1rem;
+$input-select-padding:				    .6rem 3rem .6rem 1rem;
 $input-select-multiple-padding:		.3rem 1rem;
 
 // Modals

@@ -12,8 +12,9 @@
   }
 
   li {
-    min-width: 10rem;
-    min-height: 7.5rem;
+    width: calc(33.333% - 1rem);
+    max-width: calc(33.333% - 1rem);
+    flex: 1 1 calc(33.333% - 1rem);
     position: relative;
     background: $quickicon-bg;
     margin: 0.5rem;
@@ -30,14 +31,15 @@
   }
 
   .quickicon-name {
-    font-size: 1rem;
-    padding-bottom: .3rem;
+    font-size: $display2-size;
+    padding-bottom: .6rem;
   }
 
   .quickicon-amount {
-    font-size: 3rem;
-    font-weight: 300;
-    letter-spacing: -0.2rem;
+    font-size: $display1-size;
+    font-weight: 700;
+    padding: .3rem;
+    margin-top: .3rem !important;
   }
 
   .thsd {
@@ -53,11 +55,14 @@
   .quickicon-linkadd {
     position: relative;
     overflow: hidden;
-    font-size: .9rem;
-    line-height: 3.4rem;
+    font-size: $display2-size;
+    color: var(--atum-text-dark);
+    line-height: 2rem;
     margin-top: 0.4rem;
     border: 1px solid $gray-400;
     text-decoration: none;
+    text-align: center;
+    display: inline-block;
     box-shadow: $atum-box-shadow;
 
     @include media-breakpoint-up(md) {
@@ -72,29 +77,48 @@
     }
 
     .fa {
+      position: absolute;
+      left: 0;
       display: inline-block;
-      width: 35px;
+      width: 32px;
       height: auto;
       line-height: 2rem;
       color: var(--white);
-      position: absolute;
-      left: 0;
       background-color: var(--atum-link-color);
+      text-align: center;
+
+      @include media-breakpoint-up(md) {
+        line-height: 2rem;
+      }
+
+    }
+
+    span:last-child {
+      margin-left: 32px;
     }
   }
 
   a:not(.quickicon-linkadd) {
     display: inline-flex;
-    min-height: 5.4rem;
+    min-height: 5.7rem;
     flex-direction: column;
     width: 100%;
     transition: all .25s ease;
     text-align: center;
     border: 1px solid $gray-400;
-    border-radius: 0.3rem;
+    background-color: var(--toolbar-bg);
+    color: var(--atum-text-dark);
+    line-height: 1.1;
+    align-self: baseline;
+    border-radius: $border-radius-s;
+    box-shadow: $atum-box-shadow;
 
     @include hover-focus-active {
       text-decoration: none;
+
+      .fa {
+        color: rgba(255,255,255,0.9);
+      }
     }
 
     > div {
@@ -111,41 +135,77 @@
 
     .fa,
     .fab {
-      margin: 5px auto 0;
+      margin: .8rem auto 0;
       font-size: 1.3rem;
+      color: var(--atum-link-color);
+    }
+
+    .fa-images,
+    .fa-paint-brush,
+    #plg_quickicon_privacycheck .fa-users,
+    .fa-file,
+    .fa-star,
+    .fa-joomla,
+    .fa-cog {
+      font-size: 2rem;
     }
 
     &.warning {
-      color: $danger-txt;
       background: $danger-bg;
       border: 1px solid lighten($danger-txt, 30%);
+
+      .fa,
+      .fab {
+        color: $danger-txt;
+      }
 
       &:hover {
         color:rgba(255,255,255,0.9);
         background: var(--danger);
+
+        .fa,
+        .fab {
+          color:rgba(255,255,255,0.9);
+        }
       }
     }
 
     &.danger {
-      color: $danger-txt;
       background: $danger-bg;
       border: 1px solid lighten($danger-txt, 30%);
+
+      .fa,
+      .fab {
+        color: $danger-txt;
+      }
 
       &:hover {
         color:rgba(255,255,255,0.9);
         background: var(--danger);
+
+        .fa,
+        .fab {
+          color:rgba(255,255,255,0.9);
+        }
       }
     }
 
     &.success {
-      color: $success-txt;
-      background:  $success-bg;
-      border: 1px solid lighten($success-txt, 30%);
+      border: 1px solid var(--success);
 
+      .fa,
+      .fab {
+        color: var(--success);
+      }
 
       &:hover {
         color:rgba(255,255,255,0.9);
         background: var(--success);
+
+        .fa,
+        .fab {
+          color:rgba(255,255,255,0.9);
+        }
       }
     }
   }
@@ -155,6 +215,63 @@
   .menu-quicktask{
     position: absolute;
     right: 1.25rem;
+  }
+}
+
+.cpanel-quickicons{
+  .card-columns{
+    @include media-breakpoint-down(md) {
+      column-count: 2;
+    }
+    @include media-breakpoint-down(sm) {
+      column-count: 1;
+    }
+  }
+}
+
+.quick-icons {
+  li {
+    @media (max-width: 1350px) {
+      width: calc(50% - 1rem);
+      max-width: calc(50% - 1rem);
+      flex: 1 1 calc(50% - 1rem);
+    }
+    @media (max-width: 1050px) {
+      width: calc(100% - 1rem);
+      max-width: calc(100% - 1rem);
+      flex: 1 1 calc(100% - 1rem);
+    }
+    @include media-breakpoint-down(sm) {
+      width: calc(50% - 1rem);
+      max-width: calc(50% - 1rem);
+      flex: 1 1 calc(50% - 1rem);
+    }
+    @media (max-width: 430px) {
+      width: calc(100% - 1rem);
+      max-width: calc(100% - 1rem);
+      flex: 1 1 calc(100% - 1rem);
+    }
+  }
+}
+#wrapper.closed {
+  .quick-icons {
+    li {
+      @media (max-width: 1180px) {
+        width: calc(50% - 1rem);
+        max-width: calc(50% - 1rem);
+        flex: 1 1 calc(50% - 1rem);
+      }
+      @media (max-width: 860px) {
+        width: calc(100% - 1rem);
+        max-width: calc(100% - 1rem);
+        flex: 1 1 calc(100% - 1rem);
+      }
+      @media (max-width: 767px) {
+        width: calc(33% - 1rem);
+        max-width: calc(33% - 1rem);
+        flex: 1 1 calc(33% - 1rem);
+      }
+    }
   }
 }
 
