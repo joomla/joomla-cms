@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 
 $direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-right' : '';
 
-
 /**
  * @var  string  $id
  * @var  string  $onclick
