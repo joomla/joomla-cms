@@ -13,8 +13,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-HTMLHelper::_('bootstrap.framework');
-
 $direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-right' : '';
 
 
@@ -35,6 +33,7 @@ $direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-right' : '';
 extract($displayData, EXTR_OVERWRITE);
 ?>
 <?php if ($hasButtons && trim($button) !== ''): ?>
+	<?php HTMLHelper::_('bootstrap.framework'); ?>
 	<div id="<?php echo $id; ?>" class="btn-group dropdown-<?php echo $name ?? ''; ?>" role="group">
 		<?php echo $button; ?>
 
