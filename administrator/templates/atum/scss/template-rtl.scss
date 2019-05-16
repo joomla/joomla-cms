@@ -38,6 +38,7 @@ body {
 }
 
 .dropdown-menu-right {
+
   &::after {
     right: auto;
     left: .9rem;
@@ -48,7 +49,14 @@ body {
   right: 0;
   left: auto;
 }
-
+.subhead {
+	.dropdown-toggle.btn-action::after {
+		margin: 0 16px 0 -22px;
+	}
+}
+.switcher {
+    float: right;
+}
 // Alerts
 .notify-alerts {
   margin-right: 125px;
@@ -60,9 +68,15 @@ body {
 }
 
 // Header
-.header .page-title [class^='icon-'] {
-  margin-right: 0;
-  margin-left: 15px;
+.header {
+  .page-title [class^='icon-'] {
+    margin-right: 0;
+    margin-left: 15px;
+  }
+  .logo img {
+    margin-right: .8rem;
+    margin-left: auto;
+  }
 }
 
 .menu-collapse {
@@ -79,7 +93,6 @@ body {
     content: "\f053";
   }
 }
-
 // Quickicons
 .quick-icons {
 
@@ -93,7 +106,7 @@ body {
     [class*=' icon-'],
     [class^='icon-'] {
       border-right: 0;
-      border-left: 1px solid rgba($white,.15);
+      border-left: 1px solid rgba($white, .15);
     }
   }
 }
@@ -109,6 +122,13 @@ body {
     }
   }
 
+  li {
+    > a.btn-dashboard {
+      left: 30px;
+      right: auto;
+    }
+  }
+ 
   .collapse-level-2 {
     right: 100%;
     left: auto;
@@ -124,7 +144,7 @@ body {
   .has-arrow::after {
     left: 1rem;
     right: inherit;
-    transform: rotate(135deg) translate(0,-50%);
+    transform: rotate(180deg) translate(0, -180%);
   }
 
   ul a::before {
@@ -172,7 +192,8 @@ body {
 // Toolbar
 .subhead {
 
-  .btn, .btn-sm {
+  .btn,
+  .btn-sm {
     [class*=' fa-'],
     [class^='fa-'],
     [class^='icon-'],
@@ -196,7 +217,6 @@ body {
     }
   }
 }
-
 
 // com_cpanel
 .com_cpanel {
@@ -289,4 +309,9 @@ body {
 
 .text-right {
   text-align: left !important;
+}
+
+// System panel
+.menu-quicktask, .menu-badge {
+    float: left;
 }

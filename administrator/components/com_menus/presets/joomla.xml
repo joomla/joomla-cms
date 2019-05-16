@@ -14,19 +14,22 @@
 	<menuitem
 			title="MOD_MENU_COM_CONTENT"
 			type="heading"
+			icon="file-alt"
 			class="class:file-alt"
+			dashboard="content"
 	>
 		<menuitem
 				title="MOD_MENU_COM_CONTENT_ARTICLE_MANAGER"
+				quicktask-title="MOD_MENU_COM_CONTENT_NEW_ARTICLE"
 				type="component"
 				element="com_content"
 				link="index.php?option=com_content&amp;view=articles"
 				quicktask="index.php?option=com_content&amp;task=article.add"
-				quicktask-title="MOD_MENU_COM_CONTENT_ARTICLE_ADD"
 				>
 		</menuitem>
 		<menuitem
 				title="MOD_MENU_COM_CONTENT_CATEGORY_MANAGER"
+				quicktask-title="MOD_MENU_COM_CONTENT_NEW_CATEGORY"
 				type="component"
 				element="com_categories"
 				link="index.php?option=com_categories&amp;view=categories&amp;extension=com_content"
@@ -73,9 +76,11 @@
 		/>
 		<menuitem
 				title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_SITE"
+				quicktask-title="MOD_MENU_COM_CONTENT_NEW_MODULE"
 				type="component"
 				element="com_modules"
 				link="index.php?option=com_modules&amp;view=modules&amp;client_id=0"
+				quicktask="index.php?option=com_modules&amp;view=select"
 		/>
 		<menuitem
 				title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_ADMINISTRATOR"
@@ -89,7 +94,9 @@
 	<menuitem
 			title="MOD_MENU_MENUS"
 			type="heading"
+			icon="list"
 			class="class:list"
+			dashboard="menus"
 	>
 		<menuitem
 				title="MOD_MENU_MENU_MANAGER"
@@ -124,11 +131,13 @@
 				sql_order="a.id DESC">
 			<menuitem
 					title="{sql:title} "
+					quicktask-title="MOD_MENU_MENU_MANAGER_NEW_MENU_ITEM"
 					type="component"
 					element="com_menus"
 					link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}"
 					icon="{sql:icon}"
-					class="class:menu">
+					class="class:menu"
+					quicktask="index.php?option=com_menus&amp;task=item.add&amp;menutype={sql:menutype}">
 			</menuitem>
 		</menuitem>
 		<menuitem
@@ -141,6 +150,7 @@
 				sql_order="id DESC">
 			<menuitem
 					title="{sql:title}"
+					quicktask-title="MOD_MENU_MENU_MANAGER_NEW_MENU_ITEM"
 					type="component"
 					element="com_menus"
 					link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}"
@@ -154,19 +164,25 @@
 	<menuitem
 			title="MOD_MENU_COMPONENTS"
 			type="container"
-			class="class:cube"
+			class="class:puzzle-piece"
+			dashboard="components"
 	/>
 
 	<menuitem
 			title="MOD_MENU_COM_USERS_USERS"
 			type="heading"
+			icon="users"
 			class="class:users"
+			alias="users"
+			dashboard="users"
 	>
 		<menuitem
 				title="MOD_MENU_COM_USERS_USER_MANAGER"
+				quicktask-title="MOD_MENU_COM_USERS_ADD_USER"
 				type="component"
 				element="com_users"
-				link="index.php?option=com_users&amp;view=users">
+				link="index.php?option=com_users&amp;view=users"
+				quicktask="index.php?option=com_users&amp;task=user.add">
 		</menuitem>
 		<menuitem
 				title="MOD_MENU_COM_USERS_GROUPS"
@@ -268,8 +284,8 @@
 			title="MOD_MENU_SYSTEM"
 			type="component"
 			element="com_cpanel"
-			class="class:cog"
-			link="index.php?option=com_cpanel&amp;view=system"
+			class="class:wrench"
+			link="index.php?option=com_cpanel&amp;view=cpanel&amp;dashboard=system"
 	/>
 	<menuitem
 			title="MOD_MENU_HELP"

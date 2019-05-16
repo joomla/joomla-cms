@@ -43,7 +43,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		// Set toolbar items for the page
-		ToolbarHelper::title(Text::_('Help'), 'info help_header');
+		ToolbarHelper::title(Text::_('Help'), 'info-circle help_header');
 		ToolbarHelper::help('screen.cpanel');
 
 		$user = Factory::getUser();

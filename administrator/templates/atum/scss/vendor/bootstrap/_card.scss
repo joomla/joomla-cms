@@ -1,6 +1,8 @@
 // Card
 
-.card-body {
+@import "../../variables";
+
+.card, .card-body {
   background: $white;
   box-shadow: $atum-box-shadow;
 }

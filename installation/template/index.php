@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Version;
 
 /** @var JDocumentHtml $this */
 
@@ -45,6 +46,7 @@ Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 // Load the JavaScript translated messages
 Text::script('INSTL_PROCESS_BUSY');
 Text::script('INSTL_FTP_SETTINGS_CORRECT');
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -55,36 +57,66 @@ Text::script('INSTL_FTP_SETTINGS_CORRECT');
 	<body data-basepath="<?php echo JUri::root(true); ?>">
 		<div class="j-install">
 			<?php // Header ?>
-			<header class="j-header" role="banner">
-				<div class="j-header-logo">
-					<img src="<?php echo $this->baseurl; ?>/template/images/logo.svg" alt="" class="logo"/>
-				</div>
-				<div class="j-header-help">
-					<a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla">
-						<span class="fa fa-lightbulb" aria-hidden="true"></span>
-						<span class="sr-only"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
-					</a>
+			<header id="header" class="header">
+				<div class="d-flex align-items-center">
+					<div class="header-title d-flex mr-auto">
+						<div class="d-flex">
+							<a class="logo" href="<?php echo Route::_('index.php'); ?>">
+								<img src="<?php echo $this->baseurl; ?>/template/images/logo-joomla-blue.svg" alt=""/>
+							</a>
+						</div>
+						<div class="d-flex px-2">
+							<div class="container-title">
+								<h1 class="page-title">
+									<span class="fa fa-cogs"></span>
+									<?php echo Text::_('INSTL_PAGE_TITLE'); ?>
+								</h1>
+							</div>
+						</div>
+					</div>
+					<div class="header-items d-flex ml-auto">
+						<div class="d-flex align-items-center">
+							<p class="joomla-version w-100 text-right">
+								Joomla! <?php echo (new Version)->getShortVersion(); ?>
+							</p>
+						</div>
+						<div class="ml-auto">
+							<ul class="nav text-center">
+								<li class="nav-item">
+									<a class="nav-link" href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla" target="_blank">
+										<span class="fa fa-question" aria-hidden="true"></span>
+										<span class="sr-only"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
 				</div>
 			</header>
 			<?php // Container ?>
-			<main class="j-container">
-				<h1><?php echo Text::_('INSTL_PAGE_TITLE'); ?></h1>
-				<jdoc:include type="message" />
-				<div id="javascript-warning">
-					<noscript>
-						<?php echo Text::_('INSTL_WARNJAVASCRIPT'); ?>
-					</noscript>
+			<div id="wrapper" class="d-flex wrapper flex-wrap">
+				<div class="container-fluid container-main">
+					<div id="content" class="content h-100">
+						<main class="d-flex justify-content-center align-items-center h-100">
+							<div class="j-container">
+								<jdoc:include type="message" />
+								<div id="javascript-warning">
+									<noscript>
+										<?php echo Text::_('INSTL_WARNJAVASCRIPT'); ?>
+									</noscript>
+								</div>
+								<div id="container-installation" class="container-installation flex no-js" data-base-url="<?php echo JUri::root(); ?>" style="display:none">
+									<jdoc:include type="component" />
+								</div>
+							</div>
+						</main>
+						<footer class="text-center small w-100">
+							<?php echo Version::URL; ?>
+						</footer>
+					</div>
 				</div>
-				<div id="container-installation" class="container-installation flex no-js" data-base-url="<?php echo JUri::root(); ?>" style="display:none">
-					<jdoc:include type="component" />
-				</div>
-			</main>
+			</div>
 			<jdoc:include type="scripts" />
-			<footer class="j-footer">
-				<a href="https://www.joomla.org" target="_blank">Joomla!</a>
-				is free software released under the
-				<a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html" target="_blank" rel="noopener noreferrer">GNU General Public License</a>
-			</footer>
 		</div>
 	</body>
 </html>

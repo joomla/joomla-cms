@@ -42,6 +42,7 @@
     "metismenujs": "^1.0.3",
     "popper.js": "^1.15.0",
     "punycode": "1.4.1",
+    "roboto-fontface": "^0.10.0",
     "skipto": "^2.0.3",
     "tinymce": "5.0.1"
   },

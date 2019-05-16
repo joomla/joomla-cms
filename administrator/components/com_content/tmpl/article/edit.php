@@ -50,17 +50,17 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_CONTENT_ARTICLE_CONTENT')); ?>
 		<div class="row">
 			<div class="col-md-9">
-				<fieldset class="adminform">
-					<?php echo $this->form->getLabel('articletext'); ?>
-					<?php echo $this->form->getInput('articletext'); ?>
-				</fieldset>
-			</div>
-			<div class="col-md-3">
 				<div class="card card-light">
 					<div class="card-body">
-						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
+						<fieldset class="adminform">
+							<?php echo $this->form->getLabel('articletext'); ?>
+							<?php echo $this->form->getInput('articletext'); ?>
+						</fieldset>
 					</div>
 				</div>
+			</div>
+			<div class="col-md-3">
+				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
 
@@ -70,12 +70,12 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php if ($params->get('show_urls_images_backend') == 1) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'images', Text::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES')); ?>
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-6 pr-4">
 					<?php foreach ($this->form->getGroup('images') as $field) : ?>
 						<?php echo $field->renderField(); ?>
 					<?php endforeach; ?>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-6 pl-4">
 					<?php foreach ($this->form->getGroup('urls') as $field) : ?>
 						<?php echo $field->renderField(); ?>
 					<?php endforeach; ?>

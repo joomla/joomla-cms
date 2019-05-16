@@ -11,20 +11,22 @@
     column-gap: 15px;
 
     > li {
+      display: inline-block;
       width: 100%;
       margin-bottom: 15px;
       vertical-align: top;
       list-style: none;
       backface-visibility: hidden;
-      column-break-inside: avoid;
       page-break-inside: avoid;
+      break-inside: avoid;
+      column-break-inside: avoid;
     }
   }
 
   .menu-links-block {
     padding: 15px;
-    background-color: #fafafa;
-    border: 1px solid #ddd;
+    background-color: var(--card-bg);
+    box-shadow:$atum-box-shadow;
     border-radius: 3px;
   }
 

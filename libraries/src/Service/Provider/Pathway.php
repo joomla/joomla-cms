@@ -10,7 +10,9 @@ namespace Joomla\CMS\Service\Provider;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Pathway\AdministratorPathway;
 use Joomla\CMS\Pathway\SitePathway;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -41,6 +43,16 @@ class Pathway implements ServiceProviderInterface
 				function (Container $container)
 				{
 					return new SitePathway($container->get(SiteApplication::class));
+				},
+				true
+			);
+
+		$container->alias('AdministratorPathway', AdministratorPathway::class)
+			->share(
+				AdministratorPathway::class,
+				function (Container $container)
+				{
+					return new AdministratorPathway($container->get(AdministratorApplication::class));
 				},
 				true
 			);

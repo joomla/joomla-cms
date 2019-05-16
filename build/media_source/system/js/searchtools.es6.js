@@ -79,6 +79,7 @@ Joomla = window.Joomla || {};
 
         // Extra
         clearListOptions: false,
+        filtersCount: '.js-stools-filter-count',
       };
 
       this.element = elem;
@@ -121,6 +122,7 @@ Joomla = window.Joomla || {};
 
       // Extra options
       this.clearListOptions = this.options.clearListOptions;
+      this.filtersCount = document.querySelector(this.options.filtersCount);
 
       const self = this;
 
@@ -290,19 +292,37 @@ Joomla = window.Joomla || {};
         }
       }
 
+      this.updateFilterCount(0);
+
       self.theForm.submit();
+    }
+
+    // eslint-disable-next-line class-methods-use-this
+    updateFilterCount(count) {
+      if (this.filtersCount) {
+        this.filtersCount.innerText = count;
+      }
+
+      if (this.clearButton) {
+        this.clearButton.disabled = (count === 0);
+      }
     }
 
     // eslint-disable-next-line class-methods-use-this
     checkActiveStatus(cont) {
       const el = cont.mainContainer;
       const els = [].slice.call(el.querySelectorAll('.js-stools-field-filter select'));
+      let activeFilterCount = 0;
+
       els.forEach((item) => {
         if (item.classList.contains('active')) {
+          activeFilterCount += 1;
           cont.filterButton.classList.remove('btn-secondary');
           cont.filterButton.classList.add('btn-primary');
         }
       });
+
+      this.updateFilterCount(activeFilterCount);
     }
 
     // eslint-disable-next-line class-methods-use-this

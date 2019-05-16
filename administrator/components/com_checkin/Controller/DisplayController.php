@@ -11,8 +11,10 @@ namespace Joomla\Component\Checkin\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Response\JsonResponse;
 
 /**
  * Checkin Controller
@@ -69,5 +71,24 @@ class DisplayController extends BaseController
 		}
 
 		$this->setRedirect('index.php?option=com_checkin');
+	}
+
+	/**
+	 * Provide the data for a badge in a menu item via JSON
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getMenuBadgeData()
+	{
+		if (!Factory::getUser()->authorise('core.manage', 'com_checkin'))
+		{
+			throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
+		}
+
+		$model = $this->getModel('Checkin');
+
+		echo new JsonResponse(count($model->getItems()));
 	}
 }

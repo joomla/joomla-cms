@@ -1,18 +1,23 @@
 .page-link {
+
   &.active {
     padding: 0;
+
     &.current {
       padding: .5rem .75rem;
-      color: #999;
-      background-color: #dee2e6;
+      color: var(--atum-text-dark);
+      background-color: rgba($gray-300, 0.8);
     }
+
     a {
       padding: .5rem .75rem;
       line-height: 2.25;
     }
   }
+
   &.disabled {
-    color: #999;
+    color: var(--atum-text-dark);
+
     &:hover {
       background: transparent;
     }

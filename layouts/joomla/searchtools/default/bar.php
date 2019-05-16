@@ -54,15 +54,16 @@ $filters = $data['view']->filterForm->getGroup('filter');
 					</span>
 				</div>
 			</div>
-			<button type="button" class="btn btn-primary js-stools-btn-clear mr-2">
-				<?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?>
-			</button>
 			<div class="btn-group">
 				<button type="button" class="btn btn-primary hasTooltip js-stools-btn-filter">
-					<?php echo Text::_('JFILTER_OPTIONS'); ?>
+                    <span class="badge badge-pill badge-danger js-stools-filter-count"></span>
+                    <?php echo Text::_('JFILTER_OPTIONS'); ?>
 					<span class="fa fa-caret-down" aria-hidden="true"></span>
 				</button>
 			</div>
+            <button type="button" class="btn btn-primary js-stools-btn-clear mr-2">
+				<?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?>
+            </button>
 		</div>
 	<?php endif; ?>
 <?php endif;

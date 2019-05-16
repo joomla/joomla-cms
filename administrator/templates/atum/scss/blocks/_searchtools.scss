@@ -1,5 +1,7 @@
 // Search tools
 
+@import "../variables";
+
 .js-stools {
   position: relative;
   display: flex;
@@ -10,7 +12,7 @@
     position: absolute;
     top: 100%;
     right: 0;
-    z-index: 1;
+    z-index: $zindex-popover;
     display: none;
     flex-direction: column;
     padding: 10px;
@@ -45,12 +47,11 @@
 
       &.active {
         color: var(--white);
-        background: var(--white-offset) url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23fff' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat scroll right .75rem center / 8px 10px;
-        background-color: theme-color("primary");
+        background: var(--atum-bg-dark) url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23fff' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat scroll right .75rem center/8px 10px;
       }
 
       option {
-        color: $gray-700;
+        color: var(--atum-text-dark);
         background-color: var(--white);
       }
     }

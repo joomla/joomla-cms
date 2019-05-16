@@ -1,26 +1,124 @@
-
 // Header
+@import "../variables";
 
 .header {
   position: relative;
   background: $white;
   box-shadow: $atum-box-shadow;
+  z-index: $zindex-header;
+  border-top: 3px solid var(--atum-bg-dark);
+  color: var(--atum-special-color);
+
+  @include media-breakpoint-down(lg) {
+    .align-items-center{
+      align-items: flex-start;
+    }
+  }
 
   .logo {
     display: inline-block;
-    width: $sidebar-width-closed;
     line-height: $header-height;
-    text-align: center;
+    width: $sidebar-width;
+    transition: width .3s ease;
+
+    &.small {
+      width: $sidebar-width-closed;
+      transition: width .3s ease;
+
+      svg, img {
+
+        &:not(.logo-small) {
+          display: none;
+        }
+
+        &.logo-small {
+          display: inline-block;
+        }
+      }
+    }
+
+    svg, img {
+      height: 1.3rem;
+      margin-left: 0.8rem;
+      max-width: calc(15.625rem - 0.8rem);
+
+      &.logo-small {
+        display: none;
+      }
+    }
   }
 
   .page-title {
-    margin: 0 5px;
+    margin: 0 7.5px;
     font-size: 1.2rem;
     line-height: $header-height;
-    color: var(--primary-dark);
+    color: var(--atum-special-color);
 
     [class^='icon-'] {
       margin-right: 10px;
+      font-size: 1rem;
+    }
+    @include media-breakpoint-down(md){
+      width: 160px;
+       white-space: nowrap;
+       overflow: hidden;
+       text-overflow: ellipsis;
+    }
+
+  }
+
+  .header-element {
+    position: relative;
+
+    .header-element-content {
+      > *:first-child {
+        flex-direction: column;
+        height: 100%;
+        padding: 0 1rem;
+        color: var(--atum-special-color);
+
+        @media (max-width: 1023px) {
+          padding: 0 0.5rem;
+        }
+      }
+      a, button {
+        &:hover, &[aria-expanded="true"] {
+          background-color: var(--atum-bg-dark);
+          color: var(--atum-text-light);
+          text-decoration: none;
+        }
+      }
+      .dropdown-toggle {
+        // Overwrite default button styling
+        background-color: transparent;
+        border: $dropdown-border-width;
+
+        &::after {
+          display: none;
+        }
+      }
+      .joomlaversion {
+        min-width: 7rem;
+      }
+    }
+
+    .tiny {
+      text-align: center;
+      line-height: 0.8rem;
+      margin-top: 0.3rem;
+    }
+  }
+
+  .nav-item:hover,
+  .nav-item.show {
+    background-color: var(--atum-bg-dark);
+
+    .nav-link {
+      color: var(--atum-text-light);
+
+      .fa {
+        color: var(--atum-text-light);
+      }
     }
   }
 
@@ -28,106 +126,185 @@
     position: relative;
     padding: 0;
     line-height: $header-height;
+    min-width: $header-height - 0.3125rem;
+    display: inline;
 
-    .fa {
-      width: $header-height + 2px;
-      font-size: 1.2rem;
-      color: var(--primary-dark);
-      vertical-align: middle;
-      transition: all .2s ease-in-out;
-    }
+    &.dropdown-toggle {
+      // Overwrite default button styling
+      background-color: transparent;
+      border: $dropdown-border-width;
 
-    .badge {
-      position: absolute;
-      top: 7px;
-      right: 7px;
-    }
-
-    &.dropdown-toggle::after {
-      display: none;
+      &::after {
+        display: none;
+      }
     }
 
     &:hover .fa {
-      font-size: 1.3rem;
-      transition: all .2s ease-in-out;
+      color: var(--atum-text-light);
     }
+  }
+
+  .fa, .fab {
+    width: 1.5rem;
+    font-size: 1.2rem;
+    vertical-align: middle;
+    transition: all .2s ease-in-out;
   }
 
   .dropdown-menu {
     min-width: 280px;
     padding: 0;
     z-index: 1041;
+  }
 
-    h2 {
-      font-size: $h5-font-size;
+  .badge {
+    position: absolute;
+    left: 50%;
+    top: 0.4rem;
+    margin-left: 1rem;
+  }
+
+  .fa-angle-down {
+    position: absolute;
+    left: 50%;
+    top: 0.9rem;
+    margin-left: -2.2rem;
+  }
+
+  .align-items-end {
+    min-height: 2rem;
+  }
+
+  .link-title {
+
+    @include media-breakpoint-down(lg) {
+     /* width: 60px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;*/
+      font-size:0;
+      text-decoration:none;
+    }
+    &:before{
+      font-size: 1.2rem;
+      vertical-align: middle;
+    }
+
+  }
+
+  a[target="_blank"]:before {
+    display: none;
+  }
+
+  .dropdown-menu {
+    z-index: $zindex-popover;
+    min-width: 18rem;
+    background-color: var(--atum-bg-dark-70);
+
+    &.icons-left .dropdown-item {
+      a {
+        padding-left: 0;
+      }
+    }
+
+    .dropdown-header {
+      color: $white;
+      background-color: var(--atum-bg-dark);
+      box-shadow: $atum-box-shadow;
+      font-size: inherit;
+      padding: 1rem 0.75rem;
     }
   }
 
   .dropdown-item {
-    @include hover-focus {
-      color: var(--primary-dark);
-    }
-  }
+    color: $white;
+    background-color: var(--atum-bg-dark-70);
+    padding: 0;
 
-  .dropdown-menu::after {
-    left: .65rem;
-  }
+    a {
+      display: inline-block;
+      width: 100%;
+      color: var(--atum-text-light);
+      padding-left: 0.75rem;
+      line-height: 3;
 
-  .dropdown-menu-right::after {
-    right: .65rem;
-    left: auto;
-  }
-
-  .header-profile {
-
-    .dropdown-menu {
-      padding-top: 0;
-
-      &::after {
-        color: var(--main-bg);
+      &:hover {
+        text-decoration: none;
+        background: var(--atum-bg-dark);
       }
     }
+
+    .fa {
+      padding: 1rem;
+      width: 3rem;
+    }
   }
 
-  .dropdown-header {
-    padding-top: .5rem;
-    padding-bottom: .5rem;
-    color: $white;
-    background-color: var(--primary-dark);
-    box-shadow: $atum-box-shadow;
-  }
+  @include media-breakpoint-down(xs) {
+    .header-items{
+      background:var(--atum-bg-dark);
+      display:block;
+      position:fixed;
+      bottom:0;
+      width:100%;
+      z-index:$zindex-mobil-bottom;
+      padding-left:0.75rem;
+      .ml-auto{
+        margin-right:70px;
+      }
+    }
 
-  .list-group-item-text:last-child {
-    margin-bottom: 0;
-  }
-
-  .joomla-version {
-    margin-right: .9rem;
-    margin-bottom: 0;
-    font-size: $h5-font-size;
-    color: var(--primary-dark);
   }
 }
 
-@include media-breakpoint-down(md) {
+@include media-breakpoint-down(xs) {
 
   .header {
     position: sticky;
     top: 0;
     width: 100%;
+    z-index: $zindex-header;
 
-    > div {
-      flex-direction: column;
+
+  }
+}
+@include media-breakpoint-down(xs) {
+
+  .header {
+    position: static;
+
+    .joomla-version{
+      color:var(--atum-text-light);
+
+    }
+
+    .nav-item:hover,
+    .nav-item.show {
+      background-color: var(--atum-bg-dark-70);
+    }
+    .header-element-content{
+      display: none !important;
+      &.footer-mobil-icon{
+        color: var(--atum-text-light) !important;
+        display:block !important;
+        &>:first-child {
+          color: var(--atum-text-light) !important;
+        }
+      }
+    }
+
+    .nav-link{
+
+      .fa{
+        color:var(--atum-text-light);
+      }
+
     }
   }
 }
 
-@include media-breakpoint-down(sm) {
-
-  .header {
-
-    .header-items {
-      flex-direction: column;
-    }
-  }
+// for the svg image
+#header .logo path, #header .logo polyline {
+  fill: var(--atum-bg-dark);
 }

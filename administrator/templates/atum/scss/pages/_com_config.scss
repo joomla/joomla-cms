@@ -1,11 +1,18 @@
 // com_config
 
+@import "../variables";
+
 .com_config {
 
   .content {
     background-color: transparent;
   }
-
+  
+  .tab-content {
+    background-color: $white;
+    padding: 1rem;
+  }
+  
   [class^='col-'] {
 
     > fieldset {
@@ -19,11 +26,14 @@
     background-color: $white;
   }
 
-  .revert-controls .controls {
-    margin-left: 0;
-  }
+  .options-menu {
+    .burger-toggler-icon:before {
+      font: normal normal normal 16px/1 'Font Awesome 5 Free';
+      content: "\f039 ";
+    }
 
-  .switcher__legend {
-    margin-left: -220px;
+    .revert-controls .controls {
+      margin-left: 0;
+    }
   }
 }

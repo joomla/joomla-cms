@@ -31,6 +31,11 @@ Text::script('MESSAGE');
 	<div class="row">
 		<!-- Begin Sidebar -->
 		<div id="sidebar" class="col-md-2">
+            <button class="navbar-toggler options-menu d-md-none d-lg-none d-xl-non" type="button" data-toggle="collapse" data-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="Toggle navigation">
+                 <span class="burger-toggler-icon">
+                     <?php echo Text::_('TPL_ATUM_TOGGLE_SIDEBAR'); ?>
+                  </span>
+            </button>
 			<div class="sidebar-nav">
 				<?php echo $this->loadTemplate('navigation'); ?>
 				<?php
@@ -60,7 +65,7 @@ Text::script('MESSAGE');
 				<li class="nav-item"><a class="nav-link" href="#page-permissions" data-toggle="tab"><?php echo Text::_('COM_CONFIG_PERMISSIONS'); ?></a></li>
 			</ul>
 			<div id="config-document" class="tab-content">
-				<div id="page-site" class="tab-pane active">
+				<div id="page-site" class="tab-pane card-body active">
 					<div class="row">
 						<div class="col-lg-12 col-xl-6">
 							<?php echo $this->loadTemplate('site'); ?>
@@ -72,7 +77,7 @@ Text::script('MESSAGE');
 						</div>
 					</div>
 				</div>
-				<div id="page-system" class="tab-pane">
+				<div id="page-system" class="tab-pane card-body">
 					<div class="row">
 						<div class="col-md-12">
 							<?php echo $this->loadTemplate('system'); ?>
@@ -82,7 +87,7 @@ Text::script('MESSAGE');
 						</div>
 					</div>
 				</div>
-				<div id="page-server" class="tab-pane">
+				<div id="page-server" class="tab-pane card-body">
 					<div class="row">
 						<div class="col-lg-12 col-xl-6">
 							<?php echo $this->loadTemplate('server'); ?>
@@ -96,7 +101,7 @@ Text::script('MESSAGE');
 						</div>
 					</div>
 				</div>
-				<div id="page-filters" class="tab-pane">
+				<div id="page-filters" class="tab-pane card-body">
 					<div class="row">
 						<div class="col-md-12">
 							<?php echo $this->loadTemplate('filters'); ?>
@@ -104,13 +109,13 @@ Text::script('MESSAGE');
 					</div>
 				</div>
 				<?php if ($this->ftp) : ?>
-					<div id="page-ftp" class="tab-pane">
+					<div id="page-ftp" class="tab-pane card-body">
 						<div class="col-md-12">
 							<?php echo $this->loadTemplate('ftplogin'); ?>
 						</div>
 					</div>
 				<?php endif; ?>
-				<div id="page-permissions" class="tab-pane">
+				<div id="page-permissions" class="tab-pane card-body">
 					<div class="row">
 						<?php echo $this->loadTemplate('permissions'); ?>
 					</div>

@@ -30,5 +30,5 @@ $target = empty($target) ? '' : 'target="' . $target . '"';
 	<?php echo $target; ?>
 	<?php echo $htmlAttributes; ?>>
 	<span class="<?php echo $class; ?>" aria-hidden="true"></span>
-	<?php echo $text; ?>
+	<?php echo $text ?: ''; ?>
 </a>
