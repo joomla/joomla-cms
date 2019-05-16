@@ -456,13 +456,6 @@ class UpdateModel extends ListModel
 		// Unpack the downloaded package file
 		$package = InstallerHelper::unpack($tmp_dest . '/' . $p_file);
 
-		if ($package === false || !isset($package['type']) || $package['type'] === false)
-		{
-			Factory::getApplication()->enqueueMessage(JText::sprintf('COM_INSTALLER_MSG_UPDATE_INVALID_PKG', $url), 'error');
-
-			return false;
-		}
-
 		// Get an installer instance
 		$installer = Installer::getInstance();
 		$update->set('type', $package['type']);
