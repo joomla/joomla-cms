@@ -100,7 +100,7 @@ trait ExtensionManagerTrait
 	 * @param   string  $extensionName  The extension name
 	 * @param   string  $extensionPath  The path of the extension
 	 *
-	 * @return  ComponentInterface|ModuleInterface
+	 * @return  ComponentInterface|ModuleInterface|PluginInterface
 	 *
 	 * @since   4.0.0
 	 */
