@@ -128,7 +128,7 @@ var JFormValidator = function() {
  	 			continue;
  	 		}
 			// If field is part of a subform-repeatable template, it's not supposed to be validated.
- 	 		if(jQuery(fields[i]).parents().is("template") ) {
+ 	 		if(jQuery(fields[i]).parents().is("template")) {
  	 			continue;
  	 		}
  	 	 	if (validate(fields[i]) === false) {
