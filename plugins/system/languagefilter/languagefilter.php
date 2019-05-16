@@ -569,8 +569,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		$this->loadLanguage();
 
 		return array(
-			JText::_('PLG_SYSTEM_LANGUAGEFILTER') => array(
-				JText::_('PLG_SYSTEM_LANGUAGEFILTER_PRIVACY_CAPABILITY_LANGUAGE_COOKIE'),
+			Text::_('PLG_SYSTEM_LANGUAGEFILTER') => array(
+				Text::_('PLG_SYSTEM_LANGUAGEFILTER_PRIVACY_CAPABILITY_LANGUAGE_COOKIE'),
 			)
 		);
 	}
