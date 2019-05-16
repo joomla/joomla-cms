@@ -10,7 +10,10 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+
+HTMLHelper::_('bootstrap.framework');
 
 $direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-right' : '';
 
