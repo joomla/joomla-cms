@@ -115,7 +115,7 @@ steps:
     image: rips/rips-cli:1.2.1
     depends_on: [ api-tests ]
     when:
-      repo: 
+      repo:
         - joomla/joomla-cms
       branch: 
         - 4.0-dev
@@ -156,6 +156,6 @@ services:
 
 ---
 kind: signature
-hmac: c1f2d6b16b5d1083ade0af84ef3bbe75cf7f59e2a15d6fc223df98cdab51bbd4
+hmac: 3ae41602ab14cc8c1f0d1d2d7dd9da67a01b430b46d80bb9bb4e39544c3d75e1
 
 ...

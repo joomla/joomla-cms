@@ -5,7 +5,7 @@
  *
  * @package  Page\Acceptance\Administrator
  *
- * @since    __DEPLOY_VERSION__
+ * @since    4.0.0
  */
 class AdminListPage extends AdminPage
 {

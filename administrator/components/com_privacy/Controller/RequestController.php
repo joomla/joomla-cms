@@ -69,8 +69,7 @@ class RequestController extends FormController
 		// Ensure this record can transition to the requested state
 		if (!$this->canTransition($item, '2'))
 		{
-			$this->setError(Text::_('COM_PRIVACY_ERROR_COMPLETE_TRANSITION_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(Text::_('COM_PRIVACY_ERROR_COMPLETE_TRANSITION_NOT_PERMITTED'), 'error');
 
 			$this->setRedirect(
 				Route::_(
@@ -90,8 +89,7 @@ class RequestController extends FormController
 		// Access check.
 		if (!$this->allowSave($data, $key))
 		{
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
 			$this->setRedirect(
 				Route::_(
@@ -106,8 +104,7 @@ class RequestController extends FormController
 		if (!$model->save($data))
 		{
 			// Redirect back to the edit screen.
-			$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
 
 			$this->setRedirect(
 				Route::_(
@@ -156,8 +153,7 @@ class RequestController extends FormController
 		if (!$model->emailDataExport($recordId))
 		{
 			// Redirect back to the edit screen.
-			$this->setError(Text::sprintf('COM_PRIVACY_ERROR_EXPORT_EMAIL_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(Text::sprintf('COM_PRIVACY_ERROR_EXPORT_EMAIL_FAILED', $model->getError()), 'error');
 		}
 		else
 		{
@@ -234,8 +230,7 @@ class RequestController extends FormController
 		// Ensure this record can transition to the requested state
 		if (!$this->canTransition($item, '-1'))
 		{
-			$this->setError(Text::_('COM_PRIVACY_ERROR_INVALID_TRANSITION_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(Text::_('COM_PRIVACY_ERROR_INVALID_TRANSITION_NOT_PERMITTED'), 'error');
 
 			$this->setRedirect(
 				Route::_(
@@ -255,8 +250,7 @@ class RequestController extends FormController
 		// Access check.
 		if (!$this->allowSave($data, $key))
 		{
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
 			$this->setRedirect(
 				Route::_(
@@ -271,8 +265,7 @@ class RequestController extends FormController
 		if (!$model->save($data))
 		{
 			// Redirect back to the edit screen.
-			$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
 
 			$this->setRedirect(
 				Route::_(
@@ -321,8 +314,7 @@ class RequestController extends FormController
 		if (!$model->removeDataForRequest($recordId))
 		{
 			// Redirect back to the edit screen.
-			$this->setError(Text::sprintf('COM_PRIVACY_ERROR_REMOVE_DATA_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(Text::sprintf('COM_PRIVACY_ERROR_REMOVE_DATA_FAILED', $model->getError()), 'error');
 
 			$this->setRedirect(
 				Route::_(
