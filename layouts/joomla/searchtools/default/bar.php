@@ -42,6 +42,11 @@ $filters = $data['view']->filterForm->getGroup('filter');
 						<?php endif; ?>
 					</label>
 					<?php echo $filters['filter_search']->input; ?>
+					<?php if ($filters['filter_search']->description) : ?>
+					<div role="tooltip" id="<?php echo $filters['filter_search']->name . '-desc'; ?>">
+						<?php echo htmlspecialchars(Text::_($filters['filter_search']->description), ENT_COMPAT, 'UTF-8'); ?>
+					</div>
+					<?php endif; ?>
 					<span class="input-group-append">
 						<button type="submit" class="btn btn-primary" aria-label="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>">
 							<span class="fa fa-search" aria-hidden="true"></span>
