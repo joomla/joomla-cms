@@ -38,7 +38,7 @@ Joomla = window.Joomla || {};
           const result = JSON.parse(response);
 
           if (result.error) {
-            message = result.message;
+            [message] = result;
           } else {
             message = result.data;
           }
@@ -49,7 +49,7 @@ Joomla = window.Joomla || {};
       },
       onError: function onError(xhr) {
         modal.innerHTML = xhr.statusText;
-      }
+      },
     });
   };
 })(Joomla);
