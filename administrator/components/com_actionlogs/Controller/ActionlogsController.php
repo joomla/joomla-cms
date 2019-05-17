@@ -7,23 +7,29 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Actionlogs\Administrator\Controller;
+
 defined('_JEXEC') or die;
 
+use DateTimeZone;
+use Exception;
+use InvalidArgumentException;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
+use Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel;
 use Joomla\Utilities\ArrayHelper;
-
-JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
 /**
  * Actionlogs list controller class.
  *
  * @since  3.9.0
  */
-class ActionlogsControllerActionlogs extends JControllerAdmin
+class ActionlogsController extends AdminController
 {
 	/**
 	 * Constructor.
@@ -31,6 +37,8 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @since   3.9.0
+	 *
+	 * @throws  Exception
 	 */
 	public function __construct(array $config = array())
 	{
@@ -50,7 +58,7 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 	 *
 	 * @since   3.9.0
 	 */
-	public function getModel($name = 'Actionlogs', $prefix = 'ActionlogsModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'Actionlogs', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		// Return the model
 		return parent::getModel($name, $prefix, $config);
@@ -62,6 +70,8 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 	 * @return  void
 	 *
 	 * @since   3.9.0
+	 *
+	 * @throws  Exception
 	 */
 	public function exportLogs()
 	{
@@ -78,7 +88,7 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 			$pks = ArrayHelper::toInteger(explode(',', $this->input->post->getString('cids')));
 		}
 
-		/** @var ActionlogsModelActionlogs $model */
+		/** @var ActionlogsModel $model */
 		$model = $this->getModel();
 
 		// Get the logs data
@@ -86,7 +96,6 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 
 		if (count($data))
 		{
-
 			try
 			{
 				$rows = ActionlogsHelper::getCsvData($data);

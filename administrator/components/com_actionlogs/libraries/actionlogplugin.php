@@ -10,15 +10,17 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
 
-BaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+BaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/model', 'ActionlogsModel');
 
 /**
  * Abstract Action Log Plugin
  *
  * @since  3.9.0
  */
-abstract class ActionLogPlugin extends JPlugin
+abstract class ActionLogPlugin extends CMSPlugin
 {
 	/**
 	 * Application object.
@@ -92,7 +94,7 @@ abstract class ActionLogPlugin extends JPlugin
 			$messages[$index] = $message;
 		}
 
-		/** @var ActionlogsModelActionlog $model **/
+		/** @var ActionlogModel $model **/
 		$model = BaseModel::getInstance('Actionlog', 'ActionlogsModel');
 		$model->addLog($messages, strtoupper($messageLanguageKey), $context, $userId);
 	}
