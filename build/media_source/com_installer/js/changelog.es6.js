@@ -28,12 +28,28 @@ Joomla = window.Joomla || {};
    * @since   4.0.0
    */
   Joomla.loadChangelog = (extensionId, view) => {
+    const modal = document.querySelector(`#changelogModal${extensionId} .modal-body`);
+
     Joomla.request({
       url: `index.php?option=com_installer&task=manage.loadChangelog&eid=${extensionId}&source=${view}&format=json`,
       onSuccess: (response) => {
-        const result = JSON.parse(response);
-        document.querySelector(`#changelogModal${extensionId} .modal-body`).innerHTML = result.data;
+        let message = '';
+        try {
+          const result = JSON.parse(response);
+
+          if (result.error) {
+            message = result.message;
+          } else {
+            message = result.data;
+          }
+        } catch (exception) {
+          message = exception;
+        }
+        modal.innerHTML = message;
       },
+      onError: function onError(xhr) {
+        modal.innerHTML = xhr.statusText;
+      }
     });
   };
 })(Joomla);
