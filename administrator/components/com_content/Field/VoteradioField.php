@@ -11,8 +11,8 @@ namespace Joomla\Component\Content\Administrator\Field;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Plugin\PluginHelper;
 
 FormHelper::loadFieldClass('radio');
 
