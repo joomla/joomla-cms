@@ -44,19 +44,6 @@
             update('success', languageStrings.NOREQUEST, '');
           } else {
             // Requests
-            const messages = {
-              warning: [
-                `<div class="message-alert">
-  ${languageStrings.REQUESTFOUND_MESSAGE.replace('%s', `<span class="badge badge-pill badge-danger">${privacyRequestsList.data.number_urgent_requests}</span>`)}
-<button class="btn btn-sm btn-primary" onclick="document.location='${options.plg_quickicon_privacycheck_url}'">
-  ${languageStrings.REQUESTFOUND_BUTTON}
-</button>
-</div>`,
-              ],
-            };
-
-            Joomla.renderMessages(messages);
-
             update(
               'danger',
               `${languageStrings.REQUESTFOUND}&nbsp;<span class="badge badge-light">${privacyRequestsList.data.number_urgent_requests}</span>`,
