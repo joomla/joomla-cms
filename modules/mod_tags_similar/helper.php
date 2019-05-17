@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\UCM\UCMType;
 use Joomla\Registry\Registry;
 
 JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php');
@@ -29,9 +30,18 @@ abstract class ModTagssimilarHelper
 	 */
 	public static function getList(&$params)
 	{
-		$app        = JFactory::getApplication();
-		$option     = $app->input->get('option');
-		$view       = $app->input->get('view');
+		$app    = JFactory::getApplication();
+		$option = $app->input->get('option');
+		$view   = $app->input->get('view');
+		$prefix = $option . '.' . $view;
+
+		$contentType = new UCMType($prefix);
+
+		// Not a UCM item or ID field not defined.
+		if (!$contentType->type || !$idField = $contentType->__get('core_content_item_id'))
+		{
+			return array();
+		}
 
 		// For now assume com_tags and com_users do not have tags.
 		// This module does not apply to list views in general at this point.
@@ -47,8 +57,7 @@ abstract class ModTagssimilarHelper
 		$maximum    = $params->get('maximum', 5);
 		$ordering   = $params->get('ordering', 'count');
 		$tagsHelper = new JHelperTags;
-		$prefix     = $option . '.' . $view;
-		$id         = $app->input->getInt('id');
+		$id         = $app->input->getInt($idField);
 		$now        = JFactory::getDate()->toSql();
 		$nullDate   = $db->getNullDate();
 
