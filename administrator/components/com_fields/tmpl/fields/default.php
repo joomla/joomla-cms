@@ -47,7 +47,7 @@ if ($saveOrder && !empty($this->items))
 }
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_fields&view=fields'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_fields&view=fields&context=' . $this->state->get('filter.context')); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<?php if (!empty($this->sidebar)) { ?>
 		<div id="j-sidebar-container" class="col-md-2">

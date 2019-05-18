@@ -93,7 +93,7 @@ class ApiController extends BaseController
 			$this->option = ComponentHelper::getComponentName($this, $this->getName());
 		}
 
-		// Guess the \JText message prefix. Defaults to the option.
+		// Guess the \Text message prefix. Defaults to the option.
 		if (empty($this->text_prefix))
 		{
 			$this->text_prefix = strtoupper($this->option);
