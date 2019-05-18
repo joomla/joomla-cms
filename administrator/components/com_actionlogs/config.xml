@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<config>
-	<fieldset name="actionlogs" label="COM_ACTIONLOGS_OPTIONS" addfieldpath="/administrator/components/com_actionlogs/models/fields">
+<config addfieldprefix="Joomla\Component\Actionlogs\Administrator\Field">
+	<fieldset name="actionlogs" label="COM_ACTIONLOGS_OPTIONS">
 		<field
 			name="ip_logging"
 			type="radio"
