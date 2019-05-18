@@ -24,7 +24,7 @@ abstract class ModLatestActionsHelper
 	/**
 	 * Get a list of articles.
 	 *
-	 * @param   Registry  $params  The module parameters.
+	 * @param   Registry  &$params  The module parameters.
 	 *
 	 * @return  mixed  An array of action logs, or false on error.
 	 *
