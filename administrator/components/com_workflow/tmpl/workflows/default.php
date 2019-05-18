@@ -45,7 +45,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 $user = Factory::getUser();
 $userId = $user->id;
 ?>
-<form action="<?php echo Route::_('index.php?option=com_workflow&extension=' . $extension); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_workflow&view=workflows&extension=' . $extension); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<?php if (!empty($this->sidebar)) : ?>
             <div id="j-sidebar-container" class="col-md-2">
@@ -138,7 +138,7 @@ $userId = $user->id;
 								</td>
 								<th scope="row">
 									<?php if (!$isCore && ($canEdit || $canEditOwn)) : ?>
-										<?php $editIcon = '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
+										<?php $editIcon = '<span class="fa fa-pen-square mr-2" aria-hidden="true"></span>'; ?>
 										<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT', true); ?> <?php echo Text::_($item->title, true); ?>">
 											<?php echo $editIcon; ?><?php echo $this->escape(Text::_($item->title)); ?>
 										</a>

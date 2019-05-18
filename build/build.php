@@ -212,6 +212,15 @@ if ($npmReturnCode !== 0)
 	exit(1);
 }
 
+// Create gzipped version of the static assets
+system('npm run gzip', $gzipReturnCode);
+
+if ($gzipReturnCode !== 0)
+{
+	echo "`npm run gzip` did not complete as expected.\n";
+	exit(1);
+}
+
 // Clean the checkout of extra resources
 clean_checkout($fullpath);
 
@@ -518,7 +527,7 @@ foreach (array_keys($checksums) as $packageName)
 {
 	echo "Generating checksums for $packageName\n";
 
-	foreach (array('md5', 'sha1') as $hash)
+	foreach (array('md5', 'sha1', 'sha256', 'sha384', 'sha512') as $hash)
 	{
 		if (file_exists('packages/' . $packageName))
 		{

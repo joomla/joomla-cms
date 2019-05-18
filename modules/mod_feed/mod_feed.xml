@@ -70,6 +70,17 @@
 				</field>
 
 				<field
+					name="rssdate"
+					type="radio"
+					label="MOD_FEED_FIELD_DATE_LABEL"
+					class="switcher"
+					default="0"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
 					name="rssimage"
 					type="radio"
 					class="switcher"
@@ -99,6 +110,18 @@
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="rssitemdate"
+					type="radio"
+					label="MOD_FEED_FIELD_ITEMDATE_LABEL"
+					class="switcher"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field

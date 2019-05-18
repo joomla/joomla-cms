@@ -113,13 +113,29 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
+  let uploading = false;
   const dragZone = document.querySelector('#dragarea');
   const fileInput = document.querySelector('#install_package');
-  const loading = document.querySelector('#loading');
   const button = document.querySelector('#select-file-button');
   const returnUrl = document.querySelector('#installer-return').value;
-  const token = document.querySelector('#installer-token').value;
+  const progress = document.getElementById('upload-progress');
+  const progressBar = progress.querySelectorAll('.bar')[0];
+  const percentage = progress.querySelectorAll('.uploading-number')[0];
   let uploadUrl = 'index.php?option=com_installer&task=install.ajax_upload';
+
+  function showError(res) {
+    dragZone.setAttribute('data-state', 'pending');
+    let message = Joomla.JText._('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_UNKNOWN');
+    if (res == null) {
+      message = Joomla.JText._('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_EMPTY');
+    } else if (typeof res === 'string') {
+      // Let's remove unnecessary HTML
+      message = res.replace(/(<([^>]+)>|\s+)/g, ' ');
+    } else if (res.message) {
+      ({ message } = res);
+    }
+    Joomla.renderMessages({ error: [message] });
+  }
 
   if (returnUrl) {
     uploadUrl += `&return=${returnUrl}`;
@@ -130,6 +146,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   fileInput.addEventListener('change', () => {
+    if (uploading) {
+      return;
+    }
     Joomla.submitbuttonpackage();
   });
 
@@ -164,6 +183,10 @@ document.addEventListener('DOMContentLoaded', () => {
     event.preventDefault();
     event.stopPropagation();
 
+    if (uploading) {
+      return;
+    }
+
     dragZone.classList.remove('hover');
 
     const files = event.target.files || event.dataTransfer.files;
@@ -177,9 +200,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     data.append('install_package', file);
     data.append('installtype', 'upload');
-    data.append(token, 1);
+    dragZone.setAttribute('data-state', 'uploading');
+    progressBar.setAttribute('aria-valuenow', 0);
 
-    loading.style.display = 'block';
+    uploading = true;
+    progressBar.style.width = 0;
+    percentage.textContent = '0';
+
+    // Upload progress
+    const progressCallback = (evt) => {
+      if (evt.lengthComputable) {
+        const percentComplete = evt.loaded / evt.total;
+        const number = Math.round(percentComplete * 100);
+        progressBar.css('width', `${number}%`);
+        progressBar.setAttribute('aria-valuenow', number);
+        percentage.textContent = `${number}`;
+        if (number === 100) {
+          dragZone.setAttribute('data-state', 'installing');
+        }
+      }
+    };
 
     Joomla.request({
       url: uploadUrl,
@@ -187,12 +227,29 @@ document.addEventListener('DOMContentLoaded', () => {
       perform: true,
       data,
       headers: { 'Content-Type': 'false' },
+      uploadProgressCallback: progressCallback,
       onSuccess: (response) => {
-        const res = JSON.parse(response);
-        if (!res.success) {
-          // eslint-disable-next-line no-console
-          console.log(res.message, res.messages);
+        if (!response) {
+          showError(response);
+          return;
         }
+
+        let res;
+
+        try {
+          res = JSON.parse(response);
+        } catch (e) {
+          showError(e);
+
+          return;
+        }
+
+        if (!res.success && !res.data) {
+          showError(res);
+
+          return;
+        }
+
         // Always redirect that can show message queue from session
         if (res.data.redirect) {
           window.location.href = res.data.redirect;
@@ -201,8 +258,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       },
       onError: (error) => {
-        loading.style.display = 'none';
-        alert(error.statusText);
+        uploading = false;
+        if (error.status === 200) {
+          const res = error.responseText || error.responseJSON;
+          showError(res);
+        } else {
+          showError(error.statusText);
+        }
       },
     });
   });

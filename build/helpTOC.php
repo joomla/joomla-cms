@@ -65,7 +65,7 @@ class MediawikiCli extends CliApplication
 
 		// Get the version data for the script
 		$minorVersion = Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION;
-		$namespace    = 'Help' . $minorVersion . ':';
+		$namespace    = 'Help' . str_replace('.', '', $minorVersion) . ':';
 
 		// Set up HTTP driver for MediaWiki
 		$http = new \Joomla\Mediawiki\Http([], JHttpFactory::getAvailableDriver());
