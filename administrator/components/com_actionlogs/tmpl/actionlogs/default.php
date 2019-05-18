@@ -15,8 +15,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
+use Joomla\Component\Actionlogs\Administrator\View\Actionlogs\HtmlView;
 
-/** @var Joomla\Component\Actionlogs\Administrator\View\Actionlogs $this */
+/** @var HtmlView $this */
 
 HTMLHelper::_('bootstrap.tooltip');
 HTMLHelper::_('behavior.multiselect');
@@ -54,47 +55,49 @@ Factory::getDocument()->addScriptDeclaration('
 	};
 ');
 ?>
+
 <form action="<?php echo Route::_('index.php?option=com_actionlogs&view=actionlogs'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container">
-		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+	<div id="j-main-container" class="j-main-container">
+		<?php
+		// Search tools bar
+		echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+		?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-warning">
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
-			<table class="table table-striped table-hover" id="logsList">
+			<table class="table" id="logsList">
+				<caption id="captionTable" class="sr-only">
+					<?php echo Text::_('COM_ACTIONLOGS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+				</caption>
 				<thead>
-					<th width="1%" class="center">
-						<?php echo HTMLHelper::_('grid.checkall'); ?>
-					</th>
-					<th>
-						<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_ACTION', 'a.message', $listDirn, $listOrder); ?>
-					</th>
-					<th width="15%" class="nowrap">
-						<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_EXTENSION', 'a.extension', $listDirn, $listOrder); ?>
-					</th>
-					<th width="15%" class="nowrap">
-						<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_DATE', 'a.log_date', $listDirn, $listOrder); ?>
-					</th>
-					<th width="10%" class="nowrap">
-						<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_NAME', 'a.user_id', $listDirn, $listOrder); ?>
-					</th>
-					<?php if ($this->showIpColumn) : ?>
-						<th width="10%" class="nowrap">
-							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_IP_ADDRESS', 'a.ip_address', $listDirn, $listOrder); ?>
-						</th>
-					<?php endif; ?>
-					<th width="1%" class="nowrap hidden-phone">
-						<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
-					</th>
-				</thead>
-				<tfoot>
 					<tr>
-						<td colspan="7">
-							<?php echo $this->pagination->getListFooter(); ?>
-						</td>
+						<td width="1%" class="text-center">
+							<?php echo HTMLHelper::_('grid.checkall'); ?>
+						</th>
+						<th scope="col">
+							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_ACTION', 'a.message', $listDirn, $listOrder); ?>
+						</th>
+						<th scope="col" width="15%" class="nowrap">
+							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_EXTENSION', 'a.extension', $listDirn, $listOrder); ?>
+						</th>
+						<th scope="col" width="15%" class="nowrap">
+							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_DATE', 'a.log_date', $listDirn, $listOrder); ?>
+						</th>
+						<th scope="col" width="10%" class="nowrap">
+							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_NAME', 'a.user_id', $listDirn, $listOrder); ?>
+						</th>
+						<?php if ($this->showIpColumn) : ?>
+							<th scope="col" width="10%" class="nowrap">
+								<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_IP_ADDRESS', 'a.ip_address', $listDirn, $listOrder); ?>
+							</th>
+						<?php endif; ?>
+						<th scope="col" width="1%" class="nowrap hidden-phone">
+							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+						</th>
 					</tr>
-				</tfoot>
+				</thead>
 				<tbody>
 					<?php foreach ($this->items as $i => $item) :
 						$extension = strtok($item->extension, '.');
@@ -129,6 +132,10 @@ Factory::getDocument()->addScriptDeclaration('
 					<?php endforeach; ?>
 				</tbody>
 			</table>
+
+			<?php // Load the pagination. ?>
+			<?php echo $this->pagination->getListFooter(); ?>
+
 		<?php endif;?>
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
