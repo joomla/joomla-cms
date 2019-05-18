@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
 
 /**
  * Search feed view class for the Finder package.
@@ -46,8 +47,8 @@ class FeedView extends BaseHtmlView
 		$total = $this->get('Total');
 
 		// Push out the query data.
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-		$explained = \JHtml::_('query.explained', $query);
+		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		$explained = HTMLHelper::_('query.explained', $query);
 
 		// Set the document title.
 		$title = $params->get('page_title', '');
@@ -74,7 +75,7 @@ class FeedView extends BaseHtmlView
 		}
 
 		// Set the document link.
-		$this->document->link = \JRoute::_($query->toUri());
+		$this->document->link = Route::_($query->toUri());
 
 		// If we don't have any results, we are done.
 		if (empty($results))
@@ -88,7 +89,7 @@ class FeedView extends BaseHtmlView
 			// Convert the result to a feed entry.
 			$item              = new \JFeedItem;
 			$item->title       = $result->title;
-			$item->link        = \JRoute::_($result->route);
+			$item->link        = Route::_($result->route);
 			$item->description = $result->description;
 
 			// Use Unix date to cope for non-english languages

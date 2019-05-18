@@ -32,7 +32,7 @@ class XmlView extends AbstractView
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   3.9.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
