@@ -14,11 +14,14 @@ defined('_JEXEC') or die;
 use DateTimeZone;
 use Exception;
 use InvalidArgumentException;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel;
@@ -34,34 +37,22 @@ class ActionlogsController extends AdminController
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 *                                         Recognized key values include 'name', 'default_task', 'model_path', and
+	 *                                         'view_path' (this list is not meant to be comprehensive).
+	 * @param   MVCFactoryInterface  $factory  The factory.
+	 * @param   CmsApplication       $app      The JApplication for the dispatcher
+	 * @param   Input                $input    Input
 	 *
 	 * @since   3.9.0
 	 *
 	 * @throws  Exception
 	 */
-	public function __construct(array $config = array())
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
-		parent::__construct($config);
+		parent::__construct($config, $factory, $app, $input);
 
 		$this->registerTask('exportSelectedLogs', 'exportLogs');
-	}
-
-	/**
-	 * Method to get a model object, loading it if required.
-	 *
-	 * @param   string  $name    The model name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  object  The model.
-	 *
-	 * @since   3.9.0
-	 */
-	public function getModel($name = 'Actionlogs', $prefix = 'Administrator', $config = array('ignore_request' => true))
-	{
-		// Return the model
-		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**
@@ -138,6 +129,23 @@ class ActionlogsController extends AdminController
 			$this->setMessage(Text::_('COM_ACTIONLOGS_NO_LOGS_TO_EXPORT'));
 			$this->setRedirect(Route::_('index.php?option=com_actionlogs&view=actionlogs', false));
 		}
+	}
+
+	/**
+	 * Method to get a model object, loading it if required.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  object  The model.
+	 *
+	 * @since   3.9.0
+	 */
+	public function getModel($name = 'Actionlogs', $prefix = 'Administrator', $config = array('ignore_request' => true))
+	{
+		// Return the model
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**

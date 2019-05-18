@@ -7,28 +7,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Component\Actionlogs\Administrator\Field;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\Field\ListField;
 
 /**
  * Field to load a list of all users that have logged actions
  *
  * @since  3.9.0
  */
-class JFormFieldLogCreator extends JFormFieldList
+class LogCreatorField extends ListField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  3.9.0
-	 */
-	protected $type = 'LogCreator';
-
 	/**
 	 * Cached array of the category items.
 	 *
@@ -36,6 +28,14 @@ class JFormFieldLogCreator extends JFormFieldList
 	 * @since  3.9.0
 	 */
 	protected static $options = array();
+
+	/**
+	 * The form field type.
+	 *
+	 * @var    string
+	 * @since  3.9.0
+	 */
+	protected $type = 'LogCreator';
 
 	/**
 	 * Method to get the options to populate list
@@ -52,8 +52,6 @@ class JFormFieldLogCreator extends JFormFieldList
 		if (!isset(static::$options[$hash]))
 		{
 			static::$options[$hash] = parent::getOptions();
-
-			$options = array();
 
 			$db = Factory::getDbo();
 

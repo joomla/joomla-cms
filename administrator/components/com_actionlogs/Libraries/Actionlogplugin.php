@@ -6,14 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\Component\Actionlogs\Administrator\Libraries;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
-
-BaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/model', 'ActionlogsModel');
 
 /**
  * Abstract Action Log Plugin
@@ -94,8 +94,8 @@ abstract class ActionLogPlugin extends CMSPlugin
 			$messages[$index] = $message;
 		}
 
-		/** @var ActionlogModel $model **/
-		$model = BaseModel::getInstance('Actionlog', 'ActionlogsModel');
+		/** @var ActionlogModel $model */
+		$model = new ActionlogModel;
 		$model->addLog($messages, strtoupper($messageLanguageKey), $context, $userId);
 	}
 }

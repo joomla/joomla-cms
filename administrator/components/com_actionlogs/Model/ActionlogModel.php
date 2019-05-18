@@ -11,15 +11,15 @@ namespace Joomla\Component\Actionlogs\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Utilities\IpHelper;
-
-JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
 /**
  * Methods supporting a list of Actionlog records.
@@ -40,6 +40,8 @@ class ActionlogModel extends BaseDatabaseModel
 	 * @return  void
 	 *
 	 * @since   3.9.0
+	 *
+	 * @throws  Exception
 	 */
 	public function addLog($messages, $messageLanguageKey, $context, $userId = null)
 	{
@@ -100,6 +102,8 @@ class ActionlogModel extends BaseDatabaseModel
 	 * @return  void
 	 *
 	 * @since   3.9.0
+	 *
+	 * @throws  Exception
 	 */
 	protected function sendNotificationEmails($messages, $username, $context)
 	{
@@ -119,14 +123,7 @@ class ActionlogModel extends BaseDatabaseModel
 
 		$db->setQuery($query);
 
-		try
-		{
-			$users = $db->loadObjectList();
-		}
-		catch (\RuntimeException $e)
-		{
-			throw new GenericDataException($e->getMessage(), 500);
-		}
+		$users = $db->loadObjectList();
 
 		$recipients = array();
 
@@ -147,12 +144,12 @@ class ActionlogModel extends BaseDatabaseModel
 
 		$layout    = new FileLayout('components.com_actionlogs.layouts.logstable', JPATH_ADMINISTRATOR);
 		$extension = strtok($context, '.');
-		\ActionlogsHelper::loadTranslationFiles($extension);
+		ActionlogsHelper::loadTranslationFiles($extension);
 
 		foreach ($messages as $message)
 		{
 			$message->extension = Text::_($extension);
-			$message->message   = \ActionlogsHelper::getHumanReadableLogMessage($message);
+			$message->message   = ActionlogsHelper::getHumanReadableLogMessage($message);
 		}
 
 		$displayData = array(

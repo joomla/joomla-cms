@@ -98,6 +98,8 @@ class ActionlogsModel extends ListModel
 	 * @return  DatabaseQuery
 	 *
 	 * @since   3.9.0
+	 *
+	 * @throws  Exception
 	 */
 	protected function getListQuery()
 	{
