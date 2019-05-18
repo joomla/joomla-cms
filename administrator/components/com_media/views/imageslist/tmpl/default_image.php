@@ -13,7 +13,7 @@ use Joomla\Registry\Registry;
 
 $params     = new Registry;
 $dispatcher = JEventDispatcher::getInstance();
-$dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_tmp_img, &$params));
+$dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_tmp_img, &$params, 0));
 ?>
 
 <li class="imgOutline thumbnail height-80 width-80 center">
@@ -27,4 +27,4 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_
 	</a>
 </li>
 <?php
-$dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$this->_tmp_img, &$params));
+$dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$this->_tmp_img, &$params, 0));
