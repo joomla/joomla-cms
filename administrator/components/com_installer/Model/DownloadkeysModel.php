@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * Installer Download Keys Model
@@ -27,8 +28,8 @@ class DownloadkeysModel extends InstallerModel
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \Joomla\CMS\MVC\Model\ListModel
 	 * @since   __DEPLOY_VERSION__
+	 * @see     \Joomla\CMS\MVC\Model\ListModel
 	 */
 	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
@@ -104,42 +105,43 @@ class DownloadkeysModel extends InstallerModel
 	/**
 	 * Method to get the database query
 	 *
-	 * @return  \JDatabaseQuery  The database query
+	 * @return  DatabaseQuery  The database query
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getListQuery()
 	{
-		$db    = $this->getDbo();
+		$db = $this->getDbo();
+		/** @var DatabaseQuery $query */
 		$query = $db->getQuery(true)
 			->select(
 				array(
-					's.update_site_id',
-					's.name AS update_site_name',
-					's.type AS update_site_type',
-					's.extra_query AS extra_query',
-					's.location',
-					'e.extension_id',
-					'e.name',
-					'e.type',
-					'e.element',
-					'e.folder',
-					'e.client_id',
-					'e.manifest_cache',
+					'sites.update_site_id',
+					'sites.name AS update_site_name',
+					'sites.type AS update_site_type',
+					'sites.extra_query AS extra_query',
+					'sites.location',
+					'extensions.extension_id',
+					'extensions.name',
+					'extensions.type',
+					'extensions.element',
+					'extensions.folder',
+					'extensions.client_id',
+					'extensions.manifest_cache',
 				)
 			)
-			->from($db->quoteName('#__update_sites', 's'))
+			->from($db->quoteName('#__update_sites', 'sites'))
 			->innerJoin(
-				$db->quoteName('#__update_sites_extensions', 'se') .
-				' ON ' . $db->quoteName('se.update_site_id') .
-				' = ' . $db->quoteName('s.update_site_id')
+				$db->quoteName('#__update_sites_extensions', 'sites_extensions') .
+				' ON ' . $db->quoteName('sites_extensions.update_site_id') .
+				' = ' . $db->quoteName('sites.update_site_id')
 			)
 			->innerJoin(
-				$db->quoteName('#__extensions', 'e') .
-				' ON ' . $db->quoteName('e.extension_id') .
-				' = ' . $db->quoteName('se.extension_id')
+				$db->quoteName('#__extensions', 'extensions') .
+				' ON ' . $db->quoteName('extensions.extension_id') .
+				' = ' . $db->quoteName('sites_extensions.extension_id')
 			)
-			->where('location not like \'%.joomla.org/%\'');
+			->where($db->quoteName('sites.location') . ' NOT LIKE ' . $db->quote('%.joomla.org/%'));
 
 		// Process select filters.
 		$enabled  = $this->getState('filter.enabled');
@@ -149,30 +151,37 @@ class DownloadkeysModel extends InstallerModel
 
 		if ($enabled != '')
 		{
-			$query->where($db->quoteName('s.enabled') . ' = ' . $db->quote((int) $enabled));
+			$query->where($db->quoteName('sites.enabled') . ' = ' . (int) $enabled);
 		}
 
 		if ($type)
 		{
-			$query->where($db->quoteName('e.type') . ' = ' . $db->quote($type));
+			$query->where($db->quoteName('extensions.type') . ' = ' . $db->quote($type));
 		}
 
 		if ($clientId != '')
 		{
-			$query->where($db->quoteName('e.client_id') . ' = ' . $db->quote((int) $clientId));
+			$query->where($db->quoteName('extensions.client_id') . ' = ' . (int) $clientId);
 		}
 
 		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
 		{
-			$query->where($db->quoteName('e.folder') . ' = ' . $db->quote($folder == '*' ? '' : $folder));
+			$query->where($db->quoteName('extensions.folder') . ' = ' . $db->quote($folder == '*' ? '' : $folder));
 		}
 
 		// Process search filter (update site id).
 		$search = $this->getState('filter.search');
 
-		if (!empty($search) && stripos($search, 'id:') === 0)
+		if (!empty($search))
 		{
-			$query->where($db->quoteName('s.update_site_id') . ' = ' . $db->quote((int) substr($search, 3)));
+			if (stripos($search, 'id:') === 0)
+			{
+				$query->where($db->quoteName('sites.update_site_id') . ' = ' . (int) substr($search, 3));
+			}
+			else
+			{
+				$query->where($db->quoteName('sites.name') . ' LIKE ' . $db->quote('%' . $search . '%'));
+			}
 		}
 
 		return $query;
