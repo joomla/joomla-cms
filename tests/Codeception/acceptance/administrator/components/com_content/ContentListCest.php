@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  Acceptance.tests
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ use Page\Acceptance\Administrator\ContentListPage;
 /**
  * Tests for com_content list view
  *
- * @since    __DEPLOY_VERSION__
+ * @since    4.0.0
  */
 class ContentListCest
 {
@@ -32,7 +32,7 @@ class ContentListCest
 	 *
 	 * @param   AcceptanceTester $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function loadsWithoutPhpNoticesAndWarnings(AcceptanceTester $I)
 	{
@@ -47,7 +47,7 @@ class ContentListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Content $I
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function createNewArticleUsingToolbarButton(\Step\Acceptance\Administrator\Content $I)
 	{
@@ -66,7 +66,7 @@ class ContentListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Content $I
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function seeArticlesInList(\Step\Acceptance\Administrator\Content $I)
 	{
@@ -96,7 +96,7 @@ class ContentListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Content $I
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	/**
 	public function markArticleAsFeaturedUsingToolbarButton(\Step\Acceptance\Administrator\Content $I)

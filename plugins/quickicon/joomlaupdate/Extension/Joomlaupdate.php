@@ -50,7 +50,7 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @var Document
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $document;
 
@@ -77,7 +77,7 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 	 *                                          Recognized key values include 'name', 'group', 'params', 'language'
 	 *                                          (this list is not meant to be comprehensive).
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct($subject, Document $document, $config = array())
 	{
