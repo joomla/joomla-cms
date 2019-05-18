@@ -847,6 +847,9 @@ class Language
 				continue;
 			}
 
+			// Remove any escaped double quotes \" from the equation
+			$line = str_replace('\"', '', $line);
+
 			$realNumber = $lineNumber + 1;
 
 			// Check for odd number of double quotes.

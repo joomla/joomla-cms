@@ -80,7 +80,7 @@ trait ExtensionManagerTrait
 	 *
 	 * @return  PluginInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function bootPlugin($plugin, $type): PluginInterface
 	{
@@ -194,7 +194,7 @@ trait ExtensionManagerTrait
 	 *
 	 * @return  CMSPlugin
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function loadPluginFromFilesystem(string $plugin, string $type)
 	{
