@@ -17,6 +17,7 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -95,7 +96,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// We do not need the Language filter when modules are not filtered
@@ -162,7 +163,7 @@ class HtmlView extends BaseHtmlView
 		if ($canDo->get('core.create'))
 		{
 			$toolbar->standardButton('new', 'JTOOLBAR_NEW')
-				->onclick("location.href='index.php?option=com_modules&amp;view=select'");
+				->onclick("location.href='index.php?option=com_modules&amp;view=select&amp;client_id=" . $this->state->get('client_id', 0) . "'");
 		}
 
 		if ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin'))

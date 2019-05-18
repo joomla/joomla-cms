@@ -210,13 +210,13 @@ use Joomla\CMS\Language\Text;
 
 		<fieldset id="installFinal" class="j-install-step">
 			<legend class="j-install-step-header">
-				<span class="fa fa-joomla" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_FINAL'); ?>
+				<span class="fab fa-joomla" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_FINAL'); ?>
 			</legend>
 			<div class="j-install-step-form">
 				<p><?php echo Text::_('INSTL_COMPLETE_FINAL_DESC'); ?></p>
 				<div class="form-group">
-					<a class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>" title="<?php echo Text::_('JSITE'); ?>" role="button"><span class="fa fa-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
-					<a class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>administrator/" title="<?php echo Text::_('JADMINISTRATOR'); ?>" role="button"><span class="fa fa-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?></a>
+					<a class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>"><span class="fa fa-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
+					<a class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>administrator/"><span class="fa fa-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?></a>
 				</div>
 			</div>
 		</fieldset>

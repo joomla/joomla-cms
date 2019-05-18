@@ -49,6 +49,8 @@ window.Joomla.editors.instances = window.Joomla.editors.instances || {
    *                                  Example: () => { return this.element.value; }
    * setValue         Type  Function  Should replace the complete data of the editor
    *                                  Example: (text) => { return this.element.value = text; }
+   * getSelection     Type  Function  Should return the selected text from the editor
+   *                                  Example: function () { return this.selectedText; }
    * replaceSelection Type  Function  Should replace the selected text of the editor
    *                                  If nothing selected, will insert the data at the cursor
    *                                  Example:
@@ -724,6 +726,11 @@ window.Joomla.Modal = window.Joomla.Modal || {
    * @return  {HTMLElement}  The HTML loading layer element.
    *
    * @since  3.6.0
+   *
+   * @deprecated  4.0 No direct replacement.
+   *              4.0 will introduce a web component for the loading spinner, therefore the spinner
+   *              will need to explicitly be loaded in all relevant pages.
+   *
    */
   Joomla.loadingLayer = (task, parentElement) => {
     // Set default values.
@@ -928,7 +935,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
       url: `index.php?option=com_installer&task=manage.loadChangelog&eid=${extensionId}&source=${view}&format=json`,
       onSuccess: (response) => {
         const result = JSON.parse(response);
-        document.querySelectorAll('#changelogModal .modal-body')[0].innerHTML = result.data;
+        document.querySelectorAll(`#changelogModal${extensionId} .modal-body`)[0].innerHTML = result.data;
       },
     });
   };
