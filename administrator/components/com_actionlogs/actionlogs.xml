@@ -13,14 +13,18 @@
 	<administration>
 		<menu>COM_ACTIONLOGS</menu>
 		<files folder="admin">
-			<file>actionlogs.php</file>
+			<file>actionlogs.xml</file>
 			<file>config.xml</file>
-			<file>access.xml</file>
-			<file>controller.php</file>
-			<folder>controllers</folder>
-			<folder>helpers</folder>
-			<folder>models</folder>
-			<folder>views</folder>
+			<folder>Controller</folder>
+			<folder>Field</folder>
+			<folder>forms</folder>
+			<folder>Helper</folder>
+			<folder>layouts</folder>
+			<folder>Libraries</folder>
+			<folder>Model</folder>
+			<folder>services</folder>
+			<folder>tmpl</folder>
+			<folder>View</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB.com_actionlogs.ini</language>
