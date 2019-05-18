@@ -104,7 +104,6 @@ class ActionlogsModel extends ListModel
 	protected function getListQuery()
 	{
 		$db    = $this->getDbo();
-		/** @var DatabaseQuery $query */
 		$query = $db->getQuery(true)
 			->select('a.*, u.name')
 			->from('#__action_logs AS a')
