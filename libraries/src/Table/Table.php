@@ -1320,6 +1320,8 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		);
 		$this->getDispatcher()->dispatch('onTableAfterCheckin', $event);
 
+		Factory::getApplication()->triggerEvent('onAfterCheckin', array($this->_tbl));
+
 		return true;
 	}
 
