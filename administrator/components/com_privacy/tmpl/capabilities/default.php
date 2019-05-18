@@ -12,20 +12,13 @@ defined('_JEXEC') or die;
 /** @var PrivacyViewCapabilities $this */
 
 ?>
-<?php if (!empty($this->sidebar)) : ?>
-	<div id="j-sidebar-container" class="span2">
-		<?php echo $this->sidebar; ?>
-	</div>
-	<div id="j-main-container" class="span10">
-<?php else : ?>
-	<div id="j-main-container">
-<?php endif; ?>
+<div id="j-main-container">
 	<div class="alert alert-info">
 		<h4 class="alert-heading"><?php echo JText::_('COM_PRIVACY_MSG_CAPABILITIES_ABOUT_THIS_INFORMATION'); ?></h4>
 		<?php echo JText::_('COM_PRIVACY_MSG_CAPABILITIES_INTRODUCTION'); ?>
 	</div>
 	<?php if (empty($this->capabilities)) : ?>
-		<div class="alert alert-no-items">
+		<div class="alert alert-warning">
 			<?php echo JText::_('COM_PRIVACY_MSG_CAPABILITIES_NO_CAPABILITIES'); ?>
 		</div>
 	<?php else : ?>
@@ -35,7 +28,7 @@ defined('_JEXEC') or die;
 		<?php foreach ($this->capabilities as $extension => $capabilities) : ?>
 			<?php echo JHtml::_('bootstrap.addSlide', 'slide-capabilities', $extension, 'slide-' . $i); ?>
 				<?php if (empty($capabilities)) : ?>
-					<div class="alert alert-no-items">
+					<div class="alert alert-warning">
 						<?php echo JText::_('COM_PRIVACY_MSG_EXTENSION_NO_CAPABILITIES'); ?>
 					</div>
 				<?php else : ?>

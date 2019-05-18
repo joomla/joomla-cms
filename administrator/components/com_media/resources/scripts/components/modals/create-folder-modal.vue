@@ -1,6 +1,6 @@
 <template>
-    <media-modal v-if="$store.state.showCreateFolderModal" :size="'md'" @close="close()">
-        <h3 slot="header" class="modal-title">{{ translate('COM_MEDIA_CREATE_NEW_FOLDER') }}</h3>
+    <media-modal v-if="$store.state.showCreateFolderModal" :size="'md'" @close="close()" label-element="createFolderTitle">
+        <h3 slot="header" id="createFolderTitle" class="modal-title">{{ translate('COM_MEDIA_CREATE_NEW_FOLDER') }}</h3>
         <div slot="body">
             <form class="form" @submit.prevent="save" novalidate>
                 <div class="form-group">
