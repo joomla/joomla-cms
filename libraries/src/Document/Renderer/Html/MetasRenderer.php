@@ -49,13 +49,13 @@ class MetasRenderer extends DocumentRenderer
 			HTMLHelper::_('behavior.core');
 		}
 
-		// Attach Assets
-		$wa = $this->_doc->getWebAssetManager();
-		$wa->attachActiveAssetsToDocument($this->_doc);
-
 		// Trigger the onBeforeCompileHead event
 		$app = Factory::getApplication();
 		$app->triggerEvent('onBeforeCompileHead');
+		
+		// Attach Assets
+		$wa = $this->_doc->getWebAssetManager();
+		$wa->attachActiveAssetsToDocument($this->_doc);
 
 		// Get line endings
 		$lnEnd        = $this->_doc->_getLineEnd();

@@ -1211,11 +1211,11 @@ class Form
 
 			$key = $attrGroup ? $attrGroup . '.' . $name : $name;
 
-			$fieldObj = $this->loadField($field, $group);
+			$fieldObj = $this->loadField($field, $attrGroup);
 
 			if ($fieldObj)
 			{
-				$valid = $fieldObj->validate($input->get($key), $group, $input);
+				$valid = $fieldObj->validate($input->get($key), $attrGroup, $input);
 
 				// Check for an error.
 				if ($valid instanceof \Exception)

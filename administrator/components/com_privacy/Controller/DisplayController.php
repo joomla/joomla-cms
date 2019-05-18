@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -123,15 +123,13 @@ class DisplayController extends BaseController
 	 */
 	public function getNumberUrgentRequests()
 	{
-		$app = Factory::getApplication();
-
 		// Check for a valid token. If invalid, send a 403 with the error message.
 		if (!Session::checkToken('get'))
 		{
-			$app->setHeader('status', 403, true);
-			$app->sendHeaders();
+			$this->app->setHeader('status', 403, true);
+			$this->app->sendHeaders();
 			echo new JsonResponse(new \Exception(Text::_('JINVALID_TOKEN'), 403));
-			$app->close();
+			$this->app->close();
 		}
 
 		/** @var RequestsModel $model */

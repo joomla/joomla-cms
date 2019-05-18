@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -252,7 +253,7 @@ abstract class AdminModel extends FormModel
 			), $config['events_map']
 		);
 
-		// Guess the \JText message prefix. Defaults to the option.
+		// Guess the \Text message prefix. Defaults to the option.
 		if (isset($config['text_prefix']))
 		{
 			$this->text_prefix = strtoupper($config['text_prefix']);
@@ -1071,10 +1072,29 @@ abstract class AdminModel extends FormModel
 
 					return false;
 				}
+
+				/**
+				 * Prune items that are already at the given state.  Note: Only models whose table correctly
+				 * sets 'published' column alias (if different than published) will benefit from this
+				 */
+				$publishedColumnName = $table->getColumnAlias('published');
+
+				if (property_exists($table, $publishedColumnName) && $table->get($publishedColumnName, $value) == $value)
+				{
+					unset($pks[$i]);
+
+					continue;
+				}
 			}
 		}
 
-		// Trigger the change state event.
+		// Check if there are items to change
+		if (!count($pks))
+		{
+			return true;
+		}
+
+		// Trigger the before change state event.
 		$result = Factory::getApplication()->triggerEvent($this->event_before_change_state, array($context, $pks, $value));
 
 		if (in_array(false, $result, true))
@@ -1576,9 +1596,9 @@ abstract class AdminModel extends FormModel
 
 		if ($id == 0)
 		{
-			$app->enqueueMessage(\JText::_('JGLOBAL_ASSOCIATIONS_NEW_ITEM_WARNING'), 'error');
+			$app->enqueueMessage(Text::_('JGLOBAL_ASSOCIATIONS_NEW_ITEM_WARNING'), 'error');
 			$app->redirect(
-				\JRoute::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
+				Route::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
 			);
 
 			return false;
@@ -1586,9 +1606,9 @@ abstract class AdminModel extends FormModel
 
 		if ($data['language'] === '*')
 		{
-			$app->enqueueMessage(\JText::_('JGLOBAL_ASSOC_NOT_POSSIBLE'), 'notice');
+			$app->enqueueMessage(Text::_('JGLOBAL_ASSOC_NOT_POSSIBLE'), 'notice');
 			$app->redirect(
-				\JRoute::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
+				Route::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
 			);
 
 			return false;
@@ -1624,7 +1644,7 @@ abstract class AdminModel extends FormModel
 		}
 
 		$app->redirect(
-			\JRoute::_(
+			Route::_(
 				'index.php?option=com_associations&view=association&layout=edit&itemtype=' . $this->typeAlias
 				. '&task=association.edit&id=' . $id . $target, false
 			)

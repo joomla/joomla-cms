@@ -26,7 +26,7 @@ class ExtensionHelper
 	 *
 	 * @var array
 	 */
-	public static $extensions = [ModuleInterface::class => [], ComponentInterface::class => []];
+	public static $extensions = [ModuleInterface::class => [], ComponentInterface::class => [], PluginInterface::class => []];
 
 	/**
 	 * The loaded extensions.
@@ -343,7 +343,7 @@ class ExtensionHelper
 	 *
 	 * @return  \stdClass  The object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getExtensionRecord($name)
 	{
