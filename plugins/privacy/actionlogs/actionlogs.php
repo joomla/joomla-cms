@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 
-JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
+defined('_JEXEC') or die;
 
 /**
  * Privacy plugin managing Joomla actionlogs data
