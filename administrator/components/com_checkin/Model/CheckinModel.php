@@ -91,12 +91,12 @@ class CheckinModel extends ListModel
 		// This int will hold the checked item count.
 		$results = 0;
 
-		$dispatcher = \JEventDispatcher::getInstance();
+		$app = Factory::getApplication();
 
 		foreach ($ids as $tn)
 		{
 			// Make sure we get the right tables based on prefix.
-			if (stripos($tn, Factory::getApplication()->get('dbprefix')) !== 0)
+			if (stripos($tn, $app->get('dbprefix')) !== 0)
 			{
 				continue;
 			}
@@ -119,7 +119,7 @@ class CheckinModel extends ListModel
 			if ($db->execute())
 			{
 				$results = $results + $db->getAffectedRows();
-				$dispatcher->trigger('onAfterCheckin', array($tn));
+				$app->triggerEvent('onAfterCheckin', array($tn));
 			}
 		}
 
