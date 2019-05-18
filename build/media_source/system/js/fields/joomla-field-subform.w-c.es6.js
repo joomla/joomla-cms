@@ -69,6 +69,7 @@
 
       // Template for the repeating group
       this.template = '';
+      this.templateElement = null;
 
       // Prepare a row template, and find available field names
       this.prepareTemplate();
@@ -154,6 +155,13 @@
       const tmplElement = [].slice.call(this.children).filter(el => el.classList.contains('subform-repeatable-template-section'));
 
       if (tmplElement[0]) {
+        // Move the template out of the form scope, for IE compatibility.
+        // But only a root template (!!!)
+        if (!closest(tmplElement[0], '.subform-repeatable-template-section')) {
+          document.body.append(tmplElement[0]);
+        }
+
+        this.templateElement = tmplElement[0];
         this.template = tmplElement[0].innerHTML;
       }
 
