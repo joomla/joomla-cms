@@ -70,7 +70,7 @@ class JFormFieldterms extends JFormFieldRadio
 		// Set required to true
 		$this->required = true;
 
-		JHtml::_('behavior.modal');
+		HTMLHelper::_('behavior.modal');
 
 		// Build the class for the label.
 		$class = !empty($this->description) ? 'hasPopover' : '';
