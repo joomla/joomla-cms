@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  Acceptance.tests
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 use Page\Acceptance\Administrator\MediaListPage;
@@ -18,7 +18,7 @@ use Page\Acceptance\Administrator\MediaFilePage;
 /**
  * Media manager list tests
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class MediaListCest
 {
@@ -57,7 +57,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function _before(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -72,7 +72,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function _after(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -88,7 +88,7 @@ class MediaListCest
 	 *
 	 * @param   AcceptanceTester $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function loadsWithoutPhpNoticesAndWarnings(AcceptanceTester $I)
 	{
@@ -103,7 +103,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function showsDefaultFilesAndFolders(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -119,7 +119,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function showsFilesAndFoldersOfASubdirectoryWhenOpenedUsingDeepLink(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -135,7 +135,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function selectSingleFile(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -151,7 +151,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function selectSingleFolder(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -167,7 +167,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function selectMultipleItems(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -184,7 +184,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function navigateUsingDoubleClickOnFolder(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -202,7 +202,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function navigateUsingTree(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -220,7 +220,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function navigateUsingBreadcrumb(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -238,7 +238,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function uploadSingleFileUsingToolbarButton(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -259,7 +259,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function uploadExistingFileUsingToolbarButton(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -283,7 +283,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function createFolderUsingToolbarButton(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -311,7 +311,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function createExistingFolderUsingToolbar(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -333,7 +333,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function deleteSingleFileUsingToolbar(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -358,7 +358,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function deleteSingleFolder(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -383,7 +383,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function deleteMultipleFiles(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -415,7 +415,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function renameFile(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -444,7 +444,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function renameFileToExistingFile(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -474,7 +474,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function renameFolder(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -503,7 +503,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function renameFolderToExistingFolder(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -534,7 +534,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function showPreviewUsingDoubleClickOnImage(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -554,7 +554,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function showPreviewUsingClickOnActionMenu(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -574,7 +574,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function closePreviewModalUsingCloseButton(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -593,7 +593,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function closePreviewModalUsingEscapeKey(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -611,7 +611,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function openImageEditorUsingActionMenu(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -627,7 +627,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function toggleInfoBar(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -645,7 +645,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function showFileInformationInInfobar(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -663,7 +663,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function showFolderInformationInInfobar(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -681,7 +681,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function resizeThumbnails(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -714,7 +714,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function toggleListViewUsingToolbarButton(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -736,7 +736,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function selectAllItemsUsingToolbarButton(\Step\Acceptance\Administrator\Media $I)
 	{
@@ -752,7 +752,7 @@ class MediaListCest
 	 *
 	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function synchronizeAppStateWithSessionStorage(\Step\Acceptance\Administrator\Media $I)
 	{

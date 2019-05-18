@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Privacy\Administrator\Helper\PrivacyHelper;
+use Joomla\Component\Privacy\Administrator\Model\DashboardModel;
 use Joomla\Component\Privacy\Administrator\Model\RequestsModel;
 
 /**
@@ -68,12 +69,12 @@ class HtmlView extends BaseHtmlView
 	protected $sendMailEnabled;
 
 	/**
-	 * The HTML markup for the sidebar
+	 * Days when a request is considered urgent
 	 *
-	 * @var    string
+	 * @var    integer
 	 * @since  3.9.0
 	 */
-	protected $sidebar;
+	protected $urgentRequestDays = 14;
 
 	/**
 	 * Id of the system privacy consent plugin
@@ -88,7 +89,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @see     BaseHtmlView::loadTemplate()
 	 * @since   3.9.0
@@ -96,11 +97,12 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		// Initialise variables
+		/** @var DashboardModel $model */
+		$model                        = $this->getModel();
+		$this->privacyPolicyInfo      = $model->getPrivacyPolicyInfo();
+		$this->requestCounts          = $model->getRequestCounts();
+		$this->requestFormPublished   = $model->getRequestFormPublished();
 		$this->privacyConsentPluginId = PrivacyHelper::getPrivacyConsentPluginId();
-		$this->privacyPolicyInfo      = $this->get('PrivacyPolicyInfo');
-		$this->requestCounts          = $this->get('RequestCounts');
-		$this->requestFormPublished   = $this->get('RequestFormPublished');
 		$this->sendMailEnabled        = (bool) Factory::getConfig()->get('mailonline', 1);
 
 		/** @var RequestsModel $requestsModel */
@@ -118,9 +120,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		$this->sidebar = \JHtmlSidebar::render();
-
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
