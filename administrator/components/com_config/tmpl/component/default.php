@@ -7,13 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-
-defined('_JEXEC') or die;
 
 $app = Factory::getApplication();
 $template = $app->getTemplate();
@@ -27,6 +27,11 @@ Text::script('MESSAGE');
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.tabstate');
+
+if ($this->fieldsets)
+{
+	HTMLHelper::_('bootstrap.framework');
+}
 
 // @TODO delete this when custom elements modal is merged
 HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version' => 'auto', 'relative' => true]);
@@ -61,35 +66,7 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version
 			<div class="tab-content" id="configContent">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<div class="tab-pane" id="<?php echo $name; ?>">
-						<?php if (isset($fieldSet->description) && !empty($fieldSet->description)) : ?>
-							<div class="alert alert-info">
-								<span class="icon-info" aria-hidden="true"></span> <?php echo Text::_($fieldSet->description); ?>
-							</div>
-						<?php endif; ?>
-						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-							<?php
-								$dataShowOn = '';
-								$groupClass = $field->type === 'Spacer' ? ' field-spacer' : '';
-							?>
-							<?php if ($field->showon) : ?>
-								<?php HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true)); ?>
-								<?php $dataShowOn = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\''; ?>
-							<?php endif; ?>
-							<?php if ($field->hidden) : ?>
-								<?php echo $field->input; ?>
-							<?php else : ?>
-								<div class="control-group<?php echo $groupClass; ?>"<?php echo $dataShowOn; ?>>
-									<?php if ($name != 'permissions') : ?>
-										<div class="control-label">
-											<?php echo $field->label; ?>
-										</div>
-									<?php endif; ?>
-									<div class="<?php if ($name != 'permissions') : ?>controls<?php endif; ?>">
-										<?php echo $field->input; ?>
-									</div>
-								</div>
-							<?php endif; ?>
-						<?php endforeach; ?>
+						<?php echo $this->form->renderFieldset($name, $name === 'permissions' ? ['hiddenLabel' => true, 'class' => 'revert-controls'] : []); ?>
 					</div>
 				<?php endforeach; ?>
 			</div>

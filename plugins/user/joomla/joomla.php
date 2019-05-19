@@ -30,7 +30,7 @@ class PlgUserJoomla extends CMSPlugin
 	/**
 	 * Application object
 	 *
-	 * @var    JApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplicationInterface
 	 * @since  3.2
 	 */
 	protected $app;
@@ -38,7 +38,7 @@ class PlgUserJoomla extends CMSPlugin
 	/**
 	 * Database object
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseInterface
 	 * @since  3.2
 	 */
 	protected $db;
@@ -382,7 +382,7 @@ class PlgUserJoomla extends CMSPlugin
 	 * @param   array  $user     Holds the user data.
 	 * @param   array  $options  Array holding options (remember, autoregister, group).
 	 *
-	 * @return  JUser
+	 * @return  User
 	 *
 	 * @since   1.5
 	 */
@@ -420,7 +420,7 @@ class PlgUserJoomla extends CMSPlugin
 		{
 			if (!$instance->save())
 			{
-				Log::add('Error in autoregistration for user ' . $user['username'] . '.', Log::WARNING, 'error');
+				Log::add('Failed to automatically create account for user ' . $user['username'] . '.', Log::WARNING, 'error');
 			}
 		}
 		else

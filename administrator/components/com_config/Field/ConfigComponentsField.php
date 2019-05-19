@@ -13,17 +13,16 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
-
-\JFormHelper::loadFieldClass('List');
 
 /**
  * Text Filters form field.
  *
  * @since  3.7.0
  */
-class ConfigComponentsField extends \JFormFieldList
+class ConfigComponentsField extends ListField
 {
 	/**
 	 * The form field type.

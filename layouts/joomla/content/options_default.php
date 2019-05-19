@@ -28,12 +28,14 @@ use Joomla\CMS\HTML\HTMLHelper;
 				<?php HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true)); ?>
 				<?php $datashowon = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\''; ?>
 			<?php endif; ?>
-			<div class="control-group<?php echo $groupClass; ?>"<?php echo $datashowon; ?>>
-				<?php if (!isset($displayData->showlabel) || $displayData->showlabel) : ?>
-					<div class="control-label"><?php echo $field->label; ?></div>
+			
+				<?php if (isset($displayData->showlabel)) : ?>
+				<div class="control-group<?php echo $groupClass; ?>"<?php echo $datashowon; ?>>
+					<div class="controls"><?php echo $field->input; ?></div>
+				</div>
+				<?php else : ?>
+					<?php echo $field->renderField(); ?>
 				<?php endif; ?>
-				<div class="controls"><?php echo $field->input; ?></div>
-			</div>
 		<?php endforeach; ?>
 	<?php endforeach; ?>
 </fieldset>

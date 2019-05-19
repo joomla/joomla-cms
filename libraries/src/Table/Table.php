@@ -126,7 +126,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 	 * Indicates that columns fully support the NULL value in the database
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $_supportNullValue = false;
 
@@ -1320,6 +1320,8 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		);
 		$this->getDispatcher()->dispatch('onTableAfterCheckin', $event);
 
+		Factory::getApplication()->triggerEvent('onAfterCheckin', array($this->_tbl));
+
 		return true;
 	}
 
@@ -1981,8 +1983,11 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 	 */
 	protected function _unlock()
 	{
-		$this->_db->unlockTables();
-		$this->_locked = false;
+		if ($this->_locked) 
+		{
+			$this->_db->unlockTables();
+			$this->_locked = false;
+		}
 
 		return true;
 	}

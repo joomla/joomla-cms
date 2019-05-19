@@ -10,10 +10,6 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('list');
-
 /**
  * Form Field class for the Joomla Platform.
  * Displays options as a list of checkboxes.
@@ -22,7 +18,7 @@ FormHelper::loadFieldClass('list');
  * @see    CheckboxesField
  * @since  1.7.0
  */
-class CheckboxesField extends \JFormFieldList
+class CheckboxesField extends ListField
 {
 	/**
 	 * The form field type.

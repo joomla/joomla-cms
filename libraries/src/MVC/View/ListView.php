@@ -161,7 +161,7 @@ class ListView extends HtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Build toolbar
@@ -252,8 +252,8 @@ class ListView extends HtmlView
 		{
 			$title = Text::_('JTOOLBAR_BATCH');
 
-			// Instantiate a new LayoutFile instance and render the batch button
-			$layout = new FileLayout('joomla.toolbar.batch');
+			// Instantiate a new LayoutFile instance and render the popup button
+			$layout = new FileLayout('joomla.toolbar.popup');
 
 			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
