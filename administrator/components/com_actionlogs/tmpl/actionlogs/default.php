@@ -20,8 +20,6 @@ use Joomla\Component\Actionlogs\Administrator\View\Actionlogs\HtmlView;
 /** @var HtmlView $this */
 
 HTMLHelper::_('bootstrap.tooltip');
-HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('formbehavior.chosen', 'select');
 
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
