@@ -58,7 +58,7 @@
 			size="20"
 			readonly="true" 
 		/>
-<!--HGH-->
+
 		<field
 			name="note"
 			type="textarea"
@@ -67,7 +67,6 @@
 			size="40"
 			maxlength="255"
 		/>
-<!--HGH-->
-		
+
 	</fieldset>
 </form>
