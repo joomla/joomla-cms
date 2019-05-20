@@ -31,7 +31,8 @@
    * @returns {HTMLElement|null}
    */
   function closest(element, selector) {
-    let parent, el = element;
+    let parent;
+    let el = element;
 
     // Traverse parents
     while (el) {
