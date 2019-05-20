@@ -98,14 +98,20 @@ steps:
       - fluxbox  > /dev/null 2>&1 &
       - npm run test
 
-  - name: system-tests
+  - name: system-tests-mysql
     depends_on: [ javascript-tests ]
-    image: joomlaprojects/docker-systemtests:develop
+    image: joomlaprojects/docker-systemtests:latest
     commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)"
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql
+
+  - name: system-tests-postgres
+    depends_on: [ system-tests-mysql ]
+    image: joomlaprojects/docker-systemtests:latest
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
 
   - name: api-tests
-    depends_on: [ system-tests ]
+    depends_on: [ system-tests-postgres ]
     image: joomlaprojects/docker-systemtests:latest
     commands:
       - bash tests/Codeception/drone-api-run.sh "$(pwd)"
@@ -114,10 +120,12 @@ steps:
     image: rips/rips-cli:1.2.1
     depends_on: [ api-tests ]
     when:
-      branch: 4.0-dev
+      repo:
+        - joomla/joomla-cms
+      branch:
+        - 4.0-dev
     commands:
       - export RIPS_BASE_URI='https://api.rips.joomla.org'
-      - if [ $DRONE_REPO_NAMESPACE != 'joomla' ]; then echo "The analysis check only run on the main repos"; exit 0; fi
       - rips-cli rips:scan:start -a 3 -t 1 -R -k -p $(pwd) -t 1 -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
     environment:
       RIPS_USERNAME:
@@ -150,10 +158,16 @@ services:
     image: redis:alpine
 
   - name: postgres
-    image: postgres
+    image: postgres:9-alpine
+    ports:
+      - 5432
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: joomla_ut
+      POSTGRES_DB: test_joomla
 
 ---
 kind: signature
-hmac: b3612d74787777acabd3dde88d2a002b0c893d054831525464f4db51e31493b8
+hmac: c3b4baf30db6797a4cc0a222fb0f51211083fd63e07314b69364d3636f24aff0
 
 ...

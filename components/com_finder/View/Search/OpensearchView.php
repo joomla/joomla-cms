@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Document\Opensearch\OpensearchUrl;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\AbstractView;
+use Joomla\CMS\Router\Route;
 
 /**
  * OpenSearch View class for Finder
@@ -61,18 +62,18 @@ class OpensearchView extends AbstractView
 
 		// Add the HTML result view
 		$htmlSearch           = new OpenSearchUrl;
-		$htmlSearch->template = $baseUrl . \JRoute::_($searchUri, false);
+		$htmlSearch->template = $baseUrl . Route::_($searchUri, false);
 		$doc->addUrl($htmlSearch);
 
 		// Add the RSS result view
 		$htmlSearch           = new OpenSearchUrl;
-		$htmlSearch->template = $baseUrl . \JRoute::_($searchUri . '&format=feed&type=rss', false);
+		$htmlSearch->template = $baseUrl . Route::_($searchUri . '&format=feed&type=rss', false);
 		$htmlSearch->type     = 'application/rss+xml';
 		$doc->addUrl($htmlSearch);
 
 		// Add the Atom result view
 		$htmlSearch           = new OpenSearchUrl;
-		$htmlSearch->template = $baseUrl . \JRoute::_($searchUri . '&format=feed&type=atom', false);
+		$htmlSearch->template = $baseUrl . Route::_($searchUri . '&format=feed&type=atom', false);
 		$htmlSearch->type     = 'application/atom+xml';
 		$doc->addUrl($htmlSearch);
 
@@ -80,7 +81,7 @@ class OpensearchView extends AbstractView
 		if ($params->get('show_autosuggest', 1))
 		{
 			$htmlSearch           = new OpenSearchUrl;
-			$htmlSearch->template = $baseUrl . \JRoute::_($suggestionsUri, false);
+			$htmlSearch->template = $baseUrl . Route::_($suggestionsUri, false);
 			$htmlSearch->type     = 'application/x-suggestions+json';
 			$doc->addUrl($htmlSearch);
 		}
