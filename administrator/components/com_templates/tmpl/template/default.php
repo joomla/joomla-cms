@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -151,7 +151,7 @@ if ($this->type == 'font')
 								<span class="fa-fw fa fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 							<?php if (substr($file, -1) != DIRECTORY_SEPARATOR) : ?>
-								<span class="fa-fw fa fa-file-o" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
+								<span class="fa-fw fa fa-file" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 						</li>
 					<?php endforeach; ?>
@@ -185,8 +185,8 @@ if ($this->type == 'font')
 						<h4>H4. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h4>
 						<h5>H5. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h5>
 						<h6>H6. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h6>
-						<p><b>Bold. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</b></p>
-						<p><i>Italics. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</i></p>
+						<p><strong>Bold. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</strong></p>
+						<p><em>Italics. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</em></p>
 						<p>Unordered List</p>
 						<ul>
 							<li>Item</li>
@@ -235,7 +235,7 @@ if ($this->type == 'font')
 
 <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'overrides', Text::_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
 <div class="row">
-	<div class="col-md-4">
+	<div class="col-md-3">
 		<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_MODULES'); ?></legend>
 		<ul class="list-unstyled">
 			<?php $token = Session::getFormToken() . '=' . 1; ?>
@@ -246,13 +246,13 @@ if ($this->type == 'font')
 							. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 					?>
 					<a href="<?php echo Route::_($overrideLinkUrl); ?>">
-						<span class="fa fa-files-o" aria-hidden="true"></span>&nbsp;<?php echo $module->name; ?>
+						<span class="fa fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $module->name; ?>
 					</a>
 				</li>
 			<?php endforeach; ?>
 		</ul>
 	</div>
-	<div class="col-md-4">
+	<div class="col-md-3">
 		<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_COMPONENTS'); ?></legend>
 		<ul class="list-unstyled">
 			<?php $token = Session::getFormToken() . '=' . 1; ?>
@@ -269,7 +269,7 @@ if ($this->type == 'font')
 										. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 								?>
 								<a class="component-file-url" href="<?php echo Route::_($overrideLinkUrl); ?>">
-									<span class="fa fa-files-o" aria-hidden="true"></span>&nbsp;<?php echo $view->name; ?>
+									<span class="fa fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $view->name; ?>
 								</a>
 							</li>
 						<?php endforeach; ?>
@@ -278,7 +278,33 @@ if ($this->type == 'font')
 			<?php endforeach; ?>
 		</ul>
 	</div>
-	<div class="col-md-4">
+	<div class="col-md-3">
+		<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_PLUGINS'); ?></legend>
+		<ul class="list-unstyled">
+			<?php $token = Session::getFormToken() . '=' . 1; ?>
+			<?php foreach ($this->overridesList['plugins'] as $key => $group) : ?>
+				<li class="plugin-folder">
+					<a href="#" class="plugin-folder-url">
+						<span class="fa fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
+					</a>
+					<ul class="list-unstyled">
+						<?php foreach ($group as $plugin) : ?>
+							<li>
+								<?php
+								$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $plugin->path
+									. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
+								?>
+								<a class="plugin-file-url" href="<?php echo Route::_($overrideLinkUrl); ?>">
+									<span class="fa fa-copy" aria-hidden="true"></span> <?php echo $plugin->name; ?>
+								</a>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+				</li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+	<div class="col-md-3">
 		<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_LAYOUTS'); ?></legend>
 		<ul class="list-unstyled">
 			<?php $token = Session::getFormToken() . '=' . 1; ?>
@@ -295,7 +321,7 @@ if ($this->type == 'font')
 									. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 							?>
 							<a href="<?php echo Route::_($overrideLinkUrl); ?>">
-								<span class="fa fa-files-o" aria-hidden="true"></span>&nbsp;<?php echo $layout->name; ?>
+								<span class="fa fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $layout->name; ?>
 							</a>
 						</li>
 					<?php endforeach; ?>

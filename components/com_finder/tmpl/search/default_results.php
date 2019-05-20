@@ -3,11 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 ?>
 <?php // Display the suggested search if it is different from the current search. ?>
@@ -19,9 +23,9 @@ defined('_JEXEC') or die;
 			<?php $uri = JUri::getInstance($this->query->toUri()); ?>
 			<?php $uri->setVar('q', $this->suggested); ?>
 			<?php // Compile the suggested query link. ?>
-			<?php $linkUrl = JRoute::_($uri->toString(array('path', 'query'))); ?>
+			<?php $linkUrl = Route::_($uri->toString(array('path', 'query'))); ?>
 			<?php $link = '<a href="' . $linkUrl . '">' . $this->escape($this->suggested) . '</a>'; ?>
-			<?php echo JText::sprintf('COM_FINDER_SEARCH_SIMILAR', $link); ?>
+			<?php echo Text::sprintf('COM_FINDER_SEARCH_SIMILAR', $link); ?>
 		<?php elseif ($this->explained && $this->params->get('show_explained_query', 1)) : ?>
 			<?php // Display the explained search query. ?>
 			<?php echo $this->explained; ?>
@@ -40,7 +44,7 @@ defined('_JEXEC') or die;
 <?php endif; ?>
 <?php // Activate the highlighter if enabled. ?>
 <?php if (!empty($this->query->highlight) && $this->params->get('highlight_terms', 1)) : ?>
-	<?php JHtml::_('behavior.highlighter', $this->query->highlight); ?>
+	<?php HTMLHelper::_('behavior.highlighter', $this->query->highlight); ?>
 <?php endif; ?>
 <?php // Display a list of results ?>
 <br id="highlighter-start" />

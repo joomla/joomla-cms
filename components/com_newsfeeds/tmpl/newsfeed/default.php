@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ use Joomla\CMS\Layout\FileLayout;
 	<?php echo $this->msg; ?>
 <?php else : ?>
 	<?php $lang      = Factory::getLanguage(); ?>
-	<?php $myrtl     = $this->newsfeed->rtl; ?>
+	<?php $myrtl     = $this->item->rtl; ?>
 	<?php $direction = ' '; ?>
 	<?php $isRtl     = $lang->isRtl(); ?>
 	<?php if ($isRtl && $myrtl == 0) : ?>

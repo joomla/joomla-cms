@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform HTML View Class
  *
- * @since  3.0.0
+ * @since       3.0.0
+ * @deprecated  5.0 Use the default MVC library
  */
 abstract class JViewHtml extends JViewBase
 {
@@ -66,6 +67,8 @@ abstract class JViewHtml extends JViewBase
 	 * @param   string  $output  The output to escape.
 	 *
 	 * @return  string  The escaped output.
+	 *
+	 * @note the ENT_COMPAT flag will be replaced by ENT_QUOTES in Joomla 4.0 to also escape single quotes
 	 *
 	 * @see     JView::escape()
 	 * @since   3.0.0

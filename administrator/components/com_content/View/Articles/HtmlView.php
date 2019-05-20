@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Toolbar;
@@ -101,9 +102,9 @@ class HtmlView extends BaseHtmlView
 		$this->vote          = PluginHelper::isEnabled('content', 'vote');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if ((count($errors = $this->get('Errors'))) || $this->transitions === false)
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// We don't need toolbar in the modal window.
@@ -221,14 +222,9 @@ class HtmlView extends BaseHtmlView
 
 			if ($canDo->get('core.execute.transition'))
 			{
-				$childBar->standardButton('publish')
-					->text('JTOOLBAR_PUBLISH')
-					->task('articles.publish')
-					->listCheck(true);
-				$childBar->standardButton('unpublish')
-					->text('JTOOLBAR_UNPUBLISH')
-					->task('articles.unpublish')
-					->listCheck(true);
+				$childBar->publish('articles.publish')->listCheck(true);
+
+				$childBar->unpublish('articles.unpublish')->listCheck(true);
 			}
 
 			if ($canDo->get('core.edit.state'))
@@ -237,6 +233,7 @@ class HtmlView extends BaseHtmlView
 					->text('JFEATURE')
 					->task('articles.featured')
 					->listCheck(true);
+
 				$childBar->standardButton('unfeatured')
 					->text('JUNFEATURE')
 					->task('articles.unfeatured')
@@ -245,19 +242,17 @@ class HtmlView extends BaseHtmlView
 
 			if ($canDo->get('core.execute.transition'))
 			{
-				$childBar->standardButton('archive')
-					->text('JTOOLBAR_ARCHIVE')
-					->task('articles.archive')
-					->listCheck(true);
-				$childBar->standardButton('trash')
-					->text('JTOOLBAR_TRASH')
-					->task('articles.trash')
-					->listCheck(true);
+				$childBar->archive('articles.archive')->listCheck(true);
 			}
 
 			if ($canDo->get('core.edit.state'))
 			{
 				$childBar->checkin('articles.checkin')->listCheck(true);
+			}
+
+			if ($canDo->get('core.execute.transition'))
+			{
+				$childBar->trash('articles.trash')->listCheck(true);
 			}
 		}
 
@@ -278,10 +273,6 @@ class HtmlView extends BaseHtmlView
 				->text('JTOOLBAR_EMPTY_TRASH')
 				->message('JGLOBAL_CONFIRM_DELETE')
 				->listCheck(true);
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			$toolbar->trash('articles.trash')->listCheck(true);
 		}
 
 		if ($user->authorise('core.admin', 'com_content') || $user->authorise('core.options', 'com_content'))

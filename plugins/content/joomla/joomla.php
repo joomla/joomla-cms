@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.joomla
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -628,11 +628,11 @@ class PlgContentJoomla extends CMSPlugin
 			return true;
 		}
 
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Messaging for changed items
 		$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
-		$debug = JFactory::getApplication()->get('debug_lang');
+		$debug = Factory::getApplication()->get('debug_lang');
 		$result = true;
 
 		$article = new ArticleTable($db);

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use BadMethodCallException;
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\WebAsset\WebAssetManager;
 
 /**
  * Event class for WebAsset events
@@ -39,6 +40,27 @@ class WebAssetBeforeAttachEvent extends AbstractEvent
 		}
 
 		parent::__construct($name, $arguments);
+	}
+
+	/**
+	 * Setter for the subject argument
+	 *
+	 * @param   WebAssetManager  $value  The value to set
+	 *
+	 * @return  WebAssetManager
+	 *
+	 * @throws  BadMethodCallException  if the argument is not of the expected type
+	 *
+	 * @since   4.0.0
+	 */
+	protected function setSubject($value)
+	{
+		if (!$value || !($value instanceof WebAssetManager))
+		{
+			throw new BadMethodCallException("Argument 'subject' of event {$this->name} is not of the expected type");
+		}
+
+		return $value;
 	}
 
 	/**

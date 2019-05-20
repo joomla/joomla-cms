@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ use Joomla\CMS\String\PunycodeHelper;
 /**
  * Mailto model class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.9
  */
 class MailtoModel extends FormModel
 {
@@ -35,7 +35,7 @@ class MailtoModel extends FormModel
 	 *
 	 * @return  Form|bool  A JForm object on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.9
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -55,7 +55,7 @@ class MailtoModel extends FormModel
 	 *
 	 * @return  array  The default data is an empty array.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.9
 	 */
 	protected function loadFormData()
 	{
@@ -94,16 +94,17 @@ class MailtoModel extends FormModel
 	 *
 	 * @return  array  The requested data
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.9
 	 */
 	public function getData()
 	{
 		$input = Factory::getApplication()->input;
 
-		$data['emailto']   = $input->get('emailto', '', 'string');
-		$data['sender']    = $input->get('sender', '', 'string');
-		$data['emailfrom'] = $input->get('emailfrom', '', 'string');
-		$data['subject']   = $input->get('subject', '', 'string');
+		$data['emailto']    = $input->get('emailto', '', 'string');
+		$data['sender']     = $input->get('sender', '', 'string');
+		$data['emailfrom']  = $input->get('emailfrom', '', 'string');
+		$data['subject']    = $input->get('subject', '', 'string');
+		$data['consentbox'] = $input->get('consentbox', '', 'string');
 
 		return $data;
 	}

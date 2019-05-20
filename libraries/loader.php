@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -510,7 +510,6 @@ abstract class JLoader
 		if ($enablePsr)
 		{
 			// Register the PSR based autoloader.
-			spl_autoload_register(array('JLoader', 'loadByPsr0'));
 			spl_autoload_register(array('JLoader', 'loadByPsr4'));
 			spl_autoload_register(array('JLoader', 'loadByAlias'));
 		}
@@ -557,69 +556,13 @@ abstract class JLoader
 				// Loop through paths registered to this namespace until we find a match.
 				foreach ($paths as $path)
 				{
-					$classFilePath = $path . DIRECTORY_SEPARATOR . substr_replace($classPath, '', 0, strlen($nsPath) + 1);
+					$classFilePath = realpath($path . DIRECTORY_SEPARATOR . substr_replace($classPath, '', 0, strlen($nsPath) + 1));
 
-					// We check for class_exists to handle case-sensitive file systems
-					if (file_exists($classFilePath) && !class_exists($class, false))
+					// We do not allow files outside the namespace root to be loaded
+					if (strpos($classFilePath, realpath($path)) !== 0)
 					{
-						$found = (bool) include_once $classFilePath;
-
-						if ($found)
-						{
-							self::loadAliasFor($class);
-						}
-
-						return $found;
+						continue;
 					}
-				}
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Method to autoload classes that are namespaced to the PSR-0 standard.
-	 *
-	 * @param   string  $class  The fully qualified class name to autoload.
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   3.2.0
-	 *
-	 * @deprecated 4.0 this method will be removed
-	 */
-	public static function loadByPsr0($class)
-	{
-		$class = self::stripFirstBackslash($class);
-
-		// Find the location of the last NS separator.
-		$pos = strrpos($class, '\\');
-
-		// If one is found, we're dealing with a NS'd class.
-		if ($pos !== false)
-		{
-			$classPath = str_replace('\\', DIRECTORY_SEPARATOR, substr($class, 0, $pos)) . DIRECTORY_SEPARATOR;
-			$className = substr($class, $pos + 1);
-		}
-		// If not, no need to parse path.
-		else
-		{
-			$classPath = null;
-			$className = $class;
-		}
-
-		$classPath .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-
-		// Loop through registered namespaces until we find a match.
-		foreach (self::$namespaces['psr0'] as $ns => $paths)
-		{
-			if (strpos($class, $ns) === 0)
-			{
-				// Loop through paths registered to this namespace until we find a match.
-				foreach ($paths as $path)
-				{
-					$classFilePath = $path . DIRECTORY_SEPARATOR . $classPath;
 
 					// We check for class_exists to handle case-sensitive file systems
 					if (file_exists($classFilePath) && !class_exists($class, false))
@@ -732,10 +675,10 @@ abstract class JLoader
 		foreach ($lookup as $base)
 		{
 			// Generate the path based on the class name parts.
-			$path = $base . '/' . implode('/', array_map('strtolower', $parts)) . '.php';
+			$path = realpath($base . '/' . implode('/', array_map('strtolower', $parts)) . '.php');
 
-			// Load the file if it exists.
-			if (file_exists($path))
+			// Load the file if it exists and is in the lookup path.
+			if (strpos($path, realpath($base)) === 0 && file_exists($path))
 			{
 				$found = (bool) include_once $path;
 
@@ -753,10 +696,10 @@ abstract class JLoader
 			if ($partsCount === 1)
 			{
 				// Generate the path based on the class name parts.
-				$path = $base . '/' . implode('/', array_map('strtolower', array($parts[0], $parts[0]))) . '.php';
+				$path = realpath($base . '/' . implode('/', array_map('strtolower', array($parts[0], $parts[0]))) . '.php');
 
-				// Load the file if it exists.
-				if (file_exists($path))
+				// Load the file if it exists and is in the lookup path.
+				if (strpos($path, realpath($base)) === 0 && file_exists($path))
 				{
 					$found = (bool) include_once $path;
 
