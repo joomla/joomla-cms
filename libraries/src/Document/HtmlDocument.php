@@ -607,7 +607,7 @@ class HtmlDocument extends Document
 				$renderer->render($module, array('style' => 'raw'));
 			}
 
-			if (trim($module->content))
+			if (trim($module->content) !== '')
 			{
 				$result++;
 			}
