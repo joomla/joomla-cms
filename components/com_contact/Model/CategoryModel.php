@@ -147,13 +147,14 @@ class CategoryModel extends ListModel
 		 */
 			->from($db->quoteName('#__contact_details', 'a'))
 			->leftJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
-			->where('a.access IN (' . $groups . ')');
+			->whereIn($db->quoteName('a.access'), $groups );
 
 		// Filter by category.
 		if ($categoryId = $this->getState('category.id'))
 		{
-			$query->where('a.catid = ' . (int) $categoryId)
-				->where('c.access IN (' . $groups . ')');
+			$query->bind(':acatid', $categoryId, ParameterType::INTEGER);
+			$query->where('a.catid = :acatid')
+				->whereIn($db->quoteName('c.access'), $groups );
 		}
 
 		// Join over the users for the author and modified_by names.
@@ -167,21 +168,21 @@ class CategoryModel extends ListModel
 
 		if (is_numeric($state))
 		{
-			$query->where('a.published = ' . (int) $state);
+			$query->bind(':published', $state, ParameterType::INTEGER);
+			$query->where('a.published = :published');
 		}
 		else
 		{
-			$query->where('(a.published IN (0,1,2))');
+			$query->whereIn($db->quoteName('c.published'), [0, 1, 2] );
 		}
 
 		// Filter by start and end dates.
-		$nullDate = $db->quote($db->getNullDate());
-		$nowDate = $db->quote(Factory::getDate()->toSql());
+		$nowDate = Factory::getDate()->toSql();
 
 		if ($this->getState('filter.publish_date'))
 		{
-			$query->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= ' . $db->quote($nowDate) . ')')
-				->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= ' . $db->quote($nowDate) . ')');
+			$query->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= :publish_up)')
+				->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= :publish_down)');
 		}
 
 		// Filter by search in title
@@ -191,12 +192,16 @@ class CategoryModel extends ListModel
 		{
 			$search = $db->quote('%' . $db->escape($search, true) . '%');
 			$query->where('(a.name LIKE ' . $search . ')');
+			$search = '%' . $db->escape(trim($search), true) . '%';
+			$query->bind(':name', $search);
+			$query->where( $db->quoteName('a.name') . ' LIKE :name ');
 		}
 
-		// Filter by language
-		if ($this->getState('filter.language'))
+		// Filter on the language.
+		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->bind(':language', $db->quote($language));
+			$query->where($db->quoteName('a.language') . ' = :language');
 		}
 
 		// Set sortname ordering if selected
