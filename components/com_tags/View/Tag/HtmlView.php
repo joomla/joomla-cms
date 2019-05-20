@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
@@ -133,7 +134,7 @@ class HtmlView extends BaseHtmlView
 
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Check whether access level allows access.
@@ -169,6 +170,8 @@ class HtmlView extends BaseHtmlView
 				// For some plugins.
 				!empty($itemElement->core_body) ? $itemElement->text = $itemElement->core_body : $itemElement->text = null;
 
+				$itemElement->core_params = new Registry($itemElement->core_params);
+
 				Factory::getApplication()->triggerEvent('onContentPrepare', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
 
 				$results = Factory::getApplication()->triggerEvent('onContentAfterTitle', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
@@ -189,8 +192,12 @@ class HtmlView extends BaseHtmlView
 				// Categories store the images differently so lets re-map it so the display is correct
 				if ($itemElement->type_alias === 'com_content.category')
 				{
-					$coreParams = json_decode($itemElement->core_params);
-					$itemElement->core_images = json_encode(array('image_intro' => $coreParams->image, 'image_intro_alt' => $coreParams->image_alt));
+					$itemElement->core_images = json_encode(
+						array(
+							'image_intro' => $itemElement->core_params->get('image', ''),
+							'image_intro_alt' => $itemElement->core_params->get('image_alt', '')
+						)
+					);
 				}
 			}
 		}

@@ -54,7 +54,7 @@ HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['version' => 'auto'
 								</td>
 								<th scope="row">
 									<label for="cb<?php echo $i; ?>">
-										<strong><?php echo $this->escape($item->group); ?></strong>
+										<?php echo $this->escape($item->group); ?>
 									</label>
 								</th>
 								<td class="text-center">

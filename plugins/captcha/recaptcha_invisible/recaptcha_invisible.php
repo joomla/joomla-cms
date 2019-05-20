@@ -3,13 +3,16 @@
  * @package     Joomla.Plugin
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Utilities\IpHelper; 
 
 /**
  * Invisible reCAPTCHA Plugin.
@@ -38,8 +41,8 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 		$this->loadLanguage();
 
 		return array(
-			JText::_('PLG_CAPTCHA_RECAPTCHA_INVISIBLE') => array(
-				JText::_('PLG_RECAPTCHA_INVISIBLE_PRIVACY_CAPABILITY_IP_ADDRESS'),
+			Text::_('PLG_CAPTCHA_RECAPTCHA_INVISIBLE') => array(
+				Text::_('PLG_RECAPTCHA_INVISIBLE_PRIVACY_CAPABILITY_IP_ADDRESS'),
 			)
 		);
 	}
@@ -60,12 +63,11 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 
 		if ($pubkey === '')
 		{
-			throw new \RuntimeException(JText::_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_PUBLIC_KEY'));
+			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_PUBLIC_KEY'));
 		}
 
-
 		// Load callback first for browser compatibility
-		\JHtml::_(
+		HTMLHelper::_(
 			'script',
 			'plg_captcha_recaptcha_invisible/recaptcha.min.js',
 			array('version' => 'auto', 'relative' => true),
@@ -77,12 +79,14 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 			. '?onload=JoomlaInitReCaptchaInvisible'
 			. '&render=explicit'
 			. '&hl=' . \JFactory::getLanguage()->getTag();
-		\JHtml::_(
+		HTMLHelper::_(
 			'script',
 			$file,
 			array(),
 			array('async' => 'async', 'defer' => 'defer')
 		);
+
+		return true;
 	}
 
 	/**
@@ -119,7 +123,7 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 	 *
 	 * @param   string  $code  Answer provided by user. Not needed for the Recaptcha implementation
 	 *
-	 * @return  True if the answer is correct, false otherwise
+	 * @return  boolean  True if the answer is correct, false otherwise
 	 *
 	 * @since   3.9.0
 	 * @throws  \RuntimeException
@@ -128,26 +132,26 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 	{
 		$input      = \JFactory::getApplication()->input;
 		$privatekey = $this->params->get('private_key');
-		$remoteip   = $input->server->get('REMOTE_ADDR', '', 'string');
+		$remoteip   = IpHelper::getIp();
 
 		$response  = $input->get('g-recaptcha-response', '', 'string');
 
 		// Check for Private Key
 		if (empty($privatekey))
 		{
-			throw new \RuntimeException(JText::_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_PRIVATE_KEY'));
+			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_PRIVATE_KEY'));
 		}
 
 		// Check for IP
 		if (empty($remoteip))
 		{
-			throw new \RuntimeException(JText::_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_IP'));
+			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_IP'));
 		}
 
 		// Discard spam submissions
 		if (trim($response) == '')
 		{
-			throw new \RuntimeException(JText::_('PLG_RECAPTCHA_INVISIBLE_ERROR_EMPTY_SOLUTION'));
+			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_INVISIBLE_ERROR_EMPTY_SOLUTION'));
 		}
 
 		return $this->getResponse($privatekey, $remoteip, $response);
@@ -177,7 +181,7 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 	 * @param   string  $remoteip    The remote IP of the visitor.
 	 * @param   string  $response    The response received from Google.
 	 *
-	 * @return bool True if response is good | False if response is bad.
+	 * @return  boolean  True if response is good | False if response is bad.
 	 *
 	 * @since   3.9.0
 	 * @throws  \RuntimeException
@@ -196,5 +200,7 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 
 			return false;
 		}
+
+		return true;
 	}
 }
