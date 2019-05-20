@@ -35,6 +35,8 @@ class ClientTable extends Table
 		$this->typeAlias        = 'com_banners.client';
 		$this->checked_out_time = $db->getNullDate();
 
+		$this->setColumnAlias('published', 'state');
+
 		parent::__construct('#__banner_clients', 'id', $db);
 	}
 

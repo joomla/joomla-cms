@@ -1589,7 +1589,7 @@ class Nested extends Table
 			->innerJoin("($subquery) AS c2")
 			->set("$published = " . $this->_db->quoteName("c2.newpublished"))
 			->where("$key = c2.newId")
-			->whereIn($key, $pks);
+			->where("$key IN (" . implode(',', $pks) . ")");
 
 		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_STORE_FAILED');
 
