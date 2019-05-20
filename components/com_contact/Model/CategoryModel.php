@@ -154,7 +154,7 @@ class CategoryModel extends ListModel
 		{
 			$query->bind(':acatid', $categoryId, ParameterType::INTEGER);
 			$query->where('a.catid = :acatid')
-				->whereIn($db->quoteName('c.access'), $groups );
+				->whereIn($db->quoteName('c.access'), $groups);
 		}
 
 		// Join over the users for the author and modified_by names.
