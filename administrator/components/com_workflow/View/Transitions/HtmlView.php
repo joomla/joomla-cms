@@ -149,7 +149,9 @@ class HtmlView extends BaseHtmlView
 		$toolbar = Toolbar::getInstance('toolbar');
 
 		$workflow = '';
-		if (!empty($this->workflowID)) {
+
+		if (!empty($this->workflowID))
+		{
 
 			$dbo = Factory::getDbo();
 			$table = new WorkflowTable($dbo);
