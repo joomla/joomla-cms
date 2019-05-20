@@ -22,6 +22,8 @@ use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\Database\ParameterType;
+
 
 /**
  * Item Model for a Contact.
@@ -494,9 +496,11 @@ class ContactModel extends AdminModel
 			$db = $this->getDbo();
 
 			$query = $db->getQuery(true);
-			$query->update('#__contact_details');
-			$query->set('featured = ' . (int) $value);
-			$query->where('id IN (' . implode(',', $pks) . ')');
+			$query->bind(':featured', $value, ParameterType::INTEGER);
+			$query->update($db->quoteName('#__contact_details'));
+			$query->set($db->quoteName('featured') . ' = :featured');
+			$query->whereIn($db->quoteName('id'), $pks);
+			
 			$db->setQuery($query);
 
 			$db->execute();
