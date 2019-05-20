@@ -31,15 +31,15 @@
    * @returns {HTMLElement|null}
    */
   function closest(element, selector) {
-    let parent;
+    let parent, el = element;
 
     // Traverse parents
-    while (element) {
-      parent = element.parentElement;
+    while (el) {
+      parent = el.parentElement;
       if (parent && parent[matchesFn](selector)) {
         return parent;
       }
-      element = parent;
+      el = parent;
     }
 
     return null;
