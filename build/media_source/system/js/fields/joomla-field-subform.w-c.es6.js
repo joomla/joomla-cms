@@ -158,7 +158,7 @@
         // Move the template out of the form scope, for IE compatibility.
         // But only a root template (!!!)
         if (!closest(tmplElement[0], '.subform-repeatable-template-section')) {
-          document.body.append(tmplElement[0]);
+          document.body.appendChild(tmplElement[0]);
         }
 
         this.templateElement = tmplElement[0];
@@ -196,7 +196,7 @@
       if (after) {
         after.parentNode.insertBefore(row, after.nextSibling);
       } else {
-        this.containerWithRows.append(row);
+        this.containerWithRows.appendChild(row);
       }
 
       // Add dragable attributes
