@@ -136,6 +136,14 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 									<?php echo $this->form->getInput('element'); ?>
 								</div>
 							</div>
+<?php /*HGH*/ ?>			<div class="control-group">
+<?php /*HGH*/ ?>				<div class="control-label">
+<?php /*HGH*/ ?>			 		<?php echo $this->form->getLabel('note'); ?>
+<?php /*HGH*/ ?>				</div>
+<?php /*HGH*/ ?>				<div class="controls">
+<?php /*HGH*/ ?> 					<?php echo $this->form->getInput('note'); ?>
+<?php /*HGH*/ ?>				</div>
+<?php /*HGH*/ ?>   			</div>
 						</div>
 					</div>
 				</div>
