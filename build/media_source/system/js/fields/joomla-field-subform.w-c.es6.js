@@ -22,6 +22,39 @@
     return false;
   });
 
+  /**
+   * Helper to find a closest parent element
+   *
+   * @param {HTMLElement} element
+   * @param {String}      selector
+   *
+   * @returns {HTMLElement|null}
+   */
+  function closest(element, selector) {
+    let parent;
+
+    // Traverse parents
+    while (element) {
+      parent = element.parentElement;
+      if (parent && parent[matchesFn](selector)) {
+        return parent;
+      }
+      element = parent;
+    }
+
+    return null;
+  }
+
+  /**
+   * Helper for testing whether a selection modifier is pressed
+   * @param {Event} event
+   *
+   * @returns {boolean|*}
+   */
+  function hasModifier(event) {
+    return (event.ctrlKey || event.metaKey || event.shiftKey);
+  }
+
   class JoomlaFieldSubform extends HTMLElement {
     // Attribute getters
     get buttonAdd() { return this.getAttribute('button-add'); }
@@ -590,36 +623,4 @@
 
   customElements.define('joomla-field-subform', JoomlaFieldSubform);
 
-  /**
-     * Helper to find a closest parent element
-     *
-     * @param {HTMLElement} element
-     * @param {String}      selector
-     *
-     * @returns {HTMLElement|null}
-     */
-  function closest(element, selector) {
-    let parent;
-
-    // Traverse parents
-    while (element) {
-      parent = element.parentElement;
-      if (parent && parent[matchesFn](selector)) {
-        return parent;
-      }
-      element = parent;
-    }
-
-    return null;
-  }
-
-  /**
-     * Helper for testing whether a selection modifier is pressed
-     * @param {Event} event
-     *
-     * @returns {boolean|*}
-     */
-  function hasModifier(event) {
-    return (event.ctrlKey || event.metaKey || event.shiftKey);
-  }
 }(customElements));
