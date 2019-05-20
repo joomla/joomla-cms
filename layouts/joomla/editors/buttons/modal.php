@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,6 +44,8 @@ else
 {
 	$id = str_replace(' ', '', $button->get('text')) . 'Modal';
 }
+
+// TODO: J4: Move Make buttons fullscreen on smaller devices per https://github.com/joomla/joomla-cms/pull/23091
 // Create the modal
 echo HTMLHelper::_(
 	'bootstrap.renderModal',
@@ -55,7 +57,7 @@ echo HTMLHelper::_(
 		'width'  => array_key_exists('width', $options) ? $options['width'] : '800px',
 		'bodyHeight'  => array_key_exists('bodyHeight', $options) ? $options['bodyHeight'] : '70',
 		'modalWidth'  => array_key_exists('modalWidth', $options) ? $options['modalWidth'] : '80',
-		'footer' => $confirm . '<button class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+		'footer' => $confirm . '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
 			. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 	)
 );

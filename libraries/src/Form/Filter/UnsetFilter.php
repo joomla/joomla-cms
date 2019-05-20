@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\Registry\Registry;
 /**
  * Form Filter class to unset
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class UnsetFilter implements FormFilterInterface
 {
@@ -34,7 +34,7 @@ class UnsetFilter implements FormFilterInterface
 	 *
 	 * @return  mixed   The filtered value.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function filter(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{

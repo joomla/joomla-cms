@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 Joomla = window.Joomla || {};
@@ -75,7 +75,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
     const links = [].slice.call(tabsUlElement.querySelectorAll('a'));
 
     links.forEach((link) => {
-      if (!link.classList.contains('active')) {
+      if (!link.hasAttribute('active')) {
         return;
       }
 
@@ -90,7 +90,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
       // Move the container to the correct tab
       const mediaContainer = document.getElementById('media-manager-edit-container');
-      const tab = document.getElementById(link.id.id.replace('tab-', ''));
+      const tab = document.getElementById(link.id.replace('tab-', ''));
       tab.insertAdjacentElement('afterbegin', mediaContainer);
 
       activate(link.id.replace('tab-attrib-', ''), data);
@@ -164,7 +164,11 @@ Joomla.MediaManager = Joomla.MediaManager || {};
         window.location = `${pathName}?option=com_media&path=${fileDirectory}`;
         break;
       case 'cancel':
-        window.location = `${pathName}?option=com_media&path=${fileDirectory}`;
+        if (window.self !== window.top) {
+          window.location = `${pathName}?option=com_media&path=${fileDirectory}&tmpl=component`;
+        } else {
+          window.location = `${pathName}?option=com_media&path=${fileDirectory}`;
+        }
         break;
       case 'reset':
         Joomla.MediaManager.Edit.Reset('initial');

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,6 +72,12 @@ class Pagination
 	 * @since  3.0
 	 */
 	public $pagesTotal;
+
+	/**
+	 * @var    boolean  The flag indicates whether to add limitstart=0 to URL
+	 * @since  3.9.0
+	 */
+	public $hideEmptyLimitstart = false;
 
 	/**
 	 * @var    boolean  View all flag
@@ -145,8 +151,8 @@ class Pagination
 		// Set the total pages and current page values.
 		if ($this->limit > 0)
 		{
-			$this->pagesTotal = ceil($this->total / $this->limit);
-			$this->pagesCurrent = ceil(($this->limitstart + 1) / $this->limit);
+			$this->pagesTotal = (int) ceil($this->total / $this->limit);
+			$this->pagesCurrent = (int) ceil(($this->limitstart + 1) / $this->limit);
 		}
 
 		// Set the pagination iteration loop values.
@@ -737,11 +743,28 @@ class Pagination
 
 		if ($this->pagesCurrent > 1)
 		{
-			$page                 = ($this->pagesCurrent - 2) * $this->limit;
+			$page = ($this->pagesCurrent - 2) * $this->limit;
+
+			if ($this->hideEmptyLimitstart)
+			{
+				$data->start->link = Route::_($params . '&' . $this->prefix . 'limitstart=');
+			}
+			else
+			{
+				$data->start->link = Route::_($params . '&' . $this->prefix . 'limitstart=0');
+			}
+
 			$data->start->base    = '0';
-			$data->start->link    = Route::_($params . '&' . $this->prefix . 'limitstart=0');
 			$data->previous->base = $page;
-			$data->previous->link = Route::_($params . '&' . $this->prefix . 'limitstart=' . $page);
+
+			if ($page === 0 && $this->hideEmptyLimitstart)
+			{
+				$data->previous->link = $data->start->link;
+			}
+			else
+			{
+				$data->previous->link = Route::_($params . '&' . $this->prefix . 'limitstart=' . $page);
+			}
 		}
 
 		// Set the next and end data objects.
@@ -771,7 +794,15 @@ class Pagination
 			if ($i != $this->pagesCurrent || $this->viewall)
 			{
 				$data->pages[$i]->base = $offset;
-				$data->pages[$i]->link = Route::_($params . '&' . $this->prefix . 'limitstart=' . $offset);
+
+				if ($offset === 0 && $this->hideEmptyLimitstart)
+				{
+					$data->pages[$i]->link = $data->start->link;
+				}
+				else
+				{
+					$data->pages[$i]->link = Route::_($params . '&' . $this->prefix . 'limitstart=' . $offset);
+				}
 			}
 			else
 			{

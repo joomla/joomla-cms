@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0
  */
@@ -25,7 +25,7 @@ HTMLHelper::_('script', 'vendor/css-vars-ponyfill/css-vars-ponyfill.min.js', ['v
 
 // Load template CSS file
 HTMLHelper::_('stylesheet', 'bootstrap.min.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'font-awesome.min.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'fontawesome.min.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', ['version' => 'auto', 'relative' => true]);
 
 // Load custom CSS file
@@ -40,7 +40,7 @@ $view     = $app->input->getCmd('view', '');
 $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
-$sitename = $app->get('sitename');
+$sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
@@ -108,11 +108,11 @@ $this->addScriptDeclaration('cssVars();')
 	<div class="fixed-bottom px-3 mb-2 d-none d-md-block">
 		<div class="row nav align-items-center">
 			<div class="col">
-				<a href="<?php echo Uri::root(); ?>" target="_blank"><span class="fa fa-external-link mr-1" aria-hidden="true"></span><?php echo Text::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
+				<a href="<?php echo Uri::root(); ?>" target="_blank"><span class="fa fa-external-link-alt mr-1" aria-hidden="true"></span><?php echo Text::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
 			</div>
 			<div class="col text-center">
 				<a href="https://www.joomla.org" target="_blank" title="<?php echo Text::_('TPL_ATUM_ISFREESOFTWARE'); ?>">
-					<span class="fa fa-2x fa-joomla" aria-hidden="true"></span>
+					<span class="fab fa-2x fa-joomla" aria-hidden="true"></span>
 					<span class="sr-only"><?php echo Text::_('TPL_ATUM_GOTO_JOOMLA_HOME_PAGE'); ?></span>
 				</a>
 			</div>
