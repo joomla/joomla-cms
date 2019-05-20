@@ -83,7 +83,7 @@ if ($list && $grouped)
 			$list = ArticlesCategoryHelper::groupBy($list, $article_grouping, $article_grouping_direction);
 			break;
 		case 'tags' :
-			$list = ModArticlesCategoryHelper::groupByTags($list, $article_grouping_direction);
+			$list = ArticlesCategoryHelper::groupByTags($list, $article_grouping_direction);
 			break;
 	}
 }
