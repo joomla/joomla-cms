@@ -27,7 +27,16 @@
 			<option value="1">JENABLED</option>
 			<option value="0">JDISABLED</option>
 		</field>
-
+<!--HGH-->
+		<field
+			name="note"
+			type="textarea"
+			label="COM_PLUGINS_FIELD_NOTE_LABEL"
+			class="span12"
+			size="40"
+			maxlength="255"
+		/>
+<!--HGH-->
 		<field
 			name="access"
 			type="accesslevel"
