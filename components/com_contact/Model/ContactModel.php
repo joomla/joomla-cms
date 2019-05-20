@@ -21,6 +21,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
+use Joomla\Database\ParameterType;
 
 /**
  * Single item model for a contact
@@ -98,41 +99,6 @@ class ContactModel extends FormModel
 			return false;
 		}
 
-		$temp = clone $this->getState('params');
-
-		$contact = $this->_item[$this->getState('contact.id')];
-
-		$active = Factory::getApplication()->getMenu()->getActive();
-
-		if ($active)
-		{
-			// If the current view is the active item and a contact view for this contact, then the menu item params take priority
-			if (strpos($active->link, 'view=contact') && strpos($active->link, '&id=' . (int) $contact->id))
-			{
-				// $contact->params are the contact params, $temp are the menu item params
-				// Merge so that the menu item params take priority
-				$contact->params->merge($temp);
-			}
-			else
-			{
-				// Current view is not a single contact, so the contact params take priority here
-				// Merge the menu item params with the contact params so that the contact params take priority
-				$temp->merge($contact->params);
-				$contact->params = $temp;
-			}
-		}
-		else
-		{
-			// Merge so that contact params take priority
-			$temp->merge($contact->params);
-			$contact->params = $temp;
-		}
-
-		if (!$contact->params->get('show_email_copy', 0))
-		{
-			$form->removeField('contact_email_copy');
-		}
-
 		return $form;
 	}
 
@@ -201,12 +167,11 @@ class ContactModel extends FormModel
 					// Join over the categories to get parent category titles
 					->select('parent.title AS parent_title, parent.id AS parent_id, parent.path AS parent_route, parent.alias AS parent_alias')
 					->leftJoin($db->quoteName('#__categories', 'parent') . ' ON parent.id = c.parent_id')
-
-					->where('a.id = ' . (int) $pk);
-
+					->bind(':id', $pk, ParameterType::INTEGER)
+					->where($db->quoteName('a.id') . ' = :id');
 				// Filter by start and end dates.
 				$nullDate = $db->quote($db->getNullDate());
-				$nowDate = $db->quote(Factory::getDate()->toSql());
+				$nowDate = Factory::getDate()->toSql();
 
 				// Filter by published state.
 				$published = $this->getState('filter.published');
@@ -214,15 +179,19 @@ class ContactModel extends FormModel
 
 				if (is_numeric($published))
 				{
-					$query->where('(a.published = ' . (int) $published . ' OR a.published =' . (int) $archived . ')')
-						->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= ' . $db->quote($nowDate) . ')')
-						->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= ' . $db->quote($nowDate) . ')');
+					$query->bind(':published', $published, ParameterType::INTEGER)
+						->bind(':archived', $archived, ParameterType::INTEGER)
+						->bind(':publish_up', $nowDate)
+						->bind(':publish_down', $nowDate)
+						->where('(a.published = :published OR a.published = :archived)')
+						->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= :publish_up)')
+						->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= :publish_down)');
 				}
 
 				$db->setQuery($query);
 				$data = $db->loadObject();
 
-				if (empty($data))
+				if ($data === null)
 				{
 					throw new \Exception(Text::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
 				}
