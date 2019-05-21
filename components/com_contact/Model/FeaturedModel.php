@@ -94,9 +94,9 @@ class FeaturedModel extends ListModel
 		$query->select($this->getState('list.select', 'a.*'))
 			->from($db->quoteName('#__contact_details', 'a'))
 			->where('a.featured = 1')
-			->whereIn($db->quoteName('a.access') , $groups )
+			->whereIn($db->quoteName('a.access'), $groups)
 			->innerJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
-			->whereIn($db->quoteName('c.access'), $groups );
+			->whereIn($db->quoteName('c.access'), $groups);
 
 		// Filter by category.
 		if ($categoryId = $this->getState('category.id'))
