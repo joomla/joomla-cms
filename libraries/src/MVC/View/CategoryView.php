@@ -11,6 +11,7 @@ namespace Joomla\CMS\MVC\View;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
@@ -242,7 +243,7 @@ class CategoryView extends HtmlView
 			$this->setLayout($layout);
 		}
 
-		$this->category->tags = new \JHelperTags;
+		$this->category->tags = new TagsHelper;
 		$this->category->tags->getItemTags($this->extension . '.category', $this->category->id);
 	}
 

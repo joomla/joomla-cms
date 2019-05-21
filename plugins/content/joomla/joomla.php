@@ -681,7 +681,7 @@ class PlgContentJoomla extends CMSPlugin
 
 					// Load language for messaging
 					$receiver = JUser::getInstance($user_id);
-					$lang = JLanguage::getInstance($receiver->getParam('admin_language', $default_language), $debug);
+					$lang = Language::getInstance($receiver->getParam('admin_language', $default_language), $debug);
 					$lang->load('plg_content_joomla');
 
 					$message = array(

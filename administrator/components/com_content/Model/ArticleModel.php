@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -489,7 +490,7 @@ class ArticleModel extends AdminModel
 
 			if (!empty($item->id))
 			{
-				$item->tags = new \JHelperTags;
+				$item->tags = new TagsHelper;
 				$item->tags->getTagIds($item->id, 'com_content.article');
 			}
 		}

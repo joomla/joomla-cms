@@ -11,9 +11,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -439,9 +441,9 @@ class PlgSystemPrivacyconsent extends JPlugin
 	{
 		$privacyArticleId = $this->params->get('privacy_article');
 
-		if ($privacyArticleId > 0 && JLanguageAssociations::isEnabled())
+		if ($privacyArticleId > 0 && Associations::isEnabled())
 		{
-			$privacyAssociated = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $privacyArticleId);
+			$privacyAssociated = Associations::getAssociations('com_content', '#__content', 'com_content.item', $privacyArticleId);
 			$currentLang = Factory::getLanguage()->getTag();
 
 			if (isset($privacyAssociated[$currentLang]))
@@ -681,7 +683,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 
 		// Push a notification to the site's super users
 		BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/models', 'MessagesModel');
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/tables');
+		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/tables');
 		/** @var MessagesModelMessage $messageModel */
 		$messageModel = BaseDatabaseModel::getInstance('Message', 'MessagesModel');
 

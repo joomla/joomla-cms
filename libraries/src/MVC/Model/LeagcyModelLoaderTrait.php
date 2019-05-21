@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Table\Table;
 
 /**
  * Trait which contains the legacy getInstance functionality
@@ -162,6 +163,6 @@ trait LeagcyModelLoaderTrait
 	 */
 	public static function addTablePath($path)
 	{
-		\JTable::addIncludePath($path);
+		Table::addIncludePath($path);
 	}
 }

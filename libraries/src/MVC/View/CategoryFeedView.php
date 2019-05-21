@@ -11,6 +11,7 @@ namespace Joomla\CMS\MVC\View;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\RouteHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
@@ -56,7 +57,7 @@ class CategoryFeedView extends HtmlView
 			$titleField = $ucmMapCommon[0]->core_title;
 		}
 
-		$document->link = Route::_(\JHelperRoute::getCategoryRoute($app->input->getInt('id'), $language = 0, $extension));
+		$document->link = Route::_(RouteHelper::getCategoryRoute($app->input->getInt('id'), $language = 0, $extension));
 
 		$app->input->set('limit', $app->get('feed_limit'));
 		$siteEmail        = $app->get('mailfrom');
@@ -95,7 +96,7 @@ class CategoryFeedView extends HtmlView
 			}
 
 			// URL link to article
-			$router = new \JHelperRoute;
+			$router = new RouteHelper;
 			$link   = Route::_($router->getRoute($item->id, $contentType, null, null, $item->catid));
 
 			// Strip HTML from feed item description text.
