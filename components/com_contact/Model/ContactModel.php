@@ -20,8 +20,8 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Registry\Registry;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 
 /**
  * Single item model for a contact
