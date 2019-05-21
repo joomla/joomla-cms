@@ -41,7 +41,7 @@ class CategoryFeedView extends HtmlView
 		$extension      = $app->input->getString('option');
 		$contentType = $extension . '.' . $this->viewName;
 
-		$ucmType = new UcmType;
+		$ucmType = new UCMType;
 		$ucmRow = $ucmType->getTypeByAlias($contentType);
 		$ucmMapCommon = json_decode($ucmRow->field_mappings)->common;
 		$createdField = null;
