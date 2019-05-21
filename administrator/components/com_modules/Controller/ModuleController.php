@@ -156,7 +156,7 @@ class ModuleController extends FormController
 	 */
 	public function batch($model = null)
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Set the model
 		$model = $this->getModel('Module', 'Administrator', array());
@@ -208,10 +208,7 @@ class ModuleController extends FormController
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		if (!Session::checkToken())
-		{
-			Factory::getApplication()->redirect('index.php', Text::_('JINVALID_TOKEN'));
-		}
+		$this->checkToken();
 
 		if (Factory::getDocument()->getType() == 'json')
 		{
@@ -263,8 +260,8 @@ class ModuleController extends FormController
 		// Check if user token is valid.
 		if (!Session::checkToken('get'))
 		{
-			$app->enqueueMessage(Text::_('JINVALID_TOKEN'), 'error');
-			echo new  JsonResponse;
+			$app->enqueueMessage(Text::_('JINVALID_TOKEN_NOTICE'), 'error');
+			echo new JsonResponse;
 			$app->close();
 		}
 
@@ -318,5 +315,38 @@ class ModuleController extends FormController
 
 		echo new JsonResponse($html);
 		$app->close();
+	}
+
+	/**
+	 * Gets the URL arguments to append to an item redirect.
+	 *
+	 * @param   integer  $recordId  The primary key id for the item.
+	 * @param   string   $urlVar    The name of the URL variable for the id.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since  4.0.0
+	 */
+	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
+	{
+		$append = parent::getRedirectToItemAppend($recordId);
+		$append .= '&client_id=' . $this->input->getInt('client_id');
+
+		return $append;
+	}
+
+	/**
+	 * Gets the URL arguments to append to a list redirect.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since  4.0.0
+	 */
+	protected function getRedirectToListAppend()
+	{
+		$append = parent::getRedirectToListAppend();
+		$append .= '&client_id=' . $this->input->getInt('client_id');
+
+		return $append;
 	}
 }

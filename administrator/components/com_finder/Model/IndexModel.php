@@ -12,6 +12,8 @@ namespace Joomla\Component\Finder\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -77,7 +79,7 @@ class IndexModel extends ListModel
 	 */
 	protected function canDelete($record)
 	{
-		return \JFactory::getUser()->authorise('core.delete', $this->option);
+		return Factory::getUser()->authorise('core.delete', $this->option);
 	}
 
 	/**
@@ -91,7 +93,7 @@ class IndexModel extends ListModel
 	 */
 	protected function canEditState($record)
 	{
-		return \JFactory::getUser()->authorise('core.edit.state', $this->option);
+		return Factory::getUser()->authorise('core.edit.state', $this->option);
 	}
 
 	/**
@@ -121,7 +123,7 @@ class IndexModel extends ListModel
 					$context = $this->option . '.' . $this->name;
 
 					// Trigger the onContentBeforeDelete event.
-					$result = \JFactory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
+					$result = Factory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
 
 					if (in_array(false, $result, true))
 					{
@@ -138,7 +140,7 @@ class IndexModel extends ListModel
 					}
 
 					// Trigger the onContentAfterDelete event.
-					\JFactory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
+					Factory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
 				}
 				else
 				{
@@ -152,7 +154,7 @@ class IndexModel extends ListModel
 					}
 					else
 					{
-						$this->setError(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+						$this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 					}
 				}
 			}
@@ -415,7 +417,7 @@ class IndexModel extends ListModel
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;
 
@@ -431,7 +433,7 @@ class IndexModel extends ListModel
 			{
 				// Prune items that you can't change.
 				unset($pks[$i]);
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 
 				return false;
 			}
@@ -448,7 +450,7 @@ class IndexModel extends ListModel
 		$context = $this->option . '.' . $this->name;
 
 		// Trigger the onContentChangeState event.
-		$result = \JFactory::getApplication()->triggerEvent('onContentChangeState', array($context, $pks, $value));
+		$result = Factory::getApplication()->triggerEvent('onContentChangeState', array($context, $pks, $value));
 
 		if (in_array(false, $result, true))
 		{

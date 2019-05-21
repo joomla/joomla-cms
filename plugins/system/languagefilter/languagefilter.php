@@ -127,7 +127,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				}
 			}
 		}
-		// If language filter plugin is executed in a admin page (ex: JRoute site).
+		// If language filter plugin is executed in an admin page (ex: JRoute site).
 		else
 		{
 			// Set current language to default site language, fallback to en-GB if there is no content language for the default site language.
@@ -423,9 +423,10 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			$lang_code = $this->sefs[$lang]->lang_code;
 		}
 
-		// We are called via POST. We don't care about the language
+		// We are called via POST or the nolangfilter url parameter was set. We don't care about the language
 		// and simply set the default language as our current language.
 		if ($this->app->input->getMethod() === 'POST'
+			|| $this->app->input->get('nolangfilter', 0) == 1
 			|| count($this->app->input->post) > 0
 			|| count($this->app->input->files) > 0)
 		{
@@ -561,15 +562,15 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onPrivacyCollectAdminCapabilities()
 	{
 		$this->loadLanguage();
 
 		return array(
-			JText::_('PLG_SYSTEM_LANGUAGEFILTER') => array(
-				JText::_('PLG_SYSTEM_LANGUAGEFILTER_PRIVACY_CAPABILITY_LANGUAGE_COOKIE'),
+			Text::_('PLG_SYSTEM_LANGUAGEFILTER') => array(
+				Text::_('PLG_SYSTEM_LANGUAGEFILTER_PRIVACY_CAPABILITY_LANGUAGE_COOKIE'),
 			)
 		);
 	}

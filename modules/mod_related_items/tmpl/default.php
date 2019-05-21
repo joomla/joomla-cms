@@ -13,7 +13,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 ?>
-<ul class="mod-relateditems relateditems<?php echo $moduleclass_sfx; ?>">
+<ul class="mod-relateditems relateditems<?php echo $moduleclass_sfx; ?> mod-list">
 <?php foreach ($list as $item) : ?>
 <li>
 	<a href="<?php echo $item->route; ?>">
