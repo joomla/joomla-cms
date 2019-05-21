@@ -3,87 +3,75 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-/* 
- * Form Controls
- *
- * these shortcuts are available for any Joomla admin form
- * that uses the standard Joomla toolbar.
-*/
+document.onkeyup = function(e) {
 
-// Save
-if(document.getElementById('toolbar-apply')!= undefined) {
-	Mousetrap.bind('mod+shift+2', () => {
+	/* 
+	 * Form Controls
+	 *
+	 * these shortcuts are available for any Joomla admin form
+	 * that uses the standard Joomla toolbar.
+	*/
+	
+	// Save - Alt/Opt S
+	if (e.altKey && e.which == 83) {
 		var toolbar = document.getElementById("toolbar-apply");
-		toolbar.getElementsByClassName("button-apply")[0].click();
-	});
-}
-
-// Save & Close 
-if(document.getElementById('save-group-children-save')!= undefined) {
-	Mousetrap.bind('mod+shift+3', () => {
-		var toolbar = document.getElementById("save-group-children-save");
+		toolbar.getElementsByClassName("button-apply")[0].click(); 
+	};
+	// Save & Close - Shift + Alt/Opt S
+	if (e.shiftKey && e.altKey && e.which == 83) {
+		var toolbar = document.getElementById("toolbar-save");
 		toolbar.getElementsByClassName("button-save")[0].click();
-	});
-}
-
-// Save & New 
-if(document.getElementById('save-group-children-save-new')!= undefined) {
-	Mousetrap.bind('mod+shift+4', () => {
+	};
+	// Save & New - Shift + Alt/Opt N
+	if (e.shiftKey && e.altKey && e.which == 78) {
 		var toolbar = document.getElementById("save-group-children-save-new");
 		toolbar.getElementsByClassName("button-save-new")[0].click();
-	});
-}
-
-// Save as copy 
-if(document.getElementById('save-group-children-save-copy')!= undefined) {
-	Mousetrap.bind('mod+shift+5', () => {
+	};
+	// Save as Copy - Shift + Alt/Opt C
+	if (e.shiftKey && e.altKey && e.which == 67) {
 		var toolbar = document.getElementById("save-group-children-save-copy");
 		toolbar.getElementsByClassName("button-save-copy")[0].click();
-	});
-}
-
-// Cancel/Close 
-if(document.getElementById('toolbar-cancel')!= undefined) {
-	Mousetrap.bind('mod+shift+6', () => {
+	};
+	// Cancel/Close - Alt/Opt X
+	if (e.altKey && e.which == 88) {
 		var toolbar = document.getElementById("toolbar-cancel");
 		toolbar.getElementsByClassName("button-cancel")[0].click();
-	});
-}	
-
-/* 
- * Item Controls
- *
- * these shortcuts are available for any Joomla admin view
- * that uses the standard Joomla toolbar for letting users
- * create new items.
-*/
-
-// New
-if(document.getElementById('toolbar-new')!= undefined) {
-	Mousetrap.bind('mod+shift+7', () => {
+	};
+	
+	/* 
+	 * Item Controls
+	 *
+	 * these shortcuts are available for any Joomla admin view
+	 * that uses the standard Joomla toolbar for letting users
+	 * create new items.
+	*/
+	
+	// New - Alt/Opt N
+	if (e.altKey && e.which == 78) {
 		var toolbar = document.getElementById("toolbar-new");
 		toolbar.getElementsByClassName("button-new")[0].click();
-	});
-}
-
-/* 
- * Admin Shortcuts
- *
- * these shortcuts are available in the Joomla administrator
- * application on any page.
-*/
-
-// Control Panel
-Mousetrap.bind('mod+shift+1', () => {
-    window.open("index.php","_self");
-});
-
-// Help
-if(document.getElementById('toolbar-help')!= undefined) {
-	Mousetrap.bind('j h', () => {
+	};
+	
+	// Help - Alt/Opt H
+	if (e.altKey && e.which == 72) {
 		var toolbar = document.getElementById("toolbar-help");
 		toolbar.getElementsByClassName("button-help")[0].click();
-	});
-}
-
-
+	};
+	
+	// Help - Alt/Opt O
+	if (e.altKey && e.which == 79) {
+		var toolbar = document.getElementById("toolbar-options");
+		toolbar.getElementsByClassName("button-options")[0].click();
+	};
+	
+	}
+	
+	/* 
+	 * Admin Shortcuts
+	 *
+	 * these shortcuts are available in the Joomla administrator
+	 * application on any page.
+	*/
+	
+	
+	

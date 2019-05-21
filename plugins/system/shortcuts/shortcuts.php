@@ -75,9 +75,6 @@ class PlgSystemShortcuts extends CMSPlugin
 			return false;
 		}
 
-		{
-		HTMLHelper::_('script', 'vendor/mousetrap/mousetrap.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 		HTMLHelper::_('script', 'plg_system_shortcuts/shortcuts.js', array('version' => 'auto', 'relative' => true), ['defer' => true]);
-		}
 	}
 }

@@ -373,14 +373,6 @@
           "dist/metismenujs.min.js.map": "js/metismenujs.min.js.map"
         }
       },
-      "mousetrap": {
-        "name": "mousetrap",
-        "licenseFilename": "LICENSE",
-        "js": {
-          "mousetrap.js": "js/mousetrap.js",
-          "mousetrap.min.js": "js/mousetrap.min.js"
-        }
-      },
       "skipto": {
         "name": "skipto",
         "licenseFilename": "LICENSE.md",
