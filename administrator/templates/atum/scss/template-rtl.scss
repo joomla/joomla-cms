@@ -109,6 +109,13 @@ body {
       border-left: 1px solid rgba($white, .15);
     }
   }
+
+  .quickicon-linkadd{
+    .fa {
+      float:right;
+      margin-left:1.5rem;
+    }
+  }
 }
 
 // Sidebar
@@ -128,7 +135,7 @@ body {
       right: auto;
     }
   }
- 
+
   .collapse-level-2 {
     right: 100%;
     left: auto;

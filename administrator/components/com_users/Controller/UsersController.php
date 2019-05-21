@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
 use Joomla\Utilities\ArrayHelper;
 
@@ -151,5 +152,23 @@ class UsersController extends AdminController
 		}
 
 		$this->setRedirect('index.php?option=com_users&view=users');
+	}
+
+	/**
+	 * Method to get the number of active users
+	 * 
+	 * @return  integer  The amount of users
+	 *
+	 * @since   4.0
+	 */
+	public function getQuickiconContent()
+	{
+		$model = $this->getModel('Users');
+
+		$model->setState('filter.state', 0);
+
+		$amount = $model->getTotal() ? $model->getTotal() : '0';
+
+		echo new JsonResponse($amount);
 	}
 }

@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+HTMLHelper::_('script', 'mod_quickicon/quickicon.min.js', ['version' => 'auto', 'relative' => true]);
+
 $html = HTMLHelper::_('icons.buttons', $buttons);
 ?>
 <?php if (!empty($html)) : ?>

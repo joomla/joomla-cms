@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\Utilities\ArrayHelper;
 
@@ -57,6 +58,25 @@ class ItemsController extends AdminController
 	public function getModel($name = 'Item', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
+	}
+
+	/**
+	 * Method to get the number of published frontend menu items for quickicons
+	 * 
+	 * @return  integer  The amount of items
+	 *
+	 * @since   4.0
+	 */
+	public function getQuickiconContent()
+	{
+		$model = $this->getModel('Items');
+
+		$model->setState('filter.published', 1);
+		$model->setState('filter.client_id', 0);
+
+		$amount = $model->getTotal() ? $model->getTotal() : '0';
+
+		echo new JsonResponse($amount);
 	}
 
 	/**
