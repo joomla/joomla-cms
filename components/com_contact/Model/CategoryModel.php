@@ -173,7 +173,7 @@ class CategoryModel extends ListModel
 		}
 		else
 		{
-			$query->whereIn($db->quoteName('c.published'), [0, 1, 2] );
+			$query->whereIn($db->quoteName('c.published'), [0, 1, 2]);
 		}
 
 		// Filter by start and end dates.
@@ -194,7 +194,7 @@ class CategoryModel extends ListModel
 			$query->where('(a.name LIKE ' . $search . ')');
 			$search = '%' . $db->escape(trim($search), true) . '%';
 			$query->bind(':name', $search);
-			$query->where( $db->quoteName('a.name') . ' LIKE :name ');
+			$query->where($db->quoteName('a.name') . ' LIKE :name ');
 		}
 
 		// Filter on the language.
