@@ -21,6 +21,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Category;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Workflow\Workflow;
@@ -903,7 +904,7 @@ class ArticleModel extends AdminModel
 					$data['alias'] = \JFilterOutput::stringURLSafe($data['title']);
 				}
 
-				$table = \JTable::getInstance('Content', 'JTable');
+				$table = Table::getInstance('Content', 'JTable');
 
 				if ($table->load(array('alias' => $data['alias'], 'catid' => $data['catid'])))
 				{

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -16,7 +17,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Utilities\ArrayHelper;
-
 
 /**
  * An example custom privacyconsent plugin.
@@ -577,7 +577,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 
 		foreach ($users as $user)
 		{
-			$token       = JApplicationHelper::getHash(UserHelper::genRandomPassword());
+			$token       = ApplicationHelper::getHash(UserHelper::genRandomPassword());
 			$hashedToken = UserHelper::hashPassword($token);
 
 			// The mail

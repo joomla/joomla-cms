@@ -45,7 +45,7 @@ function updatecachetime_postinstall_action()
 	$installer->params->set('cachetimeout', 6);
 
 	// Save the new parameters back to com_installer
-	$table = JTable::getInstance('extension');
+	$table = Table::getInstance('extension');
 	$table->load($installer->id);
 	$table->bind(array('params' => $installer->params->toString()));
 
