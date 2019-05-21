@@ -167,7 +167,7 @@ class UsersController extends AdminController
 
 		$model->setState('filter.state', 0);
 
-		$amount = $model->getTotal() ? $model->getTotal() : '0';
+		$amount = (int) $model->getTotal();
 
 		echo new JsonResponse($amount);
 	}

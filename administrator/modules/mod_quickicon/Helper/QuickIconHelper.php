@@ -67,14 +67,17 @@ abstract class QuickIconHelper
 			{
 				PluginHelper::importPlugin('quickicon', 'joomlaupdate');
 			}
+
 			if ($params->get('show_eupdate', '1'))
 			{
 				PluginHelper::importPlugin('quickicon', 'extensionupdate');
 			}
+
 			if ($params->get('show_oupdate', '1'))
 			{
 				PluginHelper::importPlugin('quickicon', 'overridecheck');
 			}
+
 			if ($params->get('show_privacy', '1'))
 			{
 				PluginHelper::importPlugin('quickicon', 'privacycheck');
