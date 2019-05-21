@@ -27,35 +27,35 @@ if ($component === 'com_categories')
 
 $saveHistory = ComponentHelper::getParams($component)->get('save_history', 0);
 
-		if ($component !== 'com_plugins')
-		{
-			$fields = $displayData->get('fields') ?: array(
-			'transition',
-			array('parent', 'parent_id'),
-			array('published', 'state', 'enabled'),
-			array('category', 'catid'),
-			'featured',
-			'sticky',
-			'access',
-			'id',
-			'language',
-			'tags',
-			'note',
-			'version_note',
-			);
-		} 
-		else 
-		{
-			$fields = $displayData->get('fields') ?: array(
-			'transition',
-			array('parent', 'parent_id'),
-			array('published', 'state', 'enabled'),
-			array('category', 'catid'),
-			'featured',
-			'access',
-			'id',
-			);
-		};
+if ($component !== 'com_plugins')
+{
+	$fields = $displayData->get('fields') ?: array(
+	'transition',
+	array('parent', 'parent_id'),
+	array('published', 'state', 'enabled'),
+	array('category', 'catid'),
+	'featured',
+	'sticky',
+	'access',
+	'id',
+	'language',
+	'tags',
+	'note',
+	'version_note',
+	);
+} 
+else 
+{
+	$fields = $displayData->get('fields') ?: array(
+	'transition',
+	array('parent', 'parent_id'),
+	array('published', 'state', 'enabled'),
+	array('category', 'catid'),
+	'featured',
+	'access',
+	'id',
+	);
+};
 
 $hiddenFields   = $displayData->get('hidden_fields') ?: array();
 $hiddenFields[] = 'id';
