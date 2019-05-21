@@ -15,8 +15,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Registry\Registry;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 
 /**
  * Featured contact model class.
@@ -94,9 +94,6 @@ class FeaturedModel extends ListModel
 		$query->select($this->getState('list.select', 'a.*'))
 			->from($db->quoteName('#__contact_details', 'a'))
 			->where('a.featured = 1')
-
-			//->bind(':aaccess', $published, ParameterType::INTEGER)
-
 			->whereIn($db->quoteName('a.access') , $groups )
 			->innerJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
 			->whereIn($db->quoteName('c.access'), $groups );
