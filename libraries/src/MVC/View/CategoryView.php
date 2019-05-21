@@ -175,7 +175,7 @@ class CategoryView extends HtmlView
 
 		if ($this->runPlugins)
 		{
-			\JPluginHelper::importPlugin('content');
+			PluginHelper::importPlugin('content');
 
 			foreach ($items as $itemElement)
 			{

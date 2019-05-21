@@ -24,6 +24,7 @@ const _JEXEC = 1;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Plugin\PluginHelper;
 
 // Load system defines
 if (file_exists(dirname(__DIR__) . '/defines.php'))
@@ -152,8 +153,8 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 		FinderIndexer::resetState();
 
 		// Import the plugins.
-		JPluginHelper::importPlugin('system');
-		JPluginHelper::importPlugin('finder');
+		PluginHelper::importPlugin('system');
+		PluginHelper::importPlugin('finder');
 
 		// Starting Indexer.
 		$this->out(Text::_('FINDER_CLI_STARTING_INDEXER'), true);

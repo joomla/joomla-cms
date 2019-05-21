@@ -1345,7 +1345,7 @@ class ArticleModel extends AdminModel
 		$context = $this->option . '.' . $this->name;
 
 		// Include the plugins for the change of stage event.
-		\JPluginHelper::importPlugin($this->events_map['change_state']);
+		PluginHelper::importPlugin($this->events_map['change_state']);
 
 		// Trigger the change stage event.
 		Factory::getApplication()->triggerEvent($this->event_change_state, [$context, [$pk], $transition_id]);

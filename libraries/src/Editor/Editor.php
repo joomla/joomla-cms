@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\AbstractEvent;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
@@ -222,7 +223,7 @@ class Editor implements DispatcherAwareInterface
 		}
 
 		// Get plugins
-		$plugins = \JPluginHelper::getPlugin('editors-xtd');
+		$plugins = PluginHelper::getPlugin('editors-xtd');
 
 		foreach ($plugins as $plugin)
 		{
@@ -231,7 +232,7 @@ class Editor implements DispatcherAwareInterface
 				continue;
 			}
 
-			\JPluginHelper::importPlugin('editors-xtd', $plugin->name, false);
+			PluginHelper::importPlugin('editors-xtd', $plugin->name, false);
 			$className = 'PlgEditorsXtd' . $plugin->name;
 
 			if (!class_exists($className))
@@ -302,7 +303,7 @@ class Editor implements DispatcherAwareInterface
 		require_once $path;
 
 		// Get the plugin
-		$plugin = \JPluginHelper::getPlugin('editors', $this->_name);
+		$plugin = PluginHelper::getPlugin('editors', $this->_name);
 
 		// If no plugin is published we get an empty array and there not so much to do with it
 		if (empty($plugin))
@@ -323,7 +324,7 @@ class Editor implements DispatcherAwareInterface
 		{
 			// Load plugin parameters
 			$this->initialise();
-			\JPluginHelper::importPlugin('editors-xtd');
+			PluginHelper::importPlugin('editors-xtd');
 		}
 	}
 }

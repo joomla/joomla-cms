@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -32,7 +33,7 @@ HTMLHelper::_('stylesheet', 'templates/system/css/general.css', ['version' => 'a
 // Add JavaScript Frameworks
 HTMLHelper::_('bootstrap.framework');
 
-$twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
+$twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">

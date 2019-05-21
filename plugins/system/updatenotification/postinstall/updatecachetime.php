@@ -9,6 +9,7 @@
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Checks if the com_installer config for the cache Hours are eq 0 and the updatenotification Plugin is enabled
@@ -22,7 +23,7 @@ function updatecachetime_postinstall_condition()
 	$cacheTimeout = (int) ComponentHelper::getComponent('com_installer')->params->get('cachetimeout', 6);
 
 	// Check if cachetimeout is eq zero
-	if ($cacheTimeout === 0 && JPluginHelper::isEnabled('system', 'updatenotification'))
+	if ($cacheTimeout === 0 && PluginHelper::isEnabled('system', 'updatenotification'))
 	{
 		return true;
 	}
