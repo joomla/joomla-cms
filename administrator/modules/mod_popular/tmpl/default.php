@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('bootstrap.framework');
 
-$nulldate = Factory::getDbo()->getNullDate();
+$nullDate = Factory::getDbo()->getNullDate();
 ?>
 <table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
 	<caption class="sr-only"><?php echo $module->title; ?></caption>
@@ -53,7 +53,7 @@ $nulldate = Factory::getDbo()->getNullDate();
 						<span class="small">
 							<span class="icon-calendar" aria-hidden="true"></span>
 							<?php 
-								$date = $item->publish_up === $nulldate() ? $item->created : $item->publish_up; 
+								$date = $item->publish_up === $nullDate ? $item->created : $item->publish_up; 
 								echo HTMLHelper::_('date', $date, Text::_('DATE_FORMAT_LC4')); 
 							?>
 						</span>
