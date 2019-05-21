@@ -9,10 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('bootstrap.framework');
+
+$nulldate = Factory::getDbo()->getNullDate();
 ?>
 <table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
 	<caption class="sr-only"><?php echo $module->title; ?></caption>
@@ -46,7 +49,10 @@ HTMLHelper::_('bootstrap.framework');
 				<span class="badge badge-secondary badge-pill">
 					<span class="small">
 						<span class="icon-calendar" aria-hidden="true"></span>
-						<?php echo HTMLHelper::_('date', $item->publish_up, Text::_('DATE_FORMAT_LC4')); ?>
+							<?php 
+								$date = $item->publish_up === $nulldate() ? $item->created : $item->publish_up; 
+								echo HTMLHelper::_('date', $date, Text::_('DATE_FORMAT_LC4')); 
+							?>
 					</span>
 				</span>
 			</td>
