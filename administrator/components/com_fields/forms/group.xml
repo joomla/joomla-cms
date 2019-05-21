@@ -145,7 +145,6 @@
 				name="display_readonly"
 				type="radio"
 				label="JFIELD_DISPLAY_READONLY_LABEL"
-				description="JFIELD_DISPLAY_READONLY_DESC"
 				class="switcher"
 				default="1"
 				>
