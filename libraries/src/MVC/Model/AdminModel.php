@@ -1554,7 +1554,7 @@ abstract class AdminModel extends FormModel
 			$this->tableClassName = end($tc);
 
 			// Get UCM Type data
-			$this->contentType = new UcmType;
+			$this->contentType = new UCMType;
 			$this->type = $this->contentType->getTypeByTable($this->tableClassName)
 				?: $this->contentType->getTypeByAlias($this->typeAlias);
 		}
