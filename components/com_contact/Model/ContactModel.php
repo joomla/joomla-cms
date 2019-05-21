@@ -163,12 +163,12 @@ class ContactModel extends FormModel
 					->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access')
 					->leftJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
 
-
 					// Join over the categories to get parent category titles
 					->select('parent.title AS parent_title, parent.id AS parent_id, parent.path AS parent_route, parent.alias AS parent_alias')
 					->leftJoin($db->quoteName('#__categories', 'parent') . ' ON parent.id = c.parent_id')
 					->bind(':id', $pk, ParameterType::INTEGER)
 					->where($db->quoteName('a.id') . ' = :id');
+
 				// Filter by start and end dates.
 				$nullDate = $db->quote($db->getNullDate());
 				$nowDate = Factory::getDate()->toSql();
