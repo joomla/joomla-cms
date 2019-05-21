@@ -93,7 +93,7 @@ class DisplayController extends BaseController
 
 		// Number bytes are returned in format xxx.xx MB
 		$result = strstr(HTMLHelper::_('number.bytes', $size, 'MB', 1, false), '.', true);
-		
+
 		// Return number only
 		echo new JsonResponse($result);
 	}
