@@ -21,7 +21,6 @@ use Joomla\CMS\Router\Route;
 // Load the tooltip behavior.
 HTMLHelper::_('bootstrap.tooltip');
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('formbehavior.chosen', 'select');
 
 $user       = Factory::getUser();
 $listOrder  = $this->escape($this->state->get('list.ordering'));
