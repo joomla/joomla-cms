@@ -19,8 +19,6 @@ use Joomla\Component\Actionlogs\Administrator\View\Actionlogs\HtmlView;
 
 /** @var HtmlView $this */
 
-HTMLHelper::_('bootstrap.tooltip');
-
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 
@@ -65,7 +63,7 @@ Factory::getDocument()->addScriptDeclaration('
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
-			<table class="table" id="logsList">
+			<table class="table table-striped" id="logsList">
 				<caption id="captionTable" class="sr-only">
 					<?php echo Text::_('COM_ACTIONLOGS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
 				</caption>
@@ -100,7 +98,7 @@ Factory::getDocument()->addScriptDeclaration('
 					<?php foreach ($this->items as $i => $item) :
 						$extension = strtok($item->extension, '.');
 						ActionlogsHelper::loadTranslationFiles($extension); ?>
-						<tr class="row<?php echo $i % 2; ?>">
+						<tr>
 							<td class="center">
 								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 							</td>
@@ -111,9 +109,12 @@ Factory::getDocument()->addScriptDeclaration('
 								<?php echo $this->escape(Text::_($extension)); ?>
 							</td>
 							<td>
-								<span class="hasTooltip" title="<?php echo HTMLHelper::_('date', $item->log_date, Text::_('DATE_FORMAT_LC6')); ?>">
+								<span title="<?php echo HTMLHelper::_('date', $item->log_date, Text::_('DATE_FORMAT_LC6')); ?>">
 									<?php echo HTMLHelper::_('date.relative', $item->log_date); ?>
 								</span>
+                                <div role="tooltip" id="<?php echo $item->id; ?>">
+                                    <?php echo HTMLHelper::_('date', $item->log_date, Text::_('DATE_FORMAT_LC6')); ?>
+                                </div>
 							</td>
 							<td>
 								<?php echo $item->name; ?>
