@@ -58,7 +58,7 @@ document.onkeyup = function(e) {
 		toolbar.getElementsByClassName("button-help")[0].click();
 	};
 	
-	// Help - Alt/Opt O
+	// Options - Alt/Opt O
 	if (e.altKey && e.which == 79) {
 		var toolbar = document.getElementById("toolbar-options");
 		toolbar.getElementsByClassName("button-options")[0].click();
