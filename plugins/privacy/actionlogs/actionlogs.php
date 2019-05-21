@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 
 /**
  * Privacy plugin managing Joomla actionlogs data

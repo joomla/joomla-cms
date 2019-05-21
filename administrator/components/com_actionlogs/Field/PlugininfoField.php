@@ -9,13 +9,13 @@
 
 namespace Joomla\Component\Actionlogs\Administrator\Field;
 
+defined('JPATH_BASE') or die;
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-
-defined('JPATH_BASE') or die;
 
 /**
  * Information field.

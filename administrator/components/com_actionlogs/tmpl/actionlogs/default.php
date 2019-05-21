@@ -112,9 +112,9 @@ Factory::getDocument()->addScriptDeclaration('
 								<span title="<?php echo HTMLHelper::_('date', $item->log_date, Text::_('DATE_FORMAT_LC6')); ?>">
 									<?php echo HTMLHelper::_('date.relative', $item->log_date); ?>
 								</span>
-                                <div role="tooltip" id="<?php echo $item->id; ?>">
-                                    <?php echo HTMLHelper::_('date', $item->log_date, Text::_('DATE_FORMAT_LC6')); ?>
-                                </div>
+								<div role="tooltip" id="<?php echo $item->id; ?>">
+									<?php echo HTMLHelper::_('date', $item->log_date, Text::_('DATE_FORMAT_LC6')); ?>
+								</div>
 							</td>
 							<td>
 								<?php echo $item->name; ?>

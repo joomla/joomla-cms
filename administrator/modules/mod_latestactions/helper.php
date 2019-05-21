@@ -35,7 +35,7 @@ abstract class ModLatestActionsHelper
 	public static function getList(&$params)
 	{
 		/** @var ActionlogsModel $model */
-		$model = new ActionlogsModel(array('ignore_request' => true));
+		$model = new ActionlogsModel(['ignore_request' => true]);
 
 		// Set the Start and Limit
 		$model->setState('list.start', 0);
