@@ -50,7 +50,7 @@
 			id="db_type"
 			class="custom-select form-control"
 			supported="mysql,mysqli,pgsql,postgresql"
-			required="true"
+			default="mysqli"
 			filter="string"
 		/>
 		<field
@@ -59,6 +59,7 @@
 			label="INSTL_DATABASE_HOST_DESC"
 			id="db_host"
 			class="form-control"
+			default="localhost"
 			required="true"
 		/>
 		<field
@@ -85,6 +86,7 @@
 			id="db_name"
 			class="form-control"
 			required="true"
+			default="joomla_db"
 		/>
 	</fieldset>
 
