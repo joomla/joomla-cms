@@ -253,9 +253,6 @@
 		if($.fn.fieldUser){
 			$row.find('.field-user-wrapper').fieldUser();
 		}
-
-		// subforms in subforms
-		$row.find('div.subform-repeatable').subformRepeatable();
 	};
 
 	// defaults
@@ -302,10 +299,14 @@
 		});
 	};
 
-	// initialise all available
-	// wait when all will be loaded, important for scripts fix
-	$(window).on('load', function(){
-		$('div.subform-repeatable').subformRepeatable();
+	// initialise all available on load and again within any added row
+	$(function ($) {
+		initSubform();
+		$(document).on('subform-row-add', initSubform);
+
+		function initSubform (event, container) {
+			$(container || document).find('div.subform-repeatable').subformRepeatable();
+		}
 	});
 
 })(jQuery);
