@@ -7,7 +7,6 @@
 			label="INSTL_LANGUAGE_LABEL"
 			id="language"
 			default="en-GB"
-			required="true"
 			onchange="Install.setlanguage();"
 		/>
 	</fieldset>
@@ -18,7 +17,6 @@
 			label="INSTL_FTP_ENABLE_LABEL"
 			id="ftp_enable"
 			class="btn-group btn-group-reverse"
-			default="0"
 			filter="int"
 			required="true"
 			>
@@ -75,7 +73,6 @@
 			id="ftp_save"
 			class="btn-group btn-group-reverse"
 			default="0"
-			required="true"
 			filter="int"
 			>
 			<option value="1">JYES</option>

@@ -6,7 +6,7 @@
 			type="installation.language"
 			label="INSTL_SELECT_LANGUAGE_TITLE"
 			id="language"
-			class="custom-select required ml-2"
+			class="custom-select ml-2"
 			default="en-GB"
 		/>
 		<field
@@ -51,7 +51,6 @@
 			class="custom-select form-control"
 			supported="mysql,mysqli,pgsql,postgresql"
 			required="true"
-			default="mysqli"
 			filter="string"
 		/>
 		<field
@@ -60,7 +59,6 @@
 			label="INSTL_DATABASE_HOST_DESC"
 			id="db_host"
 			class="form-control"
-			default="localhost"
 			required="true"
 		/>
 		<field
@@ -87,7 +85,6 @@
 			id="db_name"
 			class="form-control"
 			required="true"
-			default="joomla_db"
 		/>
 	</fieldset>
 

@@ -33,7 +33,6 @@
 			name="published"
 			type="list"
 			label="COM_WORKFLOW_PUBLISHED_LABEL"
-			required="true"
 			class="custom-select-color-state"
 			default="1"
 			>
@@ -47,7 +46,6 @@
 			label="COM_WORKFLOW_FIELD_IS_DEFAULT_LABEL"
 			class="switcher"
 			default="0"
-			required="true"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
