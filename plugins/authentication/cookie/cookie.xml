@@ -25,6 +25,7 @@
 					label="PLG_AUTH_COOKIE_FIELD_COOKIE_LIFETIME_LABEL"
 					default="60"
 					filter="integer"
+					required="true"
 				/>
 
 				<field
