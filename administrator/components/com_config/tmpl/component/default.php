@@ -66,7 +66,7 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version
 			<div class="tab-content" id="configContent">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<div class="tab-pane" id="<?php echo $name; ?>">
-						<?php if (isset($fieldSet->description) && !empty($fieldSet->description)) : ?>
+						<?php if (!empty($fieldSet->description)) : ?>
 							<div class="tab-description alert alert-info">
 								<span class="icon-info" aria-hidden="true"></span> <?php echo JText::_($fieldSet->description); ?>
 							</div>
