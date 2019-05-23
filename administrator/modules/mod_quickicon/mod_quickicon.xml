@@ -34,7 +34,7 @@
 					name="header_icon"
 					type="text"
 					label="MOD_QUICKICON_HEADER_ICON_LABEL"
-					description="MOD_QUICKICON_HEADER_ICON_DESC"
+					hint="fa fa-crosshairs"
 					default=""
 				/>
 				<field
