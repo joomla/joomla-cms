@@ -110,7 +110,7 @@ class MenutypeField extends ListField
 
 		// This hidden field has an ID so it can be used for showon attributes
 		$html[] = '<input type="hidden" name="' . $this->name . '" value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" id="' . $this->id .'_val">';
+			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" id="' . $this->id . '_val">';
 
 		return implode("\n", $html);
 	}
