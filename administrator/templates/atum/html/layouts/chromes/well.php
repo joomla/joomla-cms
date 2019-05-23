@@ -38,9 +38,12 @@ if ($module->content) :
 
 	// Get the module icon
 	$headerIcon = '';
+	
+	$margin = Factory::getLanguage()->isRtl() ? ' ml-2' : ' mr-2';
+	
 	if (!empty($params->get('header_icon')))
 	{
-		$headerIcon = '<span class="' . htmlspecialchars($params->get('header_icon')) . '" aria-hidden="true"> ';
+		$headerIcon = '<span class="' . htmlspecialchars($params->get('header_icon')) .  $margin . '" aria-hidden="true"></span>';
 	}
 	?>
 	<div class="module-wrapper">
