@@ -104,7 +104,7 @@
   }
 
   .card-header {
-    font-size: $h4-font-size;
+    min-height: 2.5rem;
     color: var(--atum-bg-dark);
     font-weight: $font-weight-bold;
     background: var(--card-bg);
@@ -180,7 +180,9 @@
     &:hover {
       background: var(--atum-link-hover-color);
     }
-
   }
 
+   h2 {
+      font-size: $h4-font-size;
+    }
 }
