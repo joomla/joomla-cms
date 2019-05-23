@@ -255,7 +255,7 @@ class ContactsModel extends ListModel
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
 		{
-			$query->bind(':access', $access);
+			$query->bind(':access', $access, ParameterType::INTEGER);
 			$query->where($db->quoteName('a.access') . ' = :access');
 		}
 
