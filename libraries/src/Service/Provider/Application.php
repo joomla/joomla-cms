@@ -23,6 +23,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Console\Application as BaseConsoleApplication;
 use Joomla\Console\Loader\LoaderInterface;
+use Joomla\Database\Command\ExportCommand;
+use Joomla\Database\Command\ImportCommand;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
@@ -127,6 +129,8 @@ class Application implements ServiceProviderInterface
 					$mapping = [
 						SessionGcCommand::getDefaultName()         => SessionGcCommand::class,
 						SessionMetadataGcCommand::getDefaultName() => SessionMetadataGcCommand::class,
+						ExportCommand::getDefaultName()            => ExportCommand::class,
+						ImportCommand::getDefaultName()            => ImportCommand::class,
 					];
 
 					return new WritableContainerLoader($container, $mapping);
