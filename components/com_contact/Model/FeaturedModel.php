@@ -84,7 +84,7 @@ class FeaturedModel extends ListModel
 	protected function getListQuery()
 	{
 		$user = Factory::getUser();
-		$groups =  $user->getAuthorisedViewLevels();
+		$groups = $user->getAuthorisedViewLevels();
 
 		// Create a new query object.
 		$db    = $this->getDbo();
