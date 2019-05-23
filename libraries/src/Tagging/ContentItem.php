@@ -89,12 +89,30 @@ class ContentItem
 
 	public function addTag(Tag $tag)
 	{
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true);
+		$query->insert('#__tag_content_map')
+			->values(['tag_id' => $tag->id,
+				'type_alias' => $this->type_alias,
+				'content_id' => $this->content_id]);
+		$db->setQuery($query);
+		$db->execute();
 
+		return true;
 	}
 
 	public function removeTag(Tag $tag)
 	{
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true);
+		$query->delete('#__tag_content_map')
+			->where('tag_id = ' . $tag->id)
+			->where('type_alias = ' . $query->q($this->type_alias))
+			->where('content_id = ' . $query->q($this->content_id));
+		$db->setQuery($query);
+		$db->execute();
 
+		return true;
 	}
 
 	public function getTags()

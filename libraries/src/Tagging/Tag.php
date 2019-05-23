@@ -173,11 +173,29 @@ class Tag extends CMSObject implements NodeInterface
 
 	public function getContentItems()
 	{
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('c.*')
+			->from($query->qn('#__tag_content_map', 'm'))
+			->leftJoin($query->qn('#__tag_content', 'c') . ' ON m.type_alias = c.type_alias AND m.content_id = c.content_id')
+			->where($query->qn('m.tag_id') . ' = ' . $query->q($this->id));
 
+		$db->setQuery($query);
+		$items = $db->loadObjectList('', ContentItem::class);
+
+		return $items;
 	}
 
 	public function getItemCount()
 	{
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('COUNT(c.*)')
+			->from($query->qn('#__tag_content_map', 'm'))
+			->leftJoin($query->qn('#__tag_content', 'c') . ' ON m.type_alias = c.type_alias AND m.content_id = c.content_id')
+			->where($query->qn('m.tag_id') . ' = ' . $query->q($this->id));
 
+		$db->setQuery($query);
+		return $db->loadResult();
 	}
 }
