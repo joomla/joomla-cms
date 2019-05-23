@@ -23,8 +23,10 @@
 		/>
 		<field
 			name="description"
-			type="text"
+			type="textarea"
 			label="COM_WORKFLOW_WORKFLOW_NOTE"
+			rows="3"
+			cols="60"
 		/>
 	</fieldset>
 
