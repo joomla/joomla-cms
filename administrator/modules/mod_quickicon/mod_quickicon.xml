@@ -31,6 +31,13 @@
 					default="mod_quickicon"
 				/>
 				<field
+					name="header_icon"
+					type="text"
+					label="MOD_QUICKICON_HEADER_ICON_LABEL"
+					description="MOD_QUICKICON_HEADER_ICON_DESC"
+					default=""
+				/>
+				<field
 					name="show_global"
 					type="radio"
 					class="switcher"
