@@ -107,8 +107,10 @@ class MenutypeField extends ListField
 						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 			)
 		);
+
+		// This hidden field has an ID so it can be used for showon attributes
 		$html[] = '<input type="hidden" name="' . $this->name . '" value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '">';
+			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" id="' . $this->id . '_val">';
 
 		return implode("\n", $html);
 	}
