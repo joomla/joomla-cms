@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @copyright  Copyright (C) 2005 Richard Heyes (http://www.phpguru.org/). All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -19,7 +19,8 @@ use Joomla\CMS\Language\LanguageStemmer;
  * This class was adapted from one written by Richard Heyes.
  * See copyright and link information above.
  *
- * @since  12.1
+ * @since       3.0.0
+ * @deprecated  4.0 Use wamania/php-stemmer
  */
 class Porteren extends LanguageStemmer
 {
@@ -27,14 +28,14 @@ class Porteren extends LanguageStemmer
 	 * Regex for matching a consonant.
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	private static $_regex_consonant = '(?:[bcdfghjklmnpqrstvwxz]|(?<=[aeiou])y|^y)';
 
 	/**
 	 * Regex for matching a vowel
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	private static $_regex_vowel = '(?:[aeiou]|(?<![aeiou])y)';
 
@@ -46,7 +47,7 @@ class Porteren extends LanguageStemmer
 	 *
 	 * @return  string  The root token.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function stem($token, $lang)
 	{
@@ -88,7 +89,7 @@ class Porteren extends LanguageStemmer
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	private static function _step1ab($word)
 	{
@@ -138,7 +139,7 @@ class Porteren extends LanguageStemmer
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	private static function _step1c($word)
 	{
@@ -159,7 +160,7 @@ class Porteren extends LanguageStemmer
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	private static function _step2($word)
 	{
@@ -214,7 +215,7 @@ class Porteren extends LanguageStemmer
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	private static function _step3($word)
 	{
@@ -251,7 +252,7 @@ class Porteren extends LanguageStemmer
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	private static function _step4($word)
 	{
@@ -318,7 +319,7 @@ class Porteren extends LanguageStemmer
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	private static function _step5($word)
 	{
@@ -360,7 +361,7 @@ class Porteren extends LanguageStemmer
 	 *                   of the $str string. True does not necessarily mean
 	 *                   that it was replaced.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	private static function _replace(&$str, $check, $repl, $m = null)
 	{
@@ -395,7 +396,7 @@ class Porteren extends LanguageStemmer
 	 *
 	 * @return  integer  The m count
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	private static function _m($str)
 	{
@@ -418,7 +419,7 @@ class Porteren extends LanguageStemmer
 	 *
 	 * @return  boolean  Result
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	private static function _doubleConsonant($str)
 	{
@@ -434,7 +435,7 @@ class Porteren extends LanguageStemmer
 	 *
 	 * @return  boolean  Result
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	private static function _cvc($str)
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,15 +50,17 @@ abstract class JHtmlContent
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function months($state)
 	{
 		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+
 		foreach ($state as $key => $value) 
 		{
 			$model->setState($key, $value);
 		}
+
 		$model->setState('filter.category_id', $state->get('category.id'));
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', -1);
@@ -66,10 +68,13 @@ abstract class JHtmlContent
 		$model->setState('list.filter', '');
 
 		$items = array();
+
 		foreach ($model->countItemsByMonth() as $item)
 		{
-			$items[] = JHtml::_('select.option', $item->d, (new JDate($item->d))->format('F Y') . ' [' . $item->c . ']');
+			$date    = new JDate($item->d);
+			$items[] = JHtml::_('select.option', $item->d, $date->format('F Y') . ' [' . $item->c . ']');
 		}
+
 		return $items;
 	}
 }

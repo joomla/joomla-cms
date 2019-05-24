@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -102,7 +102,6 @@ abstract class ModuleHelper
 			{
 				$result[0] = static::getModule('mod_' . $position);
 				$result[0]->title = $position;
-				$result[0]->content = $position;
 				$result[0]->position = $position;
 			}
 		}
@@ -386,7 +385,7 @@ abstract class ModuleHelper
 		$clientId = (int) $app->getClientId();
 
 		// Build a cache ID for the resulting data object
-		$cacheId = $groups . $clientId . $Itemid;
+		$cacheId = $groups . '.' . $clientId . '.' . $Itemid;
 
 		$db = \JFactory::getDbo();
 
@@ -535,7 +534,7 @@ abstract class ModuleHelper
 		$cache = \JFactory::getCache($cacheparams->cachegroup, 'callback');
 
 		// Turn cache off for internal callers if parameters are set to off and for all logged in users
-		if ($moduleparams->get('owncache', null) === '0' || $conf->get('caching') == 0 || $user->get('id'))
+		if ($moduleparams->get('owncache') === 0 || $moduleparams->get('owncache') === '0' || $conf->get('caching') == 0 || $user->get('id'))
 		{
 			$cache->setCaching(false);
 		}
@@ -652,7 +651,7 @@ abstract class ModuleHelper
 	 *
 	 * @return  \stdClass  The Module object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function &getModuleById($id)
 	{

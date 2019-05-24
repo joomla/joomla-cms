@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * This class has influences and some method logic from the Horde Auth package
  *
- * @since  11.1
+ * @since  1.7.0
  */
 abstract class UserHelper
 {
@@ -32,7 +32,7 @@ abstract class UserHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	public static function addUserToGroup($userId, $groupId)
@@ -43,23 +43,22 @@ abstract class UserHelper
 		// Add the user to the group if necessary.
 		if (!in_array($groupId, $user->groups))
 		{
-			// Get the title of the group.
+			// Check whether the group exists.
 			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName('title'))
+				->select($db->quoteName('id'))
 				->from($db->quoteName('#__usergroups'))
 				->where($db->quoteName('id') . ' = ' . (int) $groupId);
 			$db->setQuery($query);
-			$title = $db->loadResult();
 
 			// If the group does not exist, return an exception.
-			if (!$title)
+			if ($db->loadResult() === null)
 			{
 				throw new \RuntimeException('Access Usergroup Invalid');
 			}
 
 			// Add the group data to the user object.
-			$user->groups[$title] = $groupId;
+			$user->groups[$groupId] = $groupId;
 
 			// Store the user object.
 			$user->save();
@@ -90,7 +89,7 @@ abstract class UserHelper
 	 *
 	 * @return  array    List of groups
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getUserGroups($userId)
 	{
@@ -108,7 +107,7 @@ abstract class UserHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function removeUserFromGroup($userId, $groupId)
 	{
@@ -150,7 +149,7 @@ abstract class UserHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function setUserGroups($userId, $groups)
 	{
@@ -204,7 +203,7 @@ abstract class UserHelper
 	 *
 	 * @return  object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getProfile($userId = 0)
 	{
@@ -234,7 +233,7 @@ abstract class UserHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function activateUser($activation)
 	{
@@ -283,7 +282,7 @@ abstract class UserHelper
 	 *
 	 * @return  integer  The user id or 0 if not found.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getUserId($username)
 	{
@@ -343,6 +342,16 @@ abstract class UserHelper
 			$match = $phpass->CheckPassword($password, $hash);
 
 			$rehash = true;
+		}
+		// Check for Argon2id hashes
+		elseif (strpos($hash, '$argon2id') === 0)
+		{
+			// This implementation is not supported through any existing polyfills
+			$match = password_verify($password, $hash);
+
+			$rehash = password_needs_rehash($hash, PASSWORD_ARGON2ID);
+
+			$passwordAlgorithm = PASSWORD_ARGON2ID;
 		}
 		// Check for Argon2i hashes
 		elseif (strpos($hash, '$argon2i') === 0)
@@ -415,7 +424,7 @@ abstract class UserHelper
 	 *
 	 * @return  string  The encrypted password.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0
 	 */
 	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
@@ -536,7 +545,7 @@ abstract class UserHelper
 	 *
 	 * @return  string  The generated or extracted salt.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0
 	 */
 	public static function getSalt($encryption = 'md5-hex', $seed = '', $plaintext = '')
@@ -651,7 +660,7 @@ abstract class UserHelper
 	 *
 	 * @return  string  Random Password
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function genRandomPassword($length = 8)
 	{
@@ -686,7 +695,7 @@ abstract class UserHelper
 	 *
 	 * @return  string  $value converted to the 64 MD5 characters.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function _toAPRMD5($value, $count)
 	{
@@ -712,7 +721,7 @@ abstract class UserHelper
 	 *
 	 * @return  string  Binary data.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	private static function _bin($hex)
 	{
@@ -748,7 +757,7 @@ abstract class UserHelper
 		$query
 			->update($db->quoteName('#__user_keys'))
 			->set($db->quoteName('invalid') . ' = 1')
-			->where($db->quotename('user_id') . ' = ' . $db->quote($userId));
+			->where($db->quoteName('user_id') . ' = ' . $db->quote($userId));
 
 		$db->setQuery($query)->execute();
 

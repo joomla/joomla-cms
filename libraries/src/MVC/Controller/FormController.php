@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -293,7 +293,7 @@ class FormController extends BaseController
 	 */
 	public function cancel($key = null)
 	{
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$model = $this->getModel();
 		$table = $model->getTable();
@@ -327,12 +327,19 @@ class FormController extends BaseController
 		$this->releaseEditId($context, $recordId);
 		\JFactory::getApplication()->setUserState($context . '.data', null);
 
-		$this->setRedirect(
-			\JRoute::_(
-				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. $this->getRedirectToListAppend(), false
-			)
-		);
+		$url = 'index.php?option=' . $this->option . '&view=' . $this->view_list
+			. $this->getRedirectToListAppend();
+
+		// Check if there is a return value
+		$return = $this->input->get('return', null, 'base64');
+
+		if (!is_null($return) && \JUri::isInternal(base64_decode($return)))
+		{
+			$url = base64_decode($return);
+		}
+
+		// Redirect to the list screen.
+		$this->setRedirect(\JRoute::_($url, false));
 
 		return true;
 	}
@@ -617,7 +624,7 @@ class FormController extends BaseController
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app   = \JFactory::getApplication();
 		$model = $this->getModel();
@@ -864,7 +871,7 @@ class FormController extends BaseController
 	public function reload($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app     = \JFactory::getApplication();
 		$model   = $this->getModel();
@@ -923,5 +930,23 @@ class FormController extends BaseController
 
 		$this->setRedirect($redirectUrl);
 		$this->redirect();
+	}
+
+	/**
+	 * Load item to edit associations in com_associations
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.0
+	 */
+	public function editAssociations()
+	{
+		// Initialise variables.
+		$app   = \JFactory::getApplication();
+		$input = $app->input;
+		$model = $this->getModel();
+
+		$data = $input->get('jform', array(), 'array');
+		$model->editAssociations($data);
 	}
 }

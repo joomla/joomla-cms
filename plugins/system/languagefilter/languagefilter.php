@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.languagefilter
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -113,7 +113,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				}
 			}
 		}
-		// If language filter plugin is executed in a admin page (ex: JRoute site).
+		// If language filter plugin is executed in an admin page (ex: JRoute site).
 		else
 		{
 			// Set current language to default site language, fallback to en-GB if there is no content language for the default site language.
@@ -385,9 +385,10 @@ class PlgSystemLanguageFilter extends JPlugin
 			$lang_code = $this->sefs[$lang]->lang_code;
 		}
 
-		// We are called via POST. We don't care about the language
+		// We are called via POST or the nolangfilter url parameter was set. We don't care about the language
 		// and simply set the default language as our current language.
 		if ($this->app->input->getMethod() === 'POST'
+			|| $this->app->input->get('nolangfilter', 0) == 1
 			|| count($this->app->input->post) > 0
 			|| count($this->app->input->files) > 0)
 		{
@@ -519,6 +520,24 @@ class PlgSystemLanguageFilter extends JPlugin
 	}
 
 	/**
+	 * Reports the privacy related capabilities for this plugin to site administrators.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.9.0
+	 */
+	public function onPrivacyCollectAdminCapabilities()
+	{
+		$this->loadLanguage();
+
+		return array(
+			JText::_('PLG_SYSTEM_LANGUAGEFILTER') => array(
+				JText::_('PLG_SYSTEM_LANGUAGEFILTER_PRIVACY_CAPABILITY_LANGUAGE_COOKIE'),
+			)
+		);
+	}
+
+	/**
 	 * Before store user method.
 	 *
 	 * Method is called before user data is stored in the database.
@@ -533,7 +552,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 */
 	public function onUserBeforeSave($user, $isnew, $new)
 	{
-		if (array_key_exists('params', $user) && $this->params->get('automatic_change', '1') == '1')
+		if (array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1)
 		{
 			$registry = new Registry($user['params']);
 			$this->user_lang_code = $registry->get('language');
@@ -561,7 +580,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 */
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
-		if ($success && array_key_exists('params', $user) && $this->params->get('automatic_change', '1') == '1')
+		if ($success && array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1)
 		{
 			$registry = new Registry($user['params']);
 			$lang_code = $registry->get('language');

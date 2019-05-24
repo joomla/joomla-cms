@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+
+JLoader::register('ContentHelperAssociation', JPATH_SITE . '/components/com_content/helpers/association.php');
 
 /**
  * This models supports retrieving lists of articles.
@@ -72,7 +74,7 @@ class ContentModelArticles extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	protected function populateState($ordering = 'ordering', $direction = 'ASC')
 	{
@@ -246,13 +248,13 @@ class ContentModelArticles extends JModelList
 		if (JPluginHelper::isEnabled('content', 'vote'))
 		{
 			// Join on voting table
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
+			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
 							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 		}
 
 		// Filter by access level.
-		if ($this->getState('filter.access', true))	
+		if ($this->getState('filter.access', true))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')')
@@ -377,11 +379,11 @@ class ContentModelArticles extends JModelList
 		}
 		elseif (is_array($authorId))
 		{
-			$authorId = ArrayHelper::toInteger($authorId);
-			$authorId = implode(',', $authorId);
+			$authorId = array_filter($authorId, 'is_numeric');
 
 			if ($authorId)
 			{
+				$authorId    = implode(',', $authorId);
 				$type        = $this->getState('filter.author_id.include', true) ? 'IN' : 'NOT IN';
 				$authorWhere = 'a.created_by ' . $type . ' (' . $authorId . ')';
 			}
@@ -461,8 +463,7 @@ class ContentModelArticles extends JModelList
 			case 'relative':
 				$relativeDate = (int) $this->getState('filter.relative_date', 0);
 				$query->where(
-					$dateField . ' >= DATE_SUB(' . $nowDate . ', INTERVAL ' .
-					$relativeDate . ' DAY)'
+					$dateField . ' >= ' . $query->dateAdd($nowDate, -1 * $relativeDate, 'DAY')
 				);
 				break;
 
@@ -719,7 +720,7 @@ class ContentModelArticles extends JModelList
 	 *
 	 * @return  integer  The starting number of items available in the data set.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getStart()
 	{
@@ -731,7 +732,7 @@ class ContentModelArticles extends JModelList
 	 *
 	 * @return  mixed  An array of objects on success, false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function countItemsByMonth()
 	{

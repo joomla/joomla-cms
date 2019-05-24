@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -166,7 +166,6 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			'latest'    => null,
 			'object'    => null,
 			'hasUpdate' => false,
-			'url'       => null
 		);
 
 		// Fetch the update information from the database.
@@ -266,7 +265,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	public function download()
 	{
 		$updateInfo = $this->getUpdateInformation();
-		$packageURL = $updateInfo['object']->downloadurl->_data;
+		$packageURL = trim($updateInfo['object']->downloadurl->_data);
 		$sources    = $updateInfo['object']->get('downloadSources', array());
 		$headers    = get_headers($packageURL, 1);
 
@@ -302,7 +301,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
 			{
 				$name       = $sources[$mirror];
-				$packageURL = $name->url;
+				$packageURL = trim($name->url);
 				$mirror++;
 			}
 
@@ -320,7 +319,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 				while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
 				{
 					$name       = $sources[$mirror];
-					$packageURL = $name->url;
+					$packageURL = trim($name->url);
 					$mirror++;
 				}
 
@@ -331,8 +330,45 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			$response['basename'] = $basename;
 		}
 
-		$response['check'] = JInstallerHelper::isChecksumValid($target, $updateInfo['url']);
+		$response['check'] = $this->isChecksumValid($target, $updateInfo['object']);
+
 		return $response;
+	}
+
+	/**
+	 * Return the result of the checksum of a package with the SHA256/SHA384/SHA512 tags in the update server manifest
+	 *
+	 * @param   string   $packagefile   Location of the package to be installed
+	 * @param   JUpdate  $updateObject  The Update Object
+	 *
+	 * @return  boolean  False in case the validation did not work; true in any other case.
+	 * 
+	 * @note    This method has been forked from (JInstallerHelper::isChecksumValid) so it
+	 *          does not depend on an up-to-date InstallerHelper at the update time
+	 *
+	 * @since   3.9.0
+	 */
+	private function isChecksumValid($packagefile, $updateObject)
+	{
+		$hashes = array('sha256', 'sha384', 'sha512');
+
+		foreach ($hashes as $hash)
+		{
+			if ($updateObject->get($hash, false))
+			{
+				$hashPackage = hash_file($hash, $packagefile);
+				$hashRemote  = $updateObject->$hash->_data;
+
+				if ($hashPackage !== $hashRemote)
+				{
+					// Return false in case the hash did not match
+					return false;
+				}
+			}
+		}
+
+		// Well nothing was provided or all worked
+		return true;
 	}
 
 	/**
@@ -1191,7 +1227,7 @@ ENDDATA;
 		// Check for output buffering.
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_OUTPUT_BUFFERING');
-		$setting->state = (bool) ini_get('output_buffering');
+		$setting->state = (int) ini_get('output_buffering') !== 0;
 		$setting->recommended = false;
 		$settings[] = $setting;
 

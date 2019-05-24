@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Pagination
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -94,6 +94,17 @@ class JPaginationTest extends TestCase
 	{
 		if (substr($url, 0, 1) === '&')
 		{
+			parse_str($url, $vars);
+
+			foreach ($vars as $key => $var)
+			{
+				if ($var == '')
+				{
+					// Remove empty parameters
+					$url = str_replace("&$key=", '', $url) ?: '&';
+				}
+			}
+
 			$url = 'index.php?' . substr($url, 1);
 		}
 
@@ -311,7 +322,7 @@ class JPaginationTest extends TestCase
 					array(
 						'text' => 'JLIB_HTML_VIEW_ALL',
 						'base' => '0',
-						'link' => 'index.php?limitstart=',
+						'link' => 'index.php',
 						'prefix' => '',
 						'active' => false,
 					),
@@ -349,6 +360,22 @@ class JPaginationTest extends TestCase
 						'link' => null,
 						'prefix' => '',
 						'active' => true,
+					),
+					// Version without '?limitstart='
+					array(
+						'text' => 'JLIB_HTML_VIEW_ALL',
+						'base' => '0',
+						'link' => 'index.php',
+						'prefix' => '',
+						'active' => false,
+					),
+					// Version without '?limitstart=0'
+					array(
+						'text' => 'JLIB_HTML_START',
+						'base' => '0',
+						'link' => 'index.php',
+						'prefix' => '',
+						'active' => false,
 					),
 				)
 			),
@@ -393,6 +420,31 @@ class JPaginationTest extends TestCase
 
 		// Test the active object
 		$this->assertEquals((array) $object->pages[$active], $expected["5"], 'This is not the expected active');
+
+		$pagination = new JPagination($total, $limitstart, $limit, '', $this->app);
+
+		// Flag indicates to not add limitstart= or limitstart=0 to URL
+		$pagination->hideEmptyLimitstart = true;
+
+		$object = $pagination->getData();
+
+		// Test the view all Object
+		$this->assertEquals($expected["6"], (array) $object->all, 'This is not the expected view all');
+
+		// Test the start Object
+		$this->assertEquals($expected["7"], (array) $object->start, 'This is not the expected start');
+
+		// Test the previous Object
+		$this->assertEquals($expected["2"], (array) $object->previous, 'This is not the expected previous');
+
+		// Test the next Object
+		$this->assertEquals($expected["3"], (array) $object->next, 'This is not the expected next');
+
+		// Test the end Object
+		$this->assertEquals($expected["4"], (array) $object->end, 'This is not the expected end');
+
+		// Test the active object
+		$this->assertEquals($expected["5"], (array) $object->pages[$active], 'This is not the expected active');
 
 		unset($pagination);
 	}
