@@ -115,7 +115,7 @@ if ($saveOrder)
 									<div class="small">
 										<a class="hasTooltip" href="#"
 											title="<?php echo JText::_('JFIELD_NOTE_LABEL'); ?>">
-											<strong><?php echo JText::_('JFIELD_NOTE_LABEL') . ': ';?></strong><?php  echo $item->note; ?>
+											<strong><?php echo JText::_('JFIELD_NOTE_LABEL') . ': '; ?></strong><?php  echo $this->escape($item->note); ?>
 										</a> 
 									</div>
 								<?php endif; ?>
