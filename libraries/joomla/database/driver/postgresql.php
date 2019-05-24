@@ -404,13 +404,17 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$this->connect();
 
 		$result = array();
-
 		$tableSub = $this->replacePrefix($table);
-	        $fn = explode('.', $tableSub);
-        	if (count($fn) == 2) {
-            		$schema = $fn[0];
-            		$tableSub = $fn[1];
-        		} else {$schema = 'public';}
+		$fn = explode('.', $tableSub);
+		if (count($fn) == 2) 
+		{
+		$schema = $fn[0];
+		$tableSub = $fn[1];
+		} 
+		else 
+		{
+		$schema = 'public';
+		}
 
 		$this->setQuery('
 			SELECT a.attname AS "column_name",
@@ -432,7 +436,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			WHERE a.attrelid =
 				(SELECT oid FROM pg_catalog.pg_class WHERE relname=' . $this->quote($tableSub) . '
 					AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE
-					nspname = \'' . $schema . '\')
+					nspname = \'' . $this->quote($schema) . '\')
 				)
 			AND a.attnum > 0 AND NOT a.attisdropped
 			ORDER BY a.attnum'
