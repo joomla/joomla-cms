@@ -171,7 +171,7 @@ abstract class ModuleHelper
 		// Render the module content
 		static::renderRawModule($module, $params, $attribs);
 
-		if ((!empty($attribs['style']) && $attribs['style'] === 'raw') || $params->get('style') === 'raw')
+		if (!empty($attribs['style']) && $attribs['style'] === 'raw')
 		{
 			return $module->content;
 		}
