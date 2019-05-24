@@ -26,35 +26,65 @@ use Joomla\CMS\Table\Tag as TagTable;
 class Tag extends CMSObject implements NodeInterface
 {
 	use NodeTrait;
+
 	public $id;
+
 	public $parent_id;
+
 	public $lft;
+
 	public $rgt;
+
 	public $level;
+
 	public $path;
+
 	public $title;
+
 	public $alias;
+
 	public $note;
+
 	public $description = '';
+
 	public $published;
+
 	public $checked_out;
+
 	public $checked_out_time;
+
 	public $access;
+
 	public $params;
+
 	public $metadesc;
+
 	public $metakey;
+
 	public $metadata;
+
 	public $created_user_id;
+
 	public $created_time;
+
 	public $created_by_alias;
+
 	public $modified_user_id;
+
 	public $modified_time;
+
 	public $images;
+
 	public $urls;
+
 	public $hits = 0;
+
 	public $language = '*';
+
 	public $version;
+
 	public $publish_up;
+
 	public $publish_down;
 
 	public function __construct($tagId = null)
@@ -78,6 +108,13 @@ class Tag extends CMSObject implements NodeInterface
 		}
 	}
 
+	/**
+	 * Save this tag to the database
+	 *
+	 * @return  bool  True if saving was successfull
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function save()
 	{
 		$db = Factory::getDbo();
@@ -104,6 +141,13 @@ class Tag extends CMSObject implements NodeInterface
 		return $result;
 	}
 
+	/**
+	 * Delete this tag from the database with all its associations
+	 *
+	 * @reutnr  bool  True if deleting was successfull
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function delete()
 	{
 		$db = Factory::getDbo();
@@ -118,7 +162,8 @@ class Tag extends CMSObject implements NodeInterface
 		// Delete tag
 		$db = Factory::getDbo();
 		$table = new TagTable($db);
-		$table->delete($this->id);
+
+		return $table->delete($this->id);
 	}
 
 	public function addContentItem(ContentItem $item)

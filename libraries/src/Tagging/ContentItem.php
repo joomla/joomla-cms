@@ -22,29 +22,53 @@ use Joomla\Registry\Registry;
 class ContentItem
 {
 	public $content_id;
+
 	public $type_alias;
+
 	public $title;
+
 	public $alias;
+
 	public $body;
+
 	public $state;
+
 	public $access;
+
 	public $params;
+
 	public $featured;
+
 	public $metadata;
+
 	public $created_user_id;
+
 	public $created_by_alias;
+
 	public $created_time;
+
 	public $modified_user_id;
+
 	public $modified_time;
+
 	public $language;
+
 	public $publish_up;
+
 	public $publish_down;
+
 	public $images;
+
 	public $urls;
+
 	public $hits;
+
 	public $ordering;
+
 	public $metakey;
+
 	public $metadesc;
+
 	public $catid;
 
 	public function __construct($typeAlias = null, $contentId = null)
@@ -71,7 +95,8 @@ class ContentItem
 	{
 		$table = new TagContent(Factory::getDbo());
 		$table->bind($this);
-		$table->aave();
+
+		return $table->aave();
 	}
 
 	public function delete()
@@ -83,8 +108,9 @@ class ContentItem
 		$db->execute();
 
 		// Delete tag
-		$table = new TagTable;
-		$table->delete($this->id);
+		$table = new TagContent(Factory::getDbo());
+
+		return $table->delete(['type_alias' => $this->type_alias, 'content_id' => $this->content_id]);
 	}
 
 	public function addTag(Tag $tag)
@@ -92,15 +118,26 @@ class ContentItem
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$query->insert('#__tag_content_map')
-			->values(['tag_id' => $tag->id,
+			->values(
+				['tag_id' => $tag->id,
 				'type_alias' => $this->type_alias,
-				'content_id' => $this->content_id]);
+				'content_id' => $this->content_id]
+			);
 		$db->setQuery($query);
 		$db->execute();
 
 		return true;
 	}
 
+	/**
+	 * Remove the association between a tag and this content item
+	 *
+	 * @param   Tag  $tag  The tag to remove
+	 *
+	 * @return  bool  True if tag was removed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function removeTag(Tag $tag)
 	{
 		$db = Factory::getDbo();
@@ -115,6 +152,13 @@ class ContentItem
 		return true;
 	}
 
+	/**
+	 * Get the tags associated with this content item
+	 *
+	 * @return  array|Tag  Array of tags associated with this item
+	 *
+	 * @since   __DEPLOY_VERSION
+	 */
 	public function getTags()
 	{
 		if (!$this->content_id)

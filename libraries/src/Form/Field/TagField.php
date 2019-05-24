@@ -320,7 +320,7 @@ class TagField extends ListField
 
 				if (strpos($v, '#new#') === 0)
 				{
-					$tag = new Tag();
+					$tag = new Tag;
 					$tag->title = substr($v, 5);
 					$tag->parent_id = 1;
 					$tag->published = 1;
@@ -351,7 +351,7 @@ class TagField extends ListField
 
 			if (strpos($value, '#new#') === 0)
 			{
-				$tag = new Tag();
+				$tag = new Tag;
 				$tag->title = substr($value, 5);
 				$tag->parent_id = 1;
 

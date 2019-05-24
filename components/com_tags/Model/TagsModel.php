@@ -63,6 +63,7 @@ class TagsModel extends ListModel
 		$this->setState('params', $params);
 
 		$this->setState('list.limit', $params->get('maximum', 200));
+
 		// List state information
 		$format = $app->input->getWord('format');
 
