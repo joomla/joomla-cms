@@ -391,7 +391,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Retrieves field information about a given table.
 	 *
-	 * @param   string   $table     The name of the database table. For PostgreSQL may starting with a schema
+	 * @param   string   $table     The name of the database table. For PostgreSQL may start with a schema
 	 * @param   boolean  $typeOnly  True to only return field types.
 	 *
 	 * @return  array  An array of fields for the database table.
@@ -408,12 +408,12 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$fn = explode('.', $tableSub);
 		if (count($fn) == 2) 
 		{
-		$schema = $fn[0];
-		$tableSub = $fn[1];
+			$schema = $fn[0];
+			$tableSub = $fn[1];
 		} 
 		else 
 		{
-		$schema = 'public';
+			$schema = 'public';
 		}
 
 		$this->setQuery('
