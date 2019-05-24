@@ -112,13 +112,10 @@ if ($saveOrder)
 								<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . (int) $item->extension_id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
 									<?php echo $editIcon; ?><?php echo $item->name; ?></a>
 									<?php if ( $item->note ) : ?>
-									<div class="small">
-										<a class="hasTooltip" href="#"
-											title="<?php echo JText::_('JFIELD_NOTE_LABEL'); ?>">
-											<strong><?php echo JText::_('JFIELD_NOTE_LABEL') . ': '; ?></strong><?php  echo $this->escape($item->note); ?>
-										</a> 
-									</div>
-								<?php endif; ?>
+										<div class="small">
+											<strong><?php echo JText::_('JFIELD_NOTE_LABEL') . ': '; ?></strong><?php echo $this->escape($item->note); ?>
+										</div>
+									<?php endif; ?>
 							<?php else : ?>
 									<?php echo $item->name; ?>
 							<?php endif; ?>
