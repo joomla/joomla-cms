@@ -430,7 +430,7 @@ class AdminController extends BaseController
 
 		if ($return === false)
 		{
-			// Transition execution failed.
+			// Transition change failed.
 			$message = Text::sprintf('JLIB_APPLICATION_ERROR_RUN_TRANSITION', $model->getError());
 			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
 
@@ -438,7 +438,7 @@ class AdminController extends BaseController
 		}
 		else
 		{
-			// Reorder succeeded.
+			// Transition change succeeded.
 			$message = Text::_('JLIB_APPLICATION_SUCCESS_RUN_TRANSITION');
 			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
 
