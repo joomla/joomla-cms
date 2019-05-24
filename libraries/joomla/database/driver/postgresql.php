@@ -437,7 +437,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			WHERE a.attrelid =
 				(SELECT oid FROM pg_catalog.pg_class WHERE relname=' . $this->quote($tableSub) . '
 					AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE
-					nspname = \'' . $this->quote($schema) . '\')
+					nspname = ' . $this->quote($schema) . ')
 				)
 			AND a.attnum > 0 AND NOT a.attisdropped
 			ORDER BY a.attnum'
