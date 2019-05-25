@@ -103,7 +103,7 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (69, 1, 129, 130, 1, 'com_csp', 'com_csp', '{}'),
 (70, 1, 131, 132, 1, 'com_workflow', 'com_workflow', '{}');
 
-SELECT setval('#__assets_id_seq', 69, false);
+SELECT setval('#__assets_id_seq', 71, false);
 
 --
 -- Table structure for table `#__associations`
