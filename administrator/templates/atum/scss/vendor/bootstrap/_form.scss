@@ -131,29 +131,6 @@ legend {
   }
 }
 
-joomla-field-switcher {
-	height: 38px;
-
-	.switcher, input {
-		width: 72px;
-		height: 38px;
-	}
-
-	.switch {
-		width: 36px;
-		height: 36px;
-	}
-
-	.switcher.active .switch {
-		left: 34px;
-	}
-
-  .switcher:focus .switch {
-    -webkit-animation: none;
-    animation: none;
-  }
-}
-
 
 @include media-breakpoint-down(xs) {
   .control-group {
@@ -193,8 +170,9 @@ joomla-field-switcher {
   }
 }
 
-.form-vertical label {
-  width: 100%;
-  color: var(--atum-text-dark);
-  opacity: 0.8;
+.form-vertical {
+  label {
+    color: var(--atum-text-dark);
+    opacity: 0.8;
+  }
 }
