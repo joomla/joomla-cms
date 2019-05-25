@@ -14,8 +14,14 @@ use Joomla\CMS\Language\Text;
 $id      = empty($displayData['id']) ? '' : (' id="' . $displayData['id'] . '"');
 $target  = empty($displayData['target']) ? '' : (' target="' . $displayData['target'] . '"');
 $onclick = empty($displayData['onclick']) ? '' : (' onclick="' . $displayData['onclick'] . '"');
-$size    = isset($displayData['amount']) ? 'small' : 'big';
-$dataUrl = isset($displayData['ajaxurl']) ? 'data-url="' . $displayData['ajaxurl'] . '"' : '';
+
+if (isset($displayData['ajaxurl'])) {
+	$size = 'small';
+	$dataUrl = 'data-url="' . $displayData['ajaxurl'] . '"';
+} else {
+	$size = 'big';
+	$dataUrl = '';
+}
 
 // The title for the link (a11y)
 $title = empty($displayData['title']) ? '' : (' title="' . $this->escape($displayData['title']) . '"');
