@@ -85,10 +85,3 @@ switch ($config->error_reporting)
 define('JDEBUG', $config->debug);
 
 unset($config);
-
-// System profiler
-if (JDEBUG)
-{
-	// @deprecated 4.0 - The $_PROFILER global will be removed
-	$_PROFILER = JProfiler::getInstance('Application');
-}
