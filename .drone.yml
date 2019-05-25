@@ -41,12 +41,12 @@ steps:
         path: /cache
 
   - name: phpcs
-	depends_on: [ rebuild-cache ]
-	image: joomlaprojects/docker-phpcs
-	commands:
-		- echo $(date)
-		- /root/.composer/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
-		- echo $(date)
+    depends_on: [ rebuild-cache ]
+    image: joomlaprojects/docker-phpcs
+    commands:
+      - echo $(date)
+      - /root/.composer/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
+      - echo $(date)
 
   - name: php72-unit
     depends_on: [ rebuild-cache ]
