@@ -37,7 +37,7 @@ $app->getDocument()->addScriptOptions(
 						<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
 					</div>
 					<button type="button" class="btn btn-secondary btn-sm apply-sample-data" data-type="<?php echo $item->name; ?>" data-steps="<?php echo $item->steps; ?>">
-						<span class="fa fa-cloud-download-alt"></span> <?php echo Text::_('JLIB_INSTALLER_INSTALL'); ?>
+						<span class="fa fa-cloud-download-alt" aria-hidden="true"></span> <?php echo Text::_('JLIB_INSTALLER_INSTALL'); ?>
 						<span class="sr-only"><?php echo $item->title; ?></span>
 					</button>
 				</div>
