@@ -249,27 +249,10 @@
 			$select.attr('href', oldHref.replace(/&fieldid=(.+)&/, '&fieldid=' + inputId + '&'));
 		});
 
-		// bootstrap based Media field
-		if($.fn.fieldMedia){
-			$row.find('.field-media-wrapper').fieldMedia();
-		}
-
 		// bootstrap based User field
 		if($.fn.fieldUser){
 			$row.find('.field-user-wrapper').fieldUser();
 		}
-
-		// another modals
-		if(window.SqueezeBox && window.SqueezeBox.assign){
-			SqueezeBox.assign($row.find('a.modal').get(), {parse: 'rel'});
-		}
-
-		// @TODO We need to do a lot more here. See e.g. administrator/templates/isis/js/template.js
-		// and all that it does with e.g. turning radios into btn groups with disabled/active/btn-danger classes.
-		// See also related issues #16695 and #16676, which could get fixed by this method being better.
-
-		// subforms in subforms
-		$row.find('div.subform-repeatable').subformRepeatable();
 	};
 
 	// defaults
@@ -316,10 +299,14 @@
 		});
 	};
 
-	// initialise all available
-	// wait when all will be loaded, important for scripts fix
-	$(window).on('load', function(){
-		$('div.subform-repeatable').subformRepeatable();
+	// initialise all available on load and again within any added row
+	$(function ($) {
+		initSubform();
+		$(document).on('subform-row-add', initSubform);
+
+		function initSubform (event, container) {
+			$(container || document).find('div.subform-repeatable').subformRepeatable();
+		}
 	});
 
 })(jQuery);
