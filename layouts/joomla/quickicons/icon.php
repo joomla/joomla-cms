@@ -42,7 +42,7 @@ if ($id && ($displayData['id'] === 'plg_quickicon_joomlaupdate'
 }
 
 // Add the button class
-if (!empty($displayData['class']))
+if (!empty($displayData['class']) && is_string($displayData['class']))
 {
 	$tmp[] = $this->escape($displayData['class']);
 }

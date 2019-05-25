@@ -11,7 +11,8 @@
     const ajaxUrl = variables.plg_quickicon_privacycheck_ajax_url;
     const url = variables.plg_quickicon_privacycheck_url;
     const text = variables.plg_quickicon_privacycheck_text;
-    const link = document.querySelector('#plg_quickicon_privacycheck span.j-links-link');
+    const quickicon = document.querySelector('#plg_quickicon_privacycheck');
+    const link = quickicon.querySelector('span.j-links-link');
 
     Joomla.request({
       url: ajaxUrl,
@@ -20,18 +21,18 @@
       perform: true,
       onSuccess: (response) => {
         try {
-          const requestList = JSON.parse(response);
+          const request = JSON.parse(response);
 
-          if (requestList.data.number_urgent_requests) {
+          if (request.data.number_urgent_requests) {
             // Quickicon on dashboard shows message
-            link.textContent = `${text.REQUESTFOUND} ${requestList.data.number_urgent_requests}`;
+            link.textContent = `${text.REQUESTFOUND} ${request.data.number_urgent_requests}`;
             // Quickicon becomes red
-            document.querySelector('#plg_quickicon_privacycheck').classList.add('danger');
+            quickicon.classList.add('danger');
 
             // Span in alert message
             const countSpan = document.createElement('span');
             countSpan.classList.add('label', 'label-important');
-            countSpan.textContent = requestList.data.number_urgent_requests;
+            countSpan.textContent = request.data.number_urgent_requests;
 
             // Button in alert to 'view requests'
             const requestButton = document.createElement('button');
@@ -49,13 +50,16 @@
             const container = document.querySelector('#system-message-container');
             container.insertBefore(div, container.firstChild);
           } else {
+            quickicon.classList.add('success');
             link.textContent = text.NOREQUEST;
           }
         } catch (e) {
+          quickicon.classList.add('danger');
           link.textContent = text.ERROR;
         }
       },
       onError: () => {
+        quickicon.classList.add('danger');
         link.textContent = text.ERROR;
       },
     });
