@@ -75,7 +75,7 @@ class VersionTest extends UnitTestCase
 	 */
 	public function testGetHelpVersion()
 	{
-		$this->assertIsString('string', $this->version->getHelpVersion());
+		$this->assertIsString($this->version->getHelpVersion());
 	}
 
 	/**
@@ -99,7 +99,7 @@ class VersionTest extends UnitTestCase
 	 */
 	public function testGetLongVersion()
 	{
-		$this->assertStringNotContainsString('string', $this->version->getLongVersion());
+		$this->assertIsString($this->version->getLongVersion());
 	}
 
 	/**
