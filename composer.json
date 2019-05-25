@@ -106,7 +106,7 @@
         "joomla-projects/joomla-browser": "~4.0@dev",
         "joomla-projects/robo-joomla": "dev-develop",
         "joomla-projects/selenium-server-standalone": "~v3",
-        "codeception/codeception": "~2.3",
+        "codeception/codeception": "~3.0",
         "consolidation/robo": "^1.0.0"
 
     }
