@@ -6,16 +6,8 @@ clone:
   depth: 42
 
 steps:
-  - name: phpcs
-    image: joomlaprojects/docker-phpcs
-    commands:
-      - echo $(date)
-      - /root/.composer/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
-      - echo $(date)
-
   - name: restore-cache
     image: drillster/drone-volume-cache
-    depends_on: [ phpcs ]
     settings:
       restore: true
       mount:
@@ -48,22 +40,30 @@ steps:
       - name: cache
         path: /cache
 
-  - name: php72-unit
+  - name: phpcs
+    image: php:7.2
     depends_on: [ rebuild-cache ]
+    commands:
+      - echo $(date)
+      - ./libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
+      - echo $(date)
+
+  - name: php72-unit
+    depends_on: [ phpcs ]
     image: php:7.2
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit
 
   - name: php73-unit
-    depends_on: [ rebuild-cache ]
+    depends_on: [ phpcs ]
     image: php:7.3
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit
 
   - name: php74-unit
-    depends_on: [ rebuild-cache ]
+    depends_on: [ phpcs ]
     image: phpdaily/php:7.4-dev
     errignore: true
     commands:
@@ -71,7 +71,7 @@ steps:
       - ./libraries/vendor/bin/phpunit
 
   - name: php80-unit
-    depends_on: [ rebuild-cache ]
+    depends_on: [ phpcs ]
     image: phpdaily/php:8.0-dev
     errignore: true
     commands:
@@ -79,7 +79,7 @@ steps:
       - ./libraries/vendor/bin/phpunit
 
   - name: javascript-cs
-    depends_on: [ rebuild-cache ]
+    depends_on: [ phpcs ]
     image: joomlaprojects/docker-systemtests:develop
     commands:
       - export DISPLAY=:0
@@ -89,7 +89,7 @@ steps:
       - npm run lint:js
 
   - name: javascript-tests
-    depends_on: [ rebuild-cache ]
+    depends_on: [ phpcs ]
     image: joomlaprojects/docker-systemtests:develop
     commands:
       - export DISPLAY=:0
@@ -168,6 +168,6 @@ services:
 
 ---
 kind: signature
-hmac: c3b4baf30db6797a4cc0a222fb0f51211083fd63e07314b69364d3636f24aff0
+hmac: 8c426e9c90a84cfdadf66142690dd4be37135229d19eaa4bb1785bf778ce30ff
 
 ...
