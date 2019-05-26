@@ -21,7 +21,7 @@ use OzdemirBurak\Iris\Color\Hsl;
  * @since  4.0.0
  */
 class Atum
-
+{
     /**
      * root_colors()
      *
@@ -40,12 +40,15 @@ class Atum
         {
             $lightcolor = trim($params->get('bg-light'), '#');
             list($red, $green, $blue) = str_split($lightcolor, 2);
-            $root[] = '--atum-bg-light: #' . $lightcolor . ';';
+
+            $bgLight=new Hex('#' . $lightcolor);
+
+            $root[] = '--atum-bg-light: ' . (($monochrome) ? $bgLight->grayscale() : $bgLight) . ';';
+
 
             try
             {
-                $color = new Hex($lightcolor);
-                $root[] = '--toolbar-bg: ' . (clone $color)->lighten(5) . ';';
+                $root[] = '--toolbar-bg: ' . (($monochrome) ? $bgLight->grayscale()->lighten(5) : $bgLight->lighten(5)) . ';';
             }
             catch (Exception $ex)
             {
@@ -107,24 +110,26 @@ class Atum
      */
     private static function bgdarkcalc ($hue, $monochrome)
     {
+        $monochrome = !$monochrome;
+
         if ($hue)
         {
-            $bgcolor = new Hsl("hsl(" . $hue . ", " . (61 * !$monochrome) . ", 26)");
-            $root[] = '--atum-bg-dark: ' . (new Hsl("hsl(" . $hue . ", " . (61 * !$monochrome) . ", 26)"))->toHex() . ';';
+            $bgcolor = new Hsl("hsl(" . $hue . ", " . (61 * $monochrome) . ", 26)");
+            $root[] = '--atum-bg-dark: ' . (new Hsl("hsl(" . $hue . ", " . (61 * $monochrome) . ", 26)"))->toHex() . ';';
 
             try
             {
                 $root[] = '--atum-contrast: ' . (new Hsl("hsl(" . $hue . ", 61, 42)"))->spin(30)->toHex() . ';';
-                $root[] = '--atum-bg-dark-0: ' . (clone $bgcolor)->desaturate(86 * !$monochrome)->lighten(71.4)->spin(-6)->toHex() . ';';
-                $root[] = '--atum-bg-dark-5: ' . (clone $bgcolor)->desaturate(86 * !$monochrome)->lighten(65.1)->spin(-6)->toHex() . ';';
-                $root[] = '--atum-bg-dark-10: ' . (clone $bgcolor)->desaturate(86 * !$monochrome)->lighten(59.4)->spin(-6)->toHex() . ';';
-                $root[] = '--atum-bg-dark-20: ' . (clone $bgcolor)->desaturate(76 * !$monochrome)->lighten(47.3)->spin(-6)->toHex() . ';';
-                $root[] = '--atum-bg-dark-30: ' . (clone $bgcolor)->desaturate(60 * !$monochrome)->lighten(34.3)->spin(-5)->toHex() . ';';
-                $root[] = '--atum-bg-dark-40: ' . (clone $bgcolor)->desaturate(41 * !$monochrome)->lighten(21.4)->spin(-3)->toHex() . ';';
-                $root[] = '--atum-bg-dark-50: ' . (clone $bgcolor)->desaturate(19 * !$monochrome)->lighten(10)->spin(-1)->toHex() . ';';
+                $root[] = '--atum-bg-dark-0: ' . (clone $bgcolor)->desaturate(86 * $monochrome)->lighten(71.4)->spin(-6)->toHex() . ';';
+                $root[] = '--atum-bg-dark-5: ' . (clone $bgcolor)->desaturate(86 * $monochrome)->lighten(65.1)->spin(-6)->toHex() . ';';
+                $root[] = '--atum-bg-dark-10: ' . (clone $bgcolor)->desaturate(86 * $monochrome)->lighten(59.4)->spin(-6)->toHex() . ';';
+                $root[] = '--atum-bg-dark-20: ' . (clone $bgcolor)->desaturate(76 * $monochrome)->lighten(47.3)->spin(-6)->toHex() . ';';
+                $root[] = '--atum-bg-dark-30: ' . (clone $bgcolor)->desaturate(60 * $monochrome)->lighten(34.3)->spin(-5)->toHex() . ';';
+                $root[] = '--atum-bg-dark-40: ' . (clone $bgcolor)->desaturate(41 * $monochrome)->lighten(21.4)->spin(-3)->toHex() . ';';
+                $root[] = '--atum-bg-dark-50: ' . (clone $bgcolor)->desaturate(19 * $monochrome)->lighten(10)->spin(-1)->toHex() . ';';
                 $root[] = '--atum-bg-dark-70: ' . (clone $bgcolor)->lighten(-6)->spin(4)->toHex() . ';';
                 $root[] = '--atum-bg-dark-80: ' . (clone $bgcolor)->lighten(-11.5)->spin(7)->toHex() . ';';
-                $root[] = '--atum-bg-dark-90: ' . (clone $bgcolor)->desaturate(1 * !$monochrome)->lighten(-17)->spin(10)->toHex() . ';';
+                $root[] = '--atum-bg-dark-90: ' . (clone $bgcolor)->desaturate(1 * $monochrome)->lighten(-17)->spin(10)->toHex() . ';';
             }
             catch (Exception $ex)
             {
