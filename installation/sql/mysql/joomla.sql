@@ -1487,7 +1487,9 @@ INSERT INTO `#__modules` (`id`, `asset_id`, `title`, `note`, `content`, `orderin
 (103, 0, 'User Language', '', '', 6, 'status', 0, NULL, NULL, NULL, 1, 'mod_status_language', 3, 1, '', 1, '*'),
 (104, 69, 'Site', '', NULL, 1, 'icon', 0, NULL, NULL, NULL, 1, 'mod_quickicon', 1, 1, '{"context":"mod_quickicon","show_users":"1","show_articles":"1","show_categories":"1","show_media":"1","show_menuItems":"1","show_modules":"1","show_plugins":"1","show_templates":"1","layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"style":"0","module_tag":"div","bootstrap_size":"6","header_tag":"h3","header_class":"fa-desktop"}', 1, '*'),
 (105, 70, 'System', '', NULL, 2, 'icon', 0, NULL, NULL, NULL, 1, 'mod_quickicon', 1, 1, '{"context":"mod_quickicon","show_global":"1","show_checkin":"1","show_cache":"1","layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"style":"0","module_tag":"div","bootstrap_size":"6","header_tag":"h3","header_class":"fa-wrench"}', 1, '*'),
-(106, 0, '3rd Party', '', NULL, 4, 'icon', 0, NULL, NULL, NULL, 1, 'mod_quickicon', 1, 1, '{"context":"mod_quickicon","load_plugins":"1","layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"style":"0","module_tag":"div","bootstrap_size":"6","header_tag":"h3","header_class":"fa-boxes"}', 1, '*');
+(106, 0, '3rd Party', '', NULL, 4, 'icon', 0, NULL, NULL, NULL, 1, 'mod_quickicon', 1, 1, '{"context":"mod_quickicon","load_plugins":"1","layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"style":"0","module_tag":"div","bootstrap_size":"6","header_tag":"h3","header_class":"fa-boxes"}', 1, '*'),
+(107, 0, 'Help Submenu', '', NULL, 1, 'cpanel-help', 0, NULL, NULL, NULL, 1, 'mod_submenu', 1, 0, '{\"menutype\":\"*\",\"preset\":\"help\",\"layout\":\"_:default\",\"moduleclass_sfx\":\"\",\"style\":\"System-none\",\"module_tag\":\"div\",\"bootstrap_size\":\"0\",\"header_tag\":\"h3\",\"header_class\":\"\"}', 1, '*');
+
 -- --------------------------------------------------------
 
 --
@@ -1540,7 +1542,8 @@ INSERT INTO `#__modules_menu` (`moduleid`, `menuid`) VALUES
 (103, 0),
 (104, 0),
 (105, 0),
-(106, 0);
+(106, 0),
+(107, 0);
 
 -- --------------------------------------------------------
 

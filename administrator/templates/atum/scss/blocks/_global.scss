@@ -194,6 +194,7 @@ a[target="_blank"]:before {
   min-width: 1rem;
 }
 
+.cpanel-help .card-columns,
 .cpanel-system .card-columns {
   @include media-breakpoint-up(md) {
     column-count: 3;
