@@ -19,8 +19,10 @@
 		/>
 		<field
 			name="description"
-			type="text"
+			type="textarea"
 			label="COM_WORKFLOW_STAGE_NOTE"
+			rows="3"
+			cols="60"
 		/>
 		<field
 			name="condition"
