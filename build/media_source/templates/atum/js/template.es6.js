@@ -137,6 +137,80 @@
     });
   }
 
+  /**
+   * put elements that are too much in the header in a dropdown
+   *
+   * @param {integer} [visibleElements] the number of visible elements
+   *
+   * @since   4.0.0
+   */
+
+  function headerElementsInDropdown(visibleElements) {
+    const headerWrapper = doc.querySelector('.header-items');
+    const headerElements = [].slice.call(doc.querySelectorAll('.header-items > .header-element'));
+    headerElements.reverse();
+
+    if (headerElements.length > visibleElements) {
+      if (!doc.querySelector('#header-more-elements')) {
+        const headerMoreElement = document.createElement('div');
+        headerMoreElement.className = 'header-element-more d-flex';
+        headerMoreElement.id = 'header-more-elements';
+        const headerElementContent = document.createElement('div');
+        headerElementContent.className = 'header-element-content header-more footer-mobil-icon d-flex';
+        const jDropdownBtn = document.createElement('button');
+        jDropdownBtn.className = 'header-more-btn d-flex flex-column align-items-stretch';
+        jDropdownBtn.setAttribute('type', 'button');
+        jDropdownBtn.setAttribute('title', 'More Elements');
+        const spanFa = document.createElement('span');
+        spanFa.className = 'fa fa-ellipsis-h';
+        spanFa.setAttribute('aria-hidden', 'true');
+        const jDorpdownMenu = document.createElement('div');
+        jDorpdownMenu.className = 'header-more-menu d-flex flex-wrap';
+
+        jDropdownBtn.appendChild(spanFa);
+        headerElementContent.appendChild(jDropdownBtn);
+        headerMoreElement.appendChild(headerElementContent);
+        headerMoreElement.appendChild(jDorpdownMenu);
+        headerWrapper.appendChild(headerMoreElement);
+
+        headerMoreElement.addEventListener('click', function () {
+          headerMoreElement.classList.toggle('active');
+        });
+      }
+
+      const headerMoreWrapper = headerWrapper.querySelector('#header-more-elements .header-more-menu');
+      const headerMoreElements = headerMoreWrapper.querySelectorAll('.header-element');
+      let headerItemCounter = 0;
+
+      headerElements.forEach(function (item) {
+        headerItemCounter += 1;
+        if (headerItemCounter > visibleElements && item.id !== 'header-more-elements') {
+          if (!headerMoreElements) {
+            headerMoreWrapper.appendChild(item);
+          } else {
+            headerMoreWrapper.insertBefore(item, headerMoreElements[0]);
+          }
+        }
+      });
+    } else if (headerElements.length < visibleElements && doc.querySelector('#header-more-elements')) {
+      const headerMore = headerWrapper.querySelector('#header-more-elements');
+      let headerItemCounter = headerElements.length;
+      const headerMoreElements = [].slice.call(headerMore.querySelectorAll('.header-element'));
+      const headerAllElements = headerElements.length + headerMoreElements.length;
+
+      headerMoreElements.forEach(function (item) {
+        if (headerItemCounter < visibleElements) {
+          headerWrapper.insertBefore(item, doc.querySelector('.header-items > .header-element'));
+        }
+        headerItemCounter += 1;
+      });
+      if (headerAllElements <= visibleElements) {
+        headerWrapper.removeChild(headerMore);
+      }
+    }
+
+  }
+
   doc.addEventListener('DOMContentLoaded', () => {
     const loginForm = doc.getElementById('form-login');
     const logoutBtn = doc.querySelector('.header-items a[href*="task=logout"]');
@@ -149,6 +223,8 @@
     const mobileTablet = window.matchMedia('(min-width: 576px) and (max-width:991.98px)');
     const mobileSmallLandscape = window.matchMedia('(max-width: 767.98px)');
     const mobileSmall = window.matchMedia('(max-width: 575.98px)');
+    const desktop = window.matchMedia('(max-width: 1160px)');
+    const desktopSmall = window.matchMedia('(max-width: 1023px)');
 
     changeSVGLogoColor();
 
@@ -198,6 +274,18 @@
       if (subHeadToolbar) subHeadToolbar.classList.add('collapse');
     }
 
+    if (mobileSmallLandscape.matches) {
+      headerElementsInDropdown(2);
+    } else if (mobile.matches) {
+      headerElementsInDropdown(4);
+    } else if (desktopSmall.matches) {
+      headerElementsInDropdown(2);
+    } else if (desktop.matches) {
+      headerElementsInDropdown(4);
+    } else {
+      headerElementsInDropdown(6);
+    }
+
     window.addEventListener('resize', () => {
       /* eslint no-unused-expressions: ["error", { "allowTernary": true }] */
       (mobile.matches) ? changeLogo('closed') : changeLogo();
@@ -212,6 +300,18 @@
         if (mobileTablet.matches) {
           wrapper.classList.add('closed');
         }
+      }
+
+      if (mobileSmallLandscape.matches) {
+        headerElementsInDropdown(2);
+      } else if (mobile.matches) {
+        headerElementsInDropdown(4);
+      } else if (desktopSmall.matches) {
+        headerElementsInDropdown(2);
+      } else if (desktop.matches) {
+        headerElementsInDropdown(4);
+      } else {
+        headerElementsInDropdown(6);
       }
     });
   });

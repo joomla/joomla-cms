@@ -11,7 +11,7 @@
 
 defined('_JEXEC') or die;
 
-extract($displayData);
+$module  = $displayData['module'];
 
 if ($module->content) : ?>
 	<div class="header-element d-flex">

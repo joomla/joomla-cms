@@ -15,6 +15,22 @@
     }
   }
 
+  .header-title {
+    max-width: calc(100% - 500px);
+
+    .d-flex:last-child {
+      max-width: calc(100% - #{$sidebar-width});
+    }
+
+    .container-title {
+      width: 100%;
+    }
+
+    @media (max-width: 1160px) {
+      max-width: calc(100% - 500px);
+    }
+  }
+
   .logo {
     display: inline-block;
     line-height: $header-height;
@@ -49,6 +65,10 @@
   }
 
   .page-title {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     margin: 0 7.5px;
     font-size: 1.2rem;
     line-height: $header-height;
@@ -74,11 +94,11 @@
       > *:first-child {
         flex-direction: column;
         height: 100%;
-        padding: 0 1rem;
+        padding: 0 0.6rem;
         color: var(--atum-special-color);
 
         @media (max-width: 1023px) {
-          padding: 0 0.5rem;
+          padding: 0 .5rem 0.4rem;
         }
       }
       a, button {
@@ -106,41 +126,12 @@
       text-align: center;
       line-height: 0.8rem;
       margin-top: 0.3rem;
-    }
-  }
-
-  .nav-item:hover,
-  .nav-item.show {
-    background-color: var(--atum-bg-dark);
-
-    .nav-link {
-      color: var(--atum-text-light);
-
-      .fa {
-        color: var(--atum-text-light);
-      }
-    }
-  }
-
-  .nav-link {
-    position: relative;
-    padding: 0;
-    line-height: $header-height;
-    min-width: $header-height - 0.3125rem;
-    display: inline;
-
-    &.dropdown-toggle {
-      // Overwrite default button styling
-      background-color: transparent;
-      border: $dropdown-border-width;
-
-      &::after {
-        display: none;
-      }
-    }
-
-    &:hover .fa {
-      color: var(--atum-text-light);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 5rem;
+      min-width: 4rem;
+      display: block !important;
     }
   }
 
@@ -161,14 +152,14 @@
     position: absolute;
     left: 50%;
     top: 0.4rem;
-    margin-left: 1rem;
+    margin-left: 0.8rem;
   }
 
   .fa-angle-down {
     position: absolute;
     left: 50%;
     top: 0.9rem;
-    margin-left: -2.2rem;
+    margin-left: -2rem;
   }
 
   .align-items-end {
@@ -241,7 +232,52 @@
     }
   }
 
+  #header-more-elements {
+    .header-more-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      width: calc(13.2rem + 2px);
+      margin-top: 0.1rem;
+      background-color: var(--white-offset);
+      border: 1px solid $gray-500;
+      box-shadow: $atum-box-shadow;
+      justify-content: flex-end;
+      display: none !important;
+    }
+    &.active .header-more-menu {
+      display: flex !important;
+    }
+    .header-element {
+      height: 3.7rem;
+      width: 6.6rem;
+    }
+    .header-element-content {
+      width: 100%;
+      height: 100%;
+    }
+    .dropdown-toggle {
+      width: 100%;
+      height: 100%;
+    }
+    .header-more-btn {
+      color: var(--white-offset);
+      background-color: var(--atum-bg-dark);
+      width: 3.8rem;
+      height: 100%;
+      border: 0;
+      .fa {
+        margin: auto;
+      }
+    }
+  }
+
   @include media-breakpoint-down(xs) {
+    position: static;
+    top: 0;
+    width: 100%;
+    z-index: $zindex-header;
+
     .header-items{
       background:var(--atum-bg-dark);
       display:block;
@@ -250,56 +286,23 @@
       width:100%;
       z-index:$zindex-mobil-bottom;
       padding-left:0.75rem;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
       .ml-auto{
         margin-right:70px;
       }
     }
-
-  }
-}
-
-@include media-breakpoint-down(xs) {
-
-  .header {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    z-index: $zindex-header;
-
-
-  }
-}
-@include media-breakpoint-down(xs) {
-
-  .header {
-    position: static;
-
-    .joomla-version{
-      color:var(--atum-text-light);
-
-    }
-
-    .nav-item:hover,
-    .nav-item.show {
-      background-color: var(--atum-bg-dark-70);
-    }
-    .header-element-content{
-      display: none !important;
-      &.footer-mobil-icon{
-        color: var(--atum-text-light) !important;
-        display:block !important;
-        &>:first-child {
-          color: var(--atum-text-light) !important;
-        }
+    #header-more-elements {
+      .header-more-menu {
+        top: auto;
+        bottom: 100%;
+        left: 0;
       }
     }
-
-    .nav-link{
-
-      .fa{
-        color:var(--atum-text-light);
+    .header-items > .header-element {
+      .header-element-content > :first-child {
+        color: var(--atum-text-light);
       }
-
     }
   }
 }

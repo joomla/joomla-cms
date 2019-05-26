@@ -22,11 +22,12 @@ HTMLHelper::_('bootstrap.framework');
 
 $hideLinks = $app->input->getBool('hidemainmenu');
 ?>
-<div class="header-element-content d-flex">
+<?php // Check if the multilangstatus module is present and enabled in the site ?>
+<?php if (class_exists(MultilangstatusAdminHelper::class)
+	&& MultilangstatusAdminHelper::isEnabled()) : ?>
 
-	<?php // Check if the multilangstatus module is present and enabled in the site ?>
-	<?php if (class_exists(MultilangstatusAdminHelper::class)
-		&& MultilangstatusAdminHelper::isEnabled()) : ?>
+    <div class="header-element-content d-flex">
+
 		<?php if (Multilanguage::isEnabled()) : ?>
 			<?php // Publish and display the module ?>
 			<?php MultilangstatusAdminHelper::publish(); ?>
@@ -36,6 +37,6 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 			<?php // Unpublish the module ?>
 			<?php MultilangstatusAdminHelper::publish(); ?>
 		<?php endif; ?>
-	<?php endif; ?>
 
-</div>
+    </div>
+<?php endif; ?>
