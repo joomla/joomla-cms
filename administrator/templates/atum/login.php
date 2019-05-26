@@ -14,9 +14,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use OzdemirBurak\Iris\Color\Hex;
+use OzdemirBurak\Iris\Color\Hsl;
 
 /** @var JDocumentHtml $this */
-
+// here we go
 $app  = Factory::getApplication();
 $lang = $app->getLanguage();
 
@@ -54,6 +55,9 @@ $smallLogo = $this->params->get('smallLogo')
 	? JUri::root() . $this->params->get('smallLogo')
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
+$logoAlt = htmlspecialchars($this->params->get('altSiteLogo', ''), ENT_COMPAT, 'UTF-8');
+$logoSmallAlt = htmlspecialchars($this->params->get('altSmallLogo', ''), ENT_COMPAT, 'UTF-8');
+
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
@@ -77,74 +81,176 @@ $root = [];
 
 $steps = 10;
 
-if ($this->params->get('bg-dark'))
+//check if colors set to monochrome
+if($this->params->get('monochrome'))
 {
-	$bgcolor = trim($this->params->get('bg-dark'), '#');
-
-	list($red, $green, $blue) = str_split($bgcolor, 2);
-
-	$root[] = '--atum-bg-dark: #' . $bgcolor . ';';
-
-	try
+	if ($this->params->get('hue'))
 	{
+		$bgcolor = new Hsl("hsl(" . $this->params->get('hue') . ", 0, 26)");
+		$root[] = '--atum-bg-dark: ' .$bgcolor->toHex() . ';';
+
+		try
+		{
+			$root[] = '--atum-contrast: ' . (new Hsl("hsl(" . $this->params->get('hue') . ", 0, 42)"))->spin(30)->toHex() . ';';
+			$root[] = '--atum-bg-dark-0: ' . (clone $bgcolor)->lighten(71.4)->spin(-6)->toHex() . ';';
+			$root[] = '--atum-bg-dark-5: ' . (clone $bgcolor)->lighten(65.1)->spin(-6)->toHex() . ';';
+			$root[] = '--atum-bg-dark-10: ' . (clone $bgcolor)->lighten(59.4)->spin(-6)->toHex() . ';';
+			$root[] = '--atum-bg-dark-20: ' . (clone $bgcolor)->lighten(47.3)->spin(-6)->toHex() . ';';
+			$root[] = '--atum-bg-dark-30: ' . (clone $bgcolor)->lighten(34.3)->spin(-5)->toHex() . ';';
+			$root[] = '--atum-bg-dark-40: ' . (clone $bgcolor)->lighten(21.4)->spin(-3)->toHex() . ';';
+			$root[] = '--atum-bg-dark-50: ' . (clone $bgcolor)->lighten(10)->spin(-1)->toHex() . ';';
+			$root[] = '--atum-bg-dark-70: ' . (clone $bgcolor)->lighten(-6)->spin(4)->toHex() . ';';
+			$root[] = '--atum-bg-dark-80: ' . (clone $bgcolor)->lighten(-11.5)->spin(7)->toHex() . ';';
+			$root[] = '--atum-bg-dark-90: ' . (clone $bgcolor)->lighten(-17)->spin(10)->toHex() . ';';
+		}
+		catch (Exception $ex)
+		{
+
+		}
+	}
+
+	if ($this->params->get('bg-light'))
+	{
+		$bgcolor = trim($this->params->get('bg-light'), '#');
+		list($red, $green, $blue) = str_split($bgcolor, 2);
 		$color    = new Hex($bgcolor);
 		$colorHsl = $color->toHsl();
+		$root[] = '--atum-bg-light: ' . (clone $colorHsl)->grayscale()->toHex() . ';';
 
-		$root[] = '--atum-contrast: ' . (clone $colorHsl)->lighten(-6)->spin(-30)->toHex() . ';';
-		$root[] = '--atum-bg-dark-10: ' . (clone $colorHsl)->desaturate(86)->lighten(20.5)->spin(-6)->toHex() . ';';
-		$root[] = '--atum-bg-dark-20: ' . (clone $colorHsl)->desaturate(76)->lighten(16.5)->spin(-6)->toHex() . ';';
-		$root[] = '--atum-bg-dark-30: ' . (clone $colorHsl)->desaturate(60)->lighten(12)->spin(-5)->toHex() . ';';
-		$root[] = '--atum-bg-dark-40: ' . (clone $colorHsl)->desaturate(41)->lighten(8)->spin(-3)->toHex() . ';';
-		$root[] = '--atum-bg-dark-50: ' . (clone $colorHsl)->desaturate(19)->lighten(4)->spin(-1)->toHex() . ';';
-		$root[] = '--atum-bg-dark-70: ' . (clone $colorHsl)->lighten(-6)->spin(4)->toHex() . ';';
-		$root[] = '--atum-bg-dark-80: ' . (clone $colorHsl)->lighten(-11.5)->spin(7)->toHex() . ';';
-		$root[] = '--atum-bg-dark-90: ' . (clone $colorHsl)->desaturate(1)->lighten(-17)->spin(10)->toHex() . ';';
 	}
-	catch (Exception $ex)
+
+	if ($this->params->get('text-dark'))
 	{
-
+		$bgcolor = trim($this->params->get('text-dark'), '#');
+		list($red, $green, $blue) = str_split($bgcolor, 2);
+		$color    = new Hex($bgcolor);
+		$colorHsl = $color->toHsl();
+		$root[] = '--atum-text-dark: ' . (clone $colorHsl)->grayscale()->toHex() . ';';
 	}
-}
 
-if ($this->params->get('bg-light'))
-{
-	$root[] = '--atum-bg-light: ' . $this->params->get('bg-light') . ';';
-}
-
-if ($this->params->get('text-dark'))
-{
-	$root[] = '--atum-text-dark: ' . $this->params->get('text-dark') . ';';
-}
-
-if ($this->params->get('text-light'))
-{
-	$root[] = '--atum-text-light: ' . $this->params->get('text-light') . ';';
-}
-
-if ($this->params->get('link-color'))
-{
-	$linkcolor = trim($this->params->get('link-color'), '#');
-
-	list($red, $green, $blue) = str_split($linkcolor, 2);
-
-	$root[] = '--atum-link-color: #' . $linkcolor . ';';
-
-	try
+	if ($this->params->get('text-light'))
 	{
-		$color = new Hex($linkcolor);
-
-		$root[] = '--atum-link-hover-color: ' . (clone $color)->darken(20) . ';';
+		$bgcolor = trim($this->params->get('text-light'), '#');
+		list($red, $green, $blue) = str_split($bgcolor, 2);
+		$color    = new Hex($bgcolor);
+		$colorHsl = $color->toHsl();
+		$root[] = '--atum-text-light: ' . (clone $colorHsl)->grayscale()->toHex() . ';';
 	}
-	catch (Exception $ex)
+
+	if ($this->params->get('special-color'))
 	{
+		$bgcolor = trim($this->params->get('special-color'), '#');
+		list($red, $green, $blue) = str_split($bgcolor, 2);
+		$color    = new Hex($bgcolor);
+		$colorHsl = $color->toHsl();
+		$root[] = '--atum-special-color: ' . (clone $colorHsl)->grayscale()->toHex() . ';';
+	}
+
+	if ($this->params->get('link-color'))
+	{
+		$linkcolor = trim($this->params->get('link-color'), '#');
+		list($red, $green, $blue) = str_split($linkcolor, 2);
+		$color    = new Hex($linkcolor);
+		$colorHsl = $color->toHsl();
+		$linkcolororig = (clone $colorHsl)->grayscale()->toHex();
+		$root[] = '--atum-link-color: ' . $linkcolororig . ';';
+
+		try
+		{
+			$color = new Hex($linkcolororig);
+			$root[] = '--atum-link-hover-color: ' . (clone $color)->darken(20) . ';';
+		}
+		catch (Exception $ex)
+		{
+
+		}
+	}
+
+//normal colors
+}
+else
+{
+	if ($this->params->get('hue'))
+	{
+		$bgcolor = new Hsl("hsl(" . $this->params->get('hue') . ", 61, 26)");
+		$root[] = '--atum-bg-dark: ' .(new Hsl("hsl(" . $this->params->get('hue') . ", 61, 26)"))->toHex() . ';';
+
+		try
+		{
+			$root[] = '--atum-contrast: ' . (new Hsl("hsl(" . $this->params->get('hue') . ", 61, 42)"))->spin(30)->toHex() . ';';
+			$root[] = '--atum-bg-dark-0: ' . (clone $bgcolor)->desaturate(86)->lighten(71.4)->spin(-6)->toHex() . ';';
+			$root[] = '--atum-bg-dark-5: ' . (clone $bgcolor)->desaturate(86)->lighten(65.1)->spin(-6)->toHex() . ';';
+			$root[] = '--atum-bg-dark-10: ' . (clone $bgcolor)->desaturate(86)->lighten(59.4)->spin(-6)->toHex() . ';';
+			$root[] = '--atum-bg-dark-20: ' . (clone $bgcolor)->desaturate(76)->lighten(47.3)->spin(-6)->toHex() . ';';
+			$root[] = '--atum-bg-dark-30: ' . (clone $bgcolor)->desaturate(60)->lighten(34.3)->spin(-5)->toHex() . ';';
+			$root[] = '--atum-bg-dark-40: ' . (clone $bgcolor)->desaturate(41)->lighten(21.4)->spin(-3)->toHex() . ';';
+			$root[] = '--atum-bg-dark-50: ' . (clone $bgcolor)->desaturate(19)->lighten(10)->spin(-1)->toHex() . ';';
+			$root[] = '--atum-bg-dark-70: ' . (clone $bgcolor)->lighten(-6)->spin(4)->toHex() . ';';
+			$root[] = '--atum-bg-dark-80: ' . (clone $bgcolor)->lighten(-11.5)->spin(7)->toHex() . ';';
+			$root[] = '--atum-bg-dark-90: ' . (clone $bgcolor)->desaturate(1)->lighten(-17)->spin(10)->toHex() . ';';
+		}
+		catch (Exception $ex)
+		{
+
+		}
+	}
+
+	if ($this->params->get('bg-light'))
+	{
+		$lightcolor = trim($this->params->get('bg-light'), '#');
+		list($red, $green, $blue) = str_split($lightcolor, 2);
+		$root[] = '--atum-bg-light: #' . $lightcolor . ';';
+
+		try
+		{
+			$color = new Hex($lightcolor);
+			$root[] = '--toolbar-bg: ' . (clone $color)->lighten(5) . ';';
+		}
+		catch (Exception $ex)
+		{
+
+		}
 
 	}
-}
 
-if ($this->params->get('special-color'))
-{
-	$root[] = '--atum-special-color: ' . $this->params->get('special-color') . ';';
-}
+	if ($this->params->get('text-dark'))
+	{
+		$root[] = '--atum-text-dark: ' . $this->params->get('text-dark') . ';';
+	}
+
+	if ($this->params->get('text-light'))
+	{
+		$root[] = '--atum-text-light: ' . $this->params->get('text-light') . ';';
+	}
+
+	if ($this->params->get('link-color'))
+	{
+		$linkcolor = trim($this->params->get('link-color'), '#');
+		list($red, $green, $blue) = str_split($linkcolor, 2);
+		$root[] = '--atum-link-color: #' . $linkcolor . ';';
+
+		try
+		{
+			$color = new Hex($linkcolor);
+			$root[] = '--atum-link-hover-color: ' . (clone $color)->darken(20) . ';';
+		}
+		catch (Exception $ex)
+		{
+
+		}
+	}
+
+	if ($this->params->get('special-color'))
+	{
+		$root[] = '--atum-special-color: ' . $this->params->get('special-color') . ';';
+	}
+
+	/*if ($this->params->get('contrast-color'))
+	{
+		$root[] = '--atum-contrast: ' . $this->params->get('contrast-color') . ';';
+	}*/
+}//end of else for monochrome
+
 
 if (count($root))
 {
@@ -168,23 +274,21 @@ $this->addStyleDeclaration($css);
 	</div>
 </noscript>
 
+
 <header id="header" class="header">
-	<div class="d-flex align-items-center">
-		<div class="header-title mr-auto">
-            <div class="logo">
-                <img src="<?php echo $siteLogo; ?>"
-			alt="<?php echo htmlspecialchars($this->params->get('altSiteLogo', ''), ENT_COMPAT, 'UTF-8'); ?>">
-                <img class="logo-small" src="<?php echo $smallLogo; ?>"
-			alt="<?php echo htmlspecialchars($this->params->get('altSmallLogo', ''), ENT_COMPAT, 'UTF-8'); ?>">
-            </div>
+	<div class="d-flex">
+		<div class="header-title d-flex mr-auto">
+			<div class="d-flex">
+				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
+				<div class="logo">
+					<img src="<?php echo $siteLogo; ?>" alt="<?php echo $logoAlt; ?>">
+					<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="<?php echo $logoSmallAlt; ?>">
+				</div>
 			</div>
-		<div class="site-name ml-auto mr-3">
-			<a class="nav-link" href="<?php echo Uri::root(); ?>"
-			   title="<?php echo Text::sprintf('MOD_STATUS_PREVIEW', $sitename); ?>"
-			   target="_blank">
-				<span class="sr-only"><?php echo HTMLHelper::_('string.truncate', $sitename, 28, false, false); ?></span>
-				<?php echo htmlspecialchars($sitename, ENT_COMPAT, 'UTF-8'); ?>
-			</a>
+			<jdoc:include type="modules" name="title"/>
+		</div>
+		<div class="header-items d-flex ml-auto">
+			<jdoc:include type="modules" name="status" style="header-element"/>
 		</div>
 	</div>
 </header>

@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  AcceptanceTester.Page
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ namespace Page\Acceptance\Administrator;
  *
  * @package  Page\Acceptance\Administrator
  *
- * @since    __DEPLOY_VERSION__
+ * @since    4.0.0
  */
 class ContentListPage extends AdminListPage
 {
@@ -22,7 +22,7 @@ class ContentListPage extends AdminListPage
 	 * Link to the article listing page.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $url = "/administrator/index.php?option=com_content&view=articles";
 
@@ -30,7 +30,7 @@ class ContentListPage extends AdminListPage
 	 * Drop Down Toggle Element.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $dropDownToggle = ['xpath' => "//button[contains(@class, 'dropdown-toggle')]"];
 
@@ -38,7 +38,7 @@ class ContentListPage extends AdminListPage
 	 * Page object for content body editor field.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $content = ['id' => 'jform_articletext'];
 
@@ -46,7 +46,7 @@ class ContentListPage extends AdminListPage
 	 * Page object for the toggle button.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $toggleEditor = "Toggle editor";
 
@@ -54,7 +54,7 @@ class ContentListPage extends AdminListPage
 	 * Locator for article's name field
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $seeName = ['xpath' => "//table[@id='articleList']//tr[1]//td[4]"];
 
@@ -62,7 +62,7 @@ class ContentListPage extends AdminListPage
 	 * Locator for article's featured icon
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $seeFeatured = ['xpath' => "//table[@id='articleList']//*//span[@class='icon-featured']"];
 
@@ -70,7 +70,7 @@ class ContentListPage extends AdminListPage
 	 * Locator for article's name field
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $seeAccessLevel = ['xpath' => "//table[@id='articleList']//tr[1]//td[5]"];
 
@@ -78,7 +78,7 @@ class ContentListPage extends AdminListPage
 	 * Locator for article's unpublish icon
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $seeUnpublished = ['xpath' => "//table[@id='articleList']//*//span[@class='icon-unpublish']"];
 }

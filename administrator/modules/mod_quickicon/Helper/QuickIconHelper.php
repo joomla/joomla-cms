@@ -11,24 +11,12 @@ namespace Joomla\Module\Quickicon\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Access\Access;
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Categories\Administrator\Model\CategoriesModel;
-use Joomla\Component\Checkin\Administrator\Model\CheckinModel;
-use Joomla\Component\Content\Administrator\Model\ArticlesModel;
-use Joomla\Component\Content\Administrator\Model\ModulesModel;
-use Joomla\Component\Installer\Administrator\Model\ManageModel;
-use Joomla\Component\Menus\Administrator\Model\ItemsModel;
-use Joomla\Component\Plugins\Administrator\Model\PluginsModel;
 use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
 use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Helper for mod_quickicon
@@ -65,6 +53,8 @@ abstract class QuickIconHelper
 			$application = Factory::getApplication();
 		}
 
+		$context = $params->get('context', 'mod_quickicon');
+
 		$key = (string) $params;
 
 		if (!isset(self::$buttons[$key]))
@@ -73,417 +63,187 @@ abstract class QuickIconHelper
 			$application->getLanguage()->load('mod_quickicon');
 
 			// Update Panel, icons come from plugins quickicons
-			if ($params->get('icon_type', 'site') === 'update')
+			if ($params->get('show_jupdate'))
 			{
-				// Update Panel, icons come from plugins quickicons
-				$context = $params->get('context', 'mod_quickicon');
+				PluginHelper::importPlugin('quickicon', 'joomlaupdate');
+			}
 
-				// Include buttons defined by published quickicon plugins
-				PluginHelper::importPlugin('quickicon');
+			if ($params->get('show_eupdate'))
+			{
+				PluginHelper::importPlugin('quickicon', 'extensionupdate');
+			}
 
-				$arrays = (array) $application->triggerEvent(
-					'onGetIcons',
-					new QuickIconsEvent('onGetIcons', ['context' => $context])
-				);
+			if ($params->get('show_oupdate'))
+			{
+				PluginHelper::importPlugin('quickicon', 'overridecheck');
+			}
 
-				foreach ($arrays as $response)
+			if ($params->get('show_privacy'))
+			{
+				PluginHelper::importPlugin('quickicon', 'privacycheck');
+			}
+
+			$arrays = (array) $application->triggerEvent(
+				'onGetIcons',
+				new QuickIconsEvent('onGetIcons', ['context' => $params->get('context', 'mod_quickicon')])
+			);
+
+			foreach ($arrays as $response)
+			{
+				foreach ($response as $icon)
 				{
-					foreach ($response as $icon)
-					{
-						$default = array(
-							'link'   => null,
-							'image'  => null,
-							'text'   => null,
-							'name'   => null,
-							'addwhat'   => null,
-							'linkadd'   => null,
-							'access' => true,
-							'class' => true,
-							'group'  => 'MOD_QUICKICON_EXTENSIONS',
-						);
-						$icon = array_merge($default, $icon);
+					$default = array(
+						'link'    => null,
+						'image'   => null,
+						'text'    => null,
+						'name'    => null,
+						'linkadd' => null,
+						'access'  => true,
+						'class'   => true,
+						'group'   => 'MOD_QUICKICON',
+					);
 
-						if (!is_null($icon['link']) && !is_null($icon['text']))
-						{
-							self::$buttons[$key][] = $icon;
-						}
+					$icon = array_merge($default, $icon);
+					if (!is_null($icon['link']) && !is_null($icon['text']))
+					{
+						self::$buttons[$key][] = $icon;
 					}
 				}
 			}
-			elseif ($params->get('icon_type', 'site') === 'system')
-			{
-				// Load mod_quickicon language file in case this method is called before rendering the module
-				$application->getLanguage()->load('mod_quickicon');
 
-				if ($params->get('show_checkin', '1'))
-				{
-					self::$buttons[$key][] = [
-						'amount' => self::countCheckin(),
-						'link'   => Route::_('index.php?option=com_checkin'),
-						'image'  => 'fa fa-unlock-alt',
-						'name'   => Text::_('MOD_QUICKICON_CHECKINS'),
-						'access' => array('core.admin', 'com_checkin'),
-						'group'  => 'MOD_QUICKICON_SYSTEM'
-					];
-				}
-				if ($params->get('show_cache', '1'))
-				{
-					self::$buttons[$key][] = [
-						'amount' => self::countCache(),
-						'link'   => Route::_('index.php?option=com_cache'),
-						'image'  => 'fa fa-cloud',
-						'name'   => Text::_('MOD_QUICKICON_CACHE'),
-						'access' => array('core.admin', 'com_cache'),
-						'group'  => 'MOD_QUICKICON_SYTEM'
-					];
-				}
-				if ($params->get('show_global', '1'))
-				{
-					self::$buttons[$key][] = [
-						'link'   => Route::_('index.php?option=com_config'),
-						'image'  => 'fa fa-cog',
-						'name'   => Text::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
-						'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
-						'group'  => 'MOD_QUICKICON_SYSTEM',
-					];
-				}
+			if ($params->get('show_checkin'))
+			{
+				self::$buttons[$key][] = [
+					'ajaxurl' => 'index.php?option=com_checkin&amp;task=getMenuBadgeData&amp;format=json',
+					'image'   => 'fa fa-unlock-alt',
+					'link'    => Route::_('index.php?option=com_checkin'),
+					'name'    => 'MOD_QUICKICON_CHECKINS',
+					'access'  => array('core.admin', 'com_checkin'),
+					'group'   => 'MOD_QUICKICON_SYSTEM'
+				];
 			}
-			elseif ($params->get('icon_type', 'site') === 'site')
+			if ($params->get('show_cache'))
 			{
-				if ($params->get('show_users', '1'))
-				{
-					$amount = self::countUsers();
+				self::$buttons[$key][] = [
+					'ajaxurl' => 'index.php?option=com_cache&amp;task=display.getQuickiconContent&amp;format=json',
+					'image'   => 'fa fa-cloud',
+					'link'    => Route::_('index.php?option=com_cache'),
+					'name'    => 'MOD_QUICKICON_CACHE',
+					'access'  => array('core.admin', 'com_cache'),
+					'group'   => 'MOD_QUICKICON_SYTEM'
+				];
+			}
+			if ($params->get('show_global'))
+			{
+				self::$buttons[$key][] = [
+					'image'  => 'fa fa-cog',
+					'link'   => Route::_('index.php?option=com_config'),
+					'name'   => 'MOD_QUICKICON_GLOBAL_CONFIGURATION',
+					'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
+					'group'  => 'MOD_QUICKICON_SYSTEM',
+				];
+			}
 
-					self::$buttons[$key][] = [
-						'amount' => $amount,
-						'link'   => Route::_('index.php?option=com_users'),
-						'image'  => 'fa fa-users',
-						'linkadd'   => Route::_('index.php?option=com_users&task=user.add'),
-						'addwhat' => Text::plural('MOD_QUICKICON_USER_MANAGER', 1),
-						'name'   => Text::plural('MOD_QUICKICON_USER_MANAGER', $amount),
-						'access' => array('core.manage', 'com_users', 'core.create', 'com_users'),
-						'group'  => 'MOD_QUICKICON_SITE',
-					];
-				}
+			if ($params->get('show_users'))
+			{
+				self::$buttons[$key][] = [
+					'ajaxurl' => 'index.php?option=com_users&amp;task=users.getQuickiconContent&amp;format=json',
+					'image'   => 'fa fa-users',
+					'link'    => Route::_('index.php?option=com_users'),
+					'linkadd' => Route::_('index.php?option=com_users&task=user.add'),
+					'name'    => 'MOD_QUICKICON_USER_MANAGER',
+					'access'  => array('core.manage', 'com_users', 'core.create', 'com_users'),
+					'group'   => 'MOD_QUICKICON_SITE',
+				];
+			}
 
-				if ($params->get('show_menuItems', '1'))
-				{
-					$amount = self::countMenuItems();
+			if ($params->get('show_menuItems'))
+			{
+				self::$buttons[$key][] = [
+					'ajaxurl' => 'index.php?option=com_menus&amp;task=items.getQuickiconContent&amp;format=json',
+					'image'   => 'fa fa-list',
+					'link'    => Route::_('index.php?option=com_menus'),
+					'linkadd' => Route::_('index.php?option=com_menus&task=item.add'),
+					'name'    => 'MOD_QUICKICON_MENUITEMS_MANAGER',
+					'access'  => array('core.manage', 'com_menus', 'core.create', 'com_menus'),
+					'group'   => 'MOD_QUICKICON_STRUCTURE',
+				];
+			}
 
-					self::$buttons[$key][] = [
-						'amount' => $amount,
-						'link'   => Route::_('index.php?option=com_menus'),
-						'image'  => 'fa fa-list',
-						'linkadd'   => Route::_('index.php?option=com_menus&task=item.add'),
-						'addwhat' => Text::plural('MOD_QUICKICON_MENUITEMS_MANAGER', 1),
-						'name'   => Text::plural('MOD_QUICKICON_MENUITEMS_MANAGER', $amount),
-						'access' => array('core.manage', 'com_menus', 'core.create', 'com_menus'),
-						'group'  => 'MOD_QUICKICON_STRUCTURE',
-					];
-				}
+			if ($params->get('show_articles'))
+			{
+				self::$buttons[$key][] = [
+					'ajaxurl' => 'index.php?option=com_content&amp;task=articles.getQuickiconContent&amp;format=json',
+					'image'   => 'fa fa-file-alt',
+					'link'    => Route::_('index.php?option=com_content'),
+					'linkadd' => Route::_('index.php?option=com_content&task=article.add'),
+					'name'    => 'MOD_QUICKICON_ARTICLE_MANAGER',
+					'access'  => array('core.manage', 'com_content', 'core.create', 'com_content'),
+					'group'   => 'MOD_QUICKICON_SITE',
+				];
+			}
 
-				if ($params->get('show_articles', '1'))
-				{
-					$amount = self::countArticles();
+			if ($params->get('show_categories'))
+			{
+				self::$buttons[$key][] = [
+					'ajaxurl' => 'index.php?option=com_categories&amp;task=categories.getQuickiconContent&amp;format=json',
+					'link'    => Route::_('index.php?option=com_categories'),
+					'image'   => 'fa fa-folder-open',
+					'linkadd' => Route::_('index.php?option=com_categories&task=category.add'),
+					'name'    => 'MOD_QUICKICON_CATEGORY_MANAGER',
+					'access'  => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
+					'group'   => 'MOD_QUICKICON_SITE',
+				];
+			}
 
-					self::$buttons[$key][] = [
-						'amount' => $amount,
-						'link'   => Route::_('index.php?option=com_content'),
-						'image'  => 'fa fa-file-alt',
-						'linkadd'   => Route::_('index.php?option=com_content&task=article.add'),
-						'addwhat' => Text::plural('MOD_QUICKICON_ARTICLE_MANAGER', 1),
-						'name'   => Text::plural('MOD_QUICKICON_ARTICLE_MANAGER', $amount),
-						'access' => array('core.manage', 'com_content', 'core.create', 'com_content'),
-						'group'  => 'MOD_QUICKICON_SITE',
-					];
-				}
+			if ($params->get('show_media'))
+			{
+				self::$buttons[$key][] = [
+					'image'  => 'fa fa-images',
+					'link'   => Route::_('index.php?option=com_media'),
+					'name'   => 'MOD_QUICKICON_MEDIA_MANAGER',
+					'access' => array('core.manage', 'com_media'),
+					'group'  => 'MOD_QUICKICON_SITE',
+				];
+			}
 
-				if ($params->get('show_categories', '1'))
-				{
-					$amount = self::countArticleCategories();
+			if ($params->get('show_modules'))
+			{
+				self::$buttons[$key][] = [
+					'ajaxurl' => 'index.php?option=com_modules&amp;task=modules.getQuickiconContent&amp;format=json',
+					'image'   => 'fa fa-cube',
+					'link'    => Route::_('index.php?option=com_modules'),
+					'linkadd' => Route::_('index.php?option=com_modules&view=select'),
+					'name'    => 'MOD_QUICKICON_MODULE_MANAGER',
+					'access'  => array('core.manage', 'com_modules'),
+					'group'   => 'MOD_QUICKICON_SITE'
+				];
+			}
 
-					self::$buttons[$key][] = [
-						'amount' => $amount,
-						'link'   => Route::_('index.php?option=com_categories'),
-						'image'  => 'fa fa-folder-open',
-						'addwhat' => Text::plural('MOD_QUICKICON_CATEGORY_MANAGER', 1),
-						'linkadd'   => Route::_('index.php?option=com_categories&task=category.add'),
-						'name'   => Text::plural('MOD_QUICKICON_CATEGORY_MANAGER', $amount),
-						'access' => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
-						'group'  => 'MOD_QUICKICON_SITE',
-					];
-				}
+			if ($params->get('show_plugins'))
+			{
+				self::$buttons[$key][] = [
+					'ajaxurl' => 'index.php?option=com_plugins&amp;task=plugins.getQuickiconContent&amp;format=json',
+					'image'   => 'fa fa-plug',
+					'link'    => Route::_('index.php?option=com_plugins'),
+					'name'    => 'MOD_QUICKICON_PLUGIN_MANAGER',
+					'access'  => array('core.manage', 'com_plugins'),
+					'group'   => 'MOD_QUICKICON_SITE'
+				];
+			}
 
-				if ($params->get('show_media', '1'))
-				{
-					self::$buttons[$key][] = [
-						'image'  => 'fa fa-images',
-						'link'   => Route::_('index.php?option=com_media'),
-						'name'   => Text::_('MOD_QUICKICON_MEDIA_MANAGER'),
-						'access' => array('core.manage', 'com_media'),
-						'group'  => 'MOD_QUICKICON_SITE',
-					];
-				}
-
-				if ($params->get('show_modules', '1'))
-				{
-					$amount = self::countModules();
-
-					self::$buttons[$key][] = [
-						'amount' => $amount,
-						'link'   => Route::_('index.php?option=com_modules'),
-						'image'  => 'fa fa-cube',
-						'name'   => Text::plural('MOD_QUICKICON_MODULE_MANAGER', $amount),
-						'addwhat' => Text::plural('MOD_QUICKICON_MODULE_MANAGER', 1),
-						'linkadd'   => Route::_('index.php?option=com_categories&task=type.select'),
-						'access' => array('core.manage', 'com_modules'),
-						'group'  => 'MOD_QUICKICON_SITE'
-					];
-				}
-
-				if ($params->get('show_plugins', '1'))
-				{
-					$amount = self::countPlugins();
-
-					self::$buttons[$key][] = [
-						'amount' => $amount,
-						'link'   => Route::_('index.php?option=com_plugins'),
-						'image'  => 'fa fa-plug',
-						'name'   => Text::plural('MOD_QUICKICON_PLUGIN_MANAGER', $amount),
-						'access' => array('core.manage', 'com_plugins'),
-						'group'  => 'MOD_QUICKICON_SITE'
-					];
-				}
-
-				if ($params->get('show_templates', '1'))
-				{
-					self::$buttons[$key][] = [
-						'amount' => self::countTemplates(),
-						'image'  => 'fa fa-paint-brush',
-						'link'   => Route::_('index.php?option=com_templates&client_id=0'),
-						'name'   => Text::_('MOD_QUICKICON_TEMPLATES'),
-						'access' => array('core.admin', 'com_templates'),
-						'group'  => 'MOD_QUICKICON_SITE'
-					];
-				}
+			if ($params->get('show_templates'))
+			{
+				self::$buttons[$key][] = [
+					'image'  => 'fa fa-paint-brush',
+					'link'   => Route::_('index.php?option=com_templates&client_id=0'),
+					'name'   => 'MOD_QUICKICON_TEMPLATES',
+					'access' => array('core.admin', 'com_templates'),
+					'group'  => 'MOD_QUICKICON_SITE'
+				];
 			}
 		}
 
 		return self::$buttons[$key];
-	}
-
-	/**
-	 * Method to get the number of published modules in frontend.
-	 *
-	 * @return  integer  The amount of published modules in frontend
-	 *
-	 * @since   4.0
-	 */
-	private static function countModules()
-	{
-		$app = Factory::getApplication();
-
-		$model = $app->bootComponent('com_modules')->getMVCFactory()
-			->createModel('Modules', 'Administrator', ['ignore_request' => true]);
-
-		$model->setState('list.select', '*');
-
-		// Set the Start and Limit to 'all'
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', 0);
-		$model->setState('filter.published', 1);
-		$model->setState('filter.client_id', 0);
-
-		return  count($model->getItems());
-	}
-	/**
-	 * Method to get the number of published articles.
-	 *
-	 * @return  integer  The amount of published articles
-	 *
-	 * @since   4.0
-	 */
-	private static function countArticles()
-	{
-		$app = Factory::getApplication();
-
-		// Get an instance of the generic articles model (administrator)
-		$model = $app->bootComponent('com_content')->getMVCFactory()
-			->createModel('Articles', 'Administrator', ['ignore_request' => true]);
-
-		// Set the Start and Limit to 'all'
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', 0);
-		$model->setState('filter.published', 1);
-
-		$amount = count($model->getItems());
-
-		// Too big amounts must be truncated
-		if ($amount > 9999)
-		{
-			$amount = floor($amount / 10000) . '<span class="thsd"> ' . Text::_('MOD_QUICKICON_AMOUNT_THSD') . '</span>';
-		}
-
-		return $amount;
-	}
-
-	/**
-	 * Method to get the number of published menu tems.
-	 *
-	 * @return  integer  The amount of active menu Items
-	 *
-	 * @since   4.0
-	 */
-	private static function countMenuItems()
-	{
-		$app = Factory::getApplication();
-
-		// Get an instance of the menuitems model (administrator)
-		$model = $app->bootComponent('com_menus')->getMVCFactory()->createModel('Items', 'Administrator', ['ignore_request' => true]);
-
-		// Count IDs
-		$model->setState('list.select', 'a.id');
-
-		// Set the Start and Limit to 'all'
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', 0);
-		$model->setState('filter.published', 1);
-		$model->setState('filter.client_id', 0);
-
-		return count($model->getItems());
-	}
-
-	/**
-	 * Method to get the number of users
-	 *
-	 * @return  integer  The amount of active users
-	 *
-	 * @since   4.0
-	 */
-	private static function countUsers()
-	{
-		$app = Factory::getApplication();
-
-		$model = $app->bootComponent('com_users')->getMVCFactory()->createModel('Users', 'Administrator', ['ignore_request' => true]);
-
-		$model->setState('list.select', '*');
-
-		// Set the Start and Limit to 'all'
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', 0);
-		$model->setState('filter.state', 0);
-
-		return count($model->getItems());
-	}
-
-	/**
-	 * Method to get the number of enabled Plugins
-	 *
-	 * @return  integer  The amount of enabled plugins
-	 *
-	 * @since   4.0
-	 */
-	private static function countPlugins()
-	{
-		$app = Factory::getApplication();
-
-		$model = $app->bootComponent('com_plugins')->getMVCFactory()->createModel('Plugins', 'Administrator', ['ignore_request' => true]);
-
-		$model->setState('list.select', '*');
-
-		// Set the Start and Limit to 'all'
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', 0);
-		$model->setState('filter.enabled', 1);
-
-		return count($model->getItems());
-	}
-
-	/**
-	 * Method to get the number of content categories
-	 *
-	 * @return  integer  The amount of published content categories
-	 *
-	 * @since   4.0
-	 */
-	private static function countArticleCategories()
-	{
-		$app = Factory::getApplication();
-
-		$model = $app->bootComponent('com_categories')->getMVCFactory()->createModel('Categories', 'Administrator', ['ignore_request' => true]);
-
-		$model->setState('list.select', 'a.id');
-
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', 0);
-		$model->setState('filter.published', 1);
-		$model->setState('filter.extension', 'com_content');
-
-		return count($model->getItems());
-	}
-
-	/**
-	 * Method to get checkin
-	 *
-	 * @return  integer  The amount of checkins
-	 *
-	 * @since   4.0
-	 */
-	private static function countCheckin()
-	{
-		$app = Factory::getApplication();
-
-		$model = $app->bootComponent('com_checkin')->getMVCFactory()->createModel('Checkin', 'Administrator', ['ignore_request' => true]);
-
-		return $model->getTotal();
-	}
-
-	/**
-	 * Method to get Templates
-	 *
-	 * @return  integer  The amount of Templates
-	 *
-	 * @since   4.0
-	 */
-	private static function countTemplates()
-	{
-		$app = Factory::getApplication();
-
-		$model = $app->bootComponent('com_templates')->getMVCFactory()->createModel('Templates', 'Administrator', ['ignore_request' => true]);
-
-		return count($model->getItems());
-	}
-
-	/**
-	 * Method to get The Cache Size
-	 *
-	 * @return  integer  The cache size in kB
-	 *
-	 * @since   4.0
-	 */
-	private static function countCache()
-	{
-		$app = Factory::getApplication();
-
-		$model = $app->bootComponent('com_cache')->getMVCFactory()->createModel('Cache', 'Administrator', ['ignore_request' => true]);
-
-		$data = $model->getData();
-
-		$size = 0;
-
-		if (!empty($data))
-		{
-			foreach ($data as $d)
-			{
-				$size += $d->size;
-			}
-		}
-
-		// Number bytes are returned in format xxx.xx MB
-		$mb = explode(' ', HTMLHelper::_('number.bytes', $size, 'MB', 1, false));
-
-		// Return number only
-		return $mb[0];
-
 	}
 }

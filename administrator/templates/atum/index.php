@@ -41,6 +41,9 @@ $smallLogo = $this->params->get('smallLogo')
 	? JUri::root() . $this->params->get('smallLogo')
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
+$logoAlt = htmlspecialchars($this->params->get('altSiteLogo', ''), ENT_COMPAT, 'UTF-8');
+$logoSmallAlt = htmlspecialchars($this->params->get('altSmallLogo', ''), ENT_COMPAT, 'UTF-8');
+
 // Enable assets
 $wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
 
@@ -85,7 +88,7 @@ if($this->params->get('monochrome'))
 
 		try
 		{
-			$root[] = '--atum-contrast: ' . (clone $bgcolor)->lighten(-6)->spin(-30)->toHex() . ';';
+			$root[] = '--atum-contrast: ' . (new Hsl("hsl(" . $this->params->get('hue') . ", 0, 42)"))->spin(30)->toHex() . ';';
 			$root[] = '--atum-bg-dark-0: ' . (clone $bgcolor)->lighten(71.4)->spin(-6)->toHex() . ';';
 			$root[] = '--atum-bg-dark-5: ' . (clone $bgcolor)->lighten(65.1)->spin(-6)->toHex() . ';';
 			$root[] = '--atum-bg-dark-10: ' . (clone $bgcolor)->lighten(59.4)->spin(-6)->toHex() . ';';
@@ -110,11 +113,11 @@ else
 	if ($this->params->get('hue'))
 	{
 		$bgcolor = new Hsl("hsl(" . $this->params->get('hue') . ", 61, 26)");
-		$root[] = '--atum-bg-dark: ' .$bgcolor->toHex() . ';';
+		$root[] = '--atum-bg-dark: ' . (new Hsl("hsl(" . $this->params->get('hue') . ", 61, 26)"))->toHex() . ';';
 
 		try
 		{
-			$root[] = '--atum-contrast: ' . (clone $bgcolor)->lighten(-6)->spin(-30)->toHex() . ';';
+			$root[] = '--atum-contrast: ' . (new Hsl("hsl(" . $this->params->get('hue') . ", 61, 42)"))->spin(30)->toHex() . ';';
 			$root[] = '--atum-bg-dark-0: ' . (clone $bgcolor)->desaturate(86)->lighten(71.4)->spin(-6)->toHex() . ';';
 			$root[] = '--atum-bg-dark-5: ' . (clone $bgcolor)->desaturate(86)->lighten(65.1)->spin(-6)->toHex() . ';';
 			$root[] = '--atum-bg-dark-10: ' . (clone $bgcolor)->desaturate(86)->lighten(59.4)->spin(-6)->toHex() . ';';
@@ -134,7 +137,20 @@ else
 
 	if ($this->params->get('bg-light'))
 	{
-		$root[] = '--atum-bg-light: ' . $this->params->get('bg-light') . ';';
+		$lightcolor = trim($this->params->get('bg-light'), '#');
+		list($red, $green, $blue) = str_split($lightcolor, 2);
+		$root[] = '--atum-bg-light: #' . $lightcolor . ';';
+
+		try
+		{
+			$color = new Hex($lightcolor);
+			$root[] = '--toolbar-bg: ' . (clone $color)->lighten(5) . ';';
+		}
+		catch (Exception $ex)
+		{
+
+		}
+
 	}
 
 	if ($this->params->get('text-dark'))
@@ -206,8 +222,8 @@ $this->addStyleDeclaration($css);
 				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
 				<?php if ($hiddenMenu || $cpanel) : ?>
 					<div class="logo">
-						<img src="<?php echo $siteLogo; ?>" alt="">
-						<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="">
+					<img src="<?php echo $siteLogo; ?>" alt="<?php echo $logoAlt; ?>">
+					<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="<?php echo $logoSmallAlt; ?>">
 					</div>
 				<?php else : ?>
 					<a class="logo" href="<?php echo Route::_('index.php'); ?>"

@@ -61,7 +61,7 @@ class Route
 
 	/**
 	 * Translates an internal Joomla URL to a humanly readable URL.
-	 * NOTE: To build link for active client instead of a specific client, you can use <var>JRoute::_()</var>
+	 * NOTE: To build link for active client instead of a specific client, you can use <var>Route::_()</var>
 	 *
 	 * @param   string   $client  The client name for which to build the link.
 	 * @param   string   $url     Absolute or Relative URI to Joomla resource.

@@ -25,16 +25,19 @@
       width: $sidebar-width-closed;
       transition: width .3s ease;
 
-      img:not(.logo-small) {
-        display: none;
-      }
+      svg, img {
 
-      img.logo-small {
-        display: inline-block;
+        &:not(.logo-small) {
+          display: none;
+        }
+
+        &.logo-small {
+          display: inline-block;
+        }
       }
     }
 
-    img {
+    svg, img {
       height: 1.3rem;
       margin-left: 0.8rem;
       max-width: calc(15.625rem - 0.8rem);
@@ -301,4 +304,7 @@
   }
 }
 
-
+// for the svg image
+#header .logo path, #header .logo polyline {
+  fill: var(--atum-bg-dark);
+}
