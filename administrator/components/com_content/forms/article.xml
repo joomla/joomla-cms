@@ -318,14 +318,8 @@
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
-
-			<field
-					name="option_spacer1"
-					type="spacer"
-					hr="false"
-					label="JCATEGORY"
-			/>
-
+		</fieldset>
+		<fieldset name="category" label="JCATEGORY">
 			<field
 				name="show_category"
 				type="list"
@@ -375,14 +369,8 @@
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
-
-			<field
-					name="option_spacer2"
-					type="spacer"
-					hr="false"
-					label="JGLOBAL_SHOW_AUTHOR_LABEL"
-			/>
-
+		</fieldset>
+		<fieldset name="author" label="JGLOBAL_SHOW_AUTHOR_LABEL">
 			<field
 				name="show_author"
 				type="list"
@@ -402,14 +390,8 @@
 				<option	value="0">JNO</option>
 				<option	value="1">JYES</option>
 			</field>
-
-			<field
-					name="option_spacer3"
-					type="spacer"
-					hr="false"
-					label="JDATE"
-			/>
-
+		</fieldset>
+		<fieldset name="date" label="JDATE">
 			<field
 				name="show_create_date"
 				type="list"
@@ -439,13 +421,8 @@
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
-
-			<field
-					name="option_spacer4"
-					type="spacer"
-					hr="true"
-			/>
-
+		</fieldset>
+		<fieldset name="other" label="COM_CONTENT_OTHER_OPTIONS">
 			<field
 				name="show_item_navigation"
 				type="list"
@@ -496,13 +473,8 @@
 				<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 				<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 			</field>
-
-			<field
-				name="option_spacer5"
-				type="spacer"
-				hr="true"
-			/>
-
+		</fieldset>
+		<fieldset name="global" label="COM_CONTENT_GLOBAL_OPTIONS">
 			<field
 				name="alternative_readmore"
 				type="text"
