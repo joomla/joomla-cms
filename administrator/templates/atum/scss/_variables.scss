@@ -53,7 +53,7 @@ $color-contrast:                   adjust-color($color-60, $hue: -30%, $lightnes
 $theme-colors: ();
 $theme-colors: map-merge((
   primary:                         $blue, //used only in bootstrap, please use $atum-bg-dark
-  secondary:                       $gray-700, //is it used?
+  secondary:                       $gray-700, //used for btn-secondary
   success:                         $green,
   info:                            $cyan,
   warning:                         $yellow,
