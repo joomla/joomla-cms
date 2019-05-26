@@ -15,6 +15,8 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\DI\Container;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
 use Joomla\Registry\Registry;
 
@@ -61,6 +63,16 @@ abstract class QuickIconHelper
 
 			self::$buttons[$key] = [];
 
+			// @TODO: Perhaps we should use something with EventAware
+			$container = (new Container)
+					->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher);
+
+			$dispatcher = $container->get(DispatcherInterface::class);
+
+			$iconevent = new QuickIconsEvent('onGetIcons', ['context' => $context]);
+
+			$dispatcher->setEvent($iconevent);
+
 			if ($context == 'mod_quickicon')
 			{
 				// Load mod_quickicon language file in case this method is called before rendering the module
@@ -69,22 +81,22 @@ abstract class QuickIconHelper
 				// Update Panel, icons come from plugins quickicons
 				if ($params->get('show_jupdate', '1'))
 				{
-					PluginHelper::importPlugin('quickicon', 'joomlaupdate');
+					PluginHelper::importPlugin('quickicon', 'joomlaupdate', true, $dispatcher);
 				}
 
 				if ($params->get('show_eupdate', '1'))
 				{
-					PluginHelper::importPlugin('quickicon', 'extensionupdate');
+					PluginHelper::importPlugin('quickicon', 'extensionupdate', true, $dispatcher);
 				}
 
 				if ($params->get('show_oupdate', '1'))
 				{
-					PluginHelper::importPlugin('quickicon', 'overridecheck');
+					PluginHelper::importPlugin('quickicon', 'overridecheck', true, $dispatcher);
 				}
 
 				if ($params->get('show_privacy', '1'))
 				{
-					PluginHelper::importPlugin('quickicon', 'privacycheck');
+					PluginHelper::importPlugin('quickicon', 'privacycheck', true, $dispatcher);
 				}
 
 				if ($params->get('show_checkin', '0'))
@@ -236,17 +248,27 @@ abstract class QuickIconHelper
 
 			foreach ($plugins as $plugin)
 			{
-				print_r($plugin);exit;
+				if (!in_array($plugin->name, $coreplugins))
+				{
+					PluginHelper::importPlugin('quickicon', $plugin->name, true, $dispatcher);
+				}
 			}
 		}
 
-		$arrays = (array) $application->triggerEvent(
+		$result = $dispatcher->dispatch(
 			'onGetIcons',
-			new QuickIconsEvent('onGetIcons', ['context' => $context])
+			$iconevent
 		);
+
+		$arrays = (array) $result->getArgument('result', []);
 
 		foreach ($arrays as $response)
 		{
+			if (!is_array($response))
+			{
+				continue;
+			}
+
 			foreach ($response as $icon)
 			{
 				$default = array(
@@ -261,6 +283,7 @@ abstract class QuickIconHelper
 				);
 
 				$icon = array_merge($default, $icon);
+
 				if (!is_null($icon['link']) && !is_null($icon['text']))
 				{
 					self::$buttons[$key][] = $icon;
