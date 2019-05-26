@@ -306,30 +306,6 @@ class Content extends Table
 	}
 
 	/**
-	 * Gets the default asset values for a component.
-	 *
-	 * @param   string  $component  The component asset name to search for
-	 *
-	 * @return  Rules  The Rules object for the asset
-	 *
-	 * @since   3.4
-	 * @deprecated  3.4 Class will be removed upon completion of transition to UCM
-	 */
-	protected function getDefaultAssetValues($component)
-	{
-		// Need to find the asset id by the name of the component.
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('id'))
-			->from($db->quoteName('#__assets'))
-			->where($db->quoteName('name') . ' = ' . $db->quote($component));
-		$db->setQuery($query);
-		$assetId = (int) $db->loadResult();
-
-		return Access::getAssetRules($assetId);
-	}
-
-	/**
 	 * Overrides Table::store to set modified data and user id.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.

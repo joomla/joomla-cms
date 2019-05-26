@@ -106,6 +106,36 @@ class PlgSystemStats extends CMSPlugin
 
 		// Load plugin language files only when needed (ex: they are not needed in site client).
 		$this->loadLanguage();
+	}
+
+	/**
+	 * Listener for the `onAfterDispatch` event
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function onAfterDispatch()
+	{
+		if (!$this->app->isClient('administrator') || !$this->isAllowedUser())
+		{
+			return;
+		}
+
+		if (!$this->isDebugEnabled() && !$this->isUpdateRequired())
+		{
+			return;
+		}
+
+		if (Uri::getInstance()->getVar('tmpl') === 'component')
+		{
+			return;
+		}
+
+		if ($this->app->getDocument()->getType() !== 'html')
+		{
+			return;
+		}
 
 		HTMLHelper::_('script', 'plg_system_stats/stats-message.js', array('version' => 'auto', 'relative' => true));
 	}
@@ -450,11 +480,11 @@ class PlgSystemStats extends CMSPlugin
 		$this->params->set('interval', $interval ?: 12);
 
 		$query = $this->db->getQuery(true)
-				->update($this->db->quoteName('#__extensions'))
-				->set($this->db->quoteName('params') . ' = ' . $this->db->quote($this->params->toString('JSON')))
-				->where($this->db->quoteName('type') . ' = ' . $this->db->quote('plugin'))
-				->where($this->db->quoteName('folder') . ' = ' . $this->db->quote('system'))
-				->where($this->db->quoteName('element') . ' = ' . $this->db->quote('stats'));
+			->update($this->db->quoteName('#__extensions'))
+			->set($this->db->quoteName('params') . ' = ' . $this->db->quote($this->params->toString('JSON')))
+			->where($this->db->quoteName('type') . ' = ' . $this->db->quote('plugin'))
+			->where($this->db->quoteName('folder') . ' = ' . $this->db->quote('system'))
+			->where($this->db->quoteName('element') . ' = ' . $this->db->quote('stats'));
 
 		try
 		{

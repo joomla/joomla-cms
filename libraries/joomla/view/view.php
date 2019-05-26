@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform View Interface
  *
- * @since  3.0.0
+ * @since       3.0.0
+ * @deprecated  5.0  Implement Joomla\CMS\MVC\View\ViewInterface instead
  */
 interface JView
 {

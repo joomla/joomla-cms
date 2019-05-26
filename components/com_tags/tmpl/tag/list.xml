@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="com_tags_tag_view_list_compact_title" option="com_tags_tag_view_list_compact_option">
+	<layout title="COM_TAGS_TAG_VIEW_LIST_COMPACT_TITLE" option="COM_TAGS_TAG_VIEW_LIST_COMPACT_OPTION">
 		<help
 			key="JHELP_MENUS_MENU_ITEM_TAGS_ITEMS_COMPACT_LIST"
 		/>
 		<message>
-			<![CDATA[com_tags_tag_view_list_desc]]>
+			<![CDATA[COM_TAGS_TAG_VIEW_LIST_DESC]]>
 		</message>
 	</layout>
 
@@ -13,23 +13,23 @@
 	<fields name="request">
 		<fieldset name="request">
 
-			<field 
-				name="id" 
-				type="tag" 
+			<field
+				name="id"
+				type="tag"
 				label="COM_TAGS_FIELD_TAG_LABEL"
 				custom="deny"
 				required="true"
 				multiple="true"
 			/>
 
-			<field 
-				name="types" 
+			<field
+				name="types"
 				type="contenttype"
 				label="COM_TAGS_FIELD_TYPE_LABEL"
 				multiple="true"
 			/>
 
-			<field 
+			<field
 				name="tag_list_language_filter"
 				type="contentlanguage"
 				label="COM_TAGS_FIELD_LANGUAGE_FILTER_LABEL"
@@ -46,8 +46,8 @@
 	<fields name="params">
 		<fieldset name="basic" label="COM_TAGS_OPTIONS">
 
-			<field 
-				name="show_tag_title" 
+			<field
+				name="show_tag_title"
 				type="list"
 				label="COM_TAGS_SHOW_TAG_TITLE_LABEL"
 				useglobal="true"
@@ -57,8 +57,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="tag_list_show_tag_image" 
+			<field
+				name="tag_list_show_tag_image"
 				type="list"
 				label="COM_TAGS_SHOW_TAG_IMAGE_LABEL"
 				useglobal="true"
@@ -68,8 +68,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="tag_list_show_tag_description" 
+			<field
+				name="tag_list_show_tag_description"
 				type="list"
 				label="COM_TAGS_SHOW_TAG_DESCRIPTION_LABEL"
 				useglobal="true"
@@ -79,24 +79,24 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="tag_list_image" 
+			<field
+				name="tag_list_image"
 				type="media"
 				label="COM_TAGS_TAG_LIST_MEDIA_LABEL"
 			/>
 
-			<field 
-				name="tag_list_description" 
+			<field
+				name="tag_list_description"
 				type="textarea"
 				label="COM_TAGS_SHOW_TAG_LIST_DESCRIPTION_LABEL"
 				description="COM_TAGS_TAG_LIST_DESCRIPTION_DESC"
 				class="inputbox"
-				rows="3" 
-				cols="30" 
+				rows="3"
+				cols="30"
 				filter="safehtml"
 			/>
 
-			<field 
+			<field
 				name="tag_list_orderby"
 				type="list"
 				label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
@@ -110,8 +110,8 @@
 				<option value="c.core_publish_up">JGLOBAL_PUBLISHED_DATE</option>
 			</field>
 
-			<field 
-				name="tag_list_orderby_direction" 
+			<field
+				name="tag_list_orderby_direction"
 				type="list"
 				label="JGLOBAL_ORDER_DIRECTION_LABEL"
 				useglobal="true"
@@ -124,15 +124,15 @@
 
 		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
 
-			<field 
-				name="spacer2" 
-				type="spacer" 
+			<field
+				name="spacer2"
+				type="spacer"
 				label="COM_TAGS_SUBSLIDER_DRILL_TAG_LIST_LABEL"
 				class="text"
 			/>
 
-			<field 
-				name="tag_list_show_item_image" 
+			<field
+				name="tag_list_show_item_image"
 				type="list"
 				label="COM_TAGS_TAG_LIST_SHOW_ITEM_IMAGE_LABEL"
 				useglobal="true"
@@ -142,8 +142,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="tag_list_show_item_description" 
+			<field
+				name="tag_list_show_item_description"
 				type="list"
 				label="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_LABEL"
 				useglobal="true"
@@ -174,8 +174,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field	
-				name="show_pagination_limit" 
+			<field
+				name="show_pagination_limit"
 				type="list"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
 				useglobal="true"
@@ -185,8 +185,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="display_num" 
+			<field
+				name="display_num"
 				type="list"
 				label="COM_TAGS_FIELD_NUMBER_ITEMS_LIST_LABEL"
 				class="chzn-color"
@@ -203,8 +203,8 @@
 				<option value="0">JALL</option>
 			</field>
 
-			<field 
-				name="show_pagination" 
+			<field
+				name="show_pagination"
 				type="list"
 				label="JGLOBAL_PAGINATION_LABEL"
 				useglobal="true"
@@ -215,8 +215,8 @@
 				<option value="2">JGLOBAL_AUTO</option>
 			</field>
 
-			<field 
-				name="show_pagination_results" 
+			<field
+				name="show_pagination_results"
 				type="list"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				useglobal="true"
@@ -226,8 +226,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="tag_list_show_date" 
+			<field
+				name="tag_list_show_date"
 				type="list"
 				label="JGLOBAL_SHOW_DATE_LABEL"
 				useglobal="true"
@@ -239,8 +239,8 @@
 				<option value="published">JPUBLISHED</option>
 			</field>
 
-			<field 
-				name="date_format" 
+			<field
+				name="date_format"
 				type="text"
 				label="JGLOBAL_DATE_FORMAT_LABEL"
 				description="JGLOBAL_DATE_FORMAT_DESC"
@@ -251,8 +251,8 @@
 
 		<fieldset name="selection" label="COM_TAGS_LIST_SELECTION_OPTIONS">
 
-			<field 
-				name="return_any_or_all" 
+			<field
+				name="return_any_or_all"
 				type="list"
 				label="COM_TAGS_SEARCH_TYPE_LABEL"
 				useglobal="true"
@@ -261,8 +261,8 @@
 				<option value="1">COM_TAGS_ANY</option>
 			</field>
 
-			<field 
-				name="include_children" 
+			<field
+				name="include_children"
 				type="list"
 				label="COM_TAGS_INCLUDE_CHILDREN_LABEL"
 				default=""
@@ -276,8 +276,8 @@
 
 		<fieldset name="integration">
 
-			<field 
-				name="show_feed_link" 
+			<field
+				name="show_feed_link"
 				type="list"
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 				useglobal="true"

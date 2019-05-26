@@ -491,8 +491,7 @@ class ArticlesModel extends ListModel
 			case 'relative':
 				$relativeDate = (int) $this->getState('filter.relative_date', 0);
 				$query->where(
-					$dateField . ' >= DATE_SUB(' . $nowDate . ', INTERVAL ' .
-					$relativeDate . ' DAY)'
+					$dateField . ' >= ' . $query->dateAdd($nowDate, -1 * $relativeDate, 'DAY')
 				);
 				break;
 
@@ -505,9 +504,10 @@ class ArticlesModel extends ListModel
 		if (is_object($params) && ($params->get('filter_field') !== 'hide') && ($filter = $this->getState('list.filter')))
 		{
 			// Clean filter variable
-			$filter     = StringHelper::strtolower($filter);
-			$hitsFilter = (int) $filter;
-			$filter     = $db->quote('%' . $db->escape($filter, true) . '%', false);
+			$filter      = StringHelper::strtolower($filter);
+			$monthFilter = $filter;
+			$hitsFilter  = (int) $filter;
+			$filter      = $db->quote('%' . $db->escape($filter, true) . '%', false);
 
 			switch ($params->get('filter_field'))
 			{
@@ -520,6 +520,21 @@ class ArticlesModel extends ListModel
 
 				case 'hits':
 					$query->where('a.hits >= ' . $hitsFilter . ' ');
+					break;
+
+				case 'month':
+					if ($monthFilter != '')
+					{
+						$query->where(
+							$db->quote(date("Y-m-d", strtotime($monthFilter)) . ' 00:00:00') . ' <= CASE WHEN a.publish_up = ' .
+							$db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END'
+						);
+
+						$query->where(
+							$db->quote(date("Y-m-t", strtotime($monthFilter)) . ' 23:59:59') . ' >= CASE WHEN a.publish_up = ' .
+							$db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END'
+						);
+					}
 					break;
 
 				case 'title':
@@ -738,5 +753,37 @@ class ArticlesModel extends ListModel
 	public function getStart()
 	{
 		return $this->getState('list.start');
+	}
+
+	/**
+	 * Count Items by Month
+	 *
+	 * @return  mixed  An array of objects on success, false on failure.
+	 *
+	 * @since   3.9.0
+	 */
+	public function countItemsByMonth()
+	{
+		// Create a new query object.
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query
+			->select('DATE(' .
+				$query->concatenate(
+					array(
+						$query->year($query->quoteName('publish_up')),
+						$query->quote('-'),
+						$query->month($query->quoteName('publish_up')),
+						$query->quote('-01')
+					)
+				) . ') as d'
+			)
+			->select('COUNT(*) as c')
+			->from('(' . $this->getListQuery() . ') as b')
+			->group($query->quoteName('d'))
+			->order($query->quoteName('d') . ' desc');
+
+		return $db->setQuery($query)->loadObjectList();
 	}
 }

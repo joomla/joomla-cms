@@ -19,12 +19,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 ?>
 <form action="<?php echo Route::_('index.php?option=com_banners&view=tracks'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
-		<?php if (!empty($this->sidebar)) : ?>
-            <div id="j-sidebar-container" class="col-md-2">
-				<?php echo $this->sidebar; ?>
-            </div>
-		<?php endif; ?>
-        <div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
+		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
@@ -95,10 +90,10 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 						'height'      => '370px',
 						'width'       => '300px',
 						'modalWidth'  => '40',
-						'footer'      => '<a class="btn" data-dismiss="modal" type="button"'
+						'footer'      => '<button type="button" class="btn" data-dismiss="modal"'
 								. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#downloadModal\', buttonSelector: \'#closeBtn\'})">'
-								. Text::_('COM_BANNERS_CANCEL') . '</a>'
-								. '<button class="btn btn-success" type="button"'
+								. Text::_('COM_BANNERS_CANCEL') . '</button>'
+								. '<button type="button" class="btn btn-success"'
 								. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#downloadModal\', buttonSelector: \'#exportBtn\'})">'
 								. Text::_('COM_BANNERS_TRACKS_EXPORT') . '</button>',
 					)

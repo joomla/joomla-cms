@@ -14,6 +14,8 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
 use Joomla\CMS\Session\MetadataManager;
+use Joomla\Database\Command\ExportCommand;
+use Joomla\Database\Command\ImportCommand;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -56,6 +58,24 @@ class Console implements ServiceProviderInterface
 			function (Container $container)
 			{
 				return new SessionMetadataGcCommand($container->get('session'), $container->get(MetadataManager::class));
+			},
+			true
+		);
+
+		$container->share(
+			ExportCommand::class,
+			function (Container $container)
+			{
+				return new ExportCommand($container->get('db'));
+			},
+			true
+		);
+
+		$container->share(
+			ImportCommand::class,
+			function (Container $container)
+			{
+				return new ImportCommand($container->get('db'));
 			},
 			true
 		);

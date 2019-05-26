@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Workflow\Workflow;
@@ -107,6 +108,9 @@ class ArticlesModel extends ListModel
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
+		$featured = $this->getUserStateFromRequest($this->context . '.filter.featured', 'filter_featured', '');
+		$this->setState('filter.featured', $featured);
+
 		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
@@ -199,7 +203,7 @@ class ArticlesModel extends ListModel
 				'list.select',
 				'DISTINCT a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
 				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, a.language, a.hits' .
-				', a.publish_up, a.publish_down, a.introtext'
+				', a.publish_up, a.publish_down, a.introtext, a.note'
 			)
 		);
 		$query->from('#__content AS a');
@@ -217,8 +221,13 @@ class ArticlesModel extends ListModel
 			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the categories.
-		$query->select('c.title AS category_title')
+		$query->select('c.title AS category_title, c.created_user_id AS category_uid, c.level AS category_level')
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
+
+		// Join over the parent categories.
+		$query->select('parent.title AS parent_category_title, parent.id AS parent_category_id,
+								parent.created_user_id AS parent_category_uid, parent.level AS parent_category_level')
+			->join('LEFT', '#__categories AS parent ON parent.id = c.parent_id');
 
 		// Join over the users for the author.
 		$query->select('ua.name AS author_name')
@@ -276,11 +285,14 @@ class ArticlesModel extends ListModel
 			'uc.name',
 			'ag.title',
 			'c.title',
+			'c.created_user_id',
+			'c.level',
 			'ua.name',
 			'ws.title',
 			'ws.workflow_id',
 			'ws.condition',
-			'wa.stage_id'
+			'wa.stage_id',
+			'parent.id',
 		);
 
 		if (PluginHelper::isEnabled('content', 'vote'))
@@ -295,9 +307,9 @@ class ArticlesModel extends ListModel
 		// Join over the associations.
 		if (Associations::isEnabled())
 		{
-			$query->select('COUNT(asso2.id)>1 as association')
+			$query->select('CASE WHEN COUNT(asso2.id)>1 THEN 1 ELSE 0 END as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_content.item'))
-				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
+				->join('LEFT', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key'))
 				->group($db->quoteName($associationsGroupBy));
 		}
 
@@ -313,6 +325,14 @@ class ArticlesModel extends ListModel
 			$access = ArrayHelper::toInteger($access);
 			$access = implode(',', $access);
 			$query->where('a.access IN (' . $access . ')');
+		}
+
+		// Filter by featured.
+		$featured = (string) $this->getState('filter.featured');
+
+		if (in_array($featured, ['0','1']))
+		{
+			$query->where('a.featured =' . (int) $featured);
 		}
 
 		// Filter by access level on categories.
@@ -416,10 +436,15 @@ class ArticlesModel extends ListModel
 				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
 				$query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
 			}
+			elseif (stripos($search, 'content:') === 0)
+			{
+				$search = $db->quote('%' . $db->escape(substr($search, 8), true) . '%');
+				$query->where('(a.introtext LIKE ' . $search . ' OR a.fulltext LIKE ' . $search . ')');
+			}
 			else
 			{
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ')');
+				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
 			}
 		}
 
@@ -492,6 +517,11 @@ class ArticlesModel extends ListModel
 
 		$items = $this->getItems();
 
+		if ($items === false)
+		{
+			return false;
+		}
+
 		$ids = ArrayHelper::getColumn($items, 'stage_id');
 		$ids = ArrayHelper::toInteger($ids);
 		$ids = array_unique(array_filter($ids));
@@ -557,7 +587,7 @@ class ArticlesModel extends ListModel
 						// Update the transition text with final state value
 						$conditionName = $workflow->getConditionName($transition['stage_condition']);
 
-						$transitions[$key]['text'] .= ' [' . \JText::_($conditionName) . ']';
+						$transitions[$key]['text'] .= ' [' . Text::_($conditionName) . ']';
 					}
 				}
 

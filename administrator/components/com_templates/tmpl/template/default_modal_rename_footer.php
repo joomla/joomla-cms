@@ -12,5 +12,5 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 ?>
-<a href="#" class="btn btn-secondary" data-dismiss="modal"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
-<button class="btn btn-primary" type="submit"><?php echo Text::_('COM_TEMPLATES_BUTTON_RENAME'); ?></button>
+<button type="button" href="#" class="btn btn-secondary" data-dismiss="modal"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></button>
+<button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_BUTTON_RENAME'); ?></button>
