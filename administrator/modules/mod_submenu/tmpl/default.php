@@ -51,7 +51,8 @@ $user = $app->getIdentity();
 									$alt = $params->get('menu_text') ? '' : htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8');
 								endif;
 								?>
-								<a class="flex-grow-1" href="<?php echo $item->link; ?>">
+								<a class="flex-grow-1" href="<?php echo $item->link; ?>"
+                                   target="<?php echo $item->target; ?>">
 									<?php if (!empty($params->get('menu_image'))) : ?>
 										<?php echo HTMLHelper::_('image', $image, $alt, 'class="' . $class . '"'); ?>
 									<?php endif; ?>

@@ -292,6 +292,6 @@
 			type="component"
 			element="com_cpanel"
 			class="class:info-circle"
-			link="index.php?option=com_cpanel&amp;view=help"
+			link="index.php?option=com_cpanel&amp;view=cpanel&amp;dashboard=help"
 	/>
 </menu>
