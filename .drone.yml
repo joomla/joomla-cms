@@ -19,16 +19,29 @@ steps:
       - name: cache
         path: /cache
 
-  - name: prepare
+  - name: composer
     image: joomlaprojects/docker-tools:develop
     depends_on: [ restore-cache ]
     commands:
       - composer install --no-progress --no-suggest
+
+  - name: phpcs
+    image: php:7.2
+    depends_on: [ composer ]
+    commands:
+      - echo $(date)
+      - ./libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
+      - echo $(date)
+
+  - name: npm
+    image: joomlaprojects/docker-tools:develop
+    depends_on: [ phpcs ]
+    commands:
       - npm install --unsafe-perm
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
-    depends_on: [ prepare ]
+    depends_on: [ npm ]
     settings:
       rebuild: true
       mount:
@@ -39,14 +52,6 @@ steps:
     volumes:
       - name: cache
         path: /cache
-
-  - name: phpcs
-    image: php:7.2
-    depends_on: [ rebuild-cache ]
-    commands:
-      - echo $(date)
-      - ./libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
-      - echo $(date)
 
   - name: php72-unit
     depends_on: [ phpcs ]
@@ -79,7 +84,7 @@ steps:
       - ./libraries/vendor/bin/phpunit
 
   - name: javascript-cs
-    depends_on: [ phpcs ]
+    depends_on: [ npm ]
     image: joomlaprojects/docker-systemtests:develop
     commands:
       - export DISPLAY=:0
@@ -89,7 +94,7 @@ steps:
       - npm run lint:js
 
   - name: javascript-tests
-    depends_on: [ phpcs ]
+    depends_on: [ npm ]
     image: joomlaprojects/docker-systemtests:develop
     commands:
       - export DISPLAY=:0
@@ -168,6 +173,6 @@ services:
 
 ---
 kind: signature
-hmac: 8c426e9c90a84cfdadf66142690dd4be37135229d19eaa4bb1785bf778ce30ff
+hmac: fe0f4efe905e680da49bd332d26fd3fe68e43f392747b1ceb821693d26459bb8
 
 ...
