@@ -161,7 +161,8 @@
           align-items: center;
           margin: 0;
         }
-        &:hover {
+        &:hover,
+		.active{
             background-color: var(--atum-bg-dark-70);
             .fa {
              color: var(--atum-contrast);
