@@ -168,20 +168,7 @@
       line-height: 1.1;
     }
 
-    &.warning {
-      background: $danger-bg;
-      border: 1px solid lighten($danger-txt, 30%);
-
-      .fa,
-      .fab {
-        color: $danger-txt;
-      }
-
-      &:hover {
-        background: var(--danger);
-      }
-    }
-
+    &.warning,
     &.danger {
       background: $danger-bg;
       border: 1px solid lighten($danger-txt, 30%);
@@ -191,8 +178,18 @@
         color: $danger-txt;
       }
 
-      &:hover {
+      &:hover,
+      &:focus,
+      &:active {
         background: var(--danger);
+        color: var(--white);
+
+        .fa,
+        .fab {
+          &::before {
+            color: var(--white);
+          }
+        }
       }
     }
 
