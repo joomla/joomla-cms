@@ -69,10 +69,6 @@ abstract class QuickIconHelper
 
 			$dispatcher = $container->get(DispatcherInterface::class);
 
-			$iconevent = new QuickIconsEvent('onGetIcons', ['context' => $context]);
-
-			$dispatcher->setEvent($iconevent);
-
 			if ($context == 'mod_quickicon')
 			{
 				// Load mod_quickicon language file in case this method is called before rendering the module
@@ -160,7 +156,7 @@ abstract class QuickIconHelper
 					];
 				}
 
-				if ($params->get('show_articles')
+				if ($params->get('show_articles'))
 				{
 					self::$buttons[$key][] = [
 						'ajaxurl' => 'index.php?option=com_content&amp;task=articles.getQuickiconContent&amp;format=json',
@@ -257,7 +253,7 @@ abstract class QuickIconHelper
 
 		$result = $dispatcher->dispatch(
 			'onGetIcons',
-			$iconevent
+			new QuickIconsEvent('onGetIcons', ['context' => $context])
 		);
 
 		$arrays = (array) $result->getArgument('result', []);
