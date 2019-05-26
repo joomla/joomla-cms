@@ -72,7 +72,6 @@ class HtmlView extends BaseHtmlView
 		$toolbar = Toolbar::getInstance();
 		ToolbarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE', true);
 		$toolbar->appendButton('Confirm', 'COM_CACHE_RESOURCE_INTENSIVE_WARNING', 'delete', 'COM_CACHE_PURGE_EXPIRED', 'purge', false);
-		//ToolbarHelper::custom('purge', 'delete.png', 'delete_f2.png', 'COM_CACHE_PURGE_EXPIRED', false);
 		ToolbarHelper::custom('deleteAll', 'remove.png', 'delete_f2.png', 'JTOOLBAR_DELETE_ALL', false);
 		ToolbarHelper::divider();
 
