@@ -5,13 +5,17 @@
 
     &.current {
       padding: .5rem .75rem;
-      color: var(--atum-text-dark);
-      background-color: rgba($gray-300, 0.8);
+    }
+
+    &.current {
+      color: var(--atum-text-light);
+      background-color: var(--atum-bg-dark);
     }
 
     a {
-      padding: .5rem .75rem;
-      line-height: 2.25;
+      padding: .58rem .75rem;
+      line-height: 2.5;
+      text-decoration: none;
     }
   }
 
@@ -20,6 +24,12 @@
 
     &:hover {
       background: transparent;
+    }
+  }
+  a{
+    &:hover{
+      color: var(--atum-text-light);
+      background-color: var(--atum-bg-dark);
     }
   }
 }
