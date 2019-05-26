@@ -55,6 +55,9 @@ $smallLogo = $this->params->get('smallLogo')
 	? JUri::root() . $this->params->get('smallLogo')
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
+$logoAlt = htmlspecialchars($this->params->get('altSiteLogo', ''), ENT_COMPAT, 'UTF-8');
+$logoSmallAlt = htmlspecialchars($this->params->get('altSmallLogo', ''), ENT_COMPAT, 'UTF-8');
+
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
@@ -278,8 +281,8 @@ $this->addStyleDeclaration($css);
 			<div class="d-flex">
 				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
 				<div class="logo">
-					<img src="<?php echo $siteLogo; ?>" alt="">
-					<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="">
+					<img src="<?php echo $siteLogo; ?>" alt="<?php echo $logoAlt; ?>">
+					<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="<?php echo $logoSmallAlt; ?>">
 				</div>
 			</div>
 			<jdoc:include type="modules" name="title"/>
