@@ -50,7 +50,7 @@ class PluginsController extends AdminController
 
 		$model->setState('filter.enabled', 1);
 
-		$amount = $model->getTotal() ? $model->getTotal() : '0';
+		$amount = (int) $model->getTotal();
 
 		echo new JsonResponse($amount);
 	}

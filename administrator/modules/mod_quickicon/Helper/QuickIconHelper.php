@@ -63,19 +63,22 @@ abstract class QuickIconHelper
 			$application->getLanguage()->load('mod_quickicon');
 
 			// Update Panel, icons come from plugins quickicons
-			if ($params->get('show_jupdate', '1'))
+			if ($params->get('show_jupdate'))
 			{
 				PluginHelper::importPlugin('quickicon', 'joomlaupdate');
 			}
-			if ($params->get('show_eupdate', '1'))
+
+			if ($params->get('show_eupdate'))
 			{
 				PluginHelper::importPlugin('quickicon', 'extensionupdate');
 			}
-			if ($params->get('show_oupdate', '1'))
+
+			if ($params->get('show_oupdate'))
 			{
 				PluginHelper::importPlugin('quickicon', 'overridecheck');
 			}
-			if ($params->get('show_privacy', '1'))
+
+			if ($params->get('show_privacy'))
 			{
 				PluginHelper::importPlugin('quickicon', 'privacycheck');
 			}
@@ -108,7 +111,7 @@ abstract class QuickIconHelper
 				}
 			}
 
-			if ($params->get('show_checkin', '0'))
+			if ($params->get('show_checkin'))
 			{
 				self::$buttons[$key][] = [
 					'ajaxurl' => 'index.php?option=com_checkin&amp;task=getMenuBadgeData&amp;format=json',
@@ -119,7 +122,7 @@ abstract class QuickIconHelper
 					'group'   => 'MOD_QUICKICON_SYSTEM'
 				];
 			}
-			if ($params->get('show_cache', '0'))
+			if ($params->get('show_cache'))
 			{
 				self::$buttons[$key][] = [
 					'ajaxurl' => 'index.php?option=com_cache&amp;task=display.getQuickiconContent&amp;format=json',
@@ -130,7 +133,7 @@ abstract class QuickIconHelper
 					'group'   => 'MOD_QUICKICON_SYTEM'
 				];
 			}
-			if ($params->get('show_global', '0'))
+			if ($params->get('show_global'))
 			{
 				self::$buttons[$key][] = [
 					'image'  => 'fa fa-cog',
@@ -141,7 +144,7 @@ abstract class QuickIconHelper
 				];
 			}
 
-			if ($params->get('show_users', '0'))
+			if ($params->get('show_users'))
 			{
 				self::$buttons[$key][] = [
 					'ajaxurl' => 'index.php?option=com_users&amp;task=users.getQuickiconContent&amp;format=json',
@@ -154,7 +157,7 @@ abstract class QuickIconHelper
 				];
 			}
 
-			if ($params->get('show_menuItems', '0'))
+			if ($params->get('show_menuItems'))
 			{
 				self::$buttons[$key][] = [
 					'ajaxurl' => 'index.php?option=com_menus&amp;task=items.getQuickiconContent&amp;format=json',
@@ -167,7 +170,7 @@ abstract class QuickIconHelper
 				];
 			}
 
-			if ($params->get('show_articles', '0'))
+			if ($params->get('show_articles'))
 			{
 				self::$buttons[$key][] = [
 					'ajaxurl' => 'index.php?option=com_content&amp;task=articles.getQuickiconContent&amp;format=json',
@@ -180,7 +183,7 @@ abstract class QuickIconHelper
 				];
 			}
 
-			if ($params->get('show_categories', '0'))
+			if ($params->get('show_categories'))
 			{
 				self::$buttons[$key][] = [
 					'ajaxurl' => 'index.php?option=com_categories&amp;task=categories.getQuickiconContent&amp;format=json',
@@ -193,7 +196,7 @@ abstract class QuickIconHelper
 				];
 			}
 
-			if ($params->get('show_media', '0'))
+			if ($params->get('show_media'))
 			{
 				self::$buttons[$key][] = [
 					'image'  => 'fa fa-images',
@@ -204,7 +207,7 @@ abstract class QuickIconHelper
 				];
 			}
 
-			if ($params->get('show_modules', '0'))
+			if ($params->get('show_modules'))
 			{
 				self::$buttons[$key][] = [
 					'ajaxurl' => 'index.php?option=com_modules&amp;task=modules.getQuickiconContent&amp;format=json',
@@ -217,7 +220,7 @@ abstract class QuickIconHelper
 				];
 			}
 
-			if ($params->get('show_plugins', '0'))
+			if ($params->get('show_plugins'))
 			{
 				self::$buttons[$key][] = [
 					'ajaxurl' => 'index.php?option=com_plugins&amp;task=plugins.getQuickiconContent&amp;format=json',
@@ -229,7 +232,7 @@ abstract class QuickIconHelper
 				];
 			}
 
-			if ($params->get('show_templates', '0'))
+			if ($params->get('show_templates'))
 			{
 				self::$buttons[$key][] = [
 					'image'  => 'fa fa-paint-brush',
