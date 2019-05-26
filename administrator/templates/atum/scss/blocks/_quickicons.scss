@@ -203,18 +203,20 @@
       .fa,
       .fab {
         color: var(--success);
-		
       }
 
-      &:hover {
+      &:hover,
+      &:focus,
+      &:active {
         background: var(--success);
-		color: var(--white);
-		.fa,
-		.fab {
-			&::before{
-				color: var(--white);
-			}				
-		}
+        color: var(--white);
+
+        .fa,
+        .fab {
+          &::before {
+            color: var(--white);
+          }
+        }
       }
     }
   }
