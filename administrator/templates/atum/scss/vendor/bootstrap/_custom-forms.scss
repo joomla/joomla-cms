@@ -5,8 +5,9 @@
   &.custom-select-color-state {
 
     &.custom-select-success {
-      color: var(--white-offset);
+      color: theme-color("success");
       background-color: theme-color("success");
+	  border-color: theme-color("sucess");
 
       option {
         color: $custom-select-color;
@@ -15,8 +16,9 @@
     }
 
     &.custom-select-danger {
-      color: var(--white-offset);
+      color: theme-color("danger");
       background-color: theme-color("danger");
+	  border-color: theme-color("danger");
 
       option {
         color: $custom-select-color;
