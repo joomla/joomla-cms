@@ -66,6 +66,7 @@ class JNamespacePsr4Map
 		$extensions = array_merge($extensions, $this->getNamespaces('api/components'));
 		$extensions = array_merge($extensions, $this->getNamespaces('modules'));
 		$extensions = array_merge($extensions, $this->getNamespaces('administrator/modules'));
+		$extensions = array_merge($extensions, $this->getNamespaces('administrator/templates'));
 
 		foreach (Folder::folders(JPATH_ROOT . '/plugins') as $pluginGroup)
 		{
@@ -153,7 +154,7 @@ class JNamespacePsr4Map
 		foreach (Folder::folders(JPATH_ROOT . '/' . $dir) as $extension)
 		{
 			// If it is a file we can't handle, ignore it
-			if (strpos($extension, 'mod_') !== 0 && strpos($extension, 'com_') !== 0 && strpos($dir, '/plugins/') !== 0)
+			if (strpos($extension, 'mod_') !== 0 && strpos($extension, 'com_') !== 0 && strpos($dir, '/plugins/') !== 0 && strpos($extension, 'atum') !== 0)
 			{
 				continue;
 			}
@@ -163,6 +164,12 @@ class JNamespacePsr4Map
 
 			// Strip the com_ from the extension name for components
 			$name = str_replace('com_', '', $extension, $count);
+
+			if ($dir === 'administrator/templates')
+			{
+				$name = 'templateDetails';
+			}
+
 			$file = $extensionPath . $name . '.xml';
 
 			// If there is no manifest file, ignore. If it was a component check if the xml was named with the com_
@@ -173,6 +180,8 @@ class JNamespacePsr4Map
 				{
 					continue;
 				}
+
+				$filename = $extension;
 
 				$file = $extensionPath . $extension . '.xml';
 

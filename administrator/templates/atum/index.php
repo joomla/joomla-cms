@@ -72,12 +72,14 @@ $css = '
 	}
 ';
 
+
 $this->addStyleDeclaration($css);
 
-//HTMLHelper::addIncludePath(JPATH_ADMINISTRATOR . '/templates/' . $this->template . '/Service/HTML');
-require_once __DIR__ . '/Service/HTML/Atum.php';
+HTMLHelper::getServiceRegistry()->register('atum', 'Joomla\\Template\\Atum\\Administrator\\Service\\HTML\\Atum');
 
-Atum::rootcolors($this->params);
+HTMLHelper::_('atum.rootcolors', $this->params);
+
+
 
 ?>
 <!DOCTYPE html>
