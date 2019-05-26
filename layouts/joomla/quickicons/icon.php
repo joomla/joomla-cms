@@ -66,7 +66,7 @@ else
 	<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
 		<?php if (isset($displayData['image'])): ?>
 			<div class="quickicon-icon d-flex align-items-end <?php echo $size ?>">
-				<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
+				<span class="<?php echo $displayData['image']; ?>" aria-hidden="true"></span>
 			</div>
 		<?php endif; ?>
 		<?php if (isset($displayData['ajaxurl'])) : ?>
