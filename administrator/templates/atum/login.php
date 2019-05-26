@@ -55,6 +55,9 @@ $smallLogo = $this->params->get('smallLogo')
 	? JUri::root() . $this->params->get('smallLogo')
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
+$logoAlt = htmlspecialchars($this->params->get('altSiteLogo', ''), ENT_COMPAT, 'UTF-8');
+$logoSmallAlt = htmlspecialchars($this->params->get('altSmallLogo', ''), ENT_COMPAT, 'UTF-8');
+
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
@@ -271,23 +274,21 @@ $this->addStyleDeclaration($css);
 	</div>
 </noscript>
 
+
 <header id="header" class="header">
-	<div class="d-flex align-items-center">
-		<div class="header-title mr-auto">
-            <div class="logo">
-                <img src="<?php echo $siteLogo; ?>"
-			alt="<?php echo htmlspecialchars($this->params->get('altSiteLogo', ''), ENT_COMPAT, 'UTF-8'); ?>">
-                <img class="logo-small" src="<?php echo $smallLogo; ?>"
-			alt="<?php echo htmlspecialchars($this->params->get('altSmallLogo', ''), ENT_COMPAT, 'UTF-8'); ?>">
-            </div>
+	<div class="d-flex">
+		<div class="header-title d-flex mr-auto">
+			<div class="d-flex">
+				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
+				<div class="logo">
+					<img src="<?php echo $siteLogo; ?>" alt="<?php echo $logoAlt; ?>">
+					<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="<?php echo $logoSmallAlt; ?>">
+				</div>
 			</div>
-		<div class="site-name ml-auto mr-3">
-			<a class="nav-link" href="<?php echo Uri::root(); ?>"
-			   title="<?php echo Text::sprintf('MOD_STATUS_PREVIEW', $sitename); ?>"
-			   target="_blank">
-				<span class="sr-only"><?php echo HTMLHelper::_('string.truncate', $sitename, 28, false, false); ?></span>
-				<?php echo htmlspecialchars($sitename, ENT_COMPAT, 'UTF-8'); ?>
-			</a>
+			<jdoc:include type="modules" name="title"/>
+		</div>
+		<div class="header-items d-flex ml-auto">
+			<jdoc:include type="modules" name="status" style="header-element"/>
 		</div>
 	</div>
 </header>
