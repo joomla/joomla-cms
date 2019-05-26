@@ -372,13 +372,13 @@
           "dist/metismenujs.min.js.map": "js/metismenujs.min.js.map"
         }
       },
-<<<<<<< HEAD
       "accessibility": {
         "name": "accessibility",
         "licenseFilename": "LICENSE",
         "js": {
           "dist/accessibility.min.js": "js/accessibility.js"
-=======
+        }
+      },
       "skipto": {
         "name": "skipto",
         "licenseFilename": "LICENSE.md",
@@ -388,7 +388,6 @@
         },
         "css": {
           "src/css/SkipTo.css": "css/SkipTo.css"
->>>>>>> origin/4.0-dev
         }
       }
     },
