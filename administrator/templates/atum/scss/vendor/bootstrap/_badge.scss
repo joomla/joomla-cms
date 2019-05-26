@@ -2,6 +2,7 @@
 @import "../../variables";
 
 .badge {
+  font-size: $badge-font-size;
   padding: .1rem .3rem;
   border-radius:0.3rem;
   @include media-breakpoint-down(xs) {
