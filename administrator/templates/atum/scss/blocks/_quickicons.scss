@@ -178,9 +178,7 @@
         color: $danger-txt;
       }
 
-      &:hover,
-      &:focus,
-      &:active {
+      @include hover-focus-active {
         background: var(--danger);
         color: var(--white);
 
@@ -202,9 +200,7 @@
         color: var(--success);
       }
 
-      &:hover,
-      &:focus,
-      &:active {
+      @include hover-focus-active {
         background: var(--success);
         color: var(--white);
 
