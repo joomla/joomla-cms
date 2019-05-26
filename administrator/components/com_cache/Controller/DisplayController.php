@@ -92,10 +92,10 @@ class DisplayController extends BaseController
 		}
 
 		// Number bytes are returned in format xxx.xx MB
-		$mb = explode(' ', HTMLHelper::_('number.bytes', $size, 'MB', 1, false));
+		$result = strstr(HTMLHelper::_('number.bytes', $size, 'MB', 1, false), '.', true);
 
 		// Return number only
-		echo new JsonResponse($mb[0]);
+		echo new JsonResponse($result);
 	}
 
 	/**

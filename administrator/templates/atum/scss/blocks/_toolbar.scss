@@ -311,6 +311,9 @@ joomla-toolbar-button {
         line-height: 2.375rem;
       }
     }
+	&::after{
+		line-height:2.4rem;
+	}
   }
 }
 
