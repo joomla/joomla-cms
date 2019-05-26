@@ -23,6 +23,13 @@
   }
 }
 
+.btn-secondary{
+	background-color:var(--atum-bg-dark);
+	&:hover{
+		background-color:var(--atum-bg-dark-80);
+	}
+}
+
 .input-group-text {
   background-color: var(--atum-bg-dark);
   border-color: var(--atum-bg-dark);
