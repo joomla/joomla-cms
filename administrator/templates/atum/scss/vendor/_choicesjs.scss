@@ -3,7 +3,6 @@
 
 
 .choices {
-	box-shadow: $atum-box-shadow;
 	border: 0;
 }
 
@@ -79,7 +78,11 @@
 	}
 
 	.choices__inner {
+		min-height: 2.825rem;
 		padding: $input-select-padding;
+		border-radius: 0;
+		box-shadow: $atum-box-shadow;
+		border-color: $gray-400;
 		background-color: var(--atum-bg-dark);
 		background-image: url(../images/select-bg.svg);
 		background-repeat: no-repeat;
