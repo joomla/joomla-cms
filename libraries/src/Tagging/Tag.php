@@ -87,6 +87,11 @@ class Tag extends CMSObject implements NodeInterface
 
 	public $publish_down;
 
+	/**
+	 * Tag constructor.
+	 *
+	 * @param   int  $tagId  ID of the tag to load
+	 */
 	public function __construct($tagId = null)
 	{
 		if ($tagId)
@@ -144,7 +149,7 @@ class Tag extends CMSObject implements NodeInterface
 	/**
 	 * Delete this tag from the database with all its associations
 	 *
-	 * @reutnr  bool  True if deleting was successfull
+	 * @return  bool  True if deleting was successfull
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -166,6 +171,15 @@ class Tag extends CMSObject implements NodeInterface
 		return $table->delete($this->id);
 	}
 
+	/**
+	 * Add an association between this tag and the given Content Item
+	 *
+	 * @param   ContentItem  $item  Content Item to add the association for
+	 *
+	 * @return  bool  True if successfull
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function addContentItem(ContentItem $item)
 	{
 		// If the tag or the content item is not in the database, we have to fail
@@ -201,6 +215,15 @@ class Tag extends CMSObject implements NodeInterface
 		return true;
 	}
 
+	/**
+	 * Remove an association between this tag and the given Content Item
+	 *
+	 * @param   ContentItem  $item  Content Item to remove the association for
+	 *
+	 * @return  bool  True if successfull
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function removeContentItem(ContentItem $item)
 	{
 		$db = Factory::getDbo();
@@ -216,6 +239,13 @@ class Tag extends CMSObject implements NodeInterface
 		return true;
 	}
 
+	/**
+	 * Get content items associated with this tag
+	 *
+	 * @return  ContentItem
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function getContentItems()
 	{
 		$db = Factory::getDbo();
@@ -231,6 +261,13 @@ class Tag extends CMSObject implements NodeInterface
 		return $items;
 	}
 
+	/**
+	 * Get number of content items associated to this tag
+	 *
+	 * @return  int
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function getItemCount()
 	{
 		$db = Factory::getDbo();

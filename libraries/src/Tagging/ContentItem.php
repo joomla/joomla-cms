@@ -71,6 +71,12 @@ class ContentItem
 
 	public $catid;
 
+	/**
+	 * ContentItem constructor.
+	 *
+	 * @param null $typeAlias
+	 * @param null $contentId
+	 */
 	public function __construct($typeAlias = null, $contentId = null)
 	{
 		if ($typeAlias && $contentId)
@@ -91,14 +97,28 @@ class ContentItem
 		}
 	}
 
+	/**
+	 * Save this content item
+	 *
+	 * @return  bool
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function save()
 	{
 		$table = new TagContent(Factory::getDbo());
 		$table->bind($this);
 
-		return $table->aave();
+		return $table->save();
 	}
 
+	/**
+	 * Delete this content item
+	 *
+	 * @return  bool
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function delete()
 	{
 		$db = Factory::getDbo();
@@ -113,6 +133,15 @@ class ContentItem
 		return $table->delete(['type_alias' => $this->type_alias, 'content_id' => $this->content_id]);
 	}
 
+	/**
+	 * Associate a tag with this content item
+	 *
+	 * @param   Tag  $tag  Tag to associate with this content item
+	 *
+	 * @return  bool
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function addTag(Tag $tag)
 	{
 		$db = Factory::getDbo();

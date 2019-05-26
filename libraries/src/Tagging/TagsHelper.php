@@ -25,7 +25,13 @@ use Joomla\Utilities\ArrayHelper;
  */
 class TagsHelper
 {
-
+	/**
+	 * @param   $id  int  ID of the tag to load
+	 *
+	 * @return  Tag|null
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public static function getTagById($id)
 	{
 		$tag = new Tag($id);
@@ -38,11 +44,30 @@ class TagsHelper
 		return null;
 	}
 
+	/**
+	 * Get a tag based on its path
+	 *
+	 * @param   $path  string  Path of the tag
+	 *
+	 * @return  Tag|null
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public static function getTagByPath($path)
 	{
 
 	}
 
+	/**
+	 * Get tags associated with a content item
+	 *
+	 * @param   $typeAlias  string  The typealias of the content item
+	 * @param   $contentId  int     The id of the content item
+	 *
+	 * @return  Tag[]
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public static function getContentItemTags($typeAlias, $contentId)
 	{
 
