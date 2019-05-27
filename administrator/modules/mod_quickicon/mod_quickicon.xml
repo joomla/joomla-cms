@@ -2,7 +2,7 @@
 <extension type="module" version="3.1" client="administrator" method="upgrade">
 	<name>mod_quickicon</name>
 	<author>Joomla! Project</author>
-	<creationDate>Nov 2005</creationDate>
+	<creationDate>November 2005</creationDate>
 	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -24,18 +24,7 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-					name="icon_type"
-					type="list"
-					label="MOD_QUICKICON_TYPE"
-				>
-					<option value="">MOD_QUICKICON_SELECT_TYPE</option>
-					<option value="update">MOD_QUICKICON_UPDATE</option>
-					<option value="system">MOD_QUICKICON_SYSTEM</option>
-					<option value="site">MOD_QUICKICON_SITE</option>
-				</field>
-				<field
 					name="context"
-					showon="icon_type:update"
 					type="text"
 					label="MOD_QUICKICON_GROUP_LABEL"
 					description="MOD_QUICKICON_GROUP_DESC"
@@ -43,121 +32,159 @@
 				/>
 				<field
 					name="show_global"
-					showon="icon_type:system"
 					type="radio"
 					class="switcher"
 					label="MOD_QUICKICON_SHOW_GLOBAL_LABEL"
-					default="1"
+					default="0"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
 				<field
 					name="show_checkin"
-					showon="icon_type:system"
 					type="radio"
 					class="switcher"
 					label="MOD_QUICKICON_SHOW_CHECKIN_LABEL"
-					default="1"
+					default="0"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
 				<field
 					name="show_cache"
-					showon="icon_type:system"
 					type="radio"
 					class="switcher"
 					label="MOD_QUICKICON_SHOW_CACHE_LABEL"
-					default="1"
+					default="0"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
 				<field
 					name="show_users"
-					showon="icon_type:site"
 					type="radio"
 					class="switcher"
 					label="MOD_QUICKICON_SHOW_USERS_LABEL"
-					default="1"
+					default="0"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
 				<field
 					name="show_articles"
-					showon="icon_type:site"
 					type="radio"
 					class="switcher"
 					label="MOD_QUICKICON_SHOW_ARTICLES_LABEL"
-					default="1"
+					default="0"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
 				<field
 					name="show_categories"
-					showon="icon_type:site"
 					type="radio"
 					class="switcher"
 					label="MOD_QUICKICON_SHOW_CATEGORIES_LABEL"
-					default="1"
+					default="0"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
 				<field
 					name="show_media"
-					showon="icon_type:site"
 					type="radio"
 					class="switcher"
 					label="MOD_QUICKICON_SHOW_MEDIA_LABEL"
-					default="1"
+					default="0"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
 				<field
 					name="show_menuItems"
-					showon="icon_type:site"
 					type="radio"
 					class="switcher"
 					label="MOD_QUICKICON_SHOW_MENUITEMS_LABEL"
-					default="1"
+					default="0"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
 				<field
 					name="show_modules"
-					showon="icon_type:site"
 					type="radio"
 					class="switcher"
 					label="MOD_QUICKICON_SHOW_MODULES_LABEL"
-					default="1"
+					default="0"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
 				<field
 					name="show_plugins"
-					showon="icon_type:site"
 					type="radio"
 					class="switcher"
 					label="MOD_QUICKICON_SHOW_PLUGINS_LABEL"
-					default="1"
+					default="0"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
 				<field
 					name="show_templates"
-					showon="icon_type:site"
 					type="radio"
 					class="switcher"
 					label="MOD_QUICKICON_SHOW_TEMPLATES_LABEL"
-					default="1"
+					default="0"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>				<field
+					name="show_jupdate"
+					type="radio"
+					class="switcher"
+					label="MOD_QUICKICON_SHOW_JOOMLAUPDATE_LABEL"
+					default="0"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+				<field
+					name="show_eupdate"
+					type="radio"
+					class="switcher"
+					label="MOD_QUICKICON_SHOW_EXTENSIONUPDATE_LABEL"
+					default="0"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+				<field
+					name="show_oupdate"
+					type="radio"
+					class="switcher"
+					label="MOD_QUICKICON_SHOW_OVERRIDEUPDATE_LABEL"
+					default="0"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+				<field
+					name="show_privacy"
+					type="radio"
+					class="switcher"
+					label="MOD_QUICKICON_SHOW_PRIVACYREQUEST_LABEL"
+					default="0"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+				<field
+					name="load_plugins"
+					type="radio"
+					class="switcher"
+					label="MOD_QUICKICON_LOAD_PLUGINS_LABEL"
+					default="0"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -182,7 +209,7 @@
 					name="cache"
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					default="1"
+					default="0"
 					filter="integer"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>

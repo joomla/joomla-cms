@@ -233,9 +233,35 @@
 				title="MOD_MENU_COM_PRIVACY"
 				type="component"
 				element="com_privacy"
-				link="index.php?option=com_privacy&amp;view=dashboard"
+				link="index.php?option=com_privacy"
 				class="class:privacy"
-		/>
+		>
+			<menuitem
+					title="MOD_MENU_COM_PRIVACY_DASHBOARD"
+					type="component"
+					element="com_privacy"
+					link="index.php?option=com_privacy&amp;view=dashboard"
+			/>
+			<menuitem
+					title="MOD_MENU_COM_PRIVACY_REQUESTS"
+					type="component"
+					element="com_privacy"
+					link="index.php?option=com_privacy&amp;view=requests"
+			/>
+			<menuitem
+					title="MOD_MENU_COM_PRIVACY_CAPABILITIES"
+					type="component"
+					element="com_privacy"
+					link="index.php?option=com_privacy&amp;view=capabilities"
+			/>
+
+			<menuitem
+					title="MOD_MENU_COM_PRIVACY_CONSENTS"
+					type="component"
+					element="com_privacy"
+					link="index.php?option=com_privacy&amp;view=consents"
+			/>
+		</menuitem>
 		<menuitem
 				title="MOD_MENU_COM_ACTIONLOGS"
 				type="component"
@@ -266,6 +292,6 @@
 			type="component"
 			element="com_cpanel"
 			class="class:info-circle"
-			link="index.php?option=com_cpanel&amp;view=help"
+			link="index.php?option=com_cpanel&amp;view=cpanel&amp;dashboard=help"
 	/>
 </menu>
