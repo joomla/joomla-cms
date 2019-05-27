@@ -9,10 +9,12 @@
   .js-stools-container-filters {
     display: none;
     flex-direction: row;
+    flex-wrap: wrap;
     padding: 10px;
     margin: 0;
     background-color: $white;
-    border: 1px solid var(--border);
+    border: solid var(--border);
+    border-width: 1px 0;
     border-radius: 0 0 0 $border-radius;
     box-shadow: -1px 1px 4px rgba(0, 0, 0, .05);
 
