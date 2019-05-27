@@ -4,10 +4,11 @@
 
 	<!-- Exclude folders not containing production code -->
 	<exclude-pattern type="relative">build/*</exclude-pattern>
-	<exclude-pattern type="relative">docs/*</exclude-pattern>
 	<exclude-pattern type="relative">cache/*</exclude-pattern>
-	<exclude-pattern type="relative">tmp/*</exclude-pattern>
+	<exclude-pattern type="relative">docs/*</exclude-pattern>
+	<exclude-pattern type="relative">node_modules/*</exclude-pattern>
 	<exclude-pattern type="relative">logs/*</exclude-pattern>
+	<exclude-pattern type="relative">tmp/*</exclude-pattern>
 
 	<!-- Exclude 3rd party libraries and Framework code. -->
 	<exclude-pattern type="relative">libraries/compat/password/*</exclude-pattern>
