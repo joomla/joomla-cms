@@ -474,7 +474,26 @@ class AssociationsModel extends ListModel
 		// Filter by associations context.
 		if ($context)
 		{
-			$query->where($db->quoteName('context') . ' = ' . $db->quote($context));
+			list($extensionName, $typeName) = explode('.', $context, 2);
+
+			// The associations of the type category may only be deleted with the appropriate context,
+			// therefore with the appropriate extension. Not all categories.
+			if ($typeName === 'category')
+			{
+				// Subquery: Search for category-items with the given context
+				$subQuery = $db->getQuery(true)
+					->select($db->quoteName('id'))
+					->from($db->quoteName('#__categories'))
+					->where($db->quoteName('extension') . ' = ' . $db->quote($extensionName));
+
+				// Delete associations of categories with the given context by comparing id of both tables
+				$query->where($db->quoteName('id') . ' IN (' . $subQuery . ')')
+					->where($db->quoteName('context') . ' = ' . $db->quote('com_categories.item'));
+			}
+			else
+			{
+				$query->where($db->quoteName('context') . ' = ' . $db->quote($extensionName . '.item'));
+			}
 		}
 
 		// Filter by key.

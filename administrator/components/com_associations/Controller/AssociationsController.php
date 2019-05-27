@@ -49,7 +49,7 @@ class AssociationsController extends AdminController
 	}
 
 	/**
-	 * Method to purge the associations table.
+	 * Method to purge the associations table by context.
 	 *
 	 * @return  void
 	 *
@@ -57,7 +57,8 @@ class AssociationsController extends AdminController
 	 */
 	public function purge()
 	{
-		$this->getModel('associations')->purge();
+		$context = $this->input->getString('itemtype');
+		$this->getModel('associations')->purge($context);
 		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
 

@@ -29,8 +29,6 @@ $iconStates = array(
 	2  => 'icon-archive',
 );
 
-Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
-HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <form action="<?php echo Route::_('index.php?option=com_associations&view=associations'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -147,7 +145,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', ['
 						</tbody>
 					</table>
 
-					<?php // load the pagination. ?>
+					<?php // Load the pagination. ?>
 					<?php echo $this->pagination->getListFooter(); ?>
 
 				<?php endif; ?>
