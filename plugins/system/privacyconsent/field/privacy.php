@@ -67,7 +67,7 @@ class JFormFieldprivacy extends JFormFieldRadio
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.4
 	 */
 	protected function getLayoutData()
 	{

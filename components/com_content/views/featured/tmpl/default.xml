@@ -371,7 +371,7 @@
 				name="show_item_navigation" 
 				type="list"
 				label="JGLOBAL_SHOW_NAVIGATION_LABEL"
-				description="JGLOBAL_SHOW_PUBLISH_DATE_DESC"
+				description="JGLOBAL_SHOW_NAVIGATION_DESC"
 				useglobal="true"
 				class="chzn-color"
 				>

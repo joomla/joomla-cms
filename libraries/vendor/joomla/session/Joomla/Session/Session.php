@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Session Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -47,7 +47,7 @@ class Session implements \IteratorAggregate
 	 * @var    Storage
 	 * @since  1.0
 	 */
-	protected $store = null;
+	protected $store;
 
 	/**
 	 * Security policy.
@@ -113,7 +113,7 @@ class Session implements \IteratorAggregate
 	 * @var    Input
 	 * @since  1.0
 	 */
-	private $input = null;
+	private $input;
 
 	/**
 	 * Holds the Dispatcher object
@@ -121,7 +121,7 @@ class Session implements \IteratorAggregate
 	 * @var    DispatcherInterface
 	 * @since  1.0
 	 */
-	private $dispatcher = null;
+	private $dispatcher;
 
 	/**
 	 * Constructor
@@ -189,7 +189,7 @@ class Session implements \IteratorAggregate
 	 * @since   1.0
 	 * @deprecated  2.0  A singleton object store will no longer be supported
 	 */
-	public static function getInstance($handler, array $options = array ())
+	public static function getInstance($handler, array $options = array())
 	{
 		if (!\is_object(self::$instance))
 		{
@@ -303,8 +303,8 @@ class Session implements \IteratorAggregate
 	{
 		if ($this->getState() === 'destroyed')
 		{
-			// @TODO : raise error
-			return null;
+			// @codingStandardsIgnoreLine
+			return;
 		}
 
 		return session_name();
@@ -321,7 +321,8 @@ class Session implements \IteratorAggregate
 	{
 		if ($this->getState() === 'destroyed')
 		{
-			return null;
+			// @codingStandardsIgnoreLine
+			return;
 		}
 
 		return session_id();
@@ -433,10 +434,7 @@ class Session implements \IteratorAggregate
 
 		if ($this->getState() !== 'active' && $this->getState() !== 'expired')
 		{
-			// @TODO :: generated error here
-			$error = null;
-
-			return $error;
+			return;
 		}
 
 		if (isset($_SESSION[$namespace][$name]))
@@ -465,13 +463,12 @@ class Session implements \IteratorAggregate
 
 		if ($this->getState() !== 'active')
 		{
-			// @TODO :: generated error here
-			return null;
+			return;
 		}
 
 		$old = isset($_SESSION[$namespace][$name]) ? $_SESSION[$namespace][$name] : null;
 
-		if (null === $value)
+		if ($value === null)
 		{
 			unset($_SESSION[$namespace][$name]);
 		}
@@ -500,8 +497,8 @@ class Session implements \IteratorAggregate
 
 		if ($this->getState() !== 'active')
 		{
-			// @TODO :: generated error here
-			return null;
+			// @codingStandardsIgnoreLine
+			return;
 		}
 
 		return isset($_SESSION[$namespace][$name]);
@@ -525,7 +522,7 @@ class Session implements \IteratorAggregate
 		if ($this->getState() !== 'active')
 		{
 			// @TODO :: generated error here
-			return null;
+			return;
 		}
 
 		$value = null;
@@ -594,7 +591,7 @@ class Session implements \IteratorAggregate
 			// Get the Joomla\Input\Cookie object
 			$cookie = $this->input->cookie;
 
-			if (\is_null($cookie->get($session_name)))
+			if ($cookie->get($session_name) === null)
 			{
 				$session_clean = $this->input->get($session_name, false, 'string');
 
@@ -972,7 +969,10 @@ class Session implements \IteratorAggregate
 		}
 
 		// Sync the session maxlifetime
-		ini_set('session.gc_maxlifetime', $this->getExpire());
+		if (!headers_sent())
+		{
+			ini_set('session.gc_maxlifetime', $this->getExpire());
+		}
 
 		return true;
 	}
