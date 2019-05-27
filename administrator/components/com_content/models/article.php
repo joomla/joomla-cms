@@ -573,20 +573,23 @@ class ContentModelArticle extends JModelAdmin
 
 		JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
 
-		// Cast catid to integer for comparison
-		$catid = (int) $data['catid'];
+		$createCategory = strpos($data['catid'], '#new#') === 0 && strlen($data['catid']) > 5;
 
-		// Check if New Category exists
-		if ($catid > 0)
+		// Invalid category ID or title.
+		if (!$createCategory && !CategoriesHelper::validateCategoryId($data['catid'], 'com_content'))
 		{
-			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_content');
+			$this->setError(JText::_('JGLOBAL_NO_CATEGORY_SELECTED'));
+
+			return false;
 		}
 
 		// Save New Category
-		if ($catid == 0 && $this->canCreateCategory())
+		if ($createCategory && $this->canCreateCategory())
 		{
 			$table = array();
-			$table['title'] = $data['catid'];
+
+			// Remove #new# prefix.
+			$table['title'] = substr($data['catid'], 5);
 			$table['parent_id'] = 1;
 			$table['extension'] = 'com_content';
 			$table['language'] = $data['language'];
@@ -810,6 +813,9 @@ class ContentModelArticle extends JModelAdmin
 		if ($this->canCreateCategory())
 		{
 			$form->setFieldAttribute('catid', 'allowAdd', 'true');
+
+			// Add a prefix for categories created on the fly.
+			$form->setFieldAttribute('catid', 'customPrefix', '#new#');
 		}
 
 		// Association content items
