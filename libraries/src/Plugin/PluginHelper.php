@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Registry\Registry;
 
 /**
  * Plugin helper class
@@ -300,5 +301,176 @@ abstract class PluginHelper
 		}
 
 		return static::$plugins;
+	}
+
+	/**
+	 * Get a pseudo Lock to the row.
+	 *
+	 * @param   string  $name      The plugin name.
+	 * @param   string  $type      The plugin type, relates to the subdirectory in the plugins directory.
+	 * @param   string  $params    The plugin params.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getLock($name, $type, $params)
+	{
+		$lastrun = $params->get('lastrun', 0);
+
+		if (!self::lock($name, $type, $lastrun))
+		{
+			return false;
+		}
+
+		// Get the timeout for Joomla! job jobone task
+		$now           = time();
+		$timeout = (int) $params->get('cachetimeout', 1);
+		$unit          = (int) $params->get('unit', 86400);
+		$timeout = ($unit * $timeout);
+
+		if ((abs($now - $lastrun) < $timeout))
+		{
+			// Release the lock
+			self::unLock($name, $type, false);
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Pseudo Lock the row.
+	 *
+	 * @param   string  $name      The plugin name.
+	 * @param   string  $type      The plugin type, relates to the subdirectory in the plugins directory.
+	 * @param   string  &$lastrun  The plugin last run time.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function lock($name, $type)
+	{
+		// Prevent multiple execution
+		$db = Factory::getDbo();
+		$lockdate ='1918-01-01 00:00:00';
+		$query = $db->getQuery(true);
+		$query->bind(':checked_out_time', $lockdate)
+			->bind(':wchecked_out_time', $lockdate)
+			->bind(':element', $name)
+			->bind(':folder', $type)
+			->update($db->quoteName('#__extensions'))
+			->set($db->qn('checked_out_time') . ' = :checked_out_time')
+			->where($db->quoteName('element') . ' = :element')
+			->where($db->quoteName('folder') . ' = :folder')
+			->where($db->quoteName('checked_out_time') . ' != :wchecked_out_time');
+
+		$db->setQuery($query);
+
+		try
+		{
+			// Update the plugin parameters
+			$db->execute();
+		
+		}
+		catch (RuntimeException $e)
+		{
+			// If we failed to execute
+			return false;
+		}
+
+		$result = (int) $db->getAffectedRows();
+
+		if ($result === 0)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Pseudo unLock the row.
+	 *
+	 * @param   string  $name    The plugin name.
+	 * @param   string  $type    The plugin type, relates to the subdirectory in the plugins directory.
+	 * @param   string  $unlock  The unlock type.
+	 *
+	 * @return  string  The task id.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function unLock($name, $type, $unlock = true)
+	{
+
+		$taskid = null;
+		$db = Factory::getDbo();
+		$lockdate = '1918-01-01 00:00:00';
+		$query = $db->getQuery(true);
+		$query->bind(':checked_out_time', $lockdate)
+			->bind(':element', $name)
+			->bind(':folder', $type)
+			->select($db->quoteName('params'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('element') . ' = :element')
+			->where($db->quoteName('folder') . ' = :folder')
+			->where($db->quoteName('checked_out_time') . ' = :checked_out_time');
+
+		$db->setQuery($query);
+
+		$params = $db->loadColumn();
+		$query  = $db->getQuery(true);
+		$now = Factory::getDate()->toSql();
+		$query->bind(':checked_out_time', $now)
+			->bind(':element', $name)
+			->bind(':folder', $type);
+
+		if ($unlock)
+		{
+			// Update last run and taskid 
+			$taskParams = json_decode($params[0], true);
+			$taskid = $taskParams['taskid'];
+
+			$taskid++;
+			$registry = new Registry($taskParams);
+			$registry->set('taskid', $taskid);
+			$registry->set('lastrun', time());
+			$jsonparam = $registry->toString('JSON');
+
+			$query->bind(':params', $jsonparam)
+				->update($db->quoteName('#__extensions'))
+				->set($db->quoteName('params') . ' = :params')
+				->set($db->qn('checked_out_time') . ' = :checked_out_time')
+				->where($db->quoteName('element') . ' = :element')
+				->where($db->quoteName('folder') . ' = :folder');
+		}  
+		else
+		{
+			$query->update($db->quoteName('#__extensions'))
+				->set($db->qn('checked_out_time') . ' = :checked_out_time')
+				->where($db->quoteName('element') . ' = :element')
+				->where($db->quoteName('folder') . ' = :folder');
+		}
+
+		try
+		{
+			// Update the plugin parameters
+			$result = $db->setQuery($query)->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			// If we failed to execute
+			return false;
+		}
+
+		$result = (int) $db->getAffectedRows();
+		if ($result === 0)
+		{
+			return false;
+		}
+
+		return $taskid;
+
 	}
 }
