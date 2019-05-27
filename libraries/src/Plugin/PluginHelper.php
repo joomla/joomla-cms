@@ -344,7 +344,6 @@ abstract class PluginHelper
 	 *
 	 * @param   string  $name      The plugin name.
 	 * @param   string  $type      The plugin type, relates to the subdirectory in the plugins directory.
-	 * @param   string  &$lastrun  The plugin last run time.
 	 *
 	 * @return  boolean  True on success.
 	 *
