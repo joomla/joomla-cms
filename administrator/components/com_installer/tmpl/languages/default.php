@@ -13,6 +13,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Version;
 
 HTMLHelper::_('behavior.multiselect');
 
@@ -53,7 +54,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</thead>
 						<tbody>
 						<?php
-						$version = new JVersion;
+						$version = new Version;
 						$currentShortVersion = preg_replace('#^([0-9\.]+)(|.*)$#', '$1', $version->getShortVersion());
 						$i = 0;
 						foreach ($this->items as $language) :
