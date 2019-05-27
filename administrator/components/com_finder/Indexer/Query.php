@@ -769,7 +769,7 @@ class Query
 		foreach (Taxonomy::getBranchTitles() as $branch)
 		{
 			// Add the pattern.
-			$patterns[$branch] = StringHelper::strtolower(Text::_(Language::branchSingular($branch)));
+			$patterns[$branch] = StringHelper::strtolower(Text::_(FinderHelperLanguage::branchSingular($branch)));
 		}
 
 		// Container for search terms and phrases.
