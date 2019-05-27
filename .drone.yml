@@ -168,6 +168,6 @@ services:
 
 ---
 kind: signature
-hmac: c3b4baf30db6797a4cc0a222fb0f51211083fd63e07314b69364d3636f24aff0
+hmac: b6c7230f78505f492cece7f33c952f4326cd50ad3b3275b5b1f54932b49ffea6
 
 ...
