@@ -349,7 +349,7 @@ class CssMenu
 
 				list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
 			}
-			elseif ($item->element === 'com_cpanel' && $item->link === "index.php")
+			elseif ($item->element === 'com_cpanel' && $item->link === 'index.php')
 			{
 				continue;
 			}
