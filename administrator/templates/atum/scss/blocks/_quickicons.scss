@@ -24,213 +24,11 @@
       @include hover-focus-active {
         text-decoration: none;
         box-shadow: $atum-box-shadow;
-        color:rgba(255,255,255,0.9);
-        background: var(--atum-link-color);
-      }
-    }
-  }
-
-  .quickicon-name {
-    font-size: $display2-size;
-    padding-bottom: .6rem;
-  }
-
-  .quickicon-amount {
-    font-size: $display1-size;
-    font-weight: 700;
-    padding: .3rem;
-    margin-top: .3rem !important;
-  }
-
-  .thsd {
-    font-size: 0.9rem;
-    letter-spacing: normal;
-    font-weight: normal;
-  }
-
-  .quickicon-text {
-    min-height: 1.2rem;
-  }
-
-  .quickicon-linkadd {
-    position: relative;
-    overflow: hidden;
-    font-size: $display2-size;
-    color: var(--atum-text-dark);
-    line-height: 2rem;
-    margin-top: 0.4rem;
-    border: 1px solid $gray-400;
-    text-decoration: none;
-    text-align: center;
-    display: inline-block;
-    box-shadow: $atum-box-shadow;
-
-    @include media-breakpoint-up(md) {
-      line-height: 2rem;
-    }
-
-    @include hover-focus-active {
-      text-decoration: none;
-      box-shadow: $atum-box-shadow;
-      color:rgba(255,255,255,0.9);
-      background: var(--atum-link-color);
-    }
-
-    .fa {
-      position: absolute;
-      left: 0;
-      display: inline-block;
-      width: 32px;
-      height: auto;
-      line-height: 2rem;
-      color: var(--white);
-      background-color: var(--atum-link-color);
-      text-align: center;
-
-      @include media-breakpoint-up(md) {
-        line-height: 2rem;
-      }
-
-    }
-
-    span:last-child {
-      margin-left: 32px;
-    }
-  }
-
-  a:not(.quickicon-linkadd) {
-    display: inline-flex;
-    min-height: 5.7rem;
-    flex-direction: column;
-    width: 100%;
-    transition: all .25s ease;
-    text-align: center;
-    border: 1px solid $gray-400;
-    background-color: var(--toolbar-bg);
-    color: var(--atum-text-dark);
-    line-height: 1.1;
-    align-self: baseline;
-    border-radius: $border-radius-s;
-    box-shadow: $atum-box-shadow;
-
-    @include hover-focus-active {
-      text-decoration: none;
-
-      .fa {
-        color: rgba(255,255,255,0.9);
+        color: $quickicon-color-hover;
+        background: $link-color;
       }
     }
 
-    > div {
-      flex: 1 0 0;
-      margin: 0 auto;
-    }
-
-    .j-links-link {
-      display: block;
-      width: 100%;
-      padding: 0 1rem;
-      line-height: 1.1;
-    }
-
-    .fa,
-    .fab {
-      margin: .8rem auto 0;
-      font-size: 1.3rem;
-      color: var(--atum-link-color);
-    }
-
-    .fa-images,
-    .fa-paint-brush,
-    #plg_quickicon_privacycheck .fa-users,
-    .fa-file,
-    .fa-star,
-    .fa-joomla,
-    .fa-cog {
-      font-size: 2rem;
-    }
-
-    &.warning {
-      background: $danger-bg;
-      border: 1px solid lighten($danger-txt, 30%);
-
-      .fa,
-      .fab {
-        color: $danger-txt;
-      }
-
-      &:hover {
-        color:rgba(255,255,255,0.9);
-        background: var(--danger);
-
-        .fa,
-        .fab {
-          color:rgba(255,255,255,0.9);
-        }
-      }
-    }
-
-    &.danger {
-      background: $danger-bg;
-      border: 1px solid lighten($danger-txt, 30%);
-
-      .fa,
-      .fab {
-        color: $danger-txt;
-      }
-
-      &:hover {
-        color:rgba(255,255,255,0.9);
-        background: var(--danger);
-
-        .fa,
-        .fab {
-          color:rgba(255,255,255,0.9);
-        }
-      }
-    }
-
-    &.success {
-      border: 1px solid var(--success);
-
-      .fa,
-      .fab {
-        color: var(--success);
-      }
-
-      &:hover {
-        color:rgba(255,255,255,0.9);
-        background: var(--success);
-
-        .fa,
-        .fab {
-          color:rgba(255,255,255,0.9);
-        }
-      }
-    }
-  }
-}
-
-#content{
-  .menu-quicktask{
-    position: absolute;
-    right: 1.25rem;
-  }
-}
-
-.cpanel-quickicons{
-  .card-columns{
-    @include media-breakpoint-down(md) {
-      column-count: 2;
-    }
-    @include media-breakpoint-down(sm) {
-      column-count: 1;
-    }
-  }
-}
-
-.quick-icons {
-  li {
     @media (max-width: 1350px) {
       width: calc(50% - 1rem);
       max-width: calc(50% - 1rem);
@@ -252,7 +50,191 @@
       flex: 1 1 calc(100% - 1rem);
     }
   }
+
+  .quickicon-linkadd {
+    position: relative;
+    overflow: hidden;
+    font-size: $display2-size;
+    color: var(--atum-text-dark);
+    line-height: 2rem;
+    margin-top: 0.4rem;
+    border: 1px solid $gray-400;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+    box-shadow: $atum-box-shadow;
+
+    @include hover-focus-active {
+      text-decoration: none;
+      box-shadow: $atum-box-shadow;
+      color: $quickicon-color-hover;
+      background: var(--atum-link-color);
+    }
+
+    .fa {
+      position: absolute;
+      left: 0;
+      display: inline-block;
+      width: 2rem;
+      height: auto;
+      line-height: 2rem;
+      color: $quickicon-bg;
+      background-color: var(--atum-link-color);
+      text-align: center;
+    }
+
+    span:last-child {
+      margin-left: 1rem;
+    }
+  }
+
+  a:first-of-type {
+    display: inline-flex;
+    min-height: 5.7rem;
+    flex-direction: column;
+    width: 100%;
+    transition: all .25s ease;
+    text-align: center;
+    border: 1px solid $gray-400;
+    background-color: var(--toolbar-bg);
+    color: var(--atum-text-dark);
+    line-height: 1.1;
+    align-self: baseline;
+    border-radius: $border-radius-s;
+    box-shadow: $atum-box-shadow;
+
+    .fa,
+    .fab {
+      font-size: $quickicon-icon-size;
+      color: var(--atum-link-color);
+
+      &:hover {
+        color: $quickicon-color-hover;
+      }
+    }
+
+    &:hover {
+      color: $quickicon-color-hover;
+    }
+
+    @include hover-focus-active {
+      text-decoration: none;
+
+      .fa {
+        color: $quickicon-color-hover;
+      }
+    }
+
+    > div {
+      flex: 1 0 0;
+      margin: 0 auto;
+
+      &.quickicon-icon {
+        margin: .8rem auto 0;
+
+        &.big {
+          .fa,
+          .fab {
+            font-size: $quickicon-icon-size-big;
+          }
+        }
+      }
+    }
+
+    .quickicon-name {
+      font-size: $display2-size;
+      padding-bottom: .6rem;
+    }
+
+    .quickicon-amount {
+      font-size: $display1-size;
+      font-weight: $bold-weight;
+      padding: .3rem;
+      margin-top: .3rem !important;
+
+      > .fa-spinner {
+        font-size: $display1-size;
+      }
+    }
+
+    .quickicon-text {
+      min-height: 1.2rem;
+    }
+
+    .j-links-link {
+      display: block;
+      width: 100%;
+      padding: 0 1rem;
+      line-height: 1.1;
+    }
+
+    &.warning,
+    &.danger {
+      background: $danger-bg;
+      border: 1px solid lighten($danger-txt, 30%);
+
+      .fa,
+      .fab {
+        color: $danger-txt;
+      }
+
+      @include hover-focus-active {
+        background: var(--danger);
+        color: var(--white);
+
+        .fa,
+        .fab {
+          &::before {
+            color: var(--white);
+          }
+        }
+      }
+    }
+
+    &.success {
+      color: $success-txt;
+      border: 1px solid lighten($success-txt, 20%);
+
+      .fa,
+      .fab {
+        color: var(--success);
+      }
+
+      @include hover-focus-active {
+        background: var(--success);
+        color: var(--white);
+
+        .fa,
+        .fab {
+          &::before {
+            color: var(--white);
+          }
+        }
+      }
+    }
+  }
 }
+
+#content {
+  .menu-quicktask {
+    position: absolute;
+    right: 1.25rem;
+  }
+}
+
+.cpanel-quickicons {
+
+  .card-columns {
+    @include media-breakpoint-down(md) {
+      column-count: 2;
+    }
+
+    @include media-breakpoint-down(sm) {
+      column-count: 1;
+    }
+  }
+}
+
 #wrapper.closed {
   .quick-icons {
     li {

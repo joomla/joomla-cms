@@ -14,8 +14,14 @@ use Joomla\CMS\Language\Text;
 $id      = empty($displayData['id']) ? '' : (' id="' . $displayData['id'] . '"');
 $target  = empty($displayData['target']) ? '' : (' target="' . $displayData['target'] . '"');
 $onclick = empty($displayData['onclick']) ? '' : (' onclick="' . $displayData['onclick'] . '"');
-$size    = isset($displayData['amount']) ? 'small' : 'big';
-$dataUrl = isset($displayData['ajaxurl']) ? 'data-url="' . $displayData['ajaxurl'] . '"' : '';
+
+if (isset($displayData['ajaxurl'])) {
+	$size = 'small';
+	$dataUrl = 'data-url="' . $displayData['ajaxurl'] . '"';
+} else {
+	$size = 'big';
+	$dataUrl = '';
+}
 
 // The title for the link (a11y)
 $title = empty($displayData['title']) ? '' : (' title="' . $this->escape($displayData['title']) . '"');
@@ -36,7 +42,7 @@ if ($id && ($displayData['id'] === 'plg_quickicon_joomlaupdate'
 }
 
 // Add the button class
-if (!empty($displayData['class']))
+if (!empty($displayData['class']) && is_string($displayData['class']))
 {
 	$tmp[] = $this->escape($displayData['class']);
 }
@@ -60,7 +66,7 @@ else
 	<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
 		<?php if (isset($displayData['image'])): ?>
 			<div class="quickicon-icon d-flex align-items-end <?php echo $size ?>">
-				<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
+				<span class="<?php echo $displayData['image']; ?>" aria-hidden="true"></span>
 			</div>
 		<?php endif; ?>
 		<?php if (isset($displayData['ajaxurl'])) : ?>

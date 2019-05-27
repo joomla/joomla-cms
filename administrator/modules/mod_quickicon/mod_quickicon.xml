@@ -186,6 +186,16 @@
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
+				<field
+					name="load_plugins"
+					type="radio"
+					class="switcher"
+					label="MOD_QUICKICON_LOAD_PLUGINS_LABEL"
+					default="0"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
 			</fieldset>
 			<fieldset name="advanced">
 				<field

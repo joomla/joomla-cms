@@ -17,7 +17,9 @@
    */
   function changeLogo(change) {
     const logo = doc.querySelector('.logo');
-    if (!logo) {
+    const isLogin = doc.querySelector('body.com_login');
+
+    if (!logo || isLogin) {
       return;
     }
 

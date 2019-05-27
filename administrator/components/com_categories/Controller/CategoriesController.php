@@ -53,7 +53,7 @@ class CategoriesController extends AdminController
 		$model->setState('filter.published', 1);
 		$model->setState('filter.extension', 'com_content');
 
-		$amount = $model->getTotal() ? $model->getTotal() : '0';
+		$amount = (int) $model->getTotal();
 
 		echo new JsonResponse($amount);
 	}
