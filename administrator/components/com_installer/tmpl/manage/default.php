@@ -32,7 +32,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
-						<div class="alert alert-warning">
+						<div class="alert alert-info">
 							<?php echo Text::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'); ?>
 						</div>
 					<?php else : ?>

@@ -21,7 +21,7 @@ use Joomla\CMS\Language\Text;
 		<?php echo Text::_('COM_PRIVACY_MSG_CAPABILITIES_INTRODUCTION'); ?>
 	</div>
 	<?php if (empty($this->capabilities)) : ?>
-		<div class="alert alert-warning">
+		<div class="alert alert-info">
 			<?php echo Text::_('COM_PRIVACY_MSG_CAPABILITIES_NO_CAPABILITIES'); ?>
 		</div>
 	<?php else : ?>
@@ -31,7 +31,7 @@ use Joomla\CMS\Language\Text;
 		<?php foreach ($this->capabilities as $extension => $capabilities) : ?>
 			<?php echo HTMLHelper::_('bootstrap.addSlide', 'slide-capabilities', $extension, 'slide-' . $i); ?>
 				<?php if (empty($capabilities)) : ?>
-					<div class="alert alert-warning">
+					<div class="alert alert-info">
 						<?php echo Text::_('COM_PRIVACY_MSG_EXTENSION_NO_CAPABILITIES'); ?>
 					</div>
 				<?php else : ?>
