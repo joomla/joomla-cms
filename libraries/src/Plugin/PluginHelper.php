@@ -306,9 +306,9 @@ abstract class PluginHelper
 	/**
 	 * Get a pseudo Lock to the row.
 	 *
-	 * @param   string  $name      The plugin name.
-	 * @param   string  $type      The plugin type, relates to the subdirectory in the plugins directory.
-	 * @param   string  $params    The plugin params.
+	 * @param   string  $name    The plugin name.
+	 * @param   string  $type    The plugin type, relates to the subdirectory in the plugins directory.
+	 * @param   string  $params  The plugin params.
 	 *
 	 * @return  boolean  True on success.
 	 *
