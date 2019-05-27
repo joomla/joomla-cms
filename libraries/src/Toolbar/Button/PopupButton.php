@@ -64,7 +64,7 @@ class PopupButton extends ToolbarButton
 	 */
 	protected function prepareOptions(array &$options)
 	{
-		$options['icon'] = $options['icon'] ?? 'fa fa-square';
+		$options['icon'] = $options['icon'] ?? 'icon-square';
 
 		parent::prepareOptions($options);
 
