@@ -60,9 +60,6 @@ $iconStates = array(
 								<th scope="col" style="width:5%">
 									<?php echo Text::_('COM_ASSOCIATIONS_HEADING_ASSOCIATION'); ?>
 								</th>
-								<th scope="col" style="width:15%">
-									<?php echo Text::_('COM_ASSOCIATIONS_HEADING_NO_ASSOCIATION'); ?>
-								</th>
 								<?php if (!empty($this->typeFields['menutype'])) : ?>
 									<th scope="col" style="width:10%">
 										<?php echo HTMLHelper::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_MENUTYPE', 'menutype_title', $listDirn, $listOrder); ?>
@@ -122,10 +119,7 @@ $iconStates = array(
 									<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 								</td>
 								<td>
-									<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, !$isCheckout, false); ?>
-								</td>
-								<td>
-									<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, !$isCheckout, true); ?>
+									<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, !$isCheckout); ?>
 								</td>
 								<?php if (!empty($this->typeFields['menutype'])) : ?>
 									<td class="small">

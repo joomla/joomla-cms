@@ -211,13 +211,12 @@ class AssociationsHelper extends ContentHelper
 	 * @param   integer  $itemId          Item id.
 	 * @param   string   $itemLanguage    Item language code.
 	 * @param   boolean  $addLink         True for adding edit links. False for just text.
-	 * @param   boolean  $assocLanguages  True for showing non associated content languages. False only languages with associations.
 	 *
 	 * @return  string   The language HTML
 	 *
 	 * @since  3.7.0
 	 */
-	public static function getAssociationHtmlList($extensionName, $typeName, $itemId, $itemLanguage, $addLink = true, $assocLanguages = true)
+	public static function getAssociationHtmlList($extensionName, $typeName, $itemId, $itemLanguage, $addLink = true)
 	{
 		// Get the associations list for this item.
 		$items = self::getAssociationList($extensionName, $typeName, $itemId);
@@ -235,19 +234,6 @@ class AssociationsHelper extends ContentHelper
 		{
 			// Don't do for the reference language.
 			if ($langCode == $itemLanguage)
-			{
-				continue;
-			}
-
-			// Don't show languages with associations, if we don't want to show them.
-			if ($assocLanguages && isset($items[$langCode]))
-			{
-				unset($items[$langCode]);
-				continue;
-			}
-
-			// Don't show languages without associations, if we don't want to show them.
-			if (!$assocLanguages && !isset($items[$langCode]))
 			{
 				continue;
 			}
@@ -289,7 +275,7 @@ class AssociationsHelper extends ContentHelper
 					$additional = '<strong>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $menutype_title) . '</strong><br>';
 				}
 
-				$labelClass  = 'badge-secondary';
+				$labelClass  = 'badge-success';
 				$target      = $langCode . ':' . $items[$langCode]['id'] . ':edit';
 				$allow       = $canEditReference
 								&& self::allowEdit($extensionName, $typeName, $items[$langCode]['id'])
@@ -303,7 +289,7 @@ class AssociationsHelper extends ContentHelper
 
 				$title      = Text::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
 				$additional = $addLink ? Text::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
-				$labelClass = 'badge-warning';
+				$labelClass = 'badge-secondary';
 				$target     = $langCode . ':0:add';
 				$allow      = $canCreate;
 			}
