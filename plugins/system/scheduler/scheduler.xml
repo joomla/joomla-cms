@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.9" type="plugin" group="system" method="upgrade">
+	<name>plg_system_scheduler</name>
+	<author>Joomla! Project</author>
+	<creationDate>July 2018</creationDate>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.9.0</version>
+	<description>PLG_SYSTEM_SCHEDULER_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="scheduler">scheduler.php</filename>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB.plg_system_scheduler.ini</language>
+		<language tag="en-GB">en-GB.plg_system_scheduler.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="cachetimeout"
+					type="integer"
+					label="PLG_SYSTEM_SCHEDULER_CACHETIMEOUT_LABEL"
+					description="PLG_SYSTEM_SCHEDULER_CACHETIMEOUT_DESC"
+					first="0"
+					last="5"
+					step="1"
+					default="3"
+					filter="int"
+					validate="number"
+				/>
+
+				<field
+					name="webcron"
+					type="radio"
+					label="PLG_SYSTEM_SCHEDULER_WEBCRON_LABEL"
+					description="PLG_SYSTEM_SCHEDULER_WEBCRON_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					filter="integer"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="webcronkey"
+					type="text"
+					label="PLG_SYSTEM_SCHEDULER_WEBCRONKEY_LABEL"
+					description="PLG_SYSTEM_SCHEDULER_WEBCRONKEY_DESC"
+					default="mywebcronactiovationkey"
+					size="30"
+					showon="webcron:1"
+				/>
+
+				<field
+					name="lastrun"
+					type="hidden"
+					default="0"
+					size="15"
+				/>
+
+				<field
+					name="unit"
+					type="hidden"
+					default="60"
+					filter="integer"
+					validate="number"
+				/>
+
+				<field
+					name="taskid"
+					type="hidden"
+					default="0"
+					size="15"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
