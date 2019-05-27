@@ -11,6 +11,7 @@ namespace Joomla\Component\Associations\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -79,6 +80,10 @@ class AssociationsModel extends ListModel
 		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 		$forcedItemType = $app->input->get('forcedItemType', '', 'string');
 
+		// Set default itemtype and default language to default site language
+		$defaultLanguage = ComponentHelper::getParams('com_languages')->get('site');
+		$defaultItemType = 'com_content.article';
+
 		// Adjust the context to support modal layouts.
 		if ($layout = $app->input->get('layout'))
 		{
@@ -97,12 +102,14 @@ class AssociationsModel extends ListModel
 			$this->context .= '.' . $forcedItemType;
 		}
 
-		$this->setState('itemtype', $this->getUserStateFromRequest($this->context . '.itemtype', 'itemtype', '', 'string'));
-		$this->setState('language', $this->getUserStateFromRequest($this->context . '.language', 'language', '', 'string'));
+		$this->setState('itemtype', $this->getUserStateFromRequest($this->context . '.itemtype', 'itemtype', $defaultItemType, 'string'));
+		$this->setState('language', $this->getUserStateFromRequest($this->context . '.language', 'language', $defaultLanguage, 'string'));
 
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
-		$this->setState('filter.category_id', $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', '', 'cmd'));
+		$this->setState('filter.category_id',
+			$this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', '', 'cmd')
+		);
 		$this->setState('filter.menutype', $this->getUserStateFromRequest($this->context . '.filter.menutype', 'filter_menutype', '', 'string'));
 		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'string'));
 		$this->setState('filter.level', $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', '', 'cmd'));
@@ -231,14 +238,16 @@ class AssociationsModel extends ListModel
 		$query->select($db->quoteName($fields['language'], 'language'))
 			->select($db->quoteName('l.title', 'language_title'))
 			->select($db->quoteName('l.image', 'language_image'))
-			->join('LEFT', $db->quoteName('#__languages', 'l') . ' ON ' . $db->quoteName('l.lang_code') . ' = ' . $db->quoteName($fields['language']));
+			->join('LEFT', $db->quoteName('#__languages', 'l')
+				. ' ON ' . $db->quoteName('l.lang_code') . ' = ' . $db->quoteName($fields['language'])
+			);
 
 		// Join over the associations.
 		$query->select('COUNT(' . $db->quoteName('asso2.id') . ') > 1 AS ' . $db->quoteName('association'))
 			->join(
 				'LEFT',
 				$db->quoteName('#__associations', 'asso') . ' ON ' . $db->quoteName('asso.id') . ' = ' . $db->quoteName($fields['id'])
-				. ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote($extensionName . '.' . 'item')
+				. ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote($extensionName . '.item')
 			)
 			->join('LEFT', $db->quoteName('#__associations', 'asso2') . ' ON ' . $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key'));
 
@@ -320,7 +329,9 @@ class AssociationsModel extends ListModel
 			// Join over the menu types.
 			$query->select($db->quoteName('mt.title', 'menutype_title'))
 				->select($db->quoteName('mt.id', 'menutypeid'))
-				->join('LEFT', $db->quoteName('#__menu_types', 'mt') . ' ON ' . $db->quoteName('mt.menutype') . ' = ' . $db->quoteName($fields['menutype']));
+				->join('LEFT', $db->quoteName('#__menu_types', 'mt')
+					. ' ON ' . $db->quoteName('mt.menutype') . ' = ' . $db->quoteName($fields['menutype'])
+				);
 
 			$groupby[] = 'mt.title';
 			$groupby[] = 'mt.id';
