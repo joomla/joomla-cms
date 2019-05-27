@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -21,10 +22,10 @@ use Joomla\CMS\Router\Route;
 HTMLHelper::_('bootstrap.tooltip');
 HTMLHelper::_('behavior.multiselect');
 
-$user       = JFactory::getUser();
+$user       = Factory::getUser();
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
-$now        = JFactory::getDate();
+$now        = Factory::getDate();
 $stateIcons = array(-1 => 'trash', 0 => 'archive', 1 => 'publish');
 $stateMsgs  = array(
 	-1 => Text::_('COM_PRIVACY_CONSENTS_STATE_INVALIDATED'),
