@@ -94,7 +94,7 @@ class PlgSystemScheduler extends CMSPlugin
 		$timeToLoad = sprintf('%0.2f', $endTime - $startTime);
 
 		Log::add(
-			Text::sprintf('PLG_SYSTEM_SCHEDULER_END', $taskid)  . ' ' .
+			Text::sprintf('PLG_SYSTEM_SCHEDULER_END', $taskid) . ' ' .
 			Text::sprintf('PLG_SYSTEM_SCHEDULER_PROCESS_COMPLETE', $timeToLoad),
 			Log::INFO,
 			'scheduler'
