@@ -465,6 +465,7 @@ abstract class PluginHelper
 		}
 
 		$result = (int) $db->getAffectedRows();
+
 		if ($result === 0)
 		{
 			return false;
