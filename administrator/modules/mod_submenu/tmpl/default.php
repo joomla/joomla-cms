@@ -62,14 +62,21 @@ $user = $app->getIdentity();
 											<?php
 											$link = $params->get('menu-quicktask-link');
 											$icon = $params->get('menu-quicktask-icon', 'plus');
-											$title = $params->get('menu-quicktask-title', 'MOD_MENU_QUICKTASK_NEW');
+											
+											$title = $params->get('menu-quicktask-title');
+											if (empty($params->get('menu-quicktask-title')))
+											{
+												$title = Text::_('MOD_MENU_QUICKTASK_NEW');
+												$sronly = Text::_($item->title) . ' - ' . Text::_('MOD_MENU_QUICKTASK_NEW'); 
+											}
+											
 											$permission = $params->get('menu-quicktask-permission');
 											$scope = $item->scope !== 'default' ? $item->scope : null;
 											?>
 											<?php if (!$permission || $user->authorise($permission, $scope)) : ?>
 												<a href="<?php echo $link; ?>">
-													<span class="fa fa-<?php echo $icon; ?>" title="<?php echo htmlentities(Text::_($title)); ?>" aria-hidden="true"></span>
-													<span class="sr-only"><?php echo Text::_($title); ?></span>
+													<span class="fa fa-<?php echo $icon; ?>" title="<?php echo htmlentities($title); ?>" aria-hidden="true"></span>
+													<span class="sr-only"><?php echo  htmlentities($sronly); ?></span>
 												</a>
 											<?php endif; ?>
 										</span>
