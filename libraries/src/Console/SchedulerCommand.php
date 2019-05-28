@@ -115,6 +115,7 @@ class SchedulerCommand extends AbstractCommand
 			{
 				continue;
 			}
+
 			$symfonyStyle->note('Executed: ' . $run);
 		}
 
