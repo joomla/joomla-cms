@@ -106,7 +106,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									</td>
 									<td class="hidden-sm-down text-center">
 										<?php if ($item->changelogurl !== null) : ?>
-                                        <a href="#changelogModal" class="btn btn-info btn-sm" onclick="Joomla.loadChangelog(<?php echo $item->extension_id; ?>, 'update'); return false;" data-toggle="modal">
+                                        <a href="#changelogModal" class="btn btn-info btn-xs" onclick="Joomla.loadChangelog(<?php echo $item->extension_id; ?>, 'update'); return false;" data-toggle="modal">
 	                                        <?php echo Text::_('COM_INSTALLER_CHANGELOG'); ?>
                                         </a>
 										<?php
@@ -134,10 +134,23 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									</td>
 									<td class="d-none d-md-table-cell">
 										<span class="break-word">
-										<?php echo $item->detailsurl; ?>
-											<?php if (isset($item->infourl)) : ?>
-												<br>
-												<a href="<?php echo $item->infourl; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->infourl); ?></a>
+										
+											<a href="#modal-<?php echo $item->extension_id; ?>" data-toggle='modal'><?php echo JText::_('COM_INSTALLER_CHANGELOG_UPDSINFOURL'); ?></a>
+											<?php
+  											echo HTMLHelper::_(
+												'bootstrap.renderModal',
+												'modal-' . $item->extension_id,
+												array(
+													'title' => JText::_('COM_INSTALLER_CHANGELOG_UPDSINFOURL') .': ' . $item->name .' - ' . $item->version,
+												),
+												$item->detailsurl
+											);
+ 											?>						
+											<?php if (!empty($item->infourl)) : ?>
+												<br />
+												<span class="fa fa-external-link-alt" style="margin-right:5px"></span>
+												<a href="<?php echo $item->infourl; ?>" target="_blank" rel="noopener noreferrer">
+														 <?php echo JText::_('COM_INSTALLER_CHANGELOG_DOCU'); ?></a>
 											<?php endif; ?>
 										</span>
 									</td>
