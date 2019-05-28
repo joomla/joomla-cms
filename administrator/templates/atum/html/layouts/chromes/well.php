@@ -33,7 +33,7 @@ if ($module->content) :
 	$moduleClassSfx = $params->get('moduleclass_sfx', '');
 
 	// Temporarily store header class in variable
-	$headerClass = !empty($params->get('header_class')) ? 'class="' . htmlspecialchars($params->get('header_class')) . '"' : '';
+	$headerClass = !empty($params->get('header_class')) ? ' class="' . htmlspecialchars($params->get('header_class')) . '"' : '';
 
 	// Get the module icon
 	$headerIcon = '';
