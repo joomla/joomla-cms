@@ -27,11 +27,35 @@ $canEdit = $params->get('access-edit');
 $user    = Factory::getUser();
 $info    = $params->get('info_block_position', 0);
 
+$images = json_decode($this->item->images);
+$articleLanguage = ($this->item->language === '*') ? Factory::getApplication()->get('language') : $this->item->language;
+
+/** @var \Joomla\CMS\Document\HtmlDocument $doc */
+$doc = Factory::getDocument();
+
+// TODO: This should be the AUTHORISED tags (if show tags enabled)
+$doc->addScriptDeclaration('{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "' . $this->escape($this->item->title) . '",
+  "image": "' . $images->image_fulltext . '",
+  "author": {
+    "@type": "Person",
+    "name": "' . $this->item->created_by_alias ?: $this->item->author . '"
+    ' . $params->get('link_author') == true ? ', "url": "' . $this->item->contact_link . '"' : "" . '
+  },
+  "inLanguage": "' . $articleLanguage . '",
+  "keywords": "' . $params . '",
+  "articleBody": "' . $this->item->text . '",
+  "dateCreated": "' . HTMLHelper::_('date', $this->item->created, "Y-m-d") .'",
+  "dateModified": "' . HTMLHelper::_('date', $this->item->modified, "Y-m-d") .'",
+  "datePublished": "' . HTMLHelper::_('date', $this->item->publish_up, "Y-m-d") .'"
+}', 'application/ld+json');
+
 // Check if associations are implemented. If they are, define the parameter.
 $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 ?>
-<div class="com-content-article item-page<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Article">
-	<meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? Factory::getApplication()->get('language') : $this->item->language; ?>">
+<div class="com-content-article item-page<?php echo $this->pageclass_sfx; ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 	<div class="page-header">
 		<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
@@ -56,7 +80,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 	<?php if ($params->get('show_title') || $params->get('show_author')) : ?>
 	<div class="page-header">
 		<?php if ($params->get('show_title')) : ?>
-			<h2 itemprop="headline">
+			<h2>
 				<?php echo $this->escape($this->item->title); ?>
 			</h2>
 		<?php endif; ?>
@@ -113,7 +137,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 	<?php if (isset ($this->item->toc)) :
 		echo $this->item->toc;
 	endif; ?>
-	<div itemprop="articleBody" class="com-content-article__body">
+	<div class="com-content-article__body">
 		<?php echo $this->item->text; ?>
 	</div>
 
