@@ -178,7 +178,6 @@ EOF
 
 		try
 		{
-
 			$extensions = $db->loadObjectList();
 		}
 		catch (ExecutionFailureException $e)
