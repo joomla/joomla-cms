@@ -190,6 +190,5 @@ EOF
 		}
 
 		return $extensions;
-		
 	}
 }
