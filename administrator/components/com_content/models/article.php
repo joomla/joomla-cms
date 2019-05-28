@@ -573,15 +573,13 @@ class ContentModelArticle extends JModelAdmin
 
 		JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
 
-		// Check if we need to create a category.
-		$createCategory = strpos($data['catid'], '#new#') === 0 && strlen($data['catid']) > 5;
+		// Create new category, if needed.
+		$createCategory = true;
 
-		// Missing new category title or invalid existing category ID.
-		if (!$createCategory && !CategoriesHelper::validateCategoryId((int) $data['catid'], 'com_content'))
+		// If category ID is provided, check if it's valid.
+		if (is_numeric($data['catid']) && $data['catid'])
 		{
-			$this->setError(JText::_('JGLOBAL_INVALID_CATEGORY_SELECTED'));
-
-			return false;
+			$createCategory = !CategoriesHelper::validateCategoryId($data['catid'], 'com_content');
 		}
 
 		// Save New Category
@@ -589,8 +587,8 @@ class ContentModelArticle extends JModelAdmin
 		{
 			$table = array();
 
-			// Remove #new# prefix.
-			$table['title'] = substr($data['catid'], 5);
+			// Remove #new# prefix, if exists.
+			$table['title'] = strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'];
 			$table['parent_id'] = 1;
 			$table['extension'] = 'com_content';
 			$table['language'] = $data['language'];
