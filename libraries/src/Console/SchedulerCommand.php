@@ -166,7 +166,6 @@ EOF
 	public static function listJobs($folder ='job', $type = 'plugin')
 	{
 		$db = Factory::getDbo();
-		//var_dump($db);
 		$query = $db->getQuery(true)
 			->select($db->quoteName('element'))
 			->select($db->quoteName('params'))
