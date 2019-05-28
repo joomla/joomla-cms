@@ -50,7 +50,7 @@
 					type="text"
 					label="PLG_SYSTEM_SCHEDULER_WEBCRONKEY_LABEL"
 					description="PLG_SYSTEM_SCHEDULER_WEBCRONKEY_DESC"
-					default="mywebcronactiovationkey"
+					default="mywebcronactivationkey"
 					size="30"
 					showon="webcron:1"
 				/>
