@@ -115,5 +115,5 @@ class PlgSystemScheduler extends CMSPlugin
 
 		// Trigger the ExecuteTask event
 		Factory::getApplication()->triggerEvent('onExecuteScheduledTask', array());
-	}	
+	}
 }
