@@ -33,8 +33,7 @@ if ($module->content) :
 	$moduleClassSfx = $params->get('moduleclass_sfx', '');
 
 	// Temporarily store header class in variable
-	$headerClass = $params->get('header_class');
-	$headerClass = ($headerClass) ? ' ' . htmlspecialchars($headerClass) : '';
+	$headerClass = !empty($params->get('header_class')) ? 'class="' . htmlspecialchars($params->get('header_class')) . '"' : '';
 
 	// Get the module icon
 	$headerIcon = '';
@@ -61,23 +60,17 @@ if ($module->content) :
 								<?php if ($canEdit) : ?>
 									<?php $uri = Uri::getInstance(); ?>
 									<?php $url = Route::_('index.php?option=com_modules&task=module.edit&id=' . $id . '&return=' . base64_encode($uri)); ?>
-									<a class="dropdown-item" href="<?php echo $url; ?>">
-										<?php echo Text::_('JACTION_EDIT'); ?>
-										<span class="sr-only"><?php echo  ' '  . htmlspecialchars($module->title); ?></span>
-									</a>
+									<a class="dropdown-item" href="<?php echo $url; ?>"><?php echo Text::_('JACTION_EDIT'); ?></a>
 								<?php endif; ?>
 								<?php if ($canChange) : ?>
-									<button type="button" class="dropdown-item unpublish-module" data-module-id="<?php echo $id; ?>">
-										<?php echo Text::_('JACTION_UNPUBLISH'); ?>
-										<span class="sr-only"><?php echo ' '  .htmlspecialchars($module->title); ?></span>
-									</button>
+									<button type="button" class="dropdown-item unpublish-module" data-module-id="<?php echo $id; ?>"><?php echo Text::_('JACTION_UNPUBLISH'); ?></button>
 								<?php endif; ?>
 							</div>
 						</div>
 					<?php endif; ?>
 
 					<?php if ($module->showtitle) : ?>
-						<h2 class="<?php echo $headerClass; ?>"><?php echo $headerIcon . htmlspecialchars($module->title); ?></h2>
+						<h2 <?php echo $headerClass; ?>><?php echo $headerIcon . htmlspecialchars($module->title); ?></h2>
 					<?php endif; ?>
 				</div>
 			<?php endif; ?>
