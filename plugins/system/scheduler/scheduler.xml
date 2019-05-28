@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.9" type="plugin" group="system" method="upgrade">
+<extension version="4.0" type="plugin" group="system" method="upgrade">
 	<name>plg_system_scheduler</name>
 	<author>Joomla! Project</author>
-	<creationDate>July 2018</creationDate>
+	<creationDate>July 2019</creationDate>
 	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>3.9.0</version>
+	<version>4.0.0</version>
 	<description>PLG_SYSTEM_SCHEDULER_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="scheduler">scheduler.php</filename>
