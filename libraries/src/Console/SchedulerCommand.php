@@ -16,9 +16,9 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Console command for checking if there are pending jobs
@@ -34,15 +34,15 @@ class SchedulerCommand extends AbstractCommand
 	 * @since  4.0.0
 	 */
 	protected static $defaultName = 'job:run';
+
 	/**
-	 * The username
+	 * The elapsed time
 	 *
 	 * @var    string
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $time;
-
 
 	/**
 	 * Internal function to execute the command.
@@ -67,7 +67,6 @@ class SchedulerCommand extends AbstractCommand
 		
 		// Initialize the time value.
 		$this->time = microtime(true);
-		// Remove the script time limit.
 
 		if ($input->getOption('jobs'))
 		{
@@ -92,7 +91,7 @@ class SchedulerCommand extends AbstractCommand
 				$symfonyStyle->note('Job: ' . $job->element . ' runned ' . $runned . ' times' . $nextrun);
 			}
 
-			$symfonyStyle->success('Scheduler finished in '. round(microtime(true) - $this->time, 3));
+			$symfonyStyle->success('Scheduler finished in ' . round(microtime(true) - $this->time, 3));
 
 			return 0;
 		}
@@ -122,7 +121,7 @@ class SchedulerCommand extends AbstractCommand
 			'Scheduler tooks:' . round(microtime(true) - $this->time, 3), Log::INFO, 'scheduler'
 		);
 
-		$symfonyStyle->success('Scheduler finished in '. round(microtime(true) - $this->time, 3));
+		$symfonyStyle->success('Scheduler finished in ' . round(microtime(true) - $this->time, 3));
 
 		return 0;
 	}
@@ -163,7 +162,17 @@ EOF
 		);
 	}
 
-	public static function listJobs($folder ='job', $type = 'plugin')
+	/**
+	 * Function to list all the jobs.
+	 *
+	 * @param   string  $input   The plugin folder,
+	 * @param   string  $output  The extension type.
+	 *
+	 * @return  object
+	 *
+	 * @since   4.0.0
+	 */
+	public static function listJobs(string $folder = 'job', string $type = 'plugin')
 	{
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
