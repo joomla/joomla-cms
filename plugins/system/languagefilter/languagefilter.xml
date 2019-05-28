@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_SYSTEM_LANGUAGEFILTER_XML_DESCRIPTION</description>
+	<namespace>Joomla\Plugin\System\Languagefilter</namespace>
 	<files>
 		<filename plugin="languagefilter">languagefilter.php</filename>
+		<folder>Field</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_system_languagefilter.ini</language>
@@ -110,6 +112,31 @@
 					>
 					<option value="1">PLG_SYSTEM_LANGUAGEFILTER_OPTION_YEAR</option>
 					<option value="0">PLG_SYSTEM_LANGUAGEFILTER_OPTION_SESSION</option>
+				</field>
+			</fieldset>
+			<fieldset
+					name="master_language"
+					label="PLG_SYSTEM_LANGUAGEFILTER_MASTER_LANGUAGE_LABEL"
+					description="PLG_SYSTEM_LANGUAGEFILTER_MASTER_LANGUAGE_DESC"
+			>
+				<field
+						name="use_master_language"
+						type="radio"
+						label="PLG_SYSTEM_LANGUAGEFILTER_MASTER_LANGUAGE_FIELD_USE_MASTER_LANGUAGE_LABEL"
+						class="switcher"
+						default="1"
+						showon="item_associations:1"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+						name="global_master_language"
+						type="contentsitelanguage"
+						label="PLG_SYSTEM_LANGUAGEFILTER_MASTER_LANGUAGE_FIELD_GLOBAL_MASTER_LANGUAGE_LABEL"
+						showon="item_associations:1[AND]use_master_language:1"
+						addfieldprefix="Joomla\Plugin\System\Languagefilter\Field"
+				>
 				</field>
 			</fieldset>
 		</fields>

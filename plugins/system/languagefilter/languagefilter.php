@@ -960,4 +960,51 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
 		return $languageCode;
 	}
+
+	// Events for Masterlanguage:
+
+	/**
+	 * Before Saving extensions
+	 * Method is called when an extension is going to be saved
+	 * change parameters for master language because there depends on other parameters
+	 *
+	 * @param string  $context The extension
+	 * @param JTable  $table   DataBase Table object
+	 * @param boolean $isNew   If the extension is new or not
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function onExtensionBeforeSave($context, $table, $isNew)
+	{
+		// get the params to save
+		$params       = json_decode($table->params);
+		$tableElement = $table->element;
+		$pluginStatus = $table->enabled;
+		$itemAssocStatus = $params->item_associations;
+
+		if ($context != 'com_plugins.plugin' && $tableElement != 'languagefilter')
+		{
+			return true;
+		}
+
+		// if the plugin and the parameter item associations are enabled then set the correct value for the global master language
+		if($pluginStatus && $itemAssocStatus)
+		{
+			$globalMasterLanguage = ($params->use_master_language === '1')
+				? $params->global_master_language
+				: '';
+			$params->global_master_language = $globalMasterLanguage;
+		}
+		// reset parameters for master language
+		else
+		{
+			$params->use_master_language = '';
+			$params->global_master_language = '';
+		}
+
+		return $table->params = json_encode($params);
+	}
+
 }
