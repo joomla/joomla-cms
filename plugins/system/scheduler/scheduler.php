@@ -23,7 +23,6 @@ use Joomla\Registry\Registry;
  */
 class PlgSystemScheduler extends CMSPlugin
 {
-
 	/**
 	 * Status for the process
 	 *
