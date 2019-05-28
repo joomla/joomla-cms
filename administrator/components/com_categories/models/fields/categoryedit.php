@@ -85,7 +85,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		switch ($name)
 		{
 			case 'allowAdd':
-			case 'customPrefix';
+			case 'customPrefix':
 				return $this->$name;
 		}
 
