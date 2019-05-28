@@ -70,7 +70,7 @@ if ($module->content) :
 					<?php endif; ?>
 
 					<?php if ($module->showtitle) : ?>
-						<h2 <?php echo $headerClass; ?>><?php echo $headerIcon . htmlspecialchars($module->title); ?></h2>
+						<h2<?php echo $headerClass; ?>><?php echo $headerIcon . htmlspecialchars($module->title); ?></h2>
 					<?php endif; ?>
 				</div>
 			<?php endif; ?>
