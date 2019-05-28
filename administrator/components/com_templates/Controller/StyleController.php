@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Templates\Administrator\Controller;
@@ -11,9 +11,9 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
-use Joomla\CMS\Session\Session;
 
 /**
  * Template style controller class.
@@ -42,10 +42,7 @@ class StyleController extends FormController
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		if (!Session::checkToken())
-		{
-			Factory::getApplication()->redirect('index.php', Text::_('JINVALID_TOKEN'));
-		}
+		$this->checkToken();
 
 		$document = Factory::getDocument();
 
@@ -76,7 +73,7 @@ class StyleController extends FormController
 				return false;
 			}
 
-			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_templates/forms');
+			Form::addFormPath(JPATH_ADMINISTRATOR . '/components/com_templates/forms');
 
 			// Validate the posted data.
 			// Sometimes the form needs some posted data, such as for plugins and modules.

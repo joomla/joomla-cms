@@ -20,7 +20,7 @@ use Joomla\CMS\Updater\Updater;
 /**
  * Cpanel System Controller
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class SystemController extends BaseController
 {
@@ -31,7 +31,7 @@ class SystemController extends BaseController
 	 *
 	 * @return void
 	 * 
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function loadSystemInfo()
 	{
@@ -85,7 +85,7 @@ class SystemController extends BaseController
 	 * @return integer  Number of database table errors
 	 *
 	 * @throws \Exception
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function countDatabaseUpdates()
 	{
@@ -115,7 +115,7 @@ class SystemController extends BaseController
 	 * @return string  The version number or empty string
 	 *
 	 * @throws \Exception
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function countSystemUpdates()
 	{
@@ -142,7 +142,7 @@ class SystemController extends BaseController
 	 * @return integer  Number of available updates
 	 *
 	 * @throws \Exception
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function countExtensionUpdates()
 	{
@@ -188,15 +188,15 @@ class SystemController extends BaseController
 	/**
 	 * Generic getItems counter for different calls
 	 *
-	 * @param   type  $extension  The extension to check and authorise for
-	 * @param   type  $model      The Model to load
+	 * @param   string  $extension  The extension to check and authorise for
+	 * @param   string  $modelName  The Model to load
 	 *
 	 * @return integer The number of items
 	 *
 	 * @throws \Exception
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
-	protected function countItems($extension, $modelname)
+	protected function countItems($extension, $modelName)
 	{
 		if (!Factory::getUser()->authorise('core.manage', $extension))
 		{
@@ -204,7 +204,7 @@ class SystemController extends BaseController
 		}
 
 		$boot    = Factory::getApplication()->bootComponent($extension);
-		$model   = $boot->getMVCFactory()->createModel($modelname, 'Administrator', ['ignore_request' => true]);
+		$model   = $boot->getMVCFactory()->createModel($modelName, 'Administrator', ['ignore_request' => true]);
 
 		$items   = count($model->getItems());
 

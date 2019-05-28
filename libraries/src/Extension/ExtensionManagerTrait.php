@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,6 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Dispatcher\ModuleDispatcherFactory;
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\Exception\ContainerNotFoundException;
 use Joomla\DI\ServiceProviderInterface;
@@ -24,13 +26,6 @@ use Joomla\Event\DispatcherInterface;
  */
 trait ExtensionManagerTrait
 {
-	/**
-	 * The loaded extensions.
-	 *
-	 * @var array
-	 */
-	private $extensions = [ModuleInterface::class => [], ComponentInterface::class => []];
-
 	/**
 	 * Boots the component with the given name.
 	 *
@@ -78,22 +73,43 @@ trait ExtensionManagerTrait
 	}
 
 	/**
+	 * Boots the plugin with the given name and type.
+	 *
+	 * @param   string  $plugin  The plugin name
+	 * @param   string  $type    The type of the plugin
+	 *
+	 * @return  PluginInterface
+	 *
+	 * @since   4.0.0
+	 */
+	public function bootPlugin($plugin, $type): PluginInterface
+	{
+		// Normalize the module name
+		$plugin = strtolower(str_replace('plg_', '', $plugin));
+
+		// Path to to look for services
+		$path = JPATH_SITE . '/plugins/' . $type . '/' . $plugin;
+
+		return $this->loadExtension(PluginInterface::class, $plugin . ':' . $type, $path);
+	}
+
+	/**
 	 * Loads the extension.
 	 *
 	 * @param   string  $type           The extension type
 	 * @param   string  $extensionName  The extension name
 	 * @param   string  $extensionPath  The path of the extension
 	 *
-	 * @return  ComponentInterface|ModuleInterface
+	 * @return  ComponentInterface|ModuleInterface|PluginInterface
 	 *
 	 * @since   4.0.0
 	 */
 	private function loadExtension($type, $extensionName, $extensionPath)
 	{
 		// Check if the extension is already loaded
-		if (!empty($this->extensions[$type][$extensionName]))
+		if (!empty(ExtensionHelper::$extensions[$type][$extensionName]))
 		{
-			return $this->extensions[$type][$extensionName];
+			return ExtensionHelper::$extensions[$type][$extensionName];
 		}
 
 		// The container to get the services from
@@ -138,6 +154,9 @@ trait ExtensionManagerTrait
 				case ModuleInterface::class:
 					$container->set($type, new Module(new ModuleDispatcherFactory('')));
 					break;
+				case PluginInterface::class:
+					list($pluginName, $pluginType) = explode(':', $extensionName);
+					$container->set($type, $this->loadPluginFromFilesystem($pluginName, $pluginType));
 			}
 		}
 
@@ -162,9 +181,64 @@ trait ExtensionManagerTrait
 		}
 
 		// Cache the extension
-		$this->extensions[$type][$extensionName] = $extension;
+		ExtensionHelper::$extensions[$type][$extensionName] = $extension;
 
 		return $extension;
+	}
+
+	/**
+	 * Creates a CMS plugin from the filesystem.
+	 *
+	 * @param   string  $plugin  The plugin
+	 * @param   string  $type    The type
+	 *
+	 * @return  CMSPlugin
+	 *
+	 * @since   4.0.0
+	 */
+	private function loadPluginFromFilesystem(string $plugin, string $type)
+	{
+		// The dispatcher
+		$dispatcher = $this->getContainer()->get(DispatcherInterface::class);
+
+		// Clear the names
+		$plugin = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin);
+		$type   = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
+
+		// The path of the plugin
+		$path = JPATH_PLUGINS . '/' . $type . '/' . $plugin . '/' . $plugin . '.php';
+
+		// Return an empty class when the file doesn't exist
+		if (!file_exists($path))
+		{
+			return new DummyPlugin($dispatcher);
+		}
+
+		// Include the file of the plugin
+		require_once $path;
+
+		// Compile the classname
+		$className = 'Plg' . str_replace('-', '', $type) . $plugin;
+
+		if ($type == 'editors-xtd')
+		{
+			// This type doesn't follow the convention
+			$className = 'PlgEditorsXtd' . $plugin;
+
+			if (!class_exists($className))
+			{
+				$className = 'PlgButton' . $plugin;
+			}
+		}
+
+		// Return an empty class when the class doesn't exist
+		if (!class_exists($className))
+		{
+			return new DummyPlugin($dispatcher);
+		}
+
+		// Instantiate the plugin
+		return new $className($dispatcher, (array) PluginHelper::getPlugin($type, $plugin));
 	}
 
 	/**

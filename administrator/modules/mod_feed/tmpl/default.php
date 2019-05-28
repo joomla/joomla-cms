@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_feed
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,12 +68,18 @@ else
 		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> !important" class="feed<?php echo $moduleclass_sfx; ?>">
 		<?php
 
-		// Feed description
+		// Feed title
 		if (!is_null($feed->title) && $params->get('rsstitle', 1)) : ?>
 			<h2 class="<?php echo $direction; ?>">
 				<a href="<?php echo str_replace('&', '&amp;', $rssurl); ?>" target="_blank">
 				<?php echo $feed->title; ?></a>
 			</h2>
+		<?php endif;
+		// Feed date
+		if ($params->get('rssdate', 1)) : ?>
+			<h3>
+			<?php echo HTMLHelper::_('date', $feed->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
+			</h3>
 		<?php endif; ?>
 
 		<?php // Feed description ?>
@@ -108,12 +114,18 @@ else
 						<h5 class="feed-link"><?php echo trim($feed[$i]->title); ?></h5>
 					<?php endif; ?>
 
+					<?php if ($params->get('rssitemdate', 0)) : ?>
+						<div class="feed-item-date">
+							<?php echo HTMLHelper::_('date', $feed[$i]->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
+						</div>
+					<?php endif; ?>
+
 					<?php if ($params->get('rssitemdesc', 1) && $text !== '') : ?>
 						<div class="feed-item-description">
 						<?php
 							// Strip the images.
 							$text = OutputFilter::stripImages($text);
-							$text = JHtml::_('string.truncate', $text, $params->get('word_count', 0), true, false);
+							$text = HTMLHelper::_('string.truncate', $text, $params->get('word_count', 0), true, false);
 							echo str_replace('&apos;', "'", $text);
 						?>
 						</div>
