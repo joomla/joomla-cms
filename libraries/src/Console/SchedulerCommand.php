@@ -95,7 +95,6 @@ class SchedulerCommand extends AbstractCommand
 
 			$symfonyStyle->success('Scheduler finished in '. round(microtime(true) - $this->time, 3));
 			return 0;
-
 		}
 
 		Log::add(
