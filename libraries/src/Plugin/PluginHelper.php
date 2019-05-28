@@ -333,6 +333,7 @@ abstract class PluginHelper
 		{
 			// Release the lock
 			self::unLock($name, $type, false);
+
 			return false;
 		}
 
