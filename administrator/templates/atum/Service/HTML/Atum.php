@@ -58,24 +58,27 @@ class Atum
 
 		if ($params->get('text-dark'))
 		{
-			$root[] = '--atum-text-dark: ' . $params->get('text-dark') . ';';
+			$textdark = new Hex('#' . trim($params->get('text-dark'), '#'));
+			$root[] = '--atum-text-dark: ' . (($monochrome) ? $textdark->grayscale() : $textdark) . ';';
 		}
 
 		if ($params->get('text-light'))
 		{
-			$root[] = '--atum-text-light: ' . $params->get('text-light') . ';';
+			$textlight = new Hex('#' . trim($params->get('text-light'), '#'));
+			$root[] = '--atum-text-light: ' . (($monochrome) ? $textlight->grayscale() : $textlight) . ';';
 		}
 
 		if ($params->get('link-color'))
 		{
 			$linkcolor = trim($params->get('link-color'), '#');
 			list($red, $green, $blue) = str_split($linkcolor, 2);
-			$root[] = '--atum-link-color: #' . $linkcolor . ';';
+			$linkcolor2 = new Hex('#' . $linkcolor);
+			$root[] = '--atum-link-color: ' . (($monochrome) ? $linkcolor2->grayscale() : $linkcolor2) . ';';
 
 			try
 			{
 				$color = new Hex($linkcolor);
-				$root[] = '--atum-link-hover-color: ' . (clone $color)->darken(20) . ';';
+				$root[] = '--atum-link-hover-color: ' . (($monochrome) ? $bgLight->grayscale()->darken(20) : $bgLight->darken(20)) . ';';
 			}
 			catch (Exception $ex)
 			{
@@ -85,12 +88,8 @@ class Atum
 
 		if ($params->get('special-color'))
 		{
-			$root[] = '--atum-special-color: ' . $params->get('special-color') . ';';
-		}
-
-		if ($params->get('contrast-color'))
-		{
-			$root[] = '--atum-contrast: ' . $params->get('contrast-color') . ';';
+			$specialcolor = new Hex('#' . trim($params->get('special-color'), '#'));
+			$root[] = '--atum-special-color: ' . (($monochrome) ? $specialcolor->grayscale() : $specialcolor) . ';';
 		}
 
 		if (count($root))
@@ -114,8 +113,8 @@ class Atum
 		
 		$root = [];
 
-		$bgcolor = new Hsl("hsl(" . $hue . ", " . (61 * $monochrome) . ", 26)");
-		$root[] = '--atum-bg-dark: ' . (new Hsl("hsl(" . $hue . ", " . (61 * $monochrome) . ", 26)"))->toHex() . ';';
+		$bgcolor = new Hsl("hsl(" . $hue . ", " . (61 * $multiplier) . ", 26)");
+		$root[] = '--atum-bg-dark: ' . (new Hsl("hsl(" . $hue . ", " . (61 * $multiplier) . ", 26)"))->toHex() . ';';
 
 		try
 		{

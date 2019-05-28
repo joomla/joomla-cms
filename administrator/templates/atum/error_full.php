@@ -67,85 +67,11 @@ $css = '
 	}
 ';
 
-$root = [];
-
-$steps = 10;
-
-if ($this->params->get('bg-dark'))
-{
-	$bgcolor = trim($this->params->get('bg-dark'), '#');
-
-	list($red, $green, $blue) = str_split($bgcolor, 2);
-
-	$root[] = '--atum-bg-dark: #' . $bgcolor . ';';
-
-	try
-	{
-		$color    = new Hex($bgcolor);
-		$colorHsl = $color->toHsl();
-
-		$root[] = '--atum-contrast: ' . (clone $colorHsl)->lighten(-6)->spin(-30)->toHex() . ';';
-		$root[] = '--atum-bg-dark-10: ' . (clone $colorHsl)->desaturate(86)->lighten(20.5)->spin(-6)->toHex() . ';';
-		$root[] = '--atum-bg-dark-20: ' . (clone $colorHsl)->desaturate(76)->lighten(16.5)->spin(-6)->toHex() . ';';
-		$root[] = '--atum-bg-dark-30: ' . (clone $colorHsl)->desaturate(60)->lighten(12)->spin(-5)->toHex() . ';';
-		$root[] = '--atum-bg-dark-40: ' . (clone $colorHsl)->desaturate(41)->lighten(8)->spin(-3)->toHex() . ';';
-		$root[] = '--atum-bg-dark-50: ' . (clone $colorHsl)->desaturate(19)->lighten(4)->spin(-1)->toHex() . ';';
-		$root[] = '--atum-bg-dark-70: ' . (clone $colorHsl)->lighten(-6)->spin(4)->toHex() . ';';
-		$root[] = '--atum-bg-dark-80: ' . (clone $colorHsl)->lighten(-11.5)->spin(7)->toHex() . ';';
-		$root[] = '--atum-bg-dark-90: ' . (clone $colorHsl)->desaturate(1)->lighten(-17)->spin(10)->toHex() . ';';
-	}
-	catch (Exception $ex)
-	{
-
-	}
-}
-
-if ($this->params->get('bg-light'))
-{
-	$root[] = '--atum-bg-light: ' . $this->params->get('bg-light') . ';';
-}
-
-if ($this->params->get('text-dark'))
-{
-	$root[] = '--atum-text-dark: ' . $this->params->get('text-dark') . ';';
-}
-
-if ($this->params->get('text-light'))
-{
-	$root[] = '--atum-text-light: ' . $this->params->get('text-light') . ';';
-}
-
-if ($this->params->get('link-color'))
-{
-	$linkcolor = trim($this->params->get('link-color'), '#');
-
-	list($red, $green, $blue) = str_split($linkcolor, 2);
-
-	$root[] = '--atum-link-color: #' . $linkcolor . ';';
-
-	try
-	{
-		$color = new Hex($linkcolor);
-
-		$root[] = '--atum-link-hover-color: ' . (clone $color)->darken(20) . ';';
-	}
-	catch (Exception $ex)
-	{
-
-	}
-}
-
-if ($this->params->get('special-color'))
-{
-	$root[] = '--atum-special-color: ' . $this->params->get('special-color') . ';';
-}
-
-if (count($root))
-{
-	$css .= ':root {' . implode($root) . '}';
-}
-
 $this->addStyleDeclaration($css);
+
+HTMLHelper::getServiceRegistry()->register('atum', 'Joomla\\Template\\Atum\\Administrator\\Service\\HTML\\Atum');
+
+HTMLHelper::_('atum.rootcolors', $this->params);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -165,19 +91,19 @@ $this->addStyleDeclaration($css);
 
 <?php // Header ?>
 <header id="header" class="header">
-	<div class="d-flex align-items-center">
+	<div class="d-flex">
 		<div class="header-title d-flex mr-auto">
 			<div class="d-flex">
-				<a class="logo" href="<?php echo Route::_('index.php'); ?>"
-				   aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
-					<img src="<?php echo $siteLogo; ?>" alt="">
-					<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="">
-				</a>
+				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
+				<div class="logo">
+					<img src="<?php echo $siteLogo; ?>" alt="<?php echo $logoAlt; ?>">
+					<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="<?php echo $logoSmallAlt; ?>">
+				</div>
 			</div>
 			<jdoc:include type="modules" name="title"/>
 		</div>
 		<div class="header-items d-flex ml-auto">
-			<jdoc:include type="modules" name="status" style="no"/>
+			<jdoc:include type="modules" name="status" style="header-element"/>
 		</div>
 	</div>
 </header>
@@ -188,10 +114,7 @@ $this->addStyleDeclaration($css);
 	<?php // Sidebar ?>
 	<?php if (!$hiddenMenu) : ?>
 		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
-			<jdoc:include type="modules" name="menu" style="none"/>
-			<div id="main-brand" class="main-brand d-flex align-items-center justify-content-center">
-				<img src="<?php echo $joomlaLogo; ?>" alt="">
-			</div>
+			<jdoc:include type="modules" name="menu" style="none"/>			
 		</div>
 	<?php endif; ?>
 
