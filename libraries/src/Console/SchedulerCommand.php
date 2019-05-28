@@ -20,7 +20,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputOption;
 
-
 /**
  * Console command for checking if there are pending jobs
  *
