@@ -114,6 +114,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 				break;
 			case 'customPrefix':
 				$this->$name = (string) $value;
+				break;
 			default:
 				parent::__set($name, $value);
 		}
