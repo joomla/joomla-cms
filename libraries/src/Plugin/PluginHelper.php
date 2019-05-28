@@ -470,6 +470,5 @@ abstract class PluginHelper
 		}
 
 		return $taskid;
-
 	}
 }
