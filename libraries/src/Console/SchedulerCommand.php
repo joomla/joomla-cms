@@ -117,7 +117,6 @@ class SchedulerCommand extends AbstractCommand
 			}
 			$symfonyStyle->note('Executed: ' . $run);
 		}
-		
 
 		Log::add(
 			'Scheduler tooks:' . round(microtime(true) - $this->time, 3), Log::INFO, 'scheduler'
