@@ -324,9 +324,9 @@ abstract class PluginHelper
 		}
 
 		// Get the timeout for Joomla! job jobone task
-		$now           = time();
+		$now     = time();
 		$timeout = (int) $params->get('cachetimeout', 1);
-		$unit          = (int) $params->get('unit', 86400);
+		$unit    = (int) $params->get('unit', 86400);
 		$timeout = ($unit * $timeout);
 
 		if ((abs($now - $lastrun) < $timeout))
@@ -343,8 +343,8 @@ abstract class PluginHelper
 	/**
 	 * Pseudo Lock the row.
 	 *
-	 * @param   string  $name      The plugin name.
-	 * @param   string  $type      The plugin type, relates to the subdirectory in the plugins directory.
+	 * @param   string  $name  The plugin name.
+	 * @param   string  $type  The plugin type, relates to the subdirectory in the plugins directory.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -353,9 +353,9 @@ abstract class PluginHelper
 	public static function lock($name, $type)
 	{
 		// Prevent multiple execution
-		$db = Factory::getDbo();
-		$lockdate ='1918-01-01 00:00:00';
-		$query = $db->getQuery(true);
+		$db       = Factory::getDbo();
+		$lockdate = '1918-01-01 00:00:00';
+		$query    = $db->getQuery(true);
 		$query->bind(':checked_out_time', $lockdate)
 			->bind(':wchecked_out_time', $lockdate)
 			->bind(':element', $name)
@@ -404,10 +404,10 @@ abstract class PluginHelper
 	public static function unLock($name, $type, $unlock = true)
 	{
 
-		$taskid = null;
-		$db = Factory::getDbo();
+		$taskid   = null;
+		$db       = Factory::getDbo();
 		$lockdate = '1918-01-01 00:00:00';
-		$query = $db->getQuery(true);
+		$query    = $db->getQuery(true);
 		$query->bind(':checked_out_time', $lockdate)
 			->bind(':element', $name)
 			->bind(':folder', $type)
@@ -421,7 +421,7 @@ abstract class PluginHelper
 
 		$params = $db->loadColumn();
 		$query  = $db->getQuery(true);
-		$now = Factory::getDate()->toSql();
+		$now    = Factory::getDate()->toSql();
 		$query->bind(':checked_out_time', $now)
 			->bind(':element', $name)
 			->bind(':folder', $type);
