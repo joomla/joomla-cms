@@ -90,11 +90,11 @@ HTMLHelper::_('behavior.formvalidator');
 						<td>
 							<?php if ($item->time): ?>
 								<span class="badge badge-success">
-									<?php echo Text::_('COM_USERS_ONLINE'); ?>
+									<?php echo Text::_('COM_USERS_USERS_ONLINE'); ?>
 								</span>
 							<?php else: ?>
 								<span class="badge badge-warning">
-									<?php echo Text::_('COM_USERS_OFFLINE'); ?>
+									<?php echo Text::_('COM_USERS_USERS_OFFLINE'); ?>
 								</span>
 							<?php endif; ?>
 						</td>
