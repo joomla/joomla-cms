@@ -111,7 +111,7 @@ if ($saveOrder)
 								<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pen-square mr-2" aria-hidden="true"></span>'; ?>
 								<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . (int) $item->extension_id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
 									<?php echo $editIcon; ?><?php echo $item->name; ?></a>
-									<?php if (!empty($item->note)) : ?>
+									<?php if (!empty($item->note) && trim($item->note) != '') : ?>
 										<div class="small">
 											<strong><?php echo JText::_('JFIELD_NOTE_LABEL') . ': '; ?></strong><?php echo $this->escape($item->note); ?>
 										</div>
