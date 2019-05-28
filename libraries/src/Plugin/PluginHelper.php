@@ -372,7 +372,6 @@ abstract class PluginHelper
 		{
 			// Update the plugin parameters
 			$db->execute();
-		
 		}
 		catch (RuntimeException $e)
 		{
