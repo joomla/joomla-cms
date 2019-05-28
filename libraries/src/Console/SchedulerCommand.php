@@ -85,7 +85,7 @@ class SchedulerCommand extends AbstractCommand
 
 				if ((abs($now - $lastrun) < $timeout))
 				{
-					$nextrun = ", next run will be after " . abs($now - $lastrun - $timeout);
+					$nextrun = ', next run will be after ' . abs($now - $lastrun - $timeout);
 				}
 
 				$symfonyStyle->note('Job: ' . $job->element . ' runned ' . $runned . ' times' . $nextrun);
