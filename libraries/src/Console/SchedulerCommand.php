@@ -26,7 +26,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * @since  4.0.0
  */
 class SchedulerCommand extends AbstractCommand
-{	
+{
 	/**
 	 * The default command name
 	 *
@@ -165,8 +165,8 @@ EOF
 	/**
 	 * Function to list all the jobs.
 	 *
-	 * @param   string  $input   The plugin folder,
-	 * @param   string  $output  The extension type.
+	 * @param   string  $folder  The plugin folder,
+	 * @param   string  $type    The extension type.
 	 *
 	 * @return  object
 	 *
