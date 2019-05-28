@@ -407,7 +407,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$tableSub = $this->replacePrefix($table);
 		$fn = explode('.', $tableSub);
 
-		if (count($fn) == 2) 
+		if (count($fn) === 2) 
 		{
 			$schema = $fn[0];
 			$tableSub = $fn[1];
