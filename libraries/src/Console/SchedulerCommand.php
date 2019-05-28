@@ -142,7 +142,6 @@ class SchedulerCommand extends AbstractCommand
 
 		// Trigger the ExecuteTask event
 		return Factory::getApplication()->triggerEvent('onExecuteScheduledTask', array());
-
 	}
 
 	/**
