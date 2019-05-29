@@ -116,6 +116,7 @@
         // Required by Joomla's API for the XTD-Buttons
         getValue: () => Joomla.editors.instances[element.id].instance.getContent(),
         setValue: text => Joomla.editors.instances[element.id].instance.setContent(text),
+        getSelection: () => Joomla.editors.instances[element.id].instance.selection.getContent({ format: 'text' }),
         replaceSelection: text => Joomla.editors.instances[element.id].instance.execCommand('mceInsertContent', false, text),
         // Some extra instance dependent
         id: element.id,

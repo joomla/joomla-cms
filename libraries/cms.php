@@ -52,8 +52,6 @@ spl_autoload_register(array(new \Joomla\CMS\Autoload\ClassLoader($loader), 'load
 // Register the class aliases for Framework classes that have replaced their Platform equivalents
 require_once JPATH_LIBRARIES . '/classmap.php';
 
-// Register a handler for uncaught exceptions that shows a pretty error page when possible
-set_exception_handler(array('JErrorPage', 'render'));
 
 // Define the Joomla version if not already defined
 if (!defined('JVERSION'))
@@ -61,6 +59,9 @@ if (!defined('JVERSION'))
 	$jversion = new JVersion;
 	define('JVERSION', $jversion->getShortVersion());
 }
+
+// Register a handler for uncaught exceptions that shows a pretty error page when possible
+set_exception_handler(array('JErrorPage', 'render'));
 
 // Set up the message queue logger for web requests
 if (array_key_exists('REQUEST_METHOD', $_SERVER))
