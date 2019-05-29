@@ -168,7 +168,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 			$query = $this->db->getQuery(true)
 				->delete($this->db->quoteName('#__user_keys'))
 				->where($this->db->quoteName('user_id') . ' = :userid')
-			  ->bind(':userid', $results[0]->user_id, ParameterType::INTEGER);
+				->bind(':userid', $results[0]->user_id, ParameterType::INTEGER);
 
 			try
 			{
@@ -200,7 +200,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 			->from($this->db->quoteName('#__users'))
 			->where($this->db->quoteName('username') . ' = :userid')
 			->where($this->db->quoteName('requireReset') . ' = 0')
-		  ->bind(':userid', $results[0]->user_id);
+			->bind(':userid', $results[0]->user_id);
 
 		try
 		{
@@ -357,10 +357,10 @@ class PlgAuthenticationCookie extends CMSPlugin
 				->set($this->db->quoteName('series') . ' = :series')
 				->set($this->db->quoteName('uastring') . ' = :uastring')
 				->set($this->db->quoteName('time') . ' = :time')
-			  ->bind(':userid', $options['user']->username)
-			  ->bind(':series', $series)
-			  ->bind(':uastring', $cookieName)
-			  ->bind(':time', $future);
+				->bind(':userid', $options['user']->username)
+				->bind(':series', $series)
+				->bind(':uastring', $cookieName)
+				->bind(':time', $future);
 		}
 		else
 		{
