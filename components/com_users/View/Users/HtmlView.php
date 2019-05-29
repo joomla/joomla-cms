@@ -20,7 +20,7 @@ use JPagination;
 /**
  * View class for Users
  *
- * @since  4.0
+ * @since   __deploy_version__
  */
 class HtmlView extends BaseHtmlView
 {
@@ -28,7 +28,7 @@ class HtmlView extends BaseHtmlView
 	 * An array of items
 	 *
 	 * @var     array
-	 * @since   4.0
+	 * @since   __deploy_version__
 	 */
 	protected $items;
 
@@ -36,7 +36,7 @@ class HtmlView extends BaseHtmlView
 	 * The pagination object
 	 *
 	 * @var     JPagination
-	 * @since   4.0
+	 * @since   __deploy_version__
 	 */
 	protected $pagination;
 
@@ -44,7 +44,7 @@ class HtmlView extends BaseHtmlView
 	 * The model state
 	 *
 	 * @var     object
-	 * @since   4.0
+	 * @since   __deploy_version__
 	 */
 	protected $state;
 
@@ -52,7 +52,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    Registry|null
-	 * @since  4.0.0
+	 * @since   __deploy_version__
 	 */
 	protected $params = null;
 
@@ -61,7 +61,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 * @throws  Exception
-	 * @since   1.0.0
+	 * @since   __deploy_version__
 	 */
 	public function display($tpl = null)
 	{
@@ -75,7 +75,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new Exception(implode("\n", $errors));
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		parent::display($tpl);

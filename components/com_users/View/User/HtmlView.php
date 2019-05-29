@@ -19,15 +19,15 @@ use Joomla\Component\Users\Site\Model\UserModel;
 /**
  * View class for Single User
  *
- * @since  4.0
+ * @since   __deploy_version__
  */
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * The Author data
+	 * The User data
 	 *
 	 * @var    object
-	 * @since  1.0.0
+	 * @since   __deploy_version__
 	 */
 	protected $item;
 
@@ -35,7 +35,7 @@ class HtmlView extends BaseHtmlView
 	 * The model state
 	 *
 	 * @var    Joomla\Registry\Registry
-	 * @since  1.0.0
+	 * @since   __deploy_version__
 	 */
 	protected $state;
 
@@ -44,11 +44,9 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The template file to include
 	 *
-	 * @return  mixed
-	 *
+	 * @return  void
 	 * @throws  Exception
-	 *
-	 * @since   1.0.0
+	 * @since   __deploy_version__
 	 */
 	public function display($tpl = null)
 	{

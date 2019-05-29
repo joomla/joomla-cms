@@ -12,18 +12,13 @@
     <!-- Add fields to the parameters object for the layout. -->
     <fields name="params">
         <fieldset name="basic" label="COM_USERS_TAB">
-            <field
-                    name="layout_type"
-                    type="hidden"
-                    default="blog"
-            />
+
             <field
                     name="groups"
                     type="usergrouplist"
                     label="COM_USERS_PARAMS_SELECT_GROUPS"
                     required="true"
                     multiple="true"
-                    class="2do"
             />
 
             <field

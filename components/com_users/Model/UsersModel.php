@@ -21,43 +21,25 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * This models supports retrieving a list of users.
  *
- * @since  4.0
+ * @since   __deploy_version__
  */
 class UsersModel extends ListModel
 {
 	/**
 	 * User items data
 	 *
-	 * @var array
-	 * @since   4.0
+	 * @var     array
+	 * @since   __deploy_version__
 	 */
 	protected $item = null;
-
-	/**
-	 * The category that applies.
-	 *
-	 * @var        object
-	 * @access    protected
-	 * @since     4.0
-	 */
-	protected $category = null;
-
-	/**
-	 * The list of other contact categories.
-	 *
-	 * @var       array
-	 * @access    protected
-	 * @since     4.0
-	 */
-	protected $categories = null;
 
 	/**
 	 * Constructor
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @throws Exception
-	 * @since   4.0
+	 * @throws  Exception
+	 * @since   __deploy_version__
 	 */
 	public function __construct($config = array())
 	{
@@ -81,7 +63,7 @@ class UsersModel extends ListModel
 	 * Method to get a list of items.
 	 *
 	 * @return  mixed  An array of objects on success, false on failure.
-	 * @since   4.0
+	 * @since   __deploy_version__
 	 */
 	public function getItems()
 	{
@@ -95,8 +77,8 @@ class UsersModel extends ListModel
 	 * Method to build an SQL query to load the list data.
 	 *
 	 * @return  string    An SQL query
-	 * @throws Exception
-	 * @since   4.0
+	 * @throws  Exception
+	 * @since   __deploy_version__
 	 */
 	protected function getListQuery()
 	{
@@ -176,7 +158,7 @@ class UsersModel extends ListModel
 	 *
 	 * @return  void
 	 * @throws  Exception
-	 * @since   1.6
+	 * @since   __deploy_version__
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{

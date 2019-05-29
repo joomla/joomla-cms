@@ -16,20 +16,20 @@ use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\Database\ParameterType;
 
 /**
- * This models retrieves some data of a user.
+ * This models retrieves some data of a User.
  *
- * @since  4.0
+ * @since   __deploy_version__
  */
 class UserModel extends ItemModel
 {
 	/**
-	 * Load the Author data.
+	 * Load the User data.
 	 *
-	 * @param   integer  $id  ID of Author
+	 * @param   integer  $id  ID of User
 	 *
 	 * @return  object  The product information.
 	 * @throws  Exception
-	 * @since   1.0.0
+	 * @since   __deploy_version__
 	 */
 	public function getItem($id = null)
 	{
