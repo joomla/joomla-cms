@@ -393,7 +393,8 @@ class PlgInstallerOverride extends CMSPlugin
 				],
 				ParameterType::STRING
 			);
-			$bindArray = \array_merge($bindArray,
+			$bindArray = \array_merge(
+				$bindArray,
 				$insertQuery->bindArray(
 					[
 						$pk->extension_id,
