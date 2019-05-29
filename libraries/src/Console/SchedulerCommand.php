@@ -139,7 +139,7 @@ class SchedulerCommand extends AbstractCommand
 		PluginHelper::importPlugin('job');
 
 		// Trigger the ExecuteTask event
-		return Factory::getApplication()->triggerEvent('onExecuteScheduledTask', array());
+		return $this->getApplication()->triggerEvent('onExecuteScheduledTask', array());
 	}
 
 	/**
@@ -172,7 +172,7 @@ EOF
 	 *
 	 * @since   4.0.0
 	 */
-	public static function listJobs(string $folder = 'job', string $type = 'plugin')
+	public function listJobs(string $folder = 'job', string $type = 'plugin')
 	{
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
