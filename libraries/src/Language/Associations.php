@@ -172,4 +172,39 @@ class Associations
 
 		return $enabled;
 	}
+
+	/**
+	 * Method to get the global master language parameter for associations.
+	 *
+	 * @return  string  empty if not set, lang_code otherwise
+	 *
+	 * @since   4.0
+	 */
+	public static function getGlobalMasterLanguage()
+	{
+		// Flag to avoid doing multiple database queries.
+		static $tested = false;
+
+		// Status of global master language parameter.
+		static $globalMasterLanguage = '';
+
+		if (self::isEnabled())
+		{
+			// If already tested, don't test again.
+			if (!$tested)
+			{
+				$plugin = PluginHelper::getPlugin('system', 'languagefilter');
+
+				if (!empty($plugin))
+				{
+					$params = new Registry($plugin->params);
+					$globalMasterLanguage  = $params->get('global_master_language');
+				}
+
+				$tested = true;
+			}
+		}
+
+		return $globalMasterLanguage ?? '';
+	}
 }

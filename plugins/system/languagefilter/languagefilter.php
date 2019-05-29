@@ -1007,4 +1007,165 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		return $table->params = json_encode($params);
 	}
 
+	/**
+	 * After save extensions
+	 * Method is called when an extension has been saved
+	 *
+	 * @param string  $context The extension
+	 * @param JTable  $table   DataBase Table object
+	 * @param boolean $isNew   If the extension is new or not
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function onExtensionAfterSave($context, $table, $isNew)
+	{
+		// get the params that have been saved
+		$params       = json_decode($table->params);
+		$tableElement = $table->element;
+
+		if ($context != 'com_plugins.plugin' && $tableElement != 'languagefilter')
+		{
+			return true;
+		}
+
+		$this->_setMasterItem($params->global_master_language);
+	}
+
+	/**
+	 * Method to set the master item of an association as parent and the children get the parent id
+	 *
+	 * @param string  $language  The global master language
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	private function _setMasterItem($language)
+	{
+		$db             = Factory::getDbo();
+		$masterLanguage = $language;
+
+		// TODO add warning when master language changed
+
+		// if there is no global masterlanguage set, set all parent_ids to -1
+		if (!$masterLanguage)
+		{
+			$resetQuery = $db->getQuery(true)
+				->update($db->quoteName('#__associations'))
+				->set($db->quoteName('parent_id') . ' = ' . -1);
+			$db->setQuery($resetQuery);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (ExecutionFailureException $e)
+			{
+				$this->_message .= Text::_(' , failed to update the master with his childs');
+
+				return;
+			}
+		}
+		else
+		{
+			// TODO Question? Maybe if the language hasn't changed it isn't necessary to run this again. But no possibility to check that?
+
+			// get every different key
+			$keyQuery  = $db->getQuery(true)
+				->select($db->quoteName('key'))
+				->from($db->quoteName('#__associations'))
+				->group($db->quoteName('key'))
+				->having('COUNT(*) > 1');
+			$assocKeys = $db->setQuery($keyQuery)->loadColumn();
+
+			foreach ($assocKeys as $value)
+			{
+				//get the context of the association with the current key
+				$contextQuery = $db->getQuery(true)
+					->select($db->quoteName('context'))
+					->from($db->quoteName('#__associations'))
+					->where($db->quoteName('key') . ' = ' . $db->quote($value));
+				$assocContext = $db->setQuery($contextQuery)->loadResult();
+
+				// get the correct table to look in depending on the context
+				switch ($assocContext)
+				{
+					case 'com_content.item':
+						$fromTable = $db->quoteName('#__content', 'e');
+						break;
+
+					case 'com_menus.item' :
+						$fromTable = $db->quoteName('#__menu', 'e');
+						break;
+
+					case 'com_categories.item':
+						$fromTable = $db->quoteName('#__categories', 'e');
+						break;
+
+					case 'com_contact.item':
+						$fromTable = $db->quoteName('#__contact_details', 'e');
+						break;
+
+					case 'com_newsfeeds.item':
+						$fromTable = $db->quoteName('#__newsfeeds', 'e');
+						break;
+				}
+
+				// get items with the global master language
+				$subQuery = $db->getQuery(true)
+					->select($db->quoteName('e.id'))
+					->from($fromTable)
+					->where($db->quoteName('e.language') . ' = ' . $db->quote($masterLanguage));
+
+				// get master id of an item that has the global master language
+				$masterQuery = $db->getQuery(true)
+					->select($db->quoteName('id'))
+					->from('#__associations')
+					->where($db->quoteName('id') . ' IN (' . $subQuery . ')')
+					->where($db->quoteName('key') . ' = ' . $db->quote($value));
+				$masterId    = $db->setQuery($masterQuery)->loadResult();
+
+				// Set the master item as parent
+				$query = $db->getQuery(true)
+					->update($db->quoteName('#__associations'))
+					->set($db->quoteName('parent_id') . ' = ' . 0)
+					->where($db->quoteName('id') . ' = ' . $db->quote($masterId))
+					->where($db->quoteName('key') . ' = ' . $db->quote($value));
+				$db->setQuery($query);
+
+				try
+				{
+					$db->execute();
+				}
+				catch (ExecutionFailureException $e)
+				{
+					$this->_message .= Text::_(' , failed to update the master with his childs');
+
+					return;
+				}
+
+				// Set the master id to the children
+				$query = $db->getQuery(true)
+					->update($db->quoteName('#__associations'))
+					->set($db->quoteName('parent_id') . ' = ' . $db->quote($masterId))
+					->where($db->quoteName('id') . ' <> ' . $db->quote($masterId))
+					->where($db->quoteName('key') . ' = ' . $db->quote($value));
+				$db->setQuery($query);
+
+				try
+				{
+					$db->execute();
+				}
+				catch (ExecutionFailureException $e)
+				{
+					$this->_message .= Text::_(' , failed to update the master with his childs');
+
+					return;
+				}
+
+			}
+		}
+	}
 }

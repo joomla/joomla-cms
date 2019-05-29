@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -510,13 +511,16 @@ class PlgSampledataMultilang extends CMSPlugin
 		// Store language filter plugin parameters.
 		if ($pluginName == 'plg_system_languagefilter')
 		{
+			$currentDefaultLanguage = $this->app->get('language');
 			$params = '{'
 					. '"detect_browser":"0",'
 					. '"automatic_change":"1",'
 					. '"item_associations":"1",'
 					. '"remove_default_prefix":"0",'
 					. '"lang_cookie":"0",'
-					. '"alternate_meta":"1"'
+					. '"alternate_meta":"1",'
+					. '"user_master_language":"1",'
+					. '"global_master_language":"' . $currentDefaultLanguage . '"'
 				. '}';
 			$query
 				->clear()
@@ -899,16 +903,22 @@ class PlgSampledataMultilang extends CMSPlugin
 	private function addAssociations($groupedAssociations)
 	{
 		$db = Factory::getDbo();
+		$globalMasterLanguage = Associations::getGlobalMasterLanguage();
 
 		foreach ($groupedAssociations as $context => $associations)
 		{
+			// If there is an association item with the globalMasterLanguage, then get his id
+			$masterID = $associations[$globalMasterLanguage] ?? '';
 			$key   = md5(json_encode($associations));
 			$query = $db->getQuery(true)
 				->insert('#__associations');
 
 			foreach ($associations as $language => $id)
 			{
-				$query->values(((int) $id) . ',' . $db->quote($context) . ',' . $db->quote($key));
+				// If there is no master item in this association, then reset the parent_id to -1
+				// Otherwise, if the association item is a master item, set the parent_id to 0, otherwise set it to the master ID.
+				$parentId = $masterID ? ($masterID === $id ? 0 : $masterID) : -1;
+				$query->values(((int) $id) . ',' . $db->quote($context) . ',' . $db->quote($key) . ',' . $db->quote($parentId));
 			}
 
 			$db->setQuery($query);
