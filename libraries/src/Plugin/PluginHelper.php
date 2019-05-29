@@ -356,15 +356,15 @@ abstract class PluginHelper
 		$db       = Factory::getDbo();
 		$lockdate = '1918-01-01 00:00:00';
 		$query    = $db->getQuery(true);
-		$query->bind(':checked_out_time', $lockdate)
-			->bind(':wchecked_out_time', $lockdate)
-			->bind(':element', $name)
-			->bind(':folder', $type)
-			->update($db->quoteName('#__extensions'))
+		$query->update($db->quoteName('#__extensions'))
 			->set($db->quoteName('checked_out_time') . ' = :checked_out_time')
 			->where($db->quoteName('element') . ' = :element')
 			->where($db->quoteName('folder') . ' = :folder')
-			->where($db->quoteName('checked_out_time') . ' != :wchecked_out_time');
+			->where($db->quoteName('checked_out_time') . ' != :wchecked_out_time')
+			->bind(':checked_out_time', $lockdate)
+			->bind(':wchecked_out_time', $lockdate)
+			->bind(':element', $name)
+			->bind(':folder', $type);
 
 		$db->setQuery($query);
 
@@ -407,23 +407,21 @@ abstract class PluginHelper
 		$db       = Factory::getDbo();
 		$lockdate = '1918-01-01 00:00:00';
 		$query    = $db->getQuery(true);
-		$query->bind(':checked_out_time', $lockdate)
-			->bind(':element', $name)
-			->bind(':folder', $type)
-			->select($db->quoteName('params'))
+		$query->select($db->quoteName('params'))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('element') . ' = :element')
 			->where($db->quoteName('folder') . ' = :folder')
-			->where($db->quoteName('checked_out_time') . ' = :checked_out_time');
+			->where($db->quoteName('checked_out_time') . ' = :checked_out_time')
+			->bind(':checked_out_time', $lockdate)
+			->bind(':element', $name)
+			->bind(':folder', $type);
 
 		$db->setQuery($query);
 
 		$params = $db->loadColumn();
 		$query  = $db->getQuery(true);
 		$now    = Factory::getDate()->toSql();
-		$query->bind(':checked_out_time', $now)
-			->bind(':element', $name)
-			->bind(':folder', $type);
+		$query->update($db->quoteName('#__extensions'));
 
 		if ($unlock)
 		{
@@ -437,20 +435,22 @@ abstract class PluginHelper
 			$registry->set('lastrun', time());
 			$jsonparam = $registry->toString('JSON');
 
-			$query->bind(':params', $jsonparam)
-				->update($db->quoteName('#__extensions'))
-				->set($db->quoteName('params') . ' = :params')
-				->set($db->quoteName('checked_out_time') . ' = :checked_out_time')
+			$query->set($db->quoteName('params') . ' = :params')
+				->set($db->qn('checked_out_time') . ' = :checked_out_time')
 				->where($db->quoteName('element') . ' = :element')
-				->where($db->quoteName('folder') . ' = :folder');
-		}
+				->where($db->quoteName('folder') . ' = :folder')
+				->bind(':params', $jsonparam);
+		}  
 		else
 		{
-			$query->update($db->quoteName('#__extensions'))
-				->set($db->quoteName('checked_out_time') . ' = :checked_out_time')
+			$query->set($db->qn('checked_out_time') . ' = :checked_out_time')
 				->where($db->quoteName('element') . ' = :element')
 				->where($db->quoteName('folder') . ' = :folder');
 		}
+
+		$query->bind(':checked_out_time', $now)
+			->bind(':element', $name)
+			->bind(':folder', $type);
 
 		try
 		{
