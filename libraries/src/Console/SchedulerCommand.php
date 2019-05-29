@@ -64,6 +64,7 @@ class SchedulerCommand extends AbstractCommand
 		$this->db = $db;
 		parent::__construct();
 	}
+
 	/**
 	 * Internal function to execute the command.
 	 *
