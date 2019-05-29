@@ -360,11 +360,8 @@ class CssMenu
 					continue;
 				}
 				// Exclude help menu item if set such in mod_menu
-				else
-				{
-					$parent->removeChild($item);
-					continue;
-				}
+				$parent->removeChild($item);
+				continue;
 			}
 			elseif ($item->element === 'com_workflow')
 			{
