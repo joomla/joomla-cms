@@ -19,7 +19,7 @@ use Joomla\Component\Users\Site\Model\UserModel;
 /**
  * View class for Single User
  *
- * @since   __deploy_version__
+ * @since   __DEPLOY_VERSION__
  */
 class HtmlView extends BaseHtmlView
 {
@@ -27,7 +27,7 @@ class HtmlView extends BaseHtmlView
 	 * The User data
 	 *
 	 * @var    object
-	 * @since   __deploy_version__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $item;
 
@@ -35,7 +35,7 @@ class HtmlView extends BaseHtmlView
 	 * The model state
 	 *
 	 * @var    Joomla\Registry\Registry
-	 * @since   __deploy_version__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $state;
 
@@ -46,7 +46,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 * @throws  Exception
-	 * @since   __deploy_version__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null)
 	{

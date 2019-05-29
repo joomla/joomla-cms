@@ -18,7 +18,7 @@ use Joomla\Database\ParameterType;
 /**
  * This models retrieves some data of a User.
  *
- * @since   __deploy_version__
+ * @since   __DEPLOY_VERSION__
  */
 class UserModel extends ItemModel
 {
@@ -29,7 +29,7 @@ class UserModel extends ItemModel
 	 *
 	 * @return  object  The product information.
 	 * @throws  Exception
-	 * @since   __deploy_version__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getItem($id = null)
 	{

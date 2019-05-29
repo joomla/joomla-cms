@@ -20,7 +20,7 @@ use JPagination;
 /**
  * View class for Users
  *
- * @since   __deploy_version__
+ * @since   __DEPLOY_VERSION__
  */
 class HtmlView extends BaseHtmlView
 {
@@ -28,7 +28,7 @@ class HtmlView extends BaseHtmlView
 	 * An array of items
 	 *
 	 * @var     array
-	 * @since   __deploy_version__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $items;
 
@@ -36,7 +36,7 @@ class HtmlView extends BaseHtmlView
 	 * The pagination object
 	 *
 	 * @var     JPagination
-	 * @since   __deploy_version__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $pagination;
 
@@ -44,7 +44,7 @@ class HtmlView extends BaseHtmlView
 	 * The model state
 	 *
 	 * @var     object
-	 * @since   __deploy_version__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $state;
 
@@ -52,7 +52,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    Registry|null
-	 * @since   __deploy_version__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $params = null;
 
@@ -61,7 +61,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 * @throws  Exception
-	 * @since   __deploy_version__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null)
 	{
