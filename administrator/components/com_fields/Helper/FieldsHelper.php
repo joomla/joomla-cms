@@ -194,7 +194,7 @@ class FieldsHelper
 
 					/*
 					 * On before field prepare
-					 * Event allow plugins to modfify the output of the field before it is prepared
+					 * Event allow plugins to modify the output of the field before it is prepared
 					 */
 					Factory::getApplication()->triggerEvent('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
 
@@ -578,52 +578,6 @@ class FieldsHelper
 
 		// Display field on form
 		return true;
-	}
-
-	/**
-	 * Adds Count Items for Category Manager.
-	 *
-	 * @param   \stdClass[]  &$items  The field category objects
-	 *
-	 * @return  \stdClass[]
-	 *
-	 * @since   3.7.0
-	 */
-	public static function countItems(&$items)
-	{
-		$db = Factory::getDbo();
-
-		foreach ($items as $item)
-		{
-			$item->count_trashed     = 0;
-			$item->count_archived    = 0;
-			$item->count_unpublished = 0;
-			$item->count_published   = 0;
-
-			$query = $db->getQuery(true);
-			$query->select('state, count(1) AS count')
-				->from($db->quoteName('#__fields'))
-				->where('group_id = ' . (int) $item->id)
-				->group('state');
-			$db->setQuery($query);
-
-			$fields = $db->loadObjectList();
-
-			$states = array(
-				'-2' => 'count_trashed',
-				'0'  => 'count_unpublished',
-				'1'  => 'count_published',
-				'2'  => 'count_archived',
-			);
-
-			foreach ($fields as $field)
-			{
-				$property = $states[$field->state];
-				$item->$property = $field->count;
-			}
-		}
-
-		return $items;
 	}
 
 	/**
