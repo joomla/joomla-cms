@@ -45,6 +45,26 @@ class SchedulerCommand extends AbstractCommand
 	private $time;
 
 	/**
+	 * Database connector
+	 *
+	 * @var    DatabaseInterface
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $db;
+
+	/**
+	 * Instantiate the command.
+	 *
+	 * @param   DatabaseInterface  $db  Database connector
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(DatabaseInterface $db)
+	{
+		$this->db = $db;
+		parent::__construct();
+	}
+	/**
 	 * Internal function to execute the command.
 	 *
 	 * @param   InputInterface   $input   The input to inject into the command.
@@ -174,20 +194,19 @@ EOF
 	 */
 	public function listJobs(string $folder = 'job', string $type = 'plugin')
 	{
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('element'))
-			->select($db->quoteName('params'))
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('type') . ' = :type')
-			->where($db->quoteName('folder') . ' = :folder')
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('element'))
+			->select($this->db->quoteName('params'))
+			->from($this->db->quoteName('#__extensions'))
+			->where($this->db->quoteName('type') . ' = :type')
+			->where($this->db->quoteName('folder') . ' = :folder')
 			->bind(':type', $type)
 			->bind(':folder', $folder);
-		$db->setQuery($query);
+		$this->db->setQuery($query);
 
 		try
 		{
-			$extensions = $db->loadObjectList();
+			$extensions = $this->db->loadObjectList();
 		}
 		catch (ExecutionFailureException $e)
 		{
