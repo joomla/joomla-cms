@@ -56,7 +56,7 @@ class PlgContentContact extends CMSPlugin
 		}
 
 		// Return if an alias is used
-		if ($this->params->get('link_to_alias') == 0 & $row->created_by_alias != '')
+		if ((int) $this->params->get('link_to_alias', 0) === 0 && $row->created_by_alias != '')
 		{
 			return true;
 		}
@@ -67,21 +67,22 @@ class PlgContentContact extends CMSPlugin
 			return true;
 		}
 
-		$contact = $this->getContactData($row->created_by);
+		$contact        = $this->getContactData($row->created_by);
 		$row->contactid = $contact->contactid;
-		$row->webpage = $contact->webpage;
-		$row->email = $contact->email_to;
+		$row->webpage   = $contact->webpage;
+		$row->email     = $contact->email_to;
+		$url            = $this->params->get('url', 'url');
 
-		if ($row->contactid && $this->params->get('url') == 'url')
+		if ($row->contactid && $url === 'url')
 		{
 			JLoader::register('ContactHelperRoute', JPATH_SITE . '/components/com_contact/helpers/route.php');
 			$row->contact_link = Route::_(ContactHelperRoute::getContactRoute($contact->contactid . ':' . $contact->alias, $contact->catid));
 		}
-		elseif ($row->webpage && $this->params->get('url') == 'webpage')
+		elseif ($row->webpage && $url === 'webpage')
 		{
 			$row->contact_link = $row->webpage;
 		}
-		elseif ($row->email && $this->params->get('url') == 'email')
+		elseif ($row->email && $url === 'email')
 		{
 			$row->contact_link = 'mailto:' . $row->email;
 		}
