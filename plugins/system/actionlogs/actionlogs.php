@@ -331,7 +331,7 @@ class PlgSystemActionLogs extends CMSPlugin
 			{
 				try
 				{
-					$options = array(
+					$options = [
 						'defaultgroup' => $group,
 						'cachebase'    => $clientId ? JPATH_ADMINISTRATOR . '/cache' :
 							$conf->get('cache_path', JPATH_SITE . '/cache')
