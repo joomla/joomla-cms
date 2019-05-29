@@ -2,6 +2,7 @@ export_languages: ["en-GB"]
 files:
   - source: /administrator/language/en-GB/*.ini
     translation: /administrator/language/%locale%/%locale%.%original_file_name%
+    type: ini
     translation_replace:
       en-GB.:
     update_option: update_as_unapproved
@@ -20,6 +21,7 @@ files:
     content_segmentation: 0
   - source: /language/en-GB/*.ini
     translation: /language/%locale%/%locale%.%original_file_name%
+    type: ini
     translation_replace:
       en-GB.:
     update_option: update_as_unapproved

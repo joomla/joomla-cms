@@ -114,15 +114,19 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
 		$phpSupportData = array(
 			'7.0' => array(
 				'security' => '2017-12-03',
-				'eos'      => '2018-12-03'
+				'eos'      => '2018-12-03',
 			),
 			'7.1' => array(
 				'security' => '2018-12-01',
-				'eos'      => '2019-12-01'
+				'eos'      => '2019-12-01',
 			),
 			'7.2' => array(
 				'security' => '2019-11-30',
-				'eos'      => '2020-11-30'
+				'eos'      => '2020-11-30',
+			),
+			'7.3' => array(
+				'security' => '2020-12-06',
+				'eos'      => '2021-12-06',
 			),
 		);
 
