@@ -19,7 +19,8 @@ use Joomla\CMS\Language\LanguageStemmer;
  * This class was adapted from one written by Richard Heyes.
  * See copyright and link information above.
  *
- * @since  3.0.0
+ * @since       3.0.0
+ * @deprecated  4.0 Use wamania/php-stemmer
  */
 class Porteren extends LanguageStemmer
 {
