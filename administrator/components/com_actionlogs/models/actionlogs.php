@@ -10,6 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -53,7 +56,7 @@ class ActionlogsModelActionlogs extends JModelList
 	 */
 	protected function populateState($ordering = 'a.id', $direction = 'desc')
 	{
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$search = $app->getUserStateFromRequest($this->context . 'filter.search', 'filter_search', '', 'string');
 		$this->setState('filter.search', $search);
@@ -144,7 +147,7 @@ class ActionlogsModelActionlogs extends JModelList
 			}
 			elseif (stripos($search, 'item_id:') === 0)
 			{
-				$query->where($db->quoteName('a.item_id') . ' = ' . (int) substr($search, 3));
+				$query->where($db->quoteName('a.item_id') . ' = ' . (int) substr($search, 8));
 			}
 			else
 			{
@@ -168,7 +171,7 @@ class ActionlogsModelActionlogs extends JModelList
 	private function buildDateRange($range)
 	{
 		// Get UTC for now.
-		$dNow   = new JDate;
+		$dNow   = new Date;
 		$dStart = clone $dNow;
 
 		switch ($range)
@@ -195,10 +198,10 @@ class ActionlogsModelActionlogs extends JModelList
 
 			case 'today':
 				// Ranges that need to align with local 'days' need special treatment.
-				$offset = JFactory::getApplication()->get('offset');
+				$offset = Factory::getApplication()->get('offset');
 
 				// Reset the start time to be the beginning of today, local time.
-				$dStart = new JDate('now', $offset);
+				$dStart = new Date('now', $offset);
 				$dStart->setTime(0, 0, 0);
 
 				// Now change the timezone back to UTC.
@@ -380,8 +383,8 @@ class ActionlogsModelActionlogs extends JModelList
 		{
 			/* @var JFormFieldList $field */
 			$field = $form->getField('fullordering', 'list');
-			$field->addOption(JText::_('COM_ACTIONLOGS_IP_ADDRESS_ASC'), array('value' => 'a.ip_address ASC'));
-			$field->addOption(JText::_('COM_ACTIONLOGS_IP_ADDRESS_DESC'), array('value' => 'a.ip_address DESC'));
+			$field->addOption(Text::_('COM_ACTIONLOGS_IP_ADDRESS_ASC'), array('value' => 'a.ip_address ASC'));
+			$field->addOption(Text::_('COM_ACTIONLOGS_IP_ADDRESS_DESC'), array('value' => 'a.ip_address DESC'));
 		}
 
 		return $form;
