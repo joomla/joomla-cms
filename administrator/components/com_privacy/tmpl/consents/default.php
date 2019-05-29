@@ -39,8 +39,8 @@ $stateMsgs  = array(
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clearfix"> </div>
 		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-warning">
-				<?php echo Text::_('COM_PRIVACY_MSG_CONSENTS_NO_CONSENTS'); ?>
+			<div class="alert alert-info">
+				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
 			<table class="table table-striped" id="consentList">
