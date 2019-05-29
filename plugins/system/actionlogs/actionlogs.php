@@ -335,7 +335,7 @@ class PlgSystemActionLogs extends CMSPlugin
 						'defaultgroup' => $group,
 						'cachebase'    => $clientId ? JPATH_ADMINISTRATOR . '/cache' :
 							$conf->get('cache_path', JPATH_SITE . '/cache')
-					);
+					];
 
 					$cache = Cache::getInstance('callback', $options);
 					$cache->clean();
