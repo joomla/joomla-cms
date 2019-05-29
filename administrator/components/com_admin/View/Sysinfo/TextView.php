@@ -11,10 +11,12 @@ namespace Joomla\Component\Admin\Administrator\View\Sysinfo;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\AbstractView;
+use Joomla\Component\Admin\Administrator\Model\SysInfoModel;
 
 /**
  * Sysinfo View class for the Admin component
@@ -31,8 +33,10 @@ class TextView extends AbstractView
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   3.5
+	 *
+	 * @throws  Exception
 	 */
-	public function display($tpl = null)
+	public function display($tpl = null): void
 	{
 		// Access check.
 		if (!Factory::getUser()->authorise('core.admin'))
@@ -75,9 +79,9 @@ class TextView extends AbstractView
 	 *
 	 * @since   3.5
 	 */
-	protected function getLayoutData()
+	protected function getLayoutData(): array
 	{
-		/* @var \Joomla\Component\Admin\Administrator\Model\SysInfoModel $model */
+		/** @var SysInfoModel $model */
 		$model = $this->getModel();
 
 		return array(
@@ -119,7 +123,7 @@ class TextView extends AbstractView
 	 *
 	 * @since   3.5
 	 */
-	protected function renderSection($sectionName, $sectionData, $level = 0)
+	protected function renderSection(string $sectionName, array $sectionData, int $level = 0): string
 	{
 		$lines = array();
 
@@ -172,7 +176,7 @@ class TextView extends AbstractView
 	 *
 	 * @since   3.5
 	 */
-	protected function renderDirectories($sectionName, $sectionData, $level = -1)
+	protected function renderDirectories(string $sectionName, array $sectionData, int $level = -1): string
 	{
 		foreach ($sectionData as $directory => $data)
 		{
