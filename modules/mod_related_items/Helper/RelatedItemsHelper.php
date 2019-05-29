@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Database\ParameterType;
@@ -46,6 +45,7 @@ abstract class RelatedItemsHelper
 		$condition = ContentComponent::CONDITION_PUBLISHED;
 
 		// Get an instance of the generic articles model
+		/** @var \Joomla\Component\Content\Site\Model\ArticlesModel $articles */
 		$articles = $factory->createModel('Articles', 'Site', ['ignore_request' => true]);
 
 		// Set application parameters in model
@@ -53,6 +53,11 @@ abstract class RelatedItemsHelper
 
 		$option = $input->get('option');
 		$view   = $input->get('view');
+
+		if (!($option === 'com_content' && $view === 'article'))
+		{
+			return [];
+		}
 
 		$temp = $input->getString('id');
 		$temp = explode(':', $temp);
@@ -63,7 +68,7 @@ abstract class RelatedItemsHelper
 		$related  = [];
 		$query    = $db->getQuery(true);
 
-		if ($option === 'com_content' && $view === 'article' && $id)
+		if ($id)
 		{
 			// Select the meta keywords from the item
 			$query->select('metakey')
@@ -102,24 +107,8 @@ abstract class RelatedItemsHelper
 			{
 				// Select other items based on the metakey field 'like' the keys found
 				$query->clear()
-					->select([
-						$db->quoteName(['a.id', 'a.title', 'a.catid', 'a.language']),
-						$db->quoteName(['cc.access', 'cc.published'], ['cat_access', 'cat_state']).
-						'CAST(' . $db->quoteName('a.created') . ' AS DATE) AS created'
-						]);
-
-				$case_when = ' CASE WHEN ';
-				$case_when .= $query->charLength($db->quoteName('a.alias'), '!=', '0');
-				$case_when .= ' THEN ';
-				$a_id      = $query->castAsChar($db->quoteName('a.id'));
-				$case_when .= $query->concatenate([$a_id, $db->quoteName('a.alias')], ':');
-				$case_when .= ' ELSE ';
-				$case_when .= $a_id . ' END AS slug';
-
-				$query->select($case_when)
-					->from($db->quoteName('__content', 'a'))
-					->leftJoin($db->quoteName('#__categories', 'cc'), $db->quoteName('cc.id') . ' = ' . $db->quoteName('a.catid'))
-					->leftJoin($db->quoteName('#__content_frontpage', 'f'), $db->quoteName('f.content_id') . ' = ' . $db->quoteName('a.id'))
+					->select($db->quoteName('a.id'))
+					->from($db->quoteName('#__content', 'a'))
 					->leftJoin($db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
 					->leftJoin($db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
 					->where($db->quoteName('a.id') . ' != :id')
@@ -163,7 +152,7 @@ abstract class RelatedItemsHelper
 
 				try
 				{
-					$temp = $db->loadObjectList();
+					$articleIds = $db->loadColumn();
 				}
 				catch (\RuntimeException $e)
 				{
@@ -172,20 +161,14 @@ abstract class RelatedItemsHelper
 					return [];
 				}
 
-				if (count($temp))
+				if (count($articleIds))
 				{
-					$articles_ids = [];
-
-					foreach ($temp as $row)
-					{
-						$articles_ids[] = $row->id;
-					}
-
-					$articles->setState('filter.article_id', $articles_ids);
+					$articles->setState('filter.article_id', $articleIds);
+					$articles->setState('filter.published', 1);
 					$related = $articles->getItems();
 				}
 
-				unset($temp);
+				unset($articleIds);
 			}
 		}
 
