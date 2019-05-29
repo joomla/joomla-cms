@@ -440,7 +440,7 @@ abstract class PluginHelper
 			$query->bind(':params', $jsonparam)
 				->update($db->quoteName('#__extensions'))
 				->set($db->quoteName('params') . ' = :params')
-				->set($db->qn('checked_out_time') . ' = :checked_out_time')
+				->set($db->quoteName('checked_out_time') . ' = :checked_out_time')
 				->where($db->quoteName('element') . ' = :element')
 				->where($db->quoteName('folder') . ' = :folder');
 		}
