@@ -15,6 +15,7 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
+use Joomla\CMS\Version;
 
 /**
  * Joomla! Formatted Text File Log class
@@ -139,7 +140,7 @@ class FormattedtextLogger extends Logger
 
 		if (!\JFile::append($this->path, implode("\n", $lines) . "\n"))
 		{
-			throw new RuntimeException('Cannot write to log file.');
+			throw new \RuntimeException('Cannot write to log file.');
 		}
 	}
 
@@ -172,7 +173,7 @@ class FormattedtextLogger extends Logger
 
 			if (!\JFile::append($this->path, $line))
 			{
-				throw new RuntimeException('Cannot write to log file.');
+				throw new \RuntimeException('Cannot write to log file.');
 			}
 		}
 	}
@@ -254,7 +255,7 @@ class FormattedtextLogger extends Logger
 		}
 
 		$head[] = '#Date: ' . gmdate('Y-m-d H:i:s') . ' UTC';
-		$head[] = '#Software: ' . (new \JVersion)->getLongVersion();
+		$head[] = '#Software: ' . (new Version)->getLongVersion();
 		$head[] = '';
 
 		// Prepare the fields string
