@@ -72,7 +72,7 @@ class PlgSystemScheduler extends CMSPlugin
 		// Log events
 		$options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_web.php';
-		
+
 		Log::addLogger($options, Log::INFO, array('scheduler'));
 
 		// Load language file.
