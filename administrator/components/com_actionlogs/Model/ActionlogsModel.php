@@ -388,7 +388,7 @@ class ActionlogsModel extends ListModel
 	 * @param   array    $data      data
 	 * @param   boolean  $loadData  load current data
 	 *
-	 * @return  Form|boolean  The \JForm object or false on error
+	 * @return  Form|boolean  The Form object or false on error
 	 *
 	 * @since  3.9.0
 	 */
