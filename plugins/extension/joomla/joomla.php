@@ -78,7 +78,7 @@ class PlgExtensionJoomla extends CMSPlugin
 				->values(':name, :type, :location, :enabled')
 				->bind(':name', $name)
 				->bind(':type', $type)
-				->bind(':location',$location)
+				->bind(':location', $location)
 				->bind(':enabled', (int) $enabled, ParameterType::INTEGER);
 
 			$db->setQuery($query);
