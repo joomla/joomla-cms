@@ -26,7 +26,7 @@
                     type="list"
                     label="JGLOBAL_SHOW_HEADINGS_LABEL"
                     useglobal="true"
-                    class="chzn-color"
+                    class="custom-select-color"
             >
                 <option value="0">JHIDE</option>
                 <option value="1">JSHOW</option>
@@ -37,7 +37,7 @@
                     type="list"
                     label="JGLOBAL_SHOW_HEADINGS_LABEL"
                     useglobal="true"
-                    class="chzn-color"
+                    class="custom-select-color"
             >
                 <option value="0">JHIDE</option>
                 <option value="1">JSHOW</option>
@@ -48,7 +48,7 @@
                     type="list"
                     label="COM_USERS_PARAMS_SHOW_LAST_VISITED"
                     useglobal="true"
-                    class="chzn-color"
+                    class="custom-select-color"
                     default="1"
             >
                 <option value="0">JHIDE</option>
@@ -70,7 +70,7 @@
                     type="list"
                     label="COM_USERS_PARAMS_SHOW_ONLINE_STATUS"
                     useglobal="true"
-                    class="chzn-color"
+                    class="custom-select-color"
                     default="1"
             >
                 <option value="0">JHIDE</option>
