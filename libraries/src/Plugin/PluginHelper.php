@@ -443,7 +443,7 @@ abstract class PluginHelper
 				->set($db->qn('checked_out_time') . ' = :checked_out_time')
 				->where($db->quoteName('element') . ' = :element')
 				->where($db->quoteName('folder') . ' = :folder');
-		}  
+		}
 		else
 		{
 			$query->update($db->quoteName('#__extensions'))
