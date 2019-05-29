@@ -10,6 +10,7 @@ namespace Joomla\CMS\Plugin;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\Event\AbstractEvent;
 use Joomla\Event\DispatcherAwareInterface;
@@ -23,7 +24,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-abstract class CMSPlugin implements DispatcherAwareInterface
+abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 {
 	use DispatcherAwareTrait;
 
@@ -140,9 +141,6 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 
 		// Set the dispatcher we are to register our listeners with
 		$this->setDispatcher($subject);
-
-		// Register the event listeners with the dispatcher. Override the registerListeners method to customise.
-		$this->registerListeners();
 	}
 
 	/**
@@ -190,7 +188,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 	 *
 	 * @since   4.0
 	 */
-	protected function registerListeners()
+	public function registerListeners()
 	{
 		// Plugins which are SubscriberInterface implementations are handled without legacy layer support
 		if ($this instanceof SubscriberInterface)
