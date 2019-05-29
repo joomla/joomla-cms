@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\Database\ParameterType;
 
 $value = $field->value;
 
@@ -17,24 +18,16 @@ if ($value == '')
 	return;
 }
 
-$db        = Factory::getDbo();
-$value     = (array) $value;
-$condition = '';
+$db    = Factory::getDbo();
+$query = $db->getQuery(true);
+$sql   = $fieldParams->get('query', '');
 
-foreach ($value as $v)
-{
-	if (!$v)
-	{
-		continue;
-	}
-
-	$condition .= ', ' . $db->quote($v);
-}
-
-$query = $fieldParams->get('query', '');
+$bindNames = $query->bindArray((array) $value, ParameterType::INTEGER);
 
 // Run the query with a having condition because it supports aliases
-$db->setQuery($query . ' having value in (' . trim($condition, ',') . ')');
+$sql .= ' HAVING VALUE IN (' . implode(bindNames) . ')';
+
+$query->setQuery($sql);
 
 try
 {
