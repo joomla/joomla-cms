@@ -122,7 +122,6 @@ class SchedulerCommand extends AbstractCommand
 
 		$symfonyStyle->warning('Starting Scheduler');
 
-
 		@set_time_limit(0);
 
 		$results = $this->triggerJobs();
