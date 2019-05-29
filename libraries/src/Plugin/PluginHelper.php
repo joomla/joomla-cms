@@ -447,7 +447,7 @@ abstract class PluginHelper
 		else
 		{
 			$query->update($db->quoteName('#__extensions'))
-				->set($db->qn('checked_out_time') . ' = :checked_out_time')
+				->set($db->quoteName('checked_out_time') . ' = :checked_out_time')
 				->where($db->quoteName('element') . ' = :element')
 				->where($db->quoteName('folder') . ' = :folder');
 		}
