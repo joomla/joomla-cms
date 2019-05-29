@@ -204,15 +204,6 @@ EOF
 			->bind(':folder', $folder);
 		$this->db->setQuery($query);
 
-		try
-		{
-			$extensions = $this->db->loadObjectList();
-		}
-		catch (ExecutionFailureException $e)
-		{
-			return false;
-		}
-
-		return $extensions;
+		return $this->db->loadObjectList();
 	}
 }
