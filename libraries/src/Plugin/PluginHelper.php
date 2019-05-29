@@ -361,7 +361,7 @@ abstract class PluginHelper
 			->bind(':element', $name)
 			->bind(':folder', $type)
 			->update($db->quoteName('#__extensions'))
-			->set($db->qn('checked_out_time') . ' = :checked_out_time')
+			->set($db->quoteName('checked_out_time') . ' = :checked_out_time')
 			->where($db->quoteName('element') . ' = :element')
 			->where($db->quoteName('folder') . ' = :folder')
 			->where($db->quoteName('checked_out_time') . ' != :wchecked_out_time');
