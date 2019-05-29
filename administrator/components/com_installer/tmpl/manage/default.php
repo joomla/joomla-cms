@@ -32,8 +32,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
-						<div class="alert alert-warning">
-							<?php echo JText::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'); ?>
+						<div class="alert alert-info">
+							<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 						</div>
 					<?php else : ?>
 					<table class="table" id="manageList">
@@ -106,13 +106,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<td class="d-none d-md-table-cell">
 									<?php if ($item->version !== '') : ?>
 										<?php if ($item->changelogurl !== null) : ?>
-											<a href="#changelogModal" onclick="Joomla.loadChangelog(<?php echo $item->extension_id; ?>, 'manage'); return false;" data-toggle="modal">
+											<a href="#changelogModal<?php echo $item->extension_id; ?>" onclick="Joomla.loadChangelog(<?php echo $item->extension_id; ?>, 'manage'); return false;" data-toggle="modal">
 												<?php echo $item->version?>
 											</a>
 											<?php
 											echo HTMLHelper::_(
 												'bootstrap.renderModal',
-												'changelogModal',
+												'changelogModal' . $item->extension_id,
 												array(
 													'title' => Text::sprintf('COM_INSTALLER_CHANGELOG_TITLE', $item->name, $item->version),
 												),
