@@ -634,7 +634,7 @@ class PlgContentJoomla extends CMSPlugin
 		$user = Factory::getUser();
 
 		// Messaging for changed items
-		$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
+		$default_language = ComponentHelper::getParams('com_languages')->get('administrator');
 		$debug = Factory::getApplication()->get('debug_lang');
 
 		$article = new ArticleTable($db);
@@ -685,7 +685,7 @@ class PlgContentJoomla extends CMSPlugin
 
 					// Load language for messaging
 					$receiver = JUser::getInstance($user_id);
-					$lang = JLanguage::getInstance($receiver->getParam('admin_language', $default_language), $debug);
+					$lang = Language::getInstance($receiver->getParam('admin_language', $default_language), $debug);
 					$lang->load('plg_content_joomla');
 
 					$message = array(

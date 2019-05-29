@@ -64,7 +64,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo Text::_('COM_INSTALLER_CHANGELOG'); ?>
 								</th>
 								<th class="d-none d-md-table-cell">
-									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_INSTALLER_HEADING_INSTALLTYPE'); ?>
@@ -106,7 +106,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									</td>
 									<td class="hidden-sm-down text-center">
 										<?php if ($item->changelogurl !== null) : ?>
-                                        <a href="#changelogModal" class="btn btn-info btn-xs" onclick="Joomla.loadChangelog(<?php echo $item->extension_id; ?>, 'update'); return false;" data-toggle="modal">
+                                        <a href="#changelogModal" class="btn btn-info btn-sm" onclick="Joomla.loadChangelog(<?php echo $item->extension_id; ?>, 'update'); return false;" data-toggle="modal">
 	                                        <?php echo Text::_('COM_INSTALLER_CHANGELOG'); ?>
                                         </a>
 										<?php
