@@ -27,7 +27,7 @@ class LogCreatorField extends ListField
 	 * @var    array
 	 * @since  3.9.0
 	 */
-	protected static $options = array();
+	protected static $options = [];
 
 	/**
 	 * The form field type.
