@@ -142,7 +142,7 @@ class ActionlogsController extends AdminController
 	 *
 	 * @since   3.9.0
 	 */
-	public function getModel($name = 'Actionlogs', $prefix = 'Administrator', $config = array('ignore_request' => true))
+	public function getModel($name = 'Actionlogs', $prefix = 'Administrator', $config = ['ignore_request' => true])
 	{
 		// Return the model
 		return parent::getModel($name, $prefix, $config);
