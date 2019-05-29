@@ -359,6 +359,7 @@ class CssMenu
 				{
 					continue;
 				}
+
 				// Exclude help menu item if set such in mod_menu
 				$parent->removeChild($item);
 				continue;
