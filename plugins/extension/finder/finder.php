@@ -99,7 +99,7 @@ class PlgExtensionFinder extends CMSPlugin
 			->select($db->quoteName(['element', 'client_id']))
 			->from($db->quoteName('#__extensions'))
 			->where(
-					[
+				[
 						$db->quoteName('extension_id') . ' = :eid',
 						$db->quoteName('type') . ' = ' . $db->quote('language')
 				]
