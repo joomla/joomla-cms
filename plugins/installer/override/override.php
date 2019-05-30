@@ -356,7 +356,7 @@ class PlgInstallerOverride extends CMSPlugin
 					->update($db->quoteName('#__template_overrides'))
 					->set(
 						[
-							$db->quoteName('modified_date') . ' = :$modifiedDate',
+							$db->quoteName('modified_date') . ' = :modifiedDate',
 							$db->quoteName('action') . ' = :pkAction',
 							$db->quoteName('state') . ' = 0'
 						]
