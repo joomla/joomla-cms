@@ -31,6 +31,13 @@
 					default="mod_quickicon"
 				/>
 				<field
+					name="header_icon"
+					type="text"
+					label="MOD_QUICKICON_HEADER_ICON_LABEL"
+					hint="fa fa-crosshairs"
+					default=""
+				/>
+				<field
 					name="show_global"
 					type="radio"
 					class="switcher"
@@ -174,6 +181,16 @@
 					type="radio"
 					class="switcher"
 					label="MOD_QUICKICON_SHOW_PRIVACYREQUEST_LABEL"
+					default="0"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+				<field
+					name="load_plugins"
+					type="radio"
+					class="switcher"
+					label="MOD_QUICKICON_LOAD_PLUGINS_LABEL"
 					default="0"
 					>
 					<option value="0">JHIDE</option>

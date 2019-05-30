@@ -2,7 +2,7 @@
 @import "../../../../media/vendor/bootstrap/scss/functions";
 
 $white:                            #fff;
-$whiteoffset:					   #fefefe;
+$whiteoffset:                      #fefefe;
 $gray-100:                         #f8f9fa;
 
 $gray-200:                         #e8e8e8; //used in bootstrap .badge-inverse
@@ -14,7 +14,7 @@ $gray-700:                         #495057; //used for atum-text-dark, secondary
 $gray-800:                         #343a40; //used for badges-inverse
 $gray-900:                         #212529; //used for tree header, badge-inverse border
 $black:                            #000;	//used for shadows
-$focuscolor:						#39f;   //used for focus color
+$focuscolor:                       #39f;   //used for focus color
 
 $dark-blue:                        #001B4C; //is the atum-special-color
 
@@ -28,7 +28,7 @@ $red:                              #c52827; //used in bootstrap
 $red-dark:                         #3b0d0c; //used for alerts error
 $yellow:                           #d43900; //used in bootstrap
 $green:                            #2f7d32; //used in bootstrap
-$green-dark:                       #0f2f21; // used for alert success
+$green-dark:                       #0f2f21; //used for alert success
 $teal:                             #20c997; //used in bootstrap
 $cyan:                             #108193; //used in bootstrap
 
@@ -53,7 +53,7 @@ $color-contrast:                   adjust-color($color-60, $hue: -30%, $lightnes
 $theme-colors: ();
 $theme-colors: map-merge((
   primary:                         $blue, //used only in bootstrap, please use $atum-bg-dark
-  secondary:                       $gray-700, //is it used?
+  secondary:                       $gray-700, //used for btn-secondary
   success:                         $green,
   info:                            $cyan,
   warning:                         $yellow,
@@ -65,11 +65,10 @@ $theme-colors: map-merge((
   atum-bg-dark:                    $color-60, //standard background color
   action:                          $color-60,
   error:                           $red-dark,
-  alert-success:                    $green-dark
+  alert-success:                   $green-dark
 ), $theme-colors);
 
 $colors: (
-
   card-bg:                         $white,
   toolbar-bg:                      lighten($gray-200, 5%), // % VON DASHBOARD BG BZW ATUM lIGHT BG
   success-border:                  theme-color("success"),
@@ -132,7 +131,7 @@ $h4-font-size:                     1rem;
 $h5-font-size:                     .9286rem;
 $h6-font-size:                     .8571rem;
 $font-size-sm:                     .8rem;
-$font-size-vsm:                     .6rem;
+$font-size-vsm:                    .6rem;
 $display1-size:                    1rem;
 $display2-size:                    .875rem;
 $content-font-size:                0.875rem;
@@ -202,21 +201,21 @@ $state-danger-text:                var(--white);
 $state-danger-bg:                  var(--danger);
 $state-danger-border:              var(--danger-border);
 
-$state-error-text:                var(--error);
-$state-error-bg:                  lighten($red-dark, 70%);
-$state-error-border:              lighten($red-dark, 30%);
+$state-error-text:                 var(--error);
+$state-error-bg:                   lighten($red-dark, 70%);
+$state-error-border:               lighten($red-dark, 30%);
 
 
 
 // Badges
-$success-bg:                       #a2f5bf;
-$success-txt:                     #0f2f21;
+$success-bg:                       #BAE0B7;
+$success-txt:                      #114B0C;
 
 $warning-bg:                       #fcd9b6;
-$warning-txt:                     #462a16;
+$warning-txt:                      #462a16;
 
 $danger-bg:                        #f9acaa;
-$danger-txt:                      #3b0d0c;
+$danger-txt:                       #3b0d0c;
 
 // Input Group
 $input-group-addon-color:          var(--white);
@@ -234,19 +233,22 @@ $list-group-bg:                    var(--white-offset);
 $custom-select-bg:                 var(--white-offset);
 
 //input
-$input-padding:						        .6rem 1rem;
-$input-select-padding:				    .6rem 3rem .6rem 1rem;
-$input-select-multiple-padding:		.3rem 1rem;
+$input-padding:                    .6rem 1rem;
+$input-select-padding:             .6rem 3rem .6rem 1rem;
+$input-select-multiple-padding:    .3rem 1rem;
 
 // Modals
 $modal-header-height:              2.875rem;
 
 // Quickicons
 $quickicon-bg:                     var(--white);
+$quickicon-color-hover:            rgba(255, 255, 255, 0.9);
 $quickicon-box-shadow:             $atum-box-shadow;
 $quickicon-box-shadow-success:     0 0 3px 0 var(--success);
 $quickicon-box-shadow-danger:      0 0 3px 0 var(--danger);
 $quickicon-box-shadow-warning:     0 0 3px 0 var(--warning);
+$quickicon-icon-size:              1.3rem;
+$quickicon-icon-size-big:          2rem;
 
 // Gutter
 $grid-gutter-width:                2rem;

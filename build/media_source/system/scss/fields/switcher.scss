@@ -36,7 +36,8 @@ $switcher-height: 28px;
 .switcher label {
   line-height: $switcher-height;
   display: inline-block;
-  width: 6rem;
+  width: auto;
+  min-width: 6rem;
   height: 100%;
   margin-left: 70px;
   text-align: left;
