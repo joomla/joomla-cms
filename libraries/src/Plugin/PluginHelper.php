@@ -402,7 +402,6 @@ abstract class PluginHelper
 	 */
 	public static function unLock($name, $type, $unlock = true)
 	{
-
 		$taskid   = null;
 		$db       = Factory::getDbo();
 		$lockdate = '1918-01-01 00:00:00';
