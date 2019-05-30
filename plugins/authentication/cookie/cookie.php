@@ -133,9 +133,11 @@ class PlgAuthenticationCookie extends CMSPlugin
 		$query = $this->db->getQuery(true)
 			->select($this->db->quoteName(['user_id', 'token', 'series', 'time']))
 			->from($this->db->quoteName('#__user_keys'))
-			->where($this->db->quoteName('series') . ' = ' . $this->db->quote($series))
-			->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName))
-			->order($this->db->quoteName('time') . ' DESC');
+			->where($this->db->quoteName('series') . ' = :series')
+			->where($this->db->quoteName('uastring') . ' = :uastring')
+			->order($this->db->quoteName('time') . ' DESC')
+			->bind(':series', $series)
+			->bind(':uastring', $cookieName);
 
 		try
 		{
