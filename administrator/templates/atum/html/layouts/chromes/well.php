@@ -33,8 +33,7 @@ if ($module->content) :
 	$moduleClassSfx = $params->get('moduleclass_sfx', '');
 
 	// Temporarily store header class in variable
-	$headerClass = $params->get('header_class');
-	$headerClass = ($headerClass) ? ' ' . htmlspecialchars($headerClass) : '';
+	$headerClass = !empty($params->get('header_class')) ? ' class="' . htmlspecialchars($params->get('header_class')) . '"' : '';
 
 	// Get the module icon
 	$headerIcon = '';
@@ -71,7 +70,7 @@ if ($module->content) :
 					<?php endif; ?>
 
 					<?php if ($module->showtitle) : ?>
-						<h2 class="<?php echo $headerClass; ?>"><?php echo $headerIcon . htmlspecialchars($module->title); ?></h2>
+						<h2<?php echo $headerClass; ?>><?php echo $headerIcon . htmlspecialchars($module->title); ?></h2>
 					<?php endif; ?>
 				</div>
 			<?php endif; ?>
