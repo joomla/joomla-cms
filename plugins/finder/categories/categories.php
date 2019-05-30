@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseQuery;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
@@ -204,7 +205,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 			{
 				$query = clone $this->getStateQuery();
 				$query->where($query->quoteName('a.id') . ' = :plgFinderCategoriesId')
-					->bind(':plgFinderCategoriesId', (int) $pk);
+					->bind(':plgFinderCategoriesId', (int) $pk, ParameterType::INTEGER);
 
 
 				$this->db->setQuery($query);
