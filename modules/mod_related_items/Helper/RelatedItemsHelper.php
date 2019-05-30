@@ -125,7 +125,7 @@ abstract class RelatedItemsHelper
 					$binds[] = '%' . $keyword . '%';
 				}
 
-				$bindNames = $query->bindArray($binds, parameterType::STRING);
+				$bindNames = $query->bindArray($binds, ParameterType::STRING);
 
 				foreach ($bindNames as $keyword)
 				{
