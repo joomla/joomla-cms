@@ -50,7 +50,7 @@ class UsersLatestHelper
 
 			$query->join('LEFT', '#__user_usergroup_map AS m ON m.user_id = a.id')
 				->join('LEFT', '#__usergroups AS ug ON ug.id = m.group_id')
-				->whereIn($db->quoteName('ug.id'),  $groups)
+				->whereIn($db->quoteName('ug.id'), $groups)
 				->where($db->quoteName('ug.id') . ' <> 1');
 		}
 		$db->setQuery($query, 0, $params->get('shownumber', 5));
