@@ -50,7 +50,7 @@ class ArticlesArchiveHelper
 			->where($db->quoteName('ws.condition') . ' = :condition')
 			->group($query->year($db->quoteName('c.created')) . ', ' . $query->month($db->quoteName('c.created')))
 			->order($query->year($db->quoteName('c.created')) . ' DESC, ' . $query->month($db->quoteName('c.created')) . ' DESC')
-			->bind(':condtion', $condition, ParameterType::INTEGER);
+			->bind(':condition', $condition, ParameterType::INTEGER);
 
 		// Filter by language
 		if ($app->getLanguageFilter())
