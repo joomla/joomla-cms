@@ -10,8 +10,7 @@
 
 	<field
 		name="language"
-		type="contentlanguage"
-		label="JOPTION_SELECT_LANGUAGE"
+		type="contentmasterlanguage"
 		filtermode="selector"
 		onchange="this.form.submit();"
 		>
