@@ -33,7 +33,7 @@ HTMLHelper::_('script', 'mod_multilangstatus/admin-multilangstatus.min.js', arra
 			'width'      => '800px',
 			'bodyHeight' => 70,
 			'modalWidth' => 80,
-			'footer'     => '<a class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">' . Text::_('JTOOLBAR_CLOSE') . '</a>',
+			'footer'     => '<button type="button" class="btn btn-secondary" data-dismiss="modal">' . Text::_('JTOOLBAR_CLOSE') . '</button>',
 		)
 	); ?>
 </li>

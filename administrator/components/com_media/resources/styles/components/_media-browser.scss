@@ -283,8 +283,6 @@
 
 // Table View
 .media-browser-table-head {
-  font-size: .8rem;
-  font-weight: bold;
   .type {
     margin-left: 1px;
     &::before {
@@ -294,30 +292,6 @@
 }
 
 .media-browser-table {
-  overflow-y: auto;
-  font-size: .9rem;
-  line-height: $table-item-height;
-  transition: width .3s cubic-bezier(.4, .0, .2, 1);
-  .media-browser-item {
-    width: 100%;
-    margin: 0;
-    border: 1px solid rgba(0, 0, 0, .03);
-    &:hover {
-      background-color: $table-item-bg-hover;
-    }
-  }
-  ul {
-    display: flex;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-  li {
-    padding: 0 10px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
   .name {
     width: calc(30% - 40px);
   }

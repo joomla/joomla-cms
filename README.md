@@ -3,9 +3,9 @@ Joomla! CMS™ [![Analytics](https://ga-beacon.appspot.com/UA-544070-3/joomla-cm
 
 Build Status
 ---------------------
-| Travis-CI  | Drone-CI | AppVeyor |
-| ------------- | ------------- | ------------- |
-| [![Build Status](https://travis-ci.org/joomla/joomla-cms.svg?branch=staging)](https://travis-ci.org/joomla/joomla-cms)  | [![Build Status](http://213.160.72.75/api/badges/joomla/joomla-cms/status.svg)](http://213.160.72.75/joomla/joomla-cms)  | [![Build status](https://ci.appveyor.com/api/projects/status/bpcxulw6nnxlv8kb/branch/staging?svg=true)](https://ci.appveyor.com/project/joomla/joomla-cms)  |
+| Drone-CI | AppVeyor |
+| ------------- | ------------- |
+| [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg?branch=4.0-dev)](https://ci.joomla.org/joomla/joomla-cms)  | [![Build status](https://ci.appveyor.com/api/projects/status/bpcxulw6nnxlv8kb/branch/staging?svg=true)](https://ci.appveyor.com/project/joomla/joomla-cms)  |
 
 What is this?
 ---------------------
@@ -44,6 +44,10 @@ git clone git@github.com:joomla/joomla-cms.git
 - Go to the joomla-cms folder:
 ```bash
 cd joomla-cms
+```
+- Go to the 4.0-dev branch:
+```bash
+git checkout 4.0-dev
 ```
 - Install all the needed composer packages:
 ```bash
