@@ -64,7 +64,7 @@ class SchedulerCommand extends AbstractCommand
 		$options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_cli.php';
 		Log::addLogger($options, Log::INFO, array('scheduler'));
-		
+
 		// Initialize the time value.
 		$this->time = microtime(true);
 
