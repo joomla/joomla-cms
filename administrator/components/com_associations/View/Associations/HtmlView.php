@@ -255,7 +255,11 @@ class HtmlView extends BaseHtmlView
 		{
 			$toolbar->confirmButton('purge')
 				->text('COM_ASSOCIATIONS_PURGE')
-				->message(Text::plural('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', (Text::_($this->extensionName) . ' > ' . Text::_($languageKey))))
+				->message(
+					(isset($this->extensionName) && isset($languageKey))
+						? Text::plural('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', (Text::_($this->extensionName) . ' > ' . Text::_($languageKey)))
+						: Text::_('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT')
+				)
 				->task('associations.purge');
 			ToolbarHelper::custom('associations.clean', 'refresh', 'refresh', 'COM_ASSOCIATIONS_DELETE_ORPHANS', false, false);
 			ToolbarHelper::preferences('com_associations');
