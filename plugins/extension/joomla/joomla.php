@@ -104,7 +104,7 @@ class PlgExtensionJoomla extends CMSPlugin
 					]
 				)
 				->bind(':updatesiteid', $update_site_id, ParameterType::INTEGER)
-				->bind(':extensionid',  $this->eid, ParameterType::INTEGER);
+				->bind(':extensionid', $this->eid, ParameterType::INTEGER);
 
 			$db->setQuery($query);
 
@@ -169,8 +169,8 @@ class PlgExtensionJoomla extends CMSPlugin
 			$query = $db->getQuery(true);
 
 			$query->delete($db->quoteName('#__update_sites_extensions'))
-				->where($db->quoteName('extension_id'), ' = :eid')
-				->bind(':eid',  (int) $eid, ParameterType::INTEGER);
+				->where($db->quoteName('extension_id') . ' = :eid')
+				->bind(':eid', (int) $eid, ParameterType::INTEGER);
 
 			$db->setQuery($query);
 			$db->execute();
