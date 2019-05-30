@@ -11,6 +11,7 @@ namespace Joomla\CMS\Service\Provider;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Console\JobListCommand;
 use Joomla\CMS\Console\SchedulerCommand;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
@@ -86,6 +87,15 @@ class Console implements ServiceProviderInterface
 			function (Container $container)
 			{
 				return new SchedulerCommand($container->get('db'));
+			},
+			true
+		);
+
+		$container->share(
+			JobListCommand::class,
+			function (Container $container)
+			{
+				return new JobListCommand($container->get('db'));
 			},
 			true
 		);
