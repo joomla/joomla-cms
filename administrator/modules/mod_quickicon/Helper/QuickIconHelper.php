@@ -15,8 +15,6 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\DI\Container;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
 use Joomla\Registry\Registry;
 
@@ -55,81 +53,18 @@ abstract class QuickIconHelper
 			$application = Factory::getApplication();
 		}
 
-		$key = (string) $params;
+		$key     = (string) $params;
+		$context = (string) $params->get('context', 'mod_quickicon');
 
 		if (!isset(self::$buttons[$key]))
 		{
-			$context = (string) $params->get('context', 'mod_quickicon');
+			// Load mod_quickicon language file in case this method is called before rendering the module
+			$application->getLanguage()->load('mod_quickicon');
 
 			self::$buttons[$key] = [];
 
-			// @TODO: Perhaps we should use something with EventAware
-			$container = (new Container)
-					->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher);
-
-			$dispatcher = $container->get(DispatcherInterface::class);
-
 			if ($context == 'mod_quickicon')
 			{
-				// Load mod_quickicon language file in case this method is called before rendering the module
-				$application->getLanguage()->load('mod_quickicon');
-
-				// Update Panel, icons come from plugins quickicons
-				if ($params->get('show_jupdate'))
-				{
-					PluginHelper::importPlugin('quickicon', 'joomlaupdate', true, $dispatcher);
-				}
-
-				if ($params->get('show_eupdate'))
-				{
-					PluginHelper::importPlugin('quickicon', 'extensionupdate', true, $dispatcher);
-				}
-
-				if ($params->get('show_oupdate'))
-				{
-					PluginHelper::importPlugin('quickicon', 'overridecheck', true, $dispatcher);
-				}
-
-				if ($params->get('show_privacy'))
-				{
-					PluginHelper::importPlugin('quickicon', 'privacycheck', true, $dispatcher);
-				}
-
-				if ($params->get('show_checkin'))
-				{
-					self::$buttons[$key][] = [
-						'ajaxurl' => 'index.php?option=com_checkin&amp;task=getMenuBadgeData&amp;format=json',
-						'image'   => 'fa fa-unlock-alt',
-						'link'    => Route::_('index.php?option=com_checkin'),
-						'name'    => 'MOD_QUICKICON_CHECKINS',
-						'access'  => array('core.admin', 'com_checkin'),
-						'group'   => 'MOD_QUICKICON_SYSTEM'
-					];
-				}
-
-				if ($params->get('show_cache'))
-				{
-					self::$buttons[$key][] = [
-						'ajaxurl' => 'index.php?option=com_cache&amp;task=display.getQuickiconContent&amp;format=json',
-						'image'   => 'fa fa-cloud',
-						'link'    => Route::_('index.php?option=com_cache'),
-						'name'    => 'MOD_QUICKICON_CACHE',
-						'access'  => array('core.admin', 'com_cache'),
-						'group'   => 'MOD_QUICKICON_SYTEM'
-					];
-				}
-
-				if ($params->get('show_global'))
-				{
-					self::$buttons[$key][] = [
-						'image'  => 'fa fa-cog',
-						'link'   => Route::_('index.php?option=com_config'),
-						'name'   => 'MOD_QUICKICON_GLOBAL_CONFIGURATION',
-						'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
-						'group'  => 'MOD_QUICKICON_SYSTEM',
-					];
-				}
-
 				if ($params->get('show_users'))
 				{
 					self::$buttons[$key][] = [
@@ -229,42 +164,54 @@ abstract class QuickIconHelper
 					];
 				}
 			}
-		}
-
-		if ($params->get('load_plugins'))
-		{
-			$plugins = PluginHelper::getPlugin('quickicon');
-
-			$coreplugins = [
-				'joomlaupdate',
-				'extensionupdate',
-				'overridecheck',
-				'privacycheck'
-			];
-
-			foreach ($plugins as $plugin)
+			elseif ($context === 'system_quickicon')
 			{
-				if (!in_array($plugin->name, $coreplugins))
+				if ($params->get('show_checkin'))
 				{
-					PluginHelper::importPlugin('quickicon', $plugin->name, true, $dispatcher);
+					self::$buttons[$key][] = [
+						'ajaxurl' => 'index.php?option=com_checkin&amp;task=getMenuBadgeData&amp;format=json',
+						'image'   => 'fa fa-unlock-alt',
+						'link'    => Route::_('index.php?option=com_checkin'),
+						'name'    => 'MOD_QUICKICON_CHECKINS',
+						'access'  => array('core.admin', 'com_checkin'),
+						'group'   => 'MOD_QUICKICON_SYSTEM'
+					];
+				}
+
+				if ($params->get('show_cache'))
+				{
+					self::$buttons[$key][] = [
+						'ajaxurl' => 'index.php?option=com_cache&amp;task=display.getQuickiconContent&amp;format=json',
+						'image'   => 'fa fa-cloud',
+						'link'    => Route::_('index.php?option=com_cache'),
+						'name'    => 'MOD_QUICKICON_CACHE',
+						'access'  => array('core.admin', 'com_cache'),
+						'group'   => 'MOD_QUICKICON_SYTEM'
+					];
+				}
+
+				if ($params->get('show_global'))
+				{
+					self::$buttons[$key][] = [
+						'image'  => 'fa fa-cog',
+						'link'   => Route::_('index.php?option=com_config'),
+						'name'   => 'MOD_QUICKICON_GLOBAL_CONFIGURATION',
+						'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
+						'group'  => 'MOD_QUICKICON_SYSTEM',
+					];
 				}
 			}
 		}
 
-		$result = $dispatcher->dispatch(
+		PluginHelper::importPlugin('quickicon');
+
+		$arrays = (array) $application->triggerEvent(
 			'onGetIcons',
 			new QuickIconsEvent('onGetIcons', ['context' => $context])
 		);
 
-		$arrays = (array) $result->getArgument('result', []);
-
 		foreach ($arrays as $response)
 		{
-			if (!is_array($response))
-			{
-				continue;
-			}
-
 			foreach ($response as $icon)
 			{
 				$default = array(
