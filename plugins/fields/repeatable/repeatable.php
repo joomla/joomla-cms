@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
 
