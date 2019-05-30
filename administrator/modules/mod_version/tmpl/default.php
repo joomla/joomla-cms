@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 	$versionParts = explode("-", $version);
 	$versionNumber = $versionParts[0];
 	$versionName   = $versionParts[1]; ?>
-<diV class="header-element-content">
+<diV class="header-item-content">
     <div class="joomlaversion d-flex">
         <div class="d-flex align-items-end mx-auto">
             <span class="fab fa-joomla" aria-hidden="true"></span>

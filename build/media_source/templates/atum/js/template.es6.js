@@ -140,71 +140,71 @@
   /**
    * put elements that are too much in the header in a dropdown
    *
-   * @param {integer} [visibleElements] the number of visible elements
+   * @param {integer} [visibleItems] the number of visible elements
    *
    * @since   4.0.0
    */
 
-  function headerElementsInDropdown(visibleElements) {
+  function headerItemsInDropdown(visibleItems) {
     const headerWrapper = doc.querySelector('.header-items');
-    const headerElements = [].slice.call(doc.querySelectorAll('.header-items > .header-element'));
-    headerElements.reverse();
+    const headerItems = [].slice.call(doc.querySelectorAll('.header-items > .header-item'));
+    headerItems.reverse();
 
-    if (headerElements.length > visibleElements) {
-      if (!doc.querySelector('#header-more-elements')) {
-        const headerMoreElement = document.createElement('div');
-        headerMoreElement.className = 'header-element-more d-flex';
-        headerMoreElement.id = 'header-more-elements';
-        const headerElementContent = document.createElement('div');
-        headerElementContent.className = 'header-element-content header-more footer-mobil-icon d-flex';
-        const jDropdownBtn = document.createElement('button');
-        jDropdownBtn.className = 'header-more-btn d-flex flex-column align-items-stretch';
-        jDropdownBtn.setAttribute('type', 'button');
-        jDropdownBtn.setAttribute('title', 'More Elements');
+    if (headerItems.length > visibleItems) {
+      if (!doc.querySelector('#header-more-items')) {
+        const headerMoreItem = document.createElement('div');
+        headerMoreItem.className = 'header-item-more d-flex';
+        headerMoreItem.id = 'header-more-items';
+        const headerItemContent = document.createElement('div');
+        headerItemContent.className = 'header-item-content header-more footer-mobil-icon d-flex';
+        const headerMoreBtn = document.createElement('button');
+        headerMoreBtn.className = 'header-more-btn d-flex flex-column align-items-stretch';
+        headerMoreBtn.setAttribute('type', 'button');
+        headerMoreBtn.setAttribute('title', 'More Elements');
         const spanFa = document.createElement('span');
         spanFa.className = 'fa fa-ellipsis-h';
         spanFa.setAttribute('aria-hidden', 'true');
-        const jDorpdownMenu = document.createElement('div');
-        jDorpdownMenu.className = 'header-more-menu d-flex flex-wrap';
+        const headerMoreMenu = document.createElement('div');
+        headerMoreMenu.className = 'header-more-menu d-flex flex-wrap';
 
-        jDropdownBtn.appendChild(spanFa);
-        headerElementContent.appendChild(jDropdownBtn);
-        headerMoreElement.appendChild(headerElementContent);
-        headerMoreElement.appendChild(jDorpdownMenu);
-        headerWrapper.appendChild(headerMoreElement);
+        headerMoreBtn.appendChild(spanFa);
+        headerItemContent.appendChild(headerMoreBtn);
+        headerMoreItem.appendChild(headerItemContent);
+        headerMoreItem.appendChild(headerMoreMenu);
+        headerWrapper.appendChild(headerMoreItem);
 
-        headerMoreElement.addEventListener('click', function () {
-          headerMoreElement.classList.toggle('active');
+        headerMoreBtn.addEventListener('click', function () {
+          headerMoreItem.classList.toggle('active');
         });
       }
 
-      const headerMoreWrapper = headerWrapper.querySelector('#header-more-elements .header-more-menu');
-      const headerMoreElements = headerMoreWrapper.querySelectorAll('.header-element');
+      const headerMoreWrapper = headerWrapper.querySelector('#header-more-items .header-more-menu');
+      const headerMoreItems = headerMoreWrapper.querySelectorAll('.header-item');
       let headerItemCounter = 0;
 
-      headerElements.forEach(function (item) {
+      headerItems.forEach(function (item) {
         headerItemCounter += 1;
-        if (headerItemCounter > visibleElements && item.id !== 'header-more-elements') {
-          if (!headerMoreElements) {
+        if (headerItemCounter > visibleItems && item.id !== 'header-more-items') {
+          if (!headerMoreItems) {
             headerMoreWrapper.appendChild(item);
           } else {
-            headerMoreWrapper.insertBefore(item, headerMoreElements[0]);
+            headerMoreWrapper.insertBefore(item, headerMoreItems[0]);
           }
         }
       });
-    } else if (headerElements.length < visibleElements && doc.querySelector('#header-more-elements')) {
-      const headerMore = headerWrapper.querySelector('#header-more-elements');
-      let headerItemCounter = headerElements.length;
-      const headerMoreElements = [].slice.call(headerMore.querySelectorAll('.header-element'));
-      const headerAllElements = headerElements.length + headerMoreElements.length;
+    } else if (headerItems.length < visibleItems && doc.querySelector('#header-more-items')) {
+      const headerMore = headerWrapper.querySelector('#header-more-items');
+      let headerItemCounter = headerItems.length;
+      const headerMoreItems = [].slice.call(headerMore.querySelectorAll('.header-item'));
+      const headerAllItems = headerItems.length + headerMoreItems.length;
 
-      headerMoreElements.forEach(function (item) {
-        if (headerItemCounter < visibleElements) {
-          headerWrapper.insertBefore(item, doc.querySelector('.header-items > .header-element'));
+      headerMoreItems.forEach(function (item) {
+        if (headerItemCounter < visibleItems) {
+          headerWrapper.insertBefore(item, doc.querySelector('.header-items > .header-item'));
         }
         headerItemCounter += 1;
       });
-      if (headerAllElements <= visibleElements) {
+      if (headerAllItems <= visibleItems) {
         headerWrapper.removeChild(headerMore);
       }
     }
@@ -275,15 +275,15 @@
     }
 
     if (mobileSmallLandscape.matches) {
-      headerElementsInDropdown(2);
+      headerItemsInDropdown(2);
     } else if (mobile.matches) {
-      headerElementsInDropdown(4);
+      headerItemsInDropdown(4);
     } else if (desktopSmall.matches) {
-      headerElementsInDropdown(2);
+      headerItemsInDropdown(2);
     } else if (desktop.matches) {
-      headerElementsInDropdown(4);
+      headerItemsInDropdown(4);
     } else {
-      headerElementsInDropdown(6);
+      headerItemsInDropdown(6);
     }
 
     window.addEventListener('resize', () => {
@@ -303,15 +303,15 @@
       }
 
       if (mobileSmallLandscape.matches) {
-        headerElementsInDropdown(2);
+        headerItemsInDropdown(2);
       } else if (mobile.matches) {
-        headerElementsInDropdown(4);
+        headerItemsInDropdown(4);
       } else if (desktopSmall.matches) {
-        headerElementsInDropdown(2);
+        headerItemsInDropdown(2);
       } else if (desktop.matches) {
-        headerElementsInDropdown(4);
+        headerItemsInDropdown(4);
       } else {
-        headerElementsInDropdown(6);
+        headerItemsInDropdown(6);
       }
     });
   });

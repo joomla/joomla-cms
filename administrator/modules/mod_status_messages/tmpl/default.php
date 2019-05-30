@@ -23,7 +23,7 @@ HTMLHelper::_('bootstrap.framework');
 $hideLinks = $app->input->getBool('hidemainmenu');
 ?>
 
-		<div class="header-element-content">
+		<div class="header-item-content">
 			<a class="d-flex align-items-stretch <?php echo ($hideLinks ? 'disabled' : 'dropdown-toggle'); ?>" <?php echo ($hideLinks ? '' : 'href="' . Route::_('index.php?option=com_messages') . '"'); ?> title="<?php echo Text::_('MOD_STATUS_PRIVATE_MESSAGES'); ?>">
                 <div class="d-flex align-items-end mx-auto">
                     <span class="fa fa-envelope" aria-hidden="true"></span>

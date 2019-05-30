@@ -23,7 +23,7 @@ HTMLHelper::_('bootstrap.framework');
 $hideLinks = $app->input->getBool('hidemainmenu');
 ?>
 
-<div class="header-element-content">
+<div class="header-item-content">
     <a class="footer-mobil-icon d-flex" href="<?php echo Uri::root(); ?>"
         title="<?php echo Text::sprintf('MOD_STATUS_PREVIEW', $sitename); ?>"
         target="_blank">

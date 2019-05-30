@@ -87,10 +87,10 @@
 
   }
 
-  .header-element {
+  .header-item {
     position: relative;
 
-    .header-element-content {
+    .header-item-content {
       > *:first-child {
         flex-direction: column;
         height: 100%;
@@ -106,12 +106,13 @@
           background-color: var(--atum-bg-dark);
           color: var(--atum-text-light);
           text-decoration: none;
+          box-shadow: $atum-box-shadow;
         }
       }
       .dropdown-toggle {
         // Overwrite default button styling
         background-color: transparent;
-        border: $dropdown-border-width;
+        border: 0;
 
         &::after {
           display: none;
@@ -232,7 +233,7 @@
     }
   }
 
-  #header-more-elements {
+  #header-more-items {
     .header-more-menu {
       position: absolute;
       top: 100%;
@@ -241,6 +242,7 @@
       margin-top: 0.1rem;
       background-color: var(--white-offset);
       border: 1px solid $gray-500;
+      border-top: 0;
       box-shadow: $atum-box-shadow;
       justify-content: flex-end;
       display: none !important;
@@ -248,11 +250,11 @@
     &.active .header-more-menu {
       display: flex !important;
     }
-    .header-element {
+    .header-item {
       height: 3.7rem;
       width: 6.6rem;
     }
-    .header-element-content {
+    .header-item-content {
       width: 100%;
       height: 100%;
     }
@@ -268,6 +270,9 @@
       border: 0;
       .fa {
         margin: auto;
+      }
+      &:hover {
+        background-color: var(--atum-bg-dark-80);
       }
     }
   }
@@ -292,17 +297,24 @@
         margin-right:70px;
       }
     }
-    #header-more-elements {
+    #header-more-items {
       .header-more-menu {
         top: auto;
         bottom: 100%;
         left: 0;
       }
+      .header-more-menu {
+        border: 1px solid $gray-500;
+        border-bottom: 0;
+      }
     }
-    .header-items > .header-element {
-      .header-element-content > :first-child {
+    .header-items > .header-item {
+      .header-item-content > :first-child {
         color: var(--atum-text-light);
       }
+    }
+    .fa-angle-down {
+      transform: rotate(180deg);
     }
   }
 }
