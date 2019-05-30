@@ -75,7 +75,7 @@ class AdministratorService
 				{
 					$text       = $item->lang_sef ? strtoupper($item->lang_sef) : 'XX';
 					$url        = Route::_('index.php?option=com_categories&task=category.edit&id=' . (int) $item->id . '&extension=' . $extension);
-					$classes    = 'hasPopover badge badge-secondary';
+					$classes    = 'hasPopover badge badge-success';
 					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
 						. '" data-content="' . htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '" data-placement="top">'
 						. $text . '</a>';

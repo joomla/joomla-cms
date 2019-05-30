@@ -133,7 +133,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 									<?php echo HTMLHelper::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($assoc) : ?>
-									<th scope="col" style="width:5%" class="d-none d-md-table-cell">
+									<th scope="col" style="width:5%" class="d-none d-md-table-cell text-center">
 										<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
@@ -340,7 +340,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 									<?php echo $this->escape($item->access_level); ?>
 								</td>
 								<?php if ($assoc) : ?>
-								<td class="d-none d-md-table-cell">
+								<td class="d-none d-md-table-cell text-center">
 									<?php if ($item->association) : ?>
 										<?php echo HTMLHelper::_('contentadministrator.association', $item->id); ?>
 									<?php endif; ?>

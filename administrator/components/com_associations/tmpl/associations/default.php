@@ -57,7 +57,7 @@ $iconStates = array(
 								<th scope="col" style="width:15%">
 									<?php echo Text::_('JGRID_HEADING_LANGUAGE'); ?>
 								</th>
-								<th scope="col" style="width:5%">
+								<th scope="col" style="width:20%" class="text-center">
 									<?php echo Text::_('COM_ASSOCIATIONS_HEADING_ASSOCIATION'); ?>
 								</th>
 								<?php if (!empty($this->typeFields['menutype'])) : ?>
@@ -118,7 +118,7 @@ $iconStates = array(
 								<td class="small">
 									<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 								</td>
-								<td>
+								<td class="text-center">
 									<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, !$isCheckout); ?>
 								</td>
 								<?php if (!empty($this->typeFields['menutype'])) : ?>

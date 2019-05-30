@@ -79,7 +79,7 @@ class AdministratorService
 					$text = strtoupper($item->lang_sef);
 					$url = Route::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id);
 					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
-					$classes = 'hasPopover badge badge-secondary';
+					$classes = 'hasPopover badge badge-success';
 
 					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
 						. '" data-content="' . $tooltip . '" data-placement="top">'
