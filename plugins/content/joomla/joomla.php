@@ -661,7 +661,7 @@ class PlgContentJoomla extends CMSPlugin
 				->where($db->quoteName('t.published') . '= 1')
 				->where($db->quoteName('s.published') . '= 1')
 				->order($db->quoteName('t.ordering'))
-				->bind(':stageid', $stageId);
+				->bind(':stageid', $stageId, ParameterType::INTEGER);
 
 			$transitions = $db->setQuery($query)->loadObjectList();
 
