@@ -45,27 +45,6 @@ class SchedulerCommand extends AbstractCommand
 	private $time;
 
 	/**
-	 * Database connector
-	 *
-	 * @var    DatabaseInterface
-	 * @since  __DEPLOY_VERSION__
-	 */
-	private $db;
-
-	/**
-	 * Instantiate the command.
-	 *
-	 * @param   DatabaseInterface  $db  Database connector
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function __construct(DatabaseInterface $db)
-	{
-		$this->db = $db;
-		parent::__construct();
-	}
-
-	/**
 	 * Internal function to execute the command.
 	 *
 	 * @param   InputInterface   $input   The input to inject into the command.
@@ -88,34 +67,6 @@ class SchedulerCommand extends AbstractCommand
 		
 		// Initialize the time value.
 		$this->time = microtime(true);
-
-		if ($input->getOption('jobs'))
-		{
-			$now  = time();
-			$list = $this->listJobs();
-
-			foreach ($list as $job)
-			{
-				$nextrun    = ', next run will be at the next schedule';
-				$taskParams = json_decode($job->params, true);
-				$lastrun    = $taskParams['lastrun'];
-				$runned     = $taskParams['taskid'];
-				$timeout    = $taskParams['cachetimeout'];
-				$unit       = $taskParams['unit'];
-				$timeout    = ($unit * $timeout);
-
-				if ((abs($now - $lastrun) < $timeout))
-				{
-					$nextrun = ', next run will be after ' . abs($now - $lastrun - $timeout);
-				}
-
-				$symfonyStyle->note('Job: ' . $job->element . ' runned ' . $runned . ' times' . $nextrun);
-			}
-
-			$symfonyStyle->success('Scheduler finished in ' . round(microtime(true) - $this->time, 3));
-
-			return 0;
-		}
 
 		Log::add(
 			'Starting Scheduler', Log::INFO, 'scheduler'
@@ -172,7 +123,6 @@ class SchedulerCommand extends AbstractCommand
 	protected function configure()
 	{
 		$this->setDescription('Scheduler for job task');
-		$this->addOption('jobs', null, InputOption::VALUE_NONE, 'List all jobs');
 		$this->setHelp(
 <<<EOF
 The <info>%command.name%</info> command Scheduler for job task
@@ -180,30 +130,5 @@ The <info>%command.name%</info> command Scheduler for job task
 <info>php %command.full_name%</info>
 EOF
 		);
-	}
-
-	/**
-	 * Function to list all the jobs.
-	 *
-	 * @param   string  $folder  The plugin folder,
-	 * @param   string  $type    The extension type.
-	 *
-	 * @return  object
-	 *
-	 * @since   4.0.0
-	 */
-	public function listJobs(string $folder = 'job', string $type = 'plugin')
-	{
-		$query = $this->db->getQuery(true)
-			->select($this->db->quoteName('element'))
-			->select($this->db->quoteName('params'))
-			->from($this->db->quoteName('#__extensions'))
-			->where($this->db->quoteName('type') . ' = :type')
-			->where($this->db->quoteName('folder') . ' = :folder')
-			->bind(':type', $type)
-			->bind(':folder', $folder);
-		$this->db->setQuery($query);
-
-		return $this->db->loadObjectList();
 	}
 }
