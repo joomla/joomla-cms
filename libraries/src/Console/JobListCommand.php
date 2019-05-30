@@ -77,10 +77,10 @@ class JobListCommand extends AbstractCommand
 		$symfonyStyle = new SymfonyStyle($input, $output);
 
 		$symfonyStyle->title('Job list');
-		
+
 		// Initialize the time value.
 		$this->time = microtime(true);	
-	
+
 		$now  = time();
 		list = $this->listJobs();
 
@@ -106,7 +106,7 @@ class JobListCommand extends AbstractCommand
 
 		return 0;
 	}
-		
+
 	/**
 	 * Function to list all the jobs.
 	 *
