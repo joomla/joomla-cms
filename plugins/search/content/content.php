@@ -284,7 +284,7 @@ class PlgSearchContent extends CMSPlugin
 
 			$query->select('a.id AS id, a.title AS title, a.metadesc AS metadesc, a.metakey AS metakey,
 				a.created AS created, a.publish_up AS publish_up, a.images AS images,
-				a.introtext AS introtext, a.language AS language, a.catid AS catid')
+				a.language AS language, a.catid AS catid')
 				->select($query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text')
 				->select('c.title AS section')
 				->select($case_when)
@@ -358,7 +358,7 @@ class PlgSearchContent extends CMSPlugin
 
 			$query->select('a.id AS id, a.title AS title, a.metadesc AS metadesc, a.metakey AS metakey,
 				a.created AS created, a.publish_up AS publish_up, a.images AS images,
-				a.introtext AS introtext, a.language AS language, a.catid AS catid')
+				a.language AS language, a.catid AS catid')
 				->select($query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text')
 				->select($case_when)
 				->select($case_when1)
