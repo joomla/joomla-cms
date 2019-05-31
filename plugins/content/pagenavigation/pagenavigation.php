@@ -159,7 +159,7 @@ class PlgContentPagenavigation extends CMSPlugin
 
 			$query->select(
 				[
-					$db->quoteName(['a.id, a.title, a.catid, a.language']),
+					$db->quoteName(['a.id', 'a.title', 'a.catid', 'a.language']),
 					$case_when, $case_when1
 				]
 			)
