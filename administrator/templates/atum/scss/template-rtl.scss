@@ -298,3 +298,21 @@ body {
   border-left: 0 !important;
   border-right: 1px solid var(--border);
 }
+
+// Changelog modal override
+.changelog {
+  text-align: right !important;
+
+  &__tag {
+    text-align: left;
+  }
+
+  &__list {
+
+    ul {
+      padding-left: auto;
+      padding-right: 15px;
+    }
+  }
+}
+
