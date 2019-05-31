@@ -207,7 +207,6 @@ class PlgFinderCategories extends FinderIndexerAdapter
 				$query->where($query->quoteName('a.id') . ' = :plgFinderCategoriesId')
 					->bind(':plgFinderCategoriesId', (int) $pk, ParameterType::INTEGER);
 
-
 				$this->db->setQuery($query);
 				$item = $this->db->loadObject();
 
