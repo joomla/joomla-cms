@@ -16,6 +16,7 @@ use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -218,6 +219,8 @@ class AssociationsHelper extends ContentHelper
 	 */
 	public static function getAssociationHtmlList($extensionName, $typeName, $itemId, $itemLanguage, $addLink = true)
 	{
+		$globalMasterLanguage = Associations::getGlobalMasterLanguage();
+
 		// Get the associations list for this item.
 		$items = self::getAssociationList($extensionName, $typeName, $itemId);
 
@@ -232,17 +235,38 @@ class AssociationsHelper extends ContentHelper
 		// Create associated items list.
 		foreach ($languages as $langCode => $language)
 		{
-			// Don't do for the reference language.
-			if ($langCode == $itemLanguage)
+			// Don't do for the reference language, when there is no master language set
+			if ($langCode == $itemLanguage && !$globalMasterLanguage)
 			{
 				continue;
 			}
 
-			// Get html parameters.
+			// Get html parameters for associated items
 			if (isset($items[$langCode]))
 			{
-				$title       = $items[$langCode][$titleFieldName];
-				$additional  = '';
+				if ($globalMasterLanguage)
+				{
+					// Get id of the master item
+					if ($itemLanguage === $globalMasterLanguage)
+					{
+						$masterId = $itemId;
+					}
+					else
+					{
+						// Don't display any other children to the child item
+						if (($langCode !== $globalMasterLanguage) && ($langCode !== $itemLanguage))
+						{
+							unset($items[$langCode]);
+							continue;
+						}
+
+						// Get id of the master item
+						$masterId = self::getGlobalMasterId($extensionName, $typeName, $itemId);
+					}
+				}
+
+				$title      = $items[$langCode][$titleFieldName];
+				$additional = '';
 
 				if (isset($items[$langCode]['catid']))
 				{
@@ -275,23 +299,69 @@ class AssociationsHelper extends ContentHelper
 					$additional = '<strong>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $menutype_title) . '</strong><br>';
 				}
 
-				$labelClass  = 'badge-success';
-				$target      = $langCode . ':' . $items[$langCode]['id'] . ':edit';
-				$allow       = $canEditReference
-								&& self::allowEdit($extensionName, $typeName, $items[$langCode]['id'])
-								&& self::canCheckinItem($extensionName, $typeName, $items[$langCode]['id']);
+				$labelClass    = 'badge-success';
+				$languageTitle = $language->title;
+				$target        = $langCode . ':' . $items[$langCode]['id'] . ':edit';
+				$allow         = $canEditReference
+					&& self::allowEdit($extensionName, $typeName, $items[$langCode]['id'])
+					&& self::canCheckinItem($extensionName, $typeName, $items[$langCode]['id']);
 
 				$additional .= $addLink && $allow ? Text::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
+
+
+				if ($globalMasterLanguage)
+				{
+					if ($globalMasterLanguage === $langCode)
+					{
+						$labelClass    .= ' master-item';
+						$languageTitle = $language->title . ' - ' . Text::_('COM_ASSOCIATIONS_MASTER_LANGUAGE');
+
+						if ($globalMasterLanguage === $itemLanguage)
+						{
+							$target = '';
+						}
+						else
+						{
+							$target = $itemLanguage . ':' . $itemId . ':edit';
+						}
+					}
+				}
 			}
+			// Get html parameters for not associated items
 			else
 			{
+				// Don't display any other children to the child item
+				if ($globalMasterLanguage && ($itemLanguage != $globalMasterLanguage)
+					&& ($langCode != $itemLanguage)
+					&& ($langCode != $globalMasterLanguage))
+				{
+					continue;
+				}
+
 				$items[$langCode] = array();
 
-				$title      = Text::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
-				$additional = $addLink ? Text::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
-				$labelClass = 'badge-secondary';
-				$target     = $langCode . ':0:add';
-				$allow      = $canCreate;
+				$title         = Text::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
+				$additional    = $addLink ? Text::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
+				$labelClass    = 'badge-secondary';
+				$target        = $langCode . ':0:add';
+				$allow         = $canCreate;
+				$languageTitle = $language->title;
+
+				if ($globalMasterLanguage)
+				{
+					if ($globalMasterLanguage === $langCode)
+					{
+						$labelClass    .= ' master-item';
+						$languageTitle = $language->title . ' - ' . Text::_('COM_ASSOCIATIONS_MASTER_LANGUAGE');
+						$target        = '';
+					}
+
+					// Change target, when there is no association with the global master language for the child item
+					if ($globalMasterLanguage !== $itemLanguage)
+					{
+						$target = $globalMasterLanguage . ':0:add';
+					}
+				}
 			}
 
 			// Generate item Html.
@@ -301,7 +371,7 @@ class AssociationsHelper extends ContentHelper
 				'layout'   => 'edit',
 				'itemtype' => $extensionName . '.' . $typeName,
 				'task'     => 'association.edit',
-				'id'       => $itemId,
+				'id'       => $masterId ?? $itemId,
 				'target'   => $target,
 			);
 
@@ -312,9 +382,16 @@ class AssociationsHelper extends ContentHelper
 			$tooltip = htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;
 			$classes = 'hasPopover badge ' . $labelClass;
 
-			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $language->title . '" class="' . $classes
-						. '" data-content="' . $tooltip . '" data-placement="top">'
-						. $text . '</a>';
+			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $languageTitle . '" class="' . $classes
+				. '" data-content="' . $tooltip . '" data-placement="top">'
+				. $text . '</a>';
+
+			// Reorder the array, so the master item gets to the first place
+			if ($langCode === $globalMasterLanguage)
+			{
+				$items = array('master' => $items[$langCode]) + $items;
+				unset($items[$langCode]);
+			}
 		}
 
 		HTMLHelper::_('bootstrap.popover');
@@ -411,6 +488,7 @@ class AssociationsHelper extends ContentHelper
 			$languageKey = $typeName;
 
 			$typeNameExploded = explode('.', $typeName);
+
 			if (array_pop($typeNameExploded) === 'category')
 			{
 				$languageKey = strtoupper($extensionName) . '_CATEGORIES';
@@ -684,5 +762,33 @@ class AssociationsHelper extends ContentHelper
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Get the associated master item id from a child element.
+	 *
+	 * @param   string   $extensionName  Extension Name
+	 * @param   string   $typeName       ItemType
+	 * @param   integer  $itemId         Item id
+	 *
+	 * @return  integer  $masterElementId  The id of the associated master item
+	 *
+	 * @since  4.0
+	 */
+	public static function getGlobalMasterId($extensionName, $typeName, $itemId)
+	{
+		$db = Factory::getDbo();
+
+		$context = ($typeName === 'category') ? 'com_categories.item' : $extensionName . '.item';
+
+		$parentQuery     = $db->getQuery(true)
+			->select($db->quoteName('parent_id'))
+			->from($db->quoteName('#__associations'))
+			->where($db->quoteName('id') . ' = ' . $db->quote($itemId))
+			->where($db->quoteName('context') . ' = ' . $db->quote($context));
+		$masterId = $db->setQuery($parentQuery)->loadResult();
+
+		return (int) $masterId;
+
 	}
 }

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
@@ -43,6 +44,7 @@ class Menus
 	{
 		// Defaults
 		$html = '';
+		$globalMasterLanguage = Associations::getGlobalMasterLanguage();
 
 		// Get the associations
 		if ($associations = MenusHelper::getAssociations($itemid))
@@ -55,9 +57,15 @@ class Menus
 				->select('mt.title as menu_title')
 				->from('#__menu as m')
 				->join('LEFT', '#__menu_types as mt ON mt.menutype=m.menutype')
-				->where('m.id IN (' . implode(',', array_values($associations)) . ')')
-				->where('m.id != ' . $itemid)
-				->join('LEFT', '#__languages as l ON m.language=l.lang_code')
+				->where('m.id IN (' . implode(',', array_values($associations)) . ')');
+
+			// Don't get the id of the item itself when there is no master language used
+			if (!$globalMasterLanguage)
+			{
+				$query->where('m.id != ' . $itemid);
+			}
+
+			$query->join('LEFT', '#__languages as l ON m.language=l.lang_code')
 				->select('l.image')
 				->select('l.title as language_title');
 			$db->setQuery($query);
@@ -71,11 +79,26 @@ class Menus
 				throw new \Exception($e->getMessage(), 500);
 			}
 
+			// Check whether the current article is written in the global master language.
+			$masterElement = ($globalMasterLanguage && $items[$itemid]->lang_code === $globalMasterLanguage) ? true : false;
+
 			// Construct html
 			if ($items)
 			{
-				foreach ($items as &$item)
+				foreach ($items as $key => &$item)
 				{
+					// Don't continue for master, because it has been set here before
+					if ($key === 'master')
+					{
+						continue;
+					}
+
+					// Don't display other children if the current item is a child of the master language.
+					if ($key !== $itemid && $globalMasterLanguage !== $item->lang_code && !$masterElement && $globalMasterLanguage)
+					{
+						unset($items[$key]);
+					}
+
 					$text    = strtoupper($item->lang_sef);
 					$url     = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);
 					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
@@ -84,6 +107,13 @@ class Menus
 					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
 						. '" data-content="' . $tooltip . '" data-placement="top">'
 						. $text . '</a>';
+
+					// Reorder the array, so the master item gets to the first place
+					if ($item->lang_code === $globalMasterLanguage)
+					{
+						$items = array('master' => $items[$key]) + $items;
+						unset($items[$key]);
+					}
 				}
 			}
 

@@ -39,6 +39,7 @@ class AdministratorService
 	{
 		// Defaults
 		$html = '';
+		$globalMasterLanguage = Associations::getGlobalMasterLanguage();
 
 		// Get the associations
 		if ($associations = Associations::getAssociations('com_contact', '#__contact_details', 'com_contact.item', $contactid))
@@ -56,9 +57,15 @@ class AdministratorService
 				->from('#__contact_details as c')
 				->select('cat.title as category_title')
 				->join('LEFT', '#__categories as cat ON cat.id=c.catid')
-				->where('c.id IN (' . implode(',', array_values($associations)) . ')')
-				->where('c.id != ' . $contactid)
-				->join('LEFT', '#__languages as l ON c.language=l.lang_code')
+				->where('c.id IN (' . implode(',', array_values($associations)) . ')');
+
+			// Don't get the id of the item itself when there is no master language used
+			if (!$globalMasterLanguage)
+			{
+				$query->where('c.id != ' . $contactid);
+			}
+
+			$query->join('LEFT', '#__languages as l ON c.language=l.lang_code')
 				->select('l.image')
 				->select('l.title as language_title');
 			$db->setQuery($query);
@@ -72,10 +79,25 @@ class AdministratorService
 				throw new \Exception($e->getMessage(), 500, $e);
 			}
 
+			// Check whether the current article is written in the global master language.
+			$masterElement = ($globalMasterLanguage && $items[$contactid]->lang_code === $globalMasterLanguage) ? true : false;
+
 			if ($items)
 			{
-				foreach ($items as &$item)
+				foreach ($items as $key => &$item)
 				{
+					// Don't continue for master, because it has been set here before
+					if ($key === 'master')
+					{
+						continue;
+					}
+
+					// Don't display other children if the current item is a child of the master language.
+					if ($key !== $contactid && $globalMasterLanguage !== $item->lang_code && !$masterElement && $globalMasterLanguage)
+					{
+						unset($items[$key]);
+					}
+
 					$text = strtoupper($item->lang_sef);
 					$url = Route::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id);
 					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
@@ -84,6 +106,13 @@ class AdministratorService
 					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
 						. '" data-content="' . $tooltip . '" data-placement="top">'
 						. $text . '</a>';
+
+					// Reorder the array, so the master item gets to the first place
+					if ($item->lang_code === $globalMasterLanguage)
+					{
+						$items = array('master' => $items[$key]) + $items;
+						unset($items[$key]);
+					}
 				}
 			}
 

@@ -42,6 +42,8 @@ class Associations
 	public static function getAssociations($extension, $tablename, $context, $id, $pk = 'id', $aliasField = 'alias', $catField = 'catid',
 		$advClause = array())
 	{
+		$globalMasterLanguage = self::getGlobalMasterLanguage();
+
 		// To avoid doing duplicate database queries.
 		static $multilanguageAssociations = array();
 
@@ -125,10 +127,18 @@ class Associations
 			{
 				foreach ($items as $tag => $item)
 				{
-					// Do not return itself as result
-					if ((int) $item->{$pk} !== $id)
+					if ($globalMasterLanguage)
 					{
+						// If a global master language is set, we need all items of an associations
 						$multilanguageAssociations[$queryKey][$tag] = $item;
+					}
+					else
+					{
+						// Do not return itself as result
+						if ((int) $item->{$pk} !== $id)
+						{
+							$multilanguageAssociations[$queryKey][$tag] = $item;
+						}
 					}
 				}
 			}

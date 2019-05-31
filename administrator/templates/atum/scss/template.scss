@@ -104,11 +104,23 @@
 // Multilingual associations specific
 .item-associations {
   padding: 0;
-}
+  position: relative;
+  margin-bottom: 0;
 
-.item-associations li {
-  display: inline-block;
-  list-style: none;
+  li, ul {
+    display: inline-block;
+    list-style: none;
+    padding: 0;
+  }
+
+  hr {
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .master-language > a {
+    border-radius: 0;
+  }
 }
 
 // Quickicon specific

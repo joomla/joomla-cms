@@ -13,10 +13,26 @@ $items = $displayData;
 
 if (!empty($items)) : ?>
 	<ul class="item-associations">
-		<?php foreach ($items as $id => $item) : ?>
-			<li>
-				<?php echo is_array($item) ? $item['link'] : $item->link; ?>
+		<?php if (array_key_first($items) === 'master') : ?>
+			<li class="master-language">
+				<?php echo is_array(array_values($items)[0]) ? array_values($items)[0]['link'] : array_values($items)[0]->link; ?>
+				<hr>
+				<ul class="target-languages">
+					<?php foreach ($items as $id => $item) : ?>
+						<?php if ($id !== 'master') : ?>
+							<li>
+								<?php echo is_array($item) ? $item['link'] : $item->link; ?>
+							</li>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				</ul>
 			</li>
-		<?php endforeach; ?>
+		<?php else : ?>
+			<?php foreach ($items as $id => $item) : ?>
+				<li>
+					<?php echo is_array($item) ? $item['link'] : $item->link; ?>
+				</li>
+			<?php endforeach; ?>
+		<?php endif; ?>
 	</ul>
 <?php endif; ?>

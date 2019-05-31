@@ -136,8 +136,7 @@
 						label="PLG_SYSTEM_LANGUAGEFILTER_MASTER_LANGUAGE_FIELD_GLOBAL_MASTER_LANGUAGE_LABEL"
 						showon="item_associations:1[AND]use_master_language:1"
 						addfieldprefix="Joomla\Plugin\System\Languagefilter\Field"
-				>
-				</field>
+				/>
 			</fieldset>
 		</fields>
 	</config>
