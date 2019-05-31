@@ -53,19 +53,19 @@ Text::script('INSTL_FTP_SETTINGS_CORRECT');
 	<head>
 		<jdoc:include type="metas" />
 		<jdoc:include type="styles" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
 	<body data-basepath="<?php echo JUri::root(true); ?>">
 		<div class="j-install">
 			<?php // Header ?>
 			<header id="header" class="header">
 				<div class="d-flex">
-					<div class="w-100 d-flex   mb-xs-3 ">
+					<div class="w-100 d-flex ">
 						<div class="logo d-none d-md-block"> 
 							<img src="<?php echo $this->baseurl; ?>/template/images/logo-joomla-blue.svg" alt=""/>
 						</div>
 						<div class="mx-2 d-flex d-md-none">
-							<img class="logo-small mx-2 d-flex d-md-none"src="<?php echo $this->baseurl; ?>/template/images/logo-blue.svg" alt="">
+							<img class="logo-small d-flex d-md-none" src="<?php echo $this->baseurl; ?>/template/images/logo-blue.svg" alt="">
 						</div>
 						<div class="d-flex flex-wrap align-items-center mx-auto">
 							<h1 class="h2 mx-1 d-flex align-items-baseline">
