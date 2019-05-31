@@ -150,11 +150,11 @@ class PlgContentPagenavigation extends CMSPlugin
 
 
 			$case_when = ' CASE WHEN ' . $query->charLength($db->quoteName('a.alias') . '!=', '0')
-				. ' THEN ' . $query->concatenate(array($query->castAsChar($db->quoteName('a.id')), $db->quoteName('a.alias')), ':')
+				. ' THEN ' . $query->concatenate([$query->castAsChar($db->quoteName('a.id')), $db->quoteName('a.alias')], ':')
 				. ' ELSE ' . $db->quoteName('a.id') . ' END AS slug';
 
 			$case_when1 = ' CASE WHEN ' . $query->charLength($db->quoteName('cc.alias'), '!=', '0')
-				. ' THEN ' . $query->concatenate(array($query->castAsChar($db->quoteName('cc.id')), $db->quoteName('cc.alias')), ':')
+				. ' THEN ' . $query->concatenate([$query->castAsChar($db->quoteName('cc.id')), $db->quoteName('cc.alias')], ':')
 				. ' ELSE ' . $db->quoteName('cc.id') . ' END AS catslug';
 
 			$query->select(
@@ -173,11 +173,14 @@ class PlgContentPagenavigation extends CMSPlugin
 				$query->leftJoin($db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('a.created_by'));
 			}
 
-			$catid = (int) $row->catid;
-			$state = (int) $row->state;
-			$query->where($db->quoteName('a.catid') . ' = :catid AND ' . $db->quoteName('a.state') . ' = :state')
-				->bind(':catid', $catid, ParameterType::INTEGER)
-				->bind(':state', $state, ParameterType::INTEGER);
+			$query->where(
+				[
+					$db->quoteName('a.catid') . ' = :catid',
+					$db->quoteName('a.state') . ' = :state'
+				]
+			)
+				->bind(':catid', (int) $row->catid, ParameterType::INTEGER)
+				->bind(':state', (int) $row->state, ParameterType::INTEGER);
 
 			if ($canPublish)
 			{
@@ -207,7 +210,7 @@ class PlgContentPagenavigation extends CMSPlugin
 			// This check needed if incorrect Itemid is given resulting in an incorrect result.
 			if (!is_array($list))
 			{
-				$list = array();
+				$list = [];
 			}
 
 			reset($list);
