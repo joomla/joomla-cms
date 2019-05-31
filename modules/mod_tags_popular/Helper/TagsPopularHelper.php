@@ -45,15 +45,17 @@ abstract class TagsPopularHelper
 
 		$query = $db->getQuery(true)
 			->select(
-				array(
-					'MAX(' . $db->quoteName('tag_id') . ') AS tag_id',
-					' COUNT(*) AS count', 'MAX(' . $db->quoteName('t.title') . ') AS title',
-					'MAX(' . $db->quoteName('t.access') . ') AS access',
-					'MAX(' . $db->quoteName('t.alias') . ') AS alias',
-					'MAX(' . $db->quoteName('t.params') . ') AS params',
+				$db->quoteName(
+					[
+						'MAX(' . $db->quoteName('tag_id') . ') AS tag_id',
+						' COUNT(*) AS count', 'MAX(' . $db->quoteName('t.title') . ') AS title',
+						'MAX(' . $db->quoteName('t.access') . ') AS access',
+						'MAX(' . $db->quoteName('t.alias') . ') AS alias',
+						'MAX(' . $db->quoteName('t.params') . ') AS params',
+					]
 				)
 			)
-			->group($db->quoteName(array('tag_id', 'title', 'access', 'alias')))
+			->group($db->quoteName(['tag_id', 'title', 'access', 'alias']))
 			->from($db->quoteName('#__contentitem_tag_map', 'm'))
 			->whereIn($db->quoteName('t.access'), $groups);
 
@@ -61,7 +63,7 @@ abstract class TagsPopularHelper
 		$query->where($db->quoteName('t.published') . ' = 1 ');
 
 		// Filter by Parent Tag
-		$parentTags = $params->get('parentTag', array());
+		$parentTags = $params->get('parentTag', []);
 
 		if ($parentTags)
 		{
@@ -113,7 +115,6 @@ abstract class TagsPopularHelper
 		}
 		else
 		{
-			$order_value     = $db->quoteName($order_value);
 			$order_direction = $params->get('order_direction', 1) ? 'DESC' : 'ASC';
 
 			if ($params->get('order_value', 'title') === 'title')
@@ -122,22 +123,24 @@ abstract class TagsPopularHelper
 				$query->order('count DESC');
 				$equery = $db->getQuery(true)
 					->select(
-						array(
-							'a.tag_id',
-							'a.count',
-							'a.title',
-							'a.access',
-							'a.alias',
+						$db->quoteName(
+								[
+								'a.tag_id',
+								'a.count',
+								'a.title',
+								'a.access',
+								'a.alias',
+							]
 						)
 					)
 					->from('(' . (string) $query . ') AS a')
-					->order('a.title' . ' ' . $order_direction);
+					->order($db->quoteName('a.title') . ' ' . $order_direction);
 
 				$query = $equery;
 			}
 			else
 			{
-				$query->order($order_value . ' ' . $order_direction);
+				$query->order($db->quoteName($order_value) . ' ' . $order_direction);
 			}
 		}
 
