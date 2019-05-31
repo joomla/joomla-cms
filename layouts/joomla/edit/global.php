@@ -27,7 +27,28 @@ if ($component === 'com_categories')
 
 $saveHistory = ComponentHelper::getParams($component)->get('save_history', 0);
 
-if ($component !== 'com_plugins')
+if ($component === 'com_categories')
+{
+	$extension = $input->getCmd('extension', 'com_content');
+	$parts     = explode('.', $extension);
+	$component = $parts[0];
+}
+
+$saveHistory = ComponentHelper::getParams($component)->get('save_history', 0);
+
+if ($component === 'com_plugins')
+{
+	$fields = $displayData->get('fields') ?: [
+		'transition',
+		['parent', 'parent_id'],
+		['published', 'state', 'enabled'],
+		['category', 'catid'],
+		'featured',
+		'access',
+		'id',
+	];
+}
+else
 {
 	$fields = $displayData->get('fields') ?: [
 		'transition',
@@ -44,18 +65,6 @@ if ($component !== 'com_plugins')
 		'version_note',
 	];
 }
-else
-{
-	$fields = $displayData->get('fields') ?: [
-		'transition',
-		['parent', 'parent_id'],
-		['published', 'state', 'enabled'],
-		['category', 'catid'],
-		'featured',
-		'access',
-		'id',
-	];
-};
 
 $hiddenFields   = $displayData->get('hidden_fields') ?: array();
 $hiddenFields[] = 'id';
