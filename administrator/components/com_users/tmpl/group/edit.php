@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.formvalidator');
@@ -23,7 +24,7 @@ HTMLHelper::_('behavior.formvalidator');
 		<?php echo $this->form->renderField('parent_id'); ?>
 	<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 	<?php $this->ignore_fieldsets = array('group_details'); ?>
-	<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+	<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 	<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
 
 	<input type="hidden" name="task" value="">
