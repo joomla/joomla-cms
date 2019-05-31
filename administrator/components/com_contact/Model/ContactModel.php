@@ -495,10 +495,10 @@ class ContactModel extends AdminModel
 			$db = $this->getDbo();
 
 			$query = $db->getQuery(true);
-			$query->bind(':featured', $value, ParameterType::INTEGER);
 			$query->update($db->quoteName('#__contact_details'));
 			$query->set($db->quoteName('featured') . ' = :featured');
 			$query->whereIn($db->quoteName('id'), $pks);
+			$query->bind(':featured', $value, ParameterType::INTEGER);
 			
 			$db->setQuery($query);
 
