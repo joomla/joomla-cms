@@ -44,7 +44,7 @@ if ($component !== 'com_plugins')
 		'version_note',
 	];
 }
-else 
+else
 {
 	$fields = $displayData->get('fields') ?: [
 		'transition',
