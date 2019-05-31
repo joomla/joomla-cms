@@ -109,8 +109,8 @@ class ContactField extends FormField
 			$query = $db->getQuery(true)
 				->select($db->quoteName('name'))
 				->from($db->quoteName('#__contact_details'))
-				->bind(':id', $value, ParameterType::INTEGER)
-				->where($db->quoteName('id') . ' = :id');
+				->where($db->quoteName('id') . ' = :id')
+				->bind(':id', $value, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			try
