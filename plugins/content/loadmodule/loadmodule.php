@@ -56,7 +56,7 @@ class PlgContentLoadmodule extends JPlugin
 		$stylemod = $this->params->def('style', 'none');
 
 		// Expression to search for(id)
-		$regexmodid = '/{loadmoduleid\s([1-9][0-9]*)}/i';
+		$regexmodid = '/{loadmoduleid\s([1-9][0-9]*.*?)}/i';
 
 		// Find all instances of plugin and put in $matches for loadposition
 		// $matches[0] is full pattern match, $matches[1] is the position
@@ -129,8 +129,15 @@ class PlgContentLoadmodule extends JPlugin
 		{
 			foreach ($matchesmodid as $match)
 			{
-				$id     = trim($match[1]);
-				$output = $this->_loadid($id);
+				$matchesidlist = explode(',', $match[1]);
+				$id     = trim($matchesidlist[0]);
+				// We may not have a module style so fall back to the plugin default.
+				if (!array_key_exists(1, $matchesidlist))
+				{
+					$matchesidlist[1] = $style;
+				}
+				$style    = trim($matchesidlist[1]);
+				$output = $this->_loadid($id, $style);
 
 				// We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
 				$article->text = preg_replace("|$match[0]|", addcslashes($output, '\\$'), $article->text, 1);
@@ -217,13 +224,13 @@ class PlgContentLoadmodule extends JPlugin
 	 *
 	 * @since   3.9.0
 	 */
-	protected function _loadid($id)
+	protected function _loadid($id $style = 'none')
 	{
 		self::$modules[$id] = '';
 		$document = JFactory::getDocument();
 		$renderer = $document->loadRenderer('module');
 		$modules  = JModuleHelper::getModuleById($id);
-		$params   = array('style' => 'none');
+		$params = array('style' => $style);
 		ob_start();
 
 		if ($modules->id > 0)
