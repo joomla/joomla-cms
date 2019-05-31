@@ -462,8 +462,8 @@ class PlgFinderCategories extends FinderIndexerAdapter
 					)
 					->from($query->quoteName('#__categories', 'a'))
 					->leftJoin(
-						$query->quoteName('#__categories', 'c') .
-						' ON ' . $query->quoteName('c.id') . ' = ' . $query->quoteName('a.parent_id')
+						$query->quoteName('#__categories', 'c'),
+						$query->quoteName('c.id') . ' = ' . $query->quoteName('a.parent_id')
 					);
 
 		return $query;
