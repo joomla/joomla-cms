@@ -130,7 +130,7 @@ class PlgContentLoadmodule extends JPlugin
 			foreach ($matchesmodid as $match)
 			{
 				$matchesidlist = explode(',', $match[1]);
-				$id     = trim($matchesidlist[0]);
+				$id            = trim($matchesidlist[0]);
 				// We may not have a module style so fall back to the plugin default.
 				if (!array_key_exists(1, $matchesidlist))
 				{
