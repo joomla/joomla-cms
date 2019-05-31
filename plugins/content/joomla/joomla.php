@@ -23,7 +23,6 @@ use Joomla\Component\Messages\Administrator\Model\MessageModel;
 use Joomla\Component\Workflow\Administrator\Model\StagesModel;
 use Joomla\Component\Workflow\Administrator\Table\StageTable;
 use Joomla\Component\Workflow\Administrator\Table\WorkflowTable;
-use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -435,10 +434,9 @@ class PlgContentJoomla extends CMSPlugin
 		$query = $db->getQuery(true);
 
 		// Count the items in this category
-		$query->select('COUNT(' . $db->quoteName('id') . ')')
-			->from($db->quoteName($table))
-			->where($db->quoteName('catid') . ' = :catid')
-			->bind(':catid', $catid, ParameterType::INTEGER);
+		$query->select('COUNT(id)')
+			->from($table)
+			->where('catid = ' . $catid);
 		$db->setQuery($query);
 
 		try
@@ -494,19 +492,19 @@ class PlgContentJoomla extends CMSPlugin
 
 		$query = $db->getQuery(true);
 
-		$query->select('COUNT(' . $db->quoteName('b.id') . ')')
-			->from($query->quoteName('#__workflow_associations', 'wa'))
-			->from($query->quoteName('#__workflow_stages', 's'))
-			->from($db->quoteName($table, 'b'))
-			->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('s.id'))
-			->where($db->quoteName('wa.item_id') . ' = ' . $db->quoteName('b.id'))
-			->whereIn($db->quoteName('s.id'), $stage_ids);
+		$query	->select('COUNT(' . $db->quoteName('b.id') . ')')
+				->from($query->quoteName('#__workflow_associations', 'wa'))
+				->from($query->quoteName('#__workflow_stages', 's'))
+				->from($db->quoteName($table, 'b'))
+				->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('s.id'))
+				->where($db->quoteName('wa.item_id') . ' = ' . $db->quoteName('b.id'))
+				->whereIn($db->quoteName('s.id'), $stage_ids);
 
 		try
 		{
 			return (int) $db->setQuery($query)->loadResult();
 		}
-		catch (Exception $e)
+		catch (Exception $ex)
 		{
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
@@ -538,7 +536,7 @@ class PlgContentJoomla extends CMSPlugin
 
 		foreach ($childCategoryTree as $node)
 		{
-			$childCategoryIds[] = (int) $node->id;
+			$childCategoryIds[] = $node->id;
 		}
 
 		// Make sure we only do the query if we have some categories to look in
@@ -546,9 +544,9 @@ class PlgContentJoomla extends CMSPlugin
 		{
 			// Count the items in this category
 			$query = $db->getQuery(true)
-				->select('COUNT(' . $db->quoteName('id') . ')')
-				->from($db->quoteName($table))
-				->whereIn($db->quoteName('catid'), $childCategoryIds);
+				->select('COUNT(id)')
+				->from($table)
+				->where('catid IN (' . implode(',', $childCategoryIds) . ')');
 			$db->setQuery($query);
 
 			try
@@ -609,9 +607,8 @@ class PlgContentJoomla extends CMSPlugin
 		$query = $db->getQuery(true)
 			->select($db->quoteName('core_content_id'))
 			->from($db->quoteName('#__ucm_content'))
-			->where($db->quoteName('core_type_alias') . ' = :context')
-			->whereIn($db->quoteName('core_content_item_id'), $pks)
-			->bind(':context', $context);
+			->where($db->quoteName('core_type_alias') . ' = ' . $db->quote($context))
+			->where($db->quoteName('core_content_item_id') . ' IN (' . implode(',', $pks) . ')');
 		$db->setQuery($query);
 		$ccIds = $db->loadColumn();
 
@@ -636,6 +633,7 @@ class PlgContentJoomla extends CMSPlugin
 		// Messaging for changed items
 		$default_language = ComponentHelper::getParams('com_languages')->get('administrator');
 		$debug = Factory::getApplication()->get('debug_lang');
+		$result = true;
 
 		$article = new ArticleTable($db);
 
@@ -648,20 +646,18 @@ class PlgContentJoomla extends CMSPlugin
 				continue;
 			}
 
-			$assoc   = $workflow->getAssociation($pk);
-			$stageId = (int) $assoc->stage_id;
+			$assoc = $workflow->getAssociation($pk);
 
 			// Load new transitions
 			$query = $db->getQuery(true)
-				->select($db->quoteName('t.id'))
+				->select($db->quoteName(['t.id']))
 				->from($db->quoteName('#__workflow_transitions', 't'))
 				->from($db->quoteName('#__workflow_stages', 's'))
-				->where($db->quoteName('t.from_stage_id') . ' = :stageid')
+				->where($db->quoteName('t.from_stage_id') . ' = ' . (int) $assoc->stage_id)
 				->where($db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'))
-				->where($db->quoteName('t.published') . ' = 1')
-				->where($db->quoteName('s.published') . ' = 1')
-				->order($db->quoteName('t.ordering'))
-				->bind(':stageid', $stageId, ParameterType::INTEGER);
+				->where($db->quoteName('t.published') . '= 1')
+				->where($db->quoteName('s.published') . '= 1')
+				->order($db->quoteName('t.ordering'));
 
 			$transitions = $db->setQuery($query)->loadObjectList();
 
@@ -696,7 +692,7 @@ class PlgContentJoomla extends CMSPlugin
 
 					$model_message = Factory::getApplication()->bootComponent('com_messages')
 						->getMVCFactory()->createModel('Message', 'Administrator');
-					$model_message->save($message);
+					$result = $model_message->save($message);
 				}
 			}
 		}
