@@ -136,6 +136,7 @@ class PlgContentLoadmodule extends JPlugin
 				{
 					$matchesidlist[1] = $style;
 				}
+
 				$style    = trim($matchesidlist[1]);
 				$output = $this->_loadid($id, $style);
 
