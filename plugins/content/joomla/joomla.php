@@ -658,8 +658,8 @@ class PlgContentJoomla extends CMSPlugin
 				->from($db->quoteName('#__workflow_stages', 's'))
 				->where($db->quoteName('t.from_stage_id') . ' = :stageid')
 				->where($db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'))
-				->where($db->quoteName('t.published') . '= 1')
-				->where($db->quoteName('s.published') . '= 1')
+				->where($db->quoteName('t.published') . ' = 1')
+				->where($db->quoteName('s.published') . ' = 1')
 				->order($db->quoteName('t.ordering'))
 				->bind(':stageid', $stageId, ParameterType::INTEGER);
 
