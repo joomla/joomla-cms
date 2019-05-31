@@ -116,7 +116,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 
 		// Remove expired tokens
 		$query = $this->db->getQuery(true)
-			->delete('#__user_keys')
+			->delete($this->db->quoteName('#__user_keys'))
 			->where($this->db->quoteName('time') . ' < :now')
 			->bind(':now', time(), ParameterType::INTEGER);
 
