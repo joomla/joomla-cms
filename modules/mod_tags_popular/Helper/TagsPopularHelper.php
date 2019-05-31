@@ -124,7 +124,7 @@ abstract class TagsPopularHelper
 				$equery = $db->getQuery(true)
 					->select(
 						$db->quoteName(
-								[
+							[
 								'a.tag_id',
 								'a.count',
 								'a.title',
