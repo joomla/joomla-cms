@@ -48,8 +48,8 @@ class UsersLatestHelper
 				return array();
 			}
 
-			$query->leftJoin($db->quoteName('#__user_usergroup_map', 'm') . ' ON ' . $db->quoteName('m.user_id') . ' = ' . $db->quoteName('a.id'))
-				->leftJoin($db->quoteName('#__usergroups', 'ug') . ' ON ' . $db->quoteName('ug.id') . ' = ' . $db->quoteName('m.group_id'))
+			$query->leftJoin($db->quoteName('#__user_usergroup_map', 'm'), $db->quoteName('m.user_id') . ' = ' . $db->quoteName('a.id'))
+				->leftJoin($db->quoteName('#__usergroups', 'ug'), $db->quoteName('ug.id') . ' = ' . $db->quoteName('m.group_id'))
 				->whereIn($db->quoteName('ug.id'), $groups)
 				->where($db->quoteName('ug.id') . ' <> 1');
 		}
