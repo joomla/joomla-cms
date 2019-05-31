@@ -71,8 +71,8 @@ abstract class RelatedItemsHelper
 		if ($id)
 		{
 			// Select the meta keywords from the item
-			$query->select('metakey')
-				->from('#__content')
+			$query->select($db->quoteName('metakey'))
+				->from($db->quoteName('#__content'))
 				->where($db->quoteName('id') . ' = :id')
 				->bind(':id', $id, ParameterType::INTEGER);
 			$db->setQuery($query);
@@ -133,8 +133,8 @@ abstract class RelatedItemsHelper
 				}
 
 				$query->where('(' . implode(' OR ', $wheres) . ')')
-					->where('(a.publish_up = :nullDate1 OR a.publish_up <= :nowDate1)')
-					->where('(a.publish_down = :nullDate2 OR a.publish_down >= :nowDate2)')
+					->where('('. $db->quoteName('a.publish_up') . ' = :nullDate1 OR ' . $db->quoteName('a.publish_up') . ' <= :nowDate1)')
+					->where('('. $db->quoteName('a.publish_down') . ' = :nullDate2 OR ' . $db->quoteName('a.publish_down') . ' >= :nowDate2)')
 					->bind(':nullDate1', $nullDate)
 					->bind(':nullDate2', $nullDate)
 					->bind(':nowDate1', $now)
