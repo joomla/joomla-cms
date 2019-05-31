@@ -27,15 +27,6 @@ if ($component === 'com_categories')
 
 $saveHistory = ComponentHelper::getParams($component)->get('save_history', 0);
 
-if ($component === 'com_categories')
-{
-	$extension = $input->getCmd('extension', 'com_content');
-	$parts     = explode('.', $extension);
-	$component = $parts[0];
-}
-
-$saveHistory = ComponentHelper::getParams($component)->get('save_history', 0);
-
 if ($component === 'com_plugins')
 {
 	$fields = $displayData->get('fields') ?: [
