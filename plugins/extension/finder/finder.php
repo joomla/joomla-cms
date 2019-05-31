@@ -100,8 +100,8 @@ class PlgExtensionFinder extends CMSPlugin
 			->from($db->quoteName('#__extensions'))
 			->where(
 				[
-						$db->quoteName('extension_id') . ' = :eid',
-						$db->quoteName('type') . ' = ' . $db->quote('language')
+					$db->quoteName('extension_id') . ' = :eid',
+					$db->quoteName('type') . ' = ' . $db->quote('language')
 				]
 			)
 			->bind(':eid', (int) $eid, ParameterType::INTEGER);
