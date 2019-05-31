@@ -224,7 +224,7 @@ class PlgContentLoadmodule extends JPlugin
 	 *
 	 * @since   3.9.0
 	 */
-	protected function _loadid($id $style = 'none')
+	protected function _loadid($id, $style = 'none')
 	{
 		self::$modules[$id] = '';
 		$document = JFactory::getDocument();
