@@ -43,7 +43,7 @@ if ($component !== 'com_plugins')
 		'note',
 		'version_note',
 	];
-} 
+}
 else 
 {
 	$fields = $displayData->get('fields') ?: [
