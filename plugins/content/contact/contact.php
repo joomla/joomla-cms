@@ -113,7 +113,6 @@ class PlgContentContact extends CMSPlugin
 
 		$db     = $this->db;
 		$query  = $db->getQuery(true);
-		$userid = (int) $created_by;
 
 		$query->select(
 			[
@@ -124,7 +123,7 @@ class PlgContentContact extends CMSPlugin
 			->from($db->quoteName('#__contact_details', 'contact'))
 			->where($db->quoteName('contact.published') . ' = 1')
 			->where($db->quoteName('contact.user_id') . ' = :createdby')
-			->bind(':createdby', $userid, ParameterType::INTEGER);
+			->bind(':createdby', (int) $created_by, ParameterType::INTEGER);
 
 		if (Multilanguage::isEnabled() === true)
 		{
