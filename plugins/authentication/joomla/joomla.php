@@ -65,9 +65,9 @@ class PlgAuthenticationJoomla extends CMSPlugin
 		}
 
 		$query = $this->db->getQuery(true)
-			->select('id, password')
-			->from('#__users')
-			->where('username = :username')
+			->select($db->quoteName(['id', 'password']))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('username') . ' = :username')
 			->bind(':username', $credentials['username']);
 
 		$this->db->setQuery($query);
