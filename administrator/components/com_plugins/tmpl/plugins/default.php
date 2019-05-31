@@ -113,7 +113,7 @@ if ($saveOrder)
 									<?php echo $editIcon; ?><?php echo $item->name; ?></a>
 									<?php if (!empty($item->note)) : ?>
 										<div class="small">
-											<strong><?php echo Text::_('JFIELD_NOTE_LABEL') . ': '; ?></strong><?php echo $this->escape($item->note); ?>
+											<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
 										</div>
 									<?php endif; ?>
 							<?php else : ?>
