@@ -99,6 +99,38 @@ class ContactModel extends FormModel
 			return false;
 		}
 
+		$temp = clone $this->getState('params');
+		$contact = $this->_item[$this->getState('contact.id')];
+		$active = Factory::getApplication()->getMenu()->getActive();
+		if ($active)
+		{
+			// If the current view is the active item and a contact view for this contact, then the menu item params take priority
+			if (strpos($active->link, 'view=contact') && strpos($active->link, '&id=' . (int) $contact->id))
+			{
+				// $contact->params are the contact params, $temp are the menu item params
+				// Merge so that the menu item params take priority
+				$contact->params->merge($temp);
+			}
+			else
+			{
+				// Current view is not a single contact, so the contact params take priority here
+				// Merge the menu item params with the contact params so that the contact params take priority
+				$temp->merge($contact->params);
+				$contact->params = $temp;
+			}
+		}
+		else
+		{
+			// Merge so that contact params take priority
+			$temp->merge($contact->params);
+			$contact->params = $temp;
+		}
+
+		if (!$contact->params->get('show_email_copy', 0))
+		{
+			$form->removeField('contact_email_copy');
+		}
+
 		return $form;
 	}
 
@@ -166,8 +198,8 @@ class ContactModel extends FormModel
 					// Join over the categories to get parent category titles
 					->select('parent.title AS parent_title, parent.id AS parent_id, parent.path AS parent_route, parent.alias AS parent_alias')
 					->leftJoin($db->quoteName('#__categories', 'parent') . ' ON parent.id = c.parent_id')
-					->bind(':id', $pk, ParameterType::INTEGER)
-					->where($db->quoteName('a.id') . ' = :id');
+					->where($db->quoteName('a.id') . ' = :id')
+					->bind(':id', $pk, ParameterType::INTEGER);
 
 				// Filter by start and end dates.
 				$nullDate = $db->quote($db->getNullDate());
@@ -179,13 +211,13 @@ class ContactModel extends FormModel
 
 				if (is_numeric($published))
 				{
-					$query->bind(':published', $published, ParameterType::INTEGER)
+					$query->where('(a.published = :published OR a.published = :archived)')
+						->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= :publish_up)')
+						->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= :publish_down)')
+						->bind(':published', $published, ParameterType::INTEGER)
 						->bind(':archived', $archived, ParameterType::INTEGER)
 						->bind(':publish_up', $nowDate)
-						->bind(':publish_down', $nowDate)
-						->where('(a.published = :published OR a.published = :archived)')
-						->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= :publish_up)')
-						->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= :publish_down)');
+						->bind(':publish_down', $nowDate);
 				}
 
 				$db->setQuery($query);
@@ -274,7 +306,7 @@ class ContactModel extends FormModel
 		$nullDate  = $db->quote($db->getNullDate());
 		$nowDate   = $db->quote(Factory::getDate()->toSql());
 		$user      = Factory::getUser();
-		$groups    = implode(',', $user->getAuthorisedViewLevels());
+		$groups = $user->getAuthorisedViewLevels();
 		$published = $this->getState('filter.published');
 		$query     = $db->getQuery(true);
 
@@ -300,21 +332,27 @@ class ContactModel extends FormModel
 				->select($this->getSlugColumn($query, 'c.id', 'c.alias') . ' AS catslug')
 				->from($db->quoteName('#__content', 'a'))
 				->leftJoin($db->quoteName('#__categories', 'c') . ' ON a.catid = c.id')
-				->where('a.created_by = ' . (int) $contact->user_id)
-				->where('a.access IN (' . $groups . ')')
+				->where($db->quoteName('a.created_by') . ' = :created_by')
+				->whereIn($db->quoteName('a.access'), $groups)
+				->bind(':created_by',  $contact->user_id, ParameterType::INTEGER)
 				->order('a.publish_up DESC');
 
 			// Filter per language if plugin published
 			if (Multilanguage::isEnabled())
 			{
-				$query->where('a.language IN (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+				$language = [Factory::getLanguage()->getTag(), $db->quote('*')];
+				$query->whereIn($db->quoteName('a.language') , $language);
 			}
 
 			if (is_numeric($published))
 			{
 				$query->where('a.state IN (1,2)')
-					->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-					->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+					->where('(' . $db->quoteName('a.publish_up') . ' = :null' . 
+						' OR ' . $db->quoteName('a.publish_up') .' <= :now' . ')')
+					->where('(' . $db->quoteName('a.publish_down') . ' = :null' . 
+						' OR ' . $db->quoteName('a.publish_down') . ' >= :now' . ')')
+					->bind(':null', $nullDate)
+					->bind(':now', $nowDate);
 			}
 
 			// Number of articles to display from config/menu params
