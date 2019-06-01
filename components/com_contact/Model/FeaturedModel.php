@@ -93,7 +93,7 @@ class FeaturedModel extends ListModel
 		// Select required fields from the categories.
 		$query->select($this->getState('list.select', 'a.*'))
 			->from($db->quoteName('#__contact_details', 'a'))
-			->where('a.featured = 1')
+			->where($db->quoteName('a.featured') . ' = 1')
 			->whereIn($db->quoteName('a.access'), $groups)
 			->innerJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
 			->whereIn($db->quoteName('c.access'), $groups);
@@ -101,8 +101,8 @@ class FeaturedModel extends ListModel
 		// Filter by category.
 		if ($categoryId = $this->getState('category.id'))
 		{
-			$query->bind(':catid', $categoryId, ParameterType::INTEGER)
-				->where($db->quoteName('a.catid') . ' = :catid');
+			$query->where($db->quoteName('a.catid') . ' = :catid');
+			$query->bind(':catid', $categoryId, ParameterType::INTEGER);
 		}
 
 		$query->select('c.published as cat_published, c.published AS parents_published')
@@ -113,24 +113,27 @@ class FeaturedModel extends ListModel
 
 		if (is_numeric($state))
 		{
-			$query->bind(':published', $state, ParameterType::INTEGER)
-				->where($db->quoteName('a.published') . ' = :published');
+			$query->where($db->quoteName('a.published') . ' = :published');
+			$query->bind(':published', $state, ParameterType::INTEGER);
 
 			// Filter by start and end dates.
+			$nullDate = $db->quote($db->getNullDate());
 			$date = Factory::getDate();
-			$nowDate = $date->toSql();
-			$query->bind(':publish_up', $nowDate)
-				->bind(':publish_down', $nowDate)
-				->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= :publish_up)')
-				->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= :publish_down)');
+			$nowDate = $db->quote($date->toSql());
+
+			$query->where('(' . $query->isNullDatetime($db->quoteName('a.publish_up')) . 
+				' OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)')
+				->where('(' . $query->isNullDatetime($db->quoteName('a.publish_down')) . 
+				' OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)')
+				->bind(':publish_up', $nowDate)
+				->bind(':publish_down', $nowDate);
 		}
 
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$language = [$db->quote(Factory::getLanguage()->getTag()), '*'];
-			$query->bind(':language', $language);
-			$query->whereIN($db->quoteName('a.language'), $language);
+			$language = [Factory::getLanguage()->getTag(), $db->quote('*')];
+			$query->whereIn($db->quoteName('a.language') , $language);
 		}
 
 		// Add the list ordering clause.
