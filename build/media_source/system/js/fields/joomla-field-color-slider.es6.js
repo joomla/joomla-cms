@@ -78,8 +78,8 @@
      * Set selected value into input field and set it as its background-color.
      */
     updateValue(slider) {
-      const rgb = this.getSliderValueAsRgb(slider.value, slider.dataset.type);
-      const hsl = this.rgbToHsl(rgb);
+      const hsl = this.getSliderValueAsHsl(slider.value, slider.dataset.type);
+      const rgb = this.hslToRgb(hsl);
       [this.hue, this.saturation, this.light, this.alpha] = hsl;
 
       this.input.style.border = `2px solid ${this.getRgbString(rgb)}`;
@@ -175,9 +175,7 @@
       this.setSliderValues(hsl);
       this.setInputValue(hsl);
 
-      if (/^[0-9]+$/.test(value) === false) {
-        this.input.style.border = `2px solid ${this.getRgbString(this.hslToRgb(hsl))}`;
-      }
+      this.input.style.border = `2px solid ${this.getRgbString(this.hslToRgb(hsl))}`;
     }
 
     /**
@@ -206,12 +204,12 @@
     }
 
     /**
-     * Calculates RGB value from color slider value
+     * Returns HSL value from color slider value
      * @params {int} value convert this value
      * @params {string} type type of value: hue, saturation, light or alpha
-     * @returns string|array
+     * @returns array
      */
-    getSliderValueAsRgb(value, type) {
+    getSliderValueAsHsl(value, type) {
       let h = this.hue;
       let s = this.saturation;
       let l = this.light;
@@ -243,7 +241,17 @@
         a /= 100;
       }
 
-      return this.hslToRgb([h, s, l, a]);
+      return [h, s, l, a];
+    }
+
+    /**
+     * Calculates RGB value from color slider value
+     * @params {int} value convert this value
+     * @params {string} type type of value: hue, saturation, light or alpha
+     * @returns array
+     */
+    getSliderValueAsRgb(value, type) {
+      return this.hslToRgb(this.getSliderValueAsHsl(value, type));
     }
 
     /**
