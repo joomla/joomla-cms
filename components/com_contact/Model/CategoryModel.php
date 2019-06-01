@@ -18,6 +18,7 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -152,9 +153,9 @@ class CategoryModel extends ListModel
 		// Filter by category.
 		if ($categoryId = $this->getState('category.id'))
 		{
-			$query->bind(':acatid', $categoryId, ParameterType::INTEGER);
-			$query->where('a.catid = :acatid')
+			$query->where($db->quoteName('a.catid') . ' = :acatid')
 				->whereIn($db->quoteName('c.access'), $groups);
+			$query->bind(':acatid', $categoryId, ParameterType::INTEGER);
 		}
 
 		// Join over the users for the author and modified_by names.
@@ -168,8 +169,8 @@ class CategoryModel extends ListModel
 
 		if (is_numeric($state))
 		{
+			$query->where($db->quoteName('a.published') . ' = :published');
 			$query->bind(':published', $state, ParameterType::INTEGER);
-			$query->where('a.published = :published');
 		}
 		else
 		{
@@ -181,10 +182,10 @@ class CategoryModel extends ListModel
 
 		if ($this->getState('filter.publish_date'))
 		{
-			$query->bind(':publish_up', $nowDate)
-				->bind(':publish_down', $nowDate)
-				->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= :publish_up)')
-				->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= :publish_down)');
+			$query->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= :publish_up)')
+				->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= :publish_down)')
+				->bind(':publish_up', $nowDate)
+				->bind(':publish_down', $nowDate);
 		}
 
 		// Filter by search in title
@@ -192,18 +193,16 @@ class CategoryModel extends ListModel
 
 		if (!empty($search))
 		{
-			$search = $db->quote('%' . $db->escape($search, true) . '%');
-			$query->where('(a.name LIKE ' . $search . ')');
 			$search = '%' . $db->escape(trim($search), true) . '%';
-			$query->bind(':name', $search);
 			$query->where($db->quoteName('a.name') . ' LIKE :name ');
+			$query->bind(':name', $search);
 		}
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->bind(':language', $language);
 			$query->where($db->quoteName('a.language') . ' = :language');
+			$query->bind(':language', $language);
 		}
 
 		// Set sortname ordering if selected
