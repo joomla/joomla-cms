@@ -102,6 +102,7 @@ class ContactModel extends FormModel
 		$temp = clone $this->getState('params');
 		$contact = $this->_item[$this->getState('contact.id')];
 		$active = Factory::getApplication()->getMenu()->getActive();
+
 		if ($active)
 		{
 			// If the current view is the active item and a contact view for this contact, then the menu item params take priority
