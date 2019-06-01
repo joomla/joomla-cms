@@ -101,7 +101,6 @@
 
         let colors = [];
         let endValue = 100;
-        slider.style.webkitAppearance = 'none';
 
         // Longer start color so slider selection matches displayed colors
         colors.push(this.getSliderValueAsRgb(0, slider.dataset.type));
@@ -124,6 +123,7 @@
 
         colors = colors.map(value => this.getRgbString(value));
         slider.style.background = `linear-gradient(90deg, ${colors.join(',')})`;
+        slider.style.webkitAppearance = 'none';
       });
     }
 
@@ -317,7 +317,7 @@
      */
     getRgbString([r, g, b, a]) {
       if (this.setAlpha) {
-        const alpha = a || this.alpha;
+        const alpha = typeof a === 'undefined' ? this.alpha : a;
         return `rgba(${r}, ${g}, ${b}, ${alpha})`;
       }
       return `rgb(${r}, ${g}, ${b})`;
