@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Helper\ModuleHelper;
- 
+
 if ($params->get('automatic_title'))
 {
 	$module->title = Text::_('MOD_LOGINSUPPORT_TITLE');
