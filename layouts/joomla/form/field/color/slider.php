@@ -36,10 +36,14 @@ extract($displayData);
  * @var   string  $validate     Validation rules to apply.
  */
 
+if ($color === 'none' || is_null($color)) {
+    $color = '';
+}
+
 $alpha        = $format === 'hsla' || $format === 'rgba' || $format === 'alpha';
 $autocomplete = !$autocomplete ? ' autocomplete="off"' : '';
 $autofocus    = $autofocus ? ' autofocus' : '';
-$color        = $color ? ' data-color="' . $color . '"' : '';
+$color        = ' data-color="' . $color . '"';
 $class        = $class ? ' class="' . $class . '"' : '';
 $default      = $default ? ' data-default="' . $default . '"' : '';
 $disabled     = $disabled ? ' disabled' : '';

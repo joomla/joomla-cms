@@ -133,11 +133,17 @@
     setInitValue() {
       // The initial value can be also a color defined in css
       const cssValue = window.getComputedStyle(this.input).getPropertyValue(this.default);
-      const value = cssValue || this.color || this.default || '';
       let hsl = [];
+      let value;
 
-      if (!value) {
-        return;
+      if (cssValue) {
+        value = cssValue;
+      } else if (this.color !== '') {
+        value = this.color;
+      } else if (this.default) {
+        value = this.default;
+      } else {
+        throw Error('No color value available!');
       }
 
       // When given value is a number, use it as defined format and get rest from default value
