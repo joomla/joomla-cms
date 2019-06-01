@@ -182,8 +182,10 @@ class CategoryModel extends ListModel
 
 		if ($this->getState('filter.publish_date'))
 		{
-			$query->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= :publish_up)')
-				->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= :publish_down)')
+			$query->where('(' . $query->isNullDatetime($db->quoteName('a.publish_up')) . 
+				' OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)')
+				->where('(' . $query->isNullDatetime($db->quoteName('a.publish_down')) . 
+				' OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)')
 				->bind(':publish_up', $nowDate)
 				->bind(':publish_down', $nowDate);
 		}
@@ -193,7 +195,7 @@ class CategoryModel extends ListModel
 
 		if (!empty($search))
 		{
-			$search = '%' . $db->escape(trim($search), true) . '%';
+			$search = '%' . trim($search) . '%';
 			$query->where($db->quoteName('a.name') . ' LIKE :name ');
 			$query->bind(':name', $search);
 		}
@@ -201,8 +203,8 @@ class CategoryModel extends ListModel
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where($db->quoteName('a.language') . ' = :language');
-			$query->bind(':language', $language);
+			$language = [Factory::getLanguage()->getTag(), $db->quote('*')];
+			$query->whereIn($db->quoteName('a.language') , $language);
 		}
 
 		// Set sortname ordering if selected
