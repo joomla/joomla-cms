@@ -132,7 +132,7 @@ class CategoryModel extends ListModel
 	protected function getListQuery()
 	{
 		$user   = Factory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
+		$groups = $user->getAuthorisedViewLevels();
 
 		// Create a new query object.
 		$db    = $this->getDbo();
