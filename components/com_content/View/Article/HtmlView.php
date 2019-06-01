@@ -11,9 +11,11 @@ namespace Joomla\Component\Content\Site\View\Article;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
@@ -23,6 +25,9 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
+use Spatie\SchemaOrg\Article;
+use Spatie\SchemaOrg\Person;
+use Spatie\SchemaOrg\Schema;
 
 /**
  * HTML Article View class for the Content component
@@ -80,13 +85,16 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
 		if ($this->getLayout() == 'pagebreak')
 		{
-			return parent::display($tpl);
+			parent::display($tpl);
+
+			return;
 		}
 
 		$app        = Factory::getApplication();
@@ -255,6 +263,7 @@ class HtmlView extends BaseHtmlView
 		$this->pageclass_sfx = htmlspecialchars($this->item->params->get('pageclass_sfx'));
 
 		$this->_prepareDocument();
+		$this->addJsonSchema($app);
 
 		parent::display($tpl);
 	}
@@ -386,5 +395,64 @@ class HtmlView extends BaseHtmlView
 		{
 			$this->document->setMetaData('robots', 'noindex, nofollow');
 		}
+	}
+
+	/**
+	 * Prepares the document.
+	 *
+	 * @param  CMSApplicationInterface  $app  The application object
+	 *
+	 * @return  void
+	 */
+	private function addJsonSchema($app)
+	{
+		$images          = json_decode($this->item->images);
+		$articleLanguage = ($this->item->language === '*') ? $app->get('language') : $this->item->language;
+		$authorised      = $app->getIdentity()->getAuthorisedViewLevels();
+		$keywords        = [];
+
+		foreach ($this->item->tags->itemTags as $tag)
+		{
+			if (in_array($tag->access, $authorised)) {
+				$keywords[] = $this->escape($tag->title);
+			}
+		}
+
+		// TODO: This requires a publisher to pass google structured data checker
+		$schema = Schema::article()
+			->articleBody($this->item->text)
+			->if($this->item->params->get('show_title'), function (Article $schema) {
+				$schema->headline($this->escape($this->item->title));
+			})
+			->inLanguage($articleLanguage)
+			->dateCreated(HTMLHelper::_('date', $this->item->created, "Y-m-d"))
+			->dateModified(HTMLHelper::_('date', $this->item->modified, "Y-m-d"))
+			->datePublished(HTMLHelper::_('date', $this->item->publish_up, "Y-m-d"))
+			->if($this->item->params->get('show_author') === '1' && !empty($this->item->author), function (Article $schema) {
+				$schema->author(
+					Schema::Person()
+						->name($this->item->created_by_alias ?: $this->item->author)
+						->if($this->item->params->get('link_author'), function(Person $schema) {
+							$schema->url($this->item->contact_link);
+						})
+				);
+			});
+
+		if (!empty($keywords))
+		{
+			$schema->keywords($keywords);
+		}
+
+		if (!empty($images->image_fulltext))
+		{
+			$schema->image(
+				Schema::imageObject()
+					->url($images->image_fulltext)
+			);
+		}
+
+		/** @var \Joomla\CMS\Document\HtmlDocument $doc */
+		$doc = $app->getDocument();
+		$doc->addScriptDeclaration(json_encode($schema, JDEBUG ? JSON_PRETTY_PRINT : 0), 'application/ld+json');
 	}
 }

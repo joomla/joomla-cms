@@ -18,44 +18,16 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
-use Spatie\SchemaOrg\Schema;
-use Spatie\SchemaOrg\Article;
 
 // Create shortcuts to some parameters.
 $params  = $this->item->params;
 $images  = json_decode($this->item->images);
 $urls    = json_decode($this->item->urls);
 $canEdit = $params->get('access-edit');
-$user    = Factory::getUser();
+$user    = Factory::getApplication()->getIdentity();
 $info    = $params->get('info_block_position', 0);
 
 $images = json_decode($this->item->images);
-$articleLanguage = ($this->item->language === '*') ? Factory::getApplication()->get('language') : $this->item->language;
-
-/** @var \Joomla\CMS\Document\HtmlDocument $doc */
-$doc = Factory::getDocument();
-
-// TODO: Tags as "keywords" (if show tags enabled, and filtering by authorised)
-$schema = Schema::article()
-	->articleBody($this->item->text)
-	->if($params->get('show_title'), function (Article $schema) {
-		$schema->headline($this->escape($this->item->title));
-	})
-	->inLanguage($articleLanguage)
-	->dateCreated(HTMLHelper::_('date', $this->item->created, "Y-m-d"))
-	->dateModified(HTMLHelper::_('date', $this->item->modified, "Y-m-d"))
-	->datePublished(HTMLHelper::_('date', $this->item->publish_up, "Y-m-d"))
-	->image($images->image_fulltext)
-	->mainEntityOfPage('article/' . $this->item->id)
-	->if($params->get('show_author'), function (Article $schema) {
-		$schema->author(
-			Schema::Person()
-				->name($this->item->created_by_alias ?: $this->item->author)
-				->if($this->item->params->get('link_author'), function(\Spatie\SchemaOrg\Person $schema) {
-					$schema->url($this->item->contact_link);
-				})
-		);
-	});
 
 // Check if associations are implemented. If they are, define the parameter.
 $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
@@ -82,7 +54,6 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 		</div>
 		<div class="clearfix"> </div>
 	<?php endif; ?>
-	<?php if ($params->get('show_title') || $params->get('show_author')) : ?>
 	<div class="page-header">
 		<?php if ($params->get('show_title')) : ?>
 			<h2>
@@ -99,7 +70,6 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 			<span class="badge badge-warning"><?php echo Text::_('JEXPIRED'); ?></span>
 		<?php endif; ?>
 	</div>
-	<?php endif; ?>
 	<?php if (!$this->print) : ?>
 		<?php if ($canEdit || $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
 			<?php echo LayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item, 'print' => false)); ?>
