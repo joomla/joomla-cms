@@ -32,8 +32,7 @@ $fields = $displayData->get('fields') ?: array(
 	array('parent', 'parent_id'),
 	array('published', 'state', 'enabled'),
 	array('category', 'catid'),
-	'featured',if (!$saveHistory)
-
+	'featured',
 	'sticky',
 	'access',
 	'id',
