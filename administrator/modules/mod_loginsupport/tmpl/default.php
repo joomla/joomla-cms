@@ -13,10 +13,16 @@ use Joomla\CMS\Language\Text;
 ?>
 
 <section class="loginsupport">
-	<p><?php echo Text::_('MOD_LOGINSUPPORT_HEADLINE'); ?></p>
-	<ul class="list-unstyled">
-		<li><a href="https://forum.joomla.org/" target="_blank" rel="nofollow noopener"><?php echo Text::_('MOD_LOGINSUPPORT_FORUM'); ?></a></li>
-		<li><a href="https://docs.joomla.org" target="_blank" rel="nofollow noopener"><?php echo Text::_('MOD_LOGINSUPPORT_DOCUMENTATION'); ?></a></li>
-		<li><a href="https://www.joomla.org/" target="_blank" rel="nofollow noopener"><?php echo Text::_('MOD_LOGINSUPPORT_NEWS'); ?></a></li>
-	</ul>
+    <p><?php echo Text::_('MOD_LOGINSUPPORT_HEADLINE'); ?></p>
+    <ul class="list-unstyled">
+        <li><a href="<?php echo $params->get('forum_url') ?>" target="_blank" rel="nofollow noopener">
+				<?php echo Text::_('MOD_LOGINSUPPORT_FORUM'); ?></a>
+        </li>
+        <li><a href="<?php echo $params->get('documentation_url') ?>" target="_blank" rel="nofollow noopener">
+				<?php echo Text::_('MOD_LOGINSUPPORT_DOCUMENTATION'); ?></a>
+        </li>
+        <li><a href="<?php echo $params->get('news_url') ?>" target="_blank" rel="nofollow noopener">
+				<?php echo Text::_('MOD_LOGINSUPPORT_NEWS'); ?></a>
+        </li>
+    </ul>
 </section>
