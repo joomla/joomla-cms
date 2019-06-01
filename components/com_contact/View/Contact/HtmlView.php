@@ -118,12 +118,6 @@ class HtmlView extends BaseHtmlView
 		$this->form = $this->get('Form');
 		$params     = $state->get('params');
 
-		// Check for errors.
-		if ($item === false)
-		{
-			throw new GenericDataException(Text::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
-		}
-
 		$temp = clone $params;
 
 		$active = $app->getMenu()->getActive();
