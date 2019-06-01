@@ -255,8 +255,8 @@ class ContactsModel extends ListModel
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
 		{
-			$query->bind(':access', $access, ParameterType::INTEGER);
 			$query->where($db->quoteName('a.access') . ' = :access');
+			$query->bind(':access', $access, ParameterType::INTEGER);
 		}
 
 		// Implement View Level Access
@@ -270,8 +270,8 @@ class ContactsModel extends ListModel
 
 		if (is_numeric($published))
 		{
-			$query->bind(':published', $published, ParameterType::INTEGER);
 			$query->where($db->quoteName('a.published') . ' = :published');
+			$query->bind(':published', $published, ParameterType::INTEGER);
 		}
 		elseif ($published === '')
 		{
@@ -283,8 +283,8 @@ class ContactsModel extends ListModel
 
 		if (is_numeric($categoryId))
 		{
-			$query->bind(':catid', $categoryId, ParameterType::INTEGER);
 			$query->where($db->quoteName('a.catid') . ' = :catid');
+			$query->bind(':catid', $categoryId, ParameterType::INTEGER);
 		}
 		elseif (is_array($categoryId))
 		{
@@ -298,25 +298,25 @@ class ContactsModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->bind(':id', substr($search, 3), ParameterType::INTEGER);
 				$query->where($db->quoteName('a.id') . ' = :id');
+				$query->bind(':id', substr($search, 3), ParameterType::INTEGER);
 			}
 			else
 			{
 				$search = '%' . $db->escape(trim($search), true) . '%';
-				$query->bind(':name', $search);
-				$query->bind(':alias', $search);
 				$query->where(
 					'(' . $db->quoteName('a.name') . ' LIKE :name OR ' . $db->quoteName('a.alias') . ' LIKE :alias' . ')'
 				);
+				$query->bind(':name', $search);
+				$query->bind(':alias', $search);
 			}
 		}
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->bind(':language', $language);
 			$query->where($db->quoteName('a.language') . ' = :language');
+			$query->bind(':language', $language);
 		}
 
 		// Filter by a single tag.
@@ -324,7 +324,6 @@ class ContactsModel extends ListModel
 
 		if (is_numeric($tagId))
 		{
-			$query->bind(':tag_id', $tagId, ParameterType::INTEGER);
 			$query->where($db->quoteName('tagmap.tag_id') . ' = :tag_id')
 				->join(
 					'LEFT',
@@ -332,13 +331,14 @@ class ContactsModel extends ListModel
 					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
 					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_contact.contact')
 				);
+			$query->bind(':tag_id', $tagId, ParameterType::INTEGER);
 		}
 
 		// Filter on the level.
 		if ($level = $this->getState('filter.level'))
 		{
+			$query->where($db->quoteName('c.level') . ' <= :level');
 			$query->bind(':level', $level, ParameterType::INTEGER);
-			$query->where('c.level <= :level');
 		}
 
 		// Add the list ordering clause.
