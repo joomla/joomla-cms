@@ -335,7 +335,7 @@ class ContactModel extends FormModel
 				->leftJoin($db->quoteName('#__categories', 'c') . ' ON a.catid = c.id')
 				->where($db->quoteName('a.created_by') . ' = :created_by')
 				->whereIn($db->quoteName('a.access'), $groups)
-				->bind(':created_by',  $contact->user_id, ParameterType::INTEGER)
+				->bind(':created_by', $contact->user_id, ParameterType::INTEGER)
 				->order('a.publish_up DESC');
 
 			// Filter per language if plugin published
