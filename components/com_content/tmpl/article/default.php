@@ -18,6 +18,8 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Spatie\SchemaOrg\Schema;
+use Spatie\SchemaOrg\Article;
 
 // Create shortcuts to some parameters.
 $params  = $this->item->params;
@@ -33,24 +35,27 @@ $articleLanguage = ($this->item->language === '*') ? Factory::getApplication()->
 /** @var \Joomla\CMS\Document\HtmlDocument $doc */
 $doc = Factory::getDocument();
 
-// TODO: This should be the AUTHORISED tags (if show tags enabled)
-$doc->addScriptDeclaration('{
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "' . $this->escape($this->item->title) . '",
-  "image": "' . $images->image_fulltext . '",
-  "author": {
-    "@type": "Person",
-    "name": "' . $this->item->created_by_alias ?: $this->item->author . '"
-    ' . $params->get('link_author') == true ? ', "url": "' . $this->item->contact_link . '"' : "" . '
-  },
-  "inLanguage": "' . $articleLanguage . '",
-  "keywords": "' . $params . '",
-  "articleBody": "' . $this->item->text . '",
-  "dateCreated": "' . HTMLHelper::_('date', $this->item->created, "Y-m-d") .'",
-  "dateModified": "' . HTMLHelper::_('date', $this->item->modified, "Y-m-d") .'",
-  "datePublished": "' . HTMLHelper::_('date', $this->item->publish_up, "Y-m-d") .'"
-}', 'application/ld+json');
+// TODO: Tags as "keywords" (if show tags enabled, and filtering by authorised)
+$schema = Schema::article()
+	->articleBody($this->item->text)
+	->if($params->get('show_title'), function (Article $schema) {
+		$schema->headline($this->escape($this->item->title));
+	})
+	->inLanguage($articleLanguage)
+	->dateCreated(HTMLHelper::_('date', $this->item->created, "Y-m-d"))
+	->dateModified(HTMLHelper::_('date', $this->item->modified, "Y-m-d"))
+	->datePublished(HTMLHelper::_('date', $this->item->publish_up, "Y-m-d"))
+	->image($images->image_fulltext)
+	->mainEntityOfPage('article/' . $this->item->id)
+	->if($params->get('show_author'), function (Article $schema) {
+		$schema->author(
+			Schema::Person()
+				->name($this->item->created_by_alias ?: $this->item->author)
+				->if($this->item->params->get('link_author'), function(\Spatie\SchemaOrg\Person $schema) {
+					$schema->url($this->item->contact_link);
+				})
+		);
+	});
 
 // Check if associations are implemented. If they are, define the parameter.
 $assocParam = (Associations::isEnabled() && $params->get('show_associations'));

@@ -96,7 +96,8 @@
         "tobscure/json-api": "^0.4.1",
         "willdurand/negotiation": "^2.3",
         "ext-json": "*",
-        "ext-simplexml": "*"
+        "ext-simplexml": "*",
+        "spatie/schema-org": "^2.2"
     },
     "require-dev": {
         "phpunit/phpunit": "~6.0",
