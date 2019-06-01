@@ -223,7 +223,7 @@ class ContactModel extends FormModel
 				$db->setQuery($query);
 				$data = $db->loadObject();
 
-				if ($data === null)
+				if (empty($data))
 				{
 					throw new \Exception(Text::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
 				}
