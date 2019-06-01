@@ -203,7 +203,7 @@ class CategoryModel extends ListModel
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$language = [Factory::getLanguage()->getTag(), $db->quote('*')];
+			$language = [Factory::getLanguage()->getTag(), '*'];
 			$query->whereIn($db->quoteName('a.language') , $language);
 		}
 
