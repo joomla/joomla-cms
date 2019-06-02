@@ -16,6 +16,7 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -73,12 +74,12 @@ class ComponentModel extends FormModel
 		if ($path = $state->get('component.path'))
 		{
 			// Add the search path for the admin component config.xml file.
-			\JForm::addFormPath($path);
+			Form::addFormPath($path);
 		}
 		else
 		{
 			// Add the search path for the admin component config.xml file.
-			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $option);
+			Form::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $option);
 		}
 
 		// Get the form.
