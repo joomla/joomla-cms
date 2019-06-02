@@ -147,7 +147,7 @@ class NewsfeedField extends FormField
 				. ' data-toggle="modal"'
 				. ' type="button"'
 				. ' data-target="#ModalSelect' . $modalId . '"'
-				. ' title="' . HTMLHelper::tooltipText('COM_NEWSFEEDS_CHANGE_FEED') . '">'
+				. ' title="' . HTMLHelper::tooltipText('COM_NEWSFEEDS_SELECT_A_FEED') . '">'
 				. '<span class="icon-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
 				. '</button>';
 		}
