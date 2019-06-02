@@ -9,11 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\String\StringHelper;
 
-$user = JFactory::getUser();
+$user = Factory::getUser();
 
 // Get the mime type class.
 $mime = !empty($this->result->mime) ? 'mime-' . $this->result->mime : null;
@@ -91,7 +93,7 @@ if ($show_description)
 <?php endif; ?>
 <?php if ($this->result->start_date && $this->params->get('show_date', 1)) : ?>
 	<dd class="result-date small">
-		<?php echo HTMLHelper::_('date', $this->result->start_date, \JText::_('DATE_FORMAT_LC3')); ?>
+		<?php echo HTMLHelper::_('date', $this->result->start_date, Text::_('DATE_FORMAT_LC3')); ?>
 	</dd>
 <?php endif; ?>
 <?php if ($this->params->get('show_url', 1)) : ?>

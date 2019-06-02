@@ -35,7 +35,7 @@ if (($this->params->get('filter_field') === 'tag') && (Multilanguage::isEnabled(
 	switch ($tagfilter)
 	{
 		case 'current_language' :
-			$langFilter = JFactory::getApplication()->getLanguage()->getTag();
+			$langFilter = Factory::getApplication()->getLanguage()->getTag();
 			break;
 
 		case 'all' :
