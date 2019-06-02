@@ -89,7 +89,7 @@ class ContactField extends FormField
 		// Setup variables for display.
 		$linkContacts = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
 		$linkContact  = 'index.php?option=com_contact&amp;view=contact&amp;layout=modal&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
-		$modalTitle   = Text::_('COM_CONTACT_CHANGE_CONTACT');
+		$modalTitle   = Text::_('COM_CONTACT_SELECT_A_CONTACT');
 
 		if (isset($this->element['language']))
 		{
@@ -146,7 +146,7 @@ class ContactField extends FormField
 				. ' data-toggle="modal"'
 				. ' type="button"'
 				. ' data-target="#ModalSelect' . $modalId . '"'
-				. ' title="' . HTMLHelper::tooltipText('COM_CONTACT_CHANGE_CONTACT') . '">'
+				. ' title="' . HTMLHelper::tooltipText('COM_CONTACT_SELECT_A_CONTACT') . '">'
 				. '<span class="icon-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
 				. '</button>';
 		}
