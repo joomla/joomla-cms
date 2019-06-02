@@ -183,6 +183,7 @@ final class SiteApplication extends CMSApplication
 					->addRegistryFile('media/' . $component . '/joomla.asset.json')
 					->addRegistryFile('templates/' . $template->template . '/joomla.asset.json');
 
+
 				break;
 
 			case 'feed':
