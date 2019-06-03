@@ -82,7 +82,7 @@ class RegistrationModel extends FormModel
 		$query->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
 			->where($db->quoteName('activation') . ' = :activation')
-			->where($db->quoteName('block') . ' = ' . 1)
+			->where($db->quoteName('block') . ' = 1')
 			->where($db->quoteName('lastvisitDate') . ' = :lastvisitDate')
 			->bind(':activation', $token)
 			->bind(':lastvisitDate', $db->getNullDate());
