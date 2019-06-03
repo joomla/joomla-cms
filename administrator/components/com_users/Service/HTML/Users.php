@@ -16,6 +16,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\ParameterType;
 
 /**
  * Extended Utility class for the Users component.
@@ -348,8 +349,9 @@ class Users
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('title')
-				->from('#__template_styles')
-				->where('id = ' . $db->quote($value));
+				->from($db->quoteName('#__template_styles'))
+				->where($db->quoteName('id') . ' = :id')
+				->bind(':id', $value, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$title = $db->loadResult();
 
@@ -459,9 +461,11 @@ class Users
 			$lang = Factory::getLanguage();
 			$query = $db->getQuery(true)
 				->select('name')
-				->from('#__extensions')
-				->where('element = ' . $db->quote($value))
-				->where('folder = ' . $db->quote('editors'));
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('element') . ' = :element')
+				->where($db->quoteName('folder') . ' = :folder')
+				->bind(':element', $value)
+				->bind(':folder', 'editors');
 			$db->setQuery($query);
 			$title = $db->loadResult();
 
