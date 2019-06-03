@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\Database\ParameterType;
+
 defined('_JEXEC') or die;
 
 JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
@@ -36,12 +38,14 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 		}
 
 		$domain = $this->createDomain('user_action_logs', 'joomla_user_action_logs_data');
+		$db     = $this->db;
 
-		$query = $this->db->getQuery(true)
-			->select('a.*, u.name')
-			->from('#__action_logs AS a')
-			->innerJoin('#__users AS u ON a.user_id = u.id')
-			->where($this->db->quoteName('a.user_id') . ' = ' . $user->id);
+		$query = $db->getQuery(true)
+			->select($db->quoteName(['a.*', 'u.name']))
+			->from($db->quoteName('#__action_logs', 'a'))
+			->innerJoin($db->quoteName('#__users', 'u'), $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'))
+			->where($this->db->quoteName('a.user_id') . ' = :id')
+			->bind(':id', $user->id, ParameterType::INTEGER);
 
 		$this->db->setQuery($query);
 
