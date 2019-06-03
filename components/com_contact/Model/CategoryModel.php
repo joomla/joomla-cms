@@ -182,10 +182,10 @@ class CategoryModel extends ListModel
 
 		if ($this->getState('filter.publish_date'))
 		{
-			$query->where('(' . $query->isNullDatetime($db->quoteName('a.publish_up')) . 
-				' OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)')
-				->where('(' . $query->isNullDatetime($db->quoteName('a.publish_down')) . 
-				' OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)')
+			$query->where('(' . $query->isNullDatetime($db->quoteName('a.publish_up'))
+				. ' OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)')
+				->where('(' . $query->isNullDatetime($db->quoteName('a.publish_down'))
+				. ' OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)')
 				->bind(':publish_up', $nowDate)
 				->bind(':publish_down', $nowDate);
 		}
