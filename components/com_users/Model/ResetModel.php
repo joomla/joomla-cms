@@ -398,7 +398,7 @@ class ResetModel extends FormModel
 		$query = $db->getQuery(true)
 			->select('id')
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('email') . ' = :email'])
+			->where($db->quoteName('email') . ' = :email')
 			->bind(':email', $data['email']);
 
 		// Get the user object.
