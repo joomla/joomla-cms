@@ -38,17 +38,20 @@ class CategoryFeedView extends HtmlView
 		$ucmRow = $ucmType->getTypeByAlias($contentType);
 		$ucmMapCommon = json_decode($ucmRow->field_mappings)->common;
 		$createdField = null;
+		$publishedField = null;
 		$titleField = null;
 
 		if (is_object($ucmMapCommon))
 		{
 			$createdField = $ucmMapCommon->core_created_time;
 			$titleField = $ucmMapCommon->core_title;
+			$publishedField = $ucmMapCommon->core_publish_up;
 		}
 		elseif (is_array($ucmMapCommon))
 		{
 			$createdField = $ucmMapCommon[0]->core_created_time;
 			$titleField = $ucmMapCommon[0]->core_title;
+			$publishedField = $ucmMapCommon[0]->core_publish_up;
 		}
 
 		$document->link = \JRoute::_(\JHelperRoute::getCategoryRoute($app->input->getInt('id'), $language = 0, $extension));
@@ -97,7 +100,11 @@ class CategoryFeedView extends HtmlView
 			$description = $item->description;
 			$author      = $item->created_by_alias ?: $item->author;
 
-			if ($createdField)
+			if ($publishedField && isset($item->$publishedField) && $item->$publishedField !== \JFactory::getDbo()->getNullDate())
+			{
+				$date = date('r', strtotime($item->$publishedField));
+			}
+			elseif ($createdField)
 			{
 				$date = isset($item->$createdField) ? date('r', strtotime($item->$createdField)) : '';
 			}
