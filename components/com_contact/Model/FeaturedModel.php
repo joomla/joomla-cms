@@ -121,9 +121,9 @@ class FeaturedModel extends ListModel
 			$date = Factory::getDate();
 			$nowDate = $db->quote($date->toSql());
 
-			$query->where('(' . $query->isNullDatetime($db->quoteName('a.publish_up')) . 
+			$query->where('(' . $query->isNullDatetime($db->quoteName('a.publish_up')) .
 				' OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)')
-				->where('(' . $query->isNullDatetime($db->quoteName('a.publish_down')) . 
+				->where('(' . $query->isNullDatetime($db->quoteName('a.publish_down')) .
 				' OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)')
 				->bind(':publish_up', $nowDate)
 				->bind(':publish_down', $nowDate);
@@ -133,7 +133,7 @@ class FeaturedModel extends ListModel
 		if ($this->getState('filter.language'))
 		{
 			$language = [Factory::getLanguage()->getTag(), $db->quote('*')];
-			$query->whereIn($db->quoteName('a.language') , $language);
+			$query->whereIn($db->quoteName('a.language'), $language);
 		}
 
 		// Add the list ordering clause.
