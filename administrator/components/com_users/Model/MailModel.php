@@ -19,6 +19,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\Database\ParameterType;
 
 /**
  * Users mail model.
@@ -129,8 +130,9 @@ class MailModel extends AdminModel
 		// Get all users email and group except for senders
 		$query = $db->getQuery(true)
 			->select('email')
-			->from('#__users')
-			->where('id != ' . (int) $user->get('id'));
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('id') . ' != :id')
+			->bind(':id', (int) $user->get('id'), ParameterType::INTEGER);
 
 		if ($grp !== 0)
 		{
@@ -140,7 +142,7 @@ class MailModel extends AdminModel
 			}
 			else
 			{
-				$query->where('id IN (' . implode(',', $to) . ')');
+				$query->whereIn($db->quoteName('id'), $to);
 			}
 		}
 
