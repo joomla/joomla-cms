@@ -292,7 +292,8 @@ class ResetModel extends FormModel
 			->select('id')
 			->select('block')
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('username') . ' = ' . $db->quote($data['username']));
+			->where($db->quoteName('username') . ' = :username')
+			->bind(':username', $data['username']);
 
 		// Get the user id.
 		$db->setQuery($query);
@@ -397,7 +398,8 @@ class ResetModel extends FormModel
 		$query = $db->getQuery(true)
 			->select('id')
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('email') . ' = ' . $db->quote($data['email']));
+			->where($db->quoteName('email') . ' = :email'])
+			->bind(':email', $data['email']);
 
 		// Get the user object.
 		$db->setQuery($query);
