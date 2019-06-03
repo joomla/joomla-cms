@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -80,8 +81,9 @@ class AssociationsModel extends ListModel
 		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 		$forcedItemType = $app->input->get('forcedItemType', '', 'string');
 
-		// Set default itemtype and default language to default site language
-		$defaultLanguage = ComponentHelper::getParams('com_languages')->get('site');
+		// Set language select box to default site language or if set to the master language as default.
+		$globalMasterLanguage = Associations::getGlobalMasterLanguage();
+		$defaultLanguage = $globalMasterLanguage ?? ComponentHelper::getParams('com_languages')->get('site');
 		$defaultItemType = 'com_content.article';
 
 		// Adjust the context to support modal layouts.
@@ -107,9 +109,7 @@ class AssociationsModel extends ListModel
 
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
-		$this->setState('filter.category_id',
-			$this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', '', 'cmd')
-		);
+		$this->setState('filter.category_id', $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', '', 'cmd'));
 		$this->setState('filter.menutype', $this->getUserStateFromRequest($this->context . '.filter.menutype', 'filter_menutype', '', 'string'));
 		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'string'));
 		$this->setState('filter.level', $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', '', 'cmd'));
