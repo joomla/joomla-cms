@@ -760,7 +760,7 @@ class RegistrationModel extends FormModel
 					];
 					$query->clear()
 						->insert($db->quoteName('#__messages'))
-						->columns($db->quoteName(array('user_id_from', 'user_id_to', 'date_time', 'subject', 'message')))
+						->columns($db->quoteName(['user_id_from', 'user_id_to', 'date_time', 'subject', 'message']))
 						->values(implode(',', $values));
 					$query->bind(':user_id_from', $userid, ParameterType::INTEGER)
 						->bind(':user_id_to', $userid, ParameterType::INTEGER)
