@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\Database\ParameterType;
+
 defined('_JEXEC') or die;
 
 /**
@@ -36,12 +38,14 @@ class PlgPrivacyConsents extends PrivacyPlugin
 		}
 
 		$domain    = $this->createDomain('consents', 'joomla_consent_data');
+		$db        = $this->db;
 
 		$query = $this->db->getQuery(true)
-			->select('*')
-			->from($this->db->quoteName('#__privacy_consents'))
-			->where($this->db->quoteName('user_id') . ' = ' . (int) $user->id)
-			->order($this->db->quoteName('created') . ' ASC');
+			->select($db->quoteName('*'))
+			->from($db->quoteName('#__privacy_consents'))
+			->where($db->quoteName('user_id') . ' = :id')
+			->order($db->quoteName('created') . ' ASC')
+			->bind(':id', (int) $user->id, ParameterType::INTEGER);
 
 		$items = $this->db->setQuery($query)->loadAssocList();
 
