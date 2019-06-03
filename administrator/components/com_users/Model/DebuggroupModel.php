@@ -273,7 +273,7 @@ class DebuggroupModel extends ListModel
 				. ' OR ' . $db->quoteName('a.name') . ' LIKE :lcomponent' . ')'
 			)
 				->bind(':component', $component)
-				->bind(':lcomponent', $component.'%');
+				->bind(':lcomponent', $component . '%');
 		}
 
 		// Add the list ordering clause.
