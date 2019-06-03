@@ -19,6 +19,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Users\Administrator\Helper\UsersHelperDebug;
 use Joomla\Database\DatabaseQuery;
+use Joomla\Database\ParameterType;
 
 /**
  * Methods supporting a list of User ACL permissions
@@ -183,8 +184,9 @@ class DebuggroupModel extends ListModel
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('id, title')
-			->from('#__usergroups')
-			->where('id = ' . $groupId);
+			->from($db->quoteName('#__usergroups'))
+			->where($db->quoteName('id') . ' = :id')
+			->bind(':id', $groupId, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 
@@ -228,15 +230,17 @@ class DebuggroupModel extends ListModel
 		if ($this->getState('filter.search'))
 		{
 			// Escape the search token.
-			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($this->getState('filter.search')), true) . '%'));
+			$search = '%' . trim($this->getState('filter.search') . '%';
 
-			// Compile the different search clauses.
+			/// Compile the different search clauses.
 			$searches = array();
-			$searches[] = 'a.name LIKE ' . $search;
-			$searches[] = 'a.title LIKE ' . $search;
+			$searches[] = 'a.name LIKE :name';
+			$searches[] = 'a.title LIKE :title';
 
 			// Add the clauses to the query.
-			$query->where('(' . implode(' OR ', $searches) . ')');
+			$query->where('(' . implode(' OR ', $searches) . ')')
+				->bind(':name', $search)
+				->bind(':title', $search);
 		}
 
 		// Filter on the start and end levels.
@@ -250,19 +254,26 @@ class DebuggroupModel extends ListModel
 
 		if ($levelStart > 0)
 		{
-			$query->where('a.level >= ' . $levelStart);
+			$query->where($db->quoteName('a.level') . ' >= :levelStart')
+				->bind(':levelStart', $levelStart, ParameterType::INTEGER);
 		}
 
 		if ($levelEnd > 0)
 		{
-			$query->where('a.level <= ' . $levelEnd);
+			$query->where($db->quoteName('a.level') . ' <= :levelEnd')
+				->bind(':levelEnd', $levelEnd, ParameterType::INTEGER);
 		}
 
 		// Filter the items over the component if set.
 		if ($this->getState('filter.component'))
 		{
 			$component = $this->getState('filter.component');
-			$query->where('(a.name = ' . $db->quote($component) . ' OR a.name LIKE ' . $db->quote($component . '.%') . ')');
+			$query->where(
+				'(' . $db->quoteName('a.name') . ' = :component'
+				. ' OR ' . $db->quoteName('a.name') . ' LIKE :lcomponent' . ')'
+			)
+				->bind(':component', $component)
+				->bind(':lcomponent', $component.'%');
 		}
 
 		// Add the list ordering clause.
