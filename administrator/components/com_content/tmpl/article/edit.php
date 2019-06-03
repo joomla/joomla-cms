@@ -126,7 +126,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php // Creating 'id' hiddenField to cope with com_associations sidebyside loop ?>
 		<?php $hidden_fields = $this->form->getInput('id'); ?>
-		<?php echo $hidden_fields; ?>
+		<div class="hidden"><?php echo $hidden_fields; ?></div>
 
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="return" value="<?php echo $input->getCmd('return'); ?>">
