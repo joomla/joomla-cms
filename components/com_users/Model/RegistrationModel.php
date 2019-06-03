@@ -80,9 +80,11 @@ class RegistrationModel extends FormModel
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('activation') . ' = ' . $db->quote($token))
+			->where($db->quoteName('activation') . ' = :activation')
 			->where($db->quoteName('block') . ' = ' . 1)
-			->where($db->quoteName('lastvisitDate') . ' = ' . $db->quote($db->getNullDate()));
+			->where($db->quoteName('lastvisitDate') . ' = :lastvisitDate')
+			->bind(':activation', $token)
+			->bind(':lastvisitDate', $db->getNullDate());
 		$db->setQuery($query);
 
 		try
@@ -748,17 +750,23 @@ class RegistrationModel extends FormModel
 				// Build the query to add the messages
 				foreach ($userids as $userid)
 				{
-					$values = array(
-						$db->quote($userid),
-						$db->quote($userid),
-						$db->quote($jdate->toSql()),
-						$db->quote(Text::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')),
-						$db->quote(Text::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username']))
-					);
+					$values = [
+						':user_id_from',
+						':user_id_to',
+						':date_time',
+						':subject',
+						':message',
+					];
 					$query->clear()
 						->insert($db->quoteName('#__messages'))
 						->columns($db->quoteName(array('user_id_from', 'user_id_to', 'date_time', 'subject', 'message')))
 						->values(implode(',', $values));
+					$query->bind(':user_id_from', $userid, ParameterType::INTEGER)
+						->bind(':user_id_to', $userid, ParameterType::INTEGER)
+						->bind(':date_time', $jdate->toSql())
+						->bind(':subject', Text::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT'))
+						->bind(':message', Text::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username']));
+
 					$db->setQuery($query);
 
 					try
