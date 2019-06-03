@@ -50,7 +50,7 @@
 				type="package"
 				label="COM_INSTALLER_VALUE_PACKAGE_SELECT"
 				onchange="this.form.submit();"
-		>
+			>
 			<option value="">COM_INSTALLER_VALUE_PACKAGE_SELECT</option>
 		</field>
 
