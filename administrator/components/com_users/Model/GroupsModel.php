@@ -225,7 +225,7 @@ class GroupsModel extends ListModel
 
 		// Get total disabled users in group.
 		$query->clear('where')
-			->whereIn($db->quoteName('map.group_id'), $groupIds))
+			->whereIn($db->quoteName('map.group_id'), $groupIds)
 			->where('u.block = 1');
 		$db->setQuery($query);
 
