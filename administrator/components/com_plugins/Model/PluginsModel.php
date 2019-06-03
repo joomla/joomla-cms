@@ -73,6 +73,9 @@ class PluginsModel extends ListModel
 		$params = ComponentHelper::getParams('com_plugins');
 		$this->setState('params', $params);
 
+		// Load the filter state.
+		$this->setState('filter.package', $this->getUserStateFromRequest($this->context . '.filter.package', 'filter_package', '', 'string'));
+
 		// List state information.
 		parent::populateState($ordering, $direction);
 	}
@@ -96,6 +99,7 @@ class PluginsModel extends ListModel
 		$id .= ':' . $this->getState('filter.enabled');
 		$id .= ':' . $this->getState('filter.folder');
 		$id .= ':' . $this->getState('filter.element');
+		$id .= ':' . $this->getState('filter.package');
 
 		return parent::getStoreId($id);
 	}
@@ -231,6 +235,11 @@ class PluginsModel extends ListModel
 		if ($access = $this->getState('filter.access'))
 		{
 			$query->where('a.access = ' . (int) $access);
+		}
+
+		if ($package = $this->getState('filter.package'))
+		{
+			$query->where('a.package_id = ' . $this->_db->quote($package));
 		}
 
 		// Filter by published state.

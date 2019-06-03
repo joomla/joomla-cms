@@ -44,6 +44,16 @@
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
 		</field>
+
+		<field
+				name="package"
+				type="PluginPackage"
+				label="COM_INSTALLER_OPTION_PACKAGE"
+				onchange="this.form.submit();"
+		>
+			<option value="">COM_INSTALLER_OPTION_PACKAGE</option>
+		</field>
+
 	</fields>
 
 	<fields name="list">
