@@ -17,7 +17,7 @@ use Joomla\Component\Plugins\Administrator\Helper\PluginsHelper;
 /**
  * Location field.
  *
- * @since  3.5
+ * @since  __DEPLOY_VERSION__
  */
 class PluginPackageField extends ListField
 {
@@ -25,7 +25,7 @@ class PluginPackageField extends ListField
 	 * The form field type.
 	 *
 	 * @var	   string
-	 * @since  3.5
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $type = 'PluginPackage';
 
@@ -34,7 +34,7 @@ class PluginPackageField extends ListField
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   3.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getOptions()
 	{

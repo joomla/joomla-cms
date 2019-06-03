@@ -81,7 +81,7 @@ class InstallerHelper
 	 *
 	 * @return  array  An array of \stdClass objects.
 	 *
-	 * @since   3.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getExtensionPackages()
 	{

@@ -17,7 +17,7 @@ use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 /**
  * Package field.
  *
- * @since  3.5
+ * @since  __DEPLOY_VERSION__
  */
 class ModulesPackageField extends ListField
 {
@@ -25,7 +25,7 @@ class ModulesPackageField extends ListField
 	 * The form field type.
 	 *
 	 * @var	   string
-	 * @since  3.5
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $type = 'ModulesPackage';
 
@@ -34,7 +34,7 @@ class ModulesPackageField extends ListField
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   3.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getOptions()
 	{
