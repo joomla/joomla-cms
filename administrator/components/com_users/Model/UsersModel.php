@@ -392,7 +392,7 @@ class UsersModel extends ListModel
 				$query->where(
 					$db->quoteName('a.registerDate') . ' < :dStart'
 				);
-				$query->bind(':dStart' , $dates['dStart']->format('Y-m-d H:i:s'));
+				$query->bind(':dStart', $dates['dStart']->format('Y-m-d H:i:s'));
 			}
 			else
 			{
