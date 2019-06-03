@@ -142,11 +142,10 @@
   /**
    * put elements that are too much in the header in a dropdown
    *
-   * @param {integer} [visibleItems] the number of visible elements
+   * @param {number} [visibleItems] the number of visible elements
    *
    * @since   4.0.0
    */
-
   function headerItemsInDropdown(visibleItems) {
     const headerWrapper = doc.querySelector('.header-items');
     const headerItems = [].slice.call(doc.querySelectorAll('.header-items > .header-item'));
@@ -175,7 +174,7 @@
         headerMoreItem.appendChild(headerMoreMenu);
         headerWrapper.appendChild(headerMoreItem);
 
-        headerMoreBtn.addEventListener('click', function () {
+        headerMoreBtn.addEventListener('click', () => {
           headerMoreItem.classList.toggle('active');
         });
       }
@@ -184,7 +183,7 @@
       const headerMoreItems = headerMoreWrapper.querySelectorAll('.header-item');
       let headerItemCounter = 0;
 
-      headerItems.forEach(function (item) {
+      headerItems.forEach((item) => {
         headerItemCounter += 1;
         if (headerItemCounter > visibleItems && item.id !== 'header-more-items') {
           if (!headerMoreItems) {
@@ -200,7 +199,7 @@
       const headerMoreItems = [].slice.call(headerMore.querySelectorAll('.header-item'));
       const headerAllItems = headerItems.length + headerMoreItems.length;
 
-      headerMoreItems.forEach(function (item) {
+      headerMoreItems.forEach((item) => {
         if (headerItemCounter < visibleItems) {
           headerWrapper.insertBefore(item, doc.querySelector('.header-items > .header-item'));
         }
@@ -210,7 +209,6 @@
         headerWrapper.removeChild(headerMore);
       }
     }
-
   }
 
   doc.addEventListener('DOMContentLoaded', () => {
