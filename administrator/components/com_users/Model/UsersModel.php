@@ -400,7 +400,7 @@ class UsersModel extends ListModel
 					$db->quoteName('a.registerDate') . ' >= :dStart' .
 					' AND ' . $db->quoteName('a.registerDate') . ' <= :dNow'
 				);
-				$query->bind(':dStart' , $dates['dStart']->format('Y-m-d H:i:s'));
+				$query->bind(':dStart', $dates['dStart']->format('Y-m-d H:i:s'));
 				$query->bind(':dNow' , $dates['dNow']->format('Y-m-d H:i:s'));
 			}
 		}
