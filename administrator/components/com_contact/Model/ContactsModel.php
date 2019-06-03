@@ -325,7 +325,8 @@ class ContactsModel extends ListModel
 		if (is_numeric($tagId))
 		{
 			$query->where($db->quoteName('tagmap.tag_id') . ' = :tag_id')
-				->leftJoin($db->quoteName('#__contentitem_tag_map', 'tagmap')
+				->leftJoin(
+					$db->quoteName('#__contentitem_tag_map', 'tagmap')
 					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
 					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_contact.contact')
 				);
