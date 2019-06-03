@@ -82,6 +82,7 @@ class ManageModel extends InstallerModel
 		$this->setState('filter.status', $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status', '', 'string'));
 		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
 		$this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
+		$this->setState('filter.package', $this->getUserStateFromRequest($this->context . '.filter.package', 'filter_package', '', 'string'));
 		$this->setState('filter.core', $this->getUserStateFromRequest($this->context . '.filter.core', 'filter_core', '', 'string'));
 
 		$this->setState('message', $app->getUserState('com_installer.message'));
@@ -322,6 +323,7 @@ class ManageModel extends InstallerModel
 		$type     = $this->getState('filter.type');
 		$clientId = $this->getState('filter.client_id');
 		$folder   = $this->getState('filter.folder');
+		$package   = $this->getState('filter.package');
 		$core     = $this->getState('filter.core');
 
 		if ($status !== '')
@@ -354,6 +356,11 @@ class ManageModel extends InstallerModel
 		if ($folder !== '')
 		{
 			$query->where('folder = ' . $this->_db->quote($folder == '*' ? '' : $folder));
+		}
+
+		if ($package !== '')
+		{
+			$query->where($this->_db->quote($package) . ' IN ( extension_id, package_id )');
 		}
 
 		if ($core !== '')
