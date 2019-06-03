@@ -204,7 +204,7 @@ class CategoryModel extends ListModel
 		if ($language = $this->getState('filter.language'))
 		{
 			$language = [Factory::getLanguage()->getTag(), '*'];
-			$query->whereIn($db->quoteName('a.language') , $language);
+			$query->whereIn($db->quoteName('a.language'), $language);
 		}
 
 		// Set sortname ordering if selected
