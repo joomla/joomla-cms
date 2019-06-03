@@ -443,8 +443,7 @@ class UsersModel extends ListModel
 
 		if (!empty($excluded))
 		{
-			$query->where($db->quoteName('id') . ' NOT IN (:ids)');
-			$query->bind(':ids', implode(',', $excluded), ParameterType::INTEGER);
+			$query->whereNotIn($db->quoteName('id'), $excluded);
 		}
 
 		// Add the list ordering clause.
