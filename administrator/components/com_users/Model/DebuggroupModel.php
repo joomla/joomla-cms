@@ -232,7 +232,7 @@ class DebuggroupModel extends ListModel
 			// Escape the search token.
 			$search = '%' . trim($this->getState('filter.search')) . '%';
 
-			/// Compile the different search clauses.
+			// Compile the different search clauses.
 			$searches = array();
 			$searches[] = 'a.name LIKE :name';
 			$searches[] = 'a.title LIKE :title';
