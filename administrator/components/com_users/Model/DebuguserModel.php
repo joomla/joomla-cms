@@ -211,7 +211,7 @@ class DebuguserModel extends ListModel
 		if ($this->getState('filter.search'))
 		{
 			// Escape the search token.
-			$search = '%' . trim($this->getState('filter.search') . '%';
+			$search = '%' . trim($this->getState('filter.search')) . '%';
 
 			// Compile the different search clauses.
 			$searches = array();
