@@ -124,6 +124,10 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
+		<?php // Creating 'id' hiddenField to cope with com_associations sidebyside loop ?>
+		<?php $hidden_fields = $this->form->getInput('id'); ?>
+		<?php echo $hidden_fields; ?>
+
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="return" value="<?php echo $input->getCmd('return'); ?>">
 		<input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>">
