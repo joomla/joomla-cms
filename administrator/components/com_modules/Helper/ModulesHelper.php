@@ -198,6 +198,35 @@ abstract class ModulesHelper
 	}
 
 	/**
+	 * Get a list of filter options for the extension packages.
+	 *
+	 * @return  array  An array of \stdClass objects.
+	 *
+	 * @since   3.0
+	 */
+	public static function getExtensionPackages()
+	{
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->select($db->quoteName('name'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('package'))
+			->order($db->quoteName('name'));
+		$db->setQuery($query);
+		$packages = $db->loadObjectList();
+
+		$options = array();
+
+		foreach ($packages as $package)
+		{
+			$options[] = HTMLHelper::_('select.option', $package->extension_id, $package->name);
+		}
+
+		return $options;
+	}
+
+	/**
 	 * Get a list of the assignment options for modules to menus.
 	 *
 	 * @param   int  $clientId  The client id.

@@ -55,6 +55,14 @@
 			<option value="">JOPTION_SELECT_ACCESS</option>
 		</field>
 		<field
+				name="package"
+				type="ModulesPackage"
+				label="COM_MODULES_OPTION_SELECT_PACKAGE"
+				onchange="this.form.submit();"
+		>
+			<option value="">COM_MODULES_OPTION_SELECT_PACKAGE</option>
+		</field>
+		<field
 			name="language"
 			type="language"
 			label="JOPTION_SELECT_LANGUAGE"

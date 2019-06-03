@@ -91,6 +91,7 @@ class ModulesModel extends ListModel
 		$this->setState('filter.module', $this->getUserStateFromRequest($this->context . '.filter.module', 'filter_module', '', 'string'));
 		$this->setState('filter.menuitem', $this->getUserStateFromRequest($this->context . '.filter.menuitem', 'filter_menuitem', '', 'cmd'));
 		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd'));
+		$this->setState('filter.package', $this->getUserStateFromRequest($this->context . '.filter.package', 'filter_package', '', 'string'));
 
 		// If in modal layout on the frontend, state and language are always forced.
 		if ($app->isClient('site') && $layout === 'modal')
@@ -154,6 +155,7 @@ class ModulesModel extends ListModel
 		$id .= ':' . $this->getState('filter.menuitem');
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.language');
+		$id .= ':' . $this->getState('filter.package');
 
 		return parent::getStoreId($id);
 	}
@@ -355,6 +357,11 @@ class ModulesModel extends ListModel
 		if ($module = $this->getState('filter.module'))
 		{
 			$query->where($db->quoteName('a.module') . ' = ' . $db->quote($module));
+		}
+
+		if ($package = $this->getState('filter.package'))
+		{
+			$query->where('e.package_id = ' . $this->_db->quote($package));
 		}
 
 		// Filter by menuitem id (only for site client).
