@@ -276,13 +276,9 @@
       if (subHeadToolbar) subHeadToolbar.classList.add('collapse');
     }
 
-    if (mobileSmallLandscape.matches) {
+    if (mobileSmallLandscape.matches || desktopSmall.matches) {
       headerItemsInDropdown(2);
-    } else if (mobile.matches) {
-      headerItemsInDropdown(4);
-    } else if (desktopSmall.matches) {
-      headerItemsInDropdown(2);
-    } else if (desktop.matches) {
+    } else if (mobile.matches || desktop.matches) {
       headerItemsInDropdown(4);
     } else {
       headerItemsInDropdown(6);
@@ -304,13 +300,9 @@
         }
       }
 
-      if (mobileSmallLandscape.matches) {
+      if (mobileSmallLandscape.matches || desktopSmall.matches) {
         headerItemsInDropdown(2);
-      } else if (mobile.matches) {
-        headerItemsInDropdown(4);
-      } else if (desktopSmall.matches) {
-        headerItemsInDropdown(2);
-      } else if (desktop.matches) {
+      } else if (mobile.matches || desktop.matches) {
         headerItemsInDropdown(4);
       } else {
         headerItemsInDropdown(6);
