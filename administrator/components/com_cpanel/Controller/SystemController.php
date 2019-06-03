@@ -188,15 +188,15 @@ class SystemController extends BaseController
 	/**
 	 * Generic getItems counter for different calls
 	 *
-	 * @param   type  $extension  The extension to check and authorise for
-	 * @param   type  $model      The Model to load
+	 * @param   string  $extension  The extension to check and authorise for
+	 * @param   string  $modelName  The Model to load
 	 *
 	 * @return integer The number of items
 	 *
 	 * @throws \Exception
 	 * @since  4.0.0
 	 */
-	protected function countItems($extension, $modelname)
+	protected function countItems($extension, $modelName)
 	{
 		if (!Factory::getUser()->authorise('core.manage', $extension))
 		{
@@ -204,7 +204,7 @@ class SystemController extends BaseController
 		}
 
 		$boot    = Factory::getApplication()->bootComponent($extension);
-		$model   = $boot->getMVCFactory()->createModel($modelname, 'Administrator', ['ignore_request' => true]);
+		$model   = $boot->getMVCFactory()->createModel($modelName, 'Administrator', ['ignore_request' => true]);
 
 		$items   = count($model->getItems());
 

@@ -36,18 +36,8 @@ $this->useCoreUI = true;
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_USERS_USER_ACCOUNT_DETAILS')); ?>
-				<?php foreach ($this->form->getFieldset('user_details') as $field) : ?>
-					<div class="control-group">
-						<div class="control-label">
-								<?php echo $field->label; ?>
-						</div>
-						<div class="controls">
-							<?php echo $field->input; ?>
-						</div>
-					</div>
-				<?php endforeach; ?>
+				<?php echo $this->form->renderFieldset('user_details'); ?>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
-
 			<?php if ($this->grouplist) : ?>
 				<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'groups', Text::_('COM_USERS_ASSIGNED_GROUPS')); ?>
 					<?php echo $this->loadTemplate('groups'); ?>

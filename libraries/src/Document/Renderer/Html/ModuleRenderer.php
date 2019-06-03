@@ -87,7 +87,7 @@ class ModuleRenderer extends DocumentRenderer
 			// Default to itemid creating method and workarounds on
 			$cacheparams = new \stdClass;
 			$cacheparams->cachemode = $cachemode;
-			$cacheparams->class = 'JModuleHelper';
+			$cacheparams->class = 'ModuleHelper';
 			$cacheparams->method = 'renderModule';
 			$cacheparams->methodparams = array($module, $attribs);
 

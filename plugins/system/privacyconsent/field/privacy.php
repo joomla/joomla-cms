@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 JFormHelper::loadFieldClass('radio');
 
@@ -112,7 +113,7 @@ class JFormFieldprivacy extends JFormFieldRadio
 
 			$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
 			$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
-			$link = JHtml::_('link', JRoute::_($url . '&tmpl=component'), $text, $attribs);
+			$link = JHtml::_('link', Route::_($url . '&tmpl=component'), $text, $attribs);
 		}
 		else
 		{

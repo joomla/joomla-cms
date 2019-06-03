@@ -19,6 +19,7 @@ use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -367,7 +368,7 @@ class DatabaseModel extends BaseInstallationModel
 					'select'   => $options->db_select,
 				);
 
-				$altDB = \JDatabaseDriver::getInstance($altDBoptions);
+				$altDB = DatabaseDriver::getInstance($altDBoptions);
 
 				// Try to create the database now using the alternate driver
 				try

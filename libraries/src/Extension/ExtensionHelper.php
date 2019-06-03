@@ -26,7 +26,7 @@ class ExtensionHelper
 	 *
 	 * @var array
 	 */
-	public static $extensions = [ModuleInterface::class => [], ComponentInterface::class => []];
+	public static $extensions = [ModuleInterface::class => [], ComponentInterface::class => [], PluginInterface::class => []];
 
 	/**
 	 * The loaded extensions.

@@ -48,7 +48,7 @@ if ($saveOrder && !empty($this->items))
 	HTMLHelper::_('draggablelist.draggable');
 }
 ?>
-<form action="<?php echo Route::_('index.php?option=com_categories&view=categories'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_categories&view=categories&extension=' . $this->state->get('filter.extension')); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<?php if (!empty($this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="col-md-2">
@@ -62,7 +62,7 @@ if ($saveOrder && !empty($this->items))
 				echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning">
+					<div class="alert alert-info">
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>

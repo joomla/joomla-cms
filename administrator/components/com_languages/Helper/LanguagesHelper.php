@@ -22,32 +22,6 @@ use Joomla\CMS\Language\Text;
 class LanguagesHelper
 {
 	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
-	 */
-	public static function addSubmenu($vName)
-	{
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_LANGUAGES_SUBMENU_INSTALLED'),
-			'index.php?option=com_languages&view=installed',
-			$vName == 'installed'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_LANGUAGES_SUBMENU_CONTENT'),
-			'index.php?option=com_languages&view=languages',
-			$vName == 'languages'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_LANGUAGES_SUBMENU_OVERRIDES'),
-			'index.php?option=com_languages&view=overrides',
-			$vName == 'overrides'
-		);
-	}
-
-	/**
 	 * Method for parsing ini files.
 	 *
 	 * @param   string  $fileName  Path and name of the ini file to parse.

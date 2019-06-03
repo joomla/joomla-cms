@@ -148,7 +148,7 @@ class CaptchaField extends FormField
 		catch (\RuntimeException $e)
 		{
 			$this->_captcha = null;
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -176,7 +176,7 @@ class CaptchaField extends FormField
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 		return '';
 	}

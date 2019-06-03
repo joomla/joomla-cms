@@ -64,7 +64,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			</div>
 		</div>
 
-		<?php echo JHtml::_('uitab.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php // Do not show the images and links options if the edit form is configured not to. ?>
 		<?php if ($params->get('show_urls_images_backend') == 1) : ?>
@@ -82,7 +82,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				</div>
 			</div>
 
-			<?php echo JHtml::_('uitab.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
 		<?php $this->show_options = $params->get('show_article_options', 1); ?>
@@ -122,7 +122,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
-		<?php echo JHtml::_('uitab.endTabSet'); ?>
+		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="return" value="<?php echo $input->getCmd('return'); ?>">

@@ -100,7 +100,7 @@ class CategoryField extends FormField
 			. '&amp;extension=' . $extension;
 		$linkCategory  = 'index.php?option=com_categories&amp;view=category&amp;layout=modal&amp;tmpl=component&amp;' . Session::getFormToken() . '=1'
 			. '&amp;extension=' . $extension;
-		$modalTitle    = Text::_('COM_CATEGORIES_CHANGE_CATEGORY');
+		$modalTitle    = Text::_('COM_CATEGORIES_SELECT_A_CATEGORY');
 
 		if (isset($this->element['language']))
 		{
@@ -157,7 +157,7 @@ class CategoryField extends FormField
 				. ' data-toggle="modal"'
 				. ' type="button"'
 				. ' data-target="#ModalSelect' . $modalId . '"'
-				. ' title="' . HTMLHelper::tooltipText('COM_CATEGORIES_CHANGE_CATEGORY') . '">'
+				. ' title="' . HTMLHelper::tooltipText('COM_CATEGORIES_SELECT_A_CATEGORY') . '">'
 				. '<span class="icon-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
 				. '</button>';
 		}

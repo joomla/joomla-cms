@@ -11,6 +11,7 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 
@@ -72,7 +73,7 @@ class StyleController extends FormController
 				return false;
 			}
 
-			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_templates/forms');
+			Form::addFormPath(JPATH_ADMINISTRATOR . '/components/com_templates/forms');
 
 			// Validate the posted data.
 			// Sometimes the form needs some posted data, such as for plugins and modules.

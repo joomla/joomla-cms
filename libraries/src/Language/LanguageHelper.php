@@ -437,19 +437,6 @@ class LanguageHelper
 			return array();
 		}
 
-		// @deprecated 3.9.0 Usage of "_QQ_" is deprecated. Use escaped double quotes (\") instead.
-		if (!defined('_QQ_'))
-		{
-			/**
-			 * Defines a placeholder for a double quote character (") in a language file
-			 *
-			 * @var    string
-			 * @since  1.6
-			 * @deprecated  4.0 Use escaped double quotes (\") instead.
-			 */
-			define('_QQ_', '"');
-		}
-
 		// Capture hidden PHP errors from the parsing.
 		if ($debug === true)
 		{
@@ -468,7 +455,6 @@ class LanguageHelper
 		if (!function_exists('parse_ini_file') || $isParseIniFileDisabled)
 		{
 			$contents = file_get_contents($fileName);
-			$contents = str_replace('_QQ_', '"\""', $contents);
 			$strings = @parse_ini_string($contents);
 		}
 		else

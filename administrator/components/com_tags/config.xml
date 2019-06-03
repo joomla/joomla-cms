@@ -366,6 +366,11 @@
 		label="JGLOBAL_INTEGRATION_LABEL"
 		description="COM_TAGS_CONFIG_INTEGRATION_SETTINGS_DESC"
 	>
+		<field
+			name="integration_newsfeeds"
+			type="note"
+			label="JGLOBAL_FEED_TITLE"
+		/>
 
 		<field
 			name="show_feed_link"

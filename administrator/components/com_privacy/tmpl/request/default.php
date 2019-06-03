@@ -9,13 +9,18 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+
 /** @var PrivacyViewRequest $this */
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/html');
+HTMLHelper::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/html');
 
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
 
 $js = <<< JS
 Joomla.submitbutton = function(task) {
@@ -25,44 +30,44 @@ Joomla.submitbutton = function(task) {
 };
 JS;
 
-JFactory::getDocument()->addScriptDeclaration($js);
+Factory::getDocument()->addScriptDeclaration($js);
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_privacy&view=request&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_privacy&view=request&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 	<div class="row-fluid">
 		<div class="span6">
-			<h3><?php echo JText::_('COM_PRIVACY_HEADING_REQUEST_INFORMATION'); ?></h3>
+			<h3><?php echo Text::_('COM_PRIVACY_HEADING_REQUEST_INFORMATION'); ?></h3>
 			<dl class="dl-horizontal">
-				<dt><?php echo JText::_('JGLOBAL_EMAIL'); ?>:</dt>
+				<dt><?php echo Text::_('JGLOBAL_EMAIL'); ?>:</dt>
 				<dd><?php echo $this->item->email; ?></dd>
 
-				<dt><?php echo JText::_('JSTATUS'); ?>:</dt>
-				<dd><?php echo JHtml::_('privacy.statusLabel', $this->item->status); ?></dd>
+				<dt><?php echo Text::_('JSTATUS'); ?>:</dt>
+				<dd><?php echo HTMLHelper::_('privacy.statusLabel', $this->item->status); ?></dd>
 
-				<dt><?php echo JText::_('COM_PRIVACY_FIELD_REQUEST_TYPE_LABEL'); ?>:</dt>
-				<dd><?php echo JText::_('COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_' . $this->item->request_type); ?></dd>
+				<dt><?php echo Text::_('COM_PRIVACY_FIELD_REQUEST_TYPE_LABEL'); ?>:</dt>
+				<dd><?php echo Text::_('COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_' . $this->item->request_type); ?></dd>
 
-				<dt><?php echo JText::_('COM_PRIVACY_FIELD_REQUESTED_AT_LABEL'); ?>:</dt>
-				<dd><?php echo JHtml::_('date', $this->item->requested_at, JText::_('DATE_FORMAT_LC6')); ?></dd>
+				<dt><?php echo Text::_('COM_PRIVACY_FIELD_REQUESTED_AT_LABEL'); ?>:</dt>
+				<dd><?php echo HTMLHelper::_('date', $this->item->requested_at, Text::_('DATE_FORMAT_LC6')); ?></dd>
 			</dl>
 		</div>
 		<div class="span6">
-			<h3><?php echo JText::_('COM_PRIVACY_HEADING_ACTION_LOG'); ?></h3>
+			<h3><?php echo Text::_('COM_PRIVACY_HEADING_ACTION_LOG'); ?></h3>
 			<?php if (empty($this->actionlogs)) : ?>
-				<div class="alert alert-warning">
-					<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+				<div class="alert alert-info">
+					<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 				</div>
 			<?php else : ?>
 				<table class="table table-striped table-hover">
 					<thead>
 						<th>
-							<?php echo JText::_('COM_ACTIONLOGS_ACTION'); ?>
+							<?php echo Text::_('COM_ACTIONLOGS_ACTION'); ?>
 						</th>
 						<th>
-							<?php echo JText::_('COM_ACTIONLOGS_DATE'); ?>
+							<?php echo Text::_('COM_ACTIONLOGS_DATE'); ?>
 						</th>
 						<th>
-							<?php echo JText::_('COM_ACTIONLOGS_NAME'); ?>
+							<?php echo Text::_('COM_ACTIONLOGS_NAME'); ?>
 						</th>
 					</thead>
 					<tbody>
@@ -72,7 +77,7 @@ JFactory::getDocument()->addScriptDeclaration($js);
 									<?php echo ActionlogsHelper::getHumanReadableLogMessage($item); ?>
 								</td>
 								<td>
-									<?php echo JHtml::_('date', $item->log_date, JText::_('DATE_FORMAT_LC6')); ?>
+									<?php echo HTMLHelper::_('date', $item->log_date, Text::_('DATE_FORMAT_LC6')); ?>
 								</td>
 								<td>
 									<?php echo $item->name; ?>
@@ -86,5 +91,5 @@ JFactory::getDocument()->addScriptDeclaration($js);
 	</div>
 
 	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_('form.token'); ?>
+	<?php echo HTMLHelper::_('form.token'); ?>
 </form>

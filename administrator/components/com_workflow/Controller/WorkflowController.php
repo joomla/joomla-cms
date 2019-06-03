@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 /**
  * Workflow controller
@@ -155,7 +156,7 @@ class WorkflowController extends FormController
 	 *
 	 * @since  4.0.0
 	 */
-	public function postSaveHook(\JModelLegacy $model, $validData = array())
+	public function postSaveHook(BaseDatabaseModel $model, $validData = array())
 	{
 		$task = $this->getTask();
 

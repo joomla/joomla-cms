@@ -56,7 +56,7 @@ $saveOrder = $listOrder == 'a.id';
 					); ?>
 				<?php endif; ?>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning">
+					<div class="alert alert-info">
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -114,10 +114,10 @@ $saveOrder = $listOrder == 'a.id';
 										<?php echo $item->directive; ?>
 									</td>
 									<td class="d-none d-md-table-cell">
-										<?php echo JText::_('J' . strtoupper($item->client)); ?>
+										<?php echo Text::_('J' . strtoupper($item->client)); ?>
 									</td>
 									<td class="d-none d-md-table-cell">
-										<?php echo $item->created > 0 ? HTMLHelper::_('date', $item->created, JText::_('DATE_FORMAT_LC4')) : '-'; ?>
+										<?php echo $item->created > 0 ? HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC4')) : '-'; ?>
 									</td>
 									<td class="text-center d-none d-md-table-cell">
 										<?php echo $item->id; ?>

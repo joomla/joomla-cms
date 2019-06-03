@@ -10,6 +10,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 /** @var \Joomla\CMS\Installation\View\Remove\HtmlView $this */
 ?>
@@ -97,8 +98,8 @@ use Joomla\CMS\Language\Text;
 				<?php echo HTMLHelper::_('form.token'); ?>
 
 				<div class="form-group j-install-last-step">
-					<a class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>" title="<?php echo Text::_('JSITE'); ?>"><span class="fa fa-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
-					<a class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>administrator/" title="<?php echo Text::_('JADMINISTRATOR'); ?>"><span class="fa fa-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?></a>
+					<a class="btn btn-primary btn-block" href="<?php echo Uri::root(); ?>" title="<?php echo Text::_('JSITE'); ?>"><span class="fa fa-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
+					<a class="btn btn-primary btn-block" href="<?php echo Uri::root(); ?>administrator/" title="<?php echo Text::_('JADMINISTRATOR'); ?>"><span class="fa fa-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?></a>
 				</div>
 			</div>
 		</div>
@@ -215,8 +216,8 @@ use Joomla\CMS\Language\Text;
 			<div class="j-install-step-form">
 				<p><?php echo Text::_('INSTL_COMPLETE_FINAL_DESC'); ?></p>
 				<div class="form-group">
-					<a class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>"><span class="fa fa-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
-					<a class="btn btn-primary btn-block" href="<?php echo JUri::root(); ?>administrator/"><span class="fa fa-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?></a>
+					<a class="btn btn-primary btn-block" href="<?php echo Uri::root(); ?>"><span class="fa fa-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
+					<a class="btn btn-primary btn-block" href="<?php echo Uri::root(); ?>administrator/"><span class="fa fa-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?></a>
 				</div>
 			</div>
 		</fieldset>

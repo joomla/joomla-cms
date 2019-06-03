@@ -55,7 +55,7 @@ class RoboFile extends \Robo\Tasks
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	private $testsPath = 'libraries/vendor/joomla/test-system/src/';
+	private $testsPath = 'tests/Codeception/';
 
 	/**
 	 * @var array | null
@@ -480,7 +480,7 @@ class RoboFile extends \Robo\Tasks
 	{
 		if (!$this->suiteConfig)
 		{
-			$this->suiteConfig = Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . '/libraries/vendor/joomla/test-system/src/' . $suite . '.suite.yml'));
+			$this->suiteConfig = Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . '/tests/Codeception/' . $suite . '.suite.yml'));
 		}
 
 		return $this->suiteConfig;

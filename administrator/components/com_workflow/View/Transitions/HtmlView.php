@@ -15,6 +15,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
@@ -154,8 +155,10 @@ class HtmlView extends BaseHtmlView
 		$isCore = $this->workflow->core;
 		$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
-		ToolbarHelper::link('index.php?option=com_workflow&view=workflows&extension=' . $this->escape($this->workflow->extension),
-			'JTOOLBAR_BACK', $arrow
+		ToolbarHelper::link(
+			Route::_('index.php?option=com_workflow&view=workflows&extension=' . $this->escape($this->workflow->extension)),
+			'JTOOLBAR_BACK',
+			$arrow
 		);
 
 

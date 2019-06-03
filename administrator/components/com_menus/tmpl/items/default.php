@@ -39,7 +39,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 
 ?>
 <?php // Set up the filter bar. ?>
-<form action="<?php echo Route::_('index.php?option=com_menus&view=items'); ?>" method="post" name="adminForm"
+<form action="<?php echo Route::_('index.php?option=com_menus&view=items&menutype='); ?>" method="post" name="adminForm"
 	  id="adminForm">
 	<div class="row">
 		<?php if (!empty($this->sidebar)) : ?>
@@ -51,7 +51,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning">
+					<div class="alert alert-info">
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>

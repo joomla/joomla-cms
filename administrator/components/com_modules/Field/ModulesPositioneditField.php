@@ -42,7 +42,7 @@ class ModulesPositioneditField extends FormField
 	 * Client name.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $client;
 
@@ -53,7 +53,7 @@ class ModulesPositioneditField extends FormField
 	 *
 	 * @return  mixed  The property value or null.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __get($name)
 	{
@@ -74,7 +74,7 @@ class ModulesPositioneditField extends FormField
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __set($name, $value)
 	{
@@ -101,7 +101,7 @@ class ModulesPositioneditField extends FormField
 	 * @return  boolean  True on success.
 	 *
 	 * @see     FormField::setup()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{

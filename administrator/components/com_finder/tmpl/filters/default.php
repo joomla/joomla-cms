@@ -32,7 +32,7 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['version' => 'auto', 'relative
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning">
+					<div class="alert alert-info">
 						<?php echo Text::_('COM_FINDER_NO_RESULTS_OR_FILTERS'); ?>
 					</div>
 				<?php else : ?>

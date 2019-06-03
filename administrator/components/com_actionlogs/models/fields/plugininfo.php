@@ -9,6 +9,11 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+
 /**
  * Information field.
  *
@@ -33,7 +38,7 @@ class JFormFieldPluginInfo extends JFormField
 	 */
 	protected function getInput()
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$result = null;
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
@@ -51,15 +56,15 @@ class JFormFieldPluginInfo extends JFormField
 			JError::raiseWarning(500, $e->getMessage());
 		}
 
-		$link = JHtml::_(
+		$link = HTMLHelper::_(
 			'link',
-			JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . $result),
-			JText::_('PLG_SYSTEM_ACTIONLOGS_JOOMLA_ACTIONLOG_DISABLED'),
+			Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . $result),
+			Text::_('PLG_SYSTEM_ACTIONLOGS_JOOMLA_ACTIONLOG_DISABLED'),
 			array('class' => 'alert-link')
 		);
 
 		return '<div class="alert alert-info">'
-			. JText::sprintf('PLG_SYSTEM_ACTIONLOGS_JOOMLA_ACTIONLOG_DISABLED_REDIRECT', $link)
+			. Text::sprintf('PLG_SYSTEM_ACTIONLOGS_JOOMLA_ACTIONLOG_DISABLED_REDIRECT', $link)
 			. '</div>';
 	}
 }

@@ -10,6 +10,7 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /** @var  array  $displayData */
 $data = $displayData;
@@ -39,7 +40,7 @@ $customOptions = array(
 $data['options'] = array_merge($customOptions, $data['options']);
 
 // Load search tools
-JHtml::_('searchtools.form', $data['options']['formSelector'], $data['options']);
+HTMLHelper::_('searchtools.form', $data['options']['formSelector'], $data['options']);
 
 $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilters ? ' js-stools-container-filters-visible' : '';
 ?>

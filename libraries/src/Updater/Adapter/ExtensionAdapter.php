@@ -166,7 +166,7 @@ class ExtensionAdapter extends UpdateAdapter
 						$dbVersion    = $db->getVersion();
 						$supportedDbs = $this->currentUpdate->supported_databases;
 
-						// Do we have a entry for the database?
+						// Do we have an entry for the database?
 						if (array_key_exists($dbType, $supportedDbs))
 						{
 							$minumumVersion = $supportedDbs[$dbType];

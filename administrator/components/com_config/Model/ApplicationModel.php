@@ -334,16 +334,16 @@ class ApplicationModel extends FormModel
 				{
 					try
 					{
-						\JLog::add(
-							\JText::sprintf('COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT', $data['session_filesystem_path']),
-							\JLog::WARNING,
+						Log::add(
+							Text::sprintf('COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT', $data['session_filesystem_path']),
+							Log::WARNING,
 							'jerror'
 						);
 					}
 					catch (\RuntimeException $logException)
 					{
 						$app->enqueueMessage(
-							\JText::sprintf('COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT', $data['session_filesystem_path']),
+							Text::sprintf('COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT', $data['session_filesystem_path']),
 							'warning'
 						);
 					}

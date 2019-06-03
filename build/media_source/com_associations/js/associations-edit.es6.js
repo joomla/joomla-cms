@@ -17,7 +17,7 @@ Joomla = window.Joomla || {};
       if (el) {
         const attribute = el.getAttribute('for');
 
-        if (attribute.replace('_id', '') === `${formControl}_associations_${languageCode.replace('-', '_')}`) {
+        if (attribute.replace('_name', '') === `${formControl}_associations_${languageCode.replace('-', '_')}`) {
           element.style.display = 'none';
         }
       }
@@ -169,13 +169,13 @@ Joomla = window.Joomla || {};
 
         controlGroup.forEach((element) => {
           const attribute = element.querySelector('.control-label label').getAttribute('for');
-          const languageCode = attribute.replace('_id', '').replace('jform_associations_', '');
+          const languageCode = attribute.replace('_name', '').replace('jform_associations_', '');
 
           // Show the association fields
           element.style.display = 'block';
 
           // Check if there was an association selected for this language
-          if (!existsAssociations && document.getElementById(`${formControl}_associations_${languageCode}_id`).value !== '') {
+          if (!existsAssociations && document.getElementById(`${formControl}_associations_${languageCode}_name`).value !== '') {
             existsAssociations = true;
           }
 

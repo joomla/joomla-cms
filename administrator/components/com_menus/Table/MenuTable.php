@@ -55,7 +55,7 @@ class MenuTable extends \JTableMenu
 	 * @return  boolean  True on success, false on failure
 	 *
 	 * @see     JTable::check
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function check()
 	{

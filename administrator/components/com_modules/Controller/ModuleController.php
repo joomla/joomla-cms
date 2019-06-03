@@ -12,6 +12,7 @@ namespace Joomla\Component\Modules\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -234,7 +235,7 @@ class ModuleController extends FormController
 			$this->input->post->set('jform', $data);
 
 			// Add path of forms directory
-			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
+			Form::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
 		}
 
 		return parent::save($key, $urlVar);
@@ -315,5 +316,38 @@ class ModuleController extends FormController
 
 		echo new JsonResponse($html);
 		$app->close();
+	}
+
+	/**
+	 * Gets the URL arguments to append to an item redirect.
+	 *
+	 * @param   integer  $recordId  The primary key id for the item.
+	 * @param   string   $urlVar    The name of the URL variable for the id.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since  4.0.0
+	 */
+	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
+	{
+		$append = parent::getRedirectToItemAppend($recordId);
+		$append .= '&client_id=' . $this->input->getInt('client_id');
+
+		return $append;
+	}
+
+	/**
+	 * Gets the URL arguments to append to a list redirect.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since  4.0.0
+	 */
+	protected function getRedirectToListAppend()
+	{
+		$append = parent::getRedirectToListAppend();
+		$append .= '&client_id=' . $this->input->getInt('client_id');
+
+		return $append;
 	}
 }

@@ -311,11 +311,10 @@ class PlgContentPagebreak extends CMSPlugin
 		}
 
 		// TOC first Page link.
-		$list[1]          = new stdClass;
-		$list[1]->liClass = ($limitstart === 0 && $showall === 0) ? 'nav-item toclink active' : 'toclink';
-		$list[1]->class   = ($limitstart === 0 && $showall === 0) ? 'toclink active' : 'toclink';
-		$list[1]->link    = Route::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
-		$list[1]->title   = $heading;
+		$list[1]         = new stdClass;
+		$list[1]->link   = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language);
+		$list[1]->title  = $heading;
+		$list[1]->active = ($limitstart === 0 && $showall === 0);
 
 		$i = 2;
 
@@ -343,25 +342,23 @@ class PlgContentPagebreak extends CMSPlugin
 				$title = Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
 			}
 
-			$list[$i]          = new stdClass;
-			$list[$i]->link    = Route::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($i - 1));
-			$list[$i]->title   = $title;
-			$list[$i]->liClass = ($limitstart === $i - 1) ? 'nav-item active' : '';
-			$list[$i]->class   = ($limitstart === $i - 1) ? 'toclink active' : 'toclink';
+			$list[$i]         = new stdClass;
+			$list[$i]->link   = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($i - 1);
+			$list[$i]->title  = $title;
+			$list[$i]->active = ($limitstart === $i - 1);
 
 			$i++;
 		}
 
 		if ($this->params->get('showall'))
 		{
-			$list[$i]          = new stdClass;
-			$list[$i]->link    = Route::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1');
-			$list[$i]->liClass = ($limitstart === $i - 1) ? ' class="nav-item active"' : '';
-			$list[$i]->class   = ($limitstart === $i - 1) ? 'toclink active' : 'toclink';
-			$list[$i]->title   = Text::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES');
+			$list[$i]         = new stdClass;
+			$list[$i]->link   = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1';
+			$list[$i]->title  = Text::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES');
+			$list[$i]->active = ($limitstart === $i - 1);
 		}
 
-		$path = JPluginHelper::getLayoutPath('content', 'pagebreak', 'toc');
+		$path = PluginHelper::getLayoutPath('content', 'pagebreak', 'toc');
 		ob_start();
 		include $path;
 		$row->toc = ob_get_clean();

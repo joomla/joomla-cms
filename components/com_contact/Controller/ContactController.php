@@ -92,7 +92,7 @@ class ContactController extends FormController
 		// Check if the contact form is enabled
 		if (!$contact->params->get('show_email_form'))
 		{
-			$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
+			$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
 
 			return false;
 		}

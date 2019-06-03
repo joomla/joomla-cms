@@ -14,6 +14,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Version;
 
 /**
  * Help system class
@@ -98,7 +99,7 @@ class Help
 		 *  Replace substitution codes in the URL.
 		 */
 		$lang    = Factory::getLanguage();
-		$version = new \JVersion;
+		$version = new Version;
 		$jver    = explode('.', $version->getShortVersion());
 		$jlang   = explode('-', $lang->getTag());
 

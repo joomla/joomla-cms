@@ -45,8 +45,8 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 		$this->loadLanguage();
 
 		return array(
-			JText::_('PLG_CAPTCHA_RECAPTCHA') => array(
-				JText::_('PLG_RECAPTCHA_PRIVACY_CAPABILITY_IP_ADDRESS'),
+			Text::_('PLG_CAPTCHA_RECAPTCHA') => array(
+				Text::_('PLG_RECAPTCHA_PRIVACY_CAPABILITY_IP_ADDRESS'),
 			)
 		);
 	}

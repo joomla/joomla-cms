@@ -11,6 +11,7 @@ namespace Joomla\Component\Privacy\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
@@ -26,11 +27,11 @@ class ConsentsController extends FormController
 	/**
 	 * Method to invalidate specific consents.
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	public function invalidate($key = null, $urlVar = null)
+	public function invalidate()
 	{
 		// Check for request forgeries
 		$this->checkToken();
@@ -39,30 +40,30 @@ class ConsentsController extends FormController
 
 		if (empty($ids))
 		{
-			$this->setError(Text::_('JERROR_NO_ITEMS_SELECTED'));
+			$this->app->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), CMSApplication::MSG_ERROR);
 		}
 		else
 		{
-			// Get the model.
 			/** @var ConsentsModel $model */
 			$model = $this->getModel();
 
-			// Publish the items.
 			if (!$model->invalidate($ids))
 			{
-				$this->setError($model->getError());
+				$this->setMessage($model->getError());
 			}
-
-			$message = Text::plural('COM_PRIVACY_N_CONSENTS_INVALIDATED', count($ids));
+			else
+			{
+				$this->setMessage(Text::plural('COM_PRIVACY_N_CONSENTS_INVALIDATED', count($ids)));
+			}
 		}
 
-		$this->setRedirect(Route::_('index.php?option=com_privacy&view=consents', false), $message);
+		$this->setRedirect(Route::_('index.php?option=com_privacy&view=consents', false));
 	}
 
 	/**
 	 * Method to invalidate all consents of a specific subject.
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
@@ -73,27 +74,27 @@ class ConsentsController extends FormController
 
 		$filters = $this->input->get('filter', [], 'array');
 
+		$this->setRedirect(Route::_('index.php?option=com_privacy&view=consents', false));
+
 		if (isset($filters['subject']) && $filters['subject'] != '')
 		{
 			$subject = $filters['subject'];
 		}
 		else
 		{
-			$this->setError(Text::_('JERROR_NO_ITEMS_SELECTED'));
+			$this->app->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'));
+
+			return;
 		}
 
-		// Get the model.
 		/** @var ConsentsModel $model */
 		$model = $this->getModel();
 
-		// Publish the items.
 		if (!$model->invalidateAll($subject))
 		{
-			$this->setError($model->getError());
+			$this->setMessage($model->getError());
 		}
 
-		$message = Text::_('COM_PRIVACY_CONSENTS_INVALIDATED_ALL');
-
-		$this->setRedirect(Route::_('index.php?option=com_privacy&view=consents', false), $message);
+		$this->setMessage(Text::_('COM_PRIVACY_CONSENTS_INVALIDATED_ALL'));
 	}
 }

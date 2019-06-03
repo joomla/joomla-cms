@@ -15,7 +15,7 @@ use Joomla\CMS\Document\Document;
 /**
  * Web Asset Behavior interface
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface WebAssetAttachBehaviorInterface
 {
@@ -27,7 +27,7 @@ interface WebAssetAttachBehaviorInterface
 	 *
 	 * @return void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onAttachCallback(Document $doc);
 }

@@ -52,7 +52,7 @@ class AjaxController extends BaseController
 
 			if ($assocId == 0)
 			{
-				echo new JsonResponse(null, JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'assocId'), true);
+				echo new JsonResponse(null, Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'assocId'), true);
 
 				return;
 			}

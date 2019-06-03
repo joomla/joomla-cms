@@ -17,7 +17,6 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 
 /**
  * Displays a list of the installed languages.
@@ -79,14 +78,6 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
-	 * The sidebar markup
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $sidebar;
-
-	/**
 	 * Display the view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse.
@@ -103,8 +94,6 @@ class HtmlView extends BaseHtmlView
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-
-		LanguagesHelper::addSubmenu('installed');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -151,7 +140,7 @@ class HtmlView extends BaseHtmlView
 			// Switch administrator language
 			if ($this->state->get('client_id', 0) == 1)
 			{
-				ToolbarHelper::custom('installed.switchadminlanguage', 'refresh', 'refresh', 'COM_LANGUAGES_SWITCH_ADMIN', false);
+				ToolbarHelper::custom('installed.switchadminlanguage', 'refresh', 'refresh', 'COM_LANGUAGES_SWITCH_ADMIN', true);
 				ToolbarHelper::divider();
 			}
 
@@ -163,7 +152,5 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_INSTALLED');
-
-		$this->sidebar = \JHtmlSidebar::render();
 	}
 }

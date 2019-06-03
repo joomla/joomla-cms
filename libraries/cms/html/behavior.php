@@ -598,7 +598,7 @@ abstract class JHtmlBehavior
 		$jsscript = 1;
 
 		// To keep the code simple here, run strings through Text::_() using array_map()
-		$callback = array('JText', '_');
+		$callback = array('Text', '_');
 		$weekdays_full = array_map(
 			$callback, array(
 				'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY',

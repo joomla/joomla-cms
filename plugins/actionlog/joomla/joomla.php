@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Plugins
+ * @package     Joomla.Plugin
  * @subpackage  System.actionlogs
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
@@ -908,5 +908,41 @@ class PlgActionlogJoomla extends ActionLogPlugin
 		);
 
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_REMIND', $context, $user->id);
+	}
+
+	/**
+	 * On after Check-in request
+	 *
+	 * Method is called after user request to check-in items.
+	 *
+	 * @param   array  $table  Holds the table name.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onAfterCheckin($table)
+	{
+		$context = $this->app->input->get('option');
+		$user    = Factory::getUser();
+
+		if (!$this->checkLoggable($context))
+		{
+			return;
+		}
+
+		$message = array(
+			'action'      => 'checkin',
+			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
+			'id'          => $user->id,
+			'title'       => $user->name,
+			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'userid'      => $user->id,
+			'username'    => $user->name,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'table'       => $table,
+		);
+
+		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_CHECKIN', $context, $user->id);
 	}
 }
