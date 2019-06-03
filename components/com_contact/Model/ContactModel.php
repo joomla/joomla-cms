@@ -342,15 +342,15 @@ class ContactModel extends FormModel
 			if (Multilanguage::isEnabled())
 			{
 				$language = [Factory::getLanguage()->getTag(), $db->quote('*')];
-				$query->whereIn($db->quoteName('a.language') , $language);
+				$query->whereIn($db->quoteName('a.language'), $language);
 			}
 
 			if (is_numeric($published))
 			{
 				$query->where('a.state IN (1,2)')
-					->where('(' . $db->quoteName('a.publish_up') . ' = :null' . 
-						' OR ' . $db->quoteName('a.publish_up') .' <= :now' . ')')
-					->where('(' . $db->quoteName('a.publish_down') . ' = :null' . 
+					->where('(' . $db->quoteName('a.publish_up') . ' = :null' .
+						' OR ' . $db->quoteName('a.publish_up') . ' <= :now' . ')')
+					->where('(' . $db->quoteName('a.publish_down') . ' = :null' .
 						' OR ' . $db->quoteName('a.publish_down') . ' >= :now' . ')')
 					->bind(':null', $nullDate)
 					->bind(':now', $nowDate);
