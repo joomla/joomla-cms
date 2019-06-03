@@ -28,8 +28,6 @@ steps:
     image: joomlaprojects/docker-systemtests:latest
     commands:
       - echo $(date)
-      - apt-get install nodejs npm
-      - ln -s /usr/bin/nodejs /usr/bin/node
       - export DISPLAY=:0
       - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
       - sleep 3
@@ -74,6 +72,6 @@ branches:
   exclude: [ l10n_* ]
 ---
 kind: signature
-hmac: f8aa0f7552eb7c32c5585668552afffadd07a23cbbc9c1bb41bfad4df6679b3c
+hmac: e3e6739c960a689e78ec07c0ea193818796cdcf3c3dab9781f7f07b7e3e6b674
 
 ...
