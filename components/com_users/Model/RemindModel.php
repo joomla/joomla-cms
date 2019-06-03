@@ -135,7 +135,7 @@ class RemindModel extends FormModel
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('email') . ' = :email'])
+			->where($db->quoteName('email') . ' = :email')
 			->bind(':email', $data['email']);
 
 		// Get the user id.
