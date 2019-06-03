@@ -28,6 +28,7 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Database\ParameterType;
 
 /**
  * Registration model class for Users.
