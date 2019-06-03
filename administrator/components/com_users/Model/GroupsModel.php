@@ -15,6 +15,7 @@ use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\DatabaseQuery;
+use Joomla\Database\ParameterType;
 
 /**
  * Methods supporting a list of user group records.
@@ -159,12 +160,14 @@ class GroupsModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.id = ' . (int) substr($search, 3));
+				$query->where($db->quoteName('a.id') . ' = :id');
+				$query->bind(':id', substr($search, 3), ParameterType::INTEGER);
 			}
 			else
 			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('a.title LIKE ' . $search);
+				$search = '%' . trim($search) . '%';
+				$query->where($db->quoteName('a.title') . ' LIKE :title');
+				$query->bind(':title', $search);
 			}
 		}
 
@@ -204,7 +207,7 @@ class GroupsModel extends ListModel
 		$query->select('map.group_id, COUNT(DISTINCT map.user_id) AS user_count')
 			->from($db->quoteName('#__user_usergroup_map', 'map'))
 			->join('LEFT', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('u.id') . ' = ' . $db->quoteName('map.user_id'))
-			->where($db->quoteName('map.group_id') . ' IN (' . implode(',', $groupIds) . ')')
+			->whereIn($db->quoteName('map.group_id'), $groupIds))
 			->where($db->quoteName('u.block') . ' = 0')
 			->group($db->quoteName('map.group_id'));
 		$db->setQuery($query);
@@ -222,7 +225,7 @@ class GroupsModel extends ListModel
 
 		// Get total disabled users in group.
 		$query->clear('where')
-			->where('map.group_id IN (' . implode(',', $groupIds) . ')')
+			->whereIn($db->quoteName('map.group_id'), $groupIds))
 			->where('u.block = 1');
 		$db->setQuery($query);
 
