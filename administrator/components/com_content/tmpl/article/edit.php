@@ -125,8 +125,10 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
 		<?php // Creating 'id' hiddenField to cope with com_associations sidebyside loop ?>
-		<?php $hidden_fields = $this->form->getInput('id'); ?>
-		<div class="hidden"><?php echo $hidden_fields; ?></div>
+		<?php if ($params->get('show_publishing_options', 1) == 0) : ?>
+			<?php $hidden_fields = $this->form->getInput('id'); ?>
+			<div class="hidden"><?php echo $hidden_fields; ?></div>
+		<?php endif; ?>
 
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="return" value="<?php echo $input->getCmd('return'); ?>">
