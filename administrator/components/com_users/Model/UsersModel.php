@@ -298,7 +298,7 @@ class UsersModel extends ListModel
 			}
 			elseif ($active == '1')
 			{
-				$query->where($query->length($db->quoteName('a.activation') . ' > 1');
+				$query->where($query->length($db->quoteName('a.activation')) . ' > 1');
 			}
 		}
 
