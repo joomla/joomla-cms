@@ -191,7 +191,7 @@ class UsersModel extends ListModel
 			// Join over the group mapping table.
 			$query->select('map.user_id, COUNT(map.group_id) AS group_count')
 				->from('#__user_usergroup_map AS map')
-				->whereIn($db->quoteName('map.user_id'), $userIds);
+				->whereIn($db->quoteName('map.user_id'), $userIds)
 				->group('map.user_id')
 				// Join over the user groups table.
 				->join('LEFT', '#__usergroups AS g2 ON g2.id = map.group_id');
