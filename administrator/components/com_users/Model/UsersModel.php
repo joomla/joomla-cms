@@ -530,7 +530,7 @@ class UsersModel extends ListModel
 		$query = $db->getQuery(true)
 			->select($db->quoteName('title'))
 			->from($db->quoteName('#__usergroups', 'ug'))
-			->join('LEFT', $db->quoteName('#__user_usergroup_map', 'map') . ' ON (ug.id = map.group_id)')
+			->leftJoin($db->quoteName('#__user_usergroup_map', 'map') . ' ON (ug.id = map.group_id)')
 			->where($db->quoteName('map.user_id') . ' = :user_id')
 			->bind(':user_id', $user_id, ParameterType::INTEGER);
 
