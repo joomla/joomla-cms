@@ -335,7 +335,7 @@ class UsersModel extends ListModel
 			if ($groupId)
 			{
 				$query->where($db->quoteName('map2.group_id') . ' = :group_id')
-					->bind(':group_id', (int) $groupId , ParameterType::INTEGER);
+					->bind(':group_id', (int) $groupId, ParameterType::INTEGER);
 			}
 
 			if (isset($groups))
