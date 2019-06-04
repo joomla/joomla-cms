@@ -11,7 +11,9 @@ namespace Joomla\Component\Finder\Site\View\Search;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 
@@ -34,7 +36,7 @@ class FeedView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		// Get the application
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Adjust the list limit to the feed limit.
 		$app->input->set('limit', $app->get('feed_limit'));
@@ -59,11 +61,11 @@ class FeedView extends BaseHtmlView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);

@@ -21,6 +21,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Event\ConnectionEvent;
 use Joomla\Event\DispatcherInterface;
@@ -283,11 +284,11 @@ class PlgSystemDebug extends CMSPlugin
 		}
 
 		$debugBarRenderer = $this->debugBar->getJavascriptRenderer();
-		$openHandlerUrl   = JUri::base(true) . '/index.php?option=com_ajax&plugin=debug&group=system&format=raw&action=openhandler';
+		$openHandlerUrl   = Uri::base(true) . '/index.php?option=com_ajax&plugin=debug&group=system&format=raw&action=openhandler';
 		$openHandlerUrl  .= '&' . Session::getFormToken() . '=1';
 
 		$debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
-		$debugBarRenderer->setBaseUrl(JUri::root(true) . '/media/vendor/debugbar/');
+		$debugBarRenderer->setBaseUrl(Uri::root(true) . '/media/vendor/debugbar/');
 
 		$debugBarRenderer->disableVendor('jquery');
 		$debugBarRenderer->setEnableJqueryNoConflict(false);

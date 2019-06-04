@@ -18,8 +18,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\UCM\UCMType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -812,7 +814,7 @@ abstract class AdminModel extends FormModel
 		$table = $this->getTable();
 
 		// Include the plugins for the delete events.
-		\JPluginHelper::importPlugin($this->events_map['delete']);
+		PluginHelper::importPlugin($this->events_map['delete']);
 
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)
@@ -1043,7 +1045,7 @@ abstract class AdminModel extends FormModel
 		$context = $this->option . '.' . $this->name;
 
 		// Include the plugins for the change of state event.
-		\JPluginHelper::importPlugin($this->events_map['change_state']);
+		PluginHelper::importPlugin($this->events_map['change_state']);
 
 		// Access checks.
 		foreach ($pks as $i => $pk)
@@ -1223,7 +1225,7 @@ abstract class AdminModel extends FormModel
 		$isNew = true;
 
 		// Include the plugins for the save events.
-		\JPluginHelper::importPlugin($this->events_map['save']);
+		PluginHelper::importPlugin($this->events_map['save']);
 
 		// Allow an exception to be thrown.
 		try
@@ -1552,7 +1554,7 @@ abstract class AdminModel extends FormModel
 			$this->tableClassName = end($tc);
 
 			// Get UCM Type data
-			$this->contentType = new \JUcmType;
+			$this->contentType = new UCMType;
 			$this->type = $this->contentType->getTypeByTable($this->tableClassName)
 				?: $this->contentType->getTypeByAlias($this->typeAlias);
 		}
@@ -1572,7 +1574,7 @@ abstract class AdminModel extends FormModel
 		// Save the item
 		$this->save($data);
 
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$id  = $data['id'];
 
 		// Deal with categories associations
