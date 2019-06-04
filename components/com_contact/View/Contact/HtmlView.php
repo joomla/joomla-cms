@@ -556,7 +556,7 @@ class HtmlView extends BaseHtmlView
 			->if($this->item->params->get('show_name'), function (Person $schema) {
 				$schema->name($this->item->name);
 			})
-			->if($this->item->params->get('show_image'), function (Person $schema) {
+			->if($this->item->image && $this->item->params->get('show_image'), function (Person $schema) {
 				$schema->image(Uri::root() . $this->item->image);
 			})
 			->if($this->item->params->get('show_position'), function (Person $schema) {
