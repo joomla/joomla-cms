@@ -1051,7 +1051,7 @@ class UserModel extends AdminModel
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__users'))
 				->set($db->quoteName('otep') . ' = :otep')
-				->set($db->quoteName('otpKey') . ' =:otpKey')
+				->set($db->quoteName('otpKey') . ' = :otpKey')
 				->where($db->quoteName('id') . ' = :id')
 				->bind(':otep', $encryptedOtep)
 				->bind(':otpKey', $otpKey)
