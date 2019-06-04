@@ -213,7 +213,7 @@ class UsersModel extends ListModel
 			$query->clear()
 				->select('n.user_id, COUNT(n.id) As note_count')
 				->from('#__user_notes AS n')
-				->whereIn($db->quoteName('n.user_id'), $userIds);
+				->whereIn($db->quoteName('n.user_id'), $userIds)
 				->where('n.state >= 0')
 				->group('n.user_id');
 
