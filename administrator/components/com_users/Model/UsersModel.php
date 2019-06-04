@@ -431,7 +431,7 @@ class UsersModel extends ListModel
 			{
 				$query->where(
 					$db->quoteName('a.lastvisitDate') . ' >= :dStart' .
-					' AND ' . $db->quoteName('a.lastvisitDate') . ' <= :dNow' .
+					' AND ' . $db->quoteName('a.lastvisitDate') . ' <= :dNow'
 				);
 				$query->bind(':dStart', $dates['dStart']->format('Y-m-d H:i:s'));
 				$query->bind(':dNow', $dates['dNow']->format('Y-m-d H:i:s'));
