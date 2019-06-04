@@ -51,9 +51,9 @@ Text::script('INSTL_FTP_SETTINGS_CORRECT');
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<jdoc:include type="metas" />
 		<jdoc:include type="styles" />
-		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
 	<body data-basepath="<?php echo JUri::root(true); ?>">
 		<div class="j-install">
