@@ -1054,7 +1054,7 @@ class UserModel extends AdminModel
 				->set($db->quoteName('otpKey') . ' =:otpKey')
 				->where($db->quoteName('id') . ' = :id')
 				->bind(':otep', $encryptedOtep)
-				->bind(':optKey', $otpKey)
+				->bind(':otpKey', $otpKey)
 				->bind(':id', $user_id, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$db->execute();
