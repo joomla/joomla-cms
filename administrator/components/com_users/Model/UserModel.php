@@ -835,7 +835,7 @@ class UserModel extends AdminModel
 
 			// Remove users from the group
 			$query->delete($db->quoteName('#__user_usergroup_map'))
-			    ->whereIn($db->quoteName('user_id'), $user_ids);
+				->whereIn($db->quoteName('user_id'), $user_ids);
 
 			// Only remove users from selected group
 			if ($doDelete == 'group')
