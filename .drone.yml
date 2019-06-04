@@ -53,14 +53,14 @@ steps:
     image: php:7.2
     commands:
       - php -v
-      - ./libraries/vendor/bin/phpunit
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
 
   - name: php73-unit
     depends_on: [ rebuild-cache ]
     image: php:7.3
     commands:
       - php -v
-      - ./libraries/vendor/bin/phpunit
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
 
   - name: php74-unit
     depends_on: [ rebuild-cache ]
@@ -68,7 +68,7 @@ steps:
     errignore: true
     commands:
       - php -v
-      - ./libraries/vendor/bin/phpunit
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
 
   - name: php80-unit
     depends_on: [ rebuild-cache ]
@@ -76,7 +76,67 @@ steps:
     errignore: true
     commands:
       - php -v
-      - ./libraries/vendor/bin/phpunit
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
+
+  - name: php72-integration
+    depends_on: [ rebuild-cache ]
+    image: php:7.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php73-integration
+    depends_on: [ rebuild-cache ]
+    image: php:7.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php74-integration
+    depends_on: [ rebuild-cache ]
+    image: phpdaily/php:7.4-dev
+    errignore: true
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php80-integration
+    depends_on: [ rebuild-cache ]
+    image: phpdaily/php:8.0-dev
+    errignore: true
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php72-integration-pgsql
+    depends_on: [ rebuild-cache ]
+    image: php:7.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+  - name: php73-integration-pgsql
+    depends_on: [ rebuild-cache ]
+    image: php:7.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+  - name: php74-integration-pgsql
+    depends_on: [ rebuild-cache ]
+    image: phpdaily/php:7.4-dev
+    errignore: true
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+  - name: php80-integration-pgsql
+    depends_on: [ rebuild-cache ]
+    image: phpdaily/php:8.0-dev
+    errignore: true
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
   - name: javascript-cs
     depends_on: [ rebuild-cache ]
@@ -168,6 +228,6 @@ services:
 
 ---
 kind: signature
-hmac: c3b4baf30db6797a4cc0a222fb0f51211083fd63e07314b69364d3636f24aff0
+hmac: 310f44e2d0136478aca47e79d0584be7b5a1cc3fc9b0e89ef64c5f5c36c43a2d
 
 ...

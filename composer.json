@@ -8,7 +8,7 @@
     "config": {
         "optimize-autoloader": true,
         "platform": {
-            "php": "7.0.8"
+            "php": "7.2.0"
         },
         "preferred-install": {
             "joomla/application": "dist",
@@ -99,14 +99,14 @@
         "ext-simplexml": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "~6.0",
+        "phpunit/phpunit": "~8.0",
         "joomla/mediawiki": "dev-master",
         "friendsofphp/php-cs-fixer": "~2.12",
         "squizlabs/php_codesniffer": "~1.5",
         "joomla-projects/joomla-browser": "~4.0@dev",
         "joomla-projects/robo-joomla": "dev-develop",
         "joomla-projects/selenium-server-standalone": "~v3",
-        "codeception/codeception": "~2.3",
+        "codeception/codeception": "~3.0",
         "consolidation/robo": "^1.0.0"
 
     }
