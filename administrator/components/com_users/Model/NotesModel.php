@@ -109,7 +109,7 @@ class NotesModel extends ListModel
 			else
 			{
 				$search = '%' . trim($search) . '%';
-				$query->where('((a.subject LIKE :subject ) OR (u.name LIKE :name) OR (u.username LIKE :username))');
+				$query->where('((a.subject LIKE :subject) OR (u.name LIKE :name) OR (u.username LIKE :username))');
 				$query->bind(':subject', $search);
 				$query->bind(':name', $search);
 				$query->bind(':username', $search);
