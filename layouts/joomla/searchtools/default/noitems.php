@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Language\Text;
+
 $data = $displayData;
 ?>
 <div class="alert alert-info">

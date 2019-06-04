@@ -69,7 +69,7 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version
 						<?php if (!empty($fieldSet->description)) : ?>
 							<div class="tab-description alert alert-info">
 								<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
-								<?php echo JText::_($fieldSet->description); ?>
+								<?php echo Text::_($fieldSet->description); ?>
 							</div>
 						<?php endif; ?>
 						<?php echo $this->form->renderFieldset($name, $name === 'permissions' ? ['hiddenLabel' => true, 'class' => 'revert-controls'] : []); ?>
