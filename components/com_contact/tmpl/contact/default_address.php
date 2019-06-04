@@ -16,7 +16,7 @@ use Joomla\CMS\String\PunycodeHelper;
  * jicon-text, jicon-none, jicon-icon
  */
 ?>
-<dl class="com-contact__address contact-address dl-horizontal" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+<dl class="com-contact__address contact-address dl-horizontal">
 	<?php if (($this->params->get('address_check') > 0) &&
 		($this->item->address || $this->item->suburb  || $this->item->state || $this->item->country || $this->item->postcode)) : ?>
 		<dt>
@@ -27,7 +27,7 @@ use Joomla\CMS\String\PunycodeHelper;
 
 		<?php if ($this->item->address && $this->params->get('show_street_address')) : ?>
 			<dd>
-				<span class="contact-street" itemprop="streetAddress">
+				<span class="contact-street">
 					<?php echo nl2br($this->item->address); ?>
 					<br>
 				</span>
@@ -36,7 +36,7 @@ use Joomla\CMS\String\PunycodeHelper;
 
 		<?php if ($this->item->suburb && $this->params->get('show_suburb')) : ?>
 			<dd>
-				<span class="contact-suburb" itemprop="addressLocality">
+				<span class="contact-suburb">
 					<?php echo $this->item->suburb; ?>
 					<br>
 				</span>
@@ -44,7 +44,7 @@ use Joomla\CMS\String\PunycodeHelper;
 		<?php endif; ?>
 		<?php if ($this->item->state && $this->params->get('show_state')) : ?>
 			<dd>
-				<span class="contact-state" itemprop="addressRegion">
+				<span class="contact-state">
 					<?php echo $this->item->state; ?>
 					<br>
 				</span>
@@ -52,7 +52,7 @@ use Joomla\CMS\String\PunycodeHelper;
 		<?php endif; ?>
 		<?php if ($this->item->postcode && $this->params->get('show_postcode')) : ?>
 			<dd>
-				<span class="contact-postcode" itemprop="postalCode">
+				<span class="contact-postcode">
 					<?php echo $this->item->postcode; ?>
 					<br>
 				</span>
@@ -60,7 +60,7 @@ use Joomla\CMS\String\PunycodeHelper;
 		<?php endif; ?>
 		<?php if ($this->item->country && $this->params->get('show_country')) : ?>
 		<dd>
-			<span class="contact-country" itemprop="addressCountry">
+			<span class="contact-country">
 				<?php echo $this->item->country; ?>
 				<br>
 			</span>
@@ -70,7 +70,7 @@ use Joomla\CMS\String\PunycodeHelper;
 
 <?php if ($this->item->email_to && $this->params->get('show_email')) : ?>
 	<dt>
-		<span class="<?php echo $this->params->get('marker_class'); ?>" itemprop="email">
+		<span class="<?php echo $this->params->get('marker_class'); ?>">
 			<?php echo nl2br($this->params->get('marker_email')); ?>
 		</span>
 	</dt>
@@ -88,7 +88,7 @@ use Joomla\CMS\String\PunycodeHelper;
 		</span>
 	</dt>
 	<dd>
-		<span class="contact-telephone" itemprop="telephone">
+		<span class="contact-telephone">
 			<?php echo $this->item->telephone; ?>
 		</span>
 	</dd>
@@ -100,7 +100,7 @@ use Joomla\CMS\String\PunycodeHelper;
 		</span>
 	</dt>
 	<dd>
-		<span class="contact-fax" itemprop="faxNumber">
+		<span class="contact-fax">
 		<?php echo $this->item->fax; ?>
 		</span>
 	</dd>
@@ -112,7 +112,7 @@ use Joomla\CMS\String\PunycodeHelper;
 		</span>
 	</dt>
 	<dd>
-		<span class="contact-mobile" itemprop="telephone">
+		<span class="contact-mobile">
 			<?php echo $this->item->mobile; ?>
 		</span>
 	</dd>
@@ -124,7 +124,7 @@ use Joomla\CMS\String\PunycodeHelper;
 	</dt>
 	<dd>
 		<span class="contact-webpage">
-			<a href="<?php echo $this->item->webpage; ?>" target="_blank" rel="noopener noreferrer" itemprop="url">
+			<a href="<?php echo $this->item->webpage; ?>" target="_blank" rel="noopener noreferrer">
 			<?php echo PunycodeHelper::urlToUTF8($this->item->webpage); ?></a>
 		</span>
 	</dd>

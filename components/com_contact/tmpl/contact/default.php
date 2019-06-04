@@ -21,7 +21,7 @@ $cparams = ComponentHelper::getParams('com_media');
 $tparams = $this->item->params;
 ?>
 
-<div class="com-contact contact" itemscope itemtype="https://schema.org/Person">
+<div class="com-contact contact">
 	<?php if ($tparams->get('show_page_heading')) : ?>
 		<h1>
 			<?php echo $this->escape($tparams->get('page_heading')); ?>
@@ -34,7 +34,7 @@ $tparams = $this->item->params;
 				<?php if ($this->item->published == 0) : ?>
 					<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 				<?php endif; ?>
-				<span class="contact-name" itemprop="name"><?php echo $this->item->name; ?></span>
+				<span class="contact-name"><?php echo $this->item->name; ?></span>
 			</h2>
 		</div>
 	<?php endif; ?>
@@ -77,14 +77,14 @@ $tparams = $this->item->params;
 
 		<?php if ($this->item->image && $tparams->get('show_image')) : ?>
 			<div class="com-contact__thumbnail thumbnail float-right">
-				<?php echo HTMLHelper::_('image', $this->item->image, htmlspecialchars($this->item->name,  ENT_QUOTES, 'UTF-8'), array('itemprop' => 'image')); ?>
+				<?php echo HTMLHelper::_('image', $this->item->image, htmlspecialchars($this->item->name,  ENT_QUOTES, 'UTF-8')); ?>
 			</div>
 		<?php endif; ?>
 
 		<?php if ($this->item->con_position && $tparams->get('show_position')) : ?>
 			<dl class="com-contact__position contact-position dl-horizontal">
 				<dt><?php echo Text::_('COM_CONTACT_POSITION'); ?>:</dt>
-				<dd itemprop="jobTitle">
+				<dd>
 					<?php echo $this->item->con_position; ?>
 				</dd>
 			</dl>

@@ -11,6 +11,7 @@ namespace Joomla\Component\Contact\Site\View\Contact;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -20,7 +21,12 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\User;
 use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
+use Spatie\SchemaOrg\Person;
+use Spatie\SchemaOrg\PostalAddress;
+use Spatie\SchemaOrg\Schema;
 
 /**
  * HTML Contact View class for the Contact component
@@ -107,12 +113,13 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
 		$app        = Factory::getApplication();
-		$user       = Factory::getUser();
+		$user       = $app->getIdentity();
 		$state      = $this->get('State');
 		$item       = $this->get('Item');
 		$this->form = $this->get('Form');
@@ -181,7 +188,7 @@ class HtmlView extends BaseHtmlView
 			$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$app->setHeader('status', 403, true);
 
-			return false;
+			return;
 		}
 
 		$options['category_id'] = $item->catid;
@@ -347,7 +354,7 @@ class HtmlView extends BaseHtmlView
 			$item->text = $item->misc;
 		}
 
-		$app->triggerEvent('onContentPrepare', array ('com_contact.contact', &$item, &$this->params, $offset));
+		$app->triggerEvent('onContentPrepare', array('com_contact.contact', &$item, &$this->params, $offset));
 
 		// Store the events for later
 		$item->event = new \stdClass;
@@ -370,7 +377,7 @@ class HtmlView extends BaseHtmlView
 		if ($item->params->get('show_user_custom_fields') && $item->user_id && $contactUser = Factory::getUser($item->user_id))
 		{
 			$contactUser->text = '';
-			$app->triggerEvent('onContentPrepare', array ('com_users.user', &$contactUser, &$item->params, 0));
+			$app->triggerEvent('onContentPrepare', array('com_users.user', &$contactUser, &$item->params, 0));
 
 			if (!isset($contactUser->jcfields))
 			{
@@ -421,8 +428,9 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$this->_prepareDocument();
+		$this->addJsonSchema();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -534,5 +542,63 @@ class HtmlView extends BaseHtmlView
 				$this->document->setMetaData($k, $v);
 			}
 		}
+	}
+
+	/**
+	 * Prepares the document.
+	 *
+	 * @return  void
+	 */
+	private function addJsonSchema()
+	{
+		// Note we don't display tags here as the keywords property isn't valid for a person
+		$schema = Schema::person()
+			->if($this->item->params->get('show_name'), function (Person $schema) {
+				$schema->name($this->item->name);
+			})
+			->if($this->item->params->get('show_image'), function (Person $schema) {
+				$schema->image(Uri::root() . $this->item->image);
+			})
+			->if($this->item->params->get('show_position'), function (Person $schema) {
+				$schema->jobTitle($this->item->con_position);
+			})
+			->if($this->item->params->get('address_check') > 0, function (Person $schema) {
+				$schema->address(
+					Schema::postalAddress()
+						->if($this->item->address && $this->params->get('show_street_address'), function (PostalAddress $schema) {
+							$schema->streetAddress($this->item->address);
+						})
+						->if($this->item->suburb && $this->params->get('show_suburb'), function (PostalAddress $schema) {
+							$schema->addressLocality($this->item->suburb);
+						})
+						->if($this->item->state && $this->params->get('show_state'), function (PostalAddress $schema) {
+							$schema->addressRegion($this->item->state);
+						})
+						->if($this->item->postcode && $this->params->get('show_postcode'), function (PostalAddress $schema) {
+							$schema->postalCode($this->item->postcode);
+						})
+						->if($this->item->country && $this->params->get('show_country'), function (PostalAddress $schema) {
+							$schema->addressCountry($this->item->country);
+						})
+				);
+			})
+			// TODO: Should we expose the raw email like this?
+			->if($this->item->params->get('show_email') === '1', function (Person $schema) {
+				$schema->email($this->item->email_raw);
+			})
+			->if($this->item->telephone && $this->params->get('show_telephone'), function (Person $schema) {
+				$schema->telephone($this->item->telephone);
+			})
+			->if($this->item->fax && $this->params->get('show_fax'), function (Person $schema) {
+				$schema->faxNumber($this->item->fax);
+			})
+			->if($this->item->mobile && $this->params->get('show_mobile'), function (Person $schema) {
+				$schema->telephone($this->item->mobile);
+			})
+			->if($this->item->webpage && $this->params->get('show_webpage'), function (Person $schema) {
+				$schema->url($this->item->webpage);
+			});
+
+		$this->document->addScriptDeclaration(json_encode($schema, JDEBUG ? JSON_PRETTY_PRINT : 0), 'application/ld+json');
 	}
 }
