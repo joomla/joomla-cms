@@ -225,7 +225,6 @@
 				label="COM_TAGS_FIELD_TAG_LINK_CLASS"
 				labelclass="control-label"
 				size="20"
-				default="label label-info"
 			/>
 
 		</fieldset>
