@@ -236,6 +236,7 @@
 
 	// method for hack the scripts that can be related
 	// to the one of field that in given $row
+	// @TODO Stop using this function. Elements within subforms should initialize themselves
 	$.subformRepeatable.prototype.fixScripts = function($row){
 		// fix media field
 		$row.find('a[onclick*="jInsertFieldValue"]').each(function(){
@@ -248,14 +249,6 @@
 			// update select button
 			$select.attr('href', oldHref.replace(/&fieldid=(.+)&/, '&fieldid=' + inputId + '&'));
 		});
-
-		// bootstrap based User field
-		if($.fn.fieldUser){
-			$row.find('.field-user-wrapper').fieldUser();
-		}
-
-		// subforms in subforms
-		$row.find('div.subform-repeatable').subformRepeatable();
 	};
 
 	// defaults
@@ -302,10 +295,14 @@
 		});
 	};
 
-	// initialise all available
-	// wait when all will be loaded, important for scripts fix
-	$(window).on('load', function(){
-		$('div.subform-repeatable').subformRepeatable();
+	// initialise all available on load and again within any added row
+	$(function ($) {
+		initSubform();
+		$(document).on('subform-row-add', initSubform);
+
+		function initSubform (event, container) {
+			$(container || document).find('div.subform-repeatable').subformRepeatable();
+		}
 	});
 
 })(jQuery);
