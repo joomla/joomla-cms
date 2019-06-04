@@ -37,6 +37,8 @@ use Joomla\Session\SessionEvent;
  */
 final class InstallationApplication extends CMSApplication
 {
+	use \Joomla\CMS\Application\ExtensionNamespaceMapper;
+
 	/**
 	 * Class constructor.
 	 *
@@ -74,6 +76,9 @@ final class InstallationApplication extends CMSApplication
 		$parts = explode('/', Uri::base(true));
 		array_pop($parts);
 		Uri::root(null, implode('/', $parts));
+
+		// Ensure we load the namespace loader
+		$this->createExtensionNamespaceMap();
 	}
 
 	/**
