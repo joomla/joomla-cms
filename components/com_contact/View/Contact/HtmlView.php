@@ -367,7 +367,7 @@ class HtmlView extends BaseHtmlView
 
 		$contactUser = null;
 
-		if ($item->params->get('show_user_custom_fields') && $item->user_id && $contactUser = $user($item->user_id))
+		if ($item->params->get('show_user_custom_fields') && $item->user_id && $contactUser = Factory::getUser($item->user_id))
 		{
 			$contactUser->text = '';
 			$app->triggerEvent('onContentPrepare', array ('com_users.user', &$contactUser, &$item->params, 0));
