@@ -340,7 +340,7 @@ class UsersModel extends ListModel
 
 			if (isset($groups))
 			{
-				$query->whereIn($db->quoteName('map2.group_id', $groups));
+				$query->whereIn($db->quoteName('map2.group_id'), $groups);
 			}
 		}
 
