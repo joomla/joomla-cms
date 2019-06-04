@@ -233,7 +233,7 @@ class DebuggroupModel extends ListModel
 			$search = '%' . trim($this->getState('filter.search')) . '%';
 
 			// Compile the different search clauses.
-			$searches = array();
+			$searches = [];
 			$searches[] = 'a.name LIKE :name';
 			$searches[] = 'a.title LIKE :title';
 
