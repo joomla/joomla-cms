@@ -45,7 +45,7 @@ class TableTest extends IntergrationTestCase implements DBTestInterface
 	{
 		parent::setUp();
 
-		$dispatcher = new Dispatcher();
+		$dispatcher = new Dispatcher;
 		$this->object = new TestTable($this->getDBDriver(), $dispatcher);
 	}
 
