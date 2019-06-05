@@ -134,7 +134,7 @@ class NotesModel extends ListModel
 
 		if ($categoryId)
 		{
-			$query->where($db->quoteName('a.catid' . ' = :catid')
+			$query->where($db->quoteName('a.catid' . ' = :catid'))
 				->bind(':catid', $categoryId, ParameterType::INTEGER);
 		}
 
