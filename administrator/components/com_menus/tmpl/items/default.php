@@ -143,6 +143,9 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->parent_id; ?>"
 								item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>"
 								level="<?php echo $item->level; ?>">
+								<td class="text-center">
+									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+								</td>
 								<?php if ($menuType) : ?>
 									<td class="order text-center d-none d-md-table-cell">
 										<?php
@@ -166,9 +169,6 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 										<?php endif; ?>
 									</td>
 								<?php endif; ?>
-								<td class="text-center">
-									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
-								</td>
 								<td class="text-center">
 									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'items.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 								</td>
