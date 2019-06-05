@@ -158,9 +158,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 														<button type="button" class="dropdown-item" data-target="#moduleEdit<?php echo $module->id; ?>Modal" data-toggle="modal" title="<?php echo Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>">
 															<?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></button>
 													<?php else : ?>
-														<button type="button" href="#" class="disabled" disabled="disabled">
-															<span class="dropdown-item"><?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></span>
-														</button>
+														<span class="dropdown-item"><?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></span>
 													<?php endif; ?>
 												<?php endforeach; ?>
 											</div>
