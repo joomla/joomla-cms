@@ -98,13 +98,15 @@ class NotesModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
+				$search3 = (int) substr($search, 3);
 				$query->where($db->quoteName('a.id') . ' = :id');
-				$query->bind(':id', (int) substr($search, 3), ParameterType::INTEGER);
+				$query->bind(':id', $search3, ParameterType::INTEGER);
 			}
 			elseif (stripos($search, 'uid:') === 0)
 			{
-				$query->where($db->quoteName('a.id') . ' = :id');
-				$query->bind(':id', (int) substr($search, 4), ParameterType::INTEGER);
+				$search4 = (int) substr($search, 4);
+				$query->where($db->quoteName('a.user_id') . ' = :id');
+				$query->bind(':id', $search4, ParameterType::INTEGER);
 			}
 			else
 			{
