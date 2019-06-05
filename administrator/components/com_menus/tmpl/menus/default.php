@@ -155,12 +155,12 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 												<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
 													<?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
 														<?php $link = Route::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
-														<a class="dropdown-item" href="#moduleEdit<?php echo $module->id; ?>Modal" class="button" data-toggle="modal" title="<?php echo Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>">
-															<?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></a>
+														<button type="button" class="dropdown-item" href="#moduleEdit<?php echo $module->id; ?>Modal" data-toggle="modal" title="<?php echo Text::_('COM_MENUS_EDIT_MODULE_SETTINGS2'); ?>">
+															<?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></button>
 													<?php else : ?>
-														<a role="button" href="#" class="disabled" disabled="disabled">
+														<button type="button" href="#" class="disabled" disabled="disabled">
 															<span class="dropdown-item"><?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></span>
-														</a>
+														</button>
 													<?php endif; ?>
 												<?php endforeach; ?>
 											</div>
