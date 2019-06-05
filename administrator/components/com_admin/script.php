@@ -1968,7 +1968,10 @@ class JoomlaInstallerScript
 			/*
 			 * Joomla! 3.8.0 thru 3.9.0
 			 */
+			'/administrator/components/com_users/controllers/profile.json.php',
 			'/administrator/includes/toolbar.php',
+			'/components/com_users/controllers/profile_base_json.php',
+			'/components/com_users/controllers/profile.json.php',
 			'/libraries/joomla/filesystem/file.php',
 			'/libraries/joomla/filesystem/folder.php',
 			'/libraries/joomla/filesystem/helper.php',

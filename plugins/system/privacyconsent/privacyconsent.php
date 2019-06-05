@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -568,7 +569,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 		}
 
 		$app      = JFactory::getApplication();
-		$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
+		$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
 		foreach ($users as $user)
 		{
@@ -581,8 +582,8 @@ class PlgSystemPrivacyconsent extends JPlugin
 				$substitutions = array(
 					'[SITENAME]' => $app->get('sitename'),
 					'[URL]'      => JUri::root(),
-					'[TOKENURL]' => JRoute::link('site', 'index.php?option=com_privacy&view=remind&remind_token=' . $token, false, $linkMode),
-					'[FORMURL]'  => JRoute::link('site', 'index.php?option=com_privacy&view=remind', false, $linkMode),
+					'[TOKENURL]' => JRoute::link('site', 'index.php?option=com_privacy&view=remind&remind_token=' . $token, false, $linkMode, true),
+					'[FORMURL]'  => JRoute::link('site', 'index.php?option=com_privacy&view=remind', false, $linkMode, true),
 					'[TOKEN]'    => $token,
 					'\\n'        => "\n",
 				);
