@@ -498,7 +498,7 @@ abstract class AdminModel extends FormModel
 				)
 				->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
 				->where($db->quoteName('t.id') . ' = ' . $this->table->asset_id);
-	
+
 			$db->setQuery($query)->execute();
 
 			$this->cleanupPostBatchCopy($this->table, $newId, $pk);
