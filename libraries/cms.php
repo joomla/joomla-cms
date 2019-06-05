@@ -42,6 +42,18 @@ spl_autoload_register(array(new JClassLoader($loader), 'loadClass'), true, true)
 // Register the class aliases for Framework classes that have replaced their Platform equivilents
 require_once JPATH_LIBRARIES . '/classmap.php';
 
+// Suppress phar stream wrapper for non .phar files
+$behavior = new \TYPO3\PharStreamWrapper\Behavior;
+\TYPO3\PharStreamWrapper\Manager::initialize(
+	$behavior->withAssertion(new \TYPO3\PharStreamWrapper\Interceptor\PharExtensionInterceptor)
+);
+
+if (in_array('phar', stream_get_wrappers()))
+{
+	stream_wrapper_unregister('phar');
+	stream_wrapper_register('phar', 'TYPO3\\PharStreamWrapper\\PharStreamWrapper');
+}
+
 // Define the Joomla version if not already defined.
 if (!defined('JVERSION'))
 {

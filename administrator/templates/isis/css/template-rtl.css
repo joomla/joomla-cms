@@ -9111,11 +9111,13 @@ input:focus,
 	column-gap: 15px;
 }
 #menu-assignment .menu-links > li {
+	display: inline-block;
 	vertical-align: top;
 	margin-bottom: 15px;
 	width: 100%;
 	list-style: none;
 	page-break-inside: avoid;
+	break-inside: avoid;
 }
 #menu-assignment .menu-links-block {
 	background-color: #fafafa;
@@ -10092,4 +10094,8 @@ a.grid_true {
 .dropdown-reverse {
 	left: 0;
 	right: auto;
+}
+.com_cpanel .well > .row-striped > .row-fluid [class*="span"],
+.com_cpanel .well > .list-striped > .row-fluid [class*="span"] {
+	margin-right: 0;
 }
