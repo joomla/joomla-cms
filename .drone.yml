@@ -26,7 +26,7 @@ steps:
       - composer install --no-progress --no-suggest
 
   - name: phpcs
-    image: php:7.2
+    image: joomlaprojects/docker-php72:develop
     depends_on: [ composer ]
     commands:
       - echo $(date)
@@ -55,7 +55,7 @@ steps:
 
   - name: php72-unit
     depends_on: [ phpcs ]
-    image: php:7.2
+    image: joomlaprojects/docker-php72:develop
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
@@ -85,7 +85,7 @@ steps:
 
   - name: php72-integration
     depends_on: [ phpcs ]
-    image: php:7.2
+    image: joomlaprojects/docker-php72:develop
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
@@ -115,7 +115,7 @@ steps:
 
   - name: php72-integration-pgsql
     depends_on: [ phpcs ]
-    image: php:7.2
+    image: joomlaprojects/docker-php72:develop
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
@@ -233,6 +233,6 @@ services:
 
 ---
 kind: signature
-hmac: 399ca1dd0bbdf64dbf6a1ee57c7d9792e63b2a5c2c1d5599fe70811fb72b8706
+hmac: 5cbc6d695236cdb1bb6fa5873903bc40a5ac8ba58d229fac893f7d5f0273406b
 
 ...
