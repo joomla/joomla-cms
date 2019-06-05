@@ -245,6 +245,7 @@
 
 	// method for hack the scripts that can be related
 	// to the one of field that in given $row
+	// @TODO Stop using this function. Elements within subforms should initialize themselves
 	$.subformRepeatable.prototype.fixScripts = function($row){
 		// fix media field
 		$row.find('a[onclick*="jInsertFieldValue"]').each(function(){
@@ -257,11 +258,6 @@
 			// update select button
 			$select.attr('href', oldHref.replace(/&fieldid=(.+)&/, '&fieldid=' + inputId + '&'));
 		});
-
-		// bootstrap based User field
-		if($.fn.fieldUser){
-			$row.find('.field-user-wrapper').fieldUser();
-		}
 	};
 
 	// defaults

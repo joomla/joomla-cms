@@ -111,7 +111,7 @@ class PlgExtensionJoomla extends JPlugin
 	 *
 	 * @since   1.6
 	 */
-	public function onExtensionAfterInstall($installer, $eid )
+	public function onExtensionAfterInstall($installer, $eid)
 	{
 		if ($eid)
 		{
