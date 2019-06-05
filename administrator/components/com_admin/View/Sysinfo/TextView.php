@@ -51,7 +51,7 @@ class TextView extends AbstractView
 
 		$data = $this->getLayoutData();
 
-		$lines = array();
+		$lines = [];
 
 		foreach ($data as $sectionName => $section)
 		{
@@ -84,32 +84,32 @@ class TextView extends AbstractView
 		/** @var SysInfoModel $model */
 		$model = $this->getModel();
 
-		return array(
-			'info' => array(
+		return [
+			'info' => [
 				'title' => Text::_('COM_ADMIN_SYSTEM_INFORMATION', true),
 				'data'  => $model->getSafeData('info')
-			),
-			'phpSettings' => array(
+			],
+			'phpSettings' => [
 				'title' => Text::_('COM_ADMIN_PHP_SETTINGS', true),
 				'data'  => $model->getSafeData('phpSettings')
-			),
-			'config' => array(
+			],
+			'config' => [
 				'title' => Text::_('COM_ADMIN_CONFIGURATION_FILE', true),
 				'data'  => $model->getSafeData('config')
-			),
-			'directories' => array(
+			],
+			'directories' => [
 				'title' => Text::_('COM_ADMIN_DIRECTORY_PERMISSIONS', true),
 				'data'  => $model->getSafeData('directory', true)
-			),
-			'phpInfo' => array(
+			],
+			'phpInfo' => [
 				'title' => Text::_('COM_ADMIN_PHP_INFORMATION', true),
 				'data'  => $model->getSafeData('phpInfoArray')
-			),
-			'extensions' => array(
+			],
+			'extensions' => [
 				'title' => Text::_('COM_ADMIN_EXTENSIONS', true),
 				'data'  => $model->getSafeData('extensions')
-			)
-		);
+			]
+		];
 	}
 
 	/**
@@ -125,7 +125,7 @@ class TextView extends AbstractView
 	 */
 	protected function renderSection(string $sectionName, array $sectionData, int $level = 0): string
 	{
-		$lines = array();
+		$lines = [];
 
 		$margin = ($level > 0) ? str_repeat("\t", $level) : null;
 

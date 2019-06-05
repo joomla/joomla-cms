@@ -33,7 +33,7 @@ class HtmlView extends BaseHtmlView
 	 * @var    array
 	 * @since  1.6
 	 */
-	protected $phpSettings = array();
+	protected $phpSettings = [];
 
 	/**
 	 * Config values
@@ -41,7 +41,7 @@ class HtmlView extends BaseHtmlView
 	 * @var    array
 	 * @since  1.6
 	 */
-	protected $config = array();
+	protected $config = [];
 
 	/**
 	 * Some system values
@@ -49,7 +49,7 @@ class HtmlView extends BaseHtmlView
 	 * @var    array
 	 * @since  1.6
 	 */
-	protected $info = array();
+	protected $info = [];
 
 	/**
 	 * PHP info
@@ -65,7 +65,7 @@ class HtmlView extends BaseHtmlView
 	 * @var    array
 	 * @since  1.6
 	 */
-	protected $directory = array();
+	protected $directory = [];
 
 	/**
 	 * Execute and display a template script.

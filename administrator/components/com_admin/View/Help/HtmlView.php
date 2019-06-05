@@ -54,7 +54,7 @@ class HtmlView extends BaseHtmlView
 	 * @var    array
 	 * @since  1.6
 	 */
-	protected $toc = array();
+	protected $toc = [];
 
 	/**
 	 * URL for the latest version check
