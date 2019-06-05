@@ -12,6 +12,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 
+if (!$list)
+{
+	return;
+}
+
 ?>
 <ul class="mod-articlescategory category-module mod-list">
 	<?php if ($grouped) : ?>
