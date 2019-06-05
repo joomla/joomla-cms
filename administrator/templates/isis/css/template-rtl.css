@@ -8917,10 +8917,6 @@ th .tooltip-inner {
 .img-preview > img {
 	max-height: 100%;
 }
-#helpsite-refresh {
-	padding: 4px 12px;
-	vertical-align: top;
-}
 .alert-no-items {
 	margin-top: 20px;
 }
@@ -10094,4 +10090,8 @@ a.grid_true {
 .dropdown-reverse {
 	left: 0;
 	right: auto;
+}
+.com_cpanel .well > .row-striped > .row-fluid [class*="span"],
+.com_cpanel .well > .list-striped > .row-fluid [class*="span"] {
+	margin-right: 0;
 }
