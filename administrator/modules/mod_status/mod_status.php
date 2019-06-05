@@ -3,14 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_status
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ModuleHelper;
 
 $user     = Factory::getUser();
 $app      = Factory::getApplication();
@@ -29,6 +30,8 @@ catch (RuntimeException $e)
 	// Still render the error message from the Exception object
 	$app->enqueueMessage($e->getMessage(), 'error');
 }
+
+$joomlaFilesExtensionId = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
 
 // Load the com_postinstall language file
 Factory::getLanguage()->load('com_postinstall', JPATH_ADMINISTRATOR, 'en-GB', true);

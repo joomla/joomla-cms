@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,65 +10,49 @@ namespace Joomla\CMS\MVC\Factory;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\CMSApplicationInterface;
-
 /**
- * Defines the trait for a MVC factory factory service class.
+ * Defines the trait for a MVC factory service class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 trait MVCFactoryServiceTrait
 {
 	/**
 	 * The MVC Factory.
 	 *
-	 * @var MVCFactoryFactoryInterface
+	 * @var MVCFactoryInterface
 	 */
-	private $mvcFactoryFactory;
-
-	/**
-	 * Creates an MVCFactory for the given application.
-	 *
-	 * @param   CMSApplicationInterface  $application  The application
-	 *
-	 * @return  MVCFactoryInterface
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function createMVCFactory(CMSApplicationInterface $application): MVCFactoryInterface
-	{
-		return $this->getMVCFactoryFactory()->createFactory($application);
-	}
-
-	/**
-	 * The MVC Factory to create MVCFactories from.
-	 *
-	 * @param   MVCFactoryFactoryInterface  $mvcFactoryFactory  The factory
-	 *
-	 * @return  void
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function setMvcFactoryFactory(MVCFactoryFactoryInterface $mvcFactoryFactory)
-	{
-		$this->mvcFactoryFactory = $mvcFactoryFactory;
-	}
+	private $mvcFactory;
 
 	/**
 	 * Get the factory.
 	 *
-	 * @return  MVCFactoryFactoryInterface
+	 * @return  MVCFactoryInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \UnexpectedValueException May be thrown if the factory has not been set.
 	 */
-	public function getMVCFactoryFactory()
+	public function getMVCFactory(): MVCFactoryInterface
 	{
-		if (!$this->mvcFactoryFactory)
+		if (!$this->mvcFactory)
 		{
-			throw new \UnexpectedValueException('MVC factory factory not set in ' . __CLASS__);
+			throw new \UnexpectedValueException('MVC factory not set in ' . __CLASS__);
 		}
 
-		return $this->mvcFactoryFactory;
+		return $this->mvcFactory;
+	}
+
+	/**
+	 * The MVC Factory.
+	 *
+	 * @param   MVCFactoryInterface  $mvcFactory  The factory
+	 *
+	 * @return  void
+	 *
+	 * @since  4.0.0
+	 */
+	public function setMvcFactory(MVCFactoryInterface $mvcFactory)
+	{
+		$this->mvcFactory = $mvcFactory;
 	}
 }

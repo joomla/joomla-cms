@@ -3,17 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Modules\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Modules manager master display controller.
@@ -45,12 +49,27 @@ class DisplayController extends BaseController
 		$layout = $this->input->get('layout', 'edit');
 		$id     = $this->input->getInt('id');
 
+		// Verify client
+		$clientId = $this->input->post->getInt('client_id');
+
+		if (!is_null($clientId))
+		{
+			$uri = Uri::getInstance();
+
+			if ((int) $uri->getVar('client_id') !== (int) $clientId)
+			{
+				$this->setRedirect(Route::_('index.php?option=com_modules&view=modules&client_id=' . $clientId, false));
+
+				return false;
+			}
+		}
+
 		// Check for edit form.
 		if ($layout == 'edit' && !$this->checkEditId('com_modules.edit.module', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
-			$this->setRedirect(\JRoute::_('index.php?option=com_modules&view=modules', false));
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			$this->setRedirect(Route::_('index.php?option=com_modules&view=modules&client_id=' . $this->input->getInt('client_id'), false));
 
 			return false;
 		}
@@ -78,12 +97,12 @@ class DisplayController extends BaseController
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
 
-			$query->select($db->qn('m.language'))
-				->from($db->qn('#__modules', 'm'))
-				->where($db->qn('m.module') . ' = ' . $db->quote('mod_menu'))
-				->where($db->qn('m.published') . ' = 1')
-				->where($db->qn('m.client_id') . ' = 1')
-				->group($db->qn('m.language'));
+			$query->select($db->quoteName('m.language'))
+				->from($db->quoteName('#__modules', 'm'))
+				->where($db->quoteName('m.module') . ' = ' . $db->quote('mod_menu'))
+				->where($db->quoteName('m.published') . ' = 1')
+				->where($db->quoteName('m.client_id') . ' = 1')
+				->group($db->quoteName('m.language'));
 
 			$mLanguages = $db->setQuery($query)->loadColumn();
 
@@ -93,7 +112,7 @@ class DisplayController extends BaseController
 				$app         = Factory::getApplication();
 				$langMissing = array_intersect_key($langCodes, array_flip($langMissing));
 
-				$app->enqueueMessage(\JText::sprintf('JMENU_MULTILANG_WARNING_MISSING_MODULES', implode(', ', $langMissing)), 'warning');
+				$app->enqueueMessage(Text::sprintf('JMENU_MULTILANG_WARNING_MISSING_MODULES', implode(', ', $langMissing)), 'warning');
 			}
 		}
 

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Loads extensions.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface ExtensionManagerInterface
 {
@@ -24,7 +24,31 @@ interface ExtensionManagerInterface
 	 *
 	 * @return  ComponentInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function bootComponent($component): ComponentInterface;
+
+	/**
+	 * Boots the module with the given name.
+	 *
+	 * @param   string  $module           The module to boot
+	 * @param   string  $applicationName  The application name
+	 *
+	 * @return  ModuleInterface
+	 *
+	 * @since   4.0.0
+	 */
+	public function bootModule($module, $applicationName): ModuleInterface;
+
+	/**
+	 * Boots the plugin with the given name and type.
+	 *
+	 * @param   string  $plugin  The plugin name
+	 * @param   string  $type    The type of the plugin
+	 *
+	 * @return  PluginInterface
+	 *
+	 * @since   4.0.0
+	 */
+	public function bootPlugin($plugin, $type): PluginInterface;
 }

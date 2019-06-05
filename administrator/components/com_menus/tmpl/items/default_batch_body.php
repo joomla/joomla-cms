@@ -3,88 +3,78 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+
 $options = array(
-	JHtml::_('select.option', 'c', JText::_('JLIB_HTML_BATCH_COPY')),
-	JHtml::_('select.option', 'm', JText::_('JLIB_HTML_BATCH_MOVE'))
+	HTMLHelper::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
+	HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
 );
 $published = $this->state->get('filter.published');
 $clientId  = $this->state->get('filter.client_id');
-$menuType  = JFactory::getApplication()->getUserState('com_menus.items.menutype');
+$menuType  = Factory::getApplication()->getUserState('com_menus.items.menutype');
 if ($clientId == 1) :
-	JFactory::getDocument()->addScriptDeclaration(
-		'
-			jQuery(document).ready(function($){
-				if ($("#batch-menu-id").length){var batchSelector = $("#batch-menu-id");}
-				if ($("#batch-copy-move").length) {
-					$("#batch-copy-move").hide();
-					batchSelector.on("change", function(){
-						if (batchSelector.val() != 0 || batchSelector.val() != "") {
-							$("#batch-copy-move").show();
-						} else {
-							$("#batch-copy-move").hide();
-						}
-					});
-				}
-			});
-		'
-	);
+	HTMLHelper::_('script', 'com_menus/default-batch-body.min.js', ['version' => 'auto', 'relative' => true]);
 endif;
 
 ?>
 <div class="container">
 	<?php if (strlen($menuType) && $menuType != '*') : ?>
 	<?php if ($clientId != 1) : ?>
-    <div class="row">
-        <div class="form-group col-md-6">
+	<div class="row">
+		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo JHtml::_('batch.language'); ?>
+				<?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
 			</div>
 		</div>
 		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo JHtml::_('batch.access'); ?>
+				<?php echo LayoutHelper::render('joomla.html.batch.access', []); ?>
 			</div>
 		</div>
 	</div>
 	<?php endif; ?>
-    <div class="row">
+	<div class="row">
 		<?php if ($published >= 0) : ?>
-			<div id="batch-choose-action" class="combo control-group">
-				<label id="batch-choose-action-lbl" class="control-label" for="batch-menu-id">
-					<?php echo JText::_('COM_MENUS_BATCH_MENU_LABEL'); ?>
-				</label>
+			<div class="form-group col-md-6">
 				<div class="controls">
+					<label id="batch-choose-action-lbl" for="batch-menu-id">
+						<?php echo Text::_('COM_MENUS_BATCH_MENU_LABEL'); ?>
+					</label>
 					<select class="custom-select" name="batch[menu_id]" id="batch-menu-id">
-						<option value=""><?php echo JText::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
+						<option value=""><?php echo Text::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
 						<?php
 						$opts     = array(
 							'published' => $published,
 							'checkacl'  => (int) $this->state->get('menutypeid'),
 							'clientid'  => (int) $clientId,
 						);
-						echo JHtml::_('select.options', JHtml::_('menu.menuitems', $opts));
+						echo HTMLHelper::_('select.options', HTMLHelper::_('menu.menuitems', $opts));
 						?>
 					</select>
 				</div>
-			</div>
-			<div id="batch-copy-move" class="control-group radio">
-				<?php echo JText::_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
-				<?php echo JHtml::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
+
+				<div id="batch-copy-move" class="control-group radio">
+					<?php echo Text::_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
+					<?php echo HTMLHelper::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
+				</div>
 			</div>
 		<?php endif; ?>
 
 		<?php if ($published < 0 && $clientId == 1): ?>
-			<p><?php echo JText::_('COM_MENUS_SELECT_MENU_FILTER_NOT_TRASHED'); ?></p>
+			<p><?php echo Text::_('COM_MENUS_SELECT_MENU_FILTER_NOT_TRASHED'); ?></p>
 		<?php endif; ?>
 	</div>
 	<?php else : ?>
 	<div class="row">
-		<p><?php echo JText::_('COM_MENUS_SELECT_MENU_FIRST'); ?></p>
+		<p><?php echo Text::_('COM_MENUS_SELECT_MENU_FIRST'); ?></p>
 	</div>
 	<?php endif; ?>
 </div>

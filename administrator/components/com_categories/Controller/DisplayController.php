@@ -3,15 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Categories\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Router\Route;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 
 /**
@@ -51,7 +54,7 @@ class DisplayController extends BaseController
 	{
 		parent::__construct($config, $factory, $app, $input);
 
-		// Guess the \JText message prefix. Defaults to the option.
+		// Guess the Text message prefix. Defaults to the option.
 		if (empty($this->extension))
 		{
 			$this->extension = $this->input->get('extension', 'com_content');
@@ -71,7 +74,7 @@ class DisplayController extends BaseController
 	public function display($cachable = false, $urlparams = array())
 	{
 		// Get the document object.
-		$document = \JFactory::getDocument();
+		$document = $this->app->getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', 'categories');
@@ -83,8 +86,8 @@ class DisplayController extends BaseController
 		if ($vName == 'category' && $lName == 'edit' && !$this->checkEditId('com_categories.edit.category', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
-			$this->setRedirect(\JRoute::_('index.php?option=com_categories&view=categories&extension=' . $this->extension, false));
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			$this->setRedirect(Route::_('index.php?option=com_categories&view=categories&extension=' . $this->extension, false));
 
 			return false;
 		}

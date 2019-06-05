@@ -3,9 +3,10 @@
  * @package     Joomla.Administrator
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Search\Administrator\Controller;
 
 defined('_JEXEC') or die;
@@ -27,7 +28,7 @@ class SearchesController extends BaseController
 	public function reset()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$model = $this->getModel('Searches');
 
@@ -47,7 +48,7 @@ class SearchesController extends BaseController
 	public function toggleResults()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		if ($this->getModel('Searches')->getState('show_results', 1, 'int') === 0)
 		{

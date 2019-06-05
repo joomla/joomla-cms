@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,11 +12,12 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheController;
+use Joomla\CMS\Factory;
 
 /**
  * Joomla! Cache callback type object
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class CallbackController extends CacheController
 {
@@ -31,7 +32,7 @@ class CallbackController extends CacheController
 	 *
 	 * @return  mixed  Result of the callback
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function get($callback, $args = array(), $id = false, $wrkarounds = false, $woptions = array())
 	{
@@ -99,7 +100,7 @@ class CallbackController extends CacheController
 
 		if (isset($woptions['modulemode']) && $woptions['modulemode'] == 1)
 		{
-			$document = \JFactory::getDocument();
+			$document = Factory::getDocument();
 
 			if (method_exists($document, 'getHeadData'))
 			{
@@ -148,6 +149,38 @@ class CallbackController extends CacheController
 	}
 
 	/**
+	 * Store data to cache by ID and group
+	 *
+	 * @param   mixed    $data        The data to store
+	 * @param   string   $id          The cache data ID
+	 * @param   string   $group       The cache data group
+	 * @param   boolean  $wrkarounds  True to use wrkarounds
+	 *
+	 * @return  boolean  True if cache stored
+	 *
+	 * @since   4.0.0
+	 */
+	public function store($data, $id, $group = null, $wrkarounds = true)
+	{
+		$locktest = $this->cache->lock($id, $group);
+
+		if ($locktest->locked === false && $locktest->locklooped === true)
+		{
+			// We can not store data because another process is in the middle of saving
+			return false;
+		}
+
+		$result = $this->cache->store(serialize($data), $id, $group);
+
+		if ($locktest->locked === true)
+		{
+			$this->cache->unlock($id, $group);
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Generate a callback cache ID
 	 *
 	 * @param   callback  $callback  Callback to cache
@@ -155,7 +188,7 @@ class CallbackController extends CacheController
 	 *
 	 * @return  string  MD5 Hash
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _makeId($callback, $args)
 	{

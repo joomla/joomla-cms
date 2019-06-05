@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 
-	<fieldset addfieldprefix="Joomla\Component\Categories\Administrator\Field">
+	<fieldset addfieldprefix="Joomla\Component\Contact\Administrator\Field">
 
 		<field
 			name="id"
@@ -9,7 +9,6 @@
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			class="readonly"
-			size="10"
 			readonly="true"
 		/>
 
@@ -17,7 +16,6 @@
 			name="name"
 			type="text"
 			label="COM_CONTACT_FIELD_NAME_LABEL"
-			class="input-xxlarge input-large-text"
 			size="40"
 			required="true"
 		 />
@@ -34,7 +32,6 @@
 			name="version_note"
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-			labelclass="control-label"
 			size="45"
 			maxlength="255"
 		/>
@@ -64,9 +61,9 @@
 		<field
 			name="catid"
 			type="categoryedit"
-			class="advancedSelect"
 			label="JCATEGORY"
 			extension="com_contact"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			required="true"
 			default=""
 		/>
@@ -410,17 +407,6 @@
 			</field>
 
 			<field
-				name="presentation_style"
-				type="list"
-				label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
-				useglobal="true"
-				>
-				<option value="sliders">COM_CONTACT_FIELD_VALUE_SLIDERS</option>
-				<option value="tabs">COM_CONTACT_FIELD_VALUE_TABS</option>
-				<option value="plain">COM_CONTACT_FIELD_VALUE_PLAIN</option>
-			</field>
-
-			<field
 				name="show_tags"
 				type="list"
 				label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
@@ -761,6 +747,7 @@
 				name="contact_layout"
 				type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
+				class="custom-select"
 				extension="com_contact"
 				view="contact"
 				useglobal="true"
@@ -875,7 +862,6 @@
 		type="number"
 		label="JGLOBAL_HITS"
 		class="readonly"
-		size="6"
 		readonly="true"
 		filter="unset"
 	/>

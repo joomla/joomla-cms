@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,8 +12,9 @@ namespace Joomla\CMS\Image\Filter;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Image\ImageFilter;
+use Joomla\CMS\Log\Log;
 
-\JLog::add('JImageFilterBackgroundfill is deprecated, use Joomla\Image\Filter\Backgroundfill instead.', \JLog::WARNING, 'deprecated');
+Log::add('JImageFilterBackgroundfill is deprecated, use Joomla\Image\Filter\Backgroundfill instead.', Log::WARNING, 'deprecated');
 
 /**
  * Image Filter class fill background with color;

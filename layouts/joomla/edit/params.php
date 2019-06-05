@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,8 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $app       = Factory::getApplication();
 $form      = $displayData->getForm();
@@ -28,26 +28,17 @@ $ignoreFields    = $displayData->get('ignore_fields') ?: array();
 $extraFields     = $displayData->get('extra_fields') ?: array();
 $tabName         = $displayData->get('tab_name') ?: 'myTab';
 
-if (!empty($displayData->hiddenFieldsets))
-{
-	// These are required to preserve data on save when fields are not displayed.
-	$hiddenFieldsets = $displayData->hiddenFieldsets ?: array();
-}
+// These are required to preserve data on save when fields are not displayed.
+$hiddenFieldsets = $displayData->get('hiddenFieldsets') ?: array();
 
-if (!empty($displayData->configFieldsets))
-{
-	// These are required to configure showing and hiding fields in the editor.
-	$configFieldsets = $displayData->configFieldsets ?: array();
-}
+// These are required to configure showing and hiding fields in the editor.
+$configFieldsets = $displayData->get('configFieldsets') ?: array();
 
 // Handle the hidden fieldsets when show_options is set false
 if (!$displayData->get('show_options', 1))
 {
 	// The HTML buffer
 	$html   = array();
-
-	// Hide the whole buffer
-	$html[] = '<div style="display:none;">';
 
 	// Loop over the fieldsets
 	foreach ($fieldSets as $name => $fieldSet)
@@ -79,9 +70,6 @@ if (!$displayData->get('show_options', 1))
 			$ignoreFieldsets[] = $name;
 		}
 	}
-
-	// Close the container
-	$html[] = '</div>';
 
 	// Echo the hidden fieldsets
 	echo implode('', $html);
@@ -115,13 +103,15 @@ foreach ($fieldSets as $name => $fieldSet)
 		$label = Text::_($label);
 	}
 
+	$helper = $displayData->get('useCoreUI', false) ? 'uitab' : 'bootstrap';
+
 	// Start the tab
-	echo HTMLHelper::_('bootstrap.addTab', $tabName, 'attrib-' . $name, $label);
+	echo HTMLHelper::_($helper . '.addTab', $tabName, 'attrib-' . $name, $label);
 
 	// Include the description when available
 	if (isset($fieldSet->description) && trim($fieldSet->description))
 	{
-		echo '<joomla-alert type="info">' . $this->escape(Text::_($fieldSet->description)) . '</joomla-alert>';
+		echo '<div class="alert alert-info">' . $this->escape(Text::_($fieldSet->description)) . '</div>';
 	}
 
 	// The name of the fieldset to render
@@ -134,5 +124,5 @@ foreach ($fieldSets as $name => $fieldSet)
 	echo LayoutHelper::render('joomla.edit.fieldset', $displayData);
 
 	// End the tab
-	echo HTMLHelper::_('bootstrap.endTab');
+	echo HTMLHelper::_($helper . '.endTab');
 }

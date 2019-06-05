@@ -3,14 +3,22 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Banners\Administrator\View\Tracks;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 
 /**
@@ -59,14 +67,12 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		BannersHelper::addSubmenu('tracks');
 
 		$this->addToolbar();
-
-		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}
@@ -80,21 +86,21 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$canDo = \JHelperContent::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
+		$canDo = ContentHelper::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
 
-		\JToolbarHelper::title(\JText::_('COM_BANNERS_MANAGER_TRACKS'), 'bookmark banners-tracks');
+		ToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_TRACKS'), 'bookmark banners-tracks');
 
-		$bar = \JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
-		// Instantiate a new \JLayoutFile instance and render the export button
-		$layout = new \JLayoutFile('joomla.toolbar.modal');
+		// Instantiate a new FileLayout instance and render the export button
+		$layout = new FileLayout('joomla.toolbar.modal');
 
 		$dhtml  = $layout->render(
 			array(
 				'selector' => 'downloadModal',
-				'icon'     => 'download',
-				'text'     => \JText::_('JTOOLBAR_EXPORT'),
-				'doTask'   => \JRoute::_('index.php?option=com_banners&view=download&tmpl=component'),
+				'icon'     => 'icon-download',
+				'text'     => Text::_('JTOOLBAR_EXPORT'),
+				'doTask'   => Route::_('index.php?option=com_banners&view=download&tmpl=component'),
 			)
 		);
 
@@ -107,12 +113,10 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			\JToolbarHelper::preferences('com_banners');
+			ToolbarHelper::preferences('com_banners');
 		}
 
-		\JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_TRACKS');
-
-		\JHtmlSidebar::setAction('index.php?option=com_banners&view=tracks');
+		ToolbarHelper::help('JHELP_COMPONENTS_BANNERS_TRACKS');
 	}
 
 	/**
@@ -125,11 +129,11 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'b.name'     => \JText::_('COM_BANNERS_HEADING_NAME'),
-			'cl.name'    => \JText::_('COM_BANNERS_HEADING_CLIENT'),
-			'track_type' => \JText::_('COM_BANNERS_HEADING_TYPE'),
-			'count'      => \JText::_('COM_BANNERS_HEADING_COUNT'),
-			'track_date' => \JText::_('JDATE')
+			'b.name'     => Text::_('COM_BANNERS_HEADING_NAME'),
+			'cl.name'    => Text::_('COM_BANNERS_HEADING_CLIENT'),
+			'track_type' => Text::_('COM_BANNERS_HEADING_TYPE'),
+			'count'      => Text::_('COM_BANNERS_HEADING_COUNT'),
+			'track_date' => Text::_('JDATE')
 		);
 	}
 }

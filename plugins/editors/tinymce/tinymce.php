@@ -3,24 +3,24 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\Event\Event;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Event\Event;
 
 /**
  * TinyMCE Editor Plugin
@@ -47,7 +47,7 @@ class PlgEditorTinymce extends CMSPlugin
 	/**
 	 * Loads the application object
 	 *
-	 * @var    JApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  3.2
 	 */
 	protected $app = null;
@@ -63,7 +63,7 @@ class PlgEditorTinymce extends CMSPlugin
 	{
 		HTMLHelper::_('behavior.core');
 		HTMLHelper::_('script', $this->_basePath . '/tinymce.min.js', array('version' => 'auto'));
-		HTMLHelper::_('script', 'editors/tinymce/tinymce.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('script', 'plg_editors_tinymce/tinymce.min.js', array('version' => 'auto', 'relative' => true));
 	}
 
 	/**
@@ -139,11 +139,6 @@ class PlgEditorTinymce extends CMSPlugin
 		{
 			$btns = $this->tinyButtons($id, $buttons);
 
-			if (!empty($btns['names']))
-			{
-				HTMLHelper::_('script', 'editors/tinymce/tiny-close.min.js', array('version' => 'auto', 'relative' => true), array('defer' => 'defer'));
-			}
-
 			// Set editor to readonly mode
 			if (!empty($params['readonly']))
 			{
@@ -166,7 +161,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 		$user     = Factory::getUser();
 		$language = Factory::getLanguage();
-		$theme    = 'modern';
+		$theme    = 'silver';
 		$ugroups  = array_combine($user->getAuthorisedGroups(), $user->getAuthorisedGroups());
 
 		// Prepare the parameters
@@ -197,10 +192,10 @@ class PlgEditorTinymce extends CMSPlugin
 		$levelParams->loadObject($extraOptions);
 
 		// List the skins
-		$skindirs = glob(JPATH_ROOT . '/media/vendor/tinymce/skins' . '/*', GLOB_ONLYDIR);
+		$skindirs = glob(JPATH_ROOT . '/media/vendor/tinymce/skins/ui' . '/*', GLOB_ONLYDIR);
 
 		// Set the selected skin
-		$skin = 'lightgray';
+		$skin = 'oxide';
 		$side = $app->isClient('administrator') ? 'skin_admin' : 'skin';
 
 		if ((int) $levelParams->get($side, 0) < count($skindirs))
@@ -349,6 +344,16 @@ class PlgEditorTinymce extends CMSPlugin
 			$html_width = '';
 		}
 
+		if (is_numeric($html_width))
+		{
+			$html_width .= 'px';
+		}
+
+		if (is_numeric($html_height))
+		{
+			$html_height .= 'px';
+		}
+
 		// The param is true for vertical resizing only, false or both
 		$resizing          = (bool) $levelParams->get('resizing', true);
 		$resize_horizontal = (bool) $levelParams->get('resize_horizontal', true);
@@ -363,7 +368,6 @@ class PlgEditorTinymce extends CMSPlugin
 			'autolink',
 			'lists',
 			'save',
-			'colorpicker',
 			'importcss',
 		);
 
@@ -460,7 +464,7 @@ class PlgEditorTinymce extends CMSPlugin
 		}
 
 		// Check for extra plugins, from the setoptions form
-		foreach (array('wordcount' => 1, 'advlist' => 1, 'autosave' => 1, 'contextmenu' => 1) as $pName => $def)
+		foreach (array('wordcount' => 1, 'advlist' => 1, 'autosave' => 1) as $pName => $def)
 		{
 			if ($levelParams->get($pName, $def))
 			{
@@ -474,11 +478,11 @@ class PlgEditorTinymce extends CMSPlugin
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
-			$externalPlugins['jdragndrop'] = Uri::root() . 'media/editors/tinymce/js/plugins/dragdrop/plugin.min.js';
+			$externalPlugins['jdragndrop'] = Uri::root() . 'media/plg_editors_tinymce/js/plugins/dragdrop/plugin.min.js';
 
 			$allowImgPaste = true;
 			$isSubDir      = '';
-			$session       = Factory::getSession();
+			$session       = $this->app->getSession();
 			$uploadUrl     = Uri::base() . 'index.php?option=com_media&task=file.upload&tmpl=component&'
 				. $session->getName() . '=' . $session->getId()
 				. '&' . Session::getFormToken() . '=1'
@@ -511,6 +515,9 @@ class PlgEditorTinymce extends CMSPlugin
 			$scriptOptions['uploadUri']       = $uploadUrl;
 		}
 
+		// Convert pt to px in dropdown
+		$scriptOptions['fontsize_formats'] = '8px 10px 12px 14px 18px 24px 36px';
+
 		// User custom plugins and buttons
 		$custom_plugin = trim($levelParams->get('custom_plugin', ''));
 		$custom_button = trim($levelParams->get('custom_button', ''));
@@ -524,7 +531,7 @@ class PlgEditorTinymce extends CMSPlugin
 		if ($custom_button)
 		{
 			$separator = strpos($custom_button, ',') !== false ? ',' : ' ';
-			$toolbar2  = array_merge($toolbar2, explode($separator, $custom_button));
+			$toolbar1  = array_merge($toolbar1, explode($separator, $custom_button));
 		}
 
 		// Build the final options set
@@ -702,11 +709,12 @@ class PlgEditorTinymce extends CMSPlugin
 
 					$coreButton = [];
 
-					$coreButton['name']  = $btnName;
-					$coreButton['href']  = $href;
-					$coreButton['id']    = $modalId;
-					$coreButton['icon']  = 'none icon-' . $icon;
-					$coreButton['click'] = $onclick;
+					$coreButton['name']    = $btnName;
+					$coreButton['href']    = $href;
+					$coreButton['id']      = $modalId;
+					$coreButton['icon']    = $icon;
+					$coreButton['click']   = $onclick;
+					$coreButton['iconSVG'] = $button->get('iconSVG');
 
 					// The array with the toolbar buttons
 					$btnsNames[] = $coreButton;
@@ -802,7 +810,7 @@ class PlgEditorTinymce extends CMSPlugin
 				}
 
 				// Collect the blacklist or whitelist tags and attributes.
-				// Each list is cummulative.
+				// Each list is cumulative.
 				if ($filterType === 'BL')
 				{
 					$blackList           = true;
@@ -950,8 +958,6 @@ class PlgEditorTinymce extends CMSPlugin
 			'removeformat'  => array('label' => 'Clear formatting'),
 
 			// Buttons from the plugins
-			'forecolor'      => array('label' => 'Text color', 'plugin' => 'textcolor'),
-			'backcolor'      => array('label' => 'Background color', 'plugin' => 'textcolor'),
 			'anchor'         => array('label' => 'Anchor', 'plugin' => 'anchor'),
 			'hr'             => array('label' => 'Horizontal line', 'plugin' => 'hr'),
 			'ltr'            => array('label' => 'Left to right', 'plugin' => 'directionality'),

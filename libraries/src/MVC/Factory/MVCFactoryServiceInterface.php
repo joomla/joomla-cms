@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,23 +10,20 @@ namespace Joomla\CMS\MVC\Factory;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\CMSApplicationInterface;
-
 /**
  * Interface to be implemented by classes depending on a MVC factory.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface MVCFactoryServiceInterface
 {
 	/**
-	 * Creates an MVCFactory for the given application.
-	 *
-	 * @param   CMSApplicationInterface  $application  The application
+	 * Get the factory.
 	 *
 	 * @return  MVCFactoryInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   4.0.0
+	 * @throws  \UnexpectedValueException May be thrown if the factory has not been set.
 	 */
-	public function createMVCFactory(CMSApplicationInterface $application): MVCFactoryInterface;
+	public function getMVCFactory(): MVCFactoryInterface;
 }

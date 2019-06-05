@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,9 +11,12 @@ namespace Joomla\CMS\Helper;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Table\CoreContent;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
+use Joomla\CMS\UCM\UCMContent;
+use Joomla\CMS\UCM\UCMType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -64,7 +67,7 @@ class TagsHelper extends CMSHelper
 		$db = $table->getDbo();
 		$key = $table->getKeyName();
 		$item = $table->$key;
-		$ucm = new \JUcmType($this->typeAlias, $db);
+		$ucm = new UCMType($this->typeAlias, $db);
 		$typeId = $ucm->getTypeId();
 
 		// Insert the new tag maps
@@ -145,7 +148,7 @@ class TagsHelper extends CMSHelper
 				// Remove duplicates
 				$aliases = array_unique($aliases);
 
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 
 				$query = $db->getQuery(true)
 					->select('alias, title')
@@ -217,7 +220,7 @@ class TagsHelper extends CMSHelper
 			Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
 			$tagTable  = Table::getInstance('Tag', 'TagsTable');
 			$newTags   = array();
-			$canCreate = \JFactory::getUser()->authorise('core.create', 'com_tags');
+			$canCreate = Factory::getUser()->authorise('core.create', 'com_tags');
 
 			foreach ($tags as $key => $tag)
 			{
@@ -333,7 +336,7 @@ class TagsHelper extends CMSHelper
 	public function getItemTags($contentType, $id, $getTagData = true)
 	{
 		// Initialize some variables.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('m.tag_id'))
 			->from($db->quoteName('#__contentitem_tag_map') . ' AS m ')
@@ -345,7 +348,7 @@ class TagsHelper extends CMSHelper
 				)
 			);
 
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		$query->where('t.access IN (' . $groups . ')');
@@ -407,7 +410,7 @@ class TagsHelper extends CMSHelper
 		$ids = explode(',', $ids);
 		$ids = ArrayHelper::toInteger($ids);
 
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Load the tags.
 		$query = $db->getQuery(true)
@@ -442,7 +445,7 @@ class TagsHelper extends CMSHelper
 	 * @param   string   $languageFilter   Optional filter on language. Options are 'all', 'current' or any string.
 	 * @param   string   $stateFilter      Optional filtering on publication state, defaults to published or unpublished.
 	 *
-	 * @return  \JDatabaseQuery  Query to retrieve a list of tags
+	 * @return  DatabaseQuery  Query to retrieve a list of tags
 	 *
 	 * @since   3.1
 	 */
@@ -450,11 +453,11 @@ class TagsHelper extends CMSHelper
 		$anyOrAll = true, $languageFilter = 'all', $stateFilter = '0,1')
 	{
 		// Create a new query object.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$nullDate = $db->quote($db->getNullDate());
-		$nowDate = $db->quote(\JFactory::getDate()->toSql());
+		$nowDate = $db->quote(Factory::getDate()->toSql());
 
 		// Force ids to array and sanitize
 		$tagIds = (array) $tagId;
@@ -599,7 +602,7 @@ class TagsHelper extends CMSHelper
 		{
 			$tagIds = ArrayHelper::toInteger($tagIds);
 
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__tags'))
@@ -665,7 +668,7 @@ class TagsHelper extends CMSHelper
 	public static function getTypes($arrayType = 'objectList', $selectTypes = null, $useAlias = true)
 	{
 		// Initialize some variables.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*');
 
@@ -749,7 +752,7 @@ class TagsHelper extends CMSHelper
 				$data = $this->getRowData($table);
 				$ucmContentTable = Table::getInstance('Corecontent');
 
-				$ucm = new \JUcmContent($table, $this->typeAlias);
+				$ucm = new UCMContent($table, $this->typeAlias);
 				$ucmData = $data ? $ucm->mapData($data) : $ucm->ucmData;
 
 				$primaryId = $ucm->getPrimaryKey($ucmData['common']['core_type_id'], $ucmData['common']['core_content_item_id']);
@@ -802,6 +805,7 @@ class TagsHelper extends CMSHelper
 			{
 				$newTags = implode(',', $newTags);
 			}
+
 			// We need to process tags if the tags have changed or if we have a new row
 			$this->tagsChanged = (empty($this->oldTags) && !empty($newTags)) ||(!empty($this->oldTags) && $this->oldTags != $newTags) || !$table->$key;
 		}
@@ -818,7 +822,7 @@ class TagsHelper extends CMSHelper
 	 */
 	public static function searchTags($filters = array())
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.id AS value')
 			->select('a.path AS text')
@@ -854,6 +858,13 @@ class TagsHelper extends CMSHelper
 		if (isset($filters['published']) && is_numeric($filters['published']))
 		{
 			$query->where('a.published = ' . (int) $filters['published']);
+		}
+
+		// Filter on the access level
+		if (isset($filters['access']) && is_array($filters['access']) && count($filters['access']))
+		{
+			$groups = ArrayHelper::toInteger($filters['access']);
+			$query->where('a.access IN (' . implode(",", $groups) . ')');
 		}
 
 		// Filter by parent_id
@@ -904,7 +915,7 @@ class TagsHelper extends CMSHelper
 	public function tagDeleteInstances($tag_id)
 	{
 		// Delete the old tag maps.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__contentitem_tag_map'))
 			->where($db->quoteName('tag_id') . ' = ' . (int) $tag_id);
@@ -975,7 +986,7 @@ class TagsHelper extends CMSHelper
 	{
 		$key = $table->getKeyName();
 		$id = $table->$key;
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->delete('#__contentitem_tag_map')
 			->where($db->quoteName('type_alias') . ' = ' . $db->quote($this->typeAlias))

@@ -3,25 +3,25 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Menus\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Components Category field.
  *
  * @since  1.6
  */
-class ComponentsCategoryField extends \JFormFieldList
+class ComponentsCategoryField extends ListField
 {
 	/**
 	 * The form field type.
@@ -64,7 +64,7 @@ class ComponentsCategoryField extends \JFormFieldList
 					|| $lang->load("$extension.sys", $source, null, false, true);
 
 				// Translate component name
-				$item->text = \JText::_($item->text);
+				$item->text = Text::_($item->text);
 			}
 
 			// Sort by component name

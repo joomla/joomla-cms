@@ -111,6 +111,22 @@
 	</fieldset>
 
 	<fieldset
+		name="domain_options"
+		label="COM_USERS_CONFIG_DOMAIN_OPTIONS"
+		>
+
+		<field
+			name="domains"
+			type="subform"
+			label="COM_USERS_CONFIG_FIELD_DOMAINS_LABEL"
+			description="COM_USERS_CONFIG_FIELD_DOMAINS_DESC"
+			multiple="true"
+			layout="joomla.form.field.subform.repeatable-table"
+			formsource="administrator/components/com_users/forms/config_domain.xml"
+		/>
+	</fieldset>
+
+	<fieldset
 		name="password_options"
 		label="COM_USERS_CONFIG_PASSWORD_OPTIONS" >
 		<field
@@ -231,51 +247,16 @@
 
 	</fieldset>
 
-	<fieldset
-		name="debug"
-		label="COM_USERS_DEBUG_LABEL"
-		description="COM_USERS_DEBUG_DESC">
-
-		<field
-			name="debugUsers"
-			type="radio"
-			label="COM_USERS_DEBUG_USERS_LABEL"
-			class="switcher"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="debugGroups"
-			type="radio"
-			label="COM_USERS_DEBUG_GROUPS_LABEL"
-			class="switcher"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-	</fieldset>
-
 	<fieldset name="integration"
 		label="JGLOBAL_INTEGRATION_LABEL"
 		description="COM_USERS_CONFIG_INTEGRATION_SETTINGS_DESC"
 	>
 
 		<field
-			name="sef_advanced"
-			type="radio"
-			class="switcher switcher-primary"
-			default="0"
-			label="JGLOBAL_SEF_ADVANCED_LABEL"
-			filter="integer"
-		>
-			<option value="0">JGLOBAL_SEF_ADVANCED_LEGACY</option>
-			<option value="1">JGLOBAL_SEF_ADVANCED_MODERN</option>
-		</field>
+			name="integration_customfields"
+			type="note"
+			label="JGLOBAL_FIELDS_TITLE"
+		/>
 
 		<field
 			name="custom_fields_enable"

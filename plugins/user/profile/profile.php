@@ -3,19 +3,20 @@
  * @package     Joomla.Plugin
  * @subpackage  User.profile
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -84,14 +85,14 @@ class PlgUserProfile extends CMSPlugin
 				$query = $db->getQuery(true)
 					->select(
 						array(
-							$db->qn('profile_key'),
-							$db->qn('profile_value'),
+							$db->quoteName('profile_key'),
+							$db->quoteName('profile_value'),
 						)
 					)
 					->from('#__user_profiles')
-					->where($db->qn('user_id') . ' = ' . $db->q((int) $userId))
-					->where($db->qn('profile_key') . ' LIKE ' . $db->q('profile.%'))
-					->order($db->qn('ordering'));
+					->where($db->quoteName('user_id') . ' = ' . $db->quote((int) $userId))
+					->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'))
+					->order($db->quoteName('ordering'));
 
 				$db->setQuery($query);
 				$results = $db->loadRowList();
@@ -140,7 +141,7 @@ class PlgUserProfile extends CMSPlugin
 	 *
 	 * @param   string  $value  URL to use
 	 *
-	 * @return mixed|string
+	 * @return  mixed|string
 	 */
 	public static function url($value)
 	{
@@ -151,7 +152,7 @@ class PlgUserProfile extends CMSPlugin
 		else
 		{
 			// Convert website URL to utf8 for display
-			$value = JStringPunycode::urlToUTF8(htmlspecialchars($value));
+			$value = PunycodeHelper::urlToUTF8(htmlspecialchars($value));
 
 			if (strpos($value, 'http') === 0)
 			{
@@ -205,7 +206,7 @@ class PlgUserProfile extends CMSPlugin
 	 *
 	 * @param   boolean  $value  input value
 	 *
-	 * @return string
+	 * @return  string
 	 */
 	public static function tos($value)
 	{
@@ -222,20 +223,15 @@ class PlgUserProfile extends CMSPlugin
 	/**
 	 * Adds additional fields to the user editing form
 	 *
-	 * @param   JForm  $form  The form to be altered.
+	 * @param   Form   $form  The form to be altered.
 	 * @param   mixed  $data  The associated data for the form.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   1.6
 	 */
-	public function onContentPrepareForm($form, $data)
+	public function onContentPrepareForm(Form $form, $data)
 	{
-		if (!($form instanceof Form))
-		{
-			throw new RuntimeException(Text::_('JERROR_NOT_A_FORM'), 500);
-		}
-
 		// Check we are manipulating a valid form.
 		$name = $form->getName();
 
@@ -246,7 +242,7 @@ class PlgUserProfile extends CMSPlugin
 
 		// Add the registration fields to the form.
 		Form::addFormPath(__DIR__ . '/profiles');
-		$form->loadFile('profile', false);
+		$form->loadFile('profile');
 
 		$fields = array(
 			'address1',
@@ -282,11 +278,11 @@ class PlgUserProfile extends CMSPlugin
 			$form->setFieldAttribute('tos', 'description', 'PLG_USER_PROFILE_FIELD_TOS_DESC_SITE', 'profile');
 		}
 
-		$tosarticle = $this->params->get('register_tos_article');
-		$tosenabled = $this->params->get('register-require_tos', 0);
+		$tosArticle = $this->params->get('register_tos_article');
+		$tosEnabled = $this->params->get('register-require_tos', 0);
 
 		// We need to be in the registration form and field needs to be enabled
-		if ($name !== 'com_users.registration' || !$tosenabled)
+		if ($name !== 'com_users.registration' || !$tosEnabled)
 		{
 			// We only want the TOS in the registration form
 			$form->removeField('tos', 'profile');
@@ -294,7 +290,7 @@ class PlgUserProfile extends CMSPlugin
 		else
 		{
 			// Push the TOS article ID into the TOS field.
-			$form->setFieldAttribute('tos', 'article', $tosarticle, 'profile');
+			$form->setFieldAttribute('tos', 'article', $tosArticle, 'profile');
 		}
 
 		foreach ($fields as $field)
@@ -302,8 +298,13 @@ class PlgUserProfile extends CMSPlugin
 			// Case using the users manager in admin
 			if ($name === 'com_users.user')
 			{
+				// Toggle whether the field is required.
+				if ($this->params->get('profile-require_' . $field, 1) > 0)
+				{
+					$form->setFieldAttribute($field, 'required', ($this->params->get('profile-require_' . $field) == 2) ? 'required' : '', 'profile');
+				}
 				// Remove the field if it is disabled in registration and profile
-				if ($this->params->get('register-require_' . $field, 1) == 0
+				elseif ($this->params->get('register-require_' . $field, 1) == 0
 					&& $this->params->get('profile-require_' . $field, 1) == 0)
 				{
 					$form->removeField($field, 'profile');
@@ -355,10 +356,10 @@ class PlgUserProfile extends CMSPlugin
 	 * @param   boolean  $isnew  True if a new user is stored.
 	 * @param   array    $data   Holds the new user data.
 	 *
-	 * @return    boolean
+	 * @return  boolean
 	 *
 	 * @since   3.1
-	 * @throws    InvalidArgumentException on invalid date.
+	 * @throws  InvalidArgumentException on invalid date.
 	 */
 	public function onUserBeforeSave($user, $isnew, $data)
 	{
@@ -375,20 +376,22 @@ class PlgUserProfile extends CMSPlugin
 				// Throw an exception if date is not valid.
 				throw new InvalidArgumentException(Text::_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
 			}
+
 			if (Date::getInstance('now') < $date)
 			{
 				// Throw an exception if dob is greather than now.
 				throw new InvalidArgumentException(Text::_('PLG_USER_PROFILE_ERROR_INVALID_DOB_FUTURE_DATE'));
 			}
 		}
+
 		// Check that the tos is checked if required ie only in registration from frontend.
 		$task       = Factory::getApplication()->input->getCmd('task');
 		$option     = Factory::getApplication()->input->getCmd('option');
-		$tosarticle = $this->params->get('register_tos_article');
-		$tosenabled = ($this->params->get('register-require_tos', 0) == 2);
+		$tosArticle = $this->params->get('register_tos_article');
+		$tosEnabled = ($this->params->get('register-require_tos', 0) == 2);
 
 		// Check that the tos is checked.
-		if ($task === 'register' && $tosenabled && $tosarticle && $option === 'com_users' && !$data['profile']['tos'])
+		if ($task === 'register' && $tosEnabled && $tosArticle && $option === 'com_users' && !$data['profile']['tos'])
 		{
 			throw new InvalidArgumentException(Text::_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
 		}
@@ -404,7 +407,7 @@ class PlgUserProfile extends CMSPlugin
 	 * @param   boolean  $result  true if saving the user worked
 	 * @param   string   $error   error message
 	 *
-	 * @return bool
+	 * @return  boolean
 	 */
 	public function onUserAfterSave($data, $isNew, $result, $error)
 	{
@@ -444,7 +447,7 @@ class PlgUserProfile extends CMSPlugin
 
 			$order = 1;
 			$query->clear()
-				->insert($db->qn('#__user_profiles'));
+				->insert($db->quoteName('#__user_profiles'));
 
 			foreach ($data['profile'] as $k => $v)
 			{
@@ -469,7 +472,7 @@ class PlgUserProfile extends CMSPlugin
 	 * Method is called after user data is deleted from the database
 	 *
 	 * @param   array    $user     Holds the user data
-	 * @param   boolean  $success  True if user was succesfully stored in the database
+	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
 	 * @return  boolean
@@ -487,9 +490,9 @@ class PlgUserProfile extends CMSPlugin
 		{
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->delete($db->qn('#__user_profiles'))
-				->where($db->qn('user_id') . ' = ' . $db->q((int) $userId))
-				->where($db->qn('profile_key') . ' LIKE ' . $db->q('profile.%'));
+				->delete($db->quoteName('#__user_profiles'))
+				->where($db->quoteName('user_id') . ' = ' . $db->quote((int) $userId))
+				->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'));
 
 			$db->setQuery($query);
 			$db->execute();

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -10,9 +10,9 @@ namespace Joomla\CMS\Event;
 
 defined('JPATH_PLATFORM') or die;
 
+use BadMethodCallException;
 use Joomla\Event\Event as BaseEvent;
 use Joomla\String\Normalise;
-use BadMethodCallException;
 
 /**
  * This class implements the base Event object used system-wide to offer orthogonality. Core objects such as Models,

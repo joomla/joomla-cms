@@ -3,10 +3,12 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
+
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 // Check if we have all the data
 if (!array_key_exists('item', $displayData) || !array_key_exists('context', $displayData))
@@ -28,8 +30,6 @@ if (!$context)
 {
 	return;
 }
-
-JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
 $parts     = explode('.', $context);
 $component = $parts[0];
@@ -62,12 +62,13 @@ if (!$isMail)
 foreach ($fields as $field)
 {
 	// If the value is empty do nothing
-	if (empty($field->value) && !$isMail)
+	if (!strlen($field->value) && !$isMail)
 	{
 		continue;
 	}
 
-	echo FieldsHelper::render($context, 'field.render', array('field' => $field));
+	$layout = $field->params->get('layout', 'render');
+	echo FieldsHelper::render($context, 'field.' . $layout, array('field' => $field));
 }
 
 if (!$isMail)

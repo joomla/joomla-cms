@@ -3,13 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 $msgList = $displayData['msgList'];
@@ -26,6 +27,8 @@ $alert = [
 	'message'                     => 'success'
 ];
 
+// Alerts progressive enhancement
+HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <div id="system-message-container">
 	<div id="system-message">

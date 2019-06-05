@@ -3,16 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Menus\Administrator\View\Menutypes;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
  * The HTML Menus Menu Item TYpes View.
@@ -48,7 +52,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app            = \JFactory::getApplication();
+		$app            = Factory::getApplication();
 		$this->recordId = $app->input->getInt('recordId');
 
 		$types = $this->get('TypeOptions');
@@ -63,14 +67,14 @@ class HtmlView extends BaseHtmlView
 
 			foreach ($list as $item)
 			{
-				$tmp[\JText::_($item->title)] = $item;
+				$tmp[Text::_($item->title)] = $item;
 			}
 
-			ksort($tmp);
-			$sortedTypes[\JText::_($name)] = $tmp;
+			uksort($tmp, 'strcasecmp');
+			$sortedTypes[Text::_($name)] = $tmp;
 		}
 
-		ksort($sortedTypes);
+		uksort($sortedTypes, 'strcasecmp');
 
 		$this->types = $sortedTypes;
 
@@ -89,13 +93,13 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		// Add page title
-		ToolbarHelper::title(\JText::_('COM_MENUS'), 'list menumgr');
+		ToolbarHelper::title(Text::_('COM_MENUS'), 'list menumgr');
 
 		// Get the toolbar object instance
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Cancel
-		$title = \JText::_('JTOOLBAR_CANCEL');
+		$title = Text::_('JTOOLBAR_CANCEL');
 		$dhtml = "<button onClick=\"location.href='index.php?option=com_menus&view=items'\" class=\"btn\">
 					<span class=\"icon-remove\" title=\"$title\"></span>
 					$title</button>";
@@ -105,7 +109,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Method to add system link types to the link types array
 	 *
-	 * @param   array  &$types  The list of link types
+	 * @param   array  $types  The list of link types
 	 *
 	 * @return  void
 	 *
@@ -120,28 +124,28 @@ class HtmlView extends BaseHtmlView
 
 		// Adding System Links
 		$list           = array();
-		$o              = new \JObject;
+		$o              = new CMSObject;
 		$o->title       = 'COM_MENUS_TYPE_EXTERNAL_URL';
 		$o->type        = 'url';
 		$o->description = 'COM_MENUS_TYPE_EXTERNAL_URL_DESC';
 		$o->request     = null;
 		$list[]         = $o;
 
-		$o              = new \JObject;
+		$o              = new CMSObject;
 		$o->title       = 'COM_MENUS_TYPE_ALIAS';
 		$o->type        = 'alias';
 		$o->description = 'COM_MENUS_TYPE_ALIAS_DESC';
 		$o->request     = null;
 		$list[]         = $o;
 
-		$o              = new \JObject;
+		$o              = new CMSObject;
 		$o->title       = 'COM_MENUS_TYPE_SEPARATOR';
 		$o->type        = 'separator';
 		$o->description = 'COM_MENUS_TYPE_SEPARATOR_DESC';
 		$o->request     = null;
 		$list[]         = $o;
 
-		$o              = new \JObject;
+		$o              = new CMSObject;
 		$o->title       = 'COM_MENUS_TYPE_HEADING';
 		$o->type        = 'heading';
 		$o->description = 'COM_MENUS_TYPE_HEADING_DESC';
@@ -150,7 +154,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($this->get('state')->get('client_id') == 1)
 		{
-			$o              = new \JObject;
+			$o              = new CMSObject;
 			$o->title       = 'COM_MENUS_TYPE_CONTAINER';
 			$o->type        = 'container';
 			$o->description = 'COM_MENUS_TYPE_CONTAINER_DESC';

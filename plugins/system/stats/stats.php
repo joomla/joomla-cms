@@ -3,18 +3,21 @@
  * @package     Joomla.Plugin
  * @subpackage  System.stats
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Http\HttpFactory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\UserHelper;
 
 // Uncomment the following line to enable debug mode for testing purposes. Note: statistics will be sent on every page load
 // define('PLG_SYSTEM_STATS_DEBUG', 1);
@@ -103,8 +106,38 @@ class PlgSystemStats extends CMSPlugin
 
 		// Load plugin language files only when needed (ex: they are not needed in site client).
 		$this->loadLanguage();
+	}
 
-		HTMLHelper::_('script', 'plg_system_stats/stats.min.js', array('version' => 'auto', 'relative' => true));
+	/**
+	 * Listener for the `onAfterDispatch` event
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function onAfterDispatch()
+	{
+		if (!$this->app->isClient('administrator') || !$this->isAllowedUser())
+		{
+			return;
+		}
+
+		if (!$this->isDebugEnabled() && !$this->isUpdateRequired())
+		{
+			return;
+		}
+
+		if (Uri::getInstance()->getVar('tmpl') === 'component')
+		{
+			return;
+		}
+
+		if ($this->app->getDocument()->getType() !== 'html')
+		{
+			return;
+		}
+
+		HTMLHelper::_('script', 'plg_system_stats/stats-message.js', array('version' => 'auto', 'relative' => true));
 	}
 
 	/**
@@ -345,7 +378,7 @@ class PlgSystemStats extends CMSPlugin
 	{
 		if (null === $this->uniqueId)
 		{
-			$this->uniqueId = $this->params->get('unique_id', hash('sha1', JUserHelper::genRandomPassword(28) . time()));
+			$this->uniqueId = $this->params->get('unique_id', hash('sha1', UserHelper::genRandomPassword(28) . time()));
 		}
 
 		return $this->uniqueId;
@@ -447,11 +480,11 @@ class PlgSystemStats extends CMSPlugin
 		$this->params->set('interval', $interval ?: 12);
 
 		$query = $this->db->getQuery(true)
-				->update($this->db->quoteName('#__extensions'))
-				->set($this->db->quoteName('params') . ' = ' . $this->db->quote($this->params->toString('JSON')))
-				->where($this->db->quoteName('type') . ' = ' . $this->db->quote('plugin'))
-				->where($this->db->quoteName('folder') . ' = ' . $this->db->quote('system'))
-				->where($this->db->quoteName('element') . ' = ' . $this->db->quote('stats'));
+			->update($this->db->quoteName('#__extensions'))
+			->set($this->db->quoteName('params') . ' = ' . $this->db->quote($this->params->toString('JSON')))
+			->where($this->db->quoteName('type') . ' = ' . $this->db->quote('plugin'))
+			->where($this->db->quoteName('folder') . ' = ' . $this->db->quote('system'))
+			->where($this->db->quoteName('element') . ' = ' . $this->db->quote('stats'));
 
 		try
 		{
@@ -506,7 +539,7 @@ class PlgSystemStats extends CMSPlugin
 		try
 		{
 			// Don't let the request take longer than 2 seconds to avoid page timeout issues
-			$response = JHttpFactory::getHttp()->post($this->serverUrl, $this->getStatsData(), [], 2);
+			$response = HttpFactory::getHttp()->post($this->serverUrl, $this->getStatsData(), [], 2);
 		}
 		catch (UnexpectedValueException $e)
 		{
@@ -554,7 +587,7 @@ class PlgSystemStats extends CMSPlugin
 					'cachebase'    => $this->app->get('cache_path', JPATH_CACHE)
 				);
 
-				$cache = JCache::getInstance('callback', $options);
+				$cache = Cache::getInstance('callback', $options);
 				$cache->clean();
 			}
 			catch (Exception $e)

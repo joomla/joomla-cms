@@ -1,0 +1,408 @@
+{
+  "settings": {
+    "browsers": [
+      "last 1 version",
+      "not ie < 11"
+    ],
+    "vendors": {
+      "awesomplete": {
+        "name": "awesomplete",
+        "js": {
+          "awesomplete.js": "js/awesomplete.js",
+          "awesomplete.min.js": "js/awesomplete.min.js"
+        },
+        "css": {
+          "awesomplete.css": "css/awesomplete.css"
+        },
+        "filesExtra": {
+          "awesomplete.min.js.map": "js/awesomplete.min.js.map",
+          "awesomplete.css.map": "css/awesomplete.css.map"
+        },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["awesomplete.min.js"],
+            "css": ["awesomplete.css"]
+          }
+        ],
+        "dependencies": [],
+        "licenseFilename": "LICENSE"
+      },
+      "bootstrap": {
+        "name": "bootstrap",
+        "js": {
+          "dist/js/bootstrap.js": "js/bootstrap.js",
+          "dist/js/bootstrap.min.js": "js/bootstrap.min.js",
+          "dist/js/bootstrap.bundle.js": "js/bootstrap.bundle.js",
+          "dist/js/bootstrap.bundle.min.js": "js/bootstrap.bundle.min.js",
+          "dist/js/bootstrap.bundle.min.js.map": "js/bootstrap.bundle.min.js.map"
+        },
+        "css": {
+          "dist/css/bootstrap.css": "css/bootstrap.css",
+          "dist/css/bootstrap.min.css": "css/bootstrap.min.css",
+          "dist/css/bootstrap-grid.css": "css/bootstrap-grid.css",
+          "dist/css/bootstrap-grid.min.css": "css/bootstrap-grid.min.css",
+          "dist/css/bootstrap-reboot.css": "css/bootstrap-reboot.css",
+          "dist/css/bootstrap-reboot.min.css": "css/bootstrap-reboot.min.css"
+        },
+        "filesExtra": {
+          "dist/css/bootstrap.css.map": "css/bootstrap.css.map",
+          "dist/css/bootstrap.min.css.map": "css/bootstrap.min.css.map",
+          "dist/css/bootstrap-grid.css.map": "css/bootstrap-grid.css.map",
+          "dist/css/bootstrap-grid.min.css.map": "css/bootstrap-grid.min.css.map",
+          "dist/css/bootstrap-reboot.css.map": "css/bootstrap-reboot.css.map",
+          "dist/css/bootstrap-reboot.min.css.map": "css/bootstrap-reboot.min.css.map",
+          "scss": "scss"
+        },
+        "provideAssets": [
+          {
+            "name": "bootstrap.js",
+            "js": ["bootstrap.min.js"],
+            "dependencies": ["jquery"]
+          },
+          {
+            "name": "bootstrap.js.bundle",
+            "js": ["bootstrap.bundle.min.js"],
+            "dependencies": ["jquery"]
+          },
+          {
+            "name": "bootstrap.css",
+            "css": ["bootstrap.min.css"]
+          },
+          {
+            "name": "bootstrap.css.grid",
+            "css": ["bootstrap-grid.min.css"],
+            "dependencies": ["bootstrap.css"]
+          }
+        ],
+        "dependencies": [],
+        "licenseFilename": "LICENSE"
+      },
+      "cropperjs": {
+        "name": "cropperjs",
+        "js": {
+          "dist/cropper.js": "js/cropper.js",
+          "dist/cropper.min.js": "js/cropper.min.js"
+        },
+        "css": {
+          "dist/cropper.css": "css/cropper.css",
+          "dist/cropper.min.css": "css/cropper.min.css"
+        },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["cropper.min.js"],
+            "css": ["cropper.min.css"]
+          }
+        ],
+        "dependencies": [],
+        "licenseFilename": "LICENSE"
+      },
+      "choices.js": {
+        "name": "choicesjs",
+        "js": {
+          "public/assets/scripts/choices.js": "js/choices.js",
+          "public/assets/scripts/choices.min.js": "js/choices.min.js"
+        },
+        "css": {
+          "public/assets/styles/choices.css": "css/choices.css",
+          "public/assets/styles/choices.min.css": "css/choices.min.css"
+        },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["choices.min.js"],
+            "css": ["choices.min.css"]
+          }
+         ],
+        "dependencies": [],
+        "licenseFilename": "LICENSE"
+      },
+      "diff": {
+        "name": "diff",
+        "js": {
+          "dist/diff.js": "js/diff.js",
+          "dist/diff.min.js": "js/diff.min.js"
+        },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["diff.js"]
+          }
+        ],
+        "dependencies": [],
+        "licenseFilename": "LICENSE"
+      },
+      "dragula": {
+        "name": "dragula",
+        "js": {
+          "dist/dragula.js": "js/dragula.js",
+          "dist/dragula.min.js": "js/dragula.min.js"
+        },
+        "css": {
+          "dist/dragula.css": "css/dragula.css",
+          "dist/dragula.min.css": "css/dragula.min.css"
+        },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["dragula.min.js"],
+            "css": ["dragula.min.css"]
+          }
+        ],
+        "dependencies": [],
+        "licenseFilename": "license"
+      },
+      "focus-visible": {
+        "name": "focus-visible",
+        "js": {
+          "dist/focus-visible.js": "js/focus-visible.js",
+          "dist/focus-visible.min.js": "js/focus-visible.min.js",
+          "dist/focus-visible.min.js.map": "js/focus-visible.min.js.map"
+        },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["focus-visible.min.js"]
+          }
+        ],
+        "dependencies": [],
+        "licenseFilename": "LICENSE.md"
+      },
+      "@fortawesome/fontawesome-free": {
+        "name": "fontawesome-free",
+        "css": {
+          "css/fontawesome.css": "css/fontawesome.css",
+          "css/fontawesome.min.css": "css/fontawesome.min.css"
+        },
+        "filesExtra": {
+          "scss": "scss",
+          "webfonts": "webfonts"
+        },
+        "provideAssets": [
+          {
+            "name": null,
+            "css": ["fontawesome.min.css"]
+          }
+        ],
+        "dependencies": [],
+        "licenseFilename": "LICENSE.txt"
+      },
+      "jquery": {
+        "name": "jquery",
+        "js": {
+          "dist/jquery.js": "js/jquery.js",
+          "dist/jquery.min.js": "js/jquery.min.js"
+        },
+        "filesExtra": {
+          "dist/jquery.min.map": "js/jquery.min.map"
+        },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["jquery.min.js"]
+          }
+        ],
+        "dependencies": [],
+        "licenseFilename": "LICENSE.txt"
+      },
+      "jquery-migrate": {
+        "name": "jquery-migrate",
+        "js": {
+          "dist/jquery-migrate.js": "js/jquery-migrate.js",
+          "dist/jquery-migrate.min.js": "js/jquery-migrate.min.js"
+        },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["jquery-migrate.min.js"],
+            "dependencies": ["jquery"]
+          }
+        ],
+        "dependencies": [
+          "jquery"
+        ],
+        "licenseFilename": "LICENSE.txt"
+      },
+      "joomla-ui-custom-elements": {
+        "name": "joomla-custom-elements",
+        "js": {
+          "dist/js/joomla-alert.js": "js/joomla-alert.js",
+          "dist/js/joomla-alert.min.js": "js/joomla-alert.min.js",
+          "dist/js/joomla-alert-es5.js": "js/joomla-alert-es5.js",
+          "dist/js/joomla-alert-es5.min.js": "js/joomla-alert-es5.min.js",
+          "dist/js/joomla-tab.js": "js/joomla-tab.js",
+          "dist/js/joomla-tab.min.js": "js/joomla-tab.min.js",
+          "dist/js/joomla-tab-es5.js": "js/joomla-tab-es5.js",
+          "dist/js/joomla-tab-es5.min.js": "js/joomla-tab-es5.min.js"
+        },
+        "css": {
+          "dist/css/joomla-alert.css": "css/joomla-alert.css",
+          "dist/css/joomla-alert.min.css": "css/joomla-alert.min.css",
+          "dist/css/joomla-tab.css": "css/joomla-tab.css",
+          "dist/css/joomla-tab.min.css": "css/joomla-tab.min.css"
+        },
+        "dependencies": [],
+        "licenseFilename": "LICENSE"
+      },
+      "mediaelement": {
+        "name": "mediaelement",
+        "js": {
+          "build/mediaelement.js": "js/mediaelement.js",
+          "build/mediaelement.min.js": "js/mediaelement.min.js",
+          "build/mediaelement-and-player.min.js": "js/mediaelement-and-player.min.js",
+          "build/mediaelement-and-player.js": "js/mediaelement-and-player.js"
+        },
+        "css": {
+          "build/mediaelementplayer.css": "css/mediaelementplayer.css",
+          "build/mediaelementplayer.min.css": "css/mediaelementplayer.min.css",
+          "build/mediaelementplayer-legacy.min.css": "css/mediaelementplayer-legacy.min.css",
+          "build/mediaelementplayer-legacy.css": "css/mediaelementplayer-legacy.css"
+        },
+        "filesExtra": {
+          "build/mediaelement-flash-audio-ogg.swf": "js/mediaelement-flash-audio-ogg.swf",
+          "build/mediaelement-flash-audio.swf": "js/mediaelement-flash-audio.swf",
+          "build/mediaelement-flash-video-hls.swf": "js/mediaelement-flash-video-hls.swf",
+          "build/mediaelement-flash-video-mdash.swf": "js/mediaelement-flash-video-mdash.swf",
+          "build/mediaelement-flash-video.swf": "js/mediaelement-flash-video.swf",
+          "build/mejs-controls.png": "css/mejs-controls.png",
+          "build/mejs-controls.svg": "css/mejs-controls.svg"
+        },
+        "dependencies": [],
+        "licenseFilename": ""
+      },
+      "punycode": {
+        "name": "punycode",
+        "js": {
+          "punycode.js": "js/punycode.js"
+        },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["punycode.js"]
+          }
+        ],
+        "dependencies": [],
+        "licenseFilename": "LICENSE-MIT.txt"
+      },
+      "@claviska/jquery-minicolors": {
+        "name": "minicolors",
+        "js": {
+          "jquery.minicolors.js": "js/jquery-minicolors.js",
+          "jquery.minicolors.min.js": "js/jquery.minicolors.min.js"
+        },
+        "css": {
+          "jquery.minicolors.css": "css/jquery.minicolors.css"
+        },
+        "filesExtra": {
+          "jquery.minicolors.png": "css/jquery.minicolors.png"
+        },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["jquery.minicolors.min.js"],
+            "css": ["jquery.minicolors.css"],
+            "dependencies": ["jquery"]
+          }
+        ],
+        "dependencies": [
+          "jquery"
+        ],
+        "licenseFilename": "LICENSE.md"
+      },
+      "codemirror": {
+        "name": "codemirror",
+        "licenseFilename": "LICENSE"
+      },
+      "tinymce": {
+        "name": "tinymce",
+        "licenseFilename": "license.txt"
+      },
+      "@webcomponents/webcomponentsjs": {
+        "name": "webcomponentsjs",
+        "js": {
+          "bundles/webcomponents-ce.js": "js/webcomponents-ce.js",
+          "bundles/webcomponents-sd.js": "js/webcomponents-sd.js",
+          "bundles/webcomponents-sd-ce.js": "js/webcomponents-sd-ce.js",
+          "bundles/webcomponents-sd-ce-pf.js": "js/webcomponents-sd-ce-pf.js"
+        },
+        "dependencies": [],
+        "licenseFilename": "LICENSE.md"
+      },
+      "css-vars-ponyfill": {
+        "name": "css-vars-ponyfill",
+        "licenseFilename": "LICENSE",
+        "js": {
+          "dist/css-vars-ponyfill.js": "js/css-vars-ponyfill.js",
+          "dist/css-vars-ponyfill.min.js": "js/css-vars-ponyfill.min.js",
+          "dist/css-vars-ponyfill.min.js.map": "js/css-vars-ponyfill.min.js.map"
+        },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["css-vars-ponyfill.min.js"]
+          }
+        ]
+      },
+      "chosen-js": {
+        "name": "chosen",
+        "js": {
+          "chosen.jquery.js": "js/chosen.jquery.js"
+        },
+        "css": {
+          "chosen.css": "css/chosen.css",
+          "chosen-sprite.png": "css/chosen-sprite.png",
+          "chosen-sprite@2x.png": "css/chosen-sprite@2x.png"
+        },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["chosen.jquery.js"],
+            "css": ["chosen.css"],
+            "dependencies": ["jquery"]
+          }
+        ]
+      },
+      "metismenujs": {
+        "name": "metismenujs",
+        "licenseFilename": "LICENSE",
+        "js": {
+          "dist/metismenujs.js": "js/metismenujs.js",
+          "dist/metismenujs.min.js": "js/metismenujs.min.js",
+          "dist/metismenujs.min.js.map": "js/metismenujs.min.js.map"
+        }
+      },
+      "skipto": {
+        "name": "skipto",
+        "licenseFilename": "LICENSE.md",
+        "js": {
+          "src/js/skipTo.js": "js/skipTo.js",
+          "src/js/dropMenu.js": "js/dropMenu.js"
+        },
+        "css": {
+          "src/css/SkipTo.css": "css/SkipTo.css"
+        }
+      }
+    },
+    "errorPages": {
+      "incomplete": {
+        "phpVersionReplaceble": "",
+        "title": "Joomla: Environment Setup Incomplete",
+        "header": "Environment Setup Incomplete",
+        "text": "It looks like you are trying to run Joomla! from our git repository. To do so requires you complete a couple of extra steps first.",
+        "link": "J4.x:Setting_Up_Your_Local_Environment",
+        "linkText": "More Details",
+        "destFile": "/templates/system/build_incomplete.html"
+      },
+      "unsupported": {
+        "phpVersionReplaceble": "data-php-version=\"{{PHP_VERSION}}\"",
+        "title": "Joomla: unsupported PHP version",
+        "header": "Sorry, your PHP version is not supported",
+        "text": "Your host needs to use PHP version {{PHP_VERSION}} or newer to run this version of Joomla!",
+        "link": "Unsupported_PHP_Version",
+        "linkText": "Help me resolve this",
+        "destFile": "/templates/system/incompatible.html"
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\Router\RouterView;
+use Joomla\CMS\Language\Multilanguage;
 
 /**
  * Rule to identify the right Itemid for a view in a component
@@ -75,6 +76,12 @@ class MenuRules implements RulesInterface
 		// Get query language
 		$language = isset($query['lang']) ? $query['lang'] : '*';
 
+		// Set the language to the current one when multilang is enabled and item is tagged to ALL
+		if (Multilanguage::isEnabled() && $language === '*')
+		{
+			$language = $this->router->app->get('language');
+		}
+
 		if (!isset($this->lookup[$language]))
 		{
 			$this->buildLookup($language);
@@ -123,6 +130,7 @@ class MenuRules implements RulesInterface
 					if (is_bool($ids))
 					{
 						$query['Itemid'] = $this->lookup[$language][$viewLayout];
+
 						return;
 					}
 
@@ -131,6 +139,7 @@ class MenuRules implements RulesInterface
 						if (isset($this->lookup[$language][$viewLayout][(int) $id]))
 						{
 							$query['Itemid'] = $this->lookup[$language][$viewLayout][(int) $id];
+
 							return;
 						}
 					}
@@ -141,6 +150,7 @@ class MenuRules implements RulesInterface
 					if (is_bool($ids))
 					{
 						$query['Itemid'] = $this->lookup[$language][$view];
+
 						return;
 					}
 
@@ -149,6 +159,7 @@ class MenuRules implements RulesInterface
 						if (isset($this->lookup[$language][$view][(int) $id]))
 						{
 							$query['Itemid'] = $this->lookup[$language][$view][(int) $id];
+
 							return;
 						}
 					}
@@ -158,7 +169,7 @@ class MenuRules implements RulesInterface
 
 		// Check if the active menuitem matches the requested language
 		if ($active && $active->component === 'com_' . $this->router->getName()
-			&& ($language === '*' || in_array($active->language, array('*', $language)) || !\JLanguageMultilang::isEnabled()))
+			&& ($language === '*' || in_array($active->language, array('*', $language)) || !Multilanguage::isEnabled()))
 		{
 			$query['Itemid'] = $active->id;
 			return;
@@ -252,7 +263,6 @@ class MenuRules implements RulesInterface
 						if (!isset($this->lookup[$language][$view . $layout]) || $item->language !== '*')
 						{
 							$this->lookup[$language][$view . $layout] = $item->id;
-							$this->lookup[$language][$view] = $item->id;
 						}
 					}
 				}

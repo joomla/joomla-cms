@@ -317,7 +317,6 @@
 				type="number"
 				label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
 				description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
-				size="6"
 				useglobal="true"
 			/>
 		</fieldset>

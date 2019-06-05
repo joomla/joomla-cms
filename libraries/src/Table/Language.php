@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,21 +10,24 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
+
 /**
  * Languages table.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Language extends Table
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database driver object.
+	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__languages', 'lang_id', $db);
 	}
@@ -34,7 +37,7 @@ class Language extends Table
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function check()
 	{
@@ -51,7 +54,7 @@ class Language extends Table
 
 		if (trim($this->title) == '')
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_LANGUAGE_NO_TITLE'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_NO_TITLE'));
 
 			return false;
 		}
@@ -66,7 +69,7 @@ class Language extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function store($updateNulls = false)
 	{
@@ -75,7 +78,7 @@ class Language extends Table
 		// Verify that the language code is unique
 		if ($table->load(array('lang_code' => $this->lang_code)) && ($table->lang_id != $this->lang_id || $this->lang_id == 0))
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_LANG_CODE'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_LANG_CODE'));
 
 			return false;
 		}
@@ -83,7 +86,7 @@ class Language extends Table
 		// Verify that the sef field is unique
 		if ($table->load(array('sef' => $this->sef)) && ($table->lang_id != $this->lang_id || $this->lang_id == 0))
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_IMAGE'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_IMAGE'));
 
 			return false;
 		}
@@ -91,7 +94,7 @@ class Language extends Table
 		// Verify that the image field is unique
 		if ($this->image && $table->load(array('image' => $this->image)) && ($table->lang_id != $this->lang_id || $this->lang_id == 0))
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_IMAGE'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_IMAGE'));
 
 			return false;
 		}

@@ -3,17 +3,26 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\View\Users;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Users\Administrator\Helper\UsersHelper;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * View class for a list of users.
@@ -41,7 +50,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state.
 	 *
-	 * @var   \JObject
+	 * @var   CMSObject
 	 * @since 1.6
 	 */
 	protected $state;
@@ -65,15 +74,15 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * An ACL object to verify user rights.
 	 *
-	 * @var    \JObject
+	 * @var    CMSObject
 	 * @since  3.6.3
 	 */
 	protected $canDo;
 
 	/**
-	 * An instance of \JDatabaseDriver.
+	 * An instance of DatabaseDriver.
 	 *
-	 * @var    \JDatabaseDriver
+	 * @var    DatabaseDriver
 	 * @since  3.6.3
 	 */
 	protected $db;
@@ -101,21 +110,18 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->canDo         = ContentHelper::getActions('com_users');
-		$this->db            = \JFactory::getDbo();
+		$this->db            = Factory::getDbo();
 
 		UsersHelper::addSubmenu('users');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		// Include the component HTML helpers.
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 		$this->addToolbar();
-		$this->sidebar = \JHtmlSidebar::render();
+		$this->sidebar = HTMLHelper::_('sidebar.render');
 
 		parent::display($tpl);
 	}
@@ -130,31 +136,35 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		$canDo = $this->canDo;
-		$user  = \JFactory::getUser();
+		$user  = Factory::getUser();
 
 		// Get the toolbar object instance
-		$bar = \JToolbar::getInstance('toolbar');
+		$toolbar = Toolbar::getInstance('toolbar');
 
-		\JToolbarHelper::title(\JText::_('COM_USERS_VIEW_USERS_TITLE'), 'users user');
+		ToolbarHelper::title(Text::_('COM_USERS_VIEW_USERS_TITLE'), 'users user');
 
 		if ($canDo->get('core.create'))
 		{
-			\JToolbarHelper::addNew('user.add');
+			$toolbar->addNew('user.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') || $canDo->get('core.admin'))
 		{
-			\JToolbarHelper::divider();
-			\JToolbarHelper::publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
-			\JToolbarHelper::unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
-			\JToolbarHelper::custom('users.unblock', 'unblock.png', 'unblock_f2.png', 'COM_USERS_TOOLBAR_UNBLOCK', true);
-			\JToolbarHelper::divider();
-		}
+			$dropdown = $toolbar->dropdownButton('status-group')
+					->text('JTOOLBAR_CHANGE_STATUS')
+					->toggleSplit(false)
+					->icon('fa fa-globe')
+					->buttonClass('btn btn-info')
+					->listCheck(true);
 
-		if ($canDo->get('core.delete'))
-		{
-			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'users.delete', 'JTOOLBAR_DELETE');
-			\JToolbarHelper::divider();
+			$childBar = $dropdown->getChildToolbar();
+
+			$childBar->publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
+			$childBar->unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
+			$childBar->standardButton('unblock')
+					->text('COM_USERS_TOOLBAR_UNBLOCK')
+					->task('users.unblock')
+					->listCheck(true);
 		}
 
 		// Add a batch button
@@ -162,22 +172,26 @@ class HtmlView extends BaseHtmlView
 			&& $user->authorise('core.edit', 'com_users')
 			&& $user->authorise('core.edit.state', 'com_users'))
 		{
-			$title = \JText::_('JTOOLBAR_BATCH');
+			$toolbar->popupButton('batch')
+				->text('JTOOLBAR_BATCH')
+				->selector('collapseModal')
+				->listCheck(true);
+		}
 
-			// Instantiate a new \JLayoutFile instance and render the batch button
-			$layout = new FileLayout('joomla.toolbar.batch');
-
-			$dhtml = $layout->render(array('title' => $title));
-			$bar->appendButton('Custom', $dhtml, 'batch');
+		if ($canDo->get('core.delete'))
+		{
+			$toolbar->delete('users.delete')
+				->text('JTOOLBAR_DELETE')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			\JToolbarHelper::preferences('com_users');
-			\JToolbarHelper::divider();
+			$toolbar->preferences('com_users');
 		}
 
-		\JToolbarHelper::help('JHELP_USERS_USER_MANAGER');
+		$toolbar->help('JHELP_USERS_USER_MANAGER');
 	}
 
 	/**
@@ -190,14 +204,14 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'a.name'          => \JText::_('COM_USERS_HEADING_NAME'),
-			'a.username'      => \JText::_('JGLOBAL_USERNAME'),
-			'a.block'         => \JText::_('COM_USERS_HEADING_ENABLED'),
-			'a.activation'    => \JText::_('COM_USERS_HEADING_ACTIVATED'),
-			'a.email'         => \JText::_('JGLOBAL_EMAIL'),
-			'a.lastvisitDate' => \JText::_('COM_USERS_HEADING_LAST_VISIT_DATE'),
-			'a.registerDate'  => \JText::_('COM_USERS_HEADING_REGISTRATION_DATE'),
-			'a.id'            => \JText::_('JGRID_HEADING_ID'),
+			'a.name'          => Text::_('COM_USERS_HEADING_NAME'),
+			'a.username'      => Text::_('JGLOBAL_USERNAME'),
+			'a.block'         => Text::_('COM_USERS_HEADING_ENABLED'),
+			'a.activation'    => Text::_('COM_USERS_HEADING_ACTIVATED'),
+			'a.email'         => Text::_('JGLOBAL_EMAIL'),
+			'a.lastvisitDate' => Text::_('COM_USERS_HEADING_LAST_VISIT_DATE'),
+			'a.registerDate'  => Text::_('COM_USERS_HEADING_REGISTRATION_DATE'),
+			'a.id'            => Text::_('JGRID_HEADING_ID'),
 		);
 	}
 }

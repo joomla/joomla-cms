@@ -3,14 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Banners\Administrator\View\Clients;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 
 /**
@@ -59,13 +65,12 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		BannersHelper::addSubmenu('clients');
 
 		$this->addToolbar();
-		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}
@@ -79,38 +84,58 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$canDo = \JHelperContent::getActions('com_banners');
+		$canDo = ContentHelper::getActions('com_banners');
 
-		\JToolbarHelper::title(\JText::_('COM_BANNERS_MANAGER_CLIENTS'), 'bookmark banners-clients');
+		ToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_CLIENTS'), 'bookmark banners-clients');
+
+		// Get the toolbar object instance
+		$toolbar = Toolbar::getInstance('toolbar');
 
 		if ($canDo->get('core.create'))
 		{
-			\JToolbarHelper::addNew('client.add');
+			$toolbar->addNew('client.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') || $canDo->get('core.admin'))
 		{
-			\JToolbarHelper::publish('clients.publish', 'JTOOLBAR_PUBLISH', true);
-			\JToolbarHelper::unpublish('clients.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			\JToolbarHelper::archiveList('clients.archive');
-			\JToolbarHelper::checkin('clients.checkin');
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-globe')
+				->buttonClass('btn btn-info')
+				->listCheck(true);
+
+			$childBar = $dropdown->getChildToolbar();
+
+			$childBar->publish('clients.publish')->listCheck(true);
+			$childBar->unpublish('clients.unpublish')->listCheck(true);
+			$childBar->archive('clients.archive')->listCheck(true);
+
+			if ($canDo->get('core.admin'))
+			{
+				$childBar->checkin('clients.checkin')->listCheck(true);
+			}
+
+			if (!$this->state->get('filter.state') == -2)
+			{
+				$childBar->trash('clients.trash')->listCheck(true);
+			}
 		}
 
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'clients.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			\JToolbarHelper::trash('clients.trash');
+			$toolbar->delete('clients.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			\JToolbarHelper::preferences('com_banners');
+			$toolbar->preferences('com_banners');
 		}
 
-		\JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_CLIENTS');
+		$toolbar->help('JHELP_COMPONENTS_BANNERS_CLIENTS');
 	}
 
 	/**
@@ -123,12 +148,12 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'a.status'    => \JText::_('JSTATUS'),
-			'a.name'      => \JText::_('COM_BANNERS_HEADING_CLIENT'),
-			'contact'     => \JText::_('COM_BANNERS_HEADING_CONTACT'),
-			'client_name' => \JText::_('COM_BANNERS_HEADING_CLIENT'),
-			'nbanners'    => \JText::_('COM_BANNERS_HEADING_ACTIVE'),
-			'a.id'        => \JText::_('JGRID_HEADING_ID')
+			'a.status'    => Text::_('JSTATUS'),
+			'a.name'      => Text::_('COM_BANNERS_HEADING_CLIENT'),
+			'contact'     => Text::_('COM_BANNERS_HEADING_CONTACT'),
+			'client_name' => Text::_('COM_BANNERS_HEADING_CLIENT'),
+			'nbanners'    => Text::_('COM_BANNERS_HEADING_ACTIVE'),
+			'a.id'        => Text::_('JGRID_HEADING_ID')
 		);
 	}
 }

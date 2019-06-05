@@ -12,6 +12,7 @@
 		<field
 			name="state"
 			type="status"
+			label="JOPTION_SELECT_PUBLISHED"
 			filter="0,1"
 			onchange="this.form.submit();"
 			>
@@ -21,6 +22,7 @@
 		<field
 			name="type"
 			type="contenttypes"
+			label="COM_FINDER_MAPS_SELECT_TYPE"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_FINDER_MAPS_SELECT_TYPE</option>
@@ -29,6 +31,7 @@
 		<field
 			name="content_map"
 			type="contentmap"
+			label="COM_FINDER_FILTER_SELECT_CONTENT_MAP"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_FINDER_FILTER_SELECT_CONTENT_MAP</option>
@@ -39,6 +42,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="l.title ASC"
 			>
@@ -58,6 +62,7 @@
 		<field
 			name="limit"
 			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>

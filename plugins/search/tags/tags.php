@@ -1,19 +1,17 @@
 <?php
-
 /**
  * @package     Joomla.Plugin
  * @subpackage  Search.tags
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\Component\Tags\Site\Model\TagModel;
 
 /**
  * Tags search plugin.
@@ -124,7 +122,7 @@ class PlgSearchTags extends CMSPlugin
 
 		$query->where('(a.title LIKE ' . $text . ' OR a.alias LIKE ' . $text . ')');
 
-		$query->where($db->qn('a.published') . ' = 1');
+		$query->where($db->quoteName('a.published') . ' = 1');
 
 		if (!$user->authorise('core.admin'))
 		{
@@ -167,14 +165,15 @@ class PlgSearchTags extends CMSPlugin
 			}
 		}
 
-		if (!$this->params->get('show_tagged_items'))
+		if (!$this->params->get('show_tagged_items', 0))
 		{
 			return $rows;
 		}
 		else
 		{
 			$final_items = $rows;
-			$tag_model = new TagModel;
+			$tag_model   = Factory::getApplication()->bootComponent('com_tags')
+				->getMVCFactory()->createModel('Tag', 'Site');
 			$tag_model->getState();
 
 			foreach ($rows as $key => $row)

@@ -3,17 +3,22 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Newsfeeds\Site\View\Newsfeed;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Feed\FeedFactory;
 use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
-use Joomla\Component\Newsfeeds\Site\Model\CategoryModel;
 
 /**
  * HTML View class for the Newsfeeds component
@@ -71,15 +76,6 @@ class HtmlView extends BaseHtmlView
 	protected $params;
 
 	/**
-	 * Clone of the $item property
-	 *
-	 * @var         object
-	 * @since       4.0.0
-	 * @deprecated  4.0
-	 */
-	protected $newsfeed;
-
-	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -90,8 +86,8 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app  = \JFactory::getApplication();
-		$user = \JFactory::getUser();
+		$app  = Factory::getApplication();
+		$user = Factory::getUser();
 
 		// Get view related request variables.
 		$print = $app->input->getBool('print');
@@ -103,7 +99,8 @@ class HtmlView extends BaseHtmlView
 		if ($item)
 		{
 			// Get Category Model data
-			$categoryModel = new CategoryModel(array('ignore_request' => true));
+			$categoryModel = $app->bootComponent('com_newsfeeds')
+				->getMVCFactory()->createModel('Category', 'Site', ['ignore_request' => true]);
 			$categoryModel->setState('category.id', $item->catid);
 			$categoryModel->setState('list.ordering', 'a.name');
 			$categoryModel->setState('list.direction', 'asc');
@@ -113,10 +110,10 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Check for errors.
-		// @TODO: Maybe this could go into \JComponentHelper::raiseErrors($this->get('Errors'))
+		// @TODO: Maybe this could go into ComponentHelper::raiseErrors($this->get('Errors'))
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Add router helpers.
@@ -182,7 +179,7 @@ class HtmlView extends BaseHtmlView
 
 		if (!in_array($item->access, $levels) || (in_array($item->access, $levels) && (!in_array($item->category_access, $levels))))
 		{
-			$app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$app->setHeader('status', 403, true);
 
 			return;
@@ -191,28 +188,25 @@ class HtmlView extends BaseHtmlView
 		// Get the current menu item
 		$params = $app->getParams();
 
-		// Get the newsfeed
-		$newsfeed = $item;
-
 		$params->merge($item->params);
 
 		try
 		{
-			$feed = new \JFeedFactory;
-			$this->rssDoc = $feed->getFeed($newsfeed->link);
+			$feed = new FeedFactory;
+			$this->rssDoc = $feed->getFeed($item->link);
 		}
 		catch (\InvalidArgumentException $e)
 		{
-			$msg = \JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+			$msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
 		}
 		catch (\RuntimeException $e)
 		{
-			$msg = \JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+			$msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
 		}
 
 		if (empty($this->rssDoc))
 		{
-			$msg = \JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+			$msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
 		}
 
 		$feed_display_order = $params->get('feed_display_order', 'des');
@@ -225,11 +219,10 @@ class HtmlView extends BaseHtmlView
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-        $this->params = $params;
-		$this->newsfeed = $newsfeed;
-		$this->state = $state;
-		$this->item = $item;
-		$this->user = $user;
+		$this->params = $params;
+		$this->state  = $state;
+		$this->item   = $item;
+		$this->user   = $user;
 
 		if (!empty($msg))
 		{
@@ -259,7 +252,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function _prepareDocument()
 	{
-		$app     = \JFactory::getApplication();
+		$app     = Factory::getApplication();
 		$menus   = $app->getMenu();
 		$pathway = $app->getPathway();
 		$title   = null;
@@ -274,7 +267,7 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', \JText::_('COM_NEWSFEEDS_DEFAULT_PAGE_TITLE'));
+			$this->params->def('page_heading', Text::_('COM_NEWSFEEDS_DEFAULT_PAGE_TITLE'));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -291,7 +284,7 @@ class HtmlView extends BaseHtmlView
 			}
 
 			$path = array(array('title' => $this->item->name, 'link' => ''));
-			$category = \JCategories::getInstance('Newsfeeds')->get($this->item->catid);
+			$category = Categories::getInstance('Newsfeeds')->get($this->item->catid);
 
 			while (($menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed' || $id != $category->id) && $category->id > 1)
 			{
@@ -313,11 +306,11 @@ class HtmlView extends BaseHtmlView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		if (empty($title))
@@ -338,16 +331,16 @@ class HtmlView extends BaseHtmlView
 
 		if ($this->item->metakey)
 		{
-			$this->document->setMetadata('keywords', $this->item->metakey);
+			$this->document->setMetaData('keywords', $this->item->metakey);
 		}
 		elseif ($this->params->get('menu-meta_keywords'))
 		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 
 		if ($app->get('MetaTitle') == '1')
@@ -366,7 +359,7 @@ class HtmlView extends BaseHtmlView
 		{
 			if ($v)
 			{
-				$this->document->setMetadata($k, $v);
+				$this->document->setMetaData($k, $v);
 			}
 		}
 	}

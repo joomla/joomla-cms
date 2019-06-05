@@ -3,22 +3,22 @@
  * @package     Joomla.Plugin
  * @subpackage  User.joomla
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\User\User;
-use Joomla\Registry\Registry;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserHelper;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Registry\Registry;
 
 /**
  * Joomla User plugin
@@ -30,7 +30,7 @@ class PlgUserJoomla extends CMSPlugin
 	/**
 	 * Application object
 	 *
-	 * @var    JApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplicationInterface
 	 * @since  3.2
 	 */
 	protected $app;
@@ -38,7 +38,7 @@ class PlgUserJoomla extends CMSPlugin
 	/**
 	 * Database object
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseInterface
 	 * @since  3.2
 	 */
 	protected $db;
@@ -130,6 +130,7 @@ class PlgUserJoomla extends CMSPlugin
 		if (strpos($this->app->get('mailfrom'), '@') === false)
 		{
 			$this->app->enqueueMessage(Text::_('JERROR_SENDING_EMAIL'), 'warning');
+
 			return;
 		}
 
@@ -168,13 +169,31 @@ class PlgUserJoomla extends CMSPlugin
 			$user['password_clear']
 		);
 
-		$res = Factory::getMailer()->sendMail(
-			$this->app->get('mailfrom'),
-			$this->app->get('fromname'),
-			$user['email'],
-			$emailSubject,
-			$emailBody
-		);
+		try
+		{
+			$res = Factory::getMailer()->sendMail(
+				$this->app->get('mailfrom'),
+				$this->app->get('fromname'),
+				$user['email'],
+				$emailSubject,
+				$emailBody
+			);
+		}
+		catch (\Exception $exception)
+		{
+			try
+			{
+				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+				$res = false;
+			}
+			catch (\RuntimeException $exception)
+			{
+				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+				$res = false;
+			}
+		}
 
 		if ($res === false)
 		{
@@ -295,7 +314,7 @@ class PlgUserJoomla extends CMSPlugin
 	 * @param   array  $user     Holds the user data.
 	 * @param   array  $options  Array holding options (client, ...).
 	 *
-	 * @return  bool  True on success
+	 * @return  boolean  True on success
 	 *
 	 * @since   1.5
 	 */
@@ -363,7 +382,7 @@ class PlgUserJoomla extends CMSPlugin
 	 * @param   array  $user     Holds the user data.
 	 * @param   array  $options  Array holding options (remember, autoregister, group).
 	 *
-	 * @return  JUser
+	 * @return  User
 	 *
 	 * @since   1.5
 	 */
@@ -401,7 +420,7 @@ class PlgUserJoomla extends CMSPlugin
 		{
 			if (!$instance->save())
 			{
-				Log::add('Error in autoregistration for user ' . $user['username'] . '.', Log::WARNING, 'error');
+				Log::add('Failed to automatically create account for user ' . $user['username'] . '.', Log::WARNING, 'error');
 			}
 		}
 		else

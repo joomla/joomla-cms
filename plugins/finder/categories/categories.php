@@ -3,16 +3,16 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Categories
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\Registry\Registry;
-use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseQuery;
+use Joomla\Registry\Registry;
 
 JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
 
@@ -236,15 +236,14 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	/**
 	 * Method to index an item. The item must be a FinderIndexerResult object.
 	 *
-	 * @param   FinderIndexerResult  $item    The item to index as a FinderIndexerResult object.
-	 * @param   string               $format  The item format.  Not used.
+	 * @param   FinderIndexerResult  $item  The item to index as a FinderIndexerResult object.
 	 *
 	 * @return  void
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	protected function index(FinderIndexerResult $item, $format = 'html')
+	protected function index(FinderIndexerResult $item)
 	{
 		// Check if the extension is enabled.
 		if (ComponentHelper::isEnabled($this->extension) === false)
@@ -252,15 +251,19 @@ class PlgFinderCategories extends FinderIndexerAdapter
 			return;
 		}
 
+		// Extract the extension element
+		$parts = explode('.', $item->extension);
+		$extension_element = $parts[0];
+
 		// Check if the extension that owns the category is also enabled.
-		if (ComponentHelper::isEnabled($item->extension) === false)
+		if (ComponentHelper::isEnabled($extension_element) === false)
 		{
 			return;
 		}
 
 		$item->setLanguage();
 
-		$extension = ucfirst(substr($item->extension, 4));
+		$extension = ucfirst(substr($extension_element, 4));
 
 		// Initialize the item parameters.
 		$item->params = new Registry($item->params);
@@ -287,13 +290,17 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		// Trigger the onContentPrepare event.
 		$item->summary = FinderIndexerHelper::prepareContent($item->summary, $item->params);
 
-		// Build the necessary route and path information.
+		// Create a URL as identifier to recognise items again.
 		$item->url = $this->getUrl($item->id, $item->extension, $this->layout);
 
+		/*
+		 * Build the necessary route information.
+		 * Need to import component route helpers dynamically, hence the reason it's handled here.
+		 */
 		$class = $extension . 'HelperRoute';
 
 		// Need to import component route helpers dynamically, hence the reason it's handled here.
-		JLoader::register($class, JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php');
+		JLoader::register($class, JPATH_SITE . '/components/' . $extension_element . '/helpers/route.php');
 
 		if (class_exists($class) && method_exists($class, 'getCategoryRoute'))
 		{
@@ -303,8 +310,6 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		{
 			$item->route = ContentHelperRoute::getCategoryRoute($item->id, $item->language);
 		}
-
-		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		// Get the menu title if it exists.
 		$title = $this->getItemMenuTitle($item->url);
