@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,8 @@ class MediaControllerFile extends JControllerLegacy
 	public function upload()
 	{
 		// Check for request forgeries
-		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
+
 		$params = JComponentHelper::getParams('com_media');
 
 		// Get some data from the request
@@ -107,8 +108,28 @@ class MediaControllerFile extends JControllerLegacy
 		// Perform basic checks on file info before attempting anything
 		foreach ($files as &$file)
 		{
-			$file['name']     = JFile::makeSafe($file['name']);
-			$file['name']     = str_replace(' ', '-', $file['name']);
+			// Make the filename safe
+			$file['name'] = JFile::makeSafe($file['name']);
+
+			// We need a url safe name
+			$fileparts = pathinfo(COM_MEDIA_BASE . '/' . $this->folder . '/' . $file['name']);
+
+			if (strpos(realpath($fileparts['dirname']), JPath::clean(realpath(COM_MEDIA_BASE))) !== 0)
+			{
+				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNINVALID_FOLDER'));
+
+				return false;
+			}
+
+			// Transform filename to punycode, check extension and transform it to lowercase
+			$fileparts['filename'] = JStringPunycode::toPunycode($fileparts['filename']);
+			$tempExt = !empty($fileparts['extension']) ? strtolower($fileparts['extension']) : '';
+
+			// Neglect other than non-alphanumeric characters, hyphens & underscores.
+			$safeFileName = preg_replace(array("/[\\s]/", '/[^a-zA-Z0-9_\-]/'), array('_', ''), $fileparts['filename']) . '.' . $tempExt;
+
+			$file['name'] = $safeFileName;
+
 			$file['filepath'] = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $this->folder, $file['name'])));
 
 			if (($file['error'] == 1)
@@ -213,7 +234,7 @@ class MediaControllerFile extends JControllerLegacy
 	 */
 	public function delete()
 	{
-		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		$user = JFactory::getUser();
 
@@ -260,6 +281,17 @@ class MediaControllerFile extends JControllerLegacy
 		$ret = true;
 
 		$safePaths = array_intersect($paths, array_map(array('JFile', 'makeSafe'), $paths));
+
+		foreach ($safePaths as $key => $path)
+		{
+			$fullPath = implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path));
+
+			if (strpos(realpath($fullPath), JPath::clean(realpath(COM_MEDIA_BASE))) !== 0)
+			{
+				unset($safePaths[$key]);
+			}
+		}
+
 		$unsafePaths = array_diff($paths, $safePaths);
 
 		foreach ($unsafePaths as $path)

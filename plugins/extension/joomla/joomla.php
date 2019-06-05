@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Extension.Joomla
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -111,7 +111,7 @@ class PlgExtensionJoomla extends JPlugin
 	 *
 	 * @since   1.6
 	 */
-	public function onExtensionAfterInstall($installer, $eid )
+	public function onExtensionAfterInstall($installer, $eid)
 	{
 		if ($eid)
 		{

@@ -86,7 +86,6 @@
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_HEADING_LABEL"
 				description="COM_MENUS_ITEM_FIELD_PAGE_HEADING_DESC"
-				useglobal="true"
 			/>
 
 			<field
@@ -94,7 +93,6 @@
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_CLASS_LABEL"
 				description="COM_MENUS_ITEM_FIELD_PAGE_CLASS_DESC"
-				useglobal="true"
 			/>
 
 		</fieldset>

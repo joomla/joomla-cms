@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -165,6 +165,7 @@ abstract class FieldsPlugin extends JPlugin
 		$node->setAttribute('name', $field->name);
 		$node->setAttribute('type', $field->type);
 		$node->setAttribute('label', $field->label);
+		$node->setAttribute('labelclass', $field->params->get('label_class'));
 		$node->setAttribute('description', $field->description);
 		$node->setAttribute('class', $field->params->get('class'));
 		$node->setAttribute('hint', $field->params->get('hint'));
