@@ -193,7 +193,19 @@ class ActionlogsHelper
 			$messageData['extension_name'] = Text::_($messageData['extension_name']);
 		}
 
-		$linkMode = Factory::getApplication()->get('force_ssl', 0) >= 1 ? 1 : -1;
+		// Translating application
+		if (isset($messageData['app']))
+		{
+			$messageData['app'] = Text::_($messageData['app']);
+		}
+
+		// Translating type
+		if (isset($messageData['type']))
+		{
+			$messageData['type'] = Text::_($messageData['type']);
+		}
+
+		$linkMode = Factory::getApplication()->get('force_ssl', 0) >= 1 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
 		foreach ($messageData as $key => $value)
 		{
@@ -208,7 +220,7 @@ class ActionlogsHelper
 				$value = $links[$value];
 			}
 
-			$message = str_replace('{' . $key . '}', Text::_($value), $message);
+			$message = str_replace('{' . $key . '}', $value, $message);
 		}
 
 		return $message;

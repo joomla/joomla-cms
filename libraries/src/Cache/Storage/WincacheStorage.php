@@ -15,7 +15,7 @@ use Joomla\CMS\Cache\CacheStorage;
 /**
  * WinCache cache storage handler
  *
- * @link   https://secure.php.net/manual/en/book.wincache.php
+ * @link   https://www.php.net/manual/en/book.wincache.php
  * @since  1.7.0
  */
 class WincacheStorage extends CacheStorage

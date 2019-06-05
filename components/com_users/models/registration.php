@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Router\Route;
+
 /**
  * Registration model class for Users.
  *
@@ -108,14 +110,20 @@ class UsersModelRegistration extends JModelForm
 		// Admin activation is on and user is verifying their email
 		if (($userParams->get('useractivation') == 2) && !$user->getParam('activate', 0))
 		{
-			$linkMode = $config->get('force_ssl', 0) == 2 ? 1 : -1;
+			$linkMode = $config->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
 			// Compile the admin notification mail values.
 			$data = $user->getProperties();
 			$data['activation'] = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
 			$user->set('activation', $data['activation']);
 			$data['siteurl'] = JUri::base();
-			$data['activate'] = JRoute::link('site', 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false, $linkMode);
+			$data['activate'] = JRoute::link(
+				'site',
+				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
+				false,
+				$linkMode,
+				true
+			);
 
 			$data['fromname'] = $config->get('fromname');
 			$data['mailfrom'] = $config->get('mailfrom');
@@ -278,8 +286,8 @@ class UsersModelRegistration extends JModelForm
 			// Get the groups the user should be added to after registration.
 			$this->data->groups = array();
 
-			// Get the default new user group, Registered if not specified.
-			$system = $params->get('new_usertype', 2);
+			// Get the default new user group, guest or public group if not specified.
+			$system = $params->get('new_usertype', $params->get('guest_usergroup', 1));
 
 			$this->data->groups[] = $system;
 
@@ -471,9 +479,15 @@ class UsersModelRegistration extends JModelForm
 		if ($useractivation == 2)
 		{
 			// Set the link to confirm the user email.
-			$linkMode = $config->get('force_ssl', 0) == 2 ? 1 : -1;
+			$linkMode = $config->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
-			$data['activate'] = JRoute::link('site', 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false, $linkMode);
+			$data['activate'] = JRoute::link(
+				'site',
+				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
+				false,
+				$linkMode,
+				true
+			);
 
 			$emailSubject = JText::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
@@ -508,9 +522,15 @@ class UsersModelRegistration extends JModelForm
 		elseif ($useractivation == 1)
 		{
 			// Set the link to activate the user account.
-			$linkMode = $config->get('force_ssl', 0) == 2 ? 1 : -1;
+			$linkMode = $config->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
-			$data['activate'] = JRoute::link('site', 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false, $linkMode);
+			$data['activate'] = JRoute::link(
+				'site',
+				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
+				false,
+				$linkMode,
+				true
+			);
 
 			$emailSubject = JText::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',

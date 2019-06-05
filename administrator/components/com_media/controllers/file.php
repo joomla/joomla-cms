@@ -114,6 +114,13 @@ class MediaControllerFile extends JControllerLegacy
 			// We need a url safe name
 			$fileparts = pathinfo(COM_MEDIA_BASE . '/' . $this->folder . '/' . $file['name']);
 
+			if (strpos(realpath($fileparts['dirname']), JPath::clean(realpath(COM_MEDIA_BASE))) !== 0)
+			{
+				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNINVALID_FOLDER'));
+
+				return false;
+			}
+
 			// Transform filename to punycode, check extension and transform it to lowercase
 			$fileparts['filename'] = JStringPunycode::toPunycode($fileparts['filename']);
 			$tempExt = !empty($fileparts['extension']) ? strtolower($fileparts['extension']) : '';
@@ -274,6 +281,17 @@ class MediaControllerFile extends JControllerLegacy
 		$ret = true;
 
 		$safePaths = array_intersect($paths, array_map(array('JFile', 'makeSafe'), $paths));
+
+		foreach ($safePaths as $key => $path)
+		{
+			$fullPath = implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path));
+
+			if (strpos(realpath($fullPath), JPath::clean(realpath(COM_MEDIA_BASE))) !== 0)
+			{
+				unset($safePaths[$key]);
+			}
+		}
+
 		$unsafePaths = array_diff($paths, $safePaths);
 
 		foreach ($unsafePaths as $path)
