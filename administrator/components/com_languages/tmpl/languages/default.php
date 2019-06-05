@@ -36,7 +36,7 @@ if ($saveOrder && !empty($this->items))
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning">
+					<div class="alert alert-info">
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>

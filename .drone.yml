@@ -6,16 +6,8 @@ clone:
   depth: 42
 
 steps:
-  - name: phpcs
-    image: joomlaprojects/docker-phpcs
-    commands:
-      - echo $(date)
-      - /root/.composer/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
-      - echo $(date)
-
   - name: restore-cache
     image: drillster/drone-volume-cache
-    depends_on: [ phpcs ]
     settings:
       restore: true
       mount:
@@ -27,16 +19,29 @@ steps:
       - name: cache
         path: /cache
 
-  - name: prepare
+  - name: composer
     image: joomlaprojects/docker-tools:develop
     depends_on: [ restore-cache ]
     commands:
       - composer install --no-progress --no-suggest
+
+  - name: phpcs
+    image: php:7.2
+    depends_on: [ composer ]
+    commands:
+      - echo $(date)
+      - ./libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
+      - echo $(date)
+
+  - name: npm
+    image: joomlaprojects/docker-tools:develop
+    depends_on: [ phpcs ]
+    commands:
       - npm install --unsafe-perm
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
-    depends_on: [ prepare ]
+    depends_on: [ npm ]
     settings:
       rebuild: true
       mount:
@@ -49,21 +54,21 @@ steps:
         path: /cache
 
   - name: php72-unit
-    depends_on: [ rebuild-cache ]
+    depends_on: [ phpcs ]
     image: php:7.2
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit
 
   - name: php73-unit
-    depends_on: [ rebuild-cache ]
+    depends_on: [ phpcs ]
     image: php:7.3
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit
 
   - name: php74-unit
-    depends_on: [ rebuild-cache ]
+    depends_on: [ phpcs ]
     image: phpdaily/php:7.4-dev
     errignore: true
     commands:
@@ -71,7 +76,7 @@ steps:
       - ./libraries/vendor/bin/phpunit
 
   - name: php80-unit
-    depends_on: [ rebuild-cache ]
+    depends_on: [ phpcs ]
     image: phpdaily/php:8.0-dev
     errignore: true
     commands:
@@ -79,7 +84,7 @@ steps:
       - ./libraries/vendor/bin/phpunit
 
   - name: javascript-cs
-    depends_on: [ rebuild-cache ]
+    depends_on: [ npm ]
     image: joomlaprojects/docker-systemtests:develop
     commands:
       - export DISPLAY=:0
@@ -89,7 +94,7 @@ steps:
       - npm run lint:js
 
   - name: javascript-tests
-    depends_on: [ rebuild-cache ]
+    depends_on: [ npm ]
     image: joomlaprojects/docker-systemtests:develop
     commands:
       - export DISPLAY=:0
@@ -168,6 +173,6 @@ services:
 
 ---
 kind: signature
-hmac: c3b4baf30db6797a4cc0a222fb0f51211083fd63e07314b69364d3636f24aff0
+hmac: fe0f4efe905e680da49bd332d26fd3fe68e43f392747b1ceb821693d26459bb8
 
 ...
