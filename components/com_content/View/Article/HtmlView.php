@@ -451,8 +451,6 @@ class HtmlView extends BaseHtmlView
 			);
 		}
 
-		/** @var \Joomla\CMS\Document\HtmlDocument $doc */
-		$doc = $app->getDocument();
-		$doc->addScriptDeclaration(json_encode($schema, JDEBUG ? JSON_PRETTY_PRINT : 0), 'application/ld+json');
+		$this->document->addScriptDeclaration(json_encode($schema, JDEBUG ? JSON_PRETTY_PRINT : 0), 'application/ld+json');
 	}
 }
