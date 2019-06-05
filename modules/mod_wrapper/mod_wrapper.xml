@@ -63,7 +63,7 @@
 
 				<field
 					name="height"
-					type="text"
+					type="number"
 					label="MOD_WRAPPER_FIELD_HEIGHT_LABEL"
 					size="5"
 					default="200"
