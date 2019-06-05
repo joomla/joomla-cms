@@ -39,16 +39,18 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 		<div class="card card-secondary">
 			<div class="card-header">
 				<span class="small"><?php echo Text::_('JSELECT'); ?>:
-					<a id="treeCheckAll" href="javascript://"><?php echo Text::_('JALL'); ?></a>,
-					<a id="treeUncheckAll" href="javascript://"><?php echo Text::_('JNONE'); ?></a>
+					<button id="treeCheckAll" class="btn btn-link" type="button"><?php echo Text::_('JALL'); ?></button>
+					<button id="treeUncheckAll" class="btn btn-link" type="button"><?php echo Text::_('JNONE'); ?></button>
 				</span>
 				<span class="width-20">|</span>
 				<span class="small"><?php echo Text::_('COM_MODULES_EXPAND'); ?>:
-					<a id="treeExpandAll" href="javascript://"><?php echo Text::_('JALL'); ?></a>,
-					<a id="treeCollapseAll" href="javascript://"><?php echo Text::_('JNONE'); ?></a>
+					<button id="treeExpandAll" class="btn btn-link" type="button"><?php echo Text::_('JALL'); ?></button>
+					<button id="treeCollapseAll" class="btn btn-link" type="button"><?php echo Text::_('JNONE'); ?></button>
 				</span>
-				<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query float-right" size="16"
-					autocomplete="off" placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>" aria-invalid="false" tabindex="-1">
+				<span role="search">
+					<label for="treeselectfilter" class="sr-only"><?php echo Text::_('JSEARCH_FILTER'); ?></label>
+					<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query float-right" size="16" autocomplete="off" placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>">
+				</span>
 			</div>
 			<div class="card-body">
 				<ul class="treeselect">
