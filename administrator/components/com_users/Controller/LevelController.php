@@ -70,7 +70,7 @@ class LevelController extends FormController
 			->select('*')
 			->from($db->quoteName('#__viewlevels'))
 			->where($db->quoteName('id') . ' = :id')
-			->bind(':id', (int) $data['id'], ParameterType::INTEGER);
+			->bind(':id', $data['id'], ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		$viewlevel = $db->loadAssoc();
