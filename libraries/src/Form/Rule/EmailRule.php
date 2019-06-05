@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Registry\Registry;
 
@@ -78,7 +79,7 @@ class EmailRule extends FormRule
 			// Test the value against the regular expression.
 			if (!parent::test($element, $value, $group, $input, $form))
 			{
-				return new \UnexpectedValueException(\JText::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
+				return new \UnexpectedValueException(Text::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
 			}
 		}
 		else
@@ -93,7 +94,7 @@ class EmailRule extends FormRule
 				// Test the value against the regular expression.
 				if (!parent::test($element, $value, $group, $input, $form))
 				{
-					return new \UnexpectedValueException(\JText::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
+					return new \UnexpectedValueException(Text::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
 				}
 			}
 		}
@@ -162,7 +163,7 @@ class EmailRule extends FormRule
 				// If domain is not allowed, fail validation. Otherwise continue.
 				if (!$allowed)
 				{
-					return new \UnexpectedValueException(\JText::sprintf('JGLOBAL_EMAIL_DOMAIN_NOT_ALLOWED', $emailDomain));
+					return new \UnexpectedValueException(Text::sprintf('JGLOBAL_EMAIL_DOMAIN_NOT_ALLOWED', $emailDomain));
 				}
 			}
 		}
@@ -191,7 +192,7 @@ class EmailRule extends FormRule
 
 			if ($duplicate)
 			{
-				return new \UnexpectedValueException(\JText::_('JLIB_DATABASE_ERROR_EMAIL_INUSE'));
+				return new \UnexpectedValueException(Text::_('JLIB_DATABASE_ERROR_EMAIL_INUSE'));
 			}
 		}
 

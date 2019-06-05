@@ -44,7 +44,7 @@ if ($saveOrder && !empty($this->items))
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning">
+					<div class="alert alert-info">
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -159,7 +159,7 @@ if ($saveOrder && !empty($this->items))
 								<?php if ($assoc) : ?>
 								<td class="d-none d-md-table-cell text-center">
 									<?php if ($item->association) : ?>
-										<?php echo HTMLHelper::_('newsfeed.association', $item->id); ?>
+										<?php echo HTMLHelper::_('newsfeedsadministrator.association', $item->id); ?>
 									<?php endif; ?>
 								</td>
 								<?php endif; ?>

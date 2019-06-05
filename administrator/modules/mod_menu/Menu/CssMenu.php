@@ -274,7 +274,6 @@ class CssMenu
 		 */
 		$this->application->triggerEvent('onPreprocessMenuItems', array('com_menus.administrator.module', $children, $this->params, $this->enabled));
 
-
 		foreach ($children as $item)
 		{
 			// Exclude item with menu item option set to exclude from menu modules
@@ -349,6 +348,21 @@ class CssMenu
 				}
 
 				list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
+			}
+			elseif ($item->element === 'com_cpanel' && $item->link === 'index.php')
+			{
+				continue;
+			}
+			elseif ($item->link === 'index.php?option=com_cpanel&view=help')
+			{
+				if ($this->params->get('showhelp', 1))
+				{
+					continue;
+				}
+
+				// Exclude help menu item if set such in mod_menu
+				$parent->removeChild($item);
+				continue;
 			}
 			elseif ($item->element === 'com_workflow')
 			{
@@ -434,13 +448,6 @@ class CssMenu
 
 			// Exclude if there are no child items under heading or container
 			if (in_array($item->type, array('heading', 'container')) && !$item->hasChildren() && empty($item->components))
-			{
-				$parent->removeChild($item);
-				continue;
-			}
-
-			// Exclude help menu item if set such in mod_menu
-			if ($this->params->get('showhelp', 1) == 0 && $item->link == 'index.php?option=com_cpanel&view=help')
 			{
 				$parent->removeChild($item);
 				continue;

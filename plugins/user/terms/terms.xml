@@ -20,7 +20,7 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="basic" addfieldpath="/administrator/components/com_content/models/fields">
+			<fieldset name="basic" addfieldprefix="Joomla\Component\Content\Administrator\Field">
 				<field 
 					name="terms_note" 
 					type="textarea" 
