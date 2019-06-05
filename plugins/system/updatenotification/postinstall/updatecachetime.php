@@ -7,9 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Checks if the com_installer config for the cache Hours are eq 0 and the updatenotification Plugin is enabled
@@ -20,10 +18,10 @@ use Joomla\CMS\Plugin\PluginHelper;
  */
 function updatecachetime_postinstall_condition()
 {
-	$cacheTimeout = (int) ComponentHelper::getComponent('com_installer')->params->get('cachetimeout', 6);
+	$cacheTimeout = (int) JComponentHelper::getComponent('com_installer')->params->get('cachetimeout', 6);
 
 	// Check if cachetimeout is eq zero
-	if ($cacheTimeout === 0 && PluginHelper::isEnabled('system', 'updatenotification'))
+	if ($cacheTimeout === 0 && JPluginHelper::isEnabled('system', 'updatenotification'))
 	{
 		return true;
 	}
@@ -40,13 +38,13 @@ function updatecachetime_postinstall_condition()
  */
 function updatecachetime_postinstall_action()
 {
-	$installer = ComponentHelper::getComponent('com_installer');
+	$installer = JComponentHelper::getComponent('com_installer');
 
 	// Sets the cachtimeout back to the default (6 hours)
 	$installer->params->set('cachetimeout', 6);
 
 	// Save the new parameters back to com_installer
-	$table = Table::getInstance('extension');
+	$table = JTable::getInstance('extension');
 	$table->load($installer->id);
 	$table->bind(array('params' => $installer->params->toString()));
 

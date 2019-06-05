@@ -20,7 +20,6 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -100,7 +99,9 @@ class ContactModel extends FormModel
 		}
 
 		$temp = clone $this->getState('params');
+
 		$contact = $this->_item[$this->getState('contact.id')];
+
 		$active = Factory::getApplication()->getMenu()->getActive();
 
 		if ($active)
@@ -196,15 +197,16 @@ class ContactModel extends FormModel
 					->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access')
 					->leftJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
 
+
 					// Join over the categories to get parent category titles
 					->select('parent.title AS parent_title, parent.id AS parent_id, parent.path AS parent_route, parent.alias AS parent_alias')
 					->leftJoin($db->quoteName('#__categories', 'parent') . ' ON parent.id = c.parent_id')
-					->where($db->quoteName('a.id') . ' = :id')
-					->bind(':id', $pk, ParameterType::INTEGER);
+
+					->where('a.id = ' . (int) $pk);
 
 				// Filter by start and end dates.
 				$nullDate = $db->quote($db->getNullDate());
-				$nowDate = Factory::getDate()->toSql();
+				$nowDate = $db->quote(Factory::getDate()->toSql());
 
 				// Filter by published state.
 				$published = $this->getState('filter.published');
@@ -212,13 +214,9 @@ class ContactModel extends FormModel
 
 				if (is_numeric($published))
 				{
-					$query->where('(a.published = :published OR a.published = :archived)')
-						->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= :publish_up)')
-						->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= :publish_down)')
-						->bind(':published', $published, ParameterType::INTEGER)
-						->bind(':archived', $archived, ParameterType::INTEGER)
-						->bind(':publish_up', $nowDate)
-						->bind(':publish_down', $nowDate);
+					$query->where('(a.published = ' . (int) $published . ' OR a.published =' . (int) $archived . ')')
+						->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= ' . $db->quote($nowDate) . ')')
+						->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= ' . $db->quote($nowDate) . ')');
 				}
 
 				$db->setQuery($query);
@@ -307,7 +305,7 @@ class ContactModel extends FormModel
 		$nullDate  = $db->quote($db->getNullDate());
 		$nowDate   = $db->quote(Factory::getDate()->toSql());
 		$user      = Factory::getUser();
-		$groups = $user->getAuthorisedViewLevels();
+		$groups    = implode(',', $user->getAuthorisedViewLevels());
 		$published = $this->getState('filter.published');
 		$query     = $db->getQuery(true);
 
@@ -333,27 +331,21 @@ class ContactModel extends FormModel
 				->select($this->getSlugColumn($query, 'c.id', 'c.alias') . ' AS catslug')
 				->from($db->quoteName('#__content', 'a'))
 				->leftJoin($db->quoteName('#__categories', 'c') . ' ON a.catid = c.id')
-				->where($db->quoteName('a.created_by') . ' = :created_by')
-				->whereIn($db->quoteName('a.access'), $groups)
-				->bind(':created_by', $contact->user_id, ParameterType::INTEGER)
+				->where('a.created_by = ' . (int) $contact->user_id)
+				->where('a.access IN (' . $groups . ')')
 				->order('a.publish_up DESC');
 
 			// Filter per language if plugin published
 			if (Multilanguage::isEnabled())
 			{
-				$language = [Factory::getLanguage()->getTag(), $db->quote('*')];
-				$query->whereIn($db->quoteName('a.language'), $language);
+				$query->where('a.language IN (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 			}
 
 			if (is_numeric($published))
 			{
 				$query->where('a.state IN (1,2)')
-					->where('(' . $db->quoteName('a.publish_up') . ' = :null' .
-						' OR ' . $db->quoteName('a.publish_up') . ' <= :now' . ')')
-					->where('(' . $db->quoteName('a.publish_down') . ' = :null' .
-						' OR ' . $db->quoteName('a.publish_down') . ' >= :now' . ')')
-					->bind(':null', $nullDate)
-					->bind(':now', $nowDate);
+					->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
+					->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 			}
 
 			// Number of articles to display from config/menu params

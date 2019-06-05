@@ -18,7 +18,6 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
-use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -132,7 +131,7 @@ class CategoryModel extends ListModel
 	protected function getListQuery()
 	{
 		$user   = Factory::getUser();
-		$groups = $user->getAuthorisedViewLevels();
+		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Create a new query object.
 		$db    = $this->getDbo();
@@ -148,14 +147,13 @@ class CategoryModel extends ListModel
 		 */
 			->from($db->quoteName('#__contact_details', 'a'))
 			->leftJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
-			->whereIn($db->quoteName('a.access'), $groups);
+			->where('a.access IN (' . $groups . ')');
 
 		// Filter by category.
 		if ($categoryId = $this->getState('category.id'))
 		{
-			$query->where($db->quoteName('a.catid') . ' = :acatid')
-				->whereIn($db->quoteName('c.access'), $groups);
-			$query->bind(':acatid', $categoryId, ParameterType::INTEGER);
+			$query->where('a.catid = ' . (int) $categoryId)
+				->where('c.access IN (' . $groups . ')');
 		}
 
 		// Join over the users for the author and modified_by names.
@@ -169,25 +167,21 @@ class CategoryModel extends ListModel
 
 		if (is_numeric($state))
 		{
-			$query->where($db->quoteName('a.published') . ' = :published');
-			$query->bind(':published', $state, ParameterType::INTEGER);
+			$query->where('a.published = ' . (int) $state);
 		}
 		else
 		{
-			$query->whereIn($db->quoteName('c.published'), [0,1,2]);
+			$query->where('(a.published IN (0,1,2))');
 		}
 
 		// Filter by start and end dates.
-		$nowDate = Factory::getDate()->toSql();
+		$nullDate = $db->quote($db->getNullDate());
+		$nowDate = $db->quote(Factory::getDate()->toSql());
 
 		if ($this->getState('filter.publish_date'))
 		{
-			$query->where('(' . $query->isNullDatetime($db->quoteName('a.publish_up'))
-				. ' OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)')
-				->where('(' . $query->isNullDatetime($db->quoteName('a.publish_down'))
-				. ' OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)')
-				->bind(':publish_up', $nowDate)
-				->bind(':publish_down', $nowDate);
+			$query->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= ' . $db->quote($nowDate) . ')')
+				->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= ' . $db->quote($nowDate) . ')');
 		}
 
 		// Filter by search in title
@@ -195,16 +189,14 @@ class CategoryModel extends ListModel
 
 		if (!empty($search))
 		{
-			$search = '%' . trim($search) . '%';
-			$query->where($db->quoteName('a.name') . ' LIKE :name ');
-			$query->bind(':name', $search);
+			$search = $db->quote('%' . $db->escape($search, true) . '%');
+			$query->where('(a.name LIKE ' . $search . ')');
 		}
 
-		// Filter on the language.
-		if ($language = $this->getState('filter.language'))
+		// Filter by language
+		if ($this->getState('filter.language'))
 		{
-			$language = [Factory::getLanguage()->getTag(), '*'];
-			$query->whereIn($db->quoteName('a.language'), $language);
+			$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
 		// Set sortname ordering if selected

@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\HTML\HTMLHelper;
 
 /**
@@ -51,7 +50,7 @@ abstract class JHtmlDebug
 			static::$xdebugLinkFormat = ini_get('xdebug.file_link_format');
 		}
 
-		$link = str_replace(JPATH_ROOT, 'JROOT', Path::clean($file));
+		$link = str_replace(JPATH_ROOT, 'JROOT', JPath::clean($file));
 		$link .= $line ? ':' . $line : '';
 
 		if (static::$xdebugLinkFormat)

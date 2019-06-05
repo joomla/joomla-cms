@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -44,7 +42,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 		if ($user->authorise('core.admin'))
 		{
 			$status->canRemove = false;
-			$status->reason    = Text::_('PLG_PRIVACY_USER_ERROR_CANNOT_REMOVE_SUPER_USER');
+			$status->reason    = JText::_('PLG_PRIVACY_USER_ERROR_CANNOT_REMOVE_SUPER_USER');
 		}
 
 		return $status;
@@ -132,7 +130,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 			return;
 		}
 
-		$storeName = Factory::getConfig()->get('session_handler', 'none');
+		$storeName = JFactory::getConfig()->get('session_handler', 'none');
 		$store     = JSessionStorage::getInstance($storeName);
 		$quotedIds = array();
 

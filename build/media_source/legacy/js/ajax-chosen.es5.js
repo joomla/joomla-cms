@@ -8,7 +8,7 @@
  *
  * Used for displaying tags
  *
- * @package     Joomla.JavaScript
+ * @package     Joomla
  * @since       1.5
  * @version     1.0
  */

@@ -1010,14 +1010,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 			if ($item !== null)
 			{
-				$oldUri = clone Uri::getInstance();
+				$oldUri = clone \JUri::getInstance();
 
 				if ($oldUri->getVar('Itemid') == $active->id)
 				{
 					$oldUri->setVar('Itemid', $item->id);
 				}
 
-				$base = Uri::base(true);
+				$base = \JUri::base(true);
 				$oldPath = StringHelper::strtolower(substr($oldUri->getPath(), strlen($base) + 1));
 				$activePathPrefix = StringHelper::strtolower($active->route);
 

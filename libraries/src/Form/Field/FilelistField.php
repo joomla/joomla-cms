@@ -32,12 +32,12 @@ class FilelistField extends ListField
 	protected $type = 'Filelist';
 
 	/**
-	 * The filename filter.
+	 * The filter.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.2
 	 */
-	protected $fileFilter;
+	protected $filter;
 
 	/**
 	 * The exclude.
@@ -92,7 +92,7 @@ class FilelistField extends ListField
 	{
 		switch ($name)
 		{
-			case 'fileFilter':
+			case 'filter':
 			case 'exclude':
 			case 'hideNone':
 			case 'hideDefault':
@@ -118,7 +118,7 @@ class FilelistField extends ListField
 	{
 		switch ($name)
 		{
-			case 'fileFilter':
+			case 'filter':
 			case 'directory':
 			case 'exclude':
 				$this->$name = (string) $value;
@@ -156,8 +156,8 @@ class FilelistField extends ListField
 
 		if ($return)
 		{
-			$this->fileFilter = (string) $this->element['fileFilter'];
-			$this->exclude    = (string) $this->element['exclude'];
+			$this->filter  = (string) $this->element['filter'];
+			$this->exclude = (string) $this->element['exclude'];
 
 			$hideNone       = (string) $this->element['hide_none'];
 			$this->hideNone = ($hideNone == 'true' || $hideNone == 'hideNone' || $hideNone == '1');
@@ -210,7 +210,7 @@ class FilelistField extends ListField
 		}
 
 		// Get a list of files in the search path with the given filter.
-		$files = Folder::files($path, $this->fileFilter);
+		$files = Folder::files($path, $this->filter);
 
 		// Build the options list from the list of files.
 		if (is_array($files))

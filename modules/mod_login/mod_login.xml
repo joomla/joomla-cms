@@ -22,7 +22,7 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LOGIN" />
 	<config>
 		<fields name="params">
-			<fieldset name="basic" addfieldprefix="Joomla\Component\Menus\Administrator\Field">
+			<fieldset name="basic" addfieldpath="/administrator/components/com_menus/models/fields">
 				<field
 					name="pretext"
 					type="textarea"

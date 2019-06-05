@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Table\Table;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Utilities\ArrayHelper;
 
@@ -207,7 +206,7 @@ class FeaturedModel extends ArticlesModel
 
 		if (is_array($categoryId) && count($categoryId) === 1)
 		{
-			$cat_tbl = Table::getInstance('Category', 'JTable');
+			$cat_tbl = \JTable::getInstance('Category', 'JTable');
 			$cat_tbl->load($categoryId[0]);
 			$rgt = $cat_tbl->rgt;
 			$lft = $cat_tbl->lft;

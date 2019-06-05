@@ -12,7 +12,6 @@ namespace Joomla\Component\Contact\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
@@ -20,7 +19,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
-use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -164,7 +162,7 @@ class ContactModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		Form::addFieldPath(JPATH_ADMINISTRATOR . '/components/com_users/models/fields');
+		\JForm::addFieldPath(JPATH_ADMINISTRATOR . '/components/com_users/models/fields');
 
 		// Get the form.
 		$form = $this->loadForm('com_contact.contact', 'contact', array('control' => 'jform', 'load_data' => $loadData));
@@ -496,11 +494,9 @@ class ContactModel extends AdminModel
 			$db = $this->getDbo();
 
 			$query = $db->getQuery(true);
-			$query->update($db->quoteName('#__contact_details'));
-			$query->set($db->quoteName('featured') . ' = :featured');
-			$query->whereIn($db->quoteName('id'), $pks);
-			$query->bind(':featured', $value, ParameterType::INTEGER);
-			
+			$query->update('#__contact_details');
+			$query->set('featured = ' . (int) $value);
+			$query->where('id IN (' . implode(',', $pks) . ')');
 			$db->setQuery($query);
 
 			$db->execute();

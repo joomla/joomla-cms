@@ -8,12 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-
-if (!$list)
-{
-	return;
-}
-
 ?>
 <ul class="mostread mod-list">
 <?php foreach ($list as $item) : ?>

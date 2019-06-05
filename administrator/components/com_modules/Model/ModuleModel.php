@@ -15,11 +15,9 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
@@ -547,7 +545,7 @@ class ModuleModel extends AdminModel
 
 		// Add the default fields directory
 		$baseFolder = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
-		Form::addFieldPath($baseFolder . '/modules' . '/' . $module . '/field');
+		\JForm::addFieldPath($baseFolder . '/modules' . '/' . $module . '/field');
 
 		// These variables are used to add data from the plugin XML files.
 		$this->setState('item.client_id', $clientId);
@@ -720,7 +718,7 @@ class ModuleModel extends AdminModel
 
 			// Convert to the \JObject before adding other data.
 			$properties        = $table->getProperties(1);
-			$this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
+			$this->_cache[$pk] = ArrayHelper::toObject($properties, 'JObject');
 
 			// Convert the params field to an array.
 			$registry = new Registry($table->params);
@@ -835,7 +833,7 @@ class ModuleModel extends AdminModel
 	 * @since   1.6
 	 * @throws  \Exception if there is an error loading the form.
 	 */
-	protected function preprocessForm(Form $form, $data, $group = 'content')
+	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
 		$lang     = Factory::getLanguage();
 		$clientId = $this->getState('item.client_id');
@@ -876,7 +874,7 @@ class ModuleModel extends AdminModel
 		}
 
 		// Load the default advanced params
-		Form::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
+		\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
 		$form->loadFile('advanced', false);
 
 		// Trigger the default form events.

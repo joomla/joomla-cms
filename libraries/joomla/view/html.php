@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Filesystem\Path;
-
 /**
  * Joomla Platform HTML View Class
  *
@@ -105,10 +103,10 @@ abstract class JViewHtml extends JViewBase
 	public function getPath($layout)
 	{
 		// Get the layout file name.
-		$file = Path::clean($layout . '.php');
+		$file = JPath::clean($layout . '.php');
 
 		// Find the layout file path.
-		$path = Path::find(clone $this->paths, $file);
+		$path = JPath::find(clone $this->paths, $file);
 
 		return $path;
 	}

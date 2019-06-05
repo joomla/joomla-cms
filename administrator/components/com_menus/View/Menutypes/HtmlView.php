@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -124,28 +123,28 @@ class HtmlView extends BaseHtmlView
 
 		// Adding System Links
 		$list           = array();
-		$o              = new CMSObject;
+		$o              = new \JObject;
 		$o->title       = 'COM_MENUS_TYPE_EXTERNAL_URL';
 		$o->type        = 'url';
 		$o->description = 'COM_MENUS_TYPE_EXTERNAL_URL_DESC';
 		$o->request     = null;
 		$list[]         = $o;
 
-		$o              = new CMSObject;
+		$o              = new \JObject;
 		$o->title       = 'COM_MENUS_TYPE_ALIAS';
 		$o->type        = 'alias';
 		$o->description = 'COM_MENUS_TYPE_ALIAS_DESC';
 		$o->request     = null;
 		$list[]         = $o;
 
-		$o              = new CMSObject;
+		$o              = new \JObject;
 		$o->title       = 'COM_MENUS_TYPE_SEPARATOR';
 		$o->type        = 'separator';
 		$o->description = 'COM_MENUS_TYPE_SEPARATOR_DESC';
 		$o->request     = null;
 		$list[]         = $o;
 
-		$o              = new CMSObject;
+		$o              = new \JObject;
 		$o->title       = 'COM_MENUS_TYPE_HEADING';
 		$o->type        = 'heading';
 		$o->description = 'COM_MENUS_TYPE_HEADING_DESC';
@@ -154,7 +153,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($this->get('state')->get('client_id') == 1)
 		{
-			$o              = new CMSObject;
+			$o              = new \JObject;
 			$o->title       = 'COM_MENUS_TYPE_CONTAINER';
 			$o->type        = 'container';
 			$o->description = 'COM_MENUS_TYPE_CONTAINER_DESC';

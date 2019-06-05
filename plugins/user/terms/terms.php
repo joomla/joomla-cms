@@ -74,7 +74,7 @@ class PlgUserTerms extends CMSPlugin
 	 */
 	public function onContentPrepareForm($form, $data)
 	{
-		if (!($form instanceof Form))
+		if (!($form instanceof JForm))
 		{
 			$this->_subject->setError('JERROR_NOT_A_FORM');
 

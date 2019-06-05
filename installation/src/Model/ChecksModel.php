@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseDriver;
 
 /**
  * Checks model for the Joomla Core Installer.
@@ -83,7 +82,7 @@ class ChecksModel extends BaseInstallationModel
 
 		// Check for database support.
 		// We are satisfied if there is at least one database driver available.
-		$available = DatabaseDriver::getConnectors();
+		$available = \JDatabaseDriver::getConnectors();
 		$option = new \stdClass;
 		$option->label  = Text::_('INSTL_DATABASE_SUPPORT');
 		$option->label .= '<br>(' . implode(', ', $available) . ')';

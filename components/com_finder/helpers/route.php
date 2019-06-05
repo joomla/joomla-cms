@@ -9,10 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Uri\Uri;
-
 /**
  * Finder route helper class.
  *
@@ -37,7 +33,7 @@ class FinderHelperRoute
 		$item = self::getItemid($query);
 
 		// Get the base route.
-		$uri = clone Uri::getInstance('index.php?option=com_finder&view=search');
+		$uri = clone JUri::getInstance('index.php?option=com_finder&view=search');
 
 		// Add the pre-defined search filter if present.
 		if ($f !== null)
@@ -77,7 +73,7 @@ class FinderHelperRoute
 		$item = self::getItemid($query);
 
 		// Get the base route.
-		$uri = clone Uri::getInstance('index.php?option=com_finder&view=advanced');
+		$uri = clone JUri::getInstance('index.php?option=com_finder&view=advanced');
 
 		// Add the pre-defined search filter if present.
 		if ($q !== null)
@@ -117,8 +113,8 @@ class FinderHelperRoute
 		// Get the menu items for com_finder.
 		if (!$items || !$active)
 		{
-			$app = Factory::getApplication();
-			$com = ComponentHelper::getComponent('com_finder');
+			$app = JFactory::getApplication();
+			$com = JComponentHelper::getComponent('com_finder');
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$items = $menu->getItems('component_id', $com->id);

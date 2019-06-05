@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
-use Joomla\CMS\Uri\Uri;
 use Joomla\Router\Router;
 use Joomla\Router\Route;
 
@@ -95,7 +94,7 @@ class ApiRouter extends Router
 		}
 
 		// Get the path from the route and remove and leading or trailing slash.
-		$uri = Uri::getInstance();
+		$uri = \JUri::getInstance();
 		$path = urldecode($uri->getPath());
 
 		/**
@@ -105,7 +104,7 @@ class ApiRouter extends Router
 		 */
 		try
 		{
-			$baseUri = Uri::base(true);
+			$baseUri = \JUri::base(true);
 		}
 		catch (\RuntimeException $e)
 		{
@@ -128,7 +127,7 @@ class ApiRouter extends Router
 			}
 		}
 
-		$query = Uri::getInstance()->getQuery(true);
+		$query = \JUri::getInstance()->getQuery(true);
 
 		// Iterate through all of the known routes looking for a match.
 		foreach ($this->routes as $route)

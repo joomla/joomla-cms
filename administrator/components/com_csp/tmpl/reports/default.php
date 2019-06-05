@@ -56,7 +56,7 @@ $saveOrder = $listOrder == 'a.id';
 					); ?>
 				<?php endif; ?>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-info">
+					<div class="alert alert-warning">
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>

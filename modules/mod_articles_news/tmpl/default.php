@@ -11,11 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 
-if (!$list)
-{
-	return;
-}
-
 ?>
 <div class="mod-articlesnews newsflash">
 	<?php foreach ($list as $item) : ?>

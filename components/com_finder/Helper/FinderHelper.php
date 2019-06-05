@@ -12,7 +12,6 @@ namespace Joomla\Component\Finder\Site\Helper;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 
 /**
  * Helper class for Joomla! Finder components
@@ -46,7 +45,7 @@ class FinderHelper
 		}
 
 		// Initialise our variables
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Sanitise the term for the database

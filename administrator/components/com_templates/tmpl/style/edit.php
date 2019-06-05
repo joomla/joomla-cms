@@ -51,7 +51,7 @@ $user = Factory::getUser();
 					?>
 					<?php if ($description) : ?>
 						<p class="readmore">
-							<a href="#" onclick="document.querySelector('#tab-description').click();">
+							<a href="#" onclick="jQuery('.nav-tabs a[href=\'#description\']').tab('show');">
 								<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
 							</a>
 						</p>

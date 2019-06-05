@@ -59,33 +59,41 @@ $cacheparams->method       = 'getList';
 $cacheparams->methodparams = $params;
 $cacheparams->modeparams   = $cacheid;
 
-$list                       = ModuleHelper::moduleCache($module, $params, $cacheparams);
-$article_grouping           = $params->get('article_grouping', 'none');
-$article_grouping_direction = $params->get('article_grouping_direction', 'ksort');
-$grouped                    = $article_grouping === 'none' ? false : true;
+$list = ModuleHelper::moduleCache($module, $params, $cacheparams);
 
-if ($list && $grouped)
+if (!empty($list))
 {
-	switch ($article_grouping)
-	{
-		case 'year' :
-		case 'month_year' :
-			$list = ArticlesCategoryHelper::groupByDate(
-				$list,
-				$article_grouping_direction,
-				$article_grouping,
-				$params->get('month_year_format', 'F Y'),
-				$params->get('date_grouping_field', 'created')
-			);
-			break;
-		case 'author' :
-		case 'category_title' :
-			$list = ArticlesCategoryHelper::groupBy($list, $article_grouping, $article_grouping_direction);
-			break;
-		case 'tags' :
-			$list = ArticlesCategoryHelper::groupByTags($list, $article_grouping_direction);
-			break;
-	}
-}
+	$grouped                    = false;
+	$article_grouping           = $params->get('article_grouping', 'none');
+	$article_grouping_direction = $params->get('article_grouping_direction', 'ksort');
 
-require ModuleHelper::getLayoutPath('mod_articles_category', $params->get('layout', 'default'));
+	if ($article_grouping !== 'none')
+	{
+		$grouped = true;
+
+		switch ($article_grouping)
+		{
+			case 'year' :
+			case 'month_year' :
+				$list = ArticlesCategoryHelper::groupByDate(
+					$list,
+					$article_grouping_direction,
+					$article_grouping,
+					$params->get('month_year_format', 'F Y'),
+					$params->get('date_grouping_field', 'created')
+				);
+				break;
+			case 'author' :
+			case 'category_title' :
+				$list = ArticlesCategoryHelper::groupBy($list, $article_grouping, $article_grouping_direction);
+				break;
+			case 'tags' :
+				$list = ModArticlesCategoryHelper::groupByTags($list, $article_grouping_direction);
+				break;
+			default:
+				break;
+		}
+	}
+
+	require ModuleHelper::getLayoutPath('mod_articles_category', $params->get('layout', 'default'));
+}

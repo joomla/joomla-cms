@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\FormModel;
-use Joomla\CMS\Object\CMSObject;
 
 /**
  * Message configuration model.
@@ -56,7 +55,7 @@ class ConfigModel extends FormModel
 	 */
 	public function &getItem()
 	{
-		$item = new CMSObject;
+		$item = new \JObject;
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)

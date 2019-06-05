@@ -7,11 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Form\Form;
-use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
-use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
+JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRATOR);
 
 /**
  * Repeatable plugin.
@@ -25,13 +26,13 @@ class PlgFieldsRepeatable extends FieldsPlugin
 	 *
 	 * @param   stdClass    $field   The field.
 	 * @param   DOMElement  $parent  The field node parent.
-	 * @param   Form        $form    The form.
+	 * @param   JForm       $form    The form.
 	 *
 	 * @return  DOMElement
 	 *
 	 * @since   3.9.0
 	 */
-	public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
+	public function onCustomFieldsPrepareDom($field, DOMElement $parent, JForm $form)
 	{
 		$fieldNode = parent::onCustomFieldsPrepareDom($field, $parent, $form);
 

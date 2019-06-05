@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * Base class for a Joomla List View
@@ -219,31 +218,31 @@ class ListView extends HtmlView
 		$viewName = $this->getName();
 		$singularViewName = \Joomla\String\Inflector::getInstance()->toSingular($viewName);
 
-		ToolbarHelper::title(Text::_($this->toolbarTitle), $this->toolbarIcon);
+		\JToolbarHelper::title(Text::_($this->toolbarTitle), $this->toolbarIcon);
 
 		if ($canDo->get('core.create'))
 		{
-			ToolbarHelper::addNew($singularViewName . '.add');
+			\JToolbarHelper::addNew($singularViewName . '.add');
 		}
 
 		if (($canDo->get('core.edit')) || ($canDo->get('core.edit.own')))
 		{
-			ToolbarHelper::editList($singularViewName . '.edit');
+			\JToolbarHelper::editList($singularViewName . '.edit');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::publish($viewName . '.publish', 'JTOOLBAR_PUBLISH', true);
-			ToolbarHelper::unpublish($viewName . '.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			\JToolbarHelper::publish($viewName . '.publish', 'JTOOLBAR_PUBLISH', true);
+			\JToolbarHelper::unpublish($viewName . '.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 
 			if (isset($this->items[0]->featured))
 			{
-				ToolbarHelper::custom($viewName . '.featured', 'featured.png', 'featured_f2.png', 'JFEATURE', true);
-				ToolbarHelper::custom($viewName . '.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
+				\JToolbarHelper::custom($viewName . '.featured', 'featured.png', 'featured_f2.png', 'JFEATURE', true);
+				\JToolbarHelper::custom($viewName . '.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
 			}
 
-			ToolbarHelper::archiveList($viewName . '.archive');
-			ToolbarHelper::checkin($viewName . '.checkin');
+			\JToolbarHelper::archiveList($viewName . '.archive');
+			\JToolbarHelper::checkin($viewName . '.checkin');
 		}
 
 		// Add a batch button
@@ -262,21 +261,21 @@ class ListView extends HtmlView
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', $viewName . '.delete', 'JTOOLBAR_EMPTY_TRASH');
+			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', $viewName . '.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::trash($viewName . '.trash');
+			\JToolbarHelper::trash($viewName . '.trash');
 		}
 
 		if ($user->authorise('core.admin', $this->option) || $user->authorise('core.options', $this->option))
 		{
-			ToolbarHelper::preferences($this->option);
+			\JToolbarHelper::preferences($this->option);
 		}
 
 		if ($this->helpLink)
 		{
-			ToolbarHelper::help($this->helpLink);
+			\JToolbarHelper::help($this->helpLink);
 		}
 	}
 }

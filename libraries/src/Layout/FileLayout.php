@@ -14,7 +14,6 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Version;
 
 /**
  * Base class for rendering a display layout
@@ -356,7 +355,7 @@ class FileLayout extends BaseLayout
 	 */
 	public function loadVersionSuffixes()
 	{
-		$cmsVersion = new Version;
+		$cmsVersion = new \JVersion;
 
 		// Example j311
 		$fullVersion = 'j' . str_replace('.', '', $cmsVersion->getShortVersion());

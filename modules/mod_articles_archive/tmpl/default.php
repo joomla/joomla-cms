@@ -8,14 +8,9 @@
  */
 
 defined('_JEXEC') or die;
-
-if (!$list)
-{
-	return;
-}
-
 ?>
-<ul class="mod-articlesarchive archive-module mod-list">
+<?php if (!empty($list)) : ?>
+	<ul class="mod-articlesarchive archive-module mod-list">
 	<?php foreach ($list as $item) : ?>
 	<li>
 		<a href="<?php echo $item->link; ?>">
@@ -24,3 +19,4 @@ if (!$list)
 	</li>
 	<?php endforeach; ?>
 </ul>
+<?php endif; ?>

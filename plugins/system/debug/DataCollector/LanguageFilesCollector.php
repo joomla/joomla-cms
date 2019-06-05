@@ -11,7 +11,6 @@ namespace Joomla\Plugin\System\Debug\DataCollector;
 
 use DebugBar\DataCollector\AssetProvider;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Uri\Uri;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 
 /**
@@ -121,8 +120,8 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 	public function getAssets(): array
 	{
 		return array(
-			'js' => Uri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.min.js',
-			'css' => Uri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.min.css',
+			'js' => \JUri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.min.js',
+			'css' => \JUri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.min.css',
 		);
 	}
 }

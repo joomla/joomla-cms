@@ -10,11 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
 
 /** @var JDocumentHtml $this */
 
@@ -33,7 +31,7 @@ HTMLHelper::_('stylesheet', 'templates/system/css/general.css', ['version' => 'a
 // Add JavaScript Frameworks
 HTMLHelper::_('bootstrap.framework');
 
-$twofactormethods = AuthenticationHelper::getTwoFactorMethods();
+$twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -80,7 +78,7 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 		</p>
 		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="user.login" />
-		<input type="hidden" name="return" value="<?php echo base64_encode(Uri::base()); ?>" />
+		<input type="hidden" name="return" value="<?php echo base64_encode(JUri::base()); ?>" />
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</fieldset>
 	</form>

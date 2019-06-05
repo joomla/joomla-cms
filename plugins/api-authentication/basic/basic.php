@@ -64,15 +64,14 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 			return;
 		}
 
-		$db    = $this->db;
-		$query = $db->getQuery(true)
-			->select($db->quoteName(['id', 'password']))
-			->from($db->quoteName('#__users'))
-			->where($db->quoteName('username') . ' = :username')
-			->bind(':username', $username);
+		// Get a database object
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName(array('id', 'password')))
+			->from($this->db->quoteName('#__users'))
+			->where($this->db->quoteName('username') . '=' . $this->db->quote($username));
 
-		$db->setQuery($query);
-		$result = $db->loadObject();
+		$this->db->setQuery($query);
+		$result = $this->db->loadObject();
 
 		if ($result)
 		{

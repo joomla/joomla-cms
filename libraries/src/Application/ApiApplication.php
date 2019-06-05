@@ -12,14 +12,12 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Access\Exception\AuthenticationFailed;
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Router\ApiRouter;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
-use Joomla\CMS\Uri\Uri;
-use Joomla\DI\Container;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Input\Json as JInputJson;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Router\ApiRouter;
+use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 use Negotiation\Accept;
 use Negotiation\Exception\InvalidArgument;
@@ -79,7 +77,7 @@ final class ApiApplication extends CMSApplication
 		$this->addFormatMap('application/vnd.api+json', 'jsonapi');
 
 		// Set the root in the URI based on the application name
-		Uri::root(null, str_ireplace('/' . $this->getName(), '', Uri::base(true)));
+		\JUri::root(null, str_ireplace('/' . $this->getName(), '', \JUri::base(true)));
 	}
 
 
@@ -325,10 +323,10 @@ final class ApiApplication extends CMSApplication
 		$this->loadDocument();
 
 		// Set up the params
-		$document = Factory::getDocument();
+		$document = \JFactory::getDocument();
 
-		// Register the document object with Factory
-		Factory::$document = $document;
+		// Register the document object with \JFactory
+		\JFactory::$document = $document;
 
 		$contents = ComponentHelper::renderComponent($component);
 		$document->setBuffer($contents, 'component');

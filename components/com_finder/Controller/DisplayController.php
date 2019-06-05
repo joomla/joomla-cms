@@ -11,7 +11,6 @@ namespace Joomla\Component\Finder\Site\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 
@@ -35,7 +34,7 @@ class DisplayController extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		$input = Factory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 		$cachable = true;
 
 		// Load plugin language files.

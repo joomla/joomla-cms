@@ -12,7 +12,6 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
@@ -301,7 +300,7 @@ class CoreContent extends Table
 		// Store the ucm_base row
 		$db         = $this->getDbo();
 		$query      = $db->getQuery(true);
-		$languageId = ContentHelper::getLanguageId($this->core_language);
+		$languageId = \JHelperContent::getLanguageId($this->core_language);
 
 		// Selecting "all languages" doesn't give a language id - we can't store a blank string in non mysql databases, so save 0 (the default value)
 		if (!$languageId)
