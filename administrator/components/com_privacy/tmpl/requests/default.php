@@ -97,7 +97,7 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 							</td>
 							<td>
 								<?php if ($item->status == 1 && $urgentRequestDate >= $itemRequestedAt) : ?>
-									<span class="pull-right label label-important"><?php echo Text::_('COM_PRIVACY_BADGE_URGENT_REQUEST'); ?></span>
+									<span class="pull-right badge badge-danger"><?php echo Text::_('COM_PRIVACY_BADGE_URGENT_REQUEST'); ?></span>
 								<?php endif; ?>
 								<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_privacy&view=request&id=' . (int) $item->id); ?>" title="<?php echo Text::_('COM_PRIVACY_ACTION_VIEW'); ?>">
 									<?php echo PunycodeHelper::emailToUTF8($this->escape($item->email)); ?>
