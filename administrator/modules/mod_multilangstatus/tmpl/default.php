@@ -18,7 +18,7 @@ HTMLHelper::_('script', 'mod_multilangstatus/admin-multilangstatus.min.js', arra
 ?>
 
 <li class="nav-item multilanguage">
-	<a class="nav-link" href="#multiLangModal" title="<?php echo Text::_('MOD_MULTILANGSTATUS'); ?>" data-toggle="modal" role="button">
+	<a class="nav-link" href="#multiLangModal" title="<?php echo Text::_('MOD_MULTILANGSTATUS'); ?>" data-toggle="modal">
 		<span class="fa fa-language" aria-hidden="true"></span>
 		<span class="sr-only"><?php echo Text::_('MOD_MULTILANGSTATUS'); ?></span>
 	</a>
