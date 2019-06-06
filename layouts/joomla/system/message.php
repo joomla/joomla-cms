@@ -55,7 +55,6 @@ HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js
 						<?php foreach ($msgs as $msg) : ?>
 							<div><?php echo $msg; ?></div>
 						<?php endforeach; ?>
-						</div>
 					<?php endif; ?>
 				</joomla-alert>
 			<?php endforeach; ?>
