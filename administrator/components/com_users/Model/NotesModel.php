@@ -154,8 +154,9 @@ class NotesModel extends ListModel
 		// Filter on the level.
 		if ($level = $this->getState('filter.level'))
 		{
+			$level = (int) $level;
 			$query->where($db->quoteName('c.level') . ' <= :level')
-				->bind(':level', (int) $level, ParameterType::INTEGER);
+				->bind(':level', $level, ParameterType::INTEGER);
 		}
 
 		// Add the list ordering clause.
