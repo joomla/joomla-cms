@@ -160,8 +160,9 @@ class GroupsModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
+				$ids = (int) substr($search, 3);
 				$query->where($db->quoteName('a.id') . ' = :id');
-				$query->bind(':id', substr($search, 3), ParameterType::INTEGER);
+				$query->bind(':id', $ids, ParameterType::INTEGER);
 			}
 			else
 			{
