@@ -331,7 +331,7 @@ abstract class BaseDatabaseModel extends \JObject
 			&& $query->union === null
 			&& $query->unionAll === null
 			&& $query->having === null
-			&& stripos((string)$query,'distinct') === FALSE )
+			&& stripos((string) $query, 'distinct') === false)
 		{
 			$query = clone $query;
 			$query->clear('select')->clear('order')->clear('limit')->clear('offset')->select('COUNT(*)');
