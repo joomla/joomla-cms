@@ -27,6 +27,18 @@ $alert = [
 	'message'                     => 'success'
 ];
 
+$icon = [
+	CMSApplication::MSG_EMERGENCY => 'fa fa-exclamation-triangle',
+	CMSApplication::MSG_ALERT     => 'fa fa-exclamation-triangle',
+	CMSApplication::MSG_CRITICAL  => 'fa fa-exclamation-triangle',
+	CMSApplication::MSG_ERROR     => 'fa fa-exclamation-triangle',
+	CMSApplication::MSG_WARNING   => 'fa fa-exclamation-circle',
+	CMSApplication::MSG_NOTICE    => 'fa fa-info-circle',
+	CMSApplication::MSG_INFO      => 'fa fa-info-circle',
+	CMSApplication::MSG_DEBUG     => 'fa fa-info-circle',
+	'message'                     => 'fa fa-info-circle'
+];
+
 // Alerts progressive enhancement
 HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
@@ -36,11 +48,13 @@ HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js
 			<?php foreach ($msgList as $type => $msgs) : ?>
 				<joomla-alert type="<?php echo $alert[$type] ?? $type; ?>" dismiss="true">
 					<?php if (!empty($msgs)) : ?>
-						<h4><?php echo Text::_($type); ?></h4>
-						<div>
-							<?php foreach ($msgs as $msg) : ?>
-								<div><?php echo $msg; ?></div>
-							<?php endforeach; ?>
+						<div class="alert-heading">
+							<span class="<?php echo $icon[$type]; ?>" aria-hidden="true"></span>
+							<?php echo Text::_($type); ?>
+						</div>
+						<?php foreach ($msgs as $msg) : ?>
+							<div><?php echo $msg; ?></div>
+						<?php endforeach; ?>
 						</div>
 					<?php endif; ?>
 				</joomla-alert>
