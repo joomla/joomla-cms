@@ -235,4 +235,3 @@ class NotesModel extends ListModel
 		parent::populateState($ordering, $direction);
 	}
 }
-				
