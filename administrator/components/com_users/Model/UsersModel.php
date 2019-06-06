@@ -366,7 +366,7 @@ class UsersModel extends ListModel
 				$search = '%' . trim($search) . '%';
 
 				// Compile the different search clauses.
-				$searches   = array();
+				$searches   = [];
 				$searches[] = 'a.name LIKE :name';
 				$searches[] = 'a.username LIKE :username';
 				$searches[] = 'a.email LIKE :email';
