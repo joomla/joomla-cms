@@ -27,8 +27,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The Form object
 	 *
-	 * @var   Form
-	 * @since 1.6
+	 * @var    Form
+	 * @since  1.6
 	 */
 	protected $form;
 

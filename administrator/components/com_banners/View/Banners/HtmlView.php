@@ -52,32 +52,32 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Category data
 	 *
-	 * @var   array
-	 * @since 1.6
+	 * @var    array
+	 * @since  1.6
 	 */
 	protected $categories = [];
 
 	/**
 	 * An array of items
 	 *
-	 * @var   array
-	 * @since 1.6
+	 * @var    array
+	 * @since  1.6
 	 */
 	protected $items = [];
 
 	/**
 	 * The pagination object
 	 *
-	 * @var   Pagination
-	 * @since 1.6
+	 * @var    Pagination
+	 * @since  1.6
 	 */
 	protected $pagination;
 
 	/**
 	 * The model state
 	 *
-	 * @var   Registry
-	 * @since 1.6
+	 * @var    Registry
+	 * @since  1.6
 	 */
 	protected $state;
 

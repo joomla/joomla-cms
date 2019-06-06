@@ -22,7 +22,6 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Banners\Administrator\Model\ClientModel;
-use Joomla\Registry\Registry;
 
 /**
  * View to edit a client.
@@ -34,32 +33,32 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The Form object
 	 *
-	 * @var   Form
-	 * @since 1.5
+	 * @var    Form
+	 * @since  1.5
 	 */
 	protected $form;
 
 	/**
 	 * The active item
 	 *
-	 * @var   CMSObject
-	 * @since 1.5
+	 * @var    CMSObject
+	 * @since  1.5
 	 */
 	protected $item;
 
 	/**
 	 * The model state
 	 *
-	 * @var   CMSObject
-	 * @since 1.5
+	 * @var    CMSObject
+	 * @since  1.5
 	 */
 	protected $state;
 
 	/**
 	 * Object containing permissions for the item
 	 *
-	 * @var   CMSObject
-	 * @since 1.5
+	 * @var    CMSObject
+	 * @since  1.5
 	 */
 	protected $canDo;
 

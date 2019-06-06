@@ -32,24 +32,24 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The Form object
 	 *
-	 * @var   Form
-	 * @since 1.5
+	 * @var    Form
+	 * @since  1.5
 	 */
 	protected $form;
 
 	/**
 	 * The active item
 	 *
-	 * @var   object
-	 * @since 1.5
+	 * @var    object
+	 * @since  1.5
 	 */
 	protected $item;
 
 	/**
 	 * The model state
 	 *
-	 * @var   object
-	 * @since 1.5
+	 * @var    object
+	 * @since  1.5
 	 */
 	protected $state;
 

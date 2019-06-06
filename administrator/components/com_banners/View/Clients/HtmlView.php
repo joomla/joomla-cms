@@ -50,24 +50,24 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * An array of items
 	 *
-	 * @var   array
-	 * @since 1.6
+	 * @var    array
+	 * @since  1.6
 	 */
 	protected $items = [];
 
 	/**
 	 * The pagination object
 	 *
-	 * @var   Pagination
-	 * @since 1.6
+	 * @var    Pagination
+	 * @since  1.6
 	 */
 	protected $pagination;
 
 	/**
 	 * The model state
 	 *
-	 * @var   CMSObject
-	 * @since 1.6
+	 * @var    CMSObject
+	 * @since  1.6
 	 */
 	protected $state;
 
