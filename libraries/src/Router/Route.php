@@ -23,21 +23,21 @@ class Route
 	/**
 	 * No change, use the protocol currently used.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.7
 	 */
 	const TLS_IGNORE = 0;
 
 	/**
 	 * Make URI secure using http over TLS (https).
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.7
 	 */
 	const TLS_FORCE = 1;
 
 	/**
 	 * Make URI unsecure using plain http (http).
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.7
 	 */
 	const TLS_DISABLE = 2;
 
@@ -68,7 +68,7 @@ class Route
 	{
 		try
 		{
-			// @todo  Deprecate in 4.0 Before __DEPLOY_VERSION__ this method accepted -1.
+			// @todo  Deprecate in 4.0 Before 3.9.7 this method accepted -1.
 			if ($tls == -1)
 			{
 				$tls = self::TLS_DISABLE;
