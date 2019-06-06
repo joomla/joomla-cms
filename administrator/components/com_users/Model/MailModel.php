@@ -128,11 +128,12 @@ class MailModel extends AdminModel
 		$to = $access->getUsersByGroup($grp, $recurse);
 
 		// Get all users email and group except for senders
+		$uid = (int) $user->get('id');
 		$query = $db->getQuery(true)
 			->select('email')
 			->from($db->quoteName('#__users'))
 			->where($db->quoteName('id') . ' != :id')
-			->bind(':id', (int) $user->get('id'), ParameterType::INTEGER);
+			->bind(':id', $uid, ParameterType::INTEGER);
 
 		if ($grp !== 0)
 		{
