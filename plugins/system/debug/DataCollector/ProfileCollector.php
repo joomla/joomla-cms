@@ -9,8 +9,8 @@
 
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
-use Joomla\CMS\Profiler\Profiler;
 use DebugBar\DebugBarException;
+use Joomla\CMS\Profiler\Profiler;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 use Joomla\Registry\Registry;
 
