@@ -118,7 +118,7 @@ class Console implements ServiceProviderInterface
 	/**
 	 * Registers Console Commands
 	 *
-	 * @param   Container $container  The DI Container
+	 * @param   Container  $container  The DI Container
 	 *
 	 * @return void
 	 *

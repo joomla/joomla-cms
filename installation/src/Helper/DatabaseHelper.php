@@ -62,7 +62,8 @@ abstract class DatabaseHelper
 	/**
 	 * Generates random prefix string for DB table
 	 *
-	 * @param   int $size  SIze of the Prefix
+	 * @param   int  $size  SIze of the Prefix
+	 *
 	 * @return string
 	 *
 	 * @since 4.0

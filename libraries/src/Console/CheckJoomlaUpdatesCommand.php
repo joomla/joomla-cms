@@ -51,8 +51,7 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 The <info>%command.name%</info> Checks for Joomla updates.
 
   <info>php %command.full_name%</info>
-EOF
-		;
+EOF;
 		$this->setDescription('Checks for Joomla updates');
 		$this->setHelp($help);
 	}
