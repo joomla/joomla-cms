@@ -62,7 +62,7 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
 		<?php $client = $data['view']->filterForm->getField('client_id'); ?>
 		<div class="js-stools-container-selector">
 			<div class="js-stools-field-selector js-stools-client">
-			<div class="sr-only"><?php echo $client->label; ?></div>
+				<div class="sr-only"><?php echo $client->label; ?></div>
 				<?php echo $client->input; ?>
 			</div>
 		</div>
