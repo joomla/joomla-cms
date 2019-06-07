@@ -125,7 +125,7 @@ class HtmlView extends BaseHtmlView
 		$layout = new FileLayout('joomla.toolbar.modal');
 
 		$dHtml = $layout->render(
-			array(
+			[
 				'selector' => 'downloadModal',
 				'icon'     => 'icon-download',
 				'text'     => Text::_('JTOOLBAR_EXPORT'),
