@@ -76,9 +76,6 @@ final class InstallationApplication extends CMSApplication
 		$parts = explode('/', Uri::base(true));
 		array_pop($parts);
 		Uri::root(null, implode('/', $parts));
-
-		// Ensure we load the namespace loader
-		$this->createExtensionNamespaceMap();
 	}
 
 	/**
@@ -229,6 +226,9 @@ final class InstallationApplication extends CMSApplication
 	 */
 	protected function doExecute()
 	{
+		// Ensure we load the namespace loader
+		$this->createExtensionNamespaceMap();
+
 		// Initialise the application.
 		$this->initialiseApp();
 
