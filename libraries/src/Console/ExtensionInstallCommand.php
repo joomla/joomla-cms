@@ -91,7 +91,7 @@ class ExtensionInstallCommand extends AbstractCommand
 
 		$this->setDescription('Installs an extension from a URL or from a Path.');
 
-		$this->setHelp(<<<'EOF'
+		$help = <<<'EOF'
 The <info>%command.name%</info> is used to install extensions
 
   <info>php %command.full_name%</info>
@@ -103,8 +103,8 @@ You must provide one of the following options to the command:
 
   <info>php %command.full_name% --path=<path_to_file></info>
   <info>php %command.full_name% --url=<url_to_file></info>
-EOF
-		);
+EOF;
+		$this->setHelp($help);
 	}
 
 	/**
