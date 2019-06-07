@@ -12,6 +12,7 @@ namespace Joomla\Component\Finder\Site\View\Search;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -89,7 +90,7 @@ class FeedView extends BaseHtmlView
 		foreach ($results as $result)
 		{
 			// Convert the result to a feed entry.
-			$item              = new \JFeedItem;
+			$item              = new FeedItem;
 			$item->title       = $result->title;
 			$item->link        = Route::_($result->route);
 			$item->description = $result->description;

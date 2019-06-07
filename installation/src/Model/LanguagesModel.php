@@ -583,7 +583,7 @@ class LanguagesModel extends BaseInstallationModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (\ExecutionFailureExceptionExecuting $e)
 		{
 			return false;
 		}
@@ -612,7 +612,7 @@ class LanguagesModel extends BaseInstallationModel
 			{
 				$db->execute();
 			}
-			catch (\JDatabaseExceptionExecuting $e)
+			catch (\ExecutionFailureExceptionExecuting $e)
 			{
 				return false;
 			}
@@ -1123,7 +1123,7 @@ class LanguagesModel extends BaseInstallationModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (\ExecutionFailureExceptionExecuting $e)
 		{
 			return false;
 		}
@@ -1157,7 +1157,7 @@ class LanguagesModel extends BaseInstallationModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (\ExecutionFailureExceptionExecuting $e)
 		{
 			return false;
 		}
@@ -1309,7 +1309,7 @@ class LanguagesModel extends BaseInstallationModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (\ExecutionFailureExceptionExecuting $e)
 		{
 			return false;
 		}

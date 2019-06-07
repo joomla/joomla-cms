@@ -11,6 +11,7 @@ namespace Joomla\CMS\MVC\View;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Helper\RouteHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -114,7 +115,7 @@ class CategoryFeedView extends HtmlView
 			}
 
 			// Load individual item creator class.
-			$feeditem              = new \JFeedItem;
+			$feeditem              = new FeedItem;
 			$feeditem->title       = $title;
 			$feeditem->link        = $link;
 			$feeditem->description = $description;
