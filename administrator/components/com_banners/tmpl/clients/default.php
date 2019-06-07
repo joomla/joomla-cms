@@ -21,11 +21,11 @@ use Joomla\CMS\Router\Route;
 HTMLHelper::_('behavior.multiselect');
 
 $purchaseTypes = [
-		'1' => 'UNLIMITED',
-		'2' => 'YEARLY',
-		'3' => 'MONTHLY',
-		'4' => 'WEEKLY',
-		'5' => 'DAILY',
+	'1' => 'UNLIMITED',
+	'2' => 'YEARLY',
+	'3' => 'MONTHLY',
+	'4' => 'WEEKLY',
+	'5' => 'DAILY',
 ];
 
 $user       = Factory::getUser();
