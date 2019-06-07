@@ -281,7 +281,7 @@ class Image extends FrameworkImage
 		$type = strtolower(preg_replace('#[^A-Z0-9_]#i', '', $type));
 
 		// Verify that the filter type exists.
-		$className = 'ImageFilter' . ucfirst($type);
+		$className = 'JImageFilter' . ucfirst($type);
 
 		if (!class_exists($className))
 		{
