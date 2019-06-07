@@ -228,7 +228,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 		{
 			$article = $db->loadObject();
 		}
-		catch (ExecutionFailureExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			// Something at the database layer went wrong
 			return Route::_(

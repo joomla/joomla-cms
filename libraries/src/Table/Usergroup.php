@@ -126,7 +126,7 @@ class Usergroup extends Table
 		{
 			$db->execute();
 		}
-		catch (ExecutionFailureExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}

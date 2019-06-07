@@ -187,7 +187,7 @@ class PlgSystemActionLogs extends JPlugin
 		{
 			$values = $this->db->setQuery($query)->loadObject();
 		}
-		catch (ExecutionFailureExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -342,7 +342,7 @@ class PlgSystemActionLogs extends JPlugin
 		{
 			$exists = (bool) $this->db->setQuery($query)->loadResult();
 		}
-		catch (ExecutionFailureExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -391,7 +391,7 @@ class PlgSystemActionLogs extends JPlugin
 		{
 			$this->db->setQuery($query)->execute();
 		}
-		catch (ExecutionFailureExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -427,7 +427,7 @@ class PlgSystemActionLogs extends JPlugin
 		{
 			$this->db->setQuery($query)->execute();
 		}
-		catch (ExecutionFailureExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}

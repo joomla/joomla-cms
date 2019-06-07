@@ -233,7 +233,7 @@ class PackageAdapter extends InstallerAdapter
 			{
 				$db->setQuery($query)->execute();
 			}
-			catch (ExecutionFailureExceptionExecuting $e)
+			catch (ExecutionFailureException $e)
 			{
 				Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_SETTING_PACKAGE_ID'), Log::WARNING, 'jerror');
 			}

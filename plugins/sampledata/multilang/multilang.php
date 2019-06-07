@@ -503,7 +503,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			$db->execute();
 		}
-		catch (ExecutionFailureExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -532,7 +532,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			{
 				$db->execute();
 			}
-			catch (ExecutionFailureExceptionExecuting $e)
+			catch (ExecutionFailureException $e)
 			{
 				return false;
 			}
@@ -570,7 +570,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			$db->execute();
 		}
-		catch (ExecutionFailureExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -1105,7 +1105,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			$db->execute();
 		}
-		catch (ExecutionFailureExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -1120,7 +1120,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			$db->insertObject('#__workflow_associations', $assoc);
 		}
-		catch (ExecutionFailureExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
