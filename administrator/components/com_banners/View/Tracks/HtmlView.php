@@ -130,7 +130,7 @@ class HtmlView extends BaseHtmlView
 				'icon'     => 'icon-download',
 				'text'     => Text::_('JTOOLBAR_EXPORT'),
 				'doTask'   => Route::_('index.php?option=com_banners&view=download&tmpl=component'),
-			)
+			]
 		);
 
 		$bar->appendButton('Custom', $dHtml, 'download');
