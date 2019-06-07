@@ -41,7 +41,7 @@ $document->setTitle(Text::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
 			</div>
 		</div>
 
-		<button onclick="insertPagebreak('<?php echo $this->eName; ?>');" class="btn btn-success pull-xs-right">
+		<button onclick="insertPagebreak('<?php echo $this->eName; ?>');" class="btn btn-success">
 			<?php echo Text::_('COM_CONTENT_PAGEBREAK_INSERT_BUTTON'); ?>
 		</button>
 

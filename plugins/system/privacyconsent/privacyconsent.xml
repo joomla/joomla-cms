@@ -20,7 +20,7 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="basic" addfieldpath="/administrator/components/com_content/models/fields">
+			<fieldset name="basic" addfieldprefix="Joomla\Component\Content\Administrator\Field">
 				<field
 					name="privacy_note"
 					type="textarea"
@@ -64,12 +64,12 @@
 					type="radio"
 					label="PLG_SYSTEM_PRIVACYCONSENT_FIELD_ENABLED_LABEL"
 					description="PLG_SYSTEM_PRIVACYCONSENT_FIELD_ENABLED_DESC"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="0"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 				<field
 					name="cachetimeout"

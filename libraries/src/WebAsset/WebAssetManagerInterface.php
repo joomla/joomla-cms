@@ -11,6 +11,9 @@ namespace Joomla\CMS\WebAsset;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
+use Joomla\CMS\WebAsset\Exception\UnsatisfiedDependencyException;
+use Joomla\CMS\WebAsset\Exception\InvalidActionException;
 
 /**
  * Web Asset Manager Interface
@@ -26,6 +29,9 @@ interface WebAssetManagerInterface
 	 *
 	 * @return self
 	 *
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 * @throws  InvalidActionException When the Manager already attached to a Document
+	 *
 	 * @since  4.0.0
 	 */
 	public function enableAsset(string $name): self;
@@ -36,6 +42,9 @@ interface WebAssetManagerInterface
 	 * @param   string  $name  The asset name
 	 *
 	 * @return self
+	 *
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 * @throws  InvalidActionException When the Manager already attached to a Document
 	 *
 	 * @since  4.0.0
 	 */
@@ -48,6 +57,8 @@ interface WebAssetManagerInterface
 	 *
 	 * @return  bool
 	 *
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 *
 	 * @since  4.0.0
 	 */
 	public function isAssetActive(string $name): bool;
@@ -59,6 +70,9 @@ interface WebAssetManagerInterface
 	 *
 	 * @return  WebAssetItemInterface[]
 	 *
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 * @throws  UnsatisfiedDependencyException When Dependency cannot be found
+	 *
 	 * @since  4.0.0
 	 */
 	public function getAssets(bool $sort = false): array;
@@ -69,6 +83,8 @@ interface WebAssetManagerInterface
 	 * @param   Document  $doc  Document for attach StyleSheet/JavaScript
 	 *
 	 * @return  self
+	 *
+	 * @throws InvalidActionException When the Manager already attached to a Document
 	 *
 	 * @since  4.0.0
 	 */

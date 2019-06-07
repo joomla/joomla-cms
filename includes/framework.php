@@ -8,13 +8,15 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Version;
+
 // System includes
 require_once JPATH_LIBRARIES . '/bootstrap.php';
 
 // Installation check, and check on removal of the install directory.
 if (!file_exists(JPATH_CONFIGURATION . '/configuration.php')
 	|| (filesize(JPATH_CONFIGURATION . '/configuration.php') < 10)
-	|| (file_exists(JPATH_INSTALLATION . '/index.php') && (false === (new JVersion)->isInDevelopmentState())))
+	|| (file_exists(JPATH_INSTALLATION . '/index.php') && (false === (new Version)->isInDevelopmentState())))
 {
 	// Prevents the script from falling back to $_SERVER['REQUEST_URI'] as it will throw an error in CLI mode.
 	if (php_sapi_name() === 'cli')
@@ -85,6 +87,9 @@ switch ($config->error_reporting)
 		break;
 }
 
-define('JDEBUG', $config->debug);
+if (!defined('JDEBUG'))
+{
+	define('JDEBUG', $config->debug);
+}
 
 unset($config);

@@ -37,6 +37,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Console\Application as BaseConsoleApplication;
 use Joomla\Console\Loader\LoaderInterface;
+use Joomla\Database\Command\ExportCommand;
+use Joomla\Database\Command\ImportCommand;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
@@ -153,7 +155,7 @@ class Application implements ServiceProviderInterface
 				function (Container $container) {
 					$app = new ApiApplication(null, null, null, $container);
 
-					// The session service provider needs JFactory::$application, set it if still null
+					// The session service provider needs Factory::$application, set it if still null
 					if (Factory::$application === null)
 					{
 						Factory::$application = $app;
@@ -194,6 +196,8 @@ class Application implements ServiceProviderInterface
 			RemoveOldFilesCommand::getDefaultName() 		=> RemoveOldFilesCommand::class,
 			CheckUpdatesCommand::getDefaultName() 		   	=> CheckUpdatesCommand::class,
 			CleanCacheCommand::getDefaultName() 		   	=> CleanCacheCommand::class,
+			ExportCommand::getDefaultName()            		=> ExportCommand::class,
+			ImportCommand::getDefaultName()            		=> ImportCommand::class,
 		];
 	}
 }

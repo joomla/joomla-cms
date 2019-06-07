@@ -27,6 +27,8 @@ use Joomla\CMS\Console\SiteDownCommand;
 use Joomla\CMS\Console\SiteUpCommand;
 use Joomla\CMS\Console\UpdateCoreCommand;
 use Joomla\CMS\Session\MetadataManager;
+use Joomla\Database\Command\ExportCommand;
+use Joomla\Database\Command\ImportCommand;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -135,5 +137,23 @@ class Console implements ServiceProviderInterface
 				true
 			);
 		}
+
+		$container->share(
+			ExportCommand::class,
+			function (Container $container)
+			{
+				return new ExportCommand($container->get('db'));
+			},
+			true
+		);
+
+		$container->share(
+			ImportCommand::class,
+			function (Container $container)
+			{
+				return new ImportCommand($container->get('db'));
+			},
+			true
+		);
 	}
 }
