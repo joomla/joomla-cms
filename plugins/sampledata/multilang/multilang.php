@@ -532,7 +532,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			{
 				$db->execute();
 			}
-			catch (\ExecutionFailureExceptionExecuting $e)
+			catch (ExecutionFailureExceptionExecuting $e)
 			{
 				return false;
 			}
@@ -570,7 +570,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			$db->execute();
 		}
-		catch (\ExecutionFailureExceptionExecuting $e)
+		catch (ExecutionFailureExceptionExecuting $e)
 		{
 			return false;
 		}
