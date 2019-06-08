@@ -189,15 +189,23 @@
 				response = JSON.parse(response);
 				Joomla.replaceTokens(response.token);
 
-				if (response.messages) {
-					Joomla.renderMessages(response.messages);
-					Joomla.goToPage(response.data.view, true);
-				} else {
+				if (response.error === true)
+				{
 					Joomla.loadingLayer('hide');
-					Joomla.install(tasks, form);
+					Joomla.renderMessages({"error": [response.message]});
+					return false;
 				}
+
+				if (response.messages) {
+					Joomla.loadingLayer('hide');
+					Joomla.renderMessages(response.messages);
+					return false;
+				}
+
+				Joomla.loadingLayer('hide');
+				Joomla.install(tasks, form);
 			},
-			onError:   function(xhr){
+			onError: function(xhr){
 				Joomla.renderMessages([['', Joomla.JText._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
 				Joomla.goToPage('remove');
 
