@@ -1372,7 +1372,7 @@ abstract class AdminModel extends FormModel
 				$masterModified = MasterAssociationsHelper::getMasterModifiedDate($masterId, $table->getTableName());
 
 				// Adding new association for these items
-				$key   = md5(json_encode($associations));
+				$key   = md5(json_encode($associations) . $context);
 				$query = $db->getQuery(true)
 					->insert('#__associations');
 
