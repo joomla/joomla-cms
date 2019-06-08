@@ -16,7 +16,7 @@
  * 4. Check the archives in the tmp directory.
  *
  * @package    Joomla.Build
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -209,6 +209,15 @@ system('npm install --unsafe-perm', $npmReturnCode);
 if ($npmReturnCode !== 0)
 {
 	echo "`npm install` did not complete as expected.\n";
+	exit(1);
+}
+
+// Create gzipped version of the static assets
+system('npm run gzip', $gzipReturnCode);
+
+if ($gzipReturnCode !== 0)
+{
+	echo "`npm run gzip` did not complete as expected.\n";
 	exit(1);
 }
 
@@ -518,7 +527,7 @@ foreach (array_keys($checksums) as $packageName)
 {
 	echo "Generating checksums for $packageName\n";
 
-	foreach (array('md5', 'sha1') as $hash)
+	foreach (array('md5', 'sha1', 'sha256', 'sha384', 'sha512') as $hash)
 	{
 		if (file_exists('packages/' . $packageName))
 		{

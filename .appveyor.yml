@@ -10,9 +10,8 @@ branches:
 ## Build matrix for lowest and highest possible targets
 environment:
   matrix:
-  - php_ver_target: 7.0
-  - php_ver_target: 7.1
   - php_ver_target: 7.2
+  - php_ver_target: 7.3
 
 init:
   - SET PATH=C:\Program Files\OpenSSL;C:\tools\php;%PATH%
@@ -96,7 +95,6 @@ install:
     - appveyor-retry appveyor DownloadFile https://getcomposer.org/composer.phar
     - cd C:\projects\joomla-cms
     - appveyor-retry composer install --no-progress --profile
-    - appveyor-retry composer update joomla/test-unit --no-progress --profile
 before_test:
 #  Database setup for MySQL via PowerShell tools
   - >
@@ -113,4 +111,4 @@ before_test:
 
 test_script:
   - cd C:\projects\joomla-cms
-  - libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
+  - libraries/vendor/bin/phpunit

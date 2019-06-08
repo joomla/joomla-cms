@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -278,21 +278,6 @@ final class SiteApplication extends CMSApplication
 	}
 
 	/**
-	 * Return a reference to the AbstractMenu object.
-	 *
-	 * @param   string  $name     The name of the application/client.
-	 * @param   array   $options  An optional associative array of configuration settings.
-	 *
-	 * @return  AbstractMenu  AbstractMenu object.
-	 *
-	 * @since   3.2
-	 */
-	public function getMenu($name = 'site', $options = array())
-	{
-		return parent::getMenu($name, $options);
-	}
-
-	/**
 	 * Get the application parameters
 	 *
 	 * @param   string  $option  The component option
@@ -396,14 +381,12 @@ final class SiteApplication extends CMSApplication
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return	Router
+	 * @return	\Joomla\CMS\Router\Router
 	 *
 	 * @since	3.2
 	 */
 	public static function getRouter($name = 'site', array $options = array())
 	{
-		$options['mode'] = Factory::getApplication()->get('sef');
-
 		return parent::getRouter($name, $options);
 	}
 

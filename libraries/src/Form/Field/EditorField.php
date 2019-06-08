@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,6 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Editor\Editor;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('textarea');
 
 /**
  * A textarea field for content creation
@@ -22,7 +19,7 @@ FormHelper::loadFieldClass('textarea');
  * @see    JEditor
  * @since  1.6
  */
-class EditorField extends \JFormFieldTextarea
+class EditorField extends TextareaField
 {
 	/**
 	 * The form field type.
@@ -268,7 +265,7 @@ class EditorField extends \JFormFieldTextarea
 	}
 
 	/**
-	 * Method to get a Editor object based on the form field.
+	 * Method to get an Editor object based on the form field.
 	 *
 	 * @return  Editor  The Editor object.
 	 *
@@ -322,24 +319,5 @@ class EditorField extends \JFormFieldTextarea
 		}
 
 		return $this->editor;
-	}
-
-	/**
-	 * Method to get the JEditor output for an onSave event.
-	 *
-	 * @return  string  The JEditor object output.
-	 *
-	 * @since   1.6
-	 */
-	public function save()
-	{
-		$editor = $this->getEditor();
-
-		if (!method_exists($editor, 'save'))
-		{
-			return '';
-		}
-
-		return $editor->save($this->id);
 	}
 }

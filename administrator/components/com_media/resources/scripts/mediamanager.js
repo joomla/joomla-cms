@@ -9,6 +9,7 @@ import Toolbar from "./components/toolbar/toolbar.vue";
 import Breadcrumb from "./components/breadcrumb/breadcrumb.vue";
 import Browser from "./components/browser/browser.vue";
 import BrowserItem from "./components/browser/items/item";
+import BrowserItemRow from "./components/browser/items/row.vue";
 import Modal from "./components/modals/modal.vue";
 import CreateFolderModal from "./components/modals/create-folder-modal.vue";
 import PreviewModal from "./components/modals/preview-modal.vue";
@@ -19,6 +20,7 @@ import Infobar from "./components/infobar/infobar.vue";
 import Upload from "./components/upload/upload.vue";
 import Translate from "./plugins/translate";
 import store from './store/store';
+import Lock from 'vue-focus-lock';
 
 // Add the plugins
 Vue.use(Translate);
@@ -32,6 +34,7 @@ Vue.component('media-toolbar', Toolbar);
 Vue.component('media-breadcrumb', Breadcrumb);
 Vue.component('media-browser', Browser);
 Vue.component('media-browser-item', BrowserItem);
+Vue.component('media-browser-item-row', BrowserItemRow);
 Vue.component('media-modal', Modal);
 Vue.component('media-create-folder-modal', CreateFolderModal);
 Vue.component('media-preview-modal', PreviewModal);
@@ -40,6 +43,7 @@ Vue.component('media-share-modal', ShareModal);
 Vue.component('media-confirm-delete-modal', ConfirmDeleteModal);
 Vue.component('media-infobar', Infobar);
 Vue.component('media-upload', Upload);
+Vue.component('tab-lock', Lock);
 
 // Register MediaManager namespace
 window.MediaManager = window.MediaManager || {};

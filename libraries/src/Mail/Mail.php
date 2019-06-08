@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -100,7 +100,7 @@ class Mail extends PHPMailer
 	 * @since   1.7.0
 	 *
 	 * @throws  \RuntimeException   if the mail function is disabled
-	 * @throws  phpmailerException  if sending failed and exception throwing is enabled
+	 * @throws  phpmailerException  if sending failed
 	 */
 	public function Send()
 	{
@@ -133,7 +133,17 @@ class Mail extends PHPMailer
 			 */
 			if (!$result && $this->SMTPAutoTLS)
 			{
-				throw new \RuntimeException(Text::_($this->ErrorInfo), 500);
+				$this->SMTPAutoTLS = false;
+
+				try
+				{
+					$result = parent::send();
+				}
+				finally
+				{
+					// Reset the value for any future emails
+					$this->SMTPAutoTLS = true;
+				}
 			}
 
 			return $result;
@@ -266,7 +276,7 @@ class Mail extends PHPMailer
 					$recipientName = MailHelper::cleanLine($recipientName);
 
 					// Check for boolean false return if exception handling is disabled
-					if (call_user_func('parent' . $method, $recipientEmail, $recipientName) === false)
+					if (call_user_func('parent::' . $method, $recipientEmail, $recipientName) === false)
 					{
 						return false;
 					}

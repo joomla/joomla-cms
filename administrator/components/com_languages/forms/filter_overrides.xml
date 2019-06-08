@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<field
+		name="language_client"
+		type="languageclient"
+		onchange="this.form.submit();"
+		filtermode="selector"
+		addfieldprefix="Joomla\Component\Languages\Administrator\Field"
+	>
+		<option value="">COM_LANGUAGES_OVERRIDE_SELECT_LANGUAGE</option>
+	</field>
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			label="JSEARCH_FILTER"
+			description="COM_LANGUAGES_SEARCH_IN_TITLE"
+			hint="JSEARCH_FILTER"
+		/>
+	</fields>
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			onchange="this.form.submit();"
+			default="key DESC"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="constant ASC">COM_LANGUAGES_VIEW_OVERRIDES_CONSTANT_ASC</option>
+			<option value="constant DESC">COM_LANGUAGES_VIEW_OVERRIDES_CONSTANT_DESC</option>
+			<option value="key ASC">COM_LANGUAGES_VIEW_OVERRIDES_KEY_ASC</option>
+			<option value="key DESC">COM_LANGUAGES_VIEW_OVERRIDES_KEY_DESC</option>
+		</field>
+
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIMIT"
+			default="25"
+			onchange="this.form.submit();"
+		/>
+	</fields>
+</form>

@@ -32,6 +32,17 @@
 		</field>
 
 		<field
+			name="track_robots_impressions"
+			type="radio"
+			label="COM_BANNERS_FIELD_TRACKROBOTSIMPRESSION_LABEL"
+			class="switcher"
+			default="1"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
 			name="track_clicks"
 			type="radio"
 			class="switcher"

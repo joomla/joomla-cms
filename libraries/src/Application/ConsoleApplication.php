@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ConsoleApplication extends Application implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait;
+	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper;
 
 	/**
 	 * The application message queue.
@@ -67,7 +67,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 *                                            loadDispatcher() method.
 	 * @param   Container            $container   Dependency injection container.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(
 		InputInterface $input = null,
@@ -88,6 +88,9 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		{
 			$this->setDispatcher($dispatcher);
 		}
+
+		// Load extension namespaces
+		$this->createExtensionNamespaceMap();
 
 		// Set the execution datetime and timestamp;
 		$this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
@@ -272,5 +275,20 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		$this->session = $session;
 
 		return $this;
+	}
+
+	/**
+	 * Returns the application \JMenu object.
+	 *
+	 * @param   string  $name     The name of the application/client.
+	 * @param   array   $options  An optional associative array of configuration settings.
+	 *
+	 * @return  null
+	 *
+	 * @since   4.0.0
+	 */
+	public function getMenu($name = null, $options = array())
+	{
+		return null;
 	}
 }

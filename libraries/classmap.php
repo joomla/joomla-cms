@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Libraries
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -499,3 +499,5 @@ JLoader::registerAlias('JPath',                             '\\Joomla\\CMS\\File
 JLoader::registerAlias('JStream',                           '\\Joomla\\CMS\\Filesystem\\Stream', '5.0');
 JLoader::registerAlias('JStreamString',                     '\\Joomla\\CMS\\Filesystem\\Streams\\StreamString', '5.0');
 JLoader::registerAlias('JStringController',                 '\\Joomla\\CMS\\Filesystem\\Support\\StringController', '5.0');
+
+JLoader::registerAlias('JClassLoader',                      '\\Joomla\\CMS\\Autoload\\ClassLoader', '5.0');

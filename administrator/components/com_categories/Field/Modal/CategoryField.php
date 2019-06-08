@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 
@@ -50,10 +51,13 @@ class CategoryField extends FormField
 			$extension = (string) Factory::getApplication()->input->get('extension', 'com_content');
 		}
 
-		$allowNew    = ((string) $this->element['new'] == 'true');
-		$allowEdit   = ((string) $this->element['edit'] == 'true');
-		$allowClear  = ((string) $this->element['clear'] != 'false');
-		$allowSelect = ((string) $this->element['select'] != 'false');
+		$allowNew       = ((string) $this->element['new'] == 'true');
+		$allowEdit      = ((string) $this->element['edit'] == 'true');
+		$allowClear     = ((string) $this->element['clear'] != 'false');
+		$allowSelect    = ((string) $this->element['select'] != 'false');
+		$allowPropagate = ((string) $this->element['propagate'] == 'true');
+
+		$languages = LanguageHelper::getContentLanguages(array(0, 1));
 
 		// Load language.
 		Factory::getLanguage()->load('com_categories', JPATH_ADMINISTRATOR);
@@ -85,6 +89,8 @@ class CategoryField extends FormField
 				}
 				");
 
+				Text::script('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED');
+
 				$scriptSelect[$this->id] = true;
 			}
 		}
@@ -94,7 +100,7 @@ class CategoryField extends FormField
 			. '&amp;extension=' . $extension;
 		$linkCategory  = 'index.php?option=com_categories&amp;view=category&amp;layout=modal&amp;tmpl=component&amp;' . Session::getFormToken() . '=1'
 			. '&amp;extension=' . $extension;
-		$modalTitle    = Text::_('COM_CATEGORIES_CHANGE_CATEGORY');
+		$modalTitle    = Text::_('COM_CATEGORIES_SELECT_A_CATEGORY');
 
 		if (isset($this->element['language']))
 		{
@@ -135,7 +141,7 @@ class CategoryField extends FormField
 			$html .= '<span class="input-group">';
 		}
 
-		$html .= '<input class="form-control" id="' . $this->id . '_name" type="text" value="' . $title . '" disabled="disabled" size="35">';
+		$html .= '<input class="form-control" id="' . $this->id . '_name" type="text" value="' . $title . '" readonly size="35">';
 
 		if ($allowSelect || $allowNew || $allowEdit || $allowClear)
 		{
@@ -151,7 +157,7 @@ class CategoryField extends FormField
 				. ' data-toggle="modal"'
 				. ' type="button"'
 				. ' data-target="#ModalSelect' . $modalId . '"'
-				. ' title="' . HTMLHelper::tooltipText('COM_CATEGORIES_CHANGE_CATEGORY') . '">'
+				. ' title="' . HTMLHelper::tooltipText('COM_CATEGORIES_SELECT_A_CATEGORY') . '">'
 				. '<span class="icon-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
 				. '</button>';
 		}
@@ -196,6 +202,23 @@ class CategoryField extends FormField
 				. '</button>';
 		}
 
+		// Propagate category button
+		if ($allowPropagate && count($languages) > 2)
+		{
+			// Strip off language tag at the end
+			$tagLength = (int) strlen($this->element['language']);
+			$callbackFunctionStem = substr("jSelectCategory_" . $this->id, 0, -$tagLength);
+
+			$html .= '<a'
+			. ' class="btn hasTooltip' . ($value ? '' : ' hidden') . '"'
+			. ' id="' . $this->id . '_propagate"'
+			. ' href="#"'
+			. ' title="' . HtmlHelper::tooltipText('JGLOBAL_ASSOCIATIONS_PROPAGATE_TIP') . '"'
+			. ' onclick="Joomla.propagateAssociation(\'' . $this->id . '\', \'' . $callbackFunctionStem . '\');">'
+			. '<span class="icon-refresh" aria-hidden="true"></span>' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_BUTTON')
+			. '</a>';
+		}
+
 		if ($allowSelect || $allowNew || $allowEdit || $allowClear)
 		{
 			$html .= '</span></span>';
@@ -214,8 +237,8 @@ class CategoryField extends FormField
 					'width'       => '800px',
 					'bodyHeight'  => 70,
 					'modalWidth'  => 80,
-					'footer'      => '<a role="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-										. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>',
+					'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal">'
+										. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 				)
 			);
 		}
@@ -236,15 +259,15 @@ class CategoryField extends FormField
 					'width'       => '800px',
 					'bodyHeight'  => 70,
 					'modalWidth'  => 80,
-					'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
+					'footer'      => '<button type="button" class="btn btn-secondary"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'cancel\', \'item-form\'); return false;">'
-							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
-							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
+							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+							. '<button type="button" class="btn btn-primary"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'save\', \'item-form\'); return false;">'
-							. Text::_('JSAVE') . '</a>'
-							. '<a role="button" class="btn btn-success" aria-hidden="true"'
+							. Text::_('JSAVE') . '</button>'
+							. '<button type="button" class="btn btn-success"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'apply\', \'item-form\'); return false;">'
-							. Text::_('JAPPLY') . '</a>',
+							. Text::_('JAPPLY') . '</button>',
 				)
 			);
 		}
@@ -265,15 +288,15 @@ class CategoryField extends FormField
 					'width'       => '800px',
 					'bodyHeight'  => 70,
 					'modalWidth'  => 80,
-					'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
+					'footer'      => '<button type="button" class="btn btn-secondary"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'cancel\', \'item-form\'); return false;">'
-							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
-							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
+							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+							. '<button type="button" class="btn btn-primary"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'save\', \'item-form\'); return false;">'
-							. Text::_('JSAVE') . '</a>'
-							. '<a role="button" class="btn btn-success" aria-hidden="true"'
+							. Text::_('JSAVE') . '</button>'
+							. '<button type="button" class="btn btn-success"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'apply\', \'item-form\'); return false;">'
-							. Text::_('JAPPLY') . '</a>',
+							. Text::_('JAPPLY') . '</button>',
 				)
 			);
 		}
@@ -296,6 +319,6 @@ class CategoryField extends FormField
 	 */
 	protected function getLabel()
 	{
-		return str_replace($this->id, $this->id . '_id', parent::getLabel());
+		return str_replace($this->id, $this->id . '_name', parent::getLabel());
 	}
 }
