@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Version;
 
 /**
  * AtomRenderer is a feed that implements the atom specification
@@ -124,7 +125,7 @@ class AtomRenderer extends DocumentRenderer
 
 		if ($app->get('MetaVersion', 0))
 		{
-			$minorVersion       = \JVersion::MAJOR_VERSION . '.' . \JVersion::MINOR_VERSION;
+			$minorVersion       = Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION;
 			$versionHtmlEscaped = ' version="' . htmlspecialchars($minorVersion, ENT_COMPAT, 'UTF-8') . '"';
 		}
 

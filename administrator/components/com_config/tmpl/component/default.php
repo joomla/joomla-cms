@@ -7,13 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-
-defined('_JEXEC') or die;
 
 $app = Factory::getApplication();
 $template = $app->getTemplate();
@@ -27,6 +27,11 @@ Text::script('MESSAGE');
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.tabstate');
+
+if ($this->fieldsets)
+{
+	HTMLHelper::_('bootstrap.framework');
+}
 
 // @TODO delete this when custom elements modal is merged
 HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version' => 'auto', 'relative' => true]);
@@ -61,6 +66,11 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version
 			<div class="tab-content" id="configContent">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<div class="tab-pane" id="<?php echo $name; ?>">
+						<?php if (!empty($fieldSet->description)) : ?>
+							<div class="tab-description alert alert-info">
+								<span class="icon-info" aria-hidden="true"></span> <?php echo JText::_($fieldSet->description); ?>
+							</div>
+						<?php endif; ?>
 						<?php echo $this->form->renderFieldset($name, $name === 'permissions' ? ['hiddenLabel' => true, 'class' => 'revert-controls'] : []); ?>
 					</div>
 				<?php endforeach; ?>
