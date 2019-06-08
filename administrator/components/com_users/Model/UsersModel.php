@@ -334,8 +334,9 @@ class UsersModel extends ListModel
 
 			if ($groupId)
 			{
+				$groupId = (int) $groupId;
 				$query->where($db->quoteName('map2.group_id') . ' = :group_id')
-					->bind(':group_id', (int) $groupId, ParameterType::INTEGER);
+					->bind(':group_id', $groupId, ParameterType::INTEGER);
 			}
 
 			if (isset($groups))
@@ -351,8 +352,9 @@ class UsersModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
+				$ids =  (int) substr($search, 3);
 				$query->where($db->quoteName('a.id') . ' = :id');
-				$query->bind(':id', (int) substr($search, 3), ParameterType::INTEGER);
+				$query->bind(':id', $ids, ParameterType::INTEGER);
 			}
 			elseif (stripos($search, 'username:') === 0)
 			{
