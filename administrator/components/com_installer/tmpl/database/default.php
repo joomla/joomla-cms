@@ -29,7 +29,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 					<div class="control-group">
 						<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 						<?php if (empty($this->changeSet)) : ?>
-							<div class="alert alert-warning">
+							<div class="alert alert-info">
 								<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 							</div>
 						<?php else : ?>
@@ -55,14 +55,10 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 											<?php echo Text::_('COM_INSTALLER_HEADING_PROBLEMS'); ?>
 										</th>
 										<th scope="col" class="d-none d-md-table-cell text-right" style="width:10%">
-											<span class="hasPopover" data-original-title="<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>"
-											    data-content="<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA_DESC'); ?>" data-placement="top">
 												<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>
 											</span>
 										</th>
 										<th scope="col" class="d-none d-md-table-cell" style="width:10%">
-											<span class="hasPopover" data-original-title="<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>"
-											    data-content="<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION_DESC'); ?>" data-placement="top">
 												<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>
 											</span>
 										</th>
@@ -85,11 +81,11 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 											</td>
 											<th scope="row">
 												<label for="cb<?php echo $i; ?>">
-													<span class="hasPopover" data-original-title="<?php echo $extension->name; ?>"
-														data-content="<?php echo Text::_($manifest->description) ?: Text::_('COM_INSTALLER_MSG_UPDATE_NODESC'); ?>">
-														<?php echo $extension->name; ?>
-													</span>
+													<?php echo $extension->name; ?>
 												</label>
+												<div class="small">
+													<?php echo Text::_($manifest->description); ?>
+												</div>
 											</th>
 											<td>
 												<?php echo $extension->client_translated; ?>

@@ -3,20 +3,24 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\Utilities\IpHelper;
 
 JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
 /**
- * Methods supporting a list of article records.
+ * Methods supporting a list of Actionlog records.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class ActionlogsModelActionlog extends JModelLegacy
 {
@@ -27,21 +31,27 @@ class ActionlogsModelActionlog extends JModelLegacy
 	 * @param   array    $messages            The contents of the messages to be logged
 	 * @param   string   $messageLanguageKey  The language key of the message
 	 * @param   string   $context             The context of the content passed to the plugin
-	 * @param   int      $userId              ID of user perform the action, usually ID of current logged in user
+	 * @param   integer  $userId              ID of user perform the action, usually ID of current logged in user
+	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
-	public function addLogsToDb($messages, $messageLanguageKey, $context, $userId = null)
+	public function addLog($messages, $messageLanguageKey, $context, $userId = null)
 	{
-		$user   = JFactory::getUser($userId);
+		$user   = Factory::getUser($userId);
 		$db     = $this->getDbo();
-		$date   = JFactory::getDate();
+		$date   = Factory::getDate();
 		$params = ComponentHelper::getComponent('com_actionlogs')->getParams();
 
 		if ($params->get('ip_logging', 0))
 		{
-			$ip = JFactory::getApplication()->input->server->get('REMOTE_ADDR');
+			$ip = IpHelper::getIp();
+
+			if (!filter_var($ip, FILTER_VALIDATE_IP))
+			{
+				$ip = 'COM_ACTIONLOGS_IP_INVALID';
+			}
 		}
 		else
 		{
@@ -65,7 +75,6 @@ class ActionlogsModelActionlog extends JModelLegacy
 			{
 				$db->insertObject('#__action_logs', $logMessage);
 				$loggedMessages[] = $logMessage;
-
 			}
 			catch (RuntimeException $e)
 			{
@@ -86,16 +95,23 @@ class ActionlogsModelActionlog extends JModelLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function sendNotificationEmails($messages, $username, $context)
 	{
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
+		$db           = $this->getDbo();
+		$query        = $db->getQuery(true);
+		$params       = ComponentHelper::getParams('com_actionlogs');
+		$showIpColumn = (bool) $params->get('ip_logging', 0);
 
-		$query->select($db->quoteName(array('email', 'params')))
-			->from($db->quoteName('#__users'))
-			->where($db->quoteName('params') . ' LIKE ' . $db->quote('%"logs_notification_option":"1"%'));
+		$query
+			->select($db->quoteName(array('u.email', 'l.extensions')))
+			->from($db->quoteName('#__users', 'u'))
+			->join(
+				'INNER',
+				$db->quoteName('#__action_logs_users', 'l') . ' ON ( ' . $db->quoteName('l.notify') . ' = 1 AND '
+				. $db->quoteName('l.user_id') . ' = ' . $db->quoteName('u.id') . ')'
+			);
 
 		$db->setQuery($query);
 
@@ -114,10 +130,9 @@ class ActionlogsModelActionlog extends JModelLegacy
 
 		foreach ($users as $user)
 		{
-			$userParams = json_decode($user->params, true);
-			$extensions = $userParams['logs_notification_extensions'];
+			$extensions = json_decode($user->extensions, true);
 
-			if (in_array(strtok($context, '.'), $extensions))
+			if ($extensions && in_array(strtok($context, '.'), $extensions))
 			{
 				$recipients[] = $user->email;
 			}
@@ -128,31 +143,33 @@ class ActionlogsModelActionlog extends JModelLegacy
 			return;
 		}
 
-		$layout    = new JLayoutFile('components.com_actionlogs.layouts.logstable', JPATH_ADMINISTRATOR);
-		$extension = ActionlogsHelper::translateExtensionName(strtoupper(strtok($context, '.')));
+		$layout    = new FileLayout('components.com_actionlogs.layouts.logstable', JPATH_ADMINISTRATOR);
+		$extension = strtok($context, '.');
+		ActionlogsHelper::loadTranslationFiles($extension);
 
 		foreach ($messages as $message)
 		{
-			$message->extension = $extension;
+			$message->extension = Text::_($extension);
 			$message->message   = ActionlogsHelper::getHumanReadableLogMessage($message);
 		}
 
 		$displayData = array(
-			'messages' => $messages,
-			'username' => $username,
+			'messages'     => $messages,
+			'username'     => $username,
+			'showIpColumn' => $showIpColumn,
 		);
 
 		$body   = $layout->render($displayData);
-		$mailer = JFactory::getMailer();
+		$mailer = Factory::getMailer();
 		$mailer->addRecipient($recipients);
-		$mailer->setSubject(JText::_('COM_ACTIONLOGS_EMAIL_SUBJECT'));
+		$mailer->setSubject(Text::_('COM_ACTIONLOGS_EMAIL_SUBJECT'));
 		$mailer->isHTML(true);
 		$mailer->Encoding = 'base64';
 		$mailer->setBody($body);
 
 		if (!$mailer->Send())
 		{
-			JError::raiseWarning(500, JText::_('JERROR_SENDING_EMAIL'));
+			JError::raiseWarning(500, Text::_('JERROR_SENDING_EMAIL'));
 		}
 	}
 }

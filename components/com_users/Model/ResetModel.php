@@ -157,7 +157,6 @@ class ResetModel extends FormModel
 	{
 		// Get the form.
 		$form = $this->getResetCompleteForm();
-		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
 		// Check for an error.
 		if ($form instanceof \Exception)
@@ -257,7 +256,6 @@ class ResetModel extends FormModel
 	{
 		// Get the form.
 		$form = $this->getResetConfirmForm();
-		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
 		// Check for an error.
 		if ($form instanceof \Exception)
