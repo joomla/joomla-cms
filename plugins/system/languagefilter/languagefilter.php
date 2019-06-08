@@ -1035,8 +1035,9 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
 	/**
 	 * Method to set the master item of an association as parent and the children get the parent id
+	 * Also reset the modified date of the master item. Master and children will be up-to-date, as they get the same modified date
 	 *
-	 * @param string  $language  The global master language
+	 * @param string   $language  The global master language
 	 *
 	 * @return  void
 	 *
@@ -1049,12 +1050,13 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
 		// TODO add warning when master language changed
 
-		// if there is no global masterlanguage set, set all parent_ids to -1
+		// if there is no global masterlanguage set, set all parent_ids to -1 and assocParams to null
 		if (!$masterLanguage)
 		{
 			$resetQuery = $db->getQuery(true)
 				->update($db->quoteName('#__associations'))
-				->set($db->quoteName('parent_id') . ' = ' . -1);
+				->set($db->quoteName('parent_id') . ' = ' . -1)
+				->set($db->quoteName('assocParams') . ' = ' . $db->quote(null));
 			$db->setQuery($resetQuery);
 
 			try
@@ -1094,22 +1096,27 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				{
 					case 'com_content.item':
 						$fromTable = $db->quoteName('#__content', 'e');
+						$modified = $db->quoteName('e.modified');
 						break;
 
 					case 'com_menus.item' :
 						$fromTable = $db->quoteName('#__menu', 'e');
+						$modified = '';
 						break;
 
 					case 'com_categories.item':
 						$fromTable = $db->quoteName('#__categories', 'e');
+						$modified = $db->quoteName('e.modified_time');
 						break;
 
 					case 'com_contact.item':
 						$fromTable = $db->quoteName('#__contact_details', 'e');
+						$modified = $db->quoteName('e.modified');
 						break;
 
 					case 'com_newsfeeds.item':
 						$fromTable = $db->quoteName('#__newsfeeds', 'e');
+						$modified = $db->quoteName('e.modified');
 						break;
 				}
 
@@ -1127,10 +1134,23 @@ class PlgSystemLanguageFilter extends CMSPlugin
 					->where($db->quoteName('key') . ' = ' . $db->quote($value));
 				$masterId    = $db->setQuery($masterQuery)->loadResult();
 
+				// Get master modified date
+				if($modified)
+				{
+					$masterModQuery = $db->getQuery(true)
+						->select($modified)
+						->from($fromTable)
+						->where($db->quoteName('id') . ' = ' . $db->quote($masterId));
+					$masterModified   = $db->setQuery($masterModQuery)->loadResult();
+				}
+
+				$masterModified = $modified ? $masterModified : null;
+
 				// Set the master item as parent
 				$query = $db->getQuery(true)
 					->update($db->quoteName('#__associations'))
-					->set($db->quoteName('parent_id') . ' = ' . 0)
+					->set($db->quoteName('parent_id') . ' = ' . $db->quote(0))
+					->set($db->quoteName('assocParams') . ' = ' . $db->quote($masterModified))
 					->where($db->quoteName('id') . ' = ' . $db->quote($masterId))
 					->where($db->quoteName('key') . ' = ' . $db->quote($value));
 				$db->setQuery($query);
@@ -1150,6 +1170,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				$query = $db->getQuery(true)
 					->update($db->quoteName('#__associations'))
 					->set($db->quoteName('parent_id') . ' = ' . $db->quote($masterId))
+					->set($db->quoteName('assocParams') . ' = ' . $db->quote($masterModified))
 					->where($db->quoteName('id') . ' <> ' . $db->quote($masterId))
 					->where($db->quoteName('key') . ' = ' . $db->quote($value));
 				$db->setQuery($query);

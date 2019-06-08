@@ -1,0 +1,189 @@
+<?php
+/**
+ * @package     Joomla.Administrator
+ * @subpackage  com_associations
+ *
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+namespace Joomla\Component\Associations\Administrator\Helper;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
+
+defined('_JEXEC') or die;
+
+/**
+ * Master Associations component helper.
+ *
+ * @since  4.0
+ */
+class MasterAssociationsHelper extends ContentHelper
+{
+
+	/**
+	 * @param   integer  $itemId   Item id
+	 * @param   string   $context  Context of the association
+	 *
+	 * @return   boolean  True if the item is a master item, false otherwise
+	 */
+	public static function isMaster($itemId, $context)
+	{
+		$parentId = self::getMasterId($itemId, $context);
+
+		$isMaster = ($parentId === 0) ? true : false;
+
+		return $isMaster;
+
+	}
+
+	/**
+	 * Get the associated master item id from a child element.
+	 *
+	 * @param   integer  $itemId   Item id
+	 * @param   string   $context  context of the association
+	 *
+	 * @return  integer  The id of the associated master item
+	 *
+	 * @since  4.0
+	 */
+	public static function getMasterId($itemId, $context)
+	{
+		$db = Factory::getDbo();
+
+		$parentQuery = $db->getQuery(true)
+			->select($db->quoteName('parent_id'))
+			->from($db->quoteName('#__associations'))
+			->where($db->quoteName('id') . ' = ' . $db->quote($itemId))
+			->where($db->quoteName('context') . ' = ' . $db->quote($context));
+		$masterId    = $db->setQuery($parentQuery)->loadResult();
+
+		return (int) $masterId;
+
+	}
+
+	/**
+	 * Method to get associated params of the master item.
+	 *
+	 * @param   array    $associations  the associations to be saved.
+	 *
+	 * @param   string   $context       the association context
+	 *
+	 * @return   array  associations with params
+	 *
+	 */
+	public static function getAssociationsParams($associations, $context)
+	{
+		$db = Factory::getDbo();
+
+		foreach ($associations as $langCode => $id)
+		{
+			if(is_array($id)) {
+				$id = $id['id'];
+			}
+			$query = $db->getQuery(true)
+				->select($db->quoteName('assocParams'))
+				->from($db->quoteName('#__associations'))
+				->where($db->quoteName('id') . ' = ' . $db->quote($id))
+				->where($db->quoteName('context') . ' = ' . $db->quote($context));
+			$db->setQuery($query);
+			$param = $db->loadResult();
+			$assocParams[$id] = $param;
+		}
+
+		return $assocParams;
+	}
+
+	/**
+	 * @param   integer  $id        Item id
+	 * @param   integer  $dataId        Item id of an item that is going to be saved
+	 * @param   integer  $masterId
+	 * @param   string   $masterModified       th
+	 * @param   array    $associationsParams   modified date to associated items
+	 * @param   string   $old_key              the old association key
+	 *
+	 * @return   array     parent id and modified date
+	 */
+	public static function getMasterLanguageValues($id, $dataId, $masterId, $masterModified, $associationsParams, $old_key) {
+
+		if ($masterId)
+		{
+			// For the master item
+			if ($masterId === $id)
+			{
+				$parentId = 0;
+				// set always the last modified date
+				$parentModified = $masterModified ?? null;
+			}
+			// For the children
+			else
+			{
+				$parentId = $masterId;
+
+				if (!$old_key)
+				{
+					// Add modified date from master to new associated item
+					if ($dataId === $id)
+					{
+						$parentModified = $masterModified ?? null;
+					}
+					else
+					{
+						// Set old modified date from master to existing associated child if not empty
+						$parentModified = empty($associationsParams[$id]) ? $masterModified : $associationsParams[$id];
+					}
+				}
+				else
+				{
+					// if modified date isn't set to the child item set it with current modified date from master
+					$parentModified = empty($associationsParams[$id]) ? $masterModified : $associationsParams[$id];
+				}
+			}
+		}
+		// default values
+		else
+		{
+			$parentId = -1;
+			$parentModified = null;
+		}
+
+		return [$parentId, $parentModified];
+	}
+
+	/**
+	 * Get the latest modified date of an master item
+	 *
+	 * @param   integer  $masterId  Id of the master item
+	 * @param   string   $table     The table name where the item exists
+	 *
+	 * @return  string    The modified date of the master item
+	 */
+	public static function getMasterModifiedDate($masterId, $table)
+	{
+		$db = Factory::getDbo();
+
+		if ($table === '#__categories')
+		{
+			$modifiedColumn = 'modified_time';
+		}
+		else
+		{
+			$modifiedColumn = 'modified';
+		}
+
+		if ($masterId)
+		{
+			$masterDateQuery = $db->getQuery(true)
+				->select($db->quoteName($modifiedColumn))
+				->from($db->quoteName($table))
+				->where($db->quoteName('id') . ' = ' . $db->quote($masterId));
+			$db->setQuery($masterDateQuery);
+			$masterModified = $db->loadResult();
+
+			return $masterModified;
+		}
+
+		return $masterModified ?? '';
+	}
+}

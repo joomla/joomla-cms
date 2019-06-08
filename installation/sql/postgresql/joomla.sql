@@ -113,6 +113,7 @@ CREATE TABLE IF NOT EXISTS "#__associations" (
   "context" varchar(50) NOT NULL,
   "key" char(32) NOT NULL,
   "parent_id" integer DEFAULT -1 NOT NULL,
+  "assocParams" text,
   CONSTRAINT "#__associations_idx_context_id" PRIMARY KEY ("context", "id")
 );
 CREATE INDEX "#__associations_idx_key" ON "#__associations" ("key");

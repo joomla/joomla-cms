@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -22,10 +23,10 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\UCM\UCMType;
+use Joomla\Component\Associations\Administrator\Helper\MasterAssociationsHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\LanguageHelper;
 
 /**
  * Prototype admin model.
@@ -1319,6 +1320,12 @@ abstract class AdminModel extends FormModel
 				);
 			}
 
+			// Get association params before they get deleted
+			if($associations)
+			{
+				$associationsParams = MasterAssociationsHelper::getAssociationsParams($associations, $this->associationsContext);
+			}
+
 			// Get associationskey for edited item
 			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
@@ -1357,7 +1364,12 @@ abstract class AdminModel extends FormModel
 			{
 				// If there is an association item with the globalMasterLanguage, then get his id
 				$globalMasterLanguage = Associations::getGlobalMasterLanguage();
-				$masterID = $associations[$globalMasterLanguage] ?? '';
+				$masterId = $associations[$globalMasterLanguage] ?? '';
+				// get id of the item that get saved
+				$dataId = (int) $table->id;
+
+				// Get the modified date of master item
+				$masterModified = MasterAssociationsHelper::getMasterModifiedDate($masterId, $table->getTableName());
 
 				// Adding new association for these items
 				$key   = md5(json_encode($associations));
@@ -1366,10 +1378,11 @@ abstract class AdminModel extends FormModel
 
 				foreach ($associations as $id)
 				{
-					// If there is no master item in this association, then reset the parent_id to -1
-					// Otherwise, if the association item is a master item, set the parent_id to 0, otherwise set it to the master ID.
-					$parentId = $masterID ? ($masterID === $id ? 0 : $masterID) : -1;
-					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key)  . ',' .  $db->quote($parentId));
+					$masterValues = MasterAssociationsHelper::getMasterLanguageValues($id, $dataId, $masterId, $masterModified, $associationsParams, $old_key);
+					$parentId = $masterValues[0];
+					$parentModified = $masterValues[1];
+
+					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key)  . ',' .  $db->quote($parentId) . ',' . $db->quote($parentModified));
 				}
 
 				$db->setQuery($query);

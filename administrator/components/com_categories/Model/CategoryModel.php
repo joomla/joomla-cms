@@ -27,6 +27,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\UCM\UCMType;
+use Joomla\Component\Associations\Administrator\Helper\MasterAssociationsHelper;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -630,6 +631,9 @@ class CategoryModel extends AdminModel
 				Factory::getApplication()->enqueueMessage(Text::_('COM_CATEGORIES_ERROR_ALL_LANGUAGE_ASSOCIATED'), 'notice');
 			}
 
+			// Get association params before they get deleted
+			$associationsParams = MasterAssociationsHelper::getAssociationsParams($associations, $this->associationsContext);
+
 			// Get associationskey for edited item
 			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
@@ -678,7 +682,12 @@ class CategoryModel extends AdminModel
 			{
 				// If there is an association item with the globalMasterLanguage, then get his id
 				$globalMasterLanguage = Associations::getGlobalMasterLanguage();
-				$masterID = $associations[$globalMasterLanguage] ?? '';
+				$masterId = $associations[$globalMasterLanguage] ?? '';
+				// Id of the saved item
+				$dataId = (int) $table->id;
+
+				// Get the modified date of master item
+				$masterModified = MasterAssociationsHelper::getMasterModifiedDate($masterId, $table->getTableName());
 
 				// Adding new association for these items
 				$key = md5(json_encode($associations));
@@ -687,10 +696,11 @@ class CategoryModel extends AdminModel
 
 				foreach ($associations as $id)
 				{
-					// If there is no master item in this association, then reset the parent_id to -1
-					// Otherwise, if the association item is a master item, set the parent_id to 0, otherwise set it to the master ID.
-					$parentId = $masterID ? ($masterID === $id ? 0 : $masterID) : -1;
-					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key) . ',' . $db->quote($parentId));
+					$masterValues = MasterAssociationsHelper::getMasterLanguageValues($id, $dataId, $masterId, $masterModified, $associationsParams, $oldKey);
+					$parentId = $masterValues[0];
+					$parentModified = $masterValues[1];
+
+					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key) . ',' . $db->quote($parentId) . ',' . $db->quote($parentModified));
 				}
 
 				$db->setQuery($query);
