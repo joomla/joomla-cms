@@ -28,6 +28,14 @@ use Joomla\String\StringHelper;
 class ContactTable extends Table
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Ensure the params and metadata in json encoded in the bind method
 	 *
 	 * @var    array
@@ -58,7 +66,7 @@ class ContactTable extends Table
 	 *
 	 * @since   1.6
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		// Transform the params field
 		if (is_array($this->params))
@@ -89,18 +97,6 @@ class ContactTable extends Table
 			{
 				$this->created_by = $userId;
 			}
-		}
-
-		// Set publish_up to null date if not set
-		if (!$this->publish_up)
-		{
-			$this->publish_up = $this->_db->getNullDate();
-		}
-
-		// Set publish_down to null date if not set
-		if (!$this->publish_down)
-		{
-			$this->publish_down = $this->_db->getNullDate();
 		}
 
 		// Set xreference to empty string if not set
@@ -253,9 +249,20 @@ class ContactTable extends Table
 			$this->metadata = '{}';
 		}
 
-		if (empty($this->modified))
+		// Set publish_up, publish_down to null if not set
+		if (!$this->publish_up)
 		{
-			$this->modified = $this->getDbo()->getNullDate();
+			$this->publish_up = null;
+		}
+
+		if (!$this->publish_down)
+		{
+			$this->publish_down = null;
+		}
+
+		if (!$this->modified)
+		{
+			$this->modified = $this->created;
 		}
 
 		return true;
