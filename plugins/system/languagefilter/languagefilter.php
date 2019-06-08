@@ -95,7 +95,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
+	 * @param   array    $config    An optional associative array of configuration settings.
 	 *
 	 * @since   1.6
 	 */
@@ -968,9 +968,9 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 * Method is called when an extension is going to be saved
 	 * change parameters for master language because there depends on other parameters
 	 *
-	 * @param string  $context The extension
-	 * @param JTable  $table   DataBase Table object
-	 * @param boolean $isNew   If the extension is new or not
+	 * @param   string   $context  The extension
+	 * @param   JTable   $table    DataBase Table object
+	 * @param   boolean  $isNew    If the extension is new or not
 	 *
 	 * @return  void
 	 *
@@ -978,10 +978,10 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 */
 	public function onExtensionBeforeSave($context, $table, $isNew)
 	{
-		// get the params to save
-		$params       = json_decode($table->params);
-		$tableElement = $table->element;
-		$pluginStatus = $table->enabled;
+		// Get the params to save
+		$params          = json_decode($table->params);
+		$tableElement    = $table->element;
+		$pluginStatus    = $table->enabled;
 		$itemAssocStatus = $params->item_associations;
 
 		if ($context != 'com_plugins.plugin' && $tableElement != 'languagefilter')
@@ -989,18 +989,18 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			return true;
 		}
 
-		// if the plugin and the parameter item associations are enabled then set the correct value for the global master language
-		if($pluginStatus && $itemAssocStatus)
+		// If the plugin and the parameter item associations are enabled then set the correct value for the global master language
+		if ($pluginStatus && $itemAssocStatus)
 		{
-			$globalMasterLanguage = ($params->use_master_language === '1')
+			$globalMasterLanguage           = ($params->use_master_language === '1')
 				? $params->global_master_language
 				: '';
 			$params->global_master_language = $globalMasterLanguage;
 		}
-		// reset parameters for master language
+		// Reset parameters for master language
 		else
 		{
-			$params->use_master_language = '';
+			$params->use_master_language    = '';
 			$params->global_master_language = '';
 		}
 
@@ -1011,9 +1011,9 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 * After save extensions
 	 * Method is called when an extension has been saved
 	 *
-	 * @param string  $context The extension
-	 * @param JTable  $table   DataBase Table object
-	 * @param boolean $isNew   If the extension is new or not
+	 * @param   string   $context  The extension
+	 * @param   JTable   $table    DataBase Table object
+	 * @param   boolean  $isNew    If the extension is new or not
 	 *
 	 * @return  void
 	 *
@@ -1037,7 +1037,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 * Method to set the master item of an association as parent and the children get the parent id
 	 * Also reset the modified date of the master item. Master and children will be up-to-date, as they get the same modified date
 	 *
-	 * @param string   $language  The global master language
+	 * @param   string  $language  The global master language
 	 *
 	 * @return  void
 	 *
@@ -1096,27 +1096,27 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				{
 					case 'com_content.item':
 						$fromTable = $db->quoteName('#__content', 'e');
-						$modified = $db->quoteName('e.modified');
+						$modified  = $db->quoteName('e.modified');
 						break;
 
 					case 'com_menus.item' :
 						$fromTable = $db->quoteName('#__menu', 'e');
-						$modified = '';
+						$modified  = '';
 						break;
 
 					case 'com_categories.item':
 						$fromTable = $db->quoteName('#__categories', 'e');
-						$modified = $db->quoteName('e.modified_time');
+						$modified  = $db->quoteName('e.modified_time');
 						break;
 
 					case 'com_contact.item':
 						$fromTable = $db->quoteName('#__contact_details', 'e');
-						$modified = $db->quoteName('e.modified');
+						$modified  = $db->quoteName('e.modified');
 						break;
 
 					case 'com_newsfeeds.item':
 						$fromTable = $db->quoteName('#__newsfeeds', 'e');
-						$modified = $db->quoteName('e.modified');
+						$modified  = $db->quoteName('e.modified');
 						break;
 				}
 
@@ -1135,24 +1135,26 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				$masterId    = $db->setQuery($masterQuery)->loadResult();
 
 				// Get master modified date
-				if($modified)
+				if ($modified)
 				{
 					$masterModQuery = $db->getQuery(true)
 						->select($modified)
 						->from($fromTable)
 						->where($db->quoteName('id') . ' = ' . $db->quote($masterId));
-					$masterModified   = $db->setQuery($masterModQuery)->loadResult();
+					$masterModified = $db->setQuery($masterModQuery)->loadResult();
 				}
 
 				$masterModified = $modified ? $masterModified : null;
+				$masterId       = $masterId ?? -1;
 
-				// Set the master item as parent
+				// Set the master item as parent and set his modified date
 				$query = $db->getQuery(true)
 					->update($db->quoteName('#__associations'))
 					->set($db->quoteName('parent_id') . ' = ' . $db->quote(0))
 					->set($db->quoteName('assocParams') . ' = ' . $db->quote($masterModified))
 					->where($db->quoteName('id') . ' = ' . $db->quote($masterId))
-					->where($db->quoteName('key') . ' = ' . $db->quote($value));
+					->where($db->quoteName('key') . ' = ' . $db->quote($value))
+					->where($db->quoteName('context') . ' = ' . $db->quote($assocContext));
 				$db->setQuery($query);
 
 				try
@@ -1172,7 +1174,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 					->set($db->quoteName('parent_id') . ' = ' . $db->quote($masterId))
 					->set($db->quoteName('assocParams') . ' = ' . $db->quote($masterModified))
 					->where($db->quoteName('id') . ' <> ' . $db->quote($masterId))
-					->where($db->quoteName('key') . ' = ' . $db->quote($value));
+					->where($db->quoteName('key') . ' = ' . $db->quote($value))
+					->where($db->quoteName('context') . ' = ' . $db->quote($assocContext));
 				$db->setQuery($query);
 
 				try
