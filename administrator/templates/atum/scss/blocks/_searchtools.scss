@@ -60,6 +60,14 @@
     margin-right: auto;
   }
 
+  .js-stools-container-selector-second {
+    margin-right: 8px;
+
+    html[dir=rtl] & {
+      margin-left: 8px;
+    }
+  }
+
   .js-stools-container-bar {
 
     .btn-toolbar {

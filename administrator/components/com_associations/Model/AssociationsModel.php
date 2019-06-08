@@ -47,6 +47,7 @@ class AssociationsModel extends ListModel
 				'ordering',
 				'itemtype',
 				'language',
+				'assocstate',
 				'association',
 				'menutype',
 				'menutype_title',
@@ -83,8 +84,8 @@ class AssociationsModel extends ListModel
 
 		// Set language select box to default site language or if set to the master language as default.
 		$globalMasterLanguage = Associations::getGlobalMasterLanguage();
-		$defaultLanguage = $globalMasterLanguage ?? ComponentHelper::getParams('com_languages')->get('site');
-		$defaultItemType = 'com_content.article';
+		$defaultLanguage      = !empty($globalMasterLanguage) ? $globalMasterLanguage : ComponentHelper::getParams('com_languages')->get('site');
+		$defaultItemType      = 'com_content.article';
 
 		// Adjust the context to support modal layouts.
 		if ($layout = $app->input->get('layout'))
@@ -106,7 +107,7 @@ class AssociationsModel extends ListModel
 
 		$this->setState('itemtype', $this->getUserStateFromRequest($this->context . '.itemtype', 'itemtype', $defaultItemType, 'string'));
 		$this->setState('language', $this->getUserStateFromRequest($this->context . '.language', 'language', $defaultLanguage, 'string'));
-
+		$this->setState('assocstate', $this->getUserStateFromRequest($this->context . '.assocstate', 'assocstate', '', 'string'));
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
 		$this->setState('filter.category_id', $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', '', 'cmd'));
@@ -148,6 +149,7 @@ class AssociationsModel extends ListModel
 		// Compile the store id.
 		$id .= ':' . $this->getState('itemtype');
 		$id .= ':' . $this->getState('language');
+		$id .= ':' . $this->getState('assocstate');
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.category_id');

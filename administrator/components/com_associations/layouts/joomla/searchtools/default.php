@@ -11,6 +11,7 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
 
 /** @var  array  $displayData */
 $data = $displayData;
@@ -39,6 +40,8 @@ $customOptions = array(
 
 $data['options'] = array_merge($customOptions, $data['options']);
 
+$globalMasterLanguage = Associations::getGlobalMasterLanguage();
+
 // Load search tools
 HTMLHelper::_('searchtools.form', $data['options']['formSelector'], $data['options']);
 
@@ -47,6 +50,7 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
 <div class="js-stools" role="search">
 	<?php $itemTypeField = $data['view']->filterForm->getField('itemtype'); ?>
 	<?php $languageField = $data['view']->filterForm->getField('language'); ?>
+	<?php $assocStateField = $data['view']->filterForm->getField('assocstate'); ?>
 
 	<?php // Add the itemtype and language selectors before the form filters. ?>
 	<div class="js-stools-container-selector-first">
@@ -54,12 +58,22 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
 			<?php echo $itemTypeField->input; ?>
 		</div>
 	</div>
+	<?php if ($globalMasterLanguage) : ?>
+	<div class="js-stools-container-selector-second">
+	<?php else : ?>
 	<div class="js-stools-container-selector">
+	<?php endif; ?>
 		<div class="js-stools-field-selector js-stools-language">
 			<?php echo $languageField->input; ?>
 		</div>
 	</div>
-
+	<?php if ($globalMasterLanguage) : ?>
+	<div class="js-stools-container-selector">
+		<div class="js-stools-field-selector js-stools-assocstate">
+			<?php echo $assocStateField->input; ?>
+		</div>
+	</div>
+	<?php endif; ?>
 	<div class="js-stools-container-bar">
 		<?php echo $this->sublayout('bar', $data); ?>
 	</div>

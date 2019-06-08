@@ -144,6 +144,15 @@ class HtmlView extends BaseHtmlView
 				// This selectors doesn't have to activate the filter bar.
 				unset($this->activeFilters['itemtype']);
 				unset($this->activeFilters['language']);
+				unset($this->activeFilters['assocstate']);
+
+				//Remove association state filter depending on global master language
+				$globalMasterLanguage = Associations::getGlobalMasterLanguage();
+
+				if(!$globalMasterLanguage){
+					unset($this->activeFilters['assocstate']);
+					$this->filterForm->removeField('assocstate', 'filter');
+				}
 
 				// Remove filters options depending on selected type.
 				if (empty($support['state']))

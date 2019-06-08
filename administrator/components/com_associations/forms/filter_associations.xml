@@ -5,15 +5,26 @@
 		type="itemtype"
 		filtermode="selector"
 		onchange="this.form.submit()"
-		>
-	</field>
+	/>
 
 	<field
 		name="language"
 		type="contentmasterlanguage"
 		filtermode="selector"
 		onchange="this.form.submit();"
-		>
+	/>
+
+	<field
+		name="assocstate"
+		type="list"
+		filtermode="selector"
+		onchange="this.form.submit();"
+	>
+		<option value="">COM_ASSOCIATIONS_FILTER_ASSOCIATION_STATE</option>
+		<option value="1">COM_ASSOCIATIONS_STATE_UP_TO_DATE</option>
+		<option value="0">COM_ASSOCIATIONS_STATE_OUTDATED</option>
+		<option value="-1">COM_ASSOCIATIONS_STATE_NOT_ASSOCIATED</option>
+
 	</field>
 
 	<fields name="filter">
