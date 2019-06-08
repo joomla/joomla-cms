@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Associations\Administrator\Helper\MasterAssociationsHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Registry\Registry;
 
@@ -86,6 +87,11 @@ class Menus
 					&& ($items[$itemid]->lang_code === $globalMasterLanguage))
 					? true
 					: false;
+
+				// Check if there is a master item in the association and get his id if so
+				$masterId = array_key_exists($globalMasterLanguage, $associations)
+					? $associations[$globalMasterLanguage]
+					: '';
 			}
 
 			// Construct html
@@ -93,16 +99,21 @@ class Menus
 			{
 				foreach ($items as $key => &$item)
 				{
-					// Don't continue for master, because it has been set here before
-					if ($key === 'master')
+					if ($globalMasterLanguage)
 					{
-						continue;
-					}
+						// Don't continue for master, because it has been set here before
+						if ($key === 'master')
+						{
+							continue;
+						}
 
-					// Don't display other children if the current item is a child of the master language.
-					if ($key !== $itemid && $globalMasterLanguage !== $item->lang_code && !$masterElement && $globalMasterLanguage)
-					{
-						unset($items[$key]);
+						// Don't display other children if the current item is a child of the master language.
+						if ($key !== $itemid
+							&& $globalMasterLanguage !== $item->lang_code
+							&& !$masterElement)
+						{
+							unset($items[$key]);
+						}
 					}
 
 					$text    = strtoupper($item->lang_sef);
@@ -120,6 +131,15 @@ class Menus
 						$items = array('master' => $items[$key]) + $items;
 						unset($items[$key]);
 					}
+				}
+
+				// If a master item doesn't exist, display that there is no association with the master language
+				if ($globalMasterLanguage && !$masterId)
+				{
+					$link = MasterAssociationsHelper::addNotAssociatedMasterLink($globalMasterLanguage);
+
+					// add this on the top of the array
+					$items = array('master' => array('link' => $link)) + $items;
 				}
 			}
 

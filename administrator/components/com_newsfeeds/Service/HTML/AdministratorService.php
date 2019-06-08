@@ -99,18 +99,6 @@ class AdministratorService
 			{
 				foreach ($items as $key => &$item)
 				{
-					// Don't continue for master, because it has been set here before
-					if ($key === 'master')
-					{
-						continue;
-					}
-
-					// Don't display other children if the current item is a child of the master language.
-					if ($key !== $newsfeedid && $globalMasterLanguage !== $item->lang_code && !$masterElement && $globalMasterLanguage)
-					{
-						unset($items[$key]);
-					}
-
 					$labelClass    = 'badge-success';
 					$languageTitle = $item->language_title;
 					$text    = strtoupper($item->lang_sef);
@@ -119,6 +107,19 @@ class AdministratorService
 
 					if ($globalMasterLanguage)
 					{
+						// Don't continue for master, because it has been set here before
+						if ($key === 'master')
+						{
+							continue;
+						}
+
+						// Don't display other children if the current item is a child of the master language.
+						if ($key !== $newsfeedid
+							&& ($globalMasterLanguage !== $item->lang_code)
+							&& !$masterElement)
+						{
+							unset($items[$key]);
+						}
 
 						if ($key === $masterId)
 						{
