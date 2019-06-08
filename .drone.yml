@@ -70,7 +70,7 @@ steps:
   - name: php74-unit
     depends_on: [ phpcs ]
     image: phpdaily/php:7.4-dev
-    errignore: true
+    failure: ignore
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit
@@ -78,7 +78,7 @@ steps:
   - name: php80-unit
     depends_on: [ phpcs ]
     image: phpdaily/php:8.0-dev
-    errignore: true
+    failure: ignore
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit
@@ -173,6 +173,6 @@ services:
 
 ---
 kind: signature
-hmac: fe0f4efe905e680da49bd332d26fd3fe68e43f392747b1ceb821693d26459bb8
+hmac: e1c1f28a3614a9ec4d16677b85ae8a9cdff64b25d95eb5a0af7505184276ac62
 
 ...
