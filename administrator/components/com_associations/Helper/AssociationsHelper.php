@@ -222,7 +222,15 @@ class AssociationsHelper extends ContentHelper
 		$globalMasterLanguage = Associations::getGlobalMasterLanguage();
 
 		// Get the associations list for this item.
-		$items = self::getAssociationList($extensionName, $typeName, $itemId);
+		$items   = self::getAssociationList($extensionName, $typeName, $itemId);
+		$context = ($typeName === 'category') ? 'com_categories.item' : $extensionName . '.item';
+
+		// Get association params if there are associated items
+		if ($items)
+		{
+			$assocParams = MasterAssociationsHelper::getAssociationsParams($items, $context);
+			$masterId = $items[$globalMasterLanguage]['id'] ?? null;
+		}
 
 		$titleFieldName = self::getTypeFieldName($extensionName, $typeName, 'title');
 
@@ -246,23 +254,12 @@ class AssociationsHelper extends ContentHelper
 			{
 				if ($globalMasterLanguage)
 				{
-					// Get id of the master item
-					if ($itemLanguage === $globalMasterLanguage)
-					{
-						$masterId = $itemId;
-					}
-					else
-					{
-						// Don't display any other children to the child item
-						if (($langCode !== $globalMasterLanguage) && ($langCode !== $itemLanguage))
+					// Don't display any other children to the child item
+						if (($langCode !== $globalMasterLanguage) && ($langCode !== $itemLanguage) && $itemLanguage !== $globalMasterLanguage)
 						{
 							unset($items[$langCode]);
 							continue;
 						}
-
-						// Get id of the master item
-						$masterId = self::getGlobalMasterId($extensionName, $typeName, $itemId);
-					}
 				}
 
 				$title      = $items[$langCode][$titleFieldName];
@@ -311,18 +308,46 @@ class AssociationsHelper extends ContentHelper
 
 				if ($globalMasterLanguage)
 				{
+					// Settings for the master language
 					if ($globalMasterLanguage === $langCode)
 					{
 						$labelClass    .= ' master-item';
-						$languageTitle = $language->title . ' - ' . Text::_('COM_ASSOCIATIONS_MASTER_LANGUAGE');
+						$languageTitle = $language->title . ' - ' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_LANGUAGE');
 
 						if ($globalMasterLanguage === $itemLanguage)
 						{
+							// Do not define any child target as there can be more than one
 							$target = '';
 						}
 						else
 						{
 							$target = $itemLanguage . ':' . $itemId . ':edit';
+						}
+					}
+					// Setting for children
+					else
+					{
+						// When there is no associated master item, set it to target
+						if (!$masterId){
+							$target        = $globalMasterLanguage . ':0:add';
+						}
+
+						if (array_key_exists($items[$langCode]['id'], $assocParams) && array_key_exists($masterId, $assocParams))
+						{
+							$associatedModifiedMaster = $assocParams[$items[$langCode]['id']];
+							$lastModifiedMaster = $assocParams[$masterId];
+
+							if ($associatedModifiedMaster < $lastModifiedMaster)
+							{
+								$labelClass    = 'badge-warning';
+								$title .= '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_OUTDATED_DESC');
+								$target = $langCode . ':' . $items[$langCode]['id'] . ':edit';
+								$update = true;
+							}
+							else
+							{
+								$title .= '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_UP_TO_DATE_DESC');
+							}
 						}
 					}
 				}
@@ -352,7 +377,7 @@ class AssociationsHelper extends ContentHelper
 					if ($globalMasterLanguage === $langCode)
 					{
 						$labelClass    .= ' master-item';
-						$languageTitle = $language->title . ' - ' . Text::_('COM_ASSOCIATIONS_MASTER_LANGUAGE');
+						$languageTitle = $language->title . ' - ' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_LANGUAGE');
 						$target        = '';
 					}
 
@@ -762,33 +787,5 @@ class AssociationsHelper extends ContentHelper
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Get the associated master item id from a child element.
-	 *
-	 * @param   string   $extensionName  Extension Name
-	 * @param   string   $typeName       ItemType
-	 * @param   integer  $itemId         Item id
-	 *
-	 * @return  integer  $masterElementId  The id of the associated master item
-	 *
-	 * @since  4.0
-	 */
-	public static function getGlobalMasterId($extensionName, $typeName, $itemId)
-	{
-		$db = Factory::getDbo();
-
-		$context = ($typeName === 'category') ? 'com_categories.item' : $extensionName . '.item';
-
-		$parentQuery     = $db->getQuery(true)
-			->select($db->quoteName('parent_id'))
-			->from($db->quoteName('#__associations'))
-			->where($db->quoteName('id') . ' = ' . $db->quote($itemId))
-			->where($db->quoteName('context') . ' = ' . $db->quote($context));
-		$masterId = $db->setQuery($parentQuery)->loadResult();
-
-		return (int) $masterId;
-
 	}
 }

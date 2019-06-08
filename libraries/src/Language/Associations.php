@@ -125,6 +125,7 @@ class Associations
 
 			if ($items)
 			{
+
 				foreach ($items as $tag => $item)
 				{
 					if ($globalMasterLanguage)
@@ -186,7 +187,7 @@ class Associations
 	/**
 	 * Method to get the global master language parameter for associations.
 	 *
-	 * @return  string  empty if not set, lang_code otherwise
+	 * @return  string  empty if not set, lang_code otherwise.
 	 *
 	 * @since   4.0
 	 */

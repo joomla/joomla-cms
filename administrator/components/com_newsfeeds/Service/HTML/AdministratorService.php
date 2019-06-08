@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Associations\Administrator\Helper\MasterAssociationsHelper;
 
 /**
  * Utility class for creating HTML Grids.
@@ -78,8 +79,21 @@ class AdministratorService
 				throw new \Exception($e->getMessage(), 500);
 			}
 
-			// Check whether the current article is written in the global master language.
-			$masterElement = ($globalMasterLanguage && $items[$newsfeedid]->lang_code === $globalMasterLanguage) ? true : false;
+			if ($globalMasterLanguage)
+			{
+				// Check whether the current article is written in the global master language
+				$masterElement = (array_key_exists($newsfeedid, $items)
+					&& ($items[$newsfeedid]->lang_code === $globalMasterLanguage))
+					? true
+					: false;
+
+				// Check if there is a master item in the association and get his id if so
+				$masterId = array_key_exists($globalMasterLanguage, $associations)
+					? $associations[$globalMasterLanguage]
+					: '';
+
+				$assocParams   = MasterAssociationsHelper::getAssociationsParams($associations, 'com_newsfeeds.item');
+			}
 
 			if ($items)
 			{
@@ -97,12 +111,45 @@ class AdministratorService
 						unset($items[$key]);
 					}
 
+					$labelClass    = 'badge-success';
+					$languageTitle = $item->language_title;
 					$text    = strtoupper($item->lang_sef);
+					$title         = $item->title;
 					$url     = Route::_('index.php?option=com_newsfeeds&task=newsfeed.edit&id=' . (int) $item->id);
-					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
-					$classes = 'hasPopover badge badge-success';
 
-					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
+					if ($globalMasterLanguage)
+					{
+
+						if ($key === $masterId)
+						{
+							$labelClass    .= ' master-item';
+							$languageTitle = $item->language_title . ' - ' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_LANGUAGE');
+						}
+						else
+						{
+							// get association state of child
+							if ($masterId && array_key_exists($key, $assocParams) && array_key_exists($masterId, $assocParams))
+							{
+								$associatedModifiedMaster = $assocParams[$key];
+								$lastModifiedMaster       = $assocParams[$masterId];
+
+								if ($associatedModifiedMaster < $lastModifiedMaster)
+								{
+									$labelClass = 'badge-warning';
+									$title      .= '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_OUTDATED_DESC') . '<br>';
+								}
+								else
+								{
+									$title .= '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_UP_TO_DATE_DESC') . '<br>';
+								}
+							}
+						}
+					}
+
+					$classes = 'hasPopover badge ' . $labelClass;
+					$tooltip = htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
+
+					$item->link = '<a href="' . $url . '" title="' . $languageTitle . '" class="' . $classes
 						. '" data-content="' . $tooltip . '" data-placement="top">'
 						. $text . '</a>';
 
@@ -112,6 +159,15 @@ class AdministratorService
 						$items = array('master' => $items[$key]) + $items;
 						unset($items[$key]);
 					}
+				}
+
+				// If a master item doesn't exist, display that there is no association with the master language
+				if ($globalMasterLanguage && !$masterId)
+				{
+					$link = MasterAssociationsHelper::addNotAssociatedMasterLink($globalMasterLanguage);
+
+					// add this on the top of the array
+					$items = array('master' => array('link' => $link)) + $items;
 				}
 			}
 

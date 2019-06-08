@@ -55,7 +55,7 @@ class ContentmasterlanguageField extends ContentlanguageField
 			if ($langCode->lang_code == $globalMasterLanguage)
 			{
 				$options[] = HTMLHelper::_('select.option', $langCode->lang_code, $langCode->title . ' - '
-					. Text::_('COM_ASSOCIATIONS_MASTER_LANGUAGE')
+					. Text::_('JGLOBAL_ASSOCIATIONS_MASTER_LANGUAGE')
 				);
 			}
 			else

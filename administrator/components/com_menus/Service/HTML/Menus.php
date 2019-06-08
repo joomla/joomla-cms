@@ -79,8 +79,14 @@ class Menus
 				throw new \Exception($e->getMessage(), 500);
 			}
 
-			// Check whether the current article is written in the global master language.
-			$masterElement = ($globalMasterLanguage && $items[$itemid]->lang_code === $globalMasterLanguage) ? true : false;
+			if ($globalMasterLanguage)
+			{
+				// Check whether the current article is written in the global master language
+				$masterElement = (array_key_exists($itemid, $items)
+					&& ($items[$itemid]->lang_code === $globalMasterLanguage))
+					? true
+					: false;
+			}
 
 			// Construct html
 			if ($items)

@@ -11,6 +11,7 @@ namespace Joomla\Component\Associations\Administrator\Helper;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
 
 defined('_JEXEC') or die;
 
@@ -21,6 +22,37 @@ defined('_JEXEC') or die;
  */
 class MasterAssociationsHelper extends ContentHelper
 {
+	/**
+	 * @param $globalMasterLanguage
+	 *
+	 * @return string
+	 */
+	public static function addNotAssociatedMasterLink($globalMasterLanguage)
+	{
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select('title, sef')
+			->from('#__languages')
+			->where($db->quoteName('lang_code') . ' = '
+				. $db->quote($globalMasterLanguage));
+		$db->setQuery($query);
+		$globalMasterLanguageInfos = $db->loadAssoc();
+
+		$classes       = 'hasPopover badge badge-secondary';
+		$languageTitle = $globalMasterLanguageInfos['title'] . ' - ' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_LANGUAGE');
+		$text          = $globalMasterLanguageInfos['sef']
+			? strtoupper($globalMasterLanguageInfos['sef'])
+			: 'XX';
+		$title         = Text::_('JGLOBAL_ASSOCIATIONS_STATE_NOT_ASSOCIATED_DESC');
+		$tooltip       = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
+		$url           = '';
+
+		$link = '<a href="' . $url . '" title="' . $languageTitle . '" class="'
+			. $classes . '" data-content="'
+			. $tooltip . '" data-placement="top">' . $text . '</a>';
+
+		return $link;
+	}
 
 	/**
 	 * @param   integer  $itemId   Item id
@@ -66,9 +98,9 @@ class MasterAssociationsHelper extends ContentHelper
 	/**
 	 * Method to get associated params of the master item.
 	 *
-	 * @param   array    $associations  the associations to be saved.
+	 * @param   array   $associations  the associations to be saved.
 	 *
-	 * @param   string   $context       the association context
+	 * @param   string  $context       the association context
 	 *
 	 * @return   array  associations with params
 	 *
@@ -79,7 +111,8 @@ class MasterAssociationsHelper extends ContentHelper
 
 		foreach ($associations as $langCode => $id)
 		{
-			if(is_array($id)) {
+			if (is_array($id))
+			{
 				$id = $id['id'];
 			}
 			$query = $db->getQuery(true)
@@ -88,7 +121,7 @@ class MasterAssociationsHelper extends ContentHelper
 				->where($db->quoteName('id') . ' = ' . $db->quote($id))
 				->where($db->quoteName('context') . ' = ' . $db->quote($context));
 			$db->setQuery($query);
-			$param = $db->loadResult();
+			$param            = $db->loadResult();
 			$assocParams[$id] = $param;
 		}
 
@@ -96,16 +129,23 @@ class MasterAssociationsHelper extends ContentHelper
 	}
 
 	/**
-	 * @param   integer  $id        Item id
-	 * @param   integer  $dataId        Item id of an item that is going to be saved
+	 * @param   integer  $id                  Item id
+	 * @param   integer  $dataId              Item id of an item that is going to be saved
 	 * @param   integer  $masterId
-	 * @param   string   $masterModified       th
-	 * @param   array    $associationsParams   modified date to associated items
-	 * @param   string   $old_key              the old association key
+	 * @param   string   $masterModified      th
+	 * @param   array    $associationsParams  modified date to associated items
+	 * @param   string   $old_key             the old association key
 	 *
 	 * @return   array     parent id and modified date
 	 */
-	public static function getMasterLanguageValues($id, $dataId, $masterId, $masterModified, $associationsParams, $old_key) {
+	public static function getMasterLanguageValues(
+		$id,
+		$dataId,
+		$masterId,
+		$masterModified,
+		$associationsParams,
+		$old_key
+	) {
 
 		if ($masterId)
 		{
@@ -131,20 +171,22 @@ class MasterAssociationsHelper extends ContentHelper
 					else
 					{
 						// Set old modified date from master to existing associated child if not empty
-						$parentModified = empty($associationsParams[$id]) ? $masterModified : $associationsParams[$id];
+						$parentModified = empty($associationsParams[$id])
+							? $masterModified : $associationsParams[$id];
 					}
 				}
 				else
 				{
 					// if modified date isn't set to the child item set it with current modified date from master
-					$parentModified = empty($associationsParams[$id]) ? $masterModified : $associationsParams[$id];
+					$parentModified = empty($associationsParams[$id])
+						? $masterModified : $associationsParams[$id];
 				}
 			}
 		}
 		// default values
 		else
 		{
-			$parentId = -1;
+			$parentId       = -1;
 			$parentModified = null;
 		}
 
