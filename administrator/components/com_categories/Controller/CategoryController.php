@@ -11,12 +11,11 @@ namespace Joomla\Component\Categories\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Session\Session;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 
 /**
@@ -40,7 +39,7 @@ class CategoryController extends FormController
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   Input                $input    Input
 	 *
 	 * @since  1.6
 	 * @see    \JControllerLegacy
@@ -66,7 +65,7 @@ class CategoryController extends FormController
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
 		return ($user->authorise('core.create', $this->extension) || count($user->getAuthorisedCategories($this->extension, 'core.create')));
 	}
@@ -84,7 +83,7 @@ class CategoryController extends FormController
 	protected function allowEdit($data = array(), $key = 'parent_id')
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
 		// Check "edit" permission on record asset (explicit or inherited)
 		if ($user->authorise('core.edit', $this->extension . '.category.' . $recordId))
