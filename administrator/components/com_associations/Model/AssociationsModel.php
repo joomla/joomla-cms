@@ -445,6 +445,50 @@ class AssociationsModel extends ListModel
 			}
 		}
 
+		// Filter on association state
+		$assocStateField = $this->state->get('assocstate');
+
+		if ($assocStateField !== '')
+		{
+			// not associated
+			if ($assocStateField === '-1')
+			{
+				$subQuery    = $db->getQuery(true)
+					->select('COUNT(*)')
+					->from('#__languages');
+				$db->setQuery($subQuery);
+				$countLanguages = $db->loadResult();
+
+				// join over associations where id does not exists or where child does not exists
+				$query->where('((' . $db->quoteName('asso.id') . ' IS NULL )'
+					// if we are on the childlanguage
+					. ' OR ( ' . $db->quoteName('asso2.parent_id') . ' = ' . $db->quoteName('asso.id')
+					. ' AND ' . $db->quoteName('asso2.id') . ' < ' . $db->quote($countLanguages) . ' ))');
+			}
+
+			// outdated
+			if ($assocStateField === '0')
+			{
+				echo "<pre>" . print_r("outdated") . "</pre>";
+				// if we are on the masterlanguage
+				$query->where('((' . $db->quoteName('asso2.parent_id') . ' = ' . $db->quoteName('asso.id')
+					. ' AND ' . $db->quoteName('asso2.assocParams') . ' < ' . $db->quoteName('asso.assocParams') . ')'
+					// if we are on the childlanguage
+					. ' OR (' . $db->quoteName('asso.assocParams') . ' < ' . $db->quoteName('asso2.assocParams')
+					. ' AND ' . $db->quoteName('asso2.id') . ' = ' . $db->quoteName('asso.parent_id') . '))');
+			}
+
+			// up-to-date
+			if ($assocStateField === '1')
+			{
+				$query->where('((' . $db->quoteName('asso2.parent_id') . ' = ' . $db->quoteName('asso.id')
+					. ' AND ' . $db->quoteName('asso2.assocParams') . ' = ' . $db->quoteName('asso.assocParams') . ')'
+					// if we are on the childlanguage
+					. ' OR (' . $db->quoteName('asso.assocParams') . ' = ' . $db->quoteName('asso2.assocParams')
+					. ' AND ' . $db->quoteName('asso2.id') . ' = ' . $db->quoteName('asso.parent_id') . '))');
+			}
+		}
+
 		// Add the group by clause
 		$query->group($db->quoteName($groupby));
 
