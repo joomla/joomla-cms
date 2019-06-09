@@ -264,27 +264,27 @@ abstract class PluginHelper
 			$query = $db->getQuery(true)
 				->select(
 					$db->quoteName(
-						array(
+						[
 							'folder',
 							'element',
 							'params',
 							'extension_id',
 							'access'
-						),
-						array(
+						],
+						[
 							'type',
 							'name',
 							'params',
 							'id',
 							'access'
-						)
+						]
 					)
 				)
-				->from('#__extensions')
-				->where('enabled = 1')
-				->where('type = ' . $db->quote('plugin'))
-				->where('state IN (0,1)')
-				->order('ordering');
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('enabled') . ' = 1')
+				->where($db->quoteName('type') . '  = ' . $db->quote('plugin'))
+				->whereIn($db->quoteName('state'), [0, 1])
+				->order($db->quoteName('ordering'));
 			$db->setQuery($query);
 
 			return $db->loadObjectList();
@@ -292,7 +292,7 @@ abstract class PluginHelper
 
 		try
 		{
-			static::$plugins = $cache->get($loader, [], true,false);
+			static::$plugins = $cache->get($loader, [], true);
 		}
 		catch (CacheExceptionInterface $cacheException)
 		{
