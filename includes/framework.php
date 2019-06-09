@@ -22,7 +22,7 @@ if (!file_exists(JPATH_CONFIGURATION . '/configuration.php')
 	if (php_sapi_name() === 'cli')
 	{
 		// This is been defined because some core scripts needs it defined.
-		define('JDEBUG', true);
+		define('JDEBUG', false);
 
 		// We pass control back to the calling scrip - joomla.php to allow commands like core:install to run
 		return;
