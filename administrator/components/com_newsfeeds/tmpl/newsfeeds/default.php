@@ -159,7 +159,7 @@ if ($saveOrder && !empty($this->items))
 								<?php if ($assoc) : ?>
 								<td class="d-none d-md-table-cell text-center">
 									<?php if ($item->association) : ?>
-										<?php echo HTMLHelper::_('newsfeed.association', $item->id); ?>
+										<?php echo HTMLHelper::_('newsfeedsadministrator.association', $item->id); ?>
 									<?php endif; ?>
 								</td>
 								<?php endif; ?>
