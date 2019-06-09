@@ -24,7 +24,7 @@ if (!file_exists(JPATH_CONFIGURATION . '/configuration.php')
 		// This is been defined because some core scripts needs it defined.
 		define('JDEBUG', true);
 
-		// We pass control back to the calling scrip - joomla.php to allow commands like core:install to run
+		// We pass control back to the calling script - joomla.php to allow commands like core:install to run
 		return;
 	}
 	elseif (file_exists(JPATH_INSTALLATION . '/index.php'))
