@@ -290,7 +290,7 @@ class PlgInstallerOverride extends CMSPlugin
 			->from($db->quoteName('#__template_overrides'))
 			->where($db->quoteName('hash_id') . ' = :id')
 			->where($db->quoteName('extension_id') . ' = :exid')
-			->bind(':id', $id, ParameterType::INTEGER)
+			->bind(':id', $id)
 			->bind(':exid', $exid, ParameterType::INTEGER);
 
 		$db->setQuery($query);
