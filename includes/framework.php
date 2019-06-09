@@ -21,7 +21,7 @@ if (!file_exists(JPATH_CONFIGURATION . '/configuration.php')
 	// Prevents the script from falling back to $_SERVER['REQUEST_URI'] as it will throw an error in CLI mode.
 	if (php_sapi_name() === 'cli')
 	{
-		// This is been defined because some core scripts needs it defined.
+		// This has been defined because some core scripts needs it defined.
 		define('JDEBUG', true);
 
 		// We pass control back to the calling script - joomla.php to allow commands like core:install to run
