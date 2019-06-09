@@ -205,7 +205,7 @@ class ActionlogsHelper
 			$messageData['type'] = Text::_($messageData['type']);
 		}
 
-		$linkMode = Factory::getApplication()->get('force_ssl', 0) >= 1 ? 1 : -1;
+		$linkMode = Factory::getApplication()->get('force_ssl', 0) >= 1 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
 		foreach ($messageData as $key => $value)
 		{
