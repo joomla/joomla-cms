@@ -11,7 +11,6 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
@@ -45,10 +44,8 @@ class DisplayController extends BaseController
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');
 
-		$document = Factory::getDocument();
-
 		// For JSON requests
-		if ($document->getType() == 'json')
+		if ($this->app->getDocument()->getType() == 'json')
 		{
 			return parent::display();
 		}

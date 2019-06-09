@@ -11,11 +11,12 @@ namespace Joomla\Component\Fields\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 
 /**
@@ -49,8 +50,8 @@ class GroupController extends FormController
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CmsApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   Input                $input    Input
 	 *
 	 * @since   3.7.0
 	 */
@@ -99,7 +100,7 @@ class GroupController extends FormController
 	 */
 	protected function allowAdd($data = array())
 	{
-		return Factory::getUser()->authorise('core.create', $this->component);
+		return $this->app->getIdentity()->authorise('core.create', $this->component);
 	}
 
 	/**
@@ -115,7 +116,7 @@ class GroupController extends FormController
 	protected function allowEdit($data = array(), $key = 'parent_id')
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
 		// Zero record (parent_id:0), return component edit permission by calling parent controller method
 		if (!$recordId)
