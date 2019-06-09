@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
@@ -68,8 +69,6 @@ class JFormFieldprivacy extends JFormFieldRadio
 		// Set required to true as this field is not displayed at all if not required.
 		$this->required = true;
 
-		JHtml::_('behavior.modal');
-
 		// Build the class for the label.
 		$class = !empty($this->description) ? 'hasPopover' : '';
 		$class = $class . ' required';
@@ -100,10 +99,6 @@ class JFormFieldprivacy extends JFormFieldRadio
 		{
 			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
 
-			$attribs          = array();
-			$attribs['class'] = 'modal';
-			$attribs['rel']   = '{handler: \'iframe\', size: {x:800, y:500}}';
-
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName(array('id', 'alias', 'catid', 'language')))
@@ -114,7 +109,22 @@ class JFormFieldprivacy extends JFormFieldRadio
 
 			$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
 			$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
-			$link = JHtml::_('link', Route::_($url . '&tmpl=component'), $text, $attribs);
+			$link = JHtml::_('link', Route::_($url . '&tmpl=component'), $text, ['onclick' => "document.getElementById('consentModal').open();return false;"]);
+
+			echo HTMLHelper::_(
+				'bootstrap.renderModal',
+				'consentModal',
+				array(
+					'url'    => Route::_($url . '&tmpl=component'),
+					'title'  => $text,
+					'height' => '100%',
+					'width'  => '100%',
+					'modalWidth'  => '800',
+					'bodyHeight'  => '500',
+					'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+						. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+				)
+			);
 		}
 		else
 		{

@@ -70,8 +70,6 @@ class JFormFieldterms extends JFormFieldRadio
 		// Set required to true
 		$this->required = true;
 
-		HTMLHelper::_('behavior.modal');
-
 		// Build the class for the label.
 		$class = !empty($this->description) ? 'hasPopover' : '';
 		$class = $class . ' required';
@@ -102,9 +100,8 @@ class JFormFieldterms extends JFormFieldRadio
 		{
 			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
 
-			$attribs          = array();
-			$attribs['class'] = 'modal';
-			$attribs['rel']   = '{handler: \'iframe\', size: {x:800, y:500}}';
+			$attribs            = [];
+			$attribs['onclick'] = "document.getElementById('tosModal').open();return false;";
 
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
@@ -136,6 +133,21 @@ class JFormFieldterms extends JFormFieldRadio
 				$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
 				$link = HTMLHelper::_('link', Route::_($url . '&tmpl=component'), $text, $attribs);
 			}
+
+			echo HTMLHelper::_(
+				'bootstrap.renderModal',
+				'termsModal',
+				array(
+					'url'    => Route::_($url . '&tmpl=component'),
+					'title'  => $text,
+					'height' => '100%',
+					'width'  => '100%',
+					'modalWidth'  => '800',
+					'bodyHeight'  => '500',
+					'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+						. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+				)
+			);
 		}
 		else
 		{

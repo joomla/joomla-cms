@@ -80,12 +80,10 @@ class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 
 		if ($tosArticle)
 		{
-			HTMLHelper::_('behavior.modal');
 			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
 
-			$attribs          = array();
-			$attribs['class'] = 'modal';
-			$attribs['rel']   = '{handler: \'iframe\', size: {x:800, y:500}}';
+			$attribs            = [];
+			$attribs['onclick'] = "document.getElementById('tosModal').open();return false;";
 
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
@@ -117,6 +115,21 @@ class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 				$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
 				$link = HTMLHelper::_('link', Route::_($url . '&tmpl=component'), $text, $attribs);
 			}
+
+			echo HTMLHelper::_(
+				'bootstrap.renderModal',
+				'tosModal',
+				array(
+					'url'    => Route::_($url . '&tmpl=component'),
+					'title'  => $text,
+					'height' => '100%',
+					'width'  => '100%',
+					'modalWidth'  => '800',
+					'bodyHeight'  => '500',
+					'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+						. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+				)
+			);
 		}
 		else
 		{
