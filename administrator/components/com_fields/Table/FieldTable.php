@@ -132,6 +132,11 @@ class FieldTable extends Table
 			$this->type = 'text';
 		}
 
+		if (empty($this->fieldparams))
+		{
+			$this->fieldparams = '{}';
+		}
+
 		$date = Factory::getDate();
 		$user = Factory::getUser();
 
