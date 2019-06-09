@@ -94,6 +94,7 @@ class PlgExtensionFinder extends CMSPlugin
 	protected function getLanguage($eid)
 	{
 		$db = Factory::getDbo();
+		$eid = (int) $eid;
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['element', 'client_id']))
@@ -104,7 +105,7 @@ class PlgExtensionFinder extends CMSPlugin
 					$db->quoteName('type') . ' = ' . $db->quote('language')
 				]
 			)
-			->bind(':eid', (int) $eid, ParameterType::INTEGER);
+			->bind(':eid', $eid, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 		$extension = $db->loadObject();
