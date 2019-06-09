@@ -72,6 +72,7 @@ class PlgExtensionJoomla extends CMSPlugin
 		// If it doesn't exist, add it!
 		if (!$update_site_id)
 		{
+			$enabled = (int) $enabled;
 			$query->clear()
 				->insert($db->quoteName('#__update_sites'))
 				->columns($db->quoteName(['name', 'type', 'location', 'enabled']))
@@ -79,7 +80,7 @@ class PlgExtensionJoomla extends CMSPlugin
 				->bind(':name', $name)
 				->bind(':type', $type)
 				->bind(':location', $location)
-				->bind(':enabled', (int) $enabled, ParameterType::INTEGER);
+				->bind(':enabled', $enabled, ParameterType::INTEGER);
 
 			$db->setQuery($query);
 
@@ -165,12 +166,13 @@ class PlgExtensionJoomla extends CMSPlugin
 		// update sites for it
 		if ($eid && $removed)
 		{
-			$db = Factory::getDbo();
+			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
+			$eid   = (int) $eid;
 
 			$query->delete($db->quoteName('#__update_sites_extensions'))
 				->where($db->quoteName('extension_id') . ' = :eid')
-				->bind(':eid', (int) $eid, ParameterType::INTEGER);
+				->bind(':eid', $eid, ParameterType::INTEGER);
 
 			$db->setQuery($query);
 			$db->execute();
@@ -225,7 +227,7 @@ class PlgExtensionJoomla extends CMSPlugin
 			$query->clear()
 				->delete($db->quoteName('#__updates'))
 				->where($db->quoteName('extension_id') . ' = :eid')
-				->bind(':eid', (int) $eid, ParameterType::INTEGER);
+				->bind(':eid', $eid, ParameterType::INTEGER);
 
 			$db->setQuery($query);
 			$db->execute();
