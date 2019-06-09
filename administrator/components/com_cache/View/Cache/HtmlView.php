@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
@@ -68,18 +69,18 @@ class HtmlView extends BaseHtmlView
 	{
 		ToolbarHelper::title(Text::_('COM_CACHE_CLEAR_CACHE'), 'lightning clear');
 
+		$toolbar = Toolbar::getInstance();
 		ToolbarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE', true);
+		$toolbar->appendButton('Confirm', 'COM_CACHE_RESOURCE_INTENSIVE_WARNING', 'delete', 'COM_CACHE_PURGE_EXPIRED', 'purge', false);
 		ToolbarHelper::custom('deleteAll', 'remove.png', 'delete_f2.png', 'JTOOLBAR_DELETE_ALL', false);
 		ToolbarHelper::divider();
 
 		if (Factory::getUser()->authorise('core.admin', 'com_cache'))
 		{
 			ToolbarHelper::preferences('com_cache');
+			ToolbarHelper::divider();
 		}
 
-		ToolbarHelper::divider();
 		ToolbarHelper::help('JHELP_SITE_MAINTENANCE_CLEAR_CACHE');
-
-		\JHtmlSidebar::setAction('index.php?option=com_cache');
 	}
 }

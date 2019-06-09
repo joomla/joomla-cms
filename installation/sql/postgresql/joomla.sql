@@ -520,6 +520,7 @@ CREATE TABLE IF NOT EXISTS "#__extensions" (
   "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "ordering" bigint DEFAULT 0,
   "state" bigint DEFAULT 0,
+  "note" varchar(255),
   PRIMARY KEY ("extension_id")
 );
 CREATE INDEX "#__extensions_element_clientid" ON "#__extensions" ("element", "client_id");

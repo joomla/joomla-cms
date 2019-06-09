@@ -11,11 +11,13 @@ namespace Joomla\Component\Categories\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\Input\Input;
 
 /**
  * Categories view class for the Category package.
@@ -46,7 +48,7 @@ class DisplayController extends BaseController
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   Input                $input    Input
 	 *
 	 * @since   3.0
 	 */
