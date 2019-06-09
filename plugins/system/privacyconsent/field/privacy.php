@@ -99,6 +99,9 @@ class JFormFieldprivacy extends JFormFieldRadio
 		{
 			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
 
+			$attribs            = [];
+			$attribs['onclick'] = "document.getElementById('consentModal').open();return false;";
+
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName(array('id', 'alias', 'catid', 'language')))
@@ -109,7 +112,7 @@ class JFormFieldprivacy extends JFormFieldRadio
 
 			$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
 			$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
-			$link = JHtml::_('link', Route::_($url . '&tmpl=component'), $text, ['onclick' => "document.getElementById('consentModal').open();return false;"]);
+			$link = JHtml::_('link', Route::_($url . '&tmpl=component'), $text, $attribs);
 
 			echo HTMLHelper::_(
 				'bootstrap.renderModal',
