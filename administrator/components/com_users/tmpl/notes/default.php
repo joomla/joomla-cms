@@ -34,7 +34,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning">
+					<div class="alert alert-info">
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -86,7 +86,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 								<?php endif; ?>
 								<?php $subject = $item->subject ?: Text::_('COM_USERS_EMPTY_SUBJECT'); ?>
 								<?php if ($canEdit) : ?>
-									<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
+									<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pen-square mr-2" aria-hidden="true"></span>'; ?>
 									<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_users&task=note.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($subject)); ?>">
 										<?php echo $editIcon; ?><?php echo $this->escape($subject); ?></a>
 								<?php else : ?>

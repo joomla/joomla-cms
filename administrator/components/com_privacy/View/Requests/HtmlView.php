@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,10 +15,12 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Privacy\Administrator\Model\RequestsModel;
 
 /**
  * Requests view class
@@ -70,14 +72,6 @@ class HtmlView extends BaseHtmlView
 	protected $sendMailEnabled;
 
 	/**
-	 * The HTML markup for the sidebar
-	 *
-	 * @var    string
-	 * @since  3.9.0
-	 */
-	protected $sidebar;
-
-	/**
 	 * The state information
 	 *
 	 * @var    CMSObject
@@ -98,34 +92,33 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @see     BaseHtmlView::loadTemplate()
 	 * @since   3.9.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
-		// Initialise variables
-		$this->items            = $this->get('Items');
-		$this->pagination       = $this->get('Pagination');
-		$this->state            = $this->get('State');
-		$this->filterForm       = $this->get('FilterForm');
-		$this->activeFilters    = $this->get('ActiveFilters');
+		/** @var RequestsModel $model */
+		$model                  = $this->getModel();
+		$this->items            = $model->getItems();
+		$this->pagination       = $model->getPagination();
+		$this->state            = $model->getState();
+		$this->filterForm       = $model->getFilterForm();
+		$this->activeFilters    = $model->getActiveFilters();
 		$this->urgentRequestAge = (int) ComponentHelper::getParams('com_privacy')->get('notify', 14);
 		$this->sendMailEnabled  = (bool) Factory::getConfig()->get('mailonline', 1);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new Genericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
 
-		$this->sidebar = \JHtmlSidebar::render();
-
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**

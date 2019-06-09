@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -112,7 +112,7 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', JText::_('COM_PRIVACY_VIEW_CONFIRM_PAGE_TITLE'));
+			$this->params->def('page_heading', Text::_('COM_PRIVACY_VIEW_CONFIRM_PAGE_TITLE'));
 		}
 
 		$title = $this->params->get('page_title', '');

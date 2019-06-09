@@ -38,7 +38,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', ['
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning">
+					<div class="alert alert-info">
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -102,7 +102,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', ['
 											<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.', $canCheckin); ?>
 										<?php endif; ?>
 										<?php if ($canEdit) : ?>
-											<?php $editIcon = $isCheckout ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
+											<?php $editIcon = $isCheckout ? '' : '<span class="fa fa-pen-square mr-2" aria-hidden="true"></span>'; ?>
 											<a class="hasTooltip" href="<?php echo Route::_($this->editUri . '&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 												<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
 										<?php else : ?>

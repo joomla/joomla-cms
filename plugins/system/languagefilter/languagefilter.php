@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\Router;
@@ -127,7 +128,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				}
 			}
 		}
-		// If language filter plugin is executed in a admin page (ex: JRoute site).
+		// If language filter plugin is executed in an admin page (ex: JRoute site).
 		else
 		{
 			// Set current language to default site language, fallback to en-GB if there is no content language for the default site language.
@@ -135,7 +136,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
 			foreach ($this->sefs as $sef => $language)
 			{
-				if (!array_key_exists($language->lang_code, JLanguageHelper::getInstalledLanguages(0)))
+				if (!array_key_exists($language->lang_code, LanguageHelper::getInstalledLanguages(0)))
 				{
 					unset($this->lang_codes[$language->lang_code]);
 					unset($this->sefs[$language->sef]);
@@ -569,8 +570,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		$this->loadLanguage();
 
 		return array(
-			JText::_('PLG_SYSTEM_LANGUAGEFILTER') => array(
-				JText::_('PLG_SYSTEM_LANGUAGEFILTER_PRIVACY_CAPABILITY_LANGUAGE_COOKIE'),
+			Text::_('PLG_SYSTEM_LANGUAGEFILTER') => array(
+				Text::_('PLG_SYSTEM_LANGUAGEFILTER_PRIVACY_CAPABILITY_LANGUAGE_COOKIE'),
 			)
 		);
 	}

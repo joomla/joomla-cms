@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -358,8 +358,6 @@ class RequestModel extends AdminModel
 			$mailer->setBody($emailBody);
 			$mailer->addRecipient($table->email);
 
-			$mailResult = $mailer->Send();
-
 			if ($mailer->Send() === false)
 			{
 				$this->setError($mailer->ErrorInfo);
@@ -460,7 +458,7 @@ class RequestModel extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getActionlogModel(): \ActionlogsModelActionlog
 	{
