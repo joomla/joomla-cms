@@ -208,7 +208,7 @@ class MenuField extends FormField
 		$linkSuffix = '&amp;layout=modal&amp;client_id=' . $clientId . '&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
 		$linkItems  = 'index.php?option=com_menus&amp;view=items' . $linkSuffix;
 		$linkItem   = 'index.php?option=com_menus&amp;view=item' . $linkSuffix;
-		$modalTitle = Text::_('COM_MENUS_CHANGE_MENUITEM');
+		$modalTitle = Text::_('COM_MENUS_SELECT_A_MENUITEM');
 
 		if (isset($this->element['language']))
 		{
@@ -279,7 +279,7 @@ class MenuField extends FormField
 				. ' data-toggle="modal"'
 				. ' type="button"'
 				. ' data-target="#ModalSelect' . $modalId . '"'
-				. ' title="' . HTMLHelper::tooltipText('COM_MENUS_CHANGE_MENUITEM') . '">'
+				. ' title="' . HTMLHelper::tooltipText('COM_MENUS_SELECT_A_MENUITEM') . '">'
 				. '<span class="icon-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
 				. '</button>';
 		}

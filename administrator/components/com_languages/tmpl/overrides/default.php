@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 $client    = $this->state->get('filter.client') == 'site' ? Text::_('JSITE') : Text::_('JADMINISTRATOR');
@@ -30,10 +31,10 @@ $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFilename);
 	<div class="row">
 		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
-				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<div class="clearfix"></div>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning">
+					<div class="alert alert-info">
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
