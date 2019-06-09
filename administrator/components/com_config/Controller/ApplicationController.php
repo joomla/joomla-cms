@@ -13,13 +13,13 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Input\Input;
 
 /**
  * Controller for global configuration
@@ -36,7 +36,7 @@ class ApplicationController extends BaseController
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   Input                $input    Input
 	 *
 	 * @since   3.0
 	 */
@@ -92,7 +92,7 @@ class ApplicationController extends BaseController
 		$data = array_replace($oldData, $data);
 
 		// Get request type
-		$saveFormat = Factory::getDocument()->getType();
+		$saveFormat = $this->app->getDocument()->getType();
 
 		// Handle service requests
 		if ($saveFormat == 'json')
