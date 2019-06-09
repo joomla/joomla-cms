@@ -292,7 +292,7 @@ abstract class PluginHelper
 
 		try
 		{
-			static::$plugins = $cache->get($loader, array(), false);
+			static::$plugins = $cache->get($loader, [], true,false);
 		}
 		catch (CacheExceptionInterface $cacheException)
 		{

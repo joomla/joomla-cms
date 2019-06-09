@@ -184,11 +184,9 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	/**
 	 * Check the access level of the user.
 	 *
-	 * @param $event
-	 *
 	 * @return bool
 	 */
-	protected function accessCheck($event)
+	protected function accessCheck()
 	{
 		if (!is_null($this->accessCheckCache))
 		{
