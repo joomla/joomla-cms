@@ -65,7 +65,7 @@ foreach ($fields as $field)
 	
 	// If the content is empty do nothing
 	if (!isset($content) || trim($content) == '') {
-		 continue;
+		continue;
 	}
 
 	$output[] = '<dd class="field-entry ' . $class . '">' . $content . '</dd>';
