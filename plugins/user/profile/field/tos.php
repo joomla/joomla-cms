@@ -97,7 +97,7 @@ class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 
 			if (Associations::isEnabled())
 			{
-				$tosAssociated = Associations::getAssociations('com_content', '#__content', 'com_content.item', $tosarticle);
+				$tosAssociated = Associations::getAssociations('com_content', '#__content', 'com_content.item', $tosArticle);
 			}
 
 			$currentLang = Factory::getLanguage()->getTag();
