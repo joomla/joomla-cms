@@ -17,6 +17,7 @@ use Joomla\CMS\Router\Route;
 /** @var \Joomla\Component\Banners\Administrator\View\Client\HtmlView $this */
 
 HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('script', 'com_contenthistory/admin-history-versions.js', ['version' => 'auto', 'relative' => true]);
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_banners&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="client-form" class="form-validate">
