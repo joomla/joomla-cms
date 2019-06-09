@@ -62,7 +62,7 @@ abstract class DatabaseHelper
 	/**
 	 * Generates random prefix string for DB table
 	 *
-	 * @param   int  $size  SIze of the Prefix
+	 * @param   int  $size  Size of the Prefix
 	 *
 	 * @return string
 	 *
@@ -75,7 +75,7 @@ abstract class DatabaseHelper
 		$chars   = range('a', 'z');
 		$numbers = range(0, 9);
 
-		// We want the fist character to be a random letter.
+		// We want the first character to be a random letter.
 		shuffle($chars);
 		$prefix .= $chars[0];
 
