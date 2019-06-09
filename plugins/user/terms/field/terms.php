@@ -100,8 +100,9 @@ class JFormFieldterms extends JFormFieldRadio
 		{
 			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
 
-			$attribs            = [];
-			$attribs['onclick'] = "document.getElementById('termsModal').open();return false;";
+			$attribs                = [];
+			$attribs['data-toggle'] = 'modal';
+			$attribs['data-target'] = '#termsModal';
 
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)

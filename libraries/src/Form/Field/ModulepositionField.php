@@ -154,9 +154,24 @@ class ModulepositionField extends TextField
 		// The current user display field.
 		$html[] = '<div class="input-append">';
 		$html[] = parent::getInput()
-			. '<a class="btn modal" title="' . Text::_('COM_MODULES_CHANGE_POSITION_TITLE') . '"  href="' . $link
-			. '" rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'
+			. '<a class="btn" title="' . Text::_('COM_MODULES_CHANGE_POSITION_TITLE') . '"  href="' . $link
+			. '"  data-toggle="modal" data-target="#modulePositionModal">'
 			. Text::_('COM_MODULES_CHANGE_POSITION_BUTTON') . '</a>';
+
+		$html[] = HTMLHelper::_(
+			'bootstrap.renderModal',
+			'modulePositionModal',
+			array(
+				'url'    => $link,
+				'title'  => Text::_('COM_MODULES_CHANGE_POSITION_BUTTON'),
+				'height' => '100%',
+				'width'  => '100%',
+				'modalWidth'  => '800',
+				'bodyHeight'  => '450',
+				'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+					. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+			)
+		);
 		$html[] = '</div>';
 
 		return implode("\n", $html);
