@@ -102,7 +102,7 @@ Text::script('INSTL_FTP_SETTINGS_CORRECT');
 								</div>
 							</div>
 						</main>
-						<footer class="text-center small w-100">
+						<footer class="footer text-center small w-100">
 							<?php echo Version::URL; ?>
 						</footer>
 					</div>
