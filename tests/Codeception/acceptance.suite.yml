@@ -42,3 +42,16 @@ modules:
             localUser: 'www-data'                          # (Linux / Mac only) If you want to set a different owner for the CMS test folder
 
 error_level: "E_ALL & ~E_STRICT & ~E_DEPRECATED"
+
+env:
+    postgres:
+        modules:
+            config:
+                JoomlaBrowser:
+                    database host: 'postgres'
+                    database type: 'pgsql'
+                Helper\JoomlaDb:
+                    dsn: 'pgsql:host=postgres;dbname=test_joomla'
+
+    mysql:
+    # Nothing to change

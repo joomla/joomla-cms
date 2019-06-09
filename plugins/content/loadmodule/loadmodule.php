@@ -224,9 +224,9 @@ class PlgContentLoadmodule extends CMSPlugin
 	protected function _loadid($id)
 	{
 		self::$modules[$id] = '';
-		$document = JFactory::getDocument();
+		$document = Factory::getDocument();
 		$renderer = $document->loadRenderer('module');
-		$modules  = JModuleHelper::getModuleById($id);
+		$modules  = ModuleHelper::getModuleById($id);
 		$params   = array('style' => 'none');
 		ob_start();
 
