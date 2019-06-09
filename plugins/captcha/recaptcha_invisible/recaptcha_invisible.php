@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\IpHelper; 
@@ -78,7 +79,7 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 		$file = 'https://www.google.com/recaptcha/api.js'
 			. '?onload=JoomlaInitReCaptchaInvisible'
 			. '&render=explicit'
-			. '&hl=' . \JFactory::getLanguage()->getTag();
+			. '&hl=' . Factory::getLanguage()->getTag();
 		HTMLHelper::_(
 			'script',
 			$file,
@@ -130,7 +131,7 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 	 */
 	public function onCheckAnswer($code = null)
 	{
-		$input      = \JFactory::getApplication()->input;
+		$input      = Factory::getApplication()->input;
 		$privatekey = $this->params->get('private_key');
 		$remoteip   = IpHelper::getIp();
 
