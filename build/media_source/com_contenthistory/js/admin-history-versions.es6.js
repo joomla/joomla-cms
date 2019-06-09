@@ -4,5 +4,8 @@
  */
 
 window.addEventListener('DOMContentLoaded', () => {
-  document.body.appendChild(document.getElementById('versionsModal'));
+  const versionsModal = document.getElementById('versionsModal');
+  if (versionsModal) {
+    document.body.appendChild(versionsModal);
+  }
 });
