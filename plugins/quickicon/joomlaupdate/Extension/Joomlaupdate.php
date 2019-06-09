@@ -99,6 +99,11 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 	 */
 	public function getCoreUpdateNotification(QuickIconsEvent $event)
 	{
+		if (!$this->accessCheck())
+		{
+			return;
+		}
+
 		$context = $event->getContext();
 
 		if ($context !== $this->params->get('context', 'mod_quickicon') || !$this->app->getIdentity()->authorise('core.manage', 'com_installer'))

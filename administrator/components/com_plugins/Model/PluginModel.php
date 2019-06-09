@@ -314,6 +314,16 @@ class PluginModel extends AdminModel
 			$this->helpURL = $helpURL ?: $this->helpURL;
 		}
 
+		$accessField = $xml->xpath('//config/field[name=access]');
+
+		if (!empty($accessField))
+		{
+			if ((string)$accessField[0]['type'] === 'hidden')
+			{
+				$data['access'] = Factory::getApplication()->getConfig('access');
+			}
+		}
+
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data, $group);
 	}

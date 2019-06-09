@@ -156,7 +156,27 @@ trait ExtensionManagerTrait
 					break;
 				case PluginInterface::class:
 					list($pluginName, $pluginType) = explode(':', $extensionName);
-					$container->set($type, $this->loadPluginFromFilesystem($pluginName, $pluginType));
+
+					$publicAccessLevel = (int) $this->config->get('access');
+					$pluginAccessLevel = (int) PluginHelper::getPlugin($pluginType, $pluginName)->access;
+
+					// if the accesss level is public we don't need to load the user session
+					if ($publicAccessLevel !== $pluginAccessLevel)
+					{
+						$userAccessLevels = $this->getIdentity()->getAuthorisedViewLevels();
+
+						if (in_array($pluginAccessLevel, $userAccessLevels, false) === false)
+						{
+							$plugin = new DummyPlugin($dispatcher);
+						}
+					}
+
+					if (empty($plugin))
+					{
+						$plugin = $this->loadPluginFromFilesystem($pluginName, $pluginType);
+					}
+
+					$container->set($type, $plugin);
 			}
 		}
 

@@ -75,6 +75,14 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	protected $allowLegacyListeners = true;
 
 	/**
+	 * This is a cache for accessCheck
+	 *
+	 * @var    boolean
+	 * @since  4.0
+	 */
+	private $accessCheckCache = null;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   DispatcherInterface  &$subject  The object to observe
@@ -171,6 +179,41 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
 		return $lang->load($extension, $basePath, null, false, true)
 			|| $lang->load($extension, JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name, null, false, true);
+	}
+
+	/**
+	 * Check the access level of the user.
+	 *
+	 * @param $event
+	 *
+	 * @return bool
+	 */
+	protected function accessCheck($event)
+	{
+		if (!is_null($this->accessCheckCache))
+		{
+			return $this->accessCheckCache;
+		}
+
+		$this->accessCheckCache = true;
+
+		$publicAccessLevel = $this->app->getConfig()->get('access');
+		$accessLevel       = $this->params->get('access');
+
+		// if no accesss level is set for the plugin we execute the listner
+		if ($publicAccessLevel = $accessLevel)
+		{
+			return $this->accessCheckCache;
+		}
+
+		$levels = $this->app->getIdentity()->getAuthorisedViewLevels();
+
+		if (in_array($pluginParams->access, $levels, true) === false)
+		{
+			$this->accessCheckCache = false;
+		}
+
+		return $this->accessCheckCache;
 	}
 
 	/**
