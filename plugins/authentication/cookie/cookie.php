@@ -170,7 +170,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 			$query = $this->db->getQuery(true)
 				->delete($this->db->quoteName('#__user_keys'))
 				->where($this->db->quoteName('user_id') . ' = :userid')
-				->bind(':userid', $results[0]->user_id, ParameterType::INTEGER);
+				->bind(':userid', $results[0]->user_id);
 
 			try
 			{
