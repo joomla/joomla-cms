@@ -75,7 +75,7 @@ abstract class DatabaseHelper
 		$chars   = range('a', 'z');
 		$numbers = range(0, 9);
 
-		// We want the fist character to be a random letter.
+		// We want the first character to be a random letter.
 		shuffle($chars);
 		$prefix .= $chars[0];
 
