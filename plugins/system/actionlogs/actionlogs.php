@@ -322,7 +322,7 @@ class PlgSystemActionLogs extends CMSPlugin
 	 *
 	 * @since   3.9.0
 	 */
-	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
+	private function clearCacheGroups(array $clearGroups, array $cacheClients = [0, 1])
 	{
 		$conf = Factory::getConfig();
 
