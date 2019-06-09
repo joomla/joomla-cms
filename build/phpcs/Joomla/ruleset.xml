@@ -4,15 +4,16 @@
 
 	<!-- Exclude folders not containing production code -->
 	<exclude-pattern type="relative">build/*</exclude-pattern>
-	<exclude-pattern type="relative">docs/*</exclude-pattern>
 	<exclude-pattern type="relative">cache/*</exclude-pattern>
-	<exclude-pattern type="relative">tmp/*</exclude-pattern>
+	<exclude-pattern type="relative">docs/*</exclude-pattern>
 	<exclude-pattern type="relative">logs/*</exclude-pattern>
+	<exclude-pattern type="relative">tmp/*</exclude-pattern>
 
 	<!-- Exclude 3rd party libraries and Framework code. -->
 	<exclude-pattern type="relative">libraries/compat/password/*</exclude-pattern>
 	<exclude-pattern type="relative">libraries/php-encryption/*</exclude-pattern>
 	<exclude-pattern type="relative">libraries/phpass/*</exclude-pattern>
+	<exclude-pattern type="relative">node_modules/*</exclude-pattern>
 	<exclude-pattern type="relative">*/vendor/*</exclude-pattern>
 	<!-- Temporarily exclude the old FOF Library code. TODO: Should be made compliant!! -->
 	<exclude-pattern type="relative">libraries/src/Encrypt/*</exclude-pattern>
