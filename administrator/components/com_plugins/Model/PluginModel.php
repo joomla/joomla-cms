@@ -314,13 +314,17 @@ class PluginModel extends AdminModel
 			$this->helpURL = $helpURL ?: $this->helpURL;
 		}
 
-		$accessField = $xml->xpath('//config/field[name=access]');
+		$accessField = $xml->xpath('//config/field[name="access"]');
 
 		if (!empty($accessField))
 		{
 			if ((string)$accessField[0]['type'] === 'hidden')
 			{
-				$data['access'] = Factory::getApplication()->getConfig('access');
+				// Override the default access field
+				$form->load($xml, true, '//config/field[@name="access"]');
+
+				// Always set the value to public if we hide the access field
+				$data->access = Factory::getApplication()->getConfig()->get('access');
 			}
 		}
 
