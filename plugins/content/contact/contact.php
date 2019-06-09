@@ -111,8 +111,9 @@ class PlgContentContact extends CMSPlugin
 			return $contacts[$created_by];
 		}
 
-		$db     = $this->db;
-		$query  = $db->getQuery(true);
+		$db         = $this->db;
+		$query      = $db->getQuery(true);
+		$created_by = (int) $created_by;
 
 		$query->select(
 			[
@@ -123,7 +124,7 @@ class PlgContentContact extends CMSPlugin
 			->from($db->quoteName('#__contact_details', 'contact'))
 			->where($db->quoteName('contact.published') . ' = 1')
 			->where($db->quoteName('contact.user_id') . ' = :createdby')
-			->bind(':createdby', (int) $created_by, ParameterType::INTEGER);
+			->bind(':createdby', $created_by, ParameterType::INTEGER);
 
 		if (Multilanguage::isEnabled() === true)
 		{
