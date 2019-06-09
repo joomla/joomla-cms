@@ -17,7 +17,6 @@ use InvalidArgumentException;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -107,8 +106,7 @@ class ActionlogsController extends AdminController
 
 			$csvDelimiter = ComponentHelper::getComponent('com_actionlogs')->getParams()->get('csv_delimiter', ',');
 
-			$app = Factory::getApplication();
-			$app->setHeader('Content-Type', 'application/csv', true)
+			$this->app->setHeader('Content-Type', 'application/csv', true)
 				->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '.csv"', true)
 				->setHeader('Cache-Control', 'must-revalidate', true)
 				->sendHeaders();

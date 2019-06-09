@@ -1087,7 +1087,7 @@ class ArticleModel extends AdminModel
 	}
 
 	/**
-	 * Allows preprocessing of the \JForm object.
+	 * Allows preprocessing of the Form object.
 	 *
 	 * @param   Form    $form   The form object
 	 * @param   array   $data   The data to be merged into the form object
@@ -1097,7 +1097,7 @@ class ArticleModel extends AdminModel
 	 *
 	 * @since   3.0
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		if ($this->canCreateCategory())
 		{
@@ -1348,7 +1348,7 @@ class ArticleModel extends AdminModel
 		PluginHelper::importPlugin($this->events_map['change_state']);
 
 		// Trigger the change stage event.
-		Factory::getApplication()->triggerEvent($this->event_change_state, [$context, [$pk], $transition_id]);
+		Factory::getApplication()->triggerEvent($this->event_change_state, [$context, [$pk], $workflow->getConditionForTransition($transition_id)]);
 
 		return true;
 	}
