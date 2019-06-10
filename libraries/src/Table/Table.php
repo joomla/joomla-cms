@@ -1735,6 +1735,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	public function hasField($key)
 	{
 		$key = $this->getColumnAlias($key);
+
 		return property_exists($this, $key);
 	}
 }
