@@ -282,7 +282,7 @@ abstract class PluginHelper
 				)
 				->from($db->quoteName('#__extensions'))
 				->where($db->quoteName('enabled') . ' = 1')
-				->where($db->quoteName('type') . '  = ' . $db->quote('plugin'))
+				->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
 				->whereIn($db->quoteName('state'), [0, 1])
 				->order($db->quoteName('ordering'));
 			$db->setQuery($query);
