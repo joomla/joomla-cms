@@ -49,6 +49,8 @@ class ContentmasterlanguageField extends ContentlanguageField
 		$contentLanguages = LanguageHelper::getContentLanguages(array(0, 1));
 		$options = array();
 
+		$options[] = HTMLHelper::_('select.option', '', Text::_('JOPTION_SELECT_LANGUAGE'), array('disable'=>'true'));
+
 		foreach ($contentLanguages as $langCode)
 		{
 			// Add information to the language if it is the global master language

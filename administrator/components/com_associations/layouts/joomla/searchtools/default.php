@@ -12,6 +12,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
 
 /** @var  array  $displayData */
 $data = $displayData;
@@ -55,6 +56,9 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
 	<?php // Add the itemtype and language selectors before the form filters. ?>
 	<div class="js-stools-container-selector-first">
 		<div class="js-stools-field-selector js-stools-itemtype">
+			<label for="<?php echo $itemTypeField->id; ?>" class="sr-only">
+				<?php echo Text::_('COM_ASSOCIATIONS_FILTER_SELECT_ITEM_TYPE'); ?>
+			</label>
 			<?php echo $itemTypeField->input; ?>
 		</div>
 	</div>
@@ -64,12 +68,18 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
 	<div class="js-stools-container-selector">
 	<?php endif; ?>
 		<div class="js-stools-field-selector js-stools-language">
+			<label for="<?php echo $languageField->id; ?>" class="sr-only">
+				<?php echo Text::_('JOPTION_SELECT_LANGUAGE'); ?>
+			</label>
 			<?php echo $languageField->input; ?>
 		</div>
 	</div>
 	<?php if ($globalMasterLanguage) : ?>
 	<div class="js-stools-container-selector">
 		<div class="js-stools-field-selector js-stools-assocstate">
+			<label for="<?php echo $assocStateField->id; ?>" class="sr-only">
+				<?php echo Text::_('COM_ASSOCIATIONS_FILTER_SELECT_ASSOCIATION_STATE'); ?>
+			</label>
 			<?php echo $assocStateField->input; ?>
 		</div>
 	</div>
