@@ -78,11 +78,11 @@
   if (sidebar && !sidebar.getAttribute('data-hidden')) {
     // Sidebar
     const menuToggle = document.getElementById('menu-collapse');
-    const firsts = [].slice.call(sidebar.querySelectorAll('.collapse-level-1'));
+    const firsts = sidebar.querySelectorAll('.collapse-level-1');
 
     // Apply 2nd level collapse
     firsts.forEach((first) => {
-      const seconds = [].slice.call(first.querySelectorAll('.collapse-level-1'));
+      const seconds = first.querySelectorAll('.collapse-level-1');
       seconds.forEach((second) => {
         if (second) {
           second.classList.remove('collapse-level-1');
@@ -101,7 +101,7 @@
       menuToggleIcon.classList.toggle('fa-toggle-on');
       menuToggleIcon.classList.toggle('fa-toggle-off');
 
-      const listItems = [].slice.call(document.querySelectorAll('.main-nav > li'));
+      const listItems = document.querySelectorAll('.main-nav > li');
       listItems.forEach((item) => {
         item.classList.remove('open');
       });
@@ -125,11 +125,11 @@
     /**
      * Sidebar Nav
      */
-    const allLinks = [].slice.call(wrapper.querySelectorAll('a.no-dropdown, a.collapse-arrow'));
+    const allLinks = wrapper.querySelectorAll('a.no-dropdown, a.collapse-arrow');
     const currentUrl = window.location.href.toLowerCase();
     const mainNav = document.getElementById('menu');
-    const menuParents = [].slice.call(mainNav.querySelectorAll('li.parent > a'));
-    const subMenusClose = [].slice.call(mainNav.querySelectorAll('li.parent .close'));
+    const menuParents = mainNav.querySelectorAll('li.parent > a');
+    const subMenusClose = mainNav.querySelectorAll('li.parent .close');
 
     // Set active class
     allLinks.forEach((link) => {
@@ -159,7 +159,7 @@
         mainNav.classList.remove('child-open');
         menuItem.classList.remove('open');
       } else {
-        const siblings = [].slice.call(menuItem.parentNode.children);
+        const siblings = menuItem.parentNode.children;
         siblings.forEach((sibling) => {
           sibling.classList.remove('open');
         });
@@ -181,7 +181,7 @@
     // Menu close
     subMenusClose.forEach((subMenu) => {
       subMenu.addEventListener('click', () => {
-        const menuChildsOpen = [].slice.call(mainNav.querySelectorAll('.open'));
+        const menuChildsOpen = mainNav.querySelectorAll('.open');
 
         menuChildsOpen.forEach((menuChild) => {
           menuChild.classList.remove('open');
@@ -192,7 +192,7 @@
     });
 
     // Accessibility
-    const allLiEls = [].slice.call(sidebar.querySelectorAll('ul[role="menubar"] li'));
+    const allLiEls = sidebar.querySelectorAll('ul[role="menubar"] li');
     allLiEls.forEach((liEl) => {
       // We care for enter and space
       liEl.addEventListener('keyup', (e) => {

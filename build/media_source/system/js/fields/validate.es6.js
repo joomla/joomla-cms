@@ -37,7 +37,7 @@
       });
 
       // Attach all forms with a class 'form-validate'
-      const forms = [].slice.call(document.querySelectorAll('form'));
+      const forms = document.querySelectorAll('form');
 
       forms.forEach((form) => {
         if (form.classList.contains('form-validate')) {
@@ -249,7 +249,7 @@
       const invalid = [];
 
       // Validate form fields
-      const fields = [].slice.call(form.querySelectorAll('input, textarea, select, button'));
+      const fields = form.querySelectorAll('input, textarea, select, button');
       fields.forEach((field) => {
         if (this.validate(field) === false) {
           valid = false;
@@ -281,7 +281,7 @@
 
     attachToForm(form) {
       const inputFields = [];
-      const elements = [].slice.call(form.querySelectorAll('input, textarea, select, button, fieldset'));
+      const elements = form.querySelectorAll('input, textarea, select, button, fieldset');
 
       // Iterate through the form object and attach the validate method to all input fields.
       elements.forEach((element) => {

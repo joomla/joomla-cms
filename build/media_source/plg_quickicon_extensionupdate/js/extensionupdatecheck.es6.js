@@ -14,7 +14,7 @@
 
       const update = (type, text) => {
         const link = document.getElementById('plg_quickicon_extensionupdate');
-        const linkSpans = [].slice.call(link.querySelectorAll('span.j-links-link'));
+        const linkSpans = link.querySelectorAll('span.j-links-link');
         if (link) {
           link.classList.add(type);
         }

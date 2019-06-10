@@ -66,7 +66,7 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
     // Wait for the image to load its data
     image.addEventListener('load', () => {
       // Get all option elements if future need
-      const elements = [].slice.call(document.querySelectorAll('.crop-aspect-ratio-option'));
+      const elements = document.querySelectorAll('.crop-aspect-ratio-option');
 
       // Set default aspect ratio after numeric check, option has a dummy value
       const defaultCropFactor = image.naturalWidth / image.naturalHeight;

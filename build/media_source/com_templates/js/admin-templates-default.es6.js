@@ -6,11 +6,11 @@
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-    const folders = [].slice.call(document.querySelectorAll('.folder-url, .component-folder-url, .plugin-folder-url, .layout-folder-url'));
-    const innerLists = [].slice.call(document.querySelectorAll('.folder ul, .component-folder ul, .plugin-folder ul, .layout-folder ul'));
-    const openLists = [].slice.call(document.querySelectorAll('.show > ul'));
-    const fileModalFolders = [].slice.call(document.querySelectorAll('#fileModal .folder-url'));
-    const folderModalFolders = [].slice.call(document.querySelectorAll('#folderModal .folder-url'));
+    const folders = document.querySelectorAll('.folder-url, .component-folder-url, .plugin-folder-url, .layout-folder-url');
+    const innerLists = document.querySelectorAll('.folder ul, .component-folder ul, .plugin-folder ul, .layout-folder ul');
+    const openLists = document.querySelectorAll('.show > ul');
+    const fileModalFolders = document.querySelectorAll('#fileModal .folder-url');
+    const folderModalFolders = document.querySelectorAll('#folderModal .folder-url');
     // Hide all the folders when the page loads
     innerLists.forEach((innerList) => {
       innerList.style.display = 'none';
@@ -47,7 +47,7 @@
 
         event.target.classList.add('selected');
 
-        const listElsAddressToAdd = [].slice.call(document.querySelectorAll('#fileModal input.address'));
+        const listElsAddressToAdd = document.querySelectorAll('#fileModal input.address');
 
         listElsAddressToAdd.forEach((element) => {
           element.value = event.target.getAttribute('data-id');
@@ -65,7 +65,7 @@
         });
 
         event.target.classList.add('selected');
-        const listElsAddressToAdd = [].slice.call(document.querySelectorAll('#folderModal input.address'));
+        const listElsAddressToAdd = document.querySelectorAll('#folderModal input.address');
 
         listElsAddressToAdd.forEach((element) => {
           element.value = event.target.getAttribute('data-id');
@@ -74,7 +74,7 @@
     });
 
     const treeContainer = document.querySelector('#treeholder .treeselect');
-    const listEls = [].slice.call(treeContainer.querySelectorAll('.folder.show'));
+    const listEls = treeContainer.querySelectorAll('.folder.show');
     const filePathEl = document.querySelector('p.lead.hidden.path');
 
     if (filePathEl) {
@@ -91,7 +91,7 @@
           element.querySelector('a').classList.add('active');
           if (index === listEls.length - 1) {
             const parentUl = element.querySelector('ul');
-            const allLi = [].slice.call(parentUl.querySelectorAll('li'));
+            const allLi = parentUl.querySelectorAll('li');
 
             allLi.forEach((liElement) => {
               const aEl = liElement.querySelector('a');

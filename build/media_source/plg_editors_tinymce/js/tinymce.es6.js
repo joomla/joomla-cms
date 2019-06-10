@@ -18,7 +18,7 @@
       const container = target || document;
       const pluginOptions = Joomla.getOptions ? Joomla.getOptions('plg_editor_tinymce', {})
         : (Joomla.optionsStorage.plg_editor_tinymce || {});
-      const editors = [].slice.call(container.querySelectorAll('.js-editor-tinymce'));
+      const editors = container.querySelectorAll('.js-editor-tinymce');
 
       editors.forEach((editor) => {
         const currentEditor = editor.querySelector('textarea');

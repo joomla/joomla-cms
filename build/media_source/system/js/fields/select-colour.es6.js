@@ -19,7 +19,7 @@
   };
 
   const updateSelectboxColour = () => {
-    const colourSelects = [].slice.call(document.querySelectorAll('.custom-select-color-state'));
+    const colourSelects = document.querySelectorAll('.custom-select-color-state');
 
     colourSelects.forEach((colourSelect) => {
       const value = parseInt(colourSelect.value, 10);

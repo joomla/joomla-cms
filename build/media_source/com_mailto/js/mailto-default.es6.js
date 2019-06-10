@@ -25,7 +25,7 @@
    */
   const registerEvents = () => {
     // Register the close click listener
-    const closeElements = [].slice.call(document.querySelectorAll(closeSelector));
+    const closeElements = document.querySelectorAll(closeSelector);
 
     if (closeElements.length) {
       closeElements.forEach((closeElement) => {

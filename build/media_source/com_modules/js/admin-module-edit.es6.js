@@ -25,9 +25,9 @@ Joomla = window.Joomla || {};
           const tmpRow = window.parent.document.getElementById(`tr-${options.itemId}`);
           const tmpStatus = window.parent.document.getElementById(`status-${options.itemId}`);
           window.parent.inMenus = [];
-          window.parent.numMenus = [].slice.call(document.querySelectorAll('input[name="jform[assigned][]"]')).length;
+          window.parent.numMenus = document.querySelectorAll('input[name="jform[assigned][]"]').length;
 
-          [].slice.call(document.querySelectorAll('input[name="jform[assigned][]"]')).forEach((element) => {
+          document.querySelectorAll('input[name="jform[assigned][]"]').forEach((element) => {
             if (updMenus > 0) {
               if (element.checked) {
                 window.parent.inMenus.push(parseInt(element.value, 10));

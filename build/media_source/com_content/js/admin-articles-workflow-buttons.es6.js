@@ -57,7 +57,7 @@ Joomla.toggleAllNextElements = (element, className) => {
     let countChecked = 0;
 
     if (articleList) {
-      articleListRows = [].slice.call(articleList.querySelectorAll('tbody tr'));
+      articleListRows = articleList.querySelectorAll('tbody tr');
     }
     // TODO: remove jQuery dependency, when we have a new modal script
     window.jQuery(modal).on('hide.bs.modal', () => {

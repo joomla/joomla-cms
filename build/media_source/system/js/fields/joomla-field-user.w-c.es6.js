@@ -88,7 +88,7 @@
 
     iframeLoad() {
       const iframeDoc = this.iframeEl.contentWindow.document;
-      const buttons = [].slice.call(iframeDoc.querySelectorAll('.button-select'));
+      const buttons = iframeDoc.querySelectorAll('.button-select');
 
       buttons.forEach((button) => {
         button.addEventListener('click', this.buttonClick);

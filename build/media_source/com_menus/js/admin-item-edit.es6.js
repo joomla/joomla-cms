@@ -8,7 +8,7 @@
   Joomla.submitbutton = (task, type) => {
     if (task === 'item.setType' || task === 'item.setMenuType') {
       if (task === 'item.setType') {
-        const list = [].slice.call(document.querySelectorAll('#item-form input[name="jform[type]"]'));
+        const list = document.querySelectorAll('#item-form input[name="jform[type]"]');
 
         list.forEach((item) => {
           item.value = type;
@@ -16,7 +16,7 @@
 
         document.getElementById('fieldtype').value = 'type';
       } else {
-        const list = [].slice.call(document.querySelectorAll('#item-form input[name="jform[menutype]"]'));
+        const list = document.querySelectorAll('#item-form input[name="jform[menutype]"]');
 
         list.forEach((item) => {
           item.value = type;
@@ -28,7 +28,7 @@
       Joomla.submitform(task, document.getElementById('item-form'));
     } else {
       // special case for modal popups validation response
-      const list = [].slice.call(document.querySelectorAll('#item-form .modal-value.invalid'));
+      const list = document.querySelectorAll('#item-form .modal-value.invalid');
 
       list.forEach((field) => {
         const idReversed = field.getAttribute('id').split('').reverse().join('');
@@ -48,7 +48,7 @@
 
       onSuccess(response) {
         const data = JSON.parse(response);
-        const list = [].slice.call(document.querySelectorAll('#jform_parent_id option'));
+        const list = document.querySelectorAll('#jform_parent_id option');
 
         list.forEach((item) => {
           if (item.value !== '1') {

@@ -45,7 +45,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     // Get the elements
-    const elements = [].slice.call(document.querySelectorAll('.select-link'));
+    const elements = document.querySelectorAll('.select-link');
 
     elements.forEach((element) => {
       // Listen for click event

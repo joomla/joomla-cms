@@ -72,7 +72,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
       return;
     }
 
-    const links = [].slice.call(tabsUlElement.querySelectorAll('a'));
+    const links = tabsUlElement.querySelectorAll('a');
 
     links.forEach((link) => {
       if (!link.hasAttribute('active')) {
@@ -244,7 +244,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
         return;
       }
 
-      const links = [].slice.call(tabsUlElement.querySelectorAll('a'));
+      const links = tabsUlElement.querySelectorAll('a');
 
       if (links[0]) {
         activate(links[0].id.replace('tab-attrib-', ''), Joomla.MediaManager.Edit.original);

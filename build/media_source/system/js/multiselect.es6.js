@@ -31,8 +31,8 @@ function getClosest(el, tag) {
       this.tableEl = document.querySelector(formElement);
 
       if (this.tableEl) {
-        this.boxes = [].slice.call(this.tableEl.querySelectorAll('input[type=checkbox]'));
-        this.rows = [].slice.call(document.querySelectorAll('tr[class^="row"]'));
+        this.boxes = this.tableEl.querySelectorAll('input[type=checkbox]');
+        this.rows = document.querySelectorAll('tr[class^="row"]');
         this.checkallToggle = document.querySelector('[name="checkall-toggle"]');
 
         this.onCheckallToggleClick = this.onCheckallToggleClick.bind(this);
@@ -55,11 +55,11 @@ function getClosest(el, tag) {
     changeBg(row, isChecked) {
       // Check if it should add or remove the background colour
       if (isChecked) {
-        [].slice.call(row.querySelectorAll('td, th')).forEach((elementToMark) => {
+        row.querySelectorAll('td, th').forEach((elementToMark) => {
           elementToMark.classList.add('row-selected');
         });
       } else {
-        [].slice.call(row.querySelectorAll('td, th')).forEach((elementToMark) => {
+        row.querySelectorAll('td, th').forEach((elementToMark) => {
           elementToMark.classList.remove('row-selected');
         });
       }

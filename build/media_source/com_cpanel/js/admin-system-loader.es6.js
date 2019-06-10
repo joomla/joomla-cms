@@ -10,7 +10,7 @@
     document.removeEventListener('DOMContentLoaded', init);
 
     // Get the elements
-    const elements = [].slice.call(document.querySelectorAll('.system-counter'));
+    const elements = document.querySelectorAll('.system-counter');
 
     if (elements.length) {
       elements.forEach((element) => {

@@ -6,7 +6,7 @@
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-    [].slice.call(document.querySelectorAll('input[type="password"]')).forEach((input) => {
+    document.querySelectorAll('input[type="password"]').forEach((input) => {
       const inputGroup = input.parentNode.querySelector('.input-group-prepend, .input-group-append');
 
       if (!inputGroup) {

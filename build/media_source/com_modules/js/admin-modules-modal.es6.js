@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
   /** Get the elements * */
-  const modulesLinks = [].slice.call(document.querySelectorAll('.js-module-insert'));
-  const positionsLinks = [].slice.call(document.querySelectorAll('.js-position-insert'));
+  const modulesLinks = document.querySelectorAll('.js-module-insert');
+  const positionsLinks = document.querySelectorAll('.js-position-insert');
 
   /** Assign listener for click event (for single module id insertion) * */
   modulesLinks.forEach((modulesLink) => {

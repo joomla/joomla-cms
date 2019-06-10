@@ -8,7 +8,7 @@ Joomla = window.Joomla || {};
   'use strict';
 
   Joomla.hideAssociation = (formControl, languageCode) => {
-    const controlGroup = [].slice.call(document.querySelectorAll('#associations .control-group'));
+    const controlGroup = document.querySelectorAll('#associations .control-group');
 
     controlGroup.forEach((element) => {
       // Current selected language. Hide it
@@ -25,7 +25,7 @@ Joomla = window.Joomla || {};
   };
 
   Joomla.showAssociationMessage = () => {
-    const controlGroup = [].slice.call(document.querySelectorAll('#associations .control-group'));
+    const controlGroup = document.querySelectorAll('#associations .control-group');
     const associations = document.getElementById('associations');
 
     if (associations) {
@@ -67,7 +67,7 @@ Joomla = window.Joomla || {};
 
     if (result.success) {
       if (result.data.length !== 0) {
-        [].slice.call(Object.keys(result.data)).forEach((lang) => {
+        Object.keys(result.data).forEach((lang) => {
           functionName = callbackFunctionPrefix + lang.replace('-', '_');
           // eslint-disable-next-line max-len
           window[functionName](result.data[lang].id, result.data[lang].title, result.data[lang].catid, null, null, lang);
@@ -165,7 +165,7 @@ Joomla = window.Joomla || {};
         /** For each language, remove the associations, ie,
          *  empty the associations fields and reset the buttons to Select/Create
          */
-        const controlGroup = [].slice.call(document.querySelectorAll('#associations .control-group'));
+        const controlGroup = document.querySelectorAll('#associations .control-group');
 
         controlGroup.forEach((element) => {
           const attribute = element.querySelector('.control-label label').getAttribute('for');

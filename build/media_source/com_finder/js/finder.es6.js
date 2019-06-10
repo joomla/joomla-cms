@@ -42,7 +42,7 @@
 
     // Disable select boxes with no value selected.
     if (advanced.length) {
-      const fields = [].slice.call(advanced.querySelectorAll('select'));
+      const fields = advanced.querySelectorAll('select');
 
       fields.forEach((field) => {
         if (!field.value) {
@@ -54,7 +54,7 @@
 
   // The boot sequence
   const onBoot = () => {
-    const searchWords = [].slice.call(document.querySelectorAll('.js-finder-search-query'));
+    const searchWords = document.querySelectorAll('.js-finder-search-query');
 
     searchWords.forEach((searchword) => {
       // Handle the auto suggestion
@@ -66,7 +66,7 @@
       }
     });
 
-    const forms = [].slice.call(document.querySelectorAll('.js-finder-searchform'));
+    const forms = document.querySelectorAll('.js-finder-searchform');
 
     forms.forEach((form) => {
       form.addEventListener('submit', onSubmit);

@@ -119,7 +119,7 @@
     }
 
     // Turn on the progress container
-    const progressElements = [].slice.call(document.querySelectorAll(`.sampledata-progress-${type}`));
+    const progressElements = document.querySelectorAll(`.sampledata-progress-${type}`);
 
     progressElements.forEach((progressElement) => {
       progressElement.classList.remove('d-none');
@@ -137,7 +137,7 @@
   const onBoot = () => {
     const sampleDataWrapper = document.getElementById('sample-data-wrapper');
     if (sampleDataWrapper) {
-      const links = [].slice.call(sampleDataWrapper.querySelectorAll('.apply-sample-data'));
+      const links = sampleDataWrapper.querySelectorAll('.apply-sample-data');
       links.forEach((link) => {
         link.addEventListener('click', event => Joomla.sampledataApply(event.target));
       });

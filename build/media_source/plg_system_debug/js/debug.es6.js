@@ -25,7 +25,7 @@
    * Register events
    */
   const registerEvents = () => {
-    const sectionTogglers = [].slice.call(document.querySelectorAll(debugSectionTogglerSelector));
+    const sectionTogglers = document.querySelectorAll(debugSectionTogglerSelector);
     sectionTogglers.forEach((toggler) => {
       toggler.addEventListener('click', (event) => {
         event.preventDefault();

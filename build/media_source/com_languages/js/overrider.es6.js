@@ -78,7 +78,7 @@
         this.states.searchType = formSearchType.value || 'value';
 
         // Remove the old results
-        const oldResults = [].slice.call(document.querySelectorAll('.language-results'));
+        const oldResults = document.querySelectorAll('.language-results');
 
         oldResults.forEach((result) => {
           result.parentNode.removeChild(result);
@@ -98,7 +98,7 @@
         // Otherwise it is a new searchstring and we have to remove all previous results first
         this.moreResults.classList.remove('show');
 
-        const childs = [].slice.call(document.querySelectorAll('#results-container div.language-results'));
+        const childs = document.querySelectorAll('#results-container div.language-results');
         childs.forEach((child) => {
           child.parentNode.removeChild(child);
         });

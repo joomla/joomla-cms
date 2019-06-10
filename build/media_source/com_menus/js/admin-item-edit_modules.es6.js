@@ -21,12 +21,12 @@ Joomla = window.Joomla || {};
     const assigned0 = document.getElementById('jform_toggle_modules_assigned0');
     const published1 = document.getElementById('jform_toggle_modules_published1');
     const published0 = document.getElementById('jform_toggle_modules_published0');
-    const linkElements = [].slice.call(document.getElementsByClassName('module-edit-link'));
-    const elements = [].slice.call(document.querySelectorAll('#moduleEditModal .modal-footer .btn'));
+    const linkElements = document.getElementsByClassName('module-edit-link');
+    const elements = document.querySelectorAll('#moduleEditModal .modal-footer .btn');
 
     if (assigned1) {
       assigned1.addEventListener('click', () => {
-        const list = [].slice.call(document.querySelectorAll('tr.no'));
+        const list = document.querySelectorAll('tr.no');
 
         list.forEach((item) => {
           item.style.display = 'table-row';
@@ -36,7 +36,7 @@ Joomla = window.Joomla || {};
 
     if (assigned0) {
       assigned0.addEventListener('click', () => {
-        const list = [].slice.call(document.querySelectorAll('tr.no'));
+        const list = document.querySelectorAll('tr.no');
 
         list.forEach((item) => {
           item.style.display = 'none';
@@ -46,7 +46,7 @@ Joomla = window.Joomla || {};
 
     if (published1) {
       published1.addEventListener('click', () => {
-        const list = [].slice.call(document.querySelectorAll('.table tr.unpublished'));
+        const list = document.querySelectorAll('.table tr.unpublished');
 
         list.forEach((item) => {
           item.style.display = 'table-row';
@@ -56,7 +56,7 @@ Joomla = window.Joomla || {};
 
     if (published0) {
       published0.addEventListener('click', () => {
-        const list = [].slice.call(document.querySelectorAll('.table tr.unpublished'));
+        const list = document.querySelectorAll('.table tr.unpublished');
 
         list.forEach((item) => {
           item.style.display = 'none';

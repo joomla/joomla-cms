@@ -9,7 +9,7 @@ Joomla = window.Joomla || {};
 
   document.addEventListener('DOMContentLoaded', () => {
     const target = window.parent.document.getElementById('target-association');
-    const links = [].slice.call(document.querySelectorAll('.select-link'));
+    const links = document.querySelectorAll('.select-link');
 
     links.forEach((item) => {
       item.addEventListener('click', (event) => {

@@ -195,7 +195,7 @@
         throw new Error('Simple color field requires a select element');
       }
 
-      this.options = [].slice.call(this.select.querySelectorAll('option'));
+      this.options = this.select.querySelectorAll('option');
 
       this.select.classList.add('hidden');
 
@@ -271,7 +271,7 @@
 
       this.appendChild(this.panel);
 
-      this.focusableElements = [].slice.call(this.panel.querySelectorAll(this.focusableSelectors.join()));
+      this.focusableElements = this.panel.querySelectorAll(this.focusableSelectors.join());
 
       this.keys = this.keys.bind(this);
       this.hide = this.hide.bind(this);

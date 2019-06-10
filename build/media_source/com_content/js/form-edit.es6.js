@@ -22,7 +22,7 @@
 
   // Register events
   document.addEventListener('DOMContentLoaded', () => {
-    const buttons = [].slice.call(document.querySelectorAll(`[${buttonDataSelector}]`));
+    const buttons = document.querySelectorAll(`[${buttonDataSelector}]`);
     buttons.forEach((button) => {
       button.addEventListener('click', (e) => {
         e.preventDefault();

@@ -12,7 +12,7 @@ Joomla = window.Joomla || {};
     Joomla.twoFactorMethodChange = () => {
       const selectedPane = `com_users_twofactor_${document.getElementById('jform_twofactor_method').value}`;
 
-      [].slice.call(document.querySelectorAll('#com_users_twofactor_forms_container>div')).forEach((el) => {
+      document.querySelectorAll('#com_users_twofactor_forms_container>div').forEach((el) => {
         if (el.id !== selectedPane) {
           document.getElementById(el.id).style.display = 'none';
           return;

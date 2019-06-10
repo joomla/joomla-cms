@@ -63,7 +63,7 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
         rotate(parseInt(event.target.value, 10));
 
         // Deselect all buttons
-        const elements = [].slice.call(document.querySelectorAll('#jform_rotate_distinct label'));
+        const elements = document.querySelectorAll('#jform_rotate_distinct label');
         elements.forEach((element) => {
           element.classList.remove('active');
           element.classList.remove('focus');
@@ -71,7 +71,7 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
       });
 
       // The 90 degree rotate buttons listeners
-      const elements = [].slice.call(document.querySelectorAll('#jform_rotate_distinct label'));
+      const elements = document.querySelectorAll('#jform_rotate_distinct label');
       elements.forEach((element) => {
         element.addEventListener('click', (event) => {
           rotate(parseInt(event.target.querySelector('input').value, 10));

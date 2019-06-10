@@ -131,7 +131,7 @@ if (!Joomla) {
           WebInstaller.clicker();
 
           if (webInstallerOptions.view !== 'extension') {
-            [].slice.call(document.querySelectorAll('div.load-extension')).forEach((element) => {
+            document.querySelectorAll('div.load-extension').forEach((element) => {
               element.addEventListener('click', (event) => {
                 event.preventDefault();
                 this.processLinkClick(element.getAttribute('data-url'));
@@ -198,7 +198,7 @@ if (!Joomla) {
     }
 
     clickforlinks() {
-      [].slice.call(document.querySelectorAll('a.transcode')).forEach((element) => {
+      document.querySelectorAll('a.transcode').forEach((element) => {
         const ajaxurl = element.getAttribute('href');
 
         element.addEventListener('click', (event) => {

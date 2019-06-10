@@ -38,7 +38,7 @@
    * Script boot
    */
   const onBoot = () => {
-    const buttons = [].slice.call(document.querySelectorAll(buttonsSelector));
+    const buttons = document.querySelectorAll(buttonsSelector);
     buttons.forEach((button) => {
       button.addEventListener('click', handleCategoryToggleButtonClick);
     });

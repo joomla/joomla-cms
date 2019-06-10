@@ -17,7 +17,7 @@ Joomla = window.Joomla || {};
       throw new Error('Element must be inside a form!');
     }
 
-    const elementsArray = [].slice.call(form.elements);
+    const elementsArray = form.elements;
 
     if (elementsArray.length) {
       const newElementsArray = [];
@@ -296,7 +296,7 @@ Joomla = window.Joomla || {};
     // eslint-disable-next-line class-methods-use-this
     checkActiveStatus(cont) {
       const el = cont.mainContainer;
-      const els = [].slice.call(el.querySelectorAll('.js-stools-field-filter select'));
+      const els = el.querySelectorAll('.js-stools-field-filter select');
       els.forEach((item) => {
         if (item.classList.contains('active')) {
           cont.filterButton.classList.remove('btn-secondary');
@@ -416,7 +416,7 @@ Joomla = window.Joomla || {};
 
       // Add missing columns to the order select
       if (this.orderField.tagName.toLowerCase() === 'select') {
-        const allOptions = [].slice.call(this.orderField.options);
+        const allOptions = this.orderField.options;
         allOptions.forEach((option) => {
           let value = option.getAttribute('data-order');
           const name = option.getAttribute('data-name');
@@ -458,7 +458,7 @@ Joomla = window.Joomla || {};
       if (type === 'hidden' || type === 'text') {
         field.setAttribute('value', newValue);
       } else if (field.tagName.toLowerCase() === 'select') {
-        const allOptions = [].slice.call(field.options);
+        const allOptions = field.options;
         let desiredOption;
 
         // Select the option result

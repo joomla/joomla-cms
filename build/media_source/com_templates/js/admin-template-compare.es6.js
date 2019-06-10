@@ -53,7 +53,7 @@
       display.appendChild(fragment);
     };
 
-    const diffs = [].slice.call(document.querySelectorAll('#original'));
+    const diffs = document.querySelectorAll('#original');
     for (let i = 0, l = diffs.length; i < l; i += 1) {
       compare(diffs[i], diffs[i].nextElementSibling);
     }

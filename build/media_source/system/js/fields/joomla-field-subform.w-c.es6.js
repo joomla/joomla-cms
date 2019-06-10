@@ -151,7 +151,7 @@
          * Prepare a row template
          */
     prepareTemplate() {
-      const tmplElement = [].slice.call(this.children).filter(el => el.classList.contains('subform-repeatable-template-section'));
+      const tmplElement = this.children).filter(el => el.classList.contains('subform-repeatable-template-section');
 
       if (tmplElement[0]) {
         this.template = tmplElement[0].innerHTML;
@@ -264,7 +264,7 @@
       const ids = {}; // Collect id for fix checkboxes and radio
 
       // Filter out nested
-      haveName = [].slice.call(haveName).filter(el => closest(el, 'joomla-field-subform') === this);
+      haveName = haveName).filter(el => closest(el, 'joomla-field-subform') === this;
 
       for (let i = 0, l = haveName.length; i < l; i++) {
         const $el = haveName[i];

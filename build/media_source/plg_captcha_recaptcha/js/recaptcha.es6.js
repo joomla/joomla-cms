@@ -9,7 +9,7 @@ window.JoomlaInitReCaptcha2 = () => {
 
   const itemNodes = document.getElementsByClassName('g-recaptcha');
   const optionKeys = ['sitekey', 'theme', 'size', 'tabindex', 'callback', 'expired-callback', 'error-callback'];
-  const items = [].slice.call(itemNodes);
+  const items = itemNodes;
 
   items.forEach((item) => {
     let options = {};
@@ -17,7 +17,7 @@ window.JoomlaInitReCaptcha2 = () => {
     if (item.dataset) {
       options = item.dataset;
     } else {
-      [].slice.call(optionKeys).forEach((optionData) => {
+      optionKeys.forEach((optionData) => {
         const optionKeyFq = `data-${optionData}`;
         if (item.hasAttribute(optionKeyFq)) {
           options[optionData] = item.getAttribute(optionKeyFq);
