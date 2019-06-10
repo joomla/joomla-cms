@@ -12,6 +12,7 @@ namespace Joomla\Component\Plugins\Api\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\String\Inflector;
 
 /**
  * The plugins controller
@@ -35,4 +36,31 @@ class PluginsController extends ApiController
 	 * @since  3.0
 	 */
 	protected $default_view = 'plugins';
+
+	/**
+	 * Basic display of an item view
+	 *
+	 * @param   integer  $id  The primary key to display. Leave empty if you want to retrieve data from the request
+	 *
+	 * @return  static  A \JControllerLegacy object to support chaining.
+	 *
+	 * @since   4.0.0
+	 */
+	public function displayItem($id = null)
+	{
+		if ($id === null)
+		{
+			$id = $this->input->get('id', 0, 'int');
+		}
+
+		// Check for edit form.
+		/*if (!$this->checkEditId('com_plugins.edit.plugin', $id))
+		{
+			throw new RouteNotFoundException(Text::_('JERROR_PAGE_NOT_FOUND'));
+		}*/
+
+		$this->input->set('view', Inflector::singularize($this->default_view));
+
+		return parent::displayItem($id);
+	}
 }

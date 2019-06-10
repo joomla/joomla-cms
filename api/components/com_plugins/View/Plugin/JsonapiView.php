@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Plugins\Api\View\Plugins;
+namespace Joomla\Component\Plugins\Api\View\Plugin;
 
 defined('_JEXEC') or die;
 
@@ -29,15 +29,18 @@ class JsonapiView extends BaseApiView
 	protected $fieldsToRender = [
 		'id',
 		'name',
+		'type',
 		'element',
+		'changelogurl',
 		'folder',
-		'checked_out',
-		'checked_out_time',
+		'client_id',
 		'enabled',
 		'access',
+		'protected',
+		'checked_out',
+		'checked_out_time',
 		'ordering',
-		'editor',
-		'access_level'
+		'state'
 	];
 
 	/**
