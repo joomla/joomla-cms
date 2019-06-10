@@ -84,7 +84,7 @@ class ColorField extends FormField
 	 */
 	protected function getInput()
 	{
-	if (empty($this->layout))
+		if (empty($this->layout))
 		{
 			throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
 		}
