@@ -489,17 +489,20 @@ abstract class AdminModel extends FormModel
 			// Get the new item ID
 			$newId = $this->table->get('id');
 
-			// Copy rules
-			$query = $db->getQuery(true);
-			$query->clear()
-				->update($db->quoteName('#__assets', 't'))
-				->join('INNER', $db->quoteName('#__assets', 's') .
-					' ON ' . $db->quoteName('s.id') . ' = ' . $oldAssetId
-				)
-				->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
-				->where($db->quoteName('t.id') . ' = ' . $this->table->asset_id);
+			if ($this->table->hasField($this->table->getColumnAlias('asset_id')))
+			{
+				// Copy rules
+				$query = $db->getQuery(true);
+				$query->clear()
+					->update($db->quoteName('#__assets', 't'))
+					->join('INNER', $db->quoteName('#__assets', 's') .
+						' ON ' . $db->quoteName('s.id') . ' = ' . $oldAssetId
+					)
+					->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
+					->where($db->quoteName('t.id') . ' = ' . $this->table->asset_id);
 
-			$db->setQuery($query)->execute();
+				$db->setQuery($query)->execute();
+			}
 
 			$this->cleanupPostBatchCopy($this->table, $newId, $pk);
 
