@@ -57,6 +57,28 @@
 				</field>
 
 				<field
+						name="use_master_language"
+						type="radio"
+						label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_USE_MASTER_LANGUAGE_LABEL"
+						description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_USE_MASTER_LANGUAGE_DESC"
+						class="switcher"
+						default="1"
+						showon="item_associations:1"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+						name="global_master_language"
+						type="contentsitelanguage"
+						label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_GLOBAL_MASTER_LANGUAGE_LABEL"
+						description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_GLOBAL_MASTER_LANGUAGE_DESC"
+						showon="item_associations:1[AND]use_master_language:1"
+						addfieldprefix="Joomla\Plugin\System\Languagefilter\Field"
+				/>
+
+				<field
 					name="alternate_meta"
 					type="radio"
 					class="switcher"
@@ -113,30 +135,6 @@
 					<option value="1">PLG_SYSTEM_LANGUAGEFILTER_OPTION_YEAR</option>
 					<option value="0">PLG_SYSTEM_LANGUAGEFILTER_OPTION_SESSION</option>
 				</field>
-			</fieldset>
-			<fieldset
-					name="master_language"
-					label="PLG_SYSTEM_LANGUAGEFILTER_MASTER_LANGUAGE_LABEL"
-					description="PLG_SYSTEM_LANGUAGEFILTER_MASTER_LANGUAGE_DESC"
-			>
-				<field
-						name="use_master_language"
-						type="radio"
-						label="PLG_SYSTEM_LANGUAGEFILTER_MASTER_LANGUAGE_FIELD_USE_MASTER_LANGUAGE_LABEL"
-						class="switcher"
-						default="1"
-						showon="item_associations:1"
-				>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-				<field
-						name="global_master_language"
-						type="contentsitelanguage"
-						label="PLG_SYSTEM_LANGUAGEFILTER_MASTER_LANGUAGE_FIELD_GLOBAL_MASTER_LANGUAGE_LABEL"
-						showon="item_associations:1[AND]use_master_language:1"
-						addfieldprefix="Joomla\Plugin\System\Languagefilter\Field"
-				/>
 			</fieldset>
 		</fields>
 	</config>
