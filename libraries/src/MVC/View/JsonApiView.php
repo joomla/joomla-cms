@@ -77,8 +77,13 @@ abstract class JsonApiView extends JsonView
 	{
 		/** @var \Joomla\CMS\MVC\Model\ListModel $model */
 		$model = $this->getModel();
+		$items = array();
 
-		$items      = $model->getItems();
+		foreach ($model->getItems() as $item)
+		{
+			$items[] = $this->prepareItem($item);
+		}
+
 		$pagination = $model->getPagination();
 
 		// Check for errors.
@@ -146,7 +151,7 @@ abstract class JsonApiView extends JsonView
 	{
 		/** @var \Joomla\CMS\MVC\Model\AdminModel $model */
 		$model = $this->getModel();
-		$item = $model->getItem();
+		$item = $this->prepareItem($model->getItem());
 
 		if ($item->id === null)
 		{
@@ -172,5 +177,18 @@ abstract class JsonApiView extends JsonView
 		$this->document->addLink('self', Uri::current());
 
 		return $this->document->render();
+	}
+
+	/**
+	 * Prepare item before render
+	 *
+	 * @param   object $item The model item
+	 * @return  object
+	 *
+	 * @since   4.0.0
+	 */
+	protected function prepareItem($item)
+	{
+		return $item;
 	}
 }

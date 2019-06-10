@@ -130,7 +130,7 @@ class ApiController extends BaseController
 		}
 
 		$viewType = $this->app->getDocument()->getType();
-		$viewName = $this->input->get('view', $this->contentType);
+		$viewName = $this->input->get('view', $this->default_view);
 		$viewLayout = $this->input->get('layout', 'default', 'string');
 
 		try
@@ -198,7 +198,7 @@ class ApiController extends BaseController
 		$this->input->set('list', $internalPaginationMapping);
 
 		$viewType = $this->app->getDocument()->getType();
-		$viewName = $this->input->get('view', $this->contentType);
+		$viewName = $this->input->get('view', $this->default_view);
 		$viewLayout = $this->input->get('layout', 'default', 'string');
 
 		try
