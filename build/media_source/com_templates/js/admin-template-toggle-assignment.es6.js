@@ -9,7 +9,7 @@
  */
 Joomla = window.Joomla || {};
 
-(Joomla => {
+((Joomla) => {
   Joomla.toggleAll = () => {
     const checkBoxes = [].slice.call(document.querySelectorAll('.chk-menulink'));
     const value = checkBoxes[0].checked;
