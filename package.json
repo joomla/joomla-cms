@@ -23,7 +23,6 @@
     "gzip": "node -e 'require(\"./build/build-modules-js/gzip-assets.es6.js\").gzipFiles()'"
   },
   "dependencies": {
-    "@claviska/jquery-minicolors": "2.2.6",
     "@webcomponents/webcomponentsjs": "2.1.2",
     "awesomplete": "1.1.4",
     "bootstrap": "~4.3",

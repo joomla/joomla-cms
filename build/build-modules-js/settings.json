@@ -285,31 +285,6 @@
         "dependencies": [],
         "licenseFilename": "LICENSE-MIT.txt"
       },
-      "@claviska/jquery-minicolors": {
-        "name": "minicolors",
-        "js": {
-          "jquery.minicolors.js": "js/jquery-minicolors.js",
-          "jquery.minicolors.min.js": "js/jquery.minicolors.min.js"
-        },
-        "css": {
-          "jquery.minicolors.css": "css/jquery.minicolors.css"
-        },
-        "filesExtra": {
-          "jquery.minicolors.png": "css/jquery.minicolors.png"
-        },
-        "provideAssets": [
-          {
-            "name": null,
-            "js": ["jquery.minicolors.min.js"],
-            "css": ["jquery.minicolors.css"],
-            "dependencies": ["jquery"]
-          }
-        ],
-        "dependencies": [
-          "jquery"
-        ],
-        "licenseFilename": "LICENSE.md"
-      },
       "codemirror": {
         "name": "codemirror",
         "licenseFilename": "LICENSE"

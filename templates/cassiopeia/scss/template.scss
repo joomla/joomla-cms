@@ -20,9 +20,6 @@
 // Alert
 @import "../../../build/media_source/system/scss/jalert";
 
-// jQuery Minicolors
-@import "../../../build/media_source/system/scss/jquery-minicolors";
-
 // Blocks
 @import "blocks/global"; // Leave this first
 @import "blocks/alerts";
@@ -55,7 +52,7 @@
 @import "vendor/chosen";
 @import "vendor/choicesjs";
 @import "vendor/dragula";
-@import "vendor/minicolors";
+
 @import "vendor/tinymce";
 
 // Chosen (TEMPORARY)
