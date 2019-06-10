@@ -8,7 +8,7 @@ toggleAll = () => {
   checkBoxes.forEach((checkBox) => {
     checkBox.checked = !value;
   });
-}
+};
 
 toggleMenutype = (a) => {
   const checkBox = [].slice.call(document.getElementsByClassName(a));
@@ -16,4 +16,4 @@ toggleMenutype = (a) => {
   checkBox.forEach((element) => {
     element.checked = !value;
   });
-}
+};
