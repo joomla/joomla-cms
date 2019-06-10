@@ -224,7 +224,7 @@ class JNamespacePsr4Map
 			// Add the application specific segment when not a plugin
 			if (strpos($dir, '/plugins/') !== 0)
 			{
-				$baseDir = 'JPATH_ADMINISTRATOR . \'';
+				$baseDir    =  strpos($namespacePath, 'administrator/') ? 'JPATH_ADMINISTRATOR . \'' : 'JPATH_SITE . \'';
 				$namespace .=  strpos($namespacePath, 'administrator/') ? 'Administrator\\\\' : 'Site\\\\';
 			}
 			else
