@@ -101,7 +101,7 @@ class DisplayController extends BaseController
 		{
 			foreach ($headers as $header)
 			{
-				if (strpos($value, $header) !== false)
+				if (is_string($value) && strpos($value, $header) !== false)
 				{
 					throw new \Exception('', 403);
 				}

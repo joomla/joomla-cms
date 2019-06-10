@@ -35,7 +35,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<div class="alert alert-info">
 							<?php echo Text::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'); ?>
 						</div>
-						<div class="alert alert-warning">
+						<div class="alert alert-info">
 							<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 						</div>
 					<?php else : ?>

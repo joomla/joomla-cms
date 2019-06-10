@@ -100,7 +100,7 @@ class Mail extends PHPMailer
 	 * @since   1.7.0
 	 *
 	 * @throws  \RuntimeException   if the mail function is disabled
-	 * @throws  phpmailerException  if sending failed and exception throwing is enabled
+	 * @throws  phpmailerException  if sending failed
 	 */
 	public function Send()
 	{
@@ -133,7 +133,17 @@ class Mail extends PHPMailer
 			 */
 			if (!$result && $this->SMTPAutoTLS)
 			{
-				throw new \RuntimeException(Text::_($this->ErrorInfo), 500);
+				$this->SMTPAutoTLS = false;
+
+				try
+				{
+					$result = parent::send();
+				}
+				finally
+				{
+					// Reset the value for any future emails
+					$this->SMTPAutoTLS = true;
+				}
 			}
 
 			return $result;

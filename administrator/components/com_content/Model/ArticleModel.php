@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -21,6 +22,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Category;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Workflow\Workflow;
@@ -387,7 +389,8 @@ class ArticleModel extends AdminModel
 				->from($db->quoteName('#__workflow_stages', 'ws'))
 				->from($db->quoteName('#__workflow_stages', 'ws2'))
 				->from($db->quoteName('#__workflow_associations', 'wa'))
-				->whereIn($db->quoteName('wt.from_stage_id'), [-1, $db->quoteName('wa.stage_id')])
+				->where('(' . $db->quoteName('wt.from_stage_id') . ' = -1 OR ' .
+					$db->quoteName('wt.from_stage_id') . ' = ' . $db->quoteName('wa.stage_id') . ')')
 				->where($db->quoteName('wt.to_stage_id') . ' = ' . $db->quoteName('ws.id'))
 				->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws2.id'))
 				->where($db->quoteName('wt.workflow_id') . ' = ' . $db->quoteName('ws.workflow_id'))
@@ -487,7 +490,7 @@ class ArticleModel extends AdminModel
 
 			if (!empty($item->id))
 			{
-				$item->tags = new \JHelperTags;
+				$item->tags = new TagsHelper;
 				$item->tags->getTagIds($item->id, 'com_content.article');
 			}
 		}
@@ -902,7 +905,7 @@ class ArticleModel extends AdminModel
 					$data['alias'] = \JFilterOutput::stringURLSafe($data['title']);
 				}
 
-				$table = \JTable::getInstance('Content', 'JTable');
+				$table = Table::getInstance('Content', 'JTable');
 
 				if ($table->load(array('alias' => $data['alias'], 'catid' => $data['catid'])))
 				{
@@ -1084,7 +1087,7 @@ class ArticleModel extends AdminModel
 	}
 
 	/**
-	 * Allows preprocessing of the \JForm object.
+	 * Allows preprocessing of the Form object.
 	 *
 	 * @param   Form    $form   The form object
 	 * @param   array   $data   The data to be merged into the form object
@@ -1094,7 +1097,7 @@ class ArticleModel extends AdminModel
 	 *
 	 * @since   3.0
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		if ($this->canCreateCategory())
 		{
@@ -1126,6 +1129,7 @@ class ArticleModel extends AdminModel
 					$field->addAttribute('new', 'true');
 					$field->addAttribute('edit', 'true');
 					$field->addAttribute('clear', 'true');
+					$field->addAttribute('propagate', 'true');
 				}
 
 				$form->load($addform, false);
@@ -1341,10 +1345,10 @@ class ArticleModel extends AdminModel
 		$context = $this->option . '.' . $this->name;
 
 		// Include the plugins for the change of stage event.
-		\JPluginHelper::importPlugin($this->events_map['change_state']);
+		PluginHelper::importPlugin($this->events_map['change_state']);
 
 		// Trigger the change stage event.
-		Factory::getApplication()->triggerEvent($this->event_change_state, [$context, [$pk], $transition_id]);
+		Factory::getApplication()->triggerEvent($this->event_change_state, [$context, [$pk], $workflow->getConditionForTransition($transition_id)]);
 
 		return true;
 	}

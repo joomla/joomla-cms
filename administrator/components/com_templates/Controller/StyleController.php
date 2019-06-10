@@ -10,10 +10,9 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
-use Joomla\CMS\Session\Session;
 
 /**
  * Template style controller class.
@@ -42,23 +41,17 @@ class StyleController extends FormController
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		if (!Session::checkToken())
-		{
-			Factory::getApplication()->redirect('index.php', Text::_('JINVALID_TOKEN'));
-		}
+		$this->checkToken();
 
-		$document = Factory::getDocument();
-
-		if ($document->getType() === 'json')
+		if ($this->app->getDocument()->getType() === 'json')
 		{
-			$app   = Factory::getApplication();
 			$model = $this->getModel('Style', 'Administrator');
 			$table = $model->getTable();
 			$data  = $this->input->post->get('params', array(), 'array');
 			$checkin = $table->hasField('checked_out');
 			$context = $this->option . '.edit.' . $this->context;
 
-			$item = $model->getItem($app->getTemplate(true)->id);
+			$item = $model->getItem($this->app->getTemplate(true)->id);
 
 			// Setting received params
 			$item->set('params', $data);
@@ -71,12 +64,12 @@ class StyleController extends FormController
 			// Access check.
 			if (!$this->allowSave($data, $key))
 			{
-				$app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+				$this->app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
 				return false;
 			}
 
-			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_templates/forms');
+			Form::addFormPath(JPATH_ADMINISTRATOR . '/components/com_templates/forms');
 
 			// Validate the posted data.
 			// Sometimes the form needs some posted data, such as for plugins and modules.
@@ -84,7 +77,7 @@ class StyleController extends FormController
 
 			if (!$form)
 			{
-				$app->enqueueMessage($model->getError(), 'error');
+				$this->app->enqueueMessage($model->getError(), 'error');
 
 				return false;
 			}
@@ -102,16 +95,16 @@ class StyleController extends FormController
 				{
 					if ($errors[$i] instanceof \Exception)
 					{
-						$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+						$this->app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 					}
 					else
 					{
-						$app->enqueueMessage($errors[$i], 'warning');
+						$this->app->enqueueMessage($errors[$i], 'warning');
 					}
 				}
 
 				// Save the data in the session.
-				$app->setUserState($context . '.data', $data);
+				$this->app->setUserState($context . '.data', $data);
 
 				return false;
 			}
@@ -125,9 +118,9 @@ class StyleController extends FormController
 			if (!$model->save($validData))
 			{
 				// Save the data in the session.
-				$app->setUserState($context . '.data', $validData);
+				$this->app->setUserState($context . '.data', $validData);
 
-				$app->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
+				$this->app->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
 
 				return false;
 			}
@@ -136,10 +129,10 @@ class StyleController extends FormController
 			if ($checkin && $model->checkin($validData[$key]) === false)
 			{
 				// Save the data in the session.
-				$app->setUserState($context . '.data', $validData);
+				$this->app->setUserState($context . '.data', $validData);
 
 				// Check-in failed, so go back to the record and display a notice.
-				$app->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
+				$this->app->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
 
 				return false;
 			}
@@ -148,7 +141,7 @@ class StyleController extends FormController
 			// Set the record data in the session.
 			$recordId = $model->getState($this->context . '.id');
 			$this->holdEditId($context, $recordId);
-			$app->setUserState($context . '.data', null);
+			$this->app->setUserState($context . '.data', null);
 			$model->checkout($recordId);
 
 			// Invoke the postSave method to allow for the child class to access the model.

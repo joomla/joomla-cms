@@ -3,19 +3,32 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Methods supporting a list of article records.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class ActionlogsModelActionlogs extends JModelList
 {
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @since   3.9.0
+	 */
 	public function __construct($config = array())
 	{
 		if (empty($config['filter_fields']))
@@ -39,11 +52,11 @@ class ActionlogsModelActionlogs extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function populateState($ordering = 'a.id', $direction = 'desc')
 	{
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$search = $app->getUserStateFromRequest($this->context . 'filter.search', 'filter_search', '', 'string');
 		$this->setState('filter.search', $search);
@@ -68,7 +81,7 @@ class ActionlogsModelActionlogs extends JModelList
 	 *
 	 * @return  JDatabaseQuery
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function getListQuery()
 	{
@@ -76,7 +89,7 @@ class ActionlogsModelActionlogs extends JModelList
 		$query = $db->getQuery(true)
 			->select('a.*, u.name')
 			->from('#__action_logs AS a')
-			->innerJoin('#__users AS u ON a.user_id = u.id');
+			->leftJoin('#__users AS u ON a.user_id = u.id');
 
 		// Get ordering
 		$fullorderCol = $this->state->get('list.fullordering', 'a.id DESC');
@@ -102,7 +115,7 @@ class ActionlogsModelActionlogs extends JModelList
 		// Apply filter by extension
 		if (!empty($extension))
 		{
-			$query->where($db->quoteName('a.extension') . ' = ' . $db->quote($extension));
+			$query->where($db->quoteName('a.extension') . ' LIKE ' . $db->quote($extension . '%'));
 		}
 
 		// Get filter by date range
@@ -134,7 +147,7 @@ class ActionlogsModelActionlogs extends JModelList
 			}
 			elseif (stripos($search, 'item_id:') === 0)
 			{
-				$query->where($db->quoteName('a.item_id') . ' = ' . (int) substr($search, 3));
+				$query->where($db->quoteName('a.item_id') . ' = ' . (int) substr($search, 8));
 			}
 			else
 			{
@@ -153,12 +166,12 @@ class ActionlogsModelActionlogs extends JModelList
 	 *
 	 * @return  array  The date range to filter on.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function buildDateRange($range)
 	{
 		// Get UTC for now.
-		$dNow   = new JDate;
+		$dNow   = new Date;
 		$dStart = clone $dNow;
 
 		switch ($range)
@@ -185,31 +198,103 @@ class ActionlogsModelActionlogs extends JModelList
 
 			case 'today':
 				// Ranges that need to align with local 'days' need special treatment.
-				$offset = JFactory::getApplication()->get('offset');
+				$offset = Factory::getApplication()->get('offset');
 
 				// Reset the start time to be the beginning of today, local time.
-				$dStart = new JDate('now', $offset);
+				$dStart = new Date('now', $offset);
 				$dStart->setTime(0, 0, 0);
 
 				// Now change the timezone back to UTC.
 				$tz = new DateTimeZone('GMT');
 				$dStart->setTimezone($tz);
 				break;
-
 		}
 
 		return array('dNow' => $dNow, 'dStart' => $dStart);
 	}
 
 	/**
+	 * Get all log entries for an item
+	 *
+	 * @param   string   $extension  The extension the item belongs to
+	 * @param   integer  $itemId     The item ID
+	 *
+	 * @return  array
+	 *
+	 * @since   3.9.0
+	 */
+	public function getLogsForItem($extension, $itemId)
+	{
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select('a.*, u.name')
+			->from('#__action_logs AS a')
+			->innerJoin('#__users AS u ON a.user_id = u.id')
+			->where($db->quoteName('a.extension') . ' = ' . $db->quote($extension))
+			->where($db->quoteName('a.item_id') . ' = ' . (int) $itemId);
+
+		// Get ordering
+		$fullorderCol = $this->getState('list.fullordering', 'a.id DESC');
+
+		// Apply ordering
+		if (!empty($fullorderCol))
+		{
+			$query->order($db->escape($fullorderCol));
+		}
+
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
+	}
+
+	/**
 	 * Get logs data into JTable object
 	 *
+	 * @param   integer[]|null  $pks  An optional array of log record IDs to load
 	 *
 	 * @return  array  All logs in the table
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getLogsData($pks = null)
+	{
+		$db    = $this->getDbo();
+		$query = $this->getLogDataQuery($pks);
+
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
+	}
+
+	/**
+	 * Get logs data as a database iterator
+	 *
+	 * @param   integer[]|null  $pks  An optional array of log record IDs to load
+	 *
+	 * @return  JDatabaseIterator
+	 *
+	 * @since   3.9.0
+	 */
+	public function getLogDataAsIterator($pks = null)
+	{
+		$db    = $this->getDbo();
+		$query = $this->getLogDataQuery($pks);
+
+		$db->setQuery($query);
+
+		return $db->getIterator();
+	}
+
+	/**
+	 * Get the query for loading logs data
+	 *
+	 * @param   integer[]|null  $pks  An optional array of log record IDs to load
+	 *
+	 * @return  JDatabaseQuery
+	 *
+	 * @since   3.9.0
+	 */
+	private function getLogDataQuery($pks = null)
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
@@ -219,12 +304,10 @@ class ActionlogsModelActionlogs extends JModelList
 
 		if (is_array($pks) && count($pks) > 0)
 		{
-			$query->where($db->quoteName('a.id') . ' IN (' . implode(',', $pks) . ')');
+			$query->where($db->quoteName('a.id') . ' IN (' . implode(',', ArrayHelper::toInteger($pks)) . ')');
 		}
 
-		$db->setQuery($query);
-
-		return $db->loadObjectList();
+		return $query;
 	}
 
 	/**
@@ -234,14 +317,14 @@ class ActionlogsModelActionlogs extends JModelList
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function delete(&$pks)
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__action_logs'))
-			->where($db->quoteName('id') . ' IN (' . implode(',', $pks) . ')');
+			->where($db->quoteName('id') . ' IN (' . implode(',', ArrayHelper::toInteger($pks)) . ')');
 		$db->setQuery($query);
 
 		try
@@ -263,7 +346,7 @@ class ActionlogsModelActionlogs extends JModelList
 	 *
 	 * @return  boolean result of operation
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function purge()
 	{
@@ -277,5 +360,33 @@ class ActionlogsModelActionlogs extends JModelList
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * Get the filter form
+	 *
+	 * @param   array    $data      data
+	 * @param   boolean  $loadData  load current data
+	 *
+	 * @return  \JForm|boolean  The \JForm object or false on error
+	 *
+	 * @since  3.9.0
+	 */
+	public function getFilterForm($data = array(), $loadData = true)
+	{
+		$form      = parent::getFilterForm($data, $loadData);
+		$params    = ComponentHelper::getParams('com_actionlogs');
+		$ipLogging = (bool) $params->get('ip_logging', 0);
+
+		// Add ip sort options to sort dropdown
+		if ($form && $ipLogging)
+		{
+			/* @var JFormFieldList $field */
+			$field = $form->getField('fullordering', 'list');
+			$field->addOption(Text::_('COM_ACTIONLOGS_IP_ADDRESS_ASC'), array('value' => 'a.ip_address ASC'));
+			$field->addOption(Text::_('COM_ACTIONLOGS_IP_ADDRESS_DESC'), array('value' => 'a.ip_address DESC'));
+		}
+
+		return $form;
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Access
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package  Joomla.Platform
  *
- * @since    11.1
+ * @since    1.7.0
  */
 class RuleTest extends UnitTestCase
 {
@@ -26,7 +26,7 @@ class RuleTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testIsConstructableWithString()
 	{
@@ -47,7 +47,7 @@ class RuleTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testIsConstructableWithArray()
 	{
@@ -68,7 +68,7 @@ class RuleTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testMergeIdentity()
 	{
@@ -93,7 +93,7 @@ class RuleTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testMergeIdentities()
 	{
@@ -139,7 +139,7 @@ class RuleTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testAllow()
 	{

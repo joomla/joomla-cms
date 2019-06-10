@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Mail
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ use PHPMailer\PHPMailer\PHPMailer;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Mail
- * @since       11.1
+ * @since       1.7.0
  */
 class MailTest extends UnitTestCase
 {
@@ -227,7 +227,7 @@ class MailTest extends UnitTestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function dataUseSmtp(): array
 	{
@@ -260,7 +260,7 @@ class MailTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @dataProvider  dataUseSMTP
 	 */

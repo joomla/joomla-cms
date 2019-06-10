@@ -16,6 +16,7 @@ use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Table\Table;
 use Joomla\Database\UTF8MB4SupportInterface;
 
 /**
@@ -931,6 +932,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_languages/helpers/languages.php',
 			'/administrator/components/com_languages/helpers/multilangstatus.php',
 			'/administrator/components/com_languages/languages.php',
+			'/administrator/components/com_languages/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_languages/models/forms/filter_installed.xml',
 			'/administrator/components/com_languages/models/forms/filter_languages.xml',
 			'/administrator/components/com_languages/models/forms/language.xml',
@@ -3984,7 +3986,7 @@ class JoomlaInstallerScript
 		foreach ($newComponents as $component)
 		{
 			/** @var JTableAsset $asset */
-			$asset = JTable::getInstance('Asset');
+			$asset = Table::getInstance('Asset');
 
 			if ($asset->loadByName($component))
 			{

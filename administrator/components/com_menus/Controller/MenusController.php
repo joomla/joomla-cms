@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\Session\Session;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -64,10 +63,9 @@ class MenusController extends BaseController
 	public function delete()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		$user = Factory::getUser();
-		$app  = Factory::getApplication();
+		$user = $this->app->getIdentity();
 		$cids = (array) $this->input->get('cid', array(), 'array');
 
 		if (count($cids) < 1)
@@ -83,7 +81,7 @@ class MenusController extends BaseController
 				{
 					// Prune items that you can't change.
 					unset($cids[$i]);
-					$app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'error');
+					$this->app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'error');
 				}
 			}
 
@@ -120,7 +118,7 @@ class MenusController extends BaseController
 	 */
 	public function rebuild()
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$this->setRedirect('index.php?option=com_menus&view=menus');
 

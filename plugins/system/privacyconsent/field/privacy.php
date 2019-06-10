@@ -1,23 +1,26 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  User.privacyconsent
+ * @subpackage  System.privacyconsent
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
-JFormHelper::loadFieldClass('radio');
+FormHelper::loadFieldClass('radio');
 
 /**
  * Provides input for privacy
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class JFormFieldprivacy extends JFormFieldRadio
 {
@@ -25,7 +28,7 @@ class JFormFieldprivacy extends JFormFieldRadio
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $type = 'privacy';
 
@@ -34,7 +37,7 @@ class JFormFieldprivacy extends JFormFieldRadio
 	 *
 	 * @return  string   The field input markup.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function getInput()
 	{
@@ -50,7 +53,7 @@ class JFormFieldprivacy extends JFormFieldRadio
 	 *
 	 * @return  string  The field label markup.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function getLabel()
 	{
@@ -66,10 +69,8 @@ class JFormFieldprivacy extends JFormFieldRadio
 		// Set required to true as this field is not displayed at all if not required.
 		$this->required = true;
 
-		JHtml::_('behavior.modal');
-
 		// Build the class for the label.
-		$class = !empty($this->description) ? 'hasTooltip' : '';
+		$class = !empty($this->description) ? 'hasPopover' : '';
 		$class = $class . ' required';
 		$class = !empty($this->labelClass) ? $class . ' ' . $this->labelClass : $class;
 
@@ -79,49 +80,55 @@ class JFormFieldprivacy extends JFormFieldRadio
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description))
 		{
-			$label .= ' title="'
-				. htmlspecialchars(
-					trim($text, ':') . '<br />' . ($this->translateDescription ? Text::_($this->description) : $this->description),
-					ENT_COMPAT, 'UTF-8'
-				) . '"';
+			$label .= ' title="' . htmlspecialchars(trim($text, ':'), ENT_COMPAT, 'UTF-8') . '"';
+			$label .= ' data-content="' . htmlspecialchars(
+				$this->translateDescription ? Text::_($this->description) : $this->description,
+				ENT_COMPAT,
+				'UTF-8'
+			) . '"';
 		}
 
-		$privacyarticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
+		if (Factory::getLanguage()->isRtl())
+		{
+			$label .= ' data-placement="left"';
+		}
 
-		if ($privacyarticle && Factory::getApplication()->isClient('site'))
+		$privacyArticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
+
+		if ($privacyArticle && Factory::getApplication()->isClient('site'))
 		{
 			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
 
-			$attribs          = array();
-			$attribs['class'] = 'modal';
-			$attribs['rel']   = '{handler: \'iframe\', size: {x:800, y:500}}';
+			$attribs                = [];
+			$attribs['data-toggle'] = 'modal';
+			$attribs['data-target'] = '#consentModal';
 
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName(array('id', 'alias', 'catid', 'language')))
 				->from($db->quoteName('#__content'))
-				->where($db->quoteName('id') . ' = ' . (int) $privacyarticle);
+				->where($db->quoteName('id') . ' = ' . (int) $privacyArticle);
 			$db->setQuery($query);
 			$article = $db->loadObject();
 
-			if (JLanguageAssociations::isEnabled())
-			{
-				$privacyassociated = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $privacyarticle);
-			}
+			$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
+			$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
+			$link = JHtml::_('link', Route::_($url . '&tmpl=component'), $text, $attribs);
 
-			$current_lang = Factory::getLanguage()->getTag();
-
-			if (isset($privacyassociated) && $current_lang !== $article->language && array_key_exists($current_lang, $privacyassociated))
-			{
-				$url  = ContentHelperRoute::getArticleRoute($privacyassociated[$current_lang]->id, $privacyassociated[$current_lang]->catid);
-				$link = JHtml::_('link', JRoute::_($url . '&tmpl=component&lang=' . $privacyassociated[$current_lang]->language), $text, $attribs);
-			}
-			else
-			{
-				$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
-				$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid);
-				$link = JHtml::_('link', JRoute::_($url . '&tmpl=component&lang=' . $article->language), $text, $attribs);
-			}
+			echo HTMLHelper::_(
+				'bootstrap.renderModal',
+				'consentModal',
+				array(
+					'url'    => Route::_($url . '&tmpl=component'),
+					'title'  => $text,
+					'height' => '100%',
+					'width'  => '100%',
+					'modalWidth'  => '800',
+					'bodyHeight'  => '500',
+					'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+						. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+				)
+			);
 		}
 		else
 		{
