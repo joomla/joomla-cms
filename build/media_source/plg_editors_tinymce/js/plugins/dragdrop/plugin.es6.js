@@ -85,7 +85,7 @@ tinymce.PluginManager.add('jdragdrop', (editor) => {
     editor.on('drop', (e) => {
       // We override only for files
       if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-        const files = e.dataTransfer.files;
+        const { files } = e.dataTransfer.files;
         files.forEach((file) => {
           // Only images allowed
           if (file.name.toLowerCase().match(/\.(jpg|jpeg|png|gif)$/)) {

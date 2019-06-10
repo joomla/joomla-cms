@@ -61,7 +61,7 @@
 
     const cpanelModules = document.getElementById('cpanel-modules');
     if (cpanelModules) {
-      const links = cpanelModules.querySelectorAll('.unpublish-module')
+      const links = cpanelModules.querySelectorAll('.unpublish-module');
       links.forEach((link) => {
         link.addEventListener('click', event => Joomla.unpublishModule(event.target));
       });

@@ -373,7 +373,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
     }
 
     const currentStab = stub || 'cb';
-    const elements = checkbox.form.elements;
+    const { elements } = checkbox.form.elements;
     let state = 0;
 
     elements.forEach((element) => {

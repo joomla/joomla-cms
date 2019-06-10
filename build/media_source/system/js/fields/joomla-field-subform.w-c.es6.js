@@ -151,7 +151,7 @@
          * Prepare a row template
          */
     prepareTemplate() {
-      const tmplElement = this.children).filter(el => el.classList.contains('subform-repeatable-template-section');
+      const tmplElement = this.children.filter(el => el.classList.contains('subform-repeatable-template-section'));
 
       if (tmplElement[0]) {
         this.template = tmplElement[0].innerHTML;
