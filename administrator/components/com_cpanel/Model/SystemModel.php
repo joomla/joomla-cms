@@ -50,7 +50,7 @@ class SystemModel extends BaseDatabaseModel
 				new SystemItem('MOD_MENU_CONFIGURATION', 'index.php?option=com_config')
 			);
 			$systemSection->addItem(
-				new SystemItem('MOD_MENU_CONFIGURATION_MAILS', 'index.php?option=com_config&view=mails')
+				new SystemItem('MOD_MENU_CONFIGURATION_MAILS', 'index.php?option=com_mails&view=templates')
 			);
 		}
 

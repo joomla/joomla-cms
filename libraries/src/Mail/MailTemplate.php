@@ -10,9 +10,10 @@ namespace Joomla\CMS\Mail;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Mail\Mail;
 use Joomla\CMS\Language\Text;
+use Joomla\Registry\Registry;
 
 /**
  * Email Templating Class
@@ -35,7 +36,7 @@ class MailTemplate
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $mail_id;
+	protected $template_id;
 
 	/**
 	 * Language of the mail template.
@@ -68,15 +69,15 @@ class MailTemplate
 	/**
 	 * Constructor for the mail templating class
 	 * 
-	 * @param   string  $mail_id   Id of the mail template.
-	 * @param   string  $language  Language of the template to use.
-	 * @param   Mail    $mailer    Mail object to send the mail with.
+	 * @param   string  $template_id  Id of the mail template.
+	 * @param   string  $language     Language of the template to use.
+	 * @param   Mail    $mailer       Mail object to send the mail with.
 	 * 
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct($mail_id, $language, Mail $mailer = null)
+	public function __construct($template_id, $language, Mail $mailer = null)
 	{
-		$this->mail_id = $mail_id;
+		$this->template_id = $template_id;
 		$this->language = $language;
 
 		if ($mailer)
@@ -150,38 +151,69 @@ class MailTemplate
 	 */
 	public function send()
 	{
-		$db = Factory::getDBO();
-		$query = $db->getQuery(true);
-		$query->select('*')
-			->from('#__mail_templates')
-			->where('mail_id = ' . $db->quote($this->mail_id))
-			->where('language IN (\'\',' . $db->quote($this->language) . ')')
-			->order('language DESC');
-		$db->setQuery($query);
-		$mail = $db->loadObject();
+		$config = ComponentHelper::getParams('com_mails');
 
-		Factory::getApplication()->triggerEvent('onMailBeforeRendering', array($this->mail_id, &$this));
+		$mail = self::getTemplate($this->template_id, $this->language);
+		$params = $mail->params;
+		$gconfig = Factory::getConfig();
 
-		$keys = array_keys($this->data);
-
-		foreach ($keys as &$key)
+		if ($config->get('alternative_mailconfig'))
 		{
-			$key = '{' . strtoupper($key) . '}';
+			if ($this->mailer->Mailer == 'smtp' || $params->get('mailer') == 'smtp')
+			{
+				$smtpauth = ($params->get('smtpauth', $gconfig->get('smtpauth')) == 0) ? null : 1;
+				$smtpuser = $params->get('smtpuser', $gconfig->get('smtpuser'));
+				$smtppass = $params->get('smtppass', $gconfig->get('smtppass'));
+				$smtphost = $params->get('smtphost', $gconfig->get('smtphost'));
+				$smtpsecure = $params->get('smtpsecure', $gconfig->get('smtpsecure'));
+				$smtpport = $params->get('smtpport', $gconfig->get('smtpport'));
+				$this->mailer->useSmtp($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport);
+			}
+
+			if ($params->get('mailer') == 'sendmail')
+			{
+				$this->mailer->isSendmail();
+			}
+
+			$mailfrom = $params->get('mailfrom', $gconfig->get('mailfrom'));
+			$fromname = $params->get('fromname', $gconfig->get('fromname'));
+
+			if (MailHelper::isEmailAddress($mailfrom))
+			{
+				$this->mailer->setFrom(MailHelper::cleanLine($mailfrom), MailHelper::cleanLine($fromname), false);
+			}
 		}
 
-		$mail->subject = str_replace($keys, array_values($this->data), Text::_($mail->subject));
+		Factory::getApplication()->triggerEvent('onMailBeforeRendering', array($this->template_id, &$this));
+
+		$mail->subject = $this->replaceTags(Text::_($mail->subject), $this->data);
 		$this->mailer->setSubject($mail->subject);
 
-		if ($mail->htmlbody != '')
+		if ($config->get('mail_style', 'plaintext') == 'plaintext')
+		{
+			$mail->body = $this->replaceTags(Text::_($mail->body), $this->data);
+			$this->mailer->setBody($mail->body);
+		}
+
+		if ($config->get('mail_style', 'plaintext') == 'html')
 		{
 			$this->mailer->IsHTML(true);
-			$mail->htmlbody = str_replace($keys, array_values($this->data), Text::_($mail->htmlbody));
+			$mail->htmlbody = $this->replaceTags(Text::_($mail->htmlbody), $this->data);
 			$this->mailer->setBody($mail->htmlbody);
 		}
-		else
+
+		if ($config->get('mail_style', 'plaintext') == 'both')
 		{
-			$mail->body = str_replace($keys, array_values($this->data), Text::_($mail->body));
-			$this->mailer->setBody($mail->body);
+			$this->mailer->IsHTML(true);
+			$mail->htmlbody = $this->replaceTags(Text::_($mail->htmlbody), $this->data);
+			$this->mailer->setBody($mail->htmlbody);
+			$mail->body = $this->replaceTags(Text::_($mail->body), $this->data);
+			$this->mailer->AltBody = $mail->body;
+		}
+
+		if ($config->get('copy_mails') && $params->get('copyto'))
+		{
+			$this->mailer->addBcc($params->get('copyto'));
 		}
 
 		foreach ($this->recipients as $recipient)
@@ -200,9 +232,17 @@ class MailTemplate
 			}
 		}
 
-		$attachments = array_merge((array) json_decode($mail->attachments), $this->attachments);
+		$path = JPATH_ROOT . '/' . $config->get('attachment_folder') . '/';
 
-		foreach ($attachments as $attachment)
+		foreach ((array) json_decode($mail->attachments)  as $attachment)
+		{
+			if (is_file($path . $attachment->file))
+			{
+				$this->mailer->addAttachment($path . $attachment->file, $attachment->name ?? $attachment->file);
+			}
+		}
+
+		foreach ($this->attachments as $attachment)
 		{
 			if (is_file($attachment->file))
 			{
@@ -216,4 +256,157 @@ class MailTemplate
 
 		return $this->mailer->Send();
 	}
+
+	/**
+	 * Replace tags with their values recursively
+	 *
+	 * @param   string  $text  The template to process
+	 * @param   array   $tags  An associative array to replace in the template
+	 *
+	 * @return  string  Rendered mail template
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function replaceTags($text, $tags)
+	{
+		foreach ($tags as $key => $value)
+		{
+			if (is_array($value))
+			{
+				$matches = array();
+				preg_match_all('/{' . strtoupper($key) . '}(.*?){/' . strtoupper($key) . '}/s', $text, $matches);
+
+				foreach ($matches[0] as $i => $match)
+				{
+					$replacement = '';
+					foreach ($value as $subvalue)
+					{
+						if (is_array($subvalue))
+						{
+							$replacement .= $this->replaceTags($matches[1][$i], $subvalue);
+						}
+					}
+
+					$text = str_replace($match, $replacement, $text);
+				}
+			}
+			else
+			{
+				$text = str_replace('{' . strtoupper($key) . '}', $value, $text);
+			}
+		}
+
+		return $text;
+	}
+
+	/**
+	 * Get a specific mail template
+	 *
+	 * @param   string  $key       Template identifier
+	 * @param   string  $language  Language code of the template
+	 *
+	 * @return  object  An object with the data of the mail
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getTemplate($key, $language)
+	{
+		$db = Factory::getDBO();
+		$query = $db->getQuery(true);
+		$query->select('*')
+			->from('#__mail_templates')
+			->where('template_id = ' . $db->quote($key))
+			->where('language IN (\'\',' . $db->quote($language) . ')')
+			->order('language DESC');
+		$db->setQuery($query);
+		$mail = $db->loadObject();
+
+		if ($mail)
+		{
+			$mail->params = new Registry($mail->params);
+		}
+
+		return $mail;
+	}
+
+	/**
+	 * Insert a new mail template into the system
+	 *
+	 * @param   string  $key       Mail template key
+	 * @param   string  $subject   A default subject (normally a translateable string)
+	 * @param   string  $body      A default body (normally a translateable string)
+	 * @param   array   $tags      Associative array of tags to replace
+	 * @param   string  $htmlbody  A default htmlbody (normally a translateable string)
+	 *
+	 * @return  bool  True on success, false on failure
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function createTemplate($key, $subject, $body, $tags, $htmlbody = '')
+	{
+		$db = Factory::getDbo();
+
+		$template = new \stdClass;
+		$template->template_id = $key;
+		$template->language = '';
+		$template->subject = $subject;
+		$template->body = $body;
+		$template->htmlbody = $htmlbody;
+		$params = new \stdClass;
+		$params->tags = array($tags);
+		$template->params = json_encode($params);
+
+		return $db->insertObject('#__mail_templates', $template);
+	}
+
+	/**
+	 * Update an existing mail template
+	 *
+	 * @param   string  $key       Mail template key
+	 * @param   string  $subject   A default subject (normally a translateable string)
+	 * @param   string  $body      A default body (normally a translateable string)
+	 * @param   array   $tags      Associative array of tags to replace
+	 * @param   string  $htmlbody  A default htmlbody (normally a translateable string)
+	 *
+	 * @return  bool  True on success, false on failure
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function updateTemplate($key, $subject, $body, $tags, $htmlbody = '')
+	{
+		$db = Factory::getDbo();
+
+		$template = new \stdClass;
+		$template->template_id = $key;
+		$template->language = '';
+		$template->subject = $subject;
+		$template->body = $body;
+		$template->htmlbody = $htmlbody;
+		$params = new \stdClass;
+		$params->tags = array($tags);
+		$template->params = json_encode($params);
+
+		return $db->updateObject('#__mail_templates', $template, ['template_id', 'language']);
+	}
+
+	/**
+	 * Method to delete a mail template
+	 *
+	 * @param   string  $key  The key of the mail template
+	 *
+	 * @return  bool  True on success, false on failure
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function deleteTemplate($key)
+	{
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true);
+		$query->delete('#__mail_templates')
+			->where($query->gn('template_id') . ' = ' . $query->q($key));
+		$db->setQuery($query);
+
+		return $db->execute();
+	}
 }
+
