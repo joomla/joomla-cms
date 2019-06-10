@@ -157,11 +157,10 @@ trait ExtensionManagerTrait
 				case PluginInterface::class:
 					list($pluginName, $pluginType) = explode(':', $extensionName);
 
-					$publicAccessLevel = (int) $this->config->get('access');
 					$pluginAccessLevel = (int) PluginHelper::getPlugin($pluginType, $pluginName)->access;
 
 					// If the accesss level is public we don't need to load the user session
-					if ($publicAccessLevel !== $pluginAccessLevel)
+					if ($pluginAccessLevel !== 1)
 					{
 						$userAccessLevels = $this->getIdentity()->getAuthorisedViewLevels();
 
