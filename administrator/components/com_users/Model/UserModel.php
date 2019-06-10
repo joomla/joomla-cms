@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Encrypt\Aes;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -104,15 +105,7 @@ class UserModel extends AdminModel
 
 		if (!isset($this->_item[$pk]))
 		{
-			$result = parent::getItem($pk);
-
-			if ($result)
-			{
-				$result->tags = new TagsHelper;
-				$result->tags->getTagIds($result->id, 'com_users.user');
-			}
-
-			$this->_item[$pk] = $result;
+			$this->_item[$pk] = parent::getItem($pk);
 		}
 
 		return $this->_item[$pk];
@@ -212,7 +205,7 @@ class UserModel extends AdminModel
 	 * @since   1.6
 	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'user')
+	protected function preprocessForm(Form $form, $data, $group = 'user')
 	{
 		parent::preprocessForm($form, $data, $group);
 	}

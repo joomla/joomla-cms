@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,7 +46,7 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
 							<img
 								src="<?php echo $baseurl . $imageurl; ?>"
-								alt="<?php echo $alt; ?>"
+								alt="<?php echo htmlspecialchars($alt, ENT_QUOTES, 'UTF-8'); ?>"
 								<?php if (!empty($width)) echo 'width="' . $width . '"'; ?>
 								<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
 							>
@@ -60,7 +60,7 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
 							<img
 								src="<?php echo $baseurl . $imageurl; ?>"
-								alt="<?php echo $alt; ?>"
+								alt="<?php echo htmlspecialchars($alt, ENT_QUOTES, 'UTF-8'); ?>"
 								<?php if (!empty($width)) echo 'width="' . $width . '"'; ?>
 								<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
 							>
@@ -72,7 +72,7 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
 							<img
 								src="<?php echo $baseurl . $imageurl; ?>"
-								alt="<?php echo $alt; ?>"
+								alt="<?php echo htmlspecialchars($alt, ENT_QUOTES, 'UTF-8'); ?>"
 								<?php if (!empty($width)) echo 'width="' . $width . '"'; ?>
 								<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
 							>
@@ -82,7 +82,7 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 					<?php // Just display the image if no link specified ?>
 					<img
 						src="<?php echo $baseurl . $imageurl; ?>"
-						alt="<?php echo $alt; ?>"
+						alt="<?php echo htmlspecialchars($alt, ENT_QUOTES, 'UTF-8'); ?>"
 						<?php if (!empty($width)) echo 'width="' . $width . '"'; ?>
 						<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
 					>

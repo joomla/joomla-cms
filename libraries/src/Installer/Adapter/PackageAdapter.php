@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,6 +23,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
+use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Event\Event;
 
@@ -232,7 +233,7 @@ class PackageAdapter extends InstallerAdapter
 			{
 				$db->setQuery($query)->execute();
 			}
-			catch (\JDatabaseExceptionExecuting $e)
+			catch (ExecutionFailureException $e)
 			{
 				Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_SETTING_PACKAGE_ID'), Log::WARNING, 'jerror');
 			}
@@ -556,9 +557,10 @@ class PackageAdapter extends InstallerAdapter
 		}
 		else
 		{
-			$this->extension->name    = $this->name;
-			$this->extension->type    = 'package';
-			$this->extension->element = $this->element;
+			$this->extension->name         = $this->name;
+			$this->extension->type         = 'package';
+			$this->extension->element      = $this->element;
+			$this->extension->changelogurl = $this->changelogurl;
 
 			// There is no folder for packages
 			$this->extension->folder    = '';

@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0
  */
@@ -67,14 +67,20 @@ $this->addScriptDeclaration('cssVars();');
 		<div class="d-flex align-items-center">
 			<div class="header-title d-flex mr-auto">
 				<div class="d-flex">
-					<a class="logo" href="<?php echo Route::_('index.php'); ?>" aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
+				<?php if (!$hidden) : ?>
+					<a class="logo" href="<?php echo Route::_('index.php'); ?>" aria-label="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
 						<img src="<?php echo $logoBlue; ?>" alt="">
 					</a>
+				<?php else : ?>
+					<a class="logo">
+						<img src="<?php echo $logoBlue; ?>" alt="">
+					</a>
+				<?php endif; ?>
 				</div>
 				<jdoc:include type="modules" name="title" />
 			</div>
 			<div class="header-items d-flex ml-auto">
-				<jdoc:include type="modules" name="status" style="no" />
+				<jdoc:include type="modules" name="status" />
 			</div>
 		</div>
 	</header>
@@ -102,7 +108,7 @@ $this->addScriptDeclaration('cssVars();');
 						<div id="container-collapse" class="container-collapse"></div>
 						<div class="row">
 							<div class="col-md-12">
-								<jdoc:include type="modules" name="toolbar" style="no" />
+								<jdoc:include type="modules" name="toolbar" />
 							</div>
 					</div>
 				</div>

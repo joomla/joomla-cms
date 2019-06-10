@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,6 +19,7 @@ use Joomla\CMS\Authentication\Password\CheckIfRehashNeededHandlerInterface;
 use Joomla\CMS\Authentication\Password\MD5Handler;
 use Joomla\CMS\Authentication\Password\PHPassHandler;
 use Joomla\CMS\Authentication\Password\SHA256Handler;
+use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -438,6 +439,7 @@ abstract class UserHelper
 			/** @var PHPassHandler $handler */
 			$handler = $container->get(PHPassHandler::class);
 		}
+		// Check for Argon2id hashes
 		elseif (strpos($hash, '$argon2id') === 0)
 		{
 			/** @var Argon2idHandler $handler */
@@ -445,6 +447,7 @@ abstract class UserHelper
 
 			$passwordAlgorithm = PASSWORD_ARGON2ID;
 		}
+		// Check for Argon2i hashes
 		elseif (strpos($hash, '$argon2i') === 0)
 		{
 			/** @var Argon2iHandler $handler */
@@ -505,7 +508,7 @@ abstract class UserHelper
 		 * distribution is even, and randomize the start shift so it's not
 		 * predictable.
 		 */
-		$random = \JCrypt::genRandomBytes($length + 1);
+		$random = Crypt::genRandomBytes($length + 1);
 		$shift = ord($random[0]);
 
 		for ($i = 1; $i <= $length; ++$i)

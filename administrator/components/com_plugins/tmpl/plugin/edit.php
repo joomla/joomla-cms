@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -86,9 +86,8 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 							?>
 							<p><?php echo $short_description; ?></p>
 							<?php if ($long_description) : ?>
-							<?php // @todo Remove jQuery ?>
 								<p class="readmore">
-									<a href="#" onclick="jQuery('.nav-tabs a[href=\'#description\']').tab('show');">
+									<a href="#" onclick="document.querySelector('#tab-description').click();">
 										<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
 									</a>
 								</p>
@@ -110,6 +109,12 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 			<div class="col-md-3">
 				<div class="card card-light">
 					<div class="card-body">
+						<?php
+						// Set main fields.
+						$this->fields = array(
+							'enabled',
+							'access',
+						); ?>
 						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 						<div class="form-vertical form-no-margin">
 							<div class="control-group">
@@ -134,6 +139,14 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 								</div>
 								<div class="controls">
 									<?php echo $this->form->getInput('element'); ?>
+								</div>
+							</div>
+							<div class="control-group">
+								<div class="control-label">
+									<?php echo $this->form->getLabel('note'); ?>
+								</div>
+								<div class="controls">
+									<?php echo $this->form->getInput('note'); ?>
 								</div>
 							</div>
 						</div>

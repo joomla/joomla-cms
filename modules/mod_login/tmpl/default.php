@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ HTMLHelper::_('script', 'system/fields/passwordview.min.js', array('version' => 
 Text::script('JSHOW');
 Text::script('JHIDE');
 ?>
-<form id="login-form" class="mod-login" action="<?php echo Route::_('index.php', true); ?>" method="post">
+<form id="login-form-<?php echo $module->id; ?>" class="mod-login" action="<?php echo Route::_('index.php', true); ?>" method="post">
 
 	<?php if ($params->get('pretext')) : ?>
 		<div class="mod-login__pretext pretext">
@@ -34,30 +34,30 @@ Text::script('JHIDE');
 		<div class="mod-login__username form-group">
 			<?php if (!$params->get('usetext', 0)) : ?>
 				<div class="input-group">
-					<input id="modlgn-username" type="text" name="username" class="form-control" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
+					<input id="modlgn-username-<?php echo $module->id; ?>" type="text" name="username" class="form-control" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
 					<span class="input-group-append">
-						<label for="modlgn-username" class="sr-only"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
+						<label for="modlgn-username-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
 						<span class="input-group-text icon-user hasTooltip" title="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>"></span>
 					</span>
 				</div>
 			<?php else : ?>
-				<label for="modlgn-username"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
-				<input id="modlgn-username" type="text" name="username" class="form-control" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
+				<label for="modlgn-username-<?php echo $module->id; ?>"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
+				<input id="modlgn-username-<?php echo $module->id; ?>" type="text" name="username" class="form-control" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
 			<?php endif; ?>
 		</div>
 
 		<div class="mod-login__password form-group">
 			<?php if (!$params->get('usetext', 0)) : ?>
 				<div class="input-group">
-					<input id="modlgn-passwd" type="password" name="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
+					<input id="modlgn-passwd-<?php echo $module->id; ?>" type="password" name="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
 					<span class="input-group-append">
 						<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
 						<span class="input-group-text icon-eye" aria-hidden="true"></span>
 					</span>
 				</div>
 			<?php else : ?>
-				<label for="modlgn-passwd"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
-				<input id="modlgn-passwd" type="password" name="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
+				<label for="modlgn-passwd-<?php echo $module->id; ?>"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
+				<input id="modlgn-passwd-<?php echo $module->id; ?>" type="password" name="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
 			<?php endif; ?>
 		</div>
 
@@ -67,16 +67,16 @@ Text::script('JHIDE');
 					<div class="input-group">
 						<span class="input-group-prepend">
 							<span class="input-group-text icon-star hasTooltip" title="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>"></span>
-							<label for="modlgn-secretkey" class="sr-only"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
+							<label for="modlgn-secretkey-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
 						</span>
-						<input id="modlgn-secretkey" autocomplete="off" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
+						<input id="modlgn-secretkey-<?php echo $module->id; ?>" autocomplete="off" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
 						<span class="input-group-append hasTooltip" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
 							<span class="input-group-text icon-help"></span>
 						</span>
 					</div>
 				<?php else : ?>
-					<label for="modlgn-secretkey"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
-					<input id="modlgn-secretkey" autocomplete="off" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
+					<label for="modlgn-secretkey-<?php echo $module->id; ?>"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
+					<input id="modlgn-secretkey-<?php echo $module->id; ?>" autocomplete="off" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
 					<span class="btn width-auto hasTooltip" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
 						<span class="icon-help"></span>
 					</span>
@@ -86,7 +86,7 @@ Text::script('JHIDE');
 
 		<?php if (PluginHelper::isEnabled('system', 'remember')) : ?>
 			<div class="mod-login__remember form-group">
-				<div id="form-login-remember" class="form-check">
+				<div id="form-login-remember-<?php echo $module->id; ?>" class="form-check">
 					<label class="form-check-label">
 						<input type="checkbox" name="remember" class="form-check-input" value="yes">
 						<?php echo Text::_('MOD_LOGIN_REMEMBER_ME'); ?>
