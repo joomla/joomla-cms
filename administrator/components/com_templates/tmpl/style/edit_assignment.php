@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
@@ -17,6 +18,8 @@ use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 // Initiasile related data.
 $menuTypes = MenusHelper::getMenuLinks();
 $user      = Factory::getUser();
+
+HTMLHelper::_('script', 'com_templates/admin-template-toggle-assignment.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <label id="jform_menuselect-lbl" for="jform_menuselect"><?php echo Text::_('JGLOBAL_MENU_SELECTION'); ?></label>
 <div class="btn-toolbar">
