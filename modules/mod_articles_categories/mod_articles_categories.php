@@ -22,12 +22,8 @@ $cacheparams->method       = 'getList';
 $cacheparams->methodparams = $params;
 $cacheparams->modeparams   = $cacheid;
 
-$list = ModuleHelper::moduleCache($module, $params, $cacheparams);
+$list       = ModuleHelper::moduleCache($module, $params, $cacheparams);
+$startLevel = $list ? reset($list)->getParent()->level : null;
 
-if (!empty($list))
-{
-	$startLevel = reset($list)->getParent()->level;
-
-	require ModuleHelper::getLayoutPath('mod_articles_categories', $params->get('layout', 'default'));
-}
+require ModuleHelper::getLayoutPath('mod_articles_categories', $params->get('layout', 'default'));
 

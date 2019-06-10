@@ -24,6 +24,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
  * Language Installer model for the Joomla Core Installer.
@@ -584,7 +585,7 @@ class LanguagesModel extends BaseInstallationModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -613,7 +614,7 @@ class LanguagesModel extends BaseInstallationModel
 			{
 				$db->execute();
 			}
-			catch (\JDatabaseExceptionExecuting $e)
+			catch (ExecutionFailureException $e)
 			{
 				return false;
 			}
@@ -1124,7 +1125,7 @@ class LanguagesModel extends BaseInstallationModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -1158,7 +1159,7 @@ class LanguagesModel extends BaseInstallationModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -1310,7 +1311,7 @@ class LanguagesModel extends BaseInstallationModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
