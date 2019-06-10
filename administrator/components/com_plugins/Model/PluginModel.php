@@ -318,7 +318,7 @@ class PluginModel extends AdminModel
 
 		if (!empty($accessField))
 		{
-			if ((string)$accessField[0]['type'] === 'hidden')
+			if ((string) $accessField[0]['type'] === 'hidden')
 			{
 				// Override the default access field
 				$form->load($xml, true, '//config/field[@name="access"]');

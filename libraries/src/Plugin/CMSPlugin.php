@@ -198,7 +198,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 		$publicAccessLevel = $this->app->getConfig()->get('access');
 		$accessLevel       = $this->params->get('access');
 
-		// if no accesss level is set for the plugin we execute the listener
+		// If no accesss level is set for the plugin we execute the listener
 		if ($publicAccessLevel === $accessLevel)
 		{
 			return $this->accessCheckCache;
