@@ -645,7 +645,7 @@ class TemplateModel extends FormModel
 
 			// Get the template information.
 			$query = $db->getQuery(true)
-				->select('extension_id, client_id, element, name, manifest_cache')
+				->select($db->quoteName(['extension_id, client_id, element, name, manifest_cache']))
 				->from($db->quoteName('#__extensions'))
 				->where($db->quoteName('extension_id') . ' = :pk')
 				->where($db->quoteName('type') . ' = ' . $db->quote('template'))
@@ -1662,7 +1662,7 @@ class TemplateModel extends FormModel
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('id, client_id');
+		$query->select($db->quoteName(['id, client_id']));
 		$query->from($db->quoteName('#__template_styles'));
 		$query->where($db->quoteName('template') . ' = :template')
 			->bind(':template', $this->template->element);
