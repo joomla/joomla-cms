@@ -11,6 +11,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+
+if (!$list)
+{
+	return;
+}
 
 ?>
 <ul class="mod-articlescategory category-module mod-list">
@@ -53,7 +59,7 @@ use Joomla\CMS\Language\Text;
 
 						<?php if ($params->get('show_tags', 0) && $item->tags->itemTags) : ?>
 							<div class="mod-articles-category-tags">
-								<?php echo JLayoutHelper::render('joomla.content.tags', $item->tags->itemTags); ?>
+								<?php echo LayoutHelper::render('joomla.content.tags', $item->tags->itemTags); ?>
 							</div>
 						<?php endif; ?>
 
@@ -123,7 +129,7 @@ use Joomla\CMS\Language\Text;
 
 				<?php if ($params->get('show_tags', 0) && $item->tags->itemTags) : ?>
 					<div class="mod-articles-category-tags">
-						<?php echo JLayoutHelper::render('joomla.content.tags', $item->tags->itemTags); ?>
+						<?php echo LayoutHelper::render('joomla.content.tags', $item->tags->itemTags); ?>
 					</div>
 				<?php endif; ?>
 

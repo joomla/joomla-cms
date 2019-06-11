@@ -922,25 +922,6 @@ window.Joomla.Modal = window.Joomla.Modal || {
   };
 
   /**
-   * Load the changelog data
-   *
-   * @param extensionId The extension ID to load the changelog for
-   * @param view The view the changelog is for,
-   *             this is used to determine which version number to show
-   *
-   * @since   4.0.0
-   */
-  Joomla.loadChangelog = (extensionId, view) => {
-    Joomla.request({
-      url: `index.php?option=com_installer&task=manage.loadChangelog&eid=${extensionId}&source=${view}&format=json`,
-      onSuccess: (response) => {
-        const result = JSON.parse(response);
-        document.querySelectorAll(`#changelogModal${extensionId} .modal-body`)[0].innerHTML = result.data;
-      },
-    });
-  };
-
-  /**
    * Loads any needed polyfill for web components and async load any web components
    *
    * Parts of the WebComponents method belong to The Polymer Project Authors. License http://polymer.github.io/LICENSE.txt
