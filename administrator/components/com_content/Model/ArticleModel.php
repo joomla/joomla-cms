@@ -31,6 +31,7 @@ use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Component\Workflow\Administrator\Table\StageTable;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -384,21 +385,23 @@ class ArticleModel extends AdminModel
 					]
 				);
 
-		$query	->select($select)
-				->from($db->quoteName('#__workflow_transitions', 'wt'))
-				->from($db->quoteName('#__workflow_stages', 'ws'))
-				->from($db->quoteName('#__workflow_stages', 'ws2'))
-				->from($db->quoteName('#__workflow_associations', 'wa'))
-				->where('(' . $db->quoteName('wt.from_stage_id') . ' = -1 OR ' .
+		$value = (int) $value;
+		$query->select($select)
+			->from($db->quoteName('#__workflow_transitions', 'wt'))
+			->from($db->quoteName('#__workflow_stages', 'ws'))
+			->from($db->quoteName('#__workflow_stages', 'ws2'))
+			->from($db->quoteName('#__workflow_associations', 'wa'))
+			->where('(' . $db->quoteName('wt.from_stage_id') . ' = -1 OR ' .
 					$db->quoteName('wt.from_stage_id') . ' = ' . $db->quoteName('wa.stage_id') . ')')
-				->where($db->quoteName('wt.to_stage_id') . ' = ' . $db->quoteName('ws.id'))
-				->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws2.id'))
-				->where($db->quoteName('wt.workflow_id') . ' = ' . $db->quoteName('ws.workflow_id'))
-				->where($db->quoteName('wt.workflow_id') . ' = ' . $db->quoteName('ws2.workflow_id'))
-				->where($db->quoteName('wt.to_stage_id') . ' != ' . $db->quoteName('wa.stage_id'))
-				->whereIn($db->quoteName('wa.item_id'), $pks)
-				->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'))
-				->where($db->quoteName('ws.condition') . ' = ' . (int) $value);
+			->where($db->quoteName('wt.to_stage_id') . ' = ' . $db->quoteName('ws.id'))
+			->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws2.id'))
+			->where($db->quoteName('wt.workflow_id') . ' = ' . $db->quoteName('ws.workflow_id'))
+			->where($db->quoteName('wt.workflow_id') . ' = ' . $db->quoteName('ws2.workflow_id'))
+			->where($db->quoteName('wt.to_stage_id') . ' != ' . $db->quoteName('wa.stage_id'))
+			->whereIn($db->quoteName('wa.item_id'), $pks)
+			->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'))
+			->where($db->quoteName('ws.condition') . ' = :value')
+			->bind(':value', $value, ParameterType::INTEGER);
 
 		$transitions = $db->setQuery($query)->loadObjectList();
 
@@ -870,14 +873,16 @@ class ArticleModel extends AdminModel
 
 			// Set the new state
 			$query = $db->getQuery(true);
+			$transition = (int) $data['transition'];
 
-			$query	->select($db->quoteName(['ws.id', 'ws.condition']))
+			$query->select($db->quoteName(['ws.id', 'ws.condition']))
 					->from($db->quoteName('#__workflow_stages', 'ws'))
 					->from($db->quoteName('#__workflow_transitions', 'wt'))
 					->where($db->quoteName('wt.to_stage_id') . ' = ' . $db->quoteName('ws.id'))
-					->where($db->quoteName('wt.id') . ' = ' . (int) $data['transition'])
+					->where($db->quoteName('wt.id') . ' = :transition')
 					->where($db->quoteName('ws.published') . ' = 1')
-					->where($db->quoteName('wt.published') . ' = 1');
+					->where($db->quoteName('wt.published') . ' = 1')
+					->bind(':transition', $transition, ParameterType::INTEGER);
 
 			$stage = $db->setQuery($query)->loadObject();
 
@@ -1005,10 +1010,12 @@ class ArticleModel extends AdminModel
 		try
 		{
 			$db = $this->getDbo();
+			$value = (int) $value;
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__content'))
-				->set('featured = ' . (int) $value)
-				->where('id IN (' . implode(',', $pks) . ')');
+				->set($db->quoteName('featured') . ' = :value')
+				->whereIn($db->quoteName('id'), $pks)
+				->bind(':value', $value, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$db->execute();
 
@@ -1018,7 +1025,7 @@ class ArticleModel extends AdminModel
 				// Clear the existing features settings.
 				$query = $db->getQuery(true)
 					->delete($db->quoteName('#__content_frontpage'))
-					->where('content_id IN (' . implode(',', $pks) . ')');
+					->whereIn($db->quoteName('content_id'), $pks);
 				$db->setQuery($query);
 				$db->execute();
 			}
@@ -1028,7 +1035,7 @@ class ArticleModel extends AdminModel
 				$query = $db->getQuery(true)
 					->select('f.content_id')
 					->from('#__content_frontpage AS f')
-					->where('content_id IN (' . implode(',', $pks) . ')');
+					->whereIn($db->quoteName('content_id'), $pks);
 				$db->setQuery($query);
 
 				$oldFeatured = $db->loadColumn();
@@ -1203,7 +1210,7 @@ class ArticleModel extends AdminModel
 			$db = $this->getDbo();
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__content_frontpage'))
-				->where('content_id IN (' . implode(',', $pks) . ')');
+				->whereIn($db->quoteName('content_id'), $pks);
 			$db->setQuery($query);
 			$db->execute();
 
@@ -1261,6 +1268,7 @@ class ArticleModel extends AdminModel
 		if ($workflow_id > 0)
 		{
 			$query  = $db->getQuery(true);
+			$workflowId = (int) $workflow_id;
 
 			$query	->select(
 						$db->quoteName(
@@ -1277,7 +1285,8 @@ class ArticleModel extends AdminModel
 					->where($db->quoteName('ws.default') . ' = 1')
 					->where($db->quoteName('w.published') . ' = 1')
 					->where($db->quoteName('ws.published') . ' = 1')
-					->where($db->quoteName('w.id') . ' = ' . (int) $workflow_id);
+					->where($db->quoteName('w.id') . ' = :id')
+					->bind(':id', $workflowId, ParameterType::INTEGER);
 
 			$workflow = $db->setQuery($query)->loadObject();
 
@@ -1348,7 +1357,7 @@ class ArticleModel extends AdminModel
 		PluginHelper::importPlugin($this->events_map['change_state']);
 
 		// Trigger the change stage event.
-		Factory::getApplication()->triggerEvent($this->event_change_state, [$context, [$pk], $workflow->getConditionForTransition($transition_id)]);
+		Factory::getApplication()->triggerEvent($this->event_change_state, [$context, [$pk], $transition_id]);
 
 		return true;
 	}
