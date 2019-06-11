@@ -196,7 +196,7 @@ class StylesModel extends ListModel
 			{
 				$ids = (int) substr($search, 3);
 				$query->where($db->quoteName('a.id') . ' = :id');
-				$query->bind(':id', $ids), ParameterType::INTEGER);
+				$query->bind(':id', $ids, ParameterType::INTEGER);
 			}
 			else
 			{
