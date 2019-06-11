@@ -164,7 +164,7 @@ $table-cell-padding:               8px 12px;
 // Dropdowns
 $dropdown-padding-y:               0;
 $dropdown-box-shadow:              0 1px 1px rgba($black, .15);
-$dropdown-link-hover-color:        $white;
+$dropdown-link-hover-color:        var(--atum-text-dark);
 $dropdown-border-width:            1px;
 $dropdown-item-padding-y:          .5rem;
 $dropdown-item-padding-x:          .75rem;
