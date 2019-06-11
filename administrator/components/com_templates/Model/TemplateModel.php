@@ -649,7 +649,7 @@ class TemplateModel extends FormModel
 				->from($db->quoteName('#__extensions'))
 				->where($db->quoteName('extension_id') . ' = :pk')
 				->where($db->quoteName('type') . ' = ' . $db->quote('template'))
-					->bind(':pk', $pk, ParameterType::INTEGER);
+				->bind(':pk', $pk, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			try
