@@ -155,7 +155,8 @@ class TemplatesModel extends ListModel
 			else
 			{
 				$search = '%' . strtolower($search) . '%';
-				$query->where('(' . ' LOWER(a.element) LIKE :element OR LOWER(a.name) LIKE :name)')
+				$query->where('LOWER(' . $db->quoteName('a.element') . ') LIKE :element')
+					->orWhere('LOWER(' .  $db->quoteName('a.name') . ') LIKE :name')
 					->bind(':element', $search)
 					->bind(':name', $search);
 			}
