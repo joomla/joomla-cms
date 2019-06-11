@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
+use Joomla\Database\ParameterType;
 
 /**
  * Content Component Archive Model
@@ -106,17 +107,19 @@ class ArchiveModel extends ArticlesModel
 
 		if ($month = $this->getState('filter.month'))
 		{
-			$query->where($query->month($queryDate) . ' = ' . $month);
+			$query->where($query->month($queryDate) . ' = :month')
+				->bind(':month', $month, ParameterType::INTEGER);
 		}
 
 		if ($year = $this->getState('filter.year'))
 		{
-			$query->where($query->year($queryDate) . ' = ' . $year);
+			$query->where($query->year($queryDate) . ' = :year')
+				->bind(':year', $year, ParameterType::INTEGER);
 		}
 
 		if (count($catids) > 0)
 		{
-			$query->where('c.id IN (' . implode(', ', $catids) . ')');
+			$query->whereIn($db->quoteName('c.id'), $catids);
 		}
 
 		return $query;
@@ -199,8 +202,14 @@ class ArchiveModel extends ArticlesModel
 			->where($db->quoteName('c.id') . ' = ' . $db->quoteName('wa.item_id'))
 			->where($db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
 			->where($db->quoteName('ws.condition') . '= ' . (int) ContentComponent::CONDITION_ARCHIVED)
-			->where('(c.publish_up = ' . $nullDate . ' OR c.publish_up <= ' . $nowDate . ')')
-			->where('(c.publish_down = ' . $nullDate . ' OR c.publish_down >= ' . $nowDate . ')')
+			->where($db->quoteName('c.publish_up') . ' = :pushupnull')
+			->orWhere($db->quoteName('c.publish_up') . ' <= :pushupnow')
+			->where($db->quoteName('c.publish_down') . ' = :pushdownnull')
+			->orWhere($db->quoteName('c.publish_down') . ' >= :pushdownnow')
+			->bind(':pushupnull', $nullDate)
+			->bind(':pushupnow', $nowDate)
+			->bind(':pushdownnull', $nullDate)
+			->bind(':pushdownnow', $nowDate)
 			->order('1 ASC');
 
 		$db->setQuery($query);
