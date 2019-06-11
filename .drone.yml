@@ -100,7 +100,7 @@ steps:
   - name: php74-integration
     depends_on: [ phpcs ]
     image: phpdaily/php:7.4-dev
-    errignore: true
+    failure: ignore
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
@@ -108,7 +108,7 @@ steps:
   - name: php80-integration
     depends_on: [ phpcs ]
     image: phpdaily/php:8.0-dev
-    errignore: true
+    failure: ignore
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
@@ -130,7 +130,7 @@ steps:
   - name: php74-integration-pgsql
     depends_on: [ phpcs ]
     image: phpdaily/php:7.4-dev
-    errignore: true
+    failure: ignore
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
@@ -138,7 +138,7 @@ steps:
   - name: php80-integration-pgsql
     depends_on: [ phpcs ]
     image: phpdaily/php:8.0-dev
-    errignore: true
+    failure: ignore
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
@@ -233,6 +233,6 @@ services:
 
 ---
 kind: signature
-hmac: dd025e495e7b2ff29cb89ac1bf7873a0a7059fc3edb3764b443979e01b32e7a5
+hmac: c29bc0e8a48165ab2342cf9707e54f7173681274f0f7758ca67ae57ba16c79e7
 
 ...
