@@ -201,7 +201,7 @@ class StylesModel extends ListModel
 			else
 			{
 				$search = '%' . strtolower($search) . '%';
-				$query->where('(' . ' LOWER(a.template) LIKE :element OR LOWER(a.title) LIKE :title)')
+				$query->where('(' . ' LOWER(a.template) LIKE :template OR LOWER(a.title) LIKE :title)')
 					->bind(':template', $search)
 					->bind(':title', $search);
 			}
