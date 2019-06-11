@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Category;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -39,10 +40,13 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
+		$state = (int) $stateID;
 
 		$query->select('id')
 			->from($db->quoteName('#__content'))
-			->where('state = ' . (int) $stateID);
+			->where('state = :state')
+			->bind(':state', $state, ParameterType::INTEGER);
+
 		$db->setQuery($query);
 		$states = $db->loadResult();
 
@@ -95,9 +99,11 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
 
+			$condition = (int) $condition;
 			$query->update($db->quoteName('#__content'))
-				->set($db->quoteName('state') . '=' . (int) $condition)
-				->where($db->quoteName('id') . ' IN (' . implode(', ', $pks) . ')');
+				->set($db->quoteName('state') . ' = :state')
+				->whereIn($db->quoteName('id'), $pks)
+				->bind(':state', $condition, ParameterType::INTEGER);
 
 			$db->setQuery($query)->execute();
 		}
@@ -175,9 +181,11 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 					}
 					elseif ((int) $workflow_id > 0)
 					{
-					$query	->clear('where')
-								->where($db->quoteName('id') . ' = ' . (int) $workflow_id)
-								->where($db->quoteName('published') . ' = 1');
+						$workflowId = (int) $workflow_id;
+						$query->clear('where')
+								->where($db->quoteName('id') . ' = :worflowid')
+								->where($db->quoteName('published') . ' = 1')
+								->bind(':worflowid', $workflowId, ParameterType::INTEGER);
 
 						$title = $db->setQuery($query)->loadResult();
 
