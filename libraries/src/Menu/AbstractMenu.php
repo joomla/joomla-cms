@@ -322,7 +322,7 @@ abstract class AbstractMenu
 			$menuAccessLevel = (int) $menu->access;
 
 			// If the accesss level is public we don't need to load the user session
-			if ($menuAccessLevel === 1)
+			if ($menuAccessLevel === (int) $this->app->get('access'))
 			{
 				return true;
 			}
