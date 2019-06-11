@@ -700,7 +700,7 @@ class StyleModel extends AdminModel
 		// Set the new home style.
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__template_styles'))
-			->set('home = ' . $db->quote('0'))
+			->set($db->quoteName('home') . ' = ' . $db->quote('0'))
 			->where($db->quoteName('id') . ' = :id')
 			->bind(':id', $id, ParameterType::INTEGER);
 		$db->setQuery($query);
