@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -83,7 +84,7 @@ class FeaturedModel extends ListModel
 	protected function getListQuery()
 	{
 		$user = Factory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
+		$groups = $user->getAuthorisedViewLevels();
 
 		// Create a new query object.
 		$db    = $this->getDbo();
@@ -92,15 +93,16 @@ class FeaturedModel extends ListModel
 		// Select required fields from the categories.
 		$query->select($this->getState('list.select', 'a.*'))
 			->from($db->quoteName('#__contact_details', 'a'))
-			->where('a.featured = 1')
-			->where('a.access IN (' . $groups . ')')
+			->where($db->quoteName('a.featured') . ' = 1')
+			->whereIn($db->quoteName('a.access'), $groups)
 			->innerJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
-			->where('c.access IN (' . $groups . ')');
+			->whereIn($db->quoteName('c.access'), $groups);
 
 		// Filter by category.
 		if ($categoryId = $this->getState('category.id'))
 		{
-			$query->where('a.catid = ' . (int) $categoryId);
+			$query->where($db->quoteName('a.catid') . ' = :catid');
+			$query->bind(':catid', $categoryId, ParameterType::INTEGER);
 		}
 
 		$query->select('c.published as cat_published, c.published AS parents_published')
@@ -111,21 +113,27 @@ class FeaturedModel extends ListModel
 
 		if (is_numeric($state))
 		{
-			$query->where('a.published = ' . (int) $state);
+			$query->where($db->quoteName('a.published') . ' = :published');
+			$query->bind(':published', $state, ParameterType::INTEGER);
 
 			// Filter by start and end dates.
 			$nullDate = $db->quote($db->getNullDate());
 			$date = Factory::getDate();
 			$nowDate = $db->quote($date->toSql());
 
-			$query->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= ' . $db->quote($nowDate) . ')')
-				->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= ' . $db->quote($nowDate) . ')');
+			$query->where('(' . $query->isNullDatetime($db->quoteName('a.publish_up')) .
+				' OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)')
+				->where('(' . $query->isNullDatetime($db->quoteName('a.publish_down')) .
+				' OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)')
+				->bind(':publish_up', $nowDate)
+				->bind(':publish_down', $nowDate);
 		}
 
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$language = [Factory::getLanguage()->getTag(), $db->quote('*')];
+			$query->whereIn($db->quoteName('a.language'), $language);
 		}
 
 		// Add the list ordering clause.

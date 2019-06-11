@@ -12,7 +12,6 @@ namespace Joomla\Component\Banners\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 
@@ -115,7 +114,7 @@ class TracksController extends BaseController
 			$model = $this->getModel($vName);
 
 			// Load the filter state.
-			$app = Factory::getApplication();
+			$app = $this->app;
 
 			$model->setState('filter.type', $app->getUserState($this->context . '.filter.type'));
 			$model->setState('filter.begin', $app->getUserState($this->context . '.filter.begin'));
@@ -136,7 +135,7 @@ class TracksController extends BaseController
 			$cookiePath     = $app->get('cookie_path', '/');
 			$isHttpsForced  = $app->isHttpsForced();
 
-			$app->input->cookie->set(
+			$this->input->cookie->set(
 				ApplicationHelper::getHash($this->context . '.basename'),
 				$form['basename'],
 				$cookieLifeTime,
@@ -146,7 +145,7 @@ class TracksController extends BaseController
 				true
 			);
 
-			$app->input->cookie->set(
+			$this->input->cookie->set(
 				ApplicationHelper::getHash($this->context . '.compressed'),
 				$form['compressed'],
 				$cookieLifeTime,
