@@ -224,6 +224,7 @@ class BannersModel extends ListModel
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function impress()
 	{

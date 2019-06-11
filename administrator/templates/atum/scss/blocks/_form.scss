@@ -113,7 +113,7 @@ legend {
 }
 
  /* set up hidden tooltip */
-[role="tooltip"] {
+[role="tooltip"]:not(.show) {
   display: none;
   padding: 0.25em;
   margin: 0.25em;
