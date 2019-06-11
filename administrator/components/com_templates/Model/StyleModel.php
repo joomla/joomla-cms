@@ -635,9 +635,9 @@ class StyleModel extends AdminModel
 		// Reset the home fields for the client_id.
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__template_styles'))
-			->set('home = ' .  $db->quote('0'))
+			->set($db->quoteName('home') . ' = ' .  $db->quote('0'))
 			->where($db->quoteName('client_id') . ' = :clientid')
-			->where('home = ' . $db->quote('1'))
+			->where($db->quoteName('home') . ' = ' . $db->quote('1'))
 			->bind(':clientid', $clientId, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
@@ -645,7 +645,7 @@ class StyleModel extends AdminModel
 		// Set the new home style.
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__template_styles'))
-			->set('home = ' . $db->quote('1'))
+			->set($db->quoteName('home') . ' = ' . $db->quote('1'))
 			->where($db->quoteName('id') . ' = :id')
 			->bind(':id', $id, ParameterType::INTEGER);
 		$db->setQuery($query);
