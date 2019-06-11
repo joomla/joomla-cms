@@ -54,7 +54,7 @@ Factory::getDocument()->addScriptDeclaration($js);
 		<div class="span6">
 			<h3><?php echo Text::_('COM_PRIVACY_HEADING_ACTION_LOG'); ?></h3>
 			<?php if (empty($this->actionlogs)) : ?>
-				<div class="alert alert-warning">
+				<div class="alert alert-info">
 					<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 				</div>
 			<?php else : ?>

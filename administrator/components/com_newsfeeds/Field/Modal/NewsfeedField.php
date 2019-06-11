@@ -90,7 +90,7 @@ class NewsfeedField extends FormField
 		// Setup variables for display.
 		$linkNewsfeeds = 'index.php?option=com_newsfeeds&amp;view=newsfeeds&amp;layout=modal&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
 		$linkNewsfeed  = 'index.php?option=com_newsfeeds&amp;view=newsfeed&amp;layout=modal&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
-		$modalTitle    = Text::_('COM_NEWSFEEDS_CHANGE_FEED');
+		$modalTitle    = Text::_('COM_NEWSFEEDS_SELECT_A_FEED');
 
 		if (isset($this->element['language']))
 		{
@@ -147,7 +147,7 @@ class NewsfeedField extends FormField
 				. ' data-toggle="modal"'
 				. ' type="button"'
 				. ' data-target="#ModalSelect' . $modalId . '"'
-				. ' title="' . HTMLHelper::tooltipText('COM_NEWSFEEDS_CHANGE_FEED') . '">'
+				. ' title="' . HTMLHelper::tooltipText('COM_NEWSFEEDS_SELECT_A_FEED') . '">'
 				. '<span class="icon-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
 				. '</button>';
 		}

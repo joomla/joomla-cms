@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
 
 /**
@@ -93,11 +94,19 @@ class PlgExtensionFinder extends CMSPlugin
 	protected function getLanguage($eid)
 	{
 		$db = Factory::getDbo();
+		$eid = (int) $eid;
+
 		$query = $db->getQuery(true)
-			->select('element, client_id')
-			->from('#__extensions')
-			->where('extension_id = ' . (int) $eid)
-			->where('type = ' . $db->quote('language'));
+			->select($db->quoteName(['element', 'client_id']))
+			->from($db->quoteName('#__extensions'))
+			->where(
+				[
+					$db->quoteName('extension_id') . ' = :eid',
+					$db->quoteName('type') . ' = ' . $db->quote('language')
+				]
+			)
+			->bind(':eid', $eid, ParameterType::INTEGER);
+
 		$db->setQuery($query);
 		$extension = $db->loadObject();
 
@@ -147,15 +156,19 @@ class PlgExtensionFinder extends CMSPlugin
 		$words = array_filter(array_map('trim', $words));
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
+
 		require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/helper.php';
+
 		$lang = \FinderIndexerHelper::getPrimaryLanguage($extension->element);
-		$query->insert('#__finder_terms_common')
-			->columns(array($db->qn('term'), $db->qn('language'), $db->qn('custom')));
-		$template = ',' . $db->q($lang) . ',0';
+
+		$query->insert($db->quoteName('#__finder_terms_common'))
+			->columns($db->quoteName(['term', 'language', 'custom']));
 
 		foreach ($words as $word)
 		{
-			$query->values($db->q($word) . $template);
+			$bindNames = $query->bindArray([$word, $lang], ParameterType::STRING);
+
+			$query->values(impode(',', $bindNames) . ', 0');
 		}
 
 		try
@@ -181,12 +194,21 @@ class PlgExtensionFinder extends CMSPlugin
 	protected function removeCommonWords($extension)
 	{
 		$db = Factory::getDbo();
+
 		require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/helper.php';
+
 		$lang = \FinderIndexerHelper::getPrimaryLanguage($extension->element);
-		$query = $db->getQuery(true)
-			->delete('#__finder_terms_common')
-			->where('language = ' . $db->quote($lang))
-			->where('custom = 0');
+
+		$query = $db->getQuery(true);
+		$query->delete($db->quoteName('#__finder_terms_common'))
+			->where(
+				[
+					$db->quoteName('language') . ' = :lang',
+					$db->quoteName('custom') . ' = 0'
+				]
+			)
+			->bind(':lang', $lang);
+
 		$db->setQuery($query);
 		$db->execute();
 	}
