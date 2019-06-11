@@ -330,8 +330,8 @@ class TemplatesModelTemplate extends JModelForm
 
 		foreach ($files as $file)
 		{
-			$newFile = str_replace($oldName, $newName, $file);
-			$result = JFile::move($file, $newFile) && $result;
+			$newFile = '/' . str_replace($oldName, $newName, basename($file));
+			$result  = JFile::move($file, dirname($file) . $newFile) && $result;
 		}
 
 		// Edit XML file

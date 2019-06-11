@@ -160,7 +160,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 								<li>
 									<span>
 										<span class="icon-user"></span>
-										<strong><?php echo $user->name; ?></strong>
+										<strong><?php echo htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8'); ?></strong>
 									</span>
 								</li>
 								<li class="divider"></li>
