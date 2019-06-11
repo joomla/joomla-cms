@@ -681,7 +681,7 @@ class StyleModel extends AdminModel
 
 		// Lookup the client_id.
 		$query = $db->getQuery(true)
-			->select('client_id, home')
+			->select($db->quoteName(['client_id', 'home']))
 			->from($db->quoteName('#__template_styles'))
 			->where($db->quoteName('id') . ' = :id')
 			->bind(':id', $id, ParameterType::INTEGER);
