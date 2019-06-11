@@ -445,7 +445,7 @@ class AssociationsModel extends ListModel
 			}
 		}
 
-		// Filter on association state
+		// Filter by association state
 		$assocStateField = $this->state->get('assocstate');
 
 		if ($assocStateField !== '')
@@ -453,27 +453,36 @@ class AssociationsModel extends ListModel
 			// not associated
 			if ($assocStateField === '-1')
 			{
-				$subQuery    = $db->getQuery(true)
+				$languageQuery    = $db->getQuery(true)
 					->select('COUNT(*)')
-					->from('#__languages');
-				$db->setQuery($subQuery);
+					->from($db->quoteName('#__languages'));
+				$db->setQuery($languageQuery);
 				$countLanguages = $db->loadResult();
 
-				// join over associations where id does not exists or where child does not exists
+				// get all keys where not all languages are associated
+				$assocQuery = $db->getQuery(true)
+					->select($db->quoteName('key'))
+					->from($db->quoteName('#__associations'))
+					->group($db->quoteName('key'))
+					->having('COUNT(*) < ' . $countLanguages);
+
+				// join over associations where id does not exists
 				$query->where('((' . $db->quoteName('asso.id') . ' IS NULL )'
-					// if we are on the childlanguage
-					. ' OR ( ' . $db->quoteName('asso2.parent_id') . ' = ' . $db->quoteName('asso.id')
-					. ' AND ' . $db->quoteName('asso2.id') . ' < ' . $db->quote($countLanguages) . ' ))');
+					// or if we are on the childlanguage and there is no master language
+					. ' OR ( ' . $db->quoteName('asso2.parent_id') . ' = ' . $db->quote('-1') . ')'
+					// or a child of the master  does not exist
+					. ' OR ( ' . $db->quoteName('asso.key') . '  IN (' . $assocQuery . ') 
+						AND ' . $db->quoteName('asso.parent_id') . ' = ' . $db->quote('0') . ')'
+					. ')');
 			}
 
 			// outdated
 			if ($assocStateField === '0')
 			{
-				echo "<pre>" . print_r("outdated") . "</pre>";
-				// if we are on the masterlanguage
+					// if we are on the masterlanguage and we check the state of the children
 				$query->where('((' . $db->quoteName('asso2.parent_id') . ' = ' . $db->quoteName('asso.id')
 					. ' AND ' . $db->quoteName('asso2.assocParams') . ' < ' . $db->quoteName('asso.assocParams') . ')'
-					// if we are on the childlanguage
+					// if we are on the childlanguage we check its state comparing to its master
 					. ' OR (' . $db->quoteName('asso.assocParams') . ' < ' . $db->quoteName('asso2.assocParams')
 					. ' AND ' . $db->quoteName('asso2.id') . ' = ' . $db->quoteName('asso.parent_id') . '))');
 			}
@@ -481,9 +490,10 @@ class AssociationsModel extends ListModel
 			// up-to-date
 			if ($assocStateField === '1')
 			{
+				// if we are on the masterlanguage and we check the state of the children
 				$query->where('((' . $db->quoteName('asso2.parent_id') . ' = ' . $db->quoteName('asso.id')
 					. ' AND ' . $db->quoteName('asso2.assocParams') . ' = ' . $db->quoteName('asso.assocParams') . ')'
-					// if we are on the childlanguage
+					// if we are on the childlanguage we check its state comparing to its master
 					. ' OR (' . $db->quoteName('asso.assocParams') . ' = ' . $db->quoteName('asso2.assocParams')
 					. ' AND ' . $db->quoteName('asso2.id') . ' = ' . $db->quoteName('asso.parent_id') . '))');
 			}
