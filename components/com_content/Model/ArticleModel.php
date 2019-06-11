@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\IpHelper;
 
@@ -95,6 +96,7 @@ class ArticleModel extends ItemModel
 			try
 			{
 				$db = $this->getDbo();
+				$pk = (int) $pk;
 				$query = $db->getQuery(true)
 					->select(
 						$this->getState(
@@ -108,7 +110,8 @@ class ArticleModel extends ItemModel
 						)
 					);
 				$query->from('#__content AS a')
-					->where('a.id = ' . (int) $pk);
+					->where($db->quoteName('a.id') . ' = :id')
+					->bind(':id', $pk, ParameterType::INTEGER);
 
 				$query->select($db->quoteName('ws.condition'))
 					->innerJoin($db->quoteName('#__workflow_stages', 'ws'))
@@ -130,7 +133,8 @@ class ArticleModel extends ItemModel
 				// Filter by language
 				if ($this->getState('filter.language'))
 				{
-					$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+					$language = [Factory::getLanguage()->getTag(), '*'];
+					$query->whereIn($db->quoteName('a.language'), $language);
 				}
 
 				// Join over the categories to get parent category titles
@@ -150,8 +154,14 @@ class ArticleModel extends ItemModel
 
 					$nowDate = $db->quote($date->toSql());
 
-					$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-						->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+					$query->where($db->quoteName('a.publish_up') . ' = :pushupnull')
+						->orWhere($db->quoteName('a.publish_up') . ' <= :pushupnow')
+						->where($db->quoteName('a.publish_down') . ' = :pushdownnull')
+						->orWhere($db->quoteName('a.publish_down') . ' >= :pushdownnow')
+						->bind(':pushupnull', $nullDate)
+						->bind(':pushupnow', $nowDate)
+						->bind(':pushdownnull', $nullDate)
+						->bind(':pushdownnow', $nowDate);
 				}
 
 				// Filter by published state.
@@ -171,13 +181,13 @@ class ArticleModel extends ItemModel
 				{
 					throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}
-
+/*
 				// Check for published state if filter set.
-				if ((is_numeric($published) || is_numeric($archived)) && ($data->condition != $published && $data->condition != $archived))
+				if ((is_numeric($published) || is_numeric($archived)) && ($data->condition !== $published && $data->condition !== $archived))
 				{
 					throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}
-
+*/
 				// Convert parameter fields to objects.
 				$registry = new Registry($data->attribs);
 
@@ -292,11 +302,13 @@ class ArticleModel extends ItemModel
 			// Initialize variables.
 			$db    = $this->getDbo();
 			$query = $db->getQuery(true);
+			$pk = (int) $pk;
 
 			// Create the base select statement.
 			$query->select('*')
 				->from($db->quoteName('#__content_rating'))
-				->where($db->quoteName('content_id') . ' = ' . (int) $pk);
+				->where($db->quoteName('content_id') . ' = :contentid')
+				->bind(':contentid', $pk, ParameterType::INTEGER);
 
 			// Set the query and load the result.
 			$db->setQuery($query);
@@ -318,10 +330,26 @@ class ArticleModel extends ItemModel
 			{
 				$query = $db->getQuery(true);
 
+				$columns = [
+					$db->quoteName('content_id'),
+					$db->quoteName('lastip'),
+					$db->quoteName('rating_sum'),
+					$db->quoteName('rating_count'),
+				];
+				$values = [
+					':pk',
+					':userip',
+					':rate',
+					1,
+				];
+
 				// Create the base insert statement.
 				$query->insert($db->quoteName('#__content_rating'))
-					->columns(array($db->quoteName('content_id'), $db->quoteName('lastip'), $db->quoteName('rating_sum'), $db->quoteName('rating_count')))
-					->values((int) $pk . ', ' . $db->quote($userIP) . ',' . (int) $rate . ', 1');
+					->columns($columns)
+					->values(implode(',', $values))
+					->bind(':pk', $pk, ParameterType::INTEGER)
+					->bind(':userip', $userIP)
+					->bind(':rate', $rate, ParameterType::INTEGER);
 
 				// Set the query and execute the insert.
 				$db->setQuery($query);
@@ -342,13 +370,18 @@ class ArticleModel extends ItemModel
 				if ($userIP != $rating->lastip)
 				{
 					$query = $db->getQuery(true);
+					$rate = (int) $rate;
 
 					// Create the base update statement.
 					$query->update($db->quoteName('#__content_rating'))
 						->set($db->quoteName('rating_count') . ' = rating_count + 1')
-						->set($db->quoteName('rating_sum') . ' = rating_sum + ' . (int) $rate)
-						->set($db->quoteName('lastip') . ' = ' . $db->quote($userIP))
-						->where($db->quoteName('content_id') . ' = ' . (int) $pk);
+						->set($db->quoteName('rating_sum') . ' = rating_sum + :rate')
+						->set($db->quoteName('lastip') . ' = :lastip')
+						->where($db->quoteName('content_id') . ' = :contentid')
+						->bind(':rate', $rate, ParameterType::INTEGER)
+						->bind(':lastip', $userIP)
+						->bind(':contentid', $pk, ParameterType::INTEGER);
+
 
 					// Set the query and execute the update.
 					$db->setQuery($query);
