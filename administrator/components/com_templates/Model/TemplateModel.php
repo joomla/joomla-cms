@@ -1662,7 +1662,7 @@ class TemplateModel extends FormModel
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->quoteName(['id, client_id']));
+		$query->select($db->quoteName(['id', 'client_id']));
 		$query->from($db->quoteName('#__template_styles'));
 		$query->where($db->quoteName('template') . ' = :template')
 			->bind(':template', $this->template->element);
