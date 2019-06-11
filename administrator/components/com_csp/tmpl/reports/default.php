@@ -104,7 +104,7 @@ $saveOrder = $listOrder == 'a.id';
 											<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'reports.', $canChange, 'cb'); ?>
 										</div>
 									</td>
-									<th scope="row" class="small d-none d-md-table-cell">
+									<th scope="row" class="small d-none d-md-table-cell text-break">
 										<?php echo $item->document_uri; ?>
 									</th>
 									<td class="small d-none d-md-table-cell">
