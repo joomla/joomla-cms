@@ -544,7 +544,7 @@ class StyleModel extends AdminModel
 			{
 				$data['assigned'] = ArrayHelper::toInteger($data['assigned']);
 
-				// Update the mapping for menu items that this style IS assigned to.				
+				// Update the mapping for menu items that this style IS assigned to.
 				$query = $db->getQuery(true)
 					->update($db->quoteName('#__menu'))
 					->set($db->quoteName('template_style_id') . ' = :newtsid')
