@@ -80,11 +80,11 @@ install:
         If ($env:PHP -eq "1") {
           $wincache = "2.0.0.8"
           cd c:\tools\php\ext
-          $source = "http://windows.php.net/downloads/pecl/releases/wincache/$($wincache)/php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($VC)-$($PHPBuild).zip"
-          $destination = "c:\tools\php\ext\php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($VC)-$($PHPBuild).zip"
+          $source = "http://windows.php.net/downloads/pecl/releases/wincache/$($wincache)/php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
+          $destination = "c:\tools\php\ext\php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
           Invoke-WebRequest $source -OutFile $destination
-          #appveyor-retry appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/wincache/$($wincache)/php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($VC)-$($PHPBuild).zip
-          7z x -y php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($VC)-$($PHPBuild).zip > $null
+          #appveyor-retry appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/wincache/$($wincache)/php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip
+          7z x -y php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip > $null
           Remove-Item C:\tools\php\ext* -include .zip
           cd c:\tools\php}
     - IF %PHP%==1 echo extension=php_wincache.dll >> php.ini
