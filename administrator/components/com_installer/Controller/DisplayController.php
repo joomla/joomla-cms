@@ -15,7 +15,6 @@ use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
-use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 
 /**
  * Installer Controller

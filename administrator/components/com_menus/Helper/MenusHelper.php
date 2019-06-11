@@ -879,6 +879,7 @@ class MenusHelper extends ContentHelper
 		$item->target     = (string) $node['target'];
 		$item->alias      = (string) $node['alias'];
 		$item->link       = (string) $node['link'];
+		$item->target     = (string) $node['target'];
 		$item->element    = (string) $node['element'];
 		$item->class      = (string) $node['class'];
 		$item->icon       = (string) $node['icon'];
