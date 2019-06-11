@@ -10,17 +10,20 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
-// Initiasile related data.
+// Initialise related data.
 $menuTypes = MenusHelper::getMenuLinks();
 $user      = Factory::getUser();
+
+HTMLHelper::_('script', 'com_templates/admin-template-toggle-assignment.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <label id="jform_menuselect-lbl" for="jform_menuselect"><?php echo Text::_('JGLOBAL_MENU_SELECTION'); ?></label>
 <div class="btn-toolbar">
-	<button class="btn btn-sm btn-secondary jform-rightbtn" type="button" onclick="document.querySelector('.chk-menulink').setAttribute('checked', !document.querySelector('.chk-menulink').getAttribute('checked'));">
+	<button class="btn btn-sm btn-secondary jform-rightbtn" type="button" onclick="Joomla.toggleAll()">
 		<span class="icon-checkbox-partial" aria-hidden="true"></span> <?php echo Text::_('JGLOBAL_SELECTION_INVERT_ALL'); ?>
 	</button>
 </div>
@@ -30,7 +33,7 @@ $user      = Factory::getUser();
 		<?php foreach ($menuTypes as &$type) : ?>
 			<li>
 				<div class="menu-links-block">
-					<button class="btn btn-sm btn-secondary jform-rightbtn mb-2" type="button" onclick="document.querySelector('.<?php echo $type->menutype; ?>').setAttribute('checked', !document.querySelector('.<?php echo $type->menutype; ?>').getAttribute('checked'));">
+					<button class="btn btn-sm btn-secondary jform-rightbtn mb-2" type="button" onclick='Joomla.toggleMenutype("<?php echo $type->menutype; ?>")'>
 						<span class="icon-checkbox-partial" aria-hidden="true"></span> <?php echo Text::_('JGLOBAL_SELECTION_INVERT'); ?>
 					</button>
 					<h5><?php echo $type->title ?: $type->menutype; ?></h5>

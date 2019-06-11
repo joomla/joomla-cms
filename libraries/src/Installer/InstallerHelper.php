@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -79,7 +80,7 @@ abstract class InstallerHelper
 
 		try
 		{
-			$response = \JHttpFactory::getHttp()->get($url, $headers);
+			$response = HttpFactory::getHttp()->get($url, $headers);
 		}
 		catch (\RuntimeException $exception)
 		{
