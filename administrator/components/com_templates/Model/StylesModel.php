@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\ParameterType;
 
 /**
  * Methods supporting a list of template style records.
@@ -122,7 +123,8 @@ class StylesModel extends ListModel
 			)
 		);
 		$query->from($db->quoteName('#__template_styles', 'a'))
-			->where($db->quoteName('a.client_id') . ' = ' . $clientId);
+			->where($db->quoteName('a.client_id') . ' = :clientid')
+			->bind(':clientid', $clientId, ParameterType::INTEGER);
 
 		// Join on menus.
 		$query->select('COUNT(m.template_style_id) AS assigned')
@@ -141,7 +143,8 @@ class StylesModel extends ListModel
 		// Filter by template.
 		if ($template = $this->getState('filter.template'))
 		{
-			$query->where($db->quoteName('a.template') . ' = ' . $db->quote($template));
+			$query->where($db->quoteName('a.template') . ' = :template')
+				->bind(':template', $template);
 		}
 
 		// Filter by menuitem.
@@ -160,10 +163,12 @@ class StylesModel extends ListModel
 			else
 			{
 				// Subquery to get the language of the selected menu item.
+				$menuItemId = (int) $menuItemId;
 				$menuItemLanguageSubQuery = $db->getQuery(true);
 				$menuItemLanguageSubQuery->select($db->quoteName('language'))
 					->from($db->quoteName('#__menu'))
-					->where($db->quoteName('id') . ' = ' . $menuItemId);
+					->where($db->quoteName('id') . ' = :menuitemid')
+					->bind(':menuiteid', $menuItemId, ParameterType::INTEGER);
 
 				// Subquery to get the language of the selected menu item.
 				$templateStylesMenuItemsSubQuery = $db->getQuery(true);
@@ -189,12 +194,16 @@ class StylesModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where($db->quoteName('a.id') . ' = ' . (int) substr($search, 3));
+				$ids = (int) substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :id');
+				$query->bind(':id', $ids), ParameterType::INTEGER);
 			}
 			else
 			{
-				$search = $db->quote('%' . strtolower($search) . '%');
-				$query->where('(' . ' LOWER(a.template) LIKE ' . $search . ' OR LOWER(a.title) LIKE ' . $search . ')');
+				$search = '%' . strtolower($search) . '%';
+				$query->where('(' . ' LOWER(a.template) LIKE :element OR LOWER(a.title) LIKE :title)')
+					->bind(':template', $search)
+					->bind(':title', $search);
 			}
 		}
 
