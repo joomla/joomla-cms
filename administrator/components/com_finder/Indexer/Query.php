@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,6 +19,8 @@ use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+
+\JLoader::register('FinderHelperRoute', JPATH_SITE . '/components/com_finder/helpers/route.php');
 
 /**
  * Query class for the Finder indexer package.
@@ -111,7 +113,7 @@ class Query
 	 * Allow empty searches
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $empty;
 
@@ -358,7 +360,7 @@ class Query
 				'q'    => $uri->getVar('q'),
 			);
 
-			$item = FinderHelperRoute::getItemid($query);
+			$item = \FinderHelperRoute::getItemid($query);
 
 			// Add the menu item id if present.
 			if ($item !== null)
@@ -769,7 +771,7 @@ class Query
 		foreach (Taxonomy::getBranchTitles() as $branch)
 		{
 			// Add the pattern.
-			$patterns[$branch] = StringHelper::strtolower(Text::_(Language::branchSingular($branch)));
+			$patterns[$branch] = StringHelper::strtolower(Text::_(FinderHelperLanguage::branchSingular($branch)));
 		}
 
 		// Container for search terms and phrases.

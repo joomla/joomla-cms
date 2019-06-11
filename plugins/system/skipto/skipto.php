@@ -68,7 +68,8 @@ class PlgSystemSkipto extends CMSPlugin
 						'menuLabel'      => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_AND_PAGE_OUTLINE'),
 						'landmarksLabel' => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
 						'headingsLabel'	 => Text::_('PLG_SYSTEM_SKIPTO_PAGE_OUTLINE'),
-						'contentLabel'   => Text::_('PLG_SYSTEM_SKIPTO_CONTENT'),
+						// The following string begins with a space
+						'contentLabel'   => ' ' . Text::_('PLG_SYSTEM_SKIPTO_CONTENT'),
 					]
 				]
 			]

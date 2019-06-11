@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Input\Cli;
 use Joomla\CMS\Log\Log;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
@@ -110,7 +111,7 @@ abstract class DaemonApplication extends CliApplication
 	 * @see     JApplicationBase::loadDispatcher()
 	 * @since   1.7.0
 	 */
-	public function __construct(\JInputCli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null)
+	public function __construct(Cli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null)
 	{
 		// Verify that the process control extension for PHP is available.
 		if (!defined('SIGHUP'))

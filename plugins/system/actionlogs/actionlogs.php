@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\User;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
  * Joomla! Users Actions Logging Plugin.
@@ -39,14 +40,6 @@ class PlgSystemActionLogs extends JPlugin
 	protected $db;
 
 	/**
-	 * Load plugin language file automatically so that it can be used inside component
-	 *
-	 * @var    boolean
-	 * @since  3.9.0
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe.
@@ -60,6 +53,24 @@ class PlgSystemActionLogs extends JPlugin
 
 		// Import actionlog plugin group so that these plugins will be triggered for events
 		PluginHelper::importPlugin('actionlog');
+	}
+
+	/**
+	 * Listener for the `onAfterInitialise` event
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
+	public function onAfterInitialise()
+	{
+		if (!$this->app->isClient('administrator'))
+		{
+			return;
+		}
+
+		// Load plugin language files only when needed (ex: they are not needed in site client).
+		$this->loadLanguage();
 	}
 
 	/**
@@ -176,7 +187,7 @@ class PlgSystemActionLogs extends JPlugin
 		{
 			$values = $this->db->setQuery($query)->loadObject();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -331,7 +342,7 @@ class PlgSystemActionLogs extends JPlugin
 		{
 			$exists = (bool) $this->db->setQuery($query)->loadResult();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -380,7 +391,7 @@ class PlgSystemActionLogs extends JPlugin
 		{
 			$this->db->setQuery($query)->execute();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -416,7 +427,7 @@ class PlgSystemActionLogs extends JPlugin
 		{
 			$this->db->setQuery($query)->execute();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}

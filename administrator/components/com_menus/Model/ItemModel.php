@@ -984,6 +984,10 @@ class ItemModel extends AdminModel
 		// Forced client id will override/clear menuType if conflicted
 		$forcedClientId = $app->input->get('client_id', null, 'string');
 
+		// Set the menu type and client id on the list view state, so we return to this menu after saving.
+		$app->setUserState('com_menus.items.menutype', $menuType);
+		$app->setUserState('com_menus.items.client_id', $clientId);
+
 		// Current item if not new, we don't allow changing client id at all
 		if ($pk)
 		{
@@ -998,10 +1002,6 @@ class ItemModel extends AdminModel
 			$menuType   = '';
 			$menuTypeId = 0;
 		}
-
-		// Set the menu type and client id on the list view state, so we return to this menu after saving.
-		$app->setUserState('com_menus.items.menutype', $menuType);
-		$app->setUserState('com_menus.items.client_id', $clientId);
 
 		$this->setState('item.menutype', $menuType);
 		$this->setState('item.client_id', $clientId);
