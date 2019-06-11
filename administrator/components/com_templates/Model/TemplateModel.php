@@ -645,7 +645,7 @@ class TemplateModel extends FormModel
 
 			// Get the template information.
 			$query = $db->getQuery(true)
-				->select($db->quoteName(['extension_id, client_id, element, name, manifest_cache']))
+				->select($db->quoteName(['extension_id', 'client_id', 'element', 'name', 'manifest_cache']))
 				->from($db->quoteName('#__extensions'))
 				->where($db->quoteName('extension_id') . ' = :pk')
 				->where($db->quoteName('type') . ' = ' . $db->quote('template'))
