@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -154,21 +155,22 @@ class FeaturedModel extends ArticlesModel
 
 		if (is_numeric($access))
 		{
-			$query->where('a.access = ' . (int) $access);
+			$access = (int) $access;
+			$query->where($db->quoteName('a.access') . ' = :access')
+				->bind(':access', $access, ParameterType::INTEGER);
 		}
 		elseif (is_array($access))
 		{
 			$access = ArrayHelper::toInteger($access);
-			$access = implode(',', $access);
-			$query->where('a.access IN (' . $access . ')');
+			$query->whereIn($db->quoteName('a.access'), $access);
 		}
 
 		// Filter by access level on categories.
 		if (!$user->authorise('core.admin'))
 		{
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN (' . $groups . ')');
-			$query->where('c.access IN (' . $groups . ')');
+			$groups = $user->getAuthorisedViewLevels();
+			$query->whereIn($db->quoteName('a.access'), $groups);
+			$query->whereIn($db->quoteName('c.access'), $groups);
 		}
 
 		// Filter by workflows stages
@@ -176,7 +178,9 @@ class FeaturedModel extends ArticlesModel
 
 		if (is_numeric($workflowStage))
 		{
-			$query->where('wa.stage_id = ' . (int) $workflowStage);
+			$workflowStage = (int) $workflowStage;
+			$query->where($db->quoteName('wa.stage_id') . ' = :workflowstage')
+				->bind('workflowstage', $workflowStage, ParameterType::INTEGER);
 		}
 
 		$condition = (string) $this->getState('filter.condition');
@@ -185,7 +189,9 @@ class FeaturedModel extends ArticlesModel
 		{
 			if (is_numeric($condition))
 			{
-				$query->where($db->quoteName('ws.condition') . '=' . (int) $condition);
+				$condition = (int) $condition;
+				$query->where($db->quoteName('ws.condition') . ' = :condition')
+					->bind(':condition', $condition, ParameterType::INTEGER);
 			}
 			elseif (!is_numeric($workflowStage))
 			{
@@ -217,14 +223,16 @@ class FeaturedModel extends ArticlesModel
 		}
 		elseif (is_array($categoryId))
 		{
-			$categoryId = implode(',', ArrayHelper::toInteger($categoryId));
-			$query->where('a.catid IN (' . $categoryId . ')');
+			$categoryId = ArrayHelper::toInteger($categoryId);
+			$query->whereIn($db->quoteName('a.catid'), $categoryId);
 		}
 
 		// Filter on the level.
 		if ($level = $this->getState('filter.level'))
 		{
-			$query->where('c.level <= ' . ((int) $level + (int) $baselevel - 1));
+			$level = ((int) $level + (int) $baselevel - 1);
+			$query->where($db->quoteName('c.level') . ' <= :level')
+				->bind(':level', $level, ParameterType::INTEGER);
 		}
 
 		// Filter by author
@@ -232,14 +240,15 @@ class FeaturedModel extends ArticlesModel
 
 		if (is_numeric($authorId))
 		{
+			$authorId = (int) $authorId;
 			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<>';
-			$query->where('a.created_by ' . $type . (int) $authorId);
+			$query->where($db->quoteName('a.created_by') . $type . ' :createdby')
+				->bind(':createdby', $authorId, ParameterType::INTEGER);
 		}
 		elseif (is_array($authorId))
 		{
 			$authorId = ArrayHelper::toInteger($authorId);
-			$authorId = implode(',', $authorId);
-			$query->where('a.created_by IN (' . $authorId . ')');
+			$query->where($db->quoteName('a.created_by'), $authorId);
 		}
 
 		// Filter by search in title.
@@ -249,29 +258,40 @@ class FeaturedModel extends ArticlesModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.id = ' . (int) substr($search, 3));
+				$ids = (int) substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :id');
+				$query->bind(':id', $ids, ParameterType::INTEGER);
 			}
 			elseif (stripos($search, 'author:') === 0)
 			{
-				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
-				$query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
+				$search = '%' . substr($search, 7) . '%';
+				$query->where('(' . $db->quoteName('ua.name') . ' LIKE :name' .
+					' OR ' . $db->quoteName('ua.username') . ' LIKE :uname'. ')');
+				$query->bind(':name', $search)
+					->bind(':uname', $search);
 			}
 			elseif (stripos($search, 'content:') === 0)
 			{
-				$search = $db->quote('%' . $db->escape(substr($search, 8), true) . '%');
+				$search = '%' . substr($search, 8) . '%';
 				$query->where('(a.introtext LIKE ' . $search . ' OR a.fulltext LIKE ' . $search . ')');
 			}
 			else
 			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
+				$search = '%' . trim($search) . '%';
+				$query->where('(' . $db->quoteName('a.title') . ' LIKE :title' .
+					' OR ' . $db->quoteName('a.alias') . ' LIKE :alias' .
+					' OR '. $db->quoteName('a.note') . ' LIKE :note' . ')');
+				$query->bind(':title', $search)
+					->bind(':alias', $search)
+					->bind(':note', $search);
 			}
 		}
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language = ' . $db->quote($language));
+			$query->where($db->quoteName('a.language') . ' = :language')
+				->bind(':language', $language);
 		}
 
 		// Filter by a single or group of tags.
@@ -284,14 +304,14 @@ class FeaturedModel extends ArticlesModel
 
 		if (is_array($tagId))
 		{
-			$tagId = implode(',', ArrayHelper::toInteger($tagId));
+			$tagId = ArrayHelper::toInteger($tagId);
 
 			if ($tagId)
 			{
 				$subQuery = $db->getQuery(true)
 					->select('DISTINCT content_item_id')
 					->from($db->quoteName('#__contentitem_tag_map'))
-					->where('tag_id IN (' . $tagId . ')')
+					->whereIn($db->quoteName('tag_id'), $tagId)
 					->where('type_alias = ' . $db->quote('com_content.article'));
 
 				$query->join('INNER', '(' . (string) $subQuery . ') AS tagmap ON tagmap.content_item_id = a.id');
