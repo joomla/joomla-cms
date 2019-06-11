@@ -111,7 +111,7 @@ class StyleTable extends Table
 			$clientId = (int) $this->client_id;
 			$query = $this->_db->getQuery(true)
 				->update($this->_db->quoteName('#__template_styles'))
-				->set('home=\'0\'')
+				->set($this->_db->quoteName('home') . ' = ' . $this->_db->quote('0'))
 				->where($this->_db->quoteName('client_id') . ' = :clientid')
 				->where($this->_db->quoteName('home') . ' = :home')
 				->bind(':clientid', $clientId, ParameterType::INTEGER)
