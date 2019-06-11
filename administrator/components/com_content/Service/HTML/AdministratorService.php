@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -50,6 +51,7 @@ class AdministratorService
 			}
 
 			// Get the associated menu items
+			$associations = array_values($associations);
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('c.*')
@@ -58,11 +60,12 @@ class AdministratorService
 				->from('#__content as c')
 				->select('cat.title as category_title')
 				->join('LEFT', '#__categories as cat ON cat.id=c.catid')
-				->where('c.id IN (' . implode(',', array_values($associations)) . ')')
-				->where('c.id != ' . $articleid)
+				->whereIn($db->quoteName('c.id'), $associations)
+				->where($db->quoteName('c.id') . ' != :articleid')
 				->join('LEFT', '#__languages as l ON c.language=l.lang_code')
 				->select('l.image')
-				->select('l.title as language_title');
+				->select('l.title as language_title')
+				->bind(':articleid', $articleid, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			try
