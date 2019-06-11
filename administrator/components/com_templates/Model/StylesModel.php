@@ -127,7 +127,7 @@ class StylesModel extends ListModel
 			->bind(':clientid', $clientId, ParameterType::INTEGER);
 
 		// Join on menus.
-		$query->select('COUNT(m.template_style_id) AS assigned')
+		$query->select('COUNT(' . $db->quoteName('m.template_style_id' . ') AS assigned')
 			->join('LEFT', $db->quoteName('#__menu', 'm') . ' ON ' . $db->quoteName('m.template_style_id') . ' = ' . $db->quoteName('a.id'))
 			->group($db->quoteName(array('a.id', 'a.template', 'a.title', 'a.home', 'a.client_id', 'l.title', 'l.image', 'l.sef', 'e.extension_id')));
 
