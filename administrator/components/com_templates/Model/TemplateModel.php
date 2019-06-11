@@ -687,12 +687,13 @@ class TemplateModel extends FormModel
 	 */
 	public function checkNewName()
 	{
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
+		$name  = $this->getState('new_name');
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('name') . ' = :name')
-				->bind(':name', $this->getState('new_name'));
+				->bind(':name', $name);
 		$db->setQuery($query);
 
 		return ($db->loadResult() == 0);
