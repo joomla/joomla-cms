@@ -65,7 +65,7 @@
       if (Joomla.editors.instances[input.id]) {
         Joomla.editors.instances[input.id].replaceSelection(tag);
       } else {
-        input.value += ' ' + tag;
+        input.value += ` ${tag}`;
       }
 
       return true;
@@ -143,7 +143,7 @@
           const el = event.target;
           this.insertTag(el.dataset.tag, el.dataset.target);
         });
-      })
+      });
     }
   }
 
