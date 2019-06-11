@@ -122,21 +122,7 @@ body {
   padding: 10px 20px;
 }
 
-.lang-select {
-  top: 0;
-  right: 0;
-  width: auto;
-  .custom-select {
-    height: 30px;
-    padding: .3rem 1.75rem .3rem .75rem;
-    line-height: 1;
-  }
-}
-
-.hidden {
-  display: none;
-}
-[hidden="hidden"] {
+.hidden, [hidden="hidden"] {
   display: none;
 }
 
@@ -173,10 +159,6 @@ body {
     padding-right: 5px;
     text-align: left;
   }
-}
-
-label {
-  font-size: $label-font-size;
 }
 
 .form-no-margin {
