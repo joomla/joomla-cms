@@ -132,7 +132,7 @@ class StylesModel extends ListModel
 			->group($db->quoteName([a.id', 'a.template', 'a.title', 'a.home', 'a.client_id', 'l.title', 'l.image', 'l.sef', 'e.extension_id']));
 
 		// Join over the language.
-		$query->join('LEFT', $db->quoteName('#__languages', 'l') . ' ON ' . $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.home'));
+		$query->leftJoin($db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.home'));
 
 		// Filter by extension enabled.
 		$query->select($db->quoteName('extension_id', 'e_id'))
