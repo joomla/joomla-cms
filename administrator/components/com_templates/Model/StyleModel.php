@@ -635,7 +635,7 @@ class StyleModel extends AdminModel
 		// Reset the home fields for the client_id.
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__template_styles'))
-			->set($db->quoteName('home') . ' = ' .  $db->quote('0'))
+			->set($db->quoteName('home') . ' = ' . $db->quote('0'))
 			->where($db->quoteName('client_id') . ' = :clientid')
 			->where($db->quoteName('home') . ' = ' . $db->quote('1'))
 			->bind(':clientid', $clientId, ParameterType::INTEGER);
