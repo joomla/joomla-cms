@@ -277,9 +277,9 @@ class ArticlesModel extends ListModel
 		// Filter by access level.
 		if ($this->getState('filter.access', true))
 		{
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN (' . $groups . ')')
-				->where('c.access IN (' . $groups . ')');
+			$groups = $user->getAuthorisedViewLevels();
+			$query->whereIn($db->quoteName('a.access'), $groups)
+				->whereIn($db->quoteName('c.access'), $groups);
 		}
 
 		// Filter by published state
@@ -297,21 +297,24 @@ class ArticlesModel extends ListModel
 		elseif (is_numeric($condition))
 		{
 			// Category has to be published
-			$query->where("c.published = 1 AND ws.condition = " . $db->quote($condition));
+			$condition = (int) $condition;
+			$query->where($db->quoteName('c.published') . ' = 1') 
+				->where($db->quoteName('ws.condition') . ' = :condition')
+				->bind(':condition', $condition, ParameterType::INTEGER);
 		}
 		elseif (is_array($condition))
 		{
 			$condition = array_map(
 				function ($data) use ($db)
 				{
-					return $db->quote($data);
+					return (int) $data;
 				},
 				$condition
 			);
-			$condition = implode(',', $condition);
 
 			// Category has to be published
-			$query->where('c.published = 1 AND ws.condition IN (' . $condition . ')');
+			$query->where($db->quoteName('c.published') . ' = 1')
+				->whereIn($db->quoteName('ws.condition') . $condition);
 		}
 
 		// Filter by featured state
@@ -339,14 +342,23 @@ class ArticlesModel extends ListModel
 		if (is_numeric($articleId))
 		{
 			$type = $this->getState('filter.article_id.include', true) ? '= ' : '<> ';
-			$query->where('a.id ' . $type . (int) $articleId);
+			$articleId = (int) $articleId;
+			$query->where($db->quoteName('a.id') . $type . ':articleid')
+				->bind(':articleid', $articleId, ParameterType::INTEGER);
 		}
 		elseif (is_array($articleId))
 		{
 			$articleId = ArrayHelper::toInteger($articleId);
-			$articleId = implode(',', $articleId);
 			$type      = $this->getState('filter.article_id.include', true) ? 'IN' : 'NOT IN';
-			$query->where('a.id ' . $type . ' (' . $articleId . ')');
+
+			if ($type === 'IN')
+			{
+				$query->whereIn($db->quoteName('a.id'), $articleId);
+			}
+			else
+			{
+				$query->whereNotIn($db->quoteName('a.id'), $articleId);
+			}
 		}
 
 		// Filter by a single or group of categories
@@ -387,12 +399,19 @@ class ArticlesModel extends ListModel
 		elseif (is_array($categoryId) && (count($categoryId) > 0))
 		{
 			$categoryId = ArrayHelper::toInteger($categoryId);
-			$categoryId = implode(',', $categoryId);
 
 			if (!empty($categoryId))
 			{
 				$type = $this->getState('filter.category_id.include', true) ? 'IN' : 'NOT IN';
-				$query->where('a.catid ' . $type . ' (' . $categoryId . ')');
+
+				if ($type === 'IN')
+				{
+					$query->whereIn($db->quoteName('a.catid'), $categoryId);
+				}
+				else
+				{
+					$query->whereNotIn($db->quoteName('a.catid'), $categoryId);
+				}
 			}
 		}
 
@@ -463,14 +482,20 @@ class ArticlesModel extends ListModel
 		}
 
 		// Define null and now dates
-		$nullDate = $db->quote($db->getNullDate());
-		$nowDate  = $db->quote(Factory::getDate()->toSql());
+		$nullDate = $db->getNullDate();
+		$nowDate  = Factory::getDate()->toSql();
 
 		// Filter by start and end dates.
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
-			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+			$query->where($db->quoteName('a.publish_up') . ' = :pushupnull')
+				->orWhere($db->quoteName('a.publish_up') . ' <= :pushupnow')
+				->where($db->quoteName('a.publish_down') . ' = :pushdownnull')
+				->orWhere($db->quoteName('a.publish_down') . ' >= :pushdownnow')
+				->bind(':pushupnull', $nullDate)
+				->bind(':pushupnow', $nowDate)
+				->bind(':pushdownnull', $nullDate)
+				->bind(':pushdownnow', $nowDate);
 		}
 
 		// Filter by Date Range or Relative Date
@@ -519,7 +544,8 @@ class ArticlesModel extends ListModel
 					break;
 
 				case 'hits':
-					$query->where('a.hits >= ' . $hitsFilter . ' ');
+					$query->where($db->quoteName('a.hits') .' >= :hits ')
+						->bind(':hits', $hitsFilter, ParameterType::INTEGER);
 					break;
 
 				case 'month':
@@ -548,7 +574,8 @@ class ArticlesModel extends ListModel
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language IN (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$language = [Factory::getLanguage()->getTag(), '*'];
+			$query->whereIn($db->quoteName('a.language'), $language);
 		}
 
 		// Filter by a single or group of tags.
