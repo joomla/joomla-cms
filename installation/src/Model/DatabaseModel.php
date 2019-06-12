@@ -860,7 +860,7 @@ class DatabaseModel extends BaseInstallationModel
 			'#__newsfeeds'       => array('created_by', 'modified_by'),
 			'#__tags'            => array('created_user_id', 'modified_user_id'),
 			'#__ucm_content'     => array('core_created_user_id', 'core_modified_user_id'),
-			'#__ucm_history'     => array('editor_user_id'),
+			'#__history'     => array('editor_user_id'),
 			'#__user_notes'      => array('created_user_id', 'modified_user_id'),
 		);
 
@@ -920,7 +920,7 @@ class DatabaseModel extends BaseInstallationModel
 			'#__redirect_links'      => array('created_date', 'modified_date'),
 			'#__tags'                => array('publish_up', 'publish_down', 'created_time', 'modified_time'),
 			'#__ucm_content'         => array('core_created_time', 'core_modified_time', 'core_publish_up', 'core_publish_down'),
-			'#__ucm_history'         => array('save_date'),
+			'#__history'             => array('save_date'),
 			'#__users'               => array('registerDate', 'lastvisitDate', 'lastResetTime'),
 			'#__user_notes'          => array('publish_up', 'publish_down', 'created_time', 'modified_time'),
 		);
