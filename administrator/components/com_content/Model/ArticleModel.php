@@ -1034,7 +1034,7 @@ class ArticleModel extends AdminModel
 				// First, we find out which of our new featured articles are already featured.
 				$query = $db->getQuery(true)
 					->select($db->quoteName('f.content_id'))
-					->from('#__content_frontpage AS f')
+					->from($db->quoteName('#__content_frontpage ', 'f'))
 					->whereIn($db->quoteName('content_id'), $pks);
 				$db->setQuery($query);
 
