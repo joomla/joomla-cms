@@ -59,7 +59,7 @@
 
 			var folder = this.getFolder() || '',
 				query = [],
-				a = getUriObject( $( '#uploadForm' ).attr( 'action' ) ),
+				a = getUriObject( $( '#uploadForm' ).prop( 'action' ) ),
 				q = getQueryObject( a.query ),
 				k, v;
 
@@ -67,7 +67,7 @@
 				el.value = folder;
 			} );
 
-			this.folderpath.value = basepath + (folder ? '/' + folder : '');
+			this.folderpath.value = scope.basepath + (folder ? '/' + folder : '');
 
 			q.folder = folder;
 
@@ -75,14 +75,14 @@
 				if (!q.hasOwnProperty( k )) { continue; }
 
 				v = q[ k ];
-				query.push( k + (v === null ? '' : '=' + v) );
+				query.push(encodeURIComponent(k) + (v === null ? '' : '=' + encodeURIComponent(v)));
 			}
 
 			a.query = query.join( '&' );
 			a.fragment = null;
 
-			$( '#uploadForm' ).attr( 'action', buildUri(a) );
-			$( '#' + viewstyle ).addClass( 'active' );
+			$( '#uploadForm' ).prop( 'action', buildUri(a) );
+			$( '#' + scope.viewstyle ).addClass( 'active' );
 		},
 
 		/**
@@ -92,9 +92,12 @@
 		 */
 		setViewType: function( type ) {
 			$( '#' + type ).addClass( 'active' );
-			$( '#' + viewstyle ).removeClass( 'active' );
-			viewstyle = type;
+			$( '#' + scope.viewstyle ).removeClass( 'active' );
+			scope.viewstyle = type;
 			var folder = this.getFolder();
+
+			folder = encodeURIComponent(folder);
+			type = encodeURIComponent(type);
 
 			this.setFrameUrl( 'index.php?option=com_media&view=mediaList&tmpl=component&folder=' + folder + '&layout=' + type );
 		},
