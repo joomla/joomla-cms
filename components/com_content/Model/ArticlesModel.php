@@ -544,7 +544,7 @@ class ArticlesModel extends ListModel
 					break;
 
 				case 'hits':
-					$query->where($db->quoteName('a.hits') .' >= :hits ')
+					$query->where($db->quoteName('a.hits') .' >= :hits')
 						->bind(':hits', $hitsFilter, ParameterType::INTEGER);
 					break;
 
