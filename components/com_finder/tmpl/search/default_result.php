@@ -3,13 +3,19 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\String\StringHelper;
+
+$user = Factory::getUser();
 
 // Get the mime type class.
 $mime = !empty($this->result->mime) ? 'mime-' . $this->result->mime : null;
@@ -43,13 +49,13 @@ if ($show_description)
 	$space = StringHelper::strpos($full_description, ' ', $start > 0 ? $start - 1 : 0);
 	$start = ($space && $space < $pos) ? $space + 1 : $start;
 
-	$description = JHtml::_('string.truncate', StringHelper::substr($full_description, $start), $desc_length, true);
+	$description = HTMLHelper::_('string.truncate', StringHelper::substr($full_description, $start), $desc_length, true);
 }
 ?>
 <dt class="result-title">
 	<h4 class="result-title <?php echo $mime; ?>">
 		<?php if ($this->result->route) : ?>
-			<a href="<?php echo JRoute::_($this->result->route); ?>">
+			<a href="<?php echo Route::_($this->result->route); ?>">
 				<?php echo $this->result->title; ?>
 			</a>
 		<?php else : ?>
@@ -62,7 +68,21 @@ if ($show_description)
 <?php if (count($taxonomies) && $this->params->get('show_taxonomy', 1)) : ?>
 	<dd class="result-taxonomy">
 	<?php foreach ($taxonomies as $type => $taxonomy) : ?>
-		<span class="badge badge-secondary"><?php echo $type . ': ' . implode(',', array_column($taxonomy, 'title')); ?></span>
+		<?php $branch = FinderIndexerTaxonomy::getBranch($type); ?>
+		<?php if ($branch->state == 1 && in_array($branch->access, $user->getAuthorisedViewLevels())) : ?>
+			<?php
+			$taxonomy_text = array();
+
+			foreach ($taxonomy as $node) :
+				if ($node->state == 1 && in_array($node->access, $user->getAuthorisedViewLevels())) :
+					$taxonomy_text[] = $node->title;
+				endif;
+			endforeach;
+
+			if (count($taxonomy_text)) : ?>
+				<span class="badge badge-secondary"><?php echo $type . ': ' . implode(',', $taxonomy_text); ?></span>
+			<?php endif; ?>
+		<?php endif; ?>
 	<?php endforeach; ?>
 	</dd>
 <?php endif; ?>
@@ -73,11 +93,11 @@ if ($show_description)
 <?php endif; ?>
 <?php if ($this->result->start_date && $this->params->get('show_date', 1)) : ?>
 	<dd class="result-date small">
-		<?php echo \JHtml::_('date', $this->result->start_date, \JText::_('DATE_FORMAT_LC3')); ?>
+		<?php echo HTMLHelper::_('date', $this->result->start_date, Text::_('DATE_FORMAT_LC3')); ?>
 	</dd>
 <?php endif; ?>
 <?php if ($this->params->get('show_url', 1)) : ?>
 	<dd class="result-url small">
-		<?php echo $this->baseUrl, JRoute::_($this->result->cleanURL); ?>
+		<?php echo $this->baseUrl, Route::_($this->result->cleanURL); ?>
 	</dd>
 <?php endif; ?>

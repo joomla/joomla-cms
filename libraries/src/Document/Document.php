@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Application\AbstractWebApplication;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory as CmsFactory;
-use Joomla\CMS\WebAsset\WebAssetRegistry;
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Symfony\Component\WebLink\HttpHeaderSerializer;
 
 /**
@@ -249,7 +249,7 @@ class Document
 	/**
 	 * Web Asset instance
 	 *
-	 * @var    WebAssetRegistry
+	 * @var    WebAssetManager
 	 * @since  4.0.0
 	 */
 	protected $webAssetManager = null;
@@ -321,13 +321,16 @@ class Document
 			$this->setPreloadManager(new PreloadManager);
 		}
 
-		if (array_key_exists('webAsset', $options))
+		if (array_key_exists('webAssetManager', $options))
 		{
-			$this->setWebAssetManager($options['webAsset']);
+			$this->setWebAssetManager($options['webAssetManager']);
 		}
 		else
 		{
-			$this->setWebAssetManager(\Joomla\CMS\Factory::getContainer()->get('webasset'));
+			$webAssetManager = new WebAssetManager(\Joomla\CMS\Factory::getContainer()->get('webassetregistry'));
+			$webAssetManager->setDispatcher(CmsFactory::getApplication()->getDispatcher());
+
+			$this->setWebAssetManager($webAssetManager);
 		}
 	}
 
@@ -572,7 +575,7 @@ class Document
 
 		if ($merge && is_array($options))
 		{
-			$this->scriptOptions[$key] = array_merge($this->scriptOptions[$key], $options);
+			$this->scriptOptions[$key] = array_replace_recursive($this->scriptOptions[$key], $options);
 		}
 		else
 		{
@@ -831,13 +834,13 @@ class Document
 	/**
 	 * Set WebAsset manager
 	 *
-	 * @param   WebAssetRegistry  $webAsset  The WebAsset instance
+	 * @param   WebAssetManager  $webAsset  The WebAsset instance
 	 *
 	 * @return  Document
 	 *
 	 * @since   4.0.0
 	 */
-	public function setWebAssetManager(WebAssetRegistry $webAsset): self
+	public function setWebAssetManager(WebAssetManager $webAsset): self
 	{
 		$this->webAssetManager = $webAsset;
 
@@ -847,11 +850,11 @@ class Document
 	/**
 	 * Return WebAsset manager
 	 *
-	 * @return  WebAssetRegistry
+	 * @return  WebAssetManager
 	 *
 	 * @since   4.0.0
 	 */
-	public function getWebAssetManager(): WebAssetRegistry
+	public function getWebAssetManager(): WebAssetManager
 	{
 		return $this->webAssetManager;
 	}

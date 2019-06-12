@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_mailto
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ HTMLHelper::_('script', 'com_mailto/mailto-default.js', ['version' => 'auto', 'r
 		<?php echo Text::_('COM_MAILTO_EMAIL_TO_A_FRIEND'); ?>
 	</h2>
 	<div class="com-mailto__close mailto-close">
-		<a title="<?php echo Text::_('COM_MAILTO_CLOSE_WINDOW'); ?>" href="#" class="close-mailto">
+		<a href="#" class="close-mailto">
 		 <span>
              <?php echo Text::_('COM_MAILTO_CLOSE_WINDOW'); ?>
          </span></a>
