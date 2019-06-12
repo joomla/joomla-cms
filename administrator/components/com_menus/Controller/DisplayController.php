@@ -57,7 +57,7 @@ class DisplayController extends BaseController
 			{
 				$this->setRedirect(Route::_('index.php?option=com_menus&view=items&menutype=' . $menuType, false));
 
-				return false;
+				return parent::display();
 			}
 		}
 
