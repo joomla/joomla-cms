@@ -30,6 +30,20 @@
 								<option value="text">PLG_FIELDS_REPEATABLE_PARAMS_FIELDNAME_TYPE_TEXT</option>
 								<option value="textarea">PLG_FIELDS_REPEATABLE_PARAMS_FIELDNAME_TYPE_TEXTAREA</option>
 							</field>
+							<field
+								name="fieldfilter"
+								type="list"
+								label="PLG_FIELDS_TEXT_PARAMS_FILTER_LABEL"
+								description="PLG_FIELDS_TEXT_PARAMS_FILTER_DESC"
+								class="btn-group"
+								validate="options"
+								>
+								<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
+								<option value="0">JNO</option>
+								<option value="raw">JLIB_FILTER_PARAMS_RAW</option>
+								<option value="safehtml">JLIB_FILTER_PARAMS_SAFEHTML</option>
+								<option value="JComponentHelper::filterText">JLIB_FILTER_PARAMS_TEXT</option>
+							</field>
 						</fieldset>
 					</fields>
 				</form>
