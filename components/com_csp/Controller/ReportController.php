@@ -107,7 +107,7 @@ class ReportController extends BaseController
 		$query = $db->getQuery(true);
 
 		$query
-			->select('count(*)')
+			->select('COUNT(*)')
 			->from($db->quoteName('#__csp'))
 			->where($db->quoteName('blocked_uri') . ' = :blocked_uri')
 			->where($db->quoteName('directive') . ' = :directive')
