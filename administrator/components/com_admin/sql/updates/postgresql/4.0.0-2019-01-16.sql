@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS "#__mail_templates" (
   "htmlbody" TEXT NOT NULL,
   "attachments" TEXT NOT NULL,
   "params" TEXT NOT NULL,
-  CONSTRAINT "#__mail_templates_idx_template_id_language" UNIQUE ("template_id", "language"),
+  CONSTRAINT "#__mail_templates_idx_template_id_language" UNIQUE ("template_id", "language")
 );
 CREATE INDEX "#__mail_templates_idx_template_id" ON "#__mail_templates" ("template_id");
 CREATE INDEX "#__mail_templates_idx_language" ON "#__mail_templates" ("language");
