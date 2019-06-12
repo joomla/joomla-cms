@@ -103,7 +103,7 @@ class ReportsModel extends ListModel
 		// Select the required fields from the table.
 		$query
 			->select('*')
-			->from($db->quoteName('#__csp'), 'a');
+			->from($db->quoteName('#__csp', 'a'));
 
 		// Filter by published state
 		$published = (string) $this->getState('filter.published');
