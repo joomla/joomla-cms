@@ -170,7 +170,11 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
 								<td class="text-center">
-									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'items.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+									<?php
+										// Show protected items as published always. We don't allow state change for them. Show/Hide is the module's job.
+										$published = $item->protected ? 3 : $item->published;
+										echo HTMLHelper::_('menus.state', $published, $i, $canChange && !$item->protected, 'cb', $item->publish_up, $item->publish_down);
+									?>
 								</td>
 								<th scope="row">
 									<?php $prefix = LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
