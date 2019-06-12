@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,7 +19,7 @@ Log::add('JImageFilterBrightness is deprecated, use Joomla\Image\Filter\Brightne
 /**
  * Image Filter class adjust the brightness of an image.
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  5.0  Use Joomla\Image\Filter\Brightness instead
  */
 class Brightness extends ImageFilter
@@ -31,7 +31,7 @@ class Brightness extends ImageFilter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \InvalidArgumentException
 	 * @deprecated  5.0  Use Joomla\Image\Filter\Brightness::execute() instead
 	 */

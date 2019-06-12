@@ -3,23 +3,23 @@
  * @package     Joomla.Plugin
  * @subpackage  System.updatenotification
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Version;
-use Joomla\CMS\Cache\Cache;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Updater\Updater;
-use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\Component\Installer\Administrator\Model\UpdateModel;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Updater\Updater;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Version;
 
 // Uncomment the following line to enable debug mode (update notification email sent every single time)
 // define('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG', 1);
@@ -38,6 +38,22 @@ use Joomla\Component\Installer\Administrator\Model\UpdateModel;
 class PlgSystemUpdatenotification extends CMSPlugin
 {
 	/**
+	 * Application object
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  4.0.0
+	 */
+	protected $app;
+
+	/**
+	 * Database driver
+	 *
+	 * @var    \Joomla\Database\DatabaseInterface
+	 * @since  4.0.0
+	 */
+	protected $db;
+
+	/**
 	 * Load plugin language files automatically
 	 *
 	 * @var    boolean
@@ -55,7 +71,6 @@ class PlgSystemUpdatenotification extends CMSPlugin
 	public function onAfterRender()
 	{
 		// Get the timeout for Joomla! updates, as configured in com_installer's component parameters
-		JLoader::import('joomla.application.component.helper');
 		$component = ComponentHelper::getComponent('com_installer');
 
 		/** @var \Joomla\Registry\Registry $params */
@@ -77,18 +92,17 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		// If I have the time of the last run, I can update, otherwise insert
 		$this->params->set('lastrun', $now);
 
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-					->update($db->qn('#__extensions'))
-					->set($db->qn('params') . ' = ' . $db->q($this->params->toString('JSON')))
-					->where($db->qn('type') . ' = ' . $db->q('plugin'))
-					->where($db->qn('folder') . ' = ' . $db->q('system'))
-					->where($db->qn('element') . ' = ' . $db->q('updatenotification'));
+		$query = $this->db->getQuery(true)
+					->update($this->db->quoteName('#__extensions'))
+					->set($this->db->quoteName('params') . ' = ' . $this->db->quote($this->params->toString('JSON')))
+					->where($this->db->quoteName('type') . ' = ' . $this->db->quote('plugin'))
+					->where($this->db->quoteName('folder') . ' = ' . $this->db->quote('system'))
+					->where($this->db->quoteName('element') . ' = ' . $this->db->quote('updatenotification'));
 
 		try
 		{
 			// Lock the tables to prevent multiple plugin executions causing a race condition
-			$db->lockTable('#__extensions');
+			$this->db->lockTable('#__extensions');
 		}
 		catch (Exception $e)
 		{
@@ -99,21 +113,21 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		try
 		{
 			// Update the plugin parameters
-			$result = $db->setQuery($query)->execute();
+			$result = $this->db->setQuery($query)->execute();
 
 			$this->clearCacheGroups(array('com_plugins'));
 		}
 		catch (Exception $exc)
 		{
 			// If we failed to execite
-			$db->unlockTables();
+			$this->db->unlockTables();
 			$result = false;
 		}
 
 		try
 		{
 			// Unlock the tables after writing
-			$db->unlockTables();
+			$this->db->unlockTables();
 		}
 		catch (Exception $e)
 		{
@@ -141,7 +155,8 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		}
 
 		// Get the update model and retrieve the Joomla! core updates
-		$model = new UpdateModel(array('ignore_request' => true));
+		$model = $this->app->bootComponent('com_installer')
+			->getMVCFactory()->createModel('Update', 'Administrator', ['ignore_request' => true]);
 		$model->setState('filter.extension_id', $eid);
 		$updates = $model->getItems();
 
@@ -179,8 +194,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		 *
 		 * The plugins should modify the $uri object directly and return null.
 		 */
-
-		Factory::getApplication()->triggerEvent('onBuildAdministratorLoginURL', array(&$uri));
+		$this->app->triggerEvent('onBuildAdministratorLoginURL', array(&$uri));
 
 		// Let's find out the email addresses to notify
 		$superUsers    = array();
@@ -208,7 +222,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		 * following code does DO NOT TOUCH IT. It makes the difference between a hobbyist CMS and a professional
 		 * solution!
 		 */
-		$jLanguage = Factory::getLanguage();
+		$jLanguage = $this->app->getLanguage();
 		$jLanguage->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, 'en-GB', true, true);
 		$jLanguage->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, null, true, false);
 
@@ -231,10 +245,9 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		$jVersion       = new Version;
 		$currentVersion = $jVersion->getShortVersion();
 
-		$jConfig  = Factory::getConfig();
-		$sitename = $jConfig->get('sitename');
-		$mailFrom = $jConfig->get('mailfrom');
-		$fromName = $jConfig->get('fromname');
+		$sitename = $this->app->get('sitename');
+		$mailFrom = $this->app->get('mailfrom');
+		$fromName = $this->app->get('fromname');
 
 		$substitutions = array(
 			'[NEWVERSION]'  => $newVersion,
@@ -255,12 +268,26 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		// Send the emails to the Super Users
 		foreach ($superUsers as $superUser)
 		{
-			$mailer = Factory::getMailer();
-			$mailer->setSender(array($mailFrom, $fromName));
-			$mailer->addRecipient($superUser->email);
-			$mailer->setSubject($email_subject);
-			$mailer->setBody($email_body);
-			$mailer->Send();
+			try
+			{
+				$mailer = Factory::getMailer();
+				$mailer->setSender(array($mailFrom, $fromName));
+				$mailer->addRecipient($superUser->email);
+				$mailer->setSubject($email_subject);
+				$mailer->setBody($email_body);
+				$mailer->Send();
+			}
+			catch (\Exception $exception)
+			{
+				try
+				{
+					Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+				}
+				catch (\RuntimeException $exception)
+				{
+					$this->app->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+				}
+			}
 		}
 	}
 
@@ -277,9 +304,6 @@ class PlgSystemUpdatenotification extends CMSPlugin
 	 */
 	private function getSuperUsers($email = null)
 	{
-		// Get a reference to the database object
-		$db = Factory::getDbo();
-
 		// Convert the email list to an array
 		if (!empty($email))
 		{
@@ -289,7 +313,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 			foreach ($temp as $entry)
 			{
 				$entry    = trim($entry);
-				$emails[] = $db->q($entry);
+				$emails[] = $this->db->quote($entry);
 			}
 
 			$emails = array_unique($emails);
@@ -318,7 +342,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 			{
 				if ($enabled)
 				{
-					$groups[] = $db->q($g);
+					$groups[] = $this->db->quote($g);
 				}
 			}
 
@@ -335,12 +359,12 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		// Get the user IDs of users belonging to the SA groups
 		try
 		{
-			$query = $db->getQuery(true)
-						->select($db->qn('user_id'))
-						->from($db->qn('#__user_usergroup_map'))
-						->where($db->qn('group_id') . ' IN(' . implode(',', $groups) . ')');
-			$db->setQuery($query);
-			$rawUserIDs = $db->loadColumn(0);
+			$query = $this->db->getQuery(true)
+						->select($this->db->quoteName('user_id'))
+						->from($this->db->quoteName('#__user_usergroup_map'))
+						->where($this->db->quoteName('group_id') . ' IN(' . implode(',', $groups) . ')');
+			$this->db->setQuery($query);
+			$rawUserIDs = $this->db->loadColumn(0);
 
 			if (empty($rawUserIDs))
 			{
@@ -351,7 +375,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 
 			foreach ($rawUserIDs as $id)
 			{
-				$userIDs[] = $db->q($id);
+				$userIDs[] = $this->db->quote($id);
 			}
 		}
 		catch (Exception $exc)
@@ -362,25 +386,25 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		// Get the user information for the Super Administrator users
 		try
 		{
-			$query = $db->getQuery(true)
+			$query = $this->db->getQuery(true)
 						->select(
 							array(
-								$db->qn('id'),
-								$db->qn('username'),
-								$db->qn('email'),
+								$this->db->quoteName('id'),
+								$this->db->quoteName('username'),
+								$this->db->quoteName('email'),
 							)
-						)->from($db->qn('#__users'))
-						->where($db->qn('id') . ' IN(' . implode(',', $userIDs) . ')')
-						->where($db->qn('block') . ' = 0')
-						->where($db->qn('sendEmail') . ' = ' . $db->q('1'));
+						)->from($this->db->quoteName('#__users'))
+						->where($this->db->quoteName('id') . ' IN(' . implode(',', $userIDs) . ')')
+						->where($this->db->quoteName('block') . ' = 0')
+						->where($this->db->quoteName('sendEmail') . ' = ' . $this->db->quote('1'));
 
 			if (!empty($emails))
 			{
-				$query->where($db->qn('email') . 'IN(' . implode(',', $emails) . ')');
+				$query->where($this->db->quoteName('email') . 'IN(' . implode(',', $emails) . ')');
 			}
 
-			$db->setQuery($query);
-			$ret = $db->loadObjectList();
+			$this->db->setQuery($query);
+			$ret = $this->db->loadObjectList();
 		}
 		catch (Exception $exc)
 		{
@@ -401,15 +425,13 @@ class PlgSystemUpdatenotification extends CMSPlugin
 	 */
 	private function clearCacheGroups(array $clearGroups)
 	{
-		$conf = Factory::getConfig();
-
 		foreach ($clearGroups as $group)
 		{
 			try
 			{
 				$options = [
 					'defaultgroup' => $group,
-					'cachebase'    => $conf->get('cache_path', JPATH_CACHE),
+					'cachebase'    => $this->app->get('cache_path', JPATH_CACHE),
 				];
 
 				$cache = Cache::getInstance('callback', $options);

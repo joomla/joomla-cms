@@ -3,19 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Plugins\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * Methods supporting a list of plugin records.
@@ -95,6 +95,7 @@ class PluginsModel extends ListModel
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.enabled');
 		$id .= ':' . $this->getState('filter.folder');
+		$id .= ':' . $this->getState('filter.element');
 
 		return parent::getStoreId($id);
 	}
@@ -212,7 +213,7 @@ class PluginsModel extends ListModel
 			$this->getState(
 				'list.select',
 				'a.extension_id , a.name, a.element, a.folder, a.checked_out, a.checked_out_time,' .
-					' a.enabled, a.access, a.ordering'
+					' a.enabled, a.access, a.ordering, a.note'
 			)
 		)
 			->from($db->quoteName('#__extensions') . ' AS a')
@@ -251,6 +252,12 @@ class PluginsModel extends ListModel
 		if ($folder = $this->getState('filter.folder'))
 		{
 			$query->where('a.folder = ' . $db->quote($folder));
+		}
+
+		// Filter by element.
+		if ($element = $this->getState('filter.element'))
+		{
+			$query->where('a.element = ' . $db->quote($element));
 		}
 
 		// Filter by search in name or id.

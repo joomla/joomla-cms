@@ -3,23 +3,24 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Banners\Administrator\View\Banners;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 
 /**
  * View class for a list of banners.
@@ -77,17 +78,12 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		BannersHelper::addSubmenu('banners');
 
 		$this->addToolbar();
-
-		// Include the component HTML helpers.
-		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
-		$this->sidebar = \JHtmlSidebar::render();
 
 		// We do not need to filter by language when multilingual is disabled
 		if (!Multilanguage::isEnabled())
@@ -108,42 +104,66 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
-
 		$canDo = ContentHelper::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
 		$user  = Factory::getUser();
+
+		// Get the toolbar object instance
+		$toolbar = Toolbar::getInstance('toolbar');
 
 		ToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_BANNERS'), 'bookmark banners');
 
 		if (count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)
 		{
-			ToolbarHelper::addNew('banner.add');
+			$toolbar->addNew('banner.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') || ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')))
 		{
-			if ($this->state->get('filter.published') != 2)
-			{
-				ToolbarHelper::publish('banners.publish', 'JTOOLBAR_PUBLISH', true);
-				ToolbarHelper::unpublish('banners.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			}
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-globe')
+				->buttonClass('btn btn-info')
+				->listCheck(true);
 
-			if ($this->state->get('filter.published') != -1)
+			$childBar = $dropdown->getChildToolbar();
+
+			if ($canDo->get('core.edit.state'))
 			{
 				if ($this->state->get('filter.published') != 2)
 				{
-					ToolbarHelper::archiveList('banners.archive');
+					$childBar->publish('banners.publish')->listCheck(true);
+
+					$childBar->unpublish('banners.unpublish')->listCheck(true);
 				}
-				elseif ($this->state->get('filter.published') == 2)
+
+				if ($this->state->get('filter.published') != -1)
 				{
-					ToolbarHelper::unarchiveList('banners.publish');
+					if ($this->state->get('filter.published') != 2)
+					{
+						$childBar->archive('banners.archive')->listCheck(true);
+					}
+					elseif ($this->state->get('filter.published') == 2)
+					{
+						$childBar->publish('publish')->task('banners.publish')->listCheck(true);
+					}
+				}
+
+				$childBar->checkin('banners.checkin')->listCheck(true);
+
+				if ($this->state->get('filter.published') != -2)
+				{
+					$childBar->trash('banners.trash')->listCheck(true);
 				}
 			}
-		}
 
-		if ($canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::checkin('banners.checkin');
+			if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+			{
+				$toolbar->delete('banners.delete')
+					->text('JTOOLBAR_EMPTY_TRASH')
+					->message('JGLOBAL_CONFIRM_DELETE')
+					->listCheck(true);
+			}
 		}
 
 		// Add a batch button
@@ -151,30 +171,18 @@ class HtmlView extends BaseHtmlView
 			&& $user->authorise('core.edit', 'com_banners')
 			&& $user->authorise('core.edit.state', 'com_banners'))
 		{
-			$title = Text::_('JTOOLBAR_BATCH');
-
-			// Instantiate a new FileLayout instance and render the batch button
-			$layout = new FileLayout('joomla.toolbar.batch');
-
-			$dhtml = $layout->render(array('title' => $title));
-			Toolbar::getInstance('toolbar')->appendButton('Custom', $dhtml, 'batch');
-		}
-
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
-		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'banners.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::trash('banners.trash');
+			$toolbar->popupButton('batch')
+				->text('JTOOLBAR_BATCH')
+				->selector('collapseModal')
+				->listCheck(true);
 		}
 
 		if ($user->authorise('core.admin', 'com_banners') || $user->authorise('core.options', 'com_banners'))
 		{
-			ToolbarHelper::preferences('com_banners');
+			$toolbar->preferences('com_banners');
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_BANNERS_BANNERS');
+		$toolbar->help('JHELP_COMPONENTS_BANNERS_BANNERS');
 	}
 
 	/**

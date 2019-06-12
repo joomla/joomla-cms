@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Fields.URL
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,7 @@ class PlgFieldsUrl extends \Joomla\Component\Fields\Administrator\Plugin\FieldsP
 	 *
 	 * @param   stdClass    $field   The field.
 	 * @param   DOMElement  $parent  The field node parent.
-	 * @param   JForm       $form    The form.
+	 * @param   Form        $form    The form.
 	 *
 	 * @return  DOMElement
 	 *

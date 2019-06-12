@@ -1,6 +1,14 @@
 // Quick Icons
 
 .quick-icons {
+  ul {
+    display: inline;
+    list-style: none;
+  }
+
+  li {
+    float: left;
+  }
 
   a {
     display: inline-flex;
@@ -9,7 +17,7 @@
     height: 120px;
     margin-right: 15px;
     margin-bottom: 15px;
-    color: $atum-template-color-dark;
+    color: var(--primary-dark);
     text-align: center;
     background: $quickicon-bg;
     box-shadow: $quickicon-box-shadow;
@@ -34,18 +42,24 @@
       line-height: 1.1;
     }
 
-    .fa {
+    .fa,
+    .fab {
       margin: 5px auto 0;
       font-size: 2.5rem;
     }
 
+    &.warning {
+      color: var(--warning);
+      box-shadow: $quickicon-box-shadow-warning;
+    }
+
     &.danger {
-      color: theme-color("danger");
+      color: var(--danger);
       box-shadow: $quickicon-box-shadow-danger;
     }
 
     &.success {
-      color: theme-color("success");
+      color: var(--success);
       box-shadow: $quickicon-box-shadow-success;
     }
   }

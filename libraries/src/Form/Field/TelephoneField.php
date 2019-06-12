@@ -2,17 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
-
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('text');
 
 /**
  * Form Field class for the Joomla Platform.
@@ -21,15 +17,15 @@ FormHelper::loadFieldClass('text');
  * @link   http://www.w3.org/TR/html-markup/input.tel.html
  * @see    JFormRuleTel for telephone number validation
  * @see    JHtmlTel for rendering of telephone numbers
- * @since  11.1
+ * @since  1.7.0
  */
-class TelephoneField extends \JFormFieldText
+class TelephoneField extends TextField
 {
 	/**
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Telephone';
 

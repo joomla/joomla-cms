@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,12 +12,12 @@ namespace Joomla\Component\Menus\Administrator\View\Menu;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Menu\MenuHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Log\Log;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
  * The HTML Menus Menu Item View.
@@ -56,10 +56,10 @@ class XmlView extends BaseHtmlView
 
 		if ($menutype)
 		{
-			$items = MenusHelper::getMenuItems($menutype, true);
+			$root = MenusHelper::getMenuItems($menutype, true);
 		}
 
-		if (empty($items))
+		if ($root->hasChildren())
 		{
 			Log::add(Text::_('COM_MENUS_SELECT_MENU_FIRST_EXPORT'), Log::WARNING, 'jerror');
 
@@ -68,7 +68,7 @@ class XmlView extends BaseHtmlView
 			return;
 		}
 
-		$this->items = MenuHelper::createLevels($items);
+		$this->items = $root->getChildren();
 
 		$xml = new \SimpleXMLElement('<menu ' .
 			'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' .

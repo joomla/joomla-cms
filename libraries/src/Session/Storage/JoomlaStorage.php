@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -10,10 +10,10 @@ namespace Joomla\CMS\Session\Storage;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\Storage\NativeStorage;
-use Joomla\CMS\Factory;
 
 /**
  * Service provider for the application's session dependency
@@ -112,7 +112,8 @@ class JoomlaStorage extends NativeStorage
 			$config        = Factory::getConfig();
 			$cookie_domain = $config->get('cookie_domain', '');
 			$cookie_path   = $config->get('cookie_path', '/');
-			setcookie($session_name, '', time() - 42000, $cookie_path, $cookie_domain);
+			$cookie = session_get_cookie_params();
+			setcookie($session_name, '', time() - 42000, $cookie_path, $cookie_domain, $cookie['secure'], true);
 		}
 
 		$this->data = new Registry;

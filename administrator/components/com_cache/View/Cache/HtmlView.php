@@ -3,17 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Cache\Administrator\View\Cache;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * HTML View class for the Cache component
@@ -47,11 +50,10 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
-		$this->sidebar = \JHtmlSidebar::render();
 
 		parent::display($tpl);
 	}
@@ -67,18 +69,18 @@ class HtmlView extends BaseHtmlView
 	{
 		ToolbarHelper::title(Text::_('COM_CACHE_CLEAR_CACHE'), 'lightning clear');
 
+		$toolbar = Toolbar::getInstance();
 		ToolbarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE', true);
+		$toolbar->appendButton('Confirm', 'COM_CACHE_RESOURCE_INTENSIVE_WARNING', 'delete', 'COM_CACHE_PURGE_EXPIRED', 'purge', false);
 		ToolbarHelper::custom('deleteAll', 'remove.png', 'delete_f2.png', 'JTOOLBAR_DELETE_ALL', false);
 		ToolbarHelper::divider();
 
 		if (Factory::getUser()->authorise('core.admin', 'com_cache'))
 		{
 			ToolbarHelper::preferences('com_cache');
+			ToolbarHelper::divider();
 		}
 
-		ToolbarHelper::divider();
 		ToolbarHelper::help('JHELP_SITE_MAINTENANCE_CLEAR_CACHE');
-
-		\JHtmlSidebar::setAction('index.php?option=com_cache');
 	}
 }

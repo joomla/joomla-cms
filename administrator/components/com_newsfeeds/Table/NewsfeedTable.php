@@ -3,20 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Newsfeeds\Administrator\Table;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Table\Table;
-use Joomla\String\StringHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
+use Joomla\String\StringHelper;
 
 /**
  * Newsfeed Table class.
@@ -134,7 +135,7 @@ class NewsfeedTable extends Table
 	}
 
 	/**
-	 * Overriden \JTable::store to set modified data.
+	 * Overridden \JTable::store to set modified data.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
@@ -181,7 +182,7 @@ class NewsfeedTable extends Table
 		}
 
 		// Verify that the alias is unique
-		$table = Table::getInstance('NewsfeedTable', __NAMESPACE__ . '\\');
+		$table = Table::getInstance('NewsfeedTable', __NAMESPACE__ . '\\', array('dbo' => $this->_db));
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{

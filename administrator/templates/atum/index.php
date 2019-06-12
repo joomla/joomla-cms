@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0
  */
@@ -11,14 +11,15 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /** @var JDocumentHtml $this */
 
 $app   = Factory::getApplication();
-$lang  = Factory::getLanguage();
+$lang  = $app->getLanguage();
 $input = $app->input;
+$wa    = $this->getWebAssetManager();
 
 // Detecting Active Variables
 $option      = $input->get('option', '');
@@ -31,20 +32,8 @@ $hidden      = $app->input->get('hidemainmenu');
 $logo        = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 $logoBlue    = $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
-// Add JavaScript
-HTMLHelper::_('bootstrap.framework');
-HTMLHelper::_('script', 'vendor/focus-visible/focus-visible.min.js', ['version' => 'auto', 'relative' => true]);
-
-// Load template CSS file
-HTMLHelper::_('stylesheet', 'bootstrap.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'font-awesome.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto', 'relative' => true]);
-
-// Load custom CSS file
-HTMLHelper::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
-
-// Alerts
-HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
+// Enable assets
+$wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
 
 // Load specific language related CSS
 HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
@@ -53,6 +42,8 @@ HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . 
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
+
+$this->addScriptDeclaration('cssVars();');
 
 ?>
 <!DOCTYPE html>
@@ -76,14 +67,20 @@ $this->setMetaData('theme-color', '#1c3d5c');
 		<div class="d-flex align-items-center">
 			<div class="header-title d-flex mr-auto">
 				<div class="d-flex">
-					<a class="logo" href="<?php echo Route::_('index.php'); ?>" aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
+				<?php if (!$hidden) : ?>
+					<a class="logo" href="<?php echo Route::_('index.php'); ?>" aria-label="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
 						<img src="<?php echo $logoBlue; ?>" alt="">
 					</a>
+				<?php else : ?>
+					<a class="logo">
+						<img src="<?php echo $logoBlue; ?>" alt="">
+					</a>
+				<?php endif; ?>
 				</div>
 				<jdoc:include type="modules" name="title" />
 			</div>
 			<div class="header-items d-flex ml-auto">
-				<jdoc:include type="modules" name="status" style="no" />
+				<jdoc:include type="modules" name="status" />
 			</div>
 		</div>
 	</header>
@@ -111,7 +108,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 						<div id="container-collapse" class="container-collapse"></div>
 						<div class="row">
 							<div class="col-md-12">
-								<jdoc:include type="modules" name="toolbar" style="no" />
+								<jdoc:include type="modules" name="toolbar" />
 							</div>
 					</div>
 				</div>

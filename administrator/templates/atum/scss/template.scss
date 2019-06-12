@@ -10,7 +10,10 @@
 @import "../../../../media/vendor/bootstrap/scss/custom-forms";
 
 // Alert
-@import "../../../../build/media/system/scss/jalert";
+@import "../../../../build/media_source/system/scss/jalert";
+
+// jQuery Minicolors
+@import "../../../../build/media_source/system/scss/jquery-minicolors";
 
 // Blocks
 @import "blocks/global"; // Leave this first
@@ -19,6 +22,7 @@
 @import "blocks/header";
 @import "blocks/icons";
 @import "blocks/iframe";
+@import "blocks/layout";
 @import "blocks/login";
 @import "blocks/modals";
 @import "blocks/quickicons";
@@ -43,11 +47,13 @@
 @import "vendor/bootstrap/pagination";
 @import "vendor/bootstrap/table";
 @import "vendor/chosen";
+@import "vendor/choicesjs";
 @import "vendor/dragula";
 @import "vendor/minicolors";
 @import "vendor/tinymce";
 
 // Page specifics
+@import "pages/com_admin";
 @import "pages/com_config";
 @import "pages/com_cpanel";
 @import "pages/com_templates";
@@ -61,13 +67,13 @@
 .container-main {
   position: relative;
   min-height: calc(100vh - #{$header-height});
-  background-color: $atum-container-main-bg;
+  background-color: var(--main-bg);
 }
 
 .list-view-main {
 
   .container-main {
-    background-color: $atum-container-main-bg;
+    background-color: var(--main-bg);
   }
 
 }
@@ -87,7 +93,7 @@
 }
 
 .row-selected {
-  background-color: $table-row-selected;
+  background-color: var(--row-selected);
 }
 
 // Chosen (TEMPORARY)
@@ -103,4 +109,9 @@
 .item-associations li {
   display: inline-block;
   list-style: none;
+}
+
+// Quickicon specific
+.message-alert {
+  text-align: right !important;
 }

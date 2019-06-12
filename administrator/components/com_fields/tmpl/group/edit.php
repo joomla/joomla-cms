@@ -3,34 +3,33 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-
-// Include the component HTML helpers.
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.tabstate');
-HTMLHelper::_('formbehavior.chosen', '.advancedSelect');
 
 $app = Factory::getApplication();
 $input = $app->input;
+
+$this->useCoreUI = true;
+
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_fields&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_fields&context=' . $this->state->get('filter.context') . '&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 	<div class="form-horizontal">
-		<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
-		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'general', Text::_('COM_FIELDS_VIEW_FIELD_FIELDSET_GENERAL', true)); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_FIELDS_VIEW_FIELD_FIELDSET_GENERAL', true)); ?>
 		<div class="row">
 			<div class="col-md-9">
 				<?php echo $this->form->renderField('label'); ?>
@@ -53,8 +52,8 @@ $input = $app->input;
 				<?php $this->set('fields', null); ?>
 			</div>
 		</div>
-		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
-		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
 		<div class="row form-horizontal-desktop">
 			<div class="col-md-6">
 				<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
@@ -62,15 +61,15 @@ $input = $app->input;
 			<div class="col-md-6">
 			</div>
 		</div>
-		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php $this->set('ignore_fieldsets', array('fieldparams')); ?>
 		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 		<?php if ($this->canDo->get('core.admin')) : ?>
-			<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'rules', Text::_('JGLOBAL_ACTION_PERMISSIONS_LABEL', true)); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'rules', Text::_('JGLOBAL_ACTION_PERMISSIONS_LABEL', true)); ?>
 			<?php echo $this->form->getInput('rules'); ?>
-			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
-		<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
+		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 		<?php echo $this->form->getInput('context'); ?>
 		<input type="hidden" name="task" value="">
 		<?php echo HTMLHelper::_('form.token'); ?>

@@ -3,9 +3,10 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Menus\Administrator\Field;
 
 defined('JPATH_BASE') or die;
@@ -45,7 +46,7 @@ class MenutypeField extends ListField
 		$html     = array();
 		$recordId = (int) $this->form->getValue('id');
 		$size     = (string) ($v = $this->element['size']) ? ' size="' . $v . '"' : '';
-		$class    = (string) ($v = $this->element['class']) ? ' class="form-control ' . $v . '"' : 'class="form-control"';
+		$class    = (string) ($v = $this->element['class']) ? ' class="form-control ' . $v . '"' : ' class="form-control"';
 		$required = (string) $this->element['required'] ? ' required="required"' : '';
 		$clientId = (int) $this->element['clientid'] ?: 0;
 
@@ -75,8 +76,8 @@ class MenutypeField extends ListField
 			default:
 				$link = $this->form->getValue('link');
 
-				$model = Factory::getApplication()->bootComponent('com_menus')->createMVCFactory(Factory::getApplication())
-					->createModel('Menutypes', 'Administrator', array('ignore_request' => true));
+				$model = Factory::getApplication()->bootComponent('com_menus')
+					->getMVCFactory()->createModel('Menutypes', 'Administrator', array('ignore_request' => true));
 				$model->setState('client_id', $clientId);
 
 				$rlu   = $model->getReverseLookup();
@@ -89,9 +90,9 @@ class MenutypeField extends ListField
 		$link = Route::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId);
 		$html[] = '<span class="input-group"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id
 			. '" value="' . $value . '"' . $size . $class . '>';
-		$html[] = '<span class="input-group-append"><a href="#menuTypeModal" role="button" class="btn btn-primary" data-toggle="modal" title="'
-			. Text::_('JSELECT') . '">' . '<span class="icon-list icon-white" aria-hidden="true"></span> '
-			. Text::_('JSELECT') . '</a></span></span>';
+		$html[] = '<span class="input-group-append"><button type="button" data-target="#menuTypeModal" class="btn btn-primary" data-toggle="modal">'
+			. '<span class="icon-list icon-white" aria-hidden="true"></span> '
+			. Text::_('JSELECT') . '</button></span></span>';
 		$html[] = HTMLHelper::_(
 			'bootstrap.renderModal',
 			'menuTypeModal',
@@ -102,12 +103,14 @@ class MenutypeField extends ListField
 				'height'     => '300px',
 				'modalWidth' => 80,
 				'bodyHeight' => 70,
-				'footer'     => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+				'footer'     => '<button type="button" class="btn btn-secondary" data-dismiss="modal">'
+						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 			)
 		);
+
+		// This hidden field has an ID so it can be used for showon attributes
 		$html[] = '<input type="hidden" name="' . $this->name . '" value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '">';
+			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" id="' . $this->id . '_val">';
 
 		return implode("\n", $html);
 	}

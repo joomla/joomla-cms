@@ -3,14 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Users\Administrator\Controller;
 
 use Joomla\CMS\Access\Exception\Notallowed;
-use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\AdminController;
 
 defined('_JEXEC') or die;
 

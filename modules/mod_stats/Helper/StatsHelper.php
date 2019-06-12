@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_stats
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,8 @@ namespace Joomla\Module\Stats\Site\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 
 /**
@@ -36,10 +36,10 @@ class StatsHelper
 		$db         = Factory::getDbo();
 		$rows       = array();
 		$query      = $db->getQuery(true);
-		$serverinfo = $params->get('serverinfo');
-		$siteinfo   = $params->get('siteinfo');
-		$counter    = $params->get('counter');
-		$increase   = $params->get('increase');
+		$serverinfo = $params->get('serverinfo', 0);
+		$siteinfo   = $params->get('siteinfo', 0);
+		$counter    = $params->get('counter', 0);
+		$increase   = $params->get('increase', 0);
 
 		$i = 0;
 
@@ -52,7 +52,7 @@ class StatsHelper
 
 			$rows[$i] = new \stdClass;
 			$rows[$i]->title = Text::_('MOD_STATS_PHP');
-			$rows[$i]->data  = phpversion();
+			$rows[$i]->data  = PHP_VERSION;
 			$i++;
 
 			$rows[$i] = new \stdClass;
@@ -78,8 +78,8 @@ class StatsHelper
 
 		if ($siteinfo)
 		{
-			$query->select('COUNT(id) AS count_users')
-				->from('#__users');
+			$query->select('COUNT(' . $db->quoteName('id') . ') AS count_users')
+				->from($db->quoteName('#__users'));
 			$db->setQuery($query);
 
 			try
@@ -92,9 +92,13 @@ class StatsHelper
 			}
 
 			$query->clear()
-				->select('COUNT(id) AS count_items')
-				->from('#__content')
-				->where('state = 1');
+				->select('COUNT(' . $db->quoteName('c.id') . ') AS count_items')
+				->from($db->quoteName('#__content', 'c'))
+				->leftJoin(
+					$db->quoteName('#__workflow_stages', 'ws')
+					. ' ON ' . $db->quoteName('ws.id') . ' = ' . $db->quoteName('c.state')
+				)
+				->where($db->quoteName('ws.condition') . ' = 1');
 			$db->setQuery($query);
 
 			try
@@ -126,9 +130,13 @@ class StatsHelper
 		if ($counter)
 		{
 			$query->clear()
-				->select('SUM(hits) AS count_hits')
-				->from('#__content')
-				->where('state = 1');
+				->select('SUM(' . $db->quoteName('hits') . ') AS count_hits')
+				->from($db->quoteName('#__content'))
+				->leftJoin(
+					$db->quoteName('#__workflow_stages', 'ws')
+					. ' ON ' . $db->quoteName('ws.id') . ' = ' . $db->quoteName('state')
+				)
+				->where($db->quoteName('ws.condition') . ' = 1');
 			$db->setQuery($query);
 
 			try

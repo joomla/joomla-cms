@@ -3,7 +3,7 @@
 	<name>mod_latest</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -28,6 +28,7 @@
 					type="number"
 					label="MOD_LATEST_FIELD_COUNT_LABEL"
 					default="5"
+					filter="integer"
 				/>
 
 				<field
@@ -47,6 +48,7 @@
 					id="catid"
 					extension="com_content"
 					default=""
+					filter="integer"
 					>
 					<option value="">JOPTION_ANY_CATEGORY</option>
 				</field>
@@ -67,11 +69,12 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
+					class="custom-select"
  				/>
 
 				<field
 					name="moduleclass_sfx"
-					type="textarea" 
+					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
 				/>
@@ -82,6 +85,7 @@
 					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
 					class="switcher"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>

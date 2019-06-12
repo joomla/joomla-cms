@@ -3,17 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Form\FormHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 $app = Factory::getApplication();
 $template = $app->getTemplate();
@@ -27,10 +27,14 @@ Text::script('MESSAGE');
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.tabstate');
-HTMLHelper::_('formbehavior.chosen', '.chzn-custom-value', null, array('disable_search_threshold' => 0));
+
+if ($this->fieldsets)
+{
+	HTMLHelper::_('bootstrap.framework');
+}
 
 // @TODO delete this when custom elements modal is merged
-HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="component-form" method="post" class="form-validate" name="adminForm" autocomplete="off" data-cancel-task="config.cancel.component">
@@ -51,8 +55,7 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['relativ
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<?php $dataShowOn = ''; ?>
 					<?php if (!empty($fieldSet->showon)) : ?>
-						<?php HTMLHelper::_('jquery.framework'); ?>
-						<?php HTMLHelper::_('script', 'system/cms.min.js', array('version' => 'auto', 'relative' => true)); ?>
+						<?php HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true)); ?>
 						<?php $dataShowOn = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($fieldSet->showon, $this->formControl)) . '\''; ?>
 					<?php endif; ?>
 					<?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>
@@ -63,41 +66,20 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['relativ
 			<div class="tab-content" id="configContent">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<div class="tab-pane" id="<?php echo $name; ?>">
-						<?php if (isset($fieldSet->description) && !empty($fieldSet->description)) : ?>
-							<joomla-alert type="info">
-								<span class="icon-info" aria-hidden="true"></span> <?php echo Text::_($fieldSet->description); ?>
-							</joomla-alert>
+						<?php if (!empty($fieldSet->description)) : ?>
+							<div class="tab-description alert alert-info">
+								<span class="icon-info" aria-hidden="true"></span> <?php echo JText::_($fieldSet->description); ?>
+							</div>
 						<?php endif; ?>
-						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-							<?php
-								$dataShowOn = '';
-								$groupClass = $field->type === 'Spacer' ? ' field-spacer' : '';
-							?>
-							<?php if ($field->showon) : ?>
-								<?php HTMLHelper::_('jquery.framework'); ?>
-								<?php HTMLHelper::_('script', 'system/cms.min.js', array('version' => 'auto', 'relative' => true)); ?>
-								<?php $dataShowOn = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\''; ?>
-							<?php endif; ?>
-							<?php if ($field->hidden) : ?>
-								<?php echo $field->input; ?>
-							<?php else : ?>
-								<div class="control-group<?php echo $groupClass; ?>"<?php echo $dataShowOn; ?>>
-									<?php if ($name != 'permissions') : ?>
-										<div class="control-label">
-											<?php echo $field->label; ?>
-										</div>
-									<?php endif; ?>
-									<div class="<?php if ($name != 'permissions') : ?>controls<?php endif; ?>">
-										<?php echo $field->input; ?>
-									</div>
-								</div>
-							<?php endif; ?>
-						<?php endforeach; ?>
+						<?php echo $this->form->renderFieldset($name, $name === 'permissions' ? ['hiddenLabel' => true, 'class' => 'revert-controls'] : []); ?>
 					</div>
 				<?php endforeach; ?>
 			</div>
 			<?php else: ?>
-				<joomla-alert type="info"><span class="icon-info" aria-hidden="true"></span> <?php echo Text::_('COM_CONFIG_COMPONENT_NO_CONFIG_FIELDS_MESSAGE'); ?></joomla-alert>
+				<div class="alert alert-info">
+					<span class="icon-info" aria-hidden="true"></span>
+					<?php echo Text::_('COM_CONFIG_COMPONENT_NO_CONFIG_FIELDS_MESSAGE'); ?>
+				</div>
 			<?php endif; ?>
 
 		</div>

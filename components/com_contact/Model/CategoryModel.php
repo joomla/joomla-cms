@@ -3,21 +3,23 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Contact\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Categories\Categories;
-use Joomla\CMS\Factory;
 
 /**
  * Single item model for a contact
@@ -81,7 +83,8 @@ class CategoryModel extends ListModel
 				'sortname',
 				'sortname1', 'a.sortname1',
 				'sortname2', 'a.sortname2',
-				'sortname3', 'a.sortname3'
+				'sortname3', 'a.sortname3',
+				'featuredordering', 'a.featured'
 			);
 		}
 
@@ -129,7 +132,7 @@ class CategoryModel extends ListModel
 	protected function getListQuery()
 	{
 		$user   = Factory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
+		$groups = $user->getAuthorisedViewLevels();
 
 		// Create a new query object.
 		$db    = $this->getDbo();
@@ -145,13 +148,14 @@ class CategoryModel extends ListModel
 		 */
 			->from($db->quoteName('#__contact_details', 'a'))
 			->leftJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
-			->where('a.access IN (' . $groups . ')');
+			->whereIn($db->quoteName('a.access'), $groups);
 
 		// Filter by category.
 		if ($categoryId = $this->getState('category.id'))
 		{
-			$query->where('a.catid = ' . (int) $categoryId)
-				->where('c.access IN (' . $groups . ')');
+			$query->where($db->quoteName('a.catid') . ' = :acatid')
+				->whereIn($db->quoteName('c.access'), $groups);
+			$query->bind(':acatid', $categoryId, ParameterType::INTEGER);
 		}
 
 		// Join over the users for the author and modified_by names.
@@ -165,21 +169,25 @@ class CategoryModel extends ListModel
 
 		if (is_numeric($state))
 		{
-			$query->where('a.published = ' . (int) $state);
+			$query->where($db->quoteName('a.published') . ' = :published');
+			$query->bind(':published', $state, ParameterType::INTEGER);
 		}
 		else
 		{
-			$query->where('(a.published IN (0,1,2))');
+			$query->whereIn($db->quoteName('c.published'), [0,1,2]);
 		}
 
 		// Filter by start and end dates.
-		$nullDate = $db->quote($db->getNullDate());
-		$nowDate = $db->quote(Factory::getDate()->toSql());
+		$nowDate = Factory::getDate()->toSql();
 
 		if ($this->getState('filter.publish_date'))
 		{
-			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+			$query->where('(' . $query->isNullDatetime($db->quoteName('a.publish_up'))
+				. ' OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)')
+				->where('(' . $query->isNullDatetime($db->quoteName('a.publish_down'))
+				. ' OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)')
+				->bind(':publish_up', $nowDate)
+				->bind(':publish_down', $nowDate);
 		}
 
 		// Filter by search in title
@@ -187,14 +195,16 @@ class CategoryModel extends ListModel
 
 		if (!empty($search))
 		{
-			$search = $db->quote('%' . $db->escape($search, true) . '%');
-			$query->where('(a.name LIKE ' . $search . ')');
+			$search = '%' . trim($search) . '%';
+			$query->where($db->quoteName('a.name') . ' LIKE :name ');
+			$query->bind(':name', $search);
 		}
 
-		// Filter by language
-		if ($this->getState('filter.language'))
+		// Filter on the language.
+		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$language = [Factory::getLanguage()->getTag(), '*'];
+			$query->whereIn($db->quoteName('a.language'), $language);
 		}
 
 		// Set sortname ordering if selected
@@ -203,6 +213,11 @@ class CategoryModel extends ListModel
 			$query->order($db->escape('a.sortname1') . ' ' . $db->escape($this->getState('list.direction', 'ASC')))
 				->order($db->escape('a.sortname2') . ' ' . $db->escape($this->getState('list.direction', 'ASC')))
 				->order($db->escape('a.sortname3') . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+		}
+		elseif ($this->getState('list.ordering') === 'featuredordering')
+		{
+			$query->order($db->escape('a.featured') . ' DESC')
+			->order($db->escape('a.ordering') . ' ASC');
 		}
 		else
 		{
@@ -229,12 +244,29 @@ class CategoryModel extends ListModel
 		$app = Factory::getApplication();
 		$params = ComponentHelper::getParams('com_contact');
 
+		// Get list ordering default from the parameters
+		$menuParams = new Registry;
+
+		if ($menu = $app->getMenu()->getActive())
+		{
+			$menuParams->loadString($menu->params);
+		}
+
+		$mergedParams = clone $params;
+		$mergedParams->merge($menuParams);
+
 		// List state information
 		$format = $app->input->getWord('format');
+
+		$numberOfContactsToDisplay = $mergedParams->get('contacts_display_num');
 
 		if ($format === 'feed')
 		{
 			$limit = $app->get('feed_limit');
+		}
+		elseif (isset($numberOfContactsToDisplay))
+		{
+			$limit = $numberOfContactsToDisplay;
 		}
 		else
 		{
@@ -250,17 +282,6 @@ class CategoryModel extends ListModel
 		$itemid = $app->input->get('Itemid', 0, 'int');
 		$search = $app->getUserStateFromRequest('com_contact.category.list.' . $itemid . '.filter-search', 'filter-search', '', 'string');
 		$this->setState('list.filter', $search);
-
-		// Get list ordering default from the parameters
-		$menuParams = new Registry;
-
-		if ($menu = $app->getMenu()->getActive())
-		{
-			$menuParams->loadString($menu->params);
-		}
-
-		$mergedParams = clone $params;
-		$mergedParams->merge($menuParams);
 
 		$orderCol = $app->input->get('filter_order', $mergedParams->get('initial_sort', 'ordering'));
 

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -95,7 +95,7 @@ class UCMType implements UCM
 
 		// Make the best guess we can in the absence of information.
 		$this->alias = $alias ?: $app->input->get('option') . '.' . $app->input->get('view');
-		$this->type  = $this->getType();
+		$this->type  = $this->getTypeByAlias($this->alias);
 	}
 
 	/**
@@ -111,7 +111,7 @@ class UCMType implements UCM
 	{
 		if (!$pk)
 		{
-			$pk = $this->getTypeId();
+			return $this->getTypeByAlias($this->alias);
 		}
 
 		$query = $this->db->getQuery(true);
@@ -198,7 +198,7 @@ class UCMType implements UCM
 		$query = $this->db->getQuery(true);
 		$query->select('ct.type_id');
 		$query->from($this->db->quoteName('#__content_types', 'ct'));
-		$query->where($this->db->quoteName('ct.type_alias') . ' = ' . $this->db->q($alias));
+		$query->where($this->db->quoteName('ct.type_alias') . ' = ' . $this->db->quote($alias));
 
 		$this->db->setQuery($query);
 

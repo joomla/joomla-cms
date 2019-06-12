@@ -3,25 +3,32 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
-// Include the component HTML helpers.
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+Text::script('COM_TEMPLATES_LAYOUTS_DIFFVIEW_SHOW_CORE');
+Text::script('COM_TEMPLATES_LAYOUTS_DIFFVIEW_HIDE_CORE');
+Text::script('COM_TEMPLATES_LAYOUTS_DIFFVIEW_SHOW_DIFF');
+Text::script('COM_TEMPLATES_LAYOUTS_DIFFVIEW_HIDE_DIFF');
+
+HTMLHelper::_('script', 'vendor/diff/diff.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_templates/admin-template-compare.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_templates/admin-template-toggle-switch.min.js', array('version' => 'auto', 'relative' => true));
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.tabstate');
+HTMLHelper::_('behavior.multiselect', 'updateForm');
 
 $input = Factory::getApplication()->input;
 
@@ -53,10 +60,10 @@ if ($this->type == 'font')
 	");
 }
 ?>
-<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>
-<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'editor', Text::_('COM_TEMPLATES_TAB_EDITOR')); ?>
+<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'editor')); ?>
+<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'editor', Text::_('COM_TEMPLATES_TAB_EDITOR')); ?>
 <div class="row">
-	<div class="col-md-12">
+	<div class="col-md-6" id="conditional-section">
 		<?php if($this->type == 'file') : ?>
 			<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
 			<p class="lead path hidden"><?php echo $this->source->filename; ?></p>
@@ -70,6 +77,14 @@ if ($this->type == 'font')
 			<p class="lead path hidden"><?php echo $this->font['rel_path']; ?></p>
 		<?php endif; ?>
 	</div>
+	<?php if ($this->type == 'file' && !empty($this->source->coreFile)) : ?>
+		<div class="col-md-6 text-right">
+			<div id="toggle-buttons">
+				<?php echo $this->form->getInput('show_core'); ?>
+				<?php echo $this->form->getInput('show_diff'); ?>
+			</div>
+		</div>
+	<?php endif; ?>
 </div>
 <div class="row">
 	<div id="treeholder" class="col-md-3 tree-holder">
@@ -90,15 +105,41 @@ if ($this->type == 'font')
 			</form>
 		<?php endif; ?>
 		<?php if ($this->type == 'file') : ?>
-			<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
-				<div class="editor-border">
-					<?php echo $this->form->getInput('source'); ?>
+			<div class="row">
+				<div class="col-md-12" id="override-pane">
+					<?php $overrideCheck = explode(DIRECTORY_SEPARATOR, $this->source->filename); ?>
+					<?php if ($overrideCheck['1'] === 'html') : ?>
+						<h2><?php echo Text::_('COM_TEMPLATES_FILE_OVERRIDE_PANE'); ?></h2>
+					<?php endif; ?>
+					<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
+						<div class="editor-border">
+							<?php echo $this->form->getInput('source'); ?>
+						</div>
+						<input type="hidden" name="task" value="" />
+						<?php echo HTMLHelper::_('form.token'); ?>
+						<?php echo $this->form->getInput('extension_id'); ?>
+						<?php echo $this->form->getInput('filename'); ?>
+					</form>
 				</div>
-				<input type="hidden" name="task" value="" />
-				<?php echo HTMLHelper::_('form.token'); ?>
-				<?php echo $this->form->getInput('extension_id'); ?>
-				<?php echo $this->form->getInput('filename'); ?>
-			</form>
+				<?php if (!empty($this->source->coreFile)) : ?>
+					<?php $coreFileContent = file_get_contents($this->source->coreFile); ?>
+					<?php $overrideFileContent = file_get_contents($this->source->filePath); ?>
+					<div class="col-md-6" id="core-pane">
+						<h2><?php echo Text::_('COM_TEMPLATES_FILE_CORE_PANE'); ?></h2>
+						<div class="editor-border">
+							<?php echo $this->form->getInput('core'); ?>
+						</div>
+					</div>
+					<div class="col-md-12" id="diff-main">
+						<h2><?php echo Text::_('COM_TEMPLATES_FILE_COMPARE_PANE'); ?></h2>
+						<div class="diff-pane">
+							<div class="diffview d-none" id="original"><?php echo htmlspecialchars($coreFileContent, ENT_COMPAT, 'UTF-8'); ?></div>
+							<div class="diffview d-none" id="changed"><?php echo htmlspecialchars($overrideFileContent, ENT_COMPAT, 'UTF-8'); ?></div>
+							<div id="diff"></div>
+						</div>
+					</div>
+				<?php endif; ?>
+			</div>
 		<?php endif; ?>
 		<?php if ($this->type == 'archive') : ?>
 			<legend><?php echo Text::_('COM_TEMPLATES_FILE_CONTENT_PREVIEW'); ?></legend>
@@ -110,7 +151,7 @@ if ($this->type == 'font')
 								<span class="fa-fw fa fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 							<?php if (substr($file, -1) != DIRECTORY_SEPARATOR) : ?>
-								<span class="fa-fw fa fa-file-o" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
+								<span class="fa-fw fa fa-file" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 						</li>
 					<?php endforeach; ?>
@@ -144,8 +185,8 @@ if ($this->type == 'font')
 						<h4>H4. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h4>
 						<h5>H5. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h5>
 						<h6>H6. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h6>
-						<p><b>Bold. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</b></p>
-						<p><i>Italics. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</i></p>
+						<p><strong>Bold. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</strong></p>
+						<p><em>Italics. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</em></p>
 						<p>Unordered List</p>
 						<ul>
 							<li>Item</li>
@@ -190,11 +231,11 @@ if ($this->type == 'font')
 		<?php endif; ?>
 	</div>
 </div>
-<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'overrides', Text::_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
+<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'overrides', Text::_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
 <div class="row">
-	<div class="col-md-4">
+	<div class="col-md-3">
 		<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_MODULES'); ?></legend>
 		<ul class="list-unstyled">
 			<?php $token = Session::getFormToken() . '=' . 1; ?>
@@ -205,13 +246,13 @@ if ($this->type == 'font')
 							. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 					?>
 					<a href="<?php echo Route::_($overrideLinkUrl); ?>">
-						<span class="fa fa-files-o" aria-hidden="true"></span>&nbsp;<?php echo $module->name; ?>
+						<span class="fa fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $module->name; ?>
 					</a>
 				</li>
 			<?php endforeach; ?>
 		</ul>
 	</div>
-	<div class="col-md-4">
+	<div class="col-md-3">
 		<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_COMPONENTS'); ?></legend>
 		<ul class="list-unstyled">
 			<?php $token = Session::getFormToken() . '=' . 1; ?>
@@ -228,7 +269,7 @@ if ($this->type == 'font')
 										. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 								?>
 								<a class="component-file-url" href="<?php echo Route::_($overrideLinkUrl); ?>">
-									<span class="fa fa-files-o" aria-hidden="true"></span>&nbsp;<?php echo $view->name; ?>
+									<span class="fa fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $view->name; ?>
 								</a>
 							</li>
 						<?php endforeach; ?>
@@ -237,7 +278,33 @@ if ($this->type == 'font')
 			<?php endforeach; ?>
 		</ul>
 	</div>
-	<div class="col-md-4">
+	<div class="col-md-3">
+		<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_PLUGINS'); ?></legend>
+		<ul class="list-unstyled">
+			<?php $token = Session::getFormToken() . '=' . 1; ?>
+			<?php foreach ($this->overridesList['plugins'] as $key => $group) : ?>
+				<li class="plugin-folder">
+					<a href="#" class="plugin-folder-url">
+						<span class="fa fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
+					</a>
+					<ul class="list-unstyled">
+						<?php foreach ($group as $plugin) : ?>
+							<li>
+								<?php
+								$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $plugin->path
+									. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
+								?>
+								<a class="plugin-file-url" href="<?php echo Route::_($overrideLinkUrl); ?>">
+									<span class="fa fa-copy" aria-hidden="true"></span> <?php echo $plugin->name; ?>
+								</a>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+				</li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+	<div class="col-md-3">
 		<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_LAYOUTS'); ?></legend>
 		<ul class="list-unstyled">
 			<?php $token = Session::getFormToken() . '=' . 1; ?>
@@ -254,7 +321,7 @@ if ($this->type == 'font')
 									. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 							?>
 							<a href="<?php echo Route::_($overrideLinkUrl); ?>">
-								<span class="fa fa-files-o" aria-hidden="true"></span>&nbsp;<?php echo $layout->name; ?>
+								<span class="fa fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $layout->name; ?>
 							</a>
 						</li>
 					<?php endforeach; ?>
@@ -264,12 +331,20 @@ if ($this->type == 'font')
 		</ul>
 	</div>
 </div>
-<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'description', Text::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
+<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
 <?php echo $this->loadTemplate('description'); ?>
-<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
-<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
+
+<?php echo HTMLHelper::_('uitab.endTab'); ?>
+
+<?php if ($this->pluginState) : ?>
+	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'files', Text::_('COM_TEMPLATES_TAB_UPDATED_FILES')); ?>
+	<?php echo $this->loadTemplate('updated_files'); ?>
+	<?php echo HTMLHelper::_('uitab.endTab'); ?>
+<?php endif; ?>
+
+<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
 <?php // Collapse Modal
 $copyModalData = array(

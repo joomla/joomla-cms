@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,10 +18,10 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
+use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
-use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 
 /**
@@ -203,7 +203,7 @@ class ApiModel extends BaseDatabaseModel
 	 * @param   string   $adapter   The adapter
 	 * @param   string   $name      The name
 	 * @param   string   $path      The folder
-	 * @param   boolean  $override  Should the folder being overriden when it exists
+	 * @param   boolean  $override  Should the folder being overridden when it exists
 	 *
 	 * @return  string
 	 *
@@ -250,7 +250,7 @@ class ApiModel extends BaseDatabaseModel
 	 * @param   string   $name      The name
 	 * @param   string   $path      The folder
 	 * @param   binary   $data      The data
-	 * @param   boolean  $override  Should the file being overriden when it exists
+	 * @param   boolean  $override  Should the file being overridden when it exists
 	 *
 	 * @return  string
 	 *

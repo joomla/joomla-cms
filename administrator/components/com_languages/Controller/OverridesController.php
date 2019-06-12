@@ -3,14 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Languages\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Router\Route;
 
 /**
  * Languages Overrides Controller.
@@ -37,14 +40,14 @@ class OverridesController extends AdminController
 	public function delete()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get items to dlete from the request.
 		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			$this->setMessage(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
+			$this->setMessage(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -54,7 +57,7 @@ class OverridesController extends AdminController
 			// Remove the items.
 			if ($model->delete($cid))
 			{
-				$this->setMessage(\JText::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
+				$this->setMessage(Text::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
 			}
 			else
 			{
@@ -62,7 +65,7 @@ class OverridesController extends AdminController
 			}
 		}
 
-		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
 
 	/**
@@ -74,8 +77,9 @@ class OverridesController extends AdminController
 	 */
 	public function purge()
 	{
+		/** @var \Joomla\Component\Languages\Administrator\Model\OverridesModel $model */
 		$model = $this->getModel('overrides');
 		$model->purge();
-		$this->setRedirect(\JRoute::_('index.php?option=com_languages&view=overrides', false));
+		$this->setRedirect(Route::_('index.php?option=com_languages&view=overrides', false));
 	}
 }

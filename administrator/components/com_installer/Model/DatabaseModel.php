@@ -3,9 +3,10 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -13,11 +14,12 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Schema\ChangeSet;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Version;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
+use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\Registry\Registry;
 
@@ -61,12 +63,12 @@ class DatabaseModel extends InstallerModel
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @see     ListModel
 	 * @since   4.0.0
 	 */
-	public function __construct($config = array(), MvcFactoryInterface $factory = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -466,7 +468,7 @@ class DatabaseModel extends InstallerModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}

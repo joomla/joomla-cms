@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Factory;
 
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.formvalidator');
@@ -53,10 +52,8 @@ Text::script('JHIDE');
 			</label>
 			<div class="input-group">
 				<span class="input-group-prepend">
-					<span class="input-group-text">
-						<span class="fa fa-lock" aria-hidden="true"></span>
-						<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-					</span>
+					<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
+					<span class="input-group-text icon-eye" aria-hidden="true"></span>
 				</span>
 				<input
 					name="passwd"

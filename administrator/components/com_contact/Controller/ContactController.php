@@ -3,19 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Contact\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\FormController;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Factory;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Controller for a single contact
@@ -41,7 +39,7 @@ class ContactController extends FormController
 		if ($categoryId)
 		{
 			// If the category has been passed in the URL check it.
-			$allow = Factory::getUser()->authorise('core.create', $this->option . '.category.' . $categoryId);
+			$allow = $this->app->getIdentity()->authorise('core.create', $this->option . '.category.' . $categoryId);
 		}
 
 		if ($allow === null)
@@ -82,7 +80,7 @@ class ContactController extends FormController
 			return false;
 		}
 
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
 		// Check if can edit own core.edit.own.
 		$canEditOwn = $user->authorise('core.edit.own', $this->option . '.category.' . (int) $item->catid) && $item->created_by == $user->id;
@@ -102,7 +100,7 @@ class ContactController extends FormController
 	 */
 	public function batch($model = null)
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Set the model
 		/** @var \Joomla\Component\Contact\Administrator\Model\ContactModel $model */

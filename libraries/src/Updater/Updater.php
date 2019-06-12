@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,14 +13,12 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 
-\JLoader::import('joomla.filesystem.file');
-\JLoader::import('joomla.filesystem.folder');
 \JLoader::import('joomla.base.adapter');
 
 /**
  * Updater Class
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Updater extends \JAdapter
 {
@@ -66,7 +64,7 @@ class Updater extends \JAdapter
 
 	/**
 	 * @var    Updater  Updater instance container.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $instance;
 
@@ -90,7 +88,7 @@ class Updater extends \JAdapter
 	 *
 	 * @return  Updater  An installer object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getInstance()
 	{
@@ -115,7 +113,7 @@ class Updater extends \JAdapter
 	 *
 	 * @return  boolean True if there are updates
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function findUpdates($eid = 0, $cacheTimeout = 0, $minimum_stability = self::STABILITY_STABLE, $includeCurrent = false)
 	{
@@ -374,10 +372,10 @@ class Updater extends \JAdapter
 			$subQuery = $db->getQuery(true)
 				->select('update_site_id')
 				->from('#__update_sites')
-				->where($db->qn('last_check_timestamp') . ' IS NULL', 'OR')
-				->where($db->qn('last_check_timestamp') . ' <= ' . $db->q($timestamp), 'OR');
+				->where($db->quoteName('last_check_timestamp') . ' IS NULL', 'OR')
+				->where($db->quoteName('last_check_timestamp') . ' <= ' . $db->quote($timestamp), 'OR');
 
-			$query->where($db->qn('update_site_id') . ' IN (' . $subQuery . ')');
+			$query->where($db->quoteName('update_site_id') . ' IN (' . $subQuery . ')');
 		}
 
 		$retVal = $db->setQuery($query)->loadColumn(0);

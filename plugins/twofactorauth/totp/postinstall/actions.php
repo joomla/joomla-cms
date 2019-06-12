@@ -3,13 +3,15 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.totp
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * This file contains the functions used by the com_postinstall code to deliver
  * the necessary post-installation messages concerning the activation of the
  * two-factor authentication code.
  */
+
+use Joomla\CMS\Factory;
 
 /**
  * Checks if the plugin is enabled. If not it returns true, meaning that the
@@ -21,14 +23,14 @@
  */
 function twofactorauth_postinstall_condition()
 {
-	$db = JFactory::getDbo();
+	$db = Factory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
 
 	$query = $db->getQuery(true)
 		->select('*')
-		->from($db->qn('#__extensions'))
-		->where($db->qn('type') . ' = ' . $db->q('plugin'))
-		->where($db->qn('enabled') . ' = ' . $db->q('1'))
-		->where($db->qn('folder') . ' = ' . $db->q('twofactorauth'));
+		->from($db->quoteName('#__extensions'))
+		->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+		->where($db->quoteName('enabled') . ' = ' . $db->quote('1'))
+		->where($db->quoteName('folder') . ' = ' . $db->quote('twofactorauth'));
 	$db->setQuery($query);
 	$enabled_plugins = $db->loadObjectList();
 
@@ -47,17 +49,17 @@ function twofactorauth_postinstall_condition()
 function twofactorauth_postinstall_action()
 {
 	// Enable the plugin
-	$db = JFactory::getDbo();
+	$db = Factory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
 
 	$query = $db->getQuery(true)
-		->update($db->qn('#__extensions'))
-		->set($db->qn('enabled') . ' = ' . $db->q(1))
-		->where($db->qn('type') . ' = ' . $db->q('plugin'))
-		->where($db->qn('folder') . ' = ' . $db->q('twofactorauth'));
+		->update($db->quoteName('#__extensions'))
+		->set($db->quoteName('enabled') . ' = ' . $db->quote(1))
+		->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+		->where($db->quoteName('folder') . ' = ' . $db->quote('twofactorauth'));
 	$db->setQuery($query);
 	$db->execute();
 
 	// Redirect the user to their profile editor page
-	$url = 'index.php?option=com_users&task=user.edit&id=' . JFactory::getUser()->id;
-	JFactory::getApplication()->redirect($url);
+	$url = 'index.php?option=com_users&task=user.edit&id=' . Factory::getUser()->id;
+	Factory::getApplication()->redirect($url);
 }

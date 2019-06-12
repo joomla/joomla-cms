@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,15 +10,15 @@ namespace Joomla\CMS\HTML;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Environment\Browser;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Utility class for all HTML drawing classes
@@ -74,7 +74,8 @@ abstract class HTMLHelper
 	 *
 	 * @return  array  Contains lowercase key, prefix, file, function.
 	 *
-	 * @since   1.6
+	 * @since       1.6
+	 * @deprecated  5.0 Use the service registry instead
 	 */
 	protected static function extract($key)
 	{
@@ -201,7 +202,8 @@ abstract class HTMLHelper
 	 *
 	 * @return  boolean  True if the function is callable
 	 *
-	 * @since   1.6
+	 * @since       1.6
+	 * @deprecated  5.0 Use the service registry instead
 	 */
 	public static function register($key, callable $function)
 	{
@@ -232,7 +234,8 @@ abstract class HTMLHelper
 	 *
 	 * @return  boolean  True if a set key is unset
 	 *
-	 * @since   1.6
+	 * @since       1.6
+	 * @deprecated  5.0 Use the service registry instead
 	 */
 	public static function unregister($key)
 	{
@@ -360,31 +363,6 @@ abstract class HTMLHelper
 		}
 
 		return '<iframe src="' . $url . '" ' . $attribs . ' name="' . $name . '">' . $noFrames . '</iframe>';
-	}
-
-	/**
-	 * Include version with MD5SUM file in path.
-	 *
-	 * @param   string  $path  Folder name to search into (images, css, js, ...).
-	 *
-	 * @return  string  Query string to add.
-	 *
-	 * @since   3.7.0
-	 *
-	 * @deprecated   4.0  Usage of MD5SUM files is deprecated, use version instead.
-	 */
-	protected static function getMd5Version($path)
-	{
-		$md5 = dirname($path) . '/MD5SUM';
-
-		if (file_exists($md5))
-		{
-			Log::add('Usage of MD5SUM files is deprecated, use version instead.', Log::WARNING, 'deprecated');
-
-			return '?' . file_get_contents($md5);
-		}
-
-		return '';
 	}
 
 	/**
@@ -647,7 +625,7 @@ abstract class HTMLHelper
 		}
 
 		// If only path is required
-		if ($returnPath)
+		if ($returnPath === 1)
 		{
 			return $file;
 		}
@@ -664,35 +642,15 @@ abstract class HTMLHelper
 	 *
 	 * @return  array|string|null  nothing if $returnPath is false, null, path or array of path if specific CSS browser files were detected
 	 *
-	 * @see     Browser
-	 * @since   1.5
-	 * @deprecated 4.0  The (file, attribs, relative, pathOnly, detectBrowser, detectDebug) method signature is deprecated,
-	 *                  use (file, options, attributes) instead.
+	 * @see   Browser
+	 * @since 1.5
 	 */
 	public static function stylesheet($file, $options = array(), $attribs = array())
 	{
-		// B/C before 3.7.0
-		if (!is_array($attribs))
-		{
-			Log::add('The stylesheet method signature used has changed, use (file, options, attributes) instead.', Log::WARNING, 'deprecated');
-
-			$argList = func_get_args();
-			$options = array();
-
-			// Old parameters.
-			$attribs                  = $argList[1] ?? array();
-			$options['relative']      = $argList[2] ?? false;
-			$options['pathOnly']      = $argList[3] ?? false;
-			$options['detectBrowser'] = $argList[4] ?? false;
-			$options['detectDebug']   = $argList[5] ?? true;
-		}
-		else
-		{
-			$options['relative']      = $options['relative'] ?? false;
-			$options['pathOnly']      = $options['pathOnly'] ?? false;
-			$options['detectBrowser'] = $options['detectBrowser'] ?? false;
-			$options['detectDebug']   = $options['detectDebug'] ?? true;
-		}
+		$options['relative']      = $options['relative'] ?? false;
+		$options['pathOnly']      = $options['pathOnly'] ?? false;
+		$options['detectBrowser'] = $options['detectBrowser'] ?? false;
+		$options['detectDebug']   = $options['detectDebug'] ?? true;
 
 		$includes = static::includeRelativeFiles('css', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
@@ -713,7 +671,7 @@ abstract class HTMLHelper
 		}
 
 		// If inclusion is required
-		$document = Factory::getDocument();
+		$document = Factory::getApplication()->getDocument();
 
 		foreach ($includes as $include)
 		{
@@ -736,43 +694,15 @@ abstract class HTMLHelper
 	 *
 	 * @return  array|string|null  Nothing if $returnPath is false, null, path or array of path if specific JavaScript browser files were detected
 	 *
-	 * @see     HTMLHelper::stylesheet()
-	 * @since   1.5
-	 * @deprecated 4.0  The (file, framework, relative, pathOnly, detectBrowser, detectDebug) method signature is deprecated,
-	 *                  use (file, options, attributes) instead.
+	 * @see   HTMLHelper::stylesheet()
+	 * @since 1.5
 	 */
 	public static function script($file, $options = array(), $attribs = array())
 	{
-		// B/C before 3.7.0
-		if (!is_array($options))
-		{
-			Log::add('The script method signature used has changed, use (file, options, attributes) instead.', Log::WARNING, 'deprecated');
-
-			$argList = func_get_args();
-			$options = array();
-			$attribs = array();
-
-			// Old parameters.
-			$options['framework']     = $argList[1] ?? false;
-			$options['relative']      = $argList[2] ?? false;
-			$options['pathOnly']      = $argList[3] ?? false;
-			$options['detectBrowser'] = $argList[4] ?? false;
-			$options['detectDebug']   = $argList[5] ?? true;
-		}
-		else
-		{
-			$options['framework']     = $options['framework'] ?? false;
-			$options['relative']      = $options['relative'] ?? false;
-			$options['pathOnly']      = $options['pathOnly'] ?? false;
-			$options['detectBrowser'] = $options['detectBrowser'] ?? false;
-			$options['detectDebug']   = $options['detectDebug'] ?? true;
-		}
-
-		// Include MooTools framework
-		if ($options['framework'])
-		{
-			static::_('behavior.framework');
-		}
+		$options['relative']      = $options['relative'] ?? false;
+		$options['pathOnly']      = $options['pathOnly'] ?? false;
+		$options['detectBrowser'] = $options['detectBrowser'] ?? false;
+		$options['detectDebug']   = $options['detectDebug'] ?? true;
 
 		$includes = static::includeRelativeFiles('js', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
@@ -793,7 +723,7 @@ abstract class HTMLHelper
 		}
 
 		// If inclusion is required
-		$document = Factory::getDocument();
+		$document = Factory::getApplication()->getDocument();
 
 		foreach ($includes as $include)
 		{
@@ -831,9 +761,6 @@ abstract class HTMLHelper
 		// Script core.js is responsible for the polyfills and the async loading of the web components
 		static::_('behavior.core');
 
-		$version      = '';
-		$mediaVersion = Factory::getDocument()->getMediaVersion();
-
 		// Add the css if exists
 		self::_('stylesheet', str_replace('.js', '.css', $file), $options);
 
@@ -842,7 +769,7 @@ abstract class HTMLHelper
 			$file,
 			$options['relative'] ?? true,
 			$options['detectBrowser'] ?? false,
-			$options['detectDebug'] ?? false
+			$options['detectDebug'] ?? true
 		);
 
 		if (count($includes) === 0)
@@ -850,11 +777,14 @@ abstract class HTMLHelper
 			return;
 		}
 
+		$document = Factory::getApplication()->getDocument();
+		$version  = '';
+
 		if (isset($options['version']))
 		{
 			if ($options['version'] === 'auto')
 			{
-				$version = '?' . $mediaVersion;
+				$version = '?' . $document->getMediaVersion();
 			}
 			else
 			{
@@ -862,26 +792,21 @@ abstract class HTMLHelper
 			}
 		}
 
-		if (count($includes) === 1)
-		{
-			$potential = $includes[0] . ((strpos($includes[0], '?') === false) ? $version : '');
+		$components = $document->getScriptOptions('webcomponents');
 
-			if (!in_array($potential, Factory::getDocument()->getScriptOptions('webcomponents')))
+		foreach ($includes as $include)
+		{
+			$potential = $include . ((strpos($include, '?') === false) ? $version : '');
+
+			if (in_array($potential, $components))
 			{
-				Factory::getDocument()->addScriptOptions('webcomponents', [$potential]);
-				return;
+				continue;
 			}
 
-			return;
+			$components[] = $potential;
 		}
 
-		$potential = $includes . ((strpos($includes, '?') === false) ? $version : '');
-
-		if (!in_array($potential, Factory::getDocument()->getScriptOptions('webcomponents')))
-		{
-			Factory::getDocument()->addScriptOptions('webcomponents', [$potential]);
-		}
-
+		$document->addScriptOptions('webcomponents', $components);
 	}
 
 	/**
@@ -923,9 +848,7 @@ abstract class HTMLHelper
 	 */
 	public static function date($input = 'now', $format = null, $tz = true, $gregorian = false)
 	{
-		// Get some system objects.
-		$config = Factory::getConfig();
-		$user   = Factory::getUser();
+		$app = Factory::getApplication();
 
 		// UTC date converted to user time zone.
 		if ($tz === true)
@@ -934,7 +857,7 @@ abstract class HTMLHelper
 			$date = Factory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the user configuration.
-			$date->setTimezone($user->getTimezone());
+			$date->setTimezone($app->getIdentity()->getTimezone());
 		}
 		// UTC date converted to server time zone.
 		elseif ($tz === false)
@@ -943,7 +866,7 @@ abstract class HTMLHelper
 			$date = Factory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the server configuration.
-			$date->setTimezone(new \DateTimeZone($config->get('offset')));
+			$date->setTimezone(new \DateTimeZone($app->get('offset')));
 		}
 		// No date conversion.
 		elseif ($tz === null)
@@ -1138,7 +1061,7 @@ abstract class HTMLHelper
 	{
 		$tag       = Factory::getLanguage()->getTag();
 		$calendar  = Factory::getLanguage()->getCalendar();
-		$direction = strtolower(Factory::getDocument()->getDirection());
+		$direction = strtolower(Factory::getApplication()->getDocument()->getDirection());
 
 		// Get the appropriate file for the current language date helper
 		$helperPath = 'system/fields/calendar-locales/date/gregorian/date-helper.min.js';
@@ -1179,6 +1102,8 @@ abstract class HTMLHelper
 		$hint         = $attribs['placeholder'] ?? '';
 		$class        = $attribs['class'] ?? '';
 		$onchange     = $attribs['onChange'] ?? '';
+		$minYear      = $attribs['minYear'] ?? null;
+		$maxYear      = $attribs['maxYear'] ?? null;
 
 		$showTime     = ($showTime) ? "1" : "0";
 		$todayBtn     = ($todayBtn) ? "1" : "0";
@@ -1223,6 +1148,8 @@ abstract class HTMLHelper
 			'localesPath'  => $localesPath,
 			'direction'    => $direction,
 			'onchange'     => $onchange,
+			'minYear'      => $minYear,
+			'maxYear'      => $maxYear,
 		);
 
 		return LayoutHelper::render('joomla.form.field.calendar', $data, null, null);
@@ -1236,7 +1163,8 @@ abstract class HTMLHelper
 	 *
 	 * @return  array  An array with directory elements
 	 *
-	 * @since   1.5
+	 * @since       1.5
+	 * @deprecated  5.0 Use the service registry instead
 	 */
 	public static function addIncludePath($path = '')
 	{
@@ -1263,67 +1191,6 @@ abstract class HTMLHelper
 		}
 
 		return static::$includePaths;
-	}
-
-	/**
-	 * Internal method to get a JavaScript object notation string from an array
-	 *
-	 * @param   array  $array  The array to convert to JavaScript object notation
-	 *
-	 * @return  string  JavaScript object notation representation of the array
-	 *
-	 * @since   3.0
-	 * @deprecated  4.0 Use `json_encode()` or `Joomla\Registry\Registry::toString('json')` instead
-	 */
-	public static function getJSObject(array $array = array())
-	{
-		Log::add(
-			__METHOD__ . " is deprecated. Use json_encode() or \\Joomla\\Registry\\Registry::toString('json') instead.",
-			Log::WARNING,
-			'deprecated'
-		);
-
-		$elements = array();
-
-		foreach ($array as $k => $v)
-		{
-			// Don't encode either of these types
-			if ($v === null || is_resource($v))
-			{
-				continue;
-			}
-
-			// Safely encode as a Javascript string
-			$key = json_encode((string) $k);
-
-			if (is_bool($v))
-			{
-				$elements[] = $key . ': ' . ($v ? 'true' : 'false');
-			}
-			elseif (is_numeric($v))
-			{
-				$elements[] = $key . ': ' . ($v + 0);
-			}
-			elseif (is_string($v))
-			{
-				if (strpos($v, '\\') === 0)
-				{
-					// Items such as functions and JSON objects are prefixed with \, strip the prefix and don't encode them
-					$elements[] = $key . ': ' . substr($v, 1);
-				}
-				else
-				{
-					// The safest way to insert a string
-					$elements[] = $key . ': ' . json_encode((string) $v);
-				}
-			}
-			else
-			{
-				$elements[] = $key . ': ' . static::getJSObject(is_object($v) ? get_object_vars($v) : $v);
-			}
-		}
-
-		return '{' . implode(',', $elements) . '}';
 	}
 
 	/**

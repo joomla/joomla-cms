@@ -3,20 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Fields\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\FormController;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Factory;
 
 /**
  * The Group controller
@@ -49,8 +50,8 @@ class GroupController extends FormController
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CmsApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   Input                $input    Input
 	 *
 	 * @since   3.7.0
 	 */
@@ -58,7 +59,7 @@ class GroupController extends FormController
 	{
 		parent::__construct($config, $factory, $app, $input);
 
-		$parts = \FieldsHelper::extract($this->input->getCmd('context'));
+		$parts = FieldsHelper::extract($this->input->getCmd('context'));
 
 		if ($parts)
 		{
@@ -77,7 +78,7 @@ class GroupController extends FormController
 	 */
 	public function batch($model = null)
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Set the model
 		$model = $this->getModel('Group');
@@ -99,7 +100,7 @@ class GroupController extends FormController
 	 */
 	protected function allowAdd($data = array())
 	{
-		return Factory::getUser()->authorise('core.create', $this->component);
+		return $this->app->getIdentity()->authorise('core.create', $this->component);
 	}
 
 	/**
@@ -115,7 +116,7 @@ class GroupController extends FormController
 	protected function allowEdit($data = array(), $key = 'parent_id')
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
 		// Zero record (parent_id:0), return component edit permission by calling parent controller method
 		if (!$recordId)
@@ -169,5 +170,38 @@ class GroupController extends FormController
 		}
 
 		return;
+	}
+
+	/**
+	 * Gets the URL arguments to append to an item redirect.
+	 *
+	 * @param   integer  $recordId  The primary key id for the item.
+	 * @param   string   $urlVar    The name of the URL variable for the id.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since  4.0.0
+	 */
+	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
+	{
+		$append = parent::getRedirectToItemAppend($recordId);
+		$append .= '&context=' . $this->input->get('context');
+
+		return $append;
+	}
+
+	/**
+	 * Gets the URL arguments to append to a list redirect.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since  4.0.0
+	 */
+	protected function getRedirectToListAppend()
+	{
+		$append = parent::getRedirectToListAppend();
+		$append .= '&context=' . $this->input->get('context');
+
+		return $append;
 	}
 }

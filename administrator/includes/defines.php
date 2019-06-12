@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Administrator
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,3 +23,4 @@ define('JPATH_INSTALLATION',  JPATH_ROOT . DIRECTORY_SEPARATOR . 'installation')
 define('JPATH_THEMES',        JPATH_BASE . DIRECTORY_SEPARATOR . 'templates');
 define('JPATH_CACHE',         JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'cache');
 define('JPATH_MANIFESTS',     JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'manifests');
+define('JPATH_API',           JPATH_ROOT . DIRECTORY_SEPARATOR . 'api');

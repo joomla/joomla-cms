@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,9 +10,9 @@ namespace Joomla\CMS\Router;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -110,7 +110,7 @@ class Router
 			}
 
 			// Check for a possible service from the container otherwise manually instantiate the class
-			if (Factory::getContainer()->exists($classname))
+			if (Factory::getContainer()->has($classname))
 			{
 				self::$instances[$client] = Factory::getContainer()->get($classname);
 			}

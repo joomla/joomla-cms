@@ -11,6 +11,7 @@
 			name="newsfeed_layout"
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
+			class="custom-select"
 			menuitems="true"
 			extension="com_newsfeeds"
 			view="newsfeed"
@@ -134,6 +135,7 @@
 			name="category_layout"
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
+			class="custom-select"
 			menuitems="true"
 			extension="com_newsfeeds"
 			view="category"
@@ -396,6 +398,12 @@
 		label="JGLOBAL_INTEGRATION_LABEL"
 		description="COM_NEWSFEEDS_CONFIG_INTEGRATION_SETTINGS_DESC"
 	>
+
+		<field
+			name="integration_sef"
+			type="note"
+			label="JGLOBAL_SEF_TITLE"
+		/>
 
 		<field
 			name="sef_ids"

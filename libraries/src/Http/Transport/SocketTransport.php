@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\Http\Transport;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Http\Response;
 use Joomla\CMS\Http\TransportInterface;
 use Joomla\CMS\Uri\Uri;
@@ -17,18 +18,17 @@ use Joomla\Http\AbstractTransport;
 use Joomla\Http\Exception\InvalidResponseCodeException;
 use Joomla\Uri\UriInterface;
 use Zend\Diactoros\Stream as StreamResponse;
-use Joomla\CMS\Factory;
 
 /**
  * HTTP transport class for using sockets directly.
  *
- * @since  11.3
+ * @since  1.7.3
  */
 class SocketTransport extends AbstractTransport implements TransportInterface
 {
 	/**
 	 * @var    array  Reusable socket connections.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $connections;
 
@@ -44,7 +44,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 	 *
 	 * @return  Response
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
@@ -156,7 +156,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 	 *
 	 * @return  Response
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  InvalidResponseCodeException
 	 */
 	protected function getResponse($content)
@@ -202,7 +202,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 	 *
 	 * @return  resource  Socket connection resource.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	protected function connect(UriInterface $uri, $timeout = null)
@@ -297,10 +297,10 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 	 *
 	 * @return  boolean   True if available else false
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported()
 	{
-		return function_exists('fsockopen') && is_callable('fsockopen') && !Factory::getConfig()->get('proxy_enable');
+		return function_exists('fsockopen') && is_callable('fsockopen') && !Factory::getApplication()->get('proxy_enable');
 	}
 }

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@ namespace Joomla\CMS;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Helper\LibraryHelper;
-use Joomla\CMS\Factory;
 
 /**
  * Version information class for the Joomla CMS.
@@ -61,7 +60,7 @@ final class Version
 	 * @var    string
 	 * @since  3.8.0
 	 */
-	const EXTRA_VERSION = 'alpha5-dev';
+	const EXTRA_VERSION = 'alpha10-dev';
 
 	/**
 	 * Development status.
@@ -85,7 +84,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '22-July-2018';
+	const RELDATE = '16-May-2019';
 
 	/**
 	 * Release time.
@@ -93,7 +92,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '22:58';
+	const RELTIME = '19:22';
 
 	/**
 	 * Release timezone.
@@ -109,7 +108,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const COPYRIGHT = 'Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.';
+	const COPYRIGHT = 'Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.';
 
 	/**
 	 * Link text.
@@ -228,7 +227,7 @@ final class Version
 	 */
 	public function generateMediaVersion(): string
 	{
-		return md5($this->getLongVersion() . Factory::getConfig()->get('secret') . (new \JDate)->toSql());
+		return md5($this->getLongVersion() . Factory::getApplication()->get('secret') . (new \JDate)->toSql());
 	}
 
 	/**

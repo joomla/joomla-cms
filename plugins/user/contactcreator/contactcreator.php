@@ -3,17 +3,17 @@
  * @package     Joomla.Plugin
  * @subpackage  User.contactcreator
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
+use Joomla\String\StringHelper;
 
 /**
  * Class for Contact Creator
@@ -39,7 +39,7 @@ class PlgUserContactCreator extends CMSPlugin
 	 *
 	 * @param   array    $user     Holds the new user data.
 	 * @param   boolean  $isnew    True if a new user is stored.
-	 * @param   boolean  $success  True if user was succesfully stored in the database.
+	 * @param   boolean  $success  True if user was successfully stored in the database.
 	 * @param   string   $msg      Message.
 	 *
 	 * @return  boolean
@@ -93,7 +93,7 @@ class PlgUserContactCreator extends CMSPlugin
 			$contact->user_id  = $user_id;
 			$contact->email_to = $user['email'];
 			$contact->catid    = $categoryId;
-			$contact->access   = (int) Factory::getConfig()->get('access');
+			$contact->access   = (int) Factory::getApplication()->get('access');
 			$contact->language = '*';
 			$contact->generateAlias();
 

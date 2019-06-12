@@ -3,20 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Categories\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Table\Table;
-use Joomla\Component\Categories\Administrator\Model\CategoryModel;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Factory;
 
 /**
  * Categories helper.
@@ -79,37 +77,6 @@ class CategoriesHelper
 	}
 
 	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @param   string   $extension   The extension.
-	 * @param   integer  $categoryId  The category ID.
-	 *
-	 * @return  \JObject
-	 *
-	 * @since   1.6
-	 * @deprecated  3.2  Use ContentHelper::getActions() instead
-	 */
-	public static function getActions($extension, $categoryId = 0)
-	{
-		// Log usage of deprecated function
-		try
-		{
-			Log::add(
-				sprintf('%s() is deprecated, use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		// Get list of actions
-		return ContentHelper::getActions($extension, 'category', $categoryId);
-	}
-
-	/**
 	 * Gets a list of associations for a given item.
 	 *
 	 * @param   integer  $pk         Content item key.
@@ -129,13 +96,13 @@ class CategoriesHelper
 			// Include only published categories with user access
 			$arrId    = explode(':', $langAssociation->id);
 			$assocId  = $arrId[0];
-			$db       = \JFactory::getDbo();
+			$db       = Factory::getDbo();
 
 			$query = $db->getQuery(true)
-				->select($db->qn('published'))
-				->from($db->qn('#__categories'))
+				->select($db->quoteName('published'))
+				->from($db->quoteName('#__categories'))
 				->where('access IN (' . $groups . ')')
-				->where($db->qn('id') . ' = ' . (int) $assocId);
+				->where($db->quoteName('id') . ' = ' . (int) $assocId);
 
 			$result = (int) $db->setQuery($query)->loadResult();
 
@@ -154,7 +121,7 @@ class CategoriesHelper
 	 * @param   mixed   $catid      Name or ID of category.
 	 * @param   string  $extension  Extension that triggers this function
 	 *
-	 * @return int $catid  Category ID.
+	 * @return  integer  $catid  Category ID.
 	 */
 	public static function validateCategoryId($catid, $extension)
 	{
@@ -181,7 +148,8 @@ class CategoriesHelper
 	 */
 	public static function createCategory($data)
 	{
-		$categoryModel = new CategoryModel(array('ignore_request' => true));
+		$categoryModel = Factory::getApplication()->bootComponent('com_categories')
+			->getMVCFactory()->createModel('Category', 'Administrator', ['ignore_request' => true]);
 		$categoryModel->save($data);
 
 		$catid = $categoryModel->getState('category.id');

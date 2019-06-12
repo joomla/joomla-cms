@@ -3,17 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\AuthenticationHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Helper\AuthenticationHelper;
 
 HTMLHelper::_('behavior.keepalive');
 
@@ -21,14 +21,14 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 
 ?>
 
-<joomla-alert type="warning">
+<div class="alert alert-warning">
 	<h4 class="alert-heading">
 		<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_CAPTIVE_INTRO_HEAD'); ?>
 	</h4>
 	<p>
-		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_CAPTIVE_INTRO_BODY', Factory::getConfig()->get('sitename')); ?>
+		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_CAPTIVE_INTRO_BODY', Factory::getApplication()->get('sitename')); ?>
 	</p>
-</joomla-alert>
+</div>
 
 <hr>
 

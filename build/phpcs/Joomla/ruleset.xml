@@ -4,15 +4,16 @@
 
 	<!-- Exclude folders not containing production code -->
 	<exclude-pattern type="relative">build/*</exclude-pattern>
-	<exclude-pattern type="relative">docs/*</exclude-pattern>
 	<exclude-pattern type="relative">cache/*</exclude-pattern>
-	<exclude-pattern type="relative">tmp/*</exclude-pattern>
+	<exclude-pattern type="relative">docs/*</exclude-pattern>
 	<exclude-pattern type="relative">logs/*</exclude-pattern>
+	<exclude-pattern type="relative">tmp/*</exclude-pattern>
 
 	<!-- Exclude 3rd party libraries and Framework code. -->
 	<exclude-pattern type="relative">libraries/compat/password/*</exclude-pattern>
 	<exclude-pattern type="relative">libraries/php-encryption/*</exclude-pattern>
 	<exclude-pattern type="relative">libraries/phpass/*</exclude-pattern>
+	<exclude-pattern type="relative">node_modules/*</exclude-pattern>
 	<exclude-pattern type="relative">*/vendor/*</exclude-pattern>
 	<!-- Temporarily exclude the old FOF Library code. TODO: Should be made compliant!! -->
 	<exclude-pattern type="relative">libraries/src/Encrypt/*</exclude-pattern>
@@ -36,7 +37,7 @@
 	<exclude-pattern type="relative">tests/unit/suites/libraries/legacy/controller/stubs/component2/controller.php</exclude-pattern>
 
 	<!-- exclude file because of the use of unsupported class definition -->
-	<exclude-pattern type="relative">administrator/components/*/services/provider.php</exclude-pattern>
+	<exclude-pattern type="relative">*/services/provider.php</exclude-pattern>
 
 	<!-- Exclude the RoboFile.php -->
 	<exclude-pattern type="relative">RoboFile.php</exclude-pattern>
@@ -161,6 +162,14 @@
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
 		<exclude-pattern type="relative">tests/*</exclude-pattern>
+	</rule>
+
+	<rule ref="Joomla.Commenting.FunctionComment.MissingParamTag">
+		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+	</rule>
+
+	<rule ref="Joomla.Commenting.FunctionComment.ParamNameNoMatch">
+		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
 	</rule>
 
 	<rule ref="Joomla.Commenting.SingleComment">

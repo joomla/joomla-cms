@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset>
-		<field 
-			name="id" 
+		<field
+			name="id"
 			type="number"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
@@ -10,7 +10,7 @@
 		/>
 
 		<field
-			name="title" 
+			name="title"
 			type="text"
 			label="JGLOBAL_TITLE"
 			maxlength="100"
@@ -18,16 +18,16 @@
 			size="35"
 		/>
 
-		<field 
-			name="note" 
+		<field
+			name="note"
 			type="text"
 			label="COM_MODULES_FIELD_NOTE_LABEL"
 			maxlength="255"
 			size="35"
 		/>
 
-		<field 
-			name="module" 
+		<field
+			name="module"
 			type="hidden"
 			label="COM_MODULES_FIELD_MODULE_LABEL"
 			readonly="readonly"
@@ -63,7 +63,6 @@
 			type="calendar"
 			label="COM_MODULES_FIELD_PUBLISH_UP_LABEL"
 			filter="user_utc"
-			class="input-medium"
 			translateformat="true"
 			showtime="true"
 			size="22"
@@ -74,43 +73,44 @@
 			type="calendar"
 			label="COM_MODULES_FIELD_PUBLISH_DOWN_LABEL"
 			filter="user_utc"
-			class="input-medium"
 			translateformat="true"
 			showtime="true"
 			size="22"
 		/>
 
-		<field 
-			name="client_id" 
+		<field
+			name="client_id"
 			type="hidden"
 			label="COM_MODULES_FIELD_CLIENT_ID_LABEL"
 			readonly="true"
 			size="1"
 		/>
 
-		<field 
-			name="position" 
-			type="moduleposition"
+		<field
+			name="position"
+			type="ModulesPositionedit"
 			label="COM_MODULES_FIELD_POSITION_LABEL"
+			addfieldprefix="Joomla\Component\Modules\Administrator\Field"
 			default=""
 			maxlength="50"
+			client="site"
 		/>
 
-		<field 
-			name="access" 
+		<field
+			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
 			size="1"
 		/>
 
-		<field 
-			name="ordering" 
+		<field
+			name="ordering"
 			type="moduleorder"
 			label="JFIELD_ORDERING_LABEL"
 		/>
 
-		<field 
-			name="content" 
+		<field
+			name="content"
 			type="editor"
 			label="COM_MODULES_FIELD_CONTENT_LABEL"
 			buttons="true"
@@ -119,8 +119,8 @@
 			hide="readmore,pagebreak"
 		/>
 
-		<field 
-			name="language" 
+		<field
+			name="language"
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
 			>

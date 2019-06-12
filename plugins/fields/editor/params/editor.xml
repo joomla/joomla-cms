@@ -6,6 +6,7 @@
 				name="buttons"
 				type="list"
 				label="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_LABEL"
+				filter="integer"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="1">JYES</option>
@@ -39,6 +40,7 @@
 				type="list"
 				label="PLG_FIELDS_TEXT_PARAMS_FILTER_LABEL"
 				class="list"
+				validate="options"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="0">JNO</option>

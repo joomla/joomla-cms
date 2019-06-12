@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,14 +12,15 @@ namespace Joomla\Component\Menus\Site\Dispatcher;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
- * Dispatcher class for com_menus
+ * ComponentDispatcher class for com_menus
  *
  * @since  4.0.0
  */
-class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
+class Dispatcher extends ComponentDispatcher
 {
 	/**
 	 * Load the language

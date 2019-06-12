@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,13 +11,14 @@ namespace Joomla\CMS\Image;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Image\Image as FrameworkImage;
 use Joomla\CMS\Log\Log;
+use Joomla\Image\Image as FrameworkImage;
+use Joomla\Image\ImageFilter;
 
 /**
  * Class to manipulate an image.
  *
- * @since  11.3
+ * @since  1.7.3
  */
 class Image extends FrameworkImage
 {
@@ -34,7 +35,7 @@ class Image extends FrameworkImage
 	 *
 	 * @param   mixed  $source  Either a file path for a source image or a GD resource handler for an image.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	public function __construct($source = null)
@@ -57,7 +58,7 @@ class Image extends FrameworkImage
 	 *
 	 * @return  Image
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \LogicException
 	 */
 	public function crop($width, $height, $left = null, $top = null, $createNew = true)
@@ -151,7 +152,7 @@ class Image extends FrameworkImage
 	 *
 	 * @return  Image
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \LogicException
 	 */
 	public function resize($width, $height, $createNew = true, $scaleMethod = self::SCALE_INSIDE)
@@ -271,7 +272,7 @@ class Image extends FrameworkImage
 	 *
 	 * @return  ImageFilter
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	protected function getFilterInstance($type)

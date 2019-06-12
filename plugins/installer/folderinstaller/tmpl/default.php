@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.folderinstaller
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ $app = Factory::getApplication();
 		<?php echo Text::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?>
 	</label>
 	<div class="controls">
-		<input type="text" id="install_directory" name="install_directory" class="form-control input-xlarge"
+		<input type="text" id="install_directory" name="install_directory" class="form-control"
 			value="<?php echo $app->input->get('install_directory', $app->get('tmp_path')); ?>">
 	</div>
 </div>

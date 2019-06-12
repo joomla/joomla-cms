@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,27 +10,26 @@ namespace Joomla\CMS\Application;
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.folder');
-
 use Joomla\CMS\Event\BeforeExecuteEvent;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Input\Cli;
+use Joomla\CMS\Log\Log;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Log\Log;
 
 /**
  * Class to turn CliApplication applications into daemons.  It requires CLI and PCNTL support built into PHP.
  *
  * @link   https://secure.php.net/manual/en/book.pcntl.php
  * @link   https://secure.php.net/manual/en/features.commandline.php
- * @since  11.1
+ * @since  1.7.0
  */
 abstract class DaemonApplication extends CliApplication
 {
 	/**
 	 * @var    array  The available POSIX signals to be caught by default.
 	 * @link   https://secure.php.net/manual/pcntl.constants.php
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $signals = array(
 		'SIGHUP',
@@ -73,25 +72,25 @@ abstract class DaemonApplication extends CliApplication
 
 	/**
 	 * @var    boolean  True if the daemon is in the process of exiting.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $exiting = false;
 
 	/**
 	 * @var    integer  The parent process id.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $parentId = 0;
 
 	/**
 	 * @var    integer  The process id of the daemon.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $processId = 0;
 
 	/**
 	 * @var    boolean  True if the daemon is currently running.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $running = false;
 
@@ -110,9 +109,9 @@ abstract class DaemonApplication extends CliApplication
 	 *                                            will be created based on the application's loadDispatcher() method.
 	 *
 	 * @see     JApplicationBase::loadDispatcher()
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
-	public function __construct(\JInputCli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null)
+	public function __construct(Cli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null)
 	{
 		// Verify that the process control extension for PHP is available.
 		if (!defined('SIGHUP'))
@@ -150,7 +149,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @see     pcntl_signal()
 	 * @throws  \RuntimeException
 	 */
@@ -218,7 +217,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  boolean  True if daemon is active.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function isActive()
 	{
@@ -263,7 +262,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  DaemonApplication  Instance of $this to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function loadConfiguration($data)
 	{
@@ -361,7 +360,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function execute()
 	{
@@ -411,7 +410,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function restart()
 	{
@@ -424,7 +423,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stop()
 	{
@@ -437,7 +436,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  boolean  True if identity successfully changed
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @see     posix_setuid()
 	 */
 	protected function changeIdentity()
@@ -501,7 +500,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	protected function daemonize()
@@ -599,7 +598,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  \RuntimeException
 	 */
 	protected function detach()
@@ -633,7 +632,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  integer  The child process id to the parent process, zero to the child process.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	protected function fork()
@@ -670,7 +669,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function gc()
 	{
@@ -688,7 +687,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @see     pcntl_signal()
 	 */
 	protected function setupSignalHandlers()
@@ -726,7 +725,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function shutdown($restart = false)
 	{
@@ -779,7 +778,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function writeProcessIdFile()
 	{
@@ -835,7 +834,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function postFork()
 	{
@@ -851,7 +850,7 @@ abstract class DaemonApplication extends CliApplication
 	 * @return  integer  The child process exit code.
 	 *
 	 * @see     pcntl_wexitstatus()
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function pcntlChildExitStatus($status)
 	{
@@ -867,7 +866,7 @@ abstract class DaemonApplication extends CliApplication
 	 *                   will be created, and a PHP error is raised.
 	 *
 	 * @see     pcntl_fork()
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function pcntlFork()
 	{
@@ -886,7 +885,7 @@ abstract class DaemonApplication extends CliApplication
 	 * @return  boolean  True on success.
 	 *
 	 * @see     pcntl_signal()
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function pcntlSignal($signal, $handler, $restart = true)
 	{
@@ -904,7 +903,7 @@ abstract class DaemonApplication extends CliApplication
 	 *                   was provided as an option (on wait3-available systems) and no child was available.
 	 *
 	 * @see     pcntl_wait()
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function pcntlWait(&$status, $options = 0)
 	{

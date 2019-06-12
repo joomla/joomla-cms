@@ -3,21 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-
-// Include the component HTML helpers.
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 HTMLHelper::_('behavior.multiselect');
 HTMLHelper::_('behavior.tabstate');
@@ -29,7 +26,7 @@ $saveOrder = $listOrder == 'ordering';
 
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_plugins&task=plugins.saveOrderAjax&tmpl=component' . Session::getFormToken() . '=1';
+	$saveOrderingUrl = 'index.php?option=com_plugins&task=plugins.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
 ?>
@@ -37,33 +34,38 @@ if ($saveOrder)
 	<div id="j-main-container" class="j-main-container">
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
-			<joomla-alert type="warning"><?php echo Text::_('COM_PLUGINS_MSG_MANAGE_NO_PLUGINS'); ?></joomla-alert>
+			<div class="alert alert-info">
+				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+			</div>
 		<?php else : ?>
 			<table class="table" id="pluginList">
+				<caption id="captionTable" class="sr-only">
+					<?php echo Text::_('COM_PLUGINS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+				</caption>
 				<thead>
 					<tr>
-						<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
+						<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', '', 'ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
-						<td style="width:1%" class="nowrap text-center">
+						<td style="width:1%" class="text-center">
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</td>
-						<th scope="col" style="width:1%" class="nowrap text-center">
+						<th scope="col" style="width:1%" class="text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'enabled', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" class="title">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_PLUGINS_NAME_HEADING', 'name', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+						<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_PLUGINS_FOLDER_HEADING', 'folder', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+						<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_PLUGINS_ELEMENT_HEADING', 'element', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
+						<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell text-center">
+						<th scope="col" style="width:5%" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -75,8 +77,8 @@ if ($saveOrder)
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
 					$canChange  = $user->authorise('core.edit.state', 'com_plugins') && $canCheckin;
 					?>
-					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->folder; ?>">
-						<td class="order nowrap text-center d-none d-md-table-cell">
+					<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->folder; ?>">
+						<td class="order text-center d-none d-md-table-cell">
 							<?php
 							$iconClass = '';
 							if (!$canChange)
@@ -106,23 +108,28 @@ if ($saveOrder)
 								<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'plugins.', $canCheckin); ?>
 							<?php endif; ?>
 							<?php if ($canEdit) : ?>
-								<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
+								<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pen-square mr-2" aria-hidden="true"></span>'; ?>
 								<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . (int) $item->extension_id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
 									<?php echo $editIcon; ?><?php echo $item->name; ?></a>
+									<?php if (!empty($item->note)) : ?>
+										<div class="small">
+											<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
+										</div>
+									<?php endif; ?>
 							<?php else : ?>
 									<?php echo $item->name; ?>
 							<?php endif; ?>
 						</th>
-						<td class="nowrap small d-none d-md-table-cell text-center">
+						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->folder); ?>
 						</td>
-						<td class="nowrap small d-none d-md-table-cell text-center">
+						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->element); ?>
 						</td>
-						<td class="small d-none d-md-table-cell text-center">
+						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<td class="d-none d-md-table-cell text-center">
+						<td class="d-none d-md-table-cell">
 							<?php echo (int) $item->extension_id; ?>
 						</td>
 					</tr>

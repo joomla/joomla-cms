@@ -3,16 +3,16 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
 
 defined('_JEXEC') or die;
-
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 
 ?>
 <?php if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?>
@@ -21,7 +21,7 @@ use Joomla\CMS\Language\Text;
 			<?php if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) : ?>
 				<li>
 					<span class="item-title">
-						<a href="<?php echo Route::_(NewsfeedsHelperRoute::getCategoryRoute($child->id)); ?>">
+						<a href="<?php echo Route::_(NewsfeedsHelperRoute::getCategoryRoute($child->id, $child->language)); ?>">
 							<?php echo $this->escape($child->title); ?>
 						</a>
 					</span>

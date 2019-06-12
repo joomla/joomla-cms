@@ -3,19 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('script', 'com_contenthistory/admin-history-versions.js', ['version' => 'auto', 'relative' => true]);
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_banners&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="client-form" class="form-validate">
@@ -23,9 +23,9 @@ HTMLHelper::_('behavior.formvalidator');
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div>
-		<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
 
-		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'general', empty($this->item->id) ? Text::_('COM_BANNERS_NEW_CLIENT') : Text::_('COM_BANNERS_EDIT_CLIENT')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', empty($this->item->id) ? Text::_('COM_BANNERS_NEW_CLIENT') : Text::_('COM_BANNERS_EDIT_CLIENT')); ?>
 		<div class="row">
 			<div class="col-md-9">
 				<?php
@@ -45,13 +45,13 @@ HTMLHelper::_('behavior.formvalidator');
 				</div>
 			</div>
 		</div>
-		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'metadata', Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'metadata', Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS')); ?>
 		<?php echo $this->form->renderFieldset('metadata'); ?>
-		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-		<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
+		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	</div>
 
 	<input type="hidden" name="task" value="">

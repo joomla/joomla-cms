@@ -3,21 +3,22 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Contenthistory\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Table\ContentType;
-use Joomla\CMS\Table\ContentHistory;
-use Joomla\CMS\Table\Table;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\ContentHistory;
+use Joomla\CMS\Table\ContentType;
+use Joomla\CMS\Table\Table;
 
 /**
  * Categories helper.
@@ -168,8 +169,6 @@ class ContenthistoryHelper
 	public static function getFormFile(ContentType $typesTable)
 	{
 		$result = false;
-		jimport('joomla.filesystem.file');
-		jimport('joomla.filesystem.folder');
 
 		// First, see if we have a file name in the $typesTable
 		$options = json_decode($typesTable->content_history_options);

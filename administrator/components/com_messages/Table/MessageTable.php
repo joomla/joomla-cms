@@ -3,18 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Messages\Administrator\Table;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Table\Table;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseDriver;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Message Table class
@@ -33,6 +34,8 @@ class MessageTable extends Table
 	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__messages', 'message_id', $db);
+
+		$this->setColumnAlias('published', 'state');
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@ namespace Joomla\CMS\Installation\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Installation\Model\ChecksModel;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\View\AbstractView;
 

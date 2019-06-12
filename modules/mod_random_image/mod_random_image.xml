@@ -3,7 +3,7 @@
 	<name>mod_random_image</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -46,12 +46,15 @@
 					name="width"
 					type="number"
 					label="MOD_RANDOM_IMAGE_FIELD_WIDTH_LABEL"
+					default="100"
+					filter="integer"
 				/>
 
 				<field
 					name="height"
 					type="number"
 					label="MOD_RANDOM_IMAGE_FIELD_HEIGHT_LABEL"
+					filter="integer"
 				/>
 
 			</fieldset>
@@ -60,6 +63,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
+					class="custom-select"
 				/>
 
 				<field
@@ -68,15 +72,6 @@
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
 				/>
-
-				<field
-					name="cache"
-					type="list"
-					label="COM_MODULES_FIELD_CACHING_LABEL"
-					default="0"
-					>
-					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
-				</field>
 			</fieldset>
 		</fields>
 	</config>

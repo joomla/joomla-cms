@@ -3,21 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Categories\Categories;
-
-// Include the component HTML helpers.
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 HTMLHelper::_('behavior.multiselect');
 
@@ -26,22 +25,29 @@ $user      = Factory::getUser();
 $userId    = $user->get('id');
 $context   = $this->escape($this->state->get('filter.context'));
 $component = $this->state->get('filter.component');
+$section   = $this->state->get('filter.section');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.ordering');
 $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
 
 // The category object of the component
-$category = Categories::getInstance(str_replace('com_', '', $component));
+$category = Categories::getInstance(str_replace('com_', '', $component) . '.' . $section);
+
+// If there is no category for the component and section, then check the component only
+if (!$category)
+{
+	$category = Categories::getInstance(str_replace('com_', '', $component));
+}
 
 if ($saveOrder && !empty($this->items))
 {
-	$saveOrderingUrl = 'index.php?option=com_fields&task=fields.saveOrderAjax&tmpl=component';
+	$saveOrderingUrl = 'index.php?option=com_fields&task=fields.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_fields&view=fields'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_fields&view=fields&context=' . $this->state->get('filter.context')); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<?php if (!empty($this->sidebar)) { ?>
 		<div id="j-sidebar-container" class="col-md-2">
@@ -52,38 +58,43 @@ if ($saveOrder && !empty($this->items))
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'context'))); ?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<div class="alert alert-info">
+						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+					</div>
 				<?php else : ?>
 					<table class="table" id="fieldList">
+						<caption id="captionTable" class="sr-only">
+							<?php echo Text::_('COM_FIELDS_FIELDS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						</caption>
 						<thead>
 							<tr>
-								<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
+								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
 								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" style="width:1%" class="nowrap text-center">
+								<th scope="col" style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="text-center">
+								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_FIELDS_FIELD_TYPE_LABEL', 'a.type', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="text-center">
+								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_FIELDS_FIELD_GROUP_LABEL', 'g.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
 								<?php if (Multilanguage::isEnabled()) : ?>
-									<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+									<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -96,7 +107,7 @@ if ($saveOrder && !empty($this->items))
 								<?php $canEditOwn = $user->authorise('core.edit.own', $component . '.field.' . $item->id) && $item->created_user_id == $userId; ?>
 								<?php $canChange  = $user->authorise('core.edit.state', $component . '.field.' . $item->id) && $canCheckin; ?>
 								<tr class="row<?php echo $i % 2; ?>" item-id="<?php echo $item->id ?>">
-									<td class="order nowrap text-center d-none d-md-table-cell">
+									<td class="order text-center d-none d-md-table-cell">
 										<?php $iconClass = ''; ?>
 										<?php if (!$canChange) : ?>
 											<?php $iconClass = ' inactive'; ?>
@@ -124,7 +135,7 @@ if ($saveOrder && !empty($this->items))
 												<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'fields.', $canCheckin); ?>
 											<?php endif; ?>
 											<?php if ($canEdit || $canEditOwn) : ?>
-												<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
+												<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pen-square mr-2" aria-hidden="true"></span>'; ?>
 												<a href="<?php echo Route::_('index.php?option=com_fields&task=field.edit&id=' . $item->id . '&context=' . $context); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 													<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
 											<?php else : ?>
@@ -150,21 +161,21 @@ if ($saveOrder && !empty($this->items))
                                             <?php endif; ?>
 										</div>
 									</th>
-									<td class="small text-center">
+									<td class="small">
 										<?php echo $this->escape($item->type); ?>
 									</td>
 									<td>
 										<?php echo $this->escape($item->group_title); ?>
 									</td>
-									<td class="small d-none d-md-table-cell text-center">
+									<td class="small d-none d-md-table-cell">
 										<?php echo $this->escape($item->access_level); ?>
 									</td>
 									<?php if (Multilanguage::isEnabled()) : ?>
-										<td class="small nowrap d-none d-md-table-cell text-center">
+										<td class="small d-none d-md-table-cell">
 											<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 										</td>
 									<?php endif; ?>
-									<td class="d-none d-md-table-cell text-center">
+									<td class="d-none d-md-table-cell">
 										<span><?php echo (int) $item->id; ?></span>
 									</td>
 								</tr>

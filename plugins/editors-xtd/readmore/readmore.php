@@ -3,18 +3,18 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.readmore
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\Event\Event;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\Event;
 
 /**
  * Editor Readmore button
@@ -66,6 +66,7 @@ class PlgButtonReadmore extends CMSPlugin
 		$button->onclick = 'insertReadmore(\'' . $name . '\');return false;';
 		$button->text    = Text::_('PLG_READMORE_BUTTON_READMORE');
 		$button->name    = 'arrow-down';
+		$button->iconSVG = '<svg viewBox="0 0 32 32" width="24" height="24"><path d="M32 12l-6-6-10 10-10-10-6 6 16 16z"></path></svg>';
 		$button->link    = '#';
 
 		return $button;

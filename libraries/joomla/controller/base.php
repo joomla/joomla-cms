@@ -3,20 +3,22 @@
  * @package     Joomla.Platform
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\AbstractApplication;
+use Joomla\CMS\Factory;
 use Joomla\Controller\AbstractController;
 use Joomla\Input\Input;
 
 /**
  * Joomla Platform Base Controller Class
  *
- * @since  12.1
+ * @since       3.0.0
+ * @deprecated  5.0 Use the default MVC library
  */
 abstract class JControllerBase extends AbstractController implements JController
 {
@@ -26,7 +28,7 @@ abstract class JControllerBase extends AbstractController implements JController
 	 * @param   Input                $input  The input object.
 	 * @param   AbstractApplication  $app    The application object.
 	 *
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	public function __construct(Input $input = null, AbstractApplication $app = null)
 	{
@@ -54,11 +56,11 @@ abstract class JControllerBase extends AbstractController implements JController
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function loadApplication()
 	{
-		$this->setApplication(JFactory::getApplication());
+		$this->setApplication(Factory::getApplication());
 	}
 
 	/**
@@ -66,7 +68,7 @@ abstract class JControllerBase extends AbstractController implements JController
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function loadInput()
 	{

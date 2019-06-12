@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,19 +11,21 @@ namespace Joomla\CMS\Application;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Router\Route;
 
 /**
  * Joomla! Site Application class
@@ -181,6 +183,11 @@ final class SiteApplication extends CMSApplication
 				$this->set('theme', $template->template);
 				$this->set('themeParams', $template->params);
 
+				// Add Asset registry files
+				$document->getWebAssetManager()->getRegistry()
+					->addRegistryFile('media/' . $component . '/joomla.asset.json')
+					->addRegistryFile('templates/' . $template->template . '/joomla.asset.json');
+
 				break;
 
 			case 'feed':
@@ -268,21 +275,6 @@ final class SiteApplication extends CMSApplication
 	public function getLanguageFilter()
 	{
 		return $this->language_filter;
-	}
-
-	/**
-	 * Return a reference to the AbstractMenu object.
-	 *
-	 * @param   string  $name     The name of the application/client.
-	 * @param   array   $options  An optional associative array of configuration settings.
-	 *
-	 * @return  AbstractMenu  AbstractMenu object.
-	 *
-	 * @since   3.2
-	 */
-	public function getMenu($name = 'site', $options = array())
-	{
-		return parent::getMenu($name, $options);
 	}
 
 	/**
@@ -389,14 +381,12 @@ final class SiteApplication extends CMSApplication
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return	Router
+	 * @return	\Joomla\CMS\Router\Router
 	 *
 	 * @since	3.2
 	 */
 	public static function getRouter($name = 'site', array $options = array())
 	{
-		$options['mode'] = Factory::getConfig()->get('sef');
-
 		return parent::getRouter($name, $options);
 	}
 
@@ -451,7 +441,8 @@ final class SiteApplication extends CMSApplication
 			$id = (int) $tid;
 		}
 
-		$cache = Factory::getCache('com_templates', '');
+		/** @var OutputController $cache */
+		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('output', ['defaultgroup' => 'com_templates']);
 
 		if ($this->getLanguageFilter())
 		{

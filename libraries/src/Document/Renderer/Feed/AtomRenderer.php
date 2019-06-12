@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,10 +11,11 @@ namespace Joomla\CMS\Document\Renderer\Feed;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Version;
 
 /**
  * AtomRenderer is a feed that implements the atom specification
@@ -124,7 +125,7 @@ class AtomRenderer extends DocumentRenderer
 
 		if ($app->get('MetaVersion', 0))
 		{
-			$minorVersion       = \JVersion::MAJOR_VERSION . '.' . \JVersion::MINOR_VERSION;
+			$minorVersion       = Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION;
 			$versionHtmlEscaped = ' version="' . htmlspecialchars($minorVersion, ENT_COMPAT, 'UTF-8') . '"';
 		}
 

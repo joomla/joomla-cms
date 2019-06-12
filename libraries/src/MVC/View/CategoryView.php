@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,9 @@ namespace Joomla\CMS\MVC\View;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 
 /**
@@ -159,7 +161,7 @@ class CategoryView extends HtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Setup the category parameters.
@@ -174,7 +176,7 @@ class CategoryView extends HtmlView
 
 		if ($this->runPlugins)
 		{
-			\JPluginHelper::importPlugin('content');
+			PluginHelper::importPlugin('content');
 
 			foreach ($items as $itemElement)
 			{
@@ -242,7 +244,7 @@ class CategoryView extends HtmlView
 			$this->setLayout($layout);
 		}
 
-		$this->category->tags = new \JHelperTags;
+		$this->category->tags = new TagsHelper;
 		$this->category->tags->getItemTags($this->extension . '.category', $this->category->id);
 	}
 
@@ -251,15 +253,16 @@ class CategoryView extends HtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   3.2
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
 		$this->prepareDocument();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**

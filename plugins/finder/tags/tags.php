@@ -3,16 +3,16 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\Registry\Registry;
-use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseQuery;
+use Joomla\Registry\Registry;
 
 JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
 
@@ -200,15 +200,14 @@ class PlgFinderTags extends FinderIndexerAdapter
 	/**
 	 * Method to index an item. The item must be a FinderIndexerResult object.
 	 *
-	 * @param   FinderIndexerResult  $item    The item to index as a FinderIndexerResult object.
-	 * @param   string               $format  The item format
+	 * @param   FinderIndexerResult  $item  The item to index as a FinderIndexerResult object.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 * @throws  Exception on database error.
 	 */
-	protected function index(FinderIndexerResult $item, $format = 'html')
+	protected function index(FinderIndexerResult $item)
 	{
 		// Check if the extension is enabled
 		if (ComponentHelper::isEnabled($this->extension) === false)
@@ -319,8 +318,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 
 		// Join the #__users table
 		$query->select('u.name AS author')
-			->join('LEFT', '#__users AS u ON u.id = b.created_user_id')
-			->from('#__tags AS b');
+			->join('LEFT', '#__users AS u ON u.id = a.created_user_id');
 
 		// Exclude the ROOT item
 		$query->where($db->quoteName('a.id') . ' > 1');

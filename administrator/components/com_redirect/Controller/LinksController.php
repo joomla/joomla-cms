@@ -3,18 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Redirect\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * Redirect link list controller class.
@@ -33,7 +33,7 @@ class LinksController extends AdminController
 	public function activate()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids     = $this->input->get('cid', array(), 'array');
 		$newUrl  = $this->input->getString('new_url');
@@ -74,7 +74,7 @@ class LinksController extends AdminController
 	public function duplicateUrls()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids     = $this->input->get('cid', array(), 'array');
 		$newUrl  = $this->input->getString('new_url');
@@ -138,7 +138,18 @@ class LinksController extends AdminController
 			if (!empty($batch_urls_line))
 			{
 				$params = ComponentHelper::getParams('com_redirect');
-				$batch_urls[] = array_map('trim', explode($params->get('separator', '|'), $batch_urls_line));
+				$separator = $params->get('separator', '|');
+
+				// Basic check to make sure the correct separator is being used
+				if (!\Joomla\String\StringHelper::strpos($batch_urls_line, $separator))
+				{
+					$this->setMessage(Text::sprintf('COM_REDIRECT_NO_SEPARATOR_FOUND', $separator), 'error');
+					$this->setRedirect('index.php?option=com_redirect&view=links');
+
+					return false;
+				}
+
+				$batch_urls[] = array_map('trim', explode($separator, $batch_urls_line));
 			}
 		}
 

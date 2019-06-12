@@ -3,19 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\HTML\HTMLHelper;
-
-// Include the component HTML helpers.
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.formvalidator');
@@ -28,9 +25,9 @@ Text::script('ERROR');
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div>
-		<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-			<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'details', Text::_('COM_MENUS_MENU_DETAILS')); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_MENUS_MENU_DETAILS')); ?>
 
 			<?php
 			echo $this->form->renderField('menutype');
@@ -42,15 +39,15 @@ Text::script('ERROR');
 			echo $this->form->renderField('preset');
 			?>
 
-			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 			<?php if ($this->canDo->get('core.admin')) : ?>
-				<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'permissions', Text::_('COM_MENUS_FIELDSET_RULES')); ?>
+				<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_MENUS_FIELDSET_RULES')); ?>
 					<?php echo $this->form->getInput('rules'); ?>
-				<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+				<?php echo HTMLHelper::_('uitab.endTab'); ?>
 			<?php endif; ?>
 
-		<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
+		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 		<input type="hidden" name="task" value="">
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</div>

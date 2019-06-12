@@ -1,7 +1,6 @@
 // Dropdown
 
 .btn-group .dropdown-menu {
-  width: 100%;
   box-shadow: $atum-box-shadow;
 
   [class^='icon-'],
@@ -10,10 +9,22 @@
   }
 }
 
+.dropdown-menu {
+  box-shadow: $atum-box-shadow;
+}
+
+.dropdown-item {
+  cursor: pointer;
+}
+
 .dropdown-item:hover,
 .dropdown-item:focus {
   .btn-primary + .dropdown-menu  & {
     background-color: theme-color("primary");
+  }
+
+  .btn-secondary + .dropdown-menu  & {
+    background-color: theme-color("secondary");
   }
 
   .btn-success + .dropdown-menu  & {
@@ -24,7 +35,8 @@
     background-color: theme-color("danger");
   }
 
-  .btn-info + .dropdown-menu  & {
+  .btn-info + .dropdown-menu  & ,
+  .dropdown-status-group .dropdown-menu  & {
     background-color: theme-color("info");
   }
 }

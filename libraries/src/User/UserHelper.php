@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,8 +10,8 @@ namespace Joomla\CMS\User;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Authentication\Password\Argon2iHandler;
 use Joomla\Authentication\Password\Argon2idHandler;
+use Joomla\Authentication\Password\Argon2iHandler;
 use Joomla\Authentication\Password\BCryptHandler;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Authentication\Password\ChainedHandler;
@@ -19,13 +19,14 @@ use Joomla\CMS\Authentication\Password\CheckIfRehashNeededHandlerInterface;
 use Joomla\CMS\Authentication\Password\MD5Handler;
 use Joomla\CMS\Authentication\Password\PHPassHandler;
 use Joomla\CMS\Authentication\Password\SHA256Handler;
+use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Authorisation helper class, provides static methods to perform various tasks relevant
@@ -33,7 +34,7 @@ use Joomla\CMS\Log\Log;
  *
  * This class has influences and some method logic from the Horde Auth package
  *
- * @since  11.1
+ * @since  1.7.0
  */
 abstract class UserHelper
 {
@@ -102,7 +103,7 @@ abstract class UserHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	public static function addUserToGroup($userId, $groupId)
@@ -113,23 +114,22 @@ abstract class UserHelper
 		// Add the user to the group if necessary.
 		if (!in_array($groupId, $user->groups))
 		{
-			// Get the title of the group.
+			// Check whether the group exists.
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName('title'))
+				->select($db->quoteName('id'))
 				->from($db->quoteName('#__usergroups'))
 				->where($db->quoteName('id') . ' = ' . (int) $groupId);
 			$db->setQuery($query);
-			$title = $db->loadResult();
 
 			// If the group does not exist, return an exception.
-			if (!$title)
+			if ($db->loadResult() === null)
 			{
 				throw new \RuntimeException('Access Usergroup Invalid');
 			}
 
 			// Add the group data to the user object.
-			$user->groups[$title] = $groupId;
+			$user->groups[$groupId] = $groupId;
 
 			// Store the user object.
 			$user->save();
@@ -160,7 +160,7 @@ abstract class UserHelper
 	 *
 	 * @return  array    List of groups
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getUserGroups($userId)
 	{
@@ -178,7 +178,7 @@ abstract class UserHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function removeUserFromGroup($userId, $groupId)
 	{
@@ -220,7 +220,7 @@ abstract class UserHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function setUserGroups($userId, $groups)
 	{
@@ -274,7 +274,7 @@ abstract class UserHelper
 	 *
 	 * @return  object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getProfile($userId = 0)
 	{
@@ -303,7 +303,7 @@ abstract class UserHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function activateUser($activation)
 	{
@@ -352,7 +352,7 @@ abstract class UserHelper
 	 *
 	 * @return  integer  The user id or 0 if not found.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getUserId($username)
 	{
@@ -439,6 +439,7 @@ abstract class UserHelper
 			/** @var PHPassHandler $handler */
 			$handler = $container->get(PHPassHandler::class);
 		}
+		// Check for Argon2id hashes
 		elseif (strpos($hash, '$argon2id') === 0)
 		{
 			/** @var Argon2idHandler $handler */
@@ -446,6 +447,7 @@ abstract class UserHelper
 
 			$passwordAlgorithm = PASSWORD_ARGON2ID;
 		}
+		// Check for Argon2i hashes
 		elseif (strpos($hash, '$argon2i') === 0)
 		{
 			/** @var Argon2iHandler $handler */
@@ -491,7 +493,7 @@ abstract class UserHelper
 	 *
 	 * @return  string  Random Password
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function genRandomPassword($length = 8)
 	{
@@ -506,7 +508,7 @@ abstract class UserHelper
 		 * distribution is even, and randomize the start shift so it's not
 		 * predictable.
 		 */
-		$random = \JCrypt::genRandomBytes($length + 1);
+		$random = Crypt::genRandomBytes($length + 1);
 		$shift = ord($random[0]);
 
 		for ($i = 1; $i <= $length; ++$i)

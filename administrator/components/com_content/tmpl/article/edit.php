@@ -3,23 +3,24 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\Registry\Registry;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0 ));
+
+HTMLHelper::_('script', 'com_contenthistory/admin-history-versions.js', ['version' => 'auto', 'relative' => true]);
 
 $this->configFieldsets  = array('editorConfig');
 $this->hiddenFieldsets  = array('basic-limited');
@@ -52,6 +53,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<div class="row">
 			<div class="col-md-9">
 				<fieldset class="adminform">
+					<?php echo $this->form->getLabel('articletext'); ?>
 					<?php echo $this->form->getInput('articletext'); ?>
 				</fieldset>
 			</div>
@@ -64,14 +66,13 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			</div>
 		</div>
 
-		<?php echo JHtml::_('uitab.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php // Do not show the images and links options if the edit form is configured not to. ?>
 		<?php if ($params->get('show_urls_images_backend') == 1) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'images', Text::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES')); ?>
 			<div class="row">
 				<div class="col-md-6">
-					<?php echo $this->form->renderField('images'); ?>
 					<?php foreach ($this->form->getGroup('images') as $field) : ?>
 						<?php echo $field->renderField(); ?>
 					<?php endforeach; ?>
@@ -83,7 +84,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				</div>
 			</div>
 
-			<?php echo JHtml::_('uitab.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
 		<?php $this->show_options = $params->get('show_article_options', 1); ?>
@@ -123,7 +124,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
-		<?php echo JHtml::_('uitab.endTabSet'); ?>
+		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="return" value="<?php echo $input->getCmd('return'); ?>">

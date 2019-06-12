@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ use Joomla\Registry\Registry;
 /**
  * Form Rule class for the Joomla Platform.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class RulesRule extends FormRule
 {
@@ -35,7 +35,7 @@ class RulesRule extends FormRule
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
@@ -62,7 +62,7 @@ class RulesRule extends FormRule
 	 *
 	 * @return  array  A list of permission action names from the form field value.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getValueActions($value)
 	{
@@ -84,7 +84,7 @@ class RulesRule extends FormRule
 	 *
 	 * @return  array  A list of permission action names from the form field element definition.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getFieldActions(\SimpleXMLElement $element)
 	{
@@ -95,12 +95,18 @@ class RulesRule extends FormRule
 		$component = $element['component'] ? (string) $element['component'] : '';
 
 		// Get the asset actions for the element.
-		$elActions = Access::getActions($component, $section);
+		$elActions = Access::getActionsFromFile(
+			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
+			"/access/section[@name='" . $section . "']/"
+		);
 
-		// Iterate over the asset actions and add to the actions.
-		foreach ($elActions as $item)
+		if ($elActions)
 		{
-			$actions[] = $item->name;
+			// Iterate over the asset actions and add to the actions.
+			foreach ($elActions as $item)
+			{
+				$actions[] = $item->name;
+			}
 		}
 
 		// Iterate over the children and add to the actions.

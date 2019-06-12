@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 
 /**
  * HTMLHelper module helper class.
@@ -148,7 +148,7 @@ class Modules
 		$templateGroups = array();
 
 		// Add an empty value to be able to deselect a module position
-		$option = ModulesHelper::createOption();
+		$option = ModulesHelper::createOption('', Text::_('COM_MODULES_NONE'));
 		$templateGroups[''] = ModulesHelper::createOptionGroup('', array($option));
 
 		// Add positions from templates
@@ -181,8 +181,7 @@ class Modules
 
 		// Add custom position to options
 		$customGroupText = Text::_('COM_MODULES_CUSTOM_POSITION');
-
-		$editPositions = true;
+		$editPositions   = true;
 		$customPositions = ModulesHelper::getPositions($clientId, $editPositions);
 		$templateGroups[$customGroupText] = ModulesHelper::createOptionGroup($customGroupText, $customPositions);
 

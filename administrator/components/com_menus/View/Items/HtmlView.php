@@ -3,23 +3,25 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Menus\Administrator\View\Items;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * The HTML Menus Menu Items View.
@@ -117,7 +119,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->ordering = array();
@@ -338,7 +340,7 @@ class HtmlView extends BaseHtmlView
 		$menuTypeTitle = $this->get('State')->get('menutypetitle');
 
 		// Get the toolbar object instance
-		$bar = Toolbar::getInstance('toolbar');
+		$toolbar = Toolbar::getInstance('toolbar');
 
 		if ($menuTypeTitle)
 		{
@@ -351,30 +353,47 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.create'))
 		{
-			ToolbarHelper::addNew('item.add');
+			$toolbar->addNew('item.add');
 		}
 
 		$protected = $this->state->get('filter.menutype') == 'main';
 
-		if ($canDo->get('core.edit.state') && !$protected)
+		if (($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin')) && !$protected
+			|| $canDo->get('core.edit.state') && $this->state->get('filter.client_id') == 0)
 		{
-			ToolbarHelper::publish('items.publish', 'JTOOLBAR_PUBLISH', true);
-			ToolbarHelper::unpublish('items.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-		}
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-globe')
+				->buttonClass('btn btn-info')
+				->listCheck(true);
 
-		if (Factory::getUser()->authorise('core.admin') && !$protected)
-		{
-			ToolbarHelper::checkin('items.checkin', 'JTOOLBAR_CHECKIN', true);
-		}
+			$childBar = $dropdown->getChildToolbar();
 
-		if ($canDo->get('core.edit.state') && $this->state->get('filter.client_id') == 0)
-		{
-			ToolbarHelper::makeDefault('items.setDefault', 'COM_MENUS_TOOLBAR_SET_HOME');
-		}
+			if ($canDo->get('core.edit.state') && !$protected)
+			{
+				$childBar->publish('items.publish')->listCheck(true);
 
-		if (Factory::getUser()->authorise('core.admin'))
-		{
-			ToolbarHelper::custom('items.rebuild', 'refresh.png', 'refresh_f2.png', 'JToolbar_Rebuild', false);
+				$childBar->unpublish('items.unpublish')->listCheck(true);
+			}
+
+			if (Factory::getUser()->authorise('core.admin') && !$protected)
+			{
+				$childBar->checkin('articles.checkin')->listCheck(true);
+			}
+
+			if ($canDo->get('core.edit.state') && $this->state->get('filter.published') != -2)
+			{
+				if ($this->state->get('filter.client_id') == 0)
+				{
+					$childBar->makeDefault('items.setDefault')->listCheck(true);
+				}
+
+				if (!$protected)
+				{
+					$childBar->trash('items.trash')->listCheck(true);
+				}
+			}
 		}
 
 		// Add a batch button
@@ -382,31 +401,33 @@ class HtmlView extends BaseHtmlView
 			&& $user->authorise('core.edit', 'com_menus')
 			&& $user->authorise('core.edit.state', 'com_menus'))
 		{
-			$title = Text::_('JTOOLBAR_BATCH');
+			$toolbar->popupButton('batch')
+				->text('JTOOLBAR_BATCH')
+				->selector('collapseModal')
+				->listCheck(true);
+		}
 
-			// Instantiate a new FileLayout instance and render the batch button
-			$layout = new FileLayout('joomla.toolbar.batch');
-
-			$dhtml = $layout->render(array('title' => $title));
-			$bar->appendButton('Custom', $dhtml, 'batch');
+		if (Factory::getUser()->authorise('core.admin'))
+		{
+			$toolbar->standardButton('refresh')
+				->text('JTOOLBAR_REBUILD')
+				->task('items.rebuild');
 		}
 
 		if (!$protected && $this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'items.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif (!$protected && $canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::trash('items.trash');
+			$toolbar->delete('items.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			ToolbarHelper::divider();
-			ToolbarHelper::preferences('com_menus');
+			$toolbar->preferences('com_menus');
 		}
 
-		ToolbarHelper::help('JHELP_MENUS_MENU_ITEM_MANAGER');
+		$toolbar->help('JHELP_MENUS_MENU_ITEM_MANAGER');
 	}
 
 	/**

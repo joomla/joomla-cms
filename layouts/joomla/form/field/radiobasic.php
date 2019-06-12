@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -75,7 +75,7 @@ $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 			<?php if ($required) : ?>
 				<?php $attributes[] = 'required'; ?>
 			<?php endif; ?>
-			<div class="radio m-b-0">
+			<div class="radio mb-0">
 				<label for="<?php echo $oid; ?>" <?php echo $optionClass; ?>>
 					<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
 					<?php echo Text::alt($option->text, $alt); ?>

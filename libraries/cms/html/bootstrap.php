@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Layout\LayoutHelper;
 
 /**
  * Utility class for Bootstrap elements.
@@ -159,9 +159,9 @@ abstract class JHtmlBootstrap
 		$debug = (isset($debug) && $debug != JDEBUG) ? $debug : JDEBUG;
 
 		// Load the needed scripts
-		HTMLHelper::_('behavior.core');
-		HTMLHelper::_('jquery.framework');
-		HTMLHelper::_('script', 'vendor/bootstrap/bootstrap.bundle.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+		Factory::getDocument()->getWebAssetManager()
+			->enableAsset('core')
+			->enableAsset('bootstrap.js.bundle');
 		HTMLHelper::_('script', 'legacy/bootstrap-init.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 
 		static::$loaded[__METHOD__] = true;

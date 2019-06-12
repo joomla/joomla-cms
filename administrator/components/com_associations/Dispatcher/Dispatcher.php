@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,15 +12,16 @@ namespace Joomla\Component\Associations\Administrator\Dispatcher;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\Notallowed;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 /**
- * Dispatcher class for com_associations
+ * ComponentDispatcher class for com_associations
  *
  * @since  4.0.0
  */
-class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
+class Dispatcher extends ComponentDispatcher
 {
 	/**
 	 * Method to check component access permission
