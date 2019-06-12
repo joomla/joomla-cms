@@ -355,7 +355,7 @@ class ArticlesModel extends ListModel
 		{
 			$workflowStage = (int) $workflowStage;
 			$query->where($db->quoteName('wa.stage_id') . ' = :workflowstage')
-				->bind('workflowstage', $workflowStage, ParameterType::INTEGER);
+				->bind(':workflowstage', $workflowStage, ParameterType::INTEGER);
 		}
 
 		$condition = (string) $this->getState('filter.condition');
