@@ -185,7 +185,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 						$query->clear('where')
 								->where($db->quoteName('id') . ' = :workflowid')
 								->where($db->quoteName('published') . ' = 1')
-								->bind(':worflowid', $workflowId, ParameterType::INTEGER);
+								->bind(':workflowid', $workflowId, ParameterType::INTEGER);
 
 						$title = $db->setQuery($query)->loadResult();
 
