@@ -54,7 +54,7 @@ $output = array();
 foreach ($fields as $field)
 {
 	// If the value is empty do nothing
-	if (!isset($field->value) || trim($field->value) == '')
+	if (!isset($field->value) || trim($field->value) === '')
 	{
 		continue;
 	}
