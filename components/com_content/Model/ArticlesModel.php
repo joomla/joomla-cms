@@ -314,7 +314,7 @@ class ArticlesModel extends ListModel
 
 			// Category has to be published
 			$query->where($db->quoteName('c.published') . ' = 1')
-				->whereIn($db->quoteName('ws.condition') . $condition);
+				->whereIn($db->quoteName('ws.condition'), $condition);
 		}
 
 		// Filter by featured state
