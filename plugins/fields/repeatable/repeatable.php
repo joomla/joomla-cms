@@ -65,7 +65,7 @@ class PlgFieldsRepeatable extends FieldsPlugin
 			$child->addAttribute('name', $formField->fieldname);
 			$child->addAttribute('type', $formField->fieldtype);
 			$child->addAttribute('readonly', $readonly);
-			
+
 			if (isset($formField->fieldfilter))
 			{
 				$child->addAttribute('filter', $formField->fieldfilter);
