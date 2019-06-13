@@ -39,7 +39,6 @@
 								validate="options"
 								showon="fieldtype!:media,number"
 								>
-								<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 								<option value="0">JNO</option>
 								<option
 									showon="fieldtype:editor,text,textarea"
