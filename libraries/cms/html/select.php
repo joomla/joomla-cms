@@ -488,7 +488,7 @@ abstract class JHtmlSelect
 
 		$obj = new stdClass;
 		$obj->{$options['option.key']}  = $value;
-		$obj->{$options['option.text']} = trim($text) != '' ? $text : $value;
+		$obj->{$options['option.text']} = trim($text) ? $text : $value;
 
 		/*
 		 * If a label is provided, save it. If no label is provided and there is
