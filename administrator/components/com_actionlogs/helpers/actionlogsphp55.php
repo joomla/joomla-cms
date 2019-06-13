@@ -24,14 +24,6 @@ use Joomla\CMS\Language\Text;
 class ActionlogsHelperPhp55
 {
 	/**
-	 * Array of characters starting a formula
-	 *
-	 * @var    array
-	 * @since  3.9.7
-	 */
-	private static $characters = array('=', '+', '-', '@');
-
-	/**
 	 * Method to convert logs objects array to a Generator for use with a CSV export
 	 *
 	 * @param   array|Traversable  $data  The logs data objects to be exported
@@ -54,8 +46,6 @@ class ActionlogsHelperPhp55
 			);
 		}
 
-		$disabledText = Text::_('COM_ACTIONLOGS_DISABLED');
-
 		// Header row
 		yield array('Id', 'Message', 'Date', 'Extension', 'User', 'Ip');
 
@@ -67,36 +57,12 @@ class ActionlogsHelperPhp55
 
 			yield array(
 				'id'         => $log->id,
-				'message'    => self::escapeCsvFormula(strip_tags(ActionlogsHelper::getHumanReadableLogMessage($log, false))),
+				'message'    => strip_tags(ActionlogsHelper::getHumanReadableLogMessage($log, false)),
 				'date'       => (new Date($log->log_date, new DateTimeZone('UTC')))->format('Y-m-d H:i:s T'),
-				'extension'  => self::escapeCsvFormula(Text::_($extension)),
-				'name'       => self::escapeCsvFormula($log->name),
-				'ip_address' => self::escapeCsvFormula($log->ip_address === 'COM_ACTIONLOGS_DISABLED' ? $disabledText : $log->ip_address)
+				'extension'  => Text::_($extension),
+				'name'       => $log->name,
+				'ip_address' => Text::_($log->ip_address),
 			);
 		}
-	}
-
-	/**
-	 * Escapes potential characters that start a formula in a CSV value to prevent injection attacks
-	 *
-	 * @param   mixed  $value  csv field value
-	 *
-	 * @return  mixed
-	 *
-	 * @since   3.9.7
-	 */
-	protected static function escapeCsvFormula($value)
-	{
-		if ($value == '')
-		{
-			return $value;
-		}
-
-		if (in_array($value[0], self::$characters, true))
-		{
-			$value = ' ' . $value;
-		}
-
-		return $value;
 	}
 }

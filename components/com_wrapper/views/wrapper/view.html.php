@@ -69,7 +69,7 @@ class WrapperViewWrapper extends JViewLegacy
 		// Auto height control
 		if ($params->def('height_auto'))
 		{
-			$wrapper->load = 'onload="iFrameHeight(this)"';
+			$wrapper->load = 'onload="iFrameHeight()"';
 		}
 		else
 		{

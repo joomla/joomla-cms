@@ -60,7 +60,8 @@ $attributes = array(
 	$autofocus ? 'autofocus' : '',
 );
 
-$value = is_numeric($value) ? (float) $value : $min;
+$value = (float) $value;
+$value = empty($value) ? $min : $value;
 
 ?>
 <input type="range" name="<?php

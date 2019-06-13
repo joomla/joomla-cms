@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Router\Route;
-
 /**
  * Dashboard model class.
  *
@@ -119,7 +117,7 @@ class PrivacyModelDashboard extends JModelLegacy
 			}
 		}
 
-		$linkMode = JFactory::getApplication()->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
+		$linkMode = JFactory::getApplication()->get('force_ssl', 0) == 2 ? 1 : -1;
 
 		if (!$menuItem)
 		{

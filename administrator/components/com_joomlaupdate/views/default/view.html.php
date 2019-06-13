@@ -75,7 +75,9 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		JToolbarHelper::custom('update.purge', 'loop', 'loop', 'COM_JOOMLAUPDATE_TOOLBAR_CHECK', false);
 
 		// Add toolbar buttons.
-		if (JFactory::getUser()->authorise('core.admin'))
+		$user = JFactory::getUser();
+
+		if ($user->authorise('core.admin', 'com_joomlaupdate') || $user->authorise('core.options', 'com_joomlaupdate'))
 		{
 			JToolbarHelper::preferences('com_joomlaupdate');
 		}

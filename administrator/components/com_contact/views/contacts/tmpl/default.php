@@ -135,8 +135,8 @@ if ($saveOrder)
 								?>
 							</div>
 						</td>
-						<td class="has-context">
-							<div class="pull-left break-word">
+						<td class="nowrap has-context">
+							<div class="pull-left">
 								<?php if ($item->checked_out) : ?>
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'contacts.', $canCheckin); ?>
 								<?php endif; ?>

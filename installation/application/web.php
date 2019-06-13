@@ -275,6 +275,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		$ret = array();
 
 		$ret['language']   = (string) $xml->forceLang;
+		$ret['helpurl']    = (string) $xml->helpurl;
 		$ret['debug']      = (string) $xml->debug;
 		$ret['sampledata'] = (string) $xml->sampledata;
 
@@ -401,8 +402,15 @@ final class InstallationApplicationWeb extends JApplicationCms
 			$options['language'] = 'en-GB';
 		}
 
-		// Set the official helpurl.
-		$options['helpurl'] = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
+		// Check for custom helpurl.
+		if (empty($forced['helpurl']))
+		{
+			$options['helpurl'] = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
+		}
+		else
+		{
+			$options['helpurl'] = $forced['helpurl'];
+		}
 
 		// Store helpurl in the session.
 		$this->getSession()->set('setup.helpurl', $options['helpurl']);
