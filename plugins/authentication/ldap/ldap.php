@@ -177,8 +177,8 @@ class PlgAuthenticationLdap extends CMSPlugin
 		}
 
 		// Grab some details from LDAP and return them
-		$response->username = $entry->getAttribute($ldap_uid);
-		$response->email    = $entry->getAttribute($ldap_email);
+		$response->username = $entry->getAttribute($ldap_uid)[0] ?? false;
+		$response->email    = $entry->getAttribute($ldap_email)[0] ?? false;
 		$response->fullname = $entry->getAttribute($ldap_fullname) ?: $credentials['username'];
 
 		// Were good - So say so.
