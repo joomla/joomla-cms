@@ -286,7 +286,7 @@ class FeaturedModel extends ArticlesModel
 					->orWhere($db->quoteName('a.note') . ' LIKE :note')
 					->bind(':title', $search)
 					->bind(':alias', $search)
-					->bind(':note', $search);	
+					->bind(':note', $search);
 			}
 		}
 
