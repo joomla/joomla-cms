@@ -265,25 +265,28 @@ class FeaturedModel extends ArticlesModel
 			elseif (stripos($search, 'author:') === 0)
 			{
 				$search = '%' . substr($search, 7) . '%';
-				$query->where('(' . $db->quoteName('ua.name') . ' LIKE :name' .
-					' OR ' . $db->quoteName('ua.username') . ' LIKE :uname'. ')');
-				$query->bind(':name', $search)
+				$query->where($db->quoteName('ua.name') . ' LIKE :name')
+					->orWhere($db->quoteName('ua.username') . ' LIKE :uname')
+					->bind(':name', $search)
 					->bind(':uname', $search);
 			}
 			elseif (stripos($search, 'content:') === 0)
 			{
 				$search = '%' . substr($search, 8) . '%';
-				$query->where('(a.introtext LIKE ' . $search . ' OR a.fulltext LIKE ' . $search . ')');
+				$query->where($db->quoteName('a.introtext') . ' LIKE :intro')
+					->orWhere($db->quoteName('a.fulltext') . ' LIKE :full')
+					->bind(':intro', $search)
+					->bind(':full', $search);
 			}
 			else
 			{
 				$search = '%' . trim($search) . '%';
-				$query->where('(' . $db->quoteName('a.title') . ' LIKE :title' .
-					' OR ' . $db->quoteName('a.alias') . ' LIKE :alias' .
-					' OR '. $db->quoteName('a.note') . ' LIKE :note' . ')');
-				$query->bind(':title', $search)
+				$query->where($db->quoteName('a.title') . ' LIKE :title')
+					->orWhere($db->quoteName('a.alias') . ' LIKE :alias')
+					->orWhere($db->quoteName('a.note') . ' LIKE :note')
+					->bind(':title', $search)
 					->bind(':alias', $search)
-					->bind(':note', $search);
+					->bind(':note', $search);	
 			}
 		}
 
@@ -309,10 +312,10 @@ class FeaturedModel extends ArticlesModel
 			if ($tagId)
 			{
 				$subQuery = $db->getQuery(true)
-					->select('DISTINCT content_item_id')
+					->select('DISTINCT ' . $db->quoteName('content_item_id'))
 					->from($db->quoteName('#__contentitem_tag_map'))
 					->whereIn($db->quoteName('tag_id'), $tagId)
-					->where('type_alias = ' . $db->quote('com_content.article'));
+					->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'));
 
 				$query->join('INNER', '(' . (string) $subQuery . ') AS tagmap ON tagmap.content_item_id = a.id');
 			}
