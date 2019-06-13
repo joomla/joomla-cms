@@ -19,6 +19,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
  * Sampledata - Multilang Plugin
@@ -502,7 +503,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			$db->execute();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -531,7 +532,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			{
 				$db->execute();
 			}
-			catch (\JDatabaseExceptionExecuting $e)
+			catch (ExecutionFailureException $e)
 			{
 				return false;
 			}
@@ -569,7 +570,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -1102,7 +1103,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			$db->execute();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -1117,7 +1118,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			$db->insertObject('#__workflow_associations', $assoc);
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}

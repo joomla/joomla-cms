@@ -9,8 +9,12 @@ branches:
 
 ## Build matrix for lowest and highest possible targets
 environment:
+  DLLVersion: "5.6.1"
+  PHPBuild: "x64"
+  VC: "vc15"
   matrix:
   - php_ver_target: 7.2
+    DLLVersion: "5.3.0"
   - php_ver_target: 7.3
 
 init:
@@ -30,26 +34,23 @@ install:
     - ps: >-
         If ($env:PHP -eq "1") {
           appveyor-retry cinst --params '""/InstallDir:C:\tools\php""' --ignore-checksums -y php --version ((choco search php --exact --all-versions -r | select-string -pattern $env:php_ver_target | sort { [version]($_ -split '\|' | select -last 1) } -Descending | Select-Object -first 1) -replace '[php|]','')
-          $VC = "vc14"
-          $PHPBuild = "x64"
         }
     - appveyor-retry cinst -y sqlite
     - cd C:\tools\php
     # Get the MSSQL DLL's
     - ps: >-
         If ($env:PHP -eq "1") {
-            $DLLVersion = "4.3.0"
             cd c:\tools\php\ext
-            $source = "http://windows.php.net/downloads/pecl/releases/sqlsrv/$($DLLVersion)/php_sqlsrv-$($DLLVersion)-$($env:php_ver_target)-nts-vc14-x64.zip"
-            $destination = "c:\tools\php\ext\php_sqlsrv-$($DLLVersion)-$($env:php_ver_target)-nts-vc14-x64.zip"
+            $source = "https://windows.php.net/downloads/pecl/releases/sqlsrv/$($env:DLLVersion)/php_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
+            $destination = "c:\tools\php\ext\php_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
             Invoke-WebRequest $source -OutFile $destination
-            #appveyor-retry appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/sqlsrv/$($DLLVersion)/php_sqlsrv-$($DLLVersion)-$($env:php_ver_target)-nts-vc14-x64.zip
-            7z x -y php_sqlsrv-$($DLLVersion)-$($env:php_ver_target)-nts-vc14-x64.zip > $null
-            $source = "http://windows.php.net/downloads/pecl/releases/pdo_sqlsrv/$($DLLVersion)/php_pdo_sqlsrv-$($DLLVersion)-$($env:php_ver_target)-nts-vc14-x64.zip"
-            $destination = "c:\tools\php\ext\php_pdo_sqlsrv-$($DLLVersion)-$($env:php_ver_target)-nts-vc14-x64.zip"
+            #appveyor-retry appveyor DownloadFile https://windows.php.net/downloads/pecl/releases/sqlsrv/$($env:DLLVersion)/php_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip
+            7z x -y php_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip > $null
+            $source = "https://windows.php.net/downloads/pecl/releases/pdo_sqlsrv/$($env:DLLVersion)/php_pdo_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
+            $destination = "c:\tools\php\ext\php_pdo_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
             Invoke-WebRequest $source -OutFile $destination
-            #appveyor-retry appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/pdo_sqlsrv/$($DLLVersion)/php_pdo_sqlsrv-$($DLLVersion)-$($env:php_ver_target)-nts-vc14-x64.zip
-            7z x -y php_pdo_sqlsrv-$($DLLVersion)-$($env:php_ver_target)-nts-vc14-x64.zip > $null
+            #appveyor-retry appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/pdo_sqlsrv/$($env:DLLVersion)/php_pdo_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip
+            7z x -y php_pdo_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip > $null
             Remove-Item c:\tools\php\ext* -include .zip
             cd c:\tools\php}
     - IF %PHP%==1 copy php.ini-production php.ini /Y
@@ -79,11 +80,11 @@ install:
         If ($env:PHP -eq "1") {
           $wincache = "2.0.0.8"
           cd c:\tools\php\ext
-          $source = "http://windows.php.net/downloads/pecl/releases/wincache/$($wincache)/php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($VC)-$($PHPBuild).zip"
-          $destination = "c:\tools\php\ext\php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($VC)-$($PHPBuild).zip"
+          $source = "http://windows.php.net/downloads/pecl/releases/wincache/$($wincache)/php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
+          $destination = "c:\tools\php\ext\php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
           Invoke-WebRequest $source -OutFile $destination
-          #appveyor-retry appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/wincache/$($wincache)/php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($VC)-$($PHPBuild).zip
-          7z x -y php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($VC)-$($PHPBuild).zip > $null
+          #appveyor-retry appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/wincache/$($wincache)/php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip
+          7z x -y php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip > $null
           Remove-Item C:\tools\php\ext* -include .zip
           cd c:\tools\php}
     - IF %PHP%==1 echo extension=php_wincache.dll >> php.ini
