@@ -35,8 +35,6 @@ Joomla.toggleAllNextElements = (element, className) => {
 };
 
 (() => {
-  'use strict';
-
   document.addEventListener('DOMContentLoaded', () => {
     const dropDownBtn = document.getElementById('toolbar-dropdown-status-group');
     const publishBtn = dropDownBtn.getElementsByClassName('button-publish')[0];

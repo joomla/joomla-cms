@@ -5,8 +5,6 @@
 Joomla = window.Joomla || {};
 
 ((Joomla, document) => {
-  'use strict';
-
   document.addEventListener('DOMContentLoaded', () => {
     const target = window.parent.document.getElementById('target-association');
     const links = [].slice.call(document.querySelectorAll('.select-link'));

@@ -3,8 +3,6 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((Joomla, document) => {
-  'use strict';
-
   /**
    * Check if HTML5 localStorage enabled on the browser
    *

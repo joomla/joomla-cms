@@ -3,8 +3,6 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 (() => {
-  'use strict';
-
   /**
     * Javascript to insert the link
     * View element calls jSelectArticle when an article is clicked

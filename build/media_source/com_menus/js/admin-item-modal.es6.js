@@ -5,8 +5,6 @@
 Joomla = window.Joomla || {};
 
 ((Joomla) => {
-  'use strict';
-
   Joomla.setMenuType = (type, tmpl) => {
     if (tmpl !== '') {
       window.parent.Joomla.submitbutton('item.setType', type);

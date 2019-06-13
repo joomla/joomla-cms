@@ -4,8 +4,6 @@
  */
 // eslint-disable no-alert
 ((Joomla, document) => {
-  'use strict';
-
   if (!Joomla) {
     throw new Error('core.js was not properly initialised');
   }

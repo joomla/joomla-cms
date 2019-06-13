@@ -1,8 +1,6 @@
 Joomla = window.Joomla || {};
 
 ((Joomla) => {
-  'use strict';
-
   /**
    * Method that resets the filter inputs and submits the relative form
    *

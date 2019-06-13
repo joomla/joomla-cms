@@ -5,8 +5,6 @@
 
 // Ajax call to get the override status.
 (() => {
-  'use strict';
-
   // Add a listener on content loaded to initiate the check.
   document.addEventListener('DOMContentLoaded', () => {
     if (Joomla.getOptions('js-override-check')) {

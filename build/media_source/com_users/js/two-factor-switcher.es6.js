@@ -6,8 +6,6 @@
 Joomla = window.Joomla || {};
 
 ((Joomla) => {
-  'use strict';
-
   document.addEventListener('DOMContentLoaded', () => {
     Joomla.twoFactorMethodChange = () => {
       const selectedPane = `com_users_twofactor_${document.getElementById('jform_twofactor_method').value}`;

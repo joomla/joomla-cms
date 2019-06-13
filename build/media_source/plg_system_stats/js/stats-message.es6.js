@@ -7,8 +7,6 @@
 Joomla = window.Joomla || {};
 
 ((Joomla, document) => {
-  'use strict';
-
   const initStatsEvents = (callback) => {
     const messageContainer = document.getElementById('system-message-container');
     const joomlaAlert = messageContainer.querySelector('.js-pstats-alert');

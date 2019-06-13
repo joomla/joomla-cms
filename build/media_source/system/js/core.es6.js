@@ -110,8 +110,6 @@ window.Joomla.Modal = window.Joomla.Modal || {
 };
 
 ((Joomla, document) => {
-  'use strict';
-
   /**
    * Generic submit form
    *
@@ -1143,8 +1141,6 @@ window.Joomla.Modal = window.Joomla.Modal || {
  * @since  4.0.0
  */
 ((window, Joomla) => {
-  'use strict';
-
   if (Joomla.Event) {
     return;
   }

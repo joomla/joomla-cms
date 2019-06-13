@@ -7,8 +7,6 @@ Joomla = window.Joomla || {};
 Joomla.MediaManager = Joomla.MediaManager || {};
 
 (() => {
-  'use strict';
-
   // Get the options from Joomla.optionStorage
   const options = Joomla.getOptions('com_media', {});
 

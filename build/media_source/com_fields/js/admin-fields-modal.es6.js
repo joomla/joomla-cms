@@ -3,8 +3,6 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((Joomla) => {
-  'use strict';
-
   if (window.parent.Joomla) {
     throw new Error('core.js was not properly initialised');
   }

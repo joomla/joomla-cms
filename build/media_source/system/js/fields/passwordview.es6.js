@@ -3,8 +3,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((document) => {
-  'use strict';
-
   document.addEventListener('DOMContentLoaded', () => {
     [].slice.call(document.querySelectorAll('input[type="password"]')).forEach((input) => {
       const inputGroup = input.parentNode.querySelector('.input-group-prepend, .input-group-append');

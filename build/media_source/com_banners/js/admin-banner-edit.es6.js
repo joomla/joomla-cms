@@ -4,8 +4,6 @@
  */
 
 ((document) => {
-  'use strict';
-
   const updateBannerFields = (value) => {
     const imgWrapper = document.getElementById('image');
     const custom = document.getElementById('custom');

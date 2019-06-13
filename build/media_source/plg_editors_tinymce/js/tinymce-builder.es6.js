@@ -6,8 +6,6 @@
 Joomla = window.Joomla || {};
 
 ((Joomla, window) => {
-  'use strict';
-
   /**
    * Fake TinyMCE object to allow to use TinyMCE translation for the button labels
    *

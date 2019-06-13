@@ -4,8 +4,6 @@
  * @since      3.5.0
  */
 ((document) => {
-  'use strict';
-
   // Selectors used by this script
   const statsDataTogglerId = 'js-pstats-data-details-toggler';
   const statsDataDetailsId = 'js-pstats-data-details';
@@ -33,7 +31,6 @@
     if (toggler) {
       toggler.addEventListener('click', onToggle);
     }
-
 
     // Reset the unique id
     const reset = document.getElementById(resetId);

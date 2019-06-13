@@ -6,8 +6,6 @@
 Joomla = window.Joomla || {};
 
 ((Joomla) => {
-  'use strict';
-
   document.addEventListener('DOMContentLoaded', () => {
     const modals = document.getElementsByClassName('changelogModal');
 

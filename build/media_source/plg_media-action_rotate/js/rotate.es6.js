@@ -8,8 +8,6 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 
 (() => {
-  'use strict';
-
   // Update image
   const rotate = (angle) => {
     // The image element

@@ -6,8 +6,6 @@
 Joomla = window.Joomla || {};
 
 ((Joomla) => {
-  'use strict';
-
   const installPackageButtonId = 'installbutton_package';
 
   document.addEventListener('DOMContentLoaded', () => {

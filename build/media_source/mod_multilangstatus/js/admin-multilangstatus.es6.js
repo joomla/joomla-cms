@@ -4,8 +4,6 @@
  */
 
 (() => {
-  'use strict';
-
   document.addEventListener('DOMContentLoaded', () => {
     // We need to use JS to move the modal before the closing body tag to avoid stacking issues
     const multilangueModal = document.getElementById('multiLangModal');

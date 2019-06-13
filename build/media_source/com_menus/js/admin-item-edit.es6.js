@@ -3,8 +3,6 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((Joomla) => {
-  'use strict';
-
   Joomla.submitbutton = (task, type) => {
     if (task === 'item.setType' || task === 'item.setMenuType') {
       if (task === 'item.setType') {

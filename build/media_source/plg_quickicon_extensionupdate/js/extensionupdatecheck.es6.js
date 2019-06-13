@@ -5,8 +5,6 @@
 
 // Ajax call to get the update status of the installed extensions
 (() => {
-  'use strict';
-
   // Add a listener on content loaded to initiate the check
   document.addEventListener('DOMContentLoaded', () => {
     if (Joomla.getOptions('js-extensions-update')) {

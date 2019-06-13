@@ -4,8 +4,6 @@
  */
 
 (() => {
-  'use strict';
-
   function topLevelMouseOver(el, settings) {
     const ulChild = el.querySelector('ul');
     if (ulChild) {

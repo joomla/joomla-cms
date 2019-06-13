@@ -3,8 +3,6 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 (() => {
-  'use strict';
-
   const onChange = (value) => {
     if (value === '-' || parseInt(value, 10) === 0) {
       document.getElementById('menuselect-group').style.display = 'none';

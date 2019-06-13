@@ -5,8 +5,6 @@
  */
 
 window.JoomlaInitReCaptcha2 = () => {
-  'use strict';
-
   const itemNodes = document.getElementsByClassName('g-recaptcha');
   const optionKeys = ['sitekey', 'theme', 'size', 'tabindex', 'callback', 'expired-callback', 'error-callback'];
   const items = [].slice.call(itemNodes);

@@ -3,8 +3,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 (() => {
-  'use strict';
-
   document.addEventListener('DOMContentLoaded', () => {
     const folders = [].slice.call(document.querySelectorAll('.folder-url, .component-folder-url, .plugin-folder-url, .layout-folder-url'));
     const innerLists = [].slice.call(document.querySelectorAll('.folder ul, .component-folder ul, .plugin-folder ul, .layout-folder ul'));

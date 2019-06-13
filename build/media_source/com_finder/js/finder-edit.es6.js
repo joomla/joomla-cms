@@ -6,8 +6,6 @@
 Joomla = window.Joomla || {};
 
 (() => {
-  'use strict';
-
   document.addEventListener('DOMContentLoaded', () => {
     // Handle toggle all
     [].slice.call(document.querySelectorAll('.filter-toggle-all')).forEach((button) => {

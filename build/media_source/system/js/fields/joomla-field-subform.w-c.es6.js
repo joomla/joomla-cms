@@ -4,8 +4,6 @@
  */
 
 (function (customElements) {
-  'use strict';
-
   const KEYCODE = {
     SPACE: 32,
     ESC: 27,

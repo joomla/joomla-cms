@@ -4,8 +4,6 @@
  */
 
 (() => {
-  'use strict';
-
   window.insertPagebreak = (editor) => {
     // Get the pagebreak title
     let title = document.getElementById('title').value;

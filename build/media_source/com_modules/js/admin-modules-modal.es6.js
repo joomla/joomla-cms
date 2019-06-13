@@ -4,8 +4,6 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  'use strict';
-
   /** Get the elements * */
   const modulesLinks = [].slice.call(document.querySelectorAll('.js-module-insert'));
   const positionsLinks = [].slice.call(document.querySelectorAll('.js-position-insert'));

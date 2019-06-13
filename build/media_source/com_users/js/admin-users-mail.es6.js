@@ -4,8 +4,6 @@
  */
 
 (() => {
-  'use strict';
-
   document.addEventListener('DOMContentLoaded', () => {
     Joomla.submitbutton = (pressbutton) => {
       const form = document.adminForm;

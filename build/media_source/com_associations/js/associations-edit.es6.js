@@ -5,8 +5,6 @@
 Joomla = window.Joomla || {};
 
 ((Joomla, document) => {
-  'use strict';
-
   Joomla.hideAssociation = (formControl, languageCode) => {
     const controlGroup = [].slice.call(document.querySelectorAll('#associations .control-group'));
 

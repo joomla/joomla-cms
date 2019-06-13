@@ -6,8 +6,6 @@
 Joomla = window.Joomla || {};
 
 (() => {
-  'use strict';
-
   document.addEventListener('DOMContentLoaded', () => {
     Joomla.submitbutton = (pressbutton) => {
       // TODO replace with joomla-alert

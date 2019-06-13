@@ -4,8 +4,6 @@
  */
 
 ((document) => {
-  'use strict';
-
   // Selectors used by this script
   const debugSectionTogglerSelector = '.dbg-header';
   const toggleTargetAttribute = 'data-debug-toggle';

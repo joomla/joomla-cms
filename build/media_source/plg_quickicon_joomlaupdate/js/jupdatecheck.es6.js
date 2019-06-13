@@ -6,8 +6,6 @@
  * Ajax call to get the update status of Joomla
  */
 ((document, Joomla) => {
-  'use strict';
-
   const checkForJoomlaUpdates = () => {
     if (Joomla.getOptions('js-extensions-update')) {
       const options = Joomla.getOptions('js-joomla-update');

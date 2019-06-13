@@ -12,8 +12,6 @@
  * @since    3.7.0
  */
 ((document, Joomla) => {
-  'use strict';
-
   const keepAlive = (keepAliveUri) => {
     Joomla.request({ url: keepAliveUri });
   };

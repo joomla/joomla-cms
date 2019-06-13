@@ -5,8 +5,6 @@
 Joomla = window.Joomla || {};
 
 ((Joomla) => {
-  'use strict';
-
   Joomla.submitbutton = (task) => {
     if (task === 'module.cancel' || document.formvalidator.isValid(document.getElementById('module-form'))) {
       Joomla.submitform(task, document.getElementById('module-form'));

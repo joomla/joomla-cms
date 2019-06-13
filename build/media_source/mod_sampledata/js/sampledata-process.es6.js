@@ -3,8 +3,6 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((window, document, Joomla) => {
-  'use strict';
-
   // eslint-disable-next-line no-unused-expressions,func-names
   Joomla.SampleData = {
     inProgress: false,

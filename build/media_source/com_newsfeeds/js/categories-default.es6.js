@@ -3,8 +3,6 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((JText) => {
-  'use strict';
-
   // Selectors used by this script
   const buttonsSelector = '[id^=category-btn-]';
 

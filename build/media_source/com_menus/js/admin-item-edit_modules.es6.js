@@ -6,8 +6,6 @@
 Joomla = window.Joomla || {};
 
 (() => {
-  'use strict';
-
   const options = Joomla.getOptions('menus-edit-modules');
 
   if (options) {

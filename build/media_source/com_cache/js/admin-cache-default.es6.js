@@ -6,8 +6,6 @@
 Joomla = window.Joomla || {};
 
 ((document, Joomla) => {
-  'use strict';
-
   document.addEventListener('DOMContentLoaded', () => {
     [].slice.call(document.querySelectorAll('.cache-entry')).forEach((el) => {
       el.addEventListener('click', (event) => {

@@ -12,8 +12,6 @@ if (!Joomla) {
 }
 
 ((window, document, Joomla, jQuery) => {
-  'use strict';
-
   const webInstallerOptions = {
     view: 'dashboard',
     id: 0,

@@ -3,8 +3,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((document, submitForm) => {
-  'use strict';
-
   // Selectors used by this script
   const buttonDataSelector = 'data-submit-task';
   const formId = 'adminForm';

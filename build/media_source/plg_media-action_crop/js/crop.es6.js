@@ -11,8 +11,6 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 
 (() => {
-  'use strict';
-
   const initCrop = () => {
     const image = document.getElementById('image-preview');
 

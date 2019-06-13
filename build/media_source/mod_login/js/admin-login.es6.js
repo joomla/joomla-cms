@@ -4,8 +4,6 @@
  */
 
 (() => {
-  'use strict';
-
   const btn = document.getElementById('btn-login-submit');
   if (btn) {
     btn.addEventListener('click', (event) => {

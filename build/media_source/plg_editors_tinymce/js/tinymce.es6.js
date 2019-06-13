@@ -4,8 +4,6 @@
  */
 
 ((tinyMCE, Joomla, window, document) => {
-  'use strict';
-
   Joomla.JoomlaTinyMCE = {
     /**
      * Find all TinyMCE elements and initialize TinyMCE instance for each
