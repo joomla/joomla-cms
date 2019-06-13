@@ -66,7 +66,16 @@
 		// create from template
 		if (this.options.rowTemplateSelector) {
 			// Find the template element and get its HTML content, this is our template.
-			this.template = $.trim(this.$container.find(this.options.rowTemplateSelector).last().html()) || '';
+			var $tmplElement = this.$container.find(this.options.rowTemplateSelector).last();
+
+			// Move the template out of the form scope, for IE compatibility.
+			// But only a root template (!!!)
+			if (!$tmplElement.parents(this.options.rowTemplateSelector).length) {
+				$(document.body).append($tmplElement);
+			}
+
+			this.template = $.trim($tmplElement.html()) || '';
+			this.$tmplElement = $tmplElement;
 		}
 		// create from existing rows
 		else {
