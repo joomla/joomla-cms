@@ -1,24 +1,20 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_cache
+ * @subpackage  mod_logsupport
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Cache\Administrator\Helper;
-
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Helper\ModuleHelper;
 
-/**
- * Cache component helper.
- *
- * @since  1.6
- */
-class CacheHelper
+if ($params->get('automatic_title'))
 {
-
+	$module->title = Text::_('MOD_LOGINSUPPORT_TITLE');
 }
+
+require ModuleHelper::getLayoutPath('mod_loginsupport', $params->get('layout', 'default'));

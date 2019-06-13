@@ -6,7 +6,7 @@
 			type="installation.language"
 			label="INSTL_SELECT_LANGUAGE_TITLE"
 			id="language"
-			class="custom-select required ml-2"
+			class="custom-select-sm required"
 			default="en-GB"
 		/>
 		<field

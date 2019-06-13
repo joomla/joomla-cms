@@ -53,96 +53,15 @@ abstract class QuickIconHelper
 			$application = Factory::getApplication();
 		}
 
-		$context = $params->get('context', 'mod_quickicon');
-
-		$key = (string) $params;
+		$key     = (string) $params;
+		$context = (string) $params->get('context', 'mod_quickicon');
 
 		if (!isset(self::$buttons[$key]))
 		{
 			// Load mod_quickicon language file in case this method is called before rendering the module
 			$application->getLanguage()->load('mod_quickicon');
 
-			// Update Panel, icons come from plugins quickicons
-			if ($params->get('show_jupdate'))
-			{
-				PluginHelper::importPlugin('quickicon', 'joomlaupdate');
-			}
-
-			if ($params->get('show_eupdate'))
-			{
-				PluginHelper::importPlugin('quickicon', 'extensionupdate');
-			}
-
-			if ($params->get('show_oupdate'))
-			{
-				PluginHelper::importPlugin('quickicon', 'overridecheck');
-			}
-
-			if ($params->get('show_privacy'))
-			{
-				PluginHelper::importPlugin('quickicon', 'privacycheck');
-			}
-
-			$arrays = (array) $application->triggerEvent(
-				'onGetIcons',
-				new QuickIconsEvent('onGetIcons', ['context' => $params->get('context', 'mod_quickicon')])
-			);
-
-			foreach ($arrays as $response)
-			{
-				foreach ($response as $icon)
-				{
-					$default = array(
-						'link'    => null,
-						'image'   => null,
-						'text'    => null,
-						'name'    => null,
-						'linkadd' => null,
-						'access'  => true,
-						'class'   => true,
-						'group'   => 'MOD_QUICKICON',
-					);
-
-					$icon = array_merge($default, $icon);
-					if (!is_null($icon['link']) && !is_null($icon['text']))
-					{
-						self::$buttons[$key][] = $icon;
-					}
-				}
-			}
-
-			if ($params->get('show_checkin'))
-			{
-				self::$buttons[$key][] = [
-					'ajaxurl' => 'index.php?option=com_checkin&amp;task=getMenuBadgeData&amp;format=json',
-					'image'   => 'fa fa-unlock-alt',
-					'link'    => Route::_('index.php?option=com_checkin'),
-					'name'    => 'MOD_QUICKICON_CHECKINS',
-					'access'  => array('core.admin', 'com_checkin'),
-					'group'   => 'MOD_QUICKICON_SYSTEM'
-				];
-			}
-			if ($params->get('show_cache'))
-			{
-				self::$buttons[$key][] = [
-					'ajaxurl' => 'index.php?option=com_cache&amp;task=display.getQuickiconContent&amp;format=json',
-					'image'   => 'fa fa-cloud',
-					'link'    => Route::_('index.php?option=com_cache'),
-					'name'    => 'MOD_QUICKICON_CACHE',
-					'access'  => array('core.admin', 'com_cache'),
-					'group'   => 'MOD_QUICKICON_SYTEM'
-				];
-			}
-			if ($params->get('show_global'))
-			{
-				self::$buttons[$key][] = [
-					'image'  => 'fa fa-cog',
-					'link'   => Route::_('index.php?option=com_config'),
-					'name'   => 'MOD_QUICKICON_GLOBAL_CONFIGURATION',
-					'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
-					'group'  => 'MOD_QUICKICON_SYSTEM',
-				];
-			}
+			self::$buttons[$key] = [];
 
 			if ($params->get('show_users'))
 			{
@@ -241,6 +160,77 @@ abstract class QuickIconHelper
 					'access' => array('core.admin', 'com_templates'),
 					'group'  => 'MOD_QUICKICON_SITE'
 				];
+			}
+
+			if ($params->get('show_checkin'))
+			{
+				self::$buttons[$key][] = [
+					'ajaxurl' => 'index.php?option=com_checkin&amp;task=getMenuBadgeData&amp;format=json',
+					'image'   => 'fa fa-unlock-alt',
+					'link'    => Route::_('index.php?option=com_checkin'),
+					'name'    => 'MOD_QUICKICON_CHECKINS',
+					'access'  => array('core.admin', 'com_checkin'),
+					'group'   => 'MOD_QUICKICON_SYSTEM'
+				];
+			}
+
+			if ($params->get('show_cache'))
+			{
+				self::$buttons[$key][] = [
+					'ajaxurl' => 'index.php?option=com_cache&amp;task=display.getQuickiconContent&amp;format=json',
+					'image'   => 'fa fa-cloud',
+					'link'    => Route::_('index.php?option=com_cache'),
+					'name'    => 'MOD_QUICKICON_CACHE',
+					'access'  => array('core.admin', 'com_cache'),
+					'group'   => 'MOD_QUICKICON_SYTEM'
+				];
+			}
+
+			if ($params->get('show_global'))
+			{
+				self::$buttons[$key][] = [
+					'image'  => 'fa fa-cog',
+					'link'   => Route::_('index.php?option=com_config'),
+					'name'   => 'MOD_QUICKICON_GLOBAL_CONFIGURATION',
+					'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
+					'group'  => 'MOD_QUICKICON_SYSTEM',
+				];
+			}
+
+			PluginHelper::importPlugin('quickicon');
+
+			$arrays = (array) $application->triggerEvent(
+				'onGetIcons',
+				new QuickIconsEvent('onGetIcons', ['context' => $context])
+			);
+
+			foreach ($arrays as $response)
+			{
+				if (!is_array($response))
+				{
+					continue;
+				}
+
+				foreach ($response as $icon)
+				{
+					$default = array(
+						'link'    => null,
+						'image'   => null,
+						'text'    => null,
+						'name'    => null,
+						'linkadd' => null,
+						'access'  => true,
+						'class'   => true,
+						'group'   => 'MOD_QUICKICON',
+					);
+
+					$icon = array_merge($default, $icon);
+
+					if (!is_null($icon['link']) && !is_null($icon['text']))
+					{
+						self::$buttons[$key][] = $icon;
+					}
+				}
 			}
 		}
 

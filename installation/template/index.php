@@ -12,6 +12,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Version;
+use Joomla\CMS\Uri\Uri;
 
 /** @var JDocumentHtml $this */
 
@@ -51,47 +52,39 @@ Text::script('INSTL_FTP_SETTINGS_CORRECT');
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<jdoc:include type="metas" />
 		<jdoc:include type="styles" />
 	</head>
-	<body data-basepath="<?php echo JUri::root(true); ?>">
+	<body data-basepath="<?php echo Uri::root(true); ?>">
 		<div class="j-install">
 			<?php // Header ?>
 			<header id="header" class="header">
-				<div class="d-flex align-items-center">
-					<div class="header-title d-flex mr-auto">
-						<div class="d-flex">
-							<a class="logo" href="<?php echo Route::_('index.php'); ?>">
-								<img src="<?php echo $this->baseurl; ?>/template/images/logo-joomla-blue.svg" alt=""/>
-							</a>
+				<div class="d-flex">
+					<div class="w-100 d-flex ">
+						<div class="logo d-none d-md-block"> 
+							<img src="<?php echo $this->baseurl; ?>/template/images/logo-joomla-blue.svg" alt=""/>
 						</div>
-						<div class="d-flex px-2">
-							<div class="container-title">
-								<h1 class="page-title">
-									<span class="fa fa-cogs"></span>
-									<?php echo Text::_('INSTL_PAGE_TITLE'); ?>
-								</h1>
-							</div>
+						<div class="mx-2 d-flex d-md-none">
+							<img class="logo-small d-flex d-md-none" src="<?php echo $this->baseurl; ?>/template/images/logo-blue.svg" alt="">
 						</div>
-					</div>
-					<div class="header-items d-flex ml-auto">
-						<div class="d-flex align-items-center">
-							<p class="joomla-version w-100 text-right">
+						<div class="d-flex flex-wrap align-items-center mx-auto">
+							<h1 class="h2 mx-1 d-flex align-items-baseline">
+								<span class="fa fa-cogs d-none d-md-block mx-2 alig-items-center" aria-hidden="true"></span> 
+								<?php echo Text::_('INSTL_PAGE_TITLE'); ?>
+							</h1> 
+							<span class="small mx-1 d-flex align-items-baseline">
 								Joomla! <?php echo (new Version)->getShortVersion(); ?>
-							</p>
-						</div>
-						<div class="ml-auto">
-							<ul class="nav text-center">
-								<li class="nav-item">
-									<a class="nav-link" href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla" target="_blank">
-										<span class="fa fa-question" aria-hidden="true"></span>
-										<span class="sr-only"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
-									</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
+							</span>
+						</div> 
+					</div> 
+					<div class="mx-2 d-flex flex-shrink-1 align-items-center"> 
+						<a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla"; target="_blank">
+							<span class="fa fa-question" aria-hidden="true"></span>
+							<span class="sr-only"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
+						</a> 
+					</div> 
+				</div> 
 			</header>
 			<?php // Container ?>
 			<div id="wrapper" class="d-flex wrapper flex-wrap">
@@ -105,7 +98,7 @@ Text::script('INSTL_FTP_SETTINGS_CORRECT');
 										<?php echo Text::_('INSTL_WARNJAVASCRIPT'); ?>
 									</noscript>
 								</div>
-								<div id="container-installation" class="container-installation flex no-js" data-base-url="<?php echo JUri::root(); ?>" style="display:none">
+								<div id="container-installation" class="container-installation flex no-js" data-base-url="<?php echo Uri::root(); ?>" style="display:none">
 									<jdoc:include type="component" />
 								</div>
 							</div>

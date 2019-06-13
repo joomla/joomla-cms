@@ -85,7 +85,7 @@ caption {
 
 body .container-main {
   position: relative;
-  min-height: calc(100vh - #{$header-height});
+  min-height: calc(100vh - #{$header-height} - 3px);
   padding-left: 0;
   padding-right: 0;
 
@@ -194,6 +194,7 @@ a[target="_blank"]:before {
   min-width: 1rem;
 }
 
+.cpanel-help .card-columns,
 .cpanel-system .card-columns {
   @include media-breakpoint-up(md) {
     column-count: 3;

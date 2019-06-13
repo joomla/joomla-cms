@@ -11,8 +11,8 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -20,6 +20,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -35,7 +36,7 @@ class TemplateController extends BaseController
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   Input                $input    Input
 	 *
 	 * @since  1.6
 	 * @see    \JControllerLegacy
@@ -214,7 +215,7 @@ class TemplateController extends BaseController
 			$this->input->set('install_directory', $app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
 			$installModel = $this->app->bootComponent('com_installer')
 				->getMVCFactory()->createModel('Install', 'Administrator');
-			Factory::getLanguage()->load('com_installer');
+			$this->app->getLanguage()->load('com_installer');
 
 			if (!$installModel->install())
 			{
@@ -255,7 +256,7 @@ class TemplateController extends BaseController
 	 */
 	protected function allowEdit()
 	{
-		return Factory::getUser()->authorise('core.edit', 'com_templates');
+		return $this->app->getIdentity()->authorise('core.edit', 'com_templates');
 	}
 
 	/**

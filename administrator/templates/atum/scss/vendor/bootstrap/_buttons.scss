@@ -6,9 +6,9 @@
 }
 
 .btn-primary {
-  background-color: $white;
-  color: var(--atum-text-dark);
-  border-color: $gray-500;
+  background-color: var(--atum-bg-dark);
+  color: var(--atum-text-light);
+  border-color: var(--atum-bg-dark-80);
 
   @include hover-focus-active {
     background-color: var(--atum-bg-dark-70);
@@ -22,12 +22,8 @@
     border-color: var(--atum-bg-dark);
   }
 }
-
-.btn-secondary{
-	background-color:var(--atum-bg-dark);
-	&:hover{
-		background-color:var(--atum-bg-dark-80);
-	}
+.btn-secondary {
+	background-color: var(--atum-bg-dark-40);
 }
 
 .input-group-text {

@@ -71,7 +71,6 @@ class HtmlView extends BaseHtmlView
 		BannersHelper::addSubmenu('clients');
 
 		$this->addToolbar();
-		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}
