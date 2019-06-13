@@ -61,7 +61,7 @@ class Versioning
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$query->delete($db->quoteName('#__history'))
-			->where($db->quoteName('item_id') . ' = ' . $typeAlias . '.' . $id);
+			->where($db->quoteName('item_id') . ' = ' . $db->quote($typeAlias . '.' . $id));
 		$db->setQuery($query);
 
 		return $db->execute();
@@ -72,7 +72,7 @@ class Versioning
 	 *
 	 * @param   string   $typeAlias  Typealias of the content type
 	 * @param   integer  $id         ID of the content item
-	 * @param   mixed    $data       Array or object of data that can be 
+	 * @param   mixed    $data       Array or object of data that can be
 	 *                               en- and decoded into JSON
 	 * @param   string   $note       Note for the version to store
 	 *
