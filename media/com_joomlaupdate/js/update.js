@@ -265,7 +265,7 @@ stepExtract = function(data)
 		jQuery('#extpercent').text(stat_percent.toFixed(1) + '%');
 		jQuery('#extbytesin').text(stat_inbytes);
 		jQuery('#extbytesout').text(stat_outbytes);
-		jQuery('#extfiles').text(data.files);
+		jQuery('#extfiles').text(stat_files);
 
 		// Do AJAX post
 		post = {
