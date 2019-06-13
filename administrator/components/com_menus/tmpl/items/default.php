@@ -206,6 +206,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 											  title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
 											<?php echo $this->escape($item->item_type); ?></span>
 									</div>
+									<?php echo HTMLHelper::_('menus.enabled', $item->componentname); ?>
 								</th>
 								<td class="small d-none d-md-table-cell">
 									<?php echo $this->escape($item->menutype_title ?: ucwords($item->menutype)); ?>
