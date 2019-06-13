@@ -125,7 +125,7 @@ class Menus
 	/**
 	 * Returns the enabled state of the component
 	 *
-	 * @param   string  $componentname Component name of the item.
+	 * @param   string  $componentname  Component name of the item.
 	 *
 	 * @return  string  The Html code
 	 *
