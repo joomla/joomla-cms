@@ -16,7 +16,7 @@
   }
 
   .header-title {
-    max-width: calc(100% - 500px);
+    max-width: calc(100% - 31.25rem);
 
     .d-flex:last-child {
       max-width: calc(100% - #{$sidebar-width});
@@ -26,8 +26,8 @@
       width: 100%;
     }
 
-    @media (max-width: 1160px) {
-      max-width: calc(100% - 500px);
+    @media (max-width: 72.5rem) {
+      max-width: calc(100% - 31.25rem);
     }
   }
 
@@ -69,17 +69,17 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin: 0 7.5px;
+    margin: 0;
     font-size: 1.2rem;
     line-height: $header-height;
     color: var(--atum-special-color);
 
     [class^='icon-'] {
-      margin-right: 10px;
+      margin-right: 0.625rem;
       font-size: 1rem;
     }
     @include media-breakpoint-down(md){
-      width: 160px;
+      width: 10rem;
        white-space: nowrap;
        overflow: hidden;
        text-overflow: ellipsis;
@@ -97,7 +97,7 @@
         padding: 0 0.6rem;
         color: var(--atum-special-color);
 
-        @media (max-width: 1023px) {
+        @media (max-width: 63.9375rem) {
           padding: 0 .5rem 0.4rem;
         }
       }
@@ -144,7 +144,7 @@
   }
 
   .dropdown-menu {
-    min-width: 280px;
+    min-width: 17.5rem;
     padding: 0;
     z-index: 1041;
   }
@@ -165,24 +165,6 @@
 
   .align-items-end {
     min-height: 2rem;
-  }
-
-  .link-title {
-
-    @include media-breakpoint-down(lg) {
-     /* width: 60px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: block;*/
-      font-size:0;
-      text-decoration:none;
-    }
-    &:before{
-      font-size: 1.2rem;
-      vertical-align: middle;
-    }
-
   }
 
   a[target="_blank"]:before {
@@ -293,9 +275,6 @@
       padding-left:0.75rem;
       flex-direction: row-reverse;
       justify-content: flex-end;
-      .ml-auto{
-        margin-right:70px;
-      }
     }
     #header-more-items {
       .header-more-menu {
