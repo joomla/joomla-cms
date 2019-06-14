@@ -255,8 +255,6 @@ class HtmlView extends BaseHtmlView
 				$needle      = $searchWords[0];
 			}
 
-			\JLoader::register('ContentHelperRoute', \JPATH_SITE . '/components/com_content/helpers/route.php');
-
 			// Make sure there are no slashes in the needle
 			$needle = str_replace('/', '\/', $needle);
 

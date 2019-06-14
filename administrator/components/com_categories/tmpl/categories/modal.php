@@ -24,8 +24,6 @@ if ($app->isClient('site'))
 	Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
-JLoader::register('ContentHelperRoute', JPATH_ROOT . '/components/com_content/helpers/route.php');
-
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 
