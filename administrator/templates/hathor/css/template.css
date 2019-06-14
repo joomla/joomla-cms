@@ -3947,3 +3947,6 @@ div.toggle-editor {
 .popover-content {
 	min-height: 33px;
 }
+template {
+	display: none;
+}

@@ -9135,3 +9135,6 @@ input:focus,
 		column-count: auto;
 	}
 }
+template {
+   display: none;
+}

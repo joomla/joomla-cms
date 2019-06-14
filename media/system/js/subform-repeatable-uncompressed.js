@@ -68,12 +68,6 @@
 			// Find the template element and get its HTML content, this is our template.
 			var $tmplElement = this.$container.find(this.options.rowTemplateSelector).last();
 
-			// Move the template out of the form scope, for IE compatibility.
-			// But only a root template (!!!)
-			if (!$tmplElement.parents(this.options.rowTemplateSelector).length) {
-				$(document.body).append($tmplElement);
-			}
-
 			this.template = $.trim($tmplElement.html()) || '';
 			this.$tmplElement = $tmplElement;
 		}
@@ -105,7 +99,7 @@
 		}
 
 		// make new from template
-		var row = $.parseHTML(this.template);
+		var row = $.parseHTML(htmlspecialchar.decode(this.template));
 
 		//add to container
 		if(after){
@@ -313,5 +307,26 @@
 			$(container || document).find('div.subform-repeatable').subformRepeatable();
 		}
 	});
-
+	window.htmlspecialchar = {
+		/**
+		 * @param {String} str htmlSet entities
+		 **/
+		decode : function(str) {
+			var map = {
+				'&amp;': '&',
+				'&#038;': "&",
+				'&lt;': '<',
+				'&gt;': '>',
+				'&quot;': '"',
+				'&#039;': "'",
+				'&#8217;': "’",
+				'&#8216;': "‘",
+				'&#8211;': "–",
+				'&#8212;': "—",
+				'&#8230;': "…",
+				'&#8221;': '”'
+			};
+			return str.replace(/\&[\w\d\#]{2,5}\;/g, function(m) { return map[m]; });
+		}
+	};
 })(jQuery);

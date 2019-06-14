@@ -118,21 +118,23 @@ else
 					endforeach; ?>
 				</tbody>
 			</table>
-
-			<?php if ($multiple) : ?>
-				<template class="subform-repeatable-template-section"><?php echo trim(
-					$this->sublayout(
-						$sublayout,
-						array(
-							'form' => $tmpl,
-							'basegroup' => $fieldname,
-							'group' => $fieldname . 'X',
-							'buttons' => $buttons,
-							'unique_subform_id' => $unique_subform_id,
-						)
-					)
-				); ?></template>
-			<?php endif; ?>
+            <?php if ($multiple) : ?>
+                <template class="subform-repeatable-template-section">
+                    <?php
+                    echo htmlspecialchars(trim(
+                            $this->sublayout(
+                                $sublayout,
+                                array(
+                                    'form' => $tmpl,
+                                    'basegroup' => $fieldname,
+                                    'group' => $fieldname . 'X',
+                                    'buttons' => $buttons,
+                                    'unique_subform_id' => $unique_subform_id,
+                                )
+                            ))
+                    ); ?>
+                </template>
+            <?php endif; ?>
 		</div>
 	</div>
 </div>
