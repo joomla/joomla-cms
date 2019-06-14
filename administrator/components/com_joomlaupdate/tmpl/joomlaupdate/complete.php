@@ -20,6 +20,7 @@ use Joomla\CMS\Router\Route;
 		<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_COMPLETE_HEADING'); ?>
 	</legend>
 	<div class="alert alert-success">
+		<span class="fa fa-check-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('NOTICE'); ?></span>
 		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_COMPLETE_MESSAGE', JVERSION); ?>
 	</div>
 </fieldset>
