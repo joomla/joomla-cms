@@ -3,17 +3,15 @@
  * @package     Joomla.Plugin
  * @subpackage  Privacy.user
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
-
-JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/plugin.php');
-JLoader::register('PrivacyRemovalStatus', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/removal/status.php');
-JLoader::register('PrivacyTableRequest', JPATH_ADMINISTRATOR . '/components/com_privacy/tables/request.php');
 
 /**
  * Privacy plugin managing Joomla user data
@@ -46,7 +44,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 		if ($user->authorise('core.admin'))
 		{
 			$status->canRemove = false;
-			$status->reason    = JText::_('PLG_PRIVACY_USER_ERROR_CANNOT_REMOVE_SUPER_USER');
+			$status->reason    = Text::_('PLG_PRIVACY_USER_ERROR_CANNOT_REMOVE_SUPER_USER');
 		}
 
 		return $status;
@@ -134,7 +132,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 			return;
 		}
 
-		$storeName = JFactory::getConfig()->get('session_handler', 'none');
+		$storeName = Factory::getConfig()->get('session_handler', 'none');
 		$store     = JSessionStorage::getInstance($storeName);
 		$quotedIds = array();
 

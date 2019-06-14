@@ -122,7 +122,7 @@
 			description="COM_USERS_CONFIG_FIELD_DOMAINS_DESC"
 			multiple="true"
 			layout="joomla.form.field.subform.repeatable-table"
-			formsource="administrator/components/com_users/models/forms/config_domain.xml"
+			formsource="administrator/components/com_users/forms/config_domain.xml"
 		/>
 	</fieldset>
 
@@ -251,6 +251,12 @@
 		label="JGLOBAL_INTEGRATION_LABEL"
 		description="COM_USERS_CONFIG_INTEGRATION_SETTINGS_DESC"
 	>
+
+		<field
+			name="integration_customfields"
+			type="note"
+			label="JGLOBAL_FIELDS_TITLE"
+		/>
 
 		<field
 			name="custom_fields_enable"

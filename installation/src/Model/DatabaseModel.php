@@ -11,6 +11,7 @@ namespace Joomla\CMS\Installation\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
@@ -18,6 +19,7 @@ use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -366,7 +368,7 @@ class DatabaseModel extends BaseInstallationModel
 					'select'   => $options->db_select,
 				);
 
-				$altDB = \JDatabaseDriver::getInstance($altDBoptions);
+				$altDB = DatabaseDriver::getInstance($altDBoptions);
 
 				// Try to create the database now using the alternate driver
 				try
@@ -611,6 +613,13 @@ class DatabaseModel extends BaseInstallationModel
 			}
 		}
 
+		$query = $db->getQuery(true)
+			->select('extension_id')
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('name') . ' = ' . $db->quote('files_joomla'));
+		$db->setQuery($query);
+		$eid = $db->loadResult();
+
 		$query->clear()
 			->insert($db->quoteName('#__schemas'))
 			->columns(
@@ -619,7 +628,7 @@ class DatabaseModel extends BaseInstallationModel
 					$db->quoteName('version_id')
 				)
 			)
-			->values('700, ' . $db->quote($version));
+			->values($eid . ', ' . $db->quote($version));
 		$db->setQuery($query);
 
 		try

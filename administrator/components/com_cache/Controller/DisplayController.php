@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\Component\Cache\Administrator\Helper\CacheHelper;
 
 /**
  * Cache Controller
@@ -23,48 +22,12 @@ use Joomla\Component\Cache\Administrator\Helper\CacheHelper;
 class DisplayController extends BaseController
 {
 	/**
-	 * Display a view.
+	 * The default view for the display method.
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
-	 *
-	 * @return  static  This object to support chaining.
-	 *
-	 * @since   1.5
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function display($cachable = false, $urlparams = false)
-	{
-		// Get the document object.
-		$document = $this->app->getDocument();
-
-		// Set the default view name and format from the Request.
-		$vName   = $this->input->get('view', 'cache');
-		$vFormat = $document->getType();
-		$lName   = $this->input->get('layout', 'default', 'string');
-
-		// Get and render the view.
-		if ($view = $this->getView($vName, $vFormat))
-		{
-			switch ($vName)
-			{
-				case 'purge':
-					$this->app->enqueueMessage(Text::_('COM_CACHE_RESOURCE_INTENSIVE_WARNING'), 'warning');
-					break;
-				case 'cache':
-				default:
-					$model = $this->getModel($vName);
-					$view->setModel($model, true);
-					break;
-			}
-
-			$view->setLayout($lName);
-
-			// Push document object into the view.
-			$view->document = $document;
-
-			$view->display();
-		}
-	}
+	protected $default_view = 'cache';
 
 	/**
 	 * Method to delete a list of cache groups.
@@ -161,6 +124,6 @@ class DisplayController extends BaseController
 			$this->app->enqueueMessage(Text::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_PURGED'), 'message');
 		}
 
-		$this->setRedirect('index.php?option=com_cache&view=purge');
+		$this->setRedirect('index.php?option=com_cache&view=cache');
 	}
 }
