@@ -389,7 +389,7 @@ class ApiController extends BaseController
 		}
 
 		$key        = $table->getKeyName();
-		$data       = json_decode($this->input->json->getRaw(), true);
+		$data       = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
 		$checkin    = property_exists($table, $table->getColumnAlias('checked_out'));
 		$data[$key] = $recordKey;
 
