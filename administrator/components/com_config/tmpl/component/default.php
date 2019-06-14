@@ -68,7 +68,8 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version
 					<div class="tab-pane" id="<?php echo $name; ?>">
 						<?php if (!empty($fieldSet->description)) : ?>
 							<div class="tab-description alert alert-info">
-								<span class="icon-info" aria-hidden="true"></span> <?php echo JText::_($fieldSet->description); ?>
+								<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+								<?php echo Text::_($fieldSet->description); ?>
 							</div>
 						<?php endif; ?>
 						<?php echo $this->form->renderFieldset($name, $name === 'permissions' ? ['hiddenLabel' => true, 'class' => 'revert-controls'] : []); ?>
@@ -77,7 +78,7 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version
 			</div>
 			<?php else: ?>
 				<div class="alert alert-info">
-					<span class="icon-info" aria-hidden="true"></span>
+					<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 					<?php echo Text::_('COM_CONFIG_COMPONENT_NO_CONFIG_FIELDS_MESSAGE'); ?>
 				</div>
 			<?php endif; ?>
