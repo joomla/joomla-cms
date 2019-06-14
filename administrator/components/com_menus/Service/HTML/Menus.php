@@ -121,32 +121,4 @@ class Menus
 
 		return ($show_menu === 0) ? '<span class="badge badge-secondary">' . Text::_('COM_MENUS_LABEL_HIDDEN') . '</span>' : '';
 	}
-
-	/**
-	 * Returns the enabled state of the component
-	 *
-	 * @param   string  $componentname  Component name of the item.
-	 *
-	 * @return  string  The Html code
-	 *
-	 * @since   4.0
-	 */
-	public function enabled($componentname)
-	{
-		if (!empty($componentname))
-		{
-			$db = Factory::getDbo();
-			$query = $db->getQuery(true);
-
-			$query->select($db->quoteName('a.enabled'))
-				->from($db->quoteName('#__extensions', 'a'))
-				->where($db->quoteName('a.element') . ' = ' . $db->quote($componentname));
-
-			$db->setQuery($query);
-
-			$disabled = (int) $db->loadResult();
-
-			return ($disabled === 0) ? '<div><span class="badge badge-secondary">' . Text::_('COM_MENUS_LABEL_DISABLED') . '</span></div>' : '';
-		}
-	}
 }
