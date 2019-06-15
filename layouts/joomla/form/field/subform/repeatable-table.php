@@ -59,7 +59,12 @@ else
 {
 	foreach ($tmpl->getGroup('') as $field) {
 		$table_head .= '<th>' . strip_tags($field->label);
-		$table_head .= '<br><small style="font-weight:normal">' . Text::_($field->description) . '</small>';
+
+		if (!empty(Text::_($field->description)))
+		{
+			$table_head .= '<br><small style="font-weight:normal">' . Text::_($field->description) . '</small>';
+		}
+
 		$table_head .= '</th>';
 	}
 
