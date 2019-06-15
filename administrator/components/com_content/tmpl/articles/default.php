@@ -352,14 +352,11 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										<a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>">
 											<?php echo $this->escape($item->author_name); ?>
 										</a>
-										<?php if ($item->created_by_alias) : ?>
-											<div class="smallsub"><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
-										<?php endif; ?>
 									<?php else : ?>
 										<?php echo Text::_('JNONE'); ?>
-										<?php if ($item->created_by_alias) : ?>
-											<div class="smallsub"><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
-										<?php endif; ?>
+									<?php endif; ?>
+									<?php if ($item->created_by_alias) : ?>
+										<div class="smallsub"><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
 									<?php endif; ?>
 								</td>
 								<?php if (Multilanguage::isEnabled()) : ?>
