@@ -250,7 +250,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										<?php endif; ?>
 										<?php if ($canEdit) : ?>
 											<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pen-square mr-2" aria-hidden="true"></span>'; ?>
-											<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_content&task=article.edit&return=featured&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+											<a href="<?php echo Route::_('index.php?option=com_content&task=article.edit&return=featured&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 												<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
 										<?php else : ?>
 											<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
@@ -276,7 +276,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 											if (Factory::getLanguage()->isRtl())
 											{
 												if ($canEditCat || $canEditOwnCat) :
-													echo '<a class="hasTooltip" href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
+													echo '<a href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
 												endif;
 												echo $this->escape($item->category_title);
 												if ($canEditCat || $canEditOwnCat) :
@@ -285,7 +285,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 												if ($item->category_level != '1') :
 													echo ' &#171; ';
 													if ($canEditParCat || $canEditOwnParCat) :
-														echo '<a class="hasTooltip" href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
+														echo '<a href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
 													endif;
 													echo $this->escape($item->parent_category_title);
 													if ($canEditParCat || $canEditOwnParCat) :
@@ -297,7 +297,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 											{
 												if ($item->category_level != '1') :
 													if ($canEditParCat || $canEditOwnParCat) :
-														echo '<a class="hasTooltip" href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
+														echo '<a href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
 													endif;
 													echo $this->escape($item->parent_category_title);
 													if ($canEditParCat || $canEditOwnParCat) :
@@ -306,7 +306,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 													echo ' &#187; ';
 												endif;
 												if ($canEditCat || $canEditOwnCat) :
-													echo '<a class="hasTooltip" href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
+													echo '<a href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
 												endif;
 												echo $this->escape($item->category_title);
 												if ($canEditCat || $canEditOwnCat) :
@@ -323,11 +323,11 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 								<td class="small d-none d-md-table-cell">
 									<?php if ((int) $item->created_by != 0) : ?>
 										<?php if ($item->created_by_alias) : ?>
-											<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo Text::_('JAUTHOR'); ?>">
+											<a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo Text::_('JAUTHOR'); ?>">
 												<?php echo $this->escape($item->author_name); ?></a>
 											<div class="smallsub"><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
 										<?php else : ?>
-											<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo Text::_('JAUTHOR'); ?>">
+											<a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo Text::_('JAUTHOR'); ?>">
 												<?php echo $this->escape($item->author_name); ?></a>
 										<?php endif; ?>
 									<?php else : ?>

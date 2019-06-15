@@ -34,7 +34,7 @@ if ($params->get('show_button', 0))
 	$output .= '<div class="mod-finder__search input-group">';
 	$output .= $input;
 	$output .= '<span class="input-group-append">';
-	$output .= '<button class="btn btn-primary hasTooltip" type="submit"><span class="fa fa-search icon-white" aria-hidden="true"></span> ' . Text::_('JSEARCH_FILTER_SUBMIT') . '</button>';
+	$output .= '<button class="btn btn-primary" type="submit"><span class="fa fa-search icon-white" aria-hidden="true"></span> ' . Text::_('JSEARCH_FILTER_SUBMIT') . '</button>';
 	$output .= '</span>';
 	$output .= '</div>';
 }

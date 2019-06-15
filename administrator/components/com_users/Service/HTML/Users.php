@@ -63,7 +63,7 @@ class Users
 		$title = Text::_('COM_USERS_ADD_NOTE');
 
 		return '<a href="' . Route::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId)
-			. '" class="hasTooltip btn btn-secondary btn-sm"><span class="fa fa-plus" aria-hidden="true">'
+			. '" class="btn btn-secondary btn-sm"><span class="fa fa-plus" aria-hidden="true">'
 			. '</span> ' . $title . '</a>';
 	}
 
