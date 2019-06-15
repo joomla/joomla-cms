@@ -60,6 +60,7 @@ class IndexModel extends ListModel
 				'type', 'type_id', 'l.type_id',
 				't.title', 't_title',
 				'url', 'l.url',
+				'language', 'l.language',
 				'indexdate', 'l.indexdate',
 				'content_map',
 			);
@@ -191,6 +192,10 @@ class IndexModel extends ListModel
 		// Check the type filter.
 		$type = $this->getState('filter.type');
 
+		// Join over the language
+		$query->select('la.title AS language_title, la.image AS language_image')
+			->join('LEFT', $db->quoteName('#__languages') . ' AS la ON la.lang_code = l.language');
+
 		if (is_numeric($type))
 		{
 			$query->where($db->quoteName('l.type_id') . ' = ' . (int) $type);
@@ -211,6 +216,12 @@ class IndexModel extends ListModel
 		if (is_numeric($state))
 		{
 			$query->where($db->quoteName('l.published') . ' = ' . (int) $state);
+		}
+
+		// Filter on the language.
+		if ($language = $this->getState('filter.language'))
+		{
+			$query->where($db->quoteName('l.language') . ' = ' . $db->quote($language));
 		}
 
 		// Check the search phrase.
@@ -396,6 +407,7 @@ class IndexModel extends ListModel
 		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
 		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'cmd'));
 		$this->setState('filter.content_map', $this->getUserStateFromRequest($this->context . '.filter.content_map', 'filter_content_map', '', 'cmd'));
+		$this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', ''));
 
 		// Load the parameters.
 		$params = ComponentHelper::getParams('com_finder');

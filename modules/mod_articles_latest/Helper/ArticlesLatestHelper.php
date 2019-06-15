@@ -19,8 +19,6 @@ use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
-\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-
 /**
  * Helper for mod_articles_latest
  *
