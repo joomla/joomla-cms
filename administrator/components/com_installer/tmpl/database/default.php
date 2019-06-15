@@ -97,7 +97,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 												<span class="badge badge-<?php echo count($item['results']['error']) ? 'danger' : ($item['errorsCount'] ? 'warning' : 'success'); ?>" tabindex="0">
 													<?php echo Text::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item['errorsCount']); ?>
 												</span>
-												<div role="tooltip" id="<?php echo $extension->name; ?>">
+												<div role="tooltip" id="tip<?php echo $i; ?>">
 													<strong><?php echo Text::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item['errorsCount']); ?></strong>
 													<ul><li><?php echo implode('</li><li>', $item['errorsMessage']); ?></li></ul>
 												</div>
