@@ -101,10 +101,11 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 			<?php if ($contentlang->published == -2) : ?>
 				<tr class="warning">
 					<td>
-						<span class="icon-pending" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('WARNING'); ?></span>
+						<span class="icon-pending" aria-hidden="true"></span>
+						<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 					</td>
 					<td>
-						<?php echo JText::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_CONTENT_LANGUAGE_TRASHED', $contentlang->lang_code); ?>
+						<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_CONTENT_LANGUAGE_TRASHED', $contentlang->lang_code); ?>
 					</td>
 				</tr>
 			<?php endif; ?>
@@ -229,12 +230,12 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 				<?php elseif ($status->lang_code && $status->published == 0) : ?>
 					<td class="text-center">
 						<span class="icon-pending" aria-hidden="true"></span>
-						<span class="sr-only"><?php echo JText::_('WARNING'); ?></span>
+						<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 					</td>
 				<?php elseif ($status->lang_code && $status->published == -2) : ?>
 					<td class="text-center">
 						<span class="icon-trash" aria-hidden="true"></span>
-						<span class="sr-only"><?php echo JText::_('WARNING'); ?></span>
+						<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 					</td>
 				<?php else : ?>
 						<td class="text-center">
