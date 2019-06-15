@@ -142,19 +142,21 @@
   /**
    * put elements that are too much in the header in a dropdown
    *
-   * @param {number} [visibleItems] the number of visible elements
-   *
    * @since   4.0.0
    */
-  function headerItemsInDropdown(visibleItems) {
+  function headerItemsInDropdown() {
     const headerWrapper = doc.querySelector('.header-items');
     const headerItems = [].slice.call(doc.querySelectorAll('.header-items > .header-item'));
-    headerItems.reverse();
+    const headerWrapperWidth = headerWrapper.offsetWidth;
+    let headerItemsWidth = 0;
+    headerItems.forEach((item) => {
+      headerItemsWidth += item.offsetWidth;
+    });
 
-    if (headerItems.length > visibleItems) {
+    if (headerItemsWidth > headerWrapperWidth) {
       if (!doc.querySelector('#header-more-items')) {
         const headerMoreItem = document.createElement('div');
-        headerMoreItem.className = 'header-item-more d-flex';
+        headerMoreItem.className = 'header-item header-item-more d-flex';
         headerMoreItem.id = 'header-more-items';
         const headerItemContent = document.createElement('div');
         headerItemContent.className = 'header-item-content header-more footer-mobil-icon d-flex';
@@ -177,15 +179,15 @@
         headerMoreBtn.addEventListener('click', () => {
           headerMoreItem.classList.toggle('active');
         });
+        headerItemsWidth += headerMoreItem.offsetWidth;
       }
 
       const headerMoreWrapper = headerWrapper.querySelector('#header-more-items .header-more-menu');
       const headerMoreItems = headerMoreWrapper.querySelectorAll('.header-item');
-      let headerItemCounter = 0;
 
       headerItems.forEach((item) => {
-        headerItemCounter += 1;
-        if (headerItemCounter > visibleItems && item.id !== 'header-more-items') {
+        if (headerItemsWidth > headerWrapperWidth && item.id !== 'header-more-items') {
+          headerItemsWidth -= item.offsetWidth;
           if (!headerMoreItems) {
             headerMoreWrapper.appendChild(item);
           } else {
@@ -193,19 +195,17 @@
           }
         }
       });
-    } else if (headerItems.length < visibleItems && doc.querySelector('#header-more-items')) {
+    } else if (headerItemsWidth < headerWrapperWidth && doc.querySelector('#header-more-items')) {
       const headerMore = headerWrapper.querySelector('#header-more-items');
-      let headerItemCounter = headerItems.length;
       const headerMoreItems = [].slice.call(headerMore.querySelectorAll('.header-item'));
-      const headerAllItems = headerItems.length + headerMoreItems.length;
 
       headerMoreItems.forEach((item) => {
-        if (headerItemCounter < visibleItems) {
+        headerItemsWidth += item.offsetWidth;
+        if (headerItemsWidth < headerWrapperWidth) {
           headerWrapper.insertBefore(item, doc.querySelector('.header-items > .header-item'));
         }
-        headerItemCounter += 1;
       });
-      if (headerAllItems <= visibleItems) {
+      if (!headerMore.querySelectorAll('.header-item').length) {
         headerWrapper.removeChild(headerMore);
       }
     }
@@ -223,8 +223,6 @@
     const mobileTablet = window.matchMedia('(min-width: 576px) and (max-width:991.98px)');
     const mobileSmallLandscape = window.matchMedia('(max-width: 767.98px)');
     const mobileSmall = window.matchMedia('(max-width: 575.98px)');
-    const desktop = window.matchMedia('(max-width: 1160px)');
-    const desktopSmall = window.matchMedia('(max-width: 1023px)');
 
     changeSVGLogoColor();
 
@@ -274,13 +272,7 @@
       if (subHeadToolbar) subHeadToolbar.classList.add('collapse');
     }
 
-    if (mobileSmallLandscape.matches || desktopSmall.matches) {
-      headerItemsInDropdown(2);
-    } else if (mobile.matches || desktop.matches) {
-      headerItemsInDropdown(4);
-    } else {
-      headerItemsInDropdown(6);
-    }
+    headerItemsInDropdown();
 
     window.addEventListener('resize', () => {
       /* eslint no-unused-expressions: ["error", { "allowTernary": true }] */
@@ -298,13 +290,7 @@
         }
       }
 
-      if (mobileSmallLandscape.matches || desktopSmall.matches) {
-        headerItemsInDropdown(2);
-      } else if (mobile.matches || desktop.matches) {
-        headerItemsInDropdown(4);
-      } else {
-        headerItemsInDropdown(6);
-      }
+      headerItemsInDropdown();
     });
   });
 })(window.Joomla, document);

@@ -165,8 +165,8 @@ $this->addStyleDeclaration($css);
 
 <?php // Header ?>
 <header id="header" class="header">
-	<div class="d-flex align-items-center">
-		<div class="header-title d-flex mr-auto">
+	<div class="d-flex">
+		<div class="header-title d-flex">
 			<div class="d-flex">
 				<a class="logo" href="<?php echo Route::_('index.php'); ?>"
 				   aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
@@ -176,8 +176,8 @@ $this->addStyleDeclaration($css);
 			</div>
 			<jdoc:include type="modules" name="title"/>
 		</div>
-		<div class="header-items d-flex ml-auto">
-			<jdoc:include type="modules" name="status" style="no"/>
+		<div class="header-items d-flex">
+			<jdoc:include type="modules" name="status" style="header-item"/>
 		</div>
 	</div>
 </header>
