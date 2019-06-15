@@ -45,7 +45,10 @@ HTMLHelper::_('script', 'legacy/treeselectmenu.min.js', array('version' => 'auto
 		<ul class="treeselect">
 			<?php if (count($menuLinks)) : ?>
 				<?php $prevlevel = 0; ?>
-				<div class="alert alert-info"><?php echo Text::_('COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_HIDE_ITEMS_DESC'); ?></div>
+				<div class="alert alert-info">
+					<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+					<?php echo Text::_('COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_HIDE_ITEMS_DESC'); ?>
+				</div>
 				<li>
 				<?php
 				$params      = new Registry($this->item->params);
