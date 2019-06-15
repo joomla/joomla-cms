@@ -412,7 +412,7 @@ class BannersModelBanner extends JModelAdmin
 		// If category ID is provided, check if it's valid.
 		if (is_numeric($data['catid']) && $data['catid'])
 		{
-			$createCategory = !CategoriesHelper::validateCategoryId($data['catid'], 'com_content');
+			$createCategory = !CategoriesHelper::validateCategoryId($data['catid'], 'com_banners');
 		}
 
 		// Save New Category
