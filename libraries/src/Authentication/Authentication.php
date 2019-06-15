@@ -149,10 +149,6 @@ class Authentication
 
 		// Create authentication response
 		$response = new AuthenticationResponse;
-
-		// Get the dispatcher
-		$dispatcher = $this->getDispatcher();
-
 		/*
 		 * Loop through the plugins and check if the credentials can be used to authenticate
 		 * the user
@@ -162,16 +158,12 @@ class Authentication
 		 */
 		foreach ($plugins as $plugin)
 		{
-			$className = 'plg' . str_replace('-', '', $plugin->type) . $plugin->name;
+			$plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
 
-			if (class_exists($className))
-			{
-				$plugin = new $className($dispatcher, (array) $plugin);
-			}
-			else
+			if (!method_exists($plugin, 'onUserAuthenticate'))
 			{
 				// Bail here if the plugin can't be created
-				Log::add(Text::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $className), Log::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $plugin->name), Log::WARNING, 'jerror');
 				continue;
 			}
 

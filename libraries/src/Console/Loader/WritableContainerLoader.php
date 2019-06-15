@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PSR-11 compatible writable command loader.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 final class WritableContainerLoader implements WritableLoaderInterface
 {
@@ -25,7 +25,7 @@ final class WritableContainerLoader implements WritableLoaderInterface
 	 * The service container.
 	 *
 	 * @var    ContainerInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $container;
 
@@ -33,7 +33,7 @@ final class WritableContainerLoader implements WritableLoaderInterface
 	 * The command name to service ID map.
 	 *
 	 * @var    string[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $commandMap;
 
@@ -43,7 +43,7 @@ final class WritableContainerLoader implements WritableLoaderInterface
 	 * @param   ContainerInterface  $container   A container from which to load command services.
 	 * @param   array               $commandMap  An array with command names as keys and service IDs as values.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(ContainerInterface $container, array $commandMap)
 	{
@@ -59,7 +59,7 @@ final class WritableContainerLoader implements WritableLoaderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function add(string $commandName, string $className)
 	{
@@ -73,7 +73,7 @@ final class WritableContainerLoader implements WritableLoaderInterface
 	 *
 	 * @return  AbstractCommand
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  CommandNotFoundException
 	 */
 	public function get(string $name): AbstractCommand
@@ -91,7 +91,7 @@ final class WritableContainerLoader implements WritableLoaderInterface
 	 *
 	 * @return  string[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getNames(): array
 	{
@@ -105,7 +105,7 @@ final class WritableContainerLoader implements WritableLoaderInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function has($name): bool
 	{

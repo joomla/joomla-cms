@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Language;
@@ -18,6 +19,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
  * Sampledata - Multilang Plugin
@@ -501,7 +503,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			$db->execute();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -530,7 +532,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			{
 				$db->execute();
 			}
-			catch (\JDatabaseExceptionExecuting $e)
+			catch (ExecutionFailureException $e)
 			{
 				return false;
 			}
@@ -568,7 +570,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -752,7 +754,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'menutype'     => 'mainmenu-' . strtolower($itemLanguage->language),
 			'type'         => 'component',
 			'link'         => 'index.php?option=com_content&view=categories&id=0',
-			'component_id' => 22,
+			'component_id' => ExtensionHelper::getExtensionRecord('com_content')->extension_id,
 			'published'    => 1,
 			'parent_id'    => 1,
 			'level'        => 1,
@@ -769,11 +771,10 @@ class PlgSampledataMultilang extends CMSPlugin
 				. '"show_intro":"","show_category":"","link_category":"","show_parent_category":"",'
 				. '"link_parent_category":"","show_author":"","link_author":"","show_create_date":"",'
 				. '"show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"",'
-				. '"show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"",'
-				. '"show_email_icon":"","show_hits":"","show_noauth":"","show_feed_link":"","feed_summary":"",'
-				. '"menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_image_css":"","menu_text":1,'
-				. '"menu_show":0,"page_title":"","show_page_heading":"","page_heading":"","pageclass_sfx":"",'
-				. '"menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',
+				. '"show_readmore":"","show_readmore_title":"","show_hits":"","show_noauth":"","show_feed_link":"",'
+				. '"feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_image_css":"",'
+				. '"menu_text":1,"menu_show":0,"page_title":"","show_page_heading":"","page_heading":"",'
+				. 'pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',
 			'language'     => $itemLanguage->language,
 		);
 
@@ -834,7 +835,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'menutype'     => 'mainmenu-' . strtolower($itemLanguage->language),
 			'type'         => 'component',
 			'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $categoryId,
-			'component_id' => 22,
+			'component_id' => ExtensionHelper::getExtensionRecord('com_content')->extension_id,
 			'published'    => 1,
 			'parent_id'    => 1,
 			'level'        => 1,
@@ -849,10 +850,9 @@ class PlgSampledataMultilang extends CMSPlugin
 				. '"info_block_show_title":"","show_category":"","link_category":"","show_parent_category":"",'
 				. '"link_parent_category":"","show_associations":"","show_author":"","link_author":"",'
 				. '"show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"",'
-				. '"show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"",'
-				. '"show_email_icon":"","show_hits":"","show_tags":"","show_noauth":"","show_feed_link":"1",'
-				. '"feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"",'
-				. '"menu_image_css":"","menu_text":1,"menu_show":1,"page_title":"","show_page_heading":"1",'
+				. '"show_vote":"","show_readmore":"","show_readmore_title":"","show_hits":"","show_tags":"",'
+				. '"show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"",'
+				. '"menu_image":"","menu_image_css":"","menu_text":1,"menu_show":1,"page_title":"","show_page_heading":"1",'
 				. '"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":""}',
 			'language'     => $itemLanguage->language,
 		);
@@ -1103,7 +1103,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			$db->execute();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -1118,7 +1118,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			$db->insertObject('#__workflow_associations', $assoc);
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -1147,7 +1147,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)) && !$tableLanguage->publish())
 			{
-				$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
+				$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
 
 				continue;
 			}

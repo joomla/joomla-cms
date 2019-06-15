@@ -18,8 +18,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-
-\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
 /**
  * Helper for mod_articles_news
@@ -52,7 +51,7 @@ abstract class ArticlesNewsHelper
 		// Set the filters based on the module params
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', (int) $params->get('count', 5));
-		$model->setState('filter.published', 1);
+		$model->setState('filter.condition', ContentComponent::CONDITION_PUBLISHED);
 
 		// This module does not use tags data
 		$model->setState('load_tags', false);

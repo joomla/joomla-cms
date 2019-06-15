@@ -1,0 +1,37 @@
+/**
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+#joomla-tinymce-builder {
+  margin-left: -220px;
+  .drop-area-highlight {
+    background-color: #d0d0d0;
+  }
+  .tox-editor-container {
+    > .target {
+      min-height: 2.5rem;
+	}
+  }
+}
+
+// Drag & Drop Handler
+.tox-mbtn.gu-mirror {
+  align-items: center;
+  background: #dee0e2;
+  border: 0;
+  border-radius: 3px;
+  box-shadow: none;
+  display: flex;
+  flex: 0 0 auto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  justify-content: center;
+  margin: 2px 0 3px 0;
+  outline: none;
+  overflow: hidden;
+  padding: 0;
+  text-transform: normal;
+
+}

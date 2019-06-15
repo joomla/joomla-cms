@@ -11,6 +11,7 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Installer\Installer;
@@ -131,7 +132,7 @@ class UpdateModel extends ListModel
 		else
 		{
 			$query->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(0))
-				->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(700));
+				->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id));
 		}
 
 		// Process search filter.
@@ -416,7 +417,7 @@ class UpdateModel extends ListModel
 			return false;
 		}
 
-		$url     = $update->downloadurl->_data;
+		$url     = trim($update->downloadurl->_data);
 		$sources = $update->get('downloadSources', array());
 
 		if ($extra_query = $update->get('extra_query'))
@@ -430,7 +431,7 @@ class UpdateModel extends ListModel
 		while (!($p_file = InstallerHelper::downloadPackage($url)) && isset($sources[$mirror]))
 		{
 			$name = $sources[$mirror];
-			$url  = $name->url;
+			$url  = trim($name->url);
 
 			if ($extra_query)
 			{

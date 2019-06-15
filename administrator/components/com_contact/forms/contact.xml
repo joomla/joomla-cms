@@ -32,7 +32,6 @@
 			name="version_note"
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-			labelclass="control-label"
 			size="45"
 			maxlength="255"
 		/>
@@ -405,17 +404,6 @@
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-			</field>
-
-			<field
-				name="presentation_style"
-				type="list"
-				label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
-				useglobal="true"
-				>
-				<option value="sliders">COM_CONTACT_FIELD_VALUE_SLIDERS</option>
-				<option value="tabs">COM_CONTACT_FIELD_VALUE_TABS</option>
-				<option value="plain">COM_CONTACT_FIELD_VALUE_PLAIN</option>
 			</field>
 
 			<field

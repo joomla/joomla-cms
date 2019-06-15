@@ -16,6 +16,7 @@ use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Table\Table;
 use Joomla\Database\UTF8MB4SupportInterface;
 
 /**
@@ -3985,7 +3986,7 @@ class JoomlaInstallerScript
 		foreach ($newComponents as $component)
 		{
 			/** @var JTableAsset $asset */
-			$asset = JTable::getInstance('Asset');
+			$asset = Table::getInstance('Asset');
 
 			if ($asset->loadByName($component))
 			{

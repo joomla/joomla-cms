@@ -14,6 +14,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Search\Administrator\Helper\SearchHelper;
 
 /**
@@ -61,8 +62,6 @@ class PlgSearchContent extends CMSPlugin
 		$user       = Factory::getUser();
 		$groups     = implode(',', $user->getAuthorisedViewLevels());
 		$tag        = Factory::getLanguage()->getTag();
-
-		JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 		$searchText = $text;
 
@@ -289,10 +288,13 @@ class PlgSearchContent extends CMSPlugin
 				->select($db->quote('2') . ' AS browsernav')
 				->from($db->quoteName('#__content', 'a'))
 				->innerJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
-				->join('LEFT', '#__workflow_stages AS ws ON ws.id = state')
+				->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id')
+				->join('INNER', '#__workflow_stages AS ws ON ws.id = wa.stage_id')
+				->where($db->quoteName('wa.extension') . '=' . $db->quote('com_content'))
 				->where(
-					'(' . $where . ') AND ws.condition=1 AND c.published = 1 AND a.access IN (' . $groups . ') '
-						. 'AND c.access IN (' . $groups . ')'
+					'(' . $where . ') AND c.published = 1 AND a.access IN (' . $groups . ') '
+						. 'AND (ws.condition = ' . ContentComponent::CONDITION_PUBLISHED . ') '
+						. 'AND c.access IN (' . $groups . ') '
 						. 'AND (a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ') '
 						. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'
 				)
