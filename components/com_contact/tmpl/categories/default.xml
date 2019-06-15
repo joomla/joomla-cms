@@ -335,20 +335,6 @@
 		</fieldset>
 
 		<fieldset name="contact" label="COM_CONTACT_BASIC_OPTIONS_FIELDSET_LABEL">
-<<<<<<< HEAD:components/com_contact/tmpl/categories/default.xml
-=======
-			<field
-				name="presentation_style"
-				type="list"
-				label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
-				description="COM_CONTACT_FIELD_PRESENTATION_DESC"
-				useglobal="true"
-				>
-				<option value="sliders">COM_CONTACT_FIELD_VALUE_SLIDERS</option>
-				<option value="tabs">COM_CONTACT_FIELD_VALUE_TABS</option>
-				<option value="plain">COM_CONTACT_FIELD_VALUE_PLAIN</option>
-			</field>
->>>>>>> 3.9.3:components/com_contact/views/categories/tmpl/default.xml
 
 			<field
 				name="show_contact_category"
