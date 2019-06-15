@@ -93,7 +93,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 											<td>
 												<?php echo $extension->type_translated; ?>
 											</td>
-											<td class="d-none d-md-table-cell" >
+											<td class="d-none d-md-table-cell">
 												<span class="badge badge-<?php echo count($item['results']['error']) ? 'danger' : ($item['errorsCount'] ? 'warning' : 'success'); ?>" tabindex="0">
 													<?php echo Text::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item['errorsCount']); ?>
 												</span>
