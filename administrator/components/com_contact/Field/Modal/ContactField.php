@@ -17,6 +17,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+use Joomla\Database\ParameterType;
 
 /**
  * Supports a modal contact picker.
@@ -89,7 +90,7 @@ class ContactField extends FormField
 		// Setup variables for display.
 		$linkContacts = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
 		$linkContact  = 'index.php?option=com_contact&amp;view=contact&amp;layout=modal&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
-		$modalTitle   = Text::_('COM_CONTACT_CHANGE_CONTACT');
+		$modalTitle   = Text::_('COM_CONTACT_SELECT_A_CONTACT');
 
 		if (isset($this->element['language']))
 		{
@@ -108,7 +109,8 @@ class ContactField extends FormField
 			$query = $db->getQuery(true)
 				->select($db->quoteName('name'))
 				->from($db->quoteName('#__contact_details'))
-				->where($db->quoteName('id') . ' = ' . (int) $value);
+				->where($db->quoteName('id') . ' = :id')
+				->bind(':id', $value, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			try
@@ -146,7 +148,7 @@ class ContactField extends FormField
 				. ' data-toggle="modal"'
 				. ' type="button"'
 				. ' data-target="#ModalSelect' . $modalId . '"'
-				. ' title="' . HTMLHelper::tooltipText('COM_CONTACT_CHANGE_CONTACT') . '">'
+				. ' title="' . HTMLHelper::tooltipText('COM_CONTACT_SELECT_A_CONTACT') . '">'
 				. '<span class="icon-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
 				. '</button>';
 		}

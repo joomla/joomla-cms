@@ -113,7 +113,7 @@
 			name="block"
 			type="radio"
 			label="COM_USERS_USER_FIELD_BLOCK_LABEL"
-			class="switcher switcher-danger"
+			class="switcher"
 			default="0"
 			>
 			<option value="0">COM_USERS_USER_FIELD_ENABLE</option>
