@@ -10,6 +10,7 @@ namespace Joomla\CMS\Router;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
@@ -72,6 +73,25 @@ class Route
 			if ($tls == -1)
 			{
 				$tls = self::TLS_DISABLE;
+			}
+
+			// @deprecated  4.0 Before 3.9.7 this method silently converted boolean to integer
+			if (is_bool($tls))
+			{
+				Log::add(
+					__METHOD__ . '() called with incompatible variable type boolean on parameter $tls.',
+					Log::WARNING,
+					'deprecated'
+				);
+
+				if ($tls === true)
+				{
+					$tls = self::TLS_FORCE;
+				}
+				else
+				{
+					$tls = self::TLS_IGNORE;
+				}
 			}
 
 			$app    = Factory::getApplication();
