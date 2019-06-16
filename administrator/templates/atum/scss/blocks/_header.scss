@@ -103,6 +103,14 @@
           text-decoration: none;
           box-shadow: $atum-box-shadow;
         }
+        &.disabled,
+        &.disabled:hover,
+        &.disabled[aria-expanded="true"] {
+          background-color: transparent;
+          color: var(--atum-special-color);
+          box-shadow: none;
+          opacity: $btn-disabled-opacity;
+        }
       }
       .dropdown-toggle {
         // Overwrite default button styling
@@ -132,7 +140,6 @@
   }
 
   .fa, .fab {
-    width: 1.5rem;
     font-size: 1.2rem;
     vertical-align: middle;
     transition: all .2s ease-in-out;
@@ -155,7 +162,7 @@
     position: absolute;
     left: 50%;
     top: 0.9rem;
-    margin-left: -2rem;
+    margin-left: -1.6rem;
   }
 
   .align-items-end {

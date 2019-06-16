@@ -109,6 +109,7 @@ $border-radius-s:                  .2rem;
 $input-btn-padding-y:              .6rem;
 $input-btn-padding-x:              1rem;
 $input-max-width:                  15rem;
+$btn-disabled-opacity:             0.4;
 
 // Header
 $header-height:                    3.5rem;
@@ -153,7 +154,6 @@ $black-weight:                     900;
 
 // Text
 $body-color:                       var(--atum-text-dark); //only used in bootstrap, please use --atum-color-dark
-
 
 // Tables
 $table-bg:                         transparent;
@@ -204,8 +204,6 @@ $state-danger-border:              var(--danger-border);
 $state-error-text:                 var(--error);
 $state-error-bg:                   lighten($red-dark, 70%);
 $state-error-border:               lighten($red-dark, 30%);
-
-
 
 // Badges
 $success-bg:                       #BAE0B7;

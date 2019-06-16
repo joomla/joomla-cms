@@ -9,6 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Module\Multilangstatus\Administrator\Helper\MultilangstatusAdminHelper;
 
 ?>
 <?php if (!empty($version)) :
@@ -22,7 +30,7 @@ defined('_JEXEC') or die;
             <span class="fab fa-joomla" aria-hidden="true"></span>
         </div>
         <div class="d-flex align-items-center tiny mx-auto">
-            <?php echo $versionName; ?>
+	        <?php echo Text::_('MOD_VERSION_JOOMLA'); ?>
         </div>
         <span class="badge badge-pill badge-success"><?php echo $versionNumber; ?></span>
     </div>

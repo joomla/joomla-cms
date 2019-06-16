@@ -25,7 +25,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 
 <div class="header-item-content">
     <a class="footer-mobil-icon d-flex" href="<?php echo Uri::root(); ?>"
-        title="<?php echo Text::sprintf('MOD_STATUS_PREVIEW', $sitename); ?>"
+        title="<?php echo Text::sprintf('MOD_STATUS_FRONTEND_PREVIEW', $sitename); ?>"
         target="_blank">
         <div class="d-flex align-items-end mx-auto">
             <span class="fa fa-external-link-alt" aria-hidden="true"></span>
