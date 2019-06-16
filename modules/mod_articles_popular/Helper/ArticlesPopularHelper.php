@@ -17,8 +17,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
-\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-
 /**
  * Helper for mod_articles_popular
  *
@@ -45,10 +43,11 @@ abstract class ArticlesPopularHelper
 		$appParams = $app->getParams();
 		$model->setState('params', $appParams);
 
-		// Set the filters based on the module params
 		$model->setState('list.start', 0);
-		$model->setState('list.limit', (int) $params->get('count', 5));
 		$model->setState('filter.condition', ContentComponent::CONDITION_PUBLISHED);
+
+		// Set the filters based on the module params
+		$model->setState('list.limit', (int) $params->get('count', 5));
 		$model->setState('filter.featured', $params->get('show_front', 1) == 1 ? 'show' : 'hide');
 
 		// This module does not use tags data

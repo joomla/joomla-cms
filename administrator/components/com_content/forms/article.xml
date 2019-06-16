@@ -430,39 +430,6 @@
 			</field>
 
 			<field
-				name="show_icons"
-				type="list"
-				label="JGLOBAL_SHOW_ICONS_LABEL"
-				description="JGLOBAL_SHOW_ICONS_DESC"
-				useglobal="true"
-				>
-				<option	value="0">JHIDE</option>
-				<option	value="1">JSHOW</option>
-			</field>
-
-			<field
-				name="show_print_icon"
-				type="list"
-				label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
-				description="JGLOBAL_SHOW_PRINT_ICON_DESC"
-				useglobal="true"
-				>
-				<option	value="0">JHIDE</option>
-				<option	value="1">JSHOW</option>
-			</field>
-
-			<field
-				name="show_email_icon"
-				type="list"
-				label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
-				description="JGLOBAL_SHOW_EMAIL_ICON_DESC"
-				useglobal="true"
-				>
-				<option	value="0">JHIDE</option>
-				<option	value="1">JSHOW</option>
-			</field>
-
-			<field
 				name="show_vote"
 				type="list"
 				label="JGLOBAL_SHOW_VOTE_LABEL"
@@ -648,27 +615,6 @@
 				name="show_item_navigation"
 				type="hidden"
 				label="JGLOBAL_SHOW_NAVIGATION_LABEL"
-			/>
-
-			<field
-				name="show_icons"
-				type="hidden"
-				label="JGLOBAL_SHOW_ICONS_LABEL"
-				description="JGLOBAL_SHOW_ICONS_DESC"
-			/>
-
-			<field
-				name="show_print_icon"
-				type="hidden"
-				label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
-				description="JGLOBAL_SHOW_PRINT_ICON_DESC"
-			/>
-
-			<field
-				name="show_email_icon"
-				type="hidden"
-				label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
-				description="JGLOBAL_SHOW_EMAIL_ICON_DESC"
 			/>
 
 			<field

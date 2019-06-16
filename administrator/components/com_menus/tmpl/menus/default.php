@@ -50,6 +50,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
+						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -155,12 +156,10 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 												<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
 													<?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
 														<?php $link = Route::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
-														<a class="dropdown-item" href="#moduleEdit<?php echo $module->id; ?>Modal" class="button" data-toggle="modal" title="<?php echo Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>">
-															<?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></a>
+														<button type="button" class="dropdown-item" data-target="#moduleEdit<?php echo $module->id; ?>Modal" data-toggle="modal" title="<?php echo Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>">
+															<?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></button>
 													<?php else : ?>
-														<a role="button" href="#" class="disabled" disabled="disabled">
-															<span class="dropdown-item"><?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></span>
-														</a>
+														<span class="dropdown-item"><?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></span>
 													<?php endif; ?>
 												<?php endforeach; ?>
 											</div>
