@@ -128,8 +128,6 @@ class HtmlView extends BaseHtmlView
 
 		WorkflowHelper::addSubmenu('transitions');
 
-		$this->sidebar       = \JHtmlSidebar::render();
-
 		$this->addToolbar();
 
 		return parent::display($tpl);

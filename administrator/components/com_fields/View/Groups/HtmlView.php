@@ -115,7 +115,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		FieldsHelper::addSubmenu($this->state->get('filter.context'), 'groups');
-		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}

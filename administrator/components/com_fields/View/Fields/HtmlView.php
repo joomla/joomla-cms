@@ -119,7 +119,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		FieldsHelper::addSubmenu($this->state->get('filter.context'), 'fields');
-		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}

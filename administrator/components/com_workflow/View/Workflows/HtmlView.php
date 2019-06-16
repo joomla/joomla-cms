@@ -107,7 +107,6 @@ class HtmlView extends BaseHtmlView
 		$this->extension = $this->state->get('filter.extension');
 
 		WorkflowHelper::addSubmenu($this->state->get('filter.extension'));
-		$this->sidebar       = \JHtmlSidebar::render();
 
 		$this->addToolbar();
 
