@@ -74,7 +74,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
 											</a>
 										<?php else : ?>
-											<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
+											<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>
 										<?php endif; ?>
 									<?php endif; ?>
 									</div>
