@@ -79,10 +79,10 @@ class PrefixField extends FormField
 		else
 		{
 			$prefix = $session['db_prefix'];
-			
+
 			// Ensure user-provided prefix is lowercase
 			$prefix = strtolower($prefix);
-			
+
 			// If last character from user is not an underscore then append the underscore.
 			if (strpos($prefix, '_') === false)
 			{
