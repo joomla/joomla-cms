@@ -84,7 +84,8 @@ class PrefixField extends FormField
 			$prefix = strtolower($prefix);
 			
 			// If last character from user is not an underscore then append the underscore.
-			if (strpos($prefix, '_') === false) {
+			if (strpos($prefix, '_') === false)
+			{
 				$prefix .= '_';
 			}
 		}
