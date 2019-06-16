@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 		<div class="col-md-12">
 			<div class="control-group">
 				<div class="control-label">
-					<label for="height" class="modalTooltip">
+					<label for="height">
 						<?php echo Text::_('COM_TEMPLATES_IMAGE_HEIGHT')?>
 					</label>
 				</div>
@@ -27,7 +27,7 @@ use Joomla\CMS\Language\Text;
 			</div>
 			<div class="control-group">
 				<div class="control-label">
-					<label for="width" class="modalTooltip">
+					<label for="width">
 						<?php echo Text::_('COM_TEMPLATES_IMAGE_WIDTH')?>
 					</label>
 				</div>

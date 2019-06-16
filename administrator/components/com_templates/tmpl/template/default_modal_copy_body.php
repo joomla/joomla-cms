@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 		<div class="col-md-12">
 			<div class="control-group">
 				<div class="control-label">
-					<label for="new_name" class="modalTooltip">
+					<label for="new_name">
 						<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL'); ?>
 					</label>
 					<small class="text-muted">
