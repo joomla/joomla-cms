@@ -98,7 +98,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo @$item->version != '' ? $item->version : '&#160;'; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
-									<?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?>
+									<?php echo !empty($item->creationDate) ? $item->creationDate : '&#160;'; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
 									<?php echo !empty($item->author) ? $item->author : '&#160;'; ?>
