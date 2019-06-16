@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3a5ac2c8e1edfb8df810accdcc6db773",
+    "content-hash": "a3c1d9222769118e4ce0b1b925594e79",
     "packages": [
         {
             "name": "brumann/polyfill-unserialize",
@@ -1484,12 +1484,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/string.git",
-                "reference": "964e0d4f9b4253b56f21d23a5f4787a6be37c71d"
+                "reference": "0402d4a4a7acc7a34ed39e5c490ad490b5fa8b79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/string/zipball/964e0d4f9b4253b56f21d23a5f4787a6be37c71d",
-                "reference": "964e0d4f9b4253b56f21d23a5f4787a6be37c71d",
+                "url": "https://api.github.com/repos/joomla-framework/string/zipball/0402d4a4a7acc7a34ed39e5c490ad490b5fa8b79",
+                "reference": "0402d4a4a7acc7a34ed39e5c490ad490b5fa8b79",
                 "shasum": ""
             },
             "require": {
@@ -1544,7 +1544,7 @@
                 "joomla",
                 "string"
             ],
-            "time": "2019-03-18T01:24:51+00:00"
+            "time": "2019-06-16T18:22:40+00:00"
         },
         {
             "name": "joomla/uri",
