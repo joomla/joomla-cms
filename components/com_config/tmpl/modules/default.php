@@ -35,8 +35,6 @@ if (File::exists($moduleXml))
 	}
 }
 
-$hasContent = empty($this->item['module']) || $this->item['module'] === 'custom' || $this->item['module'] === 'mod_custom' || $editorText === true;
-
 // If multi-language site, make language read-only
 if (Multilanguage::isEnabled())
 {
@@ -183,7 +181,7 @@ if (Multilanguage::isEnabled())
 						<?php echo $this->loadTemplate('options'); ?>
 					</div>
 
-					<?php if ($hasContent) : ?>
+					<?php if ($editorText) : ?>
 						<div class="tab-pane" id="custom">
 							<?php echo $this->form->getInput('content'); ?>
 						</div>

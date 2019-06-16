@@ -1614,7 +1614,7 @@ CREATE TABLE IF NOT EXISTS `#__privacy_requests` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `email` varchar(100) NOT NULL DEFAULT '',
   `requested_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `status` tinyint(4) NOT NULL DEFAULT '0',
+  `status` tinyint(4) NOT NULL DEFAULT 0,
   `request_type` varchar(25) NOT NULL DEFAULT '',
   `confirm_token` varchar(100) NOT NULL DEFAULT '',
   `confirm_token_created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -1629,12 +1629,12 @@ CREATE TABLE IF NOT EXISTS `#__privacy_requests` (
 
 CREATE TABLE IF NOT EXISTS `#__privacy_consents` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `state` INT(10) NOT NULL DEFAULT '1',
+  `user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `state` INT(10) NOT NULL DEFAULT 1,
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `subject` varchar(255) NOT NULL DEFAULT '',
   `body` text NOT NULL,
-  `remind` tinyint(4) NOT NULL DEFAULT '0',
+  `remind` tinyint(4) NOT NULL DEFAULT 0,
   `token` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`user_id`)
