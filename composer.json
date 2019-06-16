@@ -91,6 +91,7 @@
         "symfony/polyfill-php73": "^1.10",
         "symfony/web-link": "3.4.*",
         "symfony/yaml": "3.4.*",
+        "typo3/phar-stream-wrapper": "^2.1",
         "wamania/php-stemmer": "^1.2",
         "maximebf/debugbar": "^1.15",
         "tobscure/json-api": "^0.4.1",
@@ -106,7 +107,7 @@
         "joomla-projects/joomla-browser": "~4.0@dev",
         "joomla-projects/robo-joomla": "dev-develop",
         "joomla-projects/selenium-server-standalone": "~v3",
-        "codeception/codeception": "~2.3",
+        "codeception/codeception": "~3.0",
         "consolidation/robo": "^1.0.0"
 
     }

@@ -26,6 +26,11 @@
                </rule>
            </rules>
        </rewrite>
+       <httpProtocol>
+           <customHeaders>
+               <add name="X-Content-Type-Options" value="nosniff" />
+           </customHeaders>
+       </httpProtocol>
    </system.webServer>
    </location>
 </configuration>

@@ -39,13 +39,10 @@ class FilterController extends FormController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$app = Factory::getApplication();
-		$input = $app->input;
-
 		/* @var \Joomla\Component\Finder\Administrator\Model\FilterModel $model */
 		$model = $this->getModel();
 		$table = $model->getTable();
-		$data = $input->post->get('jform', array(), 'array');
+		$data = $this->input->post->get('jform', array(), 'array');
 		$checkin = $table->hasField('checked_out');
 		$context = "$this->option.edit.$this->context";
 		$task = $this->getTask();
@@ -62,7 +59,7 @@ class FilterController extends FormController
 			$urlVar = $key;
 		}
 
-		$recordId = $input->get($urlVar, '', 'int');
+		$recordId = $this->input->get($urlVar, '', 'int');
 
 		if (!$this->checkEditId($context, $recordId))
 		{
@@ -109,7 +106,7 @@ class FilterController extends FormController
 
 		if (!$form)
 		{
-			$app->enqueueMessage($model->getError(), 'error');
+			$this->app->enqueueMessage($model->getError(), 'error');
 
 			return false;
 		}
@@ -128,16 +125,16 @@ class FilterController extends FormController
 			{
 				if ($errors[$i] instanceof \Exception)
 				{
-					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+					$this->app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
 				else
 				{
-					$app->enqueueMessage($errors[$i], 'warning');
+					$this->app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
 
 			// Save the data in the session.
-			$app->setUserState($context . '.data', $data);
+			$this->app->setUserState($context . '.data', $data);
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(
@@ -148,7 +145,7 @@ class FilterController extends FormController
 		}
 
 		// Get and sanitize the filter data.
-		$validData['data'] = $input->post->get('t', array(), 'array');
+		$validData['data'] = $this->input->post->get('t', array(), 'array');
 		$validData['data'] = array_unique($validData['data']);
 		$validData['data'] = ArrayHelper::toInteger($validData['data']);
 
@@ -162,7 +159,7 @@ class FilterController extends FormController
 		if (!$model->save($validData))
 		{
 			// Save the data in the session.
-			$app->setUserState($context . '.data', $validData);
+			$this->app->setUserState($context . '.data', $validData);
 
 			// Redirect back to the edit screen.
 			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
@@ -177,7 +174,7 @@ class FilterController extends FormController
 		if ($checkin && $model->checkin($validData[$key]) === false)
 		{
 			// Save the data in the session.
-			$app->setUserState($context . '.data', $validData);
+			$this->app->setUserState($context . '.data', $validData);
 
 			// Check-in failed, so go back to the record and display a notice.
 			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
@@ -188,8 +185,8 @@ class FilterController extends FormController
 
 		$this->setMessage(
 			Text::_(
-				(Factory::getLanguage()->hasKey($this->text_prefix . ($recordId === 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS')
-				? $this->text_prefix : 'JLIB_APPLICATION') . ($recordId === 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'
+				($this->app->getLanguage()->hasKey($this->text_prefix . ($recordId === 0 && $this->app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS')
+				? $this->text_prefix : 'JLIB_APPLICATION') . ($recordId === 0 && $this->app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'
 			)
 		);
 
@@ -200,7 +197,7 @@ class FilterController extends FormController
 				// Set the record data in the session.
 				$recordId = $model->getState($this->context . '.id');
 				$this->holdEditId($context, $recordId);
-				$app->setUserState($context . '.data', null);
+				$this->app->setUserState($context . '.data', null);
 				$model->checkout($recordId);
 
 				// Redirect back to the edit screen.
@@ -213,7 +210,7 @@ class FilterController extends FormController
 			case 'save2new':
 				// Clear the record id and data from the session.
 				$this->releaseEditId($context, $recordId);
-				$app->setUserState($context . '.data', null);
+				$this->app->setUserState($context . '.data', null);
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(
@@ -225,7 +222,7 @@ class FilterController extends FormController
 			default:
 				// Clear the record id and data from the session.
 				$this->releaseEditId($context, $recordId);
-				$app->setUserState($context . '.data', null);
+				$this->app->setUserState($context . '.data', null);
 
 				// Redirect to the list screen.
 				$this->setRedirect(

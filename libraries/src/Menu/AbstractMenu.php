@@ -319,7 +319,15 @@ abstract class AbstractMenu
 
 		if ($menu)
 		{
-			return in_array((int) $menu->access, $this->user->getAuthorisedViewLevels());
+			$access = (int) $menu->access;
+
+			// If the accesss level is public we don't need to load the user session
+			if ($access === 1)
+			{
+				return true;
+			}
+
+			return in_array($access, $this->user->getAuthorisedViewLevels(), true);
 		}
 
 		return true;

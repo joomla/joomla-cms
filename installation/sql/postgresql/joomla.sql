@@ -35,7 +35,7 @@ COMMENT ON COLUMN "#__assets"."rules" IS 'JSON encoded access control.';
 --
 
 INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "title", "rules") VALUES
-(1, 0, 0, 125, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.api":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(1, 0, 0, 131, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.api":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'),
 (3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (4, 1, 7, 8, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
@@ -52,25 +52,25 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (15, 1, 51, 52, 1, 'com_media', 'com_media', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'),
 (16, 1, 53, 56, 1, 'com_menus', 'com_menus', '{"core.admin":{"7":1}}'),
 (17, 1, 57, 58, 1, 'com_messages', 'com_messages', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
-(18, 1, 59, 90, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1}}'),
-(19, 1, 91, 94, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-(20, 1, 95, 96, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1}}'),
-(21, 1, 97, 98, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1}}'),
-(22, 1, 99, 100, 1, 'com_search', 'com_search', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-(23, 1, 101, 102, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'),
-(24, 1, 103, 106, 1, 'com_users', 'com_users', '{"core.admin":{"7":1}}'),
-(26, 1, 107, 108, 1, 'com_wrapper', 'com_wrapper', '{}'),
+(18, 1, 59, 94, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1}}'),
+(19, 1, 95, 98, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(20, 1, 99, 100, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1}}'),
+(21, 1, 101, 102, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1}}'),
+(22, 1, 103, 104, 1, 'com_search', 'com_search', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(23, 1, 105, 106, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'),
+(24, 1, 107, 110, 1, 'com_users', 'com_users', '{"core.admin":{"7":1}}'),
+(26, 1, 113, 114, 1, 'com_wrapper', 'com_wrapper', '{}'),
 (27, 8, 18, 19, 2, 'com_content.category.2', 'Uncategorised', '{}'),
 (28, 3, 4, 5, 2, 'com_banners.category.3', 'Uncategorised', '{}'),
 (29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{}'),
-(30, 19, 92, 93, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{}'),
-(32, 24, 104, 105, 2, 'com_users.category.7', 'Uncategorised', '{}'),
-(33, 1, 109, 110, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-(34, 1, 111, 112, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{}'),
-(35, 1, 113, 114, 1, 'com_tags', 'com_tags', '{}'),
-(36, 1, 115, 116, 1, 'com_contenthistory', 'com_contenthistory', '{}'),
-(37, 1, 117, 118, 1, 'com_ajax', 'com_ajax', '{}'),
-(38, 1, 119, 120, 1, 'com_postinstall', 'com_postinstall', '{}'),
+(30, 19, 96, 97, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{}'),
+(32, 24, 108, 109, 2, 'com_users.category.7', 'Uncategorised', '{}'),
+(33, 1, 117, 118, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(34, 1, 119, 120, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{}'),
+(35, 1, 121, 122, 1, 'com_tags', 'com_tags', '{}'),
+(36, 1, 123, 124, 1, 'com_contenthistory', 'com_contenthistory', '{}'),
+(37, 1, 125, 126, 1, 'com_ajax', 'com_ajax', '{}'),
+(38, 1, 127, 128, 1, 'com_postinstall', 'com_postinstall', '{}'),
 (39, 18, 60, 61, 2, 'com_modules.module.1', 'Main Menu', '{}'),
 (40, 18, 62, 63, 2, 'com_modules.module.2', 'Login', '{}'),
 (41, 18, 64, 65, 2, 'com_modules.module.3', 'Popular Articles', '{}'),
@@ -79,14 +79,14 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (44, 18, 70, 71, 2, 'com_modules.module.9', 'Quick Icons', '{}'),
 (45, 18, 72, 73, 2, 'com_modules.module.10', 'Logged-in Users', '{}'),
 (46, 18, 74, 75, 2, 'com_modules.module.12', 'Admin Menu', '{}'),
-(48, 18, 76, 77, 2, 'com_modules.module.14', 'User Status', '{}'),
-(49, 18, 78, 79, 2, 'com_modules.module.15', 'Title', '{}'),
-(50, 18, 80, 81, 2, 'com_modules.module.16', 'Login Form', '{}'),
-(51, 18, 82, 83, 2, 'com_modules.module.17', 'Breadcrumbs', '{}'),
-(52, 18, 84, 85, 2, 'com_modules.module.79', 'Multilanguage status', '{}'),
-(53, 18, 86, 87, 2, 'com_modules.module.86', 'Joomla Version', '{}'),
+(48, 18, 78, 79, 2, 'com_modules.module.14', 'User Status', '{}'),
+(49, 18, 82, 83, 2, 'com_modules.module.15', 'Title', '{}'),
+(50, 18, 84, 85, 2, 'com_modules.module.16', 'Login Form', '{}'),
+(51, 18, 86, 87, 2, 'com_modules.module.17', 'Breadcrumbs', '{}'),
+(52, 18, 88, 89, 2, 'com_modules.module.79', 'Multilanguage status', '{}'),
+(53, 18, 90, 91, 2, 'com_modules.module.86', 'Joomla Version', '{}'),
 (54, 16, 54, 55, 2, 'com_menus.menu.1', 'Main Menu', '{}'),
-(55, 18, 88, 89, 2, 'com_modules.module.87', 'Sample Data', '{}'),
+(55, 18, 92, 93, 2, 'com_modules.module.87', 'Sample Data', '{}'),
 (56, 8, 20, 37, 2, 'com_content.workflow.1', 'COM_WORKFLOW_DEFAULT_WORKFLOW', '{}'),
 (57, 56, 21, 22, 3, 'com_content.state.1', 'Unpublished', '{}'),
 (58, 56, 23, 24, 3, 'com_content.state.2', 'Published', '{}'),
@@ -96,12 +96,13 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (62, 56, 31, 32, 3, 'com_content.transition.2', 'Unpublish', '{}'),
 (63, 56, 33, 34, 3, 'com_content.transition.3', 'Archive', '{}'),
 (64, 56, 35, 36, 3, 'com_content.transition.4', 'Trash', '{}'),
-(65, 1, 105, 106, 1, 'com_privacy', 'com_privacy', '{}'),
-(66, 1, 107, 108, 1, 'com_actionlogs', 'com_actionlogs', '{}'),
-(67, 18, 74, 75, 2, 'com_modules.module.88', 'Latest Actions', '{}'),
-(68, 18, 76, 77, 2, 'com_modules.module.89', 'Privacy Dashboard', '{}');
+(65, 1, 111, 112, 1, 'com_privacy', 'com_privacy', '{}'),
+(66, 1, 115, 116, 1, 'com_actionlogs', 'com_actionlogs', '{}'),
+(67, 18, 76, 77, 2, 'com_modules.module.88', 'Latest Actions', '{}'),
+(68, 18, 80, 81, 2, 'com_modules.module.89', 'Privacy Dashboard', '{}'),
+(69, 1, 129, 130, 1, 'com_csp', 'com_csp', '{}');
 
-SELECT setval('#__assets_id_seq', 69, false);
+SELECT setval('#__assets_id_seq', 70, false);
 
 --
 -- Table structure for table `#__associations`
@@ -519,6 +520,7 @@ CREATE TABLE IF NOT EXISTS "#__extensions" (
   "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "ordering" bigint DEFAULT 0,
   "state" bigint DEFAULT 0,
+  "note" varchar(255),
   PRIMARY KEY ("extension_id")
 );
 CREATE INDEX "#__extensions_element_clientid" ON "#__extensions" ("element", "client_id");
@@ -548,13 +550,13 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'com_plugins', 'component', 'com_plugins', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'com_search', 'component', 'com_search', '', 1, 1, 1, 0, '', '{"enabled":"0","search_phrases":"1","search_areas":"1","show_date":"1","opensearch_name":"","opensearch_description":""}', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'com_templates', 'component', 'com_templates', '', 1, 1, 1, 1, '', '{"template_positions_display":"0","upload_limit":"10","image_formats":"gif,bmp,jpg,jpeg,png","source_formats":"txt,less,ini,xml,js,php,css,scss,sass,json","font_formats":"woff,ttf,otf","compressed_formats":"zip"}', 0, '1970-01-01 00:00:00', 0, 0),
-(0, 'com_content', 'component', 'com_content', '', 1, 1, 0, 1, '', '{"article_layout":"_:default","show_title":"1","link_titles":"1","show_intro":"1","show_category":"1","link_category":"1","show_parent_category":"0","link_parent_category":"0","show_author":"1","link_author":"0","show_create_date":"0","show_modify_date":"0","show_publish_date":"1","show_item_navigation":"1","show_vote":"0","show_tags":"1","show_readmore":"1","show_readmore_title":"1","readmore_limit":"100","show_icons":"1","show_print_icon":"1","show_email_icon":"0","show_hits":"1","show_noauth":"0","show_publishing_options":"1","show_article_options":"1","save_history":"1","history_limit":10,"show_urls_images_frontend":"0","show_urls_images_backend":"1","targeta":0,"targetb":0,"targetc":0,"float_intro":"left","float_fulltext":"left","category_layout":"_:blog","show_category_title":"0","show_description":"0","show_description_image":"0","maxLevel":"1","show_empty_categories":"0","show_no_articles":"1","show_subcat_desc":"1","show_cat_num_articles":"0","show_base_description":"1","maxLevelcat":"-1","show_empty_categories_cat":"0","show_subcat_desc_cat":"1","show_cat_num_articles_cat":"1","num_leading_articles":"1","num_intro_articles":"4","num_links":"4","show_subcategory_content":"0","show_pagination_limit":"1","filter_field":"hide","show_headings":"1","list_show_date":"0","date_format":"","list_show_hits":"1","list_show_author":"1","orderby_pri":"order","orderby_sec":"rdate","order_date":"published","show_pagination":"2","show_pagination_results":"1","show_feed_link":"1","feed_summary":"0"}', 0, '1970-01-01 00:00:00', 0, 0),
+(0, 'com_content', 'component', 'com_content', '', 1, 1, 0, 1, '', '{"article_layout":"_:default","show_title":"1","link_titles":"1","show_intro":"1","show_category":"1","link_category":"1","show_parent_category":"0","link_parent_category":"0","show_author":"1","link_author":"0","show_create_date":"0","show_modify_date":"0","show_publish_date":"1","show_item_navigation":"1","show_vote":"0","show_tags":"1","show_readmore":"1","show_readmore_title":"1","readmore_limit":"100","show_hits":"1","show_noauth":"0","show_publishing_options":"1","show_article_options":"1","save_history":"1","history_limit":10,"show_urls_images_frontend":"0","show_urls_images_backend":"1","targeta":0,"targetb":0,"targetc":0,"float_intro":"left","float_fulltext":"left","category_layout":"_:blog","show_category_title":"0","show_description":"0","show_description_image":"0","maxLevel":"1","show_empty_categories":"0","show_no_articles":"1","show_subcat_desc":"1","show_cat_num_articles":"0","show_base_description":"1","maxLevelcat":"-1","show_empty_categories_cat":"0","show_subcat_desc_cat":"1","show_cat_num_articles_cat":"1","num_leading_articles":"1","num_intro_articles":"4","num_links":"4","show_subcategory_content":"0","show_pagination_limit":"1","filter_field":"hide","show_headings":"1","list_show_date":"0","date_format":"","list_show_hits":"1","list_show_author":"1","orderby_pri":"order","orderby_sec":"rdate","order_date":"published","show_pagination":"2","show_pagination_results":"1","show_feed_link":"1","feed_summary":"0"}', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'com_config', 'component', 'com_config', '', 1, 1, 0, 1, '', '{"filters":{"1":{"filter_type":"NH","filter_tags":"","filter_attributes":""},"6":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"7":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"2":{"filter_type":"NH","filter_tags":"","filter_attributes":""},"3":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"4":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"5":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"10":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"12":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"8":{"filter_type":"NONE","filter_tags":"","filter_attributes":""}}}', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'com_redirect', 'component', 'com_redirect', '', 1, 1, 0, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'com_users', 'component', 'com_users', '', 1, 1, 0, 1, '', '{"allowUserRegistration":"0","new_usertype":"2","guest_usergroup":"9","sendpassword":"0","useractivation":"2","mail_to_admin":"1","captcha":"","frontend_userparams":"1","site_language":"0","change_login_name":"0","reset_count":"10","reset_time":"1","minimum_length":"4","minimum_integers":"0","minimum_symbols":"0","minimum_uppercase":"0","save_history":"1","history_limit":5,"mailSubjectPrefix":"","mailBodySuffix":""}', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'com_finder', 'component', 'com_finder', '', 1, 1, 0, 0, '', '{"enabled":"0","show_description":"1","description_length":255,"allow_empty_query":"0","show_url":"1","show_autosuggest":"1","show_suggested_query":"1","show_explained_query":"1","show_advanced":"1","show_advanced_tips":"1","expand_advanced":"0","show_date_filters":"0","sort_order":"relevance","sort_direction":"desc","highlight_terms":"1","opensearch_name":"","opensearch_description":"","batch_size":"50","memory_table_limit":30000,"title_multiplier":"1.7","text_multiplier":"0.7","meta_multiplier":"1.2","path_multiplier":"2.0","misc_multiplier":"0.3","stem":"1","stemmer":"snowball","enable_logging":"0"}', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'com_joomlaupdate', 'component', 'com_joomlaupdate', '', 1, 1, 0, 1, '', '{"updatesource":"default","customurl":""}', 0, '1970-01-01 00:00:00', 0, 0),
-(0, 'com_tags', 'component', 'com_tags', '', 1, 1, 1, 1, '', '{"tag_layout":"_:default","save_history":"1","history_limit":5,"show_tag_title":"0","tag_list_show_tag_image":"0","tag_list_show_tag_description":"0","tag_list_image":"","tag_list_orderby":"title","tag_list_orderby_direction":"ASC","show_headings":"0","tag_list_show_date":"0","tag_list_show_item_image":"0","tag_list_show_item_description":"0","tag_list_item_maximum_characters":0,"return_any_or_all":"1","include_children":"0","maximum":200,"tag_list_language_filter":"all","tags_layout":"_:default","all_tags_orderby":"title","all_tags_orderby_direction":"ASC","all_tags_show_tag_image":"0","all_tags_show_tag_descripion":"0","all_tags_tag_maximum_characters":20,"all_tags_show_tag_hits":"0","filter_field":"1","show_pagination_limit":"1","show_pagination":"2","show_pagination_results":"1","tag_field_ajax_mode":"1","show_feed_link":"1"}', 0, '1970-01-01 00:00:00', 0, 0),
+(0, 'com_tags', 'component', 'com_tags', '', 1, 1, 1, 1, '', '{"tag_layout":"_:default","save_history":"1","history_limit":5,"show_tag_title":"0","tag_list_show_tag_image":"0","tag_list_show_tag_description":"0","tag_list_image":"","tag_list_orderby":"title","tag_list_orderby_direction":"ASC","show_headings":"0","tag_list_show_date":"0","tag_list_show_item_image":"0","tag_list_show_item_description":"0","tag_list_item_maximum_characters":0,"return_any_or_all":"1","include_children":"0","maximum":200,"tag_list_language_filter":"all","tags_layout":"_:default","all_tags_orderby":"title","all_tags_orderby_direction":"ASC","all_tags_show_tag_image":"0","all_tags_show_tag_description":"0","all_tags_tag_maximum_characters":20,"all_tags_show_tag_hits":"0","filter_field":"1","show_pagination_limit":"1","show_pagination":"2","show_pagination_results":"1","tag_field_ajax_mode":"1","show_feed_link":"1"}', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'com_contenthistory', 'component', 'com_contenthistory', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'com_ajax', 'component', 'com_ajax', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'com_postinstall', 'component', 'com_postinstall', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
@@ -1356,7 +1358,7 @@ SELECT 22, 'main', 'com_associations', 'Multilingual Associations', '', 'Multili
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id")
 SELECT 23, 'main', 'com_csp', 'Content-Security-Policy', '', 'Content-Security-Policy', 'index.php?option=com_csp', 'component', 1, 1, 1, "extension_id", 0, '1970-01-01 00:00:00', 0, 0, 'class:associations', 0, '', 41, 42, 0, '*', 1 FROM "#__extensions" WHERE "name" = 'com_csp';
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id")
-SELECT 101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, "extension_id", 0, '1970-01-01 00:00:00', 0, 1, '', 0, '{"featured_categories":[""],"layout_type":"blog","num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","multi_column_order":"1","orderby_pri":"","orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1","show_title":"","link_titles":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":1,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 41, 42, 1, '*', 0 FROM "#__extensions" WHERE "name" = 'com_content';
+SELECT 101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, "extension_id", 0, '1970-01-01 00:00:00', 0, 1, '', 0, '{"featured_categories":[""],"layout_type":"blog","num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","multi_column_order":"1","orderby_pri":"","orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1","show_title":"","link_titles":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":","show_hits":"","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":1,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 41, 42, 1, '*', 0 FROM "#__extensions" WHERE "name" = 'com_content';
 
 SELECT setval('#__menu_id_seq', 102, false);
 
