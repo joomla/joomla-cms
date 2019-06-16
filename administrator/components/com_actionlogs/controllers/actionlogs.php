@@ -119,7 +119,7 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 			}
 
 			fclose($output);
-
+			$app->triggerEvent('onAfterLogExport', array());
 			$app->close();
 		}
 		else
