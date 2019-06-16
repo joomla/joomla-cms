@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // The container where the draggable will be enabled
   let url;
-  let formSelector;
   let direction;
   let isNested;
   let container = document.querySelector('.js-draggable');
@@ -48,14 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // IOS 10 BUG
     document.addEventListener('touchstart', () => {}, false);
 
-    const getOrderData = (wrapper, direction) => {
+    const getOrderData = (wrapper, dir) => {
       let i;
       let l;
       const result = [];
       const rows = wrapper.querySelectorAll('[name="order[]"]');
       const inputRows = wrapper.querySelectorAll('[name="cid[]"]');
 
-      if (direction === 'desc') {
+      if (dir === 'desc') {
         // Reverse the array
         rows.reverse();
         inputRows.reverse();
@@ -96,45 +95,45 @@ document.addEventListener('DOMContentLoaded', () => {
         return sibling === null || (sibling && sibling.tagName.toLowerCase() === 'tr');
       },
     })
-    .on('drag', () => {
+      .on('drag', () => {
 
-    })
-    .on('cloned', () => {
-      const el = document.querySelector('.gu-mirror');
-      el.classList.add('table');
-    })
-    .on('drop', () => {
-      if (url) {
+      })
+      .on('cloned', () => {
+        const el = document.querySelector('.gu-mirror');
+        el.classList.add('table');
+      })
+      .on('drop', () => {
+        if (url) {
         // Detach task field if exists
-        const task = document.querySelector('[name="task"]');
+          const task = document.querySelector('[name="task"]');
 
-        // Detach task field if exists
-        if (task) {
-          task.setAttribute('name', 'some__Temporary__Name__');
+          // Detach task field if exists
+          if (task) {
+            task.setAttribute('name', 'some__Temporary__Name__');
+          }
+
+          // Prepare the options
+          const ajaxOptions = {
+            url,
+            method: 'POST',
+            data: getOrderData(container, direction).join('&'),
+            perform: true,
+          };
+
+          Joomla.request(ajaxOptions);
+
+          // Re-Append original task field
+          if (task) {
+            task.setAttribute('name', 'task');
+          }
         }
-
-        // Prepare the options
-        const ajaxOptions = {
-          url,
-          method: 'POST',
-          data: getOrderData(container, direction).join('&'),
-          perform: true,
-        };
-
-        Joomla.request(ajaxOptions);
-
-        // Re-Append original task field
-        if (task) {
-          task.setAttribute('name', 'task');
+      })
+      .on('dragend', () => {
+        const elements = container.querySelectorAll('[name="order[]"]');
+        // Reset data order attribute for initial ordering
+        for (let i = 0, l = elements.length; l > i; i += 1) {
+          elements[i].setAttribute('data-order', i + 1);
         }
-      }
-    })
-    .on('dragend', () => {
-      const elements = container.querySelectorAll('[name="order[]"]');
-      // Reset data order attribute for initial ordering
-      for (let i = 0, l = elements.length; l > i; i += 1) {
-        elements[i].setAttribute('data-order', i + 1);
-      }
-    });
+      });
   }
 });
