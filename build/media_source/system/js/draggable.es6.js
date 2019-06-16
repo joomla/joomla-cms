@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (container) {
     // Add data order attribute for initial ordering
-    for (let i = 0, l = orderRows.length; l > i; i++) {
+    for (let i = 0, l = orderRows.length; l > i; i += 1) {
       orderRows[i].setAttribute('data-order', i + 1);
     }
 
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // Get the order array
-      for (i = 0, l = orderRows.length; l > i; i++) {
+      for (i = 0, l = orderRows.length; l > i; i += 1) {
         orderRows[i].value = i + 1;
         result.push(`order[]=${encodeURIComponent(i)}`);
         result.push(`cid[]=${encodeURIComponent(inputRows[i].value)}`);
@@ -79,41 +79,35 @@ document.addEventListener('DOMContentLoaded', () => {
       return result;
     };
 
-    dragula(
-      [container], {
-        // Y axis is considered when determining where an element would be dropped
-        direction: 'vertical',
-        // elements are moved by default, not copied
-        copy: false,
-        // elements in copy-source containers can be reordered
-        //copySortSource: true,
-        // spilling will put the element back where it was dragged from, if this is true
-        revertOnSpill: true,
-        // spilling will `.remove` the element, if this is true
-        //removeOnSpill: false,
+    dragula([container], {
+      // Y axis is considered when determining where an element would be dropped
+      direction: 'vertical',
+      // elements are moved by default, not copied
+      copy: false,
+      // elements in copy-source containers can be reordered
+      //copySortSource: true,
+      // spilling will put the element back where it was dragged from, if this is true
+      revertOnSpill: true,
+      // spilling will `.remove` the element, if this is true
+      //removeOnSpill: false,
 
-        accepts(el, target, source, sibling) {
-          if (isNested) {
-            if (sibling !== null) {
-              return sibling.getAttribute('data-dragable-group') && sibling.getAttribute('data-dragable-group') == el.getAttribute('data-dragable-group');
-            } else {
-              return sibling === null || (sibling && sibling.tagName.toLowerCase() === 'tr');
-            }
+      accepts(el, target, source, sibling) {
+        if (isNested) {
+          if (sibling !== null) {
+            return sibling.getAttribute('data-dragable-group') && sibling.getAttribute('data-dragable-group') == el.getAttribute('data-dragable-group');
           } else {
             return sibling === null || (sibling && sibling.tagName.toLowerCase() === 'tr');
           }
+        } else {
+          return sibling === null || (sibling && sibling.tagName.toLowerCase() === 'tr');
         }
       }
-    ).on('drag',
-      (el, source) => {}
-    ).on('cloned',
-      (clone, original) => {
+    }).on('drag', el => {
+
+    }).on('cloned', clone => {
         const el = document.querySelector('.gu-mirror');
         el.classList.add('table');
-      }
-    ).on('drop',
-      () => {
-
+    }).on('drop', () => {
         if (url) {
           // Detach task field if exists
           const task = document.querySelector('[name="task"]');
@@ -138,15 +132,12 @@ document.addEventListener('DOMContentLoaded', () => {
             task.setAttribute('name', 'task');
           }
         }
-      }
-    ).on('dragend',
-      el => {
+    }).on('dragend', () => {
         const orderRows = container.querySelectorAll('[name="order[]"]');
         // Reset data order attribute for initial ordering
-        for (let i = 0, l = orderRows.length; l > i; i++) {
+        for (let i = 0, l = orderRows.length; l > i; i += 1) {
           orderRows[i].setAttribute('data-order', i + 1);
         }
-      }
-    );
+    });
   }
 });
