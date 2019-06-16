@@ -175,7 +175,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 										<span tabindex="0"><?php echo Text::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
 										<div role="tooltip" id="tip<?php echo $i; ?>">
 											<strong><?php echo Text::_('COM_USERS_HEADING_GROUPS'); ?></strong>
-											<ul><li><?php echo str_replace("\n",'</li><li>', $item->group_names); ?></li></ul>
+											<ul><li><?php echo str_replace("\n", '</li><li>', $item->group_names); ?></li></ul>
 										</div>
 									<?php else : ?>
 										<?php echo nl2br($item->group_names); ?>
