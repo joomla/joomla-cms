@@ -34,8 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
       container.classList.add('js-draggable');
     }
 
-    url = options.url;
-    direction = options.direction;
+    { url } = options;
+    { direction } = options;
     isNested = options.nested;
   }
 
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // IOS 10 BUG
     document.addEventListener('touchstart', () => {}, false);
 
-    /** 
+    /**
      * Method to reorder an array
      * Not used right now
      */
@@ -56,12 +56,12 @@ document.addEventListener('DOMContentLoaded', () => {
       this.splice(to, 0, this.splice(from, 1)[0]);
     };
 
-    const getOrderData = (container, direction) => {
+    const getOrderData = (wrapper, direction) => {
       let i;
       let l;
       const result = [];
-      let orderRows = container.querySelectorAll('[name="order[]"]');
-      let inputRows = container.querySelectorAll('[name="cid[]"]');
+      let orderRows = wrapper.querySelectorAll('[name="order[]"]');
+      let inputRows = wrapper.querySelectorAll('[name="cid[]"]');
 
       if (direction === 'desc') {
         // Reverse the array
@@ -95,16 +95,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isNested) {
           if (sibling !== null) {
             return sibling.getAttribute('data-dragable-group') && sibling.getAttribute('data-dragable-group') == el.getAttribute('data-dragable-group');
-          } else {
-            return sibling === null || (sibling && sibling.tagName.toLowerCase() === 'tr');
           }
-        } else {
+
           return sibling === null || (sibling && sibling.tagName.toLowerCase() === 'tr');
         }
-      }
-    }).on('drag', el => {
 
-    }).on('cloned', clone => {
+        return sibling === null || (sibling && sibling.tagName.toLowerCase() === 'tr');
+      },
+    }).on('drag', () => {
+
+    }).on('cloned', () => {
       const el = document.querySelector('.gu-mirror');
       el.classList.add('table');
     }).on('drop', () => {
