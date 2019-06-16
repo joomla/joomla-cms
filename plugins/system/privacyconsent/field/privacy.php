@@ -41,9 +41,8 @@ class JFormFieldprivacy extends JFormFieldRadio
 	 */
 	protected function getInput()
 	{
-		$privacynote = !empty($this->element['note']) ? $this->element['note'] : Text::_('PLG_SYSTEM_PRIVACYCONSENT_NOTE_FIELD_DEFAULT');
-
-		echo '<div class="alert alert-info">' . $privacynote . '</div>';
+		// Display the message before the field
+		echo $this->getRenderer('plugins.system.privacyconsent.message')->render($this->getLayoutData());
 
 		return parent::getInput();
 	}
@@ -62,47 +61,26 @@ class JFormFieldprivacy extends JFormFieldRadio
 			return '';
 		}
 
-		// Get the label text from the XML element, defaulting to the element name.
-		$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
-		$text = $this->translateLabel ? Text::_($text) : $text;
+		return $this->getRenderer('plugins.system.privacyconsent.label')->render($this->getLayoutData());
 
-		// Set required to true as this field is not displayed at all if not required.
-		$this->required = true;
+	}
 
-		// Build the class for the label.
-		$class = !empty($this->description) ? 'hasPopover' : '';
-		$class = $class . ' required';
-		$class = !empty($this->labelClass) ? $class . ' ' . $this->labelClass : $class;
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.9.4
+	 */
+	protected function getLayoutData()
+	{
+		$data = parent::getLayoutData();
 
-		// Add the opening label tag and main attributes.
-		$label = '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';
-
-		// If a description is specified, use it to build a tooltip.
-		if (!empty($this->description))
-		{
-			$label .= ' title="' . htmlspecialchars(trim($text, ':'), ENT_COMPAT, 'UTF-8') . '"';
-			$label .= ' data-content="' . htmlspecialchars(
-				$this->translateDescription ? Text::_($this->description) : $this->description,
-				ENT_COMPAT,
-				'UTF-8'
-			) . '"';
-		}
-
-		if (Factory::getLanguage()->isRtl())
-		{
-			$label .= ' data-placement="left"';
-		}
-
+		$article = false;
 		$privacyArticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
 
 		if ($privacyArticle && Factory::getApplication()->isClient('site'))
 		{
-			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
-
-			$attribs                = [];
-			$attribs['data-toggle'] = 'modal';
-			$attribs['data-target'] = '#consentModal';
-
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName(array('id', 'alias', 'catid', 'language')))
@@ -112,32 +90,20 @@ class JFormFieldprivacy extends JFormFieldRadio
 			$article = $db->loadObject();
 
 			$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
-			$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
-			$link = JHtml::_('link', Route::_($url . '&tmpl=component'), $text, $attribs);
-
-			echo HTMLHelper::_(
-				'bootstrap.renderModal',
-				'consentModal',
-				array(
-					'url'    => Route::_($url . '&tmpl=component'),
-					'title'  => $text,
-					'height' => '100%',
-					'width'  => '100%',
-					'modalWidth'  => '800',
-					'bodyHeight'  => '500',
-					'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-						. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-				)
-			);
-		}
-		else
-		{
-			$link = $text;
+			$article->link  = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
 		}
 
-		// Add the label text and closing tag.
-		$label .= '>' . $link . '<span class="star">&#160;*</span></label>';
+		$extraData = array(
+			'privacynote' => !empty($this->element['note']) ? $this->element['note'] : Text::_('PLG_SYSTEM_PRIVACYCONSENT_NOTE_FIELD_DEFAULT'),
+			'options' => $this->getOptions(),
+			'value'   => (string) $this->value,
+			'translateLabel' => $this->translateLabel,
+			'translateDescription' => $this->translateDescription,
+			'translateHint' => $this->translateHint,
+			'privacyArticle' => $privacyArticle,
+			'article' => $article,
+		);
 
-		return $label;
+		return array_merge($data, $extraData);
 	}
 }

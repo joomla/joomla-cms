@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Content\Site\Helper;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\CategoryNode;
@@ -17,7 +19,7 @@ use Joomla\CMS\Language\Multilanguage;
  *
  * @since  1.5
  */
-abstract class ContentHelperRoute
+abstract class RouteHelper
 {
 	/**
 	 * Get the article route.
