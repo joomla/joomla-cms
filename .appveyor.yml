@@ -34,6 +34,7 @@ init:
   - SET COMPOSER_NO_INTERACTION=1
   - SET PHP=1 # This var relates to caching the php install
   - SET ANSICON=121x90 (121x90)
+  - $global:progressPreference = 'silentlyContinue'
 services:
   - mssql2014
   - mysql
