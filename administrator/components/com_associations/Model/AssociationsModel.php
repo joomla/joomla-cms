@@ -175,6 +175,7 @@ class AssociationsModel extends ListModel
 
 		$extension = AssociationsHelper::getSupportedExtension($extensionName);
 		$types     = $extension->get('types');
+		$assocContextName = ($typeName ==='category') ? 'com_categories.item' : $extensionName . '.item';
 
 		if (array_key_exists($typeName, $types))
 		{
@@ -249,7 +250,7 @@ class AssociationsModel extends ListModel
 			->join(
 				'LEFT',
 				$db->quoteName('#__associations', 'asso') . ' ON ' . $db->quoteName('asso.id') . ' = ' . $db->quoteName($fields['id'])
-				. ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote($extensionName . '.item')
+				. ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote($assocContextName)
 			)
 			->join('LEFT', $db->quoteName('#__associations', 'asso2') . ' ON ' . $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key'));
 
