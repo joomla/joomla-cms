@@ -907,7 +907,9 @@ class PlgSampledataMultilang extends CMSPlugin
 		foreach ($groupedAssociations as $context => $associations)
 		{
 			// If there is an association item with the globalMasterLanguage, then get his id
-			$masterID = $associations[$globalMasterLanguage] ?? '';
+			$masterId = $associations[$globalMasterLanguage] ?? '';
+			// TODO when there is a way to get the history save date from here, use it.
+			$masterModified = ($context === 'com_menus.item' || !$globalMasterLanguage) ? null : '0000-00-00 00:00:00';
 			$key   = md5(json_encode($associations));
 			$query = $db->getQuery(true)
 				->insert('#__associations');
@@ -916,8 +918,8 @@ class PlgSampledataMultilang extends CMSPlugin
 			{
 				// If there is no master item in this association, then reset the parent_id to -1
 				// Otherwise, if the association item is a master item, set the parent_id to 0, otherwise set it to the master ID.
-				$parentId = $masterID ? ($masterID === $id ? 0 : $masterID) : -1;
-				$query->values(((int) $id) . ',' . $db->quote($context) . ',' . $db->quote($key) . ',' . $db->quote($parentId) . ',' . $db->quote(''));
+				$parentId = $masterId ? ($masterId === $id ? 0 : $masterId) : -1;
+				$query->values(((int) $id) . ',' . $db->quote($context) . ',' . $db->quote($key) . ',' . $db->quote($parentId) . ',' . $db->quote($masterModified));
 			}
 
 			$db->setQuery($query);
