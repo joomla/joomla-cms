@@ -57,6 +57,18 @@ require_once JPATH_LIBRARIES . '/classmap.php';
 // Register the error handler which processes E_USER_DEPRECATED errors
 set_error_handler(['JErrorPage', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);
 
+// Suppress phar stream wrapper for non .phar files
+$behavior = new \TYPO3\PharStreamWrapper\Behavior;
+\TYPO3\PharStreamWrapper\Manager::initialize(
+	$behavior->withAssertion(new \TYPO3\PharStreamWrapper\Interceptor\PharExtensionInterceptor)
+);
+
+if (in_array('phar', stream_get_wrappers()))
+{
+	stream_wrapper_unregister('phar');
+	stream_wrapper_register('phar', 'TYPO3\\PharStreamWrapper\\PharStreamWrapper');
+}
+
 // Define the Joomla version if not already defined.
 defined('JVERSION') or define('JVERSION', (new JVersion)->getShortVersion());
 

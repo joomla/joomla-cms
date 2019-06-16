@@ -7,6 +7,42 @@
     "content-hash": "3a5ac2c8e1edfb8df810accdcc6db773",
     "packages": [
         {
+            "name": "brumann/polyfill-unserialize",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dbrumann/polyfill-unserialize.git",
+                "reference": "844d7e44b62a1a3d5c68cfb7ebbd59c17ea0fd7b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dbrumann/polyfill-unserialize/zipball/844d7e44b62a1a3d5c68cfb7ebbd59c17ea0fd7b",
+                "reference": "844d7e44b62a1a3d5c68cfb7ebbd59c17ea0fd7b",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3|^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Brumann\\Polyfill\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Denis Brumann",
+                    "email": "denis.brumann@sensiolabs.de"
+                }
+            ],
+            "description": "Backports unserialize options introduced in PHP 7.0 to older PHP versions.",
+            "time": "2017-02-03T09:55:47+00:00"
+        },
+        {
             "name": "algo26-matthias/idna-convert",
             "version": "v1.1.0",
             "source": {
@@ -5589,6 +5625,49 @@
             ],
             "description": "Library for handling version information and constraints",
             "time": "2017-03-05T17:38:23+00:00"
+        },
+        {
+            "name": "typo3/phar-stream-wrapper",
+            "version": "v2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TYPO3/phar-stream-wrapper.git",
+                "reference": "b7a21f0859059ed5d9754af8c11f852d43762334"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TYPO3/phar-stream-wrapper/zipball/b7a21f0859059ed5d9754af8c11f852d43762334",
+                "reference": "b7a21f0859059ed5d9754af8c11f852d43762334",
+                "shasum": ""
+            },
+            "require": {
+                "brumann/polyfill-unserialize": "^1.0",
+                "ext-fileinfo": "*",
+                "ext-json": "*",
+                "php": "^5.3.3|^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.36"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TYPO3\\PharStreamWrapper\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Interceptors for PHP's native phar:// stream handling",
+            "homepage": "https://typo3.org/",
+            "keywords": [
+                "phar",
+                "php",
+                "security",
+                "stream-wrapper"
+            ],
+            "time": "2018-10-18T08:46:28+00:00"
         },
         {
             "name": "php-cs-fixer/diff",
