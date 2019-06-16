@@ -75,8 +75,8 @@ class Route
 				$tls = self::TLS_DISABLE;
 			}
 
-			// @deprecated  4.0 Before 3.9.7 this method silently converted boolean to integer
-			if (is_bool($tls))
+			// @deprecated  4.0 Before 3.9.7 this method silently converted $tls to integer
+			if (!is_int($tls))
 			{
 				Log::add(
 					__METHOD__ . '() called with incompatible variable type boolean on parameter $tls.',
@@ -84,14 +84,7 @@ class Route
 					'deprecated'
 				);
 
-				if ($tls === true)
-				{
-					$tls = self::TLS_FORCE;
-				}
-				else
-				{
-					$tls = self::TLS_IGNORE;
-				}
+				$tls = (int) $tls;
 			}
 
 			$app    = Factory::getApplication();
