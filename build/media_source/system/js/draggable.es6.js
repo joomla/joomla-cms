@@ -105,39 +105,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }).on('drag', el => {
 
     }).on('cloned', clone => {
-        const el = document.querySelector('.gu-mirror');
-        el.classList.add('table');
+      const el = document.querySelector('.gu-mirror');
+      el.classList.add('table');
     }).on('drop', () => {
-        if (url) {
-          // Detach task field if exists
-          const task = document.querySelector('[name="task"]');
+      if (url) {
+        // Detach task field if exists
+        const task = document.querySelector('[name="task"]');
 
-          // Detach task field if exists
-          if (task) {
-            task.setAttribute('name', 'some__Temporary__Name__');
-          }
-
-          // Prepare the options
-          const ajaxOptions = {
-            url,
-            method: 'POST',
-            data: getOrderData(container, direction).join("&"),
-            perform: true
-          };
-
-          Joomla.request(ajaxOptions);
-
-          // Re-Append original task field
-          if (task) {
-            task.setAttribute('name', 'task');
-          }
+        // Detach task field if exists
+        if (task) {
+          task.setAttribute('name', 'some__Temporary__Name__');
         }
+
+        // Prepare the options
+        const ajaxOptions = {
+          url,
+          method: 'POST',
+          data: getOrderData(container, direction).join('&'),
+          perform: true,
+        };
+
+        Joomla.request(ajaxOptions);
+
+        // Re-Append original task field
+        if (task) {
+          task.setAttribute('name', 'task');
+        }
+      }
     }).on('dragend', () => {
-        const orderRows = container.querySelectorAll('[name="order[]"]');
-        // Reset data order attribute for initial ordering
-        for (let i = 0, l = orderRows.length; l > i; i += 1) {
-          orderRows[i].setAttribute('data-order', i + 1);
-        }
+      const orderRows = container.querySelectorAll('[name="order[]"]');
+      // Reset data order attribute for initial ordering
+      for (let i = 0, l = orderRows.length; l > i; i += 1) {
+        orderRows[i].setAttribute('data-order', i + 1);
+      }
     });
   }
 });
