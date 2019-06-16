@@ -52,18 +52,18 @@ document.addEventListener('DOMContentLoaded', () => {
       let i;
       let l;
       const result = [];
-      let orderRows = wrapper.querySelectorAll('[name="order[]"]');
-      let inputRows = wrapper.querySelectorAll('[name="cid[]"]');
+      const rows = wrapper.querySelectorAll('[name="order[]"]');
+      const inputRows = wrapper.querySelectorAll('[name="cid[]"]');
 
       if (direction === 'desc') {
         // Reverse the array
-        orderRows.reverse();
+        rows.reverse();
         inputRows.reverse();
       }
 
       // Get the order array
-      for (i = 0, l = orderRows.length; l > i; i += 1) {
-        orderRows[i].value = i + 1;
+      for (i = 0, l = rows.length; l > i; i += 1) {
+        rows[i].value = i + 1;
         result.push(`order[]=${encodeURIComponent(i)}`);
         result.push(`cid[]=${encodeURIComponent(inputRows[i].value)}`);
       }
@@ -71,17 +71,18 @@ document.addEventListener('DOMContentLoaded', () => {
       return result;
     };
 
+    // eslint-disable-next-line no-undef
     dragula([container], {
       // Y axis is considered when determining where an element would be dropped
       direction: 'vertical',
       // elements are moved by default, not copied
       copy: false,
       // elements in copy-source containers can be reordered
-      //copySortSource: true,
+      // copySortSource: true,
       // spilling will put the element back where it was dragged from, if this is true
       revertOnSpill: true,
       // spilling will `.remove` the element, if this is true
-      //removeOnSpill: false,
+      // removeOnSpill: false,
 
       accepts(el, target, source, sibling) {
         if (isNested) {
@@ -129,10 +130,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     })
     .on('dragend', () => {
-      const orderRows = container.querySelectorAll('[name="order[]"]');
+      const elements = container.querySelectorAll('[name="order[]"]');
       // Reset data order attribute for initial ordering
-      for (let i = 0, l = orderRows.length; l > i; i += 1) {
-        orderRows[i].setAttribute('data-order', i + 1);
+      for (let i = 0, l = elements.length; l > i; i += 1) {
+        elements[i].setAttribute('data-order', i + 1);
       }
     });
   }
