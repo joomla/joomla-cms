@@ -40,7 +40,7 @@ abstract class ArticlesNewsHelper
 	{
 		$app = Factory::getApplication();
 
-		// Get an instance of the generic articles model
+		/** @var \Joomla\Component\Content\Site\Model\ArticlesModel $model */
 		$model = $app->bootComponent('com_content')
 			->getMVCFactory()->createModel('Articles', 'Site', ['ignore_request' => true]);
 
@@ -48,10 +48,11 @@ abstract class ArticlesNewsHelper
 		$appParams = $app->getParams();
 		$model->setState('params', $appParams);
 
-		// Set the filters based on the module params
 		$model->setState('list.start', 0);
-		$model->setState('list.limit', (int) $params->get('count', 5));
 		$model->setState('filter.condition', ContentComponent::CONDITION_PUBLISHED);
+
+		// Set the filters based on the module params
+		$model->setState('list.limit', (int) $params->get('count', 5));
 
 		// This module does not use tags data
 		$model->setState('load_tags', false);
