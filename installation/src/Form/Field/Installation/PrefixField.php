@@ -79,11 +79,14 @@ class PrefixField extends FormField
 		else
 		{
 			$prefix = $session['db_prefix'];
+			
 			// Ensure user-provided prefix is lowercase
-			// Keeps configuration.php value in alignment with MySQL default change to lowercase
 			$prefix = strtolower($prefix);
+			
 			// If last character from user is not an underscore then append the underscore.
-			if (strpos($prefix, '_') === false) {$prefix .= '_'}
+			if (strpos($prefix, '_') === false) {
+				$prefix .= '_';
+			}
 		}
 
 		// Initialize JavaScript field attributes.
