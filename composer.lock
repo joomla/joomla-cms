@@ -773,25 +773,25 @@
         },
         {
             "name": "joomla/string",
-            "version": "1.4.1",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/string.git",
-                "reference": "66363d317e6c020f30a70265c129281c77c43ca0"
+                "reference": "64ed484157262578b8daddb488bb9bd3552bc4fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/string/zipball/66363d317e6c020f30a70265c129281c77c43ca0",
-                "reference": "66363d317e6c020f30a70265c129281c77c43ca0",
+                "url": "https://api.github.com/repos/joomla-framework/string/zipball/64ed484157262578b8daddb488bb9bd3552bc4fe",
+                "reference": "64ed484157262578b8daddb488bb9bd3552bc4fe",
                 "shasum": ""
             },
             "require": {
                 "php": "^5.3.10|~7.0"
             },
             "require-dev": {
+                "joomla/coding-standards": "~2.0@alpha",
                 "joomla/test": "~1.0",
-                "phpunit/phpunit": "~4.8|~5.0",
-                "squizlabs/php_codesniffer": "1.*"
+                "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0"
             },
             "suggest": {
                 "ext-mbstring": "For improved processing"
@@ -826,7 +826,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GPL-2.0+"
+                "GPL-2.0-or-later"
             ],
             "description": "Joomla String Package",
             "homepage": "https://github.com/joomla-framework/string",
@@ -835,7 +835,7 @@
                 "joomla",
                 "string"
             ],
-            "time": "2016-12-10T18:13:42+00:00"
+            "time": "2019-06-16T18:18:09+00:00"
         },
         {
             "name": "joomla/uri",
