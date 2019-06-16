@@ -63,8 +63,6 @@ class PlgSearchContent extends CMSPlugin
 		$groups     = implode(',', $user->getAuthorisedViewLevels());
 		$tag        = Factory::getLanguage()->getTag();
 
-		JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-
 		$searchText = $text;
 
 		if (is_array($areas) && !array_intersect($areas, array_keys($this->onContentSearchAreas())))
