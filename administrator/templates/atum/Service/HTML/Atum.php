@@ -24,7 +24,7 @@ use OzdemirBurak\Iris\Color\Hsl;
 class Atum
 {
 	/**
-	 * root_colors()
+	 * Calculates the different template colors and set the CSS variables
 	 *
 	 * @param   array   $params    Template parameters.
 	 *
@@ -33,22 +33,25 @@ class Atum
 	 */
 	public static function rootcolors($params)
 	{
-		$monochrome = $params->get('monochrome');
+		$monochrome = (bool) $params->get('monochrome');
 
-		$root = static::bgdarkcalc($params->get('hue'), $monochrome);
+		$root = [];
 
-		if ($params->get('bg-light'))
+		if (!is_null($params->get('hue')))
 		{
-			$lightcolor = trim($params->get('bg-light'), '#');
-			list($red, $green, $blue) = str_split($lightcolor, 2);
+			$root = static::bgdarkcalc($params->get('hue'), $monochrome);
+		}
 
-			$bgLight=new Hex('#' . $lightcolor);
+		$bgLight = $params->get('bg-light');
 
-			$root[] = '--atum-bg-light: ' . (($monochrome) ? $bgLight->grayscale() : $bgLight) . ';';
+		if (strlen($bgLight) === 7 && substr($bgLight, 0, 1) === '#')
+		{
+			$bgLight = new Hex($bgLight);
 
 			try
 			{
-				$root[] = '--toolbar-bg: ' . (($monochrome) ? $bgLight->grayscale()->lighten(5) : $bgLight->lighten(5)) . ';';
+				$root[] = '--atum-bg-light: ' . ($monochrome ? $bgLight->grayscale() : $bgLight) . ';';
+				$root[] = '--toolbar-bg: ' . ($monochrome ? $bgLight->grayscale()->lighten(5) : $bgLight->lighten(5)) . ';';
 			}
 			catch (Exception $ex)
 			{
@@ -71,7 +74,7 @@ class Atum
 		if ($params->get('link-color'))
 		{
 			$linkcolor = trim($params->get('link-color'), '#');
-			list($red, $green, $blue) = str_split($linkcolor, 2);
+
 			$linkcolor2 = new Hex('#' . $linkcolor);
 			$root[] = '--atum-link-color: ' . (($monochrome) ? $linkcolor2->grayscale() : $linkcolor2) . ';';
 
@@ -99,7 +102,7 @@ class Atum
 	}
 
 	/**
-	 * bgdarkcalc()
+	 * Calculates the different template colors
 	 *
 	 * @param   string   $hue           Template parameter color.
 	 * @param   int      $monochrome    Template parameter monochrome.
@@ -109,8 +112,8 @@ class Atum
 	protected static function bgdarkcalc($hue, $monochrome = false)
 	{
 		$multiplier = $monochrome ? 0 : 1;
-		$hue = min(355, max(0, (int) $hue));
-		
+		$hue = min(360, max(0, (int) $hue));
+
 		$root = [];
 
 		$bgcolor = new Hsl("hsl(" . $hue . ", " . (61 * $multiplier) . ", 26)");
@@ -137,4 +140,6 @@ class Atum
 
 		return $root;
 	}
+
+	//protected static function isHex($hex)
 }
