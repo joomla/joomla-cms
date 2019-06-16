@@ -34,8 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
       container.classList.add('js-draggable');
     }
 
-    { url } = options;
-    { direction } = options;
+    ({ url } = options);
+    ({ direction } = options);
     isNested = options.nested;
   }
 
@@ -47,14 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // IOS 10 BUG
     document.addEventListener('touchstart', () => {}, false);
-
-    /**
-     * Method to reorder an array
-     * Not used right now
-     */
-    Array.prototype.move = function(from, to) {
-      this.splice(to, 0, this.splice(from, 1)[0]);
-    };
 
     const getOrderData = (wrapper, direction) => {
       let i;
@@ -94,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
       accepts(el, target, source, sibling) {
         if (isNested) {
           if (sibling !== null) {
-            return sibling.getAttribute('data-dragable-group') && sibling.getAttribute('data-dragable-group') == el.getAttribute('data-dragable-group');
+            return sibling.getAttribute('data-dragable-group') && sibling.getAttribute('data-dragable-group') === el.getAttribute('data-dragable-group');
           }
 
           return sibling === null || (sibling && sibling.tagName.toLowerCase() === 'tr');
@@ -102,12 +94,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return sibling === null || (sibling && sibling.tagName.toLowerCase() === 'tr');
       },
-    }).on('drag', () => {
+    })
+    .on('drag', () => {
 
-    }).on('cloned', () => {
+    })
+    .on('cloned', () => {
       const el = document.querySelector('.gu-mirror');
       el.classList.add('table');
-    }).on('drop', () => {
+    })
+    .on('drop', () => {
       if (url) {
         // Detach task field if exists
         const task = document.querySelector('[name="task"]');
@@ -132,7 +127,8 @@ document.addEventListener('DOMContentLoaded', () => {
           task.setAttribute('name', 'task');
         }
       }
-    }).on('dragend', () => {
+    })
+    .on('dragend', () => {
       const orderRows = container.querySelectorAll('[name="order[]"]');
       // Reset data order attribute for initial ordering
       for (let i = 0, l = orderRows.length; l > i; i += 1) {
