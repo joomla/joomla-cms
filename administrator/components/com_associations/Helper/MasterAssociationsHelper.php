@@ -9,9 +9,12 @@
 
 namespace Joomla\Component\Associations\Administrator\Helper;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Helper\ContentHistoryHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Table;
 
 defined('_JEXEC') or die;
 
@@ -129,23 +132,16 @@ class MasterAssociationsHelper extends ContentHelper
 	}
 
 	/**
-	 * @param   integer  $id                  Item id
-	 * @param   integer  $dataId              Item id of an item that is going to be saved
-	 * @param   integer  $masterId
-	 * @param   string   $masterModified      th
-	 * @param   array    $associationsParams  modified date to associated items
-	 * @param   string   $old_key             the old association key
+	 * @param   integer   $id                  Item id
+	 * @param   integer   $dataId              Item id of an item that is going to be saved
+	 * @param   integer   $masterId            Id of the associated master item
+	 * @param   string    $masterModified      the latest modified date of the master
+	 * @param   array     $associationsParams  modified date to associated items
+	 * @param   string    $old_key             the old association key
 	 *
 	 * @return   array     parent id and modified date
 	 */
-	public static function getMasterLanguageValues(
-		$id,
-		$dataId,
-		$masterId,
-		$masterModified,
-		$associationsParams,
-		$old_key
-	) {
+	public static function getMasterLanguageValues($id, $dataId, $masterId, $masterModified, $associationsParams, $old_key) {
 
 		if ($masterId)
 		{
@@ -161,29 +157,19 @@ class MasterAssociationsHelper extends ContentHelper
 			{
 				$parentId = $masterId;
 
-				if (!$old_key)
+				// if modified date isn't set to the child item set it with current modified date from master
+				$parentModified = empty($associationsParams[$id])
+					? $masterModified
+					: $associationsParams[$id];
+
+				if (!$old_key && ($dataId === $id))
 				{
 					// Add modified date from master to new associated item
-					if ($dataId === $id)
-					{
-						$parentModified = $masterModified ?? null;
-					}
-					else
-					{
-						// Set old modified date from master to existing associated child if not empty
-						$parentModified = empty($associationsParams[$id])
-							? $masterModified : $associationsParams[$id];
-					}
-				}
-				else
-				{
-					// if modified date isn't set to the child item set it with current modified date from master
-					$parentModified = empty($associationsParams[$id])
-						? $masterModified : $associationsParams[$id];
+					$parentModified = $masterModified ?? null;
 				}
 			}
 		}
-		// default values
+		// default values when there is no associated master item
 		else
 		{
 			$parentId       = -1;
@@ -196,34 +182,49 @@ class MasterAssociationsHelper extends ContentHelper
 	/**
 	 * Get the latest modified date of an master item
 	 *
-	 * @param   integer  $masterId  Id of the master item
-	 * @param   string   $table     The table name where the item exists
+	 * @param   integer   $masterId   Id of the associated master item
+	 * @param   string    $tableName  The name of the table.
+	 * @param   string    $typeAlias  Alias for the content type
 	 *
 	 * @return  string    The modified date of the master item
 	 */
-	public static function getMasterModifiedDate($masterId, $table)
+	public static function getMasterModifiedDate($masterId, $tableName, $typeAlias)
 	{
-		$db = Factory::getDbo();
-
-		if ($table === '#__categories')
-		{
-			$modifiedColumn = 'modified_time';
-		}
-		else
-		{
-			$modifiedColumn = 'modified';
-		}
+		// check if the content version is enabled
+		$option = Factory::getApplication()->input->get('option');
+		$saveHistory = ComponentHelper::getParams($option)->get('save_history', 0);
 
 		if ($masterId)
 		{
-			$masterDateQuery = $db->getQuery(true)
-				->select($db->quoteName($modifiedColumn))
-				->from($db->quoteName($table))
-				->where($db->quoteName('id') . ' = ' . $db->quote($masterId));
-			$db->setQuery($masterDateQuery);
-			$masterModified = $db->loadResult();
+			// if versions are enabled get the save_data of the master item from history table
+			if ($saveHistory)
+			{
+				$typeId        = Table::getInstance('ContentType')->getTypeId($typeAlias);
+				$masterHistory = ContentHistoryHelper::getHistory($masterId, $typeId);
 
-			return $masterModified;
+				// latest saved date of the master item
+				$masterModified = $masterHistory[0]->save_date;
+			}
+			else
+			{
+				$db = Factory::getDbo();
+
+				if ($tableName === '#__categories')
+				{
+					$modifiedColumn = 'modified_time';
+				}
+				else
+				{
+					$modifiedColumn = 'modified';
+				}
+
+				$masterDateQuery = $db->getQuery(true)
+					->select($db->quoteName($modifiedColumn))
+					->from($db->quoteName($tableName))
+					->where($db->quoteName('id') . ' = ' . $db->quote($masterId));
+				$db->setQuery($masterDateQuery);
+				$masterModified = $db->loadResult();
+			}
 		}
 
 		return $masterModified ?? '';

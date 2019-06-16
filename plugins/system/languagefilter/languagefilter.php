@@ -16,6 +16,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Helper\ContentHistoryHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
@@ -24,6 +25,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\Router;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Registry\Registry;
@@ -1005,6 +1007,9 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			$params->global_master_language = '';
 		}
 
+		// check if there were changes for the master language
+		$this->hasMasterLangChanged = ($params->global_master_language === $this->params->get('global_master_language')) ? false : true;
+
 		return $table->params = json_encode($params);
 	}
 
@@ -1031,7 +1036,12 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			return true;
 		}
 
-		$this->_setMasterItem($params->global_master_language);
+		// just set master items when the global master language has changed.
+		if ($this->hasMasterLangChanged)
+		{
+			$this->_setMasterItem($params->global_master_language);
+		}
+		unset($this->hasMasterLangChanged);
 	}
 
 	/**
@@ -1048,8 +1058,6 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	{
 		$db             = Factory::getDbo();
 		$masterLanguage = $language;
-
-		// TODO add warning when master language changed
 
 		// if there is no global masterlanguage set, set all parent_ids to -1 and assocParams to null
 		if (!$masterLanguage)
@@ -1073,8 +1081,6 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		}
 		else
 		{
-			// TODO Question? Maybe if the language hasn't changed it isn't necessary to run this again. But no possibility to check that?
-
 			// get every different key
 			$keyQuery  = $db->getQuery(true)
 				->select($db->quoteName('key'))
@@ -1092,32 +1098,39 @@ class PlgSystemLanguageFilter extends CMSPlugin
 					->where($db->quoteName('key') . ' = ' . $db->quote($value));
 				$assocContext = $db->setQuery($contextQuery)->loadResult();
 
+				$extension = '';
+
 				// get the correct table to look in depending on the context
 				switch ($assocContext)
 				{
 					case 'com_content.item':
 						$fromTable = $db->quoteName('#__content', 'e');
 						$modified  = $db->quoteName('e.modified');
+						$typeAlias = 'com_content.article';
 						break;
 
 					case 'com_menus.item' :
 						$fromTable = $db->quoteName('#__menu', 'e');
 						$modified  = '';
+						$typeAlias = '';
 						break;
 
 					case 'com_categories.item':
 						$fromTable = $db->quoteName('#__categories', 'e');
 						$modified  = $db->quoteName('e.modified_time');
+						$extension = $db->quoteName('e.extension');
 						break;
 
 					case 'com_contact.item':
 						$fromTable = $db->quoteName('#__contact_details', 'e');
 						$modified  = $db->quoteName('e.modified');
+						$typeAlias = 'com_contact.contact';
 						break;
 
 					case 'com_newsfeeds.item':
 						$fromTable = $db->quoteName('#__newsfeeds', 'e');
 						$modified  = $db->quoteName('e.modified');
+						$typeAlias = 'com_newsfeeds.newsfeed';
 						break;
 				}
 
@@ -1138,11 +1151,39 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				// Get master modified date
 				if ($modified)
 				{
-					$masterModQuery = $db->getQuery(true)
-						->select($modified)
-						->from($fromTable)
-						->where($db->quoteName('id') . ' = ' . $db->quote($masterId));
-					$masterModified = $db->setQuery($masterModQuery)->loadResult();
+					// get the context of this category
+					if($extension){
+						$categoryQuery = $db->getQuery(true)
+							->select($extension)
+							->from($fromTable)
+							->where($db->quoteName('id') . ' = ' . $db->quote($masterId));
+						$categoryMasterExtension = $db->setQuery($categoryQuery)->loadResult();
+						$typeAlias = $categoryMasterExtension . '.category';
+					}
+
+					// if enabled use the history save_date otherwise use the modified date
+					$component = $categoryMasterExtension ?? explode('.', $assocContext)[0];
+					$saveHistory = ComponentHelper::getParams($component)->get('save_history', 0);
+
+					// if versions are enabled get the save_data of the master item from history table
+					if ($saveHistory)
+					{
+						$typeId        = Table::getInstance('ContentType')->getTypeId($typeAlias);
+						$masterHistory = ContentHistoryHelper::getHistory($typeId, $masterId);
+
+						// latest saved date of the master item
+						$masterModified = $masterHistory[0]->save_date;
+					}
+					else
+					{
+						$masterModQuery = $db->getQuery(true)
+							->select($modified)
+							->from($fromTable)
+							->where($db->quoteName('id') . ' = '
+								. $db->quote($masterId));
+						$masterModified = $db->setQuery($masterModQuery)
+							->loadResult();
+					}
 				}
 
 				$masterModified = $modified ? $masterModified : null;
@@ -1169,7 +1210,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 					return;
 				}
 
-				// Set the master id to the children
+				// Set the master id and modified date to the children
 				$query = $db->getQuery(true)
 					->update($db->quoteName('#__associations'))
 					->set($db->quoteName('parent_id') . ' = ' . $db->quote($masterId))

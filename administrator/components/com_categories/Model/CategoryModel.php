@@ -686,8 +686,8 @@ class CategoryModel extends AdminModel
 				// Id of the saved item
 				$dataId = (int) $table->id;
 
-				// Get the modified date of master item
-				$masterModified = MasterAssociationsHelper::getMasterModifiedDate($masterId, $table->getTableName());
+				// Get the latest modified date of master item
+				$masterModified = MasterAssociationsHelper::getMasterModifiedDate($masterId, $table->getTableName(), $table->typeAlias);
 
 				// Adding new association for these items
 				$key = md5(json_encode($associations));

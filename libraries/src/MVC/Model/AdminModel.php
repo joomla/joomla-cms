@@ -1368,13 +1368,12 @@ abstract class AdminModel extends FormModel
 				// get id of the item that get saved
 				$dataId = (int) $table->id;
 
-				// Get the modified date of master item
-				$masterModified = MasterAssociationsHelper::getMasterModifiedDate($masterId, $table->getTableName());
+				// Get the latest modified date of master item
+				$masterModified = MasterAssociationsHelper::getMasterModifiedDate($masterId, $table->getTableName(), $table->typeAlias);
 
 				// Adding new association for these items
 				$key   = md5(json_encode($associations) . $context);
-				$query = $db->getQuery(true)
-					->insert('#__associations');
+				$query = $db->getQuery(true)->insert('#__associations');
 
 				foreach ($associations as $id)
 				{
