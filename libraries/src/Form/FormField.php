@@ -608,7 +608,7 @@ abstract class FormField
 		{
 			$this->value = (array) json_decode($value);
 		}
-		else 
+		else
 		{
 			$this->value = $value;
 		}
@@ -948,7 +948,7 @@ abstract class FormField
 
 		$options['rel'] = '';
 
-		if (empty($options['hiddenLabel']) && $this->getAttribute('hiddenLabel'))
+		if (empty($options['hiddenLabel']) && $this->getAttribute('hiddenLabel') || $this->class === 'switcher')
 		{
 			$options['hiddenLabel'] = true;
 		}
@@ -1189,7 +1189,9 @@ abstract class FormField
 	 */
 	protected function getLayoutPaths()
 	{
-		return array();
+		$renderer = new FileLayout('default');
+
+		return $renderer->getDefaultIncludePaths();
 	}
 
 	/**

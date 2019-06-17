@@ -49,6 +49,8 @@ window.Joomla.editors.instances = window.Joomla.editors.instances || {
    *                                  Example: () => { return this.element.value; }
    * setValue         Type  Function  Should replace the complete data of the editor
    *                                  Example: (text) => { return this.element.value = text; }
+   * getSelection     Type  Function  Should return the selected text from the editor
+   *                                  Example: function () { return this.selectedText; }
    * replaceSelection Type  Function  Should replace the selected text of the editor
    *                                  If nothing selected, will insert the data at the cursor
    *                                  Example:
@@ -917,25 +919,6 @@ window.Joomla.Modal = window.Joomla.Modal || {
     }
 
     return xhr;
-  };
-
-  /**
-   * Load the changelog data
-   *
-   * @param extensionId The extension ID to load the changelog for
-   * @param view The view the changelog is for,
-   *             this is used to determine which version number to show
-   *
-   * @since   4.0.0
-   */
-  Joomla.loadChangelog = (extensionId, view) => {
-    Joomla.request({
-      url: `index.php?option=com_installer&task=manage.loadChangelog&eid=${extensionId}&source=${view}&format=json`,
-      onSuccess: (response) => {
-        const result = JSON.parse(response);
-        document.querySelectorAll('#changelogModal .modal-body')[0].innerHTML = result.data;
-      },
-    });
   };
 
   /**

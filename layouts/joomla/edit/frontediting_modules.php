@@ -56,7 +56,7 @@ $moduleHtml = preg_replace(
 	. '"'
 	// And if menu editing is enabled and allowed and it's a menu module, add data attributes for menu editing:
 	.	($menusEditing && $mod->module === 'mod_menu' ?
-			'" data-jmenuedittip="' . HTMLHelper::_('tooltipText', 'JLIB_HTML_EDIT_MENU_ITEM', 'JLIB_HTML_EDIT_MENU_ITEM_ID') . '"'
+			' data-jmenuedittip="' . HTMLHelper::_('tooltipText', 'JLIB_HTML_EDIT_MENU_ITEM', 'JLIB_HTML_EDIT_MENU_ITEM_ID') . '"'
 			:
 			''
 		),

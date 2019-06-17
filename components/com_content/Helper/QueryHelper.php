@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Database\DatabaseInterface;
 
 /**
  * Content Component Query Helper
@@ -58,16 +59,19 @@ class QueryHelper
 	/**
 	 * Translate an order code to a field for secondary category ordering.
 	 *
-	 * @param   string  $orderby    The ordering code.
-	 * @param   string  $orderDate  The ordering code for the date.
+	 * @param   string             $orderby    The ordering code.
+	 * @param   string             $orderDate  The ordering code for the date.
+	 * @param   DatabaseInterface  $db         The database
 	 *
 	 * @return  string  The SQL field(s) to order by.
 	 *
 	 * @since   1.5
 	 */
-	public static function orderbySecondary($orderby, $orderDate = 'created')
+	public static function orderbySecondary($orderby, $orderDate = 'created', DatabaseInterface $db = null)
 	{
-		$queryDate = self::getQueryDate($orderDate);
+		$db = $db ?: Factory::getDbo();
+
+		$queryDate = self::getQueryDate($orderDate, $db);
 
 		switch ($orderby)
 		{
@@ -116,7 +120,7 @@ class QueryHelper
 				break;
 
 			case 'random' :
-				$orderby = Factory::getDbo()->getQuery(true)->Rand();
+				$orderby = $db->getQuery(true)->Rand();
 				break;
 
 			case 'vote' :
@@ -166,15 +170,16 @@ class QueryHelper
 	/**
 	 * Translate an order code to a field for primary category ordering.
 	 *
-	 * @param   string  $orderDate  The ordering code.
+	 * @param   string             $orderDate  The ordering code.
+	 * @param   DatabaseInterface  $db         The database
 	 *
 	 * @return  string  The SQL field(s) to order by.
 	 *
 	 * @since   1.6
 	 */
-	public static function getQueryDate($orderDate)
+	public static function getQueryDate($orderDate, DatabaseInterface $db = null)
 	{
-		$db = Factory::getDbo();
+		$db = $db ?: Factory::getDbo();
 
 		switch ($orderDate)
 		{

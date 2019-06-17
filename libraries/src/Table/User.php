@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\MailHelper;
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -96,7 +97,7 @@ class User extends Table
 		}
 
 		// Convert email from punycode
-		$data['email'] = \JStringPunycode::emailToUTF8($data['email']);
+		$data['email'] = PunycodeHelper::emailToUTF8($data['email']);
 
 		// Bind the data to the table.
 		$return = $this->bind($data);
@@ -220,7 +221,7 @@ class User extends Table
 		}
 
 		// Convert email to punycode for storage
-		$this->email = \JStringPunycode::emailToPunycode($this->email);
+		$this->email = PunycodeHelper::emailToPunycode($this->email);
 
 		// Set the registration timestamp
 		if (empty($this->registerDate) || $this->registerDate == $this->_db->getNullDate())

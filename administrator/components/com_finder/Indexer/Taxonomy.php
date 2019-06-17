@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ class Taxonomy
 	 * An internal cache of taxonomy data.
 	 *
 	 * @var    object[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $taxonomies = array();
 
@@ -34,7 +34,7 @@ class Taxonomy
 	 * An internal cache of branch data.
 	 *
 	 * @var    object[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $branches = array();
 
@@ -111,7 +111,7 @@ class Taxonomy
 	 *
 	 * @return  integer  The id of the node.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function addNestedNode($branch, NodeInterface $node, $state = 1, $access = 1, $language = '', $branchId = null)
 	{
@@ -150,7 +150,7 @@ class Taxonomy
 	 *
 	 * @return  integer  The id of the inserted node.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected static function storeNode($node, $parent_id)
 	{
@@ -387,7 +387,7 @@ class Taxonomy
 	 *
 	 * @return  object|array  A taxonomy object or an array of all taxonomies
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getTaxonomy($id = 0)
 	{
@@ -424,7 +424,7 @@ class Taxonomy
 	 *
 	 * @return  object|array  The object with the branch data or an array of all branches
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getBranch($title = '')
 	{

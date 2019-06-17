@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Table;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Utilities\ArrayHelper;
 
@@ -138,8 +139,7 @@ class FeaturedModel extends ArticlesModel
 					]
 					)
 				)
-				->innerJoin($query->quoteName('#__workflow_stages', 'ws'))
-				->where($query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id'));
+				->join('INNER', '#__workflow_stages AS ws ON ' . $query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id'));
 
 		// Join on voting table
 		if (PluginHelper::isEnabled('content', 'vote'))
@@ -205,10 +205,10 @@ class FeaturedModel extends ArticlesModel
 		$baselevel = 1;
 		$categoryId = $this->getState('filter.category_id');
 
-		if (is_numeric($categoryId))
+		if (is_array($categoryId) && count($categoryId) === 1)
 		{
-			$cat_tbl = \JTable::getInstance('Category', 'JTable');
-			$cat_tbl->load($categoryId);
+			$cat_tbl = Table::getInstance('Category', 'JTable');
+			$cat_tbl->load($categoryId[0]);
 			$rgt = $cat_tbl->rgt;
 			$lft = $cat_tbl->lft;
 			$baselevel = (int) $cat_tbl->level;

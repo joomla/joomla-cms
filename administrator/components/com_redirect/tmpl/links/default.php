@@ -40,19 +40,20 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					'closeButton' => false,
 					'backdrop'    => 'static',
 					'keyboard'    => false,
-					'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
+					'footer'      => '<button type="button" class="btn" data-dismiss="modal"'
 						. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#closeBtn\'})">'
 						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-						. '<button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
+						. '<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
 						. Text::_("JSAVE") . '</button>'
-						. '<button type="button" class="btn btn-success" aria-hidden="true" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
+						. '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
 						. Text::_("JAPPLY") . '</button>'
 				)
 			); ?>
 		<?php endif; ?>
 
 		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-warning">
+			<div class="alert alert-info">
+				<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>

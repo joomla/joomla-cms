@@ -171,11 +171,6 @@ final class SiteApplication extends CMSApplication
 
 				$document->setMetaData('rights', $this->get('MetaRights'));
 
-				if ($this->get('sef'))
-				{
-					$document->setBase(htmlspecialchars(Uri::current()));
-				}
-
 				// Get the template
 				$template = $this->getTemplate(true);
 
@@ -275,21 +270,6 @@ final class SiteApplication extends CMSApplication
 	public function getLanguageFilter()
 	{
 		return $this->language_filter;
-	}
-
-	/**
-	 * Return a reference to the AbstractMenu object.
-	 *
-	 * @param   string  $name     The name of the application/client.
-	 * @param   array   $options  An optional associative array of configuration settings.
-	 *
-	 * @return  AbstractMenu  AbstractMenu object.
-	 *
-	 * @since   3.2
-	 */
-	public function getMenu($name = 'site', $options = array())
-	{
-		return parent::getMenu($name, $options);
 	}
 
 	/**
