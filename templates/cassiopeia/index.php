@@ -165,9 +165,10 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	</div>
 	<?php endif; ?>
 
-	<?php if ($this->countModules('footer')) : ?>
+	<?php if ($this->countModules('footer') || $this->countModules('back-top')) : ?>
 	<footer class="grid-child container-footer footer">
 		<jdoc:include type="modules" name="footer" style="none" />
+		<jdoc:include type="modules" name="back-top" style="none" />
 	</footer>
 	<?php endif; ?>
 

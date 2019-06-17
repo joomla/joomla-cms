@@ -38,6 +38,7 @@
 		<position>bottom-a</position>
 		<position>bottom-b</position>
 		<position>footer</position>
+		<position>back-top</position>
 		<position>debug</position>
 	</positions>
 	<languages folder="language">
