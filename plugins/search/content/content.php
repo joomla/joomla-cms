@@ -347,7 +347,7 @@ class PlgSearchContent extends JPlugin
 			$case_when1  = ' CASE WHEN ';
 			$case_when1 .= $query->charLength('c.alias', '!=', '0');
 			$case_when1 .= ' THEN ';
-			$c_id = $query->castAsChar('c.id');
+			$c_id        = $query->castAsChar('c.id');
 			$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id . ' END as catslug';
@@ -358,15 +358,10 @@ class PlgSearchContent extends JPlugin
 				$order = ' relevance DESC, ' . $order;
 			}
 
-			$query->select(
-				'a.title AS title, a.metadesc, a.metakey, a.created AS created, '
-				. $query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text,'
-				. $case_when . ',' . $case_when1 . ', '
-				. 'c.title AS section, \'2\' AS browsernav'
-			);
-
-			// .'CONCAT_WS("/", c.title) AS section, \'2\' AS browsernav' );
-			$query->from('#__content AS a')
+			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, a.language, a.catid')
+				->select($query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text')
+				->select('c.title AS section, ' . $case_when . ',' . $case_when1 . ', ' . '\'2\' AS browsernav')
+				->from('#__content AS a')
 				->join('INNER', '#__categories AS c ON c.id=a.catid AND c.access IN (' . $groups . ')')
 				->where(
 					'(' . $where . ') AND a.state = 2 AND c.published = 1 AND a.access IN (' . $groups
@@ -397,20 +392,11 @@ class PlgSearchContent extends JPlugin
 				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 			}
 
-			// Find an itemid for archived to use if there isn't another one.
-			$item = $app->getMenu()->getItems('link', 'index.php?option=com_content&view=archive', true);
-			$itemid = isset($item->id) ? '&Itemid=' . $item->id : '';
-
 			if (isset($list3))
 			{
 				foreach ($list3 as $key => $item)
 				{
-					$date = JFactory::getDate($item->created);
-
-					$created_month = $date->format('n');
-					$created_year = $date->format('Y');
-
-					$list3[$key]->href = JRoute::_('index.php?option=com_content&view=archive&year=' . $created_year . '&month=' . $created_month . $itemid);
+					$list3[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language);
 				}
 			}
 

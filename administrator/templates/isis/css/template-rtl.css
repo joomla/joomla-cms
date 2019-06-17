@@ -7766,14 +7766,8 @@ ul.manager .height-50 .icon-folder-2 {
 	line-height: 35px;
 	font-size: 30px;
 }
-#imageForm {
-	margin: -25px 0 0;
-}
 #imageForm .well {
 	margin-bottom: 5px;
-}
-.thumbnails-media {
-	margin-left: 0;
 }
 .thumbnails-media .thumbnail {
 	background-color: #f4f4f4;
@@ -7783,8 +7777,7 @@ ul.manager .height-50 .icon-folder-2 {
 	padding: 0px;
 	height: 100px;
 	width: 100px;
-	margin: 8px 16px;
-	margin-left: 0 !important;
+	margin: 8px;
 	position: relative;
 	text-align: center;
 	overflow: hidden;
@@ -7969,6 +7962,7 @@ ul.manager .height-50 .icon-folder-2 {
 }
 #mediamanager-form {
 	margin: 0 -10px;
+	overflow-x: hidden;
 }
 #mediamanager-form > .muted {
 	padding: 0px;
@@ -7980,10 +7974,14 @@ ul.manager .height-50 .icon-folder-2 {
 #mediamanager-form .checkbox input {
 	margin-top: 3px;
 }
+#mediamanager-form .thumbnails {
+	margin: 0 -8px;
+	overflow-x: hidden;
+}
 #mediamanager-form .thumbnails .thumbnail {
 	height: 120px;
 	width: 120px;
-	margin: 0 18px 18px 0;
+	margin: 8px;
 }
 #mediamanager-form .thumbnails .imgThumb label,
 #mediamanager-form .thumbnails .imgTotal {
@@ -8047,6 +8045,7 @@ body.modal-open {
 	padding: 0;
 	width: 100%;
 	height: auto;
+	max-height: none;
 }
 .modal-body .container-fluid {
 	padding-top: 15px;
@@ -8065,7 +8064,10 @@ body.modal-open {
 	}
 }
 .container-popup {
-	padding: 28px 10px 10px 10px;
+	padding: 10px;
+}
+.field-media-wrapper iframe {
+	max-height: 75vh;
 }
 body .navbar,
 body .navbar-fixed-top {
