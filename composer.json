@@ -8,7 +8,7 @@
     "config": {
         "optimize-autoloader": true,
         "platform": {
-            "php": "7.0.8"
+            "php": "7.2"
         },
         "preferred-install": {
             "joomla/application": "dist",
@@ -51,7 +51,7 @@
         }
     },
     "require": {
-        "php": ">=7.0",
+        "php": ">=7.2",
         "joomla/application": "~2.0@dev",
         "joomla/archive": "~1.1.5",
         "joomla/authentication": "~2.0@dev",
