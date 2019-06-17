@@ -4,8 +4,44 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3a5ac2c8e1edfb8df810accdcc6db773",
+    "content-hash": "a3c1d9222769118e4ce0b1b925594e79",
     "packages": [
+        {
+            "name": "brumann/polyfill-unserialize",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dbrumann/polyfill-unserialize.git",
+                "reference": "844d7e44b62a1a3d5c68cfb7ebbd59c17ea0fd7b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dbrumann/polyfill-unserialize/zipball/844d7e44b62a1a3d5c68cfb7ebbd59c17ea0fd7b",
+                "reference": "844d7e44b62a1a3d5c68cfb7ebbd59c17ea0fd7b",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3|^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Brumann\\Polyfill\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Denis Brumann",
+                    "email": "denis.brumann@sensiolabs.de"
+                }
+            ],
+            "description": "Backports unserialize options introduced in PHP 7.0 to older PHP versions.",
+            "time": "2017-02-03T09:55:47+00:00"
+        },
         {
             "name": "algo26-matthias/idna-convert",
             "version": "v1.1.0",
@@ -721,12 +757,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "29c007d2706dd5f2f237a23e87755a93a2a34de9"
+                "reference": "8ab606d267f8464fb765dbd3e9c4cc6494a303e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/29c007d2706dd5f2f237a23e87755a93a2a34de9",
-                "reference": "29c007d2706dd5f2f237a23e87755a93a2a34de9",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/8ab606d267f8464fb765dbd3e9c4cc6494a303e4",
+                "reference": "8ab606d267f8464fb765dbd3e9c4cc6494a303e4",
                 "shasum": ""
             },
             "require": {
@@ -778,7 +814,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-05-07T11:36:04+00:00"
+            "time": "2019-06-15T17:44:26+00:00"
         },
         {
             "name": "joomla/di",
@@ -1448,12 +1484,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/string.git",
-                "reference": "964e0d4f9b4253b56f21d23a5f4787a6be37c71d"
+                "reference": "0402d4a4a7acc7a34ed39e5c490ad490b5fa8b79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/string/zipball/964e0d4f9b4253b56f21d23a5f4787a6be37c71d",
-                "reference": "964e0d4f9b4253b56f21d23a5f4787a6be37c71d",
+                "url": "https://api.github.com/repos/joomla-framework/string/zipball/0402d4a4a7acc7a34ed39e5c490ad490b5fa8b79",
+                "reference": "0402d4a4a7acc7a34ed39e5c490ad490b5fa8b79",
                 "shasum": ""
             },
             "require": {
@@ -1508,7 +1544,7 @@
                 "joomla",
                 "string"
             ],
-            "time": "2019-03-18T01:24:51+00:00"
+            "time": "2019-06-16T18:22:40+00:00"
         },
         {
             "name": "joomla/uri",
@@ -5589,6 +5625,49 @@
             ],
             "description": "Library for handling version information and constraints",
             "time": "2017-03-05T17:38:23+00:00"
+        },
+        {
+            "name": "typo3/phar-stream-wrapper",
+            "version": "v2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TYPO3/phar-stream-wrapper.git",
+                "reference": "b7a21f0859059ed5d9754af8c11f852d43762334"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TYPO3/phar-stream-wrapper/zipball/b7a21f0859059ed5d9754af8c11f852d43762334",
+                "reference": "b7a21f0859059ed5d9754af8c11f852d43762334",
+                "shasum": ""
+            },
+            "require": {
+                "brumann/polyfill-unserialize": "^1.0",
+                "ext-fileinfo": "*",
+                "ext-json": "*",
+                "php": "^5.3.3|^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.36"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TYPO3\\PharStreamWrapper\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Interceptors for PHP's native phar:// stream handling",
+            "homepage": "https://typo3.org/",
+            "keywords": [
+                "phar",
+                "php",
+                "security",
+                "stream-wrapper"
+            ],
+            "time": "2018-10-18T08:46:28+00:00"
         },
         {
             "name": "php-cs-fixer/diff",
