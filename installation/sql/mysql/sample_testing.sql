@@ -208,7 +208,8 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (212, 18, 363, 364, 2, 'com_modules.module.119', 'Banner', '{"core.delete":[],"core.edit":[],"core.edit.state":[],"module.edit.frontend":[]}'),
 (213, 18, 365, 366, 2, 'com_modules.module.120', 'Footer', '{"core.delete":[],"core.edit":[],"core.edit.state":[],"module.edit.frontend":[]}'),
 (214, 1, 367, 368, 1, 'com_privacy', 'com_privacy', '{"core.admin":{"7":1}}'),
-(215, 1, 369, 370, 1, 'com_actionlogs', 'com_actionlogs', '{"core.admin":{"7":1}}');
+(215, 1, 369, 370, 1, 'com_actionlogs', 'com_actionlogs', '{"core.admin":{"7":1}}'),
+(216, 18, 371, 372, 2, 'com_modules.module.122', 'Back to Top', '{"core.delete":[],"core.edit":[],"core.edit.state":[],"module.edit.frontend":[]}');
 
 --
 -- Dumping data for table `#__banners`
@@ -651,7 +652,8 @@ INSERT INTO `#__modules` (`id`, `title`, `note`, `content`, `ordering`, `positio
 (118, 'Bottom-b', '', '<div class="demo-module">\r\n<p><span class="fa fa-joomla">&nbsp;</span><span class="badge badge-default">New</span></p>\r\n<p class="demo-title">Bottom-b</p>\r\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\r\n</div>', 1, 'bottom-b', 0, NULL, NULL, NULL, 1, 'mod_custom', 1, 0, '{"prepare_content":"0","backgroundimage":"","layout":"_:default","moduleclass_sfx":" bg-danger text-white","cache":"1","cache_time":"900","cachemode":"static","module_tag":"div","bootstrap_size":"3","header_tag":"h3","header_class":"","style":"Cassiopeia-default"}', 0, '*'),
 (119, 'Banner', '', '<p><img src="images/banners/banner.jpg"></p>', 1, 'banner', 0, NULL, NULL, NULL, 1, 'mod_custom', 1, 0, '{"prepare_content":"0","backgroundimage":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"static","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*'),
 (120, 'Footer', '', '&copy; Joomla! CMS', 1, 'footer', 0, NULL, NULL, NULL, 1, 'mod_custom', 1, 1, '', 0, '*'),
-(121, 'Latest Actions', '', '', 0, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_latestactions', 6, 1, '{}', 1, '*');
+(121, 'Latest Actions', '', '', 0, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_latestactions', 6, 1, '{}', 1, '*'),
+(122, 94, 'Back to Top', '', '<a href=\"#top\" id=\"back-top\" class=\"back-top\">\r\n<span class=\"icon-arrow-up-4\" aria-hidden=\"true\"></span>\r\n<span class=\"sr-only\">Back to Top</span>\r\n</a>', 1, 'footer', 524, '2019-06-17 07:35:31', NULL, NULL, 1, 'mod_custom', 1, 1, '{\"prepare_content\":1,\"backgroundimage\":\"\",\"layout\":\"_:default\",\"moduleclass_sfx\":\"\",\"cache\":1,\"cache_time\":900,\"cachemode\":\"static\",\"style\":\"0\",\"module_tag\":\"div\",\"bootstrap_size\":\"0\",\"header_tag\":\"h3\",\"header_class\":\"\"}', 0, '*');
 
 
 
@@ -839,6 +841,7 @@ INSERT INTO `#__modules_menu` (`moduleid`, `menuid`) VALUES
 (119, 435),
 (120, 0),
 (121, 0);
+(122, 0);
 
 --
 -- Dumping data for table `#__newsfeeds`
