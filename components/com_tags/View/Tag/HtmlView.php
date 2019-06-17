@@ -288,6 +288,7 @@ class HtmlView extends BaseHtmlView
 		$app              = Factory::getApplication();
 		$menu             = $app->getMenu()->getActive();
 		$this->tags_title = $this->getTagsTitle();
+		$pathway	  = $app->getPathway();
 		$title            = '';
 
 		// Highest priority for "Browser Page Title".
@@ -326,6 +327,8 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$this->document->setTitle($title);
+		
+		$pathway->addItem($title);	
 
 		foreach ($this->item as $itemElement)
 		{
