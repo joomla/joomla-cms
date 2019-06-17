@@ -840,7 +840,7 @@ INSERT INTO `#__modules_menu` (`moduleid`, `menuid`) VALUES
 (118, 435),
 (119, 435),
 (120, 0),
-(121, 0);
+(121, 0),
 (122, 0);
 
 --
