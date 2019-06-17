@@ -767,14 +767,14 @@ class PlgSampledataMultilang extends CMSPlugin
 				. '"show_subcategory_content":"","orderby_pri":"","orderby_sec":"",'
 				. '"order_date":"","show_pagination_limit":"","filter_field":"","show_headings":"",'
 				. '"list_show_date":"","date_format":"","list_show_hits":"","list_show_author":"","display_num":"10",'
-				. '"show_pagination":"","show_pagination_results":"","show_title":"","link_titles":"",'
-				. '"show_intro":"","show_category":"","link_category":"","show_parent_category":"",'
+				. '"show_pagination":"","show_pagination_results":"","article_layout":"_:default","show_title":"",'
+				. '"link_titles":"","show_intro":"","show_category":"","link_category":"","show_parent_category":"",'
 				. '"link_parent_category":"","show_author":"","link_author":"","show_create_date":"",'
 				. '"show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"",'
 				. '"show_readmore":"","show_readmore_title":"","show_hits":"","show_noauth":"","show_feed_link":"",'
 				. '"feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_image_css":"",'
 				. '"menu_text":1,"menu_show":0,"page_title":"","show_page_heading":"","page_heading":"",'
-				. 'pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',
+				. '"pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":""}',
 			'language'     => $itemLanguage->language,
 		);
 
