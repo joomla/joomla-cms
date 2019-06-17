@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 
 <div class="accordion d-none d-sm-block" id="accordion1">
 	<div class="accordion-heading">
-		<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#batch" aria-expanded="false" aria-controls="collapseExample">
+		<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#batch" aria-expanded="false" aria-controls="batch">
 			<?php echo Text::_('COM_REDIRECT_BATCH_UPDATE_WITH_NEW_URL'); ?>
 		</button>
 	</div>
