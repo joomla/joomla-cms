@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -495,9 +496,11 @@ class ContactModel extends AdminModel
 			$db = $this->getDbo();
 
 			$query = $db->getQuery(true);
-			$query->update('#__contact_details');
-			$query->set('featured = ' . (int) $value);
-			$query->where('id IN (' . implode(',', $pks) . ')');
+			$query->update($db->quoteName('#__contact_details'));
+			$query->set($db->quoteName('featured') . ' = :featured');
+			$query->whereIn($db->quoteName('id'), $pks);
+			$query->bind(':featured', $value, ParameterType::INTEGER);
+			
 			$db->setQuery($query);
 
 			$db->execute();

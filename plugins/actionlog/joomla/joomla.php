@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Plugins
+ * @package     Joomla.Plugin
  * @subpackage  System.actionlogs
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
@@ -244,9 +244,9 @@ class PlgActionlogJoomla extends ActionLogPlugin
 
 		$db    = $this->db;
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array($params->title_holder, $params->id_holder)))
+			->select($db->quoteName([$params->title_holder, $params->id_holder]))
 			->from($db->quoteName($params->table_name))
-			->where($db->quoteName($params->id_holder) . ' IN (' . implode(',', ArrayHelper::toInteger($pks)) . ')');
+			->whereIn($db->quoteName($params->id_holder), ArrayHelper::toInteger($pks));
 		$db->setQuery($query);
 
 		try
