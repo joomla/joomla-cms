@@ -31,7 +31,7 @@ use Joomla\CMS\Language\Text;
 					<input type="text" name="new_url" id="new_url" value="" size="50">
 				</div>
 				<div id="new_url-desc">
-					<small class="form-text muted">
+					<small class="form-text text-muted">
 						<?php echo Text::_('COM_REDIRECT_FIELD_NEW_URL_DESC'); ?>
 					</small>
 				</div>
