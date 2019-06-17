@@ -436,6 +436,12 @@ abstract class AdminModel extends FormModel
 				}
 			}
 
+                        // Check for asset_id
+			if ($this->table->hasField($this->table->getColumnAlias('asset_id')))
+ 			{
+				$oldAssetId = $this->table->asset_id;
+			}
+
 			$this->generateTitle($categoryId, $this->table);
 
 			// Reset the ID because we are making a copy
@@ -488,11 +494,8 @@ abstract class AdminModel extends FormModel
 			// Get the new item ID
 			$newId = $this->table->get('id');
 
-			// Check for asset_id
-			if ($this->table->hasField($this->table->getColumnAlias('asset_id')))
+			if (!empty($oldAssetId))
 			{
-				$oldAssetId = $this->table->asset_id;
-
 				// Copy rules
 				$query = $db->getQuery(true);
 				$query->clear()
