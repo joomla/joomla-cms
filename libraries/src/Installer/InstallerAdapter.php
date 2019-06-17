@@ -507,7 +507,7 @@ abstract class InstallerAdapter
 				return false;
 			}
 
-			// If installing with success and there is an uninstall script, add a installer rollback step to rollback if needed
+			// If installing with success and there is an uninstall script, add an installer rollback step to rollback if needed
 			if ($route === 'install' && isset($this->getManifest()->uninstall->sql))
 			{
 				$this->parent->pushStep(array('type' => 'query', 'script' => $this->getManifest()->uninstall->sql));

@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\Component\Privacy\Administrator\Export\Domain;
 
 /**
@@ -23,42 +22,6 @@ use Joomla\Component\Privacy\Administrator\Export\Domain;
  */
 class PrivacyHelper extends ContentHelper
 {
-	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.9.0
-	 */
-	public static function addSubmenu($vName)
-	{
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_PRIVACY_SUBMENU_DASHBOARD'),
-			'index.php?option=com_privacy&view=dashboard',
-			$vName === 'dashboard'
-		);
-
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_PRIVACY_SUBMENU_REQUESTS'),
-			'index.php?option=com_privacy&view=requests',
-			$vName === 'requests'
-		);
-
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_PRIVACY_SUBMENU_CAPABILITIES'),
-			'index.php?option=com_privacy&view=capabilities',
-			$vName === 'capabilities'
-		);
-
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_PRIVACY_SUBMENU_CONSENTS'),
-			'index.php?option=com_privacy&view=consents',
-			$vName === 'consents'
-		);
-	}
-
 	/**
 	 * Render the data request as a XML document.
 	 *
