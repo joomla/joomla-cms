@@ -1988,6 +1988,15 @@ class JoomlaInstallerScript
 			'/plugins/captcha/recaptcha/recaptchalib.php',
 
 			/*
+			 * Joomla! 3.9.0 thru 3.10.0
+			 */
+			'/SECURITY.md',
+			'/administrator/components/com_users/controllers/profile.json.php',
+			'/components/com_users/controllers/profile.json.php',
+			'/components/com_users/controllers/profile_base_json.php',
+			'/tests/unit/suites/libraries/cms/form/field/JFormFieldHelpsiteTest.php',
+
+			/*
 			 * Legacy FOF
 			 */
 			'/libraries/fof/controller.php',
@@ -2013,6 +2022,11 @@ class JoomlaInstallerScript
 			'/libraries/fof/view.html.php',
 			'/libraries/fof/view.json.php',
 			'/libraries/fof/view.php',
+
+			/*
+			 * Joomla! 3.9.7
+			 */
+			'/administrator/components/com_joomlaupdate/access.xml',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
