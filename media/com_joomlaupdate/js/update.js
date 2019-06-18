@@ -244,7 +244,6 @@ stepExtract = function(data)
 		stat_percent = (stat_inbytes * 100) / joomlaupdate_totalsize;
 
 		// Update GUI
-		stat_inbytes += data.bytesIn;
 		stat_outbytes += data.bytesOut;
 		stat_files += data.files;
 
