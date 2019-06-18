@@ -1546,6 +1546,27 @@ class Form
 
 				break;
 			default:
+				if ($element['type'] == 'subform')
+				{
+					$field   = $this->loadField($element);
+					$subForm = $field->loadSubForm();
+
+					if ($field->multiple)
+					{
+						$return = array();
+
+						foreach ($value as $key => $val)
+						{
+							$return[$key] = $subForm->filter($val);
+						}
+					}
+					else
+					{
+						$return = $subForm->filter($value);
+					}
+
+					break;
+				}
 				// Check for a callback filter.
 				if (strpos($filter, '::') !== false && is_callable(explode('::', $filter)))
 				{
