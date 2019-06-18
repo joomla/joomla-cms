@@ -16,7 +16,6 @@ use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\Component\Cache\Administrator\View\Cache\HtmlView $this */
 
-
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
