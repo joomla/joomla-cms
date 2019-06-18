@@ -372,6 +372,13 @@
           "dist/metismenujs.min.js.map": "js/metismenujs.min.js.map"
         }
       },
+      "short-and-sweet": {
+        "name": "short-and-sweet",
+        "licenseFilename": "LICENSE",
+        "js": {
+          "dist/short-and-sweet.min.js": "js/short-and-sweet.min.js"
+        }
+      },
       "skipto": {
         "name": "skipto",
         "licenseFilename": "LICENSE.md",
