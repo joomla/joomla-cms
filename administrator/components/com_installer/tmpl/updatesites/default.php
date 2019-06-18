@@ -86,9 +86,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									</label>
 								</th>
 								<td class="d-none d-md-table-cell">
-									<span class="bold hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', $item->name, $item->description, 0); ?>">
+									<span tabindex="0">
 										<?php echo $item->name; ?>
 									</span>
+									<div role="tooltip" id="tip<?php echo $i; ?>">
+										<?php echo $item->description; ?>
+									</div>
 								</td>
 								<td class="d-none d-md-table-cell">
 									<?php echo $item->client_translated; ?>
