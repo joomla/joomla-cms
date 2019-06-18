@@ -916,10 +916,15 @@ abstract class AdminModel extends FormModel
 		$table      = $this->getTable();
 		$aliasField = $table->getColumnAlias('alias');
 		$catidField = $table->getColumnAlias('catid');
+		$titleField = $table->getColumnAlias('title');
 
 		while ($table->load(array($aliasField => $alias, $catidField => $category_id)))
 		{
-			$title = StringHelper::increment($title);
+			if ($title === $table->$titleField)
+			{
+				$title = StringHelper::increment($title);
+			}
+
 			$alias = StringHelper::increment($alias, 'dash');
 		}
 
