@@ -56,7 +56,7 @@ class TextareaField extends FormField
 	/**
 	 * Does this field supports a character counter?
 	 *
-	 * @var    mixed
+	 * @var    boolean
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $charcounter = false;
