@@ -113,7 +113,7 @@ class TextareaField extends FormField
 				break;
 
 			case 'charcounter':
-				$this->charcounter = strtolower($value) === 'yes';
+				$this->charcounter = strtolower($value) === 'true';
 				break;
 
 			default:
@@ -144,7 +144,7 @@ class TextareaField extends FormField
 			$this->rows      = isset($this->element['rows']) ? (int) $this->element['rows'] : false;
 			$this->columns   = isset($this->element['cols']) ? (int) $this->element['cols'] : false;
 			$this->maxlength = isset($this->element['maxlength']) ? (int) $this->element['maxlength'] : false;
-			$this->charcounter = isset($this->element['charcounter']) ? strtolower($this->element['charcounter']) === 'yes' : false;
+			$this->charcounter = isset($this->element['charcounter']) ? strtolower($this->element['charcounter']) === 'true' : false;
 		}
 
 		return $return;
