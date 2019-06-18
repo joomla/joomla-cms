@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ac4f0850bbca7e9575434cd584da9c79",
+    "content-hash": "450cec9e68d6d416552d56a9d10258e7",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1389,16 +1389,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/session.git",
-                "reference": "0b2786712487de24d9c1036c4f901b1d7ae6787a"
+                "reference": "33aabeb73c1dfb9fc210199a6e542404d4984151"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/session/zipball/0b2786712487de24d9c1036c4f901b1d7ae6787a",
-                "reference": "0b2786712487de24d9c1036c4f901b1d7ae6787a",
+                "url": "https://api.github.com/repos/joomla-framework/session/zipball/33aabeb73c1dfb9fc210199a6e542404d4984151",
+                "reference": "33aabeb73c1dfb9fc210199a6e542404d4984151",
                 "shasum": ""
             },
             "require": {
-                "php": "~7.0"
+                "php": "~7.2"
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
@@ -1443,7 +1443,7 @@
                 "joomla",
                 "session"
             ],
-            "time": "2019-06-15T22:12:21+00:00"
+            "time": "2019-06-18T18:25:46+00:00"
         },
         {
             "name": "joomla/string",
@@ -2438,7 +2438,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -5401,7 +5401,7 @@
                     "email": "puneet.kala@community.joomla.org"
                 },
                 {
-                    "name": "Javier Gomez",
+                    "name": "Javier Gómez",
                     "email": "javier.gomez@community.joomla.org"
                 }
             ],
@@ -5489,7 +5489,7 @@
                     "email": "puneet.kala@community.joomla.org"
                 },
                 {
-                    "name": "Javier Gomez",
+                    "name": "Javier Gómez",
                     "email": "javier.gomez@community.joomla.org"
                 }
             ],
