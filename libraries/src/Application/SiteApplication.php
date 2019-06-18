@@ -171,11 +171,6 @@ final class SiteApplication extends CMSApplication
 
 				$document->setMetaData('rights', $this->get('MetaRights'));
 
-				if ($this->get('sef'))
-				{
-					$document->setBase(htmlspecialchars(Uri::current()));
-				}
-
 				// Get the template
 				$template = $this->getTemplate(true);
 

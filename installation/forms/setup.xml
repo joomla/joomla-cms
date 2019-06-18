@@ -33,6 +33,8 @@
 			id="admin_user"
 			class="form-control"
 			required="true"
+			validate="username"
+			size="30"
 		/>
 		<field
 			name="admin_password"

@@ -36,7 +36,7 @@ class FeedView extends BaseHtmlView
 	{
 		$app       = Factory::getApplication();
 		$document  = Factory::getDocument();
-		$ids       = $app->input->get('id');
+		$ids       = $app->input->get('id', array(), 'array');
 		$i         = 0;
 		$tagIds    = '';
 		$filter    = new InputFilter;

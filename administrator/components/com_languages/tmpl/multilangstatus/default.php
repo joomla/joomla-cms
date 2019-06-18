@@ -98,6 +98,17 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 					</td>
 				</tr>
 			<?php endif; ?>
+			<?php if ($contentlang->published == -2) : ?>
+				<tr class="warning">
+					<td>
+						<span class="icon-pending" aria-hidden="true"></span>
+						<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+					</td>
+					<td>
+						<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_CONTENT_LANGUAGE_TRASHED', $contentlang->lang_code); ?>
+					</td>
+				</tr>
+			<?php endif; ?>
 		<?php endforeach; ?>
 		<?php if ($this->listUsersError) : ?>
 			<tr class="info">
@@ -211,11 +222,21 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 						</td>
 				<?php endif; ?>
 				<?php // Published Content languages ?>
-				<?php if ($status->lang_code && $status->published) : ?>
+				<?php if ($status->lang_code && $status->published == 1) : ?>
 						<td class="text-center">
 							<span class="fa fa-check" aria-hidden="true"></span>
 							<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 						</td>
+				<?php elseif ($status->lang_code && $status->published == 0) : ?>
+					<td class="text-center">
+						<span class="icon-pending" aria-hidden="true"></span>
+						<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+					</td>
+				<?php elseif ($status->lang_code && $status->published == -2) : ?>
+					<td class="text-center">
+						<span class="icon-trash" aria-hidden="true"></span>
+						<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+					</td>
 				<?php else : ?>
 						<td class="text-center">
 							<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
@@ -267,9 +288,9 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 							<?php endif; ?>
 						</td>
+					</tr>
 				<?php endif; ?>
 			<?php endforeach; ?>
-			</tr>
 		</tbody>
 	</table>
 	<?php endif; ?>
