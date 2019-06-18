@@ -1389,12 +1389,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/session.git",
-                "reference": "a112526bf86cdb5066abce08e904278cac02cac0"
+                "reference": "33aabeb73c1dfb9fc210199a6e542404d4984151"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/session/zipball/a112526bf86cdb5066abce08e904278cac02cac0",
-                "reference": "a112526bf86cdb5066abce08e904278cac02cac0",
+                "url": "https://api.github.com/repos/joomla-framework/session/zipball/33aabeb73c1dfb9fc210199a6e542404d4984151",
+                "reference": "33aabeb73c1dfb9fc210199a6e542404d4984151",
                 "shasum": ""
             },
             "require": {
@@ -1443,7 +1443,7 @@
                 "joomla",
                 "session"
             ],
-            "time": "2019-06-18T00:21:14+00:00"
+            "time": "2019-06-18T18:25:46+00:00"
         },
         {
             "name": "joomla/string",
@@ -2438,7 +2438,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -5401,7 +5401,7 @@
                     "email": "puneet.kala@community.joomla.org"
                 },
                 {
-                    "name": "Javier Gomez",
+                    "name": "Javier Gómez",
                     "email": "javier.gomez@community.joomla.org"
                 }
             ],
@@ -5489,7 +5489,7 @@
                     "email": "puneet.kala@community.joomla.org"
                 },
                 {
-                    "name": "Javier Gomez",
+                    "name": "Javier Gómez",
                     "email": "javier.gomez@community.joomla.org"
                 }
             ],
