@@ -46,8 +46,7 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
- * @var   boolean  $charcounter     Does this field supports a character counter?
-
+ * @var   boolean  $charcounter     Does this field support a character counter?
  */
 
 // Initialize some field attributes.
