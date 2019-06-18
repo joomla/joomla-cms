@@ -54,6 +54,14 @@ class TextareaField extends FormField
 	protected $maxlength;
 
 	/**
+	 * Does this field supports a character counter?
+	 *
+	 * @var    mixed
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $charcounter = false;
+
+	/**
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
@@ -77,6 +85,7 @@ class TextareaField extends FormField
 			case 'rows':
 			case 'columns':
 			case 'maxlength':
+			case 'charcounter':
 				return $this->$name;
 		}
 
@@ -101,6 +110,10 @@ class TextareaField extends FormField
 			case 'columns':
 			case 'maxlength':
 				$this->$name = (int) $value;
+				break;
+
+			case 'charcounter':
+				$this->charcounter = strtolower($value) === 'yes';
 				break;
 
 			default:
@@ -131,6 +144,7 @@ class TextareaField extends FormField
 			$this->rows      = isset($this->element['rows']) ? (int) $this->element['rows'] : false;
 			$this->columns   = isset($this->element['cols']) ? (int) $this->element['cols'] : false;
 			$this->maxlength = isset($this->element['maxlength']) ? (int) $this->element['maxlength'] : false;
+			$this->charcounter = isset($this->element['charcounter']) ? strtolower($this->element['charcounter']) === 'yes' : false;
 		}
 
 		return $return;
@@ -164,12 +178,13 @@ class TextareaField extends FormField
 		// Initialize some field attributes.
 		$columns      = $this->columns ? ' cols="' . $this->columns . '"' : '';
 		$rows         = $this->rows ? ' rows="' . $this->rows . '"' : '';
-		$maxlength    = $this->maxlength ? ' maxlength="' . $this->maxlength . '"' : '';
+		$maxlength    = $this->maxlength ? ' maxlength="' . $this->maxlength . '"' : '';		
 
 		$extraData = array(
 			'maxlength'    => $maxlength,
 			'rows'         => $rows,
-			'columns'      => $columns
+			'columns'      => $columns,
+			'charcounter'  => $this->charcounter
 		);
 
 		return array_merge($data, $extraData);

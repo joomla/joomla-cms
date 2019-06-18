@@ -590,7 +590,7 @@
 			cols="60"
 			rows="3"
 			maxlength="160"
-			layout="joomla.form.field.charcount"
+			charcounter="yes"
 		/>
 
 		<field

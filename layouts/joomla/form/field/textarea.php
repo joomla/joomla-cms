@@ -9,6 +9,10 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
 extract($displayData);
 
 /**
@@ -42,11 +46,14 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   boolean  $charcounter     Does this field supports a character counter?
+
  */
 
 // Initialize some field attributes.
 $autocomplete = !$autocomplete ? 'autocomplete="off"' : 'autocomplete="' . $autocomplete . '"';
 $autocomplete = $autocomplete === 'autocomplete="on"' ? '' : $autocomplete;
+$counterlabel = 'data-counter-label="' . Text::_('COM_CONFIG_METADESC_COUNTER') . '"';
 
 $attributes = array(
 	$columns ?: '',
@@ -62,9 +69,16 @@ $attributes = array(
 	$autocomplete,
 	$autofocus ? 'autofocus' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
-	$maxlength ? $maxlength: ''
-
+	$maxlength ? $maxlength: '',
+	$counterlabel
 );
+
+if ($charcounter)
+{
+	// Load the js file
+	Factory::getDocument()->getWebAssetManager()->enableAsset('short-and-sweet');
+	Factory::getDocument()->addScriptDeclaration("document.addEventListener('DOMContentLoaded', function() {shortAndSweet('textarea', {counterClassName: 'small text-muted'}); });");
+}
 ?>
 <textarea name="<?php
 echo $name; ?>" id="<?php
