@@ -38,8 +38,7 @@ $app = Factory::getApplication();
 						<?php echo $this->loadTemplate('message'); ?>
 					<?php endif; ?>
 					<?php $tabs = $app->triggerEvent('onInstallerAddInstallationTab', []); ?>
-					<?php $active = isset($tabs[0]) ? $tabs[0]['name'] : ''; ?>
-					<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => $active]); ?>
+					<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => $tabs[0]['name'] ?? '']); ?>
 					<?php // Show installation tabs ?>
 					<?php foreach ($tabs as $tab) : ?>
 						<?php echo HTMLHelper::_('uitab.addTab', 'myTab', $tab['name'], $tab['label']); ?>
