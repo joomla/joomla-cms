@@ -79,7 +79,7 @@ class Route
 			if (!is_int($tls))
 			{
 				Log::add(
-					__METHOD__ . '() called with incompatible variable type boolean on parameter $tls.',
+					__METHOD__ . '() called with incompatible variable type on parameter $tls.',
 					Log::WARNING,
 					'deprecated'
 				);
