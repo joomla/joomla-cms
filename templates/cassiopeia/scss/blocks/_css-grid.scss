@@ -118,11 +118,6 @@
 .container-footer         { grid-area: footer; }
 .system-debug             { grid-area: debug; }
 
-.container-component {
-  /* autoprefixer: off */
-  grid-column: auto 2fr;
-}
-
 .container-top-a,
 .container-top-b,
 .container-bottom-a,
