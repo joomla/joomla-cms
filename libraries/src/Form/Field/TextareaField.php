@@ -178,7 +178,7 @@ class TextareaField extends FormField
 		// Initialize some field attributes.
 		$columns      = $this->columns ? ' cols="' . $this->columns . '"' : '';
 		$rows         = $this->rows ? ' rows="' . $this->rows . '"' : '';
-		$maxlength    = $this->maxlength ? ' maxlength="' . $this->maxlength . '"' : '';		
+		$maxlength    = $this->maxlength ? ' maxlength="' . $this->maxlength . '"' : '';
 
 		$extraData = array(
 			'maxlength'    => $maxlength,
