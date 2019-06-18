@@ -119,7 +119,7 @@ class ActionlogsController extends AdminController
 			}
 
 			fclose($output);
-
+			$app->triggerEvent('onAfterLogExport', array());
 			$app->close();
 		}
 		else

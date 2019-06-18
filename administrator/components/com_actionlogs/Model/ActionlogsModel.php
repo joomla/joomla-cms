@@ -350,8 +350,6 @@ class ActionlogsModel extends ListModel
 		try
 		{
 			$db->execute();
-
-			return true;
 		}
 		catch (RuntimeException $e)
 		{
@@ -359,6 +357,10 @@ class ActionlogsModel extends ListModel
 
 			return false;
 		}
+
+		Factory::getApplication()->triggerEvent('onAfterLogPurge', array());
+
+		return true;
 	}
 
 	/**
@@ -373,13 +375,15 @@ class ActionlogsModel extends ListModel
 		try
 		{
 			$this->getDbo()->truncateTable('#__action_logs');
-
-			return true;
 		}
 		catch (Exception $e)
 		{
 			return false;
 		}
+
+		Factory::getApplication()->triggerEvent('onAfterLogPurge', array());
+
+		return true;
 	}
 
 	/**
