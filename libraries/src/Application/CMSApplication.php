@@ -855,9 +855,9 @@ class CMSApplication extends WebApplication
 
 				// The user is successfully logged in. Run the after login events
 				$this->triggerEvent('onUserAfterLogin', array($options));
-			}
 
-			return true;
+				return true;
+			}
 		}
 
 		// Trigger onUserLoginFailure Event.
