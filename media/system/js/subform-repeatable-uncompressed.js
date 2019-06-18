@@ -66,7 +66,16 @@
 		// create from template
 		if (this.options.rowTemplateSelector) {
 			// Find the template element and get its HTML content, this is our template.
-			this.template = $.trim(this.$container.find(this.options.rowTemplateSelector).last().html()) || '';
+			var $tmplElement = this.$container.find(this.options.rowTemplateSelector).last();
+
+			// Move the template out of the form scope, for IE compatibility.
+			// But only a root template (!!!)
+			if (!$tmplElement.parents(this.options.rowTemplateSelector).length) {
+				$(document.body).append($tmplElement);
+			}
+
+			this.template = $.trim($tmplElement.html()) || '';
+			this.$tmplElement = $tmplElement;
 		}
 		// create from existing rows
 		else {
@@ -236,6 +245,7 @@
 
 	// method for hack the scripts that can be related
 	// to the one of field that in given $row
+	// @TODO Stop using this function. Elements within subforms should initialize themselves
 	$.subformRepeatable.prototype.fixScripts = function($row){
 		// fix media field
 		$row.find('a[onclick*="jInsertFieldValue"]').each(function(){
@@ -248,11 +258,6 @@
 			// update select button
 			$select.attr('href', oldHref.replace(/&fieldid=(.+)&/, '&fieldid=' + inputId + '&'));
 		});
-
-		// bootstrap based User field
-		if($.fn.fieldUser){
-			$row.find('.field-user-wrapper').fieldUser();
-		}
 	};
 
 	// defaults
