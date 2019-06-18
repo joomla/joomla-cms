@@ -149,6 +149,15 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
+
+			<field
+				name="page_subheading"
+				type="text"
+				label="JGLOBAL_SUBHEADING_LABEL"
+				description="JGLOBAL_SUBHEADING_DESC"
+				size="20"
+			/>
+
 	</fieldset>
 
 	<fieldset name="article"
