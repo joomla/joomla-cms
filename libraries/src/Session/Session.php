@@ -201,7 +201,7 @@ class Session extends BaseSession
 	 *
 	 * @since   1.5
 	 */
-	public function clear(): void
+	public function clear()
 	{
 		// Handle B/C by checking if parameters were passed to this method; if so proxy to the new remove() method, will be removed at 5.0
 		if (func_num_args() >= 1)
@@ -230,10 +230,10 @@ class Session extends BaseSession
 					$name = $args[1] . '.' . $name;
 				}
 
-				$this->remove($name);
+				return $this->remove($name);
 			}
 		}
 
-		parent::clear();
+		return parent::clear();
 	}
 }
