@@ -54,7 +54,7 @@ class TextareaField extends FormField
 	protected $maxlength;
 
 	/**
-	 * Does this field supports a character counter?
+	 * Does this field support a character counter?
 	 *
 	 * @var    boolean
 	 * @since  __DEPLOY_VERSION__
