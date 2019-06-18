@@ -67,7 +67,7 @@ HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['version' => 'auto'
 									<?php echo '&#x200E;' . HTMLHelper::_('number.bytes', $item->size); ?>
 								</td>
 							</tr>
-						<?php endforeach; ?>
+						<?php $i++; endforeach; ?>
 					</tbody>
 				</table>
 
