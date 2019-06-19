@@ -81,8 +81,6 @@ $attributes = array(
 	$maxlength ? $maxlength: '',
 	!empty($counterlabel)
 );
-
-
 ?>
 <textarea name="<?php
 echo $name; ?>" id="<?php
