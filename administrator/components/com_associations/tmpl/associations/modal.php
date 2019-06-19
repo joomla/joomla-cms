@@ -61,7 +61,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['ve
 	<?php else : ?>
 		<table class="table" id="associationsList">
 			<caption id="captionTable" class="sr-only">
-				?php echo Text::_('COM_ASSOCIATIONS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+				<?php echo Text::_('COM_ASSOCIATIONS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
 			</caption>
 			<thead>
 				<tr>
