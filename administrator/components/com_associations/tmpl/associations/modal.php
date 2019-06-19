@@ -43,7 +43,6 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['ve
 ?>
 <form action="<?php echo Route::_('index.php?option=com_associations&view=associations&layout=modal&tmpl=component&function='
 . $function . '&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
-
 	<div class="row">
 		<div class="col-md-12">
 			<div id="j-main-container">
