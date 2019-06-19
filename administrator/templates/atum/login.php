@@ -288,7 +288,7 @@ $this->addStyleDeclaration($css);
 			<jdoc:include type="modules" name="title"/>
 		</div>
 		<div class="header-items d-flex">
-			<jdoc:include type="modules" name="status" style="header-element"/>
+			<jdoc:include type="modules" name="status" style="header-item"/>
 		</div>
 	</div>
 </header>
