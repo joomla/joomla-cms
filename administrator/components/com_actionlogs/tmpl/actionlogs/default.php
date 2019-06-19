@@ -54,7 +54,6 @@ Factory::getDocument()->addScriptDeclaration('
 
 <form action="<?php echo Route::_('index.php?option=com_actionlogs&view=actionlogs'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container" class="j-main-container">
-		<?php
 		<?php // Search tools bar ?>
 		echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 		?>
