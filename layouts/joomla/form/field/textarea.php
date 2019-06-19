@@ -53,10 +53,19 @@ $autocomplete = !$autocomplete ? 'autocomplete="off"' : 'autocomplete="' . $auto
 $autocomplete = $autocomplete === 'autocomplete="on"' ? '' : $autocomplete;
 $counterlabel = 'data-counter-label="' . Text::_('COM_CONFIG_METADESC_COUNTER') . '"';
 
+if ($charcounter)
+{
+	// Load the js file
+	Factory::getDocument()->getWebAssetManager()->enableAsset('short-and-sweet');
+
+	// Set the css class to be used as the trigger
+	$charcounter = 'charcount';
+}
+
 $attributes = array(
 	$columns ?: '',
 	$rows ?: '',
-	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
+	!empty($class) ? 'class="form-control ' . $class . $charcounter . '"' : 'class="form-control ' . $charcounter . '"',
 	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	$disabled ? 'disabled' : '',
@@ -71,11 +80,7 @@ $attributes = array(
 	$counterlabel
 );
 
-if ($charcounter)
-{
-	// Load the js file
-	Factory::getDocument()->getWebAssetManager()->enableAsset('short-and-sweet');
-}
+
 ?>
 <textarea name="<?php
 echo $name; ?>" id="<?php

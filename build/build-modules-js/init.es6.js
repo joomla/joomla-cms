@@ -264,7 +264,7 @@ const copyFiles = (options) => {
       const shortandsweetPath = `${dest}/${options.settings.vendors[packageName].js['dist/short-and-sweet.min.js']}`;
       let ShortandsweetJs = Fs.readFileSync(shortandsweetPath, { encoding: 'UTF-8' });
       ShortandsweetJs = ShortandsweetJs.concat(`document.addEventListener('DOMContentLoaded', function()`
-          + `{shortAndSweet('textarea', {counterClassName: 'small text-muted'}); });`);
+          + `{shortAndSweet('textarea.charcount', {counterClassName: 'small text-muted'}); });`);
       Fs.writeFileSync(shortandsweetPath, ShortandsweetJs, { encoding: 'UTF-8' });
     }
 
