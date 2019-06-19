@@ -377,7 +377,13 @@
         "licenseFilename": "LICENSE",
         "js": {
           "dist/short-and-sweet.min.js": "js/short-and-sweet.min.js"
-        }
+        },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["short-and-sweet.min.js"]
+          }
+        ]
       },
       "skipto": {
         "name": "skipto",
