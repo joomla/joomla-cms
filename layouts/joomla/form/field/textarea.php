@@ -79,7 +79,7 @@ $attributes = array(
 	$autofocus ? 'autofocus' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
 	$maxlength ? $maxlength: '',
-	!empty($counterlabel)
+	!empty($counterlabel) ? $counterlabel : '',
 );
 ?>
 <textarea name="<?php
