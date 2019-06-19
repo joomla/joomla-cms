@@ -265,7 +265,7 @@ const copyFiles = (options) => {
       let ShortandsweetJs = Fs.readFileSync(shortandsweetPath, { encoding: 'UTF-8' });
       ShortandsweetJs = ShortandsweetJs.concat(`document.addEventListener('DOMContentLoaded', function()`
           + `{shortAndSweet('textarea', {counterClassName: 'small text-muted'}); });`);
-      Fs.writeFileSync(shortandsweetPath, ShortandsweetJs, { encoding: 'UTF-8' } );
+      Fs.writeFileSync(shortandsweetPath, ShortandsweetJs, { encoding: 'UTF-8' });
     }
 
     // Add provided Assets to a registry, if any
