@@ -51,7 +51,6 @@ extract($displayData);
 // Initialize some field attributes.
 $autocomplete = !$autocomplete ? 'autocomplete="off"' : 'autocomplete="' . $autocomplete . '"';
 $autocomplete = $autocomplete === 'autocomplete="on"' ? '' : $autocomplete;
-$counterlabel = 'data-counter-label="' . Text::_('COM_CONFIG_METADESC_COUNTER') . '"';
 
 if ($charcounter)
 {
@@ -60,6 +59,10 @@ if ($charcounter)
 
 	// Set the css class to be used as the trigger
 	$charcounter = 'charcount';
+	
+	// Set the text
+	$counterlabel = 'data-counter-label="' . Text::_('COM_CONFIG_METADESC_COUNTER') . '"';
+
 }
 
 $attributes = array(
@@ -77,7 +80,7 @@ $attributes = array(
 	$autofocus ? 'autofocus' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
 	$maxlength ? $maxlength: '',
-	$counterlabel
+	!empty($counterlabel)
 );
 
 
