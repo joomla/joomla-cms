@@ -81,8 +81,6 @@ class HtmlView extends BaseHtmlView
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		BannersHelper::addSubmenu('banners');
-
 		$this->addToolbar();
 
 		// We do not need to filter by language when multilingual is disabled

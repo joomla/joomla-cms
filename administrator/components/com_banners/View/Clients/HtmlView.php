@@ -68,8 +68,6 @@ class HtmlView extends BaseHtmlView
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		BannersHelper::addSubmenu('clients');
-
 		$this->addToolbar();
 
 		return parent::display($tpl);
