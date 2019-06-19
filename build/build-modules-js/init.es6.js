@@ -26,7 +26,7 @@ const cleanVendors = () => {
     FsExtra.removeSync(Path.join(RootPath, 'media/vendor/debugbar/vendor/jquery'));
   } else {
     // eslint-disable-next-line no-console
-    console.error('You need to run `npm install` AFTER the command `composer install`!!!. The debug plugin HASN\'T install all its front end assets');
+    console.error('You need to run `npm install` AFTER the command `composer install`!!!. The debug plugin HASN\'T installed all its front end assets');
     process.exit(1);
   }
 };
@@ -256,6 +256,16 @@ const copyFiles = (options) => {
           + '  document.Chosen = Chosen;\n'
           + '}).call(this);');
       Fs.writeFileSync(chosenPath, ChosenJs, { encoding: 'UTF-8' });
+    }
+
+    // Append initialising code to the end of the Short-and-Sweet javascript
+    if (packageName === 'short-and-sweet') {
+      const dest = Path.join(mediaVendorPath, vendorName);
+      const shortandsweetPath = `${dest}/${options.settings.vendors[packageName].js['dist/short-and-sweet.min.js']}`;
+      let ShortandsweetJs = Fs.readFileSync(shortandsweetPath, { encoding: 'UTF-8' });
+      ShortandsweetJs = ShortandsweetJs.concat(`document.addEventListener('DOMContentLoaded', function()`
+          + `{shortAndSweet('textarea', {counterClassName: 'small text-muted'}); });`);
+      Fs.writeFileSync(shortandsweetPath, ShortandsweetJs, { encoding: 'UTF-8' } );
     }
 
     // Add provided Assets to a registry, if any

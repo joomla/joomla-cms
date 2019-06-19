@@ -75,7 +75,6 @@ if ($charcounter)
 {
 	// Load the js file
 	Factory::getDocument()->getWebAssetManager()->enableAsset('short-and-sweet');
-	Factory::getDocument()->addScriptDeclaration("document.addEventListener('DOMContentLoaded', function() {shortAndSweet('textarea', {counterClassName: 'small text-muted'}); });");
 }
 ?>
 <textarea name="<?php
