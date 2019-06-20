@@ -1,0 +1,18 @@
+parameters:
+    level: max
+    paths:
+        - %currentWorkingDirectory%/src/
+        - %currentWorkingDirectory%/lib/
+        - %currentWorkingDirectory%/namespaced/
+#    excludes_analyse:
+    ignoreErrors:
+        # sodium_crypto_pwhash is a built-in function
+        - '/^Default value of the parameter #6 \$algo \(null\) of function sodium_crypto_pwhash\(\) is incompatible with type int\.$/'
+        # PHPStan issue #2124
+        - '#^Function sodium_crypto_scalarmult_base invoked with 1 parameter, 2 required\.$#'
+        # On PHP >=7.2 there is HashContext
+        - '/^Parameter #1 \$context of function hash_final expects HashContext, resource given\.$/'
+        # People call generichash() with all kinds of rubish
+        -
+            message: '#^Else branch is unreachable because previous condition is always true\.$#'
+            path: %currentWorkingDirectory%/src/File.php

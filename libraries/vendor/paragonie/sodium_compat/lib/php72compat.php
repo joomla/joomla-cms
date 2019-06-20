@@ -107,7 +107,7 @@ if (!is_callable('sodium_crypto_aead_aes256gcm_decrypt')) {
      * @param string $assocData
      * @param string $nonce
      * @param string $key
-     * @return string
+     * @return string|bool
      */
     function sodium_crypto_aead_aes256gcm_decrypt($message, $assocData, $nonce, $key)
     {
@@ -153,7 +153,7 @@ if (!is_callable('sodium_crypto_aead_chacha20poly1305_decrypt')) {
      * @param string $assocData
      * @param string $nonce
      * @param string $key
-     * @return string
+     * @return string|bool
      */
     function sodium_crypto_aead_chacha20poly1305_decrypt($message, $assocData, $nonce, $key)
     {
@@ -199,7 +199,7 @@ if (!is_callable('sodium_crypto_aead_chacha20poly1305_ietf_decrypt')) {
      * @param string $assocData
      * @param string $nonce
      * @param string $key
-     * @return string
+     * @return string|bool
      */
     function sodium_crypto_aead_chacha20poly1305_ietf_decrypt($message, $assocData, $nonce, $key)
     {
@@ -245,7 +245,7 @@ if (!is_callable('sodium_crypto_aead_xchacha20poly1305_ietf_decrypt')) {
      * @param string $assocData
      * @param string $nonce
      * @param string $key
-     * @return string
+     * @return string|bool
      */
     function sodium_crypto_aead_xchacha20poly1305_ietf_decrypt($message, $assocData, $nonce, $key)
     {
@@ -952,7 +952,7 @@ if (!is_callable('sodium_hex2bin')) {
 if (!is_callable('sodium_increment')) {
     /**
      * @see ParagonIE_Sodium_Compat::increment()
-     * @param &string $string
+     * @param string $string
      * @return void
      * @throws SodiumException
      * @throws TypeError
@@ -1009,7 +1009,7 @@ if (!is_callable('sodium_memcmp')) {
 if (!is_callable('sodium_memzero')) {
     /**
      * @see ParagonIE_Sodium_Compat::memzero()
-     * @param string &$str
+     * @param string $str
      * @return void
      * @throws SodiumException
      * @throws TypeError
