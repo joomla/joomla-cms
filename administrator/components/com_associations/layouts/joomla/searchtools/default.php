@@ -46,7 +46,7 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
 ?>
 <div class="js-stools" role="search">
 	<?php // Add the itemtype and language selectors before the form filters. Do not display in modal. ?>
-	<?php $app = JFactory::getApplication(); ?>
+	<?php $app = Factory::getApplication(); ?>
 	<?php if ($app->input->get('forcedItemType', '', 'string') == '') : ?>
 		<?php $itemTypeField = $data['view']->filterForm->getField('itemtype'); ?>
 		<div class="js-stools-container-selector-first">
