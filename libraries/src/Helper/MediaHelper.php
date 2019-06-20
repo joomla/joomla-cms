@@ -11,6 +11,7 @@ namespace Joomla\CMS\Helper;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Media helper class
@@ -408,5 +409,46 @@ class MediaHelper
 			default:
 				return $val;
 		}
+	}
+
+	/**
+	 * Checks that the supplied path is within the files directory or another whitelisted directory.
+	 *
+	 * @param   string  $path       Path to a file or directory
+	 * @param   string  $basePath   The base files or images directory path
+	 * @param   string  $component  The option name for the component storing the parameters
+	 *
+	 * @return  boolean  True if the path is valid
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function isValidPath($path, $basePath = null, $component = 'com_media')
+	{
+		$realpath = realpath($path);
+		$realBasePath = $basePath ? realpath($basePath) : null;
+
+		// First check the media base
+		if ($realBasePath && strpos($realpath, Path::clean($realBasePath)) === 0)
+		{
+			return true;
+		}
+
+		// Get the whitelist from params
+		$params = ComponentHelper::getParams($component);
+		$whitelist = (array) $params->get('directory_whitelist', array());
+
+		// If the path is under any of the whitelist paths, it's considered valid
+		foreach ($whitelist as $item)
+		{
+			$realDirPath = $item->directory_path ? realpath($item->directory_path) : null;
+
+			if ($realDirPath && strpos($realpath, Path::clean($realDirPath)) === 0)
+			{
+				return true;
+			}
+		}
+
+		// Didn't find a matching base path. Invalid.
+		return false;
 	}
 }
