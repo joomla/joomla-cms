@@ -45,15 +45,13 @@ abstract class TagsPopularHelper
 
 		$query = $db->getQuery(true)
 			->select(
-				$db->quoteName(
-					[
-						'MAX(' . $db->quoteName('tag_id') . ') AS tag_id',
-						' COUNT(*) AS count', 'MAX(' . $db->quoteName('t.title') . ') AS title',
-						'MAX(' . $db->quoteName('t.access') . ') AS access',
-						'MAX(' . $db->quoteName('t.alias') . ') AS alias',
-						'MAX(' . $db->quoteName('t.params') . ') AS params',
-					]
-				)
+				[
+					'MAX(' . $db->quoteName('tag_id') . ') AS ' . $db->quoteName('tag_id'),
+					' COUNT(*) AS count', 'MAX(' . $db->quoteName('t.title') . ') AS ' . $db->quoteName('title'),
+					'MAX(' . $db->quoteName('t.access') . ') AS ' . $db->quoteName('access'),
+					'MAX(' . $db->quoteName('t.alias') . ') AS ' . $db->quoteName('alias'),
+					'MAX(' . $db->quoteName('t.params') . ') AS ' . $db->quoteName('params'),
+				]
 			)
 			->group($db->quoteName(['tag_id', 'title', 'access', 'alias']))
 			->from($db->quoteName('#__contentitem_tag_map', 'm'))
@@ -103,10 +101,8 @@ abstract class TagsPopularHelper
 				. ' OR ' . $db->quoteName('c.core_publish_up') . ' <= :nowDate2)')
 			->where('(' . $db->quoteName('c.core_publish_down') . ' = :nullDate3'
 				. ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= :nowDate3)')
-			->bind(':nullDate2', $nullDate)
-			->bind(':nowDate2', $nowDate)
-			->bind(':nullDate3', $nullDate)
-			->bind(':nowDate3', $nowDate);
+			->bind([':nullDate2', ':nullDate3'], $nullDate)
+			->bind([':nowDate2', ':nowDate3'], $nowDate);
 
 		// Set query depending on order_value param
 		if ($order_value === 'rand()')
