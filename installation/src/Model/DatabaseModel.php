@@ -405,7 +405,7 @@ class DatabaseModel extends BaseInstallationModel
 
 		if (!$db->isMinimumVersion())
 		{
-			throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db_version));
+			throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db->getMinimum(), $db_version));
 		}
 
 		// @internal Check for spaces in beginning or end of name.
