@@ -208,7 +208,7 @@ class MenuField extends FormField
 		$linkSuffix = '&amp;layout=modal&amp;client_id=' . $clientId . '&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
 		$linkItems  = 'index.php?option=com_menus&amp;view=items' . $linkSuffix;
 		$linkItem   = 'index.php?option=com_menus&amp;view=item' . $linkSuffix;
-		$modalTitle = Text::_('COM_MENUS_CHANGE_MENUITEM');
+		$modalTitle = Text::_('COM_MENUS_SELECT_A_MENUITEM');
 
 		if (isset($this->element['language']))
 		{
@@ -278,8 +278,7 @@ class MenuField extends FormField
 				. ' id="' . $this->id . '_select"'
 				. ' data-toggle="modal"'
 				. ' type="button"'
-				. ' data-target="#ModalSelect' . $modalId . '"'
-				. ' title="' . HTMLHelper::tooltipText('COM_MENUS_CHANGE_MENUITEM') . '">'
+				. ' data-target="#ModalSelect' . $modalId . '">'
 				. '<span class="icon-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
 				. '</button>';
 		}
@@ -292,8 +291,7 @@ class MenuField extends FormField
 				. ' id="' . $this->id . '_new"'
 				. ' data-toggle="modal"'
 				. ' type="button"'
-				. ' data-target="#ModalNew' . $modalId . '"'
-				. ' title="' . HTMLHelper::tooltipText('COM_MENUS_NEW_MENUITEM') . '">'
+				. ' data-target="#ModalNew' . $modalId . '">'
 				. '<span class="icon-new" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
 				. '</button>';
 		}
@@ -306,8 +304,7 @@ class MenuField extends FormField
 				. ' id="' . $this->id . '_edit"'
 				. ' data-toggle="modal"'
 				. ' type="button"'
-				. ' data-target="#ModalEdit' . $modalId . '"'
-				. ' title="' . HTMLHelper::tooltipText('COM_MENUS_EDIT_MENUITEM') . '">'
+				. ' data-target="#ModalEdit' . $modalId . '">'
 				. '<span class="icon-edit" aria-hidden="true"></span> ' . Text::_('JACTION_EDIT')
 				. '</button>';
 		}

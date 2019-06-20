@@ -38,6 +38,7 @@ class BannerModel extends BaseDatabaseModel
 	 * @return  void
 	 *
 	 * @since   1.5
+	 * @throws  \Exception
 	 */
 	public function click()
 	{
@@ -45,7 +46,7 @@ class BannerModel extends BaseDatabaseModel
 
 		if (empty($item))
 		{
-			throw new Exception(Text::_('JERROR_PAGE_NOT_FOUND'), 404);
+			throw new \Exception(Text::_('JERROR_PAGE_NOT_FOUND'), 404);
 		}
 
 		$id = $this->getState('banner.id');
@@ -154,7 +155,7 @@ class BannerModel extends BaseDatabaseModel
 	{
 		if (!isset($this->_item))
 		{
-			/** @var \JCacheControllerCallback $cache */
+			/** @var \Joomla\CMS\Cache\Controller\CallbackController $cache */
 			$cache = Factory::getCache('com_banners', 'callback');
 
 			$id = $this->getState('banner.id');

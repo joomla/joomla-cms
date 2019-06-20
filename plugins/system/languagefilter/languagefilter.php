@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\Router;
@@ -135,7 +136,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
 			foreach ($this->sefs as $sef => $language)
 			{
-				if (!array_key_exists($language->lang_code, JLanguageHelper::getInstalledLanguages(0)))
+				if (!array_key_exists($language->lang_code, LanguageHelper::getInstalledLanguages(0)))
 				{
 					unset($this->lang_codes[$language->lang_code]);
 					unset($this->sefs[$language->sef]);

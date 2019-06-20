@@ -57,9 +57,6 @@ class SystemModel extends BaseDatabaseModel
 			$maintainSection->addItem(
 				new SystemItem('MOD_MENU_CLEAR_CACHE', 'index.php?option=com_cache')
 			);
-			$maintainSection->addItem(
-				new SystemItem('MOD_MENU_PURGE_EXPIRED_CACHE', 'index.php?option=com_cache&view=purge')
-			);
 		}
 
 		if ($user->authorise('core.manage', 'com_checkin'))

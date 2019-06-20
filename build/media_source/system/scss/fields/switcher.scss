@@ -71,11 +71,10 @@ padding-top: 5px;
 padding-right: 5px;
 text-align: left;
 }
-.col-md-3 .switcher__legend {
-  margin-left: 0;
-}
-
 .col-md-9 .switcher__legend,
 .col-md-12 .switcher__legend {
   margin-left: -220px;
+}
+.col-md-3 .switcher__legend {
+  margin-left: 0;
 }

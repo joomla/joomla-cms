@@ -59,7 +59,8 @@ $userId = $user->id;
 					echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->workflows)) : ?>
-					<div class="alert alert-warning">
+					<div class="alert alert-info">
+						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else: ?>
@@ -76,7 +77,7 @@ $userId = $user->id;
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col"  style="width:1%" class="text-center hidden-sm-down">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'w.condition', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'w.published', $listDirn, $listOrder); ?>
 								</th>
 								<th class="hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 'w.title', $listDirn, $listOrder); ?>
