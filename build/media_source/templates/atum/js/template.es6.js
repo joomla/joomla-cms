@@ -139,6 +139,78 @@
     });
   }
 
+  /**
+   * put elements that are too much in the header in a dropdown
+   *
+   * @since   4.0.0
+   */
+  function headerItemsInDropdown() {
+    const headerWrapper = doc.querySelector('.header-items');
+    const headerItems = [].slice.call(doc.querySelectorAll('.header-items > .header-item'));
+    const headerWrapperWidth = headerWrapper.offsetWidth;
+    let headerItemsWidth = 0;
+    headerItems.forEach((item) => {
+      headerItemsWidth += item.offsetWidth;
+    });
+
+    if (headerItemsWidth > headerWrapperWidth) {
+      if (!doc.querySelector('#header-more-items')) {
+        const headerMoreItem = document.createElement('div');
+        headerMoreItem.className = 'header-item header-item-more d-flex';
+        headerMoreItem.id = 'header-more-items';
+        const headerItemContent = document.createElement('div');
+        headerItemContent.className = 'header-item-content header-more footer-mobil-icon d-flex';
+        const headerMoreBtn = document.createElement('button');
+        headerMoreBtn.className = 'header-more-btn d-flex flex-column align-items-stretch';
+        headerMoreBtn.setAttribute('type', 'button');
+        headerMoreBtn.setAttribute('title', 'More Elements');
+        const spanFa = document.createElement('span');
+        spanFa.className = 'fa fa-ellipsis-h';
+        spanFa.setAttribute('aria-hidden', 'true');
+        const headerMoreMenu = document.createElement('div');
+        headerMoreMenu.className = 'header-more-menu d-flex flex-wrap';
+
+        headerMoreBtn.appendChild(spanFa);
+        headerItemContent.appendChild(headerMoreBtn);
+        headerMoreItem.appendChild(headerItemContent);
+        headerMoreItem.appendChild(headerMoreMenu);
+        headerWrapper.appendChild(headerMoreItem);
+
+        headerMoreBtn.addEventListener('click', () => {
+          headerMoreItem.classList.toggle('active');
+        });
+        headerItemsWidth += headerMoreItem.offsetWidth;
+      }
+
+      const headerMoreWrapper = headerWrapper.querySelector('#header-more-items .header-more-menu');
+      const headerMoreItems = headerMoreWrapper.querySelectorAll('.header-item');
+
+      headerItems.forEach((item) => {
+        if (headerItemsWidth > headerWrapperWidth && item.id !== 'header-more-items') {
+          headerItemsWidth -= item.offsetWidth;
+          if (!headerMoreItems) {
+            headerMoreWrapper.appendChild(item);
+          } else {
+            headerMoreWrapper.insertBefore(item, headerMoreItems[0]);
+          }
+        }
+      });
+    } else if (headerItemsWidth < headerWrapperWidth && doc.querySelector('#header-more-items')) {
+      const headerMore = headerWrapper.querySelector('#header-more-items');
+      const headerMoreItems = [].slice.call(headerMore.querySelectorAll('.header-item'));
+
+      headerMoreItems.forEach((item) => {
+        headerItemsWidth += item.offsetWidth;
+        if (headerItemsWidth < headerWrapperWidth) {
+          headerWrapper.insertBefore(item, doc.querySelector('.header-items > .header-item'));
+        }
+      });
+      if (!headerMore.querySelectorAll('.header-item').length) {
+        headerWrapper.removeChild(headerMore);
+      }
+    }
+  }
+
   doc.addEventListener('DOMContentLoaded', () => {
     const loginForm = doc.getElementById('form-login');
     const logoutBtn = doc.querySelector('.header-items a[href*="task=logout"]');
@@ -200,6 +272,8 @@
       if (subHeadToolbar) subHeadToolbar.classList.add('collapse');
     }
 
+    headerItemsInDropdown();
+
     window.addEventListener('resize', () => {
       /* eslint no-unused-expressions: ["error", { "allowTernary": true }] */
       (mobile.matches) ? changeLogo('closed') : changeLogo();
@@ -215,6 +289,8 @@
           wrapper.classList.add('closed');
         }
       }
+
+      headerItemsInDropdown();
     });
   });
 })(window.Joomla, document);
