@@ -140,6 +140,8 @@ class Document
 	 *
 	 * @var    array
 	 * @since  1.7.0
+	 *
+	 * @deprecated  5.0  Will be renamed to $scripts with private visibility
 	 */
 	public $_scripts = array();
 
@@ -148,6 +150,8 @@ class Document
 	 *
 	 * @var    array
 	 * @since  1.7.0
+	 *
+	 * @deprecated  5.0  Will be renamed to $script with private visibility
 	 */
 	public $_script = array();
 
@@ -155,6 +159,8 @@ class Document
 	 * Array of scripts options
 	 *
 	 * @var    array
+	 *
+	 * @since   3.5
 	 */
 	protected $scriptOptions = array();
 
@@ -163,6 +169,8 @@ class Document
 	 *
 	 * @var    array
 	 * @since  1.7.0
+	 *
+	 * @deprecated  5.0  Will be renamed to $styleSheets with private visibility
 	 */
 	public $_styleSheets = array();
 
@@ -171,6 +179,8 @@ class Document
 	 *
 	 * @var    array
 	 * @since  1.7.0
+	 *
+	 * @deprecated  5.0  Will be renamed to $style with private visibility
 	 */
 	public $_style = array();
 
@@ -532,6 +542,18 @@ class Document
 	}
 
 	/**
+	 * Return list of linked scripts
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getScripts()
+	{
+		return $this->_scripts;
+	}
+
+	/**
 	 * Adds a script to the page
 	 *
 	 * @param   string  $content  Script
@@ -553,6 +575,18 @@ class Document
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Return list of scripts placed in the header
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getScriptDeclarations()
+	{
+		return $this->_script;
 	}
 
 	/**
@@ -640,6 +674,18 @@ class Document
 	}
 
 	/**
+	 * Return list of linked stylesheets
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getStyleSheets()
+	{
+		return $this->_styleSheets;
+	}
+
+	/**
 	 * Adds a stylesheet declaration to the page
 	 *
 	 * @param   string  $content  Style declarations
@@ -661,6 +707,18 @@ class Document
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Return list of stylesheet declarations
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getStyleDeclarations()
+	{
+		return $this->_styleSheets;
 	}
 
 	/**
