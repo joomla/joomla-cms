@@ -356,8 +356,8 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 		$this->assetsAttached = true;
 
 		// Pre-save existing Scripts, and attach them after requested assets.
-		$jsBackup = $doc->_scripts;
-		$doc->_scripts = [];
+		$jsBackup = $doc->getScripts();
+		$doc->resetHeadData('scripts');
 
 		// Attach active assets to the document
 		foreach ($assets as $asset)
@@ -386,7 +386,10 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 		}
 
 		// Merge with previously added scripts
-		$doc->_scripts = array_replace($doc->_scripts, $jsBackup);
+		foreach ($jsBackup as $url => $attribs)
+		{
+			$doc->addScript($url, [], $attribs);
+		}
 
 		return $this;
 	}

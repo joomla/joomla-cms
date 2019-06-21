@@ -148,10 +148,10 @@ class HtmlDocument extends Document
 		$data['link']        = $this->link;
 		$data['metaTags']    = $this->_metaTags;
 		$data['links']       = $this->_links;
-		$data['styleSheets'] = $this->_styleSheets;
-		$data['style']       = $this->_style;
-		$data['scripts']     = $this->_scripts;
-		$data['script']      = $this->_script;
+		$data['styleSheets'] = $this->getStyleSheets();
+		$data['style']       = $this->getStyleDeclarations();
+		$data['scripts']     = $this->getScripts();
+		$data['script']      = $this->getScriptDeclarations();
 		$data['custom']      = $this->_custom;
 		$data['scriptText']  = Text::getScriptStrings();
 

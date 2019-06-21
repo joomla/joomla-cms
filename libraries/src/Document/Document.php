@@ -718,7 +718,7 @@ class Document
 	 */
 	public function getStyleDeclarations()
 	{
-		return $this->_styleSheets;
+		return $this->_style;
 	}
 
 	/**
