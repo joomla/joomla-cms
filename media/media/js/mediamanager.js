@@ -26,7 +26,12 @@
 			this.updatepaths = $( 'input.update-folder' );
 
 			this.frame = window.frames.folderframe;
-			this.frameurl = this.frame.location.href;
+
+			var self = this;
+
+			$(this.frame).one('load', function (e) {
+				self.frameurl = self.frame.location.href;
+			});
 		},
 
 		/**
@@ -184,10 +189,12 @@
 		MediaManager.initialize();
 
 		document.updateUploader = function() {
-			MediaManager.onloadframe();
+			$(MediaManager.frame).one('load', function() {
+				MediaManager.onloadframe();
+			});
 		};
 
-		MediaManager.onloadframe();
+		document.updateUploader();
 	});
 
 }( jQuery, window ));
