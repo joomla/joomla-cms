@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('formbehavior.chosen', 'select');
-
 ?>
 <div class="search<?php echo $this->pageclass_sfx; ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
