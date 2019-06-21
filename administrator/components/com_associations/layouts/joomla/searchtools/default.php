@@ -45,20 +45,24 @@ HTMLHelper::_('searchtools.form', $data['options']['formSelector'], $data['optio
 $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilters ? ' js-stools-container-filters-visible' : '';
 ?>
 <div class="js-stools" role="search">
-	<?php $itemTypeField = $data['view']->filterForm->getField('itemtype'); ?>
-	<?php $languageField = $data['view']->filterForm->getField('language'); ?>
-
-	<?php // Add the itemtype and language selectors before the form filters. ?>
-	<div class="js-stools-container-selector-first">
-		<div class="js-stools-field-selector js-stools-itemtype">
-			<?php echo $itemTypeField->input; ?>
+	<?php // Add the itemtype and language selectors before the form filters. Do not display in modal. ?>
+	<?php $app = Factory::getApplication(); ?>
+	<?php if ($app->input->get('forcedItemType', '', 'string') == '') : ?>
+		<?php $itemTypeField = $data['view']->filterForm->getField('itemtype'); ?>
+		<div class="js-stools-container-selector-first">
+			<div class="js-stools-field-selector js-stools-itemtype">
+				<?php echo $itemTypeField->input; ?>
+			</div>
 		</div>
-	</div>
-	<div class="js-stools-container-selector">
-		<div class="js-stools-field-selector js-stools-language">
-			<?php echo $languageField->input; ?>
+	<?php endif; ?>
+	<?php if ($app->input->get('forcedLanguage', '', 'cmd') == '') : ?>
+		<?php $languageField = $data['view']->filterForm->getField('language'); ?>
+		<div class="js-stools-container-selector">
+			<div class="js-stools-field-selector js-stools-language">
+				<?php echo $languageField->input; ?>
+			</div>
 		</div>
-	</div>
+	<?php endif; ?>
 
 	<div class="js-stools-container-bar">
 		<?php echo $this->sublayout('bar', $data); ?>
