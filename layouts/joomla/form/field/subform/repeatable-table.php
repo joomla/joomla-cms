@@ -45,7 +45,7 @@ if (!empty($groupByFieldset))
 	foreach ($tmpl->getFieldsets() as $fieldset) {
 		$table_head .= '<th>' . Text::_($fieldset->label);
 
-		if (!empty($fieldset->description))
+		if ($fieldset->description)
 		{
 			$table_head .= '<br><small style="font-weight:normal">' . Text::_($fieldset->description) . '</small>';
 		}
@@ -59,7 +59,12 @@ else
 {
 	foreach ($tmpl->getGroup('') as $field) {
 		$table_head .= '<th>' . strip_tags($field->label);
-		$table_head .= '<br><small style="font-weight:normal">' . Text::_($field->description) . '</small>';
+
+		if ($field->description)
+		{
+			$table_head .= '<br><small style="font-weight:normal">' . Text::_($field->description) . '</small>';
+		}
+
 		$table_head .= '</th>';
 	}
 

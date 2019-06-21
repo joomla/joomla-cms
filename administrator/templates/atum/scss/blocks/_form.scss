@@ -124,8 +124,12 @@ legend {
 }
 
  /* reveal associated tooltip on focus */
-:focus + [role="tooltip"] {
+:focus + [role="tooltip"],
+:hover + [role="tooltip"] {
   display: block;
   position: absolute;
+}
+
+[id="filter[search]-desc"] {
   bottom: 100%;
 }
