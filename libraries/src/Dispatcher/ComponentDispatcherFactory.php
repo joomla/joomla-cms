@@ -76,7 +76,14 @@ class ComponentDispatcherFactory implements ComponentDispatcherFactoryInterface
 
 		if (!class_exists($className))
 		{
-			$className = ComponentDispatcher::class;
+			if ($application->isClient('api'))
+			{
+				$className = ApiDispatcher::class;
+			}
+			else
+			{
+				$className = ComponentDispatcher::class;
+			}
 		}
 
 		return new $className($application, $input ?: $application->input, $this->mvcFactory);
