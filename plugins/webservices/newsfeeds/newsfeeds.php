@@ -39,8 +39,6 @@ class PlgWebservicesNewsfeeds extends CMSPlugin
 	public function onBeforeApiRoute(&$router)
 	{
 		$router->createCRUDRoutes('v1/newsfeeds/feeds', 'feeds', ['component' => 'com_newsfeeds']);
-
-		// TODO
-		// $router->createCRUDRoutes('v1/newsfeeds/categories', 'categories', ['component' => 'com_categories']);
+		$router->createCRUDRoutes('v1/newsfeeds/categories', 'categories', ['component' => 'com_categories', 'extension' => 'com_newsfeeds']);
 	}
 }
