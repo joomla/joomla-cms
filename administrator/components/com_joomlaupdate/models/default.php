@@ -327,7 +327,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	 * @param   JUpdate  $updateObject  The Update Object
 	 *
 	 * @return  boolean  False in case the validation did not work; true in any other case.
-	 * 
+	 *
 	 * @note    This method has been forked from (JInstallerHelper::isChecksumValid) so it
 	 *          does not depend on an up-to-date InstallerHelper at the update time
 	 *
@@ -998,7 +998,7 @@ ENDDATA;
 			return false;
 		}
 
-		// Make sure the user we're authorising is a Super User
+		// Make sure the user is authorised
 		if (!$user->authorise('core.admin'))
 		{
 			return false;

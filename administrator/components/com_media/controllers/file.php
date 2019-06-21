@@ -114,7 +114,7 @@ class MediaControllerFile extends JControllerLegacy
 			// We need a url safe name
 			$fileparts = pathinfo(COM_MEDIA_BASE . '/' . $this->folder . '/' . $file['name']);
 
-			if (strpos(realpath($fileparts['dirname']), JPath::clean(COM_MEDIA_BASE)) !== 0)
+			if (strpos(realpath($fileparts['dirname']), JPath::clean(realpath(COM_MEDIA_BASE))) !== 0)
 			{
 				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNINVALID_FOLDER'));
 
@@ -286,7 +286,7 @@ class MediaControllerFile extends JControllerLegacy
 		{
 			$fullPath = implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path));
 
-			if (strpos(realpath($fullPath), JPath::clean(COM_MEDIA_BASE)) !== 0)
+			if (strpos(realpath($fullPath), JPath::clean(realpath(COM_MEDIA_BASE))) !== 0)
 			{
 				unset($safePaths[$key]);
 			}
