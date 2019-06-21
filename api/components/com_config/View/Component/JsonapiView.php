@@ -18,7 +18,7 @@ use Joomla\CMS\Serializer\JoomlaSerializer;
 use Tobscure\JsonApi\Collection;
 
 /**
- * The component controller
+ * The component view
  *
  * @since  4.0.0
  */

@@ -18,7 +18,7 @@ use Tobscure\JsonApi\Collection;
 USE Joomla\Component\Config\Administrator\Model\ApplicationModel;
 
 /**
- * The application controller
+ * The application view
  *
  * @since  4.0.0
  */

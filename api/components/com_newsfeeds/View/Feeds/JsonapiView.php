@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 /**
- * The feeds controller
+ * The feeds view
  *
  * @since  4.0.0
  */
