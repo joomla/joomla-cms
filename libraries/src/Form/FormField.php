@@ -1189,7 +1189,9 @@ abstract class FormField
 	 */
 	protected function getLayoutPaths()
 	{
-		return array();
+		$renderer = new FileLayout('default');
+
+		return $renderer->getDefaultIncludePaths();
 	}
 
 	/**

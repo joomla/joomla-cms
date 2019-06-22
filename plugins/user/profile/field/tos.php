@@ -80,8 +80,6 @@ class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 
 		if ($tosArticle)
 		{
-			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
-
 			$attribs                = [];
 			$attribs['data-toggle'] = 'modal';
 			$attribs['data-target'] = '#tosModal';
