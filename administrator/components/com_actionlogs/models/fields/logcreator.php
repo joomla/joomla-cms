@@ -60,12 +60,12 @@ class JFormFieldLogCreator extends JFormFieldList
 			// Construct the query
 			$query = $db->getQuery(true)
 				->select($db->quoteName('u.id', 'value'))
-				->select($db->quoteName('u.name', 'text'))
+				->select($db->quoteName('u.username', 'text'))
 				->from($db->quoteName('#__users', 'u'))
 				->join('INNER', $db->quoteName('#__action_logs', 'c') . ' ON ' . $db->quoteName('c.user_id') . ' = ' . $db->quoteName('u.id'))
 				->group($db->quoteName('u.id'))
-				->group($db->quoteName('u.name'))
-				->order($db->quoteName('u.name'));
+				->group($db->quoteName('u.username'))
+				->order($db->quoteName('u.username'));
 
 			// Setup the query
 			$db->setQuery($query);
