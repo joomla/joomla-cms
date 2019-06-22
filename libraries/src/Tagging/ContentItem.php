@@ -74,8 +74,8 @@ class ContentItem
 	/**
 	 * ContentItem constructor.
 	 *
-	 * @param null $typeAlias
-	 * @param null $contentId
+	 * @param   null  $typeAlias
+	 * @param   null  $contentId
 	 */
 	public function __construct($typeAlias = null, $contentId = null)
 	{
