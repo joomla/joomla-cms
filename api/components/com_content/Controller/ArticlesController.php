@@ -27,4 +27,12 @@ class ArticlesController extends ApiController
 	 * @since  4.0.0
 	 */
 	protected $contentType = 'articles';
+
+	/**
+	 * The default view for the display method.
+	 *
+	 * @var    string
+	 * @since  3.0
+	 */
+	protected $default_view = 'articles';
 }
