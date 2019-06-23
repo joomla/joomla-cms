@@ -141,7 +141,7 @@ class Document
 	 * @var    array
 	 * @since  1.7.0
 	 *
-	 * @deprecated  5.0  Will be renamed to $scripts with private visibility
+	 * @deprecated  5.0  Will be renamed to $scripts with protected visibility
 	 */
 	public $_scripts = array();
 
@@ -151,7 +151,7 @@ class Document
 	 * @var    array
 	 * @since  1.7.0
 	 *
-	 * @deprecated  5.0  Will be renamed to $script with private visibility
+	 * @deprecated  5.0  Will be renamed to $script with protected visibility
 	 */
 	public $_script = array();
 
@@ -170,7 +170,7 @@ class Document
 	 * @var    array
 	 * @since  1.7.0
 	 *
-	 * @deprecated  5.0  Will be renamed to $styleSheets with private visibility
+	 * @deprecated  5.0  Will be renamed to $styleSheets with protected visibility
 	 */
 	public $_styleSheets = array();
 
@@ -180,7 +180,7 @@ class Document
 	 * @var    array
 	 * @since  1.7.0
 	 *
-	 * @deprecated  5.0  Will be renamed to $style with private visibility
+	 * @deprecated  5.0  Will be renamed to $style with protected visibility
 	 */
 	public $_style = array();
 
