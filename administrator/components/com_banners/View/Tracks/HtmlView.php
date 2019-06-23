@@ -19,7 +19,6 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 
 /**
  * View class for a list of tracks.
@@ -70,11 +69,7 @@ class HtmlView extends BaseHtmlView
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		BannersHelper::addSubmenu('tracks');
-
 		$this->addToolbar();
-
-		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}
@@ -119,8 +114,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::help('JHELP_COMPONENTS_BANNERS_TRACKS');
-
-		\JHtmlSidebar::setAction('index.php?option=com_banners&view=tracks');
 	}
 
 	/**

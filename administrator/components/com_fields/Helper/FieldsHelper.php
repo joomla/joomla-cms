@@ -408,7 +408,7 @@ class FieldsHelper
 			}
 
 			// Defining the field set
-			/** @var DOMElement $fieldset */
+			/** @var \DOMElement $fieldset */
 			$fieldset = $fieldsNode->appendChild(new \DOMElement('fieldset'));
 			$fieldset->setAttribute('name', 'fields-' . $group->id);
 			$fieldset->setAttribute('addfieldpath', '/administrator/components/' . $component . '/models/fields');

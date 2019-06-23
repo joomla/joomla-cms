@@ -13,6 +13,7 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Database\ParameterType;
 
 /**
  * Override Plugin
@@ -287,8 +288,10 @@ class PlgInstallerOverride extends CMSPlugin
 		$query
 			->select($db->quoteName('hash_id'))
 			->from($db->quoteName('#__template_overrides'))
-			->where($db->quoteName('hash_id') . ' = ' . $db->quote($id))
-			->where($db->quoteName('extension_id') . ' = ' . $db->quote($exid));
+			->where($db->quoteName('hash_id') . ' = :id')
+			->where($db->quoteName('extension_id') . ' = :exid')
+			->bind(':id', $id)
+			->bind(':exid', $exid, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 		$results = $db->loadObjectList();
@@ -315,16 +318,16 @@ class PlgInstallerOverride extends CMSPlugin
 		$db = Factory::getDbo();
 
 		// Insert columns.
-		$columns = array(
+		$columns = [
 			'template',
 			'hash_id',
+			'action',
+			'created_date',
+			'modified_date',
 			'extension_id',
 			'state',
-			'action',
-			'client_id',
-			'created_date',
-			'modified_date'
-		);
+			'client_id'
+		];
 
 		// Create a insert query.
 		$insertQuery = $db->getQuery(true)
@@ -352,12 +355,18 @@ class PlgInstallerOverride extends CMSPlugin
 				$updateQuery = $db->getQuery(true)
 					->update($db->quoteName('#__template_overrides'))
 					->set(
-						array($db->quoteName('modified_date') . ' = ' . $db->quote($modifiedDate),
-						$db->quoteName('action') . ' = ' . $db->quote($pk->action),
-						$db->quoteName('state') . ' = ' . 0)
-						)
-					->where($db->quoteName('hash_id') . ' = ' . $db->quote($pk->id))
-					->where($db->quoteName('extension_id') . ' = ' . $db->quote($pk->extension_id));
+						[
+							$db->quoteName('modified_date') . ' = :modifiedDate',
+							$db->quoteName('action') . ' = :pkAction',
+							$db->quoteName('state') . ' = 0'
+						]
+					)
+					->where($db->quoteName('hash_id') . ' = :pkId')
+					->where($db->quoteName('extension_id') . ' = :exId')
+					->bind(':modifiedDate', $modifiedDate)
+					->bind(':pkAction', $pk->action)
+					->bind(':pkId', $pk->id)
+					->bind(':exId', $pk->extension_id, ParameterType::INTEGER);
 
 					try
 					{
@@ -373,19 +382,29 @@ class PlgInstallerOverride extends CMSPlugin
 				continue;
 			}
 
-			// Insert values.
-			$values = array(
-				$db->quote($pk->template),
-				$db->quote($pk->id),
-				$db->quote($pk->extension_id),
-				0,
-				$db->quote($pk->action),
-				(int) $pk->client,
-				$db->quote($createdDate),
-				$db->quote($modifiedDate)
+			// Insert values, preserve order
+			$bindArray = $insertQuery->bindArray(
+				[
+					$pk->template,
+					$pk->action,
+					$createdDate,
+					$modifiedDate,
+				],
+				ParameterType::STRING
+			);
+			$bindArray = \array_merge(
+				$bindArray,
+				$insertQuery->bindArray(
+					[
+						$pk->id,
+						$pk->extension_id,
+						0,
+						(int) $pk->client
+					]
+				)
 			);
 
-			$insertQuery->values(implode(',', $values));
+			$insertQuery->values(implode(',', $bindArray));
 
 			try
 			{

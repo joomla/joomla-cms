@@ -20,7 +20,6 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 
 /**
  * View class for a list of banners.
@@ -81,11 +80,7 @@ class HtmlView extends BaseHtmlView
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		BannersHelper::addSubmenu('banners');
-
 		$this->addToolbar();
-
-		$this->sidebar = \JHtmlSidebar::render();
 
 		// We do not need to filter by language when multilingual is disabled
 		if (!Multilanguage::isEnabled())
