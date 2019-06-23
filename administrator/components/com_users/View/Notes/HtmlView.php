@@ -12,7 +12,6 @@ namespace Joomla\Component\Users\Administrator\View\Notes;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -79,14 +78,6 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
-	 * The sidebar markup
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $sidebar;
-
-	/**
 	 * Override the display method for the view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -120,7 +111,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$this->addToolbar();
-		$this->sidebar = HTMLHelper::_('sidebar.render');
 		parent::display($tpl);
 	}
 
@@ -184,8 +174,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$toolbar->help('JHELP_USERS_USER_NOTES');
-
-		HTMLHelper::_('sidebar.setAction', 'index.php?option=com_users&view=notes');
 	}
 
 	/**
