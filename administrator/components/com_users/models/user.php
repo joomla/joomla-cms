@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Router\Route;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -217,7 +218,7 @@ class UsersModelUser extends JModelAdmin
 			$data['activation'] = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
 
 			// Set the link to activate the user account.
-			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
+			$linkMode = (int) $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 			$data['activate'] = JRoute::link('site', 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false, $linkMode);
 
 			$emailSubject = JText::sprintf(
