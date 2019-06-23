@@ -14,7 +14,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
-use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -512,7 +511,6 @@ class PlgSampledataMultilang extends CMSPlugin
 		// Store language filter plugin parameters.
 		if ($pluginName == 'plg_system_languagefilter')
 		{
-			$currentDefaultLanguage = $this->app->get('language');
 			$params = '{'
 					. '"detect_browser":"0",'
 					. '"automatic_change":"1",'
@@ -520,8 +518,8 @@ class PlgSampledataMultilang extends CMSPlugin
 					. '"remove_default_prefix":"0",'
 					. '"lang_cookie":"0",'
 					. '"alternate_meta":"1",'
-					. '"user_master_language":"1",'
-					. '"global_master_language":"' . $currentDefaultLanguage . '"'
+					. '"user_master_language":"0",'
+					. '"global_master_language":""'
 				. '}';
 			$query
 				->clear()
@@ -902,24 +900,16 @@ class PlgSampledataMultilang extends CMSPlugin
 	private function addAssociations($groupedAssociations)
 	{
 		$db = Factory::getDbo();
-		$globalMasterLanguage = Associations::getGlobalMasterLanguage();
 
 		foreach ($groupedAssociations as $context => $associations)
 		{
-			// If there is an association item with the globalMasterLanguage, then get his id
-			$masterId = $associations[$globalMasterLanguage] ?? '';
-			// TODO when there is a way to get the history save date from here, use it.
-			$masterModified = ($context === 'com_menus.item' || !$globalMasterLanguage) ? null : '0000-00-00 00:00:00';
 			$key   = md5(json_encode($associations));
 			$query = $db->getQuery(true)
 				->insert('#__associations');
 
 			foreach ($associations as $language => $id)
 			{
-				// If there is no master item in this association, then reset the parent_id to -1
-				// Otherwise, if the association item is a master item, set the parent_id to 0, otherwise set it to the master ID.
-				$parentId = $masterId ? ($masterId === $id ? 0 : $masterId) : -1;
-				$query->values(((int) $id) . ',' . $db->quote($context) . ',' . $db->quote($key) . ',' . $db->quote($parentId) . ',' . $db->quote($masterModified));
+				$query->values(((int) $id) . ',' . $db->quote($context) . ',' . $db->quote($key) . ',' . $db->quote('-1') . ',' . $db->quote(''));
 			}
 
 			$db->setQuery($query);

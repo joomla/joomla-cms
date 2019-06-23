@@ -67,7 +67,7 @@
 						label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_USE_MASTER_LANGUAGE_LABEL"
 						description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_USE_MASTER_LANGUAGE_DESC"
 						class="switcher"
-						default="1"
+						default="0"
 						showon="item_associations:1"
 				>
 					<option value="0">JNO</option>
