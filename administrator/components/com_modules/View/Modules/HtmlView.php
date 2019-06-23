@@ -67,14 +67,6 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
-	 * The sidebar markup
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $sidebar;
-
-	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -227,11 +219,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$toolbar->help('JHELP_EXTENSIONS_MODULE_MANAGER');
-
-		if (\JHtmlSidebar::getEntries())
-		{
-			$this->sidebar = \JHtmlSidebar::render();
-		}
 	}
 
 	/**
