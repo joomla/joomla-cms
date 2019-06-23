@@ -1836,7 +1836,8 @@ CREATE TABLE IF NOT EXISTS `#__template_styles` (
   `params` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_template` (`template`),
-  KEY `idx_home` (`home`)
+  KEY `idx_client_id` (`client_id`),
+  KEY `idx_client_id_home` (`client_id`,`home`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=9;
 
 --
