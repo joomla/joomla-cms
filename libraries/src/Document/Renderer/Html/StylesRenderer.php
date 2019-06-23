@@ -43,7 +43,7 @@ class StylesRenderer extends DocumentRenderer
 		$defaultCssMimes = array('text/css');
 
 		// Generate stylesheet links
-		foreach ($this->_doc->_styleSheets as $src => $attribs)
+		foreach ($this->_doc->getStyleSheets() as $src => $attribs)
 		{
 			// Check if stylesheet uses IE conditional statements.
 			$conditional = isset($attribs['options']) && isset($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
@@ -107,7 +107,7 @@ class StylesRenderer extends DocumentRenderer
 		}
 
 		// Generate stylesheet declarations
-		foreach ($this->_doc->_style as $type => $contents)
+		foreach ($this->_doc->getStyleDeclarations() as $type => $contents)
 		{
 			$buffer .= $tab . '<style';
 

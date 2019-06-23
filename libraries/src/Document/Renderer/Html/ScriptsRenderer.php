@@ -43,7 +43,7 @@ class ScriptsRenderer extends DocumentRenderer
 		$html5NoValueAttributes = array('defer', 'async');
 
 		// Generate script file links
-		foreach ($this->_doc->_scripts as $src => $attribs)
+		foreach ($this->_doc->getScripts() as $src => $attribs)
 		{
 			// Check if script uses IE conditional statements.
 			$conditional = isset($attribs['options']) && isset($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
@@ -121,7 +121,7 @@ class ScriptsRenderer extends DocumentRenderer
 		}
 
 		// Generate script declarations
-		foreach ($this->_doc->_script as $type => $contents)
+		foreach ($this->_doc->getScriptDeclarations() as $type => $contents)
 		{
 			$buffer .= $tab . '<script';
 
