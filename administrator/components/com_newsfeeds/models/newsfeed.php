@@ -451,35 +451,6 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	}
 
 	/**
-	 * Method to change the title & alias.
-	 *
-	 * @param   integer  $category_id  The id of the parent.
-	 * @param   string   $alias        The alias.
-	 * @param   string   $name         The title.
-	 *
-	 * @return  array  Contains the modified title and alias.
-	 *
-	 * @since   3.1
-	 */
-	protected function generateNewTitle($category_id, $alias, $name)
-	{
-		// Alter the title & alias
-		$table = $this->getTable();
-
-		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
-		{
-			if ($name == $table->name)
-			{
-				$name = StringHelper::increment($name);
-			}
-
-			$alias = StringHelper::increment($alias, 'dash');
-		}
-
-		return array($name, $alias);
-	}
-
-	/**
 	 * Is the user allowed to create an on the fly category?
 	 *
 	 * @return  boolean
