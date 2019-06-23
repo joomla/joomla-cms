@@ -449,10 +449,10 @@ class AssociationsModel extends ListModel
 		// Filter by association state
 		$assocStateField = $this->state->get('assocstate');
 
-		if ($assocStateField !== '')
+		if ($assocStateField !== 'all')
 		{
 			// not associated
-			if ($assocStateField === '-1')
+			if ($assocStateField === 'not_associated')
 			{
 				$languageQuery    = $db->getQuery(true)
 					->select('COUNT(*)')
@@ -478,7 +478,7 @@ class AssociationsModel extends ListModel
 			}
 
 			// outdated
-			if ($assocStateField === '0')
+			if ($assocStateField === 'outdated')
 			{
 					// if we are on the masterlanguage and we check the state of the children
 				$query->where('((' . $db->quoteName('asso2.parent_id') . ' = ' . $db->quoteName('asso.id')
@@ -489,7 +489,7 @@ class AssociationsModel extends ListModel
 			}
 
 			// up-to-date
-			if ($assocStateField === '1')
+			if ($assocStateField === 'up_to_date')
 			{
 				// if we are on the masterlanguage and we check the state of the children
 				$query->where('((' . $db->quoteName('asso2.parent_id') . ' = ' . $db->quoteName('asso.id')

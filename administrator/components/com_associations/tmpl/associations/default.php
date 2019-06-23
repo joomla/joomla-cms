@@ -20,6 +20,7 @@ HTMLHelper::_('behavior.multiselect');
 
 $listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
+$assocState       = $this->escape($this->state->get('assocstate'));
 $canManageCheckin = Factory::getUser()->authorise('core.manage', 'com_checkin');
 
 $iconStates = array(
@@ -120,7 +121,7 @@ $iconStates = array(
 									<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 								</td>
 								<td class="text-center">
-									<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, !$isCheckout); ?>
+									<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, !$isCheckout, $assocState); ?>
 								</td>
 								<?php if (!empty($this->typeFields['menutype'])) : ?>
 									<td class="small">

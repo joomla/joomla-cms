@@ -212,12 +212,13 @@ class AssociationsHelper extends ContentHelper
 	 * @param   integer  $itemId          Item id.
 	 * @param   string   $itemLanguage    Item language code.
 	 * @param   boolean  $addLink         True for adding edit links. False for just text.
+	 * @param   string   $assocState      The filter association state
 	 *
 	 * @return  string   The language HTML
 	 *
 	 * @since  3.7.0
 	 */
-	public static function getAssociationHtmlList($extensionName, $typeName, $itemId, $itemLanguage, $addLink = true)
+	public static function getAssociationHtmlList($extensionName, $typeName, $itemId, $itemLanguage, $addLink = true, $assocState)
 	{
 		$globalMasterLanguage = Associations::getGlobalMasterLanguage();
 
@@ -343,9 +344,21 @@ class AssociationsHelper extends ContentHelper
 								$title .= '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_OUTDATED_DESC');
 								$target = $langCode . ':' . $items[$langCode]['id'] . ':edit';
 								$update = true;
+
+								// Don't display not corresponding item
+								if($assocState !== 'all' && $assocState !== 'outdated'){
+									unset($items[$langCode]);
+									continue;
+								}
 							}
 							else
 							{
+								// Don't display not corresponding item
+								if($assocState !== 'all' && $assocState !== 'up_to_date'){
+									unset($items[$langCode]);
+									continue;
+								}
+
 								$title .= '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_UP_TO_DATE_DESC');
 							}
 						}
@@ -379,6 +392,15 @@ class AssociationsHelper extends ContentHelper
 						$labelClass    .= ' master-item';
 						$languageTitle = $language->title . ' - ' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_LANGUAGE');
 						$target        = '';
+					}
+					else
+					{
+						// Don't display not corresponding item
+						if ($assocState !== 'all' && $assocState !== 'not_associated')
+						{
+							unset($items[$langCode]);
+							continue;
+						}
 					}
 
 					// Change target, when there is no association with the global master language for the child item
