@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  Acceptance.tests
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ use Page\Acceptance\Administrator\AdminPage;
 /**
  * Administrator Menu Tests
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class MenuCest
 {
@@ -23,7 +23,7 @@ class MenuCest
 	 *
 	 * @param   AcceptanceTester  $I  The AcceptanceTester Object
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 *
 	 * @return  void
 	 */
@@ -58,7 +58,7 @@ class MenuCest
 	 * @param   string            $type         Type of the menu
 	 * @param   string            $description  Description
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 *
 	 * @return  void
 	 */

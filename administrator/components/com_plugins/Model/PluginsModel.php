@@ -213,7 +213,7 @@ class PluginsModel extends ListModel
 			$this->getState(
 				'list.select',
 				'a.extension_id , a.name, a.element, a.folder, a.checked_out, a.checked_out_time,' .
-					' a.enabled, a.access, a.ordering'
+					' a.enabled, a.access, a.ordering, a.note'
 			)
 		)
 			->from($db->quoteName('#__extensions') . ' AS a')
