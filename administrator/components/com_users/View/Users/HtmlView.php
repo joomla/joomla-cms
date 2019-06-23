@@ -20,7 +20,6 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 use Joomla\Database\DatabaseDriver;
 
 /**
@@ -102,8 +101,6 @@ class HtmlView extends BaseHtmlView
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->canDo         = ContentHelper::getActions('com_users');
 		$this->db            = Factory::getDbo();
-
-		UsersHelper::addSubmenu('users');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
