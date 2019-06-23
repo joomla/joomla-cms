@@ -1255,7 +1255,7 @@ class Document
 	protected function preloadAssets()
 	{
 		// Process stylesheets first
-		foreach ($this->_styleSheets as $link => $properties)
+		foreach ($this->getStyleSheets() as $link => $properties)
 		{
 			if (empty($properties['options']['preload']))
 			{
@@ -1281,7 +1281,7 @@ class Document
 		}
 
 		// Now process scripts
-		foreach ($this->_scripts as $link => $properties)
+		foreach ($this->getScripts() as $link => $properties)
 		{
 			if (empty($properties['options']['preload']))
 			{
