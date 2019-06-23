@@ -19,7 +19,6 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\User;
-use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -95,8 +94,6 @@ class HtmlView extends BaseHtmlView
 		$this->user          = $this->get('User');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-
-		UsersHelper::addSubmenu('notes');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
