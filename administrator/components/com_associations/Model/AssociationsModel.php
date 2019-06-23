@@ -107,7 +107,7 @@ class AssociationsModel extends ListModel
 
 		$this->setState('itemtype', $this->getUserStateFromRequest($this->context . '.itemtype', 'itemtype', $defaultItemType, 'string'));
 		$this->setState('language', $this->getUserStateFromRequest($this->context . '.language', 'language', $defaultLanguage, 'string'));
-		$this->setState('assocstate', $this->getUserStateFromRequest($this->context . '.assocstate', 'assocstate', '', 'string'));
+		$this->setState('assocstate', $this->getUserStateFromRequest($this->context . '.assocstate', 'assocstate', 'all', 'string'));
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
 		$this->setState('filter.category_id', $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', '', 'cmd'));

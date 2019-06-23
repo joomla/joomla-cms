@@ -89,6 +89,12 @@ class HtmlView extends BaseHtmlView
 			$this->filterForm->setValue('language', null, $this->state->get('language'));
 		}
 
+		// Get default values and set these to selected to the select boxes
+		if ($this->state->get('assocstate'))
+		{
+			$this->filterForm->setValue('assocstate', null, $this->state->get('assocstate'));
+		}
+
 		if (!Associations::isEnabled())
 		{
 			$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . AssociationsHelper::getLanguagefilterPluginId());
