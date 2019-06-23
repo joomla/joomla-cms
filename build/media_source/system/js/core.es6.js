@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,6 +49,8 @@ window.Joomla.editors.instances = window.Joomla.editors.instances || {
    *                                  Example: () => { return this.element.value; }
    * setValue         Type  Function  Should replace the complete data of the editor
    *                                  Example: (text) => { return this.element.value = text; }
+   * getSelection     Type  Function  Should return the selected text from the editor
+   *                                  Example: function () { return this.selectedText; }
    * replaceSelection Type  Function  Should replace the selected text of the editor
    *                                  If nothing selected, will insert the data at the cursor
    *                                  Example:
@@ -724,6 +726,11 @@ window.Joomla.Modal = window.Joomla.Modal || {
    * @return  {HTMLElement}  The HTML loading layer element.
    *
    * @since  3.6.0
+   *
+   * @deprecated  4.0 No direct replacement.
+   *              4.0 will introduce a web component for the loading spinner, therefore the spinner
+   *              will need to explicitly be loaded in all relevant pages.
+   *
    */
   Joomla.loadingLayer = (task, parentElement) => {
     // Set default values.
@@ -732,6 +739,10 @@ window.Joomla.Modal = window.Joomla.Modal || {
 
     // Create the loading layer (hidden by default).
     if (newTask === 'load') {
+      // Prevent loading twice
+      if (document.getElementById('loading-logo')) {
+        return false;
+      }
       // Gets the site base path
       const systemPaths = Joomla.getOptions('system.paths') || {};
       const basePath = systemPaths.root || '';
@@ -1087,14 +1098,14 @@ window.Joomla.Modal = window.Joomla.Modal || {
       // Load it from the right place.
       const replacement = `media/vendor/webcomponentsjs/js/webcomponents-${polyfills.join('-')}.min.js`;
 
-      const mediaVersion = script.src.match(/\?.*/)[0];
+      const mediaVersion = script.src.match(/\?.*/);
       const base = Joomla.getOptions('system.paths');
 
       if (!base) {
         throw new Error('core(.min).js is not registered correctly!');
       }
 
-      newScript.src = base.rootFull + replacement + (mediaVersion || '');
+      newScript.src = base.rootFull + replacement + (mediaVersion ? mediaVersion[0] : '');
 
       // if readyState is 'loading', this script is synchronous
       if (document.readyState === 'loading') {

@@ -3,12 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -17,6 +18,8 @@ use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('script', 'com_users/admin-users-user.min.js', array('version' => 'auto', 'relative' => true));
+
+$input = Factory::getApplication()->input;
 
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();
@@ -33,18 +36,8 @@ $this->useCoreUI = true;
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_USERS_USER_ACCOUNT_DETAILS')); ?>
-				<?php foreach ($this->form->getFieldset('user_details') as $field) : ?>
-					<div class="control-group">
-						<div class="control-label">
-								<?php echo $field->label; ?>
-						</div>
-						<div class="controls">
-							<?php echo $field->input; ?>
-						</div>
-					</div>
-				<?php endforeach; ?>
+				<?php echo $this->form->renderFieldset('user_details'); ?>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
-
 			<?php if ($this->grouplist) : ?>
 				<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'groups', Text::_('COM_USERS_ASSIGNED_GROUPS')); ?>
 					<?php echo $this->loadTemplate('groups'); ?>
@@ -60,8 +53,7 @@ $this->useCoreUI = true;
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'twofactorauth', Text::_('COM_USERS_USER_TWO_FACTOR_AUTH')); ?>
 		<div class="control-group">
 			<div class="control-label">
-				<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasTooltip"
-					title="<?php echo '<strong>' . Text::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL') . '</strong>'; ?>">
+				<label id="jform_twofactor_method-lbl" for="jform_twofactor_method">
 					<?php echo Text::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL'); ?>
 				</label>
 			</div>
@@ -83,10 +75,12 @@ $this->useCoreUI = true;
 				<?php echo Text::_('COM_USERS_USER_OTEPS'); ?>
 			</legend>
 			<div class="alert alert-info">
+				<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('COM_USERS_USER_OTEPS_DESC'); ?>
 			</div>
 			<?php if (empty($this->otpConfig->otep)) : ?>
 				<div class="alert alert-warning">
+					<span class="fa fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 					<?php echo Text::_('COM_USERS_USER_OTEPS_WAIT_DESC'); ?>
 				</div>
 			<?php else : ?>
@@ -105,5 +99,6 @@ $this->useCoreUI = true;
 	</fieldset>
 
 	<input type="hidden" name="task" value="">
+	<input type="hidden" name="return" value="<?php echo $input->getCmd('return'); ?>">
 	<?php echo HTMLHelper::_('form.token'); ?>
 </form>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cpanel
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -158,7 +158,7 @@ class HtmlView extends BaseHtmlView
 			],
 		];
 
-		if ($user->authorise('core.manage', 'com_admin'))
+		if ($user->authorise('core.login.admin'))
 		{
 			static::$notEmpty  = true;
 		}

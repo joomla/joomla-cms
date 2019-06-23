@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,8 +54,8 @@ $checkboxName = $options['checkbox_name'];
 	<div class="d-none">
 		<?php
 			$default = [
-				JHtml::_('select.option', '', $this->escape($options['stage'])),
-				JHtml::_('select.option', '-1', '--------', ['disable' => true])
+				HTMLHelper::_('select.option', '', $this->escape($options['stage'])),
+				HTMLHelper::_('select.option', '-1', '--------', ['disable' => true])
 			];
 
 			$transitions = array_merge($default, $options['transitions']);

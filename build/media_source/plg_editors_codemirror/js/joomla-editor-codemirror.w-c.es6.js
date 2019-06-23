@@ -71,8 +71,8 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
 
               window.CodeMirror.autoLoadMode(editor, mode ? mode.mode : editor.options.mode);
 
-              if (mode) {
-                editor.setOption('mode', mode.mode);
+              if (mode && mode.mime) {
+                editor.setOption('mode', mode.mime);
               }
 
               const map = {
