@@ -200,7 +200,7 @@ class MasterAssociationsHelper extends ContentHelper
 			if ($saveHistory)
 			{
 				$typeId        = Table::getInstance('ContentType')->getTypeId($typeAlias);
-				$masterHistory = ContentHistoryHelper::getHistory($masterId, $typeId);
+				$masterHistory = ContentHistoryHelper::getHistory($typeId, $masterId);
 
 				// latest saved date of the master item
 				$masterModified = $masterHistory[0]->save_date;

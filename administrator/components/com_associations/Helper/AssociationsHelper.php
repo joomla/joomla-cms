@@ -218,7 +218,7 @@ class AssociationsHelper extends ContentHelper
 	 *
 	 * @since  3.7.0
 	 */
-	public static function getAssociationHtmlList($extensionName, $typeName, $itemId, $itemLanguage, $addLink = true, $assocState)
+	public static function getAssociationHtmlList($extensionName, $typeName, $itemId, $itemLanguage, $addLink = true, $assocState = 'all')
 	{
 		$globalMasterLanguage = Associations::getGlobalMasterLanguage();
 

@@ -29,6 +29,7 @@ HTMLHelper::_('behavior.multiselect');
 $function         = $app->input->getCmd('function', 'jSelectAssociation');
 $listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
+$assocState       = $this->escape($this->state->get('assocstate'));
 $canManageCheckin = Factory::getUser()->authorise('core.manage', 'com_checkin');
 
 $iconStates = array(
@@ -137,7 +138,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['ve
 					</td>
 					<td class="text-center">
 						<?php if (true || $item->association) : ?>
-							<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, false, false); ?>
+							<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, false, $assocState); ?>
 						<?php endif; ?>
 					</td>
 					<?php if (!empty($this->typeFields['menutype'])) : ?>
