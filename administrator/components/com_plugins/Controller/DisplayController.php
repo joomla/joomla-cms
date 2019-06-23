@@ -43,9 +43,6 @@ class DisplayController extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		// Load the submenu.
-		PluginsHelper::addSubmenu($this->input->get('view', 'plugins'));
-
 		$view   = $this->input->get('view', 'plugins');
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('extension_id');
