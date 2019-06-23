@@ -206,6 +206,13 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 											  title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
 											<?php echo $this->escape($item->item_type); ?></span>
 									</div>
+									<?php if ($item->type === 'component' && !$item->enabled) : ?>
+										<div>
+											<span class="badge badge-secondary">
+												<?php echo Text::_($item->enabled === null ? 'JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND' : 'COM_MENUS_LABEL_DISABLED'); ?>
+											</span>
+										</div>
+									<?php endif; ?>
 								</th>
 								<td class="small d-none d-md-table-cell">
 									<?php echo $this->escape($item->menutype_title ?: ucwords($item->menutype)); ?>
