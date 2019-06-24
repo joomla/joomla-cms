@@ -281,42 +281,6 @@
 		/>
 
 		<field
-			name="show_icons"
-			type="radio"
-			label="JGLOBAL_SHOW_ICONS_LABEL"
-			description="JGLOBAL_SHOW_ICONS_DESC"
-			class="switcher"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="show_print_icon"
-			type="radio"
-			label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
-			description="JGLOBAL_SHOW_PRINT_ICON_DESC"
-			class="switcher"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="show_email_icon"
-			type="radio"
-			label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
-			description="JGLOBAL_SHOW_EMAIL_ICON_DESC"
-			class="switcher"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
 			name="show_hits"
 			type="radio"
 			label="JGLOBAL_SHOW_HITS_LABEL"
