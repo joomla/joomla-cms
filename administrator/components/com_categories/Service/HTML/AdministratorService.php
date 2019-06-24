@@ -73,16 +73,15 @@ class AdministratorService
 			{
 				foreach ($items as &$item)
 				{
-					$text       = $item->lang_sef ? strtoupper($item->lang_sef) : 'XX';
-					$url        = Route::_('index.php?option=com_categories&task=category.edit&id=' . (int) $item->id . '&extension=' . $extension);
-					$classes    = 'hasPopover badge badge-secondary';
-					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
-						. '" data-content="' . htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '" data-placement="top">'
-						. $text . '</a>';
+					$text     = $item->lang_sef ? strtoupper($item->lang_sef) : 'XX';
+					$url      = Route::_('index.php?option=com_categories&task=category.edit&id=' . (int) $item->id . '&extension=' . $extension);
+					$tooltip  = '<strong>'.htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>' . htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8');
+					$classes  = 'badge badge-secondary';
+
+					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '" >'. $text . '</a>'
+						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
 				}
 			}
-
-			HTMLHelper::_('bootstrap.popover');
 
 			$html = LayoutHelper::render('joomla.content.associations', $items);
 		}

@@ -78,16 +78,13 @@ class Menus
 				{
 					$text    = strtoupper($item->lang_sef);
 					$url     = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);
-					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
-					$classes = 'hasPopover badge badge-secondary';
+					$tooltip = '<strong>'.htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>' . htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
+					$classes = 'badge badge-secondary';
 
-					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
-						. '" data-content="' . $tooltip . '" data-placement="top">'
-						. $text . '</a>';
+					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes. '" >' . $text . '</a>'
+						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
 				}
 			}
-
-			HTMLHelper::_('bootstrap.popover');
 
 			$html = LayoutHelper::render('joomla.content.associations', $items);
 		}
