@@ -20,7 +20,7 @@ HTMLHelper::_('behavior.combobox');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.tabstate');
 
-$hasContent = empty($this->item->module) ||  isset($this->item->xml->customContent);
+$hasContent = isset($this->item->xml->customContent);
 $hasContentFieldName = 'content';
 
 // For a later improvement
