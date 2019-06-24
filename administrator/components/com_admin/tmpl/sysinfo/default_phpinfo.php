@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die;
 
+/** @var \Joomla\Component\Admin\Administrator\View\Sysinfo\HtmlView $this */
+
 ?>
 <div class="sysinfo">
-	<?php echo $this->php_info; ?>
+	<?php echo $this->phpInfo; ?>
 </div>
