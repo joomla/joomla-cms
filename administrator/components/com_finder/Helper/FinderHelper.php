@@ -12,7 +12,6 @@ namespace Joomla\Component\Finder\Administrator\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 
 /**
  * Helper class for Finder.
