@@ -12,7 +12,6 @@ namespace Joomla\Component\Banners\Administrator\Field;
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Form\Field\ListField;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 
 /**
