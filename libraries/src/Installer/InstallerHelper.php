@@ -19,8 +19,8 @@ use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Version;
 use Joomla\CMS\Updater\Update;
+use Joomla\CMS\Version;
 
 /**
  * Installer helper class
