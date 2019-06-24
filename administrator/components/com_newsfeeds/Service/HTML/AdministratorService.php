@@ -12,7 +12,6 @@ namespace Joomla\Component\Newsfeeds\Administrator\Service\HTML;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -81,7 +80,7 @@ class AdministratorService
 						. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
 					$classes = 'badge badge-secondary';
 
-					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '" >'. $text . '</a>'
+					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '">'. $text . '</a>'
 						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
 				}
 			}

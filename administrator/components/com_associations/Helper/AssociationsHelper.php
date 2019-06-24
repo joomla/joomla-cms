@@ -15,7 +15,6 @@ use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -327,7 +326,7 @@ class AssociationsHelper extends ContentHelper
 				 . htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;
 			$classes = 'badge ' . $labelClass;
 
-			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $language->title . '" class="' . $classes . '" >'. $text . '</a>'
+			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $language->title . '" class="' . $classes . '">'. $text . '</a>'
 				. '<div role="tooltip">' . $tooltip . '</div>';
 		}
 

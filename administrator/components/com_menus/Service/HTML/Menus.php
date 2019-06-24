@@ -12,7 +12,6 @@ namespace Joomla\Component\Menus\Administrator\Service\HTML;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
@@ -82,7 +81,7 @@ class Menus
 						 . htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
 					$classes = 'badge badge-secondary';
 
-					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes. '" >' . $text . '</a>'
+					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes. '">' . $text . '</a>'
 						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
 				}
 			}

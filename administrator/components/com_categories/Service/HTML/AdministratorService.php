@@ -12,7 +12,6 @@ namespace Joomla\Component\Categories\Administrator\Service\HTML;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
@@ -79,7 +78,7 @@ class AdministratorService
 						. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8');
 					$classes  = 'badge badge-secondary';
 
-					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '" >'. $text . '</a>'
+					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '">'. $text . '</a>'
 						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
 				}
 			}
