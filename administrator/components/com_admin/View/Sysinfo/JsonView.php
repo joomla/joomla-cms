@@ -11,10 +11,12 @@ namespace Joomla\Component\Admin\Administrator\View\Sysinfo;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\AbstractView;
+use Joomla\Component\Admin\Administrator\Model\SysInfoModel;
 
 /**
  * Sysinfo View class for the Admin component
@@ -28,11 +30,13 @@ class JsonView extends AbstractView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   3.5
+	 *
+	 * @throws  Exception
 	 */
-	public function display($tpl = null)
+	public function display($tpl = null): void
 	{
 		// Access check.
 		if (!Factory::getUser()->authorise('core.admin'))
@@ -58,18 +62,18 @@ class JsonView extends AbstractView
 	 *
 	 * @since   3.5
 	 */
-	protected function getLayoutData()
+	protected function getLayoutData(): array
 	{
-		/* @var \Joomla\Component\Admin\Administrator\Model\SysInfoModel $model */
+		/** @var SysInfoModel $model */
 		$model = $this->getModel();
 
-		return array(
+		return [
 			'info'        => $model->getSafeData('info'),
 			'phpSettings' => $model->getSafeData('phpSettings'),
 			'config'      => $model->getSafeData('config'),
 			'directories' => $model->getSafeData('directory', true),
 			'phpInfo'     => $model->getSafeData('phpInfoArray'),
 			'extensions'  => $model->getSafeData('extensions')
-		);
+		];
 	}
 }
