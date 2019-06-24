@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-
 ?>
 <div class="sysinfo">
 	<?php echo $this->php_info; ?>
