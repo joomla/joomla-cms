@@ -326,7 +326,7 @@ class AssociationsHelper extends ContentHelper
 				 . htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;
 			$classes = 'badge ' . $labelClass;
 
-			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $language->title . '" class="' . $classes . '">'. $text . '</a>'
+			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $language->title . '" class="' . $classes . '">' . $text . '</a>'
 				. '<div role="tooltip">' . $tooltip . '</div>';
 		}
 
