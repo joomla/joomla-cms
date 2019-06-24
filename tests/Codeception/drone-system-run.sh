@@ -39,6 +39,7 @@ tput sgr0 -T xterm
 
 # Switch to Joomla base directory
 cd $JOOMLA_BASE
+php -v
 
 apache2ctl -D FOREGROUND &
 google-chrome --version
