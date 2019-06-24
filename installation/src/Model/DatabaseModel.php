@@ -405,7 +405,14 @@ class DatabaseModel extends BaseInstallationModel
 
 		if (!$db->isMinimumVersion())
 		{
-			throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db->getMinimum(), $db_version));
+			if (in_array($type, ['mysql', 'mysqli']) && $db->isMariaDb())
+			{
+				throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_INVALID_MARIADB_VERSION', $db->getMinimum(), $db_version));
+			}
+			else
+			{
+				throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db->getMinimum(), $db_version));
+			}
 		}
 
 		// @internal Check for spaces in beginning or end of name.

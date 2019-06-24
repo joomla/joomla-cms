@@ -324,8 +324,10 @@ class AtomParserTest extends UnitTestCase
 		$method = $reflectionClass->getMethod('initialise');
 		$method->setAccessible(true);
 		$method->invoke($atomParser);
+		$attribute = $reflectionClass->getProperty('version');
+		$attribute->setAccessible(true);
 
-		$this->assertAttributeEquals('1.0', 'version', $atomParser);
+		$this->assertEquals('1.0', $attribute->getValue($atomParser));
 	}
 
 	/**
@@ -348,8 +350,10 @@ class AtomParserTest extends UnitTestCase
 		$method = $reflectionClass->getMethod('initialise');
 		$method->setAccessible(true);
 		$method->invoke($atomParser);
+		$attribute = $reflectionClass->getProperty('version');
+		$attribute->setAccessible(true);
 
-		$this->assertAttributeEquals('0.3', 'version', $atomParser);
+		$this->assertEquals('0.3', $attribute->getValue($atomParser));
 	}
 
 	/**
