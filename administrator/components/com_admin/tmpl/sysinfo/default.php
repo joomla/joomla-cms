@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\Component\Admin\Administrator\View\Sysinfo\HtmlView $this */
 

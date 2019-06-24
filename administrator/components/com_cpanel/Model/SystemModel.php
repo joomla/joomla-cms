@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Updater\Updater;
 use Joomla\Component\Cpanel\Administrator\Entities\SystemHeader;
 use Joomla\Component\Cpanel\Administrator\Entities\SystemItem;
 
