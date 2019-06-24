@@ -70,7 +70,7 @@ $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 		endforeach;
 		?>
 		<?php if ($multiple) : ?>
-			<template class="subform-repeatable-template-section"><?php echo trim(
+			<template class="subform-repeatable-template-section" style="display:none"><?php echo trim(
 				$this->sublayout(
 					$sublayout,
 					array(
