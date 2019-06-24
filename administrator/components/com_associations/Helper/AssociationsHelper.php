@@ -323,7 +323,8 @@ class AssociationsHelper extends ContentHelper
 			$url     = $allow && $addLink ? $url : '';
 			$text    = strtoupper($language->sef);
 
-			$tooltip = '<strong>'.htmlspecialchars($language->title, ENT_QUOTES, 'UTF-8') . '</strong><br>' . htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;
+			$tooltip = '<strong>' . htmlspecialchars($language->title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
+				 . htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;
 			$classes = 'badge ' . $labelClass;
 
 			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $language->title . '" class="' . $classes . '" >'. $text . '</a>'

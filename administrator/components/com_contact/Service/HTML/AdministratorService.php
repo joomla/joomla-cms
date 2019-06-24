@@ -78,7 +78,8 @@ class AdministratorService
 				{
 					$text = strtoupper($item->lang_sef);
 					$url = Route::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id);
-					$tooltip = '<strong>'.htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>' . htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
+					$tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
+						. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
 					$classes = 'badge badge-secondary';
 
 					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '" >'. $text . '</a>'
