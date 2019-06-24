@@ -103,15 +103,20 @@ steps:
       - fluxbox  > /dev/null 2>&1 &
       - npm run test
 
-  - name: system-tests
+  - name: system-tests-mysql
     depends_on: [ javascript-tests ]
-    image: joomlaprojects/docker-systemtests:develop
+    image: joomlaprojects/docker-systemtests:latest
     commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)"
-    shm_size: 1024000000  
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql
+
+  - name: system-tests-postgres
+    depends_on: [ system-tests-mysql ]
+    image: joomlaprojects/docker-systemtests:latest
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
 
   - name: api-tests
-    depends_on: [ system-tests ]
+    depends_on: [ system-tests-postgres ]
     image: joomlaprojects/docker-systemtests:latest
     commands:
       - bash tests/Codeception/drone-api-run.sh "$(pwd)"
@@ -122,7 +127,7 @@ steps:
     when:
       repo:
         - joomla/joomla-cms
-      branch: 
+      branch:
         - 4.0-dev
     commands:
       - export RIPS_BASE_URI='https://api.rips.joomla.org'
@@ -135,6 +140,7 @@ steps:
 
 branches:
   exclude: [ l10n_* ]
+
 
 volumes:
 - name: cache
@@ -157,10 +163,16 @@ services:
     image: redis:alpine
 
   - name: postgres
-    image: postgres
+    image: postgres:9-alpine
+    ports:
+      - 5432
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: joomla_ut
+      POSTGRES_DB: test_joomla
 
 ---
 kind: signature
-hmac: 753fa2695987acf184a54a651ac848357bd66088c488cde7870716bb2851d5a0
+hmac: 9753a820bd4863c33cc67e8e54262ef120ae5df3b04d381dd12a9cda29b00672
 
 ...
