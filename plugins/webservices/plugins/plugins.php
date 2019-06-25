@@ -42,10 +42,12 @@ class PlgWebservicesPlugins extends CMSPlugin
 		$defaults    = array('component' => 'com_plugins');
 		$getDefaults = array_merge(array('public' => false), $defaults);
 
-		$router->addRoutes(array(
+		$routes = array(
 			new Route(['GET'], 'v1/plugins', 'plugins'. '.displayList', [], $getDefaults),
 			new Route(['GET'], 'v1/plugins' . '/:id', 'plugins' . '.displayItem', ['id' => '(\d+)'], $getDefaults),
 			new Route(['PUT'], 'v1/plugins' . '/:id', 'plugins' . '.edit', ['id' => '(\d+)'], $defaults)
-		));
+		);
+
+		$router->addRoutes($routes);
 	}
 }

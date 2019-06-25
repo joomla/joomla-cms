@@ -51,9 +51,9 @@ class JsonapiView extends BaseApiView
 	}
 
 	/**
-	 * Prepare item before render
+	 * Prepare item before render.
 	 *
-	 * @param   object $item The model item
+	 * @param   object  $item  The model item
 	 *
 	 * @return  object
 	 *
