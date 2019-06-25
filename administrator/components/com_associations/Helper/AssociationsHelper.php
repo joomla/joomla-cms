@@ -244,6 +244,8 @@ class AssociationsHelper extends ContentHelper
 		// Create associated items list.
 		foreach ($languages as $langCode => $language)
 		{
+			$update = false;
+
 			// Don't do for the reference language, when there is no master language set
 			if ($langCode == $itemLanguage && !$globalMasterLanguage)
 			{
@@ -415,7 +417,7 @@ class AssociationsHelper extends ContentHelper
 			$options   = array(
 				'option'   => 'com_associations',
 				'view'     => 'association',
-				'layout'   => 'edit',
+				'layout'   => $update ? 'update' : 'edit',
 				'itemtype' => $extensionName . '.' . $typeName,
 				'task'     => 'association.edit',
 				'id'       => $masterId ?? $itemId,

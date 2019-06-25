@@ -58,6 +58,21 @@ html[dir=rtl] .target-text {
 	float: right;
 }
 
+.diff .added {
+	background-color: #a6f3a6;
+	border-radius: .2rem;
+}
+
+.diff .removed {
+	background-color: #f8cbcb;
+	border-radius: .2rem;
+}
+
+.diff .same {
+	background-color: unset;
+	border-radius: 0;
+}
+
 /* Responsive layout */
 @media (max-width: 767px) {
 	.sidebyside .outer-panel {

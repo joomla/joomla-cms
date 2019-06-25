@@ -26,7 +26,9 @@ defined('_JEXEC') or die;
 class MasterAssociationsHelper extends ContentHelper
 {
 	/**
-	 * @param $globalMasterLanguage
+	 * Method to create a link for a child item that has no master item
+	 *
+	 * @param   string   $globalMasterLanguage  The global master language
 	 *
 	 * @return string
 	 */

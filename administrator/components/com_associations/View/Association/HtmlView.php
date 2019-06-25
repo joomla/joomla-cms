@@ -11,10 +11,12 @@ namespace Joomla\Component\Associations\Administrator\View\Association;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
@@ -206,24 +208,42 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title(Text::sprintf('COM_ASSOCIATIONS_TITLE_EDIT', Text::_($this->extensionName), Text::_($languageKey)), 'contract assoc');
 
-		$bar = Toolbar::getInstance('toolbar');
+		$toolbar = Toolbar::getInstance('toolbar');
 
-		$bar->appendButton(
-			'Custom', '<button onclick="Joomla.submitbutton(\'reference\')" '
-			. 'class="btn btn-sm btn-success"><span class="icon-apply" aria-hidden="true"></span>'
-			. Text::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>', 'reference'
-		);
-
-		$bar->appendButton(
-			'Custom', '<button onclick="Joomla.submitbutton(\'target\')" '
-			. 'class="btn btn-sm btn-success"><span class="icon-apply" aria-hidden="true"></span>'
-			. Text::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
-		);
-
-		if ($this->typeName === 'category' || $this->extensionName === 'com_menus' || $this->save2copy === true)
+		// In the update view we can just save the target and when saving the other button gets activated via js to update master information for the child
+		if($this->getLayout() === 'update')
 		{
-			ToolbarHelper::custom('copy', 'copy.png', '', 'COM_ASSOCIATIONS_COPY_REFERENCE', false);
+			$toolbar->appendButton(
+				'Custom', '<button onclick="Joomla.submitbutton(\'target\')" '
+				. 'class="btn btn-sm btn-success"><span class="icon-apply" aria-hidden="true"></span>'
+				. Text::_('COM_ASSOCIATIONS_SAVE_AND_UPDATE_TARGET') . '</button>', 'target'
+			);
+
+			$toolbar->appendButton(
+				'Custom', '<button class="btn btn-sm btn-success hidden" id="updateChild" onclick="Joomla.submitbutton(\'associationmaster.update\')"></button>', 'target'
+			);
 		}
+		else
+			{
+				$toolbar->appendButton(
+					'Custom', '<button onclick="Joomla.submitbutton(\'reference\')" '
+					. 'class="btn btn-sm btn-success"><span class="icon-apply" aria-hidden="true"></span>'
+					. Text::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>',
+					'reference'
+				);
+
+				$toolbar->appendButton(
+					'Custom', '<button onclick="Joomla.submitbutton(\'target\')" '
+					. 'class="btn btn-sm btn-success"><span class="icon-apply" aria-hidden="true"></span>'
+					. Text::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
+				);
+
+				if ($this->typeName === 'category' || $this->extensionName === 'com_menus' || $this->save2copy === true)
+				{
+					ToolbarHelper::custom('copy', 'copy.png', '', 'COM_ASSOCIATIONS_COPY_REFERENCE', false);
+				}
+		}
+
 
 		ToolbarHelper::cancel('association.cancel', 'JTOOLBAR_CLOSE');
 		ToolbarHelper::help('JHELP_COMPONENTS_ASSOCIATIONS_EDIT');
