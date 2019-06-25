@@ -27,6 +27,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\Router;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -969,7 +970,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	/**
 	 * Before Saving extensions
 	 * Method is called when an extension is going to be saved
-	 * change parameters for master language because there depends on other parameters
+	 * change parameters for master language because they depends on other parameters
 	 *
 	 * @param   string   $context  The extension
 	 * @param   JTable   $table    DataBase Table object
@@ -1045,12 +1046,15 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	}
 
 	/**
-	 * Method to set the master item of an association as parent and the children get the parent id
-	 * Also reset the modified date of the master item. Master and children will be up-to-date, as they get the same modified date
+	 * Method to set the master of an association.
+	 * This resets all the current master ids and the modified date and set these new.
+	 * Master and children will be up-to-date, as they get the same modified date
 	 *
 	 * @param   string  $language  The global master language
 	 *
-	 * @return  void
+	 * @return  boolean  Returns true on success, false on failure.
+	 *
+	 * @throws  \Exception
 	 *
 	 * @since   4.0.0
 	 */
@@ -1074,9 +1078,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			}
 			catch (ExecutionFailureException $e)
 			{
-				$this->_message .= Text::_(' , failed to update the master with his childs');
-
-				return;
+				return false;
 			}
 		}
 		else
@@ -1098,43 +1100,26 @@ class PlgSystemLanguageFilter extends CMSPlugin
 					->where($db->quoteName('key') . ' = ' . $db->quote($value));
 				$assocContext = $db->setQuery($contextQuery)->loadResult();
 
-				$extension = '';
+				$checkCategoryComponent = '';
+				$component = explode('.', $assocContext)[0];
 
-				// get the correct table to look in depending on the context
-				switch ($assocContext)
+				if($component === 'com_categories'){
+					$fromTable              = $db->quoteName('#__categories', 'e');
+					$modified               = $db->quoteName('e.modified_time');
+					$checkCategoryComponent = $db->quoteName('e.extension');
+				}
+				else
 				{
-					case 'com_content.item':
-						$fromTable = $db->quoteName('#__content', 'e');
-						$modified  = $db->quoteName('e.modified');
-						$typeAlias = 'com_content.article';
-						break;
-
-					case 'com_menus.item' :
-						$fromTable = $db->quoteName('#__menu', 'e');
-						$modified  = '';
-						$typeAlias = '';
-						break;
-
-					case 'com_categories.item':
-						$fromTable = $db->quoteName('#__categories', 'e');
-						$modified  = $db->quoteName('e.modified_time');
-						$extension = $db->quoteName('e.extension');
-						break;
-
-					case 'com_contact.item':
-						$fromTable = $db->quoteName('#__contact_details', 'e');
-						$modified  = $db->quoteName('e.modified');
-						$typeAlias = 'com_contact.contact';
-						break;
-
-					case 'com_newsfeeds.item':
-						$fromTable = $db->quoteName('#__newsfeeds', 'e');
-						$modified  = $db->quoteName('e.modified');
-						$typeAlias = 'com_newsfeeds.newsfeed';
-						break;
+					$extension      = AssociationsHelper::getSupportedExtension($component);
+					$extensionType  = $extension['helper']->getItemTypes()[0];
+					$extensionTable = $extension['types'][$extensionType]->get('details')['tables'];
+					$tableName      = $extensionTable[array_keys($extensionTable)[0]];
+					$fromTable      = $db->quoteName($tableName, 'e');
+					$typeAlias      = $component . '.' . $extensionType;
+					$modified       = ($component === 'com_menus') ? '' : $db->quoteName('e.modified');
 				}
 
-				// get items with the global master language
+				// get ids of items with the global master language
 				$subQuery = $db->getQuery(true)
 					->select($db->quoteName('e.id'))
 					->from($fromTable)
@@ -1152,20 +1137,20 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				if ($modified)
 				{
 					// get the context of this category
-					if($extension){
-						$categoryQuery = $db->getQuery(true)
-							->select($extension)
+					if ($checkCategoryComponent)
+					{
+						$categoryQuery           = $db->getQuery(true)
+							->select($checkCategoryComponent)
 							->from($fromTable)
 							->where($db->quoteName('id') . ' = ' . $db->quote($masterId));
 						$categoryMasterExtension = $db->setQuery($categoryQuery)->loadResult();
 						$typeAlias = $categoryMasterExtension . '.category';
 					}
 
-					// if enabled use the history save_date otherwise use the modified date
-					$component = $categoryMasterExtension ?? explode('.', $assocContext)[0];
+					$component = $categoryMasterExtension ?? $component;
 					$saveHistory = ComponentHelper::getParams($component)->get('save_history', 0);
 
-					// if versions are enabled get the save_data of the master item from history table
+					// if versions are enabled get the save_data of the master item from history table otherwise use the modified date
 					if ($saveHistory)
 					{
 						$typeId        = Table::getInstance('ContentType')->getTypeId($typeAlias);
@@ -1179,10 +1164,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 						$masterModQuery = $db->getQuery(true)
 							->select($modified)
 							->from($fromTable)
-							->where($db->quoteName('id') . ' = '
-								. $db->quote($masterId));
-						$masterModified = $db->setQuery($masterModQuery)
-							->loadResult();
+							->where($db->quoteName('id') . ' = ' . $db->quote($masterId));
+						$masterModified = $db->setQuery($masterModQuery)->loadResult();
 					}
 				}
 
@@ -1205,9 +1188,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				}
 				catch (ExecutionFailureException $e)
 				{
-					$this->_message .= Text::_(' , failed to update the master with his childs');
-
-					return;
+					return false;
 				}
 
 				// Set the master id and modified date to the children
@@ -1226,12 +1207,10 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				}
 				catch (ExecutionFailureException $e)
 				{
-					$this->_message .= Text::_(' , failed to update the master with his childs');
-
-					return;
+					return false;
 				}
-
 			}
 		}
+		return true;
 	}
 }
