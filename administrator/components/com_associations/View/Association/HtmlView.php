@@ -170,6 +170,23 @@ class HtmlView extends BaseHtmlView
 			$this->targetTitle      = AssociationsHelper::getTypeFieldName($extensionName, $typeName, 'title');
 			$task                   = $typeName . '.' . $this->targetAction;
 
+			// get version ids of the master item, when versions are enabled.
+			if($this->getLayout() === 'update'){
+				$saveHistory = ComponentHelper::getParams($extensionName)->get('save_history', 0);
+
+				if($saveHistory)
+				{
+					$typeAlias = $typeName === 'category' ? $extensionName . '.' . $typeName : $reference['typeAlias'];
+					$model = $this->getModel();
+					$typeId        = Table::getInstance('ContentType')->getTypeId($typeAlias);
+					$masterVersionIds            = $model->getMasterCompareValues($referenceId, $this->targetId, $extensionName, $typeName, $typeId);
+					if ($masterVersionIds[0] !== null && $masterVersionIds[1] !== null)
+					{
+						$this->referenceVersionIdNew = $masterVersionIds[0];
+						$this->referenceVersionIdOld = $masterVersionIds[1];
+					}
+				}
+			}
 			/*
 			 * Let's put the target src into a variable to use in the javascript code
 			 *  to avoid race conditions when the reference iframe loads.
