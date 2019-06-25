@@ -503,7 +503,15 @@ class PlgSystemLanguageFilter extends JPlugin
 					continue;
 				}
 
-				$language_new->load($extension);
+				// detect basepath for the extension language folder
+				$loaded = [];
+				foreach($files as $_filePath => $_has_been_loaded){
+					$_basePath = explode(DIRECTORY_SEPARATOR ."language". DIRECTORY_SEPARATOR, $_filePath);
+					$_basePath = $_basePath[0];
+					if(isset($loaded[$_basePath])) continue;
+
+					$loaded[$_basePath] = $language_new->load($extension, $_basePath, true);
+				}
 			}
 
 			JFactory::$language = $language_new;
