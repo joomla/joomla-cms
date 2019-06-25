@@ -93,11 +93,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php endif; ?>
 								</td>
 								<th scope="row">
-									<label for="cb<?php echo $i; ?>">
-										<span class="bold hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', $item->name, $item->description, 0); ?>">
-											<?php echo $item->name; ?>
-										</span>
+									<label for="cb<?php echo $i; ?>" tabindex="0">
+										<?php echo $item->name; ?>
 									</label>
+									<div role="tooltip" id="tip<?php echo $i; ?>">
+										<?php echo $item->description; ?>
+									</div>
 								</th>
 								<td>
 									<?php echo $item->client_translated; ?>
@@ -107,7 +108,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								</td>
 								<td class="d-none d-md-table-cell">
 									<?php if ($item->version !== '') : ?>
-										<?php if ($item->changelogurl !== null) : ?>
+										<?php if ($item->changelogurl != null) : ?>
 											<a href="#changelogModal<?php echo $item->extension_id; ?>" class="changelogModal" data-js-extensionid="<?php echo $item->extension_id; ?>" data-js-view="manage" data-toggle="modal">
 												<?php echo $item->version?>
 											</a>
@@ -129,12 +130,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									endif; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
-									<?php echo isset($item->creationDate) && $item->creationDate !== '' ? $item->creationDate : '&#160;'; ?>
+									<?php echo !empty($item->creationDate) ? $item->creationDate : '&#160;'; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
-									<span class="editlinktip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', Text::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
-										<?php echo isset($item->author) && $item->author !== '' ? $item->author : '&#160;'; ?>
-									</span>
+									<?php echo !empty($item->author) ? $item->author : '&#160;'; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
 									<?php echo $item->folder_translated; ?>
