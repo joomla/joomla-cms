@@ -517,7 +517,7 @@ class Document
 	}
 
 	/**
-	 * Adds a linked script to the page
+	 * Adds a linked script to the page. If the script already exists then merges its options and attributes.
 	 *
 	 * @param   string  $url      URL to the linked script.
 	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9', 'preload' => array('preload'))
@@ -590,7 +590,7 @@ class Document
 	}
 
 	/**
-	 * Add option for script
+	 * Add option for script. By default merge with existing options or replace them when $merge = false.
 	 *
 	 * @param   string  $key      Name in Storage
 	 * @param   mixed   $options  Scrip options as array or string
@@ -641,7 +641,7 @@ class Document
 	}
 
 	/**
-	 * Adds a linked stylesheet to the page
+	 * Adds a linked stylesheet to the page. If the StyleSheet already exists then merges its options and attributes.
 	 *
 	 * @param   string  $url      URL to the linked style sheet
 	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9', 'preload' => array('preload'))
