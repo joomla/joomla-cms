@@ -40,6 +40,10 @@ class PlgWebservicesBanners extends CMSPlugin
 	{
 		$router->createCRUDRoutes('v1/banners', 'banners', ['component' => 'com_banners']);
 		$router->createCRUDRoutes('v1/banners/clients', 'clients', ['component' => 'com_banners']);
-		$router->createCRUDRoutes('v1/banners/categories', 'categories', ['component' => 'com_categories', 'extension' => 'com_banners']);
+		$router->createCRUDRoutes(
+			'v1/banners/categories',
+			'categories',
+			['component' => 'com_categories', 'extension' => 'com_banners']
+		);
 	}
 }

@@ -39,12 +39,13 @@ class PlgWebservicesPlugins extends CMSPlugin
 	 */
 	public function onBeforeApiRoute(&$router)
 	{
-		$getDefaults = array('public' => false, 'component' => 'com_plugins');
+		$defaults    = array('component' => 'com_plugins');
+		$getDefaults = array_merge(array('public' => false), $defaults);
 
 		$router->addRoutes(array(
 			new Route(['GET'], 'v1/plugins', 'plugins'. '.displayList', [], $getDefaults),
 			new Route(['GET'], 'v1/plugins' . '/:id', 'plugins' . '.displayItem', ['id' => '(\d+)'], $getDefaults),
-			new Route(['PUT'], 'v1/plugins' . '/:id', 'plugins' . '.edit', ['id' => '(\d+)'], $getDefaults)
+			new Route(['PUT'], 'v1/plugins' . '/:id', 'plugins' . '.edit', ['id' => '(\d+)'], $defaults)
 		));
 	}
 }

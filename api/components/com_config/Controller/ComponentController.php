@@ -57,7 +57,12 @@ class ComponentController extends ApiController
 		try
 		{
 			/** @var JsonApiView $view */
-			$view = $this->getView($this->default_view, $viewType, '', ['base_path' => $this->basePath, 'layout' => $viewLayout, 'contentType' => $this->contentType]);
+			$view = $this->getView(
+				$this->default_view,
+				$viewType,
+				'',
+				['base_path' => $this->basePath, 'layout' => $viewLayout, 'contentType' => $this->contentType]
+			);
 		}
 		catch (\Exception $e)
 		{
