@@ -20,6 +20,8 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
+\JLoader::register('FinderHelperRoute', JPATH_SITE . '/components/com_finder/helpers/route.php');
+
 /**
  * Query class for the Finder indexer package.
  *
@@ -358,7 +360,7 @@ class Query
 				'q'    => $uri->getVar('q'),
 			);
 
-			$item = FinderHelperRoute::getItemid($query);
+			$item = \FinderHelperRoute::getItemid($query);
 
 			// Add the menu item id if present.
 			if ($item !== null)
