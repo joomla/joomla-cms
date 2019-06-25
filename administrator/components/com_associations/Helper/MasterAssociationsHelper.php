@@ -30,7 +30,7 @@ class MasterAssociationsHelper extends ContentHelper
 	 *
 	 * @param   string   $globalMasterLanguage  The global master language
 	 *
-	 * @return string
+	 * @return   string   the link for the not associated master item
 	 */
 	public static function addNotAssociatedMasterLink($globalMasterLanguage)
 	{
@@ -44,7 +44,8 @@ class MasterAssociationsHelper extends ContentHelper
 		$globalMasterLanguageInfos = $db->loadAssoc();
 
 		$classes       = 'hasPopover badge badge-secondary';
-		$languageTitle = $globalMasterLanguageInfos['title'] . ' - ' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_LANGUAGE');
+		$languageTitle = $globalMasterLanguageInfos['title'] . ' - '
+			. Text::_('JGLOBAL_ASSOCIATIONS_MASTER_LANGUAGE');
 		$text          = $globalMasterLanguageInfos['sef']
 			? strtoupper($globalMasterLanguageInfos['sef'])
 			: 'XX';
@@ -57,47 +58,6 @@ class MasterAssociationsHelper extends ContentHelper
 			. $tooltip . '" data-placement="top">' . $text . '</a>';
 
 		return $link;
-	}
-
-	/**
-	 * @param   integer  $itemId   Item id
-	 * @param   string   $context  Context of the association
-	 *
-	 * @return   boolean  True if the item is a master item, false otherwise
-	 */
-	public static function isMaster($itemId, $context)
-	{
-		$parentId = self::getMasterId($itemId, $context);
-
-		$isMaster = ($parentId === 0) ? true : false;
-
-		return $isMaster;
-
-	}
-
-	/**
-	 * Get the associated master item id from a child element.
-	 *
-	 * @param   integer  $itemId   Item id
-	 * @param   string   $context  context of the association
-	 *
-	 * @return  integer  The id of the associated master item
-	 *
-	 * @since  4.0
-	 */
-	public static function getMasterId($itemId, $context)
-	{
-		$db = Factory::getDbo();
-
-		$parentQuery = $db->getQuery(true)
-			->select($db->quoteName('parent_id'))
-			->from($db->quoteName('#__associations'))
-			->where($db->quoteName('id') . ' = ' . $db->quote($itemId))
-			->where($db->quoteName('context') . ' = ' . $db->quote($context));
-		$masterId    = $db->setQuery($parentQuery)->loadResult();
-
-		return (int) $masterId;
-
 	}
 
 	/**
@@ -134,6 +94,8 @@ class MasterAssociationsHelper extends ContentHelper
 	}
 
 	/**
+	 * Method to set parent_id and modified date of an association that get to be saved
+	 *
 	 * @param   integer   $id                  Item id
 	 * @param   integer   $dataId              Item id of an item that is going to be saved
 	 * @param   integer   $masterId            Id of the associated master item
@@ -143,7 +105,7 @@ class MasterAssociationsHelper extends ContentHelper
 	 *
 	 * @return   array     parent id and modified date
 	 */
-	public static function getMasterLanguageValues($id, $dataId, $masterId, $masterModified, $associationsParams, $old_key) {
+	public static function setMasterLanguageValues($id, $dataId, $masterId, $masterModified, $associationsParams, $old_key) {
 
 		if ($masterId)
 		{

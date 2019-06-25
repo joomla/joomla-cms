@@ -1377,7 +1377,7 @@ abstract class AdminModel extends FormModel
 
 				foreach ($associations as $id)
 				{
-					$masterValues = MasterAssociationsHelper::getMasterLanguageValues($id, $dataId, $masterId, $masterModified, $associationsParams, $old_key);
+					$masterValues = MasterAssociationsHelper::setMasterLanguageValues($id, $dataId, $masterId, $masterModified, $associationsParams, $old_key);
 					$parentId = $masterValues[0];
 					$parentModified = $masterValues[1];
 

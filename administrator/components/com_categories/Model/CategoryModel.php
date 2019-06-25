@@ -696,7 +696,7 @@ class CategoryModel extends AdminModel
 
 				foreach ($associations as $id)
 				{
-					$masterValues = MasterAssociationsHelper::getMasterLanguageValues($id, $dataId, $masterId, $masterModified, $associationsParams, $oldKey);
+					$masterValues = MasterAssociationsHelper::setMasterLanguageValues($id, $dataId, $masterId, $masterModified, $associationsParams, $oldKey);
 					$parentId = $masterValues[0];
 					$parentModified = $masterValues[1];
 
