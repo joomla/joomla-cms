@@ -15,12 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 
 /**
  * View class for a list of banners.
@@ -80,8 +78,6 @@ class HtmlView extends BaseHtmlView
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
-
-		BannersHelper::addSubmenu('banners');
 
 		$this->addToolbar();
 

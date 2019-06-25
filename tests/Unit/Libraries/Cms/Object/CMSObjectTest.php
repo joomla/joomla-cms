@@ -167,11 +167,7 @@ class CMSObjectTest extends UnitTestCase
 		{
 			$object->setError($error);
 		}
-		$this->assertAttributeEquals(
-			$object->getErrors(),
-			'_errors',
-			$object
-		);
+
 		$this->assertEquals(
 			$errors,
 			$object->getErrors(),
@@ -225,10 +221,9 @@ class CMSObjectTest extends UnitTestCase
 	{
 		$object = new CMSObject;
 		$object->setError('A Test Error');
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			array('A Test Error'),
-			'_errors',
-			$object
+			$object->getErrors()
 		);
 	}
 }

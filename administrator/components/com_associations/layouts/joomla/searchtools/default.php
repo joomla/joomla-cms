@@ -49,41 +49,41 @@ HTMLHelper::_('searchtools.form', $data['options']['formSelector'], $data['optio
 $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilters ? ' js-stools-container-filters-visible' : '';
 ?>
 <div class="js-stools" role="search">
-	<?php $itemTypeField = $data['view']->filterForm->getField('itemtype'); ?>
-	<?php $languageField = $data['view']->filterForm->getField('language'); ?>
-	<?php $assocStateField = $data['view']->filterForm->getField('assocstate'); ?>
+	<?php // Add the itemtype and language selectors before the form filters. Do not display in modal. ?>
+	<?php $app = Factory::getApplication(); ?>
+	<?php if ($app->input->get('forcedItemType', '', 'string') == '') : ?>
+		<?php $itemTypeField = $data['view']->filterForm->getField('itemtype'); ?>
+		<div class="js-stools-container-selector-first">
+			<div class="js-stools-field-selector js-stools-itemtype">
+				<?php echo $itemTypeField->input; ?>
+			</div>
+		</div>
+	<?php endif; ?>
+	<?php if ($app->input->get('forcedLanguage', '', 'cmd') == '') : ?>
+		<?php $languageField = $data['view']->filterForm->getField('language'); ?>
+		<?php if ($globalMasterLanguage) : ?>
+			<div class="js-stools-container-selector-second">
+		<?php else : ?>
+			<div class="js-stools-container-selector">
+		<?php endif; ?>
+			<div class="js-stools-field-selector js-stools-language">
+				<?php echo $languageField->input; ?>
+			</div>
+		</div>
+	<?php endif; ?>
 
-	<?php // Add the itemtype and language selectors before the form filters. ?>
-	<div class="js-stools-container-selector-first">
-		<div class="js-stools-field-selector js-stools-itemtype">
-			<label for="<?php echo $itemTypeField->id; ?>" class="sr-only">
-				<?php echo Text::_('COM_ASSOCIATIONS_FILTER_SELECT_ITEM_TYPE'); ?>
-			</label>
-			<?php echo $itemTypeField->input; ?>
-		</div>
-	</div>
 	<?php if ($globalMasterLanguage) : ?>
-	<div class="js-stools-container-selector-second">
-	<?php else : ?>
-	<div class="js-stools-container-selector">
-	<?php endif; ?>
-		<div class="js-stools-field-selector js-stools-language">
-			<label for="<?php echo $languageField->id; ?>" class="sr-only">
-				<?php echo Text::_('JOPTION_SELECT_LANGUAGE'); ?>
-			</label>
-			<?php echo $languageField->input; ?>
+		<?php $assocStateField = $data['view']->filterForm->getField('assocstate'); ?>
+		<div class="js-stools-container-selector">
+			<div class="js-stools-field-selector js-stools-assocstate">
+				<label for="<?php echo $assocStateField->id; ?>" class="sr-only">
+					<?php echo Text::_('COM_ASSOCIATIONS_FILTER_SELECT_ASSOCIATION_STATE'); ?>
+				</label>
+				<?php echo $assocStateField->input; ?>
+			</div>
 		</div>
-	</div>
-	<?php if ($globalMasterLanguage) : ?>
-	<div class="js-stools-container-selector">
-		<div class="js-stools-field-selector js-stools-assocstate">
-			<label for="<?php echo $assocStateField->id; ?>" class="sr-only">
-				<?php echo Text::_('COM_ASSOCIATIONS_FILTER_SELECT_ASSOCIATION_STATE'); ?>
-			</label>
-			<?php echo $assocStateField->input; ?>
-		</div>
-	</div>
 	<?php endif; ?>
+
 	<div class="js-stools-container-bar">
 		<?php echo $this->sublayout('bar', $data); ?>
 	</div>
