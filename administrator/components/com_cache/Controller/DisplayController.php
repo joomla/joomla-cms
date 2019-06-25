@@ -44,7 +44,7 @@ class DisplayController extends BaseController
 
 		$data = $model->getData();
 
-		$size = 0;
+		$size = '0.0';
 
 		if (!empty($data))
 		{
