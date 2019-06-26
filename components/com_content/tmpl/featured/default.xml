@@ -18,7 +18,7 @@
 				label="COM_CONTENT_FEATURED_CATEGORIES_LABEL"
 				extension="com_content"
 				multiple="true"
-				size="10"
+				layout="joomla.form.field.list-fancy-select"
 				default=""
 				>
 				<option value="">JOPTION_ALL_CATEGORIES</option>
