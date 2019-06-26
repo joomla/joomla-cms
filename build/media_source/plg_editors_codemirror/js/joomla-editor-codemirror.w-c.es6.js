@@ -152,7 +152,7 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
 
     const header = document.getElementById('header');
     if (header) {
-      document.getElementById('header').classList.remove('hidden');
+      header.classList.remove('hidden');
     }
   }
 
