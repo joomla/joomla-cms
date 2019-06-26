@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Input\Input;
 
 /**
@@ -106,9 +105,6 @@ class DisplayController extends BaseController
 
 			// Push document object into the view.
 			$view->document = $document;
-
-			// Load the submenu.
-			CategoriesHelper::addSubmenu($model->getState('filter.extension'));
 			$view->display();
 		}
 

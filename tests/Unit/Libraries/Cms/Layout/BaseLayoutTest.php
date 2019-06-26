@@ -24,7 +24,7 @@ class BaseLayoutTest extends UnitTestCase
 	 * Sets up the test by instantiating BaseLayout
 	 * This method is called before a test is executed.
 	 */
-	protected function setUp()
+	protected function setUp():void
 	{
 		$this->baseLayout = new BaseLayout;
 
@@ -34,7 +34,7 @@ class BaseLayoutTest extends UnitTestCase
 	/**
 	 * This method is called after a test is executed.
 	 */
-	protected function tearDown()
+	protected function tearDown():void
 	{
 		unset($this->baseLayout);
 
@@ -185,7 +185,7 @@ class BaseLayoutTest extends UnitTestCase
 	 */
 	public function testRetrievingTheListOfDebugMessagesIsAnArray()
 	{
-		$this->assertInternalType('array', $this->baseLayout->getDebugMessages());
+		$this->assertIsArray($this->baseLayout->getDebugMessages());
 	}
 
 	/**

@@ -42,12 +42,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 <form action="<?php echo Route::_('index.php?option=com_menus&view=items&menutype='); ?>" method="post" name="adminForm"
 	  id="adminForm">
 	<div class="row">
-		<?php if (!empty($this->sidebar)) : ?>
-		<div id="j-sidebar-container" class="col-md-2">
-			<?php echo $this->sidebar; ?>
-		</div>
-		<?php endif; ?>
-		<div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
+		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
 				<?php if (empty($this->items)) : ?>
@@ -206,6 +201,13 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 											  title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
 											<?php echo $this->escape($item->item_type); ?></span>
 									</div>
+									<?php if ($item->type === 'component' && !$item->enabled) : ?>
+										<div>
+											<span class="badge badge-secondary">
+												<?php echo Text::_($item->enabled === null ? 'JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND' : 'COM_MENUS_LABEL_DISABLED'); ?>
+											</span>
+										</div>
+									<?php endif; ?>
 								</th>
 								<td class="small d-none d-md-table-cell">
 									<?php echo $this->escape($item->menutype_title ?: ucwords($item->menutype)); ?>
