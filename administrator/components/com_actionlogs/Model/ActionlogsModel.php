@@ -394,7 +394,7 @@ class ActionlogsModel extends ListModel
 	 *
 	 * @return  Form|boolean  The Form object or false on error
 	 *
-	 * @since  3.9.0
+	 * @since   3.9.0
 	 */
 	public function getFilterForm($data = array(), $loadData = true)
 	{
