@@ -196,16 +196,6 @@ abstract class ToolbarButton
 		$options['htmlAttributes'] = ArrayHelper::toString($options['attributes']);
 		$options['btnClass'] = 'button-' . $this->getName() . ' ' . ($options['btnClass'] ?? '');
 
-		// Special treatment of preferences and help button
-		switch (strtolower($this->getName()))
-		{
-			case 'options':
-			case 'help':
-				$options['text'] = '';
-				$options['btnClass'] = '';
-				break;
-		}
-
 		// Instantiate a new LayoutFile instance and render the layout
 		$layout = new FileLayout($this->layout);
 
