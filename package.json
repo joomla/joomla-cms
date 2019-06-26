@@ -53,7 +53,7 @@
     "@gfx/zopfli": "^1.0.13",
     "autoprefixer": "^9.6.0",
     "babel-plugin-add-header-comment": "^1.0.3",
-    "babel-preset-minify": "^0.5.0",
+    "babel-preset-minify": "^0.4.3",
     "babelify": "^10.0.0",
     "commander": "^2.20.0",
     "copy-dir": "^1.1.0",
