@@ -99,7 +99,7 @@ steps:
 
   - name: php74-integration
     depends_on: [ phpcs ]
-    image: phpdaily/php:7.4-dev
+    image: joomlaprojects/docker-images:php7.4
     failure: ignore
     commands:
       - php -v
@@ -107,7 +107,7 @@ steps:
 
   - name: php80-integration
     depends_on: [ phpcs ]
-    image: phpdaily/php:8.0-dev
+    image: joomlaprojects/docker-images:php8.0
     failure: ignore
     commands:
       - php -v
@@ -129,7 +129,7 @@ steps:
 
   - name: php74-integration-pgsql
     depends_on: [ phpcs ]
-    image: phpdaily/php:7.4-dev
+    image: joomlaprojects/docker-images:php7.4
     failure: ignore
     commands:
       - php -v
@@ -137,7 +137,7 @@ steps:
 
   - name: php80-integration-pgsql
     depends_on: [ phpcs ]
-    image: phpdaily/php:8.0-dev
+    image: joomlaprojects/docker-images:php8.0
     failure: ignore
     commands:
       - php -v
@@ -233,6 +233,6 @@ services:
 
 ---
 kind: signature
-hmac: bcea9d2a809017fb966380bead7bfc4020361c1ff4ce6267cc653b95037379a6
+hmac: 026df74fd2f4ae587d4ae65d030d77998d230b1f3b3d7bee51b7067598485694
 
 ...
