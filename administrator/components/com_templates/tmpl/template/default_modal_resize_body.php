@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 ?>
@@ -18,7 +17,7 @@ use Joomla\CMS\Language\Text;
 		<div class="col-md-12">
 			<div class="control-group">
 				<div class="control-label">
-					<label for="height" class="modalTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_TEMPLATES_IMAGE_HEIGHT'); ?>">
+					<label for="height">
 						<?php echo Text::_('COM_TEMPLATES_IMAGE_HEIGHT')?>
 					</label>
 				</div>
@@ -28,7 +27,7 @@ use Joomla\CMS\Language\Text;
 			</div>
 			<div class="control-group">
 				<div class="control-label">
-					<label for="width" class="modalTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_TEMPLATES_IMAGE_WIDTH'); ?>">
+					<label for="width">
 						<?php echo Text::_('COM_TEMPLATES_IMAGE_WIDTH')?>
 					</label>
 				</div>
