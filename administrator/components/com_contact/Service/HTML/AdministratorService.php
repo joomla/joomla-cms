@@ -102,9 +102,9 @@ class AdministratorService
 				{
 					$labelClass    = 'badge-success';
 					$languageTitle = $item->language_title;
-					$text = strtoupper($item->lang_sef);
+					$text          = strtoupper($item->lang_sef);
 					$title         = $item->title;
-					$url = Route::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id);
+					$url           = Route::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id);
 
 					if ($globalMasterLanguage)
 					{
@@ -149,12 +149,12 @@ class AdministratorService
 						}
 					}
 
-					$tooltip = htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
-					$classes = 'hasPopover badge ' . $labelClass;
+					$tooltip = '<strong>' . htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
+						. htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
+					$classes = 'badge ' . $labelClass;
 
-					$item->link = '<a href="' . $url . '" title="' . $languageTitle . '" class="' . $classes
-						. '" data-content="' . $tooltip . '" data-placement="top">'
-						. $text . '</a>';
+					$item->link = '<a href="' . $url . '" title="' . $languageTitle . '" class="' . $classes . '">' . $text . '</a>'
+						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
 
 					// Reorder the array, so the master item gets to the first place
 					if ($item->lang_code === $globalMasterLanguage)
@@ -173,8 +173,6 @@ class AdministratorService
 					$items = array('master' => array('link' => $link)) + $items;
 				}
 			}
-
-			HTMLHelper::_('bootstrap.popover');
 
 			$html = LayoutHelper::render('joomla.content.associations', $items);
 		}

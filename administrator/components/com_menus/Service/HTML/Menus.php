@@ -12,7 +12,6 @@ namespace Joomla\Component\Menus\Administrator\Service\HTML;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -118,12 +117,12 @@ class Menus
 
 					$text    = strtoupper($item->lang_sef);
 					$url     = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);
-					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
-					$classes = 'hasPopover badge badge-success';
+					$tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
+						. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
+					$classes = 'badge badge-success';
 
-					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
-						. '" data-content="' . $tooltip . '" data-placement="top">'
-						. $text . '</a>';
+					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '">' . $text . '</a>'
+						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
 
 					// Reorder the array, so the master item gets to the first place
 					if ($item->lang_code === $globalMasterLanguage)
@@ -142,8 +141,6 @@ class Menus
 					$items = array('master' => array('link' => $link)) + $items;
 				}
 			}
-
-			HTMLHelper::_('bootstrap.popover');
 
 			$html = LayoutHelper::render('joomla.content.associations', $items);
 		}

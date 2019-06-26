@@ -15,7 +15,6 @@ use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -245,6 +244,7 @@ class AssociationsHelper extends ContentHelper
 		foreach ($languages as $langCode => $language)
 		{
 			$update = false;
+			$masterInfo = '';
 
 			// Don't do for the reference language, when there is no master language set
 			if ($langCode == $itemLanguage && !$globalMasterLanguage)
@@ -315,7 +315,7 @@ class AssociationsHelper extends ContentHelper
 					if ($globalMasterLanguage === $langCode)
 					{
 						$labelClass    .= ' master-item';
-						$languageTitle = $language->title . ' - ' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_LANGUAGE');
+						$masterInfo = Text::_('JGLOBAL_ASSOCIATIONS_MASTER_ITEM')  . '<br><br>';
 
 						if ($globalMasterLanguage === $itemLanguage)
 						{
@@ -343,7 +343,7 @@ class AssociationsHelper extends ContentHelper
 							if ($associatedModifiedMaster < $lastModifiedMaster)
 							{
 								$labelClass    = 'badge-warning';
-								$title .= '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_OUTDATED_DESC');
+								$masterInfo = Text::_('JGLOBAL_ASSOCIATIONS_STATE_OUTDATED_DESC') . '<br><br>';
 								$target = $langCode . ':' . $items[$langCode]['id'] . ':edit';
 								$update = true;
 
@@ -361,7 +361,7 @@ class AssociationsHelper extends ContentHelper
 									continue;
 								}
 
-								$title .= '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_UP_TO_DATE_DESC');
+								$masterInfo = Text::_('JGLOBAL_ASSOCIATIONS_STATE_UP_TO_DATE_DESC') . '<br><br>';
 							}
 						}
 					}
@@ -392,7 +392,7 @@ class AssociationsHelper extends ContentHelper
 					if ($globalMasterLanguage === $langCode)
 					{
 						$labelClass    .= ' master-item';
-						$languageTitle = $language->title . ' - ' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_LANGUAGE');
+						$masterInfo = Text::_('JGLOBAL_ASSOCIATIONS_MASTER_ITEM') . '<br><br>';
 						$target        = '';
 					}
 					else
@@ -428,12 +428,12 @@ class AssociationsHelper extends ContentHelper
 			$url     = $allow && $addLink ? $url : '';
 			$text    = strtoupper($language->sef);
 
-			$tooltip = htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;
-			$classes = 'hasPopover badge ' . $labelClass;
+			$tooltip = '<strong>' . htmlspecialchars($language->title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
+				. htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $masterInfo . $additional;
+			$classes = 'badge ' . $labelClass;
 
-			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $languageTitle . '" class="' . $classes
-				. '" data-content="' . $tooltip . '" data-placement="top">'
-				. $text . '</a>';
+			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $languageTitle . '" class="' . $classes . '">' . $text . '</a>'
+				. '<div role="tooltip">' . $tooltip . '</div>';
 
 			// Reorder the array, so the master item gets to the first place
 			if ($langCode === $globalMasterLanguage)
@@ -442,8 +442,6 @@ class AssociationsHelper extends ContentHelper
 				unset($items[$langCode]);
 			}
 		}
-
-		HTMLHelper::_('bootstrap.popover');
 
 		return LayoutHelper::render('joomla.content.associations', $items);
 	}

@@ -12,7 +12,6 @@ namespace Joomla\Component\Newsfeeds\Administrator\Service\HTML;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -147,12 +146,12 @@ class AdministratorService
 						}
 					}
 
-					$classes = 'hasPopover badge ' . $labelClass;
-					$tooltip = htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
+					$classes = 'badge ' . $labelClass;
+					$tooltip = '<strong>' . htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
+						. htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
 
-					$item->link = '<a href="' . $url . '" title="' . $languageTitle . '" class="' . $classes
-						. '" data-content="' . $tooltip . '" data-placement="top">'
-						. $text . '</a>';
+					$item->link = '<a href="' . $url . '" title="' . $languageTitle . '" class="' . $classes . '">' . $text . '</a>'
+						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
 
 					// Reorder the array, so the master item gets to the first place
 					if ($item->lang_code === $globalMasterLanguage)
@@ -171,8 +170,6 @@ class AdministratorService
 					$items = array('master' => array('link' => $link)) + $items;
 				}
 			}
-
-			HTMLHelper::_('bootstrap.popover');
 
 			$html = LayoutHelper::render('joomla.content.associations', $items);
 		}

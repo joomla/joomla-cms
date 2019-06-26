@@ -12,7 +12,6 @@ namespace Joomla\Component\Categories\Administrator\Service\HTML;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -36,8 +35,8 @@ class AdministratorService
 	 *
 	 * @return  string   The language HTML
 	 *
-	 * @throws  \Exception
 	 * @since   3.2
+	 * @throws  \Exception
 	 */
 	public function association($catid, $extension = 'com_content')
 	{
@@ -103,8 +102,7 @@ class AdministratorService
 					$languageTitle = $item->language_title;
 					$text          = $item->lang_sef ? strtoupper($item->lang_sef) : 'XX';
 					$title         = $item->title;
-					$url           = Route::_('index.php?option=com_categories&task=category.edit&id=' . (int) $item->id
-						. '&extension=' . $extension);
+					$url           = Route::_('index.php?option=com_categories&task=category.edit&id=' . (int) $item->id . '&extension=' . $extension);
 
 					if ($globalMasterLanguage)
 					{
@@ -150,12 +148,12 @@ class AdministratorService
 						}
 					}
 
-					$classes = 'hasPopover badge ' . $labelClass;
-					$tooltip = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
+					$classes = 'badge ' . $labelClass;
+					$tooltip  = '<strong>' . htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
+						. htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
 
-					$item->link = '<a href="' . $url . '" title="' . $languageTitle . '" class="' . $classes
-						. '" data-content="' . $tooltip . '" data-placement="top">'
-						. $text . '</a>';
+					$item->link = '<a href="' . $url . '" title="' . $languageTitle . '" class="' . $classes . '">' . $text . '</a>'
+						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
 
 					// Reorder the array, so the master item gets to the first place
 					if ($item->lang_code === $globalMasterLanguage)
@@ -174,8 +172,6 @@ class AdministratorService
 					$items = array('master' => array('link' => $link)) + $items;
 				}
 			}
-
-			HTMLHelper::_('bootstrap.popover');
 
 			$html = LayoutHelper::render('joomla.content.associations', $items);
 		}
