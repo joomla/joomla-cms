@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Tags\Site\Helper\TagsHelperRoute;
 
 defined('_JEXEC') or die;
 
