@@ -13,7 +13,7 @@ use Joomla\Event\Dispatcher;
 use Joomla\CMS\Table\Table;
 use Joomla\Tests\Integration\DBTestInterface;
 use Joomla\Tests\Integration\DBTestTrait;
-use Joomla\Tests\Integration\IntergrationTestCase;
+use Joomla\Tests\Integration\IntegrationTestCase;
 use Joomla\Tests\Integration\Libraries\Cms\Table\Stubs\TestTable;
 
 /**
@@ -23,7 +23,7 @@ use Joomla\Tests\Integration\Libraries\Cms\Table\Stubs\TestTable;
  *
  * @since    __DEPLOY_VERSION__
  */
-class TableTest extends IntergrationTestCase implements DBTestInterface
+class TableTest extends IntegrationTestCase implements DBTestInterface
 {
 	use DBTestTrait;
 
@@ -51,7 +51,7 @@ class TableTest extends IntergrationTestCase implements DBTestInterface
 
 	public function getSchemasToLoad(): array
 	{
-		return ['datasets/framework.sql', 'Libraries/Cms/Table/Stubs/testtable.sql'];
+		return ['framework.sql', 'testtable.sql'];
 	}
 
 	public function testObjectHasAttributesFromTable()

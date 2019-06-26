@@ -12,7 +12,7 @@ namespace Joomla\Tests\Integration;
 /**
  * Base Integration Test case for common behaviour across integration tests
  */
-abstract class IntergrationTestCase extends \PHPUnit\Framework\TestCase
+abstract class IntegrationTestCase extends \PHPUnit\Framework\TestCase
 {
 
 	protected function setUp():void

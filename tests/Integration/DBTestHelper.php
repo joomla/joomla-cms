@@ -5,7 +5,7 @@ namespace Joomla\Tests\Integration;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseFactory;
 use Joomla\Database\Mysqli\MysqliDriver;
-use Joomla\Tests\Integration\IntergrationTestCase;
+use Joomla\Tests\Integration\IntegrationTestCase;
 
 class DBTestHelper
 {
@@ -13,7 +13,7 @@ class DBTestHelper
 
 	protected static $loadedFiles = [];
 
-	public static function setupTest(IntergrationTestCase $test):void
+	public static function setupTest(IntegrationTestCase $test):void
 	{
 		if (!self::$driver)
 		{
@@ -31,7 +31,7 @@ class DBTestHelper
 				continue;
 			}
 
-			$sql = file_get_contents(JPATH_ROOT . '/tests/Integration/' . $file);
+			$sql = file_get_contents(JPATH_ROOT . '/tests/Integration/datasets/' . strtolower(JTEST_DB_ENGINE) . '/' . $file);
 			$queries = self::splitQueries($sql);
 
 			if (!count($queries))
