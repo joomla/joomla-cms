@@ -5,7 +5,7 @@ Build Status
 ---------------------
 | Drone-CI | AppVeyor |
 | ------------- | ------------- |
-| [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg?branch=4.0-dev)](https://ci.joomla.org/joomla/joomla-cms)  | [![Build status](https://ci.appveyor.com/api/projects/status/bpcxulw6nnxlv8kb/branch/4.0-dev?svg=true)](https://ci.appveyor.com/project/joomla/joomla-cms)  |
+| [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg?branch=4.0-dev)](https://ci.joomla.org/joomla/joomla-cms)  | [![Build status](https://ci.appveyor.com/api/projects/status/ru6sxal8jmfckvjc/branch/4.0-dev?svg=true)](https://ci.appveyor.com/project/release-joomla/joomla-cms)  |
 
 What is this?
 ---------------------

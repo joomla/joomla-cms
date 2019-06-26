@@ -21,8 +21,6 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
-use Joomla\Component\Banners\Administrator\Model\ClientsModel;
 
 /**
  * View class for a list of clients.
@@ -97,8 +95,6 @@ class HtmlView extends BaseHtmlView
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
-
-		BannersHelper::addSubmenu('clients');
 
 		$this->addToolbar();
 

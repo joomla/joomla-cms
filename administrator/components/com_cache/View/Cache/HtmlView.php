@@ -11,12 +11,18 @@ namespace Joomla\Component\Cache\Administrator\View\Cache;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Cache\Administrator\Model\CacheModel;
 
 /**
  * HTML View class for the Cache component
@@ -25,10 +31,52 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	protected $data;
+	/**
+	 * The search tools form
+	 *
+	 * @var    Form
+	 * @since  1.6
+	 */
+	public $filterForm;
 
+	/**
+	 * The active search filters
+	 *
+	 * @var    array
+	 * @since  1.6
+	 */
+	public $activeFilters = [];
+
+	/**
+	 * The cache data
+	 *
+	 * @var    array
+	 * @since  1.6
+	 */
+	protected $data = [];
+
+	/**
+	 * The pagination object
+	 *
+	 * @var    Pagination
+	 * @since  1.6
+	 */
 	protected $pagination;
 
+	/**
+	 * Total number of cache groups
+	 *
+	 * @var    integer
+	 * @since  1.6
+	 */
+	protected $total = 0;
+
+	/**
+	 * The model state
+	 *
+	 * @var    CMSObject
+	 * @since  1.6
+	 */
 	protected $state;
 
 	/**
@@ -37,15 +85,21 @@ class HtmlView extends BaseHtmlView
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
+	 *
+	 * @since   1.6
+	 *
+	 * @throws  Exception
 	 */
-	public function display($tpl = null)
+	public function display($tpl = null): void
 	{
-		$this->data          = $this->get('Data');
-		$this->pagination    = $this->get('Pagination');
-		$this->total         = $this->get('Total');
-		$this->state         = $this->get('State');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
+		/** @var CacheModel $model */
+		$model               = $this->getModel();
+		$this->data          = $model->getData();
+		$this->pagination    = $model->getPagination();
+		$this->total         = $model->getTotal();
+		$this->state         = $model->getState();
+		$this->filterForm    = $model->getFilterForm();
+		$this->activeFilters = $model->getActiveFilters();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -65,11 +119,12 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @since   1.6
 	 */
-	protected function addToolbar()
+	protected function addToolbar(): void
 	{
 		ToolbarHelper::title(Text::_('COM_CACHE_CLEAR_CACHE'), 'lightning clear');
 
-		$toolbar = Toolbar::getInstance();
+		/** @var Toolbar $toolbar */
+		$toolbar = Factory::getContainer()->get(ToolbarFactoryInterface::class)->createToolbar('toolbar');
 		ToolbarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE', true);
 		ToolbarHelper::custom('deleteAll', 'remove.png', 'delete_f2.png', 'JTOOLBAR_DELETE_ALL', false);
 		$toolbar->appendButton('Confirm', 'COM_CACHE_RESOURCE_INTENSIVE_WARNING', 'delete', 'COM_CACHE_PURGE_EXPIRED', 'purge', false);

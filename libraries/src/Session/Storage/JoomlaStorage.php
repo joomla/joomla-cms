@@ -267,7 +267,7 @@ class JoomlaStorage extends NativeStorage
 	 * @see     http://php.net/session.configuration
 	 * @since   4.0
 	 */
-	public function setOptions(array $options)
+	public function setOptions(array $options): NativeStorage
 	{
 		if (isset($options['force_ssl']))
 		{

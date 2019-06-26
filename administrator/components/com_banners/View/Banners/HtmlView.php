@@ -22,7 +22,6 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 use Joomla\Component\Banners\Administrator\Model\BannersModel;
 use Joomla\Registry\Registry;
 
@@ -107,8 +106,6 @@ class HtmlView extends BaseHtmlView
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
-
-		BannersHelper::addSubmenu('banners');
 
 		$this->addToolbar();
 

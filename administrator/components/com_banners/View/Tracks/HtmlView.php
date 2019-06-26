@@ -23,7 +23,6 @@ use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 use Joomla\Component\Banners\Administrator\Model\TracksModel;
 
 /**
@@ -98,8 +97,6 @@ class HtmlView extends BaseHtmlView
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
-
-		BannersHelper::addSubmenu('tracks');
 
 		$this->addToolbar();
 
