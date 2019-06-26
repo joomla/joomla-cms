@@ -42,7 +42,6 @@ class PlugininfoField extends FormField
 	protected function getInput()
 	{
 		$db     = Factory::getDbo();
-		$result = null;
 		$query  = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
