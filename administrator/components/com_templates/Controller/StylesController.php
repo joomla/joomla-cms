@@ -11,9 +11,9 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -50,7 +50,7 @@ class StylesController extends AdminController
 		}
 		catch (\Exception $e)
 		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			$this->app->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		$this->setRedirect('index.php?option=com_templates&view=styles');
@@ -63,7 +63,7 @@ class StylesController extends AdminController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  Model
+	 * @return  BaseDatabaseModel
 	 *
 	 * @since   1.6
 	 */

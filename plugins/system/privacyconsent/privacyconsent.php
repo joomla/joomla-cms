@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -18,6 +19,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -63,7 +65,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	{
 		parent::__construct($subject, $config);
 
-		JFormHelper::addFieldPath(__DIR__ . '/field');
+		FormHelper::addFieldPath(__DIR__ . '/field');
 	}
 
 	/**
@@ -569,7 +571,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 		{
 			$users = $db->setQuery($query)->loadObjectList();
 		}
-		catch (JDatabaseException $exception)
+		catch (ExecutionFailureException $exception)
 		{
 			return false;
 		}

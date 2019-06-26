@@ -10,6 +10,7 @@ namespace Joomla\CMS\Filter;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Filter\InputFilter as BaseInputFilter;
 
 /**
@@ -134,7 +135,7 @@ class InputFilter extends BaseInputFilter
 			foreach ($matches[0] as $match)
 			{
 				$match  = (string) str_replace(array('?', '"'), '', $match);
-				$text   = (string) str_replace($match, \JStringPunycode::emailToPunycode($match), $text);
+				$text   = (string) str_replace($match, PunycodeHelper::emailToPunycode($match), $text);
 			}
 		}
 

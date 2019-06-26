@@ -23,6 +23,7 @@ use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Templates\Administrator\Helper\TemplateHelper;
+use Joomla\Image\Image;
 
 /**
  * Template model class.
@@ -1547,7 +1548,7 @@ class TemplateModel extends FormModel
 
 			if (file_exists(Path::clean($path . $fileName)))
 			{
-				$JImage = new \JImage(Path::clean($path . $fileName));
+				$JImage = new Image(Path::clean($path . $fileName));
 				$image['address'] = $uri . $fileName;
 				$image['path']    = $fileName;
 				$image['height']  = $JImage->getHeight();
@@ -1586,7 +1587,7 @@ class TemplateModel extends FormModel
 			$client   = ApplicationHelper::getClientInfo($template->client_id);
 			$relPath  = base64_decode($file);
 			$path     = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
-			$JImage   = new \JImage($path);
+			$JImage   = new Image($path);
 
 			try
 			{
@@ -1622,7 +1623,7 @@ class TemplateModel extends FormModel
 			$relPath = base64_decode($file);
 			$path    = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
 
-			$JImage = new \JImage($path);
+			$JImage = new Image($path);
 
 			try
 			{

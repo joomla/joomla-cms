@@ -9,12 +9,15 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-?>
 
+if (!$list)
+{
+	return;
+}
+
+?>
 <div class="mod-tagssimilar tagssimilar">
-<?php if ($list) : ?>
 	<ul>
 	<?php foreach ($list as $i => $item) : ?>
 		<li>
@@ -32,7 +35,4 @@ use Joomla\CMS\Router\Route;
 		</li>
 	<?php endforeach; ?>
 	</ul>
-<?php else : ?>
-	<span class="mod-tagssimilar__message"><?php echo Text::_('MOD_TAGS_SIMILAR_NO_MATCHING_TAGS'); ?></span>
-<?php endif; ?>
 </div>

@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\User;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
  * Joomla! Users Actions Logging Plugin.
@@ -186,7 +187,7 @@ class PlgSystemActionLogs extends JPlugin
 		{
 			$values = $this->db->setQuery($query)->loadObject();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -341,7 +342,7 @@ class PlgSystemActionLogs extends JPlugin
 		{
 			$exists = (bool) $this->db->setQuery($query)->loadResult();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -390,7 +391,7 @@ class PlgSystemActionLogs extends JPlugin
 		{
 			$this->db->setQuery($query)->execute();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -426,7 +427,7 @@ class PlgSystemActionLogs extends JPlugin
 		{
 			$this->db->setQuery($query)->execute();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}

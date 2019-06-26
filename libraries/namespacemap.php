@@ -121,7 +121,7 @@ class JNamespacePsr4Map
 
 		foreach ($elements as $namespace => $path)
 		{
-			$content[] = "\t'" . $namespace . "'" . ' => [JPATH_ROOT . "' . $path . '"],';
+			$content[] = "\t'" . $namespace . "'" . ' => [' . $path . '],';
 		}
 
 		$content[] = '];';
@@ -208,28 +208,34 @@ class JNamespacePsr4Map
 
 			// Normalize the namespace string
 			$namespace = str_replace('\\', '\\\\', $namespace) . '\\\\';
+			$path = str_replace('administrator/', '', $namespacePath);
 
 			// Add the site path when a component
 			if (strpos($extension, 'com_') === 0)
 			{
-				$extensions[$namespace . 'Site\\\\'] = str_replace('administrator/', '', $namespacePath) . $namespaceNode->attributes()->path;
+				$extensions[$namespace . 'Site\\\\'] = 'JPATH_SITE . \'' . $path . $namespaceNode->attributes()->path . '\'';
 
-				$apiPath = str_replace('administrator/', 'api/', $namespacePath);
-
-				if (is_dir(JPATH_ROOT . $apiPath))
+				if (is_dir(JPATH_API . $path))
 				{
-					$extensions[$namespace . 'Api\\\\'] = str_replace('administrator/', 'api/', $namespacePath) . $namespaceNode->attributes()->path;
+					$extensions[$namespace . 'Api\\\\'] = 'JPATH_API . \'' . $path . $namespaceNode->attributes()->path . '\'';
 				}
 			}
 
 			// Add the application specific segment when not a plugin
 			if (strpos($dir, '/plugins/') !== 0)
 			{
+				$baseDir    =  strpos($namespacePath, 'administrator/') ? 'JPATH_ADMINISTRATOR . \'' : 'JPATH_SITE . \'';
 				$namespace .=  strpos($namespacePath, 'administrator/') ? 'Administrator\\\\' : 'Site\\\\';
+			}
+			else
+			{
+				// Start in the plugin directory and remove the plugin prefix from the path
+				$baseDir = 'JPATH_PLUGINS . \'';
+				$path    = substr($path, 9);
 			}
 
 			// Set the namespace
-			$extensions[$namespace] = $namespacePath . $namespaceNode->attributes()->path;
+			$extensions[$namespace] = $baseDir . $path . $namespaceNode->attributes()->path . '\'';
 		}
 
 		// Return the namespaces

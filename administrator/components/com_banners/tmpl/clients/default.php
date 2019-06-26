@@ -16,15 +16,17 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Banners\Administrator\View\Clients\HtmlView $this */
+
 HTMLHelper::_('behavior.multiselect');
 
-$purchaseTypes = array(
-		'1' => 'UNLIMITED',
-		'2' => 'YEARLY',
-		'3' => 'MONTHLY',
-		'4' => 'WEEKLY',
-		'5' => 'DAILY',
-);
+$purchaseTypes = [
+	'1' => 'UNLIMITED',
+	'2' => 'YEARLY',
+	'3' => 'MONTHLY',
+	'4' => 'WEEKLY',
+	'5' => 'DAILY',
+];
 
 $user       = Factory::getUser();
 $userId     = $user->get('id');
@@ -38,10 +40,11 @@ $params     = $this->state->params ?? new CMSObject;
 			<div id="j-main-container" class="j-main-container">
 				<?php
 				// Search tools bar
-				echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+				echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]);
 				?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
+						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -155,7 +158,7 @@ $params     = $this->state->params ?? new CMSObject;
 						</tbody>
 					</table>
 
-					<?php // load the pagination. ?>
+					<?php // Load the pagination. ?>
 					<?php echo $this->pagination->getListFooter(); ?>
 
 				<?php endif; ?>

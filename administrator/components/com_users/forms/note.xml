@@ -134,7 +134,6 @@
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			maxlength="255"
 			size="45"
-			labelclass="control-label"
 		/>
 	</fieldset>
 </form>

@@ -20,7 +20,7 @@ HTMLHelper::_('behavior.combobox');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.tabstate');
 
-$hasContent = empty($this->item->module) ||  isset($this->item->xml->customContent);
+$hasContent = isset($this->item->xml->customContent);
 $hasContentFieldName = 'content';
 
 // For a later improvement
@@ -115,6 +115,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 					<?php endif; ?>
 				<?php else : ?>
 					<div class="alert alert-danger">
+						<span class="fa fa-exclamation-triangle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
 						<?php echo Text::_('COM_MODULES_ERR_XML'); ?>
 					</div>
 				<?php endif; ?>

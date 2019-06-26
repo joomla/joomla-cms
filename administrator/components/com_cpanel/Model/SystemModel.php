@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Updater\Updater;
 use Joomla\Component\Cpanel\Administrator\Entities\SystemHeader;
 use Joomla\Component\Cpanel\Administrator\Entities\SystemItem;
 
@@ -56,9 +55,6 @@ class SystemModel extends BaseDatabaseModel
 		{
 			$maintainSection->addItem(
 				new SystemItem('MOD_MENU_CLEAR_CACHE', 'index.php?option=com_cache')
-			);
-			$maintainSection->addItem(
-				new SystemItem('MOD_MENU_PURGE_EXPIRED_CACHE', 'index.php?option=com_cache&view=purge')
 			);
 		}
 

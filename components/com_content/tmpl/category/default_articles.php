@@ -197,7 +197,7 @@ if (!empty($this->items))
 								<?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
 								&nbsp;<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
 							<?php else : ?>
-								<?php $class = 'label label-association label-' . $association['language']->sef; ?>
+								<?php $class = 'badge badge-secondary badge-' . $association['language']->sef; ?>
 								&nbsp;<a class="<?php echo $class; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
 							<?php endif; ?>
 						<?php endforeach; ?>
@@ -219,14 +219,14 @@ if (!empty($this->items))
 								<?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
 								&nbsp;<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
 							<?php else : ?>
-								<?php $class = 'badge badge-association badge-' . $association['language']->sef; ?>
+								<?php $class = 'badge badge-secondary badge-' . $association['language']->sef; ?>
 								&nbsp;<a class="' . <?php echo $class; ?> . '" href="<?php echo Route::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
 							<?php endif; ?>
 						<?php endforeach; ?>
 					<?php endif; ?>
 				<?php endif; ?>
 				<?php if ($article->stage_condition == ContentComponent::CONDITION_UNPUBLISHED) : ?>
-					<span class="list-published label label-warning">
+					<span class="list-published badge badge-warning">
 						<?php echo Text::_('JUNPUBLISHED'); ?>
 					</span>
 				<?php endif; ?>

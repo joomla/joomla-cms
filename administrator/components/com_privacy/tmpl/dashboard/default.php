@@ -76,17 +76,17 @@ $activeRequests = 0;
 					<div class="row-fluid">
 						<div class="span3">
 							<?php if ($this->privacyPolicyInfo['published'] && $this->privacyPolicyInfo['articlePublished']) : ?>
-								<span class="label label-success">
+								<span class="badge badge-success">
 									<span class="icon-checkbox" aria-hidden="true"></span>
 									<?php echo Text::_('JPUBLISHED'); ?>
 								</span>
 							<?php elseif ($this->privacyPolicyInfo['published'] && !$this->privacyPolicyInfo['articlePublished']) : ?>
-								<span class="label label-warning">
+								<span class="badge badge-warning">
 									<span class="icon-warning" aria-hidden="true"></span>
 									<?php echo Text::_('JUNPUBLISHED'); ?>
 								</span>
 							<?php else : ?>
-								<span class="label label-warning">
+								<span class="badge badge-warning">
 									<span class="icon-warning" aria-hidden="true"></span>
 									<?php echo Text::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
 								</span>
@@ -105,17 +105,17 @@ $activeRequests = 0;
 					<div class="row-fluid">
 						<div class="span3">
 							<?php if ($this->requestFormPublished['published'] && $this->requestFormPublished['exists']) : ?>
-								<span class="label label-success">
+								<span class="badge badge-success">
 									<span class="icon-checkbox" aria-hidden="true"></span>
 									<?php echo Text::_('JPUBLISHED'); ?>
 								</span>
 							<?php elseif (!$this->requestFormPublished['published'] && $this->requestFormPublished['exists']) : ?>
-								<span class="label label-warning">
+								<span class="badge badge-warning">
 									<span class="icon-warning" aria-hidden="true"></span>
 									<?php echo Text::_('JUNPUBLISHED'); ?>
 								</span>
 							<?php else : ?>
-								<span class="label label-warning">
+								<span class="badge badge-warning">
 									<span class="icon-warning" aria-hidden="true"></span>
 									<?php echo Text::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
 								</span>
@@ -131,12 +131,12 @@ $activeRequests = 0;
 					<div class="row-fluid">
 						<div class="span3">
 							<?php if ($this->numberOfUrgentRequests === 0) : ?>
-								<span class="label label-success">
+								<span class="badge badge-success">
 									<span class="icon-checkbox" aria-hidden="true"></span>
 									<?php echo Text::_('JNONE'); ?>
 								</span>
 							<?php else : ?>
-								<span class="label label-important">
+								<span class="badge badge-danger">
 									<span class="icon-warning" aria-hidden="true"></span>
 									<?php echo Text::_('WARNING'); ?>
 								</span>
@@ -153,12 +153,12 @@ $activeRequests = 0;
 					<div class="row-fluid">
 						<div class="span3">
 							<?php if ($this->sendMailEnabled) : ?>
-								<span class="label label-success">
+								<span class="badge badge-success">
 									<span class="icon-checkbox" aria-hidden="true"></span>
 									<?php echo Text::_('JENABLED'); ?>
 								</span>
 							<?php else : ?>
-								<span class="label label-important">
+								<span class="badge badge-danger">
 									<span class="icon-warning" aria-hidden="true"></span>
 									<?php echo Text::_('JDISABLED'); ?>
 								</span>

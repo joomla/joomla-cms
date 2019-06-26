@@ -260,7 +260,7 @@
 		</field>
 
 		<field
-			name="all_tags_show_tag_descripion"
+			name="all_tags_show_tag_description"
 			type="radio"
 			label="COM_TAGS_SHOW_ITEM_DESCRIPTION_LABEL"
 			class="switcher"
@@ -275,7 +275,7 @@
 			type="number"
 			label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
 			filter="integer"
-			showon="all_tags_show_tag_descripion:1"
+			showon="all_tags_show_tag_description:1"
 		/>
 
 		<field

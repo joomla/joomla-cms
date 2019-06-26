@@ -11,7 +11,6 @@ namespace Joomla\Component\Privacy\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -49,7 +48,7 @@ class DisplayController extends BaseController
 	public function display($cachable = false, $urlparams = [])
 	{
 		// Get the document object.
-		$document = Factory::getDocument();
+		$document = $this->app->getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', $this->default_view);
@@ -88,7 +87,7 @@ class DisplayController extends BaseController
 				}
 
 				// For the edit layout, if mail sending is disabled then redirect back to the list view as the form is unusable in this state
-				if ($lName === 'edit' && !Factory::getConfig()->get('mailonline', 1))
+				if ($lName === 'edit' && !$this->app->get('mailonline', 1))
 				{
 					$this->setRedirect(
 						Route::_('index.php?option=com_privacy&view=requests', false),

@@ -23,6 +23,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
  * Language Installer model for the Joomla Core Installer.
@@ -583,7 +584,7 @@ class LanguagesModel extends BaseInstallationModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -612,7 +613,7 @@ class LanguagesModel extends BaseInstallationModel
 			{
 				$db->execute();
 			}
-			catch (\JDatabaseExceptionExecuting $e)
+			catch (ExecutionFailureException $e)
 			{
 				return false;
 			}
@@ -927,9 +928,9 @@ class LanguagesModel extends BaseInstallationModel
 				. '"show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"",'
 				. '"show_parent_category":"","link_parent_category":"","show_author":"","show_create_date":"",'
 				. '"show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_readmore":"",'
-				. '"show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","menu-anchor_title":"",'
-				. '"menu-anchor_css":"","menu_image":"","show_page_heading":1,"page_title":"","page_heading":"",'
-				. '"pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',
+				. '"show_hits":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","show_page_heading":1,'
+				. '"page_title":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"",'
+				. '"menu-meta_keywords":"","robots":"","secure":0}',
 			'language'     => $itemLanguage->language,
 		);
 
@@ -1005,11 +1006,10 @@ class LanguagesModel extends BaseInstallationModel
 				. '"show_intro":"","show_category":"","link_category":"","show_parent_category":"",'
 				. '"link_parent_category":"","show_author":"","link_author":"","show_create_date":"",'
 				. '"show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"",'
-				. '"show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"",'
-				. '"show_email_icon":"","show_hits":"","show_noauth":"","show_feed_link":"","feed_summary":"",'
-				. '"menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_image_css":"","menu_text":1,'
-				. '"menu_show":0,"page_title":"","show_page_heading":"","page_heading":"","pageclass_sfx":"",'
-				. '"menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',
+				. '"show_readmore":"","show_readmore_title":"","show_hits":"","show_noauth":"","show_feed_link":"",'
+				. '"feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_image_css":"",'
+				. '"menu_text":1,"menu_show":0,"page_title":"","show_page_heading":"","page_heading":"",'
+				. '"pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',
 			'language'     => $itemLanguage->language,
 		);
 
@@ -1123,7 +1123,7 @@ class LanguagesModel extends BaseInstallationModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -1157,7 +1157,7 @@ class LanguagesModel extends BaseInstallationModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -1309,7 +1309,7 @@ class LanguagesModel extends BaseInstallationModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -1358,9 +1358,8 @@ class LanguagesModel extends BaseInstallationModel
 				. '"info_block_show_title":"","show_category":"","link_category":"","show_parent_category":"",'
 				. '"link_parent_category":"","show_associations":"","show_author":"","link_author":"",'
 				. '"show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"",'
-				. '"show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"",'
-				. '"show_email_icon":"","show_hits":"","show_tags":"","show_noauth":"","show_feed_link":"1",'
-				. '"feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"",'
+				. '"show_vote":"","show_readmore":"","show_readmore_title":"","show_hits":"","show_tags":"","show_noauth":"",'
+				. '"show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"",'
 				. '"menu_image_css":"","menu_text":1,"menu_show":1,"page_title":"","show_page_heading":"1",'
 				. '"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":""}',
 			'language'     => $itemLanguage->language,

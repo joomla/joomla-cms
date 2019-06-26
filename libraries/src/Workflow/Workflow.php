@@ -11,6 +11,7 @@ namespace Joomla\CMS\Workflow;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -225,6 +226,27 @@ class Workflow
 		}
 
 		return $success;
+	}
+
+	/**
+	 * Gets the condition (i.e. state value) for a transition
+	 *
+	 * @param   integer  $transition_id  The transition id to get the condition of
+	 *
+	 * @return  null|int  Integer if transition exists. Otherwise null
+	 */
+	public function getConditionForTransition($transition_id)
+	{
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('s.condition'))
+			->from($db->quoteName('#__workflow_transitions', 't'))
+			->join('LEFT', $db->quoteName('#__workflow_stages', 's'), $db->quoteName('s.id') . ' = ' . $db->quoteName('t.to_stage_id'))
+			->where($db->quoteName('t.id') . ' = :transition_id')
+			->bind(':transition_id', $transition_id, ParameterType::INTEGER);
+		$db->setQuery($query);
+
+		return $db->loadResult();
 	}
 
 	/**

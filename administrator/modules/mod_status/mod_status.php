@@ -12,15 +12,18 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Module\Multilangstatus\Administrator\Helper\MultilangstatusAdminHelper;
 
-$user     = Factory::getUser();
-$app      = Factory::getApplication();
+$db       = Factory::getContainer()->get(DatabaseInterface::class);
+$user     = $app->getIdentity();
 $sitename = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 
 // Try to get the items from the post-installation model
 try
 {
-	$messagesModel = new \Joomla\Component\Postinstall\Administrator\Model\MessagesModel(['ignore_request' => true]);
+	$messagesModel = $app->bootComponent('com_postinstall')->getMVCFactory()->createModel('Messages', 'Administrator', ['ignore_request' => true]);
 	$messages      = $messagesModel->getItems();
 }
 catch (RuntimeException $e)
@@ -34,6 +37,21 @@ catch (RuntimeException $e)
 $joomlaFilesExtensionId = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
 
 // Load the com_postinstall language file
-Factory::getLanguage()->load('com_postinstall', JPATH_ADMINISTRATOR, 'en-GB', true);
+$app->getLanguage()->load('com_postinstall', JPATH_ADMINISTRATOR, 'en-GB', true);
+
+$multilanguageStatusModuleOutput = '';
+
+// Check if the multilangstatus module is present and enabled in the site
+if (class_exists(MultilangstatusAdminHelper::class) && MultilangstatusAdminHelper::isEnabled($app, $db))
+{
+	// Publish and display the module
+	MultilangstatusAdminHelper::publish($app, $db);
+
+	if (Multilanguage::isEnabled($app, $db)) 
+	{
+		$module                          = ModuleHelper::getModule('mod_multilangstatus');
+		$multilanguageStatusModuleOutput = ModuleHelper::renderModule($module);
+	}
+}
 
 require ModuleHelper::getLayoutPath('mod_status', $params->get('layout', 'default'));

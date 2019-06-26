@@ -699,17 +699,10 @@ abstract class HTMLHelper
 	 */
 	public static function script($file, $options = array(), $attribs = array())
 	{
-		$options['framework']     = $options['framework'] ?? false;
 		$options['relative']      = $options['relative'] ?? false;
 		$options['pathOnly']      = $options['pathOnly'] ?? false;
 		$options['detectBrowser'] = $options['detectBrowser'] ?? false;
 		$options['detectDebug']   = $options['detectDebug'] ?? true;
-
-		// Include MooTools framework
-		if ($options['framework'])
-		{
-			static::_('behavior.framework');
-		}
 
 		$includes = static::includeRelativeFiles('js', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 

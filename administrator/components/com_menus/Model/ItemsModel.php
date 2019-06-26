@@ -263,13 +263,13 @@ class ItemsModel extends ListModel
 						'a.id', 'a.menutype', 'a.title', 'a.alias', 'a.note', 'a.path', 'a.link', 'a.type', 'a.parent_id',
 						'a.level', 'a.published', 'a.component_id', 'a.checked_out', 'a.checked_out_time', 'a.browserNav',
 						'a.access', 'a.img', 'a.template_style_id', 'a.params', 'a.lft', 'a.rgt', 'a.home', 'a.language',
-						'a.client_id', 'a.publish_up', 'a.publish_down'
+						'a.client_id', 'e.enabled', 'a.publish_up', 'a.publish_down'
 					),
 					array(
 						null, null, null, null, null, null, null, null, null,
 						null, 'a.published', null, null, null, null,
 						null, null, null, null, null, null, null, null,
-						null, 'publish_up', 'publish_down'
+						null, 'enabled', 'publish_up', 'publish_down'
 					)
 				)
 			)
@@ -277,16 +277,11 @@ class ItemsModel extends ListModel
 		$query->select(
 			'CASE ' .
 				' WHEN a.type = ' . $db->quote('component') . ' THEN a.published+2*(e.enabled-1) ' .
-				' WHEN a.type = ' . $db->quote('url') . ' AND a.published != -2 THEN a.published+2 ' .
-				' WHEN a.type = ' . $db->quote('url') . ' AND a.published = -2 THEN a.published-1 ' .
-				' WHEN a.type = ' . $db->quote('alias') . ' AND a.published != -2 THEN a.published+4 ' .
-				' WHEN a.type = ' . $db->quote('alias') . ' AND a.published = -2 THEN a.published-1 ' .
-				' WHEN a.type = ' . $db->quote('separator') . ' AND a.published != -2 THEN a.published+6 ' .
-				' WHEN a.type = ' . $db->quote('separator') . ' AND a.published = -2 THEN a.published-1 ' .
-				' WHEN a.type = ' . $db->quote('heading') . ' AND a.published != -2 THEN a.published+8 ' .
-				' WHEN a.type = ' . $db->quote('heading') . ' AND a.published = -2 THEN a.published-1 ' .
-				' WHEN a.type = ' . $db->quote('container') . ' AND a.published != -2 THEN a.published+8 ' .
-				' WHEN a.type = ' . $db->quote('container') . ' AND a.published = -2 THEN a.published-1 ' .
+				' WHEN a.type = ' . $db->quote('url') . ' THEN a.published ' .
+				' WHEN a.type = ' . $db->quote('alias') . ' THEN a.published ' .
+				' WHEN a.type = ' . $db->quote('separator') . ' THEN a.published ' .
+				' WHEN a.type = ' . $db->quote('heading') . ' THEN a.published ' .
+				' WHEN a.type = ' . $db->quote('container') . ' THEN a.published ' .
 			' END AS published '
 		);
 		$query->from($db->quoteName('#__menu') . ' AS a');
