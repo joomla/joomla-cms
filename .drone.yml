@@ -233,8 +233,7 @@ services:
 
   - name: selenium-chrome
     image: selenium/standalone-chrome:3.141.59-radium
-    environment:
-      shm-size: 2g
+    shm_size: '2gb'
 
   - name: selenium-firefox
     image: selenium/standalone-firefox:3.141.59-radium
@@ -243,6 +242,6 @@ services:
 
 ---
 kind: signature
-hmac: 2b74af3abd781788a0034b7641c4953e3c14bdcd1e33f8db623a3d0522477491
+hmac: aedeade26609a0e2b35bc439efb8a8fc6281d081aefbadc3bb7e39fbb82f0400
 
 ...
