@@ -12,7 +12,7 @@ modules:
         - Helper\JoomlaDb
     config:
         JoomlaBrowser:
-            url: 'http://localhost/test-install'     # the url that points to the joomla installation at /tests/system/joomla-cms
+            url: 'http://system-tests-mysql/test-install'     # the url that points to the joomla installation at /tests/system/joomla-cms
             host: 'selenium-chrome'
             browser: 'chrome'
             window_size: false
