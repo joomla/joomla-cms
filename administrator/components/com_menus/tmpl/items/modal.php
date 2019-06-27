@@ -104,7 +104,7 @@ if (!empty($editor))
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="text-center">
-							<?php echo HTMLHelper::_('menus.state', $item->published, $i, 0); ?>
+							<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'items.', false, 'cb', $item->publish_up, $item->publish_down); ?>
 						</td>
 						<th scope="row">
 							<?php $prefix = LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
@@ -128,6 +128,13 @@ if (!empty($editor))
 								<span class="small" title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
 									<?php echo $this->escape($item->item_type); ?></span>
 							</div>
+							<?php if ($item->type === 'component' && !$item->enabled) : ?>
+								<div>
+									<span class="badge badge-secondary">
+										<?php echo Text::_($item->enabled === null ? 'JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND' : 'COM_MENUS_LABEL_DISABLED'); ?>
+									</span>
+								</div>
+							<?php endif; ?>
 						</th>
 						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->menutype_title); ?>
