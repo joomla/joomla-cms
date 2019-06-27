@@ -236,21 +236,22 @@ services:
 
   - name: selenium-chrome
     image: selenium/standalone-chrome:3.141.59-radium
-    ports:
-      - 4444
     volumes:
       - name: shm
         path: /dev/shm
+    environment:
+      shm-size: 2g
 
   - name: selenium-firefox
     image: selenium/standalone-firefox:3.141.59-radium
-    ports:
-      - 4445
     volumes:
       - name: shm
         path: /dev/shm
+    environment:
+      shm-size: 2g
+
 ---
 kind: signature
-hmac: 9a7ebc3f9f17427e6a3078b5262446f15e56e9360678b3c8c56ba0604f5e52f4
+hmac: b33961fed03ce6a8c95b1ca5d5ec0cc011d571d66487d98353f2be00286c9603
 
 ...
