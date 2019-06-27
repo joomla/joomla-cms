@@ -75,8 +75,8 @@ class MediaHelper
 			if (!$mime && function_exists('finfo_open'))
 			{
 				$finfo = finfo_open(FILEINFO_MIME_TYPE);
-				// Check if fileinfo database was found
 
+				// Check if fileinfo database was found
 				if ($finfo)
 				{
 					$mime = finfo_file($finfo, $file);
