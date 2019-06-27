@@ -203,9 +203,12 @@ branches:
 
 
 volumes:
-- name: cache
-  host:
-    path: /tmp/cache
+  - name: cache
+    host:
+      path: /tmp/cache
+  - name: shm
+    host:
+      path: /dev/shm
 
 services:
   - name: mysql
@@ -236,16 +239,18 @@ services:
     ports:
       - 4444
     volumes:
-      - /dev/shm:/dev/shm
+      - name: shm
+        path: /dev/shm
 
   - name: selenium-firefox
     image: selenium/standalone-firefox:3.141.59-radium
     ports:
       - 4445
     volumes:
-      - /dev/shm:/dev/shm
+      - name: shm
+        path: /dev/shm
 ---
 kind: signature
-hmac: ffd6b4ec89218bba97ff99b737cbb2d3a53bd2f13c1b5a14c7f1033589ba78cd
+hmac: 9a7ebc3f9f17427e6a3078b5262446f15e56e9360678b3c8c56ba0604f5e52f4
 
 ...
