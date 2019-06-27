@@ -84,21 +84,21 @@ steps:
       - ./libraries/vendor/bin/phpunit --testsuite Unit
 
   - name: php72-integration
-    depends_on: [ phpcs ]
+    depends_on: [ npm ]
     image: joomlaprojects/docker-images:php7.2
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
 
   - name: php73-integration
-    depends_on: [ phpcs ]
+    depends_on: [ npm ]
     image: joomlaprojects/docker-images:php7.3
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
 
   - name: php74-integration
-    depends_on: [ phpcs ]
+    depends_on: [ npm ]
     image: joomlaprojects/docker-images:php7.4
     failure: ignore
     commands:
@@ -106,7 +106,7 @@ steps:
       - ./libraries/vendor/bin/phpunit --testsuite Integration
 
   - name: php80-integration
-    depends_on: [ phpcs ]
+    depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.0
     failure: ignore
     commands:
@@ -114,21 +114,21 @@ steps:
       - ./libraries/vendor/bin/phpunit --testsuite Integration
 
   - name: php72-integration-pgsql
-    depends_on: [ phpcs ]
+    depends_on: [ npm ]
     image: joomlaprojects/docker-images:php7.2
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
   - name: php73-integration-pgsql
-    depends_on: [ phpcs ]
+    depends_on: [ npm ]
     image: joomlaprojects/docker-images:php7.3
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
   - name: php74-integration-pgsql
-    depends_on: [ phpcs ]
+    depends_on: [ npm ]
     image: joomlaprojects/docker-images:php7.4
     failure: ignore
     commands:
@@ -136,7 +136,7 @@ steps:
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
   - name: php80-integration-pgsql
-    depends_on: [ phpcs ]
+    depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.0
     failure: ignore
     commands:
@@ -233,6 +233,6 @@ services:
 
 ---
 kind: signature
-hmac: 026df74fd2f4ae587d4ae65d030d77998d230b1f3b3d7bee51b7067598485694
+hmac: 820538ccb581f1e91a47d25610fd0ac047f954d60b6b364deedaad1fb04c0672
 
 ...
