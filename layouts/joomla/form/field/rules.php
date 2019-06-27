@@ -214,7 +214,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 										}
 									}
 									?>
-									<span class="<?php echo $result['class']; ?>"><?php echo $result['text']; ?></span>
+									<output><span class="<?php echo $result['class']; ?>"><?php echo $result['text']; ?></span></output>
 								</td>
 							</tr>
 						<?php endforeach; ?>
