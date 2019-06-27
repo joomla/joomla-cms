@@ -56,6 +56,12 @@ class DisplayController extends BaseController
 			if ($uri->getVar('menutype') !== $menuType)
 			{
 				$uri->setVar('menutype', $menuType);
+
+				if ($forcedLanguage = $this->input->post->get('forcedLanguage'))
+				{
+					$uri->setVar('forcedLanguage', $forcedLanguage);
+				}
+
 				$this->setRedirect(Route::_('index.php' . $uri->toString(['query']), false));
 
 				return parent::display();
