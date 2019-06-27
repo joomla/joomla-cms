@@ -206,9 +206,6 @@ volumes:
   - name: cache
     host:
       path: /tmp/cache
-  - name: shm
-    host:
-      path: /dev/shm
 
 services:
   - name: mysql
@@ -236,22 +233,16 @@ services:
 
   - name: selenium-chrome
     image: selenium/standalone-chrome:3.141.59-radium
-    volumes:
-      - name: shm
-        path: /dev/shm
     environment:
       shm-size: 2g
 
   - name: selenium-firefox
     image: selenium/standalone-firefox:3.141.59-radium
-    volumes:
-      - name: shm
-        path: /dev/shm
     environment:
       shm-size: 2g
 
 ---
 kind: signature
-hmac: b33961fed03ce6a8c95b1ca5d5ec0cc011d571d66487d98353f2be00286c9603
+hmac: 2b74af3abd781788a0034b7641c4953e3c14bdcd1e33f8db623a3d0522477491
 
 ...
