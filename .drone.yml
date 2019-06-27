@@ -231,8 +231,21 @@ services:
       POSTGRES_PASSWORD: joomla_ut
       POSTGRES_DB: test_joomla
 
+  - name: selenium-chrome
+    image: selenium/standalone-chrome:3.141.59-radium
+    ports:
+      - 4444
+    volumes:
+      - /dev/shm:/dev/shm
+
+  - name: selenium-firefox
+    image: selenium/standalone-firefox:3.141.59-radium
+    ports:
+      - 4445
+    volumes:
+      - /dev/shm:/dev/shm
 ---
 kind: signature
-hmac: 820538ccb581f1e91a47d25610fd0ac047f954d60b6b364deedaad1fb04c0672
+hmac: ffd6b4ec89218bba97ff99b737cbb2d3a53bd2f13c1b5a14c7f1033589ba78cd
 
 ...

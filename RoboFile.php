@@ -254,6 +254,43 @@ class RoboFile extends \Robo\Tasks
 	}
 
 	/**
+	 * Executes all the Selenium System Tests in a suite on your machine
+	 *
+	 * @param   array  $opts  Array of configuration options:
+	 *                        - 'use-htaccess': renames and enable embedded Joomla .htaccess file
+	 *                        - 'env': set a specific environment to get configuration from
+	 *
+	 * @since   3.7.3
+	 *
+	 * @return  mixed
+	 */
+	public function runDronetests($opts = ['use-htaccess' => false, 'env' => 'desktop', 'selenium' => false])
+	{
+		$this->say("Running tests");
+
+		$pathToCodeception = $this->prepareRun($opts);
+
+		$suites = [
+			'acceptance/install/',
+			'acceptance/administrator/components/com_content',
+			'acceptance/administrator/components/com_media',
+			'acceptance/administrator/components/com_menu',
+			'acceptance/administrator/components/com_users',
+		];
+
+		foreach ($suites as $suite) {
+			$this->taskCodecept($pathToCodeception)
+				->arg('--fail-fast')
+				->arg('--steps')
+				->arg('--debug')
+				->env($opts['env'])
+				->arg($this->testsPath . $suite)
+				->run()
+				->stopOnFail();
+		}
+	}
+
+	/**
 	 * Install only Joomla
 	 *
 	 * @param   array  $opts  Additional options
@@ -287,11 +324,14 @@ class RoboFile extends \Robo\Tasks
 	 *
 	 * @since   4.0.0
 	 */
-	protected function prepareRun($opts = ['use-htaccess' => false, 'env' => 'desktop'])
+	protected function prepareRun($opts = ['use-htaccess' => false, 'env' => 'desktop', 'selenium' => true])
 	{
 		$this->createTestingSite($opts['use-htaccess']);
 
-		$this->taskRunSelenium(self::SELENIUM_FOLDER, $this->getWebdriver())->run();
+		if ($opts['selenium'])
+		{
+			$this->taskRunSelenium(self::SELENIUM_FOLDER, $this->getWebdriver())->run();
+		}
 
 		// Wait until the server started
 		sleep(3);

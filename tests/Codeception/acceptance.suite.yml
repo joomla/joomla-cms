@@ -10,6 +10,8 @@ modules:
         - JoomlaBrowser
         - Helper\Acceptance
         - Helper\JoomlaDb
+        - WebDriver:
+          url: 'http://selenium-chrome'
     config:
         JoomlaBrowser:
             url: 'http://localhost/test-install'     # the url that points to the joomla installation at /tests/system/joomla-cms
