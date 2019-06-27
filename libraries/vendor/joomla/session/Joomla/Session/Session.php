@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Session Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -47,7 +47,7 @@ class Session implements \IteratorAggregate
 	 * @var    Storage
 	 * @since  1.0
 	 */
-	protected $store = null;
+	protected $store;
 
 	/**
 	 * Security policy.
@@ -113,7 +113,7 @@ class Session implements \IteratorAggregate
 	 * @var    Input
 	 * @since  1.0
 	 */
-	private $input = null;
+	private $input;
 
 	/**
 	 * Holds the Dispatcher object
@@ -121,7 +121,7 @@ class Session implements \IteratorAggregate
 	 * @var    DispatcherInterface
 	 * @since  1.0
 	 */
-	private $dispatcher = null;
+	private $dispatcher;
 
 	/**
 	 * Constructor
@@ -189,9 +189,9 @@ class Session implements \IteratorAggregate
 	 * @since   1.0
 	 * @deprecated  2.0  A singleton object store will no longer be supported
 	 */
-	public static function getInstance($handler, array $options = array ())
+	public static function getInstance($handler, array $options = array())
 	{
-		if (!is_object(self::$instance))
+		if (!\is_object(self::$instance))
 		{
 			self::$instance = new self($handler, $options);
 		}
@@ -303,8 +303,8 @@ class Session implements \IteratorAggregate
 	{
 		if ($this->getState() === 'destroyed')
 		{
-			// @TODO : raise error
-			return null;
+			// @codingStandardsIgnoreLine
+			return;
 		}
 
 		return session_name();
@@ -321,7 +321,8 @@ class Session implements \IteratorAggregate
 	{
 		if ($this->getState() === 'destroyed')
 		{
-			return null;
+			// @codingStandardsIgnoreLine
+			return;
 		}
 
 		return session_id();
@@ -433,10 +434,7 @@ class Session implements \IteratorAggregate
 
 		if ($this->getState() !== 'active' && $this->getState() !== 'expired')
 		{
-			// @TODO :: generated error here
-			$error = null;
-
-			return $error;
+			return;
 		}
 
 		if (isset($_SESSION[$namespace][$name]))
@@ -465,13 +463,12 @@ class Session implements \IteratorAggregate
 
 		if ($this->getState() !== 'active')
 		{
-			// @TODO :: generated error here
-			return null;
+			return;
 		}
 
 		$old = isset($_SESSION[$namespace][$name]) ? $_SESSION[$namespace][$name] : null;
 
-		if (null === $value)
+		if ($value === null)
 		{
 			unset($_SESSION[$namespace][$name]);
 		}
@@ -500,8 +497,8 @@ class Session implements \IteratorAggregate
 
 		if ($this->getState() !== 'active')
 		{
-			// @TODO :: generated error here
-			return null;
+			// @codingStandardsIgnoreLine
+			return;
 		}
 
 		return isset($_SESSION[$namespace][$name]);
@@ -525,7 +522,7 @@ class Session implements \IteratorAggregate
 		if ($this->getState() !== 'active')
 		{
 			// @TODO :: generated error here
-			return null;
+			return;
 		}
 
 		$value = null;
@@ -594,7 +591,7 @@ class Session implements \IteratorAggregate
 			// Get the Joomla\Input\Cookie object
 			$cookie = $this->input->cookie;
 
-			if (is_null($cookie->get($session_name)))
+			if ($cookie->get($session_name) === null)
 			{
 				$session_clean = $this->input->get($session_name, false, 'string');
 
@@ -647,10 +644,9 @@ class Session implements \IteratorAggregate
 		 * must also be unset. If a cookie is used to propagate the session id (default behavior),
 		 * then the session cookie must be deleted.
 		 */
-		if (isset($_COOKIE[session_name()]))
-		{
-			$this->input->cookie->set(session_name(), '', 1);
-		}
+		$cookie = session_get_cookie_params();
+
+		$this->input->cookie->set($this->getName(), '', 1, $cookie['path'], $cookie['domain'], $cookie['secure'], true);
 
 		session_unset();
 		session_destroy();
@@ -973,7 +969,10 @@ class Session implements \IteratorAggregate
 		}
 
 		// Sync the session maxlifetime
-		ini_set('session.gc_maxlifetime', $this->getExpire());
+		if (!headers_sent())
+		{
+			ini_set('session.gc_maxlifetime', $this->getExpire());
+		}
 
 		return true;
 	}
@@ -991,7 +990,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @see     http://shiflett.org/articles/the-truth-about-sessions
+	 * @link    http://shiflett.org/articles/the-truth-about-sessions
 	 * @since   1.0
 	 * @deprecated  2.0  Use validate instead
 	 */
@@ -1013,7 +1012,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @see     http://shiflett.org/articles/the-truth-about-sessions
+	 * @link    http://shiflett.org/articles/the-truth-about-sessions
 	 * @since   1.3.0
 	 */
 	protected function validate($restart = false)
@@ -1046,7 +1045,7 @@ class Session implements \IteratorAggregate
 		$remoteAddr = $this->input->server->getString('REMOTE_ADDR', '');
 
 		// Check for client address
-		if (in_array('fix_adress', $this->security) && !empty($remoteAddr) && filter_var($remoteAddr, FILTER_VALIDATE_IP) !== false)
+		if (\in_array('fix_adress', $this->security) && !empty($remoteAddr) && filter_var($remoteAddr, FILTER_VALIDATE_IP) !== false)
 		{
 			$ip = $this->get('session.client.address');
 

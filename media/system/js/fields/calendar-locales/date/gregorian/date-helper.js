@@ -270,6 +270,9 @@
 				case "%M":
 					min = parseInt(a[i], 10);
 					break;
+				case "%S":
+					sec = parseInt(a[i], 10);
+					break;
 			}
 		}
 		if (isNaN(y)) y = today.getFullYear();
