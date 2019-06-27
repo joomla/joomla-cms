@@ -296,7 +296,8 @@ class Update extends CMSObject
 
 				if (!isset($this->currentUpdate->$name))
 				{
-					$this->currentUpdate->$name = new \stdClass;
+					$emptyClass = new \stdClass;
+					$this->currentUpdate->$name = $emptyClass;
 				}
 
 				$this->currentUpdate->$name->_data = '';
