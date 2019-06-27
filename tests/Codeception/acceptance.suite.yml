@@ -13,7 +13,7 @@ modules:
     config:
         JoomlaBrowser:
             url: 'http://localhost/test-install'     # the url that points to the joomla installation at /tests/system/joomla-cms
-            host: 'http://selenium-chrome'
+            host: 'selenium-chrome'
             browser: 'chrome'
             window_size: false
             capabilities:
