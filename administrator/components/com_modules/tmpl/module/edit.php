@@ -132,20 +132,11 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<div class="col-md-3">
 				<div class="card card-light">
 					<div class="card-body">
-						<fieldset class="form-vertical form-no-margin">
-							<?php echo $this->form->renderField('showtitle'); ?>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('position'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('position'); ?>
-								</div>
-							</div>
-						</fieldset>
 						<?php
 						// Set main fields.
 						$this->fields = array(
+							'showtitle',
+							'position',
 							'published',
 							'publish_up',
 							'publish_down',
@@ -154,7 +145,6 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 							'language',
 							'note'
 						);
-
 						?>
 						<?php if ($this->item->client_id == 0) : ?>
 							<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
