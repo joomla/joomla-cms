@@ -19,7 +19,7 @@ use Joomla\String\Inflector;
  *
  * @since  4.0.0
  */
-class RequestController extends ApiController
+class RequestsController extends ApiController
 {
 	/**
 	 * The content type of the item.
