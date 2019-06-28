@@ -14,10 +14,10 @@ modules:
         JoomlaBrowser:
             url: 'http://system-tests-mysql/test-install'     # the url that points to the joomla installation at /tests/system/joomla-cms
             host: 'selenium-chrome'
-            browser: 'firefox'
+            browser: 'chrome'
             window_size: false
             capabilities:
-              chromeOptions:
+              'goog:chromeOptions':
                 args: ["--headless", "--disable-gpu", "--no-sandbox", "window-size=1920x1080"]
             username: 'admin'                      # UserName for the Administrator
             password: 'admin'                      # Password for the Administrator

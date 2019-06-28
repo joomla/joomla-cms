@@ -84,15 +84,15 @@ services:
       POSTGRES_PASSWORD: joomla_ut
       POSTGRES_DB: test_joomla
 
-  - name: selenium-chrome-old
+  - name: selenium-chrome
     image: selenium/standalone-chrome:3.141.59-radium
 
-  - name: selenium-chrome
+  - name: selenium-firefox
     image: selenium/standalone-firefox:3.141.59-radium
 
 
 ---
 kind: signature
-hmac: 823f01850820a54d22f67b5526e6cef97ec61f821d23b92edaf2571470c2d269
+hmac: 44673ee1eda2b3fb1e0694c47f8f523bf7fe0641fe18a01272dc4bcfc2d53f1f
 
 ...
