@@ -143,9 +143,11 @@ class ApiController extends BaseController
 			return $this;
 		}
 
+		$modelName = $this->input->get('model', Inflector::singularize($this->contentType));
+
 		// Create the model, ignoring request data so we can safely set the state in the request, without it being
 		// reinitialised on the first getState call
-		$model = $this->getModel(Inflector::singularize($this->contentType), '', ['ignore_request' => true]);
+		$model = $this->getModel($modelName, '', ['ignore_request' => true]);
 
 		if (!$model)
 		{
@@ -216,8 +218,10 @@ class ApiController extends BaseController
 			return $this;
 		}
 
+		$modelName = $this->input->get('model', Inflector::singularize($this->contentType));
+
 		/** @var ListModel $model */
-		$model = $this->getModel($this->contentType);
+		$model = $this->getModel($modelName);
 
 		if (!$model)
 		{

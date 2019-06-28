@@ -12,14 +12,13 @@ namespace Joomla\Component\Privacy\Api\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\ApiController;
-use Joomla\String\Inflector;
 
 /**
- * The request controller
+ * The consents controller
  *
  * @since  4.0.0
  */
-class RequestController extends ApiController
+class ConsentsController extends ApiController
 {
 	/**
 	 * The content type of the item.
@@ -27,7 +26,7 @@ class RequestController extends ApiController
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	protected $contentType = 'requests';
+	protected $contentType = 'consents';
 
 	/**
 	 * The default view for the display method.
@@ -35,7 +34,7 @@ class RequestController extends ApiController
 	 * @var    string
 	 * @since  3.0
 	 */
-	protected $default_view = 'requests';
+	protected $default_view = 'consents';
 
 	/**
 	 * Basic display of an item view
@@ -53,8 +52,8 @@ class RequestController extends ApiController
 			$id = $this->input->get('id', 0, 'int');
 		}
 
-		$this->input->set('view', Inflector::singularize($this->default_view));
+		$this->input->set('model', $this->contentType);
 
-		return parent::displayItem($id);
+		parent::displayItem($id);
 	}
 }
