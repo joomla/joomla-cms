@@ -6,25 +6,6 @@ clone:
   depth: 42
 
 steps:
-  - name: selenium-chrome-1
-    image: selenium/standalone-chrome:3.141.59-radium
-    shm_size: 2048000000
-    shm-size: 2048000000
-    commands:
-      - df /dev/shm
-
-  - name: selenium-chrome-2
-    image: selenium/standalone-chrome:3.141.59-radium
-    shm-size: 2048000000
-    commands:
-      - df /dev/shm
-
-  - name: selenium-chrome-3
-    image: selenium/standalone-chrome:3.141.59-radium
-    shm_size: 2048000000
-    commands:
-      - df /dev/shm
-
   - name: restore-cache
     image: drillster/drone-volume-cache
     settings:
@@ -103,17 +84,15 @@ services:
       POSTGRES_PASSWORD: joomla_ut
       POSTGRES_DB: test_joomla
 
-  - name: selenium-chrome
+  - name: selenium-chrome-old
     image: selenium/standalone-chrome:3.141.59-radium
-    shm_size: 2048000000
-    shm-size: 2048000000
 
-  - name: selenium-firefox
+  - name: selenium-chrome
     image: selenium/standalone-firefox:3.141.59-radium
 
 
 ---
 kind: signature
-hmac: 391873561faec01641c729a5fc30ebdb07c4e2782b7b713b3f7d150321cdaff7
+hmac: 823f01850820a54d22f67b5526e6cef97ec61f821d23b92edaf2571470c2d269
 
 ...
