@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,30 +20,22 @@ Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 ?>
 
 <div class="alert alert-info">
-	<p>
-		<span class="icon icon-info" aria-hidden="true"></span>
-		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPLOAD_INTRO', 'https://downloads.joomla.org/latest'); ?>
-	</p>
+	<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+	<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPLOAD_INTRO', 'https://downloads.joomla.org/latest'); ?>
 </div>
 
 <?php if (count($this->warnings)) : ?>
-<fieldset>
-	<legend>
-		<?php echo Text::_('COM_INSTALLER_SUBMENU_WARNINGS'); ?>
-	</legend>
-
-	<?php $i = 0; ?>
-	<?php echo HTMLHelper::_('bootstrap.startAccordion', 'warnings', array('active' => 'warning' . $i)); ?>
-	<?php foreach ($this->warnings as $message) : ?>
-		<?php echo HTMLHelper::_('bootstrap.addSlide', 'warnings', $message['message'], 'warning' . ($i++)); ?>
-		<?php echo $message['description']; ?>
-		<?php echo HTMLHelper::_('bootstrap.endSlide'); ?>
+	<h3><?php echo Text::_('COM_INSTALLER_SUBMENU_WARNINGS'); ?></h3>
+	<?php foreach ($this->warnings as $warning) : ?>
+		<div class="alert alert-warning">
+			<h4 class="alert-heading"><?php echo $warning['message']; ?></h4>
+			<p class="mb-0"><?php echo $warning['description']; ?></p>
+		</div>
 	<?php endforeach; ?>
-	<?php echo HTMLHelper::_('bootstrap.addSlide', 'warnings', Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'), 'furtherinfo'); ?>
-	<?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC'); ?>
-	<?php echo HTMLHelper::_('bootstrap.endSlide'); ?>
-	<?php echo HTMLHelper::_('bootstrap.endAccordion'); ?>
-</fieldset>
+	<div class="alert alert-info">
+		<h4 class="alert-heading"><?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'); ?></h4>
+		<p class="mb-0"><?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC'); ?></p>
+	</div>
 <?php endif; ?>
 
 <form enctype="multipart/form-data" action="index.php" method="post" id="uploadForm">

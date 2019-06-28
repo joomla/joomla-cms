@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,7 @@ use Joomla\CMS\Updater\Update;
 	<legend><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATES'); ?></legend>
 	<p><?php echo Text::sprintf($this->langKey, $this->updateSourceKey); ?></p>
 	<div class="alert alert-success">
+		<span class="fa fa-check-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('NOTICE'); ?></span>
 		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', '&#x200E;' . JVERSION); ?>
 	</div>
 	<?php if (is_object($this->updateInfo['object']) && ($this->updateInfo['object'] instanceof Update)) : ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 /**
@@ -64,7 +63,7 @@ class AssociationController extends FormController
 	 */
 	public function cancel($key = null)
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		list($extensionName, $typeName) = explode('.', $this->input->get('itemtype', '', 'string'), 2);
 

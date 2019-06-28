@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -237,7 +237,7 @@ class CacheModel extends ListModel
 	{
 		try
 		{
-			return $this->getCache()->clean($group);
+			$this->getCache()->clean($group);
 		}
 		catch (CacheConnectingException $exception)
 		{
@@ -247,6 +247,10 @@ class CacheModel extends ListModel
 		{
 			return false;
 		}
+
+		Factory::getApplication()->triggerEvent('onAfterPurge', array($group));
+
+		return true;
 	}
 
 	/**
@@ -280,7 +284,7 @@ class CacheModel extends ListModel
 	{
 		try
 		{
-			return Factory::getCache('')->gc();
+			Factory::getCache('')->gc();
 		}
 		catch (CacheConnectingException $exception)
 		{
@@ -290,5 +294,9 @@ class CacheModel extends ListModel
 		{
 			return false;
 		}
+
+		Factory::getApplication()->triggerEvent('onAfterPurge', array());
+
+		return true;
 	}
 }

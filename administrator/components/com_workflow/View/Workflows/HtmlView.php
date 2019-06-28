@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\View\Workflows;
@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 
@@ -99,7 +101,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->extension = $this->state->get('filter.extension');
@@ -123,40 +125,57 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions($this->extension);
 
+		// Get the toolbar object instance
+		$toolbar = Toolbar::getInstance('toolbar');
+
 		ToolbarHelper::title(Text::_('COM_WORKFLOW_WORKFLOWS_LIST'), 'address contact');
 
 		if ($canDo->get('core.create'))
 		{
-			ToolbarHelper::addNew('workflow.add');
+			$toolbar->addNew('workflow.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') || $user->authorise('core.admin'))
 		{
-			ToolbarHelper::publishList('workflows.publish');
-			ToolbarHelper::unpublishList('workflows.unpublish');
-			ToolbarHelper::makeDefault('workflows.setDefault', 'COM_WORKFLOW_TOOLBAR_DEFAULT');
-		}
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-globe')
+				->buttonClass('btn btn-info')
+				->listCheck(true);
 
-		if ($canDo->get('core.admin'))
-		{
-			ToolbarHelper::checkin('workflows.checkin', 'JTOOLBAR_CHECKIN', true);
+			$childBar = $dropdown->getChildToolbar();
+
+			$childBar->publish('workflows.publish');
+			$childBar->unpublish('workflows.unpublish');
+			$childBar->makeDefault('workflows.setDefault', 'COM_WORKFLOW_TOOLBAR_DEFAULT');
+
+			if ($canDo->get('core.admin'))
+			{
+				// @Todo implement the checked_out/checkin feature
+				// $childBar->checkin('workflows.checkin');
+			}
+
+			if ($canDo->get('core.edit.state') && $this->state->get('filter.published') != -2)
+			{
+				$childBar->trash('workflows.trash');
+			}
 		}
 
 		if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete'))
 		{
-			ToolbarHelper::deleteList(Text::_('COM_WORKFLOW_ARE_YOU_SURE'), 'workflows.delete');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::trash('workflows.trash');
+			$toolbar->delete('workflows.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			ToolbarHelper::preferences($this->extension);
+			$toolbar->preferences($this->extension);
 		}
 
-		ToolbarHelper::help('JHELP_WORKFLOWS_LIST');
+		$toolbar->help('JHELP_WORKFLOWS_LIST');
 	}
 
 	/**

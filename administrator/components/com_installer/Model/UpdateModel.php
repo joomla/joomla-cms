@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Installer\Installer;
@@ -131,7 +132,7 @@ class UpdateModel extends ListModel
 		else
 		{
 			$query->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(0))
-				->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(700));
+				->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id));
 		}
 
 		// Process search filter.
@@ -416,7 +417,7 @@ class UpdateModel extends ListModel
 			return false;
 		}
 
-		$url     = $update->downloadurl->_data;
+		$url     = trim($update->downloadurl->_data);
 		$sources = $update->get('downloadSources', array());
 
 		if ($extra_query = $update->get('extra_query'))
@@ -430,7 +431,7 @@ class UpdateModel extends ListModel
 		while (!($p_file = InstallerHelper::downloadPackage($url)) && isset($sources[$mirror]))
 		{
 			$name = $sources[$mirror];
-			$url  = $name->url;
+			$url  = trim($name->url);
 
 			if ($extra_query)
 			{
@@ -458,6 +459,16 @@ class UpdateModel extends ListModel
 		// Get an installer instance
 		$installer = Installer::getInstance();
 		$update->set('type', $package['type']);
+
+		// Check the package
+		$check = InstallerHelper::isChecksumValid($package['packagefile'], $update);
+
+		// The validation was not successful. Just a warning for now.
+		// TODO: In Joomla 4 this will abort the installation
+		if ($check === InstallerHelper::HASH_NOT_VALIDATED)
+		{
+			$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'error');
+		}
 
 		// Install the package
 		if (!$installer->update($package['dir']))

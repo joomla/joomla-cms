@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_sampledata
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
+HTMLHelper::_('bootstrap.framework');
+HTMLHelper::_('form.csrf');
 HTMLHelper::_('script', 'mod_sampledata/sampledata-process.js', ['version' => 'auto', 'relative' => true]);
 
 Text::script('MOD_SAMPLEDATA_CONFIRM_START');
@@ -56,6 +58,7 @@ $app->getDocument()->addScriptOptions(
 	</ul>
 <?php else : ?>
 	<div class="alert alert-warning">
+		<span class="fa fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 		<?php echo Text::_('MOD_SAMPLEDATA_NOTAVAILABLE'); ?>
 	</div>
 <?php endif; ?>

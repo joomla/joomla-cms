@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -77,7 +77,6 @@ use Joomla\CMS\Language\Text;
 				<div class="form-group">
 					<?php echo $this->form->getLabel('db_type'); ?>
 					<?php echo $this->form->getInput('db_type'); ?>
-					<p class="form-text text-muted small"><?php echo Text::_('INSTL_DATABASE_TYPE_DESC'); ?></p>
 				</div>
 				<div class="form-group">
 					<?php echo $this->form->getLabel('db_host'); ?>

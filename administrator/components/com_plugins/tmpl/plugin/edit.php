@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -86,9 +86,8 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 							?>
 							<p><?php echo $short_description; ?></p>
 							<?php if ($long_description) : ?>
-							<?php // @todo Remove jQuery ?>
 								<p class="readmore">
-									<a href="#" onclick="jQuery('.nav-tabs a[href=\'#description\']').tab('show');">
+									<a href="#" onclick="document.querySelector('#tab-description').click();">
 										<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
 									</a>
 								</p>
@@ -97,6 +96,7 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 					<?php endif; ?>
 				<?php else : ?>
 					<div class="alert alert-danger">
+						<span class="fa fa-exclamation-triangle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
 						<?php echo Text::_('COM_PLUGINS_XML_ERR'); ?>
 					</div>
 				<?php endif; ?>
@@ -110,33 +110,17 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 			<div class="col-md-3">
 				<div class="card card-light">
 					<div class="card-body">
+						<?php
+						// Set main fields.
+						$this->fields = array(
+							'enabled',
+							'access',
+							'ordering',
+							'folder',
+							'element',
+							'note',
+						); ?>
 						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
-						<div class="form-vertical form-no-margin">
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('ordering'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('ordering'); ?>
-								</div>
-							</div>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('folder'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('folder'); ?>
-								</div>
-							</div>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('element'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('element'); ?>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>

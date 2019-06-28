@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.totp.tmpl
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,6 +40,7 @@ use Joomla\CMS\Language\Text;
 		</li>
 	</ul>
 	<div class="alert alert-warning">
+		<span class="fa fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP1_WARN'); ?>
 	</div>
 </fieldset>
@@ -82,6 +83,7 @@ use Joomla\CMS\Language\Text;
 	</div>
 
 	<div class="alert alert-info">
+		<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>	
 		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP2_RESET'); ?>
 	</div>
 </fieldset>

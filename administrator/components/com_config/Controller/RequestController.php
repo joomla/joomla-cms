@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@ namespace Joomla\Component\Config\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 
@@ -31,9 +30,6 @@ class RequestController extends BaseController
 	 */
 	public function getJson()
 	{
-		// Get the document object.
-		$document = Factory::getDocument();
-
 		$componentFolder = $this->input->getWord('option', 'com_config');
 
 		if ($this->app->isClient('administrator'))

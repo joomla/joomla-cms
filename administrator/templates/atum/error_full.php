@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0
  */
@@ -32,13 +32,12 @@ $logo        = $this->baseurl . '/templates/' . $this->template . '/images/logo.
 $logoBlue    = $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
 // Add JavaScript
-HTMLHelper::_('bootstrap.framework');
 HTMLHelper::_('script', 'vendor/focus-visible/focus-visible.min.js', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'vendor/css-vars-ponyfill/css-vars-ponyfill.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Load template CSS file
 HTMLHelper::_('stylesheet', 'bootstrap.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'font-awesome.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'fontawesome.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto', 'relative' => true]);
 
 // Load custom CSS file
@@ -76,14 +75,14 @@ $this->addScriptDeclaration('cssVars();')
 		<div class="d-flex align-items-center">
 			<div class="header-title d-flex mr-auto">
 				<div class="d-flex">
-					<a class="logo" href="<?php echo Route::_('index.php'); ?>" aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
+					<a class="logo" href="<?php echo Route::_('index.php'); ?>" aria-label="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
 						<img src="<?php echo $logoBlue; ?>" alt="">
 					</a>
 				</div>
 				<jdoc:include type="modules" name="title" />
 			</div>
 			<div class="header-items d-flex ml-auto">
-				<jdoc:include type="modules" name="status" style="no" />
+				<jdoc:include type="modules" name="status" />
 			</div>
 		</div>
 	</header>
@@ -111,7 +110,7 @@ $this->addScriptDeclaration('cssVars();')
 						<div id="container-collapse" class="container-collapse"></div>
 						<div class="row">
 							<div class="col-md-12">
-								<jdoc:include type="modules" name="toolbar" style="no" />
+								<jdoc:include type="modules" name="toolbar" />
 							</div>
 					</div>
 				</div>

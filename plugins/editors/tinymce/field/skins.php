@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,7 @@ class JFormFieldSkins extends ListField
 	{
 		$options = array();
 
-		$directories = glob(JPATH_ROOT . '/media/vendor/tinymce/skins' . '/*', GLOB_ONLYDIR);
+		$directories = glob(JPATH_ROOT . '/media/vendor/tinymce/skins/ui' . '/*', GLOB_ONLYDIR);
 
 		for ($i = 0, $iMax = count($directories); $i < $iMax; ++$i)
 		{

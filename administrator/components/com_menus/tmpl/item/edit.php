@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -102,7 +102,7 @@ if ($clientId === 1)
 
 				if ($this->item->type == 'alias')
 				{
-					echo $this->form->renderFieldset('aliasoptions');
+					echo $this->form->renderField('aliasoptions', 'params');
 				}
 
 				if ($this->item->type == 'separator')
@@ -119,6 +119,11 @@ if ($clientId === 1)
 				}
 
 				echo $this->form->renderField('link');
+
+				if ($this->item->type == 'alias')
+				{
+					echo $this->form->renderField('alias_redirect', 'params');
+				}
 
 				echo $this->form->renderField('browserNav');
 				echo $this->form->renderField('template_style_id');
@@ -141,6 +146,8 @@ if ($clientId === 1)
 							'parent_id',
 							'menuordering',
 							'published',
+							'publish_up',
+							'publish_down',
 							'home',
 							'access',
 							'language',
@@ -150,6 +157,8 @@ if ($clientId === 1)
 						if ($this->item->type != 'component')
 						{
 							$this->fields = array_diff($this->fields, array('home'));
+							$this->form->setFieldAttribute('publish_up', 'showon', '');
+							$this->form->setFieldAttribute('publish_down', 'showon', '');
 						}
 
 						echo LayoutHelper::render('joomla.edit.global', $this); ?>
@@ -187,6 +196,7 @@ if ($clientId === 1)
 
 	<input type="hidden" name="task" value="">
 	<input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>">
+	<input type="hidden" name="menutype" value="<?php echo $input->get('menutype', '', 'cmd'); ?>">
 	<?php echo $this->form->getInput('component_id'); ?>
 	<?php echo HTMLHelper::_('form.token'); ?>
 	<input type="hidden" id="fieldtype" name="fieldtype" value="">
