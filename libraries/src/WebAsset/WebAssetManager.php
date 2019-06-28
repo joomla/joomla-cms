@@ -357,7 +357,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 
 		// Pre-save existing Scripts, and attach them after requested assets.
 		$jsBackup = $doc->getScripts();
-		$doc->resetHeadData('scripts');
+		$doc->removeScript();
 
 		// Attach active assets to the document
 		foreach ($assets as $asset)

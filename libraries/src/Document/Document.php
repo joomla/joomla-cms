@@ -542,6 +542,29 @@ class Document
 	}
 
 	/**
+	 * Remove previously added script. If no URL provided then remove all scripts.
+	 *
+	 * @param   string  $url      URL of the linked script to be removed
+	 *
+	 * @return  Document instance of $this to allow chaining
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function removeScript($url = null)
+	{
+		if ($url === null)
+		{
+			$this->_scripts = array();
+		}
+		else
+		{
+			unset($this->_scripts[$url]);
+		}
+
+		return $this;
+	}
+
+	/**
 	 * Return list of linked scripts
 	 *
 	 * @return  array
@@ -572,6 +595,29 @@ class Document
 		else
 		{
 			$this->_script[strtolower($type)] .= chr(13) . $content;
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Reset script declaration by type. If no Type provided then reset all types.
+	 *
+	 * @param   string  $type      Script mime
+	 *
+	 * @return  Document instance of $this to allow chaining
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function resetScriptDeclaration($type = null)
+	{
+		if ($type === null)
+		{
+			$this->_script = array();
+		}
+		else
+		{
+			unset($this->_script[$type]);
 		}
 
 		return $this;
@@ -674,6 +720,29 @@ class Document
 	}
 
 	/**
+	 * Remove previously added stylesheet. If no URL provided then remove all stylesheets.
+	 *
+	 * @param   string  $url      URL of the linked stylesheet to be removed
+	 *
+	 * @return  Document instance of $this to allow chaining
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function removeStyleSheet($url = null)
+	{
+		if ($url === null)
+		{
+			$this->_styleSheets = array();
+		}
+		else
+		{
+			unset($this->_styleSheets[$url]);
+		}
+
+		return $this;
+	}
+
+	/**
 	 * Return list of linked stylesheets
 	 *
 	 * @return  array
@@ -704,6 +773,29 @@ class Document
 		else
 		{
 			$this->_style[strtolower($type)] .= chr(13) . $content;
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Reset style declaration by type. If no Type provided then reset all types.
+	 *
+	 * @param   string  $type      Type of stylesheet
+	 *
+	 * @return  Document instance of $this to allow chaining
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function resetStyleDeclaration($type = null)
+	{
+		if ($type === null)
+		{
+			$this->_style = array();
+		}
+		else
+		{
+			unset($this->_style[$type]);
 		}
 
 		return $this;

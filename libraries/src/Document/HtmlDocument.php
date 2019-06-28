@@ -176,11 +176,12 @@ class HtmlDocument extends Document
 			$this->link         = '';
 			$this->_metaTags    = array();
 			$this->_links       = array();
-			$this->_styleSheets = array();
-			$this->_style       = array();
-			$this->_scripts     = array();
-			$this->_script      = array();
 			$this->_custom      = array();
+
+			$this->removeStyleSheet();
+			$this->resetStyleDeclaration();
+			$this->removeScript();
+			$this->resetScriptDeclaration();
 		}
 
 		if (is_array($types))
@@ -220,13 +221,25 @@ class HtmlDocument extends Document
 
 			case 'metaTags':
 			case 'links':
-			case 'styleSheets':
-			case 'style':
-			case 'scripts':
-			case 'script':
 			case 'custom':
 				$realType = '_' . $type;
 				$this->{$realType} = array();
+				break;
+
+			case 'styleSheets':
+				$this->removeStyleSheet();
+				break;
+
+			case 'style':
+				$this->resetStyleDeclaration();
+				break;
+
+			case 'scripts':
+				$this->removeScript();
+				break;
+
+			case 'script':
+				$this->resetScriptDeclaration();
 				break;
 		}
 	}
