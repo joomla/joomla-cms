@@ -26,12 +26,40 @@ use Tobscure\JsonApi\Resource;
 class JsonapiView extends BaseApiView
 {
 	/**
-	 * The fields to render in the documents
+	 * The fields to render item in the documents
 	 *
 	 * @var  string
 	 * @since  4.0.0
 	 */
-	protected $fieldsToRender = ['id', 'user_id', 'state', 'created', 'subject', 'body', 'remind', 'token', 'username'];
+	protected $fieldsToRenderItem = [
+		'id',
+		'user_id',
+		'state',
+		'created',
+		'subject',
+		'body',
+		'remind',
+		'token',
+		'username'
+	];
+
+	/**
+	 * The fields to render items in the documents
+	 *
+	 * @var  string
+	 * @since  4.0.0
+	 */
+	protected $fieldsToRenderItems = [
+		'id',
+		'user_id',
+		'state',
+		'created',
+		'subject',
+		'body',
+		'remind',
+		'token',
+		'username'
+	];
 
 	/**
 	 * Execute and display a template script.

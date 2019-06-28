@@ -218,7 +218,7 @@ class ApiController extends BaseController
 			return $this;
 		}
 
-		$modelName = $this->input->get('model', Inflector::singularize($this->contentType));
+		$modelName = $this->input->get('model', $this->contentType);
 
 		/** @var ListModel $model */
 		$model = $this->getModel($modelName);

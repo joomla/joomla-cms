@@ -12,8 +12,6 @@ namespace Joomla\Component\Banners\Api\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\ApiController;
-use Joomla\Component\Privacy\Api\Controller\RequestController;
-use Joomla\String\Inflector;
 
 /**
  * The clients controller
@@ -37,25 +35,4 @@ class ClientsController extends ApiController
 	 * @since  3.0
 	 */
 	protected $default_view = 'clients';
-
-	/**
-	 * Basic display of an item view
-	 *
-	 * @param   integer  $id  The primary key to display. Leave empty if you want to retrieve data from the request
-	 *
-	 * @return  static  A \JControllerLegacy object to support chaining.
-	 *
-	 * @since   4.0.0
-	 */
-	public function displayItem($id = null)
-	{
-		if ($id === null)
-		{
-			$id = $this->input->get('id', 0, 'int');
-		}
-
-		$this->input->set('view', Inflector::singularize($this->default_view));
-
-		return parent::displayItem($id);
-	}
 }

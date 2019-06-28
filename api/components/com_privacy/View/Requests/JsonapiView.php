@@ -21,10 +21,18 @@ use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 class JsonapiView extends BaseApiView
 {
 	/**
-	 * The fields to render in the documents
+	 * The fields to render item in the documents
 	 *
 	 * @var  string
 	 * @since  4.0.0
 	 */
-	protected $fieldsToRender = ['id', 'email', 'requested_at', 'status', 'request_type'];
+	protected $fieldsToRenderItem = ['id', 'typeAlias', 'email', 'requested_at', 'status', 'request_type'];
+
+	/**
+	 * The fields to render items in the documents
+	 *
+	 * @var  string
+	 * @since  4.0.0
+	 */
+	protected $fieldsToRenderItems = ['id', 'email', 'requested_at', 'status', 'request_type'];
 }
