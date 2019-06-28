@@ -543,6 +543,13 @@ class Document
 	 */
 	public function addScriptDeclaration($content, $type = 'text/javascript')
 	{
+		$type = strtolower($type);
+
+		if (empty($this->_script[$type]))
+		{
+			$this->_script[$type] = array();
+		}
+
 		$this->_script[$type][md5($content)] = $content;
 
 		return $this;
@@ -644,6 +651,13 @@ class Document
 	 */
 	public function addStyleDeclaration($content, $type = 'text/css')
 	{
+		$type = strtolower($type);
+
+		if (empty($this->_style[$type]))
+		{
+			$this->_style[$type] = array();
+		}
+
 		$this->_style[$type][md5($content)] = $content;
 
 		return $this;
