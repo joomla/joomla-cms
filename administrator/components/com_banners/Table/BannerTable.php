@@ -130,12 +130,12 @@ class BannerTable extends Table
 			$this->publish_up = null;
 		}
 
- 		if (!$this->publish_down)
+		if (!$this->publish_down)
 		{
 			$this->publish_down = null;
 		}
 
- 		if (!$this->modified)
+		if (!$this->modified)
 		{
 			$this->modified = $this->created;
 		}
