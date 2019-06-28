@@ -14,7 +14,7 @@ modules:
         JoomlaBrowser:
             url: 'http://system-tests-mysql/test-install'     # the url that points to the joomla installation at /tests/system/joomla-cms
             host: 'selenium-chrome'
-            browser: 'chrome'
+            browser: 'firefox'
             window_size: false
             capabilities:
               chromeOptions:
