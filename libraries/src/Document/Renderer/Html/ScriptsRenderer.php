@@ -123,6 +123,12 @@ class ScriptsRenderer extends DocumentRenderer
 		// Generate script declarations
 		foreach ($this->_doc->_script as $type => $contents)
 		{
+			// Test for B.C. in case someone still store script declarations as single string
+			if (is_string($contents))
+			{
+				$contents = [$contents];
+			}
+
 			foreach ($contents as $content)
 			{
 				$buffer .= $tab . '<script';

@@ -109,6 +109,12 @@ class StylesRenderer extends DocumentRenderer
 		// Generate stylesheet declarations
 		foreach ($this->_doc->_style as $type => $contents)
 		{
+			// Test for B.C. in case someone still store stylesheet declarations as single string
+			if (is_string($contents))
+			{
+				$contents = [$contents];
+			}
+
 			foreach ($contents as $content)
 			{
 				$buffer .= $tab . '<style';
