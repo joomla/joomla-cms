@@ -238,9 +238,6 @@ class Postgresql extends Indexer
 				// Add the link => node map.
 				Taxonomy::addMap($linkId, $nodeId);
 				$node->id = $nodeId;
-
-				// Tokenize the node title and add them to the database.
-				$count += $this->tokenizeToDb($node->title, static::META_CONTEXT, $item->language, $format);
 			}
 		}
 

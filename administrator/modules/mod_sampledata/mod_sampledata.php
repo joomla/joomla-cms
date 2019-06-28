@@ -11,4 +11,7 @@ defined('_JEXEC') or die;
 
 $items = \Joomla\Module\Sampledata\Administrator\Helper\SampledataHelper::getList();
 
+// Filter out empty entries
+$items = array_filter($items);
+
 require \Joomla\CMS\Helper\ModuleHelper::getLayoutPath('mod_sampledata', $params->get('layout', 'default'));

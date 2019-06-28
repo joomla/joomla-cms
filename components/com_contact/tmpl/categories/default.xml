@@ -360,6 +360,17 @@
 			</field>
 
 			<field
+				name="show_name"
+				type="list"
+				label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
+				useglobal="true"
+				class="chzn-color"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
 				name="show_tags"
 				type="list"
 				label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
@@ -375,18 +386,6 @@
 				type="list"
 				label="COM_CONTACT_FIELD_SHOW_INFO_LABEL"
 				useglobal="true"
-				class="chzn-color"
-				>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field
-				name="show_name"
-				type="list"
-				label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
-				useglobal="true"
-				showon="show_info:1"
 				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
@@ -668,33 +667,6 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-
-			<field
-				name="banned_email"
-				type="textarea"
-				label="COM_CONTACT_FIELD_CONFIG_BANNED_EMAIL_LABEL"
-				description="COM_CONTACT_FIELD_CONFIG_BANNED_EMAIL_DESC"
-				cols="30"
-				rows="3"
-			/>
-
-			<field
-				name="banned_subject"
-				type="textarea"
-				label="COM_CONTACT_FIELD_CONFIG_BANNED_SUBJECT_LABEL"
-				description="COM_CONTACT_FIELD_CONFIG_BANNED_SUBJECT_DESC"
-				cols="30"
-				rows="3"
-			/>
-
-			<field
-				name="banned_text"
-				type="textarea"
-				label="COM_CONTACT_FIELD_CONFIG_BANNED_TEXT_LABEL"
-				description="COM_CONTACT_FIELD_CONFIG_BANNED_TEXT_DESC"
-				cols="30"
-				rows="3"
-			/>
 
 			<field
 				name="validate_session"

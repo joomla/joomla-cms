@@ -12,13 +12,11 @@ namespace Joomla\Component\Users\Administrator\View\Levels;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 
 /**
  * View class for a list of view levels.
@@ -68,14 +66,6 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
-	 * The sidebar markup
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $sidebar;
-
-	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -90,8 +80,6 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		UsersHelper::addSubmenu('levels');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -99,7 +87,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$this->addToolbar();
-		$this->sidebar = HTMLHelper::_('sidebar.render');
 		parent::display($tpl);
 	}
 
