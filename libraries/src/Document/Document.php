@@ -543,14 +543,7 @@ class Document
 	 */
 	public function addScriptDeclaration($content, $type = 'text/javascript')
 	{
-		if (!isset($this->_script[strtolower($type)]))
-		{
-			$this->_script[strtolower($type)] = $content;
-		}
-		else
-		{
-			$this->_script[strtolower($type)] .= chr(13) . $content;
-		}
+		$this->_script[$type][md5($content)] = $content;
 
 		return $this;
 	}
@@ -651,14 +644,7 @@ class Document
 	 */
 	public function addStyleDeclaration($content, $type = 'text/css')
 	{
-		if (!isset($this->_style[strtolower($type)]))
-		{
-			$this->_style[strtolower($type)] = $content;
-		}
-		else
-		{
-			$this->_style[strtolower($type)] .= chr(13) . $content;
-		}
+		$this->_style[$type][md5($content)] = $content;
 
 		return $this;
 	}

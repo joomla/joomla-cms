@@ -123,35 +123,38 @@ class ScriptsRenderer extends DocumentRenderer
 		// Generate script declarations
 		foreach ($this->_doc->_script as $type => $contents)
 		{
-			$buffer .= $tab . '<script';
-
-			if (!is_null($type) && (!$this->_doc->isHtml5() || !in_array($type, $defaultJsMimes)))
+			foreach ($contents as $content)
 			{
-				$buffer .= ' type="' . $type . '"';
+				$buffer .= $tab . '<script';
+
+				if (!is_null($type) && (!$this->_doc->isHtml5() || !in_array($type, $defaultJsMimes)))
+				{
+					$buffer .= ' type="' . $type . '"';
+				}
+
+				if ($this->_doc->cspNonce)
+				{
+					$buffer .= ' nonce="' . $this->_doc->cspNonce . '"';
+				}
+
+				$buffer .= '>' . $lnEnd;
+
+				// This is for full XHTML support.
+				if ($this->_doc->_mime != 'text/html')
+				{
+					$buffer .= $tab . $tab . '//<![CDATA[' . $lnEnd;
+				}
+
+				$buffer .= $content . $lnEnd;
+
+				// See above note
+				if ($this->_doc->_mime != 'text/html')
+				{
+					$buffer .= $tab . $tab . '//]]>' . $lnEnd;
+				}
+
+				$buffer .= $tab . '</script>' . $lnEnd;
 			}
-
-			if ($this->_doc->cspNonce)
-			{
-				$buffer .= ' nonce="' . $this->_doc->cspNonce . '"';
-			}
-
-			$buffer .= '>' . $lnEnd;
-
-			// This is for full XHTML support.
-			if ($this->_doc->_mime != 'text/html')
-			{
-				$buffer .= $tab . $tab . '//<![CDATA[' . $lnEnd;
-			}
-
-			$buffer .= $contents . $lnEnd;
-
-			// See above note
-			if ($this->_doc->_mime != 'text/html')
-			{
-				$buffer .= $tab . $tab . '//]]>' . $lnEnd;
-			}
-
-			$buffer .= $tab . '</script>' . $lnEnd;
 		}
 
 
