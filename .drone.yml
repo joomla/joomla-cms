@@ -6,6 +6,25 @@ clone:
   depth: 42
 
 steps:
+  - name: selenium-chrome-1
+    image: selenium/standalone-chrome:3.141.59-radium
+    shm_size: 2048000000
+    shm-size: 2048000000
+    commands:
+      - df /dev/shm
+
+  - name: selenium-chrome-1
+    image: selenium/standalone-chrome:3.141.59-radium
+    shm-size: 2048000000
+    commands:
+      - df /dev/shm
+
+  - name: selenium-chrome-1
+    image: selenium/standalone-chrome:3.141.59-radium
+    shm_size: 2048000000
+    commands:
+      - df /dev/shm
+
   - name: restore-cache
     image: drillster/drone-volume-cache
     settings:
@@ -95,6 +114,6 @@ services:
 
 ---
 kind: signature
-hmac: 5f01557ac71fee71f1a2031612b774ff343380770ab07fc29695bff6ced42493
+hmac: 9a67e634c3351bc4d637ec1e8e3d96aee2d09d44037d0a9beeef37b4f88be174
 
 ...
