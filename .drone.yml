@@ -162,7 +162,6 @@ steps:
 branches:
   exclude: [ l10n_* ]
 
-
 volumes:
 - name: cache
   host:
@@ -194,6 +193,6 @@ services:
 
 ---
 kind: signature
-hmac: 3883eb68e532174b147f2fb36df1d9a1a86fb1fc965c2373c325d39ce4c61cb1
+hmac: b3723ea069a4139d4b9aef660f8fa5e01cc0c59017a77438a7245e0d552ef72a
 
 ...
