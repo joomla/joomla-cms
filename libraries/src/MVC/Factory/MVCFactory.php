@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\MVC\Model\ModelInterface;
@@ -99,7 +100,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
 		// When the front uses a back end model
-		if (!$prefix && !empty($config['base_path']) && strpos($config['base_path'], '/administrator/') !== false)
+		if (!$prefix && !empty($config['base_path']) && strpos(Path::clean($config['base_path']), Path::clean(JPATH_ADMINISTRATOR)) === 0)
 		{
 			$prefix = 'Administrator';
 		}
@@ -151,7 +152,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 		$type   = preg_replace('/[^A-Z0-9_]/i', '', $type);
 
 		// When the front uses a back end view
-		if (!$prefix && !empty($config['base_path']) && strpos($config['base_path'], '/administrator/') !== false)
+		if (!$prefix && !empty($config['base_path']) && strpos(Path::clean($config['base_path']), Path::clean(JPATH_ADMINISTRATOR)) === 0)
 		{
 			$prefix = 'Administrator';
 		}
