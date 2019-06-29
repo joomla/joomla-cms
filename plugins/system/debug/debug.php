@@ -32,6 +32,7 @@ use Joomla\Plugin\System\Debug\DataCollector\LanguageStringsCollector;
 use Joomla\Plugin\System\Debug\DataCollector\ProfileCollector;
 use Joomla\Plugin\System\Debug\DataCollector\QueryCollector;
 use Joomla\Plugin\System\Debug\DataCollector\SessionCollector;
+use Joomla\Plugin\System\Debug\JavascriptRenderer;
 use Joomla\Plugin\System\Debug\Storage\FileStorage;
 
 /**
@@ -201,7 +202,7 @@ class PlgSystemDebug extends CMSPlugin
 		{
 			// Use our own jQuery and fontawesome instead of the debug bar shipped version
 			$assetManager = $this->app->getDocument()->getWebAssetManager();
-			$assetManager->enableAsset('jquery-noconflict');
+			$assetManager->enableAsset('jquery');
 			$assetManager->enableAsset('fontawesome-free');
 
 			HTMLHelper::_('stylesheet', 'plg_system_debug/debug.css', array('version' => 'auto', 'relative' => true));
@@ -283,16 +284,11 @@ class PlgSystemDebug extends CMSPlugin
 			$this->debugBar->addCollector(new LanguageErrorsCollector($this->params));
 		}
 
-		$debugBarRenderer = $this->debugBar->getJavascriptRenderer();
+		$debugBarRenderer = new JavascriptRenderer($this->debugBar, Uri::root(true) . '/media/vendor/debugbar/');
 		$openHandlerUrl   = Uri::base(true) . '/index.php?option=com_ajax&plugin=debug&group=system&format=raw&action=openhandler';
 		$openHandlerUrl  .= '&' . Session::getFormToken() . '=1';
 
 		$debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
-		$debugBarRenderer->setBaseUrl(Uri::root(true) . '/media/vendor/debugbar/');
-
-		$debugBarRenderer->disableVendor('jquery');
-		$debugBarRenderer->setEnableJqueryNoConflict(false);
-		$debugBarRenderer->disableVendor('fontawesome');
 
 		/**
 		 * @todo disable highlightjs from the DebugBar, import it through NPM
