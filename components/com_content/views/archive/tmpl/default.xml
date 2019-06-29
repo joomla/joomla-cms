@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="com_content_archive_view_default_title" option="com_content_archive_view_default_option">
+	<layout title="COM_CONTENT_ARCHIVE_VIEW_DEFAULT_TITLE" option="COM_CONTENT_ARCHIVE_VIEW_DEFAULT_OPTION">
 		<help
 			key = "JHELP_MENUS_MENU_ITEM_ARTICLE_ARCHIVED"
 		/>
@@ -8,6 +8,25 @@
 			<![CDATA[com_content_archive_view_default_desc]]>
 		</message>
 	</layout>
+
+	<!-- Add fields to the request variables for the layout. -->
+	<fields name="request">
+		<fieldset name="request"
+			addfieldpath="/administrator/components/com_categories/models/fields"
+		>
+			<field
+				name="catid"
+				type="category"
+				extension="com_content"
+				multiple="true"
+				size="5"
+				label="JCATEGORY"
+				description="JFIELD_CATEGORY_DESC"
+			>
+				<option value="">JOPTION_ALL_CATEGORIES</option>
+			</field>
+		</fieldset>
+	</fields>
 
 	<!-- Add fields to the parameters object for the layout. -->
 	<fields name="params">
@@ -82,7 +101,7 @@
 
 			<field 
 				name="introtext_limit" 
-				type="text" 
+				type="number" 
 				label="JGLOBAL_ARCHIVE_ARTICLES_FIELD_INTROTEXTLIMIT_LABEL"
 				description="JGLOBAL_ARCHIVE_ARTICLES_FIELD_INTROTEXTLIMIT_DESC" 
 				default="100"
@@ -101,6 +120,7 @@
 				label="JGLOBAL_SHOW_INTRO_LABEL"
 				description="JGLOBAL_SHOW_INTRO_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -113,6 +133,7 @@
 				description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC"
 				default=""
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
@@ -126,6 +147,7 @@
 				label="COM_CONTENT_FIELD_INFOBLOCK_TITLE_LABEL"
 				description="COM_CONTENT_FIELD_INFOBLOCK_TITLE_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
@@ -137,6 +159,7 @@
 				label="JGLOBAL_SHOW_CATEGORY_LABEL"
 				description="JGLOBAL_SHOW_CATEGORY_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -148,9 +171,10 @@
 				label="JGLOBAL_LINK_CATEGORY_LABEL"
 				description="JGLOBAL_LINK_CATEGORY_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
-				<option value="0">JNo</option>
-				<option value="1">JYes</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field
@@ -181,6 +205,7 @@
 				label="JGLOBAL_LINKED_TITLES_LABEL"
 				description="JGLOBAL_LINKED_TITLES_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
@@ -192,6 +217,7 @@
 				label="JGLOBAL_SHOW_AUTHOR_LABEL"
 				description="JGLOBAL_SHOW_AUTHOR_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -214,6 +240,7 @@
 				label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
 				description="JGLOBAL_SHOW_CREATE_DATE_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -225,6 +252,7 @@
 				label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
 				description="JGLOBAL_SHOW_MODIFY_DATE_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -236,6 +264,7 @@
 				label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
 				description="JGLOBAL_SHOW_PUBLISH_DATE_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -247,6 +276,7 @@
 				label="JGLOBAL_SHOW_NAVIGATION_LABEL"
 				description="JGLOBAL_SHOW_NAVIGATION_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -258,6 +288,7 @@
 				label="JGLOBAL_SHOW_HITS_LABEL"
 				description="JGLOBAL_SHOW_HITS_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>

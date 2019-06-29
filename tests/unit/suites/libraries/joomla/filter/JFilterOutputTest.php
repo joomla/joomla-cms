@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Filter
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Filter
- * @since       11.1
+ * @since       1.7.0
  */
 class FilterTestObject
 {
@@ -39,14 +39,24 @@ class FilterTestObject
  *
  * @package     Joomla.UnitTest
  * @subpackage  Filter
- * @since       11.1
+ * @since       1.7.0
  */
 class JFilterOutputTest extends \PHPUnit\Framework\TestCase
 {
 	/**
-	 * @var beforeObject
+	 * @var  JFilterOutput
+	 */
+	protected $object;
+
+	/**
+	 * @var  FilterTestObject
 	 */
 	protected $safeObject;
+
+	/**
+	 * @var  FilterTestObject
+	 */
+	protected $safeObjectArrayTest;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -73,8 +83,7 @@ class JFilterOutputTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->safeObject);
-		unset($this->safeObjectArrayTest);
+		unset($this->object, $this->safeObject, $this->safeObjectArrayTest);
 		parent::tearDown();
 	}
 
@@ -137,7 +146,7 @@ class JFilterOutputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testStringURLUnicodeSlug()
 	{
@@ -232,7 +241,7 @@ class JFilterOutputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testStripImages()
 	{
@@ -248,7 +257,7 @@ class JFilterOutputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function testStripIframes()
 	{

@@ -2,15 +2,15 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Reflection helper class.
  *
  * @package  Joomla.Test
- * @since    12.1
+ * @since    3.0.0
  */
 class TestReflection
 {
@@ -22,7 +22,7 @@ class TestReflection
 	 *
 	 * @return  mixed  The value of the property.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  InvalidArgumentException if property not available.
 	 */
 	public static function getValue($object, $propertyName)
@@ -62,7 +62,7 @@ class TestReflection
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function invoke($object, $methodName)
 	{
@@ -90,7 +90,7 @@ class TestReflection
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function setValue($object, $propertyName, $value)
 	{

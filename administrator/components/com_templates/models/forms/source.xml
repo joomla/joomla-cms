@@ -3,23 +3,26 @@
 	<fieldset>
 		<field
 			name="extension_id"
-			type="hidden" />
+			type="hidden" 
+		/>
 
 		<field
 			name="filename"
-			type="hidden" />
+			type="hidden"
+		 />
 
 		<field
 			name="source"
 			type="editor"
-			editor="codemirror|none"
-			buttons="no"
 			label="COM_TEMPLATES_FIELD_SOURCE_LABEL"
 			description="COM_TEMPLATES_FIELD_SOURCE_DESC"
+			editor="codemirror|none"
+			buttons="no"
 			height="500px"
 			rows="20"
 			cols="80"
 			syntax="php"
-			filter="raw" />
+			filter="raw" 
+		/>
 	</fieldset>
 </form>

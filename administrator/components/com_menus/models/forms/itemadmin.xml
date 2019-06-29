@@ -19,7 +19,8 @@
 			description="COM_MENUS_ITEM_FIELD_TITLE_DESC"
 			class="input-xxlarge input-large-text"
 			size="40"
-			required="true"/>
+			required="true"
+		/>
 
 		<field
 			name="alias"
@@ -58,7 +59,7 @@
 			required="true"
 			clientid="1"
 			size="1"
-		>
+			>
 			<option value="">COM_MENUS_SELECT_MENU</option>
 		</field>
 
@@ -75,13 +76,14 @@
 		<field
 			name="published"
 			type="list"
-			class="chzn-color-state"
-			id="published"
 			label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
+			class="chzn-color-state"
+			id="published"
 			size="1"
 			default="1"
-			filter="integer">
+			filter="integer"
+			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
 			<option value="-2">JTRASHED</option>
@@ -95,7 +97,8 @@
 			default="1"
 			filter="int"
 			clientid="1"
-			size="1">
+			size="1"
+			>
 			<option value="1">COM_MENUS_ITEM_ROOT</option>
 		</field>
 
@@ -105,8 +108,8 @@
 			label="COM_MENUS_ITEM_FIELD_ORDERING_LABEL"
 			description="COM_MENUS_ITEM_FIELD_ORDERING_DESC"
 			filter="int"
-			size="1">
-		</field>
+			size="1"
+		/>
 
 		<field
 			name="component_id"
@@ -121,7 +124,7 @@
 			description="COM_MENUS_ITEM_FIELD_BROWSERNAV_DESC"
 			default="0"
 			filter="int"
-		>
+			>
 			<option value="0">COM_MENUS_FIELD_VALUE_PARENT</option>
 			<option value="1">COM_MENUS_FIELD_VALUE_NEW_WITH_NAV</option>
 		</field>

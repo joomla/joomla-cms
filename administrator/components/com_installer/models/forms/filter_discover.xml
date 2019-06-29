@@ -10,6 +10,7 @@
 			description="COM_INSTALLER_DISCOVER_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
+
 		<field
 			name="client_id"
 			type="location"
@@ -17,6 +18,7 @@
 			>
 			<option value="">COM_INSTALLER_VALUE_CLIENT_SELECT</option>
 		</field>
+
 		<field
 			name="type"
 			type="type"
@@ -24,6 +26,7 @@
 			>
 			<option value="">COM_INSTALLER_VALUE_TYPE_SELECT</option>
 		</field>
+
 		<field
 			name="folder"
 			type="folder"
@@ -32,6 +35,7 @@
 			<option value="">COM_INSTALLER_VALUE_FOLDER_SELECT</option>
 		</field>
 	</fields>
+
 	<fields name="list">
 		<field
 			name="fullordering"
@@ -53,6 +57,7 @@
 			<option value="extension_id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="extension_id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>
+
 		<field
 			name="limit"
 			type="limitbox"

@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/TestHelpers/JHtmlFieldNumber-helper-dataset.php';
@@ -14,7 +14,7 @@ require_once __DIR__ . '/TestHelpers/JHtmlFieldNumber-helper-dataset.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       12.1
+ * @since       3.0.0
  */
 class JFormFieldNumberTest extends TestCaseDatabase
 {
@@ -127,7 +127,7 @@ class JFormFieldNumberTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.11
 	 *
 	 * @dataProvider  getInputData
 	 */
