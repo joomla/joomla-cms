@@ -525,6 +525,12 @@ class Document
 			$attribs['type'] = 'text/javascript';
 		}
 
+		// Defer all text/javascript files by default
+		if (!isset($attribs['defer']) && $attribs['type'] === 'text/javascript')
+		{
+			$attribs['defer'] = true;
+		}
+
 		$this->_scripts[$url]            = isset($this->_scripts[$url]) ? array_replace($this->_scripts[$url], $attribs) : $attribs;
 		$this->_scripts[$url]['options'] = isset($this->_scripts[$url]['options']) ? array_replace($this->_scripts[$url]['options'], $options) : $options;
 
@@ -535,13 +541,13 @@ class Document
 	 * Adds a script to the page
 	 *
 	 * @param   string  $content  Script
-	 * @param   string  $type     Scripting mime (defaults to 'text/javascript')
+	 * @param   string  $type     Scripting mime (defaults to 'module')
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   1.7.0
 	 */
-	public function addScriptDeclaration($content, $type = 'text/javascript')
+	public function addScriptDeclaration($content, $type = 'module')
 	{
 		if (!isset($this->_script[strtolower($type)]))
 		{
