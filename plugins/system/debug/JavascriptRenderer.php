@@ -22,9 +22,9 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
 	/**
 	 * Class constructor.
 	 *
-	 * @param \DebugBar\DebugBar $debugBar
-	 * @param string $baseUrl
-	 * @param string $basePath
+	 * @param   \DebugBar\DebugBar  $debugBar  DebugBar instance
+	 * @param   string              $baseUrl   The base URL from which assets will be served
+	 * @param   string              $basePath  The path which assets are relative to
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -85,8 +85,8 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
 	 *
 	 * AJAX request should not render the initialization code.
 	 *
-	 * @param boolean $initialize Whether or not to render the debug bar initialization code
-	 * @param boolean $renderStackedData Whether or not to render the stacked data
+	 * @param   boolean  $initialize         Whether or not to render the debug bar initialization code
+	 * @param   boolean  $renderStackedData  Whether or not to render the stacked data
 	 *
 	 * @return string
 	 *
