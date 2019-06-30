@@ -37,7 +37,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * The client identifier.
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION_
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $clientId = null;
 
@@ -193,7 +193,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 *
 	 * @return  integer  A client identifier.
 	 *
-	 * @since   __DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getClientId()
 	{

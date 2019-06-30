@@ -160,7 +160,7 @@ interface CMSApplicationInterface extends ExtensionManagerInterface
 	 *
 	 * @return  integer  A client identifier.
 	 *
-	 * @since   __DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getClientId();
 
