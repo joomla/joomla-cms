@@ -27,11 +27,11 @@ class FeedLinkTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
 	 * @since              3.1.4
 	 */
 	public function testConstructWithInvalidLength()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		new FeedLink('URI', 'self', 'application/x-pdf', 'en-GB', 'My Link', 'foobar');
 	}
 }
