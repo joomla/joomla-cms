@@ -58,4 +58,23 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->dontSeeInPageSource('<b>Strict standards</b>:');
 		$I->dontSeeInPageSource('The requested page can\'t be found');
 	}
+
+	/**
+	 * Function to wait for JS to be properly loaded on page change
+	 *
+	 * @param   int|float  $timeout  Time to wait for JS to be ready
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
+	 */
+	public function waitForJsOnPageLoad($timeout = 1)
+	{
+		$I = $this;
+
+		$I->waitForJS('return document.readyState == "complete"', $timeout);
+
+		// Wait an additional 500ms to make sure that really all JS is loaded
+		$I->wait(0.5);
+	}
 }
