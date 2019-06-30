@@ -119,8 +119,8 @@ class ActionlogsController extends AdminController
 			}
 
 			fclose($output);
-			$app->triggerEvent('onAfterLogExport', array());
-			$app->close();
+			$this->app->triggerEvent('onAfterLogExport', array());
+			$this->app->close();
 		}
 		else
 		{
