@@ -92,6 +92,7 @@
 
   .sidebar-toggle {
     position: relative;
+	background:var(--atum-bg-dark-50);
 
     a {
       display: block;
@@ -465,6 +466,7 @@
 @include media-breakpoint-down(xs) {
   #menu-collapse {
     display: none;
+	background:var(--atum-bg-dark-50);
   }
   .toggler-burger {
     display: block;
@@ -534,10 +536,8 @@
 
 #menu-collapse-icon {
   font-size: 0.9rem;
-  margin:0;
-  padding: 0.3rem 1.3rem 0.3rem .6rem;
-  background:var(--atum-bg-dark-50);
-  border-radius:$border-radius-s;
+  margin-right: 0.6rem;
+  padding: 0.3rem ;
 }
 
 // for the svg image
