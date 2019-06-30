@@ -89,8 +89,8 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		$this->setName('Joomla!');
 		$this->setVersion(JVERSION);
 
-		// Register the client ID as administrator
-		$this->clientId = 1;
+		// Register the client ID as CLI
+		$this->clientId = 4;
 
 		$container = $container ?: Factory::getContainer();
 		$this->setContainer($container);
