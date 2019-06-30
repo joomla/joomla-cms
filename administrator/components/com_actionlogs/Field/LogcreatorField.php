@@ -19,7 +19,7 @@ use Joomla\CMS\Form\Field\ListField;
  *
  * @since  3.9.0
  */
-class LogCreatorField extends ListField
+class LogcreatorField extends ListField
 {
 	/**
 	 * Cached array of the category items.

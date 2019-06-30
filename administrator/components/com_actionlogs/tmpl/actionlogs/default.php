@@ -101,7 +101,7 @@ Factory::getDocument()->addScriptDeclaration('
 							<td class="center">
 								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 							</td>
-							<td>
+							<th scope="row">
 								<?php echo ActionlogsHelper::getHumanReadableLogMessage($item); ?>
 							</td>
 							<td>

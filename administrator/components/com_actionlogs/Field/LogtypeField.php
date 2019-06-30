@@ -21,7 +21,7 @@ use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 /**
  * Field to load a list of all users that have logged actions
  *
- * @since 3.9.0
+ * @since  3.9.0
  */
 class LogtypeField extends CheckboxesField
 {

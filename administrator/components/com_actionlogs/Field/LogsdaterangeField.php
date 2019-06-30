@@ -20,7 +20,7 @@ use Joomla\CMS\Form\Form;
  *
  * @since  3.9.0
  */
-class LogsDateRangeField extends PredefinedlistField
+class LogsdaterangeField extends PredefinedlistField
 {
 	/**
 	 * The form field type.

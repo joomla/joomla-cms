@@ -102,7 +102,7 @@ class PlgSystemActionLogs extends CMSPlugin
 			'com_users.user',
 		);
 
-		if (!in_array($formName, $allowedFormNames))
+		if (!in_array($formName, $allowedFormNames, true))
 		{
 			return true;
 		}
@@ -137,9 +137,9 @@ class PlgSystemActionLogs extends CMSPlugin
 			return true;
 		}
 
-		Form::addFormPath(dirname(__FILE__) . '/forms');
+		Form::addFormPath(__DIR__ . '/forms');
 
-		if ((!PluginHelper::isEnabled('actionlog', 'joomla')) && (Factory::getApplication()->isClient('administrator')))
+		if ((!PluginHelper::isEnabled('actionlog', 'joomla')) && Factory::getApplication()->isClient('administrator'))
 		{
 			$form->loadFile('information', false);
 
