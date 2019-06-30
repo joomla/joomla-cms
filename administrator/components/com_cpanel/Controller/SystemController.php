@@ -11,11 +11,9 @@ namespace Joomla\Component\Cpanel\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
-use Joomla\CMS\Updater\Updater;
 
 /**
  * Cpanel System Controller
@@ -36,8 +34,6 @@ class SystemController extends BaseController
 	public function loadSystemInfo()
 	{
 		$type = $this->input->get('type');
-
-		$count = 0;
 
 		switch ($type)
 		{
@@ -89,14 +85,16 @@ class SystemController extends BaseController
 	 */
 	protected function countDatabaseUpdates()
 	{
-		if (!Factory::getUser()->authorise('core.manage', 'com_installer'))
+		if (!$this->app->getIdentity()->authorise('core.manage', 'com_installer'))
 		{
 			throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
 		}
 
-		$boot      = Factory::getApplication()->bootComponent('com_installer');
-		$model     = $boot->getMVCFactory()->createModel('Database', 'Administrator', ['ignore_request' => true]);
+		/** @var \Joomla\Component\Installer\Administrator\Extension\InstallerComponent $boot */
+		$boot      = $this->app->bootComponent('com_installer');
 
+		/** @var \Joomla\Component\Installer\Administrator\Model\DatabaseModel $model */
+		$model     = $boot->getMVCFactory()->createModel('Database', 'Administrator', ['ignore_request' => true]);
 		$changeSet = $model->getItems();
 
 		$changeSetCount = 0;
@@ -119,12 +117,15 @@ class SystemController extends BaseController
 	 */
 	protected function countSystemUpdates()
 	{
-		if (!Factory::getUser()->authorise('core.manage', 'com_joomlaupdate'))
+		if (!$this->app->getIdentity()->authorise('core.manage', 'com_joomlaupdate'))
 		{
 			throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
 		}
 
-		$boot    = Factory::getApplication()->bootComponent('com_joomlaupdate');
+		/** @var \Joomla\CMS\Extension\LegacyComponent $boot */
+		$boot    = $this->app->bootComponent('com_joomlaupdate');
+
+		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model   = $boot->getMVCFactory()->createModel('Update', 'Administrator', ['ignore_request' => true]);
 
 		$model->refreshUpdates(true);
@@ -146,12 +147,15 @@ class SystemController extends BaseController
 	 */
 	protected function countExtensionUpdates()
 	{
-		if (!Factory::getUser()->authorise('core.manage', 'com_installer'))
+		if (!$this->app->getIdentity()->authorise('core.manage', 'com_installer'))
 		{
 			throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
 		}
 
-		$boot    = Factory::getApplication()->bootComponent('com_installer');
+		/** @var \Joomla\Component\Installer\Administrator\Extension\InstallerComponent $boot */
+		$boot    = $this->app->bootComponent('com_installer');
+
+		/** @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
 		$model   = $boot->getMVCFactory()->createModel('Update', 'Administrator', ['ignore_request' => true]);
 
 		$model->findUpdates();
@@ -170,12 +174,15 @@ class SystemController extends BaseController
 	 */
 	protected function countExtensionDiscover()
 	{
-		if (!Factory::getUser()->authorise('core.manage', 'com_installer'))
+		if (!$this->app->getIdentity()->authorise('core.manage', 'com_installer'))
 		{
 			throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
 		}
 
-		$boot    = Factory::getApplication()->bootComponent('com_installer');
+		/** @var \Joomla\Component\Installer\Administrator\Extension\InstallerComponent $boot */
+		$boot    = $this->app->bootComponent('com_installer');
+
+		/** @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
 		$model   = $boot->getMVCFactory()->createModel('Discover', 'Administrator', ['ignore_request' => true]);
 
 		$model->discover();
@@ -198,12 +205,12 @@ class SystemController extends BaseController
 	 */
 	protected function countItems($extension, $modelName)
 	{
-		if (!Factory::getUser()->authorise('core.manage', $extension))
+		if (!$this->app->getIdentity()->authorise('core.manage', $extension))
 		{
 			throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
 		}
 
-		$boot    = Factory::getApplication()->bootComponent($extension);
+		$boot    = $this->app->bootComponent($extension);
 		$model   = $boot->getMVCFactory()->createModel($modelName, 'Administrator', ['ignore_request' => true]);
 
 		$items   = count($model->getItems());

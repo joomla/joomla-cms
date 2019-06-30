@@ -413,7 +413,7 @@ class Installer extends \JAdapter
 
 						$stepval = true;
 					}
-					catch (\JDatabaseExceptionExecuting $e)
+					catch (ExecutionFailureException $e)
 					{
 						// The database API will have already logged the error it caught, we just need to alert the user to the issue
 						Log::add(Text::_('JLIB_INSTALLER_ABORT_ERROR_DELETING_EXTENSIONS_RECORD'), Log::WARNING, 'jerror');
@@ -916,7 +916,7 @@ class Installer extends \JAdapter
 
 				$db->setQuery($query)->execute();
 			}
-			catch (\JDatabaseExceptionExecuting $e)
+			catch (ExecutionFailureException $e)
 			{
 				Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), Log::WARNING, 'jerror');
 
@@ -1012,7 +1012,7 @@ class Installer extends \JAdapter
 
 						$db->setQuery($query)->execute();
 					}
-					catch (\JDatabaseExceptionExecuting $e)
+					catch (ExecutionFailureException $e)
 					{
 						Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), Log::WARNING, 'jerror');
 
@@ -1216,7 +1216,7 @@ class Installer extends \JAdapter
 
 									$db->setQuery($query)->execute();
 								}
-								catch (\JDatabaseExceptionExecuting $e)
+								catch (ExecutionFailureException $e)
 								{
 									Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), Log::WARNING, 'jerror');
 

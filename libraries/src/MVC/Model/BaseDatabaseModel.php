@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
@@ -341,7 +342,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', $options);
 			$cache->clean();
 		}
-		catch (\JCacheException $exception)
+		catch (CacheExceptionInterface $exception)
 		{
 			$options['result'] = false;
 		}
