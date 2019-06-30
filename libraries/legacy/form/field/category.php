@@ -3,8 +3,8 @@
  * @package     Joomla.Legacy
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -82,7 +82,7 @@ class JFormFieldCategory extends JFormFieldList
 					 * unless the item is already in that category.
 					 * Unset the option if the user isn't authorised for it. In this field assets are always categories.
 					 */
-					if ($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
+					if ($user->authorise('core.create', $extension . '.category.' . $option->value) === false)
 					{
 						unset($options[$i]);
 					}

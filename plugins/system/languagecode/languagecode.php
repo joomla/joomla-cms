@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.languagecode
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -113,16 +113,8 @@ class PlgSystemLanguagecode extends JPlugin
 	 *
 	 * @since	2.5
 	 */
-	public function onContentPrepareForm($form, $data)
+	public function onContentPrepareForm(JForm $form, $data)
 	{
-		// Check we have a form.
-		if (!($form instanceof JForm))
-		{
-			$this->_subject->setError('JERROR_NOT_A_FORM');
-
-			return false;
-		}
-
 		// Check we are manipulating the languagecode plugin.
 		if ($form->getName() !== 'com_plugins.plugin' || !$form->getField('languagecodeplugin', 'params'))
 		{
@@ -146,9 +138,9 @@ class PlgSystemLanguagecode extends JPlugin
 								<field
 									name="' . strtolower($tag) . '"
 									type="text"
+									label="' . $tag . '"
 									description="' . htmlspecialchars(JText::sprintf('PLG_SYSTEM_LANGUAGECODE_FIELD_DESC', $language['name']), ENT_COMPAT, 'UTF-8') . '"
 									translate_description="false"
-									label="' . $tag . '"
 									translate_label="false"
 									size="7"
 									filter="cmd"

@@ -6,10 +6,11 @@
 		label=""
 		filtermode="selector"
 		onchange="this.form.submit();"
-	>
+		>
 		<option value="0">JSITE</option>
 		<option value="1">JADMINISTRATOR</option>
 	</field>
+
 	<field
 		name="menutype"
 		type="menu"

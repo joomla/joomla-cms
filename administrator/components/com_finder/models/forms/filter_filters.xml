@@ -8,17 +8,19 @@
 			description="COM_FINDER_SEARCH_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
+
 		<field
 			name="state"
 			type="status"
-			filter="0,1"
 			label="COM_FINDER_FILTER_PUBLISHED"
 			description="COM_FINDER_FILTER_PUBLISHED_DESC"
+			filter="0,1"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
 	</fields>
+
 	<fields name="list">
 		<field
 			name="fullordering"
@@ -40,6 +42,7 @@
 			<option value="a.filter_id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.filter_id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>
+
 		<field
 			name="limit"
 			type="limitbox"
