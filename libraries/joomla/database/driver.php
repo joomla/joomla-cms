@@ -897,6 +897,12 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			return $query;
 		}
 
+		// Don't do preg replacement if string does not exist
+		if (stripos($query, 'utf8mb4') === false)
+		{
+			return $query;
+		}
+
 		// Replace utf8mb4 with utf8 if not within single or double quotes or name quotes
 		return preg_replace('/[`"\'][^`"\']*[`"\'](*SKIP)(*FAIL)|utf8mb4/i', 'utf8', $query);
 	}
