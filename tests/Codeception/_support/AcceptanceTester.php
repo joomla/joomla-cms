@@ -73,5 +73,8 @@ class AcceptanceTester extends \Codeception\Actor
 		$I = $this;
 
 		$I->waitForJS('return document.readyState == "complete"', $timeout);
+
+		// Wait an additional 500ms to make sure that really all JS is loaded
+		$I->wait(0.5);
 	}
 }
