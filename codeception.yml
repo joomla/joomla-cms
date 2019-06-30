@@ -1,0 +1,36 @@
+actor: Tester
+paths:
+    tests: tests/codeception
+    log: tests/codeception/_output
+    data: tests/codeception/_data
+    support: tests/codeception/_support
+    envs: tests/codeception/_envs
+settings:
+    bootstrap: _bootstrap.php
+    colors: true
+    memory_limit: 1024M
+extensions:
+    enabled:
+        - Codeception\Extension\RunFailed
+modules:
+    config:
+        Db:
+            dsn: ''
+            user: ''
+            password: ''
+            dump: tests/codeception/_data/dump.sql
+webdrivers:
+  firefox:
+    windows: tests\codeception\vendor\joomla-projects\selenium-server-standalone\bin\webdrivers\gecko\geckodriver64.exe
+    mac: tests/codeception/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/gecko/geckodriver_mac
+    linux: tests/codeception/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/gecko/geckodriver_linux_64
+  chrome:
+    windows: tests\codeception\vendor\joomla-projects\selenium-server-standalone\bin\webdrivers\chrome\chromedriver.exe
+    mac: tests/codeception/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/chromedriver_mac
+    linux: tests/codeception/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/chromedriver_linux_64
+  internet explorer:
+    windows: tests\codeception\vendor\joomla-projects\selenium-server-standalone\bin\webdrivers\internet-explorer32\IEDriverServer.exe
+  MicrosoftEdge:
+    windows: tests\codeception\vendor\joomla-projects\selenium-server-standalone\bin\webdrivers\edge\MicrosoftWebDriver.exe
+  MicrosoftEdgeInsiders:
+    windows: tests\codeception\vendor\joomla-projects\selenium-server-standalone\bin\webdrivers\edge-insiders\MicrosoftWebDriver.exe

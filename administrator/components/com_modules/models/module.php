@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -159,6 +159,9 @@ class ModulesModelModule extends JModelAdmin
 
 				$table->position = $position;
 
+				// Copy of the Asset ID 
+				$oldAssetId = $table->asset_id;
+
 				// Alter the title if necessary
 				$data = $this->generateNewTitle(0, $table->title, $table->position);
 				$table->title = $data['0'];
@@ -201,6 +204,17 @@ class ModulesModelModule extends JModelAdmin
 					$db->setQuery($query);
 					$db->execute();
 				}
+
+				// Copy rules
+				$query->clear()
+					->update($db->quoteName('#__assets', 't'))
+					->join('INNER', $db->quoteName('#__assets', 's') .
+						' ON ' . $db->quoteName('s.id') . ' = ' . $oldAssetId
+					)
+					->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
+					->where($db->quoteName('t.id') . ' = ' . $table->asset_id);
+
+				$db->setQuery($query)->execute();
 			}
 			else
 			{
@@ -528,7 +542,7 @@ class ModulesModelModule extends JModelAdmin
 		}
 
 		// Add the default fields directory
-		$baseFolder = ($clientId) ? JPATH_ADMINISTRATOR : JPATH_SITE;
+		$baseFolder = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
 		JForm::addFieldPath($baseFolder . '/modules' . '/' . $module . '/field');
 
 		// These variables are used to add data from the plugin XML files.
@@ -539,6 +553,12 @@ class ModulesModelModule extends JModelAdmin
 		if ($clientId == 1)
 		{
 			$form = $this->loadForm('com_modules.module.admin', 'moduleadmin', array('control' => 'jform', 'load_data' => $loadData), true);
+
+			// Display language field to filter admin custom menus per language
+			if (!JModuleHelper::isAdminMultilang())
+			{
+				$form->setFieldAttribute('language', 'type', 'hidden');
+			}
 		}
 		else
 		{
@@ -590,7 +610,7 @@ class ModulesModelModule extends JModelAdmin
 		$app = JFactory::getApplication();
 
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_modules.edit.module.data', array());
+		$data = $app->getUserState('com_modules.edit.module.data', array());
 
 		if (empty($data))
 		{
@@ -609,7 +629,6 @@ class ModulesModelModule extends JModelAdmin
 			// Avoid to delete params of a second module opened in a new browser tab while new one is not saved yet.
 			if (empty($data->params))
 			{
-
 				// This allows us to inject parameter settings into a new module.
 				$params = $app->getUserState('com_modules.add.module.params');
 
@@ -851,8 +870,8 @@ class ModulesModelModule extends JModelAdmin
 				$helpKey = trim((string) $help[0]['key']);
 				$helpURL = trim((string) $help[0]['url']);
 
-				$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
-				$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
+				$this->helpKey = $helpKey ?: $this->helpKey;
+				$this->helpURL = $helpURL ?: $this->helpURL;
 			}
 		}
 
@@ -919,7 +938,7 @@ class ModulesModelModule extends JModelAdmin
 
 			if ($data['title'] == $orig_table->title)
 			{
-				$data['title'] .= ' ' . JText::_('JGLOBAL_COPY');
+				$data['title'] = StringHelper::increment($data['title']);
 			}
 		}
 
@@ -1049,10 +1068,14 @@ class ModulesModelModule extends JModelAdmin
 
 		// Compute the extension id of this module in case the controller wants it.
 		$query->clear()
-			->select('extension_id')
-			->from('#__extensions AS e')
-			->join('LEFT', '#__modules AS m ON e.element = m.module')
-			->where('m.id = ' . (int) $table->id);
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions', 'e'))
+			->join(
+				'LEFT',
+				$db->quoteName('#__modules', 'm') . ' ON ' . $db->quoteName('e.client_id') . ' = ' . (int) $table->client_id .
+				' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('m.module')
+			)
+			->where($db->quoteName('m.id') . ' = ' . (int) $table->id);
 		$db->setQuery($query);
 
 		try

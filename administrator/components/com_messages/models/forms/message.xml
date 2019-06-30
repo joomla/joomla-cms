@@ -7,14 +7,16 @@
 			label="COM_MESSAGES_FIELD_USER_ID_TO_LABEL"
 			description="COM_MESSAGES_FIELD_USER_ID_TO_DESC"
 			default="0"
-			required="true" />
+			required="true" 
+		/>
 
 		<field
 			name="subject"
 			type="text"
 			label="COM_MESSAGES_FIELD_SUBJECT_LABEL"
 			description="COM_MESSAGES_FIELD_SUBJECT_DESC"
-			required="true" />
+			required="true" 
+		/>
 
 		<field
 			name="message"
@@ -23,6 +25,7 @@
 			description="COM_MESSAGES_FIELD_MESSAGE_DESC"
 			required="true"
 			filter="JComponentHelper::filterText"
-			buttons="false" />
+			buttons="false" 
+		/>
 	</fieldset>
 </form>
