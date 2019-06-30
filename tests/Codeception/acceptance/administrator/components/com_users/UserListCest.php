@@ -44,7 +44,7 @@ class UserListCest
 		$I->checkForPhpNoticesOrWarnings();
 
 		$I->waitForText(UserListPage::$pageTitleText);
-
+		$I->waitForJsOnPageLoad();
 		$I->clickToolbarButton('new');
 
 		$I->waitForElement(UserListPage::$accountDetailsTab);
@@ -82,6 +82,7 @@ class UserListCest
 		$I->click($this->name);
 
 		$I->waitForElement(UserListPage::$accountDetailsTab);
+		$I->waitForJsOnPageLoad();
 		$I->checkForPhpNoticesOrWarnings();
 
 		$this->fillUserForm($I, $this->name, $this->username, $this->password, $this->email);
