@@ -70,7 +70,7 @@ Factory::getDocument()->addScriptDeclaration('
 					<tr>
 						<td width="1%" class="text-center">
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
-						</th>
+						</td>
 						<th scope="col">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_ACTION', 'a.message', $listDirn, $listOrder); ?>
 						</th>
