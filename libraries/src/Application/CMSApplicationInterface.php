@@ -156,6 +156,15 @@ interface CMSApplicationInterface extends ExtensionManagerInterface
 	public function getIdentity();
 
 	/**
+	 * Gets the client id of the current running application.
+	 *
+	 * @return  integer  A client identifier.
+	 *
+	 * @since   __DEPLOY_VERSION_
+	 */
+	public function getClientId();
+
+	/**
 	 * Get the menu object.
 	 *
 	 * @param   string  $name     The application name for the menu
