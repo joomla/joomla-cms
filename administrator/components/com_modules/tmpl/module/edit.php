@@ -134,16 +134,11 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				</div>
 			</div>
 			<div class="col-md-3">
-				<fieldset class="form-vertical form-no-margin">
-					<?php echo $this->form->renderField('showtitle'); ?>
-					<div class="form-group">
-						<?php echo $this->form->getLabel('position'); ?>
-						<?php echo $this->form->getInput('position'); ?>
-					</div>
-				</fieldset>
 				<?php
 				// Set main fields.
 				$this->fields = array(
+					'showtitle',
+					'position',
 					'published',
 					'publish_up',
 					'publish_down',

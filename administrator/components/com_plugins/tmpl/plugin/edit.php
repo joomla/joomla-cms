@@ -111,6 +111,16 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 				</div>
 			</div>
 			<div class="col-md-3">
+				<?php
+				// Set main fields.
+				$this->fields = array(
+					'enabled',
+					'access',
+					'ordering',
+					'folder',
+					'element',
+					'note',
+				); ?>
 				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 				<div class="form-vertical form-no-margin">
 					<div class="form-group">
