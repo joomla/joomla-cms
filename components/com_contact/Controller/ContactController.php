@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -92,7 +92,7 @@ class ContactController extends FormController
 		// Check if the contact form is enabled
 		if (!$contact->params->get('show_email_form'))
 		{
-			$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
+			$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
 
 			return false;
 		}

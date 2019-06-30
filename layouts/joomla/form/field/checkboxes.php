@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,7 +51,7 @@ extract($displayData);
  */
 $format = '<input type="checkbox" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 
-// The alt option for JText::alt
+// The alt option for Text::alt
 $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 ?>
 

@@ -34,7 +34,6 @@ module.exports.compileJS = (options, path) => {
       } else {
         folders = [
           `${RootPath}/build/media_source`,
-          `${RootPath}/administrator/templates/atum/js`,
           `${RootPath}/templates/cassiopeia/js`,
         ];
       }
@@ -49,7 +48,7 @@ module.exports.compileJS = (options, path) => {
               },
               (error) => {
                 // eslint-disable-next-line no-console
-                console.error(`something exploded ${error}`);
+                console.error(error.formatted);
               },
             );
           },

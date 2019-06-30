@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,6 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
@@ -23,7 +22,7 @@ use Joomla\Event\DispatcherInterface;
  *
  * @since  1.7.0
  */
-class Authentication extends CMSObject
+class Authentication
 {
 	use DispatcherAwareTrait;
 
@@ -70,19 +69,28 @@ class Authentication extends CMSObject
 	const STATUS_UNKNOWN = 32;
 
 	/**
-	 * @var    Authentication  JAuthentication instances container.
+	 * @var    Authentication[]  JAuthentication instances container.
 	 * @since  1.7.3
 	 */
-	protected static $instance;
+	protected static $instance = [];
+
+	/**
+	 * Plugin Type to run
+	 *
+	 * @type   string
+	 * @since  4.0.0
+	 */
+	protected $pluginType;
 
 	/**
 	 * Constructor
 	 *
+	 * @param   string               $pluginType  The plugin type to run authorisation and authentication on
 	 * @param   DispatcherInterface  $dispatcher  The event dispatcher we're going to use
 	 *
 	 * @since   1.7.0
 	 */
-	public function __construct(DispatcherInterface $dispatcher = null)
+	public function __construct(string $pluginType = 'authentication', DispatcherInterface $dispatcher = null)
 	{
 		// Set the dispatcher
 		if (!is_object($dispatcher))
@@ -91,8 +99,9 @@ class Authentication extends CMSObject
 		}
 
 		$this->setDispatcher($dispatcher);
+		$this->pluginType = $pluginType;
 
-		$isLoaded = PluginHelper::importPlugin('authentication');
+		$isLoaded = PluginHelper::importPlugin($this->pluginType);
 
 		if (!$isLoaded)
 		{
@@ -104,18 +113,20 @@ class Authentication extends CMSObject
 	 * Returns the global authentication object, only creating it
 	 * if it doesn't already exist.
 	 *
+	 * @param   string  $pluginType  The plugin type to run authorisation and authentication on
+	 *
 	 * @return  Authentication  The global Authentication object
 	 *
 	 * @since   1.7.0
 	 */
-	public static function getInstance()
+	public static function getInstance(string $pluginType = 'authentication')
 	{
-		if (empty(self::$instance))
+		if (empty(self::$instance[$pluginType]))
 		{
-			self::$instance = new static;
+			self::$instance[$pluginType] = new static($pluginType);
 		}
 
-		return self::$instance;
+		return self::$instance[$pluginType];
 	}
 
 	/**
@@ -133,14 +144,10 @@ class Authentication extends CMSObject
 	public function authenticate($credentials, $options = array())
 	{
 		// Get plugins
-		$plugins = PluginHelper::getPlugin('authentication');
+		$plugins = PluginHelper::getPlugin($this->pluginType);
 
 		// Create authentication response
 		$response = new AuthenticationResponse;
-
-		// Get the dispatcher
-		$dispatcher = $this->getDispatcher();
-
 		/*
 		 * Loop through the plugins and check if the credentials can be used to authenticate
 		 * the user
@@ -150,16 +157,12 @@ class Authentication extends CMSObject
 		 */
 		foreach ($plugins as $plugin)
 		{
-			$className = 'plg' . $plugin->type . $plugin->name;
+			$plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
 
-			if (class_exists($className))
-			{
-				$plugin = new $className($dispatcher, (array) $plugin);
-			}
-			else
+			if (!method_exists($plugin, 'onUserAuthenticate'))
 			{
 				// Bail here if the plugin can't be created
-				Log::add(Text::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $className), Log::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $plugin->name), Log::WARNING, 'jerror');
 				continue;
 			}
 
@@ -205,12 +208,12 @@ class Authentication extends CMSObject
 	 * @return  AuthenticationResponse[]  Array of authentication response objects
 	 *
 	 * @since  1.7.0
+	 * @throws \Exception
 	 */
-	public static function authorise($response, $options = array())
+	public function authorise($response, $options = array())
 	{
 		// Get plugins in case they haven't been imported already
 		PluginHelper::importPlugin('user');
-		PluginHelper::importPlugin('authentication');
 		$results = Factory::getApplication()->triggerEvent('onUserAuthorisation', array($response, $options));
 
 		return $results;

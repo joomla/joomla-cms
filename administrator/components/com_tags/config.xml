@@ -35,8 +35,8 @@
 			showon="save_history:1"
 		/>
 
-		<field 
-			name="show_tag_title" 
+		<field
+			name="show_tag_title"
 			type="radio"
 			label="COM_TAGS_SHOW_TAG_TITLE_LABEL"
 			class="switcher"
@@ -46,8 +46,8 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field 
-			name="tag_list_show_tag_image" 
+		<field
+			name="tag_list_show_tag_image"
 			type="radio"
 			label="COM_TAGS_SHOW_TAG_IMAGE_LABEL"
 			class="switcher"
@@ -57,8 +57,8 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field 
-			name="tag_list_show_tag_description" 
+		<field
+			name="tag_list_show_tag_description"
 			type="radio"
 			label="COM_TAGS_SHOW_TAG_DESCRIPTION_LABEL"
 			class="switcher"
@@ -68,12 +68,12 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field 
-			name="tag_list_image" 
+		<field
+			name="tag_list_image"
 			type="media"
 			label="COM_TAGS_TAG_LIST_MEDIA_LABEL"
 		/>
-	
+
 		<field
 			name="tag_list_orderby"
 			type="list"
@@ -87,8 +87,8 @@
 			<option value="c.core_publish_up">JGLOBAL_PUBLISHED_DATE</option>
 		</field>
 
-		<field 
-			name="tag_list_orderby_direction" 
+		<field
+			name="tag_list_orderby_direction"
 			type="radio"
 			label="JGLOBAL_ORDER_DIRECTION_LABEL"
 			class="switcher switcher-primary"
@@ -98,8 +98,8 @@
 			<option value="DESC">JGLOBAL_ORDER_DESCENDING</option>
 		</field>
 
-		<field 
-			name="show_headings" 
+		<field
+			name="show_headings"
 			type="radio"
 			label="COM_TAGS_TAG_LIST_SHOW_HEADINGS_LABEL"
 			class="switcher"
@@ -109,7 +109,7 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field 
+		<field
 			name="tag_list_show_date"
 			type="list"
 			label="COM_TAGS_TAG_LIST_SHOW_DATE_LABEL"
@@ -121,8 +121,8 @@
 			<option value="published">JPUBLISHED</option>
 		</field>
 
-		<field 
-			name="tag_list_show_item_image" 
+		<field
+			name="tag_list_show_item_image"
 			type="radio"
 			label="COM_TAGS_SHOW_ITEM_IMAGE_LABEL"
 			class="switcher"
@@ -131,9 +131,9 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		
-		<field 
-			name="tag_list_show_item_description" 
+
+		<field
+			name="tag_list_show_item_description"
 			type="radio"
 			label="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_LABEL"
 			class="switcher"
@@ -141,7 +141,7 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		
+
 		<field
 			name="tag_list_item_maximum_characters"
 			type="number"
@@ -151,7 +151,7 @@
 		/>
 
 	</fieldset>
-	
+
 	<fieldset
 		name="tagselection"
 		label="COM_TAGS_CONFIG_SELECTION_SETTINGS_LABEL"
@@ -167,8 +167,8 @@
 			default="3"
 		/>
 
-		<field 
-			name="return_any_or_all" 
+		<field
+			name="return_any_or_all"
 			type="radio"
 			label="COM_TAGS_SEARCH_TYPE_LABEL"
 			class="switcher switcher-primary"
@@ -177,9 +177,9 @@
 			<option value="0">COM_TAGS_ALL</option>
 			<option value="1">COM_TAGS_ANY</option>
 		</field>
-		
-		<field 
-			name="include_children" 
+
+		<field
+			name="include_children"
 			type="radio"
 			label="COM_TAGS_INCLUDE_CHILDREN_LABEL"
 			class="switcher"
@@ -188,7 +188,7 @@
 			<option value="0">COM_TAGS_EXCLUDE</option>
 			<option value="1">COM_TAGS_INCLUDE</option>
 		</field>
-		
+
 		<field
 			name="maximum"
 			type="number"
@@ -196,8 +196,8 @@
 			default="200"
 			filter="integer"
 		/>
-		
-		<field 
+
+		<field
 			name="tag_list_language_filter"
 			type="contentlanguage"
 			label="COM_TAGS_FIELD_LANGUAGE_FILTER_LABEL"
@@ -206,8 +206,8 @@
 			<option value="all">JALL</option>
 			<option value="current_language">JCURRENT</option>
 		</field>
-		
-	</fieldset>	
+
+	</fieldset>
 
 	<fieldset
 		name="alltags"
@@ -215,7 +215,7 @@
 		description="COM_TAGS_CONFIG_ALL_TAGS_SETTINGS_DESC">
 
 		<field
-			name="tags_layout" 
+			name="tags_layout"
 			type="componentlayout"
 			label="COM_TAGS_CONFIG_ALL_TAGS_FIELD_LAYOUT_LABEL"
 			class="custom-select"
@@ -224,7 +224,7 @@
 			view="tags"
 		/>
 
-		<field 
+		<field
 			name="all_tags_orderby"
 			type="list"
 			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
@@ -237,8 +237,8 @@
 			<option value="publish_up">JGLOBAL_PUBLISHED_DATE</option>
 		</field>
 
-		<field 
-			name="all_tags_orderby_direction" 
+		<field
+			name="all_tags_orderby_direction"
 			type="radio"
 			label="JGLOBAL_ORDER_DIRECTION_LABEL"
 			class="switcher switcher-primary"
@@ -248,8 +248,9 @@
 			<option value="DESC">JGLOBAL_ORDER_DESCENDING</option>
 		</field>
 
-		<field 
-			name="all_tags_show_tag_image" 
+		<field
+			name="all_tags_show_tag_image"
+			type="radio"
 			label="COM_TAGS_SHOW_ITEM_IMAGE_LABEL"
 			class="switcher"
 			default="1"
@@ -258,8 +259,9 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field 
-			name="all_tags_show_tag_descripion" 
+		<field
+			name="all_tags_show_tag_description"
+			type="radio"
 			label="COM_TAGS_SHOW_ITEM_DESCRIPTION_LABEL"
 			class="switcher"
 			default="1"
@@ -267,17 +269,17 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		
+
 		<field
 			name="all_tags_tag_maximum_characters"
 			type="number"
 			label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
 			filter="integer"
-			showon="all_tags_show_tag_descripion:1"
+			showon="all_tags_show_tag_description:1"
 		/>
-		
-		<field 
-			name="all_tags_show_tag_hits" 
+
+		<field
+			name="all_tags_show_tag_hits"
 			type="radio"
 			label="JGLOBAL_HITS"
 			class="switcher"
@@ -293,7 +295,7 @@
 		name="shared"
 		label="COM_TAGS_CONFIG_SHARED_SETTINGS_LABEL"
 		description="COM_TAGS_CONFIG_SHARED_SETTINGS_DESC">
-		
+
 		<field
 			name="filter_field"
 			type="radio"
@@ -305,8 +307,8 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field 
-			name="show_pagination_limit" 
+		<field
+			name="show_pagination_limit"
 			type="radio"
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
 			default="1"
@@ -316,8 +318,8 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field 
-			name="show_pagination" 
+		<field
+			name="show_pagination"
 			type="list"
 			label="JGLOBAL_PAGINATION_LABEL"
 			default="2"
@@ -338,16 +340,16 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		
+
 	</fieldset>
-	
+
 	<fieldset
 		name="data_entry"
 		label="COM_TAGS_CONFIG_DATA_ENTRY_SETTINGS_LABEL"
 		description="COM_TAGS_CONFIG_DATA_ENTRY_SETTINGS_DESC">
-		
-		<field 
-			name="tag_field_ajax_mode" 
+
+		<field
+			name="tag_field_ajax_mode"
 			type="radio"
 			label="COM_TAGS_TAG_FIELD_MODE_LABEL"
 			class="switcher"
@@ -358,12 +360,17 @@
 		</field>
 
 	</fieldset>
-	
-	<fieldset 
+
+	<fieldset
 		name="integration"
 		label="JGLOBAL_INTEGRATION_LABEL"
 		description="COM_TAGS_CONFIG_INTEGRATION_SETTINGS_DESC"
 	>
+		<field
+			name="integration_newsfeeds"
+			type="note"
+			label="JGLOBAL_FEED_TITLE"
+		/>
 
 		<field
 			name="show_feed_link"

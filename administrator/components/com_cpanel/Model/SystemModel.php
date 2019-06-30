@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cpanel
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Updater\Updater;
 use Joomla\Component\Cpanel\Administrator\Entities\SystemHeader;
 use Joomla\Component\Cpanel\Administrator\Entities\SystemItem;
 
@@ -35,10 +34,10 @@ class SystemModel extends BaseDatabaseModel
 	{
 		$user            = Factory::getUser();
 		$systemSection   = new SystemHeader('COM_CPANEL_SYSTEM_SETUP', 'cog');
-		$maintainSection = new SystemHeader('MOD_MENU_MAINTAIN', 'refresh');
-		$infoSection     = new SystemHeader('MOD_MENU_INFORMATION', 'refresh');
+		$maintainSection = new SystemHeader('MOD_MENU_MAINTAIN', 'sync');
+		$infoSection     = new SystemHeader('MOD_MENU_INFORMATION', 'sync');
 		$installSection  = new SystemHeader('MOD_MENU_INSTALL', 'download');
-		$manageSection   = new SystemHeader('MOD_MENU_MANAGE', 'refresh');
+		$manageSection   = new SystemHeader('MOD_MENU_MANAGE', 'sync');
 		$updateSection   = new SystemHeader('MOD_MENU_UPDATE', 'upload');
 		$templateSection = new SystemHeader('MOD_MENU_TEMPLATES', 'image');
 		$accessSection   = new SystemHeader('MOD_MENU_ACCESS', 'lock');
@@ -56,9 +55,6 @@ class SystemModel extends BaseDatabaseModel
 		{
 			$maintainSection->addItem(
 				new SystemItem('MOD_MENU_CLEAR_CACHE', 'index.php?option=com_cache')
-			);
-			$maintainSection->addItem(
-				new SystemItem('MOD_MENU_PURGE_EXPIRED_CACHE', 'index.php?option=com_cache&view=purge')
 			);
 		}
 

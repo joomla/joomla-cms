@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,8 +36,8 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 
 	<?php echo LayoutHelper::render('joomla.content.blog_style_default_item_title', $this->item); ?>
 
-	<?php if ($canEdit || $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
-		<?php echo LayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item, 'print' => false)); ?>
+	<?php if ($canEdit) : ?>
+		<?php echo LayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item)); ?>
 	<?php endif; ?>
 
 	<?php // Todo Not that elegant would be nice to group the params ?>

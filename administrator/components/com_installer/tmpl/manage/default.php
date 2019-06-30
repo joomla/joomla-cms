@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
+HTMLHelper::_('script', 'com_installer/changelog.js', ['version' => 'auto', 'relative' => true]);
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -22,10 +23,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 <div id="installer-manage" class="clearfix">
 	<form action="<?php echo Route::_('index.php?option=com_installer&view=manage'); ?>" method="post" name="adminForm" id="adminForm">
 		<div class="row">
-			<div id="j-sidebar-container" class="col-md-2">
-				<?php echo $this->sidebar; ?>
-			</div>
-			<div class="col-md-10">
+			<div class="col-md-12">
 				<div id="j-main-container" class="j-main-container">
 					<?php if ($this->showMessage) : ?>
 						<?php echo $this->loadTemplate('message'); ?>
@@ -35,8 +33,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
-						<div class="alert alert-warning">
-							<?php echo JText::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'); ?>
+						<div class="alert alert-info">
+							<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+							<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 						</div>
 					<?php else : ?>
 					<table class="table" id="manageList">
@@ -94,11 +93,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php endif; ?>
 								</td>
 								<th scope="row">
-									<label for="cb<?php echo $i; ?>">
-										<span class="bold hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', $item->name, $item->description, 0); ?>">
-											<?php echo $item->name; ?>
-										</span>
+									<label for="cb<?php echo $i; ?>" tabindex="0">
+										<?php echo $item->name; ?>
 									</label>
+									<div role="tooltip" id="tip<?php echo $i; ?>">
+										<?php echo $item->description; ?>
+									</div>
 								</th>
 								<td>
 									<?php echo $item->client_translated; ?>
@@ -107,15 +107,33 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo $item->type_translated; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
-									<?php echo @$item->version != '' ? $item->version : '&#160;'; ?>
+									<?php if ($item->version !== '') : ?>
+										<?php if (!empty($item->changelogurl)) : ?>
+											<a href="#changelogModal<?php echo $item->extension_id; ?>" class="changelogModal" data-js-extensionid="<?php echo $item->extension_id; ?>" data-js-view="manage" data-toggle="modal">
+												<?php echo $item->version?>
+											</a>
+											<?php
+											echo HTMLHelper::_(
+												'bootstrap.renderModal',
+												'changelogModal' . $item->extension_id,
+												array(
+													'title' => Text::sprintf('COM_INSTALLER_CHANGELOG_TITLE', $item->name, $item->version),
+												),
+												''
+											);
+											?>
+										<?php else : ?>
+											<?php echo $item->version; ?>
+										<?php endif; ?>
+									<?php else :
+										echo '&#160;';
+									endif; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
-									<?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?>
+									<?php echo !empty($item->creationDate) ? $item->creationDate : '&#160;'; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
-									<span class="editlinktip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', Text::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
-										<?php echo @$item->author != '' ? $item->author : '&#160;'; ?>
-									</span>
+									<?php echo !empty($item->author) ? $item->author : '&#160;'; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
 									<?php echo $item->folder_translated; ?>
