@@ -81,7 +81,6 @@
 					name="author"
 					type="author"
 					label="MOD_LATEST_NEWS_FIELD_AUTHOR_LABEL"
-					description="MOD_LATEST_NEWS_FIELD_AUTHOR_DESC"
 					multiple="true"
 					showon="user_id:created_by"
 				/>
