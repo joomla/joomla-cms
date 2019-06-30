@@ -90,7 +90,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		$this->setVersion(JVERSION);
 
 		// Register the client ID as CLI
-		$this->clientId = 4;
+		$this->clientId = ApplicationHelper::getClientInfo('cli', true)->id;
 
 		$container = $container ?: Factory::getContainer();
 		$this->setContainer($container);
