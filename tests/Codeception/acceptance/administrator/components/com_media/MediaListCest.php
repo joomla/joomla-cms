@@ -246,6 +246,7 @@ class MediaListCest
 
 		$I->wantToTest('the upload of a single file using toolbar button.');
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
+		$I->waitForJsOnPageLoad();
 		$I->uploadFile('com_media/' . $testFileName);
 		$I->seeSystemMessage('Item uploaded.');
 		$I->seeContents([$testFileName]);
@@ -267,6 +268,7 @@ class MediaListCest
 
 		$I->wantToTest('that it shows a confirmation dialog when uploading existing file.');
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
+		$I->waitForJsOnPageLoad();
 		$I->uploadFile('com_media/' . $testFileName);
 		$I->seeSystemMessage('Item uploaded.');
 		$I->uploadFile('com_media/' . $testFileName);
@@ -291,7 +293,9 @@ class MediaListCest
 
 		$I->wantToTest('that it is possible to create a new folder using the toolbar button.');
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
+		$I->waitForJsOnPageLoad();
 		$I->click(MediaListPage::$toolbarCreateFolderButton);
+		$I->waitForJsOnPageLoad();
 		$I->seeElement(MediaListPage::$newFolderInputField);
 		$I->seeElement(MediaListPage::$modalConfirmButtonDisabled);
 		$I->fillField(MediaListPage::$newFolderInputField, $testFolderName);
