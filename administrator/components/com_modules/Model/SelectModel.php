@@ -97,14 +97,15 @@ class SelectModel extends ListModel
 		$query->from($db->quoteName('#__extensions') . ' AS a');
 
 		// Filter by module
-		$query->where('a.type = ' . $db->quote('module'));
+		$query->where($db->quoteName('a.type') . ' = ' . $db->quote('module'));
 
 		// Filter by client.
-		$clientId = $this->getState('client_id');
-		$query->where('a.client_id = ' . (int) $clientId);
+		$clientId =  (int) $this->getState('client_id');
+		$query->where($db->quoteName('a.client_id') . ' = :clientid')
+			->bind(':clientid',  $clientId);
 
 		// Filter by enabled
-		$query->where('a.enabled = 1');
+		$query->where($db->quoteName('a.enabled') . ' = 1');
 
 		// Add the list ordering clause.
 		$query->order($db->escape($this->getState('list.ordering', 'a.ordering')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
