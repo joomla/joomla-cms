@@ -873,7 +873,7 @@ class BaseController implements ControllerInterface
 			{
 				$prefix = $this->getName() . 'View';
 			}
-			// When the front uses a back end view
+			// When the front uses an administrator view
 			elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), Path::clean(JPATH_ADMINISTRATOR)) === 0)
 			{
 				$prefix = 'Administrator';
