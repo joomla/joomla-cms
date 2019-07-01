@@ -44,11 +44,12 @@ class UserListCest
 		$I->checkForPhpNoticesOrWarnings();
 
 		$I->waitForText(UserListPage::$pageTitleText);
-
+		$I->waitForJsOnPageLoad();
 		$I->clickToolbarButton('new');
 
 		$I->waitForElement(UserListPage::$accountDetailsTab);
 		$I->checkForPhpNoticesOrWarnings();
+		$I->waitForJsOnPageLoad();
 
 		$this->fillUserForm($I, $this->name, $this->username, $this->password, $this->email);
 
@@ -77,17 +78,20 @@ class UserListCest
 
 		$I->amOnPage(UserListPage::$url);
 		$I->waitForText(UserListPage::$pageTitleText);
-		$I->click('#menu-collapse-icon');
+		$I->waitForJsOnPageLoad();
 
 		$I->click($this->name);
 
 		$I->waitForElement(UserListPage::$accountDetailsTab);
+		$I->waitForJsOnPageLoad();
 		$I->checkForPhpNoticesOrWarnings();
+		$I->waitForJsOnPageLoad();
 
 		$this->fillUserForm($I, $this->name, $this->username, $this->password, $this->email);
 
 		$I->clickToolbarButton("Save");
 		$I->waitForText(UserListPage::$pageTitleText);
+		$I->waitForJsOnPageLoad();
 
 		$I->seeSystemMessage(UserListPage::$successMessage);
 		$I->checkForPhpNoticesOrWarnings();
