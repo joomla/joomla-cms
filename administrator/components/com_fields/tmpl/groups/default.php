@@ -118,9 +118,7 @@ $context = $this->escape($this->state->get('filter.context'));
 										<?php endif; ?>
 									</td>
 									<td class="text-center">
-										<div class="btn-group">
-											<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'groups.', $canChange, 'cb'); ?>
-										</div>
+										<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'groups.', $canChange, 'cb'); ?>
 									</td>
 									<th scope="row">
 										<div class="float-left break-word">
