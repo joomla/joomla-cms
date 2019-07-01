@@ -50,12 +50,11 @@
           onSuccess: (xhr) => {
             const response = JSON.parse(xhr);
 
-            if (typeof response.messages === 'object' && response.messages !== null) {
-              Joomla.renderMessages(response.messages);
-            } else if (response.success) {
-              // Success can be true even when error messages are in response!
+            if (response.success) {
               Joomla.Event.dispatch(form, 'joomla:login');
               window.location.href = response.data.return;
+            } else if (typeof response.messages === 'object' && response.messages !== null) {
+              Joomla.renderMessages(response.messages);
             }
           },
           onError: (xhr) => {

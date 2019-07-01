@@ -16,8 +16,8 @@ modules:
             browser: 'chrome'
             window_size: false
             capabilities:
-              chromeOptions:
-                args: ["--headless", "--disable-gpu", "--no-sandbox", "window-size=1920x1080"]
+              'goog:chromeOptions':
+                args: ["headless", "disable-gpu", "no-sandbox", "window-size=1920x1080"]
             username: 'admin'                      # UserName for the Administrator
             password: 'admin'                      # Password for the Administrator
             database host: 'mysql'                 # place where the Application is Hosted #server Address
@@ -42,3 +42,16 @@ modules:
             localUser: 'www-data'                          # (Linux / Mac only) If you want to set a different owner for the CMS test folder
 
 error_level: "E_ALL & ~E_STRICT & ~E_DEPRECATED"
+
+env:
+    postgres:
+        modules:
+            config:
+                JoomlaBrowser:
+                    database host: 'postgres'
+                    database type: 'pgsql'
+                Helper\JoomlaDb:
+                    dsn: 'pgsql:host=postgres;dbname=test_joomla'
+
+    mysql:
+    # Nothing to change

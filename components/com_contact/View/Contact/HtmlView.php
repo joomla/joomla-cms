@@ -241,13 +241,13 @@ class HtmlView extends BaseHtmlView
 			default :
 				if ($item->params->get('icon_address'))
 				{
-					$image1 = HTMLHelper::_('image', $item->params->get('icon_address', 'con_address.png'), Text::_('COM_CONTACT_ADDRESS') . ': ', null, false);
+					$image1 = HTMLHelper::_('image', $item->params->get('icon_address', 'con_address.png'), Text::_('COM_CONTACT_ADDRESS'), null, false);
 				}
 				else
 				{
 					$image1 = HTMLHelper::_(
 						'image', 'contacts/' . $item->params->get('icon_address', 'con_address.png'),
-						Text::_('COM_CONTACT_ADDRESS') . ': ',
+						Text::_('COM_CONTACT_ADDRESS'),
 						null,
 						true
 					);
@@ -255,23 +255,23 @@ class HtmlView extends BaseHtmlView
 
 				if ($item->params->get('icon_email'))
 				{
-					$image2 = HTMLHelper::_('image', $item->params->get('icon_email', 'emailButton.png'), Text::_('JGLOBAL_EMAIL') . ': ', null, false);
+					$image2 = HTMLHelper::_('image', $item->params->get('icon_email', 'emailButton.png'), Text::_('JGLOBAL_EMAIL'), null, false);
 				}
 				else
 				{
-					$image2 = HTMLHelper::_('image', 'contacts/' . $item->params->get('icon_email', 'emailButton.png'), Text::_('JGLOBAL_EMAIL') . ': ', null, true);
+					$image2 = HTMLHelper::_('image', 'contacts/' . $item->params->get('icon_email', 'emailButton.png'), Text::_('JGLOBAL_EMAIL'), null, true);
 				}
 
 				if ($item->params->get('icon_telephone'))
 				{
-					$image3 = HTMLHelper::_('image', $item->params->get('icon_telephone', 'con_tel.png'), Text::_('COM_CONTACT_TELEPHONE') . ': ', null, false);
+					$image3 = HTMLHelper::_('image', $item->params->get('icon_telephone', 'con_tel.png'), Text::_('COM_CONTACT_TELEPHONE'), null, false);
 				}
 				else
 				{
 					$image3 = HTMLHelper::_(
 						'image',
 						'contacts/' . $item->params->get('icon_telephone', 'con_tel.png'),
-						Text::_('COM_CONTACT_TELEPHONE') . ': ',
+						Text::_('COM_CONTACT_TELEPHONE'),
 						null,
 						true
 					);
@@ -279,36 +279,36 @@ class HtmlView extends BaseHtmlView
 
 				if ($item->params->get('icon_fax'))
 				{
-					$image4 = HTMLHelper::_('image', $item->params->get('icon_fax', 'con_fax.png'), Text::_('COM_CONTACT_FAX') . ': ', null, false);
+					$image4 = HTMLHelper::_('image', $item->params->get('icon_fax', 'con_fax.png'), Text::_('COM_CONTACT_FAX'), null, false);
 				}
 				else
 				{
-					$image4 = HTMLHelper::_('image', 'contacts/' . $item->params->get('icon_fax', 'con_fax.png'), Text::_('COM_CONTACT_FAX') . ': ', null, true);
+					$image4 = HTMLHelper::_('image', 'contacts/' . $item->params->get('icon_fax', 'con_fax.png'), Text::_('COM_CONTACT_FAX'), null, true);
 				}
 
 				if ($item->params->get('icon_misc'))
 				{
-					$image5 = HTMLHelper::_('image', $item->params->get('icon_misc', 'con_info.png'), Text::_('COM_CONTACT_OTHER_INFORMATION') . ': ', null, false);
+					$image5 = HTMLHelper::_('image', $item->params->get('icon_misc', 'con_info.png'), Text::_('COM_CONTACT_OTHER_INFORMATION'), null, false);
 				}
 				else
 				{
 					$image5 = HTMLHelper::_(
 						'image',
 						'contacts/' . $item->params->get('icon_misc', 'con_info.png'),
-						Text::_('COM_CONTACT_OTHER_INFORMATION') . ': ', null, true
+						Text::_('COM_CONTACT_OTHER_INFORMATION'), null, true
 					);
 				}
 
 				if ($item->params->get('icon_mobile'))
 				{
-					$image6 = HTMLHelper::_('image', $item->params->get('icon_mobile', 'con_mobile.png'), Text::_('COM_CONTACT_MOBILE') . ': ', null, false);
+					$image6 = HTMLHelper::_('image', $item->params->get('icon_mobile', 'con_mobile.png'), Text::_('COM_CONTACT_MOBILE'), null, false);
 				}
 				else
 				{
 					$image6 = HTMLHelper::_(
 						'image',
 						'contacts/' . $item->params->get('icon_mobile', 'con_mobile.png'),
-						Text::_('COM_CONTACT_MOBILE') . ': ',
+						Text::_('COM_CONTACT_MOBILE'),
 						null,
 						true
 					);
@@ -347,17 +347,17 @@ class HtmlView extends BaseHtmlView
 			$item->text = $item->misc;
 		}
 
-		Factory::getApplication()->triggerEvent('onContentPrepare', array ('com_contact.contact', &$item, &$this->params, $offset));
+		$app->triggerEvent('onContentPrepare', array ('com_contact.contact', &$item, &$this->params, $offset));
 
 		// Store the events for later
 		$item->event = new \stdClass;
-		$results = Factory::getApplication()->triggerEvent('onContentAfterTitle', array('com_contact.contact', &$item, &$item->params, $offset));
+		$results = $app->triggerEvent('onContentAfterTitle', array('com_contact.contact', &$item, &$item->params, $offset));
 		$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-		$results = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_contact.contact', &$item, &$item->params, $offset));
+		$results = $app->triggerEvent('onContentBeforeDisplay', array('com_contact.contact', &$item, &$item->params, $offset));
 		$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-		$results = Factory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_contact.contact', &$item, &$item->params, $offset));
+		$results = $app->triggerEvent('onContentAfterDisplay', array('com_contact.contact', &$item, &$item->params, $offset));
 		$item->event->afterDisplayContent = trim(implode("\n", $results));
 
 		if (!empty($item->text))
@@ -370,7 +370,7 @@ class HtmlView extends BaseHtmlView
 		if ($item->params->get('show_user_custom_fields') && $item->user_id && $contactUser = Factory::getUser($item->user_id))
 		{
 			$contactUser->text = '';
-			Factory::getApplication()->triggerEvent('onContentPrepare', array ('com_users.user', &$contactUser, &$item->params, 0));
+			$app->triggerEvent('onContentPrepare', array ('com_users.user', &$contactUser, &$item->params, 0));
 
 			if (!isset($contactUser->jcfields))
 			{
@@ -409,7 +409,7 @@ class HtmlView extends BaseHtmlView
 		$model = $this->getModel();
 		$model->hit();
 
-		$captchaSet = $item->params->get('captcha', Factory::getApplication()->get('captcha', '0'));
+		$captchaSet = $item->params->get('captcha', $app->get('captcha', '0'));
 
 		foreach (PluginHelper::getPlugin('captcha') as $plugin)
 		{
