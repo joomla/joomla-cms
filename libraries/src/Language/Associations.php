@@ -42,7 +42,7 @@ class Associations
 	public static function getAssociations($extension, $tablename, $context, $id, $pk = 'id', $aliasField = 'alias', $catField = 'catid',
 		$advClause = array())
 	{
-		$globalMasterLanguage = self::getGlobalMasterLanguage();
+		$globalMasterLang = self::getGlobalMasterLanguage();
 
 		// To avoid doing duplicate database queries.
 		static $multilanguageAssociations = array();
@@ -128,7 +128,7 @@ class Associations
 
 				foreach ($items as $tag => $item)
 				{
-					if ($globalMasterLanguage)
+					if ($globalMasterLang)
 					{
 						// If a global master language is set, we need all items of an associations
 						$multilanguageAssociations[$queryKey][$tag] = $item;
@@ -197,7 +197,7 @@ class Associations
 		static $tested = false;
 
 		// Status of global master language parameter.
-		static $globalMasterLanguage = '';
+		static $globalMasterLang = '';
 
 		if (self::isEnabled())
 		{
@@ -209,13 +209,13 @@ class Associations
 				if (!empty($plugin))
 				{
 					$params = new Registry($plugin->params);
-					$globalMasterLanguage  = $params->get('global_master_language');
+					$globalMasterLang  = $params->get('global_master_language');
 				}
 
 				$tested = true;
 			}
 		}
 
-		return $globalMasterLanguage ?? '';
+		return $globalMasterLang ?? '';
 	}
 }

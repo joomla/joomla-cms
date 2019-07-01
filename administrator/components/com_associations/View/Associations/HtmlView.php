@@ -89,7 +89,6 @@ class HtmlView extends BaseHtmlView
 			$this->filterForm->setValue('language', null, $this->state->get('language'));
 		}
 
-		// Get default values and set these to selected to the select boxes
 		if ($this->state->get('assocstate'))
 		{
 			$this->filterForm->setValue('assocstate', null, $this->state->get('assocstate'));
@@ -153,10 +152,9 @@ class HtmlView extends BaseHtmlView
 				unset($this->activeFilters['assocstate']);
 
 				//Remove association state filter depending on global master language
-				$globalMasterLanguage = Associations::getGlobalMasterLanguage();
+				$globalMasterLang = Associations::getGlobalMasterLanguage();
 
-				if(!$globalMasterLanguage){
-					unset($this->activeFilters['assocstate']);
+				if(!$globalMasterLang){
 					$this->filterForm->removeField('assocstate', 'filter');
 				}
 
@@ -269,8 +267,7 @@ class HtmlView extends BaseHtmlView
 		{
 			$toolbar->confirmButton('purge')
 				->text('COM_ASSOCIATIONS_PURGE')
-				->message(
-					(isset($this->extensionName) && isset($languageKey))
+				->message((isset($this->extensionName) && isset($languageKey))
 						? Text::plural('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', (Text::_($this->extensionName) . ' > ' . Text::_($languageKey)))
 						: Text::_('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT')
 				)

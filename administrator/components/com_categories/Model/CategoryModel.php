@@ -632,7 +632,7 @@ class CategoryModel extends AdminModel
 			}
 
 			// Get association params before they get deleted
-			$associationsParams = MasterAssociationsHelper::getMasterDates($associations, $this->associationsContext);
+			$assocMasterDates = MasterAssociationsHelper::getMasterDates($associations, $this->associationsContext);
 
 			// Get associationskey for edited item
 			$db    = $this->getDbo();
@@ -681,8 +681,9 @@ class CategoryModel extends AdminModel
 			if (count($associations) > 1)
 			{
 				// If there is an association item with the globalMasterLanguage, then get his id
-				$globalMasterLanguage = Associations::getGlobalMasterLanguage();
-				$masterId = $associations[$globalMasterLanguage] ?? '';
+				$globalMasterLang = Associations::getGlobalMasterLanguage();
+				$masterId = $associations[$globalMasterLang] ?? '';
+
 				// Id of the saved item
 				$dataId = (int) $table->id;
 
@@ -696,7 +697,7 @@ class CategoryModel extends AdminModel
 
 				foreach ($associations as $id)
 				{
-					$masterIdAndDateValues = MasterAssociationsHelper::setMasterLanguageValues($id, $dataId, $masterId, $masterModified, $associationsParams, $oldKey);
+					$masterIdAndDateValues = MasterAssociationsHelper::getMasterValues($id, $dataId, $masterId, $masterModified, $assocMasterDates, $oldKey);
 
 					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key) . ','
 						. $db->quote($masterIdAndDateValues[0]) . ',' . $db->quote($masterIdAndDateValues[1]));

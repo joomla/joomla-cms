@@ -1363,13 +1363,14 @@ abstract class AdminModel extends FormModel
 			if (count($associations) > 1)
 			{
 				// If there is an association item with the globalMasterLanguage, then get his id
-				$globalMasterLanguage = Associations::getGlobalMasterLanguage();
-				$masterId = $associations[$globalMasterLanguage] ?? '';
+				$globalMasterLang = Associations::getGlobalMasterLanguage();
+				$masterId         = $associations[$globalMasterLang] ?? '';
+
 				// get id of the item that get saved
-				$dataId = (int) $table->id;
+				$dataId           = (int) $table->id;
 
 				// Get the latest modified date of master item
-				$masterModified = MasterAssociationsHelper::getMasterModifiedDate($masterId, $table->getTableName(), $table->typeAlias);
+				$masterModified   = MasterAssociationsHelper::getMasterModifiedDate($masterId, $table->getTableName(), $table->typeAlias);
 
 				// Adding new association for these items
 				$key   = md5(json_encode($associations) . $context);
@@ -1377,7 +1378,7 @@ abstract class AdminModel extends FormModel
 
 				foreach ($associations as $id)
 				{
-					$masterIdAndDateValues = MasterAssociationsHelper::setMasterLanguageValues($id, $dataId, $masterId, $masterModified, $assocMasterDates, $old_key);
+					$masterIdAndDateValues = MasterAssociationsHelper::getMasterValues($id, $dataId, $masterId, $masterModified, $assocMasterDates, $old_key);
 
 					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key)
 						. ',' .  $db->quote($masterIdAndDateValues[0]) . ',' . $db->quote($masterIdAndDateValues[1]));
@@ -1663,16 +1664,16 @@ abstract class AdminModel extends FormModel
 			}
 		}
 
-		$globalMasterLanguage = Associations::getGlobalMasterLanguage();
-		$isMaster = $data['language'] === $globalMasterLanguage;
+		$globalMasterLang = Associations::getGlobalMasterLanguage();
+		$isMaster = $data['language'] === $globalMasterLang;
 
 		// If a global Master Language is set and the current item is a child item, then open the master item as reference and the child as target
-		if ($globalMasterLanguage && !$isMaster)
+		if ($globalMasterLang && !$isMaster)
 		{
 			// if there is an associated master item change reference id.
-			if($data['associations'][$globalMasterLanguage])
+			if($data['associations'][$globalMasterLang])
 			{
-				$id     = $data['associations'][$globalMasterLanguage];
+				$id     = $data['associations'][$globalMasterLang];
 				$target = '&target=' . $data['language'] . '%3A' . $data['id'] . '%3Aedit';
 			}
 		}

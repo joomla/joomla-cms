@@ -1407,21 +1407,21 @@ class LanguagesModel extends BaseInstallationModel
 	public function addAssociations($groupedAssociations)
 	{
 		$db = Factory::getDbo();
-		$globalMasterLanguage = Associations::getGlobalMasterLanguage();
+		$globalMasterLang = Associations::getGlobalMasterLanguage();
 
 		foreach ($groupedAssociations as $context => $associations)
 		{
-			// If there is an association item with the globalMasterLanguage, then get his id
-			$masterID = $associations[$globalMasterLanguage] ?? '';
+			// If there is an association item with the globalMasterLanguage, get his id.
+			$masterId = $associations[$globalMasterLang] ?? '';
 			$key   = md5(json_encode($associations));
 			$query = $db->getQuery(true)
 				->insert('#__associations');
 
 			foreach ($associations as $language => $id)
 			{
-				// If there is no master item in this association, then reset the parent_id to -1
-				// Otherwise, if the association item is a master item, set the parent_id to 0, otherwise set it to the master ID.
-				$masterIdValue = $masterID ? ($masterID === $id ? 0 : $masterID) : -1;
+				// If there is no master item in this association, then reset the master_id to -1
+				// Otherwise, if the association item is a master item set the master_id to 0, otherwise to the masterId.
+				$masterIdValue = $masterId ? ($masterId === $id ? 0 : $masterId) : -1;
 				$query->values(((int) $id) . ',' . $db->quote($context) . ',' . $db->quote($key) . ',' . $db->quote($masterIdValue) . ',' . $db->quote(''));
 			}
 

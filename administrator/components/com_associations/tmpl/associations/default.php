@@ -19,11 +19,11 @@ use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 HTMLHelper::_('behavior.multiselect');
 
-$listOrder            = $this->escape($this->state->get('list.ordering'));
-$listDirn             = $this->escape($this->state->get('list.direction'));
-$canManageCheckin     = Factory::getUser()->authorise('core.manage', 'com_checkin');
-$globalMasterLanguage = Associations::getGlobalMasterLanguage();
-$assocState           = $this->escape($this->state->get('assocstate'));
+$listOrder        = $this->escape($this->state->get('list.ordering'));
+$listDirn         = $this->escape($this->state->get('list.direction'));
+$canManageCheckin = Factory::getUser()->authorise('core.manage', 'com_checkin');
+$globalMasterLang = Associations::getGlobalMasterLanguage();
+$assocState       = $this->escape($this->state->get('assocstate'));
 
 $iconStates = array(
 	-2 => 'icon-trash',
@@ -61,7 +61,7 @@ $iconStates = array(
 								<th scope="col" style="width:15%">
 									<?php echo Text::_('JGRID_HEADING_LANGUAGE'); ?>
 								</th>
-								<?php if ($globalMasterLanguage) : ?>
+								<?php if ($globalMasterLang) : ?>
 									<th scope="col" style="width:15%" class="text-center">
 										<?php echo Text::_('COM_ASSOCIATIONS_HEADING_ASSOCIATION'); ?>
 									</th>
@@ -131,7 +131,7 @@ $iconStates = array(
 								<td class="small">
 									<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 								</td>
-								<?php if ($globalMasterLanguage) : ?>
+								<?php if ($globalMasterLang) : ?>
 									<td>
 										<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, !$isCheckout, true, $assocState); ?>
 									</td>

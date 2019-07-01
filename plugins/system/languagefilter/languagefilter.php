@@ -99,7 +99,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe
-	 * @param   array    $config    An optional associative array of configuration settings.
+	 * @param   array   $config    An optional associative array of configuration settings.
 	 *
 	 * @since   1.6
 	 */
@@ -969,20 +969,19 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
 	/**
 	 * Before Saving extensions
-	 * Method is called when an extension is going to be saved
-	 * change parameters for master language because they depends on other parameters
+	 * Method is called when an extension is going to be saved.
+	 * Change parameters for master language as they depends on other parameters.
 	 *
-	 * @param   string   $context  The extension
-	 * @param   JTable   $table    DataBase Table object
-	 * @param   boolean  $isNew    If the extension is new or not
+	 * @param   string  $context  The extension
+	 * @param   JTable  $table    DataBase Table object
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	public function onExtensionBeforeSave($context, $table, $isNew)
+	public function onExtensionBeforeSave($context, $table)
 	{
-		// Get the params to save
+		// Get the parameters which are to be saved.
 		$params          = json_decode($table->params);
 		$tableElement    = $table->element;
 		$pluginStatus    = $table->enabled;
@@ -993,13 +992,12 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			return true;
 		}
 
-		// If the plugin and the parameter item associations are enabled then set the correct value for the global master language
+		// If the plugin and the parameter item_associations are enabled then set the correct value for the global master language.
 		if ($pluginStatus && $itemAssocStatus)
 		{
-			$globalMasterLanguage           = ($params->use_master_language === '1')
+			$params->global_master_language = ($params->use_master_language === '1')
 				? $params->global_master_language
 				: '';
-			$params->global_master_language = $globalMasterLanguage;
 		}
 		// Reset parameters for master language
 		else
@@ -1016,19 +1014,18 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
 	/**
 	 * After save extensions
-	 * Method is called when an extension has been saved
+	 * Method is called when an extension has been saved.
 	 *
 	 * @param   string   $context  The extension
 	 * @param   JTable   $table    DataBase Table object
-	 * @param   boolean  $isNew    If the extension is new or not
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	public function onExtensionAfterSave($context, $table, $isNew)
+	public function onExtensionAfterSave($context, $table)
 	{
-		// get the params that have been saved
+		// Get the parameters which have been saved
 		$params       = json_decode($table->params);
 		$tableElement = $table->element;
 
@@ -1037,24 +1034,25 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			return true;
 		}
 
-		// just set master items when the global master language has changed.
+		// Only set master items if the global master language has changed.
 		if ($this->hasMasterLangChanged)
 		{
 			$this->_setMasterItem($params->global_master_language);
 		}
+
 		unset($this->hasMasterLangChanged);
 	}
 
 	/**
-	 * Method to set the master of an association.
-	 * This resets all the current master ids and the modified date and set these new.
-	 * Master and children will be up-to-date, as they get the same modified date
+	 * Method to set the master id and modified dates to all associated items.
+	 * This resets all current master ids and modified dates and set these new.
+	 * Master and children will be up-to-date, as they get the same modified date.
 	 *
 	 * @param   string  $language  The global master language
 	 *
 	 * @return  boolean  Returns true on success, false on failure.
 	 *
-	 * @throws  \Exception
+	 * @throws  Exception
 	 *
 	 * @since   4.0.0
 	 */
@@ -1063,7 +1061,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		$db             = Factory::getDbo();
 		$masterLanguage = $language;
 
-		// if there is no global masterlanguage set, set all parent_ids to -1 and assocParams to null
+		// If there is no global masterlanguage set, set all master ids to -1 and master dates to null
 		if (!$masterLanguage)
 		{
 			$resetQuery = $db->getQuery(true)
@@ -1083,8 +1081,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		}
 		else
 		{
-			// get every different key
-			$keyQuery  = $db->getQuery(true)
+			// Get every different key
+			$keyQuery = $db->getQuery(true)
 				->select($db->quoteName('key'))
 				->from($db->quoteName('#__associations'))
 				->group($db->quoteName('key'))
@@ -1093,12 +1091,14 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
 			foreach ($assocKeys as $value)
 			{
-				//get the context of the association with the current key
+				// Get the context of this association with the current key
 				$contextQuery = $db->getQuery(true)
 					->select($db->quoteName('context'))
 					->from($db->quoteName('#__associations'))
 					->where($db->quoteName('key') . ' = ' . $db->quote($value));
 				$assocContext = $db->setQuery($contextQuery)->loadResult();
+
+				// Get the right table to search for modified date or save_date from history
 
 				$checkCategoryComponent = '';
 				$component = explode('.', $assocContext)[0];
@@ -1119,27 +1119,27 @@ class PlgSystemLanguageFilter extends CMSPlugin
 					$modified       = ($component === 'com_menus') ? '' : $db->quoteName('e.modified');
 				}
 
-				// get ids of items with the global master language
+				// Get ids of items with the global master language
 				$subQuery = $db->getQuery(true)
 					->select($db->quoteName('e.id'))
 					->from($fromTable)
 					->where($db->quoteName('e.language') . ' = ' . $db->quote($masterLanguage));
 
-				// get master id of an item that has the global master language
+				// Get master id of an item that has the global master language
 				$masterQuery = $db->getQuery(true)
 					->select($db->quoteName('id'))
 					->from('#__associations')
 					->where($db->quoteName('id') . ' IN (' . $subQuery . ')')
 					->where($db->quoteName('key') . ' = ' . $db->quote($value));
-				$masterId    = $db->setQuery($masterQuery)->loadResult();
+				$masterId = $db->setQuery($masterQuery)->loadResult();
 
-				// Get master modified date
+				// Get masters modified date
 				if ($modified)
 				{
-					// get the context of this category
+					// Get the context of this category
 					if ($checkCategoryComponent)
 					{
-						$categoryQuery           = $db->getQuery(true)
+						$categoryQuery = $db->getQuery(true)
 							->select($checkCategoryComponent)
 							->from($fromTable)
 							->where($db->quoteName('id') . ' = ' . $db->quote($masterId));
@@ -1147,10 +1147,10 @@ class PlgSystemLanguageFilter extends CMSPlugin
 						$typeAlias = $categoryMasterExtension . '.category';
 					}
 
-					$component = $categoryMasterExtension ?? $component;
+					$component   = $categoryMasterExtension ?? $component;
 					$saveHistory = ComponentHelper::getParams($component)->get('save_history', 0);
 
-					// if versions are enabled get the save_data of the master item from history table otherwise use the modified date
+					// If versions are enabled get the save_date of the master item from history table otherwise use the modified date
 					if ($saveHistory)
 					{
 						$typeId        = Table::getInstance('ContentType')->getTypeId($typeAlias);
@@ -1172,7 +1172,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				$masterModified = $modified ? $masterModified : null;
 				$masterId       = $masterId ?? -1;
 
-				// Set the master item as parent and set his modified date
+				// Set the id and the modified date of the master item.
 				$query = $db->getQuery(true)
 					->update($db->quoteName('#__associations'))
 					->set($db->quoteName('parent_id') . ' = ' . $db->quote(0))
@@ -1191,7 +1191,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 					return false;
 				}
 
-				// Set the master id and modified date to the children
+				// Set the id and modified date of the master item to the children
 				$query = $db->getQuery(true)
 					->update($db->quoteName('#__associations'))
 					->set($db->quoteName('parent_id') . ' = ' . $db->quote($masterId))

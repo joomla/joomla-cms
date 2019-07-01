@@ -11,9 +11,9 @@ namespace Joomla\Component\Categories\Administrator\Service\HTML;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Associations\Administrator\Helper\MasterAssociationsHelper;
@@ -41,8 +41,11 @@ class AdministratorService
 	public function association($catid, $extension = 'com_content')
 	{
 		// Defaults
-		$html                 = '';
-		$globalMasterLanguage = Associations::getGlobalMasterLanguage();
+		$html             = '';
+		$globalMasterLang = Associations::getGlobalMasterLanguage();
+
+		// Check if versions are enabled.
+		$saveHistory      = ComponentHelper::getParams($extension)->get('save_history', 0);
 
 		// Get the associations
 		if ($associations = CategoriesHelper::getAssociations($catid, $extension))
@@ -50,7 +53,7 @@ class AdministratorService
 			$associations = ArrayHelper::toInteger($associations);
 
 			// Get the associated categories
-			$db    = Factory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('c.id, c.title')
 				->select('l.sef as lang_sef')
@@ -58,8 +61,8 @@ class AdministratorService
 				->from('#__categories as c')
 				->where('c.id IN (' . implode(',', array_values($associations)) . ')');
 
-			// Don't get the id of the item itself when there is no master language used
-			if (!$globalMasterLanguage)
+			// Don't get the id of the item itself when there is no master language used.
+			if (!$globalMasterLang)
 			{
 				$query->where('c.id != ' . $catid);
 			}
@@ -78,19 +81,19 @@ class AdministratorService
 				throw new \Exception($e->getMessage(), 500, $e);
 			}
 
-			if ($globalMasterLanguage)
+			if ($globalMasterLang)
 			{
-				// Check whether the current article is written in the global master language
-				$masterElement = (array_key_exists($catid, $items)
-					&& ($items[$catid]->lang_code === $globalMasterLanguage))
+				// Check if the current item is a master item.
+				$isMaster = (array_key_exists($catid, $items) && ($items[$catid]->lang_code === $globalMasterLang))
 					? true
 					: false;
 
-				// Check if there is a master item in the association and get his id if so
-				$masterId = array_key_exists($globalMasterLanguage, $associations)
-					? $associations[$globalMasterLanguage]
+				// Check if there is a master item in the association and get his id if so.
+				$masterId = array_key_exists($globalMasterLang, $associations)
+					? $associations[$globalMasterLang]
 					: '';
 
+				// Get master dates of each item of associations.
 				$assocMasterDates = MasterAssociationsHelper::getMasterDates($associations, 'com_categories.item');
 			}
 
@@ -98,77 +101,46 @@ class AdministratorService
 			{
 				foreach ($items as $key => &$item)
 				{
-					$labelClass    = 'badge-success';
-					$languageTitle = $item->language_title;
-					$text          = $item->lang_sef ? strtoupper($item->lang_sef) : 'XX';
-					$title         = $item->title;
-					$url           = Route::_('index.php?option=com_categories&task=category.edit&id=' . (int) $item->id . '&extension=' . $extension);
+					$labelClass = 'badge-success';
+					$masterInfo = '';
 
-					if ($globalMasterLanguage)
+					if ($globalMasterLang)
 					{
-
-						// Don't continue for master, because it has been set here before
+						// Don't continue for master, because it has been set here before.
 						if ($key === 'master')
 						{
 							continue;
 						}
 
-						// Don't display other children if the current item is a child of the master language.
-						if (($key !== $catid)
-							&& ($globalMasterLanguage !== $item->lang_code)
-							&& !$masterElement)
-						{
-							unset($items[$key]);
-						}
-
-						if ($key === $masterId)
-						{
-							$labelClass    .= ' master-item';
-							$languageTitle = $item->language_title . ' - ' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_LANGUAGE');
-						}
-						else
-						{
-							// get association state of child when a master exists
-							if ($masterId && array_key_exists($key, $assocMasterDates)
-								&& array_key_exists($masterId, $assocMasterDates))
-							{
-								$associatedModifiedMaster = $assocMasterDates[$key];
-								$lastModifiedMaster       = $assocMasterDates[$masterId];
-
-								if ($associatedModifiedMaster < $lastModifiedMaster)
-								{
-									$labelClass = 'badge-warning';
-									$title      .= '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_OUTDATED_DESC') . '<br>';
-								}
-								else
-								{
-									$title .= '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_UP_TO_DATE_DESC') . '<br>';
-								}
-							}
-						}
+						$classAndMasterInfo = MasterAssociationsHelper::setMasterAndChildInfos($catid, $items, $key, $item,
+							$globalMasterLang, $isMaster, $masterId, $assocMasterDates, $saveHistory);
+						$labelClass = $classAndMasterInfo[0];
+						$masterInfo = $classAndMasterInfo[1];
 					}
 
+					$text    = $item->lang_sef ? strtoupper($item->lang_sef) : 'XX';
+					$url     = Route::_('index.php?option=com_categories&task=category.edit&id=' . (int) $item->id . '&extension=' . $extension);
+					$tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
+						. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . $masterInfo;
 					$classes = 'badge ' . $labelClass;
-					$tooltip  = '<strong>' . htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
-						. htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
 
-					$item->link = '<a href="' . $url . '" title="' . $languageTitle . '" class="' . $classes . '">' . $text . '</a>'
+					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '">' . $text . '</a>'
 						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
 
-					// Reorder the array, so the master item gets to the first place
-					if ($item->lang_code === $globalMasterLanguage)
+					// Reorder the array, so the master item gets to the first place.
+					if ($item->lang_code === $globalMasterLang)
 					{
 						$items = array('master' => $items[$key]) + $items;
 						unset($items[$key]);
 					}
 				}
 
-				// If a master item doesn't exist, display that there is no association with the master language
-				if ($globalMasterLanguage && !$masterId)
+				// If a master item doesn't exist, display that there is no association with the master language.
+				if ($globalMasterLang && !$masterId)
 				{
-					$link = MasterAssociationsHelper::addNotAssociatedMasterLink($globalMasterLanguage);
+					$link = MasterAssociationsHelper::addNotAssociatedMasterLink($globalMasterLang);
 
-					// add this on the top of the array
+					// Add this on the top of the array.
 					$items = array('master' => array('link' => $link)) + $items;
 				}
 			}

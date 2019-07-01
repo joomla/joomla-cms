@@ -44,7 +44,7 @@ class ContentmasterlanguageField extends ContentlanguageField
 	 */
 	public function getOptions()
 	{
-		$globalMasterLanguage = Associations::getGlobalMasterLanguage();
+		$globalMasterLang = Associations::getGlobalMasterLanguage();
 
 		$contentLanguages = LanguageHelper::getContentLanguages(array(0, 1));
 		$options = array();
@@ -54,11 +54,9 @@ class ContentmasterlanguageField extends ContentlanguageField
 		foreach ($contentLanguages as $langCode)
 		{
 			// Add information to the language if it is the global master language
-			if ($langCode->lang_code == $globalMasterLanguage)
+			if ($langCode->lang_code == $globalMasterLang)
 			{
-				$options[] = HTMLHelper::_('select.option', $langCode->lang_code, $langCode->title . ' - '
-					. Text::_('JGLOBAL_ASSOCIATIONS_MASTER_LANGUAGE')
-				);
+				$options[] = HTMLHelper::_('select.option', $langCode->lang_code, $langCode->title . ' - ' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_LANGUAGE'));
 			}
 			else
 			{

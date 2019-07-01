@@ -83,9 +83,9 @@ class AssociationsModel extends ListModel
 		$forcedItemType = $app->input->get('forcedItemType', '', 'string');
 
 		// Set language select box to default site language or if set to the master language as default.
-		$globalMasterLanguage = Associations::getGlobalMasterLanguage();
-		$defaultLanguage      = !empty($globalMasterLanguage) ? $globalMasterLanguage : ComponentHelper::getParams('com_languages')->get('site');
-		$defaultItemType      = 'com_content.article';
+		$globalMasterLang = Associations::getGlobalMasterLanguage();
+		$defaultLanguage  = $globalMasterLang ?? ComponentHelper::getParams('com_languages')->get('site');
+		$defaultItemType  = 'com_content.article';
 
 		// Adjust the context to support modal layouts.
 		if ($layout = $app->input->get('layout'))
@@ -241,9 +241,7 @@ class AssociationsModel extends ListModel
 		$query->select($db->quoteName($fields['language'], 'language'))
 			->select($db->quoteName('l.title', 'language_title'))
 			->select($db->quoteName('l.image', 'language_image'))
-			->join('LEFT', $db->quoteName('#__languages', 'l')
-				. ' ON ' . $db->quoteName('l.lang_code') . ' = ' . $db->quoteName($fields['language'])
-			);
+			->join('LEFT', $db->quoteName('#__languages', 'l') . ' ON ' . $db->quoteName('l.lang_code') . ' = ' . $db->quoteName($fields['language']));
 
 		// Join over the associations.
 		$query->select('COUNT(' . $db->quoteName('asso2.id') . ') > 1 AS ' . $db->quoteName('association'))
@@ -332,9 +330,7 @@ class AssociationsModel extends ListModel
 			// Join over the menu types.
 			$query->select($db->quoteName('mt.title', 'menutype_title'))
 				->select($db->quoteName('mt.id', 'menutypeid'))
-				->join('LEFT', $db->quoteName('#__menu_types', 'mt')
-					. ' ON ' . $db->quoteName('mt.menutype') . ' = ' . $db->quoteName($fields['menutype'])
-				);
+				->join('LEFT', $db->quoteName('#__menu_types', 'mt') . ' ON ' . $db->quoteName('mt.menutype') . ' = ' . $db->quoteName($fields['menutype']));
 
 			$groupby[] = 'mt.title';
 			$groupby[] = 'mt.id';
@@ -451,7 +447,7 @@ class AssociationsModel extends ListModel
 
 		if ($assocStateField !== 'all')
 		{
-			// not associated
+			// Not associated
 			if ($assocStateField === 'not_associated')
 			{
 				$languageQuery    = $db->getQuery(true)
@@ -460,41 +456,41 @@ class AssociationsModel extends ListModel
 				$db->setQuery($languageQuery);
 				$countLanguages = $db->loadResult();
 
-				// get all keys where not all languages are associated
+				// Get all keys where not all languages are associated.
 				$assocQuery = $db->getQuery(true)
 					->select($db->quoteName('key'))
 					->from($db->quoteName('#__associations'))
 					->group($db->quoteName('key'))
 					->having('COUNT(*) < ' . $countLanguages);
 
-				// join over associations where id does not exists
+				// Join over associations where id does not exists
 				$query->where('((' . $db->quoteName('asso.id') . ' IS NULL )'
-					// or if we are on the childlanguage and there is no master language
+					// or if we are on the child language and there is no master language
 					. ' OR ( ' . $db->quoteName('asso2.parent_id') . ' = ' . $db->quote('-1') . ')'
-					// or a child of the master  does not exist
+					// or a child of the master does not exist.
 					. ' OR ( ' . $db->quoteName('asso.key') . '  IN (' . $assocQuery . ') 
 						AND ' . $db->quoteName('asso.parent_id') . ' = ' . $db->quote('0') . ')'
 					. ')');
 			}
 
-			// outdated
+			// Outdated
 			if ($assocStateField === 'outdated')
 			{
-					// if we are on the masterlanguage and we check the state of the children
+				// If we are on the masterlanguage and we check the state of the children
 				$query->where('((' . $db->quoteName('asso2.parent_id') . ' = ' . $db->quoteName('asso.id')
 					. ' AND ' . $db->quoteName('asso2.assocParams') . ' < ' . $db->quoteName('asso.assocParams') . ')'
-					// if we are on the childlanguage we check its state comparing to its master
+					//  or we are on the child language and we check its state comparing to its master.
 					. ' OR (' . $db->quoteName('asso.assocParams') . ' < ' . $db->quoteName('asso2.assocParams')
 					. ' AND ' . $db->quoteName('asso2.id') . ' = ' . $db->quoteName('asso.parent_id') . '))');
 			}
 
-			// up-to-date
+			// Up-to-date
 			if ($assocStateField === 'up_to_date')
 			{
-				// if we are on the masterlanguage and we check the state of the children
+				// If we are on the masterlanguage and we check the state of the children
 				$query->where('((' . $db->quoteName('asso2.parent_id') . ' = ' . $db->quoteName('asso.id')
 					. ' AND ' . $db->quoteName('asso2.assocParams') . ' = ' . $db->quoteName('asso.assocParams') . ')'
-					// if we are on the childlanguage we check its state comparing to its master
+					// or we are on the child language and we check its state comparing to its master.
 					. ' OR (' . $db->quoteName('asso.assocParams') . ' = ' . $db->quoteName('asso2.assocParams')
 					. ' AND ' . $db->quoteName('asso2.id') . ' = ' . $db->quoteName('asso.parent_id') . '))');
 			}

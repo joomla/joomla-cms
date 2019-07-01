@@ -44,7 +44,7 @@ class Menus
 	{
 		// Defaults
 		$html = '';
-		$globalMasterLanguage = Associations::getGlobalMasterLanguage();
+		$globalMasterLang = Associations::getGlobalMasterLanguage();
 
 		// Get the associations
 		if ($associations = MenusHelper::getAssociations($itemid))
@@ -60,7 +60,7 @@ class Menus
 				->where('m.id IN (' . implode(',', array_values($associations)) . ')');
 
 			// Don't get the id of the item itself when there is no master language used
-			if (!$globalMasterLanguage)
+			if (!$globalMasterLang)
 			{
 				$query->where('m.id != ' . $itemid);
 			}
@@ -79,17 +79,16 @@ class Menus
 				throw new \Exception($e->getMessage(), 500);
 			}
 
-			if ($globalMasterLanguage)
+			if ($globalMasterLang)
 			{
-				// Check whether the current article is written in the global master language
-				$masterElement = (array_key_exists($itemid, $items)
-					&& ($items[$itemid]->lang_code === $globalMasterLanguage))
+				// Check if current item is the master item.
+				$masterElement = (array_key_exists($itemid, $items) && ($items[$itemid]->lang_code === $globalMasterLang))
 					? true
 					: false;
 
 				// Check if there is a master item in the association and get his id if so
-				$masterId = array_key_exists($globalMasterLanguage, $associations)
-					? $associations[$globalMasterLanguage]
+				$masterId = array_key_exists($globalMasterLang, $associations)
+					? $associations[$globalMasterLang]
 					: '';
 			}
 
@@ -98,7 +97,7 @@ class Menus
 			{
 				foreach ($items as $key => &$item)
 				{
-					if ($globalMasterLanguage)
+					if ($globalMasterLang)
 					{
 						// Don't continue for master, because it has been set here before
 						if ($key === 'master')
@@ -107,9 +106,7 @@ class Menus
 						}
 
 						// Don't display other children if the current item is a child of the master language.
-						if ($key !== $itemid
-							&& $globalMasterLanguage !== $item->lang_code
-							&& !$masterElement)
+						if ($key !== $itemid && $globalMasterLang !== $item->lang_code && !$masterElement)
 						{
 							unset($items[$key]);
 						}
@@ -125,7 +122,7 @@ class Menus
 						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
 
 					// Reorder the array, so the master item gets to the first place
-					if ($item->lang_code === $globalMasterLanguage)
+					if ($item->lang_code === $globalMasterLang)
 					{
 						$items = array('master' => $items[$key]) + $items;
 						unset($items[$key]);
@@ -133,9 +130,9 @@ class Menus
 				}
 
 				// If a master item doesn't exist, display that there is no association with the master language
-				if ($globalMasterLanguage && !$masterId)
+				if ($globalMasterLang && !$masterId)
 				{
-					$link = MasterAssociationsHelper::addNotAssociatedMasterLink($globalMasterLanguage);
+					$link = MasterAssociationsHelper::addNotAssociatedMasterLink($globalMasterLang);
 
 					// add this on the top of the array
 					$items = array('master' => array('link' => $link)) + $items;
