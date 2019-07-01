@@ -344,7 +344,7 @@ class ModulesModel extends ListModel
 
 		if (is_numeric($state))
 		{
-			$state = (int) $state
+			$state = (int) $state;
 			$query->where($db->quoteName('a.published') . ' = :state')
 				->bind(':state', $state, ParameterType::INTEGER);
 		}
