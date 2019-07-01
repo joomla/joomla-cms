@@ -203,7 +203,7 @@ class MasterAssociationsHelper extends ContentHelper
 	 * @param   array    $assocMasterDates  Master Dates of each associated item.
 	 * @param   boolean  $saveHistory       If Versions are enabled or not.
 	 *
-	 * @return  array  the className and masterInfo for the association state
+	 * @return  array  the className and masterInfo for the association state and the array $items back
 	 */
 	public static function setMasterAndChildInfos($itemId, $items, $key, $item, $globalMasterLang, $isMaster, $masterId, $assocMasterDates, $saveHistory)
 	{
@@ -245,6 +245,6 @@ class MasterAssociationsHelper extends ContentHelper
 			}
 		}
 
-		return [$addClass, $masterInfo];
+		return [$addClass, $masterInfo, $items];
 	}
 }

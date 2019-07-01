@@ -113,10 +113,11 @@ class AdministratorService
 							continue;
 						}
 
-						$classAndMasterInfo = MasterAssociationsHelper::setMasterAndChildInfos($newsfeedid, $items, $key, $item,
+						$classMasterInfoItems = MasterAssociationsHelper::setMasterAndChildInfos($newsfeedid, $items, $key, $item,
 							$globalMasterLang, $isMaster, $masterId, $assocMasterDates, $saveHistory);
-						$labelClass = $classAndMasterInfo[0];
-						$masterInfo = $classAndMasterInfo[1];
+						$labelClass = $classMasterInfoItems[0];
+						$masterInfo = $classMasterInfoItems[1];
+						$items      = $classMasterInfoItems[2];
 					}
 
 					$text    = strtoupper($item->lang_sef);
