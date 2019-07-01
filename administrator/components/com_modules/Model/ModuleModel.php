@@ -211,7 +211,7 @@ class ModuleModel extends AdminModel
 				
 				// Insert the new records into the table
 				foreach ($menus as $menu)
-				{					
+				{
 					$query->clear()
 						->insert($db->quoteName('#__modules_menu'))
 						->columns([$db->quoteName('moduleid'), $db->quoteName('menuid')])
