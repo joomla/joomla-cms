@@ -92,8 +92,6 @@ class MenusModelItem extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		$user = JFactory::getUser();
-
 		if (empty($record->id) || $record->published != -2)
 		{
 			return false;
@@ -106,7 +104,7 @@ class MenusModelItem extends JModelAdmin
 			$menuTypeId = $this->getMenuTypeId($record->menutype);
 		}
 
-		return $user->authorise('core.delete', 'com_menus.menu.' . (int) $menuTypeId);
+		return JFactory::getUser()->authorise('core.delete', 'com_menus.menu.' . (int) $menuTypeId);
 	}
 
 	/**
