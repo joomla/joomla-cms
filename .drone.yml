@@ -115,6 +115,27 @@ steps:
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
 
+  - name: artifacts-system-tests
+    image: cschlosser/drone-ftps
+    depends_on: [ system-tests-postgres ]
+    environment:
+      FTP_USERNAME:
+        from_secret: ftpusername
+      FTP_PASSWORD:
+        from_secret: ftppassword
+      PLUGIN_HOSTNAME: ci.joomla.org:21
+      PLUGIN_SRC_DIR: /tests/Codeception/_output/
+      PLUGIN_DEST_DIR: /artifacts
+      PLUGIN_SECURE: false
+      PLUGIN_EXCLUDE: ^\.git/$
+    commands:
+      - export PLUGIN_DEST_DIR=$PLUGIN_DEST_DIR/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST_$DRONE_BUILD_NUMBER/system-tests
+      - echo https://ci.joomla.org:444$PLUGIN_DEST_DIR
+      - /bin/upload.sh
+    when:
+      status:
+      - failure
+
   - name: api-tests
     depends_on: [ system-tests-postgres ]
     image: joomlaprojects/docker-systemtests:latest
@@ -140,7 +161,6 @@ steps:
 
 branches:
   exclude: [ l10n_* ]
-
 
 volumes:
 - name: cache
@@ -173,6 +193,6 @@ services:
 
 ---
 kind: signature
-hmac: 31b3fe07c780c4abae0e96b4337bb7d06df4334fd7f97cbc8b5868544a351daf
+hmac: 449449cc24dc23b7eedfa6772b5ffad712618f28c3658834cab1240e0a6de525
 
 ...
