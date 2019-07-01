@@ -20,6 +20,15 @@ $version1 = $this->items[1];
 $object1  = $version1->data;
 $object2  = $version2->data;
 
+$objLabel = '';
+if(array_key_exists('title', $object2))
+{
+	$objLabel = $object2->title;
+}
+else if (array_key_exists('name', $object2)){
+	$objLabel = $object2->name;
+}
+
 HTMLHelper::_('script', 'vendor/diff/diff.min.js', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('script', 'com_associations/admin-compare-master.min.js', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('stylesheet', 'com_associations/sidebyside.css', ['version' => 'auto', 'relative' => true]);
@@ -28,10 +37,10 @@ HTMLHelper::_('stylesheet', 'com_associations/sidebyside.css', ['version' => 'au
 <div class="m-t-2 m-b-3">
 	<div class="control-group">
 		<div class="control-label">
-			<?php echo $version2->data->title->label ?>
+			<?php echo $objLabel->label ?>
 		</div>
 		<div class="controls">
-			<input type="text" value="<?php echo $version2->data->title->value ?>" class="form-control" disabled>
+			<input type="text" value="<?php echo $objLabel->value ?>" class="form-control" disabled>
 		</div>
 	</div>
 	<div class="control-group">
