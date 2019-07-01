@@ -234,7 +234,7 @@ class AssociationsHelper extends ContentHelper
 		if ($items)
 		{
 			// Get master dates of each item of an association
-			$assocParams = MasterAssociationsHelper::getAssociationsParams($items, $context);
+			$assocMasterDates = MasterAssociationsHelper::getMasterDates($items, $context);
 			$masterId = $items[$globalMasterLanguage]['id'] ?? null;
 		}
 
@@ -249,16 +249,16 @@ class AssociationsHelper extends ContentHelper
 		// Create associated items list.
 		foreach ($languages as $langCode => $language)
 		{
-			$update = false;
+			$update     = false;
 			$masterInfo = '';
 
 			if(!$globalMasterLanguage)
 			{
-			// Don't do for the reference language
+				// Don't do for the reference language
 				if ($langCode == $itemLanguage)
-			{
-				continue;
-			}
+				{
+					continue;
+				}
 
 				// Don't show languages with associations, if we don't want to show them.
 				if ($assocLanguages && isset($items[$langCode]))
@@ -332,7 +332,7 @@ class AssociationsHelper extends ContentHelper
 					// Settings for the master language
 					if ($globalMasterLanguage === $langCode)
 					{
-						$labelClass    .= ' master-item';
+						$labelClass .= ' master-item';
 						$additional .= $addLink && $allow ? Text::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
 						$masterInfo  = '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_ITEM');
 
@@ -354,10 +354,10 @@ class AssociationsHelper extends ContentHelper
 							$target        = $globalMasterLanguage . ':0:add';
 						}
 
-						if (array_key_exists($items[$langCode]['id'], $assocParams) && array_key_exists($masterId, $assocParams))
+						if (array_key_exists($items[$langCode]['id'], $assocMasterDates) && array_key_exists($masterId, $assocMasterDates))
 						{
-							$associatedModifiedMaster = $assocParams[$items[$langCode]['id']];
-							$lastModifiedMaster = $assocParams[$masterId];
+							$associatedModifiedMaster = $assocMasterDates[$items[$langCode]['id']];
+							$lastModifiedMaster = $assocMasterDates[$masterId];
 
 							if ($associatedModifiedMaster < $lastModifiedMaster)
 							{
@@ -417,19 +417,19 @@ class AssociationsHelper extends ContentHelper
 
 				$items[$langCode] = array();
 
-				$title         = Text::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
-				$additional    = $addLink ? Text::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
-				$labelClass    = 'badge-secondary';
-				$target        = $langCode . ':0:add';
-				$allow         = $canCreate;
+				$title      = Text::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
+				$additional = $addLink ? Text::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
+				$labelClass = 'badge-secondary';
+				$target     = $langCode . ':0:add';
+				$allow      = $canCreate;
 
 				if ($globalMasterLanguage)
 				{
 					if ($globalMasterLanguage === $langCode)
 					{
-						$labelClass    .= ' master-item';
+						$labelClass .= ' master-item';
 						$masterInfo  = '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_ITEM');
-						$target        = '';
+						$target      = '';
 					}
 					else
 					{

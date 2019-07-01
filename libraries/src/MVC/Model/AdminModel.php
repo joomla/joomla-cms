@@ -1323,7 +1323,7 @@ abstract class AdminModel extends FormModel
 			// Get association params before they get deleted
 			if($associations)
 			{
-				$associationsParams = MasterAssociationsHelper::getAssociationsParams($associations, $this->associationsContext);
+				$assocMasterDates = MasterAssociationsHelper::getMasterDates($associations, $this->associationsContext);
 			}
 
 			// Get associationskey for edited item
@@ -1377,11 +1377,10 @@ abstract class AdminModel extends FormModel
 
 				foreach ($associations as $id)
 				{
-					$masterValues = MasterAssociationsHelper::setMasterLanguageValues($id, $dataId, $masterId, $masterModified, $associationsParams, $old_key);
-					$parentId = $masterValues[0];
-					$parentModified = $masterValues[1];
+					$masterIdAndDateValues = MasterAssociationsHelper::setMasterLanguageValues($id, $dataId, $masterId, $masterModified, $assocMasterDates, $old_key);
 
-					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key)  . ',' .  $db->quote($parentId) . ',' . $db->quote($parentModified));
+					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key)
+						. ',' .  $db->quote($masterIdAndDateValues[0]) . ',' . $db->quote($masterIdAndDateValues[1]));
 				}
 
 				$db->setQuery($query);

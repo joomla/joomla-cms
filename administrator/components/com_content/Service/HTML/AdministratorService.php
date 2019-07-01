@@ -100,7 +100,7 @@ class AdministratorService
 					? $associations[$globalMasterLanguage]
 					: '';
 
-				$assocParams = MasterAssociationsHelper::getAssociationsParams($associations, 'com_content.item');
+				$assocMasterDates = MasterAssociationsHelper::getMasterDates($associations, 'com_content.item');
 			}
 
 			if ($items)
@@ -134,10 +134,10 @@ class AdministratorService
 						else
 						{
 							// get association state of child
-							if ($masterId && array_key_exists($key, $assocParams) && array_key_exists($masterId, $assocParams))
+							if ($masterId && array_key_exists($key, $assocMasterDates) && array_key_exists($masterId, $assocMasterDates))
 							{
-								$associatedModifiedMaster = $assocParams[$key];
-								$lastModifiedMaster       = $assocParams[$masterId];
+								$associatedModifiedMaster = $assocMasterDates[$key];
+								$lastModifiedMaster       = $assocMasterDates[$masterId];
 
 								if ($associatedModifiedMaster < $lastModifiedMaster)
 								{

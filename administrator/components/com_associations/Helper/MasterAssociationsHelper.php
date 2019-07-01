@@ -43,13 +43,13 @@ class MasterAssociationsHelper extends ContentHelper
 		$db->setQuery($query);
 		$globalMasterLanguageInfos = $db->loadAssoc();
 
-		$classes       = 'hasPopover badge badge-secondary';
+		$classes    = 'hasPopover badge badge-secondary';
 		$masterInfo = '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_LANGUAGE');
-		$text          = $globalMasterLanguageInfos['sef']
+		$text       = $globalMasterLanguageInfos['sef']
 			? strtoupper($globalMasterLanguageInfos['sef'])
 			: 'XX';
-		$title         = Text::_('JGLOBAL_ASSOCIATIONS_STATE_NOT_ASSOCIATED_DESC');
-		$url           = '';
+		$title      = Text::_('JGLOBAL_ASSOCIATIONS_STATE_NOT_ASSOCIATED_DESC');
+		$url        = '';
 
 		$tooltip = '<strong>' . htmlspecialchars( $globalMasterLanguageInfos['title'], ENT_QUOTES, 'UTF-8') . '</strong><br>'
 			. htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . $masterInfo;
@@ -69,7 +69,7 @@ class MasterAssociationsHelper extends ContentHelper
 	 * @return   array  association with master dates
 	 *
 	 */
-	public static function getAssociationsParams($associations, $context)
+	public static function getMasterDates($associations, $context)
 	{
 		$db = Factory::getDbo();
 
@@ -79,17 +79,17 @@ class MasterAssociationsHelper extends ContentHelper
 			{
 				$id = $id['id'];
 			}
+
 			$query = $db->getQuery(true)
 				->select($db->quoteName('assocParams'))
 				->from($db->quoteName('#__associations'))
 				->where($db->quoteName('id') . ' = ' . $db->quote($id))
 				->where($db->quoteName('context') . ' = ' . $db->quote($context));
 			$db->setQuery($query);
-			$param            = $db->loadResult();
-			$assocParams[$id] = $param;
+			$masterDates[$id] = $db->loadResult();;
 		}
 
-		return $assocParams;
+		return $masterDates;
 	}
 
 	/**
@@ -104,42 +104,42 @@ class MasterAssociationsHelper extends ContentHelper
 	 *
 	 * @return   array    master id and master dates for an associated item
 	 */
-	public static function setMasterLanguageValues($id, $dataId, $masterId, $masterModified, $associationsParams, $old_key) {
+	public static function setMasterLanguageValues($id, $dataId, $masterId, $masterModified, $assocMasterDates, $old_key) {
 
 		if ($masterId)
 		{
 			// For the master item
 			if ($masterId === $id)
 			{
-				$parentId = 0;
+				$masterIdValue = 0;
 				// set always the last modified date
-				$parentModified = $masterModified ?? null;
+				$masterDateValue = $masterModified ?? null;
 			}
 			// For the children
 			else
 			{
-				$parentId = $masterId;
+				$masterIdValue = $masterId;
 
 				// if modified date isn't set to the child item set it with current modified date from master
-				$parentModified = empty($associationsParams[$id])
+				$masterDateValue = empty($assocMasterDates[$id])
 					? $masterModified
-					: $associationsParams[$id];
+					: $assocMasterDates[$id];
 
 				if (!$old_key && ($dataId === $id))
 				{
 					// Add modified date from master to new associated item
-					$parentModified = $masterModified ?? null;
+					$masterDateValue = $masterModified ?? null;
 				}
 			}
 		}
 		// default values when there is no associated master item
 		else
 		{
-			$parentId       = -1;
-			$parentModified = null;
+			$masterIdValue  = -1;
+			$masterDateValue = null;
 		}
 
-		return [$parentId, $parentModified];
+		return [$masterIdValue, $masterDateValue];
 	}
 
 	/**

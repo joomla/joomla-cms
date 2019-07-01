@@ -21,15 +21,15 @@ use Joomla\String\Inflector;
 
 HTMLHelper::_('behavior.multiselect');
 
-$user      = Factory::getUser();
-$userId    = $user->get('id');
-$extension = $this->escape($this->state->get('filter.extension'));
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn  = $this->escape($this->state->get('list.direction'));
-$saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
-$parts     = explode('.', $extension, 2);
-$component = $parts[0];
-$section   = null;
+$user        = Factory::getUser();
+$userId      = $user->get('id');
+$extension   = $this->escape($this->state->get('filter.extension'));
+$listOrder   = $this->escape($this->state->get('list.ordering'));
+$listDirn    = $this->escape($this->state->get('list.direction'));
+$saveOrder   = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$parts       = explode('.', $extension, 2);
+$component   = $parts[0];
+$section     = null;
 $masterAlign = Associations::getGlobalMasterLanguage() ? 'text-center ' : '';
 
 if (count($parts) > 1)

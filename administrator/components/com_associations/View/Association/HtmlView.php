@@ -244,26 +244,25 @@ class HtmlView extends BaseHtmlView
 			);
 		}
 		else
+		{
+			$toolbar->appendButton(
+				'Custom', '<button onclick="Joomla.submitbutton(\'reference\')" '
+				. 'class="btn btn-sm btn-success"><span class="icon-apply" aria-hidden="true"></span>'
+				. Text::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>',
+				'reference'
+			);
+
+			$toolbar->appendButton(
+				'Custom', '<button onclick="Joomla.submitbutton(\'target\')" '
+				. 'class="btn btn-sm btn-success"><span class="icon-apply" aria-hidden="true"></span>'
+				. Text::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
+			);
+
+			if ($this->typeName === 'category' || $this->extensionName === 'com_menus' || $this->save2copy === true)
 			{
-				$toolbar->appendButton(
-					'Custom', '<button onclick="Joomla.submitbutton(\'reference\')" '
-					. 'class="btn btn-sm btn-success"><span class="icon-apply" aria-hidden="true"></span>'
-					. Text::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>',
-					'reference'
-				);
-
-				$toolbar->appendButton(
-					'Custom', '<button onclick="Joomla.submitbutton(\'target\')" '
-					. 'class="btn btn-sm btn-success"><span class="icon-apply" aria-hidden="true"></span>'
-					. Text::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
-				);
-
-				if ($this->typeName === 'category' || $this->extensionName === 'com_menus' || $this->save2copy === true)
-				{
-					ToolbarHelper::custom('copy', 'copy.png', '', 'COM_ASSOCIATIONS_COPY_REFERENCE', false);
-				}
+				ToolbarHelper::custom('copy', 'copy.png', '', 'COM_ASSOCIATIONS_COPY_REFERENCE', false);
+			}
 		}
-
 
 		ToolbarHelper::cancel('association.cancel', 'JTOOLBAR_CLOSE');
 		ToolbarHelper::help('JHELP_COMPONENTS_ASSOCIATIONS_EDIT');

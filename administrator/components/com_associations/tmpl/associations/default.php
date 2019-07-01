@@ -19,11 +19,11 @@ use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 HTMLHelper::_('behavior.multiselect');
 
-$listOrder        = $this->escape($this->state->get('list.ordering'));
-$listDirn         = $this->escape($this->state->get('list.direction'));
+$listOrder            = $this->escape($this->state->get('list.ordering'));
+$listDirn             = $this->escape($this->state->get('list.direction'));
 $canManageCheckin     = Factory::getUser()->authorise('core.manage', 'com_checkin');
 $globalMasterLanguage = Associations::getGlobalMasterLanguage();
-$assocState       = $this->escape($this->state->get('assocstate'));
+$assocState           = $this->escape($this->state->get('assocstate'));
 
 $iconStates = array(
 	-2 => 'icon-trash',
@@ -63,8 +63,8 @@ $iconStates = array(
 								</th>
 								<?php if ($globalMasterLanguage) : ?>
 									<th scope="col" style="width:15%" class="text-center">
-									<?php echo Text::_('COM_ASSOCIATIONS_HEADING_ASSOCIATION'); ?>
-								</th>
+										<?php echo Text::_('COM_ASSOCIATIONS_HEADING_ASSOCIATION'); ?>
+									</th>
 								<?php else : ?>
 									<th scope="col" style="width:5%">
 										<?php echo Text::_('COM_ASSOCIATIONS_HEADING_ASSOCIATION'); ?>
@@ -141,7 +141,7 @@ $iconStates = array(
 									</td>
 									<td>
 										<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, !$isCheckout, true); ?>
-								</td>
+									</td>
 								<?php endif; ?>
 								<?php if (!empty($this->typeFields['menutype'])) : ?>
 									<td class="small">
