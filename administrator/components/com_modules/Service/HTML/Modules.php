@@ -16,6 +16,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -215,12 +216,14 @@ class Modules
 	 */
 	public function positionList($clientId = 0)
 	{
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true)
+		$clientId = (int) $clientId;
+		$db       = Factory::getDbo();
+		$query    = $db->getQuery(true)
 			->select('DISTINCT(position) as value')
 			->select('position as text')
 			->from($db->quoteName('#__modules'))
-			->where($db->quoteName('client_id') . ' = ' . (int) $clientId)
+			->where($db->quoteName('client_id') . ' = :clientid')
+			->bind(':clientid', $clientId, ParameterType::INTEGER)
 			->order('position');
 
 		// Get the options.
