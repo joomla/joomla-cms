@@ -55,9 +55,16 @@ class DisplayController extends BaseController
 
 			if ($uri->getVar('menutype') !== $menuType)
 			{
-				$this->setRedirect(Route::_('index.php?option=com_menus&view=items&menutype=' . $menuType, false));
+				$uri->setVar('menutype', $menuType);
 
-				return false;
+				if ($forcedLanguage = $this->input->post->get('forcedLanguage'))
+				{
+					$uri->setVar('forcedLanguage', $forcedLanguage);
+				}
+
+				$this->setRedirect(Route::_('index.php' . $uri->toString(['query']), false));
+
+				return parent::display();
 			}
 		}
 

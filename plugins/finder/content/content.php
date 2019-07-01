@@ -73,6 +73,18 @@ class PlgFinderContent extends FinderIndexerAdapter
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Method to setup the indexer to be run.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   2.5
+	 */
+	protected function setup()
+	{
+		return true;
+	}
+
+	/**
 	 * Method to update the item link information when the item category is
 	 * changed. This is fired when the item category is published or unpublished
 	 * from the list view.
@@ -317,21 +329,6 @@ class PlgFinderContent extends FinderIndexerAdapter
 
 		// Index the item.
 		$this->indexer->index($item);
-	}
-
-	/**
-	 * Method to setup the indexer to be run.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   2.5
-	 */
-	protected function setup()
-	{
-		// Load dependent classes.
-		JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-
-		return true;
 	}
 
 	/**

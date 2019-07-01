@@ -23,21 +23,7 @@ HTMLHelper::_('bootstrap.framework');
 $hideLinks = $app->input->getBool('hidemainmenu');
 ?>
 
-		<?php // Check if the multilangstatus module is present and enabled in the site ?>
-		<?php if (class_exists(MultilangstatusAdminHelper::class)
-			&& MultilangstatusAdminHelper::isEnabled()) : ?>
-			<?php if (Multilanguage::isEnabled()) : ?>
-				<?php // Publish and display the module ?>
-				<?php MultilangstatusAdminHelper::publish(); ?>
-				<?php $module = ModuleHelper::getModule('mod_multilangstatus'); ?>
-				<?php echo ModuleHelper::renderModule($module); ?>
-			<?php else : ?>
-				<?php // Unpublish the module ?>
-				<?php MultilangstatusAdminHelper::publish(); ?>
-			<?php endif; ?>
-		<?php endif; ?>
-
-		<div class="header-element-content dropdown header-profile footer-mobil-icon d-flex">
+		<div class="header-item-content dropdown header-profile footer-mobil-icon d-flex">
 			<button class="dropdown-toggle d-flex flex-column align-items-stretch <?php echo ($hideLinks ? 'disabled' : ''); ?>" data-toggle="dropdown" type="button"
 				title="<?php echo Text::_('MOD_STATUS_USER_MENU'); ?>">
                 <div class="d-flex align-items-end mx-auto">
