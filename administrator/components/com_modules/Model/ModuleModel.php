@@ -214,7 +214,7 @@ class ModuleModel extends AdminModel
 				{					
 					$query->clear()
 						->insert($db->quoteName('#__modules_menu'))
-						->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')))
+						->columns([$db->quoteName('moduleid'), $db->quoteName('menuid')])
 						->values(':newid' . $i, ':menu' . $i)
 						->bind(':newid' . $i , $newId, ParameterType::INTEGER)
 						->bind(':menu' . $i, $menu, ParameterType::INTEGER);
