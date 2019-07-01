@@ -100,7 +100,7 @@ class SelectModel extends ListModel
 		$query->where($db->quoteName('a.type') . ' = ' . $db->quote('module'));
 
 		// Filter by client.
-		$clientId =  (int) $this->getState('client_id');
+		$clientId = (int) $this->getState('client_id');
 		$query->where($db->quoteName('a.client_id') . ' = :clientid')
 			->bind(':clientid',  $clientId);
 
