@@ -44,30 +44,29 @@ class MasterAssociationsHelper extends ContentHelper
 		$globalMasterLanguageInfos = $db->loadAssoc();
 
 		$classes       = 'hasPopover badge badge-secondary';
-		$languageTitle = $globalMasterLanguageInfos['title'] . ' - '
-			. Text::_('JGLOBAL_ASSOCIATIONS_MASTER_LANGUAGE');
+		$masterInfo = '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_LANGUAGE');
 		$text          = $globalMasterLanguageInfos['sef']
 			? strtoupper($globalMasterLanguageInfos['sef'])
 			: 'XX';
 		$title         = Text::_('JGLOBAL_ASSOCIATIONS_STATE_NOT_ASSOCIATED_DESC');
-		$tooltip       = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
 		$url           = '';
 
-		$link = '<a href="' . $url . '" title="' . $languageTitle . '" class="'
-			. $classes . '" data-content="'
-			. $tooltip . '" data-placement="top">' . $text . '</a>';
+		$tooltip = '<strong>' . htmlspecialchars( $globalMasterLanguageInfos['title'], ENT_QUOTES, 'UTF-8') . '</strong><br>'
+			. htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . $masterInfo;
+
+		$link = '<a href="' . $url . '" title="' .  $globalMasterLanguageInfos['title'] . '" class="' . $classes . '">' . $text . '</a>'
+			. '<div role="tooltip" id="tip_no_Master">' . $tooltip . '</div>';
 
 		return $link;
 	}
 
 	/**
-	 * Method to get associated params of the master item.
+	 * Method to get master dates for each item of an association.
 	 *
 	 * @param   array   $associations  the associations to be saved.
-	 *
 	 * @param   string  $context       the association context
 	 *
-	 * @return   array  associations with params
+	 * @return   array  association with master dates
 	 *
 	 */
 	public static function getAssociationsParams($associations, $context)
@@ -94,16 +93,16 @@ class MasterAssociationsHelper extends ContentHelper
 	}
 
 	/**
-	 * Method to set parent_id and modified date of an association that get to be saved
+	 * Method to set master_id and master_date for an association that get to be saved
 	 *
-	 * @param   integer   $id                  Item id
-	 * @param   integer   $dataId              Item id of an item that is going to be saved
-	 * @param   integer   $masterId            Id of the associated master item
-	 * @param   string    $masterModified      the latest modified date of the master
-	 * @param   array     $associationsParams  modified date to associated items
-	 * @param   string    $old_key             the old association key
+	 * @param   integer   $id                Item id
+	 * @param   integer   $dataId            Item id of an item that is going to be saved
+	 * @param   integer   $masterId          Id of the associated master item
+	 * @param   string    $masterModified    The latest modified date of the master
+	 * @param   array     $assocMasterDates  Masters modified date of an associated item
+	 * @param   string    $old_key           The old association key to check if it is a new association
 	 *
-	 * @return   array     parent id and modified date
+	 * @return   array    master id and master dates for an associated item
 	 */
 	public static function setMasterLanguageValues($id, $dataId, $masterId, $masterModified, $associationsParams, $old_key) {
 

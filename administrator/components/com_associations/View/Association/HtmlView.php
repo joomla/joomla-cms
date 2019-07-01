@@ -170,6 +170,7 @@ class HtmlView extends BaseHtmlView
 			$this->targetTitle      = AssociationsHelper::getTypeFieldName($extensionName, $typeName, 'title');
 			$task                   = $typeName . '.' . $this->targetAction;
 
+			// The update layout can only be set when a global master language is used.
 			// get version ids of the master item, when versions are enabled.
 			if($this->getLayout() === 'update'){
 				$saveHistory = ComponentHelper::getParams($extensionName)->get('save_history', 0);
@@ -227,15 +228,17 @@ class HtmlView extends BaseHtmlView
 
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		// In the update view we can just save the target and when saving the other button gets activated via js to update master information for the child
+		// The update layout can only be set when a global master language is used.
 		if($this->getLayout() === 'update')
 		{
+			// In the update view we can just save the target
 			$toolbar->appendButton(
 				'Custom', '<button onclick="Joomla.submitbutton(\'target\')" '
 				. 'class="btn btn-sm btn-success"><span class="icon-apply" aria-hidden="true"></span>'
 				. Text::_('COM_ASSOCIATIONS_SAVE_AND_UPDATE_TARGET') . '</button>', 'target'
 			);
 
+			// and when saving the target this button gets activated via js to update the master date for the child
 			$toolbar->appendButton(
 				'Custom', '<button class="btn btn-sm btn-success hidden" id="updateChild" onclick="Joomla.submitbutton(\'associationmaster.update\')"></button>', 'target'
 			);

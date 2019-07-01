@@ -30,7 +30,6 @@
     });
 
     display.appendChild(fragment);
-    console.log(display);
   };
 
   const onBoot = () => {

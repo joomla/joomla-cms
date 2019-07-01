@@ -57,6 +57,9 @@ Joomla = window.Joomla || {};
         // Update language field with the selected language and then disable it.
         target.querySelector('#jform_language').setAttribute('disabled', '');
 
+        // Remove modal buttons on the reference
+        target.querySelector('#associations').querySelectorAll('.btn').forEach(e => e.parentNode.removeChild(e));
+
         // Iframe load finished, hide Joomla loading layer.
         Joomla.loadingLayer('hide');
       }

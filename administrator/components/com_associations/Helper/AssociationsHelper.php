@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Associations;
@@ -211,23 +212,28 @@ class AssociationsHelper extends ContentHelper
 	 * @param   integer  $itemId          Item id.
 	 * @param   string   $itemLanguage    Item language code.
 	 * @param   boolean  $addLink         True for adding edit links. False for just text.
-	 * @param   string   $assocState      The filter association state
+	 * @param   boolean  $assocLanguages  True for showing non associated content languages. False only languages with associations.
+	 * @param   string   $assocState      The filter association state, enabled when a global master language is used
 	 *
 	 * @return  string   The language HTML
 	 *
 	 * @since  3.7.0
 	 */
-	public static function getAssociationHtmlList($extensionName, $typeName, $itemId, $itemLanguage, $addLink = true, $assocState = 'all')
+	public static function getAssociationHtmlList($extensionName, $typeName, $itemId, $itemLanguage, $addLink = true, $assocLanguages = true, $assocState = 'all')
 	{
+		// Get the global master language, empty if not used
 		$globalMasterLanguage = Associations::getGlobalMasterLanguage();
+
+		// Check if versions are enabled
+		$saveHistory = ComponentHelper::getParams($extensionName)->get('save_history', 0);
 
 		// Get the associations list for this item.
 		$items   = self::getAssociationList($extensionName, $typeName, $itemId);
 		$context = ($typeName === 'category') ? 'com_categories.item' : $extensionName . '.item';
 
-		// Get association params if there are associated items
 		if ($items)
 		{
+			// Get master dates of each item of an association
 			$assocParams = MasterAssociationsHelper::getAssociationsParams($items, $context);
 			$masterId = $items[$globalMasterLanguage]['id'] ?? null;
 		}
@@ -246,10 +252,26 @@ class AssociationsHelper extends ContentHelper
 			$update = false;
 			$masterInfo = '';
 
-			// Don't do for the reference language, when there is no master language set
-			if ($langCode == $itemLanguage && !$globalMasterLanguage)
+			if(!$globalMasterLanguage)
+			{
+			// Don't do for the reference language
+				if ($langCode == $itemLanguage)
 			{
 				continue;
+			}
+
+				// Don't show languages with associations, if we don't want to show them.
+				if ($assocLanguages && isset($items[$langCode]))
+				{
+					unset($items[$langCode]);
+					continue;
+				}
+
+				// Don't show languages without associations, if we don't want to show them.
+				if (!$assocLanguages && !isset($items[$langCode]))
+				{
+					continue;
+				}
 			}
 
 			// Get html parameters for associated items
@@ -300,14 +322,10 @@ class AssociationsHelper extends ContentHelper
 				}
 
 				$labelClass    = 'badge-success';
-				$languageTitle = $language->title;
 				$target        = $langCode . ':' . $items[$langCode]['id'] . ':edit';
 				$allow         = $canEditReference
 					&& self::allowEdit($extensionName, $typeName, $items[$langCode]['id'])
 					&& self::canCheckinItem($extensionName, $typeName, $items[$langCode]['id']);
-
-				$additional .= $addLink && $allow ? Text::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
-
 
 				if ($globalMasterLanguage)
 				{
@@ -315,7 +333,8 @@ class AssociationsHelper extends ContentHelper
 					if ($globalMasterLanguage === $langCode)
 					{
 						$labelClass    .= ' master-item';
-						$masterInfo = Text::_('JGLOBAL_ASSOCIATIONS_MASTER_ITEM')  . '<br><br>';
+						$additional .= $addLink && $allow ? Text::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
+						$masterInfo  = '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_ITEM');
 
 						if ($globalMasterLanguage === $itemLanguage)
 						{
@@ -342,16 +361,23 @@ class AssociationsHelper extends ContentHelper
 
 							if ($associatedModifiedMaster < $lastModifiedMaster)
 							{
-								$labelClass    = 'badge-warning';
-								$masterInfo = Text::_('JGLOBAL_ASSOCIATIONS_STATE_OUTDATED_DESC') . '<br><br>';
-								$target = $langCode . ':' . $items[$langCode]['id'] . ':edit';
-								$update = true;
-
 								// Don't display not corresponding item
 								if($assocState !== 'all' && $assocState !== 'outdated'){
 									unset($items[$langCode]);
 									continue;
 								}
+
+								$additional .= $addLink && $allow ? Text::_('COM_ASSOCIATIONS_UPDATE_ASSOCIATION') : '';
+								$labelClass    = 'badge-warning';
+								$target = $langCode . ':' . $items[$langCode]['id'] . ':edit';
+								$update = true;
+
+								// when versions are disabled than the modified date is used for the master item.
+								// That means that when no changes were made and the master item has been saved the modified date has been changed.
+								// So the outdated state means in that case there might have been made changes and it is necessary to check manually and update the target.
+								$masterInfo = $saveHistory
+									? '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_OUTDATED_DESC')
+									: '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_MIGHT_BE_OUTDATED_DESC');
 							}
 							else
 							{
@@ -361,10 +387,21 @@ class AssociationsHelper extends ContentHelper
 									continue;
 								}
 
-								$masterInfo = Text::_('JGLOBAL_ASSOCIATIONS_STATE_UP_TO_DATE_DESC') . '<br><br>';
+								$additional .= $addLink && $allow ? Text::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
+								$masterInfo  = '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_UP_TO_DATE_DESC');
+
+								// for item types that do not use modified date or versions like menu items
+								if (!$associatedModifiedMaster)
+								{
+									$masterInfo  = '';
+								}
 							}
 						}
 					}
+				}
+				else
+				{
+					$additional .= $addLink && $allow ? Text::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
 				}
 			}
 			// Get html parameters for not associated items
@@ -385,14 +422,13 @@ class AssociationsHelper extends ContentHelper
 				$labelClass    = 'badge-secondary';
 				$target        = $langCode . ':0:add';
 				$allow         = $canCreate;
-				$languageTitle = $language->title;
 
 				if ($globalMasterLanguage)
 				{
 					if ($globalMasterLanguage === $langCode)
 					{
 						$labelClass    .= ' master-item';
-						$masterInfo = Text::_('JGLOBAL_ASSOCIATIONS_MASTER_ITEM') . '<br><br>';
+						$masterInfo  = '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_ITEM');
 						$target        = '';
 					}
 					else
@@ -429,10 +465,10 @@ class AssociationsHelper extends ContentHelper
 			$text    = strtoupper($language->sef);
 
 			$tooltip = '<strong>' . htmlspecialchars($language->title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
-				. htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $masterInfo . $additional;
+				. htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional . $masterInfo;
 			$classes = 'badge ' . $labelClass;
 
-			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $languageTitle . '" class="' . $classes . '">' . $text . '</a>'
+			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $language->title . '" class="' . $classes . '">' . $text . '</a>'
 				. '<div role="tooltip">' . $tooltip . '</div>';
 
 			// Reorder the array, so the master item gets to the first place

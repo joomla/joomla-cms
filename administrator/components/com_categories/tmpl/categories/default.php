@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -29,6 +30,7 @@ $saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
 $parts     = explode('.', $extension, 2);
 $component = $parts[0];
 $section   = null;
+$masterAlign = Associations::getGlobalMasterLanguage() ? 'text-center ' : '';
 
 if (count($parts) > 1)
 {
@@ -108,7 +110,7 @@ if ($saveOrder && !empty($this->items))
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($this->assoc) : ?>
-									<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
+									<th scope="col" style="width:10%" class="<?php echo $masterAlign ?>d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'COM_CATEGORY_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
@@ -231,7 +233,7 @@ if ($saveOrder && !empty($this->items))
 										<?php echo $this->escape($item->access_level); ?>
 									</td>
 									<?php if ($this->assoc) : ?>
-										<td class="d-none d-md-table-cell text-center">
+										<td class="d-none d-md-table-cell">
 											<?php if ($item->association) : ?>
 												<?php echo HTMLHelper::_('categoriesadministrator.association', $item->id, $extension); ?>
 											<?php endif; ?>

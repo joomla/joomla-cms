@@ -11,6 +11,7 @@ namespace Joomla\Component\Newsfeeds\Administrator\Service\HTML;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
@@ -39,6 +40,10 @@ class AdministratorService
 		// Defaults
 		$html = '';
 		$globalMasterLanguage = Associations::getGlobalMasterLanguage();
+		$masterInfo = '';
+
+		// Check if versions are enabled
+		$saveHistory = ComponentHelper::getParams('com_newsfeeds')->get('save_history', 0);
 
 		// Get the associations
 		if ($associations = Associations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $newsfeedid))
@@ -80,7 +85,7 @@ class AdministratorService
 
 			if ($globalMasterLanguage)
 			{
-				// Check whether the current article is written in the global master language
+				// Check whether the current newsfeed is written in the global master language
 				$masterElement = (array_key_exists($newsfeedid, $items)
 					&& ($items[$newsfeedid]->lang_code === $globalMasterLanguage))
 					? true
@@ -99,10 +104,6 @@ class AdministratorService
 				foreach ($items as $key => &$item)
 				{
 					$labelClass    = 'badge-success';
-					$languageTitle = $item->language_title;
-					$text    = strtoupper($item->lang_sef);
-					$title         = $item->title;
-					$url     = Route::_('index.php?option=com_newsfeeds&task=newsfeed.edit&id=' . (int) $item->id);
 
 					if ($globalMasterLanguage)
 					{
@@ -123,7 +124,7 @@ class AdministratorService
 						if ($key === $masterId)
 						{
 							$labelClass    .= ' master-item';
-							$languageTitle = $item->language_title . ' - ' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_LANGUAGE');
+							$masterInfo = '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_ITEM');
 						}
 						else
 						{
@@ -136,21 +137,25 @@ class AdministratorService
 								if ($associatedModifiedMaster < $lastModifiedMaster)
 								{
 									$labelClass = 'badge-warning';
-									$title      .= '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_OUTDATED_DESC') . '<br>';
+									$masterInfo = $saveHistory
+										? '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_OUTDATED_DESC')
+										: '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_MIGHT_BE_OUTDATED_DESC');
 								}
 								else
 								{
-									$title .= '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_UP_TO_DATE_DESC') . '<br>';
+									$masterInfo = '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_UP_TO_DATE_DESC');
 								}
 							}
 						}
 					}
 
 					$classes = 'badge ' . $labelClass;
-					$tooltip = '<strong>' . htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
-						. htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
+					$text    = strtoupper($item->lang_sef);
+					$url     = Route::_('index.php?option=com_newsfeeds&task=newsfeed.edit&id=' . (int) $item->id);
+					$tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
+						. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' .  Text::sprintf('JCATEGORY_SPRINTF', $item->category_title) . $masterInfo;
 
-					$item->link = '<a href="' . $url . '" title="' . $languageTitle . '" class="' . $classes . '">' . $text . '</a>'
+					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '">' . $text . '</a>'
 						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
 
 					// Reorder the array, so the master item gets to the first place

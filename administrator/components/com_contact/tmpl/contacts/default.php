@@ -78,7 +78,7 @@ if ($saveOrder && !empty($this->items))
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($assoc) : ?>
-									<th scope="col" style="width:10%" class="text-center">
+									<th scope="col" style="width:10%">
 										<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTACT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
@@ -165,7 +165,7 @@ if ($saveOrder && !empty($this->items))
 									<?php echo $item->access_level; ?>
 								</td>
 								<?php if ($assoc) : ?>
-								<td class="d-none d-md-table-cell text-center">
+								<td class="d-none d-md-table-cell">
 									<?php if ($item->association) : ?>
 										<?php echo HTMLHelper::_('contactadministrator.association', $item->id); ?>
 									<?php endif; ?>

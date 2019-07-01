@@ -132,7 +132,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['ve
 							</td>
 							<td>
 								<?php if (true || $item->association) : ?>
-									<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, false, $assocState); ?>
+									<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, false, false, $assocState); ?>
 								<?php endif; ?>
 							</td>
 							<?php if (!empty($this->typeFields['menutype'])) : ?>

@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
@@ -20,8 +21,9 @@ HTMLHelper::_('behavior.multiselect');
 
 $listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
+$canManageCheckin     = Factory::getUser()->authorise('core.manage', 'com_checkin');
+$globalMasterLanguage = Associations::getGlobalMasterLanguage();
 $assocState       = $this->escape($this->state->get('assocstate'));
-$canManageCheckin = Factory::getUser()->authorise('core.manage', 'com_checkin');
 
 $iconStates = array(
 	-2 => 'icon-trash',
@@ -59,9 +61,18 @@ $iconStates = array(
 								<th scope="col" style="width:15%">
 									<?php echo Text::_('JGRID_HEADING_LANGUAGE'); ?>
 								</th>
-								<th scope="col" style="width:20%" class="text-center">
+								<?php if ($globalMasterLanguage) : ?>
+									<th scope="col" style="width:15%" class="text-center">
 									<?php echo Text::_('COM_ASSOCIATIONS_HEADING_ASSOCIATION'); ?>
 								</th>
+								<?php else : ?>
+									<th scope="col" style="width:5%">
+										<?php echo Text::_('COM_ASSOCIATIONS_HEADING_ASSOCIATION'); ?>
+									</th>
+									<th scope="col" style="width:15%">
+										<?php echo Text::_('COM_ASSOCIATIONS_HEADING_NO_ASSOCIATION'); ?>
+									</th>
+								<?php endif; ?>
 								<?php if (!empty($this->typeFields['menutype'])) : ?>
 									<th scope="col" style="width:10%">
 										<?php echo HTMLHelper::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_MENUTYPE', 'menutype_title', $listDirn, $listOrder); ?>
@@ -120,9 +131,18 @@ $iconStates = array(
 								<td class="small">
 									<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 								</td>
-								<td class="text-center">
-									<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, !$isCheckout, $assocState); ?>
+								<?php if ($globalMasterLanguage) : ?>
+									<td>
+										<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, !$isCheckout, true, $assocState); ?>
+									</td>
+								<?php else : ?>
+									<td>
+										<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, !$isCheckout, false); ?>
+									</td>
+									<td>
+										<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, !$isCheckout, true); ?>
 								</td>
+								<?php endif; ?>
 								<?php if (!empty($this->typeFields['menutype'])) : ?>
 									<td class="small">
 										<?php echo $this->escape($item->menutype_title); ?>

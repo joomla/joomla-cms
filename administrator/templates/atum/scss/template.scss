@@ -104,7 +104,6 @@
 // Multilingual associations specific
 .item-associations {
   padding: 0;
-  position: relative;
   margin-bottom: 0;
 
   li, ul {
@@ -113,13 +112,24 @@
     padding: 0;
   }
 
+  &.master {
+    text-align: center;
+
+    div[role="tooltip"] {
+      text-align: left;
+    }
+  }
+
   hr {
     margin-top: 0.2rem;
     margin-bottom: 0.2rem;
   }
 
-  .master-language > a {
-    border-radius: 0;
+  .master-language {
+
+    & > a {
+      border-radius: 0;
+    }
   }
 }
 
