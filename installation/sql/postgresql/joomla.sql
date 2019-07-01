@@ -114,7 +114,7 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (82, 18, 114, 115, 2, 'com_modules.module.105', '3rd Party', '{}'),
 (83, 18, 116, 117, 2, 'com_modules.module.106', 'Help Submenu', '{}');
 
-SELECT setval('#__assets_id_seq', 69, false);
+SELECT setval('#__assets_id_seq', 83, false);
 
 --
 -- Table structure for table `#__associations`
