@@ -78,7 +78,7 @@ class MasterAssociationsHelper extends ContentHelper
 			}
 
 			$query = $db->getQuery(true)
-				->select($db->quoteName('assocParams'))
+				->select($db->quoteName('master_date'))
 				->from($db->quoteName('#__associations'))
 				->where($db->quoteName('id') . ' = ' . $db->quote($id))
 				->where($db->quoteName('context') . ' = ' . $db->quote($context));

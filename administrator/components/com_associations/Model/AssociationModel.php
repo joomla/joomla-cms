@@ -42,15 +42,16 @@ class AssociationModel extends ListModel
 	/**
 	 * Method to get the history version ids of a master item.
 	 *
-	 * @param   integer   $masterId       Id of the master item
-	 * @param   integer   $targetId       Id of an child item
-	 * @param   string    $extensionName  The extension name with com_
-	 * @param   string    $typeName       The item type
-	 * @param   integer   $typeId         the content type id
+	 * @param   integer  $masterId       Id of the master item
+	 * @param   integer  $targetId       Id of an child item
+	 * @param   string   $extensionName  The extension name with com_
+	 * @param   string   $typeName       The item type
+	 * @param   integer  $typeId         the content type id
 	 *
-	 * @return   array    of version history ids
+	 * @return  array    Array containing two version history ids
 	 */
-	public function getMasterCompareValues($masterId, $targetId, $extensionName, $typeName, $typeId){
+	public function getMasterCompareValues($masterId, $targetId, $extensionName, $typeName, $typeId)
+	{
 
 		$context = ($typeName === 'category')
 			? 'com_categories.item'
@@ -58,7 +59,7 @@ class AssociationModel extends ListModel
 
 		$db = Factory::getDbo();
 		$masterQuery = $db->getQuery(true)
-			->select($db->quoteName('assocParams'))
+			->select($db->quoteName('master_date'))
 			->from($db->quoteName('#__associations'))
 			->where($db->quoteName('id') . ' = ' . $db->quote($masterId))
 			->where($db->quoteName('context') . ' = ' . $db->quote($context));
@@ -73,10 +74,10 @@ class AssociationModel extends ListModel
 		$latestVersionId = $db->setQuery($latestVersionQuery)->loadResult();
 
 		$childQuery = $db->getQuery(true)
-			->select($db->quoteName('assocParams'))
+			->select($db->quoteName('master_date'))
 			->from($db->quoteName('#__associations'))
 			->where($db->quoteName('id') . ' = ' . $db->quote($targetId))
-			->where($db->quoteName('parent_id') . ' = ' . $db->quote($masterId))
+			->where($db->quoteName('master_id') . ' = ' . $db->quote($masterId))
 			->where($db->quoteName('context') . ' = ' . $db->quote($context));
 		$childMasterDate = $db->setQuery($childQuery)->loadResult();
 

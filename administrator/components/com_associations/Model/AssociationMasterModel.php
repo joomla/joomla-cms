@@ -43,18 +43,18 @@ class AssociationMasterModel extends BaseModel
 		$db      = Factory::getDbo();
 
 		$subQuery = $db->getQuery(true)
-			->select($db->quoteName('assocParams'))
+			->select($db->quoteName('master_date'))
 			->from($db->quoteName('#__associations'))
 			->where($db->quoteName('id') . ' = ' . $db->quote($masterId))
-			->where($db->quoteName('parent_id') . ' = ' . $db->quote(0))
+			->where($db->quoteName('master_id') . ' = ' . $db->quote(0))
 			->where($db->quoteName('context') . ' = ' . $db->quote($context));
 		$masterModified = $db->setQuery($subQuery)->loadResult();
 
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__associations'))
-			->set($db->quoteName('assocParams') . ' = ' . $db->quote($masterModified))
+			->set($db->quoteName('master_date') . ' = ' . $db->quote($masterModified))
 			->where($db->quoteName('id') . ' = ' . $db->quote($childId))
-			->where($db->quoteName('parent_id') . ' = ' . $db->quote($masterId))
+			->where($db->quoteName('master_id') . ' = ' . $db->quote($masterId))
 			->where($db->quoteName('context') . ' = ' . $db->quote($context));
 		$db->setQuery($query);
 

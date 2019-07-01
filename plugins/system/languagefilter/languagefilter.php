@@ -1066,8 +1066,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		{
 			$resetQuery = $db->getQuery(true)
 				->update($db->quoteName('#__associations'))
-				->set($db->quoteName('parent_id') . ' = ' . -1)
-				->set($db->quoteName('assocParams') . ' = ' . $db->quote(null));
+				->set($db->quoteName('master_id') . ' = ' . -1)
+				->set($db->quoteName('master_date') . ' = ' . $db->quote(null));
 			$db->setQuery($resetQuery);
 
 			try
@@ -1175,8 +1175,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				// Set the id and the modified date of the master item.
 				$query = $db->getQuery(true)
 					->update($db->quoteName('#__associations'))
-					->set($db->quoteName('parent_id') . ' = ' . $db->quote(0))
-					->set($db->quoteName('assocParams') . ' = ' . $db->quote($masterModified))
+					->set($db->quoteName('master_id') . ' = ' . $db->quote(0))
+					->set($db->quoteName('master_date') . ' = ' . $db->quote($masterModified))
 					->where($db->quoteName('id') . ' = ' . $db->quote($masterId))
 					->where($db->quoteName('key') . ' = ' . $db->quote($value))
 					->where($db->quoteName('context') . ' = ' . $db->quote($assocContext));
@@ -1194,8 +1194,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				// Set the id and modified date of the master item to the children
 				$query = $db->getQuery(true)
 					->update($db->quoteName('#__associations'))
-					->set($db->quoteName('parent_id') . ' = ' . $db->quote($masterId))
-					->set($db->quoteName('assocParams') . ' = ' . $db->quote($masterModified))
+					->set($db->quoteName('master_id') . ' = ' . $db->quote($masterId))
+					->set($db->quoteName('master_date') . ' = ' . $db->quote($masterModified))
 					->where($db->quoteName('id') . ' <> ' . $db->quote($masterId))
 					->where($db->quoteName('key') . ' = ' . $db->quote($value))
 					->where($db->quoteName('context') . ' = ' . $db->quote($assocContext));
