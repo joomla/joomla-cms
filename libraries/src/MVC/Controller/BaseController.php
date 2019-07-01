@@ -751,7 +751,7 @@ class BaseController implements ControllerInterface
 			{
 				$prefix = $this->model_prefix;
 			}
-			// When the front uses a back end model
+			// When the frontend uses an administrator model
 			elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), Path::clean(JPATH_ADMINISTRATOR)) === 0)
 			{
 				$prefix = 'Administrator';
