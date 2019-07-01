@@ -328,7 +328,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 
 		try
 		{
-			$rootId    = Table::getInstance('Asset', 'Table')->getRootId();
+			$rootId    = Table::getInstance('Asset')->getRootId();
 			$rules     = Access::getAssetRules($rootId)->getData();
 			$rawGroups = $rules['core.admin']->getData();
 			$groups    = array();
