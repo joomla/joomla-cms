@@ -13,7 +13,9 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\Utilities\ArrayHelper;
 
@@ -62,6 +64,10 @@ class ItemlanguageField extends ListField
 		// Gets existing languages.
 		$existingLanguages = LanguageHelper::getContentLanguages(array(0, 1));
 
+		// Get global master language and check if reference is a master item.
+		$globalMasterLang = Associations::getGlobalMasterLanguage();
+		$refIsMaster      = $referenceLang === $globalMasterLang;
+
 		$options = array();
 
 		// Each option has the format "<lang>|<id>", example: "en-GB|1"
@@ -73,8 +79,22 @@ class ItemlanguageField extends ListField
 				continue;
 			}
 
+			if ($globalMasterLang && !$refIsMaster)
+			{
+				// If reference is a child then display just the master language
+				if ($language->lang_code !== $globalMasterLang)
+				{
+					continue;
+				}
+			}
+
 			$options[$langCode]       = new \stdClass;
 			$options[$langCode]->text = $language->title;
+
+			if ($globalMasterLang && ($language->lang_code === $globalMasterLang))
+			{
+				$options[$langCode]->text .= ' - ' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_LANGUAGE');
+			}
 
 			// If association exists in this language.
 			if (isset($associations[$language->lang_code]))
