@@ -7,19 +7,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Component\Actionlogs\Administrator\Field;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('predefinedlist');
+use Joomla\CMS\Form\Field\PredefinedlistField;
+use Joomla\CMS\Form\Form;
 
 /**
  * Field to show a list of range dates to sort with
  *
  * @since  3.9.0
  */
-class JFormFieldLogsDateRange extends JFormFieldPredefinedList
+class LogsdaterangeField extends PredefinedlistField
 {
 	/**
 	 * The form field type.
@@ -47,7 +48,7 @@ class JFormFieldLogsDateRange extends JFormFieldPredefinedList
 	/**
 	 * Method to instantiate the form field object.
 	 *
-	 * @param   JForm  $form  The form to attach to the form field object.
+	 * @param   Form  $form  The form to attach to the form field object.
 	 *
 	 * @since  3.9.0
 	 */
