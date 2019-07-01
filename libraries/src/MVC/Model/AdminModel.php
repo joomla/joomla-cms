@@ -1663,6 +1663,20 @@ abstract class AdminModel extends FormModel
 			}
 		}
 
+		$globalMasterLanguage = Associations::getGlobalMasterLanguage();
+		$isMaster = $data['language'] === $globalMasterLanguage;
+
+		// If a global Master Language is set and the current item is a child item, then open the master item as reference and the child as target
+		if ($globalMasterLanguage && !$isMaster)
+		{
+			// if there is an associated master item change reference id.
+			if($data['associations'][$globalMasterLanguage])
+			{
+				$id     = $data['associations'][$globalMasterLanguage];
+				$target = '&target=' . $data['language'] . '%3A' . $data['id'] . '%3Aedit';
+			}
+		}
+
 		$app->redirect(
 			Route::_(
 				'index.php?option=com_associations&view=association&layout=edit&itemtype=' . $this->typeAlias
