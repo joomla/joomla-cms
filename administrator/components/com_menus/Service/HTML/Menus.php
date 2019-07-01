@@ -82,7 +82,7 @@ class Menus
 			if ($globalMasterLang)
 			{
 				// Check if current item is the master item.
-				$masterElement = (array_key_exists($itemid, $items) && ($items[$itemid]->lang_code === $globalMasterLang))
+				$isMaster = (array_key_exists($itemid, $items) && ($items[$itemid]->lang_code === $globalMasterLang))
 					? true
 					: false;
 
@@ -97,6 +97,10 @@ class Menus
 			{
 				foreach ($items as $key => &$item)
 				{
+					$masterInfo = '';
+					$classes    = 'badge badge-success';
+					$url        = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);
+
 					if ($globalMasterLang)
 					{
 						// Don't continue for master, because it has been set here before
@@ -106,17 +110,24 @@ class Menus
 						}
 
 						// Don't display other children if the current item is a child of the master language.
-						if ($key !== $itemid && $globalMasterLang !== $item->lang_code && !$masterElement)
+						if ($key !== $itemid && $globalMasterLang !== $item->lang_code && !$isMaster)
 						{
 							unset($items[$key]);
 						}
+
+						if ($key === $masterId)
+						{
+							$classes   .= ' master-item';
+							$masterInfo = '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_ITEM');
+						}
+
+						$url = MasterAssociationsHelper::getAssociationUrl($item->id, $globalMasterLang, 'com_menus.item', $item->lang_code, $key, $masterId);
 					}
 
 					$text    = strtoupper($item->lang_sef);
-					$url     = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);
 					$tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
-						. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
-					$classes = 'badge badge-success';
+						. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title)
+						. $masterInfo;
 
 					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '">' . $text . '</a>'
 						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
@@ -132,7 +143,7 @@ class Menus
 				// If a master item doesn't exist, display that there is no association with the master language
 				if ($globalMasterLang && !$masterId)
 				{
-					$link = MasterAssociationsHelper::addNotAssociatedMasterLink($globalMasterLang);
+					$link = MasterAssociationsHelper::addNotAssociatedMasterLink($globalMasterLang, $itemid, 'com_menus.item');
 
 					// add this on the top of the array
 					$items = array('master' => array('link' => $link)) + $items;

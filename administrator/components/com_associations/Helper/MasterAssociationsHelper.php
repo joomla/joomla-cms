@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\ContentHistoryHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 
 defined('_JEXEC') or die;
@@ -28,11 +29,13 @@ class MasterAssociationsHelper extends ContentHelper
 	/**
 	 * Method to create a link for a child item that has no master item
 	 *
-	 * @param   string  $globalMasterLang  The global master language
+	 * @param   string   $globalMasterLang The global master language
+	 * @param   integer  $itemId           The item id
+	 * @param   string   $itemType         The item type
 	 *
 	 * @return  string  the link for the not associated master item
 	 */
-	public static function addNotAssociatedMasterLink($globalMasterLang)
+	public static function addNotAssociatedMasterLink($globalMasterLang, $itemId, $itemType)
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
@@ -42,11 +45,11 @@ class MasterAssociationsHelper extends ContentHelper
 		$db->setQuery($query);
 		$globalMasterLangInfos = $db->loadAssoc();
 
-		$classes    = 'hasPopover badge badge-secondary';
-		$masterInfo = '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_LANGUAGE');
+		$classes    = 'badge badge-secondary';
+		$masterInfo = '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_ITEM');
 		$text       = $globalMasterLangInfos['sef'] ? strtoupper($globalMasterLangInfos['sef']) : 'XX';
 		$title      = Text::_('JGLOBAL_ASSOCIATIONS_STATE_NOT_ASSOCIATED_DESC');
-		$url        = '';
+		$url        = self::getAssociationUrl($itemId, $globalMasterLang, $itemType);
 
 		$tooltip = '<strong>' . htmlspecialchars( $globalMasterLangInfos['title'], ENT_QUOTES, 'UTF-8') . '</strong><br>'
 			. htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . $masterInfo;
@@ -203,13 +206,14 @@ class MasterAssociationsHelper extends ContentHelper
 	 * @param   array    $assocMasterDates  Master Dates of each associated item.
 	 * @param   boolean  $saveHistory       If Versions are enabled or not.
 	 *
-	 * @return  array  the className and masterInfo for the association state and the array $items back
+	 * @return  array  the className and masterInfo for the association state, the array $items back and boolean if item needs update.
 	 */
 	public static function setMasterAndChildInfos($itemId, $items, $key, $item, $globalMasterLang, $isMaster, $masterId, $assocMasterDates, $saveHistory)
 	{
 
 		$addClass   = 'badge-success';
 		$masterInfo = '';
+		$update     = false;
 
 		// Don't display other children if the current item is a child of the master language.
 		if (($key !== $itemId) && ($globalMasterLang !== $item->lang_code) && !$isMaster)
@@ -232,19 +236,62 @@ class MasterAssociationsHelper extends ContentHelper
 
 				if ($associatedModifiedMaster < $lastModifiedMaster)
 				{
-					$addClass = 'badge-warning';
+					$update     = true;
+					$addClass   = 'badge-warning';
 					$masterInfo = $saveHistory
 						? '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_OUTDATED_DESC')
 						: '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_MIGHT_BE_OUTDATED_DESC');
 				}
 				else
 				{
-					$addClass = 'badge-success';
+					$addClass   = 'badge-success';
 					$masterInfo = '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_UP_TO_DATE_DESC');
 				}
 			}
 		}
 
-		return [$addClass, $masterInfo, $items];
+		return [$addClass, $masterInfo, $items, $update];
+	}
+
+	/**
+	 * Method to get the association url for an item
+	 *
+	 * @param   integer  $itemId            The item id
+	 * @param   string   $globalMasterLang  The global master language
+	 * @param   string   $itemType          The item type
+	 * @param   string   $itemLang          The current value from $items that is currently going through the foreach loop.
+	 * @param   integer  $key               The current key from $items that is currently going through the foreach loop.
+	 * @param   integer  $masterId          Id of the associated master item.
+	 * @param   boolean  $needsUpdate       If the item needs an update or not.
+	 *
+	 * @return string
+	 */
+	public static function getAssociationUrl($itemId, $globalMasterLang, $itemType, $itemLang = '', $key = '', $masterId = '', $needsUpdate = false)
+	{
+		$target = '';
+
+		if (empty($masterId))
+		{
+			$target = $globalMasterLang . ':0:add';
+		}
+		elseif ($key !== $masterId)
+		{
+			$target = $itemLang . ':' . $itemId . ':edit';
+		}
+
+		// Generate item Html.
+		$options   = array(
+			'option'   => 'com_associations',
+			'view'     => 'association',
+			'layout'   => $needsUpdate ? 'update' : 'edit',
+			'itemtype' => $itemType,
+			'task'     => 'association.edit',
+			'id'       => empty($masterId) ? $itemId : $masterId,
+			'target'   => $target,
+		);
+
+		$url = Route::_('index.php?' . http_build_query($options));
+
+		return $url;
 	}
 }

@@ -108,6 +108,7 @@ class AdministratorService
 				{
 					$masterInfo = '';
 					$labelClass = 'badge-success';
+					$url        = Route::_('index.php?option=com_content&task=article.edit&id=' . (int) $item->id);
 
 					if ($globalMasterLang)
 					{
@@ -120,13 +121,15 @@ class AdministratorService
 
 						$classMasterInfoItems = MasterAssociationsHelper::setMasterAndChildInfos($articleid, $items, $key, $item,
 							$globalMasterLang, $isMaster, $masterId, $assocMasterDates, $saveHistory);
-						$labelClass = $classMasterInfoItems[0];
-						$masterInfo = $classMasterInfoItems[1];
-						$items      = $classMasterInfoItems[2];
+						$labelClass  = $classMasterInfoItems[0];
+						$masterInfo  = $classMasterInfoItems[1];
+						$items       = $classMasterInfoItems[2];
+						$needsUpdate = $classMasterInfoItems[3];
+
+						$url = MasterAssociationsHelper::getAssociationUrl($item->id, $globalMasterLang, 'com_content.article', $item->lang_code, $key, $masterId, $needsUpdate);
 					}
 
 					$text    = $item->lang_sef ? strtoupper($item->lang_sef) : 'XX';
-					$url     = Route::_('index.php?option=com_content&task=article.edit&id=' . (int) $item->id);
 					$tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
 						. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title) . $masterInfo;
 					$classes = 'badge ' . $labelClass;
@@ -145,7 +148,7 @@ class AdministratorService
 				// If a master item doesn't exist, display that there is no association with the master language
 				if ($globalMasterLang && !$masterId)
 				{
-					$link = MasterAssociationsHelper::addNotAssociatedMasterLink($globalMasterLang);
+					$link = MasterAssociationsHelper::addNotAssociatedMasterLink($globalMasterLang, $articleid, 'com_content.article');
 
 					// add this on the top of the array
 					$items = array('master' => array('link' => $link)) + $items;
