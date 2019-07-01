@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,8 +35,8 @@ class PlgButtonFields extends JPlugin
 	 */
 	public function onDisplay($name)
 	{
-		// Do not display button if content and system plugins are disabled
-		if (!JPluginHelper::isEnabled('content', 'fields') || !JPluginHelper::isEnabled('system', 'fields'))
+		// Do not display button if content or system plugins or com_fields are disabled 
+		if (!JComponentHelper::isEnabled('com_fields') || !JPluginHelper::isEnabled('content', 'fields') || !JPluginHelper::isEnabled('system', 'fields'))
 		{
 			return;
 		}

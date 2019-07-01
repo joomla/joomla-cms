@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Input Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -42,7 +42,7 @@ class Cli extends Input
 	 *
 	 * @since   1.0
 	 */
-	public function __construct(array $source = null, array $options = array())
+	public function __construct($source = null, array $options = array())
 	{
 		if (isset($options['filter']))
 		{
@@ -102,7 +102,7 @@ class Cli extends Input
 	 *
 	 * @param   string  $input  The serialized input.
 	 *
-	 * @return  Input  The input object.
+	 * @return  void
 	 *
 	 * @since   1.0
 	 */
@@ -163,6 +163,7 @@ class Cli extends Input
 					{
 						$value          = isset($out[$key]) ? $out[$key] : true;
 					}
+
 					$out[$key]          = $value;
 				}
 
@@ -174,9 +175,8 @@ class Cli extends Input
 					$out[$key]          = $value;
 				}
 			}
-
 			// -k=value -abc
-			else if (substr($arg, 0, 1) === '-')
+			elseif (substr($arg, 0, 1) === '-')
 			{
 				// -k=value
 				if (substr($arg, 2, 1) === '=')
@@ -205,8 +205,7 @@ class Cli extends Input
 					}
 				}
 			}
-
-			// plain-arg
+			// Plain-arg
 			else
 			{
 				$this->args[] = $arg;

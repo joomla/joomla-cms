@@ -36,12 +36,12 @@
 			<option value="">COM_USERS_FILTER_USERGROUP</option>
 		</field>
 		<field
-				name="lastvisitrange"
-				type="lastvisitdaterange"
-				label="COM_USERS_OPTION_FILTER_LAST_VISIT_DATE"
-				description="COM_USERS_OPTION_FILTER_LAST_VISIT_DATE"
-				onchange="this.form.submit();"
-		>
+			name="lastvisitrange"
+			type="lastvisitdaterange"
+			label="COM_USERS_OPTION_FILTER_LAST_VISIT_DATE"
+			description="COM_USERS_OPTION_FILTER_LAST_VISIT_DATE"
+			onchange="this.form.submit();"
+			>
 			<option value="">COM_USERS_OPTION_FILTER_LAST_VISIT_DATE</option>
 		</field>
 		<field
@@ -84,10 +84,10 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="input-mini"
-			default="25"
 			label="COM_CONTENT_LIST_LIMIT"
 			description="COM_CONTENT_LIST_LIMIT_DESC"
+			class="input-mini"
+			default="25"
 			onchange="this.form.submit();"
 		/>
 	</fields>

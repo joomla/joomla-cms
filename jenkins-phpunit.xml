@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="tests/unit/bootstrap.php" colors="false">
+	<php>
+		<const name="JTEST_DATABASE_MYSQL_DSN" value="host=mysql;dbname=joomla_ut;user=joomla_ut;pass=joomla_ut" />
+		<const name="JTEST_DATABASE_MYSQLI_DSN" value="host=mysql;dbname=joomla_ut;user=joomla_ut;pass=joomla_ut" />
+		<const name="JTEST_DATABASE_PDO_MYSQL_DSN" value="host=mysql;dbname=joomla_ut;user=joomla_ut;pass=joomla_ut" />
+		<const name="JTEST_DATABASE_POSTGRESQL_DSN" value="host=postgres;port=5432;dbname=joomla_ut;user=postgres;pass=" />
+		<const name="JTEST_CACHE_REDIS_DSN" value="host=redis;port=6379;db=;auth=" />
+		<const name="JTEST_CACHE_MEMCACHE_DSN" value="host=memcached;port=11211" />
+		<const name="JTEST_CACHE_MEMCACHED_DSN" value="host=memcached;port=11211" />
+	</php>
+
+	<testsuites>
+		<testsuite name="libraries-cms">
+			<directory>tests/unit/suites/libraries/cms</directory>
+		</testsuite>
+		<testsuite name="libraries-platform">
+			<directory>tests/unit/suites/libraries/joomla</directory>
+		</testsuite>
+		<testsuite name="libraries-legacy">
+			<directory>tests/unit/suites/libraries/legacy</directory>
+		</testsuite>
+		<testsuite name="database">
+			<directory>tests/unit/suites/database</directory>
+		</testsuite>
+		<testsuite name="administrator">
+			<directory>tests/unit/suites/administrator</directory>
+		</testsuite>
+		<testsuite name="FinderIndexer">
+			<directory>tests/unit/suites/finderIndexer</directory>
+		</testsuite>
+		<testsuite name="plugins">
+			<directory>tests/unit/suites/plugins</directory>
+		</testsuite>
+	</testsuites>
+</phpunit>
