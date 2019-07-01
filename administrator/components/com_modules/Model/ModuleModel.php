@@ -23,6 +23,7 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -201,19 +202,25 @@ class ModuleModel extends AdminModel
 				$query = $db->getQuery(true)
 					->select($db->quoteName('menuid'))
 					->from($db->quoteName('#__modules_menu'))
-					->where($db->quoteName('moduleid') . ' = ' . $pk);
+					->where($db->quoteName('moduleid') . ' = :moduleid')
+					->bind(':moduleid', $pk, ParameterType::INTEGER);
 				$db->setQuery($query);
 				$menus = $db->loadColumn();
 
+				$i = 0;
+				
 				// Insert the new records into the table
 				foreach ($menus as $menu)
-				{
+				{					
 					$query->clear()
 						->insert($db->quoteName('#__modules_menu'))
 						->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')))
-						->values($newId . ', ' . $menu);
+						->values(':newid' . $i, ':menu' . $i)
+						->bind(':newid' . $i , $newId, ParameterType::INTEGER)
+						->bind(':menu' . $i, $menu, ParameterType::INTEGER);
 					$db->setQuery($query);
 					$db->execute();
+					$i++;
 				}
 			}
 			else
@@ -360,10 +367,12 @@ class ModuleModel extends AdminModel
 				else
 				{
 					// Delete the menu assignments
+					$pk    = int ($pk)
 					$db    = $this->getDbo();
 					$query = $db->getQuery(true)
-						->delete('#__modules_menu')
-						->where('moduleid=' . (int) $pk);
+						->delete($db->quoteName('#__modules_menu'))
+						->where($db->quoteName('moduleid') . ' = :moduleid')
+						->bind(':moduleid', $pk, ParameterType::INTEGER);
 					$db->setQuery($query);
 					$db->execute();
 
@@ -435,10 +444,12 @@ class ModuleModel extends AdminModel
 					throw new \Exception($table->getError());
 				}
 
+				$pk    = (int) $pk;
 				$query = $db->getQuery(true)
 					->select($db->quoteName('menuid'))
 					->from($db->quoteName('#__modules_menu'))
-					->where($db->quoteName('moduleid') . ' = ' . (int) $pk);
+					->where($db->quoteName('moduleid') . ' = :moduleid')
+					->bind(':moduleid', $pk, ParameterType::INTEGER);
 
 				$db->setQuery($query);
 				$rows = $db->loadColumn();
@@ -682,10 +693,11 @@ class ModuleModel extends AdminModel
 				if ($extensionId = (int) $this->getState('extension.id'))
 				{
 					$query = $db->getQuery(true)
-						->select('element, client_id')
-						->from('#__extensions')
-						->where('extension_id = ' . $extensionId)
-						->where('type = ' . $db->quote('module'));
+						->select($db->quoteName(['element, client_id']))
+						->from($db->quoteName('#__extensions'))
+						->where($db->quoteName('extension_id') . ' = :extensionid')
+						->where($db->quoteName('type') . ' = ' . $db->quote('module'))
+						->bind(':extensionid', $extensionId, ParameterType::INTEGER);
 					$db->setQuery($query);
 
 					try
@@ -730,7 +742,8 @@ class ModuleModel extends AdminModel
 			$query = $db->getQuery(true)
 				->select($db->quoteName('menuid'))
 				->from($db->quoteName('#__modules_menu'))
-				->where($db->quoteName('moduleid') . ' = ' . (int) $pk);
+				->where($db->quoteName('moduleid') . ' = :moduleid')
+				->bind(':moduleid', $pk, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$assigned = $db->loadColumn();
 
@@ -981,11 +994,13 @@ class ModuleModel extends AdminModel
 		// Process the menu link mappings.
 		$assignment = $data['assignment'] ?? 0;
 
+		$table->id = (int) $table->id;
 		// Delete old module to menu item associations
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
-			->delete('#__modules_menu')
-			->where('moduleid = ' . (int) $table->id);
+			->delete($db->quoteName('#__modules_menu'))
+			->where($db->quoteName('moduleid') . ' = :moduleid')
+			->bind(':moduleid', $table->id, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		try
@@ -1017,9 +1032,10 @@ class ModuleModel extends AdminModel
 			{
 				// Assign new module to `all` menu item associations.
 				$query->clear()
-					->insert('#__modules_menu')
+					->insert($db->quoteName('#__modules_menu'))
 					->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')))
-					->values((int) $table->id . ', 0');
+					->values(':moduleid' , 0);
+					->bind(':moduleid', $table->id, ParameterType::INTEGER);
 				$db->setQuery($query);
 
 				try
@@ -1074,7 +1090,8 @@ class ModuleModel extends AdminModel
 				$db->quoteName('#__modules', 'm') . ' ON ' . $db->quoteName('e.client_id') . ' = ' . (int) $table->client_id .
 				' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('m.module')
 			)
-			->where($db->quoteName('m.id') . ' = ' . (int) $table->id);
+			->where($db->quoteName('m.id') . ' = :id')
+			->bind(':id', $table->id, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		try
