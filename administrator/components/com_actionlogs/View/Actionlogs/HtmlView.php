@@ -7,21 +7,28 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Actionlogs\Administrator\View\Actionlogs;
+
 defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-
-JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
+use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
+use Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel;
 
 /**
  * View class for a list of logs.
  *
  * @since  3.9.0
  */
-class ActionlogsViewActionlogs extends JViewLegacy
+class HtmlView extends BaseHtmlView
 {
 	/**
 	 * An array of items.
@@ -42,10 +49,18 @@ class ActionlogsViewActionlogs extends JViewLegacy
 	/**
 	 * The pagination object
 	 *
-	 * @var    JPagination
+	 * @var    Pagination
 	 * @since  3.9.0
 	 */
 	protected $pagination;
+
+	/**
+	 * Form object for search filters
+	 *
+	 * @var    Form
+	 * @since  3.9.0
+	 */
+	public $filterForm;
 
 	/**
 	 * The active search filters
@@ -56,30 +71,39 @@ class ActionlogsViewActionlogs extends JViewLegacy
 	public $activeFilters;
 
 	/**
+	 * Setting if the IP column should be shown
+	 *
+	 * @var    boolean
+	 * @since  3.9.0
+	 */
+	protected $showIpColumn = false;
+
+	/**
 	 * Method to display the view.
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   3.9.0
+	 *
+	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{
-		$params = ComponentHelper::getParams('com_actionlogs');
-
-		$this->items         = $this->get('Items');
-		$this->state         = $this->get('State');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
-		$this->pagination    = $this->get('Pagination');
+		/** @var ActionlogsModel $model */
+		$model               = $this->getModel();
+		$this->items         = $model->getItems();
+		$this->state         = $model->getState();
+		$this->pagination    = $model->getPagination();
+		$this->filterForm    = $model->getFilterForm();
+		$this->activeFilters = $model->getActiveFilters();
+		$params              = ComponentHelper::getParams('com_actionlogs');
 		$this->showIpColumn  = (bool) $params->get('ip_logging', 0);
 
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->addToolBar();
@@ -87,7 +111,7 @@ class ActionlogsViewActionlogs extends JViewLegacy
 		// Load all actionlog plugins language files
 		ActionlogsHelper::loadActionLogPluginsLanguage();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
