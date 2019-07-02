@@ -78,8 +78,7 @@ Joomla = window.Joomla || {};
         activeDirection: 'ASC',
 
         // Extra
-        clearListOptions: false,
-        filtersCount: '.js-stools-filter-count',
+        clearListOptions: false
       };
 
       this.element = elem;
@@ -122,7 +121,6 @@ Joomla = window.Joomla || {};
 
       // Extra options
       this.clearListOptions = this.options.clearListOptions;
-      this.filtersCount = document.querySelector(this.options.filtersCount);
 
       const self = this;
 
@@ -299,12 +297,8 @@ Joomla = window.Joomla || {};
 
     // eslint-disable-next-line class-methods-use-this
     updateFilterCount(count) {
-      if (this.filtersCount) {
-        this.filtersCount.innerText = count;
-      }
-
       if (this.clearButton) {
-        this.clearButton.disabled = (count === 0);
+        this.clearButton.disabled = (count === 0) && !this.searchString.length;
       }
     }
 
