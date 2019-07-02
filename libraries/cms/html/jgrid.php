@@ -62,12 +62,12 @@ abstract class JHtmlJGrid
 		{
 			$title = $enabled ? $active_title : $inactive_title;
 			$title = $translate ? Text::_($title) : $title;
-			$title = HTMLHelper::_('tooltipText', $title, '', 0);
+			$ariaid = $checkbox . $task . $i . '-desc';
 		}
 
 		if ($enabled)
 		{
-			$html[] = '<a class="tbody-icon' . ($active_class === 'publish' ? ' active' : '') . ($tip ? ' hasTooltip' : '') . '"';
+			$html[] = '<a class="tbody-icon' . ($active_class === 'publish' ? ' active' : '') . '"';
 
 			if ($formId !== null)
 			{
@@ -79,10 +79,11 @@ abstract class JHtmlJGrid
 				$html[] = ' href="javascript:void(0);" onclick="return Joomla.listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
 			}
 
-			$html[] = $tip ? ' title="' . $title . '"' : '';
+			$html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
 			$html[] = '>';
 			$html[] = '<span class="icon-' . $active_class . '" aria-hidden="true"></span>';
 			$html[] = '</a>';
+			$html[] = $tip ? '<div role="tooltip" id="' . $ariaid . '">' . $title . '</div>' : '';
 		}
 		else
 		{
