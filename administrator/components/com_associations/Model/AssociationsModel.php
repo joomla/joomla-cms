@@ -465,7 +465,7 @@ class AssociationsModel extends ListModel
 					->group($db->quoteName('key'))
 					->having('COUNT(*) < ' . $countLanguages);
 
-				// Join over associations where id does not exists
+				// Join over associations where id does not exist
 				$query->where('((' . $db->quoteName('asso.id') . ' IS NULL )'
 					// Or if we are on the child language and there is no master language
 					. ' OR ( ' . $db->quoteName('asso2.master_id') . ' = ' . $db->quote('-1') . ')'
