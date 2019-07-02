@@ -82,7 +82,7 @@ class AssociationsModel extends ListModel
 		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 		$forcedItemType = $app->input->get('forcedItemType', '', 'string');
 
-		// Set language select box to default site language or if set to the master language as default.
+		// Set language select box to default site language or if set to, to the master language as default.
 		$globalMasterLang = Associations::getGlobalMasterLanguage();
 		$langParam = ComponentHelper::getParams('com_languages');
 
