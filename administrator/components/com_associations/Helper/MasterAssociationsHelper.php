@@ -155,15 +155,27 @@ class MasterAssociationsHelper extends ContentHelper
 	public static function getMasterModifiedDate($masterId, $tableName, $typeAlias)
 	{
 		// Check if the content version is enabled
-		$aliasParts = explode('.', $typeAlias);
-		$saveHistory = ComponentHelper::getParams($aliasParts[0])->get('save_history', 0);
+		$aliasParts         = explode('.', $typeAlias);
+		$saveHistory        = ComponentHelper::getParams($aliasParts[0])->get('save_history', 0);
+		$contentTypeTable   = Table::getInstance('ContentType');
+		$contentTypeTblName = $contentTypeTable->getTableName();
+		$typeId             = $contentTypeTable->getTypeId($typeAlias);
+
+		$db = Factory::getDbo();
+		$fieldMapsQuery = $db->getQuery(true)
+			->select($db->quoteName('field_mappings'))
+			->from($db->quoteName($contentTypeTblName))
+			->where($db->quoteName('type_id') . ' = ' . $db->quote($typeId));
+		$db->setQuery($fieldMapsQuery);
+		$fieldMaps = $db->loadResult();
+
+		$modifiedColumn = json_decode($fieldMaps)->common->core_modified_time;
 
 		if ($masterId)
 		{
 			// If versions are enabled get the save_date of the master item from history table
 			if ($saveHistory)
 			{
-				$typeId        = Table::getInstance('ContentType')->getTypeId($typeAlias);
 				$masterHistory = ContentHistoryHelper::getHistory($typeId, $masterId);
 
 				// Latest saved date of the master item
@@ -171,17 +183,6 @@ class MasterAssociationsHelper extends ContentHelper
 			}
 			else
 			{
-				$db = Factory::getDbo();
-
-				if ($tableName === '#__categories')
-				{
-					$modifiedColumn = 'modified_time';
-				}
-				else
-				{
-					$modifiedColumn = 'modified';
-				}
-
 				$masterDateQuery = $db->getQuery(true)
 					->select($db->quoteName($modifiedColumn))
 					->from($db->quoteName($tableName))
