@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ @package   AkeebaPasswordlessLogin
+  ~ @copyright Copyright (c)2018-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
+  ~ @license   GNU General Public License version 3, or later
+  -->
+
+<form>
+	<fields name="webauthn" addfieldpath="plugins/system/webauthn/fields">
+		<fieldset name="webauthn"
+			label="PLG_SYSTEM_WEBAUTHN_HEADER"
+		>
+			<field
+				name="webauthn"
+				type="webauthn"
+				label="PLG_SYSTEM_WEBAUTHN_FIELD_LABEL"
+				description="PLG_SYSTEM_WEBAUTHN_FIELD_DESC"
+				required="false"
+				readonly="false"
+				default=""
+			/>
+		</fieldset>
+	</fields>
+</form>

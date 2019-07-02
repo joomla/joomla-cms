@@ -50,3 +50,10 @@ build/media_source/*/js/*  @wilsonge
 plugins/system/httpheaders/*  @zero-24
 administrator/components/com_csp/* @zero-24
 components/com_csp/* @zero-24
+
+# Web Authentication (WebAuthn)
+
+plugins/system/webauthn/*   @nikosdion
+media/plg_system_webauthn/*   @nikosdion
+language/administrator/en-GB/en-GB.plg_system_webauthn.ini   @nikosdion
+language/administrator/en-GB/en-GB.plg_system_webauthn.sys.ini   @nikosdion

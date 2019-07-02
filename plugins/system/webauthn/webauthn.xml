@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="4.0.0" type="plugin" group="system" method="upgrade">
+    <name>PLG_SYSTEM_WEBAUTHN</name>
+    <version>4.0.0</version>
+    <creationDate>2019-07-02</creationDate>
+
+    <author>Joomla! Project</author>
+    <authorEmail>admin@joomla.org</authorEmail>
+    <authorUrl>www.joomla.org</authorUrl>
+
+    <copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+
+    <description>PLG_SYSTEM_WEBAUTHN_DESCRIPTION</description>
+
+    <files>
+        <filename plugin="webauthn">webauthn.php</filename>
+        <folder>fields</folder>
+        <folder>layout</folder>
+        <folder>sql</folder>
+        <folder>Webauthn</folder>
+    </files>
+
+    <media folder="media" destination="plg_system_webauthn">
+        <folder>css</folder>
+        <folder>images</folder>
+        <folder>js</folder>
+    </media>
+
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.plg_system_webauthn.ini</language>
+        <language tag="en-GB">en-GB/en-GB.plg_system_webauthn.sys.ini</language>
+    </languages>
+
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                        name="loginmodules"
+                        type="text"
+                        label="PLG_SYSTEM_WEBAUTHN_CONFIG_LOGINMODULES_LABEL"
+                        description="PLG_SYSTEM_WEBAUTHN_CONFIG_LOGINMODULES_DESC"
+                        default="mod_login"
+                />
+
+                <field
+                        name="backendloginmodules"
+                        type="text"
+                        label="PLG_SYSTEM_WEBAUTHN_CONFIG_BACKENDLOGINMODULES_LABEL"
+                        description="PLG_SYSTEM_WEBAUTHN_CONFIG_BACKENDLOGINMODULES_DESC"
+                        default="mod_login"
+                />
+
+                <field
+                        name="relocate"
+                        type="list"
+                        label="PLG_SYSTEM_WEBAUTHN_CONFIG_RELOCATE_LABEL"
+                        description="PLG_SYSTEM_WEBAUTHN_CONFIG_RELOCATE_DESC"
+                        default="1"
+                >
+                    <option value="1">PLG_SYSTEM_WEBAUTHN_CONFIG_RELOCATE_OPT_NEXTTOLOGIN</option>
+                    <option value="0">PLG_SYSTEM_WEBAUTHN_CONFIG_RELOCATE_OPT_ENDOFMODULE</option>
+                </field>
+
+                <field
+                        name="interceptlogin"
+                        type="radio"
+                        label="PLG_SYSTEM_WEBAUTHN_CONFIG_INTERCEPTLOGIN_LABEL"
+                        description="PLG_SYSTEM_WEBAUTHN_CONFIG_INTERCEPTLOGIN_DESC"
+                        default="1"
+                        class="btn-group btn-group-yesno"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+            </fieldset>
+            <fieldset name="webauthn_expert">
+                <field
+                        name="relocate_selectors"
+                        type="textarea"
+                        label="PLG_SYSTEM_WEBAUTHN_CONFIG_RELOCATESELECTORS_LABEL"
+                        description="PLG_SYSTEM_WEBAUTHN_CONFIG_RELOCATESELECTORS_DESC"
+                        default='#form-login-submit > button, button[type=submit], [type=submit], [id*="submit"]'
+                        class="input-xlarge"
+                        cols="50"
+                        rows="10"
+                />
+
+            </fieldset>
+        </fields>
+    </config>
+
+    <!-- Handle the database installation and updates -->
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/mysql/install.sql</file>
+            <file driver="postgresql" charset="utf8">sql/postgresql/install.sql</file>
+            <file driver="sqlazure" charset="utf8">sql/sqlazure/install.sql</file>
+        </sql>
+    </install>
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/mysql/uninstall.sql</file>
+            <file driver="postgresql" charset="utf8">sql/postgresql/uninstall.sql</file>
+            <file driver="sqlazure" charset="utf8">sql/sqlazure/uninstall.sql</file>
+        </sql>
+    </uninstall>
+    <update>
+        <schemas>
+            <schemapath type="mysql">sql/mysql/updates</schemapath>
+            <schemapath type="postgresql">sql/postgresql/updates</schemapath>
+            <schemapath type="sqlazure">sql/sqlazure/updates</schemapath>
+        </schemas>
+    </update>
+
+</extension>
