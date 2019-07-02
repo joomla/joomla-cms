@@ -118,7 +118,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 		$query = $this->db->getQuery(true)
 			->delete($this->db->quoteName('#__user_keys'))
 			->where($this->db->quoteName('time') . ' < :now')
-			->bind(':now', time(), ParameterType::INTEGER);
+			->bind(':now', time());
 
 		try
 		{
