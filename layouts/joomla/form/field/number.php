@@ -74,6 +74,7 @@ else
 ?>
 <input
 	type="number"
+	inputmode="numeric"
 	name="<?php echo $name; ?>"
 	id="<?php echo $id; ?>"
 	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
