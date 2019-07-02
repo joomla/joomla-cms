@@ -8,7 +8,6 @@ Joomla = window.Joomla || {};
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-
     const referenceIframe = document.getElementById('reference-association');
     const targetIframe = document.getElementById('target-association');
 
@@ -21,7 +20,7 @@ Joomla = window.Joomla || {};
         Joomla.submitform(task);
       } else {
         window.frames['target-association'].Joomla.submitbutton(document.getElementById('adminForm').getAttribute('data-associatedview') + '.apply');
-        document.getElementById("updateChild").click();
+        document.getElementById('updateChild').click();
       }
     };
 
@@ -30,7 +29,6 @@ Joomla = window.Joomla || {};
       const reference = referenceIframe.contentDocument;
       const referenceDiff = reference.querySelector('#diff');
       // Waiting until the reference has loaded before loading the target to avoid race conditions
-      let targetURL = Joomla.getOptions('targetSrc', false);
 
       if (referenceDiff) {
 
@@ -49,10 +47,7 @@ Joomla = window.Joomla || {};
     targetIframe.addEventListener('load', () => {
 
       if (targetIframe.getAttribute('src') != '') {
-        const targetLanguage = targetIframe.getAttribute('data-language');
-        const targetId = targetIframe.getAttribute('data-id');
         const target = targetIframe.contentDocument;
-        const targetLoadedId = target.querySelector('#jform_id').value || '0';
 
         // Update language field with the selected language and then disable it.
         target.querySelector('#jform_language').setAttribute('disabled', '');
@@ -63,7 +58,6 @@ Joomla = window.Joomla || {};
         // Iframe load finished, hide Joomla loading layer.
         Joomla.loadingLayer('hide');
       }
-
     });
   });
 })(Joomla, document);

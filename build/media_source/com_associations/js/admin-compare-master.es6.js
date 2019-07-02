@@ -7,8 +7,8 @@
 
   const compare = (original, changed) => {
     const display = changed.nextElementSibling;
+    const tagName = 'mark';
     let className = 'same';
-    let tagName = 'mark';
     let tagElement = null;
 
     const diff = window.JsDiff.diffWords(original.textContent, changed.textContent);
