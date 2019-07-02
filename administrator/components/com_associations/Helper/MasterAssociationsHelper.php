@@ -144,7 +144,7 @@ class MasterAssociationsHelper extends ContentHelper
 	}
 
 	/**
-	 * Method to get the latest modified date of an master item
+	 * Method to get the latest modified date of a master item
 	 *
 	 * @param   integer  $masterId   Id of the associated master item
 	 * @param   string   $tableName  The name of the table.
