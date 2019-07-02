@@ -7,11 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\Database\ParameterType;
-
 defined('_JEXEC') or die;
 
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
+use Joomla\Database\ParameterType;
 
 /**
  * Privacy plugin managing Joomla actionlogs data
