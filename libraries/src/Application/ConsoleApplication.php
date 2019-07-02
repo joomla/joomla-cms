@@ -34,12 +34,12 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper;
 
 	/**
-	 * The client identifier.
+	 * The name of the application.
 	 *
-	 * @var    integer
+	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $clientId = null;
+	protected $name = null;
 
 	/**
 	 * The application message queue.
@@ -89,8 +89,8 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		$this->setName('Joomla!');
 		$this->setVersion(JVERSION);
 
-		// Register the client ID as CLI
-		$this->clientId = ApplicationHelper::getClientInfo('cli', true)->id;
+		// Register the client name as cli
+		$this->name = 'cli';
 
 		$container = $container ?: Factory::getContainer();
 		$this->setContainer($container);
@@ -189,15 +189,15 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	}
 
 	/**
-	 * Gets the client id of the current running application.
+	 * Gets the name of the current running application.
 	 *
-	 * @return  integer  A client identifier.
+	 * @return  string  The name of the application.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getClientId()
+	public function getName(): string
 	{
-		return $this->clientId;
+		return $this->name;
 	}
 
 	/**
