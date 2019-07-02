@@ -284,7 +284,7 @@ class UsersModel extends ListModel
 		if (is_numeric($state))
 		{
 			$query->where($db->quoteName('a.block') . ' = :state')
-				->bind(':block', $state, ParameterType::INTEGER);
+				->bind(':state', $state, ParameterType::INTEGER);
 		}
 
 		// If the model is set to check the activated state, add to the query.
