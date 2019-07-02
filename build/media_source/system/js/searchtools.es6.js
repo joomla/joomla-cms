@@ -78,7 +78,7 @@ Joomla = window.Joomla || {};
         activeDirection: 'ASC',
 
         // Extra
-        clearListOptions: false
+        clearListOptions: false,
       };
 
       this.element = elem;
