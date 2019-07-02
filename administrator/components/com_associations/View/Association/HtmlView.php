@@ -172,7 +172,8 @@ class HtmlView extends BaseHtmlView
 
 			// The update layout can only be set when a global master language is used.
 			// Get version ids of the master item, when versions are enabled.
-			if ($this->getLayout() === 'update'){
+			if ($this->getLayout() === 'update')
+			{
 				$saveHistory = ComponentHelper::getParams($extensionName)->get('save_history', 0);
 
 				if ($saveHistory)

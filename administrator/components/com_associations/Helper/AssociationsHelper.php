@@ -367,7 +367,8 @@ class AssociationsHelper extends ContentHelper
 							if ($associatedModifiedMaster < $lastModifiedMaster)
 							{
 								// Don't display not corresponding item
-								if ($assocState !== 'all' && $assocState !== 'outdated'){
+								if ($assocState !== 'all' && $assocState !== 'outdated')
+								{
 									unset($items[$langCode]);
 									continue;
 								}
@@ -389,7 +390,8 @@ class AssociationsHelper extends ContentHelper
 							else
 							{
 								// Don't display not corresponding item
-								if ($assocState !== 'all' && $assocState !== 'up_to_date'){
+								if ($assocState !== 'all' && $assocState !== 'up_to_date')
+								{
 									unset($items[$langCode]);
 									continue;
 								}

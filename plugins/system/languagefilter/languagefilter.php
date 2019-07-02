@@ -1103,7 +1103,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				$checkCategoryComponent = '';
 				$component = explode('.', $assocContext)[0];
 
-				if ($component === 'com_categories'){
+				if ($component === 'com_categories')
+				{
 					$fromTable              = $db->quoteName('#__categories', 'e');
 					$modified               = $db->quoteName('e.modified_time');
 					$checkCategoryComponent = $db->quoteName('e.extension');

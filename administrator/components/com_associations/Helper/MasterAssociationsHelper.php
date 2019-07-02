@@ -51,7 +51,7 @@ class MasterAssociationsHelper extends ContentHelper
 		$title      = Text::_('JGLOBAL_ASSOCIATIONS_STATE_NOT_ASSOCIATED_DESC');
 		$url        = self::getAssociationUrl($itemId, $globalMasterLang, $itemType);
 
-		$tooltip = '<strong>' . htmlspecialchars( $globalMasterLangInfos['title'],ENT_QUOTES, 'UTF-8') . '</strong><br>'
+		$tooltip = '<strong>' . htmlspecialchars($globalMasterLangInfos['title'], ENT_QUOTES, 'UTF-8') . '</strong><br>'
 			. htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . $masterInfo;
 
 		$link = '<a href="' . $url . '" title="' . $globalMasterLangInfos['title'] . '" class="' . $classes . '">' . $text . '</a>'
@@ -111,6 +111,7 @@ class MasterAssociationsHelper extends ContentHelper
 			if ($masterId === $id)
 			{
 				$masterIdValue = 0;
+
 				// Set always the last modified date
 				$masterDateValue = $masterModified ?? null;
 			}

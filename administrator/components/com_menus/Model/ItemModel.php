@@ -1593,8 +1593,10 @@ class ItemModel extends AdminModel
 					// If there is no master item in this association, then reset the master id.
 					// Otherwise, if the associated item is a master item, set its master id to 0, otherwise to the master Id.
 					$masterIdValue = $masterId ? ($masterId === $id ? 0 : $masterId) : -1;
-					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key)
-						. ',' . $db->quote($masterIdValue) . ',' . $db->quote(null));
+					$query->values(
+						((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key)
+						. ',' . $db->quote($masterIdValue) . ',' . $db->quote(null)
+					);
 				}
 
 				$db->setQuery($query);
