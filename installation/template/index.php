@@ -64,7 +64,7 @@ Text::script('INSTL_FTP_SETTINGS_CORRECT');
 					<div class="logo d-none d-md-block"> 
 						<img src="<?php echo $this->baseurl; ?>/template/images/logo-joomla-blue.svg" alt=""/>
 					</div>
-					<div class="mx-2 d-flex d-md-none">
+					<div class="mx-2 my-3 d-flex d-md-none">
 						<img class="logo-small d-flex d-md-none" src="<?php echo $this->baseurl; ?>/template/images/logo-blue.svg" alt="">
 					</div>
 					<div class="d-flex flex-wrap align-items-center mx-auto">
@@ -76,7 +76,7 @@ Text::script('INSTL_FTP_SETTINGS_CORRECT');
 							Joomla! <?php echo (new Version)->getShortVersion(); ?>
 						</span>
 					</div> 
-					<div class="pull-right m-2"> 
+					<div class="m-2 d-flex align-items-center"> 
 						<a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla"; target="_blank">
 							<span class="fa fa-question" aria-hidden="true"></span>
 							<span class="sr-only"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
