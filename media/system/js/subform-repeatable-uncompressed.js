@@ -171,7 +171,7 @@
 				name    = $el.attr('name'),
 				id      = name.replace(/(\[\]$)/g, '').replace(/(\]\[)/g, '__').replace(/\[/g, '_').replace(/\]/g, ''), // id from name
 				nameNew = name.replace('[' + group + '][', '['+ groupnew +']['), // New name
-				idNew   = id.replace(group, groupnew), // Count new id
+				idNew   = id.replace(group, groupnew).replace(/[\W]+/g,"_"), // Count new id and replace non-word characters in name with underscore
 				countMulti = 0, // count for multiple radio/checkboxes
 				forOldAttr = id; // Fix "for" in the labels
 
