@@ -68,7 +68,9 @@ else
 		</style>
 	<?php endif; ?>
 	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template.css" rel="stylesheet" />
-	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/user.css" rel="stylesheet" />
+	<?php if (@filesize('templates/' . $this->template . '/css/user.css') > 5): ?>
+		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/user.css" rel="stylesheet" />
+	<?php endif; ?>
 	<?php if ($app->get('debug_lang', '0') == '1' || $app->get('debug', '0') == '1') : ?>
 		<link href="<?php echo JUri::root(true); ?>/media/cms/css/debug.css" rel="stylesheet" />
 	<?php endif; ?>
