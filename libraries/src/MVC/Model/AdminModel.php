@@ -1362,7 +1362,7 @@ abstract class AdminModel extends FormModel
 
 			if (count($associations) > 1)
 			{
-				// If there is an association item with the globalMasterLanguage, then get his id
+				// If there is an association item with the globalMasterLanguage, then get its id
 				$globalMasterLang = Associations::getGlobalMasterLanguage();
 				$masterId         = $associations[$globalMasterLang] ?? '';
 
