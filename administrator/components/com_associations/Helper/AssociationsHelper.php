@@ -379,7 +379,7 @@ class AssociationsHelper extends ContentHelper
 								$update = true;
 
 								/*
-								When versions are disabled than the modified date is used for the master item.
+								When versions are disabled then the modified date is used for the master item.
 								That means that when no changes were made and the master item has been saved the modified date has been changed.
 								So the outdated state means in that case there might have been made changes and it is necessary to check manually and update the target.
 								*/
