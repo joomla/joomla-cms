@@ -39,6 +39,9 @@ trait AjaxHandler
 	 */
 	public function onAfterInitialise(): void
 	{
+		// Load the language files
+		$this->loadLanguage();
+
 		// Make sure this is the backend of the site...
 		if (!Joomla::isAdminPage())
 		{
@@ -103,6 +106,9 @@ trait AjaxHandler
 	 */
 	public function onAjaxWebauthn(): void
 	{
+		// Load the language files
+		$this->loadLanguage();
+
 		/** @var CMSApplication $app */
 		$app   = Factory::getApplication();
 		$input = $app->input;

@@ -40,6 +40,9 @@ trait AjaxHandlerChallenge
 	 */
 	public function onAjaxWebauthnChallenge()
 	{
+		// Load the language files
+		$this->loadLanguage();
+
 		// Initialize objects
 		$input      = Factory::getApplication()->input;
 		$repository = new CredentialRepository();

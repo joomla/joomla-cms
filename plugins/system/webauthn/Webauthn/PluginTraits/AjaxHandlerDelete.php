@@ -27,6 +27,9 @@ trait AjaxHandlerDelete
 {
 	public function onAjaxWebauthnDelete(): bool
 	{
+		// Load the language files
+		$this->loadLanguage();
+
 		// Initialize objects
 		/** @var CMSApplication $app */
 		$app        = Factory::getApplication();

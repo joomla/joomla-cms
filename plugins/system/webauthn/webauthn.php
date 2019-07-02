@@ -34,7 +34,7 @@ if (!class_exists('Joomla\\Plugin\\System\\Webauthn\\Helper\\Joomla', true))
  * Akeeba Passwordless Login plugin providing Webauthn integration.
  *
  * The plugin features are broken down into Traits for the sole purpose of making an otherwise supermassive class
- * somewhat manageable.
+ * somewhat manageable. You can find the Traits inside the Webauthn/PluginTraits folder.
  */
 class plgSystemWebauthn extends CMSPlugin
 {
@@ -68,8 +68,12 @@ class plgSystemWebauthn extends CMSPlugin
 	{
 		parent::__construct($subject, $config);
 
-		// Load the language files
-		$this->loadLanguage();
+		/**
+		 * Note: Do NOT try to load the language in the constructor. This is called before Joomla initializes the
+		 * application language. Therefore the temporary Joomla language object and all loaded strings in it will be
+		 * destroyed on application initialization. As a result we need to call loadLanguage() in each method
+		 * individually, even though all methods make use of language strings.
+		 */
 
 		// Register a debug log file writer
 		Joomla::addLogger('system');
