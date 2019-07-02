@@ -1,8 +1,10 @@
 <?php
 /**
- * @package   AkeebaPasswordlessLogin
- * @copyright Copyright (c)2018-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license   GNU General Public License version 3, or later
+ * @package     Joomla.Plugin
+ * @subpackage  System.updatenotification
+ *
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Akeeba\Passwordless\Webauthn\Helper\Joomla;
@@ -71,9 +73,6 @@ class plgSystemWebauthn extends CMSPlugin
 
 		// Register a debug log file writer
 		Joomla::addLogger('system');
-
-		// Load the Composer autoloader
-		require_once __DIR__ . '/vendor/autoload.php';
 
 		// Setup login module interception
 		$this->setupLoginModuleButtons();

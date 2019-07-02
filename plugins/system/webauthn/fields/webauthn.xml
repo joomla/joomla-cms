@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ @package   AkeebaPasswordlessLogin
-  ~ @copyright Copyright (c)2018-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
-  ~ @license   GNU General Public License version 3, or later
-  -->
-
 <form>
 	<fields name="webauthn" addfieldpath="plugins/system/webauthn/fields">
 		<fieldset name="webauthn"
