@@ -518,7 +518,7 @@ class PlgSampledataMultilang extends CMSPlugin
 					. '"remove_default_prefix":"0",'
 					. '"lang_cookie":"0",'
 					. '"alternate_meta":"1",'
-					. '"user_master_language":"0",'
+					. '"use_master_language":"0",'
 					. '"global_master_language":""'
 				. '}';
 			$query
