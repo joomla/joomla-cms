@@ -160,7 +160,7 @@ class MasterAssociationsHelper extends ContentHelper
 
 		if ($masterId)
 		{
-			// If versions are enabled get the save_data of the master item from history table
+			// If versions are enabled get the save_date of the master item from history table
 			if ($saveHistory)
 			{
 				$typeId        = Table::getInstance('ContentType')->getTypeId($typeAlias);
