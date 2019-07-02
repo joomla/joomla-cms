@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Akeeba\Passwordless\Webauthn\PluginTraits;
+namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Akeeba\Passwordless\Webauthn\Helper\Joomla;
+use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseDriver;

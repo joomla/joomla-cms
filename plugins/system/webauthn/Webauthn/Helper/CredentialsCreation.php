@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Akeeba\Passwordless\Webauthn\Helper;
+namespace Joomla\Plugin\System\Webauthn\Helper;
 
-use Akeeba\Passwordless\Webauthn\CredentialRepository;
+use Joomla\Plugin\System\Webauthn\CredentialRepository;
 use CBOR\Decoder;
 use CBOR\OtherObject\OtherObjectManager;
 use CBOR\Tag\TagObjectManager;

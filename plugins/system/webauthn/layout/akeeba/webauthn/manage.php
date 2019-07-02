@@ -7,8 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Akeeba\Passwordless\Webauthn\Helper\CredentialsCreation;
-use Akeeba\Passwordless\Webauthn\Helper\Joomla;
+use Joomla\Plugin\System\Webauthn\Helper\CredentialsCreation;
+use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;

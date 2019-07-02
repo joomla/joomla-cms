@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Akeeba\Passwordless\Webauthn\Helper;
+namespace Joomla\Plugin\System\Webauthn\Helper;
 
 
 use Joomla\CMS\HTML\HTMLHelper;

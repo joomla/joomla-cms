@@ -7,17 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Akeeba\Passwordless\Webauthn\Helper\Joomla;
-use Akeeba\Passwordless\Webauthn\PluginTraits\AjaxHandler;
-use Akeeba\Passwordless\Webauthn\PluginTraits\AjaxHandlerChallenge;
-use Akeeba\Passwordless\Webauthn\PluginTraits\AjaxHandlerCreate;
-use Akeeba\Passwordless\Webauthn\PluginTraits\AjaxHandlerDelete;
-use Akeeba\Passwordless\Webauthn\PluginTraits\AjaxHandlerLogin;
-use Akeeba\Passwordless\Webauthn\PluginTraits\AjaxHandlerSaveLabel;
-use Akeeba\Passwordless\Webauthn\PluginTraits\ButtonsInModules;
-use Akeeba\Passwordless\Webauthn\PluginTraits\ButtonsInUserPage;
-use Akeeba\Passwordless\Webauthn\PluginTraits\UserDeletion;
-use Akeeba\Passwordless\Webauthn\PluginTraits\UserProfileFields;
+use Joomla\Plugin\System\Webauthn\Helper\Joomla;
+use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandler;
+use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerChallenge;
+use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerCreate;
+use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerDelete;
+use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerLogin;
+use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerSaveLabel;
+use Joomla\Plugin\System\Webauthn\PluginTraits\ButtonsInModules;
+use Joomla\Plugin\System\Webauthn\PluginTraits\ButtonsInUserPage;
+use Joomla\Plugin\System\Webauthn\PluginTraits\UserDeletion;
+use Joomla\Plugin\System\Webauthn\PluginTraits\UserProfileFields;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\CMSPlugin;
 
@@ -25,9 +25,9 @@ use Joomla\CMS\Plugin\CMSPlugin;
 defined('_JEXEC') or die();
 
 // Register a PSR-4 autoloader for this plugin's classes if necessary
-if (!class_exists('Akeeba\\Passwordless\\Webauthn\\Helper\\Joomla', true))
+if (!class_exists('Joomla\\Plugin\\System\\Webauthn\\Helper\\Joomla', true))
 {
-	JLoader::registerNamespace('Akeeba\\Passwordless\\Webauthn', __DIR__ . '/Webauthn', false, false, 'psr4');
+	JLoader::registerNamespace('Joomla\\Plugin\\System\\Webauthn', __DIR__ . '/Webauthn', false, false, 'psr4');
 }
 
 /**

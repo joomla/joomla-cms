@@ -8,7 +8,7 @@
  */
 
 // Prevent direct access
-use Akeeba\Passwordless\Webauthn\Helper\Joomla;
+use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -47,7 +47,7 @@ class JFormFieldWebauthn extends FormField
 		Text::script('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED', true);
 
 		$app                  = Factory::getApplication();
-		$credentialRepository = new \Akeeba\Passwordless\Webauthn\CredentialRepository();
+		$credentialRepository = new \Joomla\Plugin\System\Webauthn\CredentialRepository();
 
 		return Joomla::renderLayout('akeeba.webauthn.manage', [
 			'user'        => Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($user_id),

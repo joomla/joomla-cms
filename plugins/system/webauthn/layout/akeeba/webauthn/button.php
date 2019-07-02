@@ -1,6 +1,6 @@
 <?php
 
-use Akeeba\Passwordless\Webauthn\Helper\Joomla;
+use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -60,11 +60,11 @@ use Joomla\CMS\User\UserHelper;
  *
  * If you change the element from a <button> to something else, e.g. <a>, you may have to do a template override for the
  * login.js Javascript file as well. This file is always loaded automatically by the
- * Akeeba\Passwordless\Webauthn\PluginTraits\LoginModuleButtons PHP class which you cannot override. You can do that by
+ * Joomla\Plugin\System\Webauthn\PluginTraits\LoginModuleButtons PHP class which you cannot override. You can do that by
  * copying /media/plg_system_webauthn/js/dist/login.css to your template's js/plg_system_webauthn/dist folder.
  *
  * If you want to change the look and feel of the button you need to do a template override of the CSS file button.css.
- * This file is always loaded automatically by the Akeeba\Passwordless\Webauthn\PluginTraits\LoginModuleButtons PHP
+ * This file is always loaded automatically by the Joomla\Plugin\System\Webauthn\PluginTraits\LoginModuleButtons PHP
  * class which you cannot override. You can do that by copying /media/plg_system_webauthn/css/button.css to your
  * template's css/plg_system_webauthn folder (note the lack of a final css folder!).
  *
