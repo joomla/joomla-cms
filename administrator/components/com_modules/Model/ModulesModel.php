@@ -418,7 +418,7 @@ class ModulesModel extends ListModel
 			if (stripos($search, 'id:') === 0)
 			{
 				$ids = (int) substr($search, 3);
-				$query->where($db->quoteName('a.id') . ' = :id');
+				$query->where($db->quoteName('a.id') . ' = :id')
 					->bind(':id', $ids, ParameterType::INTEGER);
 			}
 			else
