@@ -26,7 +26,7 @@ $taskPrefix = $options['task_prefix'];
 $checkboxName = $options['checkbox_name'];
 ?>
 <button type="submit" class="tbody-icon data-state-<?php echo $this->escape($value ?? ''); ?>" 
-	<?php echo $this->escape(!empty($disabled) ? 'disabled' : null); ?>
+	<?php echo !empty($disabled) ? 'disabled' : ''; ?>
 	<?php if (!empty($task) && empty($disabled)) : ?>
 		onclick="return Joomla.listItemTask('<?php echo $checkboxName . $this->escape($row ?? ''); ?>', '<?php echo $this->escape(isset($task) ? $taskPrefix . $task : ''); ?>')"
 	<?php endif; ?>
