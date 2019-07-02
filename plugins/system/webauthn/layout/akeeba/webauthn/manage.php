@@ -9,10 +9,13 @@
 
 use Akeeba\Passwordless\Webauthn\Helper\CredentialsCreation;
 use Akeeba\Passwordless\Webauthn\Helper\Joomla;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserHelper;
 
 /**
  * Passwordless Login management interface
@@ -41,7 +44,7 @@ use Joomla\CMS\User\User;
 
 // Extract the data. Do not remove until the unset() line.
 extract(array_merge([
-	'user'        => Joomla::getUser(),
+	'user'        => Factory::getApplication()->getIdentity(),
 	'allow_add'   => false,
 	'credentials' => [],
 	'error'       => '',
@@ -59,7 +62,7 @@ HTMLHelper::_('stylesheet', 'plg_system_webauthn/backend.css', [
  * do not replace existing values. This causes any retries to fail. By using a data storage object we circumvent
  * that problem.
  */
-$randomId    = 'akpwl_' . Joomla::generateRandom(32);
+$randomId    = 'akpwl_' . UserHelper::genRandomPassword(32);
 $publicKey   = $allow_add ? base64_encode(CredentialsCreation::createPublicKey($user)) : '{}';
 $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::getToken() . '=1');
 ?>
@@ -78,8 +81,8 @@ $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::g
     <table class="akpwl-table--striped">
         <thead>
         <tr>
-            <th><?= Joomla::_('PLG_SYSTEM_WEBAUTHN_MANAGE_FIELD_KEYLABEL_LABEL') ?></th>
-            <th><?= Joomla::_('PLG_SYSTEM_WEBAUTHN_MANAGE_HEADER_ACTIONS_LABEL') ?></th>
+            <th><?= Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_FIELD_KEYLABEL_LABEL') ?></th>
+            <th><?= Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_HEADER_ACTIONS_LABEL') ?></th>
         </tr>
         </thead>
         <tbody>
@@ -90,12 +93,12 @@ $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::g
                     <button onclick="return akeeba_passwordless_edit_label(this, '<?= $randomId ?>');"
                        class="akpwl-btn--teal">
                         <span class="icon-edit icon-white"></span>
-						<?= Joomla::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_EDIT_LABEL') ?>
+						<?= Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_EDIT_LABEL') ?>
                     </button>
                     <button onclick="return akeeba_passwordless_delete(this, '<?= $randomId ?>');"
                        class="akpwl-btn--red">
                         <span class="icon-minus-sign icon-white"></span>
-						<?= Joomla::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_DELETE_LABEL') ?>
+						<?= Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_DELETE_LABEL') ?>
                     </button>
                 </td>
             </tr>
@@ -103,7 +106,7 @@ $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::g
 		<?php if (empty($credentials)): ?>
             <tr>
                 <td colspan="2">
-					<?= Joomla::_('PLG_SYSTEM_WEBAUTHN_MANAGE_HEADER_NOMETHODS_LABEL') ?>
+					<?= Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_HEADER_NOMETHODS_LABEL') ?>
                 </td>
             </tr>
 		<?php endif; ?>
@@ -115,7 +118,7 @@ $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::g
             <a onclick="akeeba_passwordless_create_credentials('<?= $randomId ?>', '#akpwl-management-interface');"
                class="akpwl-btn--green--block">
                 <span class="icon-plus icon-white"></span>
-				<?= Joomla::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_ADD_LABEL') ?>
+				<?= Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_ADD_LABEL') ?>
             </a>
         </p>
 	<?php endif; ?>

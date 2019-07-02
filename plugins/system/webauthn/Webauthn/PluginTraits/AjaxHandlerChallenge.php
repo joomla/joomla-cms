@@ -12,6 +12,7 @@ namespace Akeeba\Passwordless\Webauthn\PluginTraits;
 use Akeeba\Passwordless\Webauthn\CredentialRepository;
 use Akeeba\Passwordless\Webauthn\Helper\Joomla;
 use Exception;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
 use Webauthn\AuthenticationExtensions\AuthenticationExtensionsClientInputs;
@@ -40,7 +41,7 @@ trait AjaxHandlerChallenge
 	public function onAjaxWebauthnChallenge()
 	{
 		// Initialize objects
-		$input      = Joomla::getApplication()->input;
+		$input      = Factory::getApplication()->input;
 		$repository = new CredentialRepository();
 
 		// Retrieve data from the request

@@ -12,6 +12,9 @@ namespace Akeeba\Passwordless\Webauthn\PluginTraits;
 use Akeeba\Passwordless\Webauthn\Helper\Joomla;
 use Akeeba\Passwordless\Webauthn\Exception\AjaxNonCmsAppException;
 use Exception;
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 use RuntimeException;
@@ -43,12 +46,13 @@ trait AjaxHandler
 		}
 
 		// ...and we are not already logged in...
-		if (!Joomla::getUser()->guest)
+		if (!Factory::getApplication()->getIdentity()->guest)
 		{
 			return;
 		}
 
-		$app   = Joomla::getApplication();
+		/** @var CMSApplication $app */
+		$app   = Factory::getApplication();
 		$input = $app->input;
 
 		// ...and this is a request to com_ajax...
@@ -84,7 +88,7 @@ trait AjaxHandler
 		 * not do that, instead going through the plugin event with a negligible performance impact in the order of a
 		 * millisecond or less. This is orders of magnitude less than the roundtrip time of the AJAX request.
 		 */
-		Joomla::runPlugins('onAjaxWebauthn', []);
+		$app->triggerEvent('onAjaxWebauthn', []);
 	}
 
 	/**
@@ -99,7 +103,8 @@ trait AjaxHandler
 	 */
 	public function onAjaxWebauthn(): void
 	{
-		$app   = Joomla::getApplication();
+		/** @var CMSApplication $app */
+		$app   = Factory::getApplication();
 		$input = $app->input;
 
 		// Get the return URL from the session
@@ -110,7 +115,7 @@ trait AjaxHandler
 		{
 			Joomla::log('system', "Received AJAX callback.");
 
-			if (!Joomla::isCmsApplication($app))
+			if (!($app instanceof CMSApplication))
 			{
 				throw new AjaxNonCmsAppException();
 			}
@@ -121,19 +126,19 @@ trait AjaxHandler
 
 			if ($input->getInt($token, 0) != 1)
 			{
-				throw new RuntimeException(Joomla::_('JERROR_ALERTNOAUTHOR'));
+				throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'));
 			}
 
 			// Empty action? No bueno.
 			if (empty($akaction))
 			{
-				throw new RuntimeException(Joomla::_('PLG_SYSTEM_WEBAUTHN_ERR_AJAX_INVALIDACTION'));
+				throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_AJAX_INVALIDACTION'));
 			}
 
 			// Call the plugin event onAjaxWebauthnSomething where Something is the akaction param.
 			$eventName = 'onAjaxWebauthn' . ucfirst($akaction);
 
-			$results = Joomla::runPlugins($eventName, [], $app);
+			$results = $app->triggerEvent($eventName, []);
 			$result = null;
 
 			foreach ($results as $r)

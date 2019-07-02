@@ -12,6 +12,8 @@ namespace Akeeba\Passwordless\Webauthn\PluginTraits;
 use Akeeba\Passwordless\Webauthn\Helper\Integration;
 use Akeeba\Passwordless\Webauthn\Helper\Joomla;
 use Exception;
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\Utilities\ArrayHelper;
 
@@ -63,8 +65,9 @@ trait ButtonsInUserPage
 		// Make sure I can get basic information
 		try
 		{
-			$app     = Joomla::getApplication();
-			$user    = Joomla::getUser();
+			/** @var CMSApplication $app */
+			$app     = Factory::getApplication();
+			$user    = $app->getIdentity();
 			$isAdmin = Joomla::isAdminPage($app);
 			$input   = $app->input;
 		}

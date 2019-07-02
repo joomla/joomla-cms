@@ -17,8 +17,11 @@ use CBOR\Tag\TagObjectManager;
 use Cose\Algorithm\Manager;
 use Exception;
 use Joomla\CMS\Authentication\Authentication;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\UserFactoryInterface;
 use RuntimeException;
 use Webauthn\AttestationStatement\AttestationObjectLoader;
 use Webauthn\AttestationStatement\AttestationStatementSupportManager;
@@ -61,15 +64,15 @@ trait AjaxHandlerLogin
 			// Sanity check
 			if (empty($userId))
 			{
-				throw new RuntimeException(Joomla::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+				throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
 			}
 
 			// Make sure the user exists
-			$user = Joomla::getUser($userId);
+			$user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
 
 			if ($user->id != $userId)
 			{
-				throw new RuntimeException(Joomla::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+				throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
 			}
 
 			// Validate the authenticator response
@@ -107,7 +110,7 @@ trait AjaxHandlerLogin
 			Joomla::setSessionVar('userId', null, 'plg_system_webauthn');
 
 			// Redirect back to the page we were before.
-			Joomla::getApplication()->redirect($returnUrl);
+			Factory::getApplication()->redirect($returnUrl);
 		}
 	}
 
@@ -119,7 +122,7 @@ trait AjaxHandlerLogin
 	private function validateResponse(): void
 	{
 		// Initialize objects
-		$input                = Joomla::getApplication()->input;
+		$input                = Factory::getApplication()->input;
 		$credentialRepository = new CredentialRepository();
 
 		// Retrieve data from the request and session
@@ -128,7 +131,7 @@ trait AjaxHandlerLogin
 
 		if (empty($data))
 		{
-			throw new RuntimeException(Joomla::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
 		}
 
 		$publicKeyCredentialRequestOptions = $this->getPKCredentialRequestOptions();
@@ -201,7 +204,7 @@ trait AjaxHandlerLogin
 
 		if (empty($encodedOptions))
 		{
-			throw new RuntimeException(Joomla::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
 		}
 
 		try
@@ -210,13 +213,13 @@ trait AjaxHandlerLogin
 		}
 		catch (Exception $e)
 		{
-			throw new RuntimeException(Joomla::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
 		}
 
 		if (!is_object($publicKeyCredentialCreationOptions) ||
 		!($publicKeyCredentialCreationOptions instanceof PublicKeyCredentialRequestOptions))
 		{
-			throw new RuntimeException(Joomla::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
 		}
 
 		return $publicKeyCredentialCreationOptions;

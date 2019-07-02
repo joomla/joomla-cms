@@ -9,9 +9,11 @@
 
 // Prevent direct access
 use Akeeba\Passwordless\Webauthn\Helper\Joomla;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\User\UserFactoryInterface;
 
 defined('_JEXEC') or die;
 
@@ -30,7 +32,7 @@ class JFormFieldWebauthn extends FormField
 
 		if (is_null($user_id))
 		{
-			return Joomla::_('PLG_SYSTEM_WEBAUTHN_ERR_NOUSER');
+			return Text::_('PLG_SYSTEM_WEBAUTHN_ERR_NOUSER');
 		}
 
 		HTMLHelper::_('script', 'plg_system_webauthn/dist/management.js', [
@@ -44,11 +46,12 @@ class JFormFieldWebauthn extends FormField
 		Text::script('PLG_SYSTEM_WEBAUTHN_MSG_SAVED_LABEL', true);
 		Text::script('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED', true);
 
+		$app                  = Factory::getApplication();
 		$credentialRepository = new \Akeeba\Passwordless\Webauthn\CredentialRepository();
 
 		return Joomla::renderLayout('akeeba.webauthn.manage', [
-			'user'        => Joomla::getUser($user_id),
-			'allow_add'   => $user_id == Joomla::getUser()->id,
+			'user'        => Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($user_id),
+			'allow_add'   => $user_id == $app->getIdentity()->id,
 			'credentials' => $credentialRepository->getAll($user_id),
 		]);
 	}

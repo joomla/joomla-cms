@@ -12,6 +12,8 @@ namespace Akeeba\Passwordless\Webauthn\PluginTraits;
 use Akeeba\Passwordless\Webauthn\CredentialRepository;
 use Akeeba\Passwordless\Webauthn\Helper\Joomla;
 use Exception;
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Factory;
 
 // Protect from unauthorized access
 defined('_JEXEC') or die();
@@ -26,7 +28,9 @@ trait AjaxHandlerSaveLabel
 	public function onAjaxWebauthnSavelabel(): bool
 	{
 		// Initialize objects
-		$input      = Joomla::getApplication()->input;
+		/** @var CMSApplication $app */
+		$app        = Factory::getApplication();
+		$input      = $app->input;
 		$repository = new CredentialRepository();
 
 		// Retrieve data from the request
@@ -50,7 +54,7 @@ trait AjaxHandlerSaveLabel
 		try
 		{
 			$credential_handle = $repository->getUserHandleFor($credential_id);
-			$my_handle         = $repository->getHandleFromUserId(Joomla::getUser()->id);
+			$my_handle         = $repository->getHandleFromUserId($app->getIdentity()->id);
 		}
 		catch (Exception $e)
 		{

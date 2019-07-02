@@ -13,7 +13,9 @@ use Akeeba\Passwordless\Webauthn\CredentialRepository;
 use Akeeba\Passwordless\Webauthn\Helper\CredentialsCreation;
 use Akeeba\Passwordless\Webauthn\Helper\Joomla;
 use Exception;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\User\UserFactoryInterface;
 use RuntimeException;
 use Webauthn\AttestedCredentialData;
 
@@ -39,8 +41,8 @@ trait AjaxHandlerCreate
 		 * remove this sanity check!
 		 */
 		$storedUserId = Joomla::getSessionVar('registration_user_id', 0, 'plg_system_webauthn');
-		$thatUser     = Joomla::getUser($storedUserId);
-		$myUser = Joomla::getUser();
+		$thatUser     = empty($storedUserId) ? Factory::getApplication()->getIdentity() : Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($storedUserId);
+		$myUser = Factory::getApplication()->getIdentity();
 
 		if ($thatUser->guest || ($thatUser->id != $myUser->id))
 		{
@@ -58,7 +60,7 @@ trait AjaxHandlerCreate
 		// Try to validate the browser data. If there's an error I won't save anything and pass the message to the GUI.
 		try
 		{
-			$input = Joomla::getApplication()->input;
+			$input = Factory::getApplication()->input;
 
 			// Retrieve the data sent by the device
 			$data = $input->get('data', '', 'raw');

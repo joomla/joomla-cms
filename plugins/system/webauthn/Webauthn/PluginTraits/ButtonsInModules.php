@@ -12,6 +12,7 @@ namespace Akeeba\Passwordless\Webauthn\PluginTraits;
 use Akeeba\Passwordless\Webauthn\Helper\Integration;
 use Akeeba\Passwordless\Webauthn\Helper\Joomla;
 use Exception;
+use Joomla\CMS\Factory;
 
 // Protect from unauthorized access
 defined('_JEXEC') or die();
@@ -97,7 +98,7 @@ trait ButtonsInModules
 		{
 			$this->needButtonInjection = true;
 
-			if (!Joomla::getUser()->guest)
+			if (!Factory::getApplication()->getIdentity()->guest)
 			{
 				$this->needButtonInjection = false;
 			}
@@ -129,7 +130,7 @@ trait ButtonsInModules
 		{
 			try
 			{
-				$document = Joomla::getApplication()->getDocument();
+				$document = Factory::getApplication()->getDocument();
 			}
 			catch (Exception $e)
 			{

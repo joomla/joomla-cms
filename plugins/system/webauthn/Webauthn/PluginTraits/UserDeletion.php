@@ -11,6 +11,8 @@ namespace Akeeba\Passwordless\Webauthn\PluginTraits;
 
 use Akeeba\Passwordless\Webauthn\Helper\Joomla;
 use Exception;
+use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Utilities\ArrayHelper;
 
 // Protect from unauthorized access
@@ -44,7 +46,8 @@ trait UserDeletion
 		{
 			Joomla::log('system', "Removing Akeeba Passwordless Login information for deleted user #{$userId}");
 
-			$db = Joomla::getDbo();
+			/** @var DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			$query = $db->getQuery(true)
 				->delete($db->qn('#__webauthn_credentials'))

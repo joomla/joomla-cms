@@ -11,7 +11,9 @@ namespace Akeeba\Passwordless\Webauthn\PluginTraits;
 
 use Akeeba\Passwordless\Webauthn\Helper\Joomla;
 use Exception;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Registry\Registry;
 
 // Protect from unauthorized access
@@ -46,7 +48,7 @@ trait UserProfileFields
 
 		$name = $form->getName();
 
-		if (!in_array($name, array('com_admin.profile', 'com_users.user', 'com_users.profile', 'com_users.registration')))
+		if (!in_array($name, ['com_admin.profile', 'com_users.user', 'com_users.profile', 'com_users.registration']))
 		{
 			return true;
 		}
@@ -67,7 +69,7 @@ trait UserProfileFields
 			$id = isset($data->id) ? $data->id : null;
 		}
 
-		$user = Joomla::getUser($id);
+		$user = empty($id) ? Factory::getApplication()->getIdentity() : Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($id);
 
 		// Make sure the loaded user is the correct one
 		if ($user->id != $id)

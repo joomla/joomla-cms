@@ -12,8 +12,6 @@ namespace Akeeba\Passwordless\Webauthn\Helper;
 // Protect from unauthorized access
 use DateTimeZone;
 use Exception;
-use JDatabaseDriver;
-use JEventDispatcher;
 use JLoader;
 use Joomla\CMS\Application\BaseApplication;
 use Joomla\CMS\Application\CliApplication;
@@ -22,16 +20,12 @@ use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Authentication\AuthenticationResponse;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Http\Http;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Mail\Mail;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Registry\Registry;
 use RuntimeException;
@@ -93,7 +87,7 @@ abstract class Joomla
 		{
 			if (is_null($app))
 			{
-				$app = self::getApplication();
+				$app = Factory::getApplication();
 			}
 
 			self::$isAdmin = $app->isClient('administrator');
@@ -119,7 +113,7 @@ abstract class Joomla
 			{
 				try
 				{
-					$app = self::getApplication();
+					$app = Factory::getApplication();
 				}
 				catch (Exception $e)
 				{
@@ -171,7 +165,15 @@ abstract class Joomla
 		}
 
 		// Get the currently logged in used
-		$myUser = self::getUser();
+		try
+		{
+			$myUser = Factory::getApplication()->getIdentity();
+		}
+		catch (Exception $e)
+		{
+			// Cannot get the application; no user, therefore no edit privileges.
+			return false;
+		}
 
 		// Same user? I can edit myself
 		if ($myUser->id == $user->id)
@@ -204,7 +206,7 @@ abstract class Joomla
 	public static function renderLayout(string $layoutFile, $displayData = null, string $includePath = '', array $options = []): string
 	{
 		$basePath = JPATH_SITE . '/plugins/system/webauthn/layout';
-		$layout   = self::getJLayoutFromFile($layoutFile, $options, $basePath);
+		$layout   = new FileLayout($layoutFile, $basePath, $options);
 
 		if (!empty($includePath))
 		{
@@ -215,122 +217,12 @@ abstract class Joomla
 	}
 
 	/**
-	 * Execute a plugin event and return the results
+	 * Set a variable in the user session.
 	 *
-	 * @param   string           $event  The plugin event to trigger.
-	 * @param   array            $data   The data to pass to the event handlers.
-	 * @param   BaseApplication  $app    The application to run plugins against,
-	 *                                   default the currently loaded application.
-	 *
-	 * @return  array  The plugin responses
-	 *
-	 * @throws  RuntimeException  When we cannot run the plugins
-	 * @throws  Exception         When we cannot create the application
-	 *
-	 * @since   1.0.0
-	 */
-	public static function runPlugins(string $event, array $data, ?BaseApplication $app = null): array
-	{
-		if (!is_object($app))
-		{
-			$app = self::getApplication();
-		}
-
-		if (method_exists($app, 'triggerEvent'))
-		{
-			return $app->triggerEvent($event, $data);
-		}
-
-		if (class_exists('JEventDispatcher'))
-		{
-			return JEventDispatcher::getInstance()->trigger($event, $data);
-		}
-
-		throw new RuntimeException('Cannot run plugins');
-	}
-
-	/**
-	 * Tells Joomla! to load a plugin group.
-	 *
-	 * This is just a wrapper around JPluginHelper. We use our own helper method for future-proofing...
-	 *
-	 * @param   string       $group   The plugin group to import
-	 * @param   string|null  $plugin  The specific plugin to import
-	 *
-	 * @return  void
-	 *
-	 * @since   1.0.0
-	 */
-	public static function importPlugins(string $group, ?string $plugin = null): void
-	{
-		PluginHelper::importPlugin($group, $plugin);
-	}
-
-	/**
-	 * Get the CMS application object
-	 *
-	 * @return  CMSApplication
-	 *
-	 * @throws  Exception
-	 *
-	 * @since   1.0.0
-	 */
-	public static function getApplication(): CMSApplication
-	{
-		$app = Factory::getApplication();
-
-		if (self::isCmsApplication($app))
-		{
-			return $app;
-		}
-
-		throw new RuntimeException('Cannot find a valid CMS application object');
-	}
-
-	/**
-	 * Returns the user, delegates to JFactory/Factory.
-	 *
-	 * @param   int|null  $id  The ID of the Joomla! user to load, default null (currently logged in user)
-	 *
-	 * @return  User
-	 *
-	 * @since   1.0.0
-	 */
-	public static function getUser(?int $id = null): User
-	{
-		return Factory::getUser($id);
-	}
-
-	/**
-	 * Get the Joomla! session
-	 *
-	 * @return  Session
-	 *
-	 * @since   1.0.0
-	 */
-	protected static function getSession(): Session
-	{
-		return Factory::getSession();
-	}
-
-	/**
-	 * Return a Joomla! layout object, creating from a layout file
-	 *
-	 * @param   string  $layoutFile  Path to the layout file
-	 * @param   array   $options     Options to the layout file
-	 * @param   string  $basePath    Base path for the layout file
-	 *
-	 * @return  FileLayout
-	 *
-	 * @since   1.0.0
-	 */
-	public static function getJLayoutFromFile(string $layoutFile, array $options, string $basePath): FileLayout
-	{
-		return new FileLayout($layoutFile, $basePath, $options);
-	}
-
-	/**
-	 * Set a variable in the user session
+	 * This method cannot be replaced with a call to Factory::getSession->set(). This method takes into account running
+	 * under CLI, using a fake session storage. In the end of the day this plugin doesn't work under CLI but being able
+	 * to fake session storage under CLI means that we don't have to add gnarly if-blocks everywhere in the code to make
+	 * sure it doesn't break CLI either!
 	 *
 	 * @param   string  $name       The name of the variable to set
 	 * @param   string  $value      (optional) The value to set it to, default is null
@@ -353,16 +245,21 @@ abstract class Joomla
 
 		if (version_compare(JVERSION, '3.99999.99999', 'lt'))
 		{
-			self::getSession()->set($name, $value, $namespace);
+			Factory::getSession()->set($name, $value, $namespace);
 
 			return;
 		}
 
-		self::getSession()->set($qualifiedKey, $value);
+		Factory::getSession()->set($qualifiedKey, $value);
 	}
 
 	/**
 	 * Get a variable from the user session
+	 *
+	 * This method cannot be replaced with a call to Factory::getSession->get(). This method takes into account running
+	 * under CLI, using a fake session storage. In the end of the day this plugin doesn't work under CLI but being able
+	 * to fake session storage under CLI means that we don't have to add gnarly if-blocks everywhere in the code to make
+	 * sure it doesn't break CLI either!
 	 *
 	 * @param   string  $name       The name of the variable to set
 	 * @param   string  $default    (optional) The default value to return if the variable does not exit, default: null
@@ -383,14 +280,19 @@ abstract class Joomla
 
 		if (version_compare(JVERSION, '3.99999.99999', 'lt'))
 		{
-			return self::getSession()->get($name, $default, $namespace);
+			return Factory::getSession()->get($name, $default, $namespace);
 		}
 
-		return self::getSession()->get($qualifiedKey, $default);
+		return Factory::getSession()->get($qualifiedKey, $default);
 	}
 
 	/**
 	 * Unset a variable from the user session
+	 *
+	 * This method cannot be replaced with a call to Factory::getSession->set(). This method takes into account running
+	 * under CLI, using a fake session storage. In the end of the day this plugin doesn't work under CLI but being able
+	 * to fake session storage under CLI means that we don't have to add gnarly if-blocks everywhere in the code to make
+	 * sure it doesn't break CLI either!
 	 *
 	 * @param   string  $name       The name of the variable to unset
 	 * @param   string  $namespace  (optional) The variable's namespace e.g. the component name. Default: 'default'
@@ -422,7 +324,8 @@ abstract class Joomla
 	}
 
 	/**
-	 * Return the session token. Two types of tokens can be returned:
+	 * Return the session token. This method goes through our session abstraction to prevent a fatal exception if it's
+	 * accidentally called under CLI.
 	 *
 	 * @return  mixed
 	 *
@@ -438,7 +341,7 @@ abstract class Joomla
 			// Create a token
 			if (is_null($token))
 			{
-				$token = self::generateRandom(32);
+				$token = UserHelper::genRandomPassword(32);
 
 				self::setSessionVar('session.token', $token);
 			}
@@ -447,163 +350,7 @@ abstract class Joomla
 		}
 
 		// Web application, go through the regular Joomla! API.
-		return self::getSession()->getToken();
-	}
-
-	/**
-	 * Generate a random string
-	 *
-	 * @param   int  $length  Random string length
-	 *
-	 * @return  string
-	 *
-	 * @since   1.0.0
-	 */
-	public static function generateRandom(int $length = 32): string
-	{
-		return UserHelper::genRandomPassword($length);
-	}
-
-	/**
-	 * Converts an email to punycode
-	 *
-	 * @param   string  $email  The original email, with Unicode characters
-	 *
-	 * @return  string  The punycode-transcribed email address
-	 *
-	 * @since   1.0.0
-	 */
-	public static function emailToPunycode(string $email): string
-	{
-		return PunycodeHelper::emailToPunycode($email);
-	}
-
-	/**
-	 * Is the variable an CMS application object?
-	 *
-	 * @param   mixed  $app
-	 *
-	 * @return  bool
-	 *
-	 * @since   1.0.0
-	 */
-	public static function isCmsApplication($app): bool
-	{
-		if (!is_object($app))
-		{
-			return false;
-		}
-
-		return $app instanceof CMSApplication;
-	}
-
-	/**
-	 * Get the Joomla! database driver object
-	 *
-	 * @return  JDatabaseDriver
-	 *
-	 * @since   1.0.0
-	 */
-	public static function getDbo(): JDatabaseDriver
-	{
-		return Factory::getDbo();
-	}
-
-	/**
-	 * Get the Joomla! global configuration object
-	 *
-	 * @return  Registry
-	 *
-	 * @since   1.0.0
-	 */
-	public static function getConfig(): Registry
-	{
-		return Factory::getConfig();
-	}
-
-	/**
-	 * Get the Joomla! mailer object
-	 *
-	 * @return  Mail
-	 *
-	 * @since   1.0.0
-	 */
-	public static function getMailer(): Mail
-	{
-		return Factory::getMailer();
-	}
-
-	/**
-	 * Returns the numeric user ID given a username or 0 if the user does not exist.
-	 *
-	 * @param   string  $username  The username to look up
-	 *
-	 * @return  int
-	 *
-	 * @since   1.0.0
-	 */
-	public static function getUserId(string $username): int
-	{
-		return UserHelper::getUserId($username);
-	}
-
-	/**
-	 * Return a translated string
-	 *
-	 * @param   string  $string  The translation key
-	 *
-	 * @return  string
-	 *
-	 * @since   1.0.0
-	 */
-	public static function _(string $string): string
-	{
-		return call_user_func_array(array('Joomla\\CMS\\Language\\Text', '_'), array($string));
-	}
-
-	/**
-	 * Passes a string thru a sprintf.
-	 *
-	 * Note that this method can take a mixed number of arguments as for the sprintf function.
-	 *
-	 * The last argument can take an array of options:
-	 *
-	 * array('jsSafe'=>boolean, 'interpretBackSlashes'=>boolean, 'script'=>boolean)
-	 *
-	 * where:
-	 *
-	 * jsSafe is a boolean to generate a javascript safe strings.
-	 * interpretBackSlashes is a boolean to interpret backslashes \\->\, \n->new line, \t->tabulation.
-	 * script is a boolean to indicate that the string will be push in the javascript language store.
-	 *
-	 * @param   string  $string  The format string.
-	 * @param   mixed   $args    The variable arguments to sprintf().
-	 *
-	 * @return  string
-	 *
-	 * @see     Text::sprintf().
-	 *
-	 * @since   1.0.0
-	 */
-	public static function sprintf(string $string, ...$args): string
-	{
-		return call_user_func_array(array('Joomla\\CMS\\Language\\Text', 'sprintf'), array_merge([$string], $args));
-	}
-
-	/**
-	 * Get an HTTP client
-	 *
-	 * @param   array  $options  The options to pass to the factory when building the client.
-	 *
-	 * @return  Http
-	 *
-	 * @since   1.0.0
-	 */
-	public static function getHttpClient(array $options = []): Http
-	{
-		$optionRegistry = new Registry($options);
-
-		return HttpFactory::getHttp($optionRegistry);
+		return Factory::getSession()->getToken();
 	}
 
 	/**
@@ -679,22 +426,22 @@ abstract class Joomla
 		// Fake a successful login message
 		if (!is_object($app))
 		{
-			$app = Joomla::getApplication();
+			$app = Factory::getApplication();
 		}
 
 		$isAdmin = $app->isClient('administrator');
-		$user    = Joomla::getUser($userId);
+		$user    = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
 
 		// Does the user account have a pending activation?
 		if (!empty($user->activation))
 		{
-			throw new RuntimeException(Joomla::_('JGLOBAL_AUTH_ACCESS_DENIED'));
+			throw new RuntimeException(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
 		}
 
 		// Is the user account blocked?
 		if ($user->block)
 		{
-			throw new RuntimeException(Joomla::_('JGLOBAL_AUTH_ACCESS_DENIED'));
+			throw new RuntimeException(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
 		}
 
 		$statusSuccess = Authentication::STATUS_SUCCESS;
@@ -725,10 +472,10 @@ abstract class Joomla
 		 * insufficient privileges - the same thing that'd happen if you tried to use your front-end only username and
 		 * password in a back-end login form.
 		 */
-		$options = array(
+		$options = [
 			'remember' => true,
-			'action' => 'core.login.site',
-		);
+			'action'   => 'core.login.site',
+		];
 
 		if (Joomla::isAdminPage())
 		{
@@ -736,27 +483,28 @@ abstract class Joomla
 		}
 
 		// Run the user plugins. They CAN block login by returning boolean false and setting $response->error_message.
-		Joomla::importPlugins('user');
-		$results = Joomla::runPlugins('onUserLogin', array((array) $response, $options), $app);
+		PluginHelper::importPlugin('user');
+
+		$results = $app->triggerEvent('onUserLogin', [(array) $response, $options]);
 
 		// If there is no boolean FALSE result from any plugin the login is successful.
 		if (in_array(false, $results, true) == false)
 		{
 			// Set the user in the session, letting Joomla! know that we are logged in.
-			Joomla::getSession()->set('user', $user);
+			Factory::getSession()->set('user', $user);
 
 			// Trigger the onUserAfterLogin event
 			$options['user']         = $user;
 			$options['responseType'] = $response->type;
 
 			// The user is successfully logged in. Run the after login events
-			Joomla::runPlugins('onUserAfterLogin', array($options), $app);
+			$app->triggerEvent('onUserAfterLogin', [$options]);
 
 			return;
 		}
 
 		// If we are here the plugins marked a login failure. Trigger the onUserLoginFailure Event.
-		Joomla::runPlugins('onUserLoginFailure', array((array) $response), $app);
+		$app->triggerEvent('onUserLoginFailure', [(array) $response]);
 
 		// Log the failure
 		Log::add($response->error_message, Log::WARNING, 'jerror');
@@ -797,16 +545,16 @@ abstract class Joomla
 	public static function processLoginFailure(AuthenticationResponse $response, BaseApplication $app = null, string $logContext = 'system')
 	{
 		// Import the user plugin group.
-		Joomla::importPlugins('user');
+		PluginHelper::importPlugin('user');
 
 		if (!is_object($app))
 		{
-			$app = Joomla::getApplication();
+			$app = Factory::getApplication();
 		}
 
 		// Trigger onUserLoginFailure Event.
 		Joomla::log($logContext, "Calling onUserLoginFailure plugin event");
-		Joomla::runPlugins('onUserLoginFailure', array((array) $response), $app);
+		$app->triggerEvent('onUserLoginFailure', array((array) $response));
 
 		// If status is success, any error will have been raised by the user plugin
 		$expectedStatus = Authentication::STATUS_SUCCESS;
@@ -881,7 +629,7 @@ abstract class Joomla
 
 		if (empty($format))
 		{
-			$format = Joomla::_('DATE_FORMAT_LC6');
+			$format = Text::_('DATE_FORMAT_LC6');
 		}
 
 		return $jDate->format($format, true);

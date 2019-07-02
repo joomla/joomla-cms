@@ -1,9 +1,12 @@
 <?php
 
 use Akeeba\Passwordless\Webauthn\Helper\Joomla;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\UserHelper;
 
 /**
  * @package     Joomla.Plugin
@@ -87,7 +90,7 @@ extract(array_merge([
 $uri = new Uri(Uri::base() . 'index.php');
 $uri->setVar(Joomla::getToken(), '1');
 
-$randomId = 'akpwl-login-' . Joomla::generateRandom(12) . '-' . Joomla::generateRandom(8);
+$randomId = 'akpwl-login-' . UserHelper::genRandomPassword(12) . '-' . UserHelper::genRandomPassword(8);
 
 $jsSelectors = implode(", ", array_map(function ($selector) {
 	return '"' . addslashes($selector) . '"';
@@ -102,21 +105,21 @@ window.jQuery(document).ready(function(){
 });
 
 JS;
-	Joomla::getApplication()->getDocument()->addScriptDeclaration($js);
+	Factory::getApplication()->getDocument()->addScriptDeclaration($js);
 }
 // END - MANDATORY CODE
 ?>
 <button class="<?= $class ?> hasTooltip"
         onclick="return akeeba_passwordless_login(this, '<?= $uri->toString() ?>')"
-        title="<?= Joomla::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC') ?>"
+        title="<?= Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC') ?>"
 		id="<?= $randomId ?>"
 >
 	<?php if (!empty($icon)): ?>
         <span class="<?= $icon ?>"></span>
 	<?php elseif (!empty($image)): ?>
-		<?= HTMLHelper::_('image', $image, Joomla::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC'), [
+		<?= HTMLHelper::_('image', $image, Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC'), [
 			'class' => 'icon',
 		], true) ?>
 	<?php endif; ?>
-	<?= Joomla::_('PLG_SYSTEM_WEBAUTHN_LOGIN_LABEL') ?>
+	<?= Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_LABEL') ?>
 </button>

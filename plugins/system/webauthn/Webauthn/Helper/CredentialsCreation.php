@@ -15,7 +15,10 @@ use CBOR\OtherObject\OtherObjectManager;
 use CBOR\Tag\TagObjectManager;
 use Cose\Algorithm\Manager;
 use Exception;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Crypt\Crypt;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use RuntimeException;
@@ -53,12 +56,15 @@ abstract class CredentialsCreation
 	 */
 	public static function createPublicKey(User $user): string
 	{
+		/** @var CMSApplication $app */
+		$app = Factory::getApplication();
+
 		// Credentials repository
 		$repository = new CredentialRepository();
 
 		// Relaying Party -- Our site
 		$rpEntity = new PublicKeyCredentialRpEntity(
-			Joomla::getConfig()->get('sitename'),
+			$app->getConfig()->get('sitename'),
 			Uri::getInstance()->toString(['host']),
 			self::getSiteIcon()
 		);
@@ -91,7 +97,7 @@ abstract class CredentialsCreation
 
 		// Devices to exclude (already set up authenticators)
 		$excludedPublicKeyDescriptors = [];
-		$records = $repository->getAll($user->id);
+		$records                      = $repository->getAll($user->id);
 
 		foreach ($records as $record)
 		{
@@ -145,7 +151,7 @@ abstract class CredentialsCreation
 
 		if (empty($encodedOptions))
 		{
-			throw new RuntimeException(Joomla::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_NO_PK'));
+			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_NO_PK'));
 		}
 
 		try
@@ -159,17 +165,17 @@ abstract class CredentialsCreation
 
 		if (!is_object($publicKeyCredentialCreationOptions) || !($publicKeyCredentialCreationOptions instanceof PublicKeyCredentialCreationOptions))
 		{
-			throw new RuntimeException(Joomla::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_NO_PK'));
+			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_NO_PK'));
 		}
 
 		// Retrieve the stored user ID and make sure it's the same one in the request.
 		$storedUserId = Joomla::getSessionVar('registration_user_id', 0, 'plg_system_webauthn');
-		$myUser       = Joomla::getUser();
+		$myUser       = Factory::getApplication()->getIdentity();
 		$myUserId     = $myUser->id;
 
 		if (($myUser->guest) || ($myUserId != $storedUserId))
 		{
-			throw new RuntimeException(Joomla::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_USER'));
+			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_USER'));
 		}
 
 		// Create a CBOR Decoder object
@@ -264,7 +270,7 @@ abstract class CredentialsCreation
 				'/images/',
 				'/media/',
 				'/templates/',
-				'/templates/' . Joomla::getApplication()->getTemplate(),
+				'/templates/' . Factory::getApplication()->getTemplate(),
 			];
 		}
 		catch (Exception $e)
