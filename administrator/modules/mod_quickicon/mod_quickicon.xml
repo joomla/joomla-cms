@@ -31,6 +31,13 @@
 					default="mod_quickicon"
 				/>
 				<field
+					name="header_icon"
+					type="text"
+					label="MOD_QUICKICON_HEADER_ICON_LABEL"
+					hint="fa fa-crosshairs"
+					default=""
+				/>
+				<field
 					name="show_global"
 					type="radio"
 					class="switcher"
@@ -135,45 +142,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_QUICKICON_SHOW_TEMPLATES_LABEL"
-					default="0"
-					>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
-				</field>				<field
-					name="show_jupdate"
-					type="radio"
-					class="switcher"
-					label="MOD_QUICKICON_SHOW_JOOMLAUPDATE_LABEL"
-					default="0"
-					>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
-				</field>
-				<field
-					name="show_eupdate"
-					type="radio"
-					class="switcher"
-					label="MOD_QUICKICON_SHOW_EXTENSIONUPDATE_LABEL"
-					default="0"
-					>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
-				</field>
-				<field
-					name="show_oupdate"
-					type="radio"
-					class="switcher"
-					label="MOD_QUICKICON_SHOW_OVERRIDEUPDATE_LABEL"
-					default="0"
-					>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
-				</field>
-				<field
-					name="show_privacy"
-					type="radio"
-					class="switcher"
-					label="MOD_QUICKICON_SHOW_PRIVACYREQUEST_LABEL"
 					default="0"
 					>
 					<option value="0">JHIDE</option>

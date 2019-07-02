@@ -89,7 +89,13 @@ class DisplayController extends BaseController
 					$return = 'index.php';
 				}
 
-				$response = new JsonResponse((object) ['return' => $return]);
+				// We redirect via JS, so the session is not filled in the application
+				// So we do it manually
+				$messages = $app->getMessageQueue();
+
+				$app->getSession()->set('application.queue', $messages);
+
+				$response = new JsonResponse((object) ['return' => $return], null, false, true);
 			}
 			else
 			{

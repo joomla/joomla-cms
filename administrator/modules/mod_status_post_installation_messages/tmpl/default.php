@@ -24,7 +24,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 ?>
 
 		<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
-			<div class="header-element-content dropdown d-flex">
+			<div class="header-item-content dropdown d-flex">
 				<button class="dropdown-toggle d-flex flex-column align-items-stretch <?php echo ($hideLinks ? 'disabled' : ''); ?>" data-toggle="dropdown" type="button"
 					title="<?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?>">
                     <div class="d-flex align-items-end mx-auto">

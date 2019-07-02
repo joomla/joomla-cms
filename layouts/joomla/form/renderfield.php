@@ -18,7 +18,7 @@ extract($displayData);
  * ---------------------
  * 	$options      : (array)  Optional parameters
  * 	$name         : (string) The id of the input this label is for
- * 	$label        : (string) The html code for the label (not required if $options['hiddenLabel'] is true)
+ * 	$label        : (string) The html code for the label
  * 	$input        : (string) The input field html code
  * 	$description  : (string) An optional description to use in a tooltip
  */
@@ -30,13 +30,14 @@ if (!empty($options['showonEnabled']))
 $class = empty($options['class']) ? '' : ' ' . $options['class'];
 $rel   = empty($options['rel']) ? '' : ' ' . $options['rel'];
 $id    = $name . '-desc';
+$hide  = empty($options['hiddenLabel']) ? '' : ' sr-only';
 
 ?>
 <div class="form-group<?php echo $class; ?>"<?php echo $rel; ?>>
 	<?php if (empty($options['hiddenLabel'])) : ?>
 		<?php echo $label; ?>
 	<?php endif; ?>
-    <?php echo $input; ?>
+	<?php echo $input; ?>
 
 	<?php if (!empty($description)) : ?>
 		<div id="<?php echo $id; ?>">

@@ -13,7 +13,7 @@ $gray-500:                         #adb5bd; //used in toolbar and buttons for bo
 $gray-700:                         #495057; //used for atum-text-dark, secondary
 $gray-800:                         #343a40; //used for badges-inverse
 $gray-900:                         #212529; //used for tree header, badge-inverse border
-$black:                            #000;	//used for shadows
+$black:                            #000;    //used for shadows
 $focuscolor:                       #39f;   //used for focus color
 
 $dark-blue:                        #001B4C; //is the atum-special-color
@@ -109,6 +109,7 @@ $border-radius-s:                  .2rem;
 $input-btn-padding-y:              .6rem;
 $input-btn-padding-x:              1rem;
 $input-max-width:                  100%;
+$btn-disabled-opacity:             0.4;
 
 // Header
 $header-height:                    3.5rem;
@@ -155,7 +156,6 @@ $black-weight:                     900;
 // Text
 $body-color:                       var(--atum-text-dark); //only used in bootstrap, please use --atum-color-dark
 
-
 // Tables
 $table-bg:                         transparent;
 $table-bg-accent:                  rgba(0, 0, 0, .03);
@@ -165,7 +165,7 @@ $table-cell-padding:               8px 12px;
 // Dropdowns
 $dropdown-padding-y:               0;
 $dropdown-box-shadow:              0 1px 1px rgba($black, .15);
-$dropdown-link-hover-color:        $white;
+$dropdown-link-hover-color:        var(--atum-text-dark);
 $dropdown-border-width:            1px;
 $dropdown-item-padding-y:          .5rem;
 $dropdown-item-padding-x:          .75rem;
@@ -206,8 +206,6 @@ $state-error-text:                 var(--error);
 $state-error-bg:                   lighten($red-dark, 70%);
 $state-error-border:               lighten($red-dark, 30%);
 
-
-
 // Badges
 $success-bg:                       #BAE0B7;
 $success-txt:                      #114B0C;
@@ -231,12 +229,18 @@ $treeselect-indent:                40px;
 $list-group-bg:                    var(--white-offset);
 
 // Custom form
-$custom-select-bg:                 var(--white-offset);
+$custom-select-indicator-padding:    2rem;
+$custom-select-bg:                   var(--atum-bg-dark);
+$custom-select-bg-size:              116rem;
+$custom-select-indicator:            url(../images/select-bg.svg);
+$custom-select-background:           $custom-select-indicator no-repeat right center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$custom-select-box-shadow:           $atum-box-shadow;
+$custom-select-bg-size-sm:           75rem;
+$custom-select-indicator-padding-sm: 1rem;
+$custom-select-multiple-padding-y:   .3rem;
 
 //input
 $input-padding:                    .6rem 1rem;
-$input-select-padding:             .6rem 3rem .6rem 1rem;
-$input-select-multiple-padding:    .3rem 1rem;
 
 // Modals
 $modal-header-height:              2.875rem;

@@ -26,7 +26,7 @@
           onSuccess: ((resp) => {
             const response = JSON.parse(resp);
 
-            if (response.data) {
+            if (Object.prototype.hasOwnProperty.call(response, 'data')) {
               const name = quickicon.querySelector('.quickicon-name');
               const nameSpan = document.createElement('span');
 

@@ -31,7 +31,6 @@ $filters = $data['view']->filterForm->getGroup('filter');
 
 <?php if (!empty($filters['filter_search'])) : ?>
 	<?php if ($searchButton) : ?>
-		<div class="btn-toolbar">
 			<div class="btn-group mr-2">
 				<div class="input-group">
 					<label for="filter_search" class="sr-only">
@@ -64,6 +63,5 @@ $filters = $data['view']->filterForm->getGroup('filter');
             <button type="button" class="btn btn-primary js-stools-btn-clear mr-2">
 				<?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?>
             </button>
-		</div>
 	<?php endif; ?>
 <?php endif;

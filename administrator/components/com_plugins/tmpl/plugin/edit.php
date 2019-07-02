@@ -44,7 +44,7 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 						<?php if ($this->item->xml) : ?>
 							<?php if ($this->item->xml->description) : ?>
 								<h2>
-									<?php
+								<?php
 									if ($this->item->xml)
 									{
 										echo ($text = (string) $this->item->xml->name) ? Text::_($text) : $this->item->name;
@@ -53,7 +53,7 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 									{
 										echo Text::_('COM_PLUGINS_XML_ERR');
 									}
-									?>
+								?>
 								</h2>
 								<div class="info-labels mb-1">
 									<span class="badge badge-secondary">
@@ -88,7 +88,6 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 									?>
 									<p><?php echo $short_description; ?></p>
 									<?php if ($long_description) : ?>
-									<?php // @todo Remove jQuery ?>
 										<p class="readmore">
 											<a href="#" onclick="document.querySelector('#tab-description').click();">
 												<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
@@ -99,6 +98,7 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 							<?php endif; ?>
 							<?php else : ?>
 								<div class="alert alert-danger">
+								<span class="fa fa-exclamation-triangle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
 									<?php echo Text::_('COM_PLUGINS_XML_ERR'); ?>
 								</div>
 							<?php endif; ?>
@@ -111,6 +111,16 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 				</div>
 			</div>
 			<div class="col-md-3">
+				<?php
+				// Set main fields.
+				$this->fields = array(
+					'enabled',
+					'access',
+					'ordering',
+					'folder',
+					'element',
+					'note',
+				); ?>
 				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 				<div class="form-vertical form-no-margin">
 					<div class="form-group">
@@ -124,6 +134,10 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 					<div class="form-group">
 						<?php echo $this->form->getLabel('element'); ?>
 						<?php echo $this->form->getInput('element'); ?>
+					</div>
+					<div class="control-group">
+						<?php echo $this->form->getLabel('note'); ?>
+						<?php echo $this->form->getInput('note'); ?>
 					</div>
 				</div>
 			</div>

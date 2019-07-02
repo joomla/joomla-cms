@@ -4,21 +4,17 @@
 
 .js-stools {
   position: relative;
-  display: flex;
-  justify-content: flex-end;
   padding: 5px 0 0;
 
   .js-stools-container-filters {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    z-index: $zindex-popover;
     display: none;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     padding: 10px;
     margin: 0;
     background-color: $white;
-    border: 1px solid var(--border);
+    border: solid var(--border);
+    border-width: 1px 0;
     border-radius: 0 0 0 $border-radius;
     box-shadow: -1px 1px 4px rgba(0, 0, 0, .05);
 
@@ -65,6 +61,28 @@
 
     .btn-toolbar {
       margin-bottom: 8px;
+
+      .js-stools-btn-clear{
+        background-color: var(--atum-bg-dark);
+        color: var(--atum-text-light);
+
+      }
+      .js-stools-btn-filter{
+        border:1px solid var(--border);
+      }
+
+      .form-control{
+        height:auto;
+      }
+    }
+
+    .js-stools-field-list{
+      margin-bottom:0;
+      .custom-select{
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+      }
     }
 
     .input-append {

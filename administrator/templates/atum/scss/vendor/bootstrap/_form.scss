@@ -103,14 +103,7 @@ legend {
 }
 
 .custom-select {
-  padding: $input-select-padding;
-  background-color: var(--atum-bg-dark);
-  background-image: url(../images/select-bg.svg);
-  background-repeat: no-repeat;
-  background-position: center right;
-  background-size: 1854px;
   min-width: 10rem;
-  box-shadow: $atum-box-shadow;
 
   optgroup, option {
     background-color: $white;
@@ -123,7 +116,7 @@ legend {
 
   option {
     background-color: var(--white-offset);
-    padding: $input-select-multiple-padding;
+    padding: $custom-select-multiple-padding-y $custom-select-padding-x;
     &:checked {
       color: var(--atum-text-light);
       background-color: var(--atum-bg-dark) !important;
@@ -131,6 +124,14 @@ legend {
   }
 }
 
+.custom-select-sm {
+  padding-right: $custom-select-padding-x + $custom-select-indicator-padding-sm;
+  background-size: $custom-select-bg-size-sm;
+}
+
+select.form-control {
+  background-color: $custom-select-bg;
+}
 
 @include media-breakpoint-down(xs) {
   .control-group {

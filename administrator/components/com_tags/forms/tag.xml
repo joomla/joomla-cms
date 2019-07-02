@@ -150,7 +150,6 @@
 		name="created_by_alias"
 		type="text"
 		label="JGLOBAL_FIELD_CREATED_BY_ALIAS_LABEL"
-		labelclass="control-label"
 		size="20"
 	/>
 
@@ -199,7 +198,6 @@
 		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 		maxlength="255"
 		size="45"
-		labelclass="control-label"
 	/>
 
 	<fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
@@ -213,7 +211,6 @@
 				type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
 				class="custom-select"
-				labelclass="control-label"
 				useglobal="true"
 				extension="com_tags"
 				view="tag"
@@ -223,9 +220,7 @@
 				name="tag_link_class"
 				type="text"
 				label="COM_TAGS_FIELD_TAG_LINK_CLASS"
-				labelclass="control-label"
 				size="20"
-				default="label label-info"
 			/>
 
 		</fieldset>
@@ -237,14 +232,12 @@
 				name="image_intro"
 				type="media"
 				label="COM_TAGS_FIELD_INTRO_LABEL"
-				labelclass="control-label"
 			/>
 
 			<field
 				name="float_intro"
 				type="list"
 				label="COM_TAGS_FLOAT_LABEL"
-				labelclass="control-label"
 				>
 				<option value="">JGLOBAL_SELECT_AN_OPTION</option>
 				<option value="right">COM_TAGS_RIGHT</option>
@@ -256,7 +249,6 @@
 				name="image_intro_alt"
 				type="text"
 				label="COM_TAGS_FIELD_IMAGE_ALT_LABEL"
-				labelclass="control-label"
 				size="20"
 			/>
 
@@ -265,7 +257,6 @@
 				type="text"
 				label="COM_TAGS_FIELD_IMAGE_CAPTION_LABEL"
 				size="20"
-				labelclass="control-label"
 			/>
 
 			<field
@@ -278,14 +269,12 @@
 				name="image_fulltext"
 				type="media"
 				label="COM_TAGS_FIELD_FULL_LABEL"
-				labelclass="control-label"
 			/>
 
 			<field
 				name="float_fulltext"
 				type="list"
 				label="COM_TAGS_FLOAT_LABEL"
-				labelclass="control-label"
 				>
 				<option value="">JGLOBAL_SELECT_AN_OPTION</option>
 				<option value="right">COM_TAGS_RIGHT</option>
@@ -297,7 +286,6 @@
 				name="image_fulltext_alt"
 				type="text"
 				label="COM_TAGS_FIELD_IMAGE_ALT_LABEL"
-				labelclass="control-label"
 				size="20"
 			/>
 
@@ -305,7 +293,6 @@
 				name="image_fulltext_caption"
 				type="text"
 				label="COM_TAGS_FIELD_IMAGE_CAPTION_LABEL"
-				labelclass="control-label"
 				size="20"
 			/>
 		</fieldset>
