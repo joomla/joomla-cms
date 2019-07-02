@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bfc6490bb10b548e5d1181cd62a8852a",
+    "content-hash": "15eec5f6299b8ca707e6564f28dd219d",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -54,6 +54,61 @@
                 "php"
             ],
             "time": "2016-06-19T18:08:43+00:00"
+        },
+        {
+            "name": "beberlei/assert",
+            "version": "v3.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/beberlei/assert.git",
+                "reference": "ce139b6bf8f07fb8389d2c8e15b98dc24fdd93c7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/beberlei/assert/zipball/ce139b6bf8f07fb8389d2c8e15b98dc24fdd93c7",
+                "reference": "ce139b6bf8f07fb8389d2c8e15b98dc24fdd93c7",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "*",
+                "phpstan/phpstan-shim": "*",
+                "phpunit/phpunit": ">=6.0.0 <8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Assert\\": "lib/Assert"
+                },
+                "files": [
+                    "lib/Assert/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Richard Quadling",
+                    "email": "rquadling@gmail.com",
+                    "role": "Collaborator"
+                }
+            ],
+            "description": "Thin assertion library for input validation in business models.",
+            "keywords": [
+                "assert",
+                "assertion",
+                "validation"
+            ],
+            "time": "2019-05-28T15:18:28+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -242,6 +297,75 @@
             "time": "2017-07-22T12:18:28+00:00"
         },
         {
+            "name": "fgrosse/phpasn1",
+            "version": "v2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fgrosse/PHPASN1.git",
+                "reference": "7ebf2a09084a7bbdb7b879c66fdf7ad80461bbe8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fgrosse/PHPASN1/zipball/7ebf2a09084a7bbdb7b879c66fdf7ad80461bbe8",
+                "reference": "7ebf2a09084a7bbdb7b879c66fdf7ad80461bbe8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.3",
+                "satooshi/php-coveralls": "~2.0"
+            },
+            "suggest": {
+                "ext-gmp": "GMP is the preferred extension for big integer calculations",
+                "php-curl": "For loading OID information from the web if they have not bee defined statically"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "FG\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Friedrich Große",
+                    "email": "friedrich.grosse@gmail.com",
+                    "homepage": "https://github.com/FGrosse",
+                    "role": "Author"
+                },
+                {
+                    "name": "All contributors",
+                    "homepage": "https://github.com/FGrosse/PHPASN1/contributors"
+                }
+            ],
+            "description": "A PHP Framework that allows you to encode and decode arbitrary ASN.1 structures using the ITU-T X.690 Encoding Rules.",
+            "homepage": "https://github.com/FGrosse/PHPASN1",
+            "keywords": [
+                "DER",
+                "asn.1",
+                "asn1",
+                "ber",
+                "binary",
+                "decoding",
+                "encoding",
+                "x.509",
+                "x.690",
+                "x509",
+                "x690"
+            ],
+            "time": "2018-12-02T01:34:34+00:00"
+        },
+        {
             "name": "fig/link-util",
             "version": "1.0.0",
             "source": {
@@ -348,12 +472,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/application.git",
-                "reference": "cb7e310fef06529063ec6891fdba6c5895c1bd99"
+                "reference": "dcf1205bd75ff2de3414828ba111b2430ed959bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/application/zipball/cb7e310fef06529063ec6891fdba6c5895c1bd99",
-                "reference": "cb7e310fef06529063ec6891fdba6c5895c1bd99",
+                "url": "https://api.github.com/repos/joomla-framework/application/zipball/dcf1205bd75ff2de3414828ba111b2430ed959bc",
+                "reference": "dcf1205bd75ff2de3414828ba111b2430ed959bc",
                 "shasum": ""
             },
             "require": {
@@ -371,16 +495,16 @@
                 "joomla/di": "~1.5|~2.0",
                 "joomla/router": "~2.0",
                 "joomla/session": "~2.0",
-                "joomla/test": "~2.0",
-                "joomla/uri": "~1.1|~2.0",
-                "phpunit/phpunit": "~8.2"
+                "joomla/test": "~1.1",
+                "joomla/uri": "~1.1",
+                "phpunit/phpunit": "~6.3"
             },
             "suggest": {
-                "joomla/controller": "~1.0|~2.0 To support resolving ControllerInterface objects in ControllerResolverInterface, install joomla/controller",
-                "joomla/router": "~2.0 To use WebApplication or ControllerResolverInterface implementations, install joomla/router",
-                "joomla/session": "~2.0 To use AbstractWebApplication with session support, install joomla/session",
-                "joomla/uri": "~1.1|~2.0 To use AbstractWebApplication, install joomla/uri",
-                "psr/container": "~1.0 To use the ContainerControllerResolver, install any PSR-11 compatible container"
+                "joomla/controller": "To support resolving ControllerInterface objects in ControllerResolverInterface, install joomla/controller",
+                "joomla/router": "To use WebApplication or ControllerResolverInterface implementations, install joomla/router",
+                "joomla/session": "To use AbstractWebApplication with session support, install joomla/session",
+                "joomla/uri": "To use AbstractWebApplication, install joomla/uri",
+                "psr/container": "To use the ContainerControllerResolver, install any PSR-11 compatible container"
             },
             "type": "joomla-package",
             "extra": {
@@ -404,7 +528,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-07-14T19:44:25+00:00"
+            "time": "2019-06-17T23:30:53+00:00"
         },
         {
             "name": "joomla/archive",
@@ -516,12 +640,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/console.git",
-                "reference": "85fd3b5b46d86f61fa3d129d19cabcabee44bc6c"
+                "reference": "2d4ceaaa49336f672d09e8d05faf8df6501a2754"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/console/zipball/85fd3b5b46d86f61fa3d129d19cabcabee44bc6c",
-                "reference": "85fd3b5b46d86f61fa3d129d19cabcabee44bc6c",
+                "url": "https://api.github.com/repos/joomla-framework/console/zipball/2d4ceaaa49336f672d09e8d05faf8df6501a2754",
+                "reference": "2d4ceaaa49336f672d09e8d05faf8df6501a2754",
                 "shasum": ""
             },
             "require": {
@@ -533,7 +657,7 @@
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
-                "phpunit/phpunit": "~8.2",
+                "phpunit/phpunit": "~6.3",
                 "psr/container": "~1.0"
             },
             "suggest": {
@@ -561,7 +685,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-07-14T18:55:56+00:00"
+            "time": "2019-06-17T23:29:39+00:00"
         },
         {
             "name": "joomla/controller",
@@ -722,12 +846,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "1752fa13c46f6cac553518ff6cf53b288f05133a"
+                "reference": "fa3b0519c146242b088abe1572a3c0dc32ae59de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/1752fa13c46f6cac553518ff6cf53b288f05133a",
-                "reference": "1752fa13c46f6cac553518ff6cf53b288f05133a",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/fa3b0519c146242b088abe1572a3c0dc32ae59de",
+                "reference": "fa3b0519c146242b088abe1572a3c0dc32ae59de",
                 "shasum": ""
             },
             "require": {
@@ -779,7 +903,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-07-10T16:54:07+00:00"
+            "time": "2019-07-02T07:05:06+00:00"
         },
         {
             "name": "joomla/di",
@@ -839,12 +963,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/event.git",
-                "reference": "dd9f0179ee8a6a68dfe970bc43fe5ed3a712ecee"
+                "reference": "d0146f10f982acd8e9629179c3da5c0496ccd2a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/event/zipball/dd9f0179ee8a6a68dfe970bc43fe5ed3a712ecee",
-                "reference": "dd9f0179ee8a6a68dfe970bc43fe5ed3a712ecee",
+                "url": "https://api.github.com/repos/joomla-framework/event/zipball/d0146f10f982acd8e9629179c3da5c0496ccd2a0",
+                "reference": "d0146f10f982acd8e9629179c3da5c0496ccd2a0",
                 "shasum": ""
             },
             "require": {
@@ -880,7 +1004,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-07-12T00:49:37+00:00"
+            "time": "2019-06-19T01:52:12+00:00"
         },
         {
             "name": "joomla/filesystem",
@@ -989,12 +1113,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/http.git",
-                "reference": "cb6e8bcad6bbf7be3f1b21b6868116636c97e727"
+                "reference": "3367e57dd2bdc2de9eadd51cde31c138ca14319a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/http/zipball/cb6e8bcad6bbf7be3f1b21b6868116636c97e727",
-                "reference": "cb6e8bcad6bbf7be3f1b21b6868116636c97e727",
+                "url": "https://api.github.com/repos/joomla-framework/http/zipball/3367e57dd2bdc2de9eadd51cde31c138ca14319a",
+                "reference": "3367e57dd2bdc2de9eadd51cde31c138ca14319a",
                 "shasum": ""
             },
             "require": {
@@ -1007,8 +1131,8 @@
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
-                "joomla/test": "~2.0",
-                "phpunit/phpunit": "~8.2"
+                "joomla/test": "~1.0",
+                "phpunit/phpunit": "~6.3"
             },
             "suggest": {
                 "ext-curl": "To use cURL for HTTP connections"
@@ -1035,7 +1159,7 @@
                 "http",
                 "joomla"
             ],
-            "time": "2019-07-14T18:24:22+00:00"
+            "time": "2019-06-18T00:00:18+00:00"
         },
         {
             "name": "joomla/image",
@@ -1185,12 +1309,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/oauth1.git",
-                "reference": "36da2b80c5e525a724e59a2c54515fdedca90bd1"
+                "reference": "45411832afee327df4fdd10adbed1738828e712d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/oauth1/zipball/36da2b80c5e525a724e59a2c54515fdedca90bd1",
-                "reference": "36da2b80c5e525a724e59a2c54515fdedca90bd1",
+                "url": "https://api.github.com/repos/joomla-framework/oauth1/zipball/45411832afee327df4fdd10adbed1738828e712d",
+                "reference": "45411832afee327df4fdd10adbed1738828e712d",
                 "shasum": ""
             },
             "require": {
@@ -1204,8 +1328,8 @@
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
                 "joomla/event": "~2.0",
-                "joomla/test": "~2.0",
-                "phpunit/phpunit": "~8.2"
+                "joomla/test": "~1.0",
+                "phpunit/phpunit": "~6.3"
             },
             "type": "joomla-package",
             "extra": {
@@ -1229,7 +1353,7 @@
                 "joomla",
                 "oauth1"
             ],
-            "time": "2019-07-14T17:33:47+00:00"
+            "time": "2019-06-17T22:39:00+00:00"
         },
         {
             "name": "joomla/oauth2",
@@ -1237,12 +1361,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/oauth2.git",
-                "reference": "98ff49808169523339cc8fd072aec9fe8c5f892b"
+                "reference": "58689a3dfddaba4d1c04b17ae341197040429e06"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/oauth2/zipball/98ff49808169523339cc8fd072aec9fe8c5f892b",
-                "reference": "98ff49808169523339cc8fd072aec9fe8c5f892b",
+                "url": "https://api.github.com/repos/joomla-framework/oauth2/zipball/58689a3dfddaba4d1c04b17ae341197040429e06",
+                "reference": "58689a3dfddaba4d1c04b17ae341197040429e06",
                 "shasum": ""
             },
             "require": {
@@ -1255,7 +1379,7 @@
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
-                "phpunit/phpunit": "~8.2"
+                "phpunit/phpunit": "~6.3"
             },
             "type": "joomla-package",
             "extra": {
@@ -1279,7 +1403,7 @@
                 "joomla",
                 "oauth2"
             ],
-            "time": "2019-07-14T17:24:53+00:00"
+            "time": "2019-06-17T22:39:15+00:00"
         },
         {
             "name": "joomla/registry",
@@ -1287,12 +1411,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/registry.git",
-                "reference": "e3bf30e95849d29f9c446e350916b27bbe69c0ad"
+                "reference": "c7f0c490ad178853c693e4139317c118a95ff61a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/e3bf30e95849d29f9c446e350916b27bbe69c0ad",
-                "reference": "e3bf30e95849d29f9c446e350916b27bbe69c0ad",
+                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/c7f0c490ad178853c693e4139317c118a95ff61a",
+                "reference": "c7f0c490ad178853c693e4139317c118a95ff61a",
                 "shasum": ""
             },
             "require": {
@@ -1301,7 +1425,7 @@
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
-                "phpunit/phpunit": "~8.2",
+                "phpunit/phpunit": "~6.3",
                 "symfony/yaml": "~3.4|~4.0"
             },
             "suggest": {
@@ -1329,7 +1453,7 @@
                 "joomla",
                 "registry"
             ],
-            "time": "2019-07-14T17:12:29+00:00"
+            "time": "2019-06-17T22:41:38+00:00"
         },
         {
             "name": "joomla/router",
@@ -1337,12 +1461,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/router.git",
-                "reference": "0a51a9050ef0c3e67f656760654d9c91c38bc0fc"
+                "reference": "38d5c21ec12899c555d46f5f7cba552f853e0be9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/router/zipball/0a51a9050ef0c3e67f656760654d9c91c38bc0fc",
-                "reference": "0a51a9050ef0c3e67f656760654d9c91c38bc0fc",
+                "url": "https://api.github.com/repos/joomla-framework/router/zipball/38d5c21ec12899c555d46f5f7cba552f853e0be9",
+                "reference": "38d5c21ec12899c555d46f5f7cba552f853e0be9",
                 "shasum": ""
             },
             "require": {
@@ -1380,7 +1504,7 @@
                 "joomla",
                 "router"
             ],
-            "time": "2019-07-06T16:40:05+00:00"
+            "time": "2019-06-18T02:47:26+00:00"
         },
         {
             "name": "joomla/session",
@@ -1388,12 +1512,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/session.git",
-                "reference": "96a49ce2c21b9bd6272ac4bc72a041ca7e2beaad"
+                "reference": "894b7a86311a6e9f094fb2c2e83b7bb14c7fa7ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/session/zipball/96a49ce2c21b9bd6272ac4bc72a041ca7e2beaad",
-                "reference": "96a49ce2c21b9bd6272ac4bc72a041ca7e2beaad",
+                "url": "https://api.github.com/repos/joomla-framework/session/zipball/894b7a86311a6e9f094fb2c2e83b7bb14c7fa7ee",
+                "reference": "894b7a86311a6e9f094fb2c2e83b7bb14c7fa7ee",
                 "shasum": ""
             },
             "require": {
@@ -1441,7 +1565,7 @@
                 "joomla",
                 "session"
             ],
-            "time": "2019-07-04T19:02:08+00:00"
+            "time": "2019-06-29T19:54:13+00:00"
         },
         {
             "name": "joomla/string",
@@ -1710,16 +1834,16 @@
         },
         {
             "name": "paragonie/sodium_compat",
-            "version": "v1.10.1",
+            "version": "v1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/sodium_compat.git",
-                "reference": "5115fa44886d1c2785d2f135ef4626db868eac4b"
+                "reference": "228a9fc64cf4ba84c7967c1076d94209db03e0ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/5115fa44886d1c2785d2f135ef4626db868eac4b",
-                "reference": "5115fa44886d1c2785d2f135ef4626db868eac4b",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/228a9fc64cf4ba84c7967c1076d94209db03e0ee",
+                "reference": "228a9fc64cf4ba84c7967c1076d94209db03e0ee",
                 "shasum": ""
             },
             "require": {
@@ -1788,7 +1912,7 @@
                 "secret-key cryptography",
                 "side-channel resistant"
             ],
-            "time": "2019-07-12T16:36:59+00:00"
+            "time": "2019-05-13T16:04:50+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -2153,6 +2277,124 @@
             "time": "2018-11-20T15:27:04+00:00"
         },
         {
+            "name": "spomky-labs/base64url",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Spomky-Labs/base64url.git",
+                "reference": "3eb46a1de803f0078962d910e3a2759224a68c61"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Spomky-Labs/base64url/zipball/3eb46a1de803f0078962d910e3a2759224a68c61",
+                "reference": "3eb46a1de803f0078962d910e3a2759224a68c61",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.0",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Base64Url\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Florent Morselli",
+                    "homepage": "https://github.com/Spomky-Labs/base64url/contributors"
+                }
+            ],
+            "description": "Base 64 URL Safe Encoding/Decoding PHP Library",
+            "homepage": "https://github.com/Spomky-Labs/base64url",
+            "keywords": [
+                "base64",
+                "rfc4648",
+                "safe",
+                "url"
+            ],
+            "time": "2018-08-16T15:44:20+00:00"
+        },
+        {
+            "name": "spomky-labs/cbor-php",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Spomky-Labs/cbor-php.git",
+                "reference": "a83e84d6f0839be11f75f157b246be2791c96e85"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Spomky-Labs/cbor-php/zipball/a83e84d6f0839be11f75f157b246be2791c96e85",
+                "reference": "a83e84d6f0839be11f75f157b246be2791c96e85",
+                "shasum": ""
+            },
+            "require": {
+                "beberlei/assert": "^3.2",
+                "ext-bcmath": "*",
+                "ext-gmp": "*",
+                "php": "^7.1|^8.0",
+                "spomky-labs/base64url": "^1.0|^2.0",
+                "thecodingmachine/safe": "^0.1.13"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.0",
+                "phpstan/phpstan": "^0.11",
+                "phpstan/phpstan-beberlei-assert": "^0.11.0",
+                "phpstan/phpstan-deprecation-rules": "^0.11",
+                "phpstan/phpstan-phpunit": "^0.11",
+                "phpstan/phpstan-strict-rules": "^0.11",
+                "phpunit/phpunit": "^7.5",
+                "rector/rector": "^0.3",
+                "thecodingmachine/phpstan-safe-rule": "^0.1.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "CBOR\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Florent Morselli",
+                    "homepage": "https://github.com/Spomky"
+                },
+                {
+                    "name": "All contributors",
+                    "homepage": "https://github.com/Spomky-Labs/cbor-php/contributors"
+                }
+            ],
+            "description": "CBOR Encoder/Decoder for PHP",
+            "keywords": [
+                "Concise Binary Object Representation",
+                "RFC7049",
+                "cbor"
+            ],
+            "time": "2019-02-09T20:24:50+00:00"
+        },
+        {
             "name": "symfony/console",
             "version": "v4.3.2",
             "source": {
@@ -2440,7 +2682,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
+                    "email": "backendtea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -2892,6 +3134,138 @@
             "time": "2019-04-06T14:04:46+00:00"
         },
         {
+            "name": "thecodingmachine/safe",
+            "version": "v0.1.16",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thecodingmachine/safe.git",
+                "reference": "4e8f840f0a0a2ea167813c3994a7fc527c3c2182"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thecodingmachine/safe/zipball/4e8f840f0a0a2ea167813c3994a7fc527c3c2182",
+                "reference": "4e8f840f0a0a2ea167813c3994a7fc527c3c2182",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^0.10.3",
+                "squizlabs/php_codesniffer": "^3.2",
+                "thecodingmachine/phpstan-strict-rules": "^0.10.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Safe\\": [
+                        "lib/",
+                        "generated/"
+                    ]
+                },
+                "files": [
+                    "generated/apache.php",
+                    "generated/apc.php",
+                    "generated/apcu.php",
+                    "generated/array.php",
+                    "generated/bzip2.php",
+                    "generated/classobj.php",
+                    "generated/com.php",
+                    "generated/cubrid.php",
+                    "generated/curl.php",
+                    "generated/datetime.php",
+                    "generated/dir.php",
+                    "generated/eio.php",
+                    "generated/errorfunc.php",
+                    "generated/exec.php",
+                    "generated/fileinfo.php",
+                    "generated/filesystem.php",
+                    "generated/filter.php",
+                    "generated/fpm.php",
+                    "generated/ftp.php",
+                    "generated/funchand.php",
+                    "generated/gmp.php",
+                    "generated/gnupg.php",
+                    "generated/hash.php",
+                    "generated/ibase.php",
+                    "generated/ibmDb2.php",
+                    "generated/iconv.php",
+                    "generated/image.php",
+                    "generated/imap.php",
+                    "generated/info.php",
+                    "generated/ingres-ii.php",
+                    "generated/inotify.php",
+                    "generated/json.php",
+                    "generated/ldap.php",
+                    "generated/libevent.php",
+                    "generated/libxml.php",
+                    "generated/lzf.php",
+                    "generated/mailparse.php",
+                    "generated/mbstring.php",
+                    "generated/misc.php",
+                    "generated/msql.php",
+                    "generated/mssql.php",
+                    "generated/mysql.php",
+                    "generated/mysqli.php",
+                    "generated/mysqlndMs.php",
+                    "generated/mysqlndQc.php",
+                    "generated/network.php",
+                    "generated/oci8.php",
+                    "generated/opcache.php",
+                    "generated/openssl.php",
+                    "generated/outcontrol.php",
+                    "generated/password.php",
+                    "generated/pcntl.php",
+                    "generated/pcre.php",
+                    "generated/pdf.php",
+                    "generated/pgsql.php",
+                    "generated/posix.php",
+                    "generated/ps.php",
+                    "generated/pspell.php",
+                    "generated/readline.php",
+                    "generated/rrd.php",
+                    "generated/sem.php",
+                    "generated/session.php",
+                    "generated/shmop.php",
+                    "generated/simplexml.php",
+                    "generated/sockets.php",
+                    "generated/sodium.php",
+                    "generated/solr.php",
+                    "generated/spl.php",
+                    "generated/sqlsrv.php",
+                    "generated/ssdeep.php",
+                    "generated/ssh2.php",
+                    "generated/stats.php",
+                    "generated/stream.php",
+                    "generated/strings.php",
+                    "generated/swoole.php",
+                    "generated/uodbc.php",
+                    "generated/uopz.php",
+                    "generated/url.php",
+                    "generated/var.php",
+                    "generated/xdiff.php",
+                    "generated/xml.php",
+                    "generated/xmlrpc.php",
+                    "generated/yaml.php",
+                    "generated/yaz.php",
+                    "generated/zip.php",
+                    "generated/zlib.php",
+                    "lib/special_cases.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHP core functions that throw exceptions instead of returning FALSE on error",
+            "time": "2019-06-25T08:45:33+00:00"
+        },
+        {
             "name": "tobscure/json-api",
             "version": "v0.4.1",
             "source": {
@@ -3036,6 +3410,131 @@
             "time": "2017-01-27T17:16:44+00:00"
         },
         {
+            "name": "web-auth/cose-lib",
+            "version": "v1.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/web-auth/cose-lib.git",
+                "reference": "042224835e73ebe81d8f9d8c1c82982450716ac5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/web-auth/cose-lib/zipball/042224835e73ebe81d8f9d8c1c82982450716ac5",
+                "reference": "042224835e73ebe81d8f9d8c1c82982450716ac5",
+                "shasum": ""
+            },
+            "require": {
+                "beberlei/assert": "^3.0",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "ext-openssl": "*",
+                "fgrosse/phpasn1": "^2.1",
+                "php": "^7.1",
+                "thecodingmachine/safe": "^0.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "v1.0": "1.0.x-dev",
+                    "v1.1": "1.1.x-dev",
+                    "v1.2": "1.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Cose\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Florent Morselli",
+                    "homepage": "https://github.com/Spomky"
+                },
+                {
+                    "name": "All contributors",
+                    "homepage": "https://github.com/web-auth/cose/contributors"
+                }
+            ],
+            "description": "CBOR Object Signing and Encryption (COSE) For PHP",
+            "homepage": "https://github.com/web-auth",
+            "keywords": [
+                "COSE",
+                "RFC8152"
+            ],
+            "time": "2019-05-05T15:24:28+00:00"
+        },
+        {
+            "name": "web-auth/webauthn-lib",
+            "version": "v1.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/web-auth/webauthn-lib.git",
+                "reference": "7681e7002cbd4839feb07b13bf1fae4cabde3d72"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/web-auth/webauthn-lib/zipball/7681e7002cbd4839feb07b13bf1fae4cabde3d72",
+                "reference": "7681e7002cbd4839feb07b13bf1fae4cabde3d72",
+                "shasum": ""
+            },
+            "require": {
+                "beberlei/assert": "^3.0",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "ext-openssl": "*",
+                "php": "^7.1",
+                "psr/http-factory": "^1.0",
+                "psr/http-message": "^1.0",
+                "spomky-labs/base64url": "^2.0",
+                "spomky-labs/cbor-php": "^1.0.2",
+                "thecodingmachine/safe": "^0.1",
+                "web-auth/cose-lib": "^1.1"
+            },
+            "suggest": {
+                "php-http/httplug": "For Android SafetyNet support"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "v1.0": "1.0.x-dev",
+                    "v1.1": "1.1.x-dev",
+                    "v1.2": "1.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Webauthn\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Florent Morselli",
+                    "homepage": "https://github.com/Spomky"
+                },
+                {
+                    "name": "All contributors",
+                    "homepage": "https://github.com/web-auth/webauthn-library/contributors"
+                }
+            ],
+            "description": "FIDO2/Webauthn Support For PHP",
+            "homepage": "https://github.com/web-auth",
+            "keywords": [
+                "FIDO2",
+                "fido",
+                "u2f",
+                "webauthn"
+            ],
+            "time": "2019-06-05T17:41:05+00:00"
+        },
+        {
             "name": "willdurand/negotiation",
             "version": "v2.3.1",
             "source": {
@@ -3089,16 +3588,16 @@
         },
         {
             "name": "zendframework/zend-diactoros",
-            "version": "2.1.3",
+            "version": "2.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-diactoros.git",
-                "reference": "279723778c40164bcf984a2df12ff2c6ec5e61c1"
+                "reference": "37bf68b428850ee26ed7c3be6c26236dd95a95f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/279723778c40164bcf984a2df12ff2c6ec5e61c1",
-                "reference": "279723778c40164bcf984a2df12ff2c6ec5e61c1",
+                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/37bf68b428850ee26ed7c3be6c26236dd95a95f1",
+                "reference": "37bf68b428850ee26ed7c3be6c26236dd95a95f1",
                 "shasum": ""
             },
             "require": {
@@ -3151,7 +3650,7 @@
                 "psr",
                 "psr-7"
             ],
-            "time": "2019-07-10T16:13:25+00:00"
+            "time": "2019-04-29T21:11:00+00:00"
         }
     ],
     "packages-dev": [
@@ -5271,12 +5770,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "f33a41a193aee1491df51af8f02fce86477ef451"
+                "reference": "535968155369a61e995ec56808931e74594b049b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/f33a41a193aee1491df51af8f02fce86477ef451",
-                "reference": "f33a41a193aee1491df51af8f02fce86477ef451",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/535968155369a61e995ec56808931e74594b049b",
+                "reference": "535968155369a61e995ec56808931e74594b049b",
                 "shasum": ""
             },
             "require": {
@@ -5314,7 +5813,7 @@
                 "acceptance testing",
                 "joomla"
             ],
-            "time": "2019-07-11T16:09:14+00:00"
+            "time": "2019-02-19T17:21:09+00:00"
         },
         {
             "name": "joomla-projects/robo-joomla",
@@ -5401,108 +5900,6 @@
                 "testing"
             ],
             "time": "2018-08-19T04:08:16+00:00"
-        },
-        {
-            "name": "joomla/cms-coding-standards",
-            "version": "2.0.0-alpha2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/joomla/cms-coding-standards.git",
-                "reference": "25abae52f9167fa47ce57331bbece8079ad27ab3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/joomla/cms-coding-standards/zipball/25abae52f9167fa47ce57331bbece8079ad27ab3",
-                "reference": "25abae52f9167fa47ce57331bbece8079ad27ab3",
-                "shasum": ""
-            },
-            "require": {
-                "joomla/coding-standards": "~2.0 || ~3.0",
-                "php": ">=5.3.10"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.8.7"
-            },
-            "suggest": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.4.3 || This Composer plugin will sort out the PHPCS 'installed_paths' automatically."
-            },
-            "type": "phpcodesniffer-standard",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Joomla-CMS\\Sniffs\\": "lib/Joomla-CMS/Sniffs"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Joomla Coding Standards Contributors",
-                    "homepage": "https://github.com/joomla/cms-coding-standards/graphs/contributors"
-                }
-            ],
-            "description": "Extended Joomla Coding Standards for the Joomla CMS application",
-            "homepage": "https://github.com/joomla/cms-coding-standards",
-            "keywords": [
-                "coding standards",
-                "joomla",
-                "php codesniffer",
-                "phpcs"
-            ],
-            "time": "2019-07-13T18:56:54+00:00"
-        },
-        {
-            "name": "joomla/coding-standards",
-            "version": "dev-3.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/joomla/coding-standards.git",
-                "reference": "fc041ba4352689d0834fc3f6bce14edc6e40aebe"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/joomla/coding-standards/zipball/fc041ba4352689d0834fc3f6bce14edc6e40aebe",
-                "reference": "fc041ba4352689d0834fc3f6bce14edc6e40aebe",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0",
-                "squizlabs/php_codesniffer": "^3.4"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.8.7"
-            },
-            "type": "phpcodesniffer-standard",
-            "extra": {
-                "branch-alias": {
-                    "dev-3.x-dev": "3.0-dev"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Joomla Coding Standards Contributors",
-                    "homepage": "https://github.com/joomla/coding-standards/graphs/contributors"
-                }
-            ],
-            "description": "Joomla Coding Standards",
-            "homepage": "https://github.com/joomla/coding-standards",
-            "keywords": [
-                "coding standards",
-                "joomla",
-                "php codesniffer",
-                "phpcs"
-            ],
-            "time": "2019-07-12T10:04:53+00:00"
         },
         {
             "name": "joomla/mediawiki",
@@ -6036,16 +6433,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "7.0.6",
+            "version": "7.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "d471d0d2b529a67c6a722dd446c4ec90881ac315"
+                "reference": "aed67b57d459dcab93e84a5c9703d3deb5025dff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/d471d0d2b529a67c6a722dd446c4ec90881ac315",
-                "reference": "d471d0d2b529a67c6a722dd446c4ec90881ac315",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/aed67b57d459dcab93e84a5c9703d3deb5025dff",
+                "reference": "aed67b57d459dcab93e84a5c9703d3deb5025dff",
                 "shasum": ""
             },
             "require": {
@@ -6054,17 +6451,17 @@
                 "php": "^7.2",
                 "phpunit/php-file-iterator": "^2.0.2",
                 "phpunit/php-text-template": "^1.2.1",
-                "phpunit/php-token-stream": "^3.0.2",
+                "phpunit/php-token-stream": "^3.0.1",
                 "sebastian/code-unit-reverse-lookup": "^1.0.1",
-                "sebastian/environment": "^4.2.2",
+                "sebastian/environment": "^4.1",
                 "sebastian/version": "^2.0.1",
-                "theseer/tokenizer": "^1.1.3"
+                "theseer/tokenizer": "^1.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.2.2"
+                "phpunit/phpunit": "^8.0"
             },
             "suggest": {
-                "ext-xdebug": "^2.7.2"
+                "ext-xdebug": "^2.6.1"
             },
             "type": "library",
             "extra": {
@@ -6095,7 +6492,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-07-08T05:29:42+00:00"
+            "time": "2019-06-06T12:28:18+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -6239,16 +6636,16 @@
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "3.0.2",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "c4a66b97f040e3e20b3aa2a243230a1c3a9f7c8c"
+                "reference": "c99e3be9d3e85f60646f152f9002d46ed7770d18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/c4a66b97f040e3e20b3aa2a243230a1c3a9f7c8c",
-                "reference": "c4a66b97f040e3e20b3aa2a243230a1c3a9f7c8c",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/c99e3be9d3e85f60646f152f9002d46ed7770d18",
+                "reference": "c99e3be9d3e85f60646f152f9002d46ed7770d18",
                 "shasum": ""
             },
             "require": {
@@ -6284,20 +6681,20 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2019-07-08T05:24:54+00:00"
+            "time": "2018-10-30T05:52:18+00:00"
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.2.5",
+            "version": "8.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "c1b8534b3730f20f58600124129197bf1183dc92"
+                "reference": "f67ca36860ebca7224d4573f107f79bd8ed0ba03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c1b8534b3730f20f58600124129197bf1183dc92",
-                "reference": "c1b8534b3730f20f58600124129197bf1183dc92",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/f67ca36860ebca7224d4573f107f79bd8ed0ba03",
+                "reference": "f67ca36860ebca7224d4573f107f79bd8ed0ba03",
                 "shasum": ""
             },
             "require": {
@@ -6324,7 +6721,7 @@
                 "sebastian/global-state": "^3.0.0",
                 "sebastian/object-enumerator": "^3.0.3",
                 "sebastian/resource-operations": "^2.0.1",
-                "sebastian/type": "^1.1.3",
+                "sebastian/type": "^1.1.0",
                 "sebastian/version": "^2.0.1"
             },
             "require-dev": {
@@ -6367,7 +6764,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-07-15T06:26:24+00:00"
+            "time": "2019-06-19T12:03:56+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -6937,16 +7334,16 @@
         },
         {
             "name": "sebastian/type",
-            "version": "1.1.3",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/type.git",
-                "reference": "3aaaa15fa71d27650d62a948be022fe3b48541a3"
+                "reference": "251ca774d58181fe1d3eda68843264eaae7e07ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/type/zipball/3aaaa15fa71d27650d62a948be022fe3b48541a3",
-                "reference": "3aaaa15fa71d27650d62a948be022fe3b48541a3",
+                "url": "https://api.github.com/repos/sebastianbergmann/type/zipball/251ca774d58181fe1d3eda68843264eaae7e07ef",
+                "reference": "251ca774d58181fe1d3eda68843264eaae7e07ef",
                 "shasum": ""
             },
             "require": {
@@ -6979,7 +7376,7 @@
             ],
             "description": "Collection of value objects that represent the types of the PHP type system",
             "homepage": "https://github.com/sebastianbergmann/type",
-            "time": "2019-07-02T08:10:15+00:00"
+            "time": "2019-06-19T06:39:12+00:00"
         },
         {
             "name": "sebastian/version",
@@ -7026,36 +7423,60 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.4.2",
+            "version": "1.5.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "b8a7362af1cc1aadb5bd36c3defc4dda2cf5f0a8"
+                "reference": "6f3e42d311b882b25b4d409d23a289f4d3b803d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/b8a7362af1cc1aadb5bd36c3defc4dda2cf5f0a8",
-                "reference": "b8a7362af1cc1aadb5bd36c3defc4dda2cf5f0a8",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/6f3e42d311b882b25b4d409d23a289f4d3b803d5",
+                "reference": "6f3e42d311b882b25b4d409d23a289f4d3b803d5",
                 "shasum": ""
             },
             "require": {
-                "ext-simplexml": "*",
                 "ext-tokenizer": "*",
-                "ext-xmlwriter": "*",
-                "php": ">=5.4.0"
+                "php": ">=5.1.2"
             },
-            "require-dev": {
-                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0"
+            "suggest": {
+                "phpunit/php-timer": "dev-master"
             },
             "bin": [
-                "bin/phpcs",
-                "bin/phpcbf"
+                "scripts/phpcs"
             ],
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.x-dev"
+                    "dev-phpcs-fixer": "2.0.x-dev"
                 }
+            },
+            "autoload": {
+                "classmap": [
+                    "CodeSniffer.php",
+                    "CodeSniffer/CLI.php",
+                    "CodeSniffer/Exception.php",
+                    "CodeSniffer/File.php",
+                    "CodeSniffer/Report.php",
+                    "CodeSniffer/Reporting.php",
+                    "CodeSniffer/Sniff.php",
+                    "CodeSniffer/Tokens.php",
+                    "CodeSniffer/Reports/",
+                    "CodeSniffer/CommentParser/",
+                    "CodeSniffer/Tokenizers/",
+                    "CodeSniffer/DocGenerators/",
+                    "CodeSniffer/Standards/AbstractPatternSniff.php",
+                    "CodeSniffer/Standards/AbstractScopeSniff.php",
+                    "CodeSniffer/Standards/AbstractVariableSniff.php",
+                    "CodeSniffer/Standards/IncorrectPatternException.php",
+                    "CodeSniffer/Standards/Generic/Sniffs/",
+                    "CodeSniffer/Standards/MySource/Sniffs/",
+                    "CodeSniffer/Standards/PEAR/Sniffs/",
+                    "CodeSniffer/Standards/PSR1/Sniffs/",
+                    "CodeSniffer/Standards/PSR2/Sniffs/",
+                    "CodeSniffer/Standards/Squiz/Sniffs/",
+                    "CodeSniffer/Standards/Zend/Sniffs/"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -7067,13 +7488,13 @@
                     "role": "lead"
                 }
             ],
-            "description": "PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
-            "homepage": "https://github.com/squizlabs/PHP_CodeSniffer",
+            "description": "PHP_CodeSniffer tokenises PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
+            "homepage": "http://www.squizlabs.com/php-codesniffer",
             "keywords": [
                 "phpcs",
                 "standards"
             ],
-            "time": "2019-04-10T23:49:02+00:00"
+            "time": "2014-12-04T22:32:15+00:00"
         },
         {
             "name": "symfony/browser-kit",
@@ -7748,8 +8169,6 @@
         "joomla/string": 20,
         "joomla/uri": 20,
         "joomla/utilities": 20,
-        "joomla/cms-coding-standards": 20,
-        "joomla/coding-standards": 20,
         "joomla/mediawiki": 20,
         "joomla-projects/joomla-browser": 20,
         "joomla-projects/robo-joomla": 20
