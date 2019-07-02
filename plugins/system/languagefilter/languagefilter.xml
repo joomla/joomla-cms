@@ -69,7 +69,7 @@
 						class="switcher"
 						default="0"
 						showon="item_associations:1"
-				>
+					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
