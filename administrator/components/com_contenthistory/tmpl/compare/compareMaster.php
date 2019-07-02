@@ -21,11 +21,12 @@ $object1  = $version1->data;
 $object2  = $version2->data;
 
 $objLabel = '';
-if(array_key_exists('title', $object2))
+if (array_key_exists('title', $object2))
 {
 	$objLabel = $object2->title;
 }
-elseif (array_key_exists('name', $object2)){
+elseif (array_key_exists('name', $object2))
+{
 	$objLabel = $object2->name;
 }
 
@@ -52,48 +53,45 @@ HTMLHelper::_('stylesheet', 'com_associations/sidebyside.css', ['version' => 'au
 		</div>
 	</div>
 </div>
-<fieldset>
-	<table id="diff" class="table table-sm">
-		<thead>
-		<tr>
-			<th style="width:25%"><?php echo Text::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
-			<th><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_DIFF'); ?></th>
-		</tr>
-		</thead>
-		<tbody>
-		<?php foreach ($object1 as $name => $value) : ?>
-			<?php if ($value->value != $object2->$name->value) : ?>
-				<tr>
-				<?php if (is_object($value->value)) : ?>
-					<td>
-						<strong><?php echo $value->label; ?></strong>
-					</td>
-					<?php foreach ($value->value as $subName => $subValue) : ?>
-						<?php $newSubValue = $object2->$name->value->$subName->value ?? ''; ?>
-						<?php if ($subValue->value || $newSubValue) : ?>
-							<?php if ($subValue->value != $newSubValue) : ?>
-								<tr>
-									<td><em><?php echo $subValue->label; ?></em></td>
-									<td class="original hidden"><?php echo htmlspecialchars($subValue->value, ENT_COMPAT, 'UTF-8'); ?></td>
-									<td class="changed hidden" ><?php echo htmlspecialchars($newSubValue, ENT_COMPAT, 'UTF-8'); ?></td>
-									<td class="diff"></td>
-								</tr>
-							<?php endif; ?>
+<table id="diff" class="table table-sm">
+	<thead>
+	<tr>
+		<th style="width:25%"><?php echo Text::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
+		<th><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_DIFF'); ?></th>
+	</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($object1 as $name => $value) : ?>
+		<?php if ($value->value != $object2->$name->value) : ?>
+			<tr>
+			<?php if (is_object($value->value)) : ?>
+				<td>
+					<strong><?php echo $value->label; ?></strong>
+				</td>
+				<?php foreach ($value->value as $subName => $subValue) : ?>
+					<?php $newSubValue = $object2->$name->value->$subName->value ?? ''; ?>
+					<?php if ($subValue->value || $newSubValue) : ?>
+						<?php if ($subValue->value != $newSubValue) : ?>
+							<tr>
+								<td><em><?php echo $subValue->label; ?></em></td>
+								<td class="original hidden"><?php echo htmlspecialchars($subValue->value, ENT_COMPAT, 'UTF-8'); ?></td>
+								<td class="changed hidden"><?php echo htmlspecialchars($newSubValue, ENT_COMPAT, 'UTF-8'); ?></td>
+								<td class="diff"></td>
+							</tr>
 						<?php endif; ?>
-					<?php endforeach; ?>
-				<?php else : ?>
-					<td>
-						<strong><?php echo $value->label; ?></strong>
-					</td>
-					<td class="original hidden"><?php echo htmlspecialchars($value->value); ?></td>
-					<?php $object2->$name->value = is_object($object2->$name->value) ? json_encode($object2->$name->value) : $object2->$name->value; ?>
-					<td class="changed hidden"><?php echo htmlspecialchars($object2->$name->value, ENT_COMPAT, 'UTF-8'); ?></td>
-					<td class="diff"></td>
-				<?php endif; ?>
-				</tr>
+					<?php endif; ?>
+				<?php endforeach; ?>
+			<?php else : ?>
+				<td>
+					<strong><?php echo $value->label; ?></strong>
+				</td>
+				<td class="original hidden"><?php echo htmlspecialchars($value->value); ?></td>
+				<?php $object2->$name->value = is_object($object2->$name->value) ? json_encode($object2->$name->value) : $object2->$name->value; ?>
+				<td class="changed hidden"><?php echo htmlspecialchars($object2->$name->value, ENT_COMPAT, 'UTF-8'); ?></td>
+				<td class="diff"></td>
 			<?php endif; ?>
-		<?php endforeach; ?>
-		</tbody>
-	</table>
-
-</fieldset>
+			</tr>
+		<?php endif; ?>
+	<?php endforeach; ?>
+	</tbody>
+</table>
