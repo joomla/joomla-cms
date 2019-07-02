@@ -22,11 +22,11 @@ HTMLHelper::_('script', 'system/fields/passwordview.min.js', array('version' => 
 Text::script('JSHOW');
 Text::script('JHIDE');
 ?>
-<form id="login-form-<?php echo $module->id; ?>" class="mod-login" action="<?php echo Route::_('index.php', true); ?>" method="post">
+<form id="<?= $moduleId ?>" class="mod-login" action="<?= Route::_('index.php', true); ?>" method="post">
 
 	<?php if ($params->get('pretext')) : ?>
 		<div class="mod-login__pretext pretext">
-			<p><?php echo $params->get('pretext'); ?></p>
+			<p><?= $params->get('pretext'); ?></p>
 		</div>
 	<?php endif; ?>
 
@@ -34,30 +34,30 @@ Text::script('JHIDE');
 		<div class="mod-login__username form-group">
 			<?php if (!$params->get('usetext', 0)) : ?>
 				<div class="input-group">
-					<input id="modlgn-username-<?php echo $module->id; ?>" type="text" name="username" class="form-control" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
+					<input id="<?= $usernameId ?>" type="text" name="username" class="form-control" placeholder="<?= Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
 					<span class="input-group-append">
-						<label for="modlgn-username-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
-						<span class="input-group-text icon-user" title="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>"></span>
+						<label for="<?= $usernameId ?>" class="sr-only"><?= Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
+						<span class="input-group-text icon-user" title="<?= Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>"></span>
 					</span>
 				</div>
 			<?php else : ?>
-				<label for="modlgn-username-<?php echo $module->id; ?>"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
-				<input id="modlgn-username-<?php echo $module->id; ?>" type="text" name="username" class="form-control" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
+				<label for="<?= $usernameId ?>"><?= Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
+				<input id="<?= $usernameId ?>" type="text" name="username" class="form-control" placeholder="<?= Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
 			<?php endif; ?>
 		</div>
 
 		<div class="mod-login__password form-group">
 			<?php if (!$params->get('usetext', 0)) : ?>
 				<div class="input-group">
-					<input id="modlgn-passwd-<?php echo $module->id; ?>" type="password" name="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
+					<input id="<?= $passwordId ?>" type="password" name="password" class="form-control" placeholder="<?= Text::_('JGLOBAL_PASSWORD'); ?>">
 					<span class="input-group-append">
-						<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
+						<span class="sr-only"><?= Text::_('JSHOW'); ?></span>
 						<span class="input-group-text icon-eye" aria-hidden="true"></span>
 					</span>
 				</div>
 			<?php else : ?>
-				<label for="modlgn-passwd-<?php echo $module->id; ?>"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
-				<input id="modlgn-passwd-<?php echo $module->id; ?>" type="password" name="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
+				<label for="<?= $passwordId ?>"><?= Text::_('JGLOBAL_PASSWORD'); ?></label>
+				<input id="<?= $passwordId ?>" type="password" name="password" class="form-control" placeholder="<?= Text::_('JGLOBAL_PASSWORD'); ?>">
 			<?php endif; ?>
 		</div>
 
@@ -66,18 +66,18 @@ Text::script('JHIDE');
 				<?php if (!$params->get('usetext', 0)) : ?>
 					<div class="input-group">
 						<span class="input-group-prepend">
-							<span class="input-group-text icon-star" title="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>"></span>
-							<label for="modlgn-secretkey-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
+							<span class="input-group-text icon-star" title="<?= Text::_('JGLOBAL_SECRETKEY'); ?>"></span>
+							<label for="<?= $secretKeyId ?>" class="sr-only"><?= Text::_('JGLOBAL_SECRETKEY'); ?></label>
 						</span>
-						<input id="modlgn-secretkey-<?php echo $module->id; ?>" autocomplete="off" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
-						<span class="input-group-append" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
+						<input id="<?= $secretKeyId ?>" autocomplete="off" type="text" name="secretkey" class="form-control" placeholder="<?= Text::_('JGLOBAL_SECRETKEY'); ?>">
+						<span class="input-group-append" title="<?= Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
 							<span class="input-group-text icon-help"></span>
 						</span>
 					</div>
 				<?php else : ?>
-					<label for="modlgn-secretkey-<?php echo $module->id; ?>"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
-					<input id="modlgn-secretkey-<?php echo $module->id; ?>" autocomplete="off" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
-					<span class="btn width-auto" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
+					<label for="<?= $secretKeyId ?>"><?= Text::_('JGLOBAL_SECRETKEY'); ?></label>
+					<input id="<?= $secretKeyId ?>" autocomplete="off" type="text" name="secretkey" class="form-control" placeholder="<?= Text::_('JGLOBAL_SECRETKEY'); ?>">
+					<span class="btn width-auto" title="<?= Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
 						<span class="icon-help"></span>
 					</span>
 				<?php endif; ?>
@@ -86,17 +86,30 @@ Text::script('JHIDE');
 
 		<?php if (PluginHelper::isEnabled('system', 'remember')) : ?>
 			<div class="mod-login__remember form-group">
-				<div id="form-login-remember-<?php echo $module->id; ?>" class="form-check">
+				<div id="form-login-remember-<?= $module->id; ?>" class="form-check">
 					<label class="form-check-label">
 						<input type="checkbox" name="remember" class="form-check-input" value="yes">
-						<?php echo Text::_('MOD_LOGIN_REMEMBER_ME'); ?>
+						<?= Text::_('MOD_LOGIN_REMEMBER_ME'); ?>
 					</label>
 				</div>
 			</div>
 		<?php endif; ?>
 
+		<?php foreach($extraButtons as $button): ?>
+			<div class="mod-login__submit form-group">
+				<button type="button"
+						name="<?= $button['id'] ?? '' ?>"
+						id="<?= $button['id'] ?>"
+						onclick="<?= $button['onclick'] ?>"
+						class="btn <?= $button['class'] ?? '' ?>">
+					<!-- TODO Do something with the $button['icon'] -->
+					<?= $button['label'] ?>
+				</button>
+			</div>
+		<?php endforeach; ?>
+
 		<div class="mod-login__submit form-group">
-			<button type="submit" name="Submit" class="btn btn-primary"><?php echo Text::_('JLOGIN'); ?></button>
+			<button type="submit" name="Submit" class="btn btn-primary"><?= Text::_('JLOGIN'); ?></button>
 		</div>
 
 		<?php
@@ -104,27 +117,27 @@ Text::script('JHIDE');
 			<ul class="mod-login__options list-unstyled">
 			<?php if ($usersConfig->get('allowUserRegistration')) : ?>
 				<li>
-					<a href="<?php echo Route::_('index.php?option=com_users&view=registration'); ?>">
-					<?php echo Text::_('MOD_LOGIN_REGISTER'); ?> <span class="icon-arrow-right"></span></a>
+					<a href="<?= Route::_('index.php?option=com_users&view=registration'); ?>">
+					<?= Text::_('MOD_LOGIN_REGISTER'); ?> <span class="icon-arrow-right"></span></a>
 				</li>
 			<?php endif; ?>
 				<li>
-					<a href="<?php echo Route::_('index.php?option=com_users&view=remind'); ?>">
-					<?php echo Text::_('MOD_LOGIN_FORGOT_YOUR_USERNAME'); ?></a>
+					<a href="<?= Route::_('index.php?option=com_users&view=remind'); ?>">
+					<?= Text::_('MOD_LOGIN_FORGOT_YOUR_USERNAME'); ?></a>
 				</li>
 				<li>
-					<a href="<?php echo Route::_('index.php?option=com_users&view=reset'); ?>">
-					<?php echo Text::_('MOD_LOGIN_FORGOT_YOUR_PASSWORD'); ?></a>
+					<a href="<?= Route::_('index.php?option=com_users&view=reset'); ?>">
+					<?= Text::_('MOD_LOGIN_FORGOT_YOUR_PASSWORD'); ?></a>
 				</li>
 			</ul>
 		<input type="hidden" name="option" value="com_users">
 		<input type="hidden" name="task" value="user.login">
-		<input type="hidden" name="return" value="<?php echo $return; ?>">
-		<?php echo HTMLHelper::_('form.token'); ?>
+		<input type="hidden" name="return" value="<?= $return; ?>">
+		<?= HTMLHelper::_('form.token'); ?>
 	</div>
 	<?php if ($params->get('posttext')) : ?>
 		<div class="mod-login__posttext posttext">
-			<p><?php echo $params->get('posttext'); ?></p>
+			<p><?= $params->get('posttext'); ?></p>
 		</div>
 	<?php endif; ?>
 </form>

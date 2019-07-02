@@ -15,9 +15,15 @@ use Joomla\Module\Login\Site\Helper\LoginHelper;
 
 $params->def('greeting', 1);
 
+// HTML IDs
+$moduleId         = "login-form-{$module->id}";
+$usernameId       = "modlgn-username-{$module->id}";
+$passwordId       = "modlgn-passwd-{$module->id}";
+$secretKeyId      = "modlgn-secretkey-{$module->id}";
 $type             = LoginHelper::getType();
 $return           = LoginHelper::getReturnUrl($params, $type);
 $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
+$extraButtons     = AuthenticationHelper::getLoginButtons($moduleId, $usernameId);
 $user             = $app->getIdentity();
 $layout           = $params->get('layout', 'default');
 

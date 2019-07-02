@@ -77,9 +77,9 @@ abstract class AuthenticationHelper
 	 *
 	 * - label      The label of the button
 	 * - onclick    The onclick attribute, used to fire a JavaScript event
+	 * - id         The HTML ID of the button.
 	 * - icon       [optional] A CSS class or an image path for an optional icon displayed before the label
 	 * - class      [optional] CSS class(es) to be added to the button
-	 * - id         [optional] The ID of the button.
 	 *
 	 * @param   string  $moduleId         The HTML ID of the module container.
 	 * @param   string  $usernameFieldId  The HTML ID of the login module's username field.
@@ -133,7 +133,7 @@ abstract class AuthenticationHelper
 				}
 
 				// We need a label and an onclick handler at the bare minimum
-				if (empty($button['label']) || empty($button['onclick']))
+				if (empty($button['label']) || empty($button['onclick']) || empty($button['id']))
 				{
 					continue;
 				}
