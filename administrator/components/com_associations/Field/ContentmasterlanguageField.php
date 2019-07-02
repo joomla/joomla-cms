@@ -14,8 +14,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Form\Field\ContentlanguageField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
 

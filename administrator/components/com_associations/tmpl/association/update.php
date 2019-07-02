@@ -19,7 +19,6 @@ HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('jquery.framework');
 
 HTMLHelper::_('script', 'com_associations/sidebysideupdate.js', ['version' => 'auto', 'relative' => true]);
-//HTMLHelper::_('script', 'com_associations/sidebyside.js', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'com_associations/sidebyside.css', ['version' => 'auto', 'relative' => true]);
 
 $options = array(
