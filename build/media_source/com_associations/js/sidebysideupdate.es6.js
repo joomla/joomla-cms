@@ -19,7 +19,7 @@ Joomla = window.Joomla || {};
       } else if (task === 'associationmaster.update') {
         Joomla.submitform(task);
       } else {
-        window.frames['target-association'].Joomla.submitbutton(document.getElementById('adminForm').getAttribute('data-associatedview') + '.apply');
+        window.frames['target-association'].Joomla.submitbutton(`${document.getElementById('adminForm').getAttribute('data-associatedview')}, .apply`);
         document.getElementById('updateChild').click();
       }
     };
