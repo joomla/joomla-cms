@@ -96,6 +96,7 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 					<?php endif; ?>
 				<?php else : ?>
 					<div class="alert alert-danger">
+						<span class="fa fa-exclamation-triangle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
 						<?php echo Text::_('COM_PLUGINS_XML_ERR'); ?>
 					</div>
 				<?php endif; ?>
@@ -109,33 +110,17 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 			<div class="col-md-3">
 				<div class="card card-light">
 					<div class="card-body">
+						<?php
+						// Set main fields.
+						$this->fields = array(
+							'enabled',
+							'access',
+							'ordering',
+							'folder',
+							'element',
+							'note',
+						); ?>
 						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
-						<div class="form-vertical form-no-margin">
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('ordering'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('ordering'); ?>
-								</div>
-							</div>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('folder'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('folder'); ?>
-								</div>
-							</div>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('element'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('element'); ?>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>

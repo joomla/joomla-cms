@@ -32,7 +32,7 @@ class FeedFactoryTest extends UnitTestCase
 	/**
 	 * Setup the tests.
 	 */
-	protected function setUp()
+	protected function setUp():void
 	{
 		parent::setUp();
 
@@ -42,7 +42,7 @@ class FeedFactoryTest extends UnitTestCase
 	/**
 	 * Method to tear down whatever was set up before the test.
 	 */
-	protected function tearDown()
+	protected function tearDown():void
 	{
 		unset($this->feedFactory);
 
@@ -86,21 +86,19 @@ class FeedFactoryTest extends UnitTestCase
 
 	/**
 	 * Tests FeedFactory::registerParser()
-	 *
-	 * @expectedException  InvalidArgumentException
 	 */
 	public function testRegisterParserWithInvalidClass()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$this->feedFactory->registerParser('does-not-exist', 'NotExistingClass');
 	}
 
 	/**
 	 * Tests FeedFactory::registerParser()
-	 *
-	 * @expectedException  InvalidArgumentException
 	 */
 	public function testRegisterParserWithInvalidTag()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$parseMock = $this->createMock(FeedParser::class);
 		$this->feedFactory->registerParser('42tag', get_class($parseMock));
 	}
@@ -127,11 +125,10 @@ class FeedFactoryTest extends UnitTestCase
 
 	/**
 	 * Tests FeedFactory::_fetchFeedParser()
-	 *
-	 * @expectedException  LogicException
 	 */
 	public function testFetchFeedParserWithInvalidTag()
 	{
+		$this->expectException(\LogicException::class);
 		$xmlReaderMock = $this->createMock(XMLReader::class);
 
 		// Use reflection to test private method

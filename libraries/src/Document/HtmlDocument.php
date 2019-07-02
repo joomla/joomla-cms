@@ -17,6 +17,7 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Utility\Utility;
 use Joomla\Registry\Registry;
 
 /**
@@ -755,7 +756,7 @@ class HtmlDocument extends Document
 			for ($i = count($matches[0]) - 1; $i >= 0; $i--)
 			{
 				$type = $matches[1][$i];
-				$attribs = empty($matches[2][$i]) ? array() : \JUtility::parseAttributes($matches[2][$i]);
+				$attribs = empty($matches[2][$i]) ? array() : Utility::parseAttributes($matches[2][$i]);
 				$name = $attribs['name'] ?? null;
 
 				// Separate buffers to be executed first and last
