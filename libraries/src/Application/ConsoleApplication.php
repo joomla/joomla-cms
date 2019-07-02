@@ -78,11 +78,11 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * @since   4.0.0
 	 */
 	public function __construct(
-		InputInterface $input = null,
-		OutputInterface $output = null,
-		Registry $config = null,
-		DispatcherInterface $dispatcher = null,
-		Container $container = null)
+		?InputInterface $input = null,
+		?OutputInterface $output = null,
+		?Registry $config = null,
+		?DispatcherInterface $dispatcher = null,
+		?Container $container = null)
 	{
 		parent::__construct($input, $output, $config);
 
@@ -123,7 +123,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * @since   4.0.0
 	 * @throws  \Throwable
 	 */
-	protected function doExecute()
+	protected function doExecute(): int
 	{
 		$exitCode = parent::doExecute();
 

@@ -72,9 +72,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 							</td>
 							<td class="text-center">
-								<div class="btn-group">
-									<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'notes.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-								</div>
+								<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'notes.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 							</td>
 							<th scope="row">
 								<?php if ($item->checked_out) : ?>
