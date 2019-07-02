@@ -37,8 +37,8 @@ class PlgPrivacyConsents extends PrivacyPlugin
 			return array();
 		}
 
-		$domain    = $this->createDomain('consents', 'joomla_consent_data');
-		$db        = $this->db;
+		$domain = $this->createDomain('consents', 'joomla_consent_data');
+		$db     = $this->db;
 
 		$query = $this->db->getQuery(true)
 			->select($db->quoteName('*'))
