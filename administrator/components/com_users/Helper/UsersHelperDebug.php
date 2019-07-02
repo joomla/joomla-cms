@@ -92,7 +92,7 @@ class UsersHelperDebug
 
 					if (!empty($action->description))
 					{
-						$descr = (string) $action->desctription;
+						$descr = (string) $action->description;
 					}
 
 					$actions[$action->title] = array($action->name, $descr);
