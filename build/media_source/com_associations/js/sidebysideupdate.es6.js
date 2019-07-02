@@ -30,9 +30,7 @@ Joomla = window.Joomla || {};
       const referenceDiff = reference.querySelector('#diff');
       // Waiting until the reference has loaded before loading the target to avoid race conditions
 
-      if (referenceDiff) {
-
-      } else {
+      if (!referenceDiff) {
         // Disable language field.
         reference.querySelector('#jform_language').setAttribute('disabled', '');
 
@@ -45,8 +43,7 @@ Joomla = window.Joomla || {};
     });
 
     targetIframe.addEventListener('load', () => {
-
-      if (targetIframe.getAttribute('src') != '') {
+      if (targetIframe.getAttribute('src') !== '') {
         const target = targetIframe.contentDocument;
 
         // Update language field with the selected language and then disable it.
