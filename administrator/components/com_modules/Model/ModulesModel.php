@@ -419,7 +419,7 @@ class ModulesModel extends ListModel
 			{
 				$ids = (int) substr($search, 3);
 				$query->where($db->quoteName('a.id') . ' = :id');
-				$query->bind(':id', $ids, ParameterType::INTEGER);
+					->bind(':id', $ids, ParameterType::INTEGER);
 			}
 			else
 			{
