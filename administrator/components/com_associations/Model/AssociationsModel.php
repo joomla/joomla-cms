@@ -468,10 +468,10 @@ class AssociationsModel extends ListModel
 				// Join over associations where id does not exists
 				$query->where('((' . $db->quoteName('asso.id') . ' IS NULL )'
 					// or if we are on the child language and there is no master language
-					. ' OR ( ' . $db->quoteName('asso2.parent_id') . ' = ' . $db->quote('-1') . ')'
+					. ' OR ( ' . $db->quoteName('asso2.master_id') . ' = ' . $db->quote('-1') . ')'
 					// or a child of the master does not exist.
 					. ' OR ( ' . $db->quoteName('asso.key') . '  IN (' . $assocQuery . ') 
-						AND ' . $db->quoteName('asso.parent_id') . ' = ' . $db->quote('0') . ')'
+						AND ' . $db->quoteName('asso.master_id') . ' = ' . $db->quote('0') . ')'
 					. ')');
 			}
 
@@ -479,7 +479,7 @@ class AssociationsModel extends ListModel
 			if ($assocStateField === 'outdated')
 			{
 				// If we are on the masterlanguage and we check the state of the children
-				$query->where('((' . $db->quoteName('asso2.parent_id') . ' = ' . $db->quoteName('asso.id')
+				$query->where('((' . $db->quoteName('asso2.master_id') . ' = ' . $db->quoteName('asso.id')
 					. ' AND ' . $db->quoteName('asso2.master_date') . ' < ' . $db->quoteName('asso.master_date') . ')'
 					//  or we are on the child language and we check its state comparing to its master.
 					. ' OR (' . $db->quoteName('asso.master_date') . ' < ' . $db->quoteName('asso2.master_date')
