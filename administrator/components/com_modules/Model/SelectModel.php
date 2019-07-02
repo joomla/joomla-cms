@@ -103,7 +103,7 @@ class SelectModel extends ListModel
 		// Filter by client.
 		$clientId = (int) $this->getState('client_id');
 		$query->where($db->quoteName('a.client_id') . ' = :clientid')
-			->bind(':clientid', $clientId);
+			->bind(':clientid', $clientId, ParameterType::INTEGER);
 
 		// Filter by enabled
 		$query->where($db->quoteName('a.enabled') . ' = 1');
