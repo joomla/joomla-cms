@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS "#__associations" (
   "context" varchar(50) NOT NULL,
   "key" char(32) NOT NULL,
   "master_id" integer DEFAULT -1 NOT NULL,
-  "master_date" text,
+  "master_date" timestamp without time zone,
   CONSTRAINT "#__associations_idx_context_id" PRIMARY KEY ("context", "id")
 );
 CREATE INDEX "#__associations_idx_key" ON "#__associations" ("key");

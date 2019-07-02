@@ -1067,7 +1067,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			$resetQuery = $db->getQuery(true)
 				->update($db->quoteName('#__associations'))
 				->set($db->quoteName('master_id') . ' = ' . -1)
-				->set($db->quoteName('master_date') . ' = ' . $db->quote(null));
+				->set($db->quoteName('master_date') . ' = NULL');
 			$db->setQuery($resetQuery);
 
 			try
@@ -1170,14 +1170,14 @@ class PlgSystemLanguageFilter extends CMSPlugin
 					}
 				}
 
-				$masterModified = $modified ? $masterModified : null;
+				$masterModified = $modified ? $db->quote($masterModified) : 'NULL';
 				$masterId       = $masterId ?? -1;
 
 				// Set the id and the modified date of the master item.
 				$query = $db->getQuery(true)
 					->update($db->quoteName('#__associations'))
 					->set($db->quoteName('master_id') . ' = ' . $db->quote(0))
-					->set($db->quoteName('master_date') . ' = ' . $db->quote($masterModified))
+					->set($db->quoteName('master_date') . ' = ' . $masterModified)
 					->where($db->quoteName('id') . ' = ' . $db->quote($masterId))
 					->where($db->quoteName('key') . ' = ' . $db->quote($value))
 					->where($db->quoteName('context') . ' = ' . $db->quote($assocContext));
@@ -1196,7 +1196,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				$query = $db->getQuery(true)
 					->update($db->quoteName('#__associations'))
 					->set($db->quoteName('master_id') . ' = ' . $db->quote($masterId))
-					->set($db->quoteName('master_date') . ' = ' . $db->quote($masterModified))
+					->set($db->quoteName('master_date') . ' = ' . $masterModified)
 					->where($db->quoteName('id') . ' <> ' . $db->quote($masterId))
 					->where($db->quoteName('key') . ' = ' . $db->quote($value))
 					->where($db->quoteName('context') . ' = ' . $db->quote($assocContext));

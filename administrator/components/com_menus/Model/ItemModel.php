@@ -1595,7 +1595,7 @@ class ItemModel extends AdminModel
 					$masterIdValue = $masterId ? ($masterId === $id ? 0 : $masterId) : -1;
 					$query->values(
 						((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key)
-						. ',' . $db->quote($masterIdValue) . ',' . $db->quote(null)
+						. ',' . $db->quote($masterIdValue) . ', NULL'
 					);
 				}
 

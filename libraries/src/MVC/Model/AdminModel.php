@@ -1379,10 +1379,12 @@ abstract class AdminModel extends FormModel
 				foreach ($associations as $id)
 				{
 					$masterIdAndDateValues = MasterAssociationsHelper::getMasterValues($id, $dataId, $masterId, $masterModified, $assocMasterDates, $old_key);
+					$masterIdValue         = $masterIdAndDateValues[0];
+					$masterDateValue       = $masterIdAndDateValues[1] === 'NULL' ? $masterIdAndDateValues[1] : $db->quote($masterIdAndDateValues[1]);
 
 					$query->values(
 						((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key)
-						. ',' . $db->quote($masterIdAndDateValues[0]) . ',' . $db->quote($masterIdAndDateValues[1])
+						. ',' . $db->quote($masterIdValue) . ',' . $masterDateValue
 					);
 				}
 

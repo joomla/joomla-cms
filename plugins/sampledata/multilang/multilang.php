@@ -909,7 +909,7 @@ class PlgSampledataMultilang extends CMSPlugin
 
 			foreach ($associations as $language => $id)
 			{
-				$query->values(((int) $id) . ',' . $db->quote($context) . ',' . $db->quote($key) . ',' . $db->quote('-1') . ',' . $db->quote(''));
+				$query->values(((int) $id) . ',' . $db->quote($context) . ',' . $db->quote($key) . ',' . $db->quote('-1') . ', NULL');
 			}
 
 			$db->setQuery($query);

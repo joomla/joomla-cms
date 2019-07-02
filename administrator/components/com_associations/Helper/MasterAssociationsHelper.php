@@ -113,7 +113,7 @@ class MasterAssociationsHelper extends ContentHelper
 				$masterIdValue = 0;
 
 				// Set always the last modified date
-				$masterDateValue = $masterModified ?? null;
+				$masterDateValue = $masterModified ?? 'NULL';
 			}
 
 			// For the children
@@ -129,7 +129,7 @@ class MasterAssociationsHelper extends ContentHelper
 				if (!$old_key && ($dataId === $id))
 				{
 					// Add modified date from master to new associated item
-					$masterDateValue = $masterModified ?? null;
+					$masterDateValue = $masterModified ?? 'NULL';
 				}
 			}
 		}
@@ -137,7 +137,7 @@ class MasterAssociationsHelper extends ContentHelper
 		{
 			// Default values when there is no associated master item.
 			$masterIdValue   = -1;
-			$masterDateValue = null;
+			$masterDateValue = 'NULL';
 		}
 
 		return [(int) $masterIdValue, $masterDateValue];

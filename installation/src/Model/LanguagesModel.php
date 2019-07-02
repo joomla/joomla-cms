@@ -1422,7 +1422,7 @@ class LanguagesModel extends BaseInstallationModel
 				// If there is no master item in this association, then reset the master_id to -1
 				// Otherwise, if the association item is a master item set the master_id to 0, otherwise to the masterId.
 				$masterIdValue = $masterId ? ($masterId === $id ? 0 : $masterId) : -1;
-				$query->values(((int) $id) . ',' . $db->quote($context) . ',' . $db->quote($key) . ',' . $db->quote($masterIdValue) . ',' . $db->quote(''));
+				$query->values(((int) $id) . ',' . $db->quote($context) . ',' . $db->quote($key) . ',' . $db->quote($masterIdValue) . ', NULL');
 			}
 
 			$db->setQuery($query);
