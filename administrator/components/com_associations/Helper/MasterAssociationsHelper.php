@@ -155,8 +155,8 @@ class MasterAssociationsHelper extends ContentHelper
 	public static function getMasterModifiedDate($masterId, $tableName, $typeAlias)
 	{
 		// Check if the content version is enabled
-		$option = Factory::getApplication()->input->get('option');
-		$saveHistory = ComponentHelper::getParams($option)->get('save_history', 0);
+		$aliasParts = explode('.', $typeAlias);
+		$saveHistory = ComponentHelper::getParams($aliasParts[0])->get('save_history', 0);
 
 		if ($masterId)
 		{
