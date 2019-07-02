@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -631,8 +631,8 @@ class CMSApplication extends WebApplication
 	 *
 	 * @return  boolean  True if this application is administrator.
 	 *
-	 * @since   3.2
-	 * @deprecated  Use isClient('administrator') instead.
+	 * @since       3.2
+	 * @deprecated  4.0 Use isClient('administrator') instead.
 	 */
 	public function isAdmin()
 	{
@@ -644,8 +644,8 @@ class CMSApplication extends WebApplication
 	 *
 	 * @return  boolean  True if this application is site.
 	 *
-	 * @since   3.2
-	 * @deprecated  Use isClient('site') instead.
+	 * @since       3.2
+	 * @deprecated  4.0 Use isClient('site') instead.
 	 */
 	public function isSite()
 	{
@@ -855,9 +855,9 @@ class CMSApplication extends WebApplication
 
 				// The user is successfully logged in. Run the after login events
 				$this->triggerEvent('onUserAfterLogin', array($options));
-			}
 
-			return true;
+				return true;
+			}
 		}
 
 		// Trigger onUserLoginFailure Event.
@@ -1075,7 +1075,10 @@ class CMSApplication extends WebApplication
 
 		$active = $this->getMenu()->getActive();
 
-		if ($active !== null && $active->type === 'alias')
+		if ($active !== null
+			&& $active->type === 'alias'
+			&& $active->params->get('alias_redirect')
+			&& in_array($this->input->getMethod(), array('GET', 'HEAD'), true))
 		{
 			$item = $this->getMenu()->getItem($active->params->get('aliasoptions'));
 

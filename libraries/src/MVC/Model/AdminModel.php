@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -913,11 +913,18 @@ abstract class AdminModel extends FormModel
 	protected function generateNewTitle($category_id, $alias, $title)
 	{
 		// Alter the title & alias
-		$table = $this->getTable();
+		$table      = $this->getTable();
+		$aliasField = $table->getColumnAlias('alias');
+		$catidField = $table->getColumnAlias('catid');
+		$titleField = $table->getColumnAlias('title');
 
-		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
+		while ($table->load(array($aliasField => $alias, $catidField => $category_id)))
 		{
-			$title = StringHelper::increment($title);
+			if ($title === $table->$titleField)
+			{
+				$title = StringHelper::increment($title);
+			}
+
 			$alias = StringHelper::increment($alias, 'dash');
 		}
 
@@ -1061,7 +1068,26 @@ abstract class AdminModel extends FormModel
 
 					return false;
 				}
+
+				/**
+				 * Prune items that are already at the given state.  Note: Only models whose table correctly
+				 * sets 'published' column alias (if different than published) will benefit from this
+				 */
+				$publishedColumnName = $table->getColumnAlias('published');
+
+				if (property_exists($table, $publishedColumnName) && $table->get($publishedColumnName, $value) == $value)
+				{
+					unset($pks[$i]);
+
+					continue;
+				}
 			}
+		}
+
+		// Check if there are items to change
+		if (!count($pks))
+		{
+			return true;
 		}
 
 		// Attempt to change the state of the records.
@@ -1512,9 +1538,11 @@ abstract class AdminModel extends FormModel
 	public function generateTitle($categoryId, $table)
 	{
 		// Alter the title & alias
-		$data = $this->generateNewTitle($categoryId, $table->alias, $table->title);
-		$table->title = $data['0'];
-		$table->alias = $data['1'];
+		$titleField         = $table->getColumnAlias('title');
+		$aliasField         = $table->getColumnAlias('alias');
+		$data               = $this->generateNewTitle($categoryId, $table->$aliasField, $table->$titleField);
+		$table->$titleField = $data['0'];
+		$table->$aliasField = $data['1'];
 	}
 
 	/**

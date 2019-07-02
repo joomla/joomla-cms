@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,8 +60,7 @@ $attributes = array(
 	$autofocus ? 'autofocus' : '',
 );
 
-$value = (float) $value;
-$value = empty($value) ? $min : $value;
+$value = is_numeric($value) ? (float) $value : $min;
 
 ?>
 <input type="range" name="<?php

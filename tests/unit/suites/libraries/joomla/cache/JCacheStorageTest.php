@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -139,7 +139,7 @@ class JCacheStorageTest extends TestCase
 
 		$this->assertThat(
 			$this->object->_application,
-			$this->equalTo(null),
+			$this->equalTo(md5(JPATH_CONFIGURATION)),
 			'Unexpected value for _application.'
 		);
 

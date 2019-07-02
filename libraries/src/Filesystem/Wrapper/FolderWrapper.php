@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Filesystem
  * @since       3.4
+ * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Folder instead
  */
 class FolderWrapper
 {
@@ -32,9 +33,10 @@ class FolderWrapper
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     Folder::copy()
-	 * @since   3.4
-	 * @throws  RuntimeException
+	 * @see         Folder::copy()
+	 * @since       3.4
+	 * @throws      RuntimeException
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Folder instead
 	 */
 	public function copy($src, $dest, $path = '', $force = false, $use_streams = false)
 	{
@@ -49,8 +51,9 @@ class FolderWrapper
 	 *
 	 * @return  boolean  True if successful.
 	 *
-	 * @see     Folder::create()
-	 * @since   3.4
+	 * @see         Folder::create()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Folder instead
 	 */
 	public function create($path = '', $mode = 493)
 	{
@@ -64,9 +67,10 @@ class FolderWrapper
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     Folder::delete()
-	 * @since   3.4
-	 * @throws  UnexpectedValueException
+	 * @see         Folder::delete()
+	 * @since       3.4
+	 * @throws      UnexpectedValueException
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Folder instead
 	 */
 	public function delete($path)
 	{
@@ -83,8 +87,9 @@ class FolderWrapper
 	 *
 	 * @return  mixed  Error message on false or boolean true on success.
 	 *
-	 * @see     Folder::move()
-	 * @since   3.4
+	 * @see         Folder::move()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Folder instead
 	 */
 	public function move($src, $dest, $path = '', $use_streams = false)
 	{
@@ -98,8 +103,9 @@ class FolderWrapper
 	 *
 	 * @return  boolean  True if path is a folder.
 	 *
-	 * @see     Folder::exists()
-	 * @since   3.4
+	 * @see         Folder::exists()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Folder instead
 	 */
 	public function exists($path)
 	{
@@ -119,8 +125,9 @@ class FolderWrapper
 	 *
 	 * @return  array  Files in the given folder.
 	 *
-	 * @see     Folder::files()
-	 * @since   3.4
+	 * @see         Folder::files()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Folder instead
 	 */
 	public function files($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
 		$excludefilter = array('^\..*', '.*~'), $naturalSort = false)
@@ -140,8 +147,9 @@ class FolderWrapper
 	 *
 	 * @return  array  Folders in the given folder.
 	 *
-	 * @see     Folder::folders()
-	 * @since   3.4
+	 * @see         Folder::folders()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Folder instead
 	 */
 	public function folders($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
 		$excludefilter = array('^\..*'))
@@ -160,8 +168,9 @@ class FolderWrapper
 	 *
 	 * @return  array  Folders in the given folder.
 	 *
-	 * @see     Folder::listFolderTree()
-	 * @since   3.4
+	 * @see         Folder::listFolderTree()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Folder instead
 	 */
 	public function listFolderTree($path, $filter, $maxLevel = 3, $level = 0, $parent = 0)
 	{
@@ -175,8 +184,9 @@ class FolderWrapper
 	 *
 	 * @return  string  The sanitised string
 	 *
-	 * @see     Folder::makeSafe()
-	 * @since   3.4
+	 * @see         Folder::makeSafe()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Folder instead
 	 */
 	public function makeSafe($path)
 	{
