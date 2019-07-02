@@ -12,7 +12,6 @@ namespace Joomla\Component\Categories\Administrator\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Table\Table;
 
@@ -23,59 +22,6 @@ use Joomla\CMS\Table\Table;
  */
 class CategoriesHelper
 {
-	/**
-	 * Configure the Submenu links.
-	 *
-	 * @param   string  $extension  The extension being used for the categories.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public static function addSubmenu($extension)
-	{
-		// Avoid nonsense situation.
-		if ($extension == 'com_categories')
-		{
-			return;
-		}
-
-		$parts = explode('.', $extension);
-		$component = $parts[0];
-
-		if (count($parts) > 1)
-		{
-			$section = $parts[1];
-		}
-
-		// Try to find the component helper.
-		$eName = str_replace('com_', '', $component);
-		$file = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
-
-		if (file_exists($file))
-		{
-			$prefix = ucfirst(str_replace('com_', '', $component));
-			$cName = $prefix . 'Helper';
-
-			\JLoader::register($cName, $file);
-
-			if (class_exists($cName))
-			{
-				if (is_callable(array($cName, 'addSubmenu')))
-				{
-					$lang = Factory::getLanguage();
-
-					// Loading language file from the administrator/language directory then
-					// loading language file from the administrator/components/*extension*/language directory
-					$lang->load($component, JPATH_BASE, null, false, true)
-					|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
-
-					call_user_func(array($cName, 'addSubmenu'), 'categories' . (isset($section) ? '.' . $section : ''));
-				}
-			}
-		}
-	}
-
 	/**
 	 * Gets a list of associations for a given item.
 	 *

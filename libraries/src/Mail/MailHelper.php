@@ -10,6 +10,8 @@ namespace Joomla\CMS\Mail;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\String\PunycodeHelper;
+
 /**
  * Email helper class, provides static methods to perform various tasks relevant
  * to the Joomla email routines.
@@ -31,7 +33,7 @@ abstract class MailHelper
 	 */
 	public static function cleanLine($value)
 	{
-		$value = \JStringPunycode::emailToPunycode($value);
+		$value = PunycodeHelper::emailToPunycode($value);
 
 		return trim(preg_replace('/(%0A|%0D|\n+|\r+)/i', '', $value));
 	}
@@ -159,7 +161,7 @@ abstract class MailHelper
 		foreach ($domain_array as $domain)
 		{
 			// Convert domain to punycode
-			$domain = \JStringPunycode::toPunycode($domain);
+			$domain = PunycodeHelper::toPunycode($domain);
 
 			// Must be something
 			if (!$domain)
