@@ -42,7 +42,7 @@
     "metismenujs": "^1.0.3",
     "popper.js": "^1.15.0",
     "punycode": "1.4.1",
-    "skipto": "paypal/skipto#master",
+    "skipto": "^2.0.4",
     "tinymce": "5.0.1"
   },
   "devDependencies": {
@@ -59,7 +59,7 @@
     "copy-dir": "^0.4.0",
     "cssnano": "^4.1.10",
     "eslint": "^5.15.3",
-    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-airbnb-base": "^13.2.0",
     "eslint-plugin-import": "^2.18.0",
     "fs": "0.0.1-security",
     "fs-extra": "^7.0.1",
