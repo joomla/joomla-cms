@@ -94,7 +94,7 @@ class SelectModel extends ListModel
 				'a.extension_id, a.name, a.element AS module'
 			)
 		);
-		$query->from($db->quoteName('#__extensions') . ' AS a');
+		$query->from($db->quoteName('#__extensions', 'a'));
 
 		// Filter by module
 		$query->where($db->quoteName('a.type') . ' = ' . $db->quote('module'));
