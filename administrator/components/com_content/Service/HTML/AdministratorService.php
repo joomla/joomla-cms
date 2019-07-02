@@ -93,7 +93,7 @@ class AdministratorService
 					? true
 					: false;
 
-				// Check if there is a master item in the association and get his id if so
+				// Check if there is a master item in the association and get its id if so
 				$masterId = array_key_exists($globalMasterLang, $associations)
 					? $associations[$globalMasterLang]
 					: '';
