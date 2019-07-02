@@ -24,7 +24,7 @@
 		label="COM_ASSOCIATIONS_FILTER_SELECT_ASSOCIATION_STATE"
 		filtermode="selector"
 		onchange="this.form.submit();"
-	>
+		>
 		<option disabled="true">COM_ASSOCIATIONS_FILTER_SELECT_ASSOCIATION_STATE</option>
 		<option value="all">COM_ASSOCIATIONS_FILTER_ASSOCIATION_STATE</option>
 		<option value="up_to_date">COM_ASSOCIATIONS_STATE_UP_TO_DATE</option>
