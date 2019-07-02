@@ -266,7 +266,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 */
 	public function isClient($identifier)
 	{
-		return $identifier === 'cli';
+		return $identifier === $this->name;
 	}
 
 	/**
