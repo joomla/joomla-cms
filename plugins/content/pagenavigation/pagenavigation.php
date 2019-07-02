@@ -148,8 +148,7 @@ class PlgContentPagenavigation extends CMSPlugin
 
 			$query->order($orderby);
 
-
-			$case_when = ' CASE WHEN ' . $query->charLength($db->quoteName('a.alias') . '!=', '0')
+			$case_when = ' CASE WHEN ' . $query->charLength($db->quoteName('a.alias'), '!=', '0')
 				. ' THEN ' . $query->concatenate([$query->castAsChar($db->quoteName('a.id')), $db->quoteName('a.alias')], ':')
 				. ' ELSE ' . $db->quoteName('a.id') . ' END AS slug';
 
@@ -173,14 +172,17 @@ class PlgContentPagenavigation extends CMSPlugin
 				$query->leftJoin($db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('a.created_by'));
 			}
 
+			$catid = $row->catid;
+			$state = $row->state;
+
 			$query->where(
 				[
 					$db->quoteName('a.catid') . ' = :catid',
 					$db->quoteName('a.state') . ' = :state'
 				]
 			)
-				->bind(':catid', (int) $row->catid, ParameterType::INTEGER)
-				->bind(':state', (int) $row->state, ParameterType::INTEGER);
+				->bind(':catid', $catid, ParameterType::INTEGER)
+				->bind(':state', $state, ParameterType::INTEGER);
 
 			if ($canPublish)
 			{
