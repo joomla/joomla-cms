@@ -220,7 +220,7 @@ class Modules
 		$db       = Factory::getDbo();
 		$query    = $db->getQuery(true)
 			->select('DISTINCT(position) as value')
-			->select('position as text')
+			->select($db->quoteName('position', 'text'))
 			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('client_id') . ' = :clientid')
 			->bind(':clientid', $clientId, ParameterType::INTEGER)
