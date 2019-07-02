@@ -46,6 +46,7 @@ if ($saveOrder && !empty($this->items))
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
+						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -128,14 +129,10 @@ if ($saveOrder && !empty($this->items))
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
 								<td class="text-center">
-									<div class="btn-group">
-									        <?php echo HTMLHelper::_('contactadministrator.featured', $item->featured, $i, $canChange); ?>
-								   	</div>
+									<?php echo HTMLHelper::_('contactadministrator.featured', $item->featured, $i, $canChange); ?>
 								</td>	
 								<td class="text-center">
-									<div class="btn-group">
-										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'contacts.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-									</div>	
+									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'contacts.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>	
 								</td>
 								
 								<th scope="row" class="has-context">

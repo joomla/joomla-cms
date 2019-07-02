@@ -75,7 +75,7 @@ $this->addScriptDeclaration('cssVars();')
 		<div class="d-flex align-items-center">
 			<div class="header-title d-flex mr-auto">
 				<div class="d-flex">
-					<a class="logo" href="<?php echo Route::_('index.php'); ?>" aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
+					<a class="logo" href="<?php echo Route::_('index.php'); ?>" aria-label="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
 						<img src="<?php echo $logoBlue; ?>" alt="">
 					</a>
 				</div>
