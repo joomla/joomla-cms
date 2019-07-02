@@ -49,7 +49,7 @@ class JFormFieldWebauthn extends FormField
 		$app                  = Factory::getApplication();
 		$credentialRepository = new \Joomla\Plugin\System\Webauthn\CredentialRepository();
 
-		return Joomla::renderLayout('akeeba.webauthn.manage', [
+		return Joomla::renderLayout('plugins.system.webauthn.manage', [
 			'user'        => Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($user_id),
 			'allow_add'   => $user_id == $app->getIdentity()->id,
 			'credentials' => $credentialRepository->getAll($user_id),

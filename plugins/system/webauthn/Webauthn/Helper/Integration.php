@@ -26,7 +26,7 @@ abstract class Integration
 	/**
 	 * Returns the HTML for the Passwordless Login button.
 	 *
-	 * The following options are recognized and sent to the akeeba.webauthn.button layout:
+	 * The following options are recognized and sent to the plugins.system.webauthn.button layout:
 	 *
 	 * - class  CSS class for the button.
 	 * - image  Image file to put in the button, before the label.
@@ -48,7 +48,7 @@ abstract class Integration
 			'icon'  => '',
 		], $options);
 
-		return Joomla::renderLayout('akeeba.webauthn.button', $options);
+		return Joomla::renderLayout('plugins.system.webauthn.button', $options);
 	}
 
 	/**

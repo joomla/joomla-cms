@@ -16,8 +16,6 @@
     <files>
         <filename plugin="webauthn">webauthn.php</filename>
         <folder>fields</folder>
-        <folder>layout</folder>
-        <folder>sql</folder>
         <folder>Webauthn</folder>
     </files>
 

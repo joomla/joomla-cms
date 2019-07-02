@@ -99,6 +99,6 @@ trait AjaxHandlerCreate
 			$layoutParameters['error'] = $error;
 		}
 
-		return Joomla::renderLayout('akeeba.webauthn.manage', $layoutParameters);
+		return Joomla::renderLayout('plugins.system.webauthn.manage', $layoutParameters);
 	}
 }

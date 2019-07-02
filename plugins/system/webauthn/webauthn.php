@@ -31,7 +31,7 @@ if (!class_exists('Joomla\\Plugin\\System\\Webauthn\\Helper\\Joomla', true))
 }
 
 /**
- * Akeeba Passwordless Login plugin providing Webauthn integration.
+ * WebAuthn Passwordless Login plugin
  *
  * The plugin features are broken down into Traits for the sole purpose of making an otherwise supermassive class
  * somewhat manageable. You can find the Traits inside the Webauthn/PluginTraits folder.
