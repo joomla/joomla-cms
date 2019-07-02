@@ -208,7 +208,7 @@ class ModuleModel extends AdminModel
 				$menus = $db->loadColumn();
 
 				$i = 0;
-				
+
 				// Insert the new records into the table
 				foreach ($menus as $menu)
 				{
