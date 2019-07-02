@@ -1033,7 +1033,7 @@ class ModuleModel extends AdminModel
 				// Assign new module to `all` menu item associations.
 				$query->clear()
 					->insert($db->quoteName('#__modules_menu'))
-					->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')))
+					->columns([$db->quoteName('moduleid'), $db->quoteName('menuid')])
 					->values(':moduleid', 0);
 					->bind(':moduleid', $table->id, ParameterType::INTEGER);
 				$db->setQuery($query);
