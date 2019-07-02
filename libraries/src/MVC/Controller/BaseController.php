@@ -752,7 +752,7 @@ class BaseController implements ControllerInterface
 				$prefix = $this->model_prefix;
 			}
 			// When the frontend uses an administrator model
-			elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), Path::clean(JPATH_ADMINISTRATOR)) === 0)
+			elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), JPATH_ADMINISTRATOR) === 0)
 			{
 				$prefix = 'Administrator';
 			}
@@ -874,7 +874,7 @@ class BaseController implements ControllerInterface
 				$prefix = $this->getName() . 'View';
 			}
 			// When the front uses an administrator view
-			elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), Path::clean(JPATH_ADMINISTRATOR)) === 0)
+			elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), JPATH_ADMINISTRATOR) === 0)
 			{
 				$prefix = 'Administrator';
 			}
