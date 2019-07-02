@@ -995,7 +995,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		// If the plugin and the parameter item_associations are enabled then set the correct value for the global master language.
 		if ($pluginStatus && $itemAssocStatus)
 		{
-			$params->global_master_language = ($params->use_master_language === '1')
+			$params->global_master_language = ($params->use_master_language === 1)
 				? $params->global_master_language
 				: '';
 		}
