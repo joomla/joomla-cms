@@ -113,14 +113,17 @@ class AdministratorService
 							continue;
 						}
 
-						$classMasterInfoItems = MasterAssociationsHelper::setMasterAndChildInfos($catid, $items, $key, $item,
-							$globalMasterLang, $isMaster, $masterId, $assocMasterDates, $saveHistory);
+						$classMasterInfoItems = MasterAssociationsHelper::setMasterAndChildInfos(
+							$catid, $items, $key, $item, $globalMasterLang, $isMaster, $masterId, $assocMasterDates, $saveHistory
+						);
 						$labelClass  = $classMasterInfoItems[0];
 						$masterInfo  = $classMasterInfoItems[1];
 						$items       = $classMasterInfoItems[2];
 						$needsUpdate = $classMasterInfoItems[3];
 
-						$url = MasterAssociationsHelper::getAssociationUrl($item->id, $globalMasterLang, $extension . '.category', $item->lang_code, $key, $masterId, $needsUpdate);
+						$url = MasterAssociationsHelper::getAssociationUrl(
+							$item->id, $globalMasterLang, $extension . '.category', $item->lang_code, $key, $masterId, $needsUpdate
+						);
 					}
 
 					$text    = $item->lang_sef ? strtoupper($item->lang_sef) : 'XX';

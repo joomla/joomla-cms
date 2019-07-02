@@ -25,7 +25,7 @@ if(array_key_exists('title', $object2))
 {
 	$objLabel = $object2->title;
 }
-else if (array_key_exists('name', $object2)){
+elseif (array_key_exists('name', $object2)){
 	$objLabel = $object2->name;
 }
 

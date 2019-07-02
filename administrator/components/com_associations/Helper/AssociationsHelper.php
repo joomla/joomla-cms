@@ -219,7 +219,8 @@ class AssociationsHelper extends ContentHelper
 	 *
 	 * @since  3.7.0
 	 */
-	public static function getAssociationHtmlList($extensionName, $typeName, $itemId, $itemLanguage, $addLink = true, $assocLanguages = true, $assocState = 'all')
+	public static function getAssociationHtmlList($extensionName, $typeName, $itemId, $itemLanguage,
+		$addLink = true, $assocLanguages = true, $assocState = 'all')
 	{
 		// Get the associations list for this item.
 		$items   = self::getAssociationList($extensionName, $typeName, $itemId);
@@ -234,6 +235,7 @@ class AssociationsHelper extends ContentHelper
 
 		// Get the global master language, empty if not used
 		$globalMasterLang = Associations::getGlobalMasterLanguage();
+
 		// Check if versions are enabled
 		$saveHistory      = ComponentHelper::getParams($extensionName)->get('save_history', 0);
 		$context          = ($typeName === 'category') ? 'com_categories.item' : $extensionName . '.item';
@@ -252,7 +254,7 @@ class AssociationsHelper extends ContentHelper
 			$update     = false;
 			$masterInfo = '';
 
-			if(!$globalMasterLang)
+			if (!$globalMasterLang)
 			{
 				// Don't do for the reference language.
 				if ($langCode == $itemLanguage)
@@ -352,7 +354,8 @@ class AssociationsHelper extends ContentHelper
 					else
 					{
 						// When there is no associated master item, set it to target
-						if (!$masterId){
+						if (!$masterId)
+						{
 							$target        = $globalMasterLang . ':0:add';
 						}
 
@@ -364,7 +367,7 @@ class AssociationsHelper extends ContentHelper
 							if ($associatedModifiedMaster < $lastModifiedMaster)
 							{
 								// Don't display not corresponding item
-								if($assocState !== 'all' && $assocState !== 'outdated'){
+								if ($assocState !== 'all' && $assocState !== 'outdated'){
 									unset($items[$langCode]);
 									continue;
 								}
@@ -374,9 +377,11 @@ class AssociationsHelper extends ContentHelper
 								$target = $langCode . ':' . $items[$langCode]['id'] . ':edit';
 								$update = true;
 
-								// When versions are disabled than the modified date is used for the master item.
-								// That means that when no changes were made and the master item has been saved the modified date has been changed.
-								// So the outdated state means in that case there might have been made changes and it is necessary to check manually and update the target.
+								/*
+								When versions are disabled than the modified date is used for the master item.
+								That means that when no changes were made and the master item has been saved the modified date has been changed.
+								So the outdated state means in that case there might have been made changes and it is necessary to check manually and update the target.
+								*/
 								$masterInfo = $saveHistory
 									? $masterInfoSpace . Text::_('JGLOBAL_ASSOCIATIONS_STATE_OUTDATED_DESC')
 									: $masterInfoSpace . Text::_('JGLOBAL_ASSOCIATIONS_STATE_MIGHT_BE_OUTDATED_DESC');
@@ -384,7 +389,7 @@ class AssociationsHelper extends ContentHelper
 							else
 							{
 								// Don't display not corresponding item
-								if($assocState !== 'all' && $assocState !== 'up_to_date'){
+								if ($assocState !== 'all' && $assocState !== 'up_to_date'){
 									unset($items[$langCode]);
 									continue;
 								}
@@ -392,7 +397,7 @@ class AssociationsHelper extends ContentHelper
 								$additional .= $addLink && $allow ? Text::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
 								$masterInfo  = $masterInfoSpace . Text::_('JGLOBAL_ASSOCIATIONS_STATE_UP_TO_DATE_DESC');
 
-								// for item types that do not use modified date or versions like menu items
+								// For item types that do not use modified date or versions like menu items
 								if (!$associatedModifiedMaster)
 								{
 									$masterInfo  = '';

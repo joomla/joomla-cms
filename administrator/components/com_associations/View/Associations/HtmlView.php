@@ -151,10 +151,10 @@ class HtmlView extends BaseHtmlView
 				unset($this->activeFilters['language']);
 				unset($this->activeFilters['assocstate']);
 
-				//Remove association state filter depending on global master language
+				// Remove association state filter depending on global master language
 				$globalMasterLang = Associations::getGlobalMasterLanguage();
 
-				if(!$globalMasterLang){
+				if (!$globalMasterLang){
 					$this->filterForm->removeField('assocstate', 'filter');
 				}
 
@@ -269,8 +269,7 @@ class HtmlView extends BaseHtmlView
 				->text('COM_ASSOCIATIONS_PURGE')
 				->message((isset($this->extensionName) && isset($languageKey))
 						? Text::plural('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', (Text::_($this->extensionName) . ' > ' . Text::_($languageKey)))
-						: Text::_('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT')
-				)
+						: Text::_('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT'))
 				->task('associations.purge');
 			ToolbarHelper::custom('associations.clean', 'refresh', 'refresh', 'COM_ASSOCIATIONS_DELETE_ORPHANS', false, false);
 			ToolbarHelper::preferences('com_associations');

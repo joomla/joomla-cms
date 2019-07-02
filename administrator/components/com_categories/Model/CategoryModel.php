@@ -699,8 +699,10 @@ class CategoryModel extends AdminModel
 				{
 					$masterIdAndDateValues = MasterAssociationsHelper::getMasterValues($id, $dataId, $masterId, $masterModified, $assocMasterDates, $oldKey);
 
-					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key) . ','
-						. $db->quote($masterIdAndDateValues[0]) . ',' . $db->quote($masterIdAndDateValues[1]));
+					$query->values(
+						((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key) . ','
+						. $db->quote($masterIdAndDateValues[0]) . ',' . $db->quote($masterIdAndDateValues[1])
+					);
 				}
 
 				$db->setQuery($query);

@@ -25,16 +25,16 @@ class AssociationMasterModel extends BaseModel
 	/**
 	 * Update the childs modified date of the master item from #__associations table.
 	 *
-	 * @param   integer  $childId    The id of the item that gets updated
-	 * @param   integer  $masterId   The associated master item of the child item
-	 * @param   string   $itemtype   The component item type
+	 * @param   integer  $childId   The id of the item that gets updated
+	 * @param   integer  $masterId  The associated master item of the child item
+	 * @param   string   $itemtype  The component item type
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since  4.0
 	 */
-	public function update($childId, $masterId, $itemtype) {
-
+	public function update($childId, $masterId, $itemtype)
+	{
 		list($extensionName, $typeName) = explode('.', $itemtype, 2);
 
 		$context = ($typeName ==='category')

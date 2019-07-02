@@ -31,7 +31,7 @@ class AssociationMasterController extends BaseController
 	public function update()
 	{
 		$targetId = $this->input->get('targetId', '', 'int');
-		$masterId = $this->input->get('id', '' , 'int');
+		$masterId = $this->input->get('id', '', 'int');
 		$itemtype = $this->input->get('itemtype', '', 'string');
 
 		$this->getModel('associationmaster')->update($targetId, $masterId, $itemtype);

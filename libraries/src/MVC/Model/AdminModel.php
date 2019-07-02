@@ -1321,7 +1321,7 @@ abstract class AdminModel extends FormModel
 			}
 
 			// Get association params before they get deleted
-			if($associations)
+			if ($associations)
 			{
 				$assocMasterDates = MasterAssociationsHelper::getMasterDates($associations, $this->associationsContext);
 			}
@@ -1366,7 +1366,7 @@ abstract class AdminModel extends FormModel
 				$globalMasterLang = Associations::getGlobalMasterLanguage();
 				$masterId         = $associations[$globalMasterLang] ?? '';
 
-				// get id of the item that get saved
+				// Get id of the item that get saved
 				$dataId           = (int) $table->id;
 
 				// Get the latest modified date of master item
@@ -1380,8 +1380,10 @@ abstract class AdminModel extends FormModel
 				{
 					$masterIdAndDateValues = MasterAssociationsHelper::getMasterValues($id, $dataId, $masterId, $masterModified, $assocMasterDates, $old_key);
 
-					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key)
-						. ',' .  $db->quote($masterIdAndDateValues[0]) . ',' . $db->quote($masterIdAndDateValues[1]));
+					$query->values(
+						((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key)
+						. ',' . $db->quote($masterIdAndDateValues[0]) . ',' . $db->quote($masterIdAndDateValues[1])
+					);
 				}
 
 				$db->setQuery($query);
@@ -1670,8 +1672,8 @@ abstract class AdminModel extends FormModel
 		// If a global Master Language is set and the current item is a child item, then open the master item as reference and the child as target
 		if ($globalMasterLang && !$isMaster)
 		{
-			// if there is an associated master item change reference id.
-			if($data['associations'][$globalMasterLang])
+			// If there is an associated master item change reference id.
+			if ($data['associations'][$globalMasterLang])
 			{
 				$id     = $data['associations'][$globalMasterLang];
 				$target = '&target=' . $data['language'] . '%3A' . $data['id'] . '%3Aedit';

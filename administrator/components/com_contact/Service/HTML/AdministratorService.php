@@ -116,14 +116,17 @@ class AdministratorService
 							continue;
 						}
 
-						$classMasterInfoItems = MasterAssociationsHelper::setMasterAndChildInfos($contactid, $items, $key, $item,
-							$globalMasterLang, $isMaster, $masterId, $assocMasterDates, $saveHistory);
+						$classMasterInfoItems = MasterAssociationsHelper::setMasterAndChildInfos(
+							$contactid, $items, $key, $item, $globalMasterLang, $isMaster, $masterId, $assocMasterDates, $saveHistory
+						);
 						$labelClass  = $classMasterInfoItems[0];
 						$masterInfo  = $classMasterInfoItems[1];
 						$items       = $classMasterInfoItems[2];
 						$needsUpdate = $classMasterInfoItems[3];
 
-						$url = MasterAssociationsHelper::getAssociationUrl($item->id, $globalMasterLang, 'com_contact.contact', $item->lang_code, $key, $masterId, $needsUpdate);
+						$url = MasterAssociationsHelper::getAssociationUrl(
+							$item->id, $globalMasterLang, 'com_contact.contact', $item->lang_code, $key, $masterId, $needsUpdate
+						);
 					}
 
 					$text    = strtoupper($item->lang_sef);
@@ -147,7 +150,7 @@ class AdministratorService
 				{
 					$link = MasterAssociationsHelper::addNotAssociatedMasterLink($globalMasterLang, $contactid, 'com_contact.contact');
 
-					// add this on the top of the array
+					// Add this on the top of the array
 					$items = array('master' => array('link' => $link)) + $items;
 				}
 			}

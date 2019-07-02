@@ -145,7 +145,7 @@ class Menus
 				{
 					$link = MasterAssociationsHelper::addNotAssociatedMasterLink($globalMasterLang, $itemid, 'com_menus.item');
 
-					// add this on the top of the array
+					// Add this on the top of the array
 					$items = array('master' => array('link' => $link)) + $items;
 				}
 			}

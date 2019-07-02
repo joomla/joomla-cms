@@ -29,9 +29,9 @@ class MasterAssociationsHelper extends ContentHelper
 	/**
 	 * Method to create a link for a child item that has no master item
 	 *
-	 * @param   string   $globalMasterLang The global master language
-	 * @param   integer  $itemId           The item id
-	 * @param   string   $itemType         The item type
+	 * @param   string   $globalMasterLang  The global master language
+	 * @param   integer  $itemId            The item id
+	 * @param   string   $itemType          The item type
 	 *
 	 * @return  string  the link for the not associated master item
 	 */
@@ -51,10 +51,10 @@ class MasterAssociationsHelper extends ContentHelper
 		$title      = Text::_('JGLOBAL_ASSOCIATIONS_STATE_NOT_ASSOCIATED_DESC');
 		$url        = self::getAssociationUrl($itemId, $globalMasterLang, $itemType);
 
-		$tooltip = '<strong>' . htmlspecialchars( $globalMasterLangInfos['title'], ENT_QUOTES, 'UTF-8') . '</strong><br>'
+		$tooltip = '<strong>' . htmlspecialchars( $globalMasterLangInfos['title'],ENT_QUOTES, 'UTF-8') . '</strong><br>'
 			. htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . $masterInfo;
 
-		$link = '<a href="' . $url . '" title="' .  $globalMasterLangInfos['title'] . '" class="' . $classes . '">' . $text . '</a>'
+		$link = '<a href="' . $url . '" title="' . $globalMasterLangInfos['title'] . '" class="' . $classes . '">' . $text . '</a>'
 			. '<div role="tooltip" id="tip_no_Master">' . $tooltip . '</div>';
 
 		return $link;
@@ -67,7 +67,6 @@ class MasterAssociationsHelper extends ContentHelper
 	 * @param   string  $context       the association context
 	 *
 	 * @return  array  association with master dates
-	 *
 	 */
 	public static function getMasterDates($associations, $context)
 	{
@@ -86,7 +85,7 @@ class MasterAssociationsHelper extends ContentHelper
 				->where($db->quoteName('id') . ' = ' . $db->quote($id))
 				->where($db->quoteName('context') . ' = ' . $db->quote($context));
 			$db->setQuery($query);
-			$masterDates[$id] = $db->loadResult();;
+			$masterDates[$id] = $db->loadResult();
 		}
 
 		return $masterDates;
@@ -104,15 +103,15 @@ class MasterAssociationsHelper extends ContentHelper
 	 *
 	 * @return  array    master id and master dates for an associated item
 	 */
-	public static function getMasterValues($id, $dataId, $masterId, $masterModified, $assocMasterDates, $old_key) {
-
+	public static function getMasterValues($id, $dataId, $masterId, $masterModified, $assocMasterDates, $old_key)
+	{
 		if ($masterId)
 		{
 			// For the master item
 			if ($masterId === $id)
 			{
 				$masterIdValue = 0;
-				// set always the last modified date
+				// Set always the last modified date
 				$masterDateValue = $masterModified ?? null;
 			}
 
@@ -154,19 +153,19 @@ class MasterAssociationsHelper extends ContentHelper
 	 */
 	public static function getMasterModifiedDate($masterId, $tableName, $typeAlias)
 	{
-		// check if the content version is enabled
+		// Check if the content version is enabled
 		$option = Factory::getApplication()->input->get('option');
 		$saveHistory = ComponentHelper::getParams($option)->get('save_history', 0);
 
 		if ($masterId)
 		{
-			// if versions are enabled get the save_data of the master item from history table
+			// If versions are enabled get the save_data of the master item from history table
 			if ($saveHistory)
 			{
 				$typeId        = Table::getInstance('ContentType')->getTypeId($typeAlias);
 				$masterHistory = ContentHistoryHelper::getHistory($typeId, $masterId);
 
-				// latest saved date of the master item
+				// Latest saved date of the master item
 				$masterModified = $masterHistory[0]->save_date;
 			}
 			else
@@ -228,7 +227,7 @@ class MasterAssociationsHelper extends ContentHelper
 		}
 		else
 		{
-			// get association state of child when a master exists
+			// Get association state of child when a master exists
 			if ($masterId && (array_key_exists($key, $assocMasterDates)) && (array_key_exists($masterId, $assocMasterDates)))
 			{
 				$associatedModifiedMaster = $assocMasterDates[$key];
