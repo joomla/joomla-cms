@@ -1411,7 +1411,7 @@ class LanguagesModel extends BaseInstallationModel
 
 		foreach ($groupedAssociations as $context => $associations)
 		{
-			// If there is an association item with the globalMasterLanguage, get his id.
+			// If there is an association item with the globalMasterLanguage, get its id.
 			$masterId = $associations[$globalMasterLang] ?? '';
 			$key   = md5(json_encode($associations));
 			$query = $db->getQuery(true)
