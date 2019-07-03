@@ -389,7 +389,17 @@
           "qrcode.js": "js/qrcode.js",
           "qrcode_SJIS.js": "js/qrcode_SJIS.js",
           "qrcode_UTF8.js": "js/qrcode_UTF8.js"
-        }
+        },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": [
+              "qrcode.js",
+              "qrcode_SJIS.js",
+              "qrcode_UTF8.js"
+            ]
+          }
+        ]
       }
     },
     "errorPages": {
