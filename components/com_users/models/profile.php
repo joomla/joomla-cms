@@ -305,61 +305,6 @@ class UsersModelProfile extends JModelForm
 		$data['email']    = JStringPunycode::emailToPunycode($data['email1']);
 		$data['password'] = $data['password1'];
 
-		// Make sure the activation / reset token is invalidated when the account mail is changed and a token exists.
-		if ($user->email != $data['email'] && $userId != 0 && !empty($user->activation))
-		{
-			$app = JFactory::getApplication();
-
-			// Compile the notification mail values.
-			$data['fromname']   = $app->get('fromname');
-			$data['mailfrom']   = $app->get('mailfrom');
-			$data['sitename']   = $app->get('sitename');
-			$data['siteurl']    = JUri::root();
-			$data['activation'] = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
-
-			// Set the link to activate the user account.
-			$linkMode = (int) $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
-			$data['activate'] = JRoute::link('site', 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false, $linkMode);
-
-			$emailSubject = JText::sprintf(
-				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
-				$data['name'],
-				$data['sitename']
-			);
-
-			// Default case should be admin activation
-			$emailBodyLanguageString = 'COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_CHANGED_MAIL_BODY';
-
-			if (JComponentHelper::getParams('com_users')->get('useractivation') === 1)
-			{
-				// Wait we have useractivation use the correct string then
-				$emailBodyLanguageString = 'COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_CHANGED_MAIL_BODY';
-			}
-
-			$emailBody = JText::sprintf(
-				$emailBodyLanguageString,
-				$data['name'],
-				$data['sitename'],
-				$data['activate'],
-				$data['siteurl'],
-				$data['username']
-			);
-
-			// Write the new token back to the database
-			$activation = (object) array(
-				'id'         => $userId,
-				'activation' => $data['activation'],
-			);
-
-			$this->getDbo()->updateObject('#__users', $activation, 'id');
-
-			// Reload the user record
-			$user->load($userId);
-
-			// Send the mail to the user
-			JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
-		}
-
 		// Unset the username if it should not be overwritten
 		$isUsernameCompliant = $this->getState('user.username.compliant');
 
