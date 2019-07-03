@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Tags\Site\Helper\TagsHelperRoute;
 
 defined('_JEXEC') or die;
 
@@ -36,7 +35,7 @@ class FeedView extends BaseHtmlView
 	{
 		$app       = Factory::getApplication();
 		$document  = Factory::getDocument();
-		$ids       = $app->input->get('id');
+		$ids       = $app->input->get('id', array(), 'array');
 		$i         = 0;
 		$tagIds    = '';
 		$filter    = new InputFilter;

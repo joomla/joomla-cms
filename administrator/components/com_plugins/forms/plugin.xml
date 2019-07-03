@@ -58,5 +58,15 @@
 			size="20"
 			readonly="true" 
 		/>
+
+		<field
+			name="note"
+			type="textarea"
+			label="JFIELD_NOTE_LABEL"
+			class="span12"
+			size="40"
+			maxlength="255"
+		/>
+
 	</fieldset>
 </form>

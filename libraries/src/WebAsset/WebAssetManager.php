@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Event\AbstractEvent;
-use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 use Joomla\CMS\WebAsset\Exception\InvalidActionException;
+use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 use Joomla\CMS\WebAsset\Exception\UnsatisfiedDependencyException;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
