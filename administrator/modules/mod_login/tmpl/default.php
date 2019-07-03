@@ -72,7 +72,7 @@ Text::script('JHIDE');
 				</label>
 				<div class="input-group">
 					<span class="input-group-prepend">
-						<span class="input-group-text"><span class="fa fa-shield" aria-hidden="true"></span></span>
+						<span class="input-group-text"><span class="fa fa-shield-alt" aria-hidden="true"></span></span>
 					</span>
 					<input
 						name="secretkey"

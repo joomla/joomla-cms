@@ -7,52 +7,51 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Actionlogs\Administrator\Controller;
+
 defined('_JEXEC') or die;
 
+use DateTimeZone;
+use Exception;
+use InvalidArgumentException;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
+use Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel;
 use Joomla\Utilities\ArrayHelper;
-
-JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
 /**
  * Actionlogs list controller class.
  *
  * @since  3.9.0
  */
-class ActionlogsControllerActionlogs extends JControllerAdmin
+class ActionlogsController extends AdminController
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 *                                         Recognized key values include 'name', 'default_task', 'model_path', and
+	 *                                         'view_path' (this list is not meant to be comprehensive).
+	 * @param   MVCFactoryInterface  $factory  The factory.
+	 * @param   CmsApplication       $app      The JApplication for the dispatcher
+	 * @param   Input                $input    Input
 	 *
 	 * @since   3.9.0
+	 *
+	 * @throws  Exception
 	 */
-	public function __construct(array $config = array())
+	public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
-		parent::__construct($config);
+		parent::__construct($config, $factory, $app, $input);
 
 		$this->registerTask('exportSelectedLogs', 'exportLogs');
-	}
-
-	/**
-	 * Method to get a model object, loading it if required.
-	 *
-	 * @param   string  $name    The model name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  object  The model.
-	 *
-	 * @since   3.9.0
-	 */
-	public function getModel($name = 'Actionlogs', $prefix = 'ActionlogsModel', $config = array('ignore_request' => true))
-	{
-		// Return the model
-		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**
@@ -61,6 +60,8 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 	 * @return  void
 	 *
 	 * @since   3.9.0
+	 *
+	 * @throws  Exception
 	 */
 	public function exportLogs()
 	{
@@ -77,7 +78,7 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 			$pks = ArrayHelper::toInteger(explode(',', $this->input->post->getString('cids')));
 		}
 
-		/** @var ActionlogsModelActionlogs $model */
+		/** @var ActionlogsModel $model */
 		$model = $this->getModel();
 
 		// Get the logs data
@@ -85,7 +86,6 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 
 		if (count($data))
 		{
-
 			try
 			{
 				$rows = ActionlogsHelper::getCsvData($data);
@@ -119,14 +119,31 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 			}
 
 			fclose($output);
-			$app->triggerEvent('onAfterLogExport', array());
-			$app->close();
+			$this->app->triggerEvent('onAfterLogExport', array());
+			$this->app->close();
 		}
 		else
 		{
 			$this->setMessage(Text::_('COM_ACTIONLOGS_NO_LOGS_TO_EXPORT'));
 			$this->setRedirect(Route::_('index.php?option=com_actionlogs&view=actionlogs', false));
 		}
+	}
+
+	/**
+	 * Method to get a model object, loading it if required.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  object  The model.
+	 *
+	 * @since   3.9.0
+	 */
+	public function getModel($name = 'Actionlogs', $prefix = 'Administrator', $config = ['ignore_request' => true])
+	{
+		// Return the model
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**
