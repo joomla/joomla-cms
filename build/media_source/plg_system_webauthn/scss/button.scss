@@ -1,0 +1,30 @@
+/*!
+ * @package     Joomla.Plugin
+ * @subpackage  System.updatenotification
+ *
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+button[class*=plg_system_webauthn_login_button] {
+  span[class*=icon] {
+    font-size: 1.25em;
+    vertical-align: sub;
+    display: inline-block;
+    width: 1em;
+    text-align: center;
+  }
+
+  img[class*=icon] {
+    font-size: 1.5em;
+    vertical-align: middle;
+    display: inline-block;
+    width: 1.25em;
+    max-height: 1.25em;
+    text-align: center;
+  }
+
+  span[class*=icon]:not(:last-child) {
+    margin-right: .5em;
+  }
+}
