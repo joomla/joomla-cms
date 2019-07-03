@@ -265,7 +265,6 @@ class LinksModel extends ListModel
 			$db->setQuery($query);
 			$db->execute();
 			$i++;
-
 		}
 
 		return true;
