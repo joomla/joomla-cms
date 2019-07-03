@@ -7,8 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Actionlogs\Administrator\Helper;
+
 defined('_JEXEC') or die;
 
+use Generator;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
@@ -31,13 +34,13 @@ class ActionlogsHelper
 	 * @return  Generator
 	 *
 	 * @since   3.9.0
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
 	public static function getCsvData($data): Generator
 	{
 		if (!is_iterable($data))
 		{
-			throw new InvalidArgumentException(
+			throw new \InvalidArgumentException(
 				sprintf(
 					'%s() requires an array or object implementing the Traversable interface, a %s was given.',
 					__METHOD__,
@@ -58,7 +61,7 @@ class ActionlogsHelper
 			yield [
 				'id'         => $log->id,
 				'message'    => strip_tags(static::getHumanReadableLogMessage($log, false)),
-				'date'       => (new Date($log->log_date, new DateTimeZone('UTC')))->format('Y-m-d H:i:s T'),
+				'date'       => (new Date($log->log_date, new \DateTimeZone('UTC')))->format('Y-m-d H:i:s T'),
 				'extension'  => Text::_($extension),
 				'name'       => $log->name,
 				'ip_address' => Text::_($log->ip_address),
@@ -224,7 +227,7 @@ class ActionlogsHelper
 			$prefix = ucfirst(str_replace('com_', '', $component));
 			$cName  = $prefix . 'Helper';
 
-			JLoader::register($cName, $file);
+			\JLoader::register($cName, $file);
 
 			if (class_exists($cName) && is_callable(array($cName, 'getContentTypeLink')))
 			{
@@ -284,7 +287,7 @@ class ActionlogsHelper
 		{
 			$rows = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$rows = array();
 		}
