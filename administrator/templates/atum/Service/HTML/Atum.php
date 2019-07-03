@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use OzdemirBurak\Iris\Color\Hex;
 use OzdemirBurak\Iris\Color\Hsl;
+use Joomla\Registry\Registry;
 
 /**
  * Content Component HTML Helper
@@ -31,25 +32,25 @@ class Atum
 	 *
 	 * @since  4.0.0
 	 */
-	public static function rootcolors($params) : void
+	public static function rootcolors(Registry $params) : void
 	{
 		$monochrome = (bool) $params->get('monochrome');
 
 		$root = [];
 
-		if (!is_null($params->get('hue')))
+		if ($params->exists('hue'))
 		{
-			$root = static::bgdarkcalc($params->get('hue'), $monochrome);
+			$root = static::bgdarkcalc((int) $params->get('hue'), $monochrome);
 		}
 
 		$bgLight = $params->get('bg-light');
 
 		if (static::isHex($bgLight))
 		{
-			$bgLight = new Hex($bgLight);
-
 			try
 			{
+				$bgLight = new Hex($bgLight);
+
 				$root[] = '--atum-bg-light: ' . ($monochrome ? $bgLight->grayscale() : $bgLight) . ';';
 				$root[] = '--toolbar-bg: ' . ($monochrome ? $bgLight->grayscale()->lighten(5) : $bgLight->lighten(5)) . ';';
 			}
@@ -63,29 +64,10 @@ class Atum
 
 		if (static::isHex($textDark))
 		{
-			$textdark = new Hex($textDark);
-			$root[] = '--atum-text-dark: ' . (($monochrome) ? $textdark->grayscale() : $textdark) . ';';
-		}
-
-		$textLight = $params->get('text-light');
-
-		if (static::isHex($textLight))
-		{
-			$textlight = new Hex($textLight);
-			$root[] = '--atum-text-light: ' . (($monochrome) ? $textlight->grayscale() : $textlight) . ';';
-		}
-
-		if ($params->get('link-color'))
-		{
-			$linkcolor = trim($params->get('link-color'), '#');
-
-			$linkcolor2 = new Hex('#' . $linkcolor);
-			$root[] = '--atum-link-color: ' . (($monochrome) ? $linkcolor2->grayscale() : $linkcolor2) . ';';
-
 			try
 			{
-				$color = new Hex($linkcolor);
-				$root[] = '--atum-link-hover-color: ' . (($monochrome) ? $bgLight->grayscale()->darken(20) : $bgLight->darken(20)) . ';';
+				$textDark = new Hex($textDark);
+				$root[] = '--atum-text-dark: ' . (($monochrome) ? $textDark->grayscale() : $textDark) . ';';
 			}
 			catch (Exception $ex)
 			{
@@ -93,10 +75,52 @@ class Atum
 			}
 		}
 
-		if ($params->get('special-color'))
+		$textLight = $params->get('text-light');
+
+		if (static::isHex($textLight))
 		{
-			$specialcolor = new Hex('#' . trim($params->get('special-color'), '#'));
-			$root[] = '--atum-special-color: ' . (($monochrome) ? $specialcolor->grayscale() : $specialcolor) . ';';
+			try
+			{
+				$textLight = new Hex($textLight);
+				$root[] = '--atum-text-light: ' . (($monochrome) ? $textLight->grayscale() : $textLight) . ';';
+			}
+			catch (Exception $ex)
+			{
+				// Just ignore exceptions
+			}
+		}
+
+		$linkColor = $params->get('link-color');
+
+		if (static::isHex($linkColor))
+		{
+			try
+			{
+				$linkColor = new Hex($linkColor);
+
+				$root[] = '--atum-link-color: ' . (($monochrome) ? $linkColor->grayscale() : $linkColor) . ';';
+
+				$root[] = '--atum-link-hover-color: ' . ($monochrome ? $linkColor->grayscale()->darken(20) : $linkColor->darken(20)) . ';';
+			}
+			catch (Exception $ex)
+			{
+				// Just ignore exceptions
+			}
+		}
+
+		$specialColor = $params->get('special-color');
+
+		if (static::isHex($specialColor))
+		{
+			try
+			{
+				$specialcolor = new Hex($specialColor);
+				$root[] = '--atum-special-color: ' . (($monochrome) ? $specialcolor->grayscale() : $specialcolor) . ';';
+			}
+			catch (Exception $ex)
+			{
+				// Just ignore exceptions
+			}
 		}
 
 		if (count($root))
@@ -122,11 +146,11 @@ class Atum
 
 		$root = [];
 
-		$bgcolor = new Hsl('hsl(' . $hue . ', ' . (61 * $multiplier) . ', 26)');
-		$root[] = '--atum-bg-dark: ' . (new Hsl('hsl(' . $hue . ', ' . (61 * $multiplier) . ', 26)'))->toHex() . ';';
-
 		try
 		{
+			$bgcolor = new Hsl('hsl(' . $hue . ', ' . (61 * $multiplier) . ', 26)');
+
+			$root[] = '--atum-bg-dark: ' . (new Hsl('hsl(' . $hue . ', ' . (61 * $multiplier) . ', 26)'))->toHex() . ';';
 			$root[] = '--atum-contrast: ' . (new Hsl('hsl(' . $hue . ', 61, 42)'))->spin(30)->toHex() . ';';
 			$root[] = '--atum-bg-dark-0: ' . (clone $bgcolor)->desaturate(86 * $multiplier)->lighten(71.4)->spin(-6)->toHex() . ';';
 			$root[] = '--atum-bg-dark-5: ' . (clone $bgcolor)->desaturate(86 * $multiplier)->lighten(65.1)->spin(-6)->toHex() . ';';
