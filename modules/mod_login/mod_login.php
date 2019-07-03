@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\Login\Site\Helper\LoginHelper;
@@ -16,15 +17,12 @@ use Joomla\Module\Login\Site\Helper\LoginHelper;
 $params->def('greeting', 1);
 
 // HTML IDs
-$moduleId         = "login-form-{$module->id}";
-$usernameId       = "modlgn-username-{$module->id}";
-$passwordId       = "modlgn-passwd-{$module->id}";
-$secretKeyId      = "modlgn-secretkey-{$module->id}";
+$formId           = "login-form-{$module->id}";
 $type             = LoginHelper::getType();
 $return           = LoginHelper::getReturnUrl($params, $type);
 $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
-$extraButtons     = AuthenticationHelper::getLoginButtons($moduleId, $usernameId);
-$user             = $app->getIdentity();
+$extraButtons     = AuthenticationHelper::getLoginButtons($formId);
+$user             = Factory::getUser();
 $layout           = $params->get('layout', 'default');
 
 // Logged users must load the logout sublayout

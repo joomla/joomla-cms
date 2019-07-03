@@ -96,6 +96,25 @@ Text::script('MESSAGE');
 				<?php echo $langs; ?>
 			</div>
 		<?php endif; ?>
+		<?php foreach($extraButtons as $button): ?>
+		<div class="form-group">
+			<button type="button"
+			        class="btn btn-secondary btn-block mt-4 <?= $button['class'] ?? '' ?>"
+			        onclick="<?= $button['onclick'] ?>"
+			        title="<?= Text::_($button['label']) ?>"
+			        id="<?= $button['id'] ?>"
+			>
+				<?php if (!empty($button['icon'])): ?>
+					<span class="<?= $button['icon'] ?>"></span>
+				<?php elseif (!empty($button['image'])): ?>
+					<?= HTMLHelper::_('image', $button['image'], Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC'), [
+						'class' => 'icon',
+					], true) ?>
+				<?php endif; ?>
+				<?= Text::_($button['label']) ?>
+			</button>
+		</div>
+		<?php endforeach; ?>
 		<div class="form-group">
 			<button class="btn btn-primary btn-block btn-lg mt-4" id="btn-login-submit"><?php echo Text::_('JLOGIN'); ?></button>
 		</div>
