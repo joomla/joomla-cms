@@ -1098,6 +1098,16 @@
 			size="40"
 		/>
 
+		<field
+			name="cookie_samesite"
+			type="list"
+			label="COM_CONFIG_FIELD_COOKIE_SAMESITE_LABEL"
+			filter="WORD"
+		>
+			<option value="strict">COM_CONFIG_FIELD_COOKIE_SAMESITE_OPTION_STRICT_LABEL</option>
+			<option value="lax">COM_CONFIG_FIELD_COOKIE_SAMESITE_OPTION_LAX_LABEL</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset

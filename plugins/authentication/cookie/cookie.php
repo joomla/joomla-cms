@@ -101,7 +101,13 @@ class PlgAuthenticationCookie extends CMSPlugin
 		if (count($cookieArray) !== 2)
 		{
 			// Destroy the cookie in the browser.
-			$this->app->input->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
+			$this->app->input->cookie->set($cookieName, '',
+				[
+					'expires'  => 1,
+					'path'     => $this->app->get('cookie_path', '/'),
+					'domain'   => $this->app->get('cookie_domain', ''),
+				]
+			);
 			Log::add('Invalid cookie detected.', Log::WARNING, 'error');
 
 			return false;
@@ -149,7 +155,13 @@ class PlgAuthenticationCookie extends CMSPlugin
 		if (count($results) !== 1)
 		{
 			// Destroy the cookie in the browser.
-			$this->app->input->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
+			$this->app->input->cookie->set($cookieName, '',
+				[
+					'expires'  => 1,
+					'path'     => $this->app->get('cookie_path', '/'),
+					'domain'   => $this->app->get('cookie_domain', ''),
+				]
+			);
 			$response->status = Authentication::STATUS_FAILURE;
 
 			return false;
@@ -182,7 +194,13 @@ class PlgAuthenticationCookie extends CMSPlugin
 			}
 
 			// Destroy the cookie in the browser.
-			$this->app->input->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
+			$this->app->input->cookie->set($cookieName, '',
+				[
+					'expires'  => 1,
+					'path'     => $this->app->get('cookie_path', '/'),
+					'domain'   => $this->app->get('cookie_domain', ''),
+				]
+			);
 
 			// Issue warning by email to user and/or admin?
 			Log::add(Text::sprintf('PLG_AUTH_COOKIE_ERROR_LOG_LOGIN_FAILED', $results[0]->user_id), Log::WARNING, 'security');
@@ -266,7 +284,13 @@ class PlgAuthenticationCookie extends CMSPlugin
 				$cookieValue   = $this->app->input->cookie->get($oldCookieName);
 
 				// Destroy the old cookie in the browser
-				$this->app->input->cookie->set($oldCookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
+				$this->app->input->cookie->set($oldCookieName, '',
+					[
+						'expires'  => 1,
+						'path'     => $this->app->get('cookie_path', '/'),
+						'domain'   => $this->app->get('cookie_domain', ''),
+					]
+				);
 			}
 
 			$cookieArray = explode('.', $cookieValue);
@@ -322,6 +346,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 
 		// Get the parameter values
 		$lifetime = $this->params->get('cookie_lifetime', 60) * 24 * 60 * 60;
+		$samesite = $this->params->get('cookie_samesite', 'strict');
 		$length   = $this->params->get('key_length', 16);
 
 		// Generate new cookie
@@ -329,14 +354,15 @@ class PlgAuthenticationCookie extends CMSPlugin
 		$cookieValue = $token . '.' . $series;
 
 		// Overwrite existing cookie with new value
-		$this->app->input->cookie->set(
-			$cookieName,
-			$cookieValue,
-			time() + $lifetime,
-			$this->app->get('cookie_path', '/'),
-			$this->app->get('cookie_domain', ''),
-			$this->app->isHttpsForced(),
-			true
+		$this->app->input->cookie->set($cookieName, $cookieValue,
+			[
+				'expires'  => time() + $lifetime,
+				'path'     => $this->app->get('cookie_path', '/'),
+				'domain'   => $this->app->get('cookie_domain', ''),
+				'secure'   => $this->app->isHttpsForced(),
+				'httponly' => true,
+				'samesite' => $samesite
+			]
 		);
 
 		$query = $this->db->getQuery(true);
@@ -424,7 +450,13 @@ class PlgAuthenticationCookie extends CMSPlugin
 		}
 
 		// Destroy the cookie
-		$this->app->input->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
+		$this->app->input->cookie->set($cookieName, '',
+			[
+				'expires'  => 1,
+				'path'     => $this->app->get('cookie_path', '/'),
+				'domain'   => $this->app->get('cookie_domain', ''),
+			]
+		);
 
 		return true;
 	}

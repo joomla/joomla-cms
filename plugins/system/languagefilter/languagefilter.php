@@ -919,11 +919,14 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			$this->app->input->cookie->set(
 				ApplicationHelper::getHash('language'),
 				$languageCode,
-				time() + 365 * 86400,
-				$this->app->get('cookie_path', '/'),
-				$this->app->get('cookie_domain', ''),
-				$this->app->isHttpsForced(),
-				true
+				[
+					'expires'  => time() + 365 * 86400,
+					'path'     => $this->app->get('cookie_path', '/'),
+					'domain'   => $this->app->get('cookie_domain', ''),
+					'secure'   => $this->app->isHttpsForced(),
+					'httponly' => true,
+					'samesite' => 'lax'
+				]
 			);
 		}
 		// If not, set the user language in the session (that is already saved in a cookie).

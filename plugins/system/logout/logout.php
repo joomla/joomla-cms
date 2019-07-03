@@ -58,7 +58,13 @@ class PlgSystemLogout extends CMSPlugin
 		if ($this->app->input->cookie->getString($hash))
 		{
 			// Destroy the cookie.
-			$this->app->input->cookie->set($hash, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
+			$this->app->input->cookie->set($hash, '',
+				[
+					'expires'  => 1,
+					'path'     => $this->app->get('cookie_path', '/'),
+					'domain'   => $this->app->get('cookie_domain', ''),
+				]
+			);
 		}
 	}
 
@@ -77,14 +83,15 @@ class PlgSystemLogout extends CMSPlugin
 		if ($this->app->isClient('site'))
 		{
 			// Create the cookie.
-			$this->app->input->cookie->set(
-				ApplicationHelper::getHash('PlgSystemLogout'),
-				true,
-				time() + 86400,
-				$this->app->get('cookie_path', '/'),
-				$this->app->get('cookie_domain', ''),
-				$this->app->isHttpsForced(),
-				true
+			$this->app->input->cookie->set(ApplicationHelper::getHash('PlgSystemLogout'), true,
+				[
+					'expires'  => time() + 86400,
+					'path'     => $this->app->get('cookie_path', '/'),
+					'domain'   => $this->app->get('cookie_domain', ''),
+					'secure'   => $this->app->isHttpsForced(),
+					'httponly' => true,
+					'samesite' => 'lax'
+				]
 			);
 		}
 
