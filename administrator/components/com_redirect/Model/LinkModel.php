@@ -169,7 +169,7 @@ class LinkModel extends AdminModel
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__redirect_links'))
 				->set($db->quoteName('new_url') . ' = :url')
-				->set($db->quoteName('published') . ' = ' . (int) 1)
+				->set($db->quoteName('published') . ' = 1')
 				->set($db->quoteName('comment') . ' = :comment')
 				->whereIn($db->quoteName('id'), $pks)
 				->bind(':url', $url)
