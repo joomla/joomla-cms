@@ -101,8 +101,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 		if (count($cookieArray) !== 2)
 		{
 			// Destroy the cookie in the browser.
-			$this->app->input->cookie->set($cookieName, '',
-				[
+			$this->app->input->cookie->set($cookieName, '', [
 					'expires'  => 1,
 					'path'     => $this->app->get('cookie_path', '/'),
 					'domain'   => $this->app->get('cookie_domain', ''),
@@ -155,8 +154,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 		if (count($results) !== 1)
 		{
 			// Destroy the cookie in the browser.
-			$this->app->input->cookie->set($cookieName, '',
-				[
+			$this->app->input->cookie->set($cookieName, '', [
 					'expires'  => 1,
 					'path'     => $this->app->get('cookie_path', '/'),
 					'domain'   => $this->app->get('cookie_domain', ''),
@@ -194,8 +192,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 			}
 
 			// Destroy the cookie in the browser.
-			$this->app->input->cookie->set($cookieName, '',
-				[
+			$this->app->input->cookie->set($cookieName, '', [
 					'expires'  => 1,
 					'path'     => $this->app->get('cookie_path', '/'),
 					'domain'   => $this->app->get('cookie_domain', ''),
@@ -284,8 +281,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 				$cookieValue   = $this->app->input->cookie->get($oldCookieName);
 
 				// Destroy the old cookie in the browser
-				$this->app->input->cookie->set($oldCookieName, '',
-					[
+				$this->app->input->cookie->set($oldCookieName, '', [
 						'expires'  => 1,
 						'path'     => $this->app->get('cookie_path', '/'),
 						'domain'   => $this->app->get('cookie_domain', ''),
@@ -354,8 +350,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 		$cookieValue = $token . '.' . $series;
 
 		// Overwrite existing cookie with new value
-		$this->app->input->cookie->set($cookieName, $cookieValue,
-			[
+		$this->app->input->cookie->set($cookieName, $cookieValue, [
 				'expires'  => time() + $lifetime,
 				'path'     => $this->app->get('cookie_path', '/'),
 				'domain'   => $this->app->get('cookie_domain', ''),
@@ -450,8 +445,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 		}
 
 		// Destroy the cookie
-		$this->app->input->cookie->set($cookieName, '',
-			[
+		$this->app->input->cookie->set($cookieName, '', [
 				'expires'  => 1,
 				'path'     => $this->app->get('cookie_path', '/'),
 				'domain'   => $this->app->get('cookie_domain', ''),
