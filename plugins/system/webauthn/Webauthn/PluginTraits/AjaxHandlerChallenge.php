@@ -93,6 +93,14 @@ trait AjaxHandlerChallenge
 			return json_encode(false);
 		}
 
+		// No stored credentials?
+		if (empty($credentials))
+		{
+			return json_encode(false);
+		}
+
+		$registeredPublicKeyCredentialDescriptors = [];
+
 		foreach ($credentials as $record)
 		{
 			$credential = json_decode($record['credential'], true);
