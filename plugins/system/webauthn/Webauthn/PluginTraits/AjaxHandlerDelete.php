@@ -25,6 +25,14 @@ defined('_JEXEC') or die();
  */
 trait AjaxHandlerDelete
 {
+	/**
+	 * Handle the callback to remove an authenticator
+	 *
+	 * @return  bool
+	 * @throws  Exception
+	 *
+	 * @since   4.0.0
+	 */
 	public function onAjaxWebauthnDelete(): bool
 	{
 		// Load the language files

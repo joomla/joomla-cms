@@ -26,10 +26,21 @@ defined('_JEXEC') or die();
  * Ajax handler for akaction=create
  *
  * Handles the browser postback for the credentials creation flow
+ *
+ * @since   4.0.0
  */
 trait AjaxHandlerCreate
 {
-	public function onAjaxWebauthnCreate()
+	/**
+	 * Handle the callback to add a new WebAuthn authenticator
+	 *
+	 * @return  string
+	 *
+	 * @throws  Exception
+	 *
+	 * @since   4.0.0
+	 */
+	public function onAjaxWebauthnCreate(): string
 	{
 		// Load the language files
 		$this->loadLanguage();

@@ -9,7 +9,6 @@
 
 namespace Joomla\Plugin\System\Webauthn;
 
-use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
@@ -17,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use RuntimeException;
 use Throwable;
 use Webauthn\AttestedCredentialData;
@@ -25,6 +25,11 @@ use Webauthn\CredentialRepository as CredentialRepositoryInterface;
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
+/**
+ * Handles the storage of WebAuthn credentials in the database
+ *
+ * @since   4.0.0
+ */
 class CredentialRepository implements CredentialRepositoryInterface
 {
 	/**
@@ -33,6 +38,8 @@ class CredentialRepository implements CredentialRepositoryInterface
 	 * @param   string  $credentialId
 	 *
 	 * @return  bool
+	 *
+	 * @since   4.0.0
 	 */
 	public function has(string $credentialId): bool
 	{
@@ -62,6 +69,8 @@ class CredentialRepository implements CredentialRepositoryInterface
 	 * @param   string  $credentialId
 	 *
 	 * @return  AttestedCredentialData
+	 *
+	 * @since   4.0.0
 	 */
 	public function get(string $credentialId): AttestedCredentialData
 	{
@@ -96,6 +105,8 @@ class CredentialRepository implements CredentialRepositoryInterface
 	 * @param   int  $user_id  The user ID
 	 *
 	 * @return  array
+	 *
+	 * @since   4.0.0
 	 */
 	public function getAll(int $user_id): array
 	{
@@ -132,12 +143,21 @@ class CredentialRepository implements CredentialRepositoryInterface
 	 * @param   User|null               $user            The user to store it for
 	 *
 	 * @return  void
+	 *
+	 * @since   4.0.0
 	 */
 	public function set(AttestedCredentialData $credentialData, string $label = '', User $user = null): void
 	{
 		if (empty($user))
 		{
-			$user = Factory::getApplication()->getIdentity();
+			try
+			{
+				$user = Factory::getApplication()->getIdentity();
+			}
+			catch (Exception $e)
+			{
+				throw new RuntimeException(Text::_('PLG_SYSTSEM_WEBAUTHN_ERR_CANT_STORE_FOR_GUEST'));
+			}
 		}
 
 		if ($user->guest)
@@ -192,6 +212,8 @@ class CredentialRepository implements CredentialRepositoryInterface
 	 * @param   string  $label         The human readable label to set
 	 *
 	 * @return  void
+	 *
+	 * @since   4.0.0
 	 */
 	public function setLabel(string $credentialId, string $label): void
 	{
@@ -212,6 +234,8 @@ class CredentialRepository implements CredentialRepositoryInterface
 	 * @param   string  $credentialId  The credentials ID to remove
 	 *
 	 * @return  void
+	 *
+	 * @since   4.0.0
 	 */
 	public function remove(string $credentialId): void
 	{
@@ -240,6 +264,8 @@ class CredentialRepository implements CredentialRepositoryInterface
 	 * @param   string  $credentialId
 	 *
 	 * @return  string
+	 *
+	 * @since   4.0.0
 	 */
 	public function getUserHandleFor(string $credentialId): string
 	{
@@ -275,6 +301,8 @@ class CredentialRepository implements CredentialRepositoryInterface
 	 * @param   string   $credentialId  The authenticator's credential ID
 	 *
 	 * @return  int
+	 *
+	 * @since   4.0.0
 	 */
 	public function getCounterFor(string $credentialId): int
 	{
@@ -303,6 +331,8 @@ class CredentialRepository implements CredentialRepositoryInterface
 	 *
 	 * @param   string  $credentialId  The authenticator's credential ID
 	 * @param   int     $newCounter    The new value of the counter we should store in the database
+	 *
+	 * @since   4.0.0
 	 */
 	public function updateCounterFor(string $credentialId, int $newCounter): void
 	{
@@ -323,13 +353,23 @@ class CredentialRepository implements CredentialRepositoryInterface
 	 * @param   int  $id  The user ID to convert
 	 *
 	 * @return  string  The user handle (HMAC-SHA-512 of the user ID)
+	 *
+	 * @since   4.0.0
 	 */
 	public function getHandleFromUserId(int $id): string
 	{
 		/** @var CMSApplication $app */
-		$app    = Factory::getApplication();
-		$secret = $app->getConfig()->get('secret', '');
-		$data   = sprintf('%010u', $id);
+		try
+		{
+			$app    = Factory::getApplication();
+			$secret = $app->getConfig()->get('secret', '');
+		}
+		catch (Exception $e)
+		{
+			$secret = '';
+		}
+
+		$data = sprintf('%010u', $id);
 
 		return hash_hmac('sha512', $data, $secret, true);
 	}

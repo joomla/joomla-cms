@@ -22,10 +22,20 @@ class JFormFieldWebauthn extends FormField
 	/**
 	 * Element name
 	 *
-	 * @var   string
+	 * @var    string
+	 *
+	 * @since  4.0.0
 	 */
 	protected $_name = 'Webauthn';
 
+	/**
+	 * Returns the input field's HTML
+	 *
+	 * @return  string
+	 * @throws  Exception
+	 *
+	 * @since   4.0.0
+	 */
 	function getInput()
 	{
 		$user_id = $this->form->getData()->get('id', null);

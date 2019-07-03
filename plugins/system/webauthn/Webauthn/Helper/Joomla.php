@@ -41,39 +41,40 @@ abstract class Joomla
 	 * A fake session storage for CLI apps. Since CLI applications cannot have a session we are using a Registry object
 	 * we manage internally.
 	 *
-	 * @var   Registry
-	 * @since 1.0.0
+	 * @var     Registry
+	 * @since   4.0.0
 	 */
 	protected static $fakeSession = null;
 
 	/**
 	 * Are we inside the administrator application
 	 *
-	 * @var   bool
-	 * @since 1.0.0
+	 * @var     bool
+	 * @since   4.0.0
 	 */
 	protected static $isAdmin = null;
 
 	/**
 	 * Are we inside a CLI application
 	 *
-	 * @var   bool
-	 * @since 1.0.0
+	 * @var     bool
+	 * @since   4.0.0
 	 */
 	protected static $isCli = null;
 
 	/**
 	 * Which plugins have already registered a text file logger. Prevents double registration of a log file.
 	 *
-	 * @var   array
-	 * @since 1.0.0
+	 * @var     array
+	 * @since   4.0.0
 	 */
 	protected static $registeredLoggers = [];
 
 	/**
 	 * The current Joomla Document type
 	 *
-	 * @var   string|null
+	 * @var     §string|null
+	 * @since   4.0.0
 	 */
 	protected static $joomlaDocumentType = null;
 
@@ -86,7 +87,7 @@ abstract class Joomla
 	 *
 	 * @throws  Exception
 	 *
-	 * @since   1.0.0
+	 * @since   4.0.0
 	 */
 	public static function isAdminPage(CMSApplication $app = null): bool
 	{
@@ -110,7 +111,7 @@ abstract class Joomla
 	 *
 	 * @return  bool
 	 *
-	 * @since   1.0.0
+	 * @since   4.0.0
 	 */
 	public static function isCli(CMSApplication $app = null): bool
 	{
@@ -155,7 +156,7 @@ abstract class Joomla
 	 *
 	 * @return  bool
 	 *
-	 * @since   1.0.0
+	 * @since   4.0.0
 	 */
 	public static function canEditUser(User $user = null): bool
 	{
@@ -208,7 +209,7 @@ abstract class Joomla
 	 *
 	 * @return  string
 	 *
-	 * @since   1.0.0
+	 * @since   4.0.0
 	 */
 	public static function renderLayout(string $layoutFile, $displayData = null, string $includePath = '', array $options = []): string
 	{
@@ -237,7 +238,7 @@ abstract class Joomla
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0.0
+	 * @since   4.0.0
 	 */
 	public static function setSessionVar(string $name, ?string $value = null, string $namespace = 'default'): void
 	{
@@ -274,7 +275,7 @@ abstract class Joomla
 	 *
 	 * @return  mixed
 	 *
-	 * @since   1.0.0
+	 * @since   4.0.0
 	 */
 	public static function getSessionVar(string $name, ?string $default = null, string $namespace = 'default')
 	{
@@ -306,7 +307,7 @@ abstract class Joomla
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0.0
+	 * @since   4.0.0
 	 */
 	public static function unsetSessionVar(string $name, string $namespace = 'default'): void
 	{
@@ -318,7 +319,7 @@ abstract class Joomla
 	 *
 	 * @return  Registry
 	 *
-	 * @since   1.0.0
+	 * @since   4.0.0
 	 */
 	protected static function getFakeSession(): Registry
 	{
@@ -336,7 +337,7 @@ abstract class Joomla
 	 *
 	 * @return  mixed
 	 *
-	 * @since   1.0.0
+	 * @since   4.0.0
 	 */
 	public static function getToken(): string
 	{
@@ -369,7 +370,7 @@ abstract class Joomla
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0.0
+	 * @since   4.0.0
 	 */
 	public static function log(string $plugin, string $message, $priority = Log::DEBUG): void
 	{
@@ -383,7 +384,7 @@ abstract class Joomla
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0.0
+	 * @since   4.0.0
 	 */
 	public static function addLogger(string $plugin): void
 	{
@@ -420,7 +421,7 @@ abstract class Joomla
 	 *
 	 * @throws  Exception
 	 *
-	 * @since   1.0.0
+	 * @since   4.0.0
 	 */
 	public static function loginUser(int $userId, BaseApplication $app = null): void
 	{
@@ -525,7 +526,7 @@ abstract class Joomla
 	 *
 	 * @return  AuthenticationResponse
 	 *
-	 * @since   1.0.0
+	 * @since   4.0.0
 	 */
 	public static function getAuthenticationResponseObject(): AuthenticationResponse
 	{
@@ -547,7 +548,7 @@ abstract class Joomla
 	 *
 	 * @throws  Exception
 	 *
-	 * @since   1.0.0
+	 * @since   4.0.0
 	 */
 	public static function processLoginFailure(AuthenticationResponse $response, BaseApplication $app = null, string $logContext = 'system')
 	{
@@ -594,6 +595,8 @@ abstract class Joomla
 	 * @param   bool|int          $tzAware  Should the format be timezone aware? See notes above.
 	 *
 	 * @return  string
+	 *
+	 * @since   4.0.0
 	 */
 	public static function formatDate($date, ?string $format = null, bool $tzAware = true): string
 	{
@@ -652,6 +655,8 @@ abstract class Joomla
 	 * end up loading the system plugins but either don't go through Factory or at least don't create a document object.
 	 *
 	 * @return  string
+	 *
+	 * @since   4.0.0
 	 */
 	public static function getDocumentType(): string
 	{

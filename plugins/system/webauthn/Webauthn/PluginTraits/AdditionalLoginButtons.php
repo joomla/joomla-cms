@@ -24,20 +24,24 @@ defined('_JEXEC') or die();
 
 /**
  * Inserts Webauthn buttons into login modules
+ *
+ * @since   4.0.0
  */
 trait AdditionalLoginButtons
 {
 	/**
 	 * Do I need to I inject buttons? Automatically detected (i.e. disabled if I'm already logged in).
 	 *
-	 * @var   bool|null
+	 * @var     bool|null
+	 * @since   4.0.0
 	 */
 	protected $allowButtonDisplay = null;
 
 	/**
 	 * Have I already injected CSS and JavaScript? Prevents double inclusion of the same files.
 	 *
-	 * @var   bool
+	 * @var     bool
+	 * @since   4.0.0
 	 */
 	private $injectedCSSandJS = false;
 
@@ -45,6 +49,8 @@ trait AdditionalLoginButtons
 	 * Should I allow this plugin to add a WebAuthn login button?
 	 *
 	 * @return  bool
+	 *
+	 * @since   4.0.0
 	 */
 	private function mustDisplayButton(): bool
 	{
@@ -114,6 +120,8 @@ trait AdditionalLoginButtons
 	 * @throws  Exception
 	 *
 	 * @see AuthenticationHelper::getLoginButtons()
+	 *
+	 * @since   4.0.0
 	 */
 	public function onUserLoginButtons(string $form): array
 	{
@@ -151,6 +159,8 @@ trait AdditionalLoginButtons
 	 * Injects the WebAuthn CSS and Javascript for frontend logins, but only once per page load.
 	 *
 	 * @return  void
+	 *
+	 * @since   4.0.0
 	 */
 	private function addLoginCSSAndJavascript(): void
 	{

@@ -7,19 +7,18 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Plugin\System\Webauthn\Helper\Joomla;
+use Joomla\Plugin\System\Webauthn\PluginTraits\AdditionalLoginButtons;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandler;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerChallenge;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerCreate;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerDelete;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerLogin;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerSaveLabel;
-use Joomla\Plugin\System\Webauthn\PluginTraits\AdditionalLoginButtons;
 use Joomla\Plugin\System\Webauthn\PluginTraits\ButtonsInUserPage;
 use Joomla\Plugin\System\Webauthn\PluginTraits\UserDeletion;
 use Joomla\Plugin\System\Webauthn\PluginTraits\UserProfileFields;
-use Joomla\CMS\Form\Form;
-use Joomla\CMS\Plugin\CMSPlugin;
 
 // Protect from unauthorized access
 defined('_JEXEC') or die();
@@ -35,6 +34,8 @@ if (!class_exists('Joomla\\Plugin\\System\\Webauthn\\Helper\\Joomla', true))
  *
  * The plugin features are broken down into Traits for the sole purpose of making an otherwise supermassive class
  * somewhat manageable. You can find the Traits inside the Webauthn/PluginTraits folder.
+ *
+ * @since  4.0.0
  */
 class plgSystemWebauthn extends CMSPlugin
 {
@@ -62,6 +63,8 @@ class plgSystemWebauthn extends CMSPlugin
 	 * @param   array   $config    An optional associative array of configuration settings.
 	 *                             Recognized key values include 'name', 'group', 'params', 'language'
 	 *                             (this list is not meant to be comprehensive).
+	 *
+	 * @since  4.0.0
 	 */
 	public function __construct($subject, array $config = [])
 	{

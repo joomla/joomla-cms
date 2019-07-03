@@ -25,6 +25,8 @@ defined('_JEXEC') or die();
  * This class only injects the custom form fields. The actual interface is rendered through JFormFieldWebauthn.
  *
  * @see JFormFieldWebauthn::getInput()
+ *
+ * @since   4.0.0
  */
 trait UserProfileFields
 {
@@ -37,6 +39,8 @@ trait UserProfileFields
 	 * @return  boolean
 	 *
 	 * @throws  Exception
+	 *
+	 * @since   4.0.0
 	 */
 	public function onContentPrepareForm(Form $form, $data)
 	{

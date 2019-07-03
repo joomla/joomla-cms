@@ -22,9 +22,20 @@ defined('_JEXEC') or die();
  * Ajax handler for akaction=savelabel
  *
  * Stores a new label for a security key
+ *
+ * @since   4.0.0
  */
 trait AjaxHandlerSaveLabel
 {
+	/**
+	 * Handle the callback to rename an authenticator
+	 *
+	 * @return  bool
+	 *
+	 * @throws  Exception
+	 *
+	 * @since   4.0.0
+	 */
 	public function onAjaxWebauthnSavelabel(): bool
 	{
 		// Initialize objects

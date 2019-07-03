@@ -27,6 +27,8 @@ defined('_JEXEC') or die();
  *
  * Generates the public key and challenge which is used by the browser when logging in with Webauthn. This is the bit
  * which prevents tampering with the login process and replay attacks.
+ *
+ * @since   4.0.0
  */
 trait AjaxHandlerChallenge
 {
@@ -34,9 +36,11 @@ trait AjaxHandlerChallenge
 	 * Returns the public key set for the user and a unique challenge in a Public Key Credential Request encoded as
 	 * JSON.
 	 *
-	 * @return   string  A JSON-encoded object or JSON-encoded false if the username is invalid or no credentials stored
+	 * @return  string  A JSON-encoded object or JSON-encoded false if the username is invalid or no credentials stored
 	 *
-	 * @throws   Exception
+	 * @throws  Exception
+	 *
+	 * @since   4.0.0
 	 */
 	public function onAjaxWebauthnChallenge()
 	{

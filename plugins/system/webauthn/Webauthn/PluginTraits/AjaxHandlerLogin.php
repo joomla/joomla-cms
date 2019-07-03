@@ -50,9 +50,11 @@ trait AjaxHandlerLogin
 	 * Returns the public key set for the user and a unique challenge in a Public Key Credential Request encoded as
 	 * JSON.
 	 *
-	 * @return   string  A JSON-encoded object or JSON-encoded false if the username is invalid or no credentials stored
+	 * @return  string  A JSON-encoded object or JSON-encoded false if the username is invalid or no credentials stored
 	 *
-	 * @throws   Exception
+	 * @throws  Exception
+	 *
+	 * @since   4.0.0
 	 */
 	public function onAjaxWebauthnLogin(): void
 	{
@@ -120,7 +122,9 @@ trait AjaxHandlerLogin
 	/**
 	 * Validate the authenticator response sent to us by the browser.
 	 *
-	 * @throws   Exception
+	 * @throws  Exception
+	 *
+	 * @since   4.0.0
 	 */
 	private function validateResponse(): void
 	{
@@ -199,7 +203,9 @@ trait AjaxHandlerLogin
 	 * Retrieve the public key credential request options saved in the session. If they do not exist or are corrupt it
 	 * is a hacking attempt and we politely tell the hacker to go away.
 	 *
-	 * @return PublicKeyCredentialRequestOptions
+	 * @return  PublicKeyCredentialRequestOptions
+	 *
+	 * @since   4.0.0
 	 */
 	private function getPKCredentialRequestOptions(): PublicKeyCredentialRequestOptions
 	{

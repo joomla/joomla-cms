@@ -25,6 +25,8 @@ defined('_JEXEC') or die();
 /**
  * Allows the plugin to handle AJAX requests in the backend of the site, where com_ajax is not available when we are not
  * logged in.
+ *
+ * @since   4.0.0
  */
 trait AjaxHandler
 {
@@ -36,6 +38,8 @@ trait AjaxHandler
 	 * @return  void
 	 *
 	 * @throws  Exception
+	 *
+	 * @since   4.0.0
 	 */
 	public function onAfterInitialise(): void
 	{
@@ -103,6 +107,8 @@ trait AjaxHandler
 	 * @return  void
 	 *
 	 * @throws  Exception
+	 *
+	 * @since   4.0.0
 	 */
 	public function onAjaxWebauthn(): void
 	{

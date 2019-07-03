@@ -9,7 +9,6 @@
 
 namespace Joomla\Plugin\System\Webauthn\Helper;
 
-use Joomla\Plugin\System\Webauthn\CredentialRepository;
 use CBOR\Decoder;
 use CBOR\OtherObject\OtherObjectManager;
 use CBOR\Tag\TagObjectManager;
@@ -21,6 +20,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\Plugin\System\Webauthn\CredentialRepository;
 use RuntimeException;
 use Webauthn\AttestationStatement\AttestationObjectLoader;
 use Webauthn\AttestationStatement\AttestationStatementSupportManager;
@@ -43,6 +44,8 @@ use Zend\Diactoros\ServerRequestFactory;
 
 /**
  * Helper class to aid in credentials creation (link an authenticator to a user account)
+ *
+ * @since   4.0.0
  */
 abstract class CredentialsCreation
 {
@@ -53,18 +56,29 @@ abstract class CredentialsCreation
 	 * @param   User  $user The Joomla user to create the public key for
 	 *
 	 * @return  string
+	 *
+	 * @since   4.0.0
 	 */
 	public static function createPublicKey(User $user): string
 	{
 		/** @var CMSApplication $app */
-		$app = Factory::getApplication();
+		try
+		{
+			$app      = Factory::getApplication();
+			$siteName = $app->getConfig()->get('sitename');
+		}
+		catch (Exception $e)
+		{
+			$siteName = 'Joomla! Site';
+		}
 
 		// Credentials repository
 		$repository = new CredentialRepository();
 
 		// Relaying Party -- Our site
+
 		$rpEntity = new PublicKeyCredentialRpEntity(
-			$app->getConfig()->get('sitename'),
+			$siteName,
 			Uri::getInstance()->toString(['host']),
 			self::getSiteIcon()
 		);
@@ -143,6 +157,8 @@ abstract class CredentialsCreation
 	 * @param   string  $data  The JSON-encoded data returned by the browser during the authentication flow
 	 *
 	 * @return  AttestedCredentialData|null
+	 *
+	 * @since   4.0.0
 	 */
 	public static function validateAuthenticationData(string $data): ?AttestedCredentialData
 	{
@@ -170,8 +186,18 @@ abstract class CredentialsCreation
 
 		// Retrieve the stored user ID and make sure it's the same one in the request.
 		$storedUserId = Joomla::getSessionVar('registration_user_id', 0, 'plg_system_webauthn');
-		$myUser       = Factory::getApplication()->getIdentity();
-		$myUserId     = $myUser->id;
+
+		try
+		{
+			$myUser = Factory::getApplication()->getIdentity();
+		}
+		catch (Exception $e)
+		{
+			$dummyUserId = 0;
+			$myUser      = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($dummyUserId);
+		}
+
+		$myUserId = $myUser->id;
 
 		if (($myUser->guest) || ($myUserId != $storedUserId))
 		{
@@ -249,6 +275,8 @@ abstract class CredentialsCreation
 	 * Try to find the site's favicon in the site's root, images, media, templates or current template directory.
 	 *
 	 * @return  string|null
+	 *
+	 * @since   4.0.0
 	 */
 	protected static function getSiteIcon(): ?string
 	{
@@ -309,6 +337,8 @@ abstract class CredentialsCreation
 	 * @param   int   $size  The dimensions of the image to fetch (default: 64 pixels)
 	 *
 	 * @return  string  The URL to the user's avatar
+	 *
+	 * @since   4.0.0
 	 */
 	public static function getAvatar(User $user, int $size = 64)
 	{

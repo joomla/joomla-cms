@@ -18,6 +18,11 @@ use Joomla\Utilities\ArrayHelper;
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
+/**
+ * Delete all WebAuthn credentials for a particular user
+ *
+ * @since   4.0.0
+ */
 trait UserDeletion
 {
 	/**
@@ -32,6 +37,8 @@ trait UserDeletion
 	 * @return  bool
 	 *
 	 * @throws  Exception
+	 *
+	 * @since   4.0.0
 	 */
 	public function onUserAfterDelete(array $user, bool $success, ?string $msg): bool
 	{
