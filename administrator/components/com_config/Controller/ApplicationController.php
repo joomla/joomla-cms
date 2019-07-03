@@ -97,7 +97,17 @@ class ApplicationController extends BaseController
 		// Handle service requests
 		if ($saveFormat == 'json')
 		{
-			return $model->save($data);
+			$form = $model->getForm();
+			$return = $model->validate($form, $data);
+
+			if ($return === false)
+			{
+				$this->app->setHeader('Status', 422, true);
+
+				return false;
+			}
+
+			return $model->save($return);
 		}
 
 		// Must load after serving service-requests

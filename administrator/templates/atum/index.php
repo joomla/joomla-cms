@@ -101,7 +101,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 <?php // Header ?>
 <header id="header" class="header">
 	<div class="d-flex">
-		<div class="header-title d-flex mr-auto">
+		<div class="header-title d-flex">
 			<div class="d-flex">
 				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
 				<?php if ($hiddenMenu || $cpanel) : ?>
@@ -119,8 +119,8 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			</div>
 			<jdoc:include type="modules" name="title"/>
 		</div>
-		<div class="header-items d-flex ml-auto">
-			<jdoc:include type="modules" name="status" style="header-element"/>
+		<div class="header-items d-flex">
+			<jdoc:include type="modules" name="status" style="header-item"/>
 		</div>
 	</div>
 </header>

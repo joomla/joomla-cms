@@ -79,12 +79,9 @@
 	}
 
 	.choices__inner {
-		padding: $input-select-padding;
-		background-color: var(--atum-bg-dark);
-		background-image: url(../images/select-bg.svg);
-		background-repeat: no-repeat;
-		background-position: center right;
-		background-size: 1854px;
+		padding: $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding) $custom-select-padding-y $custom-select-padding-x;
+		background: $custom-select-background;
+		background-color: $custom-select-bg;
 	}
 }
 
@@ -92,12 +89,13 @@
 .choices[data-type*="text"] {
 
 	.choices__button_joomla {
-		position: relative;
+		position: absolute;
+		right: 0;
+		top: 0;
 		display: block;
-		width: 8px;
-		padding: 13px;
-		margin: -22px -5px -5px 33px;
-		height: 26px;
+		width: 0.5rem;
+		padding: 0.8125rem;
+		height: 1.625rem;
 		line-height: 2;
 		border: 0;
 		opacity: 1;
@@ -119,6 +117,7 @@
 }
 
 .choices__list--multiple .choices__item {
+	position: relative;
 	background-color: var(--atum-bg-dark);
 	border: 1px solid var(--atum-bg-dark);
 	border-radius: 0;
@@ -127,6 +126,10 @@
 		background-color: var(--atum-bg-dark);
 		border: 1px solid var(--atum-bg-dark);
 		opacity: 0.9;
+	}
+
+	&[data-deletable] {
+		padding-right: 1.8125rem;
 	}
 }
 

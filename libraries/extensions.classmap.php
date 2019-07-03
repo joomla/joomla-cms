@@ -22,6 +22,8 @@ JLoader::registerAlias('PrivacyTableRequest', '\\Joomla\\Component\\Privacy\\Adm
 
 JLoader::registerAlias('TagsTableTag',     '\\Joomla\\Component\\Tags\\Administrator\\Table\\TagTable', '4.0');
 
+JLoader::registerAlias('ContentHelperRoute', '\\Joomla\\Component\\Content\\Site\\Helper\\RouteHelper', '5.0');
+
 JLoader::registerAlias('FinderIndexerAdapter',  '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Adapter', '5.0');
 JLoader::registerAlias('FinderIndexerHelper',   '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Helper', '5.0');
 JLoader::registerAlias('FinderIndexer',         '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Indexer', '5.0');

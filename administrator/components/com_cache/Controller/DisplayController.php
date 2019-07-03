@@ -27,7 +27,7 @@ class DisplayController extends BaseController
 	 * The default view for the display method.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $default_view = 'cache';
 
@@ -44,7 +44,7 @@ class DisplayController extends BaseController
 
 		$data = $model->getData();
 
-		$size = 0;
+		$size = '0.0';
 
 		if (!empty($data))
 		{
@@ -134,6 +134,7 @@ class DisplayController extends BaseController
 			$app->enqueueMessage(Text::_('COM_CACHE_MSG_SOME_CACHE_GROUPS_CLEARED'), 'warning');
 		}
 
+		$app->triggerEvent('onAfterPurge', array());
 		$this->setRedirect('index.php?option=com_cache&view=cache');
 	}
 

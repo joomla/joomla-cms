@@ -59,6 +59,7 @@ if ($saveOrder && !empty($this->items))
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'context'))); ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
+						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -125,9 +126,7 @@ if ($saveOrder && !empty($this->items))
 										<?php endif; ?>
 									</td>
 									<td class="text-center">
-										<div class="btn-group">
-											<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'fields.', $canChange, 'cb'); ?>
-										</div>
+										<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'fields.', $canChange, 'cb'); ?>
 									</td>
 									<th scope="row">
 										<div class="break-word">
