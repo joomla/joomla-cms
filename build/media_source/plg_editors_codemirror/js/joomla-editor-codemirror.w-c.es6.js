@@ -139,11 +139,21 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
   /* eslint-enable */
   toggleFullScreen() {
     this.instance.setOption('fullScreen', !this.instance.getOption('fullScreen'));
+
+    const header = document.getElementById('header');
+    if (header) {
+      header.classList.toggle('hidden');
+    }
   }
 
   closeFullScreen() {
     this.instance.getOption('fullScreen');
     this.instance.setOption('fullScreen', false);
+
+    const header = document.getElementById('header');
+    if (header) {
+      header.classList.remove('hidden');
+    }
   }
 
   static makeMarker() {
