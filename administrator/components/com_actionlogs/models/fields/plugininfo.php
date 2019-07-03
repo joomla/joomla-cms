@@ -64,6 +64,9 @@ class JFormFieldPluginInfo extends JFormField
 		);
 
 		return '<div class="alert alert-info">'
+			. '<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only">'
+			. Text::_('INFO')
+			. '</span>'
 			. Text::sprintf('PLG_SYSTEM_ACTIONLOGS_JOOMLA_ACTIONLOG_DISABLED_REDIRECT', $link)
 			. '</div>';
 	}

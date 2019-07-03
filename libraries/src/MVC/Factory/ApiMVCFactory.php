@@ -8,8 +8,6 @@
 
 namespace Joomla\CMS\MVC\Factory;
 
-use Joomla\CMS\Factory;
-
 defined('JPATH_PLATFORM') or die;
 
 /**
