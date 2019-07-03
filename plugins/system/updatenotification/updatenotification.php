@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -142,7 +143,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		}
 
 		// This is the extension ID for Joomla! itself
-		$eid = 700;
+		$eid = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
 
 		// Get any available updates
 		$updater = Updater::getInstance();
