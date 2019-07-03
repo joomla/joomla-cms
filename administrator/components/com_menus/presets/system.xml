@@ -93,7 +93,7 @@
 	<menuitem
 		title="MOD_MENU_INSTALL"
 		type="heading"
-		icon="cloud-download-alt"
+		icon="upload"
 		permission="core.manage;com_installer"
 		>
 		<menuitem
