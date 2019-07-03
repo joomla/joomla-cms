@@ -262,8 +262,8 @@ $this->addStyleDeclaration($css);
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<jdoc:include type="metas"/>
-	<jdoc:include type="styles"/>
+	<jdoc:include type="metas" />
+	<jdoc:include type="styles" />
 </head>
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout; ?>">
@@ -285,10 +285,10 @@ $this->addStyleDeclaration($css);
 					<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="<?php echo $logoSmallAlt; ?>">
 				</div>
 			</div>
-			<jdoc:include type="modules" name="title"/>
+			<jdoc:include type="modules" name="title" />
 		</div>
 		<div class="header-items d-flex">
-			<jdoc:include type="modules" name="status" style="header-item"/>
+			<jdoc:include type="modules" name="status" style="header-item" />
 		</div>
 	</div>
 </header>
@@ -303,8 +303,8 @@ $this->addStyleDeclaration($css);
 						<img src="<?php echo $loginLogo; ?>"
 							 alt="<?php echo htmlspecialchars($this->params->get('altLoginLogo', ''), ENT_COMPAT, 'UTF-8'); ?>">
 					</div>
-					<jdoc:include type="message"/>
-					<jdoc:include type="component"/>
+					<jdoc:include type="message" />
+					<jdoc:include type="component" />
 				</div>
 			</main>
 		</section>
@@ -316,11 +316,11 @@ $this->addStyleDeclaration($css);
 			<h1><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h1>
 		</div>
 		<div id="sidebar">
-			<jdoc:include type="modules" name="sidebar" style="body"/>
+			<jdoc:include type="modules" name="sidebar" style="body" />
 		</div>
 	</div>
 </div>
-<jdoc:include type="modules" name="debug" style="none"/>
-<jdoc:include type="scripts"/>
+<jdoc:include type="modules" name="debug" style="none" />
+<jdoc:include type="scripts" />
 </body>
 </html>
