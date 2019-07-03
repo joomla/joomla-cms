@@ -151,7 +151,7 @@ function plg_system_webauthn_edit_label(that, store_id)
     elInput.defaultValue = oldLabel;
 
     let elSave       = document.createElement("button");
-    elSave.className = "akpwl-btn--green--small";
+    elSave.className = "btn btn-success btn-sm";
     elSave.innerText = Joomla.JText._("PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_SAVE_LABEL");
     elSave.addEventListener("click", function (e) {
         let elNewLabel = elInput.value;
@@ -193,7 +193,7 @@ function plg_system_webauthn_edit_label(that, store_id)
     }, false);
 
     let elCancel       = document.createElement("button");
-    elCancel.className = "akpwl-btn--red--small";
+    elCancel.className = "btn btn-danger btn-sm";
     elCancel.innerText = Joomla.JText._("PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_CANCEL_LABEL");
     elCancel.addEventListener("click", function (e) {
         elLabelTD.innerText = oldLabel;
