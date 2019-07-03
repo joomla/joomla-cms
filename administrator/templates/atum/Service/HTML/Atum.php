@@ -1,13 +1,12 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage     com_content
+ * @package     Joomla.Administrator
+ * @subpackage  Templates.Atum
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-//namespace Joomla\Component\Content\Administrator\Service\HTML;
 namespace Joomla\Template\Atum\Administrator\Service\HTML;
 
 defined('_JEXEC') or die;
@@ -28,10 +27,11 @@ class Atum
 	 *
 	 * @param   array   $params    Template parameters.
 	 *
+	 * @return void
 	 *
 	 * @since  4.0.0
 	 */
-	public static function rootcolors($params)
+	public static function rootcolors($params) : void
 	{
 		$monochrome = (bool) $params->get('monochrome');
 
@@ -44,7 +44,7 @@ class Atum
 
 		$bgLight = $params->get('bg-light');
 
-		if (strlen($bgLight) === 7 && substr($bgLight, 0, 1) === '#')
+		if (static::isHex($bgLight))
 		{
 			$bgLight = new Hex($bgLight);
 
@@ -55,19 +55,23 @@ class Atum
 			}
 			catch (Exception $ex)
 			{
-
+				// Just ignore exceptions
 			}
 		}
 
-		if ($params->get('text-dark'))
+		$textDark = $params->get('text-dark');
+
+		if (static::isHex($textDark))
 		{
-			$textdark = new Hex('#' . trim($params->get('text-dark'), '#'));
+			$textdark = new Hex($textDark);
 			$root[] = '--atum-text-dark: ' . (($monochrome) ? $textdark->grayscale() : $textdark) . ';';
 		}
 
-		if ($params->get('text-light'))
+		$textLight = $params->get('text-light');
+
+		if (static::isHex($textLight))
 		{
-			$textlight = new Hex('#' . trim($params->get('text-light'), '#'));
+			$textlight = new Hex($textLight);
 			$root[] = '--atum-text-light: ' . (($monochrome) ? $textlight->grayscale() : $textlight) . ';';
 		}
 
@@ -85,7 +89,7 @@ class Atum
 			}
 			catch (Exception $ex)
 			{
-
+				// Just ignore exceptions
 			}
 		}
 
@@ -107,21 +111,23 @@ class Atum
 	 * @param   string   $hue           Template parameter color.
 	 * @param   int      $monochrome    Template parameter monochrome.
 	 *
+	 * @return  array  An array of calculated color values and css variables
+	 *
 	 * @since  4.0.0
 	 */
-	protected static function bgdarkcalc($hue, $monochrome = false)
+	protected static function bgdarkcalc($hue, $monochrome = false) : array
 	{
 		$multiplier = $monochrome ? 0 : 1;
 		$hue = min(360, max(0, (int) $hue));
 
 		$root = [];
 
-		$bgcolor = new Hsl("hsl(" . $hue . ", " . (61 * $multiplier) . ", 26)");
-		$root[] = '--atum-bg-dark: ' . (new Hsl("hsl(" . $hue . ", " . (61 * $multiplier) . ", 26)"))->toHex() . ';';
+		$bgcolor = new Hsl('hsl(' . $hue . ', ' . (61 * $multiplier) . ', 26)');
+		$root[] = '--atum-bg-dark: ' . (new Hsl('hsl(' . $hue . ', ' . (61 * $multiplier) . ', 26)'))->toHex() . ';';
 
 		try
 		{
-			$root[] = '--atum-contrast: ' . (new Hsl("hsl(" . $hue . ", 61, 42)"))->spin(30)->toHex() . ';';
+			$root[] = '--atum-contrast: ' . (new Hsl('hsl(' . $hue . ', 61, 42)'))->spin(30)->toHex() . ';';
 			$root[] = '--atum-bg-dark-0: ' . (clone $bgcolor)->desaturate(86 * $multiplier)->lighten(71.4)->spin(-6)->toHex() . ';';
 			$root[] = '--atum-bg-dark-5: ' . (clone $bgcolor)->desaturate(86 * $multiplier)->lighten(65.1)->spin(-6)->toHex() . ';';
 			$root[] = '--atum-bg-dark-10: ' . (clone $bgcolor)->desaturate(86 * $multiplier)->lighten(59.4)->spin(-6)->toHex() . ';';
@@ -135,11 +141,28 @@ class Atum
 		}
 		catch (Exception $ex)
 		{
-
+			// Just ignore exceptions
 		}
 
 		return $root;
 	}
 
-	//protected static function isHex($hex)
+	/**
+	 * Determinates if the given string is a color hex value
+	 *
+	 * @param   string  $hex  The string to test
+	 *
+	 * @return boolean  True when color hex value otherwise false
+	 */
+	protected static function isHex($hex) : bool
+	{
+		if (substr($hex, 0, 1) !== '#')
+		{
+			return false;
+		}
+
+		$value = ltrim($hex, '#');
+
+		return (strlen($value) == 6 || strlen($value) == 3) && ctype_xdigit($value);
+	}
 }
