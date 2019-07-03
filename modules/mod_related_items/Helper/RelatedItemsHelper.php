@@ -131,8 +131,8 @@ abstract class RelatedItemsHelper
 				}
 
 				$query->where('(' . implode(' OR ', $wheres) . ')')
-					->where('('. $db->quoteName('a.publish_up') . ' = :nullDate1 OR ' . $db->quoteName('a.publish_up') . ' <= :nowDate1)')
-					->where('('. $db->quoteName('a.publish_down') . ' = :nullDate2 OR ' . $db->quoteName('a.publish_down') . ' >= :nowDate2)')
+					->where('(' . $db->quoteName('a.publish_up') . ' = :nullDate1 OR ' . $db->quoteName('a.publish_up') . ' <= :nowDate1)')
+					->where('(' . $db->quoteName('a.publish_down') . ' = :nullDate2 OR ' . $db->quoteName('a.publish_down') . ' >= :nowDate2)')
 					->bind(':nullDate1', $nullDate)
 					->bind(':nullDate2', $nullDate)
 					->bind(':nowDate1', $now)
