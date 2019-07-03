@@ -27,62 +27,40 @@ function plg_system_webauthn_findField(elForm, fieldSelector)
 }
 
 /**
- * Walks the DOM outwards (towards the parents) to find the form innerElement is located in. Then it looks inside the
- * form for the first element that matches the fieldSelector CSS selector.
+ * Find a form field described the CSS selector fieldSelector. The field must be inside a <form> element which is either
+ * the outerElement itself or enclosed by outerElement.
  *
- * @param   {Element}  innerElement   The innerElement that's inside or adjacent to the form.
+ * @param   {Element}  outerElement   The element which is either our form or contains our form.
  * @param   {String}   fieldSelector  The CSS selector to locate the field
  *
  * @returns {null|Element}  NULL when no element is found
  */
-function plg_system_webauthn_lookInParentElementsForField(innerElement, fieldSelector)
+function plg_system_webauthn_lookForField(outerElement, fieldSelector)
 {
-    var elElement = innerElement.parentElement;
+    var elElement = outerElement.parentElement;
     var elInput   = null;
 
-    while (true)
-    {
-        if (elElement === undefined)
-        {
-            return null;
-        }
+	if (elElement.nodeName === "FORM")
+	{
+		elInput = plg_system_webauthn_findField(elElement, fieldSelector);
 
-        if (elElement.nodeName === "FORM")
-        {
-            elInput = plg_system_webauthn_findField(elElement, fieldSelector);
+		return elInput;
+	}
 
-            if (elInput !== null)
-            {
-                return elInput;
-            }
+	var elForms = elElement.querySelectorAll("form");
 
-            break;
-        }
+	if (elForms.length)
+	{
+		for (var i = 0; i < elForms.length; i++)
+		{
+			elInput = plg_system_webauthn_findField(elForms[i], fieldSelector);
 
-        var elForms = elElement.querySelectorAll("form");
-
-        if (elForms.length)
-        {
-            for (var i = 0; i < elForms.length; i++)
-            {
-                elInput = plg_system_webauthn_findField(elForms[i], fieldSelector);
-
-                if (elInput !== null)
-                {
-                    return elInput;
-                }
-            }
-
-            break;
-        }
-
-        if (!elElement.parentElement)
-        {
-            break;
-        }
-
-        elElement = elElement.parentElement;
-    }
+			if (elInput !== null)
+			{
+				return elInput;
+			}
+		}
+	}
 
     return null;
 }
@@ -90,61 +68,62 @@ function plg_system_webauthn_lookInParentElementsForField(innerElement, fieldSel
 /**
  * Initialize the passwordless login, going through the server to get the registered certificates for the user.
  *
- * @param   {Element}  that          The button which was clicked
+ * @param   {string}   form_id       The login form's or login module's HTML ID
  * @param   {string}   callback_url  The URL we will use to post back to the server. Must include the anti-CSRF token.
  *
  * @returns {boolean}  Always FALSE to prevent BUTTON elements from reloading the page.
  */
-function plg_system_webauthn_login(that, callback_url)
+function plg_system_webauthn_login(form_id, callback_url)
 {
-    // Get the username
-    let elUsername = plg_system_webauthn_lookInParentElementsForField(that, "input[name=username]");
-    let elReturn   = plg_system_webauthn_lookInParentElementsForField(that, "input[name=return]");
+	// Get the username
+	let elFormContainer = document.getElementById(form_id);
+	let elUsername      = plg_system_webauthn_lookForField(elFormContainer, "input[name=username]");
+	let elReturn        = plg_system_webauthn_lookForField(elFormContainer, "input[name=return]");
 
-    if (elUsername === null)
-    {
-        alert(Joomla.JText._("PLG_SYSTEM_WEBAUTHN_ERR_CANNOT_FIND_USERNAME"));
+	if (elUsername === null)
+	{
+		alert(Joomla.JText._("PLG_SYSTEM_WEBAUTHN_ERR_CANNOT_FIND_USERNAME"));
 
-        return false;
-    }
+		return false;
+	}
 
-    let username  = elUsername.value;
-    let returnUrl = elReturn ? elReturn.value : null;
+	let username  = elUsername.value;
+	let returnUrl = elReturn ? elReturn.value : null;
 
-    // No username? We cannot proceed. We need a username to find the acceptable public keys :(
-    if (username === "")
-    {
-        alert(Joomla.JText._("PLG_SYSTEM_WEBAUTHN_ERR_EMPTY_USERNAME"));
+	// No username? We cannot proceed. We need a username to find the acceptable public keys :(
+	if (username === "")
+	{
+		alert(Joomla.JText._("PLG_SYSTEM_WEBAUTHN_ERR_EMPTY_USERNAME"));
 
-        return false;
-    }
+		return false;
+	}
 
-    // Get the Public Key Credential Request Options (challenge and acceptable public keys)
-    let postBackData = {
-        "option":    "com_ajax",
-        "group":     "system",
-        "plugin":    "webauthn",
-        "format":    "raw",
-        "akaction":  "challenge",
-        "encoding":  "raw",
-        "username":  username,
-        "returnUrl": returnUrl,
-    };
+	// Get the Public Key Credential Request Options (challenge and acceptable public keys)
+	let postBackData = {
+		"option":    "com_ajax",
+		"group":     "system",
+		"plugin":    "webauthn",
+		"format":    "raw",
+		"akaction":  "challenge",
+		"encoding":  "raw",
+		"username":  username,
+		"returnUrl": returnUrl,
+	};
 
-    window.jQuery.ajax({
-        type:     "POST",
-        url:      callback_url,
-        data:     postBackData,
-        dataType: "json"
-    })
-        .done(function (jsonData) {
-            plg_system_webauthn_handle_login_challenge(jsonData, callback_url);
-        })
-        .fail(function (error) {
-            plg_system_webauthn_handle_login_error(error.status + " " + error.statusText);
-        });
+	window.jQuery.ajax({
+		type:     "POST",
+		url:      callback_url,
+		data:     postBackData,
+		dataType: "json"
+	})
+		.done(function (jsonData) {
+			plg_system_webauthn_handle_login_challenge(jsonData, callback_url);
+		})
+		.fail(function (error) {
+			plg_system_webauthn_handle_login_error(error.status + " " + error.statusText);
+		});
 
-    return false;
+	return false;
 }
 
 /**

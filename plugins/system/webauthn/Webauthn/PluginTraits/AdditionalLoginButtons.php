@@ -107,8 +107,7 @@ trait AdditionalLoginButtons
 	/**
 	 * Creates additional login buttons
 	 *
-	 * @param   string  $moduleId         The HTML ID of the module we are enclosed in
-	 * @param   string  $usernameFieldId  The HTML ID of the username field
+	 * @param   string  $form             The HTML ID of the form we are enclosed in
 	 *
 	 * @return  array
 	 *
@@ -116,7 +115,7 @@ trait AdditionalLoginButtons
 	 *
 	 * @see AuthenticationHelper::getLoginButtons()
 	 */
-	public function onUserLoginButtons(string $moduleId, string $usernameFieldId): array
+	public function onUserLoginButtons(string $form): array
 	{
 		// If we determined we should not inject a button return early
 		if (!$this->mustDisplayButton())
@@ -135,7 +134,7 @@ trait AdditionalLoginButtons
 
 		// Set up the JavaScript callback
 		$url = $uri->toString();
-		$onClick = "return plg_system_webauthn_login(this, '{$url}')";
+		$onClick = "return plg_system_webauthn_login('{$form}', '{$url}')";
 
 		return [
 			[

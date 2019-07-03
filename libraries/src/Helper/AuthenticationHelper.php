@@ -71,7 +71,7 @@ abstract class AuthenticationHelper
 	 *
 	 * The onUserLoginButtons event handlers must conform to the following method definition:
 	 *
-	 * public function onUserLoginButtons(string $moduleId, string $usernameFieldId): array
+	 * public function onUserLoginButtons(string $formId): array
 	 *
 	 * The onUserLoginButtons event handlers must return a simple array containing 0 or more button definitions.
 	 *
@@ -84,14 +84,13 @@ abstract class AuthenticationHelper
 	 * - image      [optional] An image path for an optional icon displayed before the label
 	 * - class      [optional] CSS class(es) to be added to the button
 	 *
-	 * @param   string  $moduleId         The HTML ID of the module container.
-	 * @param   string  $usernameFieldId  The HTML ID of the login module's username field.
+	 * @param   string  $formId           The HTML ID of the login form container.
 	 *
 	 * @return  array  Button definitions.
 	 *
 	 * @since 4.0.0
 	 */
-	public static function getLoginButtons(string $moduleId, string $usernameFieldId): array
+	public static function getLoginButtons(string $formId): array
 	{
 		// Get all the User plugins.
 		PluginHelper::importPlugin('user');
@@ -107,7 +106,7 @@ abstract class AuthenticationHelper
 			return [];
 		}
 
-		$results        = $app->triggerEvent('onUserLoginButtons', [$moduleId, $usernameFieldId]);
+		$results        = $app->triggerEvent('onUserLoginButtons', [$formId]);
 		$buttons        = [];
 
 		foreach ($results as $result)
