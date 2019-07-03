@@ -47,7 +47,8 @@ abstract class TagsPopularHelper
 			->select(
 				[
 					'MAX(' . $db->quoteName('tag_id') . ') AS ' . $db->quoteName('tag_id'),
-					' COUNT(*) AS count', 'MAX(' . $db->quoteName('t.title') . ') AS ' . $db->quoteName('title'),
+					'COUNT(*) ' . $db->quoteName('count'),
+					'MAX(' . $db->quoteName('t.title') . ') AS ' . $db->quoteName('title'),
 					'MAX(' . $db->quoteName('t.access') . ') AS ' . $db->quoteName('access'),
 					'MAX(' . $db->quoteName('t.alias') . ') AS ' . $db->quoteName('alias'),
 					'MAX(' . $db->quoteName('t.params') . ') AS ' . $db->quoteName('params'),
@@ -87,10 +88,9 @@ abstract class TagsPopularHelper
 				->bind(':nowDate1', $nowDate);
 		}
 
-		$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON ' . $db->quoteName('tag_id') . ' = ' . $db->quoteName('t.id'))
-			->join(
-				'INNER',
-				$db->quoteName('#__ucm_content', 'c') . ' ON ' . $db->quoteName('m.core_content_id') . ' = ' . $db->quoteName('c.core_content_id')
+		$query->innerJoin($db->quoteName('#__tags', 't'), $db->quoteName('tag_id') . ' = ' . $db->quoteName('t.id'))
+			->innerJoin(
+				$db->quoteName('#__ucm_content', 'c'), $db->quoteName('m.core_content_id') . ' = ' . $db->quoteName('c.core_content_id')
 			);
 
 		$query->where($db->quoteName('m.type_alias') . ' = ' . $db->quoteName('c.core_type_alias'));
@@ -129,7 +129,7 @@ abstract class TagsPopularHelper
 							]
 						)
 					)
-					->from('(' . (string) $query . ') AS a')
+					->from('(' . (string) $query . ') AS ' . $db->quoteName('a'))
 					->order($db->quoteName('a.title') . ' ' . $order_direction);
 
 				$query = $equery;
