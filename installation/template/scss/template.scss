@@ -14,6 +14,7 @@ $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 @import "../../../administrator/templates/atum/scss/mixin";
 @import "../../../administrator/templates/atum/scss/blocks/global";
 @import "../../../administrator/templates/atum/scss/blocks/header";
+@import "../../../administrator/templates/atum/scss/vendor/bootstrap/custom-forms";
 
 body {
   background: var(--atum-bg-light);
@@ -27,8 +28,8 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  .logo { 
-     width: auto; 
+  .logo {
+     width: auto;
   }
 }
 
