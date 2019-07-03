@@ -247,7 +247,7 @@ class PluginsModel extends ListModel
 		}
 		elseif ($published === '')
 		{
-			$query->whereIn($db->quoteName('a.enabled') , [0, 1]);
+			$query->whereIn($db->quoteName('a.enabled'), [0, 1]);
 		}
 
 		// Filter by state.
