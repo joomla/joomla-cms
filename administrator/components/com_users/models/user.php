@@ -219,7 +219,7 @@ class UsersModelUser extends JModelAdmin
 
 			// Set the link to activate the user account.
 			$linkMode = (int) $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
-			$data['activate'] = JRoute::link('site', 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false, $linkMode);
+			$data['activate'] = Route::link('site', 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false, $linkMode);
 
 			$emailSubject = JText::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
@@ -230,9 +230,13 @@ class UsersModelUser extends JModelAdmin
 			// Default case should be admin activation
 			$emailBodyLanguageString = 'COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_CHANGED_MAIL_BODY';
 
-			if (JComponentHelper::getParams('com_users')->get('useractivation') === 1)
+			if (JComponentHelper::getParams('com_users')->get('useractivation') === 1
+				|| JComponentHelper::getParams('com_users')->get('useractivation') === 0)
 			{
-				// Wait we have useractivation use the correct string then
+				/*
+				 * Wait we have useractivation use the correct string then;
+				 * Or we have a rare case that the parameter has been set to 0 (None) after the user registed but not activated the account
+				 */
 				$emailBodyLanguageString = 'COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_CHANGED_MAIL_BODY';
 			}
 
