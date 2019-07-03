@@ -229,7 +229,7 @@ class LinkModel extends AdminModel
 				->update($db->quoteName('#__redirect_links'))
 				->set($db->quoteName('new_url') . ' = :url')
 				->set($db->quoteName('modified_date') . ' = :date')
-				->set($db->quoteName('published') . ' = ' . 1)
+				->set($db->quoteName('published') . ' = 1')
 				->whereIn($db->quoteName('id'), $pks)
 				->bind(':url', $url)
 				->bind(':date', $date);
