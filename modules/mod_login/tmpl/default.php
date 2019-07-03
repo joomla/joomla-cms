@@ -98,12 +98,19 @@ Text::script('JHIDE');
 		<?php foreach($extraButtons as $button): ?>
 			<div class="mod-login__submit form-group">
 				<button type="button"
-						name="<?= $button['id'] ?? '' ?>"
-						id="<?= $button['id'] ?>"
-						onclick="<?= $button['onclick'] ?>"
-						class="btn <?= $button['class'] ?? '' ?>">
-					<!-- TODO Do something with the $button['icon'] -->
-					<?= $button['label'] ?>
+				        class="btn btn-secondary <?= $button['class'] ?? '' ?>"
+				        onclick="<?= $button['onclick'] ?>"
+				        title="<?= Text::_($button['label']) ?>"
+				        id="<?= $button['id'] ?>"
+						>
+					<?php if (!empty($button['icon'])): ?>
+						<span class="<?= $button['icon'] ?>"></span>
+					<?php elseif (!empty($button['image'])): ?>
+						<?= HTMLHelper::_('image', $button['image'], Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC'), [
+							'class' => 'icon',
+						], true) ?>
+					<?php endif; ?>
+					<?= Text::_($button['label']) ?>
 				</button>
 			</div>
 		<?php endforeach; ?>

@@ -1,0 +1,284 @@
+/*!
+ * @package     Joomla.Plugin
+ * @subpackage  System.updatenotification
+ *
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+// ===================================================================================================================
+// Configuration
+// ===================================================================================================================
+
+// Color Declarations
+$grey: #514F50;
+$teal: #40B5B8;
+$red: #E2363C;
+$light-grey: #EFEFEF;
+$white: #ffffff;
+$green: #93C34E;
+$orange: #F0AD4E;
+$black: #000000;
+
+
+// Button display properties
+$border-radius: 3px;
+
+// Default button properties
+$background: $teal !default;
+$backgroundhover: darken($background, 10%) !default;
+$fontcolor: $white !default;
+$fonthover: $fontcolor !default;
+
+// ===================================================================================================================
+// Mixins
+// ===================================================================================================================
+
+// Mixin for button variations
+@mixin button($name, $background, $backgroundhover, $fontcolor, $fonthover, $border: 1px solid $background) {
+  &[class*=#{$name}] {
+    background: $background;
+    color: $fontcolor;
+    border: $border;
+
+    &:hover {
+      background: $backgroundhover;
+      color: $fonthover;
+    }
+
+    &:focus {
+      background: $backgroundhover;
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px $background;
+    }
+  }
+}
+
+// Mixin for blocks
+@mixin block($color) {
+  border: 1px solid $color;
+  border-radius: $border-radius;
+  @if $color == $teal {
+    background: lighten($color, 45%);
+  } @else if $color == $green or $color == $red {
+    background: lighten($color, 38%);
+  } @else {
+    background: lighten($color, 33%);
+  }
+}
+
+div.akpwl {
+  // ===================================================================================================================
+  // Buttons
+  // ===================================================================================================================
+  a[class*=akpwl-btn],
+  button[class*=akpwl-btn],
+  span[class*=akpwl-btn],
+  input[type=submit][class*=akpwl-btn] {
+    // Default button
+    display: inline-block;
+    padding: .6em 1.2em;
+    color: $white;
+    background: $teal;
+    border-radius: $border-radius;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+
+    &[class*=block] {
+      display: block;
+      text-align: center;
+    }
+
+    span[class*=icon] {
+      font-size: 1.25em;
+      vertical-align: sub;
+      display: inline-block;
+      width: 1em;
+      text-align: center;
+    }
+
+    span[class*=icon]:not(:last-child) {
+      margin-right: .5em;
+    }
+
+    &:hover {
+      background: darken($teal, 10%);
+    }
+
+    &:focus {
+      background: darken($teal, 10%);
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px $teal;
+    }
+
+    // Button variations -- Colors
+    @include button("primary", $teal, $backgroundhover, $white, $fonthover);
+
+    $ghost_bg: $white;
+    $ghost_bghover: lighten($teal, 45%);
+    $ghost_color: darken($teal, 10%);
+    $ghost_colorhover: darken($teal, 25%);
+    $ghost_border: 1px solid $teal;
+
+    $dark_bg: $grey;
+    $dark_bghover: darken($grey, 10%);
+    $dark_color: $white;
+    $dark_colorhover: $white;
+    $dark_border: 1px solid $grey;
+
+    @include button("ghost", $ghost_bg, $ghost_bghover, $ghost_color, $ghost_colorhover, $ghost_border);
+    @include button("dark", $dark_bg, $dark_bghover, $dark_color, $dark_colorhover, $dark_border);
+    @include button("teal", $teal, $backgroundhover, $white, $fonthover);
+    @include button("red", $red, darken($red, 10%), $white, $white);
+    @include button("orange", darken($orange, 5%), darken($orange, 15%), $white, $white);
+    @include button("green", $green, darken($green, 10%), $white, $white);
+    @include button("grey", darken($light-grey, 3%), darken($light-grey, 13%), $grey, $grey);
+
+    // Button variations -- Sizes
+    &[class*=small] {
+      padding: .3em 1em;
+      font-size: .9em;
+    }
+
+    &[class*=mini] {
+      padding: .2em 0.5em .2em 1em;
+      font-size: .8em;
+    }
+
+    &[class*=big] {
+      padding: .5em 1.3em;
+      font-size: 1.4em;
+    }
+
+    &:disabled {
+      background: $light-grey;
+      color: lighten($grey, 30%);
+      border: 1px solid darken($light-grey, 5%);
+
+      &:hover {
+        background: $light-grey;
+        color: lighten($grey, 30%);
+        cursor: not-allowed;
+      }
+
+      &:focus {
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px $background;
+      }
+    }
+
+    // Buttons next to each other
+    + a[class*=akpwl-btn],
+    + button[class*=akpwl-btn],
+    + span[class*=akpwl-btn],
+    + input[type=submit][class*=akpwl-btn] {
+      margin-left: 5px;
+    }
+  }
+
+  // ===================================================================================================================
+  // Tables
+  // ===================================================================================================================
+
+  table[class*=akpwl-table] {
+    width: 100%;
+    border-collapse: collapse;
+    //margin-bottom:1em;
+    td {
+      padding: .6em .75em;
+      line-height: 2em;
+    }
+
+    thead {
+      //background: darken($light-grey, 3%);
+      font-weight: bold;
+      text-align: left;
+
+      td, th {
+        border-bottom: 2px solid $grey;
+        padding: .6em .75em;
+        line-height: 2em;
+      }
+    }
+
+    tfoot {
+      font-weight: bold;
+
+      td {
+        border-top: 2px solid $grey;
+      }
+    }
+
+    &[class*=striped] {
+      background: $white;
+
+      tbody > tr:nth-child(2n+1) > td {
+        background: lighten($light-grey, 2%);
+      }
+
+      tbody {
+        border: 1px solid darken($light-grey, 10%);
+      }
+    }
+
+    &[class*=hover] {
+      tr:hover {
+        background: lighten($teal, 46%);
+      }
+
+      &[class*=striped] {
+        tbody > tr:nth-child(2n+1):hover > td,
+        tr:hover {
+          background: lighten($teal, 40%);
+        }
+      }
+    }
+
+    &[class*=hborder] {
+      tr:not(:last-child) {
+        border-bottom: 1px solid darken($light-grey, 10%);
+      }
+    }
+  }
+
+  // ===================================================================================================================
+  // Blocks
+  // ===================================================================================================================
+  [class*=akpwl-block] {
+    margin-bottom: 10px;
+    padding: 1em 1em 1em 4em;
+    position: relative;
+
+    :last-child {
+      margin-bottom: 0;
+    }
+
+    &:before {
+      font-size: 1.75em;
+      position: absolute;
+      top: .5em;
+      left: .75em;
+    }
+
+    &[class*=info] {
+      @include block($teal);
+    }
+
+    &[class*=warning] {
+      @include block($orange);
+    }
+
+    &[class*=success] {
+      @include block($green);
+    }
+
+    &[class*=failure] {
+      @include block($red);
+    }
+  }
+
+  // ===================================================================================================================
+  // Other elements
+  // ===================================================================================================================
+  p.akpwl-manage-add-container {
+    margin-top: 2em;
+  }
+}

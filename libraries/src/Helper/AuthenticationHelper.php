@@ -10,6 +10,8 @@ namespace Joomla\CMS\Helper;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Exception;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -75,10 +77,11 @@ abstract class AuthenticationHelper
 	 *
 	 * Each button definition is a hash array with the following keys:
 	 *
-	 * - label      The label of the button
+	 * - label      The translation string used as the label and title of the button
 	 * - onclick    The onclick attribute, used to fire a JavaScript event
 	 * - id         The HTML ID of the button.
-	 * - icon       [optional] A CSS class or an image path for an optional icon displayed before the label
+	 * - icon       [optional] A CSS class for an optional icon displayed before the label; has precedence over 'image'
+	 * - image      [optional] An image path for an optional icon displayed before the label
 	 * - class      [optional] CSS class(es) to be added to the button
 	 *
 	 * @param   string  $moduleId         The HTML ID of the module container.
@@ -94,8 +97,18 @@ abstract class AuthenticationHelper
 		PluginHelper::importPlugin('user');
 
 		// Trigger the onUserLoginButtons event and return the button definitions.
-		$results = Factory::getApplication()->triggerEvent('onUserLoginButtons', [$moduleId, $usernameFieldId]);
-		$buttons = [];
+		try
+		{
+			/** @var CMSApplication $app */
+			$app = Factory::getApplication();
+		}
+		catch (Exception $e)
+		{
+			return [];
+		}
+
+		$results        = $app->triggerEvent('onUserLoginButtons', [$moduleId, $usernameFieldId]);
+		$buttons        = [];
 
 		foreach ($results as $result)
 		{
@@ -118,6 +131,7 @@ abstract class AuthenticationHelper
 				$button = array_merge([
 					'label'   => '',
 					'icon'    => '',
+					'image'   => '',
 					'class'   => '',
 					'id'      => '',
 					'onclick' => '',
@@ -126,7 +140,7 @@ abstract class AuthenticationHelper
 				// Unset anything that doesn't conform to a button definition
 				foreach (array_keys($button) as $key)
 				{
-					if (!in_array($key, ['label', 'icon', 'class', 'id', 'onclick']))
+					if (!in_array($key, ['label', 'icon', 'image', 'class', 'id', 'onclick']))
 					{
 						unset($button[$key]);
 					}

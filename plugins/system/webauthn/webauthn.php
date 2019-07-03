@@ -14,7 +14,7 @@ use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerCreate;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerDelete;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerLogin;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerSaveLabel;
-use Joomla\Plugin\System\Webauthn\PluginTraits\ButtonsInModules;
+use Joomla\Plugin\System\Webauthn\PluginTraits\AdditionalLoginButtons;
 use Joomla\Plugin\System\Webauthn\PluginTraits\ButtonsInUserPage;
 use Joomla\Plugin\System\Webauthn\PluginTraits\UserDeletion;
 use Joomla\Plugin\System\Webauthn\PluginTraits\UserProfileFields;
@@ -52,9 +52,8 @@ class plgSystemWebauthn extends CMSPlugin
 	// Handle user profile deletion
 	use UserDeletion;
 
-	// Add Webauthn buttons
-	use ButtonsInModules;
-	use ButtonsInUserPage;
+	// Add WebAuthn buttons
+	use AdditionalLoginButtons;
 
 	/**
 	 * Constructor. Loads the language files as well.
@@ -77,9 +76,5 @@ class plgSystemWebauthn extends CMSPlugin
 
 		// Register a debug log file writer
 		Joomla::addLogger('system');
-
-		// Setup login module interception
-		$this->setupLoginModuleButtons();
-		$this->setupUserLoginPageButtons();
 	}
 }

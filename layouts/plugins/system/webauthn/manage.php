@@ -90,12 +90,12 @@ $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::g
             <tr data-credential_id="<?= $method['id'] ?>">
                 <td><?= htmlentities($method['label']) ?></td>
                 <td>
-                    <button onclick="return akeeba_passwordless_edit_label(this, '<?= $randomId ?>');"
+                    <button onclick="return plg_system_webauthn_edit_label(this, '<?= $randomId ?>');"
                        class="akpwl-btn--teal">
                         <span class="icon-edit icon-white"></span>
 						<?= Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_EDIT_LABEL') ?>
                     </button>
-                    <button onclick="return akeeba_passwordless_delete(this, '<?= $randomId ?>');"
+                    <button onclick="return plg_system_webauthn_delete(this, '<?= $randomId ?>');"
                        class="akpwl-btn--red">
                         <span class="icon-minus-sign icon-white"></span>
 						<?= Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_DELETE_LABEL') ?>
@@ -115,7 +115,7 @@ $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::g
 
 	<?php if ($allow_add): ?>
         <p class="akpwl-manage-add-container">
-            <a onclick="akeeba_passwordless_create_credentials('<?= $randomId ?>', '#akpwl-management-interface');"
+            <a onclick="plg_system_webauthn_create_credentials('<?= $randomId ?>', '#akpwl-management-interface');"
                class="akpwl-btn--green--block">
                 <span class="icon-plus icon-white"></span>
 				<?= Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_ADD_LABEL') ?>

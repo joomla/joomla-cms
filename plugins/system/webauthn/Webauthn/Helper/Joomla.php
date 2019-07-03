@@ -71,6 +71,13 @@ abstract class Joomla
 	protected static $registeredLoggers = [];
 
 	/**
+	 * The current Joomla Document type
+	 *
+	 * @var   string|null
+	 */
+	protected static $joomlaDocumentType = null;
+
+	/**
 	 * Are we inside an administrator page?
 	 *
 	 * @param   CMSApplication  $app  The current CMS application which tells us if we are inside an admin page
@@ -633,5 +640,37 @@ abstract class Joomla
 		}
 
 		return $jDate->format($format, true);
+	}
+
+	/**
+	 * Returns the current Joomla document type.
+	 *
+	 * The error catching is necessary because the application document object or even the application object itself may
+	 * have not yet been initialized. For example, a system plugin running inside a custom application object which does
+	 * not create a document object or which does not go through Joomla's Factory to create the application object. In
+	 * practice these are CLI and custom web applications used for maintenance and third party service callbacks. They
+	 * end up loading the system plugins but either don't go through Factory or at least don't create a document object.
+	 *
+	 * @return  string
+	 */
+	public static function getDocumentType(): string
+	{
+		if (is_null(self::$joomlaDocumentType))
+		{
+			try
+			{
+				/** @var CMSApplication $app */
+				$app      = Factory::getApplication();
+				$document = $app->getDocument();
+			}
+			catch (Exception $e)
+			{
+				$document = null;
+			}
+
+			self::$joomlaDocumentType = (is_null($document)) ? 'error' : $document->getType();
+		}
+
+		return self::$joomlaDocumentType;
 	}
 }
