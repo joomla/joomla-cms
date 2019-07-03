@@ -45,9 +45,7 @@ class MenusModelMenu extends JModelForm
 	 */
 	protected function canDelete($record)
 	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.delete', 'com_menus.menu.' . (int) $record->id);
+		return JFactory::getUser()->authorise('core.delete', 'com_menus.menu.' . (int) $record->id);
 	}
 
 	/**

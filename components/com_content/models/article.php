@@ -371,7 +371,7 @@ class ContentModelArticle extends JModelItem
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.9
 	 */
 	protected function cleanCache($group = null, $clientId = 0)
 	{
