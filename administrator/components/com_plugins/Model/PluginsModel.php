@@ -264,7 +264,7 @@ class PluginsModel extends ListModel
 		if ($element = $this->getState('filter.element'))
 		{
 			$query->where($db->quoteName('a.element') . ' = :element')
-				->bind(':element',  $element);
+				->bind(':element', $element);
 		}
 
 		// Filter by search in name or id.
