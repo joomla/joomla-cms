@@ -51,7 +51,7 @@ class JsonapiView extends BaseApiView
 	 * @var  string
 	 * @since  4.0.0
 	 */
-	protected $fieldsToRenderItems = [
+	protected $fieldsToRenderList = [
 		'id',
 		'name',
 		'contact',

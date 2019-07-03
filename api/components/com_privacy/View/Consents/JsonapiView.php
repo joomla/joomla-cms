@@ -49,7 +49,7 @@ class JsonapiView extends BaseApiView
 	 * @var  string
 	 * @since  4.0.0
 	 */
-	protected $fieldsToRenderItems = [
+	protected $fieldsToRenderList = [
 		'id',
 		'user_id',
 		'state',
@@ -110,7 +110,7 @@ class JsonapiView extends BaseApiView
 
 		$serializer = new JoomlaSerializer($this->type);
 		$element = (new Resource($displayItem, $serializer))
-			->fields([$this->type => $this->fieldsToRender]);
+			->fields([$this->type => $this->fieldsToRenderItem]);
 
 		$this->document->setData($element);
 		$this->document->addLink('self', Uri::current());

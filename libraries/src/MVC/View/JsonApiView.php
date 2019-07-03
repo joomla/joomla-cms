@@ -55,7 +55,7 @@ abstract class JsonApiView extends JsonView
 	 * @var  string
 	 * @since  4.0.0
 	 */
-	protected $fieldsToRenderItems = [];
+	protected $fieldsToRenderList = [];
 
 	/**
 	 * Constructor.
@@ -135,7 +135,7 @@ abstract class JsonApiView extends JsonView
 		$lastPage->setVar('page', $lastPageQuery);
 
 		$collection = (new Collection($items, new JoomlaSerializer($this->type)))
-			->fields([$this->type => $this->fieldsToRenderItems]);
+			->fields([$this->type => $this->fieldsToRenderList]);
 
 		// Set the data into the document and render it
 		$this->document->addMeta('total-pages', $pagination->pagesTotal)
