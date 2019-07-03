@@ -107,7 +107,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<span class="badge badge-success"><?php echo $item->version; ?></span>
 									</td>
 									<td class="hidden-sm-down text-center">
-										<?php if ($item->changelogurl != null) : ?>
+										<?php if (!empty($item->changelogurl)) : ?>
 										<a href="#changelogModal<?php echo $item->extension_id; ?>" class="btn btn-info btn-xs changelogModal" data-js-extensionid="<?php echo $item->extension_id; ?>" data-js-view="update" data-toggle="modal">
 											<?php echo Text::_('COM_INSTALLER_CHANGELOG'); ?>
 										</a>
