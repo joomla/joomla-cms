@@ -142,7 +142,7 @@ class Atum
 	protected static function bgdarkcalc($hue, $monochrome = false) : array
 	{
 		$multiplier = $monochrome ? 0 : 1;
-		$hue = min(360, max(0, (int) $hue));
+		$hue = min(359, max(0, (int) $hue));
 
 		$root = [];
 
