@@ -38,7 +38,7 @@ class FeedEntryTest extends UnitTestCase
 	 * @see     \PHPUnit\Framework\TestCase::setUp()
 	 * @since   3.1.4
 	 */
-	protected function setUp()
+	protected function setUp():void
 	{
 		parent::setUp();
 
@@ -53,7 +53,7 @@ class FeedEntryTest extends UnitTestCase
 	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.1.4
 	 */
-	protected function tearDown()
+	protected function tearDown():void
 	{
 		unset($this->feedEntry);
 
@@ -141,11 +141,11 @@ class FeedEntryTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
 	 * @since              3.1.4
 	 */
 	public function testSetAuthorWithInvalidAuthor()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$this->feedEntry->author = 'Jack Sprat';
 	}
 
@@ -154,11 +154,11 @@ class FeedEntryTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
 	 * @since              3.1.4
 	 */
 	public function testSetSourceWithInvalidSource()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$this->feedEntry->source = 'Outer Space';
 	}
 
@@ -167,11 +167,11 @@ class FeedEntryTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
 	 * @since              3.1.4
 	 */
 	public function testSetCategoriesWithInvalidProperty()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$this->feedEntry->categories = 'Can\'t touch this';
 	}
 
