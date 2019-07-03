@@ -102,33 +102,6 @@ legend {
   box-shadow: 0 0 2px 1px var(--atum-bg-dark);
 }
 
-.custom-select {
-  min-width: 10rem;
-
-  optgroup, option {
-    background-color: $white;
-  }
-}
-
-.custom-select[multiple] {
-  padding: 0;
-  background-color: var(--white-offset);
-
-  option {
-    background-color: var(--white-offset);
-    padding: $custom-select-multiple-padding-y $custom-select-padding-x;
-    &:checked {
-      color: var(--atum-text-light);
-      background-color: var(--atum-bg-dark) !important;
-    }
-  }
-}
-
-.custom-select-sm {
-  padding-right: $custom-select-padding-x + $custom-select-indicator-padding-sm;
-  background-size: $custom-select-bg-size-sm;
-}
-
 select.form-control {
   background-color: $custom-select-bg;
 }
