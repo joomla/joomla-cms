@@ -212,17 +212,17 @@ class ContactModel extends FormModel
 
 				if (is_numeric($published))
 				{
-					$queryString = 'a.published = :published';
+					$queryString = $db->quoteName('a.published') . ' = :published';
 
 					if ($archived !== null)
 					{
-						$queryString = '(' . $queryString . ' OR a.published = :archived)';
+						$queryString = '(' . $queryString . ' OR ' . $db->quoteName('a.published') . ' = :archived)';
 						$query->bind(':archived', $archived, ParameterType::INTEGER);
 					}
 
 					$query->where($queryString)
-						->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= :publish_up)')
-						->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= :publish_down)')
+						->where('(' . $query->isNullDatetime('a.publish_up') . ' OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)')
+						->where('(' . $query->isNullDatetime('a.publish_down') . ' OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)')
 						->bind(':published', $published, ParameterType::INTEGER)
 						->bind(':publish_up', $nowDate)
 						->bind(':publish_down', $nowDate);
@@ -349,7 +349,7 @@ class ContactModel extends FormModel
 			if (Multilanguage::isEnabled())
 			{
 				$language = [Factory::getLanguage()->getTag(), $db->quote('*')];
-				$query->whereIn($db->quoteName('a.language'), $language);
+				$query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
 			}
 
 			if (is_numeric($published))
