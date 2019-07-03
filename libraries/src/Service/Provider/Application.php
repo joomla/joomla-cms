@@ -142,7 +142,7 @@ class Application implements ServiceProviderInterface
 			->share(
 				'JApplicationApi',
 				function (Container $container) {
-					$app = new ApiApplication(null, null, null, $container);
+					$app = new ApiApplication(null, $container->get('config'), null, $container);
 
 					// The session service provider needs Factory::$application, set it if still null
 					if (Factory::$application === null)
