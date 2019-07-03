@@ -81,7 +81,6 @@ $this->addStyleDeclaration($css);
 HTMLHelper::getServiceRegistry()->register('atum', 'Joomla\\Template\\Atum\\Administrator\\Service\\HTML\\Atum');
 
 HTMLHelper::_('atum.rootcolors', $this->params);
-
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
