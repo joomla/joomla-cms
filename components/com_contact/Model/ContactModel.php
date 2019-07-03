@@ -195,11 +195,11 @@ class ContactModel extends FormModel
 
 					// Join on category table.
 					->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access')
-					->join('LEFT', $db->quoteName('#__categories', 'c'), 'c.id = a.catid')
+					->leftJoin($db->quoteName('#__categories', 'c'), 'c.id = a.catid')
 
 					// Join over the categories to get parent category titles
 					->select('parent.title AS parent_title, parent.id AS parent_id, parent.path AS parent_route, parent.alias AS parent_alias')
-					->join('LEFT', $db->quoteName('#__categories', 'parent'), 'parent.id = c.parent_id')
+					->leftJoin($db->quoteName('#__categories', 'parent'), 'parent.id = c.parent_id')
 					->where($db->quoteName('a.id') . ' = :id')
 					->bind(':id', $pk, ParameterType::INTEGER);
 
