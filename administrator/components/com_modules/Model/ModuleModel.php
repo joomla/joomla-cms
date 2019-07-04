@@ -693,7 +693,7 @@ class ModuleModel extends AdminModel
 				if ($extensionId = (int) $this->getState('extension.id'))
 				{
 					$query = $db->getQuery(true)
-						->select($db->quoteName(['element, client_id']))
+						->select($db->quoteName(['element', 'client_id']))
 						->from($db->quoteName('#__extensions'))
 						->where($db->quoteName('extension_id') . ' = :extensionid')
 						->where($db->quoteName('type') . ' = ' . $db->quote('module'))
