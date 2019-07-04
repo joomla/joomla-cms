@@ -227,9 +227,7 @@ class LinksModel extends ListModel
 			$db->quoteName('created_date')
 		];
 
-		$i = 0;
-
-		foreach ($batch_urls as $batch_url)
+		foreach ($batch_urls as $i => $batch_url)
 		{
 			$old_url = $batch_url[0];
 
@@ -244,19 +242,19 @@ class LinksModel extends ListModel
 			}
 
 			$values = [
-					':oldurl' . $i,
-					':newurl' . $i,
-					'',
-					'',
-					0,
-					':state' . $i,
-					':created' . $i,
+				':oldurl' . $i,
+				':newurl' . $i,
+				$db->quote(''),
+				$db->quote(''),
+				0,
+				':state' . $i,
+				':created' . $i,
 			];
 
 			$query->clear()
 				->insert($db->quoteName('#__redirect_links'), false)
 				->columns($columns)
-				->values($values)
+				->values(implode(', ', $values))
 				->bind(':oldurl' . $i, $old_url)
 				->bind(':newurl' . $i, $new_url)
 				->bind(':state' . $i, $state, ParameterType::INTEGER)
@@ -264,7 +262,6 @@ class LinksModel extends ListModel
 
 			$db->setQuery($query);
 			$db->execute();
-			$i++;
 		}
 
 		return true;
