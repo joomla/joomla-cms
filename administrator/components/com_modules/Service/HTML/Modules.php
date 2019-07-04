@@ -225,7 +225,6 @@ class Modules
 			->where($db->quoteName('client_id') . ' = :clientid')
 			->order($db->quoteName('position'))
 			->bind(':clientid', $clientId, ParameterType::INTEGER);
-			->order('position');
 
 		// Get the options.
 		$db->setQuery($query);
