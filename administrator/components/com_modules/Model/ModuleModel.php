@@ -367,7 +367,7 @@ class ModuleModel extends AdminModel
 				else
 				{
 					// Delete the menu assignments
-					$pk    = int ($pk)
+					$pk    = int ($pk);
 					$db    = $this->getDbo();
 					$query = $db->getQuery(true)
 						->delete($db->quoteName('#__modules_menu'))
