@@ -132,8 +132,7 @@ abstract class ModulesHelper
 		$query->select($db->quoteName(['element', 'name', 'enabled']))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('client_id') . ' = :clientid')
-			->where($db->quoteName('type') . ' = ' . $db->quote('template'))
-			->bind(':clientid', $clientId, ParameterType::INTEGER);
+			->where($db->quoteName('type') . ' = ' . $db->quote('template'));
 
 		if ($state != '')
 		{
