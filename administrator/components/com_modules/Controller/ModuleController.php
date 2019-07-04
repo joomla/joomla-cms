@@ -275,7 +275,7 @@ class ModuleController extends FormController
 			->select($db->quoteName(['position', 'ordering', 'title']))
 			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('client_id') . ' = :clientid')
-			->where($db->quoteName('position') .  ' = :position')
+			->where($db->quoteName('position') . ' = :position')
 			->order($db->quoteName('ordering'))
 			->bind(':clientid', $clientId, ParameterType::INTEGER)
 			->bind(':position', $position);
