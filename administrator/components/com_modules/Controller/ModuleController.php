@@ -272,7 +272,7 @@ class ModuleController extends FormController
 		$db    = Factory::getDbo();
 		$clientId = (int) $clientId;
 		$query = $db->getQuery(true)
-			->select($db->quoteName(['position', 'ordering', 'title'])
+			->select($db->quoteName(['position', 'ordering', 'title']))
 			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('client_id') . ' = :clientid')
 			->where($db->quoteName('position') .  ' = :position')
