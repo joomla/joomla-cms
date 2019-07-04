@@ -112,7 +112,7 @@ class PositionsModel extends ListModel
 
 			if ($type != 'template')
 			{
-				 $clientId = (int) $clientId;
+				$clientId = (int) $clientId;
 
 				// Get the database object and a new query object.
 				$query = $this->_db->getQuery(true)
