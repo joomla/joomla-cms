@@ -5,6 +5,7 @@
 .js-stools {
   position: relative;
   padding: 5px 0 0;
+  margin-bottom: 8px;
 
   .js-stools-container-filters {
     display: none;
@@ -60,7 +61,6 @@
   .js-stools-container-bar {
 
     .btn-toolbar {
-      margin-bottom: 8px;
 
       .js-stools-btn-clear{
         background-color: var(--atum-bg-dark);
