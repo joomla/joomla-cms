@@ -216,7 +216,7 @@ class ModuleModel extends AdminModel
 						->insert($db->quoteName('#__modules_menu'))
 						->columns([$db->quoteName('moduleid'), $db->quoteName('menuid')])
 						->values(implode(', ', [':newid' . $i, ':menu' . $i]))
-						->bind(':newid' . $i , $newId, ParameterType::INTEGER)
+						->bind(':newid' . $i, $newId, ParameterType::INTEGER)
 						->bind(':menu' . $i, $menu, ParameterType::INTEGER);
 					$db->setQuery($query);
 					$db->execute();
@@ -367,7 +367,7 @@ class ModuleModel extends AdminModel
 				else
 				{
 					// Delete the menu assignments
-					$pk    = int ($pk);
+					$pk    = (int) $pk;
 					$db    = $this->getDbo();
 					$query = $db->getQuery(true)
 						->delete($db->quoteName('#__modules_menu'))
@@ -995,6 +995,7 @@ class ModuleModel extends AdminModel
 		$assignment = $data['assignment'] ?? 0;
 
 		$table->id = (int) $table->id;
+
 		// Delete old module to menu item associations
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
