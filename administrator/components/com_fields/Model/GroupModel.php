@@ -336,31 +336,6 @@ class GroupModel extends AdminModel
 			{
 				$item->params = new Registry($item->params);
 			}
-
-			// Convert the created and modified dates to local user time for display in the form.
-			$tz = new \DateTimeZone(Factory::getApplication()->get('offset'));
-
-			if ((int) $item->created)
-			{
-				$date = new Date($item->created);
-				$date->setTimezone($tz);
-				$item->created = $date->toSql(true);
-			}
-			else
-			{
-				$item->created = null;
-			}
-
-			if ((int) $item->modified)
-			{
-				$date = new Date($item->modified);
-				$date->setTimezone($tz);
-				$item->modified = $date->toSql(true);
-			}
-			else
-			{
-				$item->modified = null;
-			}
 		}
 
 		return $item;
