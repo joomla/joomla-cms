@@ -13,43 +13,29 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-$client    = $this->state->get('filter.client') == '0' ? Text::_('JSITE') : Text::_('JADMINISTRATOR');
+$client    = $this->state->get('filter.client') == 'site' ? Text::_('JSITE') : Text::_('JADMINISTRATOR');
 $language  = $this->state->get('filter.language');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-$oppositeClient   = $this->state->get('filter.client') == '1' ? Text::_('JSITE') : Text::_('JADMINISTRATOR');
-$oppositeFilename = constant('JPATH_' . strtoupper(1 - $this->state->get('filter.client')? 'administrator' : 'site'))
+$oppositeClient   = $this->state->get('filter.client') == 'administrator' ? Text::_('JSITE') : Text::_('JADMINISTRATOR');
+$oppositeFilename = constant('JPATH_' . strtoupper($this->state->get('filter.client') === 'site' ? 'administrator' : 'site'))
 	. '/language/overrides/' . $this->state->get('filter.language', 'en-GB') . '.override.ini';
 $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFilename);
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_languages&view=overrides'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
-		<div id="j-sidebar-container" class="col-md-2">
-			<?php echo $this->sidebar; ?>
-		</div>
-		<div class="col-md-10">
+		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
-				<div id="filter-bar" class="btn-toolbar clearfix">
-					<div class="filter-search btn-group float-left">
-						<div class="input-group">
-							<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="form-control hasTooltip" title="<?php echo HTMLHelper::tooltipText('COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>">
-							<div class="input-group-append">
-								<button type="submit" class="btn btn-secondary hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search" aria-hidden="true"></span></button>
-								<button type="button" class="btn btn-secondary hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove" aria-hidden="true"></span></button>
-							</div>
-						</div>
-					</div>
-					<div class="btn-group float-right d-none d-md-block">
-						<label for="limit" class="sr-only"><?php echo Text::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
-						<?php echo $this->pagination->getLimitBox(); ?>
-					</div>
-				</div>
+				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+				<div class="clearfix"></div>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning">
+					<div class="alert alert-info">
+						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -63,10 +49,10 @@ $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFilename);
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col" style="width:30%">
-									<?php echo HTMLHelper::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_KEY', 'key', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_KEY', 'key', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_TEXT', 'text', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_TEXT', 'text', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'); ?>
@@ -87,7 +73,7 @@ $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFilename);
 								<th scope="row">
 									<?php if ($canEdit) : ?>
 										<a id="key[<?php echo $this->escape($key); ?>]" href="<?php echo Route::_('index.php?option=com_languages&task=override.edit&id=' . $key); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($key)); ?>">
-											<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape($key); ?></a>
+											<span class="fa fa-pen-square mr-2" aria-hidden="true"></span><?php echo $this->escape($key); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($key); ?>
 									<?php endif; ?>
@@ -120,8 +106,6 @@ $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFilename);
 
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
-				<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>">
-				<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>">
 				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>

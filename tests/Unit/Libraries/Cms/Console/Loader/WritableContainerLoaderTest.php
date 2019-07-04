@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Console
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +30,7 @@ class WritableContainerLoaderTest extends UnitTestCase
 	 *
 	 * @return  void
 	 */
-	protected function setUp()
+	protected function setUp():void
 	{
 		$this->container = $this->createMock(ContainerInterface::class);
 	}
@@ -76,13 +76,12 @@ class WritableContainerLoaderTest extends UnitTestCase
 		);
 	}
 
-	/**
-	 * @expectedException  \Symfony\Component\Console\Exception\CommandNotFoundException
-	 */
 	public function testTheLoaderDoesNotRetrieveAnUnknownCommand()
 	{
 		$commandName = 'test:loader';
 		$serviceId   = 'test.loader';
+
+		$this->expectException(\Symfony\Component\Console\Exception\CommandNotFoundException::class);
 
 		$this->container->expects($this->once())
 			->method('has')

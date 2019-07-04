@@ -56,6 +56,8 @@ class ItemsModel extends ListModel
 				'client_id', 'a.client_id',
 				'home', 'a.home',
 				'parent_id', 'a.parent_id',
+				'publish_up', 'a.publish_up',
+				'publish_down', 'a.publish_down',
 				'a.ordering'
 			);
 
@@ -260,12 +262,14 @@ class ItemsModel extends ListModel
 					array(
 						'a.id', 'a.menutype', 'a.title', 'a.alias', 'a.note', 'a.path', 'a.link', 'a.type', 'a.parent_id',
 						'a.level', 'a.published', 'a.component_id', 'a.checked_out', 'a.checked_out_time', 'a.browserNav',
-						'a.access', 'a.img', 'a.template_style_id', 'a.params', 'a.lft', 'a.rgt', 'a.home', 'a.language', 'a.client_id'
+						'a.access', 'a.img', 'a.template_style_id', 'a.params', 'a.lft', 'a.rgt', 'a.home', 'a.language',
+						'a.client_id', 'e.enabled', 'a.publish_up', 'a.publish_down'
 					),
 					array(
 						null, null, null, null, null, null, null, null, null,
 						null, 'a.published', null, null, null, null,
-						null, null, null, null, null, null, null, null, null
+						null, null, null, null, null, null, null, null,
+						null, 'enabled', 'publish_up', 'publish_down'
 					)
 				)
 			)
@@ -273,16 +277,11 @@ class ItemsModel extends ListModel
 		$query->select(
 			'CASE ' .
 				' WHEN a.type = ' . $db->quote('component') . ' THEN a.published+2*(e.enabled-1) ' .
-				' WHEN a.type = ' . $db->quote('url') . ' AND a.published != -2 THEN a.published+2 ' .
-				' WHEN a.type = ' . $db->quote('url') . ' AND a.published = -2 THEN a.published-1 ' .
-				' WHEN a.type = ' . $db->quote('alias') . ' AND a.published != -2 THEN a.published+4 ' .
-				' WHEN a.type = ' . $db->quote('alias') . ' AND a.published = -2 THEN a.published-1 ' .
-				' WHEN a.type = ' . $db->quote('separator') . ' AND a.published != -2 THEN a.published+6 ' .
-				' WHEN a.type = ' . $db->quote('separator') . ' AND a.published = -2 THEN a.published-1 ' .
-				' WHEN a.type = ' . $db->quote('heading') . ' AND a.published != -2 THEN a.published+8 ' .
-				' WHEN a.type = ' . $db->quote('heading') . ' AND a.published = -2 THEN a.published-1 ' .
-				' WHEN a.type = ' . $db->quote('container') . ' AND a.published != -2 THEN a.published+8 ' .
-				' WHEN a.type = ' . $db->quote('container') . ' AND a.published = -2 THEN a.published-1 ' .
+				' WHEN a.type = ' . $db->quote('url') . ' THEN a.published ' .
+				' WHEN a.type = ' . $db->quote('alias') . ' THEN a.published ' .
+				' WHEN a.type = ' . $db->quote('separator') . ' THEN a.published ' .
+				' WHEN a.type = ' . $db->quote('heading') . ' THEN a.published ' .
+				' WHEN a.type = ' . $db->quote('container') . ' THEN a.published ' .
 			' END AS published '
 		);
 		$query->from($db->quoteName('#__menu') . ' AS a');
@@ -404,7 +403,28 @@ class ItemsModel extends ListModel
 
 		if (!empty($parentId))
 		{
-			$query->where('a.parent_id = ' . (int) $parentId);
+			$level = $this->getState('filter.level');
+
+			// Create a subquery for the sub-items list
+			$subQuery = $db->getQuery(true)
+				->select('sub.id')
+				->from('#__menu as sub')
+				->join('INNER', '#__menu as this ON sub.lft > this.lft AND sub.rgt < this.rgt')
+				->where('this.id = ' . (int) $parentId);
+
+			if ($level)
+			{
+				$subQuery->where('sub.level <= this.level + ' . (int) ($level - 1));
+			}
+
+			// Add the subquery to the main query
+			$query->where('(a.parent_id = ' . (int) $parentId . ' OR a.parent_id IN (' . (string) $subQuery . '))');
+		}
+
+		// Filter on the level.
+		elseif ($level = $this->getState('filter.level'))
+		{
+			$query->where('a.level <= ' . (int) $level);
 		}
 
 		// Filter the items over the menu id if set.
@@ -466,12 +486,6 @@ class ItemsModel extends ListModel
 			{
 				$query->where('a.access IN (' . implode(',', $groups) . ')');
 			}
-		}
-
-		// Filter on the level.
-		if ($level = $this->getState('filter.level'))
-		{
-			$query->where('a.level <= ' . (int) $level);
 		}
 
 		// Filter on the language.

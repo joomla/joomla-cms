@@ -22,7 +22,7 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LOGIN" />
 	<config>
 		<fields name="params">
-			<fieldset name="basic" addfieldpath="/administrator/components/com_menus/models/fields">
+			<fieldset name="basic" addfieldprefix="Joomla\Component\Menus\Administrator\Field">
 				<field
 					name="pretext"
 					type="textarea"
@@ -131,16 +131,6 @@
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
 				/>
-
-				<field
-					name="cache"
-					type="list"
-					label="COM_MODULES_FIELD_CACHING_LABEL"
-					default="0"
-					filter="integer"
-					>
-					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
-				</field>
 			</fieldset>
 		</fields>
 	</config>

@@ -10,6 +10,8 @@ namespace Joomla\CMS\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Extension Helper class.
  *
@@ -24,8 +26,15 @@ class ExtensionHelper
 	 *
 	 * @var array
 	 */
-	public static $extensions = [ModuleInterface::class => [], ComponentInterface::class => []];
-	
+	public static $extensions = [ModuleInterface::class => [], ComponentInterface::class => [], PluginInterface::class => []];
+
+	/**
+	 * The loaded extensions.
+	 *
+	 * @var array
+	 */
+	private static $loadedextensions = [];
+
 	/**
 	 * Array of core extensions
 	 * Each element is an array with elements "type", "element", "folder" and
@@ -68,7 +77,6 @@ class ExtensionHelper
 		array('component', 'com_postinstall', '', 1),
 		array('component', 'com_privacy', '', 1),
 		array('component', 'com_redirect', '', 1),
-		array('component', 'com_search', '', 1),
 		array('component', 'com_tags', '', 1),
 		array('component', 'com_templates', '', 1),
 		array('component', 'com_users', '', 1),
@@ -125,7 +133,6 @@ class ExtensionHelper
 		array('module', 'mod_menu', '', 0),
 		array('module', 'mod_random_image', '', 0),
 		array('module', 'mod_related_items', '', 0),
-		array('module', 'mod_search', '', 0),
 		array('module', 'mod_stats', '', 0),
 		array('module', 'mod_syndicate', '', 0),
 		array('module', 'mod_tags_popular', '', 0),
@@ -154,6 +161,7 @@ class ExtensionHelper
 
 		// Core plugin extensions - captcha
 		array('plugin', 'recaptcha', 'captcha', 0),
+		array('plugin', 'recaptcha_invisible', 'captcha', 0),
 
 		// Core plugin extensions - content
 		array('plugin', 'confirmconsent', 'content', 0),
@@ -228,6 +236,8 @@ class ExtensionHelper
 		array('plugin', 'rotate', 'media-action', 0),
 
 		// Core plugin extensions - privacy
+		array('plugin', 'actionlogs', 'privacy', 0),
+		array('plugin', 'consents', 'privacy', 0),
 		array('plugin', 'contact', 'privacy', 0),
 		array('plugin', 'content', 'privacy', 0),
 		array('plugin', 'message', 'privacy', 0),
@@ -243,13 +253,6 @@ class ExtensionHelper
 		// Core plugin extensions - sample data
 		array('plugin', 'blog', 'sampledata', 0),
 		array('plugin', 'multilang', 'sampledata', 0),
-
-		// Core plugin extensions - search
-		array('plugin', 'categories', 'search', 0),
-		array('plugin', 'contacts', 'search', 0),
-		array('plugin', 'content', 'search', 0),
-		array('plugin', 'newsfeeds', 'search', 0),
-		array('plugin', 'tags', 'search', 0),
 
 		// Core plugin extensions - system
 		array('plugin', 'actionlogs', 'system', 0),
@@ -322,5 +325,31 @@ class ExtensionHelper
 	public static function checkIfCoreExtension($type, $element, $client_id = 0, $folder = '')
 	{
 		return in_array(array($type, $element, $folder, $client_id), self::$coreExtensions);
+	}
+
+	/**
+	 * Returns an extension record for the given name.
+	 *
+	 * @param   string  $name  The extension name
+	 *
+	 * @return  \stdClass  The object
+	 *
+	 * @since   4.0.0
+	 */
+	public static function getExtensionRecord($name)
+	{
+		if (!array_key_exists($name, self::$loadedextensions))
+		{
+			$db = Factory::getDbo();
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('name') . ' = ' . $db->quote($name));
+			$db->setQuery($query);
+
+			self::$loadedextensions[$name] = $db->loadObject();
+		}
+
+		return self::$loadedextensions[$name];
 	}
 }

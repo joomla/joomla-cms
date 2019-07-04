@@ -16,6 +16,8 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Base controller class for Menu Manager.
@@ -44,6 +46,28 @@ class DisplayController extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
+		// Verify menu
+		$menuType = $this->input->post->getCmd('menutype', '');
+
+		if ($menuType !== '')
+		{
+			$uri = Uri::getInstance();
+
+			if ($uri->getVar('menutype') !== $menuType)
+			{
+				$uri->setVar('menutype', $menuType);
+
+				if ($forcedLanguage = $this->input->post->get('forcedLanguage'))
+				{
+					$uri->setVar('forcedLanguage', $forcedLanguage);
+				}
+
+				$this->setRedirect(Route::_('index.php' . $uri->toString(['query']), false));
+
+				return parent::display();
+			}
+		}
+
 		// Check custom administrator menu modules
 		if (ModuleHelper::isAdminMultilang())
 		{
@@ -79,10 +103,9 @@ class DisplayController extends BaseController
 			// Check if we have a mod_menu module set to All languages or a mod_menu module for each admin language.
 			if (!in_array('*', $mLanguages) && count($langMissing = array_diff(array_keys($langCodes), $mLanguages)))
 			{
-				$app         = Factory::getApplication();
 				$langMissing = array_intersect_key($langCodes, array_flip($langMissing));
 
-				$app->enqueueMessage(Text::sprintf('JMENU_MULTILANG_WARNING_MISSING_MODULES', implode(', ', $langMissing)), 'warning');
+				$this->app->enqueueMessage(Text::sprintf('JMENU_MULTILANG_WARNING_MISSING_MODULES', implode(', ', $langMissing)), 'warning');
 			}
 		}
 

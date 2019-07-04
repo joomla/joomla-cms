@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.9" type="plugin" group="user" method="upgrade">
+<extension version="3.9" type="plugin" group="system" method="upgrade">
 	<name>plg_system_privacyconsent</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2018</creationDate>
-	<copyright>(C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -20,7 +20,7 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="basic" addfieldpath="/administrator/components/com_content/models/fields">
+			<fieldset name="basic" addfieldprefix="Joomla\Component\Content\Administrator\Field">
 				<field
 					name="privacy_note"
 					type="textarea"
@@ -64,12 +64,12 @@
 					type="radio"
 					label="PLG_SYSTEM_PRIVACYCONSENT_FIELD_ENABLED_LABEL"
 					description="PLG_SYSTEM_PRIVACYCONSENT_FIELD_ENABLED_DESC"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="0"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 				<field
 					name="cachetimeout"

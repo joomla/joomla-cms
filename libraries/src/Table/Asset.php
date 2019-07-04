@@ -10,6 +10,7 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 
 /**
@@ -118,7 +119,7 @@ class Asset extends Nested
 				return true;
 			}
 
-			$this->setError('Invalid Parent ID');
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_INVALID_PARENT_ID'));
 
 			return false;
 		}

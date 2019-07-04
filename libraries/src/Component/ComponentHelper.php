@@ -13,12 +13,13 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Component\Exception\MissingComponentException;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
+use Joomla\CMS\Profiler\Profiler;
 use Joomla\Registry\Registry;
 
 /**
@@ -320,7 +321,7 @@ class ComponentHelper
 
 		if (JDEBUG)
 		{
-			\JProfiler::getInstance('Application')->mark('beforeRenderComponent ' . $option);
+			Profiler::getInstance('Application')->mark('beforeRenderComponent ' . $option);
 		}
 
 		// Record the scope
@@ -356,7 +357,7 @@ class ComponentHelper
 			 * @var    string
 			 * @since  1.5
 			 * @deprecated 5.0 without replacement
-			*/
+			 */
 			define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
 		}
 
@@ -368,7 +369,7 @@ class ComponentHelper
 			 * @var    string
 			 * @since  1.5
 			 * @deprecated 5.0 without replacement
-			*/
+			 */
 			define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
 		}
 
@@ -387,7 +388,7 @@ class ComponentHelper
 
 		if (JDEBUG)
 		{
-			\JProfiler::getInstance('Application')->mark('afterRenderComponent ' . $option);
+			Profiler::getInstance('Application')->mark('afterRenderComponent ' . $option);
 		}
 
 		return $contents;
@@ -423,7 +424,7 @@ class ComponentHelper
 		{
 			static::$components = $cache->get($loader, array(), __METHOD__);
 		}
-		catch (\JCacheException $e)
+		catch (CacheExceptionInterface $e)
 		{
 			static::$components = $loader();
 		}

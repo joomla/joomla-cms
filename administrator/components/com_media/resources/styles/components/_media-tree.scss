@@ -24,22 +24,6 @@ ul.media-tree {
   + .media-drive {
     border-top: 0;
   }
-  > ul > li {
-    padding-left: 25px;
-  }
-}
-
-.media-drive-name {
-  padding: 4px 10px;
-  &::before {
-    margin-right: 6px;
-    font-family: FontAwesome;
-    color: $sidebar-tree-icon-color;
-    content: $sidebar-tree-folder-icon;
-  }
-  &:hover {
-    cursor: pointer;
-  }
 }
 
 .media-disk-name {
@@ -59,7 +43,7 @@ ul.media-tree {
   &::before {
     position: absolute;
     top: ($sidebar-tree-line-height / 2);
-    left: 15px;
+    left: 0;
     width: 10px;
     height: 1px;
     margin: auto;
@@ -70,7 +54,7 @@ ul.media-tree {
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 15px;
+    left: 0;
     width: 1px;
     height: 100%;
     content: "";
@@ -82,10 +66,23 @@ ul.media-tree {
     }
   }
   li {
-    padding-left: 25px;
+    padding-left: 10px;
     &::before, &::after {
-      left: 13px;
+      left: 5px;
     }
+  }
+}
+
+.media-drive-name {
+  padding: 4px 10px;
+  &::before {
+    content: none;
+  }
+  &::after {
+    content: none;
+  }
+  &:hover {
+    cursor: pointer;
   }
 }
 
@@ -127,35 +124,36 @@ ul.media-tree {
   vertical-align: middle;
 }
 
-/* RTL override */
-
 .media-tree-item.active > a .item-name {
   font-weight: bold;
 }
 
-html[dir=rtl] .media-tree-item::after, .media-tree-item::before {
-  left: 0;
-  right: 15px;
-}
+/* RTL override */
+html[dir=rtl] {
+  .media-browser-table .dimension, .media-browser-table .size {
+    direction: ltr;
+  }
 
-html[dir=rtl] .media-tree-item::before {
-  margin: 0;
-}
+  .media-browser-table .created, .media-browser-table .modified {
+    direction: ltr;
+  }
 
-html[dir=rtl] .media-browser-table .dimension, .media-browser-table .size {
-  direction: ltr;
-}
+  .media-drive-name {
+	padding-right: 2px;
+  }
 
-html[dir=rtl] .media-browser-table .created, .media-browser-table .modified {
-  direction: ltr;
-}
+  .media-tree-item li::before, .media-tree-item li::after {
+    left: 0;
+    right: 5px;
+    margin: 0;
+  }
 
-html[dir=rtl] .media-tree-item .item-icon {
-  padding-left: 2px;
-  padding-right: 24px;
-}
+  .media-tree-item .item-icon {
+	padding-left: 2px;
+    padding-right: 10px;
+  }
 
-html[dir=rtl] ul.media-tree ul {
-  margin-right: 24px;
+  ul.media-tree ul {
+    margin-right: 15px;
+  }
 }
-

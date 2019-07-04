@@ -3,21 +3,20 @@
  * @package     Joomla.Plugin
  * @subpackage  Fields.Repeatable
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
-
 defined('_JEXEC') or die;
 
-JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRATOR);
+use Joomla\CMS\Form\Form;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
 
 /**
  * Repeatable plugin.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PlgFieldsRepeatable extends FieldsPlugin
 {
@@ -26,13 +25,13 @@ class PlgFieldsRepeatable extends FieldsPlugin
 	 *
 	 * @param   stdClass    $field   The field.
 	 * @param   DOMElement  $parent  The field node parent.
-	 * @param   JForm       $form    The form.
+	 * @param   Form        $form    The form.
 	 *
 	 * @return  DOMElement
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
-	public function onCustomFieldsPrepareDom($field, DOMElement $parent, JForm $form)
+	public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
 	{
 		$fieldNode = parent::onCustomFieldsPrepareDom($field, $parent, $form);
 
@@ -72,73 +71,5 @@ class PlgFieldsRepeatable extends FieldsPlugin
 
 		// Return the node
 		return $fieldNode;
-	}
-
-	/**
-	 * The save event.
-	 *
-	 * @param   string   $context  The context
-	 * @param   JTable   $item     The article data
-	 * @param   boolean  $isNew    Is new item
-	 * @param   array    $data     The validated data
-	 *
-	 * @return  boolean
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function onContentAfterSave($context, $item, $isNew, $data = array())
-	{
-		// Create correct context for category
-		if ($context == 'com_categories.category')
-		{
-			$context = $item->get('extension') . '.categories';
-
-			// Set the catid on the category to get only the fields which belong to this category
-			$item->set('catid', $item->get('id'));
-		}
-
-		// Check the context
-		$parts = FieldsHelper::extract($context, $item);
-
-		if (!$parts)
-		{
-			return true;
-		}
-
-		// Compile the right context for the fields
-		$context = $parts[0] . '.' . $parts[1];
-
-		// Loading the fields
-		$fields = FieldsHelper::getFields($context, $item);
-
-		if (!$fields)
-		{
-			return true;
-		}
-
-		// Get the fields data
-		$fieldsData = !empty($data['com_fields']) ? $data['com_fields'] : array();
-
-		// Loading the model
-		/** @var FieldsModelField $model */
-		$model = BaseDatabaseModel::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
-
-		// Loop over the fields
-		foreach ($fields as $field)
-		{
-			// Find the field of this type repeatable
-			if ($field->type !== $this->_name)
-			{
-				continue;
-			}
-
-			// Determine the value if it is available from the data
-			$value = key_exists($field->name, $fieldsData) ? $fieldsData[$field->name] : null;
-
-			// Setting the value for the field and the item
-			$model->setFieldValue($field->id, $item->get('id'), json_encode($value));
-		}
-
-		return true;
 	}
 }

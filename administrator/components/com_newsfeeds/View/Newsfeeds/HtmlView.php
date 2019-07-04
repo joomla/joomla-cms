@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -78,14 +78,13 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// We don't need toolbar in the modal layout.
 		if ($this->getLayout() !== 'modal')
 		{
 			$this->addToolbar();
-			$this->sidebar = \JHtmlSidebar::render();
 
 			// We do not need to filter by language when multilingual is disabled
 			if (!Multilanguage::isEnabled())
@@ -139,7 +138,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		if ($canDo->get('core.edit.state') || $user->authorise('core.admin'))
-		{		
+		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
@@ -168,7 +167,7 @@ class HtmlView extends BaseHtmlView
 		if ($user->authorise('core.create', 'com_newsfeeds')
 			&& $user->authorise('core.edit', 'com_newsfeeds')
 			&& $user->authorise('core.edit.state', 'com_newsfeeds'))
-		{	
+		{
 			$toolbar->popupButton('batch')
 				->text('JTOOLBAR_BATCH')
 				->selector('collapseModal')

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -60,15 +60,14 @@ class PlgQuickiconExtensionupdate extends CMSPlugin
 		$token    = Session::getFormToken() . '=1';
 		$options  = array(
 			'url' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.find&' . $token,
-			'ajaxUrl' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . $token,
+			'ajaxUrl' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . $token
+				. '&cache_timeout=3600&eid=0&skip=' . ExtensionHelper::getExtensionRecord('files_joomla')->extension_id,
 		);
 
 		$this->app->getDocument()->addScriptOptions('js-extensions-update', $options);
 
 		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE');
 		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND');
-		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE');
-		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON');
 		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_ERROR');
 		Text::script('MESSAGE');
 		Text::script('ERROR');
@@ -81,7 +80,7 @@ class PlgQuickiconExtensionupdate extends CMSPlugin
 		return array(
 			array(
 				'link'  => 'index.php?option=com_installer&view=update&task=update.find&' . $token,
-				'image' => 'fa fa-star-o',
+				'image' => 'fa fa-star',
 				'icon'  => '',
 				'text'  => Text::_('PLG_QUICKICON_EXTENSIONUPDATE_CHECKING'),
 				'id'    => 'plg_quickicon_extensionupdate',

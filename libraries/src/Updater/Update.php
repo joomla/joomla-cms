@@ -378,7 +378,7 @@ class Update extends CMSObject
 						$dbVersion    = $db->getVersion();
 						$supportedDbs = $this->currentUpdate->supported_databases;
 
-						// Do we have a entry for the database?
+						// Do we have an entry for the database?
 						if (isset($supportedDbs->$dbType))
 						{
 							$minumumVersion = $supportedDbs->$dbType;
@@ -552,7 +552,7 @@ class Update extends CMSObject
 	 */
 	protected function stabilityTagToInteger($tag)
 	{
-		$constant = '\\Joomla\\CMS\\Update\\Updater::STABILITY_' . strtoupper($tag);
+		$constant = '\\Joomla\\CMS\\Updater\\Updater::STABILITY_' . strtoupper($tag);
 
 		if (defined($constant))
 		{

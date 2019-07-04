@@ -30,7 +30,7 @@ class PlgUserJoomla extends CMSPlugin
 	/**
 	 * Application object
 	 *
-	 * @var    JApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplicationInterface
 	 * @since  3.2
 	 */
 	protected $app;
@@ -38,7 +38,7 @@ class PlgUserJoomla extends CMSPlugin
 	/**
 	 * Database object
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseInterface
 	 * @since  3.2
 	 */
 	protected $db;
@@ -382,7 +382,7 @@ class PlgUserJoomla extends CMSPlugin
 	 * @param   array  $user     Holds the user data.
 	 * @param   array  $options  Array holding options (remember, autoregister, group).
 	 *
-	 * @return  JUser
+	 * @return  User
 	 *
 	 * @since   1.5
 	 */
@@ -399,10 +399,10 @@ class PlgUserJoomla extends CMSPlugin
 		}
 
 		// TODO : move this out of the plugin
-		$config = ComponentHelper::getParams('com_users');
+		$params = ComponentHelper::getParams('com_users');
 
-		// Hard coded default to match the default value from com_users.
-		$defaultUserGroup = $config->get('new_usertype', 2);
+		// Read the default user group option from com_users
+		$defaultUserGroup = $params->get('new_usertype', $params->get('guest_usergroup', 1));
 
 		$instance->id = 0;
 		$instance->name = $user['fullname'];
@@ -420,7 +420,7 @@ class PlgUserJoomla extends CMSPlugin
 		{
 			if (!$instance->save())
 			{
-				Log::add('Error in autoregistration for user ' . $user['username'] . '.', Log::WARNING, 'error');
+				Log::add('Failed to automatically create account for user ' . $user['username'] . '.', Log::WARNING, 'error');
 			}
 		}
 		else

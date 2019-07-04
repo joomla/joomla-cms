@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -87,7 +86,7 @@ class PlgQuickiconOverrideCheck extends CMSPlugin
 		return array(
 			array(
 				'link'  => 'index.php?option=com_templates&view=templates',
-				'image' => 'fa fa-file-o',
+				'image' => 'fa fa-file',
 				'icon'  => '',
 				'text'  => Text::_('PLG_QUICKICON_OVERRIDECHECK_CHECKING'),
 				'id'    => 'plg_quickicon_overridecheck',

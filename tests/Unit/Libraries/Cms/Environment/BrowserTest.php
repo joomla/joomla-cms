@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Environment
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ class BrowserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 */
-	protected function setUp()
+	protected function setUp():void
 	{
 		$this->browser = new Browser;
 
@@ -48,7 +48,7 @@ class BrowserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 */
-	protected function tearDown()
+	protected function tearDown():void
 	{
 		unset($this->browser);
 

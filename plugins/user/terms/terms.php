@@ -3,28 +3,31 @@
  * @package     Joomla.Plugin
  * @subpackage  User.terms
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Utilities\ArrayHelper;
 
 /**
  * An example custom terms and conditions plugin.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
-class PlgUserTerms extends JPlugin
+class PlgUserTerms extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -32,7 +35,7 @@ class PlgUserTerms extends JPlugin
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $app;
 
@@ -40,7 +43,7 @@ class PlgUserTerms extends JPlugin
 	 * Database object.
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $db;
 
@@ -50,13 +53,13 @@ class PlgUserTerms extends JPlugin
 	 * @param   object  &$subject  The object to observe
 	 * @param   array   $config    An array that holds the plugin configuration
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
 
-		JFormHelper::addFieldPath(__DIR__ . '/field');
+		FormHelper::addFieldPath(__DIR__ . '/field');
 	}
 
 	/**
@@ -67,11 +70,11 @@ class PlgUserTerms extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onContentPrepareForm($form, $data)
 	{
-		if (!($form instanceof JForm))
+		if (!($form instanceof Form))
 		{
 			$this->_subject->setError('JERROR_NOT_A_FORM');
 
@@ -87,7 +90,7 @@ class PlgUserTerms extends JPlugin
 		}
 
 		// Add the terms and conditions fields to the form.
-		JForm::addFormPath(__DIR__ . '/terms');
+		Form::addFormPath(__DIR__ . '/terms');
 		$form->loadFile('terms');
 
 		$termsarticle = $this->params->get('terms_article');
@@ -107,7 +110,7 @@ class PlgUserTerms extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  InvalidArgumentException on missing required data.
 	 */
 	public function onUserBeforeSave($user, $isNew, $data)
@@ -148,6 +151,8 @@ class PlgUserTerms extends JPlugin
 	 * @param   string   $error   error message
 	 *
 	 * @return  boolean
+	 *
+	 * @since   3.9.0
 	 */
 	public function onUserAfterSave($data, $isNew, $result, $error)
 	{
@@ -170,7 +175,7 @@ class PlgUserTerms extends JPlugin
 		);
 
 		/* @var ActionlogsModelActionlog $model */
-		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
+		$model = BaseDatabaseModel::getInstance('Actionlog', 'ActionlogsModel');
 		$model->addLog(array($message), 'PLG_USER_TERMS_LOGGING_CONSENT_TO_TERMS', 'plg_user_terms', $userId);
 	}
 }
