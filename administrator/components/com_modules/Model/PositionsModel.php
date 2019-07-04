@@ -124,7 +124,7 @@ class PositionsModel extends ListModel
 				if ($search)
 				{
 					$search = '%' . str_replace(' ', '%', $this->_db->escape(trim($search), true) . '%';
-					$query->where('position LIKE ' . $search)
+					$query->where($this->_db->quoteName('position') . ' LIKE ' . $search)
 						->bind(':position', $search);
 				}
 
