@@ -12,6 +12,7 @@ namespace Joomla\Component\Categories\Api\View\Categories;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
  * The categories view
@@ -49,7 +50,8 @@ class JsonapiView extends BaseApiView
 		'count_trashed',
 		'count_unpublished',
 		'count_published',
-		'count_archived'
+		'count_archived',
+		'fields'
 	];
 
 	/**
@@ -81,6 +83,36 @@ class JsonapiView extends BaseApiView
 		'count_trashed',
 		'count_unpublished',
 		'count_published',
-		'count_archived'
+		'count_archived',
+		'fields'
 	];
+
+	/**
+	 * Prepare item before render.
+	 *
+	 * @param   object  $item  The model item
+	 *
+	 * @return  object
+	 *
+	 * @since   4.0.0
+	 */
+	protected function prepareItem($item)
+	{
+		$fields = [];
+
+		foreach (FieldsHelper::getFields('com_content.categories', $item, true) as $field)
+		{
+			$fields[] = [
+				'id'       => $field->id,
+				'title'    => $field->title,
+				'name'     => $field->name,
+				'value'    => trim($field->value),
+				'rawvalue' => $field->rawvalue,
+			];
+		}
+
+		$item->fields = $fields;
+
+		return parent::prepareItem($item);
+	}
 }

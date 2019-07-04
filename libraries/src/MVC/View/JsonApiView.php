@@ -44,7 +44,7 @@ abstract class JsonApiView extends JsonView
 	/**
 	 * The fields to render item in the documents
 	 *
-	 * @var  string
+	 * @var    array
 	 * @since  4.0.0
 	 */
 	protected $fieldsToRenderItem = [];
@@ -52,7 +52,7 @@ abstract class JsonApiView extends JsonView
 	/**
 	 * The fields to render items in the documents
 	 *
-	 * @var  string
+	 * @var    array
 	 * @since  4.0.0
 	 */
 	protected $fieldsToRenderList = [];
