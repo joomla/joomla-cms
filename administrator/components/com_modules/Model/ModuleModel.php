@@ -207,10 +207,8 @@ class ModuleModel extends AdminModel
 				$db->setQuery($query);
 				$menus = $db->loadColumn();
 
-				$i = 0;
-
 				// Insert the new records into the table
-				foreach ($menus as $menu)
+				foreach ($menus as $i => $menu)
 				{
 					$query->clear()
 						->insert($db->quoteName('#__modules_menu'))
@@ -220,7 +218,6 @@ class ModuleModel extends AdminModel
 						->bind(':menu' . $i, $menu, ParameterType::INTEGER);
 					$db->setQuery($query);
 					$db->execute();
-					$i++;
 				}
 			}
 			else
