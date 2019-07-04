@@ -146,7 +146,7 @@ abstract class ModulesHelper
 				->bind(':element', $template);
 		}
 
-		$query->bind(':clientid', $clientId, ParameterType::INTEGER)
+		$query->bind(':clientid', $clientId, ParameterType::INTEGER);
 
 		// Set the query and load the templates.
 		$db->setQuery($query);
