@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\Database\ParameterType;
-
 defined('_JEXEC') or die;
+
+use Joomla\Database\ParameterType;
 
 /**
  * Privacy plugin managing Joomla user consent data
