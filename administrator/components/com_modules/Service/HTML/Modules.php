@@ -223,7 +223,8 @@ class Modules
 			->select($db->quoteName('position', 'text'))
 			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('client_id') . ' = :clientid')
-			->bind(':clientid', $clientId, ParameterType::INTEGER)
+			->order($db->quoteName('position'))
+			->bind(':clientid', $clientId, ParameterType::INTEGER);
 			->order('position');
 
 		// Get the options.
