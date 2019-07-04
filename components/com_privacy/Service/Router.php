@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Privacy\Site\Router;
+namespace Joomla\Component\Privacy\Site\Service;
 
 defined('_JEXEC') or die;
 
