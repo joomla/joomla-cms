@@ -129,7 +129,7 @@ abstract class ModulesHelper
 		$query = $db->getQuery(true);
 
 		// Build the query.
-		$query->select($db->quoteName(['element', 'name', 'enabled'])
+		$query->select($db->quoteName(['element', 'name', 'enabled']))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('client_id') . ' = :clientid')
 			->where('type = ' . $db->quote('template'));
