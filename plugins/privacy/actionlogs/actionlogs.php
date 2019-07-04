@@ -40,15 +40,15 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 		$db     = $this->db;
 
 		$query = $db->getQuery(true)
-			->select($db->quoteName(['a.*', 'u.name']))
+			->select(['a.*', $db->quoteName('u.name')])
 			->from($db->quoteName('#__action_logs', 'a'))
 			->innerJoin($db->quoteName('#__users', 'u'), $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'))
-			->where($this->db->quoteName('a.user_id') . ' = :id')
+			->where($db->quoteName('a.user_id') . ' = :id')
 			->bind(':id', $user->id, ParameterType::INTEGER);
 
-		$this->db->setQuery($query);
+		$db->setQuery($query);
 
-		$data = $this->db->loadObjectList();
+		$data = $db->loadObjectList();
 
 		if (!count($data))
 		{
