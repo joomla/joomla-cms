@@ -218,13 +218,13 @@ class LinksModel extends ListModel
 		$created = Factory::getDate()->toSql();
 
 		$columns = [
-			$db->quoteName('old_url'),
-			$db->quoteName('new_url'),
-			$db->quoteName('referer'),
-			$db->quoteName('comment'),
-			$db->quoteName('hits'),
-			$db->quoteName('published'),
-			$db->quoteName('created_date')
+			'old_url',
+			'new_url',
+			'referer',
+			'comment',
+			'hits',
+			'published',
+			'created_date'
 		];
 
 		foreach ($batch_urls as $i => $batch_url)
@@ -253,7 +253,7 @@ class LinksModel extends ListModel
 
 			$query->clear()
 				->insert($db->quoteName('#__redirect_links'), false)
-				->columns($columns)
+				->columns($db->quoteName($columns))
 				->values(implode(', ', $values))
 				->bind(':oldurl' . $i, $old_url)
 				->bind(':newurl' . $i, $new_url)
