@@ -425,7 +425,7 @@ class ModulesModel extends ListModel
 			{
 				$search = '%' . strtolower($search) . '%';
 				$query->where('LOWER(' . $db->quoteName('a.title') . ') LIKE :title')
-					->orWhere('LOWER(' .  $db->quoteName('a.note') . ') LIKE :note')
+					->orWhere('LOWER(' . $db->quoteName('a.note') . ') LIKE :note')
 					->bind(':title', $search)
 					->bind(':note', $search);
 			}
