@@ -30,7 +30,7 @@ $alert = [
 // Alerts progressive enhancement
 HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
-<div id="system-message-container">
+<div id="system-message-container" aria-live="polite">
 	<div id="system-message">
 		<?php if (is_array($msgList) && !empty($msgList)) : ?>
 			<?php foreach ($msgList as $type => $msgs) : ?>
