@@ -41,11 +41,11 @@ class PlgPrivacyConsents extends PrivacyPlugin
 		$db     = $this->db;
 
 		$query = $this->db->getQuery(true)
-			->select($db->quoteName('*'))
+			->select('*')
 			->from($db->quoteName('#__privacy_consents'))
 			->where($db->quoteName('user_id') . ' = :id')
 			->order($db->quoteName('created') . ' ASC')
-			->bind(':id', (int) $user->id, ParameterType::INTEGER);
+			->bind(':id', $user->id, ParameterType::INTEGER);
 
 		$items = $this->db->setQuery($query)->loadAssocList();
 
