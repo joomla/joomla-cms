@@ -137,7 +137,7 @@ abstract class ModulesHelper
 		if ($state != '')
 		{
 			$query->where($db->quoteName('enabled') . ' = :state')
-				->bind(':state', $state)
+				->bind(':state', $state);
 		}
 
 		if ($template != '')
