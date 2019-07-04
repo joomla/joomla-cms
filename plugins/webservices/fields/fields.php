@@ -51,6 +51,12 @@ class PlgWebservicesFields extends CMSPlugin
 		);
 
 		$router->createCRUDRoutes(
+			'v1/fields/users',
+			'fields',
+			['component' => 'com_fields', 'context' => 'com_users.user']
+		);
+
+		$router->createCRUDRoutes(
 			'v1/fields/groups/articles',
 			'groups',
 			['component' => 'com_fields', 'context' => 'com_content.article']
@@ -60,6 +66,12 @@ class PlgWebservicesFields extends CMSPlugin
 			'v1/fields/groups/categories',
 			'groups',
 			['component' => 'com_fields', 'context' => 'com_content.categories']
+		);
+
+		$router->createCRUDRoutes(
+			'v1/fields/groups/users',
+			'groups',
+			['component' => 'com_fields', 'context' => 'com_users.user']
 		);
 	}
 }
