@@ -224,7 +224,7 @@ class LinksModel extends ListModel
 			'comment',
 			'hits',
 			'published',
-			'created_date'
+			'created_date',
 		];
 
 		foreach ($batch_urls as $i => $batch_url)
