@@ -113,7 +113,6 @@ JLoader::registerAlias('JLibraryHelper',                    '\\Joomla\\CMS\\Help
 JLoader::registerAlias('JHelperMedia',                      '\\Joomla\\CMS\\Helper\\MediaHelper', '5.0');
 JLoader::registerAlias('JModuleHelper',                     '\\Joomla\\CMS\\Helper\\ModuleHelper', '5.0');
 JLoader::registerAlias('JHelperRoute',                      '\\Joomla\\CMS\\Helper\\RouteHelper', '5.0');
-JLoader::registerAlias('JSearchHelper',                     '\\Joomla\\CMS\\Helper\\SearchHelper', '5.0');
 JLoader::registerAlias('JHelperTags',                       '\\Joomla\\CMS\\Helper\\TagsHelper', '5.0');
 JLoader::registerAlias('JHelperUsergroups',                 '\\Joomla\\CMS\\Helper\\UserGroupsHelper', '5.0');
 
@@ -499,14 +498,5 @@ JLoader::registerAlias('JPath',                             '\\Joomla\\CMS\\File
 JLoader::registerAlias('JStream',                           '\\Joomla\\CMS\\Filesystem\\Stream', '5.0');
 JLoader::registerAlias('JStreamString',                     '\\Joomla\\CMS\\Filesystem\\Streams\\StreamString', '5.0');
 JLoader::registerAlias('JStringController',                 '\\Joomla\\CMS\\Filesystem\\Support\\StringController', '5.0');
-
-JLoader::registerAlias('FinderIndexerAdapter',          '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Adapter', '5.0');
-JLoader::registerAlias('FinderIndexerHelper',                 '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Helper', '5.0');
-JLoader::registerAlias('FinderIndexer',                 '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Indexer', '5.0');
-JLoader::registerAlias('FinderIndexerParser',                 '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Parser', '5.0');
-JLoader::registerAlias('FinderIndexerQuery',                 '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Query', '5.0');
-JLoader::registerAlias('FinderIndexerResult',                 '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Result', '5.0');
-JLoader::registerAlias('FinderIndexerTaxonomy',                 '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Taxonomy', '5.0');
-JLoader::registerAlias('FinderIndexerToken',                 '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Token', '5.0');
 
 JLoader::registerAlias('JClassLoader',                      '\\Joomla\\CMS\\Autoload\\ClassLoader', '5.0');

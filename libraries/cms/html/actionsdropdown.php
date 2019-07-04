@@ -37,7 +37,7 @@ abstract class JHtmlActionsDropdown
 	{
 		$html = array();
 
-		$html[] = '<button data-toggle="dropdown" class="dropdown-toggle btn btn-xs btn-secondary">';
+		$html[] = '<button data-toggle="dropdown" class="dropdown-toggle btn btn-sm btn-secondary">';
 		$html[] = '<span class="caret"></span>';
 
 		if ($item)

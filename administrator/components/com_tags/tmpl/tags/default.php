@@ -63,7 +63,8 @@ if ($saveOrder && !empty($this->items))
 		echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 		?>
 		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-warning">
+			<div class="alert alert-info">
+				<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
@@ -179,9 +180,7 @@ if ($saveOrder && !empty($this->items))
 								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 							</td>
 							<td class="text-center">
-								<div class="btn-group">
-									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'tags.', $canChange); ?>
-								</div>
+								<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'tags.', $canChange); ?>
 							</td>
 							<th scope="row">
 								<?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>

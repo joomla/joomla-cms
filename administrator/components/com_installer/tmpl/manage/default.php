@@ -15,6 +15,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
+HTMLHelper::_('script', 'com_installer/changelog.js', ['version' => 'auto', 'relative' => true]);
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -32,8 +33,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
-						<div class="alert alert-warning">
-							<?php echo Text::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'); ?>
+						<div class="alert alert-info">
+							<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+							<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 						</div>
 					<?php else : ?>
 					<table class="table" id="manageList">
@@ -91,11 +93,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php endif; ?>
 								</td>
 								<th scope="row">
-									<label for="cb<?php echo $i; ?>">
-										<span class="bold hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', $item->name, $item->description, 0); ?>">
-											<?php echo $item->name; ?>
-										</span>
+									<label for="cb<?php echo $i; ?>" tabindex="0">
+										<?php echo $item->name; ?>
 									</label>
+									<div role="tooltip" id="tip<?php echo $i; ?>">
+										<?php echo $item->description; ?>
+									</div>
 								</th>
 								<td>
 									<?php echo $item->client_translated; ?>
@@ -105,8 +108,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								</td>
 								<td class="d-none d-md-table-cell">
 									<?php if ($item->version !== '') : ?>
-										<?php if ($item->changelogurl !== null) : ?>
-											<a href="#changelogModal<?php echo $item->extension_id; ?>" onclick="Joomla.loadChangelog(<?php echo $item->extension_id; ?>, 'manage'); return false;" data-toggle="modal">
+										<?php if (!empty($item->changelogurl)) : ?>
+											<a href="#changelogModal<?php echo $item->extension_id; ?>" class="changelogModal" data-js-extensionid="<?php echo $item->extension_id; ?>" data-js-view="manage" data-toggle="modal">
 												<?php echo $item->version?>
 											</a>
 											<?php
@@ -127,12 +130,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									endif; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
-									<?php echo isset($item->creationDate) && $item->creationDate !== '' ? $item->creationDate : '&#160;'; ?>
+									<?php echo !empty($item->creationDate) ? $item->creationDate : '&#160;'; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
-									<span class="editlinktip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', Text::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
-										<?php echo isset($item->author) && $item->author !== '' ? $item->author : '&#160;'; ?>
-									</span>
+									<?php echo !empty($item->author) ? $item->author : '&#160;'; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
 									<?php echo $item->folder_translated; ?>
