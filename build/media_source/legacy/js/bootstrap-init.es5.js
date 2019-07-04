@@ -189,9 +189,9 @@ Joomla = window.Joomla || {};
 		/** Tabs **/
 		if (tabs) {
 			$.each(tabs, function(index, value) {
-				var tabContent = $('#' + index + 'Content');
-				$.each(tabContent.find('.tab-pane'), function(i, v) {
-					if ($(v).data('node') && $(v).closest('.tab-content').prop('id') === tabContent.prop('id')) {
+
+				$.each($('#' + index + 'Content').children('.tab-pane'), function(i, v) {
+					if ($(v).data('node')) {
 						var attribs = $(v).data('node').split('['),
 						    classLink = (attribs[0] != '') ? 'class="nav-link ' + attribs[0] + '"' : 'class="nav-link"';
 
