@@ -83,7 +83,7 @@
 					name="link-color"
 					type="color"
 					label="TPL_ATUM_COLORS_SETTINGS_LINK_COLOR_LABEL"
-					default="#4D78A3"
+					default="#2077dd"
 					filter="color"
 				/>
 				<field
