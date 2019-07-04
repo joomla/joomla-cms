@@ -14,5 +14,4 @@ defined('_JEXEC') or die;
 
 $this->name = Text::_('COM_CONFIG_TEXT_FILTER_SETTINGS');
 $this->fieldsname = 'filters';
-$this->description = Text::_('COM_CONFIG_TEXT_FILTERS_DESC');
 echo LayoutHelper::render('joomla.content.text_filters', $this);
