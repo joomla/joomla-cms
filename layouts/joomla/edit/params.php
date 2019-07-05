@@ -17,6 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 $app       = Factory::getApplication();
 $form      = $displayData->getForm();
 $fieldSets = $form->getFieldsets();
+$helper    = $displayData->get('useCoreUI', false) ? 'uitab' : 'bootstrap';
 
 if (empty($fieldSets))
 {
@@ -24,6 +25,8 @@ if (empty($fieldSets))
 }
 
 $ignoreFieldsets = $displayData->get('ignore_fieldsets') ?: array();
+$outputFieldsets = $displayData->get('output_fieldsets') ?: array();
+$ignoreFieldsetFields = $displayData->get('ignore_fieldset_fields') ?: array();
 $ignoreFields    = $displayData->get('ignore_fields') ?: array();
 $extraFields     = $displayData->get('extra_fields') ?: array();
 $tabName         = $displayData->get('tab_name') ?: 'myTab';
@@ -75,6 +78,8 @@ if (!$displayData->get('show_options', 1))
 	echo implode('', $html);
 }
 
+$opentab = false;
+
 // Loop again over the fieldsets
 foreach ($fieldSets as $name => $fieldSet)
 {
@@ -103,10 +108,24 @@ foreach ($fieldSets as $name => $fieldSet)
 		$label = Text::_($label);
 	}
 
-	$helper = $displayData->get('useCoreUI', false) ? 'uitab' : 'bootstrap';
+	if (in_array($name, $outputFieldsets))
+	{
+		echo '<fieldset id="fieldset-' . $name . '" class="options-fieldset">';
+		echo '<legend>' . $label . '</legend>';
+	}
+	else
+	{
+		if ($opentab)
+		{
+			// End previous tab
+			echo HTMLHelper::_($helper . '.endTab');
+		}
 
-	// Start the tab
-	echo HTMLHelper::_($helper . '.addTab', $tabName, 'attrib-' . $name, $label);
+		// Start the tab
+		echo HTMLHelper::_($helper . '.addTab', $tabName, 'attrib-' . $name, $label);
+
+		$opentab = true;
+	}
 
 	// Include the description when available
 	if (isset($fieldSet->description) && trim($fieldSet->description))
@@ -114,15 +133,26 @@ foreach ($fieldSets as $name => $fieldSet)
 		echo '<div class="alert alert-info">' . $this->escape(Text::_($fieldSet->description)) . '</div>';
 	}
 
-	// The name of the fieldset to render
-	$displayData->fieldset = $name;
+	if (!in_array($name, $ignoreFieldsetFields))
+	{
+		// The name of the fieldset to render
+		$displayData->fieldset = $name;
 
-	// Force to show the options
-	$displayData->showOptions = true;
+		// Force to show the options
+		$displayData->showOptions = true;
 
-	// Render the fieldset
-	echo LayoutHelper::render('joomla.edit.fieldset', $displayData);
+		// Render the fieldset
+		echo LayoutHelper::render('joomla.edit.fieldset', $displayData);
+	}
 
-	// End the tab
+	if (in_array($name, $outputFieldsets))
+	{
+		echo '</fieldset>';
+	}
+}
+
+if ($opentab)
+{
+	// End previous tab
 	echo HTMLHelper::_($helper . '.endTab');
 }
