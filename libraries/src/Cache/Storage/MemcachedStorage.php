@@ -18,7 +18,7 @@ use Joomla\CMS\Factory;
 /**
  * Memcached cache storage handler
  *
- * @link   https://secure.php.net/manual/en/book.memcached.php
+ * @link   https://www.php.net/manual/en/book.memcached.php
  * @since  3.0.0
  */
 class MemcachedStorage extends CacheStorage
