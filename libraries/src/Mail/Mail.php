@@ -76,7 +76,7 @@ class Mail extends PHPMailer
 		 */
 		if (version_compare(PHP_VERSION, '7.3.0', '>='))
 		{
-			\PHPMailer::$validator = 'php';
+			PHPMailer::$validator = 'php';
 		}
 	}
 
