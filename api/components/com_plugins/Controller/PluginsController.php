@@ -41,27 +41,6 @@ class PluginsController extends ApiController
 	protected $default_view = 'plugins';
 
 	/**
-	 * Basic display of an item view
-	 *
-	 * @param   integer  $id  The primary key to display. Leave empty if you want to retrieve data from the request
-	 *
-	 * @return  static  A \JControllerLegacy object to support chaining.
-	 *
-	 * @since   4.0.0
-	 */
-	public function displayItem($id = null)
-	{
-		if ($id === null)
-		{
-			$id = $this->input->get('id', 0, 'int');
-		}
-
-		$this->input->set('view', Inflector::singularize($this->default_view));
-
-		return parent::displayItem($id);
-	}
-
-	/**
 	 * Method to edit an existing record.
 	 *
 	 * @return  boolean  True if save succeeded after access level check and checkout passes, false otherwise.
