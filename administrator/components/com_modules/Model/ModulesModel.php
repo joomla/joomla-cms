@@ -397,7 +397,7 @@ class ModulesModel extends ListModel
 				$subQuery3 = $db->getQuery(true);
 				$subQuery3->select($db->quoteName('moduleid'))
 					->from($db->quoteName('#__modules_menu'))
-					->where($db->quoteName('menuid') . ' = :menuitemid3')
+					->where($db->quoteName('menuid') . ' = - :menuitemid3')
 					->bind(':menuitemid3', $menuItemId, ParameterType::INTEGER);
 
 				// Filter by modules assigned to the selected menu item.
