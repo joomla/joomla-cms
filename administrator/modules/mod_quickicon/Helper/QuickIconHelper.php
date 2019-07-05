@@ -106,8 +106,8 @@ abstract class QuickIconHelper
 			{
 				self::$buttons[$key][] = [
 					'ajaxurl' => 'index.php?option=com_categories&amp;task=categories.getQuickiconContent&amp;format=json',
-					'link'    => Route::_('index.php?option=com_categories'),
 					'image'   => 'fa fa-folder-open',
+					'link'    => Route::_('index.php?option=com_categories'),
 					'linkadd' => Route::_('index.php?option=com_categories&task=category.add'),
 					'name'    => 'MOD_QUICKICON_CATEGORY_MANAGER',
 					'access'  => array('core.manage', 'com_categories', 'core.create', 'com_categories'),

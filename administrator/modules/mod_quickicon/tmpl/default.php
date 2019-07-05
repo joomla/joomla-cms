@@ -17,7 +17,7 @@ HTMLHelper::_('script', 'mod_quickicon/quickicon.min.js', ['version' => 'auto', 
 $html = HTMLHelper::_('icons.buttons', $buttons);
 ?>
 <?php if (!empty($html)) : ?>
-	<nav  class="quick-icons" aria-label="<?php echo Text::_('MOD_QUICKICON_NAV_LABEL') . ' ' . $module->title; ?>">
+	<nav class="quick-icons" aria-label="<?php echo Text::_('MOD_QUICKICON_NAV_LABEL') . ' ' . $module->title; ?>">
 		<ul class="nav flex-wrap row-fluid">
 			<?php echo $html; ?>
 		</ul>
