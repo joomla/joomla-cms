@@ -33,11 +33,13 @@ $id    = $name . '-desc';
 $hide  = empty($options['hiddenLabel']) ? '' : ' sr-only';
 
 ?>
-<div class="form-group<?php echo $class; ?>"<?php echo $rel; ?>>
-	<?php if (empty($options['hiddenLabel'])) : ?>
+<div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>
+	<div class="control-label<?php echo $hide; ?>">
 		<?php echo $label; ?>
-	<?php endif; ?>
-	<?php echo $input; ?>
+	</div>
+	<div class="controls">
+		<?php echo $input; ?>
+	</div>
 
 	<?php if (!empty($description)) : ?>
 		<div id="<?php echo $id; ?>">

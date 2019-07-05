@@ -26,8 +26,12 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-versions.js', ['versio
 
 $this->configFieldsets  = array('editorConfig');
 $this->hiddenFieldsets  = array('basic-limited');
+$fieldsetsInImages = ['image-intro', 'image-full'];
+$fieldsetsInLinks = ['linka', 'linkb', 'linkc'];
 $fieldsetsInOptions = ['basic', 'category', 'author', 'date', 'other', 'global'];
-$this->ignore_fieldsets = array_merge(array('jmetadata', 'item_associations'), $fieldsetsInOptions);
+$this->output_fieldsets = array_merge($fieldsetsInOptions, $fieldsetsInImages, $fieldsetsInLinks);
+$this->ignore_fieldset_fields = ['attribs'];
+$this->ignore_fieldsets = array_merge(array('jmetadata', 'item_associations'), $fieldsetsInImages, $fieldsetsInLinks);
 $this->useCoreUI = true;
 
 // Create shortcut to parameters.
@@ -64,8 +68,10 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 					</div>
 				</div>
 			</div>
-			<div class="col-md-3">
+			<div class="col-md-3 d-flex flex-wrap">
+				<div class="bg-white px-3">
 				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
+				</div>
 			</div>
 		</div>
 
@@ -75,29 +81,24 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php if ($params->get('show_urls_images_backend') == 1) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'images', Text::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES')); ?>
 			<div class="row">
-				<div class="col-md-6 pr-4">
-					<?php foreach ($this->form->getGroup('images') as $field) : ?>
-						<?php echo $field->renderField(); ?>
-					<?php endforeach; ?>
-				</div>
-				<div class="col-md-6 pl-4">
-					<?php foreach ($this->form->getGroup('urls') as $field) : ?>
-						<?php echo $field->renderField(); ?>
-					<?php endforeach; ?>
-				</div>
-			</div>
-
-			<?php echo HTMLHelper::_('uitab.endTab'); ?>
-		<?php endif; ?>
-
-		<?php if ($params->get('show_article_options', 1)) : ?>
-			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'options', Text::_('COM_CONTENT_ATTRIBS_FIELDSET_LABEL')); ?>
-				<?php foreach ($fieldsetsInOptions as $fieldset) : ?>
-					<fieldset id="fieldset-<?php echo $fieldset; ?>" class="options-fieldset">
+				<div class="col-md-6">
+				<?php foreach ($fieldsetsInImages as $fieldset) : ?>
+					<fieldset id="fieldset-<?php echo $fieldset; ?>" class="options-fieldset option-fieldset-full">
 						<legend><?php echo Text::_($this->form->getFieldsets()[$fieldset]->label); ?></legend>
 						<?php echo $this->form->renderFieldset($fieldset); ?>
 					</fieldset>
 				<?php endforeach; ?>
+				</div>
+				<div class="col-md-6">
+				<?php foreach ($fieldsetsInLinks as $fieldset) : ?>
+					<fieldset id="fieldset-<?php echo $fieldset; ?>" class="options-fieldset option-fieldset-full">
+						<legend><?php echo Text::_($this->form->getFieldsets()[$fieldset]->label); ?></legend>
+						<?php echo $this->form->renderFieldset($fieldset); ?>
+					</fieldset>
+				<?php endforeach; ?>
+				</div>
+			</div>
+
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
@@ -108,11 +109,14 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('COM_CONTENT_FIELDSET_PUBLISHING')); ?>
 			<div class="row">
-				<div class="col-md-6">
-					<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+				<div class="col-12 col-md-6">
+					<fieldset id="fieldset-publishingdata" class="options-fieldset option-fieldset-full">
+						<legend><?php echo Text::_('COM_CONTENT_FIELDSET_PUBLISHING'); ?></legend>
+						<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+					</fieldset>
 				</div>
-				<div class="col-md-6">
-					<?php echo LayoutHelper::render('joomla.edit.metadata', $this); ?>
+				<div class="col-12 col-md-6">
+					<?php echo $this->loadTemplate('metadata'); ?>
 				</div>
 			</div>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
@@ -128,7 +132,10 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'editor', Text::_('COM_CONTENT_SLIDER_EDITOR_CONFIG')); ?>
-			<?php echo $this->form->renderFieldset('editorConfig'); ?>
+			<fieldset id="fieldset-editor" class="options-fieldset">
+				<legend><?php echo Text::_('COM_CONTENT_SLIDER_EDITOR_CONFIG'); ?></legend>
+				<?php echo $this->form->renderFieldset('editorConfig'); ?>
+			</fieldset>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 

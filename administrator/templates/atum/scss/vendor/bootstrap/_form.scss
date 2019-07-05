@@ -110,17 +110,9 @@ select.form-control {
   .control-group {
     .control-label{
       float:none;
-      width:95%;
-    }
-    .controls{
-      margin-left:0;
-      .form-control,
-      .custom-select{
-        max-width:90%;
-      }
+	  max-width: 100%;
     }
   }
-
 }
 
 .field-media-wrapper {

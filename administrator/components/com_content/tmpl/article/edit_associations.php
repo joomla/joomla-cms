@@ -9,6 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
-echo LayoutHelper::render('joomla.edit.associations', $this);
+?>
+
+<fieldset id="fieldset-associations" class="options-fieldset option-fieldset-full">
+	<legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
+	<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
+</fieldset>

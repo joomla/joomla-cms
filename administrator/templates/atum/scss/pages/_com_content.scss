@@ -27,19 +27,5 @@
 			}
 		}
 
-		section .options-fieldset {
-			background-color: var(--white);
-			color: var(--atum-text-dark);
-			column-count: 3;
-
-			legend {
-				float: left;
-			}
-
-			div.control-group {
-				display: inline-block;
-				min-width: 33%;
-			}
-		}
 	}
 }
