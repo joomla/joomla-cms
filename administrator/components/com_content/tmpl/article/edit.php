@@ -28,8 +28,7 @@ $this->configFieldsets  = array('editorConfig');
 $this->hiddenFieldsets  = array('basic-limited');
 $fieldsetsInImages = ['image-intro', 'image-full'];
 $fieldsetsInLinks = ['linka', 'linkb', 'linkc'];
-$fieldsetsInOptions = ['basic', 'category', 'author', 'date', 'other', 'global'];
-$this->output_fieldsets = array_merge($fieldsetsInOptions, $fieldsetsInImages, $fieldsetsInLinks);
+$this->output_fieldsets = ['basic', 'category', 'author', 'date', 'other', 'global'];
 $this->ignore_fieldset_fields = ['attribs'];
 $this->ignore_fieldsets = array_merge(array('jmetadata', 'item_associations'), $fieldsetsInImages, $fieldsetsInLinks);
 $this->useCoreUI = true;
@@ -141,7 +140,10 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_CONTENT_FIELDSET_RULES')); ?>
+			<fieldset id="fieldset-editor" class="options-fieldset option-fieldset-full">
+				<legend><?php echo Text::_('COM_CONTENT_FIELDSET_RULES'); ?></legend>
 				<?php echo $this->form->getInput('rules'); ?>
+			</fieldset>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
