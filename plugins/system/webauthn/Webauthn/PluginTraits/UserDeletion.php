@@ -58,7 +58,8 @@ trait UserDeletion
 
 			$query = $db->getQuery(true)
 				->delete($db->qn('#__webauthn_credentials'))
-				->where($db->qn('user_id').' = '.$db->q($userId));
+				->where($db->qn('user_id') . ' = :userId')
+				->bind(':userId', $userId);
 
 			$db->setQuery($query)->execute();
 		}

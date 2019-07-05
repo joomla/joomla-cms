@@ -49,7 +49,8 @@ class CredentialRepository implements CredentialRepositoryInterface
 		$query        = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from($db->qn('#__webauthn_credentials'))
-			->where($db->qn('id') . ' = ' . $db->q($credentialId));
+			->where($db->qn('id') . ' = :credentialId')
+			->bind(':credentialId', $credentialId);
 
 		try
 		{
@@ -80,7 +81,8 @@ class CredentialRepository implements CredentialRepositoryInterface
 		$query        = $db->getQuery(true)
 			->select($db->qn('credential'))
 			->from($db->qn('#__webauthn_credentials'))
-			->where($db->qn('id') . ' = ' . $db->q($credentialId));
+			->where($db->qn('id') . ' = :credentialId')
+			->bind(':credentialId', $credentialId);
 
 		$json = $db->setQuery($query)->loadResult();
 
@@ -115,7 +117,8 @@ class CredentialRepository implements CredentialRepositoryInterface
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__webauthn_credentials'))
-			->where($db->qn('user_id') . ' = ' . $db->q($user_id));
+			->where($db->qn('user_id') . ' = :user_id')
+			->bind(':user_id', $user_id);
 
 		try
 		{
@@ -249,7 +252,8 @@ class CredentialRepository implements CredentialRepositoryInterface
 		$credentialId = base64_encode($credentialId);
 		$query        = $db->getQuery(true)
 			->delete($db->qn('#__webauthn_credentials'))
-			->where($db->qn('id') . ' = ' . $db->q($credentialId));
+			->where($db->qn('id') . ' = :credentialId')
+			->bind(':credentialId', $credentialId);
 
 		$db->setQuery($query)->execute();
 	}
@@ -276,7 +280,8 @@ class CredentialRepository implements CredentialRepositoryInterface
 				$db->qn('user_id'),
 			])
 			->from($db->qn('#__webauthn_credentials'))
-			->where($db->qn('id') . ' = ' . $db->q(base64_encode($credentialId)));
+			->where($db->qn('id') . ' = :credentialId')
+			->bind(':credentialId', base64_encode($credentialId));
 
 		$user_id = $db->setQuery($query)->loadResult();
 
@@ -314,7 +319,8 @@ class CredentialRepository implements CredentialRepositoryInterface
 				$db->qn('counter'),
 			])
 			->from($db->qn('#__webauthn_credentials'))
-			->where($db->qn('id') . ' = ' . $db->q($credentialId));
+			->where($db->qn('id') . ' = :credentialId')
+			->bind(':credentialId', $credentialId);
 
 		$counter = $db->setQuery($query)->loadResult();
 
