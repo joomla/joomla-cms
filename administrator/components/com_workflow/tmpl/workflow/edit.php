@@ -38,7 +38,11 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('COM_WORKFLOW_DESCRIPTION'));?>
 		<div class="row">
 			<div class="col-md-9">
-				<?php echo $this->form->renderField('description'); ?>
+				<div class="card card-block card-light">
+					<div class="card-body form-vertical form-no-margin">
+					<?php echo $this->form->renderField('description'); ?>
+					</div>
+				</div>
 			</div>
 			<div class="col-md-3">
 				<div class="card card-block card-light">
@@ -54,7 +58,10 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_WORKFLOW_RULES_TAB')); ?>
-		<?php echo $this->form->getInput('rules'); ?>
+			<fieldset id="fieldset-rules" class="options-fieldset option-fieldset-full">
+				<legend><?php echo Text::_('COM_WORKFLOW_RULES_TAB'); ?></legend>
+				<?php echo $this->form->getInput('rules'); ?>
+			</fieldset>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
