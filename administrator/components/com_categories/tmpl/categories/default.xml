@@ -9,7 +9,7 @@
 		<fields name="request">
 			<field
 				name="extension"
-				type="componentscategory"
+				type="ComponentsCategory"
 				label="COM_CATEGORIES_CHOOSE_COMPONENT_LABEL"
 				required="true"
 			>

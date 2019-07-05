@@ -92,7 +92,7 @@
 
 		<field
 			name="menuordering"
-			type="menuordering"
+			type="MenuOrdering"
 			label="COM_MENUS_ITEM_FIELD_ORDERING_LABEL"
 			filter="int"
 			size="1"
