@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class contentCest
+ * Class ContentCest
  *
  * Basic com_content (article) tests
  */
@@ -27,23 +27,23 @@ class ContentCest
 		$I->amHttpAuthenticated('admin', 'admin');
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendPOST('/article', ['title' => 'Just for you', 'catid' => 1, 'articletext' => 'A dummy article to save to the database', 'metakey' => '', 'metadesc' => '', 'language' => '*', 'alias' => 'tobias']);
+		$I->sendPOST('/content/article', ['title' => 'Just for you', 'catid' => 1, 'articletext' => 'A dummy article to save to the database', 'metakey' => '', 'metadesc' => '', 'language' => '*', 'alias' => 'tobias']);
 		$I->seeResponseCodeIs(\Codeception\Util\HttpCode::OK);
 
 		$I->amHttpAuthenticated('admin', 'admin');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendGET('/article/1');
+		$I->sendGET('/content/article/1');
 		$I->seeResponseCodeIs(\Codeception\Util\HttpCode::OK);
 
 		$I->amHttpAuthenticated('admin', 'admin');
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendGET('/article/1', ['title' => 'Another Title']);
+		$I->sendGET('/content/article/1', ['title' => 'Another Title']);
 		$I->seeResponseCodeIs(\Codeception\Util\HttpCode::OK);
 
 		$I->amHttpAuthenticated('admin', 'admin');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendDELETE('/article/1');
+		$I->sendDELETE('/content/article/1');
 		$I->seeResponseCodeIs(\Codeception\Util\HttpCode::NO_CONTENT);
 	}
 }
