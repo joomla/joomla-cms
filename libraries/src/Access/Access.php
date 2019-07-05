@@ -899,7 +899,7 @@ class Access
 					$query->join('LEFT', '#__usergroups AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
 				}
 				
-				$query>group($recursive ? 'b.id' : 'a.id');
+				$query->group($recursive ? 'b.id' : 'a.id');
 
 				// Execute the query and load the rules from the result.
 				$db->setQuery($query);
