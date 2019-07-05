@@ -57,7 +57,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_CONTENT_ARTICLE_CONTENT')); ?>
 		<div class="row">
-			<div class="col-md-9">
+			<div class="col-12 col-md-9">
 				<div class="card card-light">
 					<div class="card-body">
 						<fieldset class="adminform">
@@ -67,7 +67,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 					</div>
 				</div>
 			</div>
-			<div class="col-md-3 d-flex flex-wrap">
+			<div class="col-12 col-md-3">
 				<div class="bg-white px-3">
 				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 				</div>
@@ -80,7 +80,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php if ($params->get('show_urls_images_backend') == 1) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'images', Text::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES')); ?>
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-12 col-md-6">
 				<?php foreach ($fieldsetsInImages as $fieldset) : ?>
 					<fieldset id="fieldset-<?php echo $fieldset; ?>" class="options-fieldset option-fieldset-full">
 						<legend><?php echo Text::_($this->form->getFieldsets()[$fieldset]->label); ?></legend>
@@ -88,7 +88,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 					</fieldset>
 				<?php endforeach; ?>
 				</div>
-				<div class="col-md-6">
+				<div class="col-12 col-md-6">
 				<?php foreach ($fieldsetsInLinks as $fieldset) : ?>
 					<fieldset id="fieldset-<?php echo $fieldset; ?>" class="options-fieldset option-fieldset-full">
 						<legend><?php echo Text::_($this->form->getFieldsets()[$fieldset]->label); ?></legend>
