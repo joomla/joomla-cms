@@ -19,6 +19,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Utility\Utility;
 use Joomla\String\StringHelper;
 
+\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+
 /**
  * Page break plugin
  *

@@ -11,9 +11,8 @@ namespace Joomla\Plugin\Quickicon\Joomlaupdate\Extension;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Document\Document;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;

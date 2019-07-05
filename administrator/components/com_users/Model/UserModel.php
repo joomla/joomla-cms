@@ -17,7 +17,6 @@ use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Encrypt\Aes;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -960,9 +959,9 @@ class UserModel extends AdminModel
 			}
 			else
 			{
-				$config = ComponentHelper::getParams('com_users');
+				$params = ComponentHelper::getParams('com_users');
 
-				if ($groupId = $config->get('new_usertype'))
+				if ($groupId = $params->get('new_usertype', $params->get('guest_usergroup', 1)))
 				{
 					$result[] = $groupId;
 				}
