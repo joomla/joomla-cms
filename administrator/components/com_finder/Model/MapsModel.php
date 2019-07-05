@@ -395,8 +395,7 @@ class MapsModel extends ListModel
 		$db->execute();
 
 		$query->clear()
-			->delete($db->quoteName('#__finder_taxonomy_map'))
-			->where('1');
+			->delete($db->quoteName('#__finder_taxonomy_map'));
 		$db->setQuery($query);
 		$db->execute();
 

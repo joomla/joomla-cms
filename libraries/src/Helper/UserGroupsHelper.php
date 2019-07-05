@@ -20,13 +20,17 @@ use Joomla\CMS\Factory;
 final class UserGroupsHelper
 {
 	/**
-	 * @const  integer
+	 * Indicates the current helper instance is the singleton instance.
+	 *
+	 * @var    integer
 	 * @since  3.6.3
 	 */
 	const MODE_SINGLETON = 1;
 
 	/**
-	 * @const  integer
+	 * Indicates the current helper instance is a standalone class instance.
+	 *
+	 * @var    integer
 	 * @since  3.6.3
 	 */
 	const MODE_INSTANCE = 2;
