@@ -29,7 +29,7 @@ Factory::getDocument()->addScriptDeclaration('
 	});
 ');
 ?>
-<ul class="list-group list-group-flush stats-module <?php echo $moduleclass_sfx ?>">
+<ul class="list-group list-group-flush stats-module">
 	<?php foreach ($list as $item) : ?>
 		<li class="list-group-item">
 			<span class="mr-2 fa-fw fa fa-<?php echo $item->icon; ?>" aria-hidden="true"></span> <?php echo $item->title; ?>

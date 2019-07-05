@@ -67,6 +67,7 @@ $attributes = array(
 ?>
 <input
 	type="email"
+	inputmode="email"
 	name="<?php echo $name; ?>"
 	<?php echo !empty($class) ? ' class="form-control validate-email ' . $class . '"' : ' class="form-control validate-email"'; ?>
 	id="<?php echo $id; ?>"
