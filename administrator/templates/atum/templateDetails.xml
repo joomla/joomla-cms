@@ -105,7 +105,7 @@
 				</field>
 
 			</fieldset>
-			<fieldset name="images" label="TPL_ATUM_IMAGES_SETTINGS_LABEL">
+			<fieldset name="images" label="TPL_ATUM_IMAGE_SETTINGS_LABEL">
 
 				<field
 					name="siteLogo"
