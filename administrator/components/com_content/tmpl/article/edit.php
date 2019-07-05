@@ -110,7 +110,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<div class="row">
 				<div class="col-12 col-md-6">
 					<fieldset id="fieldset-publishingdata" class="options-fieldset option-fieldset-full">
-						<legend><?php echo Text::_('COM_CONTENT_FIELDSET_PUBLISHING'); ?></legend>
+						<legend><?php echo Text::_('COM_CONTENT_ATTRIBS_FIELDSET_PUBLISHING_LABEL'); ?></legend>
 						<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 					</fieldset>
 				</div>
