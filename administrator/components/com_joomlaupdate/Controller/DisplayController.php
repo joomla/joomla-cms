@@ -48,7 +48,7 @@ class DisplayController extends BaseController
 			$view->ftp = &$ftp;
 
 			// Get the model for the view.
-			/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+			// @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model
 			$model = $this->getModel('Update');
 
 			$warningsModel = $this->app->bootComponent('com_installer')
