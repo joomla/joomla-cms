@@ -133,3 +133,8 @@ legend {
 [id="filter[search]-desc"] {
   bottom: 100%;
 }
+
+[class^="icon-"]:not(.input-group-text),
+[class*=" icon-"]:not(.input-group-text) {
+  margin-right: 0.5em;
+}
