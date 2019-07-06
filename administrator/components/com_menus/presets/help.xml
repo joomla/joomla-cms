@@ -92,7 +92,7 @@
 	</menuitem>
 
 	<menuitem
-		title="COM_CPANEL_DASHBOARD_HELP_RESSOURCES"
+		title="COM_CPANEL_DASHBOARD_HELP_RESOURCES"
 		type="heading"
 		icon="cloud-download-alt"
 		permission="core.manage;com_installer"
