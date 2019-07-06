@@ -37,10 +37,9 @@ class Atum
 		$monochrome = (bool) $params->get('monochrome');
 
 		$root = [];
-
 		if ($params->exists('hue'))
-		{
-			$root = static::bgdarkcalc((int) $params->get('hue'), $monochrome);
+		{			
+			$root = static::bgdarkcalc($params->get('hue'), $monochrome);
 		}
 
 		$bgLight = $params->get('bg-light');
@@ -142,6 +141,8 @@ class Atum
 	protected static function bgdarkcalc($hue, $monochrome = false) : array
 	{
 		$multiplier = $monochrome ? 0 : 1;
+		$hue=new Hex($hue);
+		$hue=$hue->toHsl()->hue();
 		$hue = min(359, max(0, (int) $hue));
 
 		$root = [];
