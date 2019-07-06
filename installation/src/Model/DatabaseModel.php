@@ -893,6 +893,8 @@ class DatabaseModel extends BaseInstallationModel
 				}
 			}
 		}
+
+		return true;
 	}
 
 	/**
@@ -954,6 +956,8 @@ class DatabaseModel extends BaseInstallationModel
 				}
 			}
 		}
+
+		return true;
 	}
 
 	/**
