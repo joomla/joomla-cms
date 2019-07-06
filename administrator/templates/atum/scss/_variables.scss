@@ -227,11 +227,17 @@ $treeselect-indent:                40px;
 // List
 $list-group-bg:                    var(--white-offset);
 
+// Buttons
+$input-btn-padding-y-sm-submenu:    0;
+$input-btn-padding-x-sm-submenu:    1.625rem;
+$input-btn-submenu-icon-distance:   1rem;
+
 // Custom form
-$custom-select-indicator-padding:    2rem;
+$custom-select-indicator-padding:    3rem;
 $custom-select-bg:                   var(--atum-bg-dark);
 $custom-select-bg-size:              116rem;
 $custom-select-indicator:            url(../images/select-bg.svg);
+$custom-select-indicator-active:     url(../images/select-bg-active.svg);
 $custom-select-background:           $custom-select-indicator no-repeat right center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
 $custom-select-box-shadow:           $atum-box-shadow;
 $custom-select-bg-size-sm:           75rem;
