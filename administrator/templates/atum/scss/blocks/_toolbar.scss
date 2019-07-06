@@ -231,6 +231,11 @@ joomla-toolbar-button {
       }
 
     }
+	
+	&.disabled,
+	&:disabled{
+		opacity:1;
+	}
   }
 
   .dropdown-item {
