@@ -324,6 +324,16 @@
 			addfieldprefix="Joomla\Component\Fields\Administrator\Field">
 
 			<field
+				name="contact_layout"
+				type="componentlayout"
+				label="JGLOBAL_FIELD_LAYOUT_LABEL"
+				description="JGLOBAL_FIELD_LAYOUT_DESC"
+				menuitems="true"
+				extension="com_contact"
+				view="contact"
+			/>
+
+			<field
 				name="show_contact_category"
 				type="list"
 				label="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORY_LABEL"

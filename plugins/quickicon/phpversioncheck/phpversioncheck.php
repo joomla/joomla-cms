@@ -105,8 +105,8 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
 	 *
 	 * @since   3.7.0
 	 * @note    The dates used in this method should correspond to the dates given on PHP.net
-	 * @link    https://secure.php.net/supported-versions.php
-	 * @link    https://secure.php.net/eol.php
+	 * @link    https://www.php.net/supported-versions.php
+	 * @link    https://www.php.net/eol.php
 	 */
 	private function getPhpSupport()
 	{
