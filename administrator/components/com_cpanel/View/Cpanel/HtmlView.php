@@ -63,7 +63,7 @@ class HtmlView extends BaseHtmlView
 
 		$position = ApplicationHelper::stringURLSafe($extension);
 
-		// Generate a title for the view cPanel
+		// Generate a title for the view cpanel
 		if (!empty($extension))
 		{
 			$parts = explode('.', $extension);
