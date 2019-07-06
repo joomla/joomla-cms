@@ -72,10 +72,10 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('COM_CATEGORIES_FIELDSET_PUBLISHING')); ?>
 		<div class="row">
 			<div class="col-12 col-md-6">
-					<fieldset id="fieldset-publishingdata" class="options-fieldset option-fieldset-full">
-						<legend><?php echo Text::_('COM_CATEGORIES_FIELDSET_PUBLISHING'); ?></legend>
-						<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
-					</fieldset>
+				<fieldset id="fieldset-publishingdata" class="options-fieldset option-fieldset-full">
+					<legend><?php echo Text::_('COM_CATEGORIES_FIELDSET_PUBLISHING'); ?></legend>
+					<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+				</fieldset>
 			</div>
 			<div class="col-12 col-md-6">
 				<?php echo $this->loadTemplate('metadata'); ?>

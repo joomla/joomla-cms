@@ -54,7 +54,7 @@
 		}
 
 		@include box-shadow($box-shadow-sm);
-		legend {
+		> legend {
 			font-weight: bold;
 			padding: 0 .5rem;
 			background-color: var(--atum-bg-dark);
@@ -70,6 +70,10 @@
 		}
 		.controls {
 			margin-left: 0;
+		}
+		.switcher__legend {
+			margin-left: 0;
+			float: none;
 		}
 	}
 
