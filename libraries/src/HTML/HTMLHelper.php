@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -217,7 +217,7 @@ abstract class HTMLHelper
 	 *
 	 * @return  mixed   Function result or false on error.
 	 *
-	 * @link    https://secure.php.net/manual/en/function.call-user-func-array.php
+	 * @link    https://www.php.net/manual/en/function.call-user-func-array.php
 	 * @since   1.6
 	 * @throws  \InvalidArgumentException
 	 */
@@ -582,7 +582,7 @@ abstract class HTMLHelper
 		}
 
 		// If only path is required
-		if ($returnPath)
+		if ($returnPath === 1)
 		{
 			return $file;
 		}
@@ -781,10 +781,6 @@ abstract class HTMLHelper
 	 */
 	public static function date($input = 'now', $format = null, $tz = true, $gregorian = false)
 	{
-		// Get some system objects.
-		$config = Factory::getConfig();
-		$user   = Factory::getUser();
-
 		// UTC date converted to user time zone.
 		if ($tz === true)
 		{
@@ -792,7 +788,7 @@ abstract class HTMLHelper
 			$date = Factory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the user configuration.
-			$date->setTimezone($user->getTimezone());
+			$date->setTimezone(Factory::getUser()->getTimezone());
 		}
 		// UTC date converted to server time zone.
 		elseif ($tz === false)
@@ -801,7 +797,7 @@ abstract class HTMLHelper
 			$date = Factory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the server configuration.
-			$date->setTimezone(new \DateTimeZone($config->get('offset')));
+			$date->setTimezone(new \DateTimeZone(Factory::getConfig()->get('offset')));
 		}
 		// No date conversion.
 		elseif ($tz === null)
@@ -1013,6 +1009,10 @@ abstract class HTMLHelper
 		{
 			$localesPath = 'system/fields/calendar-locales/' . strtolower($tag) . '.js';
 		}
+		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . $tag . '.js'))
+		{
+			$localesPath = 'system/fields/calendar-locales/' . $tag . '.js';
+		}
 		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js'))
 		{
 			$localesPath = 'system/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js';
@@ -1033,6 +1033,8 @@ abstract class HTMLHelper
 		$hint         = isset($attribs['placeholder']) ? $attribs['placeholder'] : '';
 		$class        = isset($attribs['class']) ? $attribs['class'] : '';
 		$onchange     = isset($attribs['onChange']) ? $attribs['onChange'] : '';
+		$minYear      = isset($attribs['minYear']) ? $attribs['minYear'] : null;
+		$maxYear      = isset($attribs['maxYear']) ? $attribs['maxYear'] : null;
 
 		$showTime     = ($showTime) ? "1" : "0";
 		$todayBtn     = ($todayBtn) ? "1" : "0";
@@ -1077,6 +1079,8 @@ abstract class HTMLHelper
 			'localesPath'  => $localesPath,
 			'direction'    => $direction,
 			'onchange'     => $onchange,
+			'minYear'      => $minYear,
+			'maxYear'      => $maxYear,
 		);
 
 		return LayoutHelper::render('joomla.form.field.calendar', $data, null, null);

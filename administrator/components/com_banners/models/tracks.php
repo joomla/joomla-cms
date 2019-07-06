@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -228,7 +228,7 @@ class BannersModelTracks extends JModelList
 				$query->where('track_date <= ' . $db->quote($end));
 			}
 
-			$where = '1';
+			$where = '1 = 1';
 
 			// Filter by client
 			$clientId = $this->getState('filter.client_id');

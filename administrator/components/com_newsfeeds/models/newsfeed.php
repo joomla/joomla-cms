@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,100 +44,6 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	protected $text_prefix = 'COM_NEWSFEEDS';
 
 	/**
-	 * Batch copy items to a new category or current.
-	 *
-	 * @param   integer  $value     The new category.
-	 * @param   array    $pks       An array of row IDs.
-	 * @param   array    $contexts  An array of item contexts.
-	 *
-	 * @return  mixed  An array of new IDs on success, boolean false on failure.
-	 *
-	 * @since   11.1
-	 */
-	protected function batchCopy($value, $pks, $contexts)
-	{
-		$categoryId = (int) $value;
-
-		$newIds = array();
-
-		if (!parent::checkCategoryId($categoryId))
-		{
-			return false;
-		}
-
-		// Parent exists so we let's proceed
-		while (!empty($pks))
-		{
-			// Pop the first ID off the stack
-			$pk = array_shift($pks);
-
-			$this->table->reset();
-
-			// Check that the row actually exists
-			if (!$this->table->load($pk))
-			{
-				if ($error = $this->table->getError())
-				{
-					// Fatal error
-					$this->setError($error);
-
-					return false;
-				}
-				else
-				{
-					// Not fatal error
-					$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-					continue;
-				}
-			}
-
-			// Alter the title & alias
-			$data = $this->generateNewTitle($categoryId, $this->table->alias, $this->table->name);
-			$this->table->name = $data['0'];
-			$this->table->alias = $data['1'];
-
-			// Reset the ID because we are making a copy
-			$this->table->id = 0;
-
-			// Unpublish because we are making a copy
-			$this->table->published = 0;
-
-			// New category ID
-			$this->table->catid = $categoryId;
-
-			// TODO: Deal with ordering?
-			// $this->table->ordering = 1;
-
-			// Check the row.
-			if (!$this->table->check())
-			{
-				$this->setError($this->table->getError());
-				return false;
-			}
-
-			parent::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
-
-			// Store the row.
-			if (!$this->table->store())
-			{
-				$this->setError($this->table->getError());
-				return false;
-			}
-
-			// Get the new item ID
-			$newId = $this->table->get('id');
-
-			// Add the new ID to the array
-			$newIds[$pk] = $newId;
-		}
-
-		// Clean the cache
-		$this->cleanCache();
-
-		return $newIds;
-	}
-
-	/**
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param   object  $record  A record object.
@@ -148,26 +54,17 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id))
+		if (empty($record->id) || $record->published != -2)
 		{
-			if ($record->published != -2)
-			{
-				return false;
-			}
-
-			$user = JFactory::getUser();
-
-			if (!empty($record->catid))
-			{
-				return $user->authorise('core.delete', 'com_newsfeed.category.' . (int) $record->catid);
-			}
-			else
-			{
-				return parent::canDelete($record);
-			}
+			return false;
 		}
 
-		return false;
+		if (!empty($record->catid))
+		{
+			return JFactory::getUser()->authorise('core.delete', 'com_newsfeed.category.' . (int) $record->catid);
+		}
+
+		return parent::canDelete($record);
 	}
 
 	/**
@@ -181,16 +78,12 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
-
 		if (!empty($record->catid))
 		{
-			return $user->authorise('core.edit.state', 'com_newsfeeds.category.' . (int) $record->catid);
+			return JFactory::getUser()->authorise('core.edit.state', 'com_newsfeeds.category.' . (int) $record->catid);
 		}
-		else
-		{
-			return parent::canEditState($record);
-		}
+
+		return parent::canEditState($record);
 	}
 
 	/**
@@ -347,6 +240,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 					$data['alias'] = '';
 				}
 			}
+
 			$data['published'] = 0;
 		}
 
@@ -486,6 +380,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	{
 		$condition = array();
 		$condition[] = 'catid = ' . (int) $table->catid;
+
 		return $condition;
 	}
 
@@ -532,6 +427,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 					$field->addAttribute('new', 'true');
 					$field->addAttribute('edit', 'true');
 					$field->addAttribute('clear', 'true');
+					$field->addAttribute('propagate', 'true');
 				}
 
 				$form->load($addform, false);
@@ -542,36 +438,9 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	}
 
 	/**
-	 * Method to change the title & alias.
-	 *
-	 * @param   integer  $category_id  The id of the parent.
-	 * @param   string   $alias        The alias.
-	 * @param   string   $name         The title.
-	 *
-	 * @return  array  Contains the modified title and alias.
-	 *
-	 * @since   3.1
-	 */
-	protected function generateNewTitle($category_id, $alias, $name)
-	{
-		// Alter the title & alias
-		$table = $this->getTable();
-		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
-		{
-			if ($name == $table->name)
-			{
-				$name = StringHelper::increment($name);
-			}
-			$alias = StringHelper::increment($alias, 'dash');
-		}
-
-		return array($name, $alias);
-	}
-
-	/**
 	 * Is the user allowed to create an on the fly category?
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.6.1
 	 */
