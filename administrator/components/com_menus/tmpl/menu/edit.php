@@ -29,15 +29,23 @@ Text::script('ERROR');
 
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_MENUS_MENU_DETAILS')); ?>
 
-			<?php
-			echo $this->form->renderField('menutype');
+			<fieldset id="fieldset-details" class="options-fieldset">
+				<legend><?php echo Text::_('COM_MENUS_MENU_DETAILS'); ?></legend>
 
-			echo $this->form->renderField('description');
+				<div class="row">
+					<div class="col-md-12">
+						<?php
+						echo $this->form->renderField('menutype');
 
-			echo $this->form->renderField('client_id');
+						echo $this->form->renderField('description');
 
-			echo $this->form->renderField('preset');
-			?>
+						echo $this->form->renderField('client_id');
+
+						echo $this->form->renderField('preset');
+						?>
+					</div>
+				</div>
+			</fieldset>
 
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
