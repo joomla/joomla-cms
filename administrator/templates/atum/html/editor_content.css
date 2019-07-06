@@ -21,10 +21,10 @@ h2 {
 }
 
 h3 {
-  font-weight: bold;
-  font-family: Helvetica,Arial,sans-serif;
-  font-size: 19px;
-  color: #135cae;
+        font-weight: bold;
+        font-family: Helvetica,Arial,sans-serif;
+        font-size: 19px;
+        color: #135cae;
 }
 
 h4 {
@@ -34,17 +34,31 @@ h4 {
 }
 
 a:link, a:visited {
-        color: #1B57B1; text-decoration: none;
+        color: #1B57B1;
+        text-decoration: none;
         font-weight: normal;
 }
 
 a:hover {
-        color: #00c;        text-decoration: underline;
+        color: #00c;
+        text-decoration: underline;
         font-weight: normal;
 }
 
-div.caption       { padding: 0 10px 0 10px; }
-div.caption img   { border: 1px solid #CCC; }
-div.caption p     { font-size: .90em; color: #666; text-align: center; }
+div.caption {
+        padding: 0 10px 0 10px;
+}
 
-div.teaser { background:#ccc; }
+div.caption img {
+        border: 1px solid #CCC;
+}
+
+div.caption p {
+        font-size: .90em;
+        color: #666;
+        text-align: center;
+}
+
+div.teaser { 
+        background:#ccc;
+}
