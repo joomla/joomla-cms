@@ -8,6 +8,7 @@
  */
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * @var array $displayData Data for this field collected by ColorField
@@ -25,6 +26,7 @@ extract($displayData);
  * @var   string  $default      Default value for this field
  * @var   string  $format       Format of color value
  * @var   string  $hint         Text for inputs placeholder
+ * @var   string  $id           ID of field and label
  * @var   string  $name         Name of the input field
  * @var   string  $onchange     Onchange attribute for the field
  * @var   string  $onclick      Onclick attribute for the field
@@ -32,14 +34,20 @@ extract($displayData);
  * @var   boolean $preview      Should the selected value be displayed separately?
  * @var   boolean $readonly     Is this field read only?
  * @var   boolean $required     Is this field required?
+ * @var   string  $saveFormat   Format to save the color
  * @var   integer $size         Size attribute of the input
  * @var   string  $validate     Validation rules to apply.
  */
 
+if ($color === 'none' || is_null($color))
+{
+	$color = '';
+}
+
 $alpha        = $format === 'hsla' || $format === 'rgba' || $format === 'alpha';
 $autocomplete = !$autocomplete ? ' autocomplete="off"' : '';
 $autofocus    = $autofocus ? ' autofocus' : '';
-$color        = $color ? ' data-color="' . $color . '"' : '';
+$color        = ' data-color="' . $color . '"';
 $class        = $class ? ' class="' . $class . '"' : '';
 $default      = $default ? ' data-default="' . $default . '"' : '';
 $disabled     = $disabled ? ' disabled' : '';
@@ -49,15 +57,17 @@ $onchange     = $onchange ? ' onchange="' . $onchange . '"' : '';
 $onclick      = $onclick ? ' onclick="' . $onclick . '"' : '';
 $preview      = $preview ? ' data-preview="' . $preview . '"' : '';
 $readonly     = $readonly ? ' readonly' : '';
+$saveFormat   = $saveFormat ? ' data-format="' . $saveFormat . '"' : '';
 $size         = $size ? ' size="' . $size . '"' : '';
 $validate     = $validate ? ' data-validate="' . $validate . '"' : '';
 
 $displayValues = explode(',', $display);
 $allSliders    = $display === 'full' || empty($display);
-$displayData   = ' data-display="' . ($display ? $display : 'full') . '"';
 
 HTMLHelper::_('stylesheet', 'system/fields/joomla-field-color-slider.min.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'system/fields/joomla-field-color-slider.min.js', ['version' => 'auto', 'relative' => true]);
+
+Text::script('JFIELD_COLOR_WRONG_FORMAT');
 ?>
 
 <div class="color-slider-wrapper"
@@ -65,27 +75,40 @@ HTMLHelper::_('script', 'system/fields/joomla-field-color-slider.min.js', ['vers
 	$class,
 	$color,
 	$default,
-	$displayData,
 	$format,
 	$preview,
 	$size;
 	?>
 >
+	<!-- The data to save at the end -->
 	<input type="text" class="form-control color-input" id="<?php echo $id; ?>" name="<?php echo $name; ?>"
+		<?php echo
+		$disabled,
+		$readonly,
+		$required,
+		$saveFormat,
+		$validate;
+		?>
+	/>
+	<!-- Shows value which is allowed to manipulate like 'hue' -->
+	<input type="text" class="form-control" id="slider-input"
 		<?php echo
 		$autocomplete,
 		$disabled,
 		$hint,
 		$onchange,
 		$onclick,
+		$position,
 		$readonly,
 		$required,
-		$position,
+		$format,
 		$validate;
 		?>
 	/>
+	<span class="form-control-feedback"></span>
+
 	<?php if ($allSliders || in_array('hue', $displayValues)) : ?>
-		<input type="range" min="0" max="360" class="form-control color-slider hue-slider" data-type="hue"
+		<input type="range" min="0" max="360" class="form-control color-slider" id="hue-slider" data-type="hue"
 			<?php echo
 			$autofocus,
 			$disabled
@@ -93,7 +116,7 @@ HTMLHelper::_('script', 'system/fields/joomla-field-color-slider.min.js', ['vers
 		/>
 	<?php endif ?>
 	<?php if ($allSliders || in_array('saturation', $displayValues)) : ?>
-		<input type="range" min="0" max="100" class="form-control color-slider saturation-slider" data-type="saturation"
+		<input type="range" min="0" max="100" class="form-control color-slider" id="saturation-slider" data-type="saturation"
 			<?php echo
 			$autofocus,
 			$disabled
@@ -101,7 +124,7 @@ HTMLHelper::_('script', 'system/fields/joomla-field-color-slider.min.js', ['vers
 		/>
 	<?php endif ?>
 	<?php if ($allSliders || in_array('light', $displayValues)) : ?>
-		<input type="range" min="0" max="100" class="form-control color-slider light-slider" data-type="light"
+		<input type="range" min="0" max="100" class="form-control color-slider" id="light-slider" data-type="light"
 			<?php echo
 			$autofocus,
 			$disabled
@@ -109,7 +132,7 @@ HTMLHelper::_('script', 'system/fields/joomla-field-color-slider.min.js', ['vers
 		/>
 	<?php endif ?>
 	<?php if ($alpha && ($allSliders || in_array('alpha', $displayValues))) : ?>
-		<input type="range" min="0" max="100" class="form-control color-slider alpha-slider" data-type="alpha"
+		<input type="range" min="0" max="100" class="form-control color-slider" id="alpha-slider" data-type="alpha"
 			<?php echo
 			$autofocus,
 			$disabled

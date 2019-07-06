@@ -12,9 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Uri\Uri;
-use OzdemirBurak\Iris\Color\Hex;
-use OzdemirBurak\Iris\Color\Hsl;
 
 /** @var JDocumentHtml $this */
 // here we go
