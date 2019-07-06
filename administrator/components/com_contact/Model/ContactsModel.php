@@ -153,11 +153,12 @@ class ContactsModel extends ListModel
 		// Select the required fields from the table.
 		$query->select(
 			$db->quoteName(
-				explode(', ', $this->getState(
-					'list.select',
-					'a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.catid, a.user_id' .
-					', a.published, a.access, a.created, a.created_by, a.ordering, a.featured, a.language' .
-					', a.publish_up, a.publish_down'
+				explode(', ',
+					$this->getState(
+						'list.select',
+						'a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.catid, a.user_id' .
+						', a.published, a.access, a.created, a.created_by, a.ordering, a.featured, a.language' .
+						', a.publish_up, a.publish_down'
 					)
 				)
 			)
@@ -166,15 +167,15 @@ class ContactsModel extends ListModel
 
 		// Join over the users for the linked user.
 		$query->select(
-				array(
-					$db->quoteName('ul.name', 'linked_user'),
-					$db->quoteName('ul.email')
-				)
+			array(
+				$db->quoteName('ul.name', 'linked_user'),
+				$db->quoteName('ul.email')
 			)
-			->join(
-				'LEFT',
-				$db->quoteName('#__users', 'ul') . ' ON ' . $db->quoteName('ul.id') . ' = ' . $db->quoteName('a.user_id')
-			);
+		)
+		->join(
+			'LEFT',
+			$db->quoteName('#__users', 'ul') . ' ON ' . $db->quoteName('ul.id') . ' = ' . $db->quoteName('a.user_id')
+		);
 
 		// Join over the language
 		$query->select($db->quoteName('l.title', 'language_title'))
@@ -305,7 +306,7 @@ class ContactsModel extends ListModel
 			{
 				$search = '%' . trim($search) . '%';
 				$query->where(
-					'(' . $db->quoteName('a.name') . ' LIKE :name OR ' . $db->quoteName('a.alias') . ' LIKE :alias' . ')'
+					'(' . $db->quoteName('a.name') . ' LIKE :name OR ' . $db->quoteName('a.alias') . ' LIKE :alias)'
 				);
 				$query->bind(':name', $search);
 				$query->bind(':alias', $search);

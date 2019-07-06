@@ -38,7 +38,7 @@ class FilterController extends FormController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		/* @var \Joomla\Component\Finder\Administrator\Model\FilterModel $model */
+		// @var \Joomla\Component\Finder\Administrator\Model\FilterModel $model
 		$model = $this->getModel();
 		$table = $model->getTable();
 		$data = $this->input->post->get('jform', array(), 'array');
