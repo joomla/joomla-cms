@@ -172,10 +172,10 @@ class ContactsModel extends ListModel
 				$db->quoteName('ul.email')
 			)
 		)
-		->join(
-			'LEFT',
-			$db->quoteName('#__users', 'ul') . ' ON ' . $db->quoteName('ul.id') . ' = ' . $db->quoteName('a.user_id')
-		);
+			->join(
+				'LEFT',
+				$db->quoteName('#__users', 'ul') . ' ON ' . $db->quoteName('ul.id') . ' = ' . $db->quoteName('a.user_id')
+			);
 
 		// Join over the language
 		$query->select($db->quoteName('l.title', 'language_title'))

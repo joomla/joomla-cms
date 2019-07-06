@@ -188,7 +188,7 @@ class Taxonomy
 		 * state has changed or because the node does not exist. Let's figure
 		 * out which case is true and deal with it.
 		 */
-		/** TODO: use factory? **/
+		/** TODO: use factory? */
 		$nodeTable = new MapTable($db);
 
 		if (empty($result))
