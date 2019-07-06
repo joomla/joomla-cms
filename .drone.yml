@@ -26,11 +26,11 @@ steps:
       - composer install --no-progress --no-suggest
 
   - name: phpcs
-    image: joomlaprojects/docker-images:php7.2
+    image: joomlaprojects/docker-phpcs
     depends_on: [ composer ]
     commands:
       - echo $(date)
-      - ./libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
+      - /root/.composer/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
       - echo $(date)
 
   - name: phpcs-new
@@ -203,6 +203,6 @@ services:
 
 ---
 kind: signature
-hmac: 8e0e33eb892341d8782e9eb6d288a49ed44eab780495ff619d47ab78a82bd806
+hmac: e31bd2d8d99693a49fca13c48cd855a5b36333efc45b985072803801d0a652cb
 
 ...
