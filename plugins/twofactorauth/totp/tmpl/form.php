@@ -94,15 +94,9 @@ Factory::getDocument()->addScriptDeclaration($js);
 
 	<div class="col-md-6">
 		<p>
-<<<<<<< HEAD
 			<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP2_ALTTEXT') ?>
 			<br>
-			<img src="<?php echo $url ?>" style="float: none;">
-=======
-			<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP2_ALTTEXT') ?>
-			<br />
 			<div id="totp-qrcode"></div>
->>>>>>> 3.9.5
 		</p>
 	</div>
 
