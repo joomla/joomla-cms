@@ -69,7 +69,7 @@ abstract class ModulesHelper
 		$db       = Factory::getDbo();
 		$clientId = (int) $clientId;
 		$query    = $db->getQuery(true)
-			->select('DISTINCT(position)')
+			->select('DISTINCT ' . $db->quoteName('position'))
 			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('client_id') . ' = :clientid')
 			->order($db->quoteName('position'))
