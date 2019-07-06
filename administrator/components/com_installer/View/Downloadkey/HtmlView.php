@@ -14,11 +14,12 @@ defined('_JEXEC') or die;
 use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Toolbar\Toolbar;
-use Joomla\Input\Input;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\User;
 use Joomla\Component\Installer\Administrator\Model\DownloadkeyModel;
@@ -32,9 +33,9 @@ use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as Installe
 class HtmlView extends InstallerViewDefault
 {
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
-	 * @var  \JForm
+	 * @var  Form
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -43,7 +44,7 @@ class HtmlView extends InstallerViewDefault
 	/**
 	 * The active item
 	 *
-	 * @var  object
+	 * @var  CMSObject
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -86,7 +87,7 @@ class HtmlView extends InstallerViewDefault
 	 *
 	 * @throws  Exception
 	 */
-	protected function addToolbar()
+	protected function addToolbar(): void
 	{
 		Factory::getApplication()->input->set('hidemainmenu', true);
 
@@ -107,7 +108,7 @@ class HtmlView extends InstallerViewDefault
 			$toolbar->save('downloadkey.save');
 		}
 
-		if (empty($this->item->update_site_id))
+		if (empty($this->item->get('update_site_id')))
 		{
 			$toolbar->cancel('downloadkey.cancel');
 		}
@@ -118,7 +119,7 @@ class HtmlView extends InstallerViewDefault
 				&& $canDo->get('core.edit')
 			)
 			{
-				ToolbarHelper::versions('com_installers.downloadkey', $this->item->id);
+				ToolbarHelper::versions('com_installers.downloadkey', $this->item->get('id'));
 			}
 
 			$toolbar->cancel('downloadkey.cancel');
