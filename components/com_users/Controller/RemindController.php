@@ -34,7 +34,8 @@ class RemindController extends BaseController
 		// Check the request token.
 		$this->checkToken('post');
 
-		/* @var \Joomla\Component\Users\Site\Model\RemindModel $model */
+		// @var \Joomla\Component\Users\Site\Model\RemindModel $model
+
 		$model = $this->getModel('Remind', 'Site');
 		$data  = $this->input->post->get('jform', array(), 'array');
 
