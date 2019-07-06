@@ -34,6 +34,14 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper;
 
 	/**
+	 * The name of the application.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $name = null;
+
+	/**
 	 * The application message queue.
 	 *
 	 * @var    array
@@ -70,16 +78,19 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * @since   4.0.0
 	 */
 	public function __construct(
-		InputInterface $input = null,
-		OutputInterface $output = null,
-		Registry $config = null,
-		DispatcherInterface $dispatcher = null,
-		Container $container = null)
+		?InputInterface $input = null,
+		?OutputInterface $output = null,
+		?Registry $config = null,
+		?DispatcherInterface $dispatcher = null,
+		?Container $container = null)
 	{
 		parent::__construct($input, $output, $config);
 
 		$this->setName('Joomla!');
 		$this->setVersion(JVERSION);
+
+		// Register the client name as cli
+		$this->name = 'cli';
 
 		$container = $container ?: Factory::getContainer();
 		$this->setContainer($container);
@@ -112,7 +123,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * @since   4.0.0
 	 * @throws  \Throwable
 	 */
-	protected function doExecute()
+	protected function doExecute(): int
 	{
 		$exitCode = parent::doExecute();
 
@@ -175,6 +186,18 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		}
 
 		$this->messages[$type][] = $msg;
+	}
+
+	/**
+	 * Gets the name of the current running application.
+	 *
+	 * @return  string  The name of the application.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getName(): string
+	{
+		return $this->name;
 	}
 
 	/**
@@ -249,7 +272,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 */
 	public function isClient($identifier)
 	{
-		return $identifier === 'cli';
+		return $this->getName() === $identifier;
 	}
 
 	/**

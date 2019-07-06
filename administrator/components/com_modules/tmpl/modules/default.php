@@ -116,7 +116,6 @@ if ($saveOrder && !empty($this->items))
 							<?php endif; ?>
 						</td>
 						<td class="text-center">
-							<div class="btn-group">
 							<?php // Check if extension is enabled ?>
 							<?php if ($item->enabled > 0) : ?>
 								<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'modules.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
@@ -126,7 +125,6 @@ if ($saveOrder && !empty($this->items))
 									<span class="icon-ban-circle" aria-hidden="true"></span>
 								</span>
 							<?php endif; ?>
-							</div>
 						</td>
 						<th scope="row" class="has-context">
 							<div>

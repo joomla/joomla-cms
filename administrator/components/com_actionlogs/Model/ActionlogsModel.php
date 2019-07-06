@@ -7,20 +7,29 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Actionlogs\Administrator\Model;
+
 defined('_JEXEC') or die;
 
+use DateTimeZone;
+use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseIterator;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Utilities\ArrayHelper;
+use RuntimeException;
 
 /**
  * Methods supporting a list of article records.
  *
  * @since  3.9.0
  */
-class ActionlogsModelActionlogs extends JModelList
+class ActionlogsModel extends ListModel
 {
 	/**
 	 * Constructor.
@@ -28,6 +37,8 @@ class ActionlogsModelActionlogs extends JModelList
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @since   3.9.0
+	 *
+	 * @throws  Exception
 	 */
 	public function __construct($config = array())
 	{
@@ -50,9 +61,14 @@ class ActionlogsModelActionlogs extends JModelList
 	/**
 	 * Method to auto-populate the model state.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
 	 * @return  void
 	 *
 	 * @since   3.9.0
+	 *
+	 * @throws  Exception
 	 */
 	protected function populateState($ordering = 'a.id', $direction = 'desc')
 	{
@@ -79,9 +95,11 @@ class ActionlogsModelActionlogs extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  DatabaseQuery
 	 *
 	 * @since   3.9.0
+	 *
+	 * @throws  Exception
 	 */
 	protected function getListQuery()
 	{
@@ -130,8 +148,8 @@ class ActionlogsModelActionlogs extends JModelList
 			if ($date['dNow'] != false)
 			{
 				$query->where(
-					$db->qn('a.log_date') . ' >= ' . $db->quote($date['dStart']->format('Y-m-d H:i:s')) .
-					' AND ' . $db->qn('a.log_date') . ' <= ' . $db->quote($date['dNow']->format('Y-m-d H:i:s'))
+					$db->quoteName('a.log_date') . ' >= ' . $db->quote($date['dStart']->format('Y-m-d H:i:s')) .
+					' AND ' . $db->quoteName('a.log_date') . ' <= ' . $db->quote($date['dNow']->format('Y-m-d H:i:s'))
 				);
 			}
 		}
@@ -167,6 +185,8 @@ class ActionlogsModelActionlogs extends JModelList
 	 * @return  array  The date range to filter on.
 	 *
 	 * @since   3.9.0
+	 *
+	 * @throws  Exception
 	 */
 	private function buildDateRange($range)
 	{
@@ -271,7 +291,7 @@ class ActionlogsModelActionlogs extends JModelList
 	 *
 	 * @param   integer[]|null  $pks  An optional array of log record IDs to load
 	 *
-	 * @return  JDatabaseIterator
+	 * @return  DatabaseIterator
 	 *
 	 * @since   3.9.0
 	 */
@@ -290,7 +310,7 @@ class ActionlogsModelActionlogs extends JModelList
 	 *
 	 * @param   integer[]|null  $pks  An optional array of log record IDs to load
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  DatabaseQuery
 	 *
 	 * @since   3.9.0
 	 */
@@ -372,9 +392,9 @@ class ActionlogsModelActionlogs extends JModelList
 	 * @param   array    $data      data
 	 * @param   boolean  $loadData  load current data
 	 *
-	 * @return  \JForm|boolean  The \JForm object or false on error
+	 * @return  Form|boolean  The Form object or false on error
 	 *
-	 * @since  3.9.0
+	 * @since   3.9.0
 	 */
 	public function getFilterForm($data = array(), $loadData = true)
 	{

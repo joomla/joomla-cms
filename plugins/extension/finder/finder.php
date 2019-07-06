@@ -168,7 +168,7 @@ class PlgExtensionFinder extends CMSPlugin
 		{
 			$bindNames = $query->bindArray([$word, $lang], ParameterType::STRING);
 
-			$query->values(impode(',', $bindNames) . ', 0');
+			$query->values(implode(',', $bindNames) . ', 0');
 		}
 
 		try

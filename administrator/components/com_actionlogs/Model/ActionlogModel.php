@@ -7,22 +7,26 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Actionlogs\Administrator\Model;
+
 defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Utilities\IpHelper;
-
-JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
 /**
  * Methods supporting a list of Actionlog records.
  *
  * @since  3.9.0
  */
-class ActionlogsModelActionlog extends JModelLegacy
+class ActionlogModel extends BaseDatabaseModel
 {
 	/**
 	 * Function to add logs to the database
@@ -36,6 +40,8 @@ class ActionlogsModelActionlog extends JModelLegacy
 	 * @return  void
 	 *
 	 * @since   3.9.0
+	 *
+	 * @throws  Exception
 	 */
 	public function addLog($messages, $messageLanguageKey, $context, $userId = null)
 	{
@@ -62,7 +68,7 @@ class ActionlogsModelActionlog extends JModelLegacy
 
 		foreach ($messages as $message)
 		{
-			$logMessage                       = new stdClass;
+			$logMessage                       = new \stdClass;
 			$logMessage->message_language_key = $messageLanguageKey;
 			$logMessage->message              = json_encode($message);
 			$logMessage->log_date             = (string) $date;
@@ -76,7 +82,7 @@ class ActionlogsModelActionlog extends JModelLegacy
 				$db->insertObject('#__action_logs', $logMessage);
 				$loggedMessages[] = $logMessage;
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				// Ignore it
 			}
@@ -96,6 +102,8 @@ class ActionlogsModelActionlog extends JModelLegacy
 	 * @return  void
 	 *
 	 * @since   3.9.0
+	 *
+	 * @throws  Exception
 	 */
 	protected function sendNotificationEmails($messages, $username, $context)
 	{
@@ -115,16 +123,7 @@ class ActionlogsModelActionlog extends JModelLegacy
 
 		$db->setQuery($query);
 
-		try
-		{
-			$users = $db->loadObjectList();
-		}
-		catch (RuntimeException $e)
-		{
-			JError::raiseWarning(500, $e->getMessage());
-
-			return;
-		}
+		$users = $db->loadObjectList();
 
 		$recipients = array();
 
@@ -169,7 +168,7 @@ class ActionlogsModelActionlog extends JModelLegacy
 
 		if (!$mailer->Send())
 		{
-			JError::raiseWarning(500, Text::_('JERROR_SENDING_EMAIL'));
+			throw new GenericDataException(Text::_('JERROR_SENDING_EMAIL'), 500);
 		}
 	}
 }

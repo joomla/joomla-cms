@@ -7,22 +7,22 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Component\Actionlogs\Administrator\Field;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-
-FormHelper::loadFieldClass('list');
-JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
+use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 
 /**
  * Field to load a list of all extensions that have logged actions
  *
  * @since  3.9.0
  */
-class JFormFieldExtension extends JFormFieldList
+class ExtensionField extends ListField
 {
 	/**
 	 * The form field type.
@@ -41,7 +41,7 @@ class JFormFieldExtension extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-		$db = Factory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT ' . $db->quoteName('extension'))
 			->from($db->quoteName('#__action_logs'))

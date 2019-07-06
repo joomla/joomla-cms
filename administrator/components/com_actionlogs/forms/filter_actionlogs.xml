@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form>
+<form addfieldprefix="Joomla\Component\Actionlogs\Administrator\Field">
 	<fields name="filter">
 		<field
 			name="search"
