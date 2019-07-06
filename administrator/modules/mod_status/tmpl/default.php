@@ -80,7 +80,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 				<div class="dropdown-menu dropdown-menu-right">
 					<div class="dropdown-header">
 						<span class="fa fa-user" aria-hidden="true"></span>
-						<?php echo $user->name; ?>
+						<?php echo htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8'); ?>
 					</div>
 					<?php $uri   = Uri::getInstance(); ?>
 					<?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '&return=' . base64_encode($uri); ?>
