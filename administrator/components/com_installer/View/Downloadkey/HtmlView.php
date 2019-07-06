@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,14 +50,6 @@ class HtmlView extends InstallerViewDefault
 	protected $item;
 
 	/**
-	 * Set if we are in a modal
-	 *
-	 * @var    string
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $modal = '';
-
-	/**
 	 * Display the view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -68,17 +60,13 @@ class HtmlView extends InstallerViewDefault
 	 *
 	 * @throws  Exception
 	 */
-	public function display($tpl = null)
+	public function display($tpl = null): void
 	{
 		/** @var DownloadkeyModel $model */
 		$model       = $this->getModel();
 		$this->form  = $model->getForm();
 		$this->item  = $model->getItem();
 		$this->state = $model->getState();
-
-		/** @var Input $input */
-		$input       = Factory::getApplication()->input;
-		$this->modal = $input->getString('tmpl', '');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -133,7 +121,7 @@ class HtmlView extends InstallerViewDefault
 				ToolbarHelper::versions('com_installers.downloadkey', $this->item->id);
 			}
 
-			$toolbar->cancel('downloadkey.cancel', 'JTOOLBAR_CLOSE');
+			$toolbar->cancel('downloadkey.cancel');
 		}
 
 		ToolbarHelper::divider();

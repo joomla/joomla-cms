@@ -3,15 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-
-defined('_JEXEC') or die;
 
 HTMLHelper::_('behavior.multiselect');
 HTMLHelper::_('bootstrap.tooltip');
@@ -24,7 +24,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<div class="row">
 			<div class="col-md-12">
 				<div id="j-main-container" class="j-main-container">
-					<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+					<?php echo JLayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
 					<?php if (empty($this->items)) : ?>
 					<div class="alert alert-warning alert-no-items">
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
@@ -33,9 +33,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th style="width:1%" class="text-center">
+								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
-								</th>
+								</td>
 								<th scope="col" class="nowrap">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_UPDATESITE_NAME', 'update_site_name', $listDirn, $listOrder); ?>
 								</th>
@@ -67,26 +67,26 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</tr>
 						</tfoot>
 						<tbody>
-						<?php $itemsSkipped = 0; ?>
 						<?php foreach ($this->items as $i => $item) : ?>
-							<?php if ($item->extra_query == null) : ?>
-								<?php $itemsSkipped++; ?>
-								<?php continue; ?>
-							<?php endif; ?>
-
-							<tr class="row<?php echo ($i + $itemsSkipped) % 2; ?>">
+							<tr>
 								<td class="text-center">
-									<?php echo HTMLHelper::_('grid.id', $i-$itemsSkipped, $item->update_site_id); ?>
+									<?php if ($item->extra_query['valid']) : ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $item->update_site_id); ?>
+									<?php endif; ?>
 								</td>
-								<td>
-									<label for="cb<?php echo $i-$itemsSkipped; ?>">
+								<th scope="row">
+									<?php if ($item->extra_query['valid']) : ?>
+										<a href="<?php echo Route::_('index.php?option=com_installer&task=downloadkey.edit&update_site_id=' . $item->update_site_id); ?>">
+											<?php echo $item->update_site_name; ?>
+										</a>
+									<?php else: ?>
 										<?php echo $item->update_site_name; ?>
-										<br>
-										<span class="small break-word">
-											<a href="<?php echo $item->location; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->location); ?></a>
-										</span>
-									</label>
-								</td>
+									<?php endif; ?>
+									<br>
+									<span class="small break-word">
+										<a href="<?php echo $item->location; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->location); ?></a>
+									</span>
+								</th>
 								<td class="hidden-sm-down text-center">
 									<span class="bold hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', $item->name, $item->description, 0); ?>">
 										<?php echo $item->name; ?>
@@ -105,7 +105,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo $item->update_site_id; ?>
 								</td>
 								<td>
-									<?php echo $item->extra_query['value'] ? $item->extra_query['value'] : Text::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
+									<?php echo $item->extra_query['valid'] ? $item->extra_query['value'] : Text::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
 								</td>
 							</tr>
 						<?php endforeach; ?>

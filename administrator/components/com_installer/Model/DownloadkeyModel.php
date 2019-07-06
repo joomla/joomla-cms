@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,7 +45,7 @@ class DownloadkeyModel extends AdminModel
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-		$form = $this->loadForm('com_installer.downloadkey', 'downloadkey', array('control' => 'jform', 'load_data' => $loadData));
+		$form = $this->loadForm('com_installer.downloadkey', 'downloadkey', ['control' => 'jform', 'load_data' => $loadData]);
 
 		if (empty($form))
 		{
@@ -103,14 +103,14 @@ class DownloadkeyModel extends AdminModel
 		$query = $db->getQuery(true)
 			->select(
 				$db->quoteName(
-					array(
+					[
 						'update_sites.extra_query',
 						'extensions.type',
 						'extensions.element',
 						'extensions.folder',
 						'extensions.client_id',
 						'extensions.checked_out'
-					)
+					]
 				)
 			)
 			->from($db->quoteName('#__update_sites', 'update_sites'))
@@ -131,9 +131,9 @@ class DownloadkeyModel extends AdminModel
 
 		$downloadKey = InstallerHelper::getDownloadKey($extension);
 
-		$item->set('extra_query', $downloadKey['value']);
-		$item->set('downloadIdPrefix', $downloadKey['prefix']);
-		$item->set('downloadIdSuffix', $downloadKey['suffix']);
+		$item->set('extra_query', $downloadKey['value'] ?? '');
+		$item->set('downloadIdPrefix', $downloadKey['prefix'] ?? '');
+		$item->set('downloadIdSuffix', $downloadKey['suffix'] ?? '');
 		$item->set('checked_out', $extension->checked_out);
 
 		return $item;

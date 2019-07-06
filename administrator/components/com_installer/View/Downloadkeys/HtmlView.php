@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Exception;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -28,6 +27,22 @@ use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as Installe
  */
 class HtmlView extends InstallerViewDefault
 {
+	/**
+	 * The search filter form
+	 *
+	 * @var    Form
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $filterForm;
+
+	/**
+	 * List of active filters
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $activeFilters = [];
+
 	/**
 	 * An array of items
 	 *
@@ -47,36 +62,20 @@ class HtmlView extends InstallerViewDefault
 	protected $pagination;
 
 	/**
-	 * The search filter form
-	 *
-	 * @var    Form
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public $filterForm = null;
-
-	/**
-	 * List of active filters
-	 *
-	 * @var    array
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public $activeFilters = array();
-
-	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  Template
 	 *
 	 * @return  void
 	 *
-	 * @throws  Exception
 	 * @since   __DEPLOY_VERSION_
 	 *
+	 * @throws  Exception
 	 */
-	public function display($tpl = null)
+	public function display($tpl = null): void
 	{
 		/** @var DownloadkeysModel $model */
-		$model = $this->getModel();
+		$model               = $this->getModel();
 		$this->items         = $model->getItems();
 		$this->pagination    = $model->getPagination();
 		$this->filterForm    = $model->getFilterForm();
@@ -87,9 +86,6 @@ class HtmlView extends InstallerViewDefault
 		{
 			throw new GenericdataException(implode("\n", $errors), 500);
 		}
-
-		// Include the component HTML helpers.
-		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		// Display the view
 		parent::display($tpl);
@@ -102,7 +98,7 @@ class HtmlView extends InstallerViewDefault
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function addToolbar()
+	protected function addToolbar(): void
 	{
 		$canDo = ContentHelper::getActions('com_installer');
 
@@ -112,8 +108,6 @@ class HtmlView extends InstallerViewDefault
 			ToolbarHelper::divider();
 		}
 
-		\JHtmlSidebar::setAction('index.php?option=com_installer&view=downloadkey');
-		parent::addToolbar();
 		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_UPDATESITES');
 	}
 }

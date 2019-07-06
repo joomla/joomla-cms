@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use stdClass;
 
 /**
  * Installer helper.
@@ -158,13 +159,13 @@ class InstallerHelper
 	/**
 	 * Get the download key of an extension going through their installation xml
 	 *
-	 * @param   object  $extension  element of an extension
+	 * @param   stdClass  $extension  element of an extension
 	 *
 	 * @return  array  An array with the prefix, suffix and value of the download key
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getDownloadKey($extension)
+	public static function getDownloadKey(stdClass $extension): array
 	{
 		$installXmlFile = self::getInstallationXML(
 			$extension->element,
@@ -175,28 +176,29 @@ class InstallerHelper
 
 		if (!$installXmlFile)
 		{
-			return null;
+			return ['valid' => false];
 		}
 
 		if (!isset($installXmlFile->dlid))
 		{
-			return null;
+			return ['valid' => false];
 		}
 
 		$prefix = (string) $installXmlFile->dlid['prefix'];
 		$suffix = (string) $installXmlFile->dlid['suffix'];
 		$value  = substr($extension->extra_query, strlen($prefix));
 
-		if ($suffix != null)
+		if ($suffix)
 		{
 			$value = substr($value, 0, -strlen($suffix));
 		}
 
-		$downloadKey = array(
+		$downloadKey = [
+			'valid'   => true,
 			'prefix'  => $prefix,
 			'suffix'  => $suffix,
 			'value'   => $value
-		);
+		];
 
 		return $downloadKey;
 	}
