@@ -100,7 +100,7 @@ class Atum
 
 				$root[] = '--atum-link-color: ' . (($monochrome) ? $linkColor->grayscale() : $linkColor) . ';';
 
-				$root[] = '--atum-link-hover-color: ' . ($monochrome ? $linkColor->grayscale()->darken(20) : $linkColor->darken(20)) . ';';
+				$root[] = '--atum-link-hover-color: ' . (($monochrome) ? $linkColor->grayscale()->darken(20) : $linkColor->darken(20)) . ';';
 			}
 			catch (Exception $ex)
 			{
@@ -151,7 +151,7 @@ class Atum
 			$bgcolor = new Hsl('hsl(' . $hue . ', ' . (61 * $multiplier) . ', 26)');
 
 			$root[] = '--atum-bg-dark: ' . (new Hsl('hsl(' . $hue . ', ' . (61 * $multiplier) . ', 26)'))->toHex() . ';';
-			$root[] = '--atum-contrast: ' . (new Hsl('hsl(' . $hue . ', 61, 26)'))->spin(-40)->lighten(18)->toHex() . ';';
+			$root[] = '--atum-contrast: ' . (new Hsl('hsl(' . $hue . ','  . (61 * $multiplier) . ', 26)'))->spin(-40)->lighten(18)->toHex() . ';';
 			$root[] = '--atum-bg-dark-0: ' . (clone $bgcolor)->desaturate(86 * $multiplier)->lighten(71.4)->spin(-6)->toHex() . ';';
 			$root[] = '--atum-bg-dark-5: ' . (clone $bgcolor)->desaturate(86 * $multiplier)->lighten(65.1)->spin(-6)->toHex() . ';';
 			$root[] = '--atum-bg-dark-10: ' . (clone $bgcolor)->desaturate(86 * $multiplier)->lighten(59.4)->spin(-6)->toHex() . ';';
