@@ -31,6 +31,18 @@
   );
 
   /**
+   * Regex for saturation and lightness of hsl - only accepts 1 or 0 or 0.4 or 40
+   * @type {RegExp}
+   */
+  const hslNumberRegex = new RegExp(/^(([0-1])|(0\\.[0-9]+)|([0-9]{2}))$/);
+
+  /**
+   * Regex for hue values - allowed are 0 - 360
+   * @type {RegExp}
+   */
+  const hueRegex = new RegExp(/^[0-3][0-9]+$/);
+
+  /**
    * Creates a slider for the color values hue, saturation and light.
    *
    * @since 4.0
@@ -41,37 +53,46 @@
      */
     constructor(element) {
       // Elements
-      this.input = element.querySelector('.color-input');
+      this.messageSpan = element.querySelector('.form-control-feedback');
+      this.mainInput = element.querySelector('.color-input');
+      this.input = element.querySelector('#slider-input');
       this.sliders = element.querySelectorAll('.color-slider');
-      this.hueSlider = element.querySelector('.hue-slider');
-      this.saturationSlider = element.querySelector('.saturation-slider');
-      this.lightSlider = element.querySelector('.light-slider');
-      this.alphaSlider = element.querySelector('.alpha-slider');
+      this.hueSlider = element.querySelector('#hue-slider');
+      this.saturationSlider = element.querySelector('#saturation-slider');
+      this.lightSlider = element.querySelector('#light-slider');
+      this.alphaSlider = element.querySelector('#alpha-slider');
 
       // Attributes
       this.color = element.dataset.color || '';
       this.default = element.dataset.default || '';
-      this.display = element.dataset.display.split(',') || ['full'];
       this.format = element.dataset.format || 'hex';
       this.preview = element.dataset.preview === 'true';
       this.setAlpha = this.format === 'hsla' || this.format === 'rgba';
 
-      this.hue = 360;
-      this.saturation = 1;
-      this.light = 1;
-      this.alpha = 1;
+      this.hue = element.dataset.hue || 360;
+      this.saturation = element.dataset.saturation || 1;
+      this.light = element.dataset.light || 1;
+      this.alpha = element.dataset.alpha || 1;
+      this.initHsl = [this.hue, this.saturation, this.light, this.alpha];
 
       this.setInitValue();
       this.setBackground();
 
-      // Hide input field, when selected value should not be visible
+      // Hide preview field, when selected value should not be visible
       if (!this.preview) {
         this.input.style.display = 'none';
+      } else {
+        this.setInputPattern();
       }
+
+      // Always hide main input field (value saved in database)
+      this.mainInput.style.display = 'none';
 
       Array.prototype.forEach.call(this.sliders, (slider) => {
         slider.addEventListener('change', () => this.updateValue(slider));
       });
+
+      this.input.addEventListener('change', () => this.changeInput(this.input));
     }
 
     /**
@@ -86,6 +107,103 @@
       this.setSliderValues(hsl, slider.dataset.type);
       this.setInputValue(hsl);
       this.setBackground(slider);
+    }
+
+    /**
+     * React on user changing input value
+     *
+     * @param {HTMLElement} inputField
+     */
+    changeInput(inputField) {
+      let hsl = [this.hue, this.saturation, this.light, this.alpha];
+
+      if (!this.checkValue(inputField.value)) {
+        this.messageSpan.innerText = `${Joomla.Text._('JFIELD_COLOR_WRONG_FORMAT')}: ${this.input.dataset.format}`;
+        this.setInputValue(this.initHsl);
+      } else {
+        this.messageSpan.innerText = '';
+
+        switch (this.input.dataset.format) {
+          case 'hue':
+            hsl[0] = inputField.value;
+            this.hue = inputField.value;
+            break;
+          case 'saturation':
+            hsl[1] = inputField.value;
+            this.saturation = inputField.value;
+            break;
+          case 'light':
+            hsl[2] = inputField.value;
+            this.light = inputField.value;
+            break;
+          case 'alpha':
+            hsl[3] = inputField.value;
+            this.alpha = inputField.value;
+            break;
+          default:
+            hsl = this.getHsl(inputField.value);
+        }
+
+        this.setSliderValues(hsl);
+      }
+    }
+
+    /**
+     * Check validity of value
+     *
+     * @param {number|string} value to check
+     * @returns {boolean}
+     */
+    checkValue(value) {
+      switch (this.input.dataset.format) {
+        case 'hue':
+          return hueRegex.test(value);
+        case 'saturation':
+        case 'light':
+        case 'alpha':
+          return hslNumberRegex.test(value);
+        case 'hsl':
+        case 'hsla':
+          return hslRegex.test(value);
+        case 'hex':
+          return hexRegex.test(value);
+        case 'rgb':
+        case 'rgba':
+          return rgbRegex.test(value);
+        default:
+          return false;
+      }
+    }
+
+    /**
+     * Set validation pattern on input field
+     */
+    setInputPattern() {
+      let pattern;
+
+      // RegExp has '/' at start and end
+      switch (this.input.dataset.format) {
+        case 'hue':
+          pattern = hueRegex.source.slice(1, -1);
+          break;
+        case 'saturation':
+        case 'light':
+        case 'alpha':
+          pattern = hslNumberRegex.source.slice(1, -1);
+          break;
+        case 'hsl':
+        case 'hsla':
+          pattern = hslRegex.source.slice(1, -1);
+          break;
+        case 'rgb':
+          pattern = rgbRegex.source.slice(1, -1);
+          break;
+        case 'hex':
+        default:
+          pattern = hexRegex.source.slice(1, -1);
+      }
+
+      this.input.setAttribute('pattern', pattern);
     }
 
     /**
@@ -132,7 +250,8 @@
      */
     setInitValue() {
       // The initial value can be also a color defined in css
-      const cssValue = window.getComputedStyle(this.input).getPropertyValue(this.default);
+      const cssValue = window.getComputedStyle(this.input)
+        .getPropertyValue(this.default);
       let hsl = [];
       let value;
 
@@ -171,6 +290,7 @@
 
       [this.hue, this.saturation, this.light] = hsl;
       this.alpha = hsl[4] || this.alpha;
+      this.initHsl = hsl;
 
       this.setSliderValues(hsl);
       this.setInputValue(hsl);
@@ -180,13 +300,15 @@
 
     /**
      * Convert value into HSLa e.g. #003E7C => [210, 100, 24]
-     * @param value
+     * @param {array|number|string} value
      * @returns {array}
      */
     getHsl(value) {
       let hsl = [];
 
-      if (hexRegex.test(value)) {
+      if (Array.isArray(value)) {
+        hsl = value;
+      } else if (hexRegex.test(value)) {
         hsl = this.hexToHsl(value);
       } else if (rgbRegex.test(value)) {
         hsl = this.rgbToHsl(value);
@@ -197,8 +319,11 @@
         throw new Error(`Can not convert ${value} to HSL(a).`);
       }
 
-      hsl[1] = hsl[1] > 1 ? hsl[1] / 100 : hsl[1];
-      hsl[2] = hsl[2] > 1 ? hsl[2] / 100 : hsl[2];
+      // Convert saturation etc. values from e.g. 40 to 0.4
+      let i;
+      for (i = 1; i < hsl.length; i += 1) {
+        hsl[i] = hsl[i] > 1 ? hsl[i] / 100 : hsl[i];
+      }
 
       return hsl;
     }
@@ -275,40 +400,41 @@
     }
 
     /**
-     * Set value in input field depending on format
+     * Set value in text input fields depending on their format
      * @param {array} hsl
      */
     setInputValue(hsl) {
-      let value;
+      [this.input, this.mainInput].forEach((input) => {
+        let value;
+        switch (input.dataset.format) {
+          case 'hsl':
+          case 'hsla':
+            value = this.getHslString(hsl);
+            break;
+          case 'rgb':
+          case 'rgba':
+            value = this.getRgbString(this.hslToRgb(hsl));
+            break;
+          case 'hex':
+            value = this.rgbToHex(this.hslToRgb(hsl));
+            break;
+          case 'alpha':
+            value = Math.round(hsl[3] * 100);
+            break;
+          case 'saturation':
+            value = Math.round(hsl[1] * 100);
+            break;
+          case 'light':
+            value = Math.round(hsl[2] * 100);
+            break;
+          case 'hue':
+          default:
+            value = Math.round(hsl[0]);
+            break;
+        }
 
-      switch (this.format) {
-        case 'hsl':
-        case 'hsla':
-          value = this.getHslString(hsl);
-          break;
-        case 'rgb':
-        case 'rgba':
-          value = this.getRgbString(this.hslToRgb(hsl));
-          break;
-        case 'hex':
-          value = this.rgbToHex(this.hslToRgb(hsl));
-          break;
-        case 'alpha':
-          value = Math.round(hsl[3] * 100);
-          break;
-        case 'saturation':
-          value = Math.round(hsl[1] * 100);
-          break;
-        case 'light':
-          value = Math.round(hsl[2] * 100);
-          break;
-        case 'hue':
-        default:
-          value = Math.round(hsl[0]);
-          break;
-      }
-
-      this.input.setAttribute('value', value);
+        input.value = value;
+      });
     }
 
     /**
@@ -348,9 +474,12 @@
      * @return {string}
      */
     rgbToHex(rgb) {
-      let r = rgb[0].toString(16).toUpperCase();
-      let g = rgb[1].toString(16).toUpperCase();
-      let b = rgb[2].toString(16).toUpperCase();
+      let r = rgb[0].toString(16)
+        .toUpperCase();
+      let g = rgb[1].toString(16)
+        .toUpperCase();
+      let b = rgb[2].toString(16)
+        .toUpperCase();
 
       // Double value for hex with '#' and 6 chars
       r = r.length === 1 ? `${r}${r}` : r;
