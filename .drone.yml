@@ -31,6 +31,7 @@ steps:
     failure: ignore
     commands:
       - echo $(date)
+      - ./libraries/vendor/bin/phpcs --config-set installed_paths ../../joomla/cms-coding-standards/lib,../../joomla/coding-standards/Joomla/ExampleRulesets,../../joomla/coding-standards
       - ./libraries/vendor/bin/phpcs --config-set colors 1
       - ./libraries/vendor/bin/phpcs --config-set php_version 70200
       - ./libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php --ignore=libraries/vendor/*,tests/*,build/* -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
@@ -196,6 +197,6 @@ services:
 
 ---
 kind: signature
-hmac: d7b16aa49fcf792c7637ce70637d8099b21e1d18813251d019a33bff8a929296
+hmac: 14e35b8fbed2dfd87f4891598eb05aabddeed92741e325b1b848db42a1bd749b
 
 ...
