@@ -21,6 +21,11 @@ use Joomla\CMS\Helper\ContentHelper;
  */
 class NewsfeedsHelper extends ContentHelper
 {
+	/**
+	 * Extension
+	 *
+	 * @var    string
+	 */
 	public static $extension = 'com_newsfeeds';
 
 	/**
