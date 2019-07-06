@@ -27,7 +27,7 @@
             "joomla/oauth2": "dist",
             "joomla/mediawiki": "dist",
             "joomla/registry": "dist",
-			"joomla/router": "dist",
+            "joomla/router": "dist",
             "joomla/session": "dist",
             "joomla/string": "dist",
             "joomla/uri": "dist",
