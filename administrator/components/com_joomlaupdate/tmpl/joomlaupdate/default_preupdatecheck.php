@@ -21,6 +21,8 @@ use Joomla\CMS\Language\Text;
 <div class="row-fluid">
 	<fieldset class="span6">
 		<legend>
+			<span class="fa fa-info-circle" aria-hidden="true"></span>
+			<span class="sr-only"><?php echo Text::_('NOTICE'); ?></span>
 			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK'); ?>
 		</legend>
 		<table class="table">
