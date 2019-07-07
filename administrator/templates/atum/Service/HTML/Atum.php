@@ -147,20 +147,55 @@ class Atum
 		
 		if(strpos($hue, 'hsl') !== false)
 		{
-			$hue=new Hsl($hue);
-			$hue=$hue->hue();
-		}else if(strpos($hue, '#') !== false){
-			$hue=new Hex($hue);
-			$hue=$hue->toHsl()->hue();
+			try
+			{
+				$hue=new Hsl($hue);
+				$hue=$hue->hue();
+			}
+			catch (Exception $ex)
+			{
+				// Just ignore exceptions
+			}
+		}else if(static::isHex($hue)){
+			try
+			{
+				$hue=new Hex($hue);
+				$hue=$hue->toHsl()->hue();
+			}
+			catch (Exception $ex)
+			{
+				// Just ignore exceptions
+			}
 		}else if(strpos($hue, 'hsla') !== false){
-			$hue=new Hsla($hue);
-			$hue=$hue->toHsl()->hue();
+			try
+			{
+				$hue=new Hsla($hue);
+				$hue=$hue->toHsl()->hue();
+			}
+			catch (Exception $ex)
+			{
+				// Just ignore exceptions
+			}
 		}else if(strpos($hue, 'hsv') !== false){
-			$hue=new Hsv($hue);
-			$hue=$hue->toHsl()->hue();
+			try
+			{
+				$hue=new Hsv($hue);
+				$hue=$hue->toHsl()->hue();
+			}
+			catch (Exception $ex)
+			{
+				// Just ignore exceptions
+			}
 		}else if(strpos($hue, 'rgb') !== false){
-			$hue=new Rgb($hue);
-			$hue=$hue->toHsl()->hue();
+			try
+			{
+				$hue=new Rgb($hue);
+				$hue=$hue->toHsl()->hue();
+			}
+			catch (Exception $ex)
+			{
+				// Just ignore exceptions
+			}
 		}
 		
 		
