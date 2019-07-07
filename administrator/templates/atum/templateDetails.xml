@@ -55,10 +55,9 @@
 						format="hue"
 						control="slider"
 						preview="true"
-						saturation="61"
-						lightness="26"
 						label="TPL_ATUM_COLORS_HUE"
-						default="#1a466b"
+						saveFormat="hsl"
+						default="hsl(207,61%,26%)"
 				/>
 				<field
 					name="bg-light"

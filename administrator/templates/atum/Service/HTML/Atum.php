@@ -141,8 +141,8 @@ class Atum
 	protected static function bgdarkcalc($hue, $monochrome = false) : array
 	{
 		$multiplier = $monochrome ? 0 : 1;
-		$hue=new Hex($hue);
-		$hue=$hue->toHsl()->hue();
+		$hue=new Hsl($hue);
+		$hue=$hue->hue();
 		$hue = min(359, max(0, (int) $hue));
 
 		$root = [];
