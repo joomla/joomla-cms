@@ -12,12 +12,11 @@ namespace Joomla\Template\Atum\Administrator\Service\HTML;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\Registry\Registry;
 use OzdemirBurak\Iris\Color\Hex;
 use OzdemirBurak\Iris\Color\Hsl;
 use OzdemirBurak\Iris\Color\Rgb;
-use OzdemirBurak\Iris\Color\Hsv;
 use OzdemirBurak\Iris\Color\Hsla;
-use Joomla\Registry\Registry;
 
 /**
  * Template Atum HTML Helper
@@ -29,7 +28,7 @@ class Atum
 	/**
 	 * Calculates the different template colors and set the CSS variables
 	 *
-	 * @param   array   $params    Template parameters.
+	 * @param   Registry   $params    Template parameters.
 	 *
 	 * @return void
 	 *
@@ -134,8 +133,8 @@ class Atum
 	/**
 	 * Calculates the different template colors
 	 *
-	 * @param   string   $hue           Template parameter color.
-	 * @param   int      $monochrome    Template parameter monochrome.
+	 * @param   string   $color         Template parameter color.
+	 * @param   boolean  $monochrome    Template parameter monochrome.
 	 *
 	 * @return  array  An array of calculated color values and css variables
 	 *
@@ -179,7 +178,7 @@ class Atum
 			{
 				// Just ignore exceptions
 			}
-		}		
+		}
 		elseif (strpos($color, 'rgb(') !== false)
 		{
 			try
@@ -212,7 +211,7 @@ class Atum
 			$root[] = '--atum-bg-dark-80: ' . (clone $bgcolor)->lighten(-11.5)->spin(7)->toHex() . ';';
 			$root[] = '--atum-bg-dark-90: ' . (clone $bgcolor)->desaturate(-1 * $multiplier)->lighten(-17)->spin(10)->toHex() . ';';
 		}
-		catch (Exception $ex)
+		catch (\Exception $ex)
 		{
 			// Just ignore exceptions
 		}
@@ -226,6 +225,8 @@ class Atum
 	 * @param   string  $hex  The string to test
 	 *
 	 * @return boolean  True when color hex value otherwise false
+	 *
+	 * @since  4.0.0
 	 */
 	protected static function isHex($hex): bool
 	{
