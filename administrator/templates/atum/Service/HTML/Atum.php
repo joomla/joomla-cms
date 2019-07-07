@@ -14,6 +14,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use OzdemirBurak\Iris\Color\Hex;
 use OzdemirBurak\Iris\Color\Hsl;
+use OzdemirBurak\Iris\Color\Rgb;
+use OzdemirBurak\Iris\Color\Hsv;
+use OzdemirBurak\Iris\Color\Hsla;
 use Joomla\Registry\Registry;
 
 /**
@@ -141,8 +144,26 @@ class Atum
 	protected static function bgdarkcalc($hue, $monochrome = false) : array
 	{
 		$multiplier = $monochrome ? 0 : 1;
-		$hue=new Hsl($hue);
-		$hue=$hue->hue();
+		
+		if(strpos($hue, 'hsl') !== false)
+		{
+			$hue=new Hsl($hue);
+			$hue=$hue->hue();
+		}else if(strpos($hue, '#') !== false){
+			$hue=new Hex($hue);
+			$hue=$hue->toHsl()->hue();
+		}else if(strpos($hue, 'hsla') !== false){
+			$hue=new Hsla($hue);
+			$hue=$hue->toHsl()->hue();
+		}else if(strpos($hue, 'hsv') !== false){
+			$hue=new Hsv($hue);
+			$hue=$hue->toHsl()->hue();
+		}else if(strpos($hue, 'rgb') !== false){
+			$hue=new Rgb($hue);
+			$hue=$hue->toHsl()->hue();
+		}
+		
+		
 		$hue = min(359, max(0, (int) $hue));
 
 		$root = [];
