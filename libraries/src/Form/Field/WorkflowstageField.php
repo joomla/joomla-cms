@@ -75,7 +75,7 @@ class WorkflowstageField extends GroupedlistField
 
 			if ((string) $element['activeonly'] == '1' || (string) $element['activeonly'] == 'true')
 			{
-				$this->activeonly =  true;
+				$this->activeonly = true;
 			}
 		}
 
@@ -117,7 +117,6 @@ class WorkflowstageField extends GroupedlistField
 				->from($db->quoteName('#__workflow_associations', 'wa'))
 				->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'))
 				->where($db->quoteName('wa.extension') . ' = ' . $db->quote($this->extension));
-
 		}
 
 		$stages = $db->setQuery($query)->loadObjectList();
