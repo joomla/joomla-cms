@@ -418,12 +418,16 @@
         let value;
         switch (input.dataset.format) {
           case 'hsl':
-          case 'hsla':
             value = this.getHslString(hsl);
             break;
+          case 'hsla':
+            value = this.getHslString(hsl, true);
+            break;
           case 'rgb':
-          case 'rgba':
             value = this.getRgbString(this.hslToRgb(hsl));
+            break;
+          case 'rgba':
+            value = this.getRgbString(this.hslToRgb(hsl), true);
             break;
           case 'hex':
             value = this.rgbToHex(this.hslToRgb(hsl));
@@ -450,27 +454,32 @@
     /**
      * Put RGB values into a string like 'rgb(<R>, <G>, <B>)'
      * @params {array} rgba
+     * @params {boolean=false} withAlpha
+     * @return {string}
      */
-    getRgbString([r, g, b, a]) {
-      if (this.setAlpha) {
+    getRgbString([r, g, b, a], withAlpha) {
+      if (withAlpha || this.setAlpha) {
         const alpha = typeof a === 'undefined' ? this.alpha : a;
         return `rgba(${r}, ${g}, ${b}, ${alpha})`;
       }
+
       return `rgb(${r}, ${g}, ${b})`;
     }
 
     /**
      * Put HSL values into a string like 'hsl(<H>, <S>%, <L>%, <a>)'
      * @params {array} values
+     * @params {boolean=false} withAlpha
+     * @return {string}
      */
-    getHslString(values) {
+    getHslString(values, withAlpha) {
       let [h, s, l, a] = values;
 
       s *= 100;
       l *= 100;
       [h, s, l] = [h, s, l].map(value => Math.round(value));
 
-      if (this.setAlpha) {
+      if (withAlpha || this.setAlpha) {
         a = a || this.alpha;
         return `hsla(${h}, ${s}%, ${l}%, ${a})`;
       }
