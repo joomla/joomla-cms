@@ -30,35 +30,35 @@ joomla-tab {
 		overflow-x: auto;
 		overflow-y: hidden;
 		white-space: nowrap;
-	}
-	a[role=tab] {
-		display: block;
-		color: var(--atum-text-light);
-		padding: 1.3rem 2rem;
-		position: relative;
-		box-shadow: none;
-		border: 1px solid var(--atum-bg-dark-80);
-		border-right: 0;
-		border-bottom: 0;
-		text-decoration: none;
-		&[active], &:hover {
-			background-color: var(--atum-bg-dark-80);
-			background-image: none;
-			border-radius: 0;
+		a[role=tab] {
+			display: block;
+			color: var(--atum-text-light);
+			padding: 1.3rem 2rem;
+			position: relative;
 			box-shadow: none;
-			&:after {
-				background-color: var(--atum-contrast);
-				top: -1px;
-				content: "";
-				height: 8px;
-				left: 0;
-				opacity: .8;
-				position: absolute;
-				right: 0;
+			border: 1px solid var(--atum-bg-dark-80);
+			border-right: 0;
+			border-bottom: 0;
+			text-decoration: none;
+			&[active], &:hover {
+				background-color: var(--atum-bg-dark-80);
+				background-image: none;
+				border-radius: 0;
+				box-shadow: none;
+				&:after {
+					background-color: var(--atum-contrast);
+					top: -1px;
+					content: "";
+					height: 8px;
+					left: 0;
+					opacity: .8;
+					position: absolute;
+					right: 0;
+				}
 			}
-		}
-		&[active] {
-			font-weight: $font-weight-bold;
+			&[active] {
+				font-weight: $font-weight-bold;
+			}
 		}
 	}
 
