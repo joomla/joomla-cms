@@ -35,13 +35,13 @@ class Atum
 	 *
 	 * @since  4.0.0
 	 */
-	public static function rootcolors(Registry $params) : void
+	public static function rootcolors(Registry $params): void
 	{
 		$monochrome = (bool) $params->get('monochrome');
+		$root       = [];
 
-		$root = [];
 		if ($params->exists('hue'))
-		{			
+		{
 			$root = static::bgdarkcalc($params->get('hue'), $monochrome);
 		}
 
@@ -69,7 +69,7 @@ class Atum
 			try
 			{
 				$textDark = new Hex($textDark);
-				$root[] = '--atum-text-dark: ' . (($monochrome) ? $textDark->grayscale() : $textDark) . ';';
+				$root[]   = '--atum-text-dark: ' . (($monochrome) ? $textDark->grayscale() : $textDark) . ';';
 			}
 			catch (Exception $ex)
 			{
@@ -84,7 +84,7 @@ class Atum
 			try
 			{
 				$textLight = new Hex($textLight);
-				$root[] = '--atum-text-light: ' . (($monochrome) ? $textLight->grayscale() : $textLight) . ';';
+				$root[]    = '--atum-text-light: ' . (($monochrome) ? $textLight->grayscale() : $textLight) . ';';
 			}
 			catch (Exception $ex)
 			{
@@ -117,7 +117,7 @@ class Atum
 			try
 			{
 				$specialcolor = new Hex($specialColor);
-				$root[] = '--atum-special-color: ' . (($monochrome) ? $specialcolor->grayscale() : $specialcolor) . ';';
+				$root[]       = '--atum-special-color: ' . (($monochrome) ? $specialcolor->grayscale() : $specialcolor) . ';';
 			}
 			catch (Exception $ex)
 			{
@@ -141,66 +141,72 @@ class Atum
 	 *
 	 * @since  4.0.0
 	 */
-	protected static function bgdarkcalc($hue, $monochrome = false) : array
+	protected static function bgdarkcalc($hue, $monochrome = false): array
 	{
 		$multiplier = $monochrome ? 0 : 1;
-		
-		if(strpos($hue, 'hsl') !== false)
+
+		if (strpos($hue, 'hsl') !== false)
 		{
 			try
 			{
-				$hue=new Hsl($hue);
-				$hue=$hue->hue();
-			}
-			catch (Exception $ex)
-			{
-				// Just ignore exceptions
-			}
-		}else if(static::isHex($hue)){
-			try
-			{
-				$hue=new Hex($hue);
-				$hue=$hue->toHsl()->hue();
-			}
-			catch (Exception $ex)
-			{
-				// Just ignore exceptions
-			}
-		}else if(strpos($hue, 'hsla') !== false){
-			try
-			{
-				$hue=new Hsla($hue);
-				$hue=$hue->toHsl()->hue();
-			}
-			catch (Exception $ex)
-			{
-				// Just ignore exceptions
-			}
-		}else if(strpos($hue, 'hsv') !== false){
-			try
-			{
-				$hue=new Hsv($hue);
-				$hue=$hue->toHsl()->hue();
-			}
-			catch (Exception $ex)
-			{
-				// Just ignore exceptions
-			}
-		}else if(strpos($hue, 'rgb') !== false){
-			try
-			{
-				$hue=new Rgb($hue);
-				$hue=$hue->toHsl()->hue();
+				$hue = new Hsl($hue);
+				$hue = $hue->hue();
 			}
 			catch (Exception $ex)
 			{
 				// Just ignore exceptions
 			}
 		}
-		
-		
-		$hue = min(359, max(0, (int) $hue));
+		else if (static::isHex($hue))
+		{
+			try
+			{
+				$hue = new Hex($hue);
+				$hue = $hue->toHsl()->hue();
+			}
+			catch (Exception $ex)
+			{
+				// Just ignore exceptions
+			}
+		}
+		else if (strpos($hue, 'hsla') !== false)
+		{
+			try
+			{
+				$hue = new Hsla($hue);
+				$hue = $hue->toHsl()->hue();
+			}
+			catch (Exception $ex)
+			{
+				// Just ignore exceptions
+			}
+		}
+		else if (strpos($hue, 'hsv') !== false)
+		{
+			try
+			{
+				$hue = new Hsv($hue);
+				$hue = $hue->toHsl()->hue();
+			}
+			catch (Exception $ex)
+			{
+				// Just ignore exceptions
+			}
+		}
+		else if (strpos($hue, 'rgb') !== false)
+		{
+			try
+			{
+				$hue = new Rgb($hue);
+				$hue = $hue->toHsl()->hue();
+			}
+			catch (Exception $ex)
+			{
+				// Just ignore exceptions
+			}
+		}
 
+		$hue  = min(359, max(0, (int) $hue));
 		$root = [];
 
 		try
@@ -208,7 +214,7 @@ class Atum
 			$bgcolor = new Hsl('hsl(' . $hue . ', ' . (61 * $multiplier) . ', 26)');
 
 			$root[] = '--atum-bg-dark: ' . (new Hsl('hsl(' . $hue . ', ' . (61 * $multiplier) . ', 26)'))->toHex() . ';';
-			$root[] = '--atum-contrast: ' . (new Hsl('hsl(' . $hue . ','  . (61 * $multiplier) . ', 26)'))->spin(-40)->lighten(18)->toHex() . ';';
+			$root[] = '--atum-contrast: ' . (new Hsl('hsl(' . $hue . ',' . (61 * $multiplier) . ', 26)'))->spin(-40)->lighten(18)->toHex() . ';';
 			$root[] = '--atum-bg-dark-0: ' . (clone $bgcolor)->desaturate(86 * $multiplier)->lighten(71.4)->spin(-6)->toHex() . ';';
 			$root[] = '--atum-bg-dark-5: ' . (clone $bgcolor)->desaturate(85 * $multiplier)->lighten(65.1)->spin(-6)->toHex() . ';';
 			$root[] = '--atum-bg-dark-10: ' . (clone $bgcolor)->desaturate(80 * $multiplier)->lighten(59.4)->spin(-6)->toHex() . ';';
@@ -235,7 +241,7 @@ class Atum
 	 *
 	 * @return boolean  True when color hex value otherwise false
 	 */
-	protected static function isHex($hex) : bool
+	protected static function isHex($hex): bool
 	{
 		if (substr($hex, 0, 1) !== '#')
 		{
