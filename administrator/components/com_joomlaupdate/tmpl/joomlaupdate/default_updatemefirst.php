@@ -14,6 +14,13 @@ use Joomla\CMS\Language\Text;
 ?>
 
 <fieldset>
-	<legend><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NO_LIVE_UPDATE'); ?></legend>
-	<p><?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NO_LIVE_UPDATE_DESC'); ?></p>
+	<legend>
+		<?php echo Text::_('COM_JOOMLAUPDATE_LIVE_UPDATE'); ?>
+	</legend>
+	<p class="alert alert-warning">
+		<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NO_LIVE_UPDATE'); ?>
+	</p>
+	<p>
+		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NO_LIVE_UPDATE_DESC'); ?>
+	</p>
 </fieldset>
