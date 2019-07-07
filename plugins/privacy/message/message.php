@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Database\ParameterType;
+
 /**
  * Privacy plugin managing Joomla user messages
  *
@@ -40,9 +42,11 @@ class PlgPrivacyMessage extends PrivacyPlugin
 		$query = $this->db->getQuery(true)
 			->select('*')
 			->from($this->db->quoteName('#__messages'))
-			->where($this->db->quoteName('user_id_from') . ' = ' . (int) $user->id)
-			->orWhere($this->db->quoteName('user_id_to') . ' = ' . (int) $user->id)
-			->order($this->db->quoteName('date_time') . ' ASC');
+			->where($this->db->quoteName('user_id_from') . ' = :useridfrom')
+			->orWhere($this->db->quoteName('user_id_to') . ' = :useridto')
+			->order($this->db->quoteName('date_time') . ' ASC')
+			->bind('useridfrom', $user->id, ParameterType::INTEGER)
+			->bind('useridto', $user->id, ParameterType::INTEGER);
 
 		$items = $this->db->setQuery($query)->loadAssocList();
 
