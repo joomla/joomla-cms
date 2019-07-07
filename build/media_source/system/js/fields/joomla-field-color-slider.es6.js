@@ -34,13 +34,13 @@
    * Regex for saturation and lightness of hsl - only accepts 1 or 0 or 0.4 or 40
    * @type {RegExp}
    */
-  const hslNumberRegex = new RegExp(/^(([0-1])|(0\\.[0-9]+)|([0-9]{2}))$/);
+  const hslNumberRegex = new RegExp(/^(([0-1])|(0\\.[0-9]+)|([0-9]{1,2})|(100))$/);
 
   /**
-   * Regex for hue values - allowed are 0 - 360
+   * Regex for hue values - one to three numbers
    * @type {RegExp}
    */
-  const hueRegex = new RegExp(/^[0-3][0-9]+$/);
+  const hueRegex = new RegExp(/^[0-9]{1,3}$/);
 
   /**
    * Creates a slider for the color values hue, saturation and light.
@@ -156,9 +156,11 @@
      * @returns {boolean}
      */
     checkValue(value) {
+      const hueTest = hueRegex.test(value);
+
       switch (this.input.dataset.format) {
         case 'hue':
-          return hueRegex.test(value);
+          return value <= 360 && hueTest;
         case 'saturation':
         case 'light':
         case 'alpha':
