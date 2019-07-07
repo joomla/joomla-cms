@@ -31,10 +31,10 @@ Text::script('MESSAGE');
 	<div class="row">
 		<!-- Begin Sidebar -->
 		<div id="sidebar" class="col-md-2">
-            <button class="navbar-toggler options-menu d-md-none d-lg-none d-xl-non" type="button" data-toggle="collapse" data-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="Toggle navigation">
-                 <span class="burger-toggler-icon">
+            <button class="navbar-toggler btn-secondary my-2 options-menu d-md-none d-lg-none d-xl-non" type="button" data-toggle="collapse" data-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="Toggle navigation">
+                 <span class="burger-toggler-icon"></span>
                      <?php echo Text::_('TPL_ATUM_TOGGLE_SIDEBAR'); ?>
-                  </span>
+                  
             </button>
 			<div class="sidebar-nav">
 				<?php echo $this->loadTemplate('navigation'); ?>
