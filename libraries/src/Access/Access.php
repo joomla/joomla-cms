@@ -268,7 +268,7 @@ class Access
 	 *                               (e.g. 'com_content.article', 'com_menus.menu.2', 'com_contact').
 	 * @param   boolean  $reload     Reload the preloaded assets.
 	 *
-	 * @return  boolean  True
+	 * @return  void
 	 *
 	 * @since   1.6
 	 * @note    This function will return void in 4.0.
