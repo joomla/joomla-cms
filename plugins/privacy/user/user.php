@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -107,6 +108,8 @@ class PlgPrivacyUser extends PrivacyPlugin
 			return;
 		}
 
+		$db = $this->db;
+
 		$pseudoanonymisedData = array(
 			'name'      => 'User ID ' . $user->id,
 			'username'  => bin2hex(random_bytes(12)),
@@ -119,12 +122,15 @@ class PlgPrivacyUser extends PrivacyPlugin
 		$user->save();
 
 		// Destroy all sessions for the user account
-		$sessionIds = $this->db->setQuery(
-			$this->db->getQuery(true)
-				->select($this->db->quoteName('session_id'))
-				->from($this->db->quoteName('#__session'))
-				->where($this->db->quoteName('userid') . ' = ' . (int) $user->id)
-		)->loadColumn();
+
+		$query = $db->getQuery(true)
+			->select($db->quoteName('session_id'))
+			->from($db->quoteName('#__session'))
+			->where($db->quoteName('userid') . ' = :userid')
+			->bind(':userid', $user->id, ParameterType::INTEGER);
+
+		$db->setQuery($query);
+		$sessionIds = $db->loadColumn();
 
 		// If there aren't any active sessions then there's nothing to do here
 		if (empty($sessionIds))
@@ -134,20 +140,21 @@ class PlgPrivacyUser extends PrivacyPlugin
 
 		$storeName = Factory::getConfig()->get('session_handler', 'none');
 		$store     = JSessionStorage::getInstance($storeName);
-		$quotedIds = array();
+		$ids       = [];
 
 		// Destroy the sessions and quote the IDs to purge the session table
 		foreach ($sessionIds as $sessionId)
 		{
 			$store->destroy($sessionId);
-			$quotedIds[] = $this->db->quote($sessionId);
+			$ids[] = $sessionId;
 		}
 
-		$this->db->setQuery(
-			$this->db->getQuery(true)
-				->delete($this->db->quoteName('#__session'))
-				->where($this->db->quoteName('session_id') . ' IN (' . implode(', ', $quotedIds) . ')')
-		)->execute();
+		$query->clear()
+			->delete($db->quoteName('#__session'))
+			->whereIn($db->quoteName('session_id'), $ids);
+
+		$db->setQuery($query)
+			->execute();
 	}
 
 	/**
@@ -162,16 +169,18 @@ class PlgPrivacyUser extends PrivacyPlugin
 	private function createNotesDomain(JTableUser $user)
 	{
 		$domain = $this->createDomain('user_notes', 'joomla_user_notes_data');
+		$db     = $this->db;
 
-		$query = $this->db->getQuery(true)
+		$query = $db->getQuery(true)
 			->select('*')
-			->from($this->db->quoteName('#__user_notes'))
-			->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($user->id));
+			->from($db->quoteName('#__user_notes'))
+			->where($db->quoteName('user_id') . ' = :userid')
+			->bind(':userid', $user->id, ParameterType::INTEGER);
 
-		$items = $this->db->setQuery($query)->loadAssocList();
+		$items = $db->setQuery($query)->loadAssocList();
 
 		// Remove user ID columns
-		foreach (array('user_id', 'created_user_id', 'modified_user_id') as $column)
+		foreach (['user_id', 'created_user_id', 'modified_user_id'] as $column)
 		{
 			$items = ArrayHelper::dropColumn($items, $column);
 		}
@@ -196,14 +205,16 @@ class PlgPrivacyUser extends PrivacyPlugin
 	private function createProfileDomain(JTableUser $user)
 	{
 		$domain = $this->createDomain('user_profile', 'joomla_user_profile_data');
+		$db     = $this->db;
 
-		$query = $this->db->getQuery(true)
+		$query = $db->getQuery(true)
 			->select('*')
-			->from($this->db->quoteName('#__user_profiles'))
-			->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($user->id))
-			->order($this->db->quoteName('ordering') . ' ASC');
+			->from($db->quoteName('#__user_profiles'))
+			->where($db->quoteName('user_id') . ' = :userid')
+			->order($db->quoteName('ordering') . ' ASC')
+			->bind(':userid', $user->id, ParameterType::INTEGER);
 
-		$items = $this->db->setQuery($query)->loadAssocList();
+		$items = $db->setQuery($query)->loadAssocList();
 
 		foreach ($items as $item)
 		{
@@ -241,8 +252,8 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 */
 	private function createItemForUserTable(JTableUser $user)
 	{
-		$data    = array();
-		$exclude = array('password', 'otpKey', 'otep');
+		$data    = [];
+		$exclude = ['password', 'otpKey', 'otep'];
 
 		foreach (array_keys($user->getFields()) as $fieldName)
 		{
