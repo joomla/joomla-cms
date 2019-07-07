@@ -169,7 +169,7 @@ class AddUserToGroupCommand extends AbstractCommand
 		$query = $db->getQuery(true)
 			->select($db->quoteName('title'))
 			->from($db->quoteName('#__usergroups'))
-			->where('id NOT IN (' . implode(", ", $user->groups) . ')')
+			->whereNotIn($db->quoteName('id'), $user->groups)
 			->order($db->quoteName('id') . ' ASC');
 		$db->setQuery($query);
 
