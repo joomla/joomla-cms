@@ -391,6 +391,24 @@
         "css": {
           "src/css/SkipTo.css": "css/SkipTo.css"
         }
+      },
+      "qrcode-generator": {
+        "name": "qrcode",
+        "js": {
+          "qrcode.js": "js/qrcode.js",
+          "qrcode_SJIS.js": "js/qrcode_SJIS.js",
+          "qrcode_UTF8.js": "js/qrcode_UTF8.js"
+        },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": [
+              "qrcode.js",
+              "qrcode_SJIS.js",
+              "qrcode_UTF8.js"
+            ]
+          }
+        ]
       }
     },
     "errorPages": {
