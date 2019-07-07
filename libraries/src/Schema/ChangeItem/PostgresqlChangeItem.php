@@ -40,7 +40,7 @@ class PostgresqlChangeItem extends ChangeItem
 	{
 		// Initialize fields in case we can't create a check query
 
-		// change status to skipped
+		// Change status to skipped
 		$this->checkStatus = -1;
 
 		$result = null;
