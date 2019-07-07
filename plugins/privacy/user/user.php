@@ -110,12 +110,12 @@ class PlgPrivacyUser extends PrivacyPlugin
 
 		$db = $this->db;
 
-		$pseudoanonymisedData = array(
+		$pseudoanonymisedData = [
 			'name'      => 'User ID ' . $user->id,
 			'username'  => bin2hex(random_bytes(12)),
 			'email'     => 'UserID' . $user->id . 'removed@email.invalid',
 			'block'     => true,
-		);
+		];
 
 		$user->bind($pseudoanonymisedData);
 
