@@ -20,7 +20,7 @@ use OzdemirBurak\Iris\Color\Hsla;
 use Joomla\Registry\Registry;
 
 /**
- * Content Component HTML Helper
+ * Template Atum HTML Helper
  *
  * @since  4.0.0
  */
