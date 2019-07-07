@@ -9,5 +9,5 @@ INSERT INTO "#__extensions" ("name", "type", "element", "folder", "client_id", "
 ('cassiopeia', 'template', 'cassiopeia', '', 0, 1, 1, 0, '{}', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
 INSERT INTO "#__template_styles" ("template", "client_id", "home", "title", "params") VALUES
-('atum', 0, '0', 'atum - Default', '{}'),
-('cassiopeia', 1, '1', 'cassiopeia - Default', '{}');
+('atum', 1, '0', 'atum - Default', '{}'),
+('cassiopeia', 0, '1', 'cassiopeia - Default', '{}');
