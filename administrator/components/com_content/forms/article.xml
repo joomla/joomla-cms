@@ -69,10 +69,9 @@
 		<field
 			name="transition"
 			type="transition"
-			extension="com_content"
 			label="COM_CONTENT_TRANSITION"
-		>
-		</field>
+			extension="com_content"
+		/>
 
 		<field
 			name="tags"
@@ -246,7 +245,7 @@
 
 	<fields name="attribs" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
 		<fieldset name="attribs" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
-			<fieldset name="basic" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
+			<fieldset name="basic" label="JFIELD_ALT_LAYOUT_LABEL">
 
 				<field
 					name="article_layout"
@@ -284,7 +283,7 @@
 					label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
 					class="custom-select-color"
 					useglobal="true"
-				>
+					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
@@ -671,7 +670,7 @@
 	/>
 
 	<fields name="images" label="COM_CONTENT_FIELD_IMAGE_OPTIONS">
-		<fieldset name="image-intro" label="COM_CONTENT_FIELD_IMAGE_OPTIONS">
+		<fieldset name="image-intro" label="COM_CONTENT_FIELD_INTRO_LABEL">
 			<field
 				name="image_intro"
 				type="media"
@@ -705,7 +704,7 @@
 
 		</fieldset>
 
-		<fieldset name="image-full" label="COM_CONTENT_FIELD_IMAGE_OPTIONS">
+		<fieldset name="image-full" label="COM_CONTENT_FIELD_FULL_LABEL">
 			<field
 				name="image_fulltext"
 				type="media"
@@ -740,7 +739,7 @@
 	</fields>
 
 	<fields name="urls" label="COM_CONTENT_FIELD_URLS_OPTIONS">
-		<fieldset name="linka" label="COM_CONTENT_FIELD_URLS_OPTIONS">
+		<fieldset name="linka" label="COM_CONTENT_FIELD_URLA_LABEL">
 			<field
 				name="urla"
 				type="url"
@@ -772,7 +771,7 @@
 			</field>
 		</fieldset>
 
-		<fieldset name="linkb" label="COM_CONTENT_FIELD_URLS_OPTIONS">
+		<fieldset name="linkb" label="COM_CONTENT_FIELD_URLB_LABEL">
 			<field
 				name="urlb"
 				type="url"
@@ -804,7 +803,7 @@
 			</field>
 		</fieldset>
 
-		<fieldset name="linkc" label="COM_CONTENT_FIELD_URLS_OPTIONS">
+		<fieldset name="linkc" label="COM_CONTENT_FIELD_URLC_LABEL">
 			<field
 				name="urlc"
 				type="url"
