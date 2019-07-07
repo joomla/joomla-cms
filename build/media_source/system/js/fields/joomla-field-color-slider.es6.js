@@ -145,6 +145,7 @@
         }
 
         this.setSliderValues(hsl);
+        this.setInputValue(hsl, true);
       }
     }
 
@@ -402,9 +403,16 @@
     /**
      * Set value in text input fields depending on their format
      * @param {array} hsl
+     * @param {boolean=false} onlyMain indicates to change mainInput only
      */
-    setInputValue(hsl) {
-      [this.input, this.mainInput].forEach((input) => {
+    setInputValue(hsl, onlyMain) {
+      const inputs = [this.mainInput];
+
+      if (!onlyMain) {
+        inputs.push(this.input);
+      }
+
+      inputs.forEach((input) => {
         let value;
         switch (input.dataset.format) {
           case 'hsl':
