@@ -49,7 +49,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('JCATEGORY')); ?>
 		<div class="row">
 			<div class="col-md-9">
-				<div class="card card-light">
+				<div class="card">
 					<div class="card-body">
 						<?php echo $this->form->getLabel('description'); ?>
 						<?php echo $this->form->getInput('description'); ?>
@@ -57,7 +57,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				</div>
 			</div>
 			<div class="col-md-3">
-				<div class="card card-block card-light">
+				<div class="card card-block">
 					<div class="card-body">
 					<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 					</div>

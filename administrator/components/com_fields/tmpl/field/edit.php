@@ -49,7 +49,7 @@ HTMLHelper::_('script', 'com_fields/admin-field-edit.js', ['version' => 'auto', 
 
 		</div>
 		<div class="col-md-3">
-			<div class="card card-light">
+			<div class="card">
 				<div class="card-body">
 					<?php $this->set('fields',
 							array(

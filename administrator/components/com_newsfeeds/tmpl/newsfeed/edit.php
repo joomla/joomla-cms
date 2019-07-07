@@ -51,7 +51,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				</div>
 			</div>
 			<div class="col-md-3">
-				<div class="card card-light">
+				<div class="card">
 					<div class="card-body">
 						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 					</div>

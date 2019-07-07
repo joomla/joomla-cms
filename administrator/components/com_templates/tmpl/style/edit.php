@@ -64,7 +64,7 @@ $user = Factory::getUser();
 				?>
 			</div>
 			<div class="col-md-3">
-				<div class="card card-light">
+				<div class="card">
 					<div class="card-body">
 						<?php
 						// Set main fields.

@@ -30,7 +30,7 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-versions.js', ['versio
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', empty($this->item->id) ? Text::_('COM_BANNERS_NEW_CLIENT') : Text::_('COM_BANNERS_EDIT_CLIENT')); ?>
 		<div class="row">
 			<div class="col-md-9">
-				<div class="card card-light">
+				<div class="card">
 					<div class="card-body">
 						<?php
 						echo $this->form->renderField('contact');
@@ -44,7 +44,7 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-versions.js', ['versio
 				</div>
 			</div>
 			<div class="col-md-3">
-				<div class="card card-light">
+				<div class="card">
 					<div class="card-body">
 						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 					</div>

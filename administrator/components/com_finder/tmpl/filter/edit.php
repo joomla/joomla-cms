@@ -51,7 +51,7 @@ HTMLHelper::_('script', 'com_finder/finder-edit.min.js', array('version' => 'aut
 			<?php echo HTMLHelper::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
 		</div>
 		<div class="col-md-3">
-			<div class="card card-light">
+			<div class="card">
 				<div class="card-body">
 					<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 				</div>

@@ -61,7 +61,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<div class="row">
 			<div class="col-md-9">
-				<div class="card card-light">
+				<div class="card">
 					<div class="card-body">
 						<?php if ($this->item->xml) : ?>
 							<?php if ($this->item->xml->description) : ?>
