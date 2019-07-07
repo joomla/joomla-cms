@@ -40,7 +40,7 @@ class Atum
 		$monochrome = (bool) $params->get('monochrome');
 		$root       = [];
 
-		if ($params->exists('hue'))
+		if ($params->get('hue'))
 		{
 			$root = static::bgdarkcalc($params->get('hue'), $monochrome);
 		}
@@ -56,7 +56,7 @@ class Atum
 				$root[] = '--atum-bg-light: ' . ($monochrome ? $bgLight->grayscale() : $bgLight) . ';';
 				$root[] = '--toolbar-bg: ' . ($monochrome ? $bgLight->grayscale()->lighten(5) : $bgLight->lighten(5)) . ';';
 			}
-			catch (Exception $ex)
+			catch (\Exception $ex)
 			{
 				// Just ignore exceptions
 			}
@@ -71,7 +71,7 @@ class Atum
 				$textDark = new Hex($textDark);
 				$root[]   = '--atum-text-dark: ' . (($monochrome) ? $textDark->grayscale() : $textDark) . ';';
 			}
-			catch (Exception $ex)
+			catch (\Exception $ex)
 			{
 				// Just ignore exceptions
 			}
@@ -86,7 +86,7 @@ class Atum
 				$textLight = new Hex($textLight);
 				$root[]    = '--atum-text-light: ' . (($monochrome) ? $textLight->grayscale() : $textLight) . ';';
 			}
-			catch (Exception $ex)
+			catch (\Exception $ex)
 			{
 				// Just ignore exceptions
 			}
@@ -104,7 +104,7 @@ class Atum
 
 				$root[] = '--atum-link-hover-color: ' . (($monochrome) ? $linkColor->grayscale()->darken(20) : $linkColor->darken(20)) . ';';
 			}
-			catch (Exception $ex)
+			catch (\Exception $ex)
 			{
 				// Just ignore exceptions
 			}
@@ -119,7 +119,7 @@ class Atum
 				$specialcolor = new Hex($specialColor);
 				$root[]       = '--atum-special-color: ' . (($monochrome) ? $specialcolor->grayscale() : $specialcolor) . ';';
 			}
-			catch (Exception $ex)
+			catch (\Exception $ex)
 			{
 				// Just ignore exceptions
 			}
@@ -141,66 +141,52 @@ class Atum
 	 *
 	 * @since  4.0.0
 	 */
-	protected static function bgdarkcalc($hue, $monochrome = false): array
+	protected static function bgdarkcalc($color, $monochrome = false): array
 	{
 		$multiplier = $monochrome ? 0 : 1;
 
-		if (strpos($hue, 'hsl(') !== false)
+		$hue = 207;
+
+		if (strpos($color, 'hsl(') !== false)
 		{
 			try
 			{
-				$hue = new Hsl($hue);
-				$hue = $hue->hue();
+				$hue = (new Hsl($color))->hue();
 			}
-			catch (Exception $ex)
+			catch (\Exception $ex)
 			{
 				// Just ignore exceptions
 			}
 		}
-		else if (static::isHex($hue))
+		else if (static::isHex($color))
 		{
 			try
 			{
-				$hue = new Hex($hue);
-				$hue = $hue->toHsl()->hue();
+				$hue = (new Hex($color))->toHsl()->hue();
 			}
-			catch (Exception $ex)
+			catch (\Exception $ex)
 			{
 				// Just ignore exceptions
 			}
 		}
-		else if (strpos($hue, 'hsla(') !== false)
+		else if (strpos($color, 'hsla(') !== false)
 		{
 			try
 			{
-				$hue = new Hsla($hue);
-				$hue = $hue->toHsl()->hue();
+				$hue = (new Hsla($color))->toHsl()->hue();
 			}
-			catch (Exception $ex)
+			catch (\Exception $ex)
 			{
 				// Just ignore exceptions
 			}
-		}
-		else if (strpos($hue, 'hsv(') !== false)
+		}		
+		else if (strpos($color, 'rgb(') !== false)
 		{
 			try
 			{
-				$hue = new Hsv($hue);
-				$hue = $hue->toHsl()->hue();
+				$hue = (new Rgb($color))->toHsl()->hue();
 			}
-			catch (Exception $ex)
-			{
-				// Just ignore exceptions
-			}
-		}
-		else if (strpos($hue, 'rgb(') !== false)
-		{
-			try
-			{
-				$hue = new Rgb($hue);
-				$hue = $hue->toHsl()->hue();
-			}
-			catch (Exception $ex)
+			catch (\Exception $ex)
 			{
 				// Just ignore exceptions
 			}
