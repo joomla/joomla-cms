@@ -230,7 +230,9 @@ class PlgSystemPrivacyconsent extends JPlugin
 
 			BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
 
-			/* @var ActionlogsModelActionlog $model */
+			/*
+			 * @var ActionlogsModelActionlog $model
+			 */
 			$model = BaseDatabaseModel::getInstance('Actionlog', 'ActionlogsModel');
 			$model->addLog(array($message), 'PLG_SYSTEM_PRIVACYCONSENT_CONSENT', 'plg_system_privacyconsent', $userId);
 		}

@@ -73,6 +73,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 	{
 		// Loop through all .php files and remember the modified time and id.
 		$files = [];
+
 		foreach (new \DirectoryIterator($this->dirname) as $file)
 		{
 			if ($file->getExtension() == 'php')
@@ -95,6 +96,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 		// Load the metadata and filter the results.
 		$results = [];
 		$i = 0;
+
 		foreach ($files as $file)
 		{
 			// When filter is empty, skip loading the offset
