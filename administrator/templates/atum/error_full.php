@@ -75,9 +75,9 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<jdoc:include type="metas"/>
-	<jdoc:include type="styles"/>
-	<jdoc:include type="scripts"/>
+	<jdoc:include type="metas" />
+	<jdoc:include type="styles" />
+	<jdoc:include type="scripts" />
 </head>
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : ''); ?>">
@@ -99,10 +99,10 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 					<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="">
 				</a>
 			</div>
-			<jdoc:include type="modules" name="title"/>
+			<jdoc:include type="modules" name="title" />
 		</div>
 		<div class="header-items d-flex">
-			<jdoc:include type="modules" name="status" style="header-item"/>
+			<jdoc:include type="modules" name="status" style="header-item" />
 		</div>
 	</div>
 </header>
@@ -113,7 +113,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 	<?php // Sidebar ?>
 	<?php if (!$hiddenMenu) : ?>
 		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
-			<jdoc:include type="modules" name="menu" style="none"/>
+			<jdoc:include type="modules" name="menu" style="none" />
 			<div id="main-brand" class="main-brand d-flex align-items-center justify-content-center">
 				<img src="<?php echo $joomlaLogo; ?>" alt="">
 			</div>
@@ -131,14 +131,14 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 				<div id="container-collapse" class="container-collapse"></div>
 				<div class="row">
 					<div class="col-md-12">
-						<jdoc:include type="modules" name="toolbar" style="no"/>
+						<jdoc:include type="modules" name="toolbar" style="no" />
 					</div>
 				</div>
 			</div>
 		<?php endif; ?>
 		<section id="content" class="content">
 			<?php // Begin Content ?>
-			<jdoc:include type="modules" name="top" style="xhtml"/>
+			<jdoc:include type="modules" name="top" style="xhtml" />
 			<div class="row">
 				<div class="col-md-12">
 					<h1><?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
@@ -174,7 +174,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 				</div>
 
 				<?php if ($this->countModules('bottom')) : ?>
-					<jdoc:include type="modules" name="bottom" style="xhtml"/>
+					<jdoc:include type="modules" name="bottom" style="xhtml" />
 				<?php endif; ?>
 			</div>
 			<?php // End Content ?>
@@ -185,6 +185,6 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 		</div>
 	</div>
 </div>
-<jdoc:include type="modules" name="debug" style="none"/>
+<jdoc:include type="modules" name="debug" style="none" />
 </body>
 </html>

@@ -3,7 +3,7 @@
 	<name>atum</name>
 	<version>1.0</version>
 	<creationDate>16/09/2016</creationDate>
-	<author>Christiane Maier-Stadtherr, Charlie Lodder, Ciaran Walsh, Dimitris Grammatikogiannis, Elisa Foltyn, Franciska Perisa, Hannes Papenberg, Lavinia Popa-Rössel, Lukas Jardin, Nadja Lamisch</author>
+	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<copyright>Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.</copyright>
 	<description>TPL_ATUM_XML_DESCRIPTION</description>
@@ -36,6 +36,7 @@
 		<position>sidebar</position>
 		<position>status</position>
 		<position>title</position>
+		<position>top</position>
 		<position>toolbar</position>
 		<!-- used directly in a component and included here so the position will appear in the list of available positions -->
 		<position>cpanel</position>
@@ -94,21 +95,19 @@
 					default="#001B4C"
 					filter="color"
 				/>
-
 				<field
-						name="monochrome"
-						type="radio"
-						label="TPL_ATUM_COLORS_SETTINGS_MONOCHROME_LABEL"
-						class="switcher"
-						default="0"
-				>
+					name="monochrome"
+					type="radio"
+					label="TPL_ATUM_COLORS_SETTINGS_MONOCHROME_LABEL"
+					class="switcher"
+					default="0"
+					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-
 			</fieldset>
-			<fieldset name="images" label="TPL_ATUM_IMAGES_SETTINGS_LABEL">
 
+			<fieldset name="images" label="TPL_ATUM_IMAGE_SETTINGS_LABEL">
 				<field
 					name="siteLogo"
 					type="media"
@@ -129,7 +128,6 @@
 					type="text"
 					label="TPL_ATUM_ALTTEXT_SMALL_LOGO_LABEL"
 				/>
-
 				<field
 					name="loginLogo"
 					type="media"
@@ -140,7 +138,6 @@
 					type="text"
 					label="TPL_ATUM_ALTTEXT_LOGIN_LOGO_LABEL"
 				/>
-
 			</fieldset>
 		</fields>
 	</config>

@@ -71,8 +71,8 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<jdoc:include type="metas"/>
-	<jdoc:include type="styles"/>
+	<jdoc:include type="metas" />
+	<jdoc:include type="styles" />
 </head>
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout; ?>">
@@ -110,7 +110,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			<a href="<?php echo Uri::root(); ?>"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_VIEW_WEBSITE'); ?></a>
 		</div>
 		<div id="sidebar">
-			<jdoc:include type="modules" name="sidebar" style="body"/>
+			<jdoc:include type="modules" name="sidebar" style="body" />
 		</div>
 	</div>
 
@@ -124,7 +124,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 							<img src="<?php echo $loginLogo; ?>" alt="">
 						</div>
 						<h1><?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
-						<jdoc:include type="message"/>
+						<jdoc:include type="message" />
 						<blockquote class="blockquote">
 							<span class="badge badge-secondary"><?php echo $this->error->getCode(); ?></span>
 							<?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
@@ -156,7 +156,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 		</section>
 	</div>
 </div>
-<jdoc:include type="modules" name="debug" style="none"/>
-<jdoc:include type="scripts"/>
+<jdoc:include type="modules" name="debug" style="none" />
+<jdoc:include type="scripts" />
 </body>
 </html>

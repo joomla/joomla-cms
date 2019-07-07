@@ -179,13 +179,6 @@ class FiltersField extends FormField
 		// Close the table.
 		$html[] = '</table>';
 
-		// Add notes
-		$html[] = '<div class="filter-notes">';
-		$html[] = '<p>' . Text::_('JGLOBAL_FILTER_TYPE_DESC') . '</p>';
-		$html[] = '<p>' . Text::_('JGLOBAL_FILTER_TAGS_DESC') . '</p>';
-		$html[] = '<p>' . Text::_('JGLOBAL_FILTER_ATTRIBUTES_DESC') . '</p>';
-		$html[] = '</div>';
-
 		return implode("\n", $html);
 	}
 

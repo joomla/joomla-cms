@@ -40,8 +40,8 @@
 				<field
 					name="show_global"
 					type="radio"
-					class="switcher"
 					label="MOD_QUICKICON_SHOW_GLOBAL_LABEL"
+					class="switcher"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
@@ -50,8 +50,8 @@
 				<field
 					name="show_checkin"
 					type="radio"
-					class="switcher"
 					label="MOD_QUICKICON_SHOW_CHECKIN_LABEL"
+					class="switcher"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
@@ -60,8 +60,8 @@
 				<field
 					name="show_cache"
 					type="radio"
-					class="switcher"
 					label="MOD_QUICKICON_SHOW_CACHE_LABEL"
+					class="switcher"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
@@ -70,8 +70,8 @@
 				<field
 					name="show_users"
 					type="radio"
-					class="switcher"
 					label="MOD_QUICKICON_SHOW_USERS_LABEL"
+					class="switcher"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
@@ -80,8 +80,8 @@
 				<field
 					name="show_articles"
 					type="radio"
-					class="switcher"
 					label="MOD_QUICKICON_SHOW_ARTICLES_LABEL"
+					class="switcher"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
@@ -90,8 +90,8 @@
 				<field
 					name="show_categories"
 					type="radio"
-					class="switcher"
 					label="MOD_QUICKICON_SHOW_CATEGORIES_LABEL"
+					class="switcher"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
@@ -100,8 +100,8 @@
 				<field
 					name="show_media"
 					type="radio"
-					class="switcher"
 					label="MOD_QUICKICON_SHOW_MEDIA_LABEL"
+					class="switcher"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
@@ -110,8 +110,8 @@
 				<field
 					name="show_menuItems"
 					type="radio"
-					class="switcher"
 					label="MOD_QUICKICON_SHOW_MENUITEMS_LABEL"
+					class="switcher"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
@@ -120,8 +120,8 @@
 				<field
 					name="show_modules"
 					type="radio"
-					class="switcher"
 					label="MOD_QUICKICON_SHOW_MODULES_LABEL"
+					class="switcher"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
@@ -130,8 +130,8 @@
 				<field
 					name="show_plugins"
 					type="radio"
-					class="switcher"
 					label="MOD_QUICKICON_SHOW_PLUGINS_LABEL"
+					class="switcher"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
@@ -140,8 +140,8 @@
 				<field
 					name="show_templates"
 					type="radio"
-					class="switcher"
 					label="MOD_QUICKICON_SHOW_TEMPLATES_LABEL"
+					class="switcher"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
@@ -155,14 +155,12 @@
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					class="custom-select"
 				/>
-
 				<field
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
 				/>
-
 				<field
 					name="cache"
 					type="list"
@@ -173,7 +171,6 @@
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
-
 				<field
 					name="cache_time"
 					type="number"

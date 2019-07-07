@@ -4,22 +4,28 @@
 
 .js-stools {
   position: relative;
-  padding: 5px 0 0;
+  padding: 0.25rem 0 0;
+  margin-bottom: 0.5rem;
+
+  > div {
+	  margin-bottom: 0.5rem;
+  }
 
   .js-stools-container-filters {
     display: none;
     flex-direction: row;
     flex-wrap: wrap;
-    padding: 10px;
-    margin: 0;
+    padding: 1rem .5rem .5rem;
+    margin-top: 0.5rem;
+	margin-bottom: 1rem;
     background-color: $white;
     border: solid var(--border);
     border-width: 1px 0;
     border-radius: 0 0 0 $border-radius;
-    box-shadow: -1px 1px 4px rgba(0, 0, 0, .05);
+    box-shadow: $atum-box-shadow;
+	width: 100%;
 
     .custom-select {
-      width: 100%;
       max-width: none;
     }
 
@@ -38,6 +44,13 @@
   }
 
   .js-stools-field-filter {
+
+	  margin: 0 .5rem .5rem;
+
+	  @include media-breakpoint-down(sm)
+	  {
+		  width: 100%;
+	  }
 
     .custom-select {
 
@@ -60,15 +73,15 @@
   .js-stools-container-bar {
 
     .btn-toolbar {
-      margin-bottom: 8px;
 
-      .js-stools-btn-clear{
-        background-color: var(--atum-bg-dark);
-        color: var(--atum-text-light);
-
-      }
       .js-stools-btn-filter{
         border:1px solid var(--border);
+      }
+      .js-stools-btn-clear {
+        background-color: var(--atum-bg-dark);
+        color: var(--atum-text-light);
+        border:1px solid var(--border);
+		border-left: 0;
       }
 
       .form-control{
