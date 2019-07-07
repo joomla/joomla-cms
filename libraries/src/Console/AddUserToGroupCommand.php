@@ -283,7 +283,7 @@ class AddUserToGroupCommand extends AbstractCommand
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function configure()
+	protected function configure(): void
 	{
 		$this->setDescription('Add a user to group');
 		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');

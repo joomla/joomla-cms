@@ -111,7 +111,7 @@ class ListUserCommand extends AbstractCommand
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function configure()
+	protected function configure(): void
 	{
 		$this->setDescription('List all users');
 		$this->setHelp(

@@ -163,7 +163,7 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function configure()
+	protected function configure(): void
 	{
 		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
 		$this->addOption('password', null, InputOption::VALUE_OPTIONAL, 'password');

@@ -292,7 +292,7 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function configure()
+	protected function configure(): void
 	{
 		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
 		$this->addOption('name', null, InputOption::VALUE_OPTIONAL, 'full name of user');
