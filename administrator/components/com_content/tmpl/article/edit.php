@@ -57,8 +57,8 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_CONTENT_ARTICLE_CONTENT')); ?>
 		<div class="row">
-			<div class="col-md-9">
-				<div class="card">
+			<div class="col-12 col-md-9">
+				<div class="card card-light">
 					<div class="card-body">
 						<fieldset class="adminform">
 							<?php echo $this->form->getLabel('articletext'); ?>
@@ -67,11 +67,9 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 					</div>
 				</div>
 			</div>
-			<div class="col-md-3">
-				<div class="card card-block">
-					<div class="card-body">
-					<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
-					</div>
+			<div class="col-12 col-md-3">
+				<div class="bg-white px-3">
+				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 				</div>
 			</div>
 		</div>
@@ -112,7 +110,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<div class="row">
 				<div class="col-12 col-md-6">
 					<fieldset id="fieldset-publishingdata" class="options-fieldset option-fieldset-full">
-						<legend><?php echo Text::_('COM_CONTENT_ATTRIBS_FIELDSET_PUBLISHING_LABEL'); ?></legend>
+						<legend><?php echo Text::_('COM_CONTENT_FIELDSET_PUBLISHING'); ?></legend>
 						<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 					</fieldset>
 				</div>
@@ -142,7 +140,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_CONTENT_FIELDSET_RULES')); ?>
-			<fieldset id="fieldset-rules" class="options-fieldset option-fieldset-full">
+			<fieldset id="fieldset-editor" class="options-fieldset option-fieldset-full">
 				<legend><?php echo Text::_('COM_CONTENT_FIELDSET_RULES'); ?></legend>
 				<?php echo $this->form->getInput('rules'); ?>
 			</fieldset>
