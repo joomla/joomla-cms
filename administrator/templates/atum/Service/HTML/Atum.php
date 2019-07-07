@@ -145,7 +145,7 @@ class Atum
 	{
 		$multiplier = $monochrome ? 0 : 1;
 
-		if (strpos($hue, 'hsl') !== false)
+		if (strpos($hue, 'hsl(') !== false)
 		{
 			try
 			{
@@ -169,7 +169,7 @@ class Atum
 				// Just ignore exceptions
 			}
 		}
-		else if (strpos($hue, 'hsla') !== false)
+		else if (strpos($hue, 'hsla(') !== false)
 		{
 			try
 			{
@@ -181,7 +181,7 @@ class Atum
 				// Just ignore exceptions
 			}
 		}
-		else if (strpos($hue, 'hsv') !== false)
+		else if (strpos($hue, 'hsv(') !== false)
 		{
 			try
 			{
@@ -193,7 +193,7 @@ class Atum
 				// Just ignore exceptions
 			}
 		}
-		else if (strpos($hue, 'rgb') !== false)
+		else if (strpos($hue, 'rgb(') !== false)
 		{
 			try
 			{
