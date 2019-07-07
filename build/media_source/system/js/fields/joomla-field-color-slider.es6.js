@@ -73,7 +73,7 @@
       this.saturation = 1;
       this.light = 1;
       this.alpha = 1;
-      this.initHsl = [this.hue, this.saturation, this.light, this.alpha];
+      this.defaultHsl = [this.hue, this.saturation, this.light, this.alpha];
 
       this.setInitValue();
       this.setBackground();
@@ -99,6 +99,7 @@
      * Set selected value into input field and set it as its background-color.
      */
     updateValue(slider) {
+      this.showError('');
       const hsl = this.getSliderValueAsHsl(slider.value, slider.dataset.type);
       const rgb = this.hslToRgb(hsl);
       [this.hue, this.saturation, this.light, this.alpha] = hsl;
@@ -117,11 +118,17 @@
     changeInput(inputField) {
       let hsl = [this.hue, this.saturation, this.light, this.alpha];
 
+      if (!inputField.value) {
+        this.mainInput.value = '';
+        this.showError('');
+        return;
+      }
+
       if (!this.checkValue(inputField.value)) {
-        this.messageSpan.innerText = `${Joomla.Text._('JFIELD_COLOR_WRONG_FORMAT')}: ${this.input.dataset.format}`;
-        this.setInputValue(this.initHsl);
+        this.showError('JFIELD_COLOR_ERROR_WRONG_FORMAT');
+        this.setInputValue(this.defaultHsl);
       } else {
-        this.messageSpan.innerText = '';
+        this.showError('');
 
         switch (this.input.dataset.format) {
           case 'hue':
@@ -156,11 +163,9 @@
      * @returns {boolean}
      */
     checkValue(value) {
-      const hueTest = hueRegex.test(value);
-
       switch (this.input.dataset.format) {
         case 'hue':
-          return value <= 360 && hueTest;
+          return value <= 360 && hueRegex.test(value);
         case 'saturation':
         case 'light':
         case 'alpha':
@@ -253,19 +258,26 @@
      */
     setInitValue() {
       // The initial value can be also a color defined in css
-      const cssValue = window.getComputedStyle(this.input)
-        .getPropertyValue(this.default);
+      const cssValue = window.getComputedStyle(this.input).getPropertyValue(this.default);
       let hsl = [];
       let value;
 
-      if (cssValue) {
-        value = cssValue;
-      } else if (this.color !== '') {
+      if (this.color === '' || typeof this.color === 'undefined') {
+        // Unable to get hsl with empty value
+        this.input.value = '';
+        this.mainInput.value = '';
+        return;
+      }
+
+      if (this.color) {
         value = this.color;
+      } else if (cssValue) {
+        value = cssValue;
       } else if (this.default) {
         value = this.default;
       } else {
-        throw Error('No color value available!');
+        this.showError('JFIELD_COLOR_ERROR_NO_COLOUR');
+        return;
       }
 
       // When given value is a number, use it as defined format and get rest from default value
@@ -293,12 +305,22 @@
 
       [this.hue, this.saturation, this.light] = hsl;
       this.alpha = hsl[4] || this.alpha;
-      this.initHsl = hsl;
+      this.defaultHsl = this.default ? this.getHsl(this.default) : hsl;
 
       this.setSliderValues(hsl);
       this.setInputValue(hsl);
 
       this.input.style.border = `2px solid ${this.getRgbString(this.hslToRgb(hsl))}`;
+    }
+
+    /**
+     * Insert message into error message span
+     * Message gets handled with Joomla.Text or as empty string
+     *
+     * @param {string} msg
+     */
+    showError(msg) {
+      this.messageSpan.innerText = msg ? Joomla.Text._(msg) : '';
     }
 
     /**
@@ -319,7 +341,7 @@
         const matches = value.match(hslRegex);
         hsl = [matches[1], matches[2], matches[3], matches[4]];
       } else {
-        throw new Error(`Can not convert ${value} to HSL(a).`);
+        this.showError('JFIELD_COLOR_ERROR_CONVERT_HSL');
       }
 
       // Convert saturation etc. values from e.g. 40 to 0.4
@@ -591,7 +613,7 @@
       const a = alpha > 1 ? alpha / 100 : alpha;
 
       if (h < 0 || h > 360 || s < 0 || s > 1 || l < 0 || l > 1) {
-        throw new Error(`Unable to convert hsl(${h}, ${s}, ${l}) into RGB.`);
+        this.showError('JFIELD_COLOR_ERROR_CONVERT_HSL');
       }
 
       const c = (1 - Math.abs(2 * l - 1)) * s;
@@ -612,7 +634,7 @@
       } else if (h >= 300 && h <= 360) {
         [r, g, b] = [c, 0, x];
       } else {
-        throw new Error(`Unable to convert hue ${h} into RGB.`);
+        this.showError('JFIELD_COLOR_ERROR_CONVERT_HUE');
       }
 
       const rgb = [r, g, b].map(value => Math.round((value + m) * 255));

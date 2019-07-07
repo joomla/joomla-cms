@@ -67,7 +67,10 @@ $allSliders    = $display === 'full' || empty($display);
 HTMLHelper::_('stylesheet', 'system/fields/joomla-field-color-slider.min.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'system/fields/joomla-field-color-slider.min.js', ['version' => 'auto', 'relative' => true]);
 
-Text::script('JFIELD_COLOR_WRONG_FORMAT');
+Text::script('JFIELD_COLOR_ERROR_CONVERT_HSL');
+Text::script('JFIELD_COLOR_ERROR_CONVERT_HUE');
+Text::script('JFIELD_COLOR_ERROR_NO_COLOUR');
+Text::script('JFIELD_COLOR_ERROR_WRONG_FORMAT');
 ?>
 
 <div class="color-slider-wrapper"
@@ -75,7 +78,6 @@ Text::script('JFIELD_COLOR_WRONG_FORMAT');
 	$class,
 	$color,
 	$default,
-	$format,
 	$preview,
 	$size;
 	?>
