@@ -158,7 +158,7 @@ class Atum
 				// Just ignore exceptions
 			}
 		}
-		else if (static::isHex($color))
+		elseif (static::isHex($color))
 		{
 			try
 			{
@@ -169,7 +169,7 @@ class Atum
 				// Just ignore exceptions
 			}
 		}
-		else if (strpos($color, 'hsla(') !== false)
+		elseif (strpos($color, 'hsla(') !== false)
 		{
 			try
 			{
@@ -180,7 +180,7 @@ class Atum
 				// Just ignore exceptions
 			}
 		}		
-		else if (strpos($color, 'rgb(') !== false)
+		elseif (strpos($color, 'rgb(') !== false)
 		{
 			try
 			{
