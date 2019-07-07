@@ -1,7 +1,9 @@
 joomla-toolbar-button {
   border: 1px solid var(--border);
 }
-
+.toggle-toolbar{
+	display:block;
+}
 .subhead {
   position: sticky;
   top: 0;
