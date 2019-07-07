@@ -21,7 +21,7 @@
 			type="text"
 			label="JGLOBAL_TITLE"
 			size="40"
-			required="true" 
+			required="true"
 		/>
 
 		<field

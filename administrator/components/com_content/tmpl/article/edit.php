@@ -140,7 +140,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_CONTENT_FIELDSET_RULES')); ?>
-			<fieldset id="fieldset-editor" class="options-fieldset option-fieldset-full">
+			<fieldset id="fieldset-rules" class="options-fieldset option-fieldset-full">
 				<legend><?php echo Text::_('COM_CONTENT_FIELDSET_RULES'); ?></legend>
 				<?php echo $this->form->getInput('rules'); ?>
 			</fieldset>
