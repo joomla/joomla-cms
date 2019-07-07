@@ -69,10 +69,10 @@
       this.preview = element.dataset.preview === 'true';
       this.setAlpha = this.format === 'hsla' || this.format === 'rgba';
 
-      this.hue = element.dataset.hue || 360;
-      this.saturation = element.dataset.saturation || 1;
-      this.light = element.dataset.light || 1;
-      this.alpha = element.dataset.alpha || 1;
+      this.hue = 360;
+      this.saturation = 1;
+      this.light = 1;
+      this.alpha = 1;
       this.initHsl = [this.hue, this.saturation, this.light, this.alpha];
 
       this.setInitValue();
