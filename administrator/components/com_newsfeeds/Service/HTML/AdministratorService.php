@@ -122,9 +122,11 @@ class AdministratorService
 						$items       = $classMasterInfoItems[2];
 						$needsUpdate = $classMasterInfoItems[3];
 
-						$url = Route::_(MasterAssociationsHelper::getAssociationUrl(
-							$item->id, $globalMasterLang, 'com_newsfeeds.newsfeed', $item->lang_code, $key, $masterId, $needsUpdate
-						));
+						$url = Route::_(
+							MasterAssociationsHelper::getAssociationUrl(
+								$item->id, $globalMasterLang, 'com_newsfeeds.newsfeed', $item->lang_code, $key, $masterId, $needsUpdate
+							)
+						);
 					}
 
 					$text    = strtoupper($item->lang_sef);
