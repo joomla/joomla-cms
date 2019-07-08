@@ -5,9 +5,9 @@
 		type="itemtype"
 		label="COM_ASSOCIATIONS_FILTER_SELECT_ITEM_TYPE"
 		filtermode="selector"
-		onchange="this.form.submit()"
+		onchange="this.form.submit();"
 		>
-		<option value="" disabled="true">COM_ASSOCIATIONS_FILTER_SELECT_ITEM_TYPE</option>
+		<option value="">COM_ASSOCIATIONS_FILTER_SELECT_ITEM_TYPE</option>
 	</field>
 
 	<field
@@ -16,7 +16,9 @@
 		label="JOPTION_SELECT_LANGUAGE"
 		filtermode="selector"
 		onchange="this.form.submit();"
-	/>
+		>
+		<option value="">JOPTION_SELECT_LANGUAGE</option>
+	</field>
 
 	<field
 		name="assocstate"
@@ -25,10 +27,9 @@
 		filtermode="selector"
 		onchange="this.form.submit();"
 		>
-		<option disabled="true">COM_ASSOCIATIONS_FILTER_SELECT_ASSOCIATION_STATE</option>
 		<option value="all">COM_ASSOCIATIONS_FILTER_ASSOCIATION_STATE</option>
 		<option value="up_to_date">COM_ASSOCIATIONS_STATE_UP_TO_DATE</option>
-		<option value="outdated">COM_ASSOCIATIONS_STATE_OUTDATED</option>
+		<option value="out_of_date">COM_ASSOCIATIONS_STATE_OUT_OF_DATE</option>
 		<option value="not_associated">COM_ASSOCIATIONS_STATE_NOT_ASSOCIATED</option>
 	</field>
 
