@@ -45,9 +45,13 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', empty($this->item->id) ? Text::_('COM_NEWSFEEDS_NEW_NEWSFEED') : Text::_('COM_NEWSFEEDS_EDIT_NEWSFEED')); ?>
 		<div class="row">
 			<div class="col-md-9">
-				<div class="form-vertical">
-					<?php echo $this->form->renderField('link'); ?>
-					<?php echo $this->form->renderField('description'); ?>
+				<div class="card">
+					<div class="card-body">
+						<div class="form-vertical">
+							<?php echo $this->form->renderField('link'); ?>
+							<?php echo $this->form->renderField('description'); ?>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="col-md-3">
