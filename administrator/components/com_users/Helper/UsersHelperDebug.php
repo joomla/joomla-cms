@@ -88,11 +88,11 @@ class UsersHelperDebug
 			{
 				foreach ($component_actions as &$action)
 				{
-					$descr = (string) $action['title'];
+					$descr = (string) $action->title;
 
-					if (isset($action['description']) && !empty($action['description']))
+					if (!empty($action->description))
 					{
-						$descr = (string) $action['description'];
+						$descr = (string) $action->description;
 					}
 
 					$actions[$action->title] = array($action->name, $descr);

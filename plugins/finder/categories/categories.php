@@ -81,6 +81,18 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Method to setup the indexer to be run.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   2.5
+	 */
+	protected function setup()
+	{
+		return true;
+	}
+
+	/**
 	 * Method to remove the link information for items that have been deleted.
 	 *
 	 * @param   string  $context  The context of the action being performed.

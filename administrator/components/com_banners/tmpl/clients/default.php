@@ -106,9 +106,7 @@ $params     = $this->state->params ?? new CMSObject;
 										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 									</td>
 									<td class="text-center">
-										<div class="btn-group">
-											<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'clients.', $canChange); ?>
-										</div>
+										<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'clients.', $canChange); ?>
 									</td>
 									<th scope="row" class="has-context">
 										<div>

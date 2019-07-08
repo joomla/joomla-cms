@@ -101,6 +101,11 @@ class CategoryModel extends ListModel
 		// Invoke the parent getItems method to get the main list
 		$items = parent::getItems();
 
+		if ($items === false)
+		{
+			return false;
+		}
+
 		// Convert the params field into an object, saving original in _params
 		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{

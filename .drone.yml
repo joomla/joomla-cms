@@ -103,15 +103,41 @@ steps:
       - fluxbox  > /dev/null 2>&1 &
       - npm run test
 
-  - name: system-tests
+  - name: system-tests-mysql
     depends_on: [ javascript-tests ]
-    image: joomlaprojects/docker-systemtests:develop
+    image: joomlaprojects/docker-systemtests:latest
     commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)"
-    shm_size: 1024000000  
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql
+
+  - name: system-tests-postgres
+    depends_on: [ system-tests-mysql ]
+    image: joomlaprojects/docker-systemtests:latest
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
+
+  - name: artifacts-system-tests
+    image: cschlosser/drone-ftps
+    depends_on: [ system-tests-postgres ]
+    environment:
+      FTP_USERNAME:
+        from_secret: ftpusername
+      FTP_PASSWORD:
+        from_secret: ftppassword
+      PLUGIN_HOSTNAME: ci.joomla.org:21
+      PLUGIN_SRC_DIR: /tests/Codeception/_output/
+      PLUGIN_DEST_DIR: /artifacts
+      PLUGIN_SECURE: false
+      PLUGIN_EXCLUDE: ^\.git/$
+    commands:
+      - export PLUGIN_DEST_DIR=$PLUGIN_DEST_DIR/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST_$DRONE_BUILD_NUMBER/system-tests
+      - echo https://ci.joomla.org:444$PLUGIN_DEST_DIR
+      - /bin/upload.sh
+    when:
+      status:
+      - failure
 
   - name: api-tests
-    depends_on: [ system-tests ]
+    depends_on: [ system-tests-postgres ]
     image: joomlaprojects/docker-systemtests:latest
     commands:
       - bash tests/Codeception/drone-api-run.sh "$(pwd)"
@@ -122,7 +148,7 @@ steps:
     when:
       repo:
         - joomla/joomla-cms
-      branch: 
+      branch:
         - 4.0-dev
     commands:
       - export RIPS_BASE_URI='https://api.rips.joomla.org'
@@ -157,10 +183,16 @@ services:
     image: redis:alpine
 
   - name: postgres
-    image: postgres
+    image: postgres:9-alpine
+    ports:
+      - 5432
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: joomla_ut
+      POSTGRES_DB: test_joomla
 
 ---
 kind: signature
-hmac: 753fa2695987acf184a54a651ac848357bd66088c488cde7870716bb2851d5a0
+hmac: b3723ea069a4139d4b9aef660f8fa5e01cc0c59017a77438a7245e0d552ef72a
 
 ...

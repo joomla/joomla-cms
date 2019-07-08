@@ -7,23 +7,23 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Component\Actionlogs\Administrator\Field;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\CheckboxesField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-
-FormHelper::loadFieldClass('checkboxes');
-JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
+use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 
 /**
  * Field to load a list of all users that have logged actions
  *
- * @since 3.9.0
+ * @since  3.9.0
  */
-class JFormFieldLogType extends JFormFieldCheckboxes
+class LogtypeField extends CheckboxesField
 {
 	/**
 	 * The form field type.
@@ -42,7 +42,7 @@ class JFormFieldLogType extends JFormFieldCheckboxes
 	 */
 	public function getOptions()
 	{
-		$db = Factory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension'))
 			->from($db->quoteName('#__action_logs_extensions'));
@@ -55,7 +55,7 @@ class JFormFieldLogType extends JFormFieldCheckboxes
 		foreach ($extensions as $extension)
 		{
 			ActionlogsHelper::loadTranslationFiles($extension);
-			$option = HTMLHelper::_('select.option', $extension, Text::_($extension));
+			$option                                                                            = HTMLHelper::_('select.option', $extension, Text::_($extension));
 			$options[ApplicationHelper::stringURLSafe(Text::_($extension)) . '_' . $extension] = (object) array_merge($tmp, (array) $option);
 		}
 
