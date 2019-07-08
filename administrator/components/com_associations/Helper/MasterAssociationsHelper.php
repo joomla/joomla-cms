@@ -240,8 +240,8 @@ class MasterAssociationsHelper extends ContentHelper
 					$update     = true;
 					$addClass   = 'badge-warning';
 					$masterInfo = $saveHistory
-						? '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_OUTDATED_DESC')
-						: '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_MIGHT_BE_OUTDATED_DESC');
+						? '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_OUT_OF_DATE_DESC')
+						: '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_STATE_MIGHT_BE_OUT_OF_DATE_DESC');
 				}
 				else
 				{

@@ -367,7 +367,7 @@ class AssociationsHelper extends ContentHelper
 							if ($associatedModifiedMaster < $lastModifiedMaster)
 							{
 								// Don't display not corresponding item
-								if ($assocState !== 'all' && $assocState !== 'outdated')
+								if ($assocState !== 'all' && $assocState !== 'out_of_date')
 								{
 									unset($items[$langCode]);
 									continue;
@@ -381,11 +381,11 @@ class AssociationsHelper extends ContentHelper
 								/*
 								When versions are disabled then the modified date is used for the master item.
 								That means that when no changes were made and the master item has been saved the modified date has been changed.
-								So the outdated state means in that case there might have been made changes and it is necessary to check manually and update the target.
+								So the out of date state means in that case there might have been made changes and it is necessary to check manually and update the target.
 								*/
 								$masterInfo = $saveHistory
-									? $masterInfoSpace . Text::_('JGLOBAL_ASSOCIATIONS_STATE_OUTDATED_DESC')
-									: $masterInfoSpace . Text::_('JGLOBAL_ASSOCIATIONS_STATE_MIGHT_BE_OUTDATED_DESC');
+									? $masterInfoSpace . Text::_('JGLOBAL_ASSOCIATIONS_STATE_OUT_OF_DATE_DESC')
+									: $masterInfoSpace . Text::_('JGLOBAL_ASSOCIATIONS_STATE_MIGHT_BE_OUT_OF_DATE_DESC');
 							}
 							else
 							{

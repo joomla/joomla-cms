@@ -475,8 +475,8 @@ class AssociationsModel extends ListModel
 					. ')');
 			}
 
-			// Outdated
-			if ($assocStateField === 'outdated')
+			// Out of date
+			if ($assocStateField === 'out_of_date')
 			{
 				// If we are on the masterlanguage and we check the state of the children
 				$query->where('((' . $db->quoteName('asso2.master_id') . ' = ' . $db->quoteName('asso.id')
