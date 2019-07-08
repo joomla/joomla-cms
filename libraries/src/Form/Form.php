@@ -2145,6 +2145,41 @@ class Form
 			}
 		}
 
+		if ($valid !== false && $element['type'] == 'subform')
+		{
+			$field   = $this->loadField($element);
+			$subForm = $field->loadSubForm();
+
+			if ($field->multiple)
+			{
+				foreach ($value as $key => $val)
+				{
+					$val = (array) $val;
+
+					$valid = $subForm->validate($val);
+
+					if ($valid === false)
+					{
+						break;
+					}
+				}
+			}
+			else
+			{
+				$valid = $subForm->validate($value);
+			}
+
+			if ($valid === false)
+			{
+				$errors = $subForm->getErrors();
+
+				foreach ($errors as $error)
+				{
+					return $error;
+				}
+			}
+		}
+
 		// Check if the field is valid.
 		if ($valid === false)
 		{
