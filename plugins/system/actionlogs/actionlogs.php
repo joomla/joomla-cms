@@ -86,15 +86,8 @@ class PlgSystemActionLogs extends CMSPlugin
 	 *
 	 * @throws  Exception
 	 */
-	public function onContentPrepareForm($form, $data)
+	public function onContentPrepareForm(Form $form, $data)
 	{
-		if (!$form instanceof Form)
-		{
-			$this->subject->setError('JERROR_NOT_A_FORM');
-
-			return false;
-		}
-
 		$formName = $form->getName();
 
 		$allowedFormNames = array(
