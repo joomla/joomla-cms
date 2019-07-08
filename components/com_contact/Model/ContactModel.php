@@ -22,6 +22,7 @@ use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Tagging\ContentItem;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 
 /**
@@ -195,16 +196,15 @@ class ContactModel extends FormModel
 
 					// Join on category table.
 					->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access')
-					->leftJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
+					->leftJoin($db->quoteName('#__categories', 'c'), 'c.id = a.catid')
 
 					// Join over the categories to get parent category titles
 					->select('parent.title AS parent_title, parent.id AS parent_id, parent.path AS parent_route, parent.alias AS parent_alias')
-					->leftJoin($db->quoteName('#__categories', 'parent') . ' ON parent.id = c.parent_id')
+					->leftJoin($db->quoteName('#__categories', 'parent'), 'parent.id = c.parent_id')
 					->where($db->quoteName('a.id') . ' = :id')
 					->bind(':id', $pk, ParameterType::INTEGER);
 
 				// Filter by start and end dates.
-				$nullDate = $db->quote($db->getNullDate());
 				$nowDate = Factory::getDate()->toSql();
 
 				// Filter by published state.
@@ -213,11 +213,18 @@ class ContactModel extends FormModel
 
 				if (is_numeric($published))
 				{
-					$query->where('(a.published = :published OR a.published = :archived)')
-						->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= :publish_up)')
-						->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= :publish_down)')
+					$queryString = $db->quoteName('a.published') . ' = :published';
+
+					if ($archived !== null)
+					{
+						$queryString = '(' . $queryString . ' OR ' . $db->quoteName('a.published') . ' = :archived)';
+						$query->bind(':archived', $archived, ParameterType::INTEGER);
+					}
+
+					$query->where($queryString)
+						->where('(' . $query->isNullDatetime('a.publish_up') . ' OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)')
+						->where('(' . $query->isNullDatetime('a.publish_down') . ' OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)')
 						->bind(':published', $published, ParameterType::INTEGER)
-						->bind(':archived', $archived, ParameterType::INTEGER)
 						->bind(':publish_up', $nowDate)
 						->bind(':publish_down', $nowDate);
 				}
@@ -346,7 +353,7 @@ class ContactModel extends FormModel
 			if (Multilanguage::isEnabled())
 			{
 				$language = [Factory::getLanguage()->getTag(), $db->quote('*')];
-				$query->whereIn($db->quoteName('a.language'), $language);
+				$query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
 			}
 
 			if (is_numeric($published))
@@ -409,9 +416,9 @@ class ContactModel extends FormModel
 	/**
 	* Generate column expression for slug or catslug.
 	*
-	* @param   \JDatabaseQuery  $query  Current query instance.
-	* @param   string           $id     Column id name.
-	* @param   string           $alias  Column alias name.
+	* @param   QueryInterface  $query  Current query instance.
+	* @param   string          $id     Column id name.
+	* @param   string          $alias  Column alias name.
 	*
 	* @return  string
 	*
