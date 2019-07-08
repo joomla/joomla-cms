@@ -959,9 +959,9 @@ class UserModel extends AdminModel
 			}
 			else
 			{
-				$config = ComponentHelper::getParams('com_users');
+				$params = ComponentHelper::getParams('com_users');
 
-				if ($groupId = $config->get('new_usertype'))
+				if ($groupId = $params->get('new_usertype', $params->get('guest_usergroup', 1)))
 				{
 					$result[] = $groupId;
 				}
