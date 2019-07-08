@@ -722,12 +722,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "fa3b0519c146242b088abe1572a3c0dc32ae59de"
+                "reference": "6570e952c7b196d1f23f1410921587a8c79fa9c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/fa3b0519c146242b088abe1572a3c0dc32ae59de",
-                "reference": "fa3b0519c146242b088abe1572a3c0dc32ae59de",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/6570e952c7b196d1f23f1410921587a8c79fa9c0",
+                "reference": "6570e952c7b196d1f23f1410921587a8c79fa9c0",
                 "shasum": ""
             },
             "require": {
@@ -779,7 +779,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-07-02T07:05:06+00:00"
+            "time": "2019-07-04T14:08:10+00:00"
         },
         {
             "name": "joomla/di",
@@ -1388,12 +1388,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/session.git",
-                "reference": "894b7a86311a6e9f094fb2c2e83b7bb14c7fa7ee"
+                "reference": "96a49ce2c21b9bd6272ac4bc72a041ca7e2beaad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/session/zipball/894b7a86311a6e9f094fb2c2e83b7bb14c7fa7ee",
-                "reference": "894b7a86311a6e9f094fb2c2e83b7bb14c7fa7ee",
+                "url": "https://api.github.com/repos/joomla-framework/session/zipball/96a49ce2c21b9bd6272ac4bc72a041ca7e2beaad",
+                "reference": "96a49ce2c21b9bd6272ac4bc72a041ca7e2beaad",
                 "shasum": ""
             },
             "require": {
@@ -1441,7 +1441,7 @@
                 "joomla",
                 "session"
             ],
-            "time": "2019-06-29T19:54:13+00:00"
+            "time": "2019-07-04T19:02:08+00:00"
         },
         {
             "name": "joomla/string",
@@ -2440,7 +2440,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -5302,7 +5302,7 @@
                     "email": "puneet.kala@community.joomla.org"
                 },
                 {
-                    "name": "Javier Gomez",
+                    "name": "Javier Gómez",
                     "email": "javier.gomez@community.joomla.org"
                 }
             ],

@@ -156,7 +156,7 @@ class ColorProcessor implements ProcessorInterface
 	{
 		$replace = $this->noColors
 			? $match
-			: "\033[" . $style . "m" . $match . "\033[0m";
+			: "\033[" . $style . 'm' . $match . "\033[0m";
 
 		return str_replace('<' . $tag . '>' . $match . '</' . $tag . '>', $replace, $text);
 	}

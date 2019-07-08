@@ -175,7 +175,7 @@ class PlgSystemDebug extends CMSPlugin
 			$this->db->setMonitor(null);
 		}
 
-		$storagePath = JPATH_CACHE . '/plg_system_debug_' . $this->app->getClientId();
+		$storagePath = JPATH_CACHE . '/plg_system_debug_' . $this->app->getName();
 
 		$this->debugBar = new DebugBar;
 		$this->debugBar->setStorage(new FileStorage($storagePath));

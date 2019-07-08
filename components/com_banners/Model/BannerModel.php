@@ -85,7 +85,7 @@ class BannerModel extends BaseDatabaseModel
 
 		if ($trackClicks > 0)
 		{
-			$trackDate = Factory::getDate()->format('Y-m-d H');
+			$trackDate = Factory::getDate()->toSql();
 
 			$query->clear()
 				->select($db->quoteName('count'))
