@@ -1551,7 +1551,7 @@ class Form
 					$field   = $this->loadField($element);
 					$subForm = $field->loadSubForm();
 
-					if ($field->multiple)
+					if ($field->multiple && !empty($value))
 					{
 						$return = array();
 

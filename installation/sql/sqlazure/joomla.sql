@@ -2575,7 +2575,7 @@ CREATE TABLE "#__template_styles" (
   "id" bigint IDENTITY(9,1) NOT NULL,
   "template" nvarchar(50) NOT NULL DEFAULT '',
   "client_id" tinyint NOT NULL DEFAULT 0,
-  "home" nvarchar(7) NOT NULL DEFAULT 0,
+  "home" tinyint NOT NULL DEFAULT 0,
   "title" nvarchar(255) NOT NULL DEFAULT '',
   "params" nvarchar(max) NOT NULL,
  CONSTRAINT "PK_#__template_styles_id" PRIMARY KEY CLUSTERED
@@ -2584,14 +2584,20 @@ CREATE TABLE "#__template_styles" (
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
-CREATE NONCLUSTERED INDEX "idx_home" ON "#__template_styles"
-(
-  "home" ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
-
 CREATE NONCLUSTERED INDEX "idx_template" ON "#__template_styles"
 (
   "template" ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+CREATE NONCLUSTERED INDEX "idx_client_id" ON "#__template_styles"
+(
+  "client_id" ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+CREATE NONCLUSTERED INDEX "idx_client_id_home" ON "#__template_styles"
+(
+  "client_id" ASC,
+  "home" ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 --
@@ -2601,10 +2607,10 @@ CREATE NONCLUSTERED INDEX "idx_template" ON "#__template_styles"
 SET IDENTITY_INSERT "#__template_styles" ON;
 
 INSERT INTO "#__template_styles" ("id", "template", "client_id", "home", "title", "params") VALUES
-(4, 'beez3', 0, '0', 'Beez3 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images/joomla_black.png","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}'),
-(5, 'hathor', 1, '0', 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}'),
-(7, 'protostar', 0, '1', 'protostar - Default', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}'),
-(8, 'isis', 1, '1', 'isis - Default', '{"templateColor":"","logoFile":""}');
+(4, 'beez3', 0, 0, 'Beez3 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images/joomla_black.png","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}'),
+(5, 'hathor', 1, 0, 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}'),
+(7, 'protostar', 0, 1, 'protostar - Default', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}'),
+(8, 'isis', 1, 1, 'isis - Default', '{"templateColor":"","logoFile":""}');
 
 SET IDENTITY_INSERT "#__template_styles" OFF;
 
