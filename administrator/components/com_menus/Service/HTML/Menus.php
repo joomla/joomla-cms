@@ -121,7 +121,7 @@ class Menus
 							$masterInfo = '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_ITEM');
 						}
 
-						$url = MasterAssociationsHelper::getAssociationUrl($item->id, $globalMasterLang, 'com_menus.item', $item->lang_code, $key, $masterId);
+						$url = Route::_(MasterAssociationsHelper::getAssociationUrl($item->id, $globalMasterLang, 'com_menus.item', $item->lang_code, $key, $masterId));
 					}
 
 					$text    = strtoupper($item->lang_sef);

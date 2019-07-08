@@ -127,9 +127,9 @@ class AdministratorService
 						$items       = $classMasterInfoItems[2];
 						$needsUpdate = $classMasterInfoItems[3];
 
-						$url = MasterAssociationsHelper::getAssociationUrl(
+						$url = Route::_(MasterAssociationsHelper::getAssociationUrl(
 							$item->id, $globalMasterLang, 'com_content.article', $item->lang_code, $key, $masterId, $needsUpdate
-						);
+						));
 					}
 
 					$text    = $item->lang_sef ? strtoupper($item->lang_sef) : 'XX';

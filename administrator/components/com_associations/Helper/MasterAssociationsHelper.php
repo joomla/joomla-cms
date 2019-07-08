@@ -49,7 +49,7 @@ class MasterAssociationsHelper extends ContentHelper
 		$masterInfo = '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_ITEM');
 		$text       = $globalMasterLangInfos['sef'] ? strtoupper($globalMasterLangInfos['sef']) : 'XX';
 		$title      = Text::_('JGLOBAL_ASSOCIATIONS_STATE_NOT_ASSOCIATED_DESC');
-		$url        = self::getAssociationUrl($itemId, $globalMasterLang, $itemType);
+		$url        = Route::_(self::getAssociationUrl($itemId, $globalMasterLang, $itemType));
 
 		$tooltip = '<strong>' . htmlspecialchars($globalMasterLangInfos['title'], ENT_QUOTES, 'UTF-8') . '</strong><br>'
 			. htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . $masterInfo;
@@ -291,7 +291,7 @@ class MasterAssociationsHelper extends ContentHelper
 			'target'   => $target,
 		);
 
-		$url = Route::_('index.php?' . http_build_query($options));
+		$url = 'index.php?' . http_build_query($options);
 
 		return $url;
 	}
