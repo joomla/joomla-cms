@@ -17,10 +17,11 @@ $black:                            #000;    //used for shadows
 $focuscolor:                       #39f;   //used for focus color
 
 $dark-blue:                        #001B4C; //is the atum-special-color
+$light-blue:                       #2077dd; //is the atum-link-color
 
 
 // BS Colours
-$blue:                             hsl(207.4, 60.9%, 26.1%); //basecolor for calculation, Primary-color
+$blue:                             hsl(207, 61%, 26%); //basecolor for calculation, Primary-color
 $indigo:                           #0377be; //used in bootstrap
 $purple:                           #6f42c1; //used in bootstrap
 $pink:                             #e83e8c; //used in bootstrap
@@ -48,7 +49,7 @@ $color-70:                         adjust-color($color-60, $hue: +4%, $lightness
 $color-80:                         adjust-color($color-60, $hue: +7%, $lightness: -11.5%);
 $color-90:                         adjust-color($color-60, $hue: +10%, $saturation: -1%, $lightness: -17%);
 
-$color-contrast:                   adjust-color($color-60, $hue: -30%, $lightness: +16%);
+$color-contrast:                   adjust-color($color-60, $hue: -40deg, $lightness: +16%);
 
 $theme-colors: ();
 $theme-colors: map-merge((
@@ -60,7 +61,7 @@ $theme-colors: map-merge((
   danger:                          $red,
   light:                           $gray-100, //used in bootstrap
   dark:                            $gray-900,  //used in bootstrap and for table-border
-  atum-link-color:                 #2077dd,
+  atum-link-color:                 $light-blue,
   atum-text-dark:                  $gray-700,
   atum-bg-dark:                    $color-60, //standard background color
   action:                          $color-60,
@@ -83,8 +84,8 @@ $colors: (
   atum-bg-light:                   $gray-200, //light background color, f.e. dashboard background
   atum-text-light:                 $white,
   atum-special-color:              $dark-blue,
-  atum-link-color:                 #2077dd,
-  atum-link-hover-color:           darken($color-60, 15%),
+  atum-link-color:                 $light-blue,
+  atum-link-hover-color:           darken($light-blue, 20%),
   atum-contrast:                   $color-contrast,
   atum-bg-dark-5:                  $color-5,
   atum-bg-dark-10:                 $color-10,

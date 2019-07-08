@@ -62,6 +62,11 @@ $css = '
 	}
 ';
 
+$this->addStyleDeclaration($css);
+
+HTMLHelper::getServiceRegistry()->register('atum', 'Joomla\\Template\\Atum\\Administrator\\Service\\HTML\\Atum');
+
+HTMLHelper::_('atum.rootcolors', $this->params);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -79,11 +84,19 @@ $css = '
 </noscript>
 
 <header id="header" class="header">
-	<div class="d-flex align-items-center">
-		<div class="header-title mr-auto">
-			<div class="logo">
-				<img src="<?php echo $siteLogo; ?>" alt="">
+	<div class="d-flex">
+		<div class="header-title d-flex mr-auto">
+			<div class="d-flex">
+				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
+				<div class="logo">
+					<img src="<?php echo $siteLogo; ?>" alt="<?php echo $logoAlt; ?>">
+					<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="<?php echo $logoSmallAlt; ?>">
+				</div>
 			</div>
+			<jdoc:include type="modules" name="title"/>
+		</div>
+		<div class="header-items d-flex ml-auto">
+			<jdoc:include type="modules" name="status" style="header-element"/>
 		</div>
 	</div>
 </header>
