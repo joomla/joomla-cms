@@ -64,19 +64,21 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'images', Text::_('JGLOBAL_FIELDSET_IMAGE_OPTIONS')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'images', Text::_('JGLOBAL_FIELDSET_OPTIONS')); ?>
 		<div class="row">
 			<div class="col-md-6">
-					<?php echo $this->form->renderField('images'); ?>
+				<fieldset id="fieldset-image" class="options-fieldset option-fieldset-full">
+					<legend><?php echo Text::_('JGLOBAL_FIELDSET_IMAGE_OPTIONS'); ?></legend>
 					<?php foreach ($this->form->getGroup('images') as $field) : ?>
 						<?php echo $field->renderField(); ?>
 					<?php endforeach; ?>
-				</div>
+				</fieldset>
 			</div>
-		<?php echo HTMLHelper::_('uitab.endTab'); ?>
-
-		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'attrib-jbasic', Text::_('JGLOBAL_FIELDSET_DISPLAY_OPTIONS')); ?>
-		<?php echo $this->loadTemplate('display'); ?>
+			<div class="col-md-6">
+					<?php echo $this->loadTemplate('display'); ?>
+				</fieldset>
+			</div>
+		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
@@ -84,10 +86,13 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
 		<div class="row">
 			<div class="col-md-6">
-				<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+				<fieldset id="fieldset-publishingdata" class="options-fieldset option-fieldset-full">
+					<legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
+					<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+				</fieldset>
 			</div>
 			<div class="col-md-6">
-				<?php echo LayoutHelper::render('joomla.edit.metadata', $this); ?>
+				<?php echo $this->loadTemplate('metadata'); ?>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>

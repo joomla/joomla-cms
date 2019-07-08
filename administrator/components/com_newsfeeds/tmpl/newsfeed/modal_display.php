@@ -9,7 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
 $this->fieldset = 'jbasic';
-echo LayoutHelper::render('joomla.edit.fieldset', $this);
+?>
+
+<fieldset id="fieldset-display" class="options-fieldset option-fieldset-full">
+	<legend><?php echo Text::_('JGLOBAL_FIELDSET_DISPLAY_OPTIONS'); ?></legend>
+	<?php echo LayoutHelper::render('joomla.edit.fieldset', $this); ?>
+</fieldset>
