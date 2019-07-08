@@ -273,7 +273,7 @@ $this->addStyleDeclaration($css);
 			<?php // Subheader ?>
 			<button type="button" class="toggle-toolbar mx-auto btn btn-secondary my-2 d-md-none d-lg-none d-xl-none" data-toggle="collapse"
 				data-target=".subhead"><?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>
-				<span class="icon-wrench"></span></button>
+				<span class="icon-chevron-down" aria-hidden="true"></span></button>
 			<div id="subhead" class="subhead">
 				<div id="container-collapse" class="container-collapse"></div>
 				<div class="row">
