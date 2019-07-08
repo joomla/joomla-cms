@@ -57,7 +57,7 @@
                 } else if (response.data === 1) {
                   srElement.textContent = srElement.dataset.sronlyOne;
                 } else {
-                  srElement.textContent = srElement.dataset.sronlyN;
+                  srElement.textContent = srElement.dataset.sronlyN.replace(/\d+/, response.data);
                 }
               }
             } else if (pulse) {
