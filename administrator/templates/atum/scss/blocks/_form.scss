@@ -31,6 +31,12 @@
   }
 }
 
+.control-group {
+  .switcher__legend {
+    font-size: $label-font-size
+  }
+}
+
 .form-no-margin {
 
   .control-group {
