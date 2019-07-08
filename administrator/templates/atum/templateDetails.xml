@@ -53,10 +53,10 @@
 				<field
 						name="hue"
 						type="color"
+						label="TPL_ATUM_COLORS_HUE"
 						format="hue"
 						control="slider"
-						preview="true"
-						label="TPL_ATUM_COLORS_HUE"
+						preview="true"						
 						saveFormat="hsl"
 						default="hsl(207,61%,26%)"
 				/>
