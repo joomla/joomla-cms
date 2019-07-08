@@ -15,4 +15,4 @@ CREATE TABLE IF NOT EXISTS `#__csp` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
-(0, 'com_csp', 'component', 'com_csp', '', 1, 1, 1, 0, '', '{}', 0, '1000-01-01 00:00:00', '1000-01-01 00:00:00', 0);
+(0, 'com_csp', 'component', 'com_csp', '', 1, 1, 1, 0, '', '{}', 0, '1000-01-01 00:00:00', 0, 0);
