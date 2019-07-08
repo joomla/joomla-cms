@@ -15,30 +15,31 @@ use Joomla\CMS\Language\Text;
 ?>
 
 <fieldset>
-	<?php if (!$this->getModel()->isDatabaseTypeSupported()) : ?>
-		<legend>
+	<legend>
+		<?php echo Text::_('COM_JOOMLAUPDATE_SYSTEM_CHECK'); ?>
+	</legend>
+	<?php if ( !$this->getModel()->isDatabaseTypeSupported()) : ?>
+		<p class="alert alert-warning">
 			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DB_NOT_SUPPORTED'); ?>
-		</legend>
+		</p>
 		<p>
 			<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_DB_NOT_SUPPORTED_DESC', $this->updateInfo['latest']); ?>
 		</p>
 	<?php endif; ?>
 	<?php if (!$this->getModel()->isPhpVersionSupported()) : ?>
-		<legend>
+		<p class="alert alert-warning">
 			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PHP_VERSION_NOT_SUPPORTED'); ?>
-		</legend>
+		</p>
 		<p>
 			<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PHP_VERSION_NOT_SUPPORTED_DESC', $this->updateInfo['latest']); ?>
 		</p>
 	<?php endif; ?>
 	<?php if (!isset($this->updateInfo['object']->downloadurl->_data) && $this->updateInfo['installed'] < $this->updateInfo['latest'] && $this->getModel()->isPhpVersionSupported() && $this->getModel()->isDatabaseTypeSupported()) : ?>
-		<legend>
+		<p class="alert alert-warning">
 			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NO_DOWNLOAD_URL'); ?>
-		</legend>
+		</p>
 		<p>
 			<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NO_DOWNLOAD_URL_DESC', $this->updateInfo['latest']); ?>
 		</p>
 	<?php endif; ?>
-
-
 </fieldset>

@@ -259,8 +259,7 @@
     setInitValue() {
       // The initial value can be also a color defined in css
       const cssValue = window.getComputedStyle(this.input).getPropertyValue(this.default);
-      let hsl = [];
-      let value;
+      this.default = cssValue || this.default;
 
       if (this.color === '' || typeof this.color === 'undefined') {
         // Unable to get hsl with empty value
@@ -269,17 +268,14 @@
         return;
       }
 
-      if (this.color) {
-        value = this.color;
-      } else if (cssValue) {
-        value = cssValue;
-      } else if (this.default) {
-        value = this.default;
-      } else {
+      const value = this.checkValue(this.color) ? this.color : this.default;
+
+      if (!value) {
         this.showError('JFIELD_COLOR_ERROR_NO_COLOUR');
         return;
       }
 
+      let hsl = [];
       // When given value is a number, use it as defined format and get rest from default value
       if (/^[0-9]+$/.test(value)) {
         hsl = this.default && this.getHsl(this.default);
@@ -299,9 +295,6 @@
       } else {
         hsl = this.getHsl(value);
       }
-
-      hsl[1] = hsl[1] > 1 ? hsl[1] / 100 : hsl[1];
-      hsl[2] = hsl[2] > 1 ? hsl[2] / 100 : hsl[2];
 
       [this.hue, this.saturation, this.light] = hsl;
       this.alpha = hsl[4] || this.alpha;
@@ -342,6 +335,7 @@
         hsl = [matches[1], matches[2], matches[3], matches[4]];
       } else {
         this.showError('JFIELD_COLOR_ERROR_CONVERT_HSL');
+        return this.defaultHsl;
       }
 
       // Convert saturation etc. values from e.g. 40 to 0.4
@@ -614,6 +608,7 @@
 
       if (h < 0 || h > 360 || s < 0 || s > 1 || l < 0 || l > 1) {
         this.showError('JFIELD_COLOR_ERROR_CONVERT_HSL');
+        return this.hslToRgb(this.defaultHsl);
       }
 
       const c = (1 - Math.abs(2 * l - 1)) * s;
@@ -635,6 +630,7 @@
         [r, g, b] = [c, 0, x];
       } else {
         this.showError('JFIELD_COLOR_ERROR_CONVERT_HUE');
+        return this.hslToRgb(this.defaultHsl);
       }
 
       const rgb = [r, g, b].map(value => Math.round((value + m) * 255));
