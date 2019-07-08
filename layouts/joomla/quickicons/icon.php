@@ -15,11 +15,14 @@ $id      = empty($displayData['id']) ? '' : (' id="' . $displayData['id'] . '"')
 $target  = empty($displayData['target']) ? '' : (' target="' . $displayData['target'] . '"');
 $onclick = empty($displayData['onclick']) ? '' : (' onclick="' . $displayData['onclick'] . '"');
 
-if (isset($displayData['ajaxurl'])) {
-	$size = 'small';
+if (isset($displayData['ajaxurl']))
+{
+	$size    = 'small';
 	$dataUrl = 'data-url="' . $displayData['ajaxurl'] . '"';
-} else {
-	$size = 'big';
+}
+else
+{
+	$size    = 'big';
 	$dataUrl = '';
 }
 
@@ -50,6 +53,12 @@ if (!empty($displayData['class']) && is_string($displayData['class']))
 // Make the class string
 $class = !empty($tmp) ? 'class="' . implode(' ', array_unique($tmp)) . '"' : '';
 
+if (isset($displayData['srOnly']))
+{
+	$srOnly_0 = Text::plural($displayData['srOnly'], 0);
+	$srOnly_1 = Text::plural($displayData['srOnly'], 1);
+	$srOnly_n = Text::plural($displayData['srOnly'], 2);
+}
 if (isset($displayData['name']))
 {
 	$add  = Text::plural($displayData['name'], 1);
@@ -70,13 +79,20 @@ else
 			</div>
 		<?php endif; ?>
 		<?php if (isset($displayData['ajaxurl'])) : ?>
-			<div class="quickicon-amount" <?php echo $dataUrl ?>>
-				<span class="fa fa-spinner" aria-hidden="true"></span>
+			<div class="quickicon-amount" <?php echo $dataUrl ?> aria-hidden="true">
+				<span class="fa fa-spinner"></span>
 			</div>
+			<?php if (isset($displayData['srOnly']) ): ?>
+				<div class="quickicon-sr-desc sr-only"
+					data-sronly-zero="<?php echo $srOnly_0 ?>"
+					data-sronly-one="<?php echo $srOnly_1 ?>"
+					data-sronly-n="<?php echo $srOnly_n ?>">
+				</div>
+			<?php endif; ?>
 		<?php endif; ?>
 		<?php // Name indicates the component
 		if (isset($displayData['name'])): ?>
-			<div class="quickicon-name d-flex align-items-end"
+			<div aria-hidden="true" class="quickicon-name d-flex align-items-end"
 				 data-name-singular="<?php echo $add ?>"
 				 data-name-plural="<?php echo $name ?>">
 				<?php echo htmlspecialchars($name); ?>

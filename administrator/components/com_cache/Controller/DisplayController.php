@@ -33,8 +33,6 @@ class DisplayController extends BaseController
 
 	/**
 	 * Method to get The Cache Size
-	 * 
-	 * @return  integer  The cache size in kB
 	 *
 	 * @since   4.0
 	 */
@@ -44,7 +42,7 @@ class DisplayController extends BaseController
 
 		$data = $model->getData();
 
-		$size = '0.0';
+		$size = 0;
 
 		if (!empty($data))
 		{
@@ -55,7 +53,13 @@ class DisplayController extends BaseController
 		}
 
 		// Number bytes are returned in format xxx.xx MB
-		$result = strstr(HTMLHelper::_('number.bytes', $size, 'MB', 1, false), '.', true);
+		$bytes = HTMLHelper::_('number.bytes', $size, 'MB', 1);
+		$result = strstr($bytes, '.', true);
+
+		// No dot found, so just take the converted size
+		if (!$result) {
+			$result = $bytes;
+		}
 
 		// Return number only
 		echo new JsonResponse($result);

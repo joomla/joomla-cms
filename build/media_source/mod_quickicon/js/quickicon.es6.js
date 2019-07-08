@@ -48,6 +48,18 @@
 
               // Set amount of number into counter span
               counter.textContent = response.data;
+
+              // Insert screenreader text
+              const srElement = quickicon.querySelector('.quickicon-sr-desc');
+              if (srElement) {
+                if (response.data === 0) {
+                  srElement.textContent = srElement.dataset.sronlyZero;
+                } else if (response.data === 1) {
+                  srElement.textContent = srElement.dataset.sronlyOne;
+                } else {
+                  srElement.textContent = srElement.dataset.sronlyN;
+                }
+              }
             } else if (pulse) {
               pulse.classList.add('error');
             }
