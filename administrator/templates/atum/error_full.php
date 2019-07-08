@@ -13,7 +13,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use OzdemirBurak\Iris\Color\Hex;
 
 /** @var JDocumentError $this */
 
@@ -67,85 +66,11 @@ $css = '
 	}
 ';
 
-$root = [];
-
-$steps = 10;
-
-if ($this->params->get('bg-dark'))
-{
-	$bgcolor = trim($this->params->get('bg-dark'), '#');
-
-	list($red, $green, $blue) = str_split($bgcolor, 2);
-
-	$root[] = '--atum-bg-dark: #' . $bgcolor . ';';
-
-	try
-	{
-		$color    = new Hex($bgcolor);
-		$colorHsl = $color->toHsl();
-
-		$root[] = '--atum-contrast: ' . (clone $colorHsl)->lighten(-6)->spin(-30)->toHex() . ';';
-		$root[] = '--atum-bg-dark-10: ' . (clone $colorHsl)->desaturate(86)->lighten(20.5)->spin(-6)->toHex() . ';';
-		$root[] = '--atum-bg-dark-20: ' . (clone $colorHsl)->desaturate(76)->lighten(16.5)->spin(-6)->toHex() . ';';
-		$root[] = '--atum-bg-dark-30: ' . (clone $colorHsl)->desaturate(60)->lighten(12)->spin(-5)->toHex() . ';';
-		$root[] = '--atum-bg-dark-40: ' . (clone $colorHsl)->desaturate(41)->lighten(8)->spin(-3)->toHex() . ';';
-		$root[] = '--atum-bg-dark-50: ' . (clone $colorHsl)->desaturate(19)->lighten(4)->spin(-1)->toHex() . ';';
-		$root[] = '--atum-bg-dark-70: ' . (clone $colorHsl)->lighten(-6)->spin(4)->toHex() . ';';
-		$root[] = '--atum-bg-dark-80: ' . (clone $colorHsl)->lighten(-11.5)->spin(7)->toHex() . ';';
-		$root[] = '--atum-bg-dark-90: ' . (clone $colorHsl)->desaturate(1)->lighten(-17)->spin(10)->toHex() . ';';
-	}
-	catch (Exception $ex)
-	{
-
-	}
-}
-
-if ($this->params->get('bg-light'))
-{
-	$root[] = '--atum-bg-light: ' . $this->params->get('bg-light') . ';';
-}
-
-if ($this->params->get('text-dark'))
-{
-	$root[] = '--atum-text-dark: ' . $this->params->get('text-dark') . ';';
-}
-
-if ($this->params->get('text-light'))
-{
-	$root[] = '--atum-text-light: ' . $this->params->get('text-light') . ';';
-}
-
-if ($this->params->get('link-color'))
-{
-	$linkcolor = trim($this->params->get('link-color'), '#');
-
-	list($red, $green, $blue) = str_split($linkcolor, 2);
-
-	$root[] = '--atum-link-color: #' . $linkcolor . ';';
-
-	try
-	{
-		$color = new Hex($linkcolor);
-
-		$root[] = '--atum-link-hover-color: ' . (clone $color)->darken(20) . ';';
-	}
-	catch (Exception $ex)
-	{
-
-	}
-}
-
-if ($this->params->get('special-color'))
-{
-	$root[] = '--atum-special-color: ' . $this->params->get('special-color') . ';';
-}
-
-if (count($root))
-{
-	$css .= ':root {' . implode($root) . '}';
-}
-
 $this->addStyleDeclaration($css);
+
+HTMLHelper::getServiceRegistry()->register('atum', 'Joomla\\Template\\Atum\\Administrator\\Service\\HTML\\Atum');
+
+HTMLHelper::_('atum.rootcolors', $this->params);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
