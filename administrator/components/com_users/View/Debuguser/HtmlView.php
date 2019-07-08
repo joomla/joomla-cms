@@ -125,7 +125,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_users');
 
-		ToolbarHelper::title(Text::sprintf('COM_USERS_VIEW_DEBUG_USER_TITLE', $this->user->id, $this->user->name), 'users user');
+		ToolbarHelper::title(Text::sprintf('COM_USERS_VIEW_DEBUG_USER_TITLE', $this->user->id, $this->escape($this->user->name)), 'users user');
 		ToolbarHelper::cancel('user.cancel', 'JTOOLBAR_CLOSE');
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
