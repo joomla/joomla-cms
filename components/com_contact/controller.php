@@ -27,13 +27,15 @@ class ContactController extends JControllerLegacy
 	 */
 	public function __construct($config = array())
 	{
-		$this->input = JFactory::getApplication()->input;
+		$app = JFactory::getApplication();
+		$this->input = $app->input;
 
 		// Contact frontpage Editor contacts proxying:
 		if ($this->input->get('view') === 'contacts' && $this->input->get('layout') === 'modal')
 		{
 			JHtml::_('stylesheet', 'system/adminlist.css', array(), true);
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+			$app->getLanguage()->load('joomla', JPATH_ADMINISTRATOR);
 		}
 
 		parent::__construct($config);

@@ -29,7 +29,8 @@ class ContentController extends JControllerLegacy
 	 */
 	public function __construct($config = array())
 	{
-		$this->input = JFactory::getApplication()->input;
+		$app = JFactory::getApplication();
+		$this->input = $app->input;
 
 		// Article frontpage Editor pagebreak proxying:
 		if ($this->input->get('view') === 'article' && $this->input->get('layout') === 'pagebreak')
@@ -41,6 +42,7 @@ class ContentController extends JControllerLegacy
 		{
 			JHtml::_('stylesheet', 'system/adminlist.css', array('version' => 'auto', 'relative' => true));
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+			$app->getLanguage()->load('joomla', JPATH_ADMINISTRATOR);
 		}
 
 		parent::__construct($config);

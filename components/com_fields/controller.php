@@ -33,6 +33,7 @@ class FieldsController extends JControllerLegacy
 		{
 			// Load the backend language file.
 			$lang = JFactory::getLanguage();
+			$lang->load('joomla', JPATH_ADMINISTRATOR);
 			$lang->load('com_fields', JPATH_ADMINISTRATOR);
 
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
