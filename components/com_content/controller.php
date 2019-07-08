@@ -42,6 +42,8 @@ class ContentController extends JControllerLegacy
 		{
 			JHtml::_('stylesheet', 'system/adminlist.css', array('version' => 'auto', 'relative' => true));
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+
+			// Load global backend language file.
 			$app->getLanguage()->load('joomla', JPATH_ADMINISTRATOR);
 		}
 

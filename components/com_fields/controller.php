@@ -31,7 +31,7 @@ class FieldsController extends JControllerLegacy
 		// Frontpage Editor Fields Button proxying:
 		if ($this->input->get('view') === 'fields' && $this->input->get('layout') === 'modal')
 		{
-			// Load the backend language file.
+			// Load backend language files.
 			$lang = JFactory::getLanguage();
 			$lang->load('joomla', JPATH_ADMINISTRATOR);
 			$lang->load('com_fields', JPATH_ADMINISTRATOR);
