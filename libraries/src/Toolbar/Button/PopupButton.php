@@ -20,6 +20,7 @@ use Joomla\CMS\Uri\Uri;
  * Renders a modal window button
  *
  * @method self    url(string $value)
+ * @method self    icon(string $value)
  * @method self    iframeWidth(int $value)
  * @method self    iframeHeight(int $value)
  * @method self    bodyHeight(int $value)
@@ -99,6 +100,7 @@ class PopupButton extends ToolbarButton
 			->text(Text::_($text))
 			->task($this->_getCommand($url))
 			->url($url)
+			->icon('icon-' . $name)
 			->iframeWidth($iframeWidth)
 			->iframeHeight($iframeHeight)
 			->bodyHeight($bodyHeight)
