@@ -69,10 +69,9 @@
 		<field
 			name="transition"
 			type="transition"
-			extension="com_content"
 			label="COM_CONTENT_TRANSITION"
-		>
-		</field>
+			extension="com_content"
+		/>
 
 		<field
 			name="tags"
@@ -244,9 +243,9 @@
 
 	</fieldset>
 
-	<fields name="attribs">
+	<fields name="attribs" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
 		<fieldset name="attribs" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
-			<fieldset name="basic" label="COM_CONTENT_ATTRIBS_FIELDSET_GENERAL_LABEL">
+			<fieldset name="basic" label="JFIELD_ALT_LAYOUT_LABEL">
 
 				<field
 					name="article_layout"
@@ -284,7 +283,7 @@
 					label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
 					class="custom-select-color"
 					useglobal="true"
-				>
+					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
@@ -322,7 +321,7 @@
 				</field>
 			</fieldset>
 
-			<fieldset name="category" label="COM_CONTENT_ATTRIBS_FIELDSET_CATEGORY_LABEL">
+			<fieldset name="category" label="JCATEGORY">
 				<field
 					name="show_category"
 					type="list"
@@ -374,7 +373,7 @@
 				</field>
 			</fieldset>
 
-			<fieldset name="author" label="COM_CONTENT_ATTRIBS_FIELDSET_AUTHOR_LABEL">
+			<fieldset name="author" label="JGLOBAL_SHOW_AUTHOR_LABEL">
 				<field
 					name="show_author"
 					type="list"
@@ -396,7 +395,7 @@
 				</field>
 			</fieldset>
 
-			<fieldset name="date" label="COM_CONTENT_ATTRIBS_FIELDSET_DATE_LABEL">
+			<fieldset name="date" label="JDATE">
 				<field
 					name="show_create_date"
 					type="list"
@@ -428,7 +427,7 @@
 				</field>
 			</fieldset>
 
-			<fieldset name="other" label="COM_CONTENT_ATTRIBS_FIELDSET_OTHER_LABEL">
+			<fieldset name="other" label="COM_CONTENT_OTHER_OPTIONS">
 				<field
 					name="show_item_navigation"
 					type="list"
@@ -479,6 +478,9 @@
 					<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 					<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 				</field>
+			</fieldset>
+
+			<fieldset name="global" label="COM_CONTENT_GLOBAL_OPTIONS">
 				<field
 					name="alternative_readmore"
 					type="text"
@@ -667,8 +669,8 @@
 		size="20"
 	/>
 
-	<fields name="images">
-		<fieldset name="image-intro" label="COM_CONTENT_FIELD_INTRO_IMAGE_OPTIONS">
+	<fields name="images" label="COM_CONTENT_FIELD_IMAGE_OPTIONS">
+		<fieldset name="image-intro" label="COM_CONTENT_FIELD_INTRO_LABEL">
 			<field
 				name="image_intro"
 				type="media"
@@ -702,7 +704,7 @@
 
 		</fieldset>
 
-		<fieldset name="image-full" label="COM_CONTENT_FIELD_FULL_IMAGE_OPTIONS">
+		<fieldset name="image-full" label="COM_CONTENT_FIELD_FULL_LABEL">
 			<field
 				name="image_fulltext"
 				type="media"
@@ -736,8 +738,8 @@
 		</fieldset>
 	</fields>
 
-	<fields name="urls">
-		<fieldset name="linka" label="COM_CONTENT_FIELD_URLA_OPTIONS">
+	<fields name="urls" label="COM_CONTENT_FIELD_URLS_OPTIONS">
+		<fieldset name="linka" label="COM_CONTENT_FIELD_URLA_LABEL">
 			<field
 				name="urla"
 				type="url"
@@ -769,7 +771,7 @@
 			</field>
 		</fieldset>
 
-		<fieldset name="linkb" label="COM_CONTENT_FIELD_URLB_OPTIONS">
+		<fieldset name="linkb" label="COM_CONTENT_FIELD_URLB_LABEL">
 			<field
 				name="urlb"
 				type="url"
@@ -801,7 +803,7 @@
 			</field>
 		</fieldset>
 
-		<fieldset name="linkc" label="COM_CONTENT_FIELD_URLC_OPTIONS">
+		<fieldset name="linkc" label="COM_CONTENT_FIELD_URLC_LABEL">
 			<field
 				name="urlc"
 				type="url"
@@ -834,7 +836,7 @@
 		</fieldset>
 	</fields>
 
-	<fields name="metadata">
+	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<fieldset name="jmetadata"
 				  label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
