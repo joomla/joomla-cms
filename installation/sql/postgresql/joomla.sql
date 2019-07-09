@@ -1801,23 +1801,24 @@ CREATE TABLE "#__template_styles" (
   "id" serial NOT NULL,
   "template" varchar(50) DEFAULT '' NOT NULL,
   "client_id" smallint DEFAULT 0 NOT NULL,
-  "home" varchar(7) DEFAULT '0' NOT NULL,
+  "home" smallint DEFAULT 0 NOT NULL,
   "title" varchar(255) DEFAULT '' NOT NULL,
   "params" text NOT NULL,
   PRIMARY KEY ("id")
 );
 CREATE INDEX "#__template_styles_idx_template" ON "#__template_styles" ("template");
-CREATE INDEX "#__template_styles_idx_home" ON "#__template_styles" ("home");
+CREATE INDEX "#__template_styles_idx_client_id" ON "#__template_styles" ("client_id");
+CREATE INDEX "#__template_styles_idx_client_id_home" ON "#__template_styles" ("client_id", "home");
 
 --
 -- Dumping data for table #__template_styles
 --
 
 INSERT INTO "#__template_styles" ("id", "template", "client_id", "home", "title", "params") VALUES
-(4, 'beez3', 0, '0', 'Beez3 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/joomla_black.png","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}'),
-(5, 'hathor', 1, '0', 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}'),
-(7, 'protostar', 0, '1', 'protostar - Default', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}'),
-(8, 'isis', 1, '1', 'isis - Default', '{"templateColor":"","logoFile":""}');
+(4, 'beez3', 0, 0, 'Beez3 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/joomla_black.png","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}'),
+(5, 'hathor', 1, 0, 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}'),
+(7, 'protostar', 0, 1, 'protostar - Default', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}'),
+(8, 'isis', 1, 1, 'isis - Default', '{"templateColor":"","logoFile":""}');
 
 SELECT setval('#__template_styles_id_seq', 9, false);
 
