@@ -82,7 +82,7 @@ else
 			<div class="quickicon-amount" <?php echo $dataUrl ?> aria-hidden="true">
 				<span class="fa fa-spinner"></span>
 			</div>
-			<?php if (isset($displayData['srOnly']) ): ?>
+			<?php if (isset($displayData['srOnly']) ) : ?>
 				<div class="quickicon-sr-desc sr-only"
 					data-sronly-zero="<?php echo $srOnly_0 ?>"
 					data-sronly-one="<?php echo $srOnly_1 ?>"
