@@ -178,7 +178,7 @@ abstract class QuickIconHelper
 			{
 				$tmp = [
 					'image'  => 'fa fa-plug',
-					'srOnly'  => 'MOD_QUICKICON_PLUGIN_SRONLY',
+					'srOnly' => 'MOD_QUICKICON_PLUGIN_SRONLY',
 					'link'   => Route::_('index.php?option=com_plugins'),
 					'name'   => 'MOD_QUICKICON_PLUGIN_MANAGER',
 					'access' => array('core.manage', 'com_plugins'),
