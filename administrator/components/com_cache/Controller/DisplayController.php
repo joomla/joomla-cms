@@ -57,7 +57,8 @@ class DisplayController extends BaseController
 		$result = strstr($bytes, '.', true);
 
 		// No dot found, so just take the converted size
-		if (!$result) {
+		if (!$result)
+		{
 			$result = $bytes;
 		}
 
