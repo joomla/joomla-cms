@@ -59,6 +59,7 @@ if (isset($displayData['srOnly']))
 	$srOnly_1 = Text::plural($displayData['srOnly'], 1);
 	$srOnly_n = Text::plural($displayData['srOnly'], 2);
 }
+
 if (isset($displayData['name']))
 {
 	$add  = Text::plural($displayData['name'], 1);
