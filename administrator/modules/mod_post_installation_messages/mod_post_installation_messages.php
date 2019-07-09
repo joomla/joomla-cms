@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  mod_status_post_installation_messages
+ * @subpackage  mod_post_installation_messages
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -15,7 +15,6 @@ use Joomla\CMS\Helper\ModuleHelper;
 
 $user     = Factory::getUser();
 $app      = Factory::getApplication();
-$sitename = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 
 // Try to get the items from the post-installation model
 try
@@ -36,4 +35,4 @@ $joomlaFilesExtensionId = ExtensionHelper::getExtensionRecord('files_joomla')->e
 // Load the com_postinstall language file
 Factory::getLanguage()->load('com_postinstall', JPATH_ADMINISTRATOR, 'en-GB', true);
 
-require ModuleHelper::getLayoutPath('mod_status_post_installation_messages', $params->get('layout', 'default'));
+require ModuleHelper::getLayoutPath('mod_post_installation_messages', $params->get('layout', 'default'));
