@@ -1728,7 +1728,7 @@ SELECT setval('#__tags_id_seq', 2, false);
 
 CREATE TABLE IF NOT EXISTS "#__tag_content" (
   "content_id" bigint NOT NULL DEFAULT 0,
-  "type_alias" varchar(50) NOT NULL DEFAULT '' COMMENT 'FK to the content types table',
+  "type_alias" varchar(50) NOT NULL DEFAULT '',
   "title" varchar(400) NOT NULL DEFAULT '',
   "alias" varchar(400) NOT NULL DEFAULT '',
   "body" text NOT NULL,
@@ -1736,11 +1736,11 @@ CREATE TABLE IF NOT EXISTS "#__tag_content" (
   "access" bigint NOT NULL DEFAULT 0,
   "params" text NOT NULL,
   "featured" smallint NOT NULL DEFAULT 0,
-  "metadata" varchar(2048) NOT NULL DEFAULT '' COMMENT 'JSON encoded metadata properties.',
+  "metadata" varchar(2048) NOT NULL DEFAULT '',
   "created_user_id" integer NOT NULL DEFAULT 0,
   "created_by_alias" varchar(255) NOT NULL DEFAULT '',
   "created_time" timestamp without time zone NOT NULL DEFAULT '1970-01-01 00:00:00',
-  "modified_user_id" integer NOT NULL DEFAULT 0 COMMENT 'Most recent user that modified',
+  "modified_user_id" integer NOT NULL DEFAULT 0,
   "modified_time" timestamp without time zone NOT NULL DEFAULT '1970-01-01 00:00:00',
   "language" varchar(7) NOT NULL DEFAULT '',
   "publish_up" timestamp without time zone NOT NULL DEFAULT '1970-01-01 00:00:00',
@@ -1778,12 +1778,6 @@ CREATE TABLE IF NOT EXISTS "#__tag_content_map" (
   "tagged_on" timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY ("tag_id","content_id","type_alias")
 );
-
-
-
-
-
-
 
 --
 -- Table structure for table `#__template_overrides`
