@@ -91,7 +91,7 @@ else
 			<?php endif; ?>
 		<?php endif; ?>
 		<?php // Name indicates the component
-		if (isset($displayData['name'])): ?>
+		if (isset($displayData['name'])) : ?>
 			<div aria-hidden="true" class="quickicon-name d-flex align-items-end"
 				 data-name-singular="<?php echo $add ?>"
 				 data-name-plural="<?php echo $name ?>">
