@@ -174,7 +174,7 @@ class PlgContentPagenavigation extends CMSPlugin
 			$query->where(
 				[
 					$db->quoteName('a.catid') . ' = :catid',
-					$db->quoteName('a.state') . ' = :state'
+					$db->quoteName('a.state') . ' = :state',
 				]
 			)
 				->bind(':catid', $catid, ParameterType::INTEGER)
@@ -189,7 +189,7 @@ class PlgContentPagenavigation extends CMSPlugin
 				[
 					'(' . $db->quoteName('ws.condition') . ' = 1 OR ' . $db->quoteName('ws.condition') . ' = -2)',
 					'(' . $db->quoteName('publish_up') . ' = :nullDate1 OR ' . $db->quoteName('publish_up') . ' <= :nowDate1)',
-					'(' . $db->quoteName('publish_down') . ' = :nullDate2 OR ' . $db->quoteName('publish_down') . ' >= :nowDate2)'
+					'(' . $db->quoteName('publish_down') . ' = :nullDate2 OR ' . $db->quoteName('publish_down') . ' >= :nowDate2)',
 				]
 			)
 				->bind(':nullDate1', $nullDate)
