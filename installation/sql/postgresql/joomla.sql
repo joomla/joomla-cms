@@ -1723,6 +1723,69 @@ INSERT INTO "#__tags" ("id", "parent_id", "lft", "rgt", "level", "path", "title"
 SELECT setval('#__tags_id_seq', 2, false);
 
 --
+-- Table structure for table `#__tag_content`
+--
+
+CREATE TABLE IF NOT EXISTS "#__tag_content" (
+  "content_id" bigint NOT NULL DEFAULT 0,
+  "type_alias" varchar(50) NOT NULL DEFAULT '' COMMENT 'FK to the content types table',
+  "title" varchar(400) NOT NULL DEFAULT '',
+  "alias" varchar(400) NOT NULL DEFAULT '',
+  "body" text NOT NULL,
+  "state" smallint NOT NULL DEFAULT 0,
+  "access" bigint NOT NULL DEFAULT 0,
+  "params" text NOT NULL,
+  "featured" smallint NOT NULL DEFAULT 0,
+  "metadata" varchar(2048) NOT NULL DEFAULT '' COMMENT 'JSON encoded metadata properties.',
+  "created_user_id" integer NOT NULL DEFAULT 0,
+  "created_by_alias" varchar(255) NOT NULL DEFAULT '',
+  "created_time" timestamp without time zone NOT NULL DEFAULT '1970-01-01 00:00:00',
+  "modified_user_id" integer NOT NULL DEFAULT 0 COMMENT 'Most recent user that modified',
+  "modified_time" timestamp without time zone NOT NULL DEFAULT '1970-01-01 00:00:00',
+  "language" varchar(7) NOT NULL DEFAULT '',
+  "publish_up" timestamp without time zone NOT NULL DEFAULT '1970-01-01 00:00:00',
+  "publish_down" timestamp without time zone NOT NULL DEFAULT '1970-01-01 00:00:00',
+  "images" text NOT NULL,
+  "urls" text NOT NULL,
+  "hits" integer NOT NULL DEFAULT 0,
+  "ordering" integer NOT NULL DEFAULT 0,
+  "metakey" text NOT NULL,
+  "metadesc" text NOT NULL,
+  "catid" integer NOT NULL DEFAULT 0,
+  PRIMARY KEY ("content_id","type_alias")
+);
+
+CREATE INDEX "#__tag_content_idx_access" ON "#__tag_content" ("access");
+CREATE INDEX "#__tag_content_idx_alias" ON "#__tag_content" ("alias");
+CREATE INDEX "#__tag_content_idx_language" ON "#__tag_content" ("language");
+CREATE INDEX "#__tag_content_idx_title" ON "#__tag_content" ("title");
+CREATE INDEX "#__tag_content_idx_modified_time" ON "#__tag_content" ("modified_time");
+CREATE INDEX "#__tag_content_idx_created_time" ON "#__tag_content" ("created_time");
+CREATE INDEX "#__tag_content_idx_type_alias" ON "#__tag_content" ("type_alias");
+CREATE INDEX "#__tag_content_idx_modified_user_id" ON "#__tag_content" ("modified_user_id");
+CREATE INDEX "#__tag_content_idx_created_user_id" ON "#__tag_content" ("created_user_id");
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__tag_content_map`
+--
+
+CREATE TABLE IF NOT EXISTS "#__tag_content_map" (
+  "tag_id" bigint NOT NULL DEFAULT 0,
+  "type_alias" varchar(50) NOT NULL DEFAULT '',
+  "content_id" bigint NOT NULL DEFAULT 0,
+  "tagged_on" timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY ("tag_id","content_id","type_alias")
+);
+
+
+
+
+
+
+
+--
 -- Table structure for table `#__template_overrides`
 --
 
