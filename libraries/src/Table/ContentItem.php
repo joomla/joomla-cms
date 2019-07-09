@@ -30,7 +30,7 @@ class ContentItem extends Table
 	 *
 	 * @param   DatabaseDriver  $db  A database connector object
 	 *
-	 * @since   3.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
@@ -47,7 +47,7 @@ class ContentItem extends Table
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
 	 *
 	 * @see     Table::bind()
-	 * @since   3.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -90,7 +90,7 @@ class ContentItem extends Table
 	 * @return  boolean  True on success, false on failure
 	 *
 	 * @see     Table::check()
-	 * @since   3.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function check()
 	{
@@ -184,7 +184,7 @@ class ContentItem extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   3.1
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  \UnexpectedValueException
 	 */
 	public function delete($pk = null)
@@ -202,7 +202,7 @@ class ContentItem extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   3.1
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  \UnexpectedValueException
 	 */
 	public function deleteByContentId($contentItemId = null, $typeAlias = null)
@@ -242,7 +242,7 @@ class ContentItem extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   3.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function store($updateNulls = false)
 	{
@@ -293,7 +293,7 @@ class ContentItem extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   3.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function storeUcmBase($updateNulls = false, $isNew = false)
 	{
@@ -344,7 +344,7 @@ class ContentItem extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   3.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
