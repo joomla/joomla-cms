@@ -44,7 +44,7 @@ class FieldsModelFields extends JModelList
 				'checked_out_time', 'a.checked_out_time',
 				'created_time', 'a.created_time',
 				'created_user_id', 'a.created_user_id',
-				'category_title',
+				'category_title', 'g.title',
 				'category_id', 'a.category_id',
 				'group_id', 'a.group_id',
 				'assigned_cat_ids'
