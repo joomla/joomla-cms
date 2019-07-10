@@ -24,7 +24,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class SysInfoModel extends BaseDatabaseModel
+class SysinfoModel extends BaseDatabaseModel
 {
 	/**
 	 * Some PHP settings

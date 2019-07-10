@@ -20,7 +20,7 @@ $separator = $params->get('separator', '|');
 		<div class="control-group col-md-12">
             <p><?php echo Text::sprintf('COM_REDIRECT_BATCH_TIP', $separator); ?></p>
 			<div class="controls">
-				<textarea class="col-md-12" rows="10" value="" id="batch_urls" name="batch_urls" required></textarea>
+				<textarea class="col-md-12" rows="10" value="" id="batch_urls" name="batch_urls"></textarea>
 			</div>
 		</div>
 	</div>
