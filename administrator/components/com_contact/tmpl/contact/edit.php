@@ -101,12 +101,16 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-		<?php if ( ! $isModal && $assoc) : ?>
+		<?php if (!$isModal && $assoc) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
-			<?php echo $this->loadTemplate('associations'); ?>
+			<div class="row">
+				<div class="col-md-12">
+					<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
+				</div>
+			</div>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php elseif ($isModal && $assoc) : ?>
-			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
+			<div class="hidden"><?php echo LayoutHelper::render('joomla.edit.associations', $this); ?></div>
 		<?php endif; ?>
 
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
