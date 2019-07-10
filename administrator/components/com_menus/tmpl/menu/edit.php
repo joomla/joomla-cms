@@ -16,7 +16,6 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.tabstate');
 
 Text::script('ERROR');
 ?>

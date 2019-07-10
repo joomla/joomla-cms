@@ -26,7 +26,6 @@ Text::script('MESSAGE');
 // Load the tooltip behavior.
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.tabstate');
 
 if ($this->fieldsets)
 {

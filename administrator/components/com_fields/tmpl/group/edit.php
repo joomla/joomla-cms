@@ -16,7 +16,6 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.tabstate');
 
 $app = Factory::getApplication();
 $input = $app->input;

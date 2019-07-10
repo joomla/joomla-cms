@@ -287,6 +287,7 @@ abstract class JHtmlBehavior
 	 */
 	public static function tabstate()
 	{
+		// Files removed!!
 	}
 
 	/**

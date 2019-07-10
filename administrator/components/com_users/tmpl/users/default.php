@@ -19,7 +19,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('behavior.tabstate');
 
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));

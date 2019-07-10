@@ -19,7 +19,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('behavior.tabstate');
 
 $user      = Factory::getUser();
 $userId    = $user->get('id');

@@ -18,7 +18,6 @@ use Joomla\CMS\Router\Route;
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.core');
-HTMLHelper::_('behavior.tabstate');
 
 Text::script('COM_FINDER_FILTER_SHOW_ALL', true);
 Text::script('COM_FINDER_FILTER_HIDE_ALL', true);

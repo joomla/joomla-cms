@@ -18,7 +18,6 @@ use Joomla\Registry\Registry;
 // Load tooltips behavior
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.tabstate');
 
 // Load JS message titles
 Text::script('ERROR');

@@ -14,7 +14,6 @@ use Joomla\CMS\Language\Text;
 
 /** @var \Joomla\Component\Admin\Administrator\View\Sysinfo\HtmlView $this */
 
-HTMLHelper::_('behavior.tabstate');
 ?>
 <div class="row">
 	<?php // Begin Content ?>
