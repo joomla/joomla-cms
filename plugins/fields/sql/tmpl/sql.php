@@ -19,13 +19,14 @@ if ($value == '')
 }
 
 $db    = Factory::getDbo();
+$value = (array) $value;
 $query = $db->getQuery(true);
 $sql   = $fieldParams->get('query', '');
 
-$bindNames = $query->bindArray((array) $value, ParameterType::INTEGER);
+$bindNames = $query->bindArray($value, ParameterType::STRING);
 
 // Run the query with a having condition because it supports aliases
-$sql .= ' HAVING VALUE IN (' . implode($bindNames) . ')';
+$sql .= ' HAVING VALUE IN (' . implode(',', $bindNames) . ')';
 
 $query->setQuery($sql);
 
@@ -36,6 +37,7 @@ try
 catch (Exception $e)
 {
 	// If the query failed, we fetch all elements
+	$query->setQuery($fieldParams->get('query', ''));
 	$db->setQuery($query);
 	$items = $db->loadObjectlist();
 }
