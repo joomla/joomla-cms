@@ -112,12 +112,13 @@ class PlgAuthenticationCookie extends CMSPlugin
 		// Filter series since we're going to use it in the query
 		$filter = new InputFilter;
 		$series = $filter->clean($cookieArray[1], 'ALNUM');
+		$now    = time();
 
 		// Remove expired tokens
 		$query = $this->db->getQuery(true)
 			->delete($this->db->quoteName('#__user_keys'))
 			->where($this->db->quoteName('time') . ' < :now')
-			->bind(':now', time());
+			->bind(':now', $now);
 
 		try
 		{
