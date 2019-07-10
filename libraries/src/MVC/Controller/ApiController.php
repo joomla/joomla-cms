@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\MVC\Controller\Exception\CheckinCheckout;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MvcFactoryInterface;
@@ -20,6 +21,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\View\JsonApiView;
 use Joomla\Input\Input;
 use Joomla\String\Inflector;
+use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 /**
  * Base class for a Joomla API Controller
@@ -129,8 +131,8 @@ class ApiController extends BaseController
 			$id = $this->input->get('id', 0, 'int');
 		}
 
-		$viewType = $this->app->getDocument()->getType();
-		$viewName = $this->input->get('view', $this->default_view);
+		$viewType   = $this->app->getDocument()->getType();
+		$viewName   = $this->input->get('view', $this->default_view);
 		$viewLayout = $this->input->get('layout', 'default', 'string');
 
 		try
@@ -140,7 +142,7 @@ class ApiController extends BaseController
 		}
 		catch (\Exception $e)
 		{
-			return $this;
+			throw new \RuntimeException($e->getMessage());
 		}
 
 		$modelName = $this->input->get('model', Inflector::singularize($this->contentType));
@@ -160,7 +162,7 @@ class ApiController extends BaseController
 		}
 		catch (\Exception $e)
 		{
-			return $this;
+			throw new \RuntimeException('Unable to get the model name');
 		}
 
 		$model->setState($modelName . '.id', $id);
@@ -199,8 +201,8 @@ class ApiController extends BaseController
 
 		$this->input->set('list', $internalPaginationMapping);
 
-		$viewType = $this->app->getDocument()->getType();
-		$viewName = $this->input->get('view', $this->default_view);
+		$viewType   = $this->app->getDocument()->getType();
+		$viewName   = $this->input->get('view', $this->default_view);
 		$viewLayout = $this->input->get('layout', 'default', 'string');
 
 		try
@@ -215,7 +217,7 @@ class ApiController extends BaseController
 		}
 		catch (\Exception $e)
 		{
-			return $this;
+			throw new \RuntimeException($e->getMessage());
 		}
 
 		$modelName = $this->input->get('model', $this->contentType);
@@ -225,7 +227,7 @@ class ApiController extends BaseController
 
 		if (!$model)
 		{
-			throw new \RuntimeException('Model failed to be created', 500);
+			throw new \RuntimeException('Unable to create the model.');
 		}
 
 		// Push the model into the view (as default)
@@ -302,23 +304,16 @@ class ApiController extends BaseController
 		{
 			throw new NotAllowed('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED', 403);
 		}
-		else
-		{
-			$success = $this->save();
 
-			if (!$success)
-			{
-				throw new \RuntimeException($this->message);
-			}
+		$recordId = $this->save();
 
-			$this->displayItem($success);
-		}
+		$this->displayItem($recordId);
 	}
 
 	/**
 	 * Method to edit an existing record.
 	 *
-	 * @return  boolean  True if save succeeded after access level check and checkout passes, false otherwise.
+	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   4.0.0
 	 */
@@ -327,15 +322,18 @@ class ApiController extends BaseController
 		/** @var \Joomla\CMS\MVC\Model\AdminModel $model */
 		$model = $this->getModel(Inflector::singularize($this->contentType));
 
+		if (!$model)
+		{
+			throw new \RuntimeException('Unable to create the model');
+		}
+
 		try
 		{
 			$table = $model->getTable();
 		}
 		catch (\Exception $e)
 		{
-			$this->setMessage($e->getMessage());
-
-			return false;
+			throw new \RuntimeException($e->getMessage());
 		}
 
 		$recordId = $this->input->getInt('id');
@@ -359,17 +357,12 @@ class ApiController extends BaseController
 		if ($checkin && !$model->checkout($recordId))
 		{
 			// Check-out failed, display a notice but allow the user to see the record.
-			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()), 'error');
-
-			return false;
+			throw new CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()), 'error');
 		}
 
-		if (!$this->save($recordId))
-		{
-			throw new \RuntimeException($this->message);
-		}
+		$this->save($recordId);
 
-		return true;
+		return $this;
 	}
 
 	/**
@@ -377,7 +370,7 @@ class ApiController extends BaseController
 	 *
 	 * @param   int  $recordKey  The primary key of the item (if exists)
 	 *
-	 * @return  int|boolean  The record ID on success, false on failure
+	 * @return  int  The record ID on success, false on failure
 	 *
 	 * @since   4.0.0
 	 */
@@ -386,15 +379,18 @@ class ApiController extends BaseController
 		/** @var \Joomla\CMS\MVC\Model\AdminModel $model */
 		$model = $this->getModel(Inflector::singularize($this->contentType));
 
+		if (!$model)
+		{
+			throw new \RuntimeException('Unable to create the model');
+		}
+
 		try
 		{
 			$table = $model->getTable();
 		}
 		catch (\Exception $e)
 		{
-			$this->setMessage($e->getMessage());
-
-			return false;
+			throw new \RuntimeException($e->getMessage());
 		}
 
 		$key        = $table->getKeyName();
@@ -410,9 +406,7 @@ class ApiController extends BaseController
 
 		if (!$form)
 		{
-			$this->setMessage($model->getError(), 'error');
-
-			return false;
+			throw new \RuntimeException('Unable to create the form.');
 		}
 
 		// Test whether the data is valid.
@@ -421,23 +415,22 @@ class ApiController extends BaseController
 		// Check for validation errors.
 		if ($validData === false)
 		{
-			// Get the validation messages.
-			$errors = $model->getErrors();
+			$errors  = $model->getErrors();
+			$message = '';
 
-			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 			{
 				if ($errors[$i] instanceof \Exception)
 				{
-					$this->setMessage($errors[$i]->getMessage(), 'warning');
+					$message .= "{$errors[$i]->getMessage()}\n";
 				}
 				else
 				{
-					$this->setMessage($errors[$i], 'warning');
+					$message .= "{$errors[$i]}\n";
 				}
 			}
 
-			return false;
+			throw new InvalidParameterException($message);
 		}
 
 		if (!isset($validData['tags']))
@@ -448,9 +441,7 @@ class ApiController extends BaseController
 		// Attempt to save the data.
 		if (!$model->save($validData))
 		{
-			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
-
-			return false;
+			throw new CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
 		}
 
 		try
@@ -459,9 +450,7 @@ class ApiController extends BaseController
 		}
 		catch (\Exception $e)
 		{
-			$this->setMessage($e->getMessage());
-
-			return false;
+			throw new \RuntimeException($e->getMessage());
 		}
 
 		// Ensure we have the record ID in case we created a new article
@@ -469,18 +458,13 @@ class ApiController extends BaseController
 
 		if ($recordId === null)
 		{
-			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
-
-			return false;
+			throw new CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
 		}
 
 		// Save succeeded, so check-in the record.
 		if ($checkin && $model->checkin($recordId) === false)
 		{
-			// Check-in failed, so go back to the record and display a notice.
-			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
-
-			return false;
+			throw new CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
 		}
 
 		return $recordId;

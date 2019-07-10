@@ -16,6 +16,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Config\Api\View\Application\JsonApiView;
 use Joomla\Component\Config\Administrator\Model\ApplicationModel;
+use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 /**
  * The application controller
@@ -64,7 +65,7 @@ class ApplicationController extends ApiController
 		}
 		catch (\Exception $e)
 		{
-			return $this;
+			throw new \RuntimeException($e->getMessage());
 		}
 
 		/** @var ApplicationModel $model */
@@ -87,7 +88,7 @@ class ApplicationController extends ApiController
 	/**
 	 * Method to edit an existing record.
 	 *
-	 * @return  boolean  True if save succeeded after access level check and checkout passes, false otherwise.
+	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   4.0.0
 	 */
@@ -120,21 +121,34 @@ class ApplicationController extends ApiController
 		$form = $model->getForm();
 
 		// Validate the posted data.
-		$return = $model->validate($form, $data);
+		$validData = $model->validate($form, $data);
 
-		if ($return === false)
+		// Check for validation errors.
+		if ($validData === false)
 		{
-			throw new \RuntimeException('Invalid input data', 400);
+			$errors  = $model->getErrors();
+			$message = '';
+
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			{
+				if ($errors[$i] instanceof \Exception)
+				{
+					$message .= "{$errors[$i]->getMessage()}\n";
+				}
+				else
+				{
+					$message .= "{$errors[$i]}\n";
+				}
+			}
+
+			throw new InvalidParameterException($message);
 		}
 
-		$data   = $return;
-		$return = $model->save($data);
-
-		if ($return === false)
+		if (!$model->save($validData))
 		{
 			throw new \RuntimeException('Internal server error', 500);
 		}
 
-		return true;
+		return $this;
 	}
 }

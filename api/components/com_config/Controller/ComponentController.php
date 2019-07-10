@@ -18,6 +18,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Config\Api\View\Component\JsonApiView;
 use Joomla\Component\Config\Administrator\Model\ComponentModel;
+use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 /**
  * The component controller
@@ -66,7 +67,7 @@ class ComponentController extends ApiController
 		}
 		catch (\Exception $e)
 		{
-			return $this;
+			throw new \RuntimeException($e->getMessage());
 		}
 
 		/** @var ComponentModel $model */
@@ -90,7 +91,7 @@ class ComponentController extends ApiController
 	/**
 	 * Method to edit an existing record.
 	 *
-	 * @return  boolean  True if save succeeded after access level check and checkout passes, false otherwise.
+	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   4.0.0
 	 */
@@ -125,29 +126,40 @@ class ComponentController extends ApiController
 		$data      = array_replace($oldData, $data);
 
 		// Validate the posted data.
-		$return = $model->validate($form, $data);
+		$validData = $model->validate($form, $data);
 
-		if ($return === false)
+		if ($validData === false)
 		{
-			throw new \RuntimeException('Invalid input data', 400);
+			$errors  = $model->getErrors();
+			$message = '';
+
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			{
+				if ($errors[$i] instanceof \Exception)
+				{
+					$message .= "{$errors[$i]->getMessage()}\n";
+				}
+				else
+				{
+					$message .= "{$errors[$i]}\n";
+				}
+			}
+
+			throw new InvalidParameterException($message);
 		}
 
 		// Attempt to save the configuration.
 		$data = array(
-			'params' => $return,
+			'params' => $validData,
 			'id'     => ExtensionHelper::getExtensionRecord($option)->extension_id,
 			'option' => $option
 		);
 
-		try
+		if (!$model->save($data))
 		{
-			$model->save($data);
-		}
-		catch (\RuntimeException $e)
-		{
-			throw new \RuntimeException('Internal server error', 500, $e);
+			throw new \RuntimeException('Internal server error', 500);
 		}
 
-		return true;
+		return $this;
 	}
 }

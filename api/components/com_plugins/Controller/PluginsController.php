@@ -36,6 +36,7 @@ class PluginsController extends ApiController
 	 * The default view for the display method.
 	 *
 	 * @var    string
+	 *
 	 * @since  3.0
 	 */
 	protected $default_view = 'plugins';
@@ -43,7 +44,7 @@ class PluginsController extends ApiController
 	/**
 	 * Method to edit an existing record.
 	 *
-	 * @return  boolean  True if save succeeded after access level check and checkout passes, false otherwise.
+	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   4.0.0
 	 */
@@ -81,7 +82,7 @@ class PluginsController extends ApiController
 		}
 		catch (\Exception $e)
 		{
-			throw new \RuntimeException('Internal server error', 500, $e);
+			throw new \RuntimeException($e->getMessage());
 		}
 
 		$model->setState($modelName . '.id', $recordId);
