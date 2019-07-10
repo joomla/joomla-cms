@@ -3,12 +3,37 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-$direction = JFactory::getDocument()->direction == 'rtl' ? 'float-right' : '';
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
-$menu->renderMenu('menu', $enabled ? 'nav ' . $direction : 'nav disabled ' . $direction);
+HTMLHelper::_('script', 'vendor/metismenujs/metismenujs.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'mod_menu/admin-menu.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
+
+$doc       = $app->getDocument();
+$direction = $doc->direction === 'rtl' ? 'float-right' : '';
+$class     = $enabled ? 'nav flex-column main-nav ' . $direction : 'nav flex-column main-nav disabled ' . $direction;
+
+// Recurse through children of root node if they exist
+if ($root->hasChildren())
+{
+	echo '<nav class="main-nav-container" aria-label="' . Text::_('MOD_MENU_ARIA_MAIN_MENU') . '">';
+	echo '<ul id="menu" class="' . $class . '" role="menu">' . "\n";
+	echo '<li role="menuitem">';
+	echo '<a id="menu-collapse" href="#">';
+	echo '<span id="menu-collapse-icon" class="fa-fw fa fa-toggle-off" aria-hidden="true"></span>';
+	echo '<span class="sidebar-item-title">' . Text::_('MOD_MENU_TOGGLE_MENU') . '</span>';
+	echo '</a>';
+	echo '</li>';
+
+	// WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call
+	$menu->renderSubmenu(ModuleHelper::getLayoutPath('mod_menu', 'default_submenu'), $root);
+
+	echo "</ul></nav>\n";
+}

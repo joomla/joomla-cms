@@ -1,10 +1,12 @@
 // Dragula
+@import "../variables";
 
 .gu-mirror {
   position: fixed !important;
   z-index: 9999 !important;
   margin: 0 !important;
-  background-color: #90ee90;
+  cursor: move;
+  background-color: $teal;
   opacity: .8;
 
   &.table {
@@ -13,7 +15,9 @@
     td {
       display: table-cell;
     }
-
   }
+}
 
+.js-draggable .sortable-handler {
+  cursor: move;
 }

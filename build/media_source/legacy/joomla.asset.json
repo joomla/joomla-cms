@@ -1,0 +1,35 @@
+{
+  "name": "joomla",
+  "version": "4.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0+",
+  "assets": {
+    "jquery-noconflict": {
+      "name": "jquery-noconflict",
+      "dependencies": [
+        "jquery"
+      ],
+      "js": [
+        "media/legacy/js/jquery-noconflict.min.js"
+      ]
+    },
+    "jquery.ui.core": {
+      "name": "jquery.ui.core",
+      "dependencies": [
+        "jquery"
+      ],
+      "js": [
+        "media/vendor/jquery-ui/js/jquery.ui.core.js"
+      ]
+    },
+    "jquery.ui.sortable": {
+      "name": "jquery.ui.sortable",
+      "dependencies": [
+        "jquery.ui.core"
+      ],
+      "js": [
+        "media/vendor/jquery-ui/js/jquery.ui.sortable.js"
+      ]
+    }
+  }
+}

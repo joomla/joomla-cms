@@ -1,0 +1,15 @@
+// Variables
+@import "variables";
+
+// Font Awesome 5 Free
+@import "../../../../media/vendor/fontawesome-free/scss/fontawesome";
+@import "../../../../media/vendor/fontawesome-free/scss/solid";
+@import "../../../../media/vendor/fontawesome-free/scss/brands";
+
+// B/C for Icomoon
+@import "../../../../build/media_source/system/scss/icomoon";
+
+// RTL override
+html[dir=rtl] .pull-right {
+    float: left;
+}

@@ -3,7 +3,7 @@
 	<name>plg_system_debug</name>
 	<author>Joomla! Project</author>
 	<creationDate>December 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -11,6 +11,7 @@
 	<description>PLG_DEBUG_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="debug">debug.php</filename>
+		<filename>debugmonitor.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_system_debug.ini</language>
@@ -20,124 +21,124 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
+					name="refresh_assets"
+					type="radio"
+					label="PLG_DEBUG_FIELD_REFRESH_ASSETS_LABEL"
+					description="PLG_DEBUG_FIELD_REFRESH_ASSETS_DESC"
+					class="switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
 					name="filter_groups"
 					type="usergrouplist"
 					label="PLG_DEBUG_FIELD_ALLOWED_GROUPS_LABEL"
-					description="PLG_DEBUG_FIELD_ALLOWED_GROUPS_DESC"
 					multiple="true"
+					filter="int_array"
 					size="10"
 				/>
 
 				<field
+					name="memory"
+					type="radio"
+					label="PLG_DEBUG_FIELD_MEMORY_LABEL"
+					class="switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="request"
+					type="radio"
+					label="PLG_DEBUG_FIELD_REQUEST_LABEL"
+					class="switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
 					name="session"
 					type="radio"
-					class="switcher"
 					label="PLG_DEBUG_FIELD_SESSION_LABEL"
-					description="PLG_DEBUG_FIELD_SESSION_DESC"
+					class="switcher"
 					default="1"
+					filter="integer"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="profile"
 					type="radio"
-					class="switcher"
 					label="PLG_DEBUG_FIELD_PROFILING_LABEL"
-					description="PLG_DEBUG_FIELD_PROFILING_DESC"
+					class="switcher"
 					default="1"
+					filter="integer"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="queries"
 					type="radio"
-					class="switcher"
 					label="PLG_DEBUG_FIELD_QUERIES_LABEL"
-					description="PLG_DEBUG_FIELD_QUERIES_DESC"
-					default="1"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
-					name="query_types"
-					type="radio"
 					class="switcher"
-					label="PLG_DEBUG_FIELD_QUERY_TYPES_LABEL"
-					description="PLG_DEBUG_FIELD_QUERY_TYPES_DESC"
 					default="1"
+					filter="integer"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
-					name="memory"
+					name="query_traces"
 					type="radio"
+					label="PLG_DEBUG_FIELD_QUERY_TRACES_LABEL"
 					class="switcher"
-					label="PLG_DEBUG_FIELD_MEMORY_LABEL"
-					description="PLG_DEBUG_FIELD_MEMORY_DESC"
-					default="1"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
-					name="logs"
-					type="radio"
-					class="switcher"
-					label="PLG_DEBUG_FIELD_LOGS_LABEL"
-					description="PLG_DEBUG_FIELD_LOGS_DESC"
-					default="1"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
-					name="log_priorities"
-					type="list"
-					label="PLG_DEBUG_FIELD_LOG_PRIORITIES_LABEL"
-					description="PLG_DEBUG_FIELD_LOG_PRIORITIES_DESC"
-					multiple="true"
-					default="all"
-					>
-					<option value="all">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALL</option>
-					<option value="emergency">PLG_DEBUG_FIELD_LOG_PRIORITIES_EMERGENCY</option>
-					<option value="alert">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALERT</option>
-					<option value="critical">PLG_DEBUG_FIELD_LOG_PRIORITIES_CRITICAL</option>
-					<option value="error">PLG_DEBUG_FIELD_LOG_PRIORITIES_ERROR</option>
-					<option value="warning">PLG_DEBUG_FIELD_LOG_PRIORITIES_WARNING</option>
-					<option value="notice">PLG_DEBUG_FIELD_LOG_PRIORITIES_NOTICE</option>
-					<option value="info">PLG_DEBUG_FIELD_LOG_PRIORITIES_INFO</option>
-					<option value="debug">PLG_DEBUG_FIELD_LOG_PRIORITIES_DEBUG</option>
-				</field>
-
-				<field
-					name="log_categories"
-					type="text"
-					label="PLG_DEBUG_FIELD_LOG_CATEGORIES_LABEL"
-					description="PLG_DEBUG_FIELD_LOG_CATEGORIES_DESC"
-					size="60"
-					default=""
-				/>
-
-				<field
-					name="log_category_mode"
-					type="radio"
-					class="switcher switcher-danger"
-					label="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_LABEL"
-					description="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_DESC"
 					default="0"
+					showon="queries:1"
+					filter="integer"
 					>
-					<option value="0">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
-					<option value="1">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_EXCLUDE</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="query_profiles"
+					type="radio"
+					label="PLG_DEBUG_FIELD_QUERY_PROFILES_LABEL"
+					class="switcher"
+					default="0"
+					showon="queries:1"
+					filter="integer"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="query_explains"
+					type="radio"
+					label="PLG_DEBUG_FIELD_QUERY_EXPLAINS_LABEL"
+					class="switcher"
+					default="0"
+					showon="queries:1"
+					filter="integer"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 			</fieldset>
 
@@ -149,49 +150,49 @@
 				<field
 					name="language_errorfiles"
 					type="radio"
-					class="switcher"
 					label="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_LABEL"
-					description="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_DESC"
+					class="switcher"
 					default="1"
+					filter="integer"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="language_files"
 					type="radio"
-					class="switcher"
 					label="PLG_DEBUG_FIELD_LANGUAGE_FILES_LABEL"
-					description="PLG_DEBUG_FIELD_LANGUAGE_FILES_DESC"
+					class="switcher"
 					default="1"
+					filter="integer"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="language_strings"
 					type="radio"
-					class="switcher"
 					label="PLG_DEBUG_FIELD_LANGUAGE_STRING_LABEL"
-					description="PLG_DEBUG_FIELD_LANGUAGE_STRING_DESC"
+					class="switcher"
 					default="1"
+					filter="integer"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="strip-first"
 					type="radio"
-					class="switcher"
 					label="PLG_DEBUG_FIELD_STRIP_FIRST_LABEL"
-					description="PLG_DEBUG_FIELD_STRIP_FIRST_DESC"
+					class="switcher"
 					default="1"
+					filter="integer"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
@@ -218,12 +219,73 @@
 				label="PLG_DEBUG_LOGGING_FIELDSET_LABEL"
 				>
 				<field
+					name="logs"
+					type="radio"
+					label="PLG_DEBUG_FIELD_LOGS_LABEL"
+					class="switcher"
+					default="1"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="log_priorities"
+					type="list"
+					label="PLG_DEBUG_FIELD_LOG_PRIORITIES_LABEL"
+					multiple="true"
+					default="all"
+					>
+					<option value="all">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALL</option>
+					<option value="emergency">PLG_DEBUG_FIELD_LOG_PRIORITIES_EMERGENCY</option>
+					<option value="alert">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALERT</option>
+					<option value="critical">PLG_DEBUG_FIELD_LOG_PRIORITIES_CRITICAL</option>
+					<option value="error">PLG_DEBUG_FIELD_LOG_PRIORITIES_ERROR</option>
+					<option value="warning">PLG_DEBUG_FIELD_LOG_PRIORITIES_WARNING</option>
+					<option value="notice">PLG_DEBUG_FIELD_LOG_PRIORITIES_NOTICE</option>
+					<option value="info">PLG_DEBUG_FIELD_LOG_PRIORITIES_INFO</option>
+					<option value="debug">PLG_DEBUG_FIELD_LOG_PRIORITIES_DEBUG</option>
+				</field>
+
+				<field
+					name="log_categories"
+					type="text"
+					label="PLG_DEBUG_FIELD_LOG_CATEGORIES_LABEL"
+					description="PLG_DEBUG_FIELD_LOG_CATEGORIES_DESC"
+					size="60"
+					default=""
+				/>
+
+				<field
+					name="log_category_mode"
+					type="radio"
+					label="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_LABEL"
+					class="switcher switcher-danger"
+					default="0"
+					>
+					<option value="0">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
+					<option value="1">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_EXCLUDE</option>
+				</field>
+
+				<field
 					name="log-deprecated"
 					type="radio"
-					class="switcher"
 					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_LABEL"
-					description="PLG_DEBUG_FIELD_LOG_DEPRECATED_DESC"
+					class="switcher"
 					default="0"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="log-deprecated-core"
+					type="radio"
+					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_CORE_LABEL"
+					class="switcher"
+					default="0"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -232,22 +294,10 @@
 				<field
 					name="log-everything"
 					type="radio"
-					class="switcher"
 					label="PLG_DEBUG_FIELD_LOG_EVERYTHING_LABEL"
-					description="PLG_DEBUG_FIELD_LOG_EVERYTHING_DESC"
-					default="0"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
-					name="log-executed-sql"
-					type="radio"
 					class="switcher"
-					label="PLG_DEBUG_FIELD_EXECUTEDSQL_LABEL"
-					description="PLG_DEBUG_FIELD_EXECUTEDSQL_DESC"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>

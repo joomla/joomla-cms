@@ -1,182 +1,66 @@
 // Quick Icons
 
 .quick-icons {
-  margin-bottom: -14px;
+  ul {
+    display: inline;
+    list-style: none;
+  }
 
-  *,
-  *::before,
-  *::after {
-    transition: all .25s ease;
+  li {
+    float: left;
   }
 
   a {
-    position: relative;
-    height: 4.7rem;
+    display: inline-flex;
+    flex-direction: column;
+    width: 140px;
+    height: 120px;
+    margin-right: 15px;
     margin-bottom: 15px;
-    overflow: hidden;
-    color: $white-offset;
-    text-align: left;
-    background-color: $atum-template-color-light;
-    border-radius: $border-radius;
+    color: var(--primary-dark);
+    text-align: center;
+    background: $quickicon-bg;
+    box-shadow: $quickicon-box-shadow;
+    transition: all .25s ease;
 
-    @include media-breakpoint-only(xs) {
-      width: 60px;
-      height: 60px;
-      margin: 0 auto;
-      overflow: visible;
-      color: $white;
-      text-align: center;
-      background: $atum-template-color-light;
-      border-radius: 50%;
-    }
-
-    &.pulse {
-      @include media-breakpoint-only(xs) {
-        box-shadow: 0 0 0 0 rgba($atum-template-color-light,.7);
-        animation: pulse 1.25s infinite cubic-bezier(.66,0,0,1);
-      }
+    > div {
+      flex: 1 0 0;
     }
 
     &:hover,
+    &:hover,
     &:focus {
       text-decoration: none;
-
-      &::before {
-        color: lighten($atum-template-color-light, 10%);
-      }
-
+      box-shadow: $quickicon-box-shadow-hover;
     }
 
-    > * {
-      vertical-align: middle;
+    .j-links-link {
+      display: block;
+      width: 100%;
+      padding: 0 1rem;
+      font-size: 1rem;
+      line-height: 1.1;
     }
 
-    span {
-      z-index: 1;
-      font-size: 1.2rem;
-
-      &.j-links-link {
-        padding-left: 1rem;
-
-      }
-
-      @include media-breakpoint-only(xs) {
-        padding: 0;
-        font-size: 1rem;
-        line-height: 1.4rem;
-      }
-
-      &[class*=" icon-"],
-	    &[class^="icon-"] {
-        width: 5rem;
-        height: 4.7rem;
-        padding-left: 2px;
-        font-size: 2.5rem;
-        font-weight: normal;
-        line-height: 4.7rem;
-        background-color: lighten($atum-template-color-light, 10%);
-        border-right: 1px solid rgba($white,.15);
-
-        @include media-breakpoint-only(xs) {
-          width: 60px;
-          height: 60px;
-          padding: 0;
-          margin: 0 auto !important;
-          line-height: 60px;
-          background: none;
-          border-right: 0;
-        }
-      }
-
+    .fa,
+    .fab {
+      margin: 5px auto 0;
+      font-size: 2.5rem;
     }
 
-    &::before {
-      position: absolute;
-      top: -100px;
-      right: -40px;
-      font-family: FontAwesome;
-      font-size: 10em;
-      color: lighten($atum-template-color-light, 5%);
-      content: "\f1aa";
-      transform: rotate(20deg);
-
-      @include media-breakpoint-only(xs) {
-        display: none;
-      }
-
+    &.warning {
+      color: var(--warning);
+      box-shadow: $quickicon-box-shadow-warning;
     }
 
-  }
-
-  .quickicon-text-xs {
-    display: block;
-    margin-bottom: 30px;
-    text-align: center;
-  }
-
-  .danger a {
-
-    &::after {
-      right: 0;
+    &.danger {
+      color: var(--danger);
+      box-shadow: $quickicon-box-shadow-danger;
     }
 
-    @include media-breakpoint-only(xs) {
-      background: lighten($brand-danger, 7%);
-      animation: none;
+    &.success {
+      color: var(--success);
+      box-shadow: $quickicon-box-shadow-success;
     }
-
-    span {
-
-      &[class*=" icon-"],
-      &[class^="icon-"] {
-        background-color: lighten($brand-danger, 7%);
-
-        @include media-breakpoint-only(xs) {
-          background: none;
-        }
-
-      }
-
-    }
-
-  }
-
-  .success a {
-
-    &::after {
-      right: 0;
-    }
-
-    @include media-breakpoint-only(xs) {
-      background: $brand-success;
-      animation: none;
-    }
-
-    span {
-
-      &[class*=" icon-"],
-      &[class^="icon-"] {
-        background-color: $brand-success;
-
-        @include media-breakpoint-only(xs) {
-          background: none;
-        }
-
-      }
-
-    }
-
-  }
-
-  [id*="plg_quickicon"] a,
-  [id*="plg_quickicon"] a::before {
-    transition-delay: .4s;
-  }
-
-}
-
-@keyframes pulse {
-  to {
-    box-shadow: 0 0 0 15px rgba(232,76,61,0);
   }
 }

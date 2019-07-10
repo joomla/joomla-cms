@@ -3,12 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Utilities\ArrayHelper;
 
 extract($displayData);
@@ -45,10 +48,12 @@ extract($displayData);
  * @var   mixed    $excluded        The users to exclude from the list of users
  */
 
-JHtml::_('behavior.modal', 'a.modal_' . $id);
-JHtml::_('script', 'system/fields/fielduser.min.js', array('version' => 'auto', 'relative' => true));
+if (!$readonly)
+{
+	HTMLHelper::_('webcomponent', 'system/fields/joomla-field-user.min.js', ['version' => 'auto', 'relative' => true]);
+}
 
-$uri = new JUri('index.php?option=com_users&view=users&layout=modal&tmpl=component&required=0');
+$uri = new Uri('index.php?option=com_users&view=users&layout=modal&tmpl=component&required=0');
 
 $uri->setVar('field', $this->escape($id));
 
@@ -68,7 +73,7 @@ if (!empty($excluded))
 }
 
 // Invalidate the input value if no user selected
-if ($this->escape($userName) === JText::_('JLIB_FORM_SELECT_USER'))
+if ($this->escape($userName) === Text::_('JLIB_FORM_SELECT_USER'))
 {
 	$userName = '';
 }
@@ -90,42 +95,47 @@ if ($required)
 }
 if (!$readonly)
 {
-	$inputAttributes['placeholder'] = JText::_('JLIB_FORM_SELECT_USER');
+	$inputAttributes['placeholder'] = Text::_('JLIB_FORM_SELECT_USER');
 }
 ?>
 <?php // Create a dummy text field with the user name. ?>
-<div class="field-user-wrapper"
-	data-url="<?php echo (string) $uri; ?>"
-	data-modal=".modal"
-	data-modal-width="100%"
-	data-modal-height="400px"
-	data-input=".field-user-input"
-	data-input-name=".field-user-input-name"
-	data-button-select=".button-select">
+<joomla-field-user class="field-user-wrapper"
+		url="<?php echo (string) $uri; ?>"
+		modal=".modal"
+		modal-width="100%"
+		modal-height="400px"
+		input=".field-user-input"
+		input-name=".field-user-input-name"
+		button-select=".button-select">
 	<div class="input-group">
 		<input <?php echo ArrayHelper::toString($inputAttributes); ?> readonly>
-			<?php if (!$readonly) : ?>
-				<span class="input-group-btn">
-					<a class="btn btn-primary button-select" title="<?php echo JText::_('JLIB_FORM_CHANGE_USER') ?>"><span class="icon-user icon-white"></span></a>
-					<?php echo JHtml::_(
-						'bootstrap.renderModal',
-						'userModal_' . $id,
-						array(
-							'url'         => $uri,
-							'title'       => JText::_('JLIB_FORM_CHANGE_USER'),
-							'closeButton' => true,
-							'height'      => '100%',
-							'width'       => '100%',
-							'modalWidth'  => 80,
-							'bodyHeight'  => 60,
-							'footer'      => '<a type="button" class="btn btn-secondary" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>'
-						)
-					); ?>
-				</span>
-			<?php endif; ?>
+		<?php if (!$readonly) : ?>
+			<span class="input-group-append">
+				<button type="button" class="btn btn-primary button-select" title="<?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?>">
+					<span class="fa fa-user icon-white" aria-hidden="true"></span>
+					<span class="sr-only"><?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?></span>
+				</button>
+			</span>
+			<?php echo HTMLHelper::_(
+				'bootstrap.renderModal',
+				'userModal_' . $id,
+				array(
+					'url'         => $uri,
+					'title'       => Text::_('JLIB_FORM_CHANGE_USER'),
+					'closeButton' => true,
+					'height'      => '100%',
+					'width'       => '100%',
+					'modalWidth'  => 80,
+					'bodyHeight'  => 60,
+					'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal">' . Text::_('JCANCEL') . '</button>'
+				)
+			); ?>
+		<?php endif; ?>
 	</div>
 	<?php // Create the real field, hidden, that stored the user id. ?>
-	<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo (int) $value; ?>"
-		class="field-user-input <?php echo $class ? (string) $class : ''?>"
-		data-onchange="<?php echo $this->escape($onchange); ?>">
-</div>
+	<?php if (!$readonly) : ?>
+		<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo (int) $value; ?>"
+				class="field-user-input <?php echo $class ? (string) $class : ''?>"
+				data-onchange="<?php echo $this->escape($onchange); ?>">
+	<?php endif; ?>
+</joomla-field-user>

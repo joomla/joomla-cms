@@ -3,80 +3,55 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_status
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-$config = JFactory::getConfig();
-$user   = JFactory::getUser();
-$db     = JFactory::getDbo();
-$lang   = JFactory::getLanguage();
-$input  = JFactory::getApplication()->input;
+use Joomla\CMS\Extension\ExtensionHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Module\Multilangstatus\Administrator\Helper\MultilangstatusAdminHelper;
 
-// Get the number of unread messages in your inbox.
-$query = $db->getQuery(true)
-	->select('COUNT(*)')
-	->from('#__messages')
-	->where('state = 0 AND user_id_to = ' . (int) $user->get('id'));
+$db       = Factory::getContainer()->get(DatabaseInterface::class);
+$user     = $app->getIdentity();
+$sitename = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 
-$db->setQuery($query);
-$unread = (int) $db->loadResult();
-
-// Set the unread message count as a session variable so we can access it in the template
-JFactory::getSession()->set('messages.unread', $unread);
-
-$count = 0;
-
-// Get the number of backend logged in users if shared sessions is not enabled.
-if (!$config->get('shared_session', '0'))
+// Try to get the items from the post-installation model
+try
 {
-	$query->clear()
-		->select('COUNT(session_id)')
-		->from('#__session')
-		->where('guest = 0 AND client_id = 1');
+	$messagesModel = $app->bootComponent('com_postinstall')->getMVCFactory()->createModel('Messages', 'Administrator', ['ignore_request' => true]);
+	$messages      = $messagesModel->getItems();
+}
+catch (RuntimeException $e)
+{
+	$messages = [];
 
-	$db->setQuery($query);
-	$count = (int) $db->loadResult();
+	// Still render the error message from the Exception object
+	$app->enqueueMessage($e->getMessage(), 'error');
 }
 
-// Set the inbox link.
-if ($input->getBool('hidemainmenu'))
-{
-	$inboxLink = '';
-}
-else
-{
-	$inboxLink = JRoute::_('index.php?option=com_messages');
-}
+$joomlaFilesExtensionId = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
 
-$online_num = 0;
+// Load the com_postinstall language file
+$app->getLanguage()->load('com_postinstall', JPATH_ADMINISTRATOR, 'en-GB', true);
 
-// Get the number of frontend logged in users if shared sessions is not enabled.
-if (!$config->get('shared_session', '0'))
+$multilanguageStatusModuleOutput = '';
+
+// Check if the multilangstatus module is present and enabled in the site
+if (class_exists(MultilangstatusAdminHelper::class) && MultilangstatusAdminHelper::isEnabled($app, $db))
 {
-	$query->clear()
-		->select('COUNT(session_id)')
-		->from('#__session')
-		->where('guest = 0 AND client_id = 0');
+	// Publish and display the module
+	MultilangstatusAdminHelper::publish($app, $db);
 
-	$db->setQuery($query);
-	$online_num = (int) $db->loadResult();
+	if (Multilanguage::isEnabled($app, $db)) 
+	{
+		$module                          = ModuleHelper::getModule('mod_multilangstatus');
+		$multilanguageStatusModuleOutput = ModuleHelper::renderModule($module);
+	}
 }
 
-$total_users = 0;
-
-// Get the number of logged in users if shared sessions is enabled.
-if ($config->get('shared_session', '0'))
-{
-	$query->clear()
-		->select('COUNT(session_id)')
-		->from('#__session')
-		->where('guest = 0');
-
-	$db->setQuery($query);
-	$total_users = (int) $db->loadResult();
-}
-
-require JModuleHelper::getLayoutPath('mod_status', $params->get('layout', 'default'));
+require ModuleHelper::getLayoutPath('mod_status', $params->get('layout', 'default'));

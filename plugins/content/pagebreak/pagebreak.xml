@@ -3,7 +3,7 @@
 	<name>plg_content_pagebreak</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -25,8 +25,8 @@
 					type="radio"
 					class="switcher"
 					label="PLG_CONTENT_PAGEBREAK_SITE_TITLE_LABEL"
-					description="PLG_CONTENT_PAGEBREAK_SITE_TITLE_DESC"
 					default="1"
+					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -37,8 +37,8 @@
 					type="radio"
 					class="switcher"
 					label="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEX_LABEL"
-					description="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEX_DESC"
 					default="1"
+					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -48,8 +48,6 @@
 					name="article_index_text"
 					type="text"
 					label="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEXTEXT"
-					description="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEXTEXT_DESC"
-					default=""
 					showon="article_index:1"
 				/>
 
@@ -58,8 +56,8 @@
 					type="radio"
 					class="switcher"
 					label="PLG_CONTENT_PAGEBREAK_TOC_LABEL"
-					description="PLG_CONTENT_PAGEBREAK_TOC_DESC"
 					default="1"
+					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -70,8 +68,8 @@
 					type="radio"
 					class="switcher"
 					label="PLG_CONTENT_PAGEBREAK_SHOW_ALL_LABEL"
-					description="PLG_CONTENT_PAGEBREAK_SHOW_ALL_DESC"
 					default="1"
+					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -81,7 +79,6 @@
 					name="style"
 					type="list"
 					label="PLG_CONTENT_PAGEBREAK_STYLE_LABEL"
-					description="PLG_CONTENT_PAGEBREAK_STYLE_DESC"
 					default="pages"
 					>
 					<option value="pages">PLG_CONTENT_PAGEBREAK_PAGES</option>

@@ -1,0 +1,16 @@
+fail_on_violations: true
+
+scss:
+  config_file: scss-lint.yml
+
+eslint:
+  enabled: true
+  config_file: .eslintrc
+  ignore_file: .eslintignore
+
+# Disable hound default linters
+jshint:
+  enabled: false
+
+ruby:
+  enabled: false

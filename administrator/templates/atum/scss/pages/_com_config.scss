@@ -11,7 +11,20 @@
     > fieldset {
       margin-bottom: 2rem;
     }
-
   }
 
+  .rule-notes,
+  .filter-notes {
+    padding: 1em;
+    background-color: $white;
+    margin-bottom: 1em;
+  }
+
+  .revert-controls .controls {
+    margin-left: 0;
+  }
+
+  .switcher__legend {
+    margin-left: -220px;
+  }
 }

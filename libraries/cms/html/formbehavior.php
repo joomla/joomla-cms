@@ -3,18 +3,23 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
 /**
  * Utility class for form related behaviors
  *
- * @since  3.0
+ * @since       3.0
+ *
+ * @deprecated  5.0  Without replacement
  */
 abstract class JHtmlFormbehavior
 {
@@ -69,32 +74,33 @@ abstract class JHtmlFormbehavior
 
 		if (!isset($options['placeholder_text_multiple']))
 		{
-			$options['placeholder_text_multiple'] = JText::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS');
+			$options['placeholder_text_multiple'] = Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS');
 		}
 
 		if (!isset($options['placeholder_text_single']))
 		{
-			$options['placeholder_text_single'] = JText::_('JGLOBAL_SELECT_AN_OPTION');
+			$options['placeholder_text_single'] = Text::_('JGLOBAL_SELECT_AN_OPTION');
 		}
 
 		if (!isset($options['no_results_text']))
 		{
-			$options['no_results_text'] = JText::_('JGLOBAL_SELECT_NO_RESULTS_MATCH');
+			$options['no_results_text'] = Text::_('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 		}
 
 		// Include jQuery
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/legacy/chosen.jquery.min.js', false, true, false, false, $debug);
-		JHtml::_('stylesheet', 'system/legacy/chosen.css', false, true);
+		HTMLHelper::_('jquery.framework');
+		HTMLHelper::_('script', 'vendor/chosen/chosen.jquery.js', ['version' => 'auto', 'relative' => true]);
+		HTMLHelper::_('script', 'legacy/joomla-chosen.min.js', ['version' => 'auto', 'relative' => true]);
+		HTMLHelper::_('stylesheet', 'vendor/chosen/chosen.css', ['version' => 'auto', 'relative' => true]);
 
 		// Options array to json options string
 		$options_str = json_encode($options, ($debug && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false));
 
 
-		JFactory::getDocument()->addScriptDeclaration(
+		Factory::getDocument()->addScriptDeclaration(
 			"
 		jQuery(document).ready(function (){
-			jQuery('" . $selector . "').chosen(" . $options_str . ");
+			jQuery('" . $selector . "').jchosen(" . $options_str . ");
 		});
 	"
 		);
@@ -136,15 +142,15 @@ abstract class JHtmlFormbehavior
 			// Requires chosen to work
 			static::chosen($selector, $debug);
 
-			JText::script('JGLOBAL_KEEP_TYPING');
-			JText::script('JGLOBAL_LOOKING_FOR');
+			Text::script('JGLOBAL_KEEP_TYPING');
+			Text::script('JGLOBAL_LOOKING_FOR');
 
 			// Include scripts
-			JHtml::_('behavior.core');
-			JHtml::_('jquery.framework');
-			JHtml::_('script', 'system/legacy/ajax-chosen.min.js', false, true, false, false, $debug);
+			HTMLHelper::_('behavior.core');
+			HTMLHelper::_('jquery.framework');
+			HTMLHelper::_('script', 'legacy/ajax-chosen.min.js', ['version' => 'auto', 'relative' => true, 'detectDebug' => $debug]);
 
-			JFactory::getDocument()->addScriptOptions(
+			Factory::getDocument()->addScriptOptions(
 				'ajax-chosen',
 				array(
 					'url'            => $url,

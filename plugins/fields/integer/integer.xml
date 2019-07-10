@@ -3,7 +3,7 @@
 	<name>plg_fields_integer</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2016</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -24,43 +24,37 @@
 				<field
 					name="multiple"
 					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
 					label="PLG_FIELDS_INTEGER_PARAMS_MULTIPLE_LABEL"
-					description="PLG_FIELDS_INTEGER_PARAMS_MULTIPLE_DESC"
-				>
-					<option value="1">JYES</option>
+					class="switcher"
+					default="0"
+					filter="integer"
+					>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
-	
+
 				<field
 					name="first"
 					type="number"
-					default="1"
 					label="PLG_FIELDS_INTEGER_PARAMS_FIRST_LABEL"
-					description="PLG_FIELDS_INTEGER_PARAMS_FIRST_DESC"
-					size="5"
-					required="true"
+					default="1"
+					filter="integer"
 				/>
-	
+
 				<field
 					name="last"
 					type="number"
-					default="100"
 					label="PLG_FIELDS_INTEGER_PARAMS_LAST_LABEL"
-					description="PLG_FIELDS_INTEGER_PARAMS_LAST_DESC"
-					size="5"
-					required="true"
+					default="100"
+					filter="integer"
 				/>
-	
+
 				<field
 					name="step"
 					type="number"
-					default="1"
 					label="PLG_FIELDS_INTEGER_PARAMS_STEP_LABEL"
-					description="PLG_FIELDS_INTEGER_PARAMS_STEP_DESC"
-					size="5"
-					required="true"
+					default="1"
+					filter="integer"
 				/>
 			</fieldset>
 		</fields>

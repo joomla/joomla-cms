@@ -1,21 +1,19 @@
-// Variables
+// Bootstrap functions
+@import "../../../../media/vendor/bootstrap/scss/functions";
+
+// Atum Variables
 @import "variables";
 
-// Flying Focus
-@import "../../../../media/vendor/flying-focus-a11y/scss/flying-focus";
-
-// Bootstrap
+// Bootstrap other
+@import "../../../../media/vendor/bootstrap/scss/mixins";
 @import "../../../../media/vendor/bootstrap/scss/variables";
-@import "../../../../media/vendor/bootstrap/scss/bootstrap";
-
-// FontAwesome
-@import "../../../../media/vendor/font-awesome/scss/font-awesome";
-
-// B/C for Icomoon
-@import "../../../../media/system/scss/icomoon";
+@import "../../../../media/vendor/bootstrap/scss/custom-forms";
 
 // Alert
-@import "../../../../media/system/scss/jalert";
+@import "../../../../build/media_source/system/scss/jalert";
+
+// jQuery Minicolors
+@import "../../../../build/media_source/system/scss/jquery-minicolors";
 
 // Blocks
 @import "blocks/global"; // Leave this first
@@ -24,20 +22,20 @@
 @import "blocks/header";
 @import "blocks/icons";
 @import "blocks/iframe";
+@import "blocks/layout";
 @import "blocks/login";
 @import "blocks/modals";
 @import "blocks/quickicons";
 @import "blocks/searchtools";
 @import "blocks/sidebar";
 @import "blocks/sidebar-nav";
-@import "blocks/status";
-@import "blocks/switcher";
 @import "blocks/toolbar";
 @import "blocks/treeselect";
 @import "blocks/utilities";
 
 // Vendor overrides
 @import "vendor/awesomplete";
+@import "vendor/bootstrap/badge";
 @import "vendor/bootstrap/buttons";
 @import "vendor/bootstrap/card";
 @import "vendor/bootstrap/custom-forms";
@@ -48,15 +46,18 @@
 @import "vendor/bootstrap/nav";
 @import "vendor/bootstrap/pagination";
 @import "vendor/bootstrap/table";
+@import "vendor/codemirror";
 @import "vendor/chosen";
+@import "vendor/choicesjs";
 @import "vendor/dragula";
 @import "vendor/minicolors";
 @import "vendor/tinymce";
 
 // Page specifics
+@import "pages/com_admin";
 @import "pages/com_config";
 @import "pages/com_cpanel";
-@import "pages/com_modules";
+@import "pages/com_templates";
 @import "pages/com_users";
 
 .container-main,
@@ -66,21 +67,20 @@
 
 .container-main {
   position: relative;
-  min-height: calc(100vh - 50px);
-  padding-top: 15px;
-  background-color: $atum-container-main-bg;
+  min-height: calc(100vh - #{$header-height});
+  background-color: var(--main-bg);
 }
 
 .list-view-main {
 
   .container-main {
-    background-color: $atum-container-main-bg;
+    background-color: var(--main-bg);
   }
 
 }
 
 .content {
-  margin-top: 42px;
+  padding-top: 15px;
   border-radius: $border-radius;
 
   > .row {
@@ -88,28 +88,31 @@
     margin-left: 0;
   }
 
+  .subhead + & {
+    padding-top: 0;
+  }
 }
 
-.j-main-container {
-  background-color: $white-offset;
-  border: 1px solid rgba(0,0,0,.17);
-  border-radius: $border-radius;
-  box-shadow: 0 0 3px rgba(0,0,0,.075);
+.row-selected {
+  background-color: var(--row-selected);
 }
-
 
 // Chosen (TEMPORARY)
 .chzn-container-single {
   width: auto !important;
 }
 
-// Bootstrap (TEMPORARY)
-// This fixes odd stacking when 2 buttons are used in an input group
-.input-group-btn {
-  flex-direction: row;
+// Multilingual associations specific
+.item-associations {
+  padding: 0;
 }
-// This adds the correct cursor on hover for buttons
-.btn:hover,
-.btn:focus {
-  cursor: pointer;
+
+.item-associations li {
+  display: inline-block;
+  list-style: none;
+}
+
+// Quickicon specific
+.message-alert {
+  text-align: right !important;
 }

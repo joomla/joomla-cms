@@ -3,11 +3,14 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * HTML utility class for creating a sortable table list
@@ -47,22 +50,22 @@ abstract class JHtmlSortablelist
 		}
 
 		// Note: $i is required but has to be an optional argument in the function call due to argument order
-		if (null === $saveOrderingUrl)
+		if ($saveOrderingUrl === null)
 		{
-			throw new InvalidArgumentException('$saveOrderingUrl is a required argument in JHtmlSortablelist::sortable');
+			throw new InvalidArgumentException(sprintf('$saveOrderingUrl is a required argument in %s()', __METHOD__));
 		}
 
 		// Depends on Joomla.getOptions()
-		JHtml::_('behavior.core');
+		HTMLHelper::_('behavior.core');
 
 		// Depends on jQuery UI
-		JHtml::_('jquery.ui', array('core', 'sortable'));
+		HTMLHelper::_('jquery.ui', array('core', 'sortable'));
 
-		JHtml::_('script', 'system/legacy/sortablelist.min.js', false, true);
-		JHtml::_('stylesheet', 'system/sortablelist.css', false, true, false);
+		HTMLHelper::_('script', 'legacy/sortablelist.min.js', ['version' => 'auto', 'relative' => true]);
+		HTMLHelper::_('stylesheet', 'legacy/sortablelist.css', ['version' => 'auto', 'relative' => true]);
 
 		// Attach sortable to document
-		JFactory::getDocument()->addScriptOptions(
+		Factory::getDocument()->addScriptOptions(
 			'sortable-list',
 			array(
 				'id'         => '#' . $tableId . ' tbody',

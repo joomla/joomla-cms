@@ -3,32 +3,61 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
 
-extract($displayData);
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
-echo JHtml::_(
+HTMLHelper::_('behavior.core');
+HTMLHelper::_('webcomponent', 'system/joomla-toolbar-button.min.js', ['version' => 'auto', 'relative' => true]);
+
+/**
+ * @var  string  $id
+ * @var  string  $itemId
+ * @var  string  $typeId
+ * @var  string  $typeAlias
+ * @var  string  $title
+ */
+extract($displayData, EXTR_OVERWRITE);
+
+echo HTMLHelper::_(
 	'bootstrap.renderModal',
 	'versionsModal',
 	array(
-		'url'    => "index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;item_id="
-			. (int) $displayData['itemId']. "&amp;type_id=" . $displayData['typeId'] . "&amp;type_alias=" . $displayData['typeAlias']
-			. "&amp;" . JSession::getFormToken() . "=1",
-		'title'  => $displayData['title'],
+		'url'    => 'index.php?' . http_build_query(
+			[
+				'option' => 'com_contenthistory',
+				'view' => 'history',
+				'layout' => 'modal',
+				'tmpl' => 'component',
+				'item_id' => (int) $itemId,
+				'type_id' => $typeId,
+				'type_alias' => $typeAlias,
+				Session::getFormToken() => 1
+			]
+		),
+		'title'  => $title,
 		'height' => '100%',
 		'width'  => '100%',
 		'modalWidth'  => '80',
 		'bodyHeight'  => '60',
-		'footer' => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+		'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+			. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 	)
 );
-
 ?>
-<button onclick="jQuery('#versionsModal').modal('show')" class="btn btn-sm btn-outline-primary" data-toggle="modal" title="<?php echo $displayData['title']; ?>">
-	<span class="icon-archive"></span><?php echo $displayData['title']; ?>
-</button>
+<joomla-toolbar-button id="toolbar-versions">
+	<button
+		class="btn btn-sm btn-primary"
+		type="button"
+		onclick="document.getElementById('versionsModal').open()"
+		data-toggle="modal">
+		<span class="fa fa-code-branch" aria-hidden="true"></span>
+		<?php echo $title; ?>
+	</button>
+</joomla-toolbar-button>

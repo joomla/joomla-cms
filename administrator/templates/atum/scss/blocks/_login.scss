@@ -1,71 +1,71 @@
 // Login page
 
 .view-login {
-  background: $atum-template-color-light;
+  background: var(--primary);
+  /**
+   * Note IDE's will consider this file import to fail in SCSS but this is correct for the final
+   * compiled CSS file
+   */
+  background-image: url("../images/joomla-pattern.svg");
+  background-size: 200px;
 
-  .container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 330px;
-    margin-top: -240px;
-    margin-left: -165px;
+  .login-bg-grad {
+    position: fixed;
+    z-index: -1;
+    width: 100vw;
+    height: 100vh;
+    background-image: linear-gradient(45deg,
+            rgba(color("primary-dark"), .9) 30%,
+            rgba(color("login-light-bg"), .2) 100%);
+  }
 
-    @include media-breakpoint-only(xs) {
-      top: 10px;
-      width: 320px;
-      margin-top: 0 !important;
-      margin-left: -160px;
-    }
-
+  .login-initial {
+    display: none;
   }
 
   .login-logo {
-    margin: 0 0 3rem;
+    width: 200px;
+    margin: 0 auto 2rem;
     text-align: center;
 
     @include media-breakpoint-down(sm) {
       margin: 1rem 0;
     }
-
   }
 
-  h2 {
-    font-size: 1.9rem;
-    font-weight: 300;
+  .login {
+    width: 410px;
+
+    @include media-breakpoint-down(sm) {
+      padding: 0 15px;
+    }
   }
 
-  .forgot {
-    text-align: center;
-  }
+  .login-box {
+    background: var(--login-main-bg);
+    box-shadow: 0 0 20px var(--primary-dark);
 
-  .card-img-top {
-    max-width: 100%;
-  }
-
-  .navbar {
-
-    p,
     a {
-      margin-bottom: 0;
       color: $white;
     }
-
   }
 
-  .navbar-fixed-bottom {
-    bottom: 10px;
+  .form-group {
+    label {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+
+      span {
+        font-size: .9rem;
+        color: var(--form-link-feedback);
+      }
+    }
+  }
+
+  h1 {
+    margin: 0;
     text-align: center;
-  }
-
-  .login-joomla {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    width: 24px;
-    height: 24px;
-    margin-left: -12px;
-    font-size: 22px;
   }
 
   .btn {
@@ -74,7 +74,10 @@
       padding: 8px 10px;
       font-size: 14px;
     }
-
   }
 
+  .form-control,
+  .custom-select {
+    max-width: none;
+  }
 }

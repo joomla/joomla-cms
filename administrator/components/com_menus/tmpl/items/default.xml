@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_MENUS_ITEMS_VIEW_DEFAULT_TITLE">
+		<message>
+			<![CDATA[COM_MENUS_ITEMS_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+	<fieldset name="request">
+		<fields name="request">
+			<field
+				name="menutype"
+				type="menu"
+				label="COM_MENUS_ITEMS_CHOOSE_MENU_LABEL"
+				description="COM_MENUS_ITEMS_CHOOSE_MENU_DESC"
+				clientid=""
+				>
+				<option value="">COM_MENUS_SELECT_MENU</option>
+			</field>
+		</fields>
+	</fieldset>
+</metadata>

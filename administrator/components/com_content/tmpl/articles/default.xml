@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_CONTENT_ARTICLES_VIEW_DEFAULT_TITLE">
+		<message>
+			<![CDATA[COM_CONTENT_ARTICLES_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+		<!-- Add fields to the request variables for the layout. -->
+	<fields name="request">
+		<fieldset name="request"
+			addfieldpath="/administrator/components/com_categories/models/fields"
+		>
+			<field
+				name="filter_category_id"
+				type="modal_category"
+				label="COM_MENUS_ADMIN_CATEGORY_LABEL"
+				description="COM_MENUS_ADMIN_CATEGORY_DESC"
+				extension="com_content"
+				select="true"
+				new="true"
+				edit="true"
+				clear="true"
+				filter="integer"
+			/>
+
+			<field
+				name="filter_level"
+				type="integer"
+				label="COM_MENUS_ADMIN_LEVEL_LABEL"
+				description="COM_MENUS_ADMIN_LEVEL_DESC"
+				first="1"
+				last="10"
+				step="1"
+				languages="*"
+				filter="integer"
+				>
+				<option value="">JOPTION_SELECT_MAX_LEVELS</option>
+			</field>
+
+			<field
+				name="filter_author_id"
+				type="author"
+				label="COM_MENUS_ADMIN_AUTHOR_LABEL"
+				description="COM_MENUS_ADMIN_AUTHOR_DESC"
+				multiple="true"
+				class="multipleAuthors"
+				filter="int_array"
+				>
+				<option value="0">JNONE</option>
+			</field>
+
+			<field
+				name="filter_tag"
+				type="tag"
+				label="COM_MENUS_ADMIN_TAGS_LABEL"
+				description="COM_MENUS_ADMIN_TAGS_DESC"
+				multiple="true"
+				filter="int_array"
+			/>
+
+			<field
+				name="filter_access"
+				type="accesslevel"
+				label="COM_MENUS_ADMIN_ACCESS_LABEL"
+				description="COM_MENUS_ADMIN_ACCESS_DESC"
+				multiple="true"
+				filter="int_array"
+			/>
+
+			<field
+				name="filter_language"
+				type="contentlanguage"
+				label="COM_MENUS_ADMIN_LANGUAGE_LABEL"
+				description="COM_MENUS_ADMIN_LANGUAGE_DESC"
+				>
+				<option value="">JOPTION_SELECT_LANGUAGE</option>
+				<option value="*">JALL</option>
+			</field>
+
+		</fieldset>
+	</fields>
+
+</metadata>

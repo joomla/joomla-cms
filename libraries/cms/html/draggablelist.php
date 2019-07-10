@@ -3,16 +3,20 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Session\Session;
+
 /**
  * HTML utility class for creating a sortable table list
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 abstract class JHtmlDraggablelist
 {
@@ -20,7 +24,7 @@ abstract class JHtmlDraggablelist
 	 * Array containing information for loaded files
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected static $loaded = array();
 
@@ -36,11 +40,12 @@ abstract class JHtmlDraggablelist
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @throws  InvalidArgumentException
 	 */
-	public static function draggable($tableId = null, $formId = null, $sortDir = 'asc', $saveOrderingUrl = null, $redundant = null, $nestedList = false)
+	public static function draggable(string $tableId = '', string $formId = '', string $sortDir = 'asc', string $saveOrderingUrl = '',
+		$redundant = null, bool $nestedList = false)
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__]))
@@ -48,30 +53,30 @@ abstract class JHtmlDraggablelist
 			return;
 		}
 
-		$doc = JFactory::getDocument();
+		$doc = Factory::getDocument();
 
 		// Please consider using data attributes instead of passing arguments here!
 		if (!empty($tableId) && !empty($saveOrderingUrl) && !empty($formId) && !empty($sortDir))
 		{
 			$doc->addScriptOptions(
 				'draggable-list',
-				array(
-					'id'         => '#' . $tableId . ' tbody',
-					'formId'     => $formId,
-					'direction'  => $sortDir,
-					'url'        => $saveOrderingUrl . '&' . JSession::getFormToken() . '=1',
-					'nested'     => $nestedList
-				)
+				[
+					'id'        => '#' . $tableId . ' tbody',
+					'formId'    => $formId,
+					'direction' => $sortDir,
+					'url'       => $saveOrderingUrl . '&' . Session::getFormToken() . '=1',
+					'nested'    => $nestedList,
+				]
 			);
 		}
 
 		// Depends on Joomla.getOptions()
-		JHtml::_('behavior.core');
+		HTMLHelper::_('behavior.core');
 
 		// Attach draggable to document
-		JHtml::_('script', 'vendor/dragula/dragula.min.js', false, true);
-		JHtml::_('script', 'system/draggable.min.js', false, true);
-		JHtml::_('stylesheet', 'vendor/dragula/dragula.min.css', false, true, false);
+		HTMLHelper::_('script', 'vendor/dragula/dragula.min.js', ['framework'=>false, 'relative'=>true]);
+		HTMLHelper::_('script', 'system/draggable.min.js', ['framework'=>false, 'relative'=>true]);
+		HTMLHelper::_('stylesheet', 'vendor/dragula/dragula.min.css', ['framework'=>false, 'relative'=>true, 'pathOnly'=>false]);
 
 		// Set static array
 		static::$loaded[__METHOD__] = true;

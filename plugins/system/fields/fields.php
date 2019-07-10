@@ -3,22 +3,25 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
-
-JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
 /**
  * Fields Plugin
  *
  * @since  3.7
  */
-class PlgSystemFields extends JPlugin
+class PlgSystemFields extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -27,6 +30,48 @@ class PlgSystemFields extends JPlugin
 	 * @since  3.7.0
 	 */
 	protected $autoloadLanguage = true;
+
+	/**
+	 * Normalizes the request data.
+	 *
+	 * @param   string  $context  The context
+	 * @param   object  $data     The object
+	 * @param   Form    $form     The form
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.7
+	 */
+	public function onContentNormaliseRequestData($context, $data, Form $form)
+	{
+		if (!FieldsHelper::extract($context, $data))
+		{
+			return;
+		}
+
+		// Loop over all fields
+		foreach ($form->getGroup('com_fields') as $field)
+		{
+			if ($field->disabled === true)
+			{
+				/**
+				 * Disabled fields should NEVER be added to the request as
+				 * they should NEVER be added by the browser anyway so nothing to check against
+				 * as "disabled" means no interaction at all.
+				 */
+				continue;
+			}
+
+			// Make sure the data object has an entry
+			if (isset($data->com_fields[$field->fieldname]))
+			{
+				continue;
+			}
+
+			// Set a default value for the field
+			$data->com_fields[$field->fieldname] = false;
+		}
+	}
 
 	/**
 	 * The save event.
@@ -42,60 +87,71 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentAfterSave($context, $item, $isNew, $data = array())
 	{
-		if (!is_array($data) || empty($data['com_fields']))
+		// Check if data is an array and the item has an id
+		if (!is_array($data) || empty($item->id) || empty($data['com_fields']))
 		{
 			return true;
 		}
 
 		// Create correct context for category
-		if ($context == 'com_categories.category')
+		if ($context === 'com_categories.category')
 		{
 			$context = $item->extension . '.categories';
+
+			// Set the catid on the category to get only the fields which belong to this category
+			$item->catid = $item->id;
 		}
 
-		$fieldsData = $data['com_fields'];
-		$parts      = FieldsHelper::extract($context, $item);
+		// Check the context
+		$parts = FieldsHelper::extract($context, $item);
 
 		if (!$parts)
 		{
 			return true;
 		}
 
+		// Compile the right context for the fields
 		$context = $parts[0] . '.' . $parts[1];
 
 		// Loading the fields
-		$fieldsObjects = FieldsHelper::getFields($context, $item);
+		$fields = FieldsHelper::getFields($context, $item);
 
-		if (!$fieldsObjects)
+		if (!$fields)
 		{
 			return true;
 		}
 
 		// Loading the model
-		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
+		$model = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
 
-		foreach ($fieldsObjects as $field)
+		// Loop over the fields
+		foreach ($fields as $field)
 		{
-			// Only save the fields with the alias from the data
-			if (!key_exists($field->alias, $fieldsData))
+			// Determine the value if it is (un)available from the data
+			if (key_exists($field->name, $data['com_fields']))
 			{
-				continue;
+				$value = $data['com_fields'][$field->name] === false ? null : $data['com_fields'][$field->name];
+			}
+			// Field not available on form, use stored value
+			else
+			{
+				$value = $field->rawvalue;
 			}
 
-			$id = null;
-
-			if (isset($item->id))
+			// If no value set (empty) remove value from database
+			if (is_array($value) ? !count($value) : !strlen($value))
 			{
-				$id = $item->id;
+				$value = null;
 			}
 
-			if (!$id)
+			// JSON encode value for complex fields
+			if (is_array($value) && (count($value, COUNT_NORMAL) !== count($value, COUNT_RECURSIVE) || !count(array_filter(array_keys($value), 'is_numeric'))))
 			{
-				continue;
+				$value = json_encode($value);
 			}
 
 			// Setting the value for the field and the item
-			$model->setFieldValue($field->id, $context, $id, $fieldsData[$field->alias]);
+			$model->setFieldValue($field->id, $item->id, $value);
 		}
 
 		return true;
@@ -122,7 +178,15 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
-		$user = JFactory::getUser($userData['id']);
+		$user = Factory::getUser($userData['id']);
+
+		$task = Factory::getApplication()->input->getCmd('task');
+
+		// Skip fields save when we activate a user, because we will lose the saved data
+		if (in_array($task, array('activate', 'block', 'unblock')))
+		{
+			return true;
+		}
 
 		// Trigger the events with a real user
 		$this->onContentAfterSave('com_users.user', $user, false, $userData);
@@ -144,17 +208,14 @@ class PlgSystemFields extends JPlugin
 	{
 		$parts = FieldsHelper::extract($context, $item);
 
-		if (!$parts)
+		if (!$parts || empty($item->id))
 		{
 			return true;
 		}
 
 		$context = $parts[0] . '.' . $parts[1];
 
-		JLoader::import('joomla.application.component.model');
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/models', 'FieldsModel');
-
-		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
+		$model = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
 		$model->cleanupValues($context, $item->id);
 
 		return true;
@@ -189,7 +250,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @since   3.7.0
 	 */
-	public function onContentPrepareForm(JForm $form, $data)
+	public function onContentPrepareForm(Form $form, $data)
 	{
 		$context = $form->getName();
 
@@ -197,6 +258,17 @@ class PlgSystemFields extends JPlugin
 		if (strpos($context, 'com_categories.category') === 0)
 		{
 			$context = str_replace('com_categories.category', '', $context) . '.categories';
+
+			// Set the catid on the category to get only the fields which belong to this category
+			if (is_array($data) && key_exists('id', $data))
+			{
+				$data['catid'] = $data['id'];
+			}
+
+			if (is_object($data) && isset($data->id))
+			{
+				$data->catid = $data->id;
+			}
 		}
 
 		$parts = FieldsHelper::extract($context, $form);
@@ -206,7 +278,7 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
-		$input = JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		// If we are on the save command we need the actual data
 		$jformData = $input->get('jform', array(), 'array');
@@ -298,14 +370,49 @@ class PlgSystemFields extends JPlugin
 			return '';
 		}
 
+		// If we have a category, set the catid field to fetch only the fields which belong to it
+		if ($parts[1] === 'categories' && !isset($item->catid))
+		{
+			$item->catid = $item->id;
+		}
+
 		$context = $parts[0] . '.' . $parts[1];
+
+		// Convert tags
+		if ($context == 'com_tags.tag' && !empty($item->type_alias))
+		{
+			// Set the context
+			$context = $item->type_alias;
+
+			$item = $this->prepareTagItem($item);
+		}
 
 		if (is_string($params) || !$params)
 		{
 			$params = new Registry($params);
 		}
 
-		$fields = FieldsHelper::getFields($context, $item, true);
+		$fields = FieldsHelper::getFields($context, $item, $displayType);
+
+		if ($fields)
+		{
+			$app = Factory::getApplication();
+
+			if ($app->isClient('site') && Multilanguage::isEnabled() && isset($item->language) && $item->language === '*')
+			{
+				$lang = $app->getLanguage()->getTag();
+
+				foreach ($fields as $key => $field)
+				{
+					if ($field->language === '*' || $field->language == $lang)
+					{
+						continue;
+					}
+
+					unset($fields[$key]);
+				}
+			}
+		}
 
 		if ($fields)
 		{
@@ -350,6 +457,12 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentPrepare($context, $item)
 	{
+		// Check property exists (avoid costly & useless recreation), if need to recreate them, just unset the property!
+		if (isset($item->jcfields))
+		{
+			return;
+		}
+
 		$parts = FieldsHelper::extract($context, $item);
 
 		if (!$parts)
@@ -357,17 +470,28 @@ class PlgSystemFields extends JPlugin
 			return;
 		}
 
-		$fields = FieldsHelper::getFields($parts[0] . '.' . $parts[1], $item, true);
+		$context = $parts[0] . '.' . $parts[1];
+
+		// Convert tags
+		if ($context == 'com_tags.tag' && !empty($item->type_alias))
+		{
+			// Set the context
+			$context = $item->type_alias;
+
+			$item = $this->prepareTagItem($item);
+		}
+
+		// Get item's fields, also preparing their value property for manual display
+		// (calling plugins events and loading layouts to get their HTML display)
+		$fields = FieldsHelper::getFields($context, $item, true);
 
 		// Adding the fields to the object
-		$item->fields = array();
+		$item->jcfields = array();
 
 		foreach ($fields as $key => $field)
 		{
-			$item->fields[$field->id] = $field;
+			$item->jcfields[$field->id] = $field;
 		}
-
-		return;
 	}
 
 	/**
@@ -419,15 +543,39 @@ class PlgSystemFields extends JPlugin
 					foreach ($fields as $field)
 					{
 						// Adding the instructions how to handle the text
-						$item->addInstruction(FinderIndexer::TEXT_CONTEXT, $field->alias);
+						$item->addInstruction(FinderIndexer::TEXT_CONTEXT, $field->name);
 
 						// Adding the field value as a field
-						$item->{$field->alias} = $field->value;
+						$item->{$field->name} = $field->value;
 					}
 				}
 			}
 		}
 
 		return true;
+	}
+
+	/**
+	 * Prepares a tag item to be ready for com_fields.
+	 *
+	 * @param   stdClass  $item  The item
+	 *
+	 * @return  object
+	 *
+	 * @since   3.8.4
+	 */
+	private function prepareTagItem($item)
+	{
+		// Map core fields
+		$item->id       = $item->content_item_id;
+		$item->language = $item->core_language;
+
+		// Also handle the catid
+		if (!empty($item->core_catid))
+		{
+			$item->catid = $item->core_catid;
+		}
+
+		return $item;
 	}
 }

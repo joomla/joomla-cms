@@ -1,121 +1,81 @@
+
 // Header
 
 .header {
   position: relative;
-  z-index: 5;
-  height: $header-height;
-  margin-bottom: 3px;
-  background: $atum-template-color-light;
+  background: $white;
+  box-shadow: $atum-box-shadow;
 
-  &::after {
-    position: absolute;
-    top: 100%;
-    width: 100%;
-    height: 3px;
-    content: "";
-    background-color: $brand-primary;
-    background-image: linear-gradient(to right, $atum-hl-grad-inner 0%, $atum-hl-grad-outer 100%);
+  .logo {
+    display: inline-block;
+    width: $sidebar-width-closed;
+    line-height: $header-height;
+    text-align: center;
   }
 
   .page-title {
-    display: inline-block;
-    margin: 0 0 0 25px;
-    font-size: 1.25rem;
-    font-weight: normal;
+    margin: 0 5px;
+    font-size: 1.2rem;
     line-height: $header-height;
-    color: $atum-inverted-text-color;
-    border-bottom: 1px solid #20252e;
+    color: var(--primary-dark);
 
-    .icon-list {
-      color: $atum-inverted-text-color;
+    [class^='icon-'] {
+      margin-right: 10px;
     }
-
-    [class^="icon-"] {
-      margin-right: 15px;
-    }
-
-  }
-
-  .navbar-brand {
-    position: relative;
-    display: inline-block;
-    float: none;
-    padding: 0;
-    font-size: 1.3rem;
-    line-height: $header-height;
-    color: $white-offset;
-
-    &:hover,
-    &:focus {
-      color: darken($white-offset, 6%);
-    }
-
-    @include media-breakpoint-only(sm) {
-      margin-right: 0;
-      margin-left: 10px;
-    }
-
-  }
-
-  nav {
-    position: absolute;
-    top: 0;
-    right: 15px;
-  }
-
-  .nav-item + .nav-item {
-    margin-left: 1px;
   }
 
   .nav-link {
     position: relative;
     padding: 0;
-    margin-left: 4px;
     line-height: $header-height;
 
     .fa {
-      width: 30px;
-      height: 23px;
-      font-size: 1.1rem;
-      line-height: 23px;
-      color: $white-offset;
-      background-color: lighten($atum-template-color-light, 10%);
-      border-radius: 2px;
+      width: $header-height + 2px;
+      font-size: 1.2rem;
+      color: var(--primary-dark);
+      vertical-align: middle;
+      transition: all .2s ease-in-out;
     }
 
     .badge {
       position: absolute;
-      top: 4px;
-      right: -5px;
+      top: 7px;
+      right: 7px;
     }
 
     &.dropdown-toggle::after {
       display: none;
     }
 
-  }
-
-  .dropdown-notifications {
-    min-width: 280px;
-    padding: 0;
-    border: 0;
+    &:hover .fa {
+      font-size: 1.3rem;
+      transition: all .2s ease-in-out;
+    }
   }
 
   .dropdown-menu {
+    min-width: 280px;
+    padding: 0;
+    z-index: 1041;
 
-    &::after {
-      left: .65rem;
+    h2 {
+      font-size: $h5-font-size;
     }
-
   }
 
-  .dropdown-menu-right {
-
-    &::after {
-      right: .65rem;
-      left: auto;
+  .dropdown-item {
+    @include hover-focus {
+      color: var(--primary-dark);
     }
+  }
 
+  .dropdown-menu::after {
+    left: .65rem;
+  }
+
+  .dropdown-menu-right::after {
+    right: .65rem;
+    left: auto;
   }
 
   .header-profile {
@@ -124,80 +84,50 @@
       padding-top: 0;
 
       &::after {
-        color: $atum-container-main-bg;
+        color: var(--main-bg);
       }
     }
-
   }
 
-  .header-profile-user {
+  .dropdown-header {
     padding-top: .5rem;
     padding-bottom: .5rem;
-    margin-bottom: .3rem;
-    background-color: $atum-container-main-bg;
-    border-bottom: 1px solid rgba(0,0,0,.1);
-    border-radius: $border-radius $border-radius 0 0;
+    color: $white;
+    background-color: var(--primary-dark);
+    box-shadow: $atum-box-shadow;
   }
 
-}
-
-.container-title {
-  padding-top: 13px;
-  padding-bottom: 13px;
-  color: $white;
-  background-color: $atum-template-color-light;
-
-  .row {
-    margin-right: 0;
-    margin-left: 0;
-  }
-
-  .page-title {
+  .list-group-item-text:last-child {
     margin-bottom: 0;
-    font-size: 1.3rem;
-    font-weight: normal;
-
-    span {
-      position: relative;
-      top: 2px;
-      margin-right: 12px;
-      margin-left: 5px;
-      font-size: $font-size-h1;
-      color: lighten($atum-template-color-light, 10%);
-    }
-
   }
 
+  .joomla-version {
+    margin-right: .9rem;
+    margin-bottom: 0;
+    font-size: $h5-font-size;
+    color: var(--primary-dark);
+  }
 }
 
 @include media-breakpoint-down(md) {
 
   .header {
-    position: fixed;
+    position: sticky;
     top: 0;
     width: 100%;
 
-    + .container-title {
-      margin-top: $header-height;
+    > div {
+      flex-direction: column;
     }
-
   }
-
 }
 
-// Mobile Toggle
-.menu-collapse {
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-size: 2rem;
-  text-align: center;
+@include media-breakpoint-down(sm) {
 
-  a {
-    display: block;
-    width: $header-height;
-    line-height: $header-height;
-    color: $white;
+  .header {
+
+    .header-items {
+      flex-direction: column;
+    }
   }
-
 }

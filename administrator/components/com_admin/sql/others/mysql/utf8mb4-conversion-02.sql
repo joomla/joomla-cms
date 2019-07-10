@@ -4,7 +4,7 @@
 -- Enlarge some database columns to avoid data losses, then convert all tables
 -- to utf8mb4 or utf8, then set default character sets and collations for all
 -- tables, then add back indexes previosly dropped with step 1,
--- utf8mb4-conversion-01.sql, but addd them back with limited lenghts of
+-- utf8mb4-conversion-01.sql, but add them back with limited lenghts of
 -- columns.
 --
 -- Do not rename this file or any other of the utf8mb4-conversion-*.sql
@@ -48,7 +48,7 @@ ALTER TABLE `#__users` MODIFY `name` varchar(400) NOT NULL DEFAULT '';
 --
 -- Step 2.2: Convert all tables to utf8mb4 chracter set with utf8mb4_unicode_ci collation
 -- except #__finder_xxx tables, those will have utf8mb4_general_ci collation.
--- Note: The database driver for mysql will change utf8mb4 to utf8 if utf8mb4 is not supported     
+-- Note: The database driver for mysql will change utf8mb4 to utf8 if utf8mb4 is not supported
 --
 
 ALTER TABLE `#__assets` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -65,6 +65,10 @@ ALTER TABLE `#__content_types` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_
 ALTER TABLE `#__contentitem_tag_map` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__core_log_searches` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__extensions` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `#__fields` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `#__fields_categories` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `#__fields_groups` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `#__fields_values` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__finder_filters` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 ALTER TABLE `#__finder_links` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 ALTER TABLE `#__finder_links_terms0` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
@@ -104,6 +108,7 @@ ALTER TABLE `#__redirect_links` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4
 ALTER TABLE `#__schemas` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__session` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__tags` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `#__template_overrides` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__template_styles` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__ucm_base` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__ucm_content` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -153,6 +158,10 @@ ALTER TABLE `#__content_types` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_uni
 ALTER TABLE `#__contentitem_tag_map` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__core_log_searches` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__extensions` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `#__fields` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `#__fields_categories` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `#__fields_groups` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `#__fields_values` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__finder_filters` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 ALTER TABLE `#__finder_links` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 ALTER TABLE `#__finder_links_terms0` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
@@ -192,6 +201,7 @@ ALTER TABLE `#__redirect_links` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_un
 ALTER TABLE `#__schemas` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__session` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__tags` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `#__template_overrides` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__template_styles` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__ucm_base` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__ucm_content` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -216,7 +226,11 @@ ALTER TABLE `#__banners` ADD KEY `idx_metakey_prefix` (`metakey_prefix`(100));
 ALTER TABLE `#__banner_clients` ADD KEY `idx_metakey_prefix` (`metakey_prefix`(100));
 ALTER TABLE `#__categories` ADD KEY `idx_path` (`path`(100));
 ALTER TABLE `#__categories` ADD KEY `idx_alias` (`alias`(100));
+ALTER TABLE `#__content` ADD KEY `idx_alias` (`alias`(191));
 ALTER TABLE `#__content_types` ADD KEY `idx_alias` (`type_alias`(100));
+ALTER TABLE `#__fields` ADD KEY `idx_context` (`context`(191));
+ALTER TABLE `#__fields_groups` ADD KEY `idx_context` (`context`(191));
+ALTER TABLE `#__fields_values` ADD KEY `idx_item_id` (`item_id`(191));
 ALTER TABLE `#__finder_links` ADD KEY `idx_title` (`title`(100));
 ALTER TABLE `#__menu` ADD KEY `idx_alias` (`alias`(100));
 ALTER TABLE `#__menu` ADD UNIQUE `idx_client_id_parent_id_alias_language` (`client_id`,`parent_id`,`alias`(100),`language`);
