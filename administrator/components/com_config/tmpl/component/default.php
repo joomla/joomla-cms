@@ -41,7 +41,7 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version
 	<div class="row">
 
 		<?php // Begin Sidebar ?>
-		<div class="col-md-2" id="sidebar">
+		<div class="col-md-3" id="sidebar">
 			<button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-toggle="collapse" data-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOGGLE_SIDEBAR'); ?>">
 				 <span class="fas fa-align-justify" aria-hidden="true"></span>
 				 <?php echo Text::_('TPL_ATUM_TOGGLE_SIDEBAR'); ?>
@@ -52,10 +52,10 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version
 		</div>
 		<?php // End Sidebar ?>
 
-		<div class="col-md-10" id="config">
+		<div class="col-md-9" id="config">
 
 			<?php if ($this->fieldsets): ?>
-			<ul class="nav nav-tabs" id="configTabs">
+			<ul class="nav nav-tabs mt-2" id="configTabs">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<?php $dataShowOn = ''; ?>
 					<?php if (!empty($fieldSet->showon)) : ?>
@@ -76,7 +76,10 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version
 								<?php echo Text::_($fieldSet->description); ?>
 							</div>
 						<?php endif; ?>
-						<?php echo $this->form->renderFieldset($name, $name === 'permissions' ? ['hiddenLabel' => true, 'class' => 'revert-controls'] : []); ?>
+						<fieldset class="options-fieldset option-fieldset-half">
+							<legend><?php echo Text::_($fieldSet->label); ?></legend>
+							<?php echo $this->form->renderFieldset($name, $name === 'permissions' ? ['hiddenLabel' => true, 'class' => 'revert-controls'] : []); ?>
+						</fieldset>
 					</div>
 				<?php endforeach; ?>
 			</div>

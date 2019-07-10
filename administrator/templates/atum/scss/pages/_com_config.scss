@@ -4,21 +4,13 @@
 
 .com_config {
 
-  .content {
-    background-color: transparent;
-  }
-
-  .tab-content {
-    background-color: $white;
-    padding: 1rem;
-  }
-
-  [class^='col-'] {
-
-    > fieldset {
-      margin-bottom: 2rem;
-    }
-  }
+	.control-group {
+		.controls,
+		.switcher__legend {
+			margin-left: 0;
+			float: none;
+		}
+	}
 
   .rule-notes,
   .filter-notes {

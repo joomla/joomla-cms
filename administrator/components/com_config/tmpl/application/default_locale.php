@@ -14,4 +14,6 @@ defined('_JEXEC') or die;
 
 $this->name = Text::_('COM_CONFIG_LOCATION_SETTINGS');
 $this->fieldsname = 'locale';
+$this->formclass = 'options-fieldset option-fieldset-half';
+
 echo LayoutHelper::render('joomla.content.options_default', $this);
