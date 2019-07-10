@@ -11,7 +11,9 @@ namespace Joomla\Component\Content\Api\View\Articles;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
@@ -32,7 +34,7 @@ class JsonapiView extends BaseApiView
 		'typeAlias',
 		'asset_id',
 		'title',
-		'introtext',
+		'text',
 		'state',
 		'catid',
 		'created',
@@ -50,7 +52,7 @@ class JsonapiView extends BaseApiView
 		'typeAlias',
 		'asset_id',
 		'title',
-		'introtext',
+		'text',
 		'state',
 		'catid',
 		'created',
@@ -68,20 +70,17 @@ class JsonapiView extends BaseApiView
 	 */
 	protected function prepareItem($item)
 	{
-		$fields = [];
+		$item->fields = [];
+		$item->text   = $item->introtext . ' ' . $item->fulltext;
+
+		// Process the content plugins.
+		PluginHelper::importPlugin('content');
+		Factory::getApplication()->triggerEvent('onContentPrepare', array('com_content.article', &$item, &$item->params));
 
 		foreach (FieldsHelper::getFields('com_content.article', $item, true) as $field)
 		{
-			$fields[] = [
-				'id'       => $field->id,
-				'title'    => $field->title,
-				'name'     => $field->name,
-				'value'    => trim($field->value),
-				'rawvalue' => $field->rawvalue,
-			];
+			$item->fields->{$field->name} = isset($field->apivalue) ? $field->apivalue : $field->rawvalue;
 		}
-
-		$item->fields = $fields;
 
 		return parent::prepareItem($item);
 	}
