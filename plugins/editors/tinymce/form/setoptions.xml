@@ -19,14 +19,22 @@
 
     <field
         name="skin"
-        type="skins"
+        type="folderlist"
         label="PLG_TINY_FIELD_SKIN_LABEL"
+		directory="media/vendor/tinymce/skins/ui"
+		recursive="false"
+		hide_none="true"
+		hide_default="true"
     />
 
     <field
         name="skin_admin"
-        type="skins"
+        type="folderlist"
         label="PLG_TINY_FIELD_SKIN_ADMIN_LABEL"
+		directory="media/vendor/tinymce/skins/ui"
+		recursive="false"
+		hide_none="true"
+		hide_default="true"
     />
 
     <field
