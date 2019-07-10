@@ -18,7 +18,7 @@ HTMLHelper::_('behavior.core');
 <?php if ($displayData->displayMenu || $displayData->displayFilters) : ?>
 <div id="j-toggle-sidebar-wrapper">
 	<div id="sidebar" class="sidebar">
-		<button class="navbar-toggler btn-secondary my-2 options-menu d-md-none d-lg-none d-xl-non" type="button" data-toggle="collapse" data-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="Toggle navigation">
+		<button class="navbar-toggler btn-secondary my-2 options-menu d-md-none d-lg-none d-xl-non" type="button" data-toggle="collapse" data-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="Text::_('TPL_ATUM_TOGGLE_SIDEBAR'); ?>">
 			<span class="fas fa-align-justify"></span>
 				<?php echo Text::_('TPL_ATUM_TOGGLE_SIDEBAR'); ?>
 		</button>
