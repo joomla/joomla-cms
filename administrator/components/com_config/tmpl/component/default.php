@@ -42,10 +42,10 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version
 
 		<?php // Begin Sidebar ?>
 		<div class="col-md-2" id="sidebar">
-            <button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-toggle="collapse" data-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOGGLE_SIDEBAR'); ?>">
-                 <span class="fas fa-align-justify" aria-hidden="true"></span>
-                 <?php echo Text::_('TPL_ATUM_TOGGLE_SIDEBAR'); ?>
-            </button>
+			<button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-toggle="collapse" data-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOGGLE_SIDEBAR'); ?>">
+				 <span class="fas fa-align-justify" aria-hidden="true"></span>
+				 <?php echo Text::_('TPL_ATUM_TOGGLE_SIDEBAR'); ?>
+		    </button>
 			<div class="sidebar-nav bg-light p-2 my-2">
 				<?php echo $this->loadTemplate('navigation'); ?>
 			</div>
