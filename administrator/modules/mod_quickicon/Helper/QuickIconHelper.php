@@ -66,13 +66,13 @@ abstract class QuickIconHelper
 			if ($params->get('show_users'))
 			{
 				$tmp = [
-					'image'  => 'fa fa-users',
+					'image'   => 'fa fa-users',
 					'srOnly'  => 'MOD_QUICKICON_USER_SRONLY',
-					'link'   => Route::_('index.php?option=com_users'),
+					'link'    => Route::_('index.php?option=com_users'),
 					'linkadd' => Route::_('index.php?option=com_users&task=users.add'),
-					'name'   => 'MOD_QUICKICON_USER_MANAGER',
-					'access' => array('core.manage', 'com_users', 'core.create', 'com_users'),
-					'group'  => 'MOD_QUICKICON_SITE',
+					'name'    => 'MOD_QUICKICON_USER_MANAGER',
+					'access'  => array('core.manage', 'com_users', 'core.create', 'com_users'),
+					'group'   => 'MOD_QUICKICON_SITE',
 				];
 
 				if ($params->get('show_users') == 2)
@@ -126,9 +126,9 @@ abstract class QuickIconHelper
 			if ($params->get('show_categories'))
 			{
 				$tmp = [
-					'link'    => Route::_('index.php?option=com_categories'),
-					'srOnly'  => 'MOD_QUICKICON_CATEGORY_SRONLY',
 					'image'   => 'fa fa-folder-open',
+					'srOnly'  => 'MOD_QUICKICON_CATEGORY_SRONLY',
+					'link'    => Route::_('index.php?option=com_categories'),
 					'linkadd' => Route::_('index.php?option=com_categories&task=category.add'),
 					'name'    => 'MOD_QUICKICON_CATEGORY_MANAGER',
 					'access'  => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
@@ -208,8 +208,8 @@ abstract class QuickIconHelper
 			{
 				self::$buttons[$key][] = [
 					'ajaxurl' => 'index.php?option=com_checkin&amp;task=getMenuBadgeData&amp;format=json',
-					'srOnly'  => 'MOD_QUICKICON_CHECKIN_SRONLY',
 					'image'   => 'fa fa-unlock-alt',
+					'srOnly'  => 'MOD_QUICKICON_CHECKIN_SRONLY',
 					'link'    => Route::_('index.php?option=com_checkin'),
 					'name'    => 'MOD_QUICKICON_CHECKINS',
 					'access'  => array('core.admin', 'com_checkin'),
@@ -221,8 +221,8 @@ abstract class QuickIconHelper
 			{
 				self::$buttons[$key][] = [
 					'ajaxurl' => 'index.php?option=com_cache&amp;task=display.getQuickiconContent&amp;format=json',
-					'srOnly'  => 'MOD_QUICKICON_CACHE_SRONLY',
 					'image'   => 'fa fa-cloud',
+					'srOnly'  => 'MOD_QUICKICON_CACHE_SRONLY',
 					'link'    => Route::_('index.php?option=com_cache'),
 					'name'    => 'MOD_QUICKICON_CACHE',
 					'access'  => array('core.admin', 'com_cache'),
