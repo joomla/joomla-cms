@@ -12,11 +12,9 @@ joomla-tab {
 		margin-bottom: 5rem;
 	}
 	&[orientation=horizontal]:not([view=accordion]) > ul {
-		width: calc(100% - #{$grid-gutter-width});
-		position: fixed;
-		bottom: 0;
-		z-index: 999;
+		width: 100%;
 		background-color: var(--atum-bg-dark);
+		margin-bottom: 1rem;
 	}
 	> ul {
 		display: flex;
