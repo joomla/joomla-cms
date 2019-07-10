@@ -58,7 +58,7 @@ HTMLHelper::_('script', 'com_languages/admin-language-edit-change-flag.js', ['ve
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'metadata', Text::_('JGLOBAL_FIELDSET_OPTIONS')); ?>
 			<div class="row">
 				<div class="col-md-6 mb-3">
-					<fieldset id="fieldset-metadata" class="options-fieldset option-fieldset-full">
+					<fieldset id="fieldset-sitename" class="options-fieldset option-fieldset-full">
 						<legend><?php echo Text::_('COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL'); ?></legend>
 						<?php echo $this->form->renderFieldset('site_name'); ?>
 					</fieldset>
