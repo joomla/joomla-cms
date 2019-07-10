@@ -7,12 +7,12 @@
   .content {
     background-color: transparent;
   }
-  
+
   .tab-content {
     background-color: $white;
     padding: 1rem;
   }
-  
+
   [class^='col-'] {
 
     > fieldset {
@@ -28,11 +28,6 @@
   }
 
   .options-menu {
-    .burger-toggler-icon:before {
-      font: normal normal normal 16px/1 'Font Awesome 5 Free';
-      content: "\f039 ";
-    }
-
     .revert-controls .controls {
       margin-left: 0;
     }

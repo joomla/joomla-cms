@@ -76,7 +76,7 @@
 		<field
 			name="tag"
 			type="tag"
-			labl="JOPTION_SELECT_TAG"
+			label="JOPTION_SELECT_TAG"
 			multiple="true"
 			mode="nested"
 			custom="false"
