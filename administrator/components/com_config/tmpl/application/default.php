@@ -32,7 +32,7 @@ Text::script('MESSAGE');
 		<!-- Begin Sidebar -->
 		<div id="sidebar" class="col-md-2">
             <button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-toggle="collapse" data-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="Text::_('TPL_ATUM_TOGGLE_SIDEBAR'); ?>">
-                 <span class="burger-toggler-icon"></span>
+                 <span class="burger-toggler-icon" aria-hidden="true"></span>
                      <?php echo Text::_('TPL_ATUM_TOGGLE_SIDEBAR'); ?>
 
             </button>
