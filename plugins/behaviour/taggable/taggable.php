@@ -10,13 +10,14 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Event as CmsEvent;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Tagging\ContentItem;
+use Joomla\CMS\Tagging\Tag;
 use Joomla\CMS\Tagging\TaggableTableInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Implements the Taggable behaviour which allows extensions to automatically support tags for their content items.
@@ -57,8 +58,10 @@ class PlgBehaviourTaggable extends CMSPlugin
 	 */
 	public function onTableBeforeBind(CmsEvent\Table\BeforeBindEvent $event)
 	{
-		// Extract arguments
-		/** @var TableInterface $table */
+		/**
+		 * Extract arguments
+		 * @var TableInterface $table
+		 */
 		$table			= $event['subject'];
 
 		if (!$table instanceof TaggableTableInterface)
@@ -89,6 +92,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 		/** @var TableInterface $table */
 		$table	= $event['subject'];
 		$result = $event['result'];
+		$db     = $table->getDbo();
 
 		if (!$result || !is_object($table) || !($table instanceof TaggableTableInterface))
 		{
@@ -98,45 +102,57 @@ class PlgBehaviourTaggable extends CMSPlugin
 		$typeAlias = $table->getTypeAlias();
 		$id = $table->getId();
 		$contentItem = new ContentItem($typeAlias, $id);
+		$contentType = new ContentType($db);
 
-		// The content item doesn't exist yet. Creating...
-		if ($contentItem->content_id != $id)
+		if (!$contentType->load(['type_alias' => $typeAlias]))
 		{
-			$db = Factory::getDbo();
-			$contentType = new ContentType($db);
-
-			if (!$contentType->load(['type_title' => $typeAlias]))
-			{
-				return;
-			}
-
-
-			var_dump($contentType);
+			return;
 		}
 
+		$fieldMapping = json_decode($contentType->field_mappings);
+		$fields = array_keys(get_object_vars($contentItem));
 
-		// Get the Tags helper and assign the parsed alias
-		$tagsHelper            = $table->tagsHelper;
-		$tagsHelper->typeAlias = $typeAlias;
-
-		$newTags = $table->newTags ?? array();
-
-		if (empty($newTags))
+		foreach ($fields as $field)
 		{
-			$result = $tagsHelper->postStoreProcess($table);
+			if (isset($fieldMapping->common->$field))
+			{
+				$contentItem->$field = $table->{$fieldMapping->common->$field};
+			}
 		}
-		else
-		{
-			if (is_string($newTags) && (strpos($newTags, ',') !== false))
-			{
-				$newTags = explode(',', $newTags);
-			}
-			elseif (!is_array($newTags))
-			{
-				$newTags = (array) $newTags;
-			}
 
-			$result = $tagsHelper->postStoreProcess($table, $newTags);
+		// Create or update the content item
+		$contentItem->save();
+
+		$key = $typeAlias . '.' . $id;
+
+		/**
+		 * If the tags have not been set in onTableBeforeBind, this seems
+		 * to have been called from somewhere else and thus we bail here.
+		 * We don't want to delete tags if the tag system had no chance to set them.
+		 */
+		if (!isset($this->tags[$key]))
+		{
+			return;
+		}
+
+		$tags = $contentItem->getTags();
+		$oldTags = array_keys($tags);
+		$newTags = ArrayHelper::toInteger($this->tags[$key]);
+
+		$remove = array_diff($oldTags, $newTags);
+		$add = array_diff($newTags, $oldTags);
+
+		// Remove tags which have been removed.
+		foreach ($remove as $tid)
+		{
+			$contentItem->removeTag($tags[$tid]);
+		}
+
+		// Add tags which have been added.
+		foreach ($add as $tid)
+		{
+			$tag = new Tag($tid);
+			$contentItem->addTag($tag);
 		}
 	}
 

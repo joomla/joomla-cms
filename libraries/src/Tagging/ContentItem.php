@@ -25,51 +25,51 @@ class ContentItem
 
 	public $type_alias;
 
-	public $title;
+	public $core_title;
 
-	public $alias;
+	public $core_alias;
 
-	public $body;
+	public $core_body;
 
-	public $state;
+	public $core_state;
 
-	public $access;
+	public $core_access;
 
-	public $params;
+	public $core_params;
 
-	public $featured;
+	public $core_featured;
 
-	public $metadata;
+	public $core_metadata;
 
-	public $created_user_id;
+	public $core_created_user_id;
 
-	public $created_by_alias;
+	public $core_created_by_alias;
 
-	public $created_time;
+	public $core_created_time;
 
-	public $modified_user_id;
+	public $core_modified_user_id;
 
-	public $modified_time;
+	public $core_modified_time;
 
-	public $language;
+	public $core_language;
 
-	public $publish_up;
+	public $core_publish_up;
 
-	public $publish_down;
+	public $core_publish_down;
 
-	public $images;
+	public $core_images;
 
-	public $urls;
+	public $core_urls;
 
-	public $hits;
+	public $core_hits;
 
-	public $ordering;
+	public $core_ordering;
 
-	public $metakey;
+	public $core_metakey;
 
-	public $metadesc;
+	public $core_metadesc;
 
-	public $catid;
+	public $core_catid;
 
 	/**
 	 * ContentItem constructor.
@@ -90,9 +90,9 @@ class ContentItem
 					$this->$key = $value;
 				}
 
-				$this->params = new Registry($this->params);
-				$this->metadata = new Registry($this->metadata);
-				$this->images = new Registry($this->images);
+				$this->core_params = new Registry($this->core_params);
+				$this->core_metadata = new Registry($this->core_metadata);
+				$this->core_images = new Registry($this->core_images);
 			}
 		}
 	}
@@ -107,9 +107,9 @@ class ContentItem
 	public function save()
 	{
 		$table = new TagContent(Factory::getDbo());
-		$table->bind($this);
+		$table->bind(get_object_vars($this));
 
-		return $table->save();
+		return $table->store();
 	}
 
 	/**

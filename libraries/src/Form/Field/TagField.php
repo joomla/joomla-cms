@@ -81,6 +81,8 @@ class TagField extends ListField
 	{
 		$data = $this->getLayoutData();
 
+		$this->loadValues();
+
 		if (is_array($this->value))
 		{
 			$data['value'] = $this->value;
@@ -97,6 +99,34 @@ class TagField extends ListField
 		$data['minTermLength'] = (int) $this->comParams->get('min_term_length', 3);
 
 		return $this->getRenderer($this->layout)->render($data);
+	}
+
+	protected function loadValues()
+	{
+		$content_type = $this->element['typealias'];
+		$content_type_key = $this->element['content_key'] ? $this->element['content_key'] : 'id';
+
+		if (!$content_type || !$content_type_key)
+		{
+			return;
+		}
+
+		$content_id = $this->form->getValue($content_type_key);
+
+		if (!is_int($content_id) || $content_id < 1)
+		{
+			return;
+		}
+
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select($query->qn('tag_id'))
+			->from($query->qn('#__tag_content_map'))
+			->where($query->qn('type_alias') . ' = ' . $query->q($content_type))
+			->where($query->qn('content_id') . ' = ' . $query->q($content_id));
+		$db->setQuery($query);
+
+		$this->value = $db->loadColumn();
 	}
 
 	/**
