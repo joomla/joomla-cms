@@ -12,6 +12,10 @@
 		}
 	}
 
+	#fieldset-permissions {
+		grid-template-columns: 1fr;
+	}
+
   .rule-notes,
   .filter-notes {
     padding: 1em;

@@ -76,7 +76,7 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version
 								<?php echo Text::_($fieldSet->description); ?>
 							</div>
 						<?php endif; ?>
-						<fieldset class="options-fieldset option-fieldset-half">
+						<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-fieldset option-fieldset-half">
 							<legend><?php echo Text::_($fieldSet->label); ?></legend>
 							<?php echo $this->form->renderFieldset($name, $name === 'permissions' ? ['hiddenLabel' => true, 'class' => 'revert-controls'] : []); ?>
 						</fieldset>
