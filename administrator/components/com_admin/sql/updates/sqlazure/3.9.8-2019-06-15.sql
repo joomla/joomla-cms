@@ -1,5 +1,5 @@
 DROP INDEX [idx_home] ON [#__template_styles];
-ALTER TABLE [#__template_styles] ALTER COLUMN [home] [tyinint] NOT NULL;
+# Query removed, see https://github.com/joomla/joomla-cms/pull/25484
 CREATE NONCLUSTERED INDEX [idx_client_id] ON [#__template_styles]
 (
   [client_id] ASC
