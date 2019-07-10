@@ -147,11 +147,8 @@ class ContentItem
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$query->insert('#__tag_content_map')
-			->values(
-				['tag_id' => $tag->id,
-				'type_alias' => $this->type_alias,
-				'content_id' => $this->content_id]
-			);
+			->columns($query->qn(['tag_id', 'type_alias', 'content_id']))
+			->values(((int) $tag->id) . ',' . $query->q($this->type_alias) . ',' . ((int) $this->content_id));
 		$db->setQuery($query);
 		$db->execute();
 
