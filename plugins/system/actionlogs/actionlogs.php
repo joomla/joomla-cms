@@ -16,6 +16,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\User;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
 
 /**
  * Joomla! Users Actions Logging Plugin.
@@ -90,10 +91,10 @@ class PlgSystemActionLogs extends CMSPlugin
 	{
 		$formName = $form->getName();
 
-		$allowedFormNames = array(
+		$allowedFormNames = [
 			'com_users.profile',
 			'com_users.user',
-		);
+		];
 
 		if (!in_array($formName, $allowedFormNames, true))
 		{
@@ -113,7 +114,7 @@ class PlgSystemActionLogs extends CMSPlugin
 		}
 
 		// If we are on the save command, no data is passed to $data variable, we need to get it directly from request
-		$jformData = $this->app->input->get('jform', array(), 'array');
+		$jformData = $this->app->input->get('jform', [], 'array');
 
 		if ($jformData && !$data)
 		{
@@ -159,7 +160,7 @@ class PlgSystemActionLogs extends CMSPlugin
 	 */
 	public function onContentPrepareData($context, $data)
 	{
-		if (!in_array($context, array('com_users.profile', 'com_admin.profile', 'com_users.user')))
+		if (!in_array($context, ['com_users.profile', 'com_admin.profile', 'com_users.user']))
 		{
 			return true;
 		}
@@ -174,14 +175,18 @@ class PlgSystemActionLogs extends CMSPlugin
 			return true;
 		}
 
-		$query = $this->db->getQuery(true)
-			->select($this->db->quoteName(array('notify', 'extensions')))
-			->from($this->db->quoteName('#__action_logs_users'))
-			->where($this->db->quoteName('user_id') . ' = ' . (int) $data->id);
+		$db = $this->db;
+		$id = (int) $data->id;
+
+		$query = $db->getQuery(true)
+			->select($db->quoteName(['notify', 'extensions']))
+			->from($db->quoteName('#__action_logs_users'))
+			->where($db->quoteName('user_id') . ' = :userid')
+			-bind(':userid', $id, ParameterType::INTEGER);
 
 		try
 		{
-			$values = $this->db->setQuery($query)->loadObject();
+			$values = $db->setQuery($query)->loadObject();
 		}
 		catch (ExecutionFailureException $e)
 		{
@@ -232,13 +237,15 @@ class PlgSystemActionLogs extends CMSPlugin
 		// Update last run status
 		$this->params->set('lastrun', $now);
 
-		$db    = $this->db;
-		$query = $db->getQuery(true)
+		$db     = $this->db;
+		$params = $this->params->toString('JSON');
+		$query  = $db->getQuery(true)
 			->update($db->quoteName('#__extensions'))
-			->set($db->quoteName('params') . ' = ' . $db->quote($this->params->toString('JSON')))
+			->set($db->quoteName('params') . ' = :params')
 			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
 			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
-			->where($db->quoteName('element') . ' = ' . $db->quote('actionlogs'));
+			->where($db->quoteName('element') . ' = ' . $db->quote('actionlogs'))
+			->bind(':params', $params);
 
 		try
 		{
@@ -256,7 +263,7 @@ class PlgSystemActionLogs extends CMSPlugin
 			// Update the plugin parameters
 			$result = $db->setQuery($query)->execute();
 
-			$this->clearCacheGroups(array('com_plugins'), array(0, 1));
+			$this->clearCacheGroups(['com_plugins'], [0, 1]);
 		}
 		catch (Exception $exc)
 		{
@@ -287,10 +294,13 @@ class PlgSystemActionLogs extends CMSPlugin
 
 		if ($daysToDeleteAfter > 0)
 		{
-			$conditions = array($db->quoteName('log_date') . ' < ' . $query->dateAdd($now, -1 * $daysToDeleteAfter, ' DAY'));
+			$days = -1 * $daysToDeleteAfter;
 
 			$query->clear()
-				->delete($db->quoteName('#__action_logs'))->where($conditions);
+				->delete($db->quoteName('#__action_logs'))
+				->where($db->quoteName('log_date') . ' < ' . $query->dateAdd(':now', ':days', 'DAY'))
+				->bind([':now', ':days'], [$now, $days], [ParameterType::STRING, ParameterType::INTEGER]);
+
 			$db->setQuery($query);
 
 			try
@@ -364,65 +374,84 @@ class PlgSystemActionLogs extends CMSPlugin
 		// Clear access rights in case user groups were changed.
 		$userObject = Factory::getUser($user['id']);
 		$userObject->clearAccessRights();
-		$authorised = $userObject->authorise('core.admin');
 
-		$query = $this->db->getQuery(true)
+		$authorised = $userObject->authorise('core.admin');
+		$userid     = (int) $user['id'];
+		$db         = $this->db;
+
+		$query = $db->getQuery(true)
 			->select('COUNT(*)')
-			->from($this->db->quoteName('#__action_logs_users'))
-			->where($this->db->quoteName('user_id') . ' = ' . (int) $user['id']);
+			->from($db->quoteName('#__action_logs_users'))
+			->where($db->quoteName('user_id') . ' = :userid')
+			->bind(':userid', $userid, ParameterType::INTEGER);
 
 		try
 		{
-			$exists = (bool) $this->db->setQuery($query)->loadResult();
+			$exists = (bool) $db->setQuery($query)->loadResult();
 		}
 		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
 
+		$query->clear();
+
 		// If preferences don't exist, insert.
 		if (!$exists && $authorised && isset($user['actionlogs']))
 		{
-			$values  = array((int) $user['id'], (int) $user['actionlogs']['actionlogsNotify']);
-			$columns = array('user_id', 'notify');
+			$notify  = (int) $user['actionlogs']['actionlogsNotify'];
+			$values  = [':userid', ':notify'];
+			$columns = ['user_id', 'notify'];
+
+			$query->bind($values, [$userid, $notify], ParameterType::INTEGER);
 
 			if (isset($user['actionlogs']['actionlogsExtensions']))
 			{
-				$values[]  = $this->db->quote(json_encode($user['actionlogs']['actionlogsExtensions']));
+				$values[]  = ':extension';
 				$columns[] = 'extensions';
+				$extension = json_encode($user['actionlogs']['actionlogsExtensions'];
+				$query->bind(':extension', $extension);
 			}
 
-			$query = $this->db->getQuery(true)
-				->insert($this->db->quoteName('#__action_logs_users'))
-				->columns($this->db->quoteName($columns))
+			$query->insert($db->quoteName('#__action_logs_users'))
+				->columns($db->quoteName($columns))
 				->values(implode(',', $values));
 		}
 		elseif ($exists && $authorised && isset($user['actionlogs']))
 		{
 			// Update preferences.
-			$values = array($this->db->quoteName('notify') . ' = ' . (int) $user['actionlogs']['actionlogsNotify']);
+			$notify = (int) $user['actionlogs']['actionlogsNotify'];
+			$values = [$db->quoteName('notify') . ' = :notify'];
+
+			$query->bind(':notify', $notify, ParameterType::INTEGER);
 
 			if (isset($user['actionlogs']['actionlogsExtensions']))
 			{
-				$values[] = $this->db->quoteName('extensions') . ' = ' . $this->db->quote(json_encode($user['actionlogs']['actionlogsExtensions']));
+				$values[] = $db->quoteName('extensions') . ' = :extension';
+				$extension = json_encode($user['actionlogs']['actionlogsExtensions']);
+				$query->bind(':extension', $extension)
 			}
 
-			$query = $this->db->getQuery(true)
-				->update($this->db->quoteName('#__action_logs_users'))
+			$query->update($db->quoteName('#__action_logs_users'))
 				->set($values)
-				->where($this->db->quoteName('user_id') . ' = ' . (int) $user['id']);
+				->where($db->quoteName('user_id') . ' = :userid')
+				->bind(':userid', $userid, ParameterType::INTEGER);
 		}
 		elseif ($exists && !$authorised)
 		{
 			// Remove preferences if user is not authorised.
-			$query = $this->db->getQuery(true)
-				->delete($this->db->quoteName('#__action_logs_users'))
-				->where($this->db->quoteName('user_id') . ' = ' . (int) $user['id']);
+			$query->delete($db->quoteName('#__action_logs_users'))
+				->where($db->quoteName('user_id') . ' = :userid')
+				->bind(':userid', $userid, ParameterType::INTEGER);
+		}
+		else
+		{
+			return false;
 		}
 
 		try
 		{
-			$this->db->setQuery($query)->execute();
+			$db->setQuery($query)->execute();
 		}
 		catch (ExecutionFailureException $e)
 		{
@@ -452,13 +481,17 @@ class PlgSystemActionLogs extends CMSPlugin
 			return false;
 		}
 
-		$query = $this->db->getQuery(true)
-			->delete($this->db->quoteName('#__action_logs_users'))
-			->where($this->db->quoteName('user_id') . ' = ' . (int) $user['id']);
+		$db     = $this->db;
+		$userid = (int) $user['id'];
+
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__action_logs_users'))
+			->where($db->quoteName('user_id') . ' = :userid')
+			->bind(':userid', $userid, ParameterType::INTEGER);
 
 		try
 		{
-			$this->db->setQuery($query)->execute();
+			$db->setQuery($query)->execute();
 		}
 		catch (ExecutionFailureException $e)
 		{
