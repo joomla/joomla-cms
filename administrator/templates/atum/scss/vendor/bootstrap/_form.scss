@@ -23,10 +23,19 @@ label {
     padding-top: 5px;
     padding-right: 5px;
     text-align: left;
+	@include media-breakpoint-down(sm)
+	{
+		float: none;
+		width: 100%;
+	}
   }
 
   .controls {
     margin-left: 220px;
+	@include media-breakpoint-down(sm)
+	{
+		margin-left: 0;
+	}
   }
 }
 
