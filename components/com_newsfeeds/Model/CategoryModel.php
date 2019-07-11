@@ -12,6 +12,7 @@ namespace Joomla\Component\Newsfeeds\Site\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -35,12 +36,32 @@ class CategoryModel extends ListModel
 	 */
 	protected $_item = null;
 
+	/**
+	 * Array of newsfeeds in the category
+	 *
+	 * @var    \stdClass[]
+	 */
 	protected $_articles = null;
 
+	/**
+	 * Category left and right of this one
+	 *
+	 * @var    CategoryNode[]|null
+	 */
 	protected $_siblings = null;
 
+	/**
+	 * Array of child-categories
+	 *
+	 * @var    CategoryNode[]|null
+	 */
 	protected $_children = null;
 
+	/**
+	 * Parent category of the current one
+	 *
+	 * @var    CategoryNode|null
+	 */
 	protected $_parent = null;
 
 	/**
