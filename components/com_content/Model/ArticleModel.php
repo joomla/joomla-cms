@@ -144,7 +144,9 @@ class ArticleModel extends ItemModel
 				$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count')
 					->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 
-				if ((!$user->authorise('core.edit.state', 'com_content.article.' . $pk)) && (!$user->authorise('core.edit', 'com_content.article.' . $pk)))
+				if (!$user->authorise('core.edit.state', 'com_content.article.' . $pk)
+					&& !$user->authorise('core.edit', 'com_content.article.' . $pk)
+				)
 				{
 					// Filter by start and end dates.
 					$nullDate = $db->quote($db->getNullDate());
@@ -322,7 +324,7 @@ class ArticleModel extends ItemModel
 
 				// Create the base insert statement.
 				$query->insert($db->quoteName('#__content_rating'))
-					->columns(array($db->quoteName('content_id'), $db->quoteName('lastip'), $db->quoteName('rating_sum'), $db->quoteName('rating_count')))
+					->columns([$db->quoteName('content_id'), $db->quoteName('lastip'), $db->quoteName('rating_sum'), $db->quoteName('rating_count')])
 					->values((int) $pk . ', ' . $db->quote($userIP) . ',' . (int) $rate . ', 1');
 
 				// Set the query and execute the insert.
