@@ -27,8 +27,16 @@ $id       = isset($displayData['id']) ? $displayData['id'] : '';
 $class    = isset($displayData['class']) ? $displayData['class'] : 'btn btn-secondary';
 $icon     = isset($displayData['icon']) ? $displayData['icon'] : 'fa fa-download';
 $text     = isset($displayData['text']) ? $displayData['text'] : '';
+?>
 
-// Render the modal
+<!-- Render the button -->
+<button<?php echo $id; ?> onclick="document.getElementById('modal_<?php echo $selector; ?>').open()" class="<?php echo $class; ?>" data-toggle="modal">
+	<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
+	<?php echo $text; ?>
+</button>
+
+<!-- Render the modal -->
+<?php 
 echo HTMLHelper::_('bootstrap.renderModal',
 	'modal_' . $selector,
 	[
@@ -48,7 +56,4 @@ echo HTMLHelper::_('bootstrap.renderModal',
 	]
 );
 ?>
-<button<?php echo $id; ?> onclick="document.getElementById('modal_<?php echo $selector; ?>').open()" class="<?php echo $class; ?>" data-toggle="modal">
-	<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
-	<?php echo $text; ?>
-</button>
+

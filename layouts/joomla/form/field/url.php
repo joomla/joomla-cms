@@ -63,6 +63,7 @@ $attributes = array(
 ?>
 <input
 	<?php echo $inputType; ?>
+	inputmode="url"
 	name="<?php echo $name; ?>"
 	<?php echo !empty($class) ? ' class="form-control ' . $class . '"' : 'class="form-control"'; ?>
 	id="<?php echo $id; ?>"

@@ -11,6 +11,7 @@ namespace Joomla\Component\Finder\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\String\StringHelper;
@@ -129,7 +130,7 @@ class SearchModel extends ListModel
 	protected function getListQuery()
 	{
 		// Get the current user for authorisation checks
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Create a new query object.
@@ -152,7 +153,7 @@ class SearchModel extends ListModel
 
 		// Get the null date and the current date, minus seconds.
 		$nullDate = $db->quote($db->getNullDate());
-		$nowDate = $db->quote(substr_replace(\JFactory::getDate()->toSql(), '00', -2));
+		$nowDate = $db->quote(substr_replace(Factory::getDate()->toSql(), '00', -2));
 
 		// Add the publish up and publish down filters.
 		$query->where('(l.publish_start_date = ' . $nullDate . ' OR l.publish_start_date <= ' . $nowDate . ')')
@@ -228,7 +229,7 @@ class SearchModel extends ListModel
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('l.language IN (' . $db->quote(\JFactory::getLanguage()->getTag()) . ', ' . $db->quote('*') . ')');
+			$query->where('l.language IN (' . $db->quote(Factory::getLanguage()->getTag()) . ', ' . $db->quote('*') . ')');
 		}
 
 		// Get the result ordering and direction.
@@ -382,11 +383,11 @@ class SearchModel extends ListModel
 	protected function populateState($ordering = null, $direction = null)
 	{
 		// Get the configuration options.
-		$app      = \JFactory::getApplication();
+		$app      = Factory::getApplication();
 		$input    = $app->input;
 		$params   = $app->getParams();
-		$user     = \JFactory::getUser();
-		$language = \JFactory::getLanguage();
+		$user     = Factory::getUser();
+		$language = Factory::getLanguage();
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
 
@@ -513,7 +514,7 @@ class SearchModel extends ListModel
 		// Use the external cache if data is persistent.
 		if ($persistent)
 		{
-			$data = \JFactory::getCache($this->context, 'output')->get($id);
+			$data = Factory::getCache($this->context, 'output')->get($id);
 			$data = $data ? unserialize($data) : null;
 		}
 
@@ -545,7 +546,7 @@ class SearchModel extends ListModel
 		// Store the data in external cache if data is persistent.
 		if ($persistent)
 		{
-			return \JFactory::getCache($this->context, 'output')->store(serialize($data), $id);
+			return Factory::getCache($this->context, 'output')->store(serialize($data), $id);
 		}
 
 		return true;

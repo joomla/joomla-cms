@@ -36,7 +36,7 @@ class WorkflowsModel extends ListModel
 			$config['filter_fields'] = array(
 				'id', 'w.id',
 				'title', 'w.title',
-				'state', 'w.state',
+				'published', 'w.published',
 				'created_by', 'w.created_by',
 				'created', 'w.created',
 				'ordering', 'w.ordering',

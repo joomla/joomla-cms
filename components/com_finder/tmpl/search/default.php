@@ -10,11 +10,12 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('behavior.core');
 HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JText::script('MOD_FINDER_SEARCH_VALUE', true);
+Text::script('MOD_FINDER_SEARCH_VALUE', true);
 
 HTMLHelper::_('stylesheet', 'com_finder/finder.css', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('script', 'com_finder/finder.js', array('version' => 'auto', 'relative' => true));

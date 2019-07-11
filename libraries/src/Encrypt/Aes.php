@@ -4,13 +4,14 @@
  *
  * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @note	This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 
 namespace Joomla\CMS\Encrypt;
 
 use Joomla\CMS\Encrypt\AES\AesInterface;
 use Joomla\CMS\Encrypt\AES\Mcrypt;
-use Joomla\CMS\Encrypt\AES\Openssl;
+use Joomla\CMS\Encrypt\AES\OpenSSL;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -52,7 +53,7 @@ class Aes
 	{
 		if ($priority == 'openssl')
 		{
-			$this->adapter = new Openssl;
+			$this->adapter = new OpenSSL;
 			
 			if (!$this->adapter->isSupported())
 			{
@@ -65,7 +66,7 @@ class Aes
 			
 			if (!$this->adapter->isSupported())
 			{
-				$this->adapter = new Openssl;
+				$this->adapter = new OpenSSL;
 			}
 		}
 
@@ -169,7 +170,7 @@ class Aes
 
 		if (!$adapter->isSupported())
 		{
-			$adapter = new Openssl;
+			$adapter = new OpenSSL;
 		}
 
 		if (!$adapter->isSupported())

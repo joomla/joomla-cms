@@ -12,6 +12,7 @@ namespace Joomla\Component\Contact\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
@@ -19,6 +20,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -156,13 +158,13 @@ class ContactModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm|boolean  A \JForm object on success, false on failure
+	 * @return  Form|boolean  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		\JForm::addFieldPath(JPATH_ADMINISTRATOR . '/components/com_users/models/fields');
+		Form::addFieldPath(JPATH_ADMINISTRATOR . '/components/com_users/models/fields');
 
 		// Get the form.
 		$form = $this->loadForm('com_contact.contact', 'contact', array('control' => 'jform', 'load_data' => $loadData));
@@ -403,7 +405,7 @@ class ContactModel extends AdminModel
 	/**
 	 * Preprocess the form.
 	 *
-	 * @param   \JForm  $form   Form object.
+	 * @param   Form    $form   Form object.
 	 * @param   object  $data   Data object.
 	 * @param   string  $group  Group name.
 	 *
@@ -411,7 +413,7 @@ class ContactModel extends AdminModel
 	 *
 	 * @since   3.0.3
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		// Determine correct permissions to check.
 		if ($this->getState('contact.id'))
@@ -494,9 +496,11 @@ class ContactModel extends AdminModel
 			$db = $this->getDbo();
 
 			$query = $db->getQuery(true);
-			$query->update('#__contact_details');
-			$query->set('featured = ' . (int) $value);
-			$query->where('id IN (' . implode(',', $pks) . ')');
+			$query->update($db->quoteName('#__contact_details'));
+			$query->set($db->quoteName('featured') . ' = :featured');
+			$query->whereIn($db->quoteName('id'), $pks);
+			$query->bind(':featured', $value, ParameterType::INTEGER);
+			
 			$db->setQuery($query);
 
 			$db->execute();

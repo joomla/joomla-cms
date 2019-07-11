@@ -6,16 +6,8 @@ clone:
   depth: 42
 
 steps:
-  - name: phpcs
-    image: joomlaprojects/docker-phpcs
-    commands:
-      - echo $(date)
-      - /root/.composer/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
-      - echo $(date)
-
   - name: restore-cache
     image: drillster/drone-volume-cache
-    depends_on: [ phpcs ]
     settings:
       restore: true
       mount:
@@ -27,16 +19,29 @@ steps:
       - name: cache
         path: /cache
 
-  - name: prepare
+  - name: composer
     image: joomlaprojects/docker-tools:develop
     depends_on: [ restore-cache ]
     commands:
       - composer install --no-progress --no-suggest
+
+  - name: phpcs
+    image: php:7.2
+    depends_on: [ composer ]
+    commands:
+      - echo $(date)
+      - ./libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
+      - echo $(date)
+
+  - name: npm
+    image: joomlaprojects/docker-tools:develop
+    depends_on: [ phpcs ]
+    commands:
       - npm install --unsafe-perm
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
-    depends_on: [ prepare ]
+    depends_on: [ npm ]
     settings:
       rebuild: true
       mount:
@@ -49,37 +54,37 @@ steps:
         path: /cache
 
   - name: php72-unit
-    depends_on: [ rebuild-cache ]
+    depends_on: [ phpcs ]
     image: php:7.2
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit
 
   - name: php73-unit
-    depends_on: [ rebuild-cache ]
+    depends_on: [ phpcs ]
     image: php:7.3
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit
 
   - name: php74-unit
-    depends_on: [ rebuild-cache ]
+    depends_on: [ phpcs ]
     image: phpdaily/php:7.4-dev
-    errignore: true
+    failure: ignore
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit
 
   - name: php80-unit
-    depends_on: [ rebuild-cache ]
+    depends_on: [ phpcs ]
     image: phpdaily/php:8.0-dev
-    errignore: true
+    failure: ignore
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit
 
   - name: javascript-cs
-    depends_on: [ rebuild-cache ]
+    depends_on: [ npm ]
     image: joomlaprojects/docker-systemtests:develop
     commands:
       - export DISPLAY=:0
@@ -89,7 +94,7 @@ steps:
       - npm run lint:js
 
   - name: javascript-tests
-    depends_on: [ rebuild-cache ]
+    depends_on: [ npm ]
     image: joomlaprojects/docker-systemtests:develop
     commands:
       - export DISPLAY=:0
@@ -109,6 +114,27 @@ steps:
     image: joomlaprojects/docker-systemtests:latest
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
+
+  - name: artifacts-system-tests
+    image: cschlosser/drone-ftps
+    depends_on: [ system-tests-postgres ]
+    environment:
+      FTP_USERNAME:
+        from_secret: ftpusername
+      FTP_PASSWORD:
+        from_secret: ftppassword
+      PLUGIN_HOSTNAME: ci.joomla.org:21
+      PLUGIN_SRC_DIR: /tests/Codeception/_output/
+      PLUGIN_DEST_DIR: /artifacts
+      PLUGIN_SECURE: false
+      PLUGIN_EXCLUDE: ^\.git/$
+    commands:
+      - export PLUGIN_DEST_DIR=$PLUGIN_DEST_DIR/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST_$DRONE_BUILD_NUMBER/system-tests
+      - echo https://ci.joomla.org:444$PLUGIN_DEST_DIR
+      - /bin/upload.sh
+    when:
+      status:
+      - failure
 
   - name: api-tests
     depends_on: [ system-tests-postgres ]
@@ -135,7 +161,6 @@ steps:
 
 branches:
   exclude: [ l10n_* ]
-
 
 volumes:
 - name: cache
@@ -168,6 +193,6 @@ services:
 
 ---
 kind: signature
-hmac: c3b4baf30db6797a4cc0a222fb0f51211083fd63e07314b69364d3636f24aff0
+hmac: b3723ea069a4139d4b9aef660f8fa5e01cc0c59017a77438a7245e0d552ef72a
 
 ...

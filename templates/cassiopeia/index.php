@@ -50,6 +50,18 @@ else
 	$logo = '<img src="' . $this->baseurl . '/templates/' . $this->template . '/images/logo.svg' . '" class="logo d-inline-block" alt="' . $sitename . '">';
 }
 
+$hasClass = '';
+
+if ($this->countModules('sidebar-left')) 
+{
+	$hasClass .= ' has-sidebar-left';
+}
+
+if ($this->countModules('sidebar-right')) 
+{
+	$hasClass .= ' has-sidebar-right';
+}
+
 // Header bottom margin
 $headerMargin = !$this->countModules('banner') ? ' mb-4' : '';
 
@@ -72,7 +84,8 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')
 	. ($itemid ? ' itemid-' . $itemid : '')
-	. ' ' . $pageclass;
+	. ' ' . $pageclass
+	. $hasClass;
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
 	<div class="grid-child container-header full-width">
@@ -129,29 +142,25 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	</div>
 	<?php endif; ?>
 
-	<div class="grid-child container-main">
-
-		<?php if ($this->countModules('sidebar-left')) : ?>
-		<div class="container-sidebar-left">
-			<jdoc:include type="modules" name="sidebar-left" style="default" />
-		</div>
-		<?php endif; ?>
-
-		<div class="container-component">
-			<jdoc:include type="modules" name="main-top" style="cardGrey" />
-			<jdoc:include type="message" />
-			<jdoc:include type="component" />
-			<jdoc:include type="modules" name="breadcrumbs" style="none" />
-			<jdoc:include type="modules" name="main-bottom" style="cardGrey" />
-		</div>
-
-		<?php if ($this->countModules('sidebar-right')) : ?>
-		<div class="container-sidebar-right">
-			<jdoc:include type="modules" name="sidebar-right" style="default" />
-		</div>
-		<?php endif; ?>
-
+	<?php if ($this->countModules('sidebar-left')) : ?>
+	<div class="grid-child container-sidebar-left">
+		<jdoc:include type="modules" name="sidebar-left" style="default" />
 	</div>
+	<?php endif; ?>
+
+	<div class="grid-child container-component">
+		<jdoc:include type="modules" name="main-top" style="cardGrey" />
+		<jdoc:include type="message" />
+		<jdoc:include type="component" />
+		<jdoc:include type="modules" name="breadcrumbs" style="none" />
+		<jdoc:include type="modules" name="main-bottom" style="cardGrey" />
+	</div>
+
+	<?php if ($this->countModules('sidebar-right')) : ?>
+	<div class="grid-child container-sidebar-right">
+		<jdoc:include type="modules" name="sidebar-right" style="default" />
+	</div>
+	<?php endif; ?>
 
 	<?php if ($this->countModules('bottom-a')) : ?>
 	<div class="grid-child container-bottom-a">

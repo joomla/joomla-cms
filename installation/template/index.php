@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /** @var JDocumentHtml $this */
 
@@ -52,7 +53,7 @@ Text::script('INSTL_FTP_SETTINGS_CORRECT');
 		<jdoc:include type="metas" />
 		<jdoc:include type="styles" />
 	</head>
-	<body data-basepath="<?php echo JUri::root(true); ?>">
+	<body data-basepath="<?php echo Uri::root(true); ?>">
 		<div class="j-install">
 			<?php // Header ?>
 			<header class="j-header" role="banner">
@@ -75,7 +76,7 @@ Text::script('INSTL_FTP_SETTINGS_CORRECT');
 						<?php echo Text::_('INSTL_WARNJAVASCRIPT'); ?>
 					</noscript>
 				</div>
-				<div id="container-installation" class="container-installation flex no-js" data-base-url="<?php echo JUri::root(); ?>" style="display:none">
+				<div id="container-installation" class="container-installation flex no-js" data-base-url="<?php echo Uri::root(); ?>" style="display:none">
 					<jdoc:include type="component" />
 				</div>
 			</main>

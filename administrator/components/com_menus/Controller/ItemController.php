@@ -12,7 +12,6 @@ namespace Joomla\Component\Menus\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
@@ -39,9 +38,9 @@ class ItemController extends FormController
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
-		$menuType = Factory::getApplication()->input->getCmd('menutype', $data['menutype'] ?? '');
+		$menuType = $this->input->getCmd('menutype', $data['menutype'] ?? '');
 
 		$menutypeID = 0;
 
@@ -68,7 +67,7 @@ class ItemController extends FormController
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
 		$menutypeID = 0;
 
@@ -272,7 +271,7 @@ class ItemController extends FormController
 		// Set the menutype should we need it.
 		if ($data['menutype'] !== '')
 		{
-			$app->input->set('menutype', $data['menutype']);
+			$this->input->set('menutype', $data['menutype']);
 		}
 
 		// Determine the name of the primary key for the data.

@@ -13,6 +13,7 @@ use DebugBar\DataCollector\AssetProvider;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 use Joomla\Registry\Registry;
@@ -100,8 +101,8 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	public function getAssets(): array
 	{
 		return array(
-			'js' => \JUri::root(true) . '/media/plg_system_debug/widgets/info/widget.min.js',
-			'css' => \JUri::root(true) . '/media/plg_system_debug/widgets/info/widget.min.css',
+			'js' => Uri::root(true) . '/media/plg_system_debug/widgets/info/widget.min.js',
+			'css' => Uri::root(true) . '/media/plg_system_debug/widgets/info/widget.min.css',
 		);
 	}
 

@@ -17,7 +17,6 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('formbehavior.chosen', 'select');
 
 $js = <<< JS
 Joomla.submitbutton = function(task) {

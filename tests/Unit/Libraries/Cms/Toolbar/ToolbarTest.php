@@ -174,11 +174,9 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals($renderedButton, $toolbar->renderButton($button));
 	}
 
-	/**
-	 * @expectedException \UnexpectedValueException
-	 */
 	public function testRenderButtonThrowsUnexpectedValueException()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$button     = ['Separator', 'spacer'];
 		$toolbarFactoryMock = $this->createMock(ToolbarFactoryInterface::class);
 		$toolbarFactoryMock

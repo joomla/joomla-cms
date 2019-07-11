@@ -246,6 +246,7 @@ class MediaListCest
 
 		$I->wantToTest('the upload of a single file using toolbar button.');
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
+		$I->waitForJsOnPageLoad();
 		$I->uploadFile('com_media/' . $testFileName);
 		$I->seeSystemMessage('Item uploaded.');
 		$I->seeContents([$testFileName]);
@@ -267,6 +268,7 @@ class MediaListCest
 
 		$I->wantToTest('that it shows a confirmation dialog when uploading existing file.');
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
+		$I->waitForJsOnPageLoad();
 		$I->uploadFile('com_media/' . $testFileName);
 		$I->seeSystemMessage('Item uploaded.');
 		$I->uploadFile('com_media/' . $testFileName);
@@ -291,7 +293,9 @@ class MediaListCest
 
 		$I->wantToTest('that it is possible to create a new folder using the toolbar button.');
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
+		$I->waitForJsOnPageLoad();
 		$I->click(MediaListPage::$toolbarCreateFolderButton);
+		$I->waitForJsOnPageLoad();
 		$I->seeElement(MediaListPage::$newFolderInputField);
 		$I->seeElement(MediaListPage::$modalConfirmButtonDisabled);
 		$I->fillField(MediaListPage::$newFolderInputField, $testFolderName);
@@ -344,9 +348,11 @@ class MediaListCest
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->uploadFile('com_media/' . $testFileName);
 		$I->waitForElement($testFileItem);
+		$I->waitForJsOnPageLoad();
 		$I->click($testFileItem);
 		$I->click(MediaListPage::$toolbarDeleteButton);
 		$I->waitForElement(MediaListPage::$toolbarModalDeleteButton);
+		$I->waitForJsOnPageLoad();
 		$I->click(MediaListPage::$toolbarModalDeleteButton);
 		$I->seeSystemMessage('Item deleted.');
 		$I->waitForElementNotVisible($testFileItem);
@@ -372,6 +378,7 @@ class MediaListCest
 		$I->click($testFolderItem);
 		$I->click(MediaListPage::$toolbarDeleteButton);
 		$I->waitForElement(MediaListPage::$toolbarModalDeleteButton);
+		$I->waitForJsOnPageLoad();
 		$I->click(MediaListPage::$toolbarModalDeleteButton);
 		$I->seeSystemMessage('Item deleted.');
 		$I->waitForElementNotVisible($testFolderItem);
@@ -583,6 +590,7 @@ class MediaListCest
 		$I->waitForMediaLoaded();
 		$I->doubleClick(MediaListPage::item('powered_by.png'));
 		$I->waitForElement(MediaListPage::$previewModal);
+		$I->waitForJsOnPageLoad();
 		$I->seeElement(MediaListPage::$previewModalCloseButton);
 		$I->click(MediaListPage::$previewModalCloseButton);
 		$I->dontSeeElement(MediaListPage::$previewModal);
@@ -602,6 +610,7 @@ class MediaListCest
 		$I->waitForMediaLoaded();
 		$I->doubleClick(MediaListPage::item('powered_by.png'));
 		$I->waitForElement(MediaListPage::$previewModal);
+		$I->waitForJsOnPageLoad();
 		$I->pressKey('body', \Facebook\WebDriver\WebDriverKeys::ESCAPE);
 		$I->dontSeeElement(MediaListPage::$previewModal);
 	}

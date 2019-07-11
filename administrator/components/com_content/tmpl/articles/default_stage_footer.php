@@ -8,9 +8,8 @@
  */
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('script', 'com_content/admin-articles-default-stage-footer.js', ['version' => 'auto', 'relative' => true]);
 ?>

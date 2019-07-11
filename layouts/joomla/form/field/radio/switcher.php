@@ -67,7 +67,7 @@ $input    = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 	<legend class="switcher__legend">
 		<?php echo $label; ?>
 	</legend>
-	<div class="switcher" role="switch">
+	<div class="switcher">
 	<?php foreach ($options as $i => $option) : ?>
 		<?php
 		// Initialize some option attributes.

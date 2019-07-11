@@ -65,8 +65,7 @@ class MenusController extends BaseController
 		// Check for request forgeries
 		$this->checkToken();
 
-		$user = Factory::getUser();
-		$app  = Factory::getApplication();
+		$user = $this->app->getIdentity();
 		$cids = (array) $this->input->get('cid', array(), 'array');
 
 		if (count($cids) < 1)
@@ -82,7 +81,7 @@ class MenusController extends BaseController
 				{
 					// Prune items that you can't change.
 					unset($cids[$i]);
-					$app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'error');
+					$this->app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'error');
 				}
 			}
 

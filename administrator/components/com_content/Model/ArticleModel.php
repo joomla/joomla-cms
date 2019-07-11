@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -21,6 +22,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Category;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Workflow\Workflow;
@@ -488,7 +490,7 @@ class ArticleModel extends AdminModel
 
 			if (!empty($item->id))
 			{
-				$item->tags = new \JHelperTags;
+				$item->tags = new TagsHelper;
 				$item->tags->getTagIds($item->id, 'com_content.article');
 			}
 		}
@@ -526,6 +528,9 @@ class ArticleModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
+		$app  = Factory::getApplication();
+		$user = $app->getIdentity();
+
 		// Get the form.
 		$form = $this->loadForm('com_content.article', 'article', array('control' => 'jform', 'load_data' => $loadData));
 
@@ -534,7 +539,7 @@ class ArticleModel extends AdminModel
 			return false;
 		}
 
-		$jinput = Factory::getApplication()->input;
+		$jinput = $app->input;
 
 		/*
 		 * The front end calls this model and uses a_id to avoid id clashes so we need to check for that first.
@@ -549,7 +554,20 @@ class ArticleModel extends AdminModel
 			$form->setFieldAttribute('catid', 'action', 'core.edit');
 
 			// Existing record. Can only edit own articles in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.edit.own');
+			if ($app->isClient('administrator'))
+			{
+				$form->setFieldAttribute('catid', 'action', 'core.edit.own');
+			}
+			else
+			// Existing record. We can't edit the category in frontend if not edit.state.
+			{
+				if ($id != 0 && (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
+					|| ($id == 0 && !$user->authorise('core.edit.state', 'com_content')))
+				{
+					$form->setFieldAttribute('catid', 'readonly', 'true');
+					$form->setFieldAttribute('catid', 'filter', 'unset');
+				}
+			}
 
 			$table = $this->getTable();
 
@@ -607,8 +625,6 @@ class ArticleModel extends AdminModel
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
 
-		$user = Factory::getUser();
-
 		// Check for existing article.
 		// Modify the form based on Edit State access controls.
 		if ($id != 0 && (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
@@ -631,7 +647,6 @@ class ArticleModel extends AdminModel
 		}
 
 		// Prevent messing with article language and category when editing existing article with associations
-		$app = Factory::getApplication();
 		$assoc = Associations::isEnabled();
 
 		// Check if article is associated
@@ -903,7 +918,7 @@ class ArticleModel extends AdminModel
 					$data['alias'] = \JFilterOutput::stringURLSafe($data['title']);
 				}
 
-				$table = \JTable::getInstance('Content', 'JTable');
+				$table = Table::getInstance('Content', 'JTable');
 
 				if ($table->load(array('alias' => $data['alias'], 'catid' => $data['catid'])))
 				{
@@ -1085,7 +1100,7 @@ class ArticleModel extends AdminModel
 	}
 
 	/**
-	 * Allows preprocessing of the \JForm object.
+	 * Allows preprocessing of the Form object.
 	 *
 	 * @param   Form    $form   The form object
 	 * @param   array   $data   The data to be merged into the form object
@@ -1095,7 +1110,7 @@ class ArticleModel extends AdminModel
 	 *
 	 * @since   3.0
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		if ($this->canCreateCategory())
 		{
@@ -1343,10 +1358,10 @@ class ArticleModel extends AdminModel
 		$context = $this->option . '.' . $this->name;
 
 		// Include the plugins for the change of stage event.
-		\JPluginHelper::importPlugin($this->events_map['change_state']);
+		PluginHelper::importPlugin($this->events_map['change_state']);
 
 		// Trigger the change stage event.
-		Factory::getApplication()->triggerEvent($this->event_change_state, [$context, [$pk], $transition_id]);
+		Factory::getApplication()->triggerEvent($this->event_change_state, [$context, [$pk], $workflow->getConditionForTransition($transition_id)]);
 
 		return true;
 	}
