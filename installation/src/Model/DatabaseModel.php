@@ -411,7 +411,9 @@ class DatabaseModel extends BaseInstallationModel
 			}
 			else
 			{
-				throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db->getMinimum(), $db_version));
+				throw new \RuntimeException(
+					Text::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db->getMinimum(), $db_version)
+				);
 			}
 		}
 
@@ -674,7 +676,10 @@ class DatabaseModel extends BaseInstallationModel
 		{
 			if (!$installer->refreshManifestCache($extension->extension_id))
 			{
-				Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $extension->name), 'error');
+				Factory::getApplication()->enqueueMessage(
+					Text::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $extension->name),
+					'error'
+				);
 
 				return false;
 			}

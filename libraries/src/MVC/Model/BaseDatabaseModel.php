@@ -108,6 +108,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		if ($factory)
 		{
 			$this->setMVCFactory($factory);
+
 			return;
 		}
 
