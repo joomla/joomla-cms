@@ -17,7 +17,7 @@ HTMLHelper::_('behavior.formvalidator');
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_users&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="level-form" class="form-validate">
-	<fieldset>
+	<fieldset class="options-fieldset option-fieldset-half mt-4">
 		<legend><?php echo Text::_('COM_USERS_LEVEL_DETAILS'); ?></legend>
 		<div class="control-group">
 			<div class="control-label">
@@ -29,7 +29,7 @@ HTMLHelper::_('behavior.formvalidator');
 		</div>
 	</fieldset>
 
-	<fieldset>
+	<fieldset class="options-fieldset option-fieldset-full">
 		<legend><?php echo Text::_('COM_USERS_USER_GROUPS_HAVING_ACCESS'); ?></legend>
 		<?php echo HTMLHelper::_('access.usergroups', 'jform[rules]', $this->item->rules, true); ?>
 	</fieldset>
