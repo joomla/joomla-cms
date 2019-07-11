@@ -26,9 +26,7 @@ $sql   = $fieldParams->get('query', '');
 $bindNames = $query->bindArray($value, ParameterType::STRING);
 
 // Run the query with a having condition because it supports aliases
-$sql .= ' HAVING VALUE IN (' . implode(',', $bindNames) . ')';
-
-$query->setQuery($sql);
+$query->setQuery($sql . ' HAVING VALUE IN (' . implode(',', $bindNames) . ')');
 
 try
 {
@@ -37,7 +35,8 @@ try
 catch (Exception $e)
 {
 	// If the query failed, we fetch all elements
-	$query->setQuery($fieldParams->get('query', ''));
+	$query->clear()
+		->setQuery($sql);
 	$db->setQuery($query);
 	$items = $db->loadObjectlist();
 }
