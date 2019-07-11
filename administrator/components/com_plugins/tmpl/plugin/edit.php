@@ -111,33 +111,37 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 				</div>
 			</div>
 			<div class="col-md-3">
-				<?php
-				// Set main fields.
-				$this->fields = array(
-					'enabled',
-					'access',
-					'ordering',
-					'folder',
-					'element',
-					'note',
-				); ?>
-				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
-				<div class="form-vertical form-no-margin">
-					<div class="form-group">
-						<?php echo $this->form->getLabel('ordering'); ?>
-						<?php echo $this->form->getInput('ordering'); ?>
-					</div>
-					<div class="form-group">
-						<?php echo $this->form->getLabel('folder'); ?>
-						<?php echo $this->form->getInput('folder'); ?>
-					</div>
-					<div class="form-group">
-						<?php echo $this->form->getLabel('element'); ?>
-						<?php echo $this->form->getInput('element'); ?>
-					</div>
-					<div class="control-group">
-						<?php echo $this->form->getLabel('note'); ?>
-						<?php echo $this->form->getInput('note'); ?>
+				<div class="card">
+					<div class="card-body">
+						<?php
+						// Set main fields.
+						$this->fields = array(
+							'enabled',
+							'access',
+							'ordering',
+							'folder',
+							'element',
+							'note',
+						); ?>
+						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
+						<div class="form-vertical form-no-margin">
+							<div class="form-group">
+								<?php echo $this->form->getLabel('ordering'); ?>
+								<?php echo $this->form->getInput('ordering'); ?>
+							</div>
+							<div class="form-group">
+								<?php echo $this->form->getLabel('folder'); ?>
+								<?php echo $this->form->getInput('folder'); ?>
+							</div>
+							<div class="form-group">
+								<?php echo $this->form->getLabel('element'); ?>
+								<?php echo $this->form->getInput('element'); ?>
+							</div>
+							<div class="control-group">
+								<?php echo $this->form->getLabel('note'); ?>
+								<?php echo $this->form->getInput('note'); ?>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
