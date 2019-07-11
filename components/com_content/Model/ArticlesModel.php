@@ -251,7 +251,8 @@ class ArticlesModel extends ListModel
 
 		// Join over the categories.
 		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias,' .
-				'c.language AS category_language')
+			'c.language AS category_language'
+		)
 			->select('c.published, c.published AS parents_published, c.lft')
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
@@ -263,14 +264,16 @@ class ArticlesModel extends ListModel
 
 		// Join over the categories to get parent category titles
 		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias,' .
-				'parent.language as parent_language')
+			'parent.language as parent_language'
+		)
 			->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
 
 		if (PluginHelper::isEnabled('content', 'vote'))
 		{
 			// Join on voting table
 			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
-							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
+							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count'
+			)
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 		}
 
@@ -292,7 +295,8 @@ class ArticlesModel extends ListModel
 			 * Or categogy is published then article has to be archived.
 			 */
 			$query->where('((c.published = 2 AND ws.condition > ' . (int) ContentComponent::CONDITION_UNPUBLISHED .
-					') OR (c.published = 1 AND ws.condition = ' . (int) ContentComponent::CONDITION_ARCHIVED . '))');
+				') OR (c.published = 1 AND ws.condition = ' . (int) ContentComponent::CONDITION_ARCHIVED . '))'
+			);
 		}
 		elseif (is_numeric($condition))
 		{
