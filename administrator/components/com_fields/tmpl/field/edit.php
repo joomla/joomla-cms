@@ -34,19 +34,22 @@ HTMLHelper::_('script', 'com_fields/admin-field-edit.js', ['version' => 'auto', 
 	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_FIELDS_VIEW_FIELD_FIELDSET_GENERAL', true)); ?>
 	<div class="row">
 		<div class="col-md-9">
-			<?php echo $this->form->renderField('type'); ?>
-			<?php echo $this->form->renderField('name'); ?>
-			<?php echo $this->form->renderField('label'); ?>
-			<?php echo $this->form->renderField('description'); ?>
-			<?php echo $this->form->renderField('required'); ?>
-			<?php echo $this->form->renderField('default_value'); ?>
+			<div class="card">
+				<div class="card-body">
+				<?php echo $this->form->renderField('type'); ?>
+				<?php echo $this->form->renderField('name'); ?>
+				<?php echo $this->form->renderField('label'); ?>
+				<?php echo $this->form->renderField('description'); ?>
+				<?php echo $this->form->renderField('required'); ?>
+				<?php echo $this->form->renderField('default_value'); ?>
 
-			<?php foreach ($this->form->getFieldsets('fieldparams') as $name => $fieldSet) : ?>
-				<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-					<?php echo $field->renderField(); ?>
+				<?php foreach ($this->form->getFieldsets('fieldparams') as $name => $fieldSet) : ?>
+					<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+						<?php echo $field->renderField(); ?>
+					<?php endforeach; ?>
 				<?php endforeach; ?>
-			<?php endforeach; ?>
-
+				</div>
+			</div>
 		</div>
 		<div class="col-md-3">
 			<div class="card">
@@ -77,7 +80,10 @@ HTMLHelper::_('script', 'com_fields/admin-field-edit.js', ['version' => 'auto', 
 	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
 	<div class="row">
 		<div class="col-md-6">
+			<fieldset id="fieldset-publishingdata" class="options-fieldset option-fieldset-full">
+				<legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
 			<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+			</fieldset>
 		</div>
 		<div class="col-md-6">
 		</div>
@@ -85,7 +91,10 @@ HTMLHelper::_('script', 'com_fields/admin-field-edit.js', ['version' => 'auto', 
 	<?php echo HTMLHelper::_('uitab.endTab'); ?>
 	<?php if ($this->canDo->get('core.admin')) : ?>
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'rules', Text::_('JGLOBAL_ACTION_PERMISSIONS_LABEL', true)); ?>
-		<?php echo $this->form->getInput('rules'); ?>
+			<fieldset id="fieldset-rules" class="options-fieldset option-fieldset-full">
+				<legend><?php echo Text::_('JGLOBAL_ACTION_PERMISSIONS_LABEL'); ?></legend>
+				<?php echo $this->form->getInput('rules'); ?>
+			</fieldset>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 	<?php endif; ?>
 	<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
