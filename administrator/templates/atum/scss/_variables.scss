@@ -109,7 +109,7 @@ $border-radius:                    none;
 $border-radius-s:                  .2rem;
 $input-btn-padding-y:              .6rem;
 $input-btn-padding-x:              1rem;
-$input-max-width:                  15rem;
+$input-max-width:                  100%;
 $btn-disabled-opacity:             0.4;
 
 // Header
@@ -138,6 +138,7 @@ $display1-size:                    1rem;
 $display2-size:                    .875rem;
 $content-font-size:                0.875rem;
 $label-font-size:                  0.85rem;
+$badge-font-size:                  0.75rem;
 $fa-css-prefix:                    fa;
 $fa-font-path:                     "../../../../media/vendor/fontawesome-free/webfonts";
 $roboto-font-path:                 "../../../../media/vendor/roboto-fontface/fonts";
@@ -180,8 +181,6 @@ $table-border-width:               1px;
 $table-head-bg:                    transparent;
 
 // Cards
-$card-bg:                          transparent;
-$card-cap-bg:                      transparent;
 $card-border-width:                0;
 $card-border-color:                transparent;
 

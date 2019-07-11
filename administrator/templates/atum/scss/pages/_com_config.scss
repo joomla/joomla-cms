@@ -1,24 +1,22 @@
 // com_config
 
-@import "../variables";
-
 .com_config {
 
-  .content {
-    background-color: transparent;
-  }
+	.control-group {
+		.controls,
+		.switcher__legend {
+			margin-left: 0;
+			float: none;
+		}
+	}
 
-  .tab-content {
-    background-color: $white;
-    padding: 1rem;
-  }
+	#fieldset-permissions {
+		grid-template-columns: 1fr;
+	}
 
-  [class^='col-'] {
-
-    > fieldset {
-      margin-bottom: 2rem;
-    }
-  }
+	.tab-description {
+		grid-column: 1 / 3;
+	}
 
   .rule-notes,
   .filter-notes {

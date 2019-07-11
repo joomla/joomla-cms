@@ -29,31 +29,25 @@
 
 
 .layout-edit {
-	.form-group {
-		margin-bottom: 0;
-		background-color: var(--white-offset);
-		padding: 0.6rem 1rem 0.8rem;
-		box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+	.control-group {
+		min-width: (100% / 3);
 	}
-
-	.form-control {
-		background-color: var(--white-offset);
-		box-shadow: $atum-box-shadow;
+	.control-label {
+		float: none;
+		width: 100%;
 	}
-
-	.field-spacer {
-		background-color: transparent;
-		box-shadow: none;
-		padding: 0.8rem 1rem 0.8rem;
+	.controls {
+		margin-left: 0;
+	}
+	.switcher__legend {
+		margin-left: 0;
+		float: none;
 	}
 
 	.title-alias {
 		box-shadow: $atum-box-shadow;
 		background-color: var(--white-offset);
 		margin: 0 0 2rem !important;
-		.col-lg-6 {
-			padding: 0;
-		}
 		.form-group {
 			box-shadow: none;
 		}

@@ -27,7 +27,7 @@ $input = $app->input;
 $assoc = Associations::isEnabled();
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
-$this->ignore_fieldsets = array('details', 'item_associations', 'jmetadata');
+$this->ignore_fieldsets = ['details', 'item_associations', 'jmetadata'];
 $this->useCoreUI = true;
 
 // In case of modal
@@ -46,31 +46,35 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', empty($this->item->id) ? Text::_('COM_CONTACT_NEW_CONTACT') : Text::_('COM_CONTACT_EDIT_CONTACT')); ?>
 		<div class="row">
 			<div class="col-md-9">
-				<div class="row">
-					<div class="col-md-6">
-						<?php echo $this->form->renderField('user_id'); ?>
-						<?php echo $this->form->renderField('image'); ?>
-						<?php echo $this->form->renderField('con_position'); ?>
-						<?php echo $this->form->renderField('email_to'); ?>
-						<?php echo $this->form->renderField('address'); ?>
-						<?php echo $this->form->renderField('suburb'); ?>
-						<?php echo $this->form->renderField('state'); ?>
-						<?php echo $this->form->renderField('postcode'); ?>
-						<?php echo $this->form->renderField('country'); ?>
-					</div>
-					<div class="col-md-6">
-						<?php echo $this->form->renderField('telephone'); ?>
-						<?php echo $this->form->renderField('mobile'); ?>
-						<?php echo $this->form->renderField('fax'); ?>
-						<?php echo $this->form->renderField('webpage'); ?>
-						<?php echo $this->form->renderField('sortname1'); ?>
-						<?php echo $this->form->renderField('sortname2'); ?>
-						<?php echo $this->form->renderField('sortname3'); ?>
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-6">
+								<?php echo $this->form->renderField('user_id'); ?>
+								<?php echo $this->form->renderField('image'); ?>
+								<?php echo $this->form->renderField('con_position'); ?>
+								<?php echo $this->form->renderField('email_to'); ?>
+								<?php echo $this->form->renderField('address'); ?>
+								<?php echo $this->form->renderField('suburb'); ?>
+								<?php echo $this->form->renderField('state'); ?>
+								<?php echo $this->form->renderField('postcode'); ?>
+								<?php echo $this->form->renderField('country'); ?>
+							</div>
+							<div class="col-md-6">
+								<?php echo $this->form->renderField('telephone'); ?>
+								<?php echo $this->form->renderField('mobile'); ?>
+								<?php echo $this->form->renderField('fax'); ?>
+								<?php echo $this->form->renderField('webpage'); ?>
+								<?php echo $this->form->renderField('sortname1'); ?>
+								<?php echo $this->form->renderField('sortname2'); ?>
+								<?php echo $this->form->renderField('sortname3'); ?>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-3">
-				<div class="card card-light">
+				<div class="card">
 					<div class="card-body">
 						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 					</div>
@@ -82,8 +86,10 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'misc', Text::_('JGLOBAL_FIELDSET_MISCELLANEOUS')); ?>
 		<div class="row">
 			<div class="col-md-12">
-				<?php echo $this->form->getLabel('misc'); ?>
-				<?php echo $this->form->getInput('misc'); ?>
+				<fieldset id="fieldset-misc" class="options-fieldset option-fieldset-full">
+					<legend><?php echo $this->form->getField('misc')->title; ?></legend>
+					<?php echo $this->form->getInput('misc'); ?>
+				</fieldset>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
@@ -93,10 +99,13 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
 		<div class="row">
 			<div class="col-md-6">
-				<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+				<fieldset id="fieldset-publishingdata" class="options-fieldset option-fieldset-full">
+					<legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
+					<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+				</fieldset>
 			</div>
 			<div class="col-md-6">
-				<?php echo LayoutHelper::render('joomla.edit.metadata', $this); ?>
+				<?php echo $this->loadTemplate('metadata'); ?>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>

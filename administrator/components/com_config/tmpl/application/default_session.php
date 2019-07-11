@@ -14,4 +14,6 @@ defined('_JEXEC') or die;
 
 $this->name = Text::_('COM_CONFIG_SESSION_SETTINGS');
 $this->fieldsname = 'session';
+$this->formclass = 'options-fieldset option-fieldset-half';
+
 echo LayoutHelper::render('joomla.content.options_default', $this);
