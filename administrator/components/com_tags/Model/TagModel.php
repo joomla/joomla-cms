@@ -397,7 +397,7 @@ class TagModel extends AdminModel
 	public function saveorder($idArray = null, $lft_array = null)
 	{
 		// Get an instance of the table object.
-		// @var \Joomla\Component\Tags\Administrator\Table\Tag $table
+		/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
 
 		$table = $this->getTable();
 
