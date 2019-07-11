@@ -65,7 +65,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Should we show a captcha form for the submission of the contact request?
 	 *
-	 * @var   bool
+	 * @var   boolean
 	 * @since 3.6.3
 	 */
 	protected $captchaEnabled = false;
