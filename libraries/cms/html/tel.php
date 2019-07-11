@@ -28,7 +28,7 @@ abstract class JHtmlTel
 	 *
 	 * @return  string  The formatted telephone number.
 	 *
-	 * @see     JFormRuleTel
+	 * @see     \Joomla\CMS\Form\Rule\TelRule
 	 * @since   1.6
 	 */
 	public static function tel($number, $displayplan)

@@ -723,7 +723,7 @@ class ArticleModel extends AdminModel
 	 *
 	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
 	 *
-	 * @see     JFormRule
+	 * @see     \Joomla\CMS\Form\FormRule
 	 * @see     JFilterInput
 	 * @since   3.7.0
 	 */

@@ -23,7 +23,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @see    JForm
  * @see    JFormField
- * @see    JFormRule
+ * @see    \Joomla\CMS\Form\FormRule
  * @since  3.2
  */
 abstract class FormModel extends BaseForm
@@ -261,7 +261,7 @@ abstract class FormModel extends BaseForm
 	 *
 	 * @return  mixed  Array of filtered data if valid, false otherwise.
 	 *
-	 * @see     JFormRule
+	 * @see     \Joomla\CMS\Form\FormRule
 	 * @see     JFilterInput
 	 * @since   3.2
 	 */
