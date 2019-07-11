@@ -40,14 +40,14 @@ class PlgPrivacyConsents extends PrivacyPlugin
 		$domain = $this->createDomain('consents', 'joomla_consent_data');
 		$db     = $this->db;
 
-		$query = $this->db->getQuery(true)
+		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__privacy_consents'))
 			->where($db->quoteName('user_id') . ' = :id')
 			->order($db->quoteName('created') . ' ASC')
 			->bind(':id', $user->id, ParameterType::INTEGER);
 
-		$items = $this->db->setQuery($query)->loadAssocList();
+		$items = $db->setQuery($query)->loadAssocList();
 
 		foreach ($items as $item)
 		{
