@@ -93,7 +93,7 @@ class ListView extends HtmlView
 	/**
 	 * The flag which determine whether we want to show batch button
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	protected $supportsBatch = true;
 
@@ -152,7 +152,7 @@ class ListView extends HtmlView
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  void
-     *
+	 *
 	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
