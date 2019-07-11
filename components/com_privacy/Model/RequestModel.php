@@ -22,6 +22,7 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
 use Joomla\Component\Messages\Administrator\Model\MessageModel;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 use Joomla\Database\Exception\ExecutionFailureException;
@@ -276,7 +277,7 @@ class RequestModel extends AdminModel
 	/**
 	 * Method to fetch an instance of the action log model.
 	 *
-	 * @return  void
+	 * @return  ActionlogModel
 	 *
 	 * @since   4.0.0
 	 */

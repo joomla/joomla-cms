@@ -53,16 +53,14 @@ class CategoryModel extends ListModel
 	/**
 	 * The category that applies.
 	 *
-	 * @access	protected
-	 * @var		object
+	 * @var	   object
 	 */
 	protected $_category = null;
 
 	/**
 	 * The list of categories.
 	 *
-	 * @access	protected
-	 * @var		array
+	 * @var	   array
 	 */
 	protected $_categories = null;
 

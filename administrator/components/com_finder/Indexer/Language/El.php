@@ -731,7 +731,6 @@ class El extends Language
 			}
 		}
 
-
 		// Step 5j
 		$re = '/^(.+?)(ΗΣΕ|ΗΣΟΥ|ΗΣΑ)$/';
 
