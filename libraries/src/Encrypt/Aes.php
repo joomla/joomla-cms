@@ -11,7 +11,7 @@ namespace Joomla\CMS\Encrypt;
 
 use Joomla\CMS\Encrypt\AES\AesInterface;
 use Joomla\CMS\Encrypt\AES\Mcrypt;
-use Joomla\CMS\Encrypt\AES\Openssl;
+use Joomla\CMS\Encrypt\AES\OpenSSL;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -53,7 +53,7 @@ class Aes
 	{
 		if ($priority == 'openssl')
 		{
-			$this->adapter = new Openssl;
+			$this->adapter = new OpenSSL;
 			
 			if (!$this->adapter->isSupported())
 			{
@@ -66,7 +66,7 @@ class Aes
 			
 			if (!$this->adapter->isSupported())
 			{
-				$this->adapter = new Openssl;
+				$this->adapter = new OpenSSL;
 			}
 		}
 
@@ -170,7 +170,7 @@ class Aes
 
 		if (!$adapter->isSupported())
 		{
-			$adapter = new Openssl;
+			$adapter = new OpenSSL;
 		}
 
 		if (!$adapter->isSupported())
