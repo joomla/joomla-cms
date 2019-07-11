@@ -23,6 +23,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface
 	/**
 	 * Files with Asset info. File path should be relative.
 	 *
+	 * @var    array
 	 * @example of data file:
 	 *
 	 * {
@@ -61,8 +62,6 @@ class WebAssetRegistry implements WebAssetRegistryInterface
 	 *			},
 	 *		]
 	 *	}
-	 *
-	 * @var    array
 	 *
 	 * @since  4.0.0
 	 */
@@ -147,7 +146,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface
 	 *
 	 * @param   string  $name  Asset name
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
@@ -168,8 +167,8 @@ class WebAssetRegistry implements WebAssetRegistryInterface
 	 */
 	public function createAsset(string $name, array $data = []): WebAssetItem
 	{
-		$nameSpace = array_key_exists('namespace', $data) ?  $data['namespace'] : __NAMESPACE__ . '\\AssetItem';
-		$className = array_key_exists('class', $data) ?  $data['class'] : null;
+		$nameSpace = array_key_exists('namespace', $data) ? $data['namespace'] : __NAMESPACE__ . '\\AssetItem';
+		$className = array_key_exists('class', $data) ? $data['class'] : null;
 
 		if ($className && class_exists($nameSpace . '\\' . $className))
 		{

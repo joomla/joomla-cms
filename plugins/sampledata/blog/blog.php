@@ -115,7 +115,7 @@ class PlgSampledataBlog extends CMSPlugin
 
 		// Detect language to be used.
 		$language   = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : '*';
-		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';		
+		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
 		$workflow_id = 1;
 
