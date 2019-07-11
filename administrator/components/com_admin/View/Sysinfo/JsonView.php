@@ -16,7 +16,7 @@ use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\AbstractView;
-use Joomla\Component\Admin\Administrator\Model\SysInfoModel;
+use Joomla\Component\Admin\Administrator\Model\SysinfoModel;
 
 /**
  * Sysinfo View class for the Admin component
@@ -64,7 +64,7 @@ class JsonView extends AbstractView
 	 */
 	protected function getLayoutData(): array
 	{
-		/** @var SysInfoModel $model */
+		/** @var SysinfoModel $model */
 		$model = $this->getModel();
 
 		return [

@@ -54,8 +54,7 @@ class RegistrationController extends BaseController
 			return false;
 		}
 
-		// @var \Joomla\Component\Users\Site\Model\RegistrationModel $model
-
+		/** @var \Joomla\Component\Users\Site\Model\RegistrationModel $model */
 		$model = $this->getModel('Registration', 'Site');
 		$token = $input->getAlnum('token');
 
@@ -168,8 +167,7 @@ class RegistrationController extends BaseController
 
 		$app   = $this->app;
 
-		// @var \Joomla\Component\Users\Site\Model\RegistrationModel $model
-
+		/** @var \Joomla\Component\Users\Site\Model\RegistrationModel $model */
 		$model = $this->getModel('Registration', 'Site');
 
 		// Get the user data.
