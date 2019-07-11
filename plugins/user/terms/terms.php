@@ -167,9 +167,7 @@ class PlgUserTerms extends CMSPlugin
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
 		);
 
-		/*
-		 * @var ActionlogsModelActionlog $model
-		 */
+		/** @var ActionlogsModelActionlog $model */
 		$model = BaseDatabaseModel::getInstance('Actionlog', 'ActionlogsModel');
 		$model->addLog(array($message), 'PLG_USER_TERMS_LOGGING_CONSENT_TO_TERMS', 'plg_user_terms', $userId);
 	}
