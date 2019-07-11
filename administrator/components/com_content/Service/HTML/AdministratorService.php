@@ -106,6 +106,11 @@ class AdministratorService
 	 */
 	public function featured($value = 0, $i = 0, $canChange = true)
 	{
+		if ($i === 0)
+		{
+			throw new \InvalidArgumentException('$i is not allowed to be 0');
+		}
+
 		// Array of image, task, title, action
 		$states = array(
 			0 => array('unfeatured', 'articles.featured', 'COM_CONTENT_UNFEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
