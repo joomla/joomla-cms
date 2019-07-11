@@ -95,7 +95,7 @@ abstract class Menu
 			}
 
 			// Exclude Mass Mail if disabled in global configuration
-			if ($item->scope === 'massmail' && ($this->application->get('massmailoff', 0) == 1))
+			if ($item->scope === 'massmail' && ($app->get('massmailoff', 0) == 1))
 			{
 				$parent->removeChild($item);
 				continue;
