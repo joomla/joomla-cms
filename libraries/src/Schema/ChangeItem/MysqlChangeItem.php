@@ -40,7 +40,9 @@ class MysqlChangeItem extends ChangeItem
 	protected function buildCheckQuery()
 	{
 		// Initialize fields in case we can't create a check query
-		$this->checkStatus = -1; // change status to skipped
+
+		// change status to skipped
+		$this->checkStatus = -1;
 		$result = null;
 
 		// Remove any newlines
@@ -181,7 +183,7 @@ class MysqlChangeItem extends ChangeItem
 				{
 					$type = $this->fixInteger($wordArray[6], $wordArray[7]);
 				}
-				
+
 				// Detect changes in NULL and in DEFAULT column attributes
 				$changesArray = array_slice($wordArray, 6);
 				$defaultCheck = $this->checkDefault($changesArray, $type);
@@ -367,6 +369,7 @@ class MysqlChangeItem extends ChangeItem
 	{
 		// Skip types that do not support default values
 		$type = strtolower($type);
+
 		if (substr($type, -4) === 'text' || substr($type, -4) === 'blob')
 		{
 			return false;
@@ -374,7 +377,7 @@ class MysqlChangeItem extends ChangeItem
 
 		// Find DEFAULT keyword
 		$index = array_search('default', array_map('strtolower', $changesArray));
-	
+
 		// Create the check
 		if ($index !== false)
 		{
