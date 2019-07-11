@@ -11,6 +11,7 @@ namespace Joomla\Module\Submenu\Administrator\Menu;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\MenuItem;
@@ -91,6 +92,73 @@ abstract class Menu
 
 				$parent->removeChild($item);
 				continue;
+			}
+
+			// Exclude Mass Mail if disabled in global configuration
+			if ($item->scope === 'massmail' && ($app->get('massmailoff', 0) == 1))
+			{
+				$parent->removeChild($item);
+				continue;
+			}
+
+			if ($item->element === 'com_fields')
+			{
+				parse_str($item->link, $query);
+
+				// Only display Fields menus when enabled in the component
+				$createFields = null;
+
+				if (isset($query['context']))
+				{
+					$createFields = ComponentHelper::getParams(strstr($query['context'], '.', true))->get('custom_fields_enable', 1);
+				}
+
+				if (!$createFields)
+				{
+					$parent->removeChild($item);
+					continue;
+				}
+			}
+			elseif ($item->element === 'com_workflow')
+			{
+				parse_str($item->link, $query);
+
+				// Only display Workflow menus when enabled in the component
+				$workflow = null;
+
+				if (isset($query['extension']))
+				{
+					$workflow = ComponentHelper::getParams($query['extension'])->get('workflows_enable', 1);
+				}
+
+				if (!$workflow)
+				{
+					$parent->removeChild($item);
+					continue;
+				}
+
+				list($assetName) = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
+			}
+			// Special case for components which only allow super user access
+			elseif (in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin'))
+			{
+				$parent->removeChild($item);
+				continue;
+			}
+			elseif ($item->element === 'com_joomlaupdate' && !$user->authorise('core.admin'))
+			{
+				$parent->removeChild($item);
+				continue;
+			}
+			elseif ($item->element === 'com_admin')
+			{
+				parse_str($item->link, $query);
+
+				if (isset($query['view']) && $query['view'] === 'sysinfo' && !$user->authorise('core.admin'))
+				{
+					$parent->removeChild($item);
+					continue;
+				}
 			}
 
 			if ($item->hasChildren())
