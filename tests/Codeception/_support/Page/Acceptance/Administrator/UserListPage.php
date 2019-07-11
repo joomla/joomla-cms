@@ -77,7 +77,7 @@ class UserListPage extends AdminListPage
 	/**
 	 * Locator for the success message
 	 *
-	 * @var    array
+	 * @var    string
 	 * @since  3.7.3
 	 */
 	public static $successMessage = 'User saved.';
