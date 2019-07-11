@@ -2,7 +2,7 @@
   "settings": {
     "browsers": [
       "last 1 version",
-      "not ie < 11"
+      "not ie 11"
     ],
     "vendors": {
       "awesomplete": {

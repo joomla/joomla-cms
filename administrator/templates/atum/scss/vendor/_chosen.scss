@@ -19,8 +19,6 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
     background-size: $custom-select-bg-size;
     border: $custom-select-border-width solid $custom-select-border-color;
     box-shadow: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
     @if $enable-rounded {
       border-radius: $custom-select-border-radius;
     } @else {

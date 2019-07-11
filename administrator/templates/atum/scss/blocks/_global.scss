@@ -46,8 +46,7 @@ button,
 input,
 textarea {
 
-  &:focus,
-  &:-moz-focusring {
+  &:focus {
     outline: auto 2px var(--focus);
   }
 }
