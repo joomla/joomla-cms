@@ -134,26 +134,30 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				</div>
 			</div>
 			<div class="col-md-3">
-				<?php
-				// Set main fields.
-				$this->fields = array(
-					'showtitle',
-					'position',
-					'published',
-					'publish_up',
-					'publish_down',
-					'access',
-					'ordering',
-					'language',
-					'note'
-				);
+				<div class="card">
+					<div class="card-body">
+					<?php
+					// Set main fields.
+					$this->fields = array(
+						'showtitle',
+						'position',
+						'published',
+						'publish_up',
+						'publish_down',
+						'access',
+						'ordering',
+						'language',
+						'note'
+					);
 
-				?>
-				<?php if ($this->item->client_id == 0) : ?>
-					<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
-				<?php else : ?>
-					<?php echo LayoutHelper::render('joomla.edit.admin_modules', $this); ?>
-				<?php endif; ?>
+					?>
+					<?php if ($this->item->client_id == 0) : ?>
+						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
+					<?php else : ?>
+						<?php echo LayoutHelper::render('joomla.edit.admin_modules', $this); ?>
+					<?php endif; ?>
+					</div>
+				</div>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
@@ -166,7 +170,10 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php if ($this->item->client_id == 0) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'assignment', Text::_('COM_MODULES_MENU_ASSIGNMENT')); ?>
-			<?php echo $this->loadTemplate('assignment'); ?>
+			<fieldset id="fieldset-assignment" class="options-fieldset option-fieldset-full">
+				<legend><?php echo Text::_('COM_MODULES_MENU_ASSIGNMENT'); ?></legend>
+				<?php echo $this->loadTemplate('assignment'); ?>
+			</fieldset>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
@@ -178,7 +185,10 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_MODULES_FIELDSET_RULES')); ?>
-			<?php echo $this->form->getInput('rules'); ?>
+			<fieldset id="fieldset-permissions" class="options-fieldset option-fieldset-full">
+				<legend><?php echo Text::_('COM_MODULES_FIELDSET_RULES'); ?></legend>
+				<?php echo $this->form->getInput('rules'); ?>
+			</fieldset>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
