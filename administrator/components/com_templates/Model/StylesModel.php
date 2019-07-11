@@ -128,11 +128,11 @@ class StylesModel extends ListModel
 
 		// Join on menus.
 		$query->select('COUNT(' . $db->quoteName('m.template_style_id') . ') AS assigned')
-			->leftJoin($db->quoteName('#__menu', 'm'), $db->quoteName('m.template_style_id') . ' = ' . $db->quoteName('a.id'))
+			->join('LEFT', $db->quoteName('#__menu', 'm') . ' ON ' . $db->quoteName('m.template_style_id') . ' = ' . $db->quoteName('a.id'))
 			->group($db->quoteName(['a.id', 'a.template', 'a.title', 'a.home', 'a.client_id', 'l.title', 'l.image', 'l.sef', 'e.extension_id']));
 
 		// Join over the language.
-		$query->leftJoin($db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.home'));
+		$query->join('LEFT', $db->quoteName('#__languages', 'l') . ' ON ' . $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.home'));
 
 		// Filter by extension enabled.
 		$query->select($db->quoteName('extension_id', 'e_id'))
@@ -201,7 +201,8 @@ class StylesModel extends ListModel
 			else
 			{
 				$search = '%' . strtolower($search) . '%';
-				$query->where('(LOWER(a.template) LIKE :template OR LOWER(a.title) LIKE :title)')
+				$query->where(' LOWER(' . $db->quoteName('a.template') . ') LIKE :template')
+				    ->orWhere(' LOWER(' . $db->quoteName('a.title') . ') LIKE :title')
 					->bind(':template', $search)
 					->bind(':title', $search);
 			}
