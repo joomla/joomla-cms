@@ -123,7 +123,7 @@ class Taxonomy
 
 		$parent = $node->getParent();
 
-		if ($parent && $parent->title !='ROOT')
+		if ($parent && $parent->title != 'ROOT')
 		{
 			$parentId = self::addNestedNode($branch, $parent, $state, $access, $language = '', $branchId);
 		}
