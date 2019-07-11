@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
+use Joomla\Utilities\IpHelper;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
@@ -191,19 +192,7 @@ class FormattedtextLogger extends Logger
 		// Set some default field values if not already set.
 		if (!isset($entry->clientIP))
 		{
-			// Check for proxies as well.
-			if (isset($_SERVER['REMOTE_ADDR']))
-			{
-				$entry->clientIP = $_SERVER['REMOTE_ADDR'];
-			}
-			elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-			{
-				$entry->clientIP = $_SERVER['HTTP_X_FORWARDED_FOR'];
-			}
-			elseif (isset($_SERVER['HTTP_CLIENT_IP']))
-			{
-				$entry->clientIP = $_SERVER['HTTP_CLIENT_IP'];
-			}
+			$entry->clientIP = IpHelper::getIp();
 		}
 
 		// If the time field is missing or the date field isn't only the date we need to rework it.
