@@ -30,7 +30,7 @@ class HtmlView extends InstallerViewDefault
 	/**
 	 * List of updatesites
 	 *
-	 * @var    array
+	 * @var    /stdClass[]
 	 */
 	protected $items;
 
