@@ -116,7 +116,7 @@ foreach ($fieldSets as $name => $fieldSet)
 
 	if (!$isGrandchild && $hasParent)
 	{
-		echo '<fieldset id="fieldset-' . $name . '" class="options-fieldset">';
+		echo '<fieldset id="fieldset-' . $name . '" class="options-fieldset ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
 		echo '<legend>' . $label . '</legend>';
 	}
 	// Tabs
@@ -140,7 +140,7 @@ foreach ($fieldSets as $name => $fieldSet)
 
 		if (!$hasChildren)
 		{
-			echo '<fieldset id="fieldset-' . $name . '" class="options-fieldset">';
+			echo '<fieldset id="fieldset-' . $name . '" class="options-fieldset ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
 			echo '<legend>' . $label . '</legend>';
 
 			$opentab = 2;
