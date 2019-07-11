@@ -35,33 +35,37 @@ $user = Factory::getUser();
 
 		<div class="row">
 			<div class="col-md-9">
-				<h2>
-					<?php echo Text::_($this->item->template); ?>
-				</h2>
-				<div class="info-labels">
-					<span class="badge badge-secondary hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_TEMPLATES_FIELD_CLIENT_LABEL'); ?>">
-						<?php echo $this->item->client_id == 0 ? Text::_('JSITE') : Text::_('JADMINISTRATOR'); ?>
-					</span>
+				<div class="card">
+						<h2 class="card-header">
+							<?php echo Text::_($this->item->template); ?>
+						</h2>
+					<div class="card-body">
+						<div class="info-labels">
+							<span class="badge badge-secondary hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_TEMPLATES_FIELD_CLIENT_LABEL'); ?>">
+								<?php echo $this->item->client_id == 0 ? Text::_('JSITE') : Text::_('JADMINISTRATOR'); ?>
+							</span>
+						</div>
+						<div>
+							<p><?php echo Text::_($this->item->xml->description); ?></p>
+							<?php
+							$this->fieldset = 'description';
+							$description = LayoutHelper::render('joomla.edit.fieldset', $this);
+							?>
+							<?php if ($description) : ?>
+								<p class="readmore">
+									<a href="#" onclick="document.querySelector('#tab-description').click();">
+										<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
+									</a>
+								</p>
+							<?php endif; ?>
+						</div>
+						<?php
+						$this->fieldset = 'basic';
+						$html = LayoutHelper::render('joomla.edit.fieldset', $this);
+						echo $html ? '<hr>' . $html : '';
+						?>
+					</div>
 				</div>
-				<div>
-					<p><?php echo Text::_($this->item->xml->description); ?></p>
-					<?php
-					$this->fieldset = 'description';
-					$description = LayoutHelper::render('joomla.edit.fieldset', $this);
-					?>
-					<?php if ($description) : ?>
-						<p class="readmore">
-							<a href="#" onclick="document.querySelector('#tab-description').click();">
-								<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
-							</a>
-						</p>
-					<?php endif; ?>
-				</div>
-				<?php
-				$this->fieldset = 'basic';
-				$html = LayoutHelper::render('joomla.edit.fieldset', $this);
-				echo $html ? '<hr>' . $html : '';
-				?>
 			</div>
 			<div class="col-md-3">
 				<div class="card">
@@ -83,7 +87,10 @@ $user = Factory::getUser();
 
 		<?php if ($description) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
-			<?php echo $description; ?>
+			<fieldset id="fieldset-description" class="">
+				<legend><?php echo Text::_('JGLOBAL_FIELDSET_DESCRIPTION'); ?></legend>
+				<?php echo $description; ?>
+			</fieldset>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
