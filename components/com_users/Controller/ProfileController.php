@@ -65,7 +65,6 @@ class ProfileController extends BaseController
 		// Set the user id for the user to edit in the session.
 		$app->setUserState('com_users.edit.profile.id', $userId);
 
-		// Get the model.
 		/** @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
 		$model = $this->getModel('Profile', 'Site');
 
