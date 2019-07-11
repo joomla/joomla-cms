@@ -66,7 +66,7 @@ class ProfileController extends BaseController
 		$app->setUserState('com_users.edit.profile.id', $userId);
 
 		// Get the model.
-		// @var \Joomla\Component\Users\Site\Model\ProfileModel $model
+		/** @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
 
 		$model = $this->getModel('Profile', 'Site');
 
@@ -103,7 +103,7 @@ class ProfileController extends BaseController
 
 		$app    = $this->app;
 
-		// @var \Joomla\Component\Users\Site\Model\ProfileModel $model
+		/** @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
 
 		$model  = $this->getModel('Profile', 'Site');
 		$user   = Factory::getUser();

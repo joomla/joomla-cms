@@ -279,7 +279,7 @@ class TagModel extends ListModel
 			}
 
 			// Get a level row instance.
-			// @var \Joomla\Component\Tags\Administrator\Table\Tag $table
+			/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
 
 			$table = $this->getTable();
 
@@ -345,7 +345,7 @@ class TagModel extends ListModel
 		{
 			$pk    = (!empty($pk)) ? $pk : (int) $this->getState('tag.id');
 
-			// @var \Joomla\Component\Tags\Administrator\Table\Tag $table
+			/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
 
 			$table = $this->getTable();
 			$table->load($pk);
