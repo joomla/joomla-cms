@@ -182,7 +182,7 @@ class PlgSystemActionLogs extends CMSPlugin
 			->select($db->quoteName(['notify', 'extensions']))
 			->from($db->quoteName('#__action_logs_users'))
 			->where($db->quoteName('user_id') . ' = :userid')
-			-bind(':userid', $id, ParameterType::INTEGER);
+			->bind(':userid', $id, ParameterType::INTEGER);
 
 		try
 		{
@@ -409,7 +409,7 @@ class PlgSystemActionLogs extends CMSPlugin
 			{
 				$values[]  = ':extension';
 				$columns[] = 'extensions';
-				$extension = json_encode($user['actionlogs']['actionlogsExtensions'];
+				$extension = json_encode($user['actionlogs']['actionlogsExtensions']);
 				$query->bind(':extension', $extension);
 			}
 
