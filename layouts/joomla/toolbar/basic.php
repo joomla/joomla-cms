@@ -33,7 +33,7 @@ extract($displayData, EXTR_OVERWRITE);
 $tagName = $tagName ?? 'button';
 
 $taskAttr = '';
-$title = '';
+$title    = '';
 $idAttr   = !empty($id)             ? ' id="' . $id . '"' : '';
 $listAttr = !empty($listCheck)      ? ' list-selection' : '';
 $formAttr = !empty($form)           ? ' form="' . $this->escape($form) . '"' : '';
