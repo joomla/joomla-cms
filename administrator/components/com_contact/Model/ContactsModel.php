@@ -153,7 +153,8 @@ class ContactsModel extends ListModel
 		// Select the required fields from the table.
 		$query->select(
 			$db->quoteName(
-				explode(', ',
+				explode(
+					', ',
 					$this->getState(
 						'list.select',
 						'a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.catid, a.user_id' .
