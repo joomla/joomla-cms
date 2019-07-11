@@ -38,5 +38,5 @@ CREATE TABLE IF NOT EXISTS `#__newsfeeds` (
   KEY `idx_state` (`published`),
   KEY `idx_catid` (`catid`),
   KEY `idx_createdby` (`created_by`),
-  KEY `idx_language` (`language`),
+  KEY `idx_language` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
