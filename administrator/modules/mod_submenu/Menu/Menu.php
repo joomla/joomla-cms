@@ -94,6 +94,13 @@ abstract class Menu
 				continue;
 			}
 
+			// Exclude Mass Mail if disabled in global configuration
+			if ($item->scope === 'massmail' && ($this->application->get('massmailoff', 0) == 1))
+			{
+				$parent->removeChild($item);
+				continue;
+			}
+
 			if ($item->element === 'com_fields')
 			{
 				parse_str($item->link, $query);
