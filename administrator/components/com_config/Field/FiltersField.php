@@ -82,8 +82,8 @@ class FiltersField extends FormField
 						parent = $("#filter-config select[data-id=" + parent.attr("data-parent") + "]")
 					}
 				});
-			});
-		');
+			});'
+		);
 
 		// Get the available user groups.
 		$groups = $this->getUserGroups();

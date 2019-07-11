@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a0bd7509b96f6b08a2e39740d71e23ff",
+    "content-hash": "adcc362beafa040a632f3236a01578f4",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -348,12 +348,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/application.git",
-                "reference": "dcf1205bd75ff2de3414828ba111b2430ed959bc"
+                "reference": "5b201a71bf587c20141db94be40a0dec0f331353"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/application/zipball/dcf1205bd75ff2de3414828ba111b2430ed959bc",
-                "reference": "dcf1205bd75ff2de3414828ba111b2430ed959bc",
+                "url": "https://api.github.com/repos/joomla-framework/application/zipball/5b201a71bf587c20141db94be40a0dec0f331353",
+                "reference": "5b201a71bf587c20141db94be40a0dec0f331353",
                 "shasum": ""
             },
             "require": {
@@ -404,7 +404,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-06-17T23:30:53+00:00"
+            "time": "2019-07-06T16:26:04+00:00"
         },
         {
             "name": "joomla/archive",
@@ -839,12 +839,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/event.git",
-                "reference": "d0146f10f982acd8e9629179c3da5c0496ccd2a0"
+                "reference": "99da78349149cbd74529221769e454c3e037cb16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/event/zipball/d0146f10f982acd8e9629179c3da5c0496ccd2a0",
-                "reference": "d0146f10f982acd8e9629179c3da5c0496ccd2a0",
+                "url": "https://api.github.com/repos/joomla-framework/event/zipball/99da78349149cbd74529221769e454c3e037cb16",
+                "reference": "99da78349149cbd74529221769e454c3e037cb16",
                 "shasum": ""
             },
             "require": {
@@ -880,7 +880,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-06-19T01:52:12+00:00"
+            "time": "2019-07-06T16:31:34+00:00"
         },
         {
             "name": "joomla/filesystem",
@@ -1337,12 +1337,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/router.git",
-                "reference": "38d5c21ec12899c555d46f5f7cba552f853e0be9"
+                "reference": "0a51a9050ef0c3e67f656760654d9c91c38bc0fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/router/zipball/38d5c21ec12899c555d46f5f7cba552f853e0be9",
-                "reference": "38d5c21ec12899c555d46f5f7cba552f853e0be9",
+                "url": "https://api.github.com/repos/joomla-framework/router/zipball/0a51a9050ef0c3e67f656760654d9c91c38bc0fc",
+                "reference": "0a51a9050ef0c3e67f656760654d9c91c38bc0fc",
                 "shasum": ""
             },
             "require": {
@@ -1380,7 +1380,7 @@
                 "joomla",
                 "router"
             ],
-            "time": "2019-06-18T02:47:26+00:00"
+            "time": "2019-07-06T16:40:05+00:00"
         },
         {
             "name": "joomla/session",
@@ -5403,6 +5403,108 @@
             "time": "2018-08-19T04:08:16+00:00"
         },
         {
+            "name": "joomla/cms-coding-standards",
+            "version": "2.0.0-alpha",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla/cms-coding-standards.git",
+                "reference": "b8d0b3e24bf1695871830a68c4545cecc5f3b08b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla/cms-coding-standards/zipball/b8d0b3e24bf1695871830a68c4545cecc5f3b08b",
+                "reference": "b8d0b3e24bf1695871830a68c4545cecc5f3b08b",
+                "shasum": ""
+            },
+            "require": {
+                "joomla/coding-standards": "~2.0 || ~3.0",
+                "php": ">=5.3.10"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.7"
+            },
+            "suggest": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.4.3 || This Composer plugin will sort out the PHPCS 'installed_paths' automatically."
+            },
+            "type": "phpcodesniffer-standard",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Joomla-CMS\\Sniffs\\": "lib/Joomla-CMS/Sniffs"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Joomla Coding Standards Contributors",
+                    "homepage": "https://github.com/joomla/cms-coding-standards/graphs/contributors"
+                }
+            ],
+            "description": "Extended Joomla Coding Standards for the Joomla CMS application",
+            "homepage": "https://github.com/joomla/cms-coding-standards",
+            "keywords": [
+                "coding standards",
+                "joomla",
+                "php codesniffer",
+                "phpcs"
+            ],
+            "time": "2019-05-25T19:39:56+00:00"
+        },
+        {
+            "name": "joomla/coding-standards",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla/coding-standards.git",
+                "reference": "ce73dc37c52e1e5b8df723a1647abb214652c8dc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla/coding-standards/zipball/ce73dc37c52e1e5b8df723a1647abb214652c8dc",
+                "reference": "ce73dc37c52e1e5b8df723a1647abb214652c8dc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.10",
+                "squizlabs/php_codesniffer": "^2.8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.7"
+            },
+            "type": "phpcodesniffer-standard",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Joomla Coding Standards Contributors",
+                    "homepage": "https://github.com/joomla/coding-standards/graphs/contributors"
+                }
+            ],
+            "description": "Joomla Coding Standards",
+            "homepage": "https://github.com/joomla/coding-standards",
+            "keywords": [
+                "coding standards",
+                "joomla",
+                "php codesniffer",
+                "phpcs"
+            ],
+            "time": "2019-07-08T12:02:55+00:00"
+        },
+        {
             "name": "joomla/mediawiki",
             "version": "dev-master",
             "source": {
@@ -5934,16 +6036,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "7.0.5",
+            "version": "7.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "aed67b57d459dcab93e84a5c9703d3deb5025dff"
+                "reference": "d471d0d2b529a67c6a722dd446c4ec90881ac315"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/aed67b57d459dcab93e84a5c9703d3deb5025dff",
-                "reference": "aed67b57d459dcab93e84a5c9703d3deb5025dff",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/d471d0d2b529a67c6a722dd446c4ec90881ac315",
+                "reference": "d471d0d2b529a67c6a722dd446c4ec90881ac315",
                 "shasum": ""
             },
             "require": {
@@ -5952,17 +6054,17 @@
                 "php": "^7.2",
                 "phpunit/php-file-iterator": "^2.0.2",
                 "phpunit/php-text-template": "^1.2.1",
-                "phpunit/php-token-stream": "^3.0.1",
+                "phpunit/php-token-stream": "^3.0.2",
                 "sebastian/code-unit-reverse-lookup": "^1.0.1",
-                "sebastian/environment": "^4.1",
+                "sebastian/environment": "^4.2.2",
                 "sebastian/version": "^2.0.1",
-                "theseer/tokenizer": "^1.1"
+                "theseer/tokenizer": "^1.1.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.0"
+                "phpunit/phpunit": "^8.2.2"
             },
             "suggest": {
-                "ext-xdebug": "^2.6.1"
+                "ext-xdebug": "^2.7.2"
             },
             "type": "library",
             "extra": {
@@ -5993,7 +6095,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-06-06T12:28:18+00:00"
+            "time": "2019-07-08T05:29:42+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -6137,16 +6239,16 @@
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "3.0.1",
+            "version": "3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "c99e3be9d3e85f60646f152f9002d46ed7770d18"
+                "reference": "c4a66b97f040e3e20b3aa2a243230a1c3a9f7c8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/c99e3be9d3e85f60646f152f9002d46ed7770d18",
-                "reference": "c99e3be9d3e85f60646f152f9002d46ed7770d18",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/c4a66b97f040e3e20b3aa2a243230a1c3a9f7c8c",
+                "reference": "c4a66b97f040e3e20b3aa2a243230a1c3a9f7c8c",
                 "shasum": ""
             },
             "require": {
@@ -6182,20 +6284,20 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2018-10-30T05:52:18+00:00"
+            "time": "2019-07-08T05:24:54+00:00"
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.2.3",
+            "version": "8.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "f67ca36860ebca7224d4573f107f79bd8ed0ba03"
+                "reference": "25fe0b5031b24722f66a75ad479a074cccc1bb37"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/f67ca36860ebca7224d4573f107f79bd8ed0ba03",
-                "reference": "f67ca36860ebca7224d4573f107f79bd8ed0ba03",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/25fe0b5031b24722f66a75ad479a074cccc1bb37",
+                "reference": "25fe0b5031b24722f66a75ad479a074cccc1bb37",
                 "shasum": ""
             },
             "require": {
@@ -6222,7 +6324,7 @@
                 "sebastian/global-state": "^3.0.0",
                 "sebastian/object-enumerator": "^3.0.3",
                 "sebastian/resource-operations": "^2.0.1",
-                "sebastian/type": "^1.1.0",
+                "sebastian/type": "^1.1.3",
                 "sebastian/version": "^2.0.1"
             },
             "require-dev": {
@@ -6265,7 +6367,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-06-19T12:03:56+00:00"
+            "time": "2019-07-03T08:30:33+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -6835,16 +6937,16 @@
         },
         {
             "name": "sebastian/type",
-            "version": "1.1.2",
+            "version": "1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/type.git",
-                "reference": "251ca774d58181fe1d3eda68843264eaae7e07ef"
+                "reference": "3aaaa15fa71d27650d62a948be022fe3b48541a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/type/zipball/251ca774d58181fe1d3eda68843264eaae7e07ef",
-                "reference": "251ca774d58181fe1d3eda68843264eaae7e07ef",
+                "url": "https://api.github.com/repos/sebastianbergmann/type/zipball/3aaaa15fa71d27650d62a948be022fe3b48541a3",
+                "reference": "3aaaa15fa71d27650d62a948be022fe3b48541a3",
                 "shasum": ""
             },
             "require": {
@@ -6877,7 +6979,7 @@
             ],
             "description": "Collection of value objects that represent the types of the PHP type system",
             "homepage": "https://github.com/sebastianbergmann/type",
-            "time": "2019-06-19T06:39:12+00:00"
+            "time": "2019-07-02T08:10:15+00:00"
         },
         {
             "name": "sebastian/version",
@@ -6924,32 +7026,35 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "1.5.6",
+            "version": "2.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "6f3e42d311b882b25b4d409d23a289f4d3b803d5"
+                "reference": "2acf168de78487db620ab4bc524135a13cfe6745"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/6f3e42d311b882b25b4d409d23a289f4d3b803d5",
-                "reference": "6f3e42d311b882b25b4d409d23a289f4d3b803d5",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/2acf168de78487db620ab4bc524135a13cfe6745",
+                "reference": "2acf168de78487db620ab4bc524135a13cfe6745",
                 "shasum": ""
             },
             "require": {
+                "ext-simplexml": "*",
                 "ext-tokenizer": "*",
+                "ext-xmlwriter": "*",
                 "php": ">=5.1.2"
             },
-            "suggest": {
-                "phpunit/php-timer": "dev-master"
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
             },
             "bin": [
-                "scripts/phpcs"
+                "scripts/phpcs",
+                "scripts/phpcbf"
             ],
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-phpcs-fixer": "2.0.x-dev"
+                    "dev-master": "2.x-dev"
                 }
             },
             "autoload": {
@@ -6958,12 +7063,12 @@
                     "CodeSniffer/CLI.php",
                     "CodeSniffer/Exception.php",
                     "CodeSniffer/File.php",
+                    "CodeSniffer/Fixer.php",
                     "CodeSniffer/Report.php",
                     "CodeSniffer/Reporting.php",
                     "CodeSniffer/Sniff.php",
                     "CodeSniffer/Tokens.php",
                     "CodeSniffer/Reports/",
-                    "CodeSniffer/CommentParser/",
                     "CodeSniffer/Tokenizers/",
                     "CodeSniffer/DocGenerators/",
                     "CodeSniffer/Standards/AbstractPatternSniff.php",
@@ -6989,13 +7094,13 @@
                     "role": "lead"
                 }
             ],
-            "description": "PHP_CodeSniffer tokenises PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
+            "description": "PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
             "homepage": "http://www.squizlabs.com/php-codesniffer",
             "keywords": [
                 "phpcs",
                 "standards"
             ],
-            "time": "2014-12-04T22:32:15+00:00"
+            "time": "2018-11-07T22:31:41+00:00"
         },
         {
             "name": "symfony/browser-kit",
@@ -7670,6 +7775,8 @@
         "joomla/string": 20,
         "joomla/uri": 20,
         "joomla/utilities": 20,
+        "joomla/cms-coding-standards": 20,
+        "joomla/coding-standards": 20,
         "joomla/mediawiki": 20,
         "joomla-projects/joomla-browser": 20,
         "joomla-projects/robo-joomla": 20
