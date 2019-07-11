@@ -18,7 +18,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
-HTMLHelper::_('behavior.tooltip');
 HTMLHelper::_('behavior.multiselect');
 
 $user      = Factory::getUser();

@@ -852,7 +852,7 @@ class DatabaseModel extends BaseInstallationModel
 	 *
 	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   3.6.1
 	 */
@@ -898,8 +898,6 @@ class DatabaseModel extends BaseInstallationModel
 				}
 			}
 		}
-
-		return true;
 	}
 
 	/**
@@ -907,7 +905,7 @@ class DatabaseModel extends BaseInstallationModel
 	 *
 	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
@@ -961,8 +959,6 @@ class DatabaseModel extends BaseInstallationModel
 				}
 			}
 		}
-
-		return true;
 	}
 
 	/**
