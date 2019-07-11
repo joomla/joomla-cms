@@ -371,6 +371,7 @@ class Nested extends Table
 		/*
 		 * Close the hole in the tree that was opened by removing the sub-tree from the nested sets.
 		 */
+
 		// Compress the left values.
 		$query->clear()
 			->update($this->_tbl)
