@@ -51,7 +51,9 @@ class IndexController extends AdminController
 		// Remove the script time limit.
 		@set_time_limit(0);
 
-		// @var \Joomla\Component\Finder\Administrator\Model\IndexModel $model
+		/**
+		 * @var \Joomla\Component\Finder\Administrator\Model\IndexModel $model
+		 */
 		$model = $this->getModel('Index', 'Administrator');
 
 		// Attempt to purge the index.
