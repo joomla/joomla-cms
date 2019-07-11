@@ -327,8 +327,8 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$this->document->setTitle($title);
-		
-		$pathway->addItem($title);	
+
+		$pathway->addItem($title);
 
 		foreach ($this->item as $itemElement)
 		{
