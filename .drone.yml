@@ -26,23 +26,15 @@ steps:
       - composer install --no-progress --no-suggest
 
   - name: phpcs
-    image: joomlaprojects/docker-phpcs
-    depends_on: [ composer ]
-    commands:
-      - echo $(date)
-      - /root/.composer/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
-      - echo $(date)
-
-  - name: phpcs-new
     image: joomlaprojects/docker-images:php7.2
-    depends_on: [ phpcs ]
+    depends_on: [ composer ]
     failure: ignore
     commands:
       - echo $(date)
       - ./libraries/vendor/bin/phpcs --config-set installed_paths ../../joomla/cms-coding-standards/lib,../../joomla/coding-standards/Joomla/ExampleRulesets,../../joomla/coding-standards
       - ./libraries/vendor/bin/phpcs --config-set colors 1
       - ./libraries/vendor/bin/phpcs --config-set php_version 70200
-      - ./libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php --ignore=libraries/vendor/*,tests/*,build/* -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
+      - ./libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php --ignore=libraries/vendor/*,tests/*,build/*,node_modules/*,media/* -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
       - echo $(date)
 
   - name: npm
@@ -205,6 +197,6 @@ services:
 
 ---
 kind: signature
-hmac: f2199008e0ddb27a8ec0e09ba1664580419939ae7fb5a7cb082181fc2b83af90
+hmac: ef1c05e085f4ebed5febfa696b2b0dfb60afe24397859138a22d1ba146f98d8a
 
 ...
