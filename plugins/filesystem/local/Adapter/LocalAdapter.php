@@ -366,7 +366,7 @@ class LocalAdapter implements AdapterInterface
 	/**
 	 * Returns a Date with the correct Joomla timezone for the given date.
 	 *
-	 * @param   string  $date  The date to create a JDate from
+	 * @param   string  $date  The date to create a Date from
 	 *
 	 * @return  Date
 	 *
