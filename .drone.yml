@@ -62,14 +62,14 @@ steps:
     image: php:7.2
     commands:
       - php -v
-      - ./libraries/vendor/bin/phpunit
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
 
   - name: php73-unit
     depends_on: [ phpcs ]
     image: php:7.3
     commands:
       - php -v
-      - ./libraries/vendor/bin/phpunit
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
 
   - name: php74-unit
     depends_on: [ phpcs ]
@@ -77,7 +77,7 @@ steps:
     failure: ignore
     commands:
       - php -v
-      - ./libraries/vendor/bin/phpunit
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
 
   - name: php80-unit
     depends_on: [ phpcs ]
@@ -85,7 +85,67 @@ steps:
     failure: ignore
     commands:
       - php -v
-      - ./libraries/vendor/bin/phpunit
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
+
+  - name: php72-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php7.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php73-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php7.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php74-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php7.4
+    failure: ignore
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php80-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.0
+    failure: ignore
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php72-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php7.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+#  - name: php73-integration-pgsql
+#    depends_on: [ npm ]
+#    image: joomlaprojects/docker-images:php7.3
+#    commands:
+#      - php -v
+#      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+#  - name: php74-integration-pgsql
+#    depends_on: [ npm ]
+#    image: joomlaprojects/docker-images:php7.4
+#    failure: ignore
+#    commands:
+#      - php -v
+#      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+#  - name: php80-integration-pgsql
+#    depends_on: [ npm ]
+#    image: joomlaprojects/docker-images:php8.0
+#    failure: ignore
+#    commands:
+#      - php -v
+#      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
   - name: javascript-cs
     depends_on: [ npm ]
@@ -197,6 +257,6 @@ services:
 
 ---
 kind: signature
-hmac: 86217ec95729a624ef4b945a324e20450fa198903af38684eec1acda33f4d1e9
+hmac: 6a9004cf9df95b22f86d03750e494b4f08c01fd33cba9d33399fbbd88a15b63b
 
 ...
