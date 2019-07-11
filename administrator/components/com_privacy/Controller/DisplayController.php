@@ -11,6 +11,7 @@ namespace Joomla\Component\Privacy\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -74,10 +75,8 @@ class DisplayController extends BaseController
 				// For the default layout, we need to also push the action logs model into the view
 				if ($lName === 'default')
 				{
-					\JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
-					BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
-
-					$logsModel = BaseDatabaseModel::getInstance('Actionlogs', 'ActionlogsModel');
+					$logsModel = Factory::getApplication()->bootComponent('Actionlogs')
+							->getMVCFactory()->createModel('Actionlogs', 'Administrator', ['ignore_request' => true]);
 
 					// Set default ordering for the context
 					$logsModel->setState('list.fullordering', 'a.log_date DESC');

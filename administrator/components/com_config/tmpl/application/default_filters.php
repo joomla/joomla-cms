@@ -14,4 +14,6 @@ defined('_JEXEC') or die;
 
 $this->name = Text::_('COM_CONFIG_TEXT_FILTER_SETTINGS');
 $this->fieldsname = 'filters';
+$this->formclass = 'options-fieldset option-fieldset-half';
+
 echo LayoutHelper::render('joomla.content.text_filters', $this);

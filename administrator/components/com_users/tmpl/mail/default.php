@@ -28,7 +28,7 @@ $comUserParams = ComponentHelper::getParams('com_users');
 <form action="<?php echo Route::_('index.php?option=com_users&view=mail'); ?>" name="adminForm" method="post" id="adminForm">
 	<div class="row mt-2">
 		<div class="col-md-9">
-			<div class="card card-light">
+			<div class="card">
 				<div class="card-body">
 					<fieldset class="adminform">
 						<div class="form-group">
@@ -58,7 +58,7 @@ $comUserParams = ComponentHelper::getParams('com_users');
 			</div>
 		</div>
 		<div class="col-md-3">
-			<div class="card card-light">
+			<div class="card">
 				<div class="card-body">
 					<div class="form-group">
 						<?php echo $this->form->getInput('recurse'); ?>

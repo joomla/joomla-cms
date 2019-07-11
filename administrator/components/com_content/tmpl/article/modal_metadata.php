@@ -11,4 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
 
-echo LayoutHelper::render('joomla.edit.metadata', $this);
+?>
+<fieldset id="fieldset-<?php echo $fieldset; ?>" class="options-fieldset option-fieldset-full">
+	<legend><?php echo Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
+	<?php echo LayoutHelper::render('joomla.edit.metadata', $this); ?>
+</fieldset>
