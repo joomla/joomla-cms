@@ -30,8 +30,6 @@ $extensionassoc = array_key_exists('item_associations', $this->form->getFieldset
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = ['jmetadata', 'item_associations'];
-$this->output_fieldsets = ['basic', 'workflow'];
-$this->ignore_fieldset_fields = ['options'];
 $this->useCoreUI = true;
 
 // In case of modal

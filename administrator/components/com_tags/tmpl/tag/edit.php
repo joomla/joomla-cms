@@ -22,8 +22,6 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-versions.js', ['versio
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = ['jmetadata'];
-$this->output_fieldsets = ['options', 'image-intro', 'image-fulltext'];
-$this->ignore_fieldset_fields = ['basic'];
 $this->useCoreUI = true;
 
 ?>

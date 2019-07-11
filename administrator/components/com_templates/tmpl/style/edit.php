@@ -87,7 +87,7 @@ $user = Factory::getUser();
 
 		<?php if ($description) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
-			<fieldset id="fieldset-description" class="">
+			<fieldset id="fieldset-description" class="options-fieldset option-fieldset-full">
 				<legend><?php echo Text::_('JGLOBAL_FIELDSET_DESCRIPTION'); ?></legend>
 				<?php echo $description; ?>
 			</fieldset>
@@ -102,7 +102,10 @@ $user = Factory::getUser();
 
 		<?php if ($user->authorise('core.edit', 'com_menus') && $this->item->client_id == 0 && $this->canDo->get('core.edit.state')) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'assignment', Text::_('COM_TEMPLATES_MENUS_ASSIGNMENT')); ?>
-			<?php echo $this->loadTemplate('assignment'); ?>
+			<fieldset id="fieldset-assignment" class="options-fieldset option-fieldset-full">
+				<legend><?php echo Text::_('COM_TEMPLATES_MENUS_ASSIGNMENT'); ?></legend>
+				<?php echo $this->loadTemplate('assignment'); ?>
+			</fieldset>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 

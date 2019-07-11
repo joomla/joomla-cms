@@ -28,8 +28,6 @@ $this->configFieldsets  = array('editorConfig');
 $this->hiddenFieldsets  = array('basic-limited');
 $fieldsetsInImages = ['image-intro', 'image-full'];
 $fieldsetsInLinks = ['linka', 'linkb', 'linkc'];
-$this->output_fieldsets = ['basic', 'category', 'author', 'date', 'other', 'global'];
-$this->ignore_fieldset_fields = ['attribs'];
 $this->ignore_fieldsets = array_merge(array('jmetadata', 'item_associations'), $fieldsetsInImages, $fieldsetsInLinks);
 $this->useCoreUI = true;
 

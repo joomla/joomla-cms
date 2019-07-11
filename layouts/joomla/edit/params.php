@@ -80,6 +80,8 @@ if (!$displayData->get('show_options', 1))
 
 $opentab = false;
 
+$xml = $form->getXml();
+
 // Loop again over the fieldsets
 foreach ($fieldSets as $name => $fieldSet)
 {
@@ -108,15 +110,25 @@ foreach ($fieldSets as $name => $fieldSet)
 		$label = Text::_($label);
 	}
 
-	if (in_array($name, $outputFieldsets))
+	$hasChildren = $xml->xpath('//fieldset[@name="' . $name . '"]/fieldset');
+	$hasParent = $xml->xpath('//fieldset/fieldset[@name="' . $name . '"]');
+	$isGrandchild = $xml->xpath('//fieldset/fieldset/fieldset[@name="' . $name . '"]');
+
+	if (!$isGrandchild && $hasParent)
 	{
 		echo '<fieldset id="fieldset-' . $name . '" class="options-fieldset">';
 		echo '<legend>' . $label . '</legend>';
 	}
-	else
+	// Tabs
+	elseif (!$hasParent)
 	{
 		if ($opentab)
 		{
+			if ($opentab > 1)
+			{
+				echo '</fieldset>';
+			}
+
 			// End previous tab
 			echo HTMLHelper::_($helper . '.endTab');
 		}
@@ -124,7 +136,15 @@ foreach ($fieldSets as $name => $fieldSet)
 		// Start the tab
 		echo HTMLHelper::_($helper . '.addTab', $tabName, 'attrib-' . $name, $label);
 
-		$opentab = true;
+		$opentab = 1;
+
+		if (!$hasChildren)
+		{
+			echo '<fieldset id="fieldset-' . $name . '" class="options-fieldset">';
+			echo '<legend>' . $label . '</legend>';
+
+			$opentab = 2;
+		}
 	}
 
 	// Include the description when available
@@ -133,7 +153,7 @@ foreach ($fieldSets as $name => $fieldSet)
 		echo '<div class="alert alert-info">' . $this->escape(Text::_($fieldSet->description)) . '</div>';
 	}
 
-	if (!in_array($name, $ignoreFieldsetFields))
+	if (!$hasChildren)
 	{
 		// The name of the fieldset to render
 		$displayData->fieldset = $name;
@@ -145,7 +165,7 @@ foreach ($fieldSets as $name => $fieldSet)
 		echo LayoutHelper::render('joomla.edit.fieldset', $displayData);
 	}
 
-	if (in_array($name, $outputFieldsets))
+	if (!$isGrandchild && $hasParent)
 	{
 		echo '</fieldset>';
 	}
@@ -153,6 +173,11 @@ foreach ($fieldSets as $name => $fieldSet)
 
 if ($opentab)
 {
+	if ($opentab > 1)
+	{
+		echo '</fieldset>';
+	}
+
 	// End previous tab
 	echo HTMLHelper::_($helper . '.endTab');
 }

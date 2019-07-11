@@ -28,8 +28,6 @@ $assoc = Associations::isEnabled();
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = ['details', 'item_associations', 'jmetadata'];
-$this->output_fieldsets = ['basic', 'link', 'form'];
-$this->ignore_fieldset_fields = ['display', 'email'];
 $this->useCoreUI = true;
 
 // In case of modal
