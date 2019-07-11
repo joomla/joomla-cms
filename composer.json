@@ -51,12 +51,6 @@
             "Joomla\\Tests\\": "tests"
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:joomla/cms-coding-standards.git"
-        }
-    ],
     "require": {
         "php": ">=7.2",
         "joomla/application": "~2.0@dev",
