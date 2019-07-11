@@ -9,6 +9,8 @@
   document.addEventListener('DOMContentLoaded', () => {
     Joomla.submitbutton = (pressbutton) => {
       const form = document.adminForm;
+      const html = document.createElement('joomla-alert');
+
       if (pressbutton === 'mail.cancel') {
         Joomla.submitform(pressbutton);
         return;
@@ -16,14 +18,14 @@
 
       // do field validation
       if (form.jform_subject.value === '') {
-        // TODO replace with joomla-alert
-        alert(Joomla.JText._('COM_USERS_MAIL_PLEASE_FILL_IN_THE_SUBJECT'));
-      } else if (Joomla.getSelectedValue('adminForm', 'jform[group]') < 0) {
-        // TODO replace with joomla-alert
-        alert(Joomla.JText._('COM_USERS_MAIL_PLEASE_SELECT_A_GROUP'));
+        html.innerHTML = Joomla.JText._('COM_USERS_MAIL_PLEASE_FILL_IN_THE_SUBJECT');
+        form.insertAdjacentElement('afterbegin', html);
+      } else if (form.jform_group.value < 0) {
+        html.innerHTML = Joomla.JText._('COM_USERS_MAIL_PLEASE_SELECT_A_GROUP');
+        form.insertAdjacentElement('afterbegin', html);
       } else if (form.jform_message.value === '') {
-        // TODO replace with joomla-alert
-        alert(Joomla.JText._('COM_USERS_MAIL_PLEASE_FILL_IN_THE_MESSAGE'));
+        html.innerHTML = Joomla.JText._('COM_USERS_MAIL_PLEASE_FILL_IN_THE_MESSAGE');
+        form.insertAdjacentElement('afterbegin', html);
       } else {
         Joomla.submitform(pressbutton);
       }
