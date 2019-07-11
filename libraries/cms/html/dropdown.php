@@ -348,7 +348,8 @@ abstract class JHtmlDropdown
 	 * @since   3.0
 	 */
 	public static function addCustomItem($label, $link = 'javascript:void(0)', $linkAttributes = '', $className = '', $ajaxLoad = false,
-		$jsCallBackFunc = null)
+		$jsCallBackFunc = null
+	)
 	{
 		static::start();
 
