@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Actionlogs\Administrator\Libraries;
+namespace Joomla\Component\Actionlogs\Administrator\Plugin;
 
 defined('_JEXEC') or die;
 

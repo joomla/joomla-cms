@@ -226,7 +226,8 @@ class ArticlesModel extends ListModel
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the parent categories.
-		$query->select('parent.title AS parent_category_title, parent.id AS parent_category_id,' .
+		$query->select(
+			'parent.title AS parent_category_title, parent.id AS parent_category_id,' .
 			'parent.created_user_id AS parent_category_uid, parent.level AS parent_category_level'
 		)
 			->join('LEFT', '#__categories AS parent ON parent.id = c.parent_id');
