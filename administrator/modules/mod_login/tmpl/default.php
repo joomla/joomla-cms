@@ -22,7 +22,11 @@ HTMLHelper::_('script', 'mod_login/admin-login.min.js', ['version' => 'auto', 'r
 
 Text::script('JSHOW');
 Text::script('JHIDE');
-
+// Load JS message titles
+Text::script('ERROR');
+Text::script('WARNING');
+Text::script('NOTICE');
+Text::script('MESSAGE');
 ?>
 <form class="login-initial form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login">
 	<fieldset>

@@ -12,7 +12,7 @@ use Joomla\CMS\Encrypt\Randval;
 
 defined('JPATH_PLATFORM') or die;
 
-class Openssl extends AbstractAES implements AesInterface
+class OpenSSL extends AbstractAES implements AesInterface
 {
 	/**
 	 * The OpenSSL options for encryption / decryption
