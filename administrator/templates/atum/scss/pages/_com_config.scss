@@ -1,7 +1,5 @@
 // com_config
 
-@import "../variables";
-
 .com_config {
 
 	.control-group {
@@ -14,6 +12,10 @@
 
 	#fieldset-permissions {
 		grid-template-columns: 1fr;
+	}
+
+	.tab-description {
+		grid-column: 1 / 3;
 	}
 
   .rule-notes,

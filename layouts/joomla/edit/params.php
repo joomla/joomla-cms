@@ -138,6 +138,7 @@ foreach ($fieldSets as $name => $fieldSet)
 
 		$opentab = 1;
 
+		// Directly add a fieldset if we have no children
 		if (!$hasChildren)
 		{
 			echo '<fieldset id="fieldset-' . $name . '" class="options-fieldset ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
@@ -153,6 +154,7 @@ foreach ($fieldSets as $name => $fieldSet)
 		echo '<div class="alert alert-info">' . $this->escape(Text::_($fieldSet->description)) . '</div>';
 	}
 
+	// We're on the deepest level => output fields
 	if (!$hasChildren)
 	{
 		// The name of the fieldset to render
@@ -165,6 +167,7 @@ foreach ($fieldSets as $name => $fieldSet)
 		echo LayoutHelper::render('joomla.edit.fieldset', $displayData);
 	}
 
+	// Close open fieldset
 	if (!$isGrandchild && $hasParent)
 	{
 		echo '</fieldset>';

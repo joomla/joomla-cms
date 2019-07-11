@@ -35,6 +35,8 @@ if ($this->fieldsets)
 
 // @TODO delete this when custom elements modal is merged
 HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version' => 'auto', 'relative' => true]);
+
+$xml = $this->form->getXml();
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="component-form" method="post" class="form-validate" name="adminForm" autocomplete="off" data-cancel-task="config.cancel.component">
@@ -55,8 +57,15 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version
 		<div class="col-md-9" id="config">
 
 			<?php if ($this->fieldsets): ?>
+			<?php $opentab = 0; ?>
 			<ul class="nav nav-tabs mt-2" id="configTabs">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
+					<?php
+					// Only show first level fieldsets as tabs
+					if ($xml->xpath('//fieldset/fieldset[@name="' . $name . '"]')) :
+						continue;
+					endif;
+					?>
 					<?php $dataShowOn = ''; ?>
 					<?php if (!empty($fieldSet->showon)) : ?>
 						<?php HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true)); ?>
@@ -69,19 +78,62 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version
 
 			<div class="tab-content" id="configContent">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
-					<div class="tab-pane" id="<?php echo $name; ?>">
-						<?php if (!empty($fieldSet->description)) : ?>
-							<div class="tab-description alert alert-info">
-								<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
-								<?php echo Text::_($fieldSet->description); ?>
-							</div>
-						<?php endif; ?>
+					<?php
+					$hasChildren = $xml->xpath('//fieldset[@name="' . $name . '"]/fieldset');
+					$hasParent = $xml->xpath('//fieldset/fieldset[@name="' . $name . '"]');
+					$isGrandchild = $xml->xpath('//fieldset/fieldset/fieldset[@name="' . $name . '"]');
+					?>
+
+					<?php if (!$isGrandchild && $hasParent) : ?>
 						<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-fieldset option-fieldset-half">
 							<legend><?php echo Text::_($fieldSet->label); ?></legend>
-							<?php echo $this->form->renderFieldset($name, $name === 'permissions' ? ['hiddenLabel' => true, 'class' => 'revert-controls'] : []); ?>
-						</fieldset>
-					</div>
+					<?php elseif (!$hasParent) : ?>
+						<?php if ($opentab) : ?>
+
+							<?php if ($opentab > 1) : ?>
+								</fieldset>
+							<?php endif; ?>
+
+							</div>
+
+						<?php endif; ?>
+
+						<div class="tab-pane" id="<?php echo $name; ?>">
+
+						<?php $opentab = 1; ?>
+
+						<?php if (!$hasChildren) : ?>
+
+						<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-fieldset option-fieldset-half">
+							<legend><?php echo Text::_($fieldSet->label); ?></legend>
+
+						<?php $opentab = 2; ?>
+						<?php endif; ?>
+					<?php endif; ?>
+
+					<?php if (!empty($fieldSet->description)) : ?>
+						<div class="tab-description alert alert-info">
+							<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+							<?php echo Text::_($fieldSet->description); ?>
+						</div>
+					<?php endif; ?>
+
+					<?php if (!$hasChildren) : ?>
+						<?php echo $this->form->renderFieldset($name, $name === 'permissions' ? ['hiddenLabel' => true, 'class' => 'revert-controls'] : []); ?>
+					<?php endif; ?>
+
+					<?php if (!$isGrandchild && $hasParent) : ?>
+					</fieldset>
+					<?php endif; ?>
 				<?php endforeach; ?>
+
+				<?php if ($opentab) : ?>
+
+					<?php if ($opentab > 1) : ?>
+						</fieldset>
+					<?php endif; ?>
+					</div>
+				<?php endif; ?>
 			</div>
 			<?php else: ?>
 				<div class="alert alert-info">
