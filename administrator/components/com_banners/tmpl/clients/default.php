@@ -67,24 +67,24 @@ $params     = $this->state->params ?? new CMSObject;
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_CONTACT', 'a.contact', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:3%" class="text-center d-none d-md-table-cell">
-                                    <span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?>">
-                                        <span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?></span>
-                                    </span>
+									<span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?>">
+										<span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?></span>
+									</span>
 								</th>
 								<th scope="col" style="width:3%" class="text-center d-none d-md-table-cell">
-                                    <span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?>">
-                                        <span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
-                                    </span>
+									<span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?>">
+										<span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
+									</span>
 								</th>
 								<th scope="col" style="width:3%" class="text-center d-none d-md-table-cell">
-                                    <span class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?>">
-                                        <span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?></span>
-                                    </span>
+									<span class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?>">
+										<span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?></span>
+									</span>
 								</th>
 								<th scope="col" style="width:3%" class="text-center d-none d-md-table-cell">
-                                    <span class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>">
-                                        <span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?></span>
-                                    </span>
+									<span class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>">
+										<span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?></span>
+									</span>
 								</th>
 								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_PURCHASETYPE', 'a.purchase_type', $listDirn, $listOrder); ?>
