@@ -129,7 +129,7 @@ class PlgContentContact extends CMSPlugin
 				. ') OR ' . $db->quoteName('contact.language') . ' IS NULL)');
 		}
 
-		$this->db->setQuery($query);
+		$db->setQuery($query);
 
 		$contacts[$created_by] = $this->db->loadObject();
 
