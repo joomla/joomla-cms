@@ -174,13 +174,19 @@ class HtmlView extends BaseHtmlView
 
 				Factory::getApplication()->triggerEvent('onContentPrepare', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
 
-				$results = Factory::getApplication()->triggerEvent('onContentAfterTitle', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
+				$results = Factory::getApplication()->triggerEvent('onContentAfterTitle',
+					['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]
+				);
 				$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
 
-				$results = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
+				$results = Factory::getApplication()->triggerEvent('onContentBeforeDisplay',
+					['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]
+				);
 				$itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
 
-				$results = Factory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
+				$results = Factory::getApplication()->triggerEvent('onContentAfterDisplay',
+					['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]
+				);
 				$itemElement->event->afterDisplayContent = trim(implode("\n", $results));
 
 				// Write the results back into the body

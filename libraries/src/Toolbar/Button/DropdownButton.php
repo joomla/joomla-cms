@@ -88,7 +88,7 @@ class DropdownButton extends AbstractGroupButton
 	/**
 	 * Render button HTML.
 	 *
-	 * @param   array  &$options  The button options.
+	 * @param   array  $options  The button options.
 	 *
 	 * @return  string  The button HTML.
 	 *

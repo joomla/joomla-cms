@@ -335,7 +335,10 @@ class ApplicationModel extends FormModel
 					try
 					{
 						Log::add(
-							Text::sprintf('COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT', $data['session_filesystem_path']),
+							Text::sprintf(
+								'COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT',
+								$data['session_filesystem_path']
+							),
 							Log::WARNING,
 							'jerror'
 						);
@@ -343,7 +346,10 @@ class ApplicationModel extends FormModel
 					catch (\RuntimeException $logException)
 					{
 						$app->enqueueMessage(
-							Text::sprintf('COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT', $data['session_filesystem_path']),
+							Text::sprintf(
+								'COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT',
+								$data['session_filesystem_path']
+							),
 							'warning'
 						);
 					}
