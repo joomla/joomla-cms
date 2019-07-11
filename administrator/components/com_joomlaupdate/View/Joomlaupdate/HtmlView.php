@@ -103,7 +103,7 @@ class HtmlView extends BaseHtmlView
 		$this->state = $this->get('State');
 
 		// Load useful classes.
-		// @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model
+		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel();
 		$this->loadHelper('select');
 
