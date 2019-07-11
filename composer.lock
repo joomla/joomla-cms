@@ -722,12 +722,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "6570e952c7b196d1f23f1410921587a8c79fa9c0"
+                "reference": "1752fa13c46f6cac553518ff6cf53b288f05133a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/6570e952c7b196d1f23f1410921587a8c79fa9c0",
-                "reference": "6570e952c7b196d1f23f1410921587a8c79fa9c0",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/1752fa13c46f6cac553518ff6cf53b288f05133a",
+                "reference": "1752fa13c46f6cac553518ff6cf53b288f05133a",
                 "shasum": ""
             },
             "require": {
@@ -779,7 +779,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-07-04T14:08:10+00:00"
+            "time": "2019-07-10T16:54:07+00:00"
         },
         {
             "name": "joomla/di",
@@ -3089,16 +3089,16 @@
         },
         {
             "name": "zendframework/zend-diactoros",
-            "version": "2.1.2",
+            "version": "2.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-diactoros.git",
-                "reference": "37bf68b428850ee26ed7c3be6c26236dd95a95f1"
+                "reference": "279723778c40164bcf984a2df12ff2c6ec5e61c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/37bf68b428850ee26ed7c3be6c26236dd95a95f1",
-                "reference": "37bf68b428850ee26ed7c3be6c26236dd95a95f1",
+                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/279723778c40164bcf984a2df12ff2c6ec5e61c1",
+                "reference": "279723778c40164bcf984a2df12ff2c6ec5e61c1",
                 "shasum": ""
             },
             "require": {
@@ -3151,7 +3151,7 @@
                 "psr",
                 "psr-7"
             ],
-            "time": "2019-04-29T21:11:00+00:00"
+            "time": "2019-07-10T16:13:25+00:00"
         }
     ],
     "packages-dev": [
@@ -5271,12 +5271,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "535968155369a61e995ec56808931e74594b049b"
+                "reference": "f33a41a193aee1491df51af8f02fce86477ef451"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/535968155369a61e995ec56808931e74594b049b",
-                "reference": "535968155369a61e995ec56808931e74594b049b",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/f33a41a193aee1491df51af8f02fce86477ef451",
+                "reference": "f33a41a193aee1491df51af8f02fce86477ef451",
                 "shasum": ""
             },
             "require": {
@@ -5302,7 +5302,7 @@
                     "email": "puneet.kala@community.joomla.org"
                 },
                 {
-                    "name": "Javier Gómez",
+                    "name": "Javier Gomez",
                     "email": "javier.gomez@community.joomla.org"
                 }
             ],
@@ -5314,7 +5314,7 @@
                 "acceptance testing",
                 "joomla"
             ],
-            "time": "2019-02-19T17:21:09+00:00"
+            "time": "2019-07-11T16:09:14+00:00"
         },
         {
             "name": "joomla-projects/robo-joomla",
