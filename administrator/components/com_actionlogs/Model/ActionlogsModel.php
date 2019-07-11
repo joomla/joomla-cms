@@ -405,7 +405,7 @@ class ActionlogsModel extends ListModel
 		// Add ip sort options to sort dropdown
 		if ($form && $ipLogging)
 		{
-			/* @var JFormFieldList $field */
+			/* @var \Joomla\CMS\Form\Field\ListField $field */
 			$field = $form->getField('fullordering', 'list');
 			$field->addOption(Text::_('COM_ACTIONLOGS_IP_ADDRESS_ASC'), array('value' => 'a.ip_address ASC'));
 			$field->addOption(Text::_('COM_ACTIONLOGS_IP_ADDRESS_DESC'), array('value' => 'a.ip_address DESC'));
