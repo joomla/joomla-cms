@@ -41,7 +41,7 @@ class UpdateController extends BaseController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('update');
 
 		$uid = $this->input->get('cid', array(), 'array');
@@ -97,7 +97,7 @@ class UpdateController extends BaseController
 		$minimum_stability = (int) $params->get('minimum_stability', Updater::STABILITY_STABLE);
 
 		// Find updates.
-		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('update');
 
 		$disabledUpdateSites = $model->getDisabledUpdateSites();
@@ -124,7 +124,7 @@ class UpdateController extends BaseController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('update');
 		$model->purge();
 
@@ -174,7 +174,7 @@ class UpdateController extends BaseController
 			$minimum_stability = (int) $params->get('minimum_stability', Updater::STABILITY_STABLE);
 		}
 
-		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('update');
 		$model->findUpdates($eid, $cache_timeout, $minimum_stability);
 

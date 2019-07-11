@@ -32,6 +32,8 @@ class MenusHelper extends ContentHelper
 {
 	/**
 	 * Defines the valid request variables for the reverse lookup.
+	 *
+	 * @var     array
 	 */
 	protected static $_filter = array('option', 'view', 'layout');
 

@@ -34,7 +34,7 @@ class DiscoverController extends BaseController
 	{
 		$this->checkToken();
 
-		/* @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
+		/** @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
 		$model = $this->getModel('discover');
 		$model->discover();
 		$this->setRedirect(Route::_('index.php?option=com_installer&view=discover', false));
@@ -51,7 +51,7 @@ class DiscoverController extends BaseController
 	{
 		$this->checkToken();
 
-		/* @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
+		/** @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
 		$model = $this->getModel('discover');
 		$model->discover_install();
 		$this->setRedirect(Route::_('index.php?option=com_installer&view=discover', false));
@@ -68,7 +68,7 @@ class DiscoverController extends BaseController
 	{
 		$this->checkToken();
 
-		/* @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
+		/** @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
 		$model = $this->getModel('discover');
 		$model->purge();
 		$this->setRedirect(Route::_('index.php?option=com_installer&view=discover', false), $model->_message);

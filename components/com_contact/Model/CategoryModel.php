@@ -48,16 +48,14 @@ class CategoryModel extends ListModel
 	/**
 	 * The category that applies.
 	 *
-	 * @access    protected
-	 * @var        object
+	 * @var    object
 	 */
 	protected $_category = null;
 
 	/**
 	 * The list of other contact categories.
 	 *
-	 * @access    protected
-	 * @var       array
+	 * @var    array
 	 */
 	protected $_categories = null;
 
@@ -188,9 +186,11 @@ class CategoryModel extends ListModel
 		if ($this->getState('filter.publish_date'))
 		{
 			$query->where('(' . $query->isNullDatetime($db->quoteName('a.publish_up'))
-				. ' OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)')
+				. ' OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)'
+			)
 				->where('(' . $query->isNullDatetime($db->quoteName('a.publish_down'))
-				. ' OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)')
+					. ' OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)'
+				)
 				->bind(':publish_up', $nowDate)
 				->bind(':publish_down', $nowDate);
 		}
@@ -222,7 +222,7 @@ class CategoryModel extends ListModel
 		elseif ($this->getState('list.ordering') === 'featuredordering')
 		{
 			$query->order($db->escape('a.featured') . ' DESC')
-			->order($db->escape('a.ordering') . ' ASC');
+				->order($db->escape('a.ordering') . ' ASC');
 		}
 		else
 		{
@@ -436,16 +436,16 @@ class CategoryModel extends ListModel
 	}
 
 	/**
-	* Generate column expression for slug or catslug.
-	*
-	* @param   \JDatabaseQuery  $query  Current query instance.
-	* @param   string           $id     Column id name.
-	* @param   string           $alias  Column alias name.
-	*
-	* @return  string
-	*
-	* @since   4.0.0
-	*/
+	 * Generate column expression for slug or catslug.
+	 *
+	 * @param   \JDatabaseQuery  $query  Current query instance.
+	 * @param   string           $id     Column id name.
+	 * @param   string           $alias  Column alias name.
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
 	private function getSlugColumn($query, $id, $alias)
 	{
 		return 'CASE WHEN '
