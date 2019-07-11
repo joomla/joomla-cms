@@ -654,14 +654,6 @@
 		</fieldset>
 	</fields>
 
-	<field
-		name="xreference"
-		type="text"
-		label="JFIELD_KEY_REFERENCE_LABEL"
-		description="JFIELD_KEY_REFERENCE_DESC"
-		size="20"
-	/>
-
 	<fields name="images" label="COM_CONTENT_FIELD_IMAGE_OPTIONS">
 		<field
 			name="image_intro"
@@ -866,14 +858,6 @@
 				filter="string"
 				cols="30"
 				rows="2"
-			/>
-
-			<field
-				name="xreference"
-				type="text"
-				label="COM_CONTENT_FIELD_XREFERENCE_LABEL"
-				description="COM_CONTENT_FIELD_XREFERENCE_DESC"
-				size="20"
 			/>
 
 		</fieldset>

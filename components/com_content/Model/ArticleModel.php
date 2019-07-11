@@ -104,7 +104,7 @@ class ArticleModel extends ItemModel
 							'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
 							'a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
 							'a.images, a.urls, a.attribs, a.version, a.ordering, ' .
-							'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, a.language, a.xreference'
+							'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, a.language
 						)
 					);
 				$query->from('#__content AS a')
