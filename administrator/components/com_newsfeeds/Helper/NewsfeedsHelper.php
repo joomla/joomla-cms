@@ -22,7 +22,7 @@ use Joomla\CMS\Helper\ContentHelper;
 class NewsfeedsHelper extends ContentHelper
 {
 	/**
-	 * Extension
+	 * Name of the extension
 	 *
 	 * @var    string
 	 */

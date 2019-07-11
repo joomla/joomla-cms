@@ -32,7 +32,7 @@ use Joomla\Registry\Registry;
 class CategoryModel extends ListModel
 {
 	/**
-	 * Category items data
+	 * Category item data
 	 *
 	 * @var    CategoryNode
 	 */

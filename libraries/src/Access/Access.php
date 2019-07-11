@@ -271,7 +271,6 @@ class Access
 	 * @return  void
 	 *
 	 * @since   1.6
-	 * @note    This function will return void in 4.0.
 	 */
 	protected static function preloadPermissions($assetType, $reload = false)
 	{

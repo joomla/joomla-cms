@@ -133,7 +133,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
 		$query = $db->getQuery(true);
 
-		$query	->select($db->quoteName('title'))
+		$query->select($db->quoteName('title'))
 			->from($db->quoteName('#__workflows'))
 			->where($db->quoteName('default') . ' = 1')
 			->where($db->quoteName('published') . ' = 1');
