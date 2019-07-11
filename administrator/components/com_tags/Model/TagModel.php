@@ -243,7 +243,7 @@ class TagModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		// @var \Joomla\Component\Tags\Administrator\Table\Tag $table
+		/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
 
 		$table      = $this->getTable();
 		$input      = Factory::getApplication()->input;
@@ -365,7 +365,7 @@ class TagModel extends AdminModel
 	public function rebuild()
 	{
 		// Get an instance of the table object.
-		// @var \Joomla\Component\Tags\Administrator\Table\Tag $table
+		/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
 
 		$table = $this->getTable();
 
@@ -397,7 +397,7 @@ class TagModel extends AdminModel
 	public function saveorder($idArray = null, $lft_array = null)
 	{
 		// Get an instance of the table object.
-		// @var \Joomla\Component\Tags\Administrator\Table\Tag $table
+		/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
 
 		$table = $this->getTable();
 
@@ -428,7 +428,7 @@ class TagModel extends AdminModel
 	protected function generateNewTitle($parent_id, $alias, $title)
 	{
 		// Alter the title & alias
-		// @var \Joomla\Component\Tags\Administrator\Table\Tag $table
+		/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
 
 		$table = $this->getTable();
 

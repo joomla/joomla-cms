@@ -27,9 +27,10 @@ HTMLHelper::_('script', 'com_mailto/mailto-default.js', ['version' => 'auto', 'r
 	</h2>
 	<div class="com-mailto__close mailto-close">
 		<a href="#" class="close-mailto">
-		 <span>
-			 <?php echo Text::_('COM_MAILTO_CLOSE_WINDOW'); ?>
-		 </span></a>
+			<span>
+				<?php echo Text::_('COM_MAILTO_CLOSE_WINDOW'); ?>
+			</span>
+		</a>
 	</div>
 
 	<form action="<?php echo Route::_('index.php?option=com_mailto&task=send'); ?>" method="post" class="form-validate com-mailto__form">
