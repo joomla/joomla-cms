@@ -92,6 +92,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');
 		}
+
 		// @codeCoverageIgnoreEnd
 
 		// Set the clean cache event

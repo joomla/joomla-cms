@@ -41,13 +41,13 @@ class SubformField extends FormField
 
 	/**
 	 * Minimum items in repeat mode
-	 * @var int
+	 * @var integer
 	 */
 	protected $min = 0;
 
 	/**
 	 * Maximum items in repeat mode
-	 * @var int
+	 * @var integer
 	 */
 	protected $max = 1000;
 
@@ -244,6 +244,7 @@ class SubformField extends FormField
 			{
 				$value = array_values($value);
 				$c = max($this->min, min(count($value), $this->max));
+
 				for ($i = 0; $i < $c; $i++)
 				{
 					$itemcontrol = $control . '[' . $this->fieldname . $i . ']';
