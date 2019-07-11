@@ -67,7 +67,6 @@ class ProfileController extends BaseController
 
 		// Get the model.
 		/** @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
-
 		$model = $this->getModel('Profile', 'Site');
 
 		// Check out the user.
@@ -104,7 +103,6 @@ class ProfileController extends BaseController
 		$app    = $this->app;
 
 		/** @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
-
 		$model  = $this->getModel('Profile', 'Site');
 		$user   = Factory::getUser();
 		$userId = (int) $user->get('id');

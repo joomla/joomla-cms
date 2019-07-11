@@ -313,7 +313,6 @@ class UserController extends BaseController
 		$app   = $this->app;
 
 		/** @var \Joomla\Component\Users\Site\Model\RemindModel $model */
-
 		$model = $this->getModel('Remind', 'Site');
 		$data  = $this->input->post->get('jform', array(), 'array');
 
