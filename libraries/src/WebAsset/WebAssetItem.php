@@ -98,7 +98,7 @@ class WebAssetItem implements WebAssetItemInterface
 	public function __construct(string $name, array $data = [])
 	{
 		$this->name        = $name;
-		$this->version     = !empty($data['version'])     ? $data['version']     : null;
+		$this->version     = !empty($data['version']) ? $data['version'] : null;
 		$this->assetSource = !empty($data['assetSource']) ? $data['assetSource'] : null;
 
 		$attributes = empty($data['attribute']) ? [] : $data['attribute'];

@@ -73,7 +73,23 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 ?>
 
 <?php // Description ?>
-<p class="rule-desc"><?php echo Text::_('JLIB_RULES_SETTINGS_DESC'); ?></p>
+<details>
+	<summary class="rule-notes">
+		<?php echo Text::_('JLIB_RULES_SETTINGS_DESC'); ?>
+	</summary>
+	<div class="rule-notes">
+	<?php
+	if ($section === 'component' || !$section)
+	{
+		echo Text::_('JLIB_RULES_SETTING_NOTES');
+	}
+	else
+	{
+		echo Text::_('JLIB_RULES_SETTING_NOTES_ITEM');
+	}
+	?>
+	</div>
+</details>
 <?php // Begin tabs ?>
 <joomla-field-permissions class="row mb-2" data-uri="<?php echo $ajaxUri; ?>">
 	<joomla-tab orientation="vertical" id="permissions-sliders">
@@ -119,11 +135,11 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 												id="<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>" >
 											<?php
 											/**
-											* Possible values:
-											* null = not set means inherited
-											* false = denied
-											* true = allowed
-											*/
+											 * Possible values:
+											 * null = not set means inherited
+											 * false = denied
+											 * true = allowed
+											 */
 
 											// Get the actual setting for the action for this group. ?>
 											<?php $assetRule = $newItem === false ? $assetRules->allow($action->name, $group->value) : null;?>
@@ -225,15 +241,3 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 	</joomla-tab>
 </joomla-field-permissions>
 
-<div class="rule-notes">
-	<?php
-	if ($section === 'component' || !$section)
-	{
-		echo Text::_('JLIB_RULES_SETTING_NOTES');
-	}
-	else
-	{
-		echo Text::_('JLIB_RULES_SETTING_NOTES_ITEM');
-	}
-	?>
-</div>
