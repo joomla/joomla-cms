@@ -43,10 +43,10 @@ class PlgWebservicesConfig extends CMSPlugin
 		$getDefaults = array_merge(array('public' => false), $defaults);
 
 		$routes = array(
-			new Route(['GET'], 'v1/config/application', 'application' . '.displayList', [], $getDefaults),
-			new Route(['PUT'], 'v1/config/application', 'application' . '.edit', [], $defaults),
-			new Route(['GET'], 'v1/config' . '/:component_name', 'component' . '.displayList', ['component_name' => '([A-Za-z_]+)'], $getDefaults),
-			new Route(['PUT'], 'v1/config' . '/:component_name', 'component' . '.edit', ['component_name' => '([A-Za-z_]+)'], $defaults)
+			new Route(['GET'], 'v1/config/application', 'application.displayList', [], $getDefaults),
+			new Route(['PUT'], 'v1/config/application', 'application.edit', [], $defaults),
+			new Route(['GET'], 'v1/config/:component_name', 'component.displayList', ['component_name' => '([A-Za-z_]+)'], $getDefaults),
+			new Route(['PUT'], 'v1/config/:component_name', 'component.edit', ['component_name' => '([A-Za-z_]+)'], $defaults)
 		);
 
 		$router->addRoutes($routes);
