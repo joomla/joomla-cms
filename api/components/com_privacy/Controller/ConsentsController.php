@@ -54,6 +54,6 @@ class ConsentsController extends ApiController
 
 		$this->input->set('model', $this->contentType);
 
-		parent::displayItem($id);
+		return parent::displayItem($id);
 	}
 }
