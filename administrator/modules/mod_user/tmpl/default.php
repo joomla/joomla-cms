@@ -17,7 +17,7 @@ use Joomla\CMS\Uri\Uri;
 $hideLinks = $app->input->getBool('hidemainmenu');
 ?>
 
-<div class="header-item-content dropdown header-profile footer-mobil-icon d-flex">
+<div class="header-item-content dropdown header-profile d-flex">
 	<button class="dropdown-toggle d-flex flex-column align-items-stretch <?php echo ($hideLinks ? 'disabled' : ''); ?>" data-toggle="dropdown" type="button" <?php echo ($hideLinks ? 'disabled' : ''); ?>
 		title="<?php echo Text::_('MOD_USER_MENU'); ?>">
 		<div class="d-flex align-items-end mx-auto">
