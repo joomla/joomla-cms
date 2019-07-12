@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\ParameterType;
 
 FormHelper::loadFieldClass('radio');
 
@@ -79,11 +80,14 @@ class JFormFieldterms extends JFormFieldRadio
 
 		if ($termsArticle && Factory::getApplication()->isClient('site'))
 		{
-			$db    = Factory::getDbo();
+			$db           = Factory::getDbo();
+			$termsArticle = (int) $termsArticle;
+
 			$query = $db->getQuery(true)
-				->select($db->quoteName(array('id', 'alias', 'catid', 'language')))
+				->select($db->quoteName(['id', 'alias', 'catid', 'language']))
 				->from($db->quoteName('#__content'))
-				->where($db->quoteName('id') . ' = ' . (int) $termsArticle);
+				->where($db->quoteName('id') . ' = :id')
+				->bind(':id', $termsArticle, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$article = $db->loadObject();
 
@@ -109,16 +113,16 @@ class JFormFieldterms extends JFormFieldRadio
 			}
 		}
 
-		$extraData = array(
-			'termsnote' => !empty($this->element['note']) ? $this->element['note'] : Text::_('PLG_USER_TERMS_NOTE_FIELD_DEFAULT'),
-			'options' => $this->getOptions(),
-			'value'   => (string) $this->value,
-			'translateLabel' => $this->translateLabel,
+		$extraData = [
+			'termsnote'            => !empty($this->element['note']) ? $this->element['note'] : Text::_('PLG_USER_TERMS_NOTE_FIELD_DEFAULT'),
+			'options'              => $this->getOptions(),
+			'value'                => (string) $this->value,
+			'translateLabel'       => $this->translateLabel,
 			'translateDescription' => $this->translateDescription,
-			'translateHint' => $this->translateHint,
-			'termsArticle' => $termsArticle,
-			'article' => $article,
-		);
+			'translateHint'        => $this->translateHint,
+			'termsArticle'         => $termsArticle,
+			'article'              => $article,
+		];
 
 		return array_merge($data, $extraData);
 	}
