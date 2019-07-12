@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -76,7 +77,7 @@ abstract class JHtmlContent
 
 		foreach ($model->countItemsByMonth() as $item)
 		{
-			$date    = new JDate($item->d);
+			$date    = new Date($item->d);
 			$items[] = HTMLHelper::_('select.option', $item->d, $date->format('F Y') . ' [' . $item->c . ']');
 		}
 
