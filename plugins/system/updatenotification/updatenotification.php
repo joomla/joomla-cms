@@ -94,11 +94,11 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		$this->params->set('lastrun', $now);
 
 		$query = $this->db->getQuery(true)
-					->update($this->db->quoteName('#__extensions'))
-					->set($this->db->quoteName('params') . ' = ' . $this->db->quote($this->params->toString('JSON')))
-					->where($this->db->quoteName('type') . ' = ' . $this->db->quote('plugin'))
-					->where($this->db->quoteName('folder') . ' = ' . $this->db->quote('system'))
-					->where($this->db->quoteName('element') . ' = ' . $this->db->quote('updatenotification'));
+			->update($this->db->quoteName('#__extensions'))
+			->set($this->db->quoteName('params') . ' = ' . $this->db->quote($this->params->toString('JSON')))
+			->where($this->db->quoteName('type') . ' = ' . $this->db->quote('plugin'))
+			->where($this->db->quoteName('folder') . ' = ' . $this->db->quote('system'))
+			->where($this->db->quoteName('element') . ' = ' . $this->db->quote('updatenotification'));
 
 		try
 		{
@@ -361,9 +361,9 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		try
 		{
 			$query = $this->db->getQuery(true)
-						->select($this->db->quoteName('user_id'))
-						->from($this->db->quoteName('#__user_usergroup_map'))
-						->where($this->db->quoteName('group_id') . ' IN(' . implode(',', $groups) . ')');
+				->select($this->db->quoteName('user_id'))
+				->from($this->db->quoteName('#__user_usergroup_map'))
+				->where($this->db->quoteName('group_id') . ' IN(' . implode(',', $groups) . ')');
 			$this->db->setQuery($query);
 			$rawUserIDs = $this->db->loadColumn(0);
 
@@ -388,16 +388,16 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		try
 		{
 			$query = $this->db->getQuery(true)
-						->select(
-							array(
-								$this->db->quoteName('id'),
-								$this->db->quoteName('username'),
-								$this->db->quoteName('email'),
-							)
-						)->from($this->db->quoteName('#__users'))
-						->where($this->db->quoteName('id') . ' IN(' . implode(',', $userIDs) . ')')
-						->where($this->db->quoteName('block') . ' = 0')
-						->where($this->db->quoteName('sendEmail') . ' = ' . $this->db->quote('1'));
+				->select(
+					array(
+						$this->db->quoteName('id'),
+						$this->db->quoteName('username'),
+						$this->db->quoteName('email'),
+					)
+				)->from($this->db->quoteName('#__users'))
+				->where($this->db->quoteName('id') . ' IN(' . implode(',', $userIDs) . ')')
+				->where($this->db->quoteName('block') . ' = 0')
+				->where($this->db->quoteName('sendEmail') . ' = ' . $this->db->quote('1'));
 
 			if (!empty($emails))
 			{

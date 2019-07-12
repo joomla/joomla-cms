@@ -128,13 +128,14 @@ class PlgSystemRemember extends CMSPlugin
 		}
 
 		/*
-		 * But now, we need to do something 
+		 * But now, we need to do something
 		 * Delete all tokens for this user!
 		 */
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->delete('#__user_keys')
 			->where($db->quoteName('user_id') . ' = ' . $db->quote($user['username']));
+
 		try
 		{
 			$db->setQuery($query)->execute();
