@@ -55,7 +55,7 @@ interface WebAssetManagerInterface
 	 *
 	 * @param   string  $name  The asset name
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @throws  UnknownAssetException  When Asset cannot be found
 	 *

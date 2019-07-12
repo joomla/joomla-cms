@@ -209,16 +209,16 @@ class ArchiveModel extends ArticlesModel
 	}
 
 	/**
-	* Generate column expression for slug or catslug.
-	*
-	* @param   \JDatabaseQuery  $query  Current query instance.
-	* @param   string           $id     Column id name.
-	* @param   string           $alias  Column alias name.
-	*
-	* @return  string
-	*
-	* @since   4.0.0
-	*/
+	 * Generate column expression for slug or catslug.
+	 *
+	 * @param   \JDatabaseQuery  $query  Current query instance.
+	 * @param   string           $id     Column id name.
+	 * @param   string           $alias  Column alias name.
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
 	private function getSlugColumn($query, $id, $alias)
 	{
 		return 'CASE WHEN '
