@@ -48,6 +48,8 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected $languageTag = null;
 
+	
+	
 	/**
 	 * Table of contents
 	 *
@@ -77,8 +79,8 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null): void
 	{
-		/** @var HelpModel $model */
-		$model                    = $this->getModel();
+		/* @var HelpModel $model */
+                $model                    = $this->getModel();
 		$this->helpSearch         = $model->getHelpSearch();
 		$this->page               = $model->getPage();
 		$this->toc                = $model->getToc();
