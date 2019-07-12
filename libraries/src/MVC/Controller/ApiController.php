@@ -68,7 +68,7 @@ class ApiController extends BaseController
 	/**
 	 * Items on a page
 	 *
-	 * @var  int
+	 * @var  integer
 	 */
 	protected $itemsPerPage = 20;
 

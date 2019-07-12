@@ -12,6 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 /**
  * Generates cryptographically-secure random values.
+ *
+ * @since    __DEPLOY_VERSION__
  */
 class Randval implements RandValInterface
 {
@@ -83,7 +85,7 @@ class Randval implements RandValInterface
 
 		while ($length > strlen($randomStr))
 		{
-			$bytes = ($total > $shaHashLength)? $shaHashLength : $total;
+			$bytes = ($total > $shaHashLength) ? $shaHashLength : $total;
 			$total -= $bytes;
 
 			/*

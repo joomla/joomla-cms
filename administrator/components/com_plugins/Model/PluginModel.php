@@ -258,7 +258,8 @@ class PluginModel extends AdminModel
 			->select($db->quoteName('element'))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-			->where($db->quoteName('folder') . ' = ' . $db->quote($folder));
+			->where($db->quoteName('folder') . ' = :folder')
+			->bind(':folder', $folder);
 		$db->setQuery($query);
 		$elements = $db->loadColumn();
 
