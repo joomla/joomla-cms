@@ -5522,12 +5522,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla/coding-standards.git",
-                "reference": "ce73dc37c52e1e5b8df723a1647abb214652c8dc"
+                "reference": "bcd5ae7cdc35549706a3d5ace3d67a0c3e0fd052"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla/coding-standards/zipball/ce73dc37c52e1e5b8df723a1647abb214652c8dc",
-                "reference": "ce73dc37c52e1e5b8df723a1647abb214652c8dc",
+                "url": "https://api.github.com/repos/joomla/coding-standards/zipball/bcd5ae7cdc35549706a3d5ace3d67a0c3e0fd052",
+                "reference": "bcd5ae7cdc35549706a3d5ace3d67a0c3e0fd052",
                 "shasum": ""
             },
             "require": {
@@ -5561,7 +5561,7 @@
                 "php codesniffer",
                 "phpcs"
             ],
-            "time": "2019-07-08T12:02:55+00:00"
+            "time": "2019-07-12T08:45:51+00:00"
         },
         {
             "name": "joomla/mediawiki",
