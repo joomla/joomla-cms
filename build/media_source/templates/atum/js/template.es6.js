@@ -159,7 +159,7 @@
         headerMoreItem.className = 'header-item header-item-more d-flex';
         headerMoreItem.id = 'header-more-items';
         const headerItemContent = document.createElement('div');
-        headerItemContent.className = 'header-item-content header-more footer-mobil-icon d-flex';
+        headerItemContent.className = 'header-item-content header-more d-flex';
         const headerMoreBtn = document.createElement('button');
         headerMoreBtn.className = 'header-more-btn d-flex flex-column align-items-stretch';
         headerMoreBtn.setAttribute('type', 'button');
