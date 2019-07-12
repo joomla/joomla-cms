@@ -2126,7 +2126,7 @@ class Installer extends \JAdapter
 			{
 				case 'folder':
 					// Add any folders to the list
-					$folders[] = (string) $file; // add any folders to the list
+					$folders[] = (string) $file;
 					break;
 
 				case 'file':
@@ -2188,7 +2188,7 @@ class Installer extends \JAdapter
 						if (!in_array(dirname((string) $file), $folders))
 						{
 							// Look if the file is now potentially in a folder
-							$files_deleted[] = (string) $file; // not in a folder, doesn't exist, wipe it out!
+							$files_deleted[] = (string) $file;
 						}
 					}
 					break;

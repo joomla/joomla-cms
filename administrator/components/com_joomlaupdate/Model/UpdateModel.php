@@ -100,7 +100,7 @@ class UpdateModel extends BaseDatabaseModel
 			->from($db->quoteName('#__update_sites_extensions') . ' AS ' . $db->quoteName('map'))
 			->join(
 				'INNER', $db->quoteName('#__update_sites') . ' AS ' . $db->quoteName('us')
-				. ' ON (' . 'us.update_site_id = map.update_site_id)'
+				. ' ON (us.update_site_id = map.update_site_id)'
 			)
 			->where('map.extension_id = ' . $db->quote(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id));
 		$db->setQuery($query);
@@ -364,12 +364,14 @@ class UpdateModel extends BaseDatabaseModel
 	private function isChecksumValid($packagefile, $updateObject)
 	{
 		$hashes = array('sha256', 'sha384', 'sha512');
+
 		foreach ($hashes as $hash)
 		{
 			if ($updateObject->get($hash, false))
 			{
 				$hashPackage = hash_file($hash, $packagefile);
 				$hashRemote  = $updateObject->$hash->_data;
+
 				if ($hashPackage !== $hashRemote)
 				{
 					// Return false in case the hash did not match
@@ -377,6 +379,7 @@ class UpdateModel extends BaseDatabaseModel
 				}
 			}
 		}
+
 		// Well nothing was provided or all worked
 		return true;
 	}

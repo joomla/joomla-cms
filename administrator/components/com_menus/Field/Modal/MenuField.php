@@ -258,6 +258,7 @@ class MenuField extends FormField
 
 		// The current menu item display field.
 		$html  = '';
+
 		if ($this->allowSelect || $this->allowNew || $this->allowEdit || $this->allowClear)
 		{
 			$html .= '<span class="input-group">';
