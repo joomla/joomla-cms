@@ -34,12 +34,12 @@ class ApiRouter implements ServiceProviderInterface
 	{
 		$container->alias('ApiRouter', 'Joomla\CMS\Router\ApiRouter')
 			->share(
-			'Joomla\CMS\Router\ApiRouter',
-			function (Container $container)
-			{
-				return new \Joomla\CMS\Router\ApiRouter($container->get(SiteApplication::class));
-			},
-			true
-		);
+				'Joomla\CMS\Router\ApiRouter',
+				function (Container $container)
+				{
+					return new \Joomla\CMS\Router\ApiRouter($container->get(SiteApplication::class));
+				},
+				true
+			);
 	}
 }

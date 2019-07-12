@@ -198,8 +198,8 @@ class DatabaseModel extends BaseInstallationModel
 				return false;
 			}
 
-		// @TODO implement the security check
-		/**
+			// @TODO implement the security check
+			/**
 		$shouldCheckLocalhost = getenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK') !== '1';
 
 		// Per Default allowed DB Hosts
@@ -411,7 +411,9 @@ class DatabaseModel extends BaseInstallationModel
 			}
 			else
 			{
-				throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db->getMinimum(), $db_version));
+				throw new \RuntimeException(
+					Text::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db->getMinimum(), $db_version)
+				);
 			}
 		}
 
@@ -674,7 +676,10 @@ class DatabaseModel extends BaseInstallationModel
 		{
 			if (!$installer->refreshManifestCache($extension->extension_id))
 			{
-				Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $extension->name), 'error');
+				Factory::getApplication()->enqueueMessage(
+					Text::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $extension->name),
+					'error'
+				);
 
 				return false;
 			}
@@ -847,7 +852,7 @@ class DatabaseModel extends BaseInstallationModel
 	 *
 	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   3.6.1
 	 */
@@ -900,7 +905,7 @@ class DatabaseModel extends BaseInstallationModel
 	 *
 	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
@@ -1201,12 +1206,12 @@ class DatabaseModel extends BaseInstallationModel
 			{
 				$in_string = false;
 			}
-			elseif (!$in_string && ($query[$i] == '"' || $query[$i] == "'") && (!isset ($buffer[0]) || $buffer[0] != "\\"))
+			elseif (!$in_string && ($query[$i] == '"' || $query[$i] == "'") && (!isset($buffer[0]) || $buffer[0] != "\\"))
 			{
 				$in_string = $query[$i];
 			}
 
-			if (isset ($buffer[1]))
+			if (isset($buffer[1]))
 			{
 				$buffer[0] = $buffer[1];
 			}

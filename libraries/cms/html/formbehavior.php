@@ -96,7 +96,6 @@ abstract class JHtmlFormbehavior
 		// Options array to json options string
 		$options_str = json_encode($options, ($debug && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false));
 
-
 		Factory::getDocument()->addScriptDeclaration(
 			"
 		jQuery(document).ready(function (){
