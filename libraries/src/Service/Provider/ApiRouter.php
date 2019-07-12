@@ -10,7 +10,7 @@ namespace Joomla\CMS\Service\Provider;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Application\ApiApplication;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -37,7 +37,7 @@ class ApiRouter implements ServiceProviderInterface
 				'Joomla\CMS\Router\ApiRouter',
 				function (Container $container)
 				{
-					return new \Joomla\CMS\Router\ApiRouter($container->get(SiteApplication::class));
+					return new \Joomla\CMS\Router\ApiRouter($container->get(ApiApplication::class));
 				},
 				true
 			);
