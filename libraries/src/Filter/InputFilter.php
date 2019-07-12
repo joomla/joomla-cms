@@ -461,16 +461,16 @@ class InputFilter extends BaseInputFilter
 
 		// Convert decimal
 		$source = preg_replace_callback('/&#(\d+);/m', function ($m)
-			{
-				return utf8_encode(chr($m[1]));
-			}, $source
+		{
+			return utf8_encode(chr($m[1]));
+		}, $source
 		);
 
 		// Convert hex
 		$source = preg_replace_callback('/&#x([a-f0-9]+);/mi', function ($m)
-			{
-				return utf8_encode(chr('0x' . $m[1]));
-			}, $source
+		{
+			return utf8_encode(chr('0x' . $m[1]));
+		}, $source
 		);
 
 		return $source;
