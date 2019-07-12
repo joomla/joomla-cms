@@ -26,6 +26,7 @@ class Category extends Admin
 	{
 		$this->amOnPage(ContentCategoryListPage::$url);
 		$this->waitForText("Articles: Categories", TIMEOUT, "//h1");
+		$this->waitForJsOnPageLoad();
 		$this->clickToolbarButton("New");
 		$this->waitForElement(ContentCategoryListPage::$title);
 		$this->fillField(ContentCategoryListPage::$title, $title);
