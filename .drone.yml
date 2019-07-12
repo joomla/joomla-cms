@@ -28,11 +28,9 @@ steps:
   - name: phpcs
     image: joomlaprojects/docker-images:php7.2
     depends_on: [ composer ]
-    failure: ignore
     commands:
       - echo $(date)
       - ./libraries/vendor/bin/phpcs --config-set installed_paths ../../joomla/cms-coding-standards/lib,../../joomla/coding-standards/Joomla/ExampleRulesets,../../joomla/coding-standards
-      - ./libraries/vendor/bin/phpcs --config-set colors 1
       - ./libraries/vendor/bin/phpcs --config-set php_version 70200
       - ./libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php --ignore=libraries/vendor/*,tests/*,build/*,node_modules/*,media/*,libraries/autoload_psr4.php,installation/template/error.php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
       - echo $(date)
@@ -258,6 +256,6 @@ services:
 
 ---
 kind: signature
-hmac: aca95530d5187380cc6124a73e613fff4d7f9783c95fbc2d9074e86bb8e1ba81
+hmac: 323b3031a2a60c288b1df1f7672d94926925c7615d611138728b3fb347b958ad
 
 ...
