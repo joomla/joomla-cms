@@ -26,7 +26,7 @@ class CheckinCheckoutExceptionHandler implements ExceptionHandlerInterface
 	 *
 	 * @param   \Exception  $e  The exception to be handled
 	 *
-	 * @return bool
+	 * @return  boolean
 	 *
 	 * @since  4.0.0
 	 */
