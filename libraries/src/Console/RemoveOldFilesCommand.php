@@ -67,7 +67,7 @@ class RemoveOldFilesCommand extends AbstractCommand
 	{
 		$this->setDescription('Removes old system files');
 		$this->setHelp(
-<<<EOF
+			<<<EOF
 The <info>%command.name%</info> command removes old files which should have been deleted during a Joomla update
 
 <info>php %command.full_name%</info>

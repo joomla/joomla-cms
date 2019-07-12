@@ -74,7 +74,7 @@ class UpdatesitesController extends BaseController
 		}
 
 		// Get the model.
-		/* @var \Joomla\Component\Installer\Administrator\Model\UpdatesitesModel $model */
+		/** @var \Joomla\Component\Installer\Administrator\Model\UpdatesitesModel $model */
 		$model = $this->getModel('Updatesites');
 
 		// Change the state of the records.
