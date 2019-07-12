@@ -41,7 +41,7 @@ if ($saveOrder && !empty($this->items))
 				<?php echo $this->sidebar; ?>
 			</div>
 		<?php endif; ?>
-		<div class="col-md-<?php echo !empty($this->sidebar) 10 : 12; ?>">
+		<div class="col-md-<?php echo !empty($this->sidebar) ? 10 : 12; ?>">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
