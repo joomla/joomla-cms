@@ -249,7 +249,7 @@ class LegacyComponent
 	/**
 	 * Returns the classname of the legacy helper class. If none is found it returns false.
 	 *
-	 * @return  bool|string
+	 * @return  boolean|string
 	 *
 	 * @since   4.0.0
 	 */

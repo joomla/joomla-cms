@@ -191,7 +191,8 @@ class LanguageHelper
 	 * @since   3.7.0
 	 */
 	public static function getInstalledLanguages($clientId = null, $processMetaData = false, $processManifest = false, $pivot = 'element',
-		$orderField = null, $orderDirection = null)
+		$orderField = null, $orderDirection = null
+	)
 	{
 		static $installedLanguages = null;
 
@@ -346,7 +347,8 @@ class LanguageHelper
 	 * @since   3.7.0
 	 */
 	public static function getContentLanguages($publishedStates = array(1), $checkInstalled = true, $pivot = 'lang_code', $orderField = null,
-		$orderDirection = null)
+		$orderDirection = null
+	)
 	{
 		static $contentLanguages = null;
 

@@ -14,5 +14,5 @@ use Joomla\CMS\Language\Text;
 $title = Text::_('COM_MEDIA_CREATE_NEW_FOLDER');
 ?>
 <button class="btn btn-sm btn-info" onclick="MediaManager.Event.fire('onClickCreateFolder');">
-    <span class="icon-folder-close"></span> <?php echo $title; ?>
+	<span class="icon-folder-close"></span> <?php echo $title; ?>
 </button>
