@@ -58,7 +58,7 @@ class CssMenu
 	/**
 	 * The menu bar state
 	 *
-	 * @var    bool
+	 * @var    boolean
 	 *
 	 * @since  3.8.0
 	 */
@@ -67,7 +67,7 @@ class CssMenu
 	/**
 	 * The application
 	 *
-	 * @var    bool
+	 * @var    boolean
 	 *
 	 * @since  4.0.0
 	 */
@@ -76,7 +76,7 @@ class CssMenu
 	/**
 	 * A counter for unique IDs
 	 *
-	 * @var   int
+	 * @var   integer
 	 *
 	 * @since  4.0.0
 	 */

@@ -136,6 +136,7 @@ class Categories implements CategoryInterface
 		}
 
 		$categories = null;
+
 		try
 		{
 			$parts = explode('.', $extension, 2);
