@@ -920,7 +920,7 @@ class Language
 	 */
 	protected function getTrace()
 	{
-		return \function_exists('debug_backtrace') ?  debug_backtrace() : [];
+		return \function_exists('debug_backtrace') ? debug_backtrace() : [];
 	}
 
 	/**
