@@ -85,17 +85,16 @@ class HtmlView extends BaseHtmlView
 				$lang->load($parts[0]);
 			}
 
-			$sectionkey = !empty($parts[1]) ?   '_' . strtoupper($parts[1]) : '';
+			$sectionkey = !empty($parts[1]) ? '_' . strtoupper($parts[1]) : '';
 			$key = $prefix . $sectionkey . '_TITLE';
 			$keyIcon = $prefix . $sectionkey . '_ICON';
-
 
 			// Search for a component title
 			if ($lang->hasKey($key))
 			{
 				$title = Text::_($key);
 			}
-			
+
 			// Search for Icon
 			if ($lang->hasKey($keyIcon))
 			{
