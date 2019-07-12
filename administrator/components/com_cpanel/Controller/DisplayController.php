@@ -53,7 +53,7 @@ class DisplayController extends BaseController
 
 		return parent::display($cachable, $urlparams);
 	}
-	
+
 	/**
 	 * Method to add a module to a dashboard
 	 *

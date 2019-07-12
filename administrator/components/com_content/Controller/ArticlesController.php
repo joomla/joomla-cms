@@ -138,7 +138,7 @@ class ArticlesController extends AdminController
 
 	/**
 	 * Method to get the number of published articles for quickicons
-	 * 
+	 *
 	 * @return  integer  The amount of published articles
 	 *
 	 * @since   4.0
@@ -146,7 +146,7 @@ class ArticlesController extends AdminController
 	public function getQuickiconContent()
 	{
 		$model = $this->getModel('articles');
-		
+
 		$model->setState('filter.published', 1);
 
 		$amount = (int) $model->getTotal();

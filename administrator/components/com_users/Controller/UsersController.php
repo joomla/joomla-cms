@@ -155,7 +155,7 @@ class UsersController extends AdminController
 
 	/**
 	 * Method to get the number of active users
-	 * 
+	 *
 	 * @return  integer  The amount of users
 	 *
 	 * @since   4.0
