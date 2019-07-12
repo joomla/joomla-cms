@@ -45,12 +45,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
-				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-info">
-						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
-						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-					</div>
-				<?php else : ?>
+				<?php if (!empty($this->items)) : ?>
 					<table class="table" id="itemList">
 						<caption id="captionTable" class="sr-only">
 							<?php echo Text::_('COM_MENUS_ITEMS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
