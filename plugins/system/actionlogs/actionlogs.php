@@ -65,12 +65,7 @@ class PlgSystemActionLogs extends CMSPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		if (!$this->app->isClient('administrator'))
-		{
-			return;
-		}
-
-		// Load plugin language files only when needed (ex: they are not needed in site client).
+		// Load plugin language files.
 		$this->loadLanguage();
 	}
 

@@ -92,7 +92,8 @@ abstract class JHtmlSelect
 	 * @since   1.5
 	 */
 	public static function genericlist($data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false,
-		$translate = false)
+		$translate = false
+	)
 	{
 		// Set default options
 		$options = array_merge(HTMLHelper::$formatOptions, array('format.depth' => 0, 'id' => false));
@@ -682,7 +683,8 @@ abstract class JHtmlSelect
 	 * @since   1.5
 	 */
 	public static function radiolist($data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false,
-		$translate = false)
+		$translate = false
+	)
 	{
 
 		if (is_array($attribs))

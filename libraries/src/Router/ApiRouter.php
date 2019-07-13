@@ -26,7 +26,7 @@ class ApiRouter extends Router
 	/**
 	 * The application object
 	 *
-	 * @type   CMSApplicationInterface
+	 * @var    CMSApplicationInterface
 	 * @since  4.0.0
 	 */
 	protected $app;

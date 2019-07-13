@@ -130,7 +130,7 @@ if (!empty($editor))
 
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="boxchecked" value="0">
-        <input type="hidden" name="editor" value="<?php echo $editor; ?>" />
+		<input type="hidden" name="editor" value="<?php echo $editor; ?>" />
 		<?php echo HTMLHelper::_('form.token'); ?>
 
 	</form>

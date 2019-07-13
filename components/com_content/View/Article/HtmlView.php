@@ -300,7 +300,8 @@ class HtmlView extends BaseHtmlView
 			$path     = array(array('title' => $this->item->title, 'link' => ''));
 			$category = Categories::getInstance('Content')->get($this->item->catid);
 
-			while ($category && ($menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article' || $id != $category->id) && $category->id > 1)
+			while ($category
+				&& ($menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article' || $id != $category->id) && $category->id > 1)
 			{
 				$path[]   = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language));
 				$category = $category->getParent();
