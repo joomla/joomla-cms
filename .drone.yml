@@ -31,7 +31,7 @@ steps:
     commands:
       - echo $(date)
       - ./libraries/vendor/bin/phpcs --config-set installed_paths ../../joomla/cms-coding-standards/lib,../../joomla/coding-standards
-      - ./libraries/vendor/bin/phpcs --report=full --extensions=php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
+      - ./libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php --ignore=libraries/vendor/*,tests/*,build/*,node_modules/*,media/*,libraries/autoload_psr4.php,installation/template/error.php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
       - echo $(date)
 
   - name: npm
@@ -254,6 +254,6 @@ services:
 
 ---
 kind: signature
-hmac: 70e4d57d65ab1d21e81b4c7b85f608acdccd44ee00a83c8ad740d05efa49e5ad
+hmac: 684086c95de007aeccaf362361a3e6b3db9b9496b88f0570ff02245ddb297919
 
 ...
