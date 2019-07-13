@@ -155,8 +155,6 @@ class UsersController extends AdminController
 
 	/**
 	 * Method to get the number of active users
-	 * 
-	 * @return  integer  The amount of users
 	 *
 	 * @since   4.0
 	 */
@@ -168,6 +166,12 @@ class UsersController extends AdminController
 
 		$amount = (int) $model->getTotal();
 
-		echo new JsonResponse($amount);
+		$result = [];
+
+		$result['amount'] = $amount;
+		$result['sronly'] = Text::plural('COM_USERS_QUICKICON_SRONLY', $amount);
+		$result['name'] = Text::plural('COM_USERS_QUICKICON', $amount);
+
+		echo new JsonResponse($result);
 	}
 }

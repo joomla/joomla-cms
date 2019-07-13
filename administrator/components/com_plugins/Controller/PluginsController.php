@@ -11,6 +11,7 @@ namespace Joomla\Component\Plugins\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Response\JsonResponse;
 
@@ -39,8 +40,6 @@ class PluginsController extends AdminController
 
 	/**
 	 * Method to get the number of activated plugins
-	 * 
-	 * @return  integer  The amount of items
 	 *
 	 * @since   4.0
 	 */
@@ -52,6 +51,12 @@ class PluginsController extends AdminController
 
 		$amount = (int) $model->getTotal();
 
-		echo new JsonResponse($amount);
+		$result = [];
+
+		$result['amount'] = $amount;
+		$result['sronly'] = Text::plural('COM_PLUGINS_QUICKICON_SRONLY', $amount);
+		$result['name'] = Text::plural('COM_PLUGINS_QUICKICON', $amount);
+
+		echo new JsonResponse($result);
 	}
 }

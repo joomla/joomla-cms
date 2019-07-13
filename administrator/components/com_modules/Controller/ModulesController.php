@@ -75,8 +75,6 @@ class ModulesController extends AdminController
 	
 	/**
 	 * Method to get the number of frontend modules
-	 * 
-	 * @return  integer  The amount of modules
 	 *
 	 * @since   4.0
 	 */
@@ -87,8 +85,14 @@ class ModulesController extends AdminController
 		$model->setState('filter.published', 1);
 		$model->setState('filter.client_id', 0);
 
-		$amount = $model->getTotal() ? $model->getTotal() : '0';
+		$amount = (int) $model->getTotal();
 
-		echo new JsonResponse($amount);
+		$result = [];
+
+		$result['amount'] = $amount;
+		$result['sronly'] = Text::plural('COM_MODULES_QUICKICON_SRONLY', $amount);
+		$result['name'] = Text::plural('COM_MODULES_QUICKICON', $amount);
+
+		echo new JsonResponse($result);
 	}
 }

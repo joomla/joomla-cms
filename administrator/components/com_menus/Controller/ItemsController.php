@@ -77,7 +77,13 @@ class ItemsController extends AdminController
 
 		$amount = (int) $model->getTotal();
 
-		echo new JsonResponse($amount);
+		$result = [];
+
+		$result['amount'] = $amount;
+		$result['sronly'] = Text::plural('COM_MENUS_ITEMS_QUICKICON_SRONLY', $amount);
+		$result['name'] = Text::plural('COM_MENUS_ITEMS_QUICKICON', $amount);
+
+		echo new JsonResponse($result);
 	}
 
 	/**

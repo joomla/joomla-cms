@@ -15,14 +15,11 @@ $id      = empty($displayData['id']) ? '' : (' id="' . $displayData['id'] . '"')
 $target  = empty($displayData['target']) ? '' : (' target="' . $displayData['target'] . '"');
 $onclick = empty($displayData['onclick']) ? '' : (' onclick="' . $displayData['onclick'] . '"');
 
-if (isset($displayData['ajaxurl']))
-{
-	$size    = 'small';
+if (isset($displayData['ajaxurl'])) {
+	$size = 'small';
 	$dataUrl = 'data-url="' . $displayData['ajaxurl'] . '"';
-}
-else
-{
-	$size    = 'big';
+} else {
+	$size = 'big';
 	$dataUrl = '';
 }
 
@@ -45,20 +42,13 @@ if ($id && ($displayData['id'] === 'plg_quickicon_joomlaupdate'
 }
 
 // Add the button class
-if (!empty($displayData['class']) && is_string($displayData['class']))
+if (!empty($displayData['class']))
 {
 	$tmp[] = $this->escape($displayData['class']);
 }
 
 // Make the class string
 $class = !empty($tmp) ? 'class="' . implode(' ', array_unique($tmp)) . '"' : '';
-
-if (isset($displayData['srOnly']))
-{
-	$srOnly_0 = Text::plural($displayData['srOnly'], 0);
-	$srOnly_1 = Text::plural($displayData['srOnly'], 1);
-	$srOnly_n = Text::plural($displayData['srOnly'], 2);
-}
 
 if (isset($displayData['name']))
 {
@@ -76,26 +66,18 @@ else
 	<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
 		<?php if (isset($displayData['image'])): ?>
 			<div class="quickicon-icon d-flex align-items-end <?php echo $size ?>">
-				<span class="<?php echo $displayData['image']; ?>" aria-hidden="true"></span>
+				<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
 			</div>
 		<?php endif; ?>
 		<?php if (isset($displayData['ajaxurl'])) : ?>
 			<div class="quickicon-amount" <?php echo $dataUrl ?> aria-hidden="true">
-				<span class="fa fa-spinner"></span>
+				<span class="fa fa-spinner" aria-hidden="true"></span>
 			</div>
-			<?php if (isset($displayData['srOnly']) ) : ?>
-				<div class="quickicon-sr-desc sr-only"
-					data-sronly-zero="<?php echo $srOnly_0 ?>"
-					data-sronly-one="<?php echo $srOnly_1 ?>"
-					data-sronly-n="<?php echo $srOnly_n ?>">
-				</div>
-			<?php endif; ?>
+			<div class="quickicon-sr-desc sr-only"></div>
 		<?php endif; ?>
 		<?php // Name indicates the component
-		if (isset($displayData['name'])) : ?>
-			<div aria-hidden="true" class="quickicon-name d-flex align-items-end"
-				 data-name-singular="<?php echo $add ?>"
-				 data-name-plural="<?php echo $name ?>">
+		if (isset($displayData['name'])): ?>
+			<div class="quickicon-name d-flex align-items-end">
 				<?php echo htmlspecialchars($name); ?>
 			</div>
 		<?php endif; ?>

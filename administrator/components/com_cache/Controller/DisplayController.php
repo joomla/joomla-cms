@@ -54,13 +54,18 @@ class DisplayController extends BaseController
 
 		// Number bytes are returned in format xxx.xx MB
 		$bytes = HTMLHelper::_('number.bytes', $size, 'MB', 1);
-		$result = strstr($bytes, '.', true);
+		$mb = strstr($bytes, '.', true);
 
 		// No dot found, so just take the converted size
-		if (!$result)
+		if (!$mb)
 		{
-			$result = $bytes;
+			$mb = $bytes;
 		}
+
+		$result = [];
+
+		$result['amount'] = $mb;
+		$result['sronly'] = Text::sprintf('COM_CACHE_QUICKICON_SRONLY', $mb);
 
 		// Return number only
 		echo new JsonResponse($result);

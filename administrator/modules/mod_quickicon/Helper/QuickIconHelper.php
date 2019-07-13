@@ -67,7 +67,6 @@ abstract class QuickIconHelper
 			{
 				$tmp = [
 					'image'   => 'fa fa-users',
-					'srOnly'  => 'MOD_QUICKICON_USER_SRONLY',
 					'link'    => Route::_('index.php?option=com_users'),
 					'linkadd' => Route::_('index.php?option=com_users&task=users.add'),
 					'name'    => 'MOD_QUICKICON_USER_MANAGER',
@@ -87,7 +86,6 @@ abstract class QuickIconHelper
 			{
 				$tmp = [
 					'image'   => 'fa fa-list',
-					'srOnly'  => 'MOD_QUICKICON_MENUITEMS_SRONLY',
 					'link'    => Route::_('index.php?option=com_menus'),
 					'linkadd' => Route::_('index.php?option=com_menus&task=item.add'),
 					'name'    => 'MOD_QUICKICON_MENUITEMS_MANAGER',
@@ -107,7 +105,6 @@ abstract class QuickIconHelper
 			{
 				$tmp = [
 					'image'   => 'fa fa-file-alt',
-					'srOnly'  => 'MOD_QUICKICON_ARTICLE_SRONLY',
 					'link'    => Route::_('index.php?option=com_content'),
 					'linkadd' => Route::_('index.php?option=com_content&task=article.add'),
 					'name'    => 'MOD_QUICKICON_ARTICLE_MANAGER',
@@ -127,7 +124,6 @@ abstract class QuickIconHelper
 			{
 				$tmp = [
 					'image'   => 'fa fa-folder-open',
-					'srOnly'  => 'MOD_QUICKICON_CATEGORY_SRONLY',
 					'link'    => Route::_('index.php?option=com_categories'),
 					'linkadd' => Route::_('index.php?option=com_categories&task=category.add'),
 					'name'    => 'MOD_QUICKICON_CATEGORY_MANAGER',
@@ -158,7 +154,6 @@ abstract class QuickIconHelper
 			{
 				$tmp = [
 					'image'   => 'fa fa-cube',
-					'srOnly'  => 'MOD_QUICKICON_MODULE_SRONLY',
 					'link'    => Route::_('index.php?option=com_modules'),
 					'linkadd' => Route::_('index.php?option=com_modules&view=select'),
 					'name'    => 'MOD_QUICKICON_MODULE_MANAGER',
@@ -178,7 +173,6 @@ abstract class QuickIconHelper
 			{
 				$tmp = [
 					'image'  => 'fa fa-plug',
-					'srOnly' => 'MOD_QUICKICON_PLUGIN_SRONLY',
 					'link'   => Route::_('index.php?option=com_plugins'),
 					'name'   => 'MOD_QUICKICON_PLUGIN_MANAGER',
 					'access' => array('core.manage', 'com_plugins'),
@@ -207,9 +201,8 @@ abstract class QuickIconHelper
 			if ($params->get('show_checkin'))
 			{
 				self::$buttons[$key][] = [
-					'ajaxurl' => 'index.php?option=com_checkin&amp;task=getMenuBadgeData&amp;format=json',
+					'ajaxurl' => 'index.php?option=com_checkin&amp;task=getQuickiconContent&amp;format=json',
 					'image'   => 'fa fa-unlock-alt',
-					'srOnly'  => 'MOD_QUICKICON_CHECKIN_SRONLY',
 					'link'    => Route::_('index.php?option=com_checkin'),
 					'name'    => 'MOD_QUICKICON_CHECKINS',
 					'access'  => array('core.admin', 'com_checkin'),
@@ -222,7 +215,6 @@ abstract class QuickIconHelper
 				self::$buttons[$key][] = [
 					'ajaxurl' => 'index.php?option=com_cache&amp;task=display.getQuickiconContent&amp;format=json',
 					'image'   => 'fa fa-cloud',
-					'srOnly'  => 'MOD_QUICKICON_CACHE_SRONLY',
 					'link'    => Route::_('index.php?option=com_cache'),
 					'name'    => 'MOD_QUICKICON_CACHE',
 					'access'  => array('core.admin', 'com_cache'),
@@ -259,7 +251,6 @@ abstract class QuickIconHelper
 				{
 					$default = array(
 						'link'    => null,
-						'sronly'  => null,
 						'image'   => null,
 						'text'    => null,
 						'name'    => null,

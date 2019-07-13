@@ -93,4 +93,30 @@ class DisplayController extends BaseController
 
 		echo new JsonResponse($amount);
 	}
+
+	/**
+	 * Method to get the number of locked icons
+	 * 
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
+	public function getQuickiconContent()
+	{
+		if (!Factory::getUser()->authorise('core.manage', 'com_checkin'))
+		{
+			throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
+		}
+
+		$model = $this->getModel('Checkin');
+		
+		$amount = (int) count($model->getItems());
+		
+		$result = [];
+
+		$result['amount'] = $amount;
+		$result['sronly'] = Text::plural('COM_CHECKIN_QUICKICON_SRONLY', $amount);
+
+		echo new JsonResponse($result);
+	}
 }
