@@ -172,7 +172,7 @@ class ArticleModel extends AdminModel
 			// Add workflow_assosciations entry
 			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName(array('stage_id','extension')))
+				->select($db->quoteName(['stage_id', 'extension']))
 				->from($db->quoteName('#__workflow_associations'))
 				->where($db->quoteName('item_id') . ' = ' . $pk);
 			$db->setQuery($query);
