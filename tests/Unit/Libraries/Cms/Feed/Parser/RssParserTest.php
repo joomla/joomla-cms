@@ -88,14 +88,19 @@ class RssParserTest extends UnitTestCase
 		$feedMock
 			->expects($this->once())
 			->method('__set')
-			->with('cloud', $this->callback(function ($value) use ($cloud) {
-				return is_object($value)
-					&& $value->domain === $cloud['domain']
-					&& $value->port === $cloud['port']
-					&& $value->path === $cloud['path']
-					&& $value->registerProcedure === $cloud['registerProcedure']
-					&& $value->protocol === $cloud['protocol'];
-			}));
+			->with('cloud',
+				$this->callback(
+					function ($value) use ($cloud)
+					{
+						return is_object($value)
+							&& $value->domain === $cloud['domain']
+							&& $value->port === $cloud['port']
+							&& $value->path === $cloud['path']
+							&& $value->registerProcedure === $cloud['registerProcedure']
+							&& $value->protocol === $cloud['protocol'];
+					}
+				)
+			);
 
 		// Use reflection to test protected method
 		$rssParser = new RssParser($this->createMock(XMLReader::class));
@@ -223,17 +228,22 @@ class RssParserTest extends UnitTestCase
 		$feedMock
 			->expects($this->once())
 			->method('__set')
-			->with('image', $this->callback(function ($value) use ($image) {
-				return $value instanceOf FeedLink
-					&& $value->uri === $image['url']
-					&& $value->relation === null
-					&& $value->type === 'logo'
-					&& $value->language === null
-					&& $value->title === $image['title']
-					&& $value->description === $image['description']
-					&& $value->height === ''
-					&& $value->width === '';
-			}));
+			->with('image',
+				$this->callback(
+					function ($value) use ($image)
+					{
+						return $value instanceOf FeedLink
+							&& $value->uri === $image['url']
+							&& $value->relation === null
+							&& $value->type === 'logo'
+							&& $value->language === null
+							&& $value->title === $image['title']
+							&& $value->description === $image['description']
+							&& $value->height === ''
+							&& $value->width === '';
+					}
+				)
+			);
 
 		// Use reflection to test protected method
 		$rssParser = new RssParser($this->createMock(XMLReader::class));
@@ -323,9 +333,14 @@ class RssParserTest extends UnitTestCase
 		$feedMock
 			->expects($this->once())
 			->method('__set')
-			->with('link', $this->callback(function ($value) use ($link) {
-				return $value instanceOf FeedLink && $value->uri === $link;
-			}));
+			->with('link',
+				$this->callback(
+					function ($value) use ($link)
+					{
+						return $value instanceOf FeedLink && $value->uri === $link;
+					}
+				)
+			);
 
 		// Use reflection to test protected method
 		$rssParser = new RssParser($this->createMock(XMLReader::class));
@@ -358,11 +373,16 @@ class RssParserTest extends UnitTestCase
 		$feedMock
 			->expects($this->once())
 			->method('__set')
-			->with('author', $this->callback(function ($value) use ($editor) {
-				return $value instanceOf FeedPerson
-					&& $value->name === $editor['name']
-					&& $value->email === $editor['email'];
-			}));
+			->with('author',
+				$this->callback(
+					function ($value) use ($editor)
+					{
+						return $value instanceOf FeedPerson
+							&& $value->name === $editor['name']
+							&& $value->email === $editor['email'];
+					}
+				)
+			);
 
 		// Use reflection to test protected method
 		$rssParser = new RssParser($this->createMock(XMLReader::class));
@@ -641,11 +661,15 @@ class RssParserTest extends UnitTestCase
 				['guid', ''],
 				['isPermaLink', true],
 				['comments', ''],
-				['author', $this->callback(function ($value) use ($entry) {
-					return $value instanceof FeedPerson
-						&& $value->name === $entry['authorName']
-						&& $value->email === $entry['authorEmail'];
-				})]
+				['author', $this->callback(
+					function ($value) use ($entry)
+					{
+						return $value instanceof FeedPerson
+							&& $value->name === $entry['authorName']
+							&& $value->email === $entry['authorEmail'];
+					}
+				)
+				]
 			);
 
 		$feedEntryMock
@@ -656,12 +680,17 @@ class RssParserTest extends UnitTestCase
 		$feedEntryMock
 			->expects($this->once())
 			->method('addLink')
-			->with($this->callback(function ($value) use ($entry) {
-				return $value instanceof FeedLink
-					&& $value->uri === $entry['enclosureUrl']
-					&& $value->type === $entry['enclosureType']
-					&& $value->length === (int) $entry['enclosureLength'];
-			}));
+			->with(
+				$this->callback(
+					function ($value) use ($entry)
+					{
+						return $value instanceof FeedLink
+							&& $value->uri === $entry['enclosureUrl']
+							&& $value->type === $entry['enclosureType']
+							&& $value->length === (int) $entry['enclosureLength'];
+					}
+				)
+			);
 
 		// Use reflection to test protected method
 		$rssParser = new RssParser($this->createMock(XMLReader::class));

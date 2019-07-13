@@ -259,15 +259,18 @@ class Media extends Admin
 	public function clickHoldingShiftkey($xpath)
 	{
 		$I = $this;
-		$I->executeInSelenium(function (RemoteWebDriver $webdriver) use ($xpath) {
-			$element  = $webdriver->findElement(WebDriverBy::xpath($xpath));
-			$action   = new WebDriverActions($webdriver);
-			$shiftKey = WebDriverKeys::SHIFT;
-			$action->keyDown(null, $shiftKey)
-				->click($element)
-				->keyUp(null, $shiftKey)
-				->perform();
-		});
+		$I->executeInSelenium(
+			function (RemoteWebDriver $webdriver) use ($xpath)
+			{
+				$element  = $webdriver->findElement(WebDriverBy::xpath($xpath));
+				$action   = new WebDriverActions($webdriver);
+				$shiftKey = WebDriverKeys::SHIFT;
+				$action->keyDown(null, $shiftKey)
+					->click($element)
+					->keyUp(null, $shiftKey)
+					->perform();
+			}
+		);
 	}
 
 	/**

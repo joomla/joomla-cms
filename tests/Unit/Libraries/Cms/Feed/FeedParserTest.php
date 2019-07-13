@@ -93,9 +93,12 @@ class FeedParserTest extends UnitTestCase
 			->method('processElementForFeed')
 			->with(
 				$this->isInstanceOf(Feed::class),
-				$this->callback(function ($value) use ($content) {
-					return $value instanceof SimpleXMLElement && (string) $value[0] === $content;
-				})
+				$this->callback(
+					function ($value) use ($content)
+					{
+						return $value instanceof SimpleXMLElement && (string) $value[0] === $content;
+					}
+				)
 			);
 
 		$parser = new FeedParserStub($xmlReader);
@@ -176,9 +179,12 @@ class FeedParserTest extends UnitTestCase
 			->method('processElementForFeedEntry')
 			->with(
 				$this->isInstanceOf(FeedEntry::class),
-				$this->callback(function ($value) use ($content) {
-					return $value instanceof SimpleXMLElement && (string) $value[0] === '';
-				})
+				$this->callback(
+					function ($value) use ($content)
+					{
+						return $value instanceof SimpleXMLElement && (string) $value[0] === '';
+					}
+				)
 			);
 
 		$parser = new FeedParserStub($xmlReader);

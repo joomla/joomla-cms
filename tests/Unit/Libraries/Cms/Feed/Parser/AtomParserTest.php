@@ -181,9 +181,14 @@ class AtomParserTest extends UnitTestCase
 		$feedMock
 			->expects($this->once())
 			->method('__set')
-			->with('link', $this->callback(function ($param) use ($href) {
-				return $param instanceof FeedLink && $param->uri === $href;
-			}));
+			->with('link',
+				$this->callback(
+					function ($param) use ($href)
+					{
+						return $param instanceof FeedLink && $param->uri === $href;
+					}
+				)
+			);
 
 		// Use reflection to test protected method
 		$atomParser = new AtomParser($this->createMock(XMLReader::class));
