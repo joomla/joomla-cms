@@ -43,9 +43,6 @@ HTMLHelper::_('behavior.formvalidator');
 				<button type="submit" class="com-users-registration__register btn btn-primary validate">
 					<?php echo Text::_('JREGISTER'); ?>
 				</button>
-				<a class="com-users-registration__cancel btn btn-danger" href="<?php echo Route::_(''); ?>">
-					<?php echo Text::_('JCANCEL'); ?>
-				</a>
 				<input type="hidden" name="option" value="com_users">
 				<input type="hidden" name="task" value="registration.register">
 			</div>

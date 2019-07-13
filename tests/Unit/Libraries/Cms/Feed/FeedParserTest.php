@@ -122,9 +122,9 @@ class FeedParserTest extends UnitTestCase
 		$parser = new FeedParserStub($xmlReader);
 		$parser->parse();
 
-		$this->assertAttributeNotEmpty( 'namespaces', $parser);
-		$this->assertArrayHasKey($prefix, static::readAttribute($parser, 'namespaces'));
-		$this->assertInstanceOf(FeedParserStubUnregistered::class, static::readAttribute($parser, 'namespaces')[$prefix]);
+		$this->assertNotEmpty($parser->getNamespaces());
+		$this->assertArrayHasKey($prefix, $parser->getNamespaces());
+		$this->assertInstanceOf(FeedParserStubUnregistered::class, $parser->getNamespaces()[$prefix]);
 
 		// Cleanup
 		$xmlReader->close();
@@ -201,7 +201,7 @@ class FeedParserTest extends UnitTestCase
 		$returnedParser = $parser->registerNamespace($prefix, $namespaceMock);
 
 		$this->assertInstanceOf(FeedParserStub::class, $returnedParser);
-		$this->assertAttributeEquals([$prefix => $namespaceMock], 'namespaces', $parser);
+		$this->assertEquals([$prefix => $namespaceMock], $parser->getNamespaces());
 	}
 
 	/**
@@ -443,6 +443,18 @@ class FeedParserStub extends FeedParser
 	public function getHandleCustomCalledWith(): array
 	{
 		return $this->handleCustomCalledWith;
+	}
+
+	/**
+	 * Getter for the namespaces
+	 *
+	 * @return  array
+	 *
+	 * @since   4.0
+	 */
+	public function getNamespaces(): array
+	{
+		return $this->namespaces;
 	}
 
 	/**

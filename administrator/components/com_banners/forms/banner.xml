@@ -108,6 +108,7 @@
 			type="url"
 			label="COM_BANNERS_FIELD_CLICKURL_LABEL"
 			filter="url"
+			validate="url"
 		/>
 	</fieldset>
 

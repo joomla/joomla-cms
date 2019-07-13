@@ -22,6 +22,7 @@ use Joomla\CMS\Language\Text;
 	</div>
 	<?php if (empty($this->capabilities)) : ?>
 		<div class="alert alert-info">
+			<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 			<?php echo Text::_('COM_PRIVACY_MSG_CAPABILITIES_NO_CAPABILITIES'); ?>
 		</div>
 	<?php else : ?>
@@ -32,6 +33,7 @@ use Joomla\CMS\Language\Text;
 			<?php echo HTMLHelper::_('bootstrap.addSlide', 'slide-capabilities', $extension, 'slide-' . $i); ?>
 				<?php if (empty($capabilities)) : ?>
 					<div class="alert alert-info">
+						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('COM_PRIVACY_MSG_EXTENSION_NO_CAPABILITIES'); ?>
 					</div>
 				<?php else : ?>

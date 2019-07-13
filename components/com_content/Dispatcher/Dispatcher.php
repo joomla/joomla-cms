@@ -52,8 +52,6 @@ class Dispatcher extends ComponentDispatcher
 			}
 		}
 
-		\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-
 		parent::dispatch();
 	}
 }

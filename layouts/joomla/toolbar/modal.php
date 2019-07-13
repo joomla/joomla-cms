@@ -36,7 +36,7 @@ $text     = isset($displayData['text']) ? $displayData['text'] : '';
 </button>
 
 <!-- Render the modal -->
-<?php 
+<?php
 echo HTMLHelper::_('bootstrap.renderModal',
 	'modal_' . $selector,
 	[
@@ -56,4 +56,3 @@ echo HTMLHelper::_('bootstrap.renderModal',
 	]
 );
 ?>
-
