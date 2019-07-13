@@ -75,7 +75,7 @@ class ArticleModel extends AdminModel
 	 *
 	 * @return  array|boolean  An array of new IDs on success, boolean false on failure.
 	 *
-	 * @since	4.0
+	 * @since	__DEPLOY_VERSION__
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
@@ -172,9 +172,9 @@ class ArticleModel extends AdminModel
 			// Add workflow_assosciations entry
 			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
-			->select($db->quoteName(array('stage_id','extension')))
-			->from($db->quoteName('#__workflow_associations'))
-			->where($db->quoteName('item_id') . ' = ' . $pk);
+				->select($db->quoteName(array('stage_id','extension')))
+				->from($db->quoteName('#__workflow_associations'))
+				->where($db->quoteName('item_id') . ' = ' . $pk);
 			$db->setQuery($query);
 
 			$results = $db->loadObject();
@@ -184,11 +184,22 @@ class ArticleModel extends AdminModel
 			$oldExtension = $results->extension;
 
 			$query->clear()
-			->insert($db->quoteName('#__workflow_associations'))
-			->columns(array($db->quoteName('item_id'), $db->quoteName('stage_id'), $db->quoteName('extension')))
-			->values($db->quote($newId) . ',' . $db->quote($old_stage_id) . ',' . $db->quote($oldExtension));
+				->insert($db->quoteName('#__workflow_associations'))
+				->columns(array($db->quoteName('item_id'), $db->quoteName('stage_id'), $db->quoteName('extension')))
+				->values($db->quote($newId) . ',' . $db->quote($old_stage_id) . ',' . $db->quote($oldExtension));
+
 			$db->setQuery($query);
-			$db->execute();
+
+			try
+			{
+				$db->execute();
+			}
+			catch (\RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
+
+				return false;
+			}
 		}
 
 		// Clean the cache
