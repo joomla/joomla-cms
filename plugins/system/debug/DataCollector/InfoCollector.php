@@ -115,7 +115,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	 */
 	public function collect(): array
 	{
-		/* @type SiteApplication|AdministratorApplication $application */
+		/** @type SiteApplication|AdministratorApplication $application */
 		$application = Factory::getApplication();
 
 		$model = $application->bootComponent('com_admin')

@@ -91,10 +91,10 @@ class StreamString
 	/**
 	 * Method to open a file or URL.
 	 *
-	 * @param   string   $path          The stream path.
-	 * @param   string   $mode          Not used.
-	 * @param   integer  $options       Not used.
-	 * @param   string   &$opened_path  Not used.
+	 * @param   string   $path         The stream path.
+	 * @param   string   $mode         Not used.
+	 * @param   integer  $options      Not used.
+	 * @param   string   $opened_path  Not used.
 	 *
 	 * @return  boolean
 	 *
@@ -172,7 +172,7 @@ class StreamString
 	 *
 	 * @param   integer  $count  Bytes of data from the current position should be returned.
 	 *
-	 * @return  void
+	 * @return  string
 	 *
 	 * @since   1.7.0
 	 *

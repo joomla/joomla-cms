@@ -232,6 +232,10 @@ class PlgBehaviourTaggable extends CMSPlugin
 	 *
 	 * @return  void
 	 *
+	 * @param   CmsEvent\Table\AfterLoadEvent  $event  The event to handle
+	 *
+	 * @return  void
+	 *
 	 * @since   4.0.0
 	 */
 	public function onTableAfterLoad(CmsEvent\Table\AfterLoadEvent $event)

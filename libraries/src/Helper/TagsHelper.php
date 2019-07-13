@@ -451,7 +451,8 @@ class TagsHelper extends CMSHelper
 	 * @since   3.1
 	 */
 	public function getTagItemsQuery($tagId, $typesr = null, $includeChildren = false, $orderByOption = 'c.core_title', $orderDir = 'ASC',
-		$anyOrAll = true, $languageFilter = 'all', $stateFilter = '0,1')
+		$anyOrAll = true, $languageFilter = 'all', $stateFilter = '0,1'
+	)
 	{
 		// Create a new query object.
 		$db = Factory::getDbo();
