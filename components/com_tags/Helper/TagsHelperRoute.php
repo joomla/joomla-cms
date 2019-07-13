@@ -22,6 +22,11 @@ use Joomla\CMS\Helper\RouteHelper;
  */
 class TagsHelperRoute extends RouteHelper
 {
+	/**
+	 * Lookup-table for menu items
+	 *
+	 * @var    array
+	 */
 	protected static $lookup;
 
 	/**

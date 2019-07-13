@@ -1304,7 +1304,8 @@ class ComponentAdapter extends InstallerAdapter
 			->where('('
 				. $db->quoteName('link') . ' LIKE ' . $db->quote('index.php?option=' . $option) . ' OR '
 				. $db->quoteName('link') . ' LIKE ' . $db->quote($db->escape('index.php?option=' . $option . '&') . '%', false)
-				. ')');
+				. ')'
+			);
 
 		if (isset($clientId))
 		{

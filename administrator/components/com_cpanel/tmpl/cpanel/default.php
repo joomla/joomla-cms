@@ -26,7 +26,7 @@ $user = Factory::getUser();
 <div class="row">
 	<?php $iconmodules = ModuleHelper::getModules('icon');
 	if ($iconmodules) : ?>
-        <?php HTMLHelper::_('bootstrap.framework'); ?>
+		<?php HTMLHelper::_('bootstrap.framework'); ?>
 		<div class="col-md-12">
 			<?php
 			// Display the submenu position modules
