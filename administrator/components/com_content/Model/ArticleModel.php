@@ -109,12 +109,9 @@ class ArticleModel extends AdminModel
 
 					return false;
 				}
-				else
-				{
-					// Not fatal error
-					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-					continue;
-				}
+				// Not fatal error
+				$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+				continue;
 			}
 
 			$this->generateTitle($categoryId, $this->table);
