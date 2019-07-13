@@ -22,7 +22,11 @@ HTMLHelper::_('script', 'mod_login/admin-login.min.js', ['version' => 'auto', 'r
 
 Text::script('JSHOW');
 Text::script('JHIDE');
-
+// Load JS message titles
+Text::script('ERROR');
+Text::script('WARNING');
+Text::script('NOTICE');
+Text::script('MESSAGE');
 ?>
 <form class="login-initial form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login">
 	<fieldset>
@@ -72,7 +76,7 @@ Text::script('JHIDE');
 				</label>
 				<div class="input-group">
 					<span class="input-group-prepend">
-						<span class="input-group-text"><span class="fa fa-shield" aria-hidden="true"></span></span>
+						<span class="input-group-text"><span class="fa fa-shield-alt" aria-hidden="true"></span></span>
 					</span>
 					<input
 						name="secretkey"
