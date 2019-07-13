@@ -547,7 +547,7 @@ class ModuleModel extends AdminModel
 
 		// Add the default fields directory
 		$baseFolder = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
-		Form::addFieldPath($baseFolder . '/modules' . '/' . $module . '/field');
+		Form::addFieldPath($baseFolder . '/modules/' . $module . '/field');
 
 		// These variables are used to add data from the plugin XML files.
 		$this->setState('item.client_id', $clientId);
