@@ -182,6 +182,7 @@ class NewsfeedTable extends Table
 		{
 			$this->publish_up = null;
 		}
+
 		if (!$this->publish_down)
 		{
 			$this->publish_down = null;
