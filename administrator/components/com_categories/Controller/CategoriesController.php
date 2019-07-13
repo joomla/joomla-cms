@@ -42,7 +42,7 @@ class CategoriesController extends AdminController
 
 	/**
 	 * Method to get the number of content categories
-	 * 
+	 *
 	 * @return  integer  The amount of published content categories
 	 *
 	 * @since   4.0

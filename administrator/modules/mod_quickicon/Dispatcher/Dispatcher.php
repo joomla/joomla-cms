@@ -22,7 +22,7 @@ use Joomla\Module\Quickicon\Administrator\Helper\QuickIconHelper;
 class Dispatcher extends AbstractModuleDispatcher
 {
 	/**
-	 * Returns the layout data. 
+	 * Returns the layout data.
 	 *
 	 * @return  array
 	 *

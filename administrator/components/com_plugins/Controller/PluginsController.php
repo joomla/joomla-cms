@@ -39,7 +39,7 @@ class PluginsController extends AdminController
 
 	/**
 	 * Method to get the number of activated plugins
-	 * 
+	 *
 	 * @return  integer  The amount of items
 	 *
 	 * @since   4.0

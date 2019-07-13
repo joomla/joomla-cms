@@ -31,9 +31,8 @@ steps:
     commands:
       - echo $(date)
       - ./libraries/vendor/bin/phpcs --config-set installed_paths ../../joomla/cms-coding-standards/lib,../../joomla/coding-standards/Joomla/ExampleRulesets,../../joomla/coding-standards
-      - ./libraries/vendor/bin/phpcs --config-set colors 1
       - ./libraries/vendor/bin/phpcs --config-set php_version 70200
-      - ./libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php --ignore=libraries/vendor/*,tests/*,build/*,node_modules/*,media/*,libraries/autoload_psr4.php,installation\template\error.php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
+      - ./libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php --ignore=libraries/vendor/*,tests/*,build/*,node_modules/*,media/*,libraries/autoload_psr4.php,installation/template/error.php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
       - echo $(date)
 
   - name: npm
@@ -257,6 +256,6 @@ services:
 
 ---
 kind: signature
-hmac: 8038e99d954c7c1e389d46a479ad616307190c3d9f93a01513367437dad8d6d1
+hmac: 323b3031a2a60c288b1df1f7672d94926925c7615d611138728b3fb347b958ad
 
 ...

@@ -14,12 +14,12 @@ use Joomla\CMS\Uri\Uri;
 
 ?>
 <diV class="header-item-content">
-    <div class="joomlaversion d-flex">
-        <div class="d-flex align-items-end mx-auto">
-            <span class="fab fa-joomla" aria-hidden="true"></span>
-        </div>
-        <div class="d-flex align-items-center tiny mx-auto">
-	        <?php echo $version; ?>
-        </div>
-    </div>
+	<div class="joomlaversion d-flex">
+		<div class="d-flex align-items-end mx-auto">
+			<span class="fab fa-joomla" aria-hidden="true"></span>
+		</div>
+		<div class="d-flex align-items-center tiny mx-auto">
+			<?php echo $version; ?>
+		</div>
+	</div>
 </diV>

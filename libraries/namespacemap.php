@@ -154,7 +154,11 @@ class JNamespacePsr4Map
 		foreach (Folder::folders(JPATH_ROOT . '/' . $dir) as $extension)
 		{
 			// If it is a file we can't handle, ignore it
-			if (strpos($extension, 'mod_') !== 0 && strpos($extension, 'com_') !== 0 && strpos($dir, '/plugins/') !== 0 && strpos($extension, 'atum') !== 0)
+			if (strpos($extension, 'mod_') !== 0
+				&& strpos($extension, 'com_') !== 0
+				&& strpos($dir, '/plugins/') !== 0
+				&& strpos($extension, 'atum') !== 0
+			)
 			{
 				continue;
 			}

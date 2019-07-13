@@ -49,7 +49,6 @@ abstract class Menu
 		 */
 		$app->triggerEvent('onPreprocessMenuItems', array('administrator.module.mod_submenu', $children));
 
-
 		foreach ($children as $item)
 		{
 			// Exclude item with menu item option set to exclude from menu modules
@@ -67,7 +66,6 @@ abstract class Menu
 			// Populate automatic children for container items
 			if ($item->type === 'container')
 			{
-
 				$exclude    = (array) $item->params->get('hideitems') ?: array();
 				$components = MenusHelper::getMenuItems('main', false, $exclude);
 
@@ -79,6 +77,7 @@ abstract class Menu
 						$temp = clone $c;
 						$c->addChild($temp);
 					}
+
 					$item->addChild($c);
 				}
 

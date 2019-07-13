@@ -29,7 +29,7 @@ Text::script('NOTICE');
 Text::script('MESSAGE');
 ?>
 <form class="login-initial form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post"
-      id="form-login">
+	id="form-login">
 	<fieldset>
 		<div class="form-group">
 			<label for="mod-login-username">
@@ -74,8 +74,8 @@ Text::script('MESSAGE');
 				<label for="mod-login-secretkey">
 					<span class="label"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></span>
 					<span class="text-right">
-                        <?php echo Text::_('COM_LOGIN_TWOFACTOR'); ?>
-                    </span>
+						<?php echo Text::_('COM_LOGIN_TWOFACTOR'); ?>
+					</span>
 				</label>
 				<div class="input-group">
 
@@ -99,7 +99,7 @@ Text::script('MESSAGE');
 		<?php endif; ?>
 		<div class="form-group">
 			<button class="btn btn-primary btn-block btn-lg mt-4"
-			        id="btn-login-submit"><?php echo Text::_('JLOGIN'); ?></button>
+				id="btn-login-submit"><?php echo Text::_('JLOGIN'); ?></button>
 		</div>
 		<input type="hidden" name="option" value="com_login">
 		<input type="hidden" name="task" value="login">
