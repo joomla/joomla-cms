@@ -14,7 +14,7 @@
 			title="MOD_MENU_COM_CONTENT_ARTICLE_MANAGER"
 			type="component"
 			element="com_content"
-			link="index.php?option=com_content"
+			link="index.php?option=com_content&amp;view=articles"
 			quicktask="index.php?option=com_content&amp;task=article.add"
 		/>
 
@@ -22,7 +22,7 @@
 			title="MOD_MENU_COM_CONTENT_CATEGORY_MANAGER"
 			type="component"
 			element="com_categories"
-			link="index.php?option=com_categories&amp;extension=com_content"
+			link="index.php?option=com_categories&amp;view=categories&amp;extension=com_content"
 			quicktask="index.php?option=com_categories&amp;extension=com_content&amp;task=category.add"
 		/>
 
@@ -45,14 +45,14 @@
 			title="MOD_MENU_COM_CONTENT_WORKFLOW"
 			type="component"
 			element="com_workflow"
-			link="index.php?option=com_workflow&amp;extension=com_content"
+			link="index.php?option=com_workflow&amp;view=workflows&amp;extension=com_content"
 		/>
 
 		<menuitem
 			title="MOD_MENU_FIELDS"
 			type="component"
 			element="com_fields"
-			link="index.php?option=com_fields&amp;context=com_content.article"
+			link="index.php?option=com_fields&amp;view=fields&amp;context=com_content.article"
 		/>
 
 		<menuitem
@@ -82,7 +82,7 @@
 			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_SITE"
 			type="component"
 			element="com_modules"
-			link="index.php?option=com_modules&amp;client_id=0"
+			link="index.php?option=com_modules&amp;view=modules&amp;client_id=0"
 			quicktask="index.php?option=com_modules&amp;view=select"
 		/>
 
@@ -90,7 +90,7 @@
 			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_ADMINISTRATOR"
 			type="component"
 			element="com_modules"
-			link="index.php?option=com_modules&amp;client_id=1"
+			link="index.php?option=com_modules&amp;view=modules&amp;client_id=1"
 		/>
 	</menuitem>
 </menu>
