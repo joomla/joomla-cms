@@ -15,6 +15,7 @@ steps:
 
   - name: restore-cache
     image: drillster/drone-volume-cache
+    depends_on: [ phpcs ]
     settings:
       restore: true
       mount:
@@ -24,22 +25,18 @@ steps:
       - name: cache
         path: /cache
 
-  - name: javascript
-    image: joomlaprojects/docker-systemtests:latest
+
+  - name: prepare
+    image: joomlaprojects/docker-tools:develop
+    depends_on: [ restore-cache ]
     commands:
-      - echo $(date)
-      - export DISPLAY=:0
-      - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
-      - sleep 3
-      - fluxbox  > /dev/null 2>&1 &
+      - composer install --no-progress --no-suggest
       - cd tests/javascript
       - npm install
-      - cd ../..
-      - tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run
-      - echo $(date)
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
+    depends_on: [ prepare ]
     settings:
        rebuild: true
        mount:
@@ -49,8 +46,113 @@ steps:
       - name: cache
         path: /cache
 
+  - name: javascript
+    image: joomlaprojects/docker-systemtests:latest
+    depends_on: [ rebuild-cache ]
+    commands:
+      - echo $(date)
+      - export DISPLAY=:0
+      - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
+      - sleep 3
+      - fluxbox  > /dev/null 2>&1 &
+      - tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run
+      - echo $(date)
+
+  - name: php53-unit
+    depends_on: [ rebuild-cache ]
+    image: alterway/php:5.3-apache
+    environment:
+      PHP_php5enmod: 'gd ldap mbstring memcached mysql mysqli pdo_mysql redis soap zip ftp sockets'
+      PHP__display_errors: On
+      PHP__memory_limit: 512M
+    commands:
+      - php -v
+      - php -i
+      - ./libraries/vendor/bin/phpunit
+
+  - name: php54-unit
+    depends_on: [ rebuild-cache ]
+    image: alterway/php:5.4-apache
+    environment:
+      PHP__display_errors: On
+      PHP__memory_limit: 512M
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit
+
+  - name: php55-unit
+    depends_on: [ rebuild-cache ]
+    image: alterway/php:5.5-apache
+    environment:
+      PHP__display_errors: On
+      PHP__memory_limit: 512M
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit
+
+  - name: php56-unit
+    depends_on: [ rebuild-cache ]
+    image: alterway/php:5.6-apache
+    environment:
+      PHP__display_errors: On
+      PHP__memory_limit: 512M
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit
+
+  - name: php70-unit
+    depends_on: [ rebuild-cache ]
+    image: alterway/php:7.0-apache
+    environment:
+      PHP__display_errors: On
+      PHP__memory_limit: 512M
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit
+
+  - name: php71-unit
+    depends_on: [ rebuild-cache ]
+    image: alterway/php:7.1-apache
+    environment:
+      PHP__display_errors: On
+      PHP__memory_limit: 512M
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit
+
+  - name: php72-unit
+    depends_on: [ rebuild-cache ]
+    image: php:7.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit
+
+  - name: php73-unit
+    depends_on: [ rebuild-cache ]
+    image: php:7.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit
+
+  - name: php74-unit
+    depends_on: [ rebuild-cache ]
+    image: phpdaily/php:7.4-dev
+    errignore: true
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit
+
+  - name: php80-unit
+    depends_on: [ rebuild-cache ]
+    image: phpdaily/php:8.0-dev
+    errignore: true
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit
+
   - name: analysis3x
     image: rips/rips-cli:1.2.1
+    depends_on: [ php73-unit ]
     when:
       branch: staging
     commands:
@@ -68,10 +170,25 @@ volumes:
   host:
     path: /tmp/cache
 
+services:
+  - name: mysql
+    image: mysql:5.7
+    environment:
+      MYSQL_USER: joomla_ut
+      MYSQL_PASSWORD: joomla_ut
+      MYSQL_ROOT_PASSWORD: joomla_ut
+      MYSQL_DATABASE: test_joomla
+
+  - name: memcached
+    image: memcached:alpine
+
+  - name: redis
+    image: redis:alpine
+
 branches:
   exclude: [ l10n_* ]
 ---
 kind: signature
-hmac: e3e6739c960a689e78ec07c0ea193818796cdcf3c3dab9781f7f07b7e3e6b674
+hmac: 9b8422fde5eb59d73506c403cb5738486f3d322c3b9f6f2550cff4d328fb0599
 
 ...
