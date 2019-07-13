@@ -30,6 +30,7 @@ steps:
     depends_on: [ composer ]
     commands:
       - echo $(date)
+      - ./libraries/vendor/bin/phpcs --config-set installed_paths ../../joomla/cms-coding-standards/lib,../../joomla/coding-standards
       - ./libraries/vendor/bin/phpcs --report=full --extensions=php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
       - echo $(date)
 
@@ -253,6 +254,6 @@ services:
 
 ---
 kind: signature
-hmac: b198aa427c5fc7c0c449b7212a4714225365e5c947542cf6d10ef0ccabf609f3
+hmac: 70e4d57d65ab1d21e81b4c7b85f608acdccd44ee00a83c8ad740d05efa49e5ad
 
 ...
