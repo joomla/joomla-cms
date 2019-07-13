@@ -115,7 +115,7 @@ class DisplayController extends BaseController
 		$result = [];
 
 		$result['amount'] = $amount;
-		$result['sronly'] = Text::plural('COM_CHECKIN_QUICKICON_SRONLY', $amount);
+		$result['sronly'] = Text::plural('COM_CHECKIN_N_QUICKICON_SRONLY', $amount);
 
 		echo new JsonResponse($result);
 	}

@@ -80,8 +80,8 @@ class ItemsController extends AdminController
 		$result = [];
 
 		$result['amount'] = $amount;
-		$result['sronly'] = Text::plural('COM_MENUS_ITEMS_QUICKICON_SRONLY', $amount);
-		$result['name'] = Text::plural('COM_MENUS_ITEMS_QUICKICON', $amount);
+		$result['sronly'] = Text::plural('COM_MENUS_ITEMS_N_QUICKICON_SRONLY', $amount);
+		$result['name'] = Text::plural('COM_MENUS_ITEMS_N_QUICKICON', $amount);
 
 		echo new JsonResponse($result);
 	}

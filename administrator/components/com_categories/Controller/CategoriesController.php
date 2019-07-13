@@ -58,8 +58,8 @@ class CategoriesController extends AdminController
 		$result = [];
 
 		$result['amount'] = $amount;
-		$result['sronly'] = Text::plural('COM_CATEGORIES_QUICKICON_SRONLY', $amount);
-		$result['name'] = Text::plural('COM_CATEGORIES_QUICKICON', $amount);
+		$result['sronly'] = Text::plural('COM_CATEGORIES_N_QUICKICON_SRONLY', $amount);
+		$result['name'] = Text::plural('COM_CATEGORIES_N_QUICKICON', $amount);
 
 		echo new JsonResponse($result);
 	}
