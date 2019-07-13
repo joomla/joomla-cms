@@ -39,7 +39,7 @@ class NewsfeedController extends FormController
 		if ($categoryId)
 		{
 			// If the category has been passed in the URL check it.
-			$allow =  $this->app->getIdentity()->authorise('core.create', $this->option . '.category.' . $categoryId);
+			$allow = $this->app->getIdentity()->authorise('core.create', $this->option . '.category.' . $categoryId);
 		}
 
 		if ($allow === null)
@@ -82,7 +82,7 @@ class NewsfeedController extends FormController
 			return false;
 		}
 
-		$user =  $this->app->getIdentity();
+		$user = $this->app->getIdentity();
 
 		// Check if can edit own core.edit.own.
 		$canEditOwn = $user->authorise('core.edit.own', $this->option . '.category.' . (int) $item->catid) && $item->created_by == $user->id;

@@ -6055,7 +6055,8 @@ class JoomlaInstallerScript
 
 		// Set flag in database if the update is done.
 		$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
-			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';')->execute();
+			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';'
+		)->execute();
 	}
 
 	/**

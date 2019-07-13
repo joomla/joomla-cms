@@ -621,6 +621,7 @@ class BaseController implements ControllerInterface
 		}
 
 		$config['paths'] = $this->paths['view'];
+
 		return $this->factory->createView($name, $prefix, $type, $config);
 	}
 

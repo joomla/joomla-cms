@@ -78,8 +78,8 @@ class ContactField extends FormField
 				Factory::getDocument()->addScriptDeclaration("
 				function jSelectContact_" . $this->id . "(id, title, object) {
 					window.processModalSelect('Contact', '" . $this->id . "', id, title, '', object);
-				}
-				");
+				}"
+				);
 
 				Text::script('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED');
 
@@ -127,6 +127,7 @@ class ContactField extends FormField
 
 		// The current contact display field.
 		$html  = '';
+
 		if ($allowSelect || $allowNew || $allowEdit || $allowClear)
 		{
 			$html .= '<span class="input-group">';

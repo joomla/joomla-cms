@@ -10,6 +10,7 @@ namespace Joomla\CMS\Document\Renderer\Feed;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -53,8 +54,8 @@ class RssRenderer extends DocumentRenderer
 
 		$data = $this->_doc;
 
-		// If the last build date from the document isn't a JDate object, create one
-		if (!($data->lastBuildDate instanceof \JDate))
+		// If the last build date from the document isn't a Date object, create one
+		if (!($data->lastBuildDate instanceof Date))
 		{
 			// Gets and sets timezone offset from site configuration
 			$data->lastBuildDate = Factory::getDate();

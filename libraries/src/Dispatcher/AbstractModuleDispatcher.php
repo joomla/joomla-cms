@@ -66,7 +66,7 @@ abstract class AbstractModuleDispatcher extends Dispatcher
 		}
 
 		// Execute the layout without the module context
-		$loader = static function(array $displayData)
+		$loader = static function (array $displayData)
 		{
 			extract($displayData);
 			require ModuleHelper::getLayoutPath($displayData['module']->module, $displayData['params']->get('layout', 'default'));
