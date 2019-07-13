@@ -34,7 +34,7 @@ class DisplayController extends BaseController
 	 * @var    string
 	 * @since  3.9.0
 	 */
-	protected $default_view = 'dashboard';
+	protected $default_view = 'requests';
 
 	/**
 	 * Method to display a view.
@@ -61,14 +61,6 @@ class DisplayController extends BaseController
 		{
 			$model = $this->getModel($vName);
 			$view->setModel($model, true);
-
-			// For the dashboard view, we need to also push the requests model into the view
-			if ($vName === 'dashboard')
-			{
-				$requestsModel = $this->getModel('Requests');
-
-				$view->setModel($requestsModel, false);
-			}
 
 			if ($vName === 'request')
 			{

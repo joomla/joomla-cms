@@ -1,38 +1,35 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_privacy
+ * @subpackage  mod_privacy_dashboard
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-namespace Joomla\Component\Privacy\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 
 /**
- * Dashboard model class.
+ * Helper class for admin privacy status module
  *
- * @since  3.9.0
+ * @since  __DEPLOY_VERSION__
  */
-class DashboardModel extends BaseDatabaseModel
+class ModPrivacyStatusHelper
 {
 	/**
 	 * Get the information about the published privacy policy
 	 *
 	 * @return  array  Array containing a status of whether a privacy policy is set and a link to the policy document for editing
 	 *
-	 * @since   3.9.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getPrivacyPolicyInfo()
+	public static function getPrivacyPolicyInfo()
 	{
 		$policy = [
 			'published'        => false,
@@ -53,40 +50,13 @@ class DashboardModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Get a count of the active information requests grouped by type and status
-	 *
-	 * @return  array  Array containing site privacy requests
-	 *
-	 * @since   3.9.0
-	 */
-	public function getRequestCounts()
-	{
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select(
-				[
-					'COUNT(*) AS count',
-					$db->quoteName('status'),
-					$db->quoteName('request_type'),
-				]
-			)
-			->from($db->quoteName('#__privacy_requests'))
-			->group($db->quoteName('status'))
-			->group($db->quoteName('request_type'));
-
-		$db->setQuery($query);
-
-		return $db->loadObjectList();
-	}
-
-	/**
 	 * Check whether there is a menu item for the request form
 	 *
 	 * @return  array  Array containing a status of whether a menu is published for the request form and its current link
 	 *
-	 * @since   3.9.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getRequestFormPublished()
+	public static function getRequestFormPublished()
 	{
 		$status = [
 			'exists'    => false,
@@ -94,7 +64,7 @@ class DashboardModel extends BaseDatabaseModel
 			'link'      => '',
 		];
 
-		$db    = $this->getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id') . ', ' . $db->quoteName('published') . ', ' . $db->quoteName('language'))
 			->from($db->quoteName('#__menu'))
@@ -136,7 +106,7 @@ class DashboardModel extends BaseDatabaseModel
 				$params = ComponentHelper::getParams('com_languages');
 				$defaultSiteLanguage = $params->get('site');
 
-				$db    = $this->getDbo();
+				$db    = Factory::getDbo();
 				$query = $db->getQuery(true)
 					->select($db->quoteName('id'))
 					->from($db->quoteName('#__menu'))
@@ -161,5 +131,31 @@ class DashboardModel extends BaseDatabaseModel
 		}
 
 		return $status;
+	}
+
+	/**
+	 * Method to return number privacy requests older than X days.
+	 *
+	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getNumberUrgentRequests()
+	{
+		// Load the parameters.
+		$params = ComponentHelper::getComponent('com_privacy')->getParams();
+		$notify = (int) $params->get('notify', 14);
+		$now    = Factory::getDate()->toSql();
+		$period = '-' . $notify;
+
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select('COUNT(*)');
+		$query->from($db->quoteName('#__privacy_requests'));
+		$query->where($db->quoteName('status') . ' = 1 ');
+		$query->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('requested_at'));
+		$db->setQuery($query);
+
+		return (int) $db->loadResult();
 	}
 }
