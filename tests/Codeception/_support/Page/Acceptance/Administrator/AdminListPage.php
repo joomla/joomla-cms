@@ -9,5 +9,5 @@
  */
 class AdminListPage extends AdminPage
 {
-	//
+	// Todo.
 }

@@ -21,6 +21,8 @@ class ContentListCest
 	 * Runs before every test
 	 *
 	 * @param AcceptanceTester $I
+	 *
+	 * @since   4.0.0
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -100,9 +102,9 @@ class ContentListCest
 	 *
 	 * @since   4.0.0
 	 */
-	/**
 	public function markArticleAsFeaturedUsingToolbarButton(\Step\Acceptance\Administrator\Content $I)
 	{
+		/**
 		$I->wantToTest('that it is possible to mark an article as featured using toolbar button.');
 
 		$testArticle = [
@@ -118,8 +120,9 @@ class ContentListCest
 		$I->amOnPage(ContentListPage::$url);
 		$I->see($testArticle['title']);
 		$I->see('Alias: ' . $testArticle['alias']);
+		 */
 	}
-*/
+
 	/*
 	 * TODO Feature article using inline button
 	 * TODO Unfeature article using toolbar button

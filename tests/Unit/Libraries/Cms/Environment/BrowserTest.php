@@ -14,6 +14,8 @@ use Joomla\Tests\Unit\UnitTestCase;
 
 /**
  * Test class for JBrowser.
+ *
+ * @since   4.0.0
  */
 class BrowserTest extends UnitTestCase
 {
@@ -21,6 +23,8 @@ class BrowserTest extends UnitTestCase
 	 * Backup of the SERVER superglobal
 	 *
 	 * @var  array
+	 *
+	 * @since   4.0.0
 	 */
 	protected $backupServer;
 
@@ -28,6 +32,8 @@ class BrowserTest extends UnitTestCase
 	 * Object being tested
 	 *
 	 * @var  Browser
+	 *
+	 * @since   4.0.0
 	 */
 	protected $browser;
 
@@ -35,6 +41,8 @@ class BrowserTest extends UnitTestCase
 	 * This method is called before a test is executed.
 	 *
 	 * @return  void
+	 *
+	 * @since   4.0.0
 	 */
 	protected function setUp():void
 	{
@@ -47,6 +55,8 @@ class BrowserTest extends UnitTestCase
 	 * This method is called after a test is executed.
 	 *
 	 * @return  void
+	 *
+	 * @since   4.0.0
 	 */
 	protected function tearDown():void
 	{
@@ -59,6 +69,8 @@ class BrowserTest extends UnitTestCase
 	 * Data provider for the testBrowserMatching method
 	 *
 	 * @return  array
+	 *
+	 * @since   4.0.0
 	 */
 	public function dataMatch(): array
 	{
@@ -106,7 +118,8 @@ class BrowserTest extends UnitTestCase
 				false,
 			],
 			'Chrome 12 Ubuntu' => [
-				'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/534.30 (KHTML, like Gecko) Ubuntu/10.04 Chromium/12.0.742.112 Chrome/12.0.742.112 Safari/534.30',
+				'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/534.30 (KHTML, like Gecko)
+				 Ubuntu/10.04 Chromium/12.0.742.112 Chrome/12.0.742.112 Safari/534.30',
 				'chrome',
 				'unix',
 				'12',
@@ -154,6 +167,8 @@ class BrowserTest extends UnitTestCase
 	 * @param   string   $expectedPlatform      The expected platform value
 	 * @param   string   $expectedMajorVersion  The expected major version value
 	 * @param   boolean  $expectedMobile        The expected mobile state
+	 *
+	 * @since   4.0.0
 	 */
 	public function testBrowserMatching($userAgent, $expectedBrowser, $expectedPlatform, $expectedMajorVersion, $expectedMobile)
 	{

@@ -33,6 +33,7 @@ class AtomParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleAuthor()
 	{
@@ -69,6 +70,7 @@ class AtomParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleContributor()
 	{
@@ -105,6 +107,7 @@ class AtomParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleGenerator()
 	{
@@ -134,6 +137,7 @@ class AtomParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleId()
 	{
@@ -163,6 +167,7 @@ class AtomParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleLink()
 	{
@@ -194,6 +199,7 @@ class AtomParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleRights()
 	{
@@ -223,6 +229,7 @@ class AtomParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleSubtitle()
 	{
@@ -252,6 +259,7 @@ class AtomParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleTitle()
 	{
@@ -281,6 +289,7 @@ class AtomParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleUpdated()
 	{
@@ -362,12 +371,15 @@ class AtomParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testProcessFeedEntry()
 	{
 		// Its currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-		$xmlElement = new SimpleXMLElement('<entry><id>http://example.com/id</id><title>title</title><updated>August 25, 1991</updated><summary>summary</summary></entry>');
+		$xmlElement = new SimpleXMLElement('<entry><id>http://example.com/id</id>
+			<title>title</title><updated>August 25, 1991</updated><summary>summary</summary></entry>'
+		);
 
 		$feedEntryMock = $this->createMock(FeedEntry::class);
 		$feedEntryMock

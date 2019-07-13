@@ -95,7 +95,8 @@ class FeedParserTest extends UnitTestCase
 				$this->isInstanceOf(Feed::class),
 				$this->callback(function ($value) use ($content) {
 					return $value instanceof SimpleXMLElement && (string) $value[0] === $content;
-				}));
+				})
+			);
 
 		$parser = new FeedParserStub($xmlReader);
 		$parser->registerNamespace($prefix, $namespaceMock);
@@ -177,7 +178,8 @@ class FeedParserTest extends UnitTestCase
 				$this->isInstanceOf(FeedEntry::class),
 				$this->callback(function ($value) use ($content) {
 					return $value instanceof SimpleXMLElement && (string) $value[0] === '';
-				}));
+				})
+			);
 
 		$parser = new FeedParserStub($xmlReader);
 		$parser->registerNamespace($prefix, $namespaceMock);
@@ -210,6 +212,7 @@ class FeedParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testMoveToNextElement()
 	{
@@ -254,6 +257,7 @@ class FeedParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testMoveToNextElementByName()
 	{
@@ -286,6 +290,7 @@ class FeedParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testMoveToClosingElement()
 	{
@@ -313,6 +318,7 @@ class FeedParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testMoveToClosingElementWithInternalElements()
 	{
@@ -341,6 +347,7 @@ class FeedParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testMoveToClosingElementWithSelfClosingTag()
 	{
@@ -403,7 +410,9 @@ class FeedParserStub extends FeedParser
 	/**
 	 * Test helper flag to check that the initialize method was called
 	 *
-	 * @var  int
+	 * @var  integer
+	 *
+	 * @since   4.0.0
 	 */
 	protected $initializeCalledCounter = 0;
 
@@ -411,6 +420,8 @@ class FeedParserStub extends FeedParser
 	 * Test helper flag to check that the process feed entry handler was called
 	 *
 	 * @var array
+	 *
+	 * @since   4.0.0
 	 */
 	protected $processFeedEntryCalledWith = [];
 
@@ -418,6 +429,8 @@ class FeedParserStub extends FeedParser
 	 * Test helper flag to check that the custom element handler was called
 	 *
 	 * @var array
+	 *
+	 * @since   4.0.0
 	 */
 	protected $handleCustomCalledWith = [];
 
@@ -426,7 +439,7 @@ class FeedParserStub extends FeedParser
 	 *
 	 * @return  int
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function getInitializeCalledCounter(): int
 	{
@@ -438,7 +451,7 @@ class FeedParserStub extends FeedParser
 	 *
 	 * @return  array
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function getHandleCustomCalledWith(): array
 	{
@@ -450,7 +463,7 @@ class FeedParserStub extends FeedParser
 	 *
 	 * @return  array
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function getNamespaces(): array
 	{
@@ -462,7 +475,7 @@ class FeedParserStub extends FeedParser
 	 *
 	 * @return  array
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function getProcessFeedEntryCalledWith(): array
 	{
@@ -477,7 +490,7 @@ class FeedParserStub extends FeedParser
 	 *
 	 * @return void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function processFeedEntry(FeedEntry $entry, SimpleXMLElement $el)
 	{
@@ -508,7 +521,7 @@ class FeedParserStub extends FeedParser
 	 *
 	 * @return void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	protected function handleCustom(Feed $feed, SimpleXMLElement $el)
 	{
@@ -523,6 +536,8 @@ class FeedParserStub extends FeedParser
  * Class FeedParserStubUnregistered
  *
  * Helper Class to test an unregistered namespace
+ *
+ * @since   4.0.0
  */
 class FeedParserStubUnregistered implements NamespaceParserInterface
 {

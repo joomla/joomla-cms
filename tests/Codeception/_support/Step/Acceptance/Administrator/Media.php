@@ -1,7 +1,12 @@
 <?php namespace Step\Acceptance\Administrator;
 
 use Codeception\Util\FileSystem as Util;
+use Exception;
 use Facebook\WebDriver\Exception\NoSuchElementException;
+use Facebook\WebDriver\Interactions\WebDriverActions;
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverKeys;
 use Page\Acceptance\Administrator\MediaListPage;
 
 /**
@@ -21,6 +26,7 @@ class Media extends Admin
 	public function waitForMediaLoaded()
 	{
 		$I = $this;
+
 		try
 		{
 			$I->waitForElement(MediaListPage::$loader, 3);
@@ -42,7 +48,7 @@ class Media extends Admin
 	/**
 	 * Helper function that tests that you see contents of a directory
 	 *
-	 * @param array $contents
+	 * @param   array  $contents
 	 *
 	 * @since   4.0.0
 	 */
@@ -50,6 +56,7 @@ class Media extends Admin
 	{
 		$I = $this;
 		$I->seeElement(MediaListPage::$items);
+
 		foreach ($contents as $content)
 		{
 			$I->seeElement(MediaListPage::item($content));
@@ -59,7 +66,7 @@ class Media extends Admin
 	/**
 	 * Helper function to upload a file in the current directory
 	 *
-	 * @param  string $fileName
+	 * @param   string  $fileName
 	 *
 	 * @since   4.0.0
 	 */
@@ -73,20 +80,23 @@ class Media extends Admin
 	/**
 	 * Delete a file from filesystem
 	 *
-	 * @param  string $path
+	 * @param   string  $path
 	 *
 	 * @since   4.0.0
 	 *
-	 * @todo extract to JoomlaFilesystem
+	 * @throws Exception
+	 * @todo    extract to JoomlaFilesystem
 	 */
 	public function deleteFile($path)
 	{
 		$I            = $this;
 		$absolutePath = $this->absolutizePath($path);
+
 		if (!file_exists($absolutePath))
 		{
 			\PHPUnit\Framework\Assert::fail('file not found.');
 		}
+
 		unlink($absolutePath);
 		$I->comment('Deleted ' . $absolutePath);
 	}
@@ -94,12 +104,13 @@ class Media extends Admin
 	/**
 	 * Create a new directory on filesystem
 	 *
-	 * @param   string  $dirname
-	 * @param   integer $mode
+	 * @param   string   $dirname
+	 * @param   integer  $mode
 	 *
 	 * @since   4.0.0
 	 *
-	 * @todo extract to JoomlaFilesystem
+	 * @throws Exception
+	 * @todo    extract to JoomlaFilesystem
 	 */
 	public function createDirectory($dirname, $mode = 0755)
 	{
@@ -109,11 +120,12 @@ class Media extends Admin
 		@mkdir($absolutePath, $mode, true);
 
 		// This was adjusted to make drone work: codeception is executed as root, joomla runs as www-data
-		// so we have to run chown after creating new directpries
+		// so we have to run chown after creating new user.
 		if (!empty($user = $this->getLocalUser()))
 		{
 			@chown($absolutePath, $user);
 		}
+
 		@umask($oldUmask);
 		$I->comment('Created ' . $absolutePath);
 	}
@@ -121,11 +133,12 @@ class Media extends Admin
 	/**
 	 * Deletes directory with all subdirectories
 	 *
-	 * @param   string $dirname
+	 * @param   string  $dirname
 	 *
 	 * @since   4.0.0
 	 *
-	 * @todo extract to JoomlaFilesystem
+	 * @throws Exception
+	 * @todo    extract to JoomlaFilesystem
 	 */
 	public function deleteDirectory($dirname)
 	{
@@ -138,7 +151,7 @@ class Media extends Admin
 	/**
 	 * Click on a link in the media tree
 	 *
-	 * @param   string $link
+	 * @param   string  $link
 	 *
 	 * @since   4.0.0
 	 */
@@ -151,7 +164,7 @@ class Media extends Admin
 	/**
 	 * Click on a link in the media breadcrumb
 	 *
-	 * @param   string $link
+	 * @param   string  $link
 	 *
 	 * @since   4.0.0
 	 */
@@ -164,7 +177,7 @@ class Media extends Admin
 	/**
 	 * Open the item actions menu of an item
 	 *
-	 * @param   string $itemName
+	 * @param   string  $itemName
 	 *
 	 * @since   4.0.0
 	 */
@@ -180,10 +193,11 @@ class Media extends Admin
 	/**
 	 * Open the item actions menu and click on one action
 	 *
-	 * @param   string $itemName
-	 * @param   string $actionName
+	 * @param   string  $itemName
+	 * @param   string  $actionName
 	 *
 	 * @since   4.0.0
+	 * @throws Exception
 	 */
 	public function clickOnActionInMenuOf($itemName, $actionName)
 	{
@@ -202,11 +216,12 @@ class Media extends Admin
 	public function openInfobar()
 	{
 		$I = $this;
+
 		try
 		{
 			$I->seeElement(MediaListPage::$infoBar);
 		}
-		catch (\Exception $e)
+		catch (Exception $e)
 		{
 			$I->click(MediaListPage::$toggleInfoBarButton);
 			$I->waitForElementVisible(MediaListPage::$infoBar);
@@ -221,13 +236,14 @@ class Media extends Admin
 	public function closeInfobar()
 	{
 		$I = $this;
+
 		try
 		{
 			$I->seeElement(MediaListPage::$infoBar);
 			$I->click(MediaListPage::$toggleInfoBarButton);
 			$I->waitForElementNotVisible(MediaListPage::$infoBar);
 		}
-		catch (\Exception $e)
+		catch (Exception $e)
 		{
 			// Do nothing
 		}
@@ -236,17 +252,17 @@ class Media extends Admin
 	/**
 	 * Click on an element holding shift key
 	 *
-	 * @param   string $xpath Xpath selector
+	 * @param   string  $xpath  Xpath selector
 	 *
 	 * @since   4.0.0
 	 */
 	public function clickHoldingShiftkey($xpath)
 	{
 		$I = $this;
-		$I->executeInSelenium(function (\Facebook\WebDriver\Remote\RemoteWebDriver $webdriver) use ($xpath) {
-			$element  = $webdriver->findElement(\Facebook\WebDriver\WebDriverBy::xpath($xpath));
-			$action   = new \Facebook\WebDriver\Interactions\WebDriverActions($webdriver);
-			$shiftKey = \Facebook\WebDriver\WebDriverKeys::SHIFT;
+		$I->executeInSelenium(function (RemoteWebDriver $webdriver) use ($xpath) {
+			$element  = $webdriver->findElement(WebDriverBy::xpath($xpath));
+			$action   = new WebDriverActions($webdriver);
+			$shiftKey = WebDriverKeys::SHIFT;
 			$action->keyDown(null, $shiftKey)
 				->click($element)
 				->keyUp(null, $shiftKey)
@@ -255,13 +271,15 @@ class Media extends Admin
 	}
 
 	/**
-	 * Get the absoluute path
+	 * Get the absolute path
 	 *
-	 * @param   string $path
+	 * @param   string  $path
 	 *
+	 * @return string
 	 * @since   4.0.0
 	 *
-	 * @todo extract to JoomlaFilesystem
+	 * @throws Exception
+	 * @todo    extract to JoomlaFilesystem
 	 */
 	protected function absolutizePath($path)
 	{
@@ -272,6 +290,8 @@ class Media extends Admin
 	 * Get the local user from the configuration from suite configuration
 	 *
 	 * @return string
+	 *
+	 * @since   4.0.0
 	 */
 	protected function getLocalUser()
 	{
@@ -279,7 +299,7 @@ class Media extends Admin
 		{
 			return $this->getSuiteConfiguration()['modules']['config']['Helper\Acceptance']['localUser'];
 		}
-		catch (\Exception $e)
+		catch (Exception $e)
 		{
 			return '';
 		}
@@ -289,7 +309,11 @@ class Media extends Admin
 	 * Get thee cms path from suite configuration
 	 *
 	 * @return string
-	 * @throws \Exception
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
+	 *
 	 */
 	protected function getCmsPath()
 	{
@@ -297,9 +321,9 @@ class Media extends Admin
 		{
 			return $this->getSuiteConfiguration()['modules']['config']['Helper\Acceptance']['cmsPath'];
 		}
-		catch (\Exception $e)
+		catch (Exception $e)
 		{
-			throw new \Exception('cmsPath is not defined in acceptance.suite.yml.');
+			throw new Exception('cmsPath is not defined in acceptance.suite.yml.');
 		}
 	}
 }

@@ -22,7 +22,6 @@ use ReflectionClass;
  */
 class MicrodataTest extends UnitTestCase
 {
-
 	/**
 	 * Test the default settings
 	 *
@@ -301,8 +300,8 @@ class MicrodataTest extends UnitTestCase
 			->content($content)
 			->display();
 
-		$this->assertEquals("<span itemprop='author' itemscope itemtype='https://schema.org/Organization'>$content</span>",
-			$html);
+		$this->assertEquals("<span itemprop='author' itemscope itemtype='https://schema.org/Organization'>
+			$content</span>", $html);
 	}
 
 	/**
@@ -338,8 +337,8 @@ class MicrodataTest extends UnitTestCase
 			->content($content)
 			->display();
 
-		$this->assertEquals("<span itemprop='author' itemscope itemtype='https://schema.org/Person'><span itemprop='name'>$content</span></span>",
-			$html);
+		$this->assertEquals("<span itemprop='author' itemscope itemtype='https://schema.org/Person'>
+			<span itemprop='name'>$content</span></span>", $html);
 	}
 
 	/**
@@ -565,8 +564,8 @@ class MicrodataTest extends UnitTestCase
 			->fallback('Article', 'about')
 			->display();
 
-		$this->assertEquals("<span itemscope itemtype='https://schema.org/Article'><span itemprop='about'>$content</span></span>",
-			$html);
+		$this->assertEquals("<span itemscope itemtype='https://schema.org/Article'><span itemprop='about'>
+			$content</span></span>", $html);
 	}
 
 	/**
@@ -647,14 +646,14 @@ class MicrodataTest extends UnitTestCase
 			->fallback('Article', 'datePublished')
 			->display();
 
-		$this->assertEquals("<meta itemscope itemtype='https://schema.org/Article' itemprop='datePublished' content='$content'>",
-			$html);
+		$this->assertEquals("
+			<meta itemscope itemtype='https://schema.org/Article' itemprop='datePublished' content='$content'>", $html);
 	}
 
 	/**
+	 * @return array
 	 * @since 4.0
 	 *
-	 * @return array
 	 */
 	public function displayTypes(): array
 	{
@@ -696,9 +695,9 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return array
 	 * @since 4.0
 	 *
-	 * @return array
 	 */
 	public function displayTypesWithContent(): array
 	{
@@ -785,6 +784,7 @@ class MicrodataTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @throws \ReflectionException
 	 */
 	public function testExpectedDisplayType()
 	{
@@ -930,28 +930,24 @@ class MicrodataTest extends UnitTestCase
 		$this->assertEquals(
 			"<div itemscope itemtype='https://schema.org/$scope' itemprop='$property'>$content</div>",
 			MicrodataStub::htmlDiv($content, $property, $scope)
-
 		);
 
 		// Test with the $inverse mode
 		$this->assertEquals(
 			"<div itemprop='$property' itemscope itemtype='https://schema.org/$scope'>$content</div>",
 			MicrodataStub::htmlDiv($content, $property, $scope, true)
-
 		);
 
 		// Test without the $scope
 		$this->assertEquals(
 			"<div itemprop='$property'>$content</div>",
 			MicrodataStub::htmlDiv($content, $property)
-
 		);
 
 		// Test without the $property
 		$this->assertEquals(
 			"<div itemprop='$property' itemscope itemtype='https://schema.org/$scope'>$content</div>",
 			MicrodataStub::htmlDiv($content, $property, $scope, true)
-
 		);
 
 		// Test without the $scope, $property
@@ -997,7 +993,6 @@ class MicrodataTest extends UnitTestCase
 		$this->assertEquals(
 			"<span itemprop='$property' itemscope itemtype='https://schema.org/$scope'>$content</span>",
 			MicrodataStub::htmlSpan($content, $property, $scope, true)
-
 		);
 
 		// Test without the $scope, $property
@@ -1016,9 +1011,11 @@ class MicrodataStub extends Microdata
 	 *
 	 * Set the types to avoid file_get_contents
 	 *
-	 * @param string $type
-	 * @param bool   $flag
-	 * @param array  $types
+	 * @param   string  $type
+	 * @param   bool    $flag
+	 * @param   array   $types
+	 *
+	 * @since   4.0.0
 	 */
 	public function __construct($type = '', $flag = true, $types = [])
 	{
@@ -1031,6 +1028,8 @@ class MicrodataStub extends Microdata
 	 * Public test helper to set the types
 	 *
 	 * @param $types
+	 *
+	 * @since   4.0.0
 	 */
 	public static function setTypes($types)
 	{

@@ -56,7 +56,20 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 
 	public function testObjectHasAttributesFromTable()
 	{
-		$fields = ['id', 'title', 'asset_id', 'hits', 'checked_out', 'checked_out_time', 'published', 'publish_up', 'publish_down', 'ordering', 'params'];
+		$fields = [
+			'id',
+			'title',
+			'asset_id',
+			'hits',
+			'checked_out',
+			'checked_out_time',
+			'published',
+			'publish_up',
+			'publish_down',
+			'ordering',
+			'params'
+		];
+
 		$this->assertEquals(
 			$fields,
 			array_keys($this->object->getFields())

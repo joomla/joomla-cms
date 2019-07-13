@@ -9,5 +9,5 @@
  */
 class AdminFormPage extends AdminPage
 {
-	//
+	// Todo.
 }

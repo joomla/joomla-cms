@@ -26,6 +26,12 @@ class ContentCategoryListPage extends AdminListPage
 	 */
 	public static $url = '/administrator/index.php?option=com_categories&view=categories&extension=com_content';
 
+	/**
+	 * Locator for dropdown.
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
 	public static $dropDownToggle = ['xpath' => "//div[@id='toolbar-dropdown-save-group']/button[contains(@class, 'dropdown-toggle')]"];
 
 	/**

@@ -18,6 +18,8 @@ use Joomla\Tests\Unit\UnitTestCase;
 
 /**
  * Test class for Document.
+ *
+ * @since   4.0.0
  */
 class DocumentTest extends UnitTestCase
 {
@@ -25,6 +27,8 @@ class DocumentTest extends UnitTestCase
 	 * Provides constructor data for test methods
 	 *
 	 * @return  array
+	 *
+	 * @since   4.0.0
 	 */
 	public function constructData(): array
 	{
@@ -78,6 +82,8 @@ class DocumentTest extends UnitTestCase
 	 * @param   array  $expects  Expected data values
 	 *
 	 * @dataProvider constructData
+	 *
+	 * @since   4.0.0
 	 */
 	public function testInjectingOptionsIntoTheObjectConstructor($options, $expects)
 	{
@@ -94,6 +100,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test retrieving an instance of JDocumentHtml
+	 *
+	 * @since   4.0.0
 	 */
 	public function testRetrievingAnInstanceOfTheHtmlDocument()
 	{
@@ -105,6 +113,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test retrieving non-existing JDocument type returns a JDocumentRaw instance
+	 *
+	 * @since   4.0.0
 	 */
 	public function testRetrievingANonExistantTypeFetchesARawDocument()
 	{
@@ -118,6 +128,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that setType returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureSetTypeReturnsThisObject()
 	{
@@ -128,6 +140,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test the default return for getType is null
+	 *
+	 * @since   4.0.0
 	 */
 	public function testTheDefaultReturnForGetTypeIsNull()
 	{
@@ -136,6 +150,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that setBuffer returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureSetBufferReturnsThisObject()
 	{
@@ -149,6 +165,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test the default return for getBuffer is null
+	 *
+	 * @since   4.0.0
 	 */
 	public function testTheDefaultReturnForGetBufferIsNull()
 	{
@@ -157,6 +175,9 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that setMetadata with the 'generator' param returns an instance of $this
+	 *
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureSetMetadataForGeneratorReturnsThisObject()
 	{
@@ -167,6 +188,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test the default return for getMetaData with 'generator' param
+	 *
+	 * @since   4.0.0
 	 */
 	public function testTheDefaultReturnForGetMetaDataWithGenerator()
 	{
@@ -175,6 +198,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that setMetadata with the 'description' param returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureSetMetadataForDescriptionReturnsThisObject()
 	{
@@ -185,6 +210,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test the default return for getMetaData with 'description' param
+	 *
+	 * @since   4.0.0
 	 */
 	public function testTheDefaultReturnForGetMetaDataWithDescription()
 	{
@@ -193,6 +220,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that setMetadata with a custom param returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureSetMetadataForCustomParamsReturnsThisObject()
 	{
@@ -203,6 +232,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test the return for getMetaData with a custom param and HTTP-Equiv flag true with data not set to HTTP-Equiv
+	 *
+	 * @since   4.0.0
 	 */
 	public function testTheReturnForGetMetaDataWithCustomParamAndHttpEquivTrueAndDataNotSet()
 	{
@@ -215,6 +246,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test the return for getMetaData with a custom param and HTTP-Equiv flag true with data set to HTTP-Equiv
+	 *
+	 * @since   4.0.0
 	 */
 	public function testTheReturnForGetMetaDataWithCustomParamAndHttpEquivTrueAndDataSet()
 	{
@@ -227,6 +260,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test the return for getMetaData with a custom param and HTTP-Equiv flag false with data set to HTTP-Equiv
+	 *
+	 * @since   4.0.0
 	 */
 	public function testTheReturnForGetMetaDataWithCustomParamAndHttpEquivFalseAndDataNotSet()
 	{
@@ -239,6 +274,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test the return for getMetaData with a custom param and HTTP-Equiv flag false with data not set to HTTP-Equiv
+	 *
+	 * @since   4.0.0
 	 */
 	public function testTheReturnForGetMetaDataWithCustomParamAndHttpEquivFalseAndDataSet()
 	{
@@ -251,6 +288,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that addScript returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureAddScriptReturnsThisObject()
 	{
@@ -261,6 +300,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that addScriptDeclaration returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureAddScriptDeclarationReturnsThisObject()
 	{
@@ -271,6 +312,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that calling addScriptDeclaration twice returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureTwoAddScriptDeclarationCallsReturnsThisObject()
 	{
@@ -282,6 +325,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that addStyleSheet returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureAddStylesheetReturnsThisObject()
 	{
@@ -292,6 +337,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that addStyleDeclaration returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureAddStyleDeclarationReturnsThisObject()
 	{
@@ -302,6 +349,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that calling addStyleDeclaration twice returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureTwoAddStyleDeclarationCallsReturnsThisObject()
 	{
@@ -313,6 +362,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that setCharset returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureSetCharsetReturnsThisObject()
 	{
@@ -323,6 +374,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test the default return for getCharset
+	 *
+	 * @since   4.0.0
 	 */
 	public function testTheDefaultReturnForGetCharset()
 	{
@@ -331,6 +384,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that setLanguage returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureSetLanguageReturnsThisObject()
 	{
@@ -341,6 +396,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test the default return for getLanguage
+	 *
+	 * @since   4.0.0
 	 */
 	public function testTheDefaultReturnForGetLanguage()
 	{
@@ -349,6 +406,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that setDirection returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureSetDirectionReturnsThisObject()
 	{
@@ -359,6 +418,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test the default return for getDirection
+	 *
+	 * @since   4.0.0
 	 */
 	public function testTheDefaultReturnForGetDirection()
 	{
@@ -367,6 +428,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that setTitle returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureSetTitleReturnsThisObject()
 	{
@@ -377,6 +440,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test the default return for getTitle
+	 *
+	 * @since   4.0.0
 	 */
 	public function testTheDefaultReturnForGetTitle()
 	{
@@ -385,6 +450,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that setBase returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureSetBaseReturnsThisObject()
 	{
@@ -395,6 +462,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test the default return for getBase
+	 *
+	 * @since   4.0.0
 	 */
 	public function testTheDefaultReturnForGetBase()
 	{
@@ -403,6 +472,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that setDescription returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureSetDescriptionReturnsThisObject()
 	{
@@ -413,6 +484,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test the default return for getDescription
+	 *
+	 * @since   4.0.0
 	 */
 	public function testTheDefaultReturnForGetDescription()
 	{
@@ -421,6 +494,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that setLink returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureSetLinkReturnsThisObject()
 	{
@@ -431,6 +506,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test the default return for getLink
+	 *
+	 * @since   4.0.0
 	 */
 	public function testTheDefaultReturnForGetLink()
 	{
@@ -439,6 +516,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that setGenerator returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureSetGeneratorReturnsThisObject()
 	{
@@ -449,6 +528,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test the default return for getGenerator
+	 *
+	 * @since   4.0.0
 	 */
 	public function testTheDefaultReturnForGetGenerator()
 	{
@@ -457,6 +538,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that setModifiedDate returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureSetModifiedDateReturnsThisObject()
 	{
@@ -467,6 +550,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test the default return for getModifiedDate
+	 *
+	 * @since   4.0.0
 	 */
 	public function testTheDefaultReturnForGetModifiedDate()
 	{
@@ -475,6 +560,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that setMimeEncoding returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureSetMimeEncodingReturnsThisObject()
 	{
@@ -485,6 +572,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test the default return for getMimeEncoding
+	 *
+	 * @since   4.0.0
 	 */
 	public function testTheDefaultReturnForGetMimeEncoding()
 	{
@@ -493,6 +582,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that setLineEnd with param 'win' returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureSetLineEndWinReturnsThisObject()
 	{
@@ -503,6 +594,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that setLineEnd with param 'unix' returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureSetLineEndUnixReturnsThisObject()
 	{
@@ -513,6 +606,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that setLineEnd with param 'mac' returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureSetLineEndMacReturnsThisObject()
 	{
@@ -523,6 +618,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that setLineEnd with a custom param returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureSetLineEndCustomReturnsThisObject()
 	{
@@ -533,6 +630,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test the default return for _getLineEnd
+	 *
+	 * @since   4.0.0
 	 */
 	public function testTheDefaultReturnForGetLineEnd()
 	{
@@ -541,6 +640,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that setTab with a custom param returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureSetTabReturnsThisObject()
 	{
@@ -551,6 +652,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test the default return for _getTab
+	 *
+	 * @since   4.0.0
 	 */
 	public function testTheDefaultReturnForGetTab()
 	{
@@ -562,6 +665,8 @@ class DocumentTest extends UnitTestCase
 	 *
 	 * @covers   JDocument::loadRenderer
 	 * @uses     JDocument::setType
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureLoadRendererReturnsCorrectObjectFromFactory()
 	{
@@ -577,6 +682,8 @@ class DocumentTest extends UnitTestCase
 
 	/**
 	 * @testdox  Test that parse returns an instance of $this
+	 *
+	 * @since   4.0.0
 	 */
 	public function testEnsureParseReturnsThisObject()
 	{
@@ -591,6 +698,8 @@ class DocumentTest extends UnitTestCase
 	 * @param array $options
 	 *
 	 * @return Document
+	 *
+	 * @since   4.0.0
 	 */
 	protected function createDocument(array $options = []): Document
 	{
@@ -605,12 +714,14 @@ class DocumentTest extends UnitTestCase
 	 * Helper function to get mocked constructor dependencies of the document
 	 *
 	 * @return array
+	 *
+	 * @since   4.0.0
 	 */
 	protected function getDocumentDependencyMocks(): array
 	{
 		return [
 			'factory' => $this->createMock(FactoryInterface::class),
-			'webAssetManager' =>  $this->createMock(WebAssetManager::class),
+			'webAssetManager' => $this->createMock(WebAssetManager::class),
 		];
 	}
 }

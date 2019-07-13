@@ -5,11 +5,14 @@
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * @since   4.0.0
  */
 
 namespace Step\Acceptance\Administrator;
 
 use Behat\Gherkin\Node\TableNode;
+use Exception;
 use Page\Acceptance\Administrator\ContentCategoryListPage;
 
 /**
@@ -21,7 +24,15 @@ use Page\Acceptance\Administrator\ContentCategoryListPage;
  */
 class Category extends Admin
 {
-
+	/**
+	 * Create Category.
+	 *
+	 * @param $title
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
+	 */
 	public function createContentCategory($title)
 	{
 		$this->amOnPage(ContentCategoryListPage::$url);
@@ -32,10 +43,12 @@ class Category extends Admin
 		$this->click(ContentCategoryListPage::$dropDownToggle);
 		$this->clickToolbarButton("Save & Close");
 
-		// Qucikfix: we need to refactor the test
-		$this->seeInDatabase('categories', [
-			'title' => $title,
+		// Quick fix: we need to refactor the test
+		$testCategory = [
+			'title'     => $title,
 			'extension' => 'com_content',
-		]);
+		];
+
+		$this->seeInDatabase('categories', $testCategory);
 	}
 }
