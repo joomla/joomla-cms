@@ -29,6 +29,11 @@ use Joomla\Database\DatabaseInterface;
  */
 class Router extends RouterView
 {
+	/**
+	 * Flag to remove IDs
+	 *
+	 * @var    boolean
+	 */
 	protected $noIDs = false;
 
 	/**

@@ -39,7 +39,7 @@ return new class implements ServiceProviderInterface
 				return new Joomlaupdate(
 					$container->get(DispatcherInterface::class),
 					Factory::getApplication()->getDocument(),
-					(array)$plugin
+					(array) $plugin
 				);
 			}
 		);
