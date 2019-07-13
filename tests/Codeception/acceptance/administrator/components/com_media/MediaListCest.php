@@ -8,6 +8,7 @@
  */
 use Page\Acceptance\Administrator\MediaListPage;
 use Page\Acceptance\Administrator\MediaFilePage;
+use Step\Acceptance\Administrator\Media;
 
 /*
  * TODO test d&d upload of files
@@ -55,11 +56,11 @@ class MediaListCest
 	/**
 	 * Runs before every test
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media $I Acceptance Helper Object
 	 *
 	 * @since   4.0.0
 	 */
-	public function _before(\Step\Acceptance\Administrator\Media $I)
+	public function _before(Media $I)
 	{
 		$I->doAdministratorLogin();
 
@@ -70,11 +71,11 @@ class MediaListCest
 	/**
 	 * Runs after every test
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media $I Acceptance Helper Object
 	 *
 	 * @since   4.0.0
 	 */
-	public function _after(\Step\Acceptance\Administrator\Media $I)
+	public function _after(Media $I)
 	{
 		// Delete the test directory
 		$I->deleteDirectory('images/' . $this->testDirectory);
@@ -86,9 +87,10 @@ class MediaListCest
 	/**
 	 * Test that it loads without php notices and warnings.
 	 *
-	 * @param   AcceptanceTester $I Acceptance Helper Object
+	 * @param   AcceptanceTester  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 * @throws Exception
 	 */
 	public function loadsWithoutPhpNoticesAndWarnings(AcceptanceTester $I)
 	{
@@ -101,11 +103,11 @@ class MediaListCest
 	/**
 	 * Test that it shows then joomla default media files and folders
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I
+	 * @param   Media $I
 	 *
 	 * @since   4.0.0
 	 */
-	public function showsDefaultFilesAndFolders(\Step\Acceptance\Administrator\Media $I)
+	public function showsDefaultFilesAndFolders(Media $I)
 	{
 		$I->wantToTest('that it shows the joomla default media files and folders.');
 		$I->amOnPage(MediaListPage::$url);
@@ -117,11 +119,11 @@ class MediaListCest
 	/**
 	 * Test that it shows then joomla default media files and folders
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I
+	 * @param   Media $I
 	 *
 	 * @since   4.0.0
 	 */
-	public function showsFilesAndFoldersOfASubdirectoryWhenOpenedUsingDeepLink(\Step\Acceptance\Administrator\Media $I)
+	public function showsFilesAndFoldersOfASubdirectoryWhenOpenedUsingDeepLink(Media $I)
 	{
 		$I->wantToTest('that it shows the  media files and folders of a subdirectory when opened using deep link.');
 		$I->amOnPage(MediaListPage::$url . 'banners');
@@ -133,11 +135,11 @@ class MediaListCest
 	/**
 	 * Test that it is possible to select a single file
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media $I Acceptance Helper Object
 	 *
 	 * @since   4.0.0
 	 */
-	public function selectSingleFile(\Step\Acceptance\Administrator\Media $I)
+	public function selectSingleFile(Media $I)
 	{
 		$I->wantToTest('that it is possible to select a single file');
 		$I->amOnPage(MediaListPage::$url);
@@ -149,11 +151,11 @@ class MediaListCest
 	/**
 	 * Test that it is possible to select a single file
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media $I Acceptance Helper Object
 	 *
 	 * @since   4.0.0
 	 */
-	public function selectSingleFolder(\Step\Acceptance\Administrator\Media $I)
+	public function selectSingleFolder(Media $I)
 	{
 		$I->wantToTest('that it is possible to select a single folder');
 		$I->amOnPage(MediaListPage::$url);
@@ -165,11 +167,11 @@ class MediaListCest
 	/**
 	 * Test that it is possible to select an image and see the information in the infobar
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media $I Acceptance Helper Object
 	 *
 	 * @since   4.0.0
 	 */
-	public function selectMultipleItems(\Step\Acceptance\Administrator\Media $I)
+	public function selectMultipleItems(Media $I)
 	{
 		$I->wantToTest('that it is possible to select multiple');
 		$I->amOnPage(MediaListPage::$url);
@@ -182,11 +184,11 @@ class MediaListCest
 	/**
 	 * Test that its possible to navigate to a subfolder using double click
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I
+	 * @param   Media $I
 	 *
 	 * @since   4.0.0
 	 */
-	public function navigateUsingDoubleClickOnFolder(\Step\Acceptance\Administrator\Media $I)
+	public function navigateUsingDoubleClickOnFolder(Media $I)
 	{
 		$I->wantToTest('that its possible to navigate to a subfolder using double click.');
 		$I->amOnPage(MediaListPage::$url);
@@ -200,11 +202,11 @@ class MediaListCest
 	/**
 	 * Test that its possible to navigate to a subfolder using tree
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I
+	 * @param   Media $I
 	 *
 	 * @since   4.0.0
 	 */
-	public function navigateUsingTree(\Step\Acceptance\Administrator\Media $I)
+	public function navigateUsingTree(Media $I)
 	{
 		$I->wantToTest('that its possible to navigate to a subfolder using tree.');
 		$I->amOnPage(MediaListPage::$url);
@@ -218,11 +220,11 @@ class MediaListCest
 	/**
 	 * Test that its possible to navigate to a subfolder using breadcrumb
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I
+	 * @param   Media $I
 	 *
 	 * @since   4.0.0
 	 */
-	public function navigateUsingBreadcrumb(\Step\Acceptance\Administrator\Media $I)
+	public function navigateUsingBreadcrumb(Media $I)
 	{
 		$I->wantToTest('that its possible to navigate to a subfolder using breadcrumb.');
 		$I->amOnPage(MediaListPage::$url . 'banners');
@@ -236,16 +238,17 @@ class MediaListCest
 	/**
 	 * Test the upload of a single file using toolbar button.
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media $I Acceptance Helper Object
 	 *
 	 * @since   4.0.0
 	 */
-	public function uploadSingleFileUsingToolbarButton(\Step\Acceptance\Administrator\Media $I)
+	public function uploadSingleFileUsingToolbarButton(Media $I)
 	{
 		$testFileName = 'test-image-1.png';
 
 		$I->wantToTest('the upload of a single file using toolbar button.');
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
+		$I->waitForJsOnPageLoad();
 		$I->uploadFile('com_media/' . $testFileName);
 		$I->seeSystemMessage('Item uploaded.');
 		$I->seeContents([$testFileName]);
@@ -257,16 +260,17 @@ class MediaListCest
 	 * @skip    We need to skip this test, because of a bug in acceptPopup in chrome.
 	 *          Its throws an Facebook\WebDriver\Exception\UnexpectedAlertOpenException and does not accept the popup
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media $I Acceptance Helper Object
 	 *
 	 * @since   4.0.0
 	 */
-	public function uploadExistingFileUsingToolbarButton(\Step\Acceptance\Administrator\Media $I)
+	public function uploadExistingFileUsingToolbarButton(Media $I)
 	{
 		$testFileName = 'test-image-1.jpg';
 
 		$I->wantToTest('that it shows a confirmation dialog when uploading existing file.');
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
+		$I->waitForJsOnPageLoad();
 		$I->uploadFile('com_media/' . $testFileName);
 		$I->seeSystemMessage('Item uploaded.');
 		$I->uploadFile('com_media/' . $testFileName);
@@ -281,17 +285,20 @@ class MediaListCest
 	/**
 	 * Test the create folder using toolbar button.
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 * @throws Exception
 	 */
-	public function createFolderUsingToolbarButton(\Step\Acceptance\Administrator\Media $I)
+	public function createFolderUsingToolbarButton(Media $I)
 	{
 		$testFolderName = 'test-folder';
 
 		$I->wantToTest('that it is possible to create a new folder using the toolbar button.');
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
+		$I->waitForJsOnPageLoad();
 		$I->click(MediaListPage::$toolbarCreateFolderButton);
+		$I->waitForJsOnPageLoad();
 		$I->seeElement(MediaListPage::$newFolderInputField);
 		$I->seeElement(MediaListPage::$modalConfirmButtonDisabled);
 		$I->fillField(MediaListPage::$newFolderInputField, $testFolderName);
@@ -309,11 +316,11 @@ class MediaListCest
 	 *
 	 * @skip    Skipping until bug is resolved in media manager
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media $I Acceptance Helper Object
 	 *
 	 * @since   4.0.0
 	 */
-	public function createExistingFolderUsingToolbar(\Step\Acceptance\Administrator\Media $I)
+	public function createExistingFolderUsingToolbar(Media $I)
 	{
 		$I->wantToTest('that it is not possible to create an existing folder.');
 		$I->amOnPage(MediaListPage::$url);
@@ -331,11 +338,12 @@ class MediaListCest
 	/**
 	 * Test delete single file using toolbar
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 * @throws Exception
 	 */
-	public function deleteSingleFileUsingToolbar(\Step\Acceptance\Administrator\Media $I)
+	public function deleteSingleFileUsingToolbar(Media $I)
 	{
 		$testFileName = 'test-image-1.png';
 		$testFileItem = MediaListPage::item($testFileName);
@@ -358,11 +366,12 @@ class MediaListCest
 	/**
 	 * Test toggle info bar
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 * @throws Exception
 	 */
-	public function deleteSingleFolder(\Step\Acceptance\Administrator\Media $I)
+	public function deleteSingleFolder(Media $I)
 	{
 		$testfolderName = 'test-folder';
 		$testFolderItem = MediaListPage::item($testfolderName);
@@ -384,11 +393,12 @@ class MediaListCest
 	/**
 	 * Test check all items
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 * @throws Exception
 	 */
-	public function deleteMultipleFiles(\Step\Acceptance\Administrator\Media $I)
+	public function deleteMultipleFiles(Media $I)
 	{
 		$testFileName1 = 'test-image-1.png';
 		$testFileName2 = 'test-image-1.jpg';
@@ -416,11 +426,12 @@ class MediaListCest
 	/**
 	 * Test rename a file
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 * @throws Exception
 	 */
-	public function renameFile(\Step\Acceptance\Administrator\Media $I)
+	public function renameFile(Media $I)
 	{
 		$testFileName = 'test-image-1.png';
 		$testFileItem = MediaListPage::item($testFileName);
@@ -445,11 +456,12 @@ class MediaListCest
 	 *
 	 * @skip    Skipping until bug is resolved in media manager
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 * @throws Exception
 	 */
-	public function renameFileToExistingFile(\Step\Acceptance\Administrator\Media $I)
+	public function renameFileToExistingFile(Media $I)
 	{
 		$testFileName1 = 'test-image-1.png';
 		$testFileName2 = 'test-image-2.png';
@@ -475,11 +487,12 @@ class MediaListCest
 	/**
 	 * Test rename a file
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 * @throws Exception
 	 */
-	public function renameFolder(\Step\Acceptance\Administrator\Media $I)
+	public function renameFolder(Media $I)
 	{
 		$testFolderName = 'test-folder';
 		$testFolderItem = MediaListPage::item($testFolderName);
@@ -504,11 +517,12 @@ class MediaListCest
 	 *
 	 * @skip    Skipping until bug is resolved in media manager
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 * @throws Exception
 	 */
-	public function renameFolderToExistingFolder(\Step\Acceptance\Administrator\Media $I)
+	public function renameFolderToExistingFolder(Media $I)
 	{
 		$testFolderName1 = 'test-folder-1';
 		$testFolderName2 = 'test-folder-2';
@@ -535,11 +549,12 @@ class MediaListCest
 	/**
 	 * Test preview using double click on image
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 * @throws Exception
 	 */
-	public function showPreviewUsingDoubleClickOnImage(\Step\Acceptance\Administrator\Media $I)
+	public function showPreviewUsingDoubleClickOnImage(Media $I)
 	{
 		$I->wantToTest('that it shows a preview for image when user doubleclicks it.');
 		$I->amOnPage(MediaListPage::$url);
@@ -555,11 +570,12 @@ class MediaListCest
 	/**
 	 * Test preview using action menu
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 * @throws Exception
 	 */
-	public function showPreviewUsingClickOnActionMenu(\Step\Acceptance\Administrator\Media $I)
+	public function showPreviewUsingClickOnActionMenu(Media $I)
 	{
 		$I->wantToTest('that it is possible to show a preview of an image using button in action menu.');
 		$I->amOnPage(MediaListPage::$url);
@@ -575,11 +591,12 @@ class MediaListCest
 	/**
 	 * Test close the preview modal
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 * @throws Exception
 	 */
-	public function closePreviewModalUsingCloseButton(\Step\Acceptance\Administrator\Media $I)
+	public function closePreviewModalUsingCloseButton(Media $I)
 	{
 		$I->wantToTest('that its possible to close the preview modal using the close button.');
 		$I->amOnPage(MediaListPage::$url);
@@ -595,11 +612,12 @@ class MediaListCest
 	/**
 	 * Test close the preview modal
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 * @throws Exception
 	 */
-	public function closePreviewModalUsingEscapeKey(\Step\Acceptance\Administrator\Media $I)
+	public function closePreviewModalUsingEscapeKey(Media $I)
 	{
 		$I->wantToTest('that its possible to close the preview modal using escape key.');
 		$I->amOnPage(MediaListPage::$url);
@@ -614,11 +632,11 @@ class MediaListCest
 	/**
 	 * Test rename a file
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media $I Acceptance Helper Object
 	 *
 	 * @since   4.0.0
 	 */
-	public function openImageEditorUsingActionMenu(\Step\Acceptance\Administrator\Media $I)
+	public function openImageEditorUsingActionMenu(Media $I)
 	{
 		$I->wantToTest('that it is possible to open the image editor using action menu.');
 		$I->amOnPage(MediaListPage::$url);
@@ -630,11 +648,12 @@ class MediaListCest
 	/**
 	 * Test toggle info bar
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 * @throws Exception
 	 */
-	public function toggleInfoBar(\Step\Acceptance\Administrator\Media $I)
+	public function toggleInfoBar(Media $I)
 	{
 		$I->wantToTest('that it is possible to toggle the infobar.');
 		$I->amOnPage(MediaListPage::$url);
@@ -648,11 +667,11 @@ class MediaListCest
 	/**
 	 * Test show file information in infobar
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media $I Acceptance Helper Object
 	 *
 	 * @since   4.0.0
 	 */
-	public function showFileInformationInInfobar(\Step\Acceptance\Administrator\Media $I)
+	public function showFileInformationInInfobar(Media $I)
 	{
 		$I->wantToTest('that it shows basic file information in the infobar.');
 		$I->amOnPage(MediaListPage::$url);
@@ -666,11 +685,11 @@ class MediaListCest
 	/**
 	 * Test show folder information in infobar
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media $I Acceptance Helper Object
 	 *
 	 * @since   4.0.0
 	 */
-	public function showFolderInformationInInfobar(\Step\Acceptance\Administrator\Media $I)
+	public function showFolderInformationInInfobar(Media $I)
 	{
 		$I->wantToTest('that it shows basic folder information in the infobar.');
 		$I->amOnPage(MediaListPage::$url);
@@ -684,11 +703,11 @@ class MediaListCest
 	/**
 	 * Test resize the thumbnails
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media $I Acceptance Helper Object
 	 *
 	 * @since   4.0.0
 	 */
-	public function resizeThumbnails(\Step\Acceptance\Administrator\Media $I)
+	public function resizeThumbnails(Media $I)
 	{
 		$I->wantToTest('that it is possible to resize the thumbnails.');
 		$I->amOnPage(MediaListPage::$url);
@@ -717,11 +736,11 @@ class MediaListCest
 	/**
 	 * Test table view
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media $I Acceptance Helper Object
 	 *
 	 * @since   4.0.0
 	 */
-	public function toggleListViewUsingToolbarButton(\Step\Acceptance\Administrator\Media $I)
+	public function toggleListViewUsingToolbarButton(Media $I)
 	{
 		$I->wantToTest('that its possible to toggle the list view (grid/table) using the toolbar button.');
 		$I->amOnPage(MediaListPage::$url);
@@ -739,11 +758,11 @@ class MediaListCest
 	/**
 	 * Test check all items
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media $I Acceptance Helper Object
 	 *
 	 * @since   4.0.0
 	 */
-	public function selectAllItemsUsingToolbarButton(\Step\Acceptance\Administrator\Media $I)
+	public function selectAllItemsUsingToolbarButton(Media $I)
 	{
 		$I->wantToTest('that its possible to select all items using toolbar button.');
 		$I->amOnPage(MediaListPage::$url);
@@ -755,11 +774,11 @@ class MediaListCest
 	/**
 	 * Test that the app state is synced with session storage
 	 *
-	 * @param   \Step\Acceptance\Administrator\Media $I Acceptance Helper Object
+	 * @param   Media $I Acceptance Helper Object
 	 *
 	 * @since   4.0.0
 	 */
-	public function synchronizeAppStateWithSessionStorage(\Step\Acceptance\Administrator\Media $I)
+	public function synchronizeAppStateWithSessionStorage(Media $I)
 	{
 		$I->wantToTest('that the application state is synchronized with session storage.');
 		$I->amOnPage(MediaListPage::$url);
