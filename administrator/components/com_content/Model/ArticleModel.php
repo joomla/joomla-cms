@@ -185,7 +185,7 @@ class ArticleModel extends AdminModel
 
 			$query->clear()
 				->insert($db->quoteName('#__workflow_associations'))
-				->columns(array($db->quoteName('item_id'), $db->quoteName('stage_id'), $db->quoteName('extension')))
+				->columns($db->quoteName(['item_id', 'stage_id', 'extension']))
 				->values($db->quote($newId) . ',' . $db->quote($old_stage_id) . ',' . $db->quote($oldExtension));
 
 			$db->setQuery($query);
