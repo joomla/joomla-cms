@@ -180,7 +180,6 @@ class HtmlView extends BaseHtmlView
 					->message('JGLOBAL_CONFIRM_DELETE')
 					->listCheck(true);
 			}
-
 		}
 
 		if ($user->authorise('core.admin', 'com_newsfeeds') || $user->authorise('core.options', 'com_newsfeeds'))

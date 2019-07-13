@@ -23,10 +23,19 @@ label {
     padding-top: 5px;
     padding-right: 5px;
     text-align: left;
+	@include media-breakpoint-down(sm)
+	{
+		float: none;
+		width: 100%;
+	}
   }
 
   .controls {
     margin-left: 220px;
+	@include media-breakpoint-down(sm)
+	{
+		margin-left: 0;
+	}
   }
 }
 
@@ -110,17 +119,9 @@ select.form-control {
   .control-group {
     .control-label{
       float:none;
-      width:95%;
-    }
-    .controls{
-      margin-left:0;
-      .form-control,
-      .custom-select{
-        max-width:90%;
-      }
+	  max-width: 100%;
     }
   }
-
 }
 
 .field-media-wrapper {
@@ -144,10 +145,3 @@ select.form-control {
   }
 }
 
-.form-vertical {
-  label {
-    width: 100%;
-    color: var(--atum-text-dark);
-    opacity: 0.8;
-  }
-}

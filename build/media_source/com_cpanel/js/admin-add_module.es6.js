@@ -12,14 +12,17 @@ Joomla = window.Joomla || {};
       const elements = [].slice.call(document.querySelectorAll('#moduleDashboardAddModal .modal-footer .btn.hidden'));
 
       if (elements.length) {
-        elements.forEach((button) => {
-          button.classList.remove('hidden');
-        });
+        setTimeout(() => {
+          elements.forEach((button) => {
+            button.classList.remove('hidden');
+          });
+        }, 1000);
       }
     };
 
     const buttons = [].slice.call(document.querySelectorAll('#moduleDashboardAddModal .modal-footer .btn'));
     const hideButtons = [];
+    let isSaving = false;
 
     if (buttons.length) {
       buttons.forEach((button) => {
@@ -39,6 +42,12 @@ Joomla = window.Joomla || {};
           if (elem) {
             const clickTarget = elem.getAttribute('data-target');
 
+            // We remember to be in the saving process
+            isSaving = clickTarget === '#saveBtn';
+
+            // Reset saving process, if e.g. the validation of the form fails
+            setTimeout(() => { isSaving = false; }, 1500);
+
             const iframe = document.querySelector('#moduleDashboardAddModal iframe');
             const content = iframe.contentDocument || iframe.contentWindow.document;
 
@@ -54,6 +63,12 @@ Joomla = window.Joomla || {};
       hideButtons.forEach((button) => {
         button.classList.add('hidden');
       });
+    });
+
+    jQuery('#moduleDashboardAddModal').on('hidden.bs.modal', () => {
+      if (isSaving) {
+        setTimeout(() => { window.parent.location.reload(); }, 1000);
+      }
     });
   });
 })(document);

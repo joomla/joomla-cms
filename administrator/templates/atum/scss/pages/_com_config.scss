@@ -1,24 +1,22 @@
 // com_config
 
-@import "../variables";
-
 .com_config {
 
-  .content {
-    background-color: transparent;
-  }
-  
-  .tab-content {
-    background-color: $white;
-    padding: 1rem;
-  }
-  
-  [class^='col-'] {
+	.control-group {
+		.controls,
+		.switcher__legend {
+			margin-left: 0;
+			float: none;
+		}
+	}
 
-    > fieldset {
-      margin-bottom: 2rem;
-    }
-  }
+	#fieldset-permissions {
+		grid-template-columns: 1fr;
+	}
+
+	.tab-description {
+		grid-column: 1 / 3;
+	}
 
   .rule-notes,
   .filter-notes {
@@ -28,11 +26,6 @@
   }
 
   .options-menu {
-    .burger-toggler-icon:before {
-      font: normal normal normal 16px/1 'Font Awesome 5 Free';
-      content: "\f039 ";
-    }
-
     .revert-controls .controls {
       margin-left: 0;
     }

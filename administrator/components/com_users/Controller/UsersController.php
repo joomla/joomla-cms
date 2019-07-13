@@ -156,6 +156,8 @@ class UsersController extends AdminController
 	/**
 	 * Method to get the number of active users
 	 *
+	 * @return  string  The JSON-encoded amount of users
+	 *
 	 * @since   4.0
 	 */
 	public function getQuickiconContent()

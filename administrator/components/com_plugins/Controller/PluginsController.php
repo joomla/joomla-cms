@@ -41,6 +41,8 @@ class PluginsController extends AdminController
 	/**
 	 * Method to get the number of activated plugins
 	 *
+	 * @return  string  The JSON-encoded amount of items
+	 *
 	 * @since   4.0
 	 */
 	public function getQuickiconContent()

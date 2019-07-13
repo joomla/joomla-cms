@@ -29,7 +29,7 @@ $assoc = Associations::isEnabled();
 $extensionassoc = array_key_exists('item_associations', $this->form->getFieldsets());
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
-$this->ignore_fieldsets = array('jmetadata', 'item_associations');
+$this->ignore_fieldsets = ['jmetadata', 'item_associations'];
 $this->useCoreUI = true;
 
 // In case of modal
@@ -47,7 +47,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('JCATEGORY')); ?>
 		<div class="row">
 			<div class="col-md-9">
-				<div class="card card-light">
+				<div class="card">
 					<div class="card-body">
 						<?php echo $this->form->getLabel('description'); ?>
 						<?php echo $this->form->getInput('description'); ?>
@@ -55,7 +55,11 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				</div>
 			</div>
 			<div class="col-md-3">
-				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
+				<div class="card card-block">
+					<div class="card-body">
+					<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -65,11 +69,14 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('COM_CATEGORIES_FIELDSET_PUBLISHING')); ?>
 		<div class="row">
-			<div class="col-md-6">
-				<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+			<div class="col-12 col-md-6">
+				<fieldset id="fieldset-publishingdata" class="options-fieldset option-fieldset-full">
+					<legend><?php echo Text::_('COM_CATEGORIES_FIELDSET_PUBLISHING'); ?></legend>
+					<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+				</fieldset>
 			</div>
-			<div class="col-md-6">
-				<?php echo LayoutHelper::render('joomla.edit.metadata', $this); ?>
+			<div class="col-12 col-md-6">
+				<?php echo $this->loadTemplate('metadata'); ?>
 			</div>
 		</div>
 
@@ -86,7 +93,10 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php if ($this->canDo->get('core.admin')) : ?>
 
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'rules', Text::_('COM_CATEGORIES_FIELDSET_RULES')); ?>
-			<?php echo $this->form->getInput('rules'); ?>
+			<fieldset id="fieldset-rules" class="options-fieldset option-fieldset-full">
+				<legend><?php echo Text::_('COM_CATEGORIES_FIELDSET_RULES'); ?></legend>
+				<?php echo $this->form->getInput('rules'); ?>
+			</fieldset>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 

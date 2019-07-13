@@ -99,7 +99,7 @@ class ItemsController extends AdminController
 
 		$this->setRedirect('index.php?option=com_menus&view=items&menutype=' . $this->input->getCmd('menutype'));
 
-		/* @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
+		/** @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
 		$model = $this->getModel();
 
 		if ($model->rebuild())

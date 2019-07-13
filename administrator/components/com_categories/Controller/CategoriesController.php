@@ -42,8 +42,8 @@ class CategoriesController extends AdminController
 
 	/**
 	 * Method to get the number of content categories
-	 * 
-	 * @return  void
+	 *
+	 * @return  string  The JSON-encoded amount of published content categories 
 	 *
 	 * @since   4.0
 	 */

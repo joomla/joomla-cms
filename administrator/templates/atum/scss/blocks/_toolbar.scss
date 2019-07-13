@@ -1,7 +1,9 @@
 joomla-toolbar-button {
   border: 1px solid var(--border);
 }
-
+.toggle-toolbar {
+  display:block;
+}
 .subhead {
   position: sticky;
   top: 0;
@@ -127,7 +129,7 @@ joomla-toolbar-button {
       [class^='#{$fa-css-prefix}-'],
       [class*=' #{$fa-css-prefix}-'],
       span {
-        background-color: darken(theme-color("atum-bg-dark"), 5%);
+        background-color: var(--atum-bg-dark-70);
         color:rgba(255,255,255,0.90);
       }
 
@@ -137,7 +139,7 @@ joomla-toolbar-button {
         [class^='#{$fa-css-prefix}-'],
         [class*=' #{$fa-css-prefix}-'],
         span {
-          background-color: darken(theme-color("atum-bg-dark"), 10%);
+          background-color: var(--atum-bg-dark-80);
           color:rgba(255,255,255,0.90);
         }
 
@@ -155,7 +157,7 @@ joomla-toolbar-button {
       [class^='#{$fa-css-prefix}-'],
       [class*=' #{$fa-css-prefix}-'],
       span {
-        background-color: darken(theme-color("atum-bg-dark"), 5%);
+        background-color: var(--atum-bg-dark-70);
         color:rgba(255,255,255,0.90);
       }
 
@@ -165,7 +167,7 @@ joomla-toolbar-button {
         [class^='#{$fa-css-prefix}-'],
         [class*=' #{$fa-css-prefix}-'],
         span {
-          background-color: darken(theme-color("atum-bg-dark"), 10%);
+          background-color: var(--atum-bg-dark-80);
           color:rgba(255,255,255,0.90);
         }
 
@@ -183,7 +185,7 @@ joomla-toolbar-button {
       [class^='#{$fa-css-prefix}-'],
       [class*=' #{$fa-css-prefix}-'],
       span {
-        background-color: darken(theme-color("atum-bg-dark"), 5%);
+        background-color: var(--atum-bg-dark-70);
         color:rgba(255,255,255,0.90);
       }
 
@@ -193,7 +195,7 @@ joomla-toolbar-button {
         [class^='#{$fa-css-prefix}-'],
         [class*=' #{$fa-css-prefix}-'],
         span {
-          background-color: darken(theme-color("atum-bg-dark"), 10%);
+          background-color: var(--atum-bg-dark-80);
           color:rgba(255,255,255,0.90);
         }
 
@@ -297,7 +299,7 @@ joomla-toolbar-button {
       }
 
       &:hover:not([disabled]) {
-        background-color: darken(theme-color("atum-bg-dark"), 8%);
+        background-color: var(--atum-bg-dark-80);
       }
 
       &::after {
@@ -321,7 +323,7 @@ joomla-toolbar-button {
 
   .input-group-append {
     .btn-primary {
-      background-color: darken(theme-color("atum-bg-dark"), 5%);
+      background-color: var(--atum-bg-dark-70);
       color:rgba(255,255,255,0.90);
     }
   }

@@ -72,9 +72,11 @@ class ModulesController extends AdminController
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
-	
+
 	/**
 	 * Method to get the number of frontend modules
+	 *
+	 * @return  string  The JSON-encoded amount of modules
 	 *
 	 * @since   4.0
 	 */

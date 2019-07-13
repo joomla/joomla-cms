@@ -13,8 +13,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use OzdemirBurak\Iris\Color\Hex;
-use OzdemirBurak\Iris\Color\Hsl;
 
 /** @var JDocumentHtml $this */
 
@@ -74,129 +72,12 @@ $css = '
 	}
 ';
 
-$root = [];
-
-$steps = 10;
-
-//check if colors set to monochrome
-if($this->params->get('monochrome'))
-{
-	if ($this->params->get('hue'))
-	{
-		$bgcolor = new Hsl("hsl(" . $this->params->get('hue') . ", 0, 26)");
-		$root[] = '--atum-bg-dark: ' .$bgcolor->toHex() . ';';
-
-		try
-		{
-			$root[] = '--atum-contrast: ' . (new Hsl("hsl(" . $this->params->get('hue') . ", 0, 42)"))->spin(30)->toHex() . ';';
-			$root[] = '--atum-bg-dark-0: ' . (clone $bgcolor)->lighten(71.4)->spin(-6)->toHex() . ';';
-			$root[] = '--atum-bg-dark-5: ' . (clone $bgcolor)->lighten(65.1)->spin(-6)->toHex() . ';';
-			$root[] = '--atum-bg-dark-10: ' . (clone $bgcolor)->lighten(59.4)->spin(-6)->toHex() . ';';
-			$root[] = '--atum-bg-dark-20: ' . (clone $bgcolor)->lighten(47.3)->spin(-6)->toHex() . ';';
-			$root[] = '--atum-bg-dark-30: ' . (clone $bgcolor)->lighten(34.3)->spin(-5)->toHex() . ';';
-			$root[] = '--atum-bg-dark-40: ' . (clone $bgcolor)->lighten(21.4)->spin(-3)->toHex() . ';';
-			$root[] = '--atum-bg-dark-50: ' . (clone $bgcolor)->lighten(10)->spin(-1)->toHex() . ';';
-			$root[] = '--atum-bg-dark-70: ' . (clone $bgcolor)->lighten(-6)->spin(4)->toHex() . ';';
-			$root[] = '--atum-bg-dark-80: ' . (clone $bgcolor)->lighten(-11.5)->spin(7)->toHex() . ';';
-			$root[] = '--atum-bg-dark-90: ' . (clone $bgcolor)->lighten(-17)->spin(10)->toHex() . ';';
-		}
-		catch (Exception $ex)
-		{
-
-		}
-	}
-
-//normal colors
-}
-else
-{
-	if ($this->params->get('hue'))
-	{
-		$bgcolor = new Hsl("hsl(" . $this->params->get('hue') . ", 61, 26)");
-		$root[] = '--atum-bg-dark: ' . (new Hsl("hsl(" . $this->params->get('hue') . ", 61, 26)"))->toHex() . ';';
-
-		try
-		{
-			$root[] = '--atum-contrast: ' . (new Hsl("hsl(" . $this->params->get('hue') . ", 61, 42)"))->spin(30)->toHex() . ';';
-			$root[] = '--atum-bg-dark-0: ' . (clone $bgcolor)->desaturate(86)->lighten(71.4)->spin(-6)->toHex() . ';';
-			$root[] = '--atum-bg-dark-5: ' . (clone $bgcolor)->desaturate(86)->lighten(65.1)->spin(-6)->toHex() . ';';
-			$root[] = '--atum-bg-dark-10: ' . (clone $bgcolor)->desaturate(86)->lighten(59.4)->spin(-6)->toHex() . ';';
-			$root[] = '--atum-bg-dark-20: ' . (clone $bgcolor)->desaturate(76)->lighten(47.3)->spin(-6)->toHex() . ';';
-			$root[] = '--atum-bg-dark-30: ' . (clone $bgcolor)->desaturate(60)->lighten(34.3)->spin(-5)->toHex() . ';';
-			$root[] = '--atum-bg-dark-40: ' . (clone $bgcolor)->desaturate(41)->lighten(21.4)->spin(-3)->toHex() . ';';
-			$root[] = '--atum-bg-dark-50: ' . (clone $bgcolor)->desaturate(19)->lighten(10)->spin(-1)->toHex() . ';';
-			$root[] = '--atum-bg-dark-70: ' . (clone $bgcolor)->lighten(-6)->spin(4)->toHex() . ';';
-			$root[] = '--atum-bg-dark-80: ' . (clone $bgcolor)->lighten(-11.5)->spin(7)->toHex() . ';';
-			$root[] = '--atum-bg-dark-90: ' . (clone $bgcolor)->desaturate(1)->lighten(-17)->spin(10)->toHex() . ';';
-		}
-		catch (Exception $ex)
-		{
-
-		}
-	}
-
-	if ($this->params->get('bg-light'))
-	{
-		$lightcolor = trim($this->params->get('bg-light'), '#');
-		list($red, $green, $blue) = str_split($lightcolor, 2);
-		$root[] = '--atum-bg-light: #' . $lightcolor . ';';
-
-		try
-		{
-			$color = new Hex($lightcolor);
-			$root[] = '--toolbar-bg: ' . (clone $color)->lighten(5) . ';';
-		}
-		catch (Exception $ex)
-		{
-
-		}
-
-	}
-
-	if ($this->params->get('text-dark'))
-	{
-		$root[] = '--atum-text-dark: ' . $this->params->get('text-dark') . ';';
-	}
-
-	if ($this->params->get('text-light'))
-	{
-		$root[] = '--atum-text-light: ' . $this->params->get('text-light') . ';';
-	}
-
-	if ($this->params->get('link-color'))
-	{
-		$linkcolor = trim($this->params->get('link-color'), '#');
-		list($red, $green, $blue) = str_split($linkcolor, 2);
-		$root[] = '--atum-link-color: #' . $linkcolor . ';';
-
-		try
-		{
-			$color = new Hex($linkcolor);
-			$root[] = '--atum-link-hover-color: ' . (clone $color)->darken(20) . ';';
-		}
-		catch (Exception $ex)
-		{
-
-		}
-	}
-
-	if ($this->params->get('special-color'))
-	{
-		$root[] = '--atum-special-color: ' . $this->params->get('special-color') . ';';
-	}
-
-	if ($this->params->get('contrast-color'))
-	{
-		$root[] = '--atum-contrast: ' . $this->params->get('contrast-color') . ';';
-	}
-}//end of else for monochrome
-
-if (count($root))
-{
-	$css .= ':root {' . implode($root) . '}';
-}
 
 $this->addStyleDeclaration($css);
+
+HTMLHelper::getServiceRegistry()->register('atum', 'Joomla\\Template\\Atum\\Administrator\\Service\\HTML\\Atum');
+
+HTMLHelper::_('atum.rootcolors', $this->params);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -244,26 +125,22 @@ $this->addStyleDeclaration($css);
 <?php // Wrapper ?>
 <div id="wrapper" class="d-flex wrapper<?php echo $hiddenMenu ? '0' : ''; ?>">
 
-
-
-    <?php // Sidebar ?>
+	<?php // Sidebar ?>
 	<?php if (!$hiddenMenu) : ?>
-
-        <button class="navbar-toggler toggler-burger collapsed" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
-                 <span class="navbar-toggler-icon">
-                  </span>
-        </button>
+		<button class="navbar-toggler toggler-burger collapsed" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
 
 		<div id="sidebar-wrapper" class="sidebar-wrapper sidebar-menu" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
-            <div id="sidebarmenu">
-                <div class="sidebar-toggle">
-                  <a id="menu-collapse" href="#">
-                       <span id="menu-collapse-icon" class="fa-fw fa fa-toggle-off" aria-hidden="true"></span>
-                       <span class="sidebar-item-title"><?php echo Text::_('TPL_ATUM_TOGGLE_SIDEBAR'); ?></span>
-                  </a>
-                </div>
-                <jdoc:include type="modules" name="menu" style="none" />
-            </div>
+			<div id="sidebarmenu">
+				<div class="sidebar-toggle">
+					<a id="menu-collapse" href="#">
+						<span id="menu-collapse-icon" class="fa-fw fa fa-toggle-off" aria-hidden="true"></span>
+						<span class="sidebar-item-title"><?php echo Text::_('TPL_ATUM_TOGGLE_SIDEBAR'); ?></span>
+					</a>
+				</div>
+				<jdoc:include type="modules" name="menu" style="none" />
+			</div>
 		</div>
 	<?php endif; ?>
 
@@ -271,9 +148,9 @@ $this->addStyleDeclaration($css);
 	<div class="container-fluid container-main">
 		<?php if (!$cpanel) : ?>
 			<?php // Subheader ?>
-			<a class="btn btn-subhead d-md-none d-lg-none d-xl-none" data-toggle="collapse"
+			<button type="button" class="toggle-toolbar mx-auto btn btn-secondary my-2 d-md-none d-lg-none d-xl-none" data-toggle="collapse"
 				data-target=".subhead"><?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>
-				<span class="icon-wrench"></span></a>
+				<span class="icon-chevron-down" aria-hidden="true"></span></button>
 			<div id="subhead" class="subhead">
 				<div id="container-collapse" class="container-collapse"></div>
 				<div class="row">

@@ -33,11 +33,15 @@ Factory::getDocument()->addScriptDeclaration($js);
 	<div class="form-horizontal">
 		<div class="row-fluid">
 			<div class="span9">
-				<fieldset class="adminform">
-					<?php echo $this->form->renderField('email'); ?>
-					<?php echo $this->form->renderField('status'); ?>
-					<?php echo $this->form->renderField('request_type'); ?>
-				</fieldset>
+				<div class="card mt-3">
+					<div class="card-body">
+						<fieldset class="adminform">
+							<?php echo $this->form->renderField('email'); ?>
+							<?php echo $this->form->renderField('status'); ?>
+							<?php echo $this->form->renderField('request_type'); ?>
+						</fieldset>
+					</div>
+				</div>
 			</div>
 		</div>
 

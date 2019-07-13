@@ -33,12 +33,16 @@ $tmpl    = $isModal || $this->input->get('tmpl', '', 'cmd') === 'component' ? '&
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_WORKFLOW_DESCRIPTION')); ?>
 		<div class="row">
 			<div class="col-md-9">
-				<?php echo $this->form->renderField('from_stage_id'); ?>
-				<?php echo $this->form->renderField('to_stage_id'); ?>
-				<?php echo $this->form->renderField('description'); ?>
+				<div class="card card-block">
+					<div class="card-body">
+						<?php echo $this->form->renderField('from_stage_id'); ?>
+						<?php echo $this->form->renderField('to_stage_id'); ?>
+						<?php echo $this->form->renderField('description'); ?>
+					</div>
+				</div>
 			</div>
 			<div class="col-md-3">
-				<div class="card card-block card-light">
+				<div class="card card-block">
 					<div class="card-body">
 						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 					</div>
@@ -48,7 +52,10 @@ $tmpl    = $isModal || $this->input->get('tmpl', '', 'cmd') === 'component' ? '&
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_WORKFLOW_RULES_TAB')); ?>
-			<?php echo $this->form->getInput('rules'); ?>
+			<fieldset id="fieldset-rules" class="options-fieldset option-fieldset-full">
+				<legend><?php echo Text::_('COM_WORKFLOW_RULES_TAB'); ?></legend>
+				<?php echo $this->form->getInput('rules'); ?>
+			</fieldset>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>

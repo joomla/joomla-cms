@@ -31,6 +31,18 @@
   );
 
   /**
+   * Regex for saturation and lightness of hsl - only accepts 1 or 0 or 0.4 or 40
+   * @type {RegExp}
+   */
+  const hslNumberRegex = new RegExp(/^(([0-1])|(0\\.[0-9]+)|([0-9]{1,2})|(100))$/);
+
+  /**
+   * Regex for hue values - one to three numbers
+   * @type {RegExp}
+   */
+  const hueRegex = new RegExp(/^[0-9]{1,3}$/);
+
+  /**
    * Creates a slider for the color values hue, saturation and light.
    *
    * @since 4.0
@@ -41,17 +53,18 @@
      */
     constructor(element) {
       // Elements
-      this.input = element.querySelector('.color-input');
+      this.messageSpan = element.querySelector('.form-control-feedback');
+      this.mainInput = element.querySelector('.color-input');
+      this.input = element.querySelector('#slider-input');
       this.sliders = element.querySelectorAll('.color-slider');
-      this.hueSlider = element.querySelector('.hue-slider');
-      this.saturationSlider = element.querySelector('.saturation-slider');
-      this.lightSlider = element.querySelector('.light-slider');
-      this.alphaSlider = element.querySelector('.alpha-slider');
+      this.hueSlider = element.querySelector('#hue-slider');
+      this.saturationSlider = element.querySelector('#saturation-slider');
+      this.lightSlider = element.querySelector('#light-slider');
+      this.alphaSlider = element.querySelector('#alpha-slider');
 
       // Attributes
       this.color = element.dataset.color || '';
       this.default = element.dataset.default || '';
-      this.display = element.dataset.display.split(',') || ['full'];
       this.format = element.dataset.format || 'hex';
       this.preview = element.dataset.preview === 'true';
       this.setAlpha = this.format === 'hsla' || this.format === 'rgba';
@@ -60,32 +73,145 @@
       this.saturation = 1;
       this.light = 1;
       this.alpha = 1;
+      this.defaultHsl = [this.hue, this.saturation, this.light, this.alpha];
 
       this.setInitValue();
       this.setBackground();
 
-      // Hide input field, when selected value should not be visible
+      // Hide preview field, when selected value should not be visible
       if (!this.preview) {
         this.input.style.display = 'none';
+      } else {
+        this.setInputPattern();
       }
+
+      // Always hide main input field (value saved in database)
+      this.mainInput.style.display = 'none';
 
       Array.prototype.forEach.call(this.sliders, (slider) => {
         slider.addEventListener('change', () => this.updateValue(slider));
       });
+
+      this.input.addEventListener('change', () => this.changeInput(this.input));
     }
 
     /**
      * Set selected value into input field and set it as its background-color.
      */
     updateValue(slider) {
-      const rgb = this.getSliderValueAsRgb(slider.value, slider.dataset.type);
-      const hsl = this.rgbToHsl(rgb);
+      this.showError('');
+      const hsl = this.getSliderValueAsHsl(slider.value, slider.dataset.type);
+      const rgb = this.hslToRgb(hsl);
       [this.hue, this.saturation, this.light, this.alpha] = hsl;
 
       this.input.style.border = `2px solid ${this.getRgbString(rgb)}`;
       this.setSliderValues(hsl, slider.dataset.type);
       this.setInputValue(hsl);
       this.setBackground(slider);
+    }
+
+    /**
+     * React on user changing input value
+     *
+     * @param {HTMLElement} inputField
+     */
+    changeInput(inputField) {
+      let hsl = [this.hue, this.saturation, this.light, this.alpha];
+
+      if (!inputField.value) {
+        this.mainInput.value = '';
+        this.showError('');
+        return;
+      }
+
+      if (!this.checkValue(inputField.value)) {
+        this.showError('JFIELD_COLOR_ERROR_WRONG_FORMAT');
+        this.setInputValue(this.defaultHsl);
+      } else {
+        this.showError('');
+
+        switch (this.input.dataset.format) {
+          case 'hue':
+            hsl[0] = inputField.value;
+            this.hue = inputField.value;
+            break;
+          case 'saturation':
+            hsl[1] = inputField.value;
+            this.saturation = inputField.value;
+            break;
+          case 'light':
+            hsl[2] = inputField.value;
+            this.light = inputField.value;
+            break;
+          case 'alpha':
+            hsl[3] = inputField.value;
+            this.alpha = inputField.value;
+            break;
+          default:
+            hsl = this.getHsl(inputField.value);
+        }
+
+        this.setSliderValues(hsl);
+        this.setInputValue(hsl, true);
+      }
+    }
+
+    /**
+     * Check validity of value
+     *
+     * @param {number|string} value to check
+     * @returns {boolean}
+     */
+    checkValue(value) {
+      switch (this.input.dataset.format) {
+        case 'hue':
+          return value <= 360 && hueRegex.test(value);
+        case 'saturation':
+        case 'light':
+        case 'alpha':
+          return hslNumberRegex.test(value);
+        case 'hsl':
+        case 'hsla':
+          return hslRegex.test(value);
+        case 'hex':
+          return hexRegex.test(value);
+        case 'rgb':
+        case 'rgba':
+          return rgbRegex.test(value);
+        default:
+          return false;
+      }
+    }
+
+    /**
+     * Set validation pattern on input field
+     */
+    setInputPattern() {
+      let pattern;
+
+      // RegExp has '/' at start and end
+      switch (this.input.dataset.format) {
+        case 'hue':
+          pattern = hueRegex.source.slice(1, -1);
+          break;
+        case 'saturation':
+        case 'light':
+        case 'alpha':
+          pattern = hslNumberRegex.source.slice(1, -1);
+          break;
+        case 'hsl':
+        case 'hsla':
+          pattern = hslRegex.source.slice(1, -1);
+          break;
+        case 'rgb':
+          pattern = rgbRegex.source.slice(1, -1);
+          break;
+        case 'hex':
+        default:
+          pattern = hexRegex.source.slice(1, -1);
+      }
+
+      this.input.setAttribute('pattern', pattern);
     }
 
     /**
@@ -101,7 +227,6 @@
 
         let colors = [];
         let endValue = 100;
-        slider.style.webkitAppearance = 'none';
 
         // Longer start color so slider selection matches displayed colors
         colors.push(this.getSliderValueAsRgb(0, slider.dataset.type));
@@ -124,6 +249,7 @@
 
         colors = colors.map(value => this.getRgbString(value));
         slider.style.background = `linear-gradient(90deg, ${colors.join(',')})`;
+        slider.style.webkitAppearance = 'none';
       });
     }
 
@@ -133,13 +259,23 @@
     setInitValue() {
       // The initial value can be also a color defined in css
       const cssValue = window.getComputedStyle(this.input).getPropertyValue(this.default);
-      const value = cssValue || this.color || this.default || '';
-      let hsl = [];
+      this.default = cssValue || this.default;
 
-      if (!value) {
+      if (this.color === '' || typeof this.color === 'undefined') {
+        // Unable to get hsl with empty value
+        this.input.value = '';
+        this.mainInput.value = '';
         return;
       }
 
+      const value = this.checkValue(this.color) ? this.color : this.default;
+
+      if (!value) {
+        this.showError('JFIELD_COLOR_ERROR_NO_COLOUR');
+        return;
+      }
+
+      let hsl = [];
       // When given value is a number, use it as defined format and get rest from default value
       if (/^[0-9]+$/.test(value)) {
         hsl = this.default && this.getHsl(this.default);
@@ -160,29 +296,37 @@
         hsl = this.getHsl(value);
       }
 
-      hsl[1] = hsl[1] > 1 ? hsl[1] / 100 : hsl[1];
-      hsl[2] = hsl[2] > 1 ? hsl[2] / 100 : hsl[2];
-
       [this.hue, this.saturation, this.light] = hsl;
       this.alpha = hsl[4] || this.alpha;
+      this.defaultHsl = this.default ? this.getHsl(this.default) : hsl;
 
       this.setSliderValues(hsl);
       this.setInputValue(hsl);
 
-      if (/^[0-9]+$/.test(value) === false) {
-        this.input.style.border = `2px solid ${this.getRgbString(this.hslToRgb(hsl))}`;
-      }
+      this.input.style.border = `2px solid ${this.getRgbString(this.hslToRgb(hsl))}`;
+    }
+
+    /**
+     * Insert message into error message span
+     * Message gets handled with Joomla.Text or as empty string
+     *
+     * @param {string} msg
+     */
+    showError(msg) {
+      this.messageSpan.innerText = msg ? Joomla.Text._(msg) : '';
     }
 
     /**
      * Convert value into HSLa e.g. #003E7C => [210, 100, 24]
-     * @param value
+     * @param {array|number|string} value
      * @returns {array}
      */
     getHsl(value) {
       let hsl = [];
 
-      if (hexRegex.test(value)) {
+      if (Array.isArray(value)) {
+        hsl = value;
+      } else if (hexRegex.test(value)) {
         hsl = this.hexToHsl(value);
       } else if (rgbRegex.test(value)) {
         hsl = this.rgbToHsl(value);
@@ -190,22 +334,26 @@
         const matches = value.match(hslRegex);
         hsl = [matches[1], matches[2], matches[3], matches[4]];
       } else {
-        throw new Error(`Can not convert ${value} to HSL(a).`);
+        this.showError('JFIELD_COLOR_ERROR_CONVERT_HSL');
+        return this.defaultHsl;
       }
 
-      hsl[1] = hsl[1] > 1 ? hsl[1] / 100 : hsl[1];
-      hsl[2] = hsl[2] > 1 ? hsl[2] / 100 : hsl[2];
+      // Convert saturation etc. values from e.g. 40 to 0.4
+      let i;
+      for (i = 1; i < hsl.length; i += 1) {
+        hsl[i] = hsl[i] > 1 ? hsl[i] / 100 : hsl[i];
+      }
 
       return hsl;
     }
 
     /**
-     * Calculates RGB value from color slider value
+     * Returns HSL value from color slider value
      * @params {int} value convert this value
      * @params {string} type type of value: hue, saturation, light or alpha
-     * @returns string|array
+     * @returns array
      */
-    getSliderValueAsRgb(value, type) {
+    getSliderValueAsHsl(value, type) {
       let h = this.hue;
       let s = this.saturation;
       let l = this.light;
@@ -237,7 +385,17 @@
         a /= 100;
       }
 
-      return this.hslToRgb([h, s, l, a]);
+      return [h, s, l, a];
+    }
+
+    /**
+     * Calculates RGB value from color slider value
+     * @params {int} value convert this value
+     * @params {string} type type of value: hue, saturation, light or alpha
+     * @returns array
+     */
+    getSliderValueAsRgb(value, type) {
+      return this.hslToRgb(this.getSliderValueAsHsl(value, type));
     }
 
     /**
@@ -261,66 +419,83 @@
     }
 
     /**
-     * Set value in input field depending on format
+     * Set value in text input fields depending on their format
      * @param {array} hsl
+     * @param {boolean=false} onlyMain indicates to change mainInput only
      */
-    setInputValue(hsl) {
-      let value;
+    setInputValue(hsl, onlyMain) {
+      const inputs = [this.mainInput];
 
-      switch (this.format) {
-        case 'hsl':
-        case 'hsla':
-          value = this.getHslString(hsl);
-          break;
-        case 'rgb':
-        case 'rgba':
-          value = this.getRgbString(this.hslToRgb(hsl));
-          break;
-        case 'hex':
-          value = this.rgbToHex(this.hslToRgb(hsl));
-          break;
-        case 'alpha':
-          value = Math.round(hsl[3] * 100);
-          break;
-        case 'saturation':
-          value = Math.round(hsl[1] * 100);
-          break;
-        case 'light':
-          value = Math.round(hsl[2] * 100);
-          break;
-        case 'hue':
-        default:
-          value = Math.round(hsl[0]);
-          break;
+      if (!onlyMain) {
+        inputs.push(this.input);
       }
 
-      this.input.setAttribute('value', value);
+      inputs.forEach((input) => {
+        let value;
+        switch (input.dataset.format) {
+          case 'hsl':
+            value = this.getHslString(hsl);
+            break;
+          case 'hsla':
+            value = this.getHslString(hsl, true);
+            break;
+          case 'rgb':
+            value = this.getRgbString(this.hslToRgb(hsl));
+            break;
+          case 'rgba':
+            value = this.getRgbString(this.hslToRgb(hsl), true);
+            break;
+          case 'hex':
+            value = this.rgbToHex(this.hslToRgb(hsl));
+            break;
+          case 'alpha':
+            value = Math.round(hsl[3] * 100);
+            break;
+          case 'saturation':
+            value = Math.round(hsl[1] * 100);
+            break;
+          case 'light':
+            value = Math.round(hsl[2] * 100);
+            break;
+          case 'hue':
+          default:
+            value = Math.round(hsl[0]);
+            break;
+        }
+
+        input.value = value;
+      });
     }
 
     /**
      * Put RGB values into a string like 'rgb(<R>, <G>, <B>)'
      * @params {array} rgba
+     * @params {boolean=false} withAlpha
+     * @return {string}
      */
-    getRgbString([r, g, b, a]) {
-      if (this.setAlpha) {
-        const alpha = a || this.alpha;
+    getRgbString([r, g, b, a], withAlpha) {
+      if (withAlpha || this.setAlpha) {
+        const alpha = typeof a === 'undefined' ? this.alpha : a;
         return `rgba(${r}, ${g}, ${b}, ${alpha})`;
       }
+
       return `rgb(${r}, ${g}, ${b})`;
     }
 
     /**
      * Put HSL values into a string like 'hsl(<H>, <S>%, <L>%, <a>)'
      * @params {array} values
+     * @params {boolean=false} withAlpha
+     * @return {string}
      */
-    getHslString(values) {
+    getHslString(values, withAlpha) {
       let [h, s, l, a] = values;
 
       s *= 100;
       l *= 100;
       [h, s, l] = [h, s, l].map(value => Math.round(value));
 
-      if (this.setAlpha) {
+      if (withAlpha || this.setAlpha) {
         a = a || this.alpha;
         return `hsla(${h}, ${s}%, ${l}%, ${a})`;
       }
@@ -334,9 +509,12 @@
      * @return {string}
      */
     rgbToHex(rgb) {
-      let r = rgb[0].toString(16).toUpperCase();
-      let g = rgb[1].toString(16).toUpperCase();
-      let b = rgb[2].toString(16).toUpperCase();
+      let r = rgb[0].toString(16)
+        .toUpperCase();
+      let g = rgb[1].toString(16)
+        .toUpperCase();
+      let b = rgb[2].toString(16)
+        .toUpperCase();
 
       // Double value for hex with '#' and 6 chars
       r = r.length === 1 ? `${r}${r}` : r;
@@ -429,7 +607,8 @@
       const a = alpha > 1 ? alpha / 100 : alpha;
 
       if (h < 0 || h > 360 || s < 0 || s > 1 || l < 0 || l > 1) {
-        throw new Error(`Unable to convert hsl(${h}, ${s}, ${l}) into RGB.`);
+        this.showError('JFIELD_COLOR_ERROR_CONVERT_HSL');
+        return this.hslToRgb(this.defaultHsl);
       }
 
       const c = (1 - Math.abs(2 * l - 1)) * s;
@@ -450,7 +629,8 @@
       } else if (h >= 300 && h <= 360) {
         [r, g, b] = [c, 0, x];
       } else {
-        throw new Error(`Unable to convert hue ${h} into RGB.`);
+        this.showError('JFIELD_COLOR_ERROR_CONVERT_HUE');
+        return this.hslToRgb(this.defaultHsl);
       }
 
       const rgb = [r, g, b].map(value => Math.round((value + m) * 255));
