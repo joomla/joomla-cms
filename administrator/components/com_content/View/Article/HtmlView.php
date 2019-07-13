@@ -166,6 +166,7 @@ class HtmlView extends BaseHtmlView
 			{
 				$toolbar->apply('article.apply');
 			}
+
 			$saveGroup = $toolbar->dropdownButton('save-group');
 
 			$saveGroup->configure(
@@ -247,18 +248,17 @@ class HtmlView extends BaseHtmlView
 						'width' => '800px',
 						'bodyHeight' => 70,
 						'modalWidth' => 80,
-						'footer' => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
+						'footer' => '<button type="button" class="btn btn-secondary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $modalId . '\', \'add\', \'item\', \'cancel\', \'item-form\'); return false;">'
-							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
-							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
+							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+							. '<button type="button" class="btn btn-primary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $modalId . '\', \'add\', \'item\', \'save\', \'item-form\'); return false;">'
-							. Text::_('JSAVE') . '</a>'
-							. '<a role="button" class="btn btn-success" aria-hidden="true"'
+							. Text::_('JSAVE') . '</button>'
+							. '<button type="button" class="btn btn-success" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $modalId . '\', \'add\', \'item\', \'apply\', \'item-form\'); return false;">'
-							. Text::_('JAPPLY') . '</a>'
+							. Text::_('JAPPLY') . '</button>'
 					)
 				);
-
 
 				echo '<input type="hidden" class="form-control" id="' . $modalId . '_name" value="">';
 				echo '<input type="hidden" id="' . $modalId . '_id" value="0">';
@@ -268,8 +268,8 @@ class HtmlView extends BaseHtmlView
 		if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
 		{
 			$toolbar->standardButton('contract')
-			->text('JTOOLBAR_ASSOCIATIONS')
-			->task('article.editAssociations');
+				->text('JTOOLBAR_ASSOCIATIONS')
+				->task('article.editAssociations');
 		}
 
 		$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');

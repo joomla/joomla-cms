@@ -36,7 +36,7 @@ class BrowserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 */
-	protected function setUp()
+	protected function setUp():void
 	{
 		$this->browser = new Browser;
 
@@ -48,7 +48,7 @@ class BrowserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 */
-	protected function tearDown()
+	protected function tearDown():void
 	{
 		unset($this->browser);
 
@@ -63,6 +63,13 @@ class BrowserTest extends UnitTestCase
 	public function dataMatch(): array
 	{
 		return [
+			'Edge 75' => [
+				'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3738.0 Safari/537.36 Edg/75.0.107.0',
+				'edg',
+				'win',
+				'75',
+				false,
+			],
 			'Edge 14' => [
 				'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393',
 				'edge',

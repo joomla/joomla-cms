@@ -16,7 +16,6 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -192,7 +191,6 @@ class HtmlView extends BaseHtmlView
 				$childBar->trash('fields.trash')->listCheck(true);
 			}
 		}
-
 
 		// Add a batch button
 		if ($canDo->get('core.create') && $canDo->get('core.edit') && $canDo->get('core.edit.state'))

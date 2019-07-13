@@ -91,10 +91,12 @@ class CheckinModel extends ListModel
 		// This int will hold the checked item count.
 		$results = 0;
 
+		$app = Factory::getApplication();
+
 		foreach ($ids as $tn)
 		{
 			// Make sure we get the right tables based on prefix.
-			if (stripos($tn, Factory::getApplication()->get('dbprefix')) !== 0)
+			if (stripos($tn, $app->get('dbprefix')) !== 0)
 			{
 				continue;
 			}
@@ -108,15 +110,16 @@ class CheckinModel extends ListModel
 
 			$query = $db->getQuery(true)
 				->update($db->quoteName($tn))
-				->set('checked_out = DEFAULT')
-				->set('checked_out_time = ' . $db->quote($nullDate))
-				->where('checked_out > 0');
+				->set($db->quoteName('checked_out') . ' = DEFAULT')
+				->set($db->quoteName('checked_out_time') . ' = ' . $db->quote($nullDate))
+				->where($db->quoteName('checked_out') . ' > 0');
 
 			$db->setQuery($query);
 
 			if ($db->execute())
 			{
 				$results = $results + $db->getAffectedRows();
+				$app->triggerEvent('onAfterCheckin', array($tn));
 			}
 		}
 

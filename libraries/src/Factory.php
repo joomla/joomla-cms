@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\FactoryInterface;
@@ -459,7 +460,7 @@ abstract class Factory
 	/**
 	 * Return the {@link Date} object
 	 *
-	 * @param   mixed  $time      The initial time for the JDate object
+	 * @param   mixed  $time      The initial time for the Date object
 	 * @param   mixed  $tzOffset  The timezone offset.
 	 *
 	 * @return  Date object
@@ -840,8 +841,8 @@ abstract class Factory
 
 		if ($use_prefix)
 		{
-			$FTPOptions = \JClientHelper::getCredentials('ftp');
-			$SCPOptions = \JClientHelper::getCredentials('scp');
+			$FTPOptions = ClientHelper::getCredentials('ftp');
+			$SCPOptions = ClientHelper::getCredentials('scp');
 
 			if ($FTPOptions['enabled'] == 1 && $use_network)
 			{

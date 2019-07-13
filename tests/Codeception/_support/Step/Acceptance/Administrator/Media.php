@@ -9,14 +9,14 @@ use Page\Acceptance\Administrator\MediaListPage;
  *
  * @package  Step\Acceptance\Administrator
  *
- * @since    __DEPLOY_VERSION__
+ * @since    4.0.0
  */
 class Media extends Admin
 {
 	/**
 	 * Helper function to wait for the media manager to load the data
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function waitForMediaLoaded()
 	{
@@ -27,7 +27,7 @@ class Media extends Admin
 			$I->waitForElementNotVisible(MediaListPage::$loader);
 
 			// Add a small timeout to wait for rendering (otherwise it will fail when executed in headless browser)
-			$I->wait(0.2);
+			$I->wait(0.5);
 		}
 		catch (NoSuchElementException $e)
 		{
@@ -44,7 +44,7 @@ class Media extends Admin
 	 *
 	 * @param array $contents
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function seeContents(array $contents = [])
 	{
@@ -61,7 +61,7 @@ class Media extends Admin
 	 *
 	 * @param  string $fileName
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function uploadFile($fileName)
 	{
@@ -75,7 +75,7 @@ class Media extends Admin
 	 *
 	 * @param  string $path
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @todo extract to JoomlaFilesystem
 	 */
@@ -97,7 +97,7 @@ class Media extends Admin
 	 * @param   string  $dirname
 	 * @param   integer $mode
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @todo extract to JoomlaFilesystem
 	 */
@@ -123,7 +123,7 @@ class Media extends Admin
 	 *
 	 * @param   string $dirname
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @todo extract to JoomlaFilesystem
 	 */
@@ -140,7 +140,7 @@ class Media extends Admin
 	 *
 	 * @param   string $link
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function clickOnLinkInTree($link)
 	{
@@ -153,7 +153,7 @@ class Media extends Admin
 	 *
 	 * @param   string $link
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function clickOnLinkInBreadcrumb($link)
 	{
@@ -166,7 +166,7 @@ class Media extends Admin
 	 *
 	 * @param   string $itemName
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function openActionsMenuOf($itemName)
 	{
@@ -183,7 +183,7 @@ class Media extends Admin
 	 * @param   string $itemName
 	 * @param   string $actionName
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function clickOnActionInMenuOf($itemName, $actionName)
 	{
@@ -197,7 +197,7 @@ class Media extends Admin
 	/**
 	 * Helper function to open the media manager info bar
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function openInfobar()
 	{
@@ -216,7 +216,7 @@ class Media extends Admin
 	/**
 	 * Helper function to close the media manager info bar
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function closeInfobar()
 	{
@@ -238,7 +238,7 @@ class Media extends Admin
 	 *
 	 * @param   string $xpath Xpath selector
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function clickHoldingShiftkey($xpath)
 	{
@@ -259,7 +259,7 @@ class Media extends Admin
 	 *
 	 * @param   string $path
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @todo extract to JoomlaFilesystem
 	 */

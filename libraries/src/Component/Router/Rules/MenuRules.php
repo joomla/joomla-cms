@@ -172,6 +172,7 @@ class MenuRules implements RulesInterface
 			&& ($language === '*' || in_array($active->language, array('*', $language)) || !Multilanguage::isEnabled()))
 		{
 			$query['Itemid'] = $active->id;
+
 			return;
 		}
 

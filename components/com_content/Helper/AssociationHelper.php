@@ -17,8 +17,6 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\Component\Categories\Administrator\Helper\CategoryAssociationHelper;
 
-\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-
 /**
  * Content Component Association Helper
  *
@@ -79,7 +77,16 @@ abstract class AssociationHelper extends CategoryAssociationHelper
 					$advClause[] = 'c2.state = 1';
 				}
 
-				$associations = Associations::getAssociations('com_content', '#__content', 'com_content.item', $id, 'id', 'alias', 'catid', $advClause);
+				$associations = Associations::getAssociations(
+					'com_content',
+					'#__content',
+					'com_content.item',
+					$id,
+					'id',
+					'alias',
+					'catid',
+					$advClause
+				);
 
 				$return = array();
 

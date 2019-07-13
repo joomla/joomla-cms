@@ -10,12 +10,13 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\Database\Exception\ExecutionFailureException;
 
-JFormHelper::loadFieldClass('Checkboxes');
+FormHelper::loadFieldClass('Checkboxes');
 
 /**
  * Consentbox Field class for the Confirm Consent Plugin.
@@ -136,7 +137,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 		// Forcing the Alias field to display the tip below
 		$position = $this->element['name'] == 'alias' ? ' data-placement="bottom" ' : '';
 
-		// When we have a article let's add the modal and make the title clickable
+		// When we have an article let's add the modal and make the title clickable
 		if ($data['articleid'])
 		{
 			$attribs['data-toggle'] = 'modal';
@@ -226,7 +227,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 		{
 			$article = $db->loadObject();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			// Something at the database layer went wrong
 			return Route::_(

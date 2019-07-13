@@ -1072,6 +1072,7 @@
 			type="helpsite"
 			label="COM_CONFIG_FIELD_HELP_SERVER_LABEL"
 			showDefault="false"
+			validate="options"
 		/>
 
 	</fieldset>

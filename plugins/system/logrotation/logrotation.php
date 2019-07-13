@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
@@ -75,13 +76,15 @@ class PlgSystemLogrotation extends JPlugin
 		// Update last run status
 		$this->params->set('lastrun', $now);
 
-		$db    = $this->db;
-		$query = $db->getQuery(true)
-			->update($db->qn('#__extensions'))
-			->set($db->qn('params') . ' = ' . $db->q($this->params->toString('JSON')))
-			->where($db->qn('type') . ' = ' . $db->q('plugin'))
-			->where($db->qn('folder') . ' = ' . $db->q('system'))
-			->where($db->qn('element') . ' = ' . $db->q('logrotation'));
+		$paramsJson = $this->params->toString('JSON');
+		$db         = $this->db;
+		$query      = $db->getQuery(true)
+			->update($db->quoteName('#__extensions'))
+			->set($db->quoteName('params') . ' = :params')
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('logrotation'))
+			->bind(':params', $paramsJson);
 
 		try
 		{
@@ -247,7 +250,7 @@ class PlgSystemLogrotation extends JPlugin
 	 */
 	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
 	{
-		$conf = JFactory::getConfig();
+		$conf = Factory::getConfig();
 
 		foreach ($clearGroups as $group)
 		{

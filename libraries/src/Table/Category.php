@@ -14,8 +14,6 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Table\Observer\ContentHistory;
-use Joomla\CMS\Table\Observer\Tags;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 

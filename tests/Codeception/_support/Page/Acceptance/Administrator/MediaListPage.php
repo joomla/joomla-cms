@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  AcceptanceTester.Page
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ namespace Page\Acceptance\Administrator;
  *
  * @package  Page\Acceptance\Administrator
  *
- * @since    __DEPLOY_VERSION__
+ * @since    4.0.0
  */
 class MediaListPage extends AdminListPage
 {
@@ -22,7 +22,7 @@ class MediaListPage extends AdminListPage
 	 * Url to media manager listing page.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $url = "administrator/index.php?option=com_media&path=local-0:/";
 
@@ -30,7 +30,7 @@ class MediaListPage extends AdminListPage
 	 * Page title of the media manager listing page.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $pageTitleText = 'Media';
 
@@ -38,7 +38,7 @@ class MediaListPage extends AdminListPage
 	 * Page title of the media manager listing page.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $container = ['class' => 'media-container'];
 
@@ -46,7 +46,7 @@ class MediaListPage extends AdminListPage
 	 * Page title of the media manager listing page.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $infoBar = ['class' => 'media-infobar'];
 
@@ -54,7 +54,7 @@ class MediaListPage extends AdminListPage
 	 * The media browser items
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $itemsContainer = ['class' => 'media-browser-items'];
 
@@ -62,7 +62,7 @@ class MediaListPage extends AdminListPage
 	 * The media browser items extra small
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $itemsContainerExtraSmall = ['class' => 'media-browser-items-xs'];
 
@@ -70,7 +70,7 @@ class MediaListPage extends AdminListPage
 	 * The media browser items small
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $itemsContainerSmall = ['class' => 'media-browser-items-sm'];
 
@@ -78,7 +78,7 @@ class MediaListPage extends AdminListPage
 	 * The media browser items medium
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $itemsContainerMedium = ['class' => 'media-browser-items-md'];
 
@@ -86,7 +86,7 @@ class MediaListPage extends AdminListPage
 	 * The media browser items large
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $itemsContainerLarge = ['class' => 'media-browser-items-lg'];
 
@@ -94,7 +94,7 @@ class MediaListPage extends AdminListPage
 	 * The media browser items extra large
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $itemsContainerExtraLarge = ['class' => 'media-browser-items-xl'];
 
@@ -102,7 +102,7 @@ class MediaListPage extends AdminListPage
 	 * The media browser items
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $items = ['class' => 'media-browser-item'];
 
@@ -110,7 +110,7 @@ class MediaListPage extends AdminListPage
 	 * The media browser items selected locator
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $itemSelected = ['css' => '.media-browser-item.selected'];
 
@@ -118,7 +118,7 @@ class MediaListPage extends AdminListPage
 	 * The media tree
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $mediaTree = ['class' => 'media-tree'];
 
@@ -126,7 +126,7 @@ class MediaListPage extends AdminListPage
 	 * The media tree
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $mediaBreadcrumb = ['class' => 'media-breadcrumb'];
 
@@ -134,7 +134,7 @@ class MediaListPage extends AdminListPage
 	 * Button that toggles the info bar
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $toggleInfoBarButton = ['class' => 'media-toolbar-info'];
 
@@ -142,7 +142,7 @@ class MediaListPage extends AdminListPage
 	 * The hidden file upload field
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $fileInputField = 'input[name=\'file\']';
 
@@ -150,7 +150,7 @@ class MediaListPage extends AdminListPage
 	 * The create folder button in the toolbar
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $toolbarCreateFolderButton = '//button[contains(@onclick, \'onClickCreateFolder\')]';
 
@@ -158,7 +158,7 @@ class MediaListPage extends AdminListPage
 	 * The delete button in the toolbar
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $toolbarDeleteButton = '//button[contains(@onclick, \'onClickDelete\')]';
 
@@ -166,7 +166,7 @@ class MediaListPage extends AdminListPage
 	 * The delete button in the toolbar
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $toolbarModalDeleteButton = ['id' => 'media-delete-item'];
 
@@ -174,7 +174,7 @@ class MediaListPage extends AdminListPage
 	 * The select all button
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $selectAllButton = ['class' => 'media-toolbar-select-all'];
 
@@ -182,7 +182,7 @@ class MediaListPage extends AdminListPage
 	 * The increase thumbnail size button
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $increaseThumbnailSizeButton = ['class' => 'media-toolbar-increase-grid-size'];
 
@@ -190,7 +190,7 @@ class MediaListPage extends AdminListPage
 	 * The disabled increase thumbnail size button disabled
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $increaseThumbnailSizeButtonDisabled = ['css' => '.media-toolbar-increase-grid-size.disabled'];
 
@@ -198,7 +198,7 @@ class MediaListPage extends AdminListPage
 	 * The decrease thumbnail size button
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $decreaseThumbnailSizeButton = ['class' => 'media-toolbar-decrease-grid-size'];
 
@@ -206,7 +206,7 @@ class MediaListPage extends AdminListPage
 	 * The decrease thumbnail size button disabled
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $decreaseThumbnailSizeButtonDisabled = ['css' => '.media-toolbar-decrease-grid-size.disabled'];
 
@@ -214,7 +214,7 @@ class MediaListPage extends AdminListPage
 	 * The disabled increase thumbnail size button disabled
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $toggleListViewButton = ['class' => 'media-toolbar-list-view'];
 
@@ -222,7 +222,7 @@ class MediaListPage extends AdminListPage
 	 * The item actions
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $itemActions = ['class' => 'media-browser-actions'];
 
@@ -230,7 +230,7 @@ class MediaListPage extends AdminListPage
 	 * The rename action
 	 *
 	 * @var string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $renameAction = 'action-rename';
 
@@ -238,7 +238,7 @@ class MediaListPage extends AdminListPage
 	 * The rename action
 	 *
 	 * @var string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $previewAction = 'action-preview';
 
@@ -246,7 +246,7 @@ class MediaListPage extends AdminListPage
 	 * The rename action
 	 *
 	 * @var string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $editAction = 'action-edit';
 
@@ -254,7 +254,7 @@ class MediaListPage extends AdminListPage
 	 * The name field of modal forms
 	 *
 	 * @var array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $renameInputField = ['id' => 'name'];
 
@@ -262,7 +262,7 @@ class MediaListPage extends AdminListPage
 	 * The name field of modal forms
 	 *
 	 * @var array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $newFolderInputField = ['id' => 'folder'];
 
@@ -270,7 +270,7 @@ class MediaListPage extends AdminListPage
 	 * The confirm button of modals
 	 *
 	 * @var array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $modalConfirmButton = ['css' => '.modal button.btn-success'];
 
@@ -278,7 +278,7 @@ class MediaListPage extends AdminListPage
 	 * The confirm button of modals
 	 *
 	 * @var array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $modalConfirmButtonDisabled = ['css' => '.modal button:disabled.btn-success'];
 
@@ -286,7 +286,7 @@ class MediaListPage extends AdminListPage
 	 * The preview modal
 	 *
 	 * @var array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $previewModal = ['class' => 'media-preview-modal'];
 
@@ -294,7 +294,7 @@ class MediaListPage extends AdminListPage
 	 * The preview modal image locator
 	 *
 	 * @var array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $previewModalImg = ['css' => '.media-preview-modal img'];
 
@@ -302,7 +302,7 @@ class MediaListPage extends AdminListPage
 	 * The preview modal image locator
 	 *
 	 * @var array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $previewModalCloseButton = ['class' => 'media-preview-close'];
 
@@ -310,7 +310,7 @@ class MediaListPage extends AdminListPage
 	 * The media browser grid
 	 *
 	 * @var array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $mediaBrowserGrid = ['class' => 'media-browser-grid'];
 
@@ -318,7 +318,7 @@ class MediaListPage extends AdminListPage
 	 * The media browser table
 	 *
 	 * @var array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $mediaBrowserTable = ['class' => 'media-browser-table'];
 
@@ -326,7 +326,7 @@ class MediaListPage extends AdminListPage
 	 * The key for the app storage
 	 *
 	 * @var string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $loader = ['class' => 'media-loader'];
 
@@ -334,7 +334,7 @@ class MediaListPage extends AdminListPage
 	 * The key for the app storage
 	 *
 	 * @var string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $storageKey = 'joomla.mediamanager';
 
@@ -343,7 +343,7 @@ class MediaListPage extends AdminListPage
 	 *
 	 * @var    string $name
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 *
 	 * @return string
 	 */
@@ -358,7 +358,7 @@ class MediaListPage extends AdminListPage
 	 * @var    string $itemName
 	 * @var    string $actionName
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 *
 	 * @return string
 	 */
@@ -373,7 +373,7 @@ class MediaListPage extends AdminListPage
 	 * @var    string $itemName
 	 * @var    string $actionName
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 *
 	 * @return string
 	 */
@@ -386,7 +386,7 @@ class MediaListPage extends AdminListPage
 	 * Get the xpath of a media item
 	 *
 	 * @var    string $name
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 *
 	 * @return string
 	 */
