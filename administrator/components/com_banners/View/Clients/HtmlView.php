@@ -11,13 +11,16 @@ namespace Joomla\Component\Banners\Administrator\View\Clients;
 
 defined('_JEXEC') or die;
 
+use Exception;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 
 /**
  * View class for a list of clients.
@@ -27,23 +30,42 @@ use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
+	 * The search tools form
+	 *
+	 * @var    Form
+	 * @since  1.6
+	 */
+	public $filterForm;
+
+	/**
+	 * The active search filters
+	 *
+	 * @var    array
+	 * @since  1.6
+	 */
+	public $activeFilters = [];
+
+	/**
 	 * An array of items
 	 *
-	 * @var  array
+	 * @var    array
+	 * @since  1.6
 	 */
-	protected $items;
+	protected $items = [];
 
 	/**
 	 * The pagination object
 	 *
-	 * @var  \JPagination
+	 * @var    Pagination
+	 * @since  1.6
 	 */
 	protected $pagination;
 
 	/**
 	 * The model state
 	 *
-	 * @var  object
+	 * @var    CMSObject
+	 * @since  1.6
 	 */
 	protected $state;
 
@@ -52,15 +74,21 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
+	 *
+	 * @since   1.6
+	 *
+	 * @throws  Exception
 	 */
-	public function display($tpl = null)
+	public function display($tpl = null): void
 	{
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->state         = $this->get('State');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
+		/** @var ClientsModel $model */
+		$model               = $this->getModel();
+		$this->items         = $model->getItems();
+		$this->pagination    = $model->getPagination();
+		$this->state         = $model->getState();
+		$this->filterForm    = $model->getFilterForm();
+		$this->activeFilters = $model->getActiveFilters();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -68,11 +96,9 @@ class HtmlView extends BaseHtmlView
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		BannersHelper::addSubmenu('clients');
-
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -82,7 +108,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @since   1.6
 	 */
-	protected function addToolbar()
+	protected function addToolbar(): void
 	{
 		$canDo = ContentHelper::getActions('com_banners');
 
@@ -145,15 +171,15 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @since   3.0
 	 */
-	protected function getSortFields()
+	protected function getSortFields(): array
 	{
-		return array(
+		return [
 			'a.status'    => Text::_('JSTATUS'),
 			'a.name'      => Text::_('COM_BANNERS_HEADING_CLIENT'),
 			'contact'     => Text::_('COM_BANNERS_HEADING_CONTACT'),
 			'client_name' => Text::_('COM_BANNERS_HEADING_CLIENT'),
 			'nbanners'    => Text::_('COM_BANNERS_HEADING_ACTIVE'),
 			'a.id'        => Text::_('JGRID_HEADING_ID')
-		);
+		];
 	}
 }

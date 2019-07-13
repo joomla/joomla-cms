@@ -59,6 +59,7 @@ class WorkflowsController extends AdminController
 				throw new \InvalidArgumentException(Text::_('COM_WORKFLOW_ERROR_EXTENSION_NOT_SET'));
 			}
 		}
+
 		$this->registerTask('unsetDefault',	'setDefault');
 	}
 

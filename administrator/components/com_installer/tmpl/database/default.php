@@ -15,7 +15,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('bootstrap.popover');
 
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirection = $this->escape($this->state->get('list.direction'));
@@ -95,11 +94,13 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 												<?php echo $extension->type_translated; ?>
 											</td>
 											<td class="d-none d-md-table-cell">
-												<span class="badge badge-<?php echo count($item['results']['error']) ? 'danger' : ($item['errorsCount'] ? 'warning' : 'success'); ?> hasPopover"
-													data-content="<ul><li><?php echo implode('</li><li>', $item['errorsMessage']); ?></li></ul>"
-													data-original-title="<?php echo Text::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item['errorsCount']); ?>">
+												<span class="badge badge-<?php echo count($item['results']['error']) ? 'danger' : ($item['errorsCount'] ? 'warning' : 'success'); ?>" tabindex="0">
 													<?php echo Text::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item['errorsCount']); ?>
 												</span>
+												<div role="tooltip" id="tip<?php echo $i; ?>">
+													<strong><?php echo Text::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item['errorsCount']); ?></strong>
+													<ul><li><?php echo implode('</li><li>', $item['errorsMessage']); ?></li></ul>
+												</div>
 											</td>
 											<td class="d-none d-md-table-cell text-right">
 												<?php echo $extension->version_id; ?>

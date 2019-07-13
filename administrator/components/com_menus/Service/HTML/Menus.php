@@ -12,7 +12,6 @@ namespace Joomla\Component\Menus\Administrator\Service\HTML;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
@@ -78,160 +77,19 @@ class Menus
 				{
 					$text    = strtoupper($item->lang_sef);
 					$url     = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);
-					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
-					$classes = 'hasPopover badge badge-secondary';
+					$tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
+						. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
+					$classes = 'badge badge-secondary';
 
-					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
-						. '" data-content="' . $tooltip . '" data-placement="top">'
-						. $text . '</a>';
+					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '">' . $text . '</a>'
+						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
 				}
 			}
-
-			HTMLHelper::_('bootstrap.popover');
 
 			$html = LayoutHelper::render('joomla.content.associations', $items);
 		}
 
 		return $html;
-	}
-
-	/**
-	 * Returns a published state on a grid
-	 *
-	 * @param   integer  $value     The state value.
-	 * @param   integer  $i         The row index
-	 * @param   boolean  $enabled   An optional setting for access control on the action.
-	 * @param   string   $checkbox  An optional prefix for checkboxes.
-	 *
-	 * @return  string        The Html code
-	 *
-	 * @see JHtmlJGrid::state
-	 *
-	 * @since   1.7.1
-	 */
-	public function state($value, $i, $enabled = true, $checkbox = 'cb')
-	{
-		$states = array(
-			9  => array(
-				'unpublish',
-				'',
-				'COM_MENUS_HTML_UNPUBLISH_HEADING',
-				'',
-				true,
-				'publish',
-				'publish',
-			),
-			8  => array(
-				'publish',
-				'',
-				'COM_MENUS_HTML_PUBLISH_HEADING',
-				'',
-				true,
-				'unpublish',
-				'unpublish',
-			),
-			7  => array(
-				'unpublish',
-				'',
-				'COM_MENUS_HTML_UNPUBLISH_SEPARATOR',
-				'',
-				true,
-				'publish',
-				'publish',
-			),
-			6  => array(
-				'publish',
-				'',
-				'COM_MENUS_HTML_PUBLISH_SEPARATOR',
-				'',
-				true,
-				'unpublish',
-				'unpublish',
-			),
-			5  => array(
-				'unpublish',
-				'',
-				'COM_MENUS_HTML_UNPUBLISH_ALIAS',
-				'',
-				true,
-				'publish',
-				'publish',
-			),
-			4  => array(
-				'publish',
-				'',
-				'COM_MENUS_HTML_PUBLISH_ALIAS',
-				'',
-				true,
-				'unpublish',
-				'unpublish',
-			),
-			3  => array(
-				'unpublish',
-				'',
-				'COM_MENUS_HTML_UNPUBLISH_URL',
-				'',
-				true,
-				'publish',
-				'publish',
-			),
-			2  => array(
-				'publish',
-				'',
-				'COM_MENUS_HTML_PUBLISH_URL',
-				'',
-				true,
-				'unpublish',
-				'unpublish',
-			),
-			1  => array(
-				'unpublish',
-				'COM_MENUS_EXTENSION_PUBLISHED_ENABLED',
-				'COM_MENUS_HTML_UNPUBLISH_ENABLED',
-				'COM_MENUS_EXTENSION_PUBLISHED_ENABLED',
-				true,
-				'publish',
-				'publish',
-			),
-			0  => array(
-				'publish',
-				'COM_MENUS_EXTENSION_UNPUBLISHED_ENABLED',
-				'COM_MENUS_HTML_PUBLISH_ENABLED',
-				'COM_MENUS_EXTENSION_UNPUBLISHED_ENABLED',
-				true,
-				'unpublish',
-				'unpublish',
-			),
-			-1 => array(
-				'unpublish',
-				'COM_MENUS_EXTENSION_PUBLISHED_DISABLED',
-				'COM_MENUS_HTML_UNPUBLISH_DISABLED',
-				'COM_MENUS_EXTENSION_PUBLISHED_DISABLED',
-				true,
-				'warning',
-				'warning',
-			),
-			-2 => array(
-				'publish',
-				'COM_MENUS_EXTENSION_UNPUBLISHED_DISABLED',
-				'COM_MENUS_HTML_PUBLISH_DISABLED',
-				'COM_MENUS_EXTENSION_UNPUBLISHED_DISABLED',
-				true,
-				'trash',
-				'trash',
-			),
-			-3 => array(
-				'publish',
-				'',
-				'COM_MENUS_HTML_PUBLISH',
-				'',
-				true,
-				'trash',
-				'trash',
-			),
-		);
-
-		return HTMLHelper::_('jgrid.state', $states, $value, $i, 'items.', $enabled, true, $checkbox);
 	}
 
 	/**

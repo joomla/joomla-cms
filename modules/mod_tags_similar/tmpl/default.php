@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 if (!$list)
@@ -27,7 +26,7 @@ if (!$list)
 					<?php echo htmlspecialchars($item->core_title, ENT_COMPAT, 'UTF-8'); ?>
 				<?php endif; ?>
 			<?php else : ?>
-                <a href="<?php echo Route::_($item->link); ?>">
+				<a href="<?php echo Route::_($item->link); ?>">
 					<?php if (!empty($item->core_title)) : ?>
 						<?php echo htmlspecialchars($item->core_title, ENT_COMPAT, 'UTF-8'); ?>
 					<?php endif; ?>

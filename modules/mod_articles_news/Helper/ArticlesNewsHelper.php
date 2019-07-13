@@ -20,8 +20,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
-\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-
 /**
  * Helper for mod_articles_news
  *
@@ -42,7 +40,7 @@ abstract class ArticlesNewsHelper
 	{
 		$app = Factory::getApplication();
 
-		// Get an instance of the generic articles model
+		/** @var \Joomla\Component\Content\Site\Model\ArticlesModel $model */
 		$model = $app->bootComponent('com_content')
 			->getMVCFactory()->createModel('Articles', 'Site', ['ignore_request' => true]);
 
@@ -50,10 +48,11 @@ abstract class ArticlesNewsHelper
 		$appParams = $app->getParams();
 		$model->setState('params', $appParams);
 
-		// Set the filters based on the module params
 		$model->setState('list.start', 0);
-		$model->setState('list.limit', (int) $params->get('count', 5));
 		$model->setState('filter.condition', ContentComponent::CONDITION_PUBLISHED);
+
+		// Set the filters based on the module params
+		$model->setState('list.limit', (int) $params->get('count', 5));
 
 		// This module does not use tags data
 		$model->setState('load_tags', false);
@@ -148,7 +147,7 @@ abstract class ArticlesNewsHelper
 					$item->imageSrc = htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8');
 					$item->imageAlt = htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8');
 
-					if ($images->image_intro_caption) 
+					if ($images->image_intro_caption)
 					{
 						$item->imageCaption = htmlspecialchars($images->image_intro_caption, ENT_COMPAT, 'UTF-8');
 					}
@@ -158,7 +157,7 @@ abstract class ArticlesNewsHelper
 					$item->imageSrc = htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8');
 					$item->imageAlt = htmlspecialchars($images->image_fulltext_alt, ENT_COMPAT, 'UTF-8');
 
-					if ($images->image_intro_caption) 
+					if ($images->image_intro_caption)
 					{
 						$item->imageCaption = htmlspecialchars($images->image_fulltext_caption, ENT_COMPAT, 'UTF-8');
 					}

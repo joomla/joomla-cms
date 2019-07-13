@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
+use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 
 /**
  * Privacy plugin managing Joomla actionlogs data

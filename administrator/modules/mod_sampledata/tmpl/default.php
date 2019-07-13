@@ -14,6 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
 HTMLHelper::_('bootstrap.framework');
+HTMLHelper::_('form.csrf');
 HTMLHelper::_('script', 'mod_sampledata/sampledata-process.js', ['version' => 'auto', 'relative' => true]);
 
 Text::script('MOD_SAMPLEDATA_CONFIRM_START');

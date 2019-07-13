@@ -81,6 +81,18 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Method to setup the indexer to be run.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   2.5
+	 */
+	protected function setup()
+	{
+		return true;
+	}
+
+	/**
 	 * Method to remove the link information for items that have been deleted.
 	 *
 	 * @param   string  $context  The context of the action being performed.
@@ -278,6 +290,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		 * Add the metadata processing instructions based on the category's
 		 * configuration parameters.
 		 */
+
 		// Add the meta author.
 		$item->metaauthor = $item->metadata->get('author');
 
@@ -341,21 +354,6 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	}
 
 	/**
-	 * Method to setup the indexer to be run.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   2.5
-	 */
-	protected function setup()
-	{
-		// Load com_content route helper as it is the fallback for routing in the indexer in this instance.
-		JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-
-		return true;
-	}
-
-	/**
 	 * Method to get the SQL query used to retrieve the list of content items.
 	 *
 	 * @param   mixed  $query  A JDatabaseQuery object or null.
@@ -373,43 +371,43 @@ class PlgFinderCategories extends FinderIndexerAdapter
 
 		$query->select(
 			$db->quoteName(
+				[
+					'a.id',
+					'a.title',
+					'a.alias',
+					'a.extension',
+					'a.metakey',
+					'a.metadesc',
+					'a.metadata',
+					'a.language',
+					'a.lft',
+					'a.parent_id',
+					'a.level',
+					'a.access',
+					'a.params',
+				]
+			)
+		)
+			->select(
+				$db->quoteName(
 					[
-						'a.id',
-						'a.title',
-						'a.alias',
-						'a.extension',
-						'a.metakey',
-						'a.metadesc',
-						'a.metadata',
-						'a.language',
-						'a.lft',
-						'a.parent_id',
-						'a.level',
-						'a.access',
-						'a.params',
+						'a.description',
+						'a.created_user_id',
+						'a.modified_time',
+						'a.modified_user_id',
+						'a.created_time',
+						'a.published'
+					],
+					[
+						'summary',
+						'created_by',
+						'modified',
+						'modified_by',
+						'start_date',
+						'state'
 					]
 				)
-			)
-					->select(
-						$db->quoteName(
-								[
-									'a.description',
-									'a.created_user_id',
-									'a.modified_time',
-									'a.modified_user_id',
-									'a.created_time',
-									'a.published'
-								],
-								[
-									'summary',
-									'created_by',
-									'modified',
-									'modified_by',
-									'start_date',
-									'state'
-								]
-							)
-						);
+			);
 
 		// Handle the alias CASE WHEN portion of the query.
 		$case_when_item_alias = ' CASE WHEN ';
@@ -440,33 +438,33 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$query = $this->db->getQuery(true);
 
 		$query->select(
+			$query->quoteName(
+				[
+					'a.id',
+					'a.parent_id',
+					'a.access'
+				]
+			)
+		)
+			->select(
 				$query->quoteName(
 					[
-						'a.id',
-						'a.parent_id',
-						'a.access'
+						'a.' . $this->state_field,
+						'c.published',
+						'c.access'
+					],
+					[
+						'state',
+						'cat_state',
+						'cat_access'
 					]
 				)
 			)
-					->select(
-							$query->quoteName(
-							[
-								'a.' . $this->state_field,
-								'c.published',
-								'c.access'
-							],
-							[
-								'state',
-								'cat_state',
-								'cat_access'
-							]
-						)
-					)
-					->from($query->quoteName('#__categories', 'a'))
-					->leftJoin(
-						$query->quoteName('#__categories', 'c'),
-						$query->quoteName('c.id') . ' = ' . $query->quoteName('a.parent_id')
-					);
+			->from($query->quoteName('#__categories', 'a'))
+			->leftJoin(
+				$query->quoteName('#__categories', 'c'),
+				$query->quoteName('c.id') . ' = ' . $query->quoteName('a.parent_id')
+			);
 
 		return $query;
 	}
