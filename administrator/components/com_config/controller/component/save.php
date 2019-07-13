@@ -50,6 +50,15 @@ class ConfigControllerComponentSave extends JControllerBase
 		$option = $this->input->get('component');
 		$user   = JFactory::getUser();
 
+		// Make sure com_joomlaupdate and com_privacy can only be accessed by SuperUser
+		if (in_array(strtolower($option), array('com_joomlaupdate', 'com_privacy'))
+			&& !JFactory::getUser()->authorise('core.admin'))
+		{
+			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+
+			return;
+		}
+
 		// Check if the user is authorised to do this.
 		if (!$user->authorise('core.admin', $option) && !$user->authorise('core.options', $option))
 		{

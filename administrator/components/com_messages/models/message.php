@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Router\Route;
+
 /**
  * Private Message model.
  *
@@ -359,10 +361,10 @@ class MessagesModelMessage extends JModelAdmin
 
 			// Build the email subject and message
 			$app      = JFactory::getApplication();
-			$linkMode = $app->get('force_ssl', 0) >= 1 ? 1 : -1;
+			$linkMode = $app->get('force_ssl', 0) >= 1 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 			$sitename = $app->get('sitename');
 			$fromName = $fromUser->get('name');
-			$siteURL  = JRoute::link('administrator', 'index.php?option=com_messages&view=message&message_id=' . $table->message_id, false, $linkMode);
+			$siteURL  = JRoute::link('administrator', 'index.php?option=com_messages&view=message&message_id=' . $table->message_id, false, $linkMode, true);
 			$subject  = html_entity_decode($table->subject, ENT_COMPAT, 'UTF-8');
 			$message  = strip_tags(html_entity_decode($table->message, ENT_COMPAT, 'UTF-8'));
 

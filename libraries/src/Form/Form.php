@@ -1546,6 +1546,27 @@ class Form
 
 				break;
 			default:
+				if ($element['type'] == 'subform')
+				{
+					$field   = $this->loadField($element);
+					$subForm = $field->loadSubForm();
+
+					if ($field->multiple && !empty($value))
+					{
+						$return = array();
+
+						foreach ($value as $key => $val)
+						{
+							$return[$key] = $subForm->filter($val);
+						}
+					}
+					else
+					{
+						$return = $subForm->filter($value);
+					}
+
+					break;
+				}
 				// Check for a callback filter.
 				if (strpos($filter, '::') !== false && is_callable(explode('::', $filter)))
 				{
@@ -2121,6 +2142,41 @@ class Form
 			if ($valid instanceof \Exception)
 			{
 				return $valid;
+			}
+		}
+
+		if ($valid !== false && $element['type'] == 'subform')
+		{
+			$field   = $this->loadField($element);
+			$subForm = $field->loadSubForm();
+
+			if ($field->multiple)
+			{
+				foreach ($value as $key => $val)
+				{
+					$val = (array) $val;
+
+					$valid = $subForm->validate($val);
+
+					if ($valid === false)
+					{
+						break;
+					}
+				}
+			}
+			else
+			{
+				$valid = $subForm->validate($value);
+			}
+
+			if ($valid === false)
+			{
+				$errors = $subForm->getErrors();
+
+				foreach ($errors as $error)
+				{
+					return $error;
+				}
 			}
 		}
 
