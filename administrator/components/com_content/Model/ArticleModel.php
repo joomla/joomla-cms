@@ -89,7 +89,7 @@ class ArticleModel extends AdminModel
 			return false;
 		}
 
-		$newIds = array();
+		$newIds = [];
 
 		// Parent exists so let's proceed
 		while (!empty($pks))
