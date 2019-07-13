@@ -20,7 +20,6 @@
     @include prefix-fadeout;
   }
 
-  -webkit-animation: fadeout $fadetime; /* Safari, Chrome and Opera > 12.1 */
   animation: fadeout $fadetime;
   opacity: 0;
 }
@@ -45,6 +44,5 @@
     @include prefix-fadein;
   }
 
-  -webkit-animation: fadein $fadetime; /* Safari, Chrome and Opera > 12.1 */
   animation: fadein $fadetime;
 }
