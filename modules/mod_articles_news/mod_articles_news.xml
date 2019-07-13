@@ -85,7 +85,7 @@
 					label="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_LABEL"
 					default=""
 					filter="integer"
-					class="chzn-color"
+					class="custom-select-color"
 					showon="item_title:1"
 					>
 					<option value="">JGLOBAL_USE_GLOBAL</option>

@@ -16,7 +16,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
@@ -33,7 +32,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Array used for displaying the levels filter
 	 *
-	 * @return  \stdClass[]
+	 * @var    \stdClass[]
 	 * @since  4.0.0
 	 */
 	protected $f_levels;

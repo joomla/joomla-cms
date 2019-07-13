@@ -19,7 +19,6 @@ use Joomla\CMS\User\User;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Component\Content\Administrator\Table\ArticleTable;
-use Joomla\Component\Messages\Administrator\Model\MessageModel;
 use Joomla\Component\Workflow\Administrator\Model\StagesModel;
 use Joomla\Component\Workflow\Administrator\Table\StageTable;
 use Joomla\Component\Workflow\Administrator\Table\WorkflowTable;

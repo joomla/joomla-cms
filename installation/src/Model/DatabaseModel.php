@@ -198,8 +198,8 @@ class DatabaseModel extends BaseInstallationModel
 				return false;
 			}
 
-		// @TODO implement the security check
-		/**
+			// @TODO implement the security check
+			/**
 		$shouldCheckLocalhost = getenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK') !== '1';
 
 		// Per Default allowed DB Hosts
@@ -240,7 +240,10 @@ class DatabaseModel extends BaseInstallationModel
 					if (!File::write($remoteDbPath, ''))
 					{
 						// Request to create the file manually
-						Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile), 'error');
+						Factory::getApplication()->enqueueMessage(
+							Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile),
+							'error'
+						);
 
 						Factory::getSession()->set('remoteDbFileUnwritable', true);
 
@@ -251,17 +254,24 @@ class DatabaseModel extends BaseInstallationModel
 					Factory::getSession()->set('remoteDbFileWrittenByJoomla', true);
 
 					// Request to delete that file
-					Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile), 'error');
+					Factory::getApplication()->enqueueMessage(
+						Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile),
+						'error'
+					);
 
 					return false;
 				}
 
-				if (Factory::getSession()->get('remoteDbFileWrittenByJoomla', false) === true && file_exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
+				if (Factory::getSession()->get('remoteDbFileWrittenByJoomla', false) === true
+					&& file_exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
 				{
 					// Add the general message
 					Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
 
-					Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile), 'error');
+					Factory::getApplication()->enqueueMessage(
+						Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile),
+						'error'
+					);
 
 					return false;
 				}
@@ -271,7 +281,10 @@ class DatabaseModel extends BaseInstallationModel
 					// Add the general message
 					Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
 
-					Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile), 'error');
+					Factory::getApplication()->enqueueMessage(
+						Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile),
+						'error'
+					);
 
 					return false;
 				}
@@ -405,7 +418,16 @@ class DatabaseModel extends BaseInstallationModel
 
 		if (!$db->isMinimumVersion())
 		{
-			throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db->getMinimum(), $db_version));
+			if (in_array($type, ['mysql', 'mysqli']) && $db->isMariaDb())
+			{
+				throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_INVALID_MARIADB_VERSION', $db->getMinimum(), $db_version));
+			}
+			else
+			{
+				throw new \RuntimeException(
+					Text::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db->getMinimum(), $db_version)
+				);
+			}
 		}
 
 		// @internal Check for spaces in beginning or end of name.
@@ -667,7 +689,10 @@ class DatabaseModel extends BaseInstallationModel
 		{
 			if (!$installer->refreshManifestCache($extension->extension_id))
 			{
-				Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $extension->name), 'error');
+				Factory::getApplication()->enqueueMessage(
+					Text::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $extension->name),
+					'error'
+				);
 
 				return false;
 			}
@@ -840,7 +865,7 @@ class DatabaseModel extends BaseInstallationModel
 	 *
 	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   3.6.1
 	 */
@@ -893,7 +918,7 @@ class DatabaseModel extends BaseInstallationModel
 	 *
 	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
@@ -1194,12 +1219,12 @@ class DatabaseModel extends BaseInstallationModel
 			{
 				$in_string = false;
 			}
-			elseif (!$in_string && ($query[$i] == '"' || $query[$i] == "'") && (!isset ($buffer[0]) || $buffer[0] != "\\"))
+			elseif (!$in_string && ($query[$i] == '"' || $query[$i] == "'") && (!isset($buffer[0]) || $buffer[0] != "\\"))
 			{
 				$in_string = $query[$i];
 			}
 
-			if (isset ($buffer[1]))
+			if (isset($buffer[1]))
 			{
 				$buffer[0] = $buffer[1];
 			}

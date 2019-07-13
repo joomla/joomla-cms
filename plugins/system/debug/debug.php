@@ -175,7 +175,7 @@ class PlgSystemDebug extends CMSPlugin
 			$this->db->setMonitor(null);
 		}
 
-		$storagePath = JPATH_CACHE . '/plg_system_debug_' . $this->app->getClientId();
+		$storagePath = JPATH_CACHE . '/plg_system_debug_' . $this->app->getName();
 
 		$this->debugBar = new DebugBar;
 		$this->debugBar->setStorage(new FileStorage($storagePath));
@@ -305,6 +305,7 @@ class PlgSystemDebug extends CMSPlugin
 		if (Factory::getDocument()->getType() !== 'html')
 		{
 			$this->debugBar->stackData();
+
 			return;
 		}
 
@@ -355,8 +356,8 @@ class PlgSystemDebug extends CMSPlugin
 		{
 			case 'openhandler':
 				$handler = new OpenHandler($this->debugBar);
+
 				return $handler->handle($this->app->input->request->getArray(), false, false);
-				break;
 			default:
 				return '';
 		}
@@ -579,6 +580,7 @@ class PlgSystemDebug extends CMSPlugin
 			$this->debugBar->addCollector(new MessagesCollector('deprecated'));
 			$this->debugBar->addCollector(new MessagesCollector('deprecation-notes'));
 		}
+
 		if ($logDeprecatedCore)
 		{
 			$this->debugBar->addCollector(new MessagesCollector('deprecated-core'));
@@ -599,6 +601,7 @@ class PlgSystemDebug extends CMSPlugin
 					{
 						break;
 					}
+
 					$file = $entry->callStack[2]['file'] ?? '';
 					$line = $entry->callStack[2]['line'] ?? '';
 
@@ -620,6 +623,7 @@ class PlgSystemDebug extends CMSPlugin
 						{
 							break;
 						}
+
 						$category .= '-core';
 					}
 					elseif (!$logDeprecated)
@@ -659,6 +663,7 @@ class PlgSystemDebug extends CMSPlugin
 						default:
 							$level = 'info';
 					}
+
 					$this->debugBar['log']->addMessage($entry->category . ' - ' . $entry->message, $level);
 					break;
 			}

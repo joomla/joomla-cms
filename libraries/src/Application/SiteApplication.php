@@ -19,7 +19,6 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
@@ -103,7 +102,7 @@ final class SiteApplication extends CMSApplication
 
 				$url = Route::_('index.php?option=com_users&view=login', false);
 
-				$this->enqueueMessage(Text::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'));
+				$this->enqueueMessage(Text::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'), 'error');
 				$this->redirect($url);
 			}
 			else

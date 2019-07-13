@@ -77,8 +77,8 @@ class ArticleField extends FormField
 				Factory::getDocument()->addScriptDeclaration("
 				function jSelectArticle_" . $this->id . "(id, title, catid, object, url, language) {
 					window.processModalSelect('Article', '" . $this->id . "', id, title, catid, object, url, language);
-				}
-				");
+				}"
+				);
 
 				Text::script('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED');
 
@@ -128,6 +128,7 @@ class ArticleField extends FormField
 
 		// The current article display field.
 		$html  = '';
+
 		if ($allowSelect || $allowNew || $allowEdit || $allowClear)
 		{
 			$html .= '<span class="input-group">';
@@ -187,7 +188,7 @@ class ArticleField extends FormField
 				. ' id="' . $this->id . '_clear"'
 				. ' type="button"'
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
-				. '<span class="icon-remove" aria-hidden="true"></span>' . Text::_('JCLEAR')
+				. '<span class="icon-remove" aria-hidden="true"></span> ' . Text::_('JCLEAR')
 				. '</button>';
 		}
 
@@ -198,14 +199,14 @@ class ArticleField extends FormField
 			$tagLength = (int) strlen($this->element['language']);
 			$callbackFunctionStem = substr("jSelectArticle_" . $this->id, 0, -$tagLength);
 
-			$html .= '<a'
-			. ' class="btn hasTooltip' . ($value ? '' : ' hidden') . '"'
+			$html .= '<button'
+			. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
+			. ' type="button"'
 			. ' id="' . $this->id . '_propagate"'
-			. ' href="#"'
-			. ' title="' . HtmlHelper::tooltipText('JGLOBAL_ASSOCIATIONS_PROPAGATE_TIP') . '"'
+			. ' title="' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_TIP') . '"'
 			. ' onclick="Joomla.propagateAssociation(\'' . $this->id . '\', \'' . $callbackFunctionStem . '\');">'
-			. '<span class="icon-refresh" aria-hidden="true"></span>' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_BUTTON')
-			. '</a>';
+			. '<span class="icon-refresh" aria-hidden="true"></span> ' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_BUTTON')
+			. '</button>';
 		}
 
 		if ($allowSelect || $allowNew || $allowEdit || $allowClear)

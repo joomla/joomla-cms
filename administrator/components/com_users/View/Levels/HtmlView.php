@@ -17,7 +17,6 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 
 /**
  * View class for a list of view levels.
@@ -80,8 +79,6 @@ class HtmlView extends BaseHtmlView
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-
-		UsersHelper::addSubmenu('levels');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

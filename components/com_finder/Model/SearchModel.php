@@ -429,7 +429,8 @@ class SearchModel extends ListModel
 		$this->setState('list.start', $input->get('limitstart', 0, 'uint'));
 		$this->setState('list.limit', $input->get('limit', $app->get('list_limit', 20), 'uint'));
 
-		/* Load the sort ordering.
+		/*
+		 * Load the sort ordering.
 		 * Currently this is 'hard' coded via menu item parameter but may not satisfy a users need.
 		 * More flexibility was way more user friendly. So we allow the user to pass a custom value
 		 * from the pool of fields that are indexed like the 'title' field.
@@ -437,6 +438,7 @@ class SearchModel extends ListModel
 		 */
 		$order = $input->getWord('filter_order', $params->get('sort_order', 'relevance'));
 		$order = StringHelper::strtolower($order);
+
 		switch ($order)
 		{
 			case 'date':
@@ -461,13 +463,15 @@ class SearchModel extends ListModel
 				break;
 		}
 
-		/* Load the sort direction.
+		/*
+		 * Load the sort direction.
 		 * Currently this is 'hard' coded via menu item parameter but may not satisfy a users need.
 		 * More flexibility was way more user friendly. So we allow to be inverted.
 		 * Also, we allow this parameter to be passed in either case (lower/upper).
 		 */
 		$dirn = $input->getWord('filter_order_Dir', $params->get('sort_direction', 'desc'));
 		$dirn = StringHelper::strtolower($dirn);
+
 		switch ($dirn)
 		{
 			case 'asc':

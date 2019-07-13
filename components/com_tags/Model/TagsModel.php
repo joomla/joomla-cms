@@ -15,7 +15,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Registry\Registry;
 
 /**
  * This models supports retrieving a list of tags.

@@ -36,7 +36,7 @@ if ($saveOrder && !empty($this->items))
 ?>
 <form action="<?php echo Route::_('index.php?option=com_contact'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
-        <div class="col-md-12">
+		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
@@ -124,16 +124,12 @@ if ($saveOrder && !empty($this->items))
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
 								<td class="text-center">
-									<div class="btn-group">
-									        <?php echo HTMLHelper::_('contactadministrator.featured', $item->featured, $i, $canChange); ?>
-								   	</div>
-								</td>	
-								<td class="text-center">
-									<div class="btn-group">
-										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'contacts.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-									</div>	
+									<?php echo HTMLHelper::_('contactadministrator.featured', $item->featured, $i, $canChange); ?>
 								</td>
-								
+								<td class="text-center">
+									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'contacts.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+								</td>
+
 								<th scope="row" class="has-context">
 									<div>
 										<?php if ($item->checked_out) : ?>
