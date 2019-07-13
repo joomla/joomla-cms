@@ -134,7 +134,9 @@ class Tag extends CMSObject implements NodeInterface
 			$table->setLocation($this->parent_id, 'last-child');
 		}
 
-		$table->bind($this->getProperties());
+		$data = $this->getProperties();
+		unset($data['path']);
+		$table->bind($data);
 		$table->check();
 		$result = $table->store();
 
@@ -142,6 +144,8 @@ class Tag extends CMSObject implements NodeInterface
 		{
 			$this->id = $table->id;
 		}
+
+		$table->rebuild();
 
 		return $result;
 	}

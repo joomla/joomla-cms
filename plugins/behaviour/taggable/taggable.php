@@ -69,7 +69,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 			return;
 		}
 
-		$key = $table->getTypeAlias() . '.' . $table->getId();
+		$key = $table->getTypeAlias();
 
 		if (isset($event['src']['tags']))
 		{
@@ -109,6 +109,8 @@ class PlgBehaviourTaggable extends CMSPlugin
 			return;
 		}
 
+		$contentItem->type_alias = $typeAlias;
+		$contentItem->content_id = $id;
 		$fieldMapping = json_decode($contentType->field_mappings);
 		$fields = array_keys(get_object_vars($contentItem));
 
@@ -123,7 +125,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 		// Create or update the content item
 		$contentItem->save();
 
-		$key = $typeAlias . '.' . $id;
+		$key = $typeAlias;
 
 		/**
 		 * If the tags have not been set in onTableBeforeBind, this seems

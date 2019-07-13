@@ -490,8 +490,7 @@ class TagsHelper extends CMSHelper
 		$query
 			->select(
 				'm.type_alias'
-				. ', ' . 'm.content_item_id'
-				. ', ' . 'm.core_content_id'
+				. ', ' . 'm.content_id'
 				. ', ' . 'count(m.tag_id) AS match_count'
 				. ', ' . 'MAX(m.tag_date) as tag_date'
 				. ', ' . 'MAX(c.core_title) AS core_title'
@@ -509,10 +508,10 @@ class TagsHelper extends CMSHelper
 			->select('MAX(c.core_publish_up) AS core_publish_up, MAX(c.core_publish_down) as core_publish_down')
 			->select('MAX(ct.type_title) AS content_type_title, MAX(ct.router) AS router')
 
-			->from('#__contentitem_tag_map AS m')
+			->from('#__tag_content_map AS m')
 			->join(
 				'INNER',
-				'#__ucm_content AS c ON m.type_alias = c.core_type_alias AND m.core_content_id = c.core_content_id AND c.core_state IN ('
+				'#__tag_content AS c ON m.type_alias = c.core_type_alias AND m.core_content_id = c.core_content_id AND c.core_state IN ('
 					. implode(',', $stateFilters) . ')'
 					. (in_array('0', $stateFilters) ? '' : ' AND (c.core_publish_up = ' . $nullDate
 					. ' OR c.core_publish_up <= ' . $nowDate . ') '
@@ -562,7 +561,7 @@ class TagsHelper extends CMSHelper
 
 		$groups = '0,' . implode(',', array_unique($user->getAuthorisedViewLevels()));
 		$query->where('c.core_access IN (' . $groups . ')')
-			->group('m.type_alias, m.content_item_id, m.core_content_id, core_modified_time, core_created_time, core_created_by_alias, author, author_email');
+			->group('m.type_alias, m.content_id, m.core_content_id, core_modified_time, core_created_time, core_created_by_alias, author, author_email');
 
 		// Use HAVING if matching all tags and we are matching more than one tag.
 		if ($ntagsr > 1 && $anyOrAll != 1 && $includeChildren != 1)
