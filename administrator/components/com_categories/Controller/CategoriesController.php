@@ -43,7 +43,7 @@ class CategoriesController extends AdminController
 	/**
 	 * Method to get the number of content categories
 	 *
-	 * @return  string  The JSON-encoded amount of published content categories 
+	 * @return  string  The JSON-encoded amount of published content categories
 	 *
 	 * @since   4.0
 	 */
@@ -52,9 +52,9 @@ class CategoriesController extends AdminController
 		$model = $this->getModel('Categories');
 		$model->setState('filter.published', 1);
 		$model->setState('filter.extension', 'com_content');
-		
+
 		$amount = (int) $model->getTotal();
-		
+
 		$result = [];
 
 		$result['amount'] = $amount;
