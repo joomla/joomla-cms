@@ -96,7 +96,7 @@ class DisplayController extends BaseController
 
 	/**
 	 * Method to get the number of locked icons
-	 * 
+	 *
 	 * @return  void
 	 *
 	 * @since   4.0
@@ -109,9 +109,9 @@ class DisplayController extends BaseController
 		}
 
 		$model = $this->getModel('Checkin');
-		
+
 		$amount = (int) count($model->getItems());
-		
+
 		$result = [];
 
 		$result['amount'] = $amount;
