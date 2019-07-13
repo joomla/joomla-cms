@@ -23,6 +23,11 @@ use Joomla\Registry\Registry;
  */
 class RedirectHelper
 {
+	/**
+	 * Extension
+	 *
+	 * @var    string
+	 */
 	public static $extension = 'com_redirect';
 
 	/**
