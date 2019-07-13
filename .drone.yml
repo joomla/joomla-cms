@@ -30,10 +30,7 @@ steps:
     depends_on: [ composer ]
     commands:
       - echo $(date)
-      - ./libraries/vendor/bin/phpcs --config-set installed_paths ../../joomla/cms-coding-standards/lib,../../joomla/coding-standards/Joomla/ExampleRulesets,../../joomla/coding-standards
-      - ./libraries/vendor/bin/phpcs --config-set colors 1
-      - ./libraries/vendor/bin/phpcs --config-set php_version 70200
-      - ./libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php --ignore=libraries/vendor/*,tests/*,build/*,node_modules/*,media/*,libraries/autoload_psr4.php,installation/template/error.php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
+      - ./libraries/vendor/bin/phpcs --report=full --extensions=php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
       - echo $(date)
 
   - name: npm
@@ -256,6 +253,6 @@ services:
 
 ---
 kind: signature
-hmac: 357290c302111f50af569691d21a182373f8138f7fe8ae1d9b62323b54ae80b9
+hmac: b198aa427c5fc7c0c449b7212a4714225365e5c947542cf6d10ef0ccabf609f3
 
 ...
