@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Tests\Unit\Libraries\Cms\Microdata;
 
 use Joomla\CMS\Microdata\Microdata;
@@ -1057,9 +1056,13 @@ class MicrodataTest extends UnitTestCase
 			MicrodataStub::htmlSpan($content)
 		);
 	}
-
 }
 
+/**
+ * MicrodataStub
+ *
+ * @since   4.0.0
+ */
 class MicrodataStub extends Microdata
 {
 	/**

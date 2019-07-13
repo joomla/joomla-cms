@@ -6,23 +6,31 @@
  * @copyright      Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Tests\Unit\Libraries\Cms\Layout;
 
 use Joomla\CMS\Layout\BaseLayout;
 use Joomla\Registry\Registry;
 use Joomla\Tests\Unit\UnitTestCase;
 
+/**
+ * BaseLayoutTest
+ *
+ * @since   4.0.0
+ */
 class BaseLayoutTest extends UnitTestCase
 {
 	/**
 	 * @var BaseLayout
+	 *
+	 * @since   4.0.0
 	 */
 	protected $baseLayout;
 
 	/**
 	 * Sets up the test by instantiating BaseLayout
 	 * This method is called before a test is executed.
+	 *
+	 * @since   4.0.0
 	 */
 	protected function setUp():void
 	{
@@ -33,6 +41,8 @@ class BaseLayoutTest extends UnitTestCase
 
 	/**
 	 * This method is called after a test is executed.
+	 *
+	 * @since   4.0.0
 	 */
 	protected function tearDown():void
 	{

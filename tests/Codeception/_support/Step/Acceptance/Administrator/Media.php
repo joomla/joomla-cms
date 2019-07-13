@@ -1,4 +1,12 @@
-<?php namespace Step\Acceptance\Administrator;
+<?php
+/**
+ * @package     Joomla.Test
+ * @subpackage  Step
+ *
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+namespace Step\Acceptance\Administrator;
 
 use Codeception\Util\FileSystem as Util;
 use Exception;

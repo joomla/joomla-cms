@@ -4,13 +4,30 @@
  * Class basicCest
  *
  * Basic API function tests
+ *
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * @since   4.0.0
  */
 class BasicCest
 {
+	/**
+	 * @param   ApiTester  $I
+	 *
+	 *
+	 * @since   4.0.0
+	 */
 	public function _before(ApiTester $I)
 	{
 	}
 
+	/**
+	 * @param   ApiTester  $I
+	 *
+	 *
+	 * @since   4.0.0
+	 */
 	public function _after(ApiTester $I)
 	{
 	}
@@ -19,6 +36,8 @@ class BasicCest
 	 * Test logging in with wrong credentials
 	 *
 	 * @param ApiTester $I
+	 *
+	 * @since   4.0.0
 	 */
 	public function testWrongCredentials(ApiTester $I)
 	{
@@ -32,6 +51,8 @@ class BasicCest
 	 * Test content negotation fails when accepting no json
 	 *
 	 * @param ApiTester $I
+	 *
+	 * @since   4.0.0
 	 */
 	public function testContentNegotation(ApiTester $I)
 	{
@@ -45,6 +66,8 @@ class BasicCest
 	 * Test not found Resources return 404
 	 *
 	 * @param ApiTester $I
+	 *
+	 * @since   4.0.0
 	 */
 	public function testRouteNotFound(ApiTester $I)
 	{
