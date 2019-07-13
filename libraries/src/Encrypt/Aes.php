@@ -37,7 +37,7 @@ class Aes
 	 * @var  AesInterface
 	 */
 	protected $adapter;
-	
+
 	/**
 	 * Initialise the AES encryption object.
 	 *
@@ -54,7 +54,7 @@ class Aes
 		if ($priority == 'openssl')
 		{
 			$this->adapter = new OpenSSL;
-			
+
 			if (!$this->adapter->isSupported())
 			{
 				$this->adapter = new Mcrypt;
@@ -63,7 +63,7 @@ class Aes
 		else
 		{
 			$this->adapter = new Mcrypt;
-			
+
 			if (!$this->adapter->isSupported())
 			{
 				$this->adapter = new OpenSSL;
@@ -81,6 +81,9 @@ class Aes
 	 *
 	 * @param   string $password   The password (either user-provided password or binary encryption key) to use
 	 * @param   bool   $legacyMode True to use the legacy key expansion. We recommend against using it.
+	 *
+	 * @since    __DEPLOY_VERSION__
+	 * @return   void
 	 */
 	public function setPassword($password, $legacyMode = false)
 	{
@@ -98,6 +101,7 @@ class Aes
 		{
 			// Legacy mode: use the sha256 of the password
 			$this->key = hash('sha256', $password, true);
+
 			// We have to trim or zero pad the password (we end up throwing half of it away in Rijndael-128 / AES...)
 			$this->key = $this->adapter->resizeKey($this->key, $this->adapter->getBlockSize());
 		}
@@ -204,10 +208,12 @@ class Aes
 	}
 
 	/**
-	 * @param $blockSize
-	 * @param $iv
+	 * Get the expanded key
 	 *
-	 * @return string
+	 * @param   integer  $blockSize  Blocksize to process
+	 * @param   string   $iv         IV
+	 *
+	 * @return   string
 	 */
 	public function getExpandedKey($blockSize, $iv)
 	{
@@ -232,6 +238,18 @@ class Aes
 
 if (!function_exists('hash_pbkdf2'))
 {
+	/**
+	 * Shim for missing hash_pbkdf2
+	 *
+	 * @param   string   $algo        Algorithm to use
+	 * @param   string   $password    Plaintext password
+	 * @param   string   $salt        Salt for the hash
+	 * @param   integer  $count       Number of iterations
+	 * @param   integer  $length      Length
+	 * @param   boolean  $raw_output  Raw output
+	 *
+	 * @return   string  Hashed string
+	 */
 	function hash_pbkdf2($algo, $password, $salt, $count, $length = 0, $raw_output = false)
 	{
 		if (!in_array(strtolower($algo), hash_algos()))

@@ -47,7 +47,7 @@ if (class_exists(MultilangstatusAdminHelper::class) && MultilangstatusAdminHelpe
 	// Publish and display the module
 	MultilangstatusAdminHelper::publish($app, $db);
 
-	if (Multilanguage::isEnabled($app, $db)) 
+	if (Multilanguage::isEnabled($app, $db))
 	{
 		$module                          = ModuleHelper::getModule('mod_multilangstatus');
 		$multilanguageStatusModuleOutput = ModuleHelper::renderModule($module);

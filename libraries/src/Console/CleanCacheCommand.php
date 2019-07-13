@@ -65,7 +65,7 @@ class CleanCacheCommand extends AbstractCommand
 	{
 		$this->setDescription('Cleans expired cache entries');
 		$this->setHelp(
-<<<EOF
+			<<<EOF
 The <info>%command.name%</info> command cleans the system cache of expired entries
 
 <info>php %command.full_name%</info>

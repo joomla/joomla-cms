@@ -89,7 +89,6 @@ class CategoryeditField extends ListField
 		{
 			case 'allowAdd':
 				return (bool) $this->$name;
-
 		}
 
 		return parent::__get($name);

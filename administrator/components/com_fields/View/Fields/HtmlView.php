@@ -192,7 +192,6 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-
 		// Add a batch button
 		if ($canDo->get('core.create') && $canDo->get('core.edit') && $canDo->get('core.edit.state'))
 		{
