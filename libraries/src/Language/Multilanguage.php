@@ -22,11 +22,11 @@ use Joomla\Database\DatabaseInterface;
 class Multilanguage
 {
 	/**
-	* Flag indicating multilanguage functionality is enabled.
- 	*
- 	* @var    boolean
- 	* @since  4.0.0
- 	*/
+	 * Flag indicating multilanguage functionality is enabled.
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
 	public static $enabled = false;
 
 	/**
