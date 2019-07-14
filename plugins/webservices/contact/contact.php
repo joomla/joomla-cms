@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\ApiRouter;
+use Joomla\Router\Route;
 
 /**
  * Web Services adapter for com_contact.
@@ -38,7 +39,18 @@ class PlgWebservicesContact extends CMSPlugin
 	 */
 	public function onBeforeApiRoute(&$router)
 	{
+		$route = new Route(
+			['POST'],
+			'v1/contact/form/:id',
+			'contact.submitForm',
+			['id' => '(\d+)'],
+			['component' => 'com_contact']
+		);
+
+		$router->addRoute($route);
+
 		$router->createCRUDRoutes('v1/contact', 'contact', ['component' => 'com_contact']);
+
 		$router->createCRUDRoutes(
 			'v1/contact/categories',
 			'categories',

@@ -11,7 +11,22 @@ namespace Joomla\Component\Contact\Api\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Controller\Exception\SendEmail;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\User;
 use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Exception\RouteNotFoundException;
+use Joomla\CMS\Language\Text;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Registry\Registry;
+use Joomla\String\Inflector;
+use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 /**
  * The contact controller
@@ -35,4 +50,211 @@ class ContactController extends ApiController
 	 * @since  3.0
 	 */
 	protected $default_view = 'contacts';
+
+	/**
+	 * Submit contact form
+	 *
+	 * @param   integer  $id Leave empty if you want to retrieve data from the request
+	 * @return  static  A \JControllerLegacy object to support chaining.
+	 *
+	 * @since   4.0.0
+	 */
+	public function submitForm($id = null)
+	{
+		if ($id === null)
+		{
+			$id = $this->input->post->get('id', 0, 'int');
+		}
+
+		$modelName = Inflector::singularize($this->contentType);
+
+		/** @var  \Joomla\Component\Contact\Site\Model\ContactModel $model */
+		$model = $this->getModel($modelName, 'Site');
+
+		if (!$model)
+		{
+			throw new \RuntimeException('Unable to create the model');
+		}
+
+		$model->setState('filter.published', 1);
+
+		$data    = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
+		$contact = $model->getItem($id);
+
+		if ($contact->id === null)
+		{
+			throw new RouteNotFoundException('Item does not exist');
+		}
+
+		$contactParams = new Registry($contact->params);
+
+		if (!$contactParams->get('show_email_form'))
+		{
+			throw new \RuntimeException('Disabled display email form.');
+		}
+
+		// Contact plugins
+		PluginHelper::importPlugin('contact');
+
+		Form::addFormPath(JPATH_COMPONENT_SITE . '/forms');
+
+		// Validate the posted data.
+		$form = $model->getForm();
+
+		if (!$form)
+		{
+			throw new \RuntimeException($model->getError(), 500);
+		}
+
+		if (!$model->validate($form, $data))
+		{
+			$errors  = $model->getErrors();
+			$message = '';
+
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			{
+				if ($errors[$i] instanceof \Exception)
+				{
+					$message .= "{$errors[$i]->getMessage()}\n";
+				}
+				else
+				{
+					$message .= "{$errors[$i]}\n";
+				}
+			}
+
+			throw new InvalidParameterException($message);
+		}
+
+		// Validation succeeded, continue with custom handlers
+		$results = $this->app->triggerEvent('onValidateContact', array(&$contact, &$data));
+
+		foreach ($results as $result)
+		{
+			if ($result instanceof \Exception)
+			{
+				throw new InvalidParameterException($result->getMessage());
+			}
+		}
+
+		// Passed Validation: Process the contact plugins to integrate with other applications
+		$this->app->triggerEvent('onSubmitContact', array(&$contact, &$data));
+
+		// Send the email
+		$sent = false;
+
+		$params = ComponentHelper::getParams('com_contact');
+
+		if (!$params->get('custom_reply'))
+		{
+			$sent = $this->_sendEmail($data, $contact, $params->get('show_email_copy', 0));
+		}
+
+		if (!$sent)
+		{
+			throw new SendEmail('Error sending message');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Method to get a model object, loading it if required.
+	 *
+	 * @param   array      $data                  The data to send in the email.
+	 * @param   \stdClass  $contact               The user information to send the email to
+	 * @param   boolean    $copy_email_activated  True to send a copy of the email to the user.
+	 *
+	 * @return  boolean  True on success sending the email, false on failure.
+	 *
+	 * @since   1.6.4
+	 */
+	private function _sendEmail($data, $contact, $copy_email_activated)
+	{
+		$app = $this->app;
+
+		if ($contact->email_to == '' && $contact->user_id != 0)
+		{
+			$contact_user      = User::getInstance($contact->user_id);
+			$contact->email_to = $contact_user->get('email');
+		}
+
+		$mailfrom = $app->get('mailfrom');
+		$fromname = $app->get('fromname');
+		$sitename = $app->get('sitename');
+
+		$name    = $data['contact_name'];
+		$email   = PunycodeHelper::emailToPunycode($data['contact_email']);
+		$subject = $data['contact_subject'];
+		$body    = $data['contact_message'];
+
+		// Prepare email body
+		$prefix = Text::sprintf('COM_CONTACT_ENQUIRY_TEXT', Uri::base());
+		$body   = $prefix . "\n" . $name . ' <' . $email . '>' . "\r\n\r\n" . stripslashes($body);
+
+		// Load the custom fields
+		if (!empty($data['com_fields']) && $fields = FieldsHelper::getFields('com_contact.mail', $contact, true))
+		{
+			$output = FieldsHelper::render(
+				'com_contact.mail',
+				'fields.render',
+				array(
+					'context' => 'com_contact.mail',
+					'item'    => $contact,
+					'fields'  => $fields,
+				)
+			);
+
+			if ($output)
+			{
+				$body .= "\r\n\r\n" . $output;
+			}
+		}
+
+		try
+		{
+			$mail = Factory::getMailer();
+			$mail->addRecipient($contact->email_to);
+			$mail->addReplyTo($email, $name);
+			$mail->setSender(array($mailfrom, $fromname));
+			$mail->setSubject($sitename . ': ' . $subject);
+			$mail->setBody($body);
+			$sent = $mail->Send();
+
+			// If we are supposed to copy the sender, do so.
+
+			// Check whether email copy function activated
+			if ($copy_email_activated == true && !empty($data['contact_email_copy']))
+			{
+				$copytext = Text::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);
+				$copytext .= "\r\n\r\n" . $body;
+				$copysubject = Text::sprintf('COM_CONTACT_COPYSUBJECT_OF', $subject);
+
+				$mail = Factory::getMailer();
+				$mail->addRecipient($email);
+				$mail->addReplyTo($email, $name);
+				$mail->setSender(array($mailfrom, $fromname));
+				$mail->setSubject($copysubject);
+				$mail->setBody($copytext);
+				$sent = $mail->Send();
+			}
+		}
+		catch (\Exception $exception)
+		{
+			try
+			{
+				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+				$sent = false;
+			}
+			catch (\RuntimeException $exception)
+			{
+				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+				$sent = false;
+			}
+		}
+
+		return $sent;
+	}
 }
