@@ -1,12 +1,11 @@
 <?php
 /**
- * @package     Joomla.Test
+ * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Page
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Page\Acceptance\Administrator;
 
 /**
@@ -35,7 +34,7 @@ class ContentCategoryListPage extends AdminListPage
 	public static $dropDownToggle = ['xpath' => "//div[@id='toolbar-dropdown-save-group']/button[contains(@class, 'dropdown-toggle')]"];
 
 	/**
-	 * Locator for category name field
+	 * Locator for category name field.
 	 *
 	 * @var    array
 	 * @since  4.0.0
@@ -43,7 +42,7 @@ class ContentCategoryListPage extends AdminListPage
 	public static $seeName = ['xpath' => "//table[@id='categoryList']//tr[1]//td[4]"];
 
 	/**
-	 * Locator for category unpublished icon
+	 * Locator for category unpublished icon.
 	 *
 	 * @var    array
 	 * @since  4.0.0
@@ -51,7 +50,7 @@ class ContentCategoryListPage extends AdminListPage
 	public static $seeUnpublished = ['xpath' => "//table[@id='categoryList']//*//span[@class='icon-unpublish']"];
 
 	/**
-	 * Locator for category access level field
+	 * Locator for category access level field.
 	 *
 	 * @var    array
 	 * @since  4.0.0
@@ -59,7 +58,7 @@ class ContentCategoryListPage extends AdminListPage
 	public static $seeAccessLevel = ['xpath' => "//table[@id='categoryList']//tr[1]//td[9]"];
 
 	/**
-	 * Locator for category language field
+	 * Locator for category language field.
 	 *
 	 * @var    array
 	 * @since  4.0.0
@@ -67,7 +66,7 @@ class ContentCategoryListPage extends AdminListPage
 	public static $seeLanguage = ['xpath' => "//table[@id='categoryList']//tr[1]//td[10]"];
 
 	/**
-	 * Locator for invalid category alert
+	 * Locator for invalid category alert.
 	 *
 	 * @var    array
 	 * @since  4.0.0

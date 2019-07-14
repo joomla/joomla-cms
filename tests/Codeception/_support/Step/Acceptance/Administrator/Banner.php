@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Test
+ * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Step
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
@@ -8,6 +8,7 @@
  */
 namespace Step\Acceptance\Administrator;
 
+use Exception;
 use Page\Acceptance\Administrator\BannerListPage;
 
 /**
@@ -20,13 +21,16 @@ use Page\Acceptance\Administrator\BannerListPage;
 class Banner extends Admin
 {
 	/**
+	 * Method to create a banner.
+	 *
 	 * @param   string  $title    Title
 	 * @param   string  $message  Message
 	 *
 	 * @return void
 	 *
 	 * @since   4.0.0
-	 * @throws \Exception
+	 *
+	 * @throws Exception
 	 */
 	public function createBanner($title, $message)
 	{
@@ -39,12 +43,15 @@ class Banner extends Admin
 	}
 
 	/**
+	 * Method to see success message.
+	 *
 	 * @param   string   $message  Message
 	 *
 	 * @return void
 	 *
-	 * @since version
-	 * @throws \Exception
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function assertSuccessMessage($message)
 	{
@@ -54,14 +61,17 @@ class Banner extends Admin
 	}
 
 	/**
+	 * Method to modify a banner.
+	 *
 	 * @param   string   $bannerTitle   Banner Title
 	 * @param   string   $updatedTitle  Update Title
 	 * @param   string   $message       Message
 	 *
 	 * @return void
 	 *
-	 * @since version
-	 * @throws \Exception
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function modifyBanner($bannerTitle, $updatedTitle, $message)
 	{
@@ -79,14 +89,16 @@ class Banner extends Admin
 	}
 
 	/**
+	 * Method to publish a banner.
+	 *
 	 * @param   string   $bannerTitle   Banner Title
 	 * @param   string   $message       Message
 	 *
-	 *
 	 * @return void
 	 *
-	 * @since version
-	 * @throws \Exception
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function publishBanner($bannerTitle, $message)
 	{
@@ -101,13 +113,16 @@ class Banner extends Admin
 	}
 
 	/**
+	 * Method to unpublish a banner.
+	 *
 	 * @param   string   $bannerTitle   Banner Title
 	 * @param   string   $message       Message
 	 *
 	 * @return void
 	 *
-	 * @since version
-	 * @throws \Exception
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function unpublishBanner($bannerTitle, $message)
 	{
@@ -122,13 +137,16 @@ class Banner extends Admin
 	}
 
 	/**
+	 * Method to checkin a banner.
+	 *
 	 * @param   string   $bannerTitle   Banner Title
 	 * @param   string   $message       Message
 	 *
 	 * @return void
 	 *
-	 * @since version
-	 * @throws \Exception
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function checkInBanner($bannerTitle, $message)
 	{
@@ -143,13 +161,16 @@ class Banner extends Admin
 	}
 
 	/**
+	 * Method to trash a banner.
+	 *
 	 * @param   string   $bannerTitle   Banner Title
 	 * @param   string   $message       Message
 	 *
 	 * @return void
 	 *
-	 * @since version
-	 * @throws \Exception
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function trashBanner($bannerTitle, $message)
 	{
@@ -164,13 +185,16 @@ class Banner extends Admin
 	}
 
 	/**
+	 * Method to delete a banner.
+	 *
 	 * @param   string   $bannerTitle   Banner Title
 	 * @param   string   $message       Message
 	 *
 	 * @return void
 	 *
-	 * @since version
-	 * @throws \Exception
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function deleteBanner($bannerTitle, $message)
 	{

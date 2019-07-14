@@ -8,15 +8,15 @@
  */
 
 use Page\Acceptance\Administrator\UserListPage;
+use Step\Acceptance\Administrator\Admin;
 
 /**
- * Administrator User Tests
+ * Administrator User Tests.
  *
  * @since  3.7.3
  */
 class UserListCest
 {
-
 	/**
 	 * UserListCest constructor.
 	 *
@@ -26,21 +26,21 @@ class UserListCest
 	{
 		$this->username = "testUser";
 		$this->password = "test";
-		$this->name = "Test Bot";
-		$this->email = "Testbot@example.com";
+		$this->name     = "Test Bot";
+		$this->email    = "Testbot@example.com";
 	}
 
 	/**
-	 * Create a user
+	 * Create a user.
 	 *
-	 * @param   mixed   \Step\Acceptance\Administrator\Admin  $I  The AcceptanceTester Object
+	 * @param   mixed  \Step\Acceptance\Administrator\Admin  $I  The AcceptanceTester Object
 	 *
 	 * @return  void
 	 * @since   3.7.3
 	 *
 	 * @throws Exception
 	 */
-	public function createUser(\Step\Acceptance\Administrator\Admin $I)
+	public function createUser(Admin $I)
 	{
 		$I->comment('I am going to create a user');
 		$I->doAdministratorLogin();
@@ -67,18 +67,19 @@ class UserListCest
 	}
 
 	/**
-	 * Edit a user
+	 * Edit a user.
 	 *
 	 * @param   mixed   \Step\Acceptance\Administrator\Admin  $I  The AcceptanceTester Object
 	 *
 	 * @return  void
+	 *
 	 * @since   3.7.3
 	 *
 	 * @depends createUser
 	 *
 	 * @throws Exception
 	 */
-	public function editUser(\Step\Acceptance\Administrator\Admin $I)
+	public function editUser(Admin $I)
 	{
 		$I->comment('I am going to edit a user');
 		$I->doAdministratorLogin();
@@ -114,6 +115,7 @@ class UserListCest
 	 * @param   string            $email     User's email
 	 *
 	 * @return  void  The user's form will be filled with given detail
+	 *
 	 * @since   3.7.3
 	 *
 	 * @throws Exception
@@ -130,11 +132,12 @@ class UserListCest
 	}
 
 	/**
-	 * Method to set Send Email to "NO"
+	 * Method to set Send Email to "NO".
 	 *
 	 * @param   AcceptanceTester  $I  The AcceptanceTester Object
 	 *
 	 * @return  void  The user's form will be filled with given detail
+	 *
 	 * @since   4.0
 	 *
 	 * @throws Exception

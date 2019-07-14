@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Test
- * @subpackage  Step
+ * @package     Joomla.Tests
+ * @subpackage  AcceptanceTester.Step
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -16,6 +16,7 @@ use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverKeys;
 use Page\Acceptance\Administrator\MediaListPage;
+use PHPUnit\Framework\Assert;
 
 /**
  * Acceptance Step object class contains suits for Media Manager.
@@ -27,11 +28,12 @@ use Page\Acceptance\Administrator\MediaListPage;
 class Media extends Admin
 {
 	/**
-	 * Helper function to wait for the media manager to load the data
+	 * Method to to wait for the media manager to load the data.
 	 *
 	 * @return void
 	 *
 	 * @since   4.0.0
+	 *
 	 * @throws Exception
 	 */
 	public function waitForMediaLoaded()
@@ -57,11 +59,12 @@ class Media extends Admin
 	}
 
 	/**
-	 * Helper function that tests that you see contents of a directory
+	 * Method to that tests that you see contents of a directory.
 	 *
-	 * @param   array   $contents  Contents
+	 * @param   array  $contents  Contents
 	 *
 	 * @return void
+	 *
 	 * @since   4.0.0
 	 */
 	public function seeContents(array $contents = [])
@@ -76,9 +79,9 @@ class Media extends Admin
 	}
 
 	/**
-	 * Helper function to upload a file in the current directory
+	 * Method to upload a file in the current directory.
 	 *
-	 * @param   string   $fileName  Filename
+	 * @param   string  $fileName  Filename
 	 *
 	 * @return void
 	 *
@@ -92,15 +95,16 @@ class Media extends Admin
 	}
 
 	/**
-	 * Delete a file from filesystem
+	 * Method to delete a file from filesystem.
 	 *
-	 * @param   string   $path  Path
+	 * @param   string  $path  Path
 	 *
 	 * @return void
 	 *
 	 * @since   4.0.0
 	 *
 	 * @throws Exception
+	 *
 	 * @todo    extract to JoomlaFilesystem
 	 */
 	public function deleteFile($path)
@@ -110,7 +114,7 @@ class Media extends Admin
 
 		if (!file_exists($absolutePath))
 		{
-			\PHPUnit\Framework\Assert::fail('file not found.');
+			Assert::fail('file not found.');
 		}
 
 		unlink($absolutePath);
@@ -118,14 +122,17 @@ class Media extends Admin
 	}
 
 	/**
-	 * Create a new directory on filesystem
+	 * Method to create a new directory on filesystem.
 	 *
-	 * @param   string    $dirname  Dirname
-	 * @param   integer   $mode     Mode
+	 * @param   string   $dirname  Dirname
+	 * @param   integer  $mode     Mode
+	 *
+	 * @return void
 	 *
 	 * @since   4.0.0
-	 * @return void
+	 *
 	 * @throws Exception
+	 *
 	 * @todo    extract to JoomlaFilesystem
 	 */
 	public function createDirectory($dirname, $mode = 0755)
@@ -147,13 +154,16 @@ class Media extends Admin
 	}
 
 	/**
-	 * Deletes directory with all subdirectories
+	 * Method to deletes directory with all subdirectories.
 	 *
-	 * @param   string   $dirname  Dirname
+	 * @param   string  $dirname  Dirname
+	 *
+	 * @return void
 	 *
 	 * @since   4.0.0
-	 * @return void
+	 *
 	 * @throws Exception
+	 *
 	 * @todo    extract to JoomlaFilesystem
 	 */
 	public function deleteDirectory($dirname)
@@ -165,11 +175,12 @@ class Media extends Admin
 	}
 
 	/**
-	 * Click on a link in the media tree
+	 * Method to click on a link in the media tree.
 	 *
-	 * @param   string   $link  Link
+	 * @param   string  $link  Link
 	 *
 	 * @return void
+	 *
 	 * @since   4.0.0
 	 */
 	public function clickOnLinkInTree($link)
@@ -179,9 +190,9 @@ class Media extends Admin
 	}
 
 	/**
-	 * Click on a link in the media breadcrumb
+	 * Method to click on a link in the media breadcrumb.
 	 *
-	 * @param   string   $link  Link
+	 * @param   string  $link  Link
 	 *
 	 * @return void
 	 * @since   4.0.0
@@ -193,11 +204,12 @@ class Media extends Admin
 	}
 
 	/**
-	 * Open the item actions menu of an item
+	 * Method to open the item actions menu of an item.
 	 *
-	 * @param   string   $itemName  Itemname
+	 * @param   string  $itemName  Item name
 	 *
 	 * @return void
+	 *
 	 * @since   4.0.0
 	 */
 	public function openActionsMenuOf($itemName)
@@ -210,13 +222,15 @@ class Media extends Admin
 	}
 
 	/**
-	 * Open the item actions menu and click on one action
+	 * Method to open the item actions menu and click on one action.
 	 *
-	 * @param   string   $itemName    Item name
-	 * @param   string   $actionName  Action name
+	 * @param   string  $itemName    Item name
+	 * @param   string  $actionName  Action name
 	 *
 	 * @return void
+	 *
 	 * @since   4.0.0
+	 *
 	 * @throws Exception
 	 */
 	public function clickOnActionInMenuOf($itemName, $actionName)
@@ -229,10 +243,12 @@ class Media extends Admin
 	}
 
 	/**
-	 * Helper function to open the media manager info bar
+	 * Method to open the media manager info bar.
 	 *
 	 * @return void
+	 *
 	 * @since   4.0.0
+	 *
 	 * @throws Exception
 	 */
 	public function openInfobar()
@@ -251,9 +267,10 @@ class Media extends Admin
 	}
 
 	/**
-	 * Helper function to close the media manager info bar
+	 * Method to close the media manager info bar.
 	 *
 	 * @return void
+	 *
 	 * @since   4.0.0
 	 */
 	public function closeInfobar()
@@ -273,19 +290,19 @@ class Media extends Admin
 	}
 
 	/**
-	 * Click on an element holding shift key
+	 * Method to click on an element holding shift key.
 	 *
-	 * @param   string   $xpath  Xpath selector
+	 * @param   string  $xpath  Xpath selector
 	 *
 	 * @return void
+	 *
 	 * @since   4.0.0
 	 */
 	public function clickHoldingShiftkey($xpath)
 	{
 		$I = $this;
 		$I->executeInSelenium(
-			function (RemoteWebDriver $webdriver) use ($xpath)
-			{
+			function (RemoteWebDriver $webdriver) use ($xpath) {
 				$element  = $webdriver->findElement(WebDriverBy::xpath($xpath));
 				$action   = new WebDriverActions($webdriver);
 				$shiftKey = WebDriverKeys::SHIFT;
@@ -298,14 +315,16 @@ class Media extends Admin
 	}
 
 	/**
-	 * Get the absolute path
+	 * Method to get the absolute path.
 	 *
-	 * @param   string   $path  Path
+	 * @param   string  $path  Path
 	 *
 	 * @return string
+	 *
 	 * @since   4.0.0
 	 *
 	 * @throws Exception
+	 *
 	 * @todo    extract to JoomlaFilesystem
 	 */
 	protected function absolutizePath($path)
@@ -314,7 +333,7 @@ class Media extends Admin
 	}
 
 	/**
-	 * Get the local user from the configuration from suite configuration
+	 * Method to get the local user from the configuration from suite configuration.
 	 *
 	 * @return string
 	 *
@@ -333,14 +352,13 @@ class Media extends Admin
 	}
 
 	/**
-	 * Get thee cms path from suite configuration
+	 * Method to get the cms path from suite configuration.
 	 *
 	 * @return string
 	 *
 	 * @since   4.0.0
 	 *
 	 * @throws Exception
-	 *
 	 */
 	protected function getCmsPath()
 	{

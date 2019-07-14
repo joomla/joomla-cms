@@ -9,20 +9,22 @@
 
 use Page\Acceptance\Administrator\ContentFormPage;
 use Page\Acceptance\Administrator\ContentListPage;
+use Step\Acceptance\Administrator\Content;
 
 /**
- * Tests for com_content list view
+ * Tests for com_content list view.
  *
  * @since    4.0.0
  */
 class ContentListCest
 {
 	/**
-	 * Runs before every test
+	 * Runs before every test.
 	 *
 	 * @param   mixed   AcceptanceTester  $I  I
 	 *
 	 * @return void
+	 *
 	 * @since   4.0.0
 	 */
 	public function _before(AcceptanceTester $I)
@@ -36,7 +38,9 @@ class ContentListCest
 	 * @param   mixed   AcceptanceTester  $I  I
 	 *
 	 * @return void
+	 *
 	 * @since   4.0.0
+	 *
 	 * @throws Exception
 	 */
 	public function loadsWithoutPhpNoticesAndWarnings(AcceptanceTester $I)
@@ -48,15 +52,17 @@ class ContentListCest
 	}
 
 	/**
-	 * Test create a new arcticle
+	 * Test create a new article.
 	 *
 	 * @param   mixed   \Step\Acceptance\Administrator\Content  $I  I
 	 *
 	 * @return void
+	 *
 	 * @since   4.0.0
+	 *
 	 * @throws Exception
 	 */
-	public function createNewArticleUsingToolbarButton(\Step\Acceptance\Administrator\Content $I)
+	public function createNewArticleUsingToolbarButton(Content $I)
 	{
 		$I->wantToTest('that it is possible to create a new articles using "new" toolbar button.');
 		$I->amOnPage(ContentListPage::$url);
@@ -66,7 +72,7 @@ class ContentListCest
 	}
 
 	/**
-	 * Test display articles
+	 * Test display articles.
 	 *
 	 * @skip    Fix: [PDOException] SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect datetime value:
 	 * '0000-00-00 00:00:00' for column 'created' at row 1 on drone.
@@ -74,9 +80,10 @@ class ContentListCest
 	 * @param   mixed   \Step\Acceptance\Administrator\Content  $I  I
 	 *
 	 * @return void
+	 *
 	 * @since   4.0.0
 	 */
-	public function seeArticlesInList(\Step\Acceptance\Administrator\Content $I)
+	public function seeArticlesInList(Content $I)
 	{
 		$I->wantToTest('that articles are displayed in the list.');
 
@@ -100,14 +107,15 @@ class ContentListCest
 	 */
 
 	/**
-	 * Test feature articles
+	 * Test feature articles.
 	 *
-	 * @param   mixed   \Step\Acceptance\Administrator\Content  $I  I
+	 * @param   mixed  \Step\Acceptance\Administrator\Content  $I  I
 	 *
 	 * @return void
+	 *
 	 * @since   4.0.0
 	 */
-	public function markArticleAsFeaturedUsingToolbarButton(\Step\Acceptance\Administrator\Content $I)
+	public function markArticleAsFeaturedUsingToolbarButton(Content $I)
 	{
 		/**
 		$I->wantToTest('that it is possible to mark an article as featured using toolbar button.');
@@ -169,12 +177,15 @@ class ContentListCest
 	*/
 
 	/**
+	 * Test article.
+	 *
 	 * @param   mixed   \Step\Acceptance\Administrator\Content  $I  I
 	 *
 	 * @return void
+	 *
 	 * @since   4.0.0
 	 */
-	public function Article(\Step\Acceptance\Administrator\Content $I)
+	public function Article(Content $I)
 	{
 		/**
 		$I->featureArticle($this->articleTitle);

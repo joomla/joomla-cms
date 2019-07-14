@@ -1,17 +1,13 @@
 <?php
 /**
- * @package     Joomla.Test
+ * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Step
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- *
- * @since   4.0.0
  */
-
 namespace Step\Acceptance\Administrator;
 
-use Behat\Gherkin\Node\TableNode;
 use Exception;
 use Page\Acceptance\Administrator\ContentCategoryListPage;
 
@@ -25,9 +21,9 @@ use Page\Acceptance\Administrator\ContentCategoryListPage;
 class Category extends Admin
 {
 	/**
-	 * Create Category.
+	 * Create a content category.
 	 *
-	 * @param   string   $title  Title
+	 * @param   string  $title  Title
 	 *
 	 * @return void
 	 *
