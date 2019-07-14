@@ -1,6 +1,7 @@
 // Custom Forms
 
 .custom-select {
+  max-width: $input-max-width;
   &[multiple] {
     padding: 0;
     background-color: var(--white-offset);
@@ -20,7 +21,7 @@
     &.custom-select-success {
       color: theme-color("success");
       background-color: theme-color("success");
-    border-color: theme-color("sucess");
+      border-color: theme-color("sucess");
 
       option {
         color: $custom-select-color;
@@ -41,10 +42,5 @@
   }
   optgroup, option {
     background-color: $white;
-  }
-
-  .custom-select-sm {
-    padding-right: $custom-select-padding-x + $custom-select-indicator-padding-sm;
-    background-size: $custom-select-bg-size-sm;
   }
 }

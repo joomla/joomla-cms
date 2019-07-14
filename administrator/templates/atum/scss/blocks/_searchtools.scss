@@ -25,8 +25,9 @@
     box-shadow: $atum-box-shadow;
 	width: 100%;
 
+	joomla-field-fancy-select .choices,
     .custom-select {
-      max-width: none;
+      min-width: 15rem;
     }
 
     &.js-filters-show {
