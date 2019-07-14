@@ -103,7 +103,7 @@ Factory::getDocument()->addScriptDeclaration('
 							</td>
 							<th scope="row">
 								<?php echo ActionlogsHelper::getHumanReadableLogMessage($item); ?>
-							</td>
+							</th>
 							<td>
 								<?php echo $this->escape(Text::_($extension)); ?>
 							</td>
