@@ -27,7 +27,7 @@ class TemplatesModel extends ListModel
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
-	 * 
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($config = array())
@@ -77,9 +77,9 @@ class TemplatesModel extends ListModel
 
 	/**
 	 * Get a list of mail templates
-	 * 
+	 *
 	 * @return  array
-	 * 
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getItems()
@@ -107,7 +107,7 @@ class TemplatesModel extends ListModel
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return  QueryInterface
-	 * 
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getListQuery()
@@ -141,7 +141,8 @@ class TemplatesModel extends ListModel
 				$query->where('(a.template_id LIKE ' . $search
 					. ' OR a.subject LIKE ' . $search
 					. ' OR a.body LIKE ' . $search
-					. ' OR a.htmlbody LIKE ' . $search . ')');
+					. ' OR a.htmlbody LIKE ' . $search . ')'
+				);
 			}
 		}
 
@@ -162,9 +163,9 @@ class TemplatesModel extends ListModel
 
 	/**
 	 * Get a list of the current content languages
-	 * 
+	 *
 	 * @return  array
-	 * 
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getLanguages()

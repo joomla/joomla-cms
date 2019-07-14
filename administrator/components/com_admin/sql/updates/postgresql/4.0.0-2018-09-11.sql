@@ -1,3 +1,6 @@
+INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "checked_out", "checked_out_time", "ordering", "state") VALUES
+(0, 'com_mails', 'component', 'com_mails', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0);
+
 CREATE TABLE IF NOT EXISTS "#__mail_templates" (
   "mail_id" varchar(127) NOT NULL DEFAULT '',
   "language" char(7) NOT NULL DEFAULT '',

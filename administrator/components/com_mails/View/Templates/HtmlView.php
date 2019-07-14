@@ -115,7 +115,7 @@ class HtmlView extends BaseHtmlView
 	 * Add the page title and toolbar.
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function addToolbar()

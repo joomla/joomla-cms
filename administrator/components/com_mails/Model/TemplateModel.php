@@ -45,9 +45,9 @@ class TemplateModel extends AdminModel
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param   object  $record  A record object.
-	 * 
+	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
-	 * 
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function canDelete($record)
@@ -60,9 +60,9 @@ class TemplateModel extends AdminModel
 	 *
 	 * @param   array    $data      An optional array of data for the form to interogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-	 * 
+	 *
 	 * @return  JForm  A JForm object on success, false on failure
-	 * 
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getForm($data = array(), $loadData = true)
@@ -125,10 +125,11 @@ class TemplateModel extends AdminModel
 			$files = $subform->xpath('field[@name="file"]');
 			$files[0]->addAttribute('directory', JPATH_ROOT . '/' . $params->get('attachment_folder'));
 			$form->load('<form><field name="attachments" type="subform" '
-					. 'label="COM_MAILS_FIELD_ATTACHMENTS_LABEL" multiple="true" '
-					. 'layout="joomla.form.field.subform.repeatable-table">'
-					. str_replace('<?xml version="1.0"?>', '', $subform->asXML())
-					. '</field></form>');
+				. 'label="COM_MAILS_FIELD_ATTACHMENTS_LABEL" multiple="true" '
+				. 'layout="joomla.form.field.subform.repeatable-table">'
+				. str_replace('<?xml version="1.0"?>', '', $subform->asXML())
+				. '</field></form>'
+			);
 		}
 
 		return $form;
@@ -248,7 +249,7 @@ class TemplateModel extends AdminModel
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  mixed  The data for the form.
-	 * 
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function loadFormData()

@@ -68,11 +68,11 @@ class MailTemplate
 
 	/**
 	 * Constructor for the mail templating class
-	 * 
+	 *
 	 * @param   string  $template_id  Id of the mail template.
 	 * @param   string  $language     Language of the template to use.
 	 * @param   Mail    $mailer       Mail object to send the mail with.
-	 * 
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($template_id, $language, Mail $mailer = null)
@@ -92,12 +92,12 @@ class MailTemplate
 
 	/**
 	 * Add an attachment to the mail
-	 * 
+	 *
 	 * @param   string  $name  Filename of the attachment
 	 * @param   string  $file  Either a filepath or filecontent
-	 * 
+	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function addAttachment($name, $file)
@@ -110,13 +110,13 @@ class MailTemplate
 
 	/**
 	 * Adds recipients for this mail
-	 * 
+	 *
 	 * @param   string  $mail  Mail address of the recipient
 	 * @param   string  $name  Name of the recipient
 	 * @param   string  $type  How should the recipient receive the mail? ('to', 'cc', 'bcc')
-	 * 
+	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function addRecipient($mail, $name, $type = 'to')
@@ -130,11 +130,11 @@ class MailTemplate
 
 	/**
 	 * Add data to replace in the template
-	 * 
+	 *
 	 * @param   array  $data  Associative array of strings to replace
-	 * 
+	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function addTemplateData($data)
@@ -144,9 +144,9 @@ class MailTemplate
 
 	/**
 	 * Render and send the mail
-	 * 
+	 *
 	 * @return  boolean  True on success
-	 * 
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function send()
@@ -279,6 +279,7 @@ class MailTemplate
 				foreach ($matches[0] as $i => $match)
 				{
 					$replacement = '';
+
 					foreach ($value as $subvalue)
 					{
 						if (is_array($subvalue))
@@ -338,7 +339,7 @@ class MailTemplate
 	 * @param   array   $tags      Associative array of tags to replace
 	 * @param   string  $htmlbody  A default htmlbody (normally a translateable string)
 	 *
-	 * @return  bool  True on success, false on failure
+	 * @return  boolean  True on success, false on failure
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -368,7 +369,7 @@ class MailTemplate
 	 * @param   array   $tags      Associative array of tags to replace
 	 * @param   string  $htmlbody  A default htmlbody (normally a translateable string)
 	 *
-	 * @return  bool  True on success, false on failure
+	 * @return  boolean  True on success, false on failure
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -394,7 +395,7 @@ class MailTemplate
 	 *
 	 * @param   string  $key  The key of the mail template
 	 *
-	 * @return  bool  True on success, false on failure
+	 * @return  boolean  True on success, false on failure
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
