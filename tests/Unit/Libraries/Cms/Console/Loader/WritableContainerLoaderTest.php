@@ -42,7 +42,7 @@ class WritableContainerLoaderTest extends UnitTestCase
 
 	/**
 	 *
-	 *
+	 * @return  void
 	 * @since   4.0.0
 	 */
 	public function testTheLoaderCanBeWrittenTo()
@@ -65,7 +65,7 @@ class WritableContainerLoaderTest extends UnitTestCase
 
 	/**
 	 *
-	 *
+	 * @return  void
 	 * @since   4.0.0
 	 */
 	public function testTheLoaderRetrievesACommand()
@@ -93,7 +93,7 @@ class WritableContainerLoaderTest extends UnitTestCase
 
 	/**
 	 *
-	 *
+	 * @return  void
 	 * @since   4.0.0
 	 */
 	public function testTheLoaderDoesNotRetrieveAnUnknownCommand()
@@ -116,7 +116,7 @@ class WritableContainerLoaderTest extends UnitTestCase
 
 	/**
 	 *
-	 *
+	 * @return  void
 	 * @since   4.0.0
 	 */
 	public function testTheLoaderHasACommand()

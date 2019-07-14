@@ -21,7 +21,8 @@ class TestTable extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   DatabaseDriver  $db  Database driver object.
+	 * @param   string   DatabaseDriver  $db          Database driver object.
+	 * @param   string   DatabaseDriver  $dispatcher  Database driver object.
 	 *
 	 * @since   4.0.0
 	 */

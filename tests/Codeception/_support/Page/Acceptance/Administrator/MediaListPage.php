@@ -341,11 +341,11 @@ class MediaListPage extends AdminListPage
 	/**
 	 * Dynamic locator for media item files
 	 *
-	 * @var    string $name
-	 *
-	 * @since  4.0.0
+	 * @param   string   $name  Name
 	 *
 	 * @return string
+	 *
+	 * @since  4.0.0
 	 */
 	public static function item($name)
 	{
@@ -355,12 +355,11 @@ class MediaListPage extends AdminListPage
 	/**
 	 * Dynamic locator for media item action
 	 *
-	 * @var    string $itemName
-	 * @var    string $actionName
-	 *
-	 * @since  4.0.0
+	 * @param   string   $itemName    Item name
 	 *
 	 * @return string
+	 * @since  4.0.0
+	 *
 	 */
 	public static function itemActionMenuToggler($itemName)
 	{
@@ -370,12 +369,12 @@ class MediaListPage extends AdminListPage
 	/**
 	 * Dynamic locator for media item action
 	 *
-	 * @var    string $itemName
-	 * @var    string $actionName
-	 *
-	 * @since  4.0.0
+	 * @param   string   $itemName    Item name
+	 * @param   string   $actionName  Action name
 	 *
 	 * @return string
+	 *
+	 * @since  4.0.0
 	 */
 	public static function itemAction($itemName, $actionName)
 	{
@@ -385,10 +384,10 @@ class MediaListPage extends AdminListPage
 	/**
 	 * Get the xpath of a media item
 	 *
-	 * @var    string $name
-	 * @since  4.0.0
-	 *
+	 * @param   string   $name  name
 	 * @return string
+	 *
+	 * @since  4.0.0
 	 */
 	protected static function itemXpath($name)
 	{

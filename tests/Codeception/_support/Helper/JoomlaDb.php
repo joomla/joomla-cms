@@ -118,7 +118,7 @@ class JoomlaDb extends Db
 	 * @param   string  $table           Table name
 	 * @param   array   $criteria        Search criteria [Optional]
 	 *
-	 * @return  mixed|bool
+	 * @return  mixed|boolean
 	 *
 	 * @since   3.7.3
 	 */
@@ -135,7 +135,7 @@ class JoomlaDb extends Db
 	 * @param   string  $table     Table name
 	 * @param   array   $criteria  Search criteria [Optional]
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
 	 * @since    3.7.3
 	 */
@@ -149,7 +149,7 @@ class JoomlaDb extends Db
 	/**
 	 * Add the table prefix
 	 *
-	 * @param   $table  string  Table without prefix
+	 * @param   string $table  Table without prefix
 	 *
 	 * @return  string
 	 *

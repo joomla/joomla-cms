@@ -24,6 +24,8 @@ class BrowserTest extends UnitTestCase
 	 *
 	 * @var  array
 	 *
+	 * @return  void
+	 *
 	 * @since   4.0.0
 	 */
 	protected $backupServer;
@@ -168,6 +170,7 @@ class BrowserTest extends UnitTestCase
 	 * @param   string   $expectedMajorVersion  The expected major version value
 	 * @param   boolean  $expectedMobile        The expected mobile state
 	 *
+	 * @return  void
 	 * @since   4.0.0
 	 */
 	public function testBrowserMatching($userAgent, $expectedBrowser, $expectedPlatform, $expectedMajorVersion, $expectedMobile)

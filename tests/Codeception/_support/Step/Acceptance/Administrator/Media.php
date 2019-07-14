@@ -29,7 +29,10 @@ class Media extends Admin
 	/**
 	 * Helper function to wait for the media manager to load the data
 	 *
+	 * @return void
+	 *
 	 * @since   4.0.0
+	 * @throws Exception
 	 */
 	public function waitForMediaLoaded()
 	{
@@ -56,8 +59,9 @@ class Media extends Admin
 	/**
 	 * Helper function that tests that you see contents of a directory
 	 *
-	 * @param   array  $contents
+	 * @param   array   $contents  Contents
 	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function seeContents(array $contents = [])
@@ -74,7 +78,9 @@ class Media extends Admin
 	/**
 	 * Helper function to upload a file in the current directory
 	 *
-	 * @param   string  $fileName
+	 * @param   string   $fileName  Filename
+	 *
+	 * @return void
 	 *
 	 * @since   4.0.0
 	 */
@@ -88,7 +94,9 @@ class Media extends Admin
 	/**
 	 * Delete a file from filesystem
 	 *
-	 * @param   string  $path
+	 * @param   string   $path  Path
+	 *
+	 * @return void
 	 *
 	 * @since   4.0.0
 	 *
@@ -112,11 +120,11 @@ class Media extends Admin
 	/**
 	 * Create a new directory on filesystem
 	 *
-	 * @param   string   $dirname
-	 * @param   integer  $mode
+	 * @param   string    $dirname  Dirname
+	 * @param   integer   $mode     Mode
 	 *
 	 * @since   4.0.0
-	 *
+	 * @return void
 	 * @throws Exception
 	 * @todo    extract to JoomlaFilesystem
 	 */
@@ -141,10 +149,10 @@ class Media extends Admin
 	/**
 	 * Deletes directory with all subdirectories
 	 *
-	 * @param   string  $dirname
+	 * @param   string   $dirname  Dirname
 	 *
 	 * @since   4.0.0
-	 *
+	 * @return void
 	 * @throws Exception
 	 * @todo    extract to JoomlaFilesystem
 	 */
@@ -159,8 +167,9 @@ class Media extends Admin
 	/**
 	 * Click on a link in the media tree
 	 *
-	 * @param   string  $link
+	 * @param   string   $link  Link
 	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function clickOnLinkInTree($link)
@@ -172,8 +181,9 @@ class Media extends Admin
 	/**
 	 * Click on a link in the media breadcrumb
 	 *
-	 * @param   string  $link
+	 * @param   string   $link  Link
 	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function clickOnLinkInBreadcrumb($link)
@@ -185,8 +195,9 @@ class Media extends Admin
 	/**
 	 * Open the item actions menu of an item
 	 *
-	 * @param   string  $itemName
+	 * @param   string   $itemName  Itemname
 	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function openActionsMenuOf($itemName)
@@ -201,9 +212,10 @@ class Media extends Admin
 	/**
 	 * Open the item actions menu and click on one action
 	 *
-	 * @param   string  $itemName
-	 * @param   string  $actionName
+	 * @param   string   $itemName    Item name
+	 * @param   string   $actionName  Action name
 	 *
+	 * @return void
 	 * @since   4.0.0
 	 * @throws Exception
 	 */
@@ -219,7 +231,9 @@ class Media extends Admin
 	/**
 	 * Helper function to open the media manager info bar
 	 *
+	 * @return void
 	 * @since   4.0.0
+	 * @throws Exception
 	 */
 	public function openInfobar()
 	{
@@ -239,6 +253,7 @@ class Media extends Admin
 	/**
 	 * Helper function to close the media manager info bar
 	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function closeInfobar()
@@ -260,8 +275,9 @@ class Media extends Admin
 	/**
 	 * Click on an element holding shift key
 	 *
-	 * @param   string  $xpath  Xpath selector
+	 * @param   string   $xpath  Xpath selector
 	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function clickHoldingShiftkey($xpath)
@@ -284,7 +300,7 @@ class Media extends Admin
 	/**
 	 * Get the absolute path
 	 *
-	 * @param   string  $path
+	 * @param   string   $path  Path
 	 *
 	 * @return string
 	 * @since   4.0.0

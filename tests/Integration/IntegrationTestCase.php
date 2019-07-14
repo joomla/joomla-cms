@@ -17,7 +17,7 @@ abstract class IntegrationTestCase extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 *
-	 *
+	 * @return  void
 	 * @since   4.0.0
 	 */
 	protected function setUp():void

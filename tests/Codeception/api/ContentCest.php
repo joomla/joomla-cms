@@ -13,9 +13,9 @@
 class ContentCest
 {
 	/**
-	 * @param   ApiTester  $I
+	 * @param   mixed   ApiTester  $I  Api tester
 	 *
-	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function _before(ApiTester $I)
@@ -23,9 +23,9 @@ class ContentCest
 	}
 
 	/**
-	 * @param   ApiTester  $I
+	 * @param   mixed   ApiTester  $I  Api tester
 	 *
-	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function _after(ApiTester $I)
@@ -35,8 +35,9 @@ class ContentCest
 	/**
 	 * Test the crud endpoints of com_content from the API
 	 *
-	 * @param ApiTester $I
+	 * @param   mixed   ApiTester  $I  Api tester
 	 *
+	 * @return void
 	 * @since   4.0.0
 	 *
 	 * @TODO: Make these separate tests but requires sample data being installed so there are existing articles

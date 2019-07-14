@@ -13,9 +13,9 @@
 class BasicCest
 {
 	/**
-	 * @param   ApiTester  $I
+	 * @param   mixed   ApiTester  $I  Api tester
 	 *
-	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function _before(ApiTester $I)
@@ -23,9 +23,9 @@ class BasicCest
 	}
 
 	/**
-	 * @param   ApiTester  $I
+	 * @param   mixed   ApiTester  $I  Api tester
 	 *
-	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function _after(ApiTester $I)
@@ -35,8 +35,9 @@ class BasicCest
 	/**
 	 * Test logging in with wrong credentials
 	 *
-	 * @param ApiTester $I
+	 * @param   mixed   ApiTester  $I  Api tester
 	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function testWrongCredentials(ApiTester $I)
@@ -50,8 +51,9 @@ class BasicCest
 	/**
 	 * Test content negotation fails when accepting no json
 	 *
-	 * @param ApiTester $I
+	 * @param   mixed   ApiTester  $I  Api tester
 	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function testContentNegotation(ApiTester $I)
@@ -65,8 +67,9 @@ class BasicCest
 	/**
 	 * Test not found Resources return 404
 	 *
-	 * @param ApiTester $I
+	 * @param   mixed   ApiTester  $I  Api tester
 	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function testRouteNotFound(ApiTester $I)

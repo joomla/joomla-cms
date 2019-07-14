@@ -321,7 +321,9 @@ class AtomParserTest extends UnitTestCase
 	/**
 	 * Tests AtomParser::initialise()
 	 *
+	 * @return void
 	 * @since         3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testInitialiseSetsDefaultVersion()
 	{
@@ -347,7 +349,9 @@ class AtomParserTest extends UnitTestCase
 	/**
 	 * Tests AtomParser::initialise()
 	 *
+	 * @return void
 	 * @since         3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testInitialiseSetsOldVersion()
 	{

@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Step\Acceptance\Administrator;
 
 use Page\Acceptance\Administrator\BannerListPage;
@@ -20,7 +19,15 @@ use Page\Acceptance\Administrator\BannerListPage;
  */
 class Banner extends Admin
 {
-
+	/**
+	 * @param   string  $title    Title
+	 * @param   string  $message  Message
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 * @throws \Exception
+	 */
 	public function createBanner($title, $message)
 	{
 		$I = $this;
@@ -31,6 +38,14 @@ class Banner extends Admin
 		$I->assertSuccessMessage($message);
 	}
 
+	/**
+	 * @param   string   $message  Message
+	 *
+	 * @return void
+	 *
+	 * @since version
+	 * @throws \Exception
+	 */
 	public function assertSuccessMessage($message)
 	{
 		$I = $this;
@@ -38,6 +53,16 @@ class Banner extends Admin
 		$I->see($message, BannerListPage::$systemMessageContainer);
 	}
 
+	/**
+	 * @param   string   $bannerTitle   Banner Title
+	 * @param   string   $updatedTitle  Update Title
+	 * @param   string   $message       Message
+	 *
+	 * @return void
+	 *
+	 * @since version
+	 * @throws \Exception
+	 */
 	public function modifyBanner($bannerTitle, $updatedTitle, $message)
 	{
 		$I = $this;
@@ -53,6 +78,16 @@ class Banner extends Admin
 		$I->assertSuccessMessage($message);
 	}
 
+	/**
+	 * @param   string   $bannerTitle   Banner Title
+	 * @param   string   $message       Message
+	 *
+	 *
+	 * @return void
+	 *
+	 * @since version
+	 * @throws \Exception
+	 */
 	public function publishBanner($bannerTitle, $message)
 	{
 		$I = $this;
@@ -65,6 +100,15 @@ class Banner extends Admin
 		$I->assertSuccessMessage($message);
 	}
 
+	/**
+	 * @param   string   $bannerTitle   Banner Title
+	 * @param   string   $message       Message
+	 *
+	 * @return void
+	 *
+	 * @since version
+	 * @throws \Exception
+	 */
 	public function unpublishBanner($bannerTitle, $message)
 	{
 		$I = $this;
@@ -77,6 +121,15 @@ class Banner extends Admin
 		$I->assertSuccessMessage($message);
 	}
 
+	/**
+	 * @param   string   $bannerTitle   Banner Title
+	 * @param   string   $message       Message
+	 *
+	 * @return void
+	 *
+	 * @since version
+	 * @throws \Exception
+	 */
 	public function checkInBanner($bannerTitle, $message)
 	{
 		$I = $this;
@@ -89,6 +142,15 @@ class Banner extends Admin
 		$I->assertSuccessMessage($message);
 	}
 
+	/**
+	 * @param   string   $bannerTitle   Banner Title
+	 * @param   string   $message       Message
+	 *
+	 * @return void
+	 *
+	 * @since version
+	 * @throws \Exception
+	 */
 	public function trashBanner($bannerTitle, $message)
 	{
 		$I = $this;
@@ -101,6 +163,15 @@ class Banner extends Admin
 		$I->assertSuccessMessage($message);
 	}
 
+	/**
+	 * @param   string   $bannerTitle   Banner Title
+	 * @param   string   $message       Message
+	 *
+	 * @return void
+	 *
+	 * @since version
+	 * @throws \Exception
+	 */
 	public function deleteBanner($bannerTitle, $message)
 	{
 		$I = $this;

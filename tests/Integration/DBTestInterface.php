@@ -18,7 +18,7 @@ use Joomla\Database\DatabaseDriver;
 interface DBTestInterface
 {
 	/**
-	 * @param   DatabaseDriver  $driver
+	 * @param   mixed   DatabaseDriver  $driver  Driver
 	 *
 	 * @return mixed
 	 *

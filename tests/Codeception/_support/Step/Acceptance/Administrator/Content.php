@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Step\Acceptance\Administrator;
 
 use Page\Acceptance\Administrator\ContentListPage;
@@ -23,9 +22,12 @@ class Content extends Admin
 	/**
 	 * Helper function to create a new Article
 	 *
-	 * @param   string  $title
+	 * @param   string   $title  Title
+	 *
+	 * @return void
 	 *
 	 * @since   4.0.0
+	 * @throws \Exception
 	 */
 	public function featureArticle($title)
 	{
@@ -38,6 +40,15 @@ class Content extends Admin
 		$I->seeNumberOfElements(ContentListPage::$seeFeatured, 1);
 	}
 
+	/**
+	 * @param   string   $title        Title
+	 * @param   string   $accessLevel  AccessLevel
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 * @throws \Exception
+	 */
 	public function setArticleAccessLevel($title, $accessLevel)
 	{
 		$I = $this;
@@ -54,6 +65,14 @@ class Content extends Admin
 		$I->see($accessLevel, ContentListPage::$seeAccessLevel);
 	}
 
+	/**
+	 * @param   string   $title  Title
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 * @throws \Exception
+	 */
 	public function unPublishArticle($title)
 	{
 		$I = $this;
@@ -65,6 +84,14 @@ class Content extends Admin
 		$I->seeNumberOfElements(ContentListPage::$seeUnpublished, 1);
 	}
 
+	/**
+	 * @param   string   $title  Title
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 * @throws \Exception
+	 */
 	public function trashArticle($title)
 	{
 		$I = $this;

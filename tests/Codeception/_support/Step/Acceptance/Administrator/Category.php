@@ -27,7 +27,9 @@ class Category extends Admin
 	/**
 	 * Create Category.
 	 *
-	 * @param $title
+	 * @param   string   $title  Title
+	 *
+	 * @return void
 	 *
 	 * @since   4.0.0
 	 *

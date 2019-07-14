@@ -37,6 +37,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testOverrideTypeDuringConstruction()
@@ -50,6 +51,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisableDuringConstruction()
@@ -62,6 +64,7 @@ class MicrodataTest extends UnitTestCase
 	/**
 	 * Test the setType() function
 	 *
+	 * @return  void
 	 * @since   3.2
 	 */
 	public function testSetType()
@@ -78,6 +81,7 @@ class MicrodataTest extends UnitTestCase
 	/**
 	 * Test the setType() function
 	 *
+	 * @return  void
 	 * @since   3.2
 	 */
 	public function testSetInvalidTypeSetsDefaultType()
@@ -93,6 +97,7 @@ class MicrodataTest extends UnitTestCase
 	/**
 	 * Test the fallback() function
 	 *
+	 * @return  void
 	 * @since   3.2
 	 */
 	public function testFallback()
@@ -116,6 +121,7 @@ class MicrodataTest extends UnitTestCase
 	/**
 	 * Test the fallback() function
 	 *
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testFallbackWithNotExistingProperty()
@@ -140,6 +146,7 @@ class MicrodataTest extends UnitTestCase
 	/**
 	 * Test the fallback() function
 	 *
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testFallbackWithNotExistingTypeAndProperty()
@@ -155,6 +162,7 @@ class MicrodataTest extends UnitTestCase
 	/**
 	 * Test the display() function
 	 *
+	 * @return  void
 	 * @since   3.2
 	 */
 	public function testDisplayIsEmptyByDefault()
@@ -166,6 +174,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayResetsParams()
@@ -186,6 +195,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplaySimple()
@@ -211,6 +221,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplaySimpleWithContent()
@@ -238,6 +249,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplaySimpleWithEmptyContent()
@@ -265,6 +277,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayNested()
@@ -290,6 +303,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayNestedWithContent()
@@ -320,6 +334,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayNestedWithContentAndFallback()
@@ -361,6 +376,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayNestedWithFallback()
@@ -397,6 +413,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayMeta()
@@ -424,6 +441,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayMetaWithContent()
@@ -453,6 +471,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayMetaWithHumanAndMashineContent()
@@ -483,6 +502,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayMetaReturnsEmptyStringWhenPropertyDoesNotExist()
@@ -506,6 +526,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayContentWhenDisabled()
@@ -524,6 +545,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayMetaContentWhenDisabled()
@@ -541,6 +563,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayFallbackForNotExistingProperties()
@@ -570,6 +593,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayFallbackForNotExistingPropertiesWithContent()
@@ -604,6 +628,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayFallbackForNotExistingPropertiesAndFallbacks()
@@ -627,6 +652,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayFallbackWhenThePropertyDoesNotExistInTheType()
@@ -658,6 +684,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayFallbackWithContentWhenThePropertyDoesNotExistInTheType()
@@ -709,11 +736,11 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
-	 * @param $type
-	 * @param $expected
+	 * @param   string   $type      Type
+	 * @param   string   $expected  Expected
 	 *
 	 * @since        4.0
-	 *
+	 * @return  void
 	 * @dataProvider displayTypes
 	 */
 	public function testDisplayTypes($type, $expected)
@@ -755,12 +782,12 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
-	 * @param $type
-	 * @param $content
-	 * @param $expected
+	 * @param   string   $type      Type
+	 * @param   string   $content   Content
+	 * @param   string   $expected  Expected
 	 *
 	 * @since        4.0
-	 *
+	 * @return  void
 	 * @dataProvider displayTypesWithContent
 	 */
 	public function testDisplayTypesWithContent($type, $content, $expected)
@@ -870,6 +897,7 @@ class MicrodataTest extends UnitTestCase
 	/**
 	 * Test the displayScope() function
 	 *
+	 * @return  void
 	 * @since   3.2
 	 */
 	public function testDisplayScope()
@@ -890,6 +918,7 @@ class MicrodataTest extends UnitTestCase
 	/**
 	 * Test the displayScope() function
 	 *
+	 * @return  void
 	 * @since   3.2
 	 */
 	public function testDisplayScopeIsEmptyWhenDisabled()
@@ -1070,9 +1099,9 @@ class MicrodataStub extends Microdata
 	 *
 	 * Set the types to avoid file_get_contents
 	 *
-	 * @param   string  $type
-	 * @param   bool    $flag
-	 * @param   array   $types
+	 * @param   string   $type   Type
+	 * @param   bool     $flag   Flag
+	 * @param   array    $types  Types
 	 *
 	 * @since   4.0.0
 	 */
@@ -1086,8 +1115,9 @@ class MicrodataStub extends Microdata
 	/**
 	 * Public test helper to set the types
 	 *
-	 * @param $types
+	 * @param   array   $types  Types
 	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public static function setTypes($types)
@@ -1096,7 +1126,7 @@ class MicrodataStub extends Microdata
 	}
 
 	/**
-	 * Override the loadTypes methid
+	 * Override the loadTypes method
 	 *
 	 * @return  void
 	 *

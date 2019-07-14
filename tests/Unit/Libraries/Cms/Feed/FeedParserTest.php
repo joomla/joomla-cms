@@ -379,8 +379,8 @@ class FeedParserTest extends UnitTestCase
 	/**
 	 * Helper function which gets an instance of xml reader
 	 *
-	 * @param $xml
-	 * @param $moveTo
+	 * @param   mixed   $xml     XML
+	 * @param   mixed   $moveTo  Moveto
 	 *
 	 * @return XMLReader
 	 *
@@ -443,7 +443,7 @@ class FeedParserStub extends FeedParser
 	/**
 	 * Getter for the initialize called counter
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
 	 * @since   4.0.0
 	 */
@@ -491,8 +491,8 @@ class FeedParserStub extends FeedParser
 	/**
 	 * Process a feed entry
 	 *
-	 * @param FeedEntry        $entry
-	 * @param SimpleXMLElement $el
+	 * @param   mixed   FeedEntry         $entry  Entry
+	 * @param   mixed   SimpleXMLElement  $el     El
 	 *
 	 * @return void
 	 *
@@ -522,8 +522,8 @@ class FeedParserStub extends FeedParser
 	/**
 	 * Custom element handler
 	 *
-	 * @param Feed             $feed
-	 * @param SimpleXMLElement $el
+	 * @param   mixed   Feed              $feed  Feed
+	 * @param   mixed   SimpleXMLElement  $el    El
 	 *
 	 * @return void
 	 *
@@ -551,8 +551,8 @@ class FeedParserStubUnregistered implements NamespaceParserInterface
 	/**
 	 * Method to handle an element for the feed given that a certain namespace is present.
 	 *
-	 * @param   Feed              $feed The Feed object being built from the parsed feed.
-	 * @param   SimpleXMLElement $el   The current XML element object to handle.
+	 * @param   mixed   Feed               $feed  The Feed object being built from the parsed feed.
+	 * @param   mixed   SimpleXMLElement   $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
@@ -565,8 +565,8 @@ class FeedParserStubUnregistered implements NamespaceParserInterface
 	/**
 	 * Method to handle the feed entry element for the feed given that a certain namespace is present.
 	 *
-	 * @param   FeedEntry $entry The FeedEntry object being built from the parsed feed entry.
-	 * @param   SimpleXMLElement          $el    The current XML element object to handle.
+	 * @param   mixed   FeedEntry         $entry  The FeedEntry object being built from the parsed feed entry.
+	 * @param   mixed   SimpleXMLElement  $el     The current XML element object to handle.
 	 *
 	 * @return  void
 	 *

@@ -150,6 +150,12 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals($button, $toolbar->getItems()[0]);
 	}
 
+	/**
+	 *
+	 * @return  void
+	 * @since   4.0.0
+	 * @throws \Exception
+	 */
 	public function testRenderButton()
 	{
 		$button     = ['Separator', 'spacer'];
@@ -176,6 +182,8 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * Tests render a button
+	 *
+	 * @return  void
 	 *
 	 * @since   4.0.0
 	 * @throws \Exception
@@ -288,7 +296,7 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Helper function to create a toolbar
 	 *
-	 * @param string $name
+	 * @param   string   $name  Name
 	 *
 	 * @return Toolbar
 	 *

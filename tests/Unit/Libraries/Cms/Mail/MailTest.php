@@ -97,11 +97,17 @@ class MailTest extends UnitTestCase
 	/**
 	 * Tests the addRecipient method.
 	 *
-	 * @covers  Mail::addRecipient
+	 * @covers        Mail::addRecipient
 	 *
 	 * @dataProvider  seedTestAdd
 	 *
-	 * @since   4.0.0
+	 * @param   string  $recipient  Recipient
+	 * @param   string  $name       Name
+	 * @param   string  $expected   Expected
+	 *
+	 * @return void
+	 * @since         4.0.0
+	 * @throws \PHPMailer\PHPMailer\Exception
 	 */
 	public function testAddRecipient($recipient, $name, $expected)
 	{
@@ -113,11 +119,17 @@ class MailTest extends UnitTestCase
 	/**
 	 * Tests the addCC method.
 	 *
-	 * @covers  Mail::addCc
+	 * @covers        Mail::addCc
 	 *
 	 * @dataProvider  seedTestAdd
 	 *
-	 * @since   4.0.0
+	 * @param   string  $recipient  Recipient
+	 * @param   string  $name       Name
+	 * @param   string  $expected   Expected
+	 *
+	 * @return void
+	 * @since         4.0.0
+	 * @throws \PHPMailer\PHPMailer\Exception
 	 */
 	public function testAddCc($recipient, $name, $expected)
 	{
@@ -129,11 +141,16 @@ class MailTest extends UnitTestCase
 	/**
 	 * Tests the addBCC method.
 	 *
-	 * @covers  Mail::addBcc
+	 * @covers        Mail::addBcc
 	 *
+	 * @param   string  $recipient  Recipient
+	 * @param   string  $name       Name
+	 * @param   string  $expected   Expected
+	 *
+	 * @return void
+	 * @since         4.0.0
+	 * @throws \PHPMailer\PHPMailer\Exception
 	 * @dataProvider  seedTestAdd
-	 *
-	 * @since   4.0.0
 	 */
 	public function testAddBcc($recipient, $name, $expected)
 	{
@@ -180,11 +197,17 @@ class MailTest extends UnitTestCase
 	/**
 	 * Tests the addReplyTo method.
 	 *
-	 * @covers  JMail::addReplyTo
+	 * @covers        JMail::addReplyTo
 	 *
 	 * @dataProvider  seedTestAddReplyTo
 	 *
-	 * @since   4.0.0
+	 * @param   string  $recipient  Recipient
+	 * @param   string  $name       Name
+	 * @param   string  $expected   Expected
+	 *
+	 * @return void
+	 * @since         4.0.0
+	 * @throws \PHPMailer\PHPMailer\Exception
 	 */
 	public function testAddReplyTo($recipient, $name, $expected)
 	{

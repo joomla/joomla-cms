@@ -29,9 +29,9 @@ trait DBTestTrait
 	private $driver;
 
 	/**
-	 * @param   DatabaseDriver  $driver
+	 * @param   mixed   DatabaseDriver  $driver  Driver
 	 *
-	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function setDBDriver(DatabaseDriver $driver)
@@ -41,7 +41,7 @@ trait DBTestTrait
 
 	/**
 	 *
-	 * @return DatabaseDriver
+	 * @return mixed
 	 *
 	 * @since   4.0.0
 	 */
@@ -62,12 +62,13 @@ trait DBTestTrait
 	}
 
 	/**
-	 * @param           $table
-	 * @param   array   $data
-	 * @param   string  $message
-	 * @param   null    $connection
+	 * @param   string   $table       Table
+	 * @param   array    $data        Data
+	 * @param   string   $message     Message
+	 * @param   null     $connection  Connection
 	 *
 	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	protected function assertDatabaseHas($table, array $data, $message = '', $connection = null)

@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Tests\Unit\Libraries\Cms\Access;
 
 use Joomla\CMS\Access\Rule;
@@ -25,7 +24,7 @@ class RulesTest extends UnitTestCase
 {
 	/**
 	 *
-	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function testIsConstructableWithInputString()
@@ -50,7 +49,7 @@ class RulesTest extends UnitTestCase
 
 	/**
 	 *
-	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function testIsConstructableWithArray()
@@ -349,7 +348,7 @@ class RulesTest extends UnitTestCase
 
 	/**
 	 *
-	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function testToString()

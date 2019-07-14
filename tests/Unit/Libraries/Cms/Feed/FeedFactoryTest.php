@@ -36,6 +36,8 @@ class FeedFactoryTest extends UnitTestCase
 	/**
 	 * Setup the tests.
 	 *
+	 * @return void
+	 *
 	 * @since   4.0.0
 	 */
 	protected function setUp():void
@@ -48,6 +50,7 @@ class FeedFactoryTest extends UnitTestCase
 	/**
 	 * Method to tear down whatever was set up before the test.
 	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	protected function tearDown():void
@@ -60,6 +63,7 @@ class FeedFactoryTest extends UnitTestCase
 	/**
 	 * Tests FeedFactory::getFeed().
 	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function testGetFeed()
@@ -73,6 +77,7 @@ class FeedFactoryTest extends UnitTestCase
 	/**
 	 *  Tests FeedFactory::getParsers().
 	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function testGetDefaultParsers()
@@ -86,6 +91,7 @@ class FeedFactoryTest extends UnitTestCase
 	/**
 	 * Tests FeedFactory::registerParser()
 	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function testRegisterParser()
@@ -104,6 +110,7 @@ class FeedFactoryTest extends UnitTestCase
 	/**
 	 * Tests FeedFactory::registerParser()
 	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function testRegisterParserWithInvalidClass()
@@ -115,6 +122,7 @@ class FeedFactoryTest extends UnitTestCase
 	/**
 	 * Tests FeedFactory::registerParser()
 	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function testRegisterParserWithInvalidTag()
@@ -127,7 +135,9 @@ class FeedFactoryTest extends UnitTestCase
 	/**
 	 * Tests FeedFactory::_fetchFeedParser()
 	 *
+	 * @return void
 	 * @since   4.0.0
+	 * @throws \ReflectionException
 	 */
 	public function testFetchFeedParser()
 	{
@@ -149,7 +159,9 @@ class FeedFactoryTest extends UnitTestCase
 	/**
 	 * Tests FeedFactory::_fetchFeedParser()
 	 *
+	 * @return void
 	 * @since   4.0.0
+	 * @throws \ReflectionException
 	 */
 	public function testFetchFeedParserWithInvalidTag()
 	{

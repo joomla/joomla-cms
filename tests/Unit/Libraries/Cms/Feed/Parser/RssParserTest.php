@@ -578,7 +578,9 @@ class RssParserTest extends UnitTestCase
 	/**
 	 * Tests RssParser::initialise()
 	 *
+	 * @return void
 	 * @since         3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testInitialiseSetsVersion()
 	{

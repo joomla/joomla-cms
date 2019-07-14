@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Tests\Integration;
 
 use Joomla\Database\DatabaseDriver;
@@ -40,9 +39,9 @@ class DBTestHelper
 	protected static $loadedFiles = [];
 
 	/**
-	 * @param   \Joomla\Tests\Integration\IntegrationTestCase  $test
+	 * @param   mixed   \Joomla\Tests\Integration\IntegrationTestCase   $test  Test
 	 *
-	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public static function setupTest(IntegrationTestCase $test):void
@@ -90,7 +89,7 @@ class DBTestHelper
 	}
 
 	/**
-	 * @param $query
+	 * @param   string  $query   Query
 	 *
 	 * @return array
 	 *
