@@ -20,8 +20,9 @@ class ContentListCest
 	/**
 	 * Runs before every test
 	 *
-	 * @param AcceptanceTester $I
+	 * @param   mixed   AcceptanceTester  $I  I
 	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function _before(AcceptanceTester $I)
@@ -32,8 +33,9 @@ class ContentListCest
 	/**
 	 * Test that it loads without php notices and warnings.
 	 *
-	 * @param   AcceptanceTester  $I  Acceptance Helper Object
+	 * @param   mixed   AcceptanceTester  $I  I
 	 *
+	 * @return void
 	 * @since   4.0.0
 	 * @throws Exception
 	 */
@@ -48,8 +50,9 @@ class ContentListCest
 	/**
 	 * Test create a new arcticle
 	 *
-	 * @param   \Step\Acceptance\Administrator\Content  $I
+	 * @param   mixed   \Step\Acceptance\Administrator\Content  $I  I
 	 *
+	 * @return void
 	 * @since   4.0.0
 	 * @throws Exception
 	 */
@@ -65,11 +68,12 @@ class ContentListCest
 	/**
 	 * Test display articles
 	 *
-	 * @skip    Fix: [PDOException] SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect datetime value: '0000-00-00 00:00:00' for column 'created' at row 1
-	 *          on drone
+	 * @skip    Fix: [PDOException] SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect datetime value:
+	 * '0000-00-00 00:00:00' for column 'created' at row 1 on drone.
 	 *
-	 * @param   \Step\Acceptance\Administrator\Content $I
+	 * @param   mixed   \Step\Acceptance\Administrator\Content  $I  I
 	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function seeArticlesInList(\Step\Acceptance\Administrator\Content $I)
@@ -98,8 +102,9 @@ class ContentListCest
 	/**
 	 * Test feature articles
 	 *
-	 * @param   \Step\Acceptance\Administrator\Content $I
+	 * @param   mixed   \Step\Acceptance\Administrator\Content  $I  I
 	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function markArticleAsFeaturedUsingToolbarButton(\Step\Acceptance\Administrator\Content $I)
@@ -163,6 +168,12 @@ class ContentListCest
 	 * Paginate articles
 	*/
 
+	/**
+	 * @param   mixed   \Step\Acceptance\Administrator\Content  $I  I
+	 *
+	 * @return void
+	 * @since   4.0.0
+	 */
 	public function Article(\Step\Acceptance\Administrator\Content $I)
 	{
 		/**
@@ -170,7 +181,6 @@ class ContentListCest
 		$I->setArticleAccessLevel($this->articleTitle, $this->articleAccessLevel);
 		$I->unPublishArticle($this->articleTitle);
 		$I->trashArticle($this->articleTitle);
-		 */
+		*/
 	}
-
 }

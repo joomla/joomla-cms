@@ -27,9 +27,9 @@ class ContentCategoryListCest
 	}
 
 	/**
-	 * @param   AcceptanceTester  $I
+	 * @param   mixed   AcceptanceTester  $I  I
 	 *
-	 *
+	 * @return void
 	 * @since   4.0.0
 	 */
 	public function _before(AcceptanceTester $I)
@@ -38,10 +38,11 @@ class ContentCategoryListCest
 	}
 
 	/**
-	 * @param   AcceptanceTester  $I
-	 * @param                     $scenario
+	 * @param   mixed   AcceptanceTester  $I         I
+	 * @param   mixed                     $scenario  Scenario
 	 *
 	 *
+	 * @return void
 	 * @since    4.0.0
 	 * @throws Exception
 	 */

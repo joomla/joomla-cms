@@ -17,6 +17,11 @@ use Page\Acceptance\Administrator\UserListPage;
 class UserListCest
 {
 
+	/**
+	 * UserListCest constructor.
+	 *
+	 * @since   4.0.0
+	 */
 	public function __construct()
 	{
 		$this->username = "testUser";
@@ -28,7 +33,7 @@ class UserListCest
 	/**
 	 * Create a user
 	 *
-	 * @param   \Step\Acceptance\Administrator\Admin  $I  The AcceptanceTester Object
+	 * @param   mixed   \Step\Acceptance\Administrator\Admin  $I  The AcceptanceTester Object
 	 *
 	 * @return  void
 	 * @since   3.7.3
@@ -64,7 +69,7 @@ class UserListCest
 	/**
 	 * Edit a user
 	 *
-	 * @param   \Step\Acceptance\Administrator\Admin  $I  The AcceptanceTester Object
+	 * @param   mixed   \Step\Acceptance\Administrator\Admin  $I  The AcceptanceTester Object
 	 *
 	 * @return  void
 	 * @since   3.7.3
