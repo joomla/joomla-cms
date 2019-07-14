@@ -123,11 +123,14 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 						<img src="<?php echo $loginLogo; ?>"
 							 alt="<?php echo htmlspecialchars($this->params->get('altLoginLogo', ''), ENT_COMPAT, 'UTF-8'); ?>">
 					</div>
-					<jdoc:include type="message" />
 					<jdoc:include type="component" />
 				</div>
 			</main>
 		</section>
+
+		<div class="notify-alerts">
+			<jdoc:include type="message" />
+		</div>
 	</div>
 
 	<?php // Sidebar ?>
