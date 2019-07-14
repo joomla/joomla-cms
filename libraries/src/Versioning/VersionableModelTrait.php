@@ -24,7 +24,7 @@ trait VersionableModelTrait
 	 * Method to load a row for editing from the version history table.
 	 *
 	 * @param   integer  $version_id  Key to the version history table.
-	 * @param   Table    &$table      Content table object being loaded.
+	 * @param   Table    $table      Content table object being loaded.
 	 *
 	 * @return  boolean  False on failure or error, true otherwise.
 	 *
