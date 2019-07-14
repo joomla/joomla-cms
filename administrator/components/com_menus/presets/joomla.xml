@@ -254,18 +254,11 @@
 
 		<menuitem
 			title="MOD_MENU_COM_PRIVACY"
-			type="component"
-			element="com_privacy"
-			link="index.php?option=com_privacy"
+			type="heading"
+			icon="user-secret"
 			class="class:privacy"
+			dashboard="privacy"
 			>
-			<menuitem
-				title="MOD_MENU_COM_PRIVACY_DASHBOARD"
-				type="component"
-				element="com_privacy"
-				link="index.php?option=com_privacy&amp;view=dashboard"
-			/>
-
 			<menuitem
 				title="MOD_MENU_COM_PRIVACY_REQUESTS"
 				type="component"

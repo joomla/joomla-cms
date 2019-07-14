@@ -131,13 +131,6 @@
     width: 100%;
   }
 
-  ul.collapse {
-
-    li.dropdown-submenu {
-      display: block;
-    }
-  }
-
   .open > a {
     box-shadow: 0 2px 4px -4px rgba(0, 0, 0, 0.5);
   }
@@ -183,6 +176,19 @@
       &::before {
         background-image: none;
         width: 0;
+      }
+    }
+
+    li {
+      .menu-dashboard, .menu-quicktask {
+        > a {
+          &.active {
+            background-color: var(--atum-bg-dark-80);
+            &:before {
+              display: none;
+            }
+          }
+        }
       }
     }
 
