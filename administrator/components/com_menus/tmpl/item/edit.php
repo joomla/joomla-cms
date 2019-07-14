@@ -97,69 +97,77 @@ if ($clientId === 1)
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_MENUS_ITEM_DETAILS')); ?>
 		<div class="row">
 			<div class="col-md-9">
-				<?php
-				echo $this->form->renderField('type');
+				<div class="card">
+					<div class="card-body">
+					<?php
+					echo $this->form->renderField('type');
 
-				if ($this->item->type == 'alias')
-				{
-					echo $this->form->renderField('aliasoptions', 'params');
-				}
-
-				if ($this->item->type == 'separator')
-				{
-					echo $this->form->renderField('text_separator', 'params');
-				}
-
-				echo $this->form->renderFieldset('request');
-
-				if ($this->item->type == 'url')
-				{
-					$this->form->setFieldAttribute('link', 'readonly', 'false');
-					$this->form->setFieldAttribute('link', 'required', 'true');
-				}
-
-				echo $this->form->renderField('link');
-
-				if ($this->item->type == 'alias')
-				{
-					echo $this->form->renderField('alias_redirect', 'params');
-				}
-
-				echo $this->form->renderField('browserNav');
-				echo $this->form->renderField('template_style_id');
-
-				if (!$isModal && $this->item->type == 'container')
-				{
-					echo $this->loadTemplate('container');
-				}
-				?>
-			</div>
-			<div class="col-md-3">
-				<?php
-					// Set main fields.
-					$this->fields = array(
-						'id',
-						'client_id',
-						'menutype',
-						'parent_id',
-						'menuordering',
-						'published',
-						'publish_up',
-						'publish_down',
-						'home',
-						'access',
-						'language',
-						'note',
-					);
-
-					if ($this->item->type != 'component')
+					if ($this->item->type == 'alias')
 					{
-						$this->fields = array_diff($this->fields, array('home'));
-						$this->form->setFieldAttribute('publish_up', 'showon', '');
-						$this->form->setFieldAttribute('publish_down', 'showon', '');
+						echo $this->form->renderField('aliasoptions', 'params');
 					}
 
-					echo LayoutHelper::render('joomla.edit.global', $this); ?>
+					if ($this->item->type == 'separator')
+					{
+						echo $this->form->renderField('text_separator', 'params');
+					}
+
+					echo $this->form->renderFieldset('request');
+
+					if ($this->item->type == 'url')
+					{
+						$this->form->setFieldAttribute('link', 'readonly', 'false');
+						$this->form->setFieldAttribute('link', 'required', 'true');
+					}
+
+					echo $this->form->renderField('link');
+
+					if ($this->item->type == 'alias')
+					{
+						echo $this->form->renderField('alias_redirect', 'params');
+					}
+
+					echo $this->form->renderField('browserNav');
+					echo $this->form->renderField('template_style_id');
+
+					if (!$isModal && $this->item->type == 'container')
+					{
+						echo $this->loadTemplate('container');
+					}
+					?>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="card">
+					<div class="card-body">
+					<?php
+						// Set main fields.
+						$this->fields = array(
+							'id',
+							'client_id',
+							'menutype',
+							'parent_id',
+							'menuordering',
+							'published',
+							'publish_up',
+							'publish_down',
+							'home',
+							'access',
+							'language',
+							'note',
+						);
+
+						if ($this->item->type != 'component')
+						{
+							$this->fields = array_diff($this->fields, array('home'));
+							$this->form->setFieldAttribute('publish_up', 'showon', '');
+							$this->form->setFieldAttribute('publish_down', 'showon', '');
+						}
+
+						echo LayoutHelper::render('joomla.edit.global', $this); ?>
+					</div>
+				</div>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
@@ -183,7 +191,10 @@ if ($clientId === 1)
 
 		<?php if (!empty($this->modules)) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'modules', Text::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT')); ?>
-			<?php echo $this->loadTemplate('modules'); ?>
+			<fieldset id="fieldset-modules" class="options-fieldset option-fieldset-full">
+				<legend><?php echo Text::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT'); ?></legend>
+				<?php echo $this->loadTemplate('modules'); ?>
+			</fieldset>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 

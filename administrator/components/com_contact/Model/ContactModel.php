@@ -500,7 +500,7 @@ class ContactModel extends AdminModel
 			$query->set($db->quoteName('featured') . ' = :featured');
 			$query->whereIn($db->quoteName('id'), $pks);
 			$query->bind(':featured', $value, ParameterType::INTEGER);
-			
+
 			$db->setQuery($query);
 
 			$db->execute();

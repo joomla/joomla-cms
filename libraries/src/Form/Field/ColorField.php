@@ -95,6 +95,14 @@ class ColorField extends FormField
 	protected $preview = false;
 
 	/**
+	 * Color format to use when value gets saved
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	protected $saveFormat = 'hex';
+
+	/**
 	 * The split.
 	 *
 	 * @var    integer
@@ -131,6 +139,7 @@ class ColorField extends FormField
 			case 'format':
 			case 'keywords':
 			case 'preview':
+			case 'saveFormat':
 			case 'split':
 				return $this->$name;
 		}
@@ -159,6 +168,7 @@ class ColorField extends FormField
 			case 'exclude':
 			case 'format':
 			case 'keywords':
+			case 'saveFormat':
 				$this->$name = (string) $value;
 				break;
 			case 'split':
@@ -192,15 +202,16 @@ class ColorField extends FormField
 
 		if ($return)
 		{
-			$this->colors   = (string) $this->element['colors'];
-			$this->control  = isset($this->element['control']) ? (string) $this->element['control'] : 'hue';
-			$this->default  = (string) $this->element['default'];
-			$this->format   = isset($this->element['format']) ? (string) $this->element['format'] : 'hex';
-			$this->display  = isset($this->element['display']) ? (string) $this->element['display'] : 'hue';
-			$this->keywords = (string) $this->element['keywords'];
-			$this->position = isset($this->element['position']) ? (string) $this->element['position'] : 'default';
-			$this->preview  = isset($this->element['preview']) ? (string) $this->element['preview'] : false;
-			$this->split    = isset($this->element['split']) ? (int) $this->element['split'] : 3;
+			$this->colors     = (string) $this->element['colors'];
+			$this->control    = isset($this->element['control']) ? (string) $this->element['control'] : 'hue';
+			$this->default    = (string) $this->element['default'];
+			$this->display    = isset($this->element['display']) ? (string) $this->element['display'] : 'hue';
+			$this->format     = isset($this->element['format']) ? (string) $this->element['format'] : 'hex';
+			$this->keywords   = (string) $this->element['keywords'];
+			$this->position   = isset($this->element['position']) ? (string) $this->element['position'] : 'default';
+			$this->preview    = isset($this->element['preview']) ? (string) $this->element['preview'] : false;
+			$this->saveFormat = isset($this->element['saveFormat']) ? (string) $this->element['saveFormat'] : 'hex';
+			$this->split      = isset($this->element['split']) ? (int) $this->element['split'] : 3;
 		}
 
 		return $return;
@@ -241,12 +252,12 @@ class ColorField extends FormField
 		$lang  = Factory::getApplication()->getLanguage();
 		$data  = parent::getLayoutData();
 		$color = strtolower($this->value);
-		$color = !$color ? '' : $color;
+		$color = !$color && $color !== '0' ? '' : $color;
 
 		// Position of the panel can be: right (default), left, top or bottom (default RTL is left)
 		$position = ' data-position="' . (($lang->isRTL() && $this->position == 'default') ? 'left' : $this->position) . '"';
 
-		if (!$color || in_array($color, array('none', 'transparent')))
+		if ($color === '' || in_array($color, array('none', 'transparent')))
 		{
 			$color = 'none';
 		}
@@ -366,9 +377,10 @@ class ColorField extends FormField
 	protected function getSliderModeLayoutData()
 	{
 		return array(
-			'default' => $this->default,
-			'display' => $this->display,
-			'preview' => $this->preview,
+			'default'    => $this->default,
+			'display'    => $this->display,
+			'preview'    => $this->preview,
+			'saveFormat' => $this->saveFormat,
 		);
 	}
 }

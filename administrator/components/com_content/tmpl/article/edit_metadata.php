@@ -9,6 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
-echo LayoutHelper::render('joomla.edit.metadata', $this);
+?>
+<fieldset id="fieldset-metadata" class="options-fieldset option-fieldset-full">
+	<legend><?php echo Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
+	<?php echo LayoutHelper::render('joomla.edit.metadata', $this); ?>
+</fieldset>

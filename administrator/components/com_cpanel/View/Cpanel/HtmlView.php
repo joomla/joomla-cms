@@ -63,7 +63,7 @@ class HtmlView extends BaseHtmlView
 
 		$position = ApplicationHelper::stringURLSafe($extension);
 
-		// Generate a title for the view cPanel
+		// Generate a title for the view cpanel
 		if (!empty($extension))
 		{
 			$parts = explode('.', $extension);
@@ -85,17 +85,16 @@ class HtmlView extends BaseHtmlView
 				$lang->load($parts[0]);
 			}
 
-			$sectionkey = !empty($parts[1]) ?   '_' . strtoupper($parts[1]) : '';
+			$sectionkey = !empty($parts[1]) ? '_' . strtoupper($parts[1]) : '';
 			$key = $prefix . $sectionkey . '_TITLE';
 			$keyIcon = $prefix . $sectionkey . '_ICON';
-
 
 			// Search for a component title
 			if ($lang->hasKey($key))
 			{
 				$title = Text::_($key);
 			}
-			
+
 			// Search for Icon
 			if ($lang->hasKey($keyIcon))
 			{

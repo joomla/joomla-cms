@@ -177,7 +177,10 @@ class LoginModel extends BaseDatabaseModel
 			}
 			catch (ExecutionFailureException $databaseException)
 			{
-				Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()), 'error');
+				Factory::getApplication()->enqueueMessage(
+					Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()),
+					'error'
+				);
 
 				return array();
 			}

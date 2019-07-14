@@ -42,13 +42,13 @@
 		<field
 			name="tag"
 			type="tag"
+			multiple="true"
 			label="JOPTION_SELECT_TAG"
+			hint="JOPTION_SELECT_TAG"
 			mode="nested"
 			custom="false"
 			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_TAG</option>
-		</field>
+		/>
 
 		<field
 			name="level"

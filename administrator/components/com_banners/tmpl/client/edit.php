@@ -30,17 +30,21 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-versions.js', ['versio
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', empty($this->item->id) ? Text::_('COM_BANNERS_NEW_CLIENT') : Text::_('COM_BANNERS_EDIT_CLIENT')); ?>
 		<div class="row">
 			<div class="col-md-9">
-				<?php
-				echo $this->form->renderField('contact');
-				echo $this->form->renderField('email');
-				echo $this->form->renderField('purchase_type');
-				echo $this->form->renderField('track_impressions');
-				echo $this->form->renderField('track_clicks');
-				echo $this->form->renderFieldset('extra');
-				?>
+				<div class="card">
+					<div class="card-body">
+						<?php
+						echo $this->form->renderField('contact');
+						echo $this->form->renderField('email');
+						echo $this->form->renderField('purchase_type');
+						echo $this->form->renderField('track_impressions');
+						echo $this->form->renderField('track_clicks');
+						echo $this->form->renderFieldset('extra');
+						?>
+					</div>
+				</div>
 			</div>
 			<div class="col-md-3">
-				<div class="card card-light">
+				<div class="card">
 					<div class="card-body">
 						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 					</div>
@@ -50,7 +54,14 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-versions.js', ['versio
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'metadata', Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS')); ?>
-		<?php echo $this->form->renderFieldset('metadata'); ?>
+		<div class="row">
+			<div class="col-12 col-md-6">
+				<fieldset id="fieldset-metadata" class="options-fieldset option-fieldset-full">
+					<legend><?php echo Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
+					<?php echo $this->form->renderFieldset('metadata'); ?>
+				</fieldset>
+			</div>
+		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>

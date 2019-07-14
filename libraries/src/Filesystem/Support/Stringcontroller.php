@@ -35,7 +35,7 @@ class StringController
 	 * Create a reference
 	 *
 	 * @param   string  $reference  The key
-	 * @param   string  &$string    The value
+	 * @param   string  $string     The value
 	 *
 	 * @return  void
 	 *

@@ -32,6 +32,7 @@
 
 		<fieldset name="menu-options"
 				label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
+				class="option-fieldset-half"
 			>
 
 			<field

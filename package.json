@@ -80,6 +80,7 @@
     "path": "^0.12.7",
     "postcss": "^7.0.17",
     "recursive-readdir": "^2.2.2",
+    "selenium-standalone": "^6.16.0",
     "uglify-es": "^3.3.9",
     "uglifycss": "^0.0.29",
     "watch": "^1.0.2"

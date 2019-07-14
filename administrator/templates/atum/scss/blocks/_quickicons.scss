@@ -2,7 +2,6 @@
 
 .quick-icons {
   background-color: $white;
-  margin-bottom: 1rem;
 
   ul {
     list-style: none;
@@ -20,7 +19,6 @@
     a {
       @include hover-focus-active {
         text-decoration: none;
-        box-shadow: $atum-box-shadow;
         color: $quickicon-color-hover;
         background: $link-color;
       }
@@ -53,17 +51,16 @@
     overflow: hidden;
     font-size: $display2-size;
     color: var(--atum-text-dark);
+    background-color: var(--atum-bg-light);
     line-height: 2rem;
     margin-top: 0.4rem;
     border: 1px solid $gray-400;
     text-decoration: none;
     text-align: center;
     display: inline-block;
-    box-shadow: $atum-box-shadow;
 
     @include hover-focus-active {
       text-decoration: none;
-      box-shadow: $atum-box-shadow;
       color: $quickicon-color-hover;
       background: var(--atum-link-color);
     }
@@ -97,8 +94,6 @@
     color: var(--atum-text-dark);
     line-height: 1.1;
     align-self: baseline;
-    border-radius: $border-radius-s;
-    box-shadow: $atum-box-shadow;
 
     .fa,
     .fab {

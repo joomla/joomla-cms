@@ -31,6 +31,12 @@
   }
 }
 
+.control-group {
+  .switcher__legend {
+    font-size: $label-font-size;
+  }
+}
+
 .form-no-margin {
 
   .control-group {
@@ -132,6 +138,17 @@ legend {
 
 [id="filter[search]-desc"] {
   bottom: 100%;
+}
+
+.switcher__legend {
+    margin-left: 0;
+    font-size: $label-font-size;
+    color: var(--atum-special-color);
+    margin-bottom: 0;
+}
+
+.col-md-9 .switcher__legend {
+  margin-left: 0;
 }
 
 [class^="icon-"]:not(.input-group-text),

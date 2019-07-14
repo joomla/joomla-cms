@@ -3,6 +3,7 @@
 	<fields name="params">
 		<fieldset name="menu-options"
 			label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
+				class="option-fieldset-half"
 		>
 			<field 
 				name="menu-anchor_title" 

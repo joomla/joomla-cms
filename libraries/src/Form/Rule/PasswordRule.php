@@ -166,8 +166,8 @@ class PasswordRule extends FormRule
 
 			if ($nLowercase < $minimumLowercase)
 			{
-				\JFactory::getApplication()->enqueueMessage(
-					\JText::plural('COM_USERS_MSG_NOT_ENOUGH_LOWERCASE_LETTERS_N', $minimumLowercase),
+				Factory::getApplication()->enqueueMessage(
+					Text::plural('COM_USERS_MSG_NOT_ENOUGH_LOWERCASE_LETTERS_N', $minimumLowercase),
 					'warning'
 				);
 

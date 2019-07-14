@@ -63,7 +63,7 @@ class ItemsController extends AdminController
 
 	/**
 	 * Method to get the number of published frontend menu items for quickicons
-	 * 
+	 *
 	 * @return  integer  The amount of items
 	 *
 	 * @since   4.0
@@ -93,7 +93,7 @@ class ItemsController extends AdminController
 
 		$this->setRedirect('index.php?option=com_menus&view=items&menutype=' . $this->input->getCmd('menutype'));
 
-		/* @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
+		/** @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
 		$model = $this->getModel();
 
 		if ($model->rebuild())
