@@ -43,7 +43,7 @@
               }
 
               // Set amount of number into counter span
-              counter.textContent = '\u200E' + response.data.amount;
+              counter.textContent = '\u200E${response.data.amount}';
 
               // Insert screenreader text
               const sronly = quickicon.querySelector('.quickicon-sr-desc');
