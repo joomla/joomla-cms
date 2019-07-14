@@ -97,13 +97,7 @@ module.exports.compile = (inputFile, options) => {
           } else {
             const cleaner = Postcss(
               [
-                Autoprefixer({
-                  env: {
-                    targets: {
-                      browsers: [options.settings.browsers],
-                    },
-                  },
-                }),
+                Autoprefixer(),
               ],
             );
 

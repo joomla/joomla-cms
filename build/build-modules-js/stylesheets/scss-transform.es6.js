@@ -24,9 +24,7 @@ module.exports.compile = (file, options) => {
       // eslint-disable-next-line no-console
       const cleaner = Postcss(
         [
-          Autoprefixer({
-            browsers: options.settings.browsers,
-          }),
+          Autoprefixer(),
         ],
       );
 
