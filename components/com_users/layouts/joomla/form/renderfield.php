@@ -44,7 +44,7 @@ $rel   = empty($options['rel']) ? '' : ' ' . $options['rel'];
 preg_match('/class=\"([^\"]+)\"/i', $input, $match);
 
 $required     = (strpos($input, 'aria-required="true"') !== false
-				|| (!empty($match[1]) && (strpos($match[1], 'required') !== false) || strpos($displayData['class'], 'required') !== false));
+			|| (!empty($match[1]) && (strpos($match[1], 'required') !== false) || strpos($displayData['class'], 'required') !== false));
 $typeOfSpacer = (strpos($label, 'spacer-lbl') !== false);
 
 ?>
