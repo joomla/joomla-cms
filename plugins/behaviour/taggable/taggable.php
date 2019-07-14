@@ -28,6 +28,12 @@ use Joomla\Utilities\ArrayHelper;
  */
 class PlgBehaviourTaggable extends CMSPlugin
 {
+	/**
+	 * Cache of the tags to process
+	 *
+	 * @var   string[]
+	 * @since   __DEPLOY_VERSION__
+	 */
 	protected $tags = [];
 
 	/**
@@ -195,33 +201,45 @@ class PlgBehaviourTaggable extends CMSPlugin
 	{
 		// Extract arguments
 		/** @var JTableInterface $table */
-		$table			= $event['subject'];
-		$newTags		= $event['newTags'];
-		$replaceTags	= $event['replaceTags'];
+		$table       = $event['subject'];
+		$newTags     = $event['newTags'];
+		$replaceTags = $event['replaceTags'];
+		$db          = $table->getDbo();
 
-		// Parse the type alias
-		$typeAlias = $this->parseTypeAlias($table);
-
-		// If the table doesn't support UCM we can't use the Taggable behaviour
-		if (is_null($typeAlias))
+		if (!is_object($table) || !($table instanceof TaggableTableInterface))
 		{
 			return;
 		}
 
-		// If the table doesn't have a tags helper we can't proceed
-		if (!property_exists($table, 'tagsHelper'))
+		$typeAlias = $table->getTypeAlias();
+		$id = $table->getId();
+		$contentItem = new ContentItem($typeAlias, $id);
+
+		if ($replaceTags)
 		{
-			return;
+			$tags = $contentItem->getTags();
+			$present = false;
+
+			foreach ($tags as $tag)
+			{
+				if (in_array($tag->id, $newTags))
+				{
+					$present = true;
+					continue;
+				}
+
+				$contentItem->removeTag($tag);
+			}
 		}
 
-		// Get the Tags helper and assign the parsed alias
-		/** @var JHelperTags $tagsHelper */
-		$tagsHelper            = $table->tagsHelper;
-		$tagsHelper->typeAlias = $typeAlias;
-
-		if (!$tagsHelper->postStoreProcess($table, $newTags, $replaceTags))
+		foreach ($newTags as $tagId)
 		{
-			throw new RuntimeException($table->getError());
+			$tag = new Tag($tagId);
+
+			if ($tag->id)
+			{
+				$contentItem->addTag($tag);
+			}
 		}
 	}
 

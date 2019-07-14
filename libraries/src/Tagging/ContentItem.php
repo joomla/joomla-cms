@@ -21,61 +21,211 @@ use Joomla\Registry\Registry;
  */
 class ContentItem
 {
+	/**
+	 * ID of the content item
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $content_id;
 
+	/**
+	 * Type alias of the content item
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $type_alias;
 
+	/**
+	 * Title of the content item
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $core_title;
 
+	/**
+	 * Alias of the content item
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $core_alias;
 
+	/**
+	 * Content of the content item
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $core_body;
 
+	/**
+	 * Publish state flag
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $core_state;
 
+	/**
+	 * Access flag
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $core_access;
 
+	/**
+	 * Params of the content item
+	 *
+	 * @var    Registry
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $core_params;
 
+	/**
+	 * Featured flag
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $core_featured;
 
+	/**
+	 * Metadata of the content item
+	 *
+	 * @var    Registry
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $core_metadata;
 
+	/**
+	 * User who created this
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $core_created_user_id;
 
+	/**
+	 * Alias of the creating user
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $core_created_by_alias;
 
+	/**
+	 * Datetime when this was created
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $core_created_time;
 
+	/**
+	 * User who last modified this
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $core_modified_user_id;
 
+	/**
+	 * Datetime when this was modified
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $core_modified_time;
 
+	/**
+	 * Language of the content item
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $core_language;
 
+	/**
+	 * Datetime when this should be published
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $core_publish_up;
 
+	/**
+	 * Datetime when this should be unpublished
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $core_publish_down;
 
+	/**
+	 * Images of the content item
+	 *
+	 * @var    Registry
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $core_images;
 
+	/**
+	 * URLs of the content item
+	 *
+	 * @var    Registry
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $core_urls;
 
+	/**
+	 * Hits to this content item
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $core_hits;
 
+	/**
+	 * Ordering of the items
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $core_ordering;
 
+	/**
+	 * Meta key
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $core_metakey;
 
+	/**
+	 * Meta description of the content item
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $core_metadesc;
 
+	/**
+	 * Category ID
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $core_catid;
 
 	/**
 	 * ContentItem constructor.
 	 *
-	 * @param   null  $typeAlias  Type of the content item
-	 * @param   null  $contentId  ID of the content item
+	 * @param   string|null   $typeAlias  Type of the content item
+	 * @param   integer|null  $contentId  ID of the content item
 	 */
 	public function __construct($typeAlias = null, $contentId = null)
 	{
@@ -93,6 +243,7 @@ class ContentItem
 				$this->core_params = new Registry($this->core_params);
 				$this->core_metadata = new Registry($this->core_metadata);
 				$this->core_images = new Registry($this->core_images);
+				$this->core_urls = new Registry($this->core_urls);
 			}
 		}
 	}

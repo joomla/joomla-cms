@@ -27,70 +27,250 @@ class Tag extends CMSObject implements NodeInterface
 {
 	use NodeTrait;
 
+	/**
+	 * Primary ID of the tag
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $id;
 
+	/**
+	 * Parent ID of the tag
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $parent_id;
 
+	/**
+	 * Left value of the nested set
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $lft;
 
+	/**
+	 * Right value of the nested set
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $rgt;
 
+	/**
+	 * Level depth of the tag
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $level;
 
+	/**
+	 * Alias-path from root to tag
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $path;
 
+	/**
+	 * Title of the tag
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $title;
 
+	/**
+	 * Alias of the tag
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $alias;
 
+	/**
+	 * Notes to the tag
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $note;
 
+	/**
+	 * Tag description
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $description = '';
 
+	/**
+	 * Publish flag
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $published;
 
+	/**
+	 * User ID who checked out the tag
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $checked_out;
 
+	/**
+	 * Time the tag was checked out
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $checked_out_time;
 
+	/**
+	 * Access flag
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $access;
 
+	/**
+	 * Params of the tag
+	 *
+	 * @var    Registry
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $params;
 
+	/**
+	 * Meta description of the tag
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $metadesc;
 
+	/**
+	 * Metakey of the tag
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $metakey;
 
+	/**
+	 * Metadata of the tag
+	 *
+	 * @var    Registry
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $metadata;
 
+	/**
+	 * User ID who created this tag
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $created_user_id;
 
+	/**
+	 * Datetime when this tag was created
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $created_time;
 
+	/**
+	 * Alias of the user who created this
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $created_by_alias;
 
+	/**
+	 * User ID who last modified the tag
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $modified_user_id;
 
+	/**
+	 * Datetime when the tag was last modified
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $modified_time;
 
+	/**
+	 * Images associated with the tag
+	 *
+	 * @var    Registry
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $images;
 
+	/**
+	 * URLs associated with the tag
+	 *
+	 * @var    Registry
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $urls;
 
+	/**
+	 * Number of hits to this tag
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $hits = 0;
 
+	/**
+	 * Language of the tag
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $language = '*';
 
+	/**
+	 * Version of the tag
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $version;
 
+	/**
+	 * Datetime when to publish this tag
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $publish_up;
 
+	/**
+	 * Datetime when to unpublish this tag
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $publish_down;
 
 	/**
 	 * Tag constructor.
 	 *
-	 * @param   int  $tagId  ID of the tag to load
+	 * @param   integer  $tagId  ID of the tag to load
 	 */
 	public function __construct($tagId = null)
 	{
@@ -109,6 +289,7 @@ class Tag extends CMSObject implements NodeInterface
 				$this->params = new Registry($this->params);
 				$this->metadata = new Registry($this->metadata);
 				$this->images = new Registry($this->images);
+				$this->urls = new Registry($this->urls);
 			}
 		}
 	}
@@ -116,7 +297,7 @@ class Tag extends CMSObject implements NodeInterface
 	/**
 	 * Save this tag to the database
 	 *
-	 * @return  bool  True if saving was successfull
+	 * @return  boolean  True if saving was successfull
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -153,7 +334,7 @@ class Tag extends CMSObject implements NodeInterface
 	/**
 	 * Delete this tag from the database with all its associations
 	 *
-	 * @return  bool  True if deleting was successfull
+	 * @return  boolean  True if deleting was successfull
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -180,7 +361,7 @@ class Tag extends CMSObject implements NodeInterface
 	 *
 	 * @param   ContentItem  $item  Content Item to add the association for
 	 *
-	 * @return  bool  True if successfull
+	 * @return  boolean  True if successfull
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -224,7 +405,7 @@ class Tag extends CMSObject implements NodeInterface
 	 *
 	 * @param   ContentItem  $item  Content Item to remove the association for
 	 *
-	 * @return  bool  True if successfull
+	 * @return  boolean  True if successfull
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -268,7 +449,7 @@ class Tag extends CMSObject implements NodeInterface
 	/**
 	 * Get number of content items associated to this tag
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */

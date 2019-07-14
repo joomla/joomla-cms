@@ -10,12 +10,9 @@ namespace Joomla\CMS\Tagging;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Table\CoreContent;
-use Joomla\CMS\Table\Table;
-use Joomla\CMS\Table\TableInterface;
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Table\Tag as TagTable;
+use Joomla\CMS\Tagging\Tag;
 
 /**
  * Tags helper class, provides methods to perform various tasks relevant
@@ -57,7 +54,17 @@ class TagsHelper
 	 */
 	public static function getTagByPath($path)
 	{
+		$db = Factory::getDbo();
+		$table = new TagTable($db);
 
+		if (!$table->load(['path' => $path]))
+		{
+			return null;
+		}
+
+		$tag = new Tag($table->getId());
+
+		return $tag;
 	}
 
 	/**
@@ -72,6 +79,8 @@ class TagsHelper
 	 */
 	public static function getContentItemTags($typeAlias, $contentId)
 	{
+		$contentItem = new ContentItem($typeAlias, $contentId);
 
+		return $contentItem->getTags();
 	}
 }

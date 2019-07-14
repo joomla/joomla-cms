@@ -388,6 +388,7 @@ class TagField extends ListField
 				try
 				{
 					$tag->save();
+
 					return $tag->id;
 				}
 				catch (Exception $e)
