@@ -38,7 +38,7 @@
 
               // Set name in singular or plural
               if (response.data.name && name) {
-		 nameSpan.textContent = response.data.name;
+                nameSpan.textContent = response.data.name;
                 name.replaceChild(nameSpan, name.firstChild);
               }
 
@@ -46,12 +46,11 @@
               counter.textContent = response.data.amount;
 
               // Insert screenreader text
-              var sronly = quickicon.querySelector('.quickicon-sr-desc');
-			  
-              if (response.data.sronly && sronly) {
-		 sronly.textContent = response.data.sronly;
-              }
+              let sronly = quickicon.querySelector('.quickicon-sr-desc');
 
+              if (response.data.sronly && sronly) {
+                sronly.textContent = response.data.sronly;
+              }
             } else if (pulse) {
               pulse.classList.add('error');
             }
