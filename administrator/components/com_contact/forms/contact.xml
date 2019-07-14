@@ -206,8 +206,8 @@
 			name="tags"
 			type="tag"
 			label="JTAG"
-			class="advancedSelect"
 			multiple="true"
+			typealias="com_contact.contact"
 		/>
 
 		<field

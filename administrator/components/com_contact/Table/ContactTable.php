@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Tagging\TaggableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -25,7 +26,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.0
  */
-class ContactTable extends Table
+class ContactTable extends Table implements TaggableTableInterface
 {
 	/**
 	 * Indicates that columns fully support the NULL value in the database
@@ -289,5 +290,17 @@ class ContactTable extends Table
 		}
 
 		return $this->alias;
+	}
+
+	/**
+	 * Get the type alias for the tagging table
+	 *
+	 * @return  string  The alias
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getTypeAlias()
+	{
+		return 'com_contact.contact';
 	}
 }

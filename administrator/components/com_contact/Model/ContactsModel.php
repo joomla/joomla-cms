@@ -328,8 +328,8 @@ class ContactsModel extends ListModel
 		{
 			$query->where($db->quoteName('tagmap.tag_id') . ' = :tag_id')
 				->leftJoin(
-					$db->quoteName('#__contentitem_tag_map', 'tagmap')
-					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+					$db->quoteName('#__tag_content_map', 'tagmap')
+					. ' ON ' . $db->quoteName('tagmap.content_id') . ' = ' . $db->quoteName('a.id')
 					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_contact.contact')
 				);
 			$query->bind(':tag_id', $tagId, ParameterType::INTEGER);

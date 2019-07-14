@@ -228,13 +228,6 @@ class ContactModel extends AdminModel
 			}
 		}
 
-		// Load item tags
-		if (!empty($item->id))
-		{
-			$item->tags = new TagsHelper;
-			$item->tags->getTagIds($item->id, 'com_contact.contact');
-		}
-
 		return $item;
 	}
 
