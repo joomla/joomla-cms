@@ -46,7 +46,7 @@
               counter.textContent = response.data.amount;
 
               // Insert screenreader text
-              let sronly = quickicon.querySelector('.quickicon-sr-desc');
+              const sronly = quickicon.querySelector('.quickicon-sr-desc');
 
               if (response.data.sronly && sronly) {
                 sronly.textContent = response.data.sronly;
