@@ -93,7 +93,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::apply('plugin.apply');
 
 			ToolbarHelper::save('plugin.save');
-
 		}
 
 		ToolbarHelper::cancel('plugin.cancel', 'JTOOLBAR_CLOSE');

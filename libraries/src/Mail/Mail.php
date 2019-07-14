@@ -637,7 +637,8 @@ class Mail extends PHPMailer
 	 * @throws  phpmailerException  if exception throwing is enabled
 	 */
 	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode = false, $cc = null, $bcc = null, $attachment = null,
-		$replyTo = null, $replyToName = null)
+		$replyTo = null, $replyToName = null
+	)
 	{
 		// Create config object
 		$app = Factory::getApplication();
