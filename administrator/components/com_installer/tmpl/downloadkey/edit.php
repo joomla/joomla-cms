@@ -16,7 +16,8 @@ HTMLHelper::_('behavior.formvalidator');
 
 ?>
 <h1><?php echo $this->item->name; ?></h1>
-<form action="<?php echo Route::_('index.php?option=com_installer&view=downloadkey&layout=edit&update_site_id=' . (int) $this->item->update_site_id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">		<?php echo $this->form->renderFieldset('downloadKey'); ?>
+<form action="<?php echo Route::_('index.php?option=com_installer&view=downloadkey&layout=edit&update_site_id=' . (int) $this->item->update_site_id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
+	<?php echo $this->form->renderFieldset('downloadKey'); ?>
 	<input type="hidden" name="task" value=""/>
 	<?php echo HTMLHelper::_('form.token'); ?>
 </form>

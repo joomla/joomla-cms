@@ -28,14 +28,14 @@ class DownloadkeysModel extends InstallerModel
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \Joomla\CMS\MVC\Model\ListModel
 	 * @since   __DEPLOY_VERSION__
+	 * @see     \Joomla\CMS\MVC\Model\ListModel
 	 */
 	public function __construct($config = [], MvcFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
-			$config['filter_fields'] = array(
+			$config['filter_fields'] = [
 				'update_site_name',
 				'name',
 				'client_id',
@@ -48,7 +48,7 @@ class DownloadkeysModel extends InstallerModel
 				'folder_translated',
 				'update_site_id',
 				'enabled',
-			);
+			];
 		}
 
 		parent::__construct($config, $factory);
@@ -83,8 +83,7 @@ class DownloadkeysModel extends InstallerModel
 	 */
 	protected function getListQuery()
 	{
-		$db = $this->getDbo();
-		/** @var DatabaseQuery $query */
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select(
 				$db->quoteName(
@@ -120,14 +119,12 @@ class DownloadkeysModel extends InstallerModel
 			)
 			->from($db->quoteName('#__update_sites', 'sites'))
 			->innerJoin(
-				$db->quoteName('#__update_sites_extensions', 'sites_extensions') .
-				' ON ' . $db->quoteName('sites_extensions.update_site_id') .
-				' = ' . $db->quoteName('sites.update_site_id')
+				$db->quoteName('#__update_sites_extensions', 'sites_extensions'),
+				$db->quoteName('sites_extensions.update_site_id') . ' = ' . $db->quoteName('sites.update_site_id')
 			)
 			->innerJoin(
-				$db->quoteName('#__extensions', 'extensions') .
-				' ON ' . $db->quoteName('extensions.extension_id') .
-				' = ' . $db->quoteName('sites_extensions.extension_id')
+				$db->quoteName('#__extensions', 'extensions'),
+				$db->quoteName('extensions.extension_id') . ' = ' . $db->quoteName('sites_extensions.extension_id')
 			)
 			->where($db->quoteName('sites.location') . ' NOT LIKE ' . $db->quote('%.joomla.org/%'));
 
@@ -155,7 +152,7 @@ class DownloadkeysModel extends InstallerModel
 
 		$folder = $this->getState('filter.folder');
 
-		if ($folder !== '' && in_array($type, array('plugin', 'library', ''), true))
+		if ($folder !== '' && in_array($type, ['plugin', 'library', ''], true))
 		{
 			$query->where($db->quoteName('extensions.folder') . ' = ' . $db->quote($folder === '*' ? '' : $folder));
 		}

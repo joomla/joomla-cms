@@ -39,7 +39,7 @@ abstract class ToolbarHelper
 	public static function title($title, $icon = 'generic.png')
 	{
 		$layout = new FileLayout('joomla.toolbar.title');
-		$html   = $layout->render(array('title' => $title, 'icon' => $icon));
+		$html   = $layout->render(['title' => $title, 'icon' => $icon]);
 
 		$app                  = Factory::getApplication();
 		$app->JComponentTitle = $html;
@@ -634,7 +634,7 @@ abstract class ToolbarHelper
 		$typeId           = $contentTypeTable->getTypeId($typeAlias);
 
 		// Options array for Layout
-		$options              = array();
+		$options              = [];
 		$options['title']     = Text::_($alt);
 		$options['height']    = $height;
 		$options['width']     = $width;
@@ -657,21 +657,21 @@ abstract class ToolbarHelper
 	 *
 	 * @since   4.0.0
 	 */
-	public static function saveGroup($buttons = array(), $class = 'btn-success')
+	public static function saveGroup($buttons = [], $class = 'btn-success')
 	{
-		$validOptions = array(
+		$validOptions = [
 			'apply'     => 'JTOOLBAR_APPLY',
 			'save'      => 'JTOOLBAR_SAVE',
 			'save2new'  => 'JTOOLBAR_SAVE_AND_NEW',
 			'save2copy' => 'JTOOLBAR_SAVE_AS_COPY'
-		);
+		];
 
 		$bar = Toolbar::getInstance('toolbar');
 
 		$saveGroup = $bar->dropdownButton('save-group');
 
 		$saveGroup->configure(
-			function (Toolbar $childBar) use ($buttons, $validOptions) {
+			static function (Toolbar $childBar) use ($buttons, $validOptions) {
 				foreach ($buttons as $button)
 				{
 					if (!array_key_exists($button[0], $validOptions))

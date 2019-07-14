@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Exception;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 
 /**
@@ -42,7 +43,7 @@ class DownloadkeyModel extends AdminModel
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
-	public function getForm($data = array(), $loadData = true)
+	public function getForm($data = [], $loadData = true)
 	{
 		// Get the form.
 		$form = $this->loadForm('com_installer.downloadkey', 'downloadkey', ['control' => 'jform', 'load_data' => $loadData]);
@@ -92,11 +93,11 @@ class DownloadkeyModel extends AdminModel
 	 *
 	 * @param   integer  $pk  The id of the primary key.
 	 *
-	 * @return  \JObject|boolean  Object on success, false on failure.
+	 * @return  CMSObject|boolean  Object on success, false on failure.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getItem($pk = null)
+	public function getItem($pk = null): CMSObject
 	{
 		$item  = parent::getItem($pk);
 		$db    = $this->getDbo();
@@ -115,14 +116,12 @@ class DownloadkeyModel extends AdminModel
 			)
 			->from($db->quoteName('#__update_sites', 'update_sites'))
 			->innerJoin(
-				$db->quoteName('#__update_sites_extensions', 'update_sites_extensions') .
-				' ON ' . $db->quoteName('update_sites_extensions.update_site_id') .
-				' = ' . $db->quoteName('update_sites.update_site_id')
+				$db->quoteName('#__update_sites_extensions', 'update_sites_extensions'),
+				$db->quoteName('update_sites_extensions.update_site_id') . ' = ' . $db->quoteName('update_sites.update_site_id')
 			)
 			->innerJoin(
-				$db->quoteName('#__extensions', 'extensions') .
-				' ON ' . $db->quoteName('extensions.extension_id') .
-				' = ' . $db->quoteName('update_sites_extensions.extension_id')
+				$db->quoteName('#__extensions', 'extensions'),
+				$db->quoteName('extensions.extension_id') . ' = ' . $db->quoteName('update_sites_extensions.extension_id')
 			)
 			->where($db->quoteName('update_sites.update_site_id') . ' = ' . (int) $item->get('update_site_id'));
 
