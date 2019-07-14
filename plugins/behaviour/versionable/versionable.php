@@ -124,4 +124,37 @@ class PlgBehaviourVersionable extends CMSPlugin
 			Versioning::delete($typeAlias, $table->getId());
 		}
 	}
+
+	/**
+	 * Internal method
+	 * Parses a TypeAlias of the form "{variableName}.type", replacing {variableName} with table-instance variables variableName
+	 *
+	 * @param   JTableInterface  &$table  The table
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 *
+	 * @internal
+	 */
+	protected function parseTypeAlias(TableInterface &$table)
+	{
+		if (!isset($table->typeAlias))
+		{
+			return null;
+		}
+
+		if (empty($table->typeAlias))
+		{
+			return null;
+		}
+
+		return preg_replace_callback('/{([^}]+)}/',
+			function ($matches) use ($table)
+			{
+				return $table->{$matches[1]};
+			},
+			$table->typeAlias
+		);
+	}
 }

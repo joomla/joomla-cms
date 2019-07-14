@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
-	<fieldset name="actionlogs" label="PLG_SYSTEM_ACTIONLOGS_OPTIONS" addfieldpath="/administrator/components/com_actionlogs/models/fields">
+	<fieldset name="actionlogs" label="PLG_SYSTEM_ACTIONLOGS_OPTIONS" addfieldprefix="Joomla\Component\Actionlogs\Administrator\Field">
 		<fields name="actionlogs">
 			<field
 				name="actionlogsNotify"

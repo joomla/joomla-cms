@@ -115,42 +115,12 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 						$this->fields = array(
 							'enabled',
 							'access',
+							'ordering',
+							'folder',
+							'element',
+							'note',
 						); ?>
 						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
-						<div class="form-vertical form-no-margin">
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('ordering'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('ordering'); ?>
-								</div>
-							</div>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('folder'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('folder'); ?>
-								</div>
-							</div>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('element'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('element'); ?>
-								</div>
-							</div>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('note'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('note'); ?>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>

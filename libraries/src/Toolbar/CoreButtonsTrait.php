@@ -479,7 +479,8 @@ trait CoreButtonsTrait
 	 * @since   4.0.0
 	 */
 	public function versions(string $typeAlias, int $itemId, int $height = 800, int $width = 500,
-		string $text = 'JTOOLBAR_VERSIONS'): CustomButton
+		string $text = 'JTOOLBAR_VERSIONS'
+	): CustomButton
 	{
 		$lang = Factory::getLanguage();
 		$lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);

@@ -126,9 +126,7 @@ if ($saveOrder && !empty($this->items))
 										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 									</td>
 									<td class="text-center">
-										<div class="btn-group">
-											<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'fields.', $canChange, 'cb'); ?>
-										</div>
+										<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'fields.', $canChange, 'cb'); ?>
 									</td>
 									<th scope="row">
 										<div class="break-word">
@@ -149,17 +147,17 @@ if ($saveOrder && !empty($this->items))
 													<?php echo Text::sprintf('JGLOBAL_LIST_NAME_NOTE', $this->escape($item->name), $this->escape($item->note)); ?>
 												<?php endif; ?>
 											</span>
-                                            <?php if ($category) : ?>
-                                                <div class="small">
-                                                    <?php echo Text::_('JCATEGORY') . ': '; ?>
-                                                    <?php $categories = FieldsHelper::getAssignedCategoriesTitles($item->id); ?>
-                                                    <?php if ($categories) : ?>
-                                                        <?php echo implode(', ', $categories); ?>
-                                                    <?php else: ?>
-                                                        <?php echo Text::_('JALL'); ?>
-                                                    <?php endif; ?>
-                                                </div>
-                                            <?php endif; ?>
+											<?php if ($category) : ?>
+												<div class="small">
+													<?php echo Text::_('JCATEGORY') . ': '; ?>
+													<?php $categories = FieldsHelper::getAssignedCategoriesTitles($item->id); ?>
+													<?php if ($categories) : ?>
+														<?php echo implode(', ', $categories); ?>
+													<?php else: ?>
+														<?php echo Text::_('JALL'); ?>
+													<?php endif; ?>
+												</div>
+											<?php endif; ?>
 										</div>
 									</th>
 									<td class="small">

@@ -17,6 +17,8 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Banners\Administrator\View\Banners\HtmlView $this */
+
 HTMLHelper::_('behavior.multiselect');
 HTMLHelper::_('behavior.tabstate');
 
@@ -38,7 +40,7 @@ if ($saveOrder && !empty($this->items))
 			<div id="j-main-container" class="j-main-container">
 				<?php
 				// Search tools bar
-				echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+				echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]);
 				?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
@@ -121,9 +123,7 @@ if ($saveOrder && !empty($this->items))
 										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 									</td>
 									<td class="text-center">
-										<div class="btn-group">
-											<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'banners.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-										</div>
+										<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'banners.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 									</td>
 									<th scope="row">
 										<div class="break-word">
@@ -171,7 +171,7 @@ if ($saveOrder && !empty($this->items))
 						</tbody>
 					</table>
 
-					<?php // load the pagination. ?>
+					<?php // Load the pagination. ?>
 					<?php echo $this->pagination->getListFooter(); ?>
 
 					<?php // Load the batch processing form. ?>
@@ -181,10 +181,10 @@ if ($saveOrder && !empty($this->items))
 						<?php echo HTMLHelper::_(
 							'bootstrap.renderModal',
 							'collapseModal',
-							array(
+							[
 								'title' => Text::_('COM_BANNERS_BATCH_OPTIONS'),
 								'footer' => $this->loadTemplate('batch_footer')
-							),
+							],
 							$this->loadTemplate('batch_body')
 						); ?>
 					<?php endif; ?>
