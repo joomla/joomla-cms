@@ -133,7 +133,7 @@ class FieldsModelFields extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.name, a.checked_out, a.checked_out_time, a.note' .
+				'DISTINCT a.id, a.title, a.name, a.checked_out, a.checked_out_time, a.note' .
 				', a.state, a.access, a.created_time, a.created_user_id, a.ordering, a.language' .
 				', a.fieldparams, a.params, a.type, a.default_value, a.context, a.group_id' .
 				', a.label, a.description, a.required'

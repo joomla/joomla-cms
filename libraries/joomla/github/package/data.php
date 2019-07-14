@@ -12,11 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API DB class for the Joomla Platform.
  *
- * @documentation https://developer.github.com/v3/git/
- *
- * @since       3.1.4
- * @deprecated  4.0  Use the `joomla/github` package via Composer instead
- *
  * https://developer.github.com/v3/git/
  * Git DB API
  *
@@ -46,6 +41,11 @@ defined('JPATH_PLATFORM') or die;
  *
  * It might seem complex, but it’s actually pretty simple when you understand the model and it opens up a ton of
  * things you could potentially do with the API.
+ *
+ * @documentation https://developer.github.com/v3/git/
+ *
+ * @since       3.1.4
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageData extends JGithubPackage
 {

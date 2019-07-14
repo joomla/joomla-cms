@@ -5,7 +5,7 @@ Build Status
 ---------------------
 | Travis-CI  | Drone-CI | AppVeyor |
 | ------------- | ------------- | ------------- |
-| [![Build Status](https://travis-ci.org/joomla/joomla-cms.svg?branch=staging)](https://travis-ci.org/joomla/joomla-cms)  | [![Build Status](http://213.160.72.75/api/badges/joomla/joomla-cms/status.svg)](http://213.160.72.75/joomla/joomla-cms)  | [![Build status](https://ci.appveyor.com/api/projects/status/bpcxulw6nnxlv8kb/branch/staging?svg=true)](https://ci.appveyor.com/project/joomla/joomla-cms)  |
+| [![Build Status](https://travis-ci.org/joomla/joomla-cms.svg?branch=staging)](https://travis-ci.org/joomla/joomla-cms)  | [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg)](https://ci.joomla.org/joomla/joomla-cms)  | [![Build status](https://ci.appveyor.com/api/projects/status/ru6sxal8jmfckvjc/branch/staging?svg=true)](https://ci.appveyor.com/project/release-joomla/joomla-cms)  |
 
 What is this?
 ---------------------

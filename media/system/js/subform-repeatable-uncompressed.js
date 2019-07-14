@@ -66,7 +66,16 @@
 		// create from template
 		if (this.options.rowTemplateSelector) {
 			// Find the template element and get its HTML content, this is our template.
-			this.template = $.trim(this.$container.find(this.options.rowTemplateSelector).last().html()) || '';
+			var $tmplElement = this.$container.find(this.options.rowTemplateSelector).last();
+
+			this.template = $.trim($tmplElement.html()) || '';
+
+			// This is IE fix for <template>
+			$tmplElement.css('display', 'none'); // Make sure it not visible
+			var map = {'SUBFORMLT': '<', 'SUBFORMGT': '>'};
+			this.template = this.template.replace(/(SUBFORMLT)|(SUBFORMGT)/g, function(match){
+				return map[match];
+			});
 		}
 		// create from existing rows
 		else {
@@ -160,7 +169,7 @@
 		for (var i = 0, l = haveName.length; i < l; i++) {
 			var $el     = $(haveName[i]),
 				name    = $el.attr('name'),
-				id      = name.replace(/(\[\]$)/g, '').replace(/(\]\[)/g, '__').replace(/\[/g, '_').replace(/\]/g, ''), // id from name
+				id      = name.replace(/(\[\]$)/g, '').replace(/(\]\[)/g, '__').replace(/\[/g, '_').replace(/\]/g, '').replace(/\W/g, '_'), // id from name
 				nameNew = name.replace('[' + group + '][', '['+ groupnew +']['), // New name
 				idNew   = id.replace(group, groupnew), // Count new id
 				countMulti = 0, // count for multiple radio/checkboxes
@@ -236,6 +245,7 @@
 
 	// method for hack the scripts that can be related
 	// to the one of field that in given $row
+	// @TODO Stop using this function. Elements within subforms should initialize themselves
 	$.subformRepeatable.prototype.fixScripts = function($row){
 		// fix media field
 		$row.find('a[onclick*="jInsertFieldValue"]').each(function(){
@@ -248,28 +258,6 @@
 			// update select button
 			$select.attr('href', oldHref.replace(/&fieldid=(.+)&/, '&fieldid=' + inputId + '&'));
 		});
-
-		// bootstrap based Media field
-		if($.fn.fieldMedia){
-			$row.find('.field-media-wrapper').fieldMedia();
-		}
-
-		// bootstrap based User field
-		if($.fn.fieldUser){
-			$row.find('.field-user-wrapper').fieldUser();
-		}
-
-		// another modals
-		if(window.SqueezeBox && window.SqueezeBox.assign){
-			SqueezeBox.assign($row.find('a.modal').get(), {parse: 'rel'});
-		}
-
-		// @TODO We need to do a lot more here. See e.g. administrator/templates/isis/js/template.js
-		// and all that it does with e.g. turning radios into btn groups with disabled/active/btn-danger classes.
-		// See also related issues #16695 and #16676, which could get fixed by this method being better.
-
-		// subforms in subforms
-		$row.find('div.subform-repeatable').subformRepeatable();
 	};
 
 	// defaults
@@ -316,10 +304,14 @@
 		});
 	};
 
-	// initialise all available
-	// wait when all will be loaded, important for scripts fix
-	$(window).on('load', function(){
-		$('div.subform-repeatable').subformRepeatable();
+	// initialise all available on load and again within any added row
+	$(function ($) {
+		initSubform();
+		$(document).on('subform-row-add', initSubform);
+
+		function initSubform (event, container) {
+			$(container || document).find('div.subform-repeatable').subformRepeatable();
+		}
 	});
 
 })(jQuery);

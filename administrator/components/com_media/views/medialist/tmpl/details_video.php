@@ -16,7 +16,7 @@ JHtml::_('bootstrap.tooltip');
 $user       = JFactory::getUser();
 $params     = new Registry;
 $dispatcher = JEventDispatcher::getInstance();
-$dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_tmp_video, &$params));
+$dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_tmp_video, &$params, 0));
 
 JFactory::getDocument()->addScriptDeclaration("
 jQuery(document).ready(function($){
@@ -51,4 +51,4 @@ jQuery(document).ready(function($){
 </tr>
 
 <?php
-$dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$this->_tmp_video, &$params));
+$dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$this->_tmp_video, &$params, 0));

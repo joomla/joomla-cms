@@ -98,7 +98,7 @@ class ContenthistoryModelHistory extends JModelList
 	 */
 	protected function canDelete($record)
 	{
-		return canEdit($record);
+		return $this->canEdit($record);
 	}
 
 	/**

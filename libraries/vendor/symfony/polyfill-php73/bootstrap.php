@@ -26,6 +26,6 @@ if (PHP_VERSION_ID < 70300) {
     }
 
     if (!function_exists('array_key_last')) {
-        function array_key_last(array $array) { $key = null; foreach ($array as $key => $value); return $key; }
+        function array_key_last(array $array) { end($array); return key($array); }
     }
 }

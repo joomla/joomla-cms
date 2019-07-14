@@ -213,17 +213,12 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id))
+		if (empty($record->id) || $record->state != -2)
 		{
-			if ($record->state != -2)
-			{
-				return false;
-			}
-
-			return JFactory::getUser()->authorise('core.delete', 'com_content.article.' . (int) $record->id);
+			return false;
 		}
 
-		return false;
+		return JFactory::getUser()->authorise('core.delete', 'com_content.article.' . (int) $record->id);
 	}
 
 	/**
@@ -371,6 +366,7 @@ class ContentModelArticle extends JModelAdmin
 	public function getForm($data = array(), $loadData = true)
 	{
 		$app = JFactory::getApplication();
+		$user = JFactory::getUser();
 
 		// Get the form.
 		$form = $this->loadForm('com_content.article', 'article', array('control' => 'jform', 'load_data' => $loadData));
@@ -402,10 +398,14 @@ class ContentModelArticle extends JModelAdmin
 				$form->setFieldAttribute('catid', 'action', 'core.edit.own');
 			}
 			else
-			// Existing record. We can't edit the category in frontend.
+			// Existing record. We can't edit the category in frontend if not edit.state.
 			{
-				$form->setFieldAttribute('catid', 'readonly', 'true');
-				$form->setFieldAttribute('catid', 'filter', 'unset');
+				if ($id != 0 && (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
+					|| ($id == 0 && !$user->authorise('core.edit.state', 'com_content')))
+				{
+					$form->setFieldAttribute('catid', 'readonly', 'true');
+					$form->setFieldAttribute('catid', 'filter', 'unset');
+				}
 			}
 		}
 		else
@@ -413,8 +413,6 @@ class ContentModelArticle extends JModelAdmin
 			// New record. Can only create in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
-
-		$user = JFactory::getUser();
 
 		// Check for existing article.
 		// Modify the form based on Edit State access controls.
