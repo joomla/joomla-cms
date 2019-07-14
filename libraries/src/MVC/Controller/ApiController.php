@@ -162,7 +162,7 @@ class ApiController extends BaseController
 		}
 		catch (\Exception $e)
 		{
-			throw new \RuntimeException('Unable to get the model name');
+			throw new \RuntimeException($e->getMessage());
 		}
 
 		$model->setState($modelName . '.id', $id);
