@@ -108,6 +108,7 @@ class HtmlView extends InstallerViewDefault
 			ToolbarHelper::divider();
 		}
 
+		parent::addToolbar();
 		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_UPDATESITES');
 	}
 }

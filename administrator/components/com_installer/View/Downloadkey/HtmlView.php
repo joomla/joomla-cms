@@ -102,7 +102,7 @@ class HtmlView extends InstallerViewDefault
 		ToolbarHelper::title(Text::_('COM_INSTALLER_DOWNLOADKEY_EDIT_TITLE'), 'bookmark downloadkeys');
 
 		// If not checked out, can save the item.
-		if (!$checkedOut && ($canDo->get('core.edit')))
+		if (!$checkedOut && $canDo->get('core.edit'))
 		{
 			$toolbar->apply('downloadkey.apply');
 			$toolbar->save('downloadkey.save');
