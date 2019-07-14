@@ -93,30 +93,6 @@ body {
     content: "\f053";
   }
 }
-// Quickicons
-.quick-icons {
-
-  a {
-
-    &::before {
-      right: auto;
-      left: -40px;
-    }
-
-    [class*=' icon-'],
-    [class^='icon-'] {
-      border-right: 0;
-      border-left: 1px solid rgba($white, .15);
-    }
-  }
-
-  .quickicon-linkadd{
-    .fa {
-      float:right;
-      margin-left:1.5rem;
-    }
-  }
-}
 
 // Sidebar
 .main-nav {
