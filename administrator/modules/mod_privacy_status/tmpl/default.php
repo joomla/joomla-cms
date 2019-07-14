@@ -75,50 +75,50 @@ use Joomla\CMS\Router\Route;
 				<?php endif; ?>
 			</td>
 		</tr>
-	<tr>
-		<td>
-			<?php if ($numberOfUrgentRequests === 0) : ?>
-				<span class="badge badge-success">
-					<span class="icon-checkbox" aria-hidden="true"></span>
-					<?php echo Text::_('JNONE'); ?>
-				</span>
-			<?php else : ?>
+		<tr>
+			<td>
+				<?php if ($numberOfUrgentRequests === 0) : ?>
+					<span class="badge badge-success">
+						<span class="icon-checkbox" aria-hidden="true"></span>
+						<?php echo Text::_('JNONE'); ?>
+					</span>
+				<?php else : ?>
+					<span class="badge badge-danger">
+						<span class="icon-warning" aria-hidden="true"></span>
+						<?php echo Text::_('WARNING'); ?>
+					</span>
+				<?php endif; ?>
+			</td>
+			<td>
+				<div><?php echo Text::_('COM_PRIVACY_STATUS_CHECK_OUTSTANDING_URGENT_REQUESTS'); ?></div>
+				<small><?php echo Text::plural('COM_PRIVACY_STATUS_CHECK_OUTSTANDING_URGENT_REQUESTS_DESCRIPTION', $urgentRequestDays); ?></small>
+				<?php if ($numberOfUrgentRequests > 0) : ?>
+					<small><a href="<?php echo Route::_('index.php?option=com_privacy&view=requests&filter[status]=1&list[fullordering]=a.requested_at ASC'); ?>"><?php echo Text::_('COM_PRIVACY_SHOW_URGENT_REQUESTS'); ?></a></small>
+				<?php endif; ?>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<?php if ($sendMailEnabled) : ?>
+					<span class="badge badge-success">
+						<span class="icon-checkbox" aria-hidden="true"></span>
+						<?php echo Text::_('JENABLED'); ?>
+					</span>
+				<?php else : ?>
 				<span class="badge badge-danger">
-					<span class="icon-warning" aria-hidden="true"></span>
-					<?php echo Text::_('WARNING'); ?>
-				</span>
-			<?php endif; ?>
-		</td>
-		<td>
-			<div><?php echo Text::_('COM_PRIVACY_STATUS_CHECK_OUTSTANDING_URGENT_REQUESTS'); ?></div>
-			<small><?php echo Text::plural('COM_PRIVACY_STATUS_CHECK_OUTSTANDING_URGENT_REQUESTS_DESCRIPTION', $urgentRequestDays); ?></small>
-			<?php if ($numberOfUrgentRequests > 0) : ?>
-				<small><a href="<?php echo Route::_('index.php?option=com_privacy&view=requests&filter[status]=1&list[fullordering]=a.requested_at ASC'); ?>"><?php echo Text::_('COM_PRIVACY_SHOW_URGENT_REQUESTS'); ?></a></small>
-			<?php endif; ?>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<?php if ($sendMailEnabled) : ?>
-				<span class="badge badge-success">
-					<span class="icon-checkbox" aria-hidden="true"></span>
-					<?php echo Text::_('JENABLED'); ?>
-				</span>
-			<?php else : ?>
-			<span class="badge badge-danger">
-					<span class="icon-warning" aria-hidden="true"></span>
-					<?php echo Text::_('JDISABLED'); ?>
-				</span>
-			<?php endif; ?>
-		</td>
-		<td>
-			<?php if (!$sendMailEnabled) : ?>
-				<div><?php echo Text::_('COM_PRIVACY_STATUS_CHECK_SENDMAIL_DISABLED'); ?></div>
-				<small><?php echo Text::_('COM_PRIVACY_STATUS_CHECK_SENDMAIL_DISABLED_DESCRIPTION'); ?></small>
-			<?php else : ?>
-				<div><?php echo Text::_('COM_PRIVACY_STATUS_CHECK_SENDMAIL_ENABLED'); ?></div>
-			<?php endif; ?>
-		</td>
-	</tr>
+						<span class="icon-warning" aria-hidden="true"></span>
+						<?php echo Text::_('JDISABLED'); ?>
+					</span>
+				<?php endif; ?>
+			</td>
+			<td>
+				<?php if (!$sendMailEnabled) : ?>
+					<div><?php echo Text::_('COM_PRIVACY_STATUS_CHECK_SENDMAIL_DISABLED'); ?></div>
+					<small><?php echo Text::_('COM_PRIVACY_STATUS_CHECK_SENDMAIL_DISABLED_DESCRIPTION'); ?></small>
+				<?php else : ?>
+					<div><?php echo Text::_('COM_PRIVACY_STATUS_CHECK_SENDMAIL_ENABLED'); ?></div>
+				<?php endif; ?>
+			</td>
+		</tr>
 	</tbody>
 </table>
