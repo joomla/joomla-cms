@@ -43,7 +43,7 @@
 			title="MOD_MENU_FIELDS"
 			type="component"
 			element="com_fields"
-			link="index.php?option=com_fields&amp;context=com_users.user"
+			link="index.php?option=com_fields&amp;view=fields&amp;context=com_users.user"
 		/>
 
 		<menuitem
