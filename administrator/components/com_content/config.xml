@@ -1001,7 +1001,6 @@
 
 		<fieldset
 			name="integration_customfields"
-			type="note"
 			label="JGLOBAL_FIELDS_TITLE"
 		>
 
