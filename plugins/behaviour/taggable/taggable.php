@@ -178,9 +178,9 @@ class PlgBehaviourTaggable extends CMSPlugin
 		// Extract arguments
 		/** @var JTableInterface $table */
 		$table			= $event['subject'];
-		$pk				= $event['pk'];
+		$pk				= (array) $event['pk'];
 
-		$contentItem = new ContentItem($table->getTypeAlias(), $pk);
+		$contentItem = new ContentItem($table->getTypeAlias(), array_pop($pk));
 
 		if ($contentItem->content_id == $pk)
 		{
