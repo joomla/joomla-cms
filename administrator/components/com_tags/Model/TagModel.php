@@ -487,7 +487,9 @@ class TagModel extends AdminModel
 						$query = $db->getQuery(true)
 							->select('COUNT(*) as count, ' . $db->quoteName('as1.key'))
 							->from($db->quoteName('#__associations') . ' AS as1')
-							->join('LEFT', $db->quoteName('#__associations') . ' AS as2 ON ' . $db->quoteName('as1.key') . ' =  ' . $db->quoteName('as2.key'))
+							->join('LEFT', $db->quoteName('#__associations') . ' AS as2 ON '
+								. $db->quoteName('as1.key') . ' =  ' . $db->quoteName('as2.key')
+							)
 							->where($db->quoteName('as1.context') . ' = ' . $db->quote($this->associationsContext))
 							->where($db->quoteName('as1.id') . ' = ' . (int) $pk)
 							->group($db->quoteName('as1.key'));
