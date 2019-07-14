@@ -12,6 +12,7 @@ use Joomla\CMS\Console\Loader\WritableContainerLoader;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Tests\Unit\UnitTestCase;
 use Psr\Container\ContainerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test class for Joomla\CMS\Console\Loader\WritableContainerLoader.
@@ -21,7 +22,7 @@ use Psr\Container\ContainerInterface;
 class WritableContainerLoaderTest extends UnitTestCase
 {
 	/**
-	 * @var  ContainerInterface
+	 * @var  ContainerInterface|MockObject
 	 *
 	 * @since   4.0.0
 	 */
