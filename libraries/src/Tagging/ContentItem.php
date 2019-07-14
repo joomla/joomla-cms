@@ -251,7 +251,7 @@ class ContentItem
 	/**
 	 * Save this content item
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -266,7 +266,7 @@ class ContentItem
 	/**
 	 * Delete this content item
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -289,7 +289,7 @@ class ContentItem
 	 *
 	 * @param   Tag  $tag  Tag to associate with this content item
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -311,7 +311,7 @@ class ContentItem
 	 *
 	 * @param   Tag  $tag  The tag to remove
 	 *
-	 * @return  bool  True if tag was removed
+	 * @return  boolean  True if tag was removed
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -332,7 +332,7 @@ class ContentItem
 	/**
 	 * Get the tags associated with this content item
 	 *
-	 * @return  array|Tag  Array of tags associated with this item
+	 * @return  Tag[]  Array of tags associated with this item
 	 *
 	 * @since   __DEPLOY_VERSION
 	 */

@@ -317,7 +317,7 @@ class ContentItem extends Table
 					. $db->quote($this->core_content_item_id) . ', '
 					. $db->quote($this->core_type_id) . ', '
 					. $db->quote($languageId)
-			);
+				);
 		}
 		else
 		{

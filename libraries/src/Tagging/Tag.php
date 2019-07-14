@@ -463,6 +463,7 @@ class Tag extends CMSObject implements NodeInterface
 			->where($query->qn('m.tag_id') . ' = ' . $query->q($this->id));
 
 		$db->setQuery($query);
+
 		return $db->loadResult();
 	}
 }
