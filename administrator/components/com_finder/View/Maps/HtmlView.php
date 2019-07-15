@@ -170,10 +170,10 @@ class HtmlView extends BaseHtmlView
 		);
 		ToolbarHelper::divider();
 
-		if ($canDo->get('core.delete'))	
-		{	
-			ToolbarHelper::deleteList('', 'maps.delete');	
-			ToolbarHelper::divider();	
+		if ($canDo->get('core.delete'))
+		{
+			ToolbarHelper::deleteList('', 'maps.delete');
+			ToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
