@@ -147,21 +147,16 @@ class HtmlView extends BaseHtmlView
 		if ($canDo->get('core.edit.state'))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
-			->text('JTOOLBAR_CHANGE_STATUS')
-			->toggleSplit(false)
-			->icon('fa fa-globe')
-			->buttonClass('btn btn-info')
-			->listCheck(true);
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-globe')
+				->buttonClass('btn btn-info')
+				->listCheck(true);
 
 			$childBar = $dropdown->getChildToolbar();
 
 			$childBar->publish('maps.publish')->listCheck(true);
 			$childBar->unpublish('maps.unpublish')->listCheck(true);
-
-			if ($canDo->get('core.delete'))
-			{
-				$childBar->delete('maps.delete')->listCheck(true);
-			}
 		}
 
 		ToolbarHelper::divider();
@@ -174,6 +169,12 @@ class HtmlView extends BaseHtmlView
 			350
 		);
 		ToolbarHelper::divider();
+
+		if ($canDo->get('core.delete'))	
+		{	
+			ToolbarHelper::deleteList('', 'maps.delete');	
+			ToolbarHelper::divider();	
+		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
