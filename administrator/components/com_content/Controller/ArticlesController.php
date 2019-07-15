@@ -11,11 +11,12 @@ namespace Joomla\Component\Content\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
+use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -32,8 +33,8 @@ class ArticlesController extends AdminController
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CmsApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   Input                $input    Input
 	 *
 	 * @since   3.0
 	 */
@@ -63,7 +64,7 @@ class ArticlesController extends AdminController
 		// Check for request forgeries
 		$this->checkToken();
 
-		$user   = Factory::getUser();
+		$user   = $this->app->getIdentity();
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('featured' => 1, 'unfeatured' => 0);
 		$task   = $this->getTask();
@@ -76,13 +77,13 @@ class ArticlesController extends AdminController
 			{
 				// Prune items that you can't change.
 				unset($ids[$i]);
-				Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'notice');
+				$this->app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'notice');
 			}
 		}
 
 		if (empty($ids))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'error');
+			$this->app->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'error');
 		}
 		else
 		{
@@ -93,7 +94,7 @@ class ArticlesController extends AdminController
 			// Publish the items.
 			if (!$model->featured($ids, $value))
 			{
-				Factory::getApplication()->enqueueMessage($model->getError(), 'error');
+				$this->app->enqueueMessage($model->getError(), 'error');
 			}
 
 			if ($value == 1)

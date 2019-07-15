@@ -1320,6 +1320,8 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		);
 		$this->getDispatcher()->dispatch('onTableAfterCheckin', $event);
 
+		Factory::getApplication()->triggerEvent('onAfterCheckin', array($this->_tbl));
+
 		return true;
 	}
 
@@ -1597,8 +1599,12 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 
 		$subquery->where($quotedOrderingField . ' >= 0');
 		$query->where($quotedOrderingField . ' >= 0');
+		$query->innerJoin('(' . (string) $subquery . ') AS sq ');
 
-		$query->innerJoin('(' . (string) $subquery . ') AS sq ON ' . implode(' AND ', $innerOn));
+		foreach ($innerOn as $key)
+		{
+			$query->where($key);
+		}
 
 		// Pre-processing by observers
 		$event = AbstractEvent::create(
@@ -1981,7 +1987,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 	 */
 	protected function _unlock()
 	{
-		if ($this->_locked) 
+		if ($this->_locked)
 		{
 			$this->_db->unlockTables();
 			$this->_locked = false;

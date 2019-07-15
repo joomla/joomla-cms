@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  AcceptanceTester.Step
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Page\Acceptance\Administrator\ContentListPage;
  *
  * @package  Step\Acceptance\Administrator
  *
- * @since    __DEPLOY_VERSION__
+ * @since    4.0.0
  */
 class Content extends Admin
 {
@@ -25,7 +25,7 @@ class Content extends Admin
 	 *
 	 * @param   string  $title
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function featureArticle($title)
 	{

@@ -9,9 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\String\StringHelper;
 
-$user = JFactory::getUser();
+$user = Factory::getUser();
 
 // Get the mime type class.
 $mime = !empty($this->result->mime) ? 'mime-' . $this->result->mime : null;
@@ -45,13 +49,13 @@ if ($show_description)
 	$space = StringHelper::strpos($full_description, ' ', $start > 0 ? $start - 1 : 0);
 	$start = ($space && $space < $pos) ? $space + 1 : $start;
 
-	$description = JHtml::_('string.truncate', StringHelper::substr($full_description, $start), $desc_length, true);
+	$description = HTMLHelper::_('string.truncate', StringHelper::substr($full_description, $start), $desc_length, true);
 }
 ?>
 <dt class="result-title">
 	<h4 class="result-title <?php echo $mime; ?>">
 		<?php if ($this->result->route) : ?>
-			<a href="<?php echo JRoute::_($this->result->route); ?>">
+			<a href="<?php echo Route::_($this->result->route); ?>">
 				<?php echo $this->result->title; ?>
 			</a>
 		<?php else : ?>
@@ -89,11 +93,11 @@ if ($show_description)
 <?php endif; ?>
 <?php if ($this->result->start_date && $this->params->get('show_date', 1)) : ?>
 	<dd class="result-date small">
-		<?php echo \JHtml::_('date', $this->result->start_date, \JText::_('DATE_FORMAT_LC3')); ?>
+		<?php echo HTMLHelper::_('date', $this->result->start_date, Text::_('DATE_FORMAT_LC3')); ?>
 	</dd>
 <?php endif; ?>
 <?php if ($this->params->get('show_url', 1)) : ?>
 	<dd class="result-url small">
-		<?php echo $this->baseUrl, JRoute::_($this->result->cleanURL); ?>
+		<?php echo $this->baseUrl, Route::_($this->result->cleanURL); ?>
 	</dd>
 <?php endif; ?>

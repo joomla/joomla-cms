@@ -32,7 +32,7 @@ if ($saveOrder && !empty($this->items))
 	HTMLHelper::_('draggablelist.draggable');
 }
 ?>
-<form action="<?php echo Route::_('index.php?option=com_modules'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_modules&view=modules&client_id=' . $clientId); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container" class="j-main-container">
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if ($this->total > 0) : ?>
@@ -116,7 +116,6 @@ if ($saveOrder && !empty($this->items))
 							<?php endif; ?>
 						</td>
 						<td class="text-center">
-							<div class="btn-group">
 							<?php // Check if extension is enabled ?>
 							<?php if ($item->enabled > 0) : ?>
 								<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'modules.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
@@ -126,7 +125,6 @@ if ($saveOrder && !empty($this->items))
 									<span class="icon-ban-circle" aria-hidden="true"></span>
 								</span>
 							<?php endif; ?>
-							</div>
 						</td>
 						<th scope="row" class="has-context">
 							<div>

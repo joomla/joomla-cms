@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 JOOMLA_BASE=$1
+DB_ENGINE=$2
 HEADER=$(cat <<'EOF'
 ......._......................._........
 ......| |.....................| |.......
@@ -42,4 +43,6 @@ cd $JOOMLA_BASE
 apache2ctl -D FOREGROUND &
 google-chrome --version
 chmod 755 libraries/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/linux/chromedriver
-libraries/vendor/bin/robo run:tests
+
+# Executing System tests
+libraries/vendor/bin/robo run:tests --env $DB_ENGINE

@@ -192,7 +192,6 @@ pingExtract = function()
 
 startExtract = function()
 {
-	console.log("started");
 	// Reset variables
 	this.stat_files = 0;
 	this.stat_inbytes = 0;

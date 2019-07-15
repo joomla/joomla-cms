@@ -322,7 +322,7 @@ class Language
 			// Store debug information
 			if ($this->debug)
 			{
-				$value = \JFactory::getApplication()->get('debug_lang_const') == 0 ? $key : $string;
+				$value = Factory::getApplication()->get('debug_lang_const') == 0 ? $key : $string;
 				$string = '**' . $value . '**';
 
 				$caller = $this->getCallerInfo();
@@ -847,6 +847,9 @@ class Language
 				continue;
 			}
 
+			// Remove any escaped double quotes \" from the equation
+			$line = str_replace('\"', '', $line);
+
 			$realNumber = $lineNumber + 1;
 
 			// Check for odd number of double quotes.
@@ -917,7 +920,7 @@ class Language
 	 */
 	protected function getTrace()
 	{
-		return \function_exists('debug_backtrace') ?  debug_backtrace() : [];
+		return \function_exists('debug_backtrace') ? debug_backtrace() : [];
 	}
 
 	/**

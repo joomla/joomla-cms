@@ -62,7 +62,7 @@ class StatsAdminHelper
 
 			$rows[$i]        = new \stdClass;
 			$rows[$i]->title = Text::_('MOD_STATS_CACHING');
-			$rows[$i]->icon  = 'dashboard';
+			$rows[$i]->icon  = 'tachometer-alt';
 			$rows[$i]->data  = $app->get('caching') ? Text::_('JENABLED') : Text::_('JDISABLED');
 			$i++;
 

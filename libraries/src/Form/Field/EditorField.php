@@ -265,7 +265,7 @@ class EditorField extends TextareaField
 	}
 
 	/**
-	 * Method to get a Editor object based on the form field.
+	 * Method to get an Editor object based on the form field.
 	 *
 	 * @return  Editor  The Editor object.
 	 *

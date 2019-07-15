@@ -105,3 +105,31 @@ legend {
 [aria-grabbed='true'] {
   box-shadow: 0 0 2px 1px theme-color("primary");
 }
+
+// Search Input Tooltip
+/* make the containers relative */
+.control-group > .controls {
+  position: relative;
+}
+
+ /* set up hidden tooltip */
+[role="tooltip"]:not(.show) {
+  display: none;
+  padding: 0.25em;
+  margin: 0.25em;
+  color: $white;
+  background: $black;
+  max-width: 100%;
+  z-index: $zindex-tooltip;
+}
+
+ /* reveal associated tooltip on focus */
+:focus + [role="tooltip"],
+:hover + [role="tooltip"] {
+  display: block;
+  position: absolute;
+}
+
+[id="filter[search]-desc"] {
+  bottom: 100%;
+}

@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\Component\Installer\Administrator\Model\DatabaseModel;
 
 /**
@@ -52,11 +51,11 @@ class DatabaseController extends BaseController
 		}
 		else
 		{
-			// Get the model
 			/** @var DatabaseModel $model */
 			$model = $this->getModel('Database');
 			$model->fix($cid);
 
+			/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $updateModel */
 			$updateModel = $this->app->bootComponent('com_joomlaupdate')
 				->getMVCFactory()->createModel('Update', 'Administrator', ['ignore_request' => true]);
 			$updateModel->purge();

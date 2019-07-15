@@ -9,28 +9,22 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 /** @var PrivacyViewDashboard $this */
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/html');
+HTMLHelper::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/html');
 
-JHtml::_('bootstrap.tooltip');
+HTMLHelper::_('bootstrap.tooltip');
 
 $totalRequests  = 0;
 $activeRequests = 0;
 
 ?>
-<?php if (!empty($this->sidebar)) : ?>
-	<div id="j-sidebar-container" class="span2">
-		<?php echo $this->sidebar; ?>
-	</div>
-	<div id="j-main-container" class="span10">
-<?php else : ?>
-	<div id="j-main-container">
-<?php endif; ?>
+<div id="j-main-container">
 	<div class="row-fluid">
 		<div class="span6">
 			<div class="well well-small">
@@ -45,11 +39,11 @@ $activeRequests = 0;
 						<?php foreach ($this->requestCounts as $row) : ?>
 							<div class="row-fluid">
 								<div class="span5">
-									<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&view=requests&filter[request_type]=' . $row->request_type . '&filter[status]=' . $row->status); ?>" data-original-title="<?php echo JText::_('COM_PRIVACY_DASHBOARD_VIEW_REQUESTS'); ?>">
+									<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_privacy&view=requests&filter[request_type]=' . $row->request_type . '&filter[status]=' . $row->status); ?>" data-original-title="<?php echo Text::_('COM_PRIVACY_DASHBOARD_VIEW_REQUESTS'); ?>">
 										<strong><?php echo Text::_('COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_' . $row->request_type); ?></strong>
 									</a>
 								</div>
-								<div class="span5"><?php echo JHtml::_('privacy.statusLabel', $row->status); ?></div>
+								<div class="span5"><?php echo HTMLHelper::_('privacy.statusLabel', $row->status); ?></div>
 								<div class="span2"><span class="badge badge-info"><?php echo $row->count; ?></span></div>
 							</div>
 							<?php if (in_array($row->status, array(0, 1))) : ?>
@@ -82,17 +76,17 @@ $activeRequests = 0;
 					<div class="row-fluid">
 						<div class="span3">
 							<?php if ($this->privacyPolicyInfo['published'] && $this->privacyPolicyInfo['articlePublished']) : ?>
-								<span class="label label-success">
+								<span class="badge badge-success">
 									<span class="icon-checkbox" aria-hidden="true"></span>
 									<?php echo Text::_('JPUBLISHED'); ?>
 								</span>
 							<?php elseif ($this->privacyPolicyInfo['published'] && !$this->privacyPolicyInfo['articlePublished']) : ?>
-								<span class="label label-warning">
+								<span class="badge badge-warning">
 									<span class="icon-warning" aria-hidden="true"></span>
 									<?php echo Text::_('JUNPUBLISHED'); ?>
 								</span>
 							<?php else : ?>
-								<span class="label label-warning">
+								<span class="badge badge-warning">
 									<span class="icon-warning" aria-hidden="true"></span>
 									<?php echo Text::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
 								</span>
@@ -111,17 +105,17 @@ $activeRequests = 0;
 					<div class="row-fluid">
 						<div class="span3">
 							<?php if ($this->requestFormPublished['published'] && $this->requestFormPublished['exists']) : ?>
-								<span class="label label-success">
+								<span class="badge badge-success">
 									<span class="icon-checkbox" aria-hidden="true"></span>
 									<?php echo Text::_('JPUBLISHED'); ?>
 								</span>
 							<?php elseif (!$this->requestFormPublished['published'] && $this->requestFormPublished['exists']) : ?>
-								<span class="label label-warning">
+								<span class="badge badge-warning">
 									<span class="icon-warning" aria-hidden="true"></span>
 									<?php echo Text::_('JUNPUBLISHED'); ?>
 								</span>
 							<?php else : ?>
-								<span class="label label-warning">
+								<span class="badge badge-warning">
 									<span class="icon-warning" aria-hidden="true"></span>
 									<?php echo Text::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
 								</span>
@@ -137,12 +131,12 @@ $activeRequests = 0;
 					<div class="row-fluid">
 						<div class="span3">
 							<?php if ($this->numberOfUrgentRequests === 0) : ?>
-								<span class="label label-success">
+								<span class="badge badge-success">
 									<span class="icon-checkbox" aria-hidden="true"></span>
 									<?php echo Text::_('JNONE'); ?>
 								</span>
 							<?php else : ?>
-								<span class="label label-important">
+								<span class="badge badge-danger">
 									<span class="icon-warning" aria-hidden="true"></span>
 									<?php echo Text::_('WARNING'); ?>
 								</span>
@@ -152,19 +146,19 @@ $activeRequests = 0;
 							<div><?php echo Text::_('COM_PRIVACY_STATUS_CHECK_OUTSTANDING_URGENT_REQUESTS'); ?></div>
 							<small><?php echo Text::plural('COM_PRIVACY_STATUS_CHECK_OUTSTANDING_URGENT_REQUESTS_DESCRIPTION', $this->urgentRequestDays); ?></small>
 							<?php if ($this->numberOfUrgentRequests > 0) : ?>
-								<small><a href="<?php echo Route::_('index.php?option=com_privacy&view=requests&filter[status]=1&list[fullordering]=a.requested_at ASC'); ?>"><?php echo JText::_('COM_PRIVACY_SHOW_URGENT_REQUESTS'); ?></a></small>
+								<small><a href="<?php echo Route::_('index.php?option=com_privacy&view=requests&filter[status]=1&list[fullordering]=a.requested_at ASC'); ?>"><?php echo Text::_('COM_PRIVACY_SHOW_URGENT_REQUESTS'); ?></a></small>
 							<?php endif; ?>
 						</div>
 					</div>
 					<div class="row-fluid">
 						<div class="span3">
 							<?php if ($this->sendMailEnabled) : ?>
-								<span class="label label-success">
+								<span class="badge badge-success">
 									<span class="icon-checkbox" aria-hidden="true"></span>
 									<?php echo Text::_('JENABLED'); ?>
 								</span>
 							<?php else : ?>
-								<span class="label label-important">
+								<span class="badge badge-danger">
 									<span class="icon-warning" aria-hidden="true"></span>
 									<?php echo Text::_('JDISABLED'); ?>
 								</span>

@@ -54,8 +54,8 @@ class PlgAuthenticationCookie extends CMSPlugin
 		$this->loadLanguage();
 
 		return array(
-			JText::_('PLG_AUTHENTICATION_COOKIE') => array(
-				JText::_('PLG_AUTH_COOKIE_PRIVACY_CAPABILITY_COOKIE'),
+			Text::_('PLG_AUTHENTICATION_COOKIE') => array(
+				Text::_('PLG_AUTH_COOKIE_PRIVACY_CAPABILITY_COOKIE'),
 			)
 		);
 	}

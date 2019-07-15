@@ -13,39 +13,38 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
+
+/** @var \Joomla\Component\Banners\Administrator\View\Clients\HtmlView $this */
 
 HTMLHelper::_('behavior.multiselect');
 
-$purchaseTypes = array(
-		'1' => 'UNLIMITED',
-		'2' => 'YEARLY',
-		'3' => 'MONTHLY',
-		'4' => 'WEEKLY',
-		'5' => 'DAILY',
-);
+$purchaseTypes = [
+	'1' => 'UNLIMITED',
+	'2' => 'YEARLY',
+	'3' => 'MONTHLY',
+	'4' => 'WEEKLY',
+	'5' => 'DAILY',
+];
 
 $user       = Factory::getUser();
 $userId     = $user->get('id');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
-$params     = $this->state->params ?? new JObject;
+$params     = $this->state->params ?? new CMSObject;
 ?>
 <form action="<?php echo Route::_('index.php?option=com_banners&view=clients'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
-		<?php if (!empty($this->sidebar)) : ?>
-            <div id="j-sidebar-container" class="col-md-2">
-				<?php echo $this->sidebar; ?>
-            </div>
-		<?php endif; ?>
-        <div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
+		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<?php
 				// Search tools bar
-				echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+				echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]);
 				?>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning">
+					<div class="alert alert-info">
+						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -68,24 +67,24 @@ $params     = $this->state->params ?? new JObject;
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_CONTACT', 'a.contact', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:3%" class="text-center d-none d-md-table-cell">
-                                    <span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?>">
-                                        <span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?></span>
-                                    </span>
+									<span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?>">
+										<span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?></span>
+									</span>
 								</th>
 								<th scope="col" style="width:3%" class="text-center d-none d-md-table-cell">
-                                    <span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?>">
-                                        <span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
-                                    </span>
+									<span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?>">
+										<span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
+									</span>
 								</th>
 								<th scope="col" style="width:3%" class="text-center d-none d-md-table-cell">
-                                    <span class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?>">
-                                        <span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?></span>
-                                    </span>
+									<span class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?>">
+										<span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?></span>
+									</span>
 								</th>
 								<th scope="col" style="width:3%" class="text-center d-none d-md-table-cell">
-                                    <span class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>">
-                                        <span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?></span>
-                                    </span>
+									<span class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>">
+										<span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?></span>
+									</span>
 								</th>
 								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_PURCHASETYPE', 'a.purchase_type', $listDirn, $listOrder); ?>
@@ -107,9 +106,7 @@ $params     = $this->state->params ?? new JObject;
 										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 									</td>
 									<td class="text-center">
-										<div class="btn-group">
-											<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'clients.', $canChange); ?>
-										</div>
+										<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'clients.', $canChange); ?>
 									</td>
 									<th scope="row" class="has-context">
 										<div>
@@ -159,7 +156,7 @@ $params     = $this->state->params ?? new JObject;
 						</tbody>
 					</table>
 
-					<?php // load the pagination. ?>
+					<?php // Load the pagination. ?>
 					<?php echo $this->pagination->getListFooter(); ?>
 
 				<?php endif; ?>
