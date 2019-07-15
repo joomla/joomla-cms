@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         Joomla.overrider.states.refreshed = true;
       }
     }
-    event.currentTarget.classList.remove('invalid');
+    event.srcElement.classList.remove('invalid');
   }, false);
 
   document.getElementById('more-results-button').addEventListener('click', () => {

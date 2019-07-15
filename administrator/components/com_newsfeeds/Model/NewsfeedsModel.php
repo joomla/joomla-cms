@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Methods supporting a list of newsfeed records.
@@ -101,7 +102,7 @@ class NewsfeedsModel extends ListModel
 		}
 
 		// Load the parameters.
-		$params =  ComponentHelper::getParams('com_newsfeeds');
+		$params = ComponentHelper::getParams('com_newsfeeds');
 		$this->setState('params', $params);
 
 		// List state information.
@@ -180,7 +181,7 @@ class NewsfeedsModel extends ListModel
 			->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'));
 
 		// Join over the associations.
-		$assoc =  Associations::isEnabled();
+		$assoc = Associations::isEnabled();
 
 		if ($assoc)
 		{
@@ -287,8 +288,7 @@ class NewsfeedsModel extends ListModel
 		}
 		elseif (is_array($tagId))
 		{
-			ArrayHelper::toInteger($tagId);
-			$tagId = implode(',', $tagId);
+			$tagId = implode(',', ArrayHelper::toInteger($tagId));
 
 			if (!empty($tagId))
 			{

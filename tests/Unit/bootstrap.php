@@ -4,7 +4,7 @@
  *
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  * @link       http://www.phpunit.de/manual/current/en/installation.html
  */
@@ -99,10 +99,14 @@ JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
 // Create the Composer autoloader
 /** @var \Composer\Autoload\ClassLoader $loader */
 $loader = require JPATH_LIBRARIES . '/vendor/autoload.php';
+
+// We need to pull our decorated class loader into memory before unregistering Composer's loader
+class_exists('\\Joomla\\CMS\\Autoload\\ClassLoader');
+
 $loader->unregister();
 
 // Decorate Composer autoloader
-spl_autoload_register([new JClassLoader($loader), 'loadClass'], true, true);
+spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
 
 // Register the class aliases for Framework classes that have replaced their Platform equivilents
 require_once JPATH_LIBRARIES . '/classmap.php';

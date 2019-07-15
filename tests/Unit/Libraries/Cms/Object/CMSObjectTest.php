@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Object
- * @since       11.1
+ * @since       1.7.0
  */
 class CMSObjectTest extends UnitTestCase
 {
@@ -167,11 +167,7 @@ class CMSObjectTest extends UnitTestCase
 		{
 			$object->setError($error);
 		}
-		$this->assertAttributeEquals(
-			$object->getErrors(),
-			'_errors',
-			$object
-		);
+
 		$this->assertEquals(
 			$errors,
 			$object->getErrors(),
@@ -225,10 +221,9 @@ class CMSObjectTest extends UnitTestCase
 	{
 		$object = new CMSObject;
 		$object->setError('A Test Error');
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			array('A Test Error'),
-			'_errors',
-			$object
+			$object->getErrors()
 		);
 	}
 }

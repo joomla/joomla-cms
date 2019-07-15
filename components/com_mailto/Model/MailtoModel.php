@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Site
- * @subpackage  com_users
+ * @subpackage  com_mailto
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -33,7 +33,7 @@ class MailtoModel extends FormModel
 	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  Form|bool  A JForm object on success, false on failure
+	 * @return  Form|boolean  A JForm object on success, false on failure
 	 *
 	 * @since   3.8.9
 	 */
@@ -100,10 +100,11 @@ class MailtoModel extends FormModel
 	{
 		$input = Factory::getApplication()->input;
 
-		$data['emailto']   = $input->get('emailto', '', 'string');
-		$data['sender']    = $input->get('sender', '', 'string');
-		$data['emailfrom'] = $input->get('emailfrom', '', 'string');
-		$data['subject']   = $input->get('subject', '', 'string');
+		$data['emailto']    = $input->get('emailto', '', 'string');
+		$data['sender']     = $input->get('sender', '', 'string');
+		$data['emailfrom']  = $input->get('emailfrom', '', 'string');
+		$data['subject']    = $input->get('subject', '', 'string');
+		$data['consentbox'] = $input->get('consentbox', '', 'string');
 
 		return $data;
 	}

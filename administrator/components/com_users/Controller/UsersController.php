@@ -17,7 +17,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Session\Session;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -79,7 +78,7 @@ class UsersController extends AdminController
 	public function changeBlock()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('block' => 1, 'unblock' => 0);
@@ -126,7 +125,7 @@ class UsersController extends AdminController
 	public function activate()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids = $this->input->get('cid', array(), 'array');
 

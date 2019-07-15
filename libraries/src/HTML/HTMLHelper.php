@@ -305,7 +305,7 @@ abstract class HTMLHelper
 	 *
 	 * @return  mixed   Function result or false on error.
 	 *
-	 * @link    https://secure.php.net/manual/en/function.call-user-func-array.php
+	 * @link    https://www.php.net/manual/en/function.call-user-func-array.php
 	 * @since   1.6
 	 * @throws  \InvalidArgumentException
 	 */
@@ -699,17 +699,10 @@ abstract class HTMLHelper
 	 */
 	public static function script($file, $options = array(), $attribs = array())
 	{
-		$options['framework']     = $options['framework'] ?? false;
 		$options['relative']      = $options['relative'] ?? false;
 		$options['pathOnly']      = $options['pathOnly'] ?? false;
 		$options['detectBrowser'] = $options['detectBrowser'] ?? false;
 		$options['detectDebug']   = $options['detectDebug'] ?? true;
-
-		// Include MooTools framework
-		if ($options['framework'])
-		{
-			static::_('behavior.framework');
-		}
 
 		$includes = static::includeRelativeFiles('js', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
@@ -855,8 +848,7 @@ abstract class HTMLHelper
 	 */
 	public static function date($input = 'now', $format = null, $tz = true, $gregorian = false)
 	{
-		// Get some system objects.
-		$user = Factory::getUser();
+		$app = Factory::getApplication();
 
 		// UTC date converted to user time zone.
 		if ($tz === true)
@@ -865,7 +857,7 @@ abstract class HTMLHelper
 			$date = Factory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the user configuration.
-			$date->setTimezone($user->getTimezone());
+			$date->setTimezone($app->getIdentity()->getTimezone());
 		}
 		// UTC date converted to server time zone.
 		elseif ($tz === false)
@@ -874,7 +866,7 @@ abstract class HTMLHelper
 			$date = Factory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the server configuration.
-			$date->setTimezone(new \DateTimeZone(Factory::getApplication()->get('offset')));
+			$date->setTimezone(new \DateTimeZone($app->get('offset')));
 		}
 		// No date conversion.
 		elseif ($tz === null)

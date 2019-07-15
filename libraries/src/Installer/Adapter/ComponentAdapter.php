@@ -1076,7 +1076,6 @@ class ComponentAdapter extends InstallerAdapter
 			$data['client_id']    = 1;
 			$data['title']        = (string) trim($menuElement);
 			$data['alias']        = (string) $menuElement;
-			$data['link']         = 'index.php?option=' . $option;
 			$data['type']         = 'component';
 			$data['published']    = 1;
 			$data['parent_id']    = 1;
@@ -1085,6 +1084,22 @@ class ComponentAdapter extends InstallerAdapter
 			$data['home']         = 0;
 			$data['path']         = '';
 			$data['params']       = '';
+
+			// Set the menu link
+			$request = [];
+
+			if ((string) $menuElement->attributes()->task)
+			{
+				$request[] = 'task=' . $menuElement->attributes()->task;
+			}
+
+			if ((string) $menuElement->attributes()->view)
+			{
+				$request[] = 'view=' . $menuElement->attributes()->view;
+			}
+
+			$qstring = count($request) ? '&' . implode('&', $request) : '';
+			$data['link'] = 'index.php?option=' . $option . $qstring;
 		}
 		else
 		{
@@ -1289,7 +1304,8 @@ class ComponentAdapter extends InstallerAdapter
 			->where('('
 				. $db->quoteName('link') . ' LIKE ' . $db->quote('index.php?option=' . $option) . ' OR '
 				. $db->quoteName('link') . ' LIKE ' . $db->quote($db->escape('index.php?option=' . $option . '&') . '%', false)
-				. ')');
+				. ')'
+			);
 
 		if (isset($clientId))
 		{
@@ -1512,7 +1528,8 @@ class ComponentAdapter extends InstallerAdapter
 				/** @var  \JTableMenu $temporaryTable */
 				$temporaryTable = Table::getInstance('menu');
 				$temporaryTable->delete($menu_id, true);
-				$temporaryTable->rebuild($data['parent_id']);
+				$temporaryTable->load($parentId);
+				$temporaryTable->rebuild($parentId, $temporaryTable->lft, $temporaryTable->level, $temporaryTable->path);
 
 				// Retry creating the menu item
 				$table->setLocation($parentId, 'last-child');

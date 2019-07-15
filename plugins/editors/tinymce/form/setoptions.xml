@@ -7,6 +7,7 @@
         multiple="true"
         class="access-select"
         labelclass="badge badge-success"
+        layout="joomla.form.field.list-fancy-select"
     />
 
     <field
@@ -89,7 +90,7 @@
         hide_none="1"
         default="en"
         hide_default="1"
-        filter="\.js$"
+        fileFilter="\.js$"
         showon="lang_mode:0"
     />
 
@@ -196,8 +197,8 @@
         default="1"
         showon="resizing:1"
         >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -207,8 +208,8 @@
         class="switcher"
         default="0"
         >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -218,8 +219,8 @@
         class="switcher"
         default="1"
         >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -229,8 +230,8 @@
         class="switcher"
         default="1"
         >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -240,8 +241,8 @@
         class="switcher"
         default="1"
         >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -251,8 +252,8 @@
         class="switcher"
         default="1"
         >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field

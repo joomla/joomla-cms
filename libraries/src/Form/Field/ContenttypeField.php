@@ -82,9 +82,6 @@ class ContenttypeField extends ListField
 			return array();
 		}
 
-		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
-
 		foreach ($options as $option)
 		{
 			// Make up the string from the component sys.ini file
@@ -103,6 +100,9 @@ class ContenttypeField extends ListField
 				$option->text = Text::_($option->string);
 			}
 		}
+
+		// Merge any additional options in the XML definition.
+		$options = array_merge(parent::getOptions(), $options);
 
 		return $options;
 	}

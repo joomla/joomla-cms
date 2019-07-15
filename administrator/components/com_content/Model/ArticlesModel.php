@@ -13,8 +13,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Utilities\ArrayHelper;
@@ -224,8 +226,10 @@ class ArticlesModel extends ListModel
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the parent categories.
-		$query->select('parent.title AS parent_category_title, parent.id AS parent_category_id, 
-								parent.created_user_id AS parent_category_uid, parent.level AS parent_category_level')
+		$query->select(
+			'parent.title AS parent_category_title, parent.id AS parent_category_id,' .
+			'parent.created_user_id AS parent_category_uid, parent.level AS parent_category_level'
+		)
 			->join('LEFT', '#__categories AS parent ON parent.id = c.parent_id');
 
 		// Join over the users for the author.
@@ -235,7 +239,7 @@ class ArticlesModel extends ListModel
 		// Join over the associations.
 		$query->select($query->quoteName('wa.stage_id', 'stage_id'))
 			->innerJoin(
-				$query->quoteName('#__workflow_associations', 'wa') 
+				$query->quoteName('#__workflow_associations', 'wa')
 				. ' ON ' . $query->quoteName('wa.item_id') . ' = ' . $query->quoteName('a.id')
 			);
 
@@ -254,10 +258,10 @@ class ArticlesModel extends ListModel
 				]
 			)
 		)
-		->innerJoin(
-			$query->quoteName('#__workflow_stages', 'ws')
-			. ' ON ' . $query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id')
-		);
+			->innerJoin(
+				$query->quoteName('#__workflow_stages', 'ws')
+				. ' ON ' . $query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id')
+			);
 
 		// Join on voting table
 		$associationsGroupBy = array(
@@ -284,17 +288,21 @@ class ArticlesModel extends ListModel
 			'uc.name',
 			'ag.title',
 			'c.title',
+			'c.created_user_id',
+			'c.level',
 			'ua.name',
 			'ws.title',
 			'ws.workflow_id',
 			'ws.condition',
-			'wa.stage_id'
+			'wa.stage_id',
+			'parent.id',
 		);
 
 		if (PluginHelper::isEnabled('content', 'vote'))
 		{
 			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
-					COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
+				COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count'
+			)
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 
 			array_push($associationsGroupBy, 'v.rating_sum', 'v.rating_count');
@@ -303,9 +311,9 @@ class ArticlesModel extends ListModel
 		// Join over the associations.
 		if (Associations::isEnabled())
 		{
-			$query->select('COUNT(asso2.id)>1 as association')
+			$query->select('CASE WHEN COUNT(asso2.id)>1 THEN 1 ELSE 0 END as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_content.item'))
-				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
+				->join('LEFT', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key'))
 				->group($db->quoteName($associationsGroupBy));
 		}
 
@@ -382,7 +390,7 @@ class ArticlesModel extends ListModel
 		if (count($categoryId))
 		{
 			$categoryId = ArrayHelper::toInteger($categoryId);
-			$categoryTable = \JTable::getInstance('Category', 'JTable');
+			$categoryTable = Table::getInstance('Category', 'JTable');
 			$subCatItemsWhere = array();
 
 			foreach ($categoryId as $filter_catid)
@@ -513,6 +521,11 @@ class ArticlesModel extends ListModel
 
 		$items = $this->getItems();
 
+		if ($items === false)
+		{
+			return false;
+		}
+
 		$ids = ArrayHelper::getColumn($items, 'stage_id');
 		$ids = ArrayHelper::toInteger($ids);
 		$ids = array_unique(array_filter($ids));
@@ -578,7 +591,7 @@ class ArticlesModel extends ListModel
 						// Update the transition text with final state value
 						$conditionName = $workflow->getConditionName($transition['stage_condition']);
 
-						$transitions[$key]['text'] .= ' [' . \JText::_($conditionName) . ']';
+						$transitions[$key]['text'] .= ' [' . Text::_($conditionName) . ']';
 					}
 				}
 

@@ -12,16 +12,14 @@ namespace Joomla\Component\Newsfeeds\Administrator\Field;
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\Field\ListField;
 
 /**
  * News Feed List field.
  *
  * @since  1.6
  */
-class NewsfeedsField extends \JFormFieldList
+class NewsfeedsField extends ListField
 {
 	/**
 	 * The form field type.

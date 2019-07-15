@@ -20,7 +20,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -87,7 +86,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 * @since   3.0
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null,
-		FormFactoryInterface $formFactory = null)
+		FormFactoryInterface $formFactory = null
+	)
 	{
 		parent::__construct($config, $factory, $app, $input);
 
@@ -97,7 +97,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$this->option = ComponentHelper::getComponentName($this, $this->getName());
 		}
 
-		// Guess the \JText message prefix. Defaults to the option.
+		// Guess the \Text message prefix. Defaults to the option.
 		if (empty($this->text_prefix))
 		{
 			$this->text_prefix = strtoupper($this->option);
@@ -298,7 +298,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 */
 	public function cancel($key = null)
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$model = $this->getModel();
 		$table = $model->getTable();
@@ -337,7 +337,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		// Check if there is a return value
 		$return = $this->input->get('return', null, 'base64');
 
-		if (!is_null($return) && \JUri::isInternal(base64_decode($return)))
+		if (!is_null($return) && Uri::isInternal(base64_decode($return)))
 		{
 			$url = base64_decode($return);
 		}
@@ -625,7 +625,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app   = Factory::getApplication();
 		$model = $this->getModel();
@@ -868,7 +868,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	public function reload($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app     = Factory::getApplication();
 		$model   = $this->getModel();
@@ -934,12 +934,12 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function editAssociations()
 	{
 		// Initialise variables.
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$input = $app->input;
 		$model = $this->getModel();
 

@@ -29,7 +29,7 @@ if ($legacy)
 }
 else
 {
-	$icon = $article->state ? 'pencil-square-o' : 'eye-slash';
+	$icon = $article->state ? 'edit' : 'eye-slash';
 
 	if (strtotime($article->publish_up) > strtotime(Factory::getDate())
 		|| ((strtotime($article->publish_down) < strtotime(Factory::getDate())) && $article->publish_down != Factory::getDbo()->getNullDate()))

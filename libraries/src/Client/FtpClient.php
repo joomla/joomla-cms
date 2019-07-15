@@ -28,75 +28,105 @@ use Joomla\CMS\Utility\BufferStreamHandler;
 
 if (!defined('CRLF'))
 {
+	/**
+	 * Constant defining a line break
+	 *
+	 * @var    string
+	 * @since  1.5
+	 */
 	define('CRLF', "\r\n");
 }
 
 if (!defined('FTP_AUTOASCII'))
 {
+	/**
+	 * Constant defining whether the FTP connection type will automatically determine ASCII support based on a file extension
+	 *
+	 * @var    integer
+	 * @since  1.5
+	 */
 	define('FTP_AUTOASCII', -1);
 }
 
 if (!defined('FTP_BINARY'))
 {
+	/**
+	 * Stub of the native FTP_BINARY constant if PHP is running without the ftp extension enabled
+	 *
+	 * @var    integer
+	 * @since  1.5
+	 */
 	define('FTP_BINARY', 1);
 }
 
 if (!defined('FTP_ASCII'))
 {
+	/**
+	 * Stub of the native FTP_ASCII constant if PHP is running without the ftp extension enabled
+	 *
+	 * @var    integer
+	 * @since  1.5
+	 */
 	define('FTP_ASCII', 0);
 }
 
 if (!defined('FTP_NATIVE'))
 {
-	define('FTP_NATIVE', (function_exists('ftp_connect')) ? 1 : 0);
+	/**
+	 * Constant defining whether native FTP support is available on the platform
+	 *
+	 * @var    integer
+	 * @since  1.5
+	 */
+	define('FTP_NATIVE', function_exists('ftp_connect') ? 1 : 0);
 }
 
 /**
  * FTP client class
  *
- * @since  3.0.0
+ * @since  1.5
  */
 class FtpClient
 {
 	/**
 	 * @var    resource  Socket resource
-	 * @since  3.0.0
+	 * @since  1.5
 	 */
 	protected $_conn = null;
 
 	/**
 	 * @var    resource  Data port connection resource
-	 * @since  3.0.0
+	 * @since  1.5
 	 */
 	protected $_dataconn = null;
 
 	/**
 	 * @var    array  Passive connection information
-	 * @since  3.0.0
+	 * @since  1.5
 	 */
 	protected $_pasv = null;
 
 	/**
 	 * @var    string  Response Message
-	 * @since  3.0.0
+	 * @since  1.5
 	 */
 	protected $_response = null;
 
 	/**
 	 * @var    integer  Timeout limit
-	 * @since  3.0.0
+	 * @since  1.5
 	 */
 	protected $_timeout = 15;
 
 	/**
 	 * @var    integer  Transfer Type
-	 * @since  3.0.0
+	 * @since  1.5
 	 */
 	protected $_type = null;
 
 	/**
 	 * @var    array  Array to hold ascii format file extensions
-	 * @since  3.0.0
+	 * @since  1.5
 	 */
 	protected $_autoAscii = array(
 		'asp',
@@ -126,13 +156,13 @@ class FtpClient
 	 * Array to hold native line ending characters
 	 *
 	 * @var    array
-	 * @since  3.0.0
+	 * @since  1.5
 	 */
 	protected $_lineEndings = array('UNIX' => "\n", 'WIN' => "\r\n");
 
 	/**
 	 * @var    array  FtpClient instances container.
-	 * @since  3.0.0
+	 * @since  2.5
 	 */
 	protected static $instances = array();
 
@@ -141,7 +171,7 @@ class FtpClient
 	 *
 	 * @param   array  $options  Associative array of options to set
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	public function __construct(array $options = array())
 	{
@@ -164,7 +194,7 @@ class FtpClient
 	 *
 	 * Closes an existing connection, if we have one
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	public function __destruct()
 	{
@@ -191,7 +221,7 @@ class FtpClient
 	 *
 	 * @return  FtpClient        The FTP Client object.
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	public static function getInstance($host = '127.0.0.1', $port = '21', array $options = array(), $user = null, $pass = null)
 	{
@@ -228,7 +258,7 @@ class FtpClient
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	public function setOptions(array $options)
 	{
@@ -313,7 +343,7 @@ class FtpClient
 	 *
 	 * @return  boolean  True if connected
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	public function isConnected()
 	{
@@ -328,7 +358,7 @@ class FtpClient
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	public function login($user = 'anonymous', $pass = 'jftp@joomla.org')
 	{
@@ -375,7 +405,7 @@ class FtpClient
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	public function quit()
 	{
@@ -399,7 +429,7 @@ class FtpClient
 	 *
 	 * @return  string   Current working directory
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	public function pwd()
 	{
@@ -438,7 +468,7 @@ class FtpClient
 	 *
 	 * @return  string   System identifier string
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	public function syst()
 	{
@@ -490,7 +520,7 @@ class FtpClient
 	 *
 	 * @return  boolean True if successful
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	public function chdir($path)
 	{
@@ -525,7 +555,7 @@ class FtpClient
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	public function reinit()
 	{
@@ -561,7 +591,7 @@ class FtpClient
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	public function rename($from, $to)
 	{
@@ -605,7 +635,7 @@ class FtpClient
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	public function chmod($path, $mode)
 	{
@@ -658,7 +688,7 @@ class FtpClient
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	public function delete($path)
 	{
@@ -699,7 +729,7 @@ class FtpClient
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	public function mkdir($path)
 	{
@@ -734,7 +764,7 @@ class FtpClient
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	public function restart($point)
 	{
@@ -769,7 +799,7 @@ class FtpClient
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	public function create($path)
 	{
@@ -836,7 +866,7 @@ class FtpClient
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	public function read($remote, &$buffer)
 	{
@@ -938,7 +968,7 @@ class FtpClient
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	public function get($local, $remote)
 	{
@@ -1023,7 +1053,7 @@ class FtpClient
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	public function store($local, $remote = null)
 	{
@@ -1138,7 +1168,7 @@ class FtpClient
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	public function write($remote, $buffer)
 	{
@@ -1368,7 +1398,7 @@ class FtpClient
 	 *
 	 * @return  string  Directory listing
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	public function listNames($path = null)
 	{
@@ -1478,7 +1508,7 @@ class FtpClient
 	 *
 	 * @return  mixed  If $type is raw: string Directory listing, otherwise array of string with file-names
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	public function listDetails($path = null, $type = 'all')
 	{
@@ -1702,7 +1732,7 @@ class FtpClient
 	 *
 	 * @return  boolean  True if command executed successfully
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	protected function _putCmd($cmd, $expectedResponse)
 	{
@@ -1730,7 +1760,7 @@ class FtpClient
 	 *
 	 * @return  boolean  True if response code from the server is expected
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	protected function _verifyResponse($expected)
 	{
@@ -1790,7 +1820,7 @@ class FtpClient
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	protected function _passive()
 	{
@@ -1878,7 +1908,7 @@ class FtpClient
 	 *
 	 * @return  integer Transfer-mode for this filetype [FTP_ASCII|FTP_BINARY]
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	protected function _findMode($fileName)
 	{
@@ -1916,7 +1946,7 @@ class FtpClient
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   3.0.0
+	 * @since   1.5
 	 */
 	protected function _mode($mode)
 	{

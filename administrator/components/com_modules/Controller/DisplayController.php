@@ -17,6 +17,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Modules manager master display controller.
@@ -48,12 +49,27 @@ class DisplayController extends BaseController
 		$layout = $this->input->get('layout', 'edit');
 		$id     = $this->input->getInt('id');
 
+		// Verify client
+		$clientId = $this->input->post->getInt('client_id');
+
+		if (!is_null($clientId))
+		{
+			$uri = Uri::getInstance();
+
+			if ((int) $uri->getVar('client_id') !== (int) $clientId)
+			{
+				$this->setRedirect(Route::_('index.php?option=com_modules&view=modules&client_id=' . $clientId, false));
+
+				return false;
+			}
+		}
+
 		// Check for edit form.
 		if ($layout == 'edit' && !$this->checkEditId('com_modules.edit.module', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
-			$this->setRedirect(Route::_('index.php?option=com_modules&view=modules', false));
+			$this->setRedirect(Route::_('index.php?option=com_modules&view=modules&client_id=' . $this->input->getInt('client_id'), false));
 
 			return false;
 		}
@@ -93,10 +109,9 @@ class DisplayController extends BaseController
 			// Check if we have a mod_menu module set to All languages or a mod_menu module for each admin language.
 			if (!in_array('*', $mLanguages) && count($langMissing = array_diff(array_keys($langCodes), $mLanguages)))
 			{
-				$app         = Factory::getApplication();
 				$langMissing = array_intersect_key($langCodes, array_flip($langMissing));
 
-				$app->enqueueMessage(Text::sprintf('JMENU_MULTILANG_WARNING_MISSING_MODULES', implode(', ', $langMissing)), 'warning');
+				$this->app->enqueueMessage(Text::sprintf('JMENU_MULTILANG_WARNING_MISSING_MODULES', implode(', ', $langMissing)), 'warning');
 			}
 		}
 

@@ -10,16 +10,9 @@ namespace Joomla\Component\Users\Site\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Help\Help;
-use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
@@ -72,8 +65,7 @@ class ProfileController extends BaseController
 		// Set the user id for the user to edit in the session.
 		$app->setUserState('com_users.edit.profile.id', $userId);
 
-		// Get the model.
-		/* @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
+		/** @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
 		$model = $this->getModel('Profile', 'Site');
 
 		// Check out the user.
@@ -109,7 +101,7 @@ class ProfileController extends BaseController
 
 		$app    = $this->app;
 
-		/* @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
+		/** @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
 		$model  = $this->getModel('Profile', 'Site');
 		$user   = Factory::getUser();
 		$userId = (int) $user->get('id');
@@ -255,7 +247,7 @@ class ProfileController extends BaseController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function cancel()
 	{

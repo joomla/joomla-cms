@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
@@ -86,7 +87,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		Factory::getApplication()->input->set('hidemainmenu', true);
@@ -145,7 +146,7 @@ class HtmlView extends BaseHtmlView
 		if ($isNew)
 		{
 			ToolbarHelper::apply('group.apply');
-			
+
 			ToolbarHelper::saveGroup(
 				[
 					['save', 'group.save'],

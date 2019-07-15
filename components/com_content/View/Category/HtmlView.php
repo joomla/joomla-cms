@@ -71,6 +71,9 @@ class HtmlView extends CategoryView
 	{
 		parent::commonCategoryDisplay();
 
+		// Flag indicates to not add limitstart=0 to URL
+		$this->pagination->hideEmptyLimitstart = true;
+
 		// Prepare the data
 		// Get the metrics for the structural page layout.
 		$params     = $this->params;

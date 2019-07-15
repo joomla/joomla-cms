@@ -12,6 +12,7 @@
 				description="PLG_SYSTEM_PRIVACYCONSENT_FIELD_DESC"
 				default="0"
 				filter="integer"
+				required="true"
 				>
 				<option value="1">PLG_SYSTEM_PRIVACYCONSENT_OPTION_AGREE</option>
 				<option value="0">JNO</option>

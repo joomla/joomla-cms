@@ -44,7 +44,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
   get value() {return this.choicesInstance.getValue(true); }
 
-  set value($val) { this.choicesInstance.setValueByChoice($val); }
+  set value($val) { this.choicesInstance.setChoiceByValue($val); }
 
   /**
    * Lifecycle
@@ -105,7 +105,8 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     // Handle typing of custom term
     if (this.allowCustom) {
       this.addEventListener('keydown', (event) => {
-        if (event.keyCode !== this.keyCode.ENTER || event.target !== this.choicesInstance.input) {
+        if (event.keyCode !== this.keyCode.ENTER
+            || event.target !== this.choicesInstance.input.element) {
           return;
         }
         event.preventDefault();
@@ -115,7 +116,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
         }
 
         // Make sure nothing is highlighted
-        const highlighted = this.choicesInstance.dropdown.querySelector(`.${this.choicesInstance.config.classNames.highlightedState}`);
+        const highlighted = this.choicesInstance.dropdown.element.querySelector(`.${this.choicesInstance.config.classNames.highlightedState}`);
         if (highlighted) {
           return;
         };
@@ -141,7 +142,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     // Handle remote search
     if (this.remoteSearch && this.url) {
       // Cache existing
-      this.choicesInstance.presetChoices.forEach((choiceItem) => {
+      this.choicesInstance.config.choices.forEach((choiceItem) => {
         this.choicesCache[choiceItem.value] = choiceItem.label;
       });
 
@@ -206,4 +207,84 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     });
   }
 
+  disableAllOptions() {
+    // Choices.js does not offer a public API for accessing the choices
+    // So we have to access the private store => don't eslint
+    // eslint-disable-next-line no-underscore-dangle
+    const { choices } = this.choicesInstance._store;
+
+    choices.forEach((elem, index) => {
+      choices[index].disabled = true;
+      choices[index].selected = false;
+    });
+
+    this.choicesInstance.clearStore();
+
+    this.choicesInstance.setChoices(choices, 'value', 'label', true);
+  }
+
+  enableAllOptions() {
+    // Choices.js does not offer a public API for accessing the choices
+    // So we have to access the private store => don't eslint
+    // eslint-disable-next-line no-underscore-dangle
+    const { choices } = this.choicesInstance._store;
+    const values = this.choicesInstance.getValue(true);
+
+    choices.forEach((elem, index) => {
+      choices[index].disabled = false;
+    });
+
+    this.choicesInstance.clearStore();
+
+    this.choicesInstance.setChoices(choices, 'value', 'label', true);
+
+    this.value = values;
+  }
+
+  disableByValue($val) {
+    // Choices.js does not offer a public API for accessing the choices
+    // So we have to access the private store => don't eslint
+    // eslint-disable-next-line no-underscore-dangle
+    const { choices } = this.choicesInstance._store;
+    const values = this.choicesInstance.getValue(true);
+
+    choices.forEach((elem, index) => {
+      if (elem.value === $val) {
+        choices[index].disabled = true;
+        choices[index].selected = false;
+      }
+    });
+
+    const index = values.indexOf($val);
+
+    if (index > -1) {
+      values.slice(index, 1);
+    }
+
+    this.choicesInstance.clearStore();
+
+    this.choicesInstance.setChoices(choices, 'value', 'label', true);
+
+    this.value = values;
+  }
+
+  enableByValue($val) {
+    // Choices.js does not offer a public API for accessing the choices
+    // So we have to access the private store => don't eslint
+    // eslint-disable-next-line no-underscore-dangle
+    const { choices } = this.choicesInstance._store;
+    const values = this.choicesInstance.getValue(true);
+
+    choices.forEach((elem, index) => {
+      if (elem.value === $val) {
+        choices[index].disabled = false;
+      }
+    });
+
+    this.choicesInstance.clearStore();
+
+    this.choicesInstance.setChoices(choices, 'value', 'label', true);
+
+    this.value = values;
+  }
 });

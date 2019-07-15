@@ -22,7 +22,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Language helper class
  *
- * @since  1.7.0
+ * @since  1.5
  */
 class LanguageHelper
 {
@@ -36,7 +36,7 @@ class LanguageHelper
 	 *
 	 * @return  array  List of system languages
 	 *
-	 * @since   1.7.0
+	 * @since   1.5
 	 */
 	public static function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
 	{
@@ -63,7 +63,7 @@ class LanguageHelper
 	 *
 	 * @return  string  locale or null if not found
 	 *
-	 * @since   1.7.0
+	 * @since   1.5
 	 */
 	public static function detectLanguage()
 	{
@@ -113,7 +113,7 @@ class LanguageHelper
 	 *
 	 * @return  array  An array of published languages
 	 *
-	 * @since   1.7.0
+	 * @since   1.6
 	 */
 	public static function getLanguages($key = 'default')
 	{
@@ -191,7 +191,8 @@ class LanguageHelper
 	 * @since   3.7.0
 	 */
 	public static function getInstalledLanguages($clientId = null, $processMetaData = false, $processManifest = false, $pivot = 'element',
-		$orderField = null, $orderDirection = null)
+		$orderField = null, $orderDirection = null
+	)
 	{
 		static $installedLanguages = null;
 
@@ -346,7 +347,8 @@ class LanguageHelper
 	 * @since   3.7.0
 	 */
 	public static function getContentLanguages($publishedStates = array(1), $checkInstalled = true, $pivot = 'lang_code', $orderField = null,
-		$orderDirection = null)
+		$orderDirection = null
+	)
 	{
 		static $contentLanguages = null;
 
@@ -437,16 +439,10 @@ class LanguageHelper
 			return array();
 		}
 
-		// @deprecated __DEPLOY_VERSION__ Usage of "_QQ_" is deprecated. Use escaped double quotes (\") instead.
-		if (!defined('_QQ_'))
-		{
-			define('_QQ_', '"');
-		}
-
 		// Capture hidden PHP errors from the parsing.
 		if ($debug === true)
 		{
-			// See https://secure.php.net/manual/en/reserved.variables.phperrormsg.php
+			// See https://www.php.net/manual/en/reserved.variables.phperrormsg.php
 			$php_errormsg = null;
 
 			$trackErrors = ini_get('track_errors');
@@ -461,7 +457,6 @@ class LanguageHelper
 		if (!function_exists('parse_ini_file') || $isParseIniFileDisabled)
 		{
 			$contents = file_get_contents($fileName);
-			$contents = str_replace('_QQ_', '"\""', $contents);
 			$strings = @parse_ini_string($contents);
 		}
 		else

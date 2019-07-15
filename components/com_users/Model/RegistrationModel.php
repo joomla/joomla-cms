@@ -70,7 +70,7 @@ class RegistrationModel extends FormModel
 	 *
 	 * @return  mixed   False on failure, id of the user on success
 	 *
-	 * @since   4.0.0
+	 * @since   3.8.13
 	 */
 	public function getUserIdFromToken($token)
 	{
@@ -129,22 +129,18 @@ class RegistrationModel extends FormModel
 		// Admin activation is on and user is verifying their email
 		if (($userParams->get('useractivation') == 2) && !$user->getParam('activate', 0))
 		{
-			$uri = Uri::getInstance();
+			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
 
 			// Compile the admin notification mail values.
 			$data = $user->getProperties();
 			$data['activation'] = ApplicationHelper::getHash(UserHelper::genRandomPassword());
 			$user->set('activation', $data['activation']);
 			$data['siteurl'] = Uri::base();
-			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-			$data['activate'] = $base . Route::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
-
-			// Remove administrator/ from activate URL in case this method is called from admin
-			if ($app->isClient('administrator'))
-			{
-				$adminPos         = strrpos($data['activate'], 'administrator/');
-				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
-			}
+			$data['activate'] = Route::link('site',
+				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
+				false,
+				$linkMode
+			);
 
 			$data['fromname'] = $app->get('fromname');
 			$data['mailfrom'] = $app->get('mailfrom');
@@ -344,8 +340,8 @@ class RegistrationModel extends FormModel
 			// Get the groups the user should be added to after registration.
 			$this->data->groups = array();
 
-			// Get the default new user group, Registered if not specified.
-			$system = $params->get('new_usertype', 2);
+			// Get the default new user group, guest or public group if not specified.
+			$system = $params->get('new_usertype', $params->get('guest_usergroup', 1));
 
 			$this->data->groups[] = $system;
 
@@ -531,16 +527,13 @@ class RegistrationModel extends FormModel
 		if ($useractivation == 2)
 		{
 			// Set the link to confirm the user email.
-			$uri = Uri::getInstance();
-			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-			$data['activate'] = $base . Route::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
+			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
 
-			// Remove administrator/ from activate URL in case this method is called from admin
-			if (Factory::getApplication()->isClient('administrator'))
-			{
-				$adminPos         = strrpos($data['activate'], 'administrator/');
-				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
-			}
+			$data['activate'] = Route::link('site',
+				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
+				false,
+				$linkMode
+			);
 
 			$emailSubject = Text::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
@@ -575,16 +568,13 @@ class RegistrationModel extends FormModel
 		elseif ($useractivation == 1)
 		{
 			// Set the link to activate the user account.
-			$uri = Uri::getInstance();
-			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-			$data['activate'] = $base . Route::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
+			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
 
-			// Remove administrator/ from activate URL in case this method is called from admin
-			if (Factory::getApplication()->isClient('administrator'))
-			{
-				$adminPos         = strrpos($data['activate'], 'administrator/');
-				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
-			}
+			$data['activate'] = Route::link('site',
+				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
+				false,
+				$linkMode
+			);
 
 			$emailSubject = Text::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',

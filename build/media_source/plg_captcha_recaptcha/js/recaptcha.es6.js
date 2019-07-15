@@ -8,15 +8,28 @@ window.JoomlaInitReCaptcha2 = () => {
   'use strict';
 
   const itemNodes = document.getElementsByClassName('g-recaptcha');
+  const optionKeys = ['sitekey', 'theme', 'size', 'tabindex', 'callback', 'expired-callback', 'error-callback'];
   const items = [].slice.call(itemNodes);
-  items.forEach((item) => {
-    const options = item.dataset ? item.dataset : {
-      sitekey: item.getAttribute('data-sitekey'),
-      theme: item.getAttribute('data-theme'),
-      size: item.getAttribute('data-size'),
-    };
 
-    /* global grecaptcha */
-    grecaptcha.render(item, options);
+  items.forEach((item) => {
+    let options = {};
+
+    if (item.dataset) {
+      options = item.dataset;
+    } else {
+      [].slice.call(optionKeys).forEach((optionData) => {
+        const optionKeyFq = `data-${optionData}`;
+        if (item.hasAttribute(optionKeyFq)) {
+          options[optionData] = item.getAttribute(optionKeyFq);
+        }
+      });
+    }
+
+    // Set the widget id of the recaptcha item
+    item.setAttribute(
+      'data-recaptcha-widget-id',
+      /* global grecaptcha */
+      grecaptcha.render(item, options),
+    );
   });
 };

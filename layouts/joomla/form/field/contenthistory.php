@@ -57,13 +57,13 @@ echo HTMLHelper::_(
 		'width'  => '100%',
 		'modalWidth'  => '80',
 		'bodyHeight'  => '60',
-		'footer' => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-			. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+		'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+			. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 	)
 );
 
 ?>
 <button type="button" onclick="document.getElementById('versionsModal').open()" class="btn btn-secondary" data-toggle="modal">
-	<span class="fa fa-code-fork" aria-hidden="true"></span>
+	<span class="fa fa-code-branch" aria-hidden="true"></span>
 	<?php echo $label; ?>
 </button>

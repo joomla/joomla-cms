@@ -3,20 +3,30 @@
  * @package     Joomla.Plugin
  * @subpackage  System.privacyconsent
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\UserHelper;
+use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Utilities\ArrayHelper;
 
 /**
  * An example custom privacyconsent plugin.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PlgSystemPrivacyconsent extends JPlugin
 {
@@ -24,7 +34,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -32,7 +42,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $app;
 
@@ -40,7 +50,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 * Database object.
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $db;
 
@@ -50,34 +60,27 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 * @param   object  &$subject  The object to observe
 	 * @param   array   $config    An array that holds the plugin configuration
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
 
-		JFormHelper::addFieldPath(__DIR__ . '/field');
+		FormHelper::addFieldPath(__DIR__ . '/field');
 	}
 
 	/**
 	 * Adds additional fields to the user editing form
 	 *
-	 * @param   JForm  $form  The form to be altered.
+	 * @param   Form   $form  The form to be altered.
 	 * @param   mixed  $data  The associated data for the form.
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
-	public function onContentPrepareForm($form, $data)
+	public function onContentPrepareForm(Form $form, $data)
 	{
-		if (!($form instanceof JForm))
-		{
-			$this->_subject->setError('JERROR_NOT_A_FORM');
-
-			return false;
-		}
-
 		// Check we are manipulating a valid form - we only display this on user registration form and user profile form.
 		$name = $form->getName();
 
@@ -98,7 +101,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 		}
 
 		// Add the privacy policy fields to the form.
-		JForm::addFormPath(__DIR__ . '/privacyconsent');
+		Form::addFormPath(__DIR__ . '/privacyconsent');
 		$form->loadFile('privacyconsent');
 
 		$privacyArticleId = $this->getPrivacyArticleId();
@@ -118,7 +121,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  InvalidArgumentException on missing required data.
 	 */
 	public function onUserBeforeSave($user, $isNew, $data)
@@ -161,7 +164,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onUserAfterSave($data, $isNew, $result, $error)
 	{
@@ -199,7 +202,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 			// Create the user note
 			$userNote = (object) array(
 				'user_id' => $userId,
-				'subject' => Text::_('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'),
+				'subject' => 'PLG_SYSTEM_PRIVACYCONSENT_SUBJECT',
 				'body'    => Text::sprintf('PLG_SYSTEM_PRIVACYCONSENT_BODY', $ip, $userAgent),
 				'created' => Factory::getDate()->toSql(),
 			);
@@ -212,6 +215,24 @@ class PlgSystemPrivacyconsent extends JPlugin
 			{
 				// Do nothing if the save fails
 			}
+
+			$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
+
+			$message = array(
+				'action'      => 'consent',
+				'id'          => $userId,
+				'title'       => $data['name'],
+				'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $userId,
+				'userid'      => $userId,
+				'username'    => $data['username'],
+				'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
+			);
+
+			BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+
+			/** @var ActionlogsModelActionlog $model */
+			$model = BaseDatabaseModel::getInstance('Actionlog', 'ActionlogsModel');
+			$model->addLog(array($message), 'PLG_SYSTEM_PRIVACYCONSENT_CONSENT', 'plg_system_privacyconsent', $userId);
 		}
 
 		return true;
@@ -228,7 +249,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onUserAfterDelete($user, $success, $msg)
 	{
@@ -267,7 +288,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onAfterRoute()
 	{
@@ -300,7 +321,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 			 * If user is already on edit profile screen or view privacy article
 			 * or press update/apply button, or logout, do nothing to avoid infinite redirect
 			 */
-			if ($option == 'com_users' && in_array($task, array('profile.save', 'profile.apply', 'user.logout'))
+			if ($option == 'com_users' && in_array($task, array('profile.save', 'profile.apply', 'user.logout', 'user.menulogout'))
 				|| ($option == 'com_content' && $view == 'article' && $id == $privacyArticleId)
 				|| ($option == 'com_users' && $view == 'profile' && $layout == 'edit'))
 			{
@@ -310,18 +331,18 @@ class PlgSystemPrivacyconsent extends JPlugin
 			// Redirect to com_users profile edit
 			$this->app->enqueueMessage($this->getRedirectMessage(), 'notice');
 			$link = 'index.php?option=com_users&view=profile&layout=edit';
-			$this->app->redirect(\JRoute::_($link, false));
+			$this->app->redirect(Route::_($link, false));
 		}
 	}
 
 	/**
 	 * Event to specify whether a privacy policy has been published.
 	 *
-	 * @param   array  &$policy  The privacy policy status data, passed by reference, with keys "published" and "editLink"
+	 * @param   array  &$policy  The privacy policy status data, passed by reference, with keys "published", "editLink" and "articlePublished".
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onPrivacyCheckPrivacyPolicyPublished(&$policy)
 	{
@@ -338,8 +359,29 @@ class PlgSystemPrivacyconsent extends JPlugin
 			return;
 		}
 
+		// Check if the article exists in database and is published
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName(array('id', 'state')))
+			->from($this->db->quoteName('#__content'))
+			->where($this->db->quoteName('id') . ' = ' . (int) $articleId);
+		$this->db->setQuery($query);
+
+		$article = $this->db->loadObject();
+
+		// Check if the article exists
+		if (!$article)
+		{
+			return;
+		}
+
+		// Check if the article is published
+		if ($article->state == 1)
+		{
+			$policy['articlePublished'] = true;
+		}
+
 		$policy['published'] = true;
-		$policy['editLink']  = JRoute::_('index.php?option=com_content&task=article.edit&id=' . $articleId);
+		$policy['editLink']  = Route::_('index.php?option=com_content&task=article.edit&id=' . $articleId);
 	}
 
 	/**
@@ -347,7 +389,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  string  redirect message
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function getRedirectMessage()
 	{
@@ -364,18 +406,20 @@ class PlgSystemPrivacyconsent extends JPlugin
 	/**
 	 * Method to check if the given user has consented yet
 	 *
-	 * @param   int  $userId  ID of uer to check
+	 * @param   integer  $userId  ID of uer to check
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function isUserConsented($userId)
 	{
 		$query = $this->db->getQuery(true);
 		$query->select('COUNT(*)')
 			->from('#__privacy_consents')
-			->where('user_id = ' . (int) $userId);
+			->where('user_id = ' . (int) $userId)
+			->where('subject = ' . $this->db->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
+			->where('state = 1');
 		$this->db->setQuery($query);
 
 		return (int) $this->db->loadResult() > 0;
@@ -386,15 +430,17 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 * current language, ID of the associlated article will be returned
 	 *
 	 * @return  integer
+	 *
+	 * @since   3.9.0
 	 */
 	private function getPrivacyArticleId()
 	{
 		$privacyArticleId = $this->params->get('privacy_article');
 
-		if ($privacyArticleId > 0 && JLanguageAssociations::isEnabled())
+		if ($privacyArticleId > 0 && Associations::isEnabled())
 		{
-			$privacyAssociated = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $privacyArticleId);
-			$currentLang = JFactory::getLanguage()->getTag();
+			$privacyAssociated = Associations::getAssociations('com_content', '#__content', 'com_content.item', $privacyArticleId);
+			$currentLang = Factory::getLanguage()->getTag();
 
 			if (isset($privacyAssociated[$currentLang]))
 			{
@@ -410,7 +456,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onAfterRender()
 	{
@@ -484,7 +530,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 		}
 
 		// Delete the expired privacy consents
-		$this->deleteExpiredConsents();
+		$this->invalidateExpiredConsents();
 
 		// Remind for privacy consents near to expire
 		$this->remindExpiringConsents();
@@ -496,14 +542,14 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function remindExpiringConsents()
 	{
 		// Load the parameters.
 		$expire = (int) $this->params->get('consentexpiration', 365);
 		$remind = (int) $this->params->get('remind', 30);
-		$now    = JFactory::getDate()->toSql();
+		$now    = Factory::getDate()->toSql();
 		$period = '-' . ($expire - $remind);
 
 		$db    = $this->db;
@@ -511,40 +557,41 @@ class PlgSystemPrivacyconsent extends JPlugin
 			->select($db->quoteName(array('r.id', 'r.user_id', 'u.email')))
 			->from($db->quoteName('#__privacy_consents', 'r'))
 			->leftJoin($db->quoteName('#__users', 'u') . ' ON u.id = r.user_id')
+			->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
 			->where($db->quoteName('remind') . ' = 0');
-		$query->where($query->dateAdd($now, $period, 'DAY') . ' > ' . $db->quoteName('created'));
+		$query->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('created'));
 
 		try
 		{
 			$users = $db->setQuery($query)->loadObjectList();
 		}
-		catch (JDatabaseException $exception)
+		catch (ExecutionFailureException $exception)
 		{
 			return false;
 		}
 
-		$app      = JFactory::getApplication();
+		$app      = Factory::getApplication();
 		$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
 
 		foreach ($users as $user)
 		{
-			$token       = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
-			$hashedToken = JUserHelper::hashPassword($token);
+			$token       = ApplicationHelper::getHash(UserHelper::genRandomPassword());
+			$hashedToken = UserHelper::hashPassword($token);
 
 			// The mail
 			try
 			{
 				$substitutions = array(
 					'[SITENAME]' => $app->get('sitename'),
-					'[URL]'      => JUri::root(),
-					'[TOKENURL]' => JRoute::link('site', 'index.php?option=com_privacy&view=remind&remind_token=' . $token, false, $linkMode),
-					'[FORMURL]'  => JRoute::link('site', 'index.php?option=com_privacy&view=remind', false, $linkMode),
+					'[URL]'      => Uri::root(),
+					'[TOKENURL]' => Route::link('site', 'index.php?option=com_privacy&view=remind&remind_token=' . $token, false, $linkMode),
+					'[FORMURL]'  => Route::link('site', 'index.php?option=com_privacy&view=remind', false, $linkMode),
 					'[TOKEN]'    => $token,
 					'\\n'        => "\n",
 				);
 
-				$emailSubject = JText::_('PLG_SYSTEM_PRIVACYCONSENT_EMAIL_REMIND_SUBJECT');
-				$emailBody = JText::_('PLG_SYSTEM_PRIVACYCONSENT_EMAIL_REMIND_BODY');
+				$emailSubject = Text::_('PLG_SYSTEM_PRIVACYCONSENT_EMAIL_REMIND_SUBJECT');
+				$emailBody = Text::_('PLG_SYSTEM_PRIVACYCONSENT_EMAIL_REMIND_BODY');
 
 				foreach ($substitutions as $k => $v)
 				{
@@ -552,7 +599,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 					$emailBody    = str_replace($k, $v, $emailBody);
 				}
 
-				$mailer = JFactory::getMailer();
+				$mailer = Factory::getMailer();
 				$mailer->setSubject($emailSubject);
 				$mailer->setBody($emailBody);
 				$mailer->addRecipient($user->email);
@@ -573,7 +620,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 					->update($db->quoteName('#__privacy_consents'))
 					->set($db->quoteName('remind') . ' = 1 ')
 					->set($db->quoteName('token') . ' = ' . $db->quote($hashedToken))
-					->where($db->quoteName('id') . ' = ' . $db->quote($user->id));
+					->where($db->quoteName('id') . ' = ' . (int) $user->id);
 				$db->setQuery($query);
 
 				try
@@ -584,8 +631,6 @@ class PlgSystemPrivacyconsent extends JPlugin
 				{
 					return false;
 				}
-
-				return true;
 			}
 			catch (phpmailerException $exception)
 			{
@@ -599,20 +644,22 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
-	private function deleteExpiredConsents()
+	private function invalidateExpiredConsents()
 	{
 		// Load the parameters.
 		$expire = (int) $this->params->get('consentexpiration', 365);
-		$now    = JFactory::getDate()->toSql();
+		$now    = Factory::getDate()->toSql();
 		$period = '-' . $expire;
 
 		$db    = $this->db;
-		$query = $db->getQuery(true)
-			->select($db->quoteName(array('id', 'user_id')))
-			->from($db->quoteName('#__privacy_consents'));
-		$query->where($query->dateAdd($now, $period, 'DAY') . ' > ' . $db->quoteName('created'));
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName(array('id', 'user_id')))
+			->from($db->quoteName('#__privacy_consents'))
+			->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('created'))
+			->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
+			->where($db->quoteName('state') . ' = 1');
 		$db->setQuery($query);
 
 		try
@@ -631,16 +678,17 @@ class PlgSystemPrivacyconsent extends JPlugin
 		}
 
 		// Push a notification to the site's super users
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/models', 'MessagesModel');
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/tables');
+		BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/models', 'MessagesModel');
+		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/tables');
 		/** @var MessagesModelMessage $messageModel */
-		$messageModel = JModelLegacy::getInstance('Message', 'MessagesModel');
+		$messageModel = BaseDatabaseModel::getInstance('Message', 'MessagesModel');
 
 		foreach ($users as $user)
 		{
 			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__privacy_consents'));
-			$query->where($db->quoteName('id') . ' = ' . $user->id);
+				->update($db->quoteName('#__privacy_consents'))
+				->set('state = 0')
+				->where($db->quoteName('id') . ' = ' . (int) $user->id);
 			$db->setQuery($query);
 
 			try
@@ -653,8 +701,8 @@ class PlgSystemPrivacyconsent extends JPlugin
 			}
 
 			$messageModel->notifySuperUsers(
-				JText::_('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_SUBJECT'),
-				JText::sprintf('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_MESSAGE', $user->user_id)
+				Text::_('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_SUBJECT'),
+				Text::sprintf('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_MESSAGE', $user->user_id)
 			);
 		}
 
@@ -668,11 +716,11 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    3.9.0
 	 */
 	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
 	{
-		$conf = JFactory::getConfig();
+		$conf = Factory::getConfig();
 
 		foreach ($clearGroups as $group)
 		{

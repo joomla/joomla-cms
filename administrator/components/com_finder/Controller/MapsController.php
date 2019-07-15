@@ -27,7 +27,7 @@ class MapsController extends AdminController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \JModelLegacy  The model.
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
 	 *
 	 * @since   1.6
 	 */

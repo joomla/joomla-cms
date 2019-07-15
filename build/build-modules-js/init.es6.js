@@ -226,9 +226,9 @@ const copyFiles = (options) => {
       Fs.writeFileSync(`${RootPath}/plugins/editors/tinymce/tinymce.xml`, tinyXml, { encoding: 'UTF-8' });
 
       // Remove that sourcemap...
-      let tinyWrongMap = Fs.readFileSync(`${RootPath}/media/vendor/tinymce/skins/lightgray/skin.min.css`, { encoding: 'UTF-8' });
+      let tinyWrongMap = Fs.readFileSync(`${RootPath}/media/vendor/tinymce/skins/ui/oxide/skin.min.css`, { encoding: 'UTF-8' });
       tinyWrongMap = tinyWrongMap.replace('/*# sourceMappingURL=skin.min.css.map */', '');
-      Fs.writeFileSync(`${RootPath}/media/vendor/tinymce/skins/lightgray/skin.min.css`, tinyWrongMap, { encoding: 'UTF-8' });
+      Fs.writeFileSync(`${RootPath}/media/vendor/tinymce/skins/ui/oxide/skin.min.css`, tinyWrongMap, { encoding: 'UTF-8' });
     } else {
       ['js', 'css', 'filesExtra'].forEach((type) => {
         if (!vendor[type]) return;

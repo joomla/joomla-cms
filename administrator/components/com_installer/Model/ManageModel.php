@@ -18,6 +18,7 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
 use Joomla\Component\Templates\Administrator\Table\StyleTable;
 use Joomla\Database\DatabaseQuery;
@@ -152,6 +153,11 @@ class ManageModel extends InstallerModel
 			{
 				$table->enabled = $value;
 			}
+
+			$context = $this->option . '.' . $this->name;
+
+			PluginHelper::importPlugin('extension');
+			Factory::getApplication()->triggerEvent('onExtensionChangeState', array($context, $eid, $value));
 
 			if (!$table->store())
 			{
@@ -394,7 +400,7 @@ class ManageModel extends InstallerModel
 	 *
 	 * @return  string  The output to show in the modal.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function loadChangelog($eid, $source)
 	{
@@ -406,6 +412,7 @@ class ManageModel extends InstallerModel
 					array(
 						'extensions.element',
 						'extensions.type',
+						'extensions.folder',
 						'extensions.changelogurl',
 						'extensions.manifest_cache',
 						'extensions.client_id'

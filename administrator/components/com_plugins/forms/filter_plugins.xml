@@ -29,9 +29,10 @@
 
 		<field
 			name="element"
-			type="pluginelement"
+			type="PluginElement"
+			label="COM_PLUGINS_OPTION_ELEMENT"
 			onchange="this.form.submit();"
-		>
+			>
 			<option value="">COM_PLUGINS_OPTION_ELEMENT</option>
 		</field>
 

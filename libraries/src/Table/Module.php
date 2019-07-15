@@ -27,7 +27,7 @@ class Module extends Table
 	 * Indicates that columns fully support the NULL value in the database
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $_supportNullValue = true;
 
@@ -154,6 +154,14 @@ class Module extends Table
 		if (!$this->publish_down)
 		{
 			$this->publish_down = null;
+		}
+
+		// Prevent to save too large content > 65535
+		if ((strlen($this->content) > 65535) || (strlen($this->params) > 65535))
+		{
+			$this->setError(Text::_('COM_MODULES_FIELD_CONTENT_TOO_LARGE'));
+
+			return false;
 		}
 
 		// Check the publish down date is not earlier than publish up.

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,13 +21,13 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Feed
- * @since       12.3
+ * @since       3.1.4
  */
 class FeedTest extends UnitTestCase
 {
 	/**
 	 * @var    Feed
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	private $feed;
 
@@ -36,9 +36,9 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
-	protected function setUp()
+	protected function setUp():void
 	{
 		parent::setUp();
 
@@ -50,9 +50,9 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
-	protected function tearDown()
+	protected function tearDown():void
 	{
 		unset($this->feed);
 
@@ -64,7 +64,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMagicGetterWithDefaultProperty()
 	{
@@ -77,7 +77,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMagicGetterWithUnknownProperty()
 	{
@@ -89,7 +89,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMagicGetterWithValue()
 	{
@@ -104,7 +104,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetUpdatedDateWithString()
 	{
@@ -118,7 +118,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMagicSetUpdatedDateWithDateObject()
 	{
@@ -135,7 +135,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetAuthorWithNameAndEmail()
 	{
@@ -155,7 +155,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetAuthorWithPerson()
 	{
@@ -176,11 +176,11 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
-	 * @since              12.3
+	 * @since              3.1.4
 	 */
 	public function testSetAuthorWithInvalidAuthor()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$this->feed->author = 'Jack Sprat';
 	}
 
@@ -189,11 +189,11 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
-	 * @since              12.3
+	 * @since              3.1.4
 	 */
 	public function testSetCategoriesWithInvalidProperty()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$this->feed->categories = 'Can\'t touch this';
 	}
 
@@ -202,11 +202,11 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
-	 * @since              12.3
+	 * @since              3.1.4
 	 */
 	public function testSetContributorsWithInvalidProperty()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$this->feed->contributors = 'Can\'t touch this';
 	}
 
@@ -215,7 +215,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMagicSetter()
 	{
@@ -230,7 +230,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testAddSingleCategory()
 	{
@@ -249,7 +249,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testAddMultipleCategories()
 	{
@@ -278,7 +278,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testAddNewContributor()
 	{
@@ -298,7 +298,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testAddExistingContributor()
 	{
@@ -319,7 +319,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testAddMultipleContributors()
 	{
@@ -348,7 +348,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testAddNewEntry()
 	{
@@ -365,7 +365,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testAddExistingEntry()
 	{
@@ -383,7 +383,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testAddMultipleEntries()
 	{
@@ -404,7 +404,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testOffsetExists()
 	{
@@ -420,7 +420,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testOffsetGet()
 	{
@@ -436,11 +436,11 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
-	 * @since              12.3
+	 * @since              3.1.4
 	 */
 	public function testOffsetSetWithString()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$this->feed->offsetSet(1, 'My string');
 	}
 
@@ -449,7 +449,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testOffsetSet()
 	{
@@ -466,7 +466,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testOffsetUnset()
 	{
@@ -483,7 +483,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testRemoveCategory()
 	{
@@ -503,7 +503,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testRemoveContributor()
 	{
@@ -523,7 +523,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testRemoveEntry()
 	{

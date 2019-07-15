@@ -317,11 +317,14 @@ class Language
 
 		if (isset($this->strings[$key]))
 		{
-			$string = $this->debug ? '**' . $this->strings[$key] . '**' : $this->strings[$key];
+			$string = $this->strings[$key];
 
 			// Store debug information
 			if ($this->debug)
 			{
+				$value = Factory::getApplication()->get('debug_lang_const') == 0 ? $key : $string;
+				$string = '**' . $value . '**';
+
 				$caller = $this->getCallerInfo();
 
 				if (!array_key_exists($key, $this->used))
@@ -844,16 +847,10 @@ class Language
 				continue;
 			}
 
-			// Remove the "_QQ_" from the equation
-			$line = str_replace('"_QQ_"', '', $line);
-			$realNumber = $lineNumber + 1;
+			// Remove any escaped double quotes \" from the equation
+			$line = str_replace('\"', '', $line);
 
-			// Check for any incorrect uses of _QQ_.
-			if (strpos($line, '_QQ_') !== false)
-			{
-				$errors[] = $realNumber;
-				continue;
-			}
+			$realNumber = $lineNumber + 1;
 
 			// Check for odd number of double quotes.
 			if (substr_count($line, '"') % 2 != 0)
@@ -923,7 +920,7 @@ class Language
 	 */
 	protected function getTrace()
 	{
-		return \function_exists('debug_backtrace') ?  debug_backtrace() : [];
+		return \function_exists('debug_backtrace') ? debug_backtrace() : [];
 	}
 
 	/**

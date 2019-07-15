@@ -110,7 +110,6 @@ abstract class ModuleHelper
 			{
 				$result[0] = static::getModule('mod_' . $position);
 				$result[0]->title = $position;
-				$result[0]->content = $position;
 				$result[0]->position = $position;
 			}
 		}
@@ -474,8 +473,6 @@ abstract class ModuleHelper
 	 * Caching modes:
 	 * To be set in XML:
 	 * 'static'      One cache file for all pages with the same module parameters
-	 * 'oldstatic'   1.5 definition of module caching, one cache file for all pages
-	 *               with the same module id and user aid,
 	 * 'itemid'      Changes on itemid change, to be called from inside the module:
 	 * 'safeuri'     Id created from $cacheparams->modeparams array,
 	 * 'id'          Module sets own cache id's
@@ -574,17 +571,6 @@ abstract class ModuleHelper
 				);
 				break;
 
-			// Provided for backward compatibility, not really useful.
-			case 'oldstatic':
-				$ret = $cache->get(
-					array($cacheparams->class, $cacheparams->method),
-					$cacheparams->methodparams,
-					$module->id . $view_levels,
-					$wrkarounds,
-					$wrkaroundoptions
-				);
-				break;
-
 			case 'itemid':
 			default:
 				$ret = $cache->get(
@@ -626,7 +612,7 @@ abstract class ModuleHelper
 	 *
 	 * @return  \stdClass  The Module object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function &getModuleById($id)
 	{

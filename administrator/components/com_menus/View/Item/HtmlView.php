@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -96,7 +97,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// If we are forcing a language in modal (used for associations).
@@ -130,6 +131,7 @@ class HtmlView extends BaseHtmlView
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo      = $this->canDo;
+		$clientId   = $this->state->get('item.client_id', 0);
 
 		ToolbarHelper::title(Text::_($isNew ? 'COM_MENUS_VIEW_NEW_ITEM_TITLE' : 'COM_MENUS_VIEW_EDIT_ITEM_TITLE'), 'list menu-add');
 
@@ -171,7 +173,7 @@ class HtmlView extends BaseHtmlView
 			'btn-success'
 		);
 
-		if (!$isNew && Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
+		if (!$isNew && Associations::isEnabled() && ComponentHelper::isEnabled('com_associations') && $clientId != 1)
 		{
 			ToolbarHelper::custom('item.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
 		}

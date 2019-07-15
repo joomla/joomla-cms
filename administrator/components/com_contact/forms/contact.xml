@@ -32,7 +32,6 @@
 			name="version_note"
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-			labelclass="control-label"
 			size="45"
 			maxlength="255"
 		/>
@@ -358,6 +357,7 @@
 			label="COM_CONTACT_FIELD_INFORMATION_WEBPAGE_LABEL"
 			size="30"
 			filter="url"
+			validate="url"
 		/>
 
 		<field
@@ -408,17 +408,6 @@
 			</field>
 
 			<field
-				name="presentation_style"
-				type="list"
-				label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
-				useglobal="true"
-				>
-				<option value="sliders">COM_CONTACT_FIELD_VALUE_SLIDERS</option>
-				<option value="tabs">COM_CONTACT_FIELD_VALUE_TABS</option>
-				<option value="plain">COM_CONTACT_FIELD_VALUE_PLAIN</option>
-			</field>
-
-			<field
 				name="show_tags"
 				type="list"
 				label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
@@ -432,7 +421,7 @@
 				name="show_info"
 				type="list"
 				label="COM_CONTACT_FIELD_SHOW_INFO_LABEL"
-				class="chzn-color"
+				class="custom-select-color"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -476,7 +465,7 @@
 				name="add_mailto_link"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_LABEL"
-				class="chzn-color"
+				class="custom-select-color"
 				useglobal="true"
 				showon="show_info:1"
 				>
@@ -587,7 +576,7 @@
 				name="show_image"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_LABEL"
-				class="chzn-color"
+				class="custom-select-color"
 				useglobal="true"
 				showon="show_info:1"
 				>
@@ -599,7 +588,7 @@
 				name="show_misc"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
-				class="chzn-color"
+				class="custom-select-color"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -693,6 +682,7 @@
 				label="COM_CONTACT_FIELD_LINKA_LABEL"
 				size="30"
 				filter="url"
+				validate="url"
 			/>
 
 			<field
@@ -708,6 +698,7 @@
 				label="COM_CONTACT_FIELD_LINKB_LABEL"
 				size="30"
 				filter="url"
+				validate="url"
 			/>
 
 			<field
@@ -723,6 +714,7 @@
 				label="COM_CONTACT_FIELD_LINKC_LABEL"
 				size="30"
 				filter="url"
+				validate="url"
 			/>
 
 			<field
@@ -738,6 +730,7 @@
 				label="COM_CONTACT_FIELD_LINKD_LABEL"
 				size="30"
 				filter="url"
+				validate="url"
 			/>
 
 			<field
@@ -753,6 +746,7 @@
 				label="COM_CONTACT_FIELD_LINKE_LABEL"
 				size="30"
 				filter="url"
+				validate="url"
 			/>
 
 			<field
@@ -787,33 +781,6 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-
-			<field
-				name="banned_email"
-				type="textarea"
-				label="COM_CONTACT_FIELD_EMAIL_BANNED_EMAIL_LABEL"
-				description="COM_CONTACT_FIELD_EMAIL_BANNED_EMAIL_DESC"
-				rows="3"
-				cols="30"
-			/>
-
-			<field
-				name="banned_subject"
-				type="textarea"
-				label="COM_CONTACT_FIELD_EMAIL_BANNED_SUBJECT_LABEL"
-				description="COM_CONTACT_FIELD_EMAIL_BANNED_SUBJECT_DESC"
-				rows="3"
-				cols="30"
-			/>
-
-			<field
-				name="banned_text"
-				type="textarea"
-				label="COM_CONTACT_FIELD_EMAIL_BANNED_TEXT_LABEL"
-				description="COM_CONTACT_FIELD_EMAIL_BANNED_TEXT_DESC"
-				rows="3"
-				cols="30"
-			/>
 
 			<field
 				name="validate_session"

@@ -3,18 +3,22 @@
 	<name>plg_content_confirmconsent</name>
 	<author>Joomla! Project</author>
 	<creationDate>May 2018</creationDate>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>__DEPLOY_VERSION__</version>
+	<version>3.9.0</version>
 	<description>PLG_CONTENT_CONFIRMCONSENT_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="confirmconsent">confirmconsent.php</filename>
 	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_content_confirmconsent.ini</language>
+		<language tag="en-GB">en-GB.plg_content_confirmconsent.sys.ini</language>
+	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="basic" addfieldpath="/administrator/components/com_content/models/fields">
+			<fieldset name="basic" addfieldprefix="Joomla\Component\Content\Administrator\Field">
 				<field
 					name="consentbox_text"
 					type="textarea"

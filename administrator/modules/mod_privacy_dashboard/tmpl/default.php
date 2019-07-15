@@ -3,49 +3,63 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_privacy_dashboard
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.tooltip');
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 $totalRequests  = 0;
 $activeRequests = 0;
 
 ?>
-<div class="row-striped">
-	<?php if (count($list)) : ?>
-		<div class="row-fluid">
-			<div class="span5"><strong><?php echo JText::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_TYPE'); ?></strong></div>
-			<div class="span5"><strong><?php echo JText::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_STATUS'); ?></strong></div>
-			<div class="span2"><strong><?php echo JText::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_COUNT'); ?></strong></div>
-		</div>
-		<?php foreach ($list as $row) : ?>
-			<div class="row-fluid">
-				<div class="span5">
-					<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&view=requests&filter[request_type]=' . $row->request_type . '&filter[status]=' . $row->status); ?>" data-original-title="<?php echo JText::_('COM_PRIVACY_DASHBOARD_VIEW_REQUESTS'); ?>">
-						<strong><?php echo JText::_('COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_' . $row->request_type); ?></strong>
+
+<table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
+	<caption class="sr-only"><?php echo $module->title; ?></caption>
+	<thead>
+		<tr>
+			<th scope="col" style="width:40%"><?php echo Text::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_TYPE'); ?></th>
+			<th scope="col" style="width:40%"><?php echo Text::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_STATUS'); ?></th>
+			<th scope="col" style="width:20%"><?php echo Text::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_COUNT'); ?></th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php if (count($list)) : ?>
+			<?php foreach ($list as $i => $item) : ?>
+			<tr>
+				<th scope="row">
+					<a href="<?php echo Route::_('index.php?option=com_privacy&view=requests&filter[request_type]=' . $item->request_type . '&filter[status]=' . $item->status); ?>">
+						<?php echo Text::_('COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_' . $item->request_type); ?>
 					</a>
-				</div>
-				<div class="span5"><?php echo JHtml::_('PrivacyHtml.helper.statusLabel', $row->status); ?></div>
-				<div class="span2"><span class="badge badge-info"><?php echo $row->count; ?></span></div>
-			</div>
-			<?php if (in_array($row->status, array(0, 1))) : ?>
-				<?php $activeRequests += $row->count; ?>
-			<?php endif; ?>
-			<?php $totalRequests += $row->count; ?>
-		<?php endforeach; ?>
-		<div class="row-fluid">
-			<div class="span6"><?php echo JText::plural('COM_PRIVACY_DASHBOARD_BADGE_TOTAL_REQUESTS', $totalRequests); ?></div>
-			<div class="span6"><?php echo JText::plural('COM_PRIVACY_DASHBOARD_BADGE_ACTIVE_REQUESTS', $activeRequests); ?></div>
-		</div>
-	<?php else : ?>
-		<div class="row-fluid">
-			<div class="span12">
-				<div class="alert"><?php echo JText::_('COM_PRIVACY_DASHBOARD_NO_REQUESTS'); ?></div>
-			</div>
-		</div>
+				</td>
+				<td>
+					<?php echo HTMLHelper::_('privacy.statusLabel', $item->status); ?>
+				</td>
+				<td>
+					<span class="badge badge-info"><?php echo $item->count; ?></span>
+				</td>
+			</tr>
+			<?php endforeach; ?>
+		<?php else : ?>
+		<tr>
+			<td colspan="3">
+				<?php echo Text::_('COM_PRIVACY_DASHBOARD_NO_REQUESTS'); ?>
+			</td>
+		</tr>
+		<?php endif; ?>
+	</tbody>
+</table>
+<?php if (count($list)) : ?>
+	<?php if (in_array($item->status, array(0, 1))) : ?>
+		<?php $activeRequests += $item->count; ?>
 	<?php endif; ?>
-</div>
+	<?php $totalRequests += $item->count; ?>
+	<div class="row">
+		<div class="col-md-6"><?php echo Text::plural('COM_PRIVACY_DASHBOARD_BADGE_TOTAL_REQUESTS', $totalRequests); ?></div>
+		<div class="col-md-6"><?php echo Text::plural('COM_PRIVACY_DASHBOARD_BADGE_ACTIVE_REQUESTS', $activeRequests); ?></div>
+	</div>
+<?php endif; ?>

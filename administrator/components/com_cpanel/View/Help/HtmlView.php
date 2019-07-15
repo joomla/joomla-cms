@@ -158,7 +158,7 @@ class HtmlView extends BaseHtmlView
 			],
 		];
 
-		if ($user->authorise('core.manage', 'com_admin'))
+		if ($user->authorise('core.login.admin'))
 		{
 			static::$notEmpty  = true;
 		}

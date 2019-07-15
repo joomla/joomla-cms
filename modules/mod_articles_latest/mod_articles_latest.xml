@@ -56,7 +56,7 @@
 					name="ordering"
 					type="list"
 					label="MOD_LATEST_NEWS_FIELD_ORDERING_LABEL"
-					default="published"
+					default="p_dsc"
 					>
 					<option value="c_dsc">MOD_LATEST_NEWS_VALUE_RECENT_ADDED</option>
 					<option value="m_dsc">MOD_LATEST_NEWS_VALUE_RECENT_MODIFIED</option>
@@ -81,7 +81,6 @@
 					name="author"
 					type="author"
 					label="MOD_LATEST_NEWS_FIELD_AUTHOR_LABEL"
-					description="MOD_LATEST_NEWS_FIELD_AUTHOR_DESC"
 					multiple="true"
 					showon="user_id:created_by"
 				/>

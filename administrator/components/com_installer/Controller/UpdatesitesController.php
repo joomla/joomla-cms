@@ -11,11 +11,12 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
+use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -33,7 +34,7 @@ class UpdatesitesController extends BaseController
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   Input                $input    Input
 	 *
 	 * @since  1.6
 	 * @see    \JControllerLegacy
@@ -60,7 +61,7 @@ class UpdatesitesController extends BaseController
 	public function publish()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('publish' => 1, 'unpublish' => 0);
@@ -73,7 +74,7 @@ class UpdatesitesController extends BaseController
 		}
 
 		// Get the model.
-		/* @var \Joomla\Component\Installer\Administrator\Model\UpdatesitesModel $model */
+		/** @var \Joomla\Component\Installer\Administrator\Model\UpdatesitesModel $model */
 		$model = $this->getModel('Updatesites');
 
 		// Change the state of the records.
@@ -101,7 +102,7 @@ class UpdatesitesController extends BaseController
 	public function delete()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids = $this->input->get('cid', array(), 'array');
 
@@ -126,7 +127,7 @@ class UpdatesitesController extends BaseController
 	public function rebuild()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Rebuild the update sites.
 		$this->getModel('Updatesites')->rebuild();

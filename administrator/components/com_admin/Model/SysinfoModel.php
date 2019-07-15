@@ -24,7 +24,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class SysInfoModel extends BaseDatabaseModel
+class SysinfoModel extends BaseDatabaseModel
 {
 	/**
 	 * Some PHP settings
@@ -309,7 +309,7 @@ class SysInfoModel extends BaseDatabaseModel
 
 		$this->info = array(
 			'php'                   => php_uname(),
-			'dbserver'		=> $db->getServerType(),
+			'dbserver'              => $db->getServerType(),
 			'dbversion'             => $db->getVersion(),
 			'dbcollation'           => $db->getCollation(),
 			'dbconnectioncollation' => $db->getConnectionCollation(),

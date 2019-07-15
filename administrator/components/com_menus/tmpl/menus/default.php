@@ -40,16 +40,12 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_menus&view=menus'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
-		<?php if (!empty($this->sidebar)) : ?>
-			<div id="j-sidebar-container" class="col-md-2">
-				<?php echo $this->sidebar; ?>
-			</div>
-		<?php endif; ?>
-		<div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
+		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning">
+					<div class="alert alert-info">
+						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -102,7 +98,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 									<div class="name break-word">
 										<?php if ($canEdit) : ?>
 											<a href="<?php echo Route::_('index.php?option=com_menus&task=menu.edit&id=' . $item->id); ?>">
-												<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>
+												<span class="fa fa-pen-square mr-2" aria-hidden="true"></span>
 												<span class="sr-only"><?php echo Text::_('COM_MENUS_EDIT_MENU'); ?></span><?php echo $this->escape($item->title); ?>
 											</a>
 										<?php else : ?>
@@ -147,20 +143,18 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 								<td class="text-center">
 									<?php if (isset($this->modules[$item->menutype])) : ?>
 										<div class="dropdown">
-											<a href="#" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown">
+											<button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown">
 												<?php echo Text::_('COM_MENUS_MODULES'); ?>
 												<span class="caret"></span>
-											</a>
+											</button>
 											<div class="dropdown-menu dropdown-menu-right">
 												<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
 													<?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
 														<?php $link = Route::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
-														<a class="dropdown-item" href="#moduleEdit<?php echo $module->id; ?>Modal" role="button" class="button" data-toggle="modal" title="<?php echo Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>">
-															<?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></a>
+														<button type="button" class="dropdown-item" data-target="#moduleEdit<?php echo $module->id; ?>Modal" data-toggle="modal" title="<?php echo Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>">
+															<?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></button>
 													<?php else : ?>
-														<a href="#" class="disabled" disabled="disabled">
-															<span class="dropdown-item"><?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></span>
-														</a>
+														<span class="dropdown-item"><?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></span>
 													<?php endif; ?>
 												<?php endforeach; ?>
 											</div>
@@ -181,13 +175,13 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 															'width'       => '800px',
 															'bodyHeight'  => 70,
 															'modalWidth'  => 80,
-															'footer'      => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true"'
+															'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal"'
 																	. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#closeBtn\'})">'
-																	. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
-																	. '<button type="button" class="btn btn-primary" aria-hidden="true"'
+																	. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+																	. '<button type="button" class="btn btn-primary"'
 																	. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#saveBtn\'})">'
 																	. Text::_('JSAVE') . '</button>'
-																	. '<button type="button" class="btn btn-success" aria-hidden="true"'
+																	. '<button type="button" class="btn btn-success"'
 																	. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#applyBtn\'})">'
 																	. Text::_('JAPPLY') . '</button>',
 														)
@@ -196,7 +190,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 										<?php endforeach; ?>
 									<?php elseif ($modMenuId) : ?>
 										<?php $link = Route::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype . '&tmpl=component&layout=modal'); ?>
-										<a class="btn btn-sm btn-primary" data-toggle="modal" role="button" href="#moduleAddModal"><?php echo Text::_('COM_MENUS_ADD_MENU_MODULE'); ?></a>
+										<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#moduleAddModal"><?php echo Text::_('COM_MENUS_ADD_MENU_MODULE'); ?></button>
 										<?php echo HTMLHelper::_(
 												'bootstrap.renderModal',
 												'moduleAddModal',
@@ -210,13 +204,13 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 													'width'       => '800px',
 													'bodyHeight'  => 70,
 													'modalWidth'  => 80,
-													'footer'      => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true"'
+													'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal"'
 															. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#closeBtn\'})">'
-															. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
-															. '<button type="button" class="btn btn-primary" aria-hidden="true"'
+															. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+															. '<button type="button" class="btn btn-primary"'
 															. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#saveBtn\'})">'
 															. Text::_('JSAVE') . '</button>'
-															. '<button type="button" class="btn btn-success" aria-hidden="true"'
+															. '<button type="button" class="btn btn-success"'
 															. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#applyBtn\'})">'
 															. Text::_('JAPPLY') . '</button>',
 												)

@@ -9,8 +9,11 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('jquery.framework');
-JFactory::getDocument()->addScriptDeclaration('
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+
+HTMLHelper::_('jquery.framework');
+Factory::getDocument()->addScriptDeclaration('
 	jQuery(document).ready(function($) {
 		$("a.js-revert").on("click", function(e) {
 			e.preventDefault();
@@ -26,13 +29,13 @@ JFactory::getDocument()->addScriptDeclaration('
 	});
 ');
 ?>
-<ul class="list-group list-group-flush stats-module <?php echo $moduleclass_sfx ?>">
+<ul class="list-group list-group-flush stats-module">
 	<?php foreach ($list as $item) : ?>
 		<li class="list-group-item">
 			<span class="mr-2 fa-fw fa fa-<?php echo $item->icon; ?>" aria-hidden="true"></span> <?php echo $item->title; ?>
 
 			<?php if(isset($item->link)) : ?>
-				<a class="btn btn-info js-revert" href="<?php echo $item->link; ?>"><?php echo $item->data; ?></a>
+				<a class="btn btn-info btn-sm js-revert" href="<?php echo $item->link; ?>"><?php echo $item->data; ?></a>
 			<?php else : ?>
 				<?php echo $item->data; ?>
 			<?php endif; ?>

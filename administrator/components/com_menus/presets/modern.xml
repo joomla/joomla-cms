@@ -218,7 +218,7 @@
 	<menuitem
 		title="MOD_MENU_COM_CONTENT"
 		type="heading"
-		class="class:file-text"
+		class="class:file-alt"
 		>
 		<menuitem
 			title="MOD_MENU_COM_CONTENT_ARTICLE_MANAGER"
