@@ -13,7 +13,6 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
@@ -29,42 +28,48 @@ class Authentication
 
 	/**
 	 * This is the status code returned when the authentication is success (permit login)
-	 * @const  STATUS_SUCCESS successful response
+	 *
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	const STATUS_SUCCESS = 1;
 
 	/**
 	 * Status to indicate cancellation of authentication (unused)
-	 * @const  STATUS_CANCEL cancelled request (unused)
+	 *
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	const STATUS_CANCEL = 2;
 
 	/**
 	 * This is the status code returned when the authentication failed (prevent login if no success)
-	 * @const  STATUS_FAILURE failed request
+	 *
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	const STATUS_FAILURE = 4;
 
 	/**
 	 * This is the status code returned when the account has expired (prevent login)
-	 * @const  STATUS_EXPIRED an expired account (will prevent login)
+	 *
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	const STATUS_EXPIRED = 8;
 
 	/**
 	 * This is the status code returned when the account has been denied (prevent login)
-	 * @const  STATUS_DENIED denied request (will prevent login)
+	 *
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	const STATUS_DENIED = 16;
 
 	/**
 	 * This is the status code returned when the account doesn't exist (not an error)
-	 * @const  STATUS_UNKNOWN unknown account (won't permit or prevent login)
+	 *
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	const STATUS_UNKNOWN = 32;
@@ -78,7 +83,7 @@ class Authentication
 	/**
 	 * Plugin Type to run
 	 *
-	 * @type   string
+	 * @var   string
 	 * @since  4.0.0
 	 */
 	protected $pluginType;
@@ -149,6 +154,7 @@ class Authentication
 
 		// Create authentication response
 		$response = new AuthenticationResponse;
+
 		/*
 		 * Loop through the plugins and check if the credentials can be used to authenticate
 		 * the user

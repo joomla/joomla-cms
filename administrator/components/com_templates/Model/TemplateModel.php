@@ -794,8 +794,8 @@ class TemplateModel extends FormModel
 
 		foreach ($files as $file)
 		{
-			$newFile = str_replace($oldName, $newName, $file);
-			$result = File::move($file, $newFile) && $result;
+			$newFile = '/' . str_replace($oldName, $newName, basename($file));
+			$result  = File::move($file, dirname($file) . $newFile) && $result;
 		}
 
 		// Edit XML file
