@@ -40,7 +40,7 @@ class WorkflowconditionField extends ListField
 	/**
 	 * Determinate if the "All" value should be added
 	 *
-	 * @var bool
+	 * @var boolean
 	 * @since  4.0.0
 	 */
 	protected $hideAll = false;

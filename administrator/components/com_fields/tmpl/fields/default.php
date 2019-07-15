@@ -49,12 +49,7 @@ if ($saveOrder && !empty($this->items))
 
 <form action="<?php echo Route::_('index.php?option=com_fields&view=fields&context=' . $this->state->get('filter.context')); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
-		<?php if (!empty($this->sidebar)) { ?>
-		<div id="j-sidebar-container" class="col-md-2">
-			<?php echo $this->sidebar; ?>
-		</div>
-		<?php } ?>
-		<div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
+		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'context'))); ?>
 				<?php if (empty($this->items)) : ?>
@@ -147,17 +142,17 @@ if ($saveOrder && !empty($this->items))
 													<?php echo Text::sprintf('JGLOBAL_LIST_NAME_NOTE', $this->escape($item->name), $this->escape($item->note)); ?>
 												<?php endif; ?>
 											</span>
-                                            <?php if ($category) : ?>
-                                                <div class="small">
-                                                    <?php echo Text::_('JCATEGORY') . ': '; ?>
-                                                    <?php $categories = FieldsHelper::getAssignedCategoriesTitles($item->id); ?>
-                                                    <?php if ($categories) : ?>
-                                                        <?php echo implode(', ', $categories); ?>
-                                                    <?php else: ?>
-                                                        <?php echo Text::_('JALL'); ?>
-                                                    <?php endif; ?>
-                                                </div>
-                                            <?php endif; ?>
+											<?php if ($category) : ?>
+												<div class="small">
+													<?php echo Text::_('JCATEGORY') . ': '; ?>
+													<?php $categories = FieldsHelper::getAssignedCategoriesTitles($item->id); ?>
+													<?php if ($categories) : ?>
+														<?php echo implode(', ', $categories); ?>
+													<?php else: ?>
+														<?php echo Text::_('JALL'); ?>
+													<?php endif; ?>
+												</div>
+											<?php endif; ?>
 										</div>
 									</th>
 									<td class="small">

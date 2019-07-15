@@ -84,7 +84,7 @@ class SiteMenu extends AbstractMenu
 			$currentDate = Factory::getDate()->toSql();
 			$query = $this->db->getQuery(true)
 				->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language')
-				->select($this->db->quoteName('m.browserNav') . ', m.access, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id')
+				->select($this->db->qn('m.browserNav') . ', m.access, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id')
 				->select('e.element as component')
 				->from('#__menu AS m')
 				->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
@@ -104,7 +104,8 @@ class SiteMenu extends AbstractMenu
 		try
 		{
 			/** @var CallbackController $cache */
-			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', ['defaultgroup' => 'com_menus']);
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+				->createCacheController('callback', ['defaultgroup' => 'com_menus']);
 
 			$this->items = $cache->get($loader, array(), md5(get_class($this)), false);
 		}
