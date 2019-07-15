@@ -1551,7 +1551,7 @@ class Form
 					$field   = $this->loadField($element);
 					$subForm = $field->loadSubForm();
 
-					if ($field->multiple)
+					if ($field->multiple && !empty($value))
 					{
 						$return = array();
 
@@ -2142,6 +2142,41 @@ class Form
 			if ($valid instanceof \Exception)
 			{
 				return $valid;
+			}
+		}
+
+		if ($valid !== false && $element['type'] == 'subform')
+		{
+			$field   = $this->loadField($element);
+			$subForm = $field->loadSubForm();
+
+			if ($field->multiple)
+			{
+				foreach ($value as $key => $val)
+				{
+					$val = (array) $val;
+
+					$valid = $subForm->validate($val);
+
+					if ($valid === false)
+					{
+						break;
+					}
+				}
+			}
+			else
+			{
+				$valid = $subForm->validate($value);
+			}
+
+			if ($valid === false)
+			{
+				$errors = $subForm->getErrors();
+
+				foreach ($errors as $error)
+				{
+					return $error;
+				}
 			}
 		}
 
