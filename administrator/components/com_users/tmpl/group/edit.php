@@ -18,7 +18,8 @@ HTMLHelper::_('behavior.formvalidator');
 
 <form action="<?php echo Route::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="group-form" class="form-validate">
 	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
-	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_USERS_USERGROUP_DETAILS')); ?>		<fieldset>
+	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_USERS_USERGROUP_DETAILS')); ?>
+	<fieldset>
 		<?php echo $this->form->renderField('title'); ?>
 		<?php echo $this->form->renderField('parent_id'); ?>
 	</fieldset>
