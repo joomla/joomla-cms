@@ -567,7 +567,7 @@ class PlgSystemFields extends CMSPlugin
 	private function prepareTagItem($item)
 	{
 		// Map core fields
-		$item->id       = $item->content_item_id;
+		$item->id       = $item->content_id;
 		$item->language = $item->core_language;
 
 		// Also handle the catid

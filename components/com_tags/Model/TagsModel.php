@@ -160,7 +160,7 @@ class TagsModel extends ListModel
 
 		$query->where($db->quoteName('a.published') . ' = ' . $published);
 
-		$query->order($this->getState('list.ordering', 'a.ordering') . ' ' . $this->getState('list.direction', 'ASC'));
+		$query->order($this->getState('list.ordering', 'a.lft') . ' ' . $this->getState('list.direction', 'ASC'));
 
 		return $query;
 	}

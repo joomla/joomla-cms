@@ -101,7 +101,7 @@ class TagModel extends ListModel
 			foreach ($items as $item)
 			{
 				$item->link = TagsHelperRoute::getItemRoute(
-					$item->content_item_id,
+					$item->content_id,
 					$item->core_alias,
 					$item->core_catid,
 					$item->core_language,
@@ -209,7 +209,7 @@ class TagModel extends ListModel
 			)
 			->select('MAX(c.core_created_time) as core_created_time, MAX(c.core_images) as core_images')
 			->select('CASE WHEN c.core_modified_time = ' . $nullDate . ' THEN c.core_created_time'
-				. 'ELSE c.core_modified_time END as core_modified_time'
+				. ' ELSE c.core_modified_time END as core_modified_time'
 			)
 			->select('MAX(c.core_language) AS core_language, MAX(c.core_catid) AS core_catid')
 			->select('MAX(c.core_publish_up) AS core_publish_up, MAX(c.core_publish_down) as core_publish_down')
