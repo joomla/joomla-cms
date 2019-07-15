@@ -33,8 +33,8 @@ function usage($command)
 }
 
 /*
-* This is where the magic happens
-*/
+ * This is where the magic happens
+ */
 
 $options = getopt('', array('from:', 'to::'));
 
