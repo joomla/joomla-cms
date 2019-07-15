@@ -146,21 +146,28 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::publishList('filters.publish');
-			ToolbarHelper::unpublishList('filters.unpublish');
-			ToolbarHelper::checkin('filters.checkin');
-			ToolbarHelper::divider();
+			$dropdown = $toolbar->dropdownButton('status-group')
+			->text('JTOOLBAR_CHANGE_STATUS')
+			->toggleSplit(false)
+			->icon('fa fa-globe')
+			->buttonClass('btn btn-info')
+			->listCheck(true);
+
+			$childBar = $dropdown->getChildToolbar();
+
+			$childBar->publish('filters.publish')->listCheck(true);
+			$childBar->unpublish('filters.unpublish')->listCheck(true);
+			$childBar->checkin('filters.checkin')->listCheck(true);
+
+			if ($canDo->get('core.delete'))
+			{
+				$childBar->delete('filters.delete')->listCheck(true);
+			}
 		}
 
 		ToolbarHelper::divider();
 		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
 		ToolbarHelper::divider();
-
-		if ($canDo->get('core.delete'))
-		{
-			ToolbarHelper::deleteList('', 'filters.delete');
-			ToolbarHelper::divider();
-		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
