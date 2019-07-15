@@ -36,6 +36,8 @@ class FilterTable extends Table
 	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__finder_filters', 'filter_id', $db);
+
+		$this->setColumnAlias('published', 'state');
 	}
 
 	/**

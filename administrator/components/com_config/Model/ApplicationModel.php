@@ -334,16 +334,22 @@ class ApplicationModel extends FormModel
 				{
 					try
 					{
-						\JLog::add(
-							\JText::sprintf('COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT', $data['session_filesystem_path']),
-							\JLog::WARNING,
+						Log::add(
+							Text::sprintf(
+								'COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT',
+								$data['session_filesystem_path']
+							),
+							Log::WARNING,
 							'jerror'
 						);
 					}
 					catch (\RuntimeException $logException)
 					{
 						$app->enqueueMessage(
-							\JText::sprintf('COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT', $data['session_filesystem_path']),
+							Text::sprintf(
+								'COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT',
+								$data['session_filesystem_path']
+							),
 							'warning'
 						);
 					}
@@ -601,6 +607,12 @@ class ApplicationModel extends FormModel
 		if (!File::write($file, $configuration))
 		{
 			throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'));
+		}
+
+		// Invalidates the cached configuration file
+		if (function_exists('opcache_invalidate'))
+		{
+			opcache_invalidate($file);
 		}
 
 		// Attempt to make the file unwriteable if using FTP.

@@ -120,7 +120,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	/**
 	 * The authentication plugin type
 	 *
-	 * @type   string
+	 * @var   string
 	 * @since  4.0.0
 	 */
 	protected $authenticationPluginType = 'authentication';
@@ -1001,20 +1001,23 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		$active = $this->getMenu()->getActive();
 
-		if ($active !== null && $active->type === 'alias')
+		if ($active !== null
+			&& $active->type === 'alias'
+			&& $active->params->get('alias_redirect')
+			&& in_array($this->input->getMethod(), array('GET', 'HEAD'), true))
 		{
 			$item = $this->getMenu()->getItem($active->params->get('aliasoptions'));
 
 			if ($item !== null)
 			{
-				$oldUri = clone \JUri::getInstance();
+				$oldUri = clone Uri::getInstance();
 
 				if ($oldUri->getVar('Itemid') == $active->id)
 				{
 					$oldUri->setVar('Itemid', $item->id);
 				}
 
-				$base = \JUri::base(true);
+				$base = Uri::base(true);
 				$oldPath = StringHelper::strtolower(substr($oldUri->getPath(), strlen($base) + 1));
 				$activePathPrefix = StringHelper::strtolower($active->route);
 

@@ -9,8 +9,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -18,7 +21,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.9.0
  */
-class PlgUserTerms extends JPlugin
+class PlgUserTerms extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -56,28 +59,21 @@ class PlgUserTerms extends JPlugin
 	{
 		parent::__construct($subject, $config);
 
-		JFormHelper::addFieldPath(__DIR__ . '/field');
+		FormHelper::addFieldPath(__DIR__ . '/field');
 	}
 
 	/**
 	 * Adds additional fields to the user registration form
 	 *
-	 * @param   JForm  $form  The form to be altered.
+	 * @param   Form   $form  The form to be altered.
 	 * @param   mixed  $data  The associated data for the form.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.9.0
 	 */
-	public function onContentPrepareForm($form, $data)
+	public function onContentPrepareForm(Form $form, $data)
 	{
-		if (!($form instanceof JForm))
-		{
-			$this->_subject->setError('JERROR_NOT_A_FORM');
-
-			return false;
-		}
-
 		// Check we are manipulating a valid form - we only display this on user registration form.
 		$name = $form->getName();
 
@@ -87,7 +83,7 @@ class PlgUserTerms extends JPlugin
 		}
 
 		// Add the terms and conditions fields to the form.
-		JForm::addFormPath(__DIR__ . '/terms');
+		Form::addFormPath(__DIR__ . '/terms');
 		$form->loadFile('terms');
 
 		$termsarticle = $this->params->get('terms_article');
@@ -171,8 +167,8 @@ class PlgUserTerms extends JPlugin
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
 		);
 
-		/* @var ActionlogsModelActionlog $model */
-		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
+		/** @var ActionlogsModelActionlog $model */
+		$model = BaseDatabaseModel::getInstance('Actionlog', 'ActionlogsModel');
 		$model->addLog(array($message), 'PLG_USER_TERMS_LOGGING_CONSENT_TO_TERMS', 'plg_user_terms', $userId);
 	}
 }

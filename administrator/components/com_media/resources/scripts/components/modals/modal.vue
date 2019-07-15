@@ -3,7 +3,7 @@
         <div class="modal" @click.stop style="display: flex">
 			<tab-lock>
 				<slot name="backdrop-close"></slot>
-				<div class="modal-dialog" :class="modalClass" role="alertdialog">
+				<div class="modal-dialog" :class="modalClass" role="dialog" :aria-labelledby="labelElement">
 					<div class="modal-content">
 						<div class="modal-header">
 							<slot name="header"></slot>
@@ -37,6 +37,10 @@
             /* The size of the modal */
             size: {
                 type: String,
+            },
+            labelElement: {
+                type: String,
+                required: true
             }
         },
         computed: {
@@ -54,7 +58,7 @@
             },
             /* Handle keydown events */
             onKeyDown(event) {
-                if (event.keyCode == 27) {
+                if (event.keyCode === 27) {
                     this.close();
                 }
             }

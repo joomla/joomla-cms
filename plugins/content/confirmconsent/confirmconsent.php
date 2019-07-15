@@ -9,13 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
 
 /**
  * The Joomla Core confirm consent plugin
@@ -31,14 +26,6 @@ class PlgContentConfirmConsent extends CMSPlugin
 	 * @since  3.9.0
 	 */
 	protected $app;
-
-	/**
-	 * The Database object.
-	 *
-	 * @var    JDatabaseDriver
-	 * @since  3.9.0
-	 */
-	protected $db;
 
 	/**
 	 * Load the language file on instantiation.
@@ -78,25 +65,17 @@ class PlgContentConfirmConsent extends CMSPlugin
 		}
 
 		// Get the consent box Text & the selected privacyarticle
-		$consentboxLabel = JText::_('PLG_CONTENT_CONFIRMCONSENT_CONSENTBOX_LABEL');
 		$consentboxText  = (string) $this->params->get('consentbox_text', Text::_('PLG_CONTENT_CONFIRMCONSENT_FIELD_NOTE_DEFAULT'));
 		$privacyArticle  = $this->params->get('privacy_article', false);
 
-		// When we have a article just add it arround to the text
-		if ($privacyArticle)
-		{
-			HTMLHelper::_('behavior.modal');
-
-			$consentboxLabel = $this->getAssignedArticleUrl($privacyArticle, $consentboxLabel);
-		}
-
 		$form->load('
 			<form>
-				<fieldset name="default">
+				<fieldset name="default" addfieldpath="/plugins/content/confirmconsent/fields">
 					<field
 						name="consentbox"
-						type="checkboxes"
-						label="' . htmlspecialchars($consentboxLabel, ENT_COMPAT, 'UTF-8') . '"
+						type="consentbox"
+						articleid="' . $privacyArticle . '"
+						label="PLG_CONTENT_CONFIRMCONSENT_CONSENTBOX_LABEL"
 						required="true"
 						>
 						<option value="0">' . htmlspecialchars($consentboxText, ENT_COMPAT, 'UTF-8') . '</option>
@@ -106,95 +85,5 @@ class PlgContentConfirmConsent extends CMSPlugin
 		);
 
 		return true;
-	}
-
-	/**
-	 * Return the url of the assigned article based on the current user language
-	 *
-	 * @param   integer  $articleId        The form to be altered.
-	 * @param   string   $consentboxLabel  The consent box label
-	 *
-	 * @return  string  Returns the a tag containing everything for the modal
-	 *
-	 * @since   3.9.0
-	 */
-	private function getAssignedArticleUrl($articleId, $consentboxLabel)
-	{
-		// Get the info from the article
-		$query = $this->db->getQuery(true)
-			->select($this->db->quoteName(array('id', 'catid', 'language')))
-			->from($this->db->quoteName('#__content'))
-			->where($this->db->quoteName('id') . ' = ' . (int) $articleId);
-		$this->db->setQuery($query);
-
-		$attribs          = array();
-		$attribs['class'] = 'modal';
-		$attribs['rel']   = '{handler: \'iframe\', size: {x:800, y:500}}';
-
-		try
-		{
-			$article = $this->db->loadObject();
-		}
-		catch (JDatabaseExceptionExecuting $e)
-		{
-			// Something at the database layer went wrong
-			return HTMLHelper::_(
-				'link',
-				Route::_(
-					'index.php?option=com_content&view=article&id='
-					. $articleId . '&tmpl=component'
-				),
-				$consentboxLabel,
-				$attribs
-			);
-		}
-
-		// Register ContentHelperRoute
-		JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
-
-		if (!Associations::isEnabled())
-		{
-			return HTMLHelper::_('link',
-				Route::_(
-					ContentHelperRoute::getArticleRoute(
-						$article->id,
-						$article->catid,
-						$article->language
-					) . '&tmpl=component'
-				),
-				$consentboxLabel,
-				$attribs
-			);
-		}
-
-		$associatedArticles = Associations::getAssociations('com_content', '#__content', 'com_content.item', $article->id);
-		$currentLang        = Factory::getLanguage()->getTag();
-
-		if (isset($associatedArticles) && $currentLang !== $article->language && array_key_exists($currentLang, $associatedArticles))
-		{
-			return HTMLHelper::_('link',
-				Route::_(
-					ContentHelperRoute::getArticleRoute(
-						$associatedArticles[$currentLang]->id,
-						$associatedArticles[$currentLang]->catid,
-						$associatedArticles[$currentLang]->language
-					) . '&tmpl=component'
-				),
-				$consentboxLabel,
-				$attribs
-			);
-		}
-
-		// Association is enabled but this article is not associated
-		return HTMLHelper::_(
-			'link',
-			Route::_(
-				'index.php?option=com_content&view=article&id='
-					. $article->id . '&catid=' . $article->catid
-					. '&tmpl=component&lang=' . $article->language
-			),
-			$consentboxLabel,
-			$attribs
-		);
 	}
 }

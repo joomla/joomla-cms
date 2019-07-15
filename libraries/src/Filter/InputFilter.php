@@ -10,6 +10,7 @@ namespace Joomla\CMS\Filter;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Filter\InputFilter as BaseInputFilter;
 
 /**
@@ -134,7 +135,7 @@ class InputFilter extends BaseInputFilter
 			foreach ($matches[0] as $match)
 			{
 				$match  = (string) str_replace(array('?', '"'), '', $match);
-				$text   = (string) str_replace($match, \JStringPunycode::emailToPunycode($match), $text);
+				$text   = (string) str_replace($match, PunycodeHelper::emailToPunycode($match), $text);
 			}
 		}
 
@@ -459,17 +460,21 @@ class InputFilter extends BaseInputFilter
 		$source = strtr($source, $ttr);
 
 		// Convert decimal
-		$source = preg_replace_callback('/&#(\d+);/m', function($m)
-		{
-			return utf8_encode(chr($m[1]));
-		}, $source
+		$source = preg_replace_callback(
+			'/&#(\d+);/m',
+			function ($m) {
+				return utf8_encode(chr($m[1]));
+			},
+			$source
 		);
 
 		// Convert hex
-		$source = preg_replace_callback('/&#x([a-f0-9]+);/mi', function($m)
-		{
-			return utf8_encode(chr('0x' . $m[1]));
-		}, $source
+		$source = preg_replace_callback(
+			'/&#x([a-f0-9]+);/mi',
+			function ($m) {
+				return utf8_encode(chr('0x' . $m[1]));
+			},
+			$source
 		);
 
 		return $source;

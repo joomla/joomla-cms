@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\ExtensionHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -69,8 +68,6 @@ class PlgQuickiconExtensionupdate extends CMSPlugin
 
 		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE');
 		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND');
-		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE');
-		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON');
 		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_ERROR');
 		Text::script('MESSAGE');
 		Text::script('ERROR');

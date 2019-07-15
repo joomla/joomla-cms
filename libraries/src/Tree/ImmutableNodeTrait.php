@@ -90,9 +90,9 @@ trait ImmutableNodeTrait
 
 	/**
 	 * Get the root of the tree
-	 * 
+	 *
 	 * @return  ImmutableNodeInterface
-	 * 
+	 *
 	 * @since   4.0.0
 	 */
 	public function getRoot()

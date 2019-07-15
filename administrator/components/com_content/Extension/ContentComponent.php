@@ -23,6 +23,7 @@ use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Helper\ContentHelper as LibraryContentHelper;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
@@ -220,53 +221,16 @@ class ContentComponent extends MVCComponent implements
 	 */
 	public function countItems(array $items, string $section)
 	{
-		$db = Factory::getDbo();
+		$config = (object) array(
+			'related_tbl'    => 'content',
+			'state_col'      => 'condition',
+			'group_col'      => 'catid',
+			'relation_type'  => 'category_or_group',
+			'uses_workflows' => true,
+			'workflows_component' => 'com_content'
+		);
 
-		foreach ($items as $item)
-		{
-			$item->count_trashed     = 0;
-			$item->count_archived    = 0;
-			$item->count_unpublished = 0;
-			$item->count_published   = 0;
-
-			$query = $db->getQuery(true);
-
-			$query->select($db->quoteName('condition'))
-				->select('COUNT(*) AS ' . $db->quoteName('count'))
-				->from($db->quoteName('#__content', 'c'))
-				->from($db->quoteName('#__workflow_stages', 's'))
-				->from($db->quoteName('#__workflow_associations', 'a'))
-				->where($db->quoteName('a.item_id') . ' = ' . $db->quoteName('c.id'))
-				->where($db->quoteName('s.id') . ' = ' . $db->quoteName('a.stage_id'))
-				->where($db->quoteName('catid') . ' = ' . (int) $item->id)
-				->where($db->quoteName('a.extension') . '= ' . $db->quote('com_content'))
-				->group($db->quoteName('condition'));
-
-			$articles = $db->setQuery($query)->loadObjectList();
-
-			foreach ($articles as $article)
-			{
-				if ($article->condition == self::CONDITION_PUBLISHED)
-				{
-					$item->count_published = $article->count;
-				}
-
-				if ($article->condition == self::CONDITION_UNPUBLISHED)
-				{
-					$item->count_unpublished = $article->count;
-				}
-
-				if ($article->condition == self::CONDITION_ARCHIVED)
-				{
-					$item->count_archived = $article->count;
-				}
-
-				if ($article->condition == self::CONDITION_TRASHED)
-				{
-					$item->count_trashed = $article->count;
-				}
-			}
-		}
+		LibraryContentHelper::countRelations($items, $config);
 	}
 
 	/**
@@ -282,63 +246,18 @@ class ContentComponent extends MVCComponent implements
 	 */
 	public function countTagItems(array $items, string $extension)
 	{
-		$db      = Factory::getDbo();
 		$parts   = explode('.', $extension);
-		$section = null;
+		$section = count($parts) > 1 ? $parts[1] : null;
 
-		if (count($parts) > 1)
-		{
-			$section = $parts[1];
-		}
+		$config = (object) array(
+			'related_tbl'   => ($section === 'category' ? 'categories' : 'content'),
+			'state_col'     => ($section === 'category' ? 'published' : 'state'),
+			'group_col'     => 'tag_id',
+			'extension'     => $extension,
+			'relation_type' => 'tag_assigments',
+		);
 
-		$join  = $db->quoteName('#__content', 'c') . ' ON ct.content_item_id=c.id';
-		$state = $db->quoteName('state');
-
-		if ($section === 'category')
-		{
-			$join  = $db->quoteName('#__categories') . ' AS c ON ct.content_item_id=c.id';
-			$state = $db->quoteName('published', 'state');
-		}
-
-		foreach ($items as $item)
-		{
-			$item->count_trashed     = 0;
-			$item->count_archived    = 0;
-			$item->count_unpublished = 0;
-			$item->count_published   = 0;
-			$query                   = $db->getQuery(true);
-			$query->select($state . ', count(*) AS count')
-				->from($db->quoteName('#__contentitem_tag_map', 'ct'))
-				->where($db->quoteName('ct.tag_id') . ' = ' . (int) $item->id)
-				->where($db->quoteName('ct.type_alias') . ' = ' . $db->quote($extension))
-				->join('LEFT', $join)
-				->group($db->quoteName('state'));
-			$db->setQuery($query);
-			$contents = $db->loadObjectList();
-
-			foreach ($contents as $content)
-			{
-				if ($content->state == self::CONDITION_PUBLISHED)
-				{
-					$item->count_published = $content->count;
-				}
-
-				if ($content->state == self::CONDITION_UNPUBLISHED)
-				{
-					$item->count_unpublished = $content->count;
-				}
-
-				if ($content->state == self::CONDITION_ARCHIVED)
-				{
-					$item->count_archived = $content->count;
-				}
-
-				if ($content->state == self::CONDITION_TRASHED)
-				{
-					$item->count_trashed = $content->count;
-				}
-			}
-		}
+		LibraryContentHelper::countRelations($items, $config);
 	}
 
 	/**

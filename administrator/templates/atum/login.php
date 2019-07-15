@@ -86,7 +86,7 @@ $this->addScriptDeclaration('cssVars();')
 								<h2 class="m-0 text-primary"><?php echo $sitename; ?></h2>
 							<?php endif; ?>
 							<?php if ($loginLogo) : ?>
-								<img src="<?php echo JURI::root() . '/' . $loginLogo; ?>" class="img-fluid my-2" alt="">
+								<img src="<?php echo Uri::root() . '/' . $loginLogo; ?>" class="img-fluid my-2" alt="">
 							<?php endif; ?>
 						</div>
 					<?php endif; ?>

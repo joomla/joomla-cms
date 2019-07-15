@@ -17,7 +17,7 @@ module.exports.compile = (file, options) => {
   (error, result) => {
     if (error) {
       // eslint-disable-next-line no-console
-      console.error(`something exploded ${error.column}`, error.message, error.line);
+      console.error(error.formatted);
       process.exit(1);
     } else {
       // Auto prefixing

@@ -21,7 +21,6 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Installer\Installer;
-use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -101,7 +100,7 @@ class UpdateModel extends BaseDatabaseModel
 			->from($db->quoteName('#__update_sites_extensions') . ' AS ' . $db->quoteName('map'))
 			->join(
 				'INNER', $db->quoteName('#__update_sites') . ' AS ' . $db->quoteName('us')
-				. ' ON (' . 'us.update_site_id = map.update_site_id)'
+				. ' ON (us.update_site_id = map.update_site_id)'
 			)
 			->where('map.extension_id = ' . $db->quote(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id));
 		$db->setQuery($query);
@@ -280,7 +279,7 @@ class UpdateModel extends BaseDatabaseModel
 	public function download()
 	{
 		$updateInfo = $this->getUpdateInformation();
-		$packageURL = $updateInfo['object']->downloadurl->_data;
+		$packageURL = trim($updateInfo['object']->downloadurl->_data);
 		$sources    = $updateInfo['object']->get('downloadSources', array());
 		$headers    = get_headers($packageURL, 1);
 
@@ -315,7 +314,7 @@ class UpdateModel extends BaseDatabaseModel
 			while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
 			{
 				$name       = $sources[$mirror];
-				$packageURL = $name->url;
+				$packageURL = trim($name->url);
 				$mirror++;
 			}
 
@@ -333,7 +332,7 @@ class UpdateModel extends BaseDatabaseModel
 				while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
 				{
 					$name       = $sources[$mirror];
-					$packageURL = $name->url;
+					$packageURL = trim($name->url);
 					$mirror++;
 				}
 
@@ -365,12 +364,14 @@ class UpdateModel extends BaseDatabaseModel
 	private function isChecksumValid($packagefile, $updateObject)
 	{
 		$hashes = array('sha256', 'sha384', 'sha512');
+
 		foreach ($hashes as $hash)
 		{
 			if ($updateObject->get($hash, false))
 			{
 				$hashPackage = hash_file($hash, $packagefile);
 				$hashRemote  = $updateObject->$hash->_data;
+
 				if ($hashPackage !== $hashRemote)
 				{
 					// Return false in case the hash did not match
@@ -378,6 +379,7 @@ class UpdateModel extends BaseDatabaseModel
 				}
 			}
 		}
+
 		// Well nothing was provided or all worked
 		return true;
 	}

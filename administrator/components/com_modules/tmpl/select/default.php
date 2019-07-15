@@ -21,7 +21,7 @@ $document = Factory::getDocument();
 <ul id="new-modules-list" class="list-group">
 <?php foreach ($this->items as &$item) : ?>
 	<?php // Prepare variables for the link. ?>
-	<?php $link = 'index.php?option=com_modules&task=module.add&eid=' . $item->extension_id; ?>
+	<?php $link = 'index.php?option=com_modules&task=module.add&client_id=' . $this->state->get('client_id', 0) . '&eid=' . $item->extension_id; ?>
 	<?php $name = $this->escape($item->name); ?>
 	<?php $desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($item->desc)), 200); ?>
 

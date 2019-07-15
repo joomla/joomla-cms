@@ -105,7 +105,8 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     // Handle typing of custom term
     if (this.allowCustom) {
       this.addEventListener('keydown', (event) => {
-        if (event.keyCode !== this.keyCode.ENTER || event.target !== this.choicesInstance.input) {
+        if (event.keyCode !== this.keyCode.ENTER
+            || event.target !== this.choicesInstance.input.element) {
           return;
         }
         event.preventDefault();
@@ -115,7 +116,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
         }
 
         // Make sure nothing is highlighted
-        const highlighted = this.choicesInstance.dropdown.querySelector(`.${this.choicesInstance.config.classNames.highlightedState}`);
+        const highlighted = this.choicesInstance.dropdown.element.querySelector(`.${this.choicesInstance.config.classNames.highlightedState}`);
         if (highlighted) {
           return;
         };

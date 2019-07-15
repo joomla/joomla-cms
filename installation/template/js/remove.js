@@ -47,10 +47,10 @@ if (document.getElementById('installLanguagesButton')) {
 		var form = document.getElementById('languagesForm');
 		if (form) {
 			// Install the extra languages
-			Joomla.install(['languages'], form);
-
-			document.getElementById('installLanguages').classList.remove('active');
-			document.getElementById('installSampleData').classList.add('active');
+			if (Joomla.install(['languages'], form)) {
+				document.getElementById('installLanguages').classList.remove('active');
+				document.getElementById('installSampleData').classList.add('active');
+			}
 		}
 	})
 }

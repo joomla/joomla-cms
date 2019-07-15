@@ -185,8 +185,8 @@ if ($this->type == 'font')
 						<h4>H4. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h4>
 						<h5>H5. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h5>
 						<h6>H6. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h6>
-						<p><b>Bold. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</b></p>
-						<p><i>Italics. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</i></p>
+						<p><strong>Bold. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</strong></p>
+						<p><em>Italics. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</em></p>
 						<p>Unordered List</p>
 						<ul>
 							<li>Item</li>

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Transition table
@@ -28,7 +29,7 @@ class TransitionTable extends Table
 	 *
 	 * @since  4.0.0
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__workflow_transitions', 'id', $db);
 

@@ -14,7 +14,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
@@ -123,10 +125,17 @@ class HtmlView extends BaseHtmlView
 
 		FinderHelper::addSubmenu('index');
 
+		// We do not need to filter by language when multilingual is disabled
+		if (!Multilanguage::isEnabled())
+		{
+			unset($this->activeFilters['language']);
+			$this->filterForm->removeField('language', 'filter');
+		}
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		if (!$this->pluginState['plg_content_finder']->enabled)

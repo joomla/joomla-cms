@@ -28,7 +28,7 @@
     "css-loader": "^0.25.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^0.9.0",
-    "node-sass": "^4.10.0",
+    "node-sass": "^4.12.0",
     "sass-loader": "^5.0.1",
     "vue-loader": "^12.1.0",
     "vue-template-compiler": "^2.5.17",

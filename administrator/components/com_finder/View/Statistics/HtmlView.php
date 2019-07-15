@@ -11,6 +11,7 @@ namespace Joomla\Component\Finder\Administrator\View\Statistics;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
@@ -46,7 +47,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		return parent::display($tpl);

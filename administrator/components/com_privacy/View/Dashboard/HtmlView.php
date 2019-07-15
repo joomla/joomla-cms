@@ -14,8 +14,12 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Privacy\Administrator\Helper\PrivacyHelper;
+use Joomla\Component\Privacy\Administrator\Model\DashboardModel;
+use Joomla\Component\Privacy\Administrator\Model\RequestsModel;
 
 /**
  * Dashboard view class
@@ -65,33 +69,43 @@ class HtmlView extends BaseHtmlView
 	protected $sendMailEnabled;
 
 	/**
-	 * The HTML markup for the sidebar
+	 * Days when a request is considered urgent
 	 *
-	 * @var    string
+	 * @var    integer
 	 * @since  3.9.0
 	 */
-	protected $sidebar;
+	protected $urgentRequestDays = 14;
+
+	/**
+	 * Id of the system privacy consent plugin
+	 *
+	 * @var    integer
+	 * @since  3.9.2
+	 */
+	protected $privacyConsentPluginId;
 
 	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @see     BaseHtmlView::loadTemplate()
 	 * @since   3.9.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
-		// Initialise variables
-		$this->privacyPolicyInfo    = $this->get('PrivacyPolicyInfo');
-		$this->requestCounts        = $this->get('RequestCounts');
-		$this->requestFormPublished = $this->get('RequestFormPublished');
-		$this->sendMailEnabled      = (bool) Factory::getConfig()->get('mailonline', 1);
+		/** @var DashboardModel $model */
+		$model                        = $this->getModel();
+		$this->privacyPolicyInfo      = $model->getPrivacyPolicyInfo();
+		$this->requestCounts          = $model->getRequestCounts();
+		$this->requestFormPublished   = $model->getRequestFormPublished();
+		$this->privacyConsentPluginId = PrivacyHelper::getPrivacyConsentPluginId();
+		$this->sendMailEnabled        = (bool) Factory::getConfig()->get('mailonline', 1);
 
-		/** @var PrivacyModelRequests $requestsModel */
+		/** @var RequestsModel $requestsModel */
 		$requestsModel = $this->getModel('requests');
 
 		$this->numberOfUrgentRequests = $requestsModel->getNumberUrgentRequests();
@@ -99,16 +113,14 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->urgentRequestDays = (int) ComponentHelper::getParams('com_privacy')->get('notify', 14);
 
 		$this->addToolbar();
 
-		$this->sidebar = \JHtmlSidebar::render();
-
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**

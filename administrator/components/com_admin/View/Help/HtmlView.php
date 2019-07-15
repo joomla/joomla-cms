@@ -11,9 +11,11 @@ namespace Joomla\Component\Admin\Administrator\View\Help;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Admin\Administrator\Model\HelpModel;
 
 /**
  * HTML View class for the Admin component
@@ -28,7 +30,7 @@ class HtmlView extends BaseHtmlView
 	 * @var    string
 	 * @since  1.6
 	 */
-	protected $help_search = null;
+	protected $helpSearch = null;
 
 	/**
 	 * The page to be viewed
@@ -44,7 +46,7 @@ class HtmlView extends BaseHtmlView
 	 * @var    string
 	 * @since  1.6
 	 */
-	protected $lang_tag = null;
+	protected $languageTag = null;
 
 	/**
 	 * Table of contents
@@ -52,7 +54,7 @@ class HtmlView extends BaseHtmlView
 	 * @var    array
 	 * @since  1.6
 	 */
-	protected $toc = array();
+	protected $toc = [];
 
 	/**
 	 * URL for the latest version check
@@ -60,36 +62,32 @@ class HtmlView extends BaseHtmlView
 	 * @var    string
 	 * @since  1.6
 	 */
-	protected $latest_version_check = 'https://downloads.joomla.org/latest';
-
-	/**
-	 * URL for the start here link
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $start_here = null;
+	protected $latestVersionCheck = 'https://downloads.joomla.org/latest';
 
 	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   1.6
+	 *
+	 * @throws  Exception
 	 */
-	public function display($tpl = null)
+	public function display($tpl = null): void
 	{
-		$this->help_search          = $this->get('HelpSearch');
-		$this->page                 = $this->get('Page');
-		$this->toc                  = $this->get('Toc');
-		$this->lang_tag             = $this->get('LangTag');
-		$this->latest_version_check = $this->get('LatestVersionCheck');
+		/** @var HelpModel $model */
+		$model                    = $this->getModel();
+		$this->helpSearch         = $model->getHelpSearch();
+		$this->page               = $model->getPage();
+		$this->toc                = $model->getToc();
+		$this->languageTag        = $model->getLangTag();
+		$this->latestVersionCheck = $model->getLatestVersionCheck();
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -99,7 +97,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @since   1.6
 	 */
-	protected function addToolbar()
+	protected function addToolbar(): void
 	{
 		ToolbarHelper::title(Text::_('COM_ADMIN_HELP'), 'support help_header');
 	}

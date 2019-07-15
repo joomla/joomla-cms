@@ -90,7 +90,7 @@
         hide_none="1"
         default="en"
         hide_default="1"
-        filter="\.js$"
+        fileFilter="\.js$"
         showon="lang_mode:0"
     />
 

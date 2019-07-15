@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 
@@ -23,22 +24,20 @@ HTMLHelper::_('behavior.tabstate');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $loggeduser = Factory::getUser();
+$tfa        = PluginHelper::isEnabled('twofactorauth');
+
 ?>
 <form action="<?php echo Route::_('index.php?option=com_users&view=users'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
-		<?php if (!empty($this->sidebar)) : ?>
-		<div id="j-sidebar-container" class="col-md-2">
-			<?php echo $this->sidebar; ?>
-		</div>
-		<?php endif; ?>
-		<div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
+		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<?php
 				// Search tools bar
 				echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning">
+					<div class="alert alert-info">
+						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -66,6 +65,11 @@ $loggeduser = Factory::getUser();
 								<th scope="col" style="width:5%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 								</th>
+								<?php if ($tfa) : ?> 
+								<th scope="col" style="width:5%" class="text-center d-none d-md-table-cell">
+									<?php echo Text::_('COM_USERS_HEADING_TFA'); ?>
+								</th>
+								<?php endif; ?>
 								<th scope="col" style="width:12%">
 									<?php echo Text::_('COM_USERS_HEADING_GROUPS'); ?>
 								</th>
@@ -104,7 +108,7 @@ $loggeduser = Factory::getUser();
 								<th scope="row">
 									<div class="name break-word">
 									<?php if ($canEdit) : ?>
-										<a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo Text::sprintf('COM_USERS_EDIT_USER', $this->escape($item->name)); ?>">
+										<a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::sprintf('COM_USERS_EDIT_USER', $this->escape($item->name)); ?>">
 											<span class="fa fa-pen-square mr-2" aria-hidden="true"></span><?php echo $this->escape($item->name); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($item->name); ?>
@@ -150,6 +154,17 @@ $loggeduser = Factory::getUser();
 									echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.activateStates'), $activated, $i, 'users.', (boolean) $activated);
 									?>
 								</td>
+								<?php if ($tfa) : ?> 
+								<td class="text-center d-none d-md-table-cell tbody-icon">
+									<?php if (!empty($item->otpKey)) : ?>
+										<span class="icon-publish" aria-hidden="true"></span>
+										<span class="sr-only"><?php echo Text::_('COM_USERS_TFA_ACTIVE'); ?></span>
+									<?php else : ?> 
+										<span class="icon-unpublish" aria-hidden="true"></span>
+										<span class="sr-only"><?php echo Text::_('COM_USERS_TFA_NOTACTIVE'); ?></span>
+									<?php endif; ?>
+								</td>
+								<?php endif; ?>
 								<td>
 									<?php if (substr_count($item->group_names, "\n") > 1) : ?>
 										<span class="hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', Text::_('COM_USERS_HEADING_GROUPS'), nl2br($item->group_names), 0); ?>"><?php echo Text::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
