@@ -23,7 +23,7 @@ class JsonapiView extends BaseApiView
 	/**
 	 * The fields to render item in the documents
 	 *
-	 * @var  string
+	 * @var  array
 	 * @since  4.0.0
 	 */
 	protected $fieldsToRenderItem = ['id', 'typeAlias', 'email', 'requested_at', 'status', 'request_type'];
@@ -31,7 +31,7 @@ class JsonapiView extends BaseApiView
 	/**
 	 * The fields to render items in the documents
 	 *
-	 * @var  string
+	 * @var  array
 	 * @since  4.0.0
 	 */
 	protected $fieldsToRenderList = ['id', 'email', 'requested_at', 'status', 'request_type'];
