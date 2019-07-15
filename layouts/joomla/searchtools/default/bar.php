@@ -56,7 +56,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 		<div class="btn-group">
 			<button type="button" class="btn btn-primary hasTooltip js-stools-btn-filter">
 				<?php echo Text::_('JFILTER_OPTIONS'); ?>
-				<span class="fa fa-caret-down" aria-hidden="true"></span>
+				<span class="fa fa-angle-down" aria-hidden="true"></span>
 			</button>
 		</div>
 		<button type="button" class="btn btn-primary js-stools-btn-clear mr-2">

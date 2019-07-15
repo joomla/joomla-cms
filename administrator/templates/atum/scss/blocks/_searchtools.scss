@@ -57,7 +57,8 @@
 
       &.active {
         color: var(--white);
-        background: var(--atum-bg-dark) url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23fff' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat scroll right .75rem center/8px 10px;
+        background: $custom-select-bg $custom-select-indicator-active no-repeat right $custom-select-padding-x center;
+        background-size: $custom-select-bg-size;
       }
 
       option {
@@ -83,6 +84,12 @@
         color: var(--atum-text-light);
         border:1px solid var(--border);
 		border-left: 0;
+      }
+      .js-stools-btn-filter{
+        border-right:1px solid var(--border);
+        .fa {
+          margin-left: 0.25rem;
+        }
       }
 
       .form-control{

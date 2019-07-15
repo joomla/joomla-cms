@@ -146,3 +146,8 @@ legend {
 .col-md-9 .switcher__legend {
   margin-left: 0;
 }
+
+[class^="icon-"]:not(.input-group-text),
+[class*=" icon-"]:not(.input-group-text) {
+  margin-right: 0.5em;
+}

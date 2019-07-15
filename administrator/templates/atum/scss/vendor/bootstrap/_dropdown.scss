@@ -44,7 +44,8 @@
     }
 
     .btn-group.show .dropdown-menu &:not(.disabled) {
-      background-color: $whiteoffset;
+      background-color: var(--atum-bg-dark);
+      color: var(--atum-text-light);
     }
   }
 

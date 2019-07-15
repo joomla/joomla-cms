@@ -6,6 +6,11 @@
 	border: 0;
 }
 
+.choices__inner {
+	border-radius: 0;
+	border-color: $gray-400;
+}
+
 // Fix position
 .choices__list--dropdown {
 	z-index: $zindex-popover;
@@ -109,7 +114,11 @@
 	}
 
 	.choices__inner {
-		padding: $input-padding;
+		padding: 0.4rem 1rem 0.256rem;
+	}
+	.choices__input {
+		padding: 0.2rem 0 0.356rem;
+		color: $custom-select-color;
 	}
 }
 

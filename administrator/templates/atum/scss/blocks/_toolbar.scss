@@ -46,7 +46,7 @@ joomla-toolbar-button {
     background: $white;
     border-color: $gray-500;
     color: var(--atum-text-dark);
-    padding: 0 22px;
+    padding: $input-btn-padding-y-sm-submenu $input-btn-padding-x-sm-submenu;
     font-size: 1rem;
     line-height: $atum-toolbar-line-height;
     box-shadow: $atum-box-shadow;
@@ -59,7 +59,7 @@ joomla-toolbar-button {
       display: inline-block;
       width: 2.375rem;
       height: 100%;
-      margin: 0 16px 0 -22px;
+      margin: $input-btn-padding-y-sm-submenu $input-btn-submenu-icon-distance $input-btn-padding-y-sm-submenu -#{$input-btn-padding-x-sm-submenu};
       line-height: $atum-toolbar-line-height;
       color: var(--white);
     }
@@ -307,7 +307,7 @@ joomla-toolbar-button {
         content: '\f078';
         font-family: 'Font Awesome 5 Free';
         height: 100%;
-        margin: 0 -22px 0 16px;
+        margin: $input-btn-padding-y-sm-submenu -#{$input-btn-padding-x-sm-submenu} $input-btn-padding-y-sm-submenu $input-btn-submenu-icon-distance;
         vertical-align: 0;
         width: 2.375rem;
         line-height: 2.375rem;
