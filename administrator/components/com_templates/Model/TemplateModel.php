@@ -335,8 +335,8 @@ class TemplateModel extends FormModel
 					->delete($db->quoteName('#__template_overrides'))
 					->where($db->quoteName('hash_id') . ' = :hashid')
 					->where($db->quoteName('extension_id') . ' = :exid')
-						->bind(':hashid', $id)
-						->bind(':exid', $exid, ParameterType::INTEGER);
+					->bind(':hashid', $id)
+					->bind(':exid', $exid, ParameterType::INTEGER);
 
 				try
 				{
@@ -356,9 +356,9 @@ class TemplateModel extends FormModel
 					->set($db->quoteName('state') . ' = :state')
 					->where($db->quoteName('hash_id') . ' = :hashid')
 					->where($db->quoteName('extension_id') . ' = :exid')
-						->bind(':state', $value, ParameterType::INTEGER)
-						->bind(':hashid', $id)
-						->bind(':exid', $exid, ParameterType::INTEGER);
+					->bind(':state', $value, ParameterType::INTEGER)
+					->bind(':hashid', $id)
+					->bind(':exid', $exid, ParameterType::INTEGER);
 
 				try
 				{
