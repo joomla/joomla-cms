@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -25,6 +26,7 @@ class PlgInstallerOverride extends CMSPlugin
 	/**
 	 * Application object.
 	 *
+	 * @var    CMSApplicationInterface
 	 */
 	protected $app;
 
@@ -368,16 +370,16 @@ class PlgInstallerOverride extends CMSPlugin
 					->bind(':pkId', $pk->id)
 					->bind(':exId', $pk->extension_id, ParameterType::INTEGER);
 
-					try
-					{
-						// Set the query using our newly populated query object and execute it.
-						$db->setQuery($updateQuery);
-						$db->execute();
-					}
-					catch (\RuntimeException $e)
-					{
-						return $e;
-					}
+				try
+				{
+					// Set the query using our newly populated query object and execute it.
+					$db->setQuery($updateQuery);
+					$db->execute();
+				}
+				catch (\RuntimeException $e)
+				{
+					return $e;
+				}
 
 				continue;
 			}

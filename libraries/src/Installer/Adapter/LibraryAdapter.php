@@ -44,7 +44,9 @@ class LibraryAdapter extends InstallerAdapter
 			if ($this->parent->isOverwrite() || $this->parent->isUpgrade())
 			{
 				// We can upgrade, so uninstall the old one
-				$installer = new Installer; // we don't want to compromise this instance!
+
+				// We don't want to compromise this instance!
+				$installer = new Installer;
 				$installer->setPackageUninstall(true);
 				$installer->uninstall('library', $this->currentExtensionId);
 
