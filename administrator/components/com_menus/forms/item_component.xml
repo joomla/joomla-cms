@@ -66,7 +66,7 @@
 				name="show_page_heading"
 				type="list"
 				label="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_LABEL"
-				class="chzn-color"
+				class="custom-select-color"
 				default=""
 				useglobal="true"
 				>

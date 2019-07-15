@@ -17,8 +17,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 
-HTMLHelper::_('bootstrap.popover');
-
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $lang      = Factory::getLanguage();
@@ -105,10 +103,15 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 									</td>
 								<?php endif; ?>
 								<td class="text-center d-none d-md-table-cell text-center">
-									<?php if ((int) $item->publish_start_date or (int) $item->publish_end_date or (int) $item->start_date or (int) $item->end_date) : ?>
-										<span class="icon-calendar pop hasPopover" aria-hidden="true" data-placement="left" title="<?php echo Text::_('COM_FINDER_INDEX_DATE_INFO_TITLE'); ?>" data-content="<?php echo Text::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?>"></span>
-										<span class="sr-only"><?php echo Text::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?></span>
-									<?php endif; ?>
+								<?php if ((int) $item->publish_start_date or (int) $item->publish_end_date or (int) $item->start_date or (int) $item->end_date) : ?>
+									<span tabindex="0">
+										<span class="icon-calendar" aria-hidden="true"></span>
+										<span class="sr-only"><?php echo Text::_('COM_FINDER_INDEX_DATE_INFO_TITLE'); ?></span>
+									</span>
+									<div role="tooltip" id="tip<?php echo $i; ?>">
+										<?php echo Text::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?>
+									</div>
+								<?php endif; ?>
 								</td>
 								<td class="small break-word d-none d-md-table-cell">
 									<?php echo (strlen($item->url) > 80) ? substr($item->url, 0, 70) . '...' : $item->url; ?>
