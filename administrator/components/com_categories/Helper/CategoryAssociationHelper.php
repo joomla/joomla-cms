@@ -18,6 +18,12 @@ defined('_JEXEC') or die;
  */
 abstract class CategoryAssociationHelper
 {
+	/**
+	 * Flag if associations are present for categories
+	 *
+	 * @var    boolean
+	 * @since  3.0
+	 */
 	public static $category_association = true;
 
 	/**

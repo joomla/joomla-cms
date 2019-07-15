@@ -86,8 +86,8 @@ class CategoryField extends FormField
 				Factory::getDocument()->addScriptDeclaration("
 				function jSelectCategory_" . $this->id . "(id, title, object) {
 					window.processModalSelect('Category', '" . $this->id . "', id, title, '', object);
-				}
-				");
+				}"
+				);
 
 				Text::script('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED');
 
@@ -136,6 +136,7 @@ class CategoryField extends FormField
 
 		// The current category display field.
 		$html  = '';
+
 		if ($allowSelect || $allowNew || $allowEdit || $allowClear)
 		{
 			$html .= '<span class="input-group">';
