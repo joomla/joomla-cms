@@ -117,7 +117,6 @@ class HtmlView extends InstallerViewDefault
 			if (ComponentHelper::isEnabled('com_contenthistory')
 				&& $this->state->params->get('save_history', 0)
 				&& $canDo->get('core.edit'))
-			)
 			{
 				ToolbarHelper::versions('com_installers.downloadkey', $this->item->get('id'));
 			}
