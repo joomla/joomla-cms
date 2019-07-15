@@ -19,7 +19,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Workflow\Workflow;
 
-HTMLHelper::_('behavior.tooltip');
 HTMLHelper::_('behavior.multiselect');
 
 $user	= Factory::getUser();
@@ -45,14 +44,15 @@ if ($saveOrder)
 			<?php echo $this->sidebar; ?>
 		</div>
 		<?php endif; ?>
-        <div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
+		<div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
 			<div id="j-main-container" class="j-main-container">
 				<?php
 					// Search tools bar
 					echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->transitions)) : ?>
-					<div class="alert alert-warning">
+					<div class="alert alert-info">
+						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else: ?>

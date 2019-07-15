@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Log\Log;
 use Joomla\Image\Image as FrameworkImage;
+use Joomla\Image\ImageFilter;
 
 /**
  * Class to manipulate an image.

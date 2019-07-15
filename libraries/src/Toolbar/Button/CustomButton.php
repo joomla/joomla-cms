@@ -25,7 +25,7 @@ class CustomButton extends ToolbarButton
 	/**
 	 * Render button HTML.
 	 *
-	 * @param   array  &$options  The button options.
+	 * @param   array  $options  The button options.
 	 *
 	 * @return  string  The button HTML.
 	 *

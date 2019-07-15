@@ -67,7 +67,7 @@
 			name="published"
 			type="list"
 			label="JSTATUS"
-			class="chzn-color-state"
+			class="custom-select-color-state"
 			id="published"
 			size="1"
 			default="1"
@@ -92,7 +92,7 @@
 
 		<field
 			name="menuordering"
-			type="menuordering"
+			type="MenuOrdering"
 			label="COM_MENUS_ITEM_FIELD_ORDERING_LABEL"
 			filter="int"
 			size="1"

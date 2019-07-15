@@ -86,6 +86,7 @@ class ContentmapField extends GroupedlistField
 		if ($contentMap)
 		{
 			$lang = Factory::getLanguage();
+			$name = '';
 
 			foreach ($contentMap as $branch)
 			{

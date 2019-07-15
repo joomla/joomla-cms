@@ -11,21 +11,22 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.formvalidator');
+
+$this->useCoreUI = true;
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="group-form" class="form-validate">
 	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_USERS_USERGROUP_DETAILS')); ?>
-	<fieldset>
 		<?php echo $this->form->renderField('title'); ?>
 		<?php echo $this->form->renderField('parent_id'); ?>
-	</fieldset>
 	<?php echo HTMLHelper::_('uitab.endTab'); ?>
 	<?php $this->ignore_fieldsets = array('group_details'); ?>
-	<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+	<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 	<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
 	<input type="hidden" name="task" value="">

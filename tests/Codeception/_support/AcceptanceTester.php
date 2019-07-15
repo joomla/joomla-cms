@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  AcceptanceTester
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,5 +57,24 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->dontSeeInPageSource('Strict standards:');
 		$I->dontSeeInPageSource('<b>Strict standards</b>:');
 		$I->dontSeeInPageSource('The requested page can\'t be found');
+	}
+
+	/**
+	 * Function to wait for JS to be properly loaded on page change
+	 *
+	 * @param   int|float  $timeout  Time to wait for JS to be ready
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
+	 */
+	public function waitForJsOnPageLoad($timeout = 1)
+	{
+		$I = $this;
+
+		$I->waitForJS('return document.readyState == "complete"', $timeout);
+
+		// Wait an additional 500ms to make sure that really all JS is loaded
+		$I->wait(0.5);
 	}
 }

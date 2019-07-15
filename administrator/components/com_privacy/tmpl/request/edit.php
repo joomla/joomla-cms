@@ -9,11 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
+
 /** @var PrivacyViewRequest $this */
 
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
-JHtml::_('formbehavior.chosen', 'select');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
 
 $js = <<< JS
 Joomla.submitbutton = function(task) {
@@ -23,10 +26,10 @@ Joomla.submitbutton = function(task) {
 };
 JS;
 
-JFactory::getDocument()->addScriptDeclaration($js);
+Factory::getDocument()->addScriptDeclaration($js);
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_privacy&view=request&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_privacy&view=request&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 	<div class="form-horizontal">
 		<div class="row-fluid">
 			<div class="span9">
@@ -39,6 +42,6 @@ JFactory::getDocument()->addScriptDeclaration($js);
 		</div>
 
 		<input type="hidden" name="task" value="" />
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</div>
 </form>

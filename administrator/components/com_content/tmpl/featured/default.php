@@ -76,19 +76,15 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 
 <form action="<?php echo Route::_('index.php?option=com_content&view=featured'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
-		<?php if (!empty($this->sidebar)) : ?>
-		<div id="j-sidebar-container" class="col-md-2">
-			<?php echo $this->sidebar; ?>
-		</div>
-		<?php endif; ?>
-		<div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
+		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<?php
 				// Search tools bar
 				echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning">
+					<div class="alert alert-info">
+						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -105,7 +101,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col" style="width:1%" class="text-center">
-									<?php echo JText::_('JFEATURED'); ?>
+									<?php echo Text::_('JFEATURED'); ?>
 								</th>
 								<th scope="col" style="width:1%; min-width:85px" class="text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
@@ -321,21 +317,14 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 								</td>
 								<td class="small d-none d-md-table-cell">
 									<?php if ((int) $item->created_by != 0) : ?>
-										<?php if ($item->created_by_alias) : ?>
-											<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo Text::_('JAUTHOR'); ?>">
-												<?php echo $this->escape($item->author_name); ?></a>
-											<div class="smallsub"><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
-										<?php else : ?>
-											<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo Text::_('JAUTHOR'); ?>">
-												<?php echo $this->escape($item->author_name); ?></a>
-										<?php endif; ?>
+										<a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>">
+											<?php echo $this->escape($item->author_name); ?>
+										</a>
 									<?php else : ?>
-										<?php if ($item->created_by_alias) : ?>
-											<?php echo Text::_('JNONE'); ?>
-											<div class="smallsub"><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
-										<?php else : ?>
-											<?php echo Text::_('JNONE'); ?>
-										<?php endif; ?>
+										<?php echo Text::_('JNONE'); ?>
+									<?php endif; ?>
+									<?php if ($item->created_by_alias) : ?>
+										<div class="smallsub"><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
 									<?php endif; ?>
 								</td>
 								<?php if (Multilanguage::isEnabled()) : ?>

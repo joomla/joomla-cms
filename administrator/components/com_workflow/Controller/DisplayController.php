@@ -15,6 +15,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\Input\Input;
 
 /**
  * Workflow base controller package.
@@ -45,7 +46,7 @@ class DisplayController extends BaseController
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   Input                $input    Input
 	 *
 	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException when no extension is set

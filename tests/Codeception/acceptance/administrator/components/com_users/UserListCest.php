@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  Acceptance.tests
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,11 +28,12 @@ class UserListCest
 	/**
 	 * Create a user
 	 *
-	 * @param   \Step\Acceptance\Administrator\Admin  $I The AcceptanceTester Object
-	 *
-	 * @since   3.7.3
+	 * @param   \Step\Acceptance\Administrator\Admin  $I  The AcceptanceTester Object
 	 *
 	 * @return  void
+	 * @since   3.7.3
+	 *
+	 * @throws Exception
 	 */
 	public function createUser(\Step\Acceptance\Administrator\Admin $I)
 	{
@@ -44,11 +45,12 @@ class UserListCest
 		$I->checkForPhpNoticesOrWarnings();
 
 		$I->waitForText(UserListPage::$pageTitleText);
-
+		$I->waitForJsOnPageLoad();
 		$I->clickToolbarButton('new');
 
 		$I->waitForElement(UserListPage::$accountDetailsTab);
 		$I->checkForPhpNoticesOrWarnings();
+		$I->waitForJsOnPageLoad();
 
 		$this->fillUserForm($I, $this->name, $this->username, $this->password, $this->email);
 
@@ -62,13 +64,14 @@ class UserListCest
 	/**
 	 * Edit a user
 	 *
-	 * @param   \Step\Acceptance\Administrator\Admin $I  The AcceptanceTester Object
+	 * @param   \Step\Acceptance\Administrator\Admin  $I  The AcceptanceTester Object
 	 *
+	 * @return  void
 	 * @since   3.7.3
 	 *
 	 * @depends createUser
 	 *
-	 * @return  void
+	 * @throws Exception
 	 */
 	public function editUser(\Step\Acceptance\Administrator\Admin $I)
 	{
@@ -77,17 +80,20 @@ class UserListCest
 
 		$I->amOnPage(UserListPage::$url);
 		$I->waitForText(UserListPage::$pageTitleText);
-		$I->click('#menu-collapse-icon');
+		$I->waitForJsOnPageLoad();
 
 		$I->click($this->name);
 
 		$I->waitForElement(UserListPage::$accountDetailsTab);
+		$I->waitForJsOnPageLoad();
 		$I->checkForPhpNoticesOrWarnings();
+		$I->waitForJsOnPageLoad();
 
 		$this->fillUserForm($I, $this->name, $this->username, $this->password, $this->email);
 
 		$I->clickToolbarButton("Save");
 		$I->waitForText(UserListPage::$pageTitleText);
+		$I->waitForJsOnPageLoad();
 
 		$I->seeSystemMessage(UserListPage::$successMessage);
 		$I->checkForPhpNoticesOrWarnings();
@@ -102,9 +108,10 @@ class UserListCest
 	 * @param   string            $password  User's password
 	 * @param   string            $email     User's email
 	 *
+	 * @return  void  The user's form will be filled with given detail
 	 * @since   3.7.3
 	 *
-	 * @return  void  The user's form will be filled with given detail
+	 * @throws Exception
 	 */
 	protected function fillUserForm($I, $name, $username, $password, $email)
 	{
@@ -120,11 +127,12 @@ class UserListCest
 	/**
 	 * Method to set Send Email to "NO"
 	 *
-	 * @param   AcceptanceTester  $I         The AcceptanceTester Object
-	 *
-	 * @since   4.0
+	 * @param   AcceptanceTester  $I  The AcceptanceTester Object
 	 *
 	 * @return  void  The user's form will be filled with given detail
+	 * @since   4.0
+	 *
+	 * @throws Exception
 	 */
 	protected function toggleSendMail($I)
 	{
@@ -139,6 +147,5 @@ class UserListCest
 		$I->comment('I wait for global configuration being saved');
 		$I->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
 		$I->see('Configuration saved.', ['id' => 'system-message-container']);
-
 	}
 }

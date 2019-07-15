@@ -215,7 +215,7 @@ jQuery(document).ready(function($) {
 			{
 				document.getElementById('select-change-text').innerHTML =  document.getElementById('select-change').getAttribute('data-select');
 			}
-			// If we are editing a association.
+			// If we are editing an association.
 			else
 			{
 				// Show change language button

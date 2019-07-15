@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Installer\Administrator\Model\ManageModel;
+use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -33,7 +34,7 @@ class ManageController extends BaseController
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   Input                $input    Input
 	 *
 	 * @since  1.6
 	 * @see    \JControllerLegacy

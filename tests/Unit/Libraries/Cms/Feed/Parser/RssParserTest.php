@@ -559,8 +559,10 @@ class RssParserTest extends UnitTestCase
 		$method = $reflectionClass->getMethod('initialise');
 		$method->setAccessible(true);
 		$method->invoke($rssParser);
+		$attribute = $reflectionClass->getProperty('version');
+		$attribute->setAccessible(true);
 
-		$this->assertAttributeEquals($version, 'version', $rssParser);
+		$this->assertEquals($version, $attribute->getValue($rssParser));
 	}
 
 	/**

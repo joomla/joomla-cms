@@ -10,7 +10,6 @@ namespace Joomla\CMS\Menu;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Tree\NodeInterface;
 use Joomla\CMS\Tree\NodeTrait;
 use Joomla\Registry\Registry;

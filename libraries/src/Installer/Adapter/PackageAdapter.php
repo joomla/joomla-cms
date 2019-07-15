@@ -23,6 +23,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
+use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Event\Event;
 
@@ -232,7 +233,7 @@ class PackageAdapter extends InstallerAdapter
 			{
 				$db->setQuery($query)->execute();
 			}
-			catch (\JDatabaseExceptionExecuting $e)
+			catch (ExecutionFailureException $e)
 			{
 				Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_SETTING_PACKAGE_ID'), Log::WARNING, 'jerror');
 			}
