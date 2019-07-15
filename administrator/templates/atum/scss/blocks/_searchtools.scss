@@ -84,6 +84,14 @@
         color: var(--atum-text-light);
         border:1px solid var(--border);
 		border-left: 0;
+		
+		&.disabled,
+		&:disabled{
+			background-color: rgba($gray-300, 0.8);
+			border-color: rgba($gray-500, 0.8);
+			opacity:1;
+			color:var(--atum-text-dark);
+		}
       }
       .js-stools-btn-filter{
         border-right:1px solid var(--border);
