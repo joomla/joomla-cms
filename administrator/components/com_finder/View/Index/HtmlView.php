@@ -198,14 +198,15 @@ class HtmlView extends BaseHtmlView
 
 			$childBar->publish('index.publish')->listCheck(true);
 			$childBar->unpublish('index.unpublish')->listCheck(true);
-
-			if ($canDo->get('core.delete'))
-			{
-				$childBar->delete('index.delete')->listCheck(true);
-			}
 		}
 
 		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
+
+		if ($canDo->get('core.delete'))
+		{
+			ToolbarHelper::deleteList('', 'index.delete');
+			ToolbarHelper::divider();
+		}
 
 		if ($canDo->get('core.edit.state'))
 		{

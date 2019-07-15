@@ -158,16 +158,17 @@ class HtmlView extends BaseHtmlView
 			$childBar->publish('filters.publish')->listCheck(true);
 			$childBar->unpublish('filters.unpublish')->listCheck(true);
 			$childBar->checkin('filters.checkin')->listCheck(true);
-
-			if ($canDo->get('core.delete'))
-			{
-				$childBar->delete('filters.delete')->listCheck(true);
-			}
 		}
 
 		ToolbarHelper::divider();
 		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
 		ToolbarHelper::divider();
+
+		if ($canDo->get('core.delete'))
+		{
+			ToolbarHelper::deleteList('', 'filters.delete');
+			ToolbarHelper::divider();
+		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
