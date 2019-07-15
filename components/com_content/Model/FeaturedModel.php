@@ -73,7 +73,7 @@ class FeaturedModel extends ArticlesModel
 
 		if ($featuredCategories = $params->get('show_only_featured', 1))
 		{
-		$this->setState('filter.frontpage', true);
+			$this->setState('filter.frontpage', true);
 		}
 
 		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content')))
