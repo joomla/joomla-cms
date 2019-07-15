@@ -31,6 +31,7 @@ steps:
     commands:
       - echo $(date)
       - ./libraries/vendor/bin/phpcs --config-set installed_paths ../../joomla/cms-coding-standards/lib,../../joomla/coding-standards/Joomla/ExampleRulesets,../../joomla/coding-standards
+      - ./libraries/vendor/bin/phpcs --config-set colors 1
       - ./libraries/vendor/bin/phpcs --config-set php_version 70200
       - ./libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php --ignore=libraries/vendor/*,tests/*,build/*,node_modules/*,media/*,libraries/autoload_psr4.php,installation/template/error.php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
       - echo $(date)
@@ -196,7 +197,7 @@ steps:
       - /bin/upload.sh
     when:
       status:
-        - failure
+      - failure
 
   - name: api-tests
     depends_on: [ system-tests-postgres ]
@@ -224,11 +225,10 @@ steps:
 branches:
   exclude: [ l10n_* ]
 
-
 volumes:
-  - name: cache
-    host:
-      path: /tmp/cache
+- name: cache
+  host:
+    path: /tmp/cache
 
 services:
   - name: mysql
