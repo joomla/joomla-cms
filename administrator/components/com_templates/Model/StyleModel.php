@@ -631,7 +631,7 @@ class StyleModel extends AdminModel
 
 		$clientId = (int) $style->client_id;
 		$id       = (int) $id;
-		
+
 		// Reset the home fields for the client_id.
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__template_styles'))
@@ -676,7 +676,7 @@ class StyleModel extends AdminModel
 		{
 			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 		}
-		
+
 		$id = (int) $id;
 
 		// Lookup the client_id.
