@@ -51,7 +51,7 @@ Text::script('MESSAGE');
 		</div>
 		<!-- End Sidebar -->
 		<!-- Begin Content -->
-		<div class="col-md-9 mt-2">
+		<div class="col-lg-9 mt-2">
 			<ul class="nav nav-tabs">
 				<li class="nav-item"><a class="nav-link active" href="#page-site" data-toggle="tab"><?php echo Text::_('JSITE'); ?></a></li>
 				<li class="nav-item"><a class="nav-link" href="#page-system" data-toggle="tab"><?php echo Text::_('COM_CONFIG_SYSTEM'); ?></a></li>

@@ -31,7 +31,7 @@ $this->useCoreUI = true;
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_FIELDS_VIEW_FIELD_FIELDSET_GENERAL', true)); ?>
 		<div class="row">
-			<div class="col-md-9">
+			<div class="col-lg-9">
 				<div class="card">
 					<div class="card-body">
 					<?php echo $this->form->renderField('label'); ?>
@@ -39,7 +39,7 @@ $this->useCoreUI = true;
 					</div>
 				</div>
 			</div>
-			<div class="col-md-3">
+			<div class="col-lg-3">
 				<div class="card">
 					<div class="card-body">
 					<?php $this->set('fields',

@@ -55,7 +55,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_CONTENT_ARTICLE_CONTENT')); ?>
 		<div class="row">
-			<div class="col-12 col-md-9">
+			<div class="col-lg-9">
 				<div class="card">
 					<div class="card-body">
 						<fieldset class="adminform">
@@ -65,7 +65,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 					</div>
 				</div>
 			</div>
-			<div class="col-12 col-md-3">
+			<div class="col-lg-3">
 				<div class="bg-white px-3">
 				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 				</div>
@@ -78,7 +78,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php if ($params->get('show_urls_images_backend') == 1) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'images', Text::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES')); ?>
 			<div class="row">
-				<div class="col-12 col-md-6">
+				<div class="col-12 col-lg-6">
 				<?php foreach ($fieldsetsInImages as $fieldset) : ?>
 					<fieldset id="fieldset-<?php echo $fieldset; ?>" class="options-fieldset option-fieldset-full">
 						<legend><?php echo Text::_($this->form->getFieldsets()[$fieldset]->label); ?></legend>
@@ -86,7 +86,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 					</fieldset>
 				<?php endforeach; ?>
 				</div>
-				<div class="col-12 col-md-6">
+				<div class="col-12 col-lg-6">
 				<?php foreach ($fieldsetsInLinks as $fieldset) : ?>
 					<fieldset id="fieldset-<?php echo $fieldset; ?>" class="options-fieldset option-fieldset-full">
 						<legend><?php echo Text::_($this->form->getFieldsets()[$fieldset]->label); ?></legend>
@@ -106,13 +106,13 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('COM_CONTENT_FIELDSET_PUBLISHING')); ?>
 			<div class="row">
-				<div class="col-12 col-md-6">
+				<div class="col-12 col-lg-6">
 					<fieldset id="fieldset-publishingdata" class="options-fieldset option-fieldset-full">
 						<legend><?php echo Text::_('COM_CONTENT_FIELDSET_PUBLISHING'); ?></legend>
 						<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 					</fieldset>
 				</div>
-				<div class="col-12 col-md-6">
+				<div class="col-12 col-lg-6">
 					<?php echo $this->loadTemplate('metadata'); ?>
 				</div>
 			</div>
@@ -129,7 +129,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'editor', Text::_('COM_CONTENT_SLIDER_EDITOR_CONFIG')); ?>
-			<fieldset id="fieldset-editor" class="options-fieldset">
+			<fieldset id="fieldset-editor" class="form-no-margin options-fieldset">
 				<legend><?php echo Text::_('COM_CONTENT_SLIDER_EDITOR_CONFIG'); ?></legend>
 				<?php echo $this->form->renderFieldset('editorConfig'); ?>
 			</fieldset>

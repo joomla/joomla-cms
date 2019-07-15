@@ -34,7 +34,7 @@ $user = Factory::getUser();
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('JDETAILS')); ?>
 
 		<div class="row">
-			<div class="col-md-9">
+			<div class="col-lg-9">
 				<div class="card">
 					<h2 class="card-header">
 						<?php echo Text::_($this->item->template); ?>
@@ -67,7 +67,7 @@ $user = Factory::getUser();
 					</div>
 				</div>
 			</div>
-			<div class="col-md-3">
+			<div class="col-lg-3">
 				<div class="card">
 					<div class="card-body">
 						<?php

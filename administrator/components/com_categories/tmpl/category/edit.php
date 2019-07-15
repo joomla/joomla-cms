@@ -46,7 +46,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('JCATEGORY')); ?>
 		<div class="row">
-			<div class="col-md-9">
+			<div class="col-lg-9">
 				<div class="card">
 					<div class="card-body">
 						<?php echo $this->form->getLabel('description'); ?>
@@ -54,7 +54,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 					</div>
 				</div>
 			</div>
-			<div class="col-md-3">
+			<div class="col-lg-3">
 				<div class="card card-block">
 					<div class="card-body">
 					<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
@@ -69,13 +69,13 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('COM_CATEGORIES_FIELDSET_PUBLISHING')); ?>
 		<div class="row">
-			<div class="col-12 col-md-6">
+			<div class="col-12 col-lg-6">
 				<fieldset id="fieldset-publishingdata" class="options-fieldset option-fieldset-full">
 					<legend><?php echo Text::_('COM_CATEGORIES_FIELDSET_PUBLISHING'); ?></legend>
 					<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 				</fieldset>
 			</div>
-			<div class="col-12 col-md-6">
+			<div class="col-12 col-lg-6">
 				<?php echo $this->loadTemplate('metadata'); ?>
 			</div>
 		</div>

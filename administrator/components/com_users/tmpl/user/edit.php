@@ -95,7 +95,7 @@ $this->useCoreUI = true;
 			</div>
 		<?php else : ?>
 		<?php foreach ($this->otpConfig->otep as $otep) : ?>
-		<span class="col-md-3">
+		<span class="col-lg-3">
 			<?php echo substr($otep, 0, 4); ?>-<?php echo substr($otep, 4, 4); ?>-<?php echo substr($otep, 8, 4); ?>-<?php echo substr($otep, 12, 4); ?>
 		</span>
 		<?php endforeach; ?>

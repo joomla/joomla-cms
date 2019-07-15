@@ -35,7 +35,7 @@ $this->useCoreUI = true;
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_TAGS_FIELDSET_DETAILS')); ?>
 		<div class="row">
-			<div class="col-md-9">
+			<div class="col-lg-9">
 				<div class="form-vertical">
 					<div class="card">
 						<div class="card-body">
@@ -45,7 +45,7 @@ $this->useCoreUI = true;
 					</div>
 				</div>
 			</div>
-			<div class="col-md-3">
+			<div class="col-lg-3">
 				<div class="card">
 					<div class="card-body">
 						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>

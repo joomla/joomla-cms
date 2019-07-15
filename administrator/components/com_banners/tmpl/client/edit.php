@@ -29,7 +29,7 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-versions.js', ['versio
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', empty($this->item->id) ? Text::_('COM_BANNERS_NEW_CLIENT') : Text::_('COM_BANNERS_EDIT_CLIENT')); ?>
 		<div class="row">
-			<div class="col-md-9">
+			<div class="col-lg-9">
 				<div class="card">
 					<div class="card-body">
 						<?php
@@ -43,7 +43,7 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-versions.js', ['versio
 					</div>
 				</div>
 			</div>
-			<div class="col-md-3">
+			<div class="col-lg-3">
 				<div class="card">
 					<div class="card-body">
 						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
@@ -55,7 +55,7 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-versions.js', ['versio
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'metadata', Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS')); ?>
 		<div class="row">
-			<div class="col-12 col-md-6">
+			<div class="col-12 col-lg-6">
 				<fieldset id="fieldset-metadata" class="options-fieldset option-fieldset-full">
 					<legend><?php echo Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
 					<?php echo $this->form->renderFieldset('metadata'); ?>
