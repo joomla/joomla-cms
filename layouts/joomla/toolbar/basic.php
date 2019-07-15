@@ -40,7 +40,7 @@ $formAttr = !empty($form)           ? ' form="' . $this->escape($form) . '"' : '
 $validate = !empty($formValidation) ? ' form-validation' : '';
 $msgAttr  = !empty($message)        ? ' confirm-message="' . $this->escape($message) . '"' : '';
 
-if (!empty($id) && ($id === 'toolbar-help'))
+if ($id === 'toolbar-help')
 {
 	$title = ' title="' . Text::_('JGLOBAL_OPENS_IN_A_NEW_WINDOW') . '"';
 }
