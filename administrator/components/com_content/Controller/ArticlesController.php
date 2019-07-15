@@ -139,7 +139,7 @@ class ArticlesController extends AdminController
 	/**
 	 * Method to get the number of published articles for quickicons
 	 *
-	 * @return  integer  The amount of published articles
+	 * @return  string  The JSON-encoded amount of published articles
 	 *
 	 * @since   4.0
 	 */
@@ -151,6 +151,12 @@ class ArticlesController extends AdminController
 
 		$amount = (int) $model->getTotal();
 
-		echo new JsonResponse($amount);
+		$result = [];
+
+		$result['amount'] = $amount;
+		$result['sronly'] = Text::plural('COM_CONTENT_N_QUICKICON_SRONLY', $amount);
+		$result['name'] = Text::plural('COM_CONTENT_N_QUICKICON', $amount);
+
+		echo new JsonResponse($result);
 	}
 }

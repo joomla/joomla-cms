@@ -42,7 +42,7 @@ if ($id && ($displayData['id'] === 'plg_quickicon_joomlaupdate'
 }
 
 // Add the button class
-if (!empty($displayData['class']) && is_string($displayData['class']))
+if (!empty($displayData['class']))
 {
 	$tmp[] = $this->escape($displayData['class']);
 }
@@ -66,19 +66,18 @@ else
 	<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
 		<?php if (isset($displayData['image'])): ?>
 			<div class="quickicon-icon d-flex align-items-end <?php echo $size ?>">
-				<span class="<?php echo $displayData['image']; ?>" aria-hidden="true"></span>
+				<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
 			</div>
 		<?php endif; ?>
 		<?php if (isset($displayData['ajaxurl'])) : ?>
-			<div class="quickicon-amount" <?php echo $dataUrl ?>>
+			<div class="quickicon-amount" <?php echo $dataUrl ?> aria-hidden="true">
 				<span class="fa fa-spinner" aria-hidden="true"></span>
 			</div>
+			<div class="quickicon-sr-desc sr-only"></div>
 		<?php endif; ?>
 		<?php // Name indicates the component
 		if (isset($displayData['name'])): ?>
-			<div class="quickicon-name d-flex align-items-end"
-				 data-name-singular="<?php echo $add ?>"
-				 data-name-plural="<?php echo $name ?>">
+			<div class="quickicon-name d-flex align-items-end">
 				<?php echo htmlspecialchars($name); ?>
 			</div>
 		<?php endif; ?>
@@ -92,9 +91,9 @@ else
 	<?php // Add the link to the edit-form
 	if (!empty($displayData['linkadd'])): ?>
 			<a class="btn-block quickicon-linkadd j-links-link" href="<?php echo $displayData['linkadd']; ?>">
-				<span class="fa fa-plus mr-2" aria-hidden="true"></span>
+				<span class="fa fa-plus" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::sprintf('MOD_QUICKICON_ADD_NEW', $add); ?></span>
-				<span aria-hidden="true"><?php echo $add; ?></span>
+				<span class= mr-auto" aria-hidden="true"><?php echo $add; ?></span>
 			</a>
 	<?php endif; ?>
 </li>

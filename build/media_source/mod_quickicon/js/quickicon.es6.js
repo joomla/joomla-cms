@@ -9,6 +9,7 @@
   /**
    * Every quickicon with an ajax request url loads data and set them into the counter element
    * Also the data name is set as singular or plural.
+   * A SR-only text ist added
    * The class pulse gets 'warning', 'success' or 'error', depending on the retrieved data.
    */
   document.addEventListener('DOMContentLoaded', () => {
@@ -36,18 +37,20 @@
               }
 
               // Set name in singular or plural
-              if (name && name.dataset.nameSingular && name.dataset.namePlural) {
-                if (response.data <= 1) {
-                  nameSpan.textContent = name.dataset.nameSingular;
-                } else {
-                  nameSpan.textContent = name.dataset.namePlural;
-                }
-
+              if (response.data.name && name) {
+                nameSpan.textContent = response.data.name;
                 name.replaceChild(nameSpan, name.firstChild);
               }
 
               // Set amount of number into counter span
-              counter.textContent = response.data;
+              counter.textContent = `\u200E${response.data.amount}`;
+
+              // Insert screenreader text
+              const sronly = quickicon.querySelector('.quickicon-sr-desc');
+
+              if (response.data.sronly && sronly) {
+                sronly.textContent = response.data.sronly;
+              }
             } else if (pulse) {
               pulse.classList.add('error');
             }

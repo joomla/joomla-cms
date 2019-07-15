@@ -65,21 +65,26 @@ abstract class QuickIconHelper
 
 			if ($params->get('show_users'))
 			{
-				self::$buttons[$key][] = [
-					'ajaxurl' => 'index.php?option=com_users&amp;task=users.getQuickiconContent&amp;format=json',
+				$tmp = [
 					'image'   => 'fa fa-users',
 					'link'    => Route::_('index.php?option=com_users'),
-					'linkadd' => Route::_('index.php?option=com_users&task=user.add'),
+					'linkadd' => Route::_('index.php?option=com_users&task=users.add'),
 					'name'    => 'MOD_QUICKICON_USER_MANAGER',
 					'access'  => array('core.manage', 'com_users', 'core.create', 'com_users'),
 					'group'   => 'MOD_QUICKICON_SITE',
 				];
+
+				if ($params->get('show_users') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_users&amp;task=users.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
 			}
 
-			if ($params->get('show_menuItems'))
+			if ($params->get('show_menuitems'))
 			{
-				self::$buttons[$key][] = [
-					'ajaxurl' => 'index.php?option=com_menus&amp;task=items.getQuickiconContent&amp;format=json',
+				$tmp = [
 					'image'   => 'fa fa-list',
 					'link'    => Route::_('index.php?option=com_menus'),
 					'linkadd' => Route::_('index.php?option=com_menus&task=item.add'),
@@ -87,12 +92,18 @@ abstract class QuickIconHelper
 					'access'  => array('core.manage', 'com_menus', 'core.create', 'com_menus'),
 					'group'   => 'MOD_QUICKICON_STRUCTURE',
 				];
+
+				if ($params->get('show_menuitems') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_menus&amp;task=items.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
 			}
 
 			if ($params->get('show_articles'))
 			{
-				self::$buttons[$key][] = [
-					'ajaxurl' => 'index.php?option=com_content&amp;task=articles.getQuickiconContent&amp;format=json',
+				$tmp = [
 					'image'   => 'fa fa-file-alt',
 					'link'    => Route::_('index.php?option=com_content'),
 					'linkadd' => Route::_('index.php?option=com_content&task=article.add'),
@@ -100,12 +111,18 @@ abstract class QuickIconHelper
 					'access'  => array('core.manage', 'com_content', 'core.create', 'com_content'),
 					'group'   => 'MOD_QUICKICON_SITE',
 				];
+
+				if ($params->get('show_articles') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_content&amp;task=articles.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
 			}
 
 			if ($params->get('show_categories'))
 			{
-				self::$buttons[$key][] = [
-					'ajaxurl' => 'index.php?option=com_categories&amp;task=categories.getQuickiconContent&amp;format=json',
+				$tmp = [
 					'image'   => 'fa fa-folder-open',
 					'link'    => Route::_('index.php?option=com_categories'),
 					'linkadd' => Route::_('index.php?option=com_categories&task=category.add'),
@@ -113,6 +130,13 @@ abstract class QuickIconHelper
 					'access'  => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
 					'group'   => 'MOD_QUICKICON_SITE',
 				];
+
+				if ($params->get('show_categories') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_categories&amp;task=categories.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
 			}
 
 			if ($params->get('show_media'))
@@ -128,8 +152,7 @@ abstract class QuickIconHelper
 
 			if ($params->get('show_modules'))
 			{
-				self::$buttons[$key][] = [
-					'ajaxurl' => 'index.php?option=com_modules&amp;task=modules.getQuickiconContent&amp;format=json',
+				$tmp = [
 					'image'   => 'fa fa-cube',
 					'link'    => Route::_('index.php?option=com_modules'),
 					'linkadd' => Route::_('index.php?option=com_modules&view=select'),
@@ -137,18 +160,31 @@ abstract class QuickIconHelper
 					'access'  => array('core.manage', 'com_modules'),
 					'group'   => 'MOD_QUICKICON_SITE'
 				];
+
+				if ($params->get('show_modules') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_modules&amp;task=modules.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
 			}
 
 			if ($params->get('show_plugins'))
 			{
-				self::$buttons[$key][] = [
-					'ajaxurl' => 'index.php?option=com_plugins&amp;task=plugins.getQuickiconContent&amp;format=json',
-					'image'   => 'fa fa-plug',
-					'link'    => Route::_('index.php?option=com_plugins'),
-					'name'    => 'MOD_QUICKICON_PLUGIN_MANAGER',
-					'access'  => array('core.manage', 'com_plugins'),
-					'group'   => 'MOD_QUICKICON_SITE'
+				$tmp = [
+					'image'  => 'fa fa-plug',
+					'link'   => Route::_('index.php?option=com_plugins'),
+					'name'   => 'MOD_QUICKICON_PLUGIN_MANAGER',
+					'access' => array('core.manage', 'com_plugins'),
+					'group'  => 'MOD_QUICKICON_SITE'
 				];
+
+				if ($params->get('show_plugins') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_plugins&amp;task=plugins.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
 			}
 
 			if ($params->get('show_templates'))
@@ -165,7 +201,7 @@ abstract class QuickIconHelper
 			if ($params->get('show_checkin'))
 			{
 				self::$buttons[$key][] = [
-					'ajaxurl' => 'index.php?option=com_checkin&amp;task=getMenuBadgeData&amp;format=json',
+					'ajaxurl' => 'index.php?option=com_checkin&amp;task=getQuickiconContent&amp;format=json',
 					'image'   => 'fa fa-unlock-alt',
 					'link'    => Route::_('index.php?option=com_checkin'),
 					'name'    => 'MOD_QUICKICON_CHECKINS',

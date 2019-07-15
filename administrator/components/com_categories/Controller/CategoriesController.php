@@ -43,7 +43,7 @@ class CategoriesController extends AdminController
 	/**
 	 * Method to get the number of content categories
 	 *
-	 * @return  integer  The amount of published content categories
+	 * @return  string  The JSON-encoded amount of published content categories
 	 *
 	 * @since   4.0
 	 */
@@ -55,7 +55,13 @@ class CategoriesController extends AdminController
 
 		$amount = (int) $model->getTotal();
 
-		echo new JsonResponse($amount);
+		$result = [];
+
+		$result['amount'] = $amount;
+		$result['sronly'] = Text::plural('COM_CATEGORIES_N_QUICKICON_SRONLY', $amount);
+		$result['name'] = Text::plural('COM_CATEGORIES_N_QUICKICON', $amount);
+
+		echo new JsonResponse($result);
 	}
 
 	/**
