@@ -26,7 +26,7 @@ class JsonapiView extends BaseApiView
 	/**
 	 * The fields to render item in the documents
 	 *
-	 * @var  string
+	 * @var  array
 	 * @since  4.0.0
 	 */
 	protected $fieldsToRenderItem = [
@@ -37,14 +37,13 @@ class JsonapiView extends BaseApiView
 		'text',
 		'state',
 		'catid',
-		'created',
-		'fields'
+		'created'
 	];
 
 	/**
 	 * The fields to render items in the documents
 	 *
-	 * @var  string
+	 * @var  array
 	 * @since  4.0.0
 	 */
 	protected $fieldsToRenderList = [
@@ -55,9 +54,50 @@ class JsonapiView extends BaseApiView
 		'text',
 		'state',
 		'catid',
-		'created',
-		'fields'
+		'created'
 	];
+
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	public function displayList()
+	{
+		$fields = [];
+
+		foreach (FieldsHelper::getFields('com_content.article') as $field)
+		{
+			$fields[] = $field->name;
+		}
+
+		$this->fieldsToRenderList = array_merge($this->fieldsToRenderList, $fields);
+
+		return parent::displayList();
+	}
+
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	public function displayItem()
+	{
+		$fields = [];
+
+		foreach (FieldsHelper::getFields('com_content.article') as $field)
+		{
+			$fields[] = $field->name;
+		}
+
+		$this->fieldsToRenderItem = array_merge($this->fieldsToRenderItem, $fields);
+
+		return parent::displayItem();
+	}
 
 	/**
 	 * Prepare item before render.
@@ -70,8 +110,7 @@ class JsonapiView extends BaseApiView
 	 */
 	protected function prepareItem($item)
 	{
-		$item->fields = [];
-		$item->text   = $item->introtext . ' ' . $item->fulltext;
+		$item->text = $item->introtext . ' ' . $item->fulltext;
 
 		// Process the content plugins.
 		PluginHelper::importPlugin('content');
@@ -79,7 +118,7 @@ class JsonapiView extends BaseApiView
 
 		foreach (FieldsHelper::getFields('com_content.article', $item, true) as $field)
 		{
-			$item->fields->{$field->name} = isset($field->apivalue) ? $field->apivalue : $field->rawvalue;
+			$item->{$field->name} = isset($field->apivalue) ? $field->apivalue : $field->rawvalue;
 		}
 
 		return parent::prepareItem($item);

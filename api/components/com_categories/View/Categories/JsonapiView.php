@@ -24,7 +24,7 @@ class JsonapiView extends BaseApiView
 	/**
 	 * The fields to render item in the documents
 	 *
-	 * @var  string
+	 * @var  array
 	 * @since  4.0.0
 	 */
 	protected $fieldsToRenderItem = [
@@ -50,14 +50,13 @@ class JsonapiView extends BaseApiView
 		'count_trashed',
 		'count_unpublished',
 		'count_published',
-		'count_archived',
-		'fields'
+		'count_archived'
 	];
 
 	/**
 	 * The fields to render items in the documents
 	 *
-	 * @var  string
+	 * @var  array
 	 * @since  4.0.0
 	 */
 	protected $fieldsToRenderList = [
@@ -83,9 +82,50 @@ class JsonapiView extends BaseApiView
 		'count_trashed',
 		'count_unpublished',
 		'count_published',
-		'count_archived',
-		'fields'
+		'count_archived'
 	];
+
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	public function displayList()
+	{
+		$fields = [];
+
+		foreach (FieldsHelper::getFields('com_content.categories') as $field)
+		{
+			$fields[] = $field->name;
+		}
+
+		$this->fieldsToRenderList = array_merge($this->fieldsToRenderList, $fields);
+
+		return parent::displayList();
+	}
+
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	public function displayItem()
+	{
+		$fields = [];
+
+		foreach (FieldsHelper::getFields('com_content.categories') as $field)
+		{
+			$fields[] = $field->name;
+		}
+
+		$this->fieldsToRenderItem = array_merge($this->fieldsToRenderItem, $fields);
+
+		return parent::displayItem();
+	}
 
 	/**
 	 * Prepare item before render.
@@ -98,20 +138,10 @@ class JsonapiView extends BaseApiView
 	 */
 	protected function prepareItem($item)
 	{
-		$fields = [];
-
 		foreach (FieldsHelper::getFields('com_content.categories', $item, true) as $field)
 		{
-			$fields[] = [
-				'id'       => $field->id,
-				'title'    => $field->title,
-				'name'     => $field->name,
-				'value'    => trim($field->value),
-				'rawvalue' => $field->rawvalue,
-			];
+			$item->{$field->name} = isset($field->apivalue) ? $field->apivalue : $field->rawvalue;
 		}
-
-		$item->fields = $fields;
 
 		return parent::prepareItem($item);
 	}
