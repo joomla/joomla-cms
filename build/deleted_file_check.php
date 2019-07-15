@@ -43,7 +43,9 @@ if (empty($options['from']))
 {
 	echo PHP_EOL;
 	echo 'Missing starting directory' . PHP_EOL;
+
 	usage($argv[0]);
+
 	exit(1);
 }
 
@@ -52,7 +54,9 @@ if (empty($options['to']))
 {
 	echo PHP_EOL;
 	echo 'Missing ending directory' . PHP_EOL;
+
 	usage($argv[0]);
+
 	exit(1);
 }
 
