@@ -178,6 +178,7 @@ class CaptchaField extends FormField
 		{
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
+
 		return '';
 	}
 }
