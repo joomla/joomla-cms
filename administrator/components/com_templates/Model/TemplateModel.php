@@ -693,7 +693,7 @@ class TemplateModel extends FormModel
 			->select('COUNT(*)')
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('name') . ' = :name')
-				->bind(':name', $name);
+			->bind(':name', $name);
 		$db->setQuery($query);
 
 		return ($db->loadResult() == 0);
