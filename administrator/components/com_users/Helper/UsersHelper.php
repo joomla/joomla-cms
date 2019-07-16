@@ -163,7 +163,7 @@ class UsersHelper extends ContentHelper
 
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('title AS text')
+			->select($db->quoteName('title', 'text'))
 			->from($db->quoteName('#__usergroups'))
 			->whereIn($db->quoteName('id'), $rules);
 		$db->setQuery($query);
