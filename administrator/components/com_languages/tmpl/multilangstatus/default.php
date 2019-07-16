@@ -19,117 +19,83 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 	<?php if (!$this->language_filter && $this->switchers == 0) : ?>
 		<?php if ($this->homes == 1) : ?>
 			<div class="alert alert-info">
-				<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<span class="fa fa-info-circle" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_NONE'); ?>
 			</div>
 		<?php else : ?>
 			<div class="alert alert-info">
-				<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<span class="fa fa-info-circle" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_USELESS_HOMES'); ?>
 			</div>
 		<?php endif; ?>
 	<?php else : ?>
-	<table class="table table-sm">
-		<tbody>
-		<?php if ($this->defaultHome == true) : ?>
-			<tr class="table-warning">
-				<td>
-					<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
-					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
-				</td>
-				<td>
-					<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_DEFAULT_HOME_MODULE_PUBLISHED'); ?>
-				</td>
-			</tr>
-		<?php endif; ?>
-		<?php if ($notice_homes) : ?>
-			<tr class="table-warning">
-				<td>
-					<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
-					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
-				</td>
-				<td>
-					<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_HOMES_MISSING'); ?>
-				</td>
-			</tr>
-		<?php endif; ?>
-		<?php if ($notice_disabled) : ?>
-			<tr class="table-warning">
-				<td>
-					<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
-					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
-				</td>
-				<td>
-					<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_LANGUAGEFILTER_DISABLED'); ?>
-				</td>
-			</tr>
-		<?php endif; ?>
-		<?php if ($notice_switchers) : ?>
-			<tr class="table-warning">
-				<td>
-					<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
-					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
-				</td>
-				<td>
-					<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_LANGSWITCHER_UNPUBLISHED'); ?>
-				</td>
-			</tr>
-		<?php endif; ?>
+	<?php if ($this->defaultHome == true) : ?>
+		<div class="alert alert-warning">
+			<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+			<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+			<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_DEFAULT_HOME_MODULE_PUBLISHED'); ?>
+		</div>
+	<?php endif; ?>
+	<?php if ($notice_homes) : ?>
+		<div class="alert alert-warning">
+			<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+			<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+			<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_HOMES_MISSING'); ?>
+		</div>
+	<?php endif; ?>	
+	<?php if ($notice_disabled) : ?>
+		<div class="alert alert-warning">
+			<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+			<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+			<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_LANGUAGEFILTER_DISABLED'); ?>
+		</div>
+	<?php endif; ?>
+	<?php if ($notice_switchers) : ?>
+		<div class="alert alert-warning">
+			<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+			<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+			<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_LANGSWITCHER_UNPUBLISHED'); ?>
+		</div>
+	<?php endif; ?>
 		<?php foreach ($this->contentlangs as $contentlang) : ?>
 			<?php if (array_key_exists($contentlang->lang_code, $this->homepages) && (!array_key_exists($contentlang->lang_code, $this->site_langs) || !$contentlang->published)) : ?>
-				<tr class="table-warning">
-					<td>
-						<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
-						<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
-					</td>
-					<td>
-						<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_CONTENT_LANGUAGE', $contentlang->lang_code); ?>
-					</td>
-				</tr>
+				<div class="alert alert-warning">
+					<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+					<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_CONTENT_LANGUAGE', $contentlang->lang_code); ?>
+				</div>
 			<?php endif; ?>
 			<?php if (!array_key_exists($contentlang->lang_code, $this->site_langs)) : ?>
-				<tr class="table-warning">
-					<td>
-						<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
-						<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
-					</td>
-					<td>
-						<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_LANGUAGE_TAG', $contentlang->lang_code); ?>
-					</td>
-				</tr>
+			<div class="alert alert-warning">
+				<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+				<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_LANGUAGE_TAG', $contentlang->lang_code); ?>
+			</div>
 			<?php endif; ?>
 			<?php if ($contentlang->published == -2) : ?>
-				<tr class="warning">
-					<td>
-						<span class="icon-pending" aria-hidden="true"></span>
-						<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
-					</td>
-					<td>
-						<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_CONTENT_LANGUAGE_TRASHED', $contentlang->lang_code); ?>
-					</td>
-				</tr>
+				<div class="alert alert-warning">
+					<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+					<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_CONTENT_LANGUAGE_TRASHED', $contentlang->lang_code); ?>
+				</div>
 			<?php endif; ?>
 		<?php endforeach; ?>
 		<?php if ($this->listUsersError) : ?>
-			<tr class="info">
-				<td>
-					<span class="fa fa-help" aria-hidden="true"></span>
-					<span class="sr-only"><?php echo Text::_('JHELP'); ?></span>
-				</td>
-				<td>
-					<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_CONTACTS_ERROR_TIP'); ?>
-					<ul>
-					<?php foreach ($this->listUsersError as $user) : ?>
-						<li>
-						<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_CONTACTS_ERROR', $user->name); ?>
-						</li>
-					<?php endforeach; ?>
-					</ul>
-				</td>
-			</tr>
+			<div class="alert alert-info">
+				<span class="fa fa-help" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::_('JHELP'); ?></span>
+				<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_CONTACTS_ERROR_TIP'); ?>
+				<ul>
+				<?php foreach ($this->listUsersError as $user) : ?>
+					<li>
+					<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_CONTACTS_ERROR', $user->name); ?>
+					</li>
+				<?php endforeach; ?>
+				</ul>
+			</div>
 		<?php endif; ?>
-		</tbody>
-	</table>
 	<table class="table table-sm">
 		<thead>
 			<tr>
