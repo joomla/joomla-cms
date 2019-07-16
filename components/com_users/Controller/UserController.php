@@ -56,7 +56,7 @@ class UserController extends BaseController
 			{
 				$db = Factory::getDbo();
 				$query = $db->getQuery(true)
-					->select('language')
+					->select($db->quoteName('language'))
 					->from($db->quoteName('#__menu'))
 					->where($db->quoteName('client_id') . ' = 0')
 					->where($db->quoteName('id') . ' = :id')
