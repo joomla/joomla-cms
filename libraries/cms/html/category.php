@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -196,6 +196,7 @@ abstract class JHtmlCategory
 				$item->title = str_repeat('- ', $repeat) . $item->title;
 				static::$items[$hash][] = HTMLHelper::_('select.option', $item->id, $item->title);
 			}
+
 			// Special "Add to root" option:
 			static::$items[$hash][] = HTMLHelper::_('select.option', '1', Text::_('JLIB_HTML_ADD_TO_ROOT'));
 		}

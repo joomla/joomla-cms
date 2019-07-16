@@ -4,63 +4,6 @@
       "last 1 version",
       "not ie < 11"
     ],
-    "elements": [
-      "field-media",
-      "field-user",
-      "field-switcher",
-      "field-send-test-mail",
-      "field-module-order",
-      "field-permissions",
-      "field-simple-color",
-      "field-send-test-mail",
-      "field-subform",
-      "field-fancy-select",
-      "editor-codemirror",
-      "hidden-mail",
-      "editor-none",
-      "toolbar-button"
-    ],
-    "webcomponents": {
-      "field-media": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "field-switcher": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "field-simple-color": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "field-send-test-mail": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "editor-codemirror": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "editor-none": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "field-module-order": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "field-hidden-mail": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "field-subform": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "field-fancy-select": {
-        "js": "media/system/webcomponents/js"
-      }
-    },
     "vendors": {
       "awesomplete": {
         "name": "awesomplete",
@@ -158,12 +101,12 @@
       "choices.js": {
         "name": "choicesjs",
         "js": {
-          "assets/scripts/dist/choices.js": "js/choices.js",
-          "assets/scripts/dist/choices.min.js": "js/choices.min.js"
+          "public/assets/scripts/choices.js": "js/choices.js",
+          "public/assets/scripts/choices.min.js": "js/choices.min.js"
         },
         "css": {
-          "assets/styles/css/choices.css": "css/choices.css",
-          "assets/styles/css/choices.min.css": "css/choices.min.css"
+          "public/assets/styles/choices.css": "css/choices.css",
+          "public/assets/styles/choices.min.css": "css/choices.min.css"
         },
         "provideAssets": [
           {
@@ -226,25 +169,24 @@
         "dependencies": [],
         "licenseFilename": "LICENSE.md"
       },
-      "font-awesome": {
-        "name": "font-awesome",
+      "@fortawesome/fontawesome-free": {
+        "name": "fontawesome-free",
         "css": {
-          "css/font-awesome.css": "css/font-awesome.css",
-          "css/font-awesome.min.css": "css/font-awesome.min.css"
+          "css/fontawesome.css": "css/fontawesome.css",
+          "css/fontawesome.min.css": "css/fontawesome.min.css"
         },
         "filesExtra": {
-          "css/font-awesome.css.map": "css/font-awesome.css.map",
           "scss": "scss",
-          "fonts": "fonts"
+          "webfonts": "webfonts"
         },
         "provideAssets": [
           {
             "name": null,
-            "css": ["font-awesome.min.css"]
+            "css": ["fontawesome.min.css"]
           }
         ],
         "dependencies": [],
-        "licenseFilename": ""
+        "licenseFilename": "LICENSE.txt"
       },
       "jquery": {
         "name": "jquery",
@@ -429,6 +371,35 @@
           "dist/metismenujs.min.js": "js/metismenujs.min.js",
           "dist/metismenujs.min.js.map": "js/metismenujs.min.js.map"
         }
+      },
+      "skipto": {
+        "name": "skipto",
+        "licenseFilename": "LICENSE.md",
+        "js": {
+          "src/js/skipTo.js": "js/skipTo.js",
+          "src/js/dropMenu.js": "js/dropMenu.js"
+        },
+        "css": {
+          "src/css/SkipTo.css": "css/SkipTo.css"
+        }
+      },
+      "qrcode-generator": {
+        "name": "qrcode",
+        "js": {
+          "qrcode.js": "js/qrcode.js",
+          "qrcode_SJIS.js": "js/qrcode_SJIS.js",
+          "qrcode_UTF8.js": "js/qrcode_UTF8.js"
+        },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": [
+              "qrcode.js",
+              "qrcode_SJIS.js",
+              "qrcode_UTF8.js"
+            ]
+          }
+        ]
       }
     },
     "errorPages": {

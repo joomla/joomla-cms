@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,7 @@ final class Registry
 	private $coreServiceMap = [
 		'access'          => \JHtmlAccess::class,
 		'actionsdropdown' => \JHtmlActionsDropdown::class,
-		'batch'           => \JHtmlBatch::class,
+		'adminlanguage'   => \JHtmlAdminLanguage::class,
 		'behavior'        => \JHtmlBehavior::class,
 		'bootstrap'       => \JHtmlBootstrap::class,
 		'category'        => \JHtmlCategory::class,
@@ -56,7 +56,9 @@ final class Registry
 		'string'          => \JHtmlString::class,
 		'tag'             => \JHtmlTag::class,
 		'tel'             => \JHtmlTel::class,
+		'uitab'           => \JHtmlUiTab::class,
 		'user'            => \JHtmlUser::class,
+		'workflowstage'   => \JHtmlWorkflowstage::class,
 	];
 
 	/**

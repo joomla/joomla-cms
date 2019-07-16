@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,10 +19,12 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 	<?php if (!$this->language_filter && $this->switchers == 0) : ?>
 		<?php if ($this->homes == 1) : ?>
 			<div class="alert alert-info">
+				<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_NONE'); ?>
 			</div>
 		<?php else : ?>
 			<div class="alert alert-info">
+				<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_USELESS_HOMES'); ?>
 			</div>
 		<?php endif; ?>
@@ -93,6 +95,17 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 					</td>
 					<td>
 						<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_LANGUAGE_TAG', $contentlang->lang_code); ?>
+					</td>
+				</tr>
+			<?php endif; ?>
+			<?php if ($contentlang->published == -2) : ?>
+				<tr class="warning">
+					<td>
+						<span class="icon-pending" aria-hidden="true"></span>
+						<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+					</td>
+					<td>
+						<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_CONTENT_LANGUAGE_TRASHED', $contentlang->lang_code); ?>
 					</td>
 				</tr>
 			<?php endif; ?>
@@ -209,11 +222,21 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 						</td>
 				<?php endif; ?>
 				<?php // Published Content languages ?>
-				<?php if ($status->lang_code && $status->published) : ?>
+				<?php if ($status->lang_code && $status->published == 1) : ?>
 						<td class="text-center">
 							<span class="fa fa-check" aria-hidden="true"></span>
 							<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 						</td>
+				<?php elseif ($status->lang_code && $status->published == 0) : ?>
+					<td class="text-center">
+						<span class="icon-pending" aria-hidden="true"></span>
+						<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+					</td>
+				<?php elseif ($status->lang_code && $status->published == -2) : ?>
+					<td class="text-center">
+						<span class="icon-trash" aria-hidden="true"></span>
+						<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+					</td>
 				<?php else : ?>
 						<td class="text-center">
 							<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
@@ -265,9 +288,9 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 							<?php endif; ?>
 						</td>
+					</tr>
 				<?php endif; ?>
 			<?php endforeach; ?>
-			</tr>
 		</tbody>
 	</table>
 	<?php endif; ?>

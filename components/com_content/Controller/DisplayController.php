@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\Component\Content\Site\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -116,7 +117,10 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 			// Get/Create the model
 			if ($model = $this->getModel($vName))
 			{
-				$model->hit();
+				if (ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1)
+				{
+					$model->hit();
+				}
 			}
 		}
 

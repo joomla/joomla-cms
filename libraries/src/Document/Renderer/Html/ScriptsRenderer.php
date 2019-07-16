@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -153,7 +153,6 @@ class ScriptsRenderer extends DocumentRenderer
 
 			$buffer .= $tab . '</script>' . $lnEnd;
 		}
-
 
 		// Output the custom tags - array_unique makes sure that we don't output the same tags twice
 		foreach (array_unique($this->_doc->_custom) as $custom)

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,6 +28,14 @@ use Joomla\Database\DatabaseDriver;
  */
 abstract class InstallerAdapter
 {
+	/**
+	 * Changelog URL of extensions
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 * */
+	protected $changelogurl = null;
+
 	/**
 	 * ID for the currently installed extension if present
 	 *
@@ -153,8 +161,11 @@ abstract class InstallerAdapter
 		{
 			// This assumes the adapter short class name in its namespace is `<foo>Adapter`, replace this logic in subclasses if needed
 			$reflection = new \ReflectionClass(get_called_class());
-			$this->type = strtolower(str_replace('Adapter', '', $reflection->getShortName()));
+			$this->type = str_replace('Adapter', '', $reflection->getShortName());
 		}
+
+		// Extension type is stored as lowercase in the database
+		$this->type = strtolower($this->type);
 	}
 
 	/**
@@ -202,9 +213,6 @@ abstract class InstallerAdapter
 	 */
 	protected function checkExistingExtension()
 	{
-		// Extension type is stored as lowercase on the #__extensions table field type
-		$this->type = strtolower($this->type);
-
 		try
 		{
 			$this->currentExtensionId = $this->extension->find(
@@ -499,7 +507,7 @@ abstract class InstallerAdapter
 				return false;
 			}
 
-			// If installing with success and there is an uninstall script, add a installer rollback step to rollback if needed
+			// If installing with success and there is an uninstall script, add an installer rollback step to rollback if needed
 			if ($route === 'install' && isset($this->getManifest()->uninstall->sql))
 			{
 				$this->parent->pushStep(array('type' => 'query', 'script' => $this->getManifest()->uninstall->sql));
@@ -666,20 +674,18 @@ abstract class InstallerAdapter
 	public function install()
 	{
 		// Get the extension's description
-		$description = (string) $this->getManifest()->description;
+		$description           = (string) $this->getManifest()->description;
+		$this->parent->message = '';
 
 		if ($description)
 		{
 			$this->parent->message = Text::_($description);
 		}
-		else
-		{
-			$this->parent->message = '';
-		}
 
 		// Set the extension's name and element
-		$this->name    = $this->getName();
-		$this->element = $this->getElement();
+		$this->name         = $this->getName();
+		$this->element      = $this->getElement();
+		$this->changelogurl = (string) $this->getManifest()->changelogurl;
 
 		/*
 		 * ---------------------------------------------------------------------------------------------

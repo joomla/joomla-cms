@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,6 +19,11 @@ defined('_JEXEC') or die;
 		<?php echo $this->escape($this->params->get('page_heading')); ?>
 		</h1>
 	</div>
+	<?php endif; ?>
+	<?php if ($this->params->get('page_subheading')) : ?>
+		<h2>
+			<?php echo $this->escape($this->params->get('page_subheading')); ?>
+		</h2>
 	<?php endif; ?>
 
 	<?php $leadingcount = 0; ?>

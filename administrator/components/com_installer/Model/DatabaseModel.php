@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -682,16 +682,20 @@ class DatabaseModel extends InstallerModel
 		if ($count > 1)
 		{
 			// Table messed up somehow, clear it
-			$db->setQuery('DELETE FROM ' . $db->quoteName('#__utf8_conversion')
-				. ';')->execute();
+			$db->setQuery('DELETE FROM ' . $db->quoteName('#__utf8_conversion') . ';')
+				->execute();
 			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
-				. ' (' . $db->quoteName('converted') . ') VALUES (0);')->execute();
+				. ' (' . $db->quoteName('converted') . ') VALUES (0);'
+			)
+				->execute();
 		}
 		elseif ($count == 0)
 		{
 			// Record missing somehow, fix this
 			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
-				. ' (' . $db->quoteName('converted') . ') VALUES (0);')->execute();
+				. ' (' . $db->quoteName('converted') . ') VALUES (0);'
+			)
+				->execute();
 		}
 	}
 }

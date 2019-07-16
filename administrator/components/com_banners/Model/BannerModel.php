@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ namespace Joomla\Component\Banners\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
@@ -104,131 +105,6 @@ class BannerModel extends AdminModel
 	}
 
 	/**
-	 * Batch copy items to a new category or current.
-	 *
-	 * @param   integer  $value     The new category.
-	 * @param   array    $pks       An array of row IDs.
-	 * @param   array    $contexts  An array of item contexts.
-	 *
-	 * @return  mixed  An array of new IDs on success, boolean false on failure.
-	 *
-	 * @since   2.5
-	 */
-	protected function batchCopy($value, $pks, $contexts)
-	{
-		$categoryId = (int) $value;
-
-		/** @var \Joomla\Component\Banners\Administrator\Table\Banner $table */
-		$table  = $this->getTable();
-		$newIds = array();
-
-		// Check that the category exists
-		if ($categoryId)
-		{
-			$categoryTable = Table::getInstance('Category');
-
-			if (!$categoryTable->load($categoryId))
-			{
-				if ($error = $categoryTable->getError())
-				{
-					// Fatal error
-					$this->setError($error);
-
-					return false;
-				}
-
-				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
-
-				return false;
-			}
-		}
-
-		if (empty($categoryId))
-		{
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
-
-			return false;
-		}
-
-		// Check that the user has create permission for the component
-		if (!Factory::getUser()->authorise('core.create', 'com_banners.category.' . $categoryId))
-		{
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
-
-			return false;
-		}
-
-		// Parent exists so we let's proceed
-		while (!empty($pks))
-		{
-			// Pop the first ID off the stack
-			$pk = array_shift($pks);
-
-			$table->reset();
-
-			// Check that the row actually exists
-			if (!$table->load($pk))
-			{
-				if ($error = $table->getError())
-				{
-					// Fatal error
-					$this->setError($error);
-
-					return false;
-				}
-
-				// Not fatal error
-				$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-				continue;
-			}
-
-			// Alter the title & alias
-			$data         = $this->generateNewTitle($categoryId, $table->alias, $table->name);
-			$table->name  = $data['0'];
-			$table->alias = $data['1'];
-
-			// Reset the ID because we are making a copy
-			$table->id = 0;
-
-			// New category ID
-			$table->catid = $categoryId;
-
-			// Unpublish because we are making a copy
-			$table->state = 0;
-
-			// TODO: Deal with ordering?
-			// $table->ordering = 1;
-
-			// Check the row.
-			if (!$table->check())
-			{
-				$this->setError($table->getError());
-
-				return false;
-			}
-
-			// Store the row.
-			if (!$table->store())
-			{
-				$this->setError($table->getError());
-
-				return false;
-			}
-
-			// Get the new item ID
-			$newId = $table->get('id');
-
-			// Add the new ID to the array
-			$newIds[$pk] = $newId;
-		}
-
-		// Clean the cache
-		$this->cleanCache();
-
-		return $newIds;
-	}
-
-	/**
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param   object  $record  A record object.
@@ -253,6 +129,25 @@ class BannerModel extends AdminModel
 
 			return parent::canDelete($record);
 		}
+	}
+
+	/**
+	 * A method to preprocess generating a new title in order to allow tables with alternative names
+	 * for alias and title to use the batch move and copy methods
+	 *
+	 * @param   integer  $categoryId  The target category id
+	 * @param   Table    $table       The JTable within which move or copy is taking place
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.12
+	 */
+	public function generateTitle($categoryId, $table)
+	{
+		// Alter the title & alias
+		$data = $this->generateNewTitle($categoryId, $table->alias, $table->name);
+		$table->name = $data['0'];
+		$table->alias = $data['1'];
 	}
 
 	/**
@@ -282,7 +177,7 @@ class BannerModel extends AdminModel
 	 * @param   array    $data      Data for the form. [optional]
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not. [optional]
 	 *
-	 * @return  \JForm|boolean  A \JForm object on success, false on failure
+	 * @return  Form|boolean  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -466,9 +361,9 @@ class BannerModel extends AdminModel
 	}
 
 	/**
-	 * Allows preprocessing of the \JForm object.
+	 * Allows preprocessing of the Form object.
 	 *
-	 * @param   \JForm  $form   The form object
+	 * @param   Form    $form   The form object
 	 * @param   array   $data   The data to be merged into the form object
 	 * @param   string  $group  The plugin group to be executed
 	 *
@@ -476,7 +371,7 @@ class BannerModel extends AdminModel
 	 *
 	 * @since    3.6.1
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		if ($this->canCreateCategory())
 		{

@@ -10,6 +10,7 @@
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
 use DebugBar\DebugBarException;
+use Joomla\CMS\Profiler\Profiler;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 use Joomla\Registry\Registry;
 
@@ -245,7 +246,7 @@ class ProfileCollector extends AbstractDataCollector
 
 		$start = $this->requestStartTime;
 
-		$marks = \JProfiler::getInstance('Application')->getMarks();
+		$marks = Profiler::getInstance('Application')->getMarks();
 
 		foreach ($marks as $mark)
 		{

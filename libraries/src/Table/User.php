@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,8 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Mail\MailHelper;
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -95,7 +97,7 @@ class User extends Table
 		}
 
 		// Convert email from punycode
-		$data['email'] = \JStringPunycode::emailToUTF8($data['email']);
+		$data['email'] = PunycodeHelper::emailToUTF8($data['email']);
 
 		// Bind the data to the table.
 		$return = $this->bind($data);
@@ -211,7 +213,7 @@ class User extends Table
 			return false;
 		}
 
-		if (($filterInput->clean($this->email, 'TRIM') == '') || !\JMailHelper::isEmailAddress($this->email))
+		if (($filterInput->clean($this->email, 'TRIM') == '') || !MailHelper::isEmailAddress($this->email))
 		{
 			$this->setError(Text::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
 
@@ -219,7 +221,7 @@ class User extends Table
 		}
 
 		// Convert email to punycode for storage
-		$this->email = \JStringPunycode::emailToPunycode($this->email);
+		$this->email = PunycodeHelper::emailToPunycode($this->email);
 
 		// Set the registration timestamp
 		if (empty($this->registerDate) || $this->registerDate == $this->_db->getNullDate())

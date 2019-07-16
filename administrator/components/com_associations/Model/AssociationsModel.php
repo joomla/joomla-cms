@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -238,7 +238,7 @@ class AssociationsModel extends ListModel
 			->join(
 				'LEFT',
 				$db->quoteName('#__associations', 'asso') . ' ON ' . $db->quoteName('asso.id') . ' = ' . $db->quoteName($fields['id'])
-				. ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote($extensionName . '.' . 'item')
+				. ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote($extensionName . '.item')
 			)
 			->join('LEFT', $db->quoteName('#__associations', 'asso2') . ' ON ' . $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key'));
 

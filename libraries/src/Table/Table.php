@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -121,6 +121,14 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 	 * @since  3.3
 	 */
 	protected $_jsonEncode = array();
+
+	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = false;
 
 	/**
 	 * The UCM type alias. Used for tags, content versioning etc. Leave blank to effectively disable these features.
@@ -304,7 +312,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		$db = $config['dbo'] ?? Factory::getDbo();
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (Factory::getContainer()->exists($tableClass))
+		if (Factory::getContainer()->has($tableClass))
 		{
 			return Factory::getContainer()->get($tableClass);
 		}
@@ -1285,11 +1293,13 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		$checkedOutField     = $this->getColumnAlias('checked_out');
 		$checkedOutTimeField = $this->getColumnAlias('checked_out_time');
 
+		$nullDate = $this->_supportNullValue ? 'NULL' : $this->_db->quote($this->_db->getNullDate());
+
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true)
 			->update($this->_tbl)
 			->set($this->_db->quoteName($checkedOutField) . ' = 0')
-			->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $this->_db->quote($this->_db->getNullDate()));
+			->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $nullDate);
 		$this->appendPrimaryKeys($query, $pk);
 		$this->_db->setQuery($query);
 
@@ -1298,7 +1308,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 
 		// Set table values in the object.
 		$this->$checkedOutField      = 0;
-		$this->$checkedOutTimeField = '';
+		$this->$checkedOutTimeField = $nullDate === 'NULL' ? null : '';
 
 		// Post-processing by observers
 		$event = AbstractEvent::create(
@@ -1309,6 +1319,8 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 			]
 		);
 		$this->getDispatcher()->dispatch('onTableAfterCheckin', $event);
+
+		Factory::getApplication()->triggerEvent('onAfterCheckin', array($this->_tbl));
 
 		return true;
 	}
@@ -1587,8 +1599,12 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 
 		$subquery->where($quotedOrderingField . ' >= 0');
 		$query->where($quotedOrderingField . ' >= 0');
+		$query->innerJoin('(' . (string) $subquery . ') AS sq ');
 
-		$query->innerJoin('(' . (string) $subquery . ') AS sq ON ' . implode(' AND ', $innerOn));
+		foreach ($innerOn as $key)
+		{
+			$query->where($key);
+		}
 
 		// Pre-processing by observers
 		$event = AbstractEvent::create(
@@ -1971,8 +1987,11 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 	 */
 	protected function _unlock()
 	{
-		$this->_db->unlockTables();
-		$this->_locked = false;
+		if ($this->_locked)
+		{
+			$this->_db->unlockTables();
+			$this->_locked = false;
+		}
 
 		return true;
 	}

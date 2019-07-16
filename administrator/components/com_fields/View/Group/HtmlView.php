@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
@@ -86,7 +87,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		Factory::getApplication()->input->set('hidemainmenu', true);
@@ -144,9 +145,10 @@ class HtmlView extends BaseHtmlView
 		// For new records, check the create permission.
 		if ($isNew)
 		{
+			ToolbarHelper::apply('group.apply');
+
 			ToolbarHelper::saveGroup(
 				[
-					['apply', 'group.apply'],
 					['save', 'group.save'],
 					['save2new', 'group.save2new']
 				],
@@ -165,7 +167,8 @@ class HtmlView extends BaseHtmlView
 			// Can't save the record if it's checked out and editable
 			if (!$checkedOut && $itemEditable)
 			{
-				$toolbarButtons[] = ['apply', 'group.apply'];
+				ToolbarHelper::apply('group.apply');
+
 				$toolbarButtons[] = ['save', 'group.save'];
 
 				// We can save this record, but check the create permission to see if we can return to make a new one.

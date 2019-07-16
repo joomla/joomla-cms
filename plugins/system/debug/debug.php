@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,6 +21,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Event\ConnectionEvent;
 use Joomla\Event\DispatcherInterface;
@@ -153,12 +154,12 @@ class PlgSystemDebug extends CMSPlugin
 		$this->debugLang = $this->app->get('debug_lang');
 
 		// Skip the plugin if debug is off
-		if ($this->debugLang === '0' && $this->app->get('debug') === '0')
+		if (!$this->debugLang && !$this->app->get('debug'))
 		{
 			return;
 		}
 
-		$this->app->getConfig()->set('gzip', 0);
+		$this->app->getConfig()->set('gzip', false);
 		ob_start();
 		ob_implicit_flush(false);
 
@@ -174,7 +175,7 @@ class PlgSystemDebug extends CMSPlugin
 			$this->db->setMonitor(null);
 		}
 
-		$storagePath = JPATH_CACHE . '/plg_system_debug_' . $this->app->getClientId();
+		$storagePath = JPATH_CACHE . '/plg_system_debug_' . $this->app->getName();
 
 		$this->debugBar = new DebugBar;
 		$this->debugBar->setStorage(new FileStorage($storagePath));
@@ -196,8 +197,13 @@ class PlgSystemDebug extends CMSPlugin
 	public function onAfterDispatch()
 	{
 		// Only if debugging or language debug is enabled.
-		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug())
+		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug() && strtolower($this->app->getDocument()->getType()) === 'html')
 		{
+			// Use our own jQuery and fontawesome instead of the debug bar shipped version
+			$assetManager = $this->app->getDocument()->getWebAssetManager();
+			$assetManager->enableAsset('jquery-noconflict');
+			$assetManager->enableAsset('fontawesome-free');
+
 			HTMLHelper::_('stylesheet', 'plg_system_debug/debug.css', array('version' => 'auto', 'relative' => true));
 			HTMLHelper::_('script', 'plg_system_debug/debug.min.js', array('version' => 'auto', 'relative' => true));
 		}
@@ -219,7 +225,7 @@ class PlgSystemDebug extends CMSPlugin
 	public function onAfterRespond()
 	{
 		// Do not render if debugging or language debug is not enabled.
-		if (!JDEBUG && !$this->debugLang || $this->isAjax)
+		if (!JDEBUG && !$this->debugLang || $this->isAjax || strtolower($this->app->getDocument()->getType()) !== 'html')
 		{
 			return;
 		}
@@ -278,24 +284,28 @@ class PlgSystemDebug extends CMSPlugin
 		}
 
 		$debugBarRenderer = $this->debugBar->getJavascriptRenderer();
-		$openHandlerUrl   = JUri::base(true) . '/index.php?option=com_ajax&plugin=debug&group=system&format=raw&action=openhandler';
+		$openHandlerUrl   = Uri::base(true) . '/index.php?option=com_ajax&plugin=debug&group=system&format=raw&action=openhandler';
 		$openHandlerUrl  .= '&' . Session::getFormToken() . '=1';
 
 		$debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
-		$debugBarRenderer->setBaseUrl(JUri::root(true) . '/media/vendor/debugbar/');
+		$debugBarRenderer->setBaseUrl(Uri::root(true) . '/media/vendor/debugbar/');
 
-		// Use our own jQuery and font-awesome instead of the debug bar shipped version
-		$assetManager = $this->app->getDocument()->getWebAssetManager();
-		$assetManager->enableAsset('jquery-noconflict');
-		$assetManager->enableAsset('font-awesome');
 		$debugBarRenderer->disableVendor('jquery');
 		$debugBarRenderer->setEnableJqueryNoConflict(false);
 		$debugBarRenderer->disableVendor('fontawesome');
+
+		/**
+		 * @todo disable highlightjs from the DebugBar, import it through NPM
+		 *       and deliver it through Joomla's API
+		 *       Also every DebuBar script and stylesheet needs to use Joomla's API
+		 *       $debugBarRenderer->disableVendor('highlightjs');
+		 */
 
 		// Only render for HTML output.
 		if (Factory::getDocument()->getType() !== 'html')
 		{
 			$this->debugBar->stackData();
+
 			return;
 		}
 
@@ -318,9 +328,7 @@ class PlgSystemDebug extends CMSPlugin
 			return;
 		}
 
-		$contents = str_replace('</head>', $debugBarRenderer->renderHead() . '</head>', $contents);
-
-		echo str_replace('</body>', $debugBarRenderer->render() . '</body>', $contents);
+		echo str_replace('</body>', $debugBarRenderer->renderHead() . $debugBarRenderer->render() . '</body>', $contents);
 	}
 
 	/**
@@ -348,8 +356,8 @@ class PlgSystemDebug extends CMSPlugin
 		{
 			case 'openhandler':
 				$handler = new OpenHandler($this->debugBar);
+
 				return $handler->handle($this->app->input->request->getArray(), false, false);
-				break;
 			default:
 				return '';
 		}
@@ -367,13 +375,13 @@ class PlgSystemDebug extends CMSPlugin
 		// Log the deprecated API.
 		if ($this->params->get('log-deprecated'))
 		{
-			JLog::addLogger(array('text_file' => 'deprecated.php'), JLog::ALL, array('deprecated'));
+			Log::addLogger(array('text_file' => 'deprecated.php'), Log::ALL, array('deprecated'));
 		}
 
 		// Log everything (except deprecated APIs, these are logged separately with the option above).
 		if ($this->params->get('log-everything', 0))
 		{
-			JLog::addLogger(array('text_file' => 'everything.php'), JLog::ALL, array('deprecated', 'databasequery'), true);
+			Log::addLogger(array('text_file' => 'everything.php'), Log::ALL, array('deprecated', 'databasequery'), true);
 		}
 
 		if ($this->params->get('logs', 1))
@@ -394,20 +402,20 @@ class PlgSystemDebug extends CMSPlugin
 			$categories = array_filter(preg_split('/[^A-Z0-9_\.-]/i', $this->params->get('log_categories', '')));
 			$mode = $this->params->get('log_category_mode', 0);
 
-			JLog::addLogger(array('logger' => 'callback', 'callback' => array($this, 'logger')), $priority, $categories, $mode);
+			Log::addLogger(array('logger' => 'callback', 'callback' => array($this, 'logger')), $priority, $categories, $mode);
 		}
 
 		// Log deprecated class aliases
 		foreach (JLoader::getDeprecatedAliases() as $deprecation)
 		{
-			JLog::add(
+			Log::add(
 				sprintf(
 					'%1$s has been aliased to %2$s and the former class name is deprecated. The alias will be removed in %3$s.',
 					$deprecation['old'],
 					$deprecation['new'],
 					$deprecation['version']
 				),
-				JLog::WARNING,
+				Log::WARNING,
 				'deprecation-notes'
 			);
 		}
@@ -572,6 +580,7 @@ class PlgSystemDebug extends CMSPlugin
 			$this->debugBar->addCollector(new MessagesCollector('deprecated'));
 			$this->debugBar->addCollector(new MessagesCollector('deprecation-notes'));
 		}
+
 		if ($logDeprecatedCore)
 		{
 			$this->debugBar->addCollector(new MessagesCollector('deprecated-core'));
@@ -592,6 +601,7 @@ class PlgSystemDebug extends CMSPlugin
 					{
 						break;
 					}
+
 					$file = $entry->callStack[2]['file'] ?? '';
 					$line = $entry->callStack[2]['line'] ?? '';
 
@@ -613,6 +623,7 @@ class PlgSystemDebug extends CMSPlugin
 						{
 							break;
 						}
+
 						$category .= '-core';
 					}
 					elseif (!$logDeprecated)
@@ -652,6 +663,7 @@ class PlgSystemDebug extends CMSPlugin
 						default:
 							$level = 'info';
 					}
+
 					$this->debugBar['log']->addMessage($entry->category . ' - ' . $entry->message, $level);
 					break;
 			}

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -136,6 +136,7 @@ class Categories implements CategoryInterface
 		}
 
 		$categories = null;
+
 		try
 		{
 			$parts = explode('.', $extension, 2);
@@ -192,6 +193,18 @@ class Categories implements CategoryInterface
 		}
 
 		return null;
+	}
+
+	/**
+	 * Returns the extension of the category.
+	 *
+	 * @return   string  The extension
+	 *
+	 * @since   3.9.0
+	 */
+	public function getExtension()
+	{
+		return $this->_extension;
 	}
 
 	/**

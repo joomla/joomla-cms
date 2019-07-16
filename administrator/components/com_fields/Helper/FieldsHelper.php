@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\Component\Fields\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Filesystem\Path;
@@ -20,6 +21,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Fields\Administrator\Model\FieldsModel;
 
 /**
  * FieldsHelper
@@ -28,8 +30,14 @@ use Joomla\CMS\Plugin\PluginHelper;
  */
 class FieldsHelper
 {
+	/**
+	 * @var    FieldsModel
+	 */
 	private static $fieldsCache = null;
 
+	/**
+	 * @var    FieldsModel
+	 */
 	private static $fieldCache = null;
 
 	/**
@@ -194,7 +202,7 @@ class FieldsHelper
 
 					/*
 					 * On before field prepare
-					 * Event allow plugins to modfify the output of the field before it is prepared
+					 * Event allow plugins to modify the output of the field before it is prepared
 					 */
 					Factory::getApplication()->triggerEvent('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
 
@@ -333,9 +341,9 @@ class FieldsHelper
 			/*
 			 * Setting some parameters for the category field
 			 */
-			$form->setFieldAttribute('catid', 'custom-fields-enabled', true);
-			$form->setFieldAttribute('catid', 'custom-fields-cat-id', $assignedCatids);
-			$form->setFieldAttribute('catid', 'custom-fields-section', $section);
+			$form->setFieldAttribute('catid', 'refresh-enabled', true);
+			$form->setFieldAttribute('catid', 'refresh-cat-id', $assignedCatids);
+			$form->setFieldAttribute('catid', 'refresh-section', $section);
 		}
 
 		// Getting the fields
@@ -408,7 +416,7 @@ class FieldsHelper
 			}
 
 			// Defining the field set
-			/** @var DOMElement $fieldset */
+			/** @var \DOMElement $fieldset */
 			$fieldset = $fieldsNode->appendChild(new \DOMElement('fieldset'));
 			$fieldset->setAttribute('name', 'fields-' . $group->id);
 			$fieldset->setAttribute('addfieldpath', '/administrator/components/' . $component . '/models/fields');
@@ -581,52 +589,6 @@ class FieldsHelper
 	}
 
 	/**
-	 * Adds Count Items for Category Manager.
-	 *
-	 * @param   \stdClass[]  &$items  The field category objects
-	 *
-	 * @return  \stdClass[]
-	 *
-	 * @since   3.7.0
-	 */
-	public static function countItems(&$items)
-	{
-		$db = Factory::getDbo();
-
-		foreach ($items as $item)
-		{
-			$item->count_trashed     = 0;
-			$item->count_archived    = 0;
-			$item->count_unpublished = 0;
-			$item->count_published   = 0;
-
-			$query = $db->getQuery(true);
-			$query->select('state, count(1) AS count')
-				->from($db->quoteName('#__fields'))
-				->where('group_id = ' . (int) $item->id)
-				->group('state');
-			$db->setQuery($query);
-
-			$fields = $db->loadObjectList();
-
-			$states = array(
-				'-2' => 'count_trashed',
-				'0'  => 'count_unpublished',
-				'1'  => 'count_published',
-				'2'  => 'count_archived',
-			);
-
-			foreach ($fields as $field)
-			{
-				$property = $states[$field->state];
-				$item->$property = $field->count;
-			}
-		}
-
-		return $items;
-	}
-
-	/**
 	 * Gets assigned categories titles for a field
 	 *
 	 * @param   \stdClass[]  $fieldId  The field ID
@@ -649,7 +611,7 @@ class FieldsHelper
 
 		$query->select($db->quoteName('c.title'))
 			->from($db->quoteName('#__fields_categories', 'a'))
-			->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
+			->join('INNER', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
 			->where('field_id = ' . $fieldId);
 
 		$db->setQuery($query);

@@ -2,7 +2,7 @@
 /**
  * @package	Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license	GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /** @var JDocumentHtml $this */
 
@@ -26,7 +28,7 @@ HTMLHelper::_('script', 'installation/template/js/template.js', ['version' => 'a
 HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Add script options
-$this->addScriptOptions('system.installation', ['url' => JRoute::_('index.php')]);
+$this->addScriptOptions('system.installation', ['url' => Route::_('index.php')]);
 
 // Load JavaScript message titles
 Text::script('ERROR');
@@ -51,7 +53,7 @@ Text::script('INSTL_FTP_SETTINGS_CORRECT');
 		<jdoc:include type="metas" />
 		<jdoc:include type="styles" />
 	</head>
-	<body data-basepath="<?php echo JUri::root(true); ?>">
+	<body data-basepath="<?php echo Uri::root(true); ?>">
 		<div class="j-install">
 			<?php // Header ?>
 			<header class="j-header" role="banner">
@@ -60,7 +62,7 @@ Text::script('INSTL_FTP_SETTINGS_CORRECT');
 				</div>
 				<div class="j-header-help">
 					<a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla">
-						<span class="fa fa-lightbulb-o" aria-hidden="true"></span>
+						<span class="fa fa-lightbulb" aria-hidden="true"></span>
 						<span class="sr-only"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
 					</a>
 				</div>
@@ -74,7 +76,7 @@ Text::script('INSTL_FTP_SETTINGS_CORRECT');
 						<?php echo Text::_('INSTL_WARNJAVASCRIPT'); ?>
 					</noscript>
 				</div>
-				<div id="container-installation" class="container-installation flex no-js" data-base-url="<?php echo JUri::root(); ?>" style="display:none">
+				<div id="container-installation" class="container-installation flex no-js" data-base-url="<?php echo Uri::root(); ?>" style="display:none">
 					<jdoc:include type="component" />
 				</div>
 			</main>

@@ -31,7 +31,6 @@
 			name="searchstring"
 			type="text"
 			label="COM_LANGUAGES_OVERRIDE_FIELD_SEARCHSTRING_LABEL"
-			description="COM_LANGUAGES_OVERRIDE_FIELD_SEARCHSTRING_DESC"
 			size="50"
 		/>
 

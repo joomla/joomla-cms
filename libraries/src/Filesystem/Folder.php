@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -79,6 +79,7 @@ abstract class Folder
 			{
 				throw new \RuntimeException('Cannot open source folder', -1);
 			}
+
 			// Walk through the directory copying files and recursing into folders.
 			while (($file = readdir($dh)) !== false)
 			{
@@ -117,6 +118,7 @@ abstract class Folder
 			{
 				throw new \RuntimeException('Cannot open source folder', -1);
 			}
+
 			// Walk through the directory copying files and recursing into folders.
 			while (($file = readdir($dh)) !== false)
 			{
@@ -492,7 +494,8 @@ abstract class Folder
 	 * @since   1.7.0
 	 */
 	public static function files($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
-		$excludefilter = array('^\..*', '.*~'), $naturalSort = false)
+		$excludefilter = array('^\..*', '.*~'), $naturalSort = false
+	)
 	{
 		// Check to make sure the path valid and clean
 		$path = Path::clean($path);
@@ -546,7 +549,8 @@ abstract class Folder
 	 * @since   1.7.0
 	 */
 	public static function folders($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
-		$excludefilter = array('^\..*'))
+		$excludefilter = array('^\..*')
+	)
 	{
 		// Check to make sure the path valid and clean
 		$path = Path::clean($path);

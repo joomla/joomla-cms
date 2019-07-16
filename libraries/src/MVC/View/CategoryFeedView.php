@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,9 +10,12 @@ namespace Joomla\CMS\MVC\View;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\RouteHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\UCM\UCMType;
 
 /**
  * Base feed View class for a category
@@ -39,7 +42,7 @@ class CategoryFeedView extends HtmlView
 		$extension      = $app->input->getString('option');
 		$contentType = $extension . '.' . $this->viewName;
 
-		$ucmType = new \JUcmType;
+		$ucmType = new UCMType;
 		$ucmRow = $ucmType->getTypeByAlias($contentType);
 		$ucmMapCommon = json_decode($ucmRow->field_mappings)->common;
 		$createdField = null;
@@ -56,7 +59,7 @@ class CategoryFeedView extends HtmlView
 			$titleField = $ucmMapCommon[0]->core_title;
 		}
 
-		$document->link = Route::_(\JHelperRoute::getCategoryRoute($app->input->getInt('id'), $language = 0, $extension));
+		$document->link = Route::_(RouteHelper::getCategoryRoute($app->input->getInt('id'), $language = 0, $extension));
 
 		$app->input->set('limit', $app->get('feed_limit'));
 		$siteEmail        = $app->get('mailfrom');
@@ -95,7 +98,7 @@ class CategoryFeedView extends HtmlView
 			}
 
 			// URL link to article
-			$router = new \JHelperRoute;
+			$router = new RouteHelper;
 			$link   = Route::_($router->getRoute($item->id, $contentType, null, null, $item->catid));
 
 			// Strip HTML from feed item description text.
@@ -112,7 +115,7 @@ class CategoryFeedView extends HtmlView
 			}
 
 			// Load individual item creator class.
-			$feeditem              = new \JFeedItem;
+			$feeditem              = new FeedItem;
 			$feeditem->title       = $title;
 			$feeditem->link        = $link;
 			$feeditem->description = $description;

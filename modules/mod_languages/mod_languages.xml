@@ -3,7 +3,7 @@
 	<name>mod_languages</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -57,6 +57,7 @@
 					class="switcher"
 					label="MOD_LANGUAGES_FIELD_DROPDOWN_LABEL"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -68,6 +69,7 @@
 					class="switcher"
 					label="MOD_LANGUAGES_FIELD_DROPDOWN_IMAGE_LABEL"
 					default="1"
+					filter="integer"
 					showon="dropdown:1"
 					>
 					<option value="0">JNO</option>
@@ -80,6 +82,7 @@
 					class="switcher"
 					label="MOD_LANGUAGES_FIELD_USEIMAGE_LABEL"
 					default="1"
+					filter="integer"
 					showon="dropdown:0"
 					>
 					<option value="0">JNO</option>
@@ -93,6 +96,7 @@
 					label="MOD_LANGUAGES_FIELD_FULL_NAME_LABEL"
 					showon="dropdown:1[OR]image:0"
 					default="1"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -117,6 +121,7 @@
 					label="MOD_LANGUAGES_FIELD_ACTIVE_LABEL"
 					default="1"
 					showon="dropdownimage:1[OR]dropdown:0"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -128,6 +133,7 @@
 					class="switcher"
 					label="MOD_LANGUAGES_FIELD_INLINE_LABEL"
 					default="1"
+					filter="integer"
 					showon="dropdown:0"
 					>
 					<option value="0">JNO</option>
@@ -144,34 +150,10 @@
 
 				<field
 					name="moduleclass_sfx"
-					type="textarea" rows="3"
+					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					rows="3"
 				/>
-
-				<field
-					name="cache"
-					type="list"
-					label="COM_MODULES_FIELD_CACHING_LABEL"
-					default="0"
-					>
-					<option value="1">JGLOBAL_USE_GLOBAL</option>
-					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
-				</field>
-
-				<field
-					name="cache_time"
-					type="number"
-					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					default="900"
-				/>
-
-				<field
-					name="cachemode"
-					type="hidden"
-					default="itemid"
-					>
-					<option	value="itemid"></option>
-				</field>
 			</fieldset>
 		</fields>
 	</config>

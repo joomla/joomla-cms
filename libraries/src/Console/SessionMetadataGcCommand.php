@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,10 +10,12 @@ namespace Joomla\CMS\Console;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Session\MetadataManager;
-use Joomla\Console\AbstractCommand;
+use Joomla\Console\Command\AbstractCommand;
 use Joomla\Session\SessionInterface;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Console command for performing session metadata garbage collection
@@ -22,6 +24,14 @@ use Joomla\Session\SessionInterface;
  */
 class SessionMetadataGcCommand extends AbstractCommand
 {
+	/**
+	 * The default command name
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected static $defaultName = 'session:metadata:gc';
+
 	/**
 	 * The session metadata manager.
 	 *
@@ -55,15 +65,18 @@ class SessionMetadataGcCommand extends AbstractCommand
 	}
 
 	/**
-	 * Execute the command.
+	 * Internal function to execute the command.
 	 *
-	 * @return  integer  The exit code for the command.
+	 * @param   InputInterface   $input   The input to inject into the command.
+	 * @param   OutputInterface  $output  The output to inject into the command.
+	 *
+	 * @return  integer  The command exit code
 	 *
 	 * @since   4.0.0
 	 */
-	public function execute(): int
+	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
-		$symfonyStyle = $this->createSymfonyStyle();
+		$symfonyStyle = new SymfonyStyle($input, $output);
 
 		$symfonyStyle->title('Running Session Metadata Garbage Collection');
 
@@ -77,18 +90,17 @@ class SessionMetadataGcCommand extends AbstractCommand
 	}
 
 	/**
-	 * Initialise the command.
+	 * Configure the command.
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	protected function initialise()
+	protected function configure(): void
 	{
-		$this->setName('session:metadata:gc');
 		$this->setDescription('Performs session metadata garbage collection');
 		$this->setHelp(
-<<<EOF
+			<<<EOF
 The <info>%command.name%</info> command runs the garbage collection operation for Joomla session metadata
 
 <info>php %command.full_name%</info>

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ class FilesystemHelper
 	 *
 	 * @return  mixed
 	 *
-	 * @link    https://secure.php.net/manual/en/function.filesize.php#71098
+	 * @link    https://www.php.net/manual/en/function.filesize.php
 	 * @since   1.7.0
 	 */
 	public static function remotefsize($url)
@@ -121,7 +121,7 @@ class FilesystemHelper
 	 *
 	 * @return  mixed
 	 *
-	 * @link    https://secure.php.net/manual/en/function.ftp-chmod.php
+	 * @link    https://www.php.net/manual/en/function.ftp-chmod.php
 	 * @since   1.7.0
 	 */
 	public static function ftpChmod($url, $mode)
@@ -265,7 +265,7 @@ class FilesystemHelper
 		{
 			$files = new \DirectoryIterator(__DIR__ . '/Streams');
 
-			/* @type  $file  DirectoryIterator */
+			/** @var  $file  DirectoryIterator */
 			foreach ($files as $file)
 			{
 				// Only load for php files.

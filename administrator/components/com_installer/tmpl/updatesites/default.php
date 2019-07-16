@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,14 +22,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 <div id="installer-manage" class="clearfix">
 	<form action="<?php echo Route::_('index.php?option=com_installer&view=updatesites'); ?>" method="post" name="adminForm" id="adminForm">
 		<div class="row">
-			<div id="j-sidebar-container" class="col-md-2">
-				<?php echo $this->sidebar; ?>
-			</div>
-			<div class="col-md-10">
+			<div class="col-md-12">
 				<div id="j-main-container" class="j-main-container">
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
-						<div class="alert alert-warning">
+						<div class="alert alert-info">
+							<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 							<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 						</div>
 					<?php else : ?>
@@ -88,9 +86,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									</label>
 								</th>
 								<td class="d-none d-md-table-cell">
-									<span class="bold hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', $item->name, $item->description, 0); ?>">
+									<span tabindex="0">
 										<?php echo $item->name; ?>
 									</span>
+									<div role="tooltip" id="tip<?php echo $i; ?>">
+										<?php echo $item->description; ?>
+									</div>
 								</td>
 								<td class="d-none d-md-table-cell">
 									<?php echo $item->client_translated; ?>

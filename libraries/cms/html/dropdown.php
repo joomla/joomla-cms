@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -96,7 +96,7 @@ abstract class JHtmlDropdown
 		}
 
 		$dropDownList = '<div class="btn-group" style="margin-left:6px;display:none">
-							<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-secondary btn-xs">
+							<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-secondary btn-sm">
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">';
@@ -348,7 +348,8 @@ abstract class JHtmlDropdown
 	 * @since   3.0
 	 */
 	public static function addCustomItem($label, $link = 'javascript:void(0)', $linkAttributes = '', $className = '', $ajaxLoad = false,
-		$jsCallBackFunc = null)
+		$jsCallBackFunc = null
+	)
 	{
 		static::start();
 

@@ -9,6 +9,14 @@
   }
 }
 
+.dropdown-menu {
+  box-shadow: $atum-box-shadow;
+}
+
+.dropdown-item {
+  cursor: pointer;
+}
+
 .dropdown-item:hover,
 .dropdown-item:focus {
   .btn-primary + .dropdown-menu  & {

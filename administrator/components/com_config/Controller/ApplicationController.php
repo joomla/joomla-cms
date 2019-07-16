@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,13 +13,13 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Input\Input;
 
 /**
  * Controller for global configuration
@@ -36,7 +36,7 @@ class ApplicationController extends BaseController
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   Input                $input    Input
 	 *
 	 * @since   3.0
 	 */
@@ -70,15 +70,14 @@ class ApplicationController extends BaseController
 	public function save()
 	{
 		// Check for request forgeries.
-		if (!Session::checkToken())
-		{
-			$this->setRedirect('index.php', Text::_('JINVALID_TOKEN'), 'error');
-		}
+		$this->checkToken();
 
 		// Check if the user is authorized to do this.
 		if (!$this->app->getIdentity()->authorise('core.admin'))
 		{
 			$this->setRedirect('index.php', Text::_('JERROR_ALERTNOAUTHOR'), 'error');
+
+			return false;
 		}
 
 		// Set FTP credentials, if given.
@@ -94,12 +93,22 @@ class ApplicationController extends BaseController
 		$data = array_replace($oldData, $data);
 
 		// Get request type
-		$saveFormat = Factory::getDocument()->getType();
+		$saveFormat = $this->app->getDocument()->getType();
 
 		// Handle service requests
 		if ($saveFormat == 'json')
 		{
-			return $model->save($data);
+			$form = $model->getForm();
+			$return = $model->validate($form, $data);
+
+			if ($return === false)
+			{
+				$this->app->setHeader('Status', 422, true);
+
+				return false;
+			}
+
+			return $model->save($return);
 		}
 
 		// Must load after serving service-requests
@@ -111,15 +120,29 @@ class ApplicationController extends BaseController
 		// Check for validation errors.
 		if ($return === false)
 		{
-			/*
-			 * The validate method enqueued all messages for us, so we just need to redirect back.
-			 */
+			// Get the validation messages.
+			$errors = $model->getErrors();
+
+			// Push up to three validation messages out to the user.
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			{
+				if ($errors[$i] instanceof \Exception)
+				{
+					$this->app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+				}
+				else
+				{
+					$this->app->enqueueMessage($errors[$i], 'warning');
+				}
+			}
 
 			// Save the posted data in the session.
 			$this->app->setUserState('com_config.config.global.data', $data);
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(Route::_('index.php?option=com_config', false));
+
+			return false;
 		}
 
 		// Attempt to save the configuration.
@@ -134,7 +157,9 @@ class ApplicationController extends BaseController
 			 */
 
 			// Save failed, go back to the screen and display a notice.
-			$this->app->redirect(Route::_('index.php?option=com_config', false));
+			$this->setRedirect(Route::_('index.php?option=com_config', false));
+
+			return false;
 		}
 
 		// Set the success message.
@@ -167,12 +192,16 @@ class ApplicationController extends BaseController
 		if (!Session::checkToken('get'))
 		{
 			$this->setRedirect('index.php', Text::_('JINVALID_TOKEN'), 'error');
+
+			return false;
 		}
 
 		// Check if the user is authorized to do this.
 		if (!$this->app->getIdentity()->authorise('core.admin'))
 		{
 			$this->setRedirect('index.php', Text::_('JERROR_ALERTNOAUTHOR'), 'error');
+
+			return false;
 		}
 
 		// Initialise model.
@@ -189,6 +218,8 @@ class ApplicationController extends BaseController
 		{
 			// Save failed, go back to the screen and display a notice.
 			$this->setRedirect('index.php', Text::_('JERROR_SAVE_FAILED', $e->getMessage()), 'error');
+
+			return false;
 		}
 
 		// Set the redirect based on the task.

@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Libraries
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,7 @@ class JNamespacePsr4Map
 	/**
 	 * Check if the file exists
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
@@ -56,13 +56,14 @@ class JNamespacePsr4Map
 	/**
 	 * Create the namespace file
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
 	public function create()
 	{
 		$extensions = $this->getNamespaces('administrator/components');
+		$extensions = array_merge($extensions, $this->getNamespaces('api/components'));
 		$extensions = array_merge($extensions, $this->getNamespaces('modules'));
 		$extensions = array_merge($extensions, $this->getNamespaces('administrator/modules'));
 
@@ -79,7 +80,7 @@ class JNamespacePsr4Map
 	/**
 	 * Load the PSR4 file
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
@@ -120,7 +121,7 @@ class JNamespacePsr4Map
 
 		foreach ($elements as $namespace => $path)
 		{
-			$content[] = "\t'" . $namespace . "'" . ' => [JPATH_ROOT . "' . $path . '"],';
+			$content[] = "\t'" . $namespace . "'" . ' => [' . $path . '],';
 		}
 
 		$content[] = '];';
@@ -160,17 +161,29 @@ class JNamespacePsr4Map
 			// Compile the extension path
 			$extensionPath = JPATH_ROOT . '/' . $dir . '/' . $extension . '/';
 
-			// The extension name
-			$name = str_replace('com_', '', $extension);
+			// Strip the com_ from the extension name for components
+			$name = str_replace('com_', '', $extension, $count);
+			$file = $extensionPath . $name . '.xml';
 
-			// If there is no manifest file, ignore
-			if (!file_exists($extensionPath . $name . '.xml'))
+			// If there is no manifest file, ignore. If it was a component check if the xml was named with the com_
+			// prefix.
+			if (!file_exists($file))
 			{
-				continue;
+				if (!$count)
+				{
+					continue;
+				}
+
+				$file = $extensionPath . $extension . '.xml';
+
+				if (!file_exists($file))
+				{
+					continue;
+				}
 			}
 
 			// Load the manifest file
-			$xml = simplexml_load_file($extensionPath . $name . '.xml');
+			$xml = simplexml_load_file($file);
 
 			// When invalid, ignore
 			if (!$xml)
@@ -195,21 +208,34 @@ class JNamespacePsr4Map
 
 			// Normalize the namespace string
 			$namespace = str_replace('\\', '\\\\', $namespace) . '\\\\';
+			$path = str_replace('administrator/', '', $namespacePath);
 
 			// Add the site path when a component
 			if (strpos($extension, 'com_') === 0)
 			{
-				$extensions[$namespace . 'Site\\\\'] = str_replace('administrator/', '', $namespacePath) . $namespaceNode->attributes()->path;
+				$extensions[$namespace . 'Site\\\\'] = 'JPATH_SITE . \'' . $path . $namespaceNode->attributes()->path . '\'';
+
+				if (is_dir(JPATH_API . $path))
+				{
+					$extensions[$namespace . 'Api\\\\'] = 'JPATH_API . \'' . $path . $namespaceNode->attributes()->path . '\'';
+				}
 			}
 
 			// Add the application specific segment when not a plugin
 			if (strpos($dir, '/plugins/') !== 0)
 			{
-				$namespace .=  strpos($namespacePath, 'administrator/') ? 'Administrator\\\\' : 'Site\\\\';
+				$baseDir    = strpos($namespacePath, 'administrator/') ? 'JPATH_ADMINISTRATOR . \'' : 'JPATH_SITE . \'';
+				$namespace .= strpos($namespacePath, 'administrator/') ? 'Administrator\\\\' : 'Site\\\\';
+			}
+			else
+			{
+				// Start in the plugin directory and remove the plugin prefix from the path
+				$baseDir = 'JPATH_PLUGINS . \'';
+				$path    = substr($path, 9);
 			}
 
 			// Set the namespace
-			$extensions[$namespace] = $namespacePath . $namespaceNode->attributes()->path;
+			$extensions[$namespace] = $baseDir . $path . $namespaceNode->attributes()->path . '\'';
 		}
 
 		// Return the namespaces

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,11 +11,9 @@ namespace Joomla\Component\Languages\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 
 /**
  * Languages Override Controller
@@ -39,7 +37,6 @@ class OverrideController extends FormController
 		// Do not cache the response to this, its a redirect
 		$this->app->allowCache(false);
 
-		$app     = Factory::getApplication();
 		$cid     = $this->input->post->get('cid', array(), 'array');
 		$context = "$this->option.edit.$this->context";
 
@@ -55,7 +52,7 @@ class OverrideController extends FormController
 			return;
 		}
 
-		$app->setUserState($context . '.data', null);
+		$this->app->setUserState($context . '.data', null);
 		$this->setRedirect('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, 'id'));
 	}
 
@@ -72,7 +69,7 @@ class OverrideController extends FormController
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app     = $this->app;
 		$model   = $this->getModel();
@@ -197,7 +194,7 @@ class OverrideController extends FormController
 	 */
 	public function cancel($key = null)
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$context = "$this->option.edit.$this->context";
 

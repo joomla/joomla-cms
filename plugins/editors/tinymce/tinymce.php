@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,7 +47,7 @@ class PlgEditorTinymce extends CMSPlugin
 	/**
 	 * Loads the application object
 	 *
-	 * @var    JApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  3.2
 	 */
 	protected $app = null;
@@ -161,7 +161,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 		$user     = Factory::getUser();
 		$language = Factory::getLanguage();
-		$theme    = 'modern';
+		$theme    = 'silver';
 		$ugroups  = array_combine($user->getAuthorisedGroups(), $user->getAuthorisedGroups());
 
 		// Prepare the parameters
@@ -192,10 +192,10 @@ class PlgEditorTinymce extends CMSPlugin
 		$levelParams->loadObject($extraOptions);
 
 		// List the skins
-		$skindirs = glob(JPATH_ROOT . '/media/vendor/tinymce/skins' . '/*', GLOB_ONLYDIR);
+		$skindirs = glob(JPATH_ROOT . '/media/vendor/tinymce/skins/ui' . '/*', GLOB_ONLYDIR);
 
 		// Set the selected skin
-		$skin = 'lightgray';
+		$skin = 'oxide';
 		$side = $app->isClient('administrator') ? 'skin_admin' : 'skin';
 
 		if ((int) $levelParams->get($side, 0) < count($skindirs))
@@ -237,9 +237,14 @@ class PlgEditorTinymce extends CMSPlugin
 		 */
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('template')
-			->from('#__template_styles')
-			->where('client_id=0 AND home=' . $db->quote('1'));
+			->select($db->quoteName('template'))
+			->from($db->quoteName('#__template_styles'))
+			->where(
+				[
+					$db->quoteName('client_id') . ' = 0',
+					$db->quoteName('home') . ' = 1'
+				]
+			);
 
 		$db->setQuery($query);
 
@@ -344,6 +349,16 @@ class PlgEditorTinymce extends CMSPlugin
 			$html_width = '';
 		}
 
+		if (is_numeric($html_width))
+		{
+			$html_width .= 'px';
+		}
+
+		if (is_numeric($html_height))
+		{
+			$html_height .= 'px';
+		}
+
 		// The param is true for vertical resizing only, false or both
 		$resizing          = (bool) $levelParams->get('resizing', true);
 		$resize_horizontal = (bool) $levelParams->get('resize_horizontal', true);
@@ -358,7 +373,6 @@ class PlgEditorTinymce extends CMSPlugin
 			'autolink',
 			'lists',
 			'save',
-			'colorpicker',
 			'importcss',
 		);
 
@@ -455,7 +469,7 @@ class PlgEditorTinymce extends CMSPlugin
 		}
 
 		// Check for extra plugins, from the setoptions form
-		foreach (array('wordcount' => 1, 'advlist' => 1, 'autosave' => 1, 'contextmenu' => 1) as $pName => $def)
+		foreach (array('wordcount' => 1, 'advlist' => 1, 'autosave' => 1) as $pName => $def)
 		{
 			if ($levelParams->get($pName, $def))
 			{
@@ -505,6 +519,9 @@ class PlgEditorTinymce extends CMSPlugin
 			$scriptOptions['mediaUploadPath'] = $tempPath;
 			$scriptOptions['uploadUri']       = $uploadUrl;
 		}
+
+		// Convert pt to px in dropdown
+		$scriptOptions['fontsize_formats'] = '8px 10px 12px 14px 18px 24px 36px';
 
 		// User custom plugins and buttons
 		$custom_plugin = trim($levelParams->get('custom_plugin', ''));
@@ -697,11 +714,12 @@ class PlgEditorTinymce extends CMSPlugin
 
 					$coreButton = [];
 
-					$coreButton['name']  = $btnName;
-					$coreButton['href']  = $href;
-					$coreButton['id']    = $modalId;
-					$coreButton['icon']  = 'none icon-' . $icon;
-					$coreButton['click'] = $onclick;
+					$coreButton['name']    = $btnName;
+					$coreButton['href']    = $href;
+					$coreButton['id']      = $modalId;
+					$coreButton['icon']    = $icon;
+					$coreButton['click']   = $onclick;
+					$coreButton['iconSVG'] = $button->get('iconSVG');
 
 					// The array with the toolbar buttons
 					$btnsNames[] = $coreButton;
@@ -945,8 +963,6 @@ class PlgEditorTinymce extends CMSPlugin
 			'removeformat'  => array('label' => 'Clear formatting'),
 
 			// Buttons from the plugins
-			'forecolor'      => array('label' => 'Text color', 'plugin' => 'textcolor'),
-			'backcolor'      => array('label' => 'Background color', 'plugin' => 'textcolor'),
 			'anchor'         => array('label' => 'Anchor', 'plugin' => 'anchor'),
 			'hr'             => array('label' => 'Horizontal line', 'plugin' => 'hr'),
 			'ltr'            => array('label' => 'Left to right', 'plugin' => 'directionality'),
@@ -1053,8 +1069,10 @@ class PlgEditorTinymce extends CMSPlugin
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('folder') . ' = ' . $db->quote($this->_type))
-			->where($db->quoteName('element') . ' = ' . $db->quote($this->_name));
+			->where($db->quoteName('folder') . ' = :folder')
+			->where($db->quoteName('element') . ' = :element')
+			->bind(':folder', $this->_type)
+			->bind(':element', $this->_name);
 		$db->setQuery($query);
 
 		return (int) $db->loadResult();

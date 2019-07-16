@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ $rows            = $displayData->rows;
 $content         = $displayData->content;
 $extJS           = JDEBUG ? '.js' : '.min.js';
 $extCSS          = JDEBUG ? '.css' : '.min.css';
-$modifier        = $params->get('fullScreenMod', '') !== '' ? implode($params->get('fullScreenMod', ''), ' + ') . ' + ' : '';
+$modifier        = $params->get('fullScreenMod', array()) ? implode(' + ', $params->get('fullScreenMod', array())) . ' + ' : '';
 $basePath        = $params->get('basePath', 'media/vendor/codemirror/');
 $modePath        = $params->get('modePath', 'media/vendor/codemirror/mode/%N/%N');
 $modPath         = 'mod-path="' . Uri::root() . $modePath . $extJS . '"';
@@ -36,7 +36,7 @@ $addons          = 'addons="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/a
 
 HTMLHelper::_('stylesheet', $basePath . 'lib/codemirror' . $extCSS, array('version' => 'auto'));
 HTMLHelper::_('stylesheet', $basePath . 'lib/addons' . $extCSS, array('version' => 'auto'));
-HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-editor-codemirror.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('webcomponent', 'plg_editors_codemirror/joomla-editor-codemirror.min.js', array('version' => 'auto', 'relative' => true));
 
 ?>
 <joomla-editor-codemirror <?php echo $editor, $addons, $modPath, $fsCombo, $option; ?>>

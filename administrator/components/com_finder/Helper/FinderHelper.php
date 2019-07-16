@@ -3,13 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Finder\Administrator\Helper;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Helper class for Finder.
@@ -38,22 +41,22 @@ class FinderHelper
 	public static function addSubmenu($vName)
 	{
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_FINDER_SUBMENU_INDEX'),
+			Text::_('COM_FINDER_SUBMENU_INDEX'),
 			'index.php?option=com_finder&view=index',
 			$vName === 'index'
 		);
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_FINDER_SUBMENU_MAPS'),
+			Text::_('COM_FINDER_SUBMENU_MAPS'),
 			'index.php?option=com_finder&view=maps',
 			$vName === 'maps'
 		);
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_FINDER_SUBMENU_FILTERS'),
+			Text::_('COM_FINDER_SUBMENU_FILTERS'),
 			'index.php?option=com_finder&view=filters',
 			$vName === 'filters'
 		);
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_FINDER_SUBMENU_SEARCHES'),
+			Text::_('COM_FINDER_SUBMENU_SEARCHES'),
 			'index.php?option=com_finder&view=searches',
 			$vName === 'searches'
 		);
@@ -68,7 +71,7 @@ class FinderHelper
 	 */
 	public static function getFinderPluginId()
 	{
-		$db    = \JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
@@ -82,7 +85,7 @@ class FinderHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		return $result;

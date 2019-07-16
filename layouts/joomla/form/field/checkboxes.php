@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,13 +51,14 @@ extract($displayData);
  */
 $format = '<input type="checkbox" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 
-// The alt option for JText::alt
+// The alt option for Text::alt
 $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 ?>
 
 <fieldset id="<?php echo $id; ?>" class="<?php echo trim($class . ' checkboxes'); ?>"
 	<?php echo $required ? 'required' : ''; ?>
 	<?php echo $autofocus ? 'autofocus' : ''; ?>>
+	<legend><?php echo $label; ?></legend>
 
 	<?php foreach ($options as $i => $option) : ?>
 		<?php
@@ -78,8 +79,8 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 			$attributes = array_filter(array($checked, $optionClass, $optionDisabled, $onchange, $onclick));
 		?>
 		<div class="form-check form-check-inline">
+		<?php echo sprintf($format, $oid, $name, $value, implode(' ', $attributes)); ?>
 			<label for="<?php echo $oid; ?>" class="form-check-label">
-				<?php echo sprintf($format, $oid, $name, $value, implode(' ', $attributes)); ?>
 				<?php echo $option->text; ?>
 			</label>
 		</div>

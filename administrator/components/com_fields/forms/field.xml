@@ -86,7 +86,7 @@
 			name="state"
 			type="list"
 			label="JSTATUS"
-			class="chzn-color-state"
+			class="custom-select-color-state"
 			default="1"
 			size="1"
 			>
@@ -122,11 +122,12 @@
 
 		<field
 			name="created_time"
-			type="text"
+			type="calendar"
 			label="JGLOBAL_CREATED_DATE"
-			class="readonly"
-			filter="unset"
-			readonly="true"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
 		/>
 
 		<field
@@ -140,11 +141,14 @@
 
 		<field
 			name="modified_time"
-			type="text"
+			type="calendar"
 			label="JGLOBAL_FIELD_MODIFIED_LABEL"
 			class="readonly"
-			filter="unset"
+			translateformat="true"
+			showtime="true"
+			size="22"
 			readonly="true"
+			filter="user_utc"
 		/>
 
 		<field
@@ -206,6 +210,13 @@
 
 	<fields name="params" label="COM_FIELDS_FIELD_BASIC_LABEL">
 		<fieldset name="basic">
+
+			<field
+				name="formoptions"
+				type="note"
+				label="COM_FIELDS_FIELD_FORMOPTIONS_HEADING"
+			/>
+
 			<field
 				name="hint"
 				type="text"
@@ -215,18 +226,40 @@
 			/>
 
 			<field
-				name="render_class"
+				name="class"
 				type="textarea"
-				label="COM_FIELDS_FIELD_RENDER_CLASS_LABEL"
-				description="COM_FIELDS_FIELD_RENDER_CLASS_DESC"
+				label="COM_FIELDS_FIELD_CLASS_LABEL"
 				size="40"
 			/>
 
 			<field
-				name="class"
+				name="label_class"
 				type="textarea"
-				label="COM_FIELDS_FIELD_CLASS_LABEL"
-				description="COM_FIELDS_FIELD_CLASS_DESC"
+				label="COM_FIELDS_FIELD_LABEL_FORM_CLASS_LABEL"
+				size="40"
+			/>
+
+			<field
+				name="show_on"
+				type="list"
+				label="COM_FIELDS_FIELD_SHOW_ON_LABEL"
+				default=""
+			>
+				<option value="1">COM_FIELDS_FIELD_SHOW_ON_SITE</option>
+				<option value="2">COM_FIELDS_FIELD_SHOW_ON_ADMIN</option>
+				<option value="">COM_FIELDS_FIELD_SHOW_ON_BOTH</option>
+			</field>
+
+			<field
+				name="renderoptions"
+				type="note"
+				label="COM_FIELDS_FIELD_RENDEROPTIONS_HEADING"
+			/>
+
+			<field
+				name="render_class"
+				type="textarea"
+				label="COM_FIELDS_FIELD_RENDER_CLASS_LABEL"
 				size="40"
 			/>
 
@@ -242,15 +275,12 @@
 			</field>
 
 			<field
-				name="show_on"
-				type="list"
-				label="COM_FIELDS_FIELD_SHOW_ON_LABEL"
-				default=""
-				>
-				<option value="1">COM_FIELDS_FIELD_SHOW_ON_SITE</option>
-				<option value="2">COM_FIELDS_FIELD_SHOW_ON_ADMIN</option>
-				<option value="">COM_FIELDS_FIELD_SHOW_ON_BOTH</option>
-			</field>
+				name="label_render_class"
+				type="textarea"
+				label="COM_FIELDS_FIELD_LABEL_RENDER_CLASS_LABEL"
+				size="40"
+				showon="showlabel:1"
+			/>
 
 			<field
 				name="display"
@@ -264,12 +294,33 @@
 				<option value="0">COM_FIELDS_FIELD_DISPLAY_NO_DISPLAY</option>
 			</field>
 
+ 			<field
+				name="prefix"
+				type="text"
+				label="COM_FIELDS_FIELD_PREFIX_LABEL"
+				size="40"
+			/>
+
+ 			<field
+				name="suffix"
+				type="text"
+				label="COM_FIELDS_FIELD_SUFFIX_LABEL"
+				size="40"
+			/>
+
+			<field
+				name="layout"
+				type="fieldLayout"
+				label="COM_FIELDS_FIELD_LAYOUT_LABEL"
+				description="COM_FIELDS_FIELD_LAYOUT_DESC"
+				class="custom-select"
+			/>
+
 			<field
 				name="display_readonly"
-				type="radio"
+				type="list"
 				label="JFIELD_DISPLAY_READONLY_LABEL"
 				description="JFIELD_DISPLAY_READONLY_DESC"
-				class="btn-group btn-group-yesno"
 				default="2"
 				>
 				<option value="2">JGLOBAL_INHERIT</option>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,9 +37,9 @@ class UpdateController extends BaseController
 	public function update()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('update');
 
 		$uid = $this->input->get('cid', array(), 'array');
@@ -84,7 +84,7 @@ class UpdateController extends BaseController
 	 */
 	public function find()
 	{
-		(Session::checkToken() or Session::checkToken('get')) or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		// Get the caching duration.
 		$params        = ComponentHelper::getComponent('com_installer')->getParams();
@@ -95,7 +95,7 @@ class UpdateController extends BaseController
 		$minimum_stability = (int) $params->get('minimum_stability', Updater::STABILITY_STABLE);
 
 		// Find updates.
-		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('update');
 
 		$disabledUpdateSites = $model->getDisabledUpdateSites();
@@ -120,9 +120,9 @@ class UpdateController extends BaseController
 	public function purge()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('update');
 		$model->purge();
 
@@ -150,7 +150,7 @@ class UpdateController extends BaseController
 		{
 			$app->setHeader('status', 403, true);
 			$app->sendHeaders();
-			echo Text::_('JINVALID_TOKEN');
+			echo Text::_('JINVALID_TOKEN_NOTICE');
 			$app->close();
 		}
 
@@ -172,7 +172,7 @@ class UpdateController extends BaseController
 			$minimum_stability = (int) $params->get('minimum_stability', Updater::STABILITY_STABLE);
 		}
 
-		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('update');
 		$model->findUpdates($eid, $cache_timeout, $minimum_stability);
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -114,8 +114,8 @@ use Joomla\CMS\Language\Text;
 						<?php echo Text::_($extension->name); ?>
 					</td>
 					<td class="extension-check"
-					    data-extension-id="<?php echo $extension->extension_id; ?>"
-					    data-extension-current-version="<?php echo $extension->version; ?>" dir="ltr">
+						data-extension-id="<?php echo $extension->extension_id; ?>"
+						data-extension-current-version="<?php echo $extension->version; ?>" dir="ltr">
 						<img src="../media/system/images/mootree_loader.gif" />
 					</td>
 					<td>

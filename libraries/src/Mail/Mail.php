@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -67,6 +67,17 @@ class Mail extends PHPMailer
 
 		// Don't disclose the PHPMailer version
 		$this->XMailer = ' ';
+
+		/*
+		 * PHPMailer 5.2 can't validate e-mail addresses with the new regex library used in PHP 7.3+
+		 * Setting $validator to "php" uses the native php function filter_var
+		 *
+		 * @see https://github.com/joomla/joomla-cms/issues/24707
+		 */
+		if (version_compare(PHP_VERSION, '7.3.0', '>='))
+		{
+			PHPMailer::$validator = 'php';
+		}
 	}
 
 	/**
@@ -100,7 +111,7 @@ class Mail extends PHPMailer
 	 * @since   1.7.0
 	 *
 	 * @throws  \RuntimeException   if the mail function is disabled
-	 * @throws  phpmailerException  if sending failed and exception throwing is enabled
+	 * @throws  phpmailerException  if sending failed
 	 */
 	public function Send()
 	{
@@ -133,13 +144,23 @@ class Mail extends PHPMailer
 			 */
 			if (!$result && $this->SMTPAutoTLS)
 			{
-				throw new \RuntimeException(Text::_($this->ErrorInfo), 500);
+				$this->SMTPAutoTLS = false;
+
+				try
+				{
+					$result = parent::send();
+				}
+				finally
+				{
+					// Reset the value for any future emails
+					$this->SMTPAutoTLS = true;
+				}
 			}
 
 			return $result;
 		}
 
-		Factory::getApplication()->enqueueMessage(Text::_('JLIB_MAIL_FUNCTION_OFFLINE'));
+		Factory::getApplication()->enqueueMessage(Text::_('JLIB_MAIL_FUNCTION_OFFLINE'), 'warning');
 
 		return false;
 	}
@@ -266,7 +287,7 @@ class Mail extends PHPMailer
 					$recipientName = MailHelper::cleanLine($recipientName);
 
 					// Check for boolean false return if exception handling is disabled
-					if (call_user_func('parent' . $method, $recipientEmail, $recipientName) === false)
+					if (call_user_func('parent::' . $method, $recipientEmail, $recipientName) === false)
 					{
 						return false;
 					}
@@ -369,7 +390,8 @@ class Mail extends PHPMailer
 	 * Add file attachment to the email
 	 *
 	 * @param   mixed   $path         Either a string or array of strings [filenames]
-	 * @param   mixed   $name         Either a string or array of strings [names]
+	 * @param   mixed   $name         Either a string or array of strings [names]. N.B. if this is an array it must contain the same
+	 *                                number of elements as the array of paths supplied.
 	 * @param   mixed   $encoding     The encoding of the attachment
 	 * @param   mixed   $type         The mime type
 	 * @param   string  $disposition  The disposition of the attachment
@@ -615,7 +637,8 @@ class Mail extends PHPMailer
 	 * @throws  phpmailerException  if exception throwing is enabled
 	 */
 	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode = false, $cc = null, $bcc = null, $attachment = null,
-		$replyTo = null, $replyToName = null)
+		$replyTo = null, $replyToName = null
+	)
 	{
 		// Create config object
 		$app = Factory::getApplication();

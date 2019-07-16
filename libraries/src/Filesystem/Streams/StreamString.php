@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -91,10 +91,10 @@ class StreamString
 	/**
 	 * Method to open a file or URL.
 	 *
-	 * @param   string   $path          The stream path.
-	 * @param   string   $mode          Not used.
-	 * @param   integer  $options       Not used.
-	 * @param   string   &$opened_path  Not used.
+	 * @param   string   $path         The stream path.
+	 * @param   string   $mode         Not used.
+	 * @param   integer  $options      Not used.
+	 * @param   string   $opened_path  Not used.
 	 *
 	 * @return  boolean
 	 *
@@ -123,7 +123,7 @@ class StreamString
 	 *
 	 * @return  array
 	 *
-	 * @link    https://secure.php.net/manual/en/streamwrapper.stream-stat.php
+	 * @link    https://www.php.net/manual/en/streamwrapper.stream-stat.php
 	 * @since   1.7.0
 	 */
 	public function stream_stat()
@@ -139,7 +139,7 @@ class StreamString
 	 *
 	 * @return  array
 	 *
-	 * @link    https://secure.php.net/manual/en/streamwrapper.url-stat.php
+	 * @link    https://www.php.net/manual/en/streamwrapper.url-stat.php
 	 * @since   1.7.0
 	 */
 	public function url_stat($path, $flags = 0)
@@ -172,11 +172,11 @@ class StreamString
 	 *
 	 * @param   integer  $count  Bytes of data from the current position should be returned.
 	 *
-	 * @return  void
+	 * @return  string
 	 *
 	 * @since   1.7.0
 	 *
-	 * @link    https://secure.php.net/manual/en/streamwrapper.stream-read.php
+	 * @link    https://www.php.net/manual/en/streamwrapper.stream-read.php
 	 */
 	public function stream_read($count)
 	{

@@ -10,10 +10,10 @@
 @import "../../../../media/vendor/bootstrap/scss/custom-forms";
 
 // Alert
-@import "../../../../build/media/system/scss/jalert";
+@import "../../../../build/media_source/system/scss/jalert";
 
 // jQuery Minicolors
-@import "../../../../build/media/system/scss/jquery-minicolors";
+@import "../../../../build/media_source/system/scss/jquery-minicolors";
 
 // Blocks
 @import "blocks/global"; // Leave this first
@@ -46,6 +46,7 @@
 @import "vendor/bootstrap/nav";
 @import "vendor/bootstrap/pagination";
 @import "vendor/bootstrap/table";
+@import "vendor/codemirror";
 @import "vendor/chosen";
 @import "vendor/choicesjs";
 @import "vendor/dragula";

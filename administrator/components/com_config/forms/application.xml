@@ -261,6 +261,20 @@
 			<option value="1">JYES</option>
 		</field>
 
+		<field
+			name="debug_lang_const"
+			type="radio"
+			label="COM_CONFIG_FIELD_DEBUG_CONST_LANG_LABEL"
+			description="COM_CONFIG_FIELD_DEBUG_CONST_LANG_DESC"
+			class="switcher"
+			default="1"
+			filter="integer"
+			showon="debug_lang:1"
+			>
+			<option value="0">COM_CONFIG_FIELD_DEBUG_CONST</option>
+			<option value="1">COM_CONFIG_FIELD_DEBUG_VALUE</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset name="ftp" label="CONFIG_FTP_SETTINGS_LABEL">
@@ -803,13 +817,13 @@
 			type="radio"
 			label="COM_CONFIG_FIELD_REDIS_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_PERSISTENT_DESC"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			filter="integer"
 			showon="session_handler:redis"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -1058,6 +1072,7 @@
 			type="helpsite"
 			label="COM_CONFIG_FIELD_HELP_SERVER_LABEL"
 			showDefault="false"
+			validate="options"
 		/>
 
 	</fieldset>
@@ -1104,6 +1119,10 @@
 			<action
 				name="core.login.admin"
 				title="JACTION_LOGIN_ADMIN"
+			/>
+			<action
+				name="core.login.api"
+				title="JACTION_LOGIN_API"
 			/>
 			<action
 				name="core.login.offline"

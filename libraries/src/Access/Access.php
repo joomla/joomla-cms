@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,11 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Table\Asset;
+use Joomla\CMS\User\User;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -265,10 +268,9 @@ class Access
 	 *                               (e.g. 'com_content.article', 'com_menus.menu.2', 'com_contact').
 	 * @param   boolean  $reload     Reload the preloaded assets.
 	 *
-	 * @return  boolean  True
+	 * @return  void
 	 *
 	 * @since   1.6
-	 * @note    This function will return void in 4.0.
 	 */
 	protected static function preloadPermissions($assetType, $reload = false)
 	{
@@ -281,7 +283,7 @@ class Access
 			return;
 		}
 
-		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('Before Access::preloadPermissions (' . $extensionName . ')');
+		!JDEBUG ?: Profiler::getInstance('Application')->mark('Before Access::preloadPermissions (' . $extensionName . ')');
 
 		// Get the database connection object.
 		$db         = Factory::getDbo();
@@ -308,7 +310,7 @@ class Access
 		self::$preloadedAssetTypes[$assetType]     = true;
 		self::$preloadedAssetTypes[$extensionName] = true;
 
-		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('After Access::preloadPermissions (' . $extensionName . ')');
+		!JDEBUG ?: Profiler::getInstance('Application')->mark('After Access::preloadPermissions (' . $extensionName . ')');
 	}
 
 	/**
@@ -330,7 +332,7 @@ class Access
 			return array();
 		}
 
-		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('Before Access::preloadComponents (all components)');
+		!JDEBUG ?: Profiler::getInstance('Application')->mark('Before Access::preloadComponents (all components)');
 
 		// Add root to asset names list.
 		$components = array('root.1');
@@ -387,7 +389,7 @@ class Access
 		// Mark all components asset type as preloaded.
 		self::$preloadedAssetTypes['components'] = true;
 
-		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('After Access::preloadComponents (all components)');
+		!JDEBUG ?: Profiler::getInstance('Application')->mark('After Access::preloadComponents (all components)');
 
 		return $components;
 	}
@@ -426,7 +428,7 @@ class Access
 	protected static function getGroupPath($groupId)
 	{
 		// Load all the groups to improve performance on intensive groups checks
-		$groups = \JHelperUsergroups::getInstance()->getAll();
+		$groups = UserGroupsHelper::getInstance()->getAll();
 
 		if (!isset($groups[$groupId]))
 		{
@@ -502,7 +504,7 @@ class Access
 		// Almost all calls can take advantage of preloading.
 		if ($assetId && isset(self::$preloadedAssets[$assetId]))
 		{
-			!JDEBUG ?: \JProfiler::getInstance('Application')->mark('Before Access::getAssetRules (id:' . $assetId . ' name:' . $assetName . ')');
+			!JDEBUG ?: Profiler::getInstance('Application')->mark('Before Access::getAssetRules (id:' . $assetId . ' name:' . $assetName . ')');
 
 			// Collects permissions for each asset
 			$collected = array();
@@ -564,7 +566,7 @@ class Access
 				self::$assetRules[$assetId] = self::$assetRulesIdentities[$hash];
 			}
 
-			!JDEBUG ?: \JProfiler::getInstance('Application')->mark('After Access::getAssetRules (id:' . $assetId . ' name:' . $assetName . ')');
+			!JDEBUG ?: Profiler::getInstance('Application')->mark('After Access::getAssetRules (id:' . $assetId . ' name:' . $assetName . ')');
 
 			return self::$assetRulesIdentities[$hash];
 		}
@@ -572,7 +574,7 @@ class Access
 		// Non preloading code. Use old slower method, slower. Only used in rare cases (if any) or without preloading chosen.
 		Log::add('Asset ' . $assetKey . ' permissions fetch without preloading (slower method).', Log::INFO, 'assets');
 
-		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('Before Access::getAssetRules (assetKey:' . $assetKey . ')');
+		!JDEBUG ?: Profiler::getInstance('Application')->mark('Before Access::getAssetRules (assetKey:' . $assetKey . ')');
 
 		// There's no need to process it with the recursive method for the Root Asset ID.
 		if ((int) $assetKey === 1)
@@ -636,7 +638,7 @@ class Access
 		$rules = new Rules;
 		$rules->mergeCollection($collected);
 
-		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('Before Access::getAssetRules <strong>Slower</strong> (assetKey:' . $assetKey . ')');
+		!JDEBUG ?: Profiler::getInstance('Application')->mark('Before Access::getAssetRules <strong>Slower</strong> (assetKey:' . $assetKey . ')');
 
 		return $rules;
 	}
@@ -991,7 +993,7 @@ class Access
 		$authorised = array(1);
 
 		// Check for the recovery mode setting and return early.
-		$user      = \JUser::getInstance($userId);
+		$user      = User::getInstance($userId);
 		$root_user = Factory::getApplication()->get('root_user');
 
 		if (($user->username && $user->username == $root_user) || (is_numeric($root_user) && $user->id > 0 && $user->id == $root_user))

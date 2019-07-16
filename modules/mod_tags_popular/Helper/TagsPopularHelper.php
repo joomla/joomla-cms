@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_tags_popular
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,7 +60,7 @@ abstract class TagsPopularHelper
 		$query->where($db->quoteName('t.published') . ' = 1 ');
 
 		// Filter by Parent Tag
-		$parentTags = $params->get('parentTag', 0);
+		$parentTags = $params->get('parentTag', array());
 
 		if ($parentTags)
 		{
@@ -82,7 +82,7 @@ abstract class TagsPopularHelper
 
 		if ($timeframe !== 'alltime')
 		{
-			$query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd($nowDate, '-1', strtoupper($timeframe)));
+			$query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd($db->quote($nowDate), '-1', strtoupper($timeframe)));
 		}
 
 		$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON ' . $db->quoteName('tag_id') . ' = t.id')
@@ -96,9 +96,11 @@ abstract class TagsPopularHelper
 		// Only return tags connected to published articles
 		$query->where($db->quoteName('c.core_state') . ' = 1')
 			->where('(' . $db->quoteName('c.core_publish_up') . ' = ' . $nullDate
-				. ' OR ' . $db->quoteName('c.core_publish_up') . ' <= ' . $db->quote($nowDate) . ')')
+				. ' OR ' . $db->quoteName('c.core_publish_up') . ' <= ' . $db->quote($nowDate) . ')'
+			)
 			->where('(' . $db->quoteName('c.core_publish_down') . ' = ' . $nullDate
-				. ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= ' . $db->quote($nowDate) . ')');
+				. ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= ' . $db->quote($nowDate) . ')'
+			);
 
 		// Set query depending on order_value param
 		if ($order_value === 'rand()')
@@ -125,7 +127,7 @@ abstract class TagsPopularHelper
 						)
 					)
 					->from('(' . (string) $query . ') AS a')
-					->order('a.title' . ' ' . $order_direction);
+					->order('a.title ' . $order_direction);
 
 				$query = $equery;
 			}

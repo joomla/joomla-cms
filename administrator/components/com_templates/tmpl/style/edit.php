@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,7 +51,7 @@ $user = Factory::getUser();
 					?>
 					<?php if ($description) : ?>
 						<p class="readmore">
-							<a href="#" onclick="jQuery('.nav-tabs a[href=\'#description\']').tab('show');">
+							<a href="#" onclick="document.querySelector('#tab-description').click();">
 								<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
 							</a>
 						</p>
