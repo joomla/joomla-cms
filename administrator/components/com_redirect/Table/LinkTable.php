@@ -106,7 +106,7 @@ class LinkTable extends Table
 			->select($db->quoteName('id'))
 			->select($db->quoteName('old_url'))
 			->from($db->quoteName('#__redirect_links'))
-			->where($db->quoteName('old_url') . ' = :url') 
+			->where($db->quoteName('old_url') . ' = :url')
 			->bind(':url', $this->old_url);
 		$db->setQuery($query);
 		$urls = $db->loadAssocList();
