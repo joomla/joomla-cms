@@ -343,7 +343,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		// Get the published infos from the database
 		$query = $this->db->getQuery(true)
 			->select($this->db->quoteName(['client', 'directive', 'blocked_uri']))
-			->from('#__csp')
+			->from($this->db->quoteName('#__csp'))
 			->where($this->db->quoteName('published') . ' = 1');
 
 		$this->db->setQuery($query);

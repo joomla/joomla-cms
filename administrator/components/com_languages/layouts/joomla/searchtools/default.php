@@ -53,6 +53,7 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
 		<?php $langClient = $data['view']->filterForm->getField('language_client'); ?>
 		<div class="js-stools-container-selector">
 			<div class="js-stools-field-selector js-stools-langclient">
+				<div class="sr-only"><?php echo $langClient->label; ?></div>
 				<?php echo $langClient->input; ?>
 			</div>
 		</div>
@@ -61,6 +62,7 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
 		<?php $client = $data['view']->filterForm->getField('client_id'); ?>
 		<div class="js-stools-container-selector">
 			<div class="js-stools-field-selector js-stools-client">
+				<div class="sr-only"><?php echo $client->label; ?></div>
 				<?php echo $client->input; ?>
 			</div>
 		</div>

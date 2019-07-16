@@ -31,8 +31,7 @@ class AssociationsHelper extends ContentHelper
 	/**
 	 * Array of Registry objects of extensions
 	 *
-	 * var      array   $extensionsSupport
-	 *
+	 * @var    array
 	 * @since  3.7.0
 	 */
 	public static $extensionsSupport = null;
@@ -40,8 +39,7 @@ class AssociationsHelper extends ContentHelper
 	/**
 	 * List of extensions name with support
 	 *
-	 * var      array   $supportedExtensionsList
-	 *
+	 * @var    array
 	 * @since  3.7.0
 	 */
 	public static $supportedExtensionsList = array();
@@ -422,6 +420,7 @@ class AssociationsHelper extends ContentHelper
 			$languageKey = $typeName;
 
 			$typeNameExploded = explode('.', $typeName);
+
 			if (array_pop($typeNameExploded) === 'category')
 			{
 				$languageKey = strtoupper($extensionName) . '_CATEGORIES';

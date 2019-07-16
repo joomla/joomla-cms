@@ -233,7 +233,7 @@ class Workflow
 	 *
 	 * @param   integer  $transition_id  The transition id to get the condition of
 	 *
-	 * @return  null|int  Integer if transition exists. Otherwise null
+	 * @return  null|integer  Integer if transition exists. Otherwise null
 	 */
 	public function getConditionForTransition($transition_id)
 	{
