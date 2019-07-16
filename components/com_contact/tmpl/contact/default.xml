@@ -308,7 +308,6 @@
 				name="show_profile"
 				type="list"
 				label="COM_CONTACT_FIELD_PROFILE_SHOW_LABEL"
-				description="COM_CONTACT_FIELD_PROFILE_SHOW_DESC"
 				useglobal="true"
 				class="chzn-color"
 				>

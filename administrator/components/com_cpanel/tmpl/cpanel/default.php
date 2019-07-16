@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('behavior.core');
 Text::script('COM_CPANEL_UNPUBLISH_MODULE_SUCCESS');
@@ -26,7 +26,7 @@ $user = Factory::getUser();
 <div class="row">
 	<?php $iconmodules = ModuleHelper::getModules('icon');
 	if ($iconmodules) : ?>
-        <?php HTMLHelper::_('bootstrap.framework'); ?>
+		<?php HTMLHelper::_('bootstrap.framework'); ?>
 		<div class="col-md-12">
 			<?php
 			// Display the submenu position modules

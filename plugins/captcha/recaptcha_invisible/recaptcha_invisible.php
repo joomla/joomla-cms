@@ -13,7 +13,7 @@ use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Utilities\IpHelper; 
+use Joomla\Utilities\IpHelper;
 
 /**
  * Invisible reCAPTCHA Plugin.

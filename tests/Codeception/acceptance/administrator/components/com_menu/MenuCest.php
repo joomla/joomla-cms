@@ -23,9 +23,10 @@ class MenuCest
 	 *
 	 * @param   AcceptanceTester  $I  The AcceptanceTester Object
 	 *
+	 * @return  void
 	 * @since  4.0.0
 	 *
-	 * @return  void
+	 * @throws Exception
 	 */
 	public function createNewMenu(\AcceptanceTester $I)
 	{
@@ -36,11 +37,12 @@ class MenuCest
 		$I->checkForPhpNoticesOrWarnings();
 
 		$I->waitForText(MenuListPage::$pageTitleText);
-		$I->click('#menu-collapse-icon');
+		$I->waitForJsOnPageLoad();
 
 		$I->clickToolbarButton('new');
 		$I->waitForText(MenuFormPage::$pageTitleText);
 		$I->checkForPhpNoticesOrWarnings();
+		$I->waitForJsOnPageLoad();
 
 		$this->fillMenuInformation($I, 'Test Menu');
 

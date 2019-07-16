@@ -97,20 +97,6 @@ HTMLHelper::_('script', 'com_languages/admin-override-edit-refresh-searchstring.
 					<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_TIP'); ?>
 				</div>
 				<div class="control-group">
-					<div class="input-group">
-						<?php echo $this->form->getInput('searchstring'); ?>
-						<span class="input-group-append">
-							<button type="submit" class="btn btn-primary" onclick="Joomla.overrider.searchStrings();return false;" formnovalidate>
-								<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?>
-							</button>
-						</span>
-					</div>
-					<span id="refresh-status" class="help-block">
-						<span class="fa fa-sync fa-spin" aria-hidden="true"></span>
-						<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?>
-					</span>
-				</div>
-				<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getLabel('searchtype'); ?>
 					</div>
@@ -118,16 +104,35 @@ HTMLHelper::_('script', 'com_languages/admin-override-edit-refresh-searchstring.
 						<?php echo $this->form->getInput('searchtype'); ?>
 					</div>
 				</div>
-
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('searchstring'); ?>
+					</div>
+					<div class="controls">
+						<div class="input-group">
+							<?php echo $this->form->getInput('searchstring'); ?>
+							<span class="input-group-append">
+								<button type="submit" class="btn btn-primary" onclick="Joomla.overrider.searchStrings();return false;" formnovalidate>
+									<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?>
+								</button>
+							</span>
+							<span id="refresh-status" class="help-block">
+								<span class="fa fa-sync fa-spin" aria-hidden="true"></span>
+								<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?>
+							</span>
+						</div>
+					</div>
+				</div>
 			</fieldset>
 
 			<fieldset id="results-container" class="adminform">
 				<legend><?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_RESULTS_LEGEND'); ?></legend>
 				<div id="overrider-spinner" class="overrider-spinner text-center" data-search-string-expired="<?php echo $expired; ?>"><span class="fa fa-spinner fa-spin" aria-hidden="true"></span></div>
 				<span id="more-results" class="mt-2">
-					<a id="more-results-button" class="btn btn-secondary">
+					<button type="button" id="more-results-button" class="btn btn-secondary">
 						<span id="overrider-spinner-btn" class="overrider-spinner-btn fa fa-spinner fa-spin" aria-hidden="true"></span>
-						<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_MORE_RESULTS'); ?></a>
+						<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_MORE_RESULTS'); ?>
+					</button>
 				</span>
 			</fieldset>
 

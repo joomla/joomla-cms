@@ -30,9 +30,10 @@ class ContentListCest
 	/**
 	 * Test that it loads without php notices and warnings.
 	 *
-	 * @param   AcceptanceTester $I Acceptance Helper Object
+	 * @param   AcceptanceTester  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 * @throws Exception
 	 */
 	public function loadsWithoutPhpNoticesAndWarnings(AcceptanceTester $I)
 	{
@@ -45,9 +46,10 @@ class ContentListCest
 	/**
 	 * Test create a new arcticle
 	 *
-	 * @param   \Step\Acceptance\Administrator\Content $I
+	 * @param   \Step\Acceptance\Administrator\Content  $I
 	 *
 	 * @since   4.0.0
+	 * @throws Exception
 	 */
 	public function createNewArticleUsingToolbarButton(\Step\Acceptance\Administrator\Content $I)
 	{

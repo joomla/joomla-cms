@@ -1987,7 +1987,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 	 */
 	protected function _unlock()
 	{
-		if ($this->_locked) 
+		if ($this->_locked)
 		{
 			$this->_db->unlockTables();
 			$this->_locked = false;

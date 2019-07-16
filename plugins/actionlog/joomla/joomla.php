@@ -12,10 +12,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
+use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
+use Joomla\Component\Actionlogs\Administrator\Plugin\ActionLogPlugin;
 use Joomla\Utilities\ArrayHelper;
-
-JLoader::register('ActionLogPlugin', JPATH_ADMINISTRATOR . '/components/com_actionlogs/libraries/actionlogplugin.php');
-JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
 /**
  * Joomla! Users Actions Logging Plugin.
@@ -36,7 +35,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * Context aliases
 	 *
 	 * @var    array
-	 * @since  3.9.0 
+	 * @since  3.9.0
 	 */
 	protected $contextAliases = array('com_content.form' => 'com_content.article');
 

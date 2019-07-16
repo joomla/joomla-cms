@@ -14,6 +14,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Banners\Administrator\View\Tracks\HtmlView $this */
+
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 ?>
@@ -21,7 +23,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 	<div class="row">
 		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
-				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+				<?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
 						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
@@ -77,7 +79,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 						</tbody>
 					</table>
 
-					<?php // load the pagination. ?>
+					<?php // Load the pagination. ?>
 					<?php echo $this->pagination->getListFooter(); ?>
 
 				<?php endif; ?>
@@ -85,7 +87,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 				<?php echo HTMLHelper::_(
 					'bootstrap.renderModal',
 					'downloadModal',
-					array(
+					[
 						'title'       => Text::_('COM_BANNERS_TRACKS_DOWNLOAD'),
 						'url'         => Route::_('index.php?option=com_banners&amp;view=download&amp;tmpl=component'),
 						'height'      => '370px',
@@ -97,7 +99,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 								. '<button type="button" class="btn btn-success"'
 								. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#downloadModal\', buttonSelector: \'#exportBtn\'})">'
 								. Text::_('COM_BANNERS_TRACKS_EXPORT') . '</button>',
-					)
+					]
 				); ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
