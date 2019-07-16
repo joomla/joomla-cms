@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 $lang   = JFactory::getLanguage();
 $app    = JFactory::getApplication();
 $config = array();
-$lang->load('joomla', JPATH_ADMINISTRATOR);
 $lang->load('com_modules', JPATH_ADMINISTRATOR);
 
 if ($app->input->get('view') === 'modules' && $app->input->get('layout') === 'modal')
