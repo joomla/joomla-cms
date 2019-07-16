@@ -238,7 +238,7 @@
 					type="list"
 					label="COM_FIELDS_FIELD_SHOW_ON_LABEL"
 					default=""
-				>
+					>
 					<option value="1">COM_FIELDS_FIELD_SHOW_ON_SITE</option>
 					<option value="2">COM_FIELDS_FIELD_SHOW_ON_ADMIN</option>
 					<option value="">COM_FIELDS_FIELD_SHOW_ON_BOTH</option>

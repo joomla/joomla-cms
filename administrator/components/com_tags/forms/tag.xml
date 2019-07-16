@@ -244,7 +244,7 @@
 					name="float_intro"
 					type="list"
 					label="COM_TAGS_FLOAT_LABEL"
-				>
+					>
 					<option value="">JGLOBAL_SELECT_AN_OPTION</option>
 					<option value="right">COM_TAGS_RIGHT</option>
 					<option value="left">COM_TAGS_LEFT</option>
@@ -277,7 +277,7 @@
 					name="float_fulltext"
 					type="list"
 					label="COM_TAGS_FLOAT_LABEL"
-				>
+					>
 					<option value="">JGLOBAL_SELECT_AN_OPTION</option>
 					<option value="right">COM_TAGS_RIGHT</option>
 					<option value="left">COM_TAGS_LEFT</option>

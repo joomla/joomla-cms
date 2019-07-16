@@ -737,7 +737,7 @@
 					name="linkd_name"
 					type="text"
 					label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
-				size="30"
+					size="30"
 				/>
 
 				<field
@@ -775,7 +775,7 @@
 					type="list"
 					label="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_LABEL"
 					useglobal="true"
-				>
+					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
@@ -785,7 +785,7 @@
 					type="list"
 					label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
 					useglobal="true"
-				>
+					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
@@ -795,7 +795,7 @@
 					type="list"
 					label="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_LABEL"
 					useglobal="true"
-				>
+					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
@@ -805,7 +805,7 @@
 					type="list"
 					label="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_LABEL"
 					useglobal="true"
-				>
+					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>

@@ -13,7 +13,7 @@
 				label="COM_CHECKIN_CHECKIN_VIEW_DISPLAY_BADGE"
 				class="switcher"
 				default=""
-			>
+				>
 				<option value="">JHIDE</option>
 				<option value="index.php?option=com_checkin&amp;task=getMenuBadgeData&amp;format=json">JSHOW</option>
 			</field>
