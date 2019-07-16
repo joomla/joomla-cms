@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ namespace Joomla\Component\Content\Site\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -35,12 +36,32 @@ class CategoryModel extends ListModel
 	 */
 	protected $_item = null;
 
+	/**
+	 * Array of articles in the category
+	 *
+	 * @var    \stdClass[]
+	 */
 	protected $_articles = null;
 
+	/**
+	 * Category left and right of this one
+	 *
+	 * @var    CategoryNode[]|null
+	 */
 	protected $_siblings = null;
 
+	/**
+	 * Array of child-categories
+	 *
+	 * @var    CategoryNode[]|null
+	 */
 	protected $_children = null;
 
+	/**
+	 * Parent category of the current one
+	 *
+	 * @var    CategoryNode|null
+	 */
 	protected $_parent = null;
 
 	/**
@@ -53,16 +74,14 @@ class CategoryModel extends ListModel
 	/**
 	 * The category that applies.
 	 *
-	 * @access	protected
-	 * @var		object
+	 * @var	   object
 	 */
 	protected $_category = null;
 
 	/**
 	 * The list of categories.
 	 *
-	 * @access	protected
-	 * @var		array
+	 * @var	   array
 	 */
 	protected $_categories = null;
 
@@ -312,7 +331,7 @@ class CategoryModel extends ListModel
 		$articleOrderby   = $params->get('orderby_sec', 'rdate');
 		$articleOrderDate = $params->get('order_date');
 		$categoryOrderby  = $params->def('orderby_pri', '');
-		$secondary        = QueryHelper::orderbySecondary($articleOrderby, $articleOrderDate) . ', ';
+		$secondary        = QueryHelper::orderbySecondary($articleOrderby, $articleOrderDate, $this->getDbo()) . ', ';
 		$primary          = QueryHelper::orderbyPrimary($categoryOrderby);
 
 		$orderby .= $primary . ' ' . $secondary . ' a.created ';

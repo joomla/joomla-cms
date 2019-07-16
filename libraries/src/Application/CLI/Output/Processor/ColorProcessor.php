@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -156,7 +156,7 @@ class ColorProcessor implements ProcessorInterface
 	{
 		$replace = $this->noColors
 			? $match
-			: "\033[" . $style . "m" . $match . "\033[0m";
+			: "\033[" . $style . 'm' . $match . "\033[0m";
 
 		return str_replace('<' . $tag . '>' . $match . '</' . $tag . '>', $replace, $text);
 	}

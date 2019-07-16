@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Service
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,8 +16,10 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Event\LazyServiceEventListener;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Application\InstallationApplication;
+use Joomla\CMS\Session\EventListener\MetadataManagerListener;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\CMS\Session\SessionFactory;
 use Joomla\CMS\Session\Storage\JoomlaStorage;
@@ -28,7 +30,6 @@ use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Priority;
 use Joomla\Registry\Registry;
-use Joomla\Session\SessionEvent;
 use Joomla\Session\SessionEvents;
 use Joomla\Session\SessionInterface;
 use Joomla\Session\Storage\RuntimeStorage;
@@ -223,31 +224,22 @@ class Session implements ServiceProviderInterface
 				true
 			);
 
-		/*
-		 * This is all sorts of hacky but there is no way to create an event listener with an injected database driver and the dispatcher
-		 * doesn't have a native form of "lazy" listeners; there is a better way but we don't have it at the moment.
-		 */
-
-		if ($container->has(DispatcherInterface::class))
-		{
-			/** @var DispatcherInterface $dispatcher */
-			$dispatcher = $container->get(DispatcherInterface::class);
-			$dispatcher->addListener(
-				SessionEvents::START,
-				function (SessionEvent $event) use ($container)
+		$container->alias(MetadataManagerListener::class, 'session.event_listener.metadata_manager')
+			->share(
+				'session.event_listener.metadata_manager',
+				function (Container $container)
 				{
-					/** @var Registry $config */
-					$config = $container->get('config');
-
-					if ($config->get('session_metadata', true) && $event->getSession()->has('user'))
-					{
-						/** @var MetadataManager $metadataManager */
-						$metadataManager = $container->get(MetadataManager::class);
-						$metadataManager->createOrUpdateRecord($event->getSession(), $event->getSession()->get('user'));
-					}
-				}
+					return new MetadataManagerListener($container->get(MetadataManager::class), $container->get('config'));
+				},
+				true
 			);
-		}
+
+		$listener = new LazyServiceEventListener('session.event_listener.metadata_manager', 'onAfterSessionStart');
+		$listener->setContainer($container);
+
+		/** @var DispatcherInterface $dispatcher */
+		$dispatcher = $container->get(DispatcherInterface::class);
+		$dispatcher->addListener(SessionEvents::START, $listener);
 	}
 
 	/**
@@ -263,7 +255,8 @@ class Session implements ServiceProviderInterface
 	 * @since   4.0
 	 */
 	private function buildSession(StorageInterface $storage, CMSApplicationInterface $app, DispatcherInterface $dispatcher,
-		array $options): SessionInterface
+		array $options
+	): SessionInterface
 	{
 		$input = $app->input;
 

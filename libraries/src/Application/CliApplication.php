@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -81,7 +81,8 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 * @since   1.7.0
 	 */
 	public function __construct(Input $input = null, Registry $config = null, CliOutput $output = null, CliInput $cliInput = null,
-		DispatcherInterface $dispatcher = null, Container $container = null)
+		DispatcherInterface $dispatcher = null, Container $container = null
+	)
 	{
 		// Close the application if we are not executed from the command line.
 		if (!defined('STDOUT') || !defined('STDIN') || !isset($_SERVER['argv']))

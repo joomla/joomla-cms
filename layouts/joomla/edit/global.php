@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,24 +28,22 @@ if ($component === 'com_categories')
 $saveHistory = ComponentHelper::getParams($component)->get('save_history', 0);
 
 $fields = $displayData->get('fields') ?: array(
+	'transition',
 	array('parent', 'parent_id'),
 	array('published', 'state', 'enabled'),
 	array('category', 'catid'),
 	'featured',
 	'sticky',
 	'access',
+	'id',
 	'language',
 	'tags',
 	'note',
 	'version_note',
 );
 
-if (isset($displayData->get('item')->id) && ($displayData->get('item')->id !== null))
-{
-	array_unshift($fields, 'transition');
-}
-
-$hiddenFields = $displayData->get('hidden_fields') ?: array();
+$hiddenFields   = $displayData->get('hidden_fields') ?: array();
+$hiddenFields[] = 'id';
 
 if (!$saveHistory)
 {

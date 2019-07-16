@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -102,7 +102,7 @@ final class ColorStyle
 	{
 		if ($fg)
 		{
-			if (false == array_key_exists($fg, static::$knownColors))
+			if (array_key_exists($fg, static::$knownColors) == false)
 			{
 				throw new \InvalidArgumentException(
 					sprintf(
@@ -118,7 +118,7 @@ final class ColorStyle
 
 		if ($bg)
 		{
-			if (false == array_key_exists($bg, static::$knownColors))
+			if (array_key_exists($bg, static::$knownColors) == false)
 			{
 				throw new \InvalidArgumentException(
 					sprintf(
@@ -134,7 +134,7 @@ final class ColorStyle
 
 		foreach ($options as $option)
 		{
-			if (false == array_key_exists($option, static::$knownOptions))
+			if (array_key_exists($option, static::$knownOptions) == false)
 			{
 				throw new \InvalidArgumentException(
 					sprintf(
@@ -185,7 +185,7 @@ final class ColorStyle
 		{
 			$subParts = explode('=', $part);
 
-			if (count($subParts) < 2)
+			if (\count($subParts) < 2)
 			{
 				continue;
 			}
@@ -194,18 +194,22 @@ final class ColorStyle
 			{
 				case 'fg':
 					$fg = $subParts[1];
+
 					break;
 
 				case 'bg':
 					$bg = $subParts[1];
+
 					break;
 
 				case 'options':
 					$options = explode(',', $subParts[1]);
+
 					break;
 
 				default:
 					throw new \RuntimeException('Invalid option: ' . $subParts[0]);
+
 					break;
 			}
 		}

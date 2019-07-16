@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="4.0" type="plugin" group="system" method="upgrade">
+	<name>plg_system_skipto</name>
+	<author>Joomla! Project</author>
+	<creationDate>2019-2-27</creationDate>
+	<copyright>(C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.0.0</version>
+	<description>PLG_SYSTEM_SKIPTO_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="skipto">skipto.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_system_skipto.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_system_skipto.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="section_skipto"
+					type="list"
+					label="PLG_SYSTEM_SKIPTO_SECTION"
+					default="2"
+					filter="integer"
+					>
+					<option value="1">PLG_SYSTEM_SKIPTO_SECTION_SITE</option>
+					<option value="2">PLG_SYSTEM_SKIPTO_SECTION_ADMIN</option>
+					<option value="3">PLG_SYSTEM_SKIPTO_SECTION_BOTH</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

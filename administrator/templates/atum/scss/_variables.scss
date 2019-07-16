@@ -51,6 +51,7 @@ $colors: (
   sidebar-child-link-color: #cbd6e2,
   login-main-bg: darken(theme-color("primary"), 8%),
   login-light-bg: #3b97f9,
+  form-link-feedback: #cbd8e1,
   border: $gray-400,
   row-selected: #d9edf7,
   white-offset: #fefefe,
@@ -90,7 +91,7 @@ $h5-font-size:                     .9286rem;
 $h6-font-size:                     .8571rem;
 $font-size-sm:                     .8rem;
 $fa-css-prefix:                    fa;
-$fa-font-path:                     "../../../../media/vendor/font-awesome/fonts";
+$fa-font-path:                     "../../../../media/vendor/fontawesome-free/webfonts";
 
 // Font weights
 $thin-weight:                      100;
@@ -119,8 +120,7 @@ $btn-border-radius-sm:             0;
 
 // Dropdowns
 $dropdown-padding-y:               0;
-$dropdown-border-width:            0;
-$dropdown-link-hover-color:        $white;
+$dropdown-border-width:            1px;
 $dropdown-item-padding-y:          .5rem;
 $dropdown-item-padding-x:          .75rem;
 $dropdown-spacer:                  0;

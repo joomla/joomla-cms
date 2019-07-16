@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,8 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -20,6 +20,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -35,7 +36,7 @@ class TemplateController extends BaseController
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   Input                $input    Input
 	 *
 	 * @since  1.6
 	 * @see    \JControllerLegacy
@@ -87,9 +88,8 @@ class TemplateController extends BaseController
 	public function publish()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		$app  = Factory::getApplication();
 		$id   = $this->input->get('id');
 
 		$ids    = $this->input->get('cid', array(), 'array');
@@ -144,7 +144,7 @@ class TemplateController extends BaseController
 	public function copy()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app = $this->app;
 		$this->input->set('installtype', 'folder');
@@ -212,7 +212,7 @@ class TemplateController extends BaseController
 			$this->input->set('install_directory', $app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
 			$installModel = $this->app->bootComponent('com_installer')
 				->getMVCFactory()->createModel('Install', 'Administrator');
-			Factory::getLanguage()->load('com_installer');
+			$this->app->getLanguage()->load('com_installer');
 
 			if (!$installModel->install())
 			{
@@ -253,7 +253,7 @@ class TemplateController extends BaseController
 	 */
 	protected function allowEdit()
 	{
-		return Factory::getUser()->authorise('core.edit', 'com_templates');
+		return $this->app->getIdentity()->authorise('core.edit', 'com_templates');
 	}
 
 	/**
@@ -278,7 +278,7 @@ class TemplateController extends BaseController
 	public function save()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$data         = $this->input->post->get('jform', array(), 'array');
 		$task         = $this->getTask();
@@ -419,20 +419,19 @@ class TemplateController extends BaseController
 	public function delete()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model = $this->getModel();
 		$id    = $this->input->get('id');
 		$file  = $this->input->get('file');
 
-		if (base64_decode(urldecode($file)) == 'index.php')
+		if (base64_decode(urldecode($file)) == '/index.php')
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_INDEX_DELETE'), 'warning');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(Route::_($url, false));
 		}
-
 		elseif ($model->deleteFile($file))
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_FILE_DELETE_SUCCESS'));
@@ -457,7 +456,7 @@ class TemplateController extends BaseController
 	public function createFile()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
@@ -503,7 +502,7 @@ class TemplateController extends BaseController
 	public function uploadFile()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
@@ -536,7 +535,7 @@ class TemplateController extends BaseController
 	public function createFolder()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
@@ -574,7 +573,7 @@ class TemplateController extends BaseController
 	public function deleteFolder()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
@@ -612,7 +611,7 @@ class TemplateController extends BaseController
 	public function renameFile()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model   = $this->getModel();
@@ -620,7 +619,7 @@ class TemplateController extends BaseController
 		$file    = $this->input->get('file');
 		$newName = $this->input->get('new_name');
 
-		if (base64_decode(urldecode($file)) == 'index.php')
+		if (base64_decode(urldecode($file)) == '/index.php')
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_RENAME_INDEX'), 'warning');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
@@ -726,7 +725,7 @@ class TemplateController extends BaseController
 	public function copyFile()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$id       = $this->input->get('id');
 		$file     = $this->input->get('file');
@@ -765,7 +764,7 @@ class TemplateController extends BaseController
 	public function extractArchive()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$id    = $this->input->get('id');
 		$file  = $this->input->get('file');
@@ -802,7 +801,7 @@ class TemplateController extends BaseController
 		{
 			$app->setHeader('status', 403, true);
 			$app->sendHeaders();
-			echo Text::_('JINVALID_TOKEN');
+			echo Text::_('JINVALID_TOKEN_NOTICE');
 			$app->close();
 		}
 

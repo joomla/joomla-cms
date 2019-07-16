@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -305,7 +305,7 @@ class ApplicationModel extends FormModel
 					$revisedDbo->truncateTable('#__session');
 				}
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				/*
 				 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
@@ -334,16 +334,22 @@ class ApplicationModel extends FormModel
 				{
 					try
 					{
-						\JLog::add(
-							\JText::sprintf('COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT', $data['session_filesystem_path']),
-							\JLog::WARNING,
+						Log::add(
+							Text::sprintf(
+								'COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT',
+								$data['session_filesystem_path']
+							),
+							Log::WARNING,
 							'jerror'
 						);
 					}
 					catch (\RuntimeException $logException)
 					{
 						$app->enqueueMessage(
-							\JText::sprintf('COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT', $data['session_filesystem_path']),
+							Text::sprintf(
+								'COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT',
+								$data['session_filesystem_path']
+							),
 							'warning'
 						);
 					}
@@ -513,8 +519,21 @@ class ApplicationModel extends FormModel
 		$this->cleanCache('_system', 0);
 		$this->cleanCache('_system', 1);
 
+		$result = $app->triggerEvent('onApplicationBeforeSave', array($config));
+
+		// Store the data.
+		if (in_array(false, $result, true))
+		{
+			throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_UNKNOWN_BEFORE_SAVING'));
+		}
+
 		// Write the configuration file.
-		return $this->writeConfigFile($config);
+		$result = $this->writeConfigFile($config);
+
+		// Trigger the after save event.
+		$app->triggerEvent('onApplicationAfterSave', array($config));
+
+		return $result;
 	}
 
 	/**
@@ -529,6 +548,8 @@ class ApplicationModel extends FormModel
 	 */
 	public function removeroot()
 	{
+		$app = Factory::getApplication();
+
 		// Get the previous configuration.
 		$prev = new \JConfig;
 		$prev = ArrayHelper::fromObject($prev);
@@ -537,8 +558,21 @@ class ApplicationModel extends FormModel
 		unset($prev['root_user']);
 		$config = new Registry($prev);
 
+		$result = $app->triggerEvent('onApplicationBeforeSave', array($config));
+
+		// Store the data.
+		if (in_array(false, $result, true))
+		{
+			throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_UNKNOWN_BEFORE_SAVING'));
+		}
+
 		// Write the configuration file.
-		return $this->writeConfigFile($config);
+		$result = $this->writeConfigFile($config);
+
+		// Trigger the after save event.
+		$app->triggerEvent('onApplicationAfterSave', array($config));
+
+		return $result;
 	}
 
 	/**
@@ -573,6 +607,12 @@ class ApplicationModel extends FormModel
 		if (!File::write($file, $configuration))
 		{
 			throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'));
+		}
+
+		// Invalidates the cached configuration file
+		if (function_exists('opcache_invalidate'))
+		{
+			opcache_invalidate($file);
 		}
 
 		// Attempt to make the file unwriteable if using FTP.

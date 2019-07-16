@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -243,7 +243,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 	 *
 	 * @since   4.0.0
 	 */
-	private function getClassName(string $suffix, string $prefix)
+	protected function getClassName(string $suffix, string $prefix)
 	{
 		if (!$prefix)
 		{

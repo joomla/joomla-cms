@@ -3,13 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -21,7 +22,18 @@ HTMLHelper::_('behavior.combobox');
 
 HTMLHelper::_('script', 'com_config/modules-default.js', ['version' => 'auto', 'relative' => true]);
 
-$hasContent = empty($this->item['module']) || $this->item['module'] === 'custom' || $this->item['module'] === 'mod_custom';
+$editorText  = false;
+$moduleXml   = JPATH_SITE . '/modules/' . $this->item['module'] . '/' . $this->item['module'] . '.xml';
+
+if (File::exists($moduleXml))
+{
+	$xml = simplexml_load_file($moduleXml);
+
+	if (isset($xml->customContent))
+	{
+		$editorText = true;
+	}
+}
 
 // If multi-language site, make language read-only
 if (Multilanguage::isEnabled())
@@ -169,7 +181,7 @@ if (Multilanguage::isEnabled())
 						<?php echo $this->loadTemplate('options'); ?>
 					</div>
 
-					<?php if ($hasContent) : ?>
+					<?php if ($editorText) : ?>
 						<div class="tab-pane" id="custom">
 							<?php echo $this->form->getInput('content'); ?>
 						</div>

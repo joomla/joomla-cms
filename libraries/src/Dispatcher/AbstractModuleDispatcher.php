@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -66,7 +66,7 @@ abstract class AbstractModuleDispatcher extends Dispatcher
 		}
 
 		// Execute the layout without the module context
-		$loader = static function(array $displayData)
+		$loader = static function (array $displayData)
 		{
 			extract($displayData);
 			require ModuleHelper::getLayoutPath($displayData['module']->module, $displayData['params']->get('layout', 'default'));

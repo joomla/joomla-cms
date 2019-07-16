@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -103,7 +103,11 @@ class CompareModel extends ListModel
 					{
 						if (array_key_exists($dateProperty, $object->data) && $object->data->$dateProperty->value != $nullDate)
 						{
-							$object->data->$dateProperty->value = HTMLHelper::_('date', $object->data->$dateProperty->value, Text::_('DATE_FORMAT_LC6'));
+							$object->data->$dateProperty->value = HTMLHelper::_(
+								'date',
+								$object->data->$dateProperty->value,
+								Text::_('DATE_FORMAT_LC6')
+							);
 						}
 					}
 

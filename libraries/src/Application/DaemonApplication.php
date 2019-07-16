@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Input\Cli;
 use Joomla\CMS\Log\Log;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
@@ -19,15 +20,15 @@ use Joomla\Registry\Registry;
 /**
  * Class to turn CliApplication applications into daemons.  It requires CLI and PCNTL support built into PHP.
  *
- * @link   https://secure.php.net/manual/en/book.pcntl.php
- * @link   https://secure.php.net/manual/en/features.commandline.php
+ * @link   https://www.php.net/manual/en/book.pcntl.php
+ * @link   https://www.php.net/manual/en/features.commandline.php
  * @since  1.7.0
  */
 abstract class DaemonApplication extends CliApplication
 {
 	/**
 	 * @var    array  The available POSIX signals to be caught by default.
-	 * @link   https://secure.php.net/manual/pcntl.constants.php
+	 * @link   https://www.php.net/manual/pcntl.constants.php
 	 * @since  1.7.0
 	 */
 	protected static $signals = array(
@@ -110,7 +111,7 @@ abstract class DaemonApplication extends CliApplication
 	 * @see     JApplicationBase::loadDispatcher()
 	 * @since   1.7.0
 	 */
-	public function __construct(\JInputCli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null)
+	public function __construct(Cli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null)
 	{
 		// Verify that the process control extension for PHP is available.
 		if (!defined('SIGHUP'))

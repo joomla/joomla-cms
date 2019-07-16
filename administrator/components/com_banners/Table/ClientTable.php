@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,6 +34,8 @@ class ClientTable extends Table
 	{
 		$this->typeAlias        = 'com_banners.client';
 		$this->checked_out_time = $db->getNullDate();
+
+		$this->setColumnAlias('published', 'state');
 
 		parent::__construct('#__banner_clients', 'id', $db);
 	}

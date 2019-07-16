@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.stats
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,19 +31,25 @@ use Joomla\CMS\User\UserHelper;
 class PlgSystemStats extends CMSPlugin
 {
 	/**
-	 * @const  integer
+	 * Indicates sending statistics is always allowed.
+	 *
+	 * @var    integer
 	 * @since  3.5
 	 */
 	const MODE_ALLOW_ALWAYS = 1;
 
 	/**
-	 * @const  integer
+	 * Indicates sending statistics is only allowed one time.
+	 *
+	 * @var    integer
 	 * @since  3.5
 	 */
 	const MODE_ALLOW_ONCE = 2;
 
 	/**
-	 * @const  integer
+	 * Indicates sending statistics is never allowed.
+	 *
+	 * @var    integer
 	 * @since  3.5
 	 */
 	const MODE_ALLOW_NEVER = 3;
@@ -106,6 +112,36 @@ class PlgSystemStats extends CMSPlugin
 
 		// Load plugin language files only when needed (ex: they are not needed in site client).
 		$this->loadLanguage();
+	}
+
+	/**
+	 * Listener for the `onAfterDispatch` event
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function onAfterDispatch()
+	{
+		if (!$this->app->isClient('administrator') || !$this->isAllowedUser())
+		{
+			return;
+		}
+
+		if (!$this->isDebugEnabled() && !$this->isUpdateRequired())
+		{
+			return;
+		}
+
+		if (Uri::getInstance()->getVar('tmpl') === 'component')
+		{
+			return;
+		}
+
+		if ($this->app->getDocument()->getType() !== 'html')
+		{
+			return;
+		}
 
 		HTMLHelper::_('script', 'plg_system_stats/stats-message.js', array('version' => 'auto', 'relative' => true));
 	}
@@ -450,11 +486,11 @@ class PlgSystemStats extends CMSPlugin
 		$this->params->set('interval', $interval ?: 12);
 
 		$query = $this->db->getQuery(true)
-				->update($this->db->quoteName('#__extensions'))
-				->set($this->db->quoteName('params') . ' = ' . $this->db->quote($this->params->toString('JSON')))
-				->where($this->db->quoteName('type') . ' = ' . $this->db->quote('plugin'))
-				->where($this->db->quoteName('folder') . ' = ' . $this->db->quote('system'))
-				->where($this->db->quoteName('element') . ' = ' . $this->db->quote('stats'));
+			->update($this->db->quoteName('#__extensions'))
+			->set($this->db->quoteName('params') . ' = ' . $this->db->quote($this->params->toString('JSON')))
+			->where($this->db->quoteName('type') . ' = ' . $this->db->quote('plugin'))
+			->where($this->db->quoteName('folder') . ' = ' . $this->db->quote('system'))
+			->where($this->db->quoteName('element') . ' = ' . $this->db->quote('stats'));
 
 		try
 		{

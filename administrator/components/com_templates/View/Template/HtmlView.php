@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,6 +72,8 @@ class HtmlView extends BaseHtmlView
 
 	/**
 	 * List of available overrides
+	 *
+	 * @var   array
 	 */
 	protected $overridesList;
 
@@ -241,13 +243,8 @@ class HtmlView extends BaseHtmlView
 			// Add an Apply and save button
 			if ($this->type == 'file')
 			{
-				ToolbarHelper::saveGroup(
-					[
-						['apply', 'template.apply'],
-						['save', 'template.save']
-					],
-					'btn-success'
-				);
+				ToolbarHelper::apply('template.apply');
+				ToolbarHelper::save('template.save');
 			}
 			// Add a Crop and Resize button
 			elseif ($this->type == 'image')

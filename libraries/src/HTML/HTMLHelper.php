@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -305,7 +305,7 @@ abstract class HTMLHelper
 	 *
 	 * @return  mixed   Function result or false on error.
 	 *
-	 * @link    https://secure.php.net/manual/en/function.call-user-func-array.php
+	 * @link    https://www.php.net/manual/en/function.call-user-func-array.php
 	 * @since   1.6
 	 * @throws  \InvalidArgumentException
 	 */
@@ -625,7 +625,7 @@ abstract class HTMLHelper
 		}
 
 		// If only path is required
-		if ($returnPath)
+		if ($returnPath === 1)
 		{
 			return $file;
 		}
@@ -671,7 +671,7 @@ abstract class HTMLHelper
 		}
 
 		// If inclusion is required
-		$document = Factory::getDocument();
+		$document = Factory::getApplication()->getDocument();
 
 		foreach ($includes as $include)
 		{
@@ -699,17 +699,10 @@ abstract class HTMLHelper
 	 */
 	public static function script($file, $options = array(), $attribs = array())
 	{
-		$options['framework']     = $options['framework'] ?? false;
 		$options['relative']      = $options['relative'] ?? false;
 		$options['pathOnly']      = $options['pathOnly'] ?? false;
 		$options['detectBrowser'] = $options['detectBrowser'] ?? false;
 		$options['detectDebug']   = $options['detectDebug'] ?? true;
-
-		// Include MooTools framework
-		if ($options['framework'])
-		{
-			static::_('behavior.framework');
-		}
 
 		$includes = static::includeRelativeFiles('js', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
@@ -730,7 +723,7 @@ abstract class HTMLHelper
 		}
 
 		// If inclusion is required
-		$document = Factory::getDocument();
+		$document = Factory::getApplication()->getDocument();
 
 		foreach ($includes as $include)
 		{
@@ -768,9 +761,6 @@ abstract class HTMLHelper
 		// Script core.js is responsible for the polyfills and the async loading of the web components
 		static::_('behavior.core');
 
-		$version      = '';
-		$mediaVersion = Factory::getDocument()->getMediaVersion();
-
 		// Add the css if exists
 		self::_('stylesheet', str_replace('.js', '.css', $file), $options);
 
@@ -787,11 +777,14 @@ abstract class HTMLHelper
 			return;
 		}
 
+		$document = Factory::getApplication()->getDocument();
+		$version  = '';
+
 		if (isset($options['version']))
 		{
 			if ($options['version'] === 'auto')
 			{
-				$version = '?' . $mediaVersion;
+				$version = '?' . $document->getMediaVersion();
 			}
 			else
 			{
@@ -799,26 +792,21 @@ abstract class HTMLHelper
 			}
 		}
 
-		if (count($includes) === 1)
-		{
-			$potential = $includes[0] . ((strpos($includes[0], '?') === false) ? $version : '');
+		$components = $document->getScriptOptions('webcomponents');
 
-			if (!in_array($potential, Factory::getDocument()->getScriptOptions('webcomponents')))
+		foreach ($includes as $include)
+		{
+			$potential = $include . ((strpos($include, '?') === false) ? $version : '');
+
+			if (in_array($potential, $components))
 			{
-				Factory::getDocument()->addScriptOptions('webcomponents', [$potential]);
-				return;
+				continue;
 			}
 
-			return;
+			$components[] = $potential;
 		}
 
-		$potential = $includes . ((strpos($includes, '?') === false) ? $version : '');
-
-		if (!in_array($potential, Factory::getDocument()->getScriptOptions('webcomponents')))
-		{
-			Factory::getDocument()->addScriptOptions('webcomponents', [$potential]);
-		}
-
+		$document->addScriptOptions('webcomponents', $components);
 	}
 
 	/**
@@ -860,8 +848,7 @@ abstract class HTMLHelper
 	 */
 	public static function date($input = 'now', $format = null, $tz = true, $gregorian = false)
 	{
-		// Get some system objects.
-		$user = Factory::getUser();
+		$app = Factory::getApplication();
 
 		// UTC date converted to user time zone.
 		if ($tz === true)
@@ -870,7 +857,7 @@ abstract class HTMLHelper
 			$date = Factory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the user configuration.
-			$date->setTimezone($user->getTimezone());
+			$date->setTimezone($app->getIdentity()->getTimezone());
 		}
 		// UTC date converted to server time zone.
 		elseif ($tz === false)
@@ -879,7 +866,7 @@ abstract class HTMLHelper
 			$date = Factory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the server configuration.
-			$date->setTimezone(new \DateTimeZone(Factory::getApplication()->get('offset')));
+			$date->setTimezone(new \DateTimeZone($app->get('offset')));
 		}
 		// No date conversion.
 		elseif ($tz === null)
@@ -1074,7 +1061,7 @@ abstract class HTMLHelper
 	{
 		$tag       = Factory::getLanguage()->getTag();
 		$calendar  = Factory::getLanguage()->getCalendar();
-		$direction = strtolower(Factory::getDocument()->getDirection());
+		$direction = strtolower(Factory::getApplication()->getDocument()->getDirection());
 
 		// Get the appropriate file for the current language date helper
 		$helperPath = 'system/fields/calendar-locales/date/gregorian/date-helper.min.js';

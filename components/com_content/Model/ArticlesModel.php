@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -213,7 +213,7 @@ class ArticlesModel extends ListModel
 				// Use created if publish_up is 0
 				'CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END as publish_up,' .
 				'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
-				'a.hits, a.xreference, a.featured, a.language, ' . ' ' . $query->length('a.fulltext') . ' AS readmore, a.ordering'
+				'a.hits, a.xreference, a.featured, a.language, ' . $query->length('a.fulltext') . ' AS readmore, a.ordering'
 			)
 		);
 
@@ -251,7 +251,8 @@ class ArticlesModel extends ListModel
 
 		// Join over the categories.
 		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias,' .
-				'c.language AS category_language')
+			'c.language AS category_language'
+		)
 			->select('c.published, c.published AS parents_published, c.lft')
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
@@ -263,14 +264,16 @@ class ArticlesModel extends ListModel
 
 		// Join over the categories to get parent category titles
 		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias,' .
-				'parent.language as parent_language')
+			'parent.language as parent_language'
+		)
 			->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
 
 		if (PluginHelper::isEnabled('content', 'vote'))
 		{
 			// Join on voting table
 			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
-							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
+							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count'
+			)
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 		}
 
@@ -292,7 +295,8 @@ class ArticlesModel extends ListModel
 			 * Or categogy is published then article has to be archived.
 			 */
 			$query->where('((c.published = 2 AND ws.condition > ' . (int) ContentComponent::CONDITION_UNPUBLISHED .
-					') OR (c.published = 1 AND ws.condition = ' . (int) ContentComponent::CONDITION_ARCHIVED . '))');
+				') OR (c.published = 1 AND ws.condition = ' . (int) ContentComponent::CONDITION_ARCHIVED . '))'
+			);
 		}
 		elseif (is_numeric($condition))
 		{
@@ -491,8 +495,7 @@ class ArticlesModel extends ListModel
 			case 'relative':
 				$relativeDate = (int) $this->getState('filter.relative_date', 0);
 				$query->where(
-					$dateField . ' >= DATE_SUB(' . $nowDate . ', INTERVAL ' .
-					$relativeDate . ' DAY)'
+					$dateField . ' >= ' . $query->dateAdd($nowDate, -1 * $relativeDate, 'DAY')
 				);
 				break;
 
@@ -505,9 +508,10 @@ class ArticlesModel extends ListModel
 		if (is_object($params) && ($params->get('filter_field') !== 'hide') && ($filter = $this->getState('list.filter')))
 		{
 			// Clean filter variable
-			$filter     = StringHelper::strtolower($filter);
-			$hitsFilter = (int) $filter;
-			$filter     = $db->quote('%' . $db->escape($filter, true) . '%', false);
+			$filter      = StringHelper::strtolower($filter);
+			$monthFilter = $filter;
+			$hitsFilter  = (int) $filter;
+			$filter      = $db->quote('%' . $db->escape($filter, true) . '%', false);
 
 			switch ($params->get('filter_field'))
 			{
@@ -520,6 +524,21 @@ class ArticlesModel extends ListModel
 
 				case 'hits':
 					$query->where('a.hits >= ' . $hitsFilter . ' ');
+					break;
+
+				case 'month':
+					if ($monthFilter != '')
+					{
+						$query->where(
+							$db->quote(date("Y-m-d", strtotime($monthFilter)) . ' 00:00:00') . ' <= CASE WHEN a.publish_up = ' .
+							$db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END'
+						);
+
+						$query->where(
+							$db->quote(date("Y-m-t", strtotime($monthFilter)) . ' 23:59:59') . ' >= CASE WHEN a.publish_up = ' .
+							$db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END'
+						);
+					}
 					break;
 
 				case 'title':
@@ -738,5 +757,37 @@ class ArticlesModel extends ListModel
 	public function getStart()
 	{
 		return $this->getState('list.start');
+	}
+
+	/**
+	 * Count Items by Month
+	 *
+	 * @return  mixed  An array of objects on success, false on failure.
+	 *
+	 * @since   3.9.0
+	 */
+	public function countItemsByMonth()
+	{
+		// Create a new query object.
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query
+			->select('DATE(' .
+				$query->concatenate(
+					array(
+						$query->year($query->quoteName('publish_up')),
+						$query->quote('-'),
+						$query->month($query->quoteName('publish_up')),
+						$query->quote('-01')
+					)
+				) . ') as d'
+			)
+			->select('COUNT(*) as c')
+			->from('(' . $this->getListQuery() . ') as b')
+			->group($query->quoteName('d'))
+			->order($query->quoteName('d') . ' desc');
+
+		return $db->setQuery($query)->loadObjectList();
 	}
 }

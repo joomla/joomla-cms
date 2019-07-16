@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -619,10 +619,11 @@ class ModuleAdapter extends InstallerAdapter
 		}
 		else
 		{
-			$this->extension->name      = $this->name;
-			$this->extension->type      = 'module';
-			$this->extension->element   = $this->element;
-			$this->extension->namespace = (string) $this->manifest->namespace;
+			$this->extension->name         = $this->name;
+			$this->extension->type         = 'module';
+			$this->extension->element      = $this->element;
+			$this->extension->namespace    = (string) $this->manifest->namespace;
+			$this->extension->changelogurl = $this->changelogurl;
 
 			// There is no folder for modules
 			$this->extension->folder    = '';

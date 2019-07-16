@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Site
+ * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Mailto\Site\Helper\MailtoHelper;
 use Joomla\Registry\Registry;
 
@@ -146,7 +147,7 @@ class Icon
 		}
 
 		// Ignore if the state is negative (trashed).
-		if ($article->state < 0)
+		if (!in_array($article->state, [Workflow::CONDITION_UNPUBLISHED, Workflow::CONDITION_PUBLISHED]))
 		{
 			return;
 		}
@@ -175,7 +176,7 @@ class Icon
 		$contentUrl = \ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language);
 		$url        = $contentUrl . '&task=article.edit&a_id=' . $article->id . '&return=' . base64_encode($uri);
 
-		if ($article->state == 0)
+		if ($article->state == Workflow::CONDITION_UNPUBLISHED)
 		{
 			$overlib = Text::_('JUNPUBLISHED');
 		}
@@ -243,6 +244,6 @@ class Icon
 	{
 		$text = LayoutHelper::render('joomla.content.icons.print_screen', array('params' => $params, 'legacy' => $legacy));
 
-		return '<a href="#" onclick="window.print();return false;">' . $text . '</a>';
+		return '<button type="button" onclick="window.print();return false;">' . $text . '</button>';
 	}
 }

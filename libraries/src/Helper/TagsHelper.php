@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Table\CoreContent;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
+use Joomla\CMS\UCM\UCMContent;
+use Joomla\CMS\UCM\UCMType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -65,7 +67,7 @@ class TagsHelper extends CMSHelper
 		$db = $table->getDbo();
 		$key = $table->getKeyName();
 		$item = $table->$key;
-		$ucm = new \JUcmType($this->typeAlias, $db);
+		$ucm = new UCMType($this->typeAlias, $db);
 		$typeId = $ucm->getTypeId();
 
 		// Insert the new tag maps
@@ -448,7 +450,8 @@ class TagsHelper extends CMSHelper
 	 * @since   3.1
 	 */
 	public function getTagItemsQuery($tagId, $typesr = null, $includeChildren = false, $orderByOption = 'c.core_title', $orderDir = 'ASC',
-		$anyOrAll = true, $languageFilter = 'all', $stateFilter = '0,1')
+		$anyOrAll = true, $languageFilter = 'all', $stateFilter = '0,1'
+	)
 	{
 		// Create a new query object.
 		$db = Factory::getDbo();
@@ -750,7 +753,7 @@ class TagsHelper extends CMSHelper
 				$data = $this->getRowData($table);
 				$ucmContentTable = Table::getInstance('Corecontent');
 
-				$ucm = new \JUcmContent($table, $this->typeAlias);
+				$ucm = new UCMContent($table, $this->typeAlias);
 				$ucmData = $data ? $ucm->mapData($data) : $ucm->ucmData;
 
 				$primaryId = $ucm->getPrimaryKey($ucmData['common']['core_type_id'], $ucmData['common']['core_content_item_id']);
@@ -856,6 +859,13 @@ class TagsHelper extends CMSHelper
 		if (isset($filters['published']) && is_numeric($filters['published']))
 		{
 			$query->where('a.published = ' . (int) $filters['published']);
+		}
+
+		// Filter on the access level
+		if (isset($filters['access']) && is_array($filters['access']) && count($filters['access']))
+		{
+			$groups = ArrayHelper::toInteger($filters['access']);
+			$query->where('a.access IN (' . implode(",", $groups) . ')');
 		}
 
 		// Filter by parent_id

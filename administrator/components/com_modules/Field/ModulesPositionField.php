@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,8 +39,7 @@ class ModulesPositionField extends ListField
 	 */
 	public function getOptions()
 	{
-		$clientId = Factory::getApplication()->getUserState('com_modules.modules.client_id', 0);
-		$options  = ModulesHelper::getPositions($clientId);
+		$options = ModulesHelper::getPositions(Factory::getApplication()->getUserState('com_modules.modules.client_id', 0));
 
 		return array_merge(parent::getOptions(), $options);
 	}

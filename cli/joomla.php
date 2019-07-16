@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Cli
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ const _JEXEC = 1;
 /**
  * Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
  */
-const JOOMLA_MINIMUM_PHP = '7.0';
+const JOOMLA_MINIMUM_PHP = '7.2';
 
 if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
 {

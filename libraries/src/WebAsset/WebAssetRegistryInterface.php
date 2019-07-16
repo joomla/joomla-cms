@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 /**
  * Web Asset Registry interface
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface WebAssetRegistryInterface
 {
@@ -28,7 +28,7 @@ interface WebAssetRegistryInterface
 	 *
 	 * @throws  UnknownAssetException  When Asset cannot be found
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function get(string $name): WebAssetItemInterface;
 
@@ -39,7 +39,7 @@ interface WebAssetRegistryInterface
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function add(WebAssetItemInterface $asset): self;
 
@@ -50,7 +50,7 @@ interface WebAssetRegistryInterface
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function remove(string $name): self;
 
@@ -59,9 +59,9 @@ interface WebAssetRegistryInterface
 	 *
 	 * @param   string  $name  Asset name
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function exists(string $name): bool;
 

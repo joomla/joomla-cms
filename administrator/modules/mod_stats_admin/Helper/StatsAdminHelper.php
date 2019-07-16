@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_stats_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 
@@ -61,7 +62,7 @@ class StatsAdminHelper
 
 			$rows[$i]        = new \stdClass;
 			$rows[$i]->title = Text::_('MOD_STATS_CACHING');
-			$rows[$i]->icon  = 'dashboard';
+			$rows[$i]->icon  = 'tachometer-alt';
 			$rows[$i]->data  = $app->get('caching') ? Text::_('JENABLED') : Text::_('JDISABLED');
 			$i++;
 
@@ -108,6 +109,7 @@ class StatsAdminHelper
 				$rows[$i]->title = Text::_('MOD_STATS_USERS');
 				$rows[$i]->icon  = 'users';
 				$rows[$i]->data  = $users;
+				$rows[$i]->link  = Route::_('index.php?option=com_users');
 				$i++;
 			}
 
@@ -117,6 +119,7 @@ class StatsAdminHelper
 				$rows[$i]->title = Text::_('MOD_STATS_ARTICLES');
 				$rows[$i]->icon  = 'file';
 				$rows[$i]->data  = $items;
+				$rows[$i]->link  = Route::_('index.php?option=com_content&view=articles&filter[published]=1');
 				$i++;
 			}
 		}
@@ -137,6 +140,7 @@ class StatsAdminHelper
 					$rows[$i]->title = $row['title'];
 					$rows[$i]->icon  = $row['icon'] ?? 'info';
 					$rows[$i]->data  = $row['data'];
+					$rows[$i]->link  = isset($row['link']) ? $row['link'] : null;
 					$i++;
 				}
 			}

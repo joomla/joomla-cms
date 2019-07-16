@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +25,7 @@ HTMLHelper::_('script', 'vendor/css-vars-ponyfill/css-vars-ponyfill.min.js', ['v
 
 // Load template CSS file
 HTMLHelper::_('stylesheet', 'bootstrap.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'font-awesome.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'fontawesome.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto', 'relative' => true]);
 
 // Load custom CSS file
@@ -86,7 +86,7 @@ $this->addScriptDeclaration('cssVars();')
 								<h2 class="m-0 text-primary"><?php echo $sitename; ?></h2>
 							<?php endif; ?>
 							<?php if ($loginLogo) : ?>
-								<img src="<?php echo JURI::root() . '/' . $loginLogo; ?>" class="img-fluid my-2" alt="">
+								<img src="<?php echo Uri::root() . '/' . $loginLogo; ?>" class="img-fluid my-2" alt="">
 							<?php endif; ?>
 						</div>
 					<?php endif; ?>
@@ -98,7 +98,7 @@ $this->addScriptDeclaration('cssVars();')
 			</div>
 			<div class="mt-4 d-none d-md-flex justify-content-between">
 				<a href="<?php echo Uri::root(); ?>" target="_blank" class="text-white"><span
-							class="fa fa-external-link mr-1"
+							class="fa fa-external-link-alt mr-1"
 							aria-hidden="true"></span><?php echo Text::_('TPL_ATUM_VIEW_SITE'); ?></a> <span
 						class="text-white">&nbsp;&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?></span>
 			</div>

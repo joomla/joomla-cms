@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -168,6 +168,15 @@ class HtmlView extends BaseHtmlView
 				if (empty($support['catid']))
 				{
 					$this->filterForm->setFieldAttribute('category_id', 'extension', $extensionName, 'filter');
+
+					if ($this->getLayout() == 'modal')
+					{
+						// We need to change the category filter to only show categories tagged to All or to the forced language.
+						if ($forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
+						{
+							$this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
+						}
+					}
 				}
 
 				$this->items      = $this->get('Items');
@@ -191,7 +200,6 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		// Will add sidebar if needed $this->sidebar = \JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 

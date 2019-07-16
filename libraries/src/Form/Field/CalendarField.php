@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -205,6 +205,9 @@ class CalendarField extends FormField
 		{
 			$showTime = (string) $this->element['showtime'];
 
+			$lang  = Factory::getLanguage();
+			$debug = $lang->setDebug(false);
+
 			if ($showTime && $showTime != 'false')
 			{
 				$this->format = Text::_('DATE_FORMAT_CALENDAR_DATETIME');
@@ -213,6 +216,8 @@ class CalendarField extends FormField
 			{
 				$this->format = Text::_('DATE_FORMAT_CALENDAR_DATE');
 			}
+
+			$lang->setDebug($debug);
 		}
 
 		// If a known filter is given use it.
@@ -329,7 +334,7 @@ class CalendarField extends FormField
 	 *
 	 * @return  mixed   The filtered value.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function filter($value, $group = null, Registry $input = null)
 	{

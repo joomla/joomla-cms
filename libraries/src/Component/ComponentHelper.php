@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,12 +13,13 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Component\Exception\MissingComponentException;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
+use Joomla\CMS\Profiler\Profiler;
 use Joomla\Registry\Registry;
 
 /**
@@ -303,12 +304,15 @@ class ComponentHelper
 	public static function renderComponent($option, $params = array())
 	{
 		$app = Factory::getApplication();
-
-		// Load template language files.
-		$template = $app->getTemplate(true)->template;
 		$lang = Factory::getLanguage();
-		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
+
+		if (!$app->isClient('api'))
+		{
+			// Load template language files.
+			$template = $app->getTemplate(true)->template;
+			$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
 			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
+		}
 
 		if (empty($option))
 		{
@@ -317,7 +321,7 @@ class ComponentHelper
 
 		if (JDEBUG)
 		{
-			\JProfiler::getInstance('Application')->mark('beforeRenderComponent ' . $option);
+			Profiler::getInstance('Application')->mark('beforeRenderComponent ' . $option);
 		}
 
 		// Record the scope
@@ -353,7 +357,7 @@ class ComponentHelper
 			 * @var    string
 			 * @since  1.5
 			 * @deprecated 5.0 without replacement
-			*/
+			 */
 			define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
 		}
 
@@ -365,7 +369,7 @@ class ComponentHelper
 			 * @var    string
 			 * @since  1.5
 			 * @deprecated 5.0 without replacement
-			*/
+			 */
 			define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
 		}
 
@@ -384,7 +388,7 @@ class ComponentHelper
 
 		if (JDEBUG)
 		{
-			\JProfiler::getInstance('Application')->mark('afterRenderComponent ' . $option);
+			Profiler::getInstance('Application')->mark('afterRenderComponent ' . $option);
 		}
 
 		return $contents;
@@ -405,7 +409,9 @@ class ComponentHelper
 			$query = $db->getQuery(true)
 				->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
 				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('type') . ' = ' . $db->quote('component'));
+				->where($db->quoteName('type') . ' = ' . $db->quote('component'))
+				->where($db->quoteName('state') . ' = 0')
+				->where($db->quoteName('enabled') . ' = 1');
 			$db->setQuery($query);
 
 			return $db->loadObjectList('option', '\JComponentRecord');
@@ -418,7 +424,7 @@ class ComponentHelper
 		{
 			static::$components = $cache->get($loader, array(), __METHOD__);
 		}
-		catch (\JCacheException $e)
+		catch (CacheExceptionInterface $e)
 		{
 			static::$components = $loader();
 		}

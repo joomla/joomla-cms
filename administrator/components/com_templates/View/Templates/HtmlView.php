@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,10 +14,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 
 /**
  * View class for a list of template styles.
@@ -109,12 +109,10 @@ class HtmlView extends BaseHtmlView
 		$this->preview       = ComponentHelper::getParams('com_templates')->get('template_positions_display');
 		$this->pluginState   = PluginHelper::isEnabled('installer', 'override');
 
-		TemplatesHelper::addSubmenu('templates');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -150,9 +148,5 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES');
-
-		\JHtmlSidebar::setAction('index.php?option=com_templates&view=templates');
-
-		$this->sidebar = \JHtmlSidebar::render();
 	}
 }

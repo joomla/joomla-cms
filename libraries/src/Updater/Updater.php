@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +25,7 @@ class Updater extends \JAdapter
 	/**
 	 * Development snapshots, nightly builds, pre-release versions and so on
 	 *
-	 * @const  integer
+	 * @var    integer
 	 * @since  3.4
 	 */
 	const STABILITY_DEV = 0;
@@ -33,7 +33,7 @@ class Updater extends \JAdapter
 	/**
 	 * Alpha versions (work in progress, things are likely to be broken)
 	 *
-	 * @const  integer
+	 * @var    integer
 	 * @since  3.4
 	 */
 	const STABILITY_ALPHA = 1;
@@ -41,7 +41,7 @@ class Updater extends \JAdapter
 	/**
 	 * Beta versions (major functionality in place, show-stopper bugs are likely to be present)
 	 *
-	 * @const  integer
+	 * @var    integer
 	 * @since  3.4
 	 */
 	const STABILITY_BETA = 2;
@@ -49,7 +49,7 @@ class Updater extends \JAdapter
 	/**
 	 * Release Candidate versions (almost stable, minor bugs might be present)
 	 *
-	 * @const  integer
+	 * @var    integer
 	 * @since  3.4
 	 */
 	const STABILITY_RC = 3;
@@ -57,13 +57,15 @@ class Updater extends \JAdapter
 	/**
 	 * Stable versions (production quality code)
 	 *
-	 * @const  integer
+	 * @var    integer
 	 * @since  3.4
 	 */
 	const STABILITY_STABLE = 4;
 
 	/**
-	 * @var    Updater  Updater instance container.
+	 * Updater instance container.
+	 *
+	 * @var    Updater
 	 * @since  1.7.3
 	 */
 	protected static $instance;
