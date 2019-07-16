@@ -460,7 +460,7 @@ class Users
 			$db = Factory::getDbo();
 			$lang = Factory::getLanguage();
 			$query = $db->getQuery(true)
-				->select('name')
+				->select($db->quoteName('name'))
 				->from($db->quoteName('#__extensions'))
 				->where($db->quoteName('element') . ' = :element')
 				->where($db->quoteName('folder') . ' = :folder')
