@@ -18,17 +18,13 @@
    * Regex for rgb values e.g. rgba(255, 0, 24, 0.5);
    * @type {RegExp}
    */
-  const rgbRegex = new RegExp(
-    /^rgba?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)(?:[\D]+([0-9](?:.\d+)?))?\)$/i,
-  );
+  const rgbRegex = new RegExp(/^rgba?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)(?:[\D]+([0-9](?:.\d+)?))?\)$/i);
 
   /**
    * Regex for hsl values e.g. hsl(255,0,24);
    * @type {RegExp}
    */
-  const hslRegex = new RegExp(
-    /^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$/i,
-  );
+  const hslRegex = new RegExp(/^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$/i);
 
   /**
    * Regex for saturation and lightness of hsl - only accepts 1 or 0 or 0.4 or 40
@@ -557,14 +553,14 @@
 
         switch (max) {
           case r:
-            h = 60 * (g - b) / d;
+            h = (60 * (g - b)) / d;
             break;
           case g:
-            h = 60 * (2 + (b - r) / d);
+            h = 60 * (2 + ((b - r) / d));
             break;
           case b:
           default:
-            h = 60 * (4 + (r - g) / d);
+            h = 60 * (4 + ((r - g) / d));
             break;
         }
       }
@@ -611,10 +607,10 @@
         return this.hslToRgb(this.defaultHsl);
       }
 
-      const c = (1 - Math.abs(2 * l - 1)) * s;
+      const c = (1 - Math.abs((2 * l) - 1)) * s;
       const hi = h / 60;
       const x = c * (1 - Math.abs((hi % 2) - 1));
-      const m = l - c / 2;
+      const m = l - (c / 2);
 
       if (h >= 0 && h < 60) {
         [r, g, b] = [c, x, 0];
