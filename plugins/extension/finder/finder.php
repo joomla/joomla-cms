@@ -84,11 +84,11 @@ class PlgExtensionFinder extends CMSPlugin
 
 	/**
 	 * Get an object of information if the handled extension is a language
-	 * 
+	 *
 	 * @param   integer  $eid  Extensuon id
-	 * 
+	 *
 	 * @return  object
-	 * 
+	 *
 	 * @since   4.0.0
 	 */
 	protected function getLanguage($eid)
@@ -115,11 +115,11 @@ class PlgExtensionFinder extends CMSPlugin
 
 	/**
 	 * Add common words from a txt file to com_finder
-	 * 
+	 *
 	 * @param   object  $extension  Extension object
-	 * 
+	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0.0
 	 */
 	protected function addCommonWords($extension)
@@ -184,11 +184,11 @@ class PlgExtensionFinder extends CMSPlugin
 
 	/**
 	 * Remove common words of a language from com_finder
-	 * 
+	 *
 	 * @param   object  $extension  Extension object
-	 * 
+	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0.0
 	 */
 	protected function removeCommonWords($extension)

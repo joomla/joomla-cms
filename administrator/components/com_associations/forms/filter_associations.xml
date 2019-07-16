@@ -3,6 +3,7 @@
 	<field
 		name="itemtype"
 		type="itemtype"
+		label="COM_ASSOCIATIONS_FILTER_SELECT_ITEM_TYPE"
 		filtermode="selector"
 		onchange="Joomla.resetFilters(this)"
 		>

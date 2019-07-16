@@ -114,8 +114,8 @@ use Joomla\CMS\Language\Text;
 						<?php echo Text::_($extension->name); ?>
 					</td>
 					<td class="extension-check"
-					    data-extension-id="<?php echo $extension->extension_id; ?>"
-					    data-extension-current-version="<?php echo $extension->version; ?>" dir="ltr">
+						data-extension-id="<?php echo $extension->extension_id; ?>"
+						data-extension-current-version="<?php echo $extension->version; ?>" dir="ltr">
 						<img src="../media/system/images/mootree_loader.gif" />
 					</td>
 					<td>

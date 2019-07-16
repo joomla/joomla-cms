@@ -14,7 +14,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 ?>
 
 <div class="com-contact-category">
-	<?php 
+	<?php
 		$this->subtemplatename = 'items';
 		echo LayoutHelper::render('joomla.content.category_default', $this);
 	?>

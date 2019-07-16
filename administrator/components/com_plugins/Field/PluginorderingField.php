@@ -53,8 +53,10 @@ class PluginorderingField extends \JFormFieldOrdering
 				)
 			)
 			->from($db->quoteName('#__extensions'))
-			->where('(type =' . $db->quote('plugin') . 'AND folder=' . $db->quote($folder) . ')')
-			->order('ordering');
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+			->where($db->quoteName('folder') . ' = :folder')
+			->order($db->quoteName('ordering'))
+			->bind(':folder', $folder);
 
 		return $query;
 	}
