@@ -183,7 +183,7 @@ class DebuggroupModel extends ListModel
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select('id, title')
+			->select($db->quoteName(['id,' 'title']))
 			->from($db->quoteName('#__usergroups'))
 			->where($db->quoteName('id') . ' = :id')
 			->bind(':id', $groupId, ParameterType::INTEGER);
