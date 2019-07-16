@@ -194,10 +194,8 @@
 
     .menu-dashboard {
       a {
-
         .fa {
           align-items: flex-start;
-
         }
       }
     }
@@ -388,7 +386,7 @@
   .active {
 
     > .has-arrow::after {
-      -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
+      filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
       transform: rotate(90deg);
       transform-origin: 0.4rem 0.7rem;
     }
@@ -455,8 +453,6 @@
       visibility: hidden;
     }
   }
-
-
 }
 
 @include media-breakpoint-up(sm) {
@@ -465,8 +461,7 @@
   }
 }
 
-
-/*mobil*/
+// Mobile
 @include media-breakpoint-down(xs) {
   #menu-collapse {
     display: none;

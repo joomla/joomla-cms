@@ -10,12 +10,6 @@
 }
 
 @mixin fadeout-page {
-
-  // Safari, Chrome and Opera > 12.1
-  @-webkit-keyframes fadeout {
-    @include prefix-fadeout;
-  }
-
   @keyframes fadeout {
     @include prefix-fadeout;
   }
@@ -34,12 +28,6 @@
 }
 
 @mixin fadein-page {
-
-  // Safari, Chrome and Opera > 12.1
-  @-webkit-keyframes fadein {
-    @include prefix-fadein;
-  }
-
   @keyframes fadein {
     @include prefix-fadein;
   }
