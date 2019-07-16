@@ -151,7 +151,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 						<?php else : ?>
 							<?php echo LayoutHelper::render('joomla.edit.admin_modules', $this); ?>
 						<?php endif; ?>
- 					</div>
+					 </div>
 				</div>
 			</div>
 		</div>

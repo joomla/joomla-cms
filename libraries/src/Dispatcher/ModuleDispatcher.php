@@ -38,7 +38,7 @@ class ModuleDispatcher extends AbstractModuleDispatcher
 		$this->loadLanguage();
 
 		// Execute the layout without the module context
-		$loader = static function($path, array $displayData)
+		$loader = static function ($path, array $displayData)
 		{
 			extract($displayData);
 			include $path;

@@ -139,7 +139,11 @@ class RegistrationModel extends FormModel
 			$data['activation'] = ApplicationHelper::getHash(UserHelper::genRandomPassword());
 			$user->set('activation', $data['activation']);
 			$data['siteurl'] = Uri::base();
-			$data['activate'] = Route::link('site', 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false, $linkMode);
+			$data['activate'] = Route::link('site',
+				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
+				false,
+				$linkMode
+			);
 
 			$data['fromname'] = $app->get('fromname');
 			$data['mailfrom'] = $app->get('mailfrom');
@@ -339,8 +343,8 @@ class RegistrationModel extends FormModel
 			// Get the groups the user should be added to after registration.
 			$this->data->groups = array();
 
-			// Get the default new user group, Registered if not specified.
-			$system = $params->get('new_usertype', 2);
+			// Get the default new user group, guest or public group if not specified.
+			$system = $params->get('new_usertype', $params->get('guest_usergroup', 1));
 
 			$this->data->groups[] = $system;
 
@@ -528,7 +532,11 @@ class RegistrationModel extends FormModel
 			// Set the link to confirm the user email.
 			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
 
-			$data['activate'] = Route::link('site', 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false, $linkMode);
+			$data['activate'] = Route::link('site',
+				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
+				false,
+				$linkMode
+			);
 
 			$emailSubject = Text::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
@@ -565,7 +573,11 @@ class RegistrationModel extends FormModel
 			// Set the link to activate the user account.
 			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
 
-			$data['activate'] = Route::link('site', 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false, $linkMode);
+			$data['activate'] = Route::link('site',
+				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
+				false,
+				$linkMode
+			);
 
 			$emailSubject = Text::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',

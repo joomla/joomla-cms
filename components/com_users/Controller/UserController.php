@@ -315,7 +315,8 @@ class UserController extends BaseController
 		$this->checkToken('post');
 
 		$app   = $this->app;
-		/* @var \Joomla\Component\Users\Site\Model\RemindModel $model */
+
+		/** @var \Joomla\Component\Users\Site\Model\RemindModel $model */
 		$model = $this->getModel('Remind', 'Site');
 		$data  = $this->input->post->get('jform', array(), 'array');
 

@@ -41,8 +41,9 @@ class SampleField extends RadioField
 	 */
 	protected function getOptions()
 	{
-		$options = array();
-		$type    = $this->form->getValue('db_type');
+		$options  = array();
+		$type     = $this->form->getValue('db_type');
+		$language = Factory::getLanguage();
 
 		// Some database drivers share DDLs; point these drivers to the correct parent
 		if ($type === 'mysqli')
@@ -71,7 +72,7 @@ class SampleField extends RadioField
 		{
 			foreach ($files as $file)
 			{
-				$options[] = HTMLHelper::_('select.option', $file, Factory::getLanguage()->hasKey($key = 'INSTL_' . ($file = File::stripExt($file)) . '_SET') ?
+				$options[] = HTMLHelper::_('select.option', $file, $language->hasKey($key = 'INSTL_' . ($file = File::stripExt($file)) . '_SET') ?
 					HTMLHelper::_('tooltip', Text::_('INSTL_' . strtoupper($file = File::stripExt($file)) . '_SET_DESC'), '', '',
 						Text::_('JYES')
 					) : $file
