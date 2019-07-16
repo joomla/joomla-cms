@@ -43,6 +43,13 @@ steps:
     commands:
       - npm ci --unsafe-perm
 
+  - name: scss-lint
+    image: joomlaprojects/docker-tools:develop
+    depends_on: [ npm ]
+    failure: ignore
+    commands:
+      - node_modules/.bin/sass-lint-v
+
   - name: rebuild-cache
     image: drillster/drone-volume-cache
     depends_on: [ npm ]
@@ -257,6 +264,6 @@ services:
 
 ---
 kind: signature
-hmac: 25e452206bc4a115142bddb1758d1dfb6c056977ffbabc7d0b87afa432d60d28
+hmac: 649db0c304355cd78a657ec30a4a0692c0a49233298ca57bb9744b6fe4d34bf3
 
 ...

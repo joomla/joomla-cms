@@ -1,0 +1,29 @@
+{
+  "options": {
+    "merge-default-rules": false
+  },
+  "files": {
+    "include": [
+      "administrator/components/com_media/resources/**/*.scss",
+      "administrator/templates/**/*.scss",
+      "build/media_source/**/*.scss",
+      "templates/**/*.scss"
+    ]
+  },
+  "rules": {
+    "declarations-before-nesting": 2,
+    "empty-line-between-blocks": 2,
+    "final-newline": 2,
+    "indentation": 2,
+    "no-css-comments": 2,
+    "no-duplicate-properties": 2,
+    "no-trailing-whitespace": 2,
+    "no-vendor-prefixes": 2,
+    "one-declaration-per-line": 2,
+    "pseudo-element": 2,
+    "quotes": 2,
+    "space-after-colon": 2,
+    "space-after-comma": 2,
+    "space-around-operator": 2
+  }
+}
