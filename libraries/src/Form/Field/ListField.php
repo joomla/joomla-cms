@@ -138,6 +138,7 @@ class ListField extends FormField
 					)
 					. "'";
 			}
+
 			// Add the option object to the result set.
 			$options[] = (object) $tmp;
 		}

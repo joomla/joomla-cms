@@ -235,8 +235,8 @@ class SiteRouter extends Router
 				foreach ($items as $item)
 				{
 					if ($item->alias == $segment
-						&& (!$this->app->getLanguageFilter() 
-						|| ($item->language === '*' 
+						&& (!$this->app->getLanguageFilter()
+						|| ($item->language === '*'
 						|| $item->language === $lang_tag)))
 					{
 						$found = $item;

@@ -72,6 +72,8 @@ class HtmlView extends BaseHtmlView
 
 	/**
 	 * List of available overrides
+	 *
+	 * @var   array
 	 */
 	protected $overridesList;
 

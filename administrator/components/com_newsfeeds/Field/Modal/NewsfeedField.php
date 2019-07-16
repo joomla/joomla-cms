@@ -126,6 +126,7 @@ class NewsfeedField extends FormField
 
 		// The current newsfeed display field.
 		$html  = '';
+
 		if ($allowSelect || $allowNew || $allowEdit || $allowClear)
 		{
 			$html .= '<span class="input-group">';
