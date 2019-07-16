@@ -1,7 +1,7 @@
 {
 	"anonymous_pro": {
 		"name": "Anonymous Pro",
-		"url": "http://fonts.googleapis.com/css?family=Anonymous+Pro",
+		"url": "//fonts.googleapis.com/css?family=Anonymous+Pro",
 		"css": "'Anonymous Pro', monospace"
 	},
 	"cousine": {
@@ -26,7 +26,7 @@
 	},
 	"ibm_plex_mono": {
 		"name": "IBM Plex Mono",
-		"url": "https://fonts.googleapis.com/css?family=IBM+Plex+Mono",
+		"url": "//fonts.googleapis.com/css?family=IBM+Plex+Mono",
 		"css": "'IBM Plex Mono', monospace;"
 	},
 	"inconsolata": {
@@ -41,7 +41,7 @@
 	},
 	"nanum_gothic_coding": {
 		"name": "Nanum Gothic Coding",
-		"url": "https://fonts.googleapis.com/css?family=Nanum+Gothic+Coding",
+		"url": "//fonts.googleapis.com/css?family=Nanum+Gothic+Coding",
 		"css": "'Nanum Gothic Coding', monospace"
 	},
 	"nova_mono": {
