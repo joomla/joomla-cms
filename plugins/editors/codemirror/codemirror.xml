@@ -192,14 +192,16 @@
 
 				<field
 					name="basePath"
-					type="hidden"
-					default="media/editors/codemirror/"
+					type="text"
+					label="PLG_CODEMIRROR_FIELD_BASE_PATH_LABEL"
+					default="media/vendor/codemirror/"
 				/>
 
 				<field
 					name="modePath"
-					type="hidden"
-					default="media/editors/codemirror/mode/%N/%N"
+					type="text"
+					label="PLG_CODEMIRROR_FIELD_MODE_PATH_LABEL"
+					default="media/vendor/codemirror/mode/%N/%N"
 				/>
 			</fieldset>
 
