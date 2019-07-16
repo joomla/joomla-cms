@@ -348,7 +348,7 @@ class Users
 		{
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select('title')
+				->select($db->quoteName('title'))
 				->from($db->quoteName('#__template_styles'))
 				->where($db->quoteName('id') . ' = :id')
 				->bind(':id', $value, ParameterType::INTEGER);
