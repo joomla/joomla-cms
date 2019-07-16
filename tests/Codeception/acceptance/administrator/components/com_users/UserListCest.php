@@ -28,11 +28,12 @@ class UserListCest
 	/**
 	 * Create a user
 	 *
-	 * @param   \Step\Acceptance\Administrator\Admin  $I The AcceptanceTester Object
-	 *
-	 * @since   3.7.3
+	 * @param   \Step\Acceptance\Administrator\Admin  $I  The AcceptanceTester Object
 	 *
 	 * @return  void
+	 * @since   3.7.3
+	 *
+	 * @throws Exception
 	 */
 	public function createUser(\Step\Acceptance\Administrator\Admin $I)
 	{
@@ -63,13 +64,14 @@ class UserListCest
 	/**
 	 * Edit a user
 	 *
-	 * @param   \Step\Acceptance\Administrator\Admin $I  The AcceptanceTester Object
+	 * @param   \Step\Acceptance\Administrator\Admin  $I  The AcceptanceTester Object
 	 *
+	 * @return  void
 	 * @since   3.7.3
 	 *
 	 * @depends createUser
 	 *
-	 * @return  void
+	 * @throws Exception
 	 */
 	public function editUser(\Step\Acceptance\Administrator\Admin $I)
 	{
@@ -106,9 +108,10 @@ class UserListCest
 	 * @param   string            $password  User's password
 	 * @param   string            $email     User's email
 	 *
+	 * @return  void  The user's form will be filled with given detail
 	 * @since   3.7.3
 	 *
-	 * @return  void  The user's form will be filled with given detail
+	 * @throws Exception
 	 */
 	protected function fillUserForm($I, $name, $username, $password, $email)
 	{
@@ -124,11 +127,12 @@ class UserListCest
 	/**
 	 * Method to set Send Email to "NO"
 	 *
-	 * @param   AcceptanceTester  $I         The AcceptanceTester Object
-	 *
-	 * @since   4.0
+	 * @param   AcceptanceTester  $I  The AcceptanceTester Object
 	 *
 	 * @return  void  The user's form will be filled with given detail
+	 * @since   4.0
+	 *
+	 * @throws Exception
 	 */
 	protected function toggleSendMail($I)
 	{
@@ -143,6 +147,5 @@ class UserListCest
 		$I->comment('I wait for global configuration being saved');
 		$I->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
 		$I->see('Configuration saved.', ['id' => 'system-message-container']);
-
 	}
 }

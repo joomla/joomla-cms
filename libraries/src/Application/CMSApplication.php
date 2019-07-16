@@ -120,7 +120,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	/**
 	 * The authentication plugin type
 	 *
-	 * @type   string
+	 * @var   string
 	 * @since  4.0.0
 	 */
 	protected $authenticationPluginType = 'authentication';

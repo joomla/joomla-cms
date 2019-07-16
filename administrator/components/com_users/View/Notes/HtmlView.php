@@ -135,11 +135,11 @@ class HtmlView extends BaseHtmlView
 		if ($canDo->get('core.edit.state') || $canDo->get('core.admin'))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
-					->text('JTOOLBAR_CHANGE_STATUS')
-					->toggleSplit(false)
-					->icon('fa fa-globe')
-					->buttonClass('btn btn-info')
-					->listCheck(true);
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-globe')
+				->buttonClass('btn btn-info')
+				->listCheck(true);
 
 			$childBar = $dropdown->getChildToolbar();
 

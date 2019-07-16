@@ -23,9 +23,10 @@ class MenuCest
 	 *
 	 * @param   AcceptanceTester  $I  The AcceptanceTester Object
 	 *
+	 * @return  void
 	 * @since  4.0.0
 	 *
-	 * @return  void
+	 * @throws Exception
 	 */
 	public function createNewMenu(\AcceptanceTester $I)
 	{

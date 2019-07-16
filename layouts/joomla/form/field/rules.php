@@ -135,11 +135,11 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 												id="<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>" >
 											<?php
 											/**
-											* Possible values:
-											* null = not set means inherited
-											* false = denied
-											* true = allowed
-											*/
+											 * Possible values:
+											 * null = not set means inherited
+											 * false = denied
+											 * true = allowed
+											 */
 
 											// Get the actual setting for the action for this group. ?>
 											<?php $assetRule = $newItem === false ? $assetRules->allow($action->name, $group->value) : null;?>
