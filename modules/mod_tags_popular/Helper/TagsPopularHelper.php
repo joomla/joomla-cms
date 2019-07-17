@@ -98,9 +98,11 @@ abstract class TagsPopularHelper
 		// Only return tags connected to published articles
 		$query->where($db->quoteName('c.core_state') . ' = 1')
 			->where('(' . $db->quoteName('c.core_publish_up') . ' = :nullDate2'
-				. ' OR ' . $db->quoteName('c.core_publish_up') . ' <= :nowDate2)')
+				. ' OR ' . $db->quoteName('c.core_publish_up') . ' <= :nowDate2)'
+			)
 			->where('(' . $db->quoteName('c.core_publish_down') . ' = :nullDate3'
-				. ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= :nowDate3)')
+				. ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= :nowDate3)'
+			)
 			->bind([':nullDate2', ':nullDate3'], $nullDate)
 			->bind([':nowDate2', ':nowDate3'], $nowDate);
 

@@ -29,7 +29,7 @@ class JNamespacePsr4Map
 	/**
 	 * Check if the file exists
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
@@ -56,7 +56,7 @@ class JNamespacePsr4Map
 	/**
 	 * Create the namespace file
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
@@ -80,7 +80,7 @@ class JNamespacePsr4Map
 	/**
 	 * Load the PSR4 file
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
@@ -224,8 +224,8 @@ class JNamespacePsr4Map
 			// Add the application specific segment when not a plugin
 			if (strpos($dir, '/plugins/') !== 0)
 			{
-				$baseDir    =  strpos($namespacePath, 'administrator/') ? 'JPATH_ADMINISTRATOR . \'' : 'JPATH_SITE . \'';
-				$namespace .=  strpos($namespacePath, 'administrator/') ? 'Administrator\\\\' : 'Site\\\\';
+				$baseDir    = strpos($namespacePath, 'administrator/') ? 'JPATH_ADMINISTRATOR . \'' : 'JPATH_SITE . \'';
+				$namespace .= strpos($namespacePath, 'administrator/') ? 'Administrator\\\\' : 'Site\\\\';
 			}
 			else
 			{
