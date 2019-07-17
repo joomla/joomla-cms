@@ -42,12 +42,6 @@ class PlgSystemRemember extends CMSPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
-		if (!$this->app)
-		{
-			$this->app = Factory::getApplication();
-		}
-
 		// No remember me for admin.
 		if ($this->app->isClient('administrator'))
 		{
@@ -55,15 +49,9 @@ class PlgSystemRemember extends CMSPlugin
 		}
 
 		// Check for a cookie if user is not logged in
-		if (Factory::getUser()->get('guest'))
+		if ($this->app->getIdentity()->get('guest'))
 		{
 			$cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
-
-			// Try with old cookieName (pre 3.6.0) if not found
-			if (!$this->app->input->cookie->get($cookieName))
-			{
-				$cookieName = UserHelper::getShortHashedUserAgent();
-			}
 
 			// Check for the cookie
 			if ($this->app->input->cookie->get($cookieName))

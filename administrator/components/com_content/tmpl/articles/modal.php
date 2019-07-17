@@ -26,7 +26,6 @@ if ($app->isClient('site'))
 
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('script', 'com_content/admin-articles-modal.min.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 HTMLHelper::_('behavior.multiselect');
 
 $function  = $app->input->getCmd('function', 'jSelectArticle');
