@@ -370,7 +370,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 			$db->setQuery($query);
 			$userIDs = $db->loadColumn(0);
 
-			if (empty($rawUserIDs))
+			if (empty($userIDs))
 			{
 				return $ret;
 			}
