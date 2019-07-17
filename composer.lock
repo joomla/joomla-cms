@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "adcc362beafa040a632f3236a01578f4",
+    "content-hash": "271d649eabc02d5ca67fd4f6315fe3a8",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -5463,16 +5463,16 @@
         },
         {
             "name": "joomla/cms-coding-standards",
-            "version": "2.0.0-alpha",
+            "version": "2.0.0-alpha2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla/cms-coding-standards.git",
-                "reference": "b8d0b3e24bf1695871830a68c4545cecc5f3b08b"
+                "reference": "25abae52f9167fa47ce57331bbece8079ad27ab3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla/cms-coding-standards/zipball/b8d0b3e24bf1695871830a68c4545cecc5f3b08b",
-                "reference": "b8d0b3e24bf1695871830a68c4545cecc5f3b08b",
+                "url": "https://api.github.com/repos/joomla/cms-coding-standards/zipball/25abae52f9167fa47ce57331bbece8079ad27ab3",
+                "reference": "25abae52f9167fa47ce57331bbece8079ad27ab3",
                 "shasum": ""
             },
             "require": {
@@ -5514,7 +5514,7 @@
                 "php codesniffer",
                 "phpcs"
             ],
-            "time": "2019-05-25T19:39:56+00:00"
+            "time": "2019-07-13T18:56:54+00:00"
         },
         {
             "name": "joomla/coding-standards",
