@@ -248,7 +248,7 @@ services:
 
   - name: mysql8
     image: mysql:8
-    command: --default-authentication-plugin=mysql_native_password
+    command: "--default-authentication-plugin=mysql_native_password"
     environment:
       MYSQL_USER: joomla_ut
       MYSQL_PASSWORD: joomla_ut
