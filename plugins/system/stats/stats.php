@@ -254,7 +254,7 @@ class PlgSystemStats extends CMSPlugin
 		{
 			$data = [
 				'sent' => 0,
-				'html' => $this->getRenderer('message')->render($this->getLayoutData())
+				'html' => $this->getRenderer('message')->render($this->getLayoutData()),
 			];
 
 			echo json_encode($data);
@@ -315,7 +315,7 @@ class PlgSystemStats extends CMSPlugin
 		return [
 			'plugin'       => $this,
 			'pluginParams' => $this->params,
-			'statsData'    => $this->getStatsData()
+			'statsData'    => $this->getStatsData(),
 		];
 	}
 
@@ -369,7 +369,7 @@ class PlgSystemStats extends CMSPlugin
 			'db_type'     => $this->db->name,
 			'db_version'  => $this->db->getVersion(),
 			'cms_version' => JVERSION,
-			'server_os'   => php_uname('s') . ' ' . php_uname('r')
+			'server_os'   => php_uname('s') . ' ' . php_uname('r'),
 		];
 	}
 
@@ -594,7 +594,7 @@ class PlgSystemStats extends CMSPlugin
 			{
 				$options = [
 					'defaultgroup' => $group,
-					'cachebase'    => $this->app->get('cache_path', JPATH_CACHE)
+					'cachebase'    => $this->app->get('cache_path', JPATH_CACHE),
 				];
 
 				$cache = Cache::getInstance('callback', $options);
