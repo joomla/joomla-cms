@@ -82,61 +82,49 @@ steps:
 
   - name: php55-unit
     depends_on: [ rebuild-cache ]
-    image: alterway/php:5.5-apache
-    environment:
-      PHP__display_errors: On
-      PHP__memory_limit: 512M
+    image: joomlaprojects/docker-images:php5.5
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit
 
   - name: php56-unit
     depends_on: [ rebuild-cache ]
-    image: alterway/php:5.6-apache
-    environment:
-      PHP__display_errors: On
-      PHP__memory_limit: 512M
+    image: joomlaprojects/docker-images:php5.6
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit
 
   - name: php70-unit
     depends_on: [ rebuild-cache ]
-    image: alterway/php:7.0-apache
-    environment:
-      PHP__display_errors: On
-      PHP__memory_limit: 512M
+    image: joomlaprojects/docker-images:php7.0
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit
 
   - name: php71-unit
     depends_on: [ rebuild-cache ]
-    image: alterway/php:7.1-apache
-    environment:
-      PHP__display_errors: On
-      PHP__memory_limit: 512M
+    image: joomlaprojects/docker-images:php7.1
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit
 
   - name: php72-unit
     depends_on: [ rebuild-cache ]
-    image: php:7.2
+    image: joomlaprojects/docker-images:php7.2
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit
 
   - name: php73-unit
     depends_on: [ rebuild-cache ]
-    image: php:7.3
+    image: joomlaprojects/docker-images:php7.3
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit
 
   - name: php74-unit
     depends_on: [ rebuild-cache ]
-    image: phpdaily/php:7.4-dev
+    image: joomlaprojects/docker-images:php7.4
     errignore: true
     commands:
       - php -v
@@ -144,7 +132,7 @@ steps:
 
   - name: php80-unit
     depends_on: [ rebuild-cache ]
-    image: phpdaily/php:8.0-dev
+    image: joomlaprojects/docker-images:php8.0
     errignore: true
     commands:
       - php -v
@@ -189,6 +177,6 @@ branches:
   exclude: [ l10n_* ]
 ---
 kind: signature
-hmac: 09e5b063d5608364cb6dbdce942e0625a29d7d6464eec650dfa77b34185f383b
+hmac: ced7c9e813fa7c23f63d53b14a1f9343fc31279527256fe9d5f7e55ac435f0f6
 
 ...
