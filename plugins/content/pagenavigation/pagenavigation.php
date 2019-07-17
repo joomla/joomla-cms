@@ -150,21 +150,16 @@ class PlgContentPagenavigation extends CMSPlugin
 
 			$query->order($orderby);
 
-
-			$case_when = ' CASE WHEN ' . $query->charLength($db->quoteName('a.alias') . '!=', '0')
+			$case_when = ' CASE WHEN ' . $query->charLength($db->quoteName('a.alias'), '!=', '0')
 				. ' THEN ' . $query->concatenate([$query->castAsChar($db->quoteName('a.id')), $db->quoteName('a.alias')], ':')
-				. ' ELSE ' . $db->quoteName('a.id') . ' END AS slug';
+				. ' ELSE ' . $db->quoteName('a.id') . ' END AS ' . $db->quoteName('slug');
 
 			$case_when1 = ' CASE WHEN ' . $query->charLength($db->quoteName('cc.alias'), '!=', '0')
 				. ' THEN ' . $query->concatenate([$query->castAsChar($db->quoteName('cc.id')), $db->quoteName('cc.alias')], ':')
-				. ' ELSE ' . $db->quoteName('cc.id') . ' END AS catslug';
+				. ' ELSE ' . $db->quoteName('cc.id') . ' END AS ' . $db->quoteName('catslug');
 
-			$query->select(
-				[
-					$db->quoteName(['a.id', 'a.title', 'a.catid', 'a.language']),
-					$case_when, $case_when1
-				]
-			)
+			$query->select($db->quoteName(['a.id', 'a.title', 'a.catid', 'a.language']))
+				->select([$case_when, $case_when1])
 				->from($db->quoteName('#__content', 'a'))
 				->leftJoin($db->quoteName('#__categories', 'cc'), $db->quoteName('cc.id') . ' = ' . $db->quoteName('a.catid'))
 				->leftJoin($db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('a.state'));
@@ -175,14 +170,17 @@ class PlgContentPagenavigation extends CMSPlugin
 				$query->leftJoin($db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('a.created_by'));
 			}
 
+			$catid = $row->catid;
+			$state = $row->state;
+
 			$query->where(
 				[
 					$db->quoteName('a.catid') . ' = :catid',
-					$db->quoteName('a.state') . ' = :state'
+					$db->quoteName('a.state') . ' = :state',
 				]
 			)
-				->bind(':catid', (int) $row->catid, ParameterType::INTEGER)
-				->bind(':state', (int) $row->state, ParameterType::INTEGER);
+				->bind(':catid', $catid, ParameterType::INTEGER)
+				->bind(':state', $state, ParameterType::INTEGER);
 
 			if ($canPublish)
 			{
@@ -193,7 +191,7 @@ class PlgContentPagenavigation extends CMSPlugin
 				[
 					'(' . $db->quoteName('ws.condition') . ' = 1 OR ' . $db->quoteName('ws.condition') . ' = -2)',
 					'(' . $db->quoteName('publish_up') . ' = :nullDate1 OR ' . $db->quoteName('publish_up') . ' <= :nowDate1)',
-					'(' . $db->quoteName('publish_down') . ' = :nullDate2 OR ' . $db->quoteName('publish_down') . ' >= :nowDate2)'
+					'(' . $db->quoteName('publish_down') . ' = :nullDate2 OR ' . $db->quoteName('publish_down') . ' >= :nowDate2)',
 				]
 			)
 				->bind(':nullDate1', $nullDate)
