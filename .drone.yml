@@ -23,6 +23,7 @@ steps:
     image: joomlaprojects/docker-tools:develop
     depends_on: [ restore-cache ]
     commands:
+      - composer validate --no-check-all --strict
       - composer install --no-progress --no-suggest
 
   - name: phpcs
@@ -40,7 +41,7 @@ steps:
     image: joomlaprojects/docker-tools:develop
     depends_on: [ phpcs ]
     commands:
-      - npm install --unsafe-perm
+      - npm ci --unsafe-perm
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
@@ -270,6 +271,6 @@ services:
 
 ---
 kind: signature
-hmac: 48cecb5ee696b0b1b0ef7d831ffa68ecf973a1e99871860c6b36bd6a4456f5ba
+hmac: 57839766f4979ec57a82d00fdaa636f44df0bff3f429c8740185041441e10aa4
 
 ...
