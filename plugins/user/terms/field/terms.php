@@ -80,9 +80,7 @@ class JFormFieldterms extends JFormFieldRadio
 
 		if ($termsArticle && Factory::getApplication()->isClient('site'))
 		{
-			$db           = Factory::getDbo();
-			$termsArticle = (int) $termsArticle;
-
+			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName(['id', 'alias', 'catid', 'language']))
 				->from($db->quoteName('#__content'))
