@@ -827,7 +827,7 @@ class ApplicationModel extends FormModel
 			$query = $this->_db->getQuery(true)
 				->select($this->_db->quoteName('id'))
 				->from($this->_db->quoteName('#__assets'))
-				->where($this->getDbo()->quoteName('name') . ' = :component')
+				->where($this->_db->quoteName('name') . ' = :component')
 				->bind(':component', $permission['component']);
 
 			$this->_db->setQuery($query);
