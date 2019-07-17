@@ -65,12 +65,7 @@ class PlgSystemActionLogs extends CMSPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		if (!$this->app->isClient('administrator'))
-		{
-			return;
-		}
-
-		// Load plugin language files only when needed (ex: they are not needed in site client).
+		// Load plugin language files.
 		$this->loadLanguage();
 	}
 
@@ -86,15 +81,8 @@ class PlgSystemActionLogs extends CMSPlugin
 	 *
 	 * @throws  Exception
 	 */
-	public function onContentPrepareForm($form, $data)
+	public function onContentPrepareForm(Form $form, $data)
 	{
-		if (!$form instanceof Form)
-		{
-			$this->subject->setError('JERROR_NOT_A_FORM');
-
-			return false;
-		}
-
 		$formName = $form->getName();
 
 		$allowedFormNames = array(
