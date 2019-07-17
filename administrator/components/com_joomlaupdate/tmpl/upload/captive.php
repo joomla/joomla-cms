@@ -71,7 +71,7 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 					<div class="input-group">
 						<input name="secretkey" autocomplete="off" tabindex="3" id="mod-login-secretkey" type="text" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>" size="15">
 						<span class="input-group-append">
-							<span class="input-group-text hasTooltip" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
+							<span class="input-group-text" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
 								<span class="fa fa-star" aria-hidden="true"></span>
 								<label for="mod-login-secretkey" class="sr-only">
 									<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>

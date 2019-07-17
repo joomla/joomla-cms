@@ -91,6 +91,7 @@ HTMLHelper::_('searchtools.form', $data['options']['formSelector'], $data['optio
 		<?php $itemTypeField = $data['view']->filterForm->getField('itemtype'); ?>
 		<div class="js-stools-container-selector-first">
 			<div class="js-stools-field-selector js-stools-itemtype">
+				<div class="sr-only"><?php echo $itemTypeField->label; ?></div>
 				<?php echo $itemTypeField->input; ?>
 			</div>
 		</div>
@@ -99,6 +100,7 @@ HTMLHelper::_('searchtools.form', $data['options']['formSelector'], $data['optio
 		<?php $languageField = $data['view']->filterForm->getField('language'); ?>
 		<div class="js-stools-container-selector">
 			<div class="js-stools-field-selector js-stools-language">
+				<div class="sr-only"><?php echo $languageField->label; ?></div>
 				<?php echo $languageField->input; ?>
 			</div>
 		</div>
