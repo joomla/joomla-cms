@@ -248,6 +248,7 @@ services:
 
   - name: mysql8
     image: mysql:8
+    command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_USER: joomla_ut
       MYSQL_PASSWORD: joomla_ut
@@ -271,6 +272,6 @@ services:
 
 ---
 kind: signature
-hmac: 57839766f4979ec57a82d00fdaa636f44df0bff3f429c8740185041441e10aa4
+hmac: c9b12d7ecfdf29e1ccd939c6abf530606332d41ee0633b7885d7a1bf2afca546
 
 ...
