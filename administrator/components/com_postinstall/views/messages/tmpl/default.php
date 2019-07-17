@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
+$lang     = Factory::getLanguage();
 $renderer = JFactory::getDocument()->loadRenderer('module');
 $options  = array('style' => 'raw');
 $mod      = JModuleHelper::getModule('mod_feed');
@@ -19,6 +22,7 @@ $param    = array(
 	'rssimage'    => 1,
 	'rssitems'    => 5,
 	'rssitemdesc' => 1,
+	'rssrtl'      => $lang->isRtl() ? 1 : 0,
 	'word_count'  => 200,
 	'cache'       => 0,
 	);
