@@ -1,23 +1,23 @@
 [
     {
         "name": "brumann/polyfill-unserialize",
-        "version": "v1.0.3",
-        "version_normalized": "1.0.3.0",
+        "version": "v1.0.4",
+        "version_normalized": "1.0.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/dbrumann/polyfill-unserialize.git",
-            "reference": "844d7e44b62a1a3d5c68cfb7ebbd59c17ea0fd7b"
+            "reference": "8ed1cd343ddc134a7ef649aca0aa0fe2a1b45008"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/dbrumann/polyfill-unserialize/zipball/844d7e44b62a1a3d5c68cfb7ebbd59c17ea0fd7b",
-            "reference": "844d7e44b62a1a3d5c68cfb7ebbd59c17ea0fd7b",
+            "url": "https://api.github.com/repos/dbrumann/polyfill-unserialize/zipball/8ed1cd343ddc134a7ef649aca0aa0fe2a1b45008",
+            "reference": "8ed1cd343ddc134a7ef649aca0aa0fe2a1b45008",
             "shasum": ""
         },
         "require": {
             "php": "^5.3|^7.0"
         },
-        "time": "2017-02-03T09:55:47+00:00",
+        "time": "2019-07-14T23:16:24+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -920,17 +920,17 @@
     },
     {
         "name": "joomla/utilities",
-        "version": "1.6.0",
-        "version_normalized": "1.6.0.0",
+        "version": "1.6.1",
+        "version_normalized": "1.6.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/utilities.git",
-            "reference": "181fe644149ca0bd4a31f12212d3840147552b30"
+            "reference": "b54beb07ddf2d8074f6f8f43c365f84ddf714c8f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/181fe644149ca0bd4a31f12212d3840147552b30",
-            "reference": "181fe644149ca0bd4a31f12212d3840147552b30",
+            "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/b54beb07ddf2d8074f6f8f43c365f84ddf714c8f",
+            "reference": "b54beb07ddf2d8074f6f8f43c365f84ddf714c8f",
             "shasum": ""
         },
         "require": {
@@ -941,7 +941,7 @@
             "joomla/coding-standards": "~2.0@alpha",
             "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0"
         },
-        "time": "2018-10-16T23:36:52+00:00",
+        "time": "2019-07-17T01:48:57+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
