@@ -824,7 +824,7 @@ class ApplicationModel extends FormModel
 		try
 		{
 			// Get the asset id by the name of the component.
-			$query = $this->getDbo()->getQuery(true)
+			$query = $this->_db->getQuery(true)
 				->select($this->getDbo()->quoteName('id'))
 				->from($this->getDbo()->quoteName('#__assets'))
 				->where($this->getDbo()->quoteName('name') . ' = :component')
