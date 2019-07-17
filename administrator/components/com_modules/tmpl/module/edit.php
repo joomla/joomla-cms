@@ -20,7 +20,7 @@ HTMLHelper::_('behavior.combobox');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.tabstate');
 
-$hasContent = empty($this->item->module) ||  isset($this->item->xml->customContent);
+$hasContent = isset($this->item->xml->customContent);
 $hasContentFieldName = 'content';
 
 // For a later improvement
@@ -76,7 +76,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 							?>
 						</h2>
 						<div class="info-labels">
-							<span class="badge badge-secondary hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_MODULES_FIELD_CLIENT_ID_LABEL'); ?>">
+							<span class="badge badge-secondary">
 								<?php echo $this->item->client_id == 0 ? Text::_('JSITE') : Text::_('JADMINISTRATOR'); ?>
 							</span>
 						</div>
@@ -115,6 +115,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 					<?php endif; ?>
 				<?php else : ?>
 					<div class="alert alert-danger">
+						<span class="fa fa-exclamation-triangle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
 						<?php echo Text::_('COM_MODULES_ERR_XML'); ?>
 					</div>
 				<?php endif; ?>
@@ -131,20 +132,11 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<div class="col-md-3">
 				<div class="card card-light">
 					<div class="card-body">
-						<fieldset class="form-vertical form-no-margin">
-							<?php echo $this->form->renderField('showtitle'); ?>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('position'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('position'); ?>
-								</div>
-							</div>
-						</fieldset>
 						<?php
 						// Set main fields.
 						$this->fields = array(
+							'showtitle',
+							'position',
 							'published',
 							'publish_up',
 							'publish_down',
@@ -153,14 +145,13 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 							'language',
 							'note'
 						);
-
 						?>
 						<?php if ($this->item->client_id == 0) : ?>
 							<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 						<?php else : ?>
 							<?php echo LayoutHelper::render('joomla.edit.admin_modules', $this); ?>
 						<?php endif; ?>
- 					</div>
+					 </div>
 				</div>
 			</div>
 		</div>

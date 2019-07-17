@@ -113,7 +113,7 @@ legend {
 }
 
  /* set up hidden tooltip */
-[role="tooltip"] {
+[role="tooltip"]:not(.show) {
   display: none;
   padding: 0.25em;
   margin: 0.25em;
@@ -124,8 +124,12 @@ legend {
 }
 
  /* reveal associated tooltip on focus */
-:focus + [role="tooltip"] {
+:focus + [role="tooltip"],
+:hover + [role="tooltip"] {
   display: block;
   position: absolute;
+}
+
+[id="filter[search]-desc"] {
   bottom: 100%;
 }

@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Event\AbstractEvent;
-use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 use Joomla\CMS\WebAsset\Exception\InvalidActionException;
+use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 use Joomla\CMS\WebAsset\Exception\UnsatisfiedDependencyException;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
@@ -76,7 +76,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	/**
 	 * Internal marker to check the manager state, to prevent use the manager after an attach happened
 	 *
-	 * @var    bool
+	 * @var    boolean
 	 *
 	 * @since  4.0.0
 	 */
@@ -85,7 +85,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	/**
 	 * Whether append asset version to asset path
 	 *
-	 * @var    bool
+	 * @var    boolean
 	 *
 	 * @since  4.0.0
 	 */
@@ -94,7 +94,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	/**
 	 * Internal marker to keep track when need to recheck dependencies
 	 *
-	 * @var    bool
+	 * @var    boolean
 	 *
 	 * @since  4.0.0
 	 */
@@ -195,7 +195,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @param   string  $name  The asset name
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
 	 * @throws  UnknownAssetException  When Asset cannot be found
 	 *
@@ -225,7 +225,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @param   string  $name  The asset name
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @throws  UnknownAssetException  When Asset cannot be found
 	 *
@@ -300,7 +300,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 			// Re-Check for Dependencies for all active assets
 			$this->activeAssets = array_filter(
 				$this->activeAssets,
-				function ($state){
+				function ($state) {
 					return $state === WebAssetManager::ASSET_STATE_ACTIVE;
 				}
 			);
@@ -416,7 +416,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 		$emptyIncoming = array_keys(
 			array_filter(
 				$graphIncoming,
-				function ($el){
+				function ($el) {
 					return !$el;
 				}
 			)
@@ -473,13 +473,16 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 
 			// Check the predecessors (Outgoing vertexes), the weight cannot be lighter than the predecessor have
 			$topBorder = $weight - 1;
+
 			if (!empty($graphOutgoing[$item]))
 			{
 				$prevWeights = [];
+
 				foreach ($graphOutgoing[$item] as $pItem)
 				{
 					$prevWeights[] = $graphWeights[$pItem];
 				}
+
 				$topBorder = max($prevWeights);
 			}
 
@@ -508,6 +511,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 
 		// Get Assets in calculated order
 		$resultAssets  = [];
+
 		foreach (array_keys($graphWeights) as $name)
 		{
 			$resultAssets[$name] = $activeAssets[$name];
@@ -525,7 +529,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @since   4.0.0
 	 */
-	protected function getConnectionsGraph (array $assets): array
+	protected function getConnectionsGraph(array $assets): array
 	{
 		$graphOutgoing = [];
 		$graphIncoming = [];

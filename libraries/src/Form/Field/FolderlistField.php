@@ -34,7 +34,7 @@ class FolderlistField extends ListField
 	 * The folder name filter.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $folderFilter;
 

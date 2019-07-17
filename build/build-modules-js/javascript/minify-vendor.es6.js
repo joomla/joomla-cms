@@ -16,7 +16,7 @@ module.exports.compile = () => {
         Path.join(RootPath, 'media/vendor/webcomponentsjs'),
       ];
 
-      // Loop to get some text for the packgage.json
+      // Loop to get some text for the package.json
       folders.forEach((folder) => {
         const files = WalkSync.run(folder, []);
 

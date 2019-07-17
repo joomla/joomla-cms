@@ -18,6 +18,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -63,16 +64,20 @@ class PlgUserJoomla extends CMSPlugin
 			return false;
 		}
 
+		$db     = $this->db;
+		$userid = (int) $user['id'];
+
 		// Only execute this query if using the database session handler
 		if ($this->app->get('session_handler', 'database') === 'database')
 		{
-			$query = $this->db->getQuery(true)
-				->delete($this->db->quoteName('#__session'))
-				->where($this->db->quoteName('userid') . ' = ' . (int) $user['id']);
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__session'))
+				->where($db->quoteName('userid') . ' = :userid')
+				->bind(':userid', $userid, ParameterType::INTEGER);
 
 			try
 			{
-				$this->db->setQuery($query)->execute();
+				$db->setQuery($query)->execute();
 			}
 			catch (ExecutionFailureException $e)
 			{
@@ -80,13 +85,14 @@ class PlgUserJoomla extends CMSPlugin
 			}
 		}
 
-		$query = $this->db->getQuery(true)
-			->delete($this->db->quoteName('#__messages'))
-			->where($this->db->quoteName('user_id_from') . ' = ' . (int) $user['id']);
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__messages'))
+			->where($db->quoteName('user_id_from') . ' = :userid')
+			->bind(':userid', $userid, ParameterType::INTEGER);
 
 		try
 		{
-			$this->db->setQuery($query)->execute();
+			$db->setQuery($query)->execute();
 		}
 		catch (ExecutionFailureException $e)
 		{
@@ -217,7 +223,7 @@ class PlgUserJoomla extends CMSPlugin
 	 *
 	 * @since   1.5
 	 */
-	public function onUserLogin($user, $options = array())
+	public function onUserLogin($user, $options = [])
 	{
 		$instance = $this->_getUser($user, $options);
 
@@ -276,8 +282,9 @@ class PlgUserJoomla extends CMSPlugin
 
 		// Purge the old session
 		$query = $this->db->getQuery(true)
-			->delete('#__session')
-			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($oldSessionId));
+			->delete($this->db->quoteName('#__session'))
+			->where($this->db->quoteName('session_id') . ' = :sessionid')
+			->bind(':sessionid', $oldSessionId);
 
 		try
 		{
@@ -318,7 +325,7 @@ class PlgUserJoomla extends CMSPlugin
 	 *
 	 * @since   1.5
 	 */
-	public function onUserLogout($user, $options = array())
+	public function onUserLogout($user, $options = [])
 	{
 		$my      = Factory::getUser();
 		$session = Factory::getSession();
@@ -386,7 +393,7 @@ class PlgUserJoomla extends CMSPlugin
 	 *
 	 * @since   1.5
 	 */
-	protected function _getUser($user, $options = array())
+	protected function _getUser($user, $options = [])
 	{
 		$instance = User::getInstance();
 		$id = (int) UserHelper::getUserId($user['username']);
@@ -399,10 +406,10 @@ class PlgUserJoomla extends CMSPlugin
 		}
 
 		// TODO : move this out of the plugin
-		$config = ComponentHelper::getParams('com_users');
+		$params = ComponentHelper::getParams('com_users');
 
-		// Hard coded default to match the default value from com_users.
-		$defaultUserGroup = $config->get('new_usertype', 2);
+		// Read the default user group option from com_users
+		$defaultUserGroup = $params->get('new_usertype', $params->get('guest_usergroup', 1));
 
 		$instance->id = 0;
 		$instance->name = $user['fullname'];
@@ -411,7 +418,7 @@ class PlgUserJoomla extends CMSPlugin
 
 		// Result should contain an email (check).
 		$instance->email = $user['email'];
-		$instance->groups = array($defaultUserGroup);
+		$instance->groups = [$defaultUserGroup];
 
 		// If autoregister is set let's register the user
 		$autoregister = $options['autoregister'] ?? $this->params->get('autoregister', 1);

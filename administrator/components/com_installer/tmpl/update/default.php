@@ -34,6 +34,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
 						<div class="alert alert-info">
+							<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 							<?php echo Text::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'); ?>
 						</div>
 					<?php else : ?>
@@ -106,10 +107,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<span class="badge badge-success"><?php echo $item->version; ?></span>
 									</td>
 									<td class="hidden-sm-down text-center">
-										<?php if ($item->changelogurl !== null) : ?>
-                                        <a href="#changelogModal<?php echo $item->extension_id; ?>" class="btn btn-info btn-xs changelogModal" data-js-extensionid="<?php echo $item->extension_id; ?>" data-js-view="update" data-toggle="modal">
-	                                        <?php echo Text::_('COM_INSTALLER_CHANGELOG'); ?>
-                                        </a>
+										<?php if (!empty($item->changelogurl)) : ?>
+										<a href="#changelogModal<?php echo $item->extension_id; ?>" class="btn btn-info btn-xs changelogModal" data-js-extensionid="<?php echo $item->extension_id; ?>" data-js-view="update" data-toggle="modal">
+											<?php echo Text::_('COM_INSTALLER_CHANGELOG'); ?>
+										</a>
 										<?php
 										echo HTMLHelper::_(
 											'bootstrap.renderModal',
@@ -136,7 +137,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<td class="d-none d-md-table-cell">
 										<span class="break-word">
 										<?php echo $item->detailsurl; ?>
-											<?php if (isset($item->infourl)) : ?>
+											<?php if (!empty($item->infourl)) : ?>
 												<br>
 												<a href="<?php echo $item->infourl; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->infourl); ?></a>
 											<?php endif; ?>

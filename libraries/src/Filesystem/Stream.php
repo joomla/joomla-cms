@@ -21,11 +21,11 @@ use Joomla\CMS\Object\CMSObject;
  * atomic manner.
  *
  * @note   This class adheres to the stream wrapper operations:
- * @link   https://secure.php.net/manual/en/function.stream-get-wrappers.php
- * @link   https://secure.php.net/manual/en/intro.stream.php PHP Stream Manual
- * @link   https://secure.php.net/manual/en/wrappers.php Stream Wrappers
- * @link   https://secure.php.net/manual/en/filters.php Stream Filters
- * @link   https://secure.php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
+ * @link   https://www.php.net/manual/en/function.stream-get-wrappers.php
+ * @link   https://www.php.net/manual/en/intro.stream.php PHP Stream Manual
+ * @link   https://www.php.net/manual/en/wrappers.php Stream Wrappers
+ * @link   https://www.php.net/manual/en/filters.php Stream Filters
+ * @link   https://www.php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
  * @since  1.7.0
  */
 class Stream extends CMSObject
@@ -185,7 +185,8 @@ class Stream extends CMSObject
 	 * @since   1.7.0
 	 */
 	public function open($filename, $mode = 'r', $use_include_path = false, $context = null,
-		$use_prefix = false, $relative = false, $detectprocessingmode = false)
+		$use_prefix = false, $relative = false, $detectprocessingmode = false
+	)
 	{
 		$filename = $this->_getFilename($filename, $mode, $use_prefix, $relative);
 
@@ -537,7 +538,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  mixed
 	 *
-	 * @link    https://secure.php.net/manual/en/function.fread.php
+	 * @link    https://www.php.net/manual/en/function.fread.php
 	 * @since   1.7.0
 	 */
 	public function read($length = 0)
@@ -640,7 +641,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @link    https://secure.php.net/manual/en/function.fseek.php
+	 * @link    https://www.php.net/manual/en/function.fseek.php
 	 * @since   1.7.0
 	 */
 	public function seek($offset, $whence = SEEK_SET)
@@ -747,13 +748,13 @@ class Stream extends CMSObject
 	 * JStream::set('chunksize', newsize);)
 	 * Note: This doesn't support gzip/bzip2 writing like reading does
 	 *
-	 * @param   string   &$string  Reference to the string to write.
-	 * @param   integer  $length   Length of the string to write.
-	 * @param   integer  $chunk    Size of chunks to write in.
+	 * @param   string   $string  Reference to the string to write.
+	 * @param   integer  $length  Length of the string to write.
+	 * @param   integer  $chunk   Size of chunks to write in.
 	 *
 	 * @return  boolean
 	 *
-	 * @link    https://secure.php.net/manual/en/function.fwrite.php
+	 * @link    https://www.php.net/manual/en/function.fwrite.php
 	 * @since   1.7.0
 	 */
 	public function write(&$string, $length = 0, $chunk = 0)
@@ -895,7 +896,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  array  header/metadata
 	 *
-	 * @link    https://secure.php.net/manual/en/function.stream-get-meta-data.php
+	 * @link    https://www.php.net/manual/en/function.stream-get-meta-data.php
 	 * @since   1.7.0
 	 */
 	public function get_meta_data()
@@ -940,7 +941,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  void
 	 *
-	 * @link    https://secure.php.net/stream_context_create
+	 * @link    https://www.php.net/stream_context_create
 	 * @since   1.7.0
 	 */
 	public function setContextOptions($context)
@@ -958,8 +959,8 @@ class Stream extends CMSObject
 	 *
 	 * @return  void
 	 *
-	 * @link    https://secure.php.net/stream_context_create Stream Context Creation
-	 * @link    https://secure.php.net/manual/en/context.php Context Options for various streams
+	 * @link    https://www.php.net/stream_context_create Stream Context Creation
+	 * @link    https://www.php.net/manual/en/context.php Context Options for various streams
 	 * @since   1.7.0
 	 */
 	public function addContextEntry($wrapper, $name, $value)
@@ -976,7 +977,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  void
 	 *
-	 * @link    https://secure.php.net/stream_context_create
+	 * @link    https://www.php.net/stream_context_create
 	 * @since   1.7.0
 	 */
 	public function deleteContextEntry($wrapper, $name)
@@ -1046,7 +1047,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  mixed
 	 *
-	 * @link    https://secure.php.net/manual/en/function.stream-filter-append.php
+	 * @link    https://www.php.net/manual/en/function.stream-filter-append.php
 	 * @since   1.7.0
 	 */
 	public function appendFilter($filtername, $read_write = STREAM_FILTER_READ, $params = array())
@@ -1087,7 +1088,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  mixed
 	 *
-	 * @link    https://secure.php.net/manual/en/function.stream-filter-prepend.php
+	 * @link    https://www.php.net/manual/en/function.stream-filter-prepend.php
 	 * @since   1.7.0
 	 */
 	public function prependFilter($filtername, $read_write = STREAM_FILTER_READ, $params = array())
@@ -1124,8 +1125,8 @@ class Stream extends CMSObject
 	 * Remove a filter, either by resource (handed out from the append or prepend function)
 	 * or via getting the filter list)
 	 *
-	 * @param   resource  &$resource  The resource.
-	 * @param   boolean   $byindex    The index of the filter.
+	 * @param   resource  $resource  The resource.
+	 * @param   boolean   $byindex   The index of the filter.
 	 *
 	 * @return  boolean   Result of operation
 	 *
@@ -1348,7 +1349,7 @@ class Stream extends CMSObject
 	 * Writes a chunk of data to a file.
 	 *
 	 * @param   string  $filename  The file name.
-	 * @param   string  &$buffer   The data to write to the file.
+	 * @param   string  $buffer    The data to write to the file.
 	 *
 	 * @return  boolean
 	 *
