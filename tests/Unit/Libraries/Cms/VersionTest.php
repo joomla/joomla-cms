@@ -35,7 +35,7 @@ class VersionTest extends UnitTestCase
 	 *
 	 * @since   3.0
 	 */
-	protected function setUp()
+	protected function setUp():void
 	{
 		$this->version = new Version;
 	}
@@ -48,7 +48,7 @@ class VersionTest extends UnitTestCase
 	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
-	protected function tearDown()
+	protected function tearDown():void
 	{
 		unset($this->version);
 		parent::tearDown();
@@ -75,7 +75,7 @@ class VersionTest extends UnitTestCase
 	 */
 	public function testGetHelpVersion()
 	{
-		$this->assertInternalType('string', $this->version->getHelpVersion());
+		$this->assertIsString($this->version->getHelpVersion());
 	}
 
 	/**
@@ -99,7 +99,7 @@ class VersionTest extends UnitTestCase
 	 */
 	public function testGetLongVersion()
 	{
-		$this->assertInternalType('string', $this->version->getLongVersion());
+		$this->assertIsString($this->version->getLongVersion());
 	}
 
 	/**
@@ -111,7 +111,7 @@ class VersionTest extends UnitTestCase
 	 */
 	public function testGetUserAgentForMaskNotContainingMozillaVersion()
 	{
-		$this->assertNotContains('Mozilla/5.0 ', $this->version->getUserAgent('', false, true));
+		$this->assertStringNotContainsString('Mozilla/5.0 ', $this->version->getUserAgent('', false, true));
 	}
 
 	/**
@@ -123,7 +123,7 @@ class VersionTest extends UnitTestCase
 	 */
 	public function testGetUserAgentForMaskContainingMozillaVersion()
 	{
-		$this->assertContains('Mozilla/5.0 ', $this->version->getUserAgent('', true, true));
+		$this->assertStringContainsString('Mozilla/5.0 ', $this->version->getUserAgent('', true, true));
 	}
 
 	/**
@@ -135,7 +135,7 @@ class VersionTest extends UnitTestCase
 	 */
 	public function testGetUserAgentForEmptyComponentString()
 	{
-		$this->assertContains('Framework', $this->version->getUserAgent('', false, true));
+		$this->assertStringContainsString('Framework', $this->version->getUserAgent('', false, true));
 	}
 
 	/**
@@ -147,6 +147,6 @@ class VersionTest extends UnitTestCase
 	 */
 	public function testGetUserAgentForComponentMatchingTheSpecifiedOption()
 	{
-		$this->assertContains('Component_test', $this->version->getUserAgent('Component_test', false, true));
+		$this->assertStringContainsString('Component_test', $this->version->getUserAgent('Component_test', false, true));
 	}
 }

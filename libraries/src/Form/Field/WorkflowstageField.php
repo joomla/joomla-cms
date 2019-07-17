@@ -75,7 +75,7 @@ class WorkflowstageField extends GroupedlistField
 
 			if ((string) $element['activeonly'] == '1' || (string) $element['activeonly'] == 'true')
 			{
-				$this->activeonly =  true;
+				$this->activeonly = true;
 			}
 		}
 
@@ -97,27 +97,26 @@ class WorkflowstageField extends GroupedlistField
 
 		// Select distinct stages for existing articles
 		$query
-				->select('DISTINCT ' . $db->quoteName('ws.id', 'workflow_stage_id'))
-				->select(
-					$db->quoteName(
-						['ws.title', 'w.title', 'w.id', 'w.ordering', 'ws.ordering'],
-						['workflow_stage_title', 'workflow_title', 'workflow_id', 'ordering', 'workflow_stage_ordering']
-					)
+			->select('DISTINCT ' . $db->quoteName('ws.id', 'workflow_stage_id'))
+			->select(
+				$db->quoteName(
+					['ws.title', 'w.title', 'w.id', 'w.ordering', 'ws.ordering'],
+					['workflow_stage_title', 'workflow_title', 'workflow_id', 'ordering', 'workflow_stage_ordering']
 				)
-				->from($db->quoteName('#__workflow_stages', 'ws'))
-				->from($db->quoteName('#__workflows', 'w'))
-				->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
-				->where($db->quoteName('w.extension') . ' = ' . $db->quote($this->extension))
-				->order($db->quoteName('w.ordering'))
-				->order($db->quoteName('ws.ordering'));
+			)
+			->from($db->quoteName('#__workflow_stages', 'ws'))
+			->from($db->quoteName('#__workflows', 'w'))
+			->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
+			->where($db->quoteName('w.extension') . ' = ' . $db->quote($this->extension))
+			->order($db->quoteName('w.ordering'))
+			->order($db->quoteName('ws.ordering'));
 
 		if ($this->activeonly)
 		{
 			$query
-					->from($db->quoteName('#__workflow_associations', 'wa'))
-					->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'))
-					->where($db->quoteName('wa.extension') . ' = ' . $db->quote($this->extension));
-
+				->from($db->quoteName('#__workflow_associations', 'wa'))
+				->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'))
+				->where($db->quoteName('wa.extension') . ' = ' . $db->quote($this->extension));
 		}
 
 		$stages = $db->setQuery($query)->loadObjectList();

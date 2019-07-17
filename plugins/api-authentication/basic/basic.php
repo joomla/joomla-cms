@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\User\User;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\User\UserHelper;
-use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Authentication\Authentication;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserHelper;
 
 /**
  * Joomla Authentication plugin
@@ -25,7 +25,7 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 	/**
 	 * The application object
 	 *
-	 * @type   \Joomla\CMS\Application\CMSApplicationInterface
+	 * @var    \Joomla\CMS\Application\CMSApplicationInterface
 	 * @since  4.0.0
 	 */
 	protected $app;
@@ -33,7 +33,7 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 	/**
 	 * The application object
 	 *
-	 * @type   \Joomla\Database\DatabaseInterface
+	 * @var    \Joomla\Database\DatabaseInterface
 	 * @since  4.0.0
 	 */
 	protected $db;
@@ -64,14 +64,15 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 			return;
 		}
 
-		// Get a database object
-		$query = $this->db->getQuery(true)
-			->select($this->db->quoteName(array('id', 'password')))
-			->from($this->db->quoteName('#__users'))
-			->where($this->db->quoteName('username') . '=' . $this->db->quote($username));
+		$db    = $this->db;
+		$query = $db->getQuery(true)
+			->select($db->quoteName(['id', 'password']))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('username') . ' = :username')
+			->bind(':username', $username);
 
-		$this->db->setQuery($query);
-		$result = $this->db->loadObject();
+		$db->setQuery($query);
+		$result = $db->loadObject();
 
 		if ($result)
 		{

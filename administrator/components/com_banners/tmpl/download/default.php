@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Banners\Administrator\View\Download\HtmlView $this */
+
 ?>
 <div class="container-popup">
 	<form

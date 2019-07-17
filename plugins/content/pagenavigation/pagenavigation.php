@@ -17,6 +17,8 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Database\ParameterType;
 
+\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+
 /**
  * Pagenavigation plugin class.
  *
@@ -63,7 +65,7 @@ class PlgContentPagenavigation extends CMSPlugin
 			 * The following is needed as different menu items types utilise a different param to control ordering.
 			 * For Blogs the `orderby_sec` param is the order controlling param.
 			 * For Table and List views it is the `orderby` param.
-			**/
+			 */
 			$params_list = $params->toArray();
 
 			if (array_key_exists('orderby_sec', $params_list))

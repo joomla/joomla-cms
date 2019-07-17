@@ -13,6 +13,11 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
+if (!$list)
+{
+	return;
+}
+
 ?>
 <ul class="mod-articlescategory category-module mod-list">
 	<?php if ($grouped) : ?>

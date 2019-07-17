@@ -58,7 +58,7 @@ class CssMenu
 	/**
 	 * The menu bar state
 	 *
-	 * @var    bool
+	 * @var    boolean
 	 *
 	 * @since  3.8.0
 	 */
@@ -67,7 +67,7 @@ class CssMenu
 	/**
 	 * The application
 	 *
-	 * @var    bool
+	 * @var    boolean
 	 *
 	 * @since  4.0.0
 	 */
@@ -76,7 +76,7 @@ class CssMenu
 	/**
 	 * A counter for unique IDs
 	 *
-	 * @var   int
+	 * @var   integer
 	 *
 	 * @since  4.0.0
 	 */
@@ -353,6 +353,17 @@ class CssMenu
 			{
 				continue;
 			}
+			elseif ($item->link === 'index.php?option=com_cpanel&view=help')
+			{
+				if ($this->params->get('showhelp', 1))
+				{
+					continue;
+				}
+
+				// Exclude help menu item if set such in mod_menu
+				$parent->removeChild($item);
+				continue;
+			}
 			elseif ($item->element === 'com_workflow')
 			{
 				parse_str($item->link, $query);
@@ -437,13 +448,6 @@ class CssMenu
 
 			// Exclude if there are no child items under heading or container
 			if (in_array($item->type, array('heading', 'container')) && !$item->hasChildren() && empty($item->components))
-			{
-				$parent->removeChild($item);
-				continue;
-			}
-
-			// Exclude help menu item if set such in mod_menu
-			if ($this->params->get('showhelp', 1) == 0 && $item->link == 'index.php?option=com_cpanel&view=help')
 			{
 				$parent->removeChild($item);
 				continue;

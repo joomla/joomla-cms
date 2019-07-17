@@ -123,6 +123,7 @@ class HtmlView extends BaseHtmlView
 
 		// Check for special case category
 		$typeNameExploded = explode('.', $typeName);
+
 		if (array_pop($typeNameExploded) === 'category')
 		{
 			$this->typeName = 'category';
@@ -227,7 +228,5 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::cancel('association.cancel', 'JTOOLBAR_CLOSE');
 		ToolbarHelper::help('JHELP_COMPONENTS_ASSOCIATIONS_EDIT');
-
-		\JHtmlSidebar::setAction('index.php?option=com_associations');
 	}
 }

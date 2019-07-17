@@ -366,7 +366,7 @@ class LocalAdapter implements AdapterInterface
 	/**
 	 * Returns a Date with the correct Joomla timezone for the given date.
 	 *
-	 * @param   string  $date  The date to create a JDate from
+	 * @param   string  $date  The date to create a Date from
 	 *
 	 * @return  Date
 	 *
@@ -382,6 +382,7 @@ class LocalAdapter implements AdapterInterface
 		if ($user->id)
 		{
 			$userTimezone = $user->getParam('timezone');
+
 			if (!empty($userTimezone))
 			{
 				$timezone = $userTimezone;
@@ -711,7 +712,8 @@ class LocalAdapter implements AdapterInterface
 	private function rglob(string $pattern, int $flags = 0): array
 	{
 		$files = glob($pattern, $flags);
-		foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir)
+
+		foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir)
 		{
 			$files = array_merge($files, $this->rglob($dir . '/' . $this->getFileName($pattern), $flags));
 		}
@@ -801,7 +803,7 @@ class LocalAdapter implements AdapterInterface
 		$helper = new MediaHelper;
 
 		// @todo find a better way to check the input, by not writing the file to the disk
-		$tmpFile = Path::clean(dirname($localPath) . '/' . uniqid() . '.' . \JFile::getExt($name));
+		$tmpFile = Path::clean(dirname($localPath) . '/' . uniqid() . '.' . File::getExt($name));
 
 		if (!File::write($tmpFile, $mediaContent))
 		{

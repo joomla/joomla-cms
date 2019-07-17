@@ -305,7 +305,7 @@ abstract class HTMLHelper
 	 *
 	 * @return  mixed   Function result or false on error.
 	 *
-	 * @link    https://secure.php.net/manual/en/function.call-user-func-array.php
+	 * @link    https://www.php.net/manual/en/function.call-user-func-array.php
 	 * @since   1.6
 	 * @throws  \InvalidArgumentException
 	 */
@@ -699,17 +699,10 @@ abstract class HTMLHelper
 	 */
 	public static function script($file, $options = array(), $attribs = array())
 	{
-		$options['framework']     = $options['framework'] ?? false;
 		$options['relative']      = $options['relative'] ?? false;
 		$options['pathOnly']      = $options['pathOnly'] ?? false;
 		$options['detectBrowser'] = $options['detectBrowser'] ?? false;
 		$options['detectDebug']   = $options['detectDebug'] ?? true;
-
-		// Include MooTools framework
-		if ($options['framework'])
-		{
-			static::_('behavior.framework');
-		}
 
 		$includes = static::includeRelativeFiles('js', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 

@@ -10,6 +10,7 @@ namespace Joomla\CMS\Plugin;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
@@ -294,7 +295,7 @@ abstract class PluginHelper
 		{
 			static::$plugins = $cache->get($loader, array(), md5($levels), false);
 		}
-		catch (\JCacheException $cacheException)
+		catch (CacheExceptionInterface $cacheException)
 		{
 			static::$plugins = $loader();
 		}

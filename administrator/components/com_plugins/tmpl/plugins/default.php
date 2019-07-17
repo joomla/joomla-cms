@@ -35,6 +35,7 @@ if ($saveOrder)
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
+				<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
@@ -70,7 +71,7 @@ if ($saveOrder)
 						</th>
 					</tr>
 				</thead>
-                <tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
+				<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
 				<?php foreach ($this->items as $i => $item) :
 					$ordering   = ($listOrder == 'ordering');
 					$canEdit    = $user->authorise('core.edit',       'com_plugins');
@@ -109,8 +110,13 @@ if ($saveOrder)
 							<?php endif; ?>
 							<?php if ($canEdit) : ?>
 								<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pen-square mr-2" aria-hidden="true"></span>'; ?>
-								<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . (int) $item->extension_id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
+								<a href="<?php echo Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . (int) $item->extension_id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
 									<?php echo $editIcon; ?><?php echo $item->name; ?></a>
+									<?php if (!empty($item->note)) : ?>
+										<div class="small">
+											<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
+										</div>
+									<?php endif; ?>
 							<?php else : ?>
 									<?php echo $item->name; ?>
 							<?php endif; ?>

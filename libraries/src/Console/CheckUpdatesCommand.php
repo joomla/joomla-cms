@@ -68,11 +68,11 @@ class CheckUpdatesCommand extends AbstractCommand
 	 *
 	 * @since   4.0.0
 	 */
-	protected function configure()
+	protected function configure(): void
 	{
 		$this->setDescription('Checks for pending extension updates');
 		$this->setHelp(
-<<<EOF
+			<<<EOF
 The <info>%command.name%</info> command checks for pending extension updates
 
 <info>php %command.full_name%</info>
