@@ -107,8 +107,8 @@ abstract class RelatedItemsHelper
 				$query->clear()
 					->select($db->quoteName('a.id'))
 					->from($db->quoteName('#__content', 'a'))
-					->leftJoin($db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
-					->leftJoin($db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
+					->join('LEFT', $db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
+					->join('LEFT', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
 					->where($db->quoteName('a.id') . ' != :id')
 					->where($db->quoteName('ws.condition') . ' = :condition')
 					->whereIn($db->quoteName('a.access'), $groups)
@@ -127,16 +127,14 @@ abstract class RelatedItemsHelper
 
 				foreach ($bindNames as $keyword)
 				{
-					$wheres[] = 'a.metakey LIKE ' . $keyword;
+					$wheres[] = $db->quoteName('a.metakey') . ' LIKE ' . $keyword;
 				}
 
 				$query->where('(' . implode(' OR ', $wheres) . ')')
 					->where('(' . $db->quoteName('a.publish_up') . ' = :nullDate1 OR ' . $db->quoteName('a.publish_up') . ' <= :nowDate1)')
 					->where('(' . $db->quoteName('a.publish_down') . ' = :nullDate2 OR ' . $db->quoteName('a.publish_down') . ' >= :nowDate2)')
-					->bind(':nullDate1', $nullDate)
-					->bind(':nullDate2', $nullDate)
-					->bind(':nowDate1', $now)
-					->bind(':nowDate2', $now);
+					->bind([':nullDate1', ':nullDate2'], $nullDate)
+					->bind([':nowDate1', ':nowDate2'], $now);
 
 				// Filter by language
 				if (Multilanguage::isEnabled())
