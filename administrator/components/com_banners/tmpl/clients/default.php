@@ -77,7 +77,7 @@ $params     = $this->state->params ?? new CMSObject;
 								<th scope="col" style="width:3%" class="text-center d-none d-md-table-cell">
 									<span class="icon-archive" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?>"></span>
 									<span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?></span>
-  								</th>
+								</th>
 								<th scope="col" style="width:3%" class="text-center d-none d-md-table-cell">
 									<span class="icon-trash" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>"></span>
 									<span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?></span>
