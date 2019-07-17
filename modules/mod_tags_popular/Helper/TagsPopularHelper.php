@@ -47,7 +47,7 @@ abstract class TagsPopularHelper
 			->select(
 				[
 					'MAX(' . $db->quoteName('tag_id') . ') AS ' . $db->quoteName('tag_id'),
-					'COUNT(*) ' . $db->quoteName('count'),
+					'COUNT(*) AS ' . $db->quoteName('count'),
 					'MAX(' . $db->quoteName('t.title') . ') AS ' . $db->quoteName('title'),
 					'MAX(' . $db->quoteName('t.access') . ') AS ' . $db->quoteName('access'),
 					'MAX(' . $db->quoteName('t.alias') . ') AS ' . $db->quoteName('alias'),
