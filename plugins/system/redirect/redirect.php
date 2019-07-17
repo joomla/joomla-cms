@@ -157,7 +157,7 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 					$orgurlRootRel,
 					$orgurlRootRelSlash,
 					$orgurlWithoutQuery,
-					$orgurlRelWithoutQuery
+					$orgurlRelWithoutQuery,
 				],
 				ParameterType::STRING
 			);
