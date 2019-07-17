@@ -52,13 +52,13 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 				<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_LANGUAGEFILTER_DISABLED'); ?>
 			</div>
 		<?php endif; ?>
-	<?php if ($notice_switchers) : ?>
-		<div class="alert alert-warning">
-			<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
-			<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
-			<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_LANGSWITCHER_UNPUBLISHED'); ?>
-		</div>
-	<?php endif; ?>
+		<?php if ($notice_switchers) : ?>
+			<div class="alert alert-warning">
+				<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+				<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_LANGSWITCHER_UNPUBLISHED'); ?>
+			</div>
+		<?php endif; ?>
 		<?php foreach ($this->contentlangs as $contentlang) : ?>
 			<?php if (array_key_exists($contentlang->lang_code, $this->homepages) && (!array_key_exists($contentlang->lang_code, $this->site_langs) || !$contentlang->published)) : ?>
 				<div class="alert alert-warning">
