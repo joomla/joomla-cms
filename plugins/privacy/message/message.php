@@ -46,7 +46,7 @@ class PlgPrivacyMessage extends PrivacyPlugin
 			->where($db->quoteName('user_id_from') . ' = :useridfrom')
 			->extendWhere('OR', $db->quoteName('user_id_to') . ' = :useridto')
 			->order($db->quoteName('date_time') . ' ASC')
-			->bind(['useridfrom', 'useridto'], $user->id, ParameterType::INTEGER);
+			->bind([':useridfrom', ':useridto'], $user->id, ParameterType::INTEGER);
 
 		$items = $db->setQuery($query)->loadAssocList();
 
