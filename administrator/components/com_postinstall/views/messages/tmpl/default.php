@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 
 $lang     = Factory::getLanguage();
-$renderer = JFactory::getDocument()->loadRenderer('module');
+$renderer = Factory::getDocument()->loadRenderer('module');
 $options  = array('style' => 'raw');
 $mod      = JModuleHelper::getModule('mod_feed');
 $param    = array(
@@ -65,7 +65,7 @@ JHtml::_('formbehavior.chosen', 'select');
 						<?php echo JText::_($item->action_key); ?>
 					</a>
 					<?php endif; ?>
-					<?php if (JFactory::getUser()->authorise('core.edit.state', 'com_postinstall')) : ?>
+					<?php if (Factory::getUser()->authorise('core.edit.state', 'com_postinstall')) : ?>
 					<a href="index.php?option=com_postinstall&amp;view=message&amp;task=unpublish&amp;id=<?php echo $item->postinstall_message_id; ?>&amp;<?php echo $this->token; ?>=1" class="btn btn-inverse btn-small">
 						<?php echo JText::_('COM_POSTINSTALL_BTN_HIDE'); ?>
 					</a>
