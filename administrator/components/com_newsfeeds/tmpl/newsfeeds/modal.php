@@ -19,7 +19,6 @@ use Joomla\CMS\Router\Route;
 JLoader::register('NewsfeedsHelperRoute', JPATH_ROOT . '/components/com_newsfeeds/helpers/route.php');
 
 HTMLHelper::_('behavior.core');
-HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 
 $app = Factory::getApplication();
 

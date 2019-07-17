@@ -25,7 +25,6 @@ if ($app->isClient('site'))
 }
 
 HTMLHelper::_('behavior.core');
-HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 
 $extension = $this->escape($this->state->get('filter.extension'));
 $function  = $app->input->getCmd('function', 'jSelectCategory');
