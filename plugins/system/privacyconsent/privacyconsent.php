@@ -190,7 +190,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 		$form   = $this->app->input->post->get('jform', [], 'array');
 
 		if ($option == 'com_users'
-			&&in_array($task, ['registration.register', 'profile.save'])
+			&& in_array($task, ['registration.register', 'profile.save'])
 			&& !empty($form['privacyconsent']['privacy']))
 		{
 			$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
@@ -562,16 +562,16 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 		$remind = (int) $this->params->get('remind', 30);
 		$now    = Factory::getDate()->toSql();
 		$period = '-' . ($expire - $remind);
+		$db     = $this->db;
+		$query  = $db->getQuery(true);
 
-		$db    = $this->db;
-		$query = $db->getQuery(true);
 		$query->select($db->quoteName(['r.id', 'r.user_id', 'u.email']))
 			->from($db->quoteName('#__privacy_consents', 'r'))
 			->join('LEFT', $db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('r.user_id'))
 			->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
 			->where($db->quoteName('remind') . ' = 0')
-			->where($query->dateAdd(':now', $period, 'DAY') . ' > ' . $db->quoteName('created'))
-			->bind(':now', $now);
+			->where($query->dateAdd(':now', ':period', 'DAY') . ' > ' . $db->quoteName('created'))
+			->bind([':now', ':period'], [$now, $period], [ParameterType::STRING, ParameterType::INTEGER]);
 
 		try
 		{
@@ -667,15 +667,16 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 		$expire = (int) $this->params->get('consentexpiration', 365);
 		$now    = Factory::getDate()->toSql();
 		$period = '-' . $expire;
+		$db     = $this->db;
+		$query  = $db->getQuery(true);
 
-		$db    = $this->db;
-		$query = $db->getQuery(true);
 		$query->select($db->quoteName(['id', 'user_id']))
 			->from($db->quoteName('#__privacy_consents'))
-			->where($query->dateAdd(':now', $period, 'DAY') . ' > ' . $db->quoteName('created'))
+			->where($query->dateAdd(':now', ':period', 'DAY') . ' > ' . $db->quoteName('created'))
 			->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
 			->where($db->quoteName('state') . ' = 1')
-			->bind(':now', $now);
+			->bind([':now', ':period'], [$now, $period], [ParameterType::STRING, ParameterType::INTEGER]);
+
 		$db->setQuery($query);
 
 		try
