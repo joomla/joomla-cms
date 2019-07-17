@@ -288,7 +288,7 @@ class ResetModel extends FormModel
 		// Find the user id for the given token.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName(['activation', 'id', 'block'])
+			->select($db->quoteName(['activation', 'id', 'block']))
 			->from($db->quoteName('#__users'))
 			->where($db->quoteName('username') . ' = :username')
 			->bind(':username', $data['username']);
