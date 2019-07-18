@@ -55,6 +55,9 @@ img {
 	border: 0;
 	-ms-interpolation-mode: bicubic;
 }
+#j-main-container .media .btn{
+  margin:10px;
+}
 #map_canvas img,
 .google-maps img,
 .gm-style img {
