@@ -2094,10 +2094,25 @@ class Form
 		{
 			$disabled = ((string) $element['disabled'] == 'true' || (string) $element['disabled'] == 'disabled');
 
-			$fieldExistsInRequestData = $input->exists((string) $element['name']) || $input->exists($group . '.' . (string) $element['name']);
+			// Get value before submit form
+			$fieldValueBeforeSend = $this->getData()->get((string) $element['name'], null);
+
+			if (empty($fieldValueBeforeSend))
+			{
+				$fieldValueBeforeSend = $this->getData()->get($group . '.' . (string) $element['name'], null);
+			}
+
+			// Compare submitted value with the value before submit
+			$fieldMatchWithValueBeforeSend = ($value == $fieldValueBeforeSend);
+
+			// Compare submitted value with default value before submit, if value is empty
+			if (empty($value) && isset($element->default))
+			{
+				$fieldMatchWithValueBeforeSend = ($element->default == $fieldValueBeforeSend);
+			}
 
 			// If the field is disabled but it is passed in the request this is invalid as disabled fields are not added to the request
-			if ($disabled && $fieldExistsInRequestData)
+			if ($disabled && $fieldMatchWithValueBeforeSend === false)
 			{
 				return new \RuntimeException(\JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $element['name']));
 			}
