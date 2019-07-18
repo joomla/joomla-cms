@@ -55,9 +55,6 @@ img {
 	border: 0;
 	-ms-interpolation-mode: bicubic;
 }
-#j-main-container .media .btn{
-  margin:10px;
-}
 #map_canvas img,
 .google-maps img,
 .gm-style img {
@@ -7762,6 +7759,11 @@ input.field-media-input {
 	.view-login .navbar-fixed-bottom {
 		display: none;
 	}
+}
+#j-main-container .media .btn {
+	margin-bottom: 5px;
+	margin-left: 2px;
+	margin-right: 2px;
 }
 ul.manager .height-50 .icon-folder-2 {
 	height: 35px;
