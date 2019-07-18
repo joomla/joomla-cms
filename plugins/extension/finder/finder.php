@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
 
@@ -21,6 +21,15 @@ use Joomla\String\StringHelper;
  */
 class PlgExtensionFinder extends CMSPlugin
 {
+	
+	/**
+	 * Database object
+	 *
+	 * @var    DatabaseDriver
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $db;
+
 	/**
 	 * Add common words to finder after language got installed
 	 *
@@ -93,7 +102,7 @@ class PlgExtensionFinder extends CMSPlugin
 	 */
 	protected function getLanguage($eid)
 	{
-		$db = Factory::getDbo();
+		$db  = $this->db;
 		$eid = (int) $eid;
 
 		$query = $db->getQuery(true)
@@ -102,7 +111,7 @@ class PlgExtensionFinder extends CMSPlugin
 			->where(
 				[
 					$db->quoteName('extension_id') . ' = :eid',
-					$db->quoteName('type') . ' = ' . $db->quote('language')
+					$db->quoteName('type') . ' = ' . $db->quote('language'),
 				]
 			)
 			->bind(':eid', $eid, ParameterType::INTEGER);
@@ -154,7 +163,7 @@ class PlgExtensionFinder extends CMSPlugin
 		);
 
 		$words = array_filter(array_map('trim', $words));
-		$db = Factory::getDbo();
+		$db    = $this->db;
 		$query = $db->getQuery(true);
 
 		require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/helper.php';
@@ -193,7 +202,7 @@ class PlgExtensionFinder extends CMSPlugin
 	 */
 	protected function removeCommonWords($extension)
 	{
-		$db = Factory::getDbo();
+		$db = $this->db;
 
 		require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/helper.php';
 
@@ -204,7 +213,7 @@ class PlgExtensionFinder extends CMSPlugin
 			->where(
 				[
 					$db->quoteName('language') . ' = :lang',
-					$db->quoteName('custom') . ' = 0'
+					$db->quoteName('custom') . ' = 0',
 				]
 			)
 			->bind(':lang', $lang);
