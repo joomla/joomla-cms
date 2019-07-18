@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 
 /**
@@ -27,6 +27,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 * Application object.
 	 *
 	 * @var    CMSApplicationInterface
+	 * @since  4.0.0
 	 */
 	protected $app;
 
@@ -42,7 +43,7 @@ class PlgInstallerOverride extends CMSPlugin
 	/**
 	 * Database object
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    DatabaseDriver
 	 * @since  4.0.0
 	 */
 	protected $db;
@@ -59,8 +60,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 */
 	public function getModel($name = 'Template', $prefix = 'Administrator')
 	{
-		$app = Factory::getApplication();
-		$model = $app->bootComponent('com_templates')->getMVCFactory()->createModel($name, $prefix);
+		$model = $this->app->bootComponent('com_templates')->getMVCFactory()->createModel($name, $prefix);
 
 		return $model;
 	}
@@ -75,7 +75,7 @@ class PlgInstallerOverride extends CMSPlugin
 	public function purge()
 	{
 		// Delete stored session value.
-		$session = Factory::getSession();
+		$session = $this->app->getSession();
 		$session->clear('override.beforeEventFiles');
 		$session->clear('override.afterEventFiles');
 	}
@@ -90,7 +90,7 @@ class PlgInstallerOverride extends CMSPlugin
 	public function storeBeforeEventFiles()
 	{
 		// Get session instance.
-		$session = Factory::getSession();
+		$session = $this->app->getSession();
 
 		// Delete stored session value.
 		$this->purge();
@@ -110,7 +110,7 @@ class PlgInstallerOverride extends CMSPlugin
 	public function storeAfterEventFiles()
 	{
 		// Get session instance
-		$session = Factory::getSession();
+		$session = $this->app->getSession();
 
 		// Get list and store in session.
 		$list = $this->getOverrideCoreList();
@@ -129,7 +129,7 @@ class PlgInstallerOverride extends CMSPlugin
 	public function getUpdatedFiles($action)
 	{
 		// Get session instance
-		$session = Factory::getSession();
+		$session = $this->app->getSession();
 
 		$after  = $session->get('override.afterEventFiles');
 		$before = $session->get('override.beforeEventFiles');
@@ -282,7 +282,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 */
 	public function load($id, $exid)
 	{
-		$db = Factory::getDbo();
+		$db = $this->db;
 
 		// Create a new query object.
 		$query = $db->getQuery(true);
@@ -317,7 +317,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 */
 	private function saveOverrides($pks)
 	{
-		$db = Factory::getDbo();
+		$db = $this->db;
 
 		// Insert columns.
 		$columns = [
@@ -328,7 +328,7 @@ class PlgInstallerOverride extends CMSPlugin
 			'modified_date',
 			'extension_id',
 			'state',
-			'client_id'
+			'client_id',
 		];
 
 		// Create a insert query.
@@ -360,7 +360,7 @@ class PlgInstallerOverride extends CMSPlugin
 						[
 							$db->quoteName('modified_date') . ' = :modifiedDate',
 							$db->quoteName('action') . ' = :pkAction',
-							$db->quoteName('state') . ' = 0'
+							$db->quoteName('state') . ' = 0',
 						]
 					)
 					->where($db->quoteName('hash_id') . ' = :pkId')
@@ -401,7 +401,7 @@ class PlgInstallerOverride extends CMSPlugin
 						$pk->id,
 						$pk->extension_id,
 						0,
-						(int) $pk->client
+						(int) $pk->client,
 					]
 				)
 			);
