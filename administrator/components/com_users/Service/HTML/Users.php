@@ -463,9 +463,8 @@ class Users
 				->select($db->quoteName('name'))
 				->from($db->quoteName('#__extensions'))
 				->where($db->quoteName('element') . ' = :element')
-				->where($db->quoteName('folder') . ' = :folder')
-				->bind(':element', $value)
-				->bind(':folder', 'editors');
+				->where($db->quoteName('folder') . ' = ' . $db->quote('editors'))
+				->bind(':element', $value);
 			$db->setQuery($query);
 			$title = $db->loadResult();
 
