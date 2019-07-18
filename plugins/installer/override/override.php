@@ -282,19 +282,21 @@ class PlgInstallerOverride extends CMSPlugin
 	 */
 	public function load($id, $exid)
 	{
+		$db = $this->db;
+
 		// Create a new query object.
-		$query = $this->db->getQuery(true);
+		$query = $db->getQuery(true);
 
 		$query
-			->select($this->db->quoteName('hash_id'))
-			->from($this->db->quoteName('#__template_overrides'))
-			->where($this->db->quoteName('hash_id') . ' = :id')
-			->where($this->db->quoteName('extension_id') . ' = :exid')
+			->select($db->quoteName('hash_id'))
+			->from($db->quoteName('#__template_overrides'))
+			->where($db->quoteName('hash_id') . ' = :id')
+			->where($db->quoteName('extension_id') . ' = :exid')
 			->bind(':id', $id)
 			->bind(':exid', $exid, ParameterType::INTEGER);
 
-		$this->db->setQuery($query);
-		$results = $this->db->loadObjectList();
+		$db->setQuery($query);
+		$results = $db->loadObjectList();
 
 		if (count($results) === 1)
 		{
@@ -315,6 +317,8 @@ class PlgInstallerOverride extends CMSPlugin
 	 */
 	private function saveOverrides($pks)
 	{
+		$db = $this->db;
+
 		// Insert columns.
 		$columns = [
 			'template',
@@ -328,9 +332,9 @@ class PlgInstallerOverride extends CMSPlugin
 		];
 
 		// Create a insert query.
-		$insertQuery = $this->db->getQuery(true)
-			->insert($this->db->quoteName('#__template_overrides'))
-			->columns($this->db->quoteName($columns));
+		$insertQuery = $db->getQuery(true)
+			->insert($db->quoteName('#__template_overrides'))
+			->columns($db->quoteName($columns));
 
 		foreach ($pks as $pk)
 		{
@@ -341,7 +345,7 @@ class PlgInstallerOverride extends CMSPlugin
 
 			if (empty($pk->coreFile))
 			{
-				$modifiedDate = $this->db->getNullDate();
+				$modifiedDate = $db->getNullDate();
 			}
 			else
 			{
@@ -350,17 +354,17 @@ class PlgInstallerOverride extends CMSPlugin
 
 			if ($this->load($pk->id, $pk->extension_id))
 			{
-				$updateQuery = $this->db->getQuery(true)
-					->update($this->db->quoteName('#__template_overrides'))
+				$updateQuery = $db->getQuery(true)
+					->update($db->quoteName('#__template_overrides'))
 					->set(
 						[
-							$this->db->quoteName('modified_date') . ' = :modifiedDate',
-							$this->db->quoteName('action') . ' = :pkAction',
-							$this->db->quoteName('state') . ' = 0',
+							$db->quoteName('modified_date') . ' = :modifiedDate',
+							$db->quoteName('action') . ' = :pkAction',
+							$db->quoteName('state') . ' = 0',
 						]
 					)
-					->where($this->db->quoteName('hash_id') . ' = :pkId')
-					->where($this->db->quoteName('extension_id') . ' = :exId')
+					->where($db->quoteName('hash_id') . ' = :pkId')
+					->where($db->quoteName('extension_id') . ' = :exId')
 					->bind(':modifiedDate', $modifiedDate)
 					->bind(':pkAction', $pk->action)
 					->bind(':pkId', $pk->id)
@@ -369,8 +373,8 @@ class PlgInstallerOverride extends CMSPlugin
 				try
 				{
 					// Set the query using our newly populated query object and execute it.
-					$this->db->setQuery($updateQuery);
-					$this->db->execute();
+					$db->setQuery($updateQuery);
+					$db->execute();
 				}
 				catch (\RuntimeException $e)
 				{
@@ -407,8 +411,8 @@ class PlgInstallerOverride extends CMSPlugin
 			try
 			{
 				// Set the query using our newly populated query object and execute it.
-				$this->db->setQuery($insertQuery);
-				$this->db->execute();
+				$db->setQuery($insertQuery);
+				$db->execute();
 			}
 			catch (\RuntimeException $e)
 			{
