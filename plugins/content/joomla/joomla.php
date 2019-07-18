@@ -503,8 +503,8 @@ class PlgContentJoomla extends CMSPlugin
 		$query = $db->getQuery(true);
 
 		$query->select('COUNT(' . $db->quoteName('b.id') . ')')
-			->from($query->quoteName('#__workflow_associations', 'wa'))
-			->from($query->quoteName('#__workflow_stages', 's'))
+			->from($db->quoteName('#__workflow_associations', 'wa'))
+			->from($db->quoteName('#__workflow_stages', 's'))
 			->from($db->quoteName($table, 'b'))
 			->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('s.id'))
 			->where($db->quoteName('wa.item_id') . ' = ' . $db->quoteName('b.id'))
