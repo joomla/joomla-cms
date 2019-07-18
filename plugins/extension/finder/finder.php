@@ -21,7 +21,6 @@ use Joomla\String\StringHelper;
  */
 class PlgExtensionFinder extends CMSPlugin
 {
-	
 	/**
 	 * Database object
 	 *
