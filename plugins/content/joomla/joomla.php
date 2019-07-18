@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\CMSApplicationInterface;
+Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
@@ -120,13 +120,14 @@ class PlgContentJoomla extends CMSPlugin
 			return true;
 		}
 
-		$query = $this->db->getQuery(true)
-			->select($this->db->quoteName('id'))
-			->from($this->db->quoteName('#__users'))
-			->where($this->db->quoteName('sendEmail') . ' = 1')
-			->where($this->db->quoteName('block') . ' = 0');
-		$this->db->setQuery($query);
-		$users = (array) $this->db->loadColumn();
+		$db = $this->db;
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('sendEmail') . ' = 1')
+			->where($db->quoteName('block') . ' = 0');
+		$db->setQuery($query);
+		$users = (array) $db->loadColumn();
 
 		if (empty($users))
 		{
@@ -152,7 +153,7 @@ class PlgContentJoomla extends CMSPlugin
 				$message = array(
 					'user_id_to' => $user_id,
 					'subject' => $lang->_('COM_CONTENT_NEW_ARTICLE'),
-					'message' => sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title)
+					'message' => sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title),
 				);
 				$model_message = $this->app->bootComponent('com_messages')->getMVCFactory()
 					->createModel('Message', 'Administrator');
@@ -254,7 +255,7 @@ class PlgContentJoomla extends CMSPlugin
 			'com_contact' => array('table_name' => '#__contact_details'),
 			'com_content' => array('table_name' => '#__content'),
 			'com_newsfeeds' => array('table_name' => '#__newsfeeds'),
-			'com_weblinks' => array('table_name' => '#__weblinks')
+			'com_weblinks' => array('table_name' => '#__weblinks'),
 		);
 
 		// Now check to see if this is a known core extension
@@ -438,18 +439,19 @@ class PlgContentJoomla extends CMSPlugin
 	 */
 	private function _countItemsInCategory($table, $catid)
 	{
-		$query = $this->db->getQuery(true);
+		$db = $this->db;
+		$query = $db->getQuery(true);
 
 		// Count the items in this category
-		$query->select('COUNT(' . $this->db->quoteName('id') . ')')
-			->from($this->db->quoteName($table))
-			->where($this->db->quoteName('catid') . ' = :catid')
+		$query->select('COUNT(' . $db->quoteName('id') . ')')
+			->from($db->quoteName($table))
+			->where($db->quoteName('catid') . ' = :catid')
 			->bind(':catid', $catid, ParameterType::INTEGER);
-		$this->db->setQuery($query);
+		$db->setQuery($query);
 
 		try
 		{
-			$count = $this->db->loadResult();
+			$count = $db->loadResult();
 		}
 		catch (RuntimeException $e)
 		{
@@ -498,19 +500,19 @@ class PlgContentJoomla extends CMSPlugin
 			return true;
 		}
 
-		$query = $this->db->getQuery(true);
+		$query = $db->getQuery(true);
 
-		$query->select('COUNT(' . $this->db->quoteName('b.id') . ')')
-			->from($this->db->quoteName('#__workflow_associations', 'wa'))
-			->from($this->db->quoteName('#__workflow_stages', 's'))
-			->from($this->db->quoteName($table, 'b'))
-			->where($this->db->quoteName('wa.stage_id') . ' = ' . $this->db->quoteName('s.id'))
-			->where($this->db->quoteName('wa.item_id') . ' = ' . $this->db->quoteName('b.id'))
-			->whereIn($this->db->quoteName('s.id'), $stage_ids);
+		$query->select('COUNT(' . $db->quoteName('b.id') . ')')
+			->from($query->quoteName('#__workflow_associations', 'wa'))
+			->from($query->quoteName('#__workflow_stages', 's'))
+			->from($db->quoteName($table, 'b'))
+			->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('s.id'))
+			->where($db->quoteName('wa.item_id') . ' = ' . $db->quoteName('b.id'))
+			->whereIn($db->quoteName('s.id'), $stage_ids);
 
 		try
 		{
-			return (int) $this->db->setQuery($query)->loadResult();
+			return (int) $db->setQuery($query)->loadResult();
 		}
 		catch (Exception $e)
 		{
@@ -533,6 +535,8 @@ class PlgContentJoomla extends CMSPlugin
 	 */
 	private function _countItemsInChildren($table, $catid, $data)
 	{
+		$db = $this->db;
+
 		// Create subquery for list of child categories
 		$childCategoryTree = $data->getTree();
 
@@ -549,15 +553,15 @@ class PlgContentJoomla extends CMSPlugin
 		if (count($childCategoryIds))
 		{
 			// Count the items in this category
-			$query = $this->db->getQuery(true)
-				->select('COUNT(' . $this->db->quoteName('id') . ')')
-				->from($this->db->quoteName($table))
-				->whereIn($this->db->quoteName('catid'), $childCategoryIds);
-			$this->db->setQuery($query);
+			$query = $db->getQuery(true)
+				->select('COUNT(' . $db->quoteName('id') . ')')
+				->from($db->quoteName($table))
+				->whereIn($db->quoteName('catid'), $childCategoryIds);
+			$db->setQuery($query);
 
 			try
 			{
-				$count = $this->db->loadResult();
+				$count = $db->loadResult();
 			}
 			catch (RuntimeException $e)
 			{
@@ -609,25 +613,26 @@ class PlgContentJoomla extends CMSPlugin
 			return true;
 		}
 
-		$query = $this->db->getQuery(true)
-			->select($this->db->quoteName('core_content_id'))
-			->from($this->db->quoteName('#__ucm_content'))
-			->where($this->db->quoteName('core_type_alias') . ' = :context')
-			->whereIn($this->db->quoteName('core_content_item_id'), $pks)
+		$db = $this->db;
+		$query = $db->getQuery(true)
+			->select($db->quoteName('core_content_id'))
+			->from($db->quoteName('#__ucm_content'))
+			->where($db->quoteName('core_type_alias') . ' = :context')
+			->whereIn($db->quoteName('core_content_item_id'), $pks)
 			->bind(':context', $context);
-		$this->db->setQuery($query);
-		$ccIds = $this->db->loadColumn();
+		$db->setQuery($query);
+		$ccIds = $db->loadColumn();
 
 		$cctable = new CoreContent($db);
 		$cctable->publish($ccIds, $value);
 
-		$query = $this->db->getQuery(true)
-			->select($this->db->quoteName('id'))
-			->from($this->db->quoteName('#__users'))
-			->where($this->db->quoteName('sendEmail') . ' = 1')
-			->where($this->db->quoteName('block') . ' = 0');
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('sendEmail') . ' = 1')
+			->where($db->quoteName('block') . ' = 0');
 
-		$users = (array) $this->db->setQuery($query)->loadColumn();
+		$users = (array) $db->setQuery($query)->loadColumn();
 
 		if (empty($users))
 		{
@@ -655,18 +660,18 @@ class PlgContentJoomla extends CMSPlugin
 			$stageId = (int) $assoc->stage_id;
 
 			// Load new transitions
-			$query = $this->db->getQuery(true)
-				->select($this->db->quoteName('t.id'))
-				->from($this->db->quoteName('#__workflow_transitions', 't'))
-				->from($this->db->quoteName('#__workflow_stages', 's'))
-				->where($this->db->quoteName('t.from_stage_id') . ' = :stageid')
-				->where($this->db->quoteName('t.to_stage_id') . ' = ' . $this->db->quoteName('s.id'))
-				->where($this->db->quoteName('t.published') . ' = 1')
-				->where($this->db->quoteName('s.published') . ' = 1')
-				->order($this->db->quoteName('t.ordering'))
+			$query = $db->getQuery(true)
+				->select($db->quoteName('t.id'))
+				->from($db->quoteName('#__workflow_transitions', 't'))
+				->from($db->quoteName('#__workflow_stages', 's'))
+				->where($db->quoteName('t.from_stage_id') . ' = :stageid')
+				->where($db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'))
+				->where($db->quoteName('t.published') . ' = 1')
+				->where($db->quoteName('s.published') . ' = 1')
+				->order($db->quoteName('t.ordering'))
 				->bind(':stageid', $stageId, ParameterType::INTEGER);
 
-			$transitions = $this->db->setQuery($query)->loadObjectList();
+			$transitions = $db->setQuery($query)->loadObjectList();
 
 			foreach ($users as $user_id)
 			{
@@ -687,14 +692,14 @@ class PlgContentJoomla extends CMSPlugin
 					}
 
 					// Load language for messaging
-					$receiver = JUser::getInstance($user_id);
+					$receiver = User::getInstance($user_id);
 					$lang = Language::getInstance($receiver->getParam('admin_language', $default_language), $debug);
 					$lang->load('plg_content_joomla');
 
 					$message = array(
 						'user_id_to' => $user_id,
 						'subject' => $lang->_('PLG_CONTENT_JOOMLA_ON_STAGE_CHANGE_SUBJECT'),
-						'message' => sprintf($lang->_('PLG_CONTENT_JOOMLA_ON_STAGE_CHANGE_MSG'), $user->name, $article->title)
+						'message' => sprintf($lang->_('PLG_CONTENT_JOOMLA_ON_STAGE_CHANGE_MSG'), $user->name, $article->title),
 					);
 
 					$model_message = $this->app->bootComponent('com_messages')
