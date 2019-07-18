@@ -101,22 +101,21 @@ class PlgExtensionFinder extends CMSPlugin
 	 */
 	protected function getLanguage($eid)
 	{
-		$db  = $this->db;
 		$eid = (int) $eid;
 
-		$query = $db->getQuery(true)
-			->select($db->quoteName(['element', 'client_id']))
-			->from($db->quoteName('#__extensions'))
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName(['element', 'client_id']))
+			->from($this->db->quoteName('#__extensions'))
 			->where(
 				[
-					$db->quoteName('extension_id') . ' = :eid',
-					$db->quoteName('type') . ' = ' . $db->quote('language'),
+					$this->db->quoteName('extension_id') . ' = :eid',
+					$this->db->quoteName('type') . ' = ' . $this->db->quote('language'),
 				]
 			)
 			->bind(':eid', $eid, ParameterType::INTEGER);
 
-		$db->setQuery($query);
-		$extension = $db->loadObject();
+		$this->db->setQuery($query);
+		$extension = $this->db->loadObject();
 
 		return $extension;
 	}
@@ -162,15 +161,14 @@ class PlgExtensionFinder extends CMSPlugin
 		);
 
 		$words = array_filter(array_map('trim', $words));
-		$db    = $this->db;
-		$query = $db->getQuery(true);
+		$query = $this->db->getQuery(true);
 
 		require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/helper.php';
 
 		$lang = \FinderIndexerHelper::getPrimaryLanguage($extension->element);
 
-		$query->insert($db->quoteName('#__finder_terms_common'))
-			->columns($db->quoteName(['term', 'language', 'custom']));
+		$query->insert($this->db->quoteName('#__finder_terms_common'))
+			->columns($this->db->quoteName(['term', 'language', 'custom']));
 
 		foreach ($words as $word)
 		{
@@ -181,8 +179,8 @@ class PlgExtensionFinder extends CMSPlugin
 
 		try
 		{
-			$db->setQuery($query);
-			$db->execute();
+			$this->db->setQuery($query);
+			$this->db->execute();
 		}
 		catch (Exception $ex)
 		{
@@ -201,23 +199,21 @@ class PlgExtensionFinder extends CMSPlugin
 	 */
 	protected function removeCommonWords($extension)
 	{
-		$db = $this->db;
-
 		require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/helper.php';
 
 		$lang = \FinderIndexerHelper::getPrimaryLanguage($extension->element);
 
-		$query = $db->getQuery(true);
-		$query->delete($db->quoteName('#__finder_terms_common'))
+		$query = $this->db->getQuery(true);
+		$query->delete($this->db->quoteName('#__finder_terms_common'))
 			->where(
 				[
-					$db->quoteName('language') . ' = :lang',
-					$db->quoteName('custom') . ' = 0',
+					$this->db->quoteName('language') . ' = :lang',
+					$this->db->quoteName('custom') . ' = 0',
 				]
 			)
 			->bind(':lang', $lang);
 
-		$db->setQuery($query);
-		$db->execute();
+		$this->db->setQuery($query);
+		$this->db->execute();
 	}
 }
