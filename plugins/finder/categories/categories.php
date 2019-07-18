@@ -363,11 +363,13 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	 */
 	protected function getListQuery($query = null)
 	{
+		$db = $this->db;
+
 		// Check if we can use the supplied SQL query.
-		$query = $query instanceof DatabaseQuery ? $query : $this->db->getQuery(true);
+		$query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true);
 
 		$query->select(
-			$this->db->quoteName(
+			$db->quoteName(
 				[
 					'a.id',
 					'a.title',
@@ -386,7 +388,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 			)
 		)
 			->select(
-				$this->db->quoteName(
+				$db->quoteName(
 					[
 						'a.description',
 						'a.created_user_id',
@@ -408,16 +410,16 @@ class PlgFinderCategories extends FinderIndexerAdapter
 
 		// Handle the alias CASE WHEN portion of the query.
 		$case_when_item_alias = ' CASE WHEN ';
-		$case_when_item_alias .= $query->charLength($this->db->quoteName('a.alias'), '!=', '0');
+		$case_when_item_alias .= $query->charLength($db->quoteName('a.alias'), '!=', '0');
 		$case_when_item_alias .= ' THEN ';
-		$a_id = $query->castAsChar($this->db->quoteName('a.id'));
+		$a_id = $query->castAsChar($db->quoteName('a.id'));
 		$case_when_item_alias .= $query->concatenate([$a_id, 'a.alias'], ':');
 		$case_when_item_alias .= ' ELSE ';
 		$case_when_item_alias .= $a_id . ' END AS slug';
 
 		$query->select($case_when_item_alias)
-			->from($this->db->quoteName('#__categories', 'a'))
-			->where($this->db->quoteName('a.id') . ' > 1');
+			->from($db->quoteName('#__categories', 'a'))
+			->where($db->quoteName('a.id') . ' > 1');
 
 		return $query;
 	}
