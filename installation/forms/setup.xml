@@ -50,7 +50,7 @@
 			type="databaseconnection"
 			label="INSTL_DATABASE_TYPE_DESC"
 			id="db_type"
-			class="custom-select form-control"
+			class="custom-select"
 			supported="mysql,mysqli,pgsql,postgresql"
 			required="true"
 			default="mysqli"

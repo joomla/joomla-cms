@@ -25,7 +25,7 @@ joomla-toolbar-button {
   .btn-toolbar {
     margin-bottom: 0;
 
-    > joomla-toolbar-button {
+    > joomla-toolbar-button, div {
       margin-left: .75rem;
 
       &:first-child {
@@ -42,6 +42,7 @@ joomla-toolbar-button {
     font-size: 1rem;
     line-height: $atum-toolbar-line-height;
     box-shadow: $atum-box-shadow;
+	border: 0;
 
     [class^='icon-'],
     [class*=' icon-'],
@@ -244,7 +245,6 @@ joomla-toolbar-button {
 
     &.btn {
       color: var(--atum-text-dark);
-
       span {
         background-color: var(--atum-bg-dark);
         color:rgba(255,255,255,0.90);
@@ -324,7 +324,7 @@ joomla-toolbar-button {
       color:rgba(255,255,255,0.90);
     }
   }
-  > joomla-toolbar-button {
+  > joomla-toolbar-button, div {
     @include media-breakpoint-down(md) {
       margin-left:0 !important;
       margin-right:0.75rem;
