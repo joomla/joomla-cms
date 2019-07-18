@@ -2106,9 +2106,10 @@ class Form
 			$fieldMatchWithValueBeforeSend = ($value == $fieldValueBeforeSend);
 
 			// Compare submitted value with default value before submit, if value is empty
-			if (empty($value) && isset($element->default))
+			if ($fieldMatchWithValueBeforeSend === false && isset($element->default))
 			{
-				$fieldMatchWithValueBeforeSend = ($element->default == $fieldValueBeforeSend);
+				$fieldMatchWithValueBeforeSend = ($element->default == $value
+					|| (empty($value) && $element->default == $fieldValueBeforeSend));
 			}
 
 			// If the field is disabled but it is passed in the request this is invalid as disabled fields are not added to the request
