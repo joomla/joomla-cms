@@ -88,9 +88,9 @@ abstract class TagsPopularHelper
 				->bind(':nowDate1', $nowDate);
 		}
 
-		$query->innerJoin($db->quoteName('#__tags', 't'), $db->quoteName('tag_id') . ' = ' . $db->quoteName('t.id'))
-			->innerJoin(
-				$db->quoteName('#__ucm_content', 'c'), $db->quoteName('m.core_content_id') . ' = ' . $db->quoteName('c.core_content_id')
+		$query->join('INNER', $db->quoteName('#__tags', 't'), $db->quoteName('tag_id') . ' = ' . $db->quoteName('t.id'))
+			->join(
+				'INNER', $db->quoteName('#__ucm_content', 'c'), $db->quoteName('m.core_content_id') . ' = ' . $db->quoteName('c.core_content_id')
 			);
 
 		$query->where($db->quoteName('m.type_alias') . ' = ' . $db->quoteName('c.core_type_alias'));
