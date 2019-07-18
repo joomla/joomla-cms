@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
