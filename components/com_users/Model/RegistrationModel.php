@@ -75,7 +75,8 @@ class RegistrationModel extends FormModel
 	 */
 	public function getUserIdFromToken($token)
 	{
-		$db = $this->getDbo();
+		$db       = $this->getDbo();
+		$nulldate = $db->getNullDate();
 
 		// Get the user id based on the token.
 		$query = $db->getQuery(true);
@@ -85,7 +86,7 @@ class RegistrationModel extends FormModel
 			->where($db->quoteName('block') . ' = 1')
 			->where($db->quoteName('lastvisitDate') . ' = :lastvisitDate')
 			->bind(':activation', $token)
-			->bind(':lastvisitDate', $db->getNullDate());
+			->bind(':lastvisitDate', $nulldate);
 		$db->setQuery($query);
 
 		try
@@ -758,7 +759,10 @@ class RegistrationModel extends FormModel
 
 			if (count($userids) > 0)
 			{
-				$jdate = new Date;
+				$jdate     = new Date;
+				$dateToSql = $jdate->toSql();
+				$subject   = Text::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT');
+				$message   = Text::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username']);
 
 				// Build the query to add the messages
 				foreach ($userids as $userid)
@@ -776,9 +780,9 @@ class RegistrationModel extends FormModel
 						->values(implode(',', $values));
 					$query->bind(':user_id_from', $userid, ParameterType::INTEGER)
 						->bind(':user_id_to', $userid, ParameterType::INTEGER)
-						->bind(':date_time', $jdate->toSql())
-						->bind(':subject', Text::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT'))
-						->bind(':message', Text::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username']));
+						->bind(':date_time', $dateToSql)
+						->bind(':subject', $subject)
+						->bind(':message', $message);
 
 					$db->setQuery($query);
 
