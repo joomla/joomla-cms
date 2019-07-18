@@ -39,7 +39,7 @@ steps:
 
   - name: npm
     image: joomlaprojects/docker-tools:develop
-    depends_on: [ composer ]
+    depends_on: [ phpcs ]
     commands:
       - npm ci --unsafe-perm
 
@@ -149,6 +149,26 @@ steps:
 
   - name: javascript-cs
     depends_on: [ npm ]
+    image: joomlaprojects/docker-systemtests:develop
+    commands:
+      - export DISPLAY=:0
+      - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
+      - sleep 3
+      - fluxbox  > /dev/null 2>&1 &
+      - npm run lint:js
+
+  - name: javascript-tests
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-systemtests:develop
+    commands:
+      - export DISPLAY=:0
+      - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
+      - sleep 3
+      - fluxbox  > /dev/null 2>&1 &
+      - npm run test
+
+  - name: system-tests-mysql
+    depends_on: [ javascript-tests ]
     image: joomlaprojects/docker-systemtests:latest
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql
@@ -207,9 +227,9 @@ branches:
   exclude: [ l10n_* ]
 
 volumes:
-  - name: cache
-    host:
-      path: /tmp/cache
+- name: cache
+  host:
+    path: /tmp/cache
 
 services:
   - name: mysql
@@ -226,6 +246,12 @@ services:
   - name: redis
     image: redis:alpine
 
+  - name: selenium-chrome
+    image: selenium/standalone-chrome:3.141.59-radium
+
+  - name: selenium-firefox
+    image: selenium/standalone-firefox:3.141.59-radium
+
   - name: postgres
     image: postgres:9-alpine
     ports:
@@ -235,15 +261,8 @@ services:
       POSTGRES_PASSWORD: joomla_ut
       POSTGRES_DB: test_joomla
 
-  - name: selenium-chrome
-    image: selenium/standalone-chrome:3.141.59-radium
-
-  - name: selenium-firefox
-    image: selenium/standalone-firefox:3.141.59-radium
-
-
 ---
 kind: signature
-hmac: 7d3352541d569b83ee3d932af862b4db488b90e77f96761846e3fab8fb9ab500
+hmac: 9beae90a0709003d431aad34bec41c006f61913e18cdc6cadd42264ff4b82e8c
 
 ...
