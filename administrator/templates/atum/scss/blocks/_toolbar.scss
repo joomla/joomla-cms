@@ -324,7 +324,7 @@ joomla-toolbar-button {
       color:rgba(255,255,255,0.90);
     }
   }
-  >*{
+  > joomla-toolbar-button {
     @include media-breakpoint-down(md) {
       margin-left:0 !important;
       margin-right:0.75rem;
