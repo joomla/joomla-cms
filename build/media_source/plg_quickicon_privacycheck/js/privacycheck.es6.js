@@ -11,7 +11,7 @@
     const ajaxUrl = variables.plg_quickicon_privacycheck_ajax_url;
     const url = variables.plg_quickicon_privacycheck_url;
     const text = variables.plg_quickicon_privacycheck_text;
-    const quickicon = document.querySelector('#plg_quickicon_privacycheck');
+    const quickicon = document.getElementById('plg_quickicon_privacycheck');
     const link = quickicon.querySelector('span.j-links-link');
 
     Joomla.request({

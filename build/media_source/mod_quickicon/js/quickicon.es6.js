@@ -13,7 +13,7 @@
    * The class pulse gets 'warning', 'success' or 'error', depending on the retrieved data.
    */
   document.addEventListener('DOMContentLoaded', () => {
-    Array.prototype.forEach.call(document.querySelectorAll('.quickicon'), (quickicon) => {
+    document.querySelectorAll('.quickicon').forEach((quickicon) => {
       const pulse = quickicon.querySelector('.pulse');
       const counter = quickicon.querySelector('.quickicon-amount');
       if (!counter) {

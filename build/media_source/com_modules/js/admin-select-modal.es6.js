@@ -7,7 +7,7 @@
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-    const elems = [].slice.call(document.querySelectorAll('#new-modules-list a.select-link'));
+    const elems = document.querySelectorAll('#new-modules-list a.select-link');
 
     elems.forEach((elem) => {
       elem.addEventListener('click', (event) => {

@@ -132,7 +132,7 @@
     /**
      * Sidebar Nav
      */
-    const allLinks = [].slice.call(wrapper.querySelectorAll('a.no-dropdown, a.collapse-arrow, .menu-dashboard > a'));
+    const allLinks = wrapper.querySelectorAll('a.no-dropdown, a.collapse-arrow, .menu-dashboard > a');
     const currentUrl = window.location.href.toLowerCase();
     const mainNav = document.getElementById('menu');
     const menuParents = [].slice.call(mainNav.querySelectorAll('li.parent > a'));
