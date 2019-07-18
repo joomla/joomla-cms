@@ -64,36 +64,37 @@ class PlgExtensionJoomla extends CMSPlugin
 	private function addUpdateSite($name, $type, $location, $enabled)
 	{
 		// Look if the location is used already; doesn't matter what type you can't have two types at the same address, doesn't make sense
-		$query = $this->db->getQuery(true);
+		$db    = $this->db;
+		$query = $db->getQuery(true);
 
-		$query->select($this->db->quoteName('update_site_id'))
-			->from($this->db->quoteName('#__update_sites'))
-			->where($this->db->quoteName('location') . ' = :location')
+		$query->select($db->quoteName('update_site_id'))
+			->from($db->quoteName('#__update_sites'))
+			->where($db->quoteName('location') . ' = :location')
 			->bind(':location', $location);
 
-		$this->db->setQuery($query);
+		$db->setQuery($query);
 
-		$update_site_id = (int) $this->db->loadResult();
+		$update_site_id = (int) $db->loadResult();
 
 		// If it doesn't exist, add it!
 		if (!$update_site_id)
 		{
 			$enabled = (int) $enabled;
 			$query->clear()
-				->insert($this->db->quoteName('#__update_sites'))
-				->columns($this->db->quoteName(['name', 'type', 'location', 'enabled']))
+				->insert($db->quoteName('#__update_sites'))
+				->columns($db->quoteName(['name', 'type', 'location', 'enabled']))
 				->values(':name, :type, :location, :enabled')
 				->bind(':name', $name)
 				->bind(':type', $type)
 				->bind(':location', $location)
 				->bind(':enabled', $enabled, ParameterType::INTEGER);
 
-			$this->db->setQuery($query);
+			$db->setQuery($query);
 
-			if ($this->db->execute())
+			if ($db->execute())
 			{
 				// Link up this extension to the update site
-				$update_site_id = $this->db->insertid();
+				$update_site_id = $db->insertid();
 			}
 		}
 
@@ -102,33 +103,33 @@ class PlgExtensionJoomla extends CMSPlugin
 		{
 			// Look for an update site entry that exists
 			$query->clear()
-				->select($this->db->quoteName('update_site_id'))
-				->from($this->db->quoteName('#__update_sites_extensions'))
+				->select($db->quoteName('update_site_id'))
+				->from($db->quoteName('#__update_sites_extensions'))
 				->where(
 					[
-						$this->db->quoteName('update_site_id') . ' = :updatesiteid',
-						$this->db->quoteName('extension_id') . ' = :extensionid',
+						$db->quoteName('update_site_id') . ' = :updatesiteid',
+						$db->quoteName('extension_id') . ' = :extensionid',
 					]
 				)
 				->bind(':updatesiteid', $update_site_id, ParameterType::INTEGER)
 				->bind(':extensionid', $this->eid, ParameterType::INTEGER);
 
-			$this->db->setQuery($query);
+			$db->setQuery($query);
 
-			$tmpid = (int) $this->db->loadResult();
+			$tmpid = (int) $db->loadResult();
 
 			if (!$tmpid)
 			{
 				// Link this extension to the relevant update site
 				$query->clear()
-					->insert($this->db->quoteName('#__update_sites_extensions'))
-					->columns($this->db->quoteName(['update_site_id', 'extension_id']))
+					->insert($db->quoteName('#__update_sites_extensions'))
+					->columns($db->quoteName(['update_site_id', 'extension_id']))
 					->values(':updatesiteid, :eid')
 					->bind(':updatesiteid', $update_site_id, ParameterType::INTEGER)
 					->bind(':eid', $this->eid, ParameterType::INTEGER);
 
-				$this->db->setQuery($query);
-				$this->db->execute();
+				$db->setQuery($query);
+				$db->execute();
 			}
 		}
 	}
@@ -172,70 +173,71 @@ class PlgExtensionJoomla extends CMSPlugin
 		// update sites for it
 		if ($eid && $removed)
 		{
-			$query = $this->db->getQuery(true);
+			$db    = $this->db;
+			$query = $db->getQuery(true);
 			$eid   = (int) $eid;
 
-			$query->delete($this->db->quoteName('#__update_sites_extensions'))
-				->where($this->db->quoteName('extension_id') . ' = :eid')
+			$query->delete($db->quoteName('#__update_sites_extensions'))
+				->where($db->quoteName('extension_id') . ' = :eid')
 				->bind(':eid', $eid, ParameterType::INTEGER);
 
-			$this->db->setQuery($query);
-			$this->db->execute();
+			$db->setQuery($query);
+			$db->execute();
 
 			// Delete any unused update sites
 			$query->clear()
-				->select($this->db->quoteName('update_site_id'))
-				->from($this->db->quoteName('#__update_sites_extensions'));
+				->select($db->quoteName('update_site_id'))
+				->from($db->quoteName('#__update_sites_extensions'));
 
-			$this->db->setQuery($query);
-			$results = $this->db->loadColumn();
+			$db->setQuery($query);
+			$results = $db->loadColumn();
 
 			if (is_array($results))
 			{
 				// So we need to delete the update sites and their associated updates
-				$updatesite_delete = $this->db->getQuery(true);
-				$updatesite_delete->delete($this->db->quoteName('#__update_sites'));
+				$updatesite_delete = $db->getQuery(true);
+				$updatesite_delete->delete($db->quoteName('#__update_sites'));
 
-				$updatesite_query = $this->db->getQuery(true);
-				$updatesite_query->select($this->db->quoteName('update_site_id'))
-					->from($this->db->quoteName('#__update_sites'));
+				$updatesite_query = $db->getQuery(true);
+				$updatesite_query->select($db->quoteName('update_site_id'))
+					->from($db->quoteName('#__update_sites'));
 
 				// If we get results back then we can exclude them
 				if (count($results))
 				{
-					$updatesite_query->whereNotIn($this->db->quoteName('update_site_id'), $results);
-					$updatesite_delete->whereNotIn($this->db->quoteName('update_site_id'), $results);
+					$updatesite_query->whereNotIn($db->quoteName('update_site_id'), $results);
+					$updatesite_delete->whereNotIn($db->quoteName('update_site_id'), $results);
 				}
 
 				// So let's find what update sites we're about to nuke and remove their associated extensions
-				$this->db->setQuery($updatesite_query);
-				$update_sites_pending_delete = $this->db->loadColumn();
+				$db->setQuery($updatesite_query);
+				$update_sites_pending_delete = $db->loadColumn();
 
 				if (is_array($update_sites_pending_delete) && count($update_sites_pending_delete))
 				{
 					// Nuke any pending updates with this site before we delete it
 					// TODO: investigate alternative of using a query after the delete below with a query and not in like above
 					$query->clear()
-						->delete($this->db->quoteName('#__updates'))
-						->whereIn($this->db->quoteName('update_site_id'), $update_sites_pending_delete);
+						->delete($db->quoteName('#__updates'))
+						->whereIn($db->quoteName('update_site_id'), $update_sites_pending_delete);
 
-					$this->db->setQuery($query);
-					$this->db->execute();
+					$db->setQuery($query);
+					$db->execute();
 				}
 
 				// Note: this might wipe out the entire table if there are no extensions linked
-				$this->db->setQuery($updatesite_delete);
-				$this->db->execute();
+				$db->setQuery($updatesite_delete);
+				$db->execute();
 			}
 
 			// Last but not least we wipe out any pending updates for the extension
 			$query->clear()
-				->delete($this->db->quoteName('#__updates'))
-				->where($this->db->quoteName('extension_id') . ' = :eid')
+				->delete($db->quoteName('#__updates'))
+				->where($db->quoteName('extension_id') . ' = :eid')
 				->bind(':eid', $eid, ParameterType::INTEGER);
 
-			$this->db->setQuery($query);
-			$this->db->execute();
+			$db->setQuery($query);
+			$db->execute();
 		}
 	}
 
