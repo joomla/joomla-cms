@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -363,11 +364,13 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	 */
 	protected function getListQuery($query = null)
 	{
+		$db = Factory::getDbo();
+
 		// Check if we can use the supplied SQL query.
-		$query = $query instanceof DatabaseQuery ? $query : $this->db->getQuery(true);
+		$query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true);
 
 		$query->select(
-			$this->db->quoteName(
+			$db->quoteName(
 				[
 					'a.id',
 					'a.title',
@@ -386,14 +389,14 @@ class PlgFinderCategories extends FinderIndexerAdapter
 			)
 		)
 			->select(
-				$this->db->quoteName(
+				$db->quoteName(
 					[
 						'a.description',
 						'a.created_user_id',
 						'a.modified_time',
 						'a.modified_user_id',
 						'a.created_time',
-						'a.published',
+						'a.published'
 					],
 					[
 						'summary',
@@ -401,23 +404,23 @@ class PlgFinderCategories extends FinderIndexerAdapter
 						'modified',
 						'modified_by',
 						'start_date',
-						'state',
+						'state'
 					]
 				)
 			);
 
 		// Handle the alias CASE WHEN portion of the query.
 		$case_when_item_alias = ' CASE WHEN ';
-		$case_when_item_alias .= $query->charLength($this->db->quoteName('a.alias'), '!=', '0');
+		$case_when_item_alias .= $query->charLength($db->quoteName('a.alias'), '!=', '0');
 		$case_when_item_alias .= ' THEN ';
-		$a_id = $query->castAsChar($this->db->quoteName('a.id'));
+		$a_id = $query->castAsChar($db->quoteName('a.id'));
 		$case_when_item_alias .= $query->concatenate([$a_id, 'a.alias'], ':');
 		$case_when_item_alias .= ' ELSE ';
 		$case_when_item_alias .= $a_id . ' END AS slug';
 
 		$query->select($case_when_item_alias)
-			->from($this->db->quoteName('#__categories', 'a'))
-			->where($this->db->quoteName('a.id') . ' > 1');
+			->from($db->quoteName('#__categories', 'a'))
+			->where($db->quoteName('a.id') . ' > 1');
 
 		return $query;
 	}
@@ -439,7 +442,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 				[
 					'a.id',
 					'a.parent_id',
-					'a.access',
+					'a.access'
 				]
 			)
 		)
@@ -448,12 +451,12 @@ class PlgFinderCategories extends FinderIndexerAdapter
 					[
 						'a.' . $this->state_field,
 						'c.published',
-						'c.access',
+						'c.access'
 					],
 					[
 						'state',
 						'cat_state',
-						'cat_access',
+						'cat_access'
 					]
 				)
 			)
