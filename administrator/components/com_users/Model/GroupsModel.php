@@ -230,7 +230,7 @@ class GroupsModel extends ListModel
 			->from($db->quoteName('#__user_usergroup_map', 'map'))
 			->join('LEFT', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('u.id') . ' = ' . $db->quoteName('map.user_id'))
 			->whereIn($db->quoteName('map.group_id'), $groupIds)
-			->where('u.block = 1');
+			->where($db->quoteName('u.block') . ' = 1');
 		$db->setQuery($query);
 
 		try
