@@ -43,7 +43,7 @@ joomla-tab {
 				background-image: none;
 				border-radius: 0;
 				box-shadow: none;
-				&:after {
+				&::after {
 					background-color: var(--atum-contrast);
 					top: -1px;
 					content: "";
@@ -111,7 +111,7 @@ joomla-tab {
 				background-image: none;
 				box-shadow: none;
 				border-right: 0;
-				&:after {
+				&::after {
 					left: -1px;
 					width: 5px;
 					height: auto;
@@ -155,7 +155,7 @@ joomla-tab {
 			border-top: 0;
 
 			&[active], &:hover {
-				&:after {
+				&::after {
 					position: absolute;
 					top: auto;
 					bottom: -1px;
@@ -190,7 +190,7 @@ joomla-tab {
 				text-decoration: none;
 
 				&[active], &:hover {
-					&:after {
+					&::after {
 						position: absolute;
 						top: auto;
 						bottom: -1px;

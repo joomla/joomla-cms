@@ -99,7 +99,7 @@
    * @since   4.0.0
    */
   function changeSVGLogoColor() {
-    const logoImgs = [].slice.call(document.querySelectorAll('.logo img'));
+    const logoImgs = document.querySelectorAll('.logo img');
 
     logoImgs.forEach((img) => {
       const imgID = img.getAttribute('id');
@@ -146,7 +146,7 @@
    */
   function headerItemsInDropdown() {
     const headerWrapper = doc.querySelector('.header-items');
-    const headerItems = [].slice.call(doc.querySelectorAll('.header-items > .header-item'));
+    const headerItems = doc.querySelectorAll('.header-items > .header-item');
     const headerWrapperWidth = headerWrapper.offsetWidth;
     let headerItemsWidth = 0;
     headerItems.forEach((item) => {
@@ -197,7 +197,7 @@
       });
     } else if (headerItemsWidth < headerWrapperWidth && doc.querySelector('#header-more-items')) {
       const headerMore = headerWrapper.querySelector('#header-more-items');
-      const headerMoreItems = [].slice.call(headerMore.querySelectorAll('.header-item'));
+      const headerMoreItems = headerMore.querySelectorAll('.header-item');
 
       headerMoreItems.forEach((item) => {
         headerItemsWidth += item.offsetWidth;

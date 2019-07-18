@@ -184,7 +184,7 @@
         > a {
           &.active {
             background-color: var(--atum-bg-dark-80);
-            &:before {
+            &::before {
               display: none;
             }
           }
@@ -442,7 +442,6 @@
   .sidebar-item-title,
   .has-arrow::after {
     display: none;
-    display: none;
   }
 
   .main-nav {
@@ -482,7 +481,7 @@
     .navbar-toggler-icon {
       color: var(--toggle-color);
 
-      &:before {
+      &::before {
         font: normal normal normal 30px/1 'Font Awesome 5 Free';
         content: "\f00d";
         color: var(--toggle-color);
@@ -491,7 +490,7 @@
     }
 
     &.collapsed {
-      .navbar-toggler-icon:before {
+      .navbar-toggler-icon::before {
         content: "\f0c9";
       }
     }

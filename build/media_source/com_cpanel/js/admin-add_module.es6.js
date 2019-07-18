@@ -9,7 +9,7 @@ Joomla = window.Joomla || {};
 
   document.addEventListener('DOMContentLoaded', () => {
     window.jSelectModuleType = () => {
-      const elements = [].slice.call(document.querySelectorAll('#moduleDashboardAddModal .modal-footer .btn.hidden'));
+      const elements = document.querySelectorAll('#moduleDashboardAddModal .modal-footer .btn.hidden');
 
       if (elements.length) {
         setTimeout(() => {
@@ -20,7 +20,7 @@ Joomla = window.Joomla || {};
       }
     };
 
-    const buttons = [].slice.call(document.querySelectorAll('#moduleDashboardAddModal .modal-footer .btn'));
+    const buttons = document.querySelectorAll('#moduleDashboardAddModal .modal-footer .btn');
     const hideButtons = [];
     let isSaving = false;
 
