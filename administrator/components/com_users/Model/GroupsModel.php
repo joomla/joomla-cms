@@ -228,7 +228,7 @@ class GroupsModel extends ListModel
 		$query->clear();
 		$query->select('map.group_id, COUNT(DISTINCT map.user_id) AS user_count')
 			->from($db->quoteName('#__user_usergroup_map', 'map'))
-			->join('LEFT', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('u.id') . ' = ' . $db->quoteName('map.user_id'))
+			->join('LEFT', $db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('map.user_id'))
 			->whereIn($db->quoteName('map.group_id'), $groupIds)
 			->where($db->quoteName('u.block') . ' = 1');
 		$db->setQuery($query);
