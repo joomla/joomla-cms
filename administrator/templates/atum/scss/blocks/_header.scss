@@ -169,7 +169,7 @@
     min-height: 2rem;
   }
 
-  a[target="_blank"]:before {
+  a[target="_blank"]::before {
     display: none;
   }
 
@@ -277,7 +277,7 @@
       z-index:$zindex-mobil-bottom;
       flex-direction: row-reverse;
       justify-content: flex-end;
-      &:after {
+      &::after {
         content:"";
         width: 1000%;
         height: 100%;

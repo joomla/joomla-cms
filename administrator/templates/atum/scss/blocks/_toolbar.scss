@@ -25,19 +25,11 @@ joomla-toolbar-button {
   .btn-toolbar {
     margin-bottom: 0;
 
-    > * {
+    > joomla-toolbar-button {
       margin-left: .75rem;
 
       &:first-child {
         margin-left: 0;
-      }
-
-
-      &.ml-auto {
-        @include media-breakpoint-down(md) {
-         /* margin-right: auto !important;
-          margin-left: .75rem !important;*/
-        }
       }
     }
   }
@@ -233,7 +225,7 @@ joomla-toolbar-button {
       }
 
     }
-	
+
 	&.disabled,
 	&:disabled{
 		opacity:1;

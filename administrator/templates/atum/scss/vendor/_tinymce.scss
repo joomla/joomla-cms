@@ -27,7 +27,7 @@
 	.mce-top-part {
 		margin-bottom: 1rem;
 
-		&:before {
+		&::before {
 			box-shadow: none;
 		}
 	}

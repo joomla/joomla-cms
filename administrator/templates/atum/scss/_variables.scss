@@ -33,7 +33,8 @@ $green-dark:                       #0f2f21; //used for alert success
 $teal:                             #20c997; //used in bootstrap
 $cyan:                             #108193; //used in bootstrap
 
-//color-60 is the base
+// Calculate the gradation of the base color: $color-60 is the base
+// Range from $color-0 (lightest) to $color-90 (darkest)
 
 $color-60:                         $blue;
 
