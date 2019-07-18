@@ -23,13 +23,25 @@ steps:
     image: joomlaprojects/docker-tools:develop
     depends_on: [ restore-cache ]
     commands:
+      - composer validate --no-check-all --strict
       - composer install --no-progress --no-suggest
+
+  - name: phpcs
+    image: joomlaprojects/docker-images:php7.2
+    depends_on: [ composer ]
+    commands:
+      - echo $(date)
+      - ./libraries/vendor/bin/phpcs --config-set installed_paths ../../joomla/cms-coding-standards/lib,../../joomla/coding-standards/Joomla/ExampleRulesets,../../joomla/coding-standards
+      - ./libraries/vendor/bin/phpcs --config-set colors 1
+      - ./libraries/vendor/bin/phpcs --config-set php_version 70200
+      - ./libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php --ignore=libraries/vendor/*,tests/*,build/*,node_modules/*,media/*,libraries/autoload_psr4.php,installation/template/error.php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
+      - echo $(date)
 
   - name: npm
     image: joomlaprojects/docker-tools:develop
     depends_on: [ composer ]
     commands:
-      - npm install --unsafe-perm
+      - npm ci --unsafe-perm
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
@@ -45,15 +57,154 @@ steps:
       - name: cache
         path: /cache
 
-  - name: system-tests-mysql
+  - name: php72-unit
+    depends_on: [ phpcs ]
+    image: php:7.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
+
+  - name: php73-unit
+    depends_on: [ phpcs ]
+    image: php:7.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
+
+  - name: php74-unit
+    depends_on: [ phpcs ]
+    image: phpdaily/php:7.4-dev
+    failure: ignore
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
+
+  - name: php80-unit
+    depends_on: [ phpcs ]
+    image: phpdaily/php:8.0-dev
+    failure: ignore
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
+
+  - name: php72-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php7.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php73-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php7.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php74-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php7.4
+    failure: ignore
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php80-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.0
+    failure: ignore
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php72-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php7.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+#  - name: php73-integration-pgsql
+#    depends_on: [ npm ]
+#    image: joomlaprojects/docker-images:php7.3
+#    commands:
+#      - php -v
+#      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+#  - name: php74-integration-pgsql
+#    depends_on: [ npm ]
+#    image: joomlaprojects/docker-images:php7.4
+#    failure: ignore
+#    commands:
+#      - php -v
+#      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+#  - name: php80-integration-pgsql
+#    depends_on: [ npm ]
+#    image: joomlaprojects/docker-images:php8.0
+#    failure: ignore
+#    commands:
+#      - php -v
+#      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+  - name: javascript-cs
     depends_on: [ npm ]
     image: joomlaprojects/docker-systemtests:latest
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql
 
+  - name: system-tests-postgres
+    depends_on: [ system-tests-mysql ]
+    image: joomlaprojects/docker-systemtests:latest
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
+
+  - name: artifacts-system-tests
+    image: cschlosser/drone-ftps
+    depends_on: [ system-tests-postgres ]
+    environment:
+      FTP_USERNAME:
+        from_secret: ftpusername
+      FTP_PASSWORD:
+        from_secret: ftppassword
+      PLUGIN_HOSTNAME: ci.joomla.org:21
+      PLUGIN_SRC_DIR: /tests/Codeception/_output/
+      PLUGIN_DEST_DIR: /artifacts
+      PLUGIN_SECURE: false
+      PLUGIN_EXCLUDE: ^\.git/$
+    commands:
+      - export PLUGIN_DEST_DIR=$PLUGIN_DEST_DIR/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST_$DRONE_BUILD_NUMBER/system-tests
+      - echo https://ci.joomla.org:444$PLUGIN_DEST_DIR
+      - /bin/upload.sh
+    when:
+      status:
+      - failure
+
+  - name: api-tests
+    depends_on: [ system-tests-postgres ]
+    image: joomlaprojects/docker-systemtests:latest
+    commands:
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)"
+
+  - name: analysis4x
+    image: rips/rips-cli:1.2.1
+    depends_on: [ api-tests ]
+    when:
+      repo:
+        - joomla/joomla-cms
+      branch:
+        - 4.0-dev
+    commands:
+      - export RIPS_BASE_URI='https://api.rips.joomla.org'
+      - rips-cli rips:scan:start -a 3 -t 1 -R -k -p $(pwd) -t 1 -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
+    environment:
+      RIPS_USERNAME:
+        from_secret: RIPS_USERNAME
+      RIPS_PASSWORD:
+        from_secret: RIPS_PASSWORD
+
 branches:
   exclude: [ l10n_* ]
-
 
 volumes:
   - name: cache
@@ -93,6 +244,6 @@ services:
 
 ---
 kind: signature
-hmac: 44673ee1eda2b3fb1e0694c47f8f523bf7fe0641fe18a01272dc4bcfc2d53f1f
+hmac: 7d3352541d569b83ee3d932af862b4db488b90e77f96761846e3fab8fb9ab500
 
 ...

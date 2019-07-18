@@ -35,7 +35,7 @@ class FilelistField extends ListField
 	 * The filename filter.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $fileFilter;
 

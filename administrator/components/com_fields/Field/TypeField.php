@@ -23,6 +23,9 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
  */
 class TypeField extends ListField
 {
+	/**
+	 * @var    string
+	 */
 	public $type = 'Type';
 
 	/**

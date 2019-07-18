@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -394,7 +395,7 @@ class ItemsModel extends ListModel
 			else
 			{
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(' . 'a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
+				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
 			}
 		}
 
@@ -503,7 +504,7 @@ class ItemsModel extends ListModel
 	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   \JForm  $form   A \JForm object.
+	 * @param   Form    $form   A Form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -512,7 +513,7 @@ class ItemsModel extends ListModel
 	 * @since   3.2
 	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		$name = $form->getName();
 

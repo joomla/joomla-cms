@@ -82,8 +82,8 @@ class FiltersField extends FormField
 						parent = $("#filter-config select[data-id=" + parent.attr("data-parent") + "]")
 					}
 				});
-			});
-		');
+			});'
+		);
 
 		// Get the available user groups.
 		$groups = $this->getUserGroups();
@@ -132,7 +132,8 @@ class FiltersField extends FormField
 			$html[] = '			' . LayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text;
 			$html[] = '		</td>';
 			$html[] = '		<td>';
-			$html[] = '			<label for="' . $this->id . $group->value . '_filter_type" class="sr-only">' . Text::_('JGLOBAL_FILTER_TYPE_LABEL') . '</label>';
+			$html[] = '			<label for="' . $this->id . $group->value . '_filter_type" class="sr-only">'
+				. Text::_('JGLOBAL_FILTER_TYPE_LABEL') . '</label>';
 			$html[] = '				<select'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_type]"'
 				. ' id="' . $this->id . $group->value . '_filter_type"'
@@ -153,7 +154,8 @@ class FiltersField extends FormField
 			$html[] = '				</select>';
 			$html[] = '		</td>';
 			$html[] = '		<td>';
-			$html[] = '			<label for="' . $this->id . $group->value . '_filter_tags" class="sr-only">' . Text::_('JGLOBAL_FILTER_TAGS_LABEL') . '</label>';
+			$html[] = '			<label for="' . $this->id . $group->value . '_filter_tags" class="sr-only">'
+				. Text::_('JGLOBAL_FILTER_TAGS_LABEL') . '</label>';
 			$html[] = '				<input'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_tags]"'
 				. ' type="text"'
@@ -178,13 +180,6 @@ class FiltersField extends FormField
 
 		// Close the table.
 		$html[] = '</table>';
-
-		// Add notes
-		$html[] = '<div class="filter-notes">';
-		$html[] = '<p>' . Text::_('JGLOBAL_FILTER_TYPE_DESC') . '</p>';
-		$html[] = '<p>' . Text::_('JGLOBAL_FILTER_TAGS_DESC') . '</p>';
-		$html[] = '<p>' . Text::_('JGLOBAL_FILTER_ATTRIBUTES_DESC') . '</p>';
-		$html[] = '</div>';
 
 		return implode("\n", $html);
 	}

@@ -136,20 +136,20 @@ class HtmlView extends BaseHtmlView
 		if ($canDo->get('core.edit.state') || $canDo->get('core.admin'))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
-					->text('JTOOLBAR_CHANGE_STATUS')
-					->toggleSplit(false)
-					->icon('fa fa-globe')
-					->buttonClass('btn btn-info')
-					->listCheck(true);
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-globe')
+				->buttonClass('btn btn-info')
+				->listCheck(true);
 
 			$childBar = $dropdown->getChildToolbar();
 
 			$childBar->publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
 			$childBar->unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
 			$childBar->standardButton('unblock')
-					->text('COM_USERS_TOOLBAR_UNBLOCK')
-					->task('users.unblock')
-					->listCheck(true);
+				->text('COM_USERS_TOOLBAR_UNBLOCK')
+				->task('users.unblock')
+				->listCheck(true);
 		}
 
 		// Add a batch button

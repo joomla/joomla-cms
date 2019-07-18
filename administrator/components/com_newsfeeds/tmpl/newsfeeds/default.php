@@ -119,9 +119,7 @@ if ($saveOrder && !empty($this->items))
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
 								<td class="text-center">
-									<div class="btn-group">
-										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'newsfeeds.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-									</div>
+									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'newsfeeds.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 								</td>
 								<th scope="row" class="has-context">
 									<div>
@@ -130,7 +128,7 @@ if ($saveOrder && !empty($this->items))
 										<?php endif; ?>
 										<?php if ($canEdit || $canEditOwn) : ?>
 											<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pen-square mr-2" aria-hidden="true"></span>'; ?>
-											<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_newsfeeds&task=newsfeed.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
+											<a href="<?php echo Route::_('index.php?option=com_newsfeeds&task=newsfeed.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
 												<?php echo $editIcon; ?><?php echo $this->escape($item->name); ?></a>
 										<?php else : ?>
 												<?php echo $this->escape($item->name); ?>

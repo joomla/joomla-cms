@@ -145,7 +145,7 @@ class LibraryHelper
 	 */
 	protected static function loadLibrary($element)
 	{
-		$loader = function($element)
+		$loader = function ($element)
 		{
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)

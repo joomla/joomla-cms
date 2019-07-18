@@ -148,17 +148,6 @@ class SystemModel extends BaseDatabaseModel
 			);
 		}
 
-		if ($user->authorise('core.manage', 'com_modules'))
-		{
-			$manageSection->addItem(
-				new SystemItem('MOD_MENU_EXTENSIONS_MODULE_MANAGER_SITE', 'index.php?option=com_modules&view=modules&client_id=0')
-			);
-
-			$manageSection->addItem(
-				new SystemItem('MOD_MENU_EXTENSIONS_MODULE_MANAGER_ADMINISTRATOR', 'index.php?option=com_modules&view=modules&client_id=1')
-			);
-		}
-
 		if ($user->authorise('core.manage', 'com_joomlaupdate'))
 		{
 			$updateSection->addItem(
