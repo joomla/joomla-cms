@@ -394,7 +394,7 @@ class ResetModel extends FormModel
 		// Find the user id for the given email address.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select('id')
+			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
 			->where($db->quoteName('email') . ' = :email')
 			->bind(':email', $data['email']);
