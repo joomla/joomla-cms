@@ -17,6 +17,7 @@ use Joomla\CMS\Router\Route;
 /** @var \Joomla\Component\Banners\Administrator\View\Banner\HtmlView $this */
 
 HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
 
 HTMLHelper::_('script', 'com_banners/admin-banner-edit.min.js', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('script', 'com_contenthistory/admin-history-versions.js', ['version' => 'auto', 'relative' => true]);
