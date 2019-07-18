@@ -161,13 +161,13 @@ class PlgContentPagenavigation extends CMSPlugin
 			$query->select($db->quoteName(['a.id', 'a.title', 'a.catid', 'a.language']))
 				->select([$case_when, $case_when1])
 				->from($db->quoteName('#__content', 'a'))
-				->leftJoin($db->quoteName('#__categories', 'cc'), $db->quoteName('cc.id') . ' = ' . $db->quoteName('a.catid'))
-				->leftJoin($db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('a.state'));
+				->join('LEFT', $db->quoteName('#__categories', 'cc'), $db->quoteName('cc.id') . ' = ' . $db->quoteName('a.catid'))
+				->join('LEFT', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('a.state'));
 
 			if ($order_method === 'author' || $order_method === 'rauthor')
 			{
 				$query->select($db->quoteName(['a.created_by', 'u.name']));
-				$query->leftJoin($db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('a.created_by'));
+				$query->join('LEFT', $db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('a.created_by'));
 			}
 
 			$catid = $row->catid;
