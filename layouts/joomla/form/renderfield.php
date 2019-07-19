@@ -41,7 +41,7 @@ $hide  = empty($options['hiddenLabel']) ? '' : ' sr-only';
 	<?php if (!empty($description)) : ?>
 		<div id="<?php echo $id; ?>">
 			<small class="form-text text-muted">
-				<?php echo htmlspecialchars(($description), ENT_COMPAT, 'UTF-8'); ?>
+				<?php echo $description; ?>
 			</small>
 		</div>
 	<?php endif; ?>
