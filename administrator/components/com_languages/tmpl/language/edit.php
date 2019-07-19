@@ -15,6 +15,7 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.tabstate');
+HTMLHelper::_('behavior.keepalive');
 
 HTMLHelper::_('script', 'com_languages/admin-language-edit-change-flag.js', ['version' => 'auto', 'relative' => true]);
 ?>
