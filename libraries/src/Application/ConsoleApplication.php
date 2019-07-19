@@ -82,7 +82,8 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		?OutputInterface $output = null,
 		?Registry $config = null,
 		?DispatcherInterface $dispatcher = null,
-		?Container $container = null)
+		?Container $container = null
+	)
 	{
 		parent::__construct($input, $output, $config);
 

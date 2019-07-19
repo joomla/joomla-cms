@@ -36,14 +36,16 @@ class ContactModel extends FormModel
 	/**
 	 * The name of the view for a single item
 	 *
-	 * @since   1.6
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $view_item = 'contact';
 
 	/**
 	 * A loaded item
 	 *
-	 * @since   1.6
+	 * @var    \stdClass
+	 * @since  1.6
 	 */
 	protected $_item = null;
 
@@ -356,9 +358,11 @@ class ContactModel extends FormModel
 			{
 				$query->where('a.state IN (1,2)')
 					->where('(' . $db->quoteName('a.publish_up') . ' = :null' .
-						' OR ' . $db->quoteName('a.publish_up') . ' <= :now' . ')')
+						' OR ' . $db->quoteName('a.publish_up') . ' <= :now)'
+					)
 					->where('(' . $db->quoteName('a.publish_down') . ' = :null' .
-						' OR ' . $db->quoteName('a.publish_down') . ' >= :now' . ')')
+						' OR ' . $db->quoteName('a.publish_down') . ' >= :now)'
+					)
 					->bind(':null', $nullDate)
 					->bind(':now', $nowDate);
 			}
@@ -410,16 +414,16 @@ class ContactModel extends FormModel
 	}
 
 	/**
-	* Generate column expression for slug or catslug.
-	*
-	* @param   QueryInterface  $query  Current query instance.
-	* @param   string          $id     Column id name.
-	* @param   string          $alias  Column alias name.
-	*
-	* @return  string
-	*
-	* @since   4.0.0
-	*/
+	 * Generate column expression for slug or catslug.
+	 *
+	 * @param   QueryInterface  $query  Current query instance.
+	 * @param   string          $id     Column id name.
+	 * @param   string          $alias  Column alias name.
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
 	private function getSlugColumn($query, $id, $alias)
 	{
 		return 'CASE WHEN '
