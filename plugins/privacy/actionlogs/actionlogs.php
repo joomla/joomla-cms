@@ -42,7 +42,7 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 		$query = $db->getQuery(true)
 			->select(['a.*', $db->quoteName('u.name')])
 			->from($db->quoteName('#__action_logs', 'a'))
-			->innerJoin($db->quoteName('#__users', 'u'), $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'))
+			->join('INNER', $db->quoteName('#__users', 'u'), $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'))
 			->where($db->quoteName('a.user_id') . ' = :id')
 			->bind(':id', $user->id, ParameterType::INTEGER);
 
