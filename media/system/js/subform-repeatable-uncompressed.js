@@ -169,7 +169,7 @@
 		for (var i = 0, l = haveName.length; i < l; i++) {
 			var $el     = $(haveName[i]),
 				name    = $el.attr('name'),
-				id      = name.replace(/(\[\]$)/g, '').replace(/(\]\[)/g, '__').replace(/\[/g, '_').replace(/\]/g, ''), // id from name
+				id      = name.replace(/(\[\]$)/g, '').replace(/(\]\[)/g, '__').replace(/\[/g, '_').replace(/\]/g, '').replace(/\W/g, '_'), // id from name
 				nameNew = name.replace('[' + group + '][', '['+ groupnew +']['), // New name
 				idNew   = id.replace(group, groupnew), // Count new id
 				countMulti = 0, // count for multiple radio/checkboxes
