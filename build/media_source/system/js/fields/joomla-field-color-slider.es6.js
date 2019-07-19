@@ -61,7 +61,8 @@
       // Attributes
       this.color = element.dataset.color || '';
       this.default = element.dataset.default || '';
-      this.format = element.dataset.format || 'hex';
+      this.format = this.input.dataset.format || 'hex';
+      this.saveFormat = this.mainInput.dataset.format || 'hex';
       this.preview = element.dataset.preview === 'true';
       this.setAlpha = this.format === 'hsla' || this.format === 'rgba';
 
@@ -126,7 +127,7 @@
       } else {
         this.showError('');
 
-        switch (this.input.dataset.format) {
+        switch (this.format) {
           case 'hue':
             hsl[0] = inputField.value;
             this.hue = inputField.value;
@@ -156,10 +157,13 @@
      * Check validity of value
      *
      * @param {number|string} value to check
+     * @param {string=false} format for which the value gets tested
      * @returns {boolean}
      */
-    checkValue(value) {
-      switch (this.input.dataset.format) {
+    checkValue(value, format) {
+      const test = format || this.format;
+
+      switch (test) {
         case 'hue':
           return value <= 360 && hueRegex.test(value);
         case 'saturation':
@@ -186,7 +190,7 @@
       let pattern;
 
       // RegExp has '/' at start and end
-      switch (this.input.dataset.format) {
+      switch (this.format) {
         case 'hue':
           pattern = hueRegex.source.slice(1, -1);
           break;
@@ -264,7 +268,7 @@
         return;
       }
 
-      const value = this.checkValue(this.color) ? this.color : this.default;
+      const value = this.checkValue(this.color, this.saveFormat) ? this.color : this.default;
 
       if (!value) {
         this.showError('JFIELD_COLOR_ERROR_NO_COLOUR');
