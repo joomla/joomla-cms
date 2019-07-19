@@ -1279,7 +1279,7 @@ class PlgSampledataMultilang extends CMSPlugin
 					$db->quoteName('client_id') . ' = :clientid',
 				]
 			)
-			->bind(':clientid', $client_id);
+			->bind(':clientid', $client_id, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 
