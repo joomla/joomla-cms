@@ -169,7 +169,7 @@ class ChangeUserPasswordCommand extends AbstractCommand
 		$this->addOption('password', null, InputOption::VALUE_OPTIONAL, 'password');
 		$this->setDescription("Changes a user's password");
 		$this->setHelp(
-<<<EOF
+			<<<EOF
 The <info>%command.name%</info> command changes the user's password
 
 <info>php %command.full_name%</info>

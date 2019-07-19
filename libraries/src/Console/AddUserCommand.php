@@ -301,7 +301,7 @@ class AddUserCommand extends AbstractCommand
 		$this->addOption('usergroup', null, InputOption::VALUE_OPTIONAL, 'usergroup (separate multiple groups with comma ",")');
 		$this->setDescription('Add a user');
 		$this->setHelp(
-<<<EOF
+			<<<EOF
 The <info>%command.name%</info> command adds a user
 
 <info>php %command.full_name%</info>

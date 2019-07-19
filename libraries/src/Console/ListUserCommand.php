@@ -115,7 +115,7 @@ class ListUserCommand extends AbstractCommand
 	{
 		$this->setDescription('List all users');
 		$this->setHelp(
-<<<EOF
+			<<<EOF
 The <info>%command.name%</info> command lists all users
 
 <info>php %command.full_name%</info>

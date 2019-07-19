@@ -293,7 +293,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
 		$this->addOption('group', null, InputOption::VALUE_OPTIONAL, 'group');
 		$this->setHelp(
-<<<EOF
+			<<<EOF
 The <info>%command.name%</info> command removes a user from a group
 
 <info>php %command.full_name%</info>

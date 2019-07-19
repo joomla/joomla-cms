@@ -185,7 +185,7 @@ class DeleteUserCommand extends AbstractCommand
 		$this->setDescription('Delete a user');
 		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
 		$this->setHelp(
-<<<EOF
+			<<<EOF
 The <info>%command.name%</info> command deletes a user
 
 <info>php %command.full_name%</info>

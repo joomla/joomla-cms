@@ -289,7 +289,7 @@ class AddUserToGroupCommand extends AbstractCommand
 		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
 		$this->addOption('group', null, InputOption::VALUE_OPTIONAL, 'group');
 		$this->setHelp(
-<<<EOF
+			<<<EOF
 The <info>%command.name%</info> command adds a user to group
 
 <info>php %command.full_name%</info>
