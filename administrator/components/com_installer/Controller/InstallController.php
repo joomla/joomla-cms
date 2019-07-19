@@ -35,7 +35,7 @@ class InstallController extends BaseController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		/* @var \Joomla\Component\Installer\Administrator\Model\InstallModel $model */
+		/** @var \Joomla\Component\Installer\Administrator\Model\InstallModel $model */
 		$model = $this->getModel('install');
 
 		// TODO: Reset the users acl here as well to kill off any missing bits.

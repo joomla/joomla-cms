@@ -26,7 +26,6 @@ if ($app->isClient('site'))
 
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('script', 'com_content/admin-articles-modal.min.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 HTMLHelper::_('behavior.multiselect');
 
 $function  = $app->input->getCmd('function', 'jSelectArticle');
@@ -130,7 +129,7 @@ if (!empty($editor))
 								<?php else : ?>
 									<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 								<?php endif; ?>
- 							</span>
+							</span>
 							<div class="small">
 								<?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 							</div>

@@ -83,11 +83,13 @@ class MetasRenderer extends DocumentRenderer
 			{
 				if ($type == 'http-equiv' && !($this->_doc->isHtml5() && $name == 'content-type'))
 				{
-					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="' . htmlspecialchars($contents, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
+					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="'
+						. htmlspecialchars($contents, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
 				}
 				elseif ($type != 'http-equiv' && !empty($contents))
 				{
-					$buffer .= $tab . '<meta ' . $type . '="' . $name . '" content="' . htmlspecialchars($contents, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
+					$buffer .= $tab . '<meta ' . $type . '="' . $name . '" content="'
+						. htmlspecialchars($contents, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
 				}
 			}
 		}

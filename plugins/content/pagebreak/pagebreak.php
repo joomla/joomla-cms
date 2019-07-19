@@ -384,7 +384,6 @@ class PlgContentPagebreak extends CMSPlugin
 			'previous' => ''
 		);
 
-
 		if ($page < $n - 1)
 		{
 			$links['next'] = Route::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($page + 1));

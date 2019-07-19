@@ -65,10 +65,10 @@ class FeedDocument extends Document
 	/**
 	 * Lastbuild date feed element
 	 *
-	 * @var    \JDate
+	 * @var    \Joomla\CMS\Date\Date
 	 * @since  1.7.0
 	 */
-	public $lastBuildDate = '';
+	public $lastBuildDate;
 
 	/**
 	 * Editor feed element
