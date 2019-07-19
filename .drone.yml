@@ -32,7 +32,7 @@ steps:
     commands:
       - echo $(date)
       - ./libraries/vendor/bin/phpcs --config-set installed_paths ../../joomla/cms-coding-standards/lib,../../joomla/coding-standards
-      - ./libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php --ignore=libraries/vendor/*,build/*,node_modules/*,media/*,libraries/autoload_psr4.php,installation/template/error.php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
+      - ./libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php --ignore=libraries/vendor/*,tests/*,build/*,node_modules/*,media/*,libraries/autoload_psr4.php,installation/template/error.php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
       - echo $(date)
 
   - name: npm
