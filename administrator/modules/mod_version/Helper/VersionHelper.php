@@ -29,6 +29,6 @@ abstract class VersionHelper
 	{
 		$version = new Version;
 
-		return '&#x200E;' . $version::PRODUCT . ' ' . $version->getShortVersion();
+		return '&#x200E;' . $version->getShortVersion();
 	}
 }
