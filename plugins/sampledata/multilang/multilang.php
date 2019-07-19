@@ -566,7 +566,7 @@ class PlgSampledataMultilang extends CMSPlugin
 					$db->quoteName('client_id') . ' = 0',
 					$db->quoteName('module') . ' = ' . $db->quote('mod_menu'),
 					$db->quoteName('language') . ' = ' . $db->quote('*'),
-					$db->quoteName('position') . ' = ' . $db->quote('sidebar-right')
+					$db->quoteName('position') . ' = ' . $db->quote('sidebar-right'),
 				]
 			);
 		$db->setQuery($query);
@@ -916,7 +916,7 @@ class PlgSampledataMultilang extends CMSPlugin
 					[
 						$id,
 						$context,
-						$key
+						$key,
 					],
 					[
 						ParameterType::INTEGER,
@@ -1276,7 +1276,7 @@ class PlgSampledataMultilang extends CMSPlugin
 					$db->quoteName('type') . ' = ' . $db->quote('language'),
 					$db->quoteName('state') . ' = 0',
 					$db->quoteName('enabled') . ' = 1',
-					$db->quoteName('client_id') . ' = :clientid'
+					$db->quoteName('client_id') . ' = :clientid',
 				]
 			)
 			->bind(':clientid', $client_id);
