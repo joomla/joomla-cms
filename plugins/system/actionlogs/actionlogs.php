@@ -401,9 +401,10 @@ class PlgSystemActionLogs extends CMSPlugin
 		{
 			$notify  = (int) $user['actionlogs']['actionlogsNotify'];
 			$values  = [':userid', ':notify'];
+			$bind    = [$userid, $notify];
 			$columns = ['user_id', 'notify'];
 
-			$query->bind($values, [$userid, $notify], ParameterType::INTEGER);
+			$query->bind($values, $bind, ParameterType::INTEGER);
 
 			if (isset($user['actionlogs']['actionlogsExtensions']))
 			{
