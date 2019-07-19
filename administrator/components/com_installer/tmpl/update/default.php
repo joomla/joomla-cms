@@ -137,7 +137,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<td class="d-none d-md-table-cell">
 										<span class="break-word">
 										<?php echo $item->detailsurl; ?>
-											<?php if (isset($item->infourl)) : ?>
+											<?php if (!empty($item->infourl)) : ?>
 												<br>
 												<a href="<?php echo $item->infourl; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->infourl); ?></a>
 											<?php endif; ?>

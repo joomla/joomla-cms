@@ -28,7 +28,7 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?
 				<?php if ($lang->isRtl()) : ?>
 				<h3 class="page-header item-title">
 					<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
-						<span class="badge badge-info tip hasTooltip">
+						<span class="badge badge-info tip">
 							<?php echo $child->getNumItems(true); ?>
 						</span>
 					<?php endif; ?>
