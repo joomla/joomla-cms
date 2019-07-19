@@ -268,10 +268,8 @@ class DebuggroupModel extends ListModel
 		if ($this->getState('filter.component'))
 		{
 			$component = $this->getState('filter.component');
-			$query->where(
-				'(' . $db->quoteName('a.name') . ' = :component'
-				. ' OR ' . $db->quoteName('a.name') . ' LIKE :lcomponent' . ')'
-			)
+			$query->where($db->quoteName('a.name') . ' = :component')
+				->orWhere($db->quoteName('a.name') . ' LIKE :lcomponent')
 				->bind(':component', $component)
 				->bind(':lcomponent', $component . '%');
 		}
