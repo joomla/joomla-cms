@@ -9,14 +9,12 @@ ul.manager .height-50 .icon-folder-2 {
 }
 
 #imageForm {
-	margin: -25px 0 0;
 	.well {
 		margin-bottom: 5px;
 	}
 }
 .thumbnails-media {
 	@thumbSize:100px;
-	margin-left: 0;
 	.thumbnail {
 		background-color: #f4f4f4;
 		border-radius: @inputBorderRadius;
@@ -25,8 +23,7 @@ ul.manager .height-50 .icon-folder-2 {
 		padding: 0px;
 		height: @thumbSize;
 		width: @thumbSize;
-		margin: 8px 16px;
-		margin-left: 0 !important;
+		margin: 8px;
 		position: relative;
 		text-align: center;
 		overflow: hidden;
@@ -203,6 +200,7 @@ ul.manager .height-50 .icon-folder-2 {
 }
 #mediamanager-form {
 	margin: 0 -10px;
+	overflow-x: hidden;
 	> .muted {
 		padding: 0px;
 	}
@@ -214,10 +212,12 @@ ul.manager .height-50 .icon-folder-2 {
 		}
 	}
 	.thumbnails {
+		margin: 0 -8px;
+		overflow-x: hidden;
 		.thumbnail {
 			height: 120px;
 			width: 120px;
-			margin: 0 18px 18px 0;
+			margin: 8px
 		}
 		.imgThumb label, .imgTotal {
 			line-height: 120px;

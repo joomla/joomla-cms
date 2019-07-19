@@ -3,22 +3,22 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access
 defined('_JEXEC') or die;
 
-$options = $displayData->options;
-$params  = $displayData->params;
-$name    = $displayData->name;
-$id      = $displayData->id;
-$cols    = $displayData->cols;
-$rows    = $displayData->rows;
-$content = $displayData->content;
-$buttons = $displayData->buttons;
-$modifier = $params->get('fullScreenMod', '') !== '' ? implode($params->get('fullScreenMod', ''), ' + ') . ' + ' : '';
+$options  = $displayData->options;
+$params   = $displayData->params;
+$name     = $displayData->name;
+$id       = $displayData->id;
+$cols     = $displayData->cols;
+$rows     = $displayData->rows;
+$content  = $displayData->content;
+$buttons  = $displayData->buttons;
+$modifier = $params->get('fullScreenMod', array()) ? implode(' + ', $params->get('fullScreenMod', array())) . ' + ' : '';
 
 ?>
 

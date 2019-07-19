@@ -67,11 +67,11 @@
 			description="COM_USERS_REGISTER_EMAIL1_DESC"
 			field="id"
 			filter="string"
-			message="COM_USERS_REGISTER_EMAIL1_MESSAGE"
 			required="true"
 			size="30"
 			unique="true"
 			validate="email"
+			validDomains="com_users.domains"
 			autocomplete="email"
 		/>
 

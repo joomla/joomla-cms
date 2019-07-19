@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,16 +45,15 @@ JFactory::getDocument()->addScriptDeclaration(
 			cm.defineInitHook(function (editor)
 			{
 				// Try to set up the mode
-				var mode = cm.findModeByName(editor.options.mode || '');
+				var mode = cm.findModeByMIME(editor.options.mode || '') ||
+							cm.findModeByName(editor.options.mode || '') ||
+							cm.findModeByExtension(editor.options.mode || '');
 
-				if (mode)
+				cm.autoLoadMode(editor, mode ? mode.mode : editor.options.mode);
+
+				if (mode && mode.mime)
 				{
-					cm.autoLoadMode(editor, mode.mode);
 					editor.setOption('mode', mode.mime);
-				}
-				else
-				{
-					cm.autoLoadMode(editor, editor.options.mode);
 				}
 
 				// Handle gutter clicks (place or remove a marker).

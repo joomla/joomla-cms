@@ -159,6 +159,14 @@
 		<exclude-pattern type="relative">tests/*</exclude-pattern>
 	</rule>
 
+	<rule ref="Joomla.Commenting.FunctionComment.MissingParamTag">
+		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+	</rule>
+
+	<rule ref="Joomla.Commenting.FunctionComment.ParamNameNoMatch">
+		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+	</rule>
+
 	<rule ref="Joomla.Commenting.SingleComment">
 		<!-- We don't want this in mixed html/php views for now -->
 		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
