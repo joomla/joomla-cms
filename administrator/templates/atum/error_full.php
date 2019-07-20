@@ -21,6 +21,8 @@ $lang  = $app->getLanguage();
 $input = $app->input;
 $wa    = $this->getWebAssetManager();
 
+require_once __DIR__ . '/Service/HTML/Atum.php';
+
 // Detecting Active Variables
 $option     = $input->get('option', '');
 $view       = $input->get('view', '');
@@ -68,8 +70,7 @@ $css = '
 
 $this->addStyleDeclaration($css);
 
-HTMLHelper::getServiceRegistry()->register('atum', 'Joomla\\Template\\Atum\\Administrator\\Service\\HTML\\Atum');
-
+HTMLHelper::getServiceRegistry()->register('atum', 'JHtmlAtum');
 HTMLHelper::_('atum.rootcolors', $this->params);
 ?>
 <!DOCTYPE html>

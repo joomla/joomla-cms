@@ -18,6 +18,8 @@ use Joomla\CMS\Language\Text;
 $app  = Factory::getApplication();
 $lang = $app->getLanguage();
 
+require_once __DIR__ . '/Service/HTML/Atum.php';
+
 // Add JavaScript Frameworks
 HTMLHelper::_('script', 'vendor/css-vars-ponyfill/css-vars-ponyfill.min.js', ['version' => 'auto', 'relative' => true]);
 
@@ -75,8 +77,7 @@ $css = '
 ';
 $this->addStyleDeclaration($css);
 
-HTMLHelper::getServiceRegistry()->register('atum', 'Joomla\\Template\\Atum\\Administrator\\Service\\HTML\\Atum');
-
+HTMLHelper::getServiceRegistry()->register('atum', 'JHtmlAtum');
 HTMLHelper::_('atum.rootcolors', $this->params);
 ?>
 <!DOCTYPE html>

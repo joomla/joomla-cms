@@ -7,7 +7,6 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<copyright>Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.</copyright>
 	<description>TPL_ATUM_XML_DESCRIPTION</description>
-	<namespace>Joomla\Template\Atum</namespace>
 	<files>
 		<filename>component.php</filename>
 		<filename>cpanel.php</filename>

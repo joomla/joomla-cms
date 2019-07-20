@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Template\Atum\Administrator\Service\HTML;
-
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
@@ -23,7 +21,7 @@ use OzdemirBurak\Iris\Color\Hsla;
  *
  * @since  4.0.0
  */
-class Atum
+class JHtmlAtum
 {
 	/**
 	 * Calculates the different template colors and set the CSS variables

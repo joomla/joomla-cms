@@ -22,6 +22,7 @@ $lang = $app->getLanguage();
 // Add JavaScript Frameworks
 HTMLHelper::_('script', 'vendor/focus-visible/focus-visible.min.js', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'vendor/css-vars-ponyfill/css-vars-ponyfill.min.js', ['version' => 'auto', 'relative' => true]);
+require_once __DIR__ . '/Service/HTML/Atum.php';
 
 // Load template CSS file
 HTMLHelper::_('stylesheet', 'bootstrap.min.css', ['version' => 'auto', 'relative' => true]);
@@ -64,8 +65,7 @@ $css = '
 
 $this->addStyleDeclaration($css);
 
-HTMLHelper::getServiceRegistry()->register('atum', 'Joomla\\Template\\Atum\\Administrator\\Service\\HTML\\Atum');
-
+HTMLHelper::getServiceRegistry()->register('atum', 'JHtmlAtum');
 HTMLHelper::_('atum.rootcolors', $this->params);
 ?>
 <!DOCTYPE html>
