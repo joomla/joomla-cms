@@ -84,7 +84,7 @@ class RoboFile extends Tasks
 	 * @return  void
 	 * @since   3.7.3
 	 *
-	 * @throws Exception
+	 * @throws  Exception
 	 */
 	public function createTestingSite($useHtaccess = false)
 	{
@@ -229,7 +229,7 @@ class RoboFile extends Tasks
 	 * @return  void
 	 * @since   3.7.3
 	 *
-	 * @throws Exception
+	 * @throws  Exception
 	 */
 	public function runTests($opts = ['use-htaccess' => false, 'env' => 'desktop'])
 	{
@@ -265,7 +265,7 @@ class RoboFile extends Tasks
 	 * @return  void
 	 * @since   4.0.0
 	 *
-	 * @throws Exception
+	 * @throws  Exception
 	 */
 	public function runInstall($opts = ['use-htaccess' => false, 'env' => 'desktop'])
 	{
@@ -291,7 +291,7 @@ class RoboFile extends Tasks
 	 * @return  string  Path to codeception
 	 *
 	 * @since   4.0.0
-	 * @throws Exception
+	 * @throws  Exception
 	 */
 	protected function prepareRun($opts = ['use-htaccess' => false, 'env' => 'desktop'])
 	{
