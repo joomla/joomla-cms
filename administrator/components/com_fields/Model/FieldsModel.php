@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -170,7 +171,8 @@ class FieldsModel extends ListModel
 		// Filter by context
 		if ($context = $this->getState('filter.context'))
 		{
-			$query->where('a.context = ' . $db->quote($context));
+			$query->where($db->quoteName('a.context') . ' = :context')
+				->bind(':context', $context);
 		}
 
 		// Filter by access level.
@@ -179,11 +181,13 @@ class FieldsModel extends ListModel
 			if (is_array($access))
 			{
 				$access = ArrayHelper::toInteger($access);
-				$query->where('a.access in (' . implode(',', $access) . ')');
+				$query->whereIn($db->quoteName('a.access'), $access);
 			}
 			else
 			{
-				$query->where('a.access = ' . (int) $access);
+				$access = (int) $access;
+				$query->where($db->quoteName('a.access') . ' = :access')
+					->bind(':access', $access, ParameterType::INTEGER);
 			}
 		}
 
@@ -233,21 +237,23 @@ class FieldsModel extends ListModel
 
 			if (in_array('0', $categories))
 			{
-				$query->where('(fc.category_id IS NULL OR fc.category_id IN (' . implode(',', $categories) . '))');
+				$query->where($db->quoteName('fc.category_id') . ' IS NULL ')
+					->orWhere($query->whereIn($db->quoteName('fc.category_id'), $categories));
 			}
 			else
 			{
-				$query->where('fc.category_id IN (' . implode(',', $categories) . ')');
+				$query->whereIn($db->quoteName('fc.category_id'), $categories);
 			}
 		}
 
 		// Implement View Level Access
 		if (!$app->isClient('administrator') || !$user->authorise('core.admin'))
 		{
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN (' . $groups . ') AND (a.group_id = 0 OR g.access IN (' . $groups . '))');
+			$groups = $user->getAuthorisedViewLevels();
+			$query->whereIn($db->quoteName('a.access'), $groups)
+				->where($db->quoteName('a.group_id') . ' = 0 ')
+				->orWhere($query->whereIn($db->quoteName('g.access'), $groups));
 		}
-
 		// Filter by state
 		$state = $this->getState('filter.state');
 
@@ -258,20 +264,26 @@ class FieldsModel extends ListModel
 
 		if (is_numeric($state))
 		{
-			$query->where('a.state = ' . (int) $state);
+			$state = (int) $state;
+			$query->where($db->quoteName('a.state') . ' = :state')
+				->bind(':state', $state, ParameterType::INTEGER);
 
 			if ($includeGroupState)
 			{
-				$query->where('(a.group_id = 0 OR g.state = ' . (int) $state . ')');
+				$query->where($db->quoteName('a.group_id') . ' = 0 ')
+					->orWhere($db->quoteName('g.state') . ' = :gstate')
+					->bind(':gstate', $state, ParameterType::INTEGER);
 			}
 		}
 		elseif (!$state)
 		{
-			$query->where('a.state IN (0, 1)');
+			$query->whereIn($db->quoteName('a.state'), [0, 1]);
 
 			if ($includeGroupState)
 			{
-				$query->where('(a.group_id = 0 OR g.state IN (0, 1))');
+				$query->where($db->quoteName('a.group_id') . ' = 0 ')
+					->orWhere($query->whereIn($db->quoteName('g.state'), [0, 1]));
+					
 			}
 		}
 
@@ -279,27 +291,39 @@ class FieldsModel extends ListModel
 
 		if (is_numeric($groupId))
 		{
-			$query->where('a.group_id = ' . (int) $groupId);
+			$groupId = (int) $groupId;
+			$query->where($db->quoteName('a.group_id') . ' = :groupid')
+				->bind(':groupid', $groupId, ParameterType::INTEGER);
 		}
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
 
-		if (! empty($search))
+		if (!empty($search))
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.id = ' . (int) substr($search, 3));
+				$search = (int) substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :search')
+					->bind(':id', $search, ParameterType::INTEGER);
 			}
 			elseif (stripos($search, 'author:') === 0)
 			{
-				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
-				$query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
+				$search = '%' . substr($search, 7) . '%';
+				$query->where($db->quoteName('ua.name') . ' LIKE :name')
+					->orWhere($db->quoteName('ua.username') . ' LIKE :username')
+					->bind(':name', $search)
+					->bind(':username', $search);
 			}
 			else
 			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.title LIKE ' . $search . ' OR a.name LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
+				$search = '%' . str_replace(' ', '%', trim($search)) . '%';
+				$query->where($db->quoteName('a.title') . ' LIKE :title') 
+					->orWhere($db->quoteName('a.name') . ' LIKE :sname')
+					->orWhere($db->quoteName('a.note') . ' LIKE :note')
+					->bind(':title', $search)
+					->bind(':sname',$search)
+					->bind(':note',$search);
 			}
 		}
 
@@ -313,7 +337,7 @@ class FieldsModel extends ListModel
 				$language[$key] = $db->quote($l);
 			}
 
-			$query->where('a.language in (' . implode(',', $language) . ')');
+			$query->whereIn($db->quoteName('a.language'), $language, PARAMETER::STRING);
 		}
 
 		// Add the list ordering clause
@@ -388,14 +412,16 @@ class FieldsModel extends ListModel
 	{
 		$user       = Factory::getUser();
 		$viewlevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
+		$context    = $this->state->get('filter.context');
 
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 		$query->select('title AS text, id AS value, state');
 		$query->from('#__fields_groups');
 		$query->where('state IN (0,1)');
-		$query->where('context = ' . $db->quote($this->state->get('filter.context')));
-		$query->where('access IN (' . implode(',', $viewlevels) . ')');
+		$query->where($db->quoteName('context') . ' = :context');
+		$query->whereIn($db->quoteName('access'), $viewlevels);
+		$query->bind(':context', $context);
 
 		$db->setQuery($query);
 
