@@ -13,7 +13,7 @@ use Joomla\CMS\Encrypt\AES\AesInterface;
 use Joomla\CMS\Encrypt\AES\Mcrypt;
 use Joomla\CMS\Encrypt\AES\OpenSSL;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * A simple implementation of AES-128, AES-192 and AES-256 encryption using the
@@ -89,9 +89,9 @@ class Aes
 	{
 		$this->key = $password;
 
-		$passLength = strlen($password);
+		$passLength = \strlen($password);
 
-		if (function_exists('mb_strlen'))
+		if (\function_exists('mb_strlen'))
 		{
 			$passLength = mb_strlen($password, 'ASCII');
 		}
@@ -218,9 +218,9 @@ class Aes
 	public function getExpandedKey($blockSize, $iv)
 	{
 		$key        = $this->key;
-		$passLength = strlen($key);
+		$passLength = \strlen($key);
 
-		if (function_exists('mb_strlen'))
+		if (\function_exists('mb_strlen'))
 		{
 			$passLength = mb_strlen($key, 'ASCII');
 		}
@@ -259,12 +259,12 @@ if (!function_exists('hash_pbkdf2'))
 
 		if (!is_numeric($count))
 		{
-			trigger_error(__FUNCTION__ . '(): expects parameter 4 to be long, ' . gettype($count) . ' given', E_USER_WARNING);
+			trigger_error(__FUNCTION__ . '(): expects parameter 4 to be long, ' . \gettype($count) . ' given', E_USER_WARNING);
 		}
 
 		if (!is_numeric($length))
 		{
-			trigger_error(__FUNCTION__ . '(): expects parameter 5 to be long, ' . gettype($length) . ' given', E_USER_WARNING);
+			trigger_error(__FUNCTION__ . '(): expects parameter 5 to be long, ' . \gettype($length) . ' given', E_USER_WARNING);
 		}
 
 		if ($count <= 0)
@@ -278,7 +278,7 @@ if (!function_exists('hash_pbkdf2'))
 		}
 
 		$output      = '';
-		$block_count = $length ? ceil($length / strlen(hash($algo, '', $raw_output))) : 1;
+		$block_count = $length ? ceil($length / \strlen(hash($algo, '', $raw_output))) : 1;
 
 		for ($i = 1; $i <= $block_count; $i++)
 		{

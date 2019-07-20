@@ -10,7 +10,7 @@ namespace Joomla\CMS\Encrypt\AES;
 
 use Joomla\CMS\Encrypt\Randval;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * OpenSSL encryption class
@@ -71,7 +71,7 @@ class Openssl extends AbstractAES implements AesInterface
 				'aes-192-ecb', 'aes-128-cbc', 'aes-128-ecb') as $algo
 			)
 			{
-				if (in_array($algo, $availableAlgorithms))
+				if (\in_array($algo, $availableAlgorithms))
 				{
 					$defaultAlgo = $algo;
 					break;

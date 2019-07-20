@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Document\Renderer\Html;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Factory;
@@ -43,7 +43,7 @@ class ModuleRenderer extends DocumentRenderer
 
 			if (!is_object($module))
 			{
-				if (is_null($content))
+				if (\is_null($content))
 				{
 					return '';
 				}

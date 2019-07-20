@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Document\Renderer\Html;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
 
@@ -75,7 +75,7 @@ class StylesRenderer extends DocumentRenderer
 				}
 
 				// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
-				if (in_array($attrib, array('type', 'mime')) && $this->_doc->isHtml5() && in_array($value, $defaultCssMimes))
+				if (\in_array($attrib, array('type', 'mime')) && $this->_doc->isHtml5() && \in_array($value, $defaultCssMimes))
 				{
 					continue;
 				}
@@ -154,7 +154,7 @@ class StylesRenderer extends DocumentRenderer
 
 			$buffer .= $tab . '<script type="application/json" class="joomla-script-options new"' . $nonce . '>';
 
-			$prettyPrint = (JDEBUG && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
+			$prettyPrint = (JDEBUG && \defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
 			$jsonOptions = json_encode($scriptOptions, $prettyPrint);
 			$jsonOptions = $jsonOptions ? $jsonOptions : '{}';
 

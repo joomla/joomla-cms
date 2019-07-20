@@ -10,7 +10,7 @@ namespace Joomla\CMS\Encrypt\AES;
 
 use Joomla\CMS\Encrypt\Randval;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Mcrypt implementation

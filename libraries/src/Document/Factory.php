@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Document;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Default factory for creating Document objects

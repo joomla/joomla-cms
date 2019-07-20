@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Extension;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Categories\CategoryInterface;
@@ -237,7 +237,7 @@ class LegacyComponent
 		{
 			$reflection = new \ReflectionClass($class);
 
-			if (in_array('Joomla\\CMS\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames()))
+			if (\in_array('Joomla\\CMS\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames()))
 			{
 				return new $class($application, $menu);
 			}
