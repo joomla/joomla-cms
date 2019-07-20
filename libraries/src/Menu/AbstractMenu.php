@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Menu;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -166,12 +166,12 @@ abstract class AbstractMenu
 	 */
 	public function getDefault($language = '*')
 	{
-		if (array_key_exists($language, $this->default))
+		if (\array_key_exists($language, $this->default))
 		{
 			return $this->getMenu()[$this->default[$language]];
 		}
 
-		if (array_key_exists('*', $this->default))
+		if (\array_key_exists('*', $this->default))
 		{
 			return $this->getMenu()[$this->default['*']];
 		}
@@ -228,7 +228,7 @@ abstract class AbstractMenu
 		$items = array();
 		$attributes = (array) $attributes;
 		$values = (array) $values;
-		$count = count($attributes);
+		$count = \count($attributes);
 
 		foreach ($this->getMenu() as $item)
 		{
@@ -241,7 +241,7 @@ abstract class AbstractMenu
 
 			for ($i = 0; $i < $count; $i++)
 			{
-				if (is_array($values[$i]))
+				if (\is_array($values[$i]))
 				{
 					if (!in_array($item->{$attributes[$i]}, $values[$i]))
 					{
@@ -327,7 +327,7 @@ abstract class AbstractMenu
 				return true;
 			}
 
-			return in_array($access, $this->user->getAuthorisedViewLevels(), true);
+			return \in_array($access, $this->user->getAuthorisedViewLevels(), true);
 		}
 
 		return true;

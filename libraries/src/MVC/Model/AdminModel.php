@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -309,7 +309,7 @@ abstract class AdminModel extends FormModel
 			{
 				$result = $this->batchCopy($commands[$this->batch_copymove], $pks, $contexts);
 
-				if (is_array($result))
+				if (\is_array($result))
 				{
 					foreach ($result as $old => $new)
 					{
@@ -828,7 +828,7 @@ abstract class AdminModel extends FormModel
 					// Trigger the before delete event.
 					$result = Factory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
 
-					if (in_array(false, $result, true))
+					if (\in_array(false, $result, true))
 					{
 						$this->setError($table->getError());
 
@@ -1099,7 +1099,7 @@ abstract class AdminModel extends FormModel
 		// Trigger the before change state event.
 		$result = Factory::getApplication()->triggerEvent($this->event_before_change_state, array($context, $pks, $value));
 
-		if (in_array(false, $result, true))
+		if (\in_array(false, $result, true))
 		{
 			$this->setError($table->getError());
 
@@ -1117,7 +1117,7 @@ abstract class AdminModel extends FormModel
 		// Trigger the change state event.
 		$result = Factory::getApplication()->triggerEvent($this->event_change_state, array($context, $pks, $value));
 
-		if (in_array(false, $result, true))
+		if (\in_array(false, $result, true))
 		{
 			$this->setError($table->getError());
 
@@ -1215,7 +1215,7 @@ abstract class AdminModel extends FormModel
 		$table      = $this->getTable();
 		$context    = $this->option . '.' . $this->name;
 
-		if (array_key_exists('tags', $data) && is_array($data['tags']))
+		if (\array_key_exists('tags', $data) && \is_array($data['tags']))
 		{
 			$table->newTags = $data['tags'];
 		}
@@ -1259,7 +1259,7 @@ abstract class AdminModel extends FormModel
 			// Trigger the before save event.
 			$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
 
-			if (in_array(false, $result, true))
+			if (\in_array(false, $result, true))
 			{
 				$this->setError($table->getError());
 
@@ -1354,7 +1354,7 @@ abstract class AdminModel extends FormModel
 				$associations[$table->language] = (int) $table->$key;
 			}
 
-			if (count($associations) > 1)
+			if (\count($associations) > 1)
 			{
 				// Adding new association for these items
 				$key   = md5(json_encode($associations));
@@ -1551,7 +1551,7 @@ abstract class AdminModel extends FormModel
 			$this->table = $this->getTable();
 
 			// Get table class name
-			$tc = explode('\\', get_class($this->table));
+			$tc = explode('\\', \get_class($this->table));
 			$this->tableClassName = end($tc);
 
 			// Get UCM Type data
@@ -1625,7 +1625,7 @@ abstract class AdminModel extends FormModel
 		 * load directly the associated target item in the side by side view
 		 * otherwise select already the target language
 		 */
-		if (count($languages) === 2)
+		if (\count($languages) === 2)
 		{
 			foreach ($languages as $language)
 			{

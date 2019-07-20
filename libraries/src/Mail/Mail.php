@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Mail;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -60,7 +60,7 @@ class Mail extends PHPMailer
 		};
 
 		// If debug mode is enabled then set SMTPDebug to the maximum level
-		if (defined('JDEBUG') && JDEBUG)
+		if (\defined('JDEBUG') && JDEBUG)
 		{
 			$this->SMTPDebug = 4;
 		}
@@ -181,7 +181,7 @@ class Mail extends PHPMailer
 	 */
 	public function setSender($from)
 	{
-		if (is_array($from))
+		if (\is_array($from))
 		{
 			// If $from is an array we assume it has an adress and a name
 			if (isset($from[2]))
@@ -194,7 +194,7 @@ class Mail extends PHPMailer
 				$result = $this->setFrom(MailHelper::cleanLine($from[0]), MailHelper::cleanLine($from[1]));
 			}
 		}
-		elseif (is_string($from))
+		elseif (\is_string($from))
 		{
 			// If it is a string we assume it is just the address
 			$result = $this->setFrom(MailHelper::cleanLine($from));
@@ -270,9 +270,9 @@ class Mail extends PHPMailer
 		$method = lcfirst($method);
 
 		// If the recipient is an array, add each recipient... otherwise just add the one
-		if (is_array($recipient))
+		if (\is_array($recipient))
 		{
-			if (is_array($name))
+			if (\is_array($name))
 			{
 				$combined = array_combine($recipient, $name);
 
@@ -287,7 +287,7 @@ class Mail extends PHPMailer
 					$recipientName = MailHelper::cleanLine($recipientName);
 
 					// Check for boolean false return if exception handling is disabled
-					if (call_user_func('parent::' . $method, $recipientEmail, $recipientName) === false)
+					if (\call_user_func('parent::' . $method, $recipientEmail, $recipientName) === false)
 					{
 						return false;
 					}
@@ -302,7 +302,7 @@ class Mail extends PHPMailer
 					$to = MailHelper::cleanLine($to);
 
 					// Check for boolean false return if exception handling is disabled
-					if (call_user_func('parent::' . $method, $to, $name) === false)
+					if (\call_user_func('parent::' . $method, $to, $name) === false)
 					{
 						return false;
 					}
@@ -314,7 +314,7 @@ class Mail extends PHPMailer
 			$recipient = MailHelper::cleanLine($recipient);
 
 			// Check for boolean false return if exception handling is disabled
-			if (call_user_func('parent::' . $method, $recipient, $name) === false)
+			if (\call_user_func('parent::' . $method, $recipient, $name) === false)
 			{
 				return false;
 			}
@@ -409,9 +409,9 @@ class Mail extends PHPMailer
 		{
 			$result = true;
 
-			if (is_array($path))
+			if (\is_array($path))
 			{
-				if (!empty($name) && count($path) != count($name))
+				if (!empty($name) && \count($path) != \count($name))
 				{
 					throw new \InvalidArgumentException('The number of attachments must be equal with the number of name');
 				}
@@ -674,9 +674,9 @@ class Mail extends PHPMailer
 		}
 
 		// Take care of reply email addresses
-		if (is_array($replyTo))
+		if (\is_array($replyTo))
 		{
-			$numReplyTo = count($replyTo);
+			$numReplyTo = \count($replyTo);
 
 			for ($i = 0; $i < $numReplyTo; $i++)
 			{

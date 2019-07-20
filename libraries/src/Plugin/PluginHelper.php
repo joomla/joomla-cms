@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Plugin;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
@@ -180,7 +180,7 @@ abstract class PluginHelper
 			$plugins = static::load();
 
 			// Get the specified plugin(s).
-			for ($i = 0, $t = count($plugins); $i < $t; $i++)
+			for ($i = 0, $t = \count($plugins); $i < $t; $i++)
 			{
 				if ($plugins[$i]->type === $type && ($plugin === null || $plugins[$i]->name === $plugin))
 				{
@@ -219,7 +219,7 @@ abstract class PluginHelper
 		// Get the dispatcher's hash to allow paths to be tracked against unique dispatchers
 		$hash = spl_object_hash($dispatcher) . $plugin->type . $plugin->name;
 
-		if (array_key_exists($hash, $plugins))
+		if (\array_key_exists($hash, $plugins))
 		{
 			return;
 		}

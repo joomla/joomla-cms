@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\MVC\Factory;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
@@ -221,7 +221,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 			return null;
 		}
 
-		if (array_key_exists('dbo', $config))
+		if (\array_key_exists('dbo', $config))
 		{
 			$db = $config['dbo'];
 		}
