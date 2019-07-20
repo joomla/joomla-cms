@@ -7,11 +7,11 @@ plugins/fields/*  @laoneo
 plugins/systems/fields/*  @laoneo
 
 # Smart Search
-#administrator/components/com_finder/*
-#components/com_finder/*
-#modules/mod_finder/*
-#plugins/content/finder/*
-#plugins/finder/*
+administrator/components/com_finder/*  @hackwar
+components/com_finder/*  @hackwar
+modules/mod_finder/*  @hackwar
+plugins/content/finder/*  @hackwar
+plugins/finder/*  @hackwar
 
 # CodeMirror
 media/editors/codemirror/*  @okonomiyaki3000
