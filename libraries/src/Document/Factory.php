@@ -54,7 +54,7 @@ class Factory implements FactoryInterface
 		/** @var Document $instance */
 		$instance = new $class($attributes);
 
-		if (!is_null($ntype))
+		if (!\is_null($ntype))
 		{
 			// Set the type to the Document type originally requested
 			$instance->setType($ntype);

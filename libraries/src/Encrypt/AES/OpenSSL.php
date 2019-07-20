@@ -63,7 +63,7 @@ class Openssl extends AbstractAES implements AesInterface
 		static $availableAlgorithms = null;
 		static $defaultAlgo = 'aes-128-cbc';
 
-		if (!is_array($availableAlgorithms))
+		if (!\is_array($availableAlgorithms))
 		{
 			$availableAlgorithms = openssl_get_cipher_methods();
 
@@ -82,19 +82,19 @@ class Openssl extends AbstractAES implements AesInterface
 		$strength = (int) $strength;
 		$mode     = strtolower($mode);
 
-		if (!in_array($strength, array(128, 192, 256)))
+		if (!\in_array($strength, array(128, 192, 256)))
 		{
 			$strength = 256;
 		}
 
-		if (!in_array($mode, array('cbc', 'ebc')))
+		if (!\in_array($mode, array('cbc', 'ebc')))
 		{
 			$mode = 'cbc';
 		}
 
 		$algo = 'aes-' . $strength . '-' . $mode;
 
-		if (!in_array($algo, $availableAlgorithms))
+		if (!\in_array($algo, $availableAlgorithms))
 		{
 			$algo = $defaultAlgo;
 		}
@@ -168,51 +168,51 @@ class Openssl extends AbstractAES implements AesInterface
 	 */
 	public function isSupported()
 	{
-		if (!function_exists('openssl_get_cipher_methods'))
+		if (!\function_exists('openssl_get_cipher_methods'))
 		{
 			return false;
 		}
 
-		if (!function_exists('openssl_random_pseudo_bytes'))
+		if (!\function_exists('openssl_random_pseudo_bytes'))
 		{
 			return false;
 		}
 
-		if (!function_exists('openssl_cipher_iv_length'))
+		if (!\function_exists('openssl_cipher_iv_length'))
 		{
 			return false;
 		}
 
-		if (!function_exists('openssl_encrypt'))
+		if (!\function_exists('openssl_encrypt'))
 		{
 			return false;
 		}
 
-		if (!function_exists('openssl_decrypt'))
+		if (!\function_exists('openssl_decrypt'))
 		{
 			return false;
 		}
 
-		if (!function_exists('hash'))
+		if (!\function_exists('hash'))
 		{
 			return false;
 		}
 
-		if (!function_exists('hash_algos'))
+		if (!\function_exists('hash_algos'))
 		{
 			return false;
 		}
 
 		$algorightms = openssl_get_cipher_methods();
 
-		if (!in_array('aes-128-cbc', $algorightms))
+		if (!\in_array('aes-128-cbc', $algorightms))
 		{
 			return false;
 		}
 
 		$algorightms = hash_algos();
 
-		if (!in_array('sha256', $algorightms))
+		if (!\in_array('sha256', $algorightms))
 		{
 			return false;
 		}

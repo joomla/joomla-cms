@@ -58,7 +58,7 @@ class StylesRenderer extends DocumentRenderer
 			$buffer .= $tab;
 
 			// This is for IE conditional statements support.
-			if (!is_null($conditional))
+			if (!\is_null($conditional))
 			{
 				$buffer .= '<!--[if ' . $conditional . ']>';
 			}
@@ -98,7 +98,7 @@ class StylesRenderer extends DocumentRenderer
 			$buffer .= $tagEnd;
 
 			// This is for IE conditional statements support.
-			if (!is_null($conditional))
+			if (!\is_null($conditional))
 			{
 				$buffer .= '<![endif]-->';
 			}
@@ -111,7 +111,7 @@ class StylesRenderer extends DocumentRenderer
 		{
 			$buffer .= $tab . '<style';
 
-			if (!is_null($type) && (!$this->_doc->isHtml5() || !in_array($type, $defaultCssMimes)))
+			if (!\is_null($type) && (!$this->_doc->isHtml5() || !\in_array($type, $defaultCssMimes)))
 			{
 				$buffer .= ' type="' . $type . '"';
 			}

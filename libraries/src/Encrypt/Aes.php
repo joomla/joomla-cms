@@ -182,24 +182,24 @@ class Aes
 			return false;
 		}
 
-		if (!function_exists('base64_encode'))
+		if (!\function_exists('base64_encode'))
 		{
 			return false;
 		}
 
-		if (!function_exists('base64_decode'))
+		if (!\function_exists('base64_decode'))
 		{
 			return false;
 		}
 
-		if (!function_exists('hash_algos'))
+		if (!\function_exists('hash_algos'))
 		{
 			return false;
 		}
 
 		$algorightms = hash_algos();
 
-		if (!in_array('sha256', $algorightms))
+		if (!\in_array('sha256', $algorightms))
 		{
 			return false;
 		}
@@ -236,7 +236,7 @@ class Aes
 	}
 }
 
-if (!function_exists('hash_pbkdf2'))
+if (!\function_exists('hash_pbkdf2'))
 {
 	/**
 	 * Shim for missing hash_pbkdf2
@@ -252,7 +252,7 @@ if (!function_exists('hash_pbkdf2'))
 	 */
 	function hash_pbkdf2($algo, $password, $salt, $count, $length = 0, $raw_output = false)
 	{
-		if (!in_array(strtolower($algo), hash_algos()))
+		if (!\in_array(strtolower($algo), hash_algos()))
 		{
 			trigger_error(__FUNCTION__ . '(): Unknown hashing algorithm: ' . $algo, E_USER_WARNING);
 		}

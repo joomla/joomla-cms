@@ -58,7 +58,7 @@ class ScriptsRenderer extends DocumentRenderer
 			$buffer .= $tab;
 
 			// This is for IE conditional statements support.
-			if (!is_null($conditional))
+			if (!\is_null($conditional))
 			{
 				$buffer .= '<!--[if ' . $conditional . ']>';
 			}
@@ -112,7 +112,7 @@ class ScriptsRenderer extends DocumentRenderer
 			$buffer .= '></script>';
 
 			// This is for IE conditional statements support.
-			if (!is_null($conditional))
+			if (!\is_null($conditional))
 			{
 				$buffer .= '<![endif]-->';
 			}
@@ -125,7 +125,7 @@ class ScriptsRenderer extends DocumentRenderer
 		{
 			$buffer .= $tab . '<script';
 
-			if (!is_null($type) && (!$this->_doc->isHtml5() || !in_array($type, $defaultJsMimes)))
+			if (!\is_null($type) && (!$this->_doc->isHtml5() || !\in_array($type, $defaultJsMimes)))
 			{
 				$buffer .= ' type="' . $type . '"';
 			}

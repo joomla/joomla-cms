@@ -242,7 +242,7 @@ class HtmlDocument extends Document
 	 */
 	public function setHeadData($data)
 	{
-		if (empty($data) || !is_array($data))
+		if (empty($data) || !\is_array($data))
 		{
 			return;
 		}
@@ -280,7 +280,7 @@ class HtmlDocument extends Document
 	 */
 	public function mergeHeadData($data)
 	{
-		if (empty($data) || !is_array($data))
+		if (empty($data) || !\is_array($data))
 		{
 			return;
 		}
@@ -515,7 +515,7 @@ class HtmlDocument extends Document
 	public function setBuffer($content, $options = array())
 	{
 		// The following code is just for backward compatibility.
-		if (\func_num_args() > 1 && !is_array($options))
+		if (\func_num_args() > 1 && !\is_array($options))
 		{
 			$args = \func_get_args();
 			$options = array();

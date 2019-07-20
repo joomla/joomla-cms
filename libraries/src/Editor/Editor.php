@@ -81,7 +81,7 @@ class Editor implements DispatcherAwareInterface
 		$this->_name = $editor;
 
 		// Set the dispatcher
-		if (!is_object($dispatcher))
+		if (!\is_object($dispatcher))
 		{
 			$dispatcher = Factory::getContainer()->get('dispatcher');
 		}

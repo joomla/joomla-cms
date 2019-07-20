@@ -34,12 +34,12 @@ class BeforeLoadEvent extends AbstractEvent
 	 */
 	public function __construct($name, array $arguments = array())
 	{
-		if (!array_key_exists('keys', $arguments))
+		if (!\array_key_exists('keys', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'keys' is required for event $name");
 		}
 
-		if (!array_key_exists('reset', $arguments))
+		if (!\array_key_exists('reset', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'reset' is required for event $name");
 		}

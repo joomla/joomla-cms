@@ -133,7 +133,7 @@ class LegacyComponent
 	{
 		$helper = $this->loadHelper();
 
-		if (!$helper || !is_callable(array($helper, 'countItems')))
+		if (!$helper || !\is_callable(array($helper, 'countItems')))
 		{
 			return;
 		}
@@ -156,7 +156,7 @@ class LegacyComponent
 	{
 		$helper = $this->loadHelper();
 
-		if (!$helper || !is_callable(array($helper, 'countTagItems')))
+		if (!$helper || !\is_callable(array($helper, 'countTagItems')))
 		{
 			return;
 		}
@@ -179,7 +179,7 @@ class LegacyComponent
 	{
 		$helper = $this->loadHelper();
 
-		if (!$helper || !is_callable(array($helper, 'validateSection')))
+		if (!$helper || !\is_callable(array($helper, 'validateSection')))
 		{
 			return $section;
 		}
@@ -198,7 +198,7 @@ class LegacyComponent
 	{
 		$helper = $this->loadHelper();
 
-		if (!$helper || !is_callable(array($helper, 'getContexts')))
+		if (!$helper || !\is_callable(array($helper, 'getContexts')))
 		{
 			return [];
 		}

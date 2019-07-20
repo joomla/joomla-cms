@@ -33,7 +33,7 @@ class BeforeDeleteEvent extends AbstractEvent
 	 */
 	public function __construct($name, array $arguments = array())
 	{
-		if (!array_key_exists('pk', $arguments))
+		if (!\array_key_exists('pk', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'pk' is required for event $name");
 		}

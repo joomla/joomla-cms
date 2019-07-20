@@ -338,7 +338,7 @@ class ExtensionHelper
 	 */
 	public static function getExtensionRecord($name)
 	{
-		if (!array_key_exists($name, self::$loadedextensions))
+		if (!\array_key_exists($name, self::$loadedextensions))
 		{
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)

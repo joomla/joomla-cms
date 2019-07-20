@@ -444,7 +444,7 @@ class Document
 	public function getMetaData($name, $attribute = 'name')
 	{
 		// B/C old http_equiv parameter.
-		if (!is_string($attribute))
+		if (!\is_string($attribute))
 		{
 			$attribute = $attribute == true ? 'http-equiv' : 'name';
 		}
@@ -479,13 +479,13 @@ class Document
 	public function setMetaData($name, $content, $attribute = 'name')
 	{
 		// Pop the element off the end of array if target function expects a string or this http_equiv parameter.
-		if (\is_array($content) && (\in_array($name, array('generator', 'description')) || !is_string($attribute)))
+		if (\is_array($content) && (\in_array($name, array('generator', 'description')) || !\is_string($attribute)))
 		{
 			$content = array_pop($content);
 		}
 
 		// B/C old http_equiv parameter.
-		if (!is_string($attribute))
+		if (!\is_string($attribute))
 		{
 			$attribute = $attribute == true ? 'http-equiv' : 'name';
 		}
@@ -983,7 +983,7 @@ class Document
 	 */
 	public function setModifiedDate($date)
 	{
-		if (!is_string($date) && !($date instanceof Date))
+		if (!\is_string($date) && !($date instanceof Date))
 		{
 			throw new \InvalidArgumentException(
 				sprintf(

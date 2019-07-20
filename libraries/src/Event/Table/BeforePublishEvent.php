@@ -35,17 +35,17 @@ class BeforePublishEvent extends AbstractEvent
 	 */
 	public function __construct($name, array $arguments = array())
 	{
-		if (!array_key_exists('pks', $arguments))
+		if (!\array_key_exists('pks', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'pks' is required for event $name");
 		}
 
-		if (!array_key_exists('state', $arguments))
+		if (!\array_key_exists('state', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'state' is required for event $name");
 		}
 
-		if (!array_key_exists('userId', $arguments))
+		if (!\array_key_exists('userId', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'userId' is required for event $name");
 		}
@@ -64,7 +64,7 @@ class BeforePublishEvent extends AbstractEvent
 	 */
 	protected function setQuery($value)
 	{
-		if (!empty($value) && !is_array($value))
+		if (!empty($value) && !\is_array($value))
 		{
 			throw new BadMethodCallException("Argument 'pks' of event {$this->name} must be empty or an array");
 		}

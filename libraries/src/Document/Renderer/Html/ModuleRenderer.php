@@ -35,13 +35,13 @@ class ModuleRenderer extends DocumentRenderer
 	 */
 	public function render($module, $attribs = array(), $content = null)
 	{
-		if (!is_object($module))
+		if (!\is_object($module))
 		{
 			$title = $attribs['title'] ?? null;
 
 			$module = ModuleHelper::getModule($module, $title);
 
-			if (!is_object($module))
+			if (!\is_object($module))
 			{
 				if (\is_null($content))
 				{
@@ -62,7 +62,7 @@ class ModuleRenderer extends DocumentRenderer
 		}
 
 		// Set the module content
-		if (!is_null($content))
+		if (!\is_null($content))
 		{
 			$module->content = $content;
 		}

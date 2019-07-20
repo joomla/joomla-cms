@@ -35,12 +35,12 @@ class BeforeReorderEvent extends AbstractEvent
 	 */
 	public function __construct($name, array $arguments = array())
 	{
-		if (!array_key_exists('query', $arguments))
+		if (!\array_key_exists('query', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'query' is required for event $name");
 		}
 
-		if (!array_key_exists('where', $arguments))
+		if (!\array_key_exists('where', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'where' is required for event $name");
 		}
@@ -78,7 +78,7 @@ class BeforeReorderEvent extends AbstractEvent
 	 */
 	protected function setWhere($value)
 	{
-		if (!empty($value) && !is_string($value) && !is_array($value))
+		if (!empty($value) && !\is_string($value) && !\is_array($value))
 		{
 			throw new BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string or array of strings");
 		}
