@@ -76,7 +76,7 @@ JHtml::_('formbehavior.chosen', 'select');
 		<?php endif; ?>
 <?php if ($this->eid == 700) : ?>
 	</div>
-	<div class="span4">
+	<div class="span4" <?php if ($lang->isRtl()) : echo 'style="padding-right: 20px;"'; endif; ?>>
 		<h2><?php echo JText::_('COM_POSTINSTALL_LBL_RELEASENEWS'); ?></h2>
 		<?php echo $renderer->render($mod, $params, $options); ?>
 	</div>

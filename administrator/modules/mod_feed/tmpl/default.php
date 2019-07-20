@@ -85,7 +85,7 @@ else
 	<?php if (!empty($feed)) : ?>
 		<?php // postinstall override ?>
 		<?php if ($rssurl === 'https://www.joomla.org/announcements/release-news.feed?type=rss') : ?>
-			<?php $style = 'style="text-align: left !important"'; ?>
+			<?php $style = 'style="direction: ltr; text-align: left !important;"'; ?>
 			<ul class="newsfeed" <?php echo $style; ?>>
 		<?php else : ?>
 			<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
