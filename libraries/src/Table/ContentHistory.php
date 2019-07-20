@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseDriver;
@@ -74,7 +74,7 @@ class ContentHistory extends Table
 	 */
 	public function store($updateNulls = false)
 	{
-		$this->set('character_count', strlen($this->get('version_data')));
+		$this->set('character_count', \strlen($this->get('version_data')));
 		$typeTable = Table::getInstance('ContentType', 'JTable', array('dbo' => $this->getDbo()));
 		$typeTable->load($this->ucm_type_id);
 
@@ -106,9 +106,9 @@ class ContentHistory extends Table
 	 */
 	public function getSha1($jsonData, ContentType $typeTable)
 	{
-		$object = is_object($jsonData) ? $jsonData : json_decode($jsonData);
+		$object = \is_object($jsonData) ? $jsonData : json_decode($jsonData);
 
-		if (isset($typeTable->content_history_options) && is_object(json_decode($typeTable->content_history_options)))
+		if (isset($typeTable->content_history_options) && \is_object(json_decode($typeTable->content_history_options)))
 		{
 			$options = json_decode($typeTable->content_history_options);
 			$this->ignoreChanges = $options->ignoreChanges ?? $this->ignoreChanges;
@@ -126,17 +126,17 @@ class ContentHistory extends Table
 		// Convert integers, booleans, and nulls to strings to get a consistent hash value
 		foreach ($object as $name => $value)
 		{
-			if (is_object($value))
+			if (\is_object($value))
 			{
 				// Go one level down for JSON column values
 				foreach ($value as $subName => $subValue)
 				{
-					$object->$subName = is_int($subValue) || is_bool($subValue) || $subValue === null ? (string) $subValue : $subValue;
+					$object->$subName = \is_int($subValue) || \is_bool($subValue) || $subValue === null ? (string) $subValue : $subValue;
 				}
 			}
 			else
 			{
-				$object->$name = is_int($value) || is_bool($value) || $value === null ? (string) $value : $value;
+				$object->$name = \is_int($value) || \is_bool($value) || $value === null ? (string) $value : $value;
 			}
 		}
 
@@ -205,7 +205,7 @@ class ContentHistory extends Table
 		$idsToSave = $db->loadColumn(0);
 
 		// Don't process delete query unless we have at least the maximum allowed versions
-		if (count($idsToSave) === (int) $maxVersions)
+		if (\count($idsToSave) === (int) $maxVersions)
 		{
 			// Delete any rows not in our list and and not flagged to keep forever.
 			$query = $db->getQuery(true);

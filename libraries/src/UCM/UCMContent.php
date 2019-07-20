@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\UCM;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -105,7 +105,7 @@ class UCMContent extends UCMBase
 		$db   = Factory::getDbo();
 		$type = $type ?: $this->type;
 
-		if (is_array($pk))
+		if (\is_array($pk))
 		{
 			$pk = implode(',', $pk);
 		}
@@ -139,23 +139,23 @@ class UCMContent extends UCMBase
 
 		$ucmData = array();
 
-		$common = is_object($fields->common) ? $fields->common : $fields->common[0];
+		$common = \is_object($fields->common) ? $fields->common : $fields->common[0];
 
 		foreach ($common as $i => $field)
 		{
-			if ($field && $field !== 'null' && array_key_exists($field, $original))
+			if ($field && $field !== 'null' && \array_key_exists($field, $original))
 			{
 				$ucmData['common'][$i] = $original[$field];
 			}
 		}
 
-		if (array_key_exists('special', $ucmData))
+		if (\array_key_exists('special', $ucmData))
 		{
-			$special = is_object($fields->special) ? $fields->special : $fields->special[0];
+			$special = \is_object($fields->special) ? $fields->special : $fields->special[0];
 
 			foreach ($special as $i => $field)
 			{
-				if ($field && $field !== 'null' && array_key_exists($field, $original))
+				if ($field && $field !== 'null' && \array_key_exists($field, $original))
 				{
 					$ucmData['special'][$i] = $original[$field];
 				}

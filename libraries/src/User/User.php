@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\User;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
@@ -610,7 +610,7 @@ class User extends CMSObject
 			// Check that username is not greater than 150 characters
 			$username = $this->get('username');
 
-			if (strlen($username) > 150)
+			if (\strlen($username) > 150)
 			{
 				$username = substr($username, 0, 150);
 				$this->set('username', $username);
@@ -649,11 +649,11 @@ class User extends CMSObject
 			}
 		}
 
-		if (array_key_exists('params', $array))
+		if (\array_key_exists('params', $array))
 		{
 			$this->_params->loadArray($array['params']);
 
-			if (is_array($array['params']))
+			if (\is_array($array['params']))
 			{
 				$params = (string) $this->_params;
 			}
@@ -768,7 +768,7 @@ class User extends CMSObject
 
 			$result = Factory::getApplication()->triggerEvent('onUserBeforeSave', array($oldUser->getProperties(), $isNew, $this->getProperties()));
 
-			if (in_array(false, $result, true))
+			if (\in_array(false, $result, true))
 			{
 				// Plugin will have to raise its own error or throw an exception.
 				return false;

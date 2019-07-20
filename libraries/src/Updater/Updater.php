@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Updater;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
@@ -148,7 +148,7 @@ class Updater extends \JAdapter
 				&& isset($result['last_check_timestamp'])
 				&& ($result['last_check_timestamp'] >= $earliestTime))
 			{
-				$retval = $retval || in_array($result['update_site_id'], $sitesWithUpdates);
+				$retval = $retval || \in_array($result['update_site_id'], $sitesWithUpdates);
 
 				continue;
 			}
@@ -197,7 +197,7 @@ class Updater extends \JAdapter
 		{
 			$query->join('INNER', '#__update_sites_extensions AS b ON a.update_site_id = b.update_site_id');
 
-			if (is_array($eid))
+			if (\is_array($eid))
 			{
 				$query->where('b.extension_id IN (' . implode(',', $eid) . ')');
 			}
@@ -252,10 +252,10 @@ class Updater extends \JAdapter
 		// Version comparison operator.
 		$operator = $includeCurrent ? 'ge' : 'gt';
 
-		if (is_array($update_result))
+		if (\is_array($update_result))
 		{
 			// If we have additional update sites in the remote (collection) update XML document, parse them
-			if (array_key_exists('update_sites', $update_result) && count($update_result['update_sites']))
+			if (\array_key_exists('update_sites', $update_result) && \count($update_result['update_sites']))
 			{
 				$thisUrl = trim($updateSite['location']);
 				$thisId  = (int) $updateSite['update_site_id'];
@@ -273,14 +273,14 @@ class Updater extends \JAdapter
 
 					$extraUpdates = $this->getUpdateObjectsForSite($extraUpdateSite, $minimum_stability);
 
-					if (count($extraUpdates))
+					if (\count($extraUpdates))
 					{
 						$retVal = array_merge($retVal, $extraUpdates);
 					}
 				}
 			}
 
-			if (array_key_exists('updates', $update_result) && count($update_result['updates']))
+			if (\array_key_exists('updates', $update_result) && \count($update_result['updates']))
 			{
 				/** @var \Joomla\CMS\Table\Update $current_update */
 				foreach ($update_result['updates'] as $current_update)

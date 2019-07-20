@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Updater;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\HttpFactory;
@@ -115,7 +115,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 */
 	protected function _getLastTag()
 	{
-		return $this->stack[count($this->stack) - 1];
+		return $this->stack[\count($this->stack) - 1];
 	}
 
 	/**
@@ -226,7 +226,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 		$this->updateSiteName  = $options['update_site_name'];
 		$this->appendExtension = false;
 
-		if (array_key_exists('append_extension', $options))
+		if (\array_key_exists('append_extension', $options))
 		{
 			$this->appendExtension = $options['append_extension'];
 		}
