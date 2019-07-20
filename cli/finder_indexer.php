@@ -113,9 +113,12 @@ class FinderCli extends JApplicationCli
 	private $filters = array();
 
 	/**
-	 * Pause time in seconds.
+	 * Pausing type or defined pause time in seconds.
+	 * One pausing type is implemented: 'division' for dynamic calculation of pauses
 	 *
-	 * @var    integer|string
+	 * Defaults to 'division'
+	 *
+	 * @var    string|integer
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $pause = 'division';
@@ -124,11 +127,12 @@ class FinderCli extends JApplicationCli
 	 * The divisor of the division: batch-processing time / divisor.
 	 * This is used together with --pause=division in order to pause dynamically
 	 * in relation to the processing time
+	 * Defaults to 5
 	 *
 	 * @var    integer
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private $divisor;
+	private $divisor = 5;
 
 	/**
 	 * Minimum processing time in seconds, in order to apply a pause
@@ -164,13 +168,12 @@ class FinderCli extends JApplicationCli
 
 		$this->minimumBatchProcessingTime = $this->input->getInt('minproctime', 1);
 
-		// Pause between batches to let the server catch a breath. The default, if not set by the user, is 5 seconds.
-		$pauseArg = $this->input->get('pause', 'division', 'raw');
+		// Pause between batches to let the server catch a breath. The default, if not set by the user, is set in the class property `pause`
+		$pauseArg = $this->input->get('pause', $this->pause, 'raw');
 
 		if ($pauseArg === 'division')
 		{
-			$this->pause   = 'division';
-			$this->divisor = $this->input->getInt('divisor', 5);
+			$this->divisor = $this->input->getInt('divisor', $this->divisor);
 		}
 		else
 		{
