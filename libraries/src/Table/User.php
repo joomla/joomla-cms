@@ -91,7 +91,7 @@ class User extends Table
 		$this->_db->setQuery($query);
 		$data = (array) $this->_db->loadAssoc();
 
-		if (!count($data))
+		if (!\count($data))
 		{
 			return false;
 		}

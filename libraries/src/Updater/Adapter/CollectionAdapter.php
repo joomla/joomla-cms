@@ -129,7 +129,7 @@ class CollectionAdapter extends UpdateAdapter
 				foreach ($this->updatecols as $col)
 				{
 					// Reset the values if it doesn't exist
-					if (!array_key_exists($col, $attrs))
+					if (!\array_key_exists($col, $attrs))
 					{
 						$attrs[$col] = '';
 

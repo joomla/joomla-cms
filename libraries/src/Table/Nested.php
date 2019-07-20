@@ -231,7 +231,7 @@ class Nested extends Table
 	public function setLocation($referenceId, $position = 'after')
 	{
 		// Make sure the location is valid.
-		if (!in_array($position, $this->_validLocations))
+		if (!\in_array($position, $this->_validLocations))
 		{
 			throw new \InvalidArgumentException(
 				sprintf('Invalid location "%1$s" given, valid values are %2$s', $position, implode(', ', $this->_validLocations))
@@ -1402,7 +1402,7 @@ class Nested extends Table
 		$fields = $this->getFields();
 
 		// If there is no alias or path field, just return true.
-		if (!array_key_exists('alias', $fields) || !array_key_exists('path', $fields))
+		if (!\array_key_exists('alias', $fields) || !\array_key_exists('path', $fields))
 		{
 			return true;
 		}
@@ -1674,7 +1674,7 @@ class Nested extends Table
 	protected function _getTreeRepositionData($referenceNode, $nodeWidth, $position = 'before')
 	{
 		// Make sure the reference an object with a left and right id.
-		if (!is_object($referenceNode) || !(isset($referenceNode->lft) && isset($referenceNode->rgt)))
+		if (!\is_object($referenceNode) || !(isset($referenceNode->lft) && isset($referenceNode->rgt)))
 		{
 			return false;
 		}

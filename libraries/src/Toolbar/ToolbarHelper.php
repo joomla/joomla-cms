@@ -675,7 +675,7 @@ abstract class ToolbarHelper
 			{
 				foreach ($buttons as $button)
 				{
-					if (!array_key_exists($button[0], $validOptions))
+					if (!\array_key_exists($button[0], $validOptions))
 					{
 						continue;
 					}

@@ -446,7 +446,7 @@ abstract class ToolbarButton
 
 			if ($fieldName !== false)
 			{
-				if (!array_key_exists(0, $args))
+				if (!\array_key_exists(0, $args))
 				{
 					throw new \InvalidArgumentException(
 						sprintf(

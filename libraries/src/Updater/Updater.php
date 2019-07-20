@@ -211,7 +211,7 @@ class Updater extends \JAdapter
 
 		$result = $db->loadAssocList();
 
-		if (!is_array($result))
+		if (!\is_array($result))
 		{
 			return array();
 		}

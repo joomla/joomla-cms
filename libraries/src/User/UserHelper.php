@@ -112,7 +112,7 @@ abstract class UserHelper
 		$user = new User((int) $userId);
 
 		// Add the user to the group if necessary.
-		if (!in_array($groupId, $user->groups))
+		if (!\in_array($groupId, $user->groups))
 		{
 			// Check whether the group exists.
 			$db = Factory::getDbo();

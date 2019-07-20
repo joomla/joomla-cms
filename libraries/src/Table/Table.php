@@ -211,7 +211,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		}
 
 		// Create or set a Dispatcher
-		if (!is_object($dispatcher) || !($dispatcher instanceof DispatcherInterface))
+		if (!\is_object($dispatcher) || !($dispatcher instanceof DispatcherInterface))
 		{
 			// TODO Maybe we should use a dedicated "behaviour" dispatcher for performance reasons and to prevent system plugins from butting in?
 			$dispatcher = Factory::getApplication()->getDispatcher();
@@ -352,7 +352,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 				$dir = trim($dir);
 
 				// Add to the front of the list so that custom paths are searched first.
-				if (!in_array($dir, self::$_includePaths))
+				if (!\in_array($dir, self::$_includePaths))
 				{
 					array_unshift(self::$_includePaths, $dir);
 				}
@@ -601,7 +601,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		foreach ($this->getFields() as $k => $v)
 		{
 			// If the property is not the primary key or private, reset it.
-			if (!in_array($k, $this->_tbl_keys) && (strpos($k, '_') !== 0))
+			if (!\in_array($k, $this->_tbl_keys) && (strpos($k, '_') !== 0))
 			{
 				$this->$k = $v->Default;
 			}
@@ -657,7 +657,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		}
 
 		// Check if the source value is an array or object
-		if (!is_object($src) && !is_array($src))
+		if (!\is_object($src) && !\is_array($src))
 		{
 			throw new \InvalidArgumentException(
 				sprintf(
@@ -675,7 +675,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		}
 
 		// If the ignore value is a string, explode it over spaces.
-		if (!is_array($ignore))
+		if (!\is_array($ignore))
 		{
 			$ignore = explode(' ', $ignore);
 		}
@@ -684,7 +684,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		foreach ($this->getProperties() as $k => $v)
 		{
 			// Only process fields not in the ignore array.
-			if (!in_array($k, $ignore))
+			if (!\in_array($k, $ignore))
 			{
 				if (isset($src[$k]))
 				{
@@ -751,7 +751,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 				return true;
 			}
 		}
-		elseif (!is_array($keys))
+		elseif (!\is_array($keys))
 		{
 			// Load by primary key.
 			$keyCount = \count($this->_tbl_keys);
@@ -785,7 +785,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		foreach ($keys as $field => $value)
 		{
 			// Check that $field is in the table.
-			if (!in_array($field, $fields))
+			if (!\in_array($field, $fields))
 			{
 				throw new \UnexpectedValueException(sprintf('Missing field in database: %s &#160; %s.', \get_class($this), $field));
 			}
@@ -1073,7 +1073,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 				$pk[$key] = $this->$key;
 			}
 		}
-		elseif (!is_array($pk))
+		elseif (!\is_array($pk))
 		{
 			$pk = array($this->_tbl_key => $pk);
 		}
@@ -1186,7 +1186,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 				$pk[$key] = $this->$key;
 			}
 		}
-		elseif (!is_array($pk))
+		elseif (!\is_array($pk))
 		{
 			$pk = array($this->_tbl_key => $pk);
 		}
@@ -1274,7 +1274,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 				$pk[$this->$key] = $this->$key;
 			}
 		}
-		elseif (!is_array($pk))
+		elseif (!\is_array($pk))
 		{
 			$pk = array($this->_tbl_key => $pk);
 		}
@@ -1403,7 +1403,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 				$pk[$key] = $this->$key;
 			}
 		}
-		elseif (!is_array($pk))
+		elseif (!\is_array($pk))
 		{
 			$pk = array($this->_tbl_key => $pk);
 		}
@@ -1784,16 +1784,16 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		);
 		$this->getDispatcher()->dispatch('onTableBeforePublish', $event);
 
-		if (!is_null($pks))
+		if (!\is_null($pks))
 		{
-			if (!is_array($pks))
+			if (!\is_array($pks))
 			{
 				$pks = array($pks);
 			}
 
 			foreach ($pks as $key => $pk)
 			{
-				if (!is_array($pk))
+				if (!\is_array($pk))
 				{
 					$pks[$key] = array($this->_tbl_key => $pk);
 				}
