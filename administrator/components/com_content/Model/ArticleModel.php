@@ -108,8 +108,8 @@ class ArticleModel extends AdminModel
 					$this->setError($error);
 
 					return false;
-
 				}
+
 				// Not fatal error
 				$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 				continue;
