@@ -273,7 +273,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface
 			}
 
 			// Inheriting the Namespace
-			if ($namespace && !array_key_exists('namespace', $item))
+			if ($namespace && !\array_key_exists('namespace', $item))
 			{
 				$item['namespace'] = $namespace;
 			}

@@ -539,7 +539,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 			$name = $asset->getName();
 			$graphOutgoing[$name] = array_combine($asset->getDependencies(), $asset->getDependencies());
 
-			if (!array_key_exists($name, $graphIncoming))
+			if (!\array_key_exists($name, $graphIncoming))
 			{
 				$graphIncoming[$name] = [];
 			}
