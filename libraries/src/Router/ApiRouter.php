@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Router;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
@@ -113,7 +113,7 @@ class ApiRouter extends Router
 		}
 
 		// Remove the base URI path.
-		$path = substr_replace($path, '', 0, strlen($baseUri));
+		$path = substr_replace($path, '', 0, \strlen($baseUri));
 
 		if (!$this->app->get('sef_rewrite'))
 		{
@@ -133,7 +133,7 @@ class ApiRouter extends Router
 		// Iterate through all of the known routes looking for a match.
 		foreach ($this->routes as $route)
 		{
-			if (in_array($method, $route->getMethods()))
+			if (\in_array($method, $route->getMethods()))
 			{
 				if (preg_match($route->getRegex(), ltrim($path, '/'), $matches))
 				{

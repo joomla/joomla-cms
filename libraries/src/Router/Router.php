@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Router;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -148,7 +148,7 @@ class Router
 
 		// Check if all parts of the URL have been parsed.
 		// Otherwise we have an invalid URL
-		if (strlen($uri->getPath()) > 0)
+		if (\strlen($uri->getPath()) > 0)
 		{
 			throw new RouteNotFoundException(Text::_('JERROR_PAGE_NOT_FOUND'));
 		}
@@ -211,7 +211,7 @@ class Router
 	 */
 	public function setVar($key, $value, $create = true)
 	{
-		if ($create || array_key_exists($key, $this->vars))
+		if ($create || \array_key_exists($key, $this->vars))
 		{
 			$this->vars[$key] = $value;
 		}
@@ -416,7 +416,7 @@ class Router
 
 		foreach ($this->rules['build' . $stage] as $rule)
 		{
-			call_user_func_array($rule, array(&$this, &$uri));
+			\call_user_func_array($rule, array(&$this, &$uri));
 		}
 	}
 
@@ -438,7 +438,7 @@ class Router
 
 		$uri = new Uri('index.php');
 
-		if (is_string($url))
+		if (\is_string($url))
 		{
 			$vars = array();
 
