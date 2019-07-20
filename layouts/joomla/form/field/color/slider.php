@@ -91,7 +91,7 @@ Text::script('JFIELD_COLOR_ERROR_WRONG_FORMAT');
 		$saveFormat,
 		$validate;
 		?>
-	/>
+	>
 	<!-- Shows value which is allowed to manipulate like 'hue' -->
 	<label for="slider-input" class="sr-only"><?php echo Text::_('JFIELD_COLOR_LABEL_SLIDER_INPUT'); ?></label>
 	<input type="text" class="form-control" id="slider-input"
@@ -107,7 +107,7 @@ Text::script('JFIELD_COLOR_ERROR_WRONG_FORMAT');
 		$format,
 		$validate;
 		?>
-	/>
+	>
 	<span class="form-control-feedback"></span>
 
 	<?php if ($allSliders || in_array('hue', $displayValues)) : ?>
@@ -117,7 +117,7 @@ Text::script('JFIELD_COLOR_ERROR_WRONG_FORMAT');
 			$autofocus,
 			$disabled
 			?>
-		/>
+		>
 	<?php endif ?>
 	<?php if ($allSliders || in_array('saturation', $displayValues)) : ?>
 		<label for="saturation-slider" class="sr-only"><?php echo Text::_('JFIELD_COLOR_LABEL_SLIDER_SATURATION'); ?></label>
@@ -126,7 +126,7 @@ Text::script('JFIELD_COLOR_ERROR_WRONG_FORMAT');
 			$autofocus,
 			$disabled
 			?>
-		/>
+		>
 	<?php endif ?>
 	<?php if ($allSliders || in_array('light', $displayValues)) : ?>
 		<label for="light-slider" class="sr-only"><?php echo Text::_('JFIELD_COLOR_LABEL_SLIDER_LIGHT'); ?></label>
@@ -135,7 +135,7 @@ Text::script('JFIELD_COLOR_ERROR_WRONG_FORMAT');
 			$autofocus,
 			$disabled
 			?>
-		/>
+		>
 	<?php endif ?>
 	<?php if ($alpha && ($allSliders || in_array('alpha', $displayValues))) : ?>
 		<label for="alpha-slider" class="sr-only"><?php echo Text::_('JFIELD_COLOR_LABEL_SLIDER_ALPHA'); ?></label>
@@ -144,6 +144,6 @@ Text::script('JFIELD_COLOR_ERROR_WRONG_FORMAT');
 			$autofocus,
 			$disabled
 			?>
-		/>
+		>
 	<?php endif ?>
 </div>
