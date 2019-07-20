@@ -671,7 +671,7 @@ abstract class HTMLHelper
 		}
 
 		// If inclusion is required
-		$document = Factory::getApplication()->getDocument();
+		$document = Factory::getDocument();
 
 		foreach ($includes as $include)
 		{
