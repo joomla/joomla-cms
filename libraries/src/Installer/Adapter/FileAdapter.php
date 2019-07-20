@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
@@ -267,7 +267,7 @@ class FileAdapter extends InstallerAdapter
 			$folderList = [];
 
 			// Check if all children exists
-			if (count($eFiles->children()) > 0)
+			if (\count($eFiles->children()) > 0)
 			{
 				// Loop through all filenames elements
 				foreach ($eFiles->children() as $eFileName)
@@ -547,7 +547,7 @@ class FileAdapter extends InstallerAdapter
 			}
 
 			// Check if all children exists
-			if (count($eFiles->children()))
+			if (\count($eFiles->children()))
 			{
 				// Loop through all filenames elements
 				foreach ($eFiles->children() as $eFileName)

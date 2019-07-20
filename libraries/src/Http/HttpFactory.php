@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Http;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Version;
 use Joomla\Http\TransportInterface;
@@ -67,7 +67,7 @@ class HttpFactory
 	 */
 	public static function getAvailableDriver($options = [], $default = null)
 	{
-		if (is_null($default))
+		if (\is_null($default))
 		{
 			$availableAdapters = static::getHttpTransports();
 		}

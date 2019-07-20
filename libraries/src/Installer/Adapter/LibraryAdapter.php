@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
@@ -113,7 +113,7 @@ class LibraryAdapter extends InstallerAdapter
 			$manifest['src']  = $this->parent->getPath('manifest');
 			$manifest['dest'] = JPATH_MANIFESTS . '/libraries/' . $this->element . '.xml';
 
-			$destFolder = dirname($manifest['dest']);
+			$destFolder = \dirname($manifest['dest']);
 
 			if (!is_dir($destFolder) && !@mkdir($destFolder))
 			{
@@ -297,7 +297,7 @@ class LibraryAdapter extends InstallerAdapter
 		$elementParts = explode('/', $this->extension->element);
 
 		// Delete empty vendor folders
-		if (2 === count($elementParts))
+		if (2 === \count($elementParts))
 		{
 			Folder::delete(JPATH_MANIFESTS . '/libraries/' . $elementParts[0]);
 			Folder::delete(JPATH_PLATFORM . '/' . $elementParts[0]);

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Installer;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Archive\Archive;
 use Joomla\CMS\Factory;
@@ -156,7 +156,7 @@ abstract class InstallerHelper
 		$tmpdir = uniqid('install_');
 
 		// Clean the paths to use for archive extraction
-		$extractdir = Path::clean(dirname($p_filename) . '/' . $tmpdir);
+		$extractdir = Path::clean(\dirname($p_filename) . '/' . $tmpdir);
 		$archivename = Path::clean($archivename);
 
 		// Do the unpacking of the archive
@@ -209,7 +209,7 @@ abstract class InstallerHelper
 		 */
 		$dirList = array_merge((array) Folder::files($extractdir, ''), (array) Folder::folders($extractdir, ''));
 
-		if (count($dirList) === 1)
+		if (\count($dirList) === 1)
 		{
 			if (Folder::exists($extractdir . '/' . $dirList[0]))
 			{

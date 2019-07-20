@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Installer;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -247,7 +247,7 @@ class InstallerScript
 				if ($type === 'edit')
 				{
 					// Add or edit the new variable(s) to the existing params
-					if (is_array($value))
+					if (\is_array($value))
 					{
 						// Convert an array into a json encoded string
 						$params[(string) $name] = array_values($value);

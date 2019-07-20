@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Installer;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -424,7 +424,7 @@ class Installer extends \JAdapter
 					break;
 
 				default:
-					if ($type && is_object($this->_adapters[$type]))
+					if ($type && \is_object($this->_adapters[$type]))
 					{
 						// Build the name of the custom rollback method for the type
 						$method = '_rollback_' . $step['type'];
@@ -656,7 +656,7 @@ class Installer extends \JAdapter
 				$tmp = $instance->discover();
 
 				// If its an array and has entries
-				if (is_array($tmp) && count($tmp))
+				if (\is_array($tmp) && \count($tmp))
 				{
 					// Merge it into the system
 					$results = array_merge($results, $tmp);
@@ -894,7 +894,7 @@ class Installer extends \JAdapter
 		// Get the array of query nodes to process
 		$queries = $element->children();
 
-		if (count($queries) === 0)
+		if (\count($queries) === 0)
 		{
 			// No queries to process
 			return 0;
@@ -992,7 +992,7 @@ class Installer extends \JAdapter
 				// Create an array of queries from the sql file
 				$queries = DatabaseDriver::splitSql($buffer);
 
-				if (count($queries) === 0)
+				if (\count($queries) === 0)
 				{
 					// No queries to process
 					continue;
@@ -1049,7 +1049,7 @@ class Installer extends \JAdapter
 				return;
 			}
 
-			if (count($schemapaths))
+			if (\count($schemapaths))
 			{
 				$dbDriver = $db->getServerType();
 
@@ -1116,7 +1116,7 @@ class Installer extends \JAdapter
 			$db = Factory::getDbo();
 			$schemapaths = $schema->children();
 
-			if (count($schemapaths))
+			if (\count($schemapaths))
 			{
 				$dbDriver = $db->getServerType();
 
@@ -1196,7 +1196,7 @@ class Installer extends \JAdapter
 							// Create an array of queries from the sql file
 							$queries = DatabaseDriver::splitSql($buffer);
 
-							if (count($queries) === 0)
+							if (\count($queries) === 0)
 							{
 								// No queries to process
 								continue;
@@ -1334,7 +1334,7 @@ class Installer extends \JAdapter
 		{
 			$oldEntries = $oldFiles->children();
 
-			if (count($oldEntries))
+			if (\count($oldEntries))
 			{
 				$deletions = $this->findDeletedFiles($oldEntries, $element->children());
 
@@ -1378,7 +1378,7 @@ class Installer extends \JAdapter
 
 			if (basename($path['dest']) !== $path['dest'])
 			{
-				$newdir = dirname($path['dest']);
+				$newdir = \dirname($path['dest']);
 
 				if (!Folder::create($newdir))
 				{
@@ -1475,7 +1475,7 @@ class Installer extends \JAdapter
 				}
 
 				// If the language folder is not present, then the core pack hasn't been installed... ignore
-				if (!Folder::exists(dirname($path['dest'])))
+				if (!Folder::exists(\dirname($path['dest'])))
 				{
 					continue;
 				}
@@ -1494,7 +1494,7 @@ class Installer extends \JAdapter
 
 			if (basename($path['dest']) !== $path['dest'])
 			{
-				$newdir = dirname($path['dest']);
+				$newdir = \dirname($path['dest']);
 
 				if (!Folder::create($newdir))
 				{
@@ -1575,7 +1575,7 @@ class Installer extends \JAdapter
 
 			if (basename($path['dest']) !== $path['dest'])
 			{
-				$newdir = dirname($path['dest']);
+				$newdir = \dirname($path['dest']);
 
 				if (!Folder::create($newdir))
 				{
@@ -1675,14 +1675,14 @@ class Installer extends \JAdapter
 		 * $files must be an array of filenames.  Verify that it is an array with
 		 * at least one file to copy.
 		 */
-		if (is_array($files) && count($files) > 0)
+		if (\is_array($files) && \count($files) > 0)
 		{
 			foreach ($files as $file)
 			{
 				// Get the source and destination paths
 				$filesource = Path::clean($file['src']);
 				$filedest = Path::clean($file['dest']);
-				$filetype = array_key_exists('type', $file) ? $file['type'] : 'file';
+				$filetype = \array_key_exists('type', $file) ? $file['type'] : 'file';
 
 				if (!file_exists($filesource))
 				{
@@ -1757,7 +1757,7 @@ class Installer extends \JAdapter
 			return false;
 		}
 
-		return count($files);
+		return \count($files);
 	}
 
 	/**
@@ -1794,7 +1794,7 @@ class Installer extends \JAdapter
 		// Get the array of file nodes to process
 		$files = $element->children();
 
-		if (count($files) === 0)
+		if (\count($files) === 0)
 		{
 			// No files to process
 			return true;
@@ -1882,7 +1882,7 @@ class Installer extends \JAdapter
 				}
 
 				// If the language folder is not present, then the core pack hasn't been installed... ignore
-				if (!Folder::exists(dirname($path)))
+				if (!Folder::exists(\dirname($path)))
 				{
 					continue;
 				}
@@ -2000,7 +2000,7 @@ class Installer extends \JAdapter
 					$this->setPath('manifest', $file);
 
 					// Set the installation source path to that of the manifest file
-					$this->setPath('source', dirname($file));
+					$this->setPath('source', \dirname($file));
 
 					return true;
 				}
@@ -2136,7 +2136,7 @@ class Installer extends \JAdapter
 
 					// Now handle the folder part of the file to ensure we get any containers
 					// Break up the parts of the directory
-					$container_parts = explode('/', dirname((string) $file));
+					$container_parts = explode('/', \dirname((string) $file));
 
 					// Make sure this is clean and empty
 					$container = '';
@@ -2185,7 +2185,7 @@ class Installer extends \JAdapter
 					if (!in_array((string) $file, $files))
 					{
 						// Look if the file exists in the new list
-						if (!in_array(dirname((string) $file), $folders))
+						if (!in_array(\dirname((string) $file), $folders))
 						{
 							// Look if the file is now potentially in a folder
 							$files_deleted[] = (string) $file;
@@ -2290,7 +2290,7 @@ class Installer extends \JAdapter
 		$data['description'] = (string) $xml->description;
 		$data['group'] = (string) $xml->group;
 
-		if ($xml->files && count($xml->files->children()))
+		if ($xml->files && \count($xml->files->children()))
 		{
 			$filename = basename($path);
 			$data['filename'] = File::stripExt($filename);
@@ -2361,7 +2361,7 @@ class Installer extends \JAdapter
 		}
 
 		// Add any custom adapters if specified
-		if (count($custom) >= 1)
+		if (\count($custom) >= 1)
 		{
 			foreach ($custom as $adapter)
 			{

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Language;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\OutputController;
@@ -83,9 +83,9 @@ class LanguageHelper
 					// Take off 3 letters iso code languages as they can't match browsers' languages and default them to en
 					$Jinstall_lang = $systemLang->lang_code;
 
-					if (strlen($Jinstall_lang) < 6)
+					if (\strlen($Jinstall_lang) < 6)
 					{
-						if (strtolower($browserLang) == strtolower(substr($systemLang->lang_code, 0, strlen($browserLang))))
+						if (strtolower($browserLang) == strtolower(substr($systemLang->lang_code, 0, \strlen($browserLang))))
 						{
 							return $systemLang->lang_code;
 						}
@@ -389,7 +389,7 @@ class LanguageHelper
 		}
 
 		// Check the language published state, if needed.
-		if (count($publishedStates) > 0)
+		if (\count($publishedStates) > 0)
 		{
 			foreach ($languages as $key => $language)
 			{
@@ -452,7 +452,7 @@ class LanguageHelper
 		// This was required for https://github.com/joomla/joomla-cms/issues/17198 but not sure what server setup
 		// issue it is solving
 		$disabledFunctions = explode(',', ini_get('disable_functions'));
-		$isParseIniFileDisabled = in_array('parse_ini_file', array_map('trim', $disabledFunctions));
+		$isParseIniFileDisabled = \in_array('parse_ini_file', array_map('trim', $disabledFunctions));
 
 		if (!function_exists('parse_ini_file') || $isParseIniFileDisabled)
 		{
@@ -470,7 +470,7 @@ class LanguageHelper
 			ini_set('track_errors', $trackErrors);
 		}
 
-		return is_array($strings) ? $strings : array();
+		return \is_array($strings) ? $strings : array();
 	}
 
 	/**

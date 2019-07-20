@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\HTML;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Service registry for JHtml services
@@ -122,7 +122,7 @@ final class Registry
 		}
 
 		// If the handler is a string, it must be a class that exists
-		if (is_string($handler) && !class_exists($handler))
+		if (\is_string($handler) && !class_exists($handler))
 		{
 			throw new \RuntimeException("The '$handler' class for service key '$key' does not exist.");
 		}
@@ -134,7 +134,7 @@ final class Registry
 				sprintf(
 					'The handler for service key %1$s must be a PHP class name or class object, a %2$s was given.',
 					$key,
-					gettype($handler)
+					\gettype($handler)
 				)
 			);
 		}

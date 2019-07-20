@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Http;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Http\Http as FrameworkHttp;
 use Joomla\Http\TransportInterface as FrameworkTransportInterface;
