@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "271d649eabc02d5ca67fd4f6315fe3a8",
+    "content-hash": "413d94b45cbf0ca0b54482efcadb202c",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -348,12 +348,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/application.git",
-                "reference": "cb7e310fef06529063ec6891fdba6c5895c1bd99"
+                "reference": "3d549e0248cd8973f0c5b66fe49f4647c756488d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/application/zipball/cb7e310fef06529063ec6891fdba6c5895c1bd99",
-                "reference": "cb7e310fef06529063ec6891fdba6c5895c1bd99",
+                "url": "https://api.github.com/repos/joomla-framework/application/zipball/3d549e0248cd8973f0c5b66fe49f4647c756488d",
+                "reference": "3d549e0248cd8973f0c5b66fe49f4647c756488d",
                 "shasum": ""
             },
             "require": {
@@ -404,7 +404,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-07-14T19:44:25+00:00"
+            "time": "2019-07-17T23:15:23+00:00"
         },
         {
             "name": "joomla/archive",
@@ -464,12 +464,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/authentication.git",
-                "reference": "0f3e8838322869ea2e00ac5cd2780b0346886a70"
+                "reference": "a577eac4c5654e1b347feb36a3991da4fb04d7ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/authentication/zipball/0f3e8838322869ea2e00ac5cd2780b0346886a70",
-                "reference": "0f3e8838322869ea2e00ac5cd2780b0346886a70",
+                "url": "https://api.github.com/repos/joomla-framework/authentication/zipball/a577eac4c5654e1b347feb36a3991da4fb04d7ab",
+                "reference": "a577eac4c5654e1b347feb36a3991da4fb04d7ab",
                 "shasum": ""
             },
             "require": {
@@ -508,7 +508,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-06-19T00:51:06+00:00"
+            "time": "2019-07-17T23:41:23+00:00"
         },
         {
             "name": "joomla/console",
@@ -516,12 +516,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/console.git",
-                "reference": "85fd3b5b46d86f61fa3d129d19cabcabee44bc6c"
+                "reference": "58b6a5545c87cb1eaf82bd9fd703e8c332ca89e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/console/zipball/85fd3b5b46d86f61fa3d129d19cabcabee44bc6c",
-                "reference": "85fd3b5b46d86f61fa3d129d19cabcabee44bc6c",
+                "url": "https://api.github.com/repos/joomla-framework/console/zipball/58b6a5545c87cb1eaf82bd9fd703e8c332ca89e3",
+                "reference": "58b6a5545c87cb1eaf82bd9fd703e8c332ca89e3",
                 "shasum": ""
             },
             "require": {
@@ -561,7 +561,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-07-14T18:55:56+00:00"
+            "time": "2019-07-18T00:30:45+00:00"
         },
         {
             "name": "joomla/controller",
@@ -722,12 +722,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "1752fa13c46f6cac553518ff6cf53b288f05133a"
+                "reference": "9707e5f4ee714eac3984b686a21aa9fdffa1fb70"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/1752fa13c46f6cac553518ff6cf53b288f05133a",
-                "reference": "1752fa13c46f6cac553518ff6cf53b288f05133a",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/9707e5f4ee714eac3984b686a21aa9fdffa1fb70",
+                "reference": "9707e5f4ee714eac3984b686a21aa9fdffa1fb70",
                 "shasum": ""
             },
             "require": {
@@ -779,7 +779,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-07-10T16:54:07+00:00"
+            "time": "2019-07-18T00:48:08+00:00"
         },
         {
             "name": "joomla/di",
@@ -787,12 +787,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/di.git",
-                "reference": "55db6dc7ad2e8cb778c224608b8d2c8569e18af5"
+                "reference": "46a30b4e27234e914b826d91d2ee20a820f8ceab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/di/zipball/55db6dc7ad2e8cb778c224608b8d2c8569e18af5",
-                "reference": "55db6dc7ad2e8cb778c224608b8d2c8569e18af5",
+                "url": "https://api.github.com/repos/joomla-framework/di/zipball/46a30b4e27234e914b826d91d2ee20a820f8ceab",
+                "reference": "46a30b4e27234e914b826d91d2ee20a820f8ceab",
                 "shasum": ""
             },
             "require": {
@@ -831,7 +831,7 @@
                 "ioc",
                 "joomla"
             ],
-            "time": "2019-06-19T01:48:32+00:00"
+            "time": "2019-07-18T00:06:37+00:00"
         },
         {
             "name": "joomla/event",
@@ -839,12 +839,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/event.git",
-                "reference": "dd9f0179ee8a6a68dfe970bc43fe5ed3a712ecee"
+                "reference": "5b854c580bdbad39324e22a6af2c0b68379b9905"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/event/zipball/dd9f0179ee8a6a68dfe970bc43fe5ed3a712ecee",
-                "reference": "dd9f0179ee8a6a68dfe970bc43fe5ed3a712ecee",
+                "url": "https://api.github.com/repos/joomla-framework/event/zipball/5b854c580bdbad39324e22a6af2c0b68379b9905",
+                "reference": "5b854c580bdbad39324e22a6af2c0b68379b9905",
                 "shasum": ""
             },
             "require": {
@@ -880,7 +880,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-07-12T00:49:37+00:00"
+            "time": "2019-07-18T00:09:24+00:00"
         },
         {
             "name": "joomla/filesystem",
@@ -989,12 +989,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/http.git",
-                "reference": "cb6e8bcad6bbf7be3f1b21b6868116636c97e727"
+                "reference": "91aecbdeee2f38cfe518e568e9d1f09b344c6b25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/http/zipball/cb6e8bcad6bbf7be3f1b21b6868116636c97e727",
-                "reference": "cb6e8bcad6bbf7be3f1b21b6868116636c97e727",
+                "url": "https://api.github.com/repos/joomla-framework/http/zipball/91aecbdeee2f38cfe518e568e9d1f09b344c6b25",
+                "reference": "91aecbdeee2f38cfe518e568e9d1f09b344c6b25",
                 "shasum": ""
             },
             "require": {
@@ -1035,7 +1035,7 @@
                 "http",
                 "joomla"
             ],
-            "time": "2019-07-14T18:24:22+00:00"
+            "time": "2019-07-18T00:24:34+00:00"
         },
         {
             "name": "joomla/image",
@@ -3275,16 +3275,16 @@
         },
         {
             "name": "codeception/codeception",
-            "version": "3.0.2",
+            "version": "3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "aead7eb0a53b040390a927dc84a0e6e37ffa8a2b"
+                "reference": "feb566a9dc26993611602011ae3834d8e3c1dd7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/aead7eb0a53b040390a927dc84a0e6e37ffa8a2b",
-                "reference": "aead7eb0a53b040390a927dc84a0e6e37ffa8a2b",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/feb566a9dc26993611602011ae3834d8e3c1dd7f",
+                "reference": "feb566a9dc26993611602011ae3834d8e3c1dd7f",
                 "shasum": ""
             },
             "require": {
@@ -3309,6 +3309,8 @@
             },
             "require-dev": {
                 "codeception/specify": "~0.3",
+                "doctrine/annotations": "^1",
+                "doctrine/orm": "^2",
                 "flow/jsonpath": "~0.2",
                 "monolog/monolog": "~1.8",
                 "pda/pheanstalk": "~3.0",
@@ -3363,7 +3365,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2019-06-22T19:16:46+00:00"
+            "time": "2019-07-18T16:21:08+00:00"
         },
         {
             "name": "codeception/phpunit-wrapper",
@@ -5518,21 +5520,21 @@
         },
         {
             "name": "joomla/coding-standards",
-            "version": "dev-master",
+            "version": "dev-3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla/coding-standards.git",
-                "reference": "bcd5ae7cdc35549706a3d5ace3d67a0c3e0fd052"
+                "reference": "fc041ba4352689d0834fc3f6bce14edc6e40aebe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla/coding-standards/zipball/bcd5ae7cdc35549706a3d5ace3d67a0c3e0fd052",
-                "reference": "bcd5ae7cdc35549706a3d5ace3d67a0c3e0fd052",
+                "url": "https://api.github.com/repos/joomla/coding-standards/zipball/fc041ba4352689d0834fc3f6bce14edc6e40aebe",
+                "reference": "fc041ba4352689d0834fc3f6bce14edc6e40aebe",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.10",
-                "squizlabs/php_codesniffer": "^2.8.0"
+                "php": ">=5.4.0",
+                "squizlabs/php_codesniffer": "^3.4"
             },
             "require-dev": {
                 "phpunit/phpunit": "^4.8.7"
@@ -5540,7 +5542,7 @@
             "type": "phpcodesniffer-standard",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.x-dev"
+                    "dev-3.x-dev": "3.0-dev"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -5561,7 +5563,7 @@
                 "php codesniffer",
                 "phpcs"
             ],
-            "time": "2019-07-12T08:45:51+00:00"
+            "time": "2019-07-12T10:04:53+00:00"
         },
         {
             "name": "joomla/mediawiki",
@@ -7085,63 +7087,36 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "2.9.2",
+            "version": "3.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "2acf168de78487db620ab4bc524135a13cfe6745"
+                "reference": "b8a7362af1cc1aadb5bd36c3defc4dda2cf5f0a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/2acf168de78487db620ab4bc524135a13cfe6745",
-                "reference": "2acf168de78487db620ab4bc524135a13cfe6745",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/b8a7362af1cc1aadb5bd36c3defc4dda2cf5f0a8",
+                "reference": "b8a7362af1cc1aadb5bd36c3defc4dda2cf5f0a8",
                 "shasum": ""
             },
             "require": {
                 "ext-simplexml": "*",
                 "ext-tokenizer": "*",
                 "ext-xmlwriter": "*",
-                "php": ">=5.1.2"
+                "php": ">=5.4.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.0"
+                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0"
             },
             "bin": [
-                "scripts/phpcs",
-                "scripts/phpcbf"
+                "bin/phpcs",
+                "bin/phpcbf"
             ],
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.x-dev"
+                    "dev-master": "3.x-dev"
                 }
-            },
-            "autoload": {
-                "classmap": [
-                    "CodeSniffer.php",
-                    "CodeSniffer/CLI.php",
-                    "CodeSniffer/Exception.php",
-                    "CodeSniffer/File.php",
-                    "CodeSniffer/Fixer.php",
-                    "CodeSniffer/Report.php",
-                    "CodeSniffer/Reporting.php",
-                    "CodeSniffer/Sniff.php",
-                    "CodeSniffer/Tokens.php",
-                    "CodeSniffer/Reports/",
-                    "CodeSniffer/Tokenizers/",
-                    "CodeSniffer/DocGenerators/",
-                    "CodeSniffer/Standards/AbstractPatternSniff.php",
-                    "CodeSniffer/Standards/AbstractScopeSniff.php",
-                    "CodeSniffer/Standards/AbstractVariableSniff.php",
-                    "CodeSniffer/Standards/IncorrectPatternException.php",
-                    "CodeSniffer/Standards/Generic/Sniffs/",
-                    "CodeSniffer/Standards/MySource/Sniffs/",
-                    "CodeSniffer/Standards/PEAR/Sniffs/",
-                    "CodeSniffer/Standards/PSR1/Sniffs/",
-                    "CodeSniffer/Standards/PSR2/Sniffs/",
-                    "CodeSniffer/Standards/Squiz/Sniffs/",
-                    "CodeSniffer/Standards/Zend/Sniffs/"
-                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -7154,12 +7129,12 @@
                 }
             ],
             "description": "PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
-            "homepage": "http://www.squizlabs.com/php-codesniffer",
+            "homepage": "https://github.com/squizlabs/PHP_CodeSniffer",
             "keywords": [
                 "phpcs",
                 "standards"
             ],
-            "time": "2018-11-07T22:31:41+00:00"
+            "time": "2019-04-10T23:49:02+00:00"
         },
         {
             "name": "symfony/browser-kit",

@@ -15,6 +15,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
 
 $this->useCoreUI = true;
 ?>
