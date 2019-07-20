@@ -25,7 +25,8 @@ joomla-toolbar-button {
   .btn-toolbar {
     margin-bottom: 0;
 
-    > joomla-toolbar-button, div {
+    > joomla-toolbar-button,
+	> .btn-group {
       margin-left: .75rem;
 
       &:first-child {
@@ -324,7 +325,8 @@ joomla-toolbar-button {
       color:rgba(255,255,255,0.90);
     }
   }
-  > joomla-toolbar-button, div {
+  > joomla-toolbar-button,
+  > .btn-group {
     @include media-breakpoint-down(md) {
       margin-left:0 !important;
       margin-right:0.75rem;
