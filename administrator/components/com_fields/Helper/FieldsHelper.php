@@ -22,6 +22,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Fields\Administrator\Model\FieldsModel;
+use Joomla\Database\ParameterType;
 
 /**
  * FieldsHelper
@@ -612,7 +613,8 @@ class FieldsHelper
 		$query->select($db->quoteName('c.title'))
 			->from($db->quoteName('#__fields_categories', 'a'))
 			->join('INNER', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
-			->where('field_id = ' . $fieldId);
+			->where($db->quoteName('field_id') . ' = :fieldid')
+			->bind(':fieldid', $fieldId, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 
