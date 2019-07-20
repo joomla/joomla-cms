@@ -322,7 +322,7 @@ class FieldsModel extends ListModel
 					->orWhere($db->quoteName('a.name') . ' LIKE :sname')
 					->orWhere($db->quoteName('a.note') . ' LIKE :note')
 					->bind(':title', $search)
-					->bind(':sname',$search)
+					->bind(':sname', $search)
 					->bind(':note',$search);
 			}
 		}
