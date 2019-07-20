@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Categories;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
@@ -321,7 +321,7 @@ class CategoryNode extends CMSObject implements NodeInterface
 
 		$this->_parent->_children[] = & $this;
 
-		if (count($this->_parent->_children) > 1)
+		if (\count($this->_parent->_children) > 1)
 		{
 			end($this->_parent->_children);
 			$this->_leftSibling = prev($this->_parent->_children);

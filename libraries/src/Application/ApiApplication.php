@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Access\Exception\AuthenticationFailed;
@@ -162,7 +162,7 @@ final class ApiApplication extends CMSApplication
 		// Set the Joomla! API signature
 		$this->setHeader('X-Powered-By', 'JoomlaAPI/1.0', true);
 
-		if (array_key_exists('cors', $options))
+		if (\array_key_exists('cors', $options))
 		{
 			// Enable CORS (Cross-origin resource sharing)
 			$this->setHeader('Access-Control-Allow-Origin', '*', true);
@@ -225,7 +225,7 @@ final class ApiApplication extends CMSApplication
 		 */
 		$priorities = array('application/vnd.api+json');
 
-		if (!$caught404 && array_key_exists('format', $route['vars']))
+		if (!$caught404 && \array_key_exists('format', $route['vars']))
 		{
 			$priorities = $route['vars']['format'];
 		}
@@ -250,7 +250,7 @@ final class ApiApplication extends CMSApplication
 		/** @var $mediaType Accept */
 		$format = $mediaType->getValue();
 
-		if (array_key_exists($mediaType->getValue(), $this->formatMapper))
+		if (\array_key_exists($mediaType->getValue(), $this->formatMapper))
 		{
 			$format = $this->formatMapper[$mediaType->getValue()];
 		}

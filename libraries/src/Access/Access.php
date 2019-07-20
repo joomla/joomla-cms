@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Access;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -186,7 +186,7 @@ class Access
 		}
 
 		// Check for default case:
-		$isDefault = is_string($assetTypes) && in_array($assetTypes, array('components', 'component'));
+		$isDefault = \is_string($assetTypes) && \in_array($assetTypes, array('components', 'component'));
 
 		// Preload the rules for all of the components.
 		if ($isDefault)
@@ -1028,7 +1028,7 @@ class Access
 					break;
 				}
 				// Check to see if the group is mapped to the level.
-				elseif (($id >= 0) && in_array($id, $groups))
+				elseif (($id >= 0) && \in_array($id, $groups))
 				{
 					$authorised[] = $level;
 					break;
@@ -1084,7 +1084,7 @@ class Access
 		}
 
 		// Attempt to load the XML if a string.
-		if (is_string($data))
+		if (\is_string($data))
 		{
 			try
 			{

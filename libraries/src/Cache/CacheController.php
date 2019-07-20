@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Cache;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
@@ -71,7 +71,7 @@ class CacheController
 	 */
 	public function __call($name, $arguments)
 	{
-		return call_user_func_array(array($this->cache, $name), $arguments);
+		return \call_user_func_array(array($this->cache, $name), $arguments);
 	}
 
 	/**

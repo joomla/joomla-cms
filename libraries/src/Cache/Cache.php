@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Cache;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
@@ -548,7 +548,7 @@ class Cache
 		}
 
 		// If the pathway buffer is set in the cache data, get it.
-		if (isset($data['pathway']) && is_array($data['pathway']))
+		if (isset($data['pathway']) && \is_array($data['pathway']))
 		{
 			// Push the pathway data into the pathway object.
 			$app->getPathway()->setPathway($data['pathway']);
@@ -556,7 +556,7 @@ class Cache
 
 		// @todo check if the following is needed, seems like it should be in page cache
 		// If a module buffer is set in the cache data, get it.
-		if (isset($data['module']) && is_array($data['module']))
+		if (isset($data['module']) && \is_array($data['module']))
 		{
 			// Iterate through the module positions and push them into the document buffer.
 			foreach ($data['module'] as $name => $contents)
@@ -680,7 +680,7 @@ class Cache
 						$newvalue = array_map('unserialize', $newvalue);
 
 						// Special treatment for script and style declarations.
-						if (($now == 'script' || $now == 'style') && is_array($newvalue) && is_array($options['headerbefore'][$now]))
+						if (($now == 'script' || $now == 'style') && \is_array($newvalue) && \is_array($options['headerbefore'][$now]))
 						{
 							foreach ($newvalue as $type => $currentScriptStr)
 							{
@@ -720,7 +720,7 @@ class Cache
 		// Pathway data
 		if ($app->isClient('site') && $loptions['nopathway'] != 1)
 		{
-			$cached['pathway'] = is_array($data) && isset($data['pathway']) ? $data['pathway'] : $app->getPathway()->getPathway();
+			$cached['pathway'] = \is_array($data) && isset($data['pathway']) ? $data['pathway'] : $app->getPathway()->getPathway();
 		}
 
 		if ($loptions['nomodules'] != 1)

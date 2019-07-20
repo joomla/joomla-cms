@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Cache;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Factory;
@@ -135,7 +135,7 @@ class CacheStorage
 			}
 		}
 
-		if (is_null($now))
+		if (\is_null($now))
 		{
 			$now = time();
 		}

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -197,7 +197,7 @@ class ApplicationHelper
 	 */
 	public static function addClientInfo($client)
 	{
-		if (is_array($client))
+		if (\is_array($client))
 		{
 			$client = (object) $client;
 		}
@@ -211,7 +211,7 @@ class ApplicationHelper
 
 		if (!isset($client->id))
 		{
-			$client->id = count($info);
+			$client->id = \count($info);
 		}
 
 		self::$_clients[$client->id] = clone $client;

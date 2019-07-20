@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Filesystem\Folder;
@@ -277,7 +277,7 @@ abstract class DaemonApplication extends CliApplication
 		// The application author name.  This string is used in generating startup scripts and has
 		// a maximum of 50 characters.
 		$tmp = (string) $this->config->get('author_name', 'Joomla Platform');
-		$this->config->set('author_name', (strlen($tmp) > 50) ? substr($tmp, 0, 50) : $tmp);
+		$this->config->set('author_name', (\strlen($tmp) > 50) ? substr($tmp, 0, 50) : $tmp);
 
 		// The application author email.  This string is used in generating startup scripts.
 		$tmp = (string) $this->config->get('author_email', 'admin@joomla.org');
@@ -301,7 +301,7 @@ abstract class DaemonApplication extends CliApplication
 		$this->config->set('application_executable', $tmp);
 
 		// The home directory of the daemon.
-		$tmp = (string) $this->config->get('application_directory', dirname($this->input->executable));
+		$tmp = (string) $this->config->get('application_directory', \dirname($this->input->executable));
 		$this->config->set('application_directory', $tmp);
 
 		// The pid file location.  This defaults to a path inside the /tmp directory.
@@ -696,18 +696,18 @@ abstract class DaemonApplication extends CliApplication
 		foreach (self::$signals as $signal)
 		{
 			// Ignore signals that are not defined.
-			if (!defined($signal) || !is_int(constant($signal)) || (constant($signal) === 0))
+			if (!defined($signal) || !is_int(\constant($signal)) || (\constant($signal) === 0))
 			{
 				// Define the signal to avoid notices.
 				Log::add('Signal "' . $signal . '" not defined. Defining it as null.', Log::DEBUG);
-				define($signal, null);
+				\define($signal, null);
 
 				// Don't listen for signal.
 				continue;
 			}
 
 			// Attach the signal handler for the signal.
-			if (!$this->pcntlSignal(constant($signal), array('DaemonApplication', 'signal')))
+			if (!$this->pcntlSignal(\constant($signal), array('DaemonApplication', 'signal')))
 			{
 				Log::add(sprintf('Unable to reroute signal handler: %s', $signal), Log::EMERGENCY);
 
@@ -801,7 +801,7 @@ abstract class DaemonApplication extends CliApplication
 		}
 
 		// Make sure that the folder where we are writing the process id file exists.
-		$folder = dirname($file);
+		$folder = \dirname($file);
 
 		if (!is_dir($folder) && !Folder::create($folder))
 		{

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
@@ -149,7 +149,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		parent::__construct($input, $config, $client);
 
 		// If JDEBUG is defined, load the profiler instance
-		if (defined('JDEBUG') && JDEBUG)
+		if (\defined('JDEBUG') && JDEBUG)
 		{
 			$this->profiler = Profiler::getInstance('Application');
 		}
@@ -816,7 +816,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 				$user->set('cookieLogin', true);
 			}
 
-			if (in_array(false, $results, true) == false)
+			if (\in_array(false, $results, true) == false)
 			{
 				$options['user'] = $user;
 				$options['responseType'] = $response->type;
@@ -916,7 +916,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	public function redirect($url, $status = 303)
 	{
 		// Persist messages if they exist.
-		if (count($this->messageQueue))
+		if (\count($this->messageQueue))
 		{
 			$this->getSession()->set('application.queue', $this->messageQueue);
 		}
@@ -949,7 +949,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		// Fall back to constants.
 		else
 		{
-			$this->docOptions['directory'] = defined('JPATH_THEMES') ? JPATH_THEMES : (defined('JPATH_BASE') ? JPATH_BASE : __DIR__) . '/themes';
+			$this->docOptions['directory'] = \defined('JPATH_THEMES') ? JPATH_THEMES : (\defined('JPATH_BASE') ? JPATH_BASE : __DIR__) . '/themes';
 		}
 
 		// Parse the document.
@@ -1004,7 +1004,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		if ($active !== null
 			&& $active->type === 'alias'
 			&& $active->params->get('alias_redirect')
-			&& in_array($this->input->getMethod(), array('GET', 'HEAD'), true))
+			&& \in_array($this->input->getMethod(), array('GET', 'HEAD'), true))
 		{
 			$item = $this->getMenu()->getItem($active->params->get('aliasoptions'));
 
@@ -1018,14 +1018,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 				}
 
 				$base = Uri::base(true);
-				$oldPath = StringHelper::strtolower(substr($oldUri->getPath(), strlen($base) + 1));
+				$oldPath = StringHelper::strtolower(substr($oldUri->getPath(), \strlen($base) + 1));
 				$activePathPrefix = StringHelper::strtolower($active->route);
 
 				$position = strpos($oldPath, $activePathPrefix);
 
 				if ($position !== false)
 				{
-					$oldUri->setPath($base . '/' . substr_replace($oldPath, $item->route, $position, strlen($activePathPrefix)));
+					$oldUri->setPath($base . '/' . substr_replace($oldPath, $item->route, $position, \strlen($activePathPrefix)));
 
 					$this->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
 					$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
