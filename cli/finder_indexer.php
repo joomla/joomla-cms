@@ -158,21 +158,21 @@ class FinderCli extends JApplicationCli
 		$_SERVER['HTTP_HOST'] = 'domain.com';
 		JFactory::getApplication('site');
 
-		$this->minimumBatchProcessingTime = $this->input->getInt('minproctime', 1, 'raw');
+		$this->minimumBatchProcessingTime = $this->input->getInt('minproctime', 1);
 
 		// Pause between batches to let the server catch a breath. The default, if not set by the user, is 5 seconds.
-		if (($pauseArg = $this->input->get('pause', 'division', 'raw')) !== false)
+		$pauseArg = $this->input->get('pause', 'division', 'raw');
+
+		if ($pauseArg === 'division')
 		{
-			if ($pauseArg === 'division')
-			{
-				$this->pause   = 'division';
-				$this->divisor = $this->input->get('divisor', 5, 'raw');
-			}
-			else
-			{
-				$this->pause = (int) $pauseArg;
-			}
+			$this->pause   = 'division';
+			$this->divisor = $this->input->getInt('divisor', 5);
 		}
+		else
+		{
+			$this->pause = (int) $pauseArg;
+		}
+
 
 		// Purge before indexing if --purge on the command line.
 		if ($this->input->getString('purge', false))
@@ -284,7 +284,7 @@ class FinderCli extends JApplicationCli
 						$pause = 1;
 					}
 				}
-				elseif (is_int($this->pause) && $this->pause > 0)
+				elseif ($this->pause > 0)
 				{
 					$pause = $this->pause;
 				}
