@@ -38,13 +38,7 @@ class PlgQuickiconJoomlaupdate extends JPlugin
 	 */
 	public function onGetIcons($context)
 	{
-		if ($context !== $this->params->get('context', 'mod_quickicon'))
-		{
-			return;
-		}
-
-		// Only super users are authorised to use com_joomlaupdate
-		if (!JFactory::getUser()->authorise('core.admin'))
+		if ($context !== $this->params->get('context', 'mod_quickicon') || !JFactory::getUser()->authorise('core.admin'))
 		{
 			return;
 		}
