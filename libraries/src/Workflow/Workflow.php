@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Workflow;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\Database\ParameterType;
@@ -134,7 +134,7 @@ class Workflow
 	 */
 	protected function getComponent()
 	{
-		if (is_null($this->component))
+		if (\is_null($this->component))
 		{
 			$parts = explode('.', $this->extension);
 

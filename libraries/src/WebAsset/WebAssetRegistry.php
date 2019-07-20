@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\WebAsset;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
@@ -167,8 +167,8 @@ class WebAssetRegistry implements WebAssetRegistryInterface
 	 */
 	public function createAsset(string $name, array $data = []): WebAssetItem
 	{
-		$nameSpace = array_key_exists('namespace', $data) ? $data['namespace'] : __NAMESPACE__ . '\\AssetItem';
-		$className = array_key_exists('class', $data) ? $data['class'] : null;
+		$nameSpace = \array_key_exists('namespace', $data) ? $data['namespace'] : __NAMESPACE__ . '\\AssetItem';
+		$className = \array_key_exists('class', $data) ? $data['class'] : null;
 
 		if ($className && class_exists($nameSpace . '\\' . $className))
 		{
@@ -262,7 +262,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface
 			'registryFile' => $path,
 		];
 
-		$namespace = array_key_exists('namespace', $data) ? $data['namespace'] : null;
+		$namespace = \array_key_exists('namespace', $data) ? $data['namespace'] : null;
 
 		// Prepare WebAssetItem instances
 		foreach ($data['assets'] as $item)
