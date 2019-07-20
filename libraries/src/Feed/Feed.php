@@ -191,7 +191,7 @@ class Feed implements \ArrayAccess, \Countable
 	 *
 	 * @return  integer number of entries in the feed.
 	 */
-	public function \count()
+	public function count()
 	{
 		return \count($this->entries);
 	}
