@@ -259,7 +259,8 @@ class FieldTable extends Table
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__assets'))
-			->where($db->quoteName('name') . ' = ' . $db->quote($name));
+			->where($db->quoteName('name') . ' = :name')
+			->bind(':name', $name);
 
 		// Get the asset id from the database.
 		$db->setQuery($query);
