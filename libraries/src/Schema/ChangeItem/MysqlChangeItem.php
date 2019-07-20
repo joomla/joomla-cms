@@ -291,12 +291,10 @@ class MysqlChangeItem extends ChangeItem
 	 */
 	private function fixUtf8mb4TypeChecks($type)
 	{
-		$fixedType = str_replace(';', '', $type);
+		$uType = strtoupper(str_replace(';', '', $type));
 
 		if ($this->db->hasUTF8mb4Support())
 		{
-			$uType = strtoupper($fixedType);
-
 			if ($uType === 'TINYTEXT')
 			{
 				$typeCheck = 'type IN (' . $this->db->quote('TINYTEXT') . ',' . $this->db->quote('TEXT') . ')';
@@ -311,12 +309,12 @@ class MysqlChangeItem extends ChangeItem
 			}
 			else
 			{
-				$typeCheck = 'type = ' . $this->db->quote($fixedType);
+				$typeCheck = 'type = ' . $this->db->quote($uType);
 			}
 		}
 		else
 		{
-			$typeCheck = 'type = ' . $this->db->quote($fixedType);
+			$typeCheck = 'type = ' . $this->db->quote($uType);
 		}
 
 		return $typeCheck;
