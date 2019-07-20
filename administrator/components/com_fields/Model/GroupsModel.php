@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -148,7 +149,8 @@ class GroupsModel extends ListModel
 		// Filter by context
 		if ($context = $this->getState('filter.context', 'com_fields'))
 		{
-			$query->where('a.context = ' . $db->quote($context));
+			$query->where($db->quoteName('a.context') . ' = :context')
+				->bind(':context', $context);
 		}
 
 		// Filter by access level.
@@ -157,19 +159,21 @@ class GroupsModel extends ListModel
 			if (is_array($access))
 			{
 				$access = ArrayHelper::toInteger($access);
-				$query->where('a.access in (' . implode(',', $access) . ')');
+				$query->whereIn($db->quoteName('a.access'), $access);
 			}
 			else
 			{
-				$query->where('a.access = ' . (int) $access);
+				$access = (int) $access;
+				$query->where($db->quoteName('a.access') . ' = :access')
+					->bind(':access', $access, ParameterType::INTEGER);
 			}
 		}
 
 		// Implement View Level Access
 		if (!$user->authorise('core.admin'))
 		{
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN (' . $groups . ')');
+			$groups = $user->getAuthorisedViewLevels();
+			$query->whereIn($db->quoteName('a.access'), $groups);
 		}
 
 		// Filter by published state
@@ -177,11 +181,13 @@ class GroupsModel extends ListModel
 
 		if (is_numeric($state))
 		{
-			$query->where('a.state = ' . (int) $state);
+			$state = (int) $state;
+			$query->where($db->quoteName('a.access') . ' = :state')
+				->bind(':state', $state, ParameterType::INTEGER);
 		}
 		elseif (!$state)
 		{
-			$query->where('a.state IN (0, 1)');
+			$query->whereIn($db->quoteName('a.access'), [0, 1]);
 		}
 
 		// Filter by search in title
@@ -191,12 +197,15 @@ class GroupsModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.id = ' . (int) substr($search, 3));
+				$search = (int) substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :search')
+					->bind(':id', $search, ParameterType::INTEGER);
 			}
 			else
 			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('a.title LIKE ' . $search);
+				$search = '%' . str_replace(' ', '%', trim($search)) . '%';
+				$query->where($db->quoteName('a.title') . ' LIKE :search')
+					->bind(':search', $search);
 			}
 		}
 
@@ -210,7 +219,7 @@ class GroupsModel extends ListModel
 				$language[$key] = $db->quote($l);
 			}
 
-			$query->where('a.language in (' . implode(',', $language) . ')');
+			$query->whereIn($db->quoteName('a.language'), $language, PARAMETER::STRING);
 		}
 
 		// Add the list ordering clause
