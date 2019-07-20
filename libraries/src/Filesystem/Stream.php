@@ -992,7 +992,7 @@ class Stream extends CMSObject
 				unset($this->contextOptions[$wrapper][$name]);
 
 				// Check that there are still items there
-				if (!count($this->contextOptions[$wrapper]))
+				if (!\count($this->contextOptions[$wrapper]))
 				{
 					// Clean up an empty wrapper context option
 					unset($this->contextOptions[$wrapper]);

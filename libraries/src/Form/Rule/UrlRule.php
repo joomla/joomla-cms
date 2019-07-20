@@ -71,7 +71,7 @@ class UrlRule extends FormRule
 		 * returns False for seriously malformed URLs instead of an associative array.
 		 * @link https://www.php.net/manual/en/function.parse-url.php
 		 */
-		if ($urlParts === false || !array_key_exists('scheme', $urlParts))
+		if ($urlParts === false || !\array_key_exists('scheme', $urlParts))
 		{
 			/*
 			 * The function parse_url() returned false (seriously malformed URL) or no scheme
@@ -85,7 +85,7 @@ class UrlRule extends FormRule
 			}
 
 			// The best we can do for the rest is make sure that the path exists and is valid UTF-8.
-			if (!array_key_exists('path', $urlParts) || !StringHelper::valid((string) $urlParts['path']))
+			if (!\array_key_exists('path', $urlParts) || !StringHelper::valid((string) $urlParts['path']))
 			{
 				return false;
 			}
@@ -118,7 +118,7 @@ class UrlRule extends FormRule
 			return false;
 		}
 
-		if (\array_key_exists('port', $urlParts) && !is_int((int) $urlParts['port']))
+		if (\array_key_exists('port', $urlParts) && !\is_int((int) $urlParts['port']))
 		{
 			return false;
 		}

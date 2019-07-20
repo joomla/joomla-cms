@@ -180,7 +180,7 @@ class GroupedlistField extends FormField
 			// E.g. form field type tag sends $this->value as array
 			if ($this->multiple && \is_array($this->value))
 			{
-				if (!count($this->value))
+				if (!\count($this->value))
 				{
 					$this->value[] = '';
 				}

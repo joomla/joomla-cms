@@ -79,7 +79,7 @@ class TagField extends ListField
 	{
 		$data = $this->getLayoutData();
 
-		if (!is_array($this->value) && !empty($this->value))
+		if (!\is_array($this->value) && !empty($this->value))
 		{
 			if ($this->value instanceof TagsHelper)
 			{
@@ -301,7 +301,7 @@ class TagField extends ListField
 	{
 		if ($this->element['remote-search'])
 		{
-			return !in_array((string) $this->element['remote-search'], array('0', 'false', ''));
+			return !\in_array((string) $this->element['remote-search'], array('0', 'false', ''));
 		}
 
 		return $this->comParams->get('tag_field_ajax_mode', 1) == 1;

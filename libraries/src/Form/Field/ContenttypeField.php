@@ -37,7 +37,7 @@ class ContenttypeField extends ListField
 	 */
 	protected function getInput()
 	{
-		if (!is_array($this->value))
+		if (!\is_array($this->value))
 		{
 			if (\is_object($this->value))
 			{

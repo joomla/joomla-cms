@@ -46,7 +46,7 @@ class RulesRule extends FormRule
 		// Make sure that all posted actions are in the list of possible actions for the field.
 		foreach ($valueActions as $action)
 		{
-			if (!in_array($action, $fieldActions))
+			if (!\in_array($action, $fieldActions))
 			{
 				return false;
 			}

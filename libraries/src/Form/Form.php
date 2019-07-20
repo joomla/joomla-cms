@@ -124,7 +124,7 @@ class Form
 		}
 
 		// The data must be an object or array.
-		if (!is_object($data) && !is_array($data))
+		if (!\is_object($data) && !\is_array($data))
 		{
 			return false;
 		}
@@ -630,7 +630,7 @@ class Form
 	public function load($data, $replace = true, $xpath = false)
 	{
 		// If the data to load isn't already an XML element or string return false.
-		if ((!($data instanceof \SimpleXMLElement)) && (!is_string($data)))
+		if ((!($data instanceof \SimpleXMLElement)) && (!\is_string($data)))
 		{
 			return false;
 		}

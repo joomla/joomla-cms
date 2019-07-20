@@ -239,12 +239,12 @@ class InputFilter extends BaseInputFilter
 			$tempNames     = $fileDescriptor['tmp_name'];
 			$intendedNames = $fileDescriptor['name'];
 
-			if (!is_array($tempNames))
+			if (!\is_array($tempNames))
 			{
 				$tempNames = array($tempNames);
 			}
 
-			if (!is_array($intendedNames))
+			if (!\is_array($intendedNames))
 			{
 				$intendedNames = array($intendedNames);
 			}
@@ -446,7 +446,7 @@ class InputFilter extends BaseInputFilter
 	{
 		static $ttr;
 
-		if (!is_array($ttr))
+		if (!\is_array($ttr))
 		{
 			// Entity decode
 			$trans_tbl = get_html_translation_table(HTML_ENTITIES, ENT_COMPAT, 'ISO-8859-1');

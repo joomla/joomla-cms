@@ -212,7 +212,7 @@ class AtomParser extends FeedParser
 			$entry->content = (string) $el->content;
 		}
 
-		if (filter_var($entry->uri, FILTER_VALIDATE_URL) === false && !is_null($el->link) && $el->link)
+		if (filter_var($entry->uri, FILTER_VALIDATE_URL) === false && !\is_null($el->link) && $el->link)
 		{
 			$link = $el->link;
 

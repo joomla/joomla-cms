@@ -233,7 +233,7 @@ class TextField extends FormField
 				$value = ComponentHelper::getParams('com_menus')->get($this->fieldname);
 			}
 
-			if (!is_null($value))
+			if (!\is_null($value))
 			{
 				$value = (string) $value;
 

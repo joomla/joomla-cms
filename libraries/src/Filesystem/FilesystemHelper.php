@@ -42,7 +42,7 @@ class FilesystemHelper
 		{
 			$headers = get_headers($url, 1);
 
-			if ((!array_key_exists('Content-Length', $headers)))
+			if ((!\array_key_exists('Content-Length', $headers)))
 			{
 				return false;
 			}

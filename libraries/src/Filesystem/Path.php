@@ -12,7 +12,7 @@ namespace Joomla\CMS\Filesystem;
 
 use Joomla\CMS\Crypt\Crypt;
 
-if (!defined('JPATH_ROOT'))
+if (!\defined('JPATH_ROOT'))
 {
 	// Define a string constant for the root directory of the file system in native format
 	\define('JPATH_ROOT', Path::clean(JPATH_SITE));
@@ -208,7 +208,7 @@ class Path
 	 */
 	public static function clean($path, $ds = DIRECTORY_SEPARATOR)
 	{
-		if (!is_string($path) && !empty($path))
+		if (!\is_string($path) && !empty($path))
 		{
 			throw new \UnexpectedValueException(
 				sprintf(
@@ -300,7 +300,7 @@ class Path
 	public static function find($paths, $file)
 	{
 		// Force to array
-		if (!is_array($paths) && !($paths instanceof \Iterator))
+		if (!\is_array($paths) && !($paths instanceof \Iterator))
 		{
 			settype($paths, 'array');
 		}

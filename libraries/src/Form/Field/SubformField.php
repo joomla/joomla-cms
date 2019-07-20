@@ -158,7 +158,7 @@ class SubformField extends FormField
 					break;
 				}
 
-				if ($value && !is_array($value))
+				if ($value && !\is_array($value))
 				{
 					$value = explode(',', (string) $value);
 					$value = array_fill_keys(array_filter($value), true);

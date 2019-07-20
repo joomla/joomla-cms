@@ -255,7 +255,7 @@ class FormHelper
 				$path = $paths[$i] . '/' . strtolower(substr($type, 0, $pos));
 
 				// If the path does not exist, add it.
-				if (!in_array($path, $paths))
+				if (!\in_array($path, $paths))
 				{
 					$paths[] = $path;
 				}
@@ -372,7 +372,7 @@ class FormHelper
 		// Add the new paths to the stack if not already there.
 		foreach ($new as $path)
 		{
-			if (!in_array($path, $paths))
+			if (!\in_array($path, $paths))
 			{
 				array_unshift($paths, trim($path));
 			}
