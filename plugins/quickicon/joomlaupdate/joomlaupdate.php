@@ -43,9 +43,8 @@ class PlgQuickiconJoomlaupdate extends JPlugin
 			return;
 		}
 
-		$user = JFactory::getUser();
-
-		if (!$user->authorise('core.manage', 'com_installer') || !$user->authorise('core.admin', 'com_joomlaupdate'))
+		// Only super users are authorised to use com_joomlaupdate
+		if (!JFactory::getUser()->authorise('core.admin'))
 		{
 			return;
 		}
