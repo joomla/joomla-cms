@@ -109,7 +109,6 @@
           background-color: transparent;
           color: var(--atum-special-color);
           box-shadow: none;
-          
         }
       }
       .dropdown-toggle {
@@ -123,6 +122,7 @@
       }
       .joomlaversion {
         min-width: 6.6rem;
+		direction: ltr;
       }
     }
 
