@@ -187,7 +187,7 @@ class Feed implements \ArrayAccess, \Countable
 	 * Returns a count of the number of entries in the feed.
 	 *
 	 * This method is here to implement the Countable interface.
-	 * You can call it by doing \count($feed) rather than $feed->count();
+	 * You can call it by doing count($feed) rather than $feed->count();
 	 *
 	 * @return  integer number of entries in the feed.
 	 */
