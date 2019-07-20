@@ -92,7 +92,7 @@ final class UserGroupsHelper
 	 *
 	 * @since   3.6.3
 	 */
-	public function \count()
+	public function count()
 	{
 		return \count($this->groups);
 	}
