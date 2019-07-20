@@ -273,38 +273,41 @@ class FinderCli extends JApplicationCli
 				// Batch reporting.
 				$this->out(JText::sprintf('FINDER_CLI_BATCH_COMPLETE', $i + 1, $processingTime = round(microtime(true) - $this->qtime, 3)), true);
 
-				// Pausing Section
-				$skip  = !($processingTime >= $this->minimumBatchProcessingTime);
-				$pause = 0;
-
-				if ($this->pause === 'division' && $this->divisor > 0)
+				if ($this->pause !== 0)
 				{
-					if (!$skip)
+					// Pausing Section
+					$skip  = !($processingTime >= $this->minimumBatchProcessingTime);
+					$pause = 0;
+
+					if ($this->pause === 'division' && $this->divisor > 0)
 					{
-						$pause = round($processingTime / $this->divisor);
+						if (!$skip)
+						{
+							$pause = round($processingTime / $this->divisor);
+						}
+						else
+						{
+							$pause = 1;
+						}
 					}
-					else
+					elseif ($this->pause > 0)
 					{
-						$pause = 1;
+						$pause = $this->pause;
 					}
-				}
-				elseif ($this->pause > 0)
-				{
-					$pause = $this->pause;
-				}
 
-				if ($pause > 0 && !$skip)
-				{
-					$this->out(JText::sprintf('FINDER_CLI_BATCH_PAUSING', $pause), true);
-					sleep($pause);
-					$this->out(JText::_('FINDER_CLI_BATCH_CONTINUING'));
-				}
+					if ($pause > 0 && !$skip)
+					{
+						$this->out(JText::sprintf('FINDER_CLI_BATCH_PAUSING', $pause), true);
+						sleep($pause);
+						$this->out(JText::_('FINDER_CLI_BATCH_CONTINUING'));
+					}
 
-				if ($skip)
-				{
-					$this->out(JText::sprintf('FINDER_CLI_SKIPPING_PAUSE_LOW_BATCH_PROCESSING_TIME', $processingTime, $this->minimumBatchProcessingTime), true);
+					if ($skip)
+					{
+						$this->out(JText::sprintf('FINDER_CLI_SKIPPING_PAUSE_LOW_BATCH_PROCESSING_TIME', $processingTime, $this->minimumBatchProcessingTime), true);
+					}
+					// End of Pausing Section
 				}
-				// End of Pausing Section
 			}
 		}
 		catch (Exception $e)
