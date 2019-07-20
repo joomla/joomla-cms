@@ -636,13 +636,13 @@ class Cache
 			// Get the modules buffer before component execution.
 			$buffer1 = $document->getBuffer();
 
-			if (!is_array($buffer1))
+			if (!\is_array($buffer1))
 			{
 				$buffer1 = array();
 			}
 
 			// Make sure the module buffer is an array.
-			if (!isset($buffer1['module']) || !is_array($buffer1['module']))
+			if (!isset($buffer1['module']) || !\is_array($buffer1['module']))
 			{
 				$buffer1['module'] = array();
 			}
@@ -729,13 +729,13 @@ class Cache
 			// Get the module buffer after component execution.
 			$buffer2 = $document->getBuffer();
 
-			if (!is_array($buffer2))
+			if (!\is_array($buffer2))
 			{
 				$buffer2 = array();
 			}
 
 			// Make sure the module buffer is an array.
-			if (!isset($buffer2['module']) || !is_array($buffer2['module']))
+			if (!isset($buffer2['module']) || !\is_array($buffer2['module']))
 			{
 				$buffer2['module'] = array();
 			}
@@ -844,7 +844,7 @@ class Cache
 			$paths = array();
 		}
 
-		if (!empty($path) && !in_array($path, $paths))
+		if (!empty($path) && !\in_array($path, $paths))
 		{
 			array_unshift($paths, Path::clean($path));
 		}

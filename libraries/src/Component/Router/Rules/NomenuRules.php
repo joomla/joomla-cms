@@ -67,7 +67,7 @@ class NomenuRules implements RulesInterface
 	{
 		$active = $this->router->menu->getActive();
 
-		if (!is_object($active))
+		if (!\is_object($active))
 		{
 			$views = $this->router->getViews();
 

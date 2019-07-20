@@ -81,7 +81,7 @@ class CallbackController extends CacheController
 			return $data['result'];
 		}
 
-		if (!is_array($args))
+		if (!\is_array($args))
 		{
 			$referenceArgs = !empty($args) ? array(&$args) : array();
 		}

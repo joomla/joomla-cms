@@ -202,7 +202,7 @@ class ApplicationHelper
 			$client = (object) $client;
 		}
 
-		if (!is_object($client))
+		if (!\is_object($client))
 		{
 			return false;
 		}

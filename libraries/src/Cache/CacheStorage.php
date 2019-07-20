@@ -376,7 +376,7 @@ class CacheStorage
 			$paths = array();
 		}
 
-		if (!empty($path) && !in_array($path, $paths))
+		if (!empty($path) && !\in_array($path, $paths))
 		{
 			array_unshift($paths, Path::clean($path));
 		}

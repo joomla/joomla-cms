@@ -206,7 +206,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		$message = array('message' => $msg, 'type' => strtolower($type));
 
-		if (!in_array($message, $this->messageQueue))
+		if (!\in_array($message, $this->messageQueue))
 		{
 			// Enqueue the message.
 			$this->messageQueue[] = $message;
@@ -465,7 +465,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	public function getMessageQueue($clear = false)
 	{
 		// For empty queue, if messages exists in the session, enqueue them.
-		if (!count($this->messageQueue))
+		if (!\count($this->messageQueue))
 		{
 			$sessionQueue = $this->getSession()->get('application.queue', []);
 
@@ -885,7 +885,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		$results = $this->triggerEvent('onUserLogout', array($parameters, $options));
 
 		// Check if any of the plugins failed. If none did, success.
-		if (!in_array(false, $results, true))
+		if (!\in_array(false, $results, true))
 		{
 			$options['username'] = $user->get('username');
 			$this->triggerEvent('onUserAfterLogout', array($options));

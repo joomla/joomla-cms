@@ -114,14 +114,14 @@ abstract class DaemonApplication extends CliApplication
 	public function __construct(Cli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null)
 	{
 		// Verify that the process control extension for PHP is available.
-		if (!defined('SIGHUP'))
+		if (!\defined('SIGHUP'))
 		{
 			Log::add('The PCNTL extension for PHP is not available.', Log::ERROR);
 			throw new \RuntimeException('The PCNTL extension for PHP is not available.');
 		}
 
 		// Verify that POSIX support for PHP is available.
-		if (!function_exists('posix_getpid'))
+		if (!\function_exists('posix_getpid'))
 		{
 			Log::add('The POSIX extension for PHP is not available.', Log::ERROR);
 			throw new \RuntimeException('The POSIX extension for PHP is not available.');
@@ -696,7 +696,7 @@ abstract class DaemonApplication extends CliApplication
 		foreach (self::$signals as $signal)
 		{
 			// Ignore signals that are not defined.
-			if (!defined($signal) || !is_int(\constant($signal)) || (\constant($signal) === 0))
+			if (!\defined($signal) || !\is_int(\constant($signal)) || (\constant($signal) === 0))
 			{
 				// Define the signal to avoid notices.
 				Log::add('Signal "' . $signal . '" not defined. Defining it as null.', Log::DEBUG);

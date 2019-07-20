@@ -311,7 +311,7 @@ class CategoryNode extends CMSObject implements NodeInterface
 	 */
 	public function setParent(NodeInterface $parent)
 	{
-		if (!is_null($this->_parent))
+		if (!\is_null($this->_parent))
 		{
 			$key = array_search($this, $this->_parent->_children);
 			unset($this->_parent->_children[$key]);

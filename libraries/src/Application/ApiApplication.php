@@ -125,7 +125,7 @@ final class ApiApplication extends CMSApplication
 	 */
 	public function addFormatMap($contentHeader, $format)
 	{
-		if (!array_key_exists($contentHeader, $this->formatMapper))
+		if (!\array_key_exists($contentHeader, $this->formatMapper))
 		{
 			$this->formatMapper[$contentHeader] = $format;
 		}

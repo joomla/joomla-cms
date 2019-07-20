@@ -320,7 +320,7 @@ class AdministratorApplication extends CMSApplication
 		$options['autoregister'] = false;
 
 		// Set the application login entry point
-		if (!array_key_exists('entry_url', $options))
+		if (!\array_key_exists('entry_url', $options))
 		{
 			$options['entry_url'] = Uri::base() . 'index.php?option=com_users&task=login';
 		}

@@ -189,7 +189,7 @@ abstract class AssociationExtensionHelper  implements AssociationExtensionInterf
 	{
 		$type = $this->getType($typeName);
 
-		if (!array_key_exists('title', $type))
+		if (!\array_key_exists('title', $type))
 		{
 			return '';
 		}
@@ -211,7 +211,7 @@ abstract class AssociationExtensionHelper  implements AssociationExtensionInterf
 	{
 		$type = $this->getType($typeName);
 
-		if (!array_key_exists($part, $type))
+		if (!\array_key_exists($part, $type))
 		{
 			return array();
 		}
@@ -233,7 +233,7 @@ abstract class AssociationExtensionHelper  implements AssociationExtensionInterf
 	{
 		$fields = $this->getTypeFields($typeName);
 
-		if (!array_key_exists($fieldName, $fields))
+		if (!\array_key_exists($fieldName, $fields))
 		{
 			return '';
 		}

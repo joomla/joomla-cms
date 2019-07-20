@@ -522,7 +522,7 @@ class FileStorage extends CacheStorage
 		// Remove all the files in folder if they exist; disable all filtering
 		$files = $this->_filesInFolder($path, '.', false, true, array(), array());
 
-		if (!empty($files) && !is_array($files))
+		if (!empty($files) && !\is_array($files))
 		{
 			if (@unlink($files) !== true)
 			{
@@ -647,7 +647,7 @@ class FileStorage extends CacheStorage
 
 		while (($file = readdir($handle)) !== false)
 		{
-			if (($file != '.') && ($file != '..') && (!in_array($file, $exclude)) && (!$excludefilter || !preg_match($excludefilter, $file)))
+			if (($file != '.') && ($file != '..') && (!\in_array($file, $exclude)) && (!$excludefilter || !preg_match($excludefilter, $file)))
 			{
 				$dir   = $path . '/' . $file;
 				$isDir = is_dir($dir);
@@ -738,7 +738,7 @@ class FileStorage extends CacheStorage
 		while (($file = readdir($handle)) !== false)
 		{
 			if (($file != '.') && ($file != '..')
-				&& (!in_array($file, $exclude))
+				&& (!\in_array($file, $exclude))
 				&& (empty($excludefilter_string) || !preg_match($excludefilter_string, $file)))
 			{
 				$dir   = $path . '/' . $file;

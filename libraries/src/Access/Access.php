@@ -197,7 +197,7 @@ class Access
 		}
 
 		// If we get to this point, this is a regular asset type and we'll proceed with the preloading process.
-		if (!is_array($assetTypes))
+		if (!\is_array($assetTypes))
 		{
 			$assetTypes = (array) $assetTypes;
 		}
@@ -1078,7 +1078,7 @@ class Access
 	public static function getActionsFromData($data, $xpath = "/access/section[@name='component']/")
 	{
 		// If the data to load isn't already an XML element or string return false.
-		if ((!($data instanceof \SimpleXMLElement)) && (!is_string($data)))
+		if ((!($data instanceof \SimpleXMLElement)) && (!\is_string($data)))
 		{
 			return false;
 		}

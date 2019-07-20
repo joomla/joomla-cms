@@ -244,7 +244,7 @@ class MemcachedStorage extends CacheStorage
 
 		$index = static::$_db->get($this->_hash . '-index');
 
-		if (!is_array($index))
+		if (!\is_array($index))
 		{
 			$index = array();
 		}

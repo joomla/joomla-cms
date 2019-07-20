@@ -26,7 +26,7 @@ use Joomla\CMS\Utility\BufferStreamHandler;
  * - 38 : Local filesystem error
  */
 
-if (!defined('CRLF'))
+if (!\defined('CRLF'))
 {
 	/**
 	 * Constant defining a line break
@@ -37,7 +37,7 @@ if (!defined('CRLF'))
 	\define('CRLF', "\r\n");
 }
 
-if (!defined('FTP_AUTOASCII'))
+if (!\defined('FTP_AUTOASCII'))
 {
 	/**
 	 * Constant defining whether the FTP connection type will automatically determine ASCII support based on a file extension
@@ -48,7 +48,7 @@ if (!defined('FTP_AUTOASCII'))
 	\define('FTP_AUTOASCII', -1);
 }
 
-if (!defined('FTP_BINARY'))
+if (!\defined('FTP_BINARY'))
 {
 	/**
 	 * Stub of the native FTP_BINARY constant if PHP is running without the ftp extension enabled
@@ -59,7 +59,7 @@ if (!defined('FTP_BINARY'))
 	\define('FTP_BINARY', 1);
 }
 
-if (!defined('FTP_ASCII'))
+if (!\defined('FTP_ASCII'))
 {
 	/**
 	 * Stub of the native FTP_ASCII constant if PHP is running without the ftp extension enabled
@@ -70,7 +70,7 @@ if (!defined('FTP_ASCII'))
 	\define('FTP_ASCII', 0);
 }
 
-if (!defined('FTP_NATIVE'))
+if (!\defined('FTP_NATIVE'))
 {
 	/**
 	 * Constant defining whether native FTP support is available on the platform
@@ -228,7 +228,7 @@ class FtpClient
 		$signature = $user . ':' . $pass . '@' . $host . ':' . $port;
 
 		// Create a new instance, or set the options of an existing one
-		if (!isset(static::$instances[$signature]) || !is_object(static::$instances[$signature]))
+		if (!isset(static::$instances[$signature]) || !\is_object(static::$instances[$signature]))
 		{
 			static::$instances[$signature] = new static($options);
 		}
@@ -1737,7 +1737,7 @@ class FtpClient
 	protected function _putCmd($cmd, $expectedResponse)
 	{
 		// Make sure we have a connection to the server
-		if (!is_resource($this->_conn))
+		if (!\is_resource($this->_conn))
 		{
 			Log::add(Text::_('JLIB_CLIENT_ERROR_JFTP_PUTCMD_UNCONNECTED'), Log::WARNING, 'jerror');
 
@@ -1830,7 +1830,7 @@ class FtpClient
 		$err = null;
 
 		// Make sure we have a connection to the server
-		if (!is_resource($this->_conn))
+		if (!\is_resource($this->_conn))
 		{
 			Log::add(Text::_('JLIB_CLIENT_ERROR_JFTP_PASSIVE_CONNECT_PORT'), Log::WARNING, 'jerror');
 

@@ -133,7 +133,7 @@ class Rule
 		// Check that the inputs are valid.
 		if (!empty($identities))
 		{
-			if (!is_array($identities))
+			if (!\is_array($identities))
 			{
 				$identities = array($identities);
 			}

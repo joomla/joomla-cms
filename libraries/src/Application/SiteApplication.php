@@ -682,7 +682,7 @@ final class SiteApplication extends CMSApplication
 	public function login($credentials, $options = array())
 	{
 		// Set the application login entry point
-		if (!array_key_exists('entry_url', $options))
+		if (!\array_key_exists('entry_url', $options))
 		{
 			$options['entry_url'] = Uri::base() . 'index.php?option=com_users&task=user.login';
 		}

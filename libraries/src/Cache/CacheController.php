@@ -152,7 +152,7 @@ class CacheController
 			$paths = array();
 		}
 
-		if (!empty($path) && !in_array($path, $paths))
+		if (!empty($path) && !\in_array($path, $paths))
 		{
 			// Only trigger a deprecation notice when adding a lookup path
 			@trigger_error(
