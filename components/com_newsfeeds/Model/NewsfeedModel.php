@@ -106,7 +106,6 @@ class NewsfeedModel extends ItemModel
 					->where('a.id = ' . (int) $pk);
 
 				// Filter by start and end dates.
-				$nullDate = $db->quote($db->getNullDate());
 				$nowDate = $db->quote(Factory::getDate()->toSql());
 
 				// Filter by published state.
