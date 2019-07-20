@@ -12,46 +12,56 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Router\Route;
 
-/** @var JDocumentError $this */
+/** @var JDocumentHtml $this */
 
-$app  = Factory::getApplication();
-$lang = $app->getLanguage();
+$app   = Factory::getApplication();
+$lang  = $app->getLanguage();
+$input = $app->input;
+$wa    = $this->getWebAssetManager();
 
-// Add JavaScript Frameworks
-HTMLHelper::_('script', 'vendor/focus-visible/focus-visible.min.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('script', 'vendor/css-vars-ponyfill/css-vars-ponyfill.min.js', ['version' => 'auto', 'relative' => true]);
+// Detecting Active Variables
+$option     = $input->get('option', '');
+$view       = $input->get('view', '');
+$layout     = $input->get('layout', 'default');
+$task       = $input->get('task', 'display');
+$itemid     = $input->get('Itemid', '');
+$cpanel     = $option === 'com_cpanel';
+$hiddenMenu = $app->input->get('hidemainmenu');
+$joomlaLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
+
 require_once __DIR__ . '/Service/HTML/Atum.php';
 
-// Load template CSS file
-HTMLHelper::_('stylesheet', 'bootstrap.min.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'fontawesome.min.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', ['version' => 'auto', 'relative' => true]);
+// Template params
+$siteLogo  = $this->params->get('siteLogo')
+	? JUri::root() . $this->params->get('siteLogo')
+	: $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
+$smallLogo = $this->params->get('smallLogo')
+	? JUri::root() . $this->params->get('smallLogo')
+	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
-// Load custom CSS file
-HTMLHelper::_('stylesheet', 'user.css', ['version' => 'auto', 'relative' => true]);
+$logoAlt = htmlspecialchars($this->params->get('altSiteLogo', ''), ENT_COMPAT, 'UTF-8');
+$logoSmallAlt = htmlspecialchars($this->params->get('altSmallLogo', ''), ENT_COMPAT, 'UTF-8');
+
+// Enable assets
+$wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
 
 // Load specific language related CSS
 HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['version' => 'auto']);
 
-// Detecting Active Variables
-$option   = $app->input->getCmd('option', '');
-$view     = $app->input->getCmd('view', '');
-$layout   = $app->input->getCmd('layout', 'default');
-$sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
+// Load customer stylesheet if available
+HTMLHelper::_('stylesheet', 'custom.css', array('version' => 'auto', 'relative' => true));
 
-// Logos (params are not available)
-$siteLogo  = $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
-$loginLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
+// Load specific template related JS
+// TODO: Adapt refactored build tools pt.2 @see https://issues.joomla.org/tracker/joomla-cms/23786
+HTMLHelper::_('script', 'media/templates/' . $this->template . '/js/template.min.js', ['version' => 'auto']);
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
+// @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
 $this->addScriptDeclaration('cssVars();');
-
-// Set page title
-$this->setTitle(Text::sprintf('TPL_ATUM_LOGIN_SITE_TITLE', $sitename));
 
 // Opacity must be set before displaying the DOM, so don't move to a CSS file
 $css = '

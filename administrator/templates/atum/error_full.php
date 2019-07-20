@@ -21,8 +21,6 @@ $lang  = $app->getLanguage();
 $input = $app->input;
 $wa    = $this->getWebAssetManager();
 
-require_once __DIR__ . '/Service/HTML/Atum.php';
-
 // Detecting Active Variables
 $option     = $input->get('option', '');
 $view       = $input->get('view', '');
@@ -33,16 +31,18 @@ $cpanel     = $option === 'com_cpanel';
 $hiddenMenu = $app->input->get('hidemainmenu');
 $joomlaLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 
-// Add JavaScript
-HTMLHelper::_('script', 'vendor/focus-visible/focus-visible.min.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('script', 'vendor/css-vars-ponyfill/css-vars-ponyfill.min.js', ['version' => 'auto', 'relative' => true]);
+require_once __DIR__ . '/Service/HTML/Atum.php';
 
-// Logos (params are not available)
-$siteLogo  = $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
-$smallLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
+// Template params
+$siteLogo  = $this->params->get('siteLogo')
+	? JUri::root() . $this->params->get('siteLogo')
+	: $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
+$smallLogo = $this->params->get('smallLogo')
+	? JUri::root() . $this->params->get('smallLogo')
+	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
-// Load template CSS file
-HTMLHelper::_('stylesheet', 'fontawesome.css', ['version' => 'auto', 'relative' => true]);
+$logoAlt = htmlspecialchars($this->params->get('altSiteLogo', ''), ENT_COMPAT, 'UTF-8');
+$logoSmallAlt = htmlspecialchars($this->params->get('altSmallLogo', ''), ENT_COMPAT, 'UTF-8');
 
 // Enable assets
 $wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
@@ -50,11 +50,16 @@ $wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')
 // Load specific language related CSS
 HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['version' => 'auto']);
 
+// Load customer stylesheet if available
+HTMLHelper::_('stylesheet', 'custom.css', array('version' => 'auto', 'relative' => true));
+
 // Load specific template related JS
+// TODO: Adapt refactored build tools pt.2 @see https://issues.joomla.org/tracker/joomla-cms/23786
 HTMLHelper::_('script', 'media/templates/' . $this->template . '/js/template.min.js', ['version' => 'auto']);
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
+// @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
 $this->addScriptDeclaration('cssVars();');
 
