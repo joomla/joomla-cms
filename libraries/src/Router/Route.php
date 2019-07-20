@@ -80,7 +80,7 @@ class Route
 	public static function link($client, $url, $xhtml = true, $ssl = null)
 	{
 		// If we cannot process this $url exit early.
-		if (!is_array($url) && (strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0))
+		if (!\is_array($url) && (strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0))
 		{
 			return $url;
 		}
@@ -114,7 +114,7 @@ class Route
 		{
 			static $host_port;
 
-			if (!is_array($host_port))
+			if (!\is_array($host_port))
 			{
 				$uri2      = Uri::getInstance();
 				$host_port = array($uri2->getHost(), $uri2->getPort());

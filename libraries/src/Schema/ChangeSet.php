@@ -148,7 +148,7 @@ class ChangeSet
 	 */
 	public static function getInstance($db, $folder = null)
 	{
-		if (!is_object(static::$instance))
+		if (!\is_object(static::$instance))
 		{
 			static::$instance = new static($db, $folder);
 		}

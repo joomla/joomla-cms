@@ -287,7 +287,7 @@ class Router
 	 */
 	public function attachBuildRule(callable $callback, $stage = self::PROCESS_DURING)
 	{
-		if (!array_key_exists('build' . $stage, $this->rules))
+		if (!\array_key_exists('build' . $stage, $this->rules))
 		{
 			throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
 		}
@@ -310,7 +310,7 @@ class Router
 	 */
 	public function attachParseRule(callable $callback, $stage = self::PROCESS_DURING)
 	{
-		if (!array_key_exists('parse' . $stage, $this->rules))
+		if (!\array_key_exists('parse' . $stage, $this->rules))
 		{
 			throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
 		}
@@ -335,12 +335,12 @@ class Router
 	 */
 	public function detachRule($type, $rule, $stage = self::PROCESS_DURING)
 	{
-		if (!in_array($type, array('parse', 'build')))
+		if (!\in_array($type, array('parse', 'build')))
 		{
 			throw new \InvalidArgumentException(sprintf('The %s type is not supported. (%s)', $type, __METHOD__));
 		}
 
-		if (!array_key_exists($type . $stage, $this->rules))
+		if (!\array_key_exists($type . $stage, $this->rules))
 		{
 			throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
 		}
@@ -384,7 +384,7 @@ class Router
 	 */
 	protected function processParseRules(&$uri, $stage = self::PROCESS_DURING)
 	{
-		if (!array_key_exists('parse' . $stage, $this->rules))
+		if (!\array_key_exists('parse' . $stage, $this->rules))
 		{
 			throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
 		}
@@ -409,7 +409,7 @@ class Router
 	 */
 	protected function processBuildRules(&$uri, $stage = self::PROCESS_DURING)
 	{
-		if (!array_key_exists('build' . $stage, $this->rules))
+		if (!\array_key_exists('build' . $stage, $this->rules))
 		{
 			throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
 		}
@@ -431,7 +431,7 @@ class Router
 	 */
 	protected function createUri($url)
 	{
-		if (!is_array($url) && substr($url, 0, 1) !== '&')
+		if (!\is_array($url) && substr($url, 0, 1) !== '&')
 		{
 			return new Uri($url);
 		}

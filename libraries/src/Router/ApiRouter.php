@@ -89,7 +89,7 @@ class ApiRouter extends Router
 
 		$validMethods = ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS", "TRACE", "PATCH"];
 
-		if (!in_array($method, $validMethods))
+		if (!\in_array($method, $validMethods))
 		{
 			throw new \InvalidArgumentException(sprintf('%s is not a valid HTTP method.', $method));
 		}
