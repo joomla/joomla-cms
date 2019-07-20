@@ -30,7 +30,7 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 ?>
 <div class="container-popup">
 
-	<form action="<?php echo JRoute::_('index.php?option=com_fields&view=fields&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
+	<form action="<?php echo JRoute::_('index.php?option=com_fields&view=fields&layout=modal&tmpl=component&editor=' . $editor . '&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
 
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
