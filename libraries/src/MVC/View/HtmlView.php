@@ -526,7 +526,7 @@ class HtmlView extends AbstractView
 	 */
 	public function getForm()
 	{
-		if (!is_object($this->form))
+		if (!\is_object($this->form))
 		{
 			$this->form = $this->get('Form');
 		}

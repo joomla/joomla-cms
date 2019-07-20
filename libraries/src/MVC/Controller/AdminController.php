@@ -134,7 +134,7 @@ class AdminController extends BaseController
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');
 
-		if (!is_array($cid) || \count($cid) < 1)
+		if (!\is_array($cid) || \count($cid) < 1)
 		{
 			$this->app->getLogger()->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
 		}
@@ -414,7 +414,7 @@ class AdminController extends BaseController
 		// Get the input
 		$pks = $this->input->post->get('cid', array(), 'array');
 
-		if (!count($pks))
+		if (!\count($pks))
 		{
 			return false;
 		}

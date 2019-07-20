@@ -1091,7 +1091,7 @@ abstract class AdminModel extends FormModel
 		}
 
 		// Check if there are items to change
-		if (!count($pks))
+		if (!\count($pks))
 		{
 			return true;
 		}

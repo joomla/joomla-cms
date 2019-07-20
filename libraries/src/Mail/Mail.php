@@ -117,7 +117,7 @@ class Mail extends PHPMailer
 	{
 		if (Factory::getApplication()->get('mailonline', 1))
 		{
-			if (($this->Mailer == 'mail') && !function_exists('mail'))
+			if (($this->Mailer == 'mail') && !\function_exists('mail'))
 			{
 				throw new \RuntimeException(Text::_('JLIB_MAIL_FUNCTION_DISABLED'), 500);
 			}

@@ -337,7 +337,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		// Check if there is a return value
 		$return = $this->input->get('return', null, 'base64');
 
-		if (!is_null($return) && Uri::isInternal(base64_decode($return)))
+		if (!\is_null($return) && Uri::isInternal(base64_decode($return)))
 		{
 			$url = base64_decode($return);
 		}
@@ -839,7 +839,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 				// Check if there is a return value
 				$return = $this->input->get('return', null, 'base64');
 
-				if (!is_null($return) && Uri::isInternal(base64_decode($return)))
+				if (!\is_null($return) && Uri::isInternal(base64_decode($return)))
 				{
 					$url = base64_decode($return);
 				}

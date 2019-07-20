@@ -393,7 +393,7 @@ class BaseController implements ControllerInterface
 			$mName = $rMethod->getName();
 
 			// Add default display method if not explicitly declared.
-			if ($mName === 'display' || !in_array($mName, $xMethods))
+			if ($mName === 'display' || !\in_array($mName, $xMethods))
 			{
 				$this->methods[] = strtolower($mName);
 

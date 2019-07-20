@@ -232,7 +232,7 @@ abstract class AbstractMenu
 
 		foreach ($this->getMenu() as $item)
 		{
-			if (!is_object($item))
+			if (!\is_object($item))
 			{
 				continue;
 			}
@@ -243,7 +243,7 @@ abstract class AbstractMenu
 			{
 				if (\is_array($values[$i]))
 				{
-					if (!in_array($item->{$attributes[$i]}, $values[$i]))
+					if (!\in_array($item->{$attributes[$i]}, $values[$i]))
 					{
 						$test = false;
 						break;

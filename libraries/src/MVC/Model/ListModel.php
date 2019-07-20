@@ -427,7 +427,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 				foreach ($filters as $name => $value)
 				{
 					// Exclude if blacklisted
-					if (!in_array($name, $this->filterBlacklist))
+					if (!\in_array($name, $this->filterBlacklist))
 					{
 						$this->setState('filter.' . $name, $value);
 					}
@@ -442,7 +442,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 				foreach ($list as $name => $value)
 				{
 					// Exclude if blacklisted
-					if (!in_array($name, $this->listBlacklist))
+					if (!\in_array($name, $this->listBlacklist))
 					{
 						// Extra validations
 						switch ($name)
@@ -495,14 +495,14 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 								break;
 
 							case 'ordering':
-								if (!in_array($value, $this->filter_fields))
+								if (!\in_array($value, $this->filter_fields))
 								{
 									$value = $ordering;
 								}
 								break;
 
 							case 'direction':
-								if (!in_array(strtoupper($value), array('ASC', 'DESC', '')))
+								if (!\in_array(strtoupper($value), array('ASC', 'DESC', '')))
 								{
 									$value = $direction;
 								}
@@ -539,7 +539,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 				// Check if the ordering field is in the whitelist, otherwise use the incoming value.
 				$value = $app->getUserStateFromRequest($this->context . '.ordercol', 'filter_order', $ordering);
 
-				if (!in_array($value, $this->filter_fields))
+				if (!\in_array($value, $this->filter_fields))
 				{
 					$value = $ordering;
 					$app->setUserState($this->context . '.ordercol', $value);
@@ -550,7 +550,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 				// Check if the ordering direction is valid, otherwise use the incoming value.
 				$value = $app->getUserStateFromRequest($this->context . '.orderdirn', 'filter_order_Dir', $direction);
 
-				if (!in_array(strtoupper($value), array('ASC', 'DESC', '')))
+				if (!\in_array(strtoupper($value), array('ASC', 'DESC', '')))
 				{
 					$value = $direction;
 					$app->setUserState($this->context . '.orderdirn', $value);

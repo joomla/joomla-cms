@@ -58,12 +58,12 @@ trait LeagcyModelLoaderTrait
 		{
 			foreach ((array) $path as $includePath)
 			{
-				if (!in_array($includePath, $paths[$prefix]))
+				if (!\in_array($includePath, $paths[$prefix]))
 				{
 					array_unshift($paths[$prefix], Path::clean($includePath));
 				}
 
-				if (!in_array($includePath, $paths['']))
+				if (!\in_array($includePath, $paths['']))
 				{
 					array_unshift($paths[''], Path::clean($includePath));
 				}

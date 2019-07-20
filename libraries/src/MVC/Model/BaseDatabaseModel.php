@@ -207,7 +207,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	protected function _createTable($name, $prefix = 'Table', $config = array())
 	{
 		// Make sure we are returning a DBO object
-		if (!array_key_exists('dbo', $config))
+		if (!\array_key_exists('dbo', $config))
 		{
 			$config['dbo'] = $this->getDbo();
 		}

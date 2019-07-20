@@ -146,7 +146,7 @@ class CMSObject
 			// Default, return the last message
 			$error = end($this->_errors);
 		}
-		elseif (!array_key_exists($i, $this->_errors))
+		elseif (!\array_key_exists($i, $this->_errors))
 		{
 			// If $i has been specified but does not exist, return false
 			return false;
