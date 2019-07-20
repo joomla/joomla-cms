@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Feed\Parser;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Feed\Feed;
 use Joomla\CMS\Feed\FeedEntry;
@@ -216,7 +216,7 @@ class AtomParser extends FeedParser
 		{
 			$link = $el->link;
 
-			if (is_array($link))
+			if (\is_array($link))
 			{
 				$link = $this->bestLinkForUri($link);
 			}

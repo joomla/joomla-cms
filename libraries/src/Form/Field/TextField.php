@@ -7,7 +7,7 @@
  */
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -174,7 +174,7 @@ class TextField extends FormField
 
 			if (!empty($inputmode))
 			{
-				$defaultInputmode = in_array('default', $inputmode) ? Text::_('JLIB_FORM_INPUTMODE') . ' ' : '';
+				$defaultInputmode = \in_array('default', $inputmode) ? Text::_('JLIB_FORM_INPUTMODE') . ' ' : '';
 
 				foreach (array_keys($inputmode, 'default') as $key)
 				{
@@ -222,13 +222,13 @@ class TextField extends FormField
 			$value  = $params->get($this->fieldname);
 
 			// Try with global configuration
-			if (is_null($value))
+			if (\is_null($value))
 			{
 				$value = Factory::getApplication()->get($this->fieldname);
 			}
 
 			// Try with menu configuration
-			if (is_null($value) && Factory::getApplication()->input->getCmd('option') == 'com_menus')
+			if (\is_null($value) && Factory::getApplication()->input->getCmd('option') == 'com_menus')
 			{
 				$value = ComponentHelper::getParams('com_menus')->get($this->fieldname);
 			}

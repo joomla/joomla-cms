@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -64,7 +64,7 @@ class WorkflowstageField extends GroupedlistField
 
 		if ($result)
 		{
-			if (strlen($element['extension']))
+			if (\strlen($element['extension']))
 			{
 				$this->extension = (string) $element['extension'];
 			}

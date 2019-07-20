@@ -8,14 +8,14 @@
 
 namespace Joomla\CMS\Filesystem;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Crypt\Crypt;
 
 if (!defined('JPATH_ROOT'))
 {
 	// Define a string constant for the root directory of the file system in native format
-	define('JPATH_ROOT', Path::clean(JPATH_SITE));
+	\define('JPATH_ROOT', Path::clean(JPATH_SITE));
 }
 
 /**
@@ -132,7 +132,7 @@ class Path
 		$path = self::clean($path);
 		$mode = @ decoct(@ fileperms($path) & 0777);
 
-		if (strlen($mode) < 3)
+		if (\strlen($mode) < 3)
 		{
 			return '---------';
 		}
@@ -328,7 +328,7 @@ class Path
 			 * non-registered directories are not accessible via directory
 			 * traversal attempts.
 			 */
-			if (file_exists($fullname) && substr($fullname, 0, strlen($path)) == $path)
+			if (file_exists($fullname) && substr($fullname, 0, \strlen($path)) == $path)
 			{
 				return $fullname;
 			}

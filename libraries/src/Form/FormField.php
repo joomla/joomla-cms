@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
@@ -368,15 +368,15 @@ abstract class FormField
 		// Detect the field type if not set
 		if (!isset($this->type))
 		{
-			$parts = Normalise::fromCamelCase(get_called_class(), true);
+			$parts = Normalise::fromCamelCase(\get_called_class(), true);
 
 			if ($parts[0] == 'J')
 			{
-				$this->type = StringHelper::ucfirst($parts[count($parts) - 1], '_');
+				$this->type = StringHelper::ucfirst($parts[\count($parts) - 1], '_');
 			}
 			else
 			{
-				$this->type = StringHelper::ucfirst($parts[0], '_') . StringHelper::ucfirst($parts[count($parts) - 1], '_');
+				$this->type = StringHelper::ucfirst($parts[0], '_') . StringHelper::ucfirst($parts[\count($parts) - 1], '_');
 			}
 		}
 	}
@@ -604,7 +604,7 @@ abstract class FormField
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
 		// Set the field default value.
-		if ($element['multiple'] && is_string($value) && is_array(json_decode($value, true)))
+		if ($element['multiple'] && \is_string($value) && \is_array(json_decode($value, true)))
 		{
 			$this->value = (array) json_decode($value);
 		}
@@ -988,7 +988,7 @@ abstract class FormField
 		// Make sure there is a valid SimpleXMLElement.
 		if (!($this->element instanceof \SimpleXMLElement))
 		{
-			throw new \UnexpectedValueException(sprintf('%s::filter `element` is not an instance of SimpleXMLElement', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s::filter `element` is not an instance of SimpleXMLElement', \get_class($this)));
 		}
 
 		// Get the field filter type.
@@ -1003,9 +1003,9 @@ abstract class FormField
 				return '';
 			}
 
-			if (strpos($filter, '::') !== false && is_callable(explode('::', $filter)))
+			if (strpos($filter, '::') !== false && \is_callable(explode('::', $filter)))
 			{
-				return call_user_func(explode('::', $filter), $value);
+				return \call_user_func(explode('::', $filter), $value);
 			}
 
 			// Load the FormRule object for the field. FormRule objects take precedence over PHP functions
@@ -1017,9 +1017,9 @@ abstract class FormField
 				return $obj->filter($this->element, $value, $group, $input, $this->form);
 			}
 
-			if (function_exists($filter))
+			if (\function_exists($filter))
 			{
-				return call_user_func($filter, $value);
+				return \call_user_func($filter, $value);
 			}
 		}
 
@@ -1045,7 +1045,7 @@ abstract class FormField
 		// Make sure there is a valid SimpleXMLElement.
 		if (!($this->element instanceof \SimpleXMLElement))
 		{
-			throw new \UnexpectedValueException(sprintf('%s::validate `element` is not an instance of SimpleXMLElement', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s::validate `element` is not an instance of SimpleXMLElement', \get_class($this)));
 		}
 
 		$valid = true;
@@ -1079,7 +1079,7 @@ abstract class FormField
 			// If the object could not be loaded return an error message.
 			if ($rule === false)
 			{
-				throw new \UnexpectedValueException(sprintf('%s::validate() rule `%s` missing.', get_class($this), $type));
+				throw new \UnexpectedValueException(sprintf('%s::validate() rule `%s` missing.', \get_class($this), $type));
 			}
 
 			try

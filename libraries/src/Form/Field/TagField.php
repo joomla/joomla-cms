@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -94,13 +94,13 @@ class TagField extends ListField
 			}
 
 			// String in format 2,5,4
-			if (is_string($this->value))
+			if (\is_string($this->value))
 			{
 				$this->value = explode(',', $this->value);
 			}
 
 			// Integer is given
-			if (is_int($this->value))
+			if (\is_int($this->value))
 			{
 				$this->value = array($this->value);
 			}
@@ -180,7 +180,7 @@ class TagField extends ListField
 		{
 			$query->where('a.published = ' . (int) $published);
 		}
-		elseif (is_array($published))
+		elseif (\is_array($published))
 		{
 			$published = ArrayHelper::toInteger($published);
 			$query->where('a.published IN (' . implode(',', $published) . ')');
@@ -282,7 +282,7 @@ class TagField extends ListField
 	 */
 	public function allowCustom()
 	{
-		if ($this->element['custom'] && in_array((string) $this->element['custom'], array('0', 'false', 'deny')))
+		if ($this->element['custom'] && \in_array((string) $this->element['custom'], array('0', 'false', 'deny')))
 		{
 			return false;
 		}

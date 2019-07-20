@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Filesystem;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Client\FtpClient;
@@ -183,7 +183,7 @@ abstract class Folder
 		$path = Path::clean($path);
 
 		// Check if parent dir exists
-		$parent = dirname($path);
+		$parent = \dirname($path);
 
 		if (!self::exists($parent))
 		{
@@ -509,7 +509,7 @@ abstract class Folder
 		}
 
 		// Compute the excludefilter string
-		if (count($excludefilter))
+		if (\count($excludefilter))
 		{
 			$excludefilter_string = '/(' . implode('|', $excludefilter) . ')/';
 		}
@@ -564,7 +564,7 @@ abstract class Folder
 		}
 
 		// Compute the excludefilter string
-		if (count($excludefilter))
+		if (\count($excludefilter))
 		{
 			$excludefilter_string = '/(' . implode('|', $excludefilter) . ')/';
 		}
@@ -638,7 +638,7 @@ abstract class Folder
 				if ($isDir && $recurse)
 				{
 					// Search recursively
-					if (is_int($recurse))
+					if (\is_int($recurse))
 					{
 						// Until depth 0 is reached
 						$arr = array_merge($arr, self::_items($fullpath, $filter, $recurse - 1, $full, $exclude, $excludefilter_string, $findfiles));

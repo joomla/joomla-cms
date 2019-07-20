@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -157,7 +157,7 @@ class SQLField extends ListField
 					$filters = isset($this->element['sql_filter']) ? explode(',', $this->element['sql_filter']) : '';
 
 					// Get the default value for query if empty
-					if (is_array($filters))
+					if (\is_array($filters))
 					{
 						foreach ($filters as $filter)
 						{
@@ -229,7 +229,7 @@ class SQLField extends ListField
 		}
 
 		// Process the filters
-		if (is_array($filters))
+		if (\is_array($filters))
 		{
 			$html_filters = Factory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array');
 

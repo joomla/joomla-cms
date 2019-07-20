@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -119,7 +119,7 @@ class GroupedlistField extends FormField
 
 					if ($groupLabel)
 					{
-						$label = count($groups);
+						$label = \count($groups);
 					}
 					break;
 
@@ -178,7 +178,7 @@ class GroupedlistField extends FormField
 			);
 
 			// E.g. form field type tag sends $this->value as array
-			if ($this->multiple && is_array($this->value))
+			if ($this->multiple && \is_array($this->value))
 			{
 				if (!count($this->value))
 				{

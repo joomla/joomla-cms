@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Filesystem;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * File system helper
@@ -292,7 +292,7 @@ class FilesystemHelper
 	 */
 	public static function isJoomlaStream($streamname)
 	{
-		return in_array($streamname, self::getJStreams());
+		return \in_array($streamname, self::getJStreams());
 	}
 
 	/**

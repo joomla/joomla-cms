@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filesystem\Path;
 use Joomla\String\Normalise;
@@ -249,7 +249,7 @@ class FormHelper
 		if ($pos = strpos($type, '_'))
 		{
 			// Add the complex type prefix to the paths.
-			for ($i = 0, $n = count($paths); $i < $n; $i++)
+			for ($i = 0, $n = \count($paths); $i < $n; $i++)
 			{
 				// Derive the new path.
 				$path = $paths[$i] . '/' . strtolower(substr($type, 0, $pos));
@@ -472,7 +472,7 @@ class FormHelper
 		{
 			$prefix = trim($prefix);
 
-			if (in_array($prefix, $prefixes))
+			if (\in_array($prefix, $prefixes))
 			{
 				continue;
 			}

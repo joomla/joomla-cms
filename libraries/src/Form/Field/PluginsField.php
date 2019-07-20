@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -176,7 +176,7 @@ class PluginsField extends ListField
 	 */
 	protected function getInput()
 	{
-		if (count($this->options) === 1 && $this->options[0]->text === Text::_('JOPTION_DO_NOT_USE'))
+		if (\count($this->options) === 1 && $this->options[0]->text === Text::_('JOPTION_DO_NOT_USE'))
 		{
 			$this->readonly = true;
 		}
