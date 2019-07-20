@@ -85,11 +85,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<td class="text-center">
 										<?php if ($this->preview && $item->client_id == '0') : ?>
 											<a target="_blank" href="<?php echo Uri::root() . 'index.php?tp=1&templateStyle=' . (int) $item->id ?>" class="jgrid">
-											<span class="icon-eye-open hasTooltip" aria-hidden="true" title="<?php echo HTMLHelper::_('tooltipText', Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'), $item->title, 0); ?>"></span>
+											<span class="icon-eye-open" aria-hidden="true" title="<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>"></span>
 											<span class="sr-only"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></span>
 											</a>
 										<?php else: ?>
-											<span class="icon-eye-close disabled hasTooltip" aria-hidden="true" title="<?php echo HTMLHelper::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>"></span>
+											<span class="icon-eye-close" aria-hidden="true" title="<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>"></span>
 											<span class="sr-only"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
 										<?php endif; ?>
 									</td>
