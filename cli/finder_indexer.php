@@ -12,7 +12,12 @@
  * This is a command-line script to help with management of Smart Search.
  *
  * Called with no arguments: php finder_indexer.php
- *                           Performs an incremental update of the index.
+ *                           Performs an incremental update of the index using dynamic pausing.
+ *
+ * IMPORTANT NOTE:  since Joomla version __DEPLOY_VERSION__ the default behavior of this script has changed.
+ *                  If called with no arguments, the `--pause` argument is silently applied, in order to avoid the possibility of
+ *                  stressing the server too much and making a site (or multiple sites, if on a shared environment) unresponsive.
+ *                  If a pause is unwanted, just apply `--pause=0` to the command
  *
  * Called with --purge       php finder_indexer.php --purge
  *                           Purges and rebuilds the index (search filters are preserved).
@@ -28,7 +33,6 @@
  *                               if --pause is called without an assignment, it defaults to dynamic pausing
  *                               using the division method with a divisor of 5
  *                               (eg. 1 second pause for every 5 seconds of batch processing time)
- *                               if --pause is omitted, the process will not pause between batches.
  *
  * Called with --minproctime=x   Will set the minimum processing time of batches for a pause to occur. Defaults to 1
  *
@@ -114,7 +118,7 @@ class FinderCli extends JApplicationCli
 	 * @var    integer|string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private $pause = 0;
+	private $pause = 'division';
 
 	/**
 	 * The divisor of the division: batch-processing time / divisor.
