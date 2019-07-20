@@ -176,7 +176,6 @@ class CategoryModel extends ListModel
 		}
 
 		// Filter by start and end dates.
-		$nullDate = $db->quote($db->getNullDate());
 		$date = Factory::getDate();
 		$nowDate = $db->quote($date->format($db->getDateFormat()));
 
