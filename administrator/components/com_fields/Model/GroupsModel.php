@@ -219,7 +219,7 @@ class GroupsModel extends ListModel
 				$language[$key] = $db->quote($l);
 			}
 
-			$query->whereIn($db->quoteName('a.language'), $language, PARAMETER::STRING);
+			$query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
 		}
 
 		// Add the list ordering clause
