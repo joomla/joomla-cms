@@ -777,7 +777,7 @@ abstract class HTMLHelper
 			return;
 		}
 
-		$document = Factory::getApplication()->getDocument();
+		$document = Factory::getDocument();
 		$version  = '';
 
 		if (isset($options['version']))
