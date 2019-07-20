@@ -68,7 +68,7 @@ class DisplayController extends BaseController
 				if ($lName === 'default')
 				{
 					$logsModel = Factory::getApplication()->bootComponent('Actionlogs')
-							->getMVCFactory()->createModel('Actionlogs', 'Administrator', ['ignore_request' => true]);
+						->getMVCFactory()->createModel('Actionlogs', 'Administrator', ['ignore_request' => true]);
 
 					// Set default ordering for the context
 					$logsModel->setState('list.fullordering', 'a.log_date DESC');
