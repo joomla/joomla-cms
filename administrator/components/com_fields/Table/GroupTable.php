@@ -178,7 +178,8 @@ class GroupTable extends Table
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__assets'))
-			->where($db->quoteName('name') . ' = ' . $db->quote($component[0]));
+			->where($db->quoteName('name') . ' = :name')
+			->bind(':name', $component[0]);
 		$db->setQuery($query);
 
 		if ($assetId = (int) $db->loadResult())
