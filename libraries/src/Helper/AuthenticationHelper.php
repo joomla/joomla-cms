@@ -46,7 +46,7 @@ abstract class AuthenticationHelper
 		{
 			foreach ($identities as $identity)
 			{
-				if (!is_object($identity))
+				if (!\is_object($identity))
 				{
 					continue;
 				}

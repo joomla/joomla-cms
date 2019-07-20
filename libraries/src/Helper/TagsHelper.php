@@ -302,7 +302,7 @@ class TagsHelper extends CMSHelper
 	{
 		$key = $table->getKeyName();
 
-		if (!is_array($contentItemId))
+		if (!\is_array($contentItemId))
 		{
 			$contentItemId = array($key => $contentItemId);
 		}

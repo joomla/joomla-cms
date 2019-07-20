@@ -284,7 +284,7 @@ class LibraryAdapter extends InstallerAdapter
 			{
 				$files = Folder::files($this->parent->getPath('extension_root'));
 
-				if (!count($files))
+				if (!\count($files))
 				{
 					Folder::delete($this->parent->getPath('extension_root'));
 				}

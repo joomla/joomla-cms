@@ -45,7 +45,7 @@ class CallbackLogger extends Logger
 		parent::__construct($options);
 
 		// Throw an exception if there is not a valid callback
-		if (!isset($this->options['callback']) || !is_callable($this->options['callback']))
+		if (!isset($this->options['callback']) || !\is_callable($this->options['callback']))
 		{
 			throw new \RuntimeException(sprintf('%s created without valid callback function.', \get_class($this)));
 		}

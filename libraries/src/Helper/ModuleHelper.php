@@ -151,7 +151,7 @@ abstract class ModuleHelper
 		$app = Factory::getApplication();
 
 		// Check that $module is a valid module object
-		if (!is_object($module) || !isset($module->module) || !isset($module->params))
+		if (!\is_object($module) || !isset($module->module) || !isset($module->params))
 		{
 			if (JDEBUG)
 			{
@@ -327,7 +327,7 @@ abstract class ModuleHelper
 		$app->triggerEvent('onPrepareModuleList', array(&$modules));
 
 		// If the onPrepareModuleList event returns an array of modules, then ignore the default module list creation
-		if (!is_array($modules))
+		if (!\is_array($modules))
 		{
 			$modules = static::getModuleList();
 		}

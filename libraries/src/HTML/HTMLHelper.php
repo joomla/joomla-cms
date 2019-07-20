@@ -144,7 +144,7 @@ abstract class HTMLHelper
 
 			$toCall = array($service, $func);
 
-			if (!is_callable($toCall))
+			if (!\is_callable($toCall))
 			{
 				throw new \InvalidArgumentException(sprintf('%s::%s not found.', $service, $func), 500);
 			}
@@ -184,7 +184,7 @@ abstract class HTMLHelper
 
 		$toCall = array($className, $func);
 
-		if (!is_callable($toCall))
+		if (!\is_callable($toCall))
 		{
 			throw new \InvalidArgumentException(sprintf('%s::%s not found.', $className, $func), 500);
 		}
@@ -1184,7 +1184,7 @@ abstract class HTMLHelper
 		// Loop through the path directories
 		foreach ((array) $path as $dir)
 		{
-			if (!empty($dir) && !in_array($dir, static::$includePaths))
+			if (!empty($dir) && !\in_array($dir, static::$includePaths))
 			{
 				array_unshift(static::$includePaths, Path::clean($dir));
 			}

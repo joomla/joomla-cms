@@ -232,7 +232,7 @@ class LanguageHelper
 		foreach ($installedLanguages as $language)
 		{
 			// If the language client is not needed continue cycle. Drop for performance.
-			if (!in_array((int) $language->client_id, $clients))
+			if (!\in_array((int) $language->client_id, $clients))
 			{
 				continue;
 			}
@@ -261,7 +261,7 @@ class LanguageHelper
 					}
 
 					// No metadata found, not a valid language. Fail silently.
-					if (!is_array($lang->metadata))
+					if (!\is_array($lang->metadata))
 					{
 						Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), Log::WARNING, 'language');
 
@@ -286,7 +286,7 @@ class LanguageHelper
 					}
 
 					// No metadata found, not a valid language. Fail silently.
-					if (!is_array($lang->manifest))
+					if (!\is_array($lang->manifest))
 					{
 						Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), Log::WARNING, 'language');
 
@@ -306,7 +306,7 @@ class LanguageHelper
 			foreach ($languages as $cId => $language)
 			{
 				// If the language client is not needed continue cycle. Drop for performance.
-				if (!in_array($cId, $clients))
+				if (!\in_array($cId, $clients))
 				{
 					continue;
 				}
@@ -321,7 +321,7 @@ class LanguageHelper
 			foreach ($languages as $cId => $language)
 			{
 				// If the language client is not needed continue cycle. Drop for performance.
-				if (!in_array($cId, $clients))
+				if (!\in_array($cId, $clients))
 				{
 					continue;
 				}
@@ -393,7 +393,7 @@ class LanguageHelper
 		{
 			foreach ($languages as $key => $language)
 			{
-				if (!in_array((int) $language->published, $publishedStates, true))
+				if (!\in_array((int) $language->published, $publishedStates, true))
 				{
 					unset($languages[$key]);
 				}
@@ -454,7 +454,7 @@ class LanguageHelper
 		$disabledFunctions = explode(',', ini_get('disable_functions'));
 		$isParseIniFileDisabled = \in_array('parse_ini_file', array_map('trim', $disabledFunctions));
 
-		if (!function_exists('parse_ini_file') || $isParseIniFileDisabled)
+		if (!\function_exists('parse_ini_file') || $isParseIniFileDisabled)
 		{
 			$contents = file_get_contents($fileName);
 			$strings = @parse_ini_string($contents);

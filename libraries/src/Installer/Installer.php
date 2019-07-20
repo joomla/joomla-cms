@@ -303,7 +303,7 @@ class Installer extends \JAdapter
 	 */
 	public function getManifest()
 	{
-		if (!is_object($this->manifest))
+		if (!\is_object($this->manifest))
 		{
 			$this->findManifest();
 		}
@@ -487,7 +487,7 @@ class Installer extends \JAdapter
 			return false;
 		}
 
-		if (!is_object($adapter))
+		if (!\is_object($adapter))
 		{
 			return false;
 		}
@@ -568,7 +568,7 @@ class Installer extends \JAdapter
 
 		$adapter = $this->loadAdapter($type, $params);
 
-		if (!is_object($adapter))
+		if (!\is_object($adapter))
 		{
 			return false;
 		}
@@ -696,7 +696,7 @@ class Installer extends \JAdapter
 			return false;
 		}
 
-		if (!is_object($adapter))
+		if (!\is_object($adapter))
 		{
 			return false;
 		}
@@ -747,7 +747,7 @@ class Installer extends \JAdapter
 
 		$adapter = $this->loadAdapter($type, $params);
 
-		if (!is_object($adapter))
+		if (!\is_object($adapter))
 		{
 			return false;
 		}
@@ -805,7 +805,7 @@ class Installer extends \JAdapter
 			// Fetch the adapter
 			$adapter = $this->loadAdapter($this->extension->type);
 
-			if (!is_object($adapter))
+			if (!\is_object($adapter))
 			{
 				return false;
 			}
@@ -885,7 +885,7 @@ class Installer extends \JAdapter
 		// Get the database connector object
 		$db = & $this->_db;
 
-		if (!$element || !count($element->children()))
+		if (!$element || !\count($element->children()))
 		{
 			// Either the tag does not exist or has no children therefore we return zero files processed.
 			return 0;
@@ -940,7 +940,7 @@ class Installer extends \JAdapter
 	 */
 	public function parseSQLFiles($element)
 	{
-		if (!$element || !count($element->children()))
+		if (!$element || !\count($element->children()))
 		{
 			// The tag does not exist.
 			return 0;
@@ -1283,7 +1283,7 @@ class Installer extends \JAdapter
 	public function parseFiles(\SimpleXMLElement $element, $cid = 0, $oldFiles = null, $oldMD5 = null)
 	{
 		// Get the array of file nodes to process; we checked whether this had children above.
-		if (!$element || !count($element->children()))
+		if (!$element || !\count($element->children()))
 		{
 			// Either the tag does not exist or has no children (hence no files to process) therefore we return zero files processed.
 			return 0;
@@ -1409,7 +1409,7 @@ class Installer extends \JAdapter
 	public function parseLanguages(\SimpleXMLElement $element, $cid = 0)
 	{
 		// TODO: work out why the below line triggers 'node no longer exists' errors with files
-		if (!$element || !count($element->children()))
+		if (!$element || !\count($element->children()))
 		{
 			// Either the tag does not exist or has no children therefore we return zero files processed.
 			return 0;
@@ -1524,7 +1524,7 @@ class Installer extends \JAdapter
 	 */
 	public function parseMedia(\SimpleXMLElement $element, $cid = 0)
 	{
-		if (!$element || !count($element->children()))
+		if (!$element || !\count($element->children()))
 		{
 			// Either the tag does not exist or has no children therefore we return zero files processed.
 			return 0;
@@ -1617,7 +1617,7 @@ class Installer extends \JAdapter
 		// Iterating through the fieldsets:
 		foreach ($fieldsets as $fieldset)
 		{
-			if (!count($fieldset->children()))
+			if (!\count($fieldset->children()))
 			{
 				// Either the tag does not exist or has no children therefore we return zero files processed.
 				return '{}';
@@ -1666,7 +1666,7 @@ class Installer extends \JAdapter
 		 * allowOverwrite flag.
 		 */
 
-		if ($overwrite === null || !is_bool($overwrite))
+		if ($overwrite === null || !\is_bool($overwrite))
 		{
 			$overwrite = $this->overwrite;
 		}
@@ -1773,7 +1773,7 @@ class Installer extends \JAdapter
 	 */
 	public function removeFiles($element, $cid = 0)
 	{
-		if (!$element || !count($element->children()))
+		if (!$element || !\count($element->children()))
 		{
 			// Either the tag does not exist or has no children therefore we return zero files processed.
 			return true;
@@ -2153,7 +2153,7 @@ class Installer extends \JAdapter
 						// Aappend the folder part
 						$container .= $part;
 
-						if (!in_array($container, $containers))
+						if (!\in_array($container, $containers))
 						{
 							// Add the container if it doesn't already exist
 							$containers[] = $container;
@@ -2168,10 +2168,10 @@ class Installer extends \JAdapter
 			switch ($file->getName())
 			{
 				case 'folder':
-					if (!in_array((string) $file, $folders))
+					if (!\in_array((string) $file, $folders))
 					{
 						// See whether the folder exists in the new list
-						if (!in_array((string) $file, $containers))
+						if (!\in_array((string) $file, $containers))
 						{
 							// Check if the folder exists as a container in the new list
 							// If it's not in the new list or a container then delete it
@@ -2182,10 +2182,10 @@ class Installer extends \JAdapter
 
 				case 'file':
 				default:
-					if (!in_array((string) $file, $files))
+					if (!\in_array((string) $file, $files))
 					{
 						// Look if the file exists in the new list
-						if (!in_array(\dirname((string) $file), $folders))
+						if (!\in_array(\dirname((string) $file), $folders))
 						{
 							// Look if the file is now potentially in a folder
 							$files_deleted[] = (string) $file;

@@ -183,7 +183,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 		$content = curl_exec($ch);
 
 		// Check if the content is a string. If it is not, it must be an error.
-		if (!is_string($content))
+		if (!\is_string($content))
 		{
 			$message = curl_error($ch);
 

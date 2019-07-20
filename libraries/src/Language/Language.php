@@ -327,7 +327,7 @@ class Language
 
 				$caller = $this->getCallerInfo();
 
-				if (!array_key_exists($key, $this->used))
+				if (!\array_key_exists($key, $this->used))
 				{
 					$this->used[$key] = array();
 				}
@@ -344,7 +344,7 @@ class Language
 				$info['key'] = $key;
 				$info['string'] = $string;
 
-				if (!array_key_exists($key, $this->orphans))
+				if (!\array_key_exists($key, $this->orphans))
 				{
 					$this->orphans[$key] = array();
 				}
@@ -836,7 +836,7 @@ class Language
 			$line = trim($line);
 
 			// Ignore comment lines.
-			if (!strlen($line) || $line['0'] == ';')
+			if (!\strlen($line) || $line['0'] == ';')
 			{
 				continue;
 			}
@@ -933,7 +933,7 @@ class Language
 	protected function getCallerInfo()
 	{
 		// Try to determine the source if none was provided
-		if (!function_exists('debug_backtrace'))
+		if (!\function_exists('debug_backtrace'))
 		{
 			return;
 		}

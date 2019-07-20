@@ -206,7 +206,7 @@ class InstallerScript
 	 */
 	public function getParam($name, $id = 0)
 	{
-		if (!is_int($id) || $id == 0)
+		if (!\is_int($id) || $id == 0)
 		{
 			// Return false if there is no item given
 			return false;
@@ -232,7 +232,7 @@ class InstallerScript
 	 */
 	public function setParams($param_array = null, $type = 'edit', $id = 0)
 	{
-		if (!is_int($id) || $id == 0)
+		if (!\is_int($id) || $id == 0)
 		{
 			// Return false if there is no valid item given
 			return false;

@@ -206,7 +206,7 @@ class MediaHelper
 		$allowable = array_map('trim', explode(',', $allowable));
 		$ignored   = array_map('trim', explode(',', $params->get('ignore_extensions')));
 
-		if ($filetype == '' || $filetype == false || (!in_array($filetype, $allowable) && !in_array($filetype, $ignored)))
+		if ($filetype == '' || $filetype == false || (!\in_array($filetype, $allowable) && !\in_array($filetype, $ignored)))
 		{
 			$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
 
@@ -262,7 +262,7 @@ class MediaHelper
 					return false;
 				}
 			}
-			elseif (!in_array($filetype, $ignored))
+			elseif (!\in_array($filetype, $ignored))
 			{
 				// Get the mime type this is not an image file
 				$mime = static::getMimeType($file['tmp_name'], false);

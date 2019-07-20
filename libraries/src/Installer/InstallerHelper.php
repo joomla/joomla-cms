@@ -253,7 +253,7 @@ abstract class InstallerHelper
 		// Search the install dir for an XML file
 		$files = Folder::files($p_dir, '\.xml$', 1, true);
 
-		if (!$files || !count($files))
+		if (!$files || !\count($files))
 		{
 			Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), Log::WARNING, 'jerror');
 
@@ -304,7 +304,7 @@ abstract class InstallerHelper
 	{
 		$default = uniqid();
 
-		if (!is_string($url) || strpos($url, '/') === false)
+		if (!\is_string($url) || strpos($url, '/') === false)
 		{
 			return $default;
 		}

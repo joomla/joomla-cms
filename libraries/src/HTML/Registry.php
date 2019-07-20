@@ -128,7 +128,7 @@ final class Registry
 		}
 
 		// Otherwise the handler must be a class object
-		if (!is_string($handler) && !is_object($handler))
+		if (!\is_string($handler) && !\is_object($handler))
 		{
 			throw new \RuntimeException(
 				sprintf(

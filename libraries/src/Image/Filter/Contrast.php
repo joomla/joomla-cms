@@ -38,7 +38,7 @@ class Contrast extends ImageFilter
 	public function execute(array $options = array())
 	{
 		// Validate that the contrast value exists and is an integer.
-		if (!isset($options[IMG_FILTER_CONTRAST]) || !is_int($options[IMG_FILTER_CONTRAST]))
+		if (!isset($options[IMG_FILTER_CONTRAST]) || !\is_int($options[IMG_FILTER_CONTRAST]))
 		{
 			throw new \InvalidArgumentException('No valid contrast value was given.  Expected integer.');
 		}
