@@ -22,7 +22,7 @@ HTMLHelper::_('script', 'mod_multilangstatus/admin-multilangstatus.min.js', arra
 		<div class="d-flex align-items-end mx-auto">
 			<span class="fa fa-language" aria-hidden="true"></span>
 		</div>
-		<div class="d-flex align-items-center tiny">
+		<div class="tiny">
 			<?php echo Text::_('MOD_MULTILANGSTATUS'); ?>
 		</div>
 	</a>

@@ -132,6 +132,9 @@
       white-space: nowrap;
       max-width: 5rem;
       min-width: 4rem;
+	  display: block;
+	  text-overflow: ellipsis;
+	  overflow: hidden;
     }
   }
 

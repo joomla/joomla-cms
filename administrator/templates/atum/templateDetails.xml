@@ -112,25 +112,25 @@
 					label="TPL_ATUM_SITE_LOGO_LABEL"
 				/>
 				<field
-					name="altSiteLogo"
-					type="text"
-					label="TPL_ATUM_ALTTEXT_SITE_LOGO_LABEL"
-				/>
-				<field
 					name="smallLogo"
 					type="media"
 					label="TPL_ATUM_SITE_LOGO_SMALL_LABEL"
-				/>
-				<field
-					name="altSmallLogo"
-					type="text"
-					label="TPL_ATUM_ALTTEXT_SMALL_LOGO_LABEL"
 				/>
 				<field
 					name="loginLogo"
 					type="media"
 					label="TPL_ATUM_LOGIN_LOGO_LABEL"
 				 />
+				<field
+					name="altSiteLogo"
+					type="text"
+					label="TPL_ATUM_ALTTEXT_SITE_LOGO_LABEL"
+				/>
+				<field
+					name="altSmallLogo"
+					type="text"
+					label="TPL_ATUM_ALTTEXT_SMALL_LOGO_LABEL"
+				/>
 				<field
 					name="altLoginLogo"
 					type="text"

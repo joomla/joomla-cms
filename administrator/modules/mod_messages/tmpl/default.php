@@ -25,7 +25,7 @@ $app      = Factory::getApplication();
 		<div class="d-flex align-items-end mx-auto">
 			<span class="fa fa-envelope" aria-hidden="true"></span>
 		</div>
-		<div class="d-flex align-items-center tiny">
+		<div class="tiny">
 			<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>
 		</div>
 		<?php $countUnread = $app->getSession()->get('messages.unread'); ?>
