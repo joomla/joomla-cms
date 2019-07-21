@@ -366,7 +366,7 @@ class PlgSystemUpdatenotification extends JPlugin
 
 			if (!empty($emails))
 			{
-				$query->where('LOWER(' . $db->qn('email') . ') IN(' . $this->implode_callback($emails, ', ', function($x) { return "LOWER($x)"; } ) . ')');
+				$query->where('LOWER(' . $db->qn('email') . ') IN(' . implode(',', array_map('strtolower', $emails)) . ')');
 			}
 
 			$db->setQuery($query);
@@ -415,13 +415,5 @@ class PlgSystemUpdatenotification extends JPlugin
 				}
 			}
 		}
-	}
-
-	private function implode_callback($array, $separator = '', $callback = false)
-	{
-		return implode(
-			$separator,
-			$callback === false ? $array : array_map($callback, $array)
-		);
 	}
 }
