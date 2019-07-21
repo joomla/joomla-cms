@@ -36,6 +36,11 @@
   }
 
   tbody {
+    tr {
+      @include hover-focus-active {
+        background-color: $table-hover-bg;
+      }
+    }
 
     a:not(.badge) {
       text-decoration: underline;
@@ -60,10 +65,5 @@
       color: $gray-400;
     }
 
-  }
-  tr {
-      @include hover-focus-active {
-        background-color: var(--toolbar-bg);
-      }
   }
 }
