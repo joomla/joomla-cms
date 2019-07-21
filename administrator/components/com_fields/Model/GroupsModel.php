@@ -216,7 +216,7 @@ class GroupsModel extends ListModel
 
 			foreach ($language as $key => $l)
 			{
-				$language[$key] = $db->quote($l);
+				$language[$key] = $l;
 			}
 
 			$query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
