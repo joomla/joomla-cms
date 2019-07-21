@@ -366,7 +366,7 @@ class PlgSystemUpdatenotification extends JPlugin
 
 			if (!empty($emails))
 			{
-				$query->where($db->qn('email') . 'IN(' . implode(',', array_map('strtolower', $emails)) . ')');
+				$query->where('LOWER(' . $db->qn('email') . ') IN(' . implode(',', array_map('strtolower', $emails)) . ')');
 			}
 
 			$db->setQuery($query);
