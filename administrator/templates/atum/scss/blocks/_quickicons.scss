@@ -6,24 +6,89 @@
   ul {
     list-style: none;
   }
-
-  li {
+  
+  // Group link to the overview and link to the edit form in a container
+  .quickicon-group {
     width: calc(33.333% - 1rem);
     max-width: calc(33.333% - 1rem);
     flex: 1 1 calc(33.333% - 1rem);
-    position: relative;
-    background: $quickicon-bg;
     margin: 0.5rem;
     padding: 0;
-
-    a {
+	
+    @media (max-width: 1350px) {
+      width: calc(50% - 1rem);
+      max-width: calc(50% - 1rem);
+      flex: 1 1 calc(50% - 1rem);
+    }
+    @media (max-width: 1050px) {
+      width: calc(100% - 1rem);
+      max-width: calc(100% - 1rem);
+      flex: 1 1 calc(100% - 1rem);
+    }
+    @include media-breakpoint-down(sm) {
+      width: calc(50% - 1rem);
+      max-width: calc(50% - 1rem);
+      flex: 1 1 calc(50% - 1rem);
+    }
+    @media (max-width: 430px) {
+      width: calc(100% - 1rem);
+      max-width: calc(100% - 1rem);
+      flex: 1 1 calc(100% - 1rem);
+    }
+	
+    .quickicon {
+      display: block;
+      position: relative;
+    }
+	
+    .quickicon-linkadd {
+      position: relative;
+      font-size: $display2-size;
+      background-color: var(--atum-bg-light);
+      line-height: 2rem;
+      margin-top: 0.4rem;
+      border: 1px solid $gray-400;
+      color: var(--atum-text-dark);
+	  
+     a{
+      text-align: center;
+      overflow: hidden;
+      display: block;
+	  
+     &hover {
       @include hover-focus-active {
         text-decoration: none;
         color: $quickicon-color-hover;
-        background: $link-color;
+        background: var(--atum-link-color);
+        }  
       }
     }
 
+    .fa {
+      position: absolute;
+      left: 0;
+      display: inline-block;
+      width: 2rem;
+      height: 2rem;
+      line-height: 2rem;
+      color: $quickicon-bg;
+      background-color: var(--atum-link-color);
+     } 
+    }
+  }
+  
+  // Singe icon 
+  .single {
+    width: calc(33.333% - 1rem);
+    max-width: calc(33.333% - 1rem);
+    flex: 1 1 calc(33.333% - 1rem);
+    background: $quickicon-bg;
+    margin: 0.5rem;
+    padding: 0;
+  }
+  
+  .single,
+  .quickicon-group {
     @media (max-width: 1350px) {
       width: calc(50% - 1rem);
       max-width: calc(50% - 1rem);
@@ -45,55 +110,19 @@
       flex: 1 1 calc(100% - 1rem);
     }
   }
-
-  .quickicon-linkadd {
-    position: relative;
-    overflow: hidden;
-    font-size: $display2-size;
-    color: var(--atum-text-dark);
-    background-color: var(--atum-bg-light);
-    line-height: 2rem;
-    margin-top: 0.4rem;
-    border: 1px solid $gray-400;
-    text-decoration: none;
-    text-align: center;
-    display: inline-block;
-
-    @include hover-focus-active {
-      text-decoration: none;
-      color: $quickicon-color-hover;
-      background: var(--atum-link-color);
-    }
-
-    .fa {
-      position: absolute;
-      left: 0;
-      display: inline-block;
-      width: 2rem;
-      height: auto;
-      line-height: 2rem;
-      color: $quickicon-bg;
-      background-color: var(--atum-link-color);
-      text-align: center;
-    }
-
-    span:last-child {
-      margin-left: 2rem;
-    }
-  }
-
-  a:first-of-type {
+	
+  .quickicon a {
     display: inline-flex;
     min-height: 5.7rem;
     flex-direction: column;
     width: 100%;
     transition: all .25s ease;
-    text-align: center;
     border: 1px solid $gray-400;
     background-color: var(--toolbar-bg);
     color: var(--atum-text-dark);
     line-height: 1.1;
     align-self: baseline;
+    text-align: center;
 
     .fa,
     .fab {
@@ -150,12 +179,13 @@
     }
 
     .quickicon-text {
+      text-aslign: center;
       min-height: 1.2rem;
+      padding: 0.2rem;
     }
 
     .j-links-link {
       display: block;
-      width: 100%;
       padding: 0 1rem;
       line-height: 1.1;
     }
@@ -205,6 +235,16 @@
       }
     }
   }
+  
+  a {
+	 @include hover-focus-active {
+        text-decoration: none;
+        color: $quickicon-color-hover;
+        background: var(--atum-link-color);
+      }  
+  }
+  
+	 
 }
 
 #content {

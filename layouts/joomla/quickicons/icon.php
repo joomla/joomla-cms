@@ -61,40 +61,49 @@ else
 	$name = '';
 }
 ?>
+<?php // If it is a button with two links: make it a list
+	if (isset($displayData['linkadd'])): ?>
+		<ul class="quickicon-group col mb-3">
+			<li class="quickicon">
+	<?php else: ?>		
+		<li class="quickicon single col mb-3">
+	<?php endif; ?>	
 
-<li class="quickicon col mb-3 d-flex <?php echo !empty($displayData['linkadd']) ? 'flex-column' : ''; ?>">
-	<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
-		<?php if (isset($displayData['image'])): ?>
-			<div class="quickicon-icon d-flex align-items-end <?php echo $size ?>">
-				<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
-			</div>
-		<?php endif; ?>
-		<?php if (isset($displayData['ajaxurl'])) : ?>
-			<div class="quickicon-amount" <?php echo $dataUrl ?> aria-hidden="true">
-				<span class="fa fa-spinner" aria-hidden="true"></span>
-			</div>
-			<div class="quickicon-sr-desc sr-only"></div>
-		<?php endif; ?>
-		<?php // Name indicates the component
-		if (isset($displayData['name'])): ?>
-			<div class="quickicon-name d-flex align-items-end">
-				<?php echo htmlspecialchars($name); ?>
-			</div>
-		<?php endif; ?>
-		<?php // Information or action from plugins
-		if (isset($displayData['text'])): ?>
-			<div class="quickicon-text d-flex align-items-center">
-				<?php echo $text; ?>
-			</div>
-		<?php endif; ?>
-	</a>
+		<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
+			<?php if (isset($displayData['image'])): ?>
+				<div class="quickicon-icon d-flex align-items-end <?php echo $size ?>">
+					<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
+				</div>
+			<?php endif; ?>
+			<?php if (isset($displayData['ajaxurl'])) : ?>
+				<div class="quickicon-amount" <?php echo $dataUrl ?> aria-hidden="true">
+					<span class="fa fa-spinner" aria-hidden="true"></span>
+				</div>
+				<div class="quickicon-sr-desc sr-only"></div>
+			<?php endif; ?>
+			<?php // Name indicates the component
+			if (isset($displayData['name'])): ?>
+				<div class="quickicon-name d-flex align-items-end" <?php echo isset($displayData['ajaxurl']) ? ' aria-hidden="true"' : ''; ?>>
+					<?php echo htmlspecialchars($name); ?>
+				</div>
+			<?php endif; ?>
+			<?php // Information or action from plugins
+			if (isset($displayData['text'])): ?>
+				<div class="quickicon-text d-flex align-items-center">
+					<?php echo $text; ?>
+				</div>
+			<?php endif; ?>
+		</a>
+	</li>
 	<?php // Add the link to the edit-form
-	if (!empty($displayData['linkadd'])): ?>
-			<a class="btn-block quickicon-linkadd j-links-link" href="<?php echo $displayData['linkadd']; ?>">
-				<span class="fa fa-plus" aria-hidden="true"></span>
-				<span class="sr-only"><?php echo Text::sprintf('MOD_QUICKICON_ADD_NEW', $add); ?></span>
-				<span class= mr-auto" aria-hidden="true"><?php echo $add; ?></span>
+	if (isset($displayData['linkadd'])): ?>
+		<li class="btn-block quickicon-linkadd j-links-link">
+			<a href="<?php echo $displayData['linkadd']; ?>">
+				<span class="fa fa-plus mr-2" aria-hidden="true"></span>
+				<span><?php echo Text::sprintf('MOD_QUICKICON_ADD_NEW', $add); ?></span>
 			</a>
+		</li>
+	</ul>
 	<?php endif; ?>
-</li>
+
 
