@@ -390,15 +390,13 @@ class ModulesModel extends ListModel
 				$subQuery2 = $db->getQuery(true);
 				$subQuery2->select($db->quoteName('moduleid'))
 					->from($db->quoteName('#__modules_menu'))
-					->where($db->quoteName('menuid') . ' = :menuitemid2')
-					->bind(':menuitemid2', $menuItemId, ParameterType::INTEGER);
+					->where($db->quoteName('menuid') . ' = :menuitemid2');
 
 				// Modules in "All except selected" pages that doesn't have the chosen menu item id.
 				$subQuery3 = $db->getQuery(true);
 				$subQuery3->select($db->quoteName('moduleid'))
 					->from($db->quoteName('#__modules_menu'))
-					->where($db->quoteName('menuid') . ' = - :menuitemid3')
-					->bind(':menuitemid3', $menuItemId, ParameterType::INTEGER);
+					->where($db->quoteName('menuid') . ' = - :menuitemid3');
 
 				// Filter by modules assigned to the selected menu item.
 				$query->where('(
@@ -407,6 +405,8 @@ class ModulesModel extends ListModel
 					OR ((' . $subQuery1 . ') < 0 AND ' . $db->quoteName('a.id') . ' NOT IN (' . $subQuery3 . '))
 					)'
 				);
+				$query->bind(':menuitemid2', $menuItemId, ParameterType::INTEGER);
+				$query->bind(':menuitemid3', $menuItemId, ParameterType::INTEGER);
 			}
 		}
 
