@@ -193,7 +193,7 @@ class ContactController extends ApiController
 		$body   = $prefix . "\n" . $name . ' <' . $email . '>' . "\r\n\r\n" . stripslashes($body);
 
 		// Load the custom fields
-		if (!empty($data['com_fields']) && $fields = FieldsHelper::getFields('com_contact.mail', $contact, true))
+		if (!empty($data['com_fields']) && $fields = FieldsHelper::getFields('com_contact.mail', $contact, true, $data['com_fields']))
 		{
 			$output = FieldsHelper::render(
 				'com_contact.mail',
