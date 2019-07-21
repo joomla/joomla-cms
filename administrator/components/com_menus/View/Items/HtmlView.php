@@ -32,7 +32,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Array used for displaying the levels filter
 	 *
-	 * @return  \stdClass[]
+	 * @var    \stdClass[]
 	 * @since  4.0.0
 	 */
 	protected $f_levels;

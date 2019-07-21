@@ -154,7 +154,6 @@ class ScriptsRenderer extends DocumentRenderer
 			$buffer .= $tab . '</script>' . $lnEnd;
 		}
 
-
 		// Output the custom tags - array_unique makes sure that we don't output the same tags twice
 		foreach (array_unique($this->_doc->_custom) as $custom)
 		{

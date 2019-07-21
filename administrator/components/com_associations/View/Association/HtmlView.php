@@ -125,6 +125,7 @@ class HtmlView extends BaseHtmlView
 
 		// Check for special case category
 		$typeNameExploded = explode('.', $typeName);
+
 		if (array_pop($typeNameExploded) === 'category')
 		{
 			$this->typeName = 'category';

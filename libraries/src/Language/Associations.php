@@ -40,7 +40,8 @@ class Associations
 	 * @throws  \Exception
 	 */
 	public static function getAssociations($extension, $tablename, $context, $id, $pk = 'id', $aliasField = 'alias', $catField = 'catid',
-		$advClause = array())
+		$advClause = array()
+	)
 	{
 		$globalMasterLang = self::getGlobalMasterLanguage();
 
@@ -85,9 +86,9 @@ class Associations
 			if (!empty($catField))
 			{
 				$query->join(
-						'INNER',
-						$db->quoteName('#__categories', 'ca') . ' ON ' . $db->quoteName('c2.' . $catField) . ' = ca.id AND ca.extension = ' . $db->quote($extension)
-					)
+					'INNER',
+					$db->quoteName('#__categories', 'ca') . ' ON ' . $db->quoteName('c2.' . $catField) . ' = ca.id AND ca.extension = ' . $db->quote($extension)
+				)
 					->select(
 						$query->concatenate(
 							array('ca.id', 'ca.alias'),

@@ -973,7 +973,6 @@ class LanguagesModel extends BaseInstallationModel
 	 *
 	 * @since   3.8.0
 	 */
-
 	public function addAllCategoriesMenuItem($itemLanguage)
 	{
 		// Add Menu Item.

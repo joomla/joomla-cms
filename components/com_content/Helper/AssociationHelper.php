@@ -77,7 +77,16 @@ abstract class AssociationHelper extends CategoryAssociationHelper
 					$advClause[] = 'c2.state = 1';
 				}
 
-				$associations = Associations::getAssociations('com_content', '#__content', 'com_content.item', $id, 'id', 'alias', 'catid', $advClause);
+				$associations = Associations::getAssociations(
+					'com_content',
+					'#__content',
+					'com_content.item',
+					$id,
+					'id',
+					'alias',
+					'catid',
+					$advClause
+				);
 
 				$return = array();
 

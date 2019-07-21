@@ -39,7 +39,9 @@ class PostgresqlChangeItem extends ChangeItem
 	protected function buildCheckQuery()
 	{
 		// Initialize fields in case we can't create a check query
-		$this->checkStatus = -1; // change status to skipped
+
+		// Change status to skipped
+		$this->checkStatus = -1;
 
 		$result = null;
 		$splitIntoWords = "~'[^']*'(*SKIP)(*F)|\s+~";
