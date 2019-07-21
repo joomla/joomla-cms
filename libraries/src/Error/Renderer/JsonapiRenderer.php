@@ -17,10 +17,10 @@ use Joomla\CMS\Error\JsonApi\NotAllowedExceptionHandler;
 use Joomla\CMS\Error\JsonApi\ResourceNotFoundExceptionHandler;
 use Joomla\CMS\Error\JsonApi\CheckinCheckoutExceptionHandler;
 use Joomla\CMS\Error\JsonApi\SendEmailExceptionHandler;
+use Joomla\CMS\Error\JsonApi\InvalidParameterExceptionHandler;
 use Joomla\CMS\Factory;
 use Tobscure\JsonApi\ErrorHandler;
 use Tobscure\JsonApi\Exception\Handler\FallbackExceptionHandler;
-use Tobscure\JsonApi\Exception\Handler\InvalidParameterExceptionHandler;
 use Tobscure\JsonApi\Exception\Handler\ResponseBag;
 
 /**
