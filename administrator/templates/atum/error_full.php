@@ -122,7 +122,7 @@ $this->addScriptDeclaration('cssVars();')
 					<div class="col-md-12">
 						<h1><?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
 						<blockquote class="blockquote">
-							<span class="badge badge-secondary"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
+							<?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
 						</blockquote>
 						<?php if ($this->debug) : ?>
 							<div>
