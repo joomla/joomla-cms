@@ -100,9 +100,12 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       if (this.isDisconnected) {
         // Re init previous instance
         this.choicesInstance.init();
+        this.isDisconnected = false;
       }
       return;
     }
+
+    this.isDisconnected = false;
 
     // Init Choices
     this.choicesInstance = new Choices(this.select, {
