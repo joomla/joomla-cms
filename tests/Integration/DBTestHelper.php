@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @package     Joomla.Tests
+ * @subpackage  Integrations.tests
+ *
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 namespace Joomla\Tests\Integration;
 
 use Joomla\Database\DatabaseDriver;
@@ -7,18 +13,51 @@ use Joomla\Database\DatabaseFactory;
 use Joomla\Database\Mysqli\MysqliDriver;
 use Joomla\Tests\Integration\IntegrationTestCase;
 
+/**
+ * Integration Tests
+ *
+ * @since   4.0.0
+ */
 class DBTestHelper
 {
+	/**
+	 * Driver
+	 *
+	 * @var string
+	 *
+	 * @since   4.0.0
+	 */
 	protected static $driver;
 
+	/**
+	 * Files Loaded
+	 *
+	 * @var array
+	 *
+	 * @since   4.0.0
+	 */
 	protected static $loadedFiles = [];
 
+	/**
+	 * @param   mixed   \Joomla\Tests\Integration\IntegrationTestCase   $test  Test
+	 *
+	 * @return void
+	 * @since   4.0.0
+	 */
 	public static function setupTest(IntegrationTestCase $test):void
 	{
 		if (!self::$driver)
 		{
 			$factory = new DatabaseFactory;
-			self::$driver = $factory->getDriver(JTEST_DB_ENGINE, ['database' => JTEST_DB_NAME, 'host' => JTEST_DB_HOST, 'user' => JTEST_DB_USER, 'password' => JTEST_DB_PASSWORD, 'prefix' => 'jos' . PHP_MAJOR_VERSION . PHP_MINOR_VERSION . '_']);
+			self::$driver = $factory->getDriver(JTEST_DB_ENGINE,
+				[
+					'database' => JTEST_DB_NAME,
+					'host' => JTEST_DB_HOST,
+					'user' => JTEST_DB_USER,
+					'password' => JTEST_DB_PASSWORD,
+					'prefix' => 'jos' . PHP_MAJOR_VERSION . PHP_MINOR_VERSION . '_'
+				]
+			);
 		}
 
 		$test->setDBDriver(self::$driver);
@@ -49,6 +88,13 @@ class DBTestHelper
 		}
 	}
 
+	/**
+	 * @param   string  $query   Query
+	 *
+	 * @return array
+	 *
+	 * @since   4.0.0
+	 */
 	protected static function splitQueries($query)
 	{
 		$buffer    = array();
@@ -84,12 +130,12 @@ class DBTestHelper
 			{
 				$in_string = false;
 			}
-			elseif (!$in_string && ($query[$i] == '"' || $query[$i] == "'") && (!isset ($buffer[0]) || $buffer[0] != "\\"))
+			elseif (!$in_string && ($query[$i] == '"' || $query[$i] == "'") && (!isset($buffer[0]) || $buffer[0] != "\\"))
 			{
 				$in_string = $query[$i];
 			}
 
-			if (isset ($buffer[1]))
+			if (isset($buffer[1]))
 			{
 				$buffer[0] = $buffer[1];
 			}
