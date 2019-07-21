@@ -68,17 +68,13 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     this.choicesCache = {};
     this.activeXHR = null;
     this.choicesInstance = null;
+    this._isDisconnected = false;
   }
 
   /**
    * Lifecycle
    */
   connectedCallback() {
-    // The element was already initialised previously and perhaps was detached from DOM
-    if (this.choicesInstance) {
-      return;
-    }
-
     // Make sure Choices are loaded
     if (window.Choices || document.readyState === 'complete') {
       this._doConnect();
@@ -97,6 +93,15 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
     if (!this.select) {
       throw new Error('JoomlaFieldFancySelect requires <select> element to work');
+    }
+
+    // The element was already initialised previously and perhaps was detached from DOM
+    if (this.choicesInstance) {
+      if (this._isDisconnected) {
+        // Re init previous instance
+        this.choicesInstance.init();
+      }
+      return;
     }
 
     // Init Choices
@@ -178,10 +183,11 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
    */
   disconnectedCallback() {
     // Destroy Choices instance, to unbind event listeners
-    // if (this.choicesInstance) {
-    //   this.choicesInstance.destroy();
-    //   this.choicesInstance = null;
-    // }
+    if (this.choicesInstance) {
+      this.choicesInstance.destroy();
+      this._isDisconnected = true;
+    }
+
     if (this.activeXHR) {
       this.activeXHR.abort();
       this.activeXHR = null;
