@@ -23,17 +23,15 @@ steps:
     image: joomlaprojects/docker-tools:develop
     depends_on: [ restore-cache ]
     commands:
+      - composer validate --no-check-all --strict
       - composer install --no-progress --no-suggest
 
   - name: phpcs
     image: joomlaprojects/docker-images:php7.2
     depends_on: [ composer ]
-    failure: ignore
     commands:
       - echo $(date)
-      - ./libraries/vendor/bin/phpcs --config-set installed_paths ../../joomla/cms-coding-standards/lib,../../joomla/coding-standards/Joomla/ExampleRulesets,../../joomla/coding-standards
-      - ./libraries/vendor/bin/phpcs --config-set colors 1
-      - ./libraries/vendor/bin/phpcs --config-set php_version 70200
+      - ./libraries/vendor/bin/phpcs --config-set installed_paths ../../joomla/cms-coding-standards/lib,../../joomla/coding-standards
       - ./libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php --ignore=libraries/vendor/*,tests/*,build/*,node_modules/*,media/*,libraries/autoload_psr4.php,installation/template/error.php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
       - echo $(date)
 
@@ -41,7 +39,7 @@ steps:
     image: joomlaprojects/docker-tools:develop
     depends_on: [ phpcs ]
     commands:
-      - npm install --unsafe-perm
+      - npm ci --unsafe-perm
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
@@ -257,6 +255,6 @@ services:
 
 ---
 kind: signature
-hmac: 52ecf424bdcc62c9ba6365977f4515493ef1b2e8c20bcdab8645ec1f73eedb49
+hmac: 9c41b057c71b20b06bfef4a230f5b6ceeec8b2dc3bcaab2544286b72c6e9c589
 
 ...
