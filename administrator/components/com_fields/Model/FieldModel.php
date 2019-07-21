@@ -701,7 +701,6 @@ class FieldModel extends AdminModel
 				->where($query->quoteName('item_id') . ' = :itemid')
 				->bind(':itemid', $itemId);
 
-
 			// Fetch the row from the database
 			$rows = $this->getDbo()->setQuery($query)->loadObjectList();
 
