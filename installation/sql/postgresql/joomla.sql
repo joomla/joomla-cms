@@ -2053,7 +2053,7 @@ CREATE TABLE "#__users" (
 CREATE INDEX "#__users_idx_name" ON "#__users" ("name");
 CREATE INDEX "#__users_idx_block" ON "#__users" ("block");
 CREATE INDEX "#__users_username" ON "#__users" ("username");
-CREATE UNIQUE INDEX "#__users_email" ON "#__users" ((lower("email")));
+CREATE UNIQUE INDEX "#__users_email_lower" ON "#__users" ((lower("email")));
 
 COMMENT ON COLUMN "#__users"."lastResetTime" IS 'Date of last password reset';
 COMMENT ON COLUMN "#__users"."resetCount" IS 'Count of password resets since lastResetTime';
