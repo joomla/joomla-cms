@@ -254,6 +254,7 @@ class FieldsModel extends ListModel
 				->where($db->quoteName('a.group_id') . ' = 0 ')
 				->orWhere($query->whereIn($db->quoteName('g.access'), $groups));
 		}
+
 		// Filter by state
 		$state = $this->getState('filter.state');
 
@@ -283,7 +284,6 @@ class FieldsModel extends ListModel
 			{
 				$query->where($db->quoteName('a.group_id') . ' = 0 ')
 					->orWhere($query->whereIn($db->quoteName('g.state'), [0, 1]));
-					
 			}
 		}
 
@@ -318,7 +318,7 @@ class FieldsModel extends ListModel
 			else
 			{
 				$search = '%' . str_replace(' ', '%', trim($search)) . '%';
-				$query->where($db->quoteName('a.title') . ' LIKE :title') 
+				$query->where($db->quoteName('a.title') . ' LIKE :title')
 					->orWhere($db->quoteName('a.name') . ' LIKE :sname')
 					->orWhere($db->quoteName('a.note') . ' LIKE :note')
 					->bind(':title', $search)
@@ -334,10 +334,10 @@ class FieldsModel extends ListModel
 
 			foreach ($language as $key => $l)
 			{
-				$language[$key] = $db->quote($l);
+				$language[$key] = $l;
 			}
 
-			$query->whereIn($db->quoteName('a.language'), $language, PARAMETER::STRING);
+			$query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
 		}
 
 		// Add the list ordering clause
