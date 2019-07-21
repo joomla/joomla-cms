@@ -753,15 +753,15 @@ class FieldModel extends AdminModel
 		$fieldsQuery = $this->getDbo()->getQuery(true);
 		$fieldsQuery->select($fieldsQuery->quoteName('id'))
 			->from($fieldsQuery->quoteName('#__fields'))
-			->where($fieldsQuery->quoteName('context') . ' = :context')
-			->bind(':context', $context);
+			->where($fieldsQuery->quoteName('context') . ' = :context');
 
 		$query = $this->getDbo()->getQuery(true);
 
 		$query->delete($query->quoteName('#__fields_values'))
 			->where($query->quoteName('field_id') . ' IN (' . $fieldsQuery . ')')
 			->where($query->quoteName('item_id') . ' = :itemid')
-			->bind(':itemid', $itemId);
+			->bind(':itemid', $itemId)
+			->bind(':context', $context);
 
 		$this->getDbo()->setQuery($query)->execute();
 	}
