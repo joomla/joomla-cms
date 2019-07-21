@@ -12,6 +12,11 @@ namespace Joomla\Component\Privacy\Api\View\Requests;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
+use Joomla\CMS\Router\Exception\RouteNotFoundException;
+use Joomla\CMS\Serializer\JoomlaSerializer;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Privacy\Administrator\Model\ExportModel;
+use Tobscure\JsonApi\Resource;
 
 /**
  * The requests view
@@ -35,4 +40,32 @@ class JsonapiView extends BaseApiView
 	 * @since  4.0.0
 	 */
 	protected $fieldsToRenderList = ['id', 'email', 'requested_at', 'status', 'request_type'];
+
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	public function export()
+	{
+		/** @var ExportModel $model */
+		$model = $this->getModel();
+
+		$exportData = $model->collectDataForExportRequest();
+
+		if ($exportData == false)
+		{
+			throw new RouteNotFoundException('Item does not exist');
+		}
+
+		$serializer = new JoomlaSerializer('export');
+		$element = (new Resource($exportData, $serializer));
+
+		$this->document->setData($element);
+		$this->document->addLink('self', Uri::current());
+
+		return $this->document->render();
+	}
 }

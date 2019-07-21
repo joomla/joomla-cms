@@ -45,6 +45,7 @@ class PlgWebservicesPrivacy extends CMSPlugin
 		$routes = array(
 			new Route(['GET'], 'v1/privacy/request', 'requests.displayList', [], $getDefaults),
 			new Route(['GET'], 'v1/privacy/request/:id', 'requests.displayItem', ['id' => '(\d+)'], $getDefaults),
+			new Route(['GET'], 'v1/privacy/request/export/:id', 'requests.export', ['id' => '(\d+)'], $getDefaults),
 			new Route(['POST'], 'v1/privacy/request', 'requests.add', [], $defaults)
 		);
 
