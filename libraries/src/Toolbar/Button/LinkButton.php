@@ -36,7 +36,7 @@ class LinkButton extends ToolbarButton
 	/**
 	 * Prepare options for this button.
 	 *
-	 * @param   array  &$options  The options about this button.
+	 * @param   array  $options  The options about this button.
 	 *
 	 * @return  void
 	 *

@@ -75,6 +75,7 @@ class TransitionField extends ListField
 			{
 				$this->extension = $input->getCmd('extension');
 			}
+
 			if (strlen($element['workflow_stage']))
 			{
 				$this->workflowStage = (int) $element['workflow_stage'];

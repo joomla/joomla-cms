@@ -122,9 +122,11 @@ class FeaturedModel extends ListModel
 			$nowDate = $db->quote($date->toSql());
 
 			$query->where('(' . $query->isNullDatetime($db->quoteName('a.publish_up')) .
-				' OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)')
+				' OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)'
+			)
 				->where('(' . $query->isNullDatetime($db->quoteName('a.publish_down')) .
-				' OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)')
+					' OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)'
+				)
 				->bind(':publish_up', $nowDate)
 				->bind(':publish_down', $nowDate);
 		}

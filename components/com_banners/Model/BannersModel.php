@@ -86,8 +86,8 @@ class BannersModel extends ListModel
 			->from('#__banners as a')
 			->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid')
 			->where('a.state=1')
-			->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-			->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')')
+			->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= ' . $db->quote($nowDate) . ')')
+			->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= ' . $db->quote($nowDate) . ')')
 			->where('(a.imptotal = 0 OR a.impmade <= a.imptotal)');
 
 		if ($cid)
@@ -228,7 +228,7 @@ class BannersModel extends ListModel
 	 */
 	public function impress()
 	{
-		$trackDate = Factory::getDate()->format('Y-m-d H');
+		$trackDate = Factory::getDate()->toSql();
 		$items     = $this->getItems();
 		$db        = $this->getDbo();
 		$query     = $db->getQuery(true);
