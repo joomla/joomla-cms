@@ -19,8 +19,8 @@ use Joomla\CMS\Uri\Uri;
 			<span class="fab fa-joomla" aria-hidden="true"></span>
 		</div>
 		<div class="d-flex align-items-center tiny mx-auto">
-			<span class="sr-only"><?php echo Text::_('MOD_VERSION_CURRENT_VERSION_TEXT'); ?></span>
-			<?php echo $version; ?>
+			<span class="sr-only"><?php echo Text::sprintf('MOD_VERSION_CURRENT_VERSION_TEXT', $version); ?></span>
+			<span aria-hidden="true"><?php echo $version; ?></span>
 		</div>
 	</div>
 </diV>
