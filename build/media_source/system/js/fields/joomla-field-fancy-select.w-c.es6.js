@@ -77,17 +77,17 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   connectedCallback() {
     // Make sure Choices are loaded
     if (window.Choices || document.readyState === 'complete') {
-      this._doConnect();
+      this.doConnect();
     } else {
       const callback = () => {
-        this._doConnect();
+        this.doConnect();
         window.removeEventListener('load', callback);
       };
       window.addEventListener('load', callback);
     }
   }
 
-  _doConnect() {
+  doConnect() {
     // Get a <select> element
     this.select = this.querySelector('select');
 
@@ -218,8 +218,10 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
         // Remove duplications
         let item;
+        // eslint-disable-next-line no-plusplus
         for (let i = items.length - 1; i >= 0; i--) { // The loop must be form the end !!!
           item = items[i];
+          // eslint-disable-next-line prefer-template
           item.value = '' + item.value; // Make sure the value is a string, choices.js expect a string.
 
           if (this.choicesCache[item.value]) {
