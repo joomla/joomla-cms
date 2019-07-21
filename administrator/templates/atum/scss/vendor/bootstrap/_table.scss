@@ -1,16 +1,11 @@
 // Table
 
-@import "../../variables";
-
 .table {
-
-  background: $white;
 
   thead {
 
     th {
       font-size: $label-font-size;
-      border-bottom: none;
     }
 
     th,
@@ -21,10 +16,6 @@
       @include media-breakpoint-down(xs) {
         white-space: normal;
       }
-    }
-
-    td {
-      padding: 0;
     }
 
     a {
@@ -45,7 +36,6 @@
   }
 
   tbody {
-    background-color: var(--white);
 
     a:not(.badge) {
       text-decoration: underline;
@@ -59,31 +49,13 @@
     th {
       font-weight: 500;
     }
-
-    tr {
-      &:hover {
-        background-color: var(--toolbar-bg);
-      }
-    }
-
   }
 
   th,
   td {
-    vertical-align: middle;
-    border-top:1px solid var(--toolbar-bg);
-
-    label {
-      margin-bottom: 0;
-    }
-
     .inactive .fa, .inactive [class^=icon-] {
       color: $gray-400;
     }
 
-  }
-
-  td {
-    padding: 1.625rem 0.75rem;
   }
 }

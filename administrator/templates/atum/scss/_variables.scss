@@ -159,10 +159,7 @@ $black-weight:                     900;
 $body-color:                       var(--atum-text-dark); //only used in bootstrap, please use --atum-color-dark
 
 // Tables
-$table-bg:                         transparent;
-$table-bg-accent:                  rgba(0, 0, 0, .03);
-$table-border-color:               var(--dark);
-$table-cell-padding:               8px 12px;
+$table-bg:                         var(--white);
 
 // Dropdowns
 $dropdown-padding-y:               0;
@@ -176,10 +173,6 @@ $dropdown-spacer:                  0;
 // Tabs
 $nav-tabs-border-width:            0;
 $nav-tabs-link-active-bg:          rgba($black, .2); //is it used?
-
-// Tables
-$table-border-width:               1px;
-$table-head-bg:                    transparent;
 
 // Cards
 $card-border-width:                0;
