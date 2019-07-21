@@ -8,6 +8,7 @@
       "name": "template.atum.base",
       "dependencies": [
         "core",
+		"bootstrap.js.bundle",
         "css-vars-ponyfill",
 		"focus-visible"
       ],
