@@ -20,7 +20,7 @@ use Joomla\CMS\Uri\Uri;
 		<div class="d-flex align-items-end mx-auto">
 			<span class="fa fa-external-link-alt" aria-hidden="true"></span>
 		</div>
-		<div class="d-flex align-items-center tiny">
+		<div class="align-items-center tiny">
 			<?php echo HTMLHelper::_('string.truncate', $sitename, 28, false, false); ?>
 		</div>
 	</a>

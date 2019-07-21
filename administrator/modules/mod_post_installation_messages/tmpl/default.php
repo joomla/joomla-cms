@@ -21,7 +21,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 			<div class="d-flex align-items-end mx-auto">
 				<span class="fa fa-bell" aria-hidden="true"></span>
 			</div>
-			<div class="d-flex align-items-center tiny">
+			<div class="tiny">
 				<?php echo Text::_('MOD_POST_INSTALLATION_MESSAGES'); ?>
 			</div>
 			<span class="fa fa-angle-down" aria-hidden="true"></span>

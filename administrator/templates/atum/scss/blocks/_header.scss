@@ -122,7 +122,6 @@
       }
       .joomlaversion {
         min-width: 6.6rem;
-        direction: ltr;
       }
     }
 
@@ -131,11 +130,11 @@
       line-height: 0.8rem;
       margin-top: 0.3rem;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
       max-width: 5rem;
       min-width: 4rem;
-      display: block !important;
+	  display: block;
+	  text-overflow: ellipsis;
+	  overflow: hidden;
     }
   }
 

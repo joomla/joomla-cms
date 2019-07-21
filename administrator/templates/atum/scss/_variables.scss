@@ -107,7 +107,6 @@ $alert-color-level:                0;
 $atum-box-shadow:                  1px 1px 1px 0px rgba($black,0.25);
 $enable-rounded:                   false;
 $border-radius:                    none;
-$border-radius-s:                  .2rem;
 $input-btn-padding-y:              .6rem;
 $input-btn-padding-x:              1rem;
 $input-max-width:                  100%;
@@ -159,10 +158,7 @@ $black-weight:                     900;
 $body-color:                       var(--atum-text-dark); //only used in bootstrap, please use --atum-color-dark
 
 // Tables
-$table-bg:                         transparent;
-$table-bg-accent:                  rgba(0, 0, 0, .03);
-$table-border-color:               var(--dark);
-$table-cell-padding:               8px 12px;
+$table-bg:                         var(--white);
 
 // Dropdowns
 $dropdown-padding-y:               0;
@@ -176,10 +172,6 @@ $dropdown-spacer:                  0;
 // Tabs
 $nav-tabs-border-width:            0;
 $nav-tabs-link-active-bg:          rgba($black, .2); //is it used?
-
-// Tables
-$table-border-width:               1px;
-$table-head-bg:                    transparent;
 
 // Cards
 $card-border-width:                0;
