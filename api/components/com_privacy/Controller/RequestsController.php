@@ -60,7 +60,12 @@ class RequestsController extends ApiController
 		try
 		{
 			/** @var JsonApiView $view */
-			$view = $this->getView($viewName, $viewType, '', ['base_path' => $this->basePath, 'layout' => $viewLayout, 'contentType' => $this->contentType]);
+			$view = $this->getView(
+				$viewName,
+				$viewType,
+				'',
+				['base_path' => $this->basePath, 'layout' => $viewLayout, 'contentType' => $this->contentType]
+			);
 		}
 		catch (\Exception $e)
 		{
