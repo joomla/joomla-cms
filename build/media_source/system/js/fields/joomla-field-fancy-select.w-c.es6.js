@@ -68,7 +68,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     this.choicesCache = {};
     this.activeXHR = null;
     this.choicesInstance = null;
-    this._isDisconnected = false;
+    this.isDisconnected = false;
   }
 
   /**
@@ -97,7 +97,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
     // The element was already initialised previously and perhaps was detached from DOM
     if (this.choicesInstance) {
-      if (this._isDisconnected) {
+      if (this.isDisconnected) {
         // Re init previous instance
         this.choicesInstance.init();
       }
@@ -185,7 +185,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     // Destroy Choices instance, to unbind event listeners
     if (this.choicesInstance) {
       this.choicesInstance.destroy();
-      this._isDisconnected = true;
+      this.isDisconnected = true;
     }
 
     if (this.activeXHR) {
@@ -215,7 +215,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
         // Remove duplications
         let item;
-        for(let i = items.length - 1; i >= 0; i--) { // The loop must be form the end !!!
+        for (let i = items.length - 1; i >= 0; i--) { // The loop must be form the end !!!
           item = items[i];
           item.value = '' + item.value; // Make sure the value is a string, choices.js expect a string.
 
