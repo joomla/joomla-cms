@@ -1,10 +1,8 @@
 // Alerts
-@import "../variables";
 
 .alert {
-
   margin: 1rem 0;
-  border-radius: 0.3rem;
+  border-radius: $border-radius-sm;
   border-left: none;
   border-right: none;
 
@@ -39,7 +37,6 @@
   top: 15px;
   left: 50%;
   z-index: $zindex-alerts;
-  margin-left: 125px;
   transition: all .5s ease;
   transform: translateX(-50%);
 }
