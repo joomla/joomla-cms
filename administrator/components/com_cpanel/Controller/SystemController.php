@@ -28,7 +28,7 @@ class SystemController extends BaseController
 	 * @throws \Exception
 	 *
 	 * @return void
-	 * 
+	 *
 	 * @since  4.0.0
 	 */
 	public function loadSystemInfo()

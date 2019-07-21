@@ -160,9 +160,9 @@ class MenuType extends Table
 			$query->clear()
 				->update('#__modules')
 				->set(
-				'params=REPLACE(params,' . $this->_db->quote('"menutype":' . json_encode($table->menutype)) . ',' .
-				$this->_db->quote('"menutype":' . json_encode($this->menutype)) . ')'
-			);
+					'params=REPLACE(params,' . $this->_db->quote('"menutype":' . json_encode($table->menutype)) . ',' .
+					$this->_db->quote('"menutype":' . json_encode($this->menutype)) . ')'
+				);
 			$query->where('module=' . $this->_db->quote('mod_menu'))
 				->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'));
 			$this->_db->setQuery($query);

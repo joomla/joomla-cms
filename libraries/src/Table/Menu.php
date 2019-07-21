@@ -252,12 +252,12 @@ class Menu extends Nested
 		{
 			// Verify that the home page for this menu is unique.
 			if ($table->load(
-					array(
+				array(
 					'menutype' => $this->menutype,
 					'client_id' => (int) $this->client_id,
 					'home' => '1',
-					)
 				)
+			)
 				&& ($table->language != $this->language))
 			{
 				$this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_UNIQUE_IN_MENU'));

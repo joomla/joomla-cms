@@ -15,7 +15,7 @@
 class InstallCest
 {
 	/**
-	 * Install Joomla, disable statistics and enable Error Reporting
+	 * Install Joomla, disable statistics and enable Error Reporting.
 	 *
 	 * @param   AcceptanceTester  $I  The AcceptanceTester Object
 	 *
@@ -23,14 +23,14 @@ class InstallCest
 	 *
 	 * @return  void
 	 */
-	public function installJoomla(\AcceptanceTester $I)
+	public function installJoomla(AcceptanceTester $I)
 	{
 		$I->am('Administrator');
 		$I->installJoomlaRemovingInstallationFolder();
 	}
 
 	/**
-	 * Disables the statistics and sets error reporting to development
+	 * Disables the statistics and sets error reporting to development.
 	 *
 	 * @param   AcceptanceTester  $I  The AcceptanceTester Object
 	 *
@@ -38,7 +38,7 @@ class InstallCest
 	 *
 	 * @since   4.0.0
 	 */
-	public function configureJoomla(\AcceptanceTester $I)
+	public function configureJoomla(AcceptanceTester $I)
 	{
 		$I->am('Administrator');
 		$I->doAdministratorLogin();
