@@ -53,9 +53,17 @@
 
   th,
   td {
+    label {
+      margin-bottom: 0;
+    }
     .inactive .fa, .inactive [class^=icon-] {
       color: $gray-400;
     }
 
+  }
+  tr {
+      @include hover-focus-active {
+        background-color: var(--toolbar-bg);
+      }
   }
 }
