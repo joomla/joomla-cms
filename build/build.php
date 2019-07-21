@@ -16,7 +16,7 @@
  * 4. Check the archives in the tmp directory.
  *
  * @package    Joomla.Build
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -149,18 +149,19 @@ $filesArray = array(
 $doNotPackage = array(
 	'.appveyor.yml',
 	'.drone.yml',
+	'.editorconfig',
 	'.github',
 	'.gitignore',
 	'.hound.yml',
 	'.php_cs',
 	'.travis.yml',
 	'README.md',
-	'SECURITY.md',
 	'appveyor-phpunit.xml',
 	'build',
 	'build.xml',
 	'composer.json',
 	'composer.lock',
+	'crowdin.yml',
 	'karma.conf.js',
 	'phpunit.xml.dist',
 	'stubs.php',
@@ -382,7 +383,7 @@ foreach (array_keys($checksums) as $packageName)
 {
 	echo "Generating checksums for $packageName\n";
 
-	foreach (array('md5', 'sha1') as $hash)
+	foreach (array('md5', 'sha1', 'sha256', 'sha384', 'sha512') as $hash)
 	{
 		if (file_exists('packages/' . $packageName))
 		{

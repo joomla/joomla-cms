@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ JHtml::_('formbehavior.chosen', '.multipleAuthors', null, array('placeholder_tex
 JHtml::_('formbehavior.chosen', '.multipleAuthorAliases', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_AUTHOR_ALIAS')));
 JHtml::_('formbehavior.chosen', 'select');
 
-$hasContent = empty($this->item->module) ||  isset($this->item->xml->customContent);
+$hasContent = isset($this->item->xml->customContent);
 $hasContentFieldName = 'content';
 
 // For a later improvement
