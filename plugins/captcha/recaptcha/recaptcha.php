@@ -130,14 +130,14 @@ class PlgCaptchaRecaptcha extends JPlugin
 				}
 				elseif (!empty($g_recaptcha_response))
 				{
-					$response  = $g_recaptcha_response;
+					$response = $g_recaptcha_response;
 				}
 				else
 				{
 					$response = '';
 				}
 
-				$spam      = ($response === '');
+				$spam = ($response === '');
 				break;
 		}
 
