@@ -27,6 +27,7 @@
 		type="radio"
 		label="PLG_SYSTEM_HTTPHEADERS_HEADER_CLIENT"
 		default="site"
+		validate="options"
 		>
 		<option value="site">JSITE</option>
 		<option value="administrator">JADMINISTRATOR</option>
