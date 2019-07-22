@@ -213,6 +213,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface
 		if (empty($this->_name))
 		{
 			$reflection = new \ReflectionClass($this);
+
 			if ($viewNamespace = $reflection->getNamespaceName())
 			{
 				$pos = strrpos($viewNamespace, '\\');

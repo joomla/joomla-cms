@@ -1,16 +1,19 @@
 <?php
 /**
- * @package     Joomla.Test
+ * @package     Joomla.Tests
  * @subpackage  AcceptanceTester
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Codeception\Actor;
+use Codeception\Lib\Friend;
+
 /**
- * Acceptance Tester global class for entry point
+ * Acceptance Tester global class for entry point.
  *
- * Inherited Methods
+ * Inherited Methods.
  *
  * @method void wantToTest($text)
  * @method void wantTo($text)
@@ -21,22 +24,23 @@
  * @method void am($role)
  * @method void lookForwardTo($achieveValue)
  * @method void comment($description)
- * @method \Codeception\Lib\Friend haveFriend($name, $actorClass = null)
+ * @method Friend haveFriend($name, $actorClass = null)
  *
  * @SuppressWarnings(PHPMD)
  *
  * @since  3.7.3
  */
-class AcceptanceTester extends \Codeception\Actor
+class AcceptanceTester extends Actor
 {
 	use _generated\AcceptanceTesterActions;
 
 	/**
-	 * Function to check for PHP Notices or Warnings
+	 * Function to check for PHP Notices or Warnings.
 	 *
 	 * @param   string  $page  Optional, if not given checks will be done in the current page
 	 *
 	 * @note    doAdminLogin() before
+	 *
 	 * @since   3.7.3
 	 *
 	 * @return  void
@@ -57,5 +61,24 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->dontSeeInPageSource('Strict standards:');
 		$I->dontSeeInPageSource('<b>Strict standards</b>:');
 		$I->dontSeeInPageSource('The requested page can\'t be found');
+	}
+
+	/**
+	 * Function to wait for JS to be properly loaded on page change.
+	 *
+	 * @param   integer|float  $timeout  Time to wait for JS to be ready
+	 *
+	 * @since   4.0.0
+	 *
+	 * @return  void
+	 */
+	public function waitForJsOnPageLoad($timeout = 1)
+	{
+		$I = $this;
+
+		$I->waitForJS('return document.readyState == "complete"', $timeout);
+
+		// Wait an additional 500ms to make sure that really all JS is loaded
+		$I->wait(0.5);
 	}
 }

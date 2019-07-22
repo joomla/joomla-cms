@@ -37,6 +37,7 @@ if ($saveOrder && !empty($this->items))
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
+						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -98,7 +99,7 @@ if ($saveOrder && !empty($this->items))
 											$disabledLabel    = Text::_('JORDERINGDISABLED');
 											$disableClassName = 'inactive tip-top';
 										endif; ?>
-										<span class="sortable-handler hasTooltip <?php echo $disableClassName; ?>" title="<?php echo $disabledLabel; ?>">
+										<span class="sortable-handler <?php echo $disableClassName; ?>" title="<?php echo $disabledLabel; ?>">
 											<span class="icon-menu" aria-hidden="true"></span>
 										</span>
 										<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">

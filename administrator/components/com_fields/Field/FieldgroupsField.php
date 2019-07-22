@@ -23,6 +23,9 @@ use Joomla\Utilities\ArrayHelper;
  */
 class FieldgroupsField extends ListField
 {
+	/**
+	 * @var    string
+	 */
 	public $type = 'Fieldgroups';
 
 	/**
