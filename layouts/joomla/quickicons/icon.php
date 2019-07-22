@@ -100,7 +100,7 @@ else
 		<li class="btn-block quickicon-linkadd j-links-link">
 			<a href="<?php echo $displayData['linkadd']; ?>">
 				<span class="fa fa-plus" aria-hidden="true"></span>
-				<span class="text-nowrap"><?php echo Text::sprintf('MOD_QUICKICON_ADD_NEW', $add); ?></span>
+				<span class="text-nowrap"><?php echo Text::_('MOD_QUICKICON_' . str_replace(' ' , '_', $add) . '_ADD'); ?></span>
 			</a>
 		</li>
 	</ul>
