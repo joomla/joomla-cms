@@ -168,10 +168,12 @@ class LinkModel extends AdminModel
 			// Update the link rows.
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__redirect_links'))
-				->set($db->quoteName('new_url') . ' = ' . $db->quote($url))
-				->set($db->quoteName('published') . ' = ' . (int) 1)
-				->set($db->quoteName('comment') . ' = ' . $db->quote($comment))
-				->where($db->quoteName('id') . ' IN (' . implode(',', $pks) . ')');
+				->set($db->quoteName('new_url') . ' = :url')
+				->set($db->quoteName('published') . ' = 1')
+				->set($db->quoteName('comment') . ' = :comment')
+				->whereIn($db->quoteName('id'), $pks)
+				->bind(':url', $url)
+				->bind(':comment', $comment);
 			$db->setQuery($query);
 
 			try
@@ -225,10 +227,12 @@ class LinkModel extends AdminModel
 			// Update the link rows.
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__redirect_links'))
-				->set($db->quoteName('new_url') . ' = ' . $db->quote($url))
-				->set($db->quoteName('modified_date') . ' = ' . $db->quote($date))
-				->set($db->quoteName('published') . ' = ' . 1)
-				->where($db->quoteName('id') . ' IN (' . implode(',', $pks) . ')');
+				->set($db->quoteName('new_url') . ' = :url')
+				->set($db->quoteName('modified_date') . ' = :date')
+				->set($db->quoteName('published') . ' = 1')
+				->whereIn($db->quoteName('id'), $pks)
+				->bind(':url', $url)
+				->bind(':date', $date);
 
 			if (!empty($comment))
 			{
