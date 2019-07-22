@@ -55,8 +55,8 @@ class PlgInstallerOverride extends CMSPlugin
 	 * @return  \Joomla\Component\Templates\Administrator\Model\TemplateModel
 	 *
 	 * @since   4.0.0
-     *
-     * @throws \Exception
+	 *
+	 * @throws \Exception
 	 */
 	public function getModel($name = 'Template', $prefix = 'Administrator')
 	{
