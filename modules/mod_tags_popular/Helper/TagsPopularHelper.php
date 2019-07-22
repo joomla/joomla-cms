@@ -118,7 +118,7 @@ abstract class TagsPopularHelper
 			if ($params->get('order_value', 'title') === 'title')
 			{
 				$query->setLimit($maximum);
-				$query->order('count DESC');
+				$query->order($db->quoteName('count') . ' DESC');
 				$equery = $db->getQuery(true)
 					->select(
 						$db->quoteName(
