@@ -264,7 +264,7 @@ class ActionlogsModel extends ListModel
 		$db     = $this->getDbo();
 		$query  = $db->getQuery(true)
 			->select('a.*, u.name')
-			->from('#__action_logs AS a')
+			->from($db->quoteName('#__action_logs', 'a'))
 			->innerJoin('#__users AS u ON a.user_id = u.id')
 			->where($db->quoteName('a.extension') . ' = :extension')
 			->where($db->quoteName('a.item_id') . ' = :itemid')
