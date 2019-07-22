@@ -283,15 +283,15 @@ body {
 .message-alert {
   text-align: left !important;
 }
-    .quickicon-linkadd {
-      a {
-        padding-right: 2.4rem;
-       .fa {
-        right: 0;
-       } 
-    }
-  }
-  
+.quickicon-linkadd {
+  a {
+   padding-right: 2.4rem;
+   .fa {
+     right: 0;
+   }
+ }
+}
+
 // Bootstrap overrides
 .text-left {
   text-align: right !important;
