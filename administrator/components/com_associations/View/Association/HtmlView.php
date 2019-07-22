@@ -183,6 +183,7 @@ class HtmlView extends BaseHtmlView
 					$model = $this->getModel();
 					$typeId        = Table::getInstance('ContentType')->getTypeId($typeAlias);
 					$masterVersionIds            = $model->getMasterCompareValues($referenceId, $this->targetId, $extensionName, $typeName, $typeId);
+
 					if ($masterVersionIds[0] !== null && $masterVersionIds[1] !== null)
 					{
 						$this->referenceVersionIdNew = $masterVersionIds[0];
@@ -190,6 +191,7 @@ class HtmlView extends BaseHtmlView
 					}
 				}
 			}
+
 			/*
 			 * Let's put the target src into a variable to use in the javascript code
 			 *  to avoid race conditions when the reference iframe loads.

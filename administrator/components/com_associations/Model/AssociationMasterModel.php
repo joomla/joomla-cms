@@ -37,7 +37,7 @@ class AssociationMasterModel extends BaseModel
 	{
 		list($extensionName, $typeName) = explode('.', $itemtype, 2);
 
-		$context = ($typeName ==='category')
+		$context = ($typeName === 'category')
 			? 'com_categories.item'
 			: $extensionName . '.item';
 		$db      = Factory::getDbo();

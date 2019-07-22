@@ -1066,7 +1066,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		{
 			$resetQuery = $db->getQuery(true)
 				->update($db->quoteName('#__associations'))
-				->set($db->quoteName('master_id') . ' = ' . -1)
+				->set($db->quoteName('master_id') . ' = -1')
 				->set($db->quoteName('master_date') . ' = NULL');
 			$db->setQuery($resetQuery);
 
@@ -1212,6 +1212,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				}
 			}
 		}
+
 		return true;
 	}
 }

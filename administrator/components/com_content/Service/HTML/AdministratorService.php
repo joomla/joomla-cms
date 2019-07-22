@@ -112,7 +112,6 @@ class AdministratorService
 
 					if ($globalMasterLang)
 					{
-
 						// Don't continue for master, because it has been set here before
 						if ($key === 'master')
 						{

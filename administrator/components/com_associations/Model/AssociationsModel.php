@@ -177,7 +177,7 @@ class AssociationsModel extends ListModel
 
 		$extension = AssociationsHelper::getSupportedExtension($extensionName);
 		$types     = $extension->get('types');
-		$assocContextName = ($typeName ==='category') ? 'com_categories.item' : $extensionName . '.item';
+		$assocContextName = ($typeName === 'category') ? 'com_categories.item' : $extensionName . '.item';
 
 		if (array_key_exists($typeName, $types))
 		{
@@ -472,7 +472,8 @@ class AssociationsModel extends ListModel
 					// Or a child of the master does not exist.
 					. ' OR ( ' . $db->quoteName('asso.key') . '  IN (' . $assocQuery . ') 
 						AND ' . $db->quoteName('asso.master_id') . ' = ' . $db->quote('0') . ')'
-					. ')');
+					. ')'
+				);
 			}
 
 			// Out of date
@@ -483,7 +484,8 @@ class AssociationsModel extends ListModel
 					. ' AND ' . $db->quoteName('asso2.master_date') . ' < ' . $db->quoteName('asso.master_date') . ')'
 					//  Or we are on the child language and we check its state comparing to its master.
 					. ' OR (' . $db->quoteName('asso.master_date') . ' < ' . $db->quoteName('asso2.master_date')
-					. ' AND ' . $db->quoteName('asso2.id') . ' = ' . $db->quoteName('asso.master_id') . '))');
+					. ' AND ' . $db->quoteName('asso2.id') . ' = ' . $db->quoteName('asso.master_id') . '))'
+				);
 			}
 
 			// Up-to-date
@@ -494,7 +496,8 @@ class AssociationsModel extends ListModel
 					. ' AND ' . $db->quoteName('asso2.master_date') . ' = ' . $db->quoteName('asso.master_date') . ')'
 					// Or we are on the child language and we check its state comparing to its master.
 					. ' OR (' . $db->quoteName('asso.master_date') . ' = ' . $db->quoteName('asso2.master_date')
-					. ' AND ' . $db->quoteName('asso2.id') . ' = ' . $db->quoteName('asso.master_id') . '))');
+					. ' AND ' . $db->quoteName('asso2.id') . ' = ' . $db->quoteName('asso.master_id') . '))'
+				);
 			}
 		}
 

@@ -126,7 +126,6 @@ class Associations
 
 			if ($items)
 			{
-
 				foreach ($items as $tag => $item)
 				{
 					if ($globalMasterLang)

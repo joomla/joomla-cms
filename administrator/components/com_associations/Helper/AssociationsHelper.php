@@ -218,7 +218,8 @@ class AssociationsHelper extends ContentHelper
 	 * @since  3.7.0
 	 */
 	public static function getAssociationHtmlList($extensionName, $typeName, $itemId, $itemLanguage,
-		$addLink = true, $assocLanguages = true, $assocState = 'all')
+		$addLink = true, $assocLanguages = true, $assocState = 'all'
+	)
 	{
 		// Get the associations list for this item.
 		$items   = self::getAssociationList($extensionName, $typeName, $itemId);
