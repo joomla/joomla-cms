@@ -155,8 +155,7 @@ class ActionlogsModel extends ListModel
 				$dStart = $date['dStart']->format('Y-m-d H:i:s');
 				$dNow   = $date['dNow']->format('Y-m-d H:i:s');
 				$query->where(
-					$db->quoteName('a.log_date') . ' >= :dstart' .
-					' AND ' . $db->quoteName('a.log_date') . ' <= :dnow'
+					$db->quoteName('a.log_date') . ' BETWEEN :dstart AND :dnow'
 				);
 				$query->bind(':dstart', $dStart);
 				$query->bind(':dnow', $dNow);
@@ -265,7 +264,7 @@ class ActionlogsModel extends ListModel
 		$query  = $db->getQuery(true)
 			->select('a.*', $db->quoteName('u.name'))
 			->from($db->quoteName('#__action_logs', 'a'))
-			->innerJoin('#__users AS u ON a.user_id = u.id')
+			->join('INNER', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id))
 			->where($db->quoteName('a.extension') . ' = :extension')
 			->where($db->quoteName('a.item_id') . ' = :itemid')
 			->bind(':extension', $extension)
@@ -336,9 +335,9 @@ class ActionlogsModel extends ListModel
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select('a.*, u.name')
-			->from('#__action_logs AS a')
-			->innerJoin('#__users AS u ON a.user_id = u.id');
+			->select('a.*', $db->quoteName('u.name'))
+			->from($db->quoteName('#__action_logs', 'a'))
+			->join('INNER', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id));
 
 		if (is_array($pks) && count($pks) > 0)
 		{
@@ -434,3 +433,4 @@ class ActionlogsModel extends ListModel
 		return $form;
 	}
 }
+																															
