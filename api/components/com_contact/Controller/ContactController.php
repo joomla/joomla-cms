@@ -52,6 +52,35 @@ class ContactController extends ApiController
 	protected $default_view = 'contacts';
 
 	/**
+	 * Method to save a record.
+	 *
+	 * @param   int  $recordKey  The primary key of the item (if exists)
+	 *
+	 * @return  int  The record ID on success, false on failure
+	 *
+	 * @since   4.0.0
+	 */
+	protected function save($recordKey = null)
+	{
+		$data = (array) json_decode($this->input->json->getRaw(), true);
+
+		foreach (FieldsHelper::getFields('com_content.article') as $field)
+		{
+			if (isset($data[$field->name]))
+			{
+				!isset($data['com_fields']) && $data['com_fields'] = [];
+
+				$data['com_fields'][$field->name] = $data[$field->name];
+				unset($data[$field->name]);
+			}
+		}
+
+		$this->input->set('data', $data);
+
+		return parent::save($recordKey);
+	}
+
+	/**
 	 * Submit contact form
 	 *
 	 * @param   integer  $id Leave empty if you want to retrieve data from the request
