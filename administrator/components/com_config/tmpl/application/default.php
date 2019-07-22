@@ -62,7 +62,7 @@ Text::script('MESSAGE');
 				<?php endif; ?>
 				<li class="nav-item"><a class="nav-link" href="#page-permissions" data-toggle="tab"><?php echo Text::_('COM_CONFIG_PERMISSIONS'); ?></a></li>
 			</ul>
-			<div id="config-document" class="tab-content">
+			<div id="config-document" class="tab-content form-no-margin">
 				<div id="page-site" class="tab-pane active">
 					<?php echo $this->loadTemplate('site'); ?>
 					<?php echo $this->loadTemplate('metadata'); ?>
