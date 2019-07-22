@@ -137,22 +137,22 @@ class ContactController extends ApiController
 
 		if (!$model->validate($form, $data))
 		{
-			$errors  = $model->getErrors();
-			$message = '';
+			$errors   = $model->getErrors();
+			$messages = [];
 
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 			{
 				if ($errors[$i] instanceof \Exception)
 				{
-					$message .= "{$errors[$i]->getMessage()}\n";
+					$message[] = "{$errors[$i]->getMessage()}";
 				}
 				else
 				{
-					$message .= "{$errors[$i]}\n";
+					$messages[] = "{$errors[$i]}";
 				}
 			}
 
-			throw new InvalidParameterException($message);
+			throw new InvalidParameterException(implode("\n", $messages));
 		}
 
 		// Validation succeeded, continue with custom handlers
