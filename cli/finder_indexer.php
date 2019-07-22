@@ -80,7 +80,6 @@ $lang->load('finder_cli', JPATH_SITE, null, false, false)
 // Fallback to the finder_cli file in the default language
 || $lang->load('finder_cli', JPATH_SITE, null, true);
 
-
 /**
  * A command line cron job to run the Smart Search indexer.
  *
@@ -179,7 +178,6 @@ class FinderCli extends JApplicationCli
 		{
 			$this->pause = (int) $pauseArg;
 		}
-
 
 		// Purge before indexing if --purge on the command line.
 		if ($this->input->getString('purge', false))
@@ -473,7 +471,6 @@ class FinderCli extends JApplicationCli
 		$this->out(JText::sprintf('FINDER_CLI_SAVE_FILTER_COMPLETED', count($filters)));
 	}
 }
-
 
 // Instantiate the application object, passing the class name to JCli::getInstance
 // and use chaining to execute the application.
