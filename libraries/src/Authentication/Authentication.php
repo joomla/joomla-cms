@@ -83,7 +83,7 @@ class Authentication
 	/**
 	 * Plugin Type to run
 	 *
-	 * @type   string
+	 * @var   string
 	 * @since  4.0.0
 	 */
 	protected $pluginType;
@@ -154,6 +154,7 @@ class Authentication
 
 		// Create authentication response
 		$response = new AuthenticationResponse;
+
 		/*
 		 * Loop through the plugins and check if the credentials can be used to authenticate
 		 * the user

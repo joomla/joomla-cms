@@ -69,7 +69,7 @@ class ChainedHandler implements HandlerInterface, CheckIfRehashNeededHandlerInte
 	 * @param   string  $plaintext  The plaintext password to validate
 	 * @param   array   $options    Options for the hashing operation
 	 *
-	 * @return  string
+	 * @return  void
 	 *
 	 * @since   4.0.0
 	 * @throws  \RuntimeException
