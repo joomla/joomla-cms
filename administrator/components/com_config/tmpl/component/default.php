@@ -76,7 +76,7 @@ $xml = $this->form->getXml();
 				<?php endforeach; ?>
 			</ul>
 
-			<div class="tab-content" id="configContent">
+			<div class="tab-content form-no-margin" id="configContent">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<?php
 					$hasChildren = $xml->xpath('//fieldset[@name="' . $name . '"]/fieldset');
