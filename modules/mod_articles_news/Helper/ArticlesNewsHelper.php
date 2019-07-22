@@ -103,7 +103,7 @@ abstract class ArticlesNewsHelper
 
 		if (trim($ordering) === 'rand()')
 		{
-			$model->setState('list.ordering', Factory::getDbo()->getQuery(true)->Rand());
+			$model->setState('list.ordering', Factory::getDbo()->getQuery(true)->rand());
 		}
 		else
 		{

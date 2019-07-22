@@ -190,7 +190,7 @@ class BannersModel extends ListModel
 			$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
-		$query->order('a.sticky DESC,' . ($randomise ? $query->Rand() : 'a.ordering'));
+		$query->order('a.sticky DESC,' . ($randomise ? $query->rand() : 'a.ordering'));
 
 		return $query;
 	}
