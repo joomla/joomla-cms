@@ -59,17 +59,8 @@ class PlgSystemFields extends JPlugin
 				 * they should NEVER be added by the browser anyway so nothing to check against
 				 * as "disabled" means no interaction at all.
 				 */
-				continue;
+				unset($data->com_fields[$field->fieldname]);
 			}
-
-			// Make sure the data object has an entry
-			if (isset($data->com_fields[$field->fieldname]))
-			{
-				continue;
-			}
-
-			// Set a default value for the field
-			$data->com_fields[$field->fieldname] = false;
 		}
 	}
 
