@@ -264,7 +264,7 @@ class ActionlogsModel extends ListModel
 		$query  = $db->getQuery(true)
 			->select('a.*', $db->quoteName('u.name'))
 			->from($db->quoteName('#__action_logs', 'a'))
-			->join('INNER', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id))
+			->join('INNER', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'))
 			->where($db->quoteName('a.extension') . ' = :extension')
 			->where($db->quoteName('a.item_id') . ' = :itemid')
 			->bind(':extension', $extension)
