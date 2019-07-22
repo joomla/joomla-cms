@@ -48,23 +48,25 @@
       line-height: 2rem;
       margin-top: 0.4rem;
       border: 1px solid $gray-400;
-      color: var(--atum-text-dark);
 	  
-     a{
-      text-align: center;
-      overflow: hidden;
-      display: block;
+      a {
+        overflow: hidden;
+        display: block;
+        padding-left: 2.4rem;
+        color: var(--atum-text-dark);
 	  
-     &hover {
+     &:hover {
       @include hover-focus-active {
         text-decoration: none;
         color: $quickicon-color-hover;
         background: var(--atum-link-color);
         }  
       }
-    }
+	  
+      }
 
     .fa {
+      text-align: center;
       position: absolute;
       left: 0;
       display: inline-block;
@@ -179,7 +181,7 @@
     }
 
     .quickicon-text {
-      text-aslign: center;
+      text-align: center;
       min-height: 1.2rem;
       padding: 0.2rem;
     }
@@ -269,16 +271,17 @@
 
 #wrapper.closed {
   .quick-icons {
-    li {
+    .single,
+    .quickicon-group {
       @media (max-width: 1180px) {
         width: calc(50% - 1rem);
         max-width: calc(50% - 1rem);
         flex: 1 1 calc(50% - 1rem);
       }
       @media (max-width: 860px) {
-        width: calc(100% - 1rem);
-        max-width: calc(100% - 1rem);
-        flex: 1 1 calc(100% - 1rem);
+        width: 100%;
+        max-width: 100%;
+        flex: 100%;
       }
       @media (max-width: 767px) {
         width: calc(33% - 1rem);
