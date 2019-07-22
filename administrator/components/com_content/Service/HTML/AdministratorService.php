@@ -104,7 +104,7 @@ class AdministratorService
 	 *
 	 * @return  string       HTML code
 	 */
-	public function featured($value = 0, $i = 0, $canChange = true)
+	public function featured($value, $i, $canChange = true)
 	{
 		// Array of image, task, title, action
 		$states = array(
