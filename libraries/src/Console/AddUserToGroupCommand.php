@@ -167,7 +167,6 @@ class AddUserToGroupCommand extends AbstractCommand
 
 		$userGroups = array_values($user->groups);
 
-		var_dump($userGroups);
 		// Generate select list for user
 		$query = $db->getQuery(true)
 			->select($db->quoteName('title'))
