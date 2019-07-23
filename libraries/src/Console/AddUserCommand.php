@@ -22,7 +22,7 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * Console command for adding an user
+ * Console command for adding a user
  *
  * @since  __DEPLOY_VERSION__
  */
