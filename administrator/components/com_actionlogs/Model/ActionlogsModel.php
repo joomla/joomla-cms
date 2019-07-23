@@ -111,7 +111,6 @@ class ActionlogsModel extends ListModel
 			->from($db->quoteName('#__action_logs', 'a'))
 			->join('LEFT', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'));
 
-
 		// Get ordering
 		$fullorderCol = $this->state->get('list.fullordering', 'a.id DESC');
 
