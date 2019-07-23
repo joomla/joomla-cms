@@ -282,7 +282,7 @@ Joomla = window.Joomla || {};
           if (window.jQuery && window.jQuery.chosen) {
             window.jQuery('#list_limit').trigger('chosen:updated');
           }
-        });
+        }
       }
 
       // Special case to limit box to the default config limit
