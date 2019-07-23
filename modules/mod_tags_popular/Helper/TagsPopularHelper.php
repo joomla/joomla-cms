@@ -96,14 +96,16 @@ abstract class TagsPopularHelper
 		// Only return tags connected to published articles
 		$query->where($db->quoteName('c.core_state') . ' = 1')
 			->where('(' . $db->quoteName('c.core_publish_up') . ' = ' . $nullDate
-				. ' OR ' . $db->quoteName('c.core_publish_up') . ' <= ' . $db->quote($nowDate) . ')')
+				. ' OR ' . $db->quoteName('c.core_publish_up') . ' <= ' . $db->quote($nowDate) . ')'
+			)
 			->where('(' . $db->quoteName('c.core_publish_down') . ' = ' . $nullDate
-				. ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= ' . $db->quote($nowDate) . ')');
+				. ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= ' . $db->quote($nowDate) . ')'
+			);
 
 		// Set query depending on order_value param
 		if ($order_value === 'rand()')
 		{
-			$query->order($query->Rand());
+			$query->order($query->rand());
 		}
 		else
 		{
@@ -125,7 +127,7 @@ abstract class TagsPopularHelper
 						)
 					)
 					->from('(' . (string) $query . ') AS a')
-					->order('a.title' . ' ' . $order_direction);
+					->order('a.title ' . $order_direction);
 
 				$query = $equery;
 			}

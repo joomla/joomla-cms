@@ -18,14 +18,39 @@ defined('JPATH_PLATFORM') or die;
  */
 class Totp
 {
+	/**
+	 * Passcode length
+	 *
+	 * @var   integer
+	 */
 	private $_passCodeLength = 6;
 
+	/**
+	 * Pin modulo
+	 *
+	 * @var   integer
+	 */
 	private $_pinModulo;
 
+	/**
+	 * Secret length
+	 *
+	 * @var   integer
+	 */
 	private $_secretLength = 10;
 
+	/**
+	 * Timestep
+	 *
+	 * @var   integer
+	 */
 	private $_timeStep = 30;
 
+	/**
+	 * Base32
+	 *
+	 * @var   integer
+	 */
 	private $_base32 = null;
 
 	/**
@@ -63,7 +88,7 @@ class Totp
 	 *
 	 * @param   int|null  $time  Timestamp
 	 *
-	 * @return  int  The time period since the UNIX Epoch
+	 * @return  integer  The time period since the UNIX Epoch
 	 */
 	public function getPeriod($time = null)
 	{
@@ -176,6 +201,7 @@ class Totp
 			$c = rand(0, 255);
 			$secret .= pack("c", $c);
 		}
+
 		$base32 = new Base32;
 
 		return $this->_base32->encode($secret);

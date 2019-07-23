@@ -161,7 +161,6 @@ class HtmlView extends BaseHtmlView
 			$arrow
 		);
 
-
 		if (!$isCore)
 		{
 			if ($canDo->get('core.create'))
