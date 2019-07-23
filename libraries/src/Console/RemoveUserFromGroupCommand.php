@@ -172,13 +172,14 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	{
 		$option = $this->getApplication()->getConsoleInput()->getOption('group');
 		$db = Factory::getDbo();
+		$userGroups = array_values($user->groups);
 
 		if (!$option)
 		{
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__usergroups'))
-				->whereIn($db->quoteName('id'), $user->groups);
+				->whereIn($db->quoteName('id'), $userGroups);
 			$db->setQuery($query);
 
 			$result = $db->loadColumn();

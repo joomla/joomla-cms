@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\ParameterType;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -165,11 +166,14 @@ class AddUserToGroupCommand extends AbstractCommand
 			return $groupList;
 		}
 
+		$userGroups = array_values($user->groups);
+
+		var_dump($userGroups);
 		// Generate select list for user
 		$query = $db->getQuery(true)
 			->select($db->quoteName('title'))
 			->from($db->quoteName('#__usergroups'))
-			->whereNotIn($db->quoteName('id'), $user->groups)
+			->whereNotIn($db->quoteName('id'), $userGroups)
 			->order($db->quoteName('id') . ' ASC');
 		$db->setQuery($query);
 
