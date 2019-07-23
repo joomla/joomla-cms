@@ -273,8 +273,8 @@ Joomla = window.Joomla || {};
       }
 
       if (self.clearListOptions) {
-        if (self.getListFields()) {  
-          self.getListFields().forEach(i => {
+        if (self.getListFields()) {
+          self.getListFields().forEach((i) => {
             i.value = '';
             self.checkFilter(i);
           });
@@ -282,7 +282,7 @@ Joomla = window.Joomla || {};
           if (window.jQuery && window.jQuery.chosen) {
             window.jQuery('#list_limit').trigger('chosen:updated');
           }
-        }
+        });
       }
 
       // Special case to limit box to the default config limit
@@ -339,8 +339,8 @@ Joomla = window.Joomla || {};
     getListFields() {
       if (this.listContainer) {
         return Array.prototype.slice.call(this.listContainer.querySelectorAll('select'));
-			}
-		}
+      }
+    }
 
     // Common container functions
     // eslint-disable-next-line class-methods-use-this
