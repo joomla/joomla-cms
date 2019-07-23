@@ -98,7 +98,7 @@ class SessionMetadataGcCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Performs session metadata garbage collection');
+		$this->setDescription('Perform session metadata garbage collection');
 		$this->setHelp(
 			<<<EOF
 The <info>%command.name%</info> command runs the garbage collection operation for Joomla session metadata

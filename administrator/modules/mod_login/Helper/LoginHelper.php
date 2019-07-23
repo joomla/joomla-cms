@@ -47,7 +47,7 @@ abstract class LoginHelper
 		);
 
 		// Fix wrongly set parentheses in RTL languages
-		if (Factory::getLanguage()->isRtl())
+		if (Factory::getApplication()->getLanguage()->isRtl())
 		{
 			foreach ($languages as &$language)
 			{

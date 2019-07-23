@@ -150,7 +150,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 										}
 										elseif (!$saveOrder)
 										{
-											$iconClass = ' inactive tip-top hasTooltip" title="' . HTMLHelper::_('tooltipText', 'JORDERINGDISABLED');
+											$iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
 										}
 										?>
 										<span class="sortable-handler<?php echo $iconClass ?>">
@@ -176,8 +176,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 									<?php endif; ?>
 									<?php if ($canEdit && !$item->protected) : ?>
 										<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pen-square mr-2" aria-hidden="true"></span>'; ?>
-										<a class="hasTooltip"
-										   href="<?php echo Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id); ?>"
+										<a href="<?php echo Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id); ?>"
 										   title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 											<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>

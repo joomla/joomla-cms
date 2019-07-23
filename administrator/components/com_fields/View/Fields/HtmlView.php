@@ -67,13 +67,6 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
-	 * @var  string
-	 *
-	 * @since  3.7.0
-	 */
-	protected $sidebar;
-
-	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -116,9 +109,6 @@ class HtmlView extends BaseHtmlView
 				$this->filterForm->removeField('language', 'filter');
 			}
 		}
-
-		FieldsHelper::addSubmenu($this->state->get('filter.context'), 'fields');
-		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}

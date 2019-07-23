@@ -27,7 +27,6 @@ if ($app->isClient('site'))
 JLoader::register('ContactHelperRoute', JPATH_ROOT . '/components/com_contact/helpers/route.php');
 
 HTMLHelper::_('behavior.core');
-HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 HTMLHelper::_('script', 'com_contact/admin-contacts-modal.min.js', array('version' => 'auto', 'relative' => true));
 
 $function  = $app->input->getCmd('function', 'jSelectContact');
@@ -112,7 +111,7 @@ if (!empty($editor))
 					}
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="text-center">
+						<td class="text-center tbody-icon">
 							<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
 						</td>
 						<th scope="row">
