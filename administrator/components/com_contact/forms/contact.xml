@@ -590,7 +590,7 @@
 					name="show_misc"
 					type="list"
 					label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
-					class="chzn-color"
+				class="custom-select-color"
 					useglobal="true"
 					>
 					<option value="0">JHIDE</option>
