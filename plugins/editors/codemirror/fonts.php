@@ -3,12 +3,15 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Supports an HTML select list of fonts
@@ -17,7 +20,7 @@ defined('_JEXEC') or die;
  * @subpackage  Editors.codemirror
  * @since       3.4
  */
-class JFormFieldFonts extends JFormAbstractlist
+class JFormFieldFonts extends ListField
 {
 	/**
 	 * The form field type.
@@ -36,12 +39,12 @@ class JFormFieldFonts extends JFormAbstractlist
 	 */
 	protected function getOptions()
 	{
-		$fonts = json_decode(JFile::read(__DIR__ . '/fonts.json'));
+		$fonts = json_decode(file_get_contents(__DIR__ . '/fonts.json'));
 		$options = array();
 
 		foreach ($fonts as $key => $info)
 		{
-			$options[] = JHtml::_('select.option', $key, $info->name);
+			$options[] = HTMLHelper::_('select.option', $key, $info->name);
 		}
 
 		// Merge any additional options in the XML definition.

@@ -1,0 +1,46 @@
+// Dropdown
+
+.btn-group .dropdown-menu {
+  box-shadow: $atum-box-shadow;
+
+  [class^='icon-'],
+  [class*=' icon-'] {
+    margin-right: .25rem;
+  }
+}
+
+.dropdown-menu {
+  box-shadow: $atum-box-shadow;
+}
+
+.dropdown-item {
+  cursor: pointer;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  .btn-primary + .dropdown-menu  & {
+    background-color: theme-color("primary");
+  }
+
+  .btn-secondary + .dropdown-menu  & {
+    background-color: theme-color("secondary");
+  }
+
+  .btn-success + .dropdown-menu  & {
+    background-color: theme-color("success");
+  }
+
+  .btn-danger + .dropdown-menu  & {
+    background-color: theme-color("danger");
+  }
+
+  .btn-info + .dropdown-menu  & ,
+  .dropdown-status-group .dropdown-menu  & {
+    background-color: theme-color("info");
+  }
+}
+
+.dropdown-item + .dropdown-item {
+  border-top: 1px solid rgba(0, 0, 0, .1);
+}

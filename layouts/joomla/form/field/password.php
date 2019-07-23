@@ -3,11 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 extract($displayData);
 
@@ -46,40 +49,54 @@ extract($displayData);
 
 if ($meter)
 {
-	// Load script on document load.
-	JFactory::getDocument()->addScriptDeclaration(
-		"
-		jQuery(document).ready(function() {
-			new Form.PasswordStrength('" . $id . "',
-				{
-					threshold: " . $threshold . ",
-					onUpdate: function(element, strength, threshold) {
-						element.set('data-passwordstrength', strength);
-					}
-				});
-		});"
-	);
+	HTMLHelper::_('behavior.formvalidator');
+	HTMLHelper::_('script', 'system/fields/passwordstrength.min.js', array('version' => 'auto', 'relative' => true));
+
+	$class = 'js-password-strength ' . $class;
+
+	if ($forcePassword)
+	{
+		$class = $class . ' meteredPassword';
+	}
 }
 
-// Including fallback code for HTML5 non supported browsers.
-JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'system/fields/passwordview.min.js', array('version' => 'auto', 'relative' => true));
+
+Text::script('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
+Text::script('JFIELD_PASSWORD_INDICATE_COMPLETE');
+Text::script('JSHOW');
+Text::script('JHIDE');
 
 $attributes = array(
-	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
+	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	!$autocomplete ? 'autocomplete="off"' : '',
-	!empty($class) ? 'class="' . $class . '"' : '',
+	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	$readonly ? 'readonly' : '',
 	$disabled ? 'disabled' : '',
 	!empty($size) ? 'size="' . $size . '"' : '',
 	!empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '',
-	$required ? 'required aria-required="true"' : '',
+	$required ? 'required' : '',
 	$autofocus ? 'autofocus' : '',
+	!empty($minLength) ? 'data-min-length="' . $minLength . '"' : '',
+	!empty($minIntegers) ? 'data-min-integers="' . $minIntegers . '"' : '',
+	!empty($minSymbols) ? 'data-min-symbols="' . $minSymbols . '"' : '',
+	!empty($minUppercase) ? 'data-min-uppercase="' . $minUppercase . '"' : '',
+	!empty($minLowercase) ? 'data-min-lowercase="' . $minLowercase . '"' : '',
+	!empty($forcePassword) ? 'data-min-force="' . $forcePassword . '"' : '',
 );
 
 ?>
-<input type="password" name="<?php
-echo $name; ?>" id="<?php
-echo $id; ?>" value="<?php
-echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php
-echo implode(' ', $attributes); ?> />
+<div class="password-group">
+	<div class="input-group">
+		<input
+			type="password"
+			name="<?php echo $name; ?>"
+			id="<?php echo $id; ?>"
+			value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+			<?php echo implode(' ', $attributes); ?>>
+		<span class="input-group-append">
+			<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
+			<span class="input-group-text icon-eye" aria-hidden="true"></span>
+		</span>
+	</div>
+</div>

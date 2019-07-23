@@ -1,0 +1,83 @@
+// Login page
+
+.view-login {
+  background: var(--primary);
+  /**
+   * Note IDE's will consider this file import to fail in SCSS but this is correct for the final
+   * compiled CSS file
+   */
+  background-image: url("../images/joomla-pattern.svg");
+  background-size: 200px;
+
+  .login-bg-grad {
+    position: fixed;
+    z-index: -1;
+    width: 100vw;
+    height: 100vh;
+    background-image: linear-gradient(45deg,
+            rgba(color("primary-dark"), .9) 30%,
+            rgba(color("login-light-bg"), .2) 100%);
+  }
+
+  .login-initial {
+    display: none;
+  }
+
+  .login-logo {
+    width: 200px;
+    margin: 0 auto 2rem;
+    text-align: center;
+
+    @include media-breakpoint-down(sm) {
+      margin: 1rem 0;
+    }
+  }
+
+  .login {
+    width: 410px;
+
+    @include media-breakpoint-down(sm) {
+      padding: 0 15px;
+    }
+  }
+
+  .login-box {
+    background: var(--login-main-bg);
+    box-shadow: 0 0 20px var(--primary-dark);
+
+    a {
+      color: $white;
+    }
+  }
+
+  .form-group {
+    label {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+
+      span {
+        font-size: .9rem;
+        color: var(--form-link-feedback);
+      }
+    }
+  }
+
+  h1 {
+    margin: 0;
+    text-align: center;
+  }
+
+  .btn {
+
+    @include media-breakpoint-only(xs) {
+      padding: 8px 10px;
+      font-size: 14px;
+    }
+  }
+
+  .form-control,
+  .custom-select {
+    max-width: none;
+  }
+}

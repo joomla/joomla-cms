@@ -3,12 +3,13 @@
 	<name>plg_system_stats</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2013</creationDate>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.5.0</version>
 	<description>PLG_SYSTEM_STATS_XML_DESCRIPTION</description>
+	<namespace>Joomla\Plugin\System\Stats</namespace>
 	<files>
 		<folder>field</folder>
 		<folder>layouts</folder>
@@ -20,26 +21,24 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="basic">
+			<fieldset name="basic" addfieldprefix="Joomla\Plugin\System\Stats\Field">
 				<field
 					name="data"
-					type="plgsystemstats.data"
+					type="data"
 					label=""
 				/>
 
 				<field
 					name="unique_id"
-					type="plgsystemstats.uniqueid"
+					type="uniqueid"
 					label="PLG_SYSTEM_STATS_UNIQUE_ID_LABEL"
-					description="PLG_SYSTEM_STATS_UNIQUE_ID_DESC"
 					size="10"
 				/>
 
 				<field
 					name="interval"
-					type="text"
+					type="number"
 					label="PLG_SYSTEM_STATS_INTERVAL_LABEL"
-					description="PLG_SYSTEM_STATS_INTERVAL_DESC"
 					filter="integer"
 					default="12"
 				/>
@@ -47,7 +46,6 @@
 				<field
 					name="mode"
 					type="list"
-					description="PLG_SYSTEM_STATS_MODE_DESC"
 					label="PLG_SYSTEM_STATS_MODE_LABEL"
 					default="1"
 					>
@@ -62,19 +60,6 @@
 					default="0"
 					size="15"
 				/>
-			</fieldset>
-			<fieldset name="advanced">
-				<field
-					name="debug"
-					type="radio"
-					label="PLG_SYSTEM_STATS_DEBUG_LABEL"
-					description="PLG_SYSTEM_STATS_DEBUG_DESC"
-					class="btn-group btn-group-yesno"
-					default="0"
-					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
 			</fieldset>
 		</fields>
 	</config>

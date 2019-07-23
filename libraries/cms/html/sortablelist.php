@@ -3,11 +3,14 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * HTML utility class for creating a sortable table list
@@ -47,61 +50,35 @@ abstract class JHtmlSortablelist
 		}
 
 		// Note: $i is required but has to be an optional argument in the function call due to argument order
-		if (null === $saveOrderingUrl)
+		if ($saveOrderingUrl === null)
 		{
-			throw new InvalidArgumentException('$saveOrderingUrl is a required argument in JHtmlSortablelist::sortable');
+			throw new InvalidArgumentException(sprintf('$saveOrderingUrl is a required argument in %s()', __METHOD__));
 		}
 
-		$displayData = array(
-			'tableId'                => $tableId,
-			'formId'                 => $formId,
-			'sortDir'                => $sortDir,
-			'saveOrderingUrl'        => $saveOrderingUrl,
-			'nestedList'             => $nestedList,
-			'proceedSaveOrderButton' => $proceedSaveOrderButton,
-		);
+		// Depends on Joomla.getOptions()
+		HTMLHelper::_('behavior.core');
 
-		JLayoutHelper::render('joomla.html.sortablelist', $displayData);
+		// Depends on jQuery UI
+		HTMLHelper::_('jquery.ui', array('core', 'sortable'));
+
+		HTMLHelper::_('script', 'legacy/sortablelist.min.js', ['version' => 'auto', 'relative' => true]);
+		HTMLHelper::_('stylesheet', 'legacy/sortablelist.css', ['version' => 'auto', 'relative' => true]);
+
+		// Attach sortable to document
+		Factory::getDocument()->addScriptOptions(
+			'sortable-list',
+			array(
+				'id'         => '#' . $tableId . ' tbody',
+				'formId'     => $formId,
+				'direction'  => $sortDir,
+				'url'        => $saveOrderingUrl,
+				'options'    => '',
+				'nestedList' => $nestedList,
+				'button'     => $proceedSaveOrderButton
+			)
+		);
 
 		// Set static array
 		static::$loaded[__METHOD__] = true;
-
-		return;
-	}
-
-	/**
-	 * Method to inject script for enabled and disable Save order button
-	 * when changing value of ordering input boxes
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 *
-	 * @deprecated 4.0 The logic is merged in the JLayout file
-	 */
-	public static function _proceedSaveOrderButton()
-	{
-		JFactory::getDocument()->addScriptDeclaration(
-			"(function ($){
-				$(document).ready(function (){
-					var saveOrderButton = $('.saveorder');
-					saveOrderButton.css({'opacity':'0.2', 'cursor':'default'}).attr('onclick','return false;');
-					var oldOrderingValue = '';
-					$('.text-area-order').focus(function ()
-					{
-						oldOrderingValue = $(this).attr('value');
-					})
-					.keyup(function (){
-						var newOrderingValue = $(this).attr('value');
-						if (oldOrderingValue != newOrderingValue)
-						{
-							saveOrderButton.css({'opacity':'1', 'cursor':'pointer'}).removeAttr('onclick')
-						}
-					});
-				});
-			})(jQuery);"
-		);
-
-		return;
 	}
 }

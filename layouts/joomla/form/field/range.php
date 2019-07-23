@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,13 +44,11 @@ extract($displayData);
  * @var   string   $accept          File types that are accepted.
  */
 
-// Including fallback code for HTML5 non supported browsers.
-JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true));
-
 // Initialize some field attributes.
+
 $attributes = array(
-	$class ? 'class="' . $class . '"' : '',
+	$class ? 'class="form-control ' . $class . '"' : 'class="form-control"',
+	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	!empty($onchange) ? 'onchange="' . $onchange . '"' : '',
@@ -64,8 +62,9 @@ $value = (float) $value;
 $value = empty($value) ? $min : $value;
 
 ?>
-<input type="range" name="<?php
-echo $name; ?>" id="<?php
-echo $id; ?>" value="<?php
-echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php
-echo implode(' ', $attributes); ?> />
+<input
+	type="range"
+	name="<?php echo $name; ?>"
+	id="<?php echo $id; ?>"
+	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+	<?php echo implode(' ', $attributes); ?>>

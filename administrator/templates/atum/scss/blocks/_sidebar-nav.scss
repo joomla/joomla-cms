@@ -1,0 +1,30 @@
+// Sidebar
+
+.sidebar-nav {
+
+  ul {
+    padding-left: .5rem;
+  }
+
+  li {
+    margin-bottom: .5rem;
+    font-size: .9rem;
+    font-weight: $bold-weight;
+
+    &.nav-header {
+      padding: .5rem 0 .2rem;
+      margin-bottom: .2rem;
+      font-size: .9rem;
+      color: $gray-700;
+      border-bottom: 1px solid $gray-400;
+    }
+
+    &.divider {
+      margin: .3rem 0;
+    }
+
+    a {
+      color: darken(theme-color("primary"), 12%);
+    }
+  }
+}

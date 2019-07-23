@@ -3,7 +3,7 @@
  * Bootstrap file for the Joomla! CMS [with legacy libraries].
  * Including this file into your application will make Joomla libraries available for use.
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,11 +17,6 @@ $os = strtoupper(substr(PHP_OS, 0, 3));
 
 defined('IS_WIN') or define('IS_WIN', ($os === 'WIN') ? true : false);
 defined('IS_UNIX') or define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')) ? true : false);
-
-/**
- * @deprecated 13.3  Use IS_UNIX instead
- */
-defined('IS_MAC') or define('IS_MAC', (IS_UNIX === true && ($os === 'DAR' || $os === 'MAC')) ? true : false);
 
 // Import the library loader if necessary.
 if (!class_exists('JLoader'))
@@ -38,31 +33,41 @@ if (!class_exists('JLoader'))
 // Setup the autoloaders.
 JLoader::setup();
 
-// Register the library base path for the legacy libraries.
-JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
-
 // Register the library base path for CMS libraries.
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
 
 // Create the Composer autoloader
 /** @var \Composer\Autoload\ClassLoader $loader */
 $loader = require JPATH_LIBRARIES . '/vendor/autoload.php';
+
+// We need to pull our decorated class loader into memory before unregistering Composer's loader
+class_exists('\\Joomla\\CMS\\Autoload\\ClassLoader');
+
 $loader->unregister();
 
 // Decorate Composer autoloader
-spl_autoload_register([new JClassLoader($loader), 'loadClass'], true, true);
+spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
 
-// Register the class aliases for Framework classes that have replaced their Platform equivilents
+// Register the class aliases for Framework classes that have replaced their Platform equivalents
 require_once JPATH_LIBRARIES . '/classmap.php';
 
-// Ensure FOF autoloader included - needed for things like content versioning where we need to get an FOFTable Instance
-if (!class_exists('FOFAutoloaderFof'))
-{
-	include_once JPATH_LIBRARIES . '/fof/include.php';
-}
-
 // Register the global exception handler.
-set_exception_handler(['JErrorPage', 'render']);
+\Symfony\Component\Debug\ExceptionHandler::register(false);
+
+// Register the error handler which processes E_USER_DEPRECATED errors
+set_error_handler(['JErrorPage', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);
+
+// Suppress phar stream wrapper for non .phar files
+$behavior = new \TYPO3\PharStreamWrapper\Behavior;
+\TYPO3\PharStreamWrapper\Manager::initialize(
+	$behavior->withAssertion(new \TYPO3\PharStreamWrapper\Interceptor\PharExtensionInterceptor)
+);
+
+if (in_array('phar', stream_get_wrappers()))
+{
+	stream_wrapper_unregister('phar');
+	stream_wrapper_register('phar', 'TYPO3\\PharStreamWrapper\\PharStreamWrapper');
+}
 
 // Define the Joomla version if not already defined.
 defined('JVERSION') or define('JVERSION', (new JVersion)->getShortVersion());
@@ -73,29 +78,8 @@ if (array_key_exists('REQUEST_METHOD', $_SERVER))
 	JLog::addLogger(['logger' => 'messagequeue'], JLog::ALL, ['jerror']);
 }
 
-// Register classes that don't follow the autoloader convention.
-JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
-JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
-JLoader::register('JArrayHelper', JPATH_PLATFORM . '/joomla/utilities/arrayhelper.php');
-
 // Register the Crypto lib
 JLoader::register('Crypto', JPATH_PLATFORM . '/php-encryption/Crypto.php');
 
-// Check if the JsonSerializable interface exists already
-if (!interface_exists('JsonSerializable'))
-{
-	JLoader::register('JsonSerializable', JPATH_PLATFORM . '/vendor/joomla/compat/src/JsonSerializable.php');
-}
-
-// Add deprecated constants
-// @deprecated 4.0
-define('JPATH_ISWIN', IS_WIN);
-define('JPATH_ISMAC', IS_MAC);
-
 // Register the PasswordHash library.
 JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
-
-// Create class name aliases for the legacy application classes.
-// @deprecated  4.0
-JLoader::registerAlias('JAdministrator', 'JApplicationAdministrator');
-JLoader::registerAlias('JSite', 'JApplicationSite');

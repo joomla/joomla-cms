@@ -3,12 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Component\Router\RouterBase;
+use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -16,7 +19,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.3
  */
-class TagsRouter extends JComponentRouterBase
+class TagsRouter extends RouterBase
 {
 	/**
 	 * Build the route for the com_tags component
@@ -32,7 +35,7 @@ class TagsRouter extends JComponentRouterBase
 		$segments = array();
 
 		// Get a menu item based on Itemid or currently active
-		$params = JComponentHelper::getParams('com_tags');
+		$params = ComponentHelper::getParams('com_tags');
 
 		// We need a menu item.  Either the one specified in the query, or the current active one if none specified
 		if (empty($query['Itemid']))
@@ -44,8 +47,8 @@ class TagsRouter extends JComponentRouterBase
 			$menuItem = $this->menu->getItem($query['Itemid']);
 		}
 
-		$mView = (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
-		$mId   = (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
+		$mView = empty($menuItem->query['view']) ? null : $menuItem->query['view'];
+		$mId   = empty($menuItem->query['id']) ? null : $menuItem->query['id'];
 
 		if (is_array($mId))
 		{
@@ -74,7 +77,7 @@ class TagsRouter extends JComponentRouterBase
 			return $segments;
 		}
 
-		if ($view == 'tag')
+		if ($view === 'tag')
 		{
 			$notActiveTag = is_array($mId) ? (count($mId) > 1 || $mId[0] != (int) $query['id']) : ($mId != (int) $query['id']);
 
@@ -92,7 +95,7 @@ class TagsRouter extends JComponentRouterBase
 		{
 			if ((!empty($query['Itemid']) && isset($menuItem->query['layout'])
 				&& $query['layout'] == $menuItem->query['layout'])
-				|| $query['layout'] == 'default')
+				|| $query['layout'] === 'default')
 			{
 				unset($query['layout']);
 			}
@@ -103,6 +106,13 @@ class TagsRouter extends JComponentRouterBase
 		for ($i = 0; $i < $total; $i++)
 		{
 			$segments[$i] = str_replace(':', '-', $segments[$i]);
+			$position     = strpos($segments[$i], '-');
+
+			if ($position)
+			{
+				// Remove id from segment
+				$segments[$i] = substr($segments[$i], $position + 1);
+			}
 		}
 
 		return $segments;
@@ -137,49 +147,48 @@ class TagsRouter extends JComponentRouterBase
 		if (!isset($item))
 		{
 			$vars['view'] = $segments[0];
-			$vars['id']   = $segments[$count - 1];
+			$vars['id']   = $this->fixSegment($segments[$count - 1]);
+			unset($segments[0]);
+			unset($segments[$count - 1]);
 
 			return $vars;
 		}
 
-		// From the tags view, we can only jump to a tag.
-		$id = (isset($item->query['id']) && $item->query['id'] > 1) ? $item->query['id'] : 'root';
-
-		$vars['id'] = $segments[0];
+		$vars['id'] = $this->fixSegment($segments[0]);
 		$vars['view'] = 'tag';
+		unset($segments[0]);
 
 		return $vars;
 	}
-}
 
-/**
- * Tags router functions. These functions are proxys for the new router interface or old SEF extensions.
- *
- * @param   array  &$query  An array of URL arguments.
- *
- * @return array
- *
- * @deprecated  4.0  Use Class based routers instead
- */
-function tagsBuildRoute(&$query)
-{
-	$router = new TagsRouter;
+	/**
+	 * Try to add missing id to segment
+	 *
+	 * @param   string  $segment  One piece of segment of the URL to parse
+	 *
+	 * @return  string  The segment with founded id
+	 *
+	 * @since   3.7
+	 */
+	protected function fixSegment($segment)
+	{
+		$db = Factory::getDbo();
 
-	return $router->build($query);
-}
+		// Try to find tag id
+		$alias = str_replace(':', '-', $segment);
 
-/**
- * Parse the segments of a URL. These functions are proxys for the new router interface or old SEF extensions.
- *
- * @param   array  $segments  The segments of the URL to parse.
- *
- * @return  array  The URL attributes to be used by the application.
- *
- * @deprecated  4.0  Use Class based routers instead
- */
-function tagsParseRoute($segments)
-{
-	$router = new TagsRouter;
+		$query = $db->getQuery(true)
+			->select('id')
+			->from($db->quoteName('#__tags'))
+			->where($db->quoteName('alias') . " = " . $db->quote($alias));
 
-	return $router->parse($segments);
+		$id = $db->setQuery($query)->loadResult();
+
+		if ($id)
+		{
+			$segment = "$id:$alias";
+		}
+
+		return $segment;
+	}
 }

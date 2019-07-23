@@ -3,12 +3,17 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -43,7 +48,7 @@ abstract class JHtmlTag
 		if (!isset(static::$items[$hash]))
 		{
 			$config = (array) $config;
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('a.id, a.title, a.level')
 				->from('#__tags AS a')
@@ -93,7 +98,7 @@ abstract class JHtmlTag
 			{
 				$repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
 				$item->title = str_repeat('- ', $repeat) . $item->title;
-				static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
+				static::$items[$hash][] = HTMLHelper::_('select.option', $item->id, $item->title);
 			}
 		}
 
@@ -113,7 +118,7 @@ abstract class JHtmlTag
 	{
 		$hash = md5(serialize($config));
 		$config = (array) $config;
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.id, a.title, a.level, a.parent_id')
 			->from('#__tags AS a')
@@ -145,7 +150,7 @@ abstract class JHtmlTag
 		{
 			$repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
 			$item->title = str_repeat('- ', $repeat) . $item->title;
-			static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
+			static::$items[$hash][] = HTMLHelper::_('select.option', $item->id, $item->title);
 		}
 
 		return static::$items[$hash];
@@ -160,21 +165,50 @@ abstract class JHtmlTag
 	 * @return  void
 	 *
 	 * @since   3.1
+	 *
+	 * @deprecated  5.0  Without replacement
 	 */
 	public static function ajaxfield($selector = '#jform_tags', $allowCustom = true)
 	{
 		// Get the component parameters
-		$params = JComponentHelper::getParams("com_tags");
-		$minTermLength = (int) $params->get("min_term_length", 3);
+		$params = ComponentHelper::getParams('com_tags');
+		$minTermLength = (int) $params->get('min_term_length', 3);
 
-		$displayData = array(
-			'minTermLength' => $minTermLength,
-			'selector'      => $selector,
-			'allowCustom'   => JFactory::getUser()->authorise('core.create', 'com_tags') ? $allowCustom : false,
+		Text::script('JGLOBAL_KEEP_TYPING');
+		Text::script('JGLOBAL_LOOKING_FOR');
+
+		// Include scripts
+		HTMLHelper::_('behavior.core');
+		HTMLHelper::_('jquery.framework');
+		HTMLHelper::_('formbehavior.chosen');
+		HTMLHelper::_('script', 'legacy/ajax-chosen.min.js', array('version' => 'auto', 'relative' => true));
+
+		Factory::getDocument()->addScriptOptions(
+			'ajax-chosen',
+			array(
+				'url'            => Uri::root() . 'index.php?option=com_tags&task=tags.searchAjax',
+				'debug'          => JDEBUG,
+				'selector'       => $selector,
+				'type'           => 'GET',
+				'dataType'       => 'json',
+				'jsonTermKey'    => 'like',
+				'afterTypeDelay' => 500,
+				'minTermLength'  => $minTermLength
+			)
 		);
 
-		JLayoutHelper::render('joomla.html.tag', $displayData);
-
-		return;
+		// Allow custom values ?
+		if ($allowCustom)
+		{
+			HTMLHelper::_('script', 'system/fields/tag.min.js', array('version' => 'auto', 'relative' => true));
+			Factory::getDocument()->addScriptOptions(
+				'field-tag-custom',
+				array(
+					'minTermLength' => $minTermLength,
+					'selector'      => $selector,
+					'allowCustom'   => Factory::getUser()->authorise('core.create', 'com_tags') ? $allowCustom : false,
+				)
+			);
+		}
 	}
 }

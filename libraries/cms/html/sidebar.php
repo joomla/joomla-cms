@@ -3,11 +3,14 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Layout\FileLayout;
 
 /**
  * Utility class to render a list view sidebar
@@ -56,13 +59,12 @@ abstract class JHtmlSidebar
 		$data->action         = static::getAction();
 		$data->displayMenu    = count($data->list);
 		$data->displayFilters = count($data->filters);
-		$data->hide           = JFactory::getApplication()->input->getBool('hidemainmenu');
+		$data->hide           = Factory::getApplication()->input->getBool('hidemainmenu');
 
 		// Create a layout object and ask it to render the sidebar
-		$layout      = new JLayoutFile('joomla.sidebars.submenu');
-		$sidebarHtml = $layout->render($data);
+		$layout      = new FileLayout('joomla.sidebars.submenu');
 
-		return $sidebarHtml;
+		return $layout->render($data);
 	}
 
 	/**
@@ -78,7 +80,7 @@ abstract class JHtmlSidebar
 	 */
 	public static function addEntry($name, $link = '', $active = false)
 	{
-		array_push(static::$entries, array($name, $link, $active));
+		static::$entries[] = array($name, $link, $active);
 	}
 
 	/**
@@ -107,7 +109,7 @@ abstract class JHtmlSidebar
 	 */
 	public static function addFilter($label, $name, $options, $noDefault = false)
 	{
-		array_push(static::$filters, array('label' => $label, 'name' => $name, 'options' => $options, 'noDefault' => $noDefault));
+		static::$filters[] = array('label' => $label, 'name' => $name, 'options' => $options, 'noDefault' => $noDefault);
 	}
 
 	/**

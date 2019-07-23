@@ -1,0 +1,39 @@
+// Table
+
+.table {
+
+  thead {
+    th,
+    td {
+      font-weight: $normal-weight;
+      color: $gray-800;
+      white-space: nowrap;
+    }
+    td {
+      padding: 0;
+    }
+    a {
+      font-weight: $normal-weight;
+      color: $gray-800;
+    }
+  }
+
+  tbody {
+    background-color: var(--white);
+  }
+
+  th,
+  td {
+    vertical-align: middle;
+
+    label {
+      margin-bottom: 0;
+    }
+
+  }
+
+  td {
+    padding: 18px 12px;
+  }
+
+}

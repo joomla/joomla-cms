@@ -3,12 +3,16 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Contacts
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Registry\Registry;
 
 JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
@@ -92,7 +96,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	public function onFinderCategoryChangeState($extension, $pks, $value)
 	{
 		// Make sure we're handling com_contact categories
-		if ($extension == 'com_contact')
+		if ($extension === 'com_contact')
 		{
 			$this->categoryStateChange($pks, $value);
 		}
@@ -113,11 +117,11 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	 */
 	public function onFinderAfterDelete($context, $table)
 	{
-		if ($context == 'com_contact.contact')
+		if ($context === 'com_contact.contact')
 		{
 			$id = $table->id;
 		}
-		elseif ($context == 'com_finder.index')
+		elseif ($context === 'com_finder.index')
 		{
 			$id = $table->link_id;
 		}
@@ -125,6 +129,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		{
 			return true;
 		}
+
 		// Remove the items.
 		return $this->remove($id);
 	}
@@ -144,7 +149,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	public function onFinderAfterSave($context, $row, $isNew)
 	{
 		// We only want to handle contacts here
-		if ($context == 'com_contact.contact')
+		if ($context === 'com_contact.contact')
 		{
 			// Check if the access levels are different
 			if (!$isNew && $this->old_access != $row->access)
@@ -158,7 +163,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		}
 
 		// Check for access changes in the category
-		if ($context == 'com_categories.category')
+		if ($context === 'com_categories.category')
 		{
 			// Check if the access levels are different
 			if (!$isNew && $this->old_cataccess != $row->access)
@@ -187,7 +192,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	public function onFinderBeforeSave($context, $row, $isNew)
 	{
 		// We only want to handle contacts here
-		if ($context == 'com_contact.contact')
+		if ($context === 'com_contact.contact')
 		{
 			// Query the database for the old access level if the item isn't new
 			if (!$isNew)
@@ -197,7 +202,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		}
 
 		// Check for access levels from the category
-		if ($context == 'com_categories.category')
+		if ($context === 'com_categories.category')
 		{
 			// Query the database for the old access level if the item isn't new
 			if (!$isNew)
@@ -225,13 +230,13 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	public function onFinderChangeState($context, $pks, $value)
 	{
 		// We only want to handle contacts here
-		if ($context == 'com_contact.contact')
+		if ($context === 'com_contact.contact')
 		{
 			$this->itemStateChange($pks, $value);
 		}
 
 		// Handle when the plugin is disabled
-		if ($context == 'com_plugins.plugin' && $value === 0)
+		if ($context === 'com_plugins.plugin' && $value === 0)
 		{
 			$this->pluginDisable($pks);
 		}
@@ -240,18 +245,17 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	/**
 	 * Method to index an item. The item must be a FinderIndexerResult object.
 	 *
-	 * @param   FinderIndexerResult  $item    The item to index as an FinderIndexerResult object.
-	 * @param   string               $format  The item format
+	 * @param   FinderIndexerResult  $item  The item to index as a FinderIndexerResult object.
 	 *
 	 * @return  void
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	protected function index(FinderIndexerResult $item, $format = 'html')
+	protected function index(FinderIndexerResult $item)
 	{
 		// Check if the extension is enabled
-		if (JComponentHelper::isEnabled($this->extension) == false)
+		if (ComponentHelper::isEnabled($this->extension) === false)
 		{
 			return;
 		}
@@ -261,10 +265,11 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		// Initialize the item parameters.
 		$item->params = new Registry($item->params);
 
-		// Build the necessary route and path information.
+		// Create a URL as identifier to recognise items again.
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
+
+		// Build the necessary route and path information.
 		$item->route = ContactHelperRoute::getContactRoute($item->slug, $item->catslug, $item->language);
-		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		// Get the menu title if it exists.
 		$title = $this->getItemMenuTitle($item->url);
@@ -279,6 +284,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		 * Add the metadata processing instructions based on the contact
 		 * configuration parameters.
 		 */
+
 		// Handle the contact position.
 		if ($item->params->get('show_position', true))
 		{
@@ -352,7 +358,9 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		$item->addTaxonomy('Type', 'Contact');
 
 		// Add the category taxonomy data.
-		$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
+		$categories = Categories::getInstance('com_contact');
+		$category = $categories->get($item->catid);
+		$item->addNestedTaxonomy('Category', $category, $category->published, $category->access, $category->language);
 
 		// Add the language taxonomy data.
 		$item->addTaxonomy('Language', $item->language);
@@ -388,9 +396,6 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		// Load dependent classes.
 		JLoader::register('ContactHelperRoute', JPATH_SITE . '/components/com_contact/helpers/route.php');
 
-		// This is a hack to get around the lack of a route helper.
-		FinderIndexerHelper::getContentPath('index.php?option=com_contact');
-
 		return true;
 	}
 
@@ -405,10 +410,10 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	 */
 	protected function getListQuery($query = null)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Check if we can use the supplied SQL query.
-		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
+		$query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
 			->select('a.id, a.name AS title, a.alias, a.con_position AS position, a.address, a.created AS start_date')
 			->select('a.created_by_alias, a.modified, a.modified_by')
 			->select('a.metakey, a.metadesc, a.metadata, a.language')

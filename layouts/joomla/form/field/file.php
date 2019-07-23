@@ -3,11 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Utility\Utility;
 
 extract($displayData);
 
@@ -45,21 +49,17 @@ extract($displayData);
  * @var   string   $accept          File types that are accepted.
  */
 
-// Including fallback code for HTML5 non supported browsers.
-JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true));
-
-$maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize());
+$maxSize = HTMLHelper::_('number.bytes', Utility::getMaxUploadSize());
 ?>
 <input type="file"
 	name="<?php echo $name; ?>"
 	id="<?php echo $id; ?>"
 	<?php echo !empty($size) ? ' size="' . $size . '"' : ''; ?>
 	<?php echo !empty($accept) ? ' accept="' . $accept . '"' : ''; ?>
-	<?php echo !empty($class) ? ' class="' . $class . '"' : ''; ?>
+	<?php echo !empty($class) ? ' class="form-control ' . $class . '"' : ' class="form-control"'; ?>
 	<?php echo !empty($multiple) ? ' multiple' : ''; ?>
 	<?php echo $disabled ? ' disabled' : ''; ?>
 	<?php echo $autofocus ? ' autofocus' : ''; ?>
 	<?php echo !empty($onchange) ? ' onchange="' . $onchange . '"' : ''; ?>
-	<?php echo $required ? ' required aria-required="true"' : ''; ?> /><br>
-	<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
+	<?php echo $required ? ' required' : ''; ?>><br>
+	<?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>

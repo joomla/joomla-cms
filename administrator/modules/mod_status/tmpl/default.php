@@ -3,112 +3,94 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_status
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-$hideLinks = $input->getBool('hidemainmenu');
-$task      = $input->getCmd('task');
-$output    = array();
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 
-// Print the Preview link to Main site.
-if ($params->get('show_viewsite', 1))
-{
-	// Gets the FrontEnd Main page Uri
-	$frontEndUri = JUri::getInstance(JUri::root());
-	$frontEndUri->setScheme(((int) JFactory::getApplication()->get('force_ssl', 0) === 2) ? 'https' : 'http');
+HTMLHelper::_('bootstrap.framework');
 
-	$output[] = '<div class="btn-group viewsite">'
-		. '<a href="' . $frontEndUri->toString() . '" target="_blank">'
-		. '<span class="icon-out-2"></span>' . JText::_('JGLOBAL_VIEW_SITE')
-		. '</a>'
-		. '<span class="btn-group separator"></span>'
-		. '</div>';
-}
+$hideLinks = $app->input->getBool('hidemainmenu');
+?>
+<div class="ml-auto">
+	<ul class="nav text-center">
+		<?php echo $multilanguageStatusModuleOutput; ?>
+		<li class="nav-item">
+			<a class="nav-link" href="<?php echo Uri::root(); ?>" title="<?php echo Text::sprintf('MOD_STATUS_PREVIEW', $sitename); ?>" target="_blank">
+				<span class="fa fa-external-link-alt" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo HTMLHelper::_('string.truncate', $sitename, 28, false, false); ?></span>
+			</a>
+		</li>
 
-// Print the link to open a new Administrator window.
-if ($params->get('show_viewadmin', 0))
-{
-	$output[] = '<div class="btn-group viewsite">'
-		. '<a href="' . JUri::base() . 'index.php" target="_blank">'
-		. '<span class="icon-out-2"></span>' . JText::_('MOD_STATUS_FIELD_LINK_VIEWADMIN_LABEL')
-		. '</a>'
-		. '<span class="btn-group separator"></span>'
-		. '</div>';
-}
+		<li class="nav-item">
+			<a class="nav-link <?php echo ($hideLinks ? 'disabled' : 'dropdown-toggle'); ?>" <?php echo ($hideLinks ? '' : 'href="' . Route::_('index.php?option=com_messages') . '"'); ?> title="<?php echo Text::_('MOD_STATUS_PRIVATE_MESSAGES'); ?>">
+				<span class="fa fa-envelope" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::_('MOD_STATUS_PRIVATE_MESSAGES'); ?></span>
+				<?php $countUnread = $app->getSession()->get('messages.unread'); ?>
+				<?php if ($countUnread > 0) : ?>
+					<span class="badge badge-pill badge-danger"><?php echo $countUnread; ?></span>
+				<?php endif; ?>
+			</a>
+		</li>
 
-// Print logged in user count based on the shared session state
-if (JFactory::getConfig()->get('shared_session', '0'))
-{
-	// Print the frontend logged in  users.
-	if ($params->get('show_loggedin_users', 1))
-	{
-		$output[] = '<div class="btn-group loggedin-users">'
-			. '<span class="badge">' . $total_users . '</span>'
-			. JText::plural('MOD_STATUS_TOTAL_USERS', $total_users)
-			. '<span class="btn-group separator"></span>'
-			. '</div>';
-	}
-}
-else
-{
-	// Print the frontend logged in  users.
-	if ($params->get('show_loggedin_users', 1))
-	{
-		$output[] = '<div class="btn-group loggedin-users">'
-			. '<span class="badge">' . $online_num . '</span>'
-			. JText::plural('MOD_STATUS_USERS', $online_num)
-			. '<span class="btn-group separator"></span>'
-			. '</div>';
-	}
+		<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
+		<li class="nav-item dropdown">
+			<a class="nav-link <?php echo ($hideLinks ? 'disabled' : 'dropdown-toggle'); ?>" <?php echo ($hideLinks ? '' : 'data-toggle="dropdown" href="#"'); ?> title="<?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?>">
+				<span class="fa fa-bell" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?></span>
+				<?php if (count($messages) > 0) : ?>
+					<span class="badge badge-pill badge-danger"><?php echo count($messages); ?></span>
+				<?php endif; ?>
+			</a>
+			<?php if (!$hideLinks) : ?>
+				<div class="dropdown-menu dropdown-menu-right dropdown-notifications border-0">
+					<div class="list-group">
+						<?php if (empty($messages)) : ?>
+						<p class="list-group-item text-center">
+							<strong><?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></strong>
+						</p>
+						<?php endif; ?>
+						<?php foreach ($messages as $message) : ?>
+						<a href="<?php echo Route::_('index.php?option=com_postinstall&amp;eid=' . $joomlaFilesExtensionId); ?>" class="list-group-item list-group-item-action">
+							<h5 class="list-group-item-heading"><?php echo HTMLHelper::_('string.truncate', Text::_($message->title_key), 28, false, false); ?></h5>
+							<p class="list-group-item-text small">
+								<?php echo HTMLHelper::_('string.truncate', Text::_($message->description_key), 120, false, false); ?>
+							</p>
+						</a>
+						<?php endforeach; ?>
+					</div>
+				</div>
+			<?php endif; ?>
+		</li>
+		<?php endif; ?>
 
-	// Print the backend logged in users.
-	if ($params->get('show_loggedin_users_admin', 1))
-	{
-		$output[] = '<div class="btn-group backloggedin-users">'
-			. '<span class="badge">' . $count . '</span>'
-			. JText::plural('MOD_STATUS_BACKEND_USERS', $count)
-			. '<span class="btn-group separator"></span>'
-			. '</div>';
-	}
-}
+		<li class="nav-item dropdown header-profile">
+			<a class="nav-link <?php echo ($hideLinks ? 'disabled' : 'dropdown-toggle'); ?>" <?php echo ($hideLinks ? '' : 'data-toggle="dropdown" href="#"'); ?> title="<?php echo Text::_('MOD_STATUS_USER_MENU'); ?>">
+				<span class="fa fa-user" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::_('MOD_STATUS_USER_MENU'); ?></span>
+			</a>
+			<?php if (!$hideLinks) : ?>
+				<div class="dropdown-menu dropdown-menu-right">
+					<div class="dropdown-header">
+						<span class="fa fa-user" aria-hidden="true"></span>
+						<?php echo htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8'); ?>
+					</div>
+					<?php $uri   = Uri::getInstance(); ?>
+					<?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '&return=' . base64_encode($uri); ?>
+					<a class="dropdown-item" href="<?php echo Route::_($route); ?>">
+						<?php echo Text::_('MOD_STATUS_EDIT_ACCOUNT'); ?></a>
+					<a class="dropdown-item" href="<?php echo Route::_('index.php?option=com_login&task=logout&'
+						. Session::getFormToken() . '=1'); ?>"><?php echo Text::_('JLOGOUT'); ?></a>
+				</div>
+			<?php endif; ?>
+		</li>
 
-//  Print the inbox message.
-if ($params->get('show_messages', 1))
-{
-	$active   = $unread ? ' badge-warning' : '';
-	$output[] = '<div class="btn-group ' . $inboxClass . '">'
-		. ($hideLinks ? '' : '<a href="' . $inboxLink . '">')
-		. '<span class="badge' . $active . '">' . $unread . '</span>'
-		. JText::plural('MOD_STATUS_MESSAGES_LABEL', $unread)
-		. ($hideLinks ? '' : '</a>')
-		. '<span class="btn-group separator"></span>'
-		. '</div>';
-}
-
-// Print the logout link.
-if ($task == 'edit' || $task == 'editA' || $input->getInt('hidemainmenu'))
-{
-	$logoutLink = '';
-}
-else
-{
-	$logoutLink = JRoute::_('index.php?option=com_login&task=logout&' . JSession::getFormToken() . '=1');
-}
-
-if ($params->get('show_logout', 1))
-{
-	$output[] = '<div class="btn-group logout">'
-		. ($hideLinks ? '' : '<a href="' . $logoutLink . '">')
-		. '<span class="icon-minus-2"></span>' . JText::_('JLOGOUT')
-		. ($hideLinks ? '' : '</a>')
-		. '</div>';
-}
-
-// Output the items.
-foreach ($output as $item)
-{
-	echo $item;
-}
+	</ul>
+</div>

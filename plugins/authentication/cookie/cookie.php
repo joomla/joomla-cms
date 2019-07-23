@@ -3,11 +3,19 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.cookie
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Authentication\Authentication;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserHelper;
 
 /**
  * Joomla Authentication plugin
@@ -16,12 +24,12 @@ defined('_JEXEC') or die;
  * @note   Code based on http://jaspan.com/improved_persistent_login_cookie_best_practice
  *         and http://fishbowl.pastiche.org/2004/01/19/persistent_login_cookie_best_practice/
  */
-class PlgAuthenticationCookie extends JPlugin
+class PlgAuthenticationCookie extends CMSPlugin
 {
 	/**
 	 * Application object
 	 *
-	 * @var    JApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  3.2
 	 */
 	protected $app;
@@ -29,10 +37,28 @@ class PlgAuthenticationCookie extends JPlugin
 	/**
 	 * Database object
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseDriver
 	 * @since  3.2
 	 */
 	protected $db;
+
+	/**
+	 * Reports the privacy related capabilities for this plugin to site administrators.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.9.0
+	 */
+	public function onPrivacyCollectAdminCapabilities()
+	{
+		$this->loadLanguage();
+
+		return array(
+			Text::_('PLG_AUTHENTICATION_COOKIE') => array(
+				Text::_('PLG_AUTH_COOKIE_PRIVACY_CAPABILITY_COOKIE'),
+			)
+		);
+	}
 
 	/**
 	 * This method should handle any authentication and report back to the subject
@@ -48,19 +74,19 @@ class PlgAuthenticationCookie extends JPlugin
 	public function onUserAuthenticate($credentials, $options, &$response)
 	{
 		// No remember me for admin
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator'))
 		{
 			return false;
 		}
 
 		// Get cookie
-		$cookieName  = 'joomla_remember_me_' . JUserHelper::getShortHashedUserAgent();
+		$cookieName  = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
 		$cookieValue = $this->app->input->cookie->get($cookieName);
 
 		// Try with old cookieName (pre 3.6.0) if not found
 		if (!$cookieValue)
 		{
-			$cookieName  = JUserHelper::getShortHashedUserAgent();
+			$cookieName  = UserHelper::getShortHashedUserAgent();
 			$cookieValue = $this->app->input->cookie->get($cookieName);
 		}
 
@@ -72,11 +98,11 @@ class PlgAuthenticationCookie extends JPlugin
 		$cookieArray = explode('.', $cookieValue);
 
 		// Check for valid cookie value
-		if (count($cookieArray) != 2)
+		if (count($cookieArray) !== 2)
 		{
 			// Destroy the cookie in the browser.
-			$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain'));
-			JLog::add('Invalid cookie detected.', JLog::WARNING, 'error');
+			$this->app->input->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
+			Log::add('Invalid cookie detected.', Log::WARNING, 'error');
 
 			return false;
 		}
@@ -84,7 +110,7 @@ class PlgAuthenticationCookie extends JPlugin
 		$response->type = 'Cookie';
 
 		// Filter series since we're going to use it in the query
-		$filter = new JFilterInput;
+		$filter = new InputFilter;
 		$series = $filter->clean($cookieArray[1], 'ALNUM');
 
 		// Remove expired tokens
@@ -115,7 +141,7 @@ class PlgAuthenticationCookie extends JPlugin
 		}
 		catch (RuntimeException $e)
 		{
-			$response->status = JAuthentication::STATUS_FAILURE;
+			$response->status = Authentication::STATUS_FAILURE;
 
 			return false;
 		}
@@ -123,17 +149,18 @@ class PlgAuthenticationCookie extends JPlugin
 		if (count($results) !== 1)
 		{
 			// Destroy the cookie in the browser.
-			$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain'));
-			$response->status = JAuthentication::STATUS_FAILURE;
+			$this->app->input->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
+			$response->status = Authentication::STATUS_FAILURE;
 
 			return false;
 		}
 
 		// We have a user with one cookie with a valid series and a corresponding record in the database.
-		if (!JUserHelper::verifyPassword($cookieArray[0], $results[0]->token))
+		if (!UserHelper::verifyPassword($cookieArray[0], $results[0]->token))
 		{
 			/*
-			 * This is a real attack! Either the series was guessed correctly or a cookie was stolen and used twice (once by attacker and once by victim).
+			 * This is a real attack!
+			 * Either the series was guessed correctly or a cookie was stolen and used twice (once by attacker and once by victim).
 			 * Delete all tokens for this user!
 			 */
 			$query = $this->db->getQuery(true)
@@ -147,19 +174,19 @@ class PlgAuthenticationCookie extends JPlugin
 			catch (RuntimeException $e)
 			{
 				// Log an alert for the site admin
-				JLog::add(
+				Log::add(
 					sprintf('Failed to delete cookie token for user %s with the following error: %s', $results[0]->user_id, $e->getMessage()),
-					JLog::WARNING,
+					Log::WARNING,
 					'security'
 				);
 			}
 
 			// Destroy the cookie in the browser.
-			$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain'));
+			$this->app->input->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
 
 			// Issue warning by email to user and/or admin?
-			JLog::add(JText::sprintf('PLG_AUTH_COOKIE_ERROR_LOG_LOGIN_FAILED', $results[0]->user_id), JLog::WARNING, 'security');
-			$response->status = JAuthentication::STATUS_FAILURE;
+			Log::add(Text::sprintf('PLG_AUTH_COOKIE_ERROR_LOG_LOGIN_FAILED', $results[0]->user_id), Log::WARNING, 'security');
+			$response->status = Authentication::STATUS_FAILURE;
 
 			return false;
 		}
@@ -177,7 +204,7 @@ class PlgAuthenticationCookie extends JPlugin
 		}
 		catch (RuntimeException $e)
 		{
-			$response->status = JAuthentication::STATUS_FAILURE;
+			$response->status = Authentication::STATUS_FAILURE;
 
 			return false;
 		}
@@ -185,7 +212,7 @@ class PlgAuthenticationCookie extends JPlugin
 		if ($result)
 		{
 			// Bring this in line with the rest of the system
-			$user = JUser::getInstance($result->id);
+			$user = User::getInstance($result->id);
 
 			// Set response data.
 			$response->username = $result->username;
@@ -195,13 +222,13 @@ class PlgAuthenticationCookie extends JPlugin
 			$response->language = $user->getParam('language');
 
 			// Set response status.
-			$response->status        = JAuthentication::STATUS_SUCCESS;
+			$response->status        = Authentication::STATUS_SUCCESS;
 			$response->error_message = '';
 		}
 		else
 		{
-			$response->status        = JAuthentication::STATUS_FAILURE;
-			$response->error_message = JText::_('JGLOBAL_AUTH_NO_USER');
+			$response->status        = Authentication::STATUS_FAILURE;
+			$response->error_message = Text::_('JGLOBAL_AUTH_NO_USER');
 		}
 	}
 
@@ -219,15 +246,15 @@ class PlgAuthenticationCookie extends JPlugin
 	public function onUserAfterLogin($options)
 	{
 		// No remember me for admin
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator'))
 		{
 			return false;
 		}
 
-		if (isset($options['responseType']) && $options['responseType'] == 'Cookie')
+		if (isset($options['responseType']) && $options['responseType'] === 'Cookie')
 		{
 			// Logged in using a cookie
-			$cookieName = 'joomla_remember_me_' . JUserHelper::getShortHashedUserAgent();
+			$cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
 
 			// We need the old data to get the existing series
 			$cookieValue = $this->app->input->cookie->get($cookieName);
@@ -235,23 +262,23 @@ class PlgAuthenticationCookie extends JPlugin
 			// Try with old cookieName (pre 3.6.0) if not found
 			if (!$cookieValue)
 			{
-				$oldCookieName = JUserHelper::getShortHashedUserAgent();
+				$oldCookieName = UserHelper::getShortHashedUserAgent();
 				$cookieValue   = $this->app->input->cookie->get($oldCookieName);
 
 				// Destroy the old cookie in the browser
-				$this->app->input->cookie->set($oldCookieName, false, time() - 42000, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain'));
+				$this->app->input->cookie->set($oldCookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
 			}
 
 			$cookieArray = explode('.', $cookieValue);
 
 			// Filter series since we're going to use it in the query
-			$filter = new JFilterInput;
+			$filter = new InputFilter;
 			$series = $filter->clean($cookieArray[1], 'ALNUM');
 		}
 		elseif (!empty($options['remember']))
 		{
 			// Remember checkbox is set
-			$cookieName = 'joomla_remember_me_' . JUserHelper::getShortHashedUserAgent();
+			$cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
 
 			// Create a unique series which will be used over the lifespan of the cookie
 			$unique     = false;
@@ -259,7 +286,7 @@ class PlgAuthenticationCookie extends JPlugin
 
 			do
 			{
-				$series = JUserHelper::genRandomPassword(20);
+				$series = UserHelper::genRandomPassword(20);
 				$query  = $this->db->getQuery(true)
 					->select($this->db->quoteName('series'))
 					->from($this->db->quoteName('#__user_keys'))
@@ -269,7 +296,7 @@ class PlgAuthenticationCookie extends JPlugin
 				{
 					$results = $this->db->setQuery($query)->loadResult();
 
-					if (is_null($results))
+					if ($results === null)
 					{
 						$unique = true;
 					}
@@ -279,7 +306,7 @@ class PlgAuthenticationCookie extends JPlugin
 					$errorCount++;
 
 					// We'll let this query fail up to 5 times before giving up, there's probably a bigger issue at this point
-					if ($errorCount == 5)
+					if ($errorCount === 5)
 					{
 						return false;
 					}
@@ -294,21 +321,24 @@ class PlgAuthenticationCookie extends JPlugin
 		}
 
 		// Get the parameter values
-		$lifetime = $this->params->get('cookie_lifetime', '60') * 24 * 60 * 60;
-		$length   = $this->params->get('key_length', '16');
+		$lifetime = $this->params->get('cookie_lifetime', 60) * 24 * 60 * 60;
+		$length   = $this->params->get('key_length', 16);
 
 		// Generate new cookie
-		$token       = JUserHelper::genRandomPassword($length);
+		$token       = UserHelper::genRandomPassword($length);
 		$cookieValue = $token . '.' . $series;
 
 		// Overwrite existing cookie with new value
 		$this->app->input->cookie->set(
-			$cookieName, $cookieValue,
+			$cookieName,
+			$cookieValue,
 			time() + $lifetime,
 			$this->app->get('cookie_path', '/'),
-			$this->app->get('cookie_domain'),
-			$this->app->isSSLConnection()
+			$this->app->get('cookie_domain', ''),
+			$this->app->isHttpsForced(),
+			true
 		);
+
 		$query = $this->db->getQuery(true);
 
 		if (!empty($options['remember']))
@@ -331,9 +361,9 @@ class PlgAuthenticationCookie extends JPlugin
 				->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName));
 		}
 
-		$hashed_token = JUserHelper::hashPassword($token);
+		$hashedToken = UserHelper::hashPassword($token);
 
-		$query->set($this->db->quoteName('token') . ' = ' . $this->db->quote($hashed_token));
+		$query->set($this->db->quoteName('token') . ' = ' . $this->db->quote($hashedToken));
 
 		try
 		{
@@ -359,12 +389,12 @@ class PlgAuthenticationCookie extends JPlugin
 	public function onUserAfterLogout($options)
 	{
 		// No remember me for admin
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator'))
 		{
 			return false;
 		}
 
-		$cookieName  = 'joomla_remember_me_' . JUserHelper::getShortHashedUserAgent();
+		$cookieName  = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
 		$cookieValue = $this->app->input->cookie->get($cookieName);
 
 		// There are no cookies to delete.
@@ -376,7 +406,7 @@ class PlgAuthenticationCookie extends JPlugin
 		$cookieArray = explode('.', $cookieValue);
 
 		// Filter series since we're going to use it in the query
-		$filter = new JFilterInput;
+		$filter = new InputFilter;
 		$series = $filter->clean($cookieArray[1], 'ALNUM');
 
 		// Remove the record from the database
@@ -394,13 +424,7 @@ class PlgAuthenticationCookie extends JPlugin
 		}
 
 		// Destroy the cookie
-		$this->app->input->cookie->set(
-			$cookieName,
-			false,
-			time() - 42000,
-			$this->app->get('cookie_path', '/'),
-			$this->app->get('cookie_domain')
-		);
+		$this->app->input->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
 
 		return true;
 	}

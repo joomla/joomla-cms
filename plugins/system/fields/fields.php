@@ -3,193 +3,155 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
-
-JLoader::import('joomla.filesystem.folder');
-JLoader::import('joomla.filesystem.file');
-JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
 /**
  * Fields Plugin
  *
  * @since  3.7
  */
-class PlgSystemFields extends JPlugin
+class PlgSystemFields extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $autoloadLanguage = true;
 
 	/**
-	 * The save event.
+	 * Normalizes the request data.
 	 *
-	 * @param   string    $context  The context
-	 * @param   stdClass  $item     The item
-	 * @param   boolean   $isNew    Is new
+	 * @param   string  $context  The context
+	 * @param   object  $data     The object
+	 * @param   Form    $form     The form
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.7
 	 */
-	public function onContentBeforeSave($context, $item, $isNew)
+	public function onContentNormaliseRequestData($context, $data, Form $form)
 	{
-		// Load the category context based on the extension
-		if ($context == 'com_categories.category')
+		if (!FieldsHelper::extract($context, $data))
 		{
-			$context = JFactory::getApplication()->input->getCmd('extension') . '.category';
+			return;
 		}
 
-		$parts = $this->getParts($context);
-
-		if (!$parts)
+		// Loop over all fields
+		foreach ($form->getGroup('com_fields') as $field)
 		{
-			return true;
-		}
+			if ($field->disabled === true)
+			{
+				/**
+				 * Disabled fields should NEVER be added to the request as
+				 * they should NEVER be added by the browser anyway so nothing to check against
+				 * as "disabled" means no interaction at all.
+				 */
+				continue;
+			}
 
-		$context = $parts[0] . '.' . $parts[1];
-
-		// Loading the fields
-		$fieldsObjects = FieldsHelper::getFields($context, $item);
-
-		if (!$fieldsObjects)
-		{
-			return true;
-		}
-
-		$params = new Registry;
-
-		// Load the item params from the request
-		$data = JFactory::getApplication()->input->post->get('jform', array(), 'array');
-
-		if (key_exists('params', $data))
-		{
-			$params->loadArray($data['params']);
-		}
-
-		// Load the params from the item itself
-		if (isset($item->params))
-		{
-			$params->loadString($item->params);
-		}
-
-		$params = $params->toArray();
-
-		if (!$params)
-		{
-			return true;
-		}
-
-		// Create the new internal fields field
-		$fields = array();
-
-		foreach ($fieldsObjects as $field)
-		{
-			// Only save the fields with the alias from the data
-			if (!key_exists($field->alias, $params))
+			// Make sure the data object has an entry
+			if (isset($data->com_fields[$field->fieldname]))
 			{
 				continue;
 			}
 
-			// Set the param on the fields variable
-			$fields[$field->alias] = $params[$field->alias];
-
-			// Remove it from the params array
-			unset($params[$field->alias]);
-		}
-
-		$item->_fields = $fields;
-
-		// Update the cleaned up params
-		if (isset($item->params))
-		{
-			$item->params = json_encode($params);
+			// Set a default value for the field
+			$data->com_fields[$field->fieldname] = false;
 		}
 	}
 
 	/**
 	 * The save event.
 	 *
-	 * @param   string    $context  The context
-	 * @param   stdClass  $item     The item
-	 * @param   boolean   $isNew    Is new
+	 * @param   string   $context  The context
+	 * @param   JTable   $item     The table
+	 * @param   boolean  $isNew    Is new item
+	 * @param   array    $data     The validated data
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
-	public function onContentAfterSave($context, $item, $isNew)
+	public function onContentAfterSave($context, $item, $isNew, $data = array())
 	{
-		// Load the category context based on the extension
-		if ($context == 'com_categories.category')
+		// Check if data is an array and the item has an id
+		if (!is_array($data) || empty($item->id) || empty($data['com_fields']))
 		{
-			$context = JFactory::getApplication()->input->getCmd('extension') . '.category';
+			return true;
 		}
 
-		$parts = $this->getParts($context);
+		// Create correct context for category
+		if ($context === 'com_categories.category')
+		{
+			$context = $item->extension . '.categories';
+
+			// Set the catid on the category to get only the fields which belong to this category
+			$item->catid = $item->id;
+		}
+
+		// Check the context
+		$parts = FieldsHelper::extract($context, $item);
 
 		if (!$parts)
 		{
 			return true;
 		}
 
+		// Compile the right context for the fields
 		$context = $parts[0] . '.' . $parts[1];
 
-		// Return if the item has no valid state
-		$fields = null;
-
-		if (isset($item->_fields))
-		{
-			$fields = $item->_fields;
-		}
+		// Loading the fields
+		$fields = FieldsHelper::getFields($context, $item);
 
 		if (!$fields)
 		{
 			return true;
 		}
 
-		// Loading the fields
-		$fieldsObjects = FieldsHelper::getFields($context, $item);
-
-		if (!$fieldsObjects)
-		{
-			return true;
-		}
-
 		// Loading the model
-		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
+		$model = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
 
-		foreach ($fieldsObjects as $field)
+		// Loop over the fields
+		foreach ($fields as $field)
 		{
-			// Only save the fields with the alias from the data
-			if (!key_exists($field->alias, $fields))
+			// Determine the value if it is (un)available from the data
+			if (key_exists($field->name, $data['com_fields']))
 			{
-				continue;
+				$value = $data['com_fields'][$field->name] === false ? null : $data['com_fields'][$field->name];
+			}
+			// Field not available on form, use stored value
+			else
+			{
+				$value = $field->rawvalue;
 			}
 
-			$id = null;
-
-			if (isset($item->id))
+			// If no value set (empty) remove value from database
+			if (is_array($value) ? !count($value) : !strlen($value))
 			{
-				$id = $item->id;
+				$value = null;
 			}
 
-			if (!$id)
+			// JSON encode value for complex fields
+			if (is_array($value) && (count($value, COUNT_NORMAL) !== count($value, COUNT_RECURSIVE) || !count(array_filter(array_keys($value), 'is_numeric'))))
 			{
-				continue;
+				$value = json_encode($value);
 			}
 
 			// Setting the value for the field and the item
-			$model->setFieldValue($field->id, $context, $id, $fields[$field->alias]);
+			$model->setFieldValue($field->id, $item->id, $value);
 		}
 
 		return true;
@@ -205,7 +167,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onUserAfterSave($userData, $isNew, $success, $msg)
 	{
@@ -216,20 +178,18 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
-		$user = JFactory::getUser($userData['id']);
-		$user->params = (string) $user->getParameters();
+		$user = Factory::getUser($userData['id']);
+
+		$task = Factory::getApplication()->input->getCmd('task');
+
+		// Skip fields save when we activate a user, because we will lose the saved data
+		if (in_array($task, array('activate', 'block', 'unblock')))
+		{
+			return true;
+		}
 
 		// Trigger the events with a real user
-		$this->onContentBeforeSave('com_users.user', $user, false);
-		$this->onContentAfterSave('com_users.user', $user, false);
-
-		// Save the user with the modified params
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)->update('#__users')
-			->set(array('params = ' . $db->quote($user->params)))
-			->where('id = ' . $user->id);
-		$db->setQuery($query);
-		$db->execute();
+		$this->onContentAfterSave('com_users.user', $user, false, $userData);
 
 		return true;
 	}
@@ -242,23 +202,20 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentAfterDelete($context, $item)
 	{
-		$parts = $this->getParts($context);
+		$parts = FieldsHelper::extract($context, $item);
 
-		if (!$parts)
+		if (!$parts || empty($item->id))
 		{
 			return true;
 		}
 
 		$context = $parts[0] . '.' . $parts[1];
 
-		JLoader::import('joomla.application.component.model');
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/models', 'FieldsModel');
-
-		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
+		$model = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
 		$model->cleanupValues($context, $item->id);
 
 		return true;
@@ -273,7 +230,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onUserAfterDelete($user, $succes, $msg)
 	{
@@ -291,30 +248,37 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
-	public function onContentPrepareForm(JForm $form, $data)
+	public function onContentPrepareForm(Form $form, $data)
 	{
 		$context = $form->getName();
 
-		if (strpos($context, 'com_categories.category') === 0 && strpos($context, '.fields') != false)
+		// When a category is edited, the context is com_categories.categorycom_content
+		if (strpos($context, 'com_categories.category') === 0)
 		{
-			// Tags are not working on custom field groups because there is no entry
-			// in the content_types table
-			$form->removeField('tags');
-			return true;
+			$context = str_replace('com_categories.category', '', $context) . '.categories';
+
+			// Set the catid on the category to get only the fields which belong to this category
+			if (is_array($data) && key_exists('id', $data))
+			{
+				$data['catid'] = $data['id'];
+			}
+
+			if (is_object($data) && isset($data->id))
+			{
+				$data->catid = $data->id;
+			}
 		}
 
-		// Extracting the component and section
-		$parts = $this->getParts($context);
+		$parts = FieldsHelper::extract($context, $form);
 
 		if (!$parts)
 		{
 			return true;
 		}
 
-		$app = JFactory::getApplication();
-		$input = $app->input;
+		$input = Factory::getApplication()->input;
 
 		// If we are on the save command we need the actual data
 		$jformData = $input->get('jform', array(), 'array');
@@ -329,51 +293,9 @@ class PlgSystemFields extends JPlugin
 			$data = (object) $data;
 		}
 
-		if ((!isset($data->catid) || !$data->catid) && JFactory::getApplication()->isSite() && $component = 'com_content')
-		{
-			$activeMenu = $app->getMenu()->getActive();
-
-			if ($activeMenu && $activeMenu->params)
-			{
-				$data->catid = $activeMenu->params->get('catid');
-			}
-		}
-
 		FieldsHelper::prepareForm($parts[0] . '.' . $parts[1], $form, $data);
 
-		if ($app->isAdmin() && $input->get('option') == 'com_categories' && strpos($input->get('extension'), 'fields') !== false)
-		{
-			// Set the right permission extension
-			$form->setFieldAttribute('rules', 'component', 'com_fields');
-			$form->setFieldAttribute('rules', 'section', 'category');
-		}
-
 		return true;
-	}
-
-	/**
-	 * The prepare data event.
-	 *
-	 * @param   string    $context  The context
-	 * @param   stdClass  $data     The data
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function onContentPrepareData($context, $data)
-	{
-		$parts = $this->getParts($context);
-
-		if (!$parts)
-		{
-			return;
-		}
-
-		if (isset($data->params) && $data->params instanceof Registry)
-		{
-			$data->params = $data->params->toArray();
-		}
 	}
 
 	/**
@@ -382,11 +304,11 @@ class PlgSystemFields extends JPlugin
 	 * @param   string    $context     The context
 	 * @param   stdClass  $item        The item
 	 * @param   Registry  $params      The params
-	 * @param   number    $limitstart  The start
+	 * @param   integer   $limitstart  The start
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentAfterTitle($context, $item, $params, $limitstart = 0)
 	{
@@ -399,11 +321,11 @@ class PlgSystemFields extends JPlugin
 	 * @param   string    $context     The context
 	 * @param   stdClass  $item        The item
 	 * @param   Registry  $params      The params
-	 * @param   number    $limitstart  The start
+	 * @param   integer   $limitstart  The start
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentBeforeDisplay($context, $item, $params, $limitstart = 0)
 	{
@@ -416,11 +338,11 @@ class PlgSystemFields extends JPlugin
 	 * @param   string    $context     The context
 	 * @param   stdClass  $item        The item
 	 * @param   Registry  $params      The params
-	 * @param   number    $limitstart  The start
+	 * @param   integer   $limitstart  The start
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentAfterDisplay($context, $item, $params, $limitstart = 0)
 	{
@@ -437,36 +359,66 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	private function display($context, $item, $params, $displayType)
 	{
-		$parts = $this->getParts($context);
+		$parts = FieldsHelper::extract($context, $item);
 
 		if (!$parts)
 		{
 			return '';
 		}
 
+		// If we have a category, set the catid field to fetch only the fields which belong to it
+		if ($parts[1] === 'categories' && !isset($item->catid))
+		{
+			$item->catid = $item->id;
+		}
+
 		$context = $parts[0] . '.' . $parts[1];
+
+		// Convert tags
+		if ($context == 'com_tags.tag' && !empty($item->type_alias))
+		{
+			// Set the context
+			$context = $item->type_alias;
+
+			$item = $this->prepareTagItem($item);
+		}
 
 		if (is_string($params) || !$params)
 		{
 			$params = new Registry($params);
 		}
 
-		$fields = FieldsHelper::getFields($context, $item, true);
+		$fields = FieldsHelper::getFields($context, $item, $displayType);
+
+		if ($fields)
+		{
+			$app = Factory::getApplication();
+
+			if ($app->isClient('site') && Multilanguage::isEnabled() && isset($item->language) && $item->language === '*')
+			{
+				$lang = $app->getLanguage()->getTag();
+
+				foreach ($fields as $key => $field)
+				{
+					if ($field->language === '*' || $field->language == $lang)
+					{
+						continue;
+					}
+
+					unset($fields[$key]);
+				}
+			}
+		}
 
 		if ($fields)
 		{
 			foreach ($fields as $key => $field)
 			{
-				$fieldDisplayType = $field->params->get('display', '-1');
-
-				if ($fieldDisplayType == '-1')
-				{
-					$fieldDisplayType = $this->params->get('display', '2');
-				}
+				$fieldDisplayType = $field->params->get('display', '2');
 
 				if ($fieldDisplayType == $displayType)
 				{
@@ -485,9 +437,7 @@ class PlgSystemFields extends JPlugin
 				array(
 					'item'            => $item,
 					'context'         => $context,
-					'fields'          => $fields,
-					'container'       => $params->get('fields-container'),
-					'container-class' => $params->get('fields-container-class'),
+					'fields'          => $fields
 				)
 			);
 		}
@@ -501,30 +451,47 @@ class PlgSystemFields extends JPlugin
 	 * @param   string    $context  The context
 	 * @param   stdClass  $item     The item
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onContentPrepare($context, $item)
 	{
-		$parts = $this->getParts($context);
+		// Check property exists (avoid costly & useless recreation), if need to recreate them, just unset the property!
+		if (isset($item->jcfields))
+		{
+			return;
+		}
+
+		$parts = FieldsHelper::extract($context, $item);
 
 		if (!$parts)
 		{
 			return;
 		}
 
-		$fields = FieldsHelper::getFields($parts[0] . '.' . $parts[1], $item, true);
+		$context = $parts[0] . '.' . $parts[1];
+
+		// Convert tags
+		if ($context == 'com_tags.tag' && !empty($item->type_alias))
+		{
+			// Set the context
+			$context = $item->type_alias;
+
+			$item = $this->prepareTagItem($item);
+		}
+
+		// Get item's fields, also preparing their value property for manual display
+		// (calling plugins events and loading layouts to get their HTML display)
+		$fields = FieldsHelper::getFields($context, $item, true);
 
 		// Adding the fields to the object
-		$item->fields = array();
+		$item->jcfields = array();
 
 		foreach ($fields as $key => $field)
 		{
-			$item->fields[$field->id] = $field;
+			$item->jcfields[$field->id] = $field;
 		}
-
-		return true;
 	}
 
 	/**
@@ -534,7 +501,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function onPrepareFinderContent($item)
 	{
@@ -553,8 +520,8 @@ class PlgSystemFields extends JPlugin
 					$component = 'com_' . $component;
 				}
 
-				// Transofrm com_article to com_content
-				if ($component == 'com_article')
+				// Transform com_article to com_content
+				if ($component === 'com_article')
 				{
 					$component = 'com_content';
 				}
@@ -576,10 +543,10 @@ class PlgSystemFields extends JPlugin
 					foreach ($fields as $field)
 					{
 						// Adding the instructions how to handle the text
-						$item->addInstruction(FinderIndexer::TEXT_CONTEXT, $field->alias);
+						$item->addInstruction(FinderIndexer::TEXT_CONTEXT, $field->name);
 
 						// Adding the field value as a field
-						$item->{$field->alias} = $field->value;
+						$item->{$field->name} = $field->value;
 					}
 				}
 			}
@@ -589,59 +556,26 @@ class PlgSystemFields extends JPlugin
 	}
 
 	/**
-	 * Returns the parts for the context.
+	 * Prepares a tag item to be ready for com_fields.
 	 *
-	 * @param   string  $context  The context
+	 * @param   stdClass  $item  The item
 	 *
-	 * @return  array
+	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.4
 	 */
-	private function getParts($context)
+	private function prepareTagItem($item)
 	{
-		// Some context mapping
-		// @todo needs to be done in a general lookup table on some point
-		$mapping = array(
-				'com_users.registration' => 'com_users.user',
-				'com_content.category'   => 'com_content.article',
-		);
+		// Map core fields
+		$item->id       = $item->content_item_id;
+		$item->language = $item->core_language;
 
-		if (key_exists($context, $mapping))
+		// Also handle the catid
+		if (!empty($item->core_catid))
 		{
-			$context = $mapping[$context];
+			$item->catid = $item->core_catid;
 		}
 
-		$parts = FieldsHelper::extract($context);
-
-		if (!$parts)
-		{
-			return null;
-		}
-
-		if ($parts[1] == 'form')
-		{
-			// The context is not from a known one, we need to do a lookup
-			// @todo use the api here.
-			$db    = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('context')
-				->from('#__fields')
-				->where('context like ' . $db->quote($parts[0] . '.%'))
-				->group(array('context'));
-			$db->setQuery($query);
-			$tmp = $db->loadObjectList();
-
-			if (count($tmp) == 1)
-			{
-				$parts = FieldsHelper::extract($tmp[0]->context);
-
-				if (count($parts) < 2)
-				{
-					return null;
-				}
-			}
-		}
-
-		return $parts;
+		return $item;
 	}
 }

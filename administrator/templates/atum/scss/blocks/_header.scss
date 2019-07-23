@@ -1,0 +1,133 @@
+
+// Header
+
+.header {
+  position: relative;
+  background: $white;
+  box-shadow: $atum-box-shadow;
+
+  .logo {
+    display: inline-block;
+    width: $sidebar-width-closed;
+    line-height: $header-height;
+    text-align: center;
+  }
+
+  .page-title {
+    margin: 0 5px;
+    font-size: 1.2rem;
+    line-height: $header-height;
+    color: var(--primary-dark);
+
+    [class^='icon-'] {
+      margin-right: 10px;
+    }
+  }
+
+  .nav-link {
+    position: relative;
+    padding: 0;
+    line-height: $header-height;
+
+    .fa {
+      width: $header-height + 2px;
+      font-size: 1.2rem;
+      color: var(--primary-dark);
+      vertical-align: middle;
+      transition: all .2s ease-in-out;
+    }
+
+    .badge {
+      position: absolute;
+      top: 7px;
+      right: 7px;
+    }
+
+    &.dropdown-toggle::after {
+      display: none;
+    }
+
+    &:hover .fa {
+      font-size: 1.3rem;
+      transition: all .2s ease-in-out;
+    }
+  }
+
+  .dropdown-menu {
+    min-width: 280px;
+    padding: 0;
+    z-index: 1041;
+
+    h2 {
+      font-size: $h5-font-size;
+    }
+  }
+
+  .dropdown-item {
+    @include hover-focus {
+      color: var(--primary-dark);
+    }
+  }
+
+  .dropdown-menu::after {
+    left: .65rem;
+  }
+
+  .dropdown-menu-right::after {
+    right: .65rem;
+    left: auto;
+  }
+
+  .header-profile {
+
+    .dropdown-menu {
+      padding-top: 0;
+
+      &::after {
+        color: var(--main-bg);
+      }
+    }
+  }
+
+  .dropdown-header {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    color: $white;
+    background-color: var(--primary-dark);
+    box-shadow: $atum-box-shadow;
+  }
+
+  .list-group-item-text:last-child {
+    margin-bottom: 0;
+  }
+
+  .joomla-version {
+    margin-right: .9rem;
+    margin-bottom: 0;
+    font-size: $h5-font-size;
+    color: var(--primary-dark);
+  }
+}
+
+@include media-breakpoint-down(md) {
+
+  .header {
+    position: sticky;
+    top: 0;
+    width: 100%;
+
+    > div {
+      flex-direction: column;
+    }
+  }
+}
+
+@include media-breakpoint-down(sm) {
+
+  .header {
+
+    .header-items {
+      flex-direction: column;
+    }
+  }
+}

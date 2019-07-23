@@ -1,0 +1,52 @@
+# Custom Fields
+administrator/components/com_fields/*  @laoneo
+components/com_fields/*  @laoneo
+plugins/content/fields/*  @laoneo
+plugins/editors-xtd/fields/*  @laoneo
+plugins/fields/*  @laoneo
+plugins/systems/fields/*  @laoneo
+
+# Smart Search
+administrator/components/com_finder/*  @hackwar
+components/com_finder/*  @hackwar
+modules/mod_finder/*  @hackwar
+plugins/content/finder/*  @hackwar
+plugins/finder/*  @hackwar
+
+# CodeMirror
+plugins/editors/codemirror/*  @okonomiyaki3000
+
+# Statistics Server
+plugins/system/stats/*  @mbabker @wilsonge
+
+# Release Tools
+build.xml  @wilsonge
+build/build.php  @rdeutz @wilsonge
+build/bump.php  @rdeutz @wilsonge
+build/deleted_file_check.php  @rdeutz @wilsonge
+
+# Core/Extension Install/Update Tools
+administrator/components/com_joomlaupdate/*  @rdeutz @wilsonge @zero-24
+libraries/src/Installer/*  @rdeutz @wilsonge @zero-24
+libraries/src/Updater/*  @rdeutz @wilsonge @zero-24
+
+# Automated Testing
+tests/*  @hackwar
+tests/Codeception/*  @rdeutz
+tests/javascript/*  @wilsonge @rdeutz
+tests/Unit/*  @rdeutz
+.appveyor.yml  @rdeutz @hackwar
+.drone.yml  @rdeutz @hackwar
+.hound.yml  @wilsonge @hackwar
+codeception.yml  @rdeutz @hackwar
+phpunit.xml.dist  @rdeutz @hackwar
+phpunit-pgsql.xml.dist  @rdeutz @hackwar
+RoboFile.php  @rdeutz @hackwar
+
+# Core JS
+build/media_source/*/js/*  @wilsonge
+
+# CSP Tooling
+plugins/system/httpheaders/*  @zero-24
+administrator/components/com_csp/* @zero-24
+components/com_csp/* @zero-24

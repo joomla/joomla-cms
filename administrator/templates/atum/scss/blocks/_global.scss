@@ -1,0 +1,58 @@
+// Global
+
+html,
+body {
+  height: 100%;
+  font-size: $font-size-root;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: $bold-weight;
+}
+
+h1 {
+  font-weight: $normal-weight;
+}
+
+small,
+.small {
+  font-size: $font-size-sm;
+}
+
+legend {
+  font-size: 1.2rem;
+  font-weight: $bold-weight;
+  ;
+}
+
+// focus-visible polyfil rule
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}
+
+// Default focus highlighting
+a,
+button,
+input,
+textarea {
+
+  &:focus,
+  &:-moz-focusring {
+    outline: auto 2px var(--focus);
+  }
+}
+// Break up text in cells to prevent overflow
+.break-word {
+  word-break: break-all;
+  word-wrap: break-word;
+}

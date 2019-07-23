@@ -3,20 +3,24 @@
  * @package     Joomla.Plugin
  * @subpackage  User.profile
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('radio');
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Provides input for TOS
  *
  * @since  2.5.5
  */
-class JFormFieldTos extends JFormFieldRadio
+class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 {
 	/**
 	 * The form field type.
@@ -44,22 +48,13 @@ class JFormFieldTos extends JFormFieldRadio
 
 		// Get the label text from the XML element, defaulting to the element name.
 		$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
-		$text = $this->translateLabel ? JText::_($text) : $text;
+		$text = $this->translateLabel ? Text::_($text) : $text;
 
 		// Set required to true as this field is not displayed at all if not required.
 		$this->required = true;
 
-		// Add CSS and JS for the TOS field
-		$doc = JFactory::getDocument();
-		$css = "#jform_profile_tos {width: 18em; margin: 0 !important; padding: 0 2px !important;}
-				#jform_profile_tos input {margin:0 5px 0 0 !important; width:10px !important;}
-				#jform_profile_tos label {margin:0 15px 0 0 !important; width:auto;}
-				";
-		$doc->addStyleDeclaration($css);
-		JHtml::_('behavior.modal');
-
 		// Build the class for the label.
-		$class = !empty($this->description) ? 'hasTooltip' : '';
+		$class = !empty($this->description) ? 'hasPopover' : '';
 		$class = $class . ' required';
 		$class = !empty($this->labelClass) ? $class . ' ' . $this->labelClass : $class;
 
@@ -69,49 +64,71 @@ class JFormFieldTos extends JFormFieldRadio
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description))
 		{
-			$label .= ' title="'
-				. htmlspecialchars(
-					trim($text, ':') . '<br />' . ($this->translateDescription ? JText::_($this->description) : $this->description),
-					ENT_COMPAT, 'UTF-8'
-				) . '"';
+			$label .= ' data-content="' . htmlspecialchars(
+				$this->translateDescription ? Text::_($this->description) : $this->description,
+				ENT_COMPAT,
+				'UTF-8'
+			) . '"';
+
+			if (Factory::getLanguage()->isRtl())
+			{
+				$label .= ' data-placement="left"';
+			}
 		}
 
-		$tosarticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
+		$tosArticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
 
-		if ($tosarticle)
+		if ($tosArticle)
 		{
-			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
+			$attribs                = [];
+			$attribs['data-toggle'] = 'modal';
+			$attribs['data-target'] = '#tosModal';
 
-			$attribs          = array();
-			$attribs['class'] = 'modal';
-			$attribs['rel']   = '{handler: \'iframe\', size: {x:800, y:500}}';
-
-			$db    = JFactory::getDbo();
+			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
 			$query->select('id, alias, catid, language')
 				->from('#__content')
-				->where('id = ' . $tosarticle);
+				->where('id = ' . $tosArticle);
 			$db->setQuery($query);
 			$article = $db->loadObject();
 
-			if (JLanguageAssociations::isEnabled())
+			if (Associations::isEnabled())
 			{
-				$tosassociated = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $tosarticle);
+				$tosAssociated = Associations::getAssociations('com_content', '#__content', 'com_content.item', $tosArticle);
 			}
 
-			$current_lang = JFactory::getLanguage()->getTag();
+			$currentLang = Factory::getLanguage()->getTag();
 
-			if (isset($tosassociated) && $current_lang != $article->language && array_key_exists($current_lang, $tosassociated))
+			if (isset($tosAssociated) && $currentLang !== $article->language && array_key_exists($currentLang, $tosAssociated))
 			{
-				$url  = ContentHelperRoute::getArticleRoute($tosassociated[$current_lang]->id, $tosassociated[$current_lang]->catid);
-				$link = JHtml::_('link', JRoute::_($url . '&tmpl=component&lang=' . $tosassociated[$current_lang]->language), $text, $attribs);
+				$url  = ContentHelperRoute::getArticleRoute(
+					$tosAssociated[$currentLang]->id,
+					$tosAssociated[$currentLang]->catid,
+					$tosAssociated[$currentLang]->language
+				);
+				$link = HTMLHelper::_('link', Route::_($url . '&tmpl=component'), $text, $attribs);
 			}
 			else
 			{
 				$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
-				$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid);
-				$link = JHtml::_('link', JRoute::_($url . '&tmpl=component&lang=' . $article->language), $text, $attribs);
+				$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
+				$link = HTMLHelper::_('link', Route::_($url . '&tmpl=component'), $text, $attribs);
 			}
+
+			echo HTMLHelper::_(
+				'bootstrap.renderModal',
+				'tosModal',
+				array(
+					'url'    => Route::_($url . '&tmpl=component'),
+					'title'  => $text,
+					'height' => '100%',
+					'width'  => '100%',
+					'modalWidth'  => '800',
+					'bodyHeight'  => '500',
+					'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+						. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+				)
+			);
 		}
 		else
 		{

@@ -1,0 +1,85 @@
+// Alerts
+
+.j-main-container {
+
+  .alert {
+    margin: 10px;
+  }
+}
+
+.notify-alerts {
+  position: fixed;
+  top: 15px;
+  left: 50%;
+  z-index: 1080;
+  margin-left: 125px;
+  transition: all .5s ease;
+  transform: translateX(-50%);
+
+  .alert {
+    width: 100%;
+    min-width: 280px;
+    max-width: 400px;
+    margin-bottom: .5rem;
+    opacity: 0;
+    animation: fadeIn ease-in 1;
+    animation-duration: .35s;
+    animation-delay: 0s;
+    animation-fill-mode: forwards;
+
+    &:first-of-type {
+      animation-delay: .3s;
+    }
+  }
+
+  &.fullWidth {
+    left: 265px;
+
+    .alert {
+      width: auto;
+      min-width: none;
+      max-width: none;
+      margin-left: 0;
+    }
+  }
+
+  .close {
+    position: relative;
+    right: -.5rem;
+    padding: .5rem;
+    line-height: 1rem;
+    color: $black;
+    opacity: 1;
+  }
+}
+
+.closed {
+
+  .notify-alerts {
+    margin-left: 0;
+  }
+
+  + .notify-alerts.fullWidth {
+    left: 70px;
+  }
+}
+
+.wrapper0 {
+
+  .notify-alerts {
+    margin-left: 0;
+  }
+}
+
+@keyframes fadeIn {
+
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

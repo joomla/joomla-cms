@@ -3,12 +3,13 @@
 	<name>mod_menu</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_MENU_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Menu</namespace>
 	<files>
 		<filename module="mod_menu">mod_menu.php</filename>
 		<folder>tmpl</folder>
@@ -21,25 +22,23 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_MENU" />
 	<config>
 		<fields name="params">
-			<fieldset name="basic"
-				addfieldpath="/administrator/components/com_menus/models/fields">
-			>
+			<fieldset name="basic" addfieldprefix="Joomla\Component\Menus\Administrator\Field">
 				<field
 					name="menutype"
 					type="menu"
 					label="MOD_MENU_FIELD_MENUTYPE_LABEL"
-					description="MOD_MENU_FIELD_MENUTYPE_DESC"
+					clientid="0"
 				/>
 
 				<field
 					name="base"
 					type="modal_menu"
 					label="MOD_MENU_FIELD_ACTIVE_LABEL"
-					description="MOD_MENU_FIELD_ACTIVE_DESC"
 					select="true"
 					new="true"
 					edit="true"
 					clear="true"
+					filter="integer"
 					>
 					<option value="">JCURRENT</option>
 				</field>
@@ -48,8 +47,8 @@
 					name="startLevel"
 					type="list"
 					label="MOD_MENU_FIELD_STARTLEVEL_LABEL"
-					description="MOD_MENU_FIELD_STARTLEVEL_DESC"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">J1</option>
 					<option value="2">J2</option>
@@ -67,8 +66,8 @@
 					name="endLevel"
 					type="list"
 					label="MOD_MENU_FIELD_ENDLEVEL_LABEL"
-					description="MOD_MENU_FIELD_ENDLEVEL_DESC"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JALL</option>
 					<option value="1">J1</option>
@@ -86,13 +85,13 @@
 				<field
 					name="showAllChildren"
 					type="radio"
+					class="switcher"
 					label="MOD_MENU_FIELD_ALLCHILDREN_LABEL"
-					description="MOD_MENU_FIELD_ALLCHILDREN_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 			</fieldset>
 
@@ -101,14 +100,12 @@
 					name="tag_id"
 					type="text"
 					label="MOD_MENU_FIELD_TAG_ID_LABEL"
-					description="MOD_MENU_FIELD_TAG_ID_DESC"
 				/>
 
 				<field
 					name="class_sfx"
 					type="text"
 					label="MOD_MENU_FIELD_CLASS_LABEL"
-					description="MOD_MENU_FIELD_CLASS_DESC"
 				/>
 
 				<field
@@ -122,14 +119,13 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					class="custom-select"
 				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
 				/>
 
@@ -137,8 +133,8 @@
 					name="cache"
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -146,10 +142,10 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
+					filter="integer"
 				/>
 
 				<field

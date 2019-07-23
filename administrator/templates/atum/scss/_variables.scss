@@ -1,0 +1,195 @@
+@import "../../../../media/vendor/bootstrap/scss/functions";
+
+$white:                            #fff;
+$gray-100:                         #f8f9fa;
+$gray-200:                         #e9ecef;
+$gray-300:                         #dee2e6;
+$gray-400:                         #ced4da;
+$gray-500:                         #adb5bd;
+$gray-600:                         #6f7780;
+$gray-700:                         #495057;
+$gray-800:                         #343a40;
+$gray-900:                         #212529;
+$black:                            #000;
+
+// BS Colours
+$blue:                             #3073bb;
+$indigo:                           #0377be;
+$purple:                           #6f42c1;
+$pink:                             #e83e8c;
+$red:                              #c52827;
+$yellow:                           #b35900;
+$green:                            #2f7d32;
+$teal:                             #20c997;
+$cyan:                             #108193;
+
+$theme-colors: ();
+$theme-colors: map-merge((
+  primary: $blue,
+  secondary: $gray-600,
+  success: $green,
+  info: $cyan,
+  warning: $yellow,
+  danger: $red,
+  light: $gray-100,
+  dark: $gray-900
+), $theme-colors);
+
+$colors: (
+  primary-dark: #2b5c91,
+  main-bg:      #ebeff5,
+  success-border: darken(theme-color("success"), 5%),
+  info-border: darken(theme-color("info"), 7%),
+  warning-border: darken(theme-color("warning"), 5%),
+  danger-border: darken(theme-color("danger"), 5%),
+  link-hover: darken(theme-color("primary"), 15%),
+  sidebar-bg: #122942,
+  sidebar-sub-bg: #1b3654,
+  sidebar-text-color: #7189a4,
+  sidebar-link-color: #e3eaf1,
+  sidebar-link-color-hover: var(--white),
+  sidebar-child-link-color: #cbd6e2,
+  login-main-bg: darken(theme-color("primary"), 8%),
+  login-light-bg: #3b97f9,
+  form-link-feedback: #cbd8e1,
+  border: $gray-400,
+  row-selected: #d9edf7,
+  white-offset: #fefefe,
+  focus: #39f,
+  table-border: $gray-300,
+);
+
+// Global
+$atum-box-shadow:                  0 1px 2px rgba($black, .25);
+$enable-rounded:                   false;
+$border-radius:                    none;
+$input-btn-padding-y:              .6rem;
+$input-btn-padding-x:              1rem;
+$input-max-width:                  240px;
+
+// Header
+$header-height:                    55px;
+
+// Toolbar
+$atum-toolbar-line-height:         2.3rem;
+
+// Sidebar
+$atum-level-1-bg:                  rgba($black, .65);
+$atum-level-2-bg:                  rgba($black, .05);
+$sidebar-width:                    250px;
+$sidebar-width-closed:             48px;
+$main-brand-height:                48px;
+
+// Fonts
+$font-family-base:                 Arial, sans-serif;
+$font-size-root:                   15px;
+$h1-font-size:                     1.857rem;
+$h2-font-size:                     1.571rem;
+$h3-font-size:                     1.286rem;
+$h4-font-size:                     1rem;
+$h5-font-size:                     .9286rem;
+$h6-font-size:                     .8571rem;
+$font-size-sm:                     .8rem;
+$fa-css-prefix:                    fa;
+$fa-font-path:                     "../../../../media/vendor/fontawesome-free/webfonts";
+
+// Font weights
+$thin-weight:                      100;
+$extralight-weight:                200;
+$light-weight:                     300;
+$normal-weight:                    400;
+$medium-weight:                    500;
+$semibold-weight:                  600;
+$bold-weight:                      700;
+$extrabold-weight:                 800;
+$black-weight:                     900;
+
+// Text
+$body-color:                       var(--dark);
+
+// Tables
+$table-bg:                         transparent;
+$table-bg-accent:                  rgba(0, 0, 0, .03);
+$table-border-color:               var(--table-border);
+$table-cell-padding:               8px 12px;
+
+// Buttons + Forms
+$btn-border-radius:                0;
+$btn-border-radius-lg:             0;
+$btn-border-radius-sm:             0;
+
+// Dropdowns
+$dropdown-padding-y:               0;
+$dropdown-border-width:            1px;
+$dropdown-item-padding-y:          .5rem;
+$dropdown-item-padding-x:          .75rem;
+$dropdown-spacer:                  0;
+
+// Tabs
+$nav-tabs-border-width:            0;
+$nav-tabs-border-radius:           0;
+$nav-tabs-link-active-bg:          rgba($black, .2);
+
+// Tables
+$table-border-width:               1px;
+$table-head-bg:                    transparent;
+
+// Cards
+$card-bg:                          transparent;
+$card-cap-bg:                      transparent;
+$card-border-width:                0;
+$card-border-color:                transparent;
+
+// Alerts
+$state-success-text:               var(--white);
+$state-success-bg:                 var(--success);
+$state-success-border:             var(--success-border);
+
+$state-info-text:                  var(--white);
+$state-info-bg:                    var(--info);
+$state-info-border:                var(--info-border);
+
+$state-warning-text:               var(--white);
+$state-warning-bg:                 var(--warning);
+$state-warning-border:             var(--warning-border);
+
+$state-danger-text:                var(--white);
+$state-danger-bg:                  var(--danger);
+$state-danger-border:              var(--danger-border);
+
+// Input Group
+$input-group-addon-color:          var(--white);
+$input-group-addon-bg:             var(--primary);
+$input-group-addon-border-color:   var(--primary);
+
+// Treeselect
+$treeselect-line-height:           2.2rem;
+$treeselect-indent:                40px;
+
+// List
+$list-group-bg:                    var(--white-offset);
+
+// Custom form
+$custom-select-bg:                 var(--white-offset);
+
+// Modals
+$zindex-modal:                     1080;
+$modal-header-height:              46px;
+
+// Quickicons
+$quickicon-bg:                     var(--white);
+$quickicon-box-shadow:             $atum-box-shadow;
+$quickicon-box-shadow-hover:       0 0 8px 0 rgba($black, .3);
+$quickicon-box-shadow-success:     0 0 3px 0 var(--success);
+$quickicon-box-shadow-danger:      0 0 3px 0 var(--danger);
+$quickicon-box-shadow-warning:     0 0 3px 0 var(--warning);
+
+// Gutter
+$grid-gutter-width:                15px;
+
+// Breadcrumbs
+$breadcrumb-bg:                    var(--white);
+
+// Links
+$link-color:                       var(--primary);
+$link-hover-color:                 var(--link-hover);

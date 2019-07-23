@@ -3,7 +3,7 @@
 	<name>plg_authentication_ldap</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -18,45 +18,60 @@
 	</languages>
 	<config>
 		<fields name="params">
-
 			<fieldset name="basic">
 				<field
 					name="host"
 					type="text"
 					label="PLG_LDAP_FIELD_HOST_LABEL"
-					description="PLG_LDAP_FIELD_HOST_DESC"
 					size="20"
 				/>
 
 				<field
 					name="port"
-					type="text"
+					type="number"
 					label="PLG_LDAP_FIELD_PORT_LABEL"
-					description="PLG_LDAP_FIELD_PORT_DESC"
+					min="1"
+					max="65535"
 					default="389"
-					size="20"
+					hint="389"
+					validate="number"
+					filter="integer"
+					size="5"
 				/>
 
 				<field
 					name="use_ldapV3"
 					type="radio"
+					class="switcher"
 					label="PLG_LDAP_FIELD_V3_LABEL"
-					description="PLG_LDAP_FIELD_V3_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
-				>
-					<option value="1">JYES</option>
+					filter="integer"
+					>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="negotiate_tls"
 					type="radio"
 					label="PLG_LDAP_FIELD_NEGOCIATE_LABEL"
-					description="PLG_LDAP_FIELD_NEGOCIATE_DESC"
 					default="0"
+					filter="integer"
+					class="switcher"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="ignore_reqcert_tls"
+					type="radio"
+					label="PLG_LDAP_FIELD_IGNORE_REQCERT_TLS_LABEL"
+					description="PLG_LDAP_FIELD_IGNORE_REQCERT_TLS_DESC"
+					default="0"
+					filter="integer"
 					class="btn-group btn-group-yesno"
-				>
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -64,22 +79,21 @@
 				<field
 					name="no_referrals"
 					type="radio"
-					default="0"
-					class="btn-group btn-group-yesno"
 					label="PLG_LDAP_FIELD_REFERRALS_LABEL"
-					description="PLG_LDAP_FIELD_REFERRALS_DESC"
-				>
-					<option value="1">JYES</option>
+					default="0"
+					filter="integer"
+					class="switcher"
+					>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="auth_method"
 					type="list"
-					default="bind"
 					label="PLG_LDAP_FIELD_AUTHMETHOD_LABEL"
-					description="PLG_LDAP_FIELD_AUTHMETHOD_DESC"
-				>
+					default="bind"
+					>
 					<option value="search">PLG_LDAP_FIELD_VALUE_BINDSEARCH</option>
 					<option value="bind">PLG_LDAP_FIELD_VALUE_BINDUSER</option>
 				</field>
@@ -88,7 +102,6 @@
 					name="base_dn"
 					type="text"
 					label="PLG_LDAP_FIELD_BASEDN_LABEL"
-					description="PLG_LDAP_FIELD_BASEDN_DESC"
 					size="20"
 				/>
 
@@ -108,7 +121,6 @@
 					size="20"
 				/>
 
-
 				<field
 					name="username"
 					type="text"
@@ -124,7 +136,6 @@
 					description="PLG_LDAP_FIELD_PASSWORD_DESC"
 					size="20"
 				/>
-
 
 				<field
 					name="ldap_fullname"
@@ -152,8 +163,19 @@
 					default="uid"
 					size="20"
 				/>
+				<field
+					name="ldap_debug"
+					type="radio"
+					label="PLG_LDAP_FIELD_LDAPDEBUG_LABEL"
+					description="PLG_LDAP_FIELD_LDAPDEBUG_DESC"
+					default="0"
+					filter="integer"
+					class="btn-group btn-group-yesno"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 			</fieldset>
-
 		</fields>
 	</config>
 </extension>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.6" type="template" client="administrator">
+	<name>atum</name>
+	<version>1.0</version>
+	<creationDate>16/09/2016</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.</copyright>
+	<description>TPL_ATUM_XML_DESCRIPTION</description>
+	<files>
+		<filename>component.php</filename>
+		<filename>cpanel.php</filename>
+		<filename>error.php</filename>
+		<filename>error_full.php</filename>
+		<filename>error_login.php</filename>
+		<filename>favicon.ico</filename>
+		<filename>index.php</filename>
+		<filename>joomla.asset.json</filename>
+		<filename>login.php</filename>
+		<filename>templateDetails.xml</filename>
+		<filename>template_preview.png</filename>
+		<filename>template_thumbnail.png</filename>
+		<folder>css</folder>
+		<folder>html</folder>
+		<folder>images</folder>
+		<folder>language</folder>
+		<folder>scss</folder>
+	</files>
+	<positions>
+		<!-- used directly in the template -->
+		<position>bottom</position>
+		<position>debug</position>
+		<position>menu</position>
+		<position>status</position>
+		<position>title</position>
+		<position>toolbar</position>
+		<!-- used directly in a component and included here so the position will appear in the list of available positions -->
+		<position>cpanel</position>
+		<position>icon</position>
+		<position>login</position>
+	</positions>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.tpl_atum.ini</language>
+		<language tag="en-GB">en-GB/en-GB.tpl_atum.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="advanced" label="TPL_ATUM_LOGIN_PAGE_SETTINGS_LABEL">
+
+				<field
+					name="showSitename"
+					type="radio"
+					label="TPL_ATUM_SITENAME_LABEL"
+					class="switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="loginLogo"
+					type="media"
+					label="TPL_ATUM_LOGIN_LOGO_LABEL"
+				 />
+
+			</fieldset>
+		</fields>
+	</config>
+</extension>

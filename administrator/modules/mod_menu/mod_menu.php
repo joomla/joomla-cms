@@ -3,21 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-// Include the module helper classes.
-JLoader::register('ModMenuHelper', __DIR__ . '/helper.php');
-JLoader::register('JAdminCssMenu', __DIR__ . '/menu.php');
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Module\Menu\Administrator\Menu\CssMenu;
 
-$lang    = JFactory::getLanguage();
-$user    = JFactory::getUser();
-$input   = JFactory::getApplication()->input;
-$menu    = new JAdminCssMenu;
-$enabled = $input->getBool('hidemainmenu') ? false : true;
+$enabled = !$app->input->getBool('hidemainmenu');
+
+$menu = new CssMenu($app);
+$root = $menu->load($params, $enabled);
+$root->level = 0;
 
 // Render the module layout
-require JModuleHelper::getLayoutPath('mod_menu', $params->get('layout', 'default'));
+require ModuleHelper::getLayoutPath('mod_menu', $params->get('layout', 'default'));

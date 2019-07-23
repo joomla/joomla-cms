@@ -1,0 +1,17 @@
+// TinyMCE
+
+.editor {
+
+  .toggle-editor {
+    margin-top: 1rem;
+  }
+
+  .mce-tinymce {
+    border: 1px solid var(--primary-dark);
+  }
+
+  .mce-btn,
+  .mce-panel {
+    background: var(--white-offset);
+  }
+}

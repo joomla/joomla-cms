@@ -3,12 +3,15 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -44,14 +47,20 @@ abstract class JHtmlCategory
 		if (!isset(static::$items[$hash]))
 		{
 			$config = (array) $config;
-			$db = JFactory::getDbo();
+			$db     = Factory::getDbo();
+			$user   = Factory::getUser();
+			$groups = implode(',', $user->getAuthorisedViewLevels());
+
 			$query = $db->getQuery(true)
-				->select('a.id, a.title, a.level')
+				->select('a.id, a.title, a.level, a.language')
 				->from('#__categories AS a')
 				->where('a.parent_id > 0');
 
 			// Filter on extension.
 			$query->where('extension = ' . $db->quote($extension));
+
+			// Filter on user access level
+			$query->where('a.access IN (' . $groups . ')');
 
 			// Filter on the published state
 			if (isset($config['filter.published']))
@@ -115,7 +124,13 @@ abstract class JHtmlCategory
 			{
 				$repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
 				$item->title = str_repeat('- ', $repeat) . $item->title;
-				static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
+
+				if ($item->language !== '*')
+				{
+					$item->title .= ' (' . $item->language . ')';
+				}
+
+				static::$items[$hash][] = HTMLHelper::_('select.option', $item->id, $item->title);
 			}
 		}
 
@@ -139,7 +154,8 @@ abstract class JHtmlCategory
 		if (!isset(static::$items[$hash]))
 		{
 			$config = (array) $config;
-			$db = JFactory::getDbo();
+			$user = Factory::getUser();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('a.id, a.title, a.level, a.parent_id')
 				->from('#__categories AS a')
@@ -147,6 +163,10 @@ abstract class JHtmlCategory
 
 			// Filter on extension.
 			$query->where('extension = ' . $db->quote($extension));
+
+			// Filter on user level.
+			$groups = implode(',', $user->getAuthorisedViewLevels());
+			$query->where('a.access IN (' . $groups . ')');
 
 			// Filter on the published state
 			if (isset($config['filter.published']))
@@ -174,10 +194,11 @@ abstract class JHtmlCategory
 			{
 				$repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
 				$item->title = str_repeat('- ', $repeat) . $item->title;
-				static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
+				static::$items[$hash][] = HTMLHelper::_('select.option', $item->id, $item->title);
 			}
+
 			// Special "Add to root" option:
-			static::$items[$hash][] = JHtml::_('select.option', '1', JText::_('JLIB_HTML_ADD_TO_ROOT'));
+			static::$items[$hash][] = HTMLHelper::_('select.option', '1', Text::_('JLIB_HTML_ADD_TO_ROOT'));
 		}
 
 		return static::$items[$hash];

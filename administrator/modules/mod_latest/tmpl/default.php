@@ -3,49 +3,61 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_latest
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.tooltip');
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
+HTMLHelper::_('bootstrap.framework');
 ?>
-<div class="row-striped">
-	<?php if (count($list)) : ?>
+<table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
+	<caption class="sr-only"><?php echo $module->title; ?></caption>
+	<thead>
+		<tr>
+			<th scope="col" style="width:60%"><?php echo Text::_('JGLOBAL_TITLE'); ?></th>
+			<th scope="col" style="width:20%"><?php echo Text::_('JAUTHOR'); ?></th>
+			<th scope="col" style="width:20%"><?php echo Text::_('JDATE'); ?></th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php if (count($list)) : ?>
 		<?php foreach ($list as $i => $item) : ?>
-			<div class="row-fluid">
-				<div class="span8">
-					<?php echo JHtml::_('jgrid.published', $item->state, $i, '', false); ?>
-					<?php if ($item->checked_out) : ?>
-						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
-					<?php endif; ?>
-
-					<strong class="row-title break-word">
-						<?php if ($item->link) : ?>
-							<a href="<?php echo $item->link; ?>">
-								<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?></a>
-						<?php else : ?>
-							<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
-						<?php endif; ?>
-					</strong>
-
-					<small class="hasTooltip" title="<?php echo JHtml::tooltipText('MOD_LATEST_CREATED_BY'); ?>">
-						<?php echo $item->author_name; ?>
-					</small>
-				</div>
-				<div class="span4">
-					<div class="small pull-right hasTooltip" title="<?php echo JHtml::tooltipText('JGLOBAL_FIELD_CREATED_LABEL'); ?>">
-						<span class="icon-calendar"></span> <?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC5')); ?>
-					</div>
-				</div>
-			</div>
+		<tr>
+			<th scope="row">
+				<?php if ($item->checked_out) : ?>
+					<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
+				<?php endif; ?>
+				<?php if ($item->link) : ?>
+					<a href="<?php echo $item->link; ?>">
+						<span class="fa fa-pen-square mr-2" aria-hidden="true"></span><?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
+					</a>
+				<?php else : ?>
+					<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
+				<?php endif; ?>
+			</th>
+			<td>
+				<?php echo $item->author_name; ?>
+			</td>
+			<td>
+				<span class="badge badge-secondary badge-pill">
+					<span class="small">
+						<span class="icon-calendar" aria-hidden="true"></span>
+						<?php echo HTMLHelper::_('date', $item->publish_up, Text::_('DATE_FORMAT_LC4')); ?>
+					</span>
+				</span>
+			</td>
+		</tr>
 		<?php endforeach; ?>
-	<?php else : ?>
-		<div class="row-fluid">
-			<div class="span12">
-				<div class="alert"><?php echo JText::_('MOD_LATEST_NO_MATCHING_RESULTS');?></div>
-			</div>
-		</div>
-	<?php endif; ?>
-</div>
+		<?php else : ?>
+		<tr>
+			<td colspan="3">
+				<?php echo Text::_('MOD_LATEST_NO_MATCHING_RESULTS'); ?>
+			</td>
+		</tr>
+		<?php endif; ?>
+	</tbody>
+</table>

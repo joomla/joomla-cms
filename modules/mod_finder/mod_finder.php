@@ -3,17 +3,21 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Module\Finder\Site\Helper\FinderHelper;
+
 JLoader::register('FinderHelperRoute', JPATH_SITE . '/components/com_finder/helpers/route.php');
 JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
-
-// Include the helper.
-JLoader::register('ModFinderHelper', __DIR__ . '/helper.php');
 
 if (!defined('FINDER_PATH_INDEXER'))
 {
@@ -22,24 +26,18 @@ if (!defined('FINDER_PATH_INDEXER'))
 
 JLoader::register('FinderIndexerQuery', FINDER_PATH_INDEXER . '/query.php');
 
+$cparams = ComponentHelper::getParams('com_finder');
+
 // Check for OpenSearch
-if ($params->get('opensearch', 1))
+if ($params->get('opensearch', $cparams->get('opensearch', 1)))
 {
-/*
-This code intentionally commented
-	$doc = JFactory::getDocument();
-	$app = JFactory::getApplication();
-
-	$ostitle = $params->get('opensearch_title', JText::_('MOD_FINDER_SEARCHBUTTON_TEXT') . ' ' . $app->get('sitename'));
-	$doc->addHeadLink(
-						JUri::getInstance()->toString(array('scheme', 'host', 'port')) . JRoute::_('&option=com_finder&format=opensearch'),
-						'search', 'rel', array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
-					);
-*/
+	$defaultTitle = Text::_('MOD_FINDER_OPENSEARCH_NAME') . ' ' . $app->get('sitename');
+	$ostitle = $params->get('opensearch_name', $cparams->get('opensearch_name', $defaultTitle));
+	$app->getDocument()->addHeadLink(
+		Uri::getInstance()->toString(array('scheme', 'host', 'port')) . Route::_('index.php?option=com_finder&view=search&format=opensearch'),
+		'search', 'rel', array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
+	);
 }
-
-// Initialize module parameters.
-$params->def('field_size', 20);
 
 // Get the route.
 $route = FinderHelperRoute::getSearchRoute($params->get('searchfilter', null));
@@ -51,6 +49,6 @@ FinderHelperLanguage::loadComponentLanguage();
 FinderHelperLanguage::loadPluginLanguage();
 
 // Get Smart Search query object.
-$query = ModFinderHelper::getQuery($params);
+$query = FinderHelper::getQuery($params);
 
-require JModuleHelper::getLayoutPath('mod_finder', $params->get('layout', 'default'));
+require ModuleHelper::getLayoutPath('mod_finder', $params->get('layout', 'default'));

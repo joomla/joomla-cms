@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+			name="term"
+			type="text"
+			label="PLG_SYSTEM_REDIRECT_FIELD_EXCLUDE_URLS_TERM_LABEL"
+			description="PLG_SYSTEM_REDIRECT_FIELD_EXCLUDE_URLS_TERM_DESC"
+			required="true"
+		/>
+		<field
+			name="regexp"
+			type="checkbox"
+			label="PLG_SYSTEM_REDIRECT_FIELD_EXCLUDE_URLS_REGEXP_LABEL"
+			filter="integer"
+		/>
+	</fieldset>
+</form>

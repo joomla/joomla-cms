@@ -3,16 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_title
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\ModuleHelper;
+
 // Get the component title div
-if (isset(JFactory::getApplication()->JComponentTitle))
+if (isset($app->JComponentTitle))
 {
-	$title = JFactory::getApplication()->JComponentTitle;
+	$title = $app->JComponentTitle;
 }
 
-require JModuleHelper::getLayoutPath('mod_title', $params->get('layout', 'default'));
+require ModuleHelper::getLayoutPath('mod_title', $params->get('layout', 'default'));

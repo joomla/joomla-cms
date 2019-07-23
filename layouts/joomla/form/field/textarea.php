@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,28 +44,25 @@ extract($displayData);
  * @var   string   $accept          File types that are accepted.
  */
 
-// Including fallback code for HTML5 non supported browsers.
-JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true));
-
 // Initialize some field attributes.
 $autocomplete = !$autocomplete ? 'autocomplete="off"' : 'autocomplete="' . $autocomplete . '"';
-$autocomplete = $autocomplete == 'autocomplete="on"' ? '' : $autocomplete;
+$autocomplete = $autocomplete === 'autocomplete="on"' ? '' : $autocomplete;
 
 $attributes = array(
-	$columns ? $columns : '',
-	$rows ? $rows : '',
-	!empty($class) ? 'class="' . $class . '"' : '',
-	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
+	$columns ?: '',
+	$rows ?: '',
+	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
+	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
+	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	$onchange ? 'onchange="' . $onchange . '"' : '',
 	$onclick ? 'onclick="' . $onclick . '"' : '',
-	$required ? 'required aria-required="true"' : '',
+	$required ? 'required' : '',
 	$autocomplete,
 	$autofocus ? 'autofocus' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
-	$maxlength ? 'maxlength="' . $maxlength . '"' : ''
+	$maxlength ? $maxlength: ''
 
 );
 ?>
@@ -73,4 +70,3 @@ $attributes = array(
 echo $name; ?>" id="<?php
 echo $id; ?>" <?php
 echo implode(' ', $attributes); ?> ><?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?></textarea>
-

@@ -3,12 +3,13 @@
 	<name>mod_login</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_LOGIN_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Login</namespace>
 	<files>
 		<filename module="mod_login">mod_login.php</filename>
 		<folder>tmpl</folder>
@@ -21,14 +22,11 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LOGIN" />
 	<config>
 		<fields name="params">
-			<fieldset name="basic"
-				addfieldpath="/administrator/components/com_menus/models/fields">
-			>
+			<fieldset name="basic" addfieldprefix="Joomla\Component\Menus\Administrator\Field">
 				<field
 					name="pretext"
 					type="textarea"
 					label="MOD_LOGIN_FIELD_PRE_TEXT_LABEL"
-					description="MOD_LOGIN_FIELD_PRE_TEXT_DESC"
 					filter="safehtml"
 					cols="30"
 					rows="5"
@@ -38,7 +36,6 @@
 					name="posttext"
 					type="textarea"
 					label="MOD_LOGIN_FIELD_POST_TEXT_LABEL"
-					description="MOD_LOGIN_FIELD_POST_TEXT_DESC"
 					filter="safehtml"
 					cols="30"
 					rows="5"
@@ -48,7 +45,6 @@
 					name="login"
 					type="modal_menu"
 					label="MOD_LOGIN_FIELD_LOGIN_REDIRECTURL_LABEL"
-					description="MOD_LOGIN_FIELD_LOGIN_REDIRECTURL_DESC"
 					disable="separator,alias,heading,url"
 					select="true"
 					new="true"
@@ -62,7 +58,6 @@
 					name="logout"
 					type="modal_menu"
 					label="MOD_LOGIN_FIELD_LOGOUT_REDIRECTURL_LABEL"
-					description="MOD_LOGIN_FIELD_LOGOUT_REDIRECTURL_DESC"
 					disable="separator,alias,heading,url"
 					select="true"
 					new="true"
@@ -75,31 +70,22 @@
 				<field
 					name="greeting"
 					type="radio"
+					class="switcher"
 					label="MOD_LOGIN_FIELD_GREETING_LABEL"
-					description="MOD_LOGIN_FIELD_GREETING_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
-				<field
-					name="profilelink"
-					type="radio"
-					label="MOD_LOGIN_FIELD_PROFILE_LABEL"
-					description="MOD_LOGIN_FIELD_PROFILE_DESC"
-					class="btn-group btn-group-yesno"
-					default="0"
-					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
+
 				<field
 					name="name"
-					type="list"
+					type="radio"
+					class="switcher"
 					label="MOD_LOGIN_FIELD_NAME_LABEL"
-					description="MOD_LOGIN_FIELD_NAME_DESC"
 					default="0"
+					filter="integer"
 					showon="greeting:1"
 					>
 					<option value="0">MOD_LOGIN_VALUE_NAME</option>
@@ -107,23 +93,24 @@
 				</field>
 
 				<field
-					name="usesecure"
+					name="profilelink"
 					type="radio"
-					label="MOD_LOGIN_FIELD_USESECURE_LABEL"
-					description="MOD_LOGIN_FIELD_USESECURE_DESC"
-					class="btn-group btn-group-yesno"
+					label="MOD_LOGIN_FIELD_PROFILE_LABEL"
+					class="switcher"
 					default="0"
+					filter="integer"
 					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="usetext"
-					type="list"
+					type="radio"
+					class="switcher"
 					label="MOD_LOGIN_FIELD_USETEXT_LABEL"
-					description="MOD_LOGIN_FIELD_USETEXT_DESC"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">MOD_LOGIN_VALUE_ICONS</option>
 					<option value="1">MOD_LOGIN_VALUE_TEXT</option>
@@ -135,26 +122,15 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					class="custom-select"
 				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
 				/>
-
-				<field
-					name="cache"
-					type="list"
-					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
-					default="0"
-					>
-					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
-				</field>
 			</fieldset>
 		</fields>
 	</config>

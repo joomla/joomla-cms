@@ -2,87 +2,90 @@
 /**
  * @package	Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license	GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
+
 /** @var JDocumentHtml $this */
 
-// Output as HTML5
-$this->setHtml5(true);
-
-// Load the JavaScript behaviors
-JHtml::_('bootstrap.framework');
-JHtml::_('formbehavior.chosen', 'select');
-JHtml::_('behavior.keepalive');
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.core');
-JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
-
-// Add installation js
-JHtml::_('script', 'installation/template/js/installation.js', array('version' => 'auto'));
-
-// Add html5 shiv
-JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
-
 // Add Stylesheets
-JHtml::_('bootstrap.loadCss', true, $this->direction);
-JHtml::_('stylesheet', 'installation/template/css/template.css', array('version' => 'auto'));
+// Load the template CSS file
+HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'installation/template/css/joomla-alert.min.css', ['version' => 'auto']);
 
-// Load JavaScript message titles
-JText::script('ERROR');
-JText::script('WARNING');
-JText::script('NOTICE');
-JText::script('MESSAGE');
-
-// Add strings for JavaScript error translations.
-JText::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');
-JText::script('JLIB_JS_AJAX_ERROR_NO_CONTENT');
-JText::script('JLIB_JS_AJAX_ERROR_OTHER');
-JText::script('JLIB_JS_AJAX_ERROR_PARSE');
-JText::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
-
-// Load the JavaScript translated messages
-JText::script('INSTL_PROCESS_BUSY');
-JText::script('INSTL_FTP_SETTINGS_CORRECT');
+// Add scripts
+HTMLHelper::_('behavior.core');
+HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('script', 'installation/template/js/template.js', ['version' => 'auto']);
+HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Add script options
-$this->addScriptOptions('system.installation', array('url' => JRoute::_('index.php')));
+$this->addScriptOptions('system.installation', ['url' => Route::_('index.php')]);
+
+// Load JavaScript message titles
+Text::script('ERROR');
+Text::script('WARNING');
+Text::script('NOTICE');
+Text::script('MESSAGE');
+
+// Add strings for JavaScript error translations.
+Text::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');
+Text::script('JLIB_JS_AJAX_ERROR_NO_CONTENT');
+Text::script('JLIB_JS_AJAX_ERROR_OTHER');
+Text::script('JLIB_JS_AJAX_ERROR_PARSE');
+Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
+
+// Load the JavaScript translated messages
+Text::script('INSTL_PROCESS_BUSY');
+Text::script('INSTL_FTP_SETTINGS_CORRECT');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 	<head>
-		<jdoc:include type="head" />
-		<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
+		<jdoc:include type="metas" />
+		<jdoc:include type="styles" />
 	</head>
-	<body data-basepath="<?php echo JUri::root(true); ?>">
-		<!-- Header -->
-		<div class="header">
-			<img src="<?php echo $this->baseurl; ?>/template/images/joomla.png" alt="Joomla" />
-			<hr />
-			<h5>
-				<?php // Fix wrong display of Joomla!® in RTL language ?>
-				<?php $joomla  = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>' . (JFactory::getLanguage()->isRtl() ? '&#x200E;' : '') . '</sup>'; ?>
-				<?php $license = '<a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html" target="_blank">' . JText::_('INSTL_GNU_GPL_LICENSE') . '</a>'; ?>
-				<?php echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla, $license); ?>
-			</h5>
-		</div>
-		<!-- Container -->
-		<div class="container">
-			<jdoc:include type="message" />
-			<div id="javascript-warning">
-				<noscript>
-					<div class="alert alert-error">
-						<?php echo JText::_('INSTL_WARNJAVASCRIPT'); ?>
-					</div>
-				</noscript>
-			</div>
-			<div id="container-installation">
-				<jdoc:include type="component" />
-			</div>
-			<hr />
+	<body data-basepath="<?php echo Uri::root(true); ?>">
+		<div class="j-install">
+			<?php // Header ?>
+			<header class="j-header" role="banner">
+				<div class="j-header-logo">
+					<img src="<?php echo $this->baseurl; ?>/template/images/logo.svg" alt="" class="logo"/>
+				</div>
+				<div class="j-header-help">
+					<a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla">
+						<span class="fa fa-lightbulb" aria-hidden="true"></span>
+						<span class="sr-only"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
+					</a>
+				</div>
+			</header>
+			<?php // Container ?>
+			<main class="j-container">
+				<h1><?php echo Text::_('INSTL_PAGE_TITLE'); ?></h1>
+				<jdoc:include type="message" />
+				<div id="javascript-warning">
+					<noscript>
+						<?php echo Text::_('INSTL_WARNJAVASCRIPT'); ?>
+					</noscript>
+				</div>
+				<div id="container-installation" class="container-installation flex no-js" data-base-url="<?php echo Uri::root(); ?>" style="display:none">
+					<jdoc:include type="component" />
+				</div>
+			</main>
+			<jdoc:include type="scripts" />
+			<footer class="j-footer">
+				<a href="https://www.joomla.org" target="_blank">Joomla!</a>
+				is free software released under the
+				<a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html" target="_blank" rel="noopener noreferrer">GNU General Public License</a>
+			</footer>
 		</div>
 	</body>
 </html>

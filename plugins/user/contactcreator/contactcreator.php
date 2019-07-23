@@ -3,12 +3,16 @@
  * @package     Joomla.Plugin
  * @subpackage  User.contactcreator
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Table\Table;
 use Joomla\String\StringHelper;
 
 /**
@@ -18,7 +22,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.6
  */
-class PlgUserContactCreator extends JPlugin
+class PlgUserContactCreator extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -35,10 +39,10 @@ class PlgUserContactCreator extends JPlugin
 	 *
 	 * @param   array    $user     Holds the new user data.
 	 * @param   boolean  $isnew    True if a new user is stored.
-	 * @param   boolean  $success  True if user was succesfully stored in the database.
+	 * @param   boolean  $success  True if user was successfully stored in the database.
 	 * @param   string   $msg      Message.
 	 *
-	 * @return  void
+	 * @return  boolean
 	 *
 	 * @since   1.6
 	 */
@@ -69,7 +73,7 @@ class PlgUserContactCreator extends JPlugin
 
 		if (empty($categoryId))
 		{
-			JError::raiseWarning('', JText::_('PLG_CONTACTCREATOR_ERR_NO_CATEGORY'));
+			Factory::getApplication()->enqueueMessage(Text::_('PLG_CONTACTCREATOR_ERR_NO_CATEGORY'), 'error');
 
 			return false;
 		}
@@ -89,7 +93,7 @@ class PlgUserContactCreator extends JPlugin
 			$contact->user_id  = $user_id;
 			$contact->email_to = $user['email'];
 			$contact->catid    = $categoryId;
-			$contact->access   = (int) JFactory::getConfig()->get('access');
+			$contact->access   = (int) Factory::getApplication()->get('access');
 			$contact->language = '*';
 			$contact->generateAlias();
 
@@ -122,7 +126,7 @@ class PlgUserContactCreator extends JPlugin
 			}
 		}
 
-		JError::raiseWarning('', JText::_('PLG_CONTACTCREATOR_ERR_FAILED_CREATING_CONTACT'));
+		Factory::getApplication()->enqueueMessage(Text::_('PLG_CONTACTCREATOR_ERR_FAILED_CREATING_CONTACT'), 'error');
 
 		return false;
 	}
@@ -144,7 +148,7 @@ class PlgUserContactCreator extends JPlugin
 
 		while ($table->load(array('alias' => $alias, 'catid' => $categoryId)))
 		{
-			if ($name == $table->name)
+			if ($name === $table->name)
 			{
 				$name = StringHelper::increment($name);
 			}
@@ -164,8 +168,8 @@ class PlgUserContactCreator extends JPlugin
 	 */
 	protected function getContactTable()
 	{
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_contact/tables');
+		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_contact/tables');
 
-		return JTable::getInstance('contact', 'ContactTable');
+		return Table::getInstance('contact', 'ContactTable');
 	}
 }

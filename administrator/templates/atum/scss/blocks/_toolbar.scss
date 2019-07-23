@@ -1,0 +1,81 @@
+// Toolbar
+
+.subhead {
+  position: sticky;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1040;
+  width: auto;
+  min-height: 43px;
+  padding: 13px 0;
+  color: #0c192e;
+  background: var(--main-bg);
+
+  .row {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .btn-toolbar {
+    margin-bottom: 0;
+
+    > * {
+      margin-left: .75rem;
+      box-shadow: $atum-box-shadow;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+
+  .btn {
+    padding: 0 22px;
+    font-size: 1rem;
+    line-height: $atum-toolbar-line-height;
+
+    [class^='icon-'],
+    [class*=' icon-'],
+    [class^='#{$fa-css-prefix}-'],
+    [class*=' #{$fa-css-prefix}-'] {
+      z-index: -1;
+      display: inline-block;
+      width: 38px;
+      height: auto;
+      margin: 0 16px 0 -22px;
+      line-height: $atum-toolbar-line-height;
+      color: var(--white);
+      background-color: rgba(0, 0, 0, .2);
+    }
+
+    &[disabled],
+    &.dropdown-toggle[disabled] {
+      background-color: $gray-600;
+      border-color: $gray-600;
+    }
+  }
+
+  .dropdown-toggle {
+
+    &.btn {
+      background-color: rgba(0, 0, 0, .2);
+    }
+
+    &.btn-primary {
+      background-color: darken(theme-color("primary"), 8%);
+    }
+
+    &.btn-success {
+      background-color: darken(theme-color("success"), 8%);
+    }
+
+    &.btn-info {
+      background-color: darken(theme-color("info"), 8%);
+    }
+
+    &.btn-danger {
+      background-color: darken(theme-color("danger"), 8%);
+    }
+  }
+}

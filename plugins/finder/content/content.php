@@ -3,12 +3,16 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Registry\Registry;
 
 JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
@@ -69,6 +73,18 @@ class PlgFinderContent extends FinderIndexerAdapter
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Method to setup the indexer to be run.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   2.5
+	 */
+	protected function setup()
+	{
+		return true;
+	}
+
+	/**
 	 * Method to update the item link information when the item category is
 	 * changed. This is fired when the item category is published or unpublished
 	 * from the list view.
@@ -84,7 +100,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 	public function onFinderCategoryChangeState($extension, $pks, $value)
 	{
 		// Make sure we're handling com_content categories.
-		if ($extension == 'com_content')
+		if ($extension === 'com_content')
 		{
 			$this->categoryStateChange($pks, $value);
 		}
@@ -103,11 +119,11 @@ class PlgFinderContent extends FinderIndexerAdapter
 	 */
 	public function onFinderAfterDelete($context, $table)
 	{
-		if ($context == 'com_content.article')
+		if ($context === 'com_content.article')
 		{
 			$id = $table->id;
 		}
-		elseif ($context == 'com_finder.index')
+		elseif ($context === 'com_finder.index')
 		{
 			$id = $table->link_id;
 		}
@@ -138,7 +154,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 	public function onFinderAfterSave($context, $row, $isNew)
 	{
 		// We only want to handle articles here.
-		if ($context == 'com_content.article' || $context == 'com_content.form')
+		if ($context === 'com_content.article' || $context === 'com_content.form')
 		{
 			// Check if the access levels are different.
 			if (!$isNew && $this->old_access != $row->access)
@@ -152,7 +168,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		}
 
 		// Check for access changes in the category.
-		if ($context == 'com_categories.category')
+		if ($context === 'com_categories.category')
 		{
 			// Check if the access levels are different.
 			if (!$isNew && $this->old_cataccess != $row->access)
@@ -180,7 +196,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 	public function onFinderBeforeSave($context, $row, $isNew)
 	{
 		// We only want to handle articles here.
-		if ($context == 'com_content.article' || $context == 'com_content.form')
+		if ($context === 'com_content.article' || $context === 'com_content.form')
 		{
 			// Query the database for the old access level if the item isn't new.
 			if (!$isNew)
@@ -190,7 +206,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		}
 
 		// Check for access levels from the category.
-		if ($context == 'com_categories.category')
+		if ($context === 'com_categories.category')
 		{
 			// Query the database for the old access level if the item isn't new.
 			if (!$isNew)
@@ -218,13 +234,13 @@ class PlgFinderContent extends FinderIndexerAdapter
 	public function onFinderChangeState($context, $pks, $value)
 	{
 		// We only want to handle articles here.
-		if ($context == 'com_content.article' || $context == 'com_content.form')
+		if ($context === 'com_content.article' || $context === 'com_content.form')
 		{
 			$this->itemStateChange($pks, $value);
 		}
 
 		// Handle when the plugin is disabled.
-		if ($context == 'com_plugins.plugin' && $value === 0)
+		if ($context === 'com_plugins.plugin' && $value === 0)
 		{
 			$this->pluginDisable($pks);
 		}
@@ -233,39 +249,41 @@ class PlgFinderContent extends FinderIndexerAdapter
 	/**
 	 * Method to index an item. The item must be a FinderIndexerResult object.
 	 *
-	 * @param   FinderIndexerResult  $item    The item to index as an FinderIndexerResult object.
-	 * @param   string               $format  The item format.  Not used.
+	 * @param   FinderIndexerResult  $item  The item to index as a FinderIndexerResult object.
 	 *
 	 * @return  void
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	protected function index(FinderIndexerResult $item, $format = 'html')
+	protected function index(FinderIndexerResult $item)
 	{
 		$item->setLanguage();
 
 		// Check if the extension is enabled.
-		if (JComponentHelper::isEnabled($this->extension) == false)
+		if (ComponentHelper::isEnabled($this->extension) === false)
 		{
 			return;
 		}
 
+		$item->context = 'com_content.article';
+
 		// Initialise the item parameters.
 		$registry = new Registry($item->params);
-		$item->params = JComponentHelper::getParams('com_content', true);
+		$item->params = ComponentHelper::getParams('com_content', true);
 		$item->params->merge($registry);
 
 		$item->metadata = new Registry($item->metadata);
 
 		// Trigger the onContentPrepare event.
-		$item->summary = FinderIndexerHelper::prepareContent($item->summary, $item->params);
-		$item->body = FinderIndexerHelper::prepareContent($item->body, $item->params);
+		$item->summary = FinderIndexerHelper::prepareContent($item->summary, $item->params, $item);
+		$item->body    = FinderIndexerHelper::prepareContent($item->body, $item->params, $item);
+
+		// Create a URL as identifier to recognise items again.
+		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
 
 		// Build the necessary route and path information.
-		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
 		$item->route = ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language);
-		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		// Get the menu title if it exists.
 		$title = $this->getItemMenuTitle($item->url);
@@ -299,7 +317,9 @@ class PlgFinderContent extends FinderIndexerAdapter
 		}
 
 		// Add the category taxonomy data.
-		$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
+		$categories = Categories::getInstance('com_content');
+		$category = $categories->get($item->catid);
+		$item->addNestedTaxonomy('Category', $category, $category->published, $category->access, $category->language);
 
 		// Add the language taxonomy data.
 		$item->addTaxonomy('Language', $item->language);
@@ -309,21 +329,6 @@ class PlgFinderContent extends FinderIndexerAdapter
 
 		// Index the item.
 		$this->indexer->index($item);
-	}
-
-	/**
-	 * Method to setup the indexer to be run.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   2.5
-	 */
-	protected function setup()
-	{
-		// Load dependent classes.
-		JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-
-		return true;
 	}
 
 	/**
@@ -337,11 +342,12 @@ class PlgFinderContent extends FinderIndexerAdapter
 	 */
 	protected function getListQuery($query = null)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Check if we can use the supplied SQL query.
-		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
+		$query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
 			->select('a.id, a.title, a.alias, a.introtext AS summary, a.fulltext AS body')
+			->select('a.images')
 			->select('a.state, a.catid, a.created AS start_date, a.created_by')
 			->select('a.created_by_alias, a.modified, a.modified_by, a.attribs AS params')
 			->select('a.metakey, a.metadesc, a.metadata, a.language, a.access, a.version, a.ordering')

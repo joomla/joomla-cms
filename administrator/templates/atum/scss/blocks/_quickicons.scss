@@ -1,0 +1,66 @@
+// Quick Icons
+
+.quick-icons {
+  ul {
+    display: inline;
+    list-style: none;
+  }
+
+  li {
+    float: left;
+  }
+
+  a {
+    display: inline-flex;
+    flex-direction: column;
+    width: 140px;
+    height: 120px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    color: var(--primary-dark);
+    text-align: center;
+    background: $quickicon-bg;
+    box-shadow: $quickicon-box-shadow;
+    transition: all .25s ease;
+
+    > div {
+      flex: 1 0 0;
+    }
+
+    &:hover,
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      box-shadow: $quickicon-box-shadow-hover;
+    }
+
+    .j-links-link {
+      display: block;
+      width: 100%;
+      padding: 0 1rem;
+      font-size: 1rem;
+      line-height: 1.1;
+    }
+
+    .fa,
+    .fab {
+      margin: 5px auto 0;
+      font-size: 2.5rem;
+    }
+
+    &.warning {
+      color: var(--warning);
+      box-shadow: $quickicon-box-shadow-warning;
+    }
+
+    &.danger {
+      color: var(--danger);
+      box-shadow: $quickicon-box-shadow-danger;
+    }
+
+    &.success {
+      color: var(--success);
+      box-shadow: $quickicon-box-shadow-success;
+    }
+  }
+}

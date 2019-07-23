@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * This file contains post-installation message handling for eAccelerator compatibility.
@@ -11,6 +11,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -28,7 +33,7 @@ use Joomla\Utilities\ArrayHelper;
  */
 function admin_postinstall_eaccelerator_condition()
 {
-	$app = JFactory::getApplication();
+	$app = Factory::getApplication();
 	$cacheHandler = $app->get('cacheHandler', '');
 
 	return (ucfirst($cacheHandler) == 'Eaccelerator');
@@ -48,34 +53,31 @@ function admin_postinstall_eaccelerator_action()
 
 	$config = new Registry($data);
 
-	jimport('joomla.filesystem.path');
-	jimport('joomla.filesystem.file');
-
 	// Set the configuration file path.
 	$file = JPATH_CONFIGURATION . '/configuration.php';
 
 	// Get the new FTP credentials.
-	$ftp = JClientHelper::getCredentials('ftp', true);
+	$ftp = ClientHelper::getCredentials('ftp', true);
 
 	// Attempt to make the file writeable if using FTP.
-	if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0644'))
+	if (!$ftp['enabled'] && Path::isOwner($file) && !Path::setPermissions($file, '0644'))
 	{
-		JError::raiseNotice('SOME_ERROR_CODE', JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'));
+		Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
 	}
 
 	// Attempt to write the configuration file as a PHP class named JConfig.
 	$configuration = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
 
-	if (!JFile::write($file, $configuration))
+	if (!File::write($file, $configuration))
 	{
-		JFactory::getApplication()->enqueueMessage(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'), 'error');
+		Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'), 'error');
 
 		return;
 	}
 
 	// Attempt to make the file unwriteable if using FTP.
-	if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444'))
+	if (!$ftp['enabled'] && Path::isOwner($file) && !Path::setPermissions($file, '0444'))
 	{
-		JError::raiseNotice('SOME_ERROR_CODE', JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'));
+		Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
 	}
 }

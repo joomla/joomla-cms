@@ -3,11 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $attributes = array();
 
@@ -30,7 +33,15 @@ $linktype = $item->title;
 
 if ($item->menu_image)
 {
-	$linktype = JHtml::_('image', $item->menu_image, $item->title);
+	if ($item->menu_image_css)
+	{
+		$image_attributes['class'] = $item->menu_image_css;
+		$linktype = HTMLHelper::_('image', $item->menu_image, $item->title, $image_attributes);
+	}
+	else
+	{
+		$linktype = HTMLHelper::_('image', $item->menu_image, $item->title);
+	}
 
 	if ($item->params->get('menu_text', 1))
 	{
@@ -41,6 +52,12 @@ if ($item->menu_image)
 if ($item->browserNav == 1)
 {
 	$attributes['target'] = '_blank';
+	$attributes['rel'] = 'noopener noreferrer';
+
+	if ($item->anchor_rel == 'nofollow')
+	{
+		$attributes['rel'] .= ' nofollow';
+	}
 }
 elseif ($item->browserNav == 2)
 {
@@ -49,4 +66,4 @@ elseif ($item->browserNav == 2)
 	$attributes['onclick'] = "window.open(this.href, 'targetWindow', '" . $options . "'); return false;";
 }
 
-echo JHtml::_('link', JFilterOutput::ampReplace(htmlspecialchars($item->flink, ENT_COMPAT, 'UTF-8')), $linktype, $attributes);
+echo HTMLHelper::_('link', OutputFilter::ampReplace(htmlspecialchars($item->flink, ENT_COMPAT, 'UTF-8', false)), $linktype, $attributes);
