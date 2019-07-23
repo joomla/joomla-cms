@@ -273,16 +273,20 @@ Joomla = window.Joomla || {};
       }
 
       if (self.clearListOptions) {
-        self.getListFields().forEach((i) => {
-          i.value = '';
-          self.checkFilter(i);
+        if (self.getListFields()) {  
+          self.getListFields().forEach(i => {
+            i.value = '';
+            self.checkFilter(i);
+          });
 
           if (window.jQuery && window.jQuery.chosen) {
-            window.jQuery(i).trigger('chosen:updated');
+            window.jQuery('#list_limit').trigger('chosen:updated');
           }
-        });
+        }
+      }
 
-        // Special case to limit box to the default config limit
+      // Special case to limit box to the default config limit
+      if (document.querySelector('#list_limit')) {
         document.querySelector('#list_limit').value = self.options.defaultLimit;
 
         if (window.jQuery && window.jQuery.chosen) {
@@ -333,8 +337,10 @@ Joomla = window.Joomla || {};
     }
 
     getListFields() {
-      return Array.prototype.slice.call(this.listContainer.querySelectorAll('select'));
-    }
+      if (this.listContainer) {
+        return Array.prototype.slice.call(this.listContainer.querySelectorAll('select'));
+			}
+		}
 
     // Common container functions
     // eslint-disable-next-line class-methods-use-this
