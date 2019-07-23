@@ -114,8 +114,10 @@ class FeaturedModel extends ArticlesModel
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the parent categories.
-		$query->select('parent.title AS parent_category_title, parent.id AS parent_category_id, 
-								parent.created_user_id AS parent_category_uid, parent.level AS parent_category_level')
+		$query->select(
+			'parent.title AS parent_category_title, parent.id AS parent_category_id, 
+			parent.created_user_id AS parent_category_uid, parent.level AS parent_category_level'
+		)
 			->join('LEFT', '#__categories AS parent ON parent.id = c.parent_id');
 
 		// Join over the users for the author.
@@ -128,26 +130,27 @@ class FeaturedModel extends ArticlesModel
 
 		// Join over the workflow stages.
 		$query	->select(
-					$query->quoteName(
-					[
-						'ws.title',
-						'ws.condition',
-						'ws.workflow_id'
-					],
-					[
-						'stage_title',
-						'stage_condition',
-						'workflow_id'
-					]
-					)
-				)
-				->join('INNER', '#__workflow_stages AS ws ON ' . $query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id'));
+			$query->quoteName(
+				[
+					'ws.title',
+					'ws.condition',
+					'ws.workflow_id'
+				],
+				[
+					'stage_title',
+					'stage_condition',
+					'workflow_id'
+				]
+			)
+		)
+			->join('INNER', '#__workflow_stages AS ws ON ' . $query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id'));
 
 		// Join on voting table
 		if (PluginHelper::isEnabled('content', 'vote'))
 		{
 			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
-							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
+				COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count'
+			)
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 		}
 

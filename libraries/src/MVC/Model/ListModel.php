@@ -17,7 +17,6 @@ use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\Database\DatabaseQuery;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Model class for handling lists of items.

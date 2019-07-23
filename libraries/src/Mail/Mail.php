@@ -67,6 +67,17 @@ class Mail extends PHPMailer
 
 		// Don't disclose the PHPMailer version
 		$this->XMailer = ' ';
+
+		/*
+		 * PHPMailer 5.2 can't validate e-mail addresses with the new regex library used in PHP 7.3+
+		 * Setting $validator to "php" uses the native php function filter_var
+		 *
+		 * @see https://github.com/joomla/joomla-cms/issues/24707
+		 */
+		if (version_compare(PHP_VERSION, '7.3.0', '>='))
+		{
+			PHPMailer::$validator = 'php';
+		}
 	}
 
 	/**
@@ -149,7 +160,7 @@ class Mail extends PHPMailer
 			return $result;
 		}
 
-		Factory::getApplication()->enqueueMessage(Text::_('JLIB_MAIL_FUNCTION_OFFLINE'));
+		Factory::getApplication()->enqueueMessage(Text::_('JLIB_MAIL_FUNCTION_OFFLINE'), 'warning');
 
 		return false;
 	}
@@ -626,7 +637,8 @@ class Mail extends PHPMailer
 	 * @throws  phpmailerException  if exception throwing is enabled
 	 */
 	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode = false, $cc = null, $bcc = null, $attachment = null,
-		$replyTo = null, $replyToName = null)
+		$replyTo = null, $replyToName = null
+	)
 	{
 		// Create config object
 		$app = Factory::getApplication();

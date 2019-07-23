@@ -228,8 +228,10 @@ class ArticlesModel extends ListModel
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the parent categories.
-		$query->select('parent.title AS parent_category_title, parent.id AS parent_category_id,
-								parent.created_user_id AS parent_category_uid, parent.level AS parent_category_level')
+		$query->select(
+			'parent.title AS parent_category_title, parent.id AS parent_category_id,' .
+			'parent.created_user_id AS parent_category_uid, parent.level AS parent_category_level'
+		)
 			->join('LEFT', '#__categories AS parent ON parent.id = c.parent_id');
 
 		// Join over the users for the author.
@@ -239,7 +241,7 @@ class ArticlesModel extends ListModel
 		// Join over the associations.
 		$query->select($query->quoteName('wa.stage_id', 'stage_id'))
 			->innerJoin(
-				$query->quoteName('#__workflow_associations', 'wa') 
+				$query->quoteName('#__workflow_associations', 'wa')
 				. ' ON ' . $query->quoteName('wa.item_id') . ' = ' . $query->quoteName('a.id')
 			);
 
@@ -258,10 +260,10 @@ class ArticlesModel extends ListModel
 				]
 			)
 		)
-		->innerJoin(
-			$query->quoteName('#__workflow_stages', 'ws')
-			. ' ON ' . $query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id')
-		);
+			->innerJoin(
+				$query->quoteName('#__workflow_stages', 'ws')
+				. ' ON ' . $query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id')
+			);
 
 		// Join on voting table
 		$associationsGroupBy = array(
@@ -301,7 +303,8 @@ class ArticlesModel extends ListModel
 		if (PluginHelper::isEnabled('content', 'vote'))
 		{
 			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
-					COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
+				COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count'
+			)
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 
 			array_push($associationsGroupBy, 'v.rating_sum', 'v.rating_count');

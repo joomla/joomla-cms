@@ -12,6 +12,7 @@ namespace Joomla\Component\Cache\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Cache\CacheController;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Factory;
@@ -237,7 +238,7 @@ class CacheModel extends ListModel
 	{
 		try
 		{
-			return $this->getCache()->clean($group);
+			$this->getCache()->clean($group);
 		}
 		catch (CacheConnectingException $exception)
 		{
@@ -247,6 +248,10 @@ class CacheModel extends ListModel
 		{
 			return false;
 		}
+
+		Factory::getApplication()->triggerEvent('onAfterPurge', array($group));
+
+		return true;
 	}
 
 	/**
@@ -280,7 +285,7 @@ class CacheModel extends ListModel
 	{
 		try
 		{
-			return Factory::getCache('')->gc();
+			Factory::getCache('')->gc();
 		}
 		catch (CacheConnectingException $exception)
 		{
@@ -290,5 +295,9 @@ class CacheModel extends ListModel
 		{
 			return false;
 		}
+
+		Factory::getApplication()->triggerEvent('onAfterPurge', array());
+
+		return true;
 	}
 }
