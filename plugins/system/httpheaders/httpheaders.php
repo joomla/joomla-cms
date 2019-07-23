@@ -309,7 +309,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			$hstsOptions[] = 'includeSubDomains';
 		}
 
-		if ($this->params->get('hsts_preload', 0))
+		if ($this->params->get('hsts_preload', 0) === 1)
 		{
 			$hstsOptions[] = 'preload';
 		}
