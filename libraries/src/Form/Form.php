@@ -2090,11 +2090,11 @@ class Form
 		// Define field name for messages
 		if ($element['label'])
 		{
-			$fieldName = \JText::_($element['label']);
+			$fieldLabel = \JText::_($element['label']);
 		}
 		else
 		{
-			$fieldName = \JText::_($element['name']);
+			$fieldLabel = \JText::_($element['name']);
 		}
 
 		// Check if the field is required.
@@ -2109,7 +2109,7 @@ class Form
 			// If the field is disabled but it is passed in the request this is invalid as disabled fields are not added to the request
 			if ($disabled && $fieldExistsInRequestData)
 			{
-				$message = \JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $fieldName);
+				$message = \JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $fieldLabel);
 
 				return new \RuntimeException($message);
 			}
@@ -2120,7 +2120,7 @@ class Form
 			// If the field is required and the value is empty return an error message.
 			if (($value === '') || ($value === null))
 			{
-				$message = \JText::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $fieldName);
+				$message = \JText::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $fieldLabel);
 
 				return new \RuntimeException($message);
 			}
@@ -2197,7 +2197,7 @@ class Form
 			}
 			else
 			{
-				$message = \JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $fieldName);
+				$message = \JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $fieldLabel);
 
 				return new \UnexpectedValueException($message);
 			}
