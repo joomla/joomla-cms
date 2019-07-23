@@ -11,9 +11,10 @@ namespace Joomla\Component\Content\Administrator\Field;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 
-\JFormHelper::loadFieldClass('radio');
+FormHelper::loadFieldClass('radio');
 
 /**
  * Voteradio Field class.

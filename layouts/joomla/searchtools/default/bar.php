@@ -42,6 +42,11 @@ $filters = $data['view']->filterForm->getGroup('filter');
 						<?php endif; ?>
 					</label>
 					<?php echo $filters['filter_search']->input; ?>
+					<?php if ($filters['filter_search']->description) : ?>
+					<div role="tooltip" id="<?php echo $filters['filter_search']->name . '-desc'; ?>">
+						<?php echo htmlspecialchars(Text::_($filters['filter_search']->description), ENT_COMPAT, 'UTF-8'); ?>
+					</div>
+					<?php endif; ?>
 					<span class="input-group-append">
 						<button type="submit" class="btn btn-primary" aria-label="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>">
 							<span class="fa fa-search" aria-hidden="true"></span>
@@ -53,7 +58,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 				<?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?>
 			</button>
 			<div class="btn-group">
-				<button type="button" class="btn btn-primary hasTooltip js-stools-btn-filter">
+				<button type="button" class="btn btn-primary js-stools-btn-filter">
 					<?php echo Text::_('JFILTER_OPTIONS'); ?>
 					<span class="fa fa-caret-down" aria-hidden="true"></span>
 				</button>

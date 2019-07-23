@@ -11,12 +11,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
-
-HTMLHelper::_('bootstrap.popover');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -49,12 +48,17 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 							<th scope="col">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'l.title', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
+							<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_TYPE', 't.title', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_DATE', 'l.indexdate', $listDirn, $listOrder); ?>
 							</th>
+							<?php if (Multilanguage::isEnabled()) : ?>
+								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
+									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.language', $listDirn, $listOrder); ?>
+								</th>
+							<?php endif; ?>
 							<th scope="col" style="width:15%" class="text-center d-none d-md-table-cell text-center">
 								<?php echo Text::_('COM_FINDER_INDEX_HEADING_DETAILS'); ?>
 							</th>
@@ -78,7 +82,7 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 									<?php echo $this->escape($item->title); ?>
 								</label>
 							</th>
-							<td class="small d-none d-md-table-cell text-center">
+							<td class="small d-none d-md-table-cell">
 								<?php
 								$key = FinderHelperLanguage::branchSingular($item->t_title);
 								echo $lang->hasKey($key) ? Text::_($key) : $item->t_title;
@@ -87,10 +91,20 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 							<td class="small d-none d-md-table-cell text-center">
 								<?php echo HTMLHelper::_('date', $item->indexdate, Text::_('DATE_FORMAT_LC4')); ?>
 							</td>
+							<?php if (Multilanguage::isEnabled()) : ?>
+								<td class="small d-none d-md-table-cell">
+									<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
+								</td>
+							<?php endif; ?>
 							<td class="text-center d-none d-md-table-cell text-center">
 								<?php if ((int) $item->publish_start_date or (int) $item->publish_end_date or (int) $item->start_date or (int) $item->end_date) : ?>
-									<span class="icon-calendar pop hasPopover" aria-hidden="true" data-placement="left" title="<?php echo Text::_('COM_FINDER_INDEX_DATE_INFO_TITLE'); ?>" data-content="<?php echo Text::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?>"></span>
-									<span class="sr-only"><?php echo Text::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?></span>
+									<span tabindex="0">
+										<span class="icon-calendar" aria-hidden="true"></span>
+										<span class="sr-only"><?php echo Text::_('COM_FINDER_INDEX_DATE_INFO_TITLE'); ?></span>
+									</span>
+									<div role="tooltip" id="tip<?php echo $i; ?>">
+										<?php echo Text::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?>
+									</div>
 								<?php endif; ?>
 							</td>
 							<td class="small break-word d-none d-md-table-cell">

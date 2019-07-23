@@ -12,6 +12,7 @@ const _JEXEC = 1;
 // Import namespaced classes
 use Joomla\CMS\Application\CliApplication;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 
@@ -68,7 +69,7 @@ class MediawikiCli extends CliApplication
 		$namespace    = 'Help' . str_replace('.', '', $minorVersion) . ':';
 
 		// Set up HTTP driver for MediaWiki
-		$http = new \Joomla\Mediawiki\Http([], JHttpFactory::getAvailableDriver());
+		$http = new \Joomla\Mediawiki\Http([], HttpFactory::getAvailableDriver());
 
 		// Set up options for JMediawiki
 		$options = new Registry;

@@ -11,7 +11,6 @@ namespace Joomla\Component\Contact\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 use Joomla\Utilities\ArrayHelper;
@@ -40,7 +39,7 @@ class ContactController extends FormController
 		if ($categoryId)
 		{
 			// If the category has been passed in the URL check it.
-			$allow = Factory::getUser()->authorise('core.create', $this->option . '.category.' . $categoryId);
+			$allow = $this->app->getIdentity()->authorise('core.create', $this->option . '.category.' . $categoryId);
 		}
 
 		if ($allow === null)
@@ -81,7 +80,7 @@ class ContactController extends FormController
 			return false;
 		}
 
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
 		// Check if can edit own core.edit.own.
 		$canEditOwn = $user->authorise('core.edit.own', $this->option . '.category.' . (int) $item->catid) && $item->created_by == $user->id;

@@ -10,7 +10,9 @@ namespace Joomla\CMS\Plugin;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
+use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
 
 /**
@@ -212,69 +214,31 @@ abstract class PluginHelper
 	 */
 	protected static function import($plugin, $autocreate = true, DispatcherInterface $dispatcher = null)
 	{
-		static $paths = array();
-
-		// Ensure we have a dispatcher now so we can correctly track the loaded paths
-		$dispatcher = $dispatcher ?: Factory::getApplication()->getDispatcher();
+		static $plugins = array();
 
 		// Get the dispatcher's hash to allow paths to be tracked against unique dispatchers
-		$dispatcherHash = spl_object_hash($dispatcher);
+		$hash = spl_object_hash($dispatcher) . $plugin->type . $plugin->name;
 
-		if (!isset($paths[$dispatcherHash]))
+		if (array_key_exists($hash, $plugins))
 		{
-			$paths[$dispatcherHash] = array();
+			return;
 		}
 
-		$plugin->type = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->type);
-		$plugin->name = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->name);
+		$plugins[$hash] = true;
 
-		$path = JPATH_PLUGINS . '/' . $plugin->type . '/' . $plugin->name . '/' . $plugin->name . '.php';
+		$plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
 
-		if (!isset($paths[$dispatcherHash][$path]))
+		if ($dispatcher && $plugin instanceof DispatcherAwareInterface)
 		{
-			if (file_exists($path))
-			{
-				if (!isset($paths[$dispatcherHash][$path]))
-				{
-					require_once $path;
-				}
-
-				$paths[$dispatcherHash][$path] = true;
-
-				if ($autocreate)
-				{
-					$className = 'Plg' . str_replace('-', '', $plugin->type) . $plugin->name;
-
-					if ($plugin->type == 'editors-xtd')
-					{
-						// This type doesn't follow the convention
-						$className = 'PlgEditorsXtd' . $plugin->name;
-
-						if (!class_exists($className))
-						{
-							$className = 'PlgButton' . $plugin->name;
-						}
-					}
-
-					if (class_exists($className))
-					{
-						// Load the plugin from the database.
-						if (!isset($plugin->params))
-						{
-							// Seems like this could just go bye bye completely
-							$plugin = static::getPlugin($plugin->type, $plugin->name);
-						}
-
-						// Instantiate and register the plugin.
-						new $className($dispatcher, (array) $plugin);
-					}
-				}
-			}
-			else
-			{
-				$paths[$dispatcherHash][$path] = false;
-			}
+			$plugin->setDispatcher($dispatcher);
 		}
+
+		if (!$autocreate)
+		{
+			return;
+		}
+
+		$plugin->registerListeners();
 	}
 
 	/**
@@ -331,7 +295,7 @@ abstract class PluginHelper
 		{
 			static::$plugins = $cache->get($loader, array(), md5($levels), false);
 		}
-		catch (\JCacheException $cacheException)
+		catch (CacheExceptionInterface $cacheException)
 		{
 			static::$plugins = $loader();
 		}

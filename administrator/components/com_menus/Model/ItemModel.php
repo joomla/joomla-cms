@@ -15,6 +15,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -530,7 +531,7 @@ class ItemModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A \JForm object on success, false on failure
+	 * @return  mixed  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -984,6 +985,10 @@ class ItemModel extends AdminModel
 		// Forced client id will override/clear menuType if conflicted
 		$forcedClientId = $app->input->get('client_id', null, 'string');
 
+		// Set the menu type and client id on the list view state, so we return to this menu after saving.
+		$app->setUserState('com_menus.items.menutype', $menuType);
+		$app->setUserState('com_menus.items.client_id', $clientId);
+
 		// Current item if not new, we don't allow changing client id at all
 		if ($pk)
 		{
@@ -998,10 +1003,6 @@ class ItemModel extends AdminModel
 			$menuType   = '';
 			$menuTypeId = 0;
 		}
-
-		// Set the menu type and client id on the list view state, so we return to this menu after saving.
-		$app->setUserState('com_menus.items.menutype', $menuType);
-		$app->setUserState('com_menus.items.client_id', $clientId);
 
 		$this->setState('item.menutype', $menuType);
 		$this->setState('item.client_id', $clientId);
@@ -1066,7 +1067,7 @@ class ItemModel extends AdminModel
 	/**
 	 * Method to preprocess the form.
 	 *
-	 * @param   \JForm  $form   A \JForm object.
+	 * @param   Form    $form   A Form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import.
 	 *
@@ -1075,7 +1076,7 @@ class ItemModel extends AdminModel
 	 * @since   1.6
 	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		$link     = $this->getState('item.link');
 		$type     = $this->getState('item.type');
@@ -1360,6 +1361,8 @@ class ItemModel extends AdminModel
 	{
 		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('item.id');
 		$isNew      = true;
+		$db      = $this->getDbo();
+		$query   = $db->getQuery(true);
 		$table   = $this->getTable();
 		$context = $this->option . '.' . $this->name;
 
@@ -1403,6 +1406,18 @@ class ItemModel extends AdminModel
 			else
 			{
 				$table->setLocation($data['parent_id'], 'last-child');
+			}
+
+			// Check if we are moving to a different menu
+			if ($data['menutype'] != $table->menutype)
+			{
+				// Add the child node ids to the children array.
+				$query->clear()
+					->select($db->quoteName('id'))
+					->from($db->quoteName('#__menu'))
+					->where($db->quoteName('lft') . ' BETWEEN ' . (int) $table->lft . ' AND ' . (int) $table->rgt);
+				$db->setQuery($query);
+				$children = (array) $db->loadColumn();
 			}
 		}
 		// We have a new item, so it is not a change.
@@ -1462,6 +1477,32 @@ class ItemModel extends AdminModel
 			$this->setError($table->getError());
 
 			return false;
+		}
+
+		// Process the child rows
+		if (!empty($children))
+		{
+			// Remove any duplicates and sanitize ids.
+			$children = array_unique($children);
+			$children = ArrayHelper::toInteger($children);
+
+			// Update the menutype field in all nodes where necessary.
+			$query->clear()
+				->update($db->quoteName('#__menu'))
+				->set($db->quoteName('menutype') . ' = ' . $db->quote($data['menutype']))
+				->where($db->quoteName('id') . ' IN (' . implode(',', $children) . ')');
+			$db->setQuery($query);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (\RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
+
+				return false;
+			}
 		}
 
 		$this->setState('item.id', $table->id);

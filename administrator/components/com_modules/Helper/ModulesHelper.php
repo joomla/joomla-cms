@@ -24,18 +24,6 @@ use Joomla\Utilities\ArrayHelper;
 abstract class ModulesHelper
 {
 	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
-	 */
-	public static function addSubmenu($vName)
-	{
-		// Not used in this component.
-	}
-
-	/**
 	 * Get a list of filter options for the state of a module.
 	 *
 	 * @return  array  An array of \JHtmlOption elements.

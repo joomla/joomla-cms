@@ -18,16 +18,14 @@
                v-if="isGridView"
                :class="{disabled: isGridSize('xs')}"
                @click.stop.prevent="decreaseGridSize()" 
-               :aria-label="translate('COM_MEDIA_DECREASE_GRID')"
-               aria-hidden="true">
+               :aria-label="translate('COM_MEDIA_DECREASE_GRID')">
                 <span class="fa fa-search-minus" aria-hidden="true"></span>
             </button>
             <button type="button" class="media-toolbar-icon media-toolbar-increase-grid-size"
                v-if="isGridView"
                :class="{disabled: isGridSize('xl')}"
                @click.stop.prevent="increaseGridSize()" 
-               :aria-label="translate('COM_MEDIA_INCREASE_GRID')"
-               aria-hidden="true">
+               :aria-label="translate('COM_MEDIA_INCREASE_GRID')">
                 <span class="fa fa-search-plus" aria-hidden="true"></span>
             </button>
             <button type="button" href="#" class="media-toolbar-icon media-toolbar-list-view"

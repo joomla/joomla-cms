@@ -16,6 +16,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Database\ParameterType;
 
 /**
  * Helper for mod_articles_archive
@@ -35,30 +36,29 @@ class ArticlesArchiveHelper
 	 */
 	public static function getList(&$params)
 	{
-		// Get application
-		$app = Factory::getApplication();
+		$app       = Factory::getApplication();
+		$db        = Factory::getDbo();
+		$condition = ContentComponent::CONDITION_ARCHIVED;
+		$query     = $db->getQuery(true);
 
-		// Get database
-		$db    = Factory::getDbo();
-
-		$query = $db->getQuery(true);
 		$query->select($query->month($db->quoteName('created')) . ' AS created_month')
 			->select('MIN(' . $db->quoteName('created') . ') AS created')
 			->select($query->year($db->quoteName('created')) . ' AS created_year')
 			->from($db->quoteName('#__content', 'c'))
-			->innerJoin($db->quoteName('#__workflow_associations', 'wa') . ' ON wa.item_id = c.id')
-			->innerJoin($db->quoteName('#__workflow_stages', 'ws') . ' ON wa.stage_id = ws.id')
-			->where($db->quoteName('ws.condition') . ' = ' . (int) ContentComponent::CONDITION_ARCHIVED)
+			->innerJoin($db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('c.id'))
+			->innerJoin($db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'))
+			->where($db->quoteName('ws.condition') . ' = :condition')
 			->group($query->year($db->quoteName('c.created')) . ', ' . $query->month($db->quoteName('c.created')))
-			->order($query->year($db->quoteName('c.created')) . ' DESC, ' . $query->month($db->quoteName('c.created')) . ' DESC');
+			->order($query->year($db->quoteName('c.created')) . ' DESC, ' . $query->month($db->quoteName('c.created')) . ' DESC')
+			->bind(':condition', $condition, ParameterType::INTEGER);
 
 		// Filter by language
 		if ($app->getLanguageFilter())
 		{
-			$query->where('language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->whereIn($db->quoteName('language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
 		}
 
-		$query->setLimit((int) $params->get('count'), 0);
+		$query->setLimit((int) $params->get('count'));
 		$db->setQuery($query);
 
 		try
