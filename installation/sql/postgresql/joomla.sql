@@ -147,9 +147,9 @@ CREATE TABLE IF NOT EXISTS "#__banners" (
   "track_clicks" smallint DEFAULT -1 NOT NULL,
   "track_impressions" smallint DEFAULT -1 NOT NULL,
   "checked_out" bigint DEFAULT 0 NOT NULL,
-  "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "publish_up" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "publish_down" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "checked_out_time" timestamp without time zone,
+  "publish_up" timestamp without time zone,
+  "publish_down" timestamp without time zone,
   "reset" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "language" varchar(7) DEFAULT '' NOT NULL,
@@ -1331,8 +1331,6 @@ SELECT 16, 'main', 'com_tags', 'Tags', '', 'Tags', 'index.php?option=com_tags&vi
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id")
 SELECT 17, 'main', 'com_associations', 'Multilingual Associations', '', 'Multilingual Associations', 'index.php?option=com_associations&view=associations', 'component', 1, 1, 1, "extension_id", 0, '1970-01-01 00:00:00', 0, 0, 'class:associations', 0, '', 31, 32, 0, '*', 1 FROM "#__extensions" WHERE "name" = 'com_associations';
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id")
-SELECT 18, 'main', 'com_csp', 'Content-Security-Policy', '', 'Content-Security-Policy', 'index.php?option=com_csp', 'component', 1, 1, 1, "extension_id", 0, '1970-01-01 00:00:00', 0, 0, 'class:associations', 0, '', 33, 34, 0, '*', 1 FROM "#__extensions" WHERE "name" = 'com_csp';
-INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id")
 SELECT 101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, "extension_id", 0, '1970-01-01 00:00:00', 0, 1, '', 0, '{"featured_categories":[""],"layout_type":"blog","num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","multi_column_order":"1","orderby_pri":"","orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1","show_title":"","link_titles":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":","show_hits":"","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":1,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 35, 36, 1, '*', 0 FROM "#__extensions" WHERE "name" = 'com_content';
 
 
@@ -1494,7 +1492,7 @@ CREATE TABLE IF NOT EXISTS "#__newsfeeds" (
   "numarticles" bigint DEFAULT 1 NOT NULL,
   "cache_time" bigint DEFAULT 3600 NOT NULL,
   "checked_out" integer DEFAULT 0 NOT NULL,
-  "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "checked_out_time" timestamp without time zone,
   "ordering" bigint DEFAULT 0 NOT NULL,
   "rtl" smallint DEFAULT 0 NOT NULL,
   "access" bigint DEFAULT 0 NOT NULL,
@@ -1509,8 +1507,8 @@ CREATE TABLE IF NOT EXISTS "#__newsfeeds" (
   "metadesc" text NOT NULL,
   "metadata" text NOT NULL,
   "xreference" varchar(50) NOT NULL DEFAULT '',
-  "publish_up" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "publish_down" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "publish_up" timestamp without time zone,
+  "publish_down" timestamp without time zone,
   "description" text NOT NULL,
   "version" bigint DEFAULT 1 NOT NULL,
   "hits" bigint DEFAULT 0 NOT NULL,
