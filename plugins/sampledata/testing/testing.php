@@ -91,7 +91,7 @@ class PlgSampledataTesting extends CMSPlugin
 		$data->title       = Text::_('PLG_SAMPLEDATA_TESTING_OVERVIEW_TITLE');
 		$data->description = Text::_('PLG_SAMPLEDATA_TESTING_OVERVIEW_DESC');
 		$data->icon        = 'bolt';
-		$data->steps       = 7;
+		$data->steps       = 8;
 
 		return $data;
 	}
@@ -384,7 +384,7 @@ class PlgSampledataTesting extends CMSPlugin
 	}
 
 	/**
-	 * Third step to enter the sampledata. Content
+	 * Third step to enter the sampledata. Content 1/2
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
@@ -606,6 +606,47 @@ class PlgSampledataTesting extends CMSPlugin
 			return $response;
 		}
 
+		$this->app->setUserState('sampledata.testing.articles.catids1', $catIdsLevel1);
+		$this->app->setUserState('sampledata.testing.articles.catids2', $catIdsLevel2);
+		$this->app->setUserState('sampledata.testing.articles.catids3', $catIdsLevel3);
+		$this->app->setUserState('sampledata.testing.articles.catids4', $catIdsLevel4);
+		$this->app->setUserState('sampledata.testing.articles.catids5', $catIdsLevel5);
+
+		$response            = array();
+		$response['success'] = true;
+		$response['message'] = Text::_('PLG_SAMPLEDATA_TESTING_STEP3_SUCCESS');
+
+		return $response;
+	}
+
+	/**
+	 * Fourth step to enter the sampledata. Content 2/2
+	 *
+	 * @return  array or void  Will be converted into the JSON response to the module.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function onAjaxSampledataApplyStep4()
+	{
+		if ($this->app->input->get('type') != $this->_name)
+		{
+			return;
+		}
+
+		if (!ComponentHelper::isEnabled('com_content'))
+		{
+			$response            = array();
+			$response['success'] = true;
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 4, 'com_content');
+
+			return $response;
+		}
+
+		$catIdsLevel1 = $this->app->getUserState('sampledata.testing.articles.catids1');
+		$catIdsLevel2 = $this->app->getUserState('sampledata.testing.articles.catids2');
+		$catIdsLevel3 = $this->app->getUserState('sampledata.testing.articles.catids3');
+		$catIdsLevel4 = $this->app->getUserState('sampledata.testing.articles.catids4');
+		$catIdsLevel5 = $this->app->getUserState('sampledata.testing.articles.catids5');
 		$tagIds = $this->app->getUserState('sampledata.testing.tags', array());
 
 		$articles = array(
@@ -940,9 +981,9 @@ class PlgSampledataTesting extends CMSPlugin
 				'ordering' => 3,
 			),
 			array(
-				'catid'    => $catIdsLevel2[0],
-				'state'    => 2,
-				'ordering' => 0,
+				'catid'      => $catIdsLevel2[0],
+				'transition' => 4,
+				'ordering'   => 0,
 			),
 			array(
 				'catid'    => $catIdsLevel4[4],
@@ -975,33 +1016,28 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 3, $e->getMessage());
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 4, $e->getMessage());
 
 			return $response;
 		}
 
 		$this->app->setUserState('sampledata.testing.articles', $ids);
-		$this->app->setUserState('sampledata.testing.articles.catids1', $catIdsLevel1);
-		$this->app->setUserState('sampledata.testing.articles.catids2', $catIdsLevel2);
-		$this->app->setUserState('sampledata.testing.articles.catids3', $catIdsLevel3);
-		$this->app->setUserState('sampledata.testing.articles.catids4', $catIdsLevel4);
-		$this->app->setUserState('sampledata.testing.articles.catids5', $catIdsLevel5);
 
 		$response            = array();
 		$response['success'] = true;
-		$response['message'] = Text::_('PLG_SAMPLEDATA_TESTING_STEP3_SUCCESS');
+		$response['message'] = Text::_('PLG_SAMPLEDATA_TESTING_STEP4_SUCCESS');
 
 		return $response;
 	}
 
 	/**
-	 * Fourth step to enter the sampledata. Contacts
+	 * Fifth step to enter the sampledata. Contacts
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
-	public function onAjaxSampledataApplyStep4()
+	public function onAjaxSampledataApplyStep5()
 	{
 		if ($this->app->input->get('type') != $this->_name)
 		{
@@ -1012,7 +1048,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = true;
-			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 4, 'com_contact');
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 5, 'com_contact');
 
 			return $response;
 		}
@@ -1036,7 +1072,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 4, $e->getMessage());
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
 
 			return $response;
 		}
@@ -1060,7 +1096,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 4, $e->getMessage());
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
 
 			return $response;
 		}
@@ -1086,7 +1122,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 4, $e->getMessage());
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
 
 			return $response;
 		}
@@ -1111,7 +1147,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 4, $e->getMessage());
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
 
 			return $response;
 		}
@@ -1323,7 +1359,7 @@ class PlgSampledataTesting extends CMSPlugin
 			{
 				$response            = array();
 				$response['success'] = false;
-				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 4, $e->getMessage());
+				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
 
 				return $response;
 			}
@@ -1341,19 +1377,19 @@ class PlgSampledataTesting extends CMSPlugin
 
 		$response            = array();
 		$response['success'] = true;
-		$response['message'] = Text::_('PLG_SAMPLEDATA_TESTING_STEP4_SUCCESS');
+		$response['message'] = Text::_('PLG_SAMPLEDATA_TESTING_STEP5_SUCCESS');
 
 		return $response;
 	}
 
 	/**
-	 * Fifth step to enter the sampledata. Newsfeed.
+	 * Sixth step to enter the sampledata. Newsfeed.
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
-	public function onAjaxSampledataApplyStep5()
+	public function onAjaxSampledataApplyStep6()
 	{
 		if ($this->app->input->get('type') != $this->_name)
 		{
@@ -1364,7 +1400,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = true;
-			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 5, 'com_newsfeed');
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 6, 'com_newsfeed');
 
 			return $response;
 		}
@@ -1389,7 +1425,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 6, $e->getMessage());
 
 			return $response;
 		}
@@ -1454,7 +1490,7 @@ class PlgSampledataTesting extends CMSPlugin
 			{
 				$response            = array();
 				$response['success'] = false;
-				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
+				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 6, $e->getMessage());
 
 				return $response;
 			}
@@ -1469,19 +1505,19 @@ class PlgSampledataTesting extends CMSPlugin
 
 		$response            = array();
 		$response['success'] = true;
-		$response['message'] = Text::_('PLG_SAMPLEDATA_TESTING_STEP5_SUCCESS');
+		$response['message'] = Text::_('PLG_SAMPLEDATA_TESTING_STEP6_SUCCESS');
 
 		return $response;
 	}
 
 	/**
-	 * Sixth step to enter the sampledata. Menus.
+	 * Seventh step to enter the sampledata. Menus.
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
-	public function onAjaxSampledataApplyStep6()
+	public function onAjaxSampledataApplyStep7()
 	{
 		if ($this->app->input->get('type') != $this->_name)
 		{
@@ -1492,7 +1528,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = true;
-			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 6, 'com_menus');
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 7, 'com_menus');
 
 			return $response;
 		}
@@ -1523,7 +1559,7 @@ class PlgSampledataTesting extends CMSPlugin
 				Factory::getLanguage()->load('com_menus');
 				$response            = array();
 				$response['success'] = false;
-				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 6, $e->getMessage());
+				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
 
 				return $response;
 			}
@@ -2622,7 +2658,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 6, $e->getMessage());
+			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
 
 			return $response;
 		}
@@ -2681,7 +2717,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 6, $e->getMessage());
+			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
 
 			return $response;
 		}
@@ -2786,7 +2822,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 6, $e->getMessage());
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
 
 			return $response;
 		}
@@ -2825,7 +2861,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 6, $e->getMessage());
+			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
 
 			return $response;
 		}
@@ -2917,7 +2953,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 6, $e->getMessage());
+			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
 
 			return $response;
 		}
@@ -3059,7 +3095,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 6, $e->getMessage());
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
 
 			return $response;
 		}
@@ -3168,7 +3204,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 6, $e->getMessage());
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
 
 			return $response;
 		}
@@ -3181,19 +3217,19 @@ class PlgSampledataTesting extends CMSPlugin
 
 		$response            = array();
 		$response['success'] = true;
-		$response['message'] = Text::_('PLG_SAMPLEDATA_TESTING_STEP6_SUCCESS');
+		$response['message'] = Text::_('PLG_SAMPLEDATA_TESTING_STEP7_SUCCESS');
 
 		return $response;
 	}
 
 	/**
-	 * Seventh step to enter the sampledata. Modules.
+	 * Eighth step to enter the sampledata. Modules.
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
-	public function onAjaxSampledataApplyStep7()
+	public function onAjaxSampledataApplyStep8()
 	{
 		if ($this->app->input->get('type') != $this->_name)
 		{
@@ -3204,7 +3240,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = true;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 7, 'com_modules');
+			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 8, 'com_modules');
 
 			return $response;
 		}
@@ -4480,7 +4516,7 @@ class PlgSampledataTesting extends CMSPlugin
 				Factory::getLanguage()->load('com_modules');
 				$response            = array();
 				$response['success'] = false;
-				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, Text::_($model->getError()));
+				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 8, Text::_($model->getError()));
 
 				return $response;
 			}
@@ -4491,7 +4527,7 @@ class PlgSampledataTesting extends CMSPlugin
 
 		$response            = array();
 		$response['success'] = true;
-		$response['message'] = Text::_('PLG_SAMPLEDATA_TESTING_STEP7_SUCCESS');
+		$response['message'] = Text::_('PLG_SAMPLEDATA_TESTING_STEP8_SUCCESS');
 
 		return $response;
 	}
@@ -4598,13 +4634,13 @@ class PlgSampledataTesting extends CMSPlugin
 			$article['metadesc']        = '';
 			$article['xreference']      = '';
 
-			// Set state to published if not set.
-			if (!isset($article['state']))
+			// Set transition to published if not set.
+			if (!isset($article['transition']))
 			{
-				$article['state'] = 1;
+				$article['transition'] = 2;
 			}
 
-			// Set state to published if not set.
+			// Set article to not featured if not set.
 			if (!isset($article['featured']))
 			{
 				$article['featured'] = 0;

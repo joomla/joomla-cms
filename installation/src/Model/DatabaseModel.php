@@ -19,6 +19,7 @@ use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Version;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\UTF8MB4SupportInterface;
@@ -756,73 +757,6 @@ class DatabaseModel extends BaseInstallationModel
 	}
 
 	/**
-	 * Method to install the sample data.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 */
-	public function installSampleData()
-	{
-		$db = Factory::getDbo();
-
-		// Build the path to the sample data file.
-		$type = $db->getServerType();
-
-		if (Factory::getApplication()->input->get('sample_file', ''))
-		{
-			$sample_file = Factory::getApplication()->input->get('sample_file', '');
-		}
-		else
-		{
-			$sample_file = 'sample_testing.sql';
-		}
-
-		$data = JPATH_INSTALLATION . '/sql/' . $type . '/' . $sample_file;
-
-		// Attempt to import the database schema if one is chosen.
-		if ($sample_file != '')
-		{
-			if (!file_exists($data))
-			{
-				Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_FILE_DOES_NOT_EXIST', $data), 'error');
-
-				return false;
-			}
-			elseif (!$this->populateDatabase($db, $data))
-			{
-				return false;
-			}
-
-			$this->postInstallSampleData($db, $sample_file);
-		}
-
-		return true;
-	}
-
-	/**
-	 * Sample data tables and data post install process.
-	 *
-	 * @param   \JDatabaseDriver  $db              Database connector object $db*.
-	 * @param   string            $sampleFileName  The sample dats filename.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	protected function postInstallSampleData($db, $sampleFileName = '')
-	{
-		// Update the sample data user ids.
-		$this->updateUserIds($db);
-
-		// If not joomla sample data for testing, update the sample data dates.
-		if ($sampleFileName !== 'sample_testing.sql')
-		{
-			$this->updateDates($db);
-		}
-	}
-
-	/**
 	 * Method to install the cms data.
 	 *
 	 * @return  boolean  True on success.
@@ -858,6 +792,9 @@ class DatabaseModel extends BaseInstallationModel
 
 		// Update the cms data dates.
 		$this->updateDates($db);
+
+		// Check for testing sampledata plugin.
+		$this->checkTestingSampledata($db);
 	}
 
 	/**
@@ -972,6 +909,38 @@ class DatabaseModel extends BaseInstallationModel
 				}
 			}
 		}
+	}
+
+	/**
+	 * Method to check for the testing sampledata plugin.
+	 *
+	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function checkTestingSampledata($db)
+	{
+		$version = new Version;
+
+		if (!$version->isInDevelopmentState() || !is_file(JPATH_PLUGINS . '/sampledata/testing/testing.php'))
+		{
+			return;
+		}
+
+		$testingPlugin = new \stdClass();
+		$testingPlugin->name = 'plg_sampledata_testing';
+		$testingPlugin->type = 'plugin';
+		$testingPlugin->element = 'testing';
+		$testingPlugin->folder = 'sampledata';
+		$testingPlugin->client_id = 0;
+		$testingPlugin->enabled = 1;
+		$testingPlugin->access = 1;
+		$testingPlugin->manifest_cache = '';
+		$testingPlugin->params = '{}';
+
+		$db->insertObject('#__extensions', $testingPlugin);
 	}
 
 	/**
