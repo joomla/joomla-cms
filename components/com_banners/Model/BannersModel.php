@@ -68,7 +68,6 @@ class BannersModel extends ListModel
 		$categoryId = $this->getState('filter.category_id');
 		$keywords   = $this->getState('filter.keywords');
 		$randomise  = ($ordering === 'random');
-		$nullDate   = $db->quote($db->getNullDate());
 		$nowDate    = $db->quote(Factory::getDate()->toSql());
 
 		$query->select(
@@ -191,7 +190,7 @@ class BannersModel extends ListModel
 			$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
-		$query->order('a.sticky DESC,' . ($randomise ? $query->Rand() : 'a.ordering'));
+		$query->order('a.sticky DESC,' . ($randomise ? $query->rand() : 'a.ordering'));
 
 		return $query;
 	}
