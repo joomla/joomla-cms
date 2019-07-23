@@ -432,4 +432,3 @@ class ActionlogsModel extends ListModel
 		return $form;
 	}
 }
-																															
