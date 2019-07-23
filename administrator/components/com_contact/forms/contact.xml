@@ -467,7 +467,7 @@
 					name="add_mailto_link"
 					type="list"
 					label="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_LABEL"
-					class="chzn-color"
+					class="custom-select-color"
 					useglobal="true"
 					showon="show_info:1"
 					>
