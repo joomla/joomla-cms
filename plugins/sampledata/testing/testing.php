@@ -4421,7 +4421,8 @@ class PlgSampledataTesting extends CMSPlugin
 				'params'           => array(
 					'bootstrap_size'  => 6,
 				),
-			), */
+			),
+			*/
 		);
 
 		$modulesIds = array();
