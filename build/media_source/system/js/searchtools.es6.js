@@ -280,7 +280,7 @@ Joomla = window.Joomla || {};
           });
 
           if (window.jQuery && window.jQuery.chosen) {
-            window.jQuery('#list_limit').trigger('chosen:updated');
+            document.querySelector('#list_limit').trigger('chosen:updated');
           }
         }
       }
