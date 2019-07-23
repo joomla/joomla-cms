@@ -100,7 +100,9 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' =
 									<?php echo $this->escape($title); ?>
 								</label>
 								<?php if ($this->escape(trim($title, '**')) === 'Language' && Multilanguage::isEnabled()) : ?>
+								<div class="small">
 									<strong><?php echo Text::_('COM_FINDER_MAPS_MULTILANG'); ?></strong>
+								</div>
 								<?php endif; ?>
 							</th>
 							<?php if (!$branchFilter) : ?>
