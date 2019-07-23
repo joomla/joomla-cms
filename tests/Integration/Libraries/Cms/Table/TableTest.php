@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Tests\Unit\Libraries\Cms\Table;
 
 use Joomla\Event\Dispatcher;
@@ -49,14 +48,38 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 		$this->object = new TestTable($this->getDBDriver(), $dispatcher);
 	}
 
+	/**
+	 *
+	 * @return array
+	 *
+	 * @since   4.0.0
+	 */
 	public function getSchemasToLoad(): array
 	{
 		return ['framework.sql', 'testtable.sql'];
 	}
 
+	/**
+	 *
+	 * @return  void
+	 * @since   4.0.0
+	 */
 	public function testObjectHasAttributesFromTable()
 	{
-		$fields = ['id', 'title', 'asset_id', 'hits', 'checked_out', 'checked_out_time', 'published', 'publish_up', 'publish_down', 'ordering', 'params'];
+		$fields = [
+			'id',
+			'title',
+			'asset_id',
+			'hits',
+			'checked_out',
+			'checked_out_time',
+			'published',
+			'publish_up',
+			'publish_down',
+			'ordering',
+			'params'
+		];
+
 		$this->assertEquals(
 			$fields,
 			array_keys($this->object->getFields())
