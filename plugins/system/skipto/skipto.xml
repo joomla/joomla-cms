@@ -20,15 +20,15 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-					name="section_skipto"
+					name="section"
 					type="list"
 					label="PLG_SYSTEM_SKIPTO_SECTION"
-					default="2"
-					filter="integer"
+					default="administrator"
+					validate="options"
 					>
-					<option value="1">PLG_SYSTEM_SKIPTO_SECTION_SITE</option>
-					<option value="2">PLG_SYSTEM_SKIPTO_SECTION_ADMIN</option>
-					<option value="3">PLG_SYSTEM_SKIPTO_SECTION_BOTH</option>
+					<option value="site">PLG_SYSTEM_SKIPTO_SECTION_SITE</option>
+					<option value="administrator">PLG_SYSTEM_SKIPTO_SECTION_ADMIN</option>
+					<option value="both">PLG_SYSTEM_SKIPTO_SECTION_BOTH</option>
 				</field>
 			</fieldset>
 		</fields>
