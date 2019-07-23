@@ -78,7 +78,7 @@ $input = Factory::getApplication()->input;
 						<form method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.copyFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" enctype="multipart/form-data">
 							<div class="form-group">
 								<input type="hidden" class="address" name="address">
-								<label for="new_name" class="modalTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_TEMPLATES_FILE_NEW_NAME_DESC'); ?>">
+								<label for="new_name">
 									<?php echo Text::_('COM_TEMPLATES_FILE_NEW_NAME_LABEL')?>
 								</label>
 								<input class="form-control" type="text" id="new_name" name="new_name" required>

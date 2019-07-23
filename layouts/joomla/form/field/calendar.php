@@ -108,8 +108,8 @@ HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, ['version' =
 		<?php endif; ?>
 		<input
 			type="text"
-            id="<?php echo $id; ?>"
-            name="<?php echo $name; ?>"
+			id="<?php echo $id; ?>"
+			name="<?php echo $name; ?>"
 			value="<?php echo htmlspecialchars(($value !== '0000-00-00 00:00:00') ? $value : '', ENT_COMPAT, 'UTF-8'); ?>"
 			<?php echo !empty($description) ? ' aria-describedby="' . $name . '-desc"' : ''; ?>
 			<?php echo $attributes; ?>

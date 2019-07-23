@@ -24,10 +24,7 @@ if ($app->isClient('site'))
 	Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
-JLoader::register('ContentHelperRoute', JPATH_ROOT . '/components/com_content/helpers/route.php');
-
 HTMLHelper::_('behavior.core');
-HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 
 $extension = $this->escape($this->state->get('filter.extension'));
 $function  = $app->input->getCmd('function', 'jSelectCategory');
@@ -101,14 +98,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						}
 						?>
 						<tr class="row<?php echo $i % 2; ?>">
-							<td class="text-center">
+							<td class="text-center tbody-icon">
 								<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
 							</td>
 							<th scope="row">
 								<?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 								<a href="javascript:void(0)" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', null, '<?php echo $this->escape(ContentHelperRoute::getCategoryRoute($item->id, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
 									<?php echo $this->escape($item->title); ?></a>
-                                <span class="small" title="<?php echo $this->escape($item->path); ?>">
+								<span class="small" title="<?php echo $this->escape($item->path); ?>">
 									<?php if (empty($item->note)) : ?>
 										<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 									<?php else : ?>

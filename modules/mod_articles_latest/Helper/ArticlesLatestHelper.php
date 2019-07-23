@@ -19,8 +19,6 @@ use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
-\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-
 /**
  * Helper for mod_articles_latest
  *
@@ -49,10 +47,11 @@ abstract class ArticlesLatestHelper
 		$appParams = $app->getParams();
 		$model->setState('params', $appParams);
 
-		// Set the filters based on the module params
 		$model->setState('list.start', 0);
-		$model->setState('list.limit', (int) $params->get('count', 5));
 		$model->setState('filter.published', 1);
+
+		// Set the filters based on the module params
+		$model->setState('list.limit', (int) $params->get('count', 5));
 
 		// This module does not use tags data
 		$model->setState('load_tags', false);
@@ -115,7 +114,7 @@ abstract class ArticlesLatestHelper
 			'mc_dsc' => 'CASE WHEN (a.modified = ' . $db->quote($db->getNullDate()) . ') THEN a.created ELSE a.modified END',
 			'c_dsc'  => 'a.created',
 			'p_dsc'  => 'a.publish_up',
-			'random' => $db->getQuery(true)->Rand(),
+			'random' => $db->getQuery(true)->rand(),
 		);
 
 		$ordering = ArrayHelper::getValue($order_map, $params->get('ordering'), 'a.publish_up');

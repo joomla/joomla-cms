@@ -11,13 +11,16 @@ namespace Joomla\Component\Banners\Administrator\View\Banner;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Banners\Administrator\Model\BannerModel;
 
 /**
  * View to edit a banner.
@@ -27,23 +30,26 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
-	 * @var  \JForm
+	 * @var    Form
+	 * @since  1.5
 	 */
 	protected $form;
 
 	/**
 	 * The active item
 	 *
-	 * @var  object
+	 * @var    object
+	 * @since  1.5
 	 */
 	protected $item;
 
 	/**
 	 * The model state
 	 *
-	 * @var  object
+	 * @var    object
+	 * @since  1.5
 	 */
 	protected $state;
 
@@ -52,14 +58,19 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
+	 *
+	 * @since   1.5
+	 *
+	 * @throws  Exception
 	 */
-	public function display($tpl = null)
+	public function display($tpl = null): void
 	{
-		// Initialiase variables.
-		$this->form  = $this->get('Form');
-		$this->item  = $this->get('Item');
-		$this->state = $this->get('State');
+		/** @var BannerModel $model */
+		$model       = $this->getModel();
+		$this->form  = $model->getForm();
+		$this->item  = $model->getItem();
+		$this->state = $model->getState();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -69,7 +80,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -78,8 +89,9 @@ class HtmlView extends BaseHtmlView
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  Exception
 	 */
-	protected function addToolbar()
+	protected function addToolbar(): void
 	{
 		Factory::getApplication()->input->set('hidemainmenu', true);
 

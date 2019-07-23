@@ -100,7 +100,7 @@ if ($saveOrder && !empty($this->items))
 							}
 							elseif (!$saveOrder)
 							{
-								$iconClass = ' inactive tip-top hasTooltip" title="' . HTMLHelper::_('tooltipText', 'JORDERINGDISABLED');
+								$iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
 							}
 							?>
 							<span class="sortable-handler<?php echo $iconClass; ?>">
@@ -116,17 +116,15 @@ if ($saveOrder && !empty($this->items))
 							<?php endif; ?>
 						</td>
 						<td class="text-center">
-							<div class="btn-group">
 							<?php // Check if extension is enabled ?>
 							<?php if ($item->enabled > 0) : ?>
 								<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'modules.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 							<?php else : ?>
 								<?php // Extension is not enabled, show a message that indicates this. ?>
-								<span class="tbody-icon hasTooltip" title="<?php echo Text::sprintf('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED', $this->escape($item->name)); ?>">
+								<span class="tbody-icon" title="<?php echo Text::sprintf('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED', $this->escape($item->name)); ?>">
 									<span class="icon-ban-circle" aria-hidden="true"></span>
 								</span>
 							<?php endif; ?>
-							</div>
 						</td>
 						<th scope="row" class="has-context">
 							<div>
@@ -135,7 +133,7 @@ if ($saveOrder && !empty($this->items))
 								<?php endif; ?>
 								<?php if ($canEdit) : ?>
 									<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pen-square mr-2" aria-hidden="true"></span>'; ?>
-									<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_modules&task=module.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+									<a href="<?php echo Route::_('index.php?option=com_modules&task=module.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 										<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
 								<?php else : ?>
 									<?php echo $this->escape($item->title); ?>

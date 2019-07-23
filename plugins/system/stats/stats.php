@@ -31,19 +31,25 @@ use Joomla\CMS\User\UserHelper;
 class PlgSystemStats extends CMSPlugin
 {
 	/**
-	 * @const  integer
+	 * Indicates sending statistics is always allowed.
+	 *
+	 * @var    integer
 	 * @since  3.5
 	 */
 	const MODE_ALLOW_ALWAYS = 1;
 
 	/**
-	 * @const  integer
+	 * Indicates sending statistics is only allowed one time.
+	 *
+	 * @var    integer
 	 * @since  3.5
 	 */
 	const MODE_ALLOW_ONCE = 2;
 
 	/**
-	 * @const  integer
+	 * Indicates sending statistics is never allowed.
+	 *
+	 * @var    integer
 	 * @since  3.5
 	 */
 	const MODE_ALLOW_NEVER = 3;
@@ -137,7 +143,7 @@ class PlgSystemStats extends CMSPlugin
 			return;
 		}
 
-		HTMLHelper::_('script', 'plg_system_stats/stats-message.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('script', 'plg_system_stats/stats-message.js', ['version' => 'auto', 'relative' => true]);
 	}
 
 	/**
@@ -166,7 +172,7 @@ class PlgSystemStats extends CMSPlugin
 
 		$this->sendStats();
 
-		echo json_encode(array('sent' => 1));
+		echo json_encode(['sent' => 1]);
 	}
 
 	/**
@@ -193,7 +199,7 @@ class PlgSystemStats extends CMSPlugin
 			throw new RuntimeException('Unable to save plugin settings', 500);
 		}
 
-		echo json_encode(array('sent' => 0));
+		echo json_encode(['sent' => 0]);
 	}
 
 	/**
@@ -222,7 +228,7 @@ class PlgSystemStats extends CMSPlugin
 
 		$this->sendStats();
 
-		echo json_encode(array('sent' => 1));
+		echo json_encode(['sent' => 1]);
 	}
 
 	/**
@@ -246,10 +252,10 @@ class PlgSystemStats extends CMSPlugin
 		// User has not selected the mode. Show message.
 		if ((int) $this->params->get('mode') !== static::MODE_ALLOW_ALWAYS)
 		{
-			$data = array(
+			$data = [
 				'sent' => 0,
-				'html' => $this->getRenderer('message')->render($this->getLayoutData())
-			);
+				'html' => $this->getRenderer('message')->render($this->getLayoutData()),
+			];
 
 			echo json_encode($data);
 
@@ -263,7 +269,7 @@ class PlgSystemStats extends CMSPlugin
 
 		$this->sendStats();
 
-		echo json_encode(array('sent' => 1));
+		echo json_encode(['sent' => 1]);
 	}
 
 	/**
@@ -290,7 +296,7 @@ class PlgSystemStats extends CMSPlugin
 	 *
 	 * @since   3.5
 	 */
-	public function debug($layoutId, $data = array())
+	public function debug($layoutId, $data = [])
 	{
 		$data = array_merge($this->getLayoutData(), $data);
 
@@ -306,11 +312,11 @@ class PlgSystemStats extends CMSPlugin
 	 */
 	protected function getLayoutData()
 	{
-		return array(
+		return [
 			'plugin'       => $this,
 			'pluginParams' => $this->params,
-			'statsData'    => $this->getStatsData()
-		);
+			'statsData'    => $this->getStatsData(),
+		];
 	}
 
 	/**
@@ -324,10 +330,10 @@ class PlgSystemStats extends CMSPlugin
 	{
 		$template = Factory::getApplication()->getTemplate();
 
-		return array(
+		return [
 			JPATH_ADMINISTRATOR . '/templates/' . $template . '/html/layouts/plugins/' . $this->_type . '/' . $this->_name,
 			__DIR__ . '/layouts',
-		);
+		];
 	}
 
 	/**
@@ -357,14 +363,14 @@ class PlgSystemStats extends CMSPlugin
 	 */
 	private function getStatsData()
 	{
-		return array(
+		return [
 			'unique_id'   => $this->getUniqueId(),
 			'php_version' => PHP_VERSION,
 			'db_type'     => $this->db->name,
 			'db_version'  => $this->db->getVersion(),
 			'cms_version' => JVERSION,
-			'server_os'   => php_uname('s') . ' ' . php_uname('r')
-		);
+			'server_os'   => php_uname('s') . ' ' . php_uname('r'),
+		];
 	}
 
 	/**
@@ -457,7 +463,7 @@ class PlgSystemStats extends CMSPlugin
 	 *
 	 * @since   3.5
 	 */
-	public function render($layoutId, $data = array())
+	public function render($layoutId, $data = [])
 	{
 		$data = array_merge($this->getLayoutData(), $data);
 
@@ -479,17 +485,21 @@ class PlgSystemStats extends CMSPlugin
 		$interval = (int) $this->params->get('interval', 12);
 		$this->params->set('interval', $interval ?: 12);
 
-		$query = $this->db->getQuery(true)
-			->update($this->db->quoteName('#__extensions'))
-			->set($this->db->quoteName('params') . ' = ' . $this->db->quote($this->params->toString('JSON')))
-			->where($this->db->quoteName('type') . ' = ' . $this->db->quote('plugin'))
-			->where($this->db->quoteName('folder') . ' = ' . $this->db->quote('system'))
-			->where($this->db->quoteName('element') . ' = ' . $this->db->quote('stats'));
+		$paramsJson = $this->params->toString('JSON');
+		$db         = $this->db;
+
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__extensions'))
+			->set($db->quoteName('params') . ' = :params')
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('stats'))
+			->bind(':params', $paramsJson);
 
 		try
 		{
 			// Lock the tables to prevent multiple plugin executions causing a race condition
-			$this->db->lockTable('#__extensions');
+			$db->lockTable('#__extensions');
 		}
 		catch (Exception $e)
 		{
@@ -500,21 +510,21 @@ class PlgSystemStats extends CMSPlugin
 		try
 		{
 			// Update the plugin parameters
-			$result = $this->db->setQuery($query)->execute();
+			$result = $db->setQuery($query)->execute();
 
-			$this->clearCacheGroups(array('com_plugins'));
+			$this->clearCacheGroups(['com_plugins']);
 		}
 		catch (Exception $exc)
 		{
 			// If we failed to execute
-			$this->db->unlockTables();
+			$db->unlockTables();
 			$result = false;
 		}
 
 		try
 		{
 			// Unlock the tables after writing
-			$this->db->unlockTables();
+			$db->unlockTables();
 		}
 		catch (Exception $e)
 		{
@@ -582,10 +592,10 @@ class PlgSystemStats extends CMSPlugin
 		{
 			try
 			{
-				$options = array(
+				$options = [
 					'defaultgroup' => $group,
-					'cachebase'    => $this->app->get('cache_path', JPATH_CACHE)
-				);
+					'cachebase'    => $this->app->get('cache_path', JPATH_CACHE),
+				];
 
 				$cache = Cache::getInstance('callback', $options);
 				$cache->clean();

@@ -86,7 +86,7 @@
 			name="state"
 			type="list"
 			label="JSTATUS"
-			class="chzn-color-state"
+			class="custom-select-color-state"
 			default="1"
 			size="1"
 			>
@@ -122,11 +122,12 @@
 
 		<field
 			name="created_time"
-			type="text"
+			type="calendar"
 			label="JGLOBAL_CREATED_DATE"
-			class="readonly"
-			filter="unset"
-			readonly="true"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
 		/>
 
 		<field
@@ -140,11 +141,14 @@
 
 		<field
 			name="modified_time"
-			type="text"
+			type="calendar"
 			label="JGLOBAL_FIELD_MODIFIED_LABEL"
 			class="readonly"
-			filter="unset"
+			translateformat="true"
+			showtime="true"
+			size="22"
 			readonly="true"
+			filter="user_utc"
 		/>
 
 		<field
@@ -308,7 +312,6 @@
 				name="layout"
 				type="fieldLayout"
 				label="COM_FIELDS_FIELD_LAYOUT_LABEL"
-				description="COM_FIELDS_FIELD_LAYOUT_DESC"
 				class="custom-select"
 			/>
 
@@ -316,7 +319,6 @@
 				name="display_readonly"
 				type="list"
 				label="JFIELD_DISPLAY_READONLY_LABEL"
-				description="JFIELD_DISPLAY_READONLY_DESC"
 				default="2"
 				>
 				<option value="2">JGLOBAL_INHERIT</option>
