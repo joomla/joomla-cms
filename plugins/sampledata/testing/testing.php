@@ -151,7 +151,6 @@ class PlgSampledataTesting extends CMSPlugin
 			}
 			catch (Exception $e)
 			{
-
 				$response            = array();
 				$response['success'] = false;
 				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 1, $e->getMessage());
@@ -1331,7 +1330,6 @@ class PlgSampledataTesting extends CMSPlugin
 
 			// Get ID from category we just added
 			$contactIds[] = $model->getItem()->id;
-
 		}
 
 		// Storing IDs in UserState for later useage.
@@ -1463,7 +1461,6 @@ class PlgSampledataTesting extends CMSPlugin
 
 			// Get ID from category we just added
 			$newsfeedsIds[] = $model->getState('newsfeed.id');
-
 		}
 
 		// Storing IDs in UserState for later useage.
@@ -4399,7 +4396,8 @@ class PlgSampledataTesting extends CMSPlugin
 				),
 				'client_id' => 1,
 			),
-			/* TODO: Altering existing admin modules (Bootstrap Size).
+			/*
+			TODO: Altering existing admin modules (Bootstrap Size).
 			array(
 				'title'            => 'Popular Articles',
 				'position'         => 'cpanel',
@@ -4488,7 +4486,6 @@ class PlgSampledataTesting extends CMSPlugin
 
 			// Get ID from category we just added
 			$modulesIds[] = $model->getItem()->id;
-
 		}
 
 		$response            = array();
@@ -4515,7 +4512,9 @@ class PlgSampledataTesting extends CMSPlugin
 	{
 		if (!$this->categoryModel)
 		{
-			$this->categoryModel = $this->app->bootComponent('com_categories')->getMVCFactory()->createModel('Category', 'Administrator', ['ignore_request' => true]);
+			$this->categoryModel = $this->app->bootComponent('com_categories')
+				->getMVCFactory()
+				->createModel('Category', 'Administrator', ['ignore_request' => true]);
 		}
 
 		$catIds = array();
@@ -4629,7 +4628,6 @@ class PlgSampledataTesting extends CMSPlugin
 
 			// Get ID from category we just added
 			$ids[] = $model->getItem()->id;
-
 		}
 
 		return $ids;
@@ -4651,7 +4649,9 @@ class PlgSampledataTesting extends CMSPlugin
 	{
 		if (!$this->menuItemModel)
 		{
-			$this->menuItemModel = $this->app->bootComponent('com_menus')->getMVCFactory()->createModel('Item', 'Administrator', ['ignore_request' => true]);
+			$this->menuItemModel = $this->app->bootComponent('com_menus')
+				->getMVCFactory()
+				->createModel('Item', 'Administrator', ['ignore_request' => true]);
 		}
 
 		$itemIds = array();
