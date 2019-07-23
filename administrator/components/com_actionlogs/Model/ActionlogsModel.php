@@ -106,9 +106,11 @@ class ActionlogsModel extends ListModel
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select('a.*, u.name')
-			->from('#__action_logs AS a')
-			->leftJoin('#__users AS u ON a.user_id = u.id');
+			->select('a.*')
+			->select($db->quoteName('u.name'))
+			->from($db->quoteName('#__action_logs', 'a'))
+			->join('LEFT', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'));
+
 
 		// Get ordering
 		$fullorderCol = $this->state->get('list.fullordering', 'a.id DESC');
@@ -261,7 +263,8 @@ class ActionlogsModel extends ListModel
 		$itemId = (int) $itemId;
 		$db     = $this->getDbo();
 		$query  = $db->getQuery(true)
-			->select('a.*', $db->quoteName('u.name'))
+			->select('a.*')
+			->select($db->quoteName('u.name'))
 			->from($db->quoteName('#__action_logs', 'a'))
 			->join('INNER', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'))
 			->where($db->quoteName('a.extension') . ' = :extension')
