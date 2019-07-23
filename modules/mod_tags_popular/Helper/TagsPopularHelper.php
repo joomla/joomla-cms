@@ -105,7 +105,7 @@ abstract class TagsPopularHelper
 		// Set query depending on order_value param
 		if ($order_value === 'rand()')
 		{
-			$query->order($query->Rand());
+			$query->order($query->rand());
 		}
 		else
 		{
