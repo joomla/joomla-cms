@@ -159,7 +159,6 @@ class ActionlogsModel extends ListModel
 				);
 				$query->bind(':dstart', $dStart);
 				$query->bind(':dnow', $dNow);
-
 			}
 		}
 
