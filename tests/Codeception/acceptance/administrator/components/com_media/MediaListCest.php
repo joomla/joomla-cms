@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 use Page\Acceptance\Administrator\MediaListPage;
 use Page\Acceptance\Administrator\MediaFilePage;
 use Step\Acceptance\Administrator\Media;
@@ -24,9 +25,11 @@ use Step\Acceptance\Administrator\Media;
 class MediaListCest
 {
 	/**
-	 * The default contents
+	 * The default contents.
 	 *
 	 * @var array
+	 *
+	 * @since   4.0.0
 	 */
 	private $contents = [
 		'root'     => [
@@ -47,18 +50,22 @@ class MediaListCest
 	];
 
 	/**
-	 * The name of the test directory, which gets deleted after each test
+	 * The name of the test directory, which gets deleted after each test.
 	 *
 	 * @var string
+	 *
+	 * @since   4.0.0
 	 */
 	private $testDirectory = 'test-dir';
 
 	/**
-	 * Runs before every test
+	 * Runs before every test.
 	 *
-	 * @param   Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function _before(Media $I)
 	{
@@ -69,11 +76,13 @@ class MediaListCest
 	}
 
 	/**
-	 * Runs after every test
+	 * Runs after every test.
 	 *
-	 * @param   Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function _after(Media $I)
 	{
@@ -90,6 +99,7 @@ class MediaListCest
 	 * @param   AcceptanceTester  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
 	 * @throws Exception
 	 */
 	public function loadsWithoutPhpNoticesAndWarnings(AcceptanceTester $I)
@@ -101,11 +111,13 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that it shows then joomla default media files and folders
+	 * Test that it shows then joomla default media files and folders.
 	 *
-	 * @param   Media $I
+	 * @param   Media  $I
 	 *
 	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function showsDefaultFilesAndFolders(Media $I)
 	{
@@ -117,11 +129,13 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that it shows then joomla default media files and folders
+	 * Test that it shows then joomla default media files and folders.
 	 *
-	 * @param   Media $I
+	 * @param   Media  $I
 	 *
 	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function showsFilesAndFoldersOfASubdirectoryWhenOpenedUsingDeepLink(Media $I)
 	{
@@ -133,11 +147,13 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that it is possible to select a single file
+	 * Test that it is possible to select a single file.
 	 *
-	 * @param   Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function selectSingleFile(Media $I)
 	{
@@ -149,11 +165,13 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that it is possible to select a single file
+	 * Test that it is possible to select a single file.
 	 *
-	 * @param   Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function selectSingleFolder(Media $I)
 	{
@@ -165,11 +183,13 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that it is possible to select an image and see the information in the infobar
+	 * Test that it is possible to select an image and see the information in the infobar.
 	 *
-	 * @param   Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function selectMultipleItems(Media $I)
 	{
@@ -182,11 +202,13 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that its possible to navigate to a subfolder using double click
+	 * Test that its possible to navigate to a subfolder using double click.
 	 *
-	 * @param   Media $I
+	 * @param   Media  $I
 	 *
 	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function navigateUsingDoubleClickOnFolder(Media $I)
 	{
@@ -200,11 +222,13 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that its possible to navigate to a subfolder using tree
+	 * Test that its possible to navigate to a subfolder using tree.
 	 *
-	 * @param   Media $I
+	 * @param   Media  $I
 	 *
 	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function navigateUsingTree(Media $I)
 	{
@@ -218,11 +242,13 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that its possible to navigate to a subfolder using breadcrumb
+	 * Test that its possible to navigate to a subfolder using breadcrumb.
 	 *
-	 * @param   Media $I
+	 * @param   Media  $I
 	 *
 	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function navigateUsingBreadcrumb(Media $I)
 	{
@@ -260,9 +286,11 @@ class MediaListCest
 	 * @skip    We need to skip this test, because of a bug in acceptPopup in chrome.
 	 *          Its throws an Facebook\WebDriver\Exception\UnexpectedAlertOpenException and does not accept the popup
 	 *
-	 * @param   Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function uploadExistingFileUsingToolbarButton(Media $I)
 	{
@@ -288,6 +316,7 @@ class MediaListCest
 	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
 	 * @throws Exception
 	 */
 	public function createFolderUsingToolbarButton(Media $I)
@@ -336,11 +365,12 @@ class MediaListCest
 	}
 
 	/**
-	 * Test delete single file using toolbar
+	 * Test delete single file using toolbar.
 	 *
 	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
 	 * @throws Exception
 	 */
 	public function deleteSingleFileUsingToolbar(Media $I)
@@ -364,11 +394,12 @@ class MediaListCest
 	}
 
 	/**
-	 * Test toggle info bar
+	 * Test toggle info bar.
 	 *
 	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
 	 * @throws Exception
 	 */
 	public function deleteSingleFolder(Media $I)
@@ -391,11 +422,12 @@ class MediaListCest
 	}
 
 	/**
-	 * Test check all items
+	 * Test check all items.
 	 *
 	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
 	 * @throws Exception
 	 */
 	public function deleteMultipleFiles(Media $I)
@@ -424,11 +456,12 @@ class MediaListCest
 	}
 
 	/**
-	 * Test rename a file
+	 * Test rename a file.
 	 *
 	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
 	 * @throws Exception
 	 */
 	public function renameFile(Media $I)
@@ -452,13 +485,14 @@ class MediaListCest
 	}
 
 	/**
-	 * Test rename a file to the same name as an existing file
+	 * Test rename a file to the same name as an existing file.
 	 *
 	 * @skip    Skipping until bug is resolved in media manager
 	 *
 	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
 	 * @throws Exception
 	 */
 	public function renameFileToExistingFile(Media $I)
@@ -485,11 +519,12 @@ class MediaListCest
 	}
 
 	/**
-	 * Test rename a file
+	 * Test rename a file.
 	 *
 	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
 	 * @throws Exception
 	 */
 	public function renameFolder(Media $I)
@@ -513,13 +548,14 @@ class MediaListCest
 	}
 
 	/**
-	 * Test rename a folder to the same name as an existing folder
+	 * Test rename a folder to the same name as an existing folder.
 	 *
 	 * @skip    Skipping until bug is resolved in media manager
 	 *
 	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
 	 * @throws Exception
 	 */
 	public function renameFolderToExistingFolder(Media $I)
@@ -547,11 +583,12 @@ class MediaListCest
 	}
 
 	/**
-	 * Test preview using double click on image
+	 * Test preview using double click on image.
 	 *
 	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
 	 * @throws Exception
 	 */
 	public function showPreviewUsingDoubleClickOnImage(Media $I)
@@ -568,11 +605,12 @@ class MediaListCest
 	}
 
 	/**
-	 * Test preview using action menu
+	 * Test preview using action menu.
 	 *
 	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
 	 * @throws Exception
 	 */
 	public function showPreviewUsingClickOnActionMenu(Media $I)
@@ -589,11 +627,12 @@ class MediaListCest
 	}
 
 	/**
-	 * Test close the preview modal
+	 * Test close the preview modal.
 	 *
 	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
 	 * @throws Exception
 	 */
 	public function closePreviewModalUsingCloseButton(Media $I)
@@ -610,11 +649,12 @@ class MediaListCest
 	}
 
 	/**
-	 * Test close the preview modal
+	 * Test close the preview modal.
 	 *
 	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
 	 * @throws Exception
 	 */
 	public function closePreviewModalUsingEscapeKey(Media $I)
@@ -630,11 +670,13 @@ class MediaListCest
 	}
 
 	/**
-	 * Test rename a file
+	 * Test rename a file.
 	 *
-	 * @param   Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function openImageEditorUsingActionMenu(Media $I)
 	{
@@ -646,11 +688,12 @@ class MediaListCest
 	}
 
 	/**
-	 * Test toggle info bar
+	 * Test toggle info bar.
 	 *
 	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
 	 * @throws Exception
 	 */
 	public function toggleInfoBar(Media $I)
@@ -665,11 +708,13 @@ class MediaListCest
 	}
 
 	/**
-	 * Test show file information in infobar
+	 * Test show file information in infobar.
 	 *
-	 * @param   Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function showFileInformationInInfobar(Media $I)
 	{
@@ -683,11 +728,13 @@ class MediaListCest
 	}
 
 	/**
-	 * Test show folder information in infobar
+	 * Test show folder information in infobar.
 	 *
-	 * @param   Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function showFolderInformationInInfobar(Media $I)
 	{
@@ -701,11 +748,13 @@ class MediaListCest
 	}
 
 	/**
-	 * Test resize the thumbnails
+	 * Test resize the thumbnails.
 	 *
-	 * @param   Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function resizeThumbnails(Media $I)
 	{
@@ -734,11 +783,13 @@ class MediaListCest
 	}
 
 	/**
-	 * Test table view
+	 * Test table view.
 	 *
-	 * @param   Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function toggleListViewUsingToolbarButton(Media $I)
 	{
@@ -756,11 +807,13 @@ class MediaListCest
 	}
 
 	/**
-	 * Test check all items
+	 * Test check all items.
 	 *
-	 * @param   Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function selectAllItemsUsingToolbarButton(Media $I)
 	{
@@ -772,11 +825,13 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that the app state is synced with session storage
+	 * Test that the app state is synced with session storage.
 	 *
-	 * @param   Media $I Acceptance Helper Object
+	 * @param   Media  $I  Acceptance Helper Object
 	 *
 	 * @since   4.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function synchronizeAppStateWithSessionStorage(Media $I)
 	{

@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Test
+ * @package     Joomla.Tests
  * @subpackage  Helper
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Helper;
 
 use Codeception\Module\Db;
@@ -20,7 +21,7 @@ use Codeception\Module\Db;
 class JoomlaDb extends Db
 {
 	/**
-	 * The table prefix
+	 * The table prefix.
 	 *
 	 * @var    string
 	 * @since  3.7.3
@@ -28,7 +29,7 @@ class JoomlaDb extends Db
 	protected $prefix;
 
 	/**
-	 * Codeception Hook: called after configuration is loaded
+	 * Codeception Hook: called after configuration is loaded.
 	 *
 	 * @return  mixed
 	 *
@@ -42,8 +43,7 @@ class JoomlaDb extends Db
 	}
 
 	/**
-	 * Inserts an SQL record into a database. This record will be
-	 * erased after each test.
+	 * Inserts an SQL record into a database. This record will be erased after each test.
 	 *
 	 * @param   string  $table  Table
 	 * @param   array   $data   Data
@@ -60,7 +60,7 @@ class JoomlaDb extends Db
 	}
 
 	/**
-	 * See an entry in the database
+	 * See an entry in the database.
 	 *
 	 * @param   string  $table     Table
 	 * @param   array   $criteria  Criteria
@@ -77,7 +77,7 @@ class JoomlaDb extends Db
 	}
 
 	/**
-	 * Don't see in database
+	 * Don't see in database.
 	 *
 	 * @param   string  $table     Table
 	 * @param   array   $criteria  Criteria
@@ -94,7 +94,7 @@ class JoomlaDb extends Db
 	}
 
 	/**
-	 * Grab an entry from the database
+	 * Grab an entry from the database.
 	 *
 	 * @param   string  $table     Table
 	 * @param   string  $column    Column
@@ -114,11 +114,11 @@ class JoomlaDb extends Db
 	/**
 	 * Asserts that the given number of records were found in the database.
 	 *
-	 * @param   int     $expectedNumber  Expected number
-	 * @param   string  $table           Table name
-	 * @param   array   $criteria        Search criteria [Optional]
+	 * @param   integer  $expectedNumber  Expected number
+	 * @param   string   $table           Table name
+	 * @param   array    $criteria        Search criteria [Optional]
 	 *
-	 * @return  mixed|bool
+	 * @return  mixed|boolean
 	 *
 	 * @since   3.7.3
 	 */
@@ -130,12 +130,12 @@ class JoomlaDb extends Db
 	}
 
 	/**
-	 * Returns the number of rows in a database
+	 * Returns the number of rows in a database.
 	 *
 	 * @param   string  $table     Table name
 	 * @param   array   $criteria  Search criteria [Optional]
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
 	 * @since    3.7.3
 	 */
@@ -147,9 +147,9 @@ class JoomlaDb extends Db
 	}
 
 	/**
-	 * Add the table prefix
+	 * Add the table prefix.
 	 *
-	 * @param   $table  string  Table without prefix
+	 * @param   string  $table  Table without prefix
 	 *
 	 * @return  string
 	 *
