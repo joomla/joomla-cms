@@ -111,7 +111,7 @@ class DeleteUserCommand extends AbstractCommand
 
 					if ($activeSuperUser < 2)
 					{
-						$this->ioStyle->error("Last active super user can't be deleted! At least one active super user needs to exist!");
+						$this->ioStyle->error("You can't delete the last active Super User");
 
 						return 1;
 					}
@@ -129,7 +129,7 @@ class DeleteUserCommand extends AbstractCommand
 			return 1;
 		}
 
-		$this->ioStyle->success('Delete ' . $this->username . '!');
+		$this->ioStyle->success('User ' . $this->username . ' deleted!');
 
 		return 0;
 	}

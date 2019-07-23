@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
-use Joomla\Database\ParameterType;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -24,7 +23,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 
 /**
- * Console command to add an user to group
+ * Console command to add a user to group
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -294,7 +293,7 @@ class AddUserToGroupCommand extends AbstractCommand
 		$this->addOption('group', null, InputOption::VALUE_OPTIONAL, 'group');
 		$this->setHelp(
 			<<<EOF
-The <info>%command.name%</info> command adds a user to group
+The <info>%command.name%</info> command adds a user to a group
 
 <info>php %command.full_name%</info>
 EOF

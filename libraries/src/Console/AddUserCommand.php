@@ -117,7 +117,7 @@ class AddUserCommand extends AbstractCommand
 
 		if (in_array("error", $this->userGroups))
 		{
-			$this->ioStyle->error("'" . $this->userGroups[1] . "' user group doesn't exists!");
+			$this->ioStyle->error("'" . $this->userGroups[1] . "' user group doesn't exist!");
 
 			return 1;
 		}
@@ -152,13 +152,13 @@ class AddUserCommand extends AbstractCommand
 			return 1;
 		}
 
-		$this->ioStyle->success("create user successfully!");
+		$this->ioStyle->success("User created!");
 
 		return 0;
 	}
 
 	/**
-	 * Method to get groupId by groupNme
+	 * Method to get groupId by groupName
 	 *
 	 * @param   string  $groupName  name of group
 	 *

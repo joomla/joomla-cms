@@ -92,18 +92,18 @@ class ChangeUserPasswordCommand extends AbstractCommand
 		}
 
 		$user = User::getInstance($userId);
-		$this->password = $this->getStringFromOption('password', 'Please enter a password');
+		$this->password = $this->getStringFromOption('password', 'Please enter a new password');
 
 		$user->password = UserHelper::hashPassword($this->password);
 
 		if (!$user->save(true))
 		{
-			$this->ioStyle->error($userObj->getError());
+			$this->ioStyle->error($user->getError());
 
 			return 1;
 		}
 
-		$this->ioStyle->success("set password!");
+		$this->ioStyle->success("Password changed!");
 
 		return 0;
 	}
