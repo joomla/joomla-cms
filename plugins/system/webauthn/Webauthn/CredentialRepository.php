@@ -274,14 +274,15 @@ class CredentialRepository implements CredentialRepositoryInterface
 	public function getUserHandleFor(string $credentialId): string
 	{
 		/** @var DatabaseDriver $db */
-		$db           = Factory::getContainer()->get('DatabaseDriver');
-		$query        = $db->getQuery(true)
+		$base64EncodedCredentialId = base64_encode($credentialId);
+		$db                        = Factory::getContainer()->get('DatabaseDriver');
+		$query                     = $db->getQuery(true)
 			->select([
 				$db->qn('user_id'),
 			])
 			->from($db->qn('#__webauthn_credentials'))
 			->where($db->qn('id') . ' = :credentialId')
-			->bind(':credentialId', base64_encode($credentialId));
+			->bind(':credentialId', $base64EncodedCredentialId);
 
 		$user_id = $db->setQuery($query)->loadResult();
 
