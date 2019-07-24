@@ -147,14 +147,14 @@ class DeleteUserCommand extends AbstractCommand
 	 */
 	protected function getStringFromOption($option, $question): string
 	{
-		$value = (string) $this->getApplication()->getConsoleInput()->getOption($option);
+		$answer = (string) $this->getApplication()->getConsoleInput()->getOption($option);
 
-		if (!$value)
+		while (!$answer)
 		{
-			return (string) $this->ioStyle->ask($question);
+			$answer = (string) $this->ioStyle->ask($question);
 		}
 
-		return $value;
+		return $answer;
 	}
 
 	/**

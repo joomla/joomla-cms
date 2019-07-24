@@ -191,9 +191,9 @@ class AddUserCommand extends AbstractCommand
 	 */
 	public function getStringFromOption($option, $question): string
 	{
-		$value = (string) $this->cliInput->getOption($option);
+		$answer = (string) $this->cliInput->getOption($option);
 
-		if (!$value)
+		while (!$answer)
 		{
 			if ($option === 'password')
 			{
@@ -203,11 +203,9 @@ class AddUserCommand extends AbstractCommand
 			{
 				$answer = (string) $this->ioStyle->ask($question);
 			}
-
-			return $answer;
 		}
 
-		return $value;
+			return $answer;
 	}
 
 	/**

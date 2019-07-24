@@ -121,9 +121,9 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	 */
 	protected function getStringFromOption($option, $question): string
 	{
-		$value = (string) $this->cliInput->getOption($option);
+		$answer = (string) $this->cliInput->getOption($option);
 
-		if (!$value)
+		while (!$answer)
 		{
 			if ($option === 'password')
 			{
@@ -133,11 +133,9 @@ class ChangeUserPasswordCommand extends AbstractCommand
 			{
 				$answer = (string) $this->ioStyle->ask($question);
 			}
-
-			return $answer;
 		}
 
-		return $value;
+		return $answer;
 	}
 
 	/**
