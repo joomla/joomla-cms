@@ -929,7 +929,7 @@ class DatabaseModel extends BaseInstallationModel
 			return;
 		}
 
-		$testingPlugin = new \stdClass();
+		$testingPlugin = new \stdClass;
 		$testingPlugin->name = 'plg_sampledata_testing';
 		$testingPlugin->type = 'plugin';
 		$testingPlugin->element = 'testing';
