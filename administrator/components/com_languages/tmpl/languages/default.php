@@ -100,7 +100,7 @@ if ($saveOrder && !empty($this->items))
 
 										if (!$saveOrder) :
 											$disabledLabel    = Text::_('JORDERINGDISABLED');
-											$disableClassName = 'inactive tip-top';
+											$disableClassName = 'inactive';
 										endif; ?>
 										<span class="sortable-handler <?php echo $disableClassName; ?>" title="<?php echo $disabledLabel; ?>">
 											<span class="fa fa-ellipsis-v" aria-hidden="true"></span>

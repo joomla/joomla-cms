@@ -114,7 +114,7 @@ abstract class ArticlesLatestHelper
 			'mc_dsc' => 'CASE WHEN (a.modified = ' . $db->quote($db->getNullDate()) . ') THEN a.created ELSE a.modified END',
 			'c_dsc'  => 'a.created',
 			'p_dsc'  => 'a.publish_up',
-			'random' => $db->getQuery(true)->Rand(),
+			'random' => $db->getQuery(true)->rand(),
 		);
 
 		$ordering = ArrayHelper::getValue($order_map, $params->get('ordering'), 'a.publish_up');

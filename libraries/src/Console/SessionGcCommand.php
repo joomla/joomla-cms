@@ -61,7 +61,7 @@ class SessionGcCommand extends AbstractCommand implements ContainerAwareInterfac
 
 		if ($gcResult === false)
 		{
-			$symfonyStyle->error('Garbage collection was not completed. Either the operation failed or is not supported on your platform.');
+			$symfonyStyle->error('Garbage collection was not completed. Either the operation failed or it is not supported on your platform.');
 
 			return 1;
 		}
@@ -80,7 +80,7 @@ class SessionGcCommand extends AbstractCommand implements ContainerAwareInterfac
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Performs session garbage collection');
+		$this->setDescription('Perform session garbage collection');
 		$this->addOption('application', 'app', InputOption::VALUE_OPTIONAL, 'The application to perform garbage collection for.', 'site');
 		$this->setHelp(
 			<<<EOF
