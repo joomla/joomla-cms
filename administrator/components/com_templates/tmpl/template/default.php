@@ -189,37 +189,33 @@ if ($this->type == 'font')
 				<ul>
 					<li>Item</li>
 					<li>Item</li>
-					<li>Item<br>
+					<li>Item</li>
 						<ul>
 							<li>Item</li>
 							<li>Item</li>
-							<li>Item<br>
+							<li>Item</li>
 								<ul>
 									<li>Item</li>
 									<li>Item</li>
 									<li>Item</li>
 								</ul>
-							</li>
 						</ul>
-					</li>
 				</ul>
 				<p class="lead">Ordered List</p>
 				<ol>
 					<li>Item</li>
 					<li>Item</li>
-					<li>Item<br>
+					<li>Item</li>
 						<ul>
 							<li>Item</li>
 							<li>Item</li>
-							<li>Item<br>
+							<li>Item</li>
 								<ul>
 									<li>Item</li>
 									<li>Item</li>
 									<li>Item</li>
 								</ul>
-							</li>
 						</ul>
-					</li>
 				</ol>
 			</div>
 		<?php endif; ?>
