@@ -178,7 +178,6 @@ trait AdditionalLoginButtons
 		]);
 
 		// Load the JavaScript
-		HTMLHelper::_('jquery.framework');
 		HTMLHelper::_('script', 'plg_system_webauthn/login.js', [
 			'relative'  => true,
 		]);

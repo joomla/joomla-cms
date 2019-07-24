@@ -110,18 +110,31 @@ function plg_system_webauthn_login(form_id, callback_url)
 		"returnUrl": returnUrl,
 	};
 
-	window.jQuery.ajax({
-		type:     "POST",
-		url:      callback_url,
-		data:     postBackData,
-		dataType: "json"
-	})
-		.done(function (jsonData) {
+	Joomla.request({
+		url: callback_url,
+		method: 'POST',
+		data: plg_system_webauthn_interpolate_parameters(postBackData),
+		onSuccess(rawResponse) {
+			let jsonData = {};
+
+			try
+			{
+				jsonData = JSON.parse(rawResponse);
+			}
+			catch (e)
+			{
+				/**
+				 * In case of JSON decoding failure fall through; the error will be handled in the login challenge
+				 * handler called below.
+				 */
+			}
+
 			plg_system_webauthn_handle_login_challenge(jsonData, callback_url);
-		})
-		.fail(function (error) {
-			plg_system_webauthn_handle_login_error(error.status + " " + error.statusText);
-		});
+		},
+		onError: (xhr) => {
+			plg_system_webauthn_handle_login_error(xhr.status + " " + xhr.statusText);
+		}
+	});
 
 	return false;
 }
@@ -190,4 +203,50 @@ function plg_system_webauthn_handle_login_error(message)
     alert(message);
 
     console.log(message);
+}
+
+/**
+ * Converts a simple object containing query string parameters to a single, escaped query string. This method is a
+ * necessary evil since Joomla.request can only accept data as a string.
+ *
+ * @param    object   {object}  A plain object containing the query parameters to pass
+ * @param    prefix   {string}  Prefix for array-type parameters
+ *
+ * @returns  {string}
+ */
+function plg_system_webauthn_interpolate_parameters(object, prefix)
+{
+	prefix            = prefix || "";
+	var encodedString = "";
+
+	for (var prop in object)
+	{
+		if (object.hasOwnProperty(prop))
+		{
+			if (encodedString.length > 0)
+			{
+				encodedString += "&";
+			}
+
+			if (typeof object[prop] !== "object")
+			{
+				if (prefix === "")
+				{
+					encodedString += encodeURIComponent(prop) + "=" + encodeURIComponent(object[prop]);
+				}
+				else
+				{
+					encodedString +=
+						encodeURIComponent(prefix) + "[" + encodeURIComponent(prop) + "]=" + encodeURIComponent(
+						object[prop]);
+				}
+
+				continue;
+			}
+
+			// Objects need special handling
+			encodedString += plg_system_webauthn_interpolate_parameters(object[prop], prop);
+		}
+	}
+	return encodedString;
 }

@@ -78,23 +78,26 @@ function plg_system_webauthn_create_credentials(store_id, interface_selector)
                 "data":     btoa(JSON.stringify(publicKeyCredential))
             };
 
-            window.jQuery.post(post_url, postBackData)
-                .done(function (responseHTML) {
-                    let elements = document.querySelectorAll(interface_selector);
+            Joomla.request({
+				url: post_url,
+				method: 'POST',
+				data: plg_system_webauthn_interpolate_parameters(postBackData),
+				onSuccess(responseHTML) {
+					let elements = document.querySelectorAll(interface_selector);
 
-                    if (!elements)
-                    {
-                        return;
-                    }
+					if (!elements)
+					{
+						return;
+					}
 
-                    let elContainer = elements[0];
+					let elContainer = elements[0];
 
-                    elContainer.outerHTML = responseHTML;
-                })
-                .fail(function (data) {
-                    plg_system_webauthn_handle_creation_error(data.status + ' ' + data.statusText);
-                });
-
+					elContainer.outerHTML = responseHTML;
+				},
+				onError: (xhr) => {
+					plg_system_webauthn_handle_creation_error(xhr.status + ' ' + xhr.statusText)
+				}
+			});
 
         }, function (error) {
             // An error occurred: timeout, request to provide the authenticator refused, hardware / software error...
@@ -169,20 +172,33 @@ function plg_system_webauthn_edit_label(that, store_id)
                 "new_label": elNewLabel
             };
 
-            window.jQuery.post(post_url, postBackData)
-                .done(function (result) {
-                    if ((result !== true) && (result !== "true"))
-                    {
-                        plg_system_webauthn_handle_creation_error(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED'));
+			Joomla.request({
+				url: post_url,
+				method: 'POST',
+				data: plg_system_webauthn_interpolate_parameters(postBackData),
+				onSuccess(rawResponse) {
+					let result = false;
 
-                        return;
-                    }
+					try
+					{
+						result = JSON.parse(rawResponse);
+					}
+					catch (e)
+					{
+						result = (rawResponse === "true");
+					}
 
-                    //alert(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_MSG_SAVED_LABEL'));
-                })
-                .fail(function (data) {
-                    plg_system_webauthn_handle_creation_error(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED') + ' -- ' + data.status + ' ' + data.statusText);
-                });
+					if (result !== true)
+					{
+						plg_system_webauthn_handle_creation_error(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED'));
+					}
+
+					//alert(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_MSG_SAVED_LABEL'));
+				},
+				onError: (xhr) => {
+					plg_system_webauthn_handle_creation_error(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED') + ' -- ' + xhr.status + ' ' + xhr.statusText);
+				}
+			});
         }
 
         elLabelTD.innerText = elNewLabel;
@@ -254,25 +270,85 @@ function plg_system_webauthn_delete(that, store_id)
         "credential_id": credentialId,
     };
 
-    window.jQuery.post(post_url, postBackData)
-        .done(function (result) {
-            if ((result !== true) && (result !== "true"))
-            {
-                plg_system_webauthn_handle_creation_error(Joomla.JText._("PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED"));
+	Joomla.request({
+		url: post_url,
+		method: 'POST',
+		data: plg_system_webauthn_interpolate_parameters(postBackData),
+		onSuccess(rawResponse) {
+			let result = false;
 
-                return;
-            }
+			try
+			{
+				result = JSON.parse(rawResponse);
+			}
+			catch (e)
+			{
+				result = (rawResponse === "true");
+			}
 
-            elTR.parentElement.removeChild(elTR);
+			if (result !== true)
+			{
+				plg_system_webauthn_handle_creation_error(Joomla.JText._("PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED"));
 
-            //alert(Joomla.JText._("PLG_SYSTEM_WEBAUTHN_MSG_DELETED"));
-        })
-        .fail(function (data) {
-            elEdit.disabled     = false;
-            elDelete.disabled   = false;
+				return;
+			}
 
-            plg_system_webauthn_handle_creation_error(Joomla.JText._("PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED") + " -- " + data.status + " " + data.statusText);
-        });
+			elTR.parentElement.removeChild(elTR);
+		},
+		onError: (xhr) => {
+			elEdit.disabled     = false;
+			elDelete.disabled   = false;
+
+			plg_system_webauthn_handle_creation_error(Joomla.JText._("PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED") + " -- " + xhr.status + " " + xhr.statusText);
+
+		}
+	});
 
     return false;
+}
+
+/**
+ * Converts a simple object containing query string parameters to a single, escaped query string. This method is a
+ * necessary evil since Joomla.request can only accept data as a string.
+ *
+ * @param    object   {object}  A plain object containing the query parameters to pass
+ * @param    prefix   {string}  Prefix for array-type parameters
+ *
+ * @returns  {string}
+ */
+function plg_system_webauthn_interpolate_parameters(object, prefix)
+{
+	prefix            = prefix || "";
+	var encodedString = "";
+
+	for (var prop in object)
+	{
+		if (object.hasOwnProperty(prop))
+		{
+			if (encodedString.length > 0)
+			{
+				encodedString += "&";
+			}
+
+			if (typeof object[prop] !== "object")
+			{
+				if (prefix === "")
+				{
+					encodedString += encodeURIComponent(prop) + "=" + encodeURIComponent(object[prop]);
+				}
+				else
+				{
+					encodedString +=
+						encodeURIComponent(prefix) + "[" + encodeURIComponent(prop) + "]=" + encodeURIComponent(
+						object[prop]);
+				}
+
+				continue;
+			}
+
+			// Objects need special handling
+			encodedString += plg_system_webauthn_interpolate_parameters(object[prop], prop);
+		}
+	}
+	return encodedString;
 }
