@@ -111,7 +111,7 @@ class AddUserCommand extends AbstractCommand
 		$this->ioStyle->title('Add user');
 		$this->user = $this->getStringFromOption('username', 'Please enter a username');
 		$this->name = $this->getStringFromOption('name', 'Please enter a name (full name of user)');
-		$this->email = $this->getStringFromOption('email', 'Please enter a email address');
+		$this->email = $this->getStringFromOption('email', 'Please enter an email address');
 		$this->password = $this->getStringFromOption('password', 'Please enter a password');
 		$this->userGroups = $this->getUserGroups();
 
