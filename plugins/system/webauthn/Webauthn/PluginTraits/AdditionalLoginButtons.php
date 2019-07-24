@@ -133,6 +133,9 @@ trait AdditionalLoginButtons
 
 		$this->addLoginCSSAndJavascript();
 
+		// Load the language files
+		$this->loadLanguage();
+
 		// Return URL
 		$uri = new Uri(Uri::base() . 'index.php');
 		$uri->setVar(Joomla::getToken(), '1');
