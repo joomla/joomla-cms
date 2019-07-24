@@ -140,23 +140,19 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	 */
 	public function saveCredentialSource(PublicKeyCredentialSource $publicKeyCredentialSource): void
 	{
-		/** @var DatabaseDriver $db */
-		$db           = Factory::getContainer()->get('DatabaseDriver');
+		// Default values for saving a new credential source
 		$credentialId = base64_encode($publicKeyCredentialSource->getPublicKeyCredentialId());
-		$update       = false;
+		$user         = Factory::getApplication()->getIdentity();
+		$o            = (object) [
+			'id'         => $credentialId,
+			'user_id'    => $this->getHandleFromUserId($user->id),
+			'label'      => Text::sprintf('PLG_SYSTEM_WEBAUTHN_LBL_DEFAULT_AUTHENTICATOR_LABEL', Joomla::formatDate('now')),
+			'credential' => json_encode($publicKeyCredentialSource),
+		];
+		$update = false;
 
-		// Defaults
-		try
-		{
-			$label        = Text::sprintf('PLG_SYSTEM_WEBAUTHN_LBL_DEFAULT_AUTHENTICATOR_LABEL', Joomla::formatDate('now'));
-			$identityUser = Factory::getApplication()->getIdentity();
-			$user         = $identityUser;
-		}
-		catch (Exception $e)
-		{
-			// This should never happen...
-			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CANT_STORE_FOR_GUEST'));
-		}
+		/** @var DatabaseDriver $db */
+		$db     = Factory::getContainer()->get('DatabaseDriver');
 
 		// Try to find an existing record
 		try
@@ -173,31 +169,39 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 				throw new Exception('This is a new record');
 			}
 
-			$user   = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($oldRecord->user_id);
-			$label  = $oldRecord->label;
-			$update = true;
+			/**
+			 * Sanity check. The existing credential source must have the same user handle as the one I am trying to
+			 * save. Otherwise something fishy is going on.
+			 */
+			if ($oldRecord->user_id != $publicKeyCredentialSource->getUserHandle())
+			{
+				throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREDENTIAL_ID_ALREADY_IN_USE'));
+			}
+
+			$o->user_id = $oldRecord->user_id;
+			$o->label   = $oldRecord->label;
+			$update     = true;
 		}
 		catch (Exception $e)
 		{
 		}
-
-		if (is_null($user) || $user->guest)
-		{
-			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CANT_STORE_FOR_GUEST'));
-		}
-
-		$o = (object) [
-			'id'         => $credentialId,
-			'user_id'    => $this->getHandleFromUserId($user->id),
-			'label'      => $label,
-			'credential' => json_encode($publicKeyCredentialSource),
-		];
 
 		if ($update)
 		{
 			$db->updateObject('#__webauthn_credentials', $o, ['id']);
 
 			return;
+		}
+
+		/**
+		 * This check is deliberately skipped for updates. When logging in the underlying library will try to save the
+		 * credential source. This is necessary to update the last known authenticator signature counter which prevents
+		 * replay attacks. When we are saving a new record, though, we have to make sure we are not a guest user. Hence
+		 * the check below.
+		 */
+		if ((is_null($user) || $user->guest))
+		{
+			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CANT_STORE_FOR_GUEST'));
 		}
 
 		$db->insertObject('#__webauthn_credentials', $o);
