@@ -12,6 +12,7 @@ namespace Joomla\Plugin\System\Webauthn;
 use Exception;
 use InvalidArgumentException;
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Encrypt\Aes;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserFactoryInterface;
@@ -54,12 +55,14 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 			->where($db->qn('id') . ' = :credentialId')
 			->bind(':credentialId', $credentialId);
 
-		$json = $db->setQuery($query)->loadResult();
+		$encrypted = $db->setQuery($query)->loadResult();
 
-		if (empty($json))
+		if (empty($encrypted))
 		{
 			return null;
 		}
+
+		$json = $this->decryptCredential($encrypted);
 
 		try
 		{
@@ -102,7 +105,8 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 		$records = array_map(function ($record) {
 			try
 			{
-				$data = json_decode($record['credential'], true);
+				$json = $this->decryptCredential($record['credential']);
+				$data = json_decode($json, true);
 			}
 			catch (JsonException $e)
 			{
@@ -185,6 +189,8 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 		catch (Exception $e)
 		{
 		}
+
+		$o->credential = $this->encryptCredential($o->credential);
 
 		if ($update)
 		{
@@ -364,7 +370,73 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	 */
 	public function getHandleFromUserId(int $id): string
 	{
-		/** @var CMSApplication $app */
+		$key  = $this->getEncryptionKey();
+		$data = sprintf('%010u', $id);
+
+		return hash_hmac('sha256', $data, $key, false);
+	}
+
+	/**
+	 * Encrypt the credential source before saving it to the database
+	 *
+	 * @param   string   $credential  The unencrypted, JSON-encoded credential source
+	 *
+	 * @return  string  The encrypted credential source, base64 encoded
+	 *
+	 * @since   4.0.0
+	 */
+	private function encryptCredential(string $credential): string
+	{
+		$key = $this->getEncryptionKey();
+
+		if (empty($key))
+		{
+			return $credential;
+		}
+
+		$aes = new Aes($key, 256);
+
+		return $aes->encryptString($credential);
+	}
+
+	/**
+	 * Decrypt the credential source if it was already encrypted in the database
+	 *
+	 * @param   string  $credential  The encrypted credential source, base64 encoded
+	 *
+	 * @return  string  The decrypted, JSON-encoded credential source
+	 *
+	 * @since   4.0.0
+	 */
+	private function decryptCredential(string $credential): string
+	{
+		$key = $this->getEncryptionKey();
+
+		if (empty($key))
+		{
+			return $credential;
+		}
+
+		// Was the credential stored unencrypted (e.g. the site's secret was empty)?
+		if ((strpos($credential, '{') !== false) && (strpos($credential, '"publicKeyCredentialId"') !== false))
+		{
+			return $credential;
+		}
+
+		$aes = new Aes($key, 256);
+
+		return $aes->decryptString($credential);
+	}
+
+	/**
+	 * Get the site's secret, used as an encryption key
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	private function getEncryptionKey(): string
+	{
 		try
 		{
 			$app    = Factory::getApplication();
@@ -375,8 +447,6 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 			$secret = '';
 		}
 
-		$data = sprintf('%010u', $id);
-
-		return hash_hmac('sha256', $data, $secret, false);
+		return $secret;
 	}
 }
