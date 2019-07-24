@@ -175,7 +175,7 @@ abstract class ArticlesCategoryHelper
 		switch ($ordering)
 		{
 			case 'random':
-				$articles->setState('list.ordering', Factory::getDbo()->getQuery(true)->Rand());
+				$articles->setState('list.ordering', Factory::getDbo()->getQuery(true)->rand());
 				break;
 
 			case 'rating_count':

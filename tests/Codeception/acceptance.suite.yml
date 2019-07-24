@@ -52,6 +52,10 @@ env:
                     database type: 'pgsql'
                 Helper\JoomlaDb:
                     dsn: 'pgsql:host=postgres;dbname=test_joomla'
-
+    mysql8:
+        modules:
+            config:
+                JoomlaBrowser:
+                    database host: 'mysql8'
     mysql:
     # Nothing to change

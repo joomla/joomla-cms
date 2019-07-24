@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Database\ParameterType;
+
 /**
  * Privacy plugin managing Joomla user consent data
  *
@@ -35,15 +37,17 @@ class PlgPrivacyConsents extends PrivacyPlugin
 			return array();
 		}
 
-		$domain    = $this->createDomain('consents', 'joomla_consent_data');
+		$domain = $this->createDomain('consents', 'joomla_consent_data');
+		$db     = $this->db;
 
-		$query = $this->db->getQuery(true)
+		$query = $db->getQuery(true)
 			->select('*')
-			->from($this->db->quoteName('#__privacy_consents'))
-			->where($this->db->quoteName('user_id') . ' = ' . (int) $user->id)
-			->order($this->db->quoteName('created') . ' ASC');
+			->from($db->quoteName('#__privacy_consents'))
+			->where($db->quoteName('user_id') . ' = :id')
+			->order($db->quoteName('created') . ' ASC')
+			->bind(':id', $user->id, ParameterType::INTEGER);
 
-		$items = $this->db->setQuery($query)->loadAssocList();
+		$items = $db->setQuery($query)->loadAssocList();
 
 		foreach ($items as $item)
 		{
