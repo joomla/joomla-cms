@@ -4,7 +4,6 @@ CREATE TABLE IF NOT EXISTS "#__webauthn_credentials"
     "user_id"    BIGINT DEFAULT 0 NOT NULL,
     "label"      varchar(190)     NOT NULL,
     "credential" TEXT             NOT NULL,
-    "counter"    BIGINT DEFAULT 0 NOT NULL,
     PRIMARY KEY ("id")
 );
 
