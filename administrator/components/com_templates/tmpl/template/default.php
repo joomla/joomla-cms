@@ -177,17 +177,19 @@ if ($this->type == 'font')
 		<?php endif; ?>
 		<?php if ($this->type == 'font') : ?>
 			<div class="font-preview">
-				<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
-					<fieldset class="adminform">
-						<h1>H1. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h1>
-						<h2>H2. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h2>
-						<h3>H3. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h3>
-						<h4>H4. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h4>
-						<h5>H5. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h5>
-						<h6>H6. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h6>
-						<p><strong>Bold. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</strong></p>
-						<p><em>Italics. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</em></p>
-						<p>Unordered List</p>
+				<h1>H1. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h1>
+				<h2>H2. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h2>
+				<h3>H3. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h3>
+				<h4>H4. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h4>
+				<h5>H5. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h5>
+				<h6>H6. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h6>
+				<p><strong>Bold. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</strong></p>
+				<p><em>Italics. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</em></p>
+				<p>Unordered List</p>
+				<ul>
+					<li>Item</li>
+					<li>Item</li>
+					<li>Item<br>
 						<ul>
 							<li>Item</li>
 							<li>Item</li>
@@ -195,38 +197,30 @@ if ($this->type == 'font')
 								<ul>
 									<li>Item</li>
 									<li>Item</li>
-									<li>Item<br>
-										<ul>
-											<li>Item</li>
-											<li>Item</li>
-											<li>Item</li>
-										</ul>
-									</li>
+									<li>Item</li>
 								</ul>
 							</li>
 						</ul>
-						<p class="lead">Ordered List</p>
-						<ol>
+					</li>
+				</ul>
+				<p class="lead">Ordered List</p>
+				<ol>
+					<li>Item</li>
+					<li>Item</li>
+					<li>Item<br>
+						<ul>
 							<li>Item</li>
 							<li>Item</li>
 							<li>Item<br>
 								<ul>
 									<li>Item</li>
 									<li>Item</li>
-									<li>Item<br>
-										<ul>
-											<li>Item</li>
-											<li>Item</li>
-											<li>Item</li>
-										</ul>
-									</li>
+									<li>Item</li>
 								</ul>
 							</li>
-						</ol>
-						<input type="hidden" name="task" value="">
-						<?php echo HTMLHelper::_('form.token'); ?>
-					</fieldset>
-				</form>
+						</ul>
+					</li>
+				</ol>
 			</div>
 		<?php endif; ?>
 	</div>
