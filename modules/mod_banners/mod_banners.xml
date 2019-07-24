@@ -24,7 +24,7 @@
 		<fields name="params">
 			<fieldset
 				name="basic"
-				addfieldpath="/administrator/components/com_banners/models/fields"
+				addfieldprefix="Joomla\Component\Banners\Administrator\Field"
 				>
 
 				<field

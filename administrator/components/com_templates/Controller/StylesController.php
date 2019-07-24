@@ -11,10 +11,9 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
-use Joomla\CMS\Session\Session;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -32,7 +31,7 @@ class StylesController extends AdminController
 	public function duplicate()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$pks = $this->input->post->get('cid', array(), 'array');
 
@@ -51,7 +50,7 @@ class StylesController extends AdminController
 		}
 		catch (\Exception $e)
 		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			$this->app->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		$this->setRedirect('index.php?option=com_templates&view=styles');
@@ -64,7 +63,7 @@ class StylesController extends AdminController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  Model
+	 * @return  BaseDatabaseModel
 	 *
 	 * @since   1.6
 	 */
@@ -83,7 +82,7 @@ class StylesController extends AdminController
 	public function setDefault()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$pks = $this->input->post->get('cid', array(), 'array');
 
@@ -122,7 +121,7 @@ class StylesController extends AdminController
 	public function unsetDefault()
 	{
 		// Check for request forgeries
-		Session::checkToken('request') or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		$pks = $this->input->get->get('cid', array(), 'array');
 		$pks = ArrayHelper::toInteger($pks);

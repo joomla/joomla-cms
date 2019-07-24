@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -269,7 +269,7 @@ class TemplateAdapter extends InstallerAdapter
 			$client = 'ADMINISTRATOR';
 		}
 
-		$base = constant('JPATH_' . strtoupper($client));
+		$base = \constant('JPATH_' . strtoupper($client));
 		$extension = 'tpl_' . $this->getName();
 		$source    = $path ?: $base . '/templates/' . $this->getName();
 
@@ -299,7 +299,7 @@ class TemplateAdapter extends InstallerAdapter
 	 */
 	protected function parseQueries()
 	{
-		if (in_array($this->route, array('install', 'discover_install')))
+		if (\in_array($this->route, array('install', 'discover_install')))
 		{
 			$db    = $this->db;
 			$lang  = Factory::getLanguage();
@@ -343,8 +343,8 @@ class TemplateAdapter extends InstallerAdapter
 	 */
 	public function prepareDiscoverInstall()
 	{
-		$client = ApplicationHelper::getClientInfo($this->extension->client_id);
-		$manifestPath = $client->path . '/templates/' . $this->extension->element . '/templateDetails.xml';
+		$client                 = ApplicationHelper::getClientInfo($this->extension->client_id);
+		$manifestPath           = $client->path . '/templates/' . $this->extension->element . '/templateDetails.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$this->setManifest($this->parent->getManifest());
@@ -398,13 +398,13 @@ class TemplateAdapter extends InstallerAdapter
 				throw new \RuntimeException(Text::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_UNKNOWN_CLIENT', $cname));
 			}
 
-			$basePath = $client->path;
+			$basePath       = $client->path;
 			$this->clientId = $client->id;
 		}
 		else
 		{
 			// No client attribute was found so we assume the site as the client
-			$basePath = JPATH_SITE;
+			$basePath       = JPATH_SITE;
 			$this->clientId = 0;
 		}
 
@@ -537,12 +537,13 @@ class TemplateAdapter extends InstallerAdapter
 			$this->extension->element = $this->element;
 
 			// There is no folder for templates
-			$this->extension->folder    = '';
-			$this->extension->enabled   = 1;
-			$this->extension->protected = 0;
-			$this->extension->access    = 1;
-			$this->extension->client_id = $this->clientId;
-			$this->extension->params    = $this->parent->getParams();
+			$this->extension->folder       = '';
+			$this->extension->enabled      = 1;
+			$this->extension->protected    = 0;
+			$this->extension->access       = 1;
+			$this->extension->client_id    = $this->clientId;
+			$this->extension->params       = $this->parent->getParams();
+			$this->extension->changelogurl = $this->changelogurl;
 		}
 
 		// Name might change in an update
@@ -550,6 +551,8 @@ class TemplateAdapter extends InstallerAdapter
 
 		// Update the manifest cache for the entry
 		$this->extension->manifest_cache = $this->parent->generateManifestCache();
+
+		$this->extension->changelogurl = $this->changelogurl;
 
 		if (!$this->extension->store())
 		{
@@ -571,10 +574,10 @@ class TemplateAdapter extends InstallerAdapter
 	 */
 	public function discover()
 	{
-		$results = array();
-		$site_list = Folder::folders(JPATH_SITE . '/templates');
+		$results    = array();
+		$site_list  = Folder::folders(JPATH_SITE . '/templates');
 		$admin_list = Folder::folders(JPATH_ADMINISTRATOR . '/templates');
-		$site_info = ApplicationHelper::getClientInfo('site', true);
+		$site_info  = ApplicationHelper::getClientInfo('site', true);
 		$admin_info = ApplicationHelper::getClientInfo('administrator', true);
 
 		foreach ($site_list as $template)
@@ -588,7 +591,7 @@ class TemplateAdapter extends InstallerAdapter
 				}
 
 				$manifest_details = Installer::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
-				$extension = Table::getInstance('extension');
+				$extension        = Table::getInstance('extension');
 				$extension->set('type', 'template');
 				$extension->set('client_id', $site_info->id);
 				$extension->set('element', $template);
@@ -612,7 +615,7 @@ class TemplateAdapter extends InstallerAdapter
 				}
 
 				$manifest_details = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml");
-				$extension = Table::getInstance('extension');
+				$extension        = Table::getInstance('extension');
 				$extension->set('type', 'template');
 				$extension->set('client_id', $admin_info->id);
 				$extension->set('element', $template);
@@ -638,14 +641,14 @@ class TemplateAdapter extends InstallerAdapter
 	public function refreshManifestCache()
 	{
 		// Need to find to find where the XML file is since we don't store this normally.
-		$client = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$manifestPath = $client->path . '/templates/' . $this->parent->extension->element . '/templateDetails.xml';
+		$client                 = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
+		$manifestPath           = $client->path . '/templates/' . $this->parent->extension->element . '/templateDetails.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 
-		$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
-		$this->parent->extension->name = $manifest_details['name'];
+		$this->parent->extension->name           = $manifest_details['name'];
 
 		try
 		{

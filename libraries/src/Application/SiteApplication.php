@@ -19,7 +19,6 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
@@ -103,7 +102,7 @@ final class SiteApplication extends CMSApplication
 
 				$url = Route::_('index.php?option=com_users&view=login', false);
 
-				$this->enqueueMessage(Text::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'));
+				$this->enqueueMessage(Text::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'), 'error');
 				$this->redirect($url);
 			}
 			else
@@ -170,11 +169,6 @@ final class SiteApplication extends CMSApplication
 				}
 
 				$document->setMetaData('rights', $this->get('MetaRights'));
-
-				if ($this->get('sef'))
-				{
-					$document->setBase(htmlspecialchars(Uri::current()));
-				}
 
 				// Get the template
 				$template = $this->getTemplate(true);
@@ -275,21 +269,6 @@ final class SiteApplication extends CMSApplication
 	public function getLanguageFilter()
 	{
 		return $this->language_filter;
-	}
-
-	/**
-	 * Return a reference to the AbstractMenu object.
-	 *
-	 * @param   string  $name     The name of the application/client.
-	 * @param   array   $options  An optional associative array of configuration settings.
-	 *
-	 * @return  AbstractMenu  AbstractMenu object.
-	 *
-	 * @since   3.2
-	 */
-	public function getMenu($name = 'site', $options = array())
-	{
-		return parent::getMenu($name, $options);
 	}
 
 	/**

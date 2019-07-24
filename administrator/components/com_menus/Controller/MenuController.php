@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
@@ -52,7 +51,7 @@ class MenuController extends FormController
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app      = $this->app;
 		$data     = $this->input->post->get('jform', array(), 'array');
@@ -75,7 +74,7 @@ class MenuController extends FormController
 		$data['id'] = $recordId;
 
 		// Get the model and attempt to validate the posted data.
-		/* @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
+		/** @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
 		$model = $this->getModel('Menu', '', ['ignore_request' => false]);
 		$form  = $model->getForm();
 

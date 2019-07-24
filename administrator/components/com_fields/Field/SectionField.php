@@ -12,17 +12,20 @@ namespace Joomla\Component\Fields\Administrator\Field;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\Field\ListField;
 
 /**
  * Fields Section
  *
  * @since  3.7.0
  */
-class SectionField extends \JFormFieldList
+class SectionField extends ListField
 {
+	/**
+	 * Type of the field
+	 *
+	 * @var    string
+	 */
 	public $type = 'Section';
 
 	/**

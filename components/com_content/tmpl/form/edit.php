@@ -23,6 +23,7 @@ HTMLHelper::_('script', 'com_content/form-edit.js', ['version' => 'auto', 'relat
 
 $this->tab_name = 'com-content-form';
 $this->ignore_fieldsets = array('image-intro', 'image-full', 'jmetadata', 'item_associations');
+$this->useCoreUI = true;
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
@@ -101,6 +102,7 @@ if (!$editoroptions)
 			<?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'publishing', Text::_('COM_CONTENT_PUBLISHING')); ?>
 				<?php echo $this->form->renderField('catid'); ?>
 				<?php echo $this->form->renderField('tags'); ?>
+				<?php echo $this->form->renderField('note'); ?>
 				<?php if ($params->get('save_history', 0)) : ?>
 					<?php echo $this->form->renderField('version_note'); ?>
 				<?php endif; ?>

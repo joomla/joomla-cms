@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
@@ -267,7 +267,7 @@ class FileAdapter extends InstallerAdapter
 			$folderList = [];
 
 			// Check if all children exists
-			if (count($eFiles->children()) > 0)
+			if (\count($eFiles->children()) > 0)
 			{
 				// Loop through all filenames elements
 				foreach ($eFiles->children() as $eFileName)
@@ -289,7 +289,7 @@ class FileAdapter extends InstallerAdapter
 			{
 				$files = Folder::files($folder);
 
-				if ($files !== false && !count($files))
+				if ($files !== false && !\count($files))
 				{
 					Folder::delete($folder);
 				}
@@ -410,9 +410,10 @@ class FileAdapter extends InstallerAdapter
 		else
 		{
 			// Add an entry to the extension table with a whole heap of defaults
-			$this->extension->name = $this->name;
-			$this->extension->type = 'file';
-			$this->extension->element = $this->element;
+			$this->extension->name         = $this->name;
+			$this->extension->type         = 'file';
+			$this->extension->element      = $this->element;
+			$this->extension->changelogurl = $this->changelogurl;
 
 			// There is no folder for files so leave it blank
 			$this->extension->folder    = '';
@@ -546,7 +547,7 @@ class FileAdapter extends InstallerAdapter
 			}
 
 			// Check if all children exists
-			if (count($eFiles->children()))
+			if (\count($eFiles->children()))
 			{
 				// Loop through all filenames elements
 				foreach ($eFiles->children() as $eFileName)

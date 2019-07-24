@@ -141,6 +141,12 @@ abstract class FieldsPlugin extends CMSPlugin
 			return;
 		}
 
+		// Check if the field should be displayed on the form
+		if (!FieldsHelper::displayFieldOnForm($field))
+		{
+			return;
+		}
+
 		// Merge the params from the plugin and field which has precedence
 		$fieldParams = clone $this->params;
 		$fieldParams->merge($field->fieldparams);
@@ -189,6 +195,7 @@ abstract class FieldsPlugin extends CMSPlugin
 		$node->setAttribute('name', $field->name);
 		$node->setAttribute('type', $field->type);
 		$node->setAttribute('label', $field->label);
+		$node->setAttribute('labelclass', $field->params->get('label_class'));
 		$node->setAttribute('description', $field->description);
 		$node->setAttribute('class', $field->params->get('class'));
 		$node->setAttribute('hint', $field->params->get('hint'));

@@ -18,7 +18,6 @@ use Joomla\CMS\Component\Router\RouterServiceInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Uri\Uri;
-use Joomla\String\StringHelper;
 
 /**
  * Class to create and parse routes for the site application
@@ -236,8 +235,8 @@ class SiteRouter extends Router
 				foreach ($items as $item)
 				{
 					if ($item->alias == $segment
-						&& (!$this->app->getLanguageFilter() 
-						|| ($item->language === '*' 
+						&& (!$this->app->getLanguageFilter()
+						|| ($item->language === '*'
 						|| $item->language === $lang_tag)))
 					{
 						$found = $item;

@@ -39,7 +39,7 @@ $params = array('params' => json_encode($param));
 	<?php echo HTMLHelper::_('select.genericlist', $this->extension_options, 'eid', array('onchange' => 'this.form.submit()', 'class' => 'form-control custom-select'), 'value', 'text', $this->eid, 'eid'); ?>
 </form>
 
-<?php if ($this->eid == 700) : ?>
+<?php if ($this->eid == $this->joomlaFilesExtensionId) : ?>
 <div class="row">
 	<div class="col-md-8">
 <?php endif; ?>
@@ -77,7 +77,7 @@ $params = array('params' => json_encode($param));
 	</div>
 	<?php endforeach; ?>
 <?php endif; ?>
-<?php if ($this->eid == 700) : ?>
+<?php if ($this->eid == $this->joomlaFilesExtensionId) : ?>
 	</div>
 	<div class="col-md-4">
 		<h2><?php echo Text::_('COM_POSTINSTALL_LBL_RELEASENEWS'); ?></h2>

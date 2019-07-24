@@ -21,7 +21,6 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Installer\Installer;
-use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -101,9 +100,9 @@ class UpdateModel extends BaseDatabaseModel
 			->from($db->quoteName('#__update_sites_extensions') . ' AS ' . $db->quoteName('map'))
 			->join(
 				'INNER', $db->quoteName('#__update_sites') . ' AS ' . $db->quoteName('us')
-				. ' ON (' . 'us.update_site_id = map.update_site_id)'
+				. ' ON (us.update_site_id = map.update_site_id)'
 			)
-			->where('map.extension_id = ' . $db->quote(700));
+			->where('map.extension_id = ' . $db->quote(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id));
 		$db->setQuery($query);
 		$update_site = $db->loadObject();
 
@@ -117,7 +116,7 @@ class UpdateModel extends BaseDatabaseModel
 			// Remove cached updates.
 			$query->clear()
 				->delete($db->quoteName('#__updates'))
-				->where($db->quoteName('extension_id') . ' = ' . $db->quote('700'));
+				->where($db->quoteName('extension_id') . ' = ' . $db->quote(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id));
 			$db->setQuery($query);
 			$db->execute();
 		}
@@ -154,11 +153,11 @@ class UpdateModel extends BaseDatabaseModel
 		if (count($methodParameters) >= 4)
 		{
 			// Reinstall support is available in Updater
-			$updater->findUpdates(700, $cache_timeout, Updater::STABILITY_STABLE, true);
+			$updater->findUpdates(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id, $cache_timeout, Updater::STABILITY_STABLE, true);
 		}
 		else
 		{
-			$updater->findUpdates(700, $cache_timeout, Updater::STABILITY_STABLE);
+			$updater->findUpdates(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id, $cache_timeout, Updater::STABILITY_STABLE);
 		}
 	}
 
@@ -182,7 +181,6 @@ class UpdateModel extends BaseDatabaseModel
 			'latest'    => null,
 			'object'    => null,
 			'hasUpdate' => false,
-			'url'       => null,
 		);
 
 		// Fetch the update information from the database.
@@ -190,7 +188,7 @@ class UpdateModel extends BaseDatabaseModel
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__updates'))
-			->where($db->quoteName('extension_id') . ' = ' . $db->quote(700));
+			->where($db->quoteName('extension_id') . ' = ' . $db->quote(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id));
 		$db->setQuery($query);
 		$updateObject = $db->loadObject();
 
@@ -281,7 +279,7 @@ class UpdateModel extends BaseDatabaseModel
 	public function download()
 	{
 		$updateInfo = $this->getUpdateInformation();
-		$packageURL = $updateInfo['object']->downloadurl->_data;
+		$packageURL = trim($updateInfo['object']->downloadurl->_data);
 		$sources    = $updateInfo['object']->get('downloadSources', array());
 		$headers    = get_headers($packageURL, 1);
 
@@ -316,7 +314,7 @@ class UpdateModel extends BaseDatabaseModel
 			while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
 			{
 				$name       = $sources[$mirror];
-				$packageURL = $name->url;
+				$packageURL = trim($name->url);
 				$mirror++;
 			}
 
@@ -334,7 +332,7 @@ class UpdateModel extends BaseDatabaseModel
 				while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
 				{
 					$name       = $sources[$mirror];
-					$packageURL = $name->url;
+					$packageURL = trim($name->url);
 					$mirror++;
 				}
 
@@ -345,9 +343,45 @@ class UpdateModel extends BaseDatabaseModel
 			$response['basename'] = $basename;
 		}
 
-		$response['check'] = InstallerHelper::isChecksumValid($target, $updateInfo['url']);
+		$response['check'] = $this->isChecksumValid($target, $updateInfo['object']);
 
 		return $response;
+	}
+
+	/**
+	 * Return the result of the checksum of a package with the SHA256/SHA384/SHA512 tags in the update server manifest
+	 *
+	 * @param   string  $packagefile   Location of the package to be installed
+	 * @param   Update  $updateObject  The Update Object
+	 *
+	 * @return  boolean  False in case the validation did not work; true in any other case.
+	 *
+	 * @note    This method has been forked from (JInstallerHelper::isChecksumValid) so it
+	 *          does not depend on an up-to-date InstallerHelper at the update time
+	 *
+	 * @since   3.9.0
+	 */
+	private function isChecksumValid($packagefile, $updateObject)
+	{
+		$hashes = array('sha256', 'sha384', 'sha512');
+
+		foreach ($hashes as $hash)
+		{
+			if ($updateObject->get($hash, false))
+			{
+				$hashPackage = hash_file($hash, $packagefile);
+				$hashRemote  = $updateObject->$hash->_data;
+
+				if ($hashPackage !== $hashRemote)
+				{
+					// Return false in case the hash did not match
+					return false;
+				}
+			}
+		}
+
+		// Well nothing was provided or all worked
+		return true;
 	}
 
 	/**
@@ -659,7 +693,7 @@ ENDDATA;
 		$installer->setOverwrite(true);
 
 		$installer->extension = new \Joomla\CMS\Table\Extension(Factory::getDbo());
-		$installer->extension->load(700);
+		$installer->extension->load(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id);
 
 		$installer->setAdapter($installer->extension->type);
 

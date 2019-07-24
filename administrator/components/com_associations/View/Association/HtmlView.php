@@ -123,6 +123,7 @@ class HtmlView extends BaseHtmlView
 
 		// Check for special case category
 		$typeNameExploded = explode('.', $typeName);
+
 		if (array_pop($typeNameExploded) === 'category')
 		{
 			$this->typeName = 'category';
@@ -166,38 +167,18 @@ class HtmlView extends BaseHtmlView
 			$this->targetId         = $matches[1];
 			$this->targetLanguage   = $matches[0];
 			$this->targetTitle      = AssociationsHelper::getTypeFieldName($extensionName, $typeName, 'title');
-			$task                   = $this->typeName . '.' . $this->targetAction;
-			$this->defaultTargetSrc = Route::_($this->editUri . '&task=' . $task . '&id=' . (int) $this->targetId);
+			$task                   = $typeName . '.' . $this->targetAction;
+
+			/*
+			 * Let's put the target src into a variable to use in the javascript code
+			 *  to avoid race conditions when the reference iframe loads.
+			 */
+			$document = Factory::getDocument();
+			$document->addScriptOptions('targetSrc', Route::_($this->editUri . '&task=' . $task . '&id=' . (int) $this->targetId));
 			$this->form->setValue('itemlanguage', '', $this->targetLanguage . ':' . $this->targetId . ':' . $this->targetAction);
 		}
 
-		/**
-		 * @todo Review later
-		 */
-
-		// We don't need toolbar in the modal window.
-		if ($this->getLayout() !== 'modal')
-		{
-			$this->addToolbar();
-			$this->sidebar = \JHtmlSidebar::render();
-		}
-		else
-		{
-			// In article associations modal we need to remove language filter if forcing a language.
-			// We also need to change the category filter to show show categories with All or the forced language.
-			if ($forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
-			{
-				// If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
-				$languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
-				$this->filterForm->setField($languageXml, 'filter', true);
-
-				// Also, unset the active language filter so the search tools is not open by default with this filter.
-				unset($this->activeFilters['language']);
-
-				// One last changes needed is to change the category filter to just show categories with All language or with the forced language.
-				$this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
-			}
-		}
+		$this->addToolbar();
 
 		parent::display($tpl);
 	}
@@ -247,7 +228,5 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::cancel('association.cancel', 'JTOOLBAR_CLOSE');
 		ToolbarHelper::help('JHELP_COMPONENTS_ASSOCIATIONS_EDIT');
-
-		\JHtmlSidebar::setAction('index.php?option=com_associations');
 	}
 }

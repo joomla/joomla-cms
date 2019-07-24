@@ -31,7 +31,15 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ConsoleApplication extends Application implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait;
+	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper;
+
+	/**
+	 * The name of the application.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $name = null;
 
 	/**
 	 * The application message queue.
@@ -70,16 +78,20 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * @since   4.0.0
 	 */
 	public function __construct(
-		InputInterface $input = null,
-		OutputInterface $output = null,
-		Registry $config = null,
-		DispatcherInterface $dispatcher = null,
-		Container $container = null)
+		?InputInterface $input = null,
+		?OutputInterface $output = null,
+		?Registry $config = null,
+		?DispatcherInterface $dispatcher = null,
+		?Container $container = null
+	)
 	{
 		parent::__construct($input, $output, $config);
 
 		$this->setName('Joomla!');
 		$this->setVersion(JVERSION);
+
+		// Register the client name as cli
+		$this->name = 'cli';
 
 		$container = $container ?: Factory::getContainer();
 		$this->setContainer($container);
@@ -88,6 +100,9 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		{
 			$this->setDispatcher($dispatcher);
 		}
+
+		// Load extension namespaces
+		$this->createExtensionNamespaceMap();
 
 		// Set the execution datetime and timestamp;
 		$this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
@@ -109,7 +124,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * @since   4.0.0
 	 * @throws  \Throwable
 	 */
-	protected function doExecute()
+	protected function doExecute(): int
 	{
 		$exitCode = parent::doExecute();
 
@@ -172,6 +187,18 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		}
 
 		$this->messages[$type][] = $msg;
+	}
+
+	/**
+	 * Gets the name of the current running application.
+	 *
+	 * @return  string  The name of the application.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getName(): string
+	{
+		return $this->name;
 	}
 
 	/**
@@ -240,7 +267,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 */
 	public function isClient($identifier)
 	{
-		return $identifier === 'cli';
+		return $this->getName() === $identifier;
 	}
 
 	/**
@@ -272,5 +299,20 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		$this->session = $session;
 
 		return $this;
+	}
+
+	/**
+	 * Returns the application \JMenu object.
+	 *
+	 * @param   string  $name     The name of the application/client.
+	 * @param   array   $options  An optional associative array of configuration settings.
+	 *
+	 * @return  null
+	 *
+	 * @since   4.0.0
+	 */
+	public function getMenu($name = null, $options = array())
+	{
+		return null;
 	}
 }

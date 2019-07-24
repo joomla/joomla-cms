@@ -11,11 +11,14 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
+use Joomla\Component\Installer\Administrator\Model\ManageModel;
+use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -31,7 +34,7 @@ class ManageController extends BaseController
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   Input                $input    Input
 	 *
 	 * @since  1.6
 	 * @see    \JControllerLegacy
@@ -49,12 +52,14 @@ class ManageController extends BaseController
 	 *
 	 * @return  void
 	 *
+	 * @throws  \Exception
+	 *
 	 * @since   1.6
 	 */
 	public function publish()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('publish' => 1, 'unpublish' => 0);
@@ -67,7 +72,7 @@ class ManageController extends BaseController
 		}
 		else
 		{
-			/* @var \Joomla\Component\Installer\Administrator\Model\ManageModel $model */
+			/** @var ManageModel $model */
 			$model = $this->getModel('manage');
 
 			// Change the state of the records.
@@ -98,14 +103,16 @@ class ManageController extends BaseController
 	 *
 	 * @return  void
 	 *
+	 * @throws  \Exception
+	 *
 	 * @since   1.5
 	 */
 	public function remove()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		/* @var \Joomla\Component\Installer\Administrator\Model\ManageModel $model */
+		/** @var ManageModel $model */
 		$model = $this->getModel('manage');
 
 		$eid = $this->input->get('cid', array(), 'array');
@@ -126,14 +133,39 @@ class ManageController extends BaseController
 	public function refresh()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		/* @var \Joomla\Component\Installer\Administrator\Model\ManageModel $model */
+		/** @var ManageModel $model */
 		$model = $this->getModel('manage');
 
 		$uid = $this->input->get('cid', array(), 'array');
 		$uid = ArrayHelper::toInteger($uid, array());
 		$model->refresh($uid);
 		$this->setRedirect(Route::_('index.php?option=com_installer&view=manage', false));
+	}
+
+	/**
+	 * Load the changelog for a given extension.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function loadChangelog()
+	{
+		/** @var ManageModel $model */
+		$model = $this->getModel('manage');
+
+		$eid    = $this->input->get('eid', 0, 'int');
+		$source = $this->input->get('source', 'manage', 'string');
+
+		if (!$eid)
+		{
+			return;
+		}
+
+		$output = $model->loadChangelog($eid, $source);
+
+		echo (new JsonResponse($output));
 	}
 }

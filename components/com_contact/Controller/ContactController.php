@@ -71,6 +71,13 @@ class ContactController extends FormController
 		$model->setState('filter.published', 1);
 		$contact = $model->getItem($id);
 
+		if ($contact === false)
+		{
+			$this->setMessage($model->getError(), 'error');
+
+			return false;
+		}
+
 		// Get item params, take menu parameters into account if necessary
 		$active = $app->getMenu()->getActive();
 		$stateParams = clone $model->getState()->get('params');
@@ -92,7 +99,7 @@ class ContactController extends FormController
 		// Check if the contact form is enabled
 		if (!$contact->params->get('show_email_form'))
 		{
-			$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
+			$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
 
 			return false;
 		}

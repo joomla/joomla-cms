@@ -10,6 +10,7 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -73,7 +74,7 @@ class SpacerField extends FormField
 			$text = $this->translateLabel ? Text::_($text) : $text;
 
 			// Build the class for the label.
-			$class = !empty($this->description) ? 'hasTooltip' : '';
+			$class = !empty($this->description) ? 'hasPopover' : '';
 			$class = $this->required == true ? $class . ' required' : $class;
 
 			// Add the opening label tag and main attributes attributes.
@@ -82,7 +83,18 @@ class SpacerField extends FormField
 			// If a description is specified, use it to build a tooltip.
 			if (!empty($this->description))
 			{
-				$label .= ' title="' . HTMLHelper::_('tooltipText', trim($text, ':'), Text::_($this->description), 0) . '"';
+				HTMLHelper::_('bootstrap.popover');
+				$label .= ' title="' . htmlspecialchars(trim($text, ':'), ENT_COMPAT, 'UTF-8') . '"';
+				$label .= ' data-content="' . htmlspecialchars(
+					$this->translateDescription ? Text::_($this->description) : $this->description,
+					ENT_COMPAT,
+					'UTF-8'
+				) . '"';
+
+				if (Factory::getLanguage()->isRtl())
+				{
+					$label .= ' data-placement="left"';
+				}
 			}
 
 			// Add the label text and closing tag.

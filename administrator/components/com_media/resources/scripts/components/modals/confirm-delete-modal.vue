@@ -1,6 +1,6 @@
 <template>
-    <media-modal v-if="$store.state.showConfirmDeleteModal" :size="'md'" @close="close()" :show-close="false">
-        <h3 slot="header" class="modal-title">{{ translate('COM_MEDIA_CONFIRM_DELETE_MODAL_HEADING') }}</h3>
+    <media-modal v-if="$store.state.showConfirmDeleteModal" :size="'md'" @close="close()" :show-close="false" label-element="confirmDeleteTitle">
+        <h3 slot="header" id="confirmDeleteTitle" class="modal-title">{{ translate('COM_MEDIA_CONFIRM_DELETE_MODAL_HEADING') }}</h3>
         <div slot="body">
             <div class="desc">
                 {{ translate('JGLOBAL_CONFIRM_DELETE') }}
@@ -20,7 +20,6 @@
         name: 'media-share-modal',
         computed: {
             item() {
-                // TODO @DN this is not allowed in vuex strict mode!
                 return this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1];
             }
         },

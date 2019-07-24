@@ -281,42 +281,6 @@
 		/>
 
 		<field
-			name="show_icons"
-			type="radio"
-			label="JGLOBAL_SHOW_ICONS_LABEL"
-			description="JGLOBAL_SHOW_ICONS_DESC"
-			class="switcher"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="show_print_icon"
-			type="radio"
-			label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
-			description="JGLOBAL_SHOW_PRINT_ICON_DESC"
-			class="switcher"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="show_email_icon"
-			type="radio"
-			label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
-			description="JGLOBAL_SHOW_EMAIL_ICON_DESC"
-			class="switcher"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
 			name="show_hits"
 			type="radio"
 			label="JGLOBAL_SHOW_HITS_LABEL"
@@ -325,6 +289,18 @@
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="record_hits"
+			type="radio"
+			label="JGLOBAL_RECORD_HITS_LABEL"
+			description="JGLOBAL_RECORD_HITS_DESC"
+			class="switcher"
+			default="1"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -964,6 +940,12 @@
 		description="COM_CONTENT_CONFIG_INTEGRATION_SETTINGS_DESC"
 	>
 		<field
+			name="integration_newsfeeds"
+			type="note"
+			label="JGLOBAL_FEED_TITLE"
+		/>
+
+		<field
 			name="show_feed_link"
 			type="radio"
 			label="JGLOBAL_SHOW_FEED_LINK_LABEL"
@@ -999,6 +981,12 @@
 		</field>
 
 		<field
+			name="integration_sef"
+			type="note"
+			label="JGLOBAL_SEF_TITLE"
+		/>
+
+		<field
 			name="sef_ids"
 			type="radio"
 			class="switcher"
@@ -1009,6 +997,12 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
+
+		<field
+			name="integration_customfields"
+			type="note"
+			label="JGLOBAL_FIELDS_TITLE"
+		/>
 
 		<field
 			name="custom_fields_enable"

@@ -371,6 +371,7 @@ class Nested extends Table
 		/*
 		 * Close the hole in the tree that was opened by removing the sub-tree from the nested sets.
 		 */
+
 		// Compress the left values.
 		$query->clear()
 			->update($this->_tbl)
@@ -1585,10 +1586,11 @@ class Nested extends Table
 
 		// Update and cascade the publishing state.
 		$query->clear()
-			->update("$table AS c")
-			->innerJoin("($subquery) AS c2 ON c2.newId = c.$key")
-			->set("$published = c2.newPublished")
-			->where("c.$key IN (" . implode(',', $pks) . ")");
+			->update($table)
+			->innerJoin("($subquery) AS c2")
+			->set("$published = " . $this->_db->quoteName("c2.newpublished"))
+			->where("$key = c2.newId")
+			->where("$key IN (" . implode(',', $pks) . ")");
 
 		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_STORE_FAILED');
 

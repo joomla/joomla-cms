@@ -37,7 +37,6 @@
 					name="tag"
 					type="tag"
 					label="JTAG"
-					description="JTAG_DESC"
 					mode="nested"
 					multiple="true"
 					filter="int_array"
@@ -49,11 +48,23 @@
 					type="radio"
 					class="switcher"
 					label="MOD_ARTICLES_NEWS_FIELD_IMAGES_LABEL"
+					description="MOD_ARTICLES_NEWS_FIELD_IMAGES_DESC"
 					default="0"
 					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="img_intro_full"
+					type="list"
+					label="MOD_ARTICLES_NEWS_FIELD_IMAGES_ARTICLE_LABEL"
+					default="none"
+					>
+					<option value="intro">MOD_ARTICLES_NEWS_OPTION_INTROIMAGE</option>
+					<option value="full">MOD_ARTICLES_NEWS_OPTION_FULLIMAGE</option>
+					<option value="none">JNO</option>
 				</field>
 
 				<field
@@ -74,7 +85,7 @@
 					label="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_LABEL"
 					default=""
 					filter="integer"
-					class="chzn-color"
+					class="custom-select-color"
 					showon="item_title:1"
 					>
 					<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -162,6 +173,18 @@
 					<option value="">JSHOW</option>
 					<option value="0">JHIDE</option>
 					<option value="1">MOD_ARTICLES_NEWS_VALUE_ONLY_SHOW_FEATURED</option>
+				</field>
+
+				<field
+					name="exclude_current"
+					type="radio"
+					label="MOD_ARTICLES_NEWS_FIELD_EXCLUDE_CURRENT_LABEL"
+					class="switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field

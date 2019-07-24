@@ -12,18 +12,20 @@ namespace Joomla\Component\Fields\Administrator\Field;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\Utilities\ArrayHelper;
 
-FormHelper::loadFieldClass('list');
 
 /**
  * Fields Groups
  *
  * @since  3.7.0
  */
-class FieldgroupsField extends \JFormFieldList
+class FieldgroupsField extends ListField
 {
+	/**
+	 * @var    string
+	 */
 	public $type = 'Fieldgroups';
 
 	/**

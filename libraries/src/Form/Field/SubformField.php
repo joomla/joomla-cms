@@ -41,13 +41,13 @@ class SubformField extends FormField
 
 	/**
 	 * Minimum items in repeat mode
-	 * @var int
+	 * @var integer
 	 */
 	protected $min = 0;
 
 	/**
 	 * Maximum items in repeat mode
-	 * @var int
+	 * @var integer
 	 */
 	protected $max = 1000;
 
@@ -235,7 +235,7 @@ class SubformField extends FormField
 		try
 		{
 			// Prepare the form template
-			$formname    = 'subform.' . str_replace(array('[', ']'), array('.', ''), $control);
+			$formname    = 'subform.' . str_replace(array('jform[', '[', ']'), array('', '.', ''), $control);
 			$tmplcontrol = !$this->multiple ? $control : $control . '[' . $this->fieldname . 'X]';
 			$tmpl = Form::getInstance($formname, $this->formsource, array('control' => $tmplcontrol));
 
@@ -244,6 +244,7 @@ class SubformField extends FormField
 			{
 				$value = array_values($value);
 				$c = max($this->min, min(count($value), $this->max));
+
 				for ($i = 0; $i < $c; $i++)
 				{
 					$itemcontrol = $control . '[' . $this->fieldname . $i . ']';
@@ -276,6 +277,14 @@ class SubformField extends FormField
 		$data['buttons']   = $this->buttons;
 		$data['fieldname'] = $this->fieldname;
 		$data['groupByFieldset'] = $this->groupByFieldset;
+
+		/**
+		 * For each rendering process of a subform element, we want to have a
+		 * separate unique subform id present to could distinguish the eventhandlers
+		 * regarding adding/moving/removing rows from nested subforms from their parents.
+		 */
+		static $unique_subform_id = 0;
+		$data['unique_subform_id'] = ('sr-' . ($unique_subform_id++));
 
 		// Prepare renderer
 		$renderer = $this->getRenderer($this->layout);

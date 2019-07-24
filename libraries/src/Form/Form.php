@@ -271,7 +271,7 @@ class Form
 	 *
 	 * @param   string  $set  The optional name of the fieldset.
 	 *
-	 * @return  array  The array of JFormField objects in the fieldset.
+	 * @return  \JFormField[]  The array of JFormField objects in the fieldset.
 	 *
 	 * @since   1.7.0
 	 */
@@ -446,7 +446,7 @@ class Form
 	 * @param   boolean  $nested  True to also include fields in nested groups that are inside of the
 	 *                            group for which to find fields.
 	 *
-	 * @return  array    The array of JFormField objects in the field group.
+	 * @return  \JFormField[]  The array of JFormField objects in the field group.
 	 *
 	 * @since   1.7.0
 	 */
@@ -1211,11 +1211,11 @@ class Form
 
 			$key = $attrGroup ? $attrGroup . '.' . $name : $name;
 
-			$fieldObj = $this->loadField($field, $group);
+			$fieldObj = $this->loadField($field, $attrGroup);
 
 			if ($fieldObj)
 			{
-				$valid = $fieldObj->validate($input->get($key), $group, $input);
+				$valid = $fieldObj->validate($input->get($key), $attrGroup, $input);
 
 				// Check for an error.
 				if ($valid instanceof \Exception)

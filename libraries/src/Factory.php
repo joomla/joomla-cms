@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\FactoryInterface;
@@ -189,6 +190,22 @@ abstract class Factory
 	 * Get a container object
 	 *
 	 * Returns the global service container object, only creating it if it doesn't already exist.
+	 *
+	 * This method is only suggested for use in code whose responsibility is to create new services
+	 * and needs to be able to resolve the dependencies, and should therefore only be used when the
+	 * container is not accessible by other means.  Valid uses of this method include:
+	 *
+	 * - A static `getInstance()` method calling a factory service from the container,
+	 *   see `Joomla\CMS\Toolbar\Toolbar::getInstance()` as an example
+	 * - An application front controller loading and executing the Joomla application class,
+	 *   see the `cli/joomla.php` file as an example
+	 * - Retrieving optional constructor dependencies when not injected into a class during a transitional
+	 *   period to retain backward compatibility, in this case a deprecation notice should also be emitted to
+	 *   notify developers of changes needed in their code
+	 *
+	 * This method is not suggested for use as a one-for-one replacement of static calls, such as
+	 * replacing calls to `Factory::getDbo()` with calls to `Factory::getContainer()->get('db')`, code
+	 * should be refactored to support dependency injection instead of making this change.
 	 *
 	 * @return  Container
 	 *
@@ -443,7 +460,7 @@ abstract class Factory
 	/**
 	 * Return the {@link Date} object
 	 *
-	 * @param   mixed  $time      The initial time for the JDate object
+	 * @param   mixed  $time      The initial time for the Date object
 	 * @param   mixed  $tzOffset  The timezone offset.
 	 *
 	 * @return  Date object
@@ -824,8 +841,8 @@ abstract class Factory
 
 		if ($use_prefix)
 		{
-			$FTPOptions = \JClientHelper::getCredentials('ftp');
-			$SCPOptions = \JClientHelper::getCredentials('scp');
+			$FTPOptions = ClientHelper::getCredentials('ftp');
+			$SCPOptions = ClientHelper::getCredentials('scp');
 
 			if ($FTPOptions['enabled'] == 1 && $use_network)
 			{

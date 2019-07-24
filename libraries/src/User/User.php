@@ -142,7 +142,7 @@ class User extends CMSObject
 	/**
 	 * Guest status
 	 *
-	 * @var    boolean
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	public $guest = null;

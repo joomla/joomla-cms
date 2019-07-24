@@ -32,6 +32,8 @@ class MenusHelper extends ContentHelper
 {
 	/**
 	 * Defines the valid request variables for the reverse lookup.
+	 *
+	 * @var     array
 	 */
 	protected static $_filter = array('option', 'view', 'layout');
 
@@ -859,6 +861,7 @@ class MenusHelper extends ContentHelper
 		$item->type       = (string) $node['type'];
 		$item->title      = (string) $node['title'];
 		$item->link       = (string) $node['link'];
+		$item->target     = (string) $node['target'];
 		$item->element    = (string) $node['element'];
 		$item->class      = (string) $node['class'];
 		$item->icon       = (string) $node['icon'];

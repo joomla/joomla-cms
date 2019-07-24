@@ -44,7 +44,7 @@ class HtmlView extends CategoryView
 	/**
 	 * Run the standard Joomla plugins
 	 *
-	 * @var    bool
+	 * @var    boolean
 	 * @since  3.5
 	 */
 	protected $runPlugins = true;
@@ -59,6 +59,9 @@ class HtmlView extends CategoryView
 	public function display($tpl = null)
 	{
 		parent::commonCategoryDisplay();
+
+		// Flag indicates to not add limitstart=0 to URL
+		$this->pagination->hideEmptyLimitstart = true;
 
 		// Prepare the data.
 		// Compute the contact slug.

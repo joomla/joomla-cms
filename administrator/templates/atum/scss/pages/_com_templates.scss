@@ -11,13 +11,13 @@
     column-gap: 15px;
 
     > li {
-      display: inline-block;
       width: 100%;
       margin-bottom: 15px;
       vertical-align: top;
       list-style: none;
       backface-visibility: hidden;
       column-break-inside: avoid;
+      page-break-inside: avoid;
     }
   }
 

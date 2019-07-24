@@ -58,7 +58,7 @@ class CssMenu
 	/**
 	 * The menu bar state
 	 *
-	 * @var    bool
+	 * @var    boolean
 	 *
 	 * @since  3.8.0
 	 */
@@ -67,7 +67,7 @@ class CssMenu
 	/**
 	 * The application
 	 *
-	 * @var    bool
+	 * @var    boolean
 	 *
 	 * @since  4.0.0
 	 */
@@ -76,7 +76,7 @@ class CssMenu
 	/**
 	 * A counter for unique IDs
 	 *
-	 * @var   int
+	 * @var   integer
 	 *
 	 * @since  4.0.0
 	 */
@@ -274,7 +274,6 @@ class CssMenu
 		 */
 		$this->application->triggerEvent('onPreprocessMenuItems', array('com_menus.administrator.module', $children, $this->params, $this->enabled));
 
-
 		foreach ($children as $item)
 		{
 			// Exclude item with menu item option set to exclude from menu modules
@@ -350,6 +349,21 @@ class CssMenu
 
 				list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
 			}
+			elseif ($item->element === 'com_cpanel' && $item->link === 'index.php')
+			{
+				continue;
+			}
+			elseif ($item->link === 'index.php?option=com_cpanel&view=help')
+			{
+				if ($this->params->get('showhelp', 1))
+				{
+					continue;
+				}
+
+				// Exclude help menu item if set such in mod_menu
+				$parent->removeChild($item);
+				continue;
+			}
 			elseif ($item->element === 'com_workflow')
 			{
 				parse_str($item->link, $query);
@@ -370,7 +384,8 @@ class CssMenu
 
 				list($assetName) = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
 			}
-			elseif ($item->element === 'com_config' && !$user->authorise('core.admin'))
+			// Special case for components which only allow super user access
+			elseif (in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin'))
 			{
 				$parent->removeChild($item);
 				continue;
@@ -433,13 +448,6 @@ class CssMenu
 
 			// Exclude if there are no child items under heading or container
 			if (in_array($item->type, array('heading', 'container')) && !$item->hasChildren() && empty($item->components))
-			{
-				$parent->removeChild($item);
-				continue;
-			}
-
-			// Exclude help menu item if set such in mod_menu
-			if ($this->params->get('showhelp', 1) == 0 && $item->link == 'index.php?option=com_cpanel&view=help')
 			{
 				$parent->removeChild($item);
 				continue;

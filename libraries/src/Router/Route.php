@@ -54,14 +54,14 @@ class Route
 		}
 		catch (\RuntimeException $e)
 		{
-			// Before __DEPLOY_VERSION__ this method failed silently on router error. This B/C will be removed in Joomla 4.0.
+			// Before 3.9.0 this method failed silently on router error. This B/C will be removed in Joomla 4.0.
 			return null;
 		}
 	}
 
 	/**
 	 * Translates an internal Joomla URL to a humanly readable URL.
-	 * NOTE: To build link for active client instead of a specific client, you can use <var>JRoute::_()</var>
+	 * NOTE: To build link for active client instead of a specific client, you can use <var>Route::_()</var>
 	 *
 	 * @param   string   $client  The client name for which to build the link.
 	 * @param   string   $url     Absolute or Relative URI to Joomla resource.
@@ -75,7 +75,7 @@ class Route
 	 *
 	 * @throws  \RuntimeException
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function link($client, $url, $xhtml = true, $ssl = null)
 	{

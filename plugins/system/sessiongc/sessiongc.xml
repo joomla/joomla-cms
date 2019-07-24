@@ -24,12 +24,12 @@
 					type="radio"
 					label="PLG_SYSTEM_SESSIONGC_ENABLE_SESSION_GC_LABEL"
 					description="PLG_SYSTEM_SESSIONGC_ENABLE_SESSION_GC_DESC"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="1"
 					filter="uint"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
@@ -37,12 +37,12 @@
 					type="radio"
 					label="PLG_SYSTEM_SESSIONGC_ENABLE_SESSION_METADATA_GC_LABEL"
 					description="PLG_SYSTEM_SESSIONGC_ENABLE_SESSION_METADATA_GC_DESC"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="1"
 					filter="uint"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field

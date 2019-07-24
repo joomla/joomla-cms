@@ -8,7 +8,7 @@
     "config": {
         "optimize-autoloader": true,
         "platform": {
-            "php": "7.0.8"
+            "php": "7.2"
         },
         "preferred-install": {
             "joomla/application": "dist",
@@ -27,6 +27,7 @@
             "joomla/oauth2": "dist",
             "joomla/mediawiki": "dist",
             "joomla/registry": "dist",
+            "joomla/router": "dist",
             "joomla/session": "dist",
             "joomla/string": "dist",
             "joomla/uri": "dist",
@@ -36,7 +37,7 @@
     },
     "support": {
         "issues": "https://issues.joomla.org",
-        "irc": "https://irc.lc/freenode/joomla/",
+        "irc": "irc://chat.freenode.net/joomla/",
         "forum": "https://forum.joomla.org/",
         "docs": "https://docs.joomla.org"
     },
@@ -51,7 +52,7 @@
         }
     },
     "require": {
-        "php": ">=7.0",
+        "php": ">=7.2",
         "joomla/application": "~2.0@dev",
         "joomla/archive": "~1.1.5",
         "joomla/authentication": "~2.0@dev",
@@ -80,32 +81,35 @@
         "doctrine/inflector": "1.2.0",
         "fig/link-util": "~1.0",
         "google/recaptcha": "~1.1",
-        "paragonie/sodium_compat": "~1.4",
+        "paragonie/sodium_compat": "~1.6",
         "phpmailer/phpmailer": "~6.0",
         "psr/link": "~1.0",
-        "symfony/console": "3.4.*",
-        "symfony/debug": "3.4.*",
-        "symfony/ldap": "3.4.*",
-        "symfony/options-resolver": "3.4.*",
+        "symfony/console": "4.3.*",
+        "symfony/debug": "4.3.*",
+        "symfony/ldap": "4.3.*",
+        "symfony/options-resolver": "4.3.*",
         "symfony/polyfill-php73": "^1.10",
-        "symfony/web-link": "3.4.*",
-        "symfony/yaml": "3.4.*",
+        "symfony/web-link": "4.3.*",
+        "symfony/yaml": "4.3.*",
+        "typo3/phar-stream-wrapper": "~3.1",
         "wamania/php-stemmer": "^1.2",
         "maximebf/debugbar": "^1.15",
         "tobscure/json-api": "^0.4.1",
         "willdurand/negotiation": "^2.3",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-simplexml": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "~6.0",
-        "phpunit/dbunit": "~3.0",
-        "phpunit/phpunit-dom-assertions": "~2.0",
+        "phpunit/phpunit": "~8.0",
+        "joomla/cms-coding-standards": "~2.0.0-alpha2@dev",
+        "joomla/coding-standards": "~3.0@dev",
         "joomla/mediawiki": "dev-master",
         "friendsofphp/php-cs-fixer": "~2.12",
-        "squizlabs/php_codesniffer": "~1.5",
+        "squizlabs/php_codesniffer": "~3.0",
         "joomla-projects/joomla-browser": "~4.0@dev",
         "joomla-projects/robo-joomla": "dev-develop",
-        "joomla/test-system": "dev-4.0-dev",
-        "joomla/test-api": "dev-4.0-dev"
+        "joomla-projects/selenium-server-standalone": "~v3",
+        "codeception/codeception": "~3.0",
+        "consolidation/robo": "^1.0.0"
     }
 }

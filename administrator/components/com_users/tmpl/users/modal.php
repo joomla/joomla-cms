@@ -16,7 +16,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 
 $input           = Factory::getApplication()->input;
 $field           = $input->getCmd('field');
@@ -38,7 +37,8 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
 		<?php endif; ?>
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-warning">
+			<div class="alert alert-info">
+				<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
@@ -81,10 +81,10 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
 						<td>
 							<?php echo $this->escape($item->username); ?>
 						</td>
-						<td class="text-center">
+						<td class="text-center tbody-icon">
 							<span class="<?php echo $enabledStates[(int) $this->escape($item->block)]; ?>"></span>
 						</td>
-						<td class="text-center">
+						<td class="text-center tbody-icon">
 							<span class="<?php echo $activatedStates[(empty($item->activation) ? 0 : 1)]; ?>"></span>
 						</td>
 						<td>

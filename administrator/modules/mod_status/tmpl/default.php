@@ -9,14 +9,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Module\Multilangstatus\Administrator\Helper\MultilangstatusAdminHelper;
 
 HTMLHelper::_('bootstrap.framework');
 
@@ -24,29 +21,17 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 ?>
 <div class="ml-auto">
 	<ul class="nav text-center">
-		<?php // Check if the multilangstatus module is present and enabled in the site ?>
-		<?php if (class_exists(MultilangstatusAdminHelper::class) && MultilangstatusAdminHelper::isEnabled()) : ?>
-			<?php if (Multilanguage::isEnabled()) : ?>
-				<?php // Publish and display the module ?>
-				<?php MultilangstatusAdminHelper::publish(); ?>
-				<?php $module = ModuleHelper::getModule('mod_multilangstatus'); ?>
-				<?php echo ModuleHelper::renderModule($module); ?>
-			<?php else : ?>
-				<?php // Unpublish the module ?>
-				<?php MultilangstatusAdminHelper::publish(); ?>
-			<?php endif; ?>
-		<?php endif; ?>
-
+		<?php echo $multilanguageStatusModuleOutput; ?>
 		<li class="nav-item">
 			<a class="nav-link" href="<?php echo Uri::root(); ?>" title="<?php echo Text::sprintf('MOD_STATUS_PREVIEW', $sitename); ?>" target="_blank">
-				<span class="fa fa-external-link" aria-hidden="true"></span>
+				<span class="fa fa-external-link-alt" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo HTMLHelper::_('string.truncate', $sitename, 28, false, false); ?></span>
 			</a>
 		</li>
 
 		<li class="nav-item">
 			<a class="nav-link <?php echo ($hideLinks ? 'disabled' : 'dropdown-toggle'); ?>" <?php echo ($hideLinks ? '' : 'href="' . Route::_('index.php?option=com_messages') . '"'); ?> title="<?php echo Text::_('MOD_STATUS_PRIVATE_MESSAGES'); ?>">
-				<span class="fa fa-envelope-o" aria-hidden="true"></span>
+				<span class="fa fa-envelope" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('MOD_STATUS_PRIVATE_MESSAGES'); ?></span>
 				<?php $countUnread = $app->getSession()->get('messages.unread'); ?>
 				<?php if ($countUnread > 0) : ?>
@@ -58,7 +43,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 		<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
 		<li class="nav-item dropdown">
 			<a class="nav-link <?php echo ($hideLinks ? 'disabled' : 'dropdown-toggle'); ?>" <?php echo ($hideLinks ? '' : 'data-toggle="dropdown" href="#"'); ?> title="<?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?>">
-				<span class="fa fa-bell-o" aria-hidden="true"></span>
+				<span class="fa fa-bell" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?></span>
 				<?php if (count($messages) > 0) : ?>
 					<span class="badge badge-pill badge-danger"><?php echo count($messages); ?></span>
@@ -73,7 +58,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 						</p>
 						<?php endif; ?>
 						<?php foreach ($messages as $message) : ?>
-						<a href="<?php echo Route::_('index.php?option=com_postinstall&amp;eid=700'); ?>" class="list-group-item list-group-item-action">
+						<a href="<?php echo Route::_('index.php?option=com_postinstall&amp;eid=' . $joomlaFilesExtensionId); ?>" class="list-group-item list-group-item-action">
 							<h5 class="list-group-item-heading"><?php echo HTMLHelper::_('string.truncate', Text::_($message->title_key), 28, false, false); ?></h5>
 							<p class="list-group-item-text small">
 								<?php echo HTMLHelper::_('string.truncate', Text::_($message->description_key), 120, false, false); ?>
@@ -88,14 +73,14 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 
 		<li class="nav-item dropdown header-profile">
 			<a class="nav-link <?php echo ($hideLinks ? 'disabled' : 'dropdown-toggle'); ?>" <?php echo ($hideLinks ? '' : 'data-toggle="dropdown" href="#"'); ?> title="<?php echo Text::_('MOD_STATUS_USER_MENU'); ?>">
-				<span class="fa fa-user-o" aria-hidden="true"></span>
+				<span class="fa fa-user" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('MOD_STATUS_USER_MENU'); ?></span>
 			</a>
 			<?php if (!$hideLinks) : ?>
 				<div class="dropdown-menu dropdown-menu-right">
 					<div class="dropdown-header">
-						<span class="fa fa-user-o" aria-hidden="true"></span>
-						<?php echo $user->name; ?>
+						<span class="fa fa-user" aria-hidden="true"></span>
+						<?php echo htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8'); ?>
 					</div>
 					<?php $uri   = Uri::getInstance(); ?>
 					<?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '&return=' . base64_encode($uri); ?>

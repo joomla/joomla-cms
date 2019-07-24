@@ -98,7 +98,7 @@ class JoomlaStorage extends NativeStorage
 	 *
 	 * @since   4.0
 	 */
-	public function clear()
+	public function clear(): void
 	{
 		$session_name = $this->getName();
 
@@ -127,7 +127,7 @@ class JoomlaStorage extends NativeStorage
 	 * @see     session_write_close()
 	 * @since   4.0
 	 */
-	public function close()
+	public function close(): void
 	{
 		// Before storing data to the session, we serialize and encode the Registry
 		$_SESSION['joomla'] = base64_encode(serialize(clone $this->data));
@@ -228,7 +228,7 @@ class JoomlaStorage extends NativeStorage
 	 *
 	 * @since   4.0
 	 */
-	protected function setCookieParams()
+	protected function setCookieParams(): void
 	{
 		if (headers_sent() || $this->isActive())
 		{
@@ -267,7 +267,7 @@ class JoomlaStorage extends NativeStorage
 	 * @see     http://php.net/session.configuration
 	 * @since   4.0
 	 */
-	public function setOptions(array $options)
+	public function setOptions(array $options): NativeStorage
 	{
 		if (isset($options['force_ssl']))
 		{
@@ -284,7 +284,7 @@ class JoomlaStorage extends NativeStorage
 	 *
 	 * @since   4.0
 	 */
-	public function start()
+	public function start(): void
 	{
 		$session_name = $this->getName();
 
