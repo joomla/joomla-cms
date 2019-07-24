@@ -857,7 +857,7 @@ class ApplicationModel extends FormModel
 				$query->clear()
 					->select($this->_db->quoteName('parent_id'))
 					->from($this->_db->quoteName('#__assets'))
-					->where($this->_db->quoteName('id') . ' = :assetid') 
+					->where($this->_db->quoteName('id') . ' = :assetid')
 					->bind(':assetid', $assetId, ParameterType::INTEGER);
 
 				$this->_db->setQuery($query);
