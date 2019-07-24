@@ -31,6 +31,22 @@ use Joomla\Registry\Registry;
 class AdministratorApplication extends CMSApplication
 {
 	/**
+	 * List of allowed components for guests and users which do not have the core.login.admin privilege.
+	 *
+	 * By default we allow two core components:
+	 *
+	 * - com_login   Absolutely necessary to let users log into the backend of the site. Do NOT remove!
+	 * - com_ajax    Handle AJAX requests or other administrative callbacks without logging in. Required for
+	 *               passwordless authentication using WebAuthn.
+	 *
+	 * @var array
+	 */
+	protected $allowedUnprivilegedOptions = [
+		'com_login',
+		'com_ajax',
+	];
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   Input      $input      An optional argument to provide dependency injection for the application's input
@@ -487,20 +503,37 @@ class AdministratorApplication extends CMSApplication
 	 */
 	public function findOption(): string
 	{
-		$app = Factory::getApplication();
+		/** @var self $app */
+		$app    = Factory::getApplication();
 		$option = strtolower($app->input->get('option'));
-		$user = $app->getIdentity();
+		$user   = $app->getIdentity();
 
+		/**
+		 * Special handling for guest users and authenticated users without the Backend Login privilege.
+		 *
+		 * If the component they are trying to access is in the $this->allowedUnprivilegedOptions array we allow the
+		 * request to go through. Otherwise we force com_login to be loaded, letting the user (re)try authenticating
+		 * with a user account that has the Backend Login privilege.
+		 */
 		if ($user->get('guest') || !$user->authorise('core.login.admin'))
 		{
-			$option = 'com_login';
+			$option = in_array($option, $this->allowedUnprivilegedOptions) ? $option : 'com_login';
 		}
 
+		/**
+		 * If no component is defined in the request we will try to load com_cpanel, the administrator Control Panel
+		 * component. This allows the /administrator URL to display something meaningful after logging in instead of an
+		 * error.
+		 */
 		if (empty($option))
 		{
 			$option = 'com_cpanel';
 		}
 
+		/**
+		 * Force the option to the input object. This is necessary because we might have force-changed the component in
+		 * the two if-blocks above.
+		 */
 		$app->input->set('option', $option);
 
 		return $option;
