@@ -21,7 +21,6 @@ if (Factory::getApplication()->isClient('site'))
 }
 
 HTMLHelper::_('behavior.core');
-HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 HTMLHelper::_('script', 'com_fields/admin-fields-modal.js', array('version' => 'auto', 'relative' => true));
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -79,7 +78,7 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 					foreach ($this->items as $i => $item) :
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="center">
+						<td class="text-center tbody-icon">
 							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
 						</td>
 						<th scope="row" class="has-context">

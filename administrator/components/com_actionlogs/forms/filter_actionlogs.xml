@@ -37,8 +37,7 @@
 		<field
 			name="fullordering"
 			type="list"
-			label="COM_ACTIONLOGS_LIST_FULL_ORDERING"
-			description="COM_ACTIONLOGS_LIST_FULL_ORDERING_DESC"
+			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.id DESC"
 			>
@@ -59,8 +58,7 @@
 		<field
 			name="limit"
 			type="limitbox"
-			label="COM_ACTIONLOGS_LIST_LIMIT"
-			description="COM_ACTIONLOGS_LIST_LIMIT_DESC"
+			label="JGLOBAL_LIST_LIMIT"
 			class="input-mini"
 			onchange="this.form.submit();"
 			default="25"

@@ -97,9 +97,9 @@ if ($saveOrder && !empty($this->items))
 
 										if (!$saveOrder) :
 											$disabledLabel    = Text::_('JORDERINGDISABLED');
-											$disableClassName = 'inactive tip-top';
+											$disableClassName = 'inactive';
 										endif; ?>
-										<span class="sortable-handler hasTooltip <?php echo $disableClassName; ?>" title="<?php echo $disabledLabel; ?>">
+										<span class="sortable-handler <?php echo $disableClassName; ?>" title="<?php echo $disabledLabel; ?>">
 											<span class="icon-menu" aria-hidden="true"></span>
 										</span>
 										<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">

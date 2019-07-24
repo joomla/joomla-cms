@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Component\Exception;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 
