@@ -10,7 +10,6 @@ namespace Joomla\CMS\Console;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Input\InputOption;
