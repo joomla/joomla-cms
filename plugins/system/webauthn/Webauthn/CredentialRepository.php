@@ -82,13 +82,13 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	public function findAllForUserEntity(PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity): array
 	{
 		/** @var DatabaseDriver $db */
-		$db    = Factory::getContainer()->get('DatabaseDriver');
-		$user_id    = (int) $publicKeyCredentialUserEntity->getId();
-		$query = $db->getQuery(true)
+		$db         = Factory::getContainer()->get('DatabaseDriver');
+		$userHandle = $publicKeyCredentialUserEntity->getId();
+		$query      = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__webauthn_credentials'))
 			->where($db->qn('user_id') . ' = :user_id')
-			->bind(':user_id', $user_id);
+			->bind(':user_id', $userHandle);
 
 		try
 		{
@@ -188,7 +188,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 
 		$o = (object) [
 			'id'         => $credentialId,
-			'user_id'    => $user->id,
+			'user_id'    => $this->getHandleFromUserId($user->id),
 			'label'      => $label,
 			'credential' => json_encode($publicKeyCredentialSource),
 		];
@@ -215,12 +215,13 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	public function getAll(int $user_id): array
 	{
 		/** @var DatabaseDriver $db */
-		$db    = Factory::getContainer()->get('DatabaseDriver');
-		$query = $db->getQuery(true)
+		$db         = Factory::getContainer()->get('DatabaseDriver');
+		$userHandle = $this->getHandleFromUserId($user_id);
+		$query      = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__webauthn_credentials'))
 			->where($db->qn('user_id') . ' = :user_id')
-			->bind(':user_id', $user_id);
+			->bind(':user_id', $userHandle);
 
 		try
 		{
@@ -336,40 +337,24 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	 */
 	public function getUserHandleFor(string $credentialId): string
 	{
-		/** @var DatabaseDriver $db */
-		$base64EncodedCredentialId = base64_encode($credentialId);
-		$db                        = Factory::getContainer()->get('DatabaseDriver');
-		$query                     = $db->getQuery(true)
-			->select([
-				$db->qn('user_id'),
-			])
-			->from($db->qn('#__webauthn_credentials'))
-			->where($db->qn('id') . ' = :credentialId')
-			->bind(':credentialId', $base64EncodedCredentialId);
+		$publicKeyCredentialSource = $this->findOneByCredentialId($credentialId);
 
-		$user_id = $db->setQuery($query)->loadResult();
-
-		if (empty($user_id))
+		if (empty($publicKeyCredentialSource))
 		{
-			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_NO_STORED_CREDENTIAL'));
+			return '';
 		}
 
-		$user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($user_id);
-
-		if ($user->id != $user_id)
-		{
-			throw new RuntimeException(Text::sprintf('PLG_SYSTEM_WEBAUTHN_ERR_USER_REMOVED', $user_id));
-		}
-
-		return $this->getHandleFromUserId((int) $user_id);
+		return $publicKeyCredentialSource->getUserHandle();
 	}
 
 	/**
-	 * Return a user handle given an integer Joomla user ID
+	 * Return a user handle given an integer Joomla user ID. We use the HMAC-SHA-256 of the user ID with the site's
+	 * secret as the key. Using it instead of SHA-512 is on purpose! WebAuthn only allows user handles up to 64 bytes
+	 * long.
 	 *
 	 * @param   int  $id  The user ID to convert
 	 *
-	 * @return  string  The user handle (HMAC-SHA-512 of the user ID)
+	 * @return  string  The user handle (HMAC-SHA-256 of the user ID)
 	 *
 	 * @since   4.0.0
 	 */
@@ -388,6 +373,6 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 
 		$data = sprintf('%010u', $id);
 
-		return hash_hmac('sha512', $data, $secret, true);
+		return hash_hmac('sha256', $data, $secret, false);
 	}
 }

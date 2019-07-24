@@ -21,7 +21,6 @@ use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
@@ -29,14 +28,12 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Plugin\System\Webauthn\CredentialRepository;
 use RuntimeException;
 use Webauthn\AttestationStatement\AndroidKeyAttestationStatementSupport;
-use Webauthn\AttestationStatement\AndroidSafetyNetAttestationStatementSupport;
 use Webauthn\AttestationStatement\AttestationObjectLoader;
 use Webauthn\AttestationStatement\AttestationStatementSupportManager;
 use Webauthn\AttestationStatement\FidoU2FAttestationStatementSupport;
 use Webauthn\AttestationStatement\NoneAttestationStatementSupport;
 use Webauthn\AttestationStatement\PackedAttestationStatementSupport;
 use Webauthn\AttestationStatement\TPMAttestationStatementSupport;
-use Webauthn\AttestedCredentialData;
 use Webauthn\AuthenticationExtensions\AuthenticationExtensionsClientInputs;
 use Webauthn\AuthenticationExtensions\ExtensionOutputCheckerHandler;
 use Webauthn\AuthenticatorAttestationResponse;
@@ -50,7 +47,6 @@ use Webauthn\PublicKeyCredentialRpEntity;
 use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialUserEntity;
 use Webauthn\TokenBinding\TokenBindingNotSupportedHandler;
-use Zend\Diactoros\RequestFactory;
 use Zend\Diactoros\ServerRequestFactory;
 
 /**
@@ -87,7 +83,6 @@ abstract class CredentialsCreation
 		$repository = new CredentialRepository();
 
 		// Relaying Party -- Our site
-
 		$rpEntity = new PublicKeyCredentialRpEntity(
 			$siteName,
 			Uri::getInstance()->toString(['host']),
@@ -97,7 +92,7 @@ abstract class CredentialsCreation
 		// User Entity
 		$userEntity = new PublicKeyCredentialUserEntity(
 			$user->username,
-			$user->id,
+			$repository->getHandleFromUserId($user->id),
 			$user->name,
 			self::getAvatar($user, 64)
 		);
@@ -122,7 +117,6 @@ abstract class CredentialsCreation
 
 		// Devices to exclude (already set up authenticators)
 		$excludedPublicKeyDescriptors = [];
-		$userEntity                   = new PublicKeyCredentialUserEntity($user->username, $user->id, $user->name);
 		$records                      = $repository->findAllForUserEntity($userEntity);
 
 		/** @var PublicKeyCredentialSource $record */

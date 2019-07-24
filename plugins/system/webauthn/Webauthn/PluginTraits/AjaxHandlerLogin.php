@@ -206,28 +206,8 @@ trait AjaxHandlerLogin
 			throw new \RuntimeException('Not an authenticator assertion response');
 		}
 
-		/**
-		 * Find the user handle.
-		 *
-		 * The best way to retrieve the user handle is to go through the repository and find the record matching our
-		 * public key credential ID. Caveat: the ID we got from the browser is not the real ID, it's a modified version
-		 * of the base64 encoded value of the key, replacing `/` with `_` and removing the trailing equals signs if any.
-		 * I need to convert it back to a proper base64 encoded string, decode it and feed the result to the repo's
-		 * findOneByCredentialId() method to actually retrieve the record I am looking for.
-		 */
-		$publicKeyCredentialId     = $publicKeyCredential->getId();
-		$publicKeyCredentialId     = str_replace('_', '/', $publicKeyCredentialId);
-		$publicKeyCredentialId     = base64_decode($publicKeyCredentialId);
-		$publicKeyCredentialSource = $credentialRepository->findOneByCredentialId($publicKeyCredentialId);
-		$userHandle                = null;
-
-		if (!is_null($publicKeyCredentialSource))
-		{
-			$userHandle = $publicKeyCredentialSource->getUserHandle();
-			$userHandle = empty($userHandle) ? null : $userHandle;
-		}
-
 		// Check the response against the attestation request
+		$userHandle = Joomla::getSessionVar('userHandle', null, 'plg_system_webauthn');
 		/** @var AuthenticatorAssertionResponse $authenticatorAssertionResponse */
 		$authenticatorAssertionResponse = $publicKeyCredential->getResponse();
 		$authenticatorAssertionResponseValidator->check(

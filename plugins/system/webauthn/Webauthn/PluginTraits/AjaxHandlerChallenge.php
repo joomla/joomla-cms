@@ -93,7 +93,7 @@ trait AjaxHandlerChallenge
 		// Load the saved credentials into an array of PublicKeyCredentialDescriptor objects
 		try
 		{
-			$userEntity  = new PublicKeyCredentialUserEntity('', $user_id, '');
+			$userEntity  = new PublicKeyCredentialUserEntity('', $repository->getHandleFromUserId($user_id), '');
 			$credentials = $repository->findAllForUserEntity($userEntity);
 		}
 		catch (Exception $e)
