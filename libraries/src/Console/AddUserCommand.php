@@ -108,12 +108,12 @@ class AddUserCommand extends AbstractCommand
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
 		$this->configureIO($input, $output);
+		$this->ioStyle->title('Add user');
 		$this->user = $this->getStringFromOption('username', 'Please enter a username');
 		$this->name = $this->getStringFromOption('name', 'Please enter a name (full name of user)');
 		$this->email = $this->getStringFromOption('email', 'Please enter a email address');
 		$this->password = $this->getStringFromOption('password', 'Please enter a password');
 		$this->userGroups = $this->getUserGroups();
-		$this->ioStyle->title('Add user');
 
 		if (in_array("error", $this->userGroups))
 		{
@@ -233,6 +233,7 @@ class AddUserCommand extends AbstractCommand
 
 				if (empty($groupId))
 				{
+					$this->ioStyle->error("Invalid group name '" . $group ."'");
 					throw new InvalidOptionException("Invalid group name " . $group);
 				}
 

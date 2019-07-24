@@ -156,6 +156,7 @@ class AddUserToGroupCommand extends AbstractCommand
 
 				if (empty($groupId))
 				{
+					$this->ioStyle->error("Invalid group name '" . $group . "'");
 					throw new InvalidOptionException("Invalid group name " . $group);
 				}
 
