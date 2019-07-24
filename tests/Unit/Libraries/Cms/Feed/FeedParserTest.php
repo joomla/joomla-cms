@@ -93,9 +93,13 @@ class FeedParserTest extends UnitTestCase
 			->method('processElementForFeed')
 			->with(
 				$this->isInstanceOf(Feed::class),
-				$this->callback(function ($value) use ($content) {
-					return $value instanceof SimpleXMLElement && (string) $value[0] === $content;
-				}));
+				$this->callback(
+					function ($value) use ($content)
+					{
+						return $value instanceof SimpleXMLElement && (string) $value[0] === $content;
+					}
+				)
+			);
 
 		$parser = new FeedParserStub($xmlReader);
 		$parser->registerNamespace($prefix, $namespaceMock);
@@ -175,9 +179,13 @@ class FeedParserTest extends UnitTestCase
 			->method('processElementForFeedEntry')
 			->with(
 				$this->isInstanceOf(FeedEntry::class),
-				$this->callback(function ($value) use ($content) {
-					return $value instanceof SimpleXMLElement && (string) $value[0] === '';
-				}));
+				$this->callback(
+					function ($value) use ($content)
+					{
+						return $value instanceof SimpleXMLElement && (string) $value[0] === '';
+					}
+				)
+			);
 
 		$parser = new FeedParserStub($xmlReader);
 		$parser->registerNamespace($prefix, $namespaceMock);
@@ -210,6 +218,7 @@ class FeedParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testMoveToNextElement()
 	{
@@ -254,6 +263,7 @@ class FeedParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testMoveToNextElementByName()
 	{
@@ -286,6 +296,7 @@ class FeedParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testMoveToClosingElement()
 	{
@@ -313,6 +324,7 @@ class FeedParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testMoveToClosingElementWithInternalElements()
 	{
@@ -341,6 +353,7 @@ class FeedParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testMoveToClosingElementWithSelfClosingTag()
 	{
@@ -366,8 +379,8 @@ class FeedParserTest extends UnitTestCase
 	/**
 	 * Helper function which gets an instance of xml reader
 	 *
-	 * @param $xml
-	 * @param $moveTo
+	 * @param   mixed   $xml     XML
+	 * @param   mixed   $moveTo  Moveto
 	 *
 	 * @return XMLReader
 	 *
@@ -403,7 +416,9 @@ class FeedParserStub extends FeedParser
 	/**
 	 * Test helper flag to check that the initialize method was called
 	 *
-	 * @var  int
+	 * @var  integer
+	 *
+	 * @since   4.0.0
 	 */
 	protected $initializeCalledCounter = 0;
 
@@ -411,6 +426,8 @@ class FeedParserStub extends FeedParser
 	 * Test helper flag to check that the process feed entry handler was called
 	 *
 	 * @var array
+	 *
+	 * @since   4.0.0
 	 */
 	protected $processFeedEntryCalledWith = [];
 
@@ -418,15 +435,17 @@ class FeedParserStub extends FeedParser
 	 * Test helper flag to check that the custom element handler was called
 	 *
 	 * @var array
+	 *
+	 * @since   4.0.0
 	 */
 	protected $handleCustomCalledWith = [];
 
 	/**
 	 * Getter for the initialize called counter
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function getInitializeCalledCounter(): int
 	{
@@ -438,7 +457,7 @@ class FeedParserStub extends FeedParser
 	 *
 	 * @return  array
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function getHandleCustomCalledWith(): array
 	{
@@ -450,7 +469,7 @@ class FeedParserStub extends FeedParser
 	 *
 	 * @return  array
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function getNamespaces(): array
 	{
@@ -462,7 +481,7 @@ class FeedParserStub extends FeedParser
 	 *
 	 * @return  array
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function getProcessFeedEntryCalledWith(): array
 	{
@@ -472,12 +491,12 @@ class FeedParserStub extends FeedParser
 	/**
 	 * Process a feed entry
 	 *
-	 * @param FeedEntry        $entry
-	 * @param SimpleXMLElement $el
+	 * @param   mixed   FeedEntry         $entry  Entry
+	 * @param   mixed   SimpleXMLElement  $el     El
 	 *
 	 * @return void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function processFeedEntry(FeedEntry $entry, SimpleXMLElement $el)
 	{
@@ -503,12 +522,12 @@ class FeedParserStub extends FeedParser
 	/**
 	 * Custom element handler
 	 *
-	 * @param Feed             $feed
-	 * @param SimpleXMLElement $el
+	 * @param   mixed   Feed              $feed  Feed
+	 * @param   mixed   SimpleXMLElement  $el    El
 	 *
 	 * @return void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	protected function handleCustom(Feed $feed, SimpleXMLElement $el)
 	{
@@ -523,6 +542,8 @@ class FeedParserStub extends FeedParser
  * Class FeedParserStubUnregistered
  *
  * Helper Class to test an unregistered namespace
+ *
+ * @since   4.0.0
  */
 class FeedParserStubUnregistered implements NamespaceParserInterface
 {
@@ -530,8 +551,8 @@ class FeedParserStubUnregistered implements NamespaceParserInterface
 	/**
 	 * Method to handle an element for the feed given that a certain namespace is present.
 	 *
-	 * @param   Feed              $feed The Feed object being built from the parsed feed.
-	 * @param   SimpleXMLElement $el   The current XML element object to handle.
+	 * @param   mixed   Feed               $feed  The Feed object being built from the parsed feed.
+	 * @param   mixed   SimpleXMLElement   $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
@@ -544,8 +565,8 @@ class FeedParserStubUnregistered implements NamespaceParserInterface
 	/**
 	 * Method to handle the feed entry element for the feed given that a certain namespace is present.
 	 *
-	 * @param   FeedEntry $entry The FeedEntry object being built from the parsed feed entry.
-	 * @param   SimpleXMLElement          $el    The current XML element object to handle.
+	 * @param   mixed   FeedEntry         $entry  The FeedEntry object being built from the parsed feed entry.
+	 * @param   mixed   SimpleXMLElement  $el     The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
