@@ -317,7 +317,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 * @return  void
 	 *
 	 * @since   4.0.0
-	 * throws   \Joomla\Database\Exception\ExecutionFailureException|\Joomla\Database\Exception\ConnectionFailureException
+	 * @throws   \Joomla\Database\Exception\ExecutionFailureException|\Joomla\Database\Exception\ConnectionFailureException
 	 */
 	private function saveOverrides($pks)
 	{
