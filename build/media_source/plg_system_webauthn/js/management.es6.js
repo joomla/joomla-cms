@@ -41,7 +41,7 @@ function plg_system_webauthn_create_credentials(store_id, interface_selector)
         return btoa(String.fromCharCode(...a));
     }
 
-    // Convert the public key infomration to a format usable by the browser's credentials managemer
+    // Convert the public key information to a format usable by the browser's credentials manager
     publicKey.challenge = Uint8Array.from(window.atob(publicKey.challenge), c => c.charCodeAt(0));
     publicKey.user.id   = Uint8Array.from(window.atob(publicKey.user.id), c => c.charCodeAt(0));
 
