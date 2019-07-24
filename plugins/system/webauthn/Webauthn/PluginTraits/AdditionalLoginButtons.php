@@ -131,10 +131,11 @@ trait AdditionalLoginButtons
 			return [];
 		}
 
-		$this->addLoginCSSAndJavascript();
-
 		// Load the language files
 		$this->loadLanguage();
+
+		// Load necessary CSS and Javascript files
+		$this->addLoginCSSAndJavascript();
 
 		// Return URL
 		$uri = new Uri(Uri::base() . 'index.php');

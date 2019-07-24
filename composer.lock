@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "15eec5f6299b8ca707e6564f28dd219d",
+    "content-hash": "044d30e515cca83bdcc96e3e10b1fc80",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -472,12 +472,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/application.git",
-                "reference": "dcf1205bd75ff2de3414828ba111b2430ed959bc"
+                "reference": "3d549e0248cd8973f0c5b66fe49f4647c756488d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/application/zipball/dcf1205bd75ff2de3414828ba111b2430ed959bc",
-                "reference": "dcf1205bd75ff2de3414828ba111b2430ed959bc",
+                "url": "https://api.github.com/repos/joomla-framework/application/zipball/3d549e0248cd8973f0c5b66fe49f4647c756488d",
+                "reference": "3d549e0248cd8973f0c5b66fe49f4647c756488d",
                 "shasum": ""
             },
             "require": {
@@ -495,16 +495,16 @@
                 "joomla/di": "~1.5|~2.0",
                 "joomla/router": "~2.0",
                 "joomla/session": "~2.0",
-                "joomla/test": "~1.1",
-                "joomla/uri": "~1.1",
-                "phpunit/phpunit": "~6.3"
+                "joomla/test": "~2.0",
+                "joomla/uri": "~1.1|~2.0",
+                "phpunit/phpunit": "~8.2"
             },
             "suggest": {
-                "joomla/controller": "To support resolving ControllerInterface objects in ControllerResolverInterface, install joomla/controller",
-                "joomla/router": "To use WebApplication or ControllerResolverInterface implementations, install joomla/router",
-                "joomla/session": "To use AbstractWebApplication with session support, install joomla/session",
-                "joomla/uri": "To use AbstractWebApplication, install joomla/uri",
-                "psr/container": "To use the ContainerControllerResolver, install any PSR-11 compatible container"
+                "joomla/controller": "~1.0|~2.0 To support resolving ControllerInterface objects in ControllerResolverInterface, install joomla/controller",
+                "joomla/router": "~2.0 To use WebApplication or ControllerResolverInterface implementations, install joomla/router",
+                "joomla/session": "~2.0 To use AbstractWebApplication with session support, install joomla/session",
+                "joomla/uri": "~1.1|~2.0 To use AbstractWebApplication, install joomla/uri",
+                "psr/container": "~1.0 To use the ContainerControllerResolver, install any PSR-11 compatible container"
             },
             "type": "joomla-package",
             "extra": {
@@ -528,7 +528,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-06-17T23:30:53+00:00"
+            "time": "2019-07-17T23:15:23+00:00"
         },
         {
             "name": "joomla/archive",
@@ -588,12 +588,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/authentication.git",
-                "reference": "0f3e8838322869ea2e00ac5cd2780b0346886a70"
+                "reference": "a577eac4c5654e1b347feb36a3991da4fb04d7ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/authentication/zipball/0f3e8838322869ea2e00ac5cd2780b0346886a70",
-                "reference": "0f3e8838322869ea2e00ac5cd2780b0346886a70",
+                "url": "https://api.github.com/repos/joomla-framework/authentication/zipball/a577eac4c5654e1b347feb36a3991da4fb04d7ab",
+                "reference": "a577eac4c5654e1b347feb36a3991da4fb04d7ab",
                 "shasum": ""
             },
             "require": {
@@ -632,7 +632,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-06-19T00:51:06+00:00"
+            "time": "2019-07-17T23:41:23+00:00"
         },
         {
             "name": "joomla/console",
@@ -640,12 +640,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/console.git",
-                "reference": "2d4ceaaa49336f672d09e8d05faf8df6501a2754"
+                "reference": "58b6a5545c87cb1eaf82bd9fd703e8c332ca89e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/console/zipball/2d4ceaaa49336f672d09e8d05faf8df6501a2754",
-                "reference": "2d4ceaaa49336f672d09e8d05faf8df6501a2754",
+                "url": "https://api.github.com/repos/joomla-framework/console/zipball/58b6a5545c87cb1eaf82bd9fd703e8c332ca89e3",
+                "reference": "58b6a5545c87cb1eaf82bd9fd703e8c332ca89e3",
                 "shasum": ""
             },
             "require": {
@@ -657,7 +657,7 @@
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
-                "phpunit/phpunit": "~6.3",
+                "phpunit/phpunit": "~8.2",
                 "psr/container": "~1.0"
             },
             "suggest": {
@@ -685,7 +685,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-06-17T23:29:39+00:00"
+            "time": "2019-07-18T00:30:45+00:00"
         },
         {
             "name": "joomla/controller",
@@ -846,12 +846,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "fa3b0519c146242b088abe1572a3c0dc32ae59de"
+                "reference": "60a7df9e4df83c2269fbc229a396cb6a324e417f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/fa3b0519c146242b088abe1572a3c0dc32ae59de",
-                "reference": "fa3b0519c146242b088abe1572a3c0dc32ae59de",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/60a7df9e4df83c2269fbc229a396cb6a324e417f",
+                "reference": "60a7df9e4df83c2269fbc229a396cb6a324e417f",
                 "shasum": ""
             },
             "require": {
@@ -903,7 +903,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-07-02T07:05:06+00:00"
+            "time": "2019-07-22T20:04:16+00:00"
         },
         {
             "name": "joomla/di",
@@ -911,12 +911,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/di.git",
-                "reference": "55db6dc7ad2e8cb778c224608b8d2c8569e18af5"
+                "reference": "46a30b4e27234e914b826d91d2ee20a820f8ceab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/di/zipball/55db6dc7ad2e8cb778c224608b8d2c8569e18af5",
-                "reference": "55db6dc7ad2e8cb778c224608b8d2c8569e18af5",
+                "url": "https://api.github.com/repos/joomla-framework/di/zipball/46a30b4e27234e914b826d91d2ee20a820f8ceab",
+                "reference": "46a30b4e27234e914b826d91d2ee20a820f8ceab",
                 "shasum": ""
             },
             "require": {
@@ -955,7 +955,7 @@
                 "ioc",
                 "joomla"
             ],
-            "time": "2019-06-19T01:48:32+00:00"
+            "time": "2019-07-18T00:06:37+00:00"
         },
         {
             "name": "joomla/event",
@@ -963,12 +963,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/event.git",
-                "reference": "d0146f10f982acd8e9629179c3da5c0496ccd2a0"
+                "reference": "5b854c580bdbad39324e22a6af2c0b68379b9905"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/event/zipball/d0146f10f982acd8e9629179c3da5c0496ccd2a0",
-                "reference": "d0146f10f982acd8e9629179c3da5c0496ccd2a0",
+                "url": "https://api.github.com/repos/joomla-framework/event/zipball/5b854c580bdbad39324e22a6af2c0b68379b9905",
+                "reference": "5b854c580bdbad39324e22a6af2c0b68379b9905",
                 "shasum": ""
             },
             "require": {
@@ -1004,7 +1004,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-06-19T01:52:12+00:00"
+            "time": "2019-07-18T00:09:24+00:00"
         },
         {
             "name": "joomla/filesystem",
@@ -1113,12 +1113,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/http.git",
-                "reference": "3367e57dd2bdc2de9eadd51cde31c138ca14319a"
+                "reference": "91aecbdeee2f38cfe518e568e9d1f09b344c6b25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/http/zipball/3367e57dd2bdc2de9eadd51cde31c138ca14319a",
-                "reference": "3367e57dd2bdc2de9eadd51cde31c138ca14319a",
+                "url": "https://api.github.com/repos/joomla-framework/http/zipball/91aecbdeee2f38cfe518e568e9d1f09b344c6b25",
+                "reference": "91aecbdeee2f38cfe518e568e9d1f09b344c6b25",
                 "shasum": ""
             },
             "require": {
@@ -1131,8 +1131,8 @@
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
-                "joomla/test": "~1.0",
-                "phpunit/phpunit": "~6.3"
+                "joomla/test": "~2.0",
+                "phpunit/phpunit": "~8.2"
             },
             "suggest": {
                 "ext-curl": "To use cURL for HTTP connections"
@@ -1159,7 +1159,7 @@
                 "http",
                 "joomla"
             ],
-            "time": "2019-06-18T00:00:18+00:00"
+            "time": "2019-07-18T00:24:34+00:00"
         },
         {
             "name": "joomla/image",
@@ -1309,12 +1309,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/oauth1.git",
-                "reference": "45411832afee327df4fdd10adbed1738828e712d"
+                "reference": "36da2b80c5e525a724e59a2c54515fdedca90bd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/oauth1/zipball/45411832afee327df4fdd10adbed1738828e712d",
-                "reference": "45411832afee327df4fdd10adbed1738828e712d",
+                "url": "https://api.github.com/repos/joomla-framework/oauth1/zipball/36da2b80c5e525a724e59a2c54515fdedca90bd1",
+                "reference": "36da2b80c5e525a724e59a2c54515fdedca90bd1",
                 "shasum": ""
             },
             "require": {
@@ -1328,8 +1328,8 @@
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
                 "joomla/event": "~2.0",
-                "joomla/test": "~1.0",
-                "phpunit/phpunit": "~6.3"
+                "joomla/test": "~2.0",
+                "phpunit/phpunit": "~8.2"
             },
             "type": "joomla-package",
             "extra": {
@@ -1353,7 +1353,7 @@
                 "joomla",
                 "oauth1"
             ],
-            "time": "2019-06-17T22:39:00+00:00"
+            "time": "2019-07-14T17:33:47+00:00"
         },
         {
             "name": "joomla/oauth2",
@@ -1361,12 +1361,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/oauth2.git",
-                "reference": "58689a3dfddaba4d1c04b17ae341197040429e06"
+                "reference": "98ff49808169523339cc8fd072aec9fe8c5f892b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/oauth2/zipball/58689a3dfddaba4d1c04b17ae341197040429e06",
-                "reference": "58689a3dfddaba4d1c04b17ae341197040429e06",
+                "url": "https://api.github.com/repos/joomla-framework/oauth2/zipball/98ff49808169523339cc8fd072aec9fe8c5f892b",
+                "reference": "98ff49808169523339cc8fd072aec9fe8c5f892b",
                 "shasum": ""
             },
             "require": {
@@ -1379,7 +1379,7 @@
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
-                "phpunit/phpunit": "~6.3"
+                "phpunit/phpunit": "~8.2"
             },
             "type": "joomla-package",
             "extra": {
@@ -1403,7 +1403,7 @@
                 "joomla",
                 "oauth2"
             ],
-            "time": "2019-06-17T22:39:15+00:00"
+            "time": "2019-07-14T17:24:53+00:00"
         },
         {
             "name": "joomla/registry",
@@ -1411,12 +1411,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/registry.git",
-                "reference": "c7f0c490ad178853c693e4139317c118a95ff61a"
+                "reference": "e3bf30e95849d29f9c446e350916b27bbe69c0ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/c7f0c490ad178853c693e4139317c118a95ff61a",
-                "reference": "c7f0c490ad178853c693e4139317c118a95ff61a",
+                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/e3bf30e95849d29f9c446e350916b27bbe69c0ad",
+                "reference": "e3bf30e95849d29f9c446e350916b27bbe69c0ad",
                 "shasum": ""
             },
             "require": {
@@ -1425,7 +1425,7 @@
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
-                "phpunit/phpunit": "~6.3",
+                "phpunit/phpunit": "~8.2",
                 "symfony/yaml": "~3.4|~4.0"
             },
             "suggest": {
@@ -1453,7 +1453,7 @@
                 "joomla",
                 "registry"
             ],
-            "time": "2019-06-17T22:41:38+00:00"
+            "time": "2019-07-14T17:12:29+00:00"
         },
         {
             "name": "joomla/router",
@@ -1461,12 +1461,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/router.git",
-                "reference": "38d5c21ec12899c555d46f5f7cba552f853e0be9"
+                "reference": "0a51a9050ef0c3e67f656760654d9c91c38bc0fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/router/zipball/38d5c21ec12899c555d46f5f7cba552f853e0be9",
-                "reference": "38d5c21ec12899c555d46f5f7cba552f853e0be9",
+                "url": "https://api.github.com/repos/joomla-framework/router/zipball/0a51a9050ef0c3e67f656760654d9c91c38bc0fc",
+                "reference": "0a51a9050ef0c3e67f656760654d9c91c38bc0fc",
                 "shasum": ""
             },
             "require": {
@@ -1504,7 +1504,7 @@
                 "joomla",
                 "router"
             ],
-            "time": "2019-06-18T02:47:26+00:00"
+            "time": "2019-07-06T16:40:05+00:00"
         },
         {
             "name": "joomla/session",
@@ -1512,12 +1512,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/session.git",
-                "reference": "894b7a86311a6e9f094fb2c2e83b7bb14c7fa7ee"
+                "reference": "96a49ce2c21b9bd6272ac4bc72a041ca7e2beaad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/session/zipball/894b7a86311a6e9f094fb2c2e83b7bb14c7fa7ee",
-                "reference": "894b7a86311a6e9f094fb2c2e83b7bb14c7fa7ee",
+                "url": "https://api.github.com/repos/joomla-framework/session/zipball/96a49ce2c21b9bd6272ac4bc72a041ca7e2beaad",
+                "reference": "96a49ce2c21b9bd6272ac4bc72a041ca7e2beaad",
                 "shasum": ""
             },
             "require": {
@@ -1565,7 +1565,7 @@
                 "joomla",
                 "session"
             ],
-            "time": "2019-06-29T19:54:13+00:00"
+            "time": "2019-07-04T19:02:08+00:00"
         },
         {
             "name": "joomla/string",
@@ -1834,16 +1834,16 @@
         },
         {
             "name": "paragonie/sodium_compat",
-            "version": "v1.10.0",
+            "version": "v1.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/sodium_compat.git",
-                "reference": "228a9fc64cf4ba84c7967c1076d94209db03e0ee"
+                "reference": "5115fa44886d1c2785d2f135ef4626db868eac4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/228a9fc64cf4ba84c7967c1076d94209db03e0ee",
-                "reference": "228a9fc64cf4ba84c7967c1076d94209db03e0ee",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/5115fa44886d1c2785d2f135ef4626db868eac4b",
+                "reference": "5115fa44886d1c2785d2f135ef4626db868eac4b",
                 "shasum": ""
             },
             "require": {
@@ -1912,7 +1912,7 @@
                 "secret-key cryptography",
                 "side-channel resistant"
             ],
-            "time": "2019-05-13T16:04:50+00:00"
+            "time": "2019-07-12T16:36:59+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -2275,6 +2275,88 @@
                 "psr-3"
             ],
             "time": "2018-11-20T15:27:04+00:00"
+        },
+        {
+            "name": "ramsey/uuid",
+            "version": "3.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ramsey/uuid.git",
+                "reference": "d09ea80159c1929d75b3f9c60504d613aeb4a1e3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/d09ea80159c1929d75b3f9c60504d613aeb4a1e3",
+                "reference": "d09ea80159c1929d75b3f9c60504d613aeb4a1e3",
+                "shasum": ""
+            },
+            "require": {
+                "paragonie/random_compat": "^1.0|^2.0|9.99.99",
+                "php": "^5.4 || ^7.0",
+                "symfony/polyfill-ctype": "^1.8"
+            },
+            "replace": {
+                "rhumsaa/uuid": "self.version"
+            },
+            "require-dev": {
+                "codeception/aspect-mock": "^1.0 | ~2.0.0",
+                "doctrine/annotations": "~1.2.0",
+                "goaop/framework": "1.0.0-alpha.2 | ^1.0 | ~2.1.0",
+                "ircmaxell/random-lib": "^1.1",
+                "jakub-onderka/php-parallel-lint": "^0.9.0",
+                "mockery/mockery": "^0.9.9",
+                "moontoast/math": "^1.1",
+                "php-mock/php-mock-phpunit": "^0.3|^1.1",
+                "phpunit/phpunit": "^4.7|^5.0|^6.5",
+                "squizlabs/php_codesniffer": "^2.3"
+            },
+            "suggest": {
+                "ext-ctype": "Provides support for PHP Ctype functions",
+                "ext-libsodium": "Provides the PECL libsodium extension for use with the SodiumRandomGenerator",
+                "ext-uuid": "Provides the PECL UUID extension for use with the PeclUuidTimeGenerator and PeclUuidRandomGenerator",
+                "ircmaxell/random-lib": "Provides RandomLib for use with the RandomLibAdapter",
+                "moontoast/math": "Provides support for converting UUID to 128-bit integer (in string form).",
+                "ramsey/uuid-console": "A console application for generating UUIDs with ramsey/uuid",
+                "ramsey/uuid-doctrine": "Allows the use of Ramsey\\Uuid\\Uuid as Doctrine field type."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ramsey\\Uuid\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marijn Huizendveld",
+                    "email": "marijn.huizendveld@gmail.com"
+                },
+                {
+                    "name": "Thibaud Fabre",
+                    "email": "thibaud@aztech.io"
+                },
+                {
+                    "name": "Ben Ramsey",
+                    "email": "ben@benramsey.com",
+                    "homepage": "https://benramsey.com"
+                }
+            ],
+            "description": "Formerly rhumsaa/uuid. A PHP 5.4+ library for generating RFC 4122 version 1, 3, 4, and 5 universally unique identifiers (UUID).",
+            "homepage": "https://github.com/ramsey/uuid",
+            "keywords": [
+                "guid",
+                "identifier",
+                "uuid"
+            ],
+            "time": "2018-07-19T23:38:55+00:00"
         },
         {
             "name": "spomky-labs/base64url",
@@ -3411,16 +3493,16 @@
         },
         {
             "name": "web-auth/cose-lib",
-            "version": "v1.2.2",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-auth/cose-lib.git",
-                "reference": "042224835e73ebe81d8f9d8c1c82982450716ac5"
+                "reference": "5ef35ea258ad2adc28bdd1e063eca34353ebf9d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/web-auth/cose-lib/zipball/042224835e73ebe81d8f9d8c1c82982450716ac5",
-                "reference": "042224835e73ebe81d8f9d8c1c82982450716ac5",
+                "url": "https://api.github.com/repos/web-auth/cose-lib/zipball/5ef35ea258ad2adc28bdd1e063eca34353ebf9d7",
+                "reference": "5ef35ea258ad2adc28bdd1e063eca34353ebf9d7",
                 "shasum": ""
             },
             "require": {
@@ -3429,7 +3511,7 @@
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
                 "fgrosse/phpasn1": "^2.1",
-                "php": "^7.1",
+                "php": "^7.2",
                 "thecodingmachine/safe": "^0.1"
             },
             "type": "library",
@@ -3437,7 +3519,8 @@
                 "branch-alias": {
                     "v1.0": "1.0.x-dev",
                     "v1.1": "1.1.x-dev",
-                    "v1.2": "1.2.x-dev"
+                    "v1.2": "1.2.x-dev",
+                    "v2.0": "2.0.x-dev"
                 }
             },
             "autoload": {
@@ -3465,20 +3548,20 @@
                 "COSE",
                 "RFC8152"
             ],
-            "time": "2019-05-05T15:24:28+00:00"
+            "time": "2019-05-05T16:15:56+00:00"
         },
         {
             "name": "web-auth/webauthn-lib",
-            "version": "v1.2.2",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-auth/webauthn-lib.git",
-                "reference": "7681e7002cbd4839feb07b13bf1fae4cabde3d72"
+                "reference": "63cf3bb613bce1a261219b6ebd2ffb5060c769dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/web-auth/webauthn-lib/zipball/7681e7002cbd4839feb07b13bf1fae4cabde3d72",
-                "reference": "7681e7002cbd4839feb07b13bf1fae4cabde3d72",
+                "url": "https://api.github.com/repos/web-auth/webauthn-lib/zipball/63cf3bb613bce1a261219b6ebd2ffb5060c769dc",
+                "reference": "63cf3bb613bce1a261219b6ebd2ffb5060c769dc",
                 "shasum": ""
             },
             "require": {
@@ -3486,13 +3569,13 @@
                 "ext-json": "*",
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
-                "php": "^7.1",
+                "php": "^7.2",
                 "psr/http-factory": "^1.0",
                 "psr/http-message": "^1.0",
                 "spomky-labs/base64url": "^2.0",
                 "spomky-labs/cbor-php": "^1.0.2",
                 "thecodingmachine/safe": "^0.1",
-                "web-auth/cose-lib": "^1.1"
+                "web-auth/cose-lib": "^2.0"
             },
             "suggest": {
                 "php-http/httplug": "For Android SafetyNet support"
@@ -3502,7 +3585,8 @@
                 "branch-alias": {
                     "v1.0": "1.0.x-dev",
                     "v1.1": "1.1.x-dev",
-                    "v1.2": "1.2.x-dev"
+                    "v1.2": "1.2.x-dev",
+                    "v2.0": "2.0.x-dev"
                 }
             },
             "autoload": {
@@ -3532,7 +3616,7 @@
                 "u2f",
                 "webauthn"
             ],
-            "time": "2019-06-05T17:41:05+00:00"
+            "time": "2019-06-21T19:42:57+00:00"
         },
         {
             "name": "willdurand/negotiation",
@@ -3588,16 +3672,16 @@
         },
         {
             "name": "zendframework/zend-diactoros",
-            "version": "2.1.2",
+            "version": "2.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-diactoros.git",
-                "reference": "37bf68b428850ee26ed7c3be6c26236dd95a95f1"
+                "reference": "279723778c40164bcf984a2df12ff2c6ec5e61c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/37bf68b428850ee26ed7c3be6c26236dd95a95f1",
-                "reference": "37bf68b428850ee26ed7c3be6c26236dd95a95f1",
+                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/279723778c40164bcf984a2df12ff2c6ec5e61c1",
+                "reference": "279723778c40164bcf984a2df12ff2c6ec5e61c1",
                 "shasum": ""
             },
             "require": {
@@ -3650,7 +3734,7 @@
                 "psr",
                 "psr-7"
             ],
-            "time": "2019-04-29T21:11:00+00:00"
+            "time": "2019-07-10T16:13:25+00:00"
         }
     ],
     "packages-dev": [
@@ -3715,16 +3799,16 @@
         },
         {
             "name": "codeception/codeception",
-            "version": "3.0.2",
+            "version": "3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "aead7eb0a53b040390a927dc84a0e6e37ffa8a2b"
+                "reference": "feb566a9dc26993611602011ae3834d8e3c1dd7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/aead7eb0a53b040390a927dc84a0e6e37ffa8a2b",
-                "reference": "aead7eb0a53b040390a927dc84a0e6e37ffa8a2b",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/feb566a9dc26993611602011ae3834d8e3c1dd7f",
+                "reference": "feb566a9dc26993611602011ae3834d8e3c1dd7f",
                 "shasum": ""
             },
             "require": {
@@ -3749,6 +3833,8 @@
             },
             "require-dev": {
                 "codeception/specify": "~0.3",
+                "doctrine/annotations": "^1",
+                "doctrine/orm": "^2",
                 "flow/jsonpath": "~0.2",
                 "monolog/monolog": "~1.8",
                 "pda/pheanstalk": "~3.0",
@@ -3803,7 +3889,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2019-06-22T19:16:46+00:00"
+            "time": "2019-07-18T16:21:08+00:00"
         },
         {
             "name": "codeception/phpunit-wrapper",
@@ -5770,12 +5856,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "535968155369a61e995ec56808931e74594b049b"
+                "reference": "f33a41a193aee1491df51af8f02fce86477ef451"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/535968155369a61e995ec56808931e74594b049b",
-                "reference": "535968155369a61e995ec56808931e74594b049b",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/f33a41a193aee1491df51af8f02fce86477ef451",
+                "reference": "f33a41a193aee1491df51af8f02fce86477ef451",
                 "shasum": ""
             },
             "require": {
@@ -5813,7 +5899,7 @@
                 "acceptance testing",
                 "joomla"
             ],
-            "time": "2019-02-19T17:21:09+00:00"
+            "time": "2019-07-11T16:09:14+00:00"
         },
         {
             "name": "joomla-projects/robo-joomla",
@@ -6433,16 +6519,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "7.0.5",
+            "version": "7.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "aed67b57d459dcab93e84a5c9703d3deb5025dff"
+                "reference": "d471d0d2b529a67c6a722dd446c4ec90881ac315"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/aed67b57d459dcab93e84a5c9703d3deb5025dff",
-                "reference": "aed67b57d459dcab93e84a5c9703d3deb5025dff",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/d471d0d2b529a67c6a722dd446c4ec90881ac315",
+                "reference": "d471d0d2b529a67c6a722dd446c4ec90881ac315",
                 "shasum": ""
             },
             "require": {
@@ -6451,17 +6537,17 @@
                 "php": "^7.2",
                 "phpunit/php-file-iterator": "^2.0.2",
                 "phpunit/php-text-template": "^1.2.1",
-                "phpunit/php-token-stream": "^3.0.1",
+                "phpunit/php-token-stream": "^3.0.2",
                 "sebastian/code-unit-reverse-lookup": "^1.0.1",
-                "sebastian/environment": "^4.1",
+                "sebastian/environment": "^4.2.2",
                 "sebastian/version": "^2.0.1",
-                "theseer/tokenizer": "^1.1"
+                "theseer/tokenizer": "^1.1.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.0"
+                "phpunit/phpunit": "^8.2.2"
             },
             "suggest": {
-                "ext-xdebug": "^2.6.1"
+                "ext-xdebug": "^2.7.2"
             },
             "type": "library",
             "extra": {
@@ -6492,7 +6578,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-06-06T12:28:18+00:00"
+            "time": "2019-07-08T05:29:42+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -6636,16 +6722,16 @@
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "3.0.1",
+            "version": "3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "c99e3be9d3e85f60646f152f9002d46ed7770d18"
+                "reference": "c4a66b97f040e3e20b3aa2a243230a1c3a9f7c8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/c99e3be9d3e85f60646f152f9002d46ed7770d18",
-                "reference": "c99e3be9d3e85f60646f152f9002d46ed7770d18",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/c4a66b97f040e3e20b3aa2a243230a1c3a9f7c8c",
+                "reference": "c4a66b97f040e3e20b3aa2a243230a1c3a9f7c8c",
                 "shasum": ""
             },
             "require": {
@@ -6681,20 +6767,20 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2018-10-30T05:52:18+00:00"
+            "time": "2019-07-08T05:24:54+00:00"
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.2.3",
+            "version": "8.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "f67ca36860ebca7224d4573f107f79bd8ed0ba03"
+                "reference": "c1b8534b3730f20f58600124129197bf1183dc92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/f67ca36860ebca7224d4573f107f79bd8ed0ba03",
-                "reference": "f67ca36860ebca7224d4573f107f79bd8ed0ba03",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c1b8534b3730f20f58600124129197bf1183dc92",
+                "reference": "c1b8534b3730f20f58600124129197bf1183dc92",
                 "shasum": ""
             },
             "require": {
@@ -6721,7 +6807,7 @@
                 "sebastian/global-state": "^3.0.0",
                 "sebastian/object-enumerator": "^3.0.3",
                 "sebastian/resource-operations": "^2.0.1",
-                "sebastian/type": "^1.1.0",
+                "sebastian/type": "^1.1.3",
                 "sebastian/version": "^2.0.1"
             },
             "require-dev": {
@@ -6753,8 +6839,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "The PHP Unit Testing framework.",
@@ -6764,7 +6850,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-06-19T12:03:56+00:00"
+            "time": "2019-07-15T06:26:24+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -7334,16 +7420,16 @@
         },
         {
             "name": "sebastian/type",
-            "version": "1.1.2",
+            "version": "1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/type.git",
-                "reference": "251ca774d58181fe1d3eda68843264eaae7e07ef"
+                "reference": "3aaaa15fa71d27650d62a948be022fe3b48541a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/type/zipball/251ca774d58181fe1d3eda68843264eaae7e07ef",
-                "reference": "251ca774d58181fe1d3eda68843264eaae7e07ef",
+                "url": "https://api.github.com/repos/sebastianbergmann/type/zipball/3aaaa15fa71d27650d62a948be022fe3b48541a3",
+                "reference": "3aaaa15fa71d27650d62a948be022fe3b48541a3",
                 "shasum": ""
             },
             "require": {
@@ -7376,7 +7462,7 @@
             ],
             "description": "Collection of value objects that represent the types of the PHP type system",
             "homepage": "https://github.com/sebastianbergmann/type",
-            "time": "2019-06-19T06:39:12+00:00"
+            "time": "2019-07-02T08:10:15+00:00"
         },
         {
             "name": "sebastian/version",

@@ -9,12 +9,13 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Joomla\Plugin\System\Webauthn\CredentialRepository;
-use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use CBOR\Decoder;
 use CBOR\OtherObject\OtherObjectManager;
 use CBOR\Tag\TagObjectManager;
 use Cose\Algorithm\Manager;
+use Cose\Algorithm\Signature\ECDSA;
+use Cose\Algorithm\Signature\EdDSA;
+use Cose\Algorithm\Signature\RSA;
 use Exception;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Factory;
@@ -22,12 +23,16 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\Plugin\System\Webauthn\CredentialRepository;
+use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use RuntimeException;
+use Webauthn\AttestationStatement\AndroidKeyAttestationStatementSupport;
 use Webauthn\AttestationStatement\AttestationObjectLoader;
 use Webauthn\AttestationStatement\AttestationStatementSupportManager;
 use Webauthn\AttestationStatement\FidoU2FAttestationStatementSupport;
 use Webauthn\AttestationStatement\NoneAttestationStatementSupport;
 use Webauthn\AttestationStatement\PackedAttestationStatementSupport;
+use Webauthn\AttestationStatement\TPMAttestationStatementSupport;
 use Webauthn\AuthenticationExtensions\ExtensionOutputCheckerHandler;
 use Webauthn\AuthenticatorAssertionResponse;
 use Webauthn\AuthenticatorAssertionResponseValidator;
@@ -143,6 +148,15 @@ trait AjaxHandlerLogin
 
 		$publicKeyCredentialRequestOptions = $this->getPKCredentialRequestOptions();
 
+		// Cose Algorithm Manager
+		$coseAlgorithmManager = new Manager();
+		$coseAlgorithmManager->add(new ECDSA\ES256());
+		$coseAlgorithmManager->add(new ECDSA\ES512());
+		$coseAlgorithmManager->add(new EdDSA\EdDSA());
+		$coseAlgorithmManager->add(new RSA\RS1());
+		$coseAlgorithmManager->add(new RSA\RS256());
+		$coseAlgorithmManager->add(new RSA\RS512());
+
 		// Create a CBOR Decoder object
 		$otherObjectManager = new OtherObjectManager();
 		$tagObjectManager   = new TagObjectManager();
@@ -153,7 +167,10 @@ trait AjaxHandlerLogin
 		$attestationStatementSupportManager = new AttestationStatementSupportManager();
 		$attestationStatementSupportManager->add(new NoneAttestationStatementSupport());
 		$attestationStatementSupportManager->add(new FidoU2FAttestationStatementSupport($decoder));
-		$attestationStatementSupportManager->add(new PackedAttestationStatementSupport($decoder, $algorithmManager));
+		//$attestationStatementSupportManager->add(new AndroidSafetyNetAttestationStatementSupport(HttpFactory::getHttp(), 'GOOGLE_SAFETYNET_API_KEY', new RequestFactory()));
+		$attestationStatementSupportManager->add(new AndroidKeyAttestationStatementSupport($decoder));
+		$attestationStatementSupportManager->add(new TPMAttestationStatementSupport());
+		$attestationStatementSupportManager->add(new PackedAttestationStatementSupport($decoder, $coseAlgorithmManager));
 
 		// Attestation Object Loader
 		$attestationObjectLoader = new AttestationObjectLoader($attestationStatementSupportManager, $decoder);
@@ -164,13 +181,16 @@ trait AjaxHandlerLogin
 		// The token binding handler
 		$tokenBindingHandler = new TokenBindingNotSupportedHandler();
 
+		// Extension Output Checker Handler
+		$extensionOutputCheckerHandler = new ExtensionOutputCheckerHandler();
+
 		// Authenticator Assertion Response Validator
-		$extensionOutputCheckerHandler           = new ExtensionOutputCheckerHandler();
 		$authenticatorAssertionResponseValidator = new AuthenticatorAssertionResponseValidator(
 			$credentialRepository,
 			$decoder,
 			$tokenBindingHandler,
-			$extensionOutputCheckerHandler
+			$extensionOutputCheckerHandler,
+			$coseAlgorithmManager
 		);
 
 		// We init the Symfony Request object
@@ -186,8 +206,28 @@ trait AjaxHandlerLogin
 			throw new \RuntimeException('Not an authenticator assertion response');
 		}
 
+		/**
+		 * Find the user handle.
+		 *
+		 * The best way to retrieve the user handle is to go through the repository and find the record matching our
+		 * public key credential ID. Caveat: the ID we got from the browser is not the real ID, it's a modified version
+		 * of the base64 encoded value of the key, replacing `/` with `_` and removing the trailing equals signs if any.
+		 * I need to convert it back to a proper base64 encoded string, decode it and feed the result to the repo's
+		 * findOneByCredentialId() method to actually retrieve the record I am looking for.
+		 */
+		$publicKeyCredentialId     = $publicKeyCredential->getId();
+		$publicKeyCredentialId     = str_replace('_', '/', $publicKeyCredentialId);
+		$publicKeyCredentialId     = base64_decode($publicKeyCredentialId);
+		$publicKeyCredentialSource = $credentialRepository->findOneByCredentialId($publicKeyCredentialId);
+		$userHandle                = null;
+
+		if (!is_null($publicKeyCredentialSource))
+		{
+			$userHandle = $publicKeyCredentialSource->getUserHandle();
+			$userHandle = empty($userHandle) ? null : $userHandle;
+		}
+
 		// Check the response against the attestation request
-		$userHandle = Joomla::getSessionVar('userHandle', null, 'plg_system_webauthn');
 		/** @var AuthenticatorAssertionResponse $authenticatorAssertionResponse */
 		$authenticatorAssertionResponse = $publicKeyCredential->getResponse();
 		$authenticatorAssertionResponseValidator->check(

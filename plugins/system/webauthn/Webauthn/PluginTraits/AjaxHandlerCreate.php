@@ -9,6 +9,7 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\Plugin\System\Webauthn\CredentialRepository;
 use Joomla\Plugin\System\Webauthn\Helper\CredentialsCreation;
 use Joomla\Plugin\System\Webauthn\Helper\Joomla;
@@ -18,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserFactoryInterface;
 use RuntimeException;
 use Webauthn\AttestedCredentialData;
+use Webauthn\PublicKeyCredentialSource;
 
 // Protect from unauthorized access
 defined('_JEXEC') or die();
@@ -74,24 +76,26 @@ trait AjaxHandlerCreate
 		// Try to validate the browser data. If there's an error I won't save anything and pass the message to the GUI.
 		try
 		{
-			$input = Factory::getApplication()->input;
+			/** @var CMSApplication $app */
+			$app   = Factory::getApplication();
+			$input = $app->input;
 
 			// Retrieve the data sent by the device
 			$data = $input->get('data', '', 'raw');
 
-			$attestedCredentialData = CredentialsCreation::validateAuthenticationData($data);
+			$publicKeyCredentialSource = CredentialsCreation::validateAuthenticationData($data);
 
-			if (!is_object($attestedCredentialData) || !($attestedCredentialData instanceof AttestedCredentialData))
+			if (!is_object($publicKeyCredentialSource) || !($publicKeyCredentialSource instanceof PublicKeyCredentialSource))
 			{
 				throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_NO_ATTESTED_DATA'));
 			}
 
-			$credentialRepository->set($attestedCredentialData);
+			$credentialRepository->saveCredentialSource($publicKeyCredentialSource);
 		}
 		catch (Exception $e)
 		{
 			$error                  = $e->getMessage();
-			$attestedCredentialData = null;
+			$publicKeyCredentialSource = null;
 		}
 
 		// Unset the session variables used for registering authenticators (security precaution).

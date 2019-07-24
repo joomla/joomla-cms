@@ -10,17 +10,19 @@
 namespace Joomla\Plugin\System\Webauthn;
 
 use Exception;
+use InvalidArgumentException;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Plugin\System\Webauthn\Helper\Joomla;
+use JsonException;
 use RuntimeException;
 use Throwable;
-use Webauthn\AttestedCredentialData;
-use Webauthn\CredentialRepository as CredentialRepositoryInterface;
+use Webauthn\PublicKeyCredentialSource;
+use Webauthn\PublicKeyCredentialSourceRepository;
+use Webauthn\PublicKeyCredentialUserEntity;
 
 // Protect from unauthorized access
 defined('_JEXEC') or die();
@@ -30,54 +32,22 @@ defined('_JEXEC') or die();
  *
  * @since   4.0.0
  */
-class CredentialRepository implements CredentialRepositoryInterface
+class CredentialRepository implements PublicKeyCredentialSourceRepository
 {
 	/**
-	 * Do we have stored credentials under the specified Credential ID?
+	 * Returns a PublicKeyCredentialSource object given the public key credential ID
 	 *
-	 * @param   string  $credentialId
+	 * @param   string   $publicKeyCredentialId
 	 *
-	 * @return  bool
-	 *
-	 * @since   4.0.0
-	 */
-	public function has(string $credentialId): bool
-	{
-		/** @var DatabaseDriver $db */
-		$db           = Factory::getContainer()->get('DatabaseDriver');
-		$credentialId = base64_encode($credentialId);
-		$query        = $db->getQuery(true)
-			->select('COUNT(*)')
-			->from($db->qn('#__webauthn_credentials'))
-			->where($db->qn('id') . ' = :credentialId')
-			->bind(':credentialId', $credentialId);
-
-		try
-		{
-			$count = $db->setQuery($query)->loadResult();
-
-			return $count > 0;
-		}
-		catch (Exception $e)
-		{
-			return false;
-		}
-	}
-
-	/**
-	 * Retrieve the attested credential data given a Credential ID
-	 *
-	 * @param   string  $credentialId
-	 *
-	 * @return  AttestedCredentialData
+	 * @return  PublicKeyCredentialSource|null
 	 *
 	 * @since   4.0.0
 	 */
-	public function get(string $credentialId): AttestedCredentialData
+	public function findOneByCredentialId(string $publicKeyCredentialId): ?PublicKeyCredentialSource
 	{
 		/** @var DatabaseDriver $db */
 		$db           = Factory::getContainer()->get('DatabaseDriver');
-		$credentialId = base64_encode($credentialId);
+		$credentialId = base64_encode($publicKeyCredentialId);
 		$query        = $db->getQuery(true)
 			->select($db->qn('credential'))
 			->from($db->qn('#__webauthn_credentials'))
@@ -88,21 +58,153 @@ class CredentialRepository implements CredentialRepositoryInterface
 
 		if (empty($json))
 		{
-			throw new RuntimeException(Text::_('PLG_SYSTSEM_WEBAUTHN_ERR_NO_STORED_CREDENTIAL'));
+			return null;
 		}
 
 		try
 		{
-			return AttestedCredentialData::createFromJson(json_decode($json, true));
+			return PublicKeyCredentialSource::createFromArray(json_decode($json, true));
 		}
 		catch (Throwable $e)
 		{
-			throw new RuntimeException(Text::_('PLG_SYSTSEM_WEBAUTHN_ERR_CORRUPT_STORED_CREDENTIAL'));
+			return null;
 		}
 	}
 
 	/**
-	 * Get all credentials for a given user ID
+	 * Returns all PublicKeyCredentialSource objects given a user entity. We only use the `id` property of the user
+	 * entity, cast to integer, as the Joomla user ID by which records are keyed in the database table.
+	 *
+	 * @return PublicKeyCredentialSource[]
+	 *
+	 * @since  4.0.0
+	 */
+	public function findAllForUserEntity(PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity): array
+	{
+		/** @var DatabaseDriver $db */
+		$db    = Factory::getContainer()->get('DatabaseDriver');
+		$user_id    = (int) $publicKeyCredentialUserEntity->getId();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__webauthn_credentials'))
+			->where($db->qn('user_id') . ' = :user_id')
+			->bind(':user_id', $user_id);
+
+		try
+		{
+			$records = $db->setQuery($query)->loadAssocList();
+		}
+		catch (Exception $e)
+		{
+			return [];
+		}
+
+		$records = array_map(function ($record) {
+			try
+			{
+				$data = json_decode($record['credential'], true);
+			}
+			catch (JsonException $e)
+			{
+				return null;
+			}
+
+			if (empty($data))
+			{
+				return null;
+			}
+
+			try
+			{
+				return PublicKeyCredentialSource::createFromArray($data);
+			}
+			catch (InvalidArgumentException $e)
+			{
+				return null;
+			}
+		}, $records);
+
+		return array_filter($records, function ($record) {
+			return !is_null($record) && is_object($record) && ($record instanceof PublicKeyCredentialSource);
+		});
+	}
+
+	/**
+	 * Add or update an attested credential for a given user.
+	 *
+	 * @param   PublicKeyCredentialSource  $publicKeyCredentialSource  The public key credential source to store
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function saveCredentialSource(PublicKeyCredentialSource $publicKeyCredentialSource): void
+	{
+		/** @var DatabaseDriver $db */
+		$db           = Factory::getContainer()->get('DatabaseDriver');
+		$credentialId = base64_encode($publicKeyCredentialSource->getPublicKeyCredentialId());
+		$update       = false;
+
+		// Defaults
+		try
+		{
+			$label        = Text::sprintf('PLG_SYSTEM_WEBAUTHN_LBL_DEFAULT_AUTHENTICATOR_LABEL', Joomla::formatDate('now'));
+			$identityUser = Factory::getApplication()->getIdentity();
+			$user         = $identityUser;
+		}
+		catch (Exception $e)
+		{
+			// This should never happen...
+			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CANT_STORE_FOR_GUEST'));
+		}
+
+		// Try to find an existing record
+		try
+		{
+			$query     = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__webauthn_credentials'))
+				->where($db->qn('id') . ' = :credentialId')
+				->bind(':credentialId', $credentialId);
+			$oldRecord = $db->setQuery($query)->loadObject();
+
+			if (is_null($oldRecord))
+			{
+				throw new Exception('This is a new record');
+			}
+
+			$user   = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($oldRecord->user_id);
+			$label  = $oldRecord->label;
+			$update = true;
+		}
+		catch (Exception $e)
+		{
+		}
+
+		if (is_null($user) || $user->guest)
+		{
+			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CANT_STORE_FOR_GUEST'));
+		}
+
+		$o = (object) [
+			'id'         => $credentialId,
+			'user_id'    => $user->id,
+			'label'      => $label,
+			'credential' => json_encode($publicKeyCredentialSource),
+		];
+
+		if ($update)
+		{
+			$db->updateObject('#__webauthn_credentials', $o, ['id']);
+
+			return;
+		}
+
+		$db->insertObject('#__webauthn_credentials', $o);
+	}
+
+	/**
+	 * Get all credential information for a given user ID. This is meant to only be used for displaying records.
 	 *
 	 * @param   int  $user_id  The user ID
 	 *
@@ -138,74 +240,35 @@ class CredentialRepository implements CredentialRepositoryInterface
 	}
 
 	/**
-	 * Add or update an attested credential for a given user. If another user is using the same credential ID the
-	 * process will fail.
+	 * Do we have stored credentials under the specified Credential ID?
 	 *
-	 * @param   AttestedCredentialData  $credentialData  The attested credential data to store
-	 * @param   string|null             $label           The human readable label to attach
-	 * @param   User|null               $user            The user to store it for
+	 * @param   string  $credentialId
 	 *
-	 * @return  void
+	 * @return  bool
 	 *
 	 * @since   4.0.0
 	 */
-	public function set(AttestedCredentialData $credentialData, string $label = '', User $user = null): void
+	public function has(string $credentialId): bool
 	{
-		if (empty($user))
-		{
-			try
-			{
-				$user = Factory::getApplication()->getIdentity();
-			}
-			catch (Exception $e)
-			{
-				throw new RuntimeException(Text::_('PLG_SYSTSEM_WEBAUTHN_ERR_CANT_STORE_FOR_GUEST'));
-			}
-		}
-
-		if ($user->guest)
-		{
-			throw new RuntimeException(Text::_('PLG_SYSTSEM_WEBAUTHN_ERR_CANT_STORE_FOR_GUEST'));
-		}
-
-		$update = false;
-
-		if ($this->has($credentialData->getCredentialId()))
-		{
-			$myHandle    = $this->getHandleFromUserId($user->id);
-			$otherHandle = $this->getUserHandleFor($credentialData->getCredentialId());
-
-			if ($otherHandle != $myHandle)
-			{
-				throw new RuntimeException(Text::_('PLG_SYSTSEM_WEBAUTHN_ERR_CREDENTIAL_ID_ALREADY_IN_USE'));
-			}
-
-			$update = true;
-		}
-
-		if (empty($label))
-		{
-			$label = Text::sprintf('PLG_SYSTEM_WEBAUTHN_LBL_DEFAULT_AUTHENTICATOR_LABEL', Joomla::formatDate('now'));
-		}
-
-		$o = (object) [
-			'id'         => base64_encode($credentialData->getCredentialId()),
-			'user_id'    => $user->id,
-			'label'      => $label,
-			'credential' => json_encode($credentialData),
-		];
-
 		/** @var DatabaseDriver $db */
-		$db = Factory::getContainer()->get('DatabaseDriver');
+		$db           = Factory::getContainer()->get('DatabaseDriver');
+		$credentialId = base64_encode($credentialId);
+		$query        = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from($db->qn('#__webauthn_credentials'))
+			->where($db->qn('id') . ' = :credentialId')
+			->bind(':credentialId', $credentialId);
 
-		if ($update)
+		try
 		{
-			$db->updateObject('#__webauthn_credentials', $o, ['id']);
+			$count = $db->setQuery($query)->loadResult();
 
-			return;
+			return $count > 0;
 		}
-
-		$db->insertObject('#__webauthn_credentials', $o);
+		catch (Exception $e)
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -288,70 +351,17 @@ class CredentialRepository implements CredentialRepositoryInterface
 
 		if (empty($user_id))
 		{
-			throw new RuntimeException(Text::_('PLG_SYSTSEM_WEBAUTHN_ERR_NO_STORED_CREDENTIAL'));
+			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_NO_STORED_CREDENTIAL'));
 		}
 
 		$user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($user_id);
 
 		if ($user->id != $user_id)
 		{
-			throw new RuntimeException(Text::sprintf('PLG_SYSTSEM_WEBAUTHN_ERR_USER_REMOVED', $user_id));
+			throw new RuntimeException(Text::sprintf('PLG_SYSTEM_WEBAUTHN_ERR_USER_REMOVED', $user_id));
 		}
 
 		return $this->getHandleFromUserId((int) $user_id);
-	}
-
-	/**
-	 * Returns the last seen counter for this authenticator
-	 *
-	 * @param   string   $credentialId  The authenticator's credential ID
-	 *
-	 * @return  int
-	 *
-	 * @since   4.0.0
-	 */
-	public function getCounterFor(string $credentialId): int
-	{
-		/** @var DatabaseDriver $db */
-		$db           = Factory::getContainer()->get('DatabaseDriver');
-		$credentialId = base64_encode($credentialId);
-		$query        = $db->getQuery(true)
-			->select([
-				$db->qn('counter'),
-			])
-			->from($db->qn('#__webauthn_credentials'))
-			->where($db->qn('id') . ' = :credentialId')
-			->bind(':credentialId', $credentialId);
-
-		$counter = $db->setQuery($query)->loadResult();
-
-		if (is_null($counter))
-		{
-			throw new RuntimeException(Text::_('PLG_SYSTSEM_WEBAUTHN_ERR_NO_STORED_CREDENTIAL'));
-		}
-
-		return (int) $counter;
-	}
-
-	/**
-	 * Update the stored counter for this authenticator
-	 *
-	 * @param   string  $credentialId  The authenticator's credential ID
-	 * @param   int     $newCounter    The new value of the counter we should store in the database
-	 *
-	 * @since   4.0.0
-	 */
-	public function updateCounterFor(string $credentialId, int $newCounter): void
-	{
-		/** @var DatabaseDriver $db */
-		$db           = Factory::getContainer()->get('DatabaseDriver');
-		$credentialId = base64_encode($credentialId);
-		$o            = (object) [
-			'id'      => $credentialId,
-			'counter' => $newCounter,
-		];
-
-		$db->updateObject('#__webauthn_credentials', $o, ['id'], false);
 	}
 
 	/**
