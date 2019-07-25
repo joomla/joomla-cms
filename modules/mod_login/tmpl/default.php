@@ -37,7 +37,7 @@ Text::script('JHIDE');
 					<input id="modlgn-username-<?= $module->id ?>" type="text" name="username" class="form-control" placeholder="<?= Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
 					<span class="input-group-append">
 						<label for="modlgn-username-<?= $module->id ?>" class="sr-only"><?= Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
-						<span class="input-group-text icon-user hasTooltip" title="<?= Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>"></span>
+						<span class="input-group-text icon-user" title="<?= Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>"></span>
 					</span>
 				</div>
 			<?php else : ?>
@@ -66,18 +66,18 @@ Text::script('JHIDE');
 				<?php if (!$params->get('usetext', 0)) : ?>
 					<div class="input-group">
 						<span class="input-group-prepend">
-							<span class="input-group-text icon-star hasTooltip" title="<?= Text::_('JGLOBAL_SECRETKEY'); ?>"></span>
+							<span class="input-group-text icon-star" title="<?= Text::_('JGLOBAL_SECRETKEY'); ?>"></span>
 							<label for="modlgn-secretkey-<?= $module->id ?>" class="sr-only"><?= Text::_('JGLOBAL_SECRETKEY'); ?></label>
 						</span>
 						<input id="modlgn-secretkey-<?= $module->id ?>" autocomplete="off" type="text" name="secretkey" class="form-control" placeholder="<?= Text::_('JGLOBAL_SECRETKEY'); ?>">
-						<span class="input-group-append hasTooltip" title="<?= Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
+						<span class="input-group-append" title="<?= Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
 							<span class="input-group-text icon-help"></span>
 						</span>
 					</div>
 				<?php else : ?>
 					<label for="modlgn-secretkey-<?= $module->id ?>"><?= Text::_('JGLOBAL_SECRETKEY'); ?></label>
 					<input id="modlgn-secretkey-<?= $module->id ?>" autocomplete="off" type="text" name="secretkey" class="form-control" placeholder="<?= Text::_('JGLOBAL_SECRETKEY'); ?>">
-					<span class="btn width-auto hasTooltip" title="<?= Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
+					<span class="btn width-auto" title="<?= Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
 						<span class="icon-help"></span>
 					</span>
 				<?php endif; ?>
