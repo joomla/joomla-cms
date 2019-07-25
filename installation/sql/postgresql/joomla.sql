@@ -352,7 +352,7 @@ CREATE TABLE IF NOT EXISTS "#__content" (
   "publish_down" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "images" text NOT NULL,
   "urls" text NOT NULL,
-  "attribs" varchar(5120) NOT NULL,
+  "attribs" text NOT NULL,
   "version" bigint DEFAULT 1 NOT NULL,
   "ordering" bigint DEFAULT 0 NOT NULL,
   "metakey" text NOT NULL,

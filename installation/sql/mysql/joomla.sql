@@ -346,7 +346,7 @@ CREATE TABLE IF NOT EXISTS `#__content` (
   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `images` text NOT NULL,
   `urls` text NOT NULL,
-  `attribs` varchar(5120) NOT NULL,
+  `attribs` text NOT NULL,
   `version` int(10) unsigned NOT NULL DEFAULT 1,
   `ordering` int(11) NOT NULL DEFAULT 0,
   `metakey` text NOT NULL,
