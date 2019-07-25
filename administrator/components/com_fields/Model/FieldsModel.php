@@ -251,7 +251,7 @@ class FieldsModel extends ListModel
 		{
 			$groups = $user->getAuthorisedViewLevels();
 			$query->whereIn($db->quoteName('a.access'), $groups)
-				->where($db->quoteName('a.group_id') . ' = 0 ')
+				->where($db->quoteName('a.group_id') . ' = 0')
 				->orWhere($query->whereIn($db->quoteName('g.access'), $groups));
 		}
 
