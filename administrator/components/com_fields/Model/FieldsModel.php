@@ -282,7 +282,7 @@ class FieldsModel extends ListModel
 
 			if ($includeGroupState)
 			{
-				$query->where($db->quoteName('a.group_id') . ' = 0 ')
+				$query->where($db->quoteName('a.group_id') . ' = 0')
 					->orWhere($query->whereIn($db->quoteName('g.state'), [0, 1]));
 			}
 		}
