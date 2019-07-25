@@ -237,7 +237,7 @@ class FieldsModel extends ListModel
 
 			if (in_array('0', $categories))
 			{
-				$query->where($db->quoteName('fc.category_id') . ' IS NULL ')
+				$query->where($db->quoteName('fc.category_id') . ' IS NULL')
 					->orWhere($query->whereIn($db->quoteName('fc.category_id'), $categories));
 			}
 			else
