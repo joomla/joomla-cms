@@ -180,6 +180,7 @@ class UpdateModel extends ListModel
 			$item->client_translated  = $item->client_id ? Text::_('JADMINISTRATOR') : Text::_('JSITE');
 			$manifest                 = json_decode($item->manifest_cache);
 			$item->current_version    = $manifest->version ?? Text::_('JLIB_UNKNOWN');
+			$item->description        = $manifest->description ?? Text::_('COM_INSTALLER_MSG_UPDATE_NODESC');
 			$item->type_translated    = Text::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));
 			$item->folder_translated  = $item->folder ?: Text::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
 			$item->install_type       = $item->extension_id ? Text::_('COM_INSTALLER_MSG_UPDATE_UPDATE') : Text::_('COM_INSTALLER_NEW_INSTALL');

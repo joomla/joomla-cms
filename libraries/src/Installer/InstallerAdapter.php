@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Installer;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
@@ -160,7 +160,7 @@ abstract class InstallerAdapter
 		if (!$this->type)
 		{
 			// This assumes the adapter short class name in its namespace is `<foo>Adapter`, replace this logic in subclasses if needed
-			$reflection = new \ReflectionClass(get_called_class());
+			$reflection = new \ReflectionClass(\get_called_class());
 			$this->type = str_replace('Adapter', '', $reflection->getShortName());
 		}
 
@@ -891,7 +891,7 @@ abstract class InstallerAdapter
 	protected function parseQueries()
 	{
 		// Let's run the queries for the extension
-		if (in_array($this->route, array('install', 'discover_install', 'uninstall')))
+		if (\in_array($this->route, array('install', 'discover_install', 'uninstall')))
 		{
 			// This method may throw an exception, but it is caught by the parent caller
 			if (!$this->doDatabaseTransactions())
