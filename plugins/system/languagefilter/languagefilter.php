@@ -663,10 +663,10 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 */
 	public function onUserLogin($user, $options = array())
 	{
-		$menu = $this->app->getMenu();
-
 		if ($this->app->isClient('site'))
 		{
+			$menu = $this->app->getMenu();
+
 			if ($this->params->get('automatic_change', 1))
 			{
 				$assoc = Associations::isEnabled();
