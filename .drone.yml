@@ -173,7 +173,6 @@ steps:
   - name: system-tests-mysql8
     depends_on: [ system-tests-mysql ]
     image: joomlaprojects/docker-systemtests:latest
-    failure: ignore
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8
 
