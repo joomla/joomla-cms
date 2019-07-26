@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Changelog;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
@@ -174,7 +174,7 @@ class Changelog extends CMSObject
 	 */
 	protected function getLastTag()
 	{
-		return $this->stack[count($this->stack) - 1];
+		return $this->stack[\count($this->stack) - 1];
 	}
 
 	/**

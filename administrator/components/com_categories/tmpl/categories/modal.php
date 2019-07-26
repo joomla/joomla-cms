@@ -25,7 +25,6 @@ if ($app->isClient('site'))
 }
 
 HTMLHelper::_('behavior.core');
-HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 
 $extension = $this->escape($this->state->get('filter.extension'));
 $function  = $app->input->getCmd('function', 'jSelectCategory');
@@ -99,7 +98,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						}
 						?>
 						<tr class="row<?php echo $i % 2; ?>">
-							<td class="text-center">
+							<td class="text-center tbody-icon">
 								<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
 							</td>
 							<th scope="row">

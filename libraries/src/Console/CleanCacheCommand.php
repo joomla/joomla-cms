@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Console;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\Console\Command\AbstractCommand;
@@ -63,7 +63,7 @@ class CleanCacheCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Cleans expired cache entries');
+		$this->setDescription('Clean expired cache entries');
 		$this->setHelp(
 			<<<EOF
 The <info>%command.name%</info> command cleans the system cache of expired entries
