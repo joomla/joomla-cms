@@ -15,7 +15,7 @@
 			name="contentsecuritypolicy_mode"
 			type="list"
 			label="COM_CSP_CONTENTSECURITYPOLICY_MODE"
-			default="custom"
+			default="detect"
 			validate="options"
 			showon="contentsecuritypolicy:1"
 			>
@@ -54,7 +54,7 @@
 			multiple="true"
 			min="1"
 			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode:custom"
-		>
+			>
 			<form>
 				<field
 					name="directive"

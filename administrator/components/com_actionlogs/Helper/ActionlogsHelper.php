@@ -152,7 +152,8 @@ class ActionlogsHelper
 		$query = $db->getQuery(true)
 			->select('a.*')
 			->from($db->quoteName('#__action_log_config', 'a'))
-			->where($db->quoteName('a.type_alias') . ' = ' . $db->quote($context));
+			->where($db->quoteName('a.type_alias') . ' = :context')
+			->bind(':context', $context);
 
 		$db->setQuery($query);
 
