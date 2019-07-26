@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Tests\Unit\Libraries\Cms\Microdata;
 
 use Joomla\CMS\Microdata\Microdata;
@@ -22,7 +21,6 @@ use ReflectionClass;
  */
 class MicrodataTest extends UnitTestCase
 {
-
 	/**
 	 * Test the default settings
 	 *
@@ -39,6 +37,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testOverrideTypeDuringConstruction()
@@ -52,6 +51,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisableDuringConstruction()
@@ -64,6 +64,7 @@ class MicrodataTest extends UnitTestCase
 	/**
 	 * Test the setType() function
 	 *
+	 * @return  void
 	 * @since   3.2
 	 */
 	public function testSetType()
@@ -80,6 +81,7 @@ class MicrodataTest extends UnitTestCase
 	/**
 	 * Test the setType() function
 	 *
+	 * @return  void
 	 * @since   3.2
 	 */
 	public function testSetInvalidTypeSetsDefaultType()
@@ -95,17 +97,20 @@ class MicrodataTest extends UnitTestCase
 	/**
 	 * Test the fallback() function
 	 *
+	 * @return  void
 	 * @since   3.2
 	 */
 	public function testFallback()
 	{
-		$microdata = new MicrodataStub('', true, [
-			'Article' => [
-				'properties' => [
-					'articleBody' => []
+		$microdata = new MicrodataStub('', true,
+			[
+				'Article' => [
+					'properties' => [
+						'articleBody' => []
+					]
 				]
 			]
-		]);
+		);
 
 		// Test fallback values
 		$microdata->fallback('Article', 'articleBody');
@@ -116,18 +121,21 @@ class MicrodataTest extends UnitTestCase
 	/**
 	 * Test the fallback() function
 	 *
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testFallbackWithNotExistingProperty()
 	{
-		$microdata = new MicrodataStub('', true, [
-			'Article' => [
-				'extends'    => '',
-				'properties' => [
-					'articleBody' => []
+		$microdata = new MicrodataStub('', true,
+			[
+				'Article' => [
+					'extends'    => '',
+					'properties' => [
+						'articleBody' => []
+					]
 				]
 			]
-		]);
+		);
 
 		// Test if the Fallback Property fallbacks when it isn't available in the $Type
 		$microdata->fallback('Article', 'anUnavailableProperty');
@@ -138,6 +146,7 @@ class MicrodataTest extends UnitTestCase
 	/**
 	 * Test the fallback() function
 	 *
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testFallbackWithNotExistingTypeAndProperty()
@@ -153,6 +162,7 @@ class MicrodataTest extends UnitTestCase
 	/**
 	 * Test the display() function
 	 *
+	 * @return  void
 	 * @since   3.2
 	 */
 	public function testDisplayIsEmptyByDefault()
@@ -164,6 +174,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayResetsParams()
@@ -184,19 +195,22 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplaySimple()
 	{
-		$microdata = new MicrodataStub('Article', true, [
-			'Article' => [
-				'properties' => [
-					'url' => [
-						'expectedTypes' => ['URL']
+		$microdata = new MicrodataStub('Article', true,
+			[
+				'Article' => [
+					'properties' => [
+						'url' => [
+							'expectedTypes' => ['URL']
+						]
 					]
 				]
 			]
-		]);
+		);
 
 		// Test for a simple display
 		$html = $microdata
@@ -207,20 +221,23 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplaySimpleWithContent()
 	{
 		$content   = 'Some Content';
-		$microdata = new MicrodataStub('Article', true, [
-			'Article' => [
-				'properties' => [
-					'url' => [
-						'expectedTypes' => ['URL']
+		$microdata = new MicrodataStub('Article', true,
+			[
+				'Article' => [
+					'properties' => [
+						'url' => [
+							'expectedTypes' => ['URL']
+						]
 					]
 				]
 			]
-		]);
+		);
 
 		// Test for a simple display
 		$html = $microdata
@@ -232,20 +249,23 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplaySimpleWithEmptyContent()
 	{
 		$content   = '';
-		$microdata = new MicrodataStub('Article', true, [
-			'Article' => [
-				'properties' => [
-					'url' => [
-						'expectedTypes' => ['URL']
+		$microdata = new MicrodataStub('Article', true,
+			[
+				'Article' => [
+					'properties' => [
+						'url' => [
+							'expectedTypes' => ['URL']
+						]
 					]
 				]
 			]
-		]);
+		);
 
 		// Test for a simple display
 		$html = $microdata
@@ -257,19 +277,22 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayNested()
 	{
-		$microdata = new MicrodataStub('Article', true, [
-			'Article' => [
-				'properties' => [
-					'author' => [
-						'expectedTypes' => ['Organization', 'Person']
+		$microdata = new MicrodataStub('Article', true,
+			[
+				'Article' => [
+					'properties' => [
+						'author' => [
+							'expectedTypes' => ['Organization', 'Person']
+						]
 					]
 				]
 			]
-		]);
+		);
 
 		// Test for a simple display
 		$html = $microdata
@@ -280,20 +303,23 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayNestedWithContent()
 	{
 		$content   = 'some content';
-		$microdata = new MicrodataStub('Article', true, [
-			'Article' => [
-				'properties' => [
-					'author' => [
-						'expectedTypes' => ['Organization', 'Person']
+		$microdata = new MicrodataStub('Article', true,
+			[
+				'Article' => [
+					'properties' => [
+						'author' => [
+							'expectedTypes' => ['Organization', 'Person']
+						]
 					]
 				]
 			]
-		]);
+		);
 
 		// Test for a simple display
 		$html = $microdata
@@ -301,35 +327,40 @@ class MicrodataTest extends UnitTestCase
 			->content($content)
 			->display();
 
-		$this->assertEquals("<span itemprop='author' itemscope itemtype='https://schema.org/Organization'>$content</span>",
-			$html);
+		$this->assertEquals(
+			"<span itemprop='author' itemscope itemtype='https://schema.org/Organization'>$content</span>",
+			$html
+		);
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayNestedWithContentAndFallback()
 	{
 		$content   = 'some content';
-		$microdata = new MicrodataStub('Article', true, [
-			'Article' => [
-				'properties' => [
-					'author' => [
-						'expectedTypes' => [
-							'Organization',
-							'Person'
+		$microdata = new MicrodataStub('Article', true,
+			[
+				'Article' => [
+					'properties' => [
+						'author' => [
+							'expectedTypes' => [
+								'Organization',
+								'Person'
+							]
+						]
+					]
+				],
+				'Person'  => [
+					'properties' => [
+						'name' => [
+							'expectedTypes' => ['Text']
 						]
 					]
 				]
-			],
-			'Person'  => [
-				'properties' => [
-					'name' => [
-						'expectedTypes' => ['Text']
-					]
-				]
 			]
-		]);
+		);
 
 		// Test for a simple display
 		$html = $microdata
@@ -338,34 +369,39 @@ class MicrodataTest extends UnitTestCase
 			->content($content)
 			->display();
 
-		$this->assertEquals("<span itemprop='author' itemscope itemtype='https://schema.org/Person'><span itemprop='name'>$content</span></span>",
-			$html);
+		$this->assertEquals(
+			"<span itemprop='author' itemscope itemtype='https://schema.org/Person'><span itemprop='name'>$content</span></span>",
+			$html
+		);
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayNestedWithFallback()
 	{
-		$microdata = new MicrodataStub('Article', true, [
-			'Article' => [
-				'properties' => [
-					'author' => [
-						'expectedTypes' => [
-							'Organization',
-							'Person'
+		$microdata = new MicrodataStub('Article', true,
+			[
+				'Article' => [
+					'properties' => [
+						'author' => [
+							'expectedTypes' => [
+								'Organization',
+								'Person'
+							]
+						]
+					]
+				],
+				'Person'  => [
+					'properties' => [
+						'name' => [
+							'expectedTypes' => ['Text']
 						]
 					]
 				]
-			],
-			'Person'  => [
-				'properties' => [
-					'name' => [
-						'expectedTypes' => ['Text']
-					]
-				]
 			]
-		]);
+		);
 
 		// Test for a simple display
 		$html = $microdata
@@ -377,21 +413,24 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayMeta()
 	{
-		$microdata = new MicrodataStub('Article', true, [
-			'Article' => [
-				'properties' => [
-					'datePublished' => [
-						'expectedTypes' => [
-							'Date',
+		$microdata = new MicrodataStub('Article', true,
+			[
+				'Article' => [
+					'properties' => [
+						'datePublished' => [
+							'expectedTypes' => [
+								'Date',
+							]
 						]
 					]
-				]
-			],
-		]);
+				],
+			]
+		);
 
 		// Test for a simple display
 		$html = $microdata
@@ -402,22 +441,25 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayMetaWithContent()
 	{
 		$content   = '01 January 2011';
-		$microdata = new MicrodataStub('Article', true, [
-			'Article' => [
-				'properties' => [
-					'datePublished' => [
-						'expectedTypes' => [
-							'Date',
+		$microdata = new MicrodataStub('Article', true,
+			[
+				'Article' => [
+					'properties' => [
+						'datePublished' => [
+							'expectedTypes' => [
+								'Date',
+							]
 						]
 					]
-				]
-			],
-		]);
+				],
+			]
+		);
 
 		// Test for a simple display
 		$html = $microdata
@@ -429,23 +471,26 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayMetaWithHumanAndMashineContent()
 	{
 		$content        = '01 January 2011';
 		$machineContent = "2011-01-01T00:00:00+00:00";
-		$microdata      = new MicrodataStub('Article', true, [
-			'Article' => [
-				'properties' => [
-					'datePublished' => [
-						'expectedTypes' => [
-							'Date',
+		$microdata      = new MicrodataStub('Article', true,
+			[
+				'Article' => [
+					'properties' => [
+						'datePublished' => [
+							'expectedTypes' => [
+								'Date',
+							]
 						]
 					]
-				]
-			],
-		]);
+				],
+			]
+		);
 
 		// Test for a simple display
 		$html = $microdata
@@ -457,16 +502,19 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayMetaReturnsEmptyStringWhenPropertyDoesNotExist()
 	{
-		$microdata = new MicrodataStub('Article', true, [
-			'Article' => [
-				'extends'    => '',
-				'properties' => [],
-			],
-		]);
+		$microdata = new MicrodataStub('Article', true,
+			[
+				'Article' => [
+					'extends'    => '',
+					'properties' => [],
+				],
+			]
+		);
 
 		// Test for a simple display
 		$html = $microdata
@@ -478,6 +526,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayContentWhenDisabled()
@@ -496,6 +545,7 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayMetaContentWhenDisabled()
@@ -513,22 +563,25 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayFallbackForNotExistingProperties()
 	{
-		$microdata = new MicrodataStub('Article', true, [
-			'Article' => [
-				'extends'    => '',
-				'properties' => [
-					'about' => [
-						'expectedTypes' => [
-							'Thing',
+		$microdata = new MicrodataStub('Article', true,
+			[
+				'Article' => [
+					'extends'    => '',
+					'properties' => [
+						'about' => [
+							'expectedTypes' => [
+								'Thing',
+							]
 						]
 					]
 				]
 			]
-		]);
+		);
 
 		// Test for a simple display
 		$html = $microdata
@@ -540,23 +593,26 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayFallbackForNotExistingPropertiesWithContent()
 	{
 		$content   = 'Some content';
-		$microdata = new MicrodataStub('Article', true, [
-			'Article' => [
-				'extends'    => '',
-				'properties' => [
-					'about' => [
-						'expectedTypes' => [
-							'Thing',
+		$microdata = new MicrodataStub('Article', true,
+			[
+				'Article' => [
+					'extends'    => '',
+					'properties' => [
+						'about' => [
+							'expectedTypes' => [
+								'Thing',
+							]
 						]
 					]
 				]
 			]
-		]);
+		);
 
 		// Test for a simple display
 		$html = $microdata
@@ -565,21 +621,26 @@ class MicrodataTest extends UnitTestCase
 			->fallback('Article', 'about')
 			->display();
 
-		$this->assertEquals("<span itemscope itemtype='https://schema.org/Article'><span itemprop='about'>$content</span></span>",
-			$html);
+		$this->assertEquals(
+			"<span itemscope itemtype='https://schema.org/Article'><span itemprop='about'>$content</span></span>",
+			$html
+		);
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayFallbackForNotExistingPropertiesAndFallbacks()
 	{
-		$microdata = new MicrodataStub('Article', true, [
-			'Article' => [
-				'extends'    => '',
-				'properties' => []
+		$microdata = new MicrodataStub('Article', true,
+			[
+				'Article' => [
+					'extends'    => '',
+					'properties' => []
+				]
 			]
-		]);
+		);
 
 		// Test for a simple display
 		$html = $microdata
@@ -591,24 +652,27 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayFallbackWhenThePropertyDoesNotExistInTheType()
 	{
-		$microdata = new MicrodataStub('Article', true, [
-			'Article' => [
-				'extends'    => 'Thing',
-				'properties' => []
-			],
-			'Thing'   => [
-				'extends'    => '',
-				'properties' => [
-					'datePublished' => [
-						'expectedTypes' => ['Date']
+		$microdata = new MicrodataStub('Article', true,
+			[
+				'Article' => [
+					'extends'    => 'Thing',
+					'properties' => []
+				],
+				'Thing'   => [
+					'extends'    => '',
+					'properties' => [
+						'datePublished' => [
+							'expectedTypes' => ['Date']
+						]
 					]
 				]
 			]
-		]);
+		);
 
 		// Test without $content if fallbacks, the $Property isn't available in the current $Type
 		$html = $microdata
@@ -620,25 +684,28 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return  void
 	 * @since   4.0
 	 */
 	public function testDisplayFallbackWithContentWhenThePropertyDoesNotExistInTheType()
 	{
 		$content   = 'Some content';
-		$microdata = new MicrodataStub('Article', true, [
-			'Article' => [
-				'extends'    => 'Thing',
-				'properties' => []
-			],
-			'Thing'   => [
-				'extends'    => '',
-				'properties' => [
-					'datePublished' => [
-						'expectedTypes' => ['Date']
+		$microdata = new MicrodataStub('Article', true,
+			[
+				'Article' => [
+					'extends'    => 'Thing',
+					'properties' => []
+				],
+				'Thing'   => [
+					'extends'    => '',
+					'properties' => [
+						'datePublished' => [
+							'expectedTypes' => ['Date']
+						]
 					]
 				]
 			]
-		]);
+		);
 
 		// Test for a simple display
 		$html = $microdata
@@ -647,14 +714,16 @@ class MicrodataTest extends UnitTestCase
 			->fallback('Article', 'datePublished')
 			->display();
 
-		$this->assertEquals("<meta itemscope itemtype='https://schema.org/Article' itemprop='datePublished' content='$content'>",
-			$html);
+		$this->assertEquals(
+			"<meta itemscope itemtype='https://schema.org/Article' itemprop='datePublished' content='$content'>",
+			$html
+		);
 	}
 
 	/**
+	 * @return array
 	 * @since 4.0
 	 *
-	 * @return array
 	 */
 	public function displayTypes(): array
 	{
@@ -667,25 +736,27 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
-	 * @param $type
-	 * @param $expected
+	 * @param   string   $type      Type
+	 * @param   string   $expected  Expected
 	 *
 	 * @since        4.0
-	 *
+	 * @return  void
 	 * @dataProvider displayTypes
 	 */
 	public function testDisplayTypes($type, $expected)
 	{
-		$microdata = new MicrodataStub('Article', true, [
-			'Article' => [
-				'extends'    => 'Thing',
-				'properties' => [
-					'datePublished' => [
-						'expectedTypes' => ['Date']
+		$microdata = new MicrodataStub('Article', true,
+			[
+				'Article' => [
+					'extends'    => 'Thing',
+					'properties' => [
+						'datePublished' => [
+							'expectedTypes' => ['Date']
+						]
 					]
 				]
 			]
-		]);
+		);
 
 		// Test for a simple display
 		$html = $microdata
@@ -696,9 +767,9 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
+	 * @return array
 	 * @since 4.0
 	 *
-	 * @return array
 	 */
 	public function displayTypesWithContent(): array
 	{
@@ -711,26 +782,28 @@ class MicrodataTest extends UnitTestCase
 	}
 
 	/**
-	 * @param $type
-	 * @param $content
-	 * @param $expected
+	 * @param   string   $type      Type
+	 * @param   string   $content   Content
+	 * @param   string   $expected  Expected
 	 *
 	 * @since        4.0
-	 *
+	 * @return  void
 	 * @dataProvider displayTypesWithContent
 	 */
 	public function testDisplayTypesWithContent($type, $content, $expected)
 	{
-		$microdata = new MicrodataStub('Article', true, [
-			'Article' => [
-				'extends'    => 'Thing',
-				'properties' => [
-					'datePublished' => [
-						'expectedTypes' => ['Date']
+		$microdata = new MicrodataStub('Article', true,
+			[
+				'Article' => [
+					'extends'    => 'Thing',
+					'properties' => [
+						'datePublished' => [
+							'expectedTypes' => ['Date']
+						]
 					]
 				]
 			]
-		]);
+		);
 
 		// Test for a simple display
 		$html = $microdata
@@ -763,16 +836,18 @@ class MicrodataTest extends UnitTestCase
 	 */
 	public function testIsPropertyInType()
 	{
-		MicrodataStub::setTypes([
-			'Article' => [
-				'extends'    => '',
-				'properties' => [
-					'datePublished' => [
-						'expectedTypes' => ['Date']
+		MicrodataStub::setTypes(
+			[
+				'Article' => [
+					'extends'    => '',
+					'properties' => [
+						'datePublished' => [
+							'expectedTypes' => ['Date']
+						]
 					]
 				]
 			]
-		]);
+		);
 
 		$this->assertTrue(MicrodataStub::isPropertyInType('Article', 'datePublished'));
 		$this->assertFalse(MicrodataStub::isPropertyInType('Article', 'aPropertyThatDoesNotExist'));
@@ -785,26 +860,29 @@ class MicrodataTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @throws \ReflectionException
 	 */
 	public function testExpectedDisplayType()
 	{
 		$microdata = new MicrodataStub;
-		$microdata::setTypes([
-			'Article' => [
-				'extends'    => '',
-				'properties' => [
-					'articleBody'   => [
-						'expectedTypes' => ['Text']
-					],
-					'about'         => [
-						'expectedTypes' => ['Thing']
-					],
-					'datePublished' => [
-						'expectedTypes' => ['Date']
+		$microdata::setTypes(
+			[
+				'Article' => [
+					'extends'    => '',
+					'properties' => [
+						'articleBody'   => [
+							'expectedTypes' => ['Text']
+						],
+						'about'         => [
+							'expectedTypes' => ['Thing']
+						],
+						'datePublished' => [
+							'expectedTypes' => ['Date']
+						]
 					]
 				]
 			]
-		]);
+		);
 
 		// Use reflection to test protected method (its easier than testing this using the public interface)
 		$reflectionClass = new ReflectionClass($microdata);
@@ -819,17 +897,20 @@ class MicrodataTest extends UnitTestCase
 	/**
 	 * Test the displayScope() function
 	 *
+	 * @return  void
 	 * @since   3.2
 	 */
 	public function testDisplayScope()
 	{
 		$type      = 'Article';
-		$microdata = new MicrodataStub($type, true, [
-			'Article' => [
-				'extends'    => '',
-				'properties' => []
+		$microdata = new MicrodataStub($type, true,
+			[
+				'Article' => [
+					'extends'    => '',
+					'properties' => []
+				]
 			]
-		]);
+		);
 
 		$this->assertEquals("itemscope itemtype='https://schema.org/$type'", $microdata->displayScope());
 	}
@@ -837,6 +918,7 @@ class MicrodataTest extends UnitTestCase
 	/**
 	 * Test the displayScope() function
 	 *
+	 * @return  void
 	 * @since   3.2
 	 */
 	public function testDisplayScopeIsEmptyWhenDisabled()
@@ -857,22 +939,24 @@ class MicrodataTest extends UnitTestCase
 	public function testGetAvailableTypes()
 	{
 		$microdata = new MicrodataStub;
-		$microdata::setTypes([
-			'Article' => [
-				'extends'    => '',
-				'properties' => [
-					'articleBody'   => [
-						'expectedTypes' => ['Text']
-					],
-					'about'         => [
-						'expectedTypes' => ['Thing']
-					],
-					'datePublished' => [
-						'expectedTypes' => ['Date']
+		$microdata::setTypes(
+			[
+				'Article' => [
+					'extends'    => '',
+					'properties' => [
+						'articleBody'   => [
+							'expectedTypes' => ['Text']
+						],
+						'about'         => [
+							'expectedTypes' => ['Thing']
+						],
+						'datePublished' => [
+							'expectedTypes' => ['Date']
+						]
 					]
 				]
 			]
-		]);
+		);
 
 		$types = $microdata::getAvailableTypes();
 
@@ -930,28 +1014,24 @@ class MicrodataTest extends UnitTestCase
 		$this->assertEquals(
 			"<div itemscope itemtype='https://schema.org/$scope' itemprop='$property'>$content</div>",
 			MicrodataStub::htmlDiv($content, $property, $scope)
-
 		);
 
 		// Test with the $inverse mode
 		$this->assertEquals(
 			"<div itemprop='$property' itemscope itemtype='https://schema.org/$scope'>$content</div>",
 			MicrodataStub::htmlDiv($content, $property, $scope, true)
-
 		);
 
 		// Test without the $scope
 		$this->assertEquals(
 			"<div itemprop='$property'>$content</div>",
 			MicrodataStub::htmlDiv($content, $property)
-
 		);
 
 		// Test without the $property
 		$this->assertEquals(
 			"<div itemprop='$property' itemscope itemtype='https://schema.org/$scope'>$content</div>",
 			MicrodataStub::htmlDiv($content, $property, $scope, true)
-
 		);
 
 		// Test without the $scope, $property
@@ -997,7 +1077,6 @@ class MicrodataTest extends UnitTestCase
 		$this->assertEquals(
 			"<span itemprop='$property' itemscope itemtype='https://schema.org/$scope'>$content</span>",
 			MicrodataStub::htmlSpan($content, $property, $scope, true)
-
 		);
 
 		// Test without the $scope, $property
@@ -1006,9 +1085,13 @@ class MicrodataTest extends UnitTestCase
 			MicrodataStub::htmlSpan($content)
 		);
 	}
-
 }
 
+/**
+ * MicrodataStub
+ *
+ * @since   4.0.0
+ */
 class MicrodataStub extends Microdata
 {
 	/**
@@ -1016,9 +1099,11 @@ class MicrodataStub extends Microdata
 	 *
 	 * Set the types to avoid file_get_contents
 	 *
-	 * @param string $type
-	 * @param bool   $flag
-	 * @param array  $types
+	 * @param   string   $type   Type
+	 * @param   bool     $flag   Flag
+	 * @param   array    $types  Types
+	 *
+	 * @since   4.0.0
 	 */
 	public function __construct($type = '', $flag = true, $types = [])
 	{
@@ -1030,7 +1115,10 @@ class MicrodataStub extends Microdata
 	/**
 	 * Public test helper to set the types
 	 *
-	 * @param $types
+	 * @param   array   $types  Types
+	 *
+	 * @return void
+	 * @since   4.0.0
 	 */
 	public static function setTypes($types)
 	{
@@ -1038,7 +1126,7 @@ class MicrodataStub extends Microdata
 	}
 
 	/**
-	 * Override the loadTypes methid
+	 * Override the loadTypes method
 	 *
 	 * @return  void
 	 *

@@ -48,14 +48,14 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 							<th scope="col">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'l.title', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
+							<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_TYPE', 't.title', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_DATE', 'l.indexdate', $listDirn, $listOrder); ?>
 							</th>
 							<?php if (Multilanguage::isEnabled()) : ?>
-								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.language', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
@@ -82,7 +82,7 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 									<?php echo $this->escape($item->title); ?>
 								</label>
 							</th>
-							<td class="small d-none d-md-table-cell text-center">
+							<td class="small d-none d-md-table-cell">
 								<?php
 								$key = FinderHelperLanguage::branchSingular($item->t_title);
 								echo $lang->hasKey($key) ? Text::_($key) : $item->t_title;
@@ -92,7 +92,7 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 								<?php echo HTMLHelper::_('date', $item->indexdate, Text::_('DATE_FORMAT_LC4')); ?>
 							</td>
 							<?php if (Multilanguage::isEnabled()) : ?>
-								<td class="small d-none d-md-table-cell text-center">
+								<td class="small d-none d-md-table-cell">
 									<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 								</td>
 							<?php endif; ?>

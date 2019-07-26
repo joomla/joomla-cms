@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Categories;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Option based categories factory.
