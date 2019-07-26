@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Helper;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
@@ -51,7 +51,7 @@ class LibraryHelper
 			$result = static::$libraries[$element];
 
 			// Convert the params to an object.
-			if (is_string($result->params))
+			if (\is_string($result->params))
 			{
 				$result->params = new Registry($result->params);
 			}
