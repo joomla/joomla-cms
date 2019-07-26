@@ -19,6 +19,6 @@ module.exports.run = (file, options) => {
     console.log(`Es5 file copied/minified: ${file}`);
   } else if (file.match(/\.js/) && file.match(/\.w-c\.es6\.js/)) {
     // Web Component, so we need to transpile it
-    TranspileWc.compile(file, options);
+    TranspileWc.compile(file);
   }
 };
