@@ -10,6 +10,7 @@ namespace Joomla\CMS\Console;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
@@ -166,7 +167,7 @@ class AddUserToGroupCommand extends AbstractCommand
 			return $groupList;
 		}
 
-		$userGroups = array_values($user->groups);
+		$userGroups = Access::getGroupsByUser($user->id, false);
 
 		// Generate select list for user
 		$query = $db->getQuery(true)

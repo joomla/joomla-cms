@@ -139,7 +139,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 				}
 			}
 
-			if (count($user->groups) < 2)
+			if (count(Access::getGroupsByUser($user->id, false)) < 2)
 			{
 				$this->ioStyle->error("Can't remove '" . $user->username . "' from group '" . $result . "'! Every user needs at least one group");
 
@@ -172,7 +172,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	{
 		$option = $this->getApplication()->getConsoleInput()->getOption('group');
 		$db = Factory::getDbo();
-		$userGroups = array_values($user->groups);
+		$userGroups = Access::getGroupsByUser($user->id, false);
 
 		if (!$option)
 		{
