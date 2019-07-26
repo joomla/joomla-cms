@@ -59,13 +59,26 @@ if (isset($data['view']->filterForm) && !empty($data['view']->filterForm))
 			$noResultsText = Text::_($noResults);
 		}
 	}
+	
+	// List limit from filter form
+	$listLimit = $data['view']->filterForm->getFieldAttribute('limit', 'default', 20, 'list');
+}
+
+// List limit from view, filter-form, global parameter or default 20
+if (isset($listLimit))
+{
+	$listLimit = $data['options']['defaultLimit'] ?? $listLimit;
+}
+else
+{
+	$listLimit = $data['options']['defaultLimit'] ?? Factory::getApplication()->get('list_limit', 20);
 }
 
 // Set some basic options.
 $customOptions = array(
 	'filtersHidden'       => isset($data['options']['filtersHidden']) && $data['options']['filtersHidden'] ? $data['options']['filtersHidden'] : $hideActiveFilters,
 	'filterButton'        => isset($data['options']['filterButton']) && $data['options']['filterButton'] ? $data['options']['filterButton'] : $showFilterButton,
-	'defaultLimit'        => $data['options']['defaultLimit'] ?? Factory::getApplication()->get('list_limit', 20),
+	'defaultLimit'        => $listLimit,
 	'searchFieldSelector' => '#filter_search',
 	'selectorFieldName'   => $selectorFieldName,
 	'showSelector'        => $showSelector,
