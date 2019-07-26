@@ -30,6 +30,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -829,10 +830,11 @@ class ApplicationModel extends FormModel
 		try
 		{
 			// Get the asset id by the name of the component.
-			$query = $this->getDbo()->getQuery(true)
-				->select($this->getDbo()->quoteName('id'))
-				->from($this->getDbo()->quoteName('#__assets'))
-				->where($this->getDbo()->quoteName('name') . ' = ' . $this->getDbo()->quote($permission['component']));
+			$query = $this->_db->getQuery(true)
+				->select($this->_db->quoteName('id'))
+				->from($this->_db->quoteName('#__assets'))
+				->where($this->_db->quoteName('name') . ' = :component')
+				->bind(':component', $permission['component']);
 
 			$this->_db->setQuery($query);
 
@@ -855,7 +857,8 @@ class ApplicationModel extends FormModel
 				$query->clear()
 					->select($this->_db->quoteName('parent_id'))
 					->from($this->_db->quoteName('#__assets'))
-					->where($this->_db->quoteName('id') . ' = ' . $assetId);
+					->where($this->_db->quoteName('id') . ' = :assetid')
+					->bind(':assetid', $assetId, ParameterType::INTEGER);
 
 				$this->_db->setQuery($query);
 
@@ -863,10 +866,12 @@ class ApplicationModel extends FormModel
 			}
 
 			// Get the group parent id of the current group.
+			$rule = (int) $permission['rule'];
 			$query->clear()
 				->select($this->_db->quoteName('parent_id'))
 				->from($this->_db->quoteName('#__usergroups'))
-				->where($this->_db->quoteName('id') . ' = ' . (int) $permission['rule']);
+				->where($this->_db->quoteName('id') . ' = :rule')
+				->bind(':rule', $rule, ParameterType::INTEGER);
 
 			$this->_db->setQuery($query);
 
@@ -876,7 +881,8 @@ class ApplicationModel extends FormModel
 			$query->clear()
 				->select('COUNT(' . $this->_db->quoteName('id') . ')')
 				->from($this->_db->quoteName('#__usergroups'))
-				->where($this->_db->quoteName('parent_id') . ' = ' . (int) $permission['rule']);
+				->where($this->_db->quoteName('parent_id') . ' = :rule')
+				->bind(':rule', $rule, ParameterType::INTEGER);
 
 			$this->_db->setQuery($query);
 
