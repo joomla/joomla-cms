@@ -14,7 +14,6 @@ plugins/content/finder/*  @hackwar
 plugins/finder/*  @hackwar
 
 # CodeMirror
-media/editors/codemirror/*  @okonomiyaki3000
 plugins/editors/codemirror/*  @okonomiyaki3000
 
 # Statistics Server
@@ -32,25 +31,20 @@ libraries/src/Installer/*  @rdeutz @wilsonge @zero-24
 libraries/src/Updater/*  @rdeutz @wilsonge @zero-24
 
 # Automated Testing
-build/jenkins/*  @rdeutz
-build/travis/*  @rdeutz
-tests/codeception/*  @rdeutz
+tests/*  @hackwar
+tests/Codeception/*  @rdeutz
 tests/javascript/*  @wilsonge @rdeutz
-tests/unit/*  @rdeutz
-.appveyor.yml  @rdeutz
-.drone.yml  @rdeutz
-.hound.yml  @wilsonge
-.travis.yml  @rdeutz
-appveyor-phpunit.xml  @rdeutz
-codeception.yml  @rdeutz
-karma.conf.js  @wilsonge @rdeutz
-phpunit.xml.dist  @rdeutz
-RoboFile.dist.ini  @rdeutz
-RoboFile.php  @rdeutz
-travis-phpunit.xml  @rdeutz
+tests/Unit/*  @rdeutz
+.appveyor.yml  @rdeutz @hackwar
+.drone.yml  @rdeutz @hackwar
+.hound.yml  @wilsonge @hackwar
+codeception.yml  @rdeutz @hackwar
+phpunit.xml.dist  @rdeutz @hackwar
+phpunit-pgsql.xml.dist  @rdeutz @hackwar
+RoboFile.php  @rdeutz @hackwar
 
 # Core JS
-media/*/js/*  @wilsonge
+build/media_source/*/js/*  @wilsonge
 
 # CSP Tooling
 plugins/system/httpheaders/*  @zero-24
