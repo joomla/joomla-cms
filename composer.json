@@ -51,6 +51,11 @@
             "Joomla\\Tests\\": "tests"
         }
     },
+    "scripts": {
+        "post-install-cmd": [
+            "phpcs --config-set installed_paths ../../joomla/cms-coding-standards/lib,../../joomla/coding-standards"
+        ]
+    },
     "require": {
         "php": ">=7.2",
         "joomla/application": "~2.0@dev",
