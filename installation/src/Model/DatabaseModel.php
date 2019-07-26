@@ -710,6 +710,17 @@ class DatabaseModel extends BaseInstallationModel
 			}
 		}
 
+		// Load the custom.sql for customising the data in joomla.sql.
+		$dbcustom = 'sql/' . $serverType . '/custom.sql';
+
+		if (is_file($dbcustom))
+		{
+			if (!$this->populateDatabase($db, $dbcustom))
+			{
+				return false;
+			}
+		}
+
 		// Handle default backend language setting. This feature is available for localized versions of Joomla.
 		$languages = Factory::getApplication()->getLocaliseAdmin($db);
 
