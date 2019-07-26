@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Input Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -63,7 +63,7 @@ class Input implements \Serializable, \Countable
 	 * @var    Filter\InputFilter
 	 * @since  1.0
 	 */
-	protected $filter = null;
+	protected $filter;
 
 	/**
 	 * Input data.
@@ -109,7 +109,7 @@ class Input implements \Serializable, \Countable
 			$this->filter = new Filter\InputFilter;
 		}
 
-		if (is_null($source))
+		if ($source === null)
 		{
 			$this->data = &$_REQUEST;
 		}
@@ -149,7 +149,7 @@ class Input implements \Serializable, \Countable
 
 		$superGlobal = '_' . strtoupper($name);
 
-		if (in_array(strtoupper($name), self::$allowedGlobals, true) && isset($GLOBALS[$superGlobal]))
+		if (\in_array(strtoupper($name), self::$allowedGlobals, true) && isset($GLOBALS[$superGlobal]))
 		{
 			$this->inputs[$name] = new Input($GLOBALS[$superGlobal], $this->options);
 
@@ -169,7 +169,7 @@ class Input implements \Serializable, \Countable
 	 */
 	public function count()
 	{
-		return count($this->data);
+		return \count($this->data);
 	}
 
 	/**
@@ -208,7 +208,7 @@ class Input implements \Serializable, \Countable
 	 */
 	public function getArray(array $vars = array(), $datasource = null)
 	{
-		if (empty($vars) && is_null($datasource))
+		if (empty($vars) && $datasource === null)
 		{
 			$vars = $this->data;
 		}
@@ -217,9 +217,9 @@ class Input implements \Serializable, \Countable
 
 		foreach ($vars as $k => $v)
 		{
-			if (is_array($v))
+			if (\is_array($v))
 			{
-				if (is_null($datasource))
+				if ($datasource === null)
 				{
 					$results[$k] = $this->getArray($v, $this->get($k, null, 'array'));
 				}
@@ -230,7 +230,7 @@ class Input implements \Serializable, \Countable
 			}
 			else
 			{
-				if (is_null($datasource))
+				if ($datasource === null)
 				{
 					$results[$k] = $this->get($k, null, $v);
 				}
@@ -375,8 +375,7 @@ class Input implements \Serializable, \Countable
 
 		// Remove $_ENV and $_SERVER from the inputs.
 		$inputs = $this->inputs;
-		unset($inputs['env']);
-		unset($inputs['server']);
+		unset($inputs['env'], $inputs['server']);
 
 		// Serialize the options, data, and inputs.
 		return serialize(array($this->options, $this->data, $inputs));
@@ -422,7 +421,7 @@ class Input implements \Serializable, \Countable
 			foreach ($GLOBALS as $global => $data)
 			{
 				// Check if the global starts with an underscore and is allowed.
-				if (strpos($global, '_') === 0 && in_array(substr($global, 1), self::$allowedGlobals, true))
+				if (strpos($global, '_') === 0 && \in_array(substr($global, 1), self::$allowedGlobals, true))
 				{
 					// Convert global name to input name.
 					$global = strtolower($global);
