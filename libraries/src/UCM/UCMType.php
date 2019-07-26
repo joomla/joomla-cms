@@ -48,7 +48,6 @@ use Joomla\Database\DatabaseDriver;
  * @property-read  string  $core_metakey
  * @property-read  string  $core_metadesc
  * @property-read  string  $core_catid
- * @property-read  string  $core_xreference
  * @property-read  string  $core_typeid
  *
  * @since  3.1
