@@ -106,6 +106,10 @@ legend {
   box-shadow: 0 0 2px 1px theme-color("primary");
 }
 
+.sortable-handler.inactive {
+  opacity: 0.3;
+}
+
 // Search Input Tooltip
 /* make the containers relative */
 .control-group > .controls {
@@ -113,7 +117,7 @@ legend {
 }
 
  /* set up hidden tooltip */
-[role="tooltip"] {
+[role="tooltip"]:not(.show) {
   display: none;
   padding: 0.25em;
   margin: 0.25em;
@@ -124,8 +128,12 @@ legend {
 }
 
  /* reveal associated tooltip on focus */
-:focus + [role="tooltip"] {
+:focus + [role="tooltip"],
+:hover + [role="tooltip"] {
   display: block;
   position: absolute;
+}
+
+[id="filter[search]-desc"] {
   bottom: 100%;
 }

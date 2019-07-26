@@ -21,8 +21,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\String\StringHelper;
 
-\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-
 /**
  * Helper for mod_articles_category
  *
@@ -52,10 +50,11 @@ abstract class ArticlesCategoryHelper
 		$appParams = $app->getParams();
 		$articles->setState('params', $appParams);
 
-		// Set the filters based on the module params
 		$articles->setState('list.start', 0);
-		$articles->setState('list.limit', (int) $params->get('count', 0));
 		$articles->setState('filter.condition', ContentComponent::CONDITION_PUBLISHED);
+
+		// Set the filters based on the module params
+		$articles->setState('list.limit', (int) $params->get('count', 0));
 		$articles->setState('load_tags', $params->get('show_tags', 0) || $params->get('article_grouping', 'none') === 'tags');
 
 		// Access filter
@@ -176,7 +175,7 @@ abstract class ArticlesCategoryHelper
 		switch ($ordering)
 		{
 			case 'random':
-				$articles->setState('list.ordering', Factory::getDbo()->getQuery(true)->Rand());
+				$articles->setState('list.ordering', Factory::getDbo()->getQuery(true)->rand());
 				break;
 
 			case 'rating_count':

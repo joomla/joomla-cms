@@ -17,6 +17,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 
 HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('script', 'com_users/admin-users-user.min.js', array('version' => 'auto', 'relative' => true));
 
 $input = Factory::getApplication()->input;
@@ -75,10 +76,12 @@ $this->useCoreUI = true;
 				<?php echo Text::_('COM_USERS_USER_OTEPS'); ?>
 			</legend>
 			<div class="alert alert-info">
+				<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('COM_USERS_USER_OTEPS_DESC'); ?>
 			</div>
 			<?php if (empty($this->otpConfig->otep)) : ?>
 				<div class="alert alert-warning">
+					<span class="fa fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 					<?php echo Text::_('COM_USERS_USER_OTEPS_WAIT_DESC'); ?>
 				</div>
 			<?php else : ?>

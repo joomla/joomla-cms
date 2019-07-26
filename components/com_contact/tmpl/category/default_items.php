@@ -24,20 +24,20 @@ HTMLHelper::_('behavior.core');
 			<?php if ($this->params->get('filter_field')) : ?>
 				<div class="com-contact-category__filter btn-group">
 					<label class="filter-search-lbl sr-only" for="filter-search">
-                        <span class="badge badge-warning">
-                            <?php echo Text::_('JUNPUBLISHED'); ?>
-                        </span>
-                        <?php echo Text::_('COM_CONTACT_FILTER_LABEL') . '&#160;'; ?>
-                    </label>
+						<span class="badge badge-warning">
+							<?php echo Text::_('JUNPUBLISHED'); ?>
+						</span>
+						<?php echo Text::_('COM_CONTACT_FILTER_LABEL') . '&#160;'; ?>
+					</label>
 					<input
-                        type="text"
-                        name="filter-search"
-                        id="filter-search"
-                        value="<?php echo $this->escape($this->state->get('list.filter')); ?>"
-                        class="inputbox" onchange="document.adminForm.submit();"
-                        title="<?php echo Text::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>"
-                        placeholder="<?php echo Text::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>"
-                    >
+						type="text"
+						name="filter-search"
+						id="filter-search"
+						value="<?php echo $this->escape($this->state->get('list.filter')); ?>"
+						class="inputbox" onchange="document.adminForm.submit();"
+						title="<?php echo Text::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>"
+						placeholder="<?php echo Text::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>"
+					>
 				</div>
 			<?php endif; ?>
 
@@ -51,11 +51,11 @@ HTMLHelper::_('behavior.core');
 			<?php endif; ?>
 		</fieldset>
 		<?php endif; ?>
-        <?php if (empty($this->items)) : ?>
-            <p>
-                <?php echo Text::_('COM_CONTACT_NO_CONTACTS'); ?>
-            </p>
-        <?php else : ?>
+		<?php if (empty($this->items)) : ?>
+			<p>
+				<?php echo Text::_('COM_CONTACT_NO_CONTACTS'); ?>
+			</p>
+		<?php else : ?>
 
 			<ul class="com-contact-category__list category row-striped">
 				<?php foreach ($this->items as $i => $item) : ?>
@@ -127,7 +127,7 @@ HTMLHelper::_('behavior.core');
 					<?php endif; ?>
 				<?php endforeach; ?>
 			</ul>
-            <?php endif; ?>
+			<?php endif; ?>
 
 			<?php if ($this->params->get('show_pagination', 2)) : ?>
 			<div class="com-contact-category__counter w-100">

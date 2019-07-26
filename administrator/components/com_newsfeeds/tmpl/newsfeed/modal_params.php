@@ -17,6 +17,7 @@ foreach ($fieldSets as $name => $fieldSet) :
 	<div class="tab-pane" id="params-<?php echo $name; ?>">
 	<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
 		<div class="alert alert-info">
+			<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 			<?php echo $this->escape(Text::_($fieldSet->description)); ?>
 		</div>
 	<?php endif; ?>

@@ -54,7 +54,7 @@ $input = Factory::getApplication()->input;
 									<?php echo HTMLHelper::_('jgrid.published', $value->state, $i, 'template.', 1, 'cb', null, null, 'updateForm'); ?>
 								</td>
 								<td>
-									<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $value->extension_id . '&file=' . $value->hash_id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?>"><?php echo base64_decode($value->hash_id); ?></a>
+									<a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $value->extension_id . '&file=' . $value->hash_id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?>"><?php echo base64_decode($value->hash_id); ?></a>
 								</td>
 								<td>
 									<?php $created_date = $value->created_date; ?>
@@ -80,7 +80,7 @@ $input = Factory::getApplication()->input;
 				<?php echo HTMLHelper::_('form.token'); ?>
 			<?php else : ?>
 				<div class="alert alert-success">
-					<span class="icon-info" aria-hidden="true"></span>
+					<span class="fa fa-check-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('NOTICE'); ?></span>
 					<?php echo Text::_('COM_TEMPLATES_OVERRIDE_UPTODATE'); ?>
 				</div>
 			<?php endif; ?>
