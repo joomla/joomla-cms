@@ -74,6 +74,10 @@ else
 	$listLimit = $data['options']['defaultLimit'] ?? Factory::getApplication()->get('list_limit', 20);
 }
 
+// Check if in allowed range
+$allowedLimits = array(5, 10, 15, 20, 25, 30, 50, 100, 200, 500);
+$listLimit = in_array ($listLimit , $allowedLimits) ? $listLimit :20;
+
 // Set some basic options.
 $customOptions = array(
 	'filtersHidden'       => isset($data['options']['filtersHidden']) && $data['options']['filtersHidden'] ? $data['options']['filtersHidden'] : $hideActiveFilters,
