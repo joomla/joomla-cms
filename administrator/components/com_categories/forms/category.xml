@@ -120,12 +120,6 @@
 	</field>
 
 	<field
-		name="buttonspacer"
-		type="spacer"
-		label="JGLOBAL_ACTION_PERMISSIONS_LABEL"
-	/>
-
-	<field
 		name="checked_out"
 		type="hidden"
 		filter="unset"
