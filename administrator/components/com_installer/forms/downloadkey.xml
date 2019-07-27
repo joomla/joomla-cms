@@ -10,7 +10,6 @@
                 type="text"
                 label="COM_INSTALLER_DOWNLOADKEY_EXTRA_QUERY_LABEL"
                 size="40"
-                class="input-xxlarge"
                 default=""
         />
         <field
