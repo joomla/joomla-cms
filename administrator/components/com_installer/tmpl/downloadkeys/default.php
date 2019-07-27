@@ -98,7 +98,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<td class="hidden-sm-down text-center">
 									<?php echo $item->type_translated; ?>
 								</td>
-								<td class="hidden-sm-down text-center">
+								<td class="hidden-sm-down">
 									<?php echo $item->folder_translated; ?>
 								</td>
 								<td class="hidden-sm-down text-center">
