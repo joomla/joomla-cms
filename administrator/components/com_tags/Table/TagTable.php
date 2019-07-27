@@ -194,7 +194,7 @@ class TagTable extends Nested
 			$this->images = '{}';
 		}
 
-		if (!(int) $this->checked_out_time)
+		if (!$this->checked_out_time)
 		{
 			$this->checked_out_time = $date->toSql();
 		}

@@ -33,7 +33,7 @@ class ClientTable extends Table
 	public function __construct(DatabaseDriver $db)
 	{
 		$this->typeAlias        = 'com_banners.client';
-		$this->checked_out_time = $db->getNullDate();
+		$this->checked_out_time = null;
 
 		$this->setColumnAlias('published', 'state');
 

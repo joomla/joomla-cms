@@ -81,7 +81,6 @@ class CheckinModel extends ListModel
 	public function checkin($ids = array())
 	{
 		$db = $this->getDbo();
-		$nullDate = $db->getNullDate();
 
 		if (!is_array($ids))
 		{
@@ -111,9 +110,8 @@ class CheckinModel extends ListModel
 			$query = $db->getQuery(true)
 				->update($db->quoteName($tn))
 				->set($db->quoteName('checked_out') . ' = DEFAULT')
-				->set($db->quoteName('checked_out_time') . ' = :checkouttime')
-				->where($db->quoteName('checked_out') . ' > 0')
-				->bind(':checkouttime', $nullDate);
+				->set($db->quoteName('checked_out_time') . ' = null')
+				->where($db->quoteName('checked_out') . ' > 0');
 
 			$db->setQuery($query);
 

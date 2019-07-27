@@ -338,7 +338,7 @@ class BannerTable extends Table
 				// Change the state
 				$table->sticky = $state;
 				$table->checked_out = 0;
-				$table->checked_out_time = $this->_db->getNullDate();
+				$table->checked_out_time = null;
 
 				// Check the row
 				$table->check();

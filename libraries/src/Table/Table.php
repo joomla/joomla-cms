@@ -1299,7 +1299,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		$query = $this->_db->getQuery(true)
 			->update($this->_tbl)
 			->set($this->_db->quoteName($checkedOutField) . ' = 0')
-			->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $nullDate);
+			->set($this->_db->quoteName($checkedOutTimeField) . ' = NULL');
 		$this->appendPrimaryKeys($query, $pk);
 		$this->_db->setQuery($query);
 
