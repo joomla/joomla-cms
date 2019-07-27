@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Language;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Caching factory for creating language objects. The requested languages are

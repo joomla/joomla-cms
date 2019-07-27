@@ -13,6 +13,7 @@
       font-weight: $font-weight-normal;
       color: var(--atum-text-dark);
       white-space: nowrap;
+      border-bottom: 2px solid $gray-300;
       @include media-breakpoint-down(xs) {
         white-space: normal;
       }
