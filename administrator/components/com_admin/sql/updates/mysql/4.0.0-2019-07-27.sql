@@ -10,14 +10,14 @@ ALTER TABLE `#__tags` MODIFY COLUMN `checked_out_time` DATETIME NULL DEFAULT NUL
 ALTER TABLE `#__ucm_content` MODIFY COLUMN `core_checked_out_time` DATETIME NULL DEFAULT NULL;
 ALTER TABLE `#__user_notes` MODIFY COLUMN `checked_out_time` DATETIME NULL DEFAULT NULL;
 
-UPDATE `#__banner_clients` SET `checked_out_time` = null WHERE `checked_out_time` = '0000-00-00 00:00:00';
-UPDATE `#__categories` SET `checked_out_time` = null WHERE `checked_out_time` = '0000-00-00 00:00:00';
-UPDATE `#__content` SET `checked_out_time` = null WHERE `checked_out_time` = '0000-00-00 00:00:00';
-UPDATE `#__extensions` SET `checked_out_time` = null WHERE `checked_out_time` = '0000-00-00 00:00:00';
-UPDATE `#__fields` SET `checked_out_time` = null WHERE `checked_out_time` = '0000-00-00 00:00:00';
-UPDATE `#__fields_groups` SET `checked_out_time` = null WHERE `checked_out_time` = '0000-00-00 00:00:00';
-UPDATE `#__finder_filters` SET `checked_out_time` = null WHERE `checked_out_time` = '0000-00-00 00:00:00';
-UPDATE `#__menu` SET `checked_out_time` = null WHERE `checked_out_time` = '0000-00-00 00:00:00';
-UPDATE `#__tags` SET `checked_out_time` = null WHERE `checked_out_time` = '0000-00-00 00:00:00';
-UPDATE `#__ucm_content` SET `core_checked_out_time` = null WHERE `core_checked_out_time` = '0000-00-00 00:00:00';
-UPDATE `#__user_notes` SET `checked_out_time` = null WHERE `checked_out_time` = '0000-00-00 00:00:00';
+UPDATE `#__banner_clients` SET `checked_out_time` = NULL WHERE `checked_out_time` = '0000-00-00 00:00:00';
+UPDATE `#__categories` SET `checked_out_time` = NULL WHERE `checked_out_time` = '0000-00-00 00:00:00';
+UPDATE `#__content` SET `checked_out_time` = NULL WHERE `checked_out_time` = '0000-00-00 00:00:00';
+UPDATE `#__extensions` SET `checked_out_time` = NULL WHERE `checked_out_time` = '0000-00-00 00:00:00';
+UPDATE `#__fields` SET `checked_out_time` = NULL WHERE `checked_out_time` = '0000-00-00 00:00:00';
+UPDATE `#__fields_groups` SET `checked_out_time` = NULL WHERE `checked_out_time` = '0000-00-00 00:00:00';
+UPDATE `#__finder_filters` SET `checked_out_time` = NULL WHERE `checked_out_time` = '0000-00-00 00:00:00';
+UPDATE `#__menu` SET `checked_out_time` = NULL WHERE `checked_out_time` = '0000-00-00 00:00:00';
+UPDATE `#__tags` SET `checked_out_time` = NULL WHERE `checked_out_time` = '0000-00-00 00:00:00';
+UPDATE `#__ucm_content` SET `core_checked_out_time` = NULL WHERE `core_checked_out_time` = '0000-00-00 00:00:00';
+UPDATE `#__user_notes` SET `checked_out_time` = NULL WHERE `checked_out_time` = '0000-00-00 00:00:00';
