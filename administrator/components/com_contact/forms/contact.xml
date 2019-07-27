@@ -423,7 +423,7 @@
 					name="show_info"
 					type="list"
 					label="COM_CONTACT_FIELD_SHOW_INFO_LABEL"
-					class="chzn-color"
+				class="custom-select-color"
 					useglobal="true"
 					>
 					<option value="0">JHIDE</option>
@@ -467,7 +467,7 @@
 					name="add_mailto_link"
 					type="list"
 					label="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_LABEL"
-					class="chzn-color"
+					class="custom-select-color"
 					useglobal="true"
 					showon="show_info:1"
 					>
@@ -578,7 +578,7 @@
 					name="show_image"
 					type="list"
 					label="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_LABEL"
-					class="chzn-color"
+				class="custom-select-color"
 					useglobal="true"
 					showon="show_info:1"
 					>
@@ -590,7 +590,7 @@
 					name="show_misc"
 					type="list"
 					label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
-					class="chzn-color"
+				class="custom-select-color"
 					useglobal="true"
 					>
 					<option value="0">JHIDE</option>
