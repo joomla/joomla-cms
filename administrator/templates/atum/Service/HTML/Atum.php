@@ -34,12 +34,11 @@ class JHtmlAtum
 	 */
 	public static function rootcolors(Registry $params): void
 	{
-		$monochrome = (bool) $params->get('monochrome');
 		$root       = [];
 
 		if ($params->get('hue'))
 		{
-			$root = static::bgdarkcalc($params->get('hue'), $monochrome);
+			$root = static::bgdarkcalc($params->get('hue'));
 		}
 
 		$bgLight = $params->get('bg-light');
@@ -50,8 +49,8 @@ class JHtmlAtum
 			{
 				$bgLight = new Hex($bgLight);
 
-				$root[] = '--atum-bg-light: ' . ($monochrome ? $bgLight->grayscale() : $bgLight) . ';';
-				$root[] = '--toolbar-bg: ' . ($monochrome ? $bgLight->grayscale()->lighten(5) : $bgLight->lighten(5)) . ';';
+				$root[] = '--atum-bg-light: ' . $bgLight . ';';
+				$root[] = '--toolbar-bg: ' . $bgLight->lighten(5) . ';';
 			}
 			catch (\Exception $ex)
 			{
@@ -66,7 +65,7 @@ class JHtmlAtum
 			try
 			{
 				$textDark = new Hex($textDark);
-				$root[]   = '--atum-text-dark: ' . (($monochrome) ? $textDark->grayscale() : $textDark) . ';';
+				$root[]   = '--atum-text-dark: ' . $textDark . ';';
 			}
 			catch (\Exception $ex)
 			{
@@ -81,7 +80,7 @@ class JHtmlAtum
 			try
 			{
 				$textLight = new Hex($textLight);
-				$root[]    = '--atum-text-light: ' . (($monochrome) ? $textLight->grayscale() : $textLight) . ';';
+				$root[]    = '--atum-text-light: ' . $textLight . ';';
 			}
 			catch (\Exception $ex)
 			{
@@ -97,9 +96,9 @@ class JHtmlAtum
 			{
 				$linkColor = new Hex($linkColor);
 
-				$root[] = '--atum-link-color: ' . (($monochrome) ? $linkColor->grayscale() : $linkColor) . ';';
+				$root[] = '--atum-link-color: ' . $linkColor . ';';
 
-				$root[] = '--atum-link-hover-color: ' . (($monochrome) ? $linkColor->grayscale()->darken(20) : $linkColor->darken(20)) . ';';
+				$root[] = '--atum-link-hover-color: ' . $linkColor->darken(20) . ';';
 			}
 			catch (\Exception $ex)
 			{
@@ -114,7 +113,7 @@ class JHtmlAtum
 			try
 			{
 				$specialcolor = new Hex($specialColor);
-				$root[]       = '--atum-special-color: ' . (($monochrome) ? $specialcolor->grayscale() : $specialcolor) . ';';
+				$root[]       = '--atum-special-color: ' . $specialcolor . ';';
 			}
 			catch (\Exception $ex)
 			{
@@ -138,10 +137,8 @@ class JHtmlAtum
 	 *
 	 * @since  4.0.0
 	 */
-	protected static function bgdarkcalc($color, $monochrome = false): array
+	protected static function bgdarkcalc($color): array
 	{
-		$multiplier = $monochrome ? 0 : 1;
-
 		$hue = 207;
 
 		if (strpos($color, 'hsl(') !== false)
@@ -192,22 +189,28 @@ class JHtmlAtum
 		$hue  = min(359, max(0, (int) $hue));
 		$root = [];
 
+		// No need to calculate if we have the default value
+		if ($hue === 207)
+		{
+			return $root;
+		}
+
 		try
 		{
-			$bgcolor = new Hsl('hsl(' . $hue . ', ' . (61 * $multiplier) . ', 26)');
+			$bgcolor = new Hsl('hsl(' . $hue . ', ' . 61 . ', 26)');
 
-			$root[] = '--atum-bg-dark: ' . (new Hsl('hsl(' . $hue . ', ' . (61 * $multiplier) . ', 26)'))->toHex() . ';';
-			$root[] = '--atum-contrast: ' . (new Hsl('hsl(' . $hue . ',' . (61 * $multiplier) . ', 26)'))->spin(-40)->lighten(18)->toHex() . ';';
-			$root[] = '--atum-bg-dark-0: ' . (clone $bgcolor)->desaturate(86 * $multiplier)->lighten(71.4)->spin(-6)->toHex() . ';';
-			$root[] = '--atum-bg-dark-5: ' . (clone $bgcolor)->desaturate(85 * $multiplier)->lighten(65.1)->spin(-6)->toHex() . ';';
-			$root[] = '--atum-bg-dark-10: ' . (clone $bgcolor)->desaturate(80 * $multiplier)->lighten(59.4)->spin(-6)->toHex() . ';';
-			$root[] = '--atum-bg-dark-20: ' . (clone $bgcolor)->desaturate(75 * $multiplier)->lighten(47.3)->spin(-6)->toHex() . ';';
-			$root[] = '--atum-bg-dark-30: ' . (clone $bgcolor)->desaturate(55 * $multiplier)->lighten(34.3)->spin(-5)->toHex() . ';';
-			$root[] = '--atum-bg-dark-40: ' . (clone $bgcolor)->desaturate(40 * $multiplier)->lighten(21.4)->spin(-3)->toHex() . ';';
-			$root[] = '--atum-bg-dark-50: ' . (clone $bgcolor)->desaturate(15 * $multiplier)->lighten(10)->spin(-1)->toHex() . ';';
+			$root[] = '--atum-bg-dark: ' . (new Hsl('hsl(' . $hue . ', 61, 26)'))->toHex() . ';';
+			$root[] = '--atum-contrast: ' . (new Hsl('hsl(' . $hue . ', 61, 26)'))->spin(-40)->lighten(18)->toHex() . ';';
+			$root[] = '--atum-bg-dark-0: ' . (clone $bgcolor)->desaturate(86)->lighten(71.4)->spin(-6)->toHex() . ';';
+			$root[] = '--atum-bg-dark-5: ' . (clone $bgcolor)->desaturate(85)->lighten(65.1)->spin(-6)->toHex() . ';';
+			$root[] = '--atum-bg-dark-10: ' . (clone $bgcolor)->desaturate(80)->lighten(59.4)->spin(-6)->toHex() . ';';
+			$root[] = '--atum-bg-dark-20: ' . (clone $bgcolor)->desaturate(75)->lighten(47.3)->spin(-6)->toHex() . ';';
+			$root[] = '--atum-bg-dark-30: ' . (clone $bgcolor)->desaturate(55)->lighten(34.3)->spin(-5)->toHex() . ';';
+			$root[] = '--atum-bg-dark-40: ' . (clone $bgcolor)->desaturate(40)->lighten(21.4)->spin(-3)->toHex() . ';';
+			$root[] = '--atum-bg-dark-50: ' . (clone $bgcolor)->desaturate(15)->lighten(10)->spin(-1)->toHex() . ';';
 			$root[] = '--atum-bg-dark-70: ' . (clone $bgcolor)->lighten(-6)->spin(4)->toHex() . ';';
 			$root[] = '--atum-bg-dark-80: ' . (clone $bgcolor)->lighten(-11.5)->spin(7)->toHex() . ';';
-			$root[] = '--atum-bg-dark-90: ' . (clone $bgcolor)->desaturate(-1 * $multiplier)->lighten(-17)->spin(10)->toHex() . ';';
+			$root[] = '--atum-bg-dark-90: ' . (clone $bgcolor)->desaturate(-1)->lighten(-17)->spin(10)->toHex() . ';';
 		}
 		catch (\Exception $ex)
 		{
