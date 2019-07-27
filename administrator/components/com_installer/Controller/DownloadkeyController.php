@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\FormController;
 
 /**
- * Controller for a single contact
+ * Controller for a single download key
  *
  * @since  __DEPLOY_VERSION__
  */
