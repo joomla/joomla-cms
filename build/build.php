@@ -326,6 +326,7 @@ $doNotPackage = array(
 	'codeception.yml',
 	'RoboFile.php',
 	'CODE_OF_CONDUCT.md',
+	'phpunit-pgsql.xml.dist',
 	// Remove the testing sample data from all packages
 	'installation/sql/mysql/sample_testing.sql',
 	'installation/sql/postgresql/sample_testing.sql',
