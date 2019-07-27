@@ -54,15 +54,12 @@
         display: block;
         padding-left: 2.4rem;
         color: var(--atum-text-dark);
-	  
-     &:hover {
-      @include hover-focus-active {
-        text-decoration: none;
-        color: $quickicon-color-hover;
-        background: var(--atum-link-color);
+		
+        @include hover-focus-active {
+          text-decoration: none;
+          color: $quickicon-color-hover;
+          background: var(--atum-link-color);
         }  
-      }
-	  
       }
 
     .fa {
@@ -80,7 +77,7 @@
   }
   
   // Single icon 
-  .single {
+  .quickicon-single {
     width: calc(33.333% - 1rem);
     max-width: calc(33.333% - 1rem);
     flex: 1 1 calc(33.333% - 1rem);
@@ -89,7 +86,7 @@
     padding: 0;
   }
   
-  .single,
+  .quickicon-single,
   .quickicon-group {
     @media (max-width: 1350px) {
       width: calc(50% - 1rem);
@@ -236,17 +233,13 @@
         }
       }
     }
-  }
-  
-  a {
-	 @include hover-focus-active {
-        text-decoration: none;
-        color: $quickicon-color-hover;
-        background: var(--atum-link-color);
-      }  
-  }
-  
-	 
+
+    @include hover-focus-active {
+      text-decoration: none;
+      color: $quickicon-color-hover;
+      background: var(--atum-link-color);
+    }  
+  }	 
 }
 
 #content {
@@ -271,17 +264,12 @@
 
 #wrapper.closed {
   .quick-icons {
-    .single,
+    .quickicon-single,
     .quickicon-group {
       @media (max-width: 1180px) {
         width: calc(50% - 1rem);
         max-width: calc(50% - 1rem);
         flex: 1 1 calc(50% - 1rem);
-      }
-      @media (max-width: 860px) {
-        width: 100%;
-        max-width: 100%;
-        flex: 100%;
       }
       @media (max-width: 767px) {
         width: calc(33% - 1rem);

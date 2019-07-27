@@ -66,7 +66,7 @@ else
 		<ul class="quickicon-group col mb-3">
 			<li class="quickicon">
 	<?php else: ?>		
-		<li class="quickicon single col mb-3">
+		<li class="quickicon quickicon-single col mb-3">
 	<?php endif; ?>	
 
 		<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
