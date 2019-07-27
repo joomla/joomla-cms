@@ -237,7 +237,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				Text::sprintf(
 					'PLG_SYSTEM_HTTPHEADERS_MESSAGE_STATICHEADERS_NOT_WRITTEN',
 					$serverConfigFile,
-					htmlspecialchars($this->getRulesForStaticHeaderConfiguration($serverConfigFile), ENT_QUOTES, 'UTF-8'))
+					htmlspecialchars($this->getRulesForStaticHeaderConfiguration($serverConfigFile), ENT_QUOTES, 'UTF-8')
 				),
 				'error'
 			);
