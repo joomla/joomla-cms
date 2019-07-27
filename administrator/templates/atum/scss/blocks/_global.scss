@@ -10,6 +10,9 @@ body {
 body {
   padding: 0;
   margin: 0;
+  &.monochrome {
+    filter: grayscale(1);
+  }
 }
 
 h1,

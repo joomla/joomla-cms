@@ -78,6 +78,8 @@ $css = '
 
 $this->addStyleDeclaration($css);
 
+$monochrome = (bool) $this->params->get('monochrome');
+
 HTMLHelper::getServiceRegistry()->register('atum', 'JHtmlAtum');
 HTMLHelper::_('atum.rootcolors', $this->params);
 ?>
@@ -88,7 +90,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 	<jdoc:include type="styles" />
 </head>
 
-<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : ''); ?>">
+<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome ? ' monochrome' : ''); ?>">
 
 <noscript>
 	<div class="alert alert-danger" role="alert">
