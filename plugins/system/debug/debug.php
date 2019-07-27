@@ -14,8 +14,7 @@ use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DebugBar;
 use DebugBar\OpenHandler;
-use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
@@ -92,7 +91,7 @@ class PlgSystemDebug extends CMSPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    CMSApplication
+	 * @var    CMSApplicationInterface
 	 * @since  3.3
 	 */
 	protected $app;
@@ -139,18 +138,6 @@ class PlgSystemDebug extends CMSPlugin
 	{
 		parent::__construct($subject, $config);
 
-		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
-		if (!$this->app)
-		{
-			$this->app = Factory::getApplication();
-		}
-
-		// Get the db if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
-		if (!$this->db)
-		{
-			$this->db = Factory::getDbo();
-		}
-
 		$this->debugLang = $this->app->get('debug_lang');
 
 		// Skip the plugin if debug is off
@@ -162,9 +149,6 @@ class PlgSystemDebug extends CMSPlugin
 		$this->app->getConfig()->set('gzip', false);
 		ob_start();
 		ob_implicit_flush(false);
-
-		// @todo Remove when a standard autoloader is available.
-		JLoader::registerNamespace('Joomla\\Plugin\\System\\Debug', __DIR__, false, false, 'psr4');
 
 		/** @var \Joomla\Database\Monitor\DebugMonitor */
 		$this->queryMonitor = $this->db->getMonitor();
@@ -302,7 +286,7 @@ class PlgSystemDebug extends CMSPlugin
 		 */
 
 		// Only render for HTML output.
-		if (Factory::getDocument()->getType() !== 'html')
+		if ($this->app->getDocument()->getType() !== 'html')
 		{
 			$this->debugBar->stackData();
 
@@ -444,7 +428,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		if (!empty($filterGroups))
 		{
-			$userGroups = Factory::getUser()->get('groups');
+			$userGroups = $this->app->getIdentity()->get('groups');
 
 			if (!array_intersect($filterGroups, $userGroups))
 			{

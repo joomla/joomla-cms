@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Access;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -186,7 +186,7 @@ class Access
 		}
 
 		// Check for default case:
-		$isDefault = is_string($assetTypes) && in_array($assetTypes, array('components', 'component'));
+		$isDefault = \is_string($assetTypes) && \in_array($assetTypes, array('components', 'component'));
 
 		// Preload the rules for all of the components.
 		if ($isDefault)
@@ -197,7 +197,7 @@ class Access
 		}
 
 		// If we get to this point, this is a regular asset type and we'll proceed with the preloading process.
-		if (!is_array($assetTypes))
+		if (!\is_array($assetTypes))
 		{
 			$assetTypes = (array) $assetTypes;
 		}
@@ -1028,7 +1028,7 @@ class Access
 					break;
 				}
 				// Check to see if the group is mapped to the level.
-				elseif (($id >= 0) && in_array($id, $groups))
+				elseif (($id >= 0) && \in_array($id, $groups))
 				{
 					$authorised[] = $level;
 					break;
@@ -1078,13 +1078,13 @@ class Access
 	public static function getActionsFromData($data, $xpath = "/access/section[@name='component']/")
 	{
 		// If the data to load isn't already an XML element or string return false.
-		if ((!($data instanceof \SimpleXMLElement)) && (!is_string($data)))
+		if ((!($data instanceof \SimpleXMLElement)) && (!\is_string($data)))
 		{
 			return false;
 		}
 
 		// Attempt to load the XML if a string.
-		if (is_string($data))
+		if (\is_string($data))
 		{
 			try
 			{

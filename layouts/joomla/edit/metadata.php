@@ -31,7 +31,6 @@ $fieldSets = $form->getFieldsets('metadata');
 	{
 		echo $form->renderField('metadesc');
 		echo $form->renderField('metakey');
-		echo $form->renderField('xreference');
 	}
 
 	foreach ($form->getFieldset($name) as $field)

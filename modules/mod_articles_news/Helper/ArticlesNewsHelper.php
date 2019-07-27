@@ -87,13 +87,23 @@ abstract class ArticlesNewsHelper
 			$model->setState('filter.featured', 'hide');
 		}
 
+		// Filter by id in case it should be excluded
+		if ($params->get('exclude_current', true)
+			&& $app->input->get('option') === 'com_content'
+			&& $app->input->get('view') === 'article')
+		{
+			// Exclude the current article from displaying in this module
+			$model->setState('filter.article_id', $app->input->get('id', 0, 'UINT'));
+			$model->setState('filter.article_id.include', false);
+		}
+
 		// Set ordering
 		$ordering = $params->get('ordering', 'a.publish_up');
 		$model->setState('list.ordering', $ordering);
 
 		if (trim($ordering) === 'rand()')
 		{
-			$model->setState('list.ordering', Factory::getDbo()->getQuery(true)->Rand());
+			$model->setState('list.ordering', Factory::getDbo()->getQuery(true)->rand());
 		}
 		else
 		{
