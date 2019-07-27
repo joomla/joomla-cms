@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Tagging\TaggableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\String\StringHelper;
 
@@ -24,7 +25,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.6
  */
-class NewsfeedTable extends Table
+class NewsfeedTable extends Table implements TaggableTableInterface
 {
 	/**
 	 * Ensure the params, metadata and images are json encoded in the bind method
@@ -195,5 +196,17 @@ class NewsfeedTable extends Table
 		$this->link = PunycodeHelper::urlToPunycode($this->link);
 
 		return parent::store($updateNulls);
+	}
+
+	/**
+	 * Get the type alias for the tagging table
+	 *
+	 * @return  string  The alias
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getTypeAlias()
+	{
+		return 'com_newsfeeds.newsfeed';
 	}
 }

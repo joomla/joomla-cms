@@ -230,12 +230,6 @@ class CategoryModel extends AdminModel
 			{
 				$result->modified_time = null;
 			}
-
-			if (!empty($result->id))
-			{
-				$result->tags = new TagsHelper;
-				$result->tags->getTagIds($result->id, $result->extension . '.category');
-			}
 		}
 
 		$assoc = $this->getAssoc();

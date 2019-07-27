@@ -15,11 +15,11 @@ use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Tagging\TagsHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -110,6 +110,9 @@ class CategoryModel extends ListModel
 	 */
 	public function getItems()
 	{
+		$user = Factory::getUser();
+		$groups = $user->getAuthorisedViewLevels();
+
 		// Invoke the parent getItems method to get the main list
 		$items = parent::getItems();
 
@@ -126,8 +129,7 @@ class CategoryModel extends ListModel
 			// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
 			if ($this->getState('load_tags', true))
 			{
-				$item->tags = new TagsHelper;
-				$item->tags->getItemTags('com_newsfeeds.newsfeed', $item->id);
+				$item->tags = TagsHelper::getContentItemTags('com_newsfeeds.newsfeed', $item->id, $groups, $item->published);
 			}
 		}
 

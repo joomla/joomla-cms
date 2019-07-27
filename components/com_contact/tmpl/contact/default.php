@@ -63,7 +63,7 @@ $tparams = $this->item->params;
 		</form>
 	<?php endif; ?>
 
-	<?php if ($tparams->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
+	<?php if ($tparams->get('show_tags', 1) && !empty($this->item->tags)) : ?>
 		<div class="com-contact__tags">
 			<?php echo LayoutHelper::render('joomla.content.tags', $this->item->tags); ?>
 		</div>

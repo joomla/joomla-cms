@@ -15,12 +15,12 @@ use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Tagging\ContentItem;
+use Joomla\CMS\Tagging\TagsHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
@@ -261,8 +261,8 @@ class ContactModel extends FormModel
 				// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
 				if ($this->getState('load_tags', true))
 				{
-					$data->tags = new TagsHelper;
-					$data->tags->getItemTags('com_contact.contact', $data->id);
+					$access = $this->getState('filter.access');
+					$data->tags = TagsHelper::getContentItemTags('com_contact.contact', $data->id, $access, $data->published);
 				}
 
 				// Compute access permissions.

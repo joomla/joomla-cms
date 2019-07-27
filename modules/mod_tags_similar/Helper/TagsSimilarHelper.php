@@ -14,8 +14,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Tagging\TagsHelper;
 use Joomla\Registry\Registry;
 
 \JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php');
@@ -49,24 +49,29 @@ abstract class TagsSimilarHelper
 
 		$db         = Factory::getDbo();
 		$user       = Factory::getUser();
-		$groups     = implode(',', $user->getAuthorisedViewLevels());
+		$groups     = $user->getAuthorisedViewLevels();
 		$matchtype  = $params->get('matchtype', 'all');
 		$maximum    = $params->get('maximum', 5);
 		$ordering   = $params->get('ordering', 'count');
-		$tagsHelper = new TagsHelper;
 		$prefix     = $option . '.' . $view;
 		$id         = $app->input->getInt('id');
 		$now        = Factory::getDate()->toSql();
 		$nullDate   = $db->getNullDate();
 
-		$tagsToMatch = $tagsHelper->getTagIds($id, $prefix);
+		$tagsToMatch = TagsHelper::getContentItemTags($prefix, $id, $groups, 1);
 
-		if (!$tagsToMatch || $tagsToMatch === null)
+		if (!count($tagsToMatch))
 		{
 			return array();
 		}
 
-		$tagCount = substr_count($tagsToMatch, ',') + 1;
+		$tagCount = count($tagsToMatch);
+		$tagIds = array();
+
+		foreach ($tagsToMatch as $tag)
+		{
+			$tagIds[] = $tag->id;
+		}
 
 		$query = $db->getQuery(true)
 			->select(
@@ -90,7 +95,7 @@ abstract class TagsSimilarHelper
 			->join('INNER', $db->quoteName('#__ucm_content', 'cc') . ' ON m.core_content_id = cc.core_content_id')
 			->join('INNER', $db->quoteName('#__content_types', 'ct') . ' ON m.type_alias = ct.type_alias');
 
-		$query->where($db->quoteName('m.tag_id') . ' IN (' . $tagsToMatch . ')');
+		$query->where($db->quoteName('m.tag_id') . ' IN (' . implode(',', $tagIds) . ')');
 		$query->where('t.access IN (' . $groups . ')');
 		$query->where('(cc.core_access IN (' . $groups . ') OR cc.core_access = 0)');
 

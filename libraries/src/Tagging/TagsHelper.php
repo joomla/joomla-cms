@@ -70,17 +70,39 @@ class TagsHelper
 	/**
 	 * Get tags associated with a content item
 	 *
-	 * @param   string  $typeAlias  The typealias of the content item
-	 * @param   int     $contentId  The id of the content item
+	 * @param   string      $typeAlias  The typealias of the content item
+	 * @param   int         $contentId  The id of the content item
+	 * @param   int[]|null  $access     An array of allowed viewlevel IDs
+	 * @param   int|null    $published  Only return tags with this status
 	 *
 	 * @return  Tag[]
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getContentItemTags($typeAlias, $contentId)
+	public static function getContentItemTags($typeAlias, $contentId, $access = null, $published = null)
 	{
 		$contentItem = new ContentItem($typeAlias, $contentId);
 
-		return $contentItem->getTags();
+		$tags = $contentItem->getTags();
+
+		if ($access || $published)
+		{
+			foreach ($tags as $i => $tag)
+			{
+				if ($access && !in_array($tag->access, $access))
+				{
+					unset($tags[$i]);
+					continue;
+				}
+
+				if (!is_null($published) && $tag->published == $published)
+				{
+					unset($tags[$i]);
+					continue;
+				}
+			}
+		}
+
+		return $tags;
 	}
 }

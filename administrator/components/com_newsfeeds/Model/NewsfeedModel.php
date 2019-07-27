@@ -288,13 +288,6 @@ class NewsfeedModel extends AdminModel
 			}
 		}
 
-		if (!empty($item->id))
-		{
-			$item->tags = new  TagsHelper;
-			$item->tags->getTagIds($item->id, 'com_newsfeeds.newsfeed');
-			$item->metadata['tags'] = $item->tags;
-		}
-
 		return $item;
 	}
 

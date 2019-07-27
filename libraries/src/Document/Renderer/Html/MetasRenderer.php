@@ -37,13 +37,6 @@ class MetasRenderer extends DocumentRenderer
 	 */
 	public function render($head, $params = array(), $content = null)
 	{
-		// Convert the tagids to titles
-		if (isset($this->_doc->_metaTags['name']['tags']))
-		{
-			$tagsHelper = new TagsHelper;
-			$this->_doc->_metaTags['name']['tags'] = implode(', ', $tagsHelper->getTagNames($this->_doc->_metaTags['name']['tags']));
-		}
-
 		if ($this->_doc->getScriptOptions())
 		{
 			HTMLHelper::_('behavior.core');

@@ -14,10 +14,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Feed\FeedFactory;
-use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Tagging\TagsHelper;
 use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
 
 /**
@@ -231,8 +231,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->print = $print;
 
-		$item->tags = new TagsHelper;
-		$item->tags->getItemTags('com_newsfeeds.newsfeed', $item->id);
+		$item->tags = TagsHelper::getContentItemTags('com_newsfeeds.newsfeed', $item->id, $user->getAuthorisedViewLevels(), $item->published);
 
 		// Increment the hit counter of the newsfeed.
 		$model = $this->getModel();

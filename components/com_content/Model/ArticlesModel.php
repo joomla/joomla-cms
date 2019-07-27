@@ -13,11 +13,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Tagging\TagsHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Registry\Registry;
@@ -734,8 +734,7 @@ class ArticlesModel extends ListModel
 			// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
 			if ($this->getState('load_tags', $item->params->get('show_tags', '1')))
 			{
-				$item->tags = new TagsHelper;
-				$item->tags->getItemTags('com_content.article', $item->id);
+				$item->tags = TagsHelper::getContentItemTags('com_content.article', $item->id, $group, $item->published);
 			}
 
 			if (Associations::isEnabled() && $item->params->get('show_associations'))

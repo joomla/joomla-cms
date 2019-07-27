@@ -148,13 +148,6 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 		$registry = new Registry($value->metadata);
 		$value->metadata = $registry->toArray();
 
-		if ($itemId)
-		{
-			$value->tags = new TagsHelper;
-			$value->tags->getTagIds($value->id, 'com_content.article');
-			$value->metadata['tags'] = $value->tags;
-		}
-
 		return $value;
 	}
 
