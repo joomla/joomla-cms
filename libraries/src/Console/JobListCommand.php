@@ -82,7 +82,7 @@ class JobListCommand extends AbstractCommand
 		$this->time = microtime(true);	
 
 		$now  = time();
-		list = $this->listJobs();
+		$list = $this->listJobs();
 
 		foreach ($list as $job)
 		{
@@ -139,7 +139,7 @@ class JobListCommand extends AbstractCommand
 	 *
 	 * @since   4.0.0
 	 */
-	protected function configure()
+	protected function configure(): void
 	{
 		$this->setDescription('List all jobs');
 		$this->setHelp(
