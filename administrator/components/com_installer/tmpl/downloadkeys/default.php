@@ -92,7 +92,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php echo $item->name; ?>
 									</span>
 								</td>
-								<td class="hidden-sm-down text-center">
+								<td class="hidden-sm-down">
 									<?php echo $item->client_translated; ?>
 								</td>
 								<td class="hidden-sm-down text-center">
