@@ -1,14 +1,14 @@
-ALTER TABLE `#__banner_clients` MODIFY COLUMN `checked_out_time` DATETIME NULL DEFAULT NULL;
-ALTER TABLE `#__categories` MODIFY COLUMN `checked_out_time` DATETIME NULL DEFAULT NULL;
-ALTER TABLE `#__content` MODIFY COLUMN `checked_out_time` DATETIME NULL DEFAULT NULL;
-ALTER TABLE `#__extensions` MODIFY COLUMN `checked_out_time` DATETIME NULL DEFAULT NULL;
-ALTER TABLE `#__fields` MODIFY COLUMN `checked_out_time` DATETIME NULL DEFAULT NULL;
-ALTER TABLE `#__fields_groups` MODIFY COLUMN `checked_out_time` DATETIME NULL DEFAULT NULL;
-ALTER TABLE `#__finder_filters` MODIFY COLUMN `checked_out_time` DATETIME NULL DEFAULT NULL;
-ALTER TABLE `#__menu` MODIFY COLUMN `checked_out_time` DATETIME NULL DEFAULT NULL;
-ALTER TABLE `#__tags` MODIFY COLUMN `checked_out_time` DATETIME NULL DEFAULT NULL;
-ALTER TABLE `#__ucm_content` MODIFY COLUMN `core_checked_out_time` DATETIME NULL DEFAULT NULL;
-ALTER TABLE `#__user_notes` MODIFY COLUMN `checked_out_time` DATETIME NULL DEFAULT NULL;
+ALTER TABLE `#__banner_clients` MODIFY `checked_out_time` DATETIME NULL DEFAULT NULL;
+ALTER TABLE `#__categories` MODIFY `checked_out_time` DATETIME NULL DEFAULT NULL;
+ALTER TABLE `#__content` MODIFY `checked_out_time` DATETIME NULL DEFAULT NULL;
+ALTER TABLE `#__extensions` MODIFY `checked_out_time` DATETIME NULL DEFAULT NULL;
+ALTER TABLE `#__fields` MODIFY `checked_out_time` DATETIME NULL DEFAULT NULL;
+ALTER TABLE `#__fields_groups` MODIFY `checked_out_time` DATETIME NULL DEFAULT NULL;
+ALTER TABLE `#__finder_filters` MODIFY `checked_out_time` DATETIME NULL DEFAULT NULL;
+ALTER TABLE `#__menu` MODIFY `checked_out_time` DATETIME NULL DEFAULT NULL;
+ALTER TABLE `#__tags` MODIFY `checked_out_time` DATETIME NULL DEFAULT NULL;
+ALTER TABLE `#__ucm_content` MODIFY `core_checked_out_time` DATETIME NULL DEFAULT NULL;
+ALTER TABLE `#__user_notes` MODIFY `checked_out_time` DATETIME NULL DEFAULT NULL;
 
 UPDATE `#__banner_clients` SET `checked_out_time` = NULL WHERE `checked_out_time` = '0000-00-00 00:00:00';
 UPDATE `#__categories` SET `checked_out_time` = NULL WHERE `checked_out_time` = '0000-00-00 00:00:00';
