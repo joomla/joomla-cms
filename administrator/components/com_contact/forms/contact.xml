@@ -578,7 +578,7 @@
 					name="show_image"
 					type="list"
 					label="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_LABEL"
-				class="custom-select-color"
+					class="custom-select-color"
 					useglobal="true"
 					showon="show_info:1"
 					>
