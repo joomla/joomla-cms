@@ -81,7 +81,7 @@
         "joomla/string": "~2.0@dev",
         "joomla/uri": "~2.0@dev",
         "joomla/utilities": "~2.0@dev",
-        "algo26-matthias/idna-convert": "~1.1",
+        "algo26-matthias/idna-convert": "~3.0",
         "defuse/php-encryption": "~2.1",
         "doctrine/inflector": "1.2.0",
         "fig/link-util": "~1.0",
