@@ -423,7 +423,7 @@
 					name="show_info"
 					type="list"
 					label="COM_CONTACT_FIELD_SHOW_INFO_LABEL"
-				class="custom-select-color"
+					class="custom-select-color"
 					useglobal="true"
 					>
 					<option value="0">JHIDE</option>
