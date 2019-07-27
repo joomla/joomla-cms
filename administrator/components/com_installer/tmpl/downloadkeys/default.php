@@ -87,7 +87,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<a href="<?php echo $item->location; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->location); ?></a>
 									</span>
 								</th>
-								<td class="hidden-sm-down text-center">
+								<td class="hidden-sm-down">
 									<span class="bold hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', $item->name, $item->description, 0); ?>">
 										<?php echo $item->name; ?>
 									</span>
