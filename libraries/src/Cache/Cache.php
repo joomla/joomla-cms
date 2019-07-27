@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Cache;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
@@ -548,7 +548,7 @@ class Cache
 		}
 
 		// If the pathway buffer is set in the cache data, get it.
-		if (isset($data['pathway']) && is_array($data['pathway']))
+		if (isset($data['pathway']) && \is_array($data['pathway']))
 		{
 			// Push the pathway data into the pathway object.
 			$app->getPathway()->setPathway($data['pathway']);
@@ -556,7 +556,7 @@ class Cache
 
 		// @todo check if the following is needed, seems like it should be in page cache
 		// If a module buffer is set in the cache data, get it.
-		if (isset($data['module']) && is_array($data['module']))
+		if (isset($data['module']) && \is_array($data['module']))
 		{
 			// Iterate through the module positions and push them into the document buffer.
 			foreach ($data['module'] as $name => $contents)
@@ -636,13 +636,13 @@ class Cache
 			// Get the modules buffer before component execution.
 			$buffer1 = $document->getBuffer();
 
-			if (!is_array($buffer1))
+			if (!\is_array($buffer1))
 			{
 				$buffer1 = array();
 			}
 
 			// Make sure the module buffer is an array.
-			if (!isset($buffer1['module']) || !is_array($buffer1['module']))
+			if (!isset($buffer1['module']) || !\is_array($buffer1['module']))
 			{
 				$buffer1['module'] = array();
 			}
@@ -680,7 +680,7 @@ class Cache
 						$newvalue = array_map('unserialize', $newvalue);
 
 						// Special treatment for script and style declarations.
-						if (($now == 'script' || $now == 'style') && is_array($newvalue) && is_array($options['headerbefore'][$now]))
+						if (($now == 'script' || $now == 'style') && \is_array($newvalue) && \is_array($options['headerbefore'][$now]))
 						{
 							foreach ($newvalue as $type => $currentScriptStr)
 							{
@@ -720,7 +720,7 @@ class Cache
 		// Pathway data
 		if ($app->isClient('site') && $loptions['nopathway'] != 1)
 		{
-			$cached['pathway'] = is_array($data) && isset($data['pathway']) ? $data['pathway'] : $app->getPathway()->getPathway();
+			$cached['pathway'] = \is_array($data) && isset($data['pathway']) ? $data['pathway'] : $app->getPathway()->getPathway();
 		}
 
 		if ($loptions['nomodules'] != 1)
@@ -729,13 +729,13 @@ class Cache
 			// Get the module buffer after component execution.
 			$buffer2 = $document->getBuffer();
 
-			if (!is_array($buffer2))
+			if (!\is_array($buffer2))
 			{
 				$buffer2 = array();
 			}
 
 			// Make sure the module buffer is an array.
-			if (!isset($buffer2['module']) || !is_array($buffer2['module']))
+			if (!isset($buffer2['module']) || !\is_array($buffer2['module']))
 			{
 				$buffer2['module'] = array();
 			}
@@ -844,7 +844,7 @@ class Cache
 			$paths = array();
 		}
 
-		if (!empty($path) && !in_array($path, $paths))
+		if (!empty($path) && !\in_array($path, $paths))
 		{
 			array_unshift($paths, Path::clean($path));
 		}
