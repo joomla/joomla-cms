@@ -16,8 +16,8 @@ ALTER TABLE "#__menu" ALTER COLUMN "checked_out_time" DROP DEFAULT;
 ALTER TABLE "#__menu" ALTER COLUMN "checked_out_time" DROP NOT NULL;
 ALTER TABLE "#__tags" ALTER COLUMN "checked_out_time" DROP DEFAULT;
 ALTER TABLE "#__tags" ALTER COLUMN "checked_out_time" DROP NOT NULL;
-ALTER TABLE "#__ucm_content" ALTER COLUMN "checked_out_time" DROP DEFAULT;
-ALTER TABLE "#__ucm_content" ALTER COLUMN "checked_out_time" DROP NOT NULL;
+ALTER TABLE "#__ucm_content" ALTER COLUMN "core_checked_out_time" DROP DEFAULT;
+ALTER TABLE "#__ucm_content" ALTER COLUMN "core_checked_out_time" DROP NOT NULL;
 ALTER TABLE "#__user_notes" ALTER COLUMN "checked_out_time" DROP DEFAULT;
 ALTER TABLE "#__user_notes" ALTER COLUMN "checked_out_time" DROP NOT NULL;
 
@@ -30,5 +30,5 @@ UPDATE "#__fields_groups" SET "checked_out_time" = NULL WHERE "checked_out_time"
 UPDATE "#__finder_filters" SET "checked_out_time" = NULL WHERE "checked_out_time" = '1970-01-01 00:00:00';
 UPDATE "#__menu" SET "checked_out_time" = NULL WHERE "checked_out_time" = '1970-01-01 00:00:00';
 UPDATE "#__tags" SET "checked_out_time" = NULL WHERE "checked_out_time" = '1970-01-01 00:00:00';
-UPDATE "#__ucm_content" SET "checked_out_time" = NULL WHERE "checked_out_time" = '1970-01-01 00:00:00';
+UPDATE "#__ucm_content" SET "core_checked_out_time" = NULL WHERE "core_checked_out_time" = '1970-01-01 00:00:00';
 UPDATE "#__user_notes" SET "checked_out_time" = NULL WHERE "checked_out_time" = '1970-01-01 00:00:00';
