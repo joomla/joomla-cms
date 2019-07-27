@@ -232,9 +232,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 		if (!$result)
 		{
-			// Append inline style to get the view scrollable
-			Factory::getDocument()->addStyleDeclaration('#pre-scrollable {overflow-x:auto;}');
-
 			// Something did not work tell them that and how to update themself.
 			$this->app->enqueueMessage(
 				Text::sprintf(
