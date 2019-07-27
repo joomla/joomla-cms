@@ -52,7 +52,7 @@ class ReporterHelper
 	/**
 	 * Check the com_csp trash to show a warning in this case
 	 *
-	 * @return  boolean  The status of the trash; Does items exists in the trash
+	 * @return  boolean  The status of the trash; Do items exists in the trash
 	 *
 	 * @since   4.0.0
 	 */
