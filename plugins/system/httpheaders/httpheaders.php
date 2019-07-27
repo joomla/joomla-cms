@@ -535,7 +535,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		{
 			$headerAndClient = explode('#', $headerAndClient);
 
-			if (!in_array(strtolower($headerAndClient[0]), ['content-security-policy', 'content-security-policy-report-only']))
+			if (!in_array(strtolower($headerAndClient[0]), ['content-security-policy', 'content-security-policy-report-only'])
+				&& $headerAndClient[1] === 'both')
 			{
 				$newHtaccessBuffer .= '    Header set ' . $headerAndClient[0] . ' "' . $value . '"' . PHP_EOL;
 			}
@@ -593,7 +594,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			{
 				$headerAndClient = explode('#', $headerAndClient);
 
-				if (!in_array(strtolower($headerAndClient[0]), ['content-security-policy', 'content-security-policy-report-only']))
+				if (!in_array(strtolower($headerAndClient[0]), ['content-security-policy', 'content-security-policy-report-only'])
+					&& $headerAndClient[1] === 'both')
 				{
 					$newHeader = $webConfigDomDoc->createElement('add');
 
@@ -615,7 +617,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			{
 				$headerAndClient = explode('#', $headerAndClient);
 
-				if (!in_array(strtolower($headerAndClient[0]), ['content-security-policy', 'content-security-policy-report-only']))
+				if (!in_array(strtolower($headerAndClient[0]), ['content-security-policy', 'content-security-policy-report-only'])
+					&& $headerAndClient[1] === 'both')
 				{
 					$newHeader = $webConfigDomDoc->createElement('add');
 
@@ -660,7 +663,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				// The header wasn't found we need to create it
 				if (!$found)
 				{
-					if (!in_array(strtolower($headerAndClient[0]), ['content-security-policy', 'content-security-policy-report-only']))
+					if (!in_array(strtolower($headerAndClient[0]), ['content-security-policy', 'content-security-policy-report-only'])
+						&& $headerAndClient[1] === 'both')
 					{
 						// Generate the new header Element
 						$newHeader = $webConfigDomDoc->createElement('add');
