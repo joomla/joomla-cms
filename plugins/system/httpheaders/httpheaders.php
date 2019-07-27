@@ -173,10 +173,9 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$scriptHashesEnabled = (int) $this->comCspParams->get('script_hashes_enabled', 0);
 		$styleHashesEnabled  = (int) $this->comCspParams->get('style_hashes_enabled', 0);
 		$headData            = Factory::getDocument()->getHeadData();
+		$baseUrl             = Uri::getInstance()->toString(['scheme', 'user', 'pass', 'host', 'port']);
 		$scriptHashes        = [];
 		$styleHashes         = [];
-
-		$base = Uri::getInstance()->toString(['scheme', 'user', 'pass', 'host', 'port']);
 
 		if ($scriptHashesEnabled)
 		{
@@ -244,7 +243,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			}
 		}
 	}
-
 
 	/**
 	 * The `setHttpHeaders` method handle the setting of the configured HTTP Headers
