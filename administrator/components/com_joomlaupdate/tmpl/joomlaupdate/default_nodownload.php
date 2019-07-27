@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 /** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\Html $this */
 ?>
 
-<fieldset>
+<fieldset class="options-fieldset option-fieldset-full">
 	<legend>
 		<?php echo Text::_('COM_JOOMLAUPDATE_SYSTEM_CHECK'); ?>
 	</legend>
