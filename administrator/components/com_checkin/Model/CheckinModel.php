@@ -110,7 +110,7 @@ class CheckinModel extends ListModel
 			$query = $db->getQuery(true)
 				->update($db->quoteName($tn))
 				->set($db->quoteName('checked_out') . ' = DEFAULT')
-				->set($db->quoteName('checked_out_time') . ' = null')
+				->set($db->quoteName('checked_out_time') . ' = NULL')
 				->where($db->quoteName('checked_out') . ' > 0');
 
 			$db->setQuery($query);
