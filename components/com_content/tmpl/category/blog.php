@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $app = Factory::getApplication();
 
@@ -46,9 +47,8 @@ $afterDisplayContent = trim(implode("\n", $results));
 	<?php endif; ?>
 	<?php echo $afterDisplayTitle; ?>
 
-	<?php if ($this->params->get('show_cat_tags', 1) && !empty($this->category->tags->itemTags)) : ?>
-		<?php $this->category->tagLayout = new FileLayout('joomla.content.tags'); ?>
-		<?php echo $this->category->tagLayout->render($this->category->tags->itemTags); ?>
+	<?php if ($this->params->get('show_cat_tags', 1) && !empty($this->category->tags)) : ?>
+		<?php echo LayoutHelper::render('joomla.content.tags', $this->category->tags); ?>
 	<?php endif; ?>
 
 	<?php if ($beforeDisplayContent || $afterDisplayContent || $this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>

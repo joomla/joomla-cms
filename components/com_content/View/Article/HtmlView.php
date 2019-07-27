@@ -105,7 +105,6 @@ class HtmlView extends BaseHtmlView
 
 		// Create a shortcut for $item.
 		$item            = $this->item;
-		$item->tagLayout = new FileLayout('joomla.content.tags');
 
 		// Add router helpers.
 		$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;

@@ -287,9 +287,6 @@ class ContactModel extends FormModel
 					}
 				}
 
-				$tagContent = new ContentItem('com_contact.contact', $pk);
-				$data->tags = $tagContent->getTags();
-
 				$this->_item[$pk] = $data;
 			}
 			catch (\Exception $e)

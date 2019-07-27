@@ -57,9 +57,9 @@ if (!$list)
 							<span class="mod-articles-category-date"><?php echo $item->displayDate; ?></span>
 						<?php endif; ?>
 
-						<?php if ($params->get('show_tags', 0) && $item->tags->itemTags) : ?>
+						<?php if ($params->get('show_tags', 0) && $item->tags) : ?>
 							<div class="mod-articles-category-tags">
-								<?php echo LayoutHelper::render('joomla.content.tags', $item->tags->itemTags); ?>
+								<?php echo LayoutHelper::render('joomla.content.tags', $item->tags); ?>
 							</div>
 						<?php endif; ?>
 
@@ -129,7 +129,7 @@ if (!$list)
 
 				<?php if ($params->get('show_tags', 0) && $item->tags->itemTags) : ?>
 					<div class="mod-articles-category-tags">
-						<?php echo LayoutHelper::render('joomla.content.tags', $item->tags->itemTags); ?>
+						<?php echo LayoutHelper::render('joomla.content.tags', $item->tags); ?>
 					</div>
 				<?php endif; ?>
 

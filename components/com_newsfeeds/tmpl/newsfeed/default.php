@@ -14,6 +14,7 @@ use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Layout\LayoutHelper;
 
 ?>
 
@@ -54,8 +55,7 @@ use Joomla\CMS\Layout\FileLayout;
 		</h2>
 
 		<?php if ($this->params->get('show_tags', 1)) : ?>
-			<?php $this->item->tagLayout = new FileLayout('joomla.content.tags'); ?>
-			<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
+			<?php echo LayoutHelper::render('joomla.content.tags', $this->item->tags); ?>
 		<?php endif; ?>
 
 		<!-- Show Images from Component -->

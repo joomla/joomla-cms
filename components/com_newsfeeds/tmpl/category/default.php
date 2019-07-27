@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $pageClass = $this->params->get('pageclass_sfx');
 ?>
@@ -26,9 +27,8 @@ $pageClass = $this->params->get('pageclass_sfx');
 			<?php echo HTMLHelper::_('content.prepare', $this->category->title, '', 'com_newsfeeds.category.title'); ?>
 		</h2>
 	<?php endif; ?>
-	<?php if ($this->params->get('show_tags', 1) && !empty($this->category->tags->itemTags)) : ?>
-		<?php $this->category->tagLayout = new FileLayout('joomla.content.tags'); ?>
-		<?php echo $this->category->tagLayout->render($this->category->tags->itemTags); ?>
+	<?php if ($this->params->get('show_tags', 1) && !empty($this->category->tags)) : ?>
+		<?php echo LayoutHelper::render('joomla.content.tags', $this->category->tags); ?>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
 		<div class="com-newsfeeds-category__description category-desc">

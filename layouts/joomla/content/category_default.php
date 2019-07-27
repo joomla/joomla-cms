@@ -48,7 +48,7 @@ if (substr($className, -1) === 's')
 	$className = rtrim($className, 's');
 }
 
-$tagsData = $category->tags->itemTags;
+$tagsData = $category->tags;
 ?>
 <div>
 	<div class="<?php echo $className .'-category' . $displayData->pageclass_sfx; ?>">
