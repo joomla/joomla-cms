@@ -173,20 +173,13 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$scriptHashesEnabled = (int) $this->comCspParams->get('script_hashes_enabled', 0);
 		$styleHashesEnabled  = (int) $this->comCspParams->get('style_hashes_enabled', 0);
 		$headData            = Factory::getDocument()->getHeadData();
-		$baseUrl             = Uri::getInstance()->toString(['scheme', 'user', 'pass', 'host', 'port']);
 		$scriptHashes        = [];
 		$styleHashes         = [];
 
 		if ($scriptHashesEnabled)
 		{
 			// Generate the hashes for the script-src
-			$fileBasedScripts = is_array($headData['scripts']) ? $headData['scripts'] : [];
-			$inlineScripts    = is_array($headData['script']) ? $headData['script'] : [];
-
-			foreach ($fileBasedScripts as $scriptUrl => $attibs)
-			{
-				$scriptHashes[] = "'sha256-" . base64_encode(hash('sha256', file_get_contents($base . $scriptUrl))) . "'";
-			}
+			$inlineScripts = is_array($headData['script']) ? $headData['script'] : [];
 
 			foreach ($inlineScripts as $type => $scriptContent)
 			{
@@ -197,13 +190,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		if ($styleHashesEnabled)
 		{
 			// Generate the hashes for the style-src
-			$fileBasedStylesheets = is_array($headData['styleSheets']) ? $headData['styleSheets'] : [];
-			$inlineStyles         = is_array($headData['style']) ? $headData['style'] : [];
-
-			foreach ($fileBasedStylesheets as $stylesheetUrl => $attibs)
-			{
-				$styleHashes[] = "'sha256-" . base64_encode(hash('sha256', file_get_contents($base . $stylesheetUrl))) . "'";
-			}
+			$inlineStyles = is_array($headData['style']) ? $headData['style'] : [];
 
 			foreach ($inlineStyles as $type => $styleContent)
 			{
