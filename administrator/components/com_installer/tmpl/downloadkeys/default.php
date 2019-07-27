@@ -26,7 +26,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<div id="j-main-container" class="j-main-container">
 					<?php echo JLayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
 					<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning alert-no-items">
+					<div class="alert alert-info">
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 					<?php else : ?>
