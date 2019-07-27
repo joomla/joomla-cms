@@ -39,7 +39,7 @@ $user = Factory::getUser();
 					<?php echo Text::_($this->item->template); ?>
 				</h2>
 				<div class="info-labels">
-					<span class="badge badge-secondary hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_TEMPLATES_FIELD_CLIENT_LABEL'); ?>">
+					<span class="badge badge-secondary">
 						<?php echo $this->item->client_id == 0 ? Text::_('JSITE') : Text::_('JADMINISTRATOR'); ?>
 					</span>
 				</div>
