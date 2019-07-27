@@ -12,7 +12,7 @@
 
   Joomla.sampledataAjax = (type, steps, step) => {
     // Get variables
-    const baseUrl = 'index.php?option=com_ajax&format=json&group=sampledata';
+    const baseUrl = `index.php?option=com_ajax&format=json&group=sampledata&${Joomla.getOptions('csrf.token')}=1`;
     const options = Joomla.getOptions('sample-data');
 
     // Create list

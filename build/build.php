@@ -88,6 +88,9 @@ function clean_checkout(string $dir)
 	system('rm -rf libraries/vendor/joomla/*/Tests');
 	system('rm -rf libraries/vendor/joomla/*/ruleset.xml');
 
+	// testing sampledata
+	system('rm -rf plugins/sampledata/testing');
+
 	// paragonie/random_compat
 	system('rm -rf libraries/vendor/paragonie/random_compat/other');
 	system('rm -rf libraries/vendor/paragonie/random_compat/build-phar.sh');

@@ -33,6 +33,8 @@ class MessageModel extends AdminModel
 {
 	/**
 	 * Message
+	 *
+	 * @var    \stdClass
 	 */
 	protected $item;
 

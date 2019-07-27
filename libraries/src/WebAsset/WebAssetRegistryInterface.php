@@ -59,7 +59,7 @@ interface WebAssetRegistryInterface
 	 *
 	 * @param   string  $name  Asset name
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */

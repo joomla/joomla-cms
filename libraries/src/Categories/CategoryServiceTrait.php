@@ -8,9 +8,8 @@
 
 namespace Joomla\CMS\Categories;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 
@@ -96,7 +95,7 @@ trait CategoryServiceTrait
 	public function countTagItems(array $items, string $extension)
 	{
 		$parts   = explode('.', $extension);
-		$section = count($parts) > 1 ? $parts[1] : null;
+		$section = \count($parts) > 1 ? $parts[1] : null;
 
 		$config = (object) array(
 			'related_tbl'   => $this->getTableNameForSection($section),

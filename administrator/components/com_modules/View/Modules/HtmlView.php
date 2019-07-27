@@ -16,7 +16,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
@@ -65,14 +64,6 @@ class HtmlView extends BaseHtmlView
 	 * @since  4.0.0
 	 */
 	public $activeFilters;
-
-	/**
-	 * The sidebar markup
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $sidebar;
 
 	/**
 	 * Display the view
@@ -227,11 +218,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$toolbar->help('JHELP_EXTENSIONS_MODULE_MANAGER');
-
-		if (\JHtmlSidebar::getEntries())
-		{
-			$this->sidebar = \JHtmlSidebar::render();
-		}
 	}
 
 	/**

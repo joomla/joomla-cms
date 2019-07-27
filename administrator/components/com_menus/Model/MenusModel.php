@@ -179,7 +179,7 @@ class MenusModel extends ListModel
 		if ($search = trim($this->getState('filter.search')))
 		{
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where('(' . 'a.title LIKE ' . $search . ' OR a.menutype LIKE ' . $search . ')');
+			$query->where('(a.title LIKE ' . $search . ' OR a.menutype LIKE ' . $search . ')');
 		}
 
 		// Add the list ordering clause.

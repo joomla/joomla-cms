@@ -42,7 +42,8 @@ abstract class JHtmlJGrid
 	 * @since   1.6
 	 */
 	public static function action($i, $task, $prefix = '', $active_title = '', $inactive_title = '', $tip = false, $active_class = '',
-		$inactive_class = '', $enabled = true, $translate = true, $checkbox = 'cb', $formId = null)
+		$inactive_class = '', $enabled = true, $translate = true, $checkbox = 'cb', $formId = null
+	)
 	{
 		if (is_array($prefix))
 		{
@@ -62,12 +63,12 @@ abstract class JHtmlJGrid
 		{
 			$title = $enabled ? $active_title : $inactive_title;
 			$title = $translate ? Text::_($title) : $title;
-			$title = HTMLHelper::_('tooltipText', $title, '', 0);
+			$ariaid = $checkbox . $task . $i . '-desc';
 		}
 
 		if ($enabled)
 		{
-			$html[] = '<a class="tbody-icon' . ($active_class === 'publish' ? ' active' : '') . ($tip ? ' hasTooltip' : '') . '"';
+			$html[] = '<a class="tbody-icon' . ($active_class === 'publish' ? ' active' : '') . '"';
 
 			if ($formId !== null)
 			{
@@ -79,10 +80,11 @@ abstract class JHtmlJGrid
 				$html[] = ' href="javascript:void(0);" onclick="return Joomla.listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
 			}
 
-			$html[] = $tip ? ' title="' . $title . '"' : '';
+			$html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
 			$html[] = '>';
 			$html[] = '<span class="icon-' . $active_class . '" aria-hidden="true"></span>';
 			$html[] = '</a>';
+			$html[] = $tip ? '<div role="tooltip" id="' . $ariaid . '">' . $title . '</div>' : '';
 		}
 		else
 		{
@@ -170,7 +172,8 @@ abstract class JHtmlJGrid
 	 * @since   1.6
 	 */
 	public static function published($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $publish_up = null, $publish_down = null,
-		$formId = null)
+		$formId = null
+	)
 	{
 		if (is_array($prefix))
 		{
@@ -409,7 +412,8 @@ abstract class JHtmlJGrid
 	 * @since   1.6
 	 */
 	public static function orderDown($i, $task = 'orderdown', $prefix = '', $text = 'JLIB_HTML_MOVE_DOWN', $enabled = true, $checkbox = 'cb',
-		$formId = null)
+		$formId = null
+	)
 	{
 		if (is_array($prefix))
 		{

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Helper;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
@@ -43,7 +43,7 @@ abstract class ModuleHelper
 	{
 		$result = null;
 		$modules =& static::load();
-		$total = count($modules);
+		$total = \count($modules);
 
 		for ($i = 0; $i < $total; $i++)
 		{
@@ -94,7 +94,7 @@ abstract class ModuleHelper
 
 		$modules =& static::load();
 
-		$total = count($modules);
+		$total = \count($modules);
 
 		for ($i = 0; $i < $total; $i++)
 		{
@@ -104,7 +104,7 @@ abstract class ModuleHelper
 			}
 		}
 
-		if (count($result) === 0)
+		if (\count($result) === 0)
 		{
 			if ($input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display'))
 			{
@@ -151,7 +151,7 @@ abstract class ModuleHelper
 		$app = Factory::getApplication();
 
 		// Check that $module is a valid module object
-		if (!is_object($module) || !isset($module->module) || !isset($module->params))
+		if (!\is_object($module) || !isset($module->module) || !isset($module->params))
 		{
 			if (JDEBUG)
 			{
@@ -327,7 +327,7 @@ abstract class ModuleHelper
 		$app->triggerEvent('onPrepareModuleList', array(&$modules));
 
 		// If the onPrepareModuleList event returns an array of modules, then ignore the default module list creation
-		if (!is_array($modules))
+		if (!\is_array($modules))
 		{
 			$modules = static::getModuleList();
 		}
@@ -534,7 +534,7 @@ abstract class ModuleHelper
 			case 'safeuri':
 				$secureid = null;
 
-				if (is_array($cacheparams->modeparams))
+				if (\is_array($cacheparams->modeparams))
 				{
 					$input   = $app->input;
 					$uri     = $input->getArray();
@@ -597,7 +597,7 @@ abstract class ModuleHelper
 	{
 		static $enabled = false;
 
-		if (count(LanguageHelper::getInstalledLanguages(1)) > 1)
+		if (\count(LanguageHelper::getInstalledLanguages(1)) > 1)
 		{
 			$enabled = (bool) ComponentHelper::getParams('com_modules')->get('adminlangfilter', 0);
 		}
@@ -618,7 +618,7 @@ abstract class ModuleHelper
 	{
 		$modules =& static::load();
 
-		$total = count($modules);
+		$total = \count($modules);
 
 		for ($i = 0; $i < $total; $i++)
 		{

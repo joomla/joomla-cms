@@ -99,12 +99,6 @@ class ContactTable extends Table
 			}
 		}
 
-		// Set xreference to empty string if not set
-		if (!$this->xreference)
-		{
-			$this->xreference = '';
-		}
-
 		// Store utf8 email as punycode
 		$this->email_to = PunycodeHelper::emailToPunycode($this->email_to);
 

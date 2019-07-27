@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -1061,7 +1061,7 @@ class ComponentAdapter extends InstallerAdapter
 		}
 
 		// If the menu item is hidden do nothing more, just return
-		if (in_array((string) $menuElement['hidden'], array('true', 'hidden')))
+		if (\in_array((string) $menuElement['hidden'], array('true', 'hidden')))
 		{
 			return true;
 		}
@@ -1098,7 +1098,7 @@ class ComponentAdapter extends InstallerAdapter
 				$request[] = 'view=' . $menuElement->attributes()->view;
 			}
 
-			$qstring = count($request) ? '&' . implode('&', $request) : '';
+			$qstring = \count($request) ? '&' . implode('&', $request) : '';
 			$data['link'] = 'index.php?option=' . $option . $qstring;
 		}
 		else
@@ -1191,7 +1191,7 @@ class ComponentAdapter extends InstallerAdapter
 					$request[] = 'sub=' . $child->attributes()->sub;
 				}
 
-				$qstring      = count($request) ? '&' . implode('&', $request) : '';
+				$qstring      = \count($request) ? '&' . implode('&', $request) : '';
 				$data['link'] = 'index.php?option=' . $option . $qstring;
 			}
 
@@ -1304,7 +1304,8 @@ class ComponentAdapter extends InstallerAdapter
 			->where('('
 				. $db->quoteName('link') . ' LIKE ' . $db->quote('index.php?option=' . $option) . ' OR '
 				. $db->quoteName('link') . ' LIKE ' . $db->quote($db->escape('index.php?option=' . $option . '&') . '%', false)
-				. ')');
+				. ')'
+			);
 
 		if (isset($clientId))
 		{
@@ -1527,7 +1528,8 @@ class ComponentAdapter extends InstallerAdapter
 				/** @var  \JTableMenu $temporaryTable */
 				$temporaryTable = Table::getInstance('menu');
 				$temporaryTable->delete($menu_id, true);
-				$temporaryTable->rebuild($data['parent_id']);
+				$temporaryTable->load($parentId);
+				$temporaryTable->rebuild($parentId, $temporaryTable->lft, $temporaryTable->level, $temporaryTable->path);
 
 				// Retry creating the menu item
 				$table->setLocation($parentId, 'last-child');

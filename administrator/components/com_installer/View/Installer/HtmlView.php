@@ -41,14 +41,6 @@ class HtmlView extends BaseHtmlView
 	public $showMessage;
 
 	/**
-	 * The HTML markup for the sidebar
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $sidebar;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  Configuration array

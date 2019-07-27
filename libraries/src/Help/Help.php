@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Help;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
@@ -193,7 +193,7 @@ class Help
 			$option['text']  = 'English (GB) help.joomla.org';
 			$option['value'] = 'http://help.joomla.org';
 
-			$list[] = $option;
+			$list[] = (object) $option;
 		}
 		else
 		{
@@ -204,7 +204,7 @@ class Help
 				$option['text']  = (string) $site;
 				$option['value'] = (string) $site->attributes()->url;
 
-				$list[] = $option;
+				$list[] = (object) $option;
 			}
 		}
 
