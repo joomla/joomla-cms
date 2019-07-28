@@ -134,13 +134,6 @@ class SystemModel extends BaseDatabaseModel
 			);
 		}
 
-		if ($user->authorise('core.manage', 'com_installer'))
-		{
-			$manageSection->addItem(
-				new SystemItem('MOD_MENU_MANAGE_DOWNLOAD_KEYS', 'index.php?option=com_installer&view=downloadkeys')
-			);
-		}
-
 		if ($user->authorise('core.manage', 'com_plugins'))
 		{
 			$manageSection->addItem(

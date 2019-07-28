@@ -39,9 +39,9 @@ abstract class ToolbarHelper
 	public static function title($title, $icon = 'generic.png')
 	{
 		$layout = new FileLayout('joomla.toolbar.title');
-		$html   = $layout->render(['title' => $title, 'icon' => $icon]);
+		$html   = $layout->render(array('title' => $title, 'icon' => $icon));
 
-		$app                  = Factory::getApplication();
+		$app = Factory::getApplication();
 		$app->JComponentTitle = $html;
 		Factory::getDocument()->setTitle(strip_tags($title) . ' - ' . $app->get('sitename') . ' - ' . Text::_('JADMINISTRATION'));
 	}
