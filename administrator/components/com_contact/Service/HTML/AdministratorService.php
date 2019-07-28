@@ -83,7 +83,7 @@ class AdministratorService
 					$classes = 'badge badge-secondary';
 
 					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '">' . $text . '</a>'
-						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
+						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . 'apple</div>';
 				}
 			}
 
@@ -116,14 +116,14 @@ class AdministratorService
 
 		if ($canChange)
 		{
-			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon hasTooltip'
-				. ($value == 1 ? ' active' : '') . '" title="' . HTMLHelper::_('tooltipText', $state[3])
+			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon'
+				. ($value == 1 ? ' active' : '') . '" title="' . Text::_($state[3])
 				. '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
 		}
 		else
 		{
-			$html = '<a class="tbody-icon hasTooltip disabled' . ($value == 1 ? ' active' : '')
-				. '" title="' . HTMLHelper::_('tooltipText', $state[2]) . '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
+			$html = '<a class="tbody-icon disabled' . ($value == 1 ? ' active' : '')
+				. '" title="' . Text::_($state[2]) . '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
 		}
 
 		return $html;
