@@ -84,18 +84,6 @@ class ApplicationModel extends FormModel
 		// Prime the asset_id for the rules.
 		$data['asset_id'] = 1;
 
-		// Get the corresponding database driver
-		switch ($data['dbtype'])
-		{
-			case 'pdomysql':
-				$data['dbtype'] = 'mysql';
-				break;
-
-			case 'postgresql':
-				$data['dbtype'] = 'pgsql';
-				break;
-		}
-
 		// Get the text filter data
 		$params          = ComponentHelper::getParams('com_config');
 		$data['filters'] = ArrayHelper::fromObject($params->get('filters'));
