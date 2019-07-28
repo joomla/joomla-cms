@@ -177,7 +177,7 @@ class JoomlaInstallerScript
 		{
 			$data = $model->getData();
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
 
