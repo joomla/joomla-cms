@@ -104,7 +104,6 @@
         } else if (event.target.value === '1') {
           this.inputBody.readonly = false;
           this.inputBody.disabled = false;
-          console.log(this.inputBody);
           this.setBodyValue(this.templateData.body ? this.templateData.body.translated : '');
           tagsContainer.classList.remove('hidden');
         } else {
