@@ -634,7 +634,7 @@ abstract class ToolbarHelper
 		$typeId           = $contentTypeTable->getTypeId($typeAlias);
 
 		// Options array for Layout
-		$options              = [];
+		$options              = array();
 		$options['title']     = Text::_($alt);
 		$options['height']    = $height;
 		$options['width']     = $width;
@@ -657,21 +657,22 @@ abstract class ToolbarHelper
 	 *
 	 * @since   4.0.0
 	 */
-	public static function saveGroup($buttons = [], $class = 'btn-success')
+	public static function saveGroup($buttons = array(), $class = 'btn-success')
 	{
-		$validOptions = [
+		$validOptions = array(
 			'apply'     => 'JTOOLBAR_APPLY',
 			'save'      => 'JTOOLBAR_SAVE',
 			'save2new'  => 'JTOOLBAR_SAVE_AND_NEW',
 			'save2copy' => 'JTOOLBAR_SAVE_AS_COPY'
-		];
+		);
 
 		$bar = Toolbar::getInstance('toolbar');
 
 		$saveGroup = $bar->dropdownButton('save-group');
 
 		$saveGroup->configure(
-			static function (Toolbar $childBar) use ($buttons, $validOptions) {
+			function (Toolbar $childBar) use ($buttons, $validOptions)
+			{
 				foreach ($buttons as $button)
 				{
 					if (!array_key_exists($button[0], $validOptions))
