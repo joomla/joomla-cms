@@ -111,11 +111,9 @@ class ArticleModel extends ItemModel
 					->where('a.id = ' . (int) $pk);
 
 				$query->select($db->quoteName('ws.condition'))
-					->innerJoin($db->quoteName('#__workflow_stages', 'ws'))
-					->innerJoin($db->quoteName('#__workflow_associations', 'wa'))
-					->where($db->quoteName('a.id') . ' = ' . $db->quoteName('wa.item_id'))
-					->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'))
-					->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'));
+					->join('INNER', $db->quoteName('#__workflow_associations', 'wa') . ' ON ' . $db->quoteName('a.id') . ' = ' . $db->quoteName('wa.item_id'))
+					->join('INNER', $db->quoteName('#__workflow_stages', 'ws') . ' ON ' . $db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'))
+					->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'));
 
 				// Join on category table.
 				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access,' .
