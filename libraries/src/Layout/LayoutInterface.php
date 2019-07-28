@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Layout;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Interface to handle display layout

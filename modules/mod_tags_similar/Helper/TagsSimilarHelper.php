@@ -145,7 +145,7 @@ abstract class TagsSimilarHelper
 
 		if ($ordering === 'random' || $ordering === 'countrandom')
 		{
-			$query->order($query->Rand());
+			$query->order($query->rand());
 		}
 
 		$db->setQuery($query, 0, $maximum);
