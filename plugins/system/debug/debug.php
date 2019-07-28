@@ -31,6 +31,7 @@ use Joomla\Plugin\System\Debug\DataCollector\LanguageStringsCollector;
 use Joomla\Plugin\System\Debug\DataCollector\ProfileCollector;
 use Joomla\Plugin\System\Debug\DataCollector\QueryCollector;
 use Joomla\Plugin\System\Debug\DataCollector\SessionCollector;
+use Joomla\Plugin\System\Debug\JavascriptRenderer;
 use Joomla\Plugin\System\Debug\Storage\FileStorage;
 
 /**
@@ -185,11 +186,17 @@ class PlgSystemDebug extends CMSPlugin
 		{
 			// Use our own jQuery and fontawesome instead of the debug bar shipped version
 			$assetManager = $this->app->getDocument()->getWebAssetManager();
-			$assetManager->enableAsset('jquery-noconflict');
-			$assetManager->enableAsset('fontawesome-free');
-
-			HTMLHelper::_('stylesheet', 'plg_system_debug/debug.css', array('version' => 'auto', 'relative' => true));
-			HTMLHelper::_('script', 'plg_system_debug/debug.min.js', array('version' => 'auto', 'relative' => true));
+			$assetManager->getRegistry()->add(new Joomla\CMS\WebAsset\WebAssetItem('plg.system.debug', [
+				'dependencies' => ['jquery', 'fontawesome-free'],
+				'css' => ['plg_system_debug/debug.css'],
+				'js'  => ['plg_system_debug/debug.min.js'],
+				'attribute' => [
+					'plg_system_debug/debug.min.js' => [
+						'defer' => true,
+					],
+				]
+			]));
+			$assetManager->enableAsset('plg.system.debug');
 		}
 
 		// Disable asset media version if needed.
@@ -267,24 +274,6 @@ class PlgSystemDebug extends CMSPlugin
 			$this->debugBar->addCollector(new LanguageErrorsCollector($this->params));
 		}
 
-		$debugBarRenderer = $this->debugBar->getJavascriptRenderer();
-		$openHandlerUrl   = Uri::base(true) . '/index.php?option=com_ajax&plugin=debug&group=system&format=raw&action=openhandler';
-		$openHandlerUrl  .= '&' . Session::getFormToken() . '=1';
-
-		$debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
-		$debugBarRenderer->setBaseUrl(Uri::root(true) . '/media/vendor/debugbar/');
-
-		$debugBarRenderer->disableVendor('jquery');
-		$debugBarRenderer->setEnableJqueryNoConflict(false);
-		$debugBarRenderer->disableVendor('fontawesome');
-
-		/**
-		 * @todo disable highlightjs from the DebugBar, import it through NPM
-		 *       and deliver it through Joomla's API
-		 *       Also every DebuBar script and stylesheet needs to use Joomla's API
-		 *       $debugBarRenderer->disableVendor('highlightjs');
-		 */
-
 		// Only render for HTML output.
 		if ($this->app->getDocument()->getType() !== 'html')
 		{
@@ -292,6 +281,19 @@ class PlgSystemDebug extends CMSPlugin
 
 			return;
 		}
+
+		$debugBarRenderer = new JavascriptRenderer($this->debugBar, Uri::root(true) . '/media/vendor/debugbar/');
+		$openHandlerUrl   = Uri::base(true) . '/index.php?option=com_ajax&plugin=debug&group=system&format=raw&action=openhandler';
+		$openHandlerUrl  .= '&' . Session::getFormToken() . '=1';
+
+		$debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
+
+		/**
+		 * @todo disable highlightjs from the DebugBar, import it through NPM
+		 *       and deliver it through Joomla's API
+		 *       Also every DebuBar script and stylesheet needs to use Joomla's API
+		 *       $debugBarRenderer->disableVendor('highlightjs');
+		 */
 
 		// Capture output.
 		$contents = ob_get_contents();
