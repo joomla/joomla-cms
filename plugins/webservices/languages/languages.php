@@ -39,7 +39,7 @@ class PlgWebservicesLanguages extends CMSPlugin
 	 */
 	public function onBeforeApiRoute(&$router)
 	{
-		$defaults    = array('component' => 'com_privacy');
+		$defaults    = array('component' => 'com_languages');
 		$getDefaults = array_merge(array('public' => false), $defaults);
 
 		$routes = array(
