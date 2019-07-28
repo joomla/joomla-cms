@@ -596,10 +596,10 @@ abstract class ToolbarHelper
 	public static function preferences($component, $height = '550', $width = '875', $alt = 'JToolbar_Options', $path = '')
 	{
 		$component = urlencode($component);
-		$path      = urlencode($path);
-		$bar       = Toolbar::getInstance('toolbar');
+		$path = urlencode($path);
+		$bar = Toolbar::getInstance('toolbar');
 
-		$uri    = (string) Uri::getInstance();
+		$uri = (string) Uri::getInstance();
 		$return = urlencode(base64_encode($uri));
 
 		// Add a button linking to config for component.
@@ -681,7 +681,7 @@ abstract class ToolbarHelper
 					}
 
 					$options['group'] = true;
-					$altText          = $button[2] ?? $validOptions[$button[0]];
+					$altText = $button[2] ?? $validOptions[$button[0]];
 
 					$childBar->{$button[0]}($button[1])
 						->text($altText);
