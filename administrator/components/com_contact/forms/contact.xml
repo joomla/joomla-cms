@@ -721,7 +721,7 @@
 				name="linkd_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
-			size="30"
+				size="30"
 			/>
 
 			<field
