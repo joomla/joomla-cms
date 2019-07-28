@@ -89,7 +89,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									</span>
 								</th>
 								<td class="hidden-sm-down">
-									<span class="bold hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', $item->name, $item->description, 0); ?>">
+									<div role="tooltip" id ="tip<?php echo $i; ?>">
+										<?php echo $item->description; ?>
+									</div>
 										<?php echo $item->name; ?>
 									</span>
 								</td>
