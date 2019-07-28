@@ -73,67 +73,68 @@
 
     bindListeners() {
       // To enable editing of specific input
-      this.form.addEventListener('joomla.switcher.on', (event) => {
-        const type = event.target.id.slice(6, -9);
-        const inputValue = this.templateData[type] ? this.templateData[type].translated : '';
-        let tagsContainer;
+      const subjectSwitcher = document.querySelectorAll('input[type=radio][name="jform[subject_switcher]"]');
+      const bodySwitcher = document.querySelectorAll('input[type=radio][name="jform[body_switcher]"]');
+      const htmlBodySwitcher = document.querySelectorAll('input[type=radio][name="jform[htmlbody_switcher]"]');
 
-        switch (type) {
-          case 'subject':
-            this.inputSubject.disabled = false;
-            this.inputSubject.value = inputValue;
-            break;
-          case 'htmlbody':
-            this.inputHtmlBody.disabled = false;
-            this.setHtmlBodyValue(inputValue);
-
-            tagsContainer = this.form.querySelector('.tags-container-htmlbody');
-            break;
-          case 'body':
-          default:
-            this.inputBody.disabled = false;
-            this.setBodyValue(inputValue);
-
-            tagsContainer = this.form.querySelector('.tags-container-body');
-            break;
+      const subjectSwitcherChangeHandler = (event) => {
+        if (event.target.value === '0') {
+          this.inputSubject.disabled = true;
+          this.inputSubject.value = this.templateData.subject ? this.templateData.subject.master : '';
+        } else if (event.target.value === '1') {
+          this.inputSubject.disabled = false;
+          this.inputSubject.value = this.templateData.subject ? this.templateData.subject.translated : '';
+        } else {
+          // eslint-disable-next-line no-console
+          console.error('unrecognised value');
         }
+      };
 
-        // Show Tags section
-        if (tagsContainer) {
-          tagsContainer.classList.remove('hidden');
-        }
+      Array.prototype.forEach.call(subjectSwitcher, (radio) => {
+        radio.addEventListener('change', subjectSwitcherChangeHandler);
       });
 
-      // To disable editing of specific input
-      this.form.addEventListener('joomla.switcher.off', (event) => {
-        const type = event.target.id.slice(6, -9);
-        const inputValue = this.templateData[type] ? this.templateData[type].master : '';
-        let tagsContainer;
+      const bodySwitcherChangeHandler = (event) => {
+        const tagsContainer = this.form.querySelector('.tags-container-body');
 
-        switch (type) {
-          case 'subject':
-            this.inputSubject.disabled = true;
-            this.inputSubject.value = inputValue;
-            break;
-          case 'htmlbody':
-            this.setHtmlBodyValue(inputValue);
-            this.inputHtmlBody.disabled = true;
-
-            tagsContainer = this.form.querySelector('.tags-container-htmlbody');
-            break;
-          case 'body':
-          default:
-            this.setBodyValue(inputValue);
-            this.inputBody.disabled = true;
-
-            tagsContainer = this.form.querySelector('.tags-container-body');
-            break;
-        }
-
-        // Hide Tags section
-        if (tagsContainer) {
+        if (event.target.value === '0') {
+          this.setBodyValue(this.templateData.body ? this.templateData.body.master : '');
+          this.inputBody.disabled = true;
           tagsContainer.classList.add('hidden');
+        } else if (event.target.value === '1') {
+          this.inputBody.readonly = false;
+          this.inputBody.disabled = false;
+          this.setBodyValue(this.templateData.body ? this.templateData.body.translated : '');
+          tagsContainer.classList.remove('hidden');
+        } else {
+          // eslint-disable-next-line no-console
+          console.error('unrecognised value');
         }
+      };
+
+      Array.prototype.forEach.call(bodySwitcher, (radio) => {
+        radio.addEventListener('change', bodySwitcherChangeHandler);
+      });
+
+      const htmlBodySwitcherChangeHandler = (event) => {
+        const tagsContainer = this.form.querySelector('.tags-container-body');
+
+        if (event.target.value === '0') {
+          this.setHtmlBodyValue(this.templateData.htmlbody ? this.templateData.htmlbody.master : '');
+          this.inputHtmlBody.disabled = true;
+          tagsContainer.classList.add('hidden');
+        } else if (event.target.value === '1') {
+          this.inputHtmlBody.disabled = false;
+          this.setHtmlBodyValue(this.templateData.htmlbody ? this.templateData.htmlbody.translated : '');
+          tagsContainer.classList.remove('hidden');
+        } else {
+          // eslint-disable-next-line no-console
+          console.error('unrecognised value');
+        }
+      };
+
+      Array.prototype.forEach.call(htmlBodySwitcher, (radio) => {
+        radio.addEventListener('change', htmlBodySwitcherChangeHandler);
       });
 
       // Buttons for inserting a tag
