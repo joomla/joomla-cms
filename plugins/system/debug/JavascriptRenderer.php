@@ -70,6 +70,7 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
 		}
 
 		$nonce = '';
+
 		if ($doc->cspNonce)
 		{
 			$nonce = ' nonce="' . $doc->cspNonce . '"';
@@ -122,6 +123,7 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
 		$js .= $this->getAddDatasetCode($this->debugBar->getCurrentRequestId(), $this->debugBar->getData(), $suffix);
 
 		$nonce = '';
+
 		if ($doc->cspNonce)
 		{
 			$nonce = ' nonce="' . $doc->cspNonce . '"';
