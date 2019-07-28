@@ -93,7 +93,6 @@ class JoomlaInstallerScript
 		// This needs to stay for 2.5 update compatibility
 		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
-		$this->updateDbType();
 		$this->updateDatabase();
 		$this->updateAssets($installer);
 		$this->clearStatsCache();
@@ -162,40 +161,6 @@ class JoomlaInstallerScript
 
 			return;
 		}
-	}
-
-	/**
-	 * Method to update dbtype in the configuration file
-	 *
-	 * @return  boolean True on success
-	 */
-	protected function updateDbType()
-	{
-		$model = new \Joomla\Component\Config\Administrator\Model\ApplicationModel;
-
-		try
-		{
-			$data = $model->getData();
-		}
-		catch (Exception $e)
-		{
-			echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
-
-			return false;
-		}
-
-		switch ($data['dbtype'])
-		{
-			case 'pdomysql':
-				$data['dbtype'] = 'mysql';
-				break;
-
-			case 'postgresql':
-				$data['dbtype'] = 'pgsql';
-				break;
-		}
-
-		return $model->save($data);
 	}
 
 	/**
