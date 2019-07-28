@@ -119,7 +119,7 @@ const concatFiles = (files, output) => {
 const copyFiles = (options) => {
   const mediaVendorPath = Path.join(RootPath, 'media/vendor');
   const registry = {
-    $schema: 'https://raw.githubusercontent.com/joomla/schemas/8fe9a7029dc7dba185cb943fc944c9febdefb231/json-schema/web_assets.json',
+    $schema: 'https://developer.joomla.org/schemas/json-schema/web_assets.json',
     name: options.name,
     version: options.version,
     description: options.description,

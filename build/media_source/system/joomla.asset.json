@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/joomla/schemas/8fe9a7029dc7dba185cb943fc944c9febdefb231/json-schema/web_assets.json",
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
   "name": "joomla",
   "version": "4.0.0",
   "description": "Joomla CMS",
