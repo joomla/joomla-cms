@@ -96,7 +96,9 @@ $doc->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
 
 		<?php echo JHtml::_('uitab.endTab'); ?>
 
+		<?php if (count($this->form->getFieldset('basic'))) : ?>
 		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
+		<?php endif; ?>
 
 		<?php echo JHtml::_('uitab.endTabSet'); ?>
 	</div>

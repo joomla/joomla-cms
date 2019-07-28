@@ -102,8 +102,8 @@
           this.inputBody.disabled = true;
           tagsContainer.classList.add('hidden');
         } else if (event.target.value === '1') {
-          this.inputBody.readonly = false;
           this.inputBody.disabled = false;
+          this.inputBody.readOnly = false;
           this.setBodyValue(this.templateData.body ? this.templateData.body.translated : '');
           tagsContainer.classList.remove('hidden');
         } else {
@@ -125,6 +125,7 @@
           tagsContainer.classList.add('hidden');
         } else if (event.target.value === '1') {
           this.inputHtmlBody.disabled = false;
+          this.inputHtmlBody.readOnly = false;
           this.setHtmlBodyValue(this.templateData.htmlbody ? this.templateData.htmlbody.translated : '');
           tagsContainer.classList.remove('hidden');
         } else {
