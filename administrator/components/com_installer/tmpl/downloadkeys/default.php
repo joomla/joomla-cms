@@ -31,7 +31,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 					<?php else : ?>
-					<table class="table table-striped">
+					<table class="table">
 						<thead>
 							<tr>
 								<td style="width:1%" class="text-center">
