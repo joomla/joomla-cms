@@ -122,7 +122,6 @@ if ($saveOrder && !empty($this->items))
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
-									</span>
 								</th>
 								<td class="d-none d-md-table-cell">
 									<?php echo $this->escape($item->title_native); ?>
