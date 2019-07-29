@@ -291,6 +291,7 @@
 			name="email_to"
 			type="email"
 			label="JGLOBAL_EMAIL"
+			validate="email"
 			size="30"
 		/>
 
