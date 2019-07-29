@@ -2,21 +2,21 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Mail;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
-
-defined('JPATH_PLATFORM') or die;
 
 /**
  * Email Class.  Provides a common interface to send email from the Joomla! Platform
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Mail extends \PHPMailer
 {
@@ -24,7 +24,7 @@ class Mail extends \PHPMailer
 	 * Mail instances container.
 	 *
 	 * @var    Mail[]
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $instances = array();
 
@@ -32,7 +32,7 @@ class Mail extends \PHPMailer
 	 * Charset of the message.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $CharSet = 'utf-8';
 
@@ -41,14 +41,14 @@ class Mail extends \PHPMailer
 	 *
 	 * @param   boolean  $exceptions  Flag if Exceptions should be thrown
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($exceptions = true)
 	{
 		parent::__construct($exceptions);
 
 		// PHPMailer has an issue using the relative path for its language files
-		$this->setLanguage('joomla', __DIR__ . '/language');
+		$this->setLanguage('en_gb', __DIR__ . '/language/');
 
 		// Configure a callback function to handle errors when $this->edebug() is called
 		$this->Debugoutput = function ($message, $level)
@@ -64,6 +64,17 @@ class Mail extends \PHPMailer
 
 		// Don't disclose the PHPMailer version
 		$this->XMailer = ' ';
+
+		/*
+		 * PHPMailer 5.2 can't validate e-mail addresses with the new regex library used in PHP 7.3+
+		 * Setting $validator to "php" uses the native php function filter_var
+		 *
+		 * @see https://github.com/joomla/joomla-cms/issues/24707
+		 */
+		if (version_compare(PHP_VERSION, '7.3.0', '>='))
+		{
+			\PHPMailer::$validator = 'php';
+		}
 	}
 
 	/**
@@ -77,7 +88,7 @@ class Mail extends \PHPMailer
 	 *
 	 * @return  Mail  The global Mail object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getInstance($id = 'Joomla', $exceptions = true)
 	{
@@ -95,7 +106,7 @@ class Mail extends \PHPMailer
 	 * @return  boolean|\JException  Boolean true if successful, boolean false if the `mailonline` configuration is set to 0,
 	 *                              or a JException object if the mail function does not exist or sending the message fails.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	public function Send()
@@ -146,7 +157,7 @@ class Mail extends \PHPMailer
 			return $result;
 		}
 
-		Factory::getApplication()->enqueueMessage(\JText::_('JLIB_MAIL_FUNCTION_OFFLINE'));
+		Factory::getApplication()->enqueueMessage(\JText::_('JLIB_MAIL_FUNCTION_OFFLINE'), 'warning');
 
 		return false;
 	}
@@ -160,7 +171,7 @@ class Mail extends \PHPMailer
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setFrom($address, $name = '', $auto = true)
 	{
@@ -189,7 +200,7 @@ class Mail extends \PHPMailer
 	 *
 	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
 	 */
 	public function setSender($from)
@@ -247,7 +258,7 @@ class Mail extends \PHPMailer
 	 *
 	 * @return  Mail  Returns this object for chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setSubject($subject)
 	{
@@ -263,7 +274,7 @@ class Mail extends \PHPMailer
 	 *
 	 * @return  Mail  Returns this object for chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setBody($content)
 	{
@@ -285,7 +296,7 @@ class Mail extends \PHPMailer
 	 *
 	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \InvalidArgumentException
 	 */
 	protected function add($recipient, $name = '', $method = 'addAddress')
@@ -387,7 +398,7 @@ class Mail extends \PHPMailer
 	 *
 	 * @return  Mail|boolean  Returns this object for chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function addRecipient($recipient, $name = '')
 	{
@@ -402,7 +413,7 @@ class Mail extends \PHPMailer
 	 *
 	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function addCc($cc, $name = '')
 	{
@@ -423,7 +434,7 @@ class Mail extends \PHPMailer
 	 *
 	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function addBcc($bcc, $name = '')
 	{
@@ -440,14 +451,15 @@ class Mail extends \PHPMailer
 	 * Add file attachment to the email
 	 *
 	 * @param   mixed   $path         Either a string or array of strings [filenames]
-	 * @param   mixed   $name         Either a string or array of strings [names]
+	 * @param   mixed   $name         Either a string or array of strings [names]. N.B. if this is an array it must contain the same
+	 *                                number of elements as the array of paths supplied.
 	 * @param   mixed   $encoding     The encoding of the attachment
 	 * @param   mixed   $type         The mime type
 	 * @param   string  $disposition  The disposition of the attachment
 	 *
 	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  \InvalidArgumentException
 	 */
 	public function addAttachment($path, $name = '', $encoding = 'base64', $type = 'application/octet-stream', $disposition = 'attachment')
@@ -507,7 +519,7 @@ class Mail extends \PHPMailer
 	 *
 	 * @return  Mail  Returns this object for chaining.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function clearAttachments()
 	{
@@ -523,7 +535,7 @@ class Mail extends \PHPMailer
 	 *
 	 * @return  Mail  Returns this object for chaining.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function removeAttachment($index = 0)
 	{
@@ -543,7 +555,7 @@ class Mail extends \PHPMailer
 	 *
 	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function addReplyTo($replyto, $name = '')
 	{
@@ -557,7 +569,7 @@ class Mail extends \PHPMailer
 	 *
 	 * @return  Mail  Returns this object for chaining.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function isHtml($ishtml = true)
 	{
@@ -573,7 +585,7 @@ class Mail extends \PHPMailer
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function isSendmail()
 	{
@@ -597,7 +609,7 @@ class Mail extends \PHPMailer
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function useSendmail($sendmail = null)
 	{
@@ -629,7 +641,7 @@ class Mail extends \PHPMailer
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function useSmtp($auth = null, $host = null, $user = null, $pass = null, $secure = null, $port = 25)
 	{
@@ -676,7 +688,7 @@ class Mail extends \PHPMailer
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode = false, $cc = null, $bcc = null, $attachment = null,
 		$replyTo = null, $replyToName = null)
@@ -763,7 +775,7 @@ class Mail extends \PHPMailer
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0  Without replacement please implement it in your own code
 	 */
 	public function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)

@@ -43,7 +43,7 @@
 
 		<field
 			name="ordering"
-			type="Pluginordering"
+			type="pluginordering"
 			label="JFIELD_ORDERING_LABEL"
 			description="JFIELD_ORDERING_DESC" 
 		/>

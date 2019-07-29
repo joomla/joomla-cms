@@ -99,7 +99,6 @@
 			label="COM_CONFIG_FIELD_DEFAULT_ACCESS_LEVEL_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_ACCESS_LEVEL_DESC"
 			default="1"
-			required="true"
 			filter="integer" 
 		/>
 

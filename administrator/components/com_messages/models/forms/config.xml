@@ -27,7 +27,7 @@
 
 		<field
 			name="auto_purge"
-			type="text"
+			type="number"
 			label="COM_MESSAGES_FIELD_AUTO_PURGE_LABEL"
 			description="COM_MESSAGES_FIELD_AUTO_PURGE_DESC" 
 			size="6"
