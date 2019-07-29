@@ -43,7 +43,7 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 		<?php else : ?>
 			<table class="table" id="requestList">
 				<caption id="captionTable" class="sr-only">
-					<?php echo Text::_('COM_REDIRECTS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+					<?php echo Text::_('COM_PRIVACY_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
 				</caption>
 				<thead>
 					<tr>
