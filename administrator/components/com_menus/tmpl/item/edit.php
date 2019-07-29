@@ -182,11 +182,11 @@ if ($clientId === 1)
 			<?php if ($this->item->type !== 'alias' && $this->item->type !== 'url'
 				&& $this->item->type !== 'separator' && $this->item->type !== 'heading') : ?>
 				<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
-				<?php echo $this->loadTemplate('associations'); ?>
+				<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
 				<?php echo HTMLHelper::_('uitab.endTab'); ?>
 			<?php endif; ?>
 		<?php elseif ($isModal && $assoc && $this->state->get('item.client_id') != 1) : ?>
-			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
+			<div class="hidden"><?php echo LayoutHelper::render('joomla.edit.associations', $this); ?></div>
 		<?php endif; ?>
 
 		<?php if (!empty($this->modules)) : ?>

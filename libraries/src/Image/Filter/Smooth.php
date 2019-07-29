@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Image\Filter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Image\ImageFilter;
 use Joomla\CMS\Log\Log;
@@ -38,7 +38,7 @@ class Smooth extends ImageFilter
 	public function execute(array $options = array())
 	{
 		// Validate that the smoothing value exists and is an integer.
-		if (!isset($options[IMG_FILTER_SMOOTH]) || !is_int($options[IMG_FILTER_SMOOTH]))
+		if (!isset($options[IMG_FILTER_SMOOTH]) || !\is_int($options[IMG_FILTER_SMOOTH]))
 		{
 			throw new \InvalidArgumentException('No valid smoothing value was given.  Expected integer.');
 		}

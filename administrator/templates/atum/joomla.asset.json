@@ -1,20 +1,20 @@
 {
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
   "name": "atum",
   "version": "4.0.0",
   "description": "Atum is the Joomla 4 administrator template",
   "license": "GPL-2.0+",
-  "assets": {
-    "template.atum.base": {
+  "assets": [
+    {
       "name": "template.atum.base",
       "dependencies": [
         "core",
 		"bootstrap.js.bundle",
         "css-vars-ponyfill",
 		"focus-visible"
-      ],
-      "js": []
+      ]
     },
-    "template.atum.ltr": {
+    {
       "name": "template.atum.ltr",
       "dependencies": ["template.atum.base"],
       "css": [
@@ -22,13 +22,25 @@
         "user.css"
       ]
     },
-    "template.atum.rtl": {
+    {
       "name": "template.atum.rtl",
       "dependencies": ["template.atum.base"],
       "css": [
         "template-rtl.min.css",
         "user.css"
       ]
+    },
+    {
+      "name": "bootstrap.css",
+      "css": [
+        "bootstrap.min.css"
+      ]
+    },
+    {
+      "name": "fontawesome",
+      "css": [
+        "fontawesome.min.css"
+      ]
     }
-  }
+  ]
 }

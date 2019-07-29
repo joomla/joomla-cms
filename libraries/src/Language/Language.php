@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Language;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\String\StringHelper;
@@ -199,14 +199,14 @@ class Language
 		$class = str_replace('-', '_', $lang . 'Localise');
 		$paths = array();
 
-		if (defined('JPATH_SITE'))
+		if (\defined('JPATH_SITE'))
 		{
 			// Note: Manual indexing to enforce load order.
 			$paths[0] = JPATH_SITE . "/language/overrides/$lang.localise.php";
 			$paths[2] = JPATH_SITE . "/language/$lang/$lang.localise.php";
 		}
 
-		if (defined('JPATH_ADMINISTRATOR'))
+		if (\defined('JPATH_ADMINISTRATOR'))
 		{
 			// Note: Manual indexing to enforce load order.
 			$paths[1] = JPATH_ADMINISTRATOR . "/language/overrides/$lang.localise.php";
@@ -327,7 +327,7 @@ class Language
 
 				$caller = $this->getCallerInfo();
 
-				if (!array_key_exists($key, $this->used))
+				if (!\array_key_exists($key, $this->used))
 				{
 					$this->used[$key] = array();
 				}
@@ -344,7 +344,7 @@ class Language
 				$info['key'] = $key;
 				$info['string'] = $string;
 
-				if (!array_key_exists($key, $this->orphans))
+				if (!\array_key_exists($key, $this->orphans))
 				{
 					$this->orphans[$key] = array();
 				}
@@ -388,7 +388,7 @@ class Language
 	{
 		if ($this->transliterator !== null)
 		{
-			return call_user_func($this->transliterator, $string);
+			return \call_user_func($this->transliterator, $string);
 		}
 
 		$string = Transliterate::utf8_latin_to_ascii($string);
@@ -439,7 +439,7 @@ class Language
 	{
 		if ($this->pluralSuffixesCallback !== null)
 		{
-			return call_user_func($this->pluralSuffixesCallback, $count);
+			return \call_user_func($this->pluralSuffixesCallback, $count);
 		}
 		else
 		{
@@ -487,7 +487,7 @@ class Language
 	{
 		if ($this->ignoredSearchWordsCallback !== null)
 		{
-			return call_user_func($this->ignoredSearchWordsCallback);
+			return \call_user_func($this->ignoredSearchWordsCallback);
 		}
 		else
 		{
@@ -535,7 +535,7 @@ class Language
 	{
 		if ($this->lowerLimitSearchWordCallback !== null)
 		{
-			return call_user_func($this->lowerLimitSearchWordCallback);
+			return \call_user_func($this->lowerLimitSearchWordCallback);
 		}
 		else
 		{
@@ -581,9 +581,9 @@ class Language
 	 */
 	public function getUpperLimitSearchWord()
 	{
-		if ($this->upperLimitSearchWordCallback !== null && call_user_func($this->upperLimitSearchWordCallback) > 200)
+		if ($this->upperLimitSearchWordCallback !== null && \call_user_func($this->upperLimitSearchWordCallback) > 200)
 		{
-			return call_user_func($this->upperLimitSearchWordCallback);
+			return \call_user_func($this->upperLimitSearchWordCallback);
 		}
 
 		return 200;
@@ -629,7 +629,7 @@ class Language
 	{
 		if ($this->searchDisplayedCharactersNumberCallback !== null)
 		{
-			return call_user_func($this->searchDisplayedCharactersNumberCallback);
+			return \call_user_func($this->searchDisplayedCharactersNumberCallback);
 		}
 		else
 		{
@@ -836,7 +836,7 @@ class Language
 			$line = trim($line);
 
 			// Ignore comment lines.
-			if (!strlen($line) || $line['0'] == ';')
+			if (!\strlen($line) || $line['0'] == ';')
 			{
 				continue;
 			}
@@ -869,14 +869,14 @@ class Language
 			// Check that the key is not in the blacklist.
 			$key = strtoupper(trim(substr($line, 0, strpos($line, '='))));
 
-			if (in_array($key, $blacklist))
+			if (\in_array($key, $blacklist))
 			{
 				$errors[] = $realNumber;
 			}
 		}
 
 		// Check if we encountered any errors.
-		if (count($errors))
+		if (\count($errors))
 		{
 			$this->errorfiles[$filename] = $errors;
 		}
@@ -888,7 +888,7 @@ class Language
 
 		$this->debug = $debug;
 
-		return count($errors);
+		return \count($errors);
 	}
 
 	/**
@@ -933,7 +933,7 @@ class Language
 	protected function getCallerInfo()
 	{
 		// Try to determine the source if none was provided
-		if (!function_exists('debug_backtrace'))
+		if (!\function_exists('debug_backtrace'))
 		{
 			return;
 		}
