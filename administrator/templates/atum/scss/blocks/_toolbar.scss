@@ -51,7 +51,7 @@ joomla-toolbar-button {
     [class*=' #{$fa-css-prefix}-'] {
       z-index: $zindex-negative;
       display: inline-block;
-      width: 2.375rem;
+      width: 2.438rem;
       height: 100%;
       margin: $input-btn-padding-y-sm-submenu $input-btn-submenu-icon-distance $input-btn-padding-y-sm-submenu -#{$input-btn-padding-x-sm-submenu};
       line-height: $atum-toolbar-line-height;
