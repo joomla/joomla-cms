@@ -126,14 +126,14 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort',  'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
+								</th>
 								<?php if ($assoc) : ?>
 									<th scope="col" style="width:5%" class="d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort',  'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
-								</th>
 								<?php if (Multilanguage::isEnabled()) : ?>
 									<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
@@ -333,13 +333,6 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 								<td class="small d-none d-md-table-cell">
 									<?php echo $this->escape($item->access_level); ?>
 								</td>
-								<?php if ($assoc) : ?>
-								<td class="d-none d-md-table-cell">
-									<?php if ($item->association) : ?>
-										<?php echo HTMLHelper::_('contentadministrator.association', $item->id); ?>
-									<?php endif; ?>
-								</td>
-								<?php endif; ?>
 								<td class="small d-none d-md-table-cell">
 									<?php if ((int) $item->created_by != 0) : ?>
 										<a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>">
@@ -352,6 +345,13 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										<div class="smallsub"><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
 									<?php endif; ?>
 								</td>
+								<?php if ($assoc) : ?>
+									<td class="d-none d-md-table-cell">
+										<?php if ($item->association) : ?>
+											<?php echo HTMLHelper::_('contentadministrator.association', $item->id); ?>
+										<?php endif; ?>
+									</td>
+								<?php endif; ?>
 								<?php if (Multilanguage::isEnabled()) : ?>
 									<td class="small d-none d-md-table-cell">
 										<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
