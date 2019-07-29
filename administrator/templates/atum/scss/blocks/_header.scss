@@ -52,13 +52,17 @@
     }
 
     svg, img {
-      height: 1.3rem;
       margin-left: 0.8rem;
+      max-height: 1.3rem;
       max-width: calc(15.625rem - 0.8rem);
 
       &.logo-small {
         display: none;
+        max-width: 1.3rem;
       }
+    }
+    svg {
+      height: 1.3rem;
     }
   }
 
