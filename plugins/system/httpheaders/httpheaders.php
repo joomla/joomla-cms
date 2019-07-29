@@ -206,9 +206,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			if (strtolower($headerConfiguration['name']) === 'content-security-policy'
 				|| strtolower($headerConfiguration['name']) === 'content-security-policy-report-only')
 			{
-				$newHeaderValue = strtolower($headerConfiguration['value']);
-
-				if (is_array($scriptHashes))
+				if (!empty($scriptHashes))
 				{
 					$newHeaderValue = str_replace('{script-hashes}', ' ' . implode(' ', $scriptHashes), $newHeaderValue);
 				}
@@ -217,7 +215,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 					$newHeaderValue = str_replace('{script-hashes}', '', $newHeaderValue);
 				}
 
-				if (is_array($styleHashes))
+				if (!empty($styleHashes))
 				{
 					$newHeaderValue = str_replace('{style-hashes}', ' ' . implode(' ', $styleHashes), $newHeaderValue);
 				}
@@ -394,13 +392,13 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				}
 
 				// Append the script hashes placeholder
-				if ($scriptHashesEnabled && substr($cspValue->directive, 0, 10) === 'script-src')
+				if ($scriptHashesEnabled && strpos($cspValue->directive, 'script-src') === 0)
 				{
 					$cspValue->value .= '{script-hashes} ' . $cspValue->value;
 				}
 
 				// Append the style hashes placeholder
-				if ($styleHashesEnabled && substr($cspValue->directive, 0, 9) === 'script-src')
+				if ($styleHashesEnabled && strpos($cspValue->directive, 'style-src') === 0)
 				{
 					$cspValue->value .= '{style-hashes} ' . $cspValue->value;
 				}
