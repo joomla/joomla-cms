@@ -111,6 +111,6 @@
         "joomla-projects/selenium-server-standalone": "~v3",
         "codeception/codeception": "~3.0",
         "consolidation/robo": "^1.0.0",
-		"dealerdirect/phpcodesniffer-composer-installer": "^0.5.0"
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0"
     }
 }
