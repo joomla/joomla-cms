@@ -53,7 +53,7 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "phpcs --config-set installed_paths ../../joomla/cms-coding-standards/lib,../../joomla/coding-standards"
+            "[ $COMPOSER_DEV_MODE -eq 0 ] || phpcs --config-set installed_paths ../../joomla/cms-coding-standards/lib,../../joomla/coding-standards"
         ]
     },
     "require": {
