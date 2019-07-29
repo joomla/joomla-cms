@@ -31,15 +31,6 @@
 				 />
 			</fieldset>
 
-			<fieldset name="cloud" label="PLG_TINY_FIELD_LABEL_CLOUD">
-				<field
-					name="cloud_api_key"
-					type="text"
-					label="PLG_TINY_FIELD_TINYCLOUDAPI_LABEL"
-					description="PLG_TINY_FIELD_TINYCLOUDAPI_DESC"
-				/>
-			</fieldset>
-
 			<fieldset name="external" label="PLG_TINY_FIELD_LABEL_EXTERNAL">
 				<field
 					name="external_plugins"
