@@ -62,7 +62,18 @@ class PlgEditorTinymce extends CMSPlugin
 	public function onInit()
 	{
 		HTMLHelper::_('behavior.core');
-		HTMLHelper::_('script', $this->_basePath . '/tinymce.min.js', array('version' => 'auto'));
+
+		// check for an API key to load the Tiny Cloud-hosted version
+		if ($this->params->get('cloud_api_key'))
+		{
+			// load tiny cloud
+			HTMLHelper::_('script', 'https://cdn.tiny.cloud/1/' . $this->params->get('cloud_api_key') . '/tinymce/5/tinymce.min.js');
+		}
+		else
+		{
+			// load self hosted
+			HTMLHelper::_('script', $this->_basePath . '/tinymce.min.js', array('version' => 'auto'));
+		}
 		HTMLHelper::_('script', 'plg_editors_tinymce/tinymce.min.js', array('version' => 'auto', 'relative' => true));
 	}
 
@@ -537,6 +548,28 @@ class PlgEditorTinymce extends CMSPlugin
 		{
 			$separator = strpos($custom_button, ',') !== false ? ',' : ' ';
 			$toolbar1  = array_merge($toolbar1, explode($separator, $custom_button));
+		}
+
+		// load external plugins
+		if ($this->params->get('external_plugins') != '')
+		{
+			foreach (json_decode(json_encode($this->params->get('external_plugins')), true) as $external)
+			{
+				// get the path for readability
+				$path = $external['path'];
+
+				// if we have a name and path, add it to the list
+				if ($external['name'] != '' && $path != '')
+				{
+					if (substr($path, 0, 1) == '/')
+					{
+						// treat as a local path, so add the root
+						$path = Uri::root() . substr($path, 1);
+					}
+
+					$externalPlugins[ $external['name'] ] = $path;
+				}
+			}
 		}
 
 		// Build the final options set
