@@ -26,8 +26,7 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
     }
 
     this.onChange = this.onChange.bind(this);
-
-    this.addEventListener('click', event => this.executeTask(event));
+    this.executeTask = this.executeTask.bind(this);
   }
 
   /**
@@ -37,6 +36,8 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
     // We need a button to support button behavior,
     // because we cannot currently extend HTMLButtonElement
     this.buttonElement = this.querySelector('button, a');
+
+    this.addEventListener('click', this.executeTask);
 
     // Check whether we have a form
     const formSelector = this.form || 'adminForm';
@@ -66,7 +67,7 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
       this.formElement.boxchecked.removeEventListener('change', this.onChange);
     }
 
-    this.removeEventListener('click');
+    this.removeEventListener('click', this.executeTask);
   }
 
   onChange(event) {
