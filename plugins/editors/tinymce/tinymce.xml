@@ -31,34 +31,6 @@
 				 />
 			</fieldset>
 
-			<fieldset name="external" label="PLG_TINY_FIELD_LABEL_EXTERNAL">
-				<field
-					name="external_plugins"
-					type="subform"
-					label="PLG_TINY_FIELD_EXTERNALPLUGINS_LABEL"
-					description="PLG_TINY_FIELD_EXTERNALPLUGINS_DESC"
-					layout="joomla.form.field.subform.repeatable-table"
-					icon="list"
-					multiple="true"
-				>
-					<form hidden="true" name="list_templates_modal" repeat="true">
-						<field
-							name="name"
-							type="text"
-							label="PLG_TINY_FIELD_EXTERNALPLUGINS_NAME_LABEL"
-							size="15"
-						/>
-
-						<field
-							name="path"
-							type="text"
-							label="PLG_TINY_FIELD_EXTERNALPLUGINS_PATH_LABEL"
-							size="30"
-						/>
-					</form>
-				</field>
-			</fieldset>
-
 			<fieldset name="advanced" label="PLG_TINY_FIELD_LABEL_ADVANCEDPARAMS">
 				<field
 					name="sets_amount"

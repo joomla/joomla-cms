@@ -187,6 +187,28 @@ class PlgEditorTinymce extends CMSPlugin
 			}
 		}
 
+		// load external plugins
+		if (isset($extraOptions->external_plugins) && $extraOptions->external_plugins)
+		{
+			foreach (json_decode(json_encode($extraOptions->external_plugins), true) as $external)
+			{
+				// get the path for readability
+				$path = $external['path'];
+
+				// if we have a name and path, add it to the list
+				if ($external['name'] != '' && $path != '')
+				{
+					if (substr($path, 0, 1) == '/')
+					{
+						// treat as a local path, so add the root
+						$path = Uri::root() . substr($path, 1);
+					}
+
+					$externalPlugins[ $external['name'] ] = $path;
+				}
+			}
+		}
+
 		// Merge the params
 		$levelParams->loadObject($toolbarParams);
 		$levelParams->loadObject($extraOptions);
@@ -537,28 +559,6 @@ class PlgEditorTinymce extends CMSPlugin
 		{
 			$separator = strpos($custom_button, ',') !== false ? ',' : ' ';
 			$toolbar1  = array_merge($toolbar1, explode($separator, $custom_button));
-		}
-
-		// load external plugins
-		if ($this->params->get('external_plugins') != '')
-		{
-			foreach (json_decode(json_encode($this->params->get('external_plugins')), true) as $external)
-			{
-				// get the path for readability
-				$path = $external['path'];
-
-				// if we have a name and path, add it to the list
-				if ($external['name'] != '' && $path != '')
-				{
-					if (substr($path, 0, 1) == '/')
-					{
-						// treat as a local path, so add the root
-						$path = Uri::root() . substr($path, 1);
-					}
-
-					$externalPlugins[ $external['name'] ] = $path;
-				}
-			}
 		}
 
 		// Build the final options set
