@@ -102,6 +102,11 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 										<?php else : ?>
 											<?php echo $this->escape($item->title); ?>
 										<?php endif; ?>
+										<?php if (!empty($item->description)) : ?>
+											<div class="small">
+												(<?php echo $this->escape($item->description); ?>)
+											</div>
+										<?php endif; ?>
 									</div>
 								</td>
 								<td class="text-center btns">
