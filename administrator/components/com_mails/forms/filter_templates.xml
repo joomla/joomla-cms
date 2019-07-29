@@ -12,6 +12,7 @@
 		<field
 			name="language"
 			type="contentlanguage"
+			label="JOPTION_SELECT_LANGUAGE"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -21,6 +22,7 @@
 		<field
 			name="extension"
 			type="sql"
+			label="COM_MAILS_FILTER_OPTION_SELECT_EXTENSION"
 			query="SELECT SUBSTRING(template_id, 1, POSITION('.' IN template_id) - 1) AS value, SUBSTRING(template_id, 1, POSITION('.' IN template_id) - 1) AS extension FROM #__mail_templates GROUP BY extension ORDER BY extension ASC"
 			translate="true"
 			onchange="this.form.submit();"
@@ -33,6 +35,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.id DESC"
 			>
@@ -48,6 +51,7 @@
 		<field
 			name="limit"
 			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>

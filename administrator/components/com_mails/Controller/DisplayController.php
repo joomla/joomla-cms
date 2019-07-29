@@ -14,9 +14,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\BaseController as BaseController;
 
 /**
- * Controller for global configuration
+ * Mail templates Controller
  *
- * @since  1.5
+ * @since  __DEPLOY_VERSION__
  */
 class DisplayController extends BaseController
 {

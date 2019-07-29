@@ -13,9 +13,8 @@
 
 		<field
 			name="subject"
-			type="text" 
+			type="text"
 			label="COM_MAILS_FIELD_SUBJECT_LABEL"
-			class="input-xxlarge"
 			size="40"
 		/>
 
@@ -61,8 +60,10 @@
 		<field
 			name="htmlbody_switcher"
 			type="radio"
+			label="sdfaghg"
 			class="switcher"
 			default="0"
+			hiddenLabel="true"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -74,7 +75,7 @@
 		label="COM_MAILS_FIELD_ATTACHMENTS_LABEL"
 		multiple="true"
 		layout="joomla.form.field.subform.repeatable-table"
-	>
+		>
 		<form>
 			<field
 				name="file"
@@ -204,8 +205,8 @@
 			<field
 				name="smtpauth"
 				type="radio"
-				class="switcher"
 				label="COM_MAILS_FIELD_MAIL_SMTP_AUTH_LABEL"
+				class="switcher"
 				default="0"
 				showon="alternative_mailconfig:1[AND]mailer:smtp"
 				filter="boolean"

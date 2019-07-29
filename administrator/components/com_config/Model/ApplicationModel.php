@@ -1028,7 +1028,7 @@ class ApplicationModel extends FormModel
 
 		$mail = Factory::getMailer();
 
-		// Prepare email and send try to send it
+		// Prepare email and try to send it
 		$mailer = new MailTemplate('com_config.test_mail', $user->getParam('language', $app->get('language')), $mail);
 		$mailer->addTemplateData(
 			array(
