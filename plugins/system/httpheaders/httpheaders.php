@@ -63,8 +63,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		'content-security-policy',
 		'content-security-policy-report-only',
 		'x-frame-options',
-		'x-xss-protection',
-		'x-content-type-options',
 		'referrer-policy',
 		'expect-ct',
 		'feature-policy',
@@ -750,18 +748,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		if ($pluginParams->get('xframeoptions'))
 		{
 			$staticHeaderConfiguration['x-frame-options#both'] = 'SAMEORIGIN';
-		}
-
-		// X-xss-protection
-		if ($pluginParams->get('xxssprotection'))
-		{
-			$staticHeaderConfiguration['x-xss-protection#both'] = '1; mode=block';
-		}
-
-		// X-content-type-options
-		if ($pluginParams->get('xcontenttypeoptions'))
-		{
-			$staticHeaderConfiguration['x-content-type-options#both'] = 'nosniff';
 		}
 
 		// Referrer-policy

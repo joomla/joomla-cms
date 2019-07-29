@@ -38,26 +38,6 @@
 					<option value="1">JENABLED</option>
 				</field>
 				<field
-					name="xxssprotection"
-					type="radio"
-					label="PLG_SYSTEM_HTTPHEADERS_XXSSPROTECTION"
-					class="switcher"
-					default="1"
-					>
-					<option value="0">JDISABLED</option>
-					<option value="1">JENABLED</option>
-				</field>
-				<field
-					name="xcontenttypeoptions"
-					type="radio"
-					label="PLG_SYSTEM_HTTPHEADERS_XCONTENTTYPEOPTIONS"
-					class="switcher"
-					default="1"
-					>
-					<option value="0">JDISABLED</option>
-					<option value="1">JENABLED</option>
-				</field>
-				<field
 					name="referrerpolicy"
 					type="list"
 					label="PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY"
