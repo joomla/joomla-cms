@@ -99,8 +99,9 @@ else
 	if (isset($displayData['linkadd'])): ?>
 		<li class="btn-block quickicon-linkadd j-links-link">
 			<a href="<?php echo $displayData['linkadd']; ?>">
-				<span class="fa fa-plus" aria-hidden="true"></span>
-				<span class="text-nowrap"><?php echo Text::_('MOD_QUICKICON_' . str_replace(' ', '_', $add) . '_ADD'); ?></span>
+				<span class="fa fa-plus mr-2" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::sprintf('MOD_QUICKICON_ADD_NEW', $add); ?></span>
+				<span aria-hidden="true"><?php echo $add; ?></span>
 			</a>
 		</li>
 	</ul>
