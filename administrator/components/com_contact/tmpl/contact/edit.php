@@ -25,6 +25,7 @@ $app = Factory::getApplication();
 $input = $app->input;
 
 $assoc = Associations::isEnabled();
+$hasAssoc = ($this->form->getValue('language', null, '*') !== '*');
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = ['details', 'item_associations', 'jmetadata'];
@@ -105,14 +106,24 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				</fieldset>
 			</div>
 			<div class="col-md-6">
-				<?php echo $this->loadTemplate('metadata'); ?>
+				<fieldset id="fieldset-metadata" class="options-fieldset option-fieldset-full">
+					<legend><?php echo Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
+					<?php echo LayoutHelper::render('joomla.edit.metadata', $this); ?>
+				</fieldset>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-		<?php if ( ! $isModal && $assoc) : ?>
+		<?php if (!$isModal && $assoc) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
+			<?php if ($hasAssoc) : ?>
+				<fieldset id="fieldset-associations" class="options-fieldset option-fieldset-full">
+				<legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
+			<?php endif; ?>
 			<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
+			<?php if ($hasAssoc) : ?>
+				</fieldset>
+			<?php endif; ?>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php elseif ($isModal && $assoc) : ?>
 			<div class="hidden"><?php echo LayoutHelper::render('joomla.edit.associations', $this); ?></div>

@@ -57,6 +57,7 @@ jQuery(document).ready(function ($){
 ";
 
 $assoc = Associations::isEnabled();
+$hasAssoc = ($this->form->getValue('language', null, '*') !== '*');
 $input = Factory::getApplication()->input;
 
 // In case of modal
@@ -179,13 +180,17 @@ if ($clientId === 1)
 		?>
 
 		<?php if (!$isModal && $assoc && $this->state->get('item.client_id') != 1) : ?>
-			<?php if ($this->item->type !== 'alias' && $this->item->type !== 'url'
-				&& $this->item->type !== 'separator' && $this->item->type !== 'heading') : ?>
-				<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
-				<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
-				<?php echo HTMLHelper::_('uitab.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
+			<?php if ($hasAssoc) : ?>
+				<fieldset id="fieldset-associations" class="options-fieldset option-fieldset-full">
+				<legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
 			<?php endif; ?>
-		<?php elseif ($isModal && $assoc && $this->state->get('item.client_id') != 1) : ?>
+			<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
+			<?php if ($hasAssoc) : ?>
+				</fieldset>
+			<?php endif; ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
+		<?php elseif ($isModal && $assoc) : ?>
 			<div class="hidden"><?php echo LayoutHelper::render('joomla.edit.associations', $this); ?></div>
 		<?php endif; ?>
 

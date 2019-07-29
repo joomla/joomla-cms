@@ -27,6 +27,7 @@ $input = $app->input;
 $assoc = Associations::isEnabled();
 // Are associations implemented for this extension?
 $extensionassoc = array_key_exists('item_associations', $this->form->getFieldsets());
+$hasAssoc = ($this->form->getValue('language', null, '*') !== '*');
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = ['jmetadata', 'item_associations'];
@@ -67,27 +68,37 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
-		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('COM_CATEGORIES_FIELDSET_PUBLISHING')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
 		<div class="row">
 			<div class="col-12 col-lg-6">
 				<fieldset id="fieldset-publishingdata" class="options-fieldset option-fieldset-full">
-					<legend><?php echo Text::_('COM_CATEGORIES_FIELDSET_PUBLISHING'); ?></legend>
+					<legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
 					<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 				</fieldset>
 			</div>
 			<div class="col-12 col-lg-6">
-				<?php echo $this->loadTemplate('metadata'); ?>
+				<fieldset id="fieldset-metadata" class="options-fieldset option-fieldset-full">
+					<legend><?php echo Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
+					<?php echo LayoutHelper::render('joomla.edit.metadata', $this); ?>
+				</fieldset>
 			</div>
 		</div>
 
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-		<?php if ( ! $isModal && $assoc && $extensionassoc) : ?>
+		<?php if (!$isModal && $assoc && $extensionassoc) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
-			<?php echo $this->loadTemplate('associations'); ?>
+			<?php if ($hasAssoc) : ?>
+				<fieldset id="fieldset-associations" class="options-fieldset option-fieldset-full">
+				<legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
+			<?php endif; ?>
+			<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
+			<?php if ($hasAssoc) : ?>
+				</fieldset>
+			<?php endif; ?>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php elseif ($isModal && $assoc && $extensionassoc) : ?>
-			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
+			<div class="hidden"><?php echo LayoutHelper::render('joomla.edit.associations', $this); ?></div>
 		<?php endif; ?>
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
