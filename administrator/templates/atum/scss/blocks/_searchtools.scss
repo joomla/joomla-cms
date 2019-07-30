@@ -57,7 +57,7 @@
 
       &.active {
         color: var(--white);
-        background: $custom-select-bg $custom-select-indicator-active no-repeat right $custom-select-padding-x center;
+        background: $custom-select-bg $custom-select-indicator-active no-repeat right center;
         background-size: $custom-select-bg-size;
       }
 
@@ -84,7 +84,7 @@
         color: var(--atum-text-light);
         border:1px solid var(--border);
 		border-left: 0;
-		
+
 		&.disabled,
 		&:disabled{
 			background-color: rgba($gray-300, 0.8);
