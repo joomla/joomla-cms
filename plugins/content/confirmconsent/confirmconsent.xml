@@ -12,6 +12,10 @@
 	<files>
 		<filename plugin="confirmconsent">confirmconsent.php</filename>
 	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_content_confirmconsent.ini</language>
+		<language tag="en-GB">en-GB.plg_content_confirmconsent.sys.ini</language>
+	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="basic" addfieldpath="/administrator/components/com_content/models/fields">
