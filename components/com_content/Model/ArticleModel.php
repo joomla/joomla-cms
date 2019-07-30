@@ -109,7 +109,7 @@ class ArticleModel extends ItemModel
 					);
 				$query->from('#__content AS a')
 					->where('a.id = ' . (int) $pk);
-				
+
 				$innerCondition1 = $db->quoteName('a.id') . ' = ' . $db->quoteName('wa.item_id');
 				$innerCondition2 = $db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id');
 				$query->select($db->quoteName('ws.condition'))
