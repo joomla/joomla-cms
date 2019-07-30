@@ -58,27 +58,27 @@ steps:
       - tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run
       - echo $(date)
 
-  - name: php53-unit
-    depends_on: [ rebuild-cache ]
-    image: alterway/php:5.3-apache
-    environment:
-      PHP_php5enmod: 'gd ldap mbstring memcached mysql mysqli pdo_mysql redis soap zip ftp sockets'
-      PHP__display_errors: On
-      PHP__memory_limit: 512M
-    commands:
-      - php -v
-      - php -i
-      - ./libraries/vendor/bin/phpunit
+#  - name: php53-unit
+#    depends_on: [ rebuild-cache ]
+#    image: alterway/php:5.3-apache
+#    environment:
+#      PHP_php5enmod: 'gd ldap mbstring memcached mysql mysqli pdo_mysql redis soap zip ftp sockets'
+#      PHP__display_errors: On
+#      PHP__memory_limit: 512M
+#    commands:
+#      - php -v
+#      - php -i
+#      - ./libraries/vendor/bin/phpunit
 
-  - name: php54-unit
-    depends_on: [ rebuild-cache ]
-    image: alterway/php:5.4-apache
-    environment:
-      PHP__display_errors: On
-      PHP__memory_limit: 512M
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit
+#  - name: php54-unit
+#    depends_on: [ rebuild-cache ]
+#    image: alterway/php:5.4-apache
+#    environment:
+#      PHP__display_errors: On
+#      PHP__memory_limit: 512M
+#    commands:
+#      - php -v
+#      - ./libraries/vendor/bin/phpunit
 
   - name: php55-unit
     depends_on: [ rebuild-cache ]
@@ -177,6 +177,6 @@ branches:
   exclude: [ l10n_* ]
 ---
 kind: signature
-hmac: ced7c9e813fa7c23f63d53b14a1f9343fc31279527256fe9d5f7e55ac435f0f6
+hmac: 5559363e09c8aa9bbe4c1e3bd3e70b8cde6de1dbae702df941d84d0a1a16d97c
 
 ...
