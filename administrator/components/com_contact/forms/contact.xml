@@ -291,6 +291,7 @@
 			name="email_to"
 			type="email"
 			label="JGLOBAL_EMAIL"
+			validate="email"
 			size="30"
 		/>
 
@@ -421,7 +422,7 @@
 				name="show_info"
 				type="list"
 				label="COM_CONTACT_FIELD_SHOW_INFO_LABEL"
-				class="chzn-color"
+				class="custom-select-color"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -465,7 +466,7 @@
 				name="add_mailto_link"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_LABEL"
-				class="chzn-color"
+				class="custom-select-color"
 				useglobal="true"
 				showon="show_info:1"
 				>
@@ -576,7 +577,7 @@
 				name="show_image"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_LABEL"
-				class="chzn-color"
+				class="custom-select-color"
 				useglobal="true"
 				showon="show_info:1"
 				>
@@ -588,7 +589,7 @@
 				name="show_misc"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
-				class="chzn-color"
+				class="custom-select-color"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -721,7 +722,7 @@
 				name="linkd_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
-			size="30"
+				size="30"
 			/>
 
 			<field

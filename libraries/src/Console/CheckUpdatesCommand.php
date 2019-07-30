@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Console;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Updater\Updater;
@@ -70,9 +70,9 @@ class CheckUpdatesCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Checks for pending extension updates');
+		$this->setDescription('Check for pending extension updates');
 		$this->setHelp(
-<<<EOF
+			<<<EOF
 The <info>%command.name%</info> command checks for pending extension updates
 
 <info>php %command.full_name%</info>

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Console;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
@@ -82,7 +82,8 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		?OutputInterface $output = null,
 		?Registry $config = null,
 		?DispatcherInterface $dispatcher = null,
-		?Container $container = null)
+		?Container $container = null
+	)
 	{
 		parent::__construct($input, $output, $config);
 
@@ -215,6 +216,12 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 				new Console\CleanCacheCommand,
 				new Console\CheckUpdatesCommand,
 				new Console\RemoveOldFilesCommand,
+				new Console\AddUserCommand,
+				new Console\AddUserToGroupCommand,
+				new Console\RemoveUserFromGroupCommand,
+				new Console\DeleteUserCommand,
+				new Console\ChangeUserPasswordCommand,
+				new Console\ListUserCommand,
 			]
 		);
 	}

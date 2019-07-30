@@ -86,7 +86,7 @@
 			name="state"
 			type="list"
 			label="JSTATUS"
-			class="chzn-color-state"
+			class="custom-select-color-state"
 			default="1"
 			size="1"
 			>
@@ -95,12 +95,6 @@
 			<option value="2">JARCHIVED</option>
 			<option value="-2">JTRASHED</option>
 		</field>
-
-		<field
-			name="buttonspacer"
-			type="spacer"
-			label="JGLOBAL_ACTION_PERMISSIONS_LABEL"
-		/>
 
 		<field
 			name="checked_out"
@@ -312,7 +306,6 @@
 				name="layout"
 				type="fieldLayout"
 				label="COM_FIELDS_FIELD_LAYOUT_LABEL"
-				description="COM_FIELDS_FIELD_LAYOUT_DESC"
 				class="custom-select"
 			/>
 
@@ -320,7 +313,6 @@
 				name="display_readonly"
 				type="list"
 				label="JFIELD_DISPLAY_READONLY_LABEL"
-				description="JFIELD_DISPLAY_READONLY_DESC"
 				default="2"
 				>
 				<option value="2">JGLOBAL_INHERIT</option>

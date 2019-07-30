@@ -104,9 +104,8 @@ class AdministratorService
 	 *
 	 * @since   1.6
 	 */
-	public function featured($value = 0, $i, $canChange = true)
+	public function featured($value, $i, $canChange = true)
 	{
-
 		// Array of image, task, title, action
 		$states = array(
 			0 => array('unfeatured', 'contacts.featured', 'COM_CONTACT_UNFEATURED', 'JGLOBAL_TOGGLE_FEATURED'),

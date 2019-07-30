@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  Layout
+ * @subpackage  com_menus
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -59,12 +59,14 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
 			if ($clientIdField): ?>
 				<div class="js-stools-container-selector-first">
 					<div class="js-stools-field-selector js-stools-client_id">
+						<div class="sr-only"><?php echo $clientIdField->label; ?></div>
 						<?php echo $clientIdField->input; ?>
 					</div>
 				</div>
 			<?php endif; ?>
 			<div class="js-stools-container-selector">
 				<div class="js-stools-field-selector js-stools-menutype">
+					<div class="sr-only"><?php echo $menuTypeField->label; ?></div>
 					<?php echo $menuTypeField->input; ?>
 				</div>
 			</div>
@@ -77,6 +79,7 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
 			?>
 			<div class="js-stools-container-selector">
 				<div class="js-stools-field-selector js-stools-client_id">
+					<div class="sr-only"><?php echo $clientIdField->label; ?></div>
 					<?php echo $clientIdField->input; ?>
 				</div>
 			</div>
