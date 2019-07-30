@@ -84,8 +84,8 @@ class ConsentsModel extends ListModel
 			}
 			elseif (stripos($search, 'name:') === 0)
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
-				$query->where($db->quoteName('u.name') . ' LIKE ' . (int) substr($search, 5));
+				$search = $db->quote('%' . $db->escape(substr($search, 5), true) . '%');
+				$query->where($db->quoteName('u.name') . ' LIKE ' . $search);
 			}
 			else
 			{
