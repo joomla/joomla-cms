@@ -249,17 +249,20 @@
   }
 }
 
-.cpanel-quickicons {
+#cpanel-modules{
+	.cpanel-quickicons,
+	.cpanel{
 
-  .card-columns {
-    @include media-breakpoint-down(md) {
-      column-count: 2;
-    }
+	  .card-columns {
+		@include media-breakpoint-down(md) {
+		  column-count: 2;
+		}
 
-    @include media-breakpoint-down(sm) {
-      column-count: 1;
-    }
-  }
+		@include media-breakpoint-down(sm) {
+		  column-count: 1;
+		}
+	  }
+	}
 }
 
 #wrapper.closed {
