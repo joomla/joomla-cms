@@ -60,10 +60,8 @@
 		<field
 			name="htmlbody_switcher"
 			type="radio"
-			label="sdfaghg"
 			class="switcher"
 			default="0"
-			hiddenLabel="true"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
