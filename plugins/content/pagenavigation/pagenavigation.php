@@ -135,7 +135,7 @@ class PlgContentPagenavigation extends CMSPlugin
 
 			$case_when = ' CASE WHEN ' . $query->charLength('a.alias', '!=', '0')
 				. ' THEN ' . $query->concatenate(array($query->castAsChar('a.id'), 'a.alias'), ':')
-				. ' ELSE '. $query->castAsChar('a.id') . ' END AS slug';
+				. ' ELSE ' . $query->castAsChar('a.id') . ' END AS slug';
 
 			$case_when1 = ' CASE WHEN ' . $query->charLength('cc.alias', '!=', '0')
 				. ' THEN ' . $query->concatenate(array($query->castAsChar('cc.id'), 'cc.alias'), ':')
