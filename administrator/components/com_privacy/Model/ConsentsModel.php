@@ -66,7 +66,7 @@ class ConsentsModel extends ListModel
 
 		// Join over the users for the username and name.
 		$query->select($db->quoteName('u.username', 'username'))
-				->select($db->quoteName('u.name', 'name'));
+			->select($db->quoteName('u.name', 'name'));
 		$query->join('LEFT', $db->quoteName('#__users', 'u') . ' ON u.id = a.user_id');
 
 		// Filter by search in email
