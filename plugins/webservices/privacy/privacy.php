@@ -39,24 +39,24 @@ class PlgWebservicesPrivacy extends CMSPlugin
 	 */
 	public function onBeforeApiRoute(&$router)
 	{
-		$defaults    = array('component' => 'com_privacy');
-		$getDefaults = array_merge(array('public' => false), $defaults);
+		$defaults    = ['component' => 'com_privacy'];
+		$getDefaults = array_merge(['public' => false], $defaults);
 
-		$routes = array(
+		$routes = [
 			new Route(['GET'], 'v1/privacy/request', 'requests.displayList', [], $getDefaults),
 			new Route(['GET'], 'v1/privacy/request/:id', 'requests.displayItem', ['id' => '(\d+)'], $getDefaults),
 			new Route(['GET'], 'v1/privacy/request/export/:id', 'requests.export', ['id' => '(\d+)'], $getDefaults),
 			new Route(['POST'], 'v1/privacy/request', 'requests.add', [], $defaults)
-		);
+		];
 
 		$router->addRoutes($routes);
 
-		$routes = array(
+		$routes = [
 			new Route(['GET'], 'v1/privacy/consent', 'consents.displayList', [], $getDefaults),
 			new Route(['GET'], 'v1/privacy/consent/:id', 'consents.displayItem', ['id' => '(\d+)'], $getDefaults),
 			new Route(['POST'], 'v1/privacy/consent', 'consents.add', [], $defaults),
 			new Route(['DELETE'], 'v1/privacy/consent/:id', 'consents.delete', ['id' => '(\d+)'], $defaults)
-		);
+		];
 
 		$router->addRoutes($routes);
 	}
