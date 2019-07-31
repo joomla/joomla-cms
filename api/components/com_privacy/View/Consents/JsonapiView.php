@@ -64,11 +64,13 @@ class JsonapiView extends BaseApiView
 	/**
 	 * Execute and display a template script.
 	 *
+	 * @param   object  $item  Item
+	 *
 	 * @return  string
 	 *
 	 * @since   4.0.0
 	 */
-	public function displayItem()
+	public function displayItem($item = null)
 	{
 		$id = $this->get('state')->get($this->getName() . '.id');
 

@@ -27,11 +27,13 @@ class JsonapiView extends BaseApiView
 	/**
 	 * Execute and display a template script.
 	 *
+	 * @param   array|null  $items  Array of items
+	 *
 	 * @return  string
 	 *
 	 * @since   4.0.0
 	 */
-	public function displayList()
+	public function displayList(array $items = null)
 	{
 		try
 		{

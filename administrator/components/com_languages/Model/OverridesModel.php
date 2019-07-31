@@ -169,6 +169,11 @@ class OverridesModel extends ListModel
 
 		$app = Factory::getApplication();
 
+		if ($app->isClient('api'))
+		{
+			return;
+		}
+
 		$language_client = $this->getUserStateFromRequest('com_languages.overrides.language_client', 'language_client', '', 'cmd');
 		$client          = substr($language_client, -1);
 		$language        = substr($language_client, 0, -1);
@@ -200,19 +205,29 @@ class OverridesModel extends ListModel
 	 */
 	public function delete($cids)
 	{
-		// Check permissions first.
-		if (!Factory::getUser()->authorise('core.delete', 'com_languages'))
-		{
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+		$app = Factory::getApplication();
 
-			return false;
+		if ($app->isClient('api'))
+		{
+			$cids = (array) $cids;
+			$client = $this->getState('filter.client');
+		}
+		else
+		{
+			// Check permissions first.
+			if (!Factory::getUser()->authorise('core.delete', 'com_languages'))
+			{
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+
+				return false;
+			}
+
+			$filterclient = Factory::getApplication()->getUserState('com_languages.overrides.filter.client');
+			$client = $filterclient == 0 ? 'site' : 'administrator';
 		}
 
-		$filterclient = Factory::getApplication()->getUserState('com_languages.overrides.filter.client');
-		$client = $filterclient == 0 ? 'SITE' : 'ADMINISTRATOR';
-
 		// Parse the override.ini file in oder to get the keys and strings.
-		$fileName = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
+		$fileName = constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
 		$strings  = LanguageHelper::parseIniFile($fileName);
 
 		// Unset strings that shall be deleted

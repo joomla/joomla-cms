@@ -43,7 +43,6 @@ class JsonapiView extends BaseApiView
 		'ordering',
 		'access_level',
 		'home',
-
 	];
 
 	/**

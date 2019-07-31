@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\ApiRouter;
 use Joomla\Router\Route;
@@ -39,21 +40,87 @@ class PlgWebservicesLanguages extends CMSPlugin
 	 */
 	public function onBeforeApiRoute(&$router)
 	{
-		$defaults    = array('component' => 'com_languages');
-		$getDefaults = array_merge(array('public' => false), $defaults);
+		$router->createCRUDRoutes('v1/languages/content', 'languages', ['component' => 'com_languages']);
 
-		$routes = array(
-			new Route(['GET'], 'v1/languages/installed', 'languages.displayList', [], $getDefaults),
-		);
+		$this->createLanguageOverridesRoutes($router);
+		$this->createLanguageInstallerRoutes($router);
+	}
+
+	/**
+	 * Create language overrides routes
+	 *
+	 * @param   ApiRouter  &$router  The API Routing object
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	private function createLanguageOverridesRoutes(&$router)
+	{
+		$defaults = ['component' => 'com_languages'];
+
+		$routes = [
+			new Route(['POST'], 'v1/languages/overrides/search', 'strings.search', [], $defaults),
+			new Route(['POST'], 'v1/languages/overrides/search/cache/refresh', 'strings.refresh', [], $defaults),
+		];
 
 		$router->addRoutes($routes);
 
-		$defaults    = array('component' => 'com_installer');
-		$getDefaults = array_merge(array('public' => false), $defaults);
+		/** @var \Joomla\Component\Languages\Administrator\Model\LanguagesModel $model */
+		$model = Factory::getApplication()->bootComponent('com_languages')
+			->getMVCFactory()->createModel('Languages', 'Administrator', ['ignore_request' => true]);
 
-		$routes = array(
+		foreach ($model->getItems() as $item)
+		{
+			$baseName          = 'v1/languages/overrides/site/' . $item->lang_code;
+			$controller        = 'overrides';
+			$overridesDefaults = array_merge($defaults, ['lang_code' => $item->lang_code, 'app' => 'site']);
+			$getDefaults       = array_merge(['public' => false], $overridesDefaults);
+
+			$routes = [
+				new Route(['GET'], $baseName, $controller . '.displayList', [], $getDefaults),
+				new Route(['GET'], $baseName . '/:id', $controller . '.displayItem', ['id' => '([A-Z0-9_]+)'], $getDefaults),
+				new Route(['POST'], $baseName, $controller . '.add', [], $overridesDefaults),
+				new Route(['PUT'], $baseName . '/:id', $controller . '.edit', ['id' => '([A-Z0-9_]+)'], $overridesDefaults),
+				new Route(['DELETE'], $baseName . '/:id', $controller . '.delete', ['id' => '([A-Z0-9_]+)'], $overridesDefaults),
+			];
+
+			$router->addRoutes($routes);
+
+			$baseName          = 'v1/languages/overrides/administrator/' . $item->lang_code;
+			$overridesDefaults = array_merge($defaults, ['lang_code' => $item->lang_code, 'app' => 'administrator']);
+			$getDefaults       = array_merge(['public' => false], $overridesDefaults);
+
+			$routes = [
+				new Route(['GET'], $baseName, $controller . '.displayList', [], $getDefaults),
+				new Route(['GET'], $baseName . '/:id', $controller . '.displayItem', ['id' => '([A-Z0-9_]+)'], $getDefaults),
+				new Route(['POST'], $baseName, $controller . '.add', [], $overridesDefaults),
+				new Route(['PUT'], $baseName . '/:id', $controller . '.edit', ['id' => '([A-Z0-9_]+)'], $overridesDefaults),
+				new Route(['DELETE'], $baseName . '/:id', $controller . '.delete', ['id' => '([A-Z0-9_]+)'], $overridesDefaults),
+			];
+
+			$router->addRoutes($routes);
+		}
+	}
+
+	/**
+	 * Create language installer routes
+	 *
+	 * @param   ApiRouter  &$router  The API Routing object
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	private function createLanguageInstallerRoutes(&$router)
+	{
+		$defaults    = ['component' => 'com_installer'];
+		$getDefaults = array_merge(['public' => false], $defaults);
+
+		$routes = [
 			new Route(['GET'], 'v1/languages', 'languages.displayList', [], $getDefaults),
-		);
+			//new Route(['POST'], 'v1/languages/:url', 'languages.add', ['url' => '(\d+)'], $defaults) TODO
+		];
 
 		$router->addRoutes($routes);
 	}

@@ -78,19 +78,25 @@ abstract class JsonApiView extends JsonView
 	/**
 	 * Execute and display a template script.
 	 *
+	 * @param   array|null  $items  Array of items
+	 *
 	 * @return  string
 	 *
 	 * @since   4.0.0
 	 */
-	public function displayList()
+	public function displayList(array $items = null)
 	{
 		/** @var \Joomla\CMS\MVC\Model\ListModel $model */
 		$model = $this->getModel();
-		$items = array();
 
-		foreach ($model->getItems() as $item)
+		if ($items === null)
 		{
-			$items[] = $this->prepareItem($item);
+			$items = [];
+
+			foreach ($model->getItems() as $item)
+			{
+				$items[] = $this->prepareItem($item);
+			}
 		}
 
 		$pagination = $model->getPagination();
@@ -152,15 +158,20 @@ abstract class JsonApiView extends JsonView
 	/**
 	 * Execute and display a template script.
 	 *
+	 * @param   object  $item  Item
+	 *
 	 * @return  string
 	 *
 	 * @since   4.0.0
 	 */
-	public function displayItem()
+	public function displayItem($item = null)
 	{
-		/** @var \Joomla\CMS\MVC\Model\AdminModel $model */
-		$model = $this->getModel();
-		$item = $this->prepareItem($model->getItem());
+		if ($item === null)
+		{
+			/** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+			$model = $this->getModel();
+			$item  = $this->prepareItem($model->getItem());
+		}
 
 		if ($item->id === null)
 		{
@@ -180,7 +191,7 @@ abstract class JsonApiView extends JsonView
 
 		$serializer = new JoomlaSerializer($this->type);
 		$element = (new Resource($item, $serializer))
-			->fields([$this->type => $this->fieldsToRenderItem]);
+			->fields([$this->type => $this->fieldsToRenderItem])->with('author');
 
 		$this->document->setData($element);
 		$this->document->addLink('self', Uri::current());

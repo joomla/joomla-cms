@@ -156,6 +156,14 @@ class ApiController extends BaseController
 			throw new \RuntimeException('Unable to create the model');
 		}
 
+		if ($modelState = $this->input->get('model_state', false, 'array'))
+		{
+			foreach ($modelState as $property => $value)
+			{
+				$model->setState($property, $value);
+			}
+		}
+
 		try
 		{
 			$modelName = $model->getName();
@@ -223,11 +231,19 @@ class ApiController extends BaseController
 		$modelName = $this->input->get('model', $this->contentType);
 
 		/** @var ListModel $model */
-		$model = $this->getModel($modelName);
+		$model = $this->getModel($modelName, '', ['ignore_request' => true]);
 
 		if (!$model)
 		{
 			throw new \RuntimeException('Unable to create the model.');
+		}
+
+		if ($modelState = $this->input->get('model_state', false, 'array'))
+		{
+			foreach ($modelState as $property => $value)
+			{
+				$model->setState($property, $value);
+			}
 		}
 
 		// Push the model into the view (as default)
@@ -257,21 +273,41 @@ class ApiController extends BaseController
 	/**
 	 * Removes an item.
 	 *
+	 * @param   integer  $id  The primary key to delete item.
+	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	public function delete()
+	public function delete($id = null)
 	{
 		if (!$this->app->getIdentity()->authorise('core.delete', $this->option))
 		{
 			throw new NotAllowed('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED', 403);
 		}
 
-		$id = $this->input->get('id', 0, 'int');
+		if ($id === null)
+		{
+			$id = $this->input->get('id', 0, 'int');
+		}
+
+		$modelName = $this->input->get('model', Inflector::singularize($this->contentType));
 
 		/** @var \Joomla\CMS\MVC\Model\AdminModel $model */
-		$model = $this->getModel(Inflector::singularize($this->contentType));
+		$model = $this->getModel($modelName, '', ['ignore_request' => true]);
+
+		if (!$model)
+		{
+			throw new \RuntimeException('Unable to create the model');
+		}
+
+		if ($modelState = $this->input->get('model_state', false, 'array'))
+		{
+			foreach ($modelState as $property => $value)
+			{
+				$model->setState($property, $value);
+			}
+		}
 
 		// Remove the item.
 		if (!$model->delete($id))

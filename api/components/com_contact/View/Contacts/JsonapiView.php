@@ -40,11 +40,13 @@ class JsonapiView extends BaseApiView
 	/**
 	 * Execute and display a template script.
 	 *
+	 * @param   array|null  $items  Array of items
+	 *
 	 * @return  string
 	 *
 	 * @since   4.0.0
 	 */
-	public function displayList()
+	public function displayList(array $items = null)
 	{
 		$fields = [];
 
@@ -61,11 +63,13 @@ class JsonapiView extends BaseApiView
 	/**
 	 * Execute and display a template script.
 	 *
+	 * @param   object  $item  Item
+	 *
 	 * @return  string
 	 *
 	 * @since   4.0.0
 	 */
-	public function displayItem()
+	public function displayItem($item = null)
 	{
 		$fields = [];
 
