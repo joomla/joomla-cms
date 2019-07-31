@@ -205,6 +205,14 @@ class OverridesModel extends ListModel
 	 */
 	public function delete($cids)
 	{
+		// Check permissions first.
+		if (!Factory::getUser()->authorise('core.delete', 'com_languages'))
+		{
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+
+			return false;
+		}
+
 		$app = Factory::getApplication();
 
 		if ($app->isClient('api'))
@@ -214,14 +222,6 @@ class OverridesModel extends ListModel
 		}
 		else
 		{
-			// Check permissions first.
-			if (!Factory::getUser()->authorise('core.delete', 'com_languages'))
-			{
-				$this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
-
-				return false;
-			}
-
 			$filterclient = Factory::getApplication()->getUserState('com_languages.overrides.filter.client');
 			$client = $filterclient == 0 ? 'site' : 'administrator';
 		}
