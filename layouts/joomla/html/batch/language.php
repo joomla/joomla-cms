@@ -21,7 +21,7 @@ use Joomla\CMS\Language\Text;
 HTMLHelper::_('script', 'layouts/joomla/html/batch/batch-language.min.js', ['version' => 'auto', 'relative' => true]);
 
 ?>
-<label id="batch-language-lbl" for="batch-language-id" class="modalTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'JLIB_HTML_BATCH_LANGUAGE_LABEL', 'JLIB_HTML_BATCH_LANGUAGE_LABEL_DESC'); ?>">
+<label id="batch-language-lbl" for="batch-language-id">
 	<?php echo Text::_('JLIB_HTML_BATCH_LANGUAGE_LABEL'); ?>
 </label>
 <select name="batch[language_id]" class="custom-select" id="batch-language-id">
