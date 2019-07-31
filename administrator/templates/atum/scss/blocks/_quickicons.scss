@@ -58,7 +58,7 @@
         @include hover-focus-active {
           text-decoration: none;
           color: $quickicon-color-hover;
-          background: var(--atum-link-color);
+          background: var(--atum-bg-dark);
         }  
       }
 
@@ -71,7 +71,7 @@
       height: 2rem;
       line-height: 2rem;
       color: $quickicon-bg;
-      background-color: var(--atum-link-color);
+      background-color: var(--atum-bg-dark);
      } 
     }
   }
@@ -126,22 +126,22 @@
     .fa,
     .fab {
       font-size: $quickicon-icon-size;
-      color: var(--atum-link-color);
+      color: var(--atum-bg-dark);
 
       &:hover {
-        color: $quickicon-color-hover;
+        color: var(--atum-bg-dark);;
       }
     }
 
     &:hover {
-      color: $quickicon-color-hover;
+      color: $white;
     }
 
     @include hover-focus-active {
       text-decoration: none;
 
       .fa {
-        color: $quickicon-color-hover;
+        color: $white;
       }
     }
 
@@ -236,8 +236,8 @@
 
     @include hover-focus-active {
       text-decoration: none;
-      color: $quickicon-color-hover;
-      background: var(--atum-link-color);
+      color: $white;
+      background: var(--atum-bg-dark);
     }  
   }	 
 }
@@ -274,11 +274,11 @@
         max-width: calc(50% - 1rem);
         flex: 1 1 calc(50% - 1rem);
       }
-	   @media (max-width: 950px) {
-		  width: calc(100% - 1rem);
-		  max-width: calc(100% - 1rem);
-		  flex: 1 1 calc(100% - 1rem);
-		}
+      @media (max-width: 950px) {
+        width: calc(100% - 1rem);
+        max-width: calc(100% - 1rem);
+        flex: 1 1 calc(100% - 1rem);
+      }
       @media (max-width: 767px) {
         width: calc(33% - 1rem);
         max-width: calc(33% - 1rem);
