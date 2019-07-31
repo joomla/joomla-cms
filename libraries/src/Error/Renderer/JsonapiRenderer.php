@@ -16,6 +16,7 @@ use Joomla\CMS\Error\JsonApi\NotAcceptableExceptionHandler;
 use Joomla\CMS\Error\JsonApi\NotAllowedExceptionHandler;
 use Joomla\CMS\Error\JsonApi\ResourceNotFoundExceptionHandler;
 use Joomla\CMS\Error\JsonApi\CheckinCheckoutExceptionHandler;
+use Joomla\CMS\Error\JsonApi\SaveExceptionHandler;
 use Joomla\CMS\Error\JsonApi\SendEmailExceptionHandler;
 use Joomla\CMS\Error\JsonApi\InvalidParameterExceptionHandler;
 use Joomla\CMS\Factory;
@@ -59,6 +60,7 @@ class JsonapiRenderer extends JsonRenderer
 			$errors->registerHandler(new NotAllowedExceptionHandler);
 			$errors->registerHandler(new InvalidParameterExceptionHandler);
 			$errors->registerHandler(new ResourceNotFoundExceptionHandler);
+			$errors->registerHandler(new SaveExceptionHandler);
 			$errors->registerHandler(new CheckinCheckoutExceptionHandler);
 			$errors->registerHandler(new SendEmailExceptionHandler);
 			$errors->registerHandler(new FallbackExceptionHandler(JDEBUG));

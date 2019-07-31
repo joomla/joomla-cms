@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\CMS\MVC\Controller\Exception;
+use Joomla\CMS\Language\Text;
 use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
@@ -148,7 +150,7 @@ class OverridesController extends ApiController
 
 		if (!$model->save($validData))
 		{
-			//throw new CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
+			throw new Exception\Save(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
 		}
 
 		$id = $validData['key'];

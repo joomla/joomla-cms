@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Controller\Exception\CheckinCheckout;
+use Joomla\CMS\MVC\Controller\Exception;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MvcFactoryInterface;
@@ -393,7 +393,7 @@ class ApiController extends BaseController
 		if ($checkin && !$model->checkout($recordId))
 		{
 			// Check-out failed, display a notice but allow the user to see the record.
-			throw new CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()), 'error');
+			throw new Exception\CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()), 'error');
 		}
 
 		$this->save($recordId);
@@ -477,7 +477,7 @@ class ApiController extends BaseController
 		// Attempt to save the data.
 		if (!$model->save($validData))
 		{
-			throw new CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
+			throw new Exception\Save(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
 		}
 
 		try
@@ -494,13 +494,13 @@ class ApiController extends BaseController
 
 		if ($recordId === null)
 		{
-			throw new CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
+			throw new Exception\CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
 		}
 
 		// Save succeeded, so check-in the record.
 		if ($checkin && $model->checkin($recordId) === false)
 		{
-			throw new CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
+			throw new Exception\CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
 		}
 
 		return $recordId;
