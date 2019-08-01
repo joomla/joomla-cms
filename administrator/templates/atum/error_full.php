@@ -134,7 +134,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			<a class="btn btn-subhead d-md-none d-lg-none d-xl-none" data-toggle="collapse"
 			   data-target=".subhead-collapse"><?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>
 				<span class="icon-wrench"></span></a>
-			<div id="subhead" class="subhead">
+			<div id="subhead" class="subhead mb-3">
 				<div id="container-collapse" class="container-collapse"></div>
 				<div class="row">
 					<div class="col-md-12">

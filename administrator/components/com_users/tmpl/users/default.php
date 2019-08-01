@@ -73,13 +73,13 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								<th scope="col" style="width:12%" class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_USERS_HEADING_GROUPS'); ?>
 								</th>
-								<th scope="col" style="width:12%;" class="d-none d-lg-table-cell">
+								<th scope="col" style="width:12%;" class="d-none d-xl-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:12%" class="d-none d-lg-table-cell">
+								<th scope="col" style="width:12%" class="d-none d-xl-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_LAST_VISIT_DATE', 'a.lastvisitDate', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:12%" class="d-none d-lg-table-cell">
+								<th scope="col" style="width:12%" class="d-none d-xl-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_REGISTRATION_DATE', 'a.registerDate', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
@@ -172,17 +172,17 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 										<?php echo nl2br($item->group_names); ?>
 									<?php endif; ?>
 								</td>
-								<td class="d-none d-lg-table-cell break-word">
+								<td class="d-none d-xl-table-cell break-word">
 									<?php echo PunycodeHelper::emailToUTF8($this->escape($item->email)); ?>
 								</td>
-								<td class="d-none d-lg-table-cell">
+								<td class="d-none d-xl-table-cell">
 									<?php if ($item->lastvisitDate != $this->db->getNullDate()) : ?>
 										<?php echo HTMLHelper::_('date', $item->lastvisitDate, Text::_('DATE_FORMAT_LC6')); ?>
 									<?php else : ?>
 										<?php echo Text::_('JNEVER'); ?>
 									<?php endif; ?>
 								</td>
-								<td class="d-none d-lg-table-cell">
+								<td class="d-none d-xl-table-cell">
 									<?php echo HTMLHelper::_('date', $item->registerDate, Text::_('DATE_FORMAT_LC6')); ?>
 								</td>
 								<td class="d-none d-md-table-cell">

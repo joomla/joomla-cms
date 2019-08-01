@@ -58,9 +58,10 @@ $filters = $data['view']->filterForm->getGroup('filter');
 				<?php echo Text::_('JFILTER_OPTIONS'); ?>
 				<span class="fa fa-angle-down" aria-hidden="true"></span>
 			</button>
+			<button type="button" class="btn btn-primary js-stools-btn-clear mr-2">
+				<?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?>
+			</button>
 		</div>
-		<button type="button" class="btn btn-primary js-stools-btn-clear mr-2">
-			<?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?>
-		</button>
+		
 	<?php endif; ?>
 <?php endif;

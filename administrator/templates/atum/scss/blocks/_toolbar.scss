@@ -26,7 +26,7 @@ joomla-toolbar-button {
     margin-bottom: 0;
 
     > joomla-toolbar-button,
-	> .btn-group {
+    > .btn-group {
       margin-left: .75rem;
 
       &:first-child {
@@ -43,7 +43,7 @@ joomla-toolbar-button {
     font-size: 1rem;
     line-height: $atum-toolbar-line-height;
     box-shadow: $atum-box-shadow;
-	border: 0;
+    border: 0;
 
     [class^='icon-'],
     [class*=' icon-'],
@@ -113,7 +113,7 @@ joomla-toolbar-button {
       background-color: theme-color("danger");
     }
   }
-
+    
     &.btn-primary {
 
       background-color: $white;
@@ -140,6 +140,21 @@ joomla-toolbar-button {
         color:rgba(255,255,255,0.90);
         background-color: var(--atum-bg-dark);
       }
+    }
+    
+    &.btn-secondary {
+    
+        [class^='icon-download'] {
+             background-color: var(--atum-bg-dark-70);
+            color:rgba(255,255,255,0.90);
+        }
+        
+         &:hover, &:active, &:focus {
+            [class^='icon-download'] {
+                background-color: var(--atum-bg-dark-80);
+                color:rgba(255,255,255,0.90);
+            }
+         }
     }
 
     &.btn-info {
@@ -228,10 +243,10 @@ joomla-toolbar-button {
 
     }
 
-	&.disabled,
-	&:disabled{
-		opacity:1;
-	}
+    &.disabled,
+    &:disabled{
+        opacity:1;
+    }
   }
 
   .dropdown-item {
@@ -311,9 +326,9 @@ joomla-toolbar-button {
         line-height: 2.375rem;
       }
     }
-	&::after{
-		line-height:2.4rem;
-	}
+    &::after{
+        line-height:2.4rem;
+    }
   }
 }
 
@@ -327,20 +342,58 @@ joomla-toolbar-button {
   }
   > joomla-toolbar-button,
   > .btn-group {
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(lg) {
       margin-left:0 !important;
       margin-right:0.75rem;
       margin-bottom:0.75rem;
-    }
+    }    
   }
+
 
 }
 
 .js-stools{
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-down(lg) {
     justify-content:flex-start;
+    .js-stools-container-bar{
+        .btn-toolbar{
+             justify-content:flex-start;
+        }
+    }
   }
   @include media-breakpoint-down(xs) {
     display:block;
+      .joomla-toolbar-button,
+      .btn-group,
+      .input-group,
+      .ordering-select,
+      .js-stools-field-list,
+      .js-stools-container-selector      {
+        @include media-breakpoint-down(sm) {
+            width:100%;
+        }
+     }
+     .ordering-select,
+     .js-stools-container-selector{
+        margin-right:.5rem;
+     }
+     .btn-group{
+        @include media-breakpoint-down(sm) {
+            margin-right:0;
+        }
+     }
+     .js-stools-container-bar{
+        .js-stools-field-list{
+            @include media-breakpoint-down(sm) {
+                margin-bottom: .75rem;
+            }
+         }    
+    }         
+     
+     .js-stools-btn-filter    {
+        @include media-breakpoint-down(sm) {
+            width:75%;
+        }
+     }
   }
 }

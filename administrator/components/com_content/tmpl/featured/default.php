@@ -123,7 +123,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 								<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_' . strtoupper($orderingColumn), 'a.' . $orderingColumn, $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:3%" class="d-none d-md-table-cell text-center">
+								<th scope="col" style="width:3%" class="d-none d-lg-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($this->vote) : ?>
@@ -134,7 +134,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th scope="col" style="width:3%" class="d-none d-md-table-cell">
+								<th scope="col" style="width:3%" class="d-none d-lg-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -338,7 +338,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 									echo $date > 0 ? HTMLHelper::_('date', $date, Text::_('DATE_FORMAT_LC4')) : '-';
 									?>
 								</td>
-								<td class="d-none d-md-table-cell text-center">
+								<td class="d-none d-lg-table-cell text-center">
 									<span class="badge badge-info">
 									<?php echo (int) $item->hits; ?>
 									</span>
@@ -355,7 +355,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										</span>
 									</td>
 								<?php endif; ?>
-								<td class="d-none d-md-table-cell">
+								<td class="d-none d-lg-table-cell">
 									<?php echo (int) $item->id; ?>
 								</td>
 							</tr>
