@@ -19,6 +19,14 @@ use Joomla\CMS\Table\Table;
 class TestTable extends Table
 {
 	/**
+	 * An array of key names to be json encoded in the bind function
+	 *
+	 * @var    array
+	 * @since  3.3
+	 */
+	protected $_jsonEncode = array('params');
+
+	/**
 	 * Constructor
 	 *
 	 * @param   string   DatabaseDriver  $db          Database driver object.

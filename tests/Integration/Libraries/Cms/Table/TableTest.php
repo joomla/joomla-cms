@@ -85,4 +85,113 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 			array_keys($this->object->getFields())
 		);
 	}
+
+	public function testBindWorksWithArraysAndObjects()
+	{
+		$data = [
+			'title' => 'Test Title',
+			'hits' => 42,
+			'published' => 1,
+			'ordering' => 23
+		];
+
+		$this->object->bind($data);
+
+		$this->assertEquals('Test Title', $this->object->title);
+		$this->assertEquals(42, $this->object->hits);
+		$this->assertEquals(1, $this->object->published);
+		$this->assertEquals(23, $this->object->ordering);
+
+		$this->object->reset();
+
+		$this->object->bind((object) $data);
+
+		$this->assertEquals('Test Title', $this->object->title);
+		$this->assertEquals(42, $this->object->hits);
+		$this->assertEquals(1, $this->object->published);
+		$this->assertEquals(23, $this->object->ordering);
+	}
+
+	public function testBindOnlyBindsTableFields()
+	{
+		$data = [
+			'title' => 'Test Title',
+			'hits' => 42,
+			'fakefield' => 'Not present!',
+			'published' => 1,
+			'ordering' => 23,
+			'fakefield2' => 'Not present either!'
+		];
+
+		$this->object->bind($data);
+
+		$this->assertEquals('Test Title', $this->object->title);
+		$this->assertEquals(42, $this->object->hits);
+		$this->assertEquals(1, $this->object->published);
+		$this->assertEquals(23, $this->object->ordering);
+		$this->assertNotTrue(isset($this->object->fakefield));
+		$this->assertNotTrue(isset($this->object->fakefield2));
+	}
+
+	public function testBindIgnoresFields()
+	{
+		$data = [
+			'title' => 'Test Title',
+			'hits' => 42,
+			'published' => 1,
+			'ordering' => 23
+		];
+		$ignore = [
+			'hits',
+			'ordering'
+		];
+
+		// Check for ingore fields as array
+		$this->object->bind($data, $ignore);
+
+		$this->assertEquals('Test Title', $this->object->title);
+		$this->assertEquals(null, $this->object->hits);
+		$this->assertEquals(1, $this->object->published);
+		$this->assertEquals(null, $this->object->ordering);
+
+		// Check for ignore fields as string
+		$this->object->bind($data, 'hits ordering');
+
+		$this->assertEquals('Test Title', $this->object->title);
+		$this->assertEquals(null, $this->object->hits);
+		$this->assertEquals(1, $this->object->published);
+		$this->assertEquals(null, $this->object->ordering);
+	}
+
+	public function testBindJSONEncodesFields()
+	{
+		$data = [
+			'title' => 'Test Title',
+			'hits' => 42,
+			'published' => 1,
+			'ordering' => 23,
+			'params' => [
+				'key' => 'value',
+				'nested' => [
+					'more' => 'values',
+					'even' => 'more'
+				],
+				'object' => (object) [
+					'attribute1' => 'value1',
+					'attribute2' => 'value2'
+				]
+			]
+		];
+
+		$this->object->bind($data);
+
+		$this->assertEquals(json_encode($data['params']), $this->object->params);
+	}
+
+	public function testBindRequiresArrayOrObject()
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		$this->object->bind(2);
+	}
 }
