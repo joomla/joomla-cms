@@ -999,13 +999,18 @@ class Image implements LoggerAwareInterface
 		$type = strtolower(preg_replace('#[^A-Z0-9_]#i', '', $type));
 
 		// Verify that the filter type exists.
-		$className = __NAMESPACE__ . '\\Filter\\' . ucfirst($type);
+		$className = 'JImageFilter' . ucfirst($type);
 
 		if (!class_exists($className))
 		{
-			$this->getLogger()->error('The ' . ucfirst($type) . ' image filter is not available.');
+			$className = __NAMESPACE__ . '\\Filter\\' . ucfirst($type);
 
-			throw new \RuntimeException('The ' . ucfirst($type) . ' image filter is not available.');
+			if (!class_exists($className))
+			{
+				$this->getLogger()->error('The ' . ucfirst($type) . ' image filter is not available.');
+
+				throw new \RuntimeException('The ' . ucfirst($type) . ' image filter is not available.');
+			}
 		}
 
 		// Instantiate the filter object.
