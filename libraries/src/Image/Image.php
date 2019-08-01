@@ -11,11 +11,11 @@ namespace Joomla\CMS\Image;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Log\DelegatingPsrLogger;
 use Joomla\CMS\Log\Log;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 
 /**
  * Class to manipulate an image.
@@ -114,9 +114,6 @@ class Image implements LoggerAwareInterface
 	 */
 	public function __construct($source = null)
 	{
-		// Inject the PSR-3 compatible logger in for forward compatibility
-		$this->setLogger(Log::createDelegatedLogger());
-
 		// Verify that GD support for PHP is available.
 		if (!extension_loaded('gd'))
 		{
@@ -175,10 +172,10 @@ class Image implements LoggerAwareInterface
 	 */
 	public function getLogger()
 	{
-		// If a logger hasn't been set, use NullLogger
+		// If a logger hasn't been set, use DelegatingPsrLogger
 		if (! ($this->logger instanceof LoggerInterface))
 		{
-			$this->logger = new NullLogger;
+			$this->logger = Log::createDelegatedLogger();
 		}
 
 		return $this->logger;

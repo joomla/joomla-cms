@@ -10,11 +10,11 @@ namespace Joomla\CMS\Image;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Log\DelegatingPsrLogger;
 use Joomla\CMS\Log\Log;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 
 /**
  * Class to manipulate an image.
@@ -42,9 +42,6 @@ abstract class ImageFilter implements LoggerAwareInterface
 	 */
 	public function __construct($handle)
 	{
-		// Inject the PSR-3 compatible logger in for forward compatibility
-		$this->setLogger(Log::createDelegatedLogger());
-
 		// Verify that image filter support for PHP is available.
 		if (!function_exists('imagefilter'))
 		{
@@ -73,10 +70,10 @@ abstract class ImageFilter implements LoggerAwareInterface
 	 */
 	public function getLogger()
 	{
-		// If a logger hasn't been set, use NullLogger
-		if (! ($this->logger instanceof LoggerInterface))
+		// If a logger hasn't been set, use DelegatingPsrLogger
+		if (!($this->logger instanceof LoggerInterface))
 		{
-			$this->logger = new NullLogger;
+			$this->logger = Log::createDelegatedLogger();
 		}
 
 		return $this->logger;
