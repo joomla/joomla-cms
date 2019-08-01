@@ -115,8 +115,8 @@ abstract class RelatedItemsHelper
 				}
 
 				$query->where('(' . implode(' OR ', $wheres) . ')')
-					->where('(ISNULL(a.publish_up) OR a.publish_up <= ' . $db->quote($now) . ')')
-					->where('(ISNULL(a.publish_down) OR a.publish_down >= ' . $db->quote($now) . ')');
+					->where('(a.publish_up IS NULL OR a.publish_up <= ' . $db->quote($now) . ')')
+					->where('(a.publish_down IS NULL OR a.publish_down >= ' . $db->quote($now) . ')');
 
 				// Filter by language
 				if (Multilanguage::isEnabled())

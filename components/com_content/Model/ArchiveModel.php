@@ -198,8 +198,8 @@ class ArchiveModel extends ArticlesModel
 			->where($db->quoteName('c.id') . ' = ' . $db->quoteName('wa.item_id'))
 			->where($db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
 			->where($db->quoteName('ws.condition') . '= ' . (int) ContentComponent::CONDITION_ARCHIVED)
-			->where('(ISNULL(c.publish_up) OR c.publish_up <= ' . $nowDate . ')')
-			->where('(ISNULL(c.publish_down) OR c.publish_down >= ' . $nowDate . ')')
+			->where('(c.publish_up IS NULL OR c.publish_up <= ' . $nowDate . ')')
+			->where('(c.publish_down IS NULL OR c.publish_down >= ' . $nowDate . ')')
 			->order('1 ASC');
 
 		$db->setQuery($query);
