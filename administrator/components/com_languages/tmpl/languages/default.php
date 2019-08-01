@@ -116,14 +116,12 @@ if ($saveOrder && !empty($this->items))
 									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'languages.', $canChange); ?>
 								</td>
 								<th scope="row">
-									<span class="editlinktip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', Text::_('JGLOBAL_EDIT_ITEM'), $item->title, 0); ?>">
 									<?php if ($canEdit) : ?>
 										<a href="<?php echo Route::_('index.php?option=com_languages&task=language.edit&lang_id=' . (int) $item->lang_id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 											<?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
-									</span>
 								</th>
 								<td class="d-none d-md-table-cell">
 									<?php echo $this->escape($item->title_native); ?>
