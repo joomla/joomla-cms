@@ -662,27 +662,22 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		);
 		$this->getDispatcher()->dispatch('onTableBeforeBind', $event);
 
+		// If the source value is an object, get its accessible properties.
+		if (is_object($src))
+		{
+			$src = get_object_vars($src);
+		}
+
 		// JSON encode any fields required
 		if (!empty($this->_jsonEncode))
 		{
 			foreach ($this->_jsonEncode as $field)
 			{
-				if (is_array($src) && isset($src[$field]) && is_array($src[$field]))
+				if (isset($src[$field]) && is_array($src[$field]))
 				{
 					$src[$field] = json_encode($src[$field]);
 				}
-
-				if (is_object($src) && isset($src->$field) && is_array($src->$field))
-				{
-					$src->$field = json_encode($src->$field);
-				}
 			}
-		}
-
-		// If the source value is an object, get its accessible properties.
-		if (is_object($src))
-		{
-			$src = get_object_vars($src);
 		}
 
 		// Bind the source value, excluding the ignored fields.
