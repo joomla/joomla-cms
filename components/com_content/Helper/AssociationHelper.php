@@ -68,8 +68,8 @@ abstract class AssociationHelper extends CategoryAssociationHelper
 					$date = Factory::getDate();
 					$nowDate = $db->quote($date->toSql());
 
-					$advClause[] = '(c2.publish_up IS NULL OR c2.publish_up <= ' . $nowDate . ')';
-					$advClause[] = '(c2.publish_down IS NULL OR c2.publish_down >= ' . $nowDate . ')';
+					$advClause[] = '(ISNULL(c2.publish_up) OR c2.publish_up <= ' . $nowDate . ')';
+					$advClause[] = '(ISNULL(c2.publish_down) OR c2.publish_down >= ' . $nowDate . ')';
 
 					// Filter by published
 					$advClause[] = 'c2.state = 1';
