@@ -49,23 +49,23 @@
 				</field>
 				<field
 					name="show_checkin"
-					type="radio"
+					type="list"
 					label="MOD_QUICKICON_SHOW_CHECKIN_LABEL"
-					class="switcher"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+					<option value="2">MOD_QUICKICON_WITH_COUNT</option>
 				</field>
 				<field
 					name="show_cache"
-					type="radio"
+					type="list"
 					label="MOD_QUICKICON_SHOW_CACHE_LABEL"
-					class="switcher"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+					<option value="2">MOD_QUICKICON_WITH_COUNT</option>
 				</field>
 				<field
 					name="show_users"
