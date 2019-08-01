@@ -778,7 +778,7 @@
 						break;
 					}
 				}
-				self.inputField.setAttribute('data-alt-value', "0000-00-00 00:00:00");
+				self.inputField.setAttribute('data-alt-value', "");
 				self.inputField.setAttribute('value', '');
 				self.inputField.value = '';
 			});

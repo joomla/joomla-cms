@@ -187,7 +187,6 @@ class ArchiveModel extends ArticlesModel
 	public function getYears()
 	{
 		$db = $this->getDbo();
-		$nullDate = $db->quote($db->getNullDate());
 		$nowDate  = $db->quote(Factory::getDate()->toSql());
 
 		$query = $db->getQuery(true);
@@ -199,8 +198,8 @@ class ArchiveModel extends ArticlesModel
 			->where($db->quoteName('c.id') . ' = ' . $db->quoteName('wa.item_id'))
 			->where($db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
 			->where($db->quoteName('ws.condition') . '= ' . (int) ContentComponent::CONDITION_ARCHIVED)
-			->where('(c.publish_up = ' . $nullDate . ' OR c.publish_up <= ' . $nowDate . ')')
-			->where('(c.publish_down = ' . $nullDate . ' OR c.publish_down >= ' . $nowDate . ')')
+			->where('(ISNULL(c.publish_up) OR c.publish_up <= ' . $nowDate . ')')
+			->where('(ISNULL(c.publish_down) OR c.publish_down >= ' . $nowDate . ')')
 			->order('1 ASC');
 
 		$db->setQuery($query);

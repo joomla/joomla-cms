@@ -61,7 +61,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 		<?php if (strtotime($this->item->publish_up) > strtotime(Factory::getDate())) : ?>
 			<span class="badge badge-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
 		<?php endif; ?>
-		<?php if ((strtotime($this->item->publish_down) < strtotime(Factory::getDate())) && $this->item->publish_down != Factory::getDbo()->getNullDate()) : ?>
+		<?php if ((strtotime($this->item->publish_down) < strtotime(Factory::getDate())) && !is_null($this->item->publish_down)) : ?>
 			<span class="badge badge-warning"><?php echo Text::_('JEXPIRED'); ?></span>
 		<?php endif; ?>
 	</div>

@@ -59,7 +59,6 @@ abstract class RelatedItemsHelper
 		$temp = explode(':', $temp);
 		$id   = $temp[0];
 
-		$nullDate = $db->getNullDate();
 		$now      = Factory::getDate()->toSql();
 		$related  = [];
 		$query    = $db->getQuery(true);
@@ -116,8 +115,8 @@ abstract class RelatedItemsHelper
 				}
 
 				$query->where('(' . implode(' OR ', $wheres) . ')')
-					->where('(a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ')')
-					->where('(a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')');
+					->where('(ISNULL(a.publish_up) OR a.publish_up <= ' . $db->quote($now) . ')')
+					->where('(ISNULL(a.publish_down) OR a.publish_down >= ' . $db->quote($now) . ')');
 
 				// Filter by language
 				if (Multilanguage::isEnabled())

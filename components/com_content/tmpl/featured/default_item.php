@@ -30,7 +30,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 
 <div class="item-content">
 	<?php if ($this->item->state == Workflow::CONDITION_UNPUBLISHED || strtotime($this->item->publish_up) > strtotime(Factory::getDate())
-		|| ((strtotime($this->item->publish_down) < strtotime(Factory::getDate())) && $this->item->publish_down != Factory::getDbo()->getNullDate())) : ?>
+		|| ((strtotime($this->item->publish_down) < strtotime(Factory::getDate())) && !is_null($this->item->publish_down))) : ?>
 		<div class="system-unpublished">
 	<?php endif; ?>
 
@@ -52,7 +52,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 	<?php if (strtotime($this->item->publish_up) > strtotime(Factory::getDate())) : ?>
 		<span class="badge badge-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
 	<?php endif; ?>
-	<?php if ((strtotime($this->item->publish_down) < strtotime(Factory::getDate())) && $this->item->publish_down != Factory::getDbo()->getNullDate()) : ?>
+	<?php if ((strtotime($this->item->publish_down) < strtotime(Factory::getDate())) && !is_null($this->item->publish_down)) : ?>
 		<span class="badge badge-warning"><?php echo Text::_('JEXPIRED'); ?></span>
 	<?php endif; ?>
 
@@ -104,7 +104,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 	<?php endif; ?>
 
 	<?php if ($this->item->state == Workflow::CONDITION_UNPUBLISHED || strtotime($this->item->publish_up) > strtotime(Factory::getDate())
-		|| ((strtotime($this->item->publish_down) < strtotime(Factory::getDate())) && $this->item->publish_down != $this->db->getNullDate() )) : ?>
+		|| ((strtotime($this->item->publish_down) < strtotime(Factory::getDate())) && !is_null($this->item->publish_down))) : ?>
 		</div>
 	<?php endif; ?>
 

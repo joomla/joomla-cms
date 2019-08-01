@@ -101,7 +101,7 @@ class ArticleModel extends ItemModel
 							'item.select', 'a.id, a.asset_id, a.title, a.alias, a.introtext, a.fulltext, ' .
 							'a.state, a.catid, a.created, a.created_by, a.created_by_alias, ' .
 							// Use created if modified is 0
-							'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
+							'CASE WHEN ISNULL(a.modified) THEN a.created ELSE a.modified END as modified, ' .
 							'a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
 							'a.images, a.urls, a.attribs, a.version, a.ordering, ' .
 							'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, a.language'
@@ -155,13 +155,11 @@ class ArticleModel extends ItemModel
 				)
 				{
 					// Filter by start and end dates.
-					$nullDate = $db->quote($db->getNullDate());
 					$date = Factory::getDate();
-
 					$nowDate = $db->quote($date->toSql());
 
-					$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-						->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+					$query->where('(ISNULL(a.publish_up) OR a.publish_up <= ' . $nowDate . ')')
+						->where('(ISNULL(a.publish_down) OR a.publish_down >= ' . $nowDate . ')');
 				}
 
 				// Filter by published state.
