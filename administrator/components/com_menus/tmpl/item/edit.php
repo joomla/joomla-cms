@@ -182,11 +182,11 @@ if ($clientId === 1)
 		<?php if (!$isModal && $assoc && $this->state->get('item.client_id') != 1) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
 			<?php if ($hasAssoc) : ?>
-				<fieldset id="fieldset-associations" class="options-fieldset option-fieldset-full">
+				<fieldset id="fieldset-associations" class="options-grid-form options-grid-form-full">
 				<legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
-			<?php endif; ?>
-			<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
-			<?php if ($hasAssoc) : ?>
+				<div>
+				<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
+				</div>
 				</fieldset>
 			<?php endif; ?>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
@@ -196,9 +196,11 @@ if ($clientId === 1)
 
 		<?php if (!empty($this->modules)) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'modules', Text::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT')); ?>
-			<fieldset id="fieldset-modules" class="options-fieldset option-fieldset-full">
+			<fieldset id="fieldset-modules" class="options-grid-form options-grid-form-full">
 				<legend><?php echo Text::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT'); ?></legend>
+				<div>
 				<?php echo $this->loadTemplate('modules'); ?>
+				</div>
 			</fieldset>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>

@@ -14,6 +14,6 @@ defined('_JEXEC') or die;
 
 $this->name = Text::_('COM_CONFIG_SEO_SETTINGS');
 $this->fieldsname = 'seo';
-$this->formclass = 'options-fieldset option-fieldset-half';
+$this->formclass = 'options-grid-form options-grid-form-half';
 
 echo LayoutHelper::render('joomla.content.options_default', $this);

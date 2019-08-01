@@ -170,9 +170,11 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php if ($this->item->client_id == 0) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'assignment', Text::_('COM_MODULES_MENU_ASSIGNMENT')); ?>
-			<fieldset id="fieldset-assignment" class="options-fieldset option-fieldset-full">
+			<fieldset id="fieldset-assignment" class="options-grid-form options-grid-form-full">
 				<legend><?php echo Text::_('COM_MODULES_MENU_ASSIGNMENT'); ?></legend>
+				<div>
 				<?php echo $this->loadTemplate('assignment'); ?>
+				</div>
 			</fieldset>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
@@ -185,9 +187,11 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_MODULES_FIELDSET_RULES')); ?>
-			<fieldset id="fieldset-permissions" class="options-fieldset option-fieldset-full">
+			<fieldset id="fieldset-permissions" class="options-grid-form options-grid-form-full">
 				<legend><?php echo Text::_('COM_MODULES_FIELDSET_RULES'); ?></legend>
+				<div>
 				<?php echo $this->form->getInput('rules'); ?>
+				</div>
 			</fieldset>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>

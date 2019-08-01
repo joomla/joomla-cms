@@ -58,9 +58,11 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-versions.js', ['versio
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'metadata', Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS')); ?>
 		<div class="row">
 			<div class="col-12 col-lg-6">
-				<fieldset id="fieldset-metadata" class="options-fieldset option-fieldset-full">
+				<fieldset id="fieldset-metadata" class="options-grid-form options-grid-form-full">
 					<legend><?php echo Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
+					<div>
 					<?php echo $this->form->renderFieldset('metadata'); ?>
+					</div>
 				</fieldset>
 			</div>
 		</div>

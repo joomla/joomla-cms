@@ -116,8 +116,9 @@ foreach ($fieldSets as $name => $fieldSet)
 
 	if (!$isGrandchild && $hasParent)
 	{
-		echo '<fieldset id="fieldset-' . $name . '" class="form-no-margin options-fieldset ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
+		echo '<fieldset id="fieldset-' . $name . '" class="form-no-margin options-grid-form ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
 		echo '<legend>' . $label . '</legend>';
+		echo '<div>';
 	}
 	// Tabs
 	elseif (!$hasParent)
@@ -141,8 +142,9 @@ foreach ($fieldSets as $name => $fieldSet)
 		// Directly add a fieldset if we have no children
 		if (!$hasChildren)
 		{
-			echo '<fieldset id="fieldset-' . $name . '" class="form-no-margin options-fieldset ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
+			echo '<fieldset id="fieldset-' . $name . '" class="form-no-margin options-grid-form ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
 			echo '<legend>' . $label . '</legend>';
+			echo '<div>';
 
 			$opentab = 2;
 		}
@@ -170,6 +172,7 @@ foreach ($fieldSets as $name => $fieldSet)
 	// Close open fieldset
 	if (!$isGrandchild && $hasParent)
 	{
+		echo '</div>';
 		echo '</fieldset>';
 	}
 }
@@ -178,6 +181,7 @@ if ($opentab)
 {
 	if ($opentab > 1)
 	{
+		echo '</div>';
 		echo '</fieldset>';
 	}
 

@@ -27,9 +27,9 @@ HTMLHelper::_('script', 'com_languages/admin-language-edit-change-flag.js', ['ve
 	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('JDETAILS')); ?>
-			<fieldset  id="fieldset-details" class="options-fieldset">
+			<fieldset  id="fieldset-details" class="options-grid-form">
 				<legend><?php echo Text::_('JDETAILS'); ?></legend>
-
+				<div>
 				<?php echo $this->form->renderField('title'); ?>
 				<?php echo $this->form->renderField('title_native'); ?>
 				<?php echo $this->form->renderField('lang_code'); ?>
@@ -52,22 +52,26 @@ HTMLHelper::_('script', 'com_languages/admin-language-edit-change-flag.js', ['ve
 				<?php echo $this->form->renderField('access'); ?>
 				<?php echo $this->form->renderField('description'); ?>
 				<?php echo $this->form->renderField('lang_id'); ?>
-
+				</div>
 			</fieldset>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'metadata', Text::_('JGLOBAL_FIELDSET_OPTIONS')); ?>
 			<div class="row">
 				<div class="col-md-6 mb-3">
-					<fieldset id="fieldset-sitename" class="options-fieldset option-fieldset-full">
+					<fieldset id="fieldset-sitename" class="options-grid-form options-grid-form-full">
 						<legend><?php echo Text::_('COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL'); ?></legend>
+						<div>
 						<?php echo $this->form->renderFieldset('site_name'); ?>
+						</div>
 					</fieldset>
 				</div>
 				<div class="col-md-6 mb-3">
-					<fieldset id="fieldset-metadata" class="options-fieldset option-fieldset-full">
+					<fieldset id="fieldset-metadata" class="options-grid-form options-grid-form-full">
 						<legend><?php echo Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
+						<div>
 						<?php echo $this->form->renderFieldset('metadata'); ?>
+						</div>
 					</fieldset>
 				</div>
 			</div>

@@ -2,7 +2,7 @@
 <form>
 	<fields name="params" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
 	>
-		<fieldset name="menu-options" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL" class="option-fieldset-half">
+		<fieldset name="menu-options" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL" class="options-grid-form-half">
 
 			<field
 				name="menu-anchor_title"
@@ -87,7 +87,7 @@
 
 		</fieldset>
 
-		<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS" class="option-fieldset-half">
+		<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS" class="options-grid-form-half">
 			<field
 				name="menu-meta_description"
 				type="textarea"

@@ -14,7 +14,7 @@ use Joomla\CMS\Updater\Update;
 
 /** @var JoomlaupdateViewDefault $this */
 ?>
-<fieldset class="options-fieldset option-fieldset-full">
+<fieldset class="options-grid-form options-grid-form-full">
 	<legend>
 		<?php echo Text::_('COM_JOOMLAUPDATE_UPDATE_CHECK'); ?>
 	</legend>
@@ -24,11 +24,12 @@ use Joomla\CMS\Updater\Update;
 		<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATES'); ?>
 	</p>
 	<p><?php echo Text::sprintf($this->langKey, $this->updateSourceKey); ?></p>
-	<div class="alert alert-success">
+	<p class="alert alert-success">
 		<span class="fa fa-check-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('NOTICE'); ?></span>
 		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', '&#x200E;' . JVERSION); ?>
-	</div>
+	</p>
 	<?php if (is_object($this->updateInfo['object']) && ($this->updateInfo['object'] instanceof Update)) : ?>
+	<div>
 		<table class="table">
 			<tbody>
 			<tr>
@@ -114,6 +115,7 @@ use Joomla\CMS\Updater\Update;
 			</tr>
 			</tfoot>
 		</table>
+	</div>
 	<?php endif; ?>
 
 </fieldset>

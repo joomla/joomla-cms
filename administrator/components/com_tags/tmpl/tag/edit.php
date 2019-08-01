@@ -60,9 +60,11 @@ $this->useCoreUI = true;
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
 		<div class="row">
 			<div class="col-md-6">
-				<fieldset id="fieldset-publishingdata" class="options-fieldset option-fieldset-full">
+				<fieldset id="fieldset-publishingdata" class="options-grid-form options-grid-form-full">
 					<legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
+					<div>
 					<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+					</div>
 				</fieldset>
 			</div>
 			<div class="col-md-6">

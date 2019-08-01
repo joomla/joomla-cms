@@ -81,17 +81,21 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<div class="row">
 				<div class="col-12 col-lg-6">
 				<?php foreach ($fieldsetsInImages as $fieldset) : ?>
-					<fieldset id="fieldset-<?php echo $fieldset; ?>" class="options-fieldset option-fieldset-full">
+					<fieldset id="fieldset-<?php echo $fieldset; ?>" class="options-grid-form options-grid-form-full">
 						<legend><?php echo Text::_($this->form->getFieldsets()[$fieldset]->label); ?></legend>
+						<div>
 						<?php echo $this->form->renderFieldset($fieldset); ?>
+						</div>
 					</fieldset>
 				<?php endforeach; ?>
 				</div>
 				<div class="col-12 col-lg-6">
 				<?php foreach ($fieldsetsInLinks as $fieldset) : ?>
-					<fieldset id="fieldset-<?php echo $fieldset; ?>" class="options-fieldset option-fieldset-full">
+					<fieldset id="fieldset-<?php echo $fieldset; ?>" class="options-grid-form options-grid-form-full">
 						<legend><?php echo Text::_($this->form->getFieldsets()[$fieldset]->label); ?></legend>
+						<div>
 						<?php echo $this->form->renderFieldset($fieldset); ?>
+						</div>
 					</fieldset>
 				<?php endforeach; ?>
 				</div>
@@ -108,15 +112,19 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('COM_CONTENT_FIELDSET_PUBLISHING')); ?>
 			<div class="row">
 				<div class="col-12 col-lg-6">
-					<fieldset id="fieldset-publishingdata" class="options-fieldset option-fieldset-full">
+					<fieldset id="fieldset-publishingdata" class="options-grid-form options-grid-form-full">
 						<legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
+						<div>
 						<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+						</div>
 					</fieldset>
 				</div>
 				<div class="col-12 col-lg-6">
-					<fieldset id="fieldset-metadata" class="options-fieldset option-fieldset-full">
+					<fieldset id="fieldset-metadata" class="options-grid-form options-grid-form-full">
 						<legend><?php echo Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
+						<div>
 						<?php echo LayoutHelper::render('joomla.edit.metadata', $this); ?>
+						</div>
 					</fieldset>
 				</div>
 			</div>
@@ -126,11 +134,11 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php if (!$isModal && $assoc) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
 			<?php if ($hasAssoc) : ?>
-				<fieldset id="fieldset-associations" class="options-fieldset option-fieldset-full">
+				<fieldset id="fieldset-associations" class="options-grid-form options-grid-form-full">
 				<legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
-			<?php endif; ?>
-			<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
-			<?php if ($hasAssoc) : ?>
+				<div>
+				<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
+				</div>
 				</fieldset>
 			<?php endif; ?>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
@@ -140,18 +148,22 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'editor', Text::_('COM_CONTENT_SLIDER_EDITOR_CONFIG')); ?>
-			<fieldset id="fieldset-editor" class="form-no-margin options-fieldset">
+			<fieldset id="fieldset-editor" class="form-no-margin options-grid-form">
 				<legend><?php echo Text::_('COM_CONTENT_SLIDER_EDITOR_CONFIG'); ?></legend>
+				<div>
 				<?php echo $this->form->renderFieldset('editorConfig'); ?>
+				</div>
 			</fieldset>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_CONTENT_FIELDSET_RULES')); ?>
-			<fieldset id="fieldset-rules" class="options-fieldset option-fieldset-full">
+			<fieldset id="fieldset-rules" class="options-grid-form options-grid-form-full">
 				<legend><?php echo Text::_('COM_CONTENT_FIELDSET_RULES'); ?></legend>
+				<div>
 				<?php echo $this->form->getInput('rules'); ?>
+				</div>
 			</fieldset>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>

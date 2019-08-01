@@ -85,12 +85,14 @@ $xml = $this->form->getXml();
 					?>
 
 					<?php if (!$isGrandchild && $hasParent) : ?>
-						<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-fieldset option-fieldset-half">
+						<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-grid-form options-grid-form-half">
 							<legend><?php echo Text::_($fieldSet->label); ?></legend>
+							<div>
 					<?php elseif (!$hasParent) : ?>
 						<?php if ($opentab) : ?>
 
 							<?php if ($opentab > 1) : ?>
+								</div>
 								</fieldset>
 							<?php endif; ?>
 
@@ -104,9 +106,9 @@ $xml = $this->form->getXml();
 
 						<?php if (!$hasChildren) : ?>
 
-						<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-fieldset option-fieldset-half">
+						<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-grid-form options-grid-form-half">
 							<legend><?php echo Text::_($fieldSet->label); ?></legend>
-
+							<div>
 						<?php $opentab = 2; ?>
 						<?php endif; ?>
 					<?php endif; ?>
@@ -123,6 +125,7 @@ $xml = $this->form->getXml();
 					<?php endif; ?>
 
 					<?php if (!$isGrandchild && $hasParent) : ?>
+						</div>
 					</fieldset>
 					<?php endif; ?>
 				<?php endforeach; ?>
@@ -130,6 +133,7 @@ $xml = $this->form->getXml();
 				<?php if ($opentab) : ?>
 
 					<?php if ($opentab > 1) : ?>
+						</div>
 						</fieldset>
 					<?php endif; ?>
 					</div>

@@ -15,7 +15,9 @@ use Joomla\CMS\Layout\LayoutHelper;
 $this->fieldset = 'jbasic';
 ?>
 
-<fieldset id="fieldset-display" class="options-fieldset option-fieldset-full">
+<fieldset id="fieldset-display" class="options-grid-form options-grid-form-full">
 	<legend><?php echo Text::_('JGLOBAL_FIELDSET_DISPLAY_OPTIONS'); ?></legend>
+	<div>
 	<?php echo LayoutHelper::render('joomla.edit.fieldset', $this); ?>
+	</div>
 </fieldset>

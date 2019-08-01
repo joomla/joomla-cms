@@ -80,9 +80,11 @@ HTMLHelper::_('script', 'com_fields/admin-field-edit.js', ['version' => 'auto', 
 	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
 	<div class="row">
 		<div class="col-md-6">
-			<fieldset id="fieldset-publishingdata" class="options-fieldset option-fieldset-full">
+			<fieldset id="fieldset-publishingdata" class="options-grid-form options-grid-form-full">
 				<legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
-			<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+				<div>
+				<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+				</div>
 			</fieldset>
 		</div>
 		<div class="col-md-6">
@@ -91,9 +93,11 @@ HTMLHelper::_('script', 'com_fields/admin-field-edit.js', ['version' => 'auto', 
 	<?php echo HTMLHelper::_('uitab.endTab'); ?>
 	<?php if ($this->canDo->get('core.admin')) : ?>
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'rules', Text::_('JGLOBAL_ACTION_PERMISSIONS_LABEL', true)); ?>
-			<fieldset id="fieldset-rules" class="options-fieldset option-fieldset-full">
+			<fieldset id="fieldset-rules" class="options-grid-form options-grid-form-full">
 				<legend><?php echo Text::_('JGLOBAL_ACTION_PERMISSIONS_LABEL'); ?></legend>
+				<div>
 				<?php echo $this->form->getInput('rules'); ?>
+				</div>
 			</fieldset>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 	<?php endif; ?>

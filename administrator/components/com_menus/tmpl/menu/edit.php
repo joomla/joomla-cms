@@ -30,11 +30,11 @@ Text::script('ERROR');
 
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_MENUS_MENU_DETAILS')); ?>
 
-			<fieldset id="fieldset-details" class="options-fieldset">
+			<fieldset id="fieldset-details" class="options-grid-form">
 				<legend><?php echo Text::_('COM_MENUS_MENU_DETAILS'); ?></legend>
 
-				<div class="row">
-					<div class="col-md-12">
+				<div>
+					<div>
 						<?php
 						echo $this->form->renderField('menutype');
 

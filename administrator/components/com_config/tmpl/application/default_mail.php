@@ -36,7 +36,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.sendtestmail&f
 
 $this->name = Text::_('COM_CONFIG_MAIL_SETTINGS');
 $this->fieldsname = 'mail';
-$this->formclass = 'options-fieldset option-fieldset-half';
+$this->formclass = 'options-grid-form options-grid-form-half';
 
 ?>
 

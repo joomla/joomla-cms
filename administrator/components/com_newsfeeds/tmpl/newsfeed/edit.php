@@ -68,16 +68,17 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'images', Text::_('JGLOBAL_FIELDSET_OPTIONS')); ?>
 		<div class="row">
 			<div class="col-md-6">
-				<fieldset id="fieldset-image" class="options-fieldset option-fieldset-full">
+				<fieldset id="fieldset-image" class="options-grid-form options-grid-form-full">
 					<legend><?php echo Text::_('JGLOBAL_FIELDSET_IMAGE_OPTIONS'); ?></legend>
+					<div>
 					<?php foreach ($this->form->getGroup('images') as $field) : ?>
 						<?php echo $field->renderField(); ?>
 					<?php endforeach; ?>
+					</div>
 				</fieldset>
 			</div>
 			<div class="col-md-6">
 					<?php echo $this->loadTemplate('display'); ?>
-				</fieldset>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
@@ -87,15 +88,19 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
 		<div class="row">
 			<div class="col-md-6">
-				<fieldset id="fieldset-publishingdata" class="options-fieldset option-fieldset-full">
+				<fieldset id="fieldset-publishingdata" class="options-grid-form options-grid-form-full">
 					<legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
+					<div>
 					<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+					</div>
 				</fieldset>
 			</div>
 			<div class="col-md-6">
-				<fieldset id="fieldset-metadata" class="options-fieldset option-fieldset-full">
+				<fieldset id="fieldset-metadata" class="options-grid-form options-grid-form-full">
 					<legend><?php echo Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
+					<div>
 					<?php echo LayoutHelper::render('joomla.edit.metadata', $this); ?>
+					</div>
 				</fieldset>
 			</div>
 		</div>
@@ -104,11 +109,11 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php if (!$isModal && $assoc) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
 			<?php if ($hasAssoc) : ?>
-				<fieldset id="fieldset-associations" class="options-fieldset option-fieldset-full">
+				<fieldset id="fieldset-associations" class="options-grid-form options-grid-form-full">
 				<legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
-			<?php endif; ?>
-			<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
-			<?php if ($hasAssoc) : ?>
+				<div>
+				<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
+				</div>
 				</fieldset>
 			<?php endif; ?>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>

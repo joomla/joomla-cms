@@ -42,7 +42,7 @@ $app = Factory::getApplication();
 					<?php // Show installation tabs ?>
 					<?php foreach ($tabs as $tab) : ?>
 						<?php echo HTMLHelper::_('uitab.addTab', 'myTab', $tab['name'], $tab['label']); ?>
-						<fieldset class="uploadform option-fieldset option-fieldset-full">
+						<fieldset class="uploadform option-fieldset options-grid-form-full">
 							<?php echo $tab['content']; ?>
 						</fieldset>
 						<?php echo HTMLHelper::_('uitab.endTab'); ?>

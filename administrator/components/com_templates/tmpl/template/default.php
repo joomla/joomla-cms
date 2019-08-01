@@ -95,7 +95,7 @@ if ($this->type == 'font')
 		</div>
 	</div>
 	<div class="col-md-9">
-		<fieldset class="options-fieldset option-fieldset-full">
+		<fieldset class="options-grid-form options-grid-form-full">
 		<?php if ($this->type == 'home') : ?>
 			<legend><?php echo Text::_('COM_TEMPLATES_HOME_HEADING'); ?></legend>
 			<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
@@ -241,7 +241,7 @@ if ($this->type == 'font')
 		<div class="card-body">
 			<div class="row">
 				<div class="col-md-3">
-					<fieldset class="options-fieldset option-fieldset-full">
+					<fieldset class="options-grid-form options-grid-form-full">
 					<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_MODULES'); ?></legend>
 					<ul class="list-unstyled">
 						<?php $token = Session::getFormToken() . '=' . 1; ?>
@@ -260,7 +260,7 @@ if ($this->type == 'font')
 					</fieldset>
 				</div>
 				<div class="col-md-3">
-					<fieldset class="options-fieldset option-fieldset-full">
+					<fieldset class="options-grid-form options-grid-form-full">
 					<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_COMPONENTS'); ?></legend>
 					<ul class="list-unstyled">
 						<?php $token = Session::getFormToken() . '=' . 1; ?>
@@ -288,7 +288,7 @@ if ($this->type == 'font')
 					</fieldset>
 				</div>
 				<div class="col-md-3">
-					<fieldset class="options-fieldset option-fieldset-full">
+					<fieldset class="options-grid-form options-grid-form-full">
 					<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_PLUGINS'); ?></legend>
 					<ul class="list-unstyled">
 						<?php $token = Session::getFormToken() . '=' . 1; ?>
@@ -316,7 +316,7 @@ if ($this->type == 'font')
 					</fieldset>
 				</div>
 				<div class="col-md-3">
-					<fieldset class="options-fieldset option-fieldset-full">
+					<fieldset class="options-grid-form options-grid-form-full">
 					<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_LAYOUTS'); ?></legend>
 					<ul class="list-unstyled">
 						<?php $token = Session::getFormToken() . '=' . 1; ?>

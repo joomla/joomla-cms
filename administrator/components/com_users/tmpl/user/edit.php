@@ -48,9 +48,11 @@ $this->useCoreUI = true;
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php if ($this->grouplist) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'groups', Text::_('COM_USERS_ASSIGNED_GROUPS')); ?>
-				<fieldset id="fieldset-groups" class="options-fieldset option-fieldset-full">
+				<fieldset id="fieldset-groups" class="options-grid-form options-grid-form-full">
 					<legend><?php echo Text::_('COM_USERS_ASSIGNED_GROUPS'); ?></legend>
+					<div>
 					<?php echo $this->loadTemplate('groups'); ?>
+					</div>
 				</fieldset>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>

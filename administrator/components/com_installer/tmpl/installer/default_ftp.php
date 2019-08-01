@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 ?>
-<fieldset class="option-fieldset option-fieldset-full">
+<fieldset class="option-fieldset options-grid-form-full">
 	<legend><?php echo Text::_('COM_INSTALLER_MSG_DESCFTPTITLE'); ?></legend>
 
 	<?php echo Text::_('COM_INSTALLER_MSG_DESCFTP'); ?>

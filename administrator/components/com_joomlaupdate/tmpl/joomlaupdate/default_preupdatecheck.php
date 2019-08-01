@@ -20,41 +20,43 @@ use Joomla\CMS\Language\Text;
 
 <div class="row">
 	<div class="col-12 col-lg-6">
-		<fieldset class="options-fieldset option-fieldset-full">
+		<fieldset class="options-grid-form options-grid-form-full">
 			<legend>
 				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK'); ?>
 			</legend>
-			<table class="table">
-				<tbody>
-				<?php foreach ($this->phpOptions as $option) : ?>
-					<tr>
-						<td>
-							<?php echo $option->label; ?>
-						</td>
-						<td>
-								<span class="badge badge-<?php echo $option->state ? 'success' : 'danger'; ?>">
-									<?php echo Text::_($option->state ? 'JYES' : 'JNO'); ?>
-									<?php if ($option->notice) : ?>
-										<span class="icon-info icon-white" title="<?php echo $option->notice; ?>"></span>
-									<?php endif; ?>
-								</span>
-						</td>
-					</tr>
-				<?php endforeach; ?>
-				</tbody>
-			</table>
+			<div>
+				<table class="table">
+					<tbody>
+					<?php foreach ($this->phpOptions as $option) : ?>
+						<tr>
+							<td>
+								<?php echo $option->label; ?>
+							</td>
+							<td>
+									<span class="badge badge-<?php echo $option->state ? 'success' : 'danger'; ?>">
+										<?php echo Text::_($option->state ? 'JYES' : 'JNO'); ?>
+										<?php if ($option->notice) : ?>
+											<span class="icon-info icon-white" title="<?php echo $option->notice; ?>"></span>
+										<?php endif; ?>
+									</span>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+					</tbody>
+				</table>
+			</div>
 		</fieldset>
 	</div>
 
 	<div class="col-12 col-lg-6">
-		<fieldset class="options-fieldset  option-fieldset-full">
+		<fieldset class="options-grid-form  options-grid-form-full">
 			<legend>
 				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS'); ?>
 			</legend>
 			<p>
 				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_DESC'); ?>
 			</p>
-			<p>
+			<div>
 			<table class="table">
 				<thead>
 				<tr>
@@ -87,10 +89,11 @@ use Joomla\CMS\Language\Text;
 				<?php endforeach; ?>
 				</tbody>
 			</table>
+			</div>
 		</fieldset>
 	</div>
 </div>
-<fieldset class="options-fieldset  option-fieldset-full mt-3 mb-3">
+<fieldset class="options-grid-form options-grid-form-full mt-3 mb-3">
 	<legend>
 		<?php echo Text::_('NOTICE'); ?>
 	</legend>
