@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Image\Image;
+use Joomla\CMS\Image\Image;
 
 /**
  * Media Manager Resize Action

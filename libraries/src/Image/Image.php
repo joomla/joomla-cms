@@ -12,7 +12,6 @@ namespace Joomla\CMS\Image;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Log\Log;
-use Joomla\Image\ImageFilter;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
@@ -781,7 +780,7 @@ class Image implements LoggerAwareInterface
 			);
 		}
 
-		// If we are resizing to a new image, create a new JImage object.
+		// If we are resizing to a new image, create a new Image object.
 		if ($createNew)
 		{
 			return new static($handle);
