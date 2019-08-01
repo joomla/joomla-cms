@@ -27,7 +27,7 @@ HTMLHelper::_('script', 'com_languages/admin-language-edit-change-flag.js', ['ve
 	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('JDETAILS')); ?>
-			<fieldset  id="fieldset-details" class="options-grid-form">
+			<fieldset id="fieldset-details" class="options-grid-form">
 				<legend><?php echo Text::_('JDETAILS'); ?></legend>
 				<div>
 				<?php echo $this->form->renderField('title'); ?>

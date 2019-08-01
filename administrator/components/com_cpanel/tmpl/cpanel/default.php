@@ -34,9 +34,9 @@ echo HTMLHelper::_(
 		'url'         => Route::_('index.php?option=com_cpanel&task=addModule&function=jSelectModuleType&position=' . $this->escape($this->position)),
 		'bodyHeight'  => '70',
 		'modalWidth'  => '80',
-		'footer'      => '<button type="button" class="button-cancel  btn btn-sm btn-danger" data-dismiss="modal" data-target="#closeBtn" aria-hidden="true"><span class="icon-cancel" aria-hidden="true"></span>'
+		'footer'      => '<button type="button" class="button-cancel btn btn-sm btn-danger" data-dismiss="modal" data-target="#closeBtn" aria-hidden="true"><span class="icon-cancel" aria-hidden="true"></span>'
 			. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-			. '<button type="button" class="button-save  btn btn-sm btn-success hidden" data-target="#saveBtn" aria-hidden="true"><span class="icon-save" aria-hidden="true"></span>'
+			. '<button type="button" class="button-save btn btn-sm btn-success hidden" data-target="#saveBtn" aria-hidden="true"><span class="icon-save" aria-hidden="true"></span>'
 			. Text::_('JSAVE') . '</button>',
 	)
 );
