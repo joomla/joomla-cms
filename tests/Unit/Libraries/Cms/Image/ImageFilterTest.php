@@ -30,7 +30,7 @@ class ImageFilterTest extends UnitTestCase
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function setUp()
+	protected function setUp(): void
 	{
 		parent::setUp();
 

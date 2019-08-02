@@ -6,7 +6,7 @@
 
 use Joomla\CMS\Image\Filter\Backgroundfill as FilterBackgroundfill;
 use Joomla\Test\TestHelper;
-use Joomla\Tests\UnitTestCase;
+use Joomla\Tests\Unit\UnitTestCase;
 
 /**
  * Test class for Image.
@@ -22,7 +22,7 @@ class ImageFilterBackgroundfillTest extends UnitTestCase
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function setUp()
+	protected function setup(): void
 	{
 		parent::setUp();
 
@@ -41,7 +41,7 @@ class ImageFilterBackgroundfillTest extends UnitTestCase
 	 * @see     PHPUnit_Framework_TestCase::tearDown()
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function tearDown()
+	protected function tearDown(): void
 	{
 		parent::tearDown();
 	}

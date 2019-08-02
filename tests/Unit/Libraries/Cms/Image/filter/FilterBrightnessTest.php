@@ -5,7 +5,7 @@
  */
 
 use Joomla\CMS\Image\Filter\Brightness as FilterBrightness;
-use Joomla\Tests\UnitTestCase;
+use Joomla\Tests\Unit\UnitTestCase;
 
 /**
  * Test class for Image.
@@ -21,7 +21,7 @@ class ImageFilterBrightnessTest extends UnitTestCase
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function setUp()
+	protected function setup(): void
 	{
 		parent::setUp();
 
@@ -40,7 +40,7 @@ class ImageFilterBrightnessTest extends UnitTestCase
 	 * @see     PHPUnit_Framework_TestCase::tearDown()
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function tearDown()
+	protected function tearDown(): void
 	{
 		parent::tearDown();
 	}
