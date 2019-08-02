@@ -42,8 +42,9 @@ class SelectModel extends ListModel
 	{
 		$app = Factory::getApplication();
 
-		// Load the filter state.
-		$clientId = $app->getUserState('com_modules.modules.client_id', 0);
+		// Watch changes in client_id and menutype and keep sync whenever needed.
+		$currentClientId = $app->getUserState($this->context . '.client_id', 0);
+		$clientId        = $app->input->getInt('client_id', $currentClientId);
 		$this->setState('client_id', (int) $clientId);
 
 		// Load the parameters.
