@@ -1363,7 +1363,7 @@ class ImageTest extends UnitTestCase
 	}
 
 	/**
-	 * Tests the Joomla\CMS\Image::getLogger method
+	 * Tests the Joomla\CMS\Image\Image::getLogger method
 	 *
 	 * @return  void
 	 *
@@ -1371,14 +1371,14 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function testGetNullLogger()
+	public function testGetDelegatingPsrLogger()
 	{
 		$logger = $this->instance->getLogger();
 
 		$this->assertInstanceOf(
-			'Psr\\Log\\NullLogger',
+			'Joomla\\CMS\\Log\\DelegatingPsrLogger',
 			$logger,
-			'When a logger has not been set, an instance of NullLogger should be returned.'
+			'When a logger has not been set, an instance of DelegatingPsrLogger should be returned.'
 		);
 	}
 

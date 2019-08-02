@@ -78,20 +78,20 @@ class ImageFilterTest extends UnitTestCase
 	}
 
 	/**
-	 * Tests the ImageFilter::getLogger for a NullLogger.
+	 * Tests the ImageFilter::getLogger for a DelegatingPsrLogger.
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function testGetNullLogger()
+	public function testGetDelegatingPsrLogger()
 	{
 		$logger = $this->instance->getLogger();
 
 		$this->assertInstanceOf(
-			'Psr\\Log\\NullLogger',
+			'Joomla\\CMS\\Log\\DelegatingPsrLogger',
 			$logger,
-			'When a logger has not been set, an instance of NullLogger should be returned.'
+			'When a logger has not been set, an instance of DelegatingPsrLogger should be returned.'
 		);
 	}
 
