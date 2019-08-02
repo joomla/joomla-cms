@@ -84,6 +84,7 @@
         "paragonie/sodium_compat": "~1.6",
         "phpmailer/phpmailer": "~6.0",
         "psr/link": "~1.0",
+        "psr/log": "~1.0",
         "symfony/console": "4.3.*",
         "symfony/debug": "4.3.*",
         "symfony/ldap": "4.3.*",
@@ -96,6 +97,7 @@
         "maximebf/debugbar": "^1.15",
         "tobscure/json-api": "^0.4.1",
         "willdurand/negotiation": "^2.3",
+        "ext-gd": "*",
         "ext-json": "*",
         "ext-simplexml": "*"
     },
@@ -103,6 +105,7 @@
         "phpunit/phpunit": "~8.0",
         "joomla/cms-coding-standards": "~2.0.0-alpha2@dev",
         "joomla/coding-standards": "~3.0@dev",
+        "joomla/test": "~1.0",
         "joomla/mediawiki": "dev-master",
         "friendsofphp/php-cs-fixer": "~2.12",
         "squizlabs/php_codesniffer": "~3.0",
