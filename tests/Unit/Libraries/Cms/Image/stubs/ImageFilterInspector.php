@@ -4,7 +4,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Joomla\Tests\Unit\Libraries\Cms\Image\Filter;
+namespace Joomla\CMS\Image\Filter;
 
 use Joomla\CMS\Image\ImageFilter;
 
