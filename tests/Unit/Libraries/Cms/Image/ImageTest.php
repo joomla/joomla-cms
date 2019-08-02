@@ -590,7 +590,7 @@ class ImageTest extends UnitTestCase
 		// Get the filter instance.
 		$filter = $image->getFilterInstance('inspector');
 
-		$this->assertInstanceOf('\\Joomla\\Image\\Filter\\Inspector', $filter);
+		$this->assertInstanceOf('\\Joomla\\CMS\\Image\\Filter\\Inspector', $filter);
 	}
 
 	/**
@@ -1141,7 +1141,7 @@ class ImageTest extends UnitTestCase
 		$handle = imagecreatetruecolor(1, 1);
 
 		// Create the mock filter.
-		$mockFilter = $this->getMockForAbstractClass('\\Joomla\\Image\\ImageFilter', array($handle), 'ImageFilterMock', true, false, true);
+		$mockFilter = $this->getMockForAbstractClass('\\Joomla\\CMS\\Image\\ImageFilter', array($handle), 'ImageFilterMock', true, false, true);
 
 		// Setup the mock method call expectation.
 		$mockFilter->expects($this->once())
