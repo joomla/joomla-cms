@@ -43,7 +43,7 @@ abstract class ImageFilter implements LoggerAwareInterface
 	public function __construct($handle)
 	{
 		// Verify that image filter support for PHP is available.
-		if (!function_exists('imagefilter'))
+		if (!\function_exists('imagefilter'))
 		{
 			$this->getLogger()->error('The imagefilter function for PHP is not available.');
 
@@ -51,7 +51,7 @@ abstract class ImageFilter implements LoggerAwareInterface
 		}
 
 		// Make sure the file handle is valid.
-		if (!is_resource($handle) || (get_resource_type($handle) != 'gd'))
+		if (!\is_resource($handle) || (get_resource_type($handle) != 'gd'))
 		{
 			$this->getLogger()->error('The image handle is invalid for the image filter.');
 
