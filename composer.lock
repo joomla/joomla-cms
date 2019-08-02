@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "942979060ffe1e6fc0f2defdcecdfd53",
+    "content-hash": "1429a20ed8ddb538610b89b9270a8e51",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1072,54 +1072,6 @@
                 "joomla"
             ],
             "time": "2019-07-18T00:24:34+00:00"
-        },
-        {
-            "name": "joomla/image",
-            "version": "dev-2.0-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/joomla-framework/image.git",
-                "reference": "0222c4a6dba784ea05715d8c060911cb57091953"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/image/zipball/0222c4a6dba784ea05715d8c060911cb57091953",
-                "reference": "0222c4a6dba784ea05715d8c060911cb57091953",
-                "shasum": ""
-            },
-            "require": {
-                "ext-gd": "*",
-                "php": "~7.0",
-                "psr/log": "~1.0"
-            },
-            "require-dev": {
-                "joomla/coding-standards": "~2.0@alpha",
-                "joomla/test": "~1.0",
-                "phpunit/phpunit": "~6.3"
-            },
-            "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Joomla\\Image\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "description": "Joomla Image Package",
-            "homepage": "https://github.com/joomla-framework/image",
-            "keywords": [
-                "framework",
-                "image",
-                "joomla"
-            ],
-            "time": "2018-05-25T02:30:04+00:00"
         },
         {
             "name": "joomla/input",
@@ -6438,16 +6390,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.3.0",
+            "version": "8.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "c5153162ec8f31d632ad72eb99a7c3c1e69f87e9"
+                "reference": "21461ce5b162d0f1a0fa658e27f975517c5d4234"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c5153162ec8f31d632ad72eb99a7c3c1e69f87e9",
-                "reference": "c5153162ec8f31d632ad72eb99a7c3c1e69f87e9",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/21461ce5b162d0f1a0fa658e27f975517c5d4234",
+                "reference": "21461ce5b162d0f1a0fa658e27f975517c5d4234",
                 "shasum": ""
             },
             "require": {
@@ -6517,7 +6469,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-08-02T05:00:37+00:00"
+            "time": "2019-08-02T07:54:25+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -7888,7 +7840,6 @@
         "joomla/di": 20,
         "joomla/event": 20,
         "joomla/http": 20,
-        "joomla/image": 20,
         "joomla/ldap": 20,
         "joomla/oauth1": 20,
         "joomla/oauth2": 20,
