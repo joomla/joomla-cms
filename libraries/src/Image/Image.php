@@ -123,8 +123,8 @@ class Image implements LoggerAwareInterface
 			// @codeCoverageIgnoreEnd
 		}
 
-		// If a logger hasn't been set, use DelegatingPsrLogger
-		$this->logger instanceof LoggerInterface ?: $this->logger = Log::createDelegatedLogger();
+		// Use DelegatingPsrLogger
+		$this->logger = Log::createDelegatedLogger();
 
 		// Determine which image types are supported by GD, but only once.
 		if (!isset(static::$formats[IMAGETYPE_JPEG]))

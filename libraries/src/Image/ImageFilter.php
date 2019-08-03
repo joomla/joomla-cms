@@ -56,7 +56,7 @@ abstract class ImageFilter implements LoggerAwareInterface
 				);
 
 				// If a logger hasn't been set, use DelegatingPsrLogger
-				$logger = $this->logger instanceof LoggerInterface ? $this->logger : Log::createDelegatedLogger();
+				$logger = Log::createDelegatedLogger();
 			}
 		}
 
