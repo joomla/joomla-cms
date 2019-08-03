@@ -87,7 +87,7 @@ class Backgroundfill extends ImageFilter
 	 *
 	 * @return  array  Associative array of red, green, blue and alpha
 	 *
-	 * @since   1.0
+	 * @since   3.4
 	 *
 	 * @note    '#FF0000FF' returns an array with alpha of 0 (opaque)
 	 */
