@@ -11,26 +11,25 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Exception;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 
 /**
- * Download key model
+ * Item Model for an update site.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
-class DownloadkeyModel extends AdminModel
+class UpdatesiteModel extends AdminModel
 {
 	/**
 	 * The type alias for this content type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
-	public $typeAlias = 'com_installer.downloadkey';
+	public $typeAlias = 'com_installer.updatesite';
 
 	/**
 	 * Method to get the row form.
@@ -38,15 +37,16 @@ class DownloadkeyModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  Form|boolean  A \JForm object on success, false on failure
+	 * @return  Form|boolean  A Form object on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception
+	 * @throws  \Exception
+	 *
+	 * @since   4.0.0
 	 */
 	public function getForm($data = [], $loadData = true)
 	{
 		// Get the form.
-		$form = $this->loadForm('com_installer.downloadkey', 'downloadkey', ['control' => 'jform', 'load_data' => $loadData]);
+		$form = $this->loadForm('com_installer.updatesite', 'updatesite', ['control' => 'jform', 'load_data' => $loadData]);
 
 		if (empty($form))
 		{
@@ -55,35 +55,17 @@ class DownloadkeyModel extends AdminModel
 
 		return $form;
 	}
-
-	/**
-	 * Method to save the form data.
-	 *
-	 * @param   array  $data  The form data.
-	 *
-	 * @return  boolean  True on success, False on error.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function save($data)
-	{
-		$data['extra_query'] = $data['downloadIdPrefix'] . $data['extra_query'] . $data['downloadIdSuffix'];
-
-		return parent::save($data);
-	}
-
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  mixed  The data for the form.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function loadFormData()
 	{
 		$data = $this->getItem();
-
-		$this->preprocessData('com_installer.downloadkey', $data);
+		$this->preprocessData('com_installer.updatesite', $data);
 
 		return $data;
 	}
@@ -95,11 +77,12 @@ class DownloadkeyModel extends AdminModel
 	 *
 	 * @return  CMSObject|boolean  Object on success, false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function getItem($pk = null): CMSObject
+	public function getItem($pk = null)
 	{
-		$item  = parent::getItem($pk);
+		$item = parent::getItem($pk);
+
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select(
@@ -126,15 +109,30 @@ class DownloadkeyModel extends AdminModel
 			->where($db->quoteName('update_sites.update_site_id') . ' = ' . (int) $item->get('update_site_id'));
 
 		$db->setQuery($query);
-		$extension = $db->loadObject();
+		$extension = $db->loadObject(CMSObject::class);
 
 		$downloadKey = InstallerHelper::getDownloadKey($extension);
 
 		$item->set('extra_query', $downloadKey['value'] ?? '');
 		$item->set('downloadIdPrefix', $downloadKey['prefix'] ?? '');
 		$item->set('downloadIdSuffix', $downloadKey['suffix'] ?? '');
-		$item->set('checked_out', $extension->checked_out);
 
 		return $item;
+	}
+
+	/**
+	 * Method to save the form data.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True on success, False on error.
+	 *
+	 * @since   4.0.0
+	 */
+	public function save($data): bool
+	{
+		$data['extra_query'] = $data['downloadIdPrefix'] . $data['extra_query'] . $data['downloadIdSuffix'];
+
+		return parent::save($data);
 	}
 }

@@ -1885,6 +1885,8 @@ CREATE TABLE IF NOT EXISTS "#__update_sites" (
   "enabled" bigint DEFAULT 0,
   "last_check_timestamp" bigint DEFAULT 0,
   "extra_query" varchar(1000) DEFAULT '',
+  "checked_out" int(10) unsigned NOT NULL DEFAULT 0,
+  "checked_out_time" timestamp without time zone DEFAULT NULL,
   PRIMARY KEY ("update_site_id")
 );
 

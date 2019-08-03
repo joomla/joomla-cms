@@ -12,7 +12,9 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
 
 /**
  * Installer Controller
@@ -40,6 +42,17 @@ class DisplayController extends BaseController
 		$vName   = $this->input->get('view', 'install');
 		$vFormat = $document->getType();
 		$lName   = $this->input->get('layout', 'default', 'string');
+		$id      = $this->input->getInt('update_site_id');
+
+		// Check for edit form.
+		if ($vName === 'updatesite' && $lName === 'edit' && !$this->checkEditId('com_installer.edit.updatesite', $id))
+		{
+			// Somehow the person just went to the form - we don't allow that.
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			$this->setRedirect(Route::_('index.php?option=com_installer&view=updatesites', false));
+
+			$this->redirect();
+		}
 
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat))

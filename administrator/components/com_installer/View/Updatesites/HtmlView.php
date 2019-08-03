@@ -101,6 +101,11 @@ class HtmlView extends InstallerViewDefault
 	{
 		$canDo = ContentHelper::getActions('com_installer');
 
+		if ($canDo->get('core.edit'))
+		{
+			ToolbarHelper::editList('updatesite.edit');
+		}
+
 		if ($canDo->get('core.edit.state'))
 		{
 			ToolbarHelper::publish('updatesites.publish', 'JTOOLBAR_ENABLE', true);
@@ -112,6 +117,11 @@ class HtmlView extends InstallerViewDefault
 		{
 			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'updatesites.delete');
 			ToolbarHelper::divider();
+		}
+
+		if ($canDo->get('core.edit.state'))
+		{
+			ToolbarHelper::checkin('updatesites.checkin');
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))

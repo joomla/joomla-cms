@@ -14,10 +14,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\FormController;
 
 /**
- * Controller for a single download key
+ * Controller for a single update site
  *
  * @since  __DEPLOY_VERSION__
  */
-class DownloadkeyController extends FormController
+class UpdatesiteController extends FormController
 {
 }
