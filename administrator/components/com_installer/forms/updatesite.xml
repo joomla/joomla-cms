@@ -18,9 +18,15 @@
 			disabled="true"
 		/>
 		<field
+			name="location"
+			type="text"
+			label="COM_INSTALLER_FIELD_TYPE_LOCATION"
+			disabled="true"
+		/>
+		<field
 			name="extra_query"
 			type="text"
-			label="COM_INSTALLER_DOWNLOADKEY_EXTRA_QUERY_LABEL"
+			label="COM_INSTALLER_FIELD_EXTRA_QUERY_LABEL"
 			size="40"
 			default=""
 		/>

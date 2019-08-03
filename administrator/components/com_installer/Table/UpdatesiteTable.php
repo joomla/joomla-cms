@@ -34,27 +34,4 @@ class UpdatesiteTable extends Table
 
 		parent::__construct('#__update_sites', 'update_site_id', $db);
 	}
-
-	/**
-	 * Overloaded check function
-	 *
-	 * @return  boolean  True on success, false on failure
-	 *
-	 * @see     Table::check
-	 * @since   4.0.0
-	 */
-	public function check()
-	{
-		parent::check();
-
-		// Check for valid name
-		if (trim($this->get('location')) === '')
-		{
-			$this->setError(Text::_('COM_INSTALLER_UPDATESITE_EDIT_VALID_NAME'));
-
-			return false;
-		}
-
-		return true;
-	}
 }
