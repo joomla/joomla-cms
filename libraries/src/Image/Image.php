@@ -123,6 +123,9 @@ class Image implements LoggerAwareInterface
 			// @codeCoverageIgnoreEnd
 		}
 
+		// If a logger hasn't been set, use DelegatingPsrLogger
+		($this->logger instanceof LoggerInterface) ?: $this->logger = Log::createDelegatedLogger();
+
 		// Determine which image types are supported by GD, but only once.
 		if (!isset(static::$formats[IMAGETYPE_JPEG]))
 		{
@@ -172,12 +175,6 @@ class Image implements LoggerAwareInterface
 	 */
 	public function getLogger()
 	{
-		// If a logger hasn't been set, use DelegatingPsrLogger
-		if (! ($this->logger instanceof LoggerInterface))
-		{
-			$this->logger = Log::createDelegatedLogger();
-		}
-
 		return $this->logger;
 	}
 
@@ -1011,7 +1008,7 @@ class Image implements LoggerAwareInterface
 		}
 
 		// Instantiate the filter object.
-		$instance = new $className($this->getHandle());
+		$instance = new $className($this->getHandle(), $this->logger);
 
 		// Verify that the filter type is valid.
 		if (!($instance instanceof ImageFilter))

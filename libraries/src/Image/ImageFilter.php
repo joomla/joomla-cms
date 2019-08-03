@@ -34,14 +34,34 @@ abstract class ImageFilter implements LoggerAwareInterface
 	/**
 	 * Class constructor.
 	 *
-	 * @param   resource  $handle  The image resource on which to apply the filter.
+	 * @param   resource         $handle  The image resource on which to apply the filter.
+	 * @param   LoggerInterface  $logger  Logger object.
 	 *
 	 * @since   2.5.0
 	 * @throws  \InvalidArgumentException
 	 * @throws  \RuntimeException
 	 */
-	public function __construct($handle)
+	public function __construct($handle, LoggerInterface $logger = null)
 	{
+		if ($logger === null)
+		{
+			{
+				@trigger_error(
+					sprintf(
+						'Not passing a %s instance into the %s constructor is deprecated. As of 5.0, it will be required.',
+						LoggerInterface::class,
+						__CLASS__
+					),
+					E_USER_DEPRECATED
+				);
+
+				// If a logger hasn't been set, use DelegatingPsrLogger
+				$logger = ($this->logger instanceof LoggerInterface) ? $this->logger : Log::createDelegatedLogger();
+			}
+		}
+
+		$this->logger = $logger;
+
 		// Verify that image filter support for PHP is available.
 		if (!\function_exists('imagefilter'))
 		{
@@ -70,12 +90,6 @@ abstract class ImageFilter implements LoggerAwareInterface
 	 */
 	public function getLogger()
 	{
-		// If a logger hasn't been set, use DelegatingPsrLogger
-		if (!($this->logger instanceof LoggerInterface))
-		{
-			$this->logger = Log::createDelegatedLogger();
-		}
-
 		return $this->logger;
 	}
 
