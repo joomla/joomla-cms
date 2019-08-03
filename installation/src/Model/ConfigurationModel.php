@@ -310,7 +310,7 @@ class ConfigurationModel extends BaseInstallationModel
 		{
 			$query->clear()
 				->update($db->quoteName('#__users'))
-				->set($db->quoteName('name') . ' = ' . $db->quote('Super User'))
+				->set($db->quoteName('name') . ' = ' . $db->quote(trim($options->admin_username)))
 				->set($db->quoteName('username') . ' = ' . $db->quote(trim($options->admin_user)))
 				->set($db->quoteName('email') . ' = ' . $db->quote($options->admin_email))
 				->set($db->quoteName('password') . ' = ' . $db->quote($cryptpass))
@@ -340,7 +340,7 @@ class ConfigurationModel extends BaseInstallationModel
 				->insert('#__users', true)
 				->columns($columns)
 				->values(
-					$db->quote($userId) . ', ' . $db->quote('Super User') . ', ' . $db->quote(trim($options->admin_user)) . ', ' .
+					$db->quote($userId) . ', ' . $db->quote(trim($options->admin_username)) . ', ' . $db->quote(trim($options->admin_user)) . ', ' .
 					$db->quote($options->admin_email) . ', ' . $db->quote($cryptpass) . ', ' .
 					$db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', ' . $db->quote($nullDate) . ', ' .
 					$db->quote('0') . ', ' . $db->quote('')
