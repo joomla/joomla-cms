@@ -1021,7 +1021,8 @@ class PlgSampledataTesting extends CMSPlugin
 			return $response;
 		}
 
-		$this->app->setUserState('sampledata.testing.articles', $ids);
+		$articleNamespace = (array) $this->app->getUserState('sampledata.testing.articles');
+		$this->app->setUserState('sampledata.testing.articles', array_merge($ids, $articleNamespace));
 
 		$response            = array();
 		$response['success'] = true;
@@ -4589,7 +4590,7 @@ class PlgSampledataTesting extends CMSPlugin
 			}
 
 			// Get ID from category we just added
-			$catIds[] = $this->categoryModel->getItem()->id;
+			$catIds[] = $this->categoryModel->getState($this->categoryModel->getName() . '.id');
 		}
 
 		return $catIds;
@@ -4664,7 +4665,7 @@ class PlgSampledataTesting extends CMSPlugin
 			}
 
 			// Get ID from category we just added
-			$ids[] = $model->getItem()->id;
+			$ids[] = $model->getState($model->getName() . '.id');
 		}
 
 		return $ids;
