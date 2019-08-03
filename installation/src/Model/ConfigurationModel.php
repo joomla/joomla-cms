@@ -325,7 +325,7 @@ class ConfigurationModel extends BaseInstallationModel
 		else
 		{
 			$columns = array(
-				$db->quoteName('id'), 
+				$db->quoteName('id'),
 				$db->quoteName('name'),
 				$db->quoteName('username'),
 				$db->quoteName('email'),
