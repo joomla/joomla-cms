@@ -242,7 +242,7 @@ class PlgEditorTinymce extends CMSPlugin
 			->where(
 				[
 					$db->quoteName('client_id') . ' = 0',
-					$db->quoteName('home') . ' = 1'
+					$db->quoteName('home') . ' = ' . $db->quote('1')
 				]
 			);
 
