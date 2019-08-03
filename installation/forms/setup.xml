@@ -32,8 +32,6 @@
 			label="INSTL_ADMIN_USER_DESC"
 			id="admin_user"
 			class="form-control"
-			required="true"
-			validate="username"
 			size="30"
 		/>
 		<field
@@ -41,6 +39,8 @@
 			type="text"
 			label="INSTL_ADMIN_USERNAME_DESC"
 			id="admin_username"
+			required="true"
+			validate="username"
 			class="form-control"
 			size="30"
 		/>
