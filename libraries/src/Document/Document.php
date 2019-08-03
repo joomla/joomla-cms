@@ -140,6 +140,8 @@ class Document
 	 *
 	 * @var    array
 	 * @since  1.7.0
+	 *
+	 * @deprecated 5.0  Use WebAssetManager
 	 */
 	public $_scripts = array();
 
@@ -163,6 +165,8 @@ class Document
 	 *
 	 * @var    array
 	 * @since  1.7.0
+	 *
+	 * @deprecated 5.0  Use WebAssetManager
 	 */
 	public $_styleSheets = array();
 
@@ -328,7 +332,6 @@ class Document
 		else
 		{
 			$webAssetManager = new WebAssetManager(\Joomla\CMS\Factory::getContainer()->get('webassetregistry'));
-			$webAssetManager->setDispatcher(CmsFactory::getApplication()->getDispatcher());
 
 			$this->setWebAssetManager($webAssetManager);
 		}
@@ -516,6 +519,8 @@ class Document
 	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   1.7.0
+	 *
+	 * @deprecated 5.0  Use WebAssetManager
 	 */
 	public function addScript($url, $options = array(), $attribs = array())
 	{
@@ -616,6 +621,8 @@ class Document
 	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   1.7.0
+	 *
+	 * @deprecated 5.0  Use WebAssetManager
 	 */
 	public function addStyleSheet($url, $options = array(), $attribs = array())
 	{

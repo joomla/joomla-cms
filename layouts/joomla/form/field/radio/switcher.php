@@ -50,7 +50,7 @@ if (empty($options))
 }
 
 // Load the css files
-Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('switcher');
+Factory::getApplication()->getDocument()->getWebAssetManager()->useStyle('switcher');
 
 /**
  * The format of the input tag to be filled in using sprintf.

@@ -10,7 +10,6 @@ namespace Joomla\CMS\WebAsset;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Document\Document;
 use Joomla\CMS\WebAsset\Exception\InvalidActionException;
 use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 use Joomla\CMS\WebAsset\Exception\UnsatisfiedDependencyException;
@@ -23,8 +22,9 @@ use Joomla\CMS\WebAsset\Exception\UnsatisfiedDependencyException;
 interface WebAssetManagerInterface
 {
 	/**
-	 * Activate the Asset item
+	 * Enable an asset item to be attached to a Document
 	 *
+	 * @param   string  $type  Asset type, script or style etc
 	 * @param   string  $name  The asset name
 	 *
 	 * @return self
@@ -32,13 +32,14 @@ interface WebAssetManagerInterface
 	 * @throws  UnknownAssetException  When Asset cannot be found
 	 * @throws  InvalidActionException When the Manager already attached to a Document
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function enableAsset(string $name): self;
+	public function useAsset(string $type, string $name): self;
 
 	/**
-	 * Deactivate the Asset item
+	 * Deactivate an asset item, so it will not be attached to a Document
 	 *
+	 * @param   string  $type  Asset type, script or style etc
 	 * @param   string  $name  The asset name
 	 *
 	 * @return self
@@ -48,11 +49,12 @@ interface WebAssetManagerInterface
 	 *
 	 * @since  4.0.0
 	 */
-	public function disableAsset(string $name): self;
+	public function disableAsset(string $type, string $name): self;
 
 	/**
 	 * Check whether the asset are enabled
 	 *
+	 * @param   string  $type  Asset type, script or style etc
 	 * @param   string  $name  The asset name
 	 *
 	 * @return  boolean
@@ -61,12 +63,13 @@ interface WebAssetManagerInterface
 	 *
 	 * @since  4.0.0
 	 */
-	public function isAssetActive(string $name): bool;
+	public function isAssetActive(string $type, string $name): bool;
 
 	/**
-	 * Get all assets that was enabled
+	 * Get all assets that was enabled for given type
 	 *
-	 * @param   bool  $sort  Whether need to sort the assets to follow the dependency Graph
+	 * @param   string  $type  Asset type, script or style etc
+	 * @param   bool    $sort  Whether need to sort the assets to follow the dependency Graph
 	 *
 	 * @return  WebAssetItemInterface[]
 	 *
@@ -75,20 +78,7 @@ interface WebAssetManagerInterface
 	 *
 	 * @since  4.0.0
 	 */
-	public function getAssets(bool $sort = false): array;
-
-	/**
-	 * Attach active assets to the document
-	 *
-	 * @param   Document  $doc  Document for attach StyleSheet/JavaScript
-	 *
-	 * @return  self
-	 *
-	 * @throws InvalidActionException When the Manager already attached to a Document
-	 *
-	 * @since  4.0.0
-	 */
-	public function attachActiveAssetsToDocument(Document $doc): self;
+	public function getAssets(string $type, bool $sort = false): array;
 
 }
 

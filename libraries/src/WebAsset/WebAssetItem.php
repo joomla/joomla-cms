@@ -25,50 +25,31 @@ class WebAssetItem implements WebAssetItemInterface
 	 * @var    string  $name
 	 * @since  4.0.0
 	 */
-	protected $name;
+	protected $name = '';
 
 	/**
-	 * Asset version
+	 * The URI for the asset
 	 *
 	 * @var    string
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $version;
+	protected $uri = '';
 
 	/**
-	 * The Asset source info, where the asset comes from.
+	 * Additional options for the asset
 	 *
 	 * @var    array
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $assetSource;
+	protected $options = [];
 
 	/**
-	 * Item weight
-	 *
-	 * @var    float
-	 *
-	 * @since  4.0.0
-	 */
-	protected $weight = 0;
-
-	/**
-	 * List of JavaScript files, and its attributes.
-	 * The key is file path, the value is array of attributes.
+	 * Attributes for the asset, to be rendered in the asset's HTML tag
 	 *
 	 * @var    array
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $js = [];
-
-	/**
-	 * List of StyleSheet files, and its attributes
-	 * The key is file path, the value is array of attributes.
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	protected $css = [];
+	protected $attributes = [];
 
 	/**
 	 * Asset dependencies
@@ -79,56 +60,62 @@ class WebAssetItem implements WebAssetItemInterface
 	protected $dependencies = [];
 
 	/**
-	 * Internal use, to keep track of resolved paths
+	 * Asset version
 	 *
-	 * @var    array
-	 *
+	 * @var    string
 	 * @since  4.0.0
 	 */
-	protected $resolvedPaths = [];
+	protected $version = 'auto';
 
 	/**
 	 * Class constructor
 	 *
-	 * @param   string  $name  The asset name
-	 * @param   array   $data  The Asset information
+	 * @param   string  $name          The asset name
+	 * @param   string  $uri           The URI for the asset
+	 * @param   array   $options       Additional options for the asset
+	 * @param   array   $attributes    Attributes for the asset
+	 * @param   array   $dependencies  Asset dependencies
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(string $name, array $data = [])
+	public function __construct(
+		string $name,
+		string $uri = null,
+		array $options = [],
+		array $attributes = [],
+		array $dependencies = []
+	)
 	{
-		$this->name        = $name;
-		$this->version     = !empty($data['version']) ? $data['version'] : null;
-		$this->assetSource = !empty($data['assetSource']) ? $data['assetSource'] : null;
+		$this->name    = $name;
+		$this->uri     = $uri;
 
-		$attributes = empty($data['attribute']) ? [] : $data['attribute'];
-
-		// Check for Scripts and StyleSheets, and their attributes
-		if (!empty($data['js']))
+		if (array_key_exists('version', $options))
 		{
-			foreach ($data['js'] as $js)
-			{
-				$this->js[$js] = empty($attributes[$js]) ? [] : $attributes[$js];
-			}
+			$this->version = $options['version'];
+			unset($options['version']);
 		}
 
-		if (!empty($data['css']))
+		if (array_key_exists('attributes', $options))
 		{
-			foreach ($data['css'] as $css)
-			{
-				$this->css[$css] = empty($attributes[$css]) ? [] : $attributes[$css];
-			}
+			$this->attributes = (array) $options['attributes'];
+			unset($options['attributes']);
+		}
+		else
+		{
+			$this->attributes = $attributes;
 		}
 
-		if (!empty($data['dependencies']))
+		if (array_key_exists('dependencies', $options))
 		{
-			$this->dependencies = (array) $data['dependencies'];
+			$this->dependencies = (array) $options['dependencies'];
+			unset($options['dependencies']);
+		}
+		else
+		{
+			$this->dependencies = $dependencies;
 		}
 
-		if (!empty($data['weight']))
-		{
-			$this->weight = (float) $data['weight'];
-		}
+		$this->options = $options;
 	}
 
 	/**
@@ -150,9 +137,9 @@ class WebAssetItem implements WebAssetItemInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function getVersion()
+	public function getVersion(): string
 	{
-		return $this->version;
+		return (string) $this->version;
 	}
 
 	/**
@@ -168,106 +155,131 @@ class WebAssetItem implements WebAssetItemInterface
 	}
 
 	/**
-	 * Set the desired weight for the Asset in Graph.
-	 * Final weight will be calculated by AssetManager according to dependency Graph.
-	 *
-	 * @param   float  $weight  The asset weight
-	 *
-	 * @return  self
-	 *
-	 * @since   4.0.0
-	 */
-	public function setWeight(float $weight): WebAssetItemInterface
-	{
-		$this->weight = $weight;
-
-		return $this;
-	}
-
-	/**
-	 * Return the weight of the Asset.
-	 *
-	 * @return  float
-	 *
-	 * @since   4.0.0
-	 */
-	public function getWeight(): float
-	{
-		return $this->weight;
-	}
-
-	/**
-	 * Get CSS files
+	 * Get the file path
 	 *
 	 * @param   boolean  $resolvePath  Whether need to search for a real paths
 	 *
 	 * @return array
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getStylesheetFiles($resolvePath = true): array
+	public function getUri($resolvePath = true): string
 	{
-		if ($resolvePath)
+		$path = $this->uri;
+
+		if ($resolvePath && $path)
 		{
-			$files = [];
-
-			foreach ($this->css as $path => $attr)
-			{
-				$resolved = $this->resolvePath($path, 'stylesheet');
-				$fullPath = $resolved['fullPath'];
-
-				if (!$fullPath)
-				{
-					// File not found, But we keep going ???
-					continue;
-				}
-
-				$files[$fullPath] = $attr;
-				$files[$fullPath]['__isExternal'] = $resolved['external'];
-				$files[$fullPath]['__pathOrigin'] = $path;
+			switch (pathinfo($path, PATHINFO_EXTENSION)){
+				case 'js':
+					$path = $this->resolvePath($path, 'script');
+					break;
+				case 'css':
+					$path = $this->resolvePath($path, 'stylesheet');
+					break;
+				default:
+					break;
 			}
-
-			return $files;
 		}
 
-		return $this->css;
+		return $path ?? '';
 	}
 
 	/**
-	 * Get JS files
+	 * Get the option
 	 *
-	 * @param   boolean  $resolvePath  Whether we need to search for a real paths
+	 * @param   string  $key      An option key
+	 * @param   string  $default  A default value
+	 *
+	 * @return mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getOption(string $key, $default = null)
+	{
+		if (array_key_exists($key, $this->options))
+		{
+			return $this->options[$key];
+		}
+
+		return $default;
+	}
+
+	/**
+	 * Set the option
+	 *
+	 * @param   string  $key    An option key
+	 * @param   string  $value  An option value
+	 *
+	 * @return self
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setOption(string $key, $value = null): WebAssetItemInterface
+	{
+		$this->options[$key] = $value;
+
+		return $this;
+	}
+
+	/**
+	 * Get all options
 	 *
 	 * @return array
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getScriptFiles($resolvePath = true): array
+	public function getOptions(): array
 	{
-		if ($resolvePath)
+		return $this->options;
+	}
+
+	/**
+	 * Get the attribute
+	 *
+	 * @param   string  $key      An attributes key
+	 * @param   string  $default  A default value
+	 *
+	 * @return mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getAttribute(string $key, $default = null)
+	{
+		if (array_key_exists($key, $this->attributes))
 		{
-			$files = [];
-
-			foreach ($this->js as $path => $attr)
-			{
-				$resolved = $this->resolvePath($path, 'script');
-				$fullPath = $resolved['fullPath'];
-
-				if (!$fullPath)
-				{
-					// File not found, But we keep going ???
-					continue;
-				}
-
-				$files[$fullPath] = $attr;
-				$files[$fullPath]['__isExternal'] = $resolved['external'];
-				$files[$fullPath]['__pathOrigin'] = $path;
-			}
-
-			return $files;
+			return $this->attributes[$key];
 		}
 
-		return $this->js;
+		return $default;
+	}
+
+	/**
+	 * Set the attribute
+	 *
+	 * @param   string  $key    An attribute key
+	 * @param   string  $value  An attribute value
+	 *
+	 * @return self
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setAttribute(string $key, $value = null): WebAssetItemInterface
+	{
+		$this->attributes[$key] = $value;
+
+		return $this;
+	}
+
+	/**
+	 * Get all attributes
+	 *
+	 * @return array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getAttributes(): array
+	{
+		return $this->attributes;
 	}
 
 	/**
@@ -276,17 +288,12 @@ class WebAssetItem implements WebAssetItemInterface
 	 * @param   string  $path  The path to resolve
 	 * @param   string  $type  The resolver method
 	 *
-	 * @return array
+	 * @return string
 	 *
 	 * @since  4.0.0
 	 */
-	protected function resolvePath(string $path, string $type): array
+	protected function resolvePath(string $path, string $type): string
 	{
-		if (!empty($this->resolvedPaths[$path]))
-		{
-			return $this->resolvedPaths[$path];
-		}
-
 		if ($type !== 'script' && $type !== 'stylesheet')
 		{
 			throw new \UnexpectedValueException('Unexpected [type], expected "script" or "stylesheet"');
@@ -303,17 +310,12 @@ class WebAssetItem implements WebAssetItemInterface
 				$path,
 				[
 					'pathOnly' => true,
-					'relative' => !$this->isPathAbsolute($path)
+					'relative' => !$this->isPathAbsolute($path),
 				]
 			);
 		}
 
-		$this->resolvedPaths[$path] = [
-			'external' => $external,
-			'fullPath' => $file ? $file : false,
-		];
-
-		return $this->resolvedPaths[$path];
+		return $file ?? '';
 	}
 
 	/**

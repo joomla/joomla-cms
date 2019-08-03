@@ -20,8 +20,9 @@ use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 interface WebAssetRegistryInterface
 {
 	/**
-	 * Get an existing Asset from a registry, by asset name.
+	 * Get an existing Asset from a registry, by asset name and asset type.
 	 *
+	 * @param   string  $type  Asset type, script or style etc
 	 * @param   string  $name  Asset name
 	 *
 	 * @return  WebAssetItem
@@ -30,40 +31,42 @@ interface WebAssetRegistryInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function get(string $name): WebAssetItemInterface;
+	public function get(string $type, string $name): WebAssetItemInterface;
 
 	/**
 	 * Add Asset to registry of known assets
 	 *
+	 * @param   string                 $type  Asset type, script or style etc
 	 * @param   WebAssetItemInterface  $asset  Asset instance
 	 *
 	 * @return  self
 	 *
 	 * @since   4.0.0
 	 */
-	public function add(WebAssetItemInterface $asset): self;
+	public function add(string $type, WebAssetItemInterface $asset): self;
 
 	/**
 	 * Remove Asset from registry.
 	 *
+	 * @param   string  $type  Asset type, script or style etc
 	 * @param   string  $name  Asset name
 	 *
 	 * @return  self
 	 *
 	 * @since   4.0.0
 	 */
-	public function remove(string $name): self;
+	public function remove(string $type, string $name): self;
 
 	/**
 	 * Check whether the asset exists in the registry.
 	 *
+	 * @param   string  $type  Asset type, script or style etc
 	 * @param   string  $name  Asset name
 	 *
 	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
-	public function exists(string $name): bool;
-
+	public function exists(string $type, string $name): bool;
 }
 

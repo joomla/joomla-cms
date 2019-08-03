@@ -150,19 +150,24 @@ abstract class JHtmlBootstrap
 	 */
 	public static function framework($debug = null)
 	{
+		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+
+		if ($wa->assetExists('script', 'bootstrap.init.legacy') && $wa->isAssetActive('script', 'bootstrap.init.legacy'))
+		{
+			return;
+		}
+
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__]))
 		{
 			return;
 		}
 
-		$debug = (isset($debug) && $debug != JDEBUG) ? $debug : JDEBUG;
-
-		// Load the needed scripts
-		Factory::getDocument()->getWebAssetManager()
-			->enableAsset('core')
-			->enableAsset('bootstrap.js.bundle');
-		HTMLHelper::_('script', 'legacy/bootstrap-init.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+		$wa
+			->registerScript('bootstrap.init.legacy', 'legacy/bootstrap-init.min.js', ['dependencies' => ['core', 'bootstrap.js.bundle']])
+			->useScript('bootstrap.init.legacy')
+		;
 
 		static::$loaded[__METHOD__] = true;
 	}
@@ -565,7 +570,7 @@ abstract class JHtmlBootstrap
 		// Load Bootstrap main CSS
 		if ($includeMainCss)
 		{
-			HTMLHelper::_('stylesheet', 'vendor/bootstrap/bootstrap.min.css', array('version' => 'auto', 'relative' => true), $attribs);
+			Factory::getDocument()->getWebAssetManager()->useStyle('bootstrap.css');
 		}
 
 		/**

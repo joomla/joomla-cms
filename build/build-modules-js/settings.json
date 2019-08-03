@@ -16,9 +16,22 @@
         },
         "provideAssets": [
           {
-            "name": null,
-            "js": ["awesomplete.min.js"],
-            "css": ["awesomplete.css"]
+            "name": "awesomplete",
+            "type": "style",
+            "uri": "awesomplete.css"
+          },
+          {
+            "name": "awesomplete",
+            "type": "script",
+            "uri": "awesomplete.min.js"
+          },
+          {
+            "name": "awesomplete",
+            "type": "preset",
+            "dependencies": [
+              "awesomplete#style",
+              "awesomplete#script"
+            ]
           }
         ],
         "dependencies": [],
@@ -52,23 +65,27 @@
         },
         "provideAssets": [
           {
+            "name": "bootstrap.css",
+            "type": "style",
+            "uri": "bootstrap.min.css"
+          },
+          {
+            "name": "bootstrap.css.grid",
+            "type": "style",
+            "uri": "bootstrap-grid.min.css",
+            "dependencies": ["bootstrap.css"]
+          },
+          {
             "name": "bootstrap.js",
-            "js": ["bootstrap.min.js"],
+            "type": "script",
+            "uri": "bootstrap.min.js",
             "dependencies": ["jquery"]
           },
           {
             "name": "bootstrap.js.bundle",
-            "js": ["bootstrap.bundle.min.js"],
+            "type": "script",
+            "uri": "bootstrap.bundle.min.js",
             "dependencies": ["jquery"]
-          },
-          {
-            "name": "bootstrap.css",
-            "css": ["bootstrap.min.css"]
-          },
-          {
-            "name": "bootstrap.css.grid",
-            "css": ["bootstrap-grid.min.css"],
-            "dependencies": ["bootstrap.css"]
           }
         ],
         "dependencies": [],
@@ -86,9 +103,22 @@
         },
         "provideAssets": [
           {
-            "name": null,
-            "js": ["cropper.min.js"],
-            "css": ["cropper.min.css"]
+            "name": "cropperjs",
+            "type": "style",
+            "uri": "cropper.min.css"
+          },
+          {
+            "name": "cropperjs",
+            "type": "script",
+            "uri": "cropper.min.js"
+          },
+          {
+            "name": "cropperjs",
+            "type": "preset",
+            "dependencies": [
+              "cropperjs#style",
+              "cropperjs#script"
+            ]
           }
         ],
         "dependencies": [],
@@ -104,13 +134,26 @@
           "public/assets/styles/choices.css": "css/choices.css",
           "public/assets/styles/choices.min.css": "css/choices.min.css"
         },
-        "provideAssets": [
+        "provideAssets":[
           {
-            "name": null,
-            "js": ["choices.min.js"],
-            "css": ["choices.min.css"]
+            "name": "choicesjs",
+            "type": "style",
+            "uri": "choices.min.css"
+          },
+          {
+            "name": "choicesjs",
+            "type": "script",
+            "uri": "choices.min.js"
+          },
+          {
+            "name": "choicesjs",
+            "type": "preset",
+            "dependencies": [
+              "choicesjs#style",
+              "choicesjs#script"
+            ]
           }
-         ],
+        ],
         "dependencies": [],
         "licenseFilename": "LICENSE"
       },
@@ -122,8 +165,9 @@
         },
         "provideAssets": [
           {
-            "name": null,
-            "js": ["diff.js"]
+            "name": "diff",
+            "type": "script",
+            "uri": "diff.js"
           }
         ],
         "dependencies": [],
@@ -141,9 +185,22 @@
         },
         "provideAssets": [
           {
-            "name": null,
-            "js": ["dragula.min.js"],
-            "css": ["dragula.min.css"]
+            "name": "dragula",
+            "type": "style",
+            "uri": "dragula.min.css"
+          },
+          {
+            "name": "dragula",
+            "type": "script",
+            "uri": "dragula.min.js"
+          },
+          {
+            "name": "dragula",
+            "type": "preset",
+            "dependencies": [
+              "dragula#style",
+              "dragula#script"
+            ]
           }
         ],
         "dependencies": [],
@@ -158,8 +215,9 @@
         },
         "provideAssets": [
           {
-            "name": null,
-            "js": ["focus-visible.min.js"]
+            "name": "focus-visible",
+            "type": "script",
+            "uri": "focus-visible.min.js"
           }
         ],
         "dependencies": [],
@@ -177,8 +235,9 @@
         },
         "provideAssets": [
           {
-            "name": null,
-            "css": ["fontawesome.min.css"]
+            "name": "fontawesome",
+            "type": "style",
+            "uri": "fontawesome.min.css"
           }
         ],
         "dependencies": [],
@@ -195,8 +254,9 @@
         },
         "provideAssets": [
           {
-            "name": null,
-            "js": ["jquery.min.js"]
+            "name": "jquery",
+            "type": "script",
+            "uri": "jquery.min.js"
           }
         ],
         "dependencies": [],
@@ -210,8 +270,9 @@
         },
         "provideAssets": [
           {
-            "name": null,
-            "js": ["jquery-migrate.min.js"],
+            "name": "jquery-migrate",
+            "type": "script",
+            "uri": "jquery-migrate.min.js",
             "dependencies": ["jquery"]
           }
         ],
@@ -238,6 +299,28 @@
           "dist/css/joomla-tab.css": "css/joomla-tab.css",
           "dist/css/joomla-tab.min.css": "css/joomla-tab.min.css"
         },
+        "provideAssets": [
+          {
+            "name": "joomla-alert",
+            "type": "style",
+            "uri": "joomla-alert.min.css"
+          },
+          {
+            "name": "joomla-tab",
+            "type": "style",
+            "uri": "joomla-tab.min.css"
+          },
+          {
+            "name": "joomla-alert",
+            "type": "webcomponent",
+            "uri": "joomla-alert.min.js"
+          },
+          {
+            "name": "joomla-tab",
+            "type": "webcomponent",
+            "uri": "joomla-tab.min.js"
+          }
+        ],
         "dependencies": [],
         "licenseFilename": "LICENSE"
       },
@@ -274,8 +357,9 @@
         },
         "provideAssets": [
           {
-            "name": null,
-            "js": ["punycode.js"]
+            "name": "punycode",
+            "type": "script",
+            "uri": "punycode.js"
           }
         ],
         "dependencies": [],
@@ -293,12 +377,25 @@
         "filesExtra": {
           "jquery.minicolors.png": "css/jquery.minicolors.png"
         },
-        "provideAssets": [
+        "provideAssets":[
           {
-            "name": null,
-            "js": ["jquery.minicolors.min.js"],
-            "css": ["jquery.minicolors.css"],
+            "name": "minicolors",
+            "type": "style",
+            "uri": "jquery.minicolors.css"
+          },
+          {
+            "name": "minicolors",
+            "type": "script",
+            "uri": "jquery.minicolors.min.js",
             "dependencies": ["jquery"]
+          },
+          {
+            "name": "minicolors",
+            "type": "preset",
+            "dependencies": [
+              "minicolors#style",
+              "minicolors#script"
+            ]
           }
         ],
         "dependencies": [
@@ -335,8 +432,9 @@
         },
         "provideAssets": [
           {
-            "name": null,
-            "js": ["css-vars-ponyfill.min.js"]
+            "name": "css-vars-ponyfill",
+            "type": "script",
+            "uri": "css-vars-ponyfill.min.js"
           }
         ]
       },
@@ -352,10 +450,25 @@
         },
         "provideAssets": [
           {
-            "name": null,
-            "js": ["chosen.jquery.js"],
-            "css": ["chosen.css"],
-            "dependencies": ["jquery"]
+            "name": "chosen",
+            "type": "style",
+            "uri": "chosen.css"
+          },
+          {
+            "name": "chosen",
+            "type": "script",
+            "uri": "chosen.jquery.js",
+            "dependencies": [
+              "jquery"
+            ]
+          },
+          {
+            "name": "chosen",
+            "type": "preset",
+            "dependencies": [
+              "chosen#style",
+              "chosen#script"
+            ]
           }
         ]
       },
@@ -386,13 +499,41 @@
           "qrcode_SJIS.js": "js/qrcode_SJIS.js",
           "qrcode_UTF8.js": "js/qrcode_UTF8.js"
         },
-        "provideAssets": [
+        "provideAssets1": [
           {
             "name": null,
             "js": [
               "qrcode.js",
               "qrcode_SJIS.js",
               "qrcode_UTF8.js"
+            ]
+          }
+        ],
+        "provideAssets":[
+          {
+            "name": "qrcode",
+            "type": "script",
+            "uri": "qrcode.js"
+          },
+          {
+            "name": "qrcode_SJIS",
+            "type": "script",
+            "uri": "qrcode_SJIS.js",
+            "dependencies":["qrcode"]
+          },
+          {
+            "name": "qrcode_UTF8",
+            "type": "script",
+            "uri": "qrcode_UTF8.js",
+            "dependencies":["qrcode"]
+          },
+          {
+            "name": "qrcode",
+            "type": "preset",
+            "dependencies": [
+              "qrcode#script",
+              "qrcode_SJIS#script",
+              "qrcode_UTF8#script"
             ]
           }
         ]

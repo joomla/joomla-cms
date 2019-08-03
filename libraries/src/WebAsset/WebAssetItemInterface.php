@@ -33,7 +33,7 @@ interface WebAssetItemInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function getVersion();
+	public function getVersion(): string;
 
 	/**
 	 * Return dependencies list
@@ -45,46 +45,80 @@ interface WebAssetItemInterface
 	public function getDependencies(): array;
 
 	/**
-	 * Set the desired weight for the Asset in Graph.
-	 * Final weight will be calculated by AssetManager according to dependency Graph.
-	 *
-	 * @param   float  $weight  The asset weight
-	 *
-	 * @return  self
-	 *
-	 * @since   4.0.0
-	 */
-	public function setWeight(float $weight): self;
-
-	/**
-	 * Return the weight of the Asset in Graph.
-	 *
-	 * @return  float
-	 *
-	 * @since   4.0.0
-	 */
-	public function getWeight(): float;
-
-	/**
-	 * Get CSS files
+	 * Get the URI of the asset
 	 *
 	 * @param   boolean  $resolvePath  Whether need to search for a real paths
 	 *
-	 * @return array
+	 * @return string
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getStylesheetFiles($resolvePath = true): array;
+	public function getUri($resolvePath = true): string;
 
 	/**
-	 * Get JS files
+	 * Get the option
 	 *
-	 * @param   boolean  $resolvePath  Whether we need to search for a real paths
+	 * @param   string  $key      An option key
+	 * @param   string  $default  A default value
+	 *
+	 * @return mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getOption(string $key, $default = null);
+
+	/**
+	 * Set the option
+	 *
+	 * @param   string  $key    An option key
+	 * @param   string  $value  An option value
+	 *
+	 * @return self
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setOption(string $key, $value = null): WebAssetItemInterface;
+
+	/**
+	 * Get all options of the asset
 	 *
 	 * @return array
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getScriptFiles($resolvePath = true): array;
+	public function getOptions(): array;
+
+	/**
+	 * Get the attribute
+	 *
+	 * @param   string  $key      An attributes key
+	 * @param   string  $default  A default value
+	 *
+	 * @return mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getAttribute(string $key, $default = null);
+
+	/**
+	 * Set the attribute
+	 *
+	 * @param   string  $key    An attribute key
+	 * @param   string  $value  An attribute value
+	 *
+	 * @return self
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setAttribute(string $key, $value = null): WebAssetItemInterface;
+
+	/**
+	 * Get all attributes
+	 *
+	 * @return array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getAttributes(): array;
 
 }

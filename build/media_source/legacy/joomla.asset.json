@@ -7,30 +7,27 @@
   "assets": [
     {
       "name": "jquery-noconflict",
+      "type": "script",
       "dependencies": [
         "jquery"
       ],
-      "js": [
-        "media/legacy/js/jquery-noconflict.min.js"
-      ]
+      "uri": "media/legacy/js/jquery-noconflict.min.js"
     },
     {
       "name": "jquery.ui.core",
+      "type": "script",
       "dependencies": [
         "jquery"
       ],
-      "js": [
-        "media/vendor/jquery-ui/js/jquery.ui.core.js"
-      ]
+      "uri": "media/vendor/jquery-ui/js/jquery.ui.core.js"
     },
     {
       "name": "jquery.ui.sortable",
+      "type": "script",
       "dependencies": [
         "jquery.ui.core"
       ],
-      "js": [
-        "media/vendor/jquery-ui/js/jquery.ui.sortable.js"
-      ]
+      "uri": "media/vendor/jquery-ui/js/jquery.ui.sortable.js"
     }
   ]
 }

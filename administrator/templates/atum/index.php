@@ -33,10 +33,14 @@ $logo        = $this->baseurl . '/templates/' . $this->template . '/images/logo.
 $logoBlue    = $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
 // Enable assets
-$wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
+$assetName = 'template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr');
+$wa->usePreset($assetName);
 
 // Load specific language related CSS
-HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
+$wa
+	->registerStyle('template.language.related', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['dependencies' => [$assetName]])
+	->useStyle('template.language.related')
+;
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');

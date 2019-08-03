@@ -40,23 +40,23 @@ abstract class JHtmlJquery
 	 *
 	 * @since   3.0
 	 *
-	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::enableAsset();
+	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::useAsset();
 	 */
 	public static function framework($noConflict = true, $debug = null, $migrate = false)
 	{
 		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-		$wa->enableAsset('jquery');
+		$wa->useScript('jquery');
 
 		// Check if we are loading in noConflict
 		if ($noConflict)
 		{
-			$wa->enableAsset('jquery-noconflict');
+			$wa->useScript('jquery-noconflict');
 		}
 
 		// Check if we are loading Migrate
 		if ($migrate)
 		{
-			$wa->enableAsset('jquery-migrate');
+			$wa->useScript('jquery-migrate');
 		}
 
 		return;
@@ -74,7 +74,7 @@ abstract class JHtmlJquery
 	 *
 	 * @since   3.0
 	 *
-	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::enableAsset();
+	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::useAsset();
 	 */
 	public static function ui(array $components = array('core'), $debug = null)
 	{
@@ -87,7 +87,7 @@ abstract class JHtmlJquery
 		{
 			if (in_array($component, $supported))
 			{
-				$wa->enableAsset('jquery.ui.' . $component);
+				$wa->useScript('jquery.ui.' . $component);
 			}
 		}
 

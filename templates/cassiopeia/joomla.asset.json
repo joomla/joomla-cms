@@ -6,32 +6,59 @@
   "license": "GPL-2.0+",
   "assets": [
     {
+      "name": "template.cassiopeia.ltr",
+      "type": "style",
+      "uri": "template.min.css"
+    },
+    {
+      "name": "template.cassiopeia.rtl",
+      "type": "style",
+      "uri": "template-rtl.min.css"
+    },
+    {
+      "name": "template.cassiopeia.user",
+      "type": "style",
+      "uri": "user.css"
+    },
+    {
+      "name": "template.cassiopeia",
+      "type": "script",
+      "uri": "template.js"
+    },
+    {
+      "name": "template.cassiopeia.user",
+      "type": "script",
+      "uri":  "user.js"
+    },
+
+    {
       "name": "template.cassiopeia.base",
+      "type": "preset",
       "dependencies": [
-        "core",
-        "jquery-noconflict",
-        "fontawesome-free",
-        "bootstrap.js.bundle"
-      ],
-      "js": [
-        "template.js",
-        "user.js"
+        "core#script",
+        "jquery#script",
+        "fontawesome#style",
+        "bootstrap.js.bundle#script",
+        "template.cassiopeia#script",
+        "template.cassiopeia.user#script"
       ]
     },
     {
       "name": "template.cassiopeia.ltr",
-      "dependencies": ["template.cassiopeia.base"],
-      "css": [
-        "template.min.css",
-        "user.css"
+      "type": "preset",
+      "dependencies": [
+        "template.cassiopeia.base",
+        "template.cassiopeia.ltr#style",
+        "template.cassiopeia.user#style"
       ]
     },
     {
       "name": "template.cassiopeia.rtl",
-      "dependencies": ["template.cassiopeia.base"],
-      "css": [
-        "template-rtl.min.css",
-        "user.css"
+      "type": "preset",
+      "dependencies": [
+        "template.cassiopeia.base",
+        "template.cassiopeia.rtl#style",
+        "template.cassiopeia.user#style"
       ]
     }
   ]

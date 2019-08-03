@@ -7,66 +7,70 @@
   "assets": [
     {
       "name": "core",
+      "type": "script",
       "class": "CoreAssetItem",
-      "js": [
-        "media/system/js/core.min.js"
-      ]
+      "uri": "media/system/js/core.min.js"
     },
     {
       "name": "keepalive",
+      "type": "script",
       "class": "KeepaliveAssetItem",
       "dependencies": [
         "core"
       ],
-      "js": [
-        "media/system/js/keepalive.min.js"
-      ]
+      "uri": "media/system/js/keepalive.min.js"
     },
     {
       "name": "multiselect",
+      "type": "script",
       "dependencies": [
         "core"
       ],
-      "js": [
-        "media/system/js/multiselect.min.js"
-      ]
+      "uri": "media/system/js/multiselect.min.js"
     },
     {
       "name": "searchtools",
+      "type": "script",
       "dependencies": [
         "core"
       ],
-      "js": [
-        "media/system/js/searchtools.min.js"
-      ],
-      "css": [
-        "system/searchtools.css"
+      "uri": "media/system/js/searchtools.min.js"
+    },
+    {
+      "name": "searchtools",
+      "type": "style",
+      "uri": "system/searchtools.css"
+    },
+    {
+      "name": "searchtools",
+      "type": "preset",
+      "dependencies": [
+        "searchtools#style",
+        "searchtools#script"
       ]
     },
     {
       "name": "showon",
+      "type": "script",
       "dependencies": [
         "core"
       ],
-      "js": [
-        "media/system/js/showon.min.js"
-      ]
+      "uri": "media/system/js/showon.min.js"
     },
     {
       "name": "switcher",
-      "css": [
-        "media/system/css/fields/switcher.min.css"
-      ]
+      "type": "style",
+      "uri": "media/system/css/fields/switcher.min.css"
     },
     {
-      "name": "fields.validate",
+      "name": "form.validate",
+      "type": "script",
+      "class": "FormValidateAssetItem",
       "dependencies": [
         "core",
         "punycode"
       ],
-      "js": [
-        "media/system/js/fields/validate.min.js"
-      ]
+      "uri": "media/system/js/fields/validate.min.js"
     }
   ]
 }

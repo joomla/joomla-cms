@@ -19,7 +19,7 @@ $articleId = $displayData['item']->id;
 
 <?php if ($canEdit) : ?>
 	<div class="icons">
-		<?php Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('bootstrap.js.bundle'); ?>
+		<?php Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('bootstrap.js.bundle'); ?>
 		<div class="btn-group float-right">
 			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-<?php echo $articleId; ?>" aria-label="<?php echo Text::_('JUSER_TOOLS'); ?>"
 				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
