@@ -538,7 +538,6 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'com_actionlogs', 'component', 'com_actionlogs', '', 1, 1, 1, 1, '', '{"ip_logging":0,"csv_delimiter":",","loggable_extensions":["com_banners","com_cache","com_categories","com_checkin","com_config","com_contact","com_content","com_installer","com_media","com_menus","com_messages","com_modules","com_newsfeeds","com_plugins","com_redirect","com_tags","com_templates","com_users"]}', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 1, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'com_csp', 'component', 'com_csp', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(0, 'com_mails', 'component', 'com_mails', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Joomla! Platform', 'library', 'joomla', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'PHPass', 'library', 'phpass', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_articles_archive', 'module', 'mod_articles_archive', '', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
@@ -2313,24 +2312,3 @@ INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`
 (2, 62, 1, 2, 1, 'Publish', '', -1, 2),
 (3, 63, 1, 3, 1, 'Trash', '', -1, 3),
 (4, 64, 1, 4, 1, 'Archive', '', -1, 4);
-
---
--- Table structure for table `#__mail_templates`
---
-
-CREATE TABLE IF NOT EXISTS `#__mail_templates` (
-  `template_id` VARCHAR(127) NOT NULL DEFAULT '',
-  `language` char(7) NOT NULL DEFAULT '',
-  `subject` VARCHAR(255) NOT NULL DEFAULT '',
-  `body` TEXT NOT NULL,
-  `htmlbody` TEXT NOT NULL,
-  `attachments` TEXT NOT NULL,
-  `params` TEXT NOT NULL,
-  PRIMARY KEY (`template_id`, `language`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `#__mail_templates`
---
-
-INSERT INTO `#__mail_templates` (`template_id`, `language`, `subject`, `body`, `htmlbody`, `attachments`, `params`) VALUES ('com_config.test_mail', '', 'COM_CONFIG_SENDMAIL_SUBJECT', 'COM_CONFIG_SENDMAIL_BODY', '', '', '{"tags":["sitename","method"]}');
