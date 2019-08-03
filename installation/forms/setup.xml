@@ -31,6 +31,7 @@
 			type="text"
 			label="INSTL_ADMIN_USER_DESC"
 			id="admin_user"
+			required="true"
 			class="form-control"
 			size="30"
 		/>
