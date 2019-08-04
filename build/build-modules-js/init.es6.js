@@ -266,7 +266,7 @@ const copyFiles = (options) => {
           package: packageName,
           name: assetInfo.name || vendorName,
           version: moduleOptions.version,
-          type: assetInfo.type
+          type: assetInfo.type,
         };
 
         if (assetInfo.dependencies && assetInfo.dependencies.length) {
@@ -279,7 +279,7 @@ const copyFiles = (options) => {
 
           // Check for external path
           if (itemPath.indexOf('http://') !== 0 && itemPath.indexOf('https://') !== 0 && itemPath.indexOf('//') !== 0) {
-            let ext = assetInfo.type === 'style' ? 'css' : 'js';
+            const ext = assetInfo.type === 'style' ? 'css' : 'js';
 
             itemPath = `media/vendor/${vendorName}/${ext}/${itemPath}`;
           }
