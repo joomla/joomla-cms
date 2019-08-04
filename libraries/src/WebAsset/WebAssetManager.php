@@ -116,7 +116,7 @@ class WebAssetManager implements WebAssetManagerInterface
 			function(WebAssetRegistryAssetChanged $event)
 			{
 				// If the changed asset are used
-				if ($this->isAssetActive($event->getAssetType(), $event->getAsset()->getName()))
+				if (!empty($this->activeAssets[$event->getAssetType()][$event->getAsset()->getName()]))
 				{
 					$this->dependenciesIsActual = false;
 				}
@@ -128,7 +128,7 @@ class WebAssetManager implements WebAssetManagerInterface
 			function(WebAssetRegistryAssetChanged $event)
 			{
 				// If the changed asset are used
-				if ($this->isAssetActive($event->getAssetType(), $event->getAsset()->getName()))
+				if (!empty($this->activeAssets[$event->getAssetType()][$event->getAsset()->getName()]))
 				{
 					$this->dependenciesIsActual = false;
 				}
