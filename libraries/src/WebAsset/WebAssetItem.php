@@ -15,6 +15,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 /**
  * Web Asset Item class
  *
+ * Asset Item are "read only" object, all properties must be set through class constructor.
+ * Only properties allowed to be edited is an attributes and an options.
+ * Changing an uri or a dependencies are not allowed, prefer to create a new asset instance.
+ *
  * @since  4.0.0
  */
 class WebAssetItem implements WebAssetItemInterface

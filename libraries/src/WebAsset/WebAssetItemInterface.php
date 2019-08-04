@@ -13,6 +13,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Web Asset Item interface
  *
+ * Asset Item are "read only" object, all properties must be set through class constructor.
+ * Only properties allowed to be edited is an attributes and an options.
+ * Changing an uri or a dependencies are not allowed, prefer to create a new asset instance.
+ *
  * @since  4.0.0
  */
 interface WebAssetItemInterface
