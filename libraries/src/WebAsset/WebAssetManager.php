@@ -10,6 +10,7 @@ namespace Joomla\CMS\WebAsset;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Event\WebAsset\WebAssetRegistryAssetChanged;
 use Joomla\CMS\WebAsset\Exception\InvalidActionException;
 use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 use Joomla\CMS\WebAsset\Exception\UnsatisfiedDependencyException;
@@ -112,15 +113,25 @@ class WebAssetManager implements WebAssetManagerInterface
 		// Listen to changes in the registry
 		$this->registry->getDispatcher()->addListener(
 			'onWebAssetRegistryChangedAssetOverride',
-			function($event){
-				$this->dependenciesIsActual = false;
+			function(WebAssetRegistryAssetChanged $event)
+			{
+				// If the changed asset are used
+				if ($this->isAssetActive($event->getAssetType(), $event->getAsset()->getName()))
+				{
+					$this->dependenciesIsActual = false;
+				}
 			}
 		);
 
 		$this->registry->getDispatcher()->addListener(
 			'onWebAssetRegistryChangedAssetRemove',
-			function($event){
-				$this->dependenciesIsActual = false;
+			function(WebAssetRegistryAssetChanged $event)
+			{
+				// If the changed asset are used
+				if ($this->isAssetActive($event->getAssetType(), $event->getAsset()->getName()))
+				{
+					$this->dependenciesIsActual = false;
+				}
 			}
 		);
 	}
