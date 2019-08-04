@@ -56,5 +56,55 @@ class PlgWebservicesContact extends CMSPlugin
 			'categories',
 			['component' => 'com_categories', 'extension' => 'com_contact']
 		);
+
+		$this->createFieldsRoutes($router);
+	}
+
+	/**
+	 * Create fields routes
+	 *
+	 * @param   ApiRouter  &$router  The API Routing object
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	private function createFieldsRoutes(&$router)
+	{
+		$router->createCRUDRoutes(
+			'v1/fields/contact/contact',
+			'fields',
+			['component' => 'com_fields', 'context' => 'com_contact.contact']
+		);
+
+		$router->createCRUDRoutes(
+			'v1/fields/contact/mail',
+			'fields',
+			['component' => 'com_fields', 'context' => 'com_contact.mail']
+		);
+
+		$router->createCRUDRoutes(
+			'v1/fields/contact/categories',
+			'fields',
+			['component' => 'com_fields', 'context' => 'com_contact.categories']
+		);
+
+		$router->createCRUDRoutes(
+			'v1/fields/groups/contact/contact',
+			'groups',
+			['component' => 'com_fields', 'context' => 'com_contact.contact']
+		);
+
+		$router->createCRUDRoutes(
+			'v1/fields/groups/contact/mail',
+			'groups',
+			['component' => 'com_fields', 'context' => 'com_contact.mail']
+		);
+
+		$router->createCRUDRoutes(
+			'v1/fields/groups/contact/categories',
+			'groups',
+			['component' => 'com_fields', 'context' => 'com_contact.categories']
+		);
 	}
 }

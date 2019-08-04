@@ -45,5 +45,43 @@ class PlgWebservicesContent extends CMSPlugin
 			'categories',
 			['component' => 'com_categories', 'extension' => 'com_content']
 		);
+
+		$this->createFieldsRoutes($router);
+	}
+
+	/**
+	 * Create fields routes
+	 *
+	 * @param   ApiRouter  &$router  The API Routing object
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	private function createFieldsRoutes(&$router)
+	{
+		$router->createCRUDRoutes(
+			'v1/fields/content/articles',
+			'fields',
+			['component' => 'com_fields', 'context' => 'com_content.article']
+		);
+
+		$router->createCRUDRoutes(
+			'v1/fields/content/categories',
+			'fields',
+			['component' => 'com_fields', 'context' => 'com_content.categories']
+		);
+
+		$router->createCRUDRoutes(
+			'v1/fields/groups/content/articles',
+			'groups',
+			['component' => 'com_fields', 'context' => 'com_content.article']
+		);
+
+		$router->createCRUDRoutes(
+			'v1/fields/groups/content/categories',
+			'groups',
+			['component' => 'com_fields', 'context' => 'com_content.categories']
+		);
 	}
 }
