@@ -365,9 +365,6 @@ class WebAssetManager implements WebAssetManagerInterface
 			throw new \BadMethodCallException('The $asset variable should be either WebAssetItemInterface or a string of the asset name');
 		}
 
-		// To re-check dependencies
-		$this->dependenciesIsActual = false;
-
 		return $this;
 	}
 
