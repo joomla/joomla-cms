@@ -164,7 +164,11 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php if (isset($long_description) && $long_description != '') : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
-			<?php echo $long_description; ?>
+				<div class="card">
+					<div class="card-body">
+						<?php echo $long_description; ?>
+					</div>
+				</div>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
