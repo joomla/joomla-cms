@@ -9,6 +9,7 @@
 namespace Joomla\Tests\Unit\Libraries\Cms\Table;
 
 use Joomla\Event\Dispatcher;
+use Joomla\Event\DispatcherInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\Tests\Integration\DBTestInterface;
 use Joomla\Tests\Integration\DBTestTrait;
@@ -193,5 +194,73 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->object->bind(2);
+	}
+
+	public function testBindFiresEvents()
+	{
+		$data = [
+			'title' => 'Test Title',
+			'hits' => 42,
+			'published' => 1,
+			'ordering' => 23
+		];
+
+		$dispatcherMock = $this->createMock(DispatcherInterface::class)
+			->expects($this->exactly(2))
+			->method('dispatch')
+			->withConsecutive(
+				['onTableBeforeBind', $this->anything()],
+				['onTableAfterBind', $this->anything()],
+			);
+
+		$object = $this->getMockBuilder(Table::class)
+			->setConstructorArgs(['#__testtable', 'id', $this->getDBDriver(), $dispatcherMock])
+			->getMock();
+
+		$object->bind($data);
+	}
+
+	public function testReset()
+	{
+		$this->object->id = 25;
+		$this->object->title = 'My Title';
+		$this->object->hits = 42;
+		$this->object->publish_up = '2005-09-22 12:00:00';
+		$this->object->params = '{"test":5}';
+		$this->object->setError('Generic error');
+
+		$this->object->reset();
+
+		// The primary keys should be left alone.
+		$this->assertEquals(
+			25,
+			$this->object->id
+		);
+
+		// The regular fields should get reset
+		$this->assertEquals(
+			'',
+			$this->object->title
+		);
+
+		$this->assertEquals(
+			0,
+			$this->object->hits
+		);
+
+		$this->assertEquals(
+			'0000-00-00 00:00:00',
+			$this->object->publish_up
+		);
+
+		$this->assertEquals(
+			null,
+			$this->object->params
+		);
+
+		$this->assertEquals(
+			[],
+			$this->object->getErrors()
+		);
 	}
 }

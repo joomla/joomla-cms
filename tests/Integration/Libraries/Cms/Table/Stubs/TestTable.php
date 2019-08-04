@@ -36,6 +36,6 @@ class TestTable extends Table
 	 */
 	public function __construct($db, $dispatcher = null)
 	{
-		parent::__construct('#__testtable', array('id1', 'id2'), $db, $dispatcher);
+		parent::__construct('#__testtable', 'id', $db, $dispatcher);
 	}
 }
