@@ -70,7 +70,7 @@ class WebAssetBeforeAttachEvent extends AbstractEvent
 	 *
 	 * @since   4.0.0
 	 */
-	public function getAsset(): Document
+	public function getDocument(): Document
 	{
 		return $this->arguments['document'];
 	}

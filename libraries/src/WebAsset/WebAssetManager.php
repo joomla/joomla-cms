@@ -108,6 +108,21 @@ class WebAssetManager implements WebAssetManagerInterface
 	public function __construct(WebAssetRegistry $registry)
 	{
 		$this->registry = $registry;
+
+		// Listen to changes in the registry
+		$this->registry->getDispatcher()->addListener(
+			'onWebAssetRegistryChangedAssetOverride',
+			function($event){
+				$this->dependenciesIsActual = false;
+			}
+		);
+
+		$this->registry->getDispatcher()->addListener(
+			'onWebAssetRegistryChangedAssetRemove',
+			function($event){
+				$this->dependenciesIsActual = false;
+			}
+		);
 	}
 
 	/**
@@ -350,11 +365,14 @@ class WebAssetManager implements WebAssetManagerInterface
 			throw new \BadMethodCallException('The $asset variable should be either WebAssetItemInterface or a string of the asset name');
 		}
 
+		// To re-check dependencies
+		$this->dependenciesIsActual = false;
+
 		return $this;
 	}
 
 	/**
-	 * Get all assets that was enabled
+	 * Get all active assets
 	 *
 	 * @param   string  $type  The asset type, script or style
 	 * @param   bool    $sort  Whether need to sort the assets to follow the dependency Graph
@@ -381,14 +399,16 @@ class WebAssetManager implements WebAssetManagerInterface
 
 		if ($sort)
 		{
-			return $this->calculateOrderOfActiveAssets($type);
+			$assets = $this->calculateOrderOfActiveAssets($type);
 		}
-
-		$assets = [];
-
-		foreach (array_keys($this->activeAssets[$type]) as $name)
+		else
 		{
-			$assets[$name] = $this->registry->get($type, $name);
+			$assets = [];
+
+			foreach (array_keys($this->activeAssets[$type]) as $name)
+			{
+				$assets[$name] = $this->registry->get($type, $name);
+			}
 		}
 
 		return $assets;

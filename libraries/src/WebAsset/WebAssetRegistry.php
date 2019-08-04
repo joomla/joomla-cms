@@ -10,16 +10,22 @@ namespace Joomla\CMS\WebAsset;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
+use Joomla\Event\Dispatcher as EventDispatcher;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
 
 /**
  * Web Asset Registry class
  *
  * @since  4.0.0
  */
-class WebAssetRegistry implements WebAssetRegistryInterface
+class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInterface
 {
+	use DispatcherAwareTrait;
+
 	/**
 	 * Files with Asset info. File path should be relative.
 	 *
@@ -94,6 +100,17 @@ class WebAssetRegistry implements WebAssetRegistryInterface
 	protected $assets = [];
 
 	/**
+	 * Registry constructor
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function __construct()
+	{
+		// Use a dedicated dispatcher
+		$this->setDispatcher(new EventDispatcher);
+	}
+
+	/**
 	 * Get an existing Asset from a registry, by asset name.
 	 *
 	 * @param   string  $type  Asset type, script or style
@@ -137,7 +154,19 @@ class WebAssetRegistry implements WebAssetRegistryInterface
 			$this->assets[$type] = [];
 		}
 
+		$eventChange = 'new';
+		$eventAsset  = $asset;
+
+		// Use "old" asset for "Changed" event, a "new" asset can be loaded by a name from the registry
+		if (!empty($this->assets[$type][$asset->getName()]))
+		{
+			$eventChange = 'override';
+			$eventAsset  = $this->assets[$type][$asset->getName()];
+		}
+
 		$this->assets[$type][$asset->getName()] = $asset;
+
+		$this->dispatchAssetChanged($type, $eventAsset, $eventChange);
 
 		return $this;
 	}
@@ -154,7 +183,15 @@ class WebAssetRegistry implements WebAssetRegistryInterface
 	 */
 	public function remove(string $type, string $name): WebAssetRegistryInterface
 	{
-		unset($this->assets[$type][$name]);
+		if (!empty($this->assets[$type][$name]))
+		{
+			$asset = $this->assets[$type][$name];
+
+			unset($this->assets[$type][$name]);
+
+			$this->dispatchAssetChanged($type, $asset, 'remove');
+		}
+
 
 		return $this;
 	}
@@ -327,5 +364,35 @@ class WebAssetRegistry implements WebAssetRegistryInterface
 			$assetItem = $this->createAsset($name, $uri, $options);
 			$this->add($item['type'], $assetItem);
 		}
+	}
+
+	/**
+	 * Dispatch an even to notify a listeners about an asset changes: new, remove, override
+	 * Events:
+	 *  - onWebAssetRegistryChangedAssetNew       When new asset added to the registry
+	 *  - onWebAssetRegistryChangedAssetOverride  When the asset overridden
+	 *  - onWebAssetRegistryChangedAssetRemove    When new asset was removed from the registry
+	 *
+	 * @param   string                 $type    Asset type, script or style
+	 * @param   WebAssetItemInterface  $asset   Asset instance
+	 * @param   string                 $change  A type of change: new, remove, override
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected function dispatchAssetChanged(string $type, WebAssetItemInterface $asset, string $change)
+	{
+		// Trigger the event
+		$event = AbstractEvent::create(
+			'onWebAssetRegistryChangedAsset' . ucfirst($change),
+			[
+				'eventClass' => 'Joomla\\CMS\\Event\\WebAsset\\WebAssetRegistryAssetChanged',
+				'subject'    => $this,
+				'assetType'  => $type,
+				'asset'      => $asset,
+				'change'     => $change,
+			]
+		);
+
+		$this->getDispatcher()->dispatch($event->getName(), $event);
 	}
 }
