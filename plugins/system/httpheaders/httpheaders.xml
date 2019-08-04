@@ -58,7 +58,6 @@
 					name="additional_httpheader"
 					type="subform"
 					label="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER"
-					description="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_DESC"
 					multiple="true"
 					>
 					<form>
