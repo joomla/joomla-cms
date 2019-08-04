@@ -35,11 +35,28 @@ class JsonapiView extends BaseApiView
 	 * @since  4.0.0
 	 */
 	protected $fieldsToRenderList = [
+		'id',
 		'name',
-		'element',
 		'type',
 		'version',
 		'version',
 		'detailsurl',
 	];
+
+	/**
+	 * Prepare item before render.
+	 *
+	 * @param   object  $item  The model item
+	 *
+	 * @return  object
+	 *
+	 * @since   4.0.0
+	 */
+	protected function prepareItem($item)
+	{
+		$item->id = $item->element;
+		unset($item->element);
+
+		return parent::prepareItem($item);
+	}
 }

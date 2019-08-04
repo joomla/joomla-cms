@@ -119,7 +119,7 @@ class PlgWebservicesLanguages extends CMSPlugin
 
 		$routes = [
 			new Route(['GET'], 'v1/languages', 'languages.displayList', [], $getDefaults),
-			// TODO: new Route(['POST'], 'v1/languages/:url', 'languages.add', ['url' => '(\d+)'], $defaults)
+			new Route(['POST'], 'v1/languages', 'languages.install', [], $defaults)
 		];
 
 		$router->addRoutes($routes);

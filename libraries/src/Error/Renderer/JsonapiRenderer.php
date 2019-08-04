@@ -11,6 +11,7 @@ namespace Joomla\CMS\Error\Renderer;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Error\JsonApi\AuthenticationFailedExceptionHandler;
+use Joomla\CMS\Error\JsonApi\InstallLanguageExceptionHandler;
 use Joomla\CMS\Error\JsonApi\InvalidRouteExceptionHandler;
 use Joomla\CMS\Error\JsonApi\NotAcceptableExceptionHandler;
 use Joomla\CMS\Error\JsonApi\NotAllowedExceptionHandler;
@@ -63,6 +64,7 @@ class JsonapiRenderer extends JsonRenderer
 			$errors->registerHandler(new SaveExceptionHandler);
 			$errors->registerHandler(new CheckinCheckoutExceptionHandler);
 			$errors->registerHandler(new SendEmailExceptionHandler);
+			$errors->registerHandler(new InstallLanguageExceptionHandler);
 			$errors->registerHandler(new FallbackExceptionHandler(JDEBUG));
 
 			$response = $errors->handle($error);
