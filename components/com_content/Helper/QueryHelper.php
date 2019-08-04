@@ -179,19 +179,22 @@ class QueryHelper
 	 */
 	public static function getQueryDate($orderDate, DatabaseInterface $db = null)
 	{
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true);
+
 		switch ($orderDate)
 		{
 			case 'modified' :
-				$queryDate = ' CASE WHEN ISNULL(a.modified) THEN a.created ELSE a.modified END';
+				$queryDate = ' CASE WHEN ' . $query->isNullDatetime(a.modified) . ' THEN a.created ELSE a.modified END';
 				break;
 
 			// Use created if publish_up is not set
 			case 'published' :
-				$queryDate = ' CASE WHEN ISNULL(a.publish_up) THEN a.created ELSE a.publish_up END ';
+				$queryDate = ' CASE WHEN ' . $query->isNullDatetime(a.publish_up) . ' THEN a.created ELSE a.publish_up END ';
 				break;
 
 			case 'unpublished' :
-				$queryDate = ' CASE WHEN ISNULL(a.publish_down) THEN a.created ELSE a.publish_down END ';
+				$queryDate = ' CASE WHEN ' . $query->isNullDatetime(a.publish_down) . ' THEN a.created ELSE a.publish_down END ';
 				break;
 			case 'created' :
 			default :
