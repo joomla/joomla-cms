@@ -2476,7 +2476,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
+                    "email": "backendtea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -5375,12 +5375,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "f33a41a193aee1491df51af8f02fce86477ef451"
+                "reference": "b42d7fea472326a48fcafef72f37c9a4a16ca6ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/f33a41a193aee1491df51af8f02fce86477ef451",
-                "reference": "f33a41a193aee1491df51af8f02fce86477ef451",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/b42d7fea472326a48fcafef72f37c9a4a16ca6ad",
+                "reference": "b42d7fea472326a48fcafef72f37c9a4a16ca6ad",
                 "shasum": ""
             },
             "require": {
@@ -5418,7 +5418,7 @@
                 "acceptance testing",
                 "joomla"
             ],
-            "time": "2019-07-11T16:09:14+00:00"
+            "time": "2019-08-04T00:48:30+00:00"
         },
         {
             "name": "joomla-projects/robo-joomla",
