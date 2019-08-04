@@ -210,6 +210,11 @@ abstract class JsonApiView extends JsonView
 	 */
 	protected function prepareItem($item)
 	{
+		if (empty($item->username))
+		{
+			throw new RouteNotFoundException('Item does not exist');
+		}
+
 		return $item;
 	}
 }
