@@ -210,7 +210,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 			->method('dispatch')
 			->withConsecutive(
 				['onTableBeforeBind', $this->anything()],
-				['onTableAfterBind', $this->anything()],
+				['onTableAfterBind', $this->anything()]
 			);
 
 		$object = $this->getMockBuilder(Table::class)
