@@ -17,15 +17,15 @@ use Joomla\CMS\WebAsset\Exception\UnsatisfiedDependencyException;
 /**
  * Web Asset Manager class
  *
- * @method WebAssetManager registerStyle(WebAssetItem|string $asset, string $uri = '', array $options = [], array $attributes = [], array $dependencies = [])
+ * @method WebAssetManager registerStyle(WebAssetItem|string $asset, string $uri = '', $options = [], $attributes = [], $dependencies = [])
  * @method WebAssetManager useStyle($name)
  * @method WebAssetManager disableStyle($name)
  *
- * @method WebAssetManager registerScript(WebAssetItem|string $asset, string $uri = '', array $options = [], array $attributes = [], array $dependencies = [])
+ * @method WebAssetManager registerScript(WebAssetItem|string $asset, string $uri = '', $options = [], $attributes = [], $dependencies = [])
  * @method WebAssetManager useScript($name)
  * @method WebAssetManager disableScript($name)
  *
- * @method WebAssetManager registerPreset(WebAssetItem|string $asset, string $uri = '', array $options = [], array $attributes = [], array $dependencies = [])
+ * @method WebAssetManager registerPreset(WebAssetItem|string $asset, string $uri = '', $options = [], $attributes = [], $dependencies = [])
  * @method WebAssetManager usePreset($name)
  * @method WebAssetManager disablePreset($name)
  *
