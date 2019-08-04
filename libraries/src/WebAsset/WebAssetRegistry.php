@@ -187,11 +187,12 @@ class WebAssetRegistry implements WebAssetRegistryInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function createAsset(string $name,
-								string $uri = null,
-								array $options = [],
-								array $attributes = [],
-								array $dependencies = []
+	public function createAsset(
+		string $name,
+		string $uri = null,
+		array $options = [],
+		array $attributes = [],
+		array $dependencies = []
 	): WebAssetItem
 	{
 		$nameSpace = array_key_exists('namespace', $options) ? $options['namespace'] : __NAMESPACE__ . '\\AssetItem';

@@ -169,7 +169,8 @@ class WebAssetItem implements WebAssetItemInterface
 
 		if ($resolvePath && $path)
 		{
-			switch (pathinfo($path, PATHINFO_EXTENSION)){
+			switch (pathinfo($path, PATHINFO_EXTENSION))
+			{
 				case 'js':
 					$path = $this->resolvePath($path, 'script');
 					break;

@@ -37,8 +37,7 @@ $wa->usePreset($assetName);
 // Load specific language related CSS
 $wa
 	->registerStyle('template.language.related', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['dependencies' => [$assetName]])
-	->useStyle('template.language.related')
-;
+	->useStyle('template.language.related');
 
 // Logo file or site title param
 if ($this->params->get('logoFile'))

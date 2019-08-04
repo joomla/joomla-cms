@@ -166,8 +166,7 @@ abstract class JHtmlBootstrap
 
 		$wa
 			->registerScript('bootstrap.init.legacy', 'legacy/bootstrap-init.min.js', ['dependencies' => ['core', 'bootstrap.js.bundle']])
-			->useScript('bootstrap.init.legacy')
-		;
+			->useScript('bootstrap.init.legacy');
 
 		static::$loaded[__METHOD__] = true;
 	}

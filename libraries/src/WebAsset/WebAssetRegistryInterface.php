@@ -36,7 +36,7 @@ interface WebAssetRegistryInterface
 	/**
 	 * Add Asset to registry of known assets
 	 *
-	 * @param   string                 $type  Asset type, script or style etc
+	 * @param   string                 $type   Asset type, script or style etc
 	 * @param   WebAssetItemInterface  $asset  Asset instance
 	 *
 	 * @return  self

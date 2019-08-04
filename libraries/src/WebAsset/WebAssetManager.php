@@ -411,7 +411,7 @@ class WebAssetManager implements WebAssetManagerInterface
 	/**
 	 * Update Dependencies state for all active Assets or only for given
 	 *
-	 * @param   string        $type  The asset type, script or style
+	 * @param   string        $type   The asset type, script or style
 	 * @param   WebAssetItem  $asset  The asset instance to which need to enable dependencies
 	 *
 	 * @return  self
@@ -675,7 +675,8 @@ class WebAssetManager implements WebAssetManagerInterface
 		WebAssetItem $asset,
 		$recursively = false,
 		string $recursionType = null,
-		WebAssetItem $recursionRoot = null): array
+		WebAssetItem $recursionRoot = null
+	): array
 	{
 		$assets        = [];
 		$recursionRoot = $recursionRoot ?? $asset;

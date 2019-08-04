@@ -39,8 +39,7 @@ $wa->usePreset($assetName);
 // Load specific language related CSS
 $wa
 	->registerStyle('template.language.related', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['dependencies' => [$assetName]])
-	->useStyle('template.language.related')
-;
+	->useStyle('template.language.related');
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');

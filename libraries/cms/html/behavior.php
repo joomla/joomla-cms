@@ -227,8 +227,7 @@ abstract class JHtmlBehavior
 
 		$wa
 			->registerScript('joomla.highlighter', 'legacy/highlighter.min.js', ['dependencies' => ['core', 'jquery']])
-			->useScript('joomla.highlighter')
-		;
+			->useScript('joomla.highlighter');
 
 		foreach ($terms as $i => $term)
 		{

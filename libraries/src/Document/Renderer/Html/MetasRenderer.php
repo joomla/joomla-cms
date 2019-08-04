@@ -74,7 +74,10 @@ class MetasRenderer extends DocumentRenderer
 		{
 			$uri = $asset->getUri();
 
-			if (!$uri) continue;
+			if (!$uri)
+			{
+				continue;
+			}
 
 			$styles[$uri] = $asset->getAttributes();
 			$styles[$uri]['options']   = $asset->getOptions();
@@ -91,7 +94,10 @@ class MetasRenderer extends DocumentRenderer
 
 			$uri = $asset->getUri();
 
-			if (!$uri) continue;
+			if (!$uri)
+			{
+				continue;
+			}
 
 			$scripts[$uri] = $asset->getAttributes();
 			$scripts[$uri]['options']   = $asset->getOptions();
