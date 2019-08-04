@@ -265,6 +265,8 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 	 */
 	public function testReset()
 	{
+		$nullDate = $this->getDBDriver()->getNullDate();
+
 		$this->object->id = 25;
 		$this->object->title = 'My Title';
 		$this->object->hits = 42;
@@ -302,7 +304,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 		);
 
 		$this->assertEquals(
-			'0000-00-00 00:00:00',
+			$nullDate,
 			$this->object->publish_up
 		);
 
