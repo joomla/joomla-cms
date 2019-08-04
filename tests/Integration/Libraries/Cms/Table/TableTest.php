@@ -38,7 +38,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   3.1.4
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function setUp():void
 	{
@@ -49,10 +49,11 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 	}
 
 	/**
+	 * Retrieve a list of schemas to load for this testcase
 	 *
 	 * @return array
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getSchemasToLoad(): array
 	{
@@ -60,9 +61,10 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 	}
 
 	/**
+	 * Test that the object has attributes equal to the columns of the table
 	 *
 	 * @return  void
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testObjectHasAttributesFromTable()
 	{
@@ -86,6 +88,12 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 		);
 	}
 
+	/**
+	 * Test that bind() will take both arrays and objects
+	 *
+	 * @return  void
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function testBindWorksWithArraysAndObjects()
 	{
 		$data = [
@@ -112,6 +120,12 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 		$this->assertEquals(23, $this->object->ordering);
 	}
 
+	/**
+	 * Test that bind() does not bind data that doesn't correspond with a column
+	 *
+	 * @return  void
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function testBindOnlyBindsTableFields()
 	{
 		$data = [
@@ -133,6 +147,12 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 		$this->assertNotTrue(isset($this->object->fakefield2));
 	}
 
+	/**
+	 * Test that bind() properly ignores a list of fields
+	 *
+	 * @return  void
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function testBindIgnoresFields()
 	{
 		$data = [
@@ -163,6 +183,12 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 		$this->assertEquals(null, $this->object->ordering);
 	}
 
+	/**
+	 * Test that bind() properly JSON-encodes given fields
+	 *
+	 * @return  void
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function testBindJSONEncodesFields()
 	{
 		$data = [
@@ -190,6 +216,12 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 		$this->assertEquals(json_encode($data['params']), $this->object->params);
 	}
 
+	/**
+	 * Test that bind() requires either an array or an object
+	 *
+	 * @return  void
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function testBindRequiresArrayOrObject()
 	{
 		$this->expectException(\InvalidArgumentException::class);
@@ -197,6 +229,12 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 		$this->object->bind(2);
 	}
 
+	/**
+	 * Test that bind() fires 2 events
+	 *
+	 * @return  void
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function testBindFiresEvents()
 	{
 		$data = [
@@ -219,6 +257,12 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 		$this->object->bind($data);
 	}
 
+	/**
+	 * Test that reset() resets the table object properly
+	 *
+	 * @return  void
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function testReset()
 	{
 		$this->object->id = 25;
