@@ -999,7 +999,7 @@ class PlgSampledataTesting extends CMSPlugin
 			),
 			array(
 				'catid'    => $catIdsLevel5[0],
-				'tags'     => array_map('strval', array($tagIds[0], $tagIds[1], $tagIds[2])),
+				'tags'     => array_map('strval', array_slice($tagIds, 0, 3)),
 				'ordering' => 0,
 			),
 			array(
