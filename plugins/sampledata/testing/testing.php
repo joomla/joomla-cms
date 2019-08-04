@@ -757,7 +757,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'catid'    => $catIdsLevel2[0],
 				'ordering' => 2,
-				'tags'     => $tagIds,
+				'tags'     => array_map('strval', $tagIds),
 				'featured' => 1
 			),
 			array(
@@ -999,7 +999,7 @@ class PlgSampledataTesting extends CMSPlugin
 			),
 			array(
 				'catid'    => $catIdsLevel5[0],
-				'tags'     => array($tagIds[0], $tagIds[1], $tagIds[2]),
+				'tags'     => array_map('strval', array_slice($tagIds, 0, 3)),
 				'ordering' => 0,
 			),
 			array(
@@ -1021,7 +1021,8 @@ class PlgSampledataTesting extends CMSPlugin
 			return $response;
 		}
 
-		$this->app->setUserState('sampledata.testing.articles', $ids);
+		$articleNamespace = (array) $this->app->getUserState('sampledata.testing.articles');
+		$this->app->setUserState('sampledata.testing.articles', array_merge($ids, $articleNamespace));
 
 		$response            = array();
 		$response['success'] = true;
@@ -4589,7 +4590,7 @@ class PlgSampledataTesting extends CMSPlugin
 			}
 
 			// Get ID from category we just added
-			$catIds[] = $this->categoryModel->getItem()->id;
+			$catIds[] = $this->categoryModel->getState($this->categoryModel->getName() . '.id');
 		}
 
 		return $catIds;
@@ -4664,7 +4665,7 @@ class PlgSampledataTesting extends CMSPlugin
 			}
 
 			// Get ID from category we just added
-			$ids[] = $model->getItem()->id;
+			$ids[] = $model->getState($model->getName() . '.id');
 		}
 
 		return $ids;
