@@ -23,7 +23,7 @@
         window.ShadyCSS.prepareTemplate(template, 'joomla-core-loader');
       }
 
-      this.attachShadow({mode: 'open'});
+      this.attachShadow({ mode: 'open' });
       this.shadowRoot.appendChild(template.content.cloneNode(true));
 
       // Patch the shadow DOM
