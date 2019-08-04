@@ -128,8 +128,8 @@ class PlgContentPagenavigation extends CMSPlugin
 			$query = $db->getQuery(true);
 
 			$xwhere = ' AND (ws.condition = 1 OR ws.condition = -2)'
-				. ' AND (' . $query->isNullDatetime(publish_up) . ' OR publish_up <= ' . $db->quote($now) . ')'
-				. ' AND (' . $query->isNullDatetime(publish_down) . ' OR publish_down >= ' . $db->quote($now) . ')';
+				. ' AND (' . $query->isNullDatetime('publish_up') . ' OR publish_up <= ' . $db->quote($now) . ')'
+				. ' AND (' . $query->isNullDatetime('publish_down') . ' OR publish_down >= ' . $db->quote($now) . ')';
 
 			$case_when = ' CASE WHEN ' . $query->charLength('a.alias', '!=', '0')
 				. ' THEN ' . $query->concatenate(array($query->castAsChar('a.id'), 'a.alias'), ':')
@@ -252,12 +252,12 @@ class PlgContentPagenavigation extends CMSPlugin
 		{
 			// Use created if modified is not set
 			case 'modified' :
-				$queryDate = ' CASE WHEN ' . $query->isNullDatetime(a.modified) . ' THEN a.created ELSE a.modified END';
+				$queryDate = ' CASE WHEN ' . $query->isNullDatetime('a.modified') . ' THEN a.created ELSE a.modified END';
 				break;
 
 			// Use created if publish_up is not set
 			case 'published' :
-				$queryDate = ' CASE WHEN ' . $query->isNullDatetime(a.publish_up) . ' THEN a.created ELSE a.publish_up END ';
+				$queryDate = ' CASE WHEN ' . $query->isNullDatetime('a.publish_up') . ' THEN a.created ELSE a.publish_up END ';
 				break;
 
 			// Use created as default

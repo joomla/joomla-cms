@@ -112,7 +112,7 @@ abstract class ArticlesLatestHelper
 		// Set ordering
 		$order_map = array(
 			'm_dsc'  => 'a.modified DESC, a.created',
-			'mc_dsc' => 'CASE WHEN ' . $query->isNullDatetime(a.modified) . ' THEN a.created ELSE a.modified END',
+			'mc_dsc' => 'CASE WHEN ' . $query->isNullDatetime('a.modified') . ' THEN a.created ELSE a.modified END',
 			'c_dsc'  => 'a.created',
 			'p_dsc'  => 'a.publish_up',
 			'random' => $query->rand(),
