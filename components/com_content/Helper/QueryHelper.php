@@ -179,7 +179,7 @@ class QueryHelper
 	 */
 	public static function getQueryDate($orderDate, DatabaseInterface $db = null)
 	{
-		$db = Factory::getDbo();
+		$db = $db ?: Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		switch ($orderDate)
