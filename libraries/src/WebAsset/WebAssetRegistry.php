@@ -192,7 +192,6 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 			$this->dispatchAssetChanged($type, $asset, 'remove');
 		}
 
-
 		return $this;
 	}
 
@@ -376,6 +375,8 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 	 * @param   string                 $type    Asset type, script or style
 	 * @param   WebAssetItemInterface  $asset   Asset instance
 	 * @param   string                 $change  A type of change: new, remove, override
+	 *
+	 * @return  void
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */

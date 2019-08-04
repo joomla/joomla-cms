@@ -113,7 +113,7 @@ class WebAssetManager implements WebAssetManagerInterface
 		// Listen to changes in the registry
 		$this->registry->getDispatcher()->addListener(
 			'onWebAssetRegistryChangedAssetOverride',
-			function(WebAssetRegistryAssetChanged $event)
+			function (WebAssetRegistryAssetChanged $event)
 			{
 				// If the changed asset are used
 				if (!empty($this->activeAssets[$event->getAssetType()][$event->getAsset()->getName()]))
@@ -125,7 +125,7 @@ class WebAssetManager implements WebAssetManagerInterface
 
 		$this->registry->getDispatcher()->addListener(
 			'onWebAssetRegistryChangedAssetRemove',
-			function(WebAssetRegistryAssetChanged $event)
+			function (WebAssetRegistryAssetChanged $event)
 			{
 				// If the changed asset are used
 				if (!empty($this->activeAssets[$event->getAssetType()][$event->getAsset()->getName()]))
