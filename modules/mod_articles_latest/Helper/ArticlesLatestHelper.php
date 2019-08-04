@@ -39,8 +39,9 @@ abstract class ArticlesLatestHelper
 	public static function getList(Registry $params, ArticlesModel $model)
 	{
 		// Get the Dbo and User object
-		$db   = Factory::getDbo();
-		$user = Factory::getUser();
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+		$user  = Factory::getUser();
 
 		// Set application parameters in model
 		$app       = Factory::getApplication();
@@ -111,10 +112,10 @@ abstract class ArticlesLatestHelper
 		// Set ordering
 		$order_map = array(
 			'm_dsc'  => 'a.modified DESC, a.created',
-			'mc_dsc' => 'CASE WHEN ISNULL(a.modified) THEN a.created ELSE a.modified END',
+			'mc_dsc' => 'CASE WHEN ' . $query->isNullDatetime('a.modified') . ' THEN a.created ELSE a.modified END',
 			'c_dsc'  => 'a.created',
 			'p_dsc'  => 'a.publish_up',
-			'random' => $db->getQuery(true)->rand(),
+			'random' => $query->rand(),
 		);
 
 		$ordering = ArrayHelper::getValue($order_map, $params->get('ordering'), 'a.publish_up');

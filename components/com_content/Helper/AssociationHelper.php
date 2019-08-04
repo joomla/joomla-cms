@@ -54,6 +54,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
 				$user      = Factory::getUser();
 				$groups    = implode(',', $user->getAuthorisedViewLevels());
 				$db        = Factory::getDbo();
+				$query     = $db->getQuery(true);
 				$advClause = array();
 
 				// Filter by user groups
@@ -68,8 +69,8 @@ abstract class AssociationHelper extends CategoryAssociationHelper
 					$date = Factory::getDate();
 					$nowDate = $db->quote($date->toSql());
 
-					$advClause[] = '(ISNULL(c2.publish_up) OR c2.publish_up <= ' . $nowDate . ')';
-					$advClause[] = '(ISNULL(c2.publish_down) OR c2.publish_down >= ' . $nowDate . ')';
+					$advClause[] = '(' . $query->isNullDatetime('c2.publish_up') . ' OR c2.publish_up <= ' . $nowDate . ')';
+					$advClause[] = '(' . $query->isNullDatetime('c2.publish_down') . ' OR c2.publish_down >= ' . $nowDate . ')';
 
 					// Filter by published
 					$advClause[] = 'c2.state = 1';
