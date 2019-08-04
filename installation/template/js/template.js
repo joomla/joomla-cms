@@ -34,7 +34,7 @@
 	Joomla.goToPage = function(page, fromSubmit) {
 		if (!fromSubmit) {
 			Joomla.removeMessages();
-			Joomla.loadingLayer("show");
+      document.body.appendChild(document.createElement('joomla-core-loader'));
 		}
 
 		if (page) {
@@ -52,7 +52,7 @@
 	Joomla.submitform = function(form) {
 		var data = Joomla.serialiseForm(form);
 
-		Joomla.loadingLayer("show");
+		document.body.appendChild(document.createElement('joomla-core-loader'));
 		Joomla.removeMessages();
 
 		Joomla.request({
@@ -62,6 +62,7 @@
 			dataType : 'json',
 			onSuccess: function (response, xhr) {
 				response = JSON.parse(response);
+        var spinnerElement = document.querySelector('joomla-core-loader');
 
 				if (response.messages) {
 					Joomla.renderMessages(response.messages);
@@ -69,17 +70,18 @@
 
 				if (response.error) {
 					Joomla.renderMessages({'error': [response.message]});
-					Joomla.loadingLayer("hide");
-				} else {
-					Joomla.loadingLayer("hide");
-					if (response.data && response.data.view) {
+          spinnerElement.parentNode.removeChild(spinnerElement);
+        } else {
+          spinnerElement.parentNode.removeChild(spinnerElement);
+          if (response.data && response.data.view) {
 						Install.goToPage(response.data.view, true);
 					}
 				}
 			},
 			onError  : function (xhr) {
-				Joomla.loadingLayer("hide");
-				busy = false;
+        var spinnerElement = document.querySelector('joomla-core-loader');
+        spinnerElement.parentNode.removeChild(spinnerElement);
+        busy = false;
 				try {
 					var r = JSON.parse(xhr.responseText);
 					Joomla.replaceTokens(r.token);
@@ -140,9 +142,6 @@
 			document.formvalidator.attachToForm(form);
 		});
 
-		// Create and append the loading layer.
-		Joomla.loadingLayer("load");
-
 		// Check for FTP credentials
 		Joomla.installation = Joomla.installation || {};
 
@@ -178,7 +177,7 @@
 
 		var task = tasks.shift();
 		var data = Joomla.serialiseForm(form);
-		Joomla.loadingLayer("show");
+		document.body.appendChild(document.createElement('joomla-core-loader'));
 
 		Joomla.request({
 			method: "POST",
@@ -188,21 +187,22 @@
 			onSuccess: function(response, xhr){
 				response = JSON.parse(response);
 				Joomla.replaceTokens(response.token);
+        var spinnerElement = document.querySelector('joomla-core-loader');
 
 				if (response.error === true)
 				{
-					Joomla.loadingLayer('hide');
+          spinnerElement.parentNode.removeChild(spinnerElement);
 					Joomla.renderMessages({"error": [response.message]});
 					return false;
 				}
 
 				if (response.messages) {
-					Joomla.loadingLayer('hide');
+          spinnerElement.parentNode.removeChild(spinnerElement);
 					Joomla.renderMessages(response.messages);
 					return false;
 				}
 
-				Joomla.loadingLayer('hide');
+        spinnerElement.parentNode.removeChild(spinnerElement);
 				Joomla.install(tasks, form);
 			},
 			onError: function(xhr){

@@ -11,9 +11,8 @@
  */
 Joomla.setlanguage = function(form) {
 	var data = Joomla.serialiseForm(form);
-
-	Joomla.loadingLayer("show");
-	Joomla.removeMessages();
+  Joomla.removeMessages();
+  document.body.appendChild(document.createElement('joomla-core-loader'));
 
 	Joomla.request({
 		url: Joomla.baseUrl,
@@ -23,21 +22,23 @@ Joomla.setlanguage = function(form) {
 		onSuccess: function(response, xhr){
 			response = JSON.parse(response);
 			Joomla.replaceTokens(response.token);
+      var loaderElement = document.querySelector('joomla-core-loader');
 
 			if (response.messages) {
 				Joomla.renderMessages(response.messages);
 			}
 
 			if (response.error) {
+        loaderElement.parentNode.removeChild(loaderElement);
 				Joomla.renderMessages({'error': [response.message]});
-				Joomla.loadingLayer("hide");
 			} else {
-				Joomla.loadingLayer("hide");
+        loaderElement.parentNode.removeChild(loaderElement);
 				Joomla.goToPage(response.data.view, true);
 			}
 		},
 		onError:   function(xhr){
-			Joomla.loadingLayer("hide");
+      var loaderElement = document.querySelector('joomla-core-loader');
+      loaderElement.parentNode.removeChild(loaderElement);
 			try {
 				var r = JSON.parse(xhr.responseText);
 				Joomla.replaceTokens(r.token);
@@ -71,9 +72,8 @@ Joomla.checkInputs = function() {
 
 
 Joomla.checkDbCredentials = function() {
-	Joomla.loadingLayer("show");
-
-	var form = document.getElementById('adminForm'),
+  document.body.appendChild(document.createElement('joomla-core-loader'));
+  var form = document.getElementById('adminForm'),
 		data = Joomla.serialiseForm(form);
 
 	Joomla.request({
@@ -84,14 +84,16 @@ Joomla.checkDbCredentials = function() {
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 		onSuccess: function(response, xhr){
 			response = JSON.parse(response);
-			if (response.messages) {
+      var loaderElement = document.querySelector('joomla-core-loader');
+
+      if (response.messages) {
 				Joomla.renderMessages(response.messages);
 			}
 
 			Joomla.replaceTokens(response.token);
-			Joomla.loadingLayer("hide");
+      loaderElement.parentNode.removeChild(loaderElement);
 
-			if (response.error) {
+      if (response.error) {
 				Joomla.renderMessages({'error': [response.message]});
 			} else if (response.data && response.data.validated === true) {
 				// Run the installer - we let this handle the redirect for now
@@ -102,8 +104,10 @@ Joomla.checkDbCredentials = function() {
 		onError:   function(xhr){
 			Joomla.renderMessages([['', Joomla.JText._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
 			//Install.goToPage('summary');
-			Joomla.loadingLayer('hide');
-			try {
+      var loaderElement = document.querySelector('joomla-core-loader');
+      loaderElement.parentNode.removeChild(loaderElement);
+
+      try {
 				var r = JSON.parse(xhr.responseText);
 				Joomla.replaceTokens(r.token);
 				alert(r.message);

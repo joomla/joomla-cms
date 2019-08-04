@@ -13,7 +13,7 @@ jQuery(document).ready(function($) {
 		if (task === 'association.cancel') {
 			Joomla.submitform(task);
 		} else if(task === 'copy') {
-			Joomla.loadingLayer('show');
+			document.body.appendChild(document.createElement('joomla-core-loader'));
 
 			var targetLang = document.getElementById('target-association').getAttribute('data-language'),
 			    referlangInput = window.frames['reference-association'].document.getElementById('jform_language');
@@ -83,9 +83,6 @@ jQuery(document).ready(function($) {
 		return false;
 	};
 
-	// Preload Joomla loading layer.
-	Joomla.loadingLayer('load');
-
 	// Attach behaviour to toggle button.
 	$(document).on('click', '#toogle-left-panel', function() {
 		var referenceHide = this.getAttribute('data-hide-reference');
@@ -113,7 +110,7 @@ jQuery(document).ready(function($) {
 			target.setAttribute('data-language', selected.split(':')[0]);
 
 			// Iframe load start, show Joomla loading layer.
-			Joomla.loadingLayer('show');
+			document.body.appendChild(document.createElement('joomla-core-loader'));
 
 			// Load the target frame.
 			target.src = target.getAttribute('data-editurl') + '&task=' + target.getAttribute('data-item') + '.' + target.getAttribute('data-action') + '&id=' + target.getAttribute('data-id');
@@ -179,7 +176,8 @@ jQuery(document).ready(function($) {
 		});
 
 		// Iframe load finished, hide Joomla loading layer.
-		Joomla.loadingLayer('hide');
+		var spinner = document.querySelector('joomla-core-loader');
+		spinner.parentNode.removeChild(spinner);
 	});
 
 	// Attach behaviour to target frame load event.
@@ -289,7 +287,8 @@ jQuery(document).ready(function($) {
 			});
 
 			// Iframe load finished, hide Joomla loading layer.
-			Joomla.loadingLayer('hide');
+			var spinner = document.querySelector('joomla-core-loader');
+			spinner.parentNode.removeChild(spinner);
 		}
 	});
 });
