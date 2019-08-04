@@ -125,7 +125,7 @@ if ($refreshPage === true)
 	$attr2 .= ' onchange="Joomla.categoryHasChanged(this)"';
 
 	HTMLHelper::_('script', 'layouts/joomla/form/field/category-change.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
-  HTMLHelper::_('webcomponent', 'system/joomla-core-loader.min.js', ['relative' => true, 'version' => 'auto']);
+	HTMLHelper::_('webcomponent', 'system/joomla-core-loader.min.js', ['relative' => true, 'version' => 'auto']);
 
 	// Pass the element id to the javascript
 	Factory::getDocument()->addScriptOptions('category-change', $id);
