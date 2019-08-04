@@ -14,7 +14,6 @@ use Joomla\CMS\Table\Table;
 use Joomla\Tests\Integration\DBTestInterface;
 use Joomla\Tests\Integration\DBTestTrait;
 use Joomla\Tests\Integration\IntegrationTestCase;
-use Joomla\Tests\Integration\Libraries\Cms\Table\Stubs\TestTable;
 
 /**
  * Test class for \Joomla\CMS\Table\Table.
@@ -46,7 +45,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 		parent::setUp();
 
 		$dispatcher = new Dispatcher;
-		$this->object = new TestTable($this->getDBDriver(), $dispatcher);
+		$this->object = $this->getMockForAbstractClass(Table::class, ['#__testtable', 'id', $this->getDBDriver(), $dispatcher]);
 	}
 
 	/**
@@ -184,6 +183,8 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 			]
 		];
 
+		$this->object->set('_jsonEncode', ['params']);
+
 		$this->object->bind($data);
 
 		$this->assertEquals(json_encode($data['params']), $this->object->params);
@@ -205,19 +206,17 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 			'ordering' => 23
 		];
 
-		$dispatcherMock = $this->createMock(DispatcherInterface::class)
-			->expects($this->exactly(2))
+		$dispatcherMock = $this->getMockBuilder(DispatcherInterface::class)->getMock();
+		$dispatcherMock->expects($this->exactly(2))
 			->method('dispatch')
 			->withConsecutive(
 				['onTableBeforeBind', $this->anything()],
 				['onTableAfterBind', $this->anything()]
 			);
 
-		$object = $this->getMockBuilder(Table::class)
-			->setConstructorArgs(['#__testtable', 'id', $this->getDBDriver(), $dispatcherMock])
-			->getMock();
+		$this->object->setDispatcher($dispatcherMock);
 
-		$object->bind($data);
+		$this->object->bind($data);
 	}
 
 	public function testReset()
@@ -228,6 +227,16 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 		$this->object->publish_up = '2005-09-22 12:00:00';
 		$this->object->params = '{"test":5}';
 		$this->object->setError('Generic error');
+
+		$dispatcherMock = $this->getMockBuilder(DispatcherInterface::class)->getMock();
+		$dispatcherMock->expects($this->exactly(2))
+			->method('dispatch')
+			->withConsecutive(
+				['onTableBeforeReset', $this->anything()],
+				['onTableAfterReset', $this->anything()]
+			);
+
+		$this->object->setDispatcher($dispatcherMock);
 
 		$this->object->reset();
 
