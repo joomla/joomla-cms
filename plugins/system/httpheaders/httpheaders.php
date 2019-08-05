@@ -408,7 +408,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 */
 	private function setStaticHeaders(): void
 	{
-		$staticHeaderConfiguration = $this->getStaticHeaderConfiguration($this->params);
+		$staticHeaderConfiguration = $this->getStaticHeaderConfiguration();
 
 		if (empty($staticHeaderConfiguration))
 		{
