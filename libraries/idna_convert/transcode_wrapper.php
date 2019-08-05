@@ -92,7 +92,7 @@ function map_w1252_iso8859_1($string = '')
     if ($string == '') return '';
     $return = '';
     for ($i = 0; $i < strlen($string); ++$i) {
-        $c = ord($string{$i});
+        $c = ord($string[$i]);
         switch ($c) {
             case 129: $return .= chr(252); break;
             case 132: $return .= chr(228); break;
@@ -119,7 +119,7 @@ function map_iso8859_1_w1252($string = '')
     if ($string == '') return '';
     $return = '';
     for ($i = 0; $i < strlen($string); ++$i) {
-        $c = ord($string{$i});
+        $c = ord($string[$i]);
         switch ($c) {
             case 196: $return .= chr(142); break;
             case 214: $return .= chr(153); break;
