@@ -189,20 +189,6 @@
 					<option value="Ctrl">PLG_CODEMIRROR_FIELD_VALUE_FULLSCREEN_MOD_CTRL</option>
 					<option value="Alt">PLG_CODEMIRROR_FIELD_VALUE_FULLSCREEN_MOD_ALT</option>
 				</field>
-
-				<field
-					name="basePath"
-					type="text"
-					label="PLG_CODEMIRROR_FIELD_BASE_PATH_LABEL"
-					default="media/vendor/codemirror/"
-				/>
-
-				<field
-					name="modePath"
-					type="text"
-					label="PLG_CODEMIRROR_FIELD_MODE_PATH_LABEL"
-					default="media/vendor/codemirror/mode/%N/%N"
-				/>
 			</fieldset>
 
 			<fieldset name="appearance" label="PLG_CODEMIRROR_FIELDSET_APPEARANCE_OPTIONS_LABEL" addfieldpath="plugins/editors/codemirror">
