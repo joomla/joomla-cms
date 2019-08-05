@@ -198,7 +198,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$isNew   = $event->getArgument('2');
 
 		// When the updated extension is not PLG_SYSTEM_HTTPHEADERS we don't do anything
-		if ($table->element != $this->_name || $table->folder != $this->_type)
+		if ($context !== 'com_plugins.plugin' || $table->element !== $this->_name || $table->folder !== $this->_type)
 		{
 			return;
 		}

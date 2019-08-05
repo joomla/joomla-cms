@@ -77,9 +77,8 @@ const createJsFiles = (inputFile, es6FileContents) => {
  * Compiles any web component/custom element files from the media_source folder
  *
  * @param file     The full path to the file + filename + extension
- * @param options  The options from the settings.json
  */
-module.exports.compile = (inputFile, options) => {
+module.exports.compile = (inputFile) => {
   Promise.resolve()
     .then(() => {
       // Get the contents of the ES-XXXX file
@@ -97,13 +96,7 @@ module.exports.compile = (inputFile, options) => {
           } else {
             const cleaner = Postcss(
               [
-                Autoprefixer({
-                  env: {
-                    targets: {
-                      browsers: [options.settings.browsers],
-                    },
-                  },
-                }),
+                Autoprefixer(),
               ],
             );
 
