@@ -12,6 +12,7 @@ namespace Joomla\CMS\Document\Renderer\Html;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
+use Joomla\CMS\WebAsset\WebAssetItemInterface;
 
 /**
  * JDocument styles renderer
@@ -39,20 +40,53 @@ class StylesRenderer extends DocumentRenderer
 		$tagEnd       = ' />';
 		$buffer       = '';
 		$mediaVersion = $this->_doc->getMediaVersion();
+		$wam          = $this->_doc->getWebAssetManager();
+		$assets       = $wam->getAssets('style', true);
+		$assets       = array_merge(array_values($assets), $this->_doc->_styleSheets);
+		$renderedUrls = [];
 
 		$defaultCssMimes = array('text/css');
 
 		// Generate stylesheet links
-		foreach ($this->_doc->_styleSheets as $src => $attribs)
+		foreach ($assets as $key => $item)
 		{
-			// Check if stylesheet uses IE conditional statements.
-			$conditional = isset($attribs['options']) && isset($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
+			$asset = $item instanceof WebAssetItemInterface ? $item : null;
+
+			if ($asset)
+			{
+				$src = $asset->getUri();
+
+				if (!$src)
+				{
+					continue;
+				}
+
+				$attribs     = $asset->getAttributes();
+				$version     = $asset->getVersion();
+				$conditional = $asset->getOption('conditional');
+			}
+			else
+			{
+				$src     = $key;
+				$attribs = $item;
+				$version = isset($attribs['options']['version']) ? $attribs['options']['version'] : '';
+
+				// Check if stylesheet uses IE conditional statements.
+				$conditional = !empty($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
+			}
+
+			// Prevent double rendering
+			if (!empty($renderedUrls[$src]))
+			{
+				continue;
+			}
+
+			$renderedUrls[$src] = true;
 
 			// Check if script uses media version.
-			if (isset($attribs['options']['version']) && $attribs['options']['version'] && strpos($src, '?') === false
-				&& ($mediaVersion || $attribs['options']['version'] !== 'auto'))
+			if ($version && strpos($src, '?') === false && ($mediaVersion || $version !== 'auto'))
 			{
-				$src .= '?' . ($attribs['options']['version'] === 'auto' ? $mediaVersion : $attribs['options']['version']);
+				$src .= '?' . ($version === 'auto' ? $mediaVersion : $version);
 			}
 
 			$buffer .= $tab;

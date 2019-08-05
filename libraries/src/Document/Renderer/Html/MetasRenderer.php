@@ -12,7 +12,6 @@ namespace Joomla\CMS\Document\Renderer\Html;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
-use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -55,72 +54,28 @@ class MetasRenderer extends DocumentRenderer
 		$app = Factory::getApplication();
 		$wa  = $this->_doc->getWebAssetManager();
 
-		// Trigger the onWebAssetBeforeAttach event
-		$event = AbstractEvent::create(
-			'onWebAssetBeforeAttach',
-			[
-				'eventClass' => 'Joomla\\CMS\\Event\\WebAsset\\WebAssetBeforeAttachEvent',
-				'subject'  => $wa,
-				'document' => $this->_doc,
-			]
-		);
-		$app->getDispatcher()->dispatch($event->getName(), $event);
-
-		// Merge assets with an existing, to keep b.c.
-		$styles  = [];
-		$scripts = [];
-
-		foreach ($wa->getAssets('style', true) as $asset)
-		{
-			$uri = $asset->getUri();
-
-			if (!$uri)
-			{
-				continue;
-			}
-
-			$styles[$uri] = $asset->getAttributes();
-			$styles[$uri]['options']   = $asset->getOptions();
-			$styles[$uri]['assetName'] = $asset->getName();
-		}
-
+		// Check for AttachBehavior
 		foreach ($wa->getAssets('script', true) as $asset)
 		{
-			// Check for AttachBehavior
 			if ($asset instanceof WebAssetAttachBehaviorInterface)
 			{
 				$asset->onAttachCallback($this->_doc);
 			}
-
-			$uri = $asset->getUri();
-
-			if (!$uri)
-			{
-				continue;
-			}
-
-			$scripts[$uri] = $asset->getAttributes();
-			$scripts[$uri]['options']   = $asset->getOptions();
-			$scripts[$uri]['assetName'] = $asset->getName();
 		}
 
 		foreach ($wa->getAssets('preset', true) as $asset)
 		{
-			// Check for AttachBehavior
 			if ($asset instanceof WebAssetAttachBehaviorInterface)
 			{
 				$asset->onAttachCallback($this->_doc);
 			}
 		}
 
-		$this->_doc->_styleSheets = array_replace($styles, $this->_doc->_styleSheets);
-		$this->_doc->_scripts     = array_replace($scripts, $this->_doc->_scripts);
+		// Trigger the onBeforeCompileHead event
+		$app->triggerEvent('onBeforeCompileHead');
 
 		// Lock the AssetManager
 		$wa->lock();
-
-		// Trigger the onBeforeCompileHead event
-		$app->triggerEvent('onBeforeCompileHead');
 
 		// Get line endings
 		$lnEnd        = $this->_doc->_getLineEnd();
