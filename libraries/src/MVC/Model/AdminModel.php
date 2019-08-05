@@ -436,9 +436,9 @@ abstract class AdminModel extends FormModel
 				}
 			}
 
-                        // Check for asset_id
+			// Check for asset_id
 			if ($this->table->hasField($this->table->getColumnAlias('asset_id')))
- 			{
+			{
 				$oldAssetId = $this->table->asset_id;
 			}
 
