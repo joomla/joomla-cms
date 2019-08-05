@@ -50,6 +50,8 @@
 			>
 			<option value="u.username ASC">COM_PRIVACY_HEADING_USERNAME_ASC</option>
 			<option value="u.username DESC">COM_PRIVACY_HEADING_USERNAME_DESC</option>
+			<option value="u.name ASC">COM_PRIVACY_HEADING_NAME_ASC</option>
+			<option value="u.name DESC">COM_PRIVACY_HEADING_NAME_DESC</option>
 			<option value="a.state ASC">COM_PRIVACY_HEADING_STATUS_ASC</option>
 			<option value="a.state DESC">COM_PRIVACY_HEADING_STATUS_DESC</option>
 			<option value="u.user_id ASC">COM_PRIVACY_HEADING_USERID_ASC</option>
