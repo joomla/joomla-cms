@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Component\Router;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\Router\Rules\RulesInterface;
@@ -114,15 +114,15 @@ abstract class RouterView extends RouterBase
 
 				$childkey = $view->parent_key;
 
-				if (($key || $view->key) && is_callable(array($this, 'get' . ucfirst($view->name) . 'Segment')))
+				if (($key || $view->key) && \is_callable(array($this, 'get' . ucfirst($view->name) . 'Segment')))
 				{
 					if (isset($query[$key]))
 					{
-						$result[$view->name] = call_user_func_array(array($this, 'get' . ucfirst($view->name) . 'Segment'), array($query[$key], $query));
+						$result[$view->name] = \call_user_func_array(array($this, 'get' . ucfirst($view->name) . 'Segment'), array($query[$key], $query));
 					}
 					elseif (isset($query[$view->key]))
 					{
-						$result[$view->name] = call_user_func_array(array($this, 'get' . ucfirst($view->name) . 'Segment'), array($query[$view->key], $query));
+						$result[$view->name] = \call_user_func_array(array($this, 'get' . ucfirst($view->name) . 'Segment'), array($query[$view->key], $query));
 					}
 					else
 					{
@@ -283,7 +283,7 @@ abstract class RouterView extends RouterBase
 		{
 			$r = null;
 
-			if (!preg_match('/(.*)Router/i', get_class($this), $r))
+			if (!preg_match('/(.*)Router/i', \get_class($this), $r))
 			{
 				throw new \Exception('JLIB_APPLICATION_ERROR_ROUTER_GET_NAME', 500);
 			}

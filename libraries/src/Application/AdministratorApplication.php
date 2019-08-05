@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Component\ComponentHelper;
@@ -58,7 +58,7 @@ class AdministratorApplication extends CMSApplication
 		parent::__construct($input, $config, $client, $container);
 
 		// Set the root in the URI based on the application name
-		Uri::root(null, rtrim(dirname(Uri::base(true)), '/\\'));
+		Uri::root(null, rtrim(\dirname(Uri::base(true)), '/\\'));
 	}
 
 	/**
@@ -189,7 +189,7 @@ class AdministratorApplication extends CMSApplication
 	 */
 	public function getTemplate($params = false)
 	{
-		if (is_object($this->template))
+		if (\is_object($this->template))
 		{
 			if ($params)
 			{
@@ -320,7 +320,7 @@ class AdministratorApplication extends CMSApplication
 		$options['autoregister'] = false;
 
 		// Set the application login entry point
-		if (!array_key_exists('entry_url', $options))
+		if (!\array_key_exists('entry_url', $options))
 		{
 			$options['entry_url'] = Uri::base() . 'index.php?option=com_users&task=login';
 		}
@@ -368,7 +368,7 @@ class AdministratorApplication extends CMSApplication
 		$config = $db->loadObject();
 
 		// Check if auto_purge value set
-		if (is_object($config) && $config->cfg_name === 'auto_purge')
+		if (\is_object($config) && $config->cfg_name === 'auto_purge')
 		{
 			$purge = $config->cfg_value;
 		}
