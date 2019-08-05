@@ -11,21 +11,13 @@ namespace Joomla\CMS\Image;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Log\DelegatingPsrLogger;
-use Joomla\CMS\Log\Log;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
-use Psr\Log\LoggerInterface;
-
 /**
  * Class to manipulate an image.
  *
  * @since  2.5.0
  */
-class Image implements LoggerAwareInterface
+class Image
 {
-	use LoggerAwareTrait;
-
 	/**
 	 * @const  integer
 	 * @since  2.5.0
@@ -123,9 +115,6 @@ class Image implements LoggerAwareInterface
 			// @codeCoverageIgnoreEnd
 		}
 
-		// Use DelegatingPsrLogger
-		$this->logger = Log::createDelegatedLogger();
-
 		// Determine which image types are supported by GD, but only once.
 		if (!isset(static::$formats[IMAGETYPE_JPEG]))
 		{
@@ -164,18 +153,6 @@ class Image implements LoggerAwareInterface
 		}
 
 		return $this->handle;
-	}
-
-	/**
-	 * Get the logger.
-	 *
-	 * @return  LoggerInterface
-	 *
-	 * @since   2.5.0
-	 */
-	public function getLogger()
-	{
-		return $this->logger;
 	}
 
 	/**
@@ -610,8 +587,6 @@ class Image implements LoggerAwareInterface
 				// Make sure the image type is supported.
 				if (empty(static::$formats[IMAGETYPE_GIF]))
 				{
-					$this->getLogger()->error('Attempting to load an image of unsupported type GIF.');
-
 					throw new \RuntimeException('Attempting to load an image of unsupported type GIF.');
 				}
 
@@ -630,8 +605,6 @@ class Image implements LoggerAwareInterface
 				// Make sure the image type is supported.
 				if (empty(static::$formats[IMAGETYPE_JPEG]))
 				{
-					$this->getLogger()->error('Attempting to load an image of unsupported type JPG.');
-
 					throw new \RuntimeException('Attempting to load an image of unsupported type JPG.');
 				}
 
@@ -650,8 +623,6 @@ class Image implements LoggerAwareInterface
 				// Make sure the image type is supported.
 				if (empty(static::$formats[IMAGETYPE_PNG]))
 				{
-					$this->getLogger()->error('Attempting to load an image of unsupported type PNG.');
-
 					throw new \RuntimeException('Attempting to load an image of unsupported type PNG.');
 				}
 
@@ -668,8 +639,6 @@ class Image implements LoggerAwareInterface
 				break;
 
 			default:
-				$this->getLogger()->error('Attempting to load an image of unsupported type ' . $properties->mime);
-
 				throw new \InvalidArgumentException('Attempting to load an image of unsupported type ' . $properties->mime);
 		}
 
@@ -1001,20 +970,16 @@ class Image implements LoggerAwareInterface
 
 			if (!class_exists($className))
 			{
-				$this->getLogger()->error('The ' . ucfirst($type) . ' image filter is not available.');
-
 				throw new \RuntimeException('The ' . ucfirst($type) . ' image filter is not available.');
 			}
 		}
 
 		// Instantiate the filter object.
-		$instance = new $className($this->getHandle(), $this->logger);
+		$instance = new $className($this->getHandle());
 
 		// Verify that the filter type is valid.
 		if (!($instance instanceof ImageFilter))
 		{
-			$this->getLogger()->error('The ' . ucfirst($type) . ' image filter is not valid.');
-
 			throw new \RuntimeException('The ' . ucfirst($type) . ' image filter is not valid.');
 		}
 

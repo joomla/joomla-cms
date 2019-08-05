@@ -76,42 +76,4 @@ class ImageFilterTest extends UnitTestCase
 			TestHelper::getValue($filter, 'handle')
 		);
 	}
-
-	/**
-	 * Tests the ImageFilter::getLogger for a DelegatingPsrLogger.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function testGetDelegatingPsrLogger()
-	{
-		$logger = $this->instance->getLogger();
-
-		$this->assertInstanceOf(
-			'Joomla\\CMS\\Log\\DelegatingPsrLogger',
-			$logger,
-			'When a logger has not been set, an instance of DelegatingPsrLogger should be returned.'
-		);
-	}
-
-	/**
-	 * Tests the ImageFilter::setLogger and Image::getLogger.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function testSetLogger()
-	{
-		$mockLogger = $this->getMockForAbstractClass('Psr\\Log\\AbstractLogger');
-
-		$this->instance->setLogger($mockLogger);
-
-		$this->assertSame(
-			$mockLogger,
-			$this->instance->getLogger(),
-			'The getLogger method should return the same logger instance that was set via setLogger.'
-		);
-	}
 }
