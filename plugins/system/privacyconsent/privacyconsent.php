@@ -707,7 +707,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 				->update($db->quoteName('#__privacy_consents'))
 				->set($db->quoteName('state') . ' = 0')
 				->where($db->quoteName('id') . ' = :userid')
-				->bind(':userid', $userId);
+				->bind(':userid', $userId, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			try
