@@ -57,6 +57,10 @@ use Joomla\CMS\Language\Text;
 					<?php echo $this->form->getInput('admin_user'); ?>
 				</div>
 				<div class="form-group">
+					<?php echo $this->form->getLabel('admin_username'); ?>
+					<?php echo $this->form->getInput('admin_username'); ?>
+				</div>
+				<div class="form-group">
 					<?php echo $this->form->getLabel('admin_password'); ?>
 					<?php echo $this->form->getInput('admin_password'); ?>
 				</div>

@@ -11,6 +11,7 @@ namespace Joomla\Component\Csp\Administrator\View\Reports;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -100,6 +101,13 @@ class HtmlView extends BaseHtmlView
 		if (!(PluginHelper::isEnabled('system', 'httpheaders')))
 		{
 			$this->httpHeadersId = ReporterHelper::getHttpHeadersPluginId();
+		}
+
+		if (ComponentHelper::getParams('com_csp')->get('contentsecuritypolicy_mode', 'custom') === 'detect'
+			&& ComponentHelper::getParams('com_csp')->get('contentsecuritypolicy', 0)
+			&& ReporterHelper::getCspTrashStatus())
+		{
+			$this->trashWarningMessage = Text::_('COM_CSP_COLLECTING_TRASH_WARNING');
 		}
 
 		$this->addToolbar();

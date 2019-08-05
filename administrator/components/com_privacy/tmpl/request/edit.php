@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 
@@ -18,15 +17,6 @@ use Joomla\CMS\Router\Route;
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 
-$js = <<< JS
-Joomla.submitbutton = function(task) {
-	if (task === 'request.cancel' || document.formvalidator.isValid(document.getElementById('item-form'))) {
-		Joomla.submitform(task, document.getElementById('item-form'));
-	}
-};
-JS;
-
-Factory::getDocument()->addScriptDeclaration($js);
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_privacy&view=request&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">

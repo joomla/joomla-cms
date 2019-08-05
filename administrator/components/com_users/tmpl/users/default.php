@@ -167,7 +167,11 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								<?php endif; ?>
 								<td>
 									<?php if (substr_count($item->group_names, "\n") > 1) : ?>
-										<span class="hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', Text::_('COM_USERS_HEADING_GROUPS'), nl2br($item->group_names), 0); ?>"><?php echo Text::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
+										<span tabindex="0"><?php echo Text::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
+										<div role="tooltip" id="tip<?php echo $i; ?>">
+											<strong><?php echo Text::_('COM_USERS_HEADING_GROUPS'); ?></strong>
+											<ul><li><?php echo str_replace("\n", '</li><li>', $item->group_names); ?></li></ul>
+										</div>
 									<?php else : ?>
 										<?php echo nl2br($item->group_names); ?>
 									<?php endif; ?>
