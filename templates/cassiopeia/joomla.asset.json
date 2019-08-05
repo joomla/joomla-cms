@@ -23,22 +23,25 @@
     {
       "name": "template.cassiopeia",
       "type": "script",
-      "uri": "template.js"
+      "uri": "template.js",
+      "dependencies": [
+        "core",
+        "jquery",
+        "bootstrap.js.bundle"
+      ]
     },
     {
       "name": "template.cassiopeia.user",
       "type": "script",
-      "uri":  "user.js"
+      "uri":  "user.js",
+      "dependencies": ["template.cassiopeia"]
     },
 
     {
       "name": "template.cassiopeia.base",
       "type": "preset",
       "dependencies": [
-        "core#script",
-        "jquery#script",
         "fontawesome#style",
-        "bootstrap.js.bundle#script",
         "template.cassiopeia#script",
         "template.cassiopeia.user#script"
       ]

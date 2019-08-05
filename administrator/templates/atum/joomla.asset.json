@@ -18,12 +18,14 @@
     {
       "name": "template.atum.ltr",
       "type": "style",
-      "uri": "template.min.css"
+      "uri": "template.min.css",
+      "dependencies": ["bootstrap.css"]
     },
     {
       "name": "template.atum.rtl",
       "type": "style",
-      "uri": "template-rtl.min.css"
+      "uri": "template-rtl.min.css",
+      "dependencies": ["bootstrap.css"]
     },
     {
       "name": "template.atum.user",
@@ -36,7 +38,6 @@
       "dependencies": [
         "core#script",
         "fontawesome#style",
-        "bootstrap.css#style",
         "css-vars-ponyfill#script"
       ]
     },
