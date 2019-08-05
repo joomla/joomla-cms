@@ -104,18 +104,24 @@ class ArticleModel extends ItemModel
 							'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
 							'a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
 							'a.images, a.urls, a.attribs, a.version, a.ordering, ' .
-							'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, a.language, a.xreference'
+							'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, a.language'
 						)
 					);
 				$query->from('#__content AS a')
 					->where('a.id = ' . (int) $pk);
 
 				$query->select($db->quoteName('ws.condition'))
-					->innerJoin($db->quoteName('#__workflow_stages', 'ws'))
-					->innerJoin($db->quoteName('#__workflow_associations', 'wa'))
-					->where($db->quoteName('a.id') . ' = ' . $db->quoteName('wa.item_id'))
-					->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'))
-					->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'));
+					->join(
+						'INNER',
+						$db->quoteName('#__workflow_associations', 'wa'),
+						$db->quoteName('a.id') . ' = ' . $db->quoteName('wa.item_id')
+					)
+					->join(
+						'INNER',
+						$db->quoteName('#__workflow_stages', 'ws'),
+						$db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id')
+					)
+					->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'));
 
 				// Join on category table.
 				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access,' .

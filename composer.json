@@ -76,7 +76,7 @@
         "joomla/string": "~2.0@dev",
         "joomla/uri": "~2.0@dev",
         "joomla/utilities": "~2.0@dev",
-        "algo26-matthias/idna-convert": "~1.1",
+        "algo26-matthias/idna-convert": "~3.0",
         "defuse/php-encryption": "~2.1",
         "doctrine/inflector": "1.2.0",
         "fig/link-util": "~1.0",
@@ -110,6 +110,7 @@
         "joomla-projects/robo-joomla": "dev-develop",
         "joomla-projects/selenium-server-standalone": "~v3",
         "codeception/codeception": "~3.0",
-        "consolidation/robo": "^1.0.0"
+        "consolidation/robo": "^1.0.0",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0"
     }
 }
