@@ -89,7 +89,7 @@ customElements.define('joomla-field-module-order', class extends HTMLElement {
     const originalOrder = this.getAttribute('data-ordering');
     const name = this.getAttribute('data-name');
     const attr = this.getAttribute('data-client-attr') ? this.getAttribute('data-client-attr') : 'custom-select';
-    const id = `${this.getAttribute('id')}_1`;
+    const id = `${this.getAttribute('data-id')}`;
     const orders = [];
     const that = this;
 

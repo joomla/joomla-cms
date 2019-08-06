@@ -107,11 +107,14 @@ class ReportController extends BaseController
 		$query = $db->getQuery(true);
 
 		$query
-			->select('count(*)')
-			->from('#__csp')
-			->where($db->quoteName('blocked_uri') . '=' . $db->quote($report->blocked_uri))
-			->where($db->quoteName('directive') . '=' . $db->quote($report->directive))
-			->where($db->quoteName('client') . '=' . $db->quote($report->client));
+			->select('COUNT(*)')
+			->from($db->quoteName('#__csp'))
+			->where($db->quoteName('blocked_uri') . ' = :blocked_uri')
+			->where($db->quoteName('directive') . ' = :directive')
+			->where($db->quoteName('client') . ' = :client')
+			->bind(':blocked_uri', $report->blocked_uri)
+			->bind(':directive', $report->directive)
+			->bind(':client', $report->client);
 
 		$db->setQuery($query);
 
