@@ -893,7 +893,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			return true;
 		}
 
-		// Trigger onUserLoginFailure Event.
+		// Trigger onUserLogoutFailure Event.
 		$this->triggerEvent('onUserLogoutFailure', array($parameters));
 
 		return false;
