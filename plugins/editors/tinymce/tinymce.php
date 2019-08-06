@@ -204,7 +204,7 @@ class PlgEditorTinymce extends CMSPlugin
 						$path = Uri::root() . substr($path, 1);
 					}
 
-					$externalPlugins[ $external['name'] ] = $path;
+					$externalPlugins[$external['name']] = $path;
 				}
 			}
 		}
