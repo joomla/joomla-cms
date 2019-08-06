@@ -93,7 +93,7 @@ module.exports.compile = (options, path) => {
           (scssFiles) => {
             scssFiles.forEach(
               (inputFile) => {
-                CompileScss.compile(inputFile, options);
+                CompileScss.compile(inputFile);
               },
             );
           },

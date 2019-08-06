@@ -3,7 +3,7 @@
 	<field
 		name="itemtype"
 		type="itemtype"
-		label="COM_ASSOCIATIONS_FILTER_SELECT_ITEM_TYPE"
+		label="COM_ASSOCIATIONS_FILTER_SELECT_ITEM"
 		filtermode="selector"
 		onchange="this.form.submit();"
 		>
@@ -13,7 +13,7 @@
 	<field
 		name="language"
 		type="contentmasterlanguage"
-		label="JOPTION_SELECT_LANGUAGE"
+		label="COM_ASSOCIATIONS_FILTER_SELECT_LANGUAGE"
 		filtermode="selector"
 		onchange="this.form.submit();"
 		>
