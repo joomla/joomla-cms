@@ -49,11 +49,11 @@ class ImageFilterTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 *
-	 * @expectedException  InvalidArgumentException
 	 */
 	public function testConstructorInvalidArgument()
 	{
+		$this->expectException(\InvalidArgumentException::class);
+
 		$filter = new FilterBrightness('test');
 	}
 

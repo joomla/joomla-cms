@@ -257,11 +257,11 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::loadFile
 	 * @since   __DEPLOY_VERSION__
-	 *
-	 * @expectedException  InvalidArgumentException
 	 */
 	public function testloadFileBmp()
 	{
+		$this->expectException(\InvalidArgumentException::class);
+
 		// Get a new Image inspector.
 		$image = new ImageInspector;
 		$image->loadFile($this->testFileBmp);
@@ -275,11 +275,12 @@ class ImageTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @covers  Joomla\CMS\Image\Image::loadFile
-	 * @expectedException  InvalidArgumentException
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testloadFileWithInvalidFile()
 	{
+		$this->expectException(\InvalidArgumentException::class);
+
 		// Get a new Image inspector.
 		$image = new ImageInspector;
 		$image->loadFile('bogus_file');
@@ -356,11 +357,11 @@ class ImageTest extends UnitTestCase
 	 * @covers  Joomla\CMS\Image\Image::resize
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 *
-	 * @expectedException  LogicException
 	 */
 	public function testResizeNoFile()
 	{
+		$this->expectException(\LogicException::class);
+
 		// Get a new Image inspector.
 		$image = new ImageInspector;
 
@@ -399,14 +400,14 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  LogicException
-	 *
 	 * @covers  Joomla\CMS\Image\Image::toFile
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testToFileInvalid()
 	{
+		$this->expectException(\LogicException::class);
+
 		$outFileGif = __DIR__ . '/tmp/out.gif';
 
 		$image = new ImageInspector;
@@ -624,14 +625,14 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  LogicException
-	 *
 	 * @covers  Joomla\CMS\Image\Image::getHeight
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testGetHeightWithoutLoadedImage()
 	{
+		$this->expectException(\LogicException::class);
+
 		// Create a new Image object without loading an image.
 		$image = new Image;
 
@@ -669,14 +670,14 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  LogicException
-	 *
 	 * @covers  Joomla\CMS\Image\Image::getWidth
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testGetWidthWithoutLoadedImage()
 	{
+		$this->expectException(\LogicException::class);
+
 		// Create a new Image object without loading an image.
 		$image = new Image;
 
@@ -688,14 +689,14 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
-	 *
 	 * @covers  Joomla\CMS\Image\Image::getImageFileProperties
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testGetImageFilePropertiesWithInvalidFile()
 	{
+		$this->expectException(\InvalidArgumentException::class);
+
 		Image::getImageFileProperties(__DIR__ . '/suite/joomla/image/stubs/bogus.image');
 	}
 
@@ -704,11 +705,12 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  LogicException
 	 * @since   1.1.3
 	 */
 	public function testGenerateThumbsWithoutLoadedImage()
 	{
+		$this->expectException(\LogicException::class);
+
 		// Create a new Image object without loading an image.
 		$image = new Image;
 
@@ -720,11 +722,12 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
 	 * @since   1.1.3
 	 */
 	public function testGenerateThumbsWithInvalidSize()
 	{
+		$this->expectException(\InvalidArgumentException::class);
+
 		// Create a new Image object without loading an image.
 		$image = new Image;
 		$image->loadFile($this->testFile);
@@ -787,11 +790,12 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  LogicException
 	 * @since   1.1.3
 	 */
 	public function testCreateThumbsWithoutLoadedImage()
 	{
+		$this->expectException(\LogicException::class);
+
 		// Create a new Image object without loading an image.
 		$image = new Image;
 
@@ -803,11 +807,12 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
 	 * @since   1.1.3
 	 */
 	public function testGenerateThumbsWithInvalidFolder()
 	{
+		$this->expectException(\InvalidArgumentException::class);
+
 		// Create a new Image object without loading an image.
 		$image = new Image;
 		$image->loadFile($this->testFile);
@@ -851,14 +856,14 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  LogicException
-	 *
 	 * @covers  Joomla\CMS\Image\Image::isTransparent
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testIsTransparentWithoutLoadedImage()
 	{
+		$this->expectException(\LogicException::class);
+
 		// Create a new Image object without loading an image.
 		$image = new Image;
 
@@ -921,12 +926,12 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::crop
 	 *
-	 * @expectedException  LogicException
-	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testCropWithoutLoadedImage()
 	{
+		$this->expectException(\LogicException::class);
+
 		// Create a new Image object without loading an image.
 		$image = new Image;
 
@@ -1057,14 +1062,14 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  LogicException
-	 *
 	 * @covers  Joomla\CMS\Image\Image::rotate
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testRotateWithoutLoadedImage()
 	{
+		$this->expectException(\LogicException::class);
+
 		// Create a new Image object without loading an image.
 		$image = new Image;
 
@@ -1162,12 +1167,12 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::filter
 	 *
-	 * @expectedException  LogicException
-	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testFilterWithoutLoadedImage()
 	{
+		$this->expectException(\LogicException::class);
+
 		// Create a new Image object without loading an image.
 		$image = new Image;
 
@@ -1179,14 +1184,14 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  RuntimeException
-	 *
 	 * @covers  Joomla\CMS\Image\Image::filter
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testFilterWithInvalidFilterType()
 	{
+		$this->expectException(\RuntimeException::class);
+
 		// Create a new ImageInspector object.
 		$image = new ImageInspector(imagecreatetruecolor(10, 10));
 
@@ -1232,14 +1237,14 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
-	 *
 	 * @covers  Joomla\CMS\Image\Image::prepareDimensions
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testPrepareDimensionsWithInvalidScale()
 	{
+		$this->expectException(\InvalidArgumentException::class);
+
 		// Create a image handle of the correct size.
 		$imageHandle = imagecreatetruecolor(100, 100);
 

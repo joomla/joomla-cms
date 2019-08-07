@@ -83,11 +83,11 @@ class ImageFilterBrightnessTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 *
-	 * @expectedException  InvalidArgumentException
 	 */
 	public function testExecuteInvalidArgument()
 	{
+		$this->expectException(\InvalidArgumentException::class);
+
 		// Create a image handle of the correct size.
 		$imageHandle = imagecreatetruecolor(100, 100);
 
