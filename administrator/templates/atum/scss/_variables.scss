@@ -21,7 +21,7 @@ $light-blue:                       #1757A1; //is the atum-link-color
 
 
 // BS Colours
-$blue:                             hsl(207, 61%, 26%); //basecolor for calculation, Primary-color
+$blue:                             hsl(207, 61%, 26%); // base color for calculation, Primary-color
 $indigo:                           #0377be; //used in bootstrap
 $purple:                           #6f42c1; //used in bootstrap
 $pink:                             #e83e8c; //used in bootstrap
@@ -33,28 +33,11 @@ $green-dark:                       #0f2f21; //used for alert success
 $teal:                             #20c997; //used in bootstrap
 $cyan:                             #108193; //used in bootstrap
 
-// Calculate the gradation of the base color: $color-60 is the base
-// Range from $color-0 (lightest) to $color-90 (darkest)
-
-$color-60:                         $blue;
-
-$color-0:                          adjust-color($color-60, $hue: -5%, $saturation: -100%, $lightness: +71.4%);
-$color-5:                          adjust-color($color-60, $hue: -6%, $saturation: -85%, $lightness: +65.1%);
-$color-10:                         adjust-color($color-60, $hue: -6%, $saturation: -80%, $lightness: +59.4%);
-$color-20:                         adjust-color($color-60, $hue: -6%, $saturation: -75%, $lightness: +47.3%);
-$color-30:                         adjust-color($color-60, $hue: -5%, $saturation: -55%, $lightness: +34.3%);
-$color-40:                         adjust-color($color-60, $hue: -3%, $saturation: -40%, $lightness: +21.4%);
-$color-50:                         adjust-color($color-60, $hue: -1%, $saturation: -15%, $lightness: +10%);
-
-$color-70:                         adjust-color($color-60, $hue: +4%, $lightness: -6%);
-$color-80:                         adjust-color($color-60, $hue: +7%, $lightness: -11.5%);
-$color-90:                         adjust-color($color-60, $hue: +10%, $saturation: -1%, $lightness: -17%);
-
-$color-contrast:                   adjust-color($color-60, $hue: -40deg, $lightness: +16%);
+$base-color:                       $blue;
 
 $theme-colors: ();
 $theme-colors: map-merge((
-  primary:                         $blue, //used only in bootstrap, please use $atum-bg-dark
+  primary:                         $base-color, //used only in bootstrap, please use $atum-bg-dark
   secondary:                       $gray-700, //used for btn-secondary
   success:                         $green,
   info:                            $cyan,
@@ -64,39 +47,39 @@ $theme-colors: map-merge((
   dark:                            $gray-900,  //used in bootstrap and for table-border
   atum-link-color:                 $light-blue,
   atum-text-dark:                  $gray-700,
-  atum-bg-dark:                    $color-60, //standard background color
-  action:                          $color-60,
+  atum-bg-dark:                    $base-color, //standard background color
+  action:                          $base-color,
   error:                           $red-dark,
   alert-success:                   $green-dark
 ), $theme-colors);
 
 $colors: (
   card-bg:                         $white,
-  toolbar-bg:                      lighten($gray-200, 5%), // % VON DASHBOARD BG BZW ATUM lIGHT BG
+  toolbar-bg:                      lighten($gray-200, 5%),
   success-border:                  theme-color("success"),
   info-border:                     theme-color("info"),
   warning-border:                  theme-color("warning"),
   danger-border:                   theme-color("danger"),
-  login-main-bg:                   darken($color-60, 8%), //used on login
+  login-main-bg:                   darken($base-color, 8%), //used on login
   border:                          $gray-400,
   white-offset:                    $whiteoffset,
   focus:                           $focuscolor,
   toggle-color:                    $white, //used in sidebar
-  atum-bg-light:                   $gray-200, //light background color, f.e. dashboard background
+  atum-bg-light:                   $gray-200, //light background color, frontend dashboard background
   atum-text-light:                 $white,
   atum-special-color:              $dark-blue,
   atum-link-color:                 $light-blue,
   atum-link-hover-color:           darken($light-blue, 20%),
-  atum-contrast:                   $color-contrast,
-  atum-bg-dark-5:                  $color-5,
-  atum-bg-dark-10:                 $color-10,
-  atum-bg-dark-20:                 $color-20,
-  atum-bg-dark-30:                 $color-30,
-  atum-bg-dark-40:                 $color-40,
-  atum-bg-dark-50:                 $color-50,
-  atum-bg-dark-70:                 $color-70,
-  atum-bg-dark-80:                 $color-80,
-  atum-bg-dark-90:                 $color-90
+  atum-contrast:                   adjust-color($base-color, $hue: -40deg, $lightness: +16%),
+  atum-bg-dark-5:                  adjust-color($base-color, $hue: -6%, $saturation: -85%, $lightness: +65.1%),
+  atum-bg-dark-10:                 adjust-color($base-color, $hue: -6%, $saturation: -80%, $lightness: +59.4%),
+  atum-bg-dark-20:                 adjust-color($base-color, $hue: -6%, $saturation: -75%, $lightness: +47.3%),
+  atum-bg-dark-30:                 adjust-color($base-color, $hue: -5%, $saturation: -55%, $lightness: +34.3%),
+  atum-bg-dark-40:                 adjust-color($base-color, $hue: -3%, $saturation: -40%, $lightness: +21.4%),
+  atum-bg-dark-50:                 adjust-color($base-color, $hue: -1%, $saturation: -15%, $lightness: +10%),
+  atum-bg-dark-70:                 adjust-color($base-color, $hue: +4%, $lightness: -6%),
+  atum-bg-dark-80:                 adjust-color($base-color, $hue: +7%, $lightness: -11.5%),
+  atum-bg-dark-90:                 adjust-color($base-color, $hue: +10%, $saturation: -1%, $lightness: -17%)
 );
 
 // Alerts
@@ -199,8 +182,8 @@ $state-error-bg:                   lighten($red-dark, 70%);
 $state-error-border:               lighten($red-dark, 30%);
 
 // Badges
-$success-bg:                       #BAE0B7;
-$success-txt:                      #114B0C;
+$success-bg:                       #bae0b7;
+$success-txt:                      #114b0c;
 
 $warning-bg:                       #fcd9b6;
 $warning-txt:                      #462a16;
