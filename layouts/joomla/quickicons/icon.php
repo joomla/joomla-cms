@@ -50,16 +50,6 @@ if (!empty($displayData['class']))
 // Make the class string
 $class = !empty($tmp) ? 'class="' . implode(' ', array_unique($tmp)) . '"' : '';
 
-if (isset($displayData['name']))
-{
-	$add  = Text::plural($displayData['name'], 1);
-	$name = Text::plural($displayData['name'], 2);
-}
-else
-{
-	$add  = '';
-	$name = '';
-}
 ?>
 <?php // If it is a button with two links: make it a list
 	if (isset($displayData['linkadd'])): ?>
@@ -84,7 +74,7 @@ else
 			<?php // Name indicates the component
 			if (isset($displayData['name'])): ?>
 				<div class="quickicon-name d-flex align-items-end" <?php echo isset($displayData['ajaxurl']) ? ' aria-hidden="true"' : ''; ?>>
-					<?php echo htmlspecialchars($name); ?>
+					<?php echo Text::_($displayData['name']); ?>
 				</div>
 			<?php endif; ?>
 			<?php // Information or action from plugins
@@ -101,7 +91,7 @@ else
 			<a href="<?php echo $displayData['linkadd']; ?>">
 				<span class="fa fa-plus mr-2" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_($displayData['name'] . '_ADD_SRONLY'); ?></span>
-				<span aria-hidden="true"><?php echo $add; ?></span>
+				<span aria-hidden="true"><?php echo Text::_($displayData['name'] . '_ADD'); ?></span>
 			</a>
 		</li>
 	</ul>
