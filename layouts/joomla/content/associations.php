@@ -12,14 +12,14 @@ defined('JPATH_BASE') or die;
 $items = $displayData;
 
 if (!empty($items)) : ?>
-		<?php if (array_key_first($items) === 'master') : ?>
-			<ul class="item-associations master">
-				<li class="master-language">
+		<?php if (array_key_first($items) === 'parent') : ?>
+			<ul class="item-associations parent">
+				<li class="parent-language">
 					<?php echo is_array(array_values($items)[0]) ? array_values($items)[0]['link'] : array_values($items)[0]->link; ?>
 					<hr>
 					<ul class="target-languages">
 						<?php foreach ($items as $id => $item) : ?>
-							<?php if ($id !== 'master') : ?>
+							<?php if ($id !== 'parent') : ?>
 								<li>
 									<?php echo is_array($item) ? $item['link'] : $item->link; ?>
 								</li>

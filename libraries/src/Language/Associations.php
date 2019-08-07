@@ -43,7 +43,7 @@ class Associations
 		$advClause = array()
 	)
 	{
-		$globalMasterLang = self::getGlobalMasterLanguage();
+		$defaultAssocLang = self::getDefaultAssocLang();
 
 		// To avoid doing duplicate database queries.
 		static $multilanguageAssociations = array();
@@ -128,9 +128,9 @@ class Associations
 			{
 				foreach ($items as $tag => $item)
 				{
-					if ($globalMasterLang)
+					if ($defaultAssocLang)
 					{
-						// If a global master language is set, we need all items of an associations
+						// If a default association language is set, we need all items of an associations
 						$multilanguageAssociations[$queryKey][$tag] = $item;
 					}
 					else
@@ -185,19 +185,19 @@ class Associations
 	}
 
 	/**
-	 * Method to get the global master language parameter for associations.
+	 * Method to get the default association language parameter for associations.
 	 *
 	 * @return  string  empty if not set, lang_code otherwise.
 	 *
 	 * @since   4.0
 	 */
-	public static function getGlobalMasterLanguage()
+	public static function getDefaultAssocLang()
 	{
 		// Flag to avoid doing multiple database queries.
 		static $tested = false;
 
-		// Status of global master language parameter.
-		static $globalMasterLang = '';
+		// Status of default association language parameter.
+		static $defaultAssocLang = '';
 
 		if (self::isEnabled())
 		{
@@ -209,13 +209,13 @@ class Associations
 				if (!empty($plugin))
 				{
 					$params = new Registry($plugin->params);
-					$globalMasterLang  = $params->get('global_master_language');
+					$defaultAssocLang  = $params->get('default_assoc_lang');
 				}
 
 				$tested = true;
 			}
 		}
 
-		return $globalMasterLang ?? '';
+		return $defaultAssocLang ?? '';
 	}
 }

@@ -19,10 +19,10 @@ use Joomla\CMS\Router\Route;
  *
  * @since  4.0
  */
-class AssociationMasterController extends BaseController
+class DefaultAssocLangController extends BaseController
 {
 	/**
-	 * Method to update the childs modified date of the master item in the associations table.
+	 * Method to update the childs modified date of the parent in the associations table.
 	 *
 	 * @return  void
 	 *
@@ -31,10 +31,10 @@ class AssociationMasterController extends BaseController
 	public function update()
 	{
 		$targetId = $this->input->get('targetId', '', 'int');
-		$masterId = $this->input->get('id', '', 'int');
+		$parentId = $this->input->get('id', '', 'int');
 		$itemtype = $this->input->get('itemtype', '', 'string');
 
-		$this->getModel('associationmaster')->update($targetId, $masterId, $itemtype);
+		$this->getModel('defaultassoclang')->update($targetId, $parentId, $itemtype);
 
 		$this->setRedirect(Route::_('index.php?option=com_associations&view=associations', false));
 	}

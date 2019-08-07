@@ -1,2 +1,2 @@
-ALTER TABLE `#__associations` ADD COLUMN `master_id` int(11) NOT NULL DEFAULT -1 COMMENT 'The master item of an association.';
-ALTER TABLE `#__associations` ADD COLUMN `master_date` datetime COMMENT 'The save or modified date of the master item.';
+ALTER TABLE `#__associations` ADD COLUMN `parent_id` int(11) NOT NULL DEFAULT -1 COMMENT 'The parent of an association.';
+ALTER TABLE `#__associations` ADD COLUMN `parent_date` datetime COMMENT 'The save or modified date of the parent.';

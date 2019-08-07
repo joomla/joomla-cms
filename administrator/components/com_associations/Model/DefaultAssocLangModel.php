@@ -19,21 +19,21 @@ use Joomla\CMS\MVC\Model\BaseModel;
  *
  * @since  4.0
  */
-class AssociationMasterModel extends BaseModel
+class DefaultAssocLangModel extends BaseModel
 {
 
 	/**
-	 * Update the childs modified date of the master item from #__associations table.
+	 * Update the childs modified date of the parent from #__associations table.
 	 *
 	 * @param   integer  $childId   The id of the item that gets updated
-	 * @param   integer  $masterId  The associated master item of the child item
+	 * @param   integer  $parentId  The associated parent of the child item
 	 * @param   string   $itemtype  The component item type
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since  4.0
 	 */
-	public function update($childId, $masterId, $itemtype)
+	public function update($childId, $parentId, $itemtype)
 	{
 		list($extensionName, $typeName) = explode('.', $itemtype, 2);
 
@@ -43,18 +43,18 @@ class AssociationMasterModel extends BaseModel
 		$db      = Factory::getDbo();
 
 		$subQuery = $db->getQuery(true)
-			->select($db->quoteName('master_date'))
+			->select($db->quoteName('parent_date'))
 			->from($db->quoteName('#__associations'))
-			->where($db->quoteName('id') . ' = ' . $db->quote($masterId))
-			->where($db->quoteName('master_id') . ' = ' . $db->quote(0))
+			->where($db->quoteName('id') . ' = ' . $db->quote($parentId))
+			->where($db->quoteName('parent_id') . ' = ' . $db->quote(0))
 			->where($db->quoteName('context') . ' = ' . $db->quote($context));
-		$masterModified = $db->setQuery($subQuery)->loadResult();
+		$parentModified = $db->setQuery($subQuery)->loadResult();
 
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__associations'))
-			->set($db->quoteName('master_date') . ' = ' . $db->quote($masterModified))
+			->set($db->quoteName('parent_date') . ' = ' . $db->quote($parentModified))
 			->where($db->quoteName('id') . ' = ' . $db->quote($childId))
-			->where($db->quoteName('master_id') . ' = ' . $db->quote($masterId))
+			->where($db->quoteName('parent_id') . ' = ' . $db->quote($parentId))
 			->where($db->quoteName('context') . ' = ' . $db->quote($context));
 		$db->setQuery($query);
 

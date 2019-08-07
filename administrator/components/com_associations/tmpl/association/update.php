@@ -35,7 +35,7 @@ $options = array(
 				<?php if (isset($this->referenceVersionIdNew)) : ?>
 					<h3><?php echo Text::_('COM_ASSOCIATIONS_REFERENCE_ITEM_COMPARE_VIEW'); ?></h3>
 					<iframe id="reference-association" name="reference-association" title="reference-association"
-						src="<?php echo Route::_('index.php?option=com_contenthistory&view=compare&layout=comparemaster&tmpl=component&' . Session::getFormToken() . '=1&id1=' . $this->referenceVersionIdNew . '&id2=' . $this->referenceVersionIdOld); ?>"
+						src="<?php echo Route::_('index.php?option=com_contenthistory&view=compare&layout=compareassocparent&tmpl=component&' . Session::getFormToken() . '=1&id1=' . $this->referenceVersionIdNew . '&id2=' . $this->referenceVersionIdOld); ?>"
 						height="400" width="400" >
 					</iframe>
 				<?php else : ?>

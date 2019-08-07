@@ -20,11 +20,11 @@ use Joomla\Registry\Registry;
 
 
 /**
- * Content Master Languages Field class.
+ * Content Association Languages Field class.
  *
  * @since  4.0
  */
-class ContentmasterlanguageField extends ContentlanguageField
+class ContentdefaultassoclangField extends ContentlanguageField
 {
 	/**
 	 * The list field type.
@@ -33,7 +33,7 @@ class ContentmasterlanguageField extends ContentlanguageField
 	 *
 	 * @since  4.0
 	 */
-	public $type = 'contentmasterlanguage';
+	public $type = 'contentdefaultassoclang';
 
 	/**
 	 * Method to get the field options.
@@ -44,19 +44,18 @@ class ContentmasterlanguageField extends ContentlanguageField
 	 */
 	public function getOptions()
 	{
-		$globalMasterLang = Associations::getGlobalMasterLanguage();
-
+		$defaultAssocLang = Associations::getDefaultAssocLang();
 		$contentLanguages = LanguageHelper::getContentLanguages(array(0, 1));
-		$options = array();
 
+		$options   = array();
 		$options[] = HTMLHelper::_('select.option', '', Text::_('JOPTION_SELECT_LANGUAGE'));
 
 		foreach ($contentLanguages as $langCode)
 		{
-			// Add information to the language if it is the global master language
-			if ($langCode->lang_code == $globalMasterLang)
+			// Add information to the language if it is the default association language.
+			if ($langCode->lang_code == $defaultAssocLang)
 			{
-				$options[] = HTMLHelper::_('select.option', $langCode->lang_code, $langCode->title . ' - ' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_LANGUAGE'));
+				$options[] = HTMLHelper::_('select.option', $langCode->lang_code, $langCode->title . ' - ' . Text::_('JGLOBAL_ASSOCIATIONS_DEFAULT_ASSOC_LANG'));
 			}
 			else
 			{

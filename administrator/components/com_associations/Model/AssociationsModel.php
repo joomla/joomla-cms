@@ -82,11 +82,11 @@ class AssociationsModel extends ListModel
 		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 		$forcedItemType = $app->input->get('forcedItemType', '', 'string');
 
-		// Set language select box to default site language or if set to, to the master language as default.
-		$globalMasterLang = Associations::getGlobalMasterLanguage();
-		$langParam = ComponentHelper::getParams('com_languages');
+		// Set language select box to default site language or if set to, to the default association language as default.
+		$defaultAssocLang = Associations::getDefaultAssocLang();
+		$langParam        = ComponentHelper::getParams('com_languages');
 
-		$defaultLanguage  = empty($globalMasterLang) ? $langParam->get('site') : $globalMasterLang;
+		$defaultLanguage  = empty($defaultAssocLang) ? $langParam->get('site') : $defaultAssocLang;
 		$defaultItemType  = 'com_content.article';
 
 		// Adjust the context to support modal layouts.
@@ -467,36 +467,36 @@ class AssociationsModel extends ListModel
 
 				// Join over associations where id does not exist
 				$query->where('((' . $db->quoteName('asso.id') . ' IS NULL )'
-					// Or if we are on the child language and there is no master language
-					. ' OR ( ' . $db->quoteName('asso2.master_id') . ' = ' . $db->quote('-1') . ')'
-					// Or a child of the master does not exist.
+					// Or if we are on the child language and there is no parent
+					. ' OR ( ' . $db->quoteName('asso2.parent_id') . ' = ' . $db->quote('-1') . ')'
+					// Or a child of the parent does not exist.
 					. ' OR ( ' . $db->quoteName('asso.key') . '  IN (' . $assocQuery . ') 
-						AND ' . $db->quoteName('asso.master_id') . ' = ' . $db->quote('0') . ')'
+						AND ' . $db->quoteName('asso.parent_id') . ' = ' . $db->quote('0') . ')'
 					. ')'
 				);
 			}
 
-			// Out of date
+			// Out-of-date
 			if ($assocStateField === 'out_of_date')
 			{
-				// If we are on the masterlanguage and we check the state of the children
-				$query->where('((' . $db->quoteName('asso2.master_id') . ' = ' . $db->quoteName('asso.id')
-					. ' AND ' . $db->quoteName('asso2.master_date') . ' < ' . $db->quoteName('asso.master_date') . ')'
-					//  Or we are on the child language and we check its state comparing to its master.
-					. ' OR (' . $db->quoteName('asso.master_date') . ' < ' . $db->quoteName('asso2.master_date')
-					. ' AND ' . $db->quoteName('asso2.id') . ' = ' . $db->quoteName('asso.master_id') . '))'
+				// If we are on the parent language and we check the state of the children
+				$query->where('((' . $db->quoteName('asso2.parent_id') . ' = ' . $db->quoteName('asso.id')
+					. ' AND ' . $db->quoteName('asso2.parent_date') . ' < ' . $db->quoteName('asso.parent_date') . ')'
+					//  Or we are on the child language and we check its state comparing to its parent.
+					. ' OR (' . $db->quoteName('asso.parent_date') . ' < ' . $db->quoteName('asso2.parent_date')
+					. ' AND ' . $db->quoteName('asso2.id') . ' = ' . $db->quoteName('asso.parent_id') . '))'
 				);
 			}
 
 			// Up-to-date
 			if ($assocStateField === 'up_to_date')
 			{
-				// If we are on the masterlanguage and we check the state of the children
-				$query->where('((' . $db->quoteName('asso2.master_id') . ' = ' . $db->quoteName('asso.id')
-					. ' AND ' . $db->quoteName('asso2.master_date') . ' = ' . $db->quoteName('asso.master_date') . ')'
-					// Or we are on the child language and we check its state comparing to its master.
-					. ' OR (' . $db->quoteName('asso.master_date') . ' = ' . $db->quoteName('asso2.master_date')
-					. ' AND ' . $db->quoteName('asso2.id') . ' = ' . $db->quoteName('asso.master_id') . '))'
+				// If we are on the parent language and we check the state of the children
+				$query->where('((' . $db->quoteName('asso2.parent_id') . ' = ' . $db->quoteName('asso.id')
+					. ' AND ' . $db->quoteName('asso2.parent_date') . ' = ' . $db->quoteName('asso.parent_date') . ')'
+					// Or we are on the child language and we check its state comparing to its parent.
+					. ' OR (' . $db->quoteName('asso.parent_date') . ' = ' . $db->quoteName('asso2.parent_date')
+					. ' AND ' . $db->quoteName('asso2.id') . ' = ' . $db->quoteName('asso.parent_id') . '))'
 				);
 			}
 		}

@@ -40,17 +40,17 @@ class AssociationModel extends ListModel
 	}
 
 	/**
-	 * Method to get the history version ids of a master item.
+	 * Method to get the history version ids of a parent.
 	 *
-	 * @param   integer  $masterId       Id of the master item
-	 * @param   integer  $targetId       Id of an child item
+	 * @param   integer  $parentId       Id of the parent
+	 * @param   integer  $targetId       Id of a child
 	 * @param   string   $extensionName  The extension name with com_
 	 * @param   string   $typeName       The item type
 	 * @param   integer  $typeId         the content type id
 	 *
 	 * @return  array    Array containing two version history ids
 	 */
-	public function getMasterCompareValues($masterId, $targetId, $extensionName, $typeName, $typeId)
+	public function getParentCompareValues($parentId, $targetId, $extensionName, $typeName, $typeId)
 	{
 
 		$context = ($typeName === 'category')
@@ -58,35 +58,35 @@ class AssociationModel extends ListModel
 			: $extensionName . '.item';
 
 		$db = Factory::getDbo();
-		$masterQuery = $db->getQuery(true)
-			->select($db->quoteName('master_date'))
+		$parentQuery = $db->getQuery(true)
+			->select($db->quoteName('parent_date'))
 			->from($db->quoteName('#__associations'))
-			->where($db->quoteName('id') . ' = ' . $db->quote($masterId))
+			->where($db->quoteName('id') . ' = ' . $db->quote($parentId))
 			->where($db->quoteName('context') . ' = ' . $db->quote($context));
-		$latestMasterDate = $db->setQuery($masterQuery)->loadResult();
+		$latestParentDate = $db->setQuery($parentQuery)->loadResult();
 
 		$latestVersionQuery = $db->getQuery(true)
 			->select($db->quoteName('version_id'))
 			->from($db->quoteName('#__ucm_history'))
-			->where($db->quoteName('ucm_item_id') . ' = ' . $db->quote($masterId))
+			->where($db->quoteName('ucm_item_id') . ' = ' . $db->quote($parentId))
 			->where($db->quoteName('ucm_type_id') . ' = ' . $db->quote($typeId))
-			->where($db->quoteName('save_date') . ' = ' . $db->quote($latestMasterDate));
+			->where($db->quoteName('save_date') . ' = ' . $db->quote($latestParentDate));
 		$latestVersionId = $db->setQuery($latestVersionQuery)->loadResult();
 
 		$childQuery = $db->getQuery(true)
-			->select($db->quoteName('master_date'))
+			->select($db->quoteName('parent_date'))
 			->from($db->quoteName('#__associations'))
 			->where($db->quoteName('id') . ' = ' . $db->quote($targetId))
-			->where($db->quoteName('master_id') . ' = ' . $db->quote($masterId))
+			->where($db->quoteName('parent_id') . ' = ' . $db->quote($parentId))
 			->where($db->quoteName('context') . ' = ' . $db->quote($context));
-		$childMasterDate = $db->setQuery($childQuery)->loadResult();
+		$childParentDate = $db->setQuery($childQuery)->loadResult();
 
 		$olderVersionQuery = $db->getQuery(true)
 			->select($db->quoteName('version_id'))
 			->from($db->quoteName('#__ucm_history'))
-			->where($db->quoteName('ucm_item_id') . ' = ' . $db->quote($masterId))
+			->where($db->quoteName('ucm_item_id') . ' = ' . $db->quote($parentId))
 			->where($db->quoteName('ucm_type_id') . ' = ' . $db->quote($typeId))
-			->where($db->quoteName('save_date') . ' = ' . $db->quote($childMasterDate));
+			->where($db->quoteName('save_date') . ' = ' . $db->quote($childParentDate));
 		$olderVersionId = $db->setQuery($olderVersionQuery)->loadResult();
 
 		return [$latestVersionId, $olderVersionId];

@@ -114,7 +114,7 @@
     padding: 0;
   }
 
-  &.master {
+  &.parent {
     text-align: center;
 
     div[role="tooltip"] {
@@ -127,7 +127,7 @@
     margin-bottom: 0.2rem;
   }
 
-  .master-language {
+  .parent-language {
 
     & > a {
       border-radius: 0;

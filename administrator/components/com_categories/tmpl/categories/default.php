@@ -30,7 +30,7 @@ $saveOrder   = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
 $parts       = explode('.', $extension, 2);
 $component   = $parts[0];
 $section     = null;
-$masterAlign = Associations::getGlobalMasterLanguage() ? 'text-center ' : '';
+$assocAlign = Associations::getDefaultAssocLang() ? 'text-center ' : '';
 
 if (count($parts) > 1)
 {
@@ -110,7 +110,7 @@ if ($saveOrder && !empty($this->items))
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($this->assoc) : ?>
-									<th scope="col" style="width:10%" class="<?php echo $masterAlign ?>d-none d-md-table-cell">
+									<th scope="col" style="width:10%" class="<?php echo $assocAlign ?>d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'COM_CATEGORY_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>

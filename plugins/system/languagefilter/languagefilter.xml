@@ -62,10 +62,10 @@
 				</field>
 
 				<field
-						name="use_master_language"
+						name="use_default_assoc_lang"
 						type="radio"
-						label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_USE_MASTER_LANGUAGE_LABEL"
-						description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_USE_MASTER_LANGUAGE_DESC"
+						label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_USE_DEFAULT_ASSOC_LANG_LABEL"
+						description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_USE_DEFAULT_ASSOC_LANG_DESC"
 						class="switcher"
 						default="0"
 						filter="integer"
@@ -76,11 +76,11 @@
 				</field>
 
 				<field
-						name="global_master_language"
+						name="default_assoc_lang"
 						type="contentsitelanguage"
-						label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_GLOBAL_MASTER_LANGUAGE_LABEL"
-						description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_GLOBAL_MASTER_LANGUAGE_DESC"
-						showon="item_associations:1[AND]use_master_language:1"
+						label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_DEFAULT_ASSOC_LANG_LABEL"
+						description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_DEFAULT_ASSOC_LANG_DESC"
+						showon="item_associations:1[AND]use_default_assoc_lang:1"
 						addfieldprefix="Joomla\Plugin\System\Languagefilter\Field"
 				/>
 

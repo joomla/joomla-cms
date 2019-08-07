@@ -107,8 +107,8 @@ CREATE TABLE IF NOT EXISTS `#__associations` (
   `id` int(11) NOT NULL COMMENT 'A reference to the associated item.',
   `context` varchar(50) NOT NULL COMMENT 'The context of the associated item.',
   `key` char(32) NOT NULL COMMENT 'The key for the association computed from an md5 on associated ids.',
-  `master_id` int(11) NOT NULL DEFAULT -1 COMMENT 'The master item of an association.',
-  `master_date` datetime COMMENT 'The save or modified date of the master item.',
+  `parent_id` int(11) NOT NULL DEFAULT -1 COMMENT 'The parent of an association.',
+  `parent_date` datetime COMMENT 'The save or modified date of the parent.',
   PRIMARY KEY (`context`,`id`),
   KEY `idx_key` (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;

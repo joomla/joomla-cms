@@ -27,7 +27,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\UCM\UCMType;
-use Joomla\Component\Associations\Administrator\Helper\MasterAssociationsHelper;
+use Joomla\Component\Associations\Administrator\Helper\DefaultAssocLangHelper;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -632,7 +632,7 @@ class CategoryModel extends AdminModel
 			}
 
 			// Get association params before they get deleted
-			$assocMasterDates = MasterAssociationsHelper::getMasterDates($associations, $this->associationsContext);
+			$assocParentDates = DefaultAssocLangHelper::getParentDates($associations, $this->associationsContext);
 
 			// Get associationskey for edited item
 			$db    = $this->getDbo();
@@ -681,15 +681,15 @@ class CategoryModel extends AdminModel
 
 			if (count($associations) > 1)
 			{
-				// If there is an association item with the globalMasterLanguage, then get its id
-				$globalMasterLang = Associations::getGlobalMasterLanguage();
-				$masterId = $associations[$globalMasterLang] ?? '';
+				// If there is an association item with the default association language, then get its id
+				$defaultAssocLang = Associations::getDefaultAssocLang();
+				$parentId = $associations[$defaultAssocLang] ?? '';
 
 				// Id of the saved item
 				$dataId = (int) $table->id;
 
-				// Get the latest modified date of master item
-				$masterModified = MasterAssociationsHelper::getMasterModifiedDate($masterId, $table->getTableName(), $table->extension . '.category');
+				// Get the latest modified date of parent
+				$parentModified = DefaultAssocLangHelper::getParentModifiedDate($parentId, $table->getTableName(), $table->extension . '.category');
 
 				// Adding new association for these items
 				$key = md5(json_encode($associations));
@@ -698,13 +698,13 @@ class CategoryModel extends AdminModel
 
 				foreach ($associations as $id)
 				{
-					$masterIdAndDateValues = MasterAssociationsHelper::getMasterValues($id, $dataId, $masterId, $masterModified, $assocMasterDates, $oldKey);
-					$masterIdValue         = $masterIdAndDateValues[0];
-					$masterDateValue       = $masterIdAndDateValues[1] === 'NULL' ? $masterIdAndDateValues[1] : $db->quote($masterIdAndDateValues[1]);
+					$parentIdAndDateValues = DefaultAssocLangHelper::getParentValues($id, $dataId, $parentId, $parentModified, $assocParentDates, $oldKey);
+					$parentIdValue         = $parentIdAndDateValues[0];
+					$parentDateValue       = $parentIdAndDateValues[1] === 'NULL' ? $parentIdAndDateValues[1] : $db->quote($parentIdAndDateValues[1]);
 
 					$query->values(
 						((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key) . ','
-						. $db->quote($masterIdValue) . ',' . $masterDateValue
+						. $db->quote($parentIdValue) . ',' . $parentDateValue
 					);
 				}
 

@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Associations\Administrator\Helper\MasterAssociationsHelper;
+use Joomla\Component\Associations\Administrator\Helper\DefaultAssocLangHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Registry\Registry;
 
@@ -44,7 +44,7 @@ class Menus
 	{
 		// Defaults
 		$html = '';
-		$globalMasterLang = Associations::getGlobalMasterLanguage();
+		$defaultAssocLang = Associations::getDefaultAssocLang();
 
 		// Get the associations
 		if ($associations = MenusHelper::getAssociations($itemid))
@@ -59,8 +59,8 @@ class Menus
 				->join('LEFT', '#__menu_types as mt ON mt.menutype=m.menutype')
 				->where('m.id IN (' . implode(',', array_values($associations)) . ')');
 
-			// Don't get the id of the item itself when there is no master language used
-			if (!$globalMasterLang)
+			// Don't get the id of the item itself when there is no default association language used
+			if (!$defaultAssocLang)
 			{
 				$query->where('m.id != ' . $itemid);
 			}
@@ -79,16 +79,16 @@ class Menus
 				throw new \Exception($e->getMessage(), 500);
 			}
 
-			if ($globalMasterLang)
+			if ($defaultAssocLang)
 			{
-				// Check if current item is the master item.
-				$isMaster = (array_key_exists($itemid, $items) && ($items[$itemid]->lang_code === $globalMasterLang))
+				// Check if current item is the parent.
+				$isParent = (array_key_exists($itemid, $items) && ($items[$itemid]->lang_code === $defaultAssocLang))
 					? true
 					: false;
 
-				// Check if there is a master item in the association and get its id if so
-				$masterId = array_key_exists($globalMasterLang, $associations)
-					? $associations[$globalMasterLang]
+				// Check if there is a parent in the association and get its id if so
+				$parentId = array_key_exists($defaultAssocLang, $associations)
+					? $associations[$defaultAssocLang]
 					: '';
 			}
 
@@ -97,56 +97,56 @@ class Menus
 			{
 				foreach ($items as $key => &$item)
 				{
-					$masterInfo = '';
+					$parentChildInfo = '';
 					$classes    = 'badge badge-success';
 					$url        = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);
 
-					if ($globalMasterLang)
+					if ($defaultAssocLang)
 					{
-						// Don't continue for master, because it has been set here before
-						if ($key === 'master')
+						// Don't continue for parent, because it has been set here before
+						if ($key === 'parent')
 						{
 							continue;
 						}
 
-						// Don't display other children if the current item is a child of the master language.
-						if ($key !== $itemid && $globalMasterLang !== $item->lang_code && !$isMaster)
+						// Don't display other children if the current item is a child.
+						if ($key !== $itemid && $defaultAssocLang !== $item->lang_code && !$isParent)
 						{
 							unset($items[$key]);
 						}
 
-						if ($key === $masterId)
+						if ($key === $parentId)
 						{
-							$classes   .= ' master-item';
-							$masterInfo = '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_ITEM');
+							$classes   .= ' parent-item';
+							$parentChildInfo = '<br><br>' . Text::_('JGLOBAL_ASSOCIATIONS_DEFAULT_ASSOC_LANG_ITEM');
 						}
 
-						$url = Route::_(MasterAssociationsHelper::getAssociationUrl($item->id, $globalMasterLang, 'com_menus.item', $item->lang_code, $key, $masterId));
+						$url = Route::_(DefaultAssocLangHelper::getAssociationUrl($item->id, $defaultAssocLang, 'com_menus.item', $item->lang_code, $key, $parentId));
 					}
 
 					$text    = strtoupper($item->lang_sef);
 					$tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
 						. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title)
-						. $masterInfo;
+						. $parentChildInfo;
 
 					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '">' . $text . '</a>'
 						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
 
-					// Reorder the array, so the master item gets to the first place
-					if ($item->lang_code === $globalMasterLang)
+					// Reorder the array, so the parent gets to the first place
+					if ($item->lang_code === $defaultAssocLang)
 					{
-						$items = array('master' => $items[$key]) + $items;
+						$items = array('parent' => $items[$key]) + $items;
 						unset($items[$key]);
 					}
 				}
 
-				// If a master item doesn't exist, display that there is no association with the master language
-				if ($globalMasterLang && !$masterId)
+				// If a parent doesn't exist, display that there is no association with the default association language.
+				if ($defaultAssocLang && !$parentId)
 				{
-					$link = MasterAssociationsHelper::addNotAssociatedMasterLink($globalMasterLang, $itemid, 'com_menus.item');
+					$link = DefaultAssocLangHelper::addNotAssociatedParentLink($defaultAssocLang, $itemid, 'com_menus.item');
 
 					// Add this on the top of the array
-					$items = array('master' => array('link' => $link)) + $items;
+					$items = array('parent' => array('link' => $link)) + $items;
 				}
 			}
 

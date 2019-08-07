@@ -39,9 +39,8 @@ $customOptions = array(
 	'formSelector'        => !empty($data['options']['formSelector']) ? $data['options']['formSelector'] : '#adminForm',
 );
 
-$data['options'] = array_merge($customOptions, $data['options']);
-
-$globalMasterLang = Associations::getGlobalMasterLanguage();
+$data['options']  = array_merge($customOptions, $data['options']);
+$defaultAssocLang = Associations::getDefaultAssocLang();
 
 // Load search tools
 HTMLHelper::_('searchtools.form', $data['options']['formSelector'], $data['options']);
@@ -62,7 +61,7 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
 	<?php endif; ?>
 	<?php if ($app->input->get('forcedLanguage', '', 'cmd') == '') : ?>
 		<?php $languageField = $data['view']->filterForm->getField('language'); ?>
-		<?php if ($globalMasterLang) : ?>
+		<?php if ($defaultAssocLang) : ?>
 			<div class="js-stools-container-selector-second">
 		<?php else : ?>
 			<div class="js-stools-container-selector">
@@ -74,7 +73,7 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
 		</div>
 	<?php endif; ?>
 
-	<?php if ($globalMasterLang) : ?>
+	<?php if ($defaultAssocLang) : ?>
 		<?php $assocStateField = $data['view']->filterForm->getField('assocstate'); ?>
 		<div class="js-stools-container-selector">
 			<div class="js-stools-field-selector js-stools-assocstate">

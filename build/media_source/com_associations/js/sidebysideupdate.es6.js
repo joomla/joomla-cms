@@ -16,7 +16,7 @@ Joomla = window.Joomla || {};
       // Using close button, normal joomla submit.
       if (task === 'association.cancel') {
         Joomla.submitform(task);
-      } else if (task === 'associationmaster.update') {
+      } else if (task === 'defaultassoclang.update') {
         Joomla.submitform(task);
       } else {
         window.frames['target-association'].Joomla.submitbutton(`${document.getElementById('adminForm').getAttribute('data-associatedview')}, .apply`);

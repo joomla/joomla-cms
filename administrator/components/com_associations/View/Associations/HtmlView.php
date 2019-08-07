@@ -151,10 +151,10 @@ class HtmlView extends BaseHtmlView
 				unset($this->activeFilters['language']);
 				unset($this->activeFilters['assocstate']);
 
-				// Remove association state filter depending on global master language
-				$globalMasterLang = Associations::getGlobalMasterLanguage();
+				// Remove association state filter depending on default association language
+				$defaultAssocLang = Associations::getDefaultAssocLang();
 
-				if (!$globalMasterLang)
+				if (!$defaultAssocLang)
 				{
 					$this->filterForm->removeField('assocstate', 'filter');
 				}

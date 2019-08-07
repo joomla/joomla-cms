@@ -12,7 +12,7 @@
 
 	<field
 		name="language"
-		type="contentmasterlanguage"
+		type="contentdefaultassoclang"
 		label="COM_ASSOCIATIONS_FILTER_SELECT_LANGUAGE"
 		filtermode="selector"
 		onchange="this.form.submit();"

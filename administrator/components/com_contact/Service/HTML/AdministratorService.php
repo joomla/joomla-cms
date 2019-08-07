@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Associations\Administrator\Helper\MasterAssociationsHelper;
+use Joomla\Component\Associations\Administrator\Helper\DefaultAssocLangHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -40,7 +40,7 @@ class AdministratorService
 	{
 		// Defaults
 		$html             = '';
-		$globalMasterLang = Associations::getGlobalMasterLanguage();
+		$defaultAssocLang = Associations::getDefaultAssocLang();
 
 		// Check if versions are enabled
 		$saveHistory      = ComponentHelper::getParams('com_contact')->get('save_history', 0);
@@ -63,8 +63,8 @@ class AdministratorService
 				->join('LEFT', '#__categories as cat ON cat.id=c.catid')
 				->where('c.id IN (' . implode(',', array_values($associations)) . ')');
 
-			// Don't get the id of the item itself when there is no master language used.
-			if (!$globalMasterLang)
+			// Don't get the id of the item itself when there is no default association language used.
+			if (!$defaultAssocLang)
 			{
 				$query->where('c.id != ' . $contactid);
 			}
@@ -83,76 +83,76 @@ class AdministratorService
 				throw new \Exception($e->getMessage(), 500, $e);
 			}
 
-			if ($globalMasterLang)
+			if ($defaultAssocLang)
 			{
-				// Check if current item is the master item.
-				$isMaster = (array_key_exists($contactid, $items) && ($items[$contactid]->lang_code === $globalMasterLang))
+				// Check if current item is the parent.
+				$isParent = (array_key_exists($contactid, $items) && ($items[$contactid]->lang_code === $defaultAssocLang))
 					? true
 					: false;
 
-				// Check if there is a master item in the association and get its id if so.
-				$masterId = array_key_exists($globalMasterLang, $associations)
-					? $associations[$globalMasterLang]
+				// Check if there is a parent in the association and get its id if so.
+				$parentId = array_key_exists($defaultAssocLang, $associations)
+					? $associations[$defaultAssocLang]
 					: '';
 
-				// Get master dates of each item of associations.
-				$assocMasterDates = MasterAssociationsHelper::getMasterDates($associations, 'com_contact.item');
+				// Get parent dates of each item of associations.
+				$assocParentDates = DefaultAssocLangHelper::getParentDates($associations, 'com_contact.item');
 			}
 
 			if ($items)
 			{
 				foreach ($items as $key => &$item)
 				{
-					$masterInfo = '';
-					$labelClass = 'badge-success';
-					$url        = Route::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id);
+					$parentChildInfo = '';
+					$labelClass      = 'badge-success';
+					$url             = Route::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id);
 
-					if ($globalMasterLang)
+					if ($defaultAssocLang)
 					{
-						// Don't continue for master, because it has been set just before as new array item
-						if ($key === 'master')
+						// Don't continue for parent, because it has been set just before as new array item
+						if ($key === 'parent')
 						{
 							continue;
 						}
 
-						$classMasterInfoItems = MasterAssociationsHelper::setMasterAndChildInfos(
-							$contactid, $items, $key, $item, $globalMasterLang, $isMaster, $masterId, $assocMasterDates, $saveHistory
+						$classParentInfoItems = DefaultAssocLangHelper::setParentAndChildInfos(
+							$contactid, $items, $key, $item, $defaultAssocLang, $isParent, $parentId, $assocParentDates, $saveHistory
 						);
-						$labelClass  = $classMasterInfoItems[0];
-						$masterInfo  = $classMasterInfoItems[1];
-						$items       = $classMasterInfoItems[2];
-						$needsUpdate = $classMasterInfoItems[3];
+						$labelClass       = $classParentInfoItems[0];
+						$parentChildInfo  = $classParentInfoItems[1];
+						$items            = $classParentInfoItems[2];
+						$needsUpdate      = $classParentInfoItems[3];
 
 						$url = Route::_(
-							MasterAssociationsHelper::getAssociationUrl(
-								$item->id, $globalMasterLang, 'com_contact.contact', $item->lang_code, $key, $masterId, $needsUpdate
+							DefaultAssocLangHelper::getAssociationUrl(
+								$item->id, $defaultAssocLang, 'com_contact.contact', $item->lang_code, $key, $parentId, $needsUpdate
 							)
 						);
 					}
 
 					$text    = strtoupper($item->lang_sef);
 					$tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
-						. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title) . $masterInfo;
+						. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title) . $parentChildInfo;
 					$classes = 'badge ' . $labelClass;
 
 					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '">' . $text . '</a>'
 						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
 
-					// Reorder the array, so the master item gets to the first place
-					if ($item->lang_code === $globalMasterLang)
+					// Reorder the array, so the parent gets to the first place
+					if ($item->lang_code === $defaultAssocLang)
 					{
-						$items = array('master' => $items[$key]) + $items;
+						$items = array('parent' => $items[$key]) + $items;
 						unset($items[$key]);
 					}
 				}
 
-				// If a master item doesn't exist, display that there is no association with the master language
-				if ($globalMasterLang && !$masterId)
+				// If a parent doesn't exist, display that there is no association with the default association language.
+				if ($defaultAssocLang && !$parentId)
 				{
-					$link = MasterAssociationsHelper::addNotAssociatedMasterLink($globalMasterLang, $contactid, 'com_contact.contact');
+					$link = DefaultAssocLangHelper::addNotAssociatedParentLink($defaultAssocLang, $contactid, 'com_contact.contact');
 
 					// Add this on the top of the array
-					$items = array('master' => array('link' => $link)) + $items;
+					$items = array('parent' => array('link' => $link)) + $items;
 				}
 			}
 

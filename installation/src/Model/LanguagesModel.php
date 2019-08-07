@@ -1406,22 +1406,22 @@ class LanguagesModel extends BaseInstallationModel
 	public function addAssociations($groupedAssociations)
 	{
 		$db = Factory::getDbo();
-		$globalMasterLang = Associations::getGlobalMasterLanguage();
+		$defaultAssocLang = Associations::getDefaultAssocLang();
 
 		foreach ($groupedAssociations as $context => $associations)
 		{
-			// If there is an association item with the globalMasterLanguage, get its id.
-			$masterId = $associations[$globalMasterLang] ?? '';
-			$key   = md5(json_encode($associations));
-			$query = $db->getQuery(true)
+			// If there is an association item with the default association language, get its id.
+			$parentId = $associations[$defaultAssocLang] ?? '';
+			$key      = md5(json_encode($associations));
+			$query    = $db->getQuery(true)
 				->insert('#__associations');
 
 			foreach ($associations as $language => $id)
 			{
-				// If there is no master item in this association, then reset the master_id to -1
-				// Otherwise, if the association item is a master item set the master_id to 0, otherwise to the masterId.
-				$masterIdValue = $masterId ? ($masterId === $id ? 0 : $masterId) : -1;
-				$query->values(((int) $id) . ',' . $db->quote($context) . ',' . $db->quote($key) . ',' . $db->quote($masterIdValue) . ', NULL');
+				// If there is no parent within this association, then reset the parent_id to -1
+				// Otherwise, if the associated item is a parent set the parent_id to 0, otherwise to the parentId.
+				$parentIdValue = $parentId ? ($parentId === $id ? 0 : $parentId) : -1;
+				$query->values(((int) $id) . ',' . $db->quote($context) . ',' . $db->quote($key) . ',' . $db->quote($parentIdValue) . ', NULL');
 			}
 
 			$db->setQuery($query);

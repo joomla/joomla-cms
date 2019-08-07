@@ -1580,9 +1580,9 @@ class ItemModel extends AdminModel
 
 			if (count($associations) > 1)
 			{
-				// If there is an associated item with the globalMasterLanguage, get its id.
-				$globalMasterLang = Associations::getGlobalMasterLanguage();
-				$masterId = $associations[$globalMasterLang] ?? '';
+				// If there is an associated item with the default association language, get its id.
+				$defaultAssocLang = Associations::getDefaultAssocLang();
+				$parentId = $associations[$defaultAssocLang] ?? '';
 
 				// Adding new association for these items
 				$key = md5(json_encode($associations));
@@ -1591,12 +1591,12 @@ class ItemModel extends AdminModel
 
 				foreach ($associations as $id)
 				{
-					// If there is no master item in this association, then reset the master id.
-					// Otherwise, if the associated item is a master item, set its master id to 0, otherwise to the master Id.
-					$masterIdValue = $masterId ? ($masterId === $id ? 0 : $masterId) : -1;
+					// If there is no parent in this association, then reset the parent id.
+					// Otherwise, if the associated item is a parent, set its parent id to 0, otherwise to the parent Id.
+					$parentIdValue = $parentId ? ($parentId === $id ? 0 : $parentId) : -1;
 					$query->values(
 						((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key)
-						. ',' . $db->quote($masterIdValue) . ', NULL'
+						. ',' . $db->quote($parentIdValue) . ', NULL'
 					);
 				}
 

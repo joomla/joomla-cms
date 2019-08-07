@@ -211,7 +211,7 @@ class AssociationsHelper extends ContentHelper
 	 * @param   string   $itemLanguage    Item language code.
 	 * @param   boolean  $addLink         True for adding edit links. False for just text.
 	 * @param   boolean  $assocLanguages  True for showing non associated content languages. False only languages with associations.
-	 * @param   string   $assocState      The filter association state, enabled when a global master language is used.
+	 * @param   string   $assocState      The filter association state, enabled when a default association language is used.
 	 *
 	 * @return  string   The language HTML
 	 *
@@ -232,8 +232,8 @@ class AssociationsHelper extends ContentHelper
 		$canEditReference = self::allowEdit($extensionName, $typeName, $itemId);
 		$canCreate        = self::allowAdd($extensionName, $typeName);
 
-		// Get the global master language, empty if not used
-		$globalMasterLang = Associations::getGlobalMasterLanguage();
+		// Get the default association language, empty if not used
+		$defaultAssocLang = Associations::getDefaultAssocLang();
 
 		// Check if versions are enabled
 		$saveHistory      = ComponentHelper::getParams($extensionName)->get('save_history', 0);
@@ -241,9 +241,9 @@ class AssociationsHelper extends ContentHelper
 
 		if ($items)
 		{
-			// Get master dates of each item of an association and the master id.
-			$assocMasterDates = MasterAssociationsHelper::getMasterDates($items, $context);
-			$masterId = $items[$globalMasterLang]['id'] ?? null;
+			// Get parent dates of each item of an association and the parent id.
+			$assocParentDates = DefaultAssocLangHelper::getParentDates($items, $context);
+			$parentId = $items[$defaultAssocLang]['id'] ?? null;
 		}
 
 		// Create associated items list.
@@ -251,9 +251,9 @@ class AssociationsHelper extends ContentHelper
 		{
 			// Defaults
 			$update     = false;
-			$masterInfo = '';
+			$parentChildInfo = '';
 
-			if (!$globalMasterLang)
+			if (!$defaultAssocLang)
 			{
 				// Don't do for the reference language.
 				if ($langCode == $itemLanguage)
@@ -278,10 +278,10 @@ class AssociationsHelper extends ContentHelper
 			// Get html parameters for associated items.
 			if (isset($items[$langCode]))
 			{
-				if ($globalMasterLang)
+				if ($defaultAssocLang)
 				{
 					// Don't display any other children to the child item.
-					if (($itemLanguage !== $globalMasterLang) && ($langCode !== $globalMasterLang) && ($langCode !== $itemLanguage))
+					if (($itemLanguage !== $defaultAssocLang) && ($langCode !== $defaultAssocLang) && ($langCode !== $itemLanguage))
 					{
 						unset($items[$langCode]);
 						continue;
@@ -328,18 +328,18 @@ class AssociationsHelper extends ContentHelper
 								&& self::allowEdit($extensionName, $typeName, $items[$langCode]['id'])
 								&& self::canCheckinItem($extensionName, $typeName, $items[$langCode]['id']);
 
-				$masterInfoSpace = $additional && !$addLink ? '<br>' : '<br><br>';
+				$parentChildInfoSpace = $additional && !$addLink ? '<br>' : '<br><br>';
 
-				if ($globalMasterLang)
+				if ($defaultAssocLang)
 				{
-					// Settings for the master language
-					if ($globalMasterLang === $langCode)
+					// Settings for the default association language.
+					if ($defaultAssocLang === $langCode)
 					{
-						$labelClass .= ' master-item';
+						$labelClass .= ' parent-item';
 						$additional .= $addLink && $allow ? Text::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
-						$masterInfo  = $masterInfoSpace . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_ITEM');
+						$parentChildInfo  = $parentChildInfoSpace . Text::_('JGLOBAL_ASSOCIATIONS_DEFAULT_ASSOC_LANG_ITEM');
 
-						if ($globalMasterLang === $itemLanguage)
+						if ($defaultAssocLang === $itemLanguage)
 						{
 							// Do not define any child target as there can be more than one
 							$target = '';
@@ -352,18 +352,18 @@ class AssociationsHelper extends ContentHelper
 					// Setting for children
 					else
 					{
-						// When there is no associated master item, set it to target
-						if (!$masterId)
+						// When there is no associated parent, set it to target
+						if (!$parentId)
 						{
-							$target        = $globalMasterLang . ':0:add';
+							$target        = $defaultAssocLang . ':0:add';
 						}
 
-						if (array_key_exists($items[$langCode]['id'], $assocMasterDates) && array_key_exists($masterId, $assocMasterDates))
+						if (array_key_exists($items[$langCode]['id'], $assocParentDates) && array_key_exists($parentId, $assocParentDates))
 						{
-							$associatedModifiedMaster = $assocMasterDates[$items[$langCode]['id']];
-							$lastModifiedMaster = $assocMasterDates[$masterId];
+							$associatedModifiedParent = $assocParentDates[$items[$langCode]['id']];
+							$lastModifiedParent       = $assocParentDates[$parentId];
 
-							if ($associatedModifiedMaster < $lastModifiedMaster)
+							if ($associatedModifiedParent < $lastModifiedParent)
 							{
 								// Don't display not corresponding item
 								if ($assocState !== 'all' && $assocState !== 'out_of_date')
@@ -378,13 +378,13 @@ class AssociationsHelper extends ContentHelper
 								$update = true;
 
 								/*
-								When versions are disabled then the modified date is used for the master item.
-								That means that when no changes were made and the master item has been saved the modified date has been changed.
-								So the out of date state means in that case there might have been made changes and it is necessary to check manually and update the target.
+								When versions are disabled then the modified date is used for the parent.
+								That means that when no changes were made and the parent has been saved the modified date has been changed.
+								So the out-of-date state means in that case there might have been made changes and it is necessary to check manually and update the target.
 								*/
-								$masterInfo = $saveHistory
-									? $masterInfoSpace . Text::_('JGLOBAL_ASSOCIATIONS_STATE_OUT_OF_DATE_DESC')
-									: $masterInfoSpace . Text::_('JGLOBAL_ASSOCIATIONS_STATE_MIGHT_BE_OUT_OF_DATE_DESC');
+								$parentChildInfo = $saveHistory
+									? $parentChildInfoSpace . Text::_('JGLOBAL_ASSOCIATIONS_STATE_OUT_OF_DATE_DESC')
+									: $parentChildInfoSpace . Text::_('JGLOBAL_ASSOCIATIONS_STATE_MIGHT_BE_OUT_OF_DATE_DESC');
 							}
 							else
 							{
@@ -396,12 +396,12 @@ class AssociationsHelper extends ContentHelper
 								}
 
 								$additional .= $addLink && $allow ? Text::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
-								$masterInfo  = $masterInfoSpace . Text::_('JGLOBAL_ASSOCIATIONS_STATE_UP_TO_DATE_DESC');
+								$parentChildInfo  = $parentChildInfoSpace . Text::_('JGLOBAL_ASSOCIATIONS_STATE_UP_TO_DATE_DESC');
 
 								// For item types that do not use modified date or versions like menu items
-								if (!$associatedModifiedMaster)
+								if (!$associatedModifiedParent)
 								{
-									$masterInfo  = '';
+									$parentChildInfo  = '';
 								}
 							}
 						}
@@ -416,9 +416,9 @@ class AssociationsHelper extends ContentHelper
 			else
 			{
 				// Don't display any other children to the child item
-				if ($globalMasterLang && ($itemLanguage != $globalMasterLang)
+				if ($defaultAssocLang && ($itemLanguage != $defaultAssocLang)
 					&& ($langCode != $itemLanguage)
-					&& ($langCode != $globalMasterLang))
+					&& ($langCode != $defaultAssocLang))
 				{
 					continue;
 				}
@@ -431,14 +431,14 @@ class AssociationsHelper extends ContentHelper
 				$target     = $langCode . ':0:add';
 				$allow      = $canCreate;
 
-				if ($globalMasterLang)
+				if ($defaultAssocLang)
 				{
-					if ($globalMasterLang === $langCode)
+					if ($defaultAssocLang === $langCode)
 					{
-						$labelClass .= ' master-item';
-						$masterInfoSpace = $addLink ? '<br><br>' : '';
-						$masterInfo  = $masterInfoSpace . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_ITEM');
-						$target      = '';
+						$labelClass          .= ' parent-item';
+						$parentChildInfoSpace = $addLink ? '<br><br>' : '';
+						$parentChildInfo      = $parentChildInfoSpace . Text::_('JGLOBAL_ASSOCIATIONS_DEFAULT_ASSOC_LANG_ITEM');
+						$target               = '';
 					}
 					else
 					{
@@ -450,10 +450,10 @@ class AssociationsHelper extends ContentHelper
 						}
 					}
 
-					// Change target, when there is no association with the global master language for the child item
-					if ($globalMasterLang !== $itemLanguage)
+					// Change target, when there is no association with the default association language for the child item
+					if ($defaultAssocLang !== $itemLanguage)
 					{
-						$target = $globalMasterLang . ':0:add';
+						$target = $defaultAssocLang . ':0:add';
 					}
 				}
 			}
@@ -465,7 +465,7 @@ class AssociationsHelper extends ContentHelper
 				'layout'   => $update ? 'update' : 'edit',
 				'itemtype' => $extensionName . '.' . $typeName,
 				'task'     => 'association.edit',
-				'id'       => $masterId ?? $itemId,
+				'id'       => $parentId ?? $itemId,
 				'target'   => $target,
 			);
 
@@ -474,16 +474,16 @@ class AssociationsHelper extends ContentHelper
 			$text    = strtoupper($language->sef);
 
 			$tooltip = '<strong>' . htmlspecialchars($language->title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
-				. htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional . $masterInfo;
+				. htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional . $parentChildInfo;
 			$classes = 'badge ' . $labelClass;
 
 			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $language->title . '" class="' . $classes . '">' . $text . '</a>'
 				. '<div role="tooltip">' . $tooltip . '</div>';
 
-			// Reorder the array, so the master item gets to the first place
-			if ($langCode === $globalMasterLang)
+			// Reorder the array, so the parent gets to the first place
+			if ($langCode === $defaultAssocLang)
 			{
-				$items = array('master' => $items[$langCode]) + $items;
+				$items = array('parent' => $items[$langCode]) + $items;
 				unset($items[$langCode]);
 			}
 		}

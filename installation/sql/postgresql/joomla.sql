@@ -111,8 +111,8 @@ CREATE TABLE IF NOT EXISTS "#__associations" (
   "id" int NOT NULL,
   "context" varchar(50) NOT NULL,
   "key" char(32) NOT NULL,
-  "master_id" integer DEFAULT -1 NOT NULL,
-  "master_date" timestamp without time zone,
+  "parent_id" integer DEFAULT -1 NOT NULL,
+  "parent_date" timestamp without time zone,
   CONSTRAINT "#__associations_idx_context_id" PRIMARY KEY ("context", "id")
 );
 CREATE INDEX "#__associations_idx_key" ON "#__associations" ("key");
@@ -120,8 +120,8 @@ CREATE INDEX "#__associations_idx_key" ON "#__associations" ("key");
 COMMENT ON COLUMN "#__associations"."id" IS 'A reference to the associated item.';
 COMMENT ON COLUMN "#__associations"."context" IS 'The context of the associated item.';
 COMMENT ON COLUMN "#__associations"."key" IS 'The key for the association computed from an md5 on associated ids.';
-COMMENT ON COLUMN "#__associations"."master_id" IS 'The master item of an association.';
-COMMENT ON COLUMN "#__associations"."master_date" IS 'The save or modified date of the master item.';
+COMMENT ON COLUMN "#__associations"."parent_id" IS 'The parent of an association.';
+COMMENT ON COLUMN "#__associations"."parent_date" IS 'The save or modified date of the parent.';
 
 --
 -- Table structure for table `#__banners`

@@ -31,7 +31,7 @@ elseif (array_key_exists('name', $object2))
 }
 
 HTMLHelper::_('script', 'vendor/diff/diff.min.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'com_associations/admin-compare-master.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_associations/admin-compare-assoc-parent.min.js', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('stylesheet', 'com_associations/sidebyside.css', ['version' => 'auto', 'relative' => true]);
 ?>
 

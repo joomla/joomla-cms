@@ -64,9 +64,9 @@ class ItemlanguageField extends ListField
 		// Gets existing languages.
 		$existingLanguages = LanguageHelper::getContentLanguages(array(0, 1));
 
-		// Get global master language and check if reference is a master item.
-		$globalMasterLang = Associations::getGlobalMasterLanguage();
-		$refIsMaster      = $referenceLang === $globalMasterLang;
+		// Get default association language and check if reference is a parent.
+		$defaultAssocLang = Associations::getDefaultAssocLang();
+		$refIsParent      = $referenceLang === $defaultAssocLang;
 
 		$options = array();
 
@@ -79,10 +79,10 @@ class ItemlanguageField extends ListField
 				continue;
 			}
 
-			if ($globalMasterLang && !$refIsMaster)
+			if ($defaultAssocLang && !$refIsParent)
 			{
-				// If reference is a child then display just the master language
-				if ($language->lang_code !== $globalMasterLang)
+				// If reference is a child then display just the default association language
+				if ($language->lang_code !== $defaultAssocLang)
 				{
 					continue;
 				}
@@ -91,9 +91,9 @@ class ItemlanguageField extends ListField
 			$options[$langCode]       = new \stdClass;
 			$options[$langCode]->text = $language->title;
 
-			if ($globalMasterLang && ($language->lang_code === $globalMasterLang))
+			if ($defaultAssocLang && ($language->lang_code === $defaultAssocLang))
 			{
-				$options[$langCode]->text .= ' - ' . Text::_('JGLOBAL_ASSOCIATIONS_MASTER_LANGUAGE');
+				$options[$langCode]->text .= ' - ' . Text::_('JGLOBAL_ASSOCIATIONS_DEFAULT_ASSOC_LANG');
 			}
 
 			// If association exists in this language.

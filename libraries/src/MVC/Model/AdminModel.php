@@ -23,7 +23,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\UCM\UCMType;
-use Joomla\Component\Associations\Administrator\Helper\MasterAssociationsHelper;
+use Joomla\Component\Associations\Administrator\Helper\DefaultAssocLangHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -1323,7 +1323,7 @@ abstract class AdminModel extends FormModel
 			// Get association params before they get deleted
 			if ($associations)
 			{
-				$assocMasterDates = MasterAssociationsHelper::getMasterDates($associations, $this->associationsContext);
+				$assocParentDates = DefaultAssocLangHelper::getParentDates($associations, $this->associationsContext);
 			}
 
 			// Get associationskey for edited item
@@ -1363,15 +1363,15 @@ abstract class AdminModel extends FormModel
 
 			if (count($associations) > 1)
 			{
-				// If there is an association item with the globalMasterLanguage, then get its id
-				$globalMasterLang = Associations::getGlobalMasterLanguage();
-				$masterId         = $associations[$globalMasterLang] ?? '';
+				// If there is an associated item with the default association language, then get its id
+				$defaultAssocLang = Associations::getDefaultAssocLang();
+				$parentId         = $associations[$defaultAssocLang] ?? '';
 
 				// Get id of the item that get saved
 				$dataId           = (int) $table->id;
 
-				// Get the latest modified date of master item
-				$masterModified   = MasterAssociationsHelper::getMasterModifiedDate($masterId, $table->getTableName(), $table->typeAlias);
+				// Get the latest modified date of the parent
+				$parentModified   = DefaultAssocLangHelper::getParentModifiedDate($parentId, $table->getTableName(), $table->typeAlias);
 
 				// Adding new association for these items
 				$key   = md5(json_encode($associations) . $context);
@@ -1379,13 +1379,13 @@ abstract class AdminModel extends FormModel
 
 				foreach ($associations as $id)
 				{
-					$masterIdAndDateValues = MasterAssociationsHelper::getMasterValues($id, $dataId, $masterId, $masterModified, $assocMasterDates, $old_key);
-					$masterIdValue         = $masterIdAndDateValues[0];
-					$masterDateValue       = $masterIdAndDateValues[1] === 'NULL' ? $masterIdAndDateValues[1] : $db->quote($masterIdAndDateValues[1]);
+					$parentIdAndDateValues = DefaultAssocLangHelper::getParentValues($id, $dataId, $parentId, $parentModified, $assocParentDates, $old_key);
+					$parentIdValue         = $parentIdAndDateValues[0];
+					$parentDateValue       = $parentIdAndDateValues[1] === 'NULL' ? $parentIdAndDateValues[1] : $db->quote($parentIdAndDateValues[1]);
 
 					$query->values(
 						((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key)
-						. ',' . $db->quote($masterIdValue) . ',' . $masterDateValue
+						. ',' . $db->quote($parentIdValue) . ',' . $parentDateValue
 					);
 				}
 
@@ -1670,16 +1670,16 @@ abstract class AdminModel extends FormModel
 			}
 		}
 
-		$globalMasterLang = Associations::getGlobalMasterLanguage();
-		$isMaster = $data['language'] === $globalMasterLang;
+		$defaultAssocLang = Associations::getDefaultAssocLang();
+		$isParent = $data['language'] === $defaultAssocLang;
 
-		// If a global Master Language is set and the current item is a child item, then open the master item as reference and the child as target
-		if ($globalMasterLang && !$isMaster)
+		// If a default association language is set and the current item is a child item, then open his parent as reference and the child as target
+		if ($defaultAssocLang && !$isParent)
 		{
-			// If there is an associated master item change reference id.
-			if ($data['associations'][$globalMasterLang])
+			// If there is an associated parent, change reference id.
+			if ($data['associations'][$defaultAssocLang])
 			{
-				$id     = $data['associations'][$globalMasterLang];
+				$id     = $data['associations'][$defaultAssocLang];
 				$target = '&target=' . $data['language'] . '%3A' . $data['id'] . '%3Aedit';
 			}
 		}
