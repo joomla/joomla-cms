@@ -292,5 +292,17 @@
 
       headerItemsInDropdown();
     });
+
+    // Subhead gets white background on scroll
+    const subhead = doc.querySelector('.subhead');
+    if (subhead) {
+      doc.addEventListener('scroll', () => {
+        if (window.scrollY > 0) {
+          subhead.style.background = 'var(--white)';
+        } else {
+          subhead.style.background = '';
+        }
+      });
+    }
   });
 })(window.Joomla, document);
