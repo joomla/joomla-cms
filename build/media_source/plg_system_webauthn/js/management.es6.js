@@ -188,8 +188,8 @@ function plgSystemWebauthnEditLabel(that, store_id) {
 
           if (result !== true) {
             plgSystemWebauthnHandleCreationError(
-            	Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED'))
-            ;
+            	Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED')
+            );
           }
 
           //alert(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_MSG_SAVED_LABEL'));
@@ -297,10 +297,10 @@ function plgSystemWebauthnDelete(that, store_id) {
     onError: (xhr) => {
       elEdit.disabled = false;
       elDelete.disabled = false;
-
-      plgSystemWebauthnHandleCreationError(Joomla.JText._("PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED")
-        + " -- " + xhr.status + " " + xhr.statusText);
-
+      plgSystemWebauthnHandleCreationError(
+      	Joomla.JText._("PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED")
+        + " -- " + xhr.status + " " + xhr.statusText
+      );
     }
   });
 
