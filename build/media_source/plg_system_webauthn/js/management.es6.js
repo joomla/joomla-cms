@@ -26,14 +26,14 @@ function plgSystemWebauthnCreateCredentials(store_id, interface_selector) {
   }
 
   // Extract the configuration from the store
-  let elStore = document.getElementById(store_id);
+  const elStore = document.getElementById(store_id);
 
   if (!elStore) {
     return;
   }
 
-  let publicKey = JSON.parse(atob(elStore.dataset.public_key));
-  let post_url = atob(elStore.dataset.postback_url);
+  const publicKey = JSON.parse(atob(elStore.dataset.public_key));
+  const post_url = atob(elStore.dataset.postback_url);
 
   // Utility function to convert array data to base64 strings
   function arrayToBase64String(a) {
@@ -43,43 +43,41 @@ function plgSystemWebauthnCreateCredentials(store_id, interface_selector) {
   // Convert the public key information to a format usable by the browser's credentials manager
   publicKey.challenge = Uint8Array.from(
     window.atob(publicKey.challenge),
-    c => c.charCodeAt(0))
-  ;
+    c => c.charCodeAt(0),
+  );
   publicKey.user.id = Uint8Array.from(
     window.atob(publicKey.user.id),
-    c => c.charCodeAt(0)
+    c => c.charCodeAt(0),
   );
 
   if (publicKey.excludeCredentials) {
-    publicKey.excludeCredentials = publicKey.excludeCredentials.map(function (data) {
-      return {
-        ...data,
-        'id': Uint8Array.from(window.atob(data.id), c => c.charCodeAt(0))
-      };
-    });
+    publicKey.excludeCredentials = publicKey.excludeCredentials.map(data => ({
+      ...data,
+      id: Uint8Array.from(window.atob(data.id), c => c.charCodeAt(0)),
+    }));
   }
 
   // Ask the browser to prompt the user for their authenticator
-  navigator.credentials.create({publicKey})
-    .then(function (data) {
-      let publicKeyCredential = {
+  navigator.credentials.create({ publicKey })
+    .then((data) => {
+      const publicKeyCredential = {
         id: data.id,
         type: data.type,
         rawId: arrayToBase64String(new Uint8Array(data.rawId)),
         response: {
           clientDataJSON: arrayToBase64String(new Uint8Array(data.response.clientDataJSON)),
-          attestationObject: arrayToBase64String(new Uint8Array(data.response.attestationObject))
-        }
+          attestationObject: arrayToBase64String(new Uint8Array(data.response.attestationObject)),
+        },
       };
 
-      let postBackData = {
-        'option': 'com_ajax',
-        'group': 'system',
-        'plugin': 'webauthn',
-        'format': 'raw',
-        'akaction': 'create',
-        'encoding': 'raw',
-        'data': btoa(JSON.stringify(publicKeyCredential))
+      const postBackData = {
+        option: 'com_ajax',
+        group: 'system',
+        plugin: 'webauthn',
+        format: 'raw',
+        akaction: 'create',
+        encoding: 'raw',
+        data: btoa(JSON.stringify(publicKeyCredential)),
       };
 
       Joomla.request({
@@ -87,22 +85,21 @@ function plgSystemWebauthnCreateCredentials(store_id, interface_selector) {
         method: 'POST',
         data: plgSystemWebauthnInterpolateParameters(postBackData),
         onSuccess(responseHTML) {
-          let elements = document.querySelectorAll(interface_selector);
+          const elements = document.querySelectorAll(interface_selector);
 
           if (!elements) {
             return;
           }
 
-          let elContainer = elements[0];
+          const elContainer = elements[0];
 
           elContainer.outerHTML = responseHTML;
         },
         onError: (xhr) => {
-          plgSystemWebauthnHandleCreationError(xhr.status + ' ' + xhr.statusText);
-        }
+          plgSystemWebauthnHandleCreationError(`${xhr.status} ${xhr.statusText}`);
+        },
       });
-
-    }, function (error) {
+    }, (error) => {
       // An error occurred: timeout, request to provide the authenticator refused, hardware /
       // software error...
       plgSystemWebauthnHandleCreationError(error);
@@ -129,48 +126,48 @@ function plgSystemWebauthnHandleCreationError(message) {
  */
 function plgSystemWebauthnEditLabel(that, store_id) {
   // Extract the configuration from the store
-  let elStore = document.getElementById(store_id);
+  const elStore = document.getElementById(store_id);
 
   if (!elStore) {
     return;
   }
 
-  let post_url = atob(elStore.dataset.postback_url);
+  const post_url = atob(elStore.dataset.postback_url);
 
   // Find the UI elements
-  let elTR = that.parentElement.parentElement;
-  let credentialId = elTR.dataset.credential_id;
-  let elTDs = elTR.querySelectorAll('td');
-  let elLabelTD = elTDs[0];
-  let elButtonsTD = elTDs[1];
-  let elButtons = elButtonsTD.querySelectorAll('button');
-  let elEdit = elButtons[0];
-  let elDelete = elButtons[1];
+  const elTR = that.parentElement.parentElement;
+  const credentialId = elTR.dataset.credential_id;
+  const elTDs = elTR.querySelectorAll('td');
+  const elLabelTD = elTDs[0];
+  const elButtonsTD = elTDs[1];
+  const elButtons = elButtonsTD.querySelectorAll('button');
+  const elEdit = elButtons[0];
+  const elDelete = elButtons[1];
 
   // Show the editor
-  let oldLabel = elLabelTD.innerText;
+  const oldLabel = elLabelTD.innerText;
 
-  let elInput = document.createElement('input');
+  const elInput = document.createElement('input');
   elInput.type = 'text';
   elInput.name = 'label';
   elInput.defaultValue = oldLabel;
 
-  let elSave = document.createElement('button');
+  const elSave = document.createElement('button');
   elSave.className = 'btn btn-success btn-sm';
   elSave.innerText = Joomla.JText._('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_SAVE_LABEL');
-  elSave.addEventListener('click', function (e) {
-    let elNewLabel = elInput.value;
+  elSave.addEventListener('click', (e) => {
+    const elNewLabel = elInput.value;
 
     if (elNewLabel !== '') {
-      let postBackData = {
-        'option': 'com_ajax',
-        'group': 'system',
-        'plugin': 'webauthn',
-        'format': 'json',
-        'encoding': 'json',
-        'akaction': 'savelabel',
-        'credential_id': credentialId,
-        'new_label': elNewLabel
+      const postBackData = {
+        option: 'com_ajax',
+        group: 'system',
+        plugin: 'webauthn',
+        format: 'json',
+        encoding: 'json',
+        akaction: 'savelabel',
+        credential_id: credentialId,
+        new_label: elNewLabel,
       };
 
       Joomla.request({
@@ -188,18 +185,18 @@ function plgSystemWebauthnEditLabel(that, store_id) {
 
           if (result !== true) {
             plgSystemWebauthnHandleCreationError(
-              Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED')
+              Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED'),
             );
           }
 
-          //alert(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_MSG_SAVED_LABEL'));
+          // alert(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_MSG_SAVED_LABEL'));
         },
         onError: (xhr) => {
           plgSystemWebauthnHandleCreationError(
-            Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED')
-            + ' -- ' + xhr.status + ' ' + xhr.statusText
+            `${Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED')
+            } -- ${xhr.status} ${xhr.statusText}`,
           );
-        }
+        },
       });
     }
 
@@ -210,10 +207,10 @@ function plgSystemWebauthnEditLabel(that, store_id) {
     return false;
   }, false);
 
-  let elCancel = document.createElement('button');
+  const elCancel = document.createElement('button');
   elCancel.className = 'btn btn-danger btn-sm';
   elCancel.innerText = Joomla.JText._('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_CANCEL_LABEL');
-  elCancel.addEventListener('click', function (e) {
+  elCancel.addEventListener('click', (e) => {
     elLabelTD.innerText = oldLabel;
     elEdit.disabled = false;
     elDelete.disabled = false;
@@ -240,35 +237,35 @@ function plgSystemWebauthnEditLabel(that, store_id) {
  */
 function plgSystemWebauthnDelete(that, store_id) {
   // Extract the configuration from the store
-  let elStore = document.getElementById(store_id);
+  const elStore = document.getElementById(store_id);
 
   if (!elStore) {
     return;
   }
 
-  let post_url = atob(elStore.dataset.postback_url);
+  const post_url = atob(elStore.dataset.postback_url);
 
   // Find the UI elements
-  let elTR = that.parentElement.parentElement;
-  let credentialId = elTR.dataset.credential_id;
-  let elTDs = elTR.querySelectorAll('td');
-  let elButtonsTD = elTDs[1];
-  let elButtons = elButtonsTD.querySelectorAll('button');
-  let elEdit = elButtons[0];
-  let elDelete = elButtons[1];
+  const elTR = that.parentElement.parentElement;
+  const credentialId = elTR.dataset.credential_id;
+  const elTDs = elTR.querySelectorAll('td');
+  const elButtonsTD = elTDs[1];
+  const elButtons = elButtonsTD.querySelectorAll('button');
+  const elEdit = elButtons[0];
+  const elDelete = elButtons[1];
 
   elEdit.disabled = true;
   elDelete.disabled = true;
 
   // Delete the record
-  let postBackData = {
-    'option': 'com_ajax',
-    'group': 'system',
-    'plugin': 'webauthn',
-    'format': 'json',
-    'encoding': 'json',
-    'akaction': 'delete',
-    'credential_id': credentialId
+  const postBackData = {
+    option: 'com_ajax',
+    group: 'system',
+    plugin: 'webauthn',
+    format: 'json',
+    encoding: 'json',
+    akaction: 'delete',
+    credential_id: credentialId,
   };
 
   Joomla.request({
@@ -286,7 +283,7 @@ function plgSystemWebauthnDelete(that, store_id) {
 
       if (result !== true) {
         plgSystemWebauthnHandleCreationError(
-          Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED')
+          Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED'),
         );
 
         return;
@@ -298,10 +295,10 @@ function plgSystemWebauthnDelete(that, store_id) {
       elEdit.disabled = false;
       elDelete.disabled = false;
       plgSystemWebauthnHandleCreationError(
-        Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED')
-        + ' -- ' + xhr.status + ' ' + xhr.statusText
+        `${Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED')
+        } -- ${xhr.status} ${xhr.statusText}`,
       );
-    }
+    },
   });
 
   return false;
@@ -318,9 +315,9 @@ function plgSystemWebauthnDelete(that, store_id) {
  */
 function plgSystemWebauthnInterpolateParameters(object, prefix) {
   prefix = prefix || '';
-  var encodedString = '';
+  let encodedString = '';
 
-  for (var prop in object) {
+  for (const prop in object) {
     if (object.hasOwnProperty(prop)) {
       if (encodedString.length > 0) {
         encodedString += '&';
@@ -328,11 +325,12 @@ function plgSystemWebauthnInterpolateParameters(object, prefix) {
 
       if (typeof object[prop] !== 'object') {
         if (prefix === '') {
-          encodedString += encodeURIComponent(prop) + '=' + encodeURIComponent(object[prop]);
+          encodedString += `${encodeURIComponent(prop)}=${encodeURIComponent(object[prop])}`;
         } else {
-          encodedString +=
-            encodeURIComponent(prefix) + '[' + encodeURIComponent(prop) + ']=' + encodeURIComponent(
-            object[prop]);
+          encodedString
+            += `${encodeURIComponent(prefix)}[${encodeURIComponent(prop)}]=${encodeURIComponent(
+              object[prop],
+            )}`;
         }
 
         continue;

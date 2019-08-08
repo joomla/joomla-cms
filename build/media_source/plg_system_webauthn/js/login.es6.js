@@ -15,7 +15,7 @@
  * @returns {Element|null}  NULL when no element is found
  */
 function plgSystemWebauthnFindField(elForm, fieldSelector) {
-  let elInputs = elForm.querySelectorAll(fieldSelector);
+  const elInputs = elForm.querySelectorAll(fieldSelector);
 
   if (!elInputs.length) {
     return null;
@@ -34,8 +34,8 @@ function plgSystemWebauthnFindField(elForm, fieldSelector) {
  * @returns {null|Element}  NULL when no element is found
  */
 function plgSystemWebauthnLookForField(outerElement, fieldSelector) {
-  var elElement = outerElement.parentElement;
-  var elInput = null;
+  const elElement = outerElement.parentElement;
+  let elInput = null;
 
   if (elElement.nodeName === 'FORM') {
     elInput = plgSystemWebauthnFindField(elElement, fieldSelector);
@@ -43,10 +43,10 @@ function plgSystemWebauthnLookForField(outerElement, fieldSelector) {
     return elInput;
   }
 
-  var elForms = elElement.querySelectorAll('form');
+  const elForms = elElement.querySelectorAll('form');
 
   if (elForms.length) {
-    for (var i = 0; i < elForms.length; i++) {
+    for (let i = 0; i < elForms.length; i++) {
       elInput = plgSystemWebauthnFindField(elForms[i], fieldSelector);
 
       if (elInput !== null) {
@@ -70,9 +70,9 @@ function plgSystemWebauthnLookForField(outerElement, fieldSelector) {
  */
 function plgSystemWebauthnLogin(form_id, callback_url) {
   // Get the username
-  let elFormContainer = document.getElementById(form_id);
-  let elUsername = plgSystemWebauthnLookForField(elFormContainer, 'input[name=username]');
-  let elReturn = plgSystemWebauthnLookForField(elFormContainer, 'input[name=return]');
+  const elFormContainer = document.getElementById(form_id);
+  const elUsername = plgSystemWebauthnLookForField(elFormContainer, 'input[name=username]');
+  const elReturn = plgSystemWebauthnLookForField(elFormContainer, 'input[name=return]');
 
   if (elUsername === null) {
     alert(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_CANNOT_FIND_USERNAME'));
@@ -80,8 +80,8 @@ function plgSystemWebauthnLogin(form_id, callback_url) {
     return false;
   }
 
-  let username = elUsername.value;
-  let returnUrl = elReturn ? elReturn.value : null;
+  const username = elUsername.value;
+  const returnUrl = elReturn ? elReturn.value : null;
 
   // No username? We cannot proceed. We need a username to find the acceptable public keys :(
   if (username === '') {
@@ -91,15 +91,15 @@ function plgSystemWebauthnLogin(form_id, callback_url) {
   }
 
   // Get the Public Key Credential Request Options (challenge and acceptable public keys)
-  let postBackData = {
-    'option': 'com_ajax',
-    'group': 'system',
-    'plugin': 'webauthn',
-    'format': 'raw',
-    'akaction': 'challenge',
-    'encoding': 'raw',
-    'username': username,
-    'returnUrl': returnUrl
+  const postBackData = {
+    option: 'com_ajax',
+    group: 'system',
+    plugin: 'webauthn',
+    format: 'raw',
+    akaction: 'challenge',
+    encoding: 'raw',
+    username,
+    returnUrl,
   };
 
   Joomla.request({
@@ -121,8 +121,8 @@ function plgSystemWebauthnLogin(form_id, callback_url) {
       plgSystemWebauthnHandleLoginChallenge(jsonData, callback_url);
     },
     onError: (xhr) => {
-      plgSystemWebauthnHandleLoginError(xhr.status + ' ' + xhr.statusText);
-    }
+      plgSystemWebauthnHandleLoginError(`${xhr.status} ${xhr.statusText}`);
+    },
   });
 
   return false;
@@ -148,16 +148,14 @@ function plgSystemWebauthnHandleLoginChallenge(publicKey, callback_url) {
   }
 
   publicKey.challenge = Uint8Array.from(window.atob(publicKey.challenge), c => c.charCodeAt(0));
-  publicKey.allowCredentials = publicKey.allowCredentials.map(function (data) {
-    return {
-      ...data,
-      'id': Uint8Array.from(atob(data.id), c => c.charCodeAt(0))
-    };
-  });
+  publicKey.allowCredentials = publicKey.allowCredentials.map(data => ({
+    ...data,
+    id: Uint8Array.from(atob(data.id), c => c.charCodeAt(0)),
+  }));
 
-  navigator.credentials.get({publicKey})
-    .then(data => {
-      let publicKeyCredential = {
+  navigator.credentials.get({ publicKey })
+    .then((data) => {
+      const publicKeyCredential = {
         id: data.id,
         type: data.type,
         rawId: arrayToBase64String(new Uint8Array(data.rawId)),
@@ -166,15 +164,15 @@ function plgSystemWebauthnHandleLoginChallenge(publicKey, callback_url) {
           clientDataJSON: arrayToBase64String(new Uint8Array(data.response.clientDataJSON)),
           signature: arrayToBase64String(new Uint8Array(data.response.signature)),
           userHandle: data.response.userHandle ? arrayToBase64String(
-            new Uint8Array(data.response.userHandle)) : null
-        }
+            new Uint8Array(data.response.userHandle),
+          ) : null,
+        },
       };
 
-      window.location = callback_url + '&option=com_ajax&group=system&plugin=webauthn&' +
-        'format=raw&akaction=login&encoding=redirect&data=' +
-        btoa(JSON.stringify(publicKeyCredential));
-
-    }, error => {
+      window.location = `${callback_url}&option=com_ajax&group=system&plugin=webauthn&`
+        + `format=raw&akaction=login&encoding=redirect&data=${
+          btoa(JSON.stringify(publicKeyCredential))}`;
+    }, (error) => {
       // Example: timeout, interaction refused...
       console.log(error);
       plgSystemWebauthnHandleLoginError(error);
@@ -203,9 +201,9 @@ function plgSystemWebauthnHandleLoginError(message) {
  */
 function plgSystemWebauthnInterpolateParameters(object, prefix) {
   prefix = prefix || '';
-  var encodedString = '';
+  let encodedString = '';
 
-  for (var prop in object) {
+  for (const prop in object) {
     if (object.hasOwnProperty(prop)) {
       if (encodedString.length > 0) {
         encodedString += '&';
@@ -213,11 +211,12 @@ function plgSystemWebauthnInterpolateParameters(object, prefix) {
 
       if (typeof object[prop] !== 'object') {
         if (prefix === '') {
-          encodedString += encodeURIComponent(prop) + '=' + encodeURIComponent(object[prop]);
+          encodedString += `${encodeURIComponent(prop)}=${encodeURIComponent(object[prop])}`;
         } else {
-          encodedString +=
-            encodeURIComponent(prefix) + '[' + encodeURIComponent(prop) + ']=' + encodeURIComponent(
-            object[prop]);
+          encodedString
+            += `${encodeURIComponent(prefix)}[${encodeURIComponent(prop)}]=${encodeURIComponent(
+              object[prop],
+            )}`;
         }
 
         continue;
