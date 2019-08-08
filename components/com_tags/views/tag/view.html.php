@@ -259,7 +259,7 @@ class TagsViewTag extends JViewLegacy
 		$app              = JFactory::getApplication();
 		$menu             = $app->getMenu()->getActive();
 		$this->tags_title = $this->getTagsTitle();
-		$pathway	      = $app->getPathway();
+		$pathway          = $app->getPathway();
 		$title            = '';
 
 		// Highest priority for "Browser Page Title".
