@@ -1722,4 +1722,20 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 
 		return true;
 	}
+
+	/**
+	 * Check if the record has a property (applying a column alias if it exists)
+	 *
+	 * @param   string  $key  key to be checked
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function hasField($key)
+	{
+		$key = $this->getColumnAlias($key);
+
+		return property_exists($this, $key);
+	}
 }
