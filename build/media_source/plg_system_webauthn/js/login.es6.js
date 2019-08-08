@@ -14,16 +14,14 @@
  *
  * @returns {Element|null}  NULL when no element is found
  */
-function plgSystemWebauthnFindField(elForm, fieldSelector)
-{
-    let elInputs = elForm.querySelectorAll(fieldSelector);
+function plgSystemWebauthnFindField(elForm, fieldSelector) {
+	let elInputs = elForm.querySelectorAll(fieldSelector);
 
-    if (!elInputs.length)
-    {
-        return null;
-    }
+	if (!elInputs.length) {
+		return null;
+	}
 
-    return elInputs[0];
+	return elInputs[0];
 }
 
 /**
@@ -35,13 +33,11 @@ function plgSystemWebauthnFindField(elForm, fieldSelector)
  *
  * @returns {null|Element}  NULL when no element is found
  */
-function plgSystemWebauthnLookForField(outerElement, fieldSelector)
-{
-    var elElement = outerElement.parentElement;
-    var elInput   = null;
+function plgSystemWebauthnLookForField(outerElement, fieldSelector) {
+	var elElement = outerElement.parentElement;
+	var elInput = null;
 
-	if (elElement.nodeName === "FORM")
-	{
+	if (elElement.nodeName === "FORM") {
 		elInput = plgSystemWebauthnFindField(elElement, fieldSelector);
 
 		return elInput;
@@ -49,20 +45,17 @@ function plgSystemWebauthnLookForField(outerElement, fieldSelector)
 
 	var elForms = elElement.querySelectorAll("form");
 
-	if (elForms.length)
-	{
-		for (var i = 0; i < elForms.length; i++)
-		{
+	if (elForms.length) {
+		for (var i = 0; i < elForms.length; i++) {
 			elInput = plgSystemWebauthnFindField(elForms[i], fieldSelector);
 
-			if (elInput !== null)
-			{
+			if (elInput !== null) {
 				return elInput;
 			}
 		}
 	}
 
-    return null;
+	return null;
 }
 
 /**
@@ -73,26 +66,23 @@ function plgSystemWebauthnLookForField(outerElement, fieldSelector)
  *
  * @returns {boolean}  Always FALSE to prevent BUTTON elements from reloading the page.
  */
-function plgSystemWebauthnLogin(form_id, callback_url)
-{
+function plgSystemWebauthnLogin(form_id, callback_url) {
 	// Get the username
 	let elFormContainer = document.getElementById(form_id);
-	let elUsername      = plgSystemWebauthnLookForField(elFormContainer, "input[name=username]");
-	let elReturn        = plgSystemWebauthnLookForField(elFormContainer, "input[name=return]");
+	let elUsername = plgSystemWebauthnLookForField(elFormContainer, "input[name=username]");
+	let elReturn = plgSystemWebauthnLookForField(elFormContainer, "input[name=return]");
 
-	if (elUsername === null)
-	{
+	if (elUsername === null) {
 		alert(Joomla.JText._("PLG_SYSTEM_WEBAUTHN_ERR_CANNOT_FIND_USERNAME"));
 
 		return false;
 	}
 
-	let username  = elUsername.value;
+	let username = elUsername.value;
 	let returnUrl = elReturn ? elReturn.value : null;
 
 	// No username? We cannot proceed. We need a username to find the acceptable public keys :(
-	if (username === "")
-	{
+	if (username === "") {
 		alert(Joomla.JText._("PLG_SYSTEM_WEBAUTHN_ERR_EMPTY_USERNAME"));
 
 		return false;
@@ -100,29 +90,26 @@ function plgSystemWebauthnLogin(form_id, callback_url)
 
 	// Get the Public Key Credential Request Options (challenge and acceptable public keys)
 	let postBackData = {
-		"option":    "com_ajax",
-		"group":     "system",
-		"plugin":    "webauthn",
-		"format":    "raw",
-		"akaction":  "challenge",
-		"encoding":  "raw",
-		"username":  username,
+		"option": "com_ajax",
+		"group": "system",
+		"plugin": "webauthn",
+		"format": "raw",
+		"akaction": "challenge",
+		"encoding": "raw",
+		"username": username,
 		"returnUrl": returnUrl,
 	};
 
 	Joomla.request({
-		url:     callback_url,
-		method:  'POST',
-		data:    plgSystemWebauthnInterpolateParameters(postBackData),
+		url: callback_url,
+		method: 'POST',
+		data: plgSystemWebauthnInterpolateParameters(postBackData),
 		onSuccess(rawResponse) {
 			let jsonData = {};
 
-			try
-			{
+			try {
 				jsonData = JSON.parse(rawResponse);
-			}
-			catch (e)
-			{
+			} catch (e) {
 				/**
 				 * In case of JSON decoding failure fall through; the error will be handled in the login challenge
 				 * handler called below.
@@ -146,51 +133,48 @@ function plgSystemWebauthnLogin(form_id, callback_url)
  * @param {  Object}  publicKey     Public key request options, returned from the server
  * @param   {String}  callback_url  The URL we will use to post back to the server. Must include the anti-CSRF token.
  */
-function plgSystemWebauthnHandleLoginChallenge(publicKey, callback_url)
-{
-    function arrayToBase64String(a)
-    {
-        return btoa(String.fromCharCode(...a));
-    }
+function plgSystemWebauthnHandleLoginChallenge(publicKey, callback_url) {
+	function arrayToBase64String(a) {
+		return btoa(String.fromCharCode(...a));
+	}
 
-    if (!publicKey.challenge)
-    {
-        plgSystemWebauthnHandleLoginError(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_INVALID_USERNAME'));
+	if (!publicKey.challenge) {
+		plgSystemWebauthnHandleLoginError(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_INVALID_USERNAME'));
 
-        return;
-    }
+		return;
+	}
 
-    publicKey.challenge        = Uint8Array.from(window.atob(publicKey.challenge), c => c.charCodeAt(0));
-    publicKey.allowCredentials = publicKey.allowCredentials.map(function (data) {
-        return {
-            ...data,
-            "id": Uint8Array.from(atob(data.id), c => c.charCodeAt(0))
-        };
-    });
+	publicKey.challenge = Uint8Array.from(window.atob(publicKey.challenge), c => c.charCodeAt(0));
+	publicKey.allowCredentials = publicKey.allowCredentials.map(function (data) {
+		return {
+			...data,
+			"id": Uint8Array.from(atob(data.id), c => c.charCodeAt(0))
+		};
+	});
 
-    navigator.credentials.get({publicKey})
-        .then(data => {
-            let publicKeyCredential = {
-                id:       data.id,
-                type:     data.type,
-                rawId:    arrayToBase64String(new Uint8Array(data.rawId)),
-                response: {
-                    authenticatorData: arrayToBase64String(new Uint8Array(data.response.authenticatorData)),
-                    clientDataJSON:    arrayToBase64String(new Uint8Array(data.response.clientDataJSON)),
-                    signature:         arrayToBase64String(new Uint8Array(data.response.signature)),
-                    userHandle:        data.response.userHandle ? arrayToBase64String(
-                        new Uint8Array(data.response.userHandle)) : null
-                }
-            };
+	navigator.credentials.get({publicKey})
+		.then(data => {
+			let publicKeyCredential = {
+				id: data.id,
+				type: data.type,
+				rawId: arrayToBase64String(new Uint8Array(data.rawId)),
+				response: {
+					authenticatorData: arrayToBase64String(new Uint8Array(data.response.authenticatorData)),
+					clientDataJSON: arrayToBase64String(new Uint8Array(data.response.clientDataJSON)),
+					signature: arrayToBase64String(new Uint8Array(data.response.signature)),
+					userHandle: data.response.userHandle ? arrayToBase64String(
+						new Uint8Array(data.response.userHandle)) : null
+				}
+			};
 
-            window.location = callback_url + '&option=com_ajax&group=system&plugin=webauthn&format=raw&akaction=login&encoding=redirect&data=' +
-                btoa(JSON.stringify(publicKeyCredential));
+			window.location = callback_url + '&option=com_ajax&group=system&plugin=webauthn&format=raw&akaction=login&encoding=redirect&data=' +
+				btoa(JSON.stringify(publicKeyCredential));
 
-        }, error => {
-            // Example: timeout, interaction refused...
-            console.log(error);
-            plgSystemWebauthnHandleLoginError(error);
-        });
+		}, error => {
+			// Example: timeout, interaction refused...
+			console.log(error);
+			plgSystemWebauthnHandleLoginError(error);
+		});
 }
 
 /**
@@ -198,11 +182,10 @@ function plgSystemWebauthnHandleLoginChallenge(publicKey, callback_url)
  *
  * @param   {String}  message
  */
-function plgSystemWebauthnHandleLoginError(message)
-{
-    alert(message);
+function plgSystemWebauthnHandleLoginError(message) {
+	alert(message);
 
-    console.log(message);
+	console.log(message);
 }
 
 /**
@@ -214,28 +197,20 @@ function plgSystemWebauthnHandleLoginError(message)
  *
  * @returns  {string}
  */
-function plgSystemWebauthnInterpolateParameters(object, prefix)
-{
-	prefix            = prefix || "";
+function plgSystemWebauthnInterpolateParameters(object, prefix) {
+	prefix = prefix || "";
 	var encodedString = "";
 
-	for (var prop in object)
-	{
-		if (object.hasOwnProperty(prop))
-		{
-			if (encodedString.length > 0)
-			{
+	for (var prop in object) {
+		if (object.hasOwnProperty(prop)) {
+			if (encodedString.length > 0) {
 				encodedString += "&";
 			}
 
-			if (typeof object[prop] !== "object")
-			{
-				if (prefix === "")
-				{
+			if (typeof object[prop] !== "object") {
+				if (prefix === "") {
 					encodedString += encodeURIComponent(prop) + "=" + encodeURIComponent(object[prop]);
-				}
-				else
-				{
+				} else {
 					encodedString +=
 						encodeURIComponent(prefix) + "[" + encodeURIComponent(prop) + "]=" + encodeURIComponent(
 						object[prop]);
