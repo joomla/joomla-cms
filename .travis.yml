@@ -26,9 +26,11 @@ matrix:
       env:
         - INSTALL_APCU="no"
         - INSTALL_MEMCACHE="yes"
+      dist: trusty
     - php: 5.5
       env:
         - INSTALL_MEMCACHE="yes"
+      dist: trusty
     - php: 5.6
       env:
         - INSTALL_MEMCACHE="yes"
@@ -45,6 +47,7 @@ services:
   - memcache
   - memcached
   - redis-server
+  - mysql
 
 before_script:
   # Make sure all dev dependencies are installed
