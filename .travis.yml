@@ -48,6 +48,7 @@ services:
   - memcached
   - redis-server
   - mysql
+  - postgresql
 
 before_script:
   # Make sure all dev dependencies are installed
