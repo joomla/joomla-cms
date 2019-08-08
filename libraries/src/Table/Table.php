@@ -1730,7 +1730,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.11
 	 */
 	public function hasField($key)
 	{
