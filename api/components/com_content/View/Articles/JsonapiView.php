@@ -35,9 +35,10 @@ class JsonapiView extends BaseApiView
 		'asset_id',
 		'title',
 		'text',
+		'tags',
 		'state',
 		'catid',
-		'created'
+		'created',
 	];
 
 	/**
@@ -52,9 +53,10 @@ class JsonapiView extends BaseApiView
 		'asset_id',
 		'title',
 		'text',
+		'tags',
 		'state',
 		'catid',
-		'created'
+		'created',
 	];
 
 	/**
@@ -124,6 +126,11 @@ class JsonapiView extends BaseApiView
 		{
 			$item->{$field->name} = isset($field->apivalue) ? $field->apivalue : $field->rawvalue;
 		}
+
+		$tagsIds   = explode(',', $item->tags->tags);
+		$tagsNames = $item->tagsHelper->getTagNames($tagsIds);
+
+		$item->tags = array_combine($tagsIds, $tagsNames);
 
 		return parent::prepareItem($item);
 	}

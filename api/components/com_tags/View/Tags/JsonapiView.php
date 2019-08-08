@@ -1,20 +1,20 @@
 <?php
 /**
  * @package     Joomla.API
- * @subpackage  com_banners
+ * @subpackage  com_tags
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Banners\Api\View\Banners;
+namespace Joomla\Component\Tags\Api\View\Tags;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 /**
- * The banners view
+ * The tags view
  *
  * @since  4.0.0
  */
@@ -27,42 +27,37 @@ class JsonapiView extends BaseApiView
 	 * @since  4.0.0
 	 */
 	protected $fieldsToRenderItem = [
-		'typeAlias',
 		'id',
-		'cid',
-		'type',
-		'name',
+		'parent_id',
+		'level',
+		'lft',
+		'rgt',
 		'alias',
-		'imptotal',
-		'impmade',
-		'clicks',
-		'clickurl',
-		'state',
-		'catid',
+		'typeAlias',
+		'path',
+		'title',
+		'note',
 		'description',
-		'custombannercode',
-		'sticky',
-		'ordering',
-		'metakey',
-		'params',
-		'own_prefix',
-		'metakey_prefix',
-		'purchase_type',
-		'track_clicks',
-		'track_impressions',
+		'published',
 		'checked_out',
 		'checked_out_time',
+		'access',
+		'params',
+		'metadesc',
+		'metakey',
+		'metadata',
+		'created_user_id',
+		'created_time',
+		'created_by_alias',
+		'modified_user_id',
+		'modified_time',
+		'images',
+		'urls',
+		'hits',
+		'language',
+		'version',
 		'publish_up',
 		'publish_down',
-		'reset',
-		'created',
-		'language',
-		'created_by',
-		'created_by_alias',
-		'modified',
-		'modified_by',
-		'version',
-		'contenthistoryHelper',
 	];
 
 	/**
@@ -73,26 +68,25 @@ class JsonapiView extends BaseApiView
 	 */
 	protected $fieldsToRenderList = [
 		'id',
-		'name',
+		'title',
 		'alias',
+		'note',
+		'published',
+		'access',
+		'description',
 		'checked_out',
 		'checked_out_time',
-		'catid',
-		'clicks',
-		'metakey',
-		'sticky',
-		'impmade',
-		'imptotal',
-		'state',
-		'ordering',
-		'purchase_type',
+		'created_user_id',
+		'path',
+		'parent_id',
+		'level',
+		'lft',
+		'rgt',
 		'language',
-		'publish_up',
-		'publish_down',
+		'language_title',
 		'language_image',
 		'editor',
-		'category_title',
-		'client_name',
-		'client_purchase_type'
+		'author_name',
+		'access_title'
 	];
 }
