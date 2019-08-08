@@ -7,6 +7,45 @@
  */
 
 /**
+ * Converts a simple object containing query string parameters to a single, escaped query string.
+ * This method is a necessary evil since Joomla.request can only accept data as a string.
+ *
+ * @param    object   {object}  A plain object containing the query parameters to pass
+ * @param    prefix   {string}  Prefix for array-type parameters
+ *
+ * @returns  {string}
+ */
+function plgSystemWebauthnInterpolateParameters(object, thisParamIsThePrefix) {
+  const prefix = thisParamIsThePrefix || '';
+  let encodedString = '';
+
+  for (const prop in object) {
+    if (object.hasOwnProperty(prop)) {
+      if (encodedString.length > 0) {
+        encodedString += '&';
+      }
+
+      if (typeof object[prop] !== 'object') {
+        if (prefix === '') {
+          encodedString += `${encodeURIComponent(prop)}=${encodeURIComponent(object[prop])}`;
+        } else {
+          encodedString
+            += `${encodeURIComponent(prefix)}[${encodeURIComponent(prop)}]=${encodeURIComponent(
+              object[prop],
+            )}`;
+        }
+
+        continue;
+      }
+
+      // Objects need special handling
+      encodedString += plgSystemWebauthnInterpolateParameters(object[prop], prop);
+    }
+  }
+  return encodedString;
+}
+
+/**
  * Finds the first field matching a selector inside a form
  *
  * @param   {HTMLFormElement}  elForm         The FORM element
@@ -46,7 +85,7 @@ function plgSystemWebauthnLookForField(outerElement, fieldSelector) {
   const elForms = elElement.querySelectorAll('form');
 
   if (elForms.length) {
-    for (let i = 0; i < elForms.length; i++) {
+    for (let i = 0; i < elForms.length; i += 1) {
       elInput = plgSystemWebauthnFindField(elForms[i], fieldSelector);
 
       if (elInput !== null) {
@@ -62,15 +101,15 @@ function plgSystemWebauthnLookForField(outerElement, fieldSelector) {
  * Initialize the passwordless login, going through the server to get the registered certificates
  * for the user.
  *
- * @param   {string}   form_id       The login form's or login module's HTML ID
- * @param   {string}   callback_url  The URL we will use to post back to the server. Must include
+ * @param   {string}   formId       The login form's or login module's HTML ID
+ * @param   {string}   callbackUrl  The URL we will use to post back to the server. Must include
  *   the anti-CSRF token.
  *
  * @returns {boolean}  Always FALSE to prevent BUTTON elements from reloading the page.
  */
-function plgSystemWebauthnLogin(form_id, callback_url) {
+function plgSystemWebauthnLogin(formId, callbackUrl) {
   // Get the username
-  const elFormContainer = document.getElementById(form_id);
+  const elFormContainer = document.getElementById(formId);
   const elUsername = plgSystemWebauthnLookForField(elFormContainer, 'input[name=username]');
   const elReturn = plgSystemWebauthnLookForField(elFormContainer, 'input[name=return]');
 
@@ -103,7 +142,7 @@ function plgSystemWebauthnLogin(form_id, callback_url) {
   };
 
   Joomla.request({
-    url: callback_url,
+    url: callbackUrl,
     method: 'POST',
     data: plgSystemWebauthnInterpolateParameters(postBackData),
     onSuccess(rawResponse) {
@@ -118,7 +157,7 @@ function plgSystemWebauthnLogin(form_id, callback_url) {
          */
       }
 
-      plgSystemWebauthnHandleLoginChallenge(jsonData, callback_url);
+      plgSystemWebauthnHandleLoginChallenge(jsonData, callbackUrl);
     },
     onError: (xhr) => {
       plgSystemWebauthnHandleLoginError(`${xhr.status} ${xhr.statusText}`);
@@ -188,43 +227,4 @@ function plgSystemWebauthnHandleLoginError(message) {
   alert(message);
 
   console.log(message);
-}
-
-/**
- * Converts a simple object containing query string parameters to a single, escaped query string.
- * This method is a necessary evil since Joomla.request can only accept data as a string.
- *
- * @param    object   {object}  A plain object containing the query parameters to pass
- * @param    prefix   {string}  Prefix for array-type parameters
- *
- * @returns  {string}
- */
-function plgSystemWebauthnInterpolateParameters(object, prefix) {
-  prefix = prefix || '';
-  let encodedString = '';
-
-  for (const prop in object) {
-    if (object.hasOwnProperty(prop)) {
-      if (encodedString.length > 0) {
-        encodedString += '&';
-      }
-
-      if (typeof object[prop] !== 'object') {
-        if (prefix === '') {
-          encodedString += `${encodeURIComponent(prop)}=${encodeURIComponent(object[prop])}`;
-        } else {
-          encodedString
-            += `${encodeURIComponent(prefix)}[${encodeURIComponent(prop)}]=${encodeURIComponent(
-              object[prop],
-            )}`;
-        }
-
-        continue;
-      }
-
-      // Objects need special handling
-      encodedString += plgSystemWebauthnInterpolateParameters(object[prop], prop);
-    }
-  }
-  return encodedString;
 }
