@@ -146,7 +146,7 @@ trait AdditionalLoginButtons
 
 		// Set up the JavaScript callback
 		$url = $uri->toString();
-		$onClick = "return plg_system_webauthn_login('{$form}', '{$url}')";
+		$onClick = "return plgSystemWebauthnLogin('{$form}', '{$url}')";
 
 		return [
 			[

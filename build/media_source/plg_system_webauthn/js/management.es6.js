@@ -14,7 +14,7 @@
  * @param   {String}  store_id            CSS ID for the element storing the configuration in its data properties
  * @param   {String}  interface_selector  CSS selector for the GUI container
  */
-function plg_system_webauthn_create_credentials(store_id, interface_selector)
+function plgSystemWebauthnCreateCredentials(store_id, interface_selector)
 {
     // Make sure the browser supports Webauthn
     if (!('credentials' in navigator)) {
@@ -79,9 +79,9 @@ function plg_system_webauthn_create_credentials(store_id, interface_selector)
             };
 
             Joomla.request({
-				url: post_url,
-				method: 'POST',
-				data: plg_system_webauthn_interpolate_parameters(postBackData),
+				url:     post_url,
+				method:  'POST',
+				data:    plgSystemWebauthnInterpolateParameters(postBackData),
 				onSuccess(responseHTML) {
 					let elements = document.querySelectorAll(interface_selector);
 
@@ -95,13 +95,13 @@ function plg_system_webauthn_create_credentials(store_id, interface_selector)
 					elContainer.outerHTML = responseHTML;
 				},
 				onError: (xhr) => {
-					plg_system_webauthn_handle_creation_error(xhr.status + ' ' + xhr.statusText)
+					plgSystemWebauthnHandleCreationError(xhr.status + ' ' + xhr.statusText)
 				}
 			});
 
         }, function (error) {
             // An error occurred: timeout, request to provide the authenticator refused, hardware / software error...
-            plg_system_webauthn_handle_creation_error(error);
+            plgSystemWebauthnHandleCreationError(error);
         });
 }
 
@@ -110,7 +110,7 @@ function plg_system_webauthn_create_credentials(store_id, interface_selector)
  *
  * @param   {String}  message
  */
-function plg_system_webauthn_handle_creation_error(message)
+function plgSystemWebauthnHandleCreationError(message)
 {
     alert(message);
 
@@ -123,7 +123,7 @@ function plg_system_webauthn_handle_creation_error(message)
  * @param   {Element} that      The button being clicked
  * @param   {String}  store_id  CSS ID for the element storing the configuration in its data properties
  */
-function plg_system_webauthn_edit_label(that, store_id)
+function plgSystemWebauthnEditLabel(that, store_id)
 {
     // Extract the configuration from the store
     let elStore = document.getElementById(store_id);
@@ -173,9 +173,9 @@ function plg_system_webauthn_edit_label(that, store_id)
             };
 
 			Joomla.request({
-				url: post_url,
-				method: 'POST',
-				data: plg_system_webauthn_interpolate_parameters(postBackData),
+				url:     post_url,
+				method:  'POST',
+				data:    plgSystemWebauthnInterpolateParameters(postBackData),
 				onSuccess(rawResponse) {
 					let result = false;
 
@@ -190,13 +190,13 @@ function plg_system_webauthn_edit_label(that, store_id)
 
 					if (result !== true)
 					{
-						plg_system_webauthn_handle_creation_error(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED'));
+						plgSystemWebauthnHandleCreationError(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED'));
 					}
 
 					//alert(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_MSG_SAVED_LABEL'));
 				},
 				onError: (xhr) => {
-					plg_system_webauthn_handle_creation_error(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED') + ' -- ' + xhr.status + ' ' + xhr.statusText);
+					plgSystemWebauthnHandleCreationError(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED') + ' -- ' + xhr.status + ' ' + xhr.statusText);
 				}
 			});
         }
@@ -235,7 +235,7 @@ function plg_system_webauthn_edit_label(that, store_id)
  * @param   {Element} that      The button being clicked
  * @param   {String}  store_id  CSS ID for the element storing the configuration in its data properties
  */
-function plg_system_webauthn_delete(that, store_id)
+function plgSystemWebauthnDelete(that, store_id)
 {
     // Extract the configuration from the store
     let elStore = document.getElementById(store_id);
@@ -271,9 +271,9 @@ function plg_system_webauthn_delete(that, store_id)
     };
 
 	Joomla.request({
-		url: post_url,
-		method: 'POST',
-		data: plg_system_webauthn_interpolate_parameters(postBackData),
+		url:     post_url,
+		method:  'POST',
+		data:    plgSystemWebauthnInterpolateParameters(postBackData),
 		onSuccess(rawResponse) {
 			let result = false;
 
@@ -288,7 +288,7 @@ function plg_system_webauthn_delete(that, store_id)
 
 			if (result !== true)
 			{
-				plg_system_webauthn_handle_creation_error(Joomla.JText._("PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED"));
+				plgSystemWebauthnHandleCreationError(Joomla.JText._("PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED"));
 
 				return;
 			}
@@ -299,7 +299,7 @@ function plg_system_webauthn_delete(that, store_id)
 			elEdit.disabled     = false;
 			elDelete.disabled   = false;
 
-			plg_system_webauthn_handle_creation_error(Joomla.JText._("PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED") + " -- " + xhr.status + " " + xhr.statusText);
+			plgSystemWebauthnHandleCreationError(Joomla.JText._("PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED") + " -- " + xhr.status + " " + xhr.statusText);
 
 		}
 	});
@@ -316,7 +316,7 @@ function plg_system_webauthn_delete(that, store_id)
  *
  * @returns  {string}
  */
-function plg_system_webauthn_interpolate_parameters(object, prefix)
+function plgSystemWebauthnInterpolateParameters(object, prefix)
 {
 	prefix            = prefix || "";
 	var encodedString = "";
@@ -347,7 +347,7 @@ function plg_system_webauthn_interpolate_parameters(object, prefix)
 			}
 
 			// Objects need special handling
-			encodedString += plg_system_webauthn_interpolate_parameters(object[prop], prop);
+			encodedString += plgSystemWebauthnInterpolateParameters(object[prop], prop);
 		}
 	}
 	return encodedString;

@@ -14,7 +14,7 @@
  *
  * @returns {Element|null}  NULL when no element is found
  */
-function plg_system_webauthn_findField(elForm, fieldSelector)
+function plgSystemWebauthnFindField(elForm, fieldSelector)
 {
     let elInputs = elForm.querySelectorAll(fieldSelector);
 
@@ -35,14 +35,14 @@ function plg_system_webauthn_findField(elForm, fieldSelector)
  *
  * @returns {null|Element}  NULL when no element is found
  */
-function plg_system_webauthn_lookForField(outerElement, fieldSelector)
+function plgSystemWebauthnLookForField(outerElement, fieldSelector)
 {
     var elElement = outerElement.parentElement;
     var elInput   = null;
 
 	if (elElement.nodeName === "FORM")
 	{
-		elInput = plg_system_webauthn_findField(elElement, fieldSelector);
+		elInput = plgSystemWebauthnFindField(elElement, fieldSelector);
 
 		return elInput;
 	}
@@ -53,7 +53,7 @@ function plg_system_webauthn_lookForField(outerElement, fieldSelector)
 	{
 		for (var i = 0; i < elForms.length; i++)
 		{
-			elInput = plg_system_webauthn_findField(elForms[i], fieldSelector);
+			elInput = plgSystemWebauthnFindField(elForms[i], fieldSelector);
 
 			if (elInput !== null)
 			{
@@ -73,12 +73,12 @@ function plg_system_webauthn_lookForField(outerElement, fieldSelector)
  *
  * @returns {boolean}  Always FALSE to prevent BUTTON elements from reloading the page.
  */
-function plg_system_webauthn_login(form_id, callback_url)
+function plgSystemWebauthnLogin(form_id, callback_url)
 {
 	// Get the username
 	let elFormContainer = document.getElementById(form_id);
-	let elUsername      = plg_system_webauthn_lookForField(elFormContainer, "input[name=username]");
-	let elReturn        = plg_system_webauthn_lookForField(elFormContainer, "input[name=return]");
+	let elUsername      = plgSystemWebauthnLookForField(elFormContainer, "input[name=username]");
+	let elReturn        = plgSystemWebauthnLookForField(elFormContainer, "input[name=return]");
 
 	if (elUsername === null)
 	{
@@ -111,9 +111,9 @@ function plg_system_webauthn_login(form_id, callback_url)
 	};
 
 	Joomla.request({
-		url: callback_url,
-		method: 'POST',
-		data: plg_system_webauthn_interpolate_parameters(postBackData),
+		url:     callback_url,
+		method:  'POST',
+		data:    plgSystemWebauthnInterpolateParameters(postBackData),
 		onSuccess(rawResponse) {
 			let jsonData = {};
 
@@ -129,10 +129,10 @@ function plg_system_webauthn_login(form_id, callback_url)
 				 */
 			}
 
-			plg_system_webauthn_handle_login_challenge(jsonData, callback_url);
+			plgSystemWebauthnHandleLoginChallenge(jsonData, callback_url);
 		},
 		onError: (xhr) => {
-			plg_system_webauthn_handle_login_error(xhr.status + " " + xhr.statusText);
+			plgSystemWebauthnHandleLoginError(xhr.status + " " + xhr.statusText);
 		}
 	});
 
@@ -146,7 +146,7 @@ function plg_system_webauthn_login(form_id, callback_url)
  * @param {  Object}  publicKey     Public key request options, returned from the server
  * @param   {String}  callback_url  The URL we will use to post back to the server. Must include the anti-CSRF token.
  */
-function plg_system_webauthn_handle_login_challenge(publicKey, callback_url)
+function plgSystemWebauthnHandleLoginChallenge(publicKey, callback_url)
 {
     function arrayToBase64String(a)
     {
@@ -155,7 +155,7 @@ function plg_system_webauthn_handle_login_challenge(publicKey, callback_url)
 
     if (!publicKey.challenge)
     {
-        plg_system_webauthn_handle_login_error(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_INVALID_USERNAME'));
+        plgSystemWebauthnHandleLoginError(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_INVALID_USERNAME'));
 
         return;
     }
@@ -189,7 +189,7 @@ function plg_system_webauthn_handle_login_challenge(publicKey, callback_url)
         }, error => {
             // Example: timeout, interaction refused...
             console.log(error);
-            plg_system_webauthn_handle_login_error(error);
+            plgSystemWebauthnHandleLoginError(error);
         });
 }
 
@@ -198,7 +198,7 @@ function plg_system_webauthn_handle_login_challenge(publicKey, callback_url)
  *
  * @param   {String}  message
  */
-function plg_system_webauthn_handle_login_error(message)
+function plgSystemWebauthnHandleLoginError(message)
 {
     alert(message);
 
@@ -214,7 +214,7 @@ function plg_system_webauthn_handle_login_error(message)
  *
  * @returns  {string}
  */
-function plg_system_webauthn_interpolate_parameters(object, prefix)
+function plgSystemWebauthnInterpolateParameters(object, prefix)
 {
 	prefix            = prefix || "";
 	var encodedString = "";
@@ -245,7 +245,7 @@ function plg_system_webauthn_interpolate_parameters(object, prefix)
 			}
 
 			// Objects need special handling
-			encodedString += plg_system_webauthn_interpolate_parameters(object[prop], prop);
+			encodedString += plgSystemWebauthnInterpolateParameters(object[prop], prop);
 		}
 	}
 	return encodedString;
