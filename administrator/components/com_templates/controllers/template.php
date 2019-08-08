@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,7 +72,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	public function copy()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app = JFactory::getApplication();
 		$this->input->set('installtype', 'folder');
@@ -204,7 +204,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	public function save()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app          = JFactory::getApplication();
 		$data         = $this->input->post->get('jform', array(), 'array');
@@ -373,14 +373,14 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	public function delete()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app   = JFactory::getApplication();
 		$model = $this->getModel();
 		$id    = $app->input->get('id');
 		$file  = $app->input->get('file');
 
-		if (base64_decode(urldecode($file)) == 'index.php')
+		if (base64_decode(urldecode($file)) == '/index.php')
 		{
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_INDEX_DELETE'), 'warning');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
@@ -412,7 +412,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	public function createFile()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel();
@@ -459,7 +459,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	public function uploadFile()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel();
@@ -493,7 +493,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	public function createFolder()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel();
@@ -532,7 +532,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	public function deleteFolder()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel();
@@ -576,7 +576,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	public function renameFile()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app     = JFactory::getApplication();
 		$model   = $this->getModel();
@@ -584,7 +584,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		$file    = $app->input->get('file');
 		$newName = $app->input->get('new_name');
 
-		if (base64_decode(urldecode($file)) == 'index.php')
+		if (base64_decode(urldecode($file)) == '/index.php')
 		{
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_RENAME_INDEX'), 'warning');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
@@ -688,7 +688,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	public function copyFile()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app      = JFactory::getApplication();
 		$id       = $app->input->get('id');
@@ -726,7 +726,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	public function extractArchive()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app   = JFactory::getApplication();
 		$id    = $app->input->get('id');

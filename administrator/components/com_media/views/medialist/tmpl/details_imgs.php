@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ $dispatcher = JEventDispatcher::getInstance();
 ?>
 
 <?php foreach ($this->images as $i => $image) : ?>
-	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$image, &$params)); ?>
+	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$image, &$params, 0)); ?>
 	<tr>
 		<?php if ($this->canDelete) : ?>
 			<td>
@@ -28,13 +28,13 @@ $dispatcher = JEventDispatcher::getInstance();
 		<?php endif; ?>
 
 		<td>
-			<a class="img-preview" href="<?php echo COM_MEDIA_BASEURL, '/', rawurlencode($image->path_relative); ?>" title="<?php echo $this->escape($image->name); ?>">
+			<a class="img-preview" href="<?php echo COM_MEDIA_BASEURL . '/' . str_replace('%2F', '/', rawurlencode($image->path_relative)); ?>" title="<?php echo $this->escape($image->name); ?>">
 				<?php echo JHtml::_('image', COM_MEDIA_BASEURL . '/' . $this->escape($image->path_relative), JText::sprintf('COM_MEDIA_IMAGE_TITLE', $this->escape($image->title), JHtml::_('number.bytes', $image->size)), array('width' => $image->width_16, 'height' => $image->height_16)); ?>
 			</a>
 		</td>
 
 		<td class="description">
-			<a href="<?php echo  COM_MEDIA_BASEURL, '/', rawurlencode($image->path_relative); ?>" title="<?php echo $this->escape($image->name); ?>" class="preview">
+			<a href="<?php echo  COM_MEDIA_BASEURL . '/' . str_replace('%2F', '/', rawurlencode($image->path_relative)); ?>" title="<?php echo $this->escape($image->name); ?>" class="preview">
 				<?php echo $this->escape($image->title); ?>
 			</a>
 		</td>
@@ -55,5 +55,5 @@ $dispatcher = JEventDispatcher::getInstance();
 			</td>
 		<?php endif; ?>
 	</tr>
-	<?php $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$image, &$params)); ?>
+	<?php $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$image, &$params, 0)); ?>
 <?php endforeach; ?>

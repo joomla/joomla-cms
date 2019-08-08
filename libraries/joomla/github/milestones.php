@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Milestones class for the Joomla Platform.
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubMilestones extends JGithubObject
@@ -32,7 +32,7 @@ class JGithubMilestones extends JGithubObject
 	 *
 	 * @return  array
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getList($user, $repo, $state = 'open', $sort = 'due_date', $direction = 'desc', $page = 0, $limit = 0)
 	{
@@ -68,7 +68,7 @@ class JGithubMilestones extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function get($user, $repo, $milestoneId)
 	{
@@ -103,7 +103,7 @@ class JGithubMilestones extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function create($user, $repo, $title, $state = null, $description = null, $due_on = null)
 	{
@@ -161,7 +161,7 @@ class JGithubMilestones extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function edit($user, $repo, $milestoneId, $title = null, $state = null, $description = null, $due_on = null)
 	{
@@ -218,7 +218,7 @@ class JGithubMilestones extends JGithubObject
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function delete($user, $repo, $milestoneId)
 	{

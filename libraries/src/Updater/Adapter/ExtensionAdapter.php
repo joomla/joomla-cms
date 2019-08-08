@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ use Joomla\CMS\Version;
 /**
  * Extension class for updater
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class ExtensionAdapter extends UpdateAdapter
 {
@@ -35,7 +35,7 @@ class ExtensionAdapter extends UpdateAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _startElement($parser, $name, $attrs = array())
 	{
@@ -95,7 +95,7 @@ class ExtensionAdapter extends UpdateAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _endElement($parser, $name)
 	{
@@ -165,7 +165,7 @@ class ExtensionAdapter extends UpdateAdapter
 						$dbVersion    = $db->getVersion();
 						$supportedDbs = $this->currentUpdate->supported_databases;
 
-						// Do we have a entry for the database?
+						// Do we have an entry for the database?
 						if (array_key_exists($dbType, $supportedDbs))
 						{
 							$minumumVersion = $supportedDbs[$dbType];
@@ -266,7 +266,7 @@ class ExtensionAdapter extends UpdateAdapter
 	 * @return  void
 	 *
 	 * @note    This is public because its called externally.
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _characterData($parser, $data)
 	{
@@ -296,7 +296,7 @@ class ExtensionAdapter extends UpdateAdapter
 	 *
 	 * @return  array  Array containing the array of update sites and array of updates
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function findUpdate($options)
 	{

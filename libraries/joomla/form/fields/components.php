@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -33,7 +33,7 @@ class JFormFieldComponents extends JFormFieldList
 	 *
 	 * @return	array  An array of JHtml options.
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	protected function getOptions()
 	{

@@ -351,6 +351,18 @@
 		</field>
 
 		<field
+			name="record_hits"
+			type="radio"
+			label="JGLOBAL_RECORD_HITS_LABEL"
+			description="JGLOBAL_RECORD_HITS_DESC"
+			class="btn-group btn-group-yesno"
+			default="1"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
 			name="show_noauth"
 			type="radio"
 			label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
@@ -867,6 +879,7 @@
 			<option value="author">JAUTHOR</option>
 			<option value="hits">JGLOBAL_HITS</option>
 			<option value="tag">JTAG</option>
+			<option value="month">JMONTH_PUBLISHED</option>
 		</field>
 
 		<field 
@@ -1054,6 +1067,12 @@
 	>
 
 		<field
+			name="integration_newsfeeds"
+			type="note"
+			label="JGLOBAL_FEED_TITLE"
+		/>
+
+		<field
 			name="show_feed_link"
 			type="radio"
 			label="JGLOBAL_SHOW_FEED_LINK_LABEL"
@@ -1091,6 +1110,12 @@
 		</field>
 
 		<field
+			name="integration_sef"
+			type="note"
+			label="JGLOBAL_SEF_TITLE"
+		/>
+
+		<field
 			name="sef_advanced"
 			type="radio"
 			class="btn-group btn-group-yesno btn-group-reversed"
@@ -1098,7 +1123,7 @@
 			label="JGLOBAL_SEF_ADVANCED_LABEL"
 			description="JGLOBAL_SEF_ADVANCED_DESC"
 			filter="integer"
-		>
+			>
 			<option value="0">JGLOBAL_SEF_ADVANCED_LEGACY</option>
 			<option value="1">JGLOBAL_SEF_ADVANCED_MODERN</option>
 		</field>
@@ -1111,10 +1136,17 @@
 			label="JGLOBAL_SEF_NOIDS_LABEL"
 			description="JGLOBAL_SEF_NOIDS_DESC"
 			showon="sef_advanced:1"
-			filter="integer">
+			filter="integer"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
+
+		<field
+			name="integration_customfields"
+			type="note"
+			label="JGLOBAL_FIELDS_TITLE"
+		/>
 
 		<field
 			name="custom_fields_enable"

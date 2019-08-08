@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ $dispatcher = JEventDispatcher::getInstance();
 ?>
 
 <?php foreach ($this->images as $i => $img) : ?>
-	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$img, &$params)); ?>
+	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$img, &$params, 0)); ?>
 	<li class="imgOutline thumbnail center">
 
 		<?php if ($this->canDelete):?>
@@ -37,10 +37,10 @@ $dispatcher = JEventDispatcher::getInstance();
 		</div>
 
 		<div class="imgPreview nowrap small">
-			<a href="<?php echo COM_MEDIA_BASEURL, '/', rawurlencode($img->path_relative); ?>" title="<?php echo $this->escape($img->name); ?>" class="preview truncate">
+			<a href="<?php echo COM_MEDIA_BASEURL . '/' . str_replace('%2F', '/', rawurlencode($img->path_relative)); ?>" title="<?php echo $this->escape($img->name); ?>" class="preview truncate">
 				<span class="icon-search" aria-hidden="true"></span><?php echo $this->escape($img->name); ?>
 			</a>
 		</div>
 	</li>
-	<?php $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$img, &$params)); ?>
+	<?php $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$img, &$params, 0)); ?>
 <?php endforeach; ?>

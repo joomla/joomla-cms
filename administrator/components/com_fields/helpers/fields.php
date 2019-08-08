@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -90,8 +90,7 @@ class FieldsHelper
 	{
 		if (self::$fieldsCache === null)
 		{
-			// Load the model
-			JLoader::import('joomla.application.component.model');
+			// Load the model			
 			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/models', 'FieldsModel');
 
 			self::$fieldsCache = JModelLegacy::getInstance('Fields', 'FieldsModel', array(
@@ -194,7 +193,7 @@ class FieldsHelper
 
 					$dispatcher = JEventDispatcher::getInstance();
 
-					// Event allow plugins to modfify the output of the field before it is prepared
+					// Event allow plugins to modify the output of the field before it is prepared
 					$dispatcher->trigger('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
 
 					// Gathering the value for the field
@@ -205,7 +204,7 @@ class FieldsHelper
 						$value = implode(' ', $value);
 					}
 
-					// Event allow plugins to modfify the output of the prepared field
+					// Event allow plugins to modify the output of the prepared field
 					$dispatcher->trigger('onCustomFieldsAfterPrepareField', array($context, $item, $field, &$value));
 
 					// Assign the value
@@ -591,7 +590,7 @@ class FieldsHelper
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   stdClass[]  $items  The field category objects
+	 * @param   stdClass[]  &$items  The fieldgroup objects
 	 *
 	 * @return  stdClass[]
 	 *
@@ -599,39 +598,14 @@ class FieldsHelper
 	 */
 	public static function countItems(&$items)
 	{
-		$db = JFactory::getDbo();
+		$config = (object) array(
+			'related_tbl'   => 'fields',
+			'state_col'     => 'state',
+			'group_col'     => 'group_id',
+			'relation_type' => 'category_or_group',
+		);
 
-		foreach ($items as $item)
-		{
-			$item->count_trashed     = 0;
-			$item->count_archived    = 0;
-			$item->count_unpublished = 0;
-			$item->count_published   = 0;
-
-			$query = $db->getQuery(true);
-			$query->select('state, count(1) AS count')
-				->from($db->quoteName('#__fields'))
-				->where('group_id = ' . (int) $item->id)
-				->group('state');
-			$db->setQuery($query);
-
-			$fields = $db->loadObjectList();
-
-			$states = array(
-				'-2' => 'count_trashed',
-				'0'  => 'count_unpublished',
-				'1'  => 'count_published',
-				'2'  => 'count_archived',
-			);
-
-			foreach ($fields as $field)
-			{
-				$property = $states[$field->state];
-				$item->$property = $field->count;
-			}
-		}
-
-		return $items;
+		return parent::countRelations($items, $config);
 	}
 
 	/**
@@ -657,7 +631,7 @@ class FieldsHelper
 
 		$query->select($db->quoteName('c.title'))
 			->from($db->quoteName('#__fields_categories', 'a'))
-			->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
+			->join('INNER', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
 			->where('field_id = ' . $fieldId);
 
 		$db->setQuery($query);
