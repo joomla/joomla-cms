@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="params">
+		<fieldset name="information" label="PLG_SYSTEM_ACTIONLOGS_OPTIONS" addfieldpath="/administrator/components/com_actionlogs/models/fields">
+			<field
+				name="Information"
+				type="plugininfo"
+				label="PLG_SYSTEM_ACTIONLOGS_INFO_LABEL"
+				description="PLG_SYSTEM_ACTIONLOGS_INFO_DESC"
+			/>
+		</fieldset>
+	</fields>
+</form>
