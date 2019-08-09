@@ -6,6 +6,7 @@
  *
  * @copyright   2008-2017 Nicholas K. Dionysopoulos / Akeeba Ltd.
  * @license     GNU GPL v2 or - at your option - any later version
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 
 /**
