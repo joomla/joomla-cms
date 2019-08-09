@@ -271,6 +271,7 @@ class MediaListCest
 	public function uploadSingleFileUsingToolbarButton(Media $I)
 	{
 		$testFileName = 'test-image-1.png';
+		$testFileItem = MediaListPage::item($testFileName);
 
 		$I->wantToTest('the upload of a single file using toolbar button.');
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
@@ -278,6 +279,13 @@ class MediaListCest
 		$I->uploadFile('com_media/' . $testFileName);
 		$I->seeSystemMessage('Item uploaded.');
 		$I->seeContents([$testFileName]);
+		$I->click($testFileItem);
+		$I->click(MediaListPage::$toolbarDeleteButton);
+		$I->waitForElement(MediaListPage::$toolbarModalDeleteButton);
+		$I->waitForJsOnPageLoad();
+		$I->click(MediaListPage::$toolbarModalDeleteButton);
+		$I->seeSystemMessage('Item deleted.');
+		$I->waitForElementNotVisible($testFileItem);
 	}
 
 	/**
@@ -437,14 +445,20 @@ class MediaListCest
 		$testFileItem1 = MediaListPage::item($testFileName1);
 		$testFileItem2 = MediaListPage::item($testFileName2);
 
-		$I->wantToTest('that it is possible to delete a single file.');
+		$I->wantToTest('that it is possible to delete a Multiple file.');
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->uploadFile('com_media/' . $testFileName1);
+		$I->waitForText('Item uploaded.');
+		$I->wait(10);
 		$I->waitForElement($testFileItem1);
 
 		// We have to clear the file input, otherwise our method of uploading the file via Codeception will upload it twice
 		$I->executeJS('document.getElementsByName(\'file\')[0].value = \'\'');
+		$I->waitForMediaLoaded();
 		$I->uploadFile('com_media/' . $testFileName2);
+		$I->waitForText('Item uploaded.');
+		$I->wait(10);
+		$I->waitForMediaLoaded();
 		$I->waitForElement($testFileItem2);
 		$I->click($testFileItem1);
 		$I->clickHoldingShiftkey($testFileItem2);
