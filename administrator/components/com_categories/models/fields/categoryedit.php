@@ -32,7 +32,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 	 * Optional prefix for new categories.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.11
 	 */
 	protected $customPrefix;
 
