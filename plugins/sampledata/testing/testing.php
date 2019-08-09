@@ -1939,17 +1939,6 @@ class PlgSampledataTesting extends CMSPlugin
 				),
 			),
 			array(
-				'menutype'     => $menuTypes[6],
-				'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_26_TITLE'),
-				'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[38],
-				'component_id' => ComponentHelper::getComponent('com_content')->id,
-				'params'       => array(
-					'menu_text'         => 1,
-					'show_page_heading' => 0,
-					'secure'            => 0,
-				),
-			),
-			array(
 				'menutype'     => $menuTypes[2],
 				'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_TITLE'),
 				'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[52],
@@ -2025,17 +2014,6 @@ class PlgSampledataTesting extends CMSPlugin
 				'menutype'     => $menuTypes[7],
 				'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_33_TITLE'),
 				'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[6],
-				'component_id' => ComponentHelper::getComponent('com_content')->id,
-				'params'       => array(
-					'menu_text'         => 1,
-					'show_page_heading' => 0,
-					'secure'            => 0,
-				),
-			),
-			array(
-				'menutype'     => $menuTypes[7],
-				'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_34_TITLE'),
-				'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[39],
 				'component_id' => ComponentHelper::getComponent('com_content')->id,
 				'params'       => array(
 					'menu_text'         => 1,
@@ -3593,24 +3571,6 @@ class PlgSampledataTesting extends CMSPlugin
 				),
 			),
 			array(
-				'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_15_TITLE'),
-				'ordering'   => 1,
-				'module'     => 'mod_search',
-				'access'     => $access,
-				'assignment' => 1,
-				'assigned'   => array(
-					$menuIdsLevel1[34],
-				),
-				'params'     => array(
-					'width'      => '20',
-					'button_pos' => 'right',
-					'opensearch' => 1,
-					'cache'      => 1,
-					'cache_time' => 900,
-					'cachemode'  => 'itemid'
-				),
-			),
-			array(
 				'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_16_TITLE'),
 				'ordering'   => 1,
 				'module'     => 'mod_stats',
@@ -3925,21 +3885,6 @@ class PlgSampledataTesting extends CMSPlugin
 				),
 			),
 			array(
-				'title'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_32_TITLE'),
-				'ordering' => 1,
-				'position' => 'search',
-				'module'   => 'mod_search',
-				'access'   => $access,
-				'params'   => array(
-					'width'       => '20',
-					'button_pos'  => 'right',
-					'imagebutton' => 1,
-					'cache'       => 1,
-					'cache_time'  => 900,
-					'cachemode'   => 'itemid'
-				),
-			),
-			array(
 				'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_33_TITLE'),
 				'ordering'   => 1,
 				'position'   => 'languageswitcherload',
@@ -4063,26 +4008,6 @@ class PlgSampledataTesting extends CMSPlugin
 					'readmore_limit'               => 15,
 					'owncache'                     => 1,
 					'cache_time'                   => 900
-				),
-			),
-			array(
-				'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_38_TITLE'),
-				'ordering'   => 1,
-				'position'   => 'atomic-search',
-				'module'     => 'mod_search',
-				'access'     => $access,
-				'showtitle'  => 0,
-				'assignment' => 1,
-				'assigned'   => array(
-					$menuIdsLevel5[0],
-					$menuIdsLevel5[1],
-				),
-				'params'     => array(
-					'width'      => 20,
-					'button_pos' => 'right',
-					'cache'      => 1,
-					'cache_time' => 900,
-					'cachemode'  => 'itemid'
 				),
 			),
 			array(
