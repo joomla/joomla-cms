@@ -445,6 +445,8 @@ class MediaListCest
 		$I->waitForElement($testFileItem2);
 		$I->click($testFileItem1);
 		$I->clickHoldingShiftkey($testFileItem2);
+		$I->waitForText('Item uploaded.');
+		$I->wait(10);
 		$I->click(MediaListPage::$toolbarDeleteButton);
 		$I->waitForElement(MediaListPage::$toolbarModalDeleteButton);
 		$I->click(MediaListPage::$toolbarModalDeleteButton);
