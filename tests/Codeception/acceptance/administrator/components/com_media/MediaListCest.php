@@ -441,6 +441,9 @@ class MediaListCest
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->uploadFile('com_media/' . $testFileName1);
 		$I->waitForElement($testFileItem1);
+
+		// We have to clear the file input, otherwise our method of uploading the file via Codeception will upload it twice
+		$I->executeJS('document.getElementsByName(\'file\')[0].value = \'\'');
 		$I->uploadFile('com_media/' . $testFileName2);
 		$I->waitForElement($testFileItem2);
 		$I->click($testFileItem1);
