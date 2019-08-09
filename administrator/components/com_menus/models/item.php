@@ -1391,7 +1391,7 @@ class MenusModelItem extends JModelAdmin
 			$table->setLocation($data['parent_id'], 'last-child');
 		}
 
-		// Special case for the article menu item
+		// Special case for Create article menu item
 		// Display error if catid is not set when enable_category is enabled
 		if ($data['link'] === 'index.php?option=com_content&view=form&layout=edit' && $data['params']['enable_category'] == 1
 			&& empty($data['params']['catid']))
