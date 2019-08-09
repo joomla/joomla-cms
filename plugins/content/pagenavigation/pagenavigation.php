@@ -98,7 +98,7 @@ class PlgContentPagenavigation extends CMSPlugin
 				// Use created if publish_up is not set
 				case 'published' :
 					$queryDate = ' CASE WHEN ' . $db->quoteName('a.publish_up') . ' = :publishup THEN ' .
-						$db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.publish_up') . ' END ';
+						$db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.publish_up') . ' END';
 					$query->bind(':publishup', $nullDate);
 					break;
 
