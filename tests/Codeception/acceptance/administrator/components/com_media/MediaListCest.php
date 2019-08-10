@@ -445,7 +445,7 @@ class MediaListCest
 		$testFileItem1 = MediaListPage::item($testFileName1);
 		$testFileItem2 = MediaListPage::item($testFileName2);
 
-		$I->wantToTest('that it is possible to delete a Multiple file.');
+		$I->wantToTest('that it is possible to delete a multiple file.');
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->uploadFile('com_media/' . $testFileName1);
 		$I->waitForText('Item uploaded.');
