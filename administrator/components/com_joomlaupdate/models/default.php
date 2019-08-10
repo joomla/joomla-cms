@@ -170,7 +170,12 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		}
 
 		$ret['latest']    = $updateObject->version;
-		$ret['hasUpdate'] = $updateObject->version != JVERSION;
+
+		// Check whether this is an update or not.
+		if (version_compare($updateObject->version, JVERSION) === 1)
+		{
+			$ret['hasUpdate'] = true;
+		}
 
 		// Fetch the full update details from the update details URL.
 		jimport('joomla.updater.update');
