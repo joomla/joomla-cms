@@ -117,8 +117,14 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			$cache_timeout = 3600 * JComponentHelper::getParams('com_installer')->get('cachetimeout', 6, 'int');
 		}
 
-		$updater          = JUpdater::getInstance();
-		$minimumStability = JComponentHelper::getParams('com_joomlaupdate')->get('minimum_stability', JUpdater::STABILITY_STABLE);
+		$updater               = JUpdater::getInstance();
+		$minimumStability      = JUpdater::STABILITY_STABLE;
+		$comJoomlaupdateParams = JComponentHelper::getParams('com_joomlaupdate');
+
+		if (in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), ['testing', 'custom']))
+		{
+			$minimumStability = $comJoomlaupdateParams->get('minimum_stability', JUpdater::STABILITY_STABLE);
+		}
 
 		$reflection = new ReflectionObject($updater);
 		$reflectionMethod = $reflection->getMethod('findUpdates');
@@ -171,13 +177,18 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		$ret['latest']    = $updateObject->version;
 		$ret['hasUpdate'] = $updateObject->version != JVERSION;
 
+		$minimumStability      = JUpdater::STABILITY_STABLE;
+		$comJoomlaupdateParams = JComponentHelper::getParams('com_joomlaupdate');
+
+		if (in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), ['testing', 'custom']))
+		{
+			$minimumStability = $comJoomlaupdateParams->get('minimum_stability', JUpdater::STABILITY_STABLE);
+		}
+
 		// Fetch the full update details from the update details URL.
 		jimport('joomla.updater.update');
 		$update = new JUpdate;
-		$update->loadFromXML(
-			$updateObject->detailsurl,
-			JComponentHelper::getParams('com_joomlaupdate')->get('minimum_stability', JUpdater::STABILITY_STABLE)
-		);
+		$update->loadFromXML($updateObject->detailsurl, $minimumStability);
 
 		$ret['object'] = $update;
 

@@ -28,6 +28,7 @@
 			label="COM_JOOMLAUPDATE_MINIMUM_STABILITY_LABEL"
 			description="COM_JOOMLAUPDATE_MINIMUM_STABILITY_DESC"
 			default="4"
+			showon="updatesource:testing[OR]updatesource:custom"
 			>
 			<option value="0">COM_JOOMLAUPDATE_MINIMUM_STABILITY_DEV</option>
 			<option value="1">COM_JOOMLAUPDATE_MINIMUM_STABILITY_ALPHA</option>
