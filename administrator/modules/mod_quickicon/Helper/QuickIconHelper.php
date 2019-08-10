@@ -152,9 +152,6 @@ abstract class QuickIconHelper
 
 			if ($params->get('show_modules'))
 			{
-				// Set the client_id for frontend modules only
-				Factory::getApplication()->setUserState('com_modules.modules.client_id', '0');
-				
 				$tmp = [
 					'image'   => 'fa fa-cube',
 					'link'    => Route::_('index.php?option=com_modules&client_id=0'),
