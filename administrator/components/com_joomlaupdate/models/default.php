@@ -164,14 +164,16 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 		if (is_null($updateObject))
 		{
+			// We have not found any update in the database we seem to run the latest version
 			$ret['latest'] = JVERSION;
 
 			return $ret;
 		}
 
-		// This update points to an outdated version
+		// Check whether this is an valid update or not
 		if (version_compare($updateObject->version, JVERSION) === -1)
 		{
+			// This update points to an outdated version we should not offer to update to this
 			$ret['latest'] = JVERSION;
 
 			return $ret;
