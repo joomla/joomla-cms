@@ -121,7 +121,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		$minimumStability      = JUpdater::STABILITY_STABLE;
 		$comJoomlaupdateParams = JComponentHelper::getParams('com_joomlaupdate');
 
-		if (in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), ['testing', 'custom']))
+		if (in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), array('testing', 'custom')))
 		{
 			$minimumStability = $comJoomlaupdateParams->get('minimum_stability', JUpdater::STABILITY_STABLE);
 		}
