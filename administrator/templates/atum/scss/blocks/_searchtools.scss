@@ -1,7 +1,5 @@
 // Search tools
 
-@import "../variables";
-
 .js-stools {
   position: relative;
   padding: 0.25rem 0 0;
@@ -74,8 +72,8 @@
         float:none;
         width:100%;
         margin-right:0.5rem;
-    }    
-    
+    }
+
     .js-stools-field-selector{
         @include media-breakpoint-down(sm) {
             max-width:100%;
