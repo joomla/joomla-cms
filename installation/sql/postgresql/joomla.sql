@@ -114,7 +114,7 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (82, 18, 114, 115, 2, 'com_modules.module.105', '3rd Party', '{}'),
 (83, 18, 116, 117, 2, 'com_modules.module.106', 'Help Submenu', '{}');
 
-SELECT setval('#__assets_id_seq', 83, false);
+SELECT setval('#__assets_id_seq', 84, false);
 
 --
 -- Table structure for table `#__associations`
@@ -1472,7 +1472,7 @@ INSERT INTO "#__modules" ("id", "asset_id", "title", "note", "content", "orderin
 (107, 84, 'Privacy Requests', '', NULL, 1, 'cpanel-privacy', 0, NULL, NULL, NULL, 1, 'mod_privacy_dashboard', 1, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"cachemode":"static","style":"0","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":""}', 1, '*'),
 (108, 85, 'Privacy Status', '', NULL, 1, 'cpanel-privacy', 0, NULL, NULL, NULL, 1, 'mod_privacy_status', 1, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"cachemode":"static","style":"0","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":""}', 1, '*');
 
-SELECT setval('#__modules_id_seq', 90, false);
+SELECT setval('#__modules_id_seq', 109, false);
 
 --
 -- Table structure for table `#__modules_menu`
@@ -1809,7 +1809,7 @@ INSERT INTO "#__template_styles" ("id", "template", "client_id", "home", "title"
 (10, 'atum', 1, '1', 'atum - Default', ''),
 (11, 'cassiopeia', 0, '1', 'cassiopeia - Default', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}');
 
-SELECT setval('#__template_styles_id_seq', 11, false);
+SELECT setval('#__template_styles_id_seq', 12, false);
 
 --
 -- Table structure for table `#__ucm_base`
