@@ -210,7 +210,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 				if (!empty($scriptHashes))
 				{
-					$newHeaderValue = str_replace('{script-hashes}', ' ' . implode(' ', $scriptHashes), $newHeaderValue);
+					$newHeaderValue = str_replace('{script-hashes}', implode(' ', $scriptHashes), $newHeaderValue);
 				}
 				else
 				{
@@ -219,7 +219,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 				if (!empty($styleHashes))
 				{
-					$newHeaderValue = str_replace('{style-hashes}', ' ' . implode(' ', $styleHashes), $newHeaderValue);
+					$newHeaderValue = str_replace('{style-hashes}', implode(' ', $styleHashes), $newHeaderValue);
 				}
 				else
 				{
