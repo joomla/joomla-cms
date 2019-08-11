@@ -206,6 +206,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			if (strtolower($headerConfiguration['name']) === 'content-security-policy'
 				|| strtolower($headerConfiguration['name']) === 'content-security-policy-report-only')
 			{
+				$newHeaderValue = $headerConfiguration['value'];
+
 				if (!empty($scriptHashes))
 				{
 					$newHeaderValue = str_replace('{script-hashes}', ' ' . implode(' ', $scriptHashes), $newHeaderValue);
@@ -394,13 +396,13 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				// Append the script hashes placeholder
 				if ($scriptHashesEnabled && strpos($cspValue->directive, 'script-src') === 0)
 				{
-					$cspValue->value .= '{script-hashes} ' . $cspValue->value;
+					$cspValue->value = '{script-hashes} ' . $cspValue->value;
 				}
 
 				// Append the style hashes placeholder
 				if ($styleHashesEnabled && strpos($cspValue->directive, 'style-src') === 0)
 				{
-					$cspValue->value .= '{style-hashes} ' . $cspValue->value;
+					$cspValue->value = '{style-hashes} ' . $cspValue->value;
 				}
 
 				$newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);
@@ -504,13 +506,13 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			// Append the script hashes placeholder
 			if ($scriptHashesEnabled && strpos($cspValue->directive, 'script-src') === 0)
 			{
-				$cspHeaderValue .= '{script-hashes} ' . $cspHeaderValue;
+				$cspHeaderValue = '{script-hashes} ' . $cspHeaderValue;
 			}
 
 			// Append the style hashes placeholder
 			if ($styleHashesEnabled && strpos($cspValue->directive, 'style-src') === 0)
 			{
-				$cspHeaderValue .= '{style-hashes} ' . $cspHeaderValue;
+				$cspHeaderValue = '{style-hashes} ' . $cspHeaderValue;
 			}
 
 			// By default we should whitelist 'self' on any directive
