@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.9" client="administrator" method="upgrade">
+<extension type="module" client="administrator" method="upgrade">
 	<name>mod_privacy_dashboard</name>
 	<author>Joomla! Project</author>
 	<creationDate>June 2018</creationDate>
