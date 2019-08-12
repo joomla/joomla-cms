@@ -44,7 +44,7 @@ $checkboxName = $options['checkbox_name'];
 		<?php endif; ?>
 
 		title="<?php echo HTMLHelper::_('tooltipText', Text::_($tipTitle ? : $title), '', 0); ?>"
-		data-content="<?php echo HTMLHelper::_('tooltipText', $title, '', 0); ?>"
+		data-content="<?php echo HTMLHelper::_('tooltipText', Text::_($title), '', 0); ?>"
 		data-placement="top"
 		onclick="Joomla.toggleAllNextElements(this, 'd-none')"
 	>
