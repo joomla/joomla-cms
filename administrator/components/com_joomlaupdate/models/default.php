@@ -170,7 +170,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			return $ret;
 		}
 
-		// Check whether this is an valid update or not
+		// Check whether this is a valid update or not
 		if (version_compare($updateObject->version, JVERSION, '<'))
 		{
 			// This update points to an outdated version we should not offer to update to this
