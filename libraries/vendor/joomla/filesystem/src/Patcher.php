@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filesystem Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -103,10 +103,10 @@ class Patcher
 	 */
 	public function reset()
 	{
-		$this->sources = array();
+		$this->sources      = array();
 		$this->destinations = array();
-		$this->removals = array();
-		$this->patches = array();
+		$this->removals     = array();
+		$this->patches      = array();
 
 		return $this;
 	}
@@ -235,8 +235,8 @@ class Patcher
 	{
 		$this->patches[] = array(
 			'udiff' => $udiff,
-			'root' => isset($root) ? rtrim($root, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR : '',
-			'strip' => $strip
+			'root'  => isset($root) ? rtrim($root, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR : '',
+			'strip' => $strip,
 		);
 
 		return $this;
@@ -286,36 +286,34 @@ class Patcher
 			// No header found, return false
 			return false;
 		}
-		else
+
+		// Set the source file
+		$src = $m[1];
+
+		// Advance to the next line
+		$line = next($lines);
+
+		if ($line === false)
 		{
-			// Set the source file
-			$src = $m[1];
-
-			// Advance to the next line
-			$line = next($lines);
-
-			if ($line === false)
-			{
-				throw new \RuntimeException('Unexpected EOF');
-			}
-
-			// Search the destination file
-			if (!preg_match(self::DST_FILE, $line, $m))
-			{
-				throw new \RuntimeException('Invalid Diff file');
-			}
-
-			// Set the destination file
-			$dst = $m[1];
-
-			// Advance to the next line
-			if (next($lines) === false)
-			{
-				throw new \RuntimeException('Unexpected EOF');
-			}
-
-			return true;
+			throw new \RuntimeException('Unexpected EOF');
 		}
+
+		// Search the destination file
+		if (!preg_match(self::DST_FILE, $line, $m))
+		{
+			throw new \RuntimeException('Invalid Diff file');
+		}
+
+		// Set the destination file
+		$dst = $m[1];
+
+		// Advance to the next line
+		if (next($lines) === false)
+		{
+			throw new \RuntimeException('Unexpected EOF');
+		}
+
+		return true;
 	}
 
 	/**
@@ -369,10 +367,8 @@ class Patcher
 
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 
 	/**
@@ -401,7 +397,7 @@ class Patcher
 		$source = array();
 
 		// New lines (new file)
-		$destin = array();
+		$destin  = array();
 		$srcLeft = $srcSize;
 		$dstLeft = $dstSize;
 
@@ -436,7 +432,7 @@ class Patcher
 			}
 			elseif ($line != '\\ No newline at end of file')
 			{
-				$line = substr($line, 1);
+				$line     = substr($line, 1);
 				$source[] = $line;
 				$destin[] = $line;
 				$srcLeft--;
@@ -460,7 +456,7 @@ class Patcher
 				{
 					if ($srcSize > 0)
 					{
-						$dstLines = & $this->getDestination($dst, $src);
+						$dstLines  = & $this->getDestination($dst, $src);
 						$srcBottom = $srcLine + \count($source);
 
 						for ($l = $srcLine; $l < $srcBottom; $l++)
@@ -490,7 +486,6 @@ class Patcher
 
 			$line = next($lines);
 		}
-
 		while ($line !== false);
 
 		throw new \RuntimeException('Unexpected EOF');

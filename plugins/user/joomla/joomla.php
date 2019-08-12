@@ -367,10 +367,10 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		// TODO : move this out of the plugin
-		$config = ComponentHelper::getParams('com_users');
+		$params = ComponentHelper::getParams('com_users');
 
-		// Hard coded default to match the default value from com_users.
-		$defaultUserGroup = $config->get('new_usertype', 2);
+		// Read the default user group option from com_users
+		$defaultUserGroup = $params->get('new_usertype', $params->get('guest_usergroup', 1));
 
 		$instance->id = 0;
 		$instance->name = $user['fullname'];

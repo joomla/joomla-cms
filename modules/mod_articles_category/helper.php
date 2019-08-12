@@ -42,10 +42,11 @@ abstract class ModArticlesCategoryHelper
 		$appParams = $app->getParams();
 		$articles->setState('params', $appParams);
 
-		// Set the filters based on the module params
 		$articles->setState('list.start', 0);
-		$articles->setState('list.limit', (int) $params->get('count', 0));
 		$articles->setState('filter.published', 1);
+
+		// Set the filters based on the module params
+		$articles->setState('list.limit', (int) $params->get('count', 0));
 		$articles->setState('load_tags', $params->get('show_tags', 0) || $params->get('article_grouping', 'none') === 'tags');
 
 		// Access filter

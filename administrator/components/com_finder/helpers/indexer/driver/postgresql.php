@@ -261,9 +261,6 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 
 				// Add the link => node map.
 				FinderIndexerTaxonomy::addMap($linkId, $nodeId);
-
-				// Tokenize the node title and add them to the database.
-				$count += $this->tokenizeToDb($node->title, static::META_CONTEXT, $item->language, $format);
 			}
 		}
 

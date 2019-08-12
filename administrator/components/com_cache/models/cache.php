@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -251,7 +252,7 @@ class CacheModelCache extends JModelList
 	{
 		try
 		{
-			return $this->getCache()->clean($group);
+			$this->getCache()->clean($group);
 		}
 		catch (JCacheExceptionConnecting $exception)
 		{
@@ -261,6 +262,10 @@ class CacheModelCache extends JModelList
 		{
 			return false;
 		}
+
+		Factory::getApplication()->triggerEvent('onAfterPurge', array($group));
+
+		return true;
 	}
 
 	/**
@@ -294,7 +299,7 @@ class CacheModelCache extends JModelList
 	{
 		try
 		{
-			return JFactory::getCache('')->gc();
+			JFactory::getCache('')->gc();
 		}
 		catch (JCacheExceptionConnecting $exception)
 		{
@@ -304,5 +309,9 @@ class CacheModelCache extends JModelList
 		{
 			return false;
 		}
+
+		Factory::getApplication()->triggerEvent('onAfterPurge', array());
+
+		return true;
 	}
 }

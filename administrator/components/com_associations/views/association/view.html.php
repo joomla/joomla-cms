@@ -109,8 +109,9 @@ class AssociationsViewAssociation extends JViewLegacy
 		$referenceId   = $input->get('id', 0, 'int');
 		$reference     = ArrayHelper::fromObject(AssociationsHelper::getItem($extensionName, $typeName, $referenceId));
 
-		$this->referenceLanguage = $reference[$languageField];
-		$this->referenceTitle    = AssociationsHelper::getTypeFieldName($extensionName, $typeName, 'title');
+		$this->referenceLanguage   = $reference[$languageField];
+		$this->referenceTitle      = AssociationsHelper::getTypeFieldName($extensionName, $typeName, 'title');
+		$this->referenceTitleValue = $reference[$this->referenceTitle];
 
 		$options = array(
 			'option'    => $typeName === 'category' ? 'com_categories' : $extensionName,

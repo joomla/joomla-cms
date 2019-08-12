@@ -49,7 +49,7 @@ final class Version
 	 * @var    integer
 	 * @since  3.8.0
 	 */
-	const PATCH_VERSION = 3;
+	const PATCH_VERSION = 11;
 
 	/**
 	 * Extra release version info.
@@ -78,7 +78,7 @@ final class Version
 	 * @since  3.5
 	 * @deprecated  4.0  Use separated version constants instead
 	 */
-	const DEV_LEVEL = '3-dev';
+	const DEV_LEVEL = '11-dev';
 
 	/**
 	 * Development status.
@@ -111,7 +111,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '15-January-2019';
+	const RELDATE = '8-August-2019';
 
 	/**
 	 * Release time.
@@ -119,7 +119,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '15:00';
+	const RELTIME = '13:55';
 
 	/**
 	 * Release timezone.
@@ -194,7 +194,7 @@ final class Version
 	 *
 	 * @return  boolean True if the version is compatible.
 	 *
-	 * @link    https://secure.php.net/version_compare
+	 * @link    https://www.php.net/version_compare
 	 * @since   1.0
 	 */
 	public function isCompatible($minimum)

@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL PDO Database Driver
  *
- * @link   https://secure.php.net/manual/en/ref.pdo-mysql.php
+ * @link   https://www.php.net/manual/en/ref.pdo-mysql.php
  * @since  3.9.0
  */
 class JDatabaseDriverPgsql extends JDatabaseDriverPdo

@@ -255,9 +255,6 @@ class InstallerModelUpdate extends JModelList
 	 */
 	public function findUpdates($eid = 0, $cache_timeout = 0, $minimum_stability = JUpdater::STABILITY_STABLE)
 	{
-		// Purge the updates list
-		$this->purge();
-
 		JUpdater::getInstance()->findUpdates($eid, $cache_timeout, $minimum_stability);
 
 		return true;
@@ -463,21 +460,26 @@ class InstallerModelUpdate extends JModelList
 		if (!$installer->update($package['dir']))
 		{
 			// There was an error updating the package
-			$msg    = JText::sprintf('COM_INSTALLER_MSG_UPDATE_ERROR', JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$app->enqueueMessage(
+				JText::sprintf('COM_INSTALLER_MSG_UPDATE_ERROR',
+					JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))
+				), 'error'
+			);
 			$result = false;
 		}
 		else
 		{
 			// Package updated successfully
-			$msg    = JText::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS', JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$app->enqueueMessage(
+				JText::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS',
+					JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))
+				)
+			);
 			$result = true;
 		}
 
 		// Quick change
 		$this->type = $package['type'];
-
-		// Set some model state values
-		$app->enqueueMessage($msg);
 
 		// TODO: Reconfigure this code when you have more battery life left
 		$this->setState('name', $installer->get('name'));
