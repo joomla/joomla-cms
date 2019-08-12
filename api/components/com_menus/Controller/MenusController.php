@@ -35,4 +35,45 @@ class MenusController extends ApiController
 	 * @since  3.0
 	 */
 	protected $default_view = 'menus';
+
+	/**
+	 * Basic display of an item view
+	 *
+	 * @param   integer  $id  The primary key to display. Leave empty if you want to retrieve data from the request
+	 *
+	 * @return  static  A \JControllerLegacy object to support chaining.
+	 *
+	 * @since   4.0.0
+	 */
+	public function displayItem($id = null)
+	{
+		if ($id === null)
+		{
+			$id = $this->input->get('id', '', 'string');
+		}
+
+		$clientId = $this->input->exists('client_id') ?
+			$this->input->get('client_id') : $this->input->post->get('client_id');
+
+		$this->input->set('model_state', ['client_id' => $clientId]);
+
+		return parent::displayItem($id);
+	}
+
+	/**
+	 * Basic display of a list view
+	 *
+	 * @return  static  A \JControllerLegacy object to support chaining.
+	 *
+	 * @since   4.0.0
+	 */
+	public function displayList()
+	{
+		$clientId = $this->input->exists('client_id') ?
+			$this->input->get('client_id') : $this->input->post->get('client_id');
+
+		$this->input->set('model_state', ['client_id' => $clientId]);
+
+		return parent::displayList();
+	}
 }
