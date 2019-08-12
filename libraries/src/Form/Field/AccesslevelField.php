@@ -10,6 +10,8 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Form Field class for the Joomla Platform.
  * Provides a list of access levels. Access levels control what users in specific
@@ -29,10 +31,37 @@ class AccesslevelField extends ListField
 	protected $type = 'Accesslevel';
 
 	/**
-	 * Name of the layout being used to render the field
+	 * Cached array of the access levels.
 	 *
-	 * @var    string
-	 * @since  4.0.0
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $layout = 'joomla.form.field.accesslevel';
+	protected static $options;
+
+	/**
+	 * Method to get the field options.
+	 *
+	 * @return  array  The field option objects.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getOptions()
+	{
+		if (static::$options === null)
+		{
+			$db = Factory::getDbo();
+			$query = $db->getQuery(true)
+				->select([$db->quoteName('id', 'value'), $db->quoteName('title', 'text')])
+				->from($db->quoteName('#__viewlevels'))
+				->group($db->quoteName(['id', 'title', 'ordering']))
+				->order($db->quoteName('ordering') . ' ASC')
+				->order($db->quoteName('title') . ' ASC');
+
+			// Get the options.
+			$db->setQuery($query);
+			static::$options = $db->loadObjectList();
+		}
+
+		return array_merge(parent::getOptions(), static::$options);
+	}
 }
