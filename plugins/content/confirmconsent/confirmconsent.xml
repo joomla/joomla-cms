@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.9" type="plugin" group="content" method="upgrade">
+<extension type="plugin" group="content" method="upgrade">
 	<name>plg_content_confirmconsent</name>
 	<author>Joomla! Project</author>
 	<creationDate>May 2018</creationDate>

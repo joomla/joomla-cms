@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="4.0" type="plugin" group="installer" method="upgrade">
+<extension type="plugin" group="installer" method="upgrade">
 	<name>plg_installer_override</name>
 	<author>Joomla! Project</author>
 	<creationDate>June 2018</creationDate>

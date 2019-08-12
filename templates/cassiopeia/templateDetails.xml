@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="4.0" type="template" client="site">
+<extension type="template" client="site">
 	<name>cassiopeia</name>
 	<version>1.0</version>
 	<creationDate>30/02/2017</creationDate>

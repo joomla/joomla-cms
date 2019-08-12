@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension version="3.9" type="plugin" group="actionlog" method="upgrade">
+<extension type="plugin" group="actionlog" method="upgrade">
 	<name>plg_actionlog_joomla</name>
 	<author>Joomla! Project</author>
 	<creationDate>May 2018</creationDate>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.4" type="plugin" group="captcha" method="upgrade">
+<extension type="plugin" group="captcha" method="upgrade">
 	<name>plg_captcha_recaptcha</name>
 	<version>3.4.0</version>
 	<creationDate>December 2011</creationDate>
