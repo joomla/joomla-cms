@@ -39,6 +39,36 @@ class ItemsController extends ApiController
 	protected $default_view = 'items';
 
 	/**
+	 * Basic display of an item view
+	 *
+	 * @param   integer  $id  The primary key to display. Leave empty if you want to retrieve data from the request
+	 *
+	 * @return  static  A \JControllerLegacy object to support chaining.
+	 *
+	 * @since   4.0.0
+	 */
+	public function displayItem($id = null)
+	{
+		$this->input->set('model_state', ['filter.client_id' => $this->getClientIdFromInput()]);
+
+		return parent::displayItem($id);
+	}
+
+	/**
+	 * Basic display of a list view
+	 *
+	 * @return  static  A \JControllerLegacy object to support chaining.
+	 *
+	 * @since   4.0.0
+	 */
+	public function displayList()
+	{
+		$this->input->set('model_state', ['filter.client_id' => $this->getClientIdFromInput()]);
+
+		return parent::displayList();
+	}
+
+	/**
 	 * Return menu items types
 	 *
 	 * @return  static  A \JControllerLegacy object to support chaining.
@@ -74,10 +104,7 @@ class ItemsController extends ApiController
 			throw new \RuntimeException('Unable to create the model.');
 		}
 
-		$clientId = $this->input->exists('client_id') ?
-			$this->input->get('client_id') : $this->input->post->get('client_id');
-
-		$model->setState('client_id', $clientId);
+		$model->setState('client_id', $this->getClientIdFromInput());
 
 		$view->setModel($model, true);
 
@@ -86,5 +113,18 @@ class ItemsController extends ApiController
 		$view->displayListTypes();
 
 		return $this;
+	}
+
+	/**
+	 * Get client id from input
+	 *
+	 * @return string
+	 *
+	 * @since 4.0
+	 */
+	private function getClientIdFromInput()
+	{
+		return $this->input->exists('client_id') ?
+			$this->input->get('client_id') : $this->input->post->get('client_id');
 	}
 }

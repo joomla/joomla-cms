@@ -30,7 +30,38 @@ class JsonapiView extends BaseApiView
 	 * @var  array
 	 * @since  4.0.0
 	 */
-	protected $fieldsToRenderItem = [];
+	protected $fieldsToRenderItem = [
+		'id',
+		'parent_id',
+		'level',
+		'lft',
+		'rgt',
+		'alias',
+		'typeAlias',
+		'menutype',
+		'title',
+		'note',
+		'path',
+		'link',
+		'type',
+		'published',
+		'component_id',
+		'checked_out',
+		'checked_out_time',
+		'browserNav',
+		'access',
+		'img',
+		'template_style_id',
+		'params',
+		'home',
+		'language',
+		'client_id',
+		'publish_up',
+		'publish_down',
+		'request',
+		'associations',
+		'menuordering',
+	];
 
 	/**
 	 * The fields to render items in the documents
@@ -38,7 +69,46 @@ class JsonapiView extends BaseApiView
 	 * @var  array
 	 * @since  4.0.0
 	 */
-	protected $fieldsToRenderList  = [];
+	protected $fieldsToRenderList  = [
+		'id',
+		'menutype',
+		'title',
+		'alias',
+		'note',
+		'path',
+		'link',
+		'type',
+		'parent_id',
+		'level',
+		'a.published',
+		'component_id',
+		'checked_out',
+		'checked_out_time',
+		'browserNav',
+		'access',
+		'img',
+		'template_style_id',
+		'params',
+		'lft',
+		'rgt',
+		'home',
+		'language',
+		'client_id',
+		'enabled',
+		'publish_up',
+		'publish_down',
+		'published',
+		'language_title',
+		'language_image',
+		'language_sef',
+		'editor',
+		'componentname',
+		'access_level',
+		'menutype_id',
+		'menutype_title',
+		'association',
+		'name',
+	];
 
 	/**
 	 * Execute and display a list items types.
@@ -116,5 +186,24 @@ class JsonapiView extends BaseApiView
 			->addLink('last', (string) $lastPage);
 
 		return $this->document->render();
+	}
+
+	/**
+	 * Prepare item before render.
+	 *
+	 * @param   object  $item  The model item
+	 *
+	 * @return  object
+	 *
+	 * @since   4.0.0
+	 */
+	protected function prepareItem($item)
+	{
+		if (is_string($item->params))
+		{
+			$item->params = json_decode($item->params);
+		}
+
+		return parent::prepareItem($item);
 	}
 }
