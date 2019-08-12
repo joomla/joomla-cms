@@ -52,11 +52,6 @@ class OverridesController extends ApiController
 	 */
 	public function displayItem($id = null)
 	{
-		if ($id === null)
-		{
-			$id = $this->input->get('id', '', 'string');
-		}
-
 		$this->input->set('model_state', [
 				'filter.language' => $this->getLanguageFromInput(),
 				'filter.client'   => $this->getClientFromInput(),

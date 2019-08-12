@@ -47,15 +47,7 @@ class MenusController extends ApiController
 	 */
 	public function displayItem($id = null)
 	{
-		if ($id === null)
-		{
-			$id = $this->input->get('id', '', 'string');
-		}
-
-		$clientId = $this->input->exists('client_id') ?
-			$this->input->get('client_id') : $this->input->post->get('client_id');
-
-		$this->input->set('model_state', ['client_id' => $clientId]);
+		$this->input->set('model_state', ['client_id' => $this->getClientIdFromInput()]);
 
 		return parent::displayItem($id);
 	}
@@ -69,11 +61,21 @@ class MenusController extends ApiController
 	 */
 	public function displayList()
 	{
-		$clientId = $this->input->exists('client_id') ?
-			$this->input->get('client_id') : $this->input->post->get('client_id');
-
-		$this->input->set('model_state', ['client_id' => $clientId]);
+		$this->input->set('model_state', ['client_id' => $this->getClientIdFromInput()]);
 
 		return parent::displayList();
+	}
+
+	/**
+	 * Get client id from input
+	 *
+	 * @return string
+	 *
+	 * @since 4.0
+	 */
+	private function getClientIdFromInput()
+	{
+		return $this->input->exists('client_id') ?
+			$this->input->get('client_id') : $this->input->post->get('client_id');
 	}
 }
