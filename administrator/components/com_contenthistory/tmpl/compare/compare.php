@@ -55,7 +55,7 @@ HTMLHelper::_('script', 'com_contenthistory/admin-compare-compare.min.js', array
 						<?php if ($subValue->value || $newSubValue) : ?>
 							<?php if ($subValue->value != $newSubValue) : ?>
 								<tr>
-									<th><em>&nbsp;&nbsp;<?php echo $subValue->label; ?></em></td>
+									<td><em>&nbsp;&nbsp;<?php echo $subValue->label; ?></em></td>
 									<td class="original"><?php echo htmlspecialchars($subValue->value, ENT_COMPAT, 'UTF-8'); ?></td>
 									<td class="changed" ><?php echo htmlspecialchars($newSubValue, ENT_COMPAT, 'UTF-8'); ?></td>
 									<td class="diff">&nbsp;</td>
