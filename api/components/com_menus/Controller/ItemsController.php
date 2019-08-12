@@ -74,6 +74,11 @@ class ItemsController extends ApiController
 			throw new \RuntimeException('Unable to create the model.');
 		}
 
+		$clientId = $this->input->exists('client_id') ?
+			$this->input->get('client_id') : $this->input->post->get('client_id');
+
+		$model->setState('client_id', $clientId);
+
 		$view->setModel($model, true);
 
 		$view->document = $this->app->getDocument();

@@ -53,8 +53,6 @@ class JsonapiView extends BaseApiView
 		$model = $this->getModel();
 		$items = [];
 
-		$model->setState('client_id', 0);
-
 		foreach ($model->getTypeOptions() as $type => $data)
 		{
 			$groupItems = [];

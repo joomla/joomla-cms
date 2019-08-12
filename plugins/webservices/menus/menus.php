@@ -42,10 +42,17 @@ class PlgWebservicesMenus extends CMSPlugin
 		$router->createCRUDRoutes('v1/menus/site', 'menus', ['component' => 'com_menus', 'client_id' => 0]);
 		$router->createCRUDRoutes('v1/menus/administrator', 'menus', ['component' => 'com_menus', 'client_id' => 1]);
 
-		$getDefaults = ['public' => false, 'component' => 'com_menus'];
+		// $router->createCRUDRoutes('v1/menus/items', 'items', ['component' => 'com_menus', 'client_id' => 1]);
 
 		$routes = [
-			new Route(['GET'], 'v1/menus/items/types', 'items.getTypes', [], $getDefaults),
+			new Route(
+				['GET'], 'v1/menus/site/items/types', 'items.getTypes', [],
+				['public' => false, 'component' => 'com_menus', 'client_id' => 0]
+			),
+			new Route(
+				['GET'], 'v1/menus/administrator/items/types', 'items.getTypes', [],
+				['public' => false, 'component' => 'com_menus', 'client_id' => 1]
+			),
 		];
 
 		$router->addRoutes($routes);
