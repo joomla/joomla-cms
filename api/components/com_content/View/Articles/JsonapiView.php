@@ -127,10 +127,13 @@ class JsonapiView extends BaseApiView
 			$item->{$field->name} = isset($field->apivalue) ? $field->apivalue : $field->rawvalue;
 		}
 
-		$tagsIds   = explode(',', $item->tags->tags);
-		$tagsNames = $item->tagsHelper->getTagNames($tagsIds);
+		if (!empty($item->tags))
+		{
+			$tagsIds   = explode(',', $item->tags->tags);
+			$tagsNames = $item->tagsHelper->getTagNames($tagsIds);
 
-		$item->tags = array_combine($tagsIds, $tagsNames);
+			$item->tags = array_combine($tagsIds, $tagsNames);
+		}
 
 		return parent::prepareItem($item);
 	}
