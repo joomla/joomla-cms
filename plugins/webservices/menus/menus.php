@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\ApiRouter;
+use Joomla\Router\Route;
 
 /**
  * Web Services adapter for com_menus.
@@ -40,5 +41,13 @@ class PlgWebservicesMenus extends CMSPlugin
 	{
 		$router->createCRUDRoutes('v1/menus/site', 'menus', ['component' => 'com_menus', 'client_id' => 0]);
 		$router->createCRUDRoutes('v1/menus/administrator', 'menus', ['component' => 'com_menus', 'client_id' => 1]);
+
+		$getDefaults = ['public' => false, 'component' => 'com_menus'];
+
+		$routes = [
+			new Route(['GET'], 'v1/menus/items/types', 'items.getTypes', [], $getDefaults),
+		];
+
+		$router->addRoutes($routes);
 	}
 }
