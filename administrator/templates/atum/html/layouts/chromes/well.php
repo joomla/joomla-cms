@@ -46,7 +46,7 @@ if ($module->content) :
 							<?php echo Text::_('JACTION_EDIT') . ' ' . $module->title; ?>
 						</span></span>
 					</button>
-					<div class="dropdown-menu dropdown-menu-' . $dropdownPosition . '" aria-labelledby="dropdownMenuButton-<?php echo $id; ?>">
+					<div class="dropdown-menu dropdown-menu-<?php echo $dropdownPosition; ?>" aria-labelledby="dropdownMenuButton-<?php echo $id; ?>">
 						<?php if ($canEdit) : ?>
 							<?php $uri = Uri::getInstance(); ?>
 							<?php $url = Route::_('index.php?option=com_modules&task=module.edit&id=' . $id . '&return=' . base64_encode($uri)); ?>

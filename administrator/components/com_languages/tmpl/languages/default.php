@@ -97,9 +97,9 @@ if ($saveOrder && !empty($this->items))
 
 										if (!$saveOrder) :
 											$disabledLabel    = Text::_('JORDERINGDISABLED');
-											$disableClassName = 'inactive tip-top';
+											$disableClassName = 'inactive';
 										endif; ?>
-										<span class="sortable-handler hasTooltip <?php echo $disableClassName; ?>" title="<?php echo $disabledLabel; ?>">
+										<span class="sortable-handler <?php echo $disableClassName; ?>" title="<?php echo $disabledLabel; ?>">
 											<span class="icon-menu" aria-hidden="true"></span>
 										</span>
 										<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
@@ -116,14 +116,12 @@ if ($saveOrder && !empty($this->items))
 									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'languages.', $canChange); ?>
 								</td>
 								<th scope="row">
-									<span class="editlinktip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', Text::_('JGLOBAL_EDIT_ITEM'), $item->title, 0); ?>">
 									<?php if ($canEdit) : ?>
 										<a href="<?php echo Route::_('index.php?option=com_languages&task=language.edit&lang_id=' . (int) $item->lang_id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 											<span class="fa fa-pen-square mr-2" aria-hidden="true"></span><?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
-									</span>
 								</th>
 								<td class="d-none d-md-table-cell">
 									<?php echo $this->escape($item->title_native); ?>
