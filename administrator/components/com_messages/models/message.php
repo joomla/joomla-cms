@@ -466,6 +466,7 @@ class MessagesModelMessage extends JModelAdmin
 				->select($db->quoteName('user_id'))
 				->from($db->quoteName('#__user_usergroup_map'))
 				->where($db->quoteName('group_id') . ' IN(' . implode(',', $groups) . ')')
+				->where($db->quoteName('sendEmail') . ' = 1')
 				->where($db->quoteName('block') . ' = 0');
 
 			$userIDs = $db->setQuery($query)->loadColumn(0);
