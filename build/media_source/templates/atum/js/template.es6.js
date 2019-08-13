@@ -318,9 +318,9 @@
     if (subhead) {
       doc.addEventListener('scroll', () => {
         if (window.scrollY > 0) {
-          subhead.style.background = 'var(--white)';
+          subhead.classList.add('bg-white', 'shadow-sm');
         } else {
-          subhead.style.background = '';
+          subhead.classList.remove('bg-white', 'shadow-sm');
         }
       });
     }
