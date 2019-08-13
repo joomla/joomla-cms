@@ -352,7 +352,7 @@ class UsersModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$ids =  (int) substr($search, 3);
+				$ids = (int) substr($search, 3);
 				$query->where($db->quoteName('a.id') . ' = :id');
 				$query->bind(':id', $ids, ParameterType::INTEGER);
 			}
