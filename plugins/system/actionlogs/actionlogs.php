@@ -319,7 +319,7 @@ class PlgSystemActionLogs extends JPlugin
 		}
 
 		// Clear access rights in case user groups were changed.
-		$userObject = Factory::getUser($user['id']);
+		$userObject = new User($user['id']);
 		$userObject->clearAccessRights();
 		$authorised = $userObject->authorise('core.admin');
 
