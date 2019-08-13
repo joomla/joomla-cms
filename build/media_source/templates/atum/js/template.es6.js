@@ -8,6 +8,11 @@
 
   const storageEnabled = typeof Storage !== 'undefined';
 
+  const mobile = window.matchMedia('(max-width: 992px)');
+  const small = window.matchMedia('(max-width: 575.98px)');
+  const smallLandscape = window.matchMedia('(max-width: 767.98px)');
+  const tablet = window.matchMedia('(min-width: 576px) and (max-width:991.98px)');
+
   /**
    * Shrink or extend the logo, depending on sidebar
    *
@@ -211,86 +216,132 @@
     }
   }
 
-  doc.addEventListener('DOMContentLoaded', () => {
-    const loginForm = doc.getElementById('form-login');
-    const logoutBtn = doc.querySelector('.header-items a[href*="task=logout"]');
-    const wrapper = doc.querySelector('.wrapper');
-    const menu = doc.querySelector('.sidebar-menu');
-    const sidebarWrapper = doc.querySelector('.sidebar-wrapper');
-    const sidebarNav = doc.querySelector('.sidebar-nav');
-    const subHeadToolbar = doc.querySelector('.subhead');
-    const mobile = window.matchMedia('(max-width: 992px)');
-    const mobileTablet = window.matchMedia('(min-width: 576px) and (max-width:991.98px)');
-    const mobileSmallLandscape = window.matchMedia('(max-width: 767.98px)');
-    const mobileSmall = window.matchMedia('(max-width: 575.98px)');
-
-    changeSVGLogoColor();
-
+  /**
+   * Trigger fade out on login and logout
+   *
+   * @since   4.0.0
+   */
+  function fadeLoginLogout() {
     // Fade out login form when login was successful
+    const loginForm = doc.getElementById('form-login');
     if (loginForm) {
       loginForm.addEventListener('joomla:login', () => {
         fade('out', 'narrow');
       });
+    } else {
+      // Fade out dashboard on logout
+      const logoutBtn = doc.querySelector('.header-items a[href*="task=logout"]');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+          fade('out', 'wider');
+        });
+      }
+    }
+  }
+
+  /**
+   * Change appearance for mobile devices
+   *
+   * @since   4.0.0
+   */
+  function setMobile() {
+    const menu = doc.querySelector('.sidebar-menu');
+    const sidebarNav = doc.querySelector('.sidebar-nav');
+    const subhead = doc.querySelector('.subhead');
+    const wrapper = doc.querySelector('.wrapper');
+
+    changeLogo('closed');
+
+    if (small.matches) {
+      toggleArrowIcon();
+
+      if (menu) {
+        wrapper.classList.remove('closed');
+      }
+    } else {
+      toggleArrowIcon('top');
     }
 
-    // Fade in dashboard when coming from login or going back to login
-    fade('in');
-
-    // Fade out dashboard on logout
-    if (logoutBtn) {
-      logoutBtn.addEventListener('click', () => {
-        fade('out', 'wider');
-      });
+    if (tablet.matches && menu) {
+      wrapper.classList.add('closed');
     }
 
-    // Make logo big or small like the sidebar-wrapper
-    if (!sidebarWrapper || mobile.matches) {
+    if (smallLandscape.matches) {
+      if (sidebarNav) sidebarNav.classList.add('collapse');
+      if (subhead) subhead.classList.add('collapse');
+    } else {
+      if (sidebarNav) sidebarNav.classList.remove('collapse');
+      if (subhead) subhead.classList.remove('collapse');
+    }
+  }
+
+  /**
+   * Change appearance for mobile devices
+   *
+   * @since   4.0.0
+   */
+  function setDesktop() {
+    const sidebarWrapper = doc.querySelector('.sidebar-wrapper');
+    if (!sidebarWrapper) {
       changeLogo('closed');
     } else {
       changeLogo();
     }
 
-    window.addEventListener('joomla:menu-toggle', (event) => {
-      if (!mobile.matches) {
-        changeLogo(event.detail);
-      }
-    });
+    toggleArrowIcon('top');
+  }
 
-    if (mobileSmall.matches) {
-      toggleArrowIcon();
-      if (menu) {
-        wrapper.classList.remove('closed');
-      }
-    }
-
-    if (mobileTablet.matches && menu) {
-      wrapper.classList.add('closed');
-    }
-
-    if (mobileSmallLandscape.matches) {
-      if (sidebarNav) sidebarNav.classList.add('collapse');
-      if (subHeadToolbar) subHeadToolbar.classList.add('collapse');
-    }
-
-    headerItemsInDropdown();
-
+  /**
+   * React on resizing window
+   *
+   * @since   4.0.0
+   */
+  function reactToResize() {
     window.addEventListener('resize', () => {
-      /* eslint no-unused-expressions: ["error", { "allowTernary": true }] */
-      (mobile.matches) ? changeLogo('closed') : changeLogo();
-      (mobileSmall.matches) ? toggleArrowIcon() : toggleArrowIcon('top');
-      if (sidebarNav) (mobileSmallLandscape.matches) ? sidebarNav.classList.add('collapse') : sidebarNav.classList.remove('collapse');
-      if (subHeadToolbar) (mobileSmallLandscape.matches) ? subHeadToolbar.classList.add('collapse') : subHeadToolbar.classList.remove('collapse');
-
-      if (menu) {
-        if (mobileSmall.matches) {
-          wrapper.classList.remove('closed');
-        }
-        if (mobileTablet.matches) {
-          wrapper.classList.add('closed');
-        }
+      if (mobile.matches) {
+        setMobile();
+      } else {
+        setDesktop();
       }
 
       headerItemsInDropdown();
     });
+  }
+
+  /**
+   * Subhead gets white background when user scrolls down
+   *
+   * @since   4.0.0
+   */
+  function subheadScrolling() {
+    const subhead = doc.querySelector('.subhead');
+    if (subhead) {
+      doc.addEventListener('scroll', () => {
+        if (window.scrollY > 0) {
+          subhead.style.background = 'var(--white)';
+        } else {
+          subhead.style.background = '';
+        }
+      });
+    }
+  }
+
+  doc.addEventListener('DOMContentLoaded', () => {
+    changeSVGLogoColor();
+    fade('in');
+    fadeLoginLogout();
+    headerItemsInDropdown();
+    reactToResize();
+    subheadScrolling();
+
+    if (mobile.matches) {
+      setMobile();
+    } else {
+      setDesktop();
+
+      window.addEventListener('joomla:menu-toggle', (event) => {
+        changeLogo(event.detail);
+      });
+    }
   });
 })(window.Joomla, document);
