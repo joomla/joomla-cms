@@ -108,7 +108,7 @@ if ($saveOrder && !empty($this->items))
 										<?php if (!$canChange) : ?>
 											<?php $iconClass = ' inactive'; ?>
 										<?php elseif (!$saveOrder) : ?>
-											<?php $iconClass = ' inactive tip-top hasTooltip" title="' . HTMLHelper::tooltipText('JORDERINGDISABLED'); ?>
+											<?php $iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED'); ?>
 										<?php endif; ?>
 										<span class="sortable-handler<?php echo $iconClass; ?>">
 											<span class="icon-menu" aria-hidden="true"></span>

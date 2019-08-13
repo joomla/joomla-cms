@@ -21,6 +21,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\DatabaseIterator;
 use Joomla\Database\DatabaseQuery;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 use RuntimeException;
 
@@ -105,9 +106,10 @@ class ActionlogsModel extends ListModel
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select('a.*, u.name')
-			->from('#__action_logs AS a')
-			->leftJoin('#__users AS u ON a.user_id = u.id');
+			->select('a.*')
+			->select($db->quoteName('u.name'))
+			->from($db->quoteName('#__action_logs', 'a'))
+			->join('LEFT', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'));
 
 		// Get ordering
 		$fullorderCol = $this->state->get('list.fullordering', 'a.id DESC');
@@ -124,7 +126,9 @@ class ActionlogsModel extends ListModel
 		// Apply filter by user
 		if (!empty($user))
 		{
-			$query->where($db->quoteName('a.user_id') . ' = ' . (int) $user);
+			$user = (int) $user;
+			$query->where($db->quoteName('a.user_id') . ' = :userid')
+				->bind(':userid', $user, ParameterType::INTEGER);
 		}
 
 		// Get filter by extension
@@ -133,7 +137,9 @@ class ActionlogsModel extends ListModel
 		// Apply filter by extension
 		if (!empty($extension))
 		{
-			$query->where($db->quoteName('a.extension') . ' LIKE ' . $db->quote($extension . '%'));
+			$extension = $extension . '%';
+			$query->where($db->quoteName('a.extension') . ' LIKE :extension')
+				->bind(':extension', $extension);
 		}
 
 		// Get filter by date range
@@ -147,10 +153,13 @@ class ActionlogsModel extends ListModel
 			// If the chosen range is not more than a year ago
 			if ($date['dNow'] != false)
 			{
+				$dStart = $date['dStart']->format('Y-m-d H:i:s');
+				$dNow   = $date['dNow']->format('Y-m-d H:i:s');
 				$query->where(
-					$db->quoteName('a.log_date') . ' >= ' . $db->quote($date['dStart']->format('Y-m-d H:i:s')) .
-					' AND ' . $db->quoteName('a.log_date') . ' <= ' . $db->quote($date['dNow']->format('Y-m-d H:i:s'))
+					$db->quoteName('a.log_date') . ' BETWEEN :dstart AND :dnow'
 				);
+				$query->bind(':dstart', $dStart);
+				$query->bind(':dnow', $dNow);
 			}
 		}
 
@@ -161,16 +170,21 @@ class ActionlogsModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where($db->quoteName('a.id') . ' = ' . (int) substr($search, 3));
+				$ids = (int) substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :id')
+					->bind(':id', $ids, ParameterType::INTEGER);
 			}
 			elseif (stripos($search, 'item_id:') === 0)
 			{
-				$query->where($db->quoteName('a.item_id') . ' = ' . (int) substr($search, 8));
+				$ids = (int) substr($search, 8);
+				$query->where($db->quoteName('a.item_id') . ' = :itemid')
+					->bind(':itemid', $ids, ParameterType::INTEGER);
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
-				$query->where('(' . $db->quoteName('u.username') . ' LIKE ' . $search . ')');
+				$search = '%' . $search . '%';
+				$query->where($db->quoteName('u.username') . ' LIKE :username')
+					->bind(':username', $search);
 			}
 		}
 
@@ -245,13 +259,17 @@ class ActionlogsModel extends ListModel
 	 */
 	public function getLogsForItem($extension, $itemId)
 	{
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select('a.*, u.name')
-			->from('#__action_logs AS a')
-			->innerJoin('#__users AS u ON a.user_id = u.id')
-			->where($db->quoteName('a.extension') . ' = ' . $db->quote($extension))
-			->where($db->quoteName('a.item_id') . ' = ' . (int) $itemId);
+		$itemId = (int) $itemId;
+		$db     = $this->getDbo();
+		$query  = $db->getQuery(true)
+			->select('a.*')
+			->select($db->quoteName('u.name'))
+			->from($db->quoteName('#__action_logs', 'a'))
+			->join('INNER', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'))
+			->where($db->quoteName('a.extension') . ' = :extension')
+			->where($db->quoteName('a.item_id') . ' = :itemid')
+			->bind(':extension', $extension)
+			->bind(':itemid', $itemId, ParameterType::INTEGER);
 
 		// Get ordering
 		$fullorderCol = $this->getState('list.fullordering', 'a.id DESC');
@@ -318,13 +336,15 @@ class ActionlogsModel extends ListModel
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select('a.*, u.name')
-			->from('#__action_logs AS a')
-			->innerJoin('#__users AS u ON a.user_id = u.id');
+			->select('a.*')
+			->select($db->quoteName('u.name'))
+			->from($db->quoteName('#__action_logs', 'a'))
+			->join('INNER', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'));
 
 		if (is_array($pks) && count($pks) > 0)
 		{
-			$query->where($db->quoteName('a.id') . ' IN (' . implode(',', ArrayHelper::toInteger($pks)) . ')');
+			$pks = ArrayHelper::toInteger($pks);
+			$query->whereIn($db->quoteName('a.id'), $pks);
 		}
 
 		return $query;
@@ -341,10 +361,11 @@ class ActionlogsModel extends ListModel
 	 */
 	public function delete(&$pks)
 	{
+		$keys  = ArrayHelper::toInteger($pks);
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__action_logs'))
-			->where($db->quoteName('id') . ' IN (' . implode(',', ArrayHelper::toInteger($pks)) . ')');
+			->whereIn($db->quoteName('id'), $keys);
 		$db->setQuery($query);
 
 		try
