@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Serializer\ContentSerializer;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
@@ -36,6 +37,7 @@ class JsonapiView extends BaseApiView
 		'title',
 		'text',
 		'tags',
+		'language',
 		'state',
 		'catid',
 		'created',
@@ -54,10 +56,29 @@ class JsonapiView extends BaseApiView
 		'title',
 		'text',
 		'tags',
+		'language',
 		'state',
 		'catid',
 		'created',
 	];
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  A named configuration array for object construction.
+	 *                          contentType: the name (optional) of the content type to use for the serialization
+	 *
+	 * @since   4.0.0
+	 */
+	public function __construct($config = [])
+	{
+		if (array_key_exists('contentType', $config))
+		{
+			$this->serializer = new ContentSerializer($config['contentType']);
+		}
+
+		parent::__construct($config);
+	}
 
 	/**
 	 * Execute and display a template script.
@@ -102,6 +123,12 @@ class JsonapiView extends BaseApiView
 
 		$this->fieldsToRenderItem = array_merge($this->fieldsToRenderItem, $fields);
 
+		if (\Joomla\CMS\Language\Multilanguage::isEnabled())
+		{
+			$this->fieldsToRenderItem[] = 'associations';
+			$this->relationship[]       = 'associations';
+		}
+
 		return parent::displayItem();
 	}
 
@@ -125,6 +152,23 @@ class JsonapiView extends BaseApiView
 		foreach (FieldsHelper::getFields('com_content.article', $item, true) as $field)
 		{
 			$item->{$field->name} = isset($field->apivalue) ? $field->apivalue : $field->rawvalue;
+		}
+
+		if (\Joomla\CMS\Language\Multilanguage::isEnabled())
+		{
+			$associations = [];
+
+			foreach ($item->associations as $language => $association)
+			{
+				$itemId = explode(':', $association)[0];
+
+				$associations[] = (object) [
+					'id'       => $itemId,
+					'language' => $language,
+				];
+			}
+
+			$item->associations = $associations;
 		}
 
 		if (!empty($item->tags))

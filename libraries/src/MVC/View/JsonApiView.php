@@ -16,6 +16,7 @@ use Joomla\CMS\Serializer\JoomlaSerializer;
 use Joomla\CMS\Uri\Uri;
 use Tobscure\JsonApi\Collection;
 use Tobscure\JsonApi\Resource;
+use Tobscure\JsonApi\AbstractSerializer;
 
 /**
  * Base class for a Joomla Json List View
@@ -42,6 +43,23 @@ abstract class JsonApiView extends JsonView
 	protected $type;
 
 	/**
+	 * Item relationship
+	 *
+	 * @var  array
+	 *
+	 * @since  4.0
+	 */
+	protected $relationship = [];
+
+	/**
+	 * Serializer data
+	 *
+	 * @var   AbstractSerializer
+ 	 * @since 4.0
+	 */
+	protected $serializer;
+
+	/**
 	 * The fields to render item in the documents
 	 *
 	 * @var    array
@@ -65,11 +83,16 @@ abstract class JsonApiView extends JsonView
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		if (array_key_exists('contentType', $config))
 		{
 			$this->type = $config['contentType'];
+		}
+
+		if ($this->serializer === null)
+		{
+			$this->serializer = new JoomlaSerializer($this->type);
 		}
 
 		parent::__construct($config);
@@ -140,7 +163,7 @@ abstract class JsonApiView extends JsonView
 		$lastPageQuery['offset'] = $totalPagesAvailable - $pagination->limit;
 		$lastPage->setVar('page', $lastPageQuery);
 
-		$collection = (new Collection($items, new JoomlaSerializer($this->type)))
+		$collection = (new Collection($items, $this->serializer))
 			->fields([$this->type => $this->fieldsToRenderList]);
 
 		// Set the data into the document and render it
@@ -189,9 +212,13 @@ abstract class JsonApiView extends JsonView
 			throw new \RuntimeException('Content type missing');
 		}
 
-		$serializer = new JoomlaSerializer($this->type);
-		$element = (new Resource($item, $serializer))
-			->fields([$this->type => $this->fieldsToRenderItem])->with('author');
+		$element = (new Resource($item, $this->serializer))
+			->fields([$this->type => $this->fieldsToRenderItem]);
+
+		if (!empty($this->relationship))
+		{
+			$element->with($this->relationship);
+		}
 
 		$this->document->setData($element);
 		$this->document->addLink('self', Uri::current());
