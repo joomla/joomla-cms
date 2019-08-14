@@ -99,7 +99,7 @@ class RedisStorage extends CacheStorage
 			}
 		}
 		catch (\RedisException $e)
-		{var_dump($e);
+		{var_dump($e->getMessage());
 			Log::add($e->getMessage(), Log::DEBUG);
 		}
 
