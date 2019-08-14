@@ -10,8 +10,7 @@
 		<field
 			name="extension"
 			type="extension"
-			label="COM_ACTIONLOGS_EXTENSION"
-			description="COM_ACTIONLOGS_EXTENSION_FILTER_DESC"
+			label="COM_ACTIONLOGS_SELECT_EXTENSION"
 			onchange="this.form.submit()"
 			>
 			<option value="">COM_ACTIONLOGS_SELECT_EXTENSION</option>
@@ -20,7 +19,6 @@
 			name="dateRange"
 			type="logsdaterange"
 			label="COM_ACTIONLOGS_OPTION_FILTER_DATE"
-			description="COM_ACTIONLOGS_OPTION_FILTER_DATE"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_ACTIONLOGS_OPTION_FILTER_DATE</option>
@@ -28,6 +26,7 @@
 		<field
 			name="user"
 			type="logcreator"
+			label="COM_ACTIONLOGS_SELECT_USER"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_ACTIONLOGS_SELECT_USER</option>
