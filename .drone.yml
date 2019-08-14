@@ -162,9 +162,9 @@ services:
   - name: mysql
     image: mysql:5.7
     environment:
-      MYSQL_USER: joomla_ut
-      MYSQL_PASSWORD: joomla_ut
-      MYSQL_ROOT_PASSWORD: joomla_ut
+      MYSQL_USER: utuser
+      MYSQL_PASSWORD: ut1234
+      MYSQL_ROOT_PASSWORD: ut1234
       MYSQL_DATABASE: test_joomla
 
   - name: memcached
