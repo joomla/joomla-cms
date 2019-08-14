@@ -32,6 +32,8 @@ class JCacheStorageRedisTest extends TestCaseCache
 			->method('get')
 			->will($this->returnCallback(array($this, 'applicationGetterCallback')));
 
+		JFactory::$config = JFactory::$application;
+
 		$this->handler = new JCacheStorageRedis;
 
 		// This adapter doesn't throw an Exception on a connection failure so we'll have to use Reflection to get into the class to check it

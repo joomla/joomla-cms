@@ -78,7 +78,7 @@ class RedisStorage extends CacheStorage
 			'auth' => $config->get('redis_server_auth', null),
 			'db'   => (int) $config->get('redis_server_db', null),
 		);
-var_dump($server, $this->_persistent);
+
 		// If you are trying to connect to a socket file, ignore the supplied port
 		if ($server['host'][0] === '/')
 		{
