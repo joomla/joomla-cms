@@ -214,16 +214,18 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	{
 		$db = $this->getDbo();
 
-		// Modify the database record
-		$update_site = new stdClass;
-		$update_site->last_check_timestamp = 0;
-		$update_site->enabled = 1;
-		$update_site->update_site_id = 1;
-		$db->updateObject('#__update_sites', $update_site, 'update_site_id');
+		// Reset the last update check timestamp
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__update_sites'))
+			->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
+		$db->setQuery($query);
+		$db->execute();
 
+		// We should delete all core updates here
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__updates'))
-			->where($db->quoteName('update_site_id') . ' = ' . $db->quote('1'));
+			->where($db->quoteName('element') . ' = ' . $db->quote('joomla'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('file'));
 		$db->setQuery($query);
 
 		if ($db->execute())
