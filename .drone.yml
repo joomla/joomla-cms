@@ -113,6 +113,8 @@ steps:
     image: joomlaprojects/docker-images:php7.2
     commands:
       - php -v
+      - mysql -h mysql -u root -p ut1234 -e 'create database joomla_ut;'
+      - mysql -h mysql -u root -p ut1234 joomla_ut < "./tests/unit/schema/mysql.sql"
       - ./libraries/vendor/bin/phpunit
 
   - name: php73-unit
