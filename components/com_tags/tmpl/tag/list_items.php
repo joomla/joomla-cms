@@ -56,7 +56,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		</fieldset>
 	<?php endif; ?>
 
-    <?php if (empty($this->items)) : ?>
+	<?php if (empty($this->items)) : ?>
 		<p><?php echo Text::_('COM_TAGS_NO_ITEMS'); ?></p>
 	<?php else : ?>
 		<table class="com-tags-tag-list__category category table table-striped table-bordered table-hover">
@@ -83,13 +83,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<?php endif; ?>
 			<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
-                    <?php if ($item->core_state == 0) : ?>
+					<?php if ($item->core_state == 0) : ?>
 						<tr class="table-danger">
 					<?php else : ?>
 						<tr>
 					<?php endif; ?>
 						<td <?php if ($this->params->get('show_headings')) echo "headers=\"categorylist_header_title\""; ?> class="list-title">
-                            <a href="<?php echo Route::_($item->link); ?>">
+							<a href="<?php echo Route::_($item->link); ?>">
 								<?php echo $this->escape($item->core_title); ?>
 							</a>
 							<?php if ($item->core_state == 0) : ?>

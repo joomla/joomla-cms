@@ -25,8 +25,14 @@ use Joomla\Registry\Registry;
  */
 class FieldController extends FormController
 {
+	/**
+	 * @var    string
+	 */
 	private $internalContext;
 
+	/**
+	 * @var    string
+	 */
 	private $component;
 
 	/**

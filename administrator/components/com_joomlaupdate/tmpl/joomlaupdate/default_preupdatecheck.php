@@ -34,7 +34,7 @@ use Joomla\CMS\Language\Text;
 							<span class="badge badge-<?php echo $option->state ? 'success' : 'danger'; ?>">
 								<?php echo Text::_($option->state ? 'JYES' : 'JNO'); ?>
 								<?php if ($option->notice) : ?>
-									<span class="icon-info icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
+									<span class="icon-info icon-white" title="<?php echo $option->notice; ?>"></span>
 								<?php endif; ?>
 							</span>
 					</td>
@@ -114,8 +114,8 @@ use Joomla\CMS\Language\Text;
 						<?php echo Text::_($extension->name); ?>
 					</td>
 					<td class="extension-check"
-					    data-extension-id="<?php echo $extension->extension_id; ?>"
-					    data-extension-current-version="<?php echo $extension->version; ?>" dir="ltr">
+						data-extension-id="<?php echo $extension->extension_id; ?>"
+						data-extension-current-version="<?php echo $extension->version; ?>" dir="ltr">
 						<img src="../media/system/images/mootree_loader.gif" />
 					</td>
 					<td>
