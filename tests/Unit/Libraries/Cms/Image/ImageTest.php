@@ -817,7 +817,7 @@ class ImageTest extends UnitTestCase
 		$image = new Image;
 		$image->loadFile($this->testFile);
 
-		$thumbs = $image->createThumbs('50x38', Image::SCALE_INSIDE, '/foo');
+		$thumbs = $image->createThumbs('50x38', Image::SCALE_INSIDE, '//foo');
 	}
 
 	/**
