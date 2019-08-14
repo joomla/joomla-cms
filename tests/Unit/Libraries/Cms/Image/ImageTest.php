@@ -803,7 +803,7 @@ class ImageTest extends UnitTestCase
 	}
 
 	/**
-	 * Test the Image::generateThumbs method with invalid size.
+	 * Test the Image::generateThumbs method with invalid folder.
 	 *
 	 * @return  void
 	 *
