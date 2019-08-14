@@ -366,6 +366,13 @@ class Updater extends \JAdapter
 					{
 						$update->load($uid);
 
+						// We already have an update in the database lets check whether it has an extension_id
+						if ((int) $update->extension_id === 0 && $eid)
+						{
+							// The current update does not have an extension_id but we found one let's use them
+							$current_update->extension_id = $eid;
+						}
+
 						// If there is an update, check that the version is newer then replaces
 						if (version_compare($current_update->version, $update->version, $operator) == 1)
 						{
