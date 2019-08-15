@@ -26,7 +26,7 @@
 					type="text"
 					label="PLG_QUICKICON_JOOMLAUPDATE_GROUP_LABEL"
 					description="PLG_QUICKICON_JOOMLAUPDATE_GROUP_DESC"
-					default="mod_quickicon"
+					default="update_quickicon"
 				/>
 			</fieldset>
 		</fields>
