@@ -741,8 +741,16 @@ class User extends CMSObject
 				$iAmRehashingSuperadmin = true;
 			}
 
+			// Check if we are using a CLI application
+			$isCli = false;
+
+			if (Factory::getApplication()->isCli())
+			{
+				$isCli = true;
+			}
+
 			// We are only worried about edits to this account if I am not a Super Admin.
-			if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true)
+			if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true && $isCli != true)
 			{
 				// I am not a Super Admin, and this one is, so fail.
 				if (!$isNew && Access::check($this->id, 'core.admin'))
