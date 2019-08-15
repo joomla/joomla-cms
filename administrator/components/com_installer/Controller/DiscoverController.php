@@ -11,7 +11,9 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 
 /**
@@ -70,5 +72,24 @@ class DiscoverController extends BaseController
 		$model = $this->getModel('discover');
 		$model->purge();
 		$this->setRedirect(Route::_('index.php?option=com_installer&view=discover', false), $model->_message);
+	}
+
+	/**
+	 * Provide the data for a badge in a menu item via JSON
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getMenuBadgeData()
+	{
+		if (!Factory::getUser()->authorise('core.manage', 'com_installer'))
+		{
+			throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
+		}
+
+		$model = $this->getModel('Discover');
+
+		echo new JsonResponse(count($model->getItems()));
 	}
 }

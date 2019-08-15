@@ -152,7 +152,7 @@ class MediaListPage extends AdminListPage
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	public static $toolbarCreateFolderButton = '//button[contains(@onclick, \'onClickCreateFolder\')]';
+	public static $toolbarCreateFolderButton = '//joomla-toolbar-button[contains(@onclick, \'onClickCreateFolder\')]';
 
 	/**
 	 * The delete button in the toolbar.
@@ -160,7 +160,7 @@ class MediaListPage extends AdminListPage
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	public static $toolbarDeleteButton = '//button[contains(@onclick, \'onClickDelete\')]';
+	public static $toolbarDeleteButton = '//joomla-toolbar-button[contains(@onclick, \'onClickDelete\')]';
 
 	/**
 	 * The delete button in the toolbar.
