@@ -176,6 +176,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$scriptHashes        = [];
 		$styleHashes         = [];
 
+		// Make sure getHeadData method exits
+		if (!method_exists(Factory::getDocument(), 'getHeadData'))
+		{
+			return;
+		}
+
 		if ($scriptHashesEnabled)
 		{
 			// Generate the hashes for the script-src
