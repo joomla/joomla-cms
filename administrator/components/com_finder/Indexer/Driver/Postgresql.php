@@ -326,8 +326,8 @@ class Postgresql extends Indexer
 		 * new term ids.
 		 */
 		$query = $db->getQuery(true)
-			->update($db->quoteName('#__finder_tokens_aggregate') . ' AS ta')
-			->join('INNER', $db->quoteName('#__finder_terms') . ' AS t ON t.term = ta.term')
+			->update($db->quoteName('#__finder_tokens_aggregate', 'ta'))
+			->join('INNER', $db->quoteName('#__finder_terms', 't'), 't.term = ta.term')
 			->set('term_id = t.term_id')
 			->where('ta.term_id = 0');
 		$db->setQuery($query);
@@ -342,12 +342,11 @@ class Postgresql extends Indexer
 		 * the links counter for each term by one.
 		 */
 		$query->clear()
-			->update($db->quoteName('#__finder_terms') . ' AS t')
-			->join('INNER', $db->quoteName('#__finder_tokens_aggregate') . ' AS ta ON ta.term_id = t.term_id')
+			->update($db->quoteName('#__finder_terms', 't'))
+			->join('INNER', $db->quoteName('#__finder_tokens_aggregate', 'ta'), 'ta.term_id = t.term_id')
 			->set($db->quoteName('links') . ' = t.links + 1');
 		$db->setQuery($query);
 		$db->execute();
-
 		// Mark afterTerms in the profiler.
 		static::$profiler ? static::$profiler->mark('afterTerms') : null;
 
