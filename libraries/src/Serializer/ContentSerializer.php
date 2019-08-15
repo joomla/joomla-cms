@@ -26,7 +26,7 @@ class ContentSerializer extends JoomlaSerializer
 	/**
 	 * Build content relationships by associations
 	 *
-	 * @param $model
+	 * @param   \stdClass  $model Item model
 	 *
 	 * @return Relationship
 	 *

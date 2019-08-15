@@ -54,8 +54,8 @@ abstract class JsonApiView extends JsonView
 	/**
 	 * Serializer data
 	 *
-	 * @var   AbstractSerializer
- 	 * @since 4.0
+	 * @var    AbstractSerializer
+	 * @since  4.0
 	 */
 	protected $serializer;
 
