@@ -205,32 +205,6 @@ class InstallationController extends JSONController
 	}
 
 	/**
-	 * Languages task.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function sample()
-	{
-		$this->checkValidToken();
-
-		$r = new \stdClass;
-		$r->view = 'remove';
-
-		/** @var \Joomla\CMS\Installation\Model\DatabaseModel $model */
-		$model = $this->getModel('Database');
-
-		// Check if the database was initialised
-		if (!$model->installSampleData())
-		{
-			$r->view = 'remove';
-		}
-
-		$this->sendJsonResponse($r);
-	}
-
-	/**
 	 * Delete installation folder task.
 	 *
 	 * @return  void
