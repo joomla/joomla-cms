@@ -15,8 +15,14 @@
   }
 
   &.view-mail {
+
     .form-control {
       max-width: 100%;
     }
+  }
+  #fieldset-groups {
+	  .controls {
+		  margin-left: 2rem;
+	  }
   }
 }

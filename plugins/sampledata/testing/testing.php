@@ -91,7 +91,7 @@ class PlgSampledataTesting extends CMSPlugin
 		$data->title       = Text::_('PLG_SAMPLEDATA_TESTING_OVERVIEW_TITLE');
 		$data->description = Text::_('PLG_SAMPLEDATA_TESTING_OVERVIEW_DESC');
 		$data->icon        = 'bolt';
-		$data->steps       = 8;
+		$data->steps       = 9;
 
 		return $data;
 	}
@@ -757,7 +757,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'catid'    => $catIdsLevel2[0],
 				'ordering' => 2,
-				'tags'     => $tagIds,
+				'tags'     => array_map('strval', $tagIds),
 				'featured' => 1
 			),
 			array(
@@ -999,7 +999,7 @@ class PlgSampledataTesting extends CMSPlugin
 			),
 			array(
 				'catid'    => $catIdsLevel5[0],
-				'tags'     => array($tagIds[0], $tagIds[1], $tagIds[2]),
+				'tags'     => array_map('strval', array_slice($tagIds, 0, 3)),
 				'ordering' => 0,
 			),
 			array(
@@ -1021,7 +1021,8 @@ class PlgSampledataTesting extends CMSPlugin
 			return $response;
 		}
 
-		$this->app->setUserState('sampledata.testing.articles', $ids);
+		$articleNamespace = (array) $this->app->getUserState('sampledata.testing.articles');
+		$this->app->setUserState('sampledata.testing.articles', array_merge($ids, $articleNamespace));
 
 		$response            = array();
 		$response['success'] = true;
@@ -3236,7 +3237,7 @@ class PlgSampledataTesting extends CMSPlugin
 			return;
 		}
 
-		if (!JComponentHelper::isEnabled('com_modules'))
+		if (!ComponentHelper::isEnabled('com_modules'))
 		{
 			$response            = array();
 			$response['success'] = true;
@@ -4533,6 +4534,21 @@ class PlgSampledataTesting extends CMSPlugin
 	}
 
 	/**
+	 * Final step to show completion of sampledata.
+	 *
+	 * @return  array or void  Will be converted into the JSON response to the module.
+	 *
+	 * @since  4.0.0
+	 */
+	public function onAjaxSampledataApplyStep9()
+	{
+		$response['success'] = true;
+		$response['message'] = Text::_('PLG_SAMPLEDATA_TESTING_STEP9_SUCCESS');
+
+		return $response;
+	}
+
+	/**
 	 * Adds categories.
 	 *
 	 * @param   array    $categories  Array holding the category arrays.
@@ -4589,7 +4605,7 @@ class PlgSampledataTesting extends CMSPlugin
 			}
 
 			// Get ID from category we just added
-			$catIds[] = $this->categoryModel->getItem()->id;
+			$catIds[] = $this->categoryModel->getState($this->categoryModel->getName() . '.id');
 		}
 
 		return $catIds;
@@ -4664,7 +4680,7 @@ class PlgSampledataTesting extends CMSPlugin
 			}
 
 			// Get ID from category we just added
-			$ids[] = $model->getItem()->id;
+			$ids[] = $model->getState($model->getName() . '.id');
 		}
 
 		return $ids;

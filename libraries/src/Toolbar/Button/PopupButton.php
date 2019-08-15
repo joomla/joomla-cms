@@ -98,7 +98,7 @@ class PopupButton extends ToolbarButton
 	)
 	{
 		$this->name($name)
-			->text(Text::_($text))
+			->text($text)
 			->task($this->_getCommand($url))
 			->url($url)
 			->icon('icon-' . $name)

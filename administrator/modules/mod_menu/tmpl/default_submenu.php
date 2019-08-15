@@ -81,28 +81,58 @@ $link      = $current->get('link');
 // Get the menu icon
 $icon      = $this->getIconClass($current);
 $iconClass = ($icon != '' && $current->level == 1) ? '<span class="' . $icon . '" aria-hidden="true"></span>' : '';
+$ajax      = $current->ajaxbadge ? '<span class="menu-badge"><span class="fa fa-spin fa-spinner mt-1 system-counter" data-url="' . $current->ajaxbadge . '"></span></span>' : '';
 
 if ($link != '' && $current->target != '')
 {
 	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\" target=\"" . $current->target . "\">"
 		. $iconClass
-		. '<span class="sidebar-item-title">' . Text::_($current->title) . "</span></a>";
+		. '<span class="sidebar-item-title">' . Text::_($current->title) . '</span>' . $ajax . '</a>';
 }
 elseif ($link != '')
 {
 	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\">"
 		. $iconClass
-		. '<span class="sidebar-item-title">' . Text::_($current->get('title')) . "</span></a>";
+		. '<span class="sidebar-item-title">' . Text::_($current->title) . '</span>' . $ajax . '</a>';
 }
 elseif ($current->title != '' && $current->get('class') !== 'separator')
 {
 	echo "<a" . $linkClass . $dataToggle . ">"
 		. $iconClass
-		. '<span class="sidebar-item-title">' . Text::_($current->get('title')) . "</span></a>";
+		. '<span class="sidebar-item-title">' . Text::_($current->title) . '</span>' . $ajax . '</a>';
 }
 else
 {
-	echo '<span>' . Text::_($current->get('title')) . '</span>';
+	echo '<span>' . Text::_($current->title) . '</span>' . $ajax;
+}
+
+if ($current->getParams()->get('menu-quicktask', false))
+{
+	$params = $current->getParams();
+	$user = $this->application->getIdentity();
+	$link = $params->get('menu-quicktask-link');
+	$icon = $params->get('menu-quicktask-icon', 'plus');
+	$title = $params->get('menu-quicktask-title', 'MOD_MENU_QUICKTASK_NEW');
+	$permission = $params->get('menu-quicktask-permission');
+	$scope = $current->scope !== 'default' ? $current->scope : null;
+
+	if (!$permission || $user->authorise($permission, $scope))
+	{
+		echo '<span class="menu-quicktask"><a href="' . $link . '">';
+		echo '<span class="fa fa-' . $icon . '" title="' . htmlentities(Text::_($title)) . '" aria-hidden="true"></span>';
+		echo '<span class="sr-only">' . Text::_($title) . '</span>';
+		echo '</a></span>';
+	}
+}
+
+if ($current->dashboard)
+{
+	$titleDashboard = Text::sprintf('MOD_MENU_DASHBOARD_LINK', Text::_($current->title));
+	echo '<span class="menu-dashboard"><a href="'
+		. JRoute::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $current->dashboard) . '">'
+		. '<span class="fa fa-th-large" title="' . $titleDashboard . '" aria-hidden="true"></span>'
+		. '<span class="sr-only">' . $titleDashboard . '</span>'
+		. '</a></span>';
 }
 
 // Recurse through children if they exist
