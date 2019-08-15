@@ -4,6 +4,7 @@
  * @subpackage  render
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 defined('FOF_INCLUDED') or die;
 
@@ -79,15 +80,18 @@ class FOFRenderJoomla3 extends FOFRenderStrapper
 			$layout = $input->getCmd('layout', '');
 			$task = $input->getCmd('task', '');
 
-			$classes = ' class="' . implode(array(
-				'joomla-version-' . $majorVersion,
-				'joomla-version-' . $minorVersion,
-				'admin',
-				$option,
-				'view-' . $view,
-				'layout-' . $layout,
-				'task-' . $task,
-			), ' ') . '"';
+			$classes = ' class="' . implode(
+				' ',
+				array(
+					'joomla-version-' . $majorVersion,
+					'joomla-version-' . $minorVersion,
+					'admin',
+					$option,
+					'view-' . $view,
+					'layout-' . $layout,
+					'task-' . $task,
+				)
+			) . '"';
 		}
 		else
 		{
