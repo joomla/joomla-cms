@@ -14,8 +14,7 @@
 		<field
 			name="status"
 			type="list"
-			label="JSTATUS"
-			description="COM_PRIVACY_FIELD_STATUS_DESC"
+			label="COM_PRIVACY_FIELD_STATUS_LABEL"
 			filter="int"
 			default="0"
 			validate="options"
@@ -31,7 +30,6 @@
 			name="request_type"
 			type="list"
 			label="COM_PRIVACY_FIELD_REQUEST_TYPE_LABEL"
-			description="COM_PRIVACY_FIELD_REQUEST_TYPE_DESC"
 			filter="string"
 			default="export"
 			validate="options"
