@@ -11,6 +11,7 @@ namespace Joomla\Component\Menus\Api\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Menus\Api\View\Items\JsonApiView;
@@ -66,6 +67,58 @@ class ItemsController extends ApiController
 		$this->input->set('model_state', ['filter.client_id' => $this->getClientIdFromInput()]);
 
 		return parent::displayList();
+	}
+
+	/**
+	 * Method to add a new record.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 * @throws  NotAllowed
+	 * @throws  \RuntimeException
+	 */
+	public function add()
+	{
+		$data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
+
+		if (isset($data['menutype']))
+		{
+			$this->input->set('menutype', $data['menutype']);
+			$this->input->set('com_menus.items.menutype', $data['menutype']);
+		}
+
+		isset($data['type'])      && $this->input->set('type', $data['type']);
+		isset($data['parent_id']) && $this->input->set('parent_id', $data['parent_id']);
+		isset($data['link'])      && $this->input->set('link', $data['link']);
+
+		$this->input->set('id', '0');
+
+		parent::add();
+	}
+
+	/**
+	 * Method to edit an existing record.
+	 *
+	 * @return  static  A \JControllerLegacy object to support chaining.
+	 *
+	 * @since   4.0.0
+	 */
+	public function edit()
+	{
+		$data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
+
+		if (isset($data['menutype']))
+		{
+			$this->input->set('menutype', $data['menutype']);
+			$this->input->set('com_menus.items.menutype', $data['menutype']);
+		}
+
+		isset($data['type'])      && $this->input->set('type', $data['type']);
+		isset($data['parent_id']) && $this->input->set('parent_id', $data['parent_id']);
+		isset($data['link'])      && $this->input->set('link', $data['link']);
+
+		return parent::edit();
 	}
 
 	/**
