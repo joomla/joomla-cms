@@ -31,7 +31,7 @@ defined('_JEXEC') or die;
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PACKAGE_REINSTALL'); ?>
 				</td>
 				<td>
-					<a href="<?php echo $this->updateInfo['object']->downloadurl->_data; ?>">
+					<a href="<?php echo $this->updateInfo['object']->downloadurl->_data; ?>" target="_blank" rel="noopener noreferrer">
 						<?php echo $this->updateInfo['object']->downloadurl->_data; ?>
 					</a>
 				</td>
@@ -43,7 +43,7 @@ defined('_JEXEC') or die;
 						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL'); ?>
 					</td>
 					<td>
-						<a href="<?php echo $this->updateInfo['object']->get('infourl')->_data; ?>">
+						<a href="<?php echo $this->updateInfo['object']->get('infourl')->_data; ?>" target="_blank" rel="noopener noreferrer">
 							<?php echo $this->updateInfo['object']->get('infourl')->title; ?>
 						</a>
 					</td>
