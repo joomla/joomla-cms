@@ -12,6 +12,7 @@ namespace Joomla\Component\Categories\Api\View\Categories;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
+use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
@@ -39,6 +40,7 @@ class JsonapiView extends BaseApiView
 		'created_user_id',
 		'parent_id',
 		'level',
+		'extension',
 		'lft',
 		'rgt',
 		'language',
@@ -128,7 +130,24 @@ class JsonapiView extends BaseApiView
 
 		$this->fieldsToRenderItem = array_merge($this->fieldsToRenderItem, $fields);
 
-		return parent::displayItem();
+		if ($item === null)
+		{
+			/** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+			$model = $this->getModel();
+			$item  = $this->prepareItem($model->getItem());
+		}
+
+		if ($item->id === null)
+		{
+			throw new RouteNotFoundException('Item does not exist');
+		}
+
+		if ($item->extension != $this->getModel()->getState('filter.extension'))
+		{
+			throw new RouteNotFoundException('Item does not exist');
+		}
+
+		return parent::displayItem($item);
 	}
 
 	/**
