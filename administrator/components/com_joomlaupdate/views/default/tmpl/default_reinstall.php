@@ -33,7 +33,7 @@ defined('_JEXEC') or die;
 				<td>
 					<a href="<?php echo $this->updateInfo['object']->downloadurl->_data; ?>" target="_blank" rel="noopener noreferrer">
 						<?php echo $this->updateInfo['object']->downloadurl->_data; ?>
-						<span class="icon-out-2" aria-hidden="true"></span>#
+						<span class="icon-out-2" aria-hidden="true"></span>
 						<span class="sr-only"><?php echo JText::_('JBROWSERTARGET_NEW'); ?></span>
 					</a>
 				</td>
