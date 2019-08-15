@@ -31,7 +31,7 @@ $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFilename);
 	<div class="row">
 		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
-				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => ['selectorFieldName' => 'language_client'])); ?>
 				<div class="clearfix"></div>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
@@ -73,7 +73,7 @@ $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFilename);
 								<th scope="row">
 									<?php if ($canEdit) : ?>
 										<a id="key[<?php echo $this->escape($key); ?>]" href="<?php echo Route::_('index.php?option=com_languages&task=override.edit&id=' . $key); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($key)); ?>">
-											<span class="fa fa-pen-square mr-2" aria-hidden="true"></span><?php echo $this->escape($key); ?></a>
+											<?php echo $this->escape($key); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($key); ?>
 									<?php endif; ?>
