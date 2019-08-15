@@ -7,12 +7,37 @@
     list-style: none;
   }
   
+  li {
+	  padding: 0;
+  }
+  
+  a {
+    color: var(--atum-text-dark);
+    width: 100%;
+    transition: all .25s ease;
+
+    @include hover-focus-active {
+      text-decoration: none;
+      color: $white;
+      background: var(--atum-bg-dark);
+    }
+	
+    .fa,
+    .fab {
+      font-size: $quickicon-icon-size;
+      margin: 0 auto;
+	  
+      &.big {
+            font-size: $quickicon-icon-size-big;
+          }
+       }
+    }
+
   // Group link to the overview and link to the edit form in a container
   .quickicon-group {
     width: calc(33.333% - 1rem);
     max-width: calc(33.333% - 1rem);
     flex: 1 1 calc(33.333% - 1rem);
-    margin: 0.5rem;
     padding: 0;
 	
     @media (max-width: 1350px)  {
@@ -36,45 +61,11 @@
       flex: 1 1 calc(100% - 1rem);
     }
 	
-    .quickicon {
-      display: block;
-      position: relative;
-    }
-	
     .quickicon-linkadd {
-      position: relative;
-      font-size: $display2-size;
       background-color: var(--atum-bg-light);
-      line-height: 2rem;
-      margin-top: 0.4rem;
-      border: 1px solid $gray-400;
-	  
-      a {
-        overflow: hidden;
-        display: block;
-        padding-left: 2.4rem;
-        color: var(--atum-text-dark);
-		
-        @include hover-focus-active {
-          text-decoration: none;
-          color: $white;
-          background: var(--atum-bg-dark);
-        }  
-      }
-
-    .fa {
-      text-align: center;
-      position: absolute;
-      left: 0;
-      display: inline-block;
       width: 2rem;
-      height: 2rem;
-      line-height: 2rem;
-      color: $quickicon-bg;
-      background-color: var(--atum-bg-dark);
      } 
     }
-  }
   
   // Single icon 
   .quickicon-single {
@@ -82,12 +73,14 @@
     max-width: calc(33.333% - 1rem);
     flex: 1 1 calc(33.333% - 1rem);
     background: $quickicon-bg;
-    margin: 0.5rem;
-    padding: 0;
   }
   
   .quickicon-single,
   .quickicon-group {
+    border: 1px solid $gray-400;
+    margin: 0.5rem;
+    min-height: 5.7rem;
+	
     @media (max-width: 1350px) {
       width: calc(50% - 1rem);
       max-width: calc(50% - 1rem);
@@ -112,38 +105,12 @@
 	
   .quickicon a {
     display: inline-flex;
-    min-height: 5.7rem;
+    height: 100%;
     flex-direction: column;
-    width: 100%;
-    transition: all .25s ease;
-    border: 1px solid $gray-400;
     background-color: var(--toolbar-bg);
-    color: var(--atum-text-dark);
     line-height: 1.1;
     align-self: baseline;
     text-align: center;
-
-    .fa,
-    .fab {
-      font-size: $quickicon-icon-size;
-      color: var(--atum-bg-dark);
-
-      &:hover {
-        color: var(--atum-bg-dark);;
-      }
-    }
-
-    &:hover {
-      color: $white;
-    }
-
-    @include hover-focus-active {
-      text-decoration: none;
-
-      .fa {
-        color: $white;
-      }
-    }
 
     > div {
       flex: 1 0 0;
@@ -163,7 +130,7 @@
 
     .quickicon-name {
       font-size: $display2-size;
-      padding-bottom: .6rem;
+      padding: .2rem .2rem .6rem  .2rem;
     }
 
     .quickicon-amount {

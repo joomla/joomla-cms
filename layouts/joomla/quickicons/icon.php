@@ -53,8 +53,8 @@ $class = !empty($tmp) ? 'class="' . implode(' ', array_unique($tmp)) . '"' : '';
 ?>
 <?php // If it is a button with two links: make it a list
 	if (isset($displayData['linkadd'])): ?>
-		<ul class="quickicon-group col mb-3">
-			<li class="quickicon">
+		<ul class="quickicon-group col mb-3 d-flex">
+			<li class="quickicon d-flex flex-grow-1">
 	<?php else: ?>		
 		<li class="quickicon quickicon-single col mb-3">
 	<?php endif; ?>	
@@ -87,11 +87,10 @@ $class = !empty($tmp) ? 'class="' . implode(' ', array_unique($tmp)) . '"' : '';
 	</li>
 	<?php // Add the link to the edit-form
 	if (isset($displayData['linkadd'])): ?>
-		<li class="btn-block quickicon-linkadd j-links-link">
-			<a href="<?php echo $displayData['linkadd']; ?>">
-				<span class="fa fa-plus mr-2" aria-hidden="true"></span>
+		<li class="btn-block quickicon-linkadd j-links-link d-flex">
+			<a class="d-flex align-items-center" href="<?php echo $displayData['linkadd']; ?>" title="<?php echo Text::_($displayData['name'] . '_ADD_SRONLY'); ?>">
+				<span class="fa fa-plus" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_($displayData['name'] . '_ADD_SRONLY'); ?></span>
-				<span aria-hidden="true"><?php echo Text::_($displayData['name'] . '_ADD'); ?></span>
 			</a>
 		</li>
 	</ul>
