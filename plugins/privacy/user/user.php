@@ -149,6 +149,30 @@ class PlgPrivacyUser extends PrivacyPlugin
 				->delete($this->db->quoteName('#__session'))
 				->where($this->db->quoteName('session_id') . ' IN (' . implode(', ', $quotedIds) . ')')
 		)->execute();
+
+				// Remove sensible user custom field data
+		$query = $this->db->getQuery(true);
+		$query->select($this->db->quoteName(array('params', 'field_id', 'item_id')))
+			->from($this->db->quoteName('#__fields'))
+			->innerJoin($this->db->quoteName('#__fields_values') . ' ON id=field_id')
+			->where($this->db->quoteName('context') . ' = ' . $this->db->quote('com_users.user'))
+			->where($this->db->quoteName('item_id') . ' =' . $this->db->quote($user->id));
+		
+		$items = $this->db->setQuery($query)->loadAssocList();
+
+		foreach ($items as $item)
+		{
+			$param = json_decode($item['params'], true);
+			if ($param['privacy_related'])
+			{
+				$this->db->setQuery(
+					$this->db->getQuery(true)
+						->delete($this->db->quoteName('#__fields_values'))
+						->where($this->db->quoteName('field_id') . ' = ' . (int) $item['field_id'])
+						->where($this->db->quoteName('item_id') . ' = ' . $this->db->quote($item['item_id']))
+				)->execute();
+			}
+		}
 	}
 
 	/**
