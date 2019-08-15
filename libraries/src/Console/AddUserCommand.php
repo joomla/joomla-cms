@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Console;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
@@ -115,7 +115,7 @@ class AddUserCommand extends AbstractCommand
 		$this->password = $this->getStringFromOption('password', 'Please enter a password');
 		$this->userGroups = $this->getUserGroups();
 
-		if (in_array("error", $this->userGroups))
+		if (\in_array("error", $this->userGroups))
 		{
 			$this->ioStyle->error("'" . $this->userGroups[1] . "' user group doesn't exist!");
 
