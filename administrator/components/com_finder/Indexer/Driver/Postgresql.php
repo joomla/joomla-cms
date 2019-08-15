@@ -347,6 +347,7 @@ class Postgresql extends Indexer
 			->set($db->quoteName('links') . ' = t.links + 1');
 		$db->setQuery($query);
 		$db->execute();
+
 		// Mark afterTerms in the profiler.
 		static::$profiler ? static::$profiler->mark('afterTerms') : null;
 
