@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -132,7 +132,7 @@
       cm.off("change", abort)
       if (state.waitingFor != id) return
       if (arg2 && annotations instanceof CodeMirror) annotations = arg2
-      updateLinting(cm, annotations)
+      cm.operation(function() {updateLinting(cm, annotations)})
     }, passOptions, cm);
   }
 
@@ -151,9 +151,9 @@
       var annotations = getAnnotations(cm.getValue(), passOptions, cm);
       if (!annotations) return;
       if (annotations.then) annotations.then(function(issues) {
-        updateLinting(cm, issues);
+        cm.operation(function() {updateLinting(cm, issues)})
       });
-      else updateLinting(cm, annotations);
+      else cm.operation(function() {updateLinting(cm, annotations)})
     }
   }
 

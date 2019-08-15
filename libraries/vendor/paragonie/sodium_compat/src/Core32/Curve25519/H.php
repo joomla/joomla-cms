@@ -14,7 +14,7 @@ class ParagonIE_Sodium_Core32_Curve25519_H extends ParagonIE_Sodium_Core32_Util
     /**
      * See: libsodium's crypto_core/curve25519/ref10/base.h
      *
-     * @var array Basically, int[32][8][3][10]
+     * @var array<int, array<int, array<int, array<int, int>>>> Basically, int[32][8][3][10]
      */
     protected static $base = array(
         array(
@@ -1366,7 +1366,7 @@ class ParagonIE_Sodium_Core32_Curve25519_H extends ParagonIE_Sodium_Core32_Util
     /**
      * See: libsodium's crypto_core/curve25519/ref10/base2.h
      *
-     * @var array basically int[8][3]
+     * @var array<int, array<int, array<int, int>>> basically int[8][3]
      */
     protected static $base2 = array(
         array(
@@ -1414,7 +1414,7 @@ class ParagonIE_Sodium_Core32_Curve25519_H extends ParagonIE_Sodium_Core32_Util
     /**
      * 37095705934669439343138083508754565189542113879843219016388785533085940283555
      *
-     * @var int[]
+     * @var array<int, int>
      */
     protected static $d = array(
         -10913610,
@@ -1432,7 +1432,7 @@ class ParagonIE_Sodium_Core32_Curve25519_H extends ParagonIE_Sodium_Core32_Util
     /**
      * 2 * d = 16295367250680780974490674513165176452449235426866156013048779062215315747161
      *
-     * @var int[]
+     * @var array<int, int>
      */
     protected static $d2 = array(
         -21827239,
@@ -1450,7 +1450,7 @@ class ParagonIE_Sodium_Core32_Curve25519_H extends ParagonIE_Sodium_Core32_Util
     /**
      * sqrt(-1)
      *
-     * @var int[]
+     * @var array<int, int>
      */
     protected static $sqrtm1 = array(
         -32595792,

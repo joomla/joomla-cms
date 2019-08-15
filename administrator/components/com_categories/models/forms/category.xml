@@ -186,11 +186,12 @@
 
 	<field
 		name="created_time"
-		type="text"
+		type="calendar"
 		label="JGLOBAL_CREATED_DATE"
-		class="readonly"
-		filter="unset"
-		readonly="true"
+		translateformat="true"
+		showtime="true"
+		size="22"
+		filter="user_utc"
 	/>
 
 	<field
@@ -204,11 +205,14 @@
 
 	<field
 		name="modified_time"
-		type="text"
+		type="calendar"
 		label="JGLOBAL_FIELD_MODIFIED_LABEL"
 		class="readonly"
-		filter="unset"
+		translateformat="true"
+		showtime="true"
+		size="22"
 		readonly="true"
+		filter="user_utc"
 	/>
 
 	<field
@@ -261,7 +265,7 @@
 				description="COM_CATEGORIES_FIELD_IMAGE_DESC"
 			/>
 
-			<field 
+			<field
 				name="image_alt"
 				type="text"
 				label="COM_CATEGORIES_FIELD_IMAGE_ALT_LABEL"

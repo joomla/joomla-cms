@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ use Joomla\String\StringHelper;
  * Provides a storage for filesystem's paths where Form's entities reside and methods for creating those entities.
  * Also stores objects with entities' prototypes for further reusing.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class FormHelper
 {
@@ -35,7 +35,7 @@ class FormHelper
 	 * - /path/2
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $paths;
 
@@ -57,7 +57,7 @@ class FormHelper
 	 * {KEY}: {OBJECT}
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $entities = array('field' => array(), 'form' => array(), 'rule' => array());
 
@@ -69,7 +69,7 @@ class FormHelper
 	 *
 	 * @return  FormField|boolean  FormField object on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function loadFieldType($type, $new = true)
 	{
@@ -84,7 +84,7 @@ class FormHelper
 	 *
 	 * @return  FormRule|boolean  FormRule object on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function loadRuleType($type, $new = true)
 	{
@@ -102,7 +102,7 @@ class FormHelper
 	 *
 	 * @return  mixed  Entity object on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function loadType($entity, $type, $new = true)
 	{
@@ -138,7 +138,7 @@ class FormHelper
 	 *
 	 * @return  string|boolean  Class name on success or false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function loadFieldClass($type)
 	{
@@ -153,7 +153,7 @@ class FormHelper
 	 *
 	 * @return  string|boolean  Class name on success or false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function loadRuleClass($type)
 	{
@@ -170,7 +170,7 @@ class FormHelper
 	 *
 	 * @return  string|boolean  Class name on success or false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function loadClass($entity, $type)
 	{
@@ -223,6 +223,7 @@ class FormHelper
 					$paths[] = $path;
 				}
 			}
+
 			// Break off the end of the complex type.
 			$type = substr($type, $pos + 1);
 		}
@@ -258,7 +259,7 @@ class FormHelper
 	 *
 	 * @return  array  The list of paths that have been added.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function addFieldPath($new = null)
 	{
@@ -272,7 +273,7 @@ class FormHelper
 	 *
 	 * @return  array  The list of paths that have been added.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function addFormPath($new = null)
 	{
@@ -286,7 +287,7 @@ class FormHelper
 	 *
 	 * @return  array  The list of paths that have been added.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function addRulePath($new = null)
 	{
@@ -302,7 +303,7 @@ class FormHelper
 	 *
 	 * @return  array  The list of paths that have been added.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function addPath($entity, $new = null)
 	{
@@ -415,6 +416,7 @@ class FormHelper
 		foreach ($new as $prefix)
 		{
 			$prefix = trim($prefix);
+
 			if (in_array($prefix, $prefixes))
 			{
 				continue;

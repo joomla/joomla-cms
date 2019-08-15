@@ -192,6 +192,7 @@
 				<option value="author">JAUTHOR</option>
 				<option value="hits">JGLOBAL_HITS</option>
 	 			<option value="tag">JTAG</option>
+	 			<option value="month">JMONTH_PUBLISHED</option>
 			</field>
 
 			<field 

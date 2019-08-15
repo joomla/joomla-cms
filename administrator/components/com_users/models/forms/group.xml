@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset>
+	<fieldset name="group_details">
 		<field 
 			name="id" 
 			type="hidden"
