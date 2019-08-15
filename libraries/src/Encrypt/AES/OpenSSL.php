@@ -17,7 +17,7 @@ use Joomla\CMS\Encrypt\Randval;
  *
  * @since   __DEPLOY_VERSION__
  */
-class Openssl extends AbstractAES implements AesInterface
+class OpenSSL extends AbstractAES implements AesInterface
 {
 	/**
 	 * The OpenSSL options for encryption / decryption

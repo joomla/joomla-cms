@@ -126,7 +126,7 @@ class StylesRenderer extends DocumentRenderer
 
 				if ($this->_doc->cspNonce)
 				{
-					$buffer = ' nonce="' . $this->_doc->cspNonce . '"';
+					$buffer .= ' nonce="' . $this->_doc->cspNonce . '"';
 				}
 
 				$buffer .= '>' . $lnEnd;
