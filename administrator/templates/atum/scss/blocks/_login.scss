@@ -1,22 +1,34 @@
 // Login page
 
 .view-login {
-  background: var(--primary);
-  /**
-   * Note IDE's will consider this file import to fail in SCSS but this is correct for the final
-   * compiled CSS file
-   */
-  background-image: url("../images/joomla-pattern.svg");
-  background-size: 200px;
+
+  .container-main {
+
+    @include media-breakpoint-down(sm) {
+      min-height: calc(100vh - 35vh);
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+    }
+
+    #content {
+
+      @include media-breakpoint-down(sm) {
+        padding: 0;
+        max-width: 98%;
+      }
+    }
+  }
 
   .login-bg-grad {
     position: fixed;
-    z-index: -1;
+    z-index: $zindex-negative;
     width: 100vw;
     height: 100vh;
     background-image: linear-gradient(45deg,
-            rgba(color("primary-dark"), .9) 30%,
-            rgba(color("login-light-bg"), .2) 100%);
+            rgba(var(--atum-bg-dark), .9) 30%,
+            rgba(color("atum-bg-light"), .2) 100%);
   }
 
   .login-initial {
@@ -34,16 +46,55 @@
   }
 
   .login {
-    width: 410px;
+    width: 25rem;
+    background: var(--white);
+    padding: 15px;
+    color: var(--atum-text-dark);
+    border-radius: 3px;
+    margin-top: 10rem;
+    align-self: flex-start;
+    box-shadow: 0 0 10px 0 #ccc;
 
-    @include media-breakpoint-down(sm) {
-      padding: 0 15px;
+    @include media-breakpoint-down(md) {
+      margin-top: 3rem;
     }
+
+    img {
+      height: 4.4rem;
+      padding: 15px;
+    }
+
+    #form-login {
+
+      .form-group {
+        position: relative;
+        margin-bottom: 1.85rem;
+
+        .form-control-feedback {
+          text-align: right;
+          position: absolute;
+          bottom: -1.1rem;
+          right: 0;
+          font-size: 0.75rem;
+        }
+      }
+
+    }
+
+    #btn-login-submit {
+      background: var(--atum-bg-dark);
+      color:rgba(255,255,255,0.8);
+    }
+  }
+
+  .input-password-toggle {
+    border-color: var(--atum-bg-dark-80);
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15);
   }
 
   .login-box {
     background: var(--login-main-bg);
-    box-shadow: 0 0 20px var(--primary-dark);
+    box-shadow: 0 0 20px var(--atum-bg-dark);
 
     a {
       color: $white;
@@ -51,6 +102,7 @@
   }
 
   .form-group {
+
     label {
       display: flex;
       align-items: flex-end;
@@ -58,14 +110,31 @@
 
       span {
         font-size: .9rem;
-        color: var(--form-link-feedback);
+
+        @include media-breakpoint-down(xs) {
+          width: 100%;
+        }
+
+        &.text-right {
+          color: var(--atum-special-color);
+          font-size: .75rem;
+        }
       }
     }
+  }
+
+  input:focus,
+  select:focus {
+    box-shadow: inset 0 0 1px 1px var(--atum-contrast);
+    background: $white;
   }
 
   h1 {
     margin: 0;
     text-align: center;
+    color: var(--atum-special-color);
+    font-weight: bold;
+    padding-bottom: 1rem;
   }
 
   .btn {
@@ -79,5 +148,115 @@
   .form-control,
   .custom-select {
     max-width: none;
+  }
+
+  #sidebar-wrapper {
+
+    @include media-breakpoint-down(sm) {
+      order: 2;
+    }
+
+    #main-brand {
+
+      a {
+        font-size: .875rem;
+      }
+    }
+
+    .card-header {
+      font-size: 1.125rem;
+    }
+  }
+
+  #sidebar {
+    color: var(--atum-text-light);
+    width: 100%;
+    text-align: center;
+    align-self: flex-end;
+    font-size: 0.875rem;
+
+    .card {
+      background: var(--atum-bg-dark);
+      box-shadow: none;
+
+      .module-body {
+        padding: .75rem 1.25rem;
+      }
+    }
+
+    @include media-breakpoint-down(sm) {
+      position: relative;
+      bottom: 0;
+    }
+  }
+
+  .container-main,
+  .sidebar-wrapper {
+
+    @include media-breakpoint-down(sm) {
+      max-width: 100% !important;
+      flex: 1 0 100% !important;
+    }
+  }
+
+  .d-flex {
+
+    @include media-breakpoint-down(sm) {
+      flex-wrap: wrap;
+      display:flex !important;
+    }
+  }
+
+  .header{
+    .logo{
+      &.small{
+        line-height: 2.5rem;
+      }
+    }
+  }
+}
+
+label {
+  color: var(--atum-special-color);
+}
+
+.com_login .sidebar-wrapper .main-brand {
+  margin-top: 100px;
+  color: var(--atum-text-light);
+  text-align: center;
+  flex: 1;
+  flex-basis: auto;
+
+  @include media-breakpoint-down(sm) {
+    margin-top: 10px;
+  }
+}
+
+.com_login .sidebar-wrapper #sidebar p {
+  margin-bottom: 0.2rem;
+}
+
+.com_login .sidebar-wrapper .main-brand h1,
+.com_login .sidebar-wrapper .main-brand a,
+.com_login .sidebar-wrapper #sidebar,
+.com_login .sidebar-wrapper #sidebar a {
+  color: var(--atum-text-light);
+}
+
+.view-login{
+  #wrapper.d-flex{
+      @include media-breakpoint-down(sm) {
+        display:flex !important;
+     }
+  }
+
+  #sidebar-wrapper:not(.show):not(.collapse){
+    @include media-breakpoint-down(sm) {
+      display:block;
+    }
+  }
+
+ .invalid .form-control-feedback {
+    color: theme-color("danger");
   }
 }
