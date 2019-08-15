@@ -6,7 +6,7 @@
 			type="installation.language"
 			label="INSTL_SELECT_LANGUAGE_TITLE"
 			id="language"
-			class="custom-select required ml-2"
+			class="custom-select-sm required"
 			default="en-GB"
 		/>
 		<field
@@ -59,7 +59,7 @@
 			type="databaseconnection"
 			label="INSTL_DATABASE_TYPE_DESC"
 			id="db_type"
-			class="custom-select form-control"
+			class="custom-select"
 			supported="mysql,mysqli,pgsql,postgresql"
 			required="true"
 			default="mysqli"
