@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\FactoryInterface;
@@ -190,6 +191,22 @@ abstract class Factory
 	 *
 	 * Returns the global service container object, only creating it if it doesn't already exist.
 	 *
+	 * This method is only suggested for use in code whose responsibility is to create new services
+	 * and needs to be able to resolve the dependencies, and should therefore only be used when the
+	 * container is not accessible by other means.  Valid uses of this method include:
+	 *
+	 * - A static `getInstance()` method calling a factory service from the container,
+	 *   see `Joomla\CMS\Toolbar\Toolbar::getInstance()` as an example
+	 * - An application front controller loading and executing the Joomla application class,
+	 *   see the `cli/joomla.php` file as an example
+	 * - Retrieving optional constructor dependencies when not injected into a class during a transitional
+	 *   period to retain backward compatibility, in this case a deprecation notice should also be emitted to
+	 *   notify developers of changes needed in their code
+	 *
+	 * This method is not suggested for use as a one-for-one replacement of static calls, such as
+	 * replacing calls to `Factory::getDbo()` with calls to `Factory::getContainer()->get('db')`, code
+	 * should be refactored to support dependency injection instead of making this change.
+	 *
 	 * @return  Container
 	 *
 	 * @since   4.0
@@ -300,11 +317,21 @@ abstract class Factory
 	 *
 	 * @return  User object
 	 *
-	 * @see     User
-	 * @since   1.7.0
+	 * @see         User
+	 * @since       1.7.0
+	 * @deprecated  5.0  Load the user service from the dependency injection container or via $app->getIdentity()
 	 */
 	public static function getUser($id = null)
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated. Load the user from the dependency injection container or via %2$s::getApplication()->getIdentity().',
+				__METHOD__,
+				__CLASS__
+			),
+			E_USER_DEPRECATED
+		);
+
 		$instance = self::getApplication()->getSession()->get('user');
 
 		if (is_null($id))
@@ -395,7 +422,7 @@ abstract class Factory
 
 		if (!self::$database)
 		{
-			if (self::getContainer()->exists('DatabaseDriver'))
+			if (self::getContainer()->has('DatabaseDriver'))
 			{
 				self::$database = self::getContainer()->get('DatabaseDriver');
 			}
@@ -433,7 +460,7 @@ abstract class Factory
 	/**
 	 * Return the {@link Date} object
 	 *
-	 * @param   mixed  $time      The initial time for the JDate object
+	 * @param   mixed  $time      The initial time for the Date object
 	 * @param   mixed  $tzOffset  The timezone offset.
 	 *
 	 * @return  Date object
@@ -559,7 +586,9 @@ abstract class Factory
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\HTMLRegistry)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Session)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar)
-			->registerServiceProvider(new \Joomla\CMS\Service\Provider\WebAssetRegistry);
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\WebAssetRegistry)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\ApiRouter)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\User);
 
 		return $container;
 	}
@@ -812,8 +841,8 @@ abstract class Factory
 
 		if ($use_prefix)
 		{
-			$FTPOptions = \JClientHelper::getCredentials('ftp');
-			$SCPOptions = \JClientHelper::getCredentials('scp');
+			$FTPOptions = ClientHelper::getCredentials('ftp');
+			$SCPOptions = ClientHelper::getCredentials('scp');
 
 			if ($FTPOptions['enabled'] == 1 && $use_network)
 			{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\Component\Postinstall\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -100,7 +101,7 @@ class MessagesModel extends BaseDatabaseModel
 		$query->select(
 			$db->quoteName(
 				array
-			('postinstall_message_id',
+				('postinstall_message_id',
 											'extension_id',
 											'title_key',
 											'description_key',
@@ -114,11 +115,11 @@ class MessagesModel extends BaseDatabaseModel
 											'condition_method',
 											'version_introduced',
 											'enabled')
-									)
+			)
 		);
 
 		// Add a forced extension filtering to the list
-		$eid = $this->getState('eid', 700);
+		$eid = $this->getState('eid', $this->getJoomlaFilesExtensionId());
 		$query->where($db->quoteName('extension_id') . ' = ' . $db->quote($eid));
 
 		// Force filter only enabled messages
@@ -578,5 +579,17 @@ class MessagesModel extends BaseDatabaseModel
 		$db->insertObject($tableName, $options);
 
 		return $this;
+	}
+
+	/**
+	 * Returns the library extension ID.
+	 *
+	 * @return  integer
+	 *
+	 * @since   4.0.0
+	 */
+	public function getJoomlaFilesExtensionId()
+	{
+		return ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
 	}
 }

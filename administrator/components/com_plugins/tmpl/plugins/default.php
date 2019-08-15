@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,8 +34,9 @@ if ($saveOrder)
 	<div id="j-main-container" class="j-main-container">
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-warning">
-				<?php echo JText::_('COM_PLUGINS_MSG_MANAGE_NO_PLUGINS'); ?>
+			<div class="alert alert-info">
+				<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
 			<table class="table" id="pluginList">
@@ -44,12 +45,12 @@ if ($saveOrder)
 				</caption>
 				<thead>
 					<tr>
-						<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
-							<?php echo HTMLHelper::_('searchtools.sort', '', 'ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
-						</th>
 						<td style="width:1%" class="text-center">
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</td>
+						<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
+							<?php echo HTMLHelper::_('searchtools.sort', '', 'ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+						</th>
 						<th scope="col" style="width:1%" class="text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'enabled', $listDirn, $listOrder); ?>
 						</th>
@@ -70,14 +71,17 @@ if ($saveOrder)
 						</th>
 					</tr>
 				</thead>
-                <tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
+				<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
 				<?php foreach ($this->items as $i => $item) :
 					$ordering   = ($listOrder == 'ordering');
 					$canEdit    = $user->authorise('core.edit',       'com_plugins');
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
 					$canChange  = $user->authorise('core.edit.state', 'com_plugins') && $canCheckin;
 					?>
-					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->folder; ?>">
+					<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->folder; ?>">
+						<td class="text-center">
+							<?php echo HTMLHelper::_('grid.id', $i, $item->extension_id); ?>
+						</td>
 						<td class="order text-center d-none d-md-table-cell">
 							<?php
 							$iconClass = '';
@@ -87,18 +91,15 @@ if ($saveOrder)
 							}
 							elseif (!$saveOrder)
 							{
-								$iconClass = ' inactive tip-top hasTooltip" title="' . HTMLHelper::_('tooltipText', 'JORDERINGDISABLED');
+								$iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
 							}
 							?>
 							<span class="sortable-handler<?php echo $iconClass; ?>">
-								<span class="icon-menu" aria-hidden="true"></span>
+								<span class="fa fa-ellipsis-v" aria-hidden="true"></span>
 							</span>
 							<?php if ($canChange && $saveOrder) : ?>
 								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
 							<?php endif; ?>
-						</td>
-						<td class="text-center">
-							<?php echo HTMLHelper::_('grid.id', $i, $item->extension_id); ?>
 						</td>
 						<td class="text-center">
 							<?php echo HTMLHelper::_('jgrid.published', $item->enabled, $i, 'plugins.', $canChange); ?>
@@ -108,9 +109,13 @@ if ($saveOrder)
 								<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'plugins.', $canCheckin); ?>
 							<?php endif; ?>
 							<?php if ($canEdit) : ?>
-								<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
-								<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . (int) $item->extension_id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
-									<?php echo $editIcon; ?><?php echo $item->name; ?></a>
+								<a href="<?php echo Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . (int) $item->extension_id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
+									<?php echo $item->name; ?></a>
+									<?php if (!empty($item->note)) : ?>
+										<div class="small">
+											<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
+										</div>
+									<?php endif; ?>
 							<?php else : ?>
 									<?php echo $item->name; ?>
 							<?php endif; ?>

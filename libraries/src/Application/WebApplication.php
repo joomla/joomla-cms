@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\AbstractWebApplication;
 use Joomla\Application\Web\WebClient;
@@ -198,7 +198,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 		// Fall back to constants.
 		else
 		{
-			$options['directory'] = defined('JPATH_THEMES') ? JPATH_THEMES : (defined('JPATH_BASE') ? JPATH_BASE : __DIR__) . '/themes';
+			$options['directory'] = \defined('JPATH_THEMES') ? JPATH_THEMES : (\defined('JPATH_BASE') ? JPATH_BASE : __DIR__) . '/themes';
 		}
 
 		// Parse the document.
@@ -374,12 +374,12 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 			if (strpos(PHP_SAPI, 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
 			{
 				// We aren't expecting PATH_INFO within PHP_SELF so this should work.
-				$path = dirname($_SERVER['PHP_SELF']);
+				$path = \dirname($_SERVER['PHP_SELF']);
 			}
 			// Pretty much everything else should be handled with SCRIPT_NAME.
 			else
 			{
-				$path = dirname($_SERVER['SCRIPT_NAME']);
+				$path = \dirname($_SERVER['SCRIPT_NAME']);
 			}
 		}
 
@@ -402,7 +402,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 		// Set the extended (non-base) part of the request URI as the route.
 		if (stripos($this->get('uri.request'), $this->get('uri.base.full')) === 0)
 		{
-			$this->set('uri.route', substr_replace($this->get('uri.request'), '', 0, strlen($this->get('uri.base.full'))));
+			$this->set('uri.route', substr_replace($this->get('uri.request'), '', 0, \strlen($this->get('uri.base.full'))));
 		}
 
 		// Get an explicitly set media URI is present.

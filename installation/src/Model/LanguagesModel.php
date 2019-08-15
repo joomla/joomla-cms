@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,6 +23,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
  * Language Installer model for the Joomla Core Installer.
@@ -583,7 +584,7 @@ class LanguagesModel extends BaseInstallationModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -612,7 +613,7 @@ class LanguagesModel extends BaseInstallationModel
 			{
 				$db->execute();
 			}
-			catch (\JDatabaseExceptionExecuting $e)
+			catch (ExecutionFailureException $e)
 			{
 				return false;
 			}
@@ -921,15 +922,15 @@ class LanguagesModel extends BaseInstallationModel
 			'level'        => 1,
 			'home'         => 1,
 			'params'       => '{"featured_categories":[""],"layout_type":"blog","num_leading_articles":"1",'
-				. '"num_intro_articles":"3","num_columns":"3","num_links":"0","orderby_pri":"","orderby_sec":"front",'
-				. '"order_date":"","multi_column_order":"1","show_pagination":"2","show_pagination_results":"1","show_noauth":"",'
+				. '"num_intro_articles":"3","num_links":"0","orderby_pri":"","orderby_sec":"front",'
+				. '"order_date":"","show_pagination":"2","show_pagination_results":"1","show_noauth":"",'
 				. '"article-allow_ratings":"","article-allow_comments":"","show_feed_link":"1","feed_summary":"",'
 				. '"show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"",'
 				. '"show_parent_category":"","link_parent_category":"","show_author":"","show_create_date":"",'
 				. '"show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_readmore":"",'
-				. '"show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","menu-anchor_title":"",'
-				. '"menu-anchor_css":"","menu_image":"","show_page_heading":1,"page_title":"","page_heading":"",'
-				. '"pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',
+				. '"show_hits":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","show_page_heading":1,'
+				. '"page_title":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"",'
+				. '"menu-meta_keywords":"","robots":"","secure":0}',
 			'language'     => $itemLanguage->language,
 		);
 
@@ -971,7 +972,6 @@ class LanguagesModel extends BaseInstallationModel
 	 *
 	 * @since   3.8.0
 	 */
-
 	public function addAllCategoriesMenuItem($itemLanguage)
 	{
 		// Add Menu Item.
@@ -997,19 +997,18 @@ class LanguagesModel extends BaseInstallationModel
 				. '"show_empty_categories_cat":"","show_subcat_desc_cat":"","show_cat_num_articles_cat":"",'
 				. '"show_category_title":"","show_description":"","show_description_image":"","maxLevel":"",'
 				. '"show_empty_categories":"","show_no_articles":"","show_subcat_desc":"","show_cat_num_articles":"",'
-				. '"num_leading_articles":"","num_intro_articles":"","num_columns":"","num_links":"",'
-				. '"multi_column_order":"","show_subcategory_content":"","orderby_pri":"","orderby_sec":"",'
+				. '"num_leading_articles":"","num_intro_articles":"","num_links":"",'
+				. '"show_subcategory_content":"","orderby_pri":"","orderby_sec":"",'
 				. '"order_date":"","show_pagination_limit":"","filter_field":"","show_headings":"",'
 				. '"list_show_date":"","date_format":"","list_show_hits":"","list_show_author":"","display_num":"10",'
 				. '"show_pagination":"","show_pagination_results":"","show_title":"","link_titles":"",'
 				. '"show_intro":"","show_category":"","link_category":"","show_parent_category":"",'
 				. '"link_parent_category":"","show_author":"","link_author":"","show_create_date":"",'
 				. '"show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"",'
-				. '"show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"",'
-				. '"show_email_icon":"","show_hits":"","show_noauth":"","show_feed_link":"","feed_summary":"",'
-				. '"menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_image_css":"","menu_text":1,'
-				. '"menu_show":0,"page_title":"","show_page_heading":"","page_heading":"","pageclass_sfx":"",'
-				. '"menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',
+				. '"show_readmore":"","show_readmore_title":"","show_hits":"","show_noauth":"","show_feed_link":"",'
+				. '"feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_image_css":"",'
+				. '"menu_text":1,"menu_show":0,"page_title":"","show_page_heading":"","page_heading":"",'
+				. '"pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',
 			'language'     => $itemLanguage->language,
 		);
 
@@ -1123,7 +1122,7 @@ class LanguagesModel extends BaseInstallationModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -1157,7 +1156,7 @@ class LanguagesModel extends BaseInstallationModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -1269,7 +1268,7 @@ class LanguagesModel extends BaseInstallationModel
 			'publish_down'     => $db->getNullDate(),
 			'version'          => 1,
 			'catid'            => $categoryId,
-			'metadata'         => '{"robots":"","author":"","rights":"","xreference":"","tags":null}',
+			'metadata'         => '{"robots":"","author":"","rights":"","tags":null}',
 			'metakey'          => '',
 			'metadesc'         => '',
 			'language'         => $itemLanguage->language,
@@ -1309,7 +1308,7 @@ class LanguagesModel extends BaseInstallationModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -1351,16 +1350,15 @@ class LanguagesModel extends BaseInstallationModel
 			'params'       => '{"layout_type":"blog","show_category_heading_title_text":"","show_category_title":"",'
 				. '"show_description":"","show_description_image":"","maxLevel":"","show_empty_categories":"",'
 				. '"show_no_articles":"","show_subcat_desc":"","show_cat_num_articles":"","show_cat_tags":"",'
-				. '"page_subheading":"","num_leading_articles":"1","num_intro_articles":"3","num_columns":"3",'
-				. '"num_links":"0","multi_column_order":"1","show_subcategory_content":"","orderby_pri":"",'
+				. '"page_subheading":"","num_leading_articles":"1","num_intro_articles":"3",'
+				. '"num_links":"0","show_subcategory_content":"","orderby_pri":"",'
 				. '"orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1",'
 				. '"show_featured":"","show_title":"","link_titles":"","show_intro":"","info_block_position":"",'
 				. '"info_block_show_title":"","show_category":"","link_category":"","show_parent_category":"",'
 				. '"link_parent_category":"","show_associations":"","show_author":"","link_author":"",'
 				. '"show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"",'
-				. '"show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"",'
-				. '"show_email_icon":"","show_hits":"","show_tags":"","show_noauth":"","show_feed_link":"1",'
-				. '"feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"",'
+				. '"show_vote":"","show_readmore":"","show_readmore_title":"","show_hits":"","show_tags":"","show_noauth":"",'
+				. '"show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"",'
 				. '"menu_image_css":"","menu_text":1,"menu_show":1,"page_title":"","show_page_heading":"1",'
 				. '"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":""}',
 			'language'     => $itemLanguage->language,

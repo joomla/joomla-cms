@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -311,7 +311,8 @@ class UserController extends BaseController
 		$this->checkToken('post');
 
 		$app   = $this->app;
-		/* @var \Joomla\Component\Users\Site\Model\RemindModel $model */
+
+		/** @var \Joomla\Component\Users\Site\Model\RemindModel $model */
 		$model = $this->getModel('Remind', 'Site');
 		$data  = $this->input->post->get('jform', array(), 'array');
 

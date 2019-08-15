@@ -3,9 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  RoboFile
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+use Robo\Tasks;
 
 /**
  * This is joomla project's console command file for Robo.li task runner.
@@ -29,7 +31,7 @@ if (!defined('JPATH_BASE'))
  *
  * @since    3.7.3
  */
-class RoboFile extends \Robo\Tasks
+class RoboFile extends Tasks
 {
 	use JoomlaRobo\Tasks;
 
@@ -55,7 +57,7 @@ class RoboFile extends \Robo\Tasks
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	private $testsPath = 'libraries/vendor/joomla/test-system/src/';
+	private $testsPath = 'tests/Codeception/';
 
 	/**
 	 * @var array | null
@@ -70,7 +72,6 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function __construct()
 	{
-
 		// Set default timezone (so no warnings are generated if it is not set)
 		date_default_timezone_set('UTC');
 	}
@@ -78,11 +79,12 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Creates a testing Joomla site for running the tests (use it before run:test)
 	 *
-	 * @param   bool $useHtaccess (1/0) Rename and enable embedded Joomla .htaccess file
-	 *
-	 * @since   3.7.3
+	 * @param   bool  $useHtaccess  (1/0) Rename and enable embedded Joomla .htaccess file
 	 *
 	 * @return  void
+	 * @since   3.7.3
+	 *
+	 * @throws  Exception
 	 */
 	public function createTestingSite($useHtaccess = false)
 	{
@@ -119,6 +121,7 @@ class RoboFile extends \Robo\Tasks
 			'.appveyor.yml',
 			'.babelrc',
 			'.drone.yml',
+			'.editorconfig',
 			'.eslintignore',
 			'.eslintrc',
 			'.gitignore',
@@ -223,9 +226,10 @@ class RoboFile extends \Robo\Tasks
 	 *                        - 'use-htaccess': renames and enable embedded Joomla .htaccess file
 	 *                        - 'env': set a specific environment to get configuration from
 	 *
+	 * @return  void
 	 * @since   3.7.3
 	 *
-	 * @return  mixed
+	 * @throws  Exception
 	 */
 	public function runTests($opts = ['use-htaccess' => false, 'env' => 'desktop'])
 	{
@@ -258,9 +262,10 @@ class RoboFile extends \Robo\Tasks
 	 *
 	 * @param   array  $opts  Additional options
 	 *
+	 * @return  void
 	 * @since   4.0.0
 	 *
-	 * @return  void
+	 * @throws  Exception
 	 */
 	public function runInstall($opts = ['use-htaccess' => false, 'env' => 'desktop'])
 	{
@@ -286,6 +291,7 @@ class RoboFile extends \Robo\Tasks
 	 * @return  string  Path to codeception
 	 *
 	 * @since   4.0.0
+	 * @throws  Exception
 	 */
 	protected function prepareRun($opts = ['use-htaccess' => false, 'env' => 'desktop'])
 	{
@@ -480,7 +486,7 @@ class RoboFile extends \Robo\Tasks
 	{
 		if (!$this->suiteConfig)
 		{
-			$this->suiteConfig = Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . '/libraries/vendor/joomla/test-system/src/' . $suite . '.suite.yml'));
+			$this->suiteConfig = Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . '/tests/Codeception/' . $suite . '.suite.yml'));
 		}
 
 		return $this->suiteConfig;

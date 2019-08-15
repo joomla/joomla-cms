@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,12 +36,16 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_WORKFLOW_DESCRIPTION')); ?>
 	<div class="row">
-		<div class="col-md-9">
-			<?php echo $this->form->renderField('condition'); ?>
-			<?php echo $this->form->renderField('description'); ?>
+		<div class="col-lg-9">
+			<div class="card card-block">
+				<div class="card-body">
+				<?php echo $this->form->renderField('condition'); ?>
+				<?php echo $this->form->renderField('description'); ?>
+				</div>
+			</div>
 		</div>
-		<div class="col-md-3">
-			<div class="card card-block card-light">
+		<div class="col-lg-3">
+			<div class="card card-block">
 				<div class="card-body">
 					<fieldset class="form-vertical form-no-margin">
 						<?php echo $this->form->renderField('published'); ?>

@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Log;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla! Log Class
@@ -252,7 +252,7 @@ class Log
 				$callback = $options['callback'];
 				$options['callback'] = spl_object_hash($options['callback']);
 			}
-			elseif (is_array($options['callback']) && count($options['callback']) == 2 && is_object($options['callback'][0]))
+			elseif (\is_array($options['callback']) && \count($options['callback']) == 2 && \is_object($options['callback'][0]))
 			{
 				$callback = $options['callback'];
 				$options['callback'] = spl_object_hash($options['callback'][0]) . '::' . $options['callback'][1];
@@ -395,7 +395,7 @@ class Log
 				if ($rules->exclude)
 				{
 					// If either there are no set categories or the category (including the empty case) is not in the list of excluded categories, add this logger.
-					if (empty($rules->categories) || !in_array($category, $rules->categories))
+					if (empty($rules->categories) || !\in_array($category, $rules->categories))
 					{
 						$loggers[] = $signature;
 					}
@@ -403,7 +403,7 @@ class Log
 				else
 				{
 					// If either there are no set categories (meaning all) or the specific category is set, add this logger.
-					if (empty($rules->categories) || in_array($category, $rules->categories))
+					if (empty($rules->categories) || \in_array($category, $rules->categories))
 					{
 						$loggers[] = $signature;
 					}

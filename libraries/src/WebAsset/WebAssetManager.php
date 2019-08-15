@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\WebAsset\Exception\InvalidActionException;
+use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 use Joomla\CMS\WebAsset\Exception\UnsatisfiedDependencyException;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
@@ -19,7 +21,7 @@ use Joomla\Event\DispatcherAwareTrait;
 /**
  * Web Asset Manager class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterface
 {
@@ -30,7 +32,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @var    integer
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	const ASSET_STATE_INACTIVE = 0;
 
@@ -39,7 +41,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @var    integer
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	const ASSET_STATE_ACTIVE = 1;
 
@@ -48,7 +50,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @var    integer
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	const ASSET_STATE_DEPENDENCY = 2;
 
@@ -57,7 +59,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @var    WebAssetRegistry
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $registry;
 
@@ -67,25 +69,43 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $activeAssets = [];
 
 	/**
+	 * Internal marker to check the manager state, to prevent use the manager after an attach happened
+	 *
+	 * @var    boolean
+	 *
+	 * @since  4.0.0
+	 */
+	protected $assetsAttached = false;
+
+	/**
 	 * Whether append asset version to asset path
 	 *
-	 * @var    bool
+	 * @var    boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $useVersioning = true;
+
+	/**
+	 * Internal marker to keep track when need to recheck dependencies
+	 *
+	 * @var    boolean
+	 *
+	 * @since  4.0.0
+	 */
+	protected $dependenciesIsActual = false;
 
 	/**
 	 * Class constructor
 	 *
 	 * @param   WebAssetRegistry  $registry  The WebAsset Registry instance
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(WebAssetRegistry $registry)
 	{
@@ -97,7 +117,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @return   WebAssetRegistry
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getRegistry(): WebAssetRegistry
 	{
@@ -111,11 +131,20 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @return self
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 * @throws  InvalidActionException When the Manager already attached to a Document
+	 *
+	 * @since  4.0.0
 	 */
 	public function enableAsset(string $name): WebAssetManagerInterface
 	{
-		$asset = $this->registry->get($name);
+		if ($this->assetsAttached)
+		{
+			throw new InvalidActionException('WebAssetManager already attached to a Document');
+		}
+
+		// Check whether asset exists
+		$this->registry->get($name);
 
 		// Asset already enabled
 		if (!empty($this->activeAssets[$name]))
@@ -128,7 +157,8 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 
 		$this->activeAssets[$name] = static::ASSET_STATE_ACTIVE;
 
-		$this->enableDependencies($asset);
+		// To re-check dependencies
+		$this->dependenciesIsActual = false;
 
 		return $this;
 	}
@@ -138,16 +168,24 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @param   string  $name  The asset name
 	 *
-	 * @return self
+	 * @return  self
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 * @throws  InvalidActionException When the Manager already attached to a Document
+	 *
+	 * @since  4.0.0
 	 */
 	public function disableAsset(string $name): WebAssetManagerInterface
 	{
+		if ($this->assetsAttached)
+		{
+			throw new InvalidActionException('WebAssetManager already attached to a Document');
+		}
+
 		unset($this->activeAssets[$name]);
 
-		// Re-check dependencies
-		$this->enableDependencies();
+		// To re-check dependencies
+		$this->dependenciesIsActual = false;
 
 		return $this;
 	}
@@ -157,14 +195,22 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @param   string  $name  The asset name
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 *
+	 * @since  4.0.0
 	 */
 	public function getAssetState(string $name): int
 	{
 		// Check whether asset exists first
 		$this->registry->get($name);
+
+		// Make sure that all dependencies are active
+		if (!$this->dependenciesIsActual)
+		{
+			$this->enableDependencies();
+		}
 
 		if (!empty($this->activeAssets[$name]))
 		{
@@ -179,9 +225,11 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @param   string  $name  The asset name
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 *
+	 * @since  4.0.0
 	 */
 	public function isAssetActive(string $name): bool
 	{
@@ -195,10 +243,19 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @return  WebAssetItem[]
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 * @throws  UnsatisfiedDependencyException When Dependency cannot be found
+	 *
+	 * @since  4.0.0
 	 */
 	public function getAssets(bool $sort = false): array
 	{
+		// Make sure that all dependencies are active
+		if (!$this->dependenciesIsActual)
+		{
+			$this->enableDependencies();
+		}
+
 		if ($sort)
 		{
 			return $this->calculateOrderOfActiveAssets();
@@ -221,7 +278,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @return  self
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function enableDependencies(WebAssetItem $asset = null): self
 	{
@@ -243,7 +300,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 			// Re-Check for Dependencies for all active assets
 			$this->activeAssets = array_filter(
 				$this->activeAssets,
-				function ($state){
+				function ($state) {
 					return $state === WebAssetManager::ASSET_STATE_ACTIVE;
 				}
 			);
@@ -253,6 +310,8 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 				$asset = $this->registry->get($name);
 				$this->enableDependencies($asset);
 			}
+
+			$this->dependenciesIsActual = true;
 		}
 
 		return $this;
@@ -265,10 +324,17 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @return  self
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @throws InvalidActionException When the Manager already attached to a Document
+	 *
+	 * @since  4.0.0
 	 */
 	public function attachActiveAssetsToDocument(Document $doc): WebAssetManagerInterface
 	{
+		if ($this->assetsAttached)
+		{
+			throw new InvalidActionException('WebAssetManager already attached to a Document');
+		}
+
 		// Trigger the event
 		if ($this->getDispatcher())
 		{
@@ -284,7 +350,10 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 		}
 
 		// Resolve an Order of Assets and their Dependencies
-		$assets = $this->enableDependencies()->getAssets(true);
+		$assets = $this->getAssets(true);
+
+		// Prevent further use of manager if an attach  already happened
+		$this->assetsAttached = true;
 
 		// Pre-save existing Scripts, and attach them after requested assets.
 		$jsBackup = $doc->_scripts;
@@ -308,6 +377,12 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 				$version = $this->useVersioning ? ($asset->getVersion() ?: 'auto') : false;
 				$doc->addScript($path, ['version' => $version], $attr);
 			}
+
+			// Allow to Asset to add a Script options
+			if ($asset instanceof WebAssetAttachBehaviorInterface)
+			{
+				$asset->onAttachCallback($doc);
+			}
 		}
 
 		// Merge with previously added scripts
@@ -321,7 +396,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @return  WebAssetItem[]
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function calculateOrderOfActiveAssets(): array
 	{
@@ -341,7 +416,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 		$emptyIncoming = array_keys(
 			array_filter(
 				$graphIncoming,
-				function ($el){
+				function ($el) {
 					return !$el;
 				}
 			)
@@ -398,13 +473,16 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 
 			// Check the predecessors (Outgoing vertexes), the weight cannot be lighter than the predecessor have
 			$topBorder = $weight - 1;
+
 			if (!empty($graphOutgoing[$item]))
 			{
 				$prevWeights = [];
+
 				foreach ($graphOutgoing[$item] as $pItem)
 				{
 					$prevWeights[] = $graphWeights[$pItem];
 				}
+
 				$topBorder = max($prevWeights);
 			}
 
@@ -433,6 +511,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 
 		// Get Assets in calculated order
 		$resultAssets  = [];
+
 		foreach (array_keys($graphWeights) as $name)
 		{
 			$resultAssets[$name] = $activeAssets[$name];
@@ -448,9 +527,9 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	protected function getConnectionsGraph (array $assets): array
+	protected function getConnectionsGraph(array $assets): array
 	{
 		$graphOutgoing = [];
 		$graphIncoming = [];
@@ -488,7 +567,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @throws  UnsatisfiedDependencyException When Dependency cannot be found
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getDependenciesForAsset(WebAssetItem $asset, $recursively = false, WebAssetItem $recursionRoot = null): array
 	{
@@ -531,7 +610,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function useVersioning(bool $useVersioning): self
 	{
@@ -545,12 +624,12 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function debugAssets(): array
 	{
-		// Update dependencies
-		$assets = $this->enableDependencies()->getAssets(true);
+		// Get all active assets in final order
+		$assets = $this->getAssets(true);
 		$result = [];
 
 		foreach ($assets as $asset)

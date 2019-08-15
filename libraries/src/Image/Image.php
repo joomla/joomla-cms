@@ -3,16 +3,17 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Image;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Log\Log;
 use Joomla\Image\Image as FrameworkImage;
+use Joomla\Image\ImageFilter;
 
 /**
  * Class to manipulate an image.
@@ -75,12 +76,12 @@ class Image extends FrameworkImage
 		$height = $this->sanitizeHeight($height, $width);
 
 		// Autocrop offsets
-		if (is_null($left))
+		if (\is_null($left))
 		{
 			$left = round(($this->getWidth() - $width) / 2);
 		}
 
-		if (is_null($top))
+		if (\is_null($top))
 		{
 			$top = round(($this->getHeight() - $height) / 2);
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Menu\MenuHelper;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
  * Administrator Menu Presets list field.
@@ -42,7 +42,7 @@ class MenuPresetField extends ListField
 	protected function getOptions()
 	{
 		$options = array();
-		$presets = MenuHelper::getPresets();
+		$presets = MenusHelper::getPresets();
 
 		foreach ($presets as $preset)
 		{

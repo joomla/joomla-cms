@@ -3,15 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
+/** @var \Joomla\Component\Admin\Administrator\View\Sysinfo\HtmlView $this */
 
 ?>
 <div class="sysinfo">
-	<?php echo $this->php_info; ?>
+	<?php echo $this->phpInfo; ?>
 </div>

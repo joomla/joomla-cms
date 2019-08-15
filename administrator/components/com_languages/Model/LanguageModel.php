@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
@@ -124,7 +125,7 @@ class LanguageModel extends AdminModel
 		}
 
 		$properties = $table->getProperties(1);
-		$value      = ArrayHelper::toObject($properties, 'JObject');
+		$value      = ArrayHelper::toObject($properties, CMSObject::class);
 
 		return $value;
 	}

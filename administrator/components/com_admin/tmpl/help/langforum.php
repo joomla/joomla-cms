@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,6 +21,6 @@ if (empty($forumId))
 	$forumId = 511;
 }
 
-$forum_url = 'https://forum.joomla.org/viewforum.php?f=' . $forumId;
+$forumUrl = 'https://forum.joomla.org/viewforum.php?f=' . $forumId;
 
-Factory::getApplication()->redirect($forum_url);
+Factory::getApplication()->redirect($forumUrl);

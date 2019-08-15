@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
@@ -34,6 +34,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * Joomla! CMS Application class
@@ -117,6 +118,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	protected $pathway = null;
 
 	/**
+	 * The authentication plugin type
+	 *
+	 * @var   string
+	 * @since  4.0.0
+	 */
+	protected $authenticationPluginType = 'authentication';
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   Input      $input      An optional argument to provide dependency injection for the application's input
@@ -140,7 +149,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		parent::__construct($input, $config, $client);
 
 		// If JDEBUG is defined, load the profiler instance
-		if (defined('JDEBUG') && JDEBUG)
+		if (\defined('JDEBUG') && JDEBUG)
 		{
 			$this->profiler = Profiler::getInstance('Application');
 		}
@@ -197,7 +206,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		$message = array('message' => $msg, 'type' => strtolower($type));
 
-		if (!in_array($message, $this->messageQueue))
+		if (!\in_array($message, $this->messageQueue))
 		{
 			// Enqueue the message.
 			$this->messageQueue[] = $message;
@@ -398,7 +407,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 				$container = Factory::getContainer();
 			}
 
-			if ($container->exists($classname))
+			if ($container->has($classname))
 			{
 				static::$instances[$name] = $container->get($classname);
 			}
@@ -456,7 +465,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	public function getMessageQueue($clear = false)
 	{
 		// For empty queue, if messages exists in the session, enqueue them.
-		if (!count($this->messageQueue))
+		if (!\count($this->messageQueue))
 		{
 			$sessionQueue = $this->getSession()->get('application.queue', []);
 
@@ -533,6 +542,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			$app = Factory::getApplication();
 			$name = $app->getName();
 		}
+
+		$options['mode'] = Factory::getConfig()->get('sef');
 
 		return Router::getInstance($name, $options);
 	}
@@ -665,32 +676,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	}
 
 	/**
-	 * Is admin interface?
-	 *
-	 * @return  boolean  True if this application is administrator.
-	 *
-	 * @since   3.2
-	 * @deprecated  Use isClient('administrator') instead.
-	 */
-	public function isAdmin()
-	{
-		return $this->isClient('administrator');
-	}
-
-	/**
-	 * Is site interface?
-	 *
-	 * @return  boolean  True if this application is site.
-	 *
-	 * @since   3.2
-	 * @deprecated  Use isClient('site') instead.
-	 */
-	public function isSite()
-	{
-		return $this->isClient('site');
-	}
-
-	/**
 	 * Checks if HTTPS is forced in the client configuration.
 	 *
 	 * @param   integer  $clientId  An optional client id (defaults to current application client).
@@ -765,7 +750,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	public function login($credentials, $options = array())
 	{
 		// Get the global Authentication object.
-		$authenticate = Authentication::getInstance();
+		$authenticate = Authentication::getInstance($this->authenticationPluginType);
 		$response = $authenticate->authenticate($credentials, $options);
 
 		// Import the user plugin group.
@@ -831,7 +816,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 				$user->set('cookieLogin', true);
 			}
 
-			if (in_array(false, $results, true) == false)
+			if (\in_array(false, $results, true) == false)
 			{
 				$options['user'] = $user;
 				$options['responseType'] = $response->type;
@@ -900,7 +885,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		$results = $this->triggerEvent('onUserLogout', array($parameters, $options));
 
 		// Check if any of the plugins failed. If none did, success.
-		if (!in_array(false, $results, true))
+		if (!\in_array(false, $results, true))
 		{
 			$options['username'] = $user->get('username');
 			$this->triggerEvent('onUserAfterLogout', array($options));
@@ -908,7 +893,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			return true;
 		}
 
-		// Trigger onUserLoginFailure Event.
+		// Trigger onUserLogoutFailure Event.
 		$this->triggerEvent('onUserLogoutFailure', array($parameters));
 
 		return false;
@@ -931,7 +916,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	public function redirect($url, $status = 303)
 	{
 		// Persist messages if they exist.
-		if (count($this->messageQueue))
+		if (\count($this->messageQueue))
 		{
 			$this->getSession()->set('application.queue', $this->messageQueue);
 		}
@@ -964,7 +949,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		// Fall back to constants.
 		else
 		{
-			$this->docOptions['directory'] = defined('JPATH_THEMES') ? JPATH_THEMES : (defined('JPATH_BASE') ? JPATH_BASE : __DIR__) . '/themes';
+			$this->docOptions['directory'] = \defined('JPATH_THEMES') ? JPATH_THEMES : (\defined('JPATH_BASE') ? JPATH_BASE : __DIR__) . '/themes';
 		}
 
 		// Parse the document.
@@ -1013,6 +998,45 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		$router = static::getRouter();
 		$result = $router->parse($uri, true);
+
+		$active = $this->getMenu()->getActive();
+
+		if ($active !== null
+			&& $active->type === 'alias'
+			&& $active->params->get('alias_redirect')
+			&& \in_array($this->input->getMethod(), array('GET', 'HEAD'), true))
+		{
+			$item = $this->getMenu()->getItem($active->params->get('aliasoptions'));
+
+			if ($item !== null)
+			{
+				$oldUri = clone Uri::getInstance();
+
+				if ($oldUri->getVar('Itemid') == $active->id)
+				{
+					$oldUri->setVar('Itemid', $item->id);
+				}
+
+				$base = Uri::base(true);
+				$oldPath = StringHelper::strtolower(substr($oldUri->getPath(), \strlen($base) + 1));
+				$activePathPrefix = StringHelper::strtolower($active->route);
+
+				$position = strpos($oldPath, $activePathPrefix);
+
+				if ($position !== false)
+				{
+					$oldUri->setPath($base . '/' . substr_replace($oldPath, $item->route, $position, \strlen($activePathPrefix)));
+
+					$this->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
+					$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
+					$this->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
+					$this->setHeader('Pragma', 'no-cache');
+					$this->sendHeaders();
+
+					$this->redirect((string) $oldUri, 301);
+				}
+			}
+		}
 
 		foreach ($result as $key => $value)
 		{

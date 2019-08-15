@@ -2,16 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Helper;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -50,7 +51,7 @@ class LibraryHelper
 			$result = static::$libraries[$element];
 
 			// Convert the params to an object.
-			if (is_string($result->params))
+			if (\is_string($result->params))
 			{
 				$result->params = new Registry($result->params);
 			}
@@ -144,7 +145,7 @@ class LibraryHelper
 	 */
 	protected static function loadLibrary($element)
 	{
-		$loader = function($element)
+		$loader = function ($element)
 		{
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
@@ -164,7 +165,7 @@ class LibraryHelper
 		{
 			static::$libraries[$element] = $cache->get($loader, array($element), __METHOD__ . $element);
 		}
-		catch (\JCacheException $e)
+		catch (CacheExceptionInterface $e)
 		{
 			static::$libraries[$element] = $loader($element);
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -263,7 +263,6 @@ abstract class JHtmlBootstrap
 		$opt['constraints'] = isset($params['constraints']) ? $params['constraints'] : ['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
 		$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0,0';
 
-
 		$opt     = (object) array_filter((array) $opt);
 
 		Factory::getDocument()->addScriptOptions('bootstrap.popover', array($selector => $opt));
@@ -355,7 +354,6 @@ abstract class JHtmlBootstrap
 		$onShown            = isset($params['onShown']) ? (string) $params['onShown'] : null;
 		$onHide             = isset($params['onHide']) ? (string) $params['onHide'] : null;
 		$onHidden           = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
-
 
 		$opt     = (object) array_filter((array) $opt);
 

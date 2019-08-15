@@ -35,7 +35,7 @@
 			name="state"
 			type="list"
 			label="JSTATUS"
-			class="chzn-color-state"
+			class="custom-select-color-state"
 			default="1"
 			>
 			<option value="1">JPUBLISHED</option>
@@ -145,12 +145,11 @@
 				name="display_readonly"
 				type="radio"
 				label="JFIELD_DISPLAY_READONLY_LABEL"
-				description="JFIELD_DISPLAY_READONLY_DESC"
-				class="btn-group btn-group-yesno"
+				class="switcher"
 				default="1"
 				>
-				<option value="1">JYES</option>
 				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 		</fieldset>
 	</fields>

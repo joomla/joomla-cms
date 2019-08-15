@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,7 @@ class SelectModel extends ListModel
 		$app = Factory::getApplication();
 
 		// Load the filter state.
-		$clientId = $app->getUserState('com_modules.modules.client_id', 0);
+		$clientId = $app->getUserStateFromRequest('com_modules.modules.client_id', 'client_id', 0);
 		$this->setState('client_id', (int) $clientId);
 
 		// Load the parameters.

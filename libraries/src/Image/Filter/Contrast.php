@@ -3,13 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Image\Filter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Image\ImageFilter;
 use Joomla\CMS\Log\Log;
@@ -38,7 +38,7 @@ class Contrast extends ImageFilter
 	public function execute(array $options = array())
 	{
 		// Validate that the contrast value exists and is an integer.
-		if (!isset($options[IMG_FILTER_CONTRAST]) || !is_int($options[IMG_FILTER_CONTRAST]))
+		if (!isset($options[IMG_FILTER_CONTRAST]) || !\is_int($options[IMG_FILTER_CONTRAST]))
 		{
 			throw new \InvalidArgumentException('No valid contrast value was given.  Expected integer.');
 		}

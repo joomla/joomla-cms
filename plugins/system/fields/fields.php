@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,6 +52,16 @@ class PlgSystemFields extends CMSPlugin
 		// Loop over all fields
 		foreach ($form->getGroup('com_fields') as $field)
 		{
+			if ($field->disabled === true)
+			{
+				/**
+				 * Disabled fields should NEVER be added to the request as
+				 * they should NEVER be added by the browser anyway so nothing to check against
+				 * as "disabled" means no interaction at all.
+				 */
+				continue;
+			}
+
 			// Make sure the data object has an entry
 			if (isset($data->com_fields[$field->fieldname]))
 			{

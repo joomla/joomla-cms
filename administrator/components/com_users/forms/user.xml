@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset name="user_details">
-		<field 
-			name="name" 
+		<field
+			name="name"
 			type="text"
 			label="COM_USERS_USER_FIELD_NAME_LABEL"
 			required="true"
 			size="30"
 		/>
 
-		<field 
+		<field
 			name="username"
 			type="text"
 			label="COM_USERS_USER_FIELD_USERNAME_LABEL"
@@ -30,8 +30,8 @@
 			size="30"
 		/>
 
-		<field 
-			name="password2" 
+		<field
+			name="password2"
 			type="password"
 			label="COM_USERS_USER_FIELD_PASSWORD2_LABEL"
 			autocomplete="off"
@@ -50,6 +50,7 @@
 			required="true"
 			size="30"
 			validate="email"
+			validDomains="com_users.domains"
 		/>
 
 		<field
@@ -112,11 +113,11 @@
 			name="block"
 			type="radio"
 			label="COM_USERS_USER_FIELD_BLOCK_LABEL"
-			class="switcher switcher-danger"
+			class="switcher"
 			default="0"
 			>
-			<option value="0">COM_USERS_USER_FIELD_ENABLE</option>
 			<option value="1">COM_USERS_USER_FIELD_BLOCK</option>
+			<option value="0">COM_USERS_USER_FIELD_ENABLE</option>
 		</field>
 
 		<field
@@ -148,8 +149,8 @@
 		<!--  Basic user account settings. -->
 		<fieldset name="settings" label="COM_USERS_SETTINGS_FIELDSET_LABEL">
 
-			<field 
-				name="admin_style" 
+			<field
+				name="admin_style"
 				type="templatestyle"
 				label="COM_USERS_USER_FIELD_BACKEND_TEMPLATE_LABEL"
 				client="administrator"
@@ -158,8 +159,8 @@
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
-			<field 
-				name="admin_language" 
+			<field
+				name="admin_language"
 				type="language"
 				label="COM_USERS_USER_FIELD_BACKEND_LANGUAGE_LABEL"
 				client="administrator"
@@ -167,8 +168,8 @@
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
-			<field 
-				name="language" 
+			<field
+				name="language"
 				type="language"
 				label="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_LABEL"
 				client="site"
@@ -176,25 +177,25 @@
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
-			<field 
-				name="editor" 
-				type="plugins" 
+			<field
+				name="editor"
+				type="plugins"
 				label="COM_USERS_USER_FIELD_EDITOR_LABEL"
 				folder="editors"
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
-			<field 
-				name="helpsite" 
+			<field
+				name="helpsite"
 				type="helpsite"
 				label="COM_USERS_USER_FIELD_HELPSITE_LABEL"
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
-			<field 
-				name="timezone" 
+			<field
+				name="timezone"
 				type="timezone"
 				label="COM_USERS_USER_FIELD_TIMEZONE_LABEL"
 				>

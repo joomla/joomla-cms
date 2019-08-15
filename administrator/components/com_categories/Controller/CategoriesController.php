@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,8 +13,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -41,6 +41,30 @@ class CategoriesController extends AdminController
 	}
 
 	/**
+	 * Method to get the number of content categories
+	 *
+	 * @return  string  The JSON-encoded amount of published content categories
+	 *
+	 * @since   4.0
+	 */
+	public function getQuickiconContent()
+	{
+		$model = $this->getModel('Categories');
+		$model->setState('filter.published', 1);
+		$model->setState('filter.extension', 'com_content');
+
+		$amount = (int) $model->getTotal();
+
+		$result = [];
+
+		$result['amount'] = $amount;
+		$result['sronly'] = Text::plural('COM_CATEGORIES_N_QUICKICON_SRONLY', $amount);
+		$result['name'] = Text::plural('COM_CATEGORIES_N_QUICKICON', $amount);
+
+		echo new JsonResponse($result);
+	}
+
+	/**
 	 * Rebuild the nested set tree.
 	 *
 	 * @return  boolean  False on failure or error, true on success.
@@ -49,7 +73,7 @@ class CategoriesController extends AdminController
 	 */
 	public function rebuild()
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$extension = $this->input->get('extension');
 		$this->setRedirect(Route::_('index.php?option=com_categories&view=categories&extension=' . $extension, false));
@@ -80,7 +104,7 @@ class CategoriesController extends AdminController
 	 */
 	public function delete()
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');

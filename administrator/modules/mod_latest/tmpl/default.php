@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_latest
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+HTMLHelper::_('bootstrap.framework');
 ?>
 <table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
 	<caption class="sr-only"><?php echo $module->title; ?></caption>
@@ -32,7 +33,7 @@ use Joomla\CMS\Language\Text;
 				<?php endif; ?>
 				<?php if ($item->link) : ?>
 					<a href="<?php echo $item->link; ?>">
-						<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
+						<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
 					</a>
 				<?php else : ?>
 					<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
@@ -42,12 +43,7 @@ use Joomla\CMS\Language\Text;
 				<?php echo $item->author_name; ?>
 			</td>
 			<td>
-				<span class="badge badge-secondary badge-pill">
-					<span class="small">
-						<span class="icon-calendar" aria-hidden="true"></span>
-						<?php echo HTMLHelper::_('date', $item->publish_up, Text::_('DATE_FORMAT_LC4')); ?>
-					</span>
-				</span>
+				<?php echo HTMLHelper::_('date', $item->publish_up, Text::_('DATE_FORMAT_LC4')); ?>
 			</td>
 		</tr>
 		<?php endforeach; ?>

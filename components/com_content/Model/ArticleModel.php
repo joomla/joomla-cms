@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Registry\Registry;
+use Joomla\Utilities\IpHelper;
 
 /**
  * Content Component Article Model
@@ -57,10 +58,12 @@ class ArticleModel extends ItemModel
 		$params = $app->getParams();
 		$this->setState('params', $params);
 
-		// TODO: Tune these values based on other permissions.
 		$user = Factory::getUser();
 
-		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
+		// If $pk is set then authorise on complete asset, else on component only
+		$asset = empty($pk) ? 'com_content' : 'com_content.article.' . $pk;
+
+		if ((!$user->authorise('core.edit.state', $asset)) && (!$user->authorise('core.edit', $asset)))
 		{
 			$this->setState('filter.published', ContentComponent::CONDITION_PUBLISHED);
 			$this->setState('filter.archived', ContentComponent::CONDITION_ARCHIVED);
@@ -101,22 +104,29 @@ class ArticleModel extends ItemModel
 							'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
 							'a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
 							'a.images, a.urls, a.attribs, a.version, a.ordering, ' .
-							'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, a.language, a.xreference'
+							'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, a.language'
 						)
 					);
 				$query->from('#__content AS a')
 					->where('a.id = ' . (int) $pk);
 
 				$query->select($db->quoteName('ws.condition'))
-					->innerJoin($db->quoteName('#__workflow_stages', 'ws'))
-					->innerJoin($db->quoteName('#__workflow_associations', 'wa'))
-					->where($db->quoteName('a.id') . ' = ' . $db->quoteName('wa.item_id'))
-					->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'))
-					->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'));
+					->join(
+						'INNER',
+						$db->quoteName('#__workflow_associations', 'wa'),
+						$db->quoteName('a.id') . ' = ' . $db->quoteName('wa.item_id')
+					)
+					->join(
+						'INNER',
+						$db->quoteName('#__workflow_stages', 'ws'),
+						$db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id')
+					)
+					->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'));
 
 				// Join on category table.
 				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access,' .
-						'c.language AS category_language')
+					'c.language AS category_language'
+				)
 					->innerJoin('#__categories AS c on c.id = a.catid')
 					->where('c.published > 0');
 
@@ -132,14 +142,17 @@ class ArticleModel extends ItemModel
 
 				// Join over the categories to get parent category titles
 				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route,' .
-						'parent.alias as parent_alias, parent.language as parent_language')
+					'parent.alias as parent_alias, parent.language as parent_language'
+				)
 					->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
 
 				// Join on voting table
 				$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count')
 					->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 
-				if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
+				if (!$user->authorise('core.edit.state', 'com_content.article.' . $pk)
+					&& !$user->authorise('core.edit', 'com_content.article.' . $pk)
+				)
 				{
 					// Filter by start and end dates.
 					$nullDate = $db->quote($db->getNullDate());
@@ -284,7 +297,7 @@ class ArticleModel extends ItemModel
 	{
 		if ($rate >= 1 && $rate <= 5 && $pk > 0)
 		{
-			$userIP = $_SERVER['REMOTE_ADDR'];
+			$userIP = IpHelper::getIp();
 
 			// Initialize variables.
 			$db    = $this->getDbo();
@@ -317,7 +330,7 @@ class ArticleModel extends ItemModel
 
 				// Create the base insert statement.
 				$query->insert($db->quoteName('#__content_rating'))
-					->columns(array($db->quoteName('content_id'), $db->quoteName('lastip'), $db->quoteName('rating_sum'), $db->quoteName('rating_count')))
+					->columns([$db->quoteName('content_id'), $db->quoteName('lastip'), $db->quoteName('rating_sum'), $db->quoteName('rating_count')])
 					->values((int) $pk . ', ' . $db->quote($userIP) . ',' . (int) $rate . ', 1');
 
 				// Set the query and execute the insert.

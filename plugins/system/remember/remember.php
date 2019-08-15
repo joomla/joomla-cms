@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.remember
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,12 +42,6 @@ class PlgSystemRemember extends CMSPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
-		if (!$this->app)
-		{
-			$this->app = Factory::getApplication();
-		}
-
 		// No remember me for admin.
 		if ($this->app->isClient('administrator'))
 		{
@@ -55,15 +49,9 @@ class PlgSystemRemember extends CMSPlugin
 		}
 
 		// Check for a cookie if user is not logged in
-		if (Factory::getUser()->get('guest'))
+		if ($this->app->getIdentity()->get('guest'))
 		{
 			$cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
-
-			// Try with old cookieName (pre 3.6.0) if not found
-			if (!$this->app->input->cookie->get($cookieName))
-			{
-				$cookieName = UserHelper::getShortHashedUserAgent();
-			}
 
 			// Check for the cookie
 			if ($this->app->input->cookie->get($cookieName))
@@ -128,13 +116,14 @@ class PlgSystemRemember extends CMSPlugin
 		}
 
 		/*
-		 * But now, we need to do something 
+		 * But now, we need to do something
 		 * Delete all tokens for this user!
 		 */
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->delete('#__user_keys')
 			->where($db->quoteName('user_id') . ' = ' . $db->quote($user['username']));
+
 		try
 		{
 			$db->setQuery($query)->execute();

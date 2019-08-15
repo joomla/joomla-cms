@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ HTMLHelper::_('script', 'legacy/treeselectmenu.min.js', array('version' => 'auto
 HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <div class="control-group">
-	<label id="jform_menus-lbl" class="control-label" for="jform_menus"><?php echo Text::_('COM_MODULES_MODULE_ASSIGN'); ?></label>
+	<label id="jform_menus-lbl" class="control-label" for="jform_assignment"><?php echo Text::_('COM_MODULES_MODULE_ASSIGN'); ?></label>
 	<div id="jform_menus" class="controls">
 		<select class="custom-select" name="jform[assignment]" id="jform_assignment">
 			<?php echo HTMLHelper::_('select.options', ModulesHelper::getAssignmentOptions($this->item->client_id), 'value', 'text', $this->item->assignment, true); ?>
@@ -121,7 +121,7 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 				<div style="display:none" id="treeselectmenu">
 					<div class="nav-hover treeselect-menu">
 						<div class="dropdown">
-							<button type="button" data-toggle="dropdown" class="dropdown-toggle btn btn-sm btn-secondary">
+							<button type="button" data-toggle="dropdown" class="dropdown-toggle btn btn-sm btn-light">
 								<span class="caret"></span>
 								<span class="sr-only"><?php echo Text::sprintf('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
 							</button>

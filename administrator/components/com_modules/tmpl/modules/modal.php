@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,6 @@ if (Factory::getApplication()->isClient('site'))
 
 // Load needed scripts
 HTMLHelper::_('behavior.core');
-HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 
 // Scripts for the modules xtd-button
 HTMLHelper::_('script', 'com_modules/admin-modules-modal.min.js', array('version' => 'auto', 'relative' => true));
@@ -31,7 +30,7 @@ HTMLHelper::_('script', 'com_modules/admin-modules-modal.min.js', array('version
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
-$link      = 'index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1';
+$link      = 'index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . Session::getFormToken() . '=1';
 
 if (!empty($editor))
 {
@@ -88,11 +87,11 @@ if (!empty($editor))
 				foreach ($this->items as $i => $item) :
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
-					<td class="text-center">
+					<td class="text-center tbody-icon">
 						<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
 					</td>
-					<th scope="row" class="has-context">
-						<a class="js-module-insert btn btn-sm btn-block btn-success" href="#" data-module="<?php echo $this->escape($item->module); ?>" data-title="<?php echo $this->escape($item->title); ?>" data-editor="<?php echo $this->escape($editor); ?>">
+					<td scope="row" class="has-context">
+						<a class="js-module-insert btn btn-sm btn-block btn-success" href="#" data-module="<?php echo $item->id; ?>" data-editor="<?php echo $this->escape($editor); ?>">
 							<?php echo $this->escape($item->title); ?>
 						</a>
 					</td>
@@ -130,7 +129,7 @@ if (!empty($editor))
 
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="boxchecked" value="0">
-        <input type="hidden" name="editor" value="<?php echo $editor; ?>" />
+		<input type="hidden" name="editor" value="<?php echo $editor; ?>" />
 		<?php echo HTMLHelper::_('form.token'); ?>
 
 	</form>

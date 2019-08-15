@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Sampledata.Multilang
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Language;
@@ -18,6 +19,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
  * Sampledata - Multilang Plugin
@@ -364,29 +366,11 @@ class PlgSampledataMultilang extends CMSPlugin
 			return $response;
 		}
 
-		if (!ComponentHelper::isEnabled('com_workflow'))
-		{
-			$response            = array();
-			$response['success'] = true;
-			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_MULTILANG_STEP_SKIPPED', 6, 'com_workflow');
-
-			return $response;
-		}
-
 		$siteLanguages = $this->getInstalledlangsFrontend();
-
-		if (!$tableWorkflow = $this->addWorkflow())
-		{
-			$response            = array();
-			$response['success'] = false;
-			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_MULTILANG_ERROR_WORKFLOW', 6);
-
-			return $response;
-		}
 
 		foreach ($siteLanguages as $siteLang)
 		{
-			if (!$tableCategory = $this->addCategory($siteLang, $tableWorkflow->id))
+			if (!$tableCategory = $this->addCategory($siteLang))
 			{
 				$response            = array();
 				$response['success'] = false;
@@ -397,7 +381,7 @@ class PlgSampledataMultilang extends CMSPlugin
 
 			$groupedAssociations['com_categories.item'][$siteLang->language] = $tableCategory->id;
 
-			if (!$tableArticle = $this->addArticle($siteLang, $tableCategory->id, $tableWorkflow->stageId))
+			if (!$tableArticle = $this->addArticle($siteLang, $tableCategory->id))
 			{
 				$response            = array();
 				$response['success'] = false;
@@ -519,7 +503,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			$db->execute();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -548,7 +532,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			{
 				$db->execute();
 			}
-			catch (\JDatabaseExceptionExecuting $e)
+			catch (ExecutionFailureException $e)
 			{
 				return false;
 			}
@@ -586,7 +570,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -770,7 +754,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'menutype'     => 'mainmenu-' . strtolower($itemLanguage->language),
 			'type'         => 'component',
 			'link'         => 'index.php?option=com_content&view=categories&id=0',
-			'component_id' => 22,
+			'component_id' => ExtensionHelper::getExtensionRecord('com_content')->extension_id,
 			'published'    => 1,
 			'parent_id'    => 1,
 			'level'        => 1,
@@ -779,19 +763,18 @@ class PlgSampledataMultilang extends CMSPlugin
 				. '"show_empty_categories_cat":"","show_subcat_desc_cat":"","show_cat_num_articles_cat":"",'
 				. '"show_category_title":"","show_description":"","show_description_image":"","maxLevel":"",'
 				. '"show_empty_categories":"","show_no_articles":"","show_subcat_desc":"","show_cat_num_articles":"",'
-				. '"num_leading_articles":"","num_intro_articles":"","num_columns":"","num_links":"",'
-				. '"multi_column_order":"","show_subcategory_content":"","orderby_pri":"","orderby_sec":"",'
+				. '"num_leading_articles":"","num_intro_articles":"","num_links":"",'
+				. '"show_subcategory_content":"","orderby_pri":"","orderby_sec":"",'
 				. '"order_date":"","show_pagination_limit":"","filter_field":"","show_headings":"",'
 				. '"list_show_date":"","date_format":"","list_show_hits":"","list_show_author":"","display_num":"10",'
-				. '"show_pagination":"","show_pagination_results":"","show_title":"","link_titles":"",'
-				. '"show_intro":"","show_category":"","link_category":"","show_parent_category":"",'
+				. '"show_pagination":"","show_pagination_results":"","article_layout":"_:default","show_title":"",'
+				. '"link_titles":"","show_intro":"","show_category":"","link_category":"","show_parent_category":"",'
 				. '"link_parent_category":"","show_author":"","link_author":"","show_create_date":"",'
 				. '"show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"",'
-				. '"show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"",'
-				. '"show_email_icon":"","show_hits":"","show_noauth":"","show_feed_link":"","feed_summary":"",'
-				. '"menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_image_css":"","menu_text":1,'
-				. '"menu_show":0,"page_title":"","show_page_heading":"","page_heading":"","pageclass_sfx":"",'
-				. '"menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',
+				. '"show_readmore":"","show_readmore_title":"","show_hits":"","show_noauth":"","show_feed_link":"",'
+				. '"feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_image_css":"",'
+				. '"menu_text":1,"menu_show":0,"page_title":"","show_page_heading":"","page_heading":"",'
+				. '"pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":""}',
 			'language'     => $itemLanguage->language,
 		);
 
@@ -852,7 +835,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'menutype'     => 'mainmenu-' . strtolower($itemLanguage->language),
 			'type'         => 'component',
 			'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $categoryId,
-			'component_id' => 22,
+			'component_id' => ExtensionHelper::getExtensionRecord('com_content')->extension_id,
 			'published'    => 1,
 			'parent_id'    => 1,
 			'level'        => 1,
@@ -860,17 +843,16 @@ class PlgSampledataMultilang extends CMSPlugin
 			'params'       => '{"layout_type":"blog","show_category_heading_title_text":"","show_category_title":"",'
 				. '"show_description":"","show_description_image":"","maxLevel":"","show_empty_categories":"",'
 				. '"show_no_articles":"","show_subcat_desc":"","show_cat_num_articles":"","show_cat_tags":"",'
-				. '"page_subheading":"","num_leading_articles":"1","num_intro_articles":"3","num_columns":"3",'
-				. '"num_links":"0","multi_column_order":"1","show_subcategory_content":"","orderby_pri":"",'
+				. '"page_subheading":"","num_leading_articles":"1","num_intro_articles":"3",'
+				. '"num_links":"0","show_subcategory_content":"","orderby_pri":"",'
 				. '"orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1",'
 				. '"show_featured":"","show_title":"","link_titles":"","show_intro":"","info_block_position":"",'
 				. '"info_block_show_title":"","show_category":"","link_category":"","show_parent_category":"",'
 				. '"link_parent_category":"","show_associations":"","show_author":"","link_author":"",'
 				. '"show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"",'
-				. '"show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"",'
-				. '"show_email_icon":"","show_hits":"","show_tags":"","show_noauth":"","show_feed_link":"1",'
-				. '"feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"",'
-				. '"menu_image_css":"","menu_text":1,"menu_show":1,"page_title":"","show_page_heading":"1",'
+				. '"show_vote":"","show_readmore":"","show_readmore_title":"","show_hits":"","show_tags":"",'
+				. '"show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"",'
+				. '"menu_image":"","menu_image_css":"","menu_text":1,"menu_show":1,"page_title":"","show_page_heading":"1",'
 				. '"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":""}',
 			'language'     => $itemLanguage->language,
 		);
@@ -978,50 +960,15 @@ class PlgSampledataMultilang extends CMSPlugin
 	}
 
 	/**
-	 * Method to create a workflow for a specific language.
-	 *
-	 * @return  JTable|boolean  Workflow Object. False otherwise.
-	 *
-	 * @since   4.0.0
-	 */
-	public function addWorkflow()
-	{
-		$workflowModel =  $this->app->bootComponent('com_workflow')
-			->getMVCFactory()->createModel('Workflow', 'Administrator');
-
-		$workflow = [
-			'title'       => Text::_('PLG_SAMPLEDATA_MULTILANG_CONTENT_WORKFLOW_TITLE'),
-			'description' => Text::_('PLG_SAMPLEDATA_MULTILANG_CONTENT_WORKFLOW_DESCRIPTION'),
-			'published'   => 1,
-			'extension'   => 'com_content'
-		];
-
-		$workflowModel->save($workflow);
-
-		$workflow = $workflowModel->getItem();
-
-		$query = $this->db->getQuery(true)
-				->select($this->db->quoteName('id'))
-				->from($this->db->quoteName('#__workflow_stages'))
-				->where($this->db->quoteName('workflow_id') . ' = ' . (int) $workflow->id)
-				->where($this->db->quoteName('default') . ' = 1');
-
-		$workflow->stageId = (int) $this->db->setQuery($query)->loadResult();
-
-		return $workflow;
-	}
-
-	/**
 	 * Method to create a category for a specific language.
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
-	 * @param   stdClass  $workflowId    Workflow ID for this category.
 	 *
 	 * @return  JTable|boolean  Category Object. False otherwise.
 	 *
 	 * @since   4.0.0
 	 */
-	public function addCategory($itemLanguage, $workflowId = 0)
+	public function addCategory($itemLanguage)
 	{
 		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('joomla', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
@@ -1036,7 +983,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'description'     => '',
 			'published'       => 1,
 			'access'          => 1,
-			'params'          => '{"target":"","image":"", "workflow_id":"' . (int) $workflowId . '"}',
+			'params'          => '{"target":"","image":"", "workflow_id":"1"}',
 			'metadesc'        => '',
 			'metakey'         => '',
 			'metadata'        => '{"page_title":"","author":"","robots":""}',
@@ -1079,13 +1026,12 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 * @param   integer   $categoryId    The id of the category where we want to add the article.
-	 * @param   integer   $stageId       The id of the initial stage.
 	 *
 	 * @return  JTable|boolean  Article Object. False otherwise.
 	 *
 	 * @since   4.0.0
 	 */
-	private function addArticle($itemLanguage, $categoryId, $stageId)
+	private function addArticle($itemLanguage, $categoryId)
 	{
 		$db = Factory::getDbo();
 
@@ -1116,10 +1062,11 @@ class PlgSampledataMultilang extends CMSPlugin
 			'publish_down'     => $db->getNullDate(),
 			'version'          => 1,
 			'catid'            => $categoryId,
-			'metadata'         => '{"robots":"","author":"","rights":"","xreference":"","tags":null}',
+			'metadata'         => '{"robots":"","author":"","rights":"","tags":null}',
 			'metakey'          => '',
 			'metadesc'         => '',
 			'language'         => $itemLanguage->language,
+			'state'            => 1,
 			'featured'         => 1,
 			'attribs'          => array(),
 			'rules'            => array(),
@@ -1156,22 +1103,22 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			$db->execute();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
 
 		$assoc = new stdClass;
 
-		$assoc->item_id = $newId;
-		$assoc->stage_id = $stageId;
+		$assoc->item_id   = $newId;
+		$assoc->stage_id  = 2;
 		$assoc->extension = 'com_content';
 
 		try
 		{
 			$db->insertObject('#__workflow_associations', $assoc);
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -1200,7 +1147,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)) && !$tableLanguage->publish())
 			{
-				$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
+				$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
 
 				continue;
 			}

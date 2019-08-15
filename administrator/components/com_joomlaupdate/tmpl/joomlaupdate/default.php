@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,7 @@ Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
 $latestJoomlaVersion = $this->updateInfo['latest'];
 ?>
 
-<div id="joomlaupdate-wrapper" data-joomla-target-version="<?php echo $latestJoomlaVersion; ?>">
+<div id="joomlaupdate-wrapper" class="mt-3" data-joomla-target-version="<?php echo $latestJoomlaVersion; ?>">
 	<?php if ($this->showUploadAndUpdate) : ?>
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'joomlaupdate-tabs', array('active' => $this->shouldDisplayPreUpdateCheck() ? 'pre-update-check' : 'online-update')); ?>
 		<?php if ($this->shouldDisplayPreUpdateCheck()) : ?>

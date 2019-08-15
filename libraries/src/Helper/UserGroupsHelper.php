@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Helper;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 
@@ -20,13 +20,17 @@ use Joomla\CMS\Factory;
 final class UserGroupsHelper
 {
 	/**
-	 * @const  integer
+	 * Indicates the current helper instance is the singleton instance.
+	 *
+	 * @var    integer
 	 * @since  3.6.3
 	 */
 	const MODE_SINGLETON = 1;
 
 	/**
-	 * @const  integer
+	 * Indicates the current helper instance is a standalone class instance.
+	 *
+	 * @var    integer
 	 * @since  3.6.3
 	 */
 	const MODE_INSTANCE = 2;
@@ -90,7 +94,7 @@ final class UserGroupsHelper
 	 */
 	public function count()
 	{
-		return count($this->groups);
+		return \count($this->groups);
 	}
 
 	/**
@@ -168,7 +172,7 @@ final class UserGroupsHelper
 	 */
 	public function has($id)
 	{
-		return (array_key_exists($id, $this->groups) && $this->groups[$id] !== false);
+		return (\array_key_exists($id, $this->groups) && $this->groups[$id] !== false);
 	}
 
 	/**
@@ -317,7 +321,7 @@ final class UserGroupsHelper
 		}
 
 		$group->path = array_merge($parentGroup->path, array($group->id));
-		$group->level = count($group->path) - 1;
+		$group->level = \count($group->path) - 1;
 
 		return $group;
 	}
@@ -335,7 +339,7 @@ final class UserGroupsHelper
 	{
 		$this->groups = $groups;
 		$this->populateGroupsData();
-		$this->total  = count($groups);
+		$this->total  = \count($groups);
 
 		return $this;
 	}

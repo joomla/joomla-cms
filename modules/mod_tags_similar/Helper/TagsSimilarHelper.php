@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_tags_similar
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -145,7 +145,7 @@ abstract class TagsSimilarHelper
 
 		if ($ordering === 'random' || $ordering === 'countrandom')
 		{
-			$query->order($query->Rand());
+			$query->order($query->rand());
 		}
 
 		$db->setQuery($query, 0, $maximum);

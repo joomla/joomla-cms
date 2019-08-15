@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\Controller;
@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -39,7 +40,7 @@ class WorkflowsController extends AdminController
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   Input                $input    Input
 	 *
 	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException when no extension is set
@@ -58,6 +59,7 @@ class WorkflowsController extends AdminController
 				throw new \InvalidArgumentException(Text::_('COM_WORKFLOW_ERROR_EXTENSION_NOT_SET'));
 			}
 		}
+
 		$this->registerTask('unsetDefault',	'setDefault');
 	}
 

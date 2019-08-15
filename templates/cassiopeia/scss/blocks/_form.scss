@@ -45,20 +45,21 @@ form:not(.form-no-margin) {
 
 }
 
-form .form-no-margin {
+.form-no-margin {
 
   .control-group {
 
     .controls {
       margin-left: 0;
+      .switcher__legend {
+        float:none;
+      }
     }
 
     .control-label {
       float: none;
     }
-
   }
-
 }
 
 .spacer hr {

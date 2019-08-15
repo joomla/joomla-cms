@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\CMS\MVC\Controller;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;
@@ -19,6 +20,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\MVC\View\ViewInterface;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
@@ -181,7 +183,7 @@ class BaseController implements ControllerInterface
 	 */
 	public static function addModelPath($path, $prefix = '')
 	{
-		BaseDatabaseModel::addIncludePath($path, $prefix);
+		BaseModel::addIncludePath($path, $prefix);
 	}
 
 	/**
@@ -338,7 +340,7 @@ class BaseController implements ControllerInterface
 		}
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (Factory::getContainer()->exists($class))
+		if (Factory::getContainer()->has($class))
 		{
 			self::$instance = Factory::getContainer()->get($class);
 		}
@@ -380,7 +382,7 @@ class BaseController implements ControllerInterface
 		}
 
 		// Determine the methods to exclude from the base class.
-		$xMethods = get_class_methods('\JControllerLegacy');
+		$xMethods = get_class_methods('\\Joomla\\CMS\\MVC\\Controller\\BaseController');
 
 		// Get the public methods in this class using reflection.
 		$r = new \ReflectionClass($this);
@@ -578,11 +580,6 @@ class BaseController implements ControllerInterface
 	 */
 	protected function createModel($name, $prefix = '', $config = array())
 	{
-		if (!$prefix)
-		{
-			$prefix = $this->app->getName();
-		}
-
 		$model = $this->factory->createModel($name, $prefix, $config);
 
 		if ($model === null)
@@ -613,12 +610,8 @@ class BaseController implements ControllerInterface
 	 */
 	protected function createView($name, $prefix = '', $type = '', $config = array())
 	{
-		if (!$prefix)
-		{
-			$prefix = $this->app->getName();
-		}
-
 		$config['paths'] = $this->paths['view'];
+
 		return $this->factory->createView($name, $prefix, $type, $config);
 	}
 
@@ -687,7 +680,7 @@ class BaseController implements ControllerInterface
 				$cache = Factory::getCache($option, 'view');
 				$cache->get($view, 'display');
 			}
-			catch (\JCacheException $exception)
+			catch (CacheExceptionInterface $exception)
 			{
 				$view->display();
 			}
@@ -753,15 +746,34 @@ class BaseController implements ControllerInterface
 			$name = $this->getName();
 		}
 
-		if (empty($prefix) && $this->factory instanceof LegacyFactory)
+		if (!$prefix)
 		{
-			$prefix = $this->model_prefix;
+			if ($this->factory instanceof LegacyFactory)
+			{
+				$prefix = $this->model_prefix;
+			}
+			// When the frontend uses an administrator model
+			elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), JPATH_ADMINISTRATOR) === 0)
+			{
+				$prefix = 'Administrator';
+			}
+			else
+			{
+				$prefix = $this->app->getName();
+			}
 		}
 
 		if ($model = $this->createModel($name, $prefix, $config))
 		{
 			// Task is a reserved state
 			$model->setState('task', $this->task);
+
+			// We don't have the concept on a menu tree in the api app, so skip setting it's information and
+			// return early
+			if ($this->app->isClient('api'))
+			{
+				return $model;
+			}
 
 			// Let's get the application object and set menu information if it's available
 			$menu = Factory::getApplication()->getMenu();
@@ -856,9 +868,21 @@ class BaseController implements ControllerInterface
 			$name = $this->getName();
 		}
 
-		if (empty($prefix) && $this->factory instanceof LegacyFactory)
+		if (!$prefix)
 		{
-			$prefix = $this->getName() . 'View';
+			if ($this->factory instanceof LegacyFactory)
+			{
+				$prefix = $this->getName() . 'View';
+			}
+			// When the front uses an administrator view
+			elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), JPATH_ADMINISTRATOR) === 0)
+			{
+				$prefix = 'Administrator';
+			}
+			else
+			{
+				$prefix = $this->app->getName();
+			}
 		}
 
 		if (empty(self::$views[$name][$type][$prefix]))

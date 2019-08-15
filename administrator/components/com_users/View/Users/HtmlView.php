@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,14 +13,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 use Joomla\Database\DatabaseDriver;
 
 /**
@@ -87,14 +85,6 @@ class HtmlView extends BaseHtmlView
 	protected $db;
 
 	/**
-	 * The sidebar markup
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $sidebar;
-
-	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -111,17 +101,13 @@ class HtmlView extends BaseHtmlView
 		$this->canDo         = ContentHelper::getActions('com_users');
 		$this->db            = Factory::getDbo();
 
-		UsersHelper::addSubmenu('users');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
-		$this->sidebar = HTMLHelper::_('sidebar.render');
-
 		parent::display($tpl);
 	}
 
@@ -148,41 +134,41 @@ class HtmlView extends BaseHtmlView
 		}
 
 		if ($canDo->get('core.edit.state') || $canDo->get('core.admin'))
-		{	
-			$dropdown = $toolbar->dropdownButton('status')
-					->text('JTOOLBAR_CHANGE_STATUS')
-					->toggleSplit(false)
-					->icon('fa fa-globe')
-					->buttonClass('btn btn-info')
-					->listCheck(true);
+		{
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
+				->listCheck(true);
 
 			$childBar = $dropdown->getChildToolbar();
 
 			$childBar->publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
 			$childBar->unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
 			$childBar->standardButton('unblock')
-					->text('COM_USERS_TOOLBAR_UNBLOCK')
-					->task('users.unblock')
+				->text('COM_USERS_TOOLBAR_UNBLOCK')
+				->task('users.unblock')
+				->listCheck(true);
+
+			// Add a batch button
+			if ($user->authorise('core.create', 'com_users')
+				&& $user->authorise('core.edit', 'com_users')
+				&& $user->authorise('core.edit.state', 'com_users'))
+			{
+				$childBar->popupButton('batch')
+					->text('JTOOLBAR_BATCH')
+					->selector('collapseModal')
 					->listCheck(true);
-		}
+			}
 
-		if ($canDo->get('core.delete'))
-		{
-			$toolbar->delete('users.delete')
-				->text('JTOOLBAR_DELETE')
-				->message('JGLOBAL_CONFIRM_DELETE')
-				->listCheck(true);
-		}
-
-		// Add a batch button
-		if ($user->authorise('core.create', 'com_users')
-			&& $user->authorise('core.edit', 'com_users')
-			&& $user->authorise('core.edit.state', 'com_users'))
-		{
-			$toolbar->popupButton('batch')
-				->text('JTOOLBAR_BATCH')
-				->selector('collapseModal')
-				->listCheck(true);
+			if ($canDo->get('core.delete'))
+			{
+				$childBar->delete('users.delete')
+					->text('JTOOLBAR_DELETE')
+					->message('JGLOBAL_CONFIRM_DELETE')
+					->listCheck(true);
+			}
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
