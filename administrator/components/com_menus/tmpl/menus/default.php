@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
@@ -64,23 +63,23 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 								<th scope="col" style="width:5%" class="text-center">
 									<?php echo Text::_('COM_MENUS_MENUS'); ?>
 								</th>
-								<th scope="col" style="width:10%" class="text-center">
+								<th scope="col" style="width:10%" class="text-center  d-none d-md-table-cell">
 									<span class="icon-publish" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?></span>
 								</th>
-								<th scope="col" style="width:10%" class="text-center">
+								<th scope="col" style="width:10%" class="text-center d-none d-md-table-cell">
 									<span class="icon-unpublish" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?></span>
 								</th>
-								<th scope="col" style="width:10%" class="text-center">
+								<th scope="col" style="width:10%" class="text-center d-none d-md-table-cell">
 									<span class="icon-trash" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
 								</th>
-								<th scope="col" style="width:10%" class="text-center">
+								<th scope="col" style="width:10%" class="text-center d-none d-lg-table-cell">
 									<span class="icon-cube" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
 								</th>
-								<th scope="col" style="width:5%" class="d-none d-md-table-cell text-center">
+								<th scope="col" style="width:5%" class="d-none d-lg-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -98,7 +97,6 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 									<div class="name break-word">
 										<?php if ($canEdit) : ?>
 											<a href="<?php echo Route::_('index.php?option=com_menus&task=menu.edit&id=' . $item->id); ?>">
-												<span class="fa fa-pen-square mr-2" aria-hidden="true"></span>
 												<span class="sr-only"><?php echo Text::_('COM_MENUS_EDIT_MENU'); ?></span><?php echo $this->escape($item->title); ?>
 											</a>
 										<?php else : ?>
@@ -118,7 +116,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 										</a>
 									<?php endif; ?>
 								</td>
-								<td class="text-center btns">
+								<td class="text-center btns d-none d-md-table-cell">
 									<?php if ($canManageItems) : ?>
 										<a class="badge<?php echo ($item->count_published > 0) ? ' badge-success' : ' badge-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=1'); ?>">
 											<?php echo $item->count_published; ?></a>
@@ -127,7 +125,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 											<?php echo $item->count_published; ?></span>
 									<?php endif; ?>
 								</td>
-								<td class="text-center btns">
+								<td class="text-center btns d-none d-md-table-cell">
 									<?php if ($canManageItems) : ?>
 										<a class="badge<?php echo ($item->count_unpublished > 0) ? ' badge-danger' : ' badge-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=0'); ?>">
 											<?php echo $item->count_unpublished; ?></a>
@@ -136,7 +134,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 											<?php echo $item->count_unpublished; ?></span>
 									<?php endif; ?>
 								</td>
-								<td class="text-center btns">
+								<td class="text-center btns d-none d-md-table-cell">
 									<?php if ($canManageItems) : ?>
 										<a class="badge<?php echo ($item->count_trashed > 0) ? ' badge-danger' : ' badge-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=-2'); ?>">
 											<?php echo $item->count_trashed; ?></a>
@@ -145,7 +143,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 											<?php echo $item->count_trashed; ?></span>
 									<?php endif; ?>
 								</td>
-								<td class="text-center">
+								<td class="text-center d-none d-lg-table-cell">
 									<?php if (isset($this->modules[$item->menutype])) : ?>
 										<div class="dropdown">
 											<button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown">
@@ -222,7 +220,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 											); ?>
 									<?php endif; ?>
 								</td>
-								<td class="d-none d-md-table-cell text-center">
+								<td class="d-none d-lg-table-cell text-center">
 									<?php echo $item->id; ?>
 								</td>
 							</tr>

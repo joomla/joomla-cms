@@ -961,11 +961,10 @@
 		description="COM_CONTACT_CONFIG_INTEGRATION_SETTINGS_DESC"
 		>
 
-		<field
+		<fieldset
 			name="integration_newsfeeds"
-			type="note"
 			label="JGLOBAL_FEED_TITLE"
-		/>
+		>
 
 		<field
 			name="show_feed_link"
@@ -978,11 +977,12 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field
+		</fieldset>
+
+		<fieldset
 			name="integration_sef"
-			type="note"
 			label="JGLOBAL_SEF_TITLE"
-		/>
+		>
 
 		<field
 			name="sef_ids"
@@ -995,11 +995,12 @@
 			<option value="1">JYES</option>
 		</field>
 
-		<field
+		</fieldset>
+
+		<fieldset
 			name="integration_customfields"
-			type="note"
 			label="JGLOBAL_FIELDS_TITLE"
-		/>
+		>
 
 		<field
 			name="custom_fields_enable"
@@ -1011,6 +1012,8 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
+
+		</fieldset>
 
 	</fieldset>
 

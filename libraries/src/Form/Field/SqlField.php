@@ -21,7 +21,7 @@ use Joomla\Database\Exception\ExecutionFailureException;
  *
  * @since  1.7.0
  */
-class SQLField extends ListField
+class SqlField extends ListField
 {
 	/**
 	 * The form field type.

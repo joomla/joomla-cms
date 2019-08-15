@@ -165,6 +165,15 @@
         "dependencies": [],
         "licenseFilename": "LICENSE.md"
       },
+	  "roboto-fontface": {
+		"name": "roboto-fontface",
+		"filesExtra": {
+		  "css": "scss",
+		  "fonts": "fonts"
+		},
+        "dependencies": [],
+		"licenseFilename": "LICENSE"
+	  },
       "@fortawesome/fontawesome-free": {
         "name": "fontawesome-free",
         "css": {
