@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 /** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\Html $this */
 ?>
 
-<fieldset>
+<fieldset class="options-grid-form options-grid-form-full">
 	<legend>
 		<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATEFOUND'); ?>
 	</legend>
