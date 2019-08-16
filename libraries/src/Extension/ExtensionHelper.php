@@ -259,7 +259,6 @@ class ExtensionHelper
 		// Core plugin extensions - sample data
 		array('plugin', 'blog', 'sampledata', 0),
 		array('plugin', 'multilang', 'sampledata', 0),
-		array('plugin', 'testing', 'sampledata', 0),
 
 		// Core plugin extensions - system
 		array('plugin', 'actionlogs', 'system', 0),
@@ -280,6 +279,7 @@ class ExtensionHelper
 		array('plugin', 'sessiongc', 'system', 0),
 		array('plugin', 'skipto', 'system', 0),
 		array('plugin', 'stats', 'system', 0),
+		array('plugin', 'sessiongc', 'system', 0),
 		array('plugin', 'updatenotification', 'system', 0),
 
 		// Core plugin extensions - two factor authentication
