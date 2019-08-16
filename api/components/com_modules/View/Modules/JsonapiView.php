@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
+use Joomla\Component\Modules\Administrator\Model\SelectModel;
 
 /**
  * The modules view
@@ -111,5 +112,31 @@ class JsonapiView extends BaseApiView
 		}
 
 		return parent::displayItem($item);
+	}
+
+	/**
+	 * Execute and display a list modules types.
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	public function displayListTypes()
+	{
+		/** @var SelectModel $model */
+		$model = $this->getModel();
+		$items = [];
+
+		foreach ($model->getItems() as $item)
+		{
+			$item->id = $item->extension_id;
+			unset($item->extension_id);
+
+			$items[] = $item;
+		}
+
+		$this->fieldsToRenderList = ['id', 'name', 'module', 'xml', 'desc'];
+
+		return parent::displayList($items);
 	}
 }

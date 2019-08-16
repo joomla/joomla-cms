@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\ApiRouter;
+use Joomla\Router\Route;
 
 /**
  * Web Services adapter for com_modules.
@@ -38,6 +39,19 @@ class PlgWebservicesModules extends CMSPlugin
 	 */
 	public function onBeforeApiRoute(&$router)
 	{
+		$routes = array(
+			new Route(
+				['GET'], 'v1/modules/types/site', 'modules.getTypes', [],
+				['public' => false, 'component' => 'com_modules', 'client_id' => 0]
+			),
+			new Route(
+				['GET'], 'v1/modules/types/administrator', 'modules.getTypes', [],
+				['public' => false, 'component' => 'com_modules', 'client_id' => 1]
+			),
+		);
+
+		$router->addRoutes($routes);
+
 		$router->createCRUDRoutes('v1/modules/site', 'modules', ['component' => 'com_modules', 'client_id' => 0]);
 		$router->createCRUDRoutes('v1/modules/administrator', 'modules', ['component' => 'com_modules', 'client_id' => 1]);
 	}

@@ -12,6 +12,8 @@ namespace Joomla\Component\Modules\Api\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\Component\Modules\Administrator\Model\SelectModel;
+use Joomla\Component\Modules\Api\View\Modules\JsonapiView;
 
 /**
  * The modules controller
@@ -64,6 +66,53 @@ class ModulesController extends ApiController
 		$this->input->set('model_state', ['client_id' => $this->getClientIdFromInput()]);
 
 		return parent::displayList();
+	}
+
+	/**
+	 * Return module items types
+	 *
+	 * @return  static  A \JControllerLegacy object to support chaining.
+	 *
+	 * @since   4.0.0
+	 */
+	public function getTypes()
+	{
+		$viewType   = $this->app->getDocument()->getType();
+		$viewName   = $this->input->get('view', $this->default_view);
+		$viewLayout = $this->input->get('layout', 'default', 'string');
+
+		try
+		{
+			/** @var JsonApiView $view */
+			$view = $this->getView(
+				$viewName,
+				$viewType,
+				'',
+				['base_path' => $this->basePath, 'layout' => $viewLayout, 'contentType' => $this->contentType]
+			);
+		}
+		catch (\Exception $e)
+		{
+			throw new \RuntimeException($e->getMessage());
+		}
+
+		/** @var SelectModel $model */
+		$model = $this->getModel('select', '', ['ignore_request' => true]);
+
+		if (!$model)
+		{
+			throw new \RuntimeException('Unable to create the model.');
+		}
+
+		$model->setState('client_id', $this->getClientIdFromInput());
+
+		$view->setModel($model, true);
+
+		$view->document = $this->app->getDocument();
+
+		$view->displayListTypes();
+
+		return $this;
 	}
 
 	/**
