@@ -963,6 +963,12 @@ class FieldsModelField extends JModelAdmin
 			}
 		}
 
+		// Remove the privacy related param when not needed
+		if ($component !== 'com_users')
+		{
+			$form->removeField('privacy_related', 'params');
+		}
+
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data, $group);
 	}
