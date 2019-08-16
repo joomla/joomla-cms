@@ -15,6 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\Model\DatabaseModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
@@ -107,6 +109,16 @@ class HtmlView extends InstallerViewDefault
 			: $app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DATABASE_CORE_ERRORS'), 'warning');
 		}
 
+    // Send the exporter archive to the browser as a download
+		$zipFile = JPATH_ROOT . '/tmp/joomla_db.zip';
+		if (file_exists($zipFile))
+		{
+	    header('Content-disposition: attachment; filename="joomla_db-' . date("Y-m-d\TH-i-s") . '.zip"');
+	    header('Content-type: application/zip');
+	    readfile($zipFile);
+			unlink($zipFile);
+		}
+
 		parent::display($tpl);
 	}
 
@@ -123,6 +135,9 @@ class HtmlView extends InstallerViewDefault
 		 * Set toolbar items for the page.
 		 */
 		ToolbarHelper::custom('database.fix', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DATABASE_FIX', true);
+		ToolbarHelper::divider();
+		ToolbarHelper::custom('database.export', 'download', 'download', 'COM_INSTALLER_TOOLBAR_DATABASE_EXPORT', false);
+		ToolbarHelper::custom('database.import', 'database', 'database', 'COM_INSTALLER_TOOLBAR_DATABASE_IMPORT', false);
 		ToolbarHelper::divider();
 		parent::addToolbar();
 		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_DATABASE');

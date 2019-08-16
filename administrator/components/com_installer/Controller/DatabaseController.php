@@ -70,6 +70,66 @@ class DatabaseController extends BaseController
 	}
 
 	/**
+	 * Export all the database via XML
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function export()
+	{
+		/** @var DatabaseModel $model */
+		$model = $this->getModel('Database');
+
+		if ($model->export())
+		{
+			$this->setMessage(Text::_('COM_INSTALLER_MSG_DATABASE_EXPORT_OK'));
+		}
+		else
+		{
+			$this->setMessage(Text::_('COM_INSTALLER_MSG_DATABASE_EXPORT_ERROR'));
+		}
+
+		$this->setRedirect(Route::_('index.php?option=com_installer&view=database', false));
+	}
+
+	/**
+	 * Import all the database via XML
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function import()
+	{
+		// Get file to import in the database.
+		$file = $this->input->get('zip_file');
+
+		if (!isset($file))
+		{
+			$this->app->getLogger()->warning(
+				Text::_(
+					'COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'
+				) . $file, array('category' => 'jerror')
+			);
+		}
+
+		/** @var DatabaseModel $model */
+		$model = $this->getModel('Database');
+
+		if ($model->import($file))
+		{
+			$this->setMessage(Text::_('COM_INSTALLER_MSG_DATABASE_IMPORT_OK'));
+		}
+		else
+		{
+			$this->setMessage(Text::_('COM_INSTALLER_MSG_DATABASE_IMPORT_ERROR'));
+		}
+
+		$this->setRedirect(Route::_('index.php?option=com_installer&view=database', false));
+	}
+
+	/**
 	 * Provide the data for a badge in a menu item via JSON
 	 *
 	 * @return  void

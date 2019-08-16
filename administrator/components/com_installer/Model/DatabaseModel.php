@@ -11,8 +11,12 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+define('JPATH_ROOT', JPATH_BASE);
+
+use Joomla\Archive\Archive;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Schema\ChangeSet;
@@ -20,7 +24,10 @@ use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Version;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\Exception\UnsupportedAdapterException;
 use Joomla\Database\UTF8MB4SupportInterface;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
 
 \JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
@@ -281,6 +288,121 @@ class DatabaseModel extends InstallerModel
 				}
 			}
 		}
+	}
+
+	/**
+	 * Export all the database via XML
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function export()
+	{
+		$db = $this->getDbo();
+
+		// Make sure the database supports exports before we get going
+		try
+		{
+			$exporter = $db->getExporter()->withStructure();
+		}
+		catch (UnsupportedAdapterException $e)
+		{
+			return false;
+		}
+
+		$tables = $db->getTableList();
+
+		$zipFile = JPATH_ROOT . '/tmp/joomla_db.zip';
+		$zipArchive = (new Archive)->getAdapter('zip');
+
+		foreach ($tables as $table)
+		{
+			$data = (string) $exporter->from($table)->withData(true);
+			$zipFilesArray[] = ['name' => $table . '.xml', 'data' => $data];
+			$zipArchive->create($zipFile, $zipFilesArray);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Import all the database via XML
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function import($file)
+	{
+		$db = $this->getDbo();
+
+    // Make sure that file uploads are enabled in php.
+    if (!(bool) ini_get('file_uploads'))
+    {
+            Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 'error');
+
+            return false;
+    }
+
+		$config = Factory::getApplication()->getConfig();
+		$tmpFile = $config->get('tmp_path') . '/' . $file;
+
+		//move_uploaded_file($file['tmp_name'], $tmpFile);
+		File::upload($file, $tmpFile, false, true);
+
+		$destDir = JPATH_ROOT . '/tmp/';
+		$zipArchive = (new Archive)->getAdapter('zip');
+		$zipArchive->extract($file, $destDir);
+
+		try
+		{
+			$importer = $db->getImporter()
+				->withStructure()
+				->asXml();
+		}
+		catch (UnsupportedAdapterException $e)
+		{
+			return false;
+		}
+
+		$tables = Folder::files($desDir, '\.xml$');
+
+		foreach ($tables as $table)
+		{
+			$percorso = $desDir . '/' . $table;
+			$tableName = str_replace('.xml', '', $table);
+			$importer->from(file_get_contents($percorso));
+
+			try
+			{
+				$db->dropTable($tableName, true);
+			}
+			catch (ExecutionFailureException $e)
+			{
+				return false;
+			}
+
+			try
+			{
+				$importer->mergeStructure();
+			}
+			catch (\Exception $e)
+			{
+				return false;
+			}
+
+			try
+			{
+				$importer->importData();
+			}
+			catch (\Exception $e)
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**

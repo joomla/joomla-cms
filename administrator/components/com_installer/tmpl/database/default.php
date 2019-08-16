@@ -9,10 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Utility\Utility;
 
 HTMLHelper::_('behavior.multiselect');
 
@@ -22,6 +24,21 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 ?>
 <div id="installer-database" class="clearfix">
 	<form action="<?php echo Route::_('index.php?option=com_installer&view=database'); ?>" method="post" name="adminForm" id="adminForm">
+		<table class="table">
+			<tbody>
+				<tr>
+					<td>
+						<?php echo Text::_('COM_INSTALLER_FILE_IMPORTER_TEXT'); ?>
+					</td>
+					<td>
+							<input class="form-control-file" id="zip_file" name="zip_file" type="file" size="57">
+							<!--button type="submit" class="btn btn-primary"><?php echo Text::_('COM_INSTALLER_EXTRACT_AND_IMPORT'); ?></button-->
+	            <?php $maxSize = HTMLHelper::_('number.bytes', Utility::getMaxUploadSize()); ?>
+	            <small class="form-text text-muted"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', '&#x200E;' . $maxSize); ?></small>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 		<div class="row">
 			<div class="col-md-12">
 				<div id="j-main-container" class="j-main-container">
