@@ -12,6 +12,7 @@ namespace Joomla\Component\Fields\Api\View\Groups;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
+use Joomla\CMS\Router\Exception\RouteNotFoundException;
 
 /**
  * The groups view
@@ -86,4 +87,35 @@ class JsonapiView extends BaseApiView
 		'group_state',
 		'group_note'
 	];
+
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   object  $item  Item
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	public function displayItem($item = null)
+	{
+		if ($item === null)
+		{
+			/** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+			$model = $this->getModel();
+			$item  = $this->prepareItem($model->getItem());
+		}
+
+		if ($item->id === null)
+		{
+			throw new RouteNotFoundException('Item does not exist');
+		}
+
+		if ($item->context != $this->getModel()->getState('filter.context'))
+		{
+			throw new RouteNotFoundException('Item does not exist');
+		}
+
+		return parent::displayItem($item);
+	}
 }
