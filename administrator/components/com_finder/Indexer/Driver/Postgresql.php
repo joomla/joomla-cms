@@ -132,7 +132,7 @@ class Postgresql extends Indexer
 		{
 			// Update the link.
 			$entry->link_id = $linkId;
-			$db->updateObject('#__finder_links', $entry, 'link_id');
+			$db->updateObject('#__finder_links', utf8_encode($entry), 'link_id');
 		}
 
 		// Set up the variables we will need during processing.
@@ -379,7 +379,7 @@ class Postgresql extends Indexer
 		$query->clear()
 			->update($db->quoteName('#__finder_links'))
 			->set($db->quoteName('md5sum') . ' = ' . $db->quote($curSig))
-			->set($db->quoteName('object') . ' = ' . $db->quote(serialize($item)))
+			->set($db->quoteName('object') . ' = ' . $db->quote(utf8_encode($item)))
 			->where($db->quoteName('link_id') . ' = ' . $db->quote($linkId));
 		$db->setQuery($query);
 		$db->execute();
