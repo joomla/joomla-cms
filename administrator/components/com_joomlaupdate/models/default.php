@@ -217,7 +217,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		// Reset the last update check timestamp
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__update_sites'))
-			->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
+			->set($db->quoteName('last_check_timestamp') . ' = 0');
 		$db->setQuery($query);
 		$db->execute();
 
