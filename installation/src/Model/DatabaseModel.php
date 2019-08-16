@@ -954,7 +954,7 @@ class DatabaseModel extends BaseInstallationModel
 
 		$db->insertObject('#__extensions', $testingPlugin, 'extension_id');
 
-		$installer = Installer::getInstance();
+		$installer = new Installer;
 
 		if (!$installer->refreshManifestCache($testingPlugin->extension_id))
 		{
