@@ -154,7 +154,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 		$query = $this->db->getQuery(true);
 		$query->select($this->db->quoteName(array('params', 'field_id', 'item_id')))
 			->from($this->db->quoteName('#__fields'))
-			->innerJoin($this->db->quoteName('#__fields_values') . ' ON id=field_id')
+			->join('INNER', $this->db->quoteName('#__fields_values'), $this->db->quoteName('id') . ' = ' . $this->db->quoteName('field_id'))
 			->where($this->db->quoteName('context') . ' = ' . $this->db->quote('com_users.user'))
 			->where($this->db->quoteName('item_id') . ' =' . $this->db->quote($user->id));
 		
