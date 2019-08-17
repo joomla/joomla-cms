@@ -82,7 +82,7 @@ class Aes
 	 * @param   string $password   The password (either user-provided password or binary encryption key) to use
 	 * @param   bool   $legacyMode True to use the legacy key expansion. We recommend against using it.
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    4.0.0
 	 * @return   void
 	 */
 	public function setPassword($password, $legacyMode = false)

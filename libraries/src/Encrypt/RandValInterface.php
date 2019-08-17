@@ -13,7 +13,7 @@ namespace Joomla\CMS\Encrypt;
 /**
  * Interface RandValInterface
  *
- * @since   __DEPLOY_VERSION__
+ * @since   4.0.0
  */
 interface RandValInterface
 {

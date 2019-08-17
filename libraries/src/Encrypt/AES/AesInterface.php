@@ -13,7 +13,7 @@ namespace Joomla\CMS\Encrypt\AES;
 /**
  * Interface for AES encryption adapters
  *
- * @since    __DEPLOY_VERSION__
+ * @since    4.0.0
  */
 interface AesInterface
 {

@@ -13,7 +13,7 @@ namespace Joomla\CMS\Encrypt\AES;
 /**
  * Abstract AES encryption class
  *
- * @since    __DEPLOY_VERSION__
+ * @since    4.0.0
  */
 abstract class AbstractAES
 {

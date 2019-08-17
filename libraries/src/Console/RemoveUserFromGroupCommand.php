@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command to remove a user from a group
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class RemoveUserFromGroupCommand extends AbstractCommand
 {
@@ -34,21 +34,21 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected static $defaultName = 'user:removefromgroup';
 
 	/**
 	 * SymfonyStyle Object
 	 * @var   object
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $ioStyle;
 
 	/**
 	 * Stores the Input Object
 	 * @var   object
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $cliInput;
 
@@ -57,7 +57,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $username;
 
@@ -66,7 +66,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	 *
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $userGroups = array();
 
@@ -78,7 +78,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
@@ -165,7 +165,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getGroups($user): array
 	{
@@ -227,7 +227,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getGroupId($groupName)
 	{
@@ -251,7 +251,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getStringFromOption($option, $question): string
 	{
@@ -273,7 +273,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output)
 	{
@@ -286,7 +286,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function configure(): void
 	{
