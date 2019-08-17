@@ -49,12 +49,12 @@ if ($saveOrder && !empty($this->items))
 						</caption>
 						<thead>
 							<tr>
-								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
-								</th>
 								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
+								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+								</th>
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_LEVEL_NAME', 'a.title', $listDirn, $listOrder); ?>
 								</th>
@@ -85,6 +85,11 @@ if ($saveOrder && !empty($this->items))
 							}
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
+								<td class="text-center">
+									<?php if ($canEdit) : ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+									<?php endif; ?>
+								</td>
 								<td class="order text-center d-none d-md-table-cell">
 									<?php
 									$iconClass = '';
@@ -98,21 +103,16 @@ if ($saveOrder && !empty($this->items))
 									}
 									?>
 									<span class="sortable-handler<?php echo $iconClass ?>">
-										<span class="icon-menu" aria-hidden="true"></span>
+										<span class="fa fa-ellipsis-v" aria-hidden="true"></span>
 									</span>
 									<?php if ($canChange && $saveOrder) : ?>
 										<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
 									<?php endif; ?>
 								</td>
-								<td class="text-center">
-									<?php if ($canEdit) : ?>
-										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
-									<?php endif; ?>
-								</td>
 								<th scope="row">
 									<?php if ($canEdit) : ?>
 									<a href="<?php echo Route::_('index.php?option=com_users&task=level.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
-										<span class="fa fa-pen-square mr-2" aria-hidden="true"></span><?php echo $this->escape($item->title); ?></a>
+										<?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
