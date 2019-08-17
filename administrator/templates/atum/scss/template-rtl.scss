@@ -57,6 +57,9 @@ body {
 .switcher {
     float: right;
 }
+.form-no-margin .control-group .controls  .switcher__legend {
+    text-align: right;
+}
 // Alerts
 .notify-alerts {
   margin-left: 0;
