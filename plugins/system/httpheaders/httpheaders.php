@@ -170,17 +170,30 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 */
 	public function applyHashesToCspRule(): void
 	{
+		// CSP is only relevant on html pages. Let's early exit here.
+		if (Factory::getDocument()->getType() != 'html')
+		{
+			return;
+		}
+
 		$scriptHashesEnabled = (int) $this->comCspParams->get('script_hashes_enabled', 0);
 		$styleHashesEnabled  = (int) $this->comCspParams->get('style_hashes_enabled', 0);
-		$headData            = Factory::getDocument()->getHeadData();
-		$scriptHashes        = [];
-		$styleHashes         = [];
 
-		// Make sure getHeadData method exits
+		// Early exit when both options are disabled
+		if (!$scriptHashesEnabled && !$styleHashesEnabled)
+		{
+			return;
+		}
+
+		// Make sure the getHeadData method exists
 		if (!method_exists(Factory::getDocument(), 'getHeadData'))
 		{
 			return;
 		}
+
+		$headData     = Factory::getDocument()->getHeadData();
+		$scriptHashes = [];
+		$styleHashes  = [];
 
 		if ($scriptHashesEnabled)
 		{
@@ -248,6 +261,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	{
 		// Set the default header when they are enabled
 		$this->setStaticHeaders();
+
+		// CSP is only relevant on html pages. Let's early exit here.
+		if (Factory::getDocument()->getType() != 'html')
+		{
+			return;
+		}
 
 		// Handle CSP Header configuration
 		$cspOptions = (int) $this->comCspParams->get('contentsecuritypolicy', 0);
