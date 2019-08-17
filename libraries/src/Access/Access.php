@@ -627,7 +627,7 @@ class Access
 					$db->quoteName('#__assets', 'b'),
 					$db->quoteName('b.lft') . ' <= ' . $db->quoteName('a.lft') . ' AND ' . $db->quoteName('b.rgt') . ' >= ' . $db->quoteName('a.rgt')
 				)
-			->order($db->quoteName('b.lft'));
+				->order($db->quoteName('b.lft'));
 		}
 
 		// Execute the query and load the rules from the result.
