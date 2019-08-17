@@ -929,7 +929,7 @@ class DatabaseModel extends BaseInstallationModel
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function checkTestingSampledata($db)
 	{
@@ -941,6 +941,7 @@ class DatabaseModel extends BaseInstallationModel
 		}
 
 		$testingPlugin = new \stdClass;
+		$testingPlugin->extension_id = null;
 		$testingPlugin->name = 'plg_sampledata_testing';
 		$testingPlugin->type = 'plugin';
 		$testingPlugin->element = 'testing';
@@ -951,7 +952,19 @@ class DatabaseModel extends BaseInstallationModel
 		$testingPlugin->manifest_cache = '';
 		$testingPlugin->params = '{}';
 
-		$db->insertObject('#__extensions', $testingPlugin);
+		$db->insertObject('#__extensions', $testingPlugin, 'extension_id');
+
+		$installer = new Installer;
+
+		if (!$installer->refreshManifestCache($testingPlugin->extension_id))
+		{
+			Factory::getApplication()->enqueueMessage(
+				Text::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $testingPlugin->name),
+				'error'
+			);
+
+			return;
+		}
 	}
 
 	/**
