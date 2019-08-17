@@ -37,7 +37,7 @@ class PlgContentJoomla extends CMSPlugin
 	 * Application object
 	 *
 	 * @var    CMSApplicationInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $app;
 

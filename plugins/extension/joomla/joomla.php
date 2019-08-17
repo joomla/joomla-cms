@@ -25,7 +25,7 @@ class PlgExtensionJoomla extends CMSPlugin
 	 * Database driver
 	 *
 	 * @var    DatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $db;
 
