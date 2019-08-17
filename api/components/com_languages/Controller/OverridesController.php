@@ -127,7 +127,7 @@ class OverridesController extends ApiController
 			{
 				if ($errors[$i] instanceof \Exception)
 				{
-					$message[] = "{$errors[$i]->getMessage()}";
+					$messages[] = "{$errors[$i]->getMessage()}";
 				}
 				else
 				{
