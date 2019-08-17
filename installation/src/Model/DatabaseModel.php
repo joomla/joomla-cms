@@ -962,8 +962,6 @@ class DatabaseModel extends BaseInstallationModel
 				Text::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $testingPlugin->name),
 				'error'
 			);
-
-			return;
 		}
 	}
 
