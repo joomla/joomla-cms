@@ -20,7 +20,7 @@ use Joomla\Tests\Integration\Libraries\Cms\Table\Stubs\TestTable;
  *
  * @package  Joomla.Platform
  *
- * @since    __DEPLOY_VERSION__
+ * @since    4.0.0
  */
 class TableTest extends IntegrationTestCase implements DBTestInterface
 {
@@ -28,7 +28,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 
 	/**
 	 * @var    Table
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $object;
 
