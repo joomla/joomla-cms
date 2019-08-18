@@ -217,7 +217,7 @@ class Updater extends \JAdapter
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('DISTINCT a.update_site_id, a.type, a.location, a.last_check_timestamp, a.extra_query')
+		$query->select('DISTINCT a.update_site_id, a.type, a.location, a.last_check_timestamp, a.extra_query, a.checkDetailsUrl')
 			->from($db->quoteName('#__update_sites', 'a'))
 			->where('a.enabled = 1');
 
@@ -274,7 +274,7 @@ class Updater extends \JAdapter
 
 		// Get the update information from the remote update XML document
 		/** @var UpdateAdapter $adapter */
-		$adapter       = $this->_adapters[ $updateSite['type']];
+		$adapter       = $this->_adapters[$updateSite['type']];
 		$update_result = $adapter->findUpdate($updateSite);
 
 		// Version comparison operator.
@@ -313,6 +313,38 @@ class Updater extends \JAdapter
 				/** @var \JTableUpdate $current_update */
 				foreach ($update_result['updates'] as $current_update)
 				{
+					// Check with the extension adapter that the update here is actually an update we can install
+					if ($updateSite['type'] === 'collection' && $updateSite['checkDetailsUrl'])
+					{
+						$extensionUpdateSite = $updateSite;
+						$extensionUpdateSite['type'] = 'extension';
+						$extensionUpdateSite['location'] = $current_update->detailsurl;
+
+						// Lets try to get the actual extension update
+						$actualUpdatesFromDetailsUrl = $this->getAdapter('extension')->findUpdate($extensionUpdateSite);
+
+						if (array_key_exists('updates', $actualUpdatesFromDetailsUrl) && count($actualUpdatesFromDetailsUrl['updates']))
+						{
+							foreach ($actualUpdatesFromDetailsUrl['updates'] as $actualUpdate)
+							{
+								if ($actualUpdate->version != $current_update->version)
+								{
+									/*
+									 * The details URL pointed us to a different version than the collection itself.
+									 * This should not happen as this means the updateserver is not correctly setup.
+									 * So we skip that update too.
+									 */
+									continue;
+								}
+							}
+						}
+						else
+						{
+							// We have not found any update using the details URL this means this Update can not be installed so we skip it.
+							continue;
+						}
+					}
+
 					$current_update->extra_query = $updateSite['extra_query'];
 
 					/** @var \JTableUpdate $update */

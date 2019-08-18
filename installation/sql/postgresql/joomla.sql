@@ -1737,7 +1737,7 @@ CREATE TABLE "#__session" (
 );
 CREATE INDEX "#__session_userid" ON "#__session" ("userid");
 CREATE INDEX "#__session_time" ON "#__session" ("time");
-CREATE INDEX "#__session_idx_client_id_guest" ON "#__session" ("client_id", "guest"); 
+CREATE INDEX "#__session_idx_client_id_guest" ON "#__session" ("client_id", "guest");
 
 --
 -- Table structure for table `#__tags`
@@ -1952,6 +1952,7 @@ CREATE TABLE "#__update_sites" (
   "enabled" bigint DEFAULT 0,
   "last_check_timestamp" bigint DEFAULT 0,
   "extra_query" varchar(1000) DEFAULT '',
+	"checkDetailsUrl" int(1) DEFAULT '0',
   PRIMARY KEY ("update_site_id")
 );
 
@@ -1961,10 +1962,10 @@ COMMENT ON TABLE "#__update_sites" IS 'Update Sites';
 -- Dumping data for table `#__update_sites`
 --
 
-INSERT INTO "#__update_sites" ("update_site_id", "name", "type", "location", "enabled", "last_check_timestamp") VALUES
-(1, 'Joomla! Core', 'collection', 'https://update.joomla.org/core/list.xml', 1, 0),
-(2, 'Accredited Joomla! Translations', 'collection', 'https://update.joomla.org/language/translationlist_3.xml', 1, 0),
-(3, 'Joomla! Update Component Update Site', 'extension', 'https://update.joomla.org/core/extensions/com_joomlaupdate.xml', 1, 0);
+INSERT INTO "#__update_sites" ("update_site_id", "name", "type", "location", "enabled", "last_check_timestamp", "checkDetailsUrl") VALUES
+(1, 'Joomla! Core', 'collection', 'https://update.joomla.org/core/list.xml', 1, 0, 0),
+(2, 'Accredited Joomla! Translations', 'collection', 'https://update.joomla.org/language/translationlist_3.xml', 1, 0, 0),
+(3, 'Joomla! Update Component Update Site', 'extension', 'https://update.joomla.org/core/extensions/com_joomlaupdate.xml', 1, 0, 0);
 
 SELECT setval('#__update_sites_update_site_id_seq', 4, false);
 
