@@ -11,87 +11,112 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
-/** @var  array  $displayData */
 $data = $displayData;
 
 // Receive overridable options
 $data['options'] = !empty($data['options']) ? $data['options'] : array();
 
-if ($data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Items\HtmlView
-	|| $data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Menus\HtmlView)
-{
-	// Client selector doesn't have to activate the filter bar.
-	unset($data['view']->activeFilters['client_id']);
+$noResultsText     = '';
+$hideActiveFilters = false;
+$showFilterButton  = false;
+$showSelector      = false;
+$selectorFieldName = $data['options']['selectorFieldName'] ?? 'client_id';
 
-	// Menutype filter doesn't have to activate the filter bar
-	unset($data['view']->activeFilters['menutype']);
+// If a filter form exists.
+if (isset($data['view']->filterForm) && !empty($data['view']->filterForm))
+{
+	// Checks if a selector (e.g. client_id) exists.
+	if ($selectorField = $data['view']->filterForm->getField($selectorFieldName))
+	{
+		$showSelector = $selectorField->getAttribute('filtermode', '') === 'selector' ? true : $showSelector;
+
+		// Checks if a selector should be shown in the current layout.
+		if (isset($data['view']->layout))
+		{
+			$showSelector = $selectorField->getAttribute('layout', 'default') != $data['view']->layout ? false : $showSelector;
+		}
+
+		// Unset the selector field from active filters group.
+		unset($data['view']->activeFilters[$selectorFieldName]);
+	}
+
+	if ($data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Items\HtmlView) :
+		unset($data['view']->activeFilters['client_id']);
+	endif;
+
+	// Checks if the filters button should exist.
+	$filters = $data['view']->filterForm->getGroup('filter');
+	$showFilterButton = isset($filters['filter_search']) && count($filters) === 1 ? false : true;
+
+	// Checks if it should show the be hidden.
+	$hideActiveFilters = empty($data['view']->activeFilters);
+
+	// Check if the no results message should appear.
+	if (isset($data['view']->total) && (int) $data['view']->total === 0)
+	{
+		$noResults = $data['view']->filterForm->getFieldAttribute('search', 'noresults', '', 'filter');
+		if (!empty($noResults))
+		{
+			$noResultsText = Text::_($noResults);
+		}
+	}
 }
 
-// Set some basic options
+// Set some basic options.
 $customOptions = array(
-	'filtersHidden'       => $data['options']['filtersHidden'] ?? empty($data['view']->activeFilters),
+	'filtersHidden'       => isset($data['options']['filtersHidden']) && $data['options']['filtersHidden'] ? $data['options']['filtersHidden'] : $hideActiveFilters,
+	'filterButton'        => isset($data['options']['filterButton']) && $data['options']['filterButton'] ? $data['options']['filterButton'] : $showFilterButton,
 	'defaultLimit'        => $data['options']['defaultLimit'] ?? Factory::getApplication()->get('list_limit', 20),
 	'searchFieldSelector' => '#filter_search',
+	'selectorFieldName'   => $selectorFieldName,
+	'showSelector'        => $showSelector,
 	'orderFieldSelector'  => '#list_fullordering',
+	'showNoResults'       => !empty($noResultsText) ? true : false,
+	'noResultsText'       => !empty($noResultsText) ? $noResultsText : '',
+	'formSelector'        => !empty($data['options']['formSelector']) ? $data['options']['formSelector'] : '#adminForm',
 );
 
+// Merge custom options in the options array.
 $data['options'] = array_merge($customOptions, $data['options']);
 
-$formSelector = !empty($data['options']['formSelector']) ? $data['options']['formSelector'] : '#adminForm';
+// Add class to hide the active filters if needed.
+$filtersActiveClass = $hideActiveFilters ? '' : ' js-stools-container-filters-visible';
 
 // Load search tools
-HTMLHelper::_('searchtools.form', $formSelector, $data['options']);
-
-$filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilters ? ' js-stools-container-filters-visible' : '';
+HTMLHelper::_('searchtools.form', $data['options']['formSelector'], $data['options']);
 ?>
-<div class="js-stools" role="search">
-	<?php
-		if ($data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Items\HtmlView)
-		{
-			// We will get the menutype filter & remove it from the form filters
-			$menuTypeField = $data['view']->filterForm->getField('menutype');
-
-			// Add the client selector before the form filters.
-			$clientIdField = $data['view']->filterForm->getField('client_id');
-
-			if ($clientIdField): ?>
-				<div class="js-stools-container-selector-first">
-					<div class="js-stools-field-selector js-stools-client_id">
-						<div class="sr-only"><?php echo $clientIdField->label; ?></div>
-						<?php echo $clientIdField->input; ?>
-					</div>
-				</div>
-			<?php endif; ?>
-			<div class="js-stools-container-selector">
-				<div class="js-stools-field-selector js-stools-menutype">
-					<div class="sr-only"><?php echo $menuTypeField->label; ?></div>
-					<?php echo $menuTypeField->input; ?>
-				</div>
+<div class="js-stools d-flex flex-wrap" role="search">
+	<?php if ($data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Items\HtmlView) : ?>
+	<?php // Add the itemtype and language selectors before the form filters. Do not display in modal. ?>
+	<?php $app = Factory::getApplication(); ?>
+		<?php $clientIdField = $data['view']->filterForm->getField('client_id'); ?>
+		<div class="js-stools-container-selector-first">
+			<div class="js-stools-field-selector js-stools-client_id">
+				<?php echo $clientIdField->input; ?>
 			</div>
-			<?php
-		}
-		elseif ($data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Menus\HtmlView)
-		{
-			// Add the client selector before the form filters.
-			$clientIdField = $data['view']->filterForm->getField('client_id');
-			?>
-			<div class="js-stools-container-selector">
-				<div class="js-stools-field-selector js-stools-client_id">
-					<div class="sr-only"><?php echo $clientIdField->label; ?></div>
-					<?php echo $clientIdField->input; ?>
-				</div>
-			</div>
-			<?php
-		}
-	?>
-	<div class="js-stools-container-bar">
-		<?php echo LayoutHelper::render('joomla.searchtools.default.bar', $data); ?>
+		</div>
+	<?php endif; ?>
+	<?php if ($data['options']['showSelector']) : ?>
+	<div class="js-stools-container-selector">
+		<?php echo LayoutHelper::render('joomla.searchtools.default.selector', $data); ?>
+	</div>
+	<?php endif; ?>
+	<div class="js-stools-container-bar ml-auto">
+		<div class="btn-toolbar">
+			<?php echo $this->sublayout('bar', $data); ?>
+			<?php echo $this->sublayout('list', $data); ?>
+		</div>
 	</div>
 	<!-- Filters div -->
-	<div class="js-stools-container-filters clearfix<?php echo $filtersClass; ?>">
-		<?php echo LayoutHelper::render('joomla.searchtools.default.list', $data); ?>
-		<?php echo LayoutHelper::render('joomla.searchtools.default.filters', $data); ?>
+	<div class="js-stools-container-filters clearfix<?php echo $filtersActiveClass; ?>">
+		<?php if ($data['options']['filterButton']) : ?>
+		<?php echo $this->sublayout('filters', $data); ?>
+		<?php endif; ?>
 	</div>
 </div>
+<?php if ($data['options']['showNoResults']) : ?>
+	<?php echo $this->sublayout('noitems', $data); ?>
+<?php endif; ?>

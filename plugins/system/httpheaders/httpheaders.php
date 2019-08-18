@@ -62,8 +62,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		'content-security-policy',
 		'content-security-policy-report-only',
 		'x-frame-options',
-		'x-xss-protection',
-		'x-content-type-options',
 		'referrer-policy',
 		'expect-ct',
 		'feature-policy',
@@ -314,11 +312,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
+
 	 * Get the configured static headers.
 	 *
 	 * @return  array  We return the array of static headers with its values.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getStaticHeaderConfiguration(): array
 	{
@@ -328,18 +327,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		if ($this->params->get('xframeoptions'))
 		{
 			$staticHeaderConfiguration['x-frame-options#both'] = 'SAMEORIGIN';
-		}
-
-		// X-xss-protection
-		if ($this->params->get('xxssprotection'))
-		{
-			$staticHeaderConfiguration['x-xss-protection#both'] = '1; mode=block';
-		}
-
-		// X-content-type-options
-		if ($this->params->get('xcontenttypeoptions'))
-		{
-			$staticHeaderConfiguration['x-content-type-options#both'] = 'nosniff';
 		}
 
 		// Referrer-policy
@@ -404,7 +391,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function setStaticHeaders(): void
 	{

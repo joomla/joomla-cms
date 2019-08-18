@@ -12,8 +12,7 @@
 		<field
 			name="status"
 			type="requeststatus"
-			label="COM_PRIVACY_FILTER_STATUS"
-			description="COM_PRIVACY_FILTER_STATUS_DESC"
+			label="JOPTION_SELECT_PUBLISHED"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -22,8 +21,7 @@
 		<field
 			name="request_type"
 			type="requesttype"
-			label="COM_PRIVACY_FILTER_REQUEST_TYPE"
-			description="COM_PRIVACY_FILTER_REQUEST_TYPE_DESC"
+			label="COM_PRIVACY_SELECT_REQUEST_TYPE"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_PRIVACY_SELECT_REQUEST_TYPE</option>
@@ -35,7 +33,6 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.id DESC"
 			>
@@ -53,6 +50,7 @@
 		<field
 			name="limit"
 			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
 			class="input-mini"
 			default="25"
 			onchange="this.form.submit();"
