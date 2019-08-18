@@ -344,7 +344,7 @@ class Postgresql extends Indexer
 		 */
 		$query->clear()
 			->update($db->quoteName('#__finder_terms', 't'))
-			->join('INNER', $db->quoteName('#__finder_tokens_aggregate' , 'ta'), 'ta.term_id = t.term_id')
+			->join('INNER', $db->quoteName('#__finder_tokens_aggregate', 'ta'), 'ta.term_id = t.term_id')
 			->set($db->quoteName('links') . ' = t.links + 1');
 		$db->setQuery($query);
 		$db->execute();
