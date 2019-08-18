@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * =========================================================================================================
@@ -50,7 +51,7 @@ if ($current->type == 'separator')
 }
 else
 {
-	echo '<li' . $class . ' role="menuitem">';
+	echo '<li' . $class . '>';
 }
 
 // Print a link if it exists
@@ -129,7 +130,7 @@ if ($current->dashboard)
 {
 	$titleDashboard = Text::sprintf('MOD_MENU_DASHBOARD_LINK', Text::_($current->title));
 	echo '<span class="menu-dashboard"><a href="'
-		. JRoute::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $current->dashboard) . '">'
+		. Route::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $current->dashboard) . '">'
 		. '<span class="fa fa-th-large" title="' . $titleDashboard . '" aria-hidden="true"></span>'
 		. '<span class="sr-only">' . $titleDashboard . '</span>'
 		. '</a></span>';
@@ -146,7 +147,7 @@ if ($this->enabled && $current->hasChildren())
 	}
 	else
 	{
-		echo '<ul id="collapse' . $this->getCounter() . '" class="collapse-level-1 collapse" role="menu" aria-haspopup="true">' . "\n";
+		echo '<ul id="collapse' . $this->getCounter() . '" class="collapse-level-1 collapse">' . "\n";
 	}
 
 	// WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_submenu
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Helper class to handle permissions in mod_submenu
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 abstract class Menu
 {
@@ -33,7 +33,7 @@ abstract class Menu
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function preprocess($parent)
 	{

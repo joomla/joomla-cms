@@ -37,7 +37,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * The name of the application.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $name = null;
 
@@ -194,7 +194,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 *
 	 * @return  string  The name of the application.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getName(): string
 	{
