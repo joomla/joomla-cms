@@ -71,13 +71,15 @@ class PlgExtensionJoomla extends JPlugin
 		{
 			$query->clear()
 				->insert('#__update_sites')
-				->columns(array(
-					$db->quoteName('name'),
-					$db->quoteName('type'),
-					$db->quoteName('location'),
-					$db->quoteName('enabled'),
-					$db->quoteName('checkDetailsUrl')
-				))
+				->columns(
+					array(
+						$db->quoteName('name'),
+						$db->quoteName('type'),
+						$db->quoteName('location'),
+						$db->quoteName('enabled'),
+						$db->quoteName('checkDetailsUrl')
+					)
+				)
 				->values(
 					$db->quote($name) . ', ' .
 					$db->quote($type) . ', ' .
