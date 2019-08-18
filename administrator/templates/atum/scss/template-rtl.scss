@@ -132,16 +132,16 @@ body {
     transform: rotate(180deg) translate(0, -180%);
   }
 
-  ul a::before {
-    right: 18px;
+  ul a {
+    padding: 0 1.4rem 0 0;
   }
 
   .active .no-dropdown .sidebar-item-title {
-    margin-right: 28px;
+    margin-right: 1rem;
   }
 
   .dropdown-submenu .sidebar-item-title {
-    margin-right: 28px;
+    margin-right: 1rem;
   }
 
   .dropdown-submenu .no-dropdown .sidebar-item-title {
