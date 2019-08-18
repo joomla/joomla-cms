@@ -33,18 +33,6 @@ class JsonapiView extends BaseApiView
 		'name',
 		'username',
 		'email',
-		'password',
-		'block',
-		'sendEmail',
-		'registerDate',
-		'lastvisitDate',
-		'activation',
-		'params',
-		'lastResetTime',
-		'resetCount',
-		'otpKey',
-		'otep',
-		'requireReset',
 	];
 
 	/**
@@ -58,21 +46,8 @@ class JsonapiView extends BaseApiView
 		'name',
 		'username',
 		'email',
-		'password',
-		'block',
-		'sendEmail',
-		'registerDate',
-		'lastvisitDate',
-		'activation',
-		'params',
-		'lastResetTime',
-		'resetCount',
-		'otpKey',
-		'otep',
-		'requireReset',
 		'group_count',
 		'group_names',
-		'note_count',
 	];
 
 	/**
