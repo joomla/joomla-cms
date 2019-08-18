@@ -34,9 +34,10 @@
 
 		<field
 			name="checkdetailsurl"
-			type="list"
+			type="radio"
 			label="COM_JOOMLAUPDATE_CONFIG_CHECKDETAILSURL_LABEL"
 			description="COM_JOOMLAUPDATE_CONFIG_CHECKDETAILSURL_DESC"
+			class="btn-group btn-group-yesno"
 			default="0"
 			showon="updatesource:custom"
 			>
