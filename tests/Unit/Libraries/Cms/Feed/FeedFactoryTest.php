@@ -21,16 +21,24 @@ use XMLReader;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Feed
+ *
+ * @since   4.0.0
  */
 class FeedFactoryTest extends UnitTestCase
 {
 	/**
 	 * @var  FeedFactory
+	 *
+	 * @since   4.0.0
 	 */
 	private $feedFactory;
 
 	/**
 	 * Setup the tests.
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
 	 */
 	protected function setUp():void
 	{
@@ -41,6 +49,9 @@ class FeedFactoryTest extends UnitTestCase
 
 	/**
 	 * Method to tear down whatever was set up before the test.
+	 *
+	 * @return void
+	 * @since   4.0.0
 	 */
 	protected function tearDown():void
 	{
@@ -51,14 +62,23 @@ class FeedFactoryTest extends UnitTestCase
 
 	/**
 	 * Tests FeedFactory::getFeed().
+	 *
+	 * @return void
+	 * @since   4.0.0
 	 */
 	public function testGetFeed()
 	{
-		$this->markTestSkipped('We cant unit test FeedFactory::getFeed() at the moment, because it uses filesystem (XMLReader::open) and http service. It should be refactored and covered with integration tests.');
+		$this->markTestSkipped('We cant unit test FeedFactory::getFeed() at the moment,
+		 because it uses filesystem (XMLReader::open) and http service.
+		  It should be refactored and covered with integration tests.'
+		);
 	}
 
 	/**
 	 *  Tests FeedFactory::getParsers().
+	 *
+	 * @return void
+	 * @since   4.0.0
 	 */
 	public function testGetDefaultParsers()
 	{
@@ -70,6 +90,9 @@ class FeedFactoryTest extends UnitTestCase
 
 	/**
 	 * Tests FeedFactory::registerParser()
+	 *
+	 * @return void
+	 * @since   4.0.0
 	 */
 	public function testRegisterParser()
 	{
@@ -86,6 +109,9 @@ class FeedFactoryTest extends UnitTestCase
 
 	/**
 	 * Tests FeedFactory::registerParser()
+	 *
+	 * @return void
+	 * @since   4.0.0
 	 */
 	public function testRegisterParserWithInvalidClass()
 	{
@@ -95,6 +121,9 @@ class FeedFactoryTest extends UnitTestCase
 
 	/**
 	 * Tests FeedFactory::registerParser()
+	 *
+	 * @return void
+	 * @since   4.0.0
 	 */
 	public function testRegisterParserWithInvalidTag()
 	{
@@ -105,6 +134,10 @@ class FeedFactoryTest extends UnitTestCase
 
 	/**
 	 * Tests FeedFactory::_fetchFeedParser()
+	 *
+	 * @return void
+	 * @since   4.0.0
+	 * @throws \ReflectionException
 	 */
 	public function testFetchFeedParser()
 	{
@@ -125,6 +158,10 @@ class FeedFactoryTest extends UnitTestCase
 
 	/**
 	 * Tests FeedFactory::_fetchFeedParser()
+	 *
+	 * @return void
+	 * @since   4.0.0
+	 * @throws \ReflectionException
 	 */
 	public function testFetchFeedParserWithInvalidTag()
 	{

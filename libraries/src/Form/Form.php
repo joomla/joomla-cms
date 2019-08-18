@@ -197,7 +197,7 @@ class Form
 	}
 
 	/**
-	 * Method to get a form field represented as a JFormField object.
+	 * Method to get a form field represented as a FormField object.
 	 *
 	 * @param   string  $name   The name of the form field.
 	 * @param   string  $group  The optional dot-separated form group path on which to find the field.
@@ -266,12 +266,12 @@ class Form
 	}
 
 	/**
-	 * Method to get an array of JFormField objects in a given fieldset by name.  If no name is
+	 * Method to get an array of FormField objects in a given fieldset by name.  If no name is
 	 * given then all fields are returned.
 	 *
 	 * @param   string  $set  The optional name of the fieldset.
 	 *
-	 * @return  \JFormField[]  The array of JFormField objects in the fieldset.
+	 * @return  FormField[]  The array of FormField objects in the fieldset.
 	 *
 	 * @since   1.7.0
 	 */
@@ -440,13 +440,13 @@ class Form
 	}
 
 	/**
-	 * Method to get an array of JFormField objects in a given field group by name.
+	 * Method to get an array of FormField objects in a given field group by name.
 	 *
 	 * @param   string   $group   The dot-separated form group path for which to get the form fields.
 	 * @param   boolean  $nested  True to also include fields in nested groups that are inside of the
 	 *                            group for which to find fields.
 	 *
-	 * @return  \JFormField[]  The array of JFormField objects in the field group.
+	 * @return  FormField[]  The array of FormField objects in the field group.
 	 *
 	 * @since   1.7.0
 	 */
@@ -1570,7 +1570,7 @@ class Form
 	}
 
 	/**
-	 * Method to load, setup and return a JFormField object based on field data.
+	 * Method to load, setup and return a FormField object based on field data.
 	 *
 	 * @param   string  $element  The XML element object representation of the form field.
 	 * @param   string  $group    The optional dot-separated form group path on which to find the field.
@@ -1591,7 +1591,7 @@ class Form
 		// Get the field type.
 		$type = $element['type'] ? (string) $element['type'] : 'text';
 
-		// Load the JFormField object for the field.
+		// Load the FormField object for the field.
 		$field = FormHelper::loadFieldType($type);
 
 		// If the object could not be loaded, get a text field object.
@@ -1629,7 +1629,7 @@ class Form
 			$value = $this->getValue((string) $element['name'], $group, $default);
 		}
 
-		// Setup the JFormField object.
+		// Setup the FormField object.
 		$field->setForm($this);
 
 		if ($field->setup($element, $value, $group))

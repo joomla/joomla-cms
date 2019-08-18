@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Filesystem\File;
@@ -236,7 +236,7 @@ class PluginAdapter extends InstallerAdapter
 		{
 			// Backward Compatibility
 			// @todo Deprecate in future version
-			if (count($this->getManifest()->files->children()))
+			if (\count($this->getManifest()->files->children()))
 			{
 				$type = (string) $this->getManifest()->attributes()->type;
 
@@ -295,7 +295,7 @@ class PluginAdapter extends InstallerAdapter
 			$group = strtolower((string) $this->getManifest()->attributes()->group);
 			$name = '';
 
-			if (count($element->children()))
+			if (\count($element->children()))
 			{
 				foreach ($element->children() as $file)
 				{
