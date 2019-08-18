@@ -26,7 +26,17 @@ class JsonapiView extends BaseApiView
 	 * @var  array
 	 * @since  4.0.0
 	 */
-	protected $fieldsToRenderItem = ['id', 'subject', 'message', 'state'];
+	protected $fieldsToRenderItem = [
+		'id',
+		'user_id_from',
+		'user_id_to',
+		'date_time',
+		'priority',
+		'subject',
+		'message',
+		'state',
+		'user_from',
+	];
 
 	/**
 	 * The fields to render items in the documents
@@ -34,7 +44,17 @@ class JsonapiView extends BaseApiView
 	 * @var  array
 	 * @since  4.0.0
 	 */
-	protected $fieldsToRenderList = ['id', 'subject', 'message', 'state'];
+	protected $fieldsToRenderList = [
+		'id',
+		'user_id_from',
+		'user_id_to',
+		'date_time',
+		'priority',
+		'subject',
+		'message',
+		'state',
+		'user_from',
+	];
 
 	/**
 	 * Prepare item before render.
