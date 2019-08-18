@@ -49,7 +49,7 @@ use Joomla\CMS\Language\Text;
 		</fieldset>
 		<fieldset id="installStep2" class="j-install-step">
 			<legend class="j-install-step-header">
-				<span class="fa fa-heart" aria-hidden="true"></span> <?php echo Text::_('INSTL_LOGIN_DATA'); ?>
+				<span class="fa fa-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_LOGIN_DATA'); ?>
 			</legend>
 			<div class="j-install-step-form">
 				<div class="form-group">
