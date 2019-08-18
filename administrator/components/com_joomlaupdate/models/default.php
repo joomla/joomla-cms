@@ -30,7 +30,8 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	public function applyUpdateSite()
 	{
 		// Determine the intended update URL.
-		$params = JComponentHelper::getParams('com_joomlaupdate');
+		$params          = JComponentHelper::getParams('com_joomlaupdate');
+		$checkDetailsUrl = 0;
 
 		switch ($params->get('updatesource', 'nochange'))
 		{
@@ -51,6 +52,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 				if (trim($params->get('customurl', '')) != '')
 				{
 					$updateURL = trim($params->get('customurl', ''));
+					$checkDetailsUrl = (int) $params->get('checkdetailsurl', 0);
 				}
 				else
 				{
@@ -86,6 +88,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			// Modify the database record.
 			$update_site->last_check_timestamp = 0;
 			$update_site->location = $updateURL;
+			$update_site->checkDetailsUrl = $checkDetailsUrl;
 			$db->updateObject('#__update_sites', $update_site, 'update_site_id');
 
 			// Remove cached updates.
