@@ -253,7 +253,6 @@ class PlgExtensionJoomla extends JPlugin
 			foreach ($children as $child)
 			{
 				$attrs = $child->attributes();
-
 				$this->addUpdateSite($attrs['name'], $attrs['type'], trim($child), true, $attrs['checkDetailsUrl']);
 			}
 		}
