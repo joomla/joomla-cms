@@ -7760,6 +7760,9 @@ input.field-media-input {
 		display: none;
 	}
 }
+.ventral-space {
+	margin-bottom: 5px;
+}
 ul.manager .height-50 .icon-folder-2 {
 	height: 35px;
 	width: 35px;
