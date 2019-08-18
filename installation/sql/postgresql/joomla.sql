@@ -1952,7 +1952,7 @@ CREATE TABLE "#__update_sites" (
   "enabled" bigint DEFAULT 0,
   "last_check_timestamp" bigint DEFAULT 0,
   "extra_query" varchar(1000) DEFAULT '',
-	"checkDetailsUrl" int(1) DEFAULT '0',
+  "checkDetailsUrl" int(1) DEFAULT '0',
   PRIMARY KEY ("update_site_id")
 );
 

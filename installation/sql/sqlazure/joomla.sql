@@ -2822,7 +2822,7 @@ CREATE TABLE "#__update_sites" (
   "enabled" int NULL DEFAULT 0,
   "last_check_timestamp" int NULL DEFAULT 0,
   "extra_query" nvarchar(1000) NULL DEFAULT '',
-	"checkDetailsUrl" int NULL DEFAULT '0',
+  "checkDetailsUrl" int NULL DEFAULT '0',
  CONSTRAINT "PK_#__update_sites_update_site_id" PRIMARY KEY CLUSTERED
 (
   "update_site_id" ASC
