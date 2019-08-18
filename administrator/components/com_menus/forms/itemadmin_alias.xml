@@ -19,6 +19,7 @@
 		<fieldset
 			name="menu-options"
 			label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
+			class="options-grid-form-half"
 		>
 
 			<field
