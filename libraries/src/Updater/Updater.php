@@ -314,7 +314,7 @@ class Updater extends \JAdapter
 				foreach ($update_result['updates'] as $current_update)
 				{
 					// Check with the extension adapter that the update here is actually an update we can install
-					if ($updateSite['type'] === 'collection' && $updateSite['checkDetailsUrl'])
+					if ($updateSite['type'] === 'collection' && isset($updateSite['checkDetailsUrl']) && $updateSite['checkDetailsUrl'])
 					{
 						$extensionUpdateSite = $updateSite;
 						$extensionUpdateSite['type'] = 'extension';
