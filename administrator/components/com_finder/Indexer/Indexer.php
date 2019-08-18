@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Profiler\Profiler;
+use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
 
 /**
@@ -289,7 +290,8 @@ abstract class Indexer
 			->update($db->quoteName('#__finder_terms', 't'))
 			->join('INNER', $db->quoteName('#__finder_links_terms', 'm'), $db->quoteName('m.term_id') . ' = ' . $db->quoteName('t.term_id'))
 			->set($db->quoteName('links') . ' = ' . $db->quoteName('links') . ' - 1')
-			->where($db->quoteName('m.link_id') . ' = ' . (int) $linkId);
+			->where($db->quoteName('m.link_id') . ' = :linkid')
+			->bind(':linkid', $linkId, ParameterType::INTEGER);
 		$db->setQuery($query)->execute();
 
 		// Remove all records from the mapping tables.
