@@ -85,7 +85,8 @@ class PlgExtensionJoomla extends JPlugin
 					$db->quote($type) . ', ' .
 					$db->quote($location) . ', ' .
 					(int) $enabled . ', ' .
-					(int) $checkDetailsUrl);
+					(int) $checkDetailsUrl
+				);
 			$db->setQuery($query);
 
 			if ($db->execute())
