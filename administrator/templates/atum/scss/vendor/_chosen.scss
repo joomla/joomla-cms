@@ -15,12 +15,11 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
     color: $custom-select-color;
     vertical-align: middle;
     background: $custom-select-bg $custom-select-indicator no-repeat right $custom-select-padding-x center;
-    background-image: none \9;
     background-size: $custom-select-bg-size;
     border: $custom-select-border-width solid $custom-select-border-color;
     box-shadow: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
+    appearance: none;
+
     @if $enable-rounded {
       border-radius: $custom-select-border-radius;
     } @else {
@@ -64,6 +63,7 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
 }
 
 .chosen-container.chosen-container-multi {
+
   .chosen-choices {
     max-width: $input-max-width;
     min-height: #{$input-height};
@@ -73,12 +73,12 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
 
     li.search-choice {
       $chosen-multi-close-width: 20px;
-
       padding: 5px (13 + $chosen-multi-close-width) 5px 10px;
-      color: var(--white);
-      background: var(--primary);
+      color: var(--atum-text-light);
+      background: colors("atum-bg-dark");
       border: 0;
       box-shadow: $atum-box-shadow;
+
       @if $enable-rounded {
         border-radius: $custom-select-border-radius;
       } @else {
@@ -88,17 +88,17 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
       .search-choice-close {
         top: 0;
         right: 0;
-        background: rgba(0,0,0,0.2);
+        background: rgba(0, 0, 0, 0.2);
         width: $chosen-multi-close-width;
         height: 100%;
         background-image: none !important;
 
         &::before {
-          position:absolute;
+          position: absolute;
           top: 6px;
           right: ($chosen-multi-close-width / 4);
           content: "\00d7";
-          color: var(--white);
+          color: colors("atum-text-light");
           font-size: $font-size-base;
         }
       }

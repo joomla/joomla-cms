@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\Utilities\ArrayHelper;
 
@@ -37,6 +38,30 @@ class CategoriesController extends AdminController
 	public function getModel($name = 'Category', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
+	}
+
+	/**
+	 * Method to get the number of content categories
+	 *
+	 * @return  string  The JSON-encoded amount of published content categories
+	 *
+	 * @since   4.0
+	 */
+	public function getQuickiconContent()
+	{
+		$model = $this->getModel('Categories');
+		$model->setState('filter.published', 1);
+		$model->setState('filter.extension', 'com_content');
+
+		$amount = (int) $model->getTotal();
+
+		$result = [];
+
+		$result['amount'] = $amount;
+		$result['sronly'] = Text::plural('COM_CATEGORIES_N_QUICKICON_SRONLY', $amount);
+		$result['name'] = Text::plural('COM_CATEGORIES_N_QUICKICON', $amount);
+
+		echo new JsonResponse($result);
 	}
 
 	/**
