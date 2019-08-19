@@ -904,7 +904,7 @@ class FieldModel extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @see     \JFormField
+	 * @see     \Joomla\CMS\Form\FormField
 	 * @since   3.7.0
 	 * @throws  \Exception if there is an error in the form event.
 	 */
