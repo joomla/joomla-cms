@@ -53,7 +53,7 @@
     svg, img {
       margin-left: 0.8rem;
       max-height: 1.3rem;
-      max-width: calc(15.625rem - 0.8rem);
+      max-width: calc(18rem - 0.8rem);
 
       &.logo-small {
         display: none;
@@ -194,6 +194,9 @@
       box-shadow: $atum-box-shadow;
       font-size: inherit;
       padding: 1rem 0.75rem;
+      [dir=rtl] & {
+        text-align: right;
+      }
     }
   }
 
@@ -213,6 +216,12 @@
         text-decoration: none;
         background: var(--atum-bg-dark);
       }
+
+      [dir=rtl] & {
+        text-align: right;
+        padding-right: .75rem;
+        padding-left: 0;
+	  }
     }
 
     .fa {
