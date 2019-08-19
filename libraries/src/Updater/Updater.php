@@ -156,6 +156,14 @@ class Updater extends \JAdapter
 				continue;
 			}
 
+			// Make sure there is no update left over in the database.
+			$db = $this->getDbo();
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__updates'))
+				->where($db->quoteName('update_site_id') . ' = ' . $db->quote($result['update_site_id']));
+			$db->setQuery($query);
+			$db->execute();
+
 			$updateObjects = $this->getUpdateObjectsForSite($result, $minimum_stability, $includeCurrent);
 
 			if (!empty($updateObjects))
