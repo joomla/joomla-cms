@@ -12,12 +12,6 @@
 			/>
 
 			<field
-				name="menu-anchor_css"
-				type="text"
-				label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
-			/>
-
-			<field
 				name="menu-anchor_rel"
 				type="list"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_REL_LABEL"
@@ -43,6 +37,10 @@
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_ICON_TITLE_LABEL"
 				description="COM_MENUS_ITEM_FIELD_ICON_TITLE_DESC"
+			/>
+
+			<field
+				type="spacer"
 			/>
 
 			<field
