@@ -88,9 +88,8 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 	<?php // Add the link to the edit-form
 	if (isset($displayData['linkadd'])): ?>
 		<li class="btn-block quickicon-linkadd j-links-link d-flex">
-			<a class="d-flex align-items-center" href="<?php echo $displayData['linkadd']; ?>" title="<?php echo Text::_($displayData['name'] . '_ADD_SRONLY'); ?>">
+			<a class="d-flex align-items-center" href="<?php echo $displayData['linkadd']; ?>" title="<?php echo Text::_($displayData['name'] . '_ADD'); ?>">
 				<span class="fa fa-plus" aria-hidden="true"></span>
-				<span class="sr-only"><?php echo Text::_($displayData['name'] . '_ADD_SRONLY'); ?></span>
 			</a>
 		</li>
 	</ul>
