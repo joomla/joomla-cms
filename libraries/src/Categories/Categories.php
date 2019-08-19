@@ -12,6 +12,7 @@ namespace Joomla\CMS\Categories;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\Database\ParameterType;
 
 /**
  * Categories Class.
@@ -224,96 +225,126 @@ class Categories implements CategoryInterface
 		$user = Factory::getUser();
 		$extension = $this->_extension;
 
+		// Cast as integer until method is typehinted.
+		if ($id !== 'root')
+		{
+			$id = (int) $id;
+
+			if ($id === 0)
+			{
+				$id = 'root';
+			}
+		}
+
 		// Record that has this $id has been checked
 		$this->_checkedCategories[$id] = true;
 
 		$query = $db->getQuery(true)
-			->select('c.id, c.asset_id, c.access, c.alias, c.checked_out, c.checked_out_time,
-				c.created_time, c.created_user_id, c.description, c.extension, c.hits, c.language, c.level,
-				c.lft, c.metadata, c.metadesc, c.metakey, c.modified_time, c.note, c.params, c.parent_id,
-				c.path, c.published, c.rgt, c.title, c.modified_user_id, c.version'
+			->select(
+				$db->quoteName(
+					[
+						'c.id',
+						'c.asset_id',
+						'c.access',
+						'c.alias',
+						'c.checked_out',
+						'c.checked_out_time',
+						'c.created_time',
+						'c.created_user_id',
+						'c.description',
+						'c.extension',
+						'c.hits',
+						'c.language',
+						'c.level',
+						'c.lft',
+						'c.metadata',
+						'c.metadesc',
+						'c.metakey',
+						'c.modified_time',
+						'c.note',
+						'c.params',
+						'c.parent_id',
+						'c.path',
+						'c.published',
+						'c.rgt',
+						'c.title',
+						'c.modified_user_id',
+						'c.version',
+					]
+				)
 			);
 
 		$case_when = ' CASE WHEN ';
-		$case_when .= $query->charLength('c.alias', '!=', '0');
+		$case_when .= $query->charLength($db->quoteName('c.alias'), '!=', '0');
 		$case_when .= ' THEN ';
-		$c_id = $query->castAsChar('c.id');
-		$case_when .= $query->concatenate(array($c_id, 'c.alias'), ':');
+		$c_id = $query->castAsChar($db->quoteName('c.id'));
+		$case_when .= $query->concatenate(array($c_id, $db->quoteName('c.alias')), ':');
 		$case_when .= ' ELSE ';
-		$case_when .= $c_id . ' END as slug';
+		$case_when .= $c_id . ' END as ' . $db->quoteName('slug');
 
 		$query->select($case_when)
-			->where('(c.extension=' . $db->quote($extension) . ' OR c.extension=' . $db->quote('system') . ')');
+			->where('(' . $db->quoteName('c.extension') . ' = :extension OR ' . $db->quoteName('c.extension') . ' = ' . $db->quote('system') . ')')
+			->bind(':extension', $extension);
 
 		if ($this->_options['access'])
 		{
-			$query->where('c.access IN (' . implode(',', $user->getAuthorisedViewLevels()) . ')');
+			$groups = $user->getAuthorisedViewLevels();
+			$query->whereIn($db->quoteName('c.access'), $groups);
 		}
 
 		if ($this->_options['published'] == 1)
 		{
-			$query->where('c.published = 1');
+			$query->where($db->quoteName('c.published') . ' = 1');
 		}
 
-		$query->order('c.lft');
+		$query->order($db->quoteName('c.lft'));
 
 		// Note: s for selected id
-		if ($id != 'root')
+		if ($id !== 'root')
 		{
 			// Get the selected category
 			$query->from($db->quoteName('#__categories', 's'))
-				->where('s.id = ' . (int) $id);
+				->where($db->quoteName('s.id') . ' = :id')
+				->bind(':id', $id, ParameterType::INTEGER);
 
-			if ($app->isClient('site') && Multilanguage::isEnabled())
-			{
-				// For the most part, we use c.lft column, which index is properly used instead of c.rgt
-				$query->innerJoin(
-					$db->quoteName('#__categories', 'c')
-					. ' ON (s.lft < c.lft AND c.lft < s.rgt AND c.language IN ('
-					. $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . '))'
-					. ' OR (c.lft <= s.lft AND s.rgt <= c.rgt)'
-				);
-			}
-			else
-			{
-				$query->innerJoin(
-					$db->quoteName('#__categories', 'c')
-					. ' ON (s.lft <= c.lft AND c.lft < s.rgt)'
-					. ' OR (c.lft < s.lft AND s.rgt < c.rgt)'
-				);
-			}
+			// For the most part, we use c.lft column, which index is properly used instead of c.rgt
+			$query->join(
+				'INNER',
+				$db->quoteName('#__categories', 'c'),
+				'(' . $db->quoteName('s.lft') . ' <= ' . $db->quoteName('c.lft') . ' AND ' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.rgt') . ')'
+					. ' OR (' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.lft') . ' AND ' . $db->quoteName('s.rgt'). ' < ' . $db->quoteName('c.rgt') . ')'
+			);
 		}
 		else
 		{
 			$query->from($db->quoteName('#__categories', 'c'));
+		}
 
-			if ($app->isClient('site') && Multilanguage::isEnabled())
-			{
-				$query->where('c.language IN (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
-			}
+		if ($app->isClient('site') && Multilanguage::isEnabled())
+		{
+			$query->whereIn($db->quoteName('c.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
 		}
 
 		// Note: i for item
 		if ($this->_options['countItems'] == 1)
 		{
 			$subQuery = $db->getQuery(true)
-				->select('COUNT(i.' . $db->quoteName($this->_key) . ')')
+				->select('COUNT(' . $db->quoteName('i.' . $this->_key) . ')')
 				->from($db->quoteName($this->_table, 'i'))
-				->where('i.' . $db->quoteName($this->_field) . ' = c.id');
+				->where($db->quoteName('i.' . $this->_field) . ' = ' . $db->quoteName('c.id'));
 
 			if ($this->_options['published'] == 1)
 			{
-				$subQuery->where('i.' . $this->_statefield . ' = 1');
+				$subQuery->where($db->quoteName('i.' . $this->_statefield) . ' = 1');
 			}
 
 			if ($this->_options['currentlang'] !== 0)
 			{
-				$subQuery->where('(i.language = ' . $db->quote('*')
-					. ' OR i.language = ' . $db->quote($this->_options['currentlang']) . ')'
-				);
+				$subQuery->where($db->quoteName('i.language') . ' IN (' . $db->quote('*') . ',:currentlang)');
+				$query->bind(':currentlang', $this->_options['currentlang']);
 			}
 
-			$query->select('(' . $subQuery . ') AS numitems');
+			$query->select('(' . $subQuery . ') AS ' . $db->quoteName('numitems'));
 		}
 
 		// Get the results
