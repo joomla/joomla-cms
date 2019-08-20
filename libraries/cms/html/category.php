@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -49,30 +50,32 @@ abstract class JHtmlCategory
 			$config = (array) $config;
 			$db     = Factory::getDbo();
 			$user   = Factory::getUser();
-			$groups = implode(',', $user->getAuthorisedViewLevels());
+			$groups = $user->getAuthorisedViewLevels();
 
 			$query = $db->getQuery(true)
-				->select('a.id, a.title, a.level, a.language')
-				->from('#__categories AS a')
-				->where('a.parent_id > 0');
+				->select($db->quoteName(['a.id', 'a.title', 'a.level', 'a.language']))
+				->from($db->quoteName('#__categories', 'a'))
+				->where($db->quoteName('a.parent_id') . ' > 0');
 
 			// Filter on extension.
-			$query->where('extension = ' . $db->quote($extension));
+			$query->where($db->quoteName('extension') . ' = :extension')
+				->bind(':extension', $extension);
 
 			// Filter on user access level
-			$query->where('a.access IN (' . $groups . ')');
+			$query->whereIn($db->quoteName('a.access'), $groups);
 
 			// Filter on the published state
 			if (isset($config['filter.published']))
 			{
 				if (is_numeric($config['filter.published']))
 				{
-					$query->where('a.published = ' . (int) $config['filter.published']);
+					$query->where($db->quoteName('a.published') . ' = :published')
+						->bind(':published', $config['filter.published'], ParameterType::INTEGER);
 				}
 				elseif (is_array($config['filter.published']))
 				{
 					$config['filter.published'] = ArrayHelper::toInteger($config['filter.published']);
-					$query->where('a.published IN (' . implode(',', $config['filter.published']) . ')');
+					$query->whereIn($db->quoteName('a.published'), $config['filter.published']);
 				}
 			}
 
@@ -81,38 +84,30 @@ abstract class JHtmlCategory
 			{
 				if (is_string($config['filter.language']))
 				{
-					$query->where('a.language = ' . $db->quote($config['filter.language']));
+					$query->where($db->quoteName('a.language') . ' = :language')
+						->bind(':language', $config['filter.language']);
 				}
 				elseif (is_array($config['filter.language']))
 				{
-					foreach ($config['filter.language'] as &$language)
-					{
-						$language = $db->quote($language);
-					}
-
-					$query->where('a.language IN (' . implode(',', $config['filter.language']) . ')');
+					$query->where($db->quoteName('a.language'), $config['filter.language'], ParameterType::STRING);
 				}
 			}
 
 			// Filter on the access
 			if (isset($config['filter.access']))
 			{
-				if (is_string($config['filter.access']))
+				if (is_numeric($config['filter.access']))
 				{
-					$query->where('a.access = ' . $db->quote($config['filter.access']));
+					$query->where($db->quoteName('a.access') . ' = :access')
+						->bind(':access', $config['filter_access']);
 				}
 				elseif (is_array($config['filter.access']))
 				{
-					foreach ($config['filter.access'] as &$access)
-					{
-						$access = $db->quote($access);
-					}
-
-					$query->where('a.access IN (' . implode(',', $config['filter.access']) . ')');
+					$query->whereIn($db->quoteName('a.access'), $config['filter.access']);
 				}
 			}
 
-			$query->order('a.lft');
+			$query->order($db->quoteName('a.lft'));
 
 			$db->setQuery($query);
 			$items = $db->loadObjectList();
@@ -157,32 +152,34 @@ abstract class JHtmlCategory
 			$user = Factory::getUser();
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select('a.id, a.title, a.level, a.parent_id')
-				->from('#__categories AS a')
-				->where('a.parent_id > 0');
+				->select($db->quoteName(['a.id', 'a.title', 'a.level', 'a.parent_id']))
+				->from($db->quoteName('#__categories', 'a'))
+				->where($db->quoteName('a.parent_id') . ' > 0');
 
 			// Filter on extension.
-			$query->where('extension = ' . $db->quote($extension));
+			$query->where($db->quoteName('extension') . ' = :extension')
+				->bind(':extension', $extension);
 
 			// Filter on user level.
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN (' . $groups . ')');
+			$groups = $user->getAuthorisedViewLevels();
+			$query->whereIn($db->quoteName('a.access'), $groups);
 
 			// Filter on the published state
 			if (isset($config['filter.published']))
 			{
 				if (is_numeric($config['filter.published']))
 				{
-					$query->where('a.published = ' . (int) $config['filter.published']);
+					$query->where($db->quoteName('a.published') . ' = :published')
+						->bind(':published', $config['filter.published'], ParameterType::INTEGER);
 				}
 				elseif (is_array($config['filter.published']))
 				{
 					$config['filter.published'] = ArrayHelper::toInteger($config['filter.published']);
-					$query->where('a.published IN (' . implode(',', $config['filter.published']) . ')');
+					$query->whereIn($db->quoteName('a.published'), $config['filter.published']);
 				}
 			}
 
-			$query->order('a.lft');
+			$query->order($db->quoteName('a.lft'));
 
 			$db->setQuery($query);
 			$items = $db->loadObjectList();
