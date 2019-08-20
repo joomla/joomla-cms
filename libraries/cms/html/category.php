@@ -99,7 +99,7 @@ abstract class JHtmlCategory
 				if (is_numeric($config['filter.access']))
 				{
 					$query->where($db->quoteName('a.access') . ' = :access')
-						->bind(':access', $config['filter_access']);
+						->bind(':access', $config['filter_access'], ParameterType::INTEGER);
 				}
 				elseif (is_array($config['filter.access']))
 				{
