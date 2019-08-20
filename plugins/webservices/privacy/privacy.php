@@ -54,7 +54,6 @@ class PlgWebservicesPrivacy extends CMSPlugin
 		$routes = [
 			new Route(['GET'], 'v1/privacy/consent', 'consents.displayList', [], $getDefaults),
 			new Route(['GET'], 'v1/privacy/consent/:id', 'consents.displayItem', ['id' => '(\d+)'], $getDefaults),
-			new Route(['POST'], 'v1/privacy/consent', 'consents.add', [], $defaults),
 			new Route(['DELETE'], 'v1/privacy/consent/:id', 'consents.delete', ['id' => '(\d+)'], $defaults)
 		];
 
