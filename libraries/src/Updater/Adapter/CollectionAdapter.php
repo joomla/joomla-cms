@@ -153,6 +153,8 @@ class CollectionAdapter extends UpdateAdapter
 					$values[strtolower($key)] = $attr;
 				}
 
+				$values['data'] = array('forcedeepextensionchecking' => $values['forcedeepextensionchecking']);
+
 				// Only add the update if it is on the same platform and release as we are
 				$ver = new Version;
 

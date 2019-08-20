@@ -314,13 +314,20 @@ class Updater extends \JAdapter
 				foreach ($update_result['updates'] as $current_update)
 				{
 					// Check with the extension adapter that the update here is actually an update we can install
-					if ($updateSite['type'] === 'collection' && isset($current_update->data))
+					if ($updateSite['type'] === 'collection'
+						&& is_array($current_update->data)
+						&& isset($current_update->data['forcedeepextensionchecking'])
+						&& (bool) $current_update->data['forcedeepextensionchecking'] === true)
 					{
+						/*
+						 * Using the forcedeepextensionchecking parameter this collection update server request
+						 * use to check the update with the extension adapter too. Let's do this
+						 */
 						$extensionUpdateSite = $updateSite;
 						$extensionUpdateSite['type'] = 'extension';
 						$extensionUpdateSite['location'] = $current_update->detailsurl;
 
-						// Lets try to get the actual extension update
+						// Try to get the actual extension update
 						$actualUpdatesFromDetailsUrl = $this->getAdapter('extension')->findUpdate($extensionUpdateSite);
 
 						if (array_key_exists('updates', $actualUpdatesFromDetailsUrl) && count($actualUpdatesFromDetailsUrl['updates']))
@@ -340,7 +347,7 @@ class Updater extends \JAdapter
 						}
 						else
 						{
-							// We have not found any update using the details URL this means this Update can not be installed so we skip it.
+							// We have not found any update using the details URL this means this update can not be installed so we skip it.
 							continue;
 						}
 					}
