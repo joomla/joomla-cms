@@ -53,14 +53,9 @@ $wa
 	->registerStyle('template.language.related', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['dependencies' => [$assetName]])
 	->useStyle('template.language.related');
 
-//HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['version' => 'auto']);
-//
-//// Load customer stylesheet if available
-//HTMLHelper::_('stylesheet', 'custom.css', array('version' => 'auto', 'relative' => true));
-//
-//// Load specific template related JS
-//// TODO: Adapt refactored build tools pt.2 @see https://issues.joomla.org/tracker/joomla-cms/23786
-//HTMLHelper::_('script', 'media/templates/' . $this->template . '/js/template.min.js', ['version' => 'auto']);
+// Load specific template related JS
+// TODO: Adapt refactored build tools pt.2 @see https://issues.joomla.org/tracker/joomla-cms/23786
+HTMLHelper::_('script', 'media/templates/' . $this->template . '/js/template.min.js', ['version' => 'auto']);
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');

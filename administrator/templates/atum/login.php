@@ -48,13 +48,13 @@ $logoAlt = htmlspecialchars($this->params->get('altSiteLogo', ''), ENT_COMPAT, '
 $logoSmallAlt = htmlspecialchars($this->params->get('altSmallLogo', ''), ENT_COMPAT, 'UTF-8');
 
 // Enable assets
-$wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
+$assetName = 'template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr');
+$wa->usePreset($assetName);
 
 // Load specific language related CSS
-HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['version' => 'auto']);
-
-// Load customer stylesheet if available
-HTMLHelper::_('stylesheet', 'custom.css', array('version' => 'auto', 'relative' => true));
+$wa
+	->registerStyle('template.language.related', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['dependencies' => [$assetName]])
+	->useStyle('template.language.related');
 
 // Load specific template related JS
 // TODO: Adapt refactored build tools pt.2 @see https://issues.joomla.org/tracker/joomla-cms/23786
