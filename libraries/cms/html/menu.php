@@ -101,7 +101,7 @@ abstract class JHtmlMenu
 			if (isset($clientId))
 			{
 				$query->where($db->quoteName('a.client_id') . ' = :client')
-					->bind(':client', $clientId);
+					->bind(':client', $clientId, ParameterType::INTEGER);
 			}
 
 			// Filter on the published state
