@@ -217,7 +217,7 @@ class Updater extends \JAdapter
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('DISTINCT a.update_site_id, a.type, a.location, a.last_check_timestamp, a.extra_query, a.checkDetailsUrl')
+		$query->select('DISTINCT a.update_site_id, a.type, a.location, a.last_check_timestamp, a.extra_query')
 			->from($db->quoteName('#__update_sites', 'a'))
 			->where('a.enabled = 1');
 
@@ -314,7 +314,7 @@ class Updater extends \JAdapter
 				foreach ($update_result['updates'] as $current_update)
 				{
 					// Check with the extension adapter that the update here is actually an update we can install
-					if ($updateSite['type'] === 'collection' && isset($updateSite['checkDetailsUrl']) && $updateSite['checkDetailsUrl'])
+					if ($updateSite['type'] === 'collection' && isset($current_update->data))
 					{
 						$extensionUpdateSite = $updateSite;
 						$extensionUpdateSite['type'] = 'extension';

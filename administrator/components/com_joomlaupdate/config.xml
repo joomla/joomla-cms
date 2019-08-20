@@ -32,18 +32,5 @@
 			showon="updatesource:custom"
 		/>
 
-		<field
-			name="checkdetailsurl"
-			type="radio"
-			label="COM_JOOMLAUPDATE_CONFIG_CHECKDETAILSURL_LABEL"
-			description="COM_JOOMLAUPDATE_CONFIG_CHECKDETAILSURL_DESC"
-			class="btn-group btn-group-yesno"
-			default="0"
-			showon="updatesource:custom"
-			>
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
-		</field>
-
 	</fieldset>
 </config>

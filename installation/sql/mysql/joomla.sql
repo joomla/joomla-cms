@@ -1981,7 +1981,6 @@ CREATE TABLE IF NOT EXISTS `#__update_sites` (
   `enabled` int(11) DEFAULT 0,
   `last_check_timestamp` bigint(20) DEFAULT 0,
   `extra_query` varchar(1000) DEFAULT '',
-  `checkDetailsUrl` int(1) DEFAULT 0,
   PRIMARY KEY (`update_site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Update Sites';
 
@@ -1989,10 +1988,10 @@ CREATE TABLE IF NOT EXISTS `#__update_sites` (
 -- Dumping data for table `#__update_sites`
 --
 
-INSERT INTO `#__update_sites` (`update_site_id`, `name`, `type`, `location`, `enabled`, `last_check_timestamp`, `checkDetailsUrl`) VALUES
-(1, 'Joomla! Core', 'collection', 'https://update.joomla.org/core/list.xml', 1, 0, 0),
-(2, 'Accredited Joomla! Translations', 'collection', 'https://update.joomla.org/language/translationlist_3.xml', 1, 0, 0),
-(3, 'Joomla! Update Component Update Site', 'extension', 'https://update.joomla.org/core/extensions/com_joomlaupdate.xml', 1, 0, 0);
+INSERT INTO `#__update_sites` (`update_site_id`, `name`, `type`, `location`, `enabled`, `last_check_timestamp`) VALUES
+(1, 'Joomla! Core', 'collection', 'https://update.joomla.org/core/list.xml', 1, 0),
+(2, 'Accredited Joomla! Translations', 'collection', 'https://update.joomla.org/language/translationlist_3.xml', 1, 0),
+(3, 'Joomla! Update Component Update Site', 'extension', 'https://update.joomla.org/core/extensions/com_joomlaupdate.xml', 1, 0);
 
 -- --------------------------------------------------------
 
