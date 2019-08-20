@@ -1737,7 +1737,7 @@ CREATE TABLE "#__session" (
 );
 CREATE INDEX "#__session_userid" ON "#__session" ("userid");
 CREATE INDEX "#__session_time" ON "#__session" ("time");
-CREATE INDEX "#__session_idx_client_id_guest" ON "#__session" ("client_id", "guest");
+CREATE INDEX "#__session_idx_client_id_guest" ON "#__session" ("client_id", "guest"); 
 
 --
 -- Table structure for table `#__tags`
