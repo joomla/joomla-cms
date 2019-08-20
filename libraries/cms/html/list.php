@@ -191,9 +191,8 @@ abstract class JHtmlList
 			->from($db->quoteName('#__users', 'u'))
 			->join('LEFT', $db->quoteName('#__user_usergroup_map', 'm'), $db->quoteName('m.user_id') . ' = ' . $db->quoteName('u.id'))
 			->where($db->quoteName('u.block') . ' = 0')
-			->order(':order')
-			->group($db->quoteName('u.id'))
-			->bind(':order', $order);
+			->order($order)
+			->group($db->quoteName('u.id'));
 		$db->setQuery($query);
 
 		if ($nouser)
