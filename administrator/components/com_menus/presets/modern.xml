@@ -2,11 +2,13 @@
 <menu
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="urn:joomla.org"
-	xsi:schemaLocation="urn:joomla.org menu.xsd">
+	xsi:schemaLocation="urn:joomla.org menu.xsd"
+	>
 	<menuitem
 		title="MOD_MENU_SYSTEM"
 		type="heading"
-		class="class:cog"
+		icon="wrench"
+		class="class:wrench"
 		>
 		<menuitem
 			type="component"
@@ -14,30 +16,35 @@
 			link="index.php"
 			element="com_cpanel"
 		/>
+
 		<menuitem
 			title="MOD_MENU_CONFIGURATION"
 			type="component"
 			element="com_config"
 			link="index.php?option=com_config"
 		/>
+
 		<menuitem
 			title="MOD_MENU_GLOBAL_CHECKIN"
 			type="component"
 			element="com_checkin"
 			link="index.php?option=com_checkin"
 		/>
+
 		<menuitem
 			title="MOD_MENU_CLEAR_CACHE"
 			type="component"
 			element="com_cache"
 			link="index.php?option=com_cache"
 		/>
+
 		<menuitem
 			title="MOD_MENU_PURGE_EXPIRED_CACHE"
 			type="component"
 			element="com_cache"
 			link="index.php?option=com_cache&amp;view=purge"
 		/>
+
 		<menuitem
 			title="MOD_MENU_SYSTEM_INFORMATION"
 			type="component"
@@ -45,62 +52,74 @@
 			link="index.php?option=com_admin&amp;view=sysinfo"
 		/>
 	</menuitem>
+
 	<menuitem
 		title="MOD_MENU_COM_USERS_USERS"
 		type="heading"
+		icon="users"
 		class="class:users"
 		>
 		<menuitem
 			title="MOD_MENU_COM_USERS_USER_MANAGER"
 			type="component"
 			element="com_users"
-			link="index.php?option=com_users&amp;view=users">
-		</menuitem>
+			link="index.php?option=com_users&amp;view=users"
+		/>
+
 		<menuitem
 			title="MOD_MENU_COM_USERS_GROUPS"
 			type="component"
 			element="com_users"
-			link="index.php?option=com_users&amp;view=groups">
-		</menuitem>
+			link="index.php?option=com_users&amp;view=groups"
+		/>
+
 		<menuitem
 			title="MOD_MENU_COM_USERS_LEVELS"
 			type="component"
 			element="com_users"
-			link="index.php?option=com_users&amp;view=levels">
-		</menuitem>
+			link="index.php?option=com_users&amp;view=levels"
+		/>
+
 		<menuitem
 			type="separator"
 		/>
+
 		<menuitem
 			title="MOD_MENU_FIELDS"
 			type="component"
 			element="com_fields"
 			link="index.php?option=com_fields&amp;context=com_users.user"
 		/>
+
 		<menuitem
 			title="MOD_MENU_FIELDS_GROUP"
 			type="component"
 			element="com_fields"
 			link="index.php?option=com_fields&amp;view=groups&amp;context=com_users.user"
 		/>
+
 		<menuitem
 			type="separator"
 		/>
+
 		<menuitem
 			title="MOD_MENU_COM_USERS_NOTES"
 			type="component"
 			element="com_users"
-			link="index.php?option=com_users&amp;view=notes">
-		</menuitem>
+			link="index.php?option=com_users&amp;view=notes"
+		/>
+
 		<menuitem
 			title="MOD_MENU_COM_USERS_NOTE_CATEGORIES"
 			type="component"
 			element="com_categories"
-			link="index.php?option=com_categories&amp;view=categories&amp;extension=com_users">
-		</menuitem>
+			link="index.php?option=com_categories&amp;view=categories&amp;extension=com_users"
+		/>
+
 		<menuitem
 			type="separator"
 		/>
+
 		<menuitem
 			title="MOD_MENU_COM_PRIVACY"
 			type="component"
@@ -108,16 +127,19 @@
 			link="index.php?option=com_privacy"
 			class="class:privacy"
 		/>
+
 		<menuitem
 			title="MOD_MENU_COM_ACTIONLOGS"
 			type="component"
 			element="com_actionlogs"
 			link="index.php?option=com_actionlogs"
 			class="class:userlogs"
-		/>		
+		/>
+
 		<menuitem
 			type="separator"
 		/>
+
 		<menuitem
 			title="MOD_MENU_MASS_MAIL_USERS"
 			type="component"
@@ -126,16 +148,19 @@
 			scope="massmail"
 		/>
 	</menuitem>
+
 	<menuitem
 		title="MOD_MENU_MENUS"
 		type="heading"
+		icon="list"
 		class="class:list"
 		>
 		<menuitem
 			title="MOD_MENU_MENU_MANAGER"
 			type="component"
 			element="com_menus"
-			link="index.php?option=com_menus&amp;view=menus">
+			link="index.php?option=com_menus&amp;view=menus"
+			>
 			<menuitem
 				title="MOD_MENU_MENU_MANAGER_NEW_MENU"
 				type="component"
@@ -144,15 +169,18 @@
 				scope="edit"
 			/>
 		</menuitem>
+
 		<menuitem
 			type="separator"
 		/>
+
 		<menuitem
 			title="MOD_MENU_MENUS_ALL_ITEMS"
 			type="component"
 			element="com_menus"
 			link="index.php?option=com_menus&amp;view=items&amp;menutype="
 		/>
+
 		<!--
 		Following is an example of repeatable group based on simple database query.
 		This requires sql_* attributes (sql_select and sql_from are required)
@@ -163,7 +191,7 @@
 			type="separator"
 			title="JSITE"
 			hidden="false"
-			sql_select="a.title, a.menutype, CASE COALESCE(SUM(m.home), 0) WHEN 0 THEN '' WHEN 1 THEN CASE m.language WHEN '*' THEN 'class:icon-home' ELSE CONCAT('image:mod_languages/', l.image, '.gif') END ELSE 'image:mod_languages/icon-16-language.png' END AS icon"
+			sql_select="a.title, a.menutype, CASE COALESCE(SUM(m.home), 0) WHEN 0 THEN '' WHEN 1 THEN CASE m.language WHEN '*' THEN 'class:icon-home' ELSE CONCAT('image:', l.lang_code) END ELSE 'image:mod_languages/icon-16-language.png' END AS icon"
 			sql_from="#__menu_types AS a"
 			sql_where="a.client_id = 0"
 			sql_leftjoin="#__menu AS m ON m.menutype = a.menutype AND m.home = 1 LEFT JOIN #__languages AS l ON l.lang_code = m.language"
@@ -185,6 +213,7 @@
 				/>
 			</menuitem>
 		</menuitem>
+
 		<menuitem
 			type="separator"
 			title="JADMINISTRATOR"
@@ -208,6 +237,7 @@
 			</menuitem>
 		</menuitem>
 	</menuitem>
+
 	<menuitem
 		title="MOD_MENU_MEDIA_MANAGER"
 		type="component"
@@ -215,53 +245,63 @@
 		link="index.php?option=com_media"
 		class="class:image"
 	/>
+
 	<menuitem
 		title="MOD_MENU_COM_CONTENT"
 		type="heading"
+		icon="file-alt"
 		class="class:file-alt"
 		>
 		<menuitem
 			title="MOD_MENU_COM_CONTENT_ARTICLE_MANAGER"
 			type="component"
 			element="com_content"
-			link="index.php?option=com_content">
-		</menuitem>
+			link="index.php?option=com_content"
+		/>
+
 		<menuitem
 			title="MOD_MENU_COM_CONTENT_CATEGORY_MANAGER"
 			type="component"
 			element="com_categories"
-			link="index.php?option=com_categories&amp;extension=com_content">
-		</menuitem>
+			link="index.php?option=com_categories&amp;extension=com_content"
+		/>
+
 		<menuitem
 			title="MOD_MENU_COM_CONTENT_FEATURED"
 			type="component"
 			element="com_content"
-			link="index.php?option=com_content&amp;view=featured">
-		</menuitem>
+			link="index.php?option=com_content&amp;view=featured"
+		/>
+
 		<menuitem
 			title="MOD_MENU_COM_CONTENT_WORKFLOW"
 			type="component"
 			element="com_workflow"
-			link="index.php?option=com_workflow&amp;extension=com_content">
-		</menuitem>
+			link="index.php?option=com_workflow&amp;extension=com_content"
+		/>
+
 		<menuitem
 			type="separator"
 		/>
+
 		<menuitem
 			title="MOD_MENU_COM_CONTENT_WORKFLOW"
 			type="component"
 			element="com_workflow"
-			link="index.php?option=com_workflow&amp;extension=com_content">
-		</menuitem>
+			link="index.php?option=com_workflow&amp;extension=com_content"
+		/>
+
 		<menuitem
 			type="separator"
 		/>
+
 		<menuitem
 			title="MOD_MENU_FIELDS"
 			type="component"
 			element="com_fields"
 			link="index.php?option=com_fields&amp;context=com_content.article"
 		/>
+
 		<menuitem
 			title="MOD_MENU_FIELDS_GROUP"
 			type="component"
@@ -269,14 +309,17 @@
 			link="index.php?option=com_fields&amp;view=groups&amp;context=com_content.article"
 		/>
 	</menuitem>
+
 	<menuitem
 		title="MOD_MENU_COMPONENTS"
 		type="container"
-		class="class:cube"
+		class="class:puzzle-piece"
 	/>
+
 	<menuitem
 		title="MOD_MENU_EXTENSIONS_EXTENSIONS"
 		type="heading"
+		icon="cubes"
 		class="class:cubes"
 		>
 		<menuitem
@@ -290,42 +333,49 @@
 				element="com_installer"
 				link="index.php?option=com_installer"
 			/>
+
 			<menuitem
 				title="MOD_MENU_INSTALLER_SUBMENU_UPDATE"
 				type="component"
 				element="com_installer"
 				link="index.php?option=com_installer&amp;view=update"
 			/>
+
 			<menuitem
 				title="MOD_MENU_INSTALLER_SUBMENU_MANAGE"
 				type="component"
 				element="com_installer"
 				link="index.php?option=com_installer&amp;view=manage"
 			/>
+
 			<menuitem
 				title="MOD_MENU_INSTALLER_SUBMENU_DISCOVER"
 				type="component"
 				element="com_installer"
 				link="index.php?option=com_installer&amp;view=discover"
 			/>
+
 			<menuitem
 				title="MOD_MENU_INSTALLER_SUBMENU_DATABASE"
 				type="component"
 				element="com_installer"
 				link="index.php?option=com_installer&amp;view=database"
 			/>
+
 			<menuitem
 				title="MOD_MENU_INSTALLER_SUBMENU_WARNINGS"
 				type="component"
 				element="com_installer"
 				link="index.php?option=com_installer&amp;view=warnings"
 			/>
+
 			<menuitem
 				title="MOD_MENU_INSTALLER_SUBMENU_LANGUAGES"
 				type="component"
 				element="com_installer"
 				link="index.php?option=com_installer&amp;view=languages"
 			/>
+
 			<menuitem
 				title="MOD_MENU_INSTALLER_SUBMENU_UPDATESITES"
 				type="component"
@@ -333,18 +383,21 @@
 				link="index.php?option=com_installer&amp;view=updatesites"
 			/>
 		</menuitem>
+
 		<menuitem
 			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER"
 			type="component"
 			element="com_modules"
 			link="index.php?option=com_modules"
 		/>
+
 		<menuitem
 			title="MOD_MENU_EXTENSIONS_PLUGIN_MANAGER"
 			type="component"
 			element="com_plugins"
 			link="index.php?option=com_plugins"
 		/>
+
 		<menuitem
 			title="MOD_MENU_EXTENSIONS_TEMPLATE_MANAGER"
 			type="component"
@@ -356,6 +409,7 @@
 				element="com_templates"
 				link="index.php?option=com_templates&amp;view=styles"
 			/>
+
 			<menuitem
 				title="MOD_MENU_COM_TEMPLATES_SUBMENU_TEMPLATES"
 				type="component"
@@ -363,6 +417,7 @@
 				link="index.php?option=com_templates&amp;view=templates"
 			/>
 		</menuitem>
+
 		<menuitem
 			title="MOD_MENU_EXTENSIONS_LANGUAGE_MANAGER"
 			type="component"
@@ -374,12 +429,14 @@
 				element="com_languages"
 				link="index.php?option=com_languages&amp;view=installed"
 			/>
+
 			<menuitem
 				title="MOD_MENU_COM_LANGUAGES_SUBMENU_CONTENT"
 				type="component"
 				element="com_languages"
 				link="index.php?option=com_languages&amp;view=languages"
 			/>
+
 			<menuitem
 				title="MOD_MENU_COM_LANGUAGES_SUBMENU_OVERRIDES"
 				type="component"
@@ -388,9 +445,11 @@
 			/>
 		</menuitem>
 	</menuitem>
+
 	<menuitem
 		title="MOD_MENU_HELP"
 		type="heading"
+		icon="info-circle"
 		class="class:info-circle"
 		>
 		<menuitem
@@ -400,9 +459,11 @@
 			link="index.php?option=com_admin&amp;view=help"
 			scope="help"
 		/>
+
 		<menuitem
 			type="separator"
 		/>
+
 		<menuitem
 			type="url"
 			target="_blank"
@@ -410,6 +471,7 @@
 			link="https://forum.joomla.org"
 			scope="help"
 		/>
+
 		<menuitem
 			type="url"
 			target="_blank"
@@ -417,6 +479,7 @@
 			link="special:custom-forum"
 			scope="help"
 		/>
+
 		<menuitem
 			type="url"
 			target="_blank"
@@ -424,6 +487,7 @@
 			link="special:language-forum"
 			scope="help"
 		/>
+
 		<menuitem
 			type="url"
 			target="_blank"
@@ -431,9 +495,11 @@
 			link="https://docs.joomla.org"
 			scope="help"
 		/>
+
 		<menuitem
 			type="separator"
 		/>
+
 		<menuitem
 			type="url"
 			target="_blank"
@@ -441,6 +507,7 @@
 			link="https://extensions.joomla.org"
 			scope="help"
 		/>
+
 		<menuitem
 			type="url"
 			target="_blank"
@@ -448,6 +515,7 @@
 			link="https://community.joomla.org/translations.html"
 			scope="help"
 		/>
+
 		<menuitem
 			type="url"
 			target="_blank"
@@ -455,6 +523,7 @@
 			link="https://resources.joomla.org"
 			scope="help"
 		/>
+
 		<menuitem
 			type="url"
 			target="_blank"
@@ -462,6 +531,7 @@
 			link="https://community.joomla.org"
 			scope="help"
 		/>
+
 		<menuitem
 			type="url"
 			target="_blank"
@@ -469,6 +539,7 @@
 			link="https://developer.joomla.org/security-centre.html"
 			scope="help"
 		/>
+
 		<menuitem
 			type="url"
 			target="_blank"
@@ -476,6 +547,7 @@
 			link="https://developer.joomla.org"
 			scope="help"
 		/>
+
 		<menuitem
 			type="url"
 			target="_blank"
@@ -483,6 +555,7 @@
 			link="https://joomla.stackexchange.com"
 			scope="help"
 		/>
+
 		<menuitem
 			type="url"
 			target="_blank"

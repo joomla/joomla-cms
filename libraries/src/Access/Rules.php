@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Access;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Object\CMSObject;
 
@@ -40,16 +40,16 @@ class Rules
 	public function __construct($input = '')
 	{
 		// Convert in input to an array.
-		if (is_string($input))
+		if (\is_string($input))
 		{
 			$input = json_decode($input, true);
 		}
-		elseif (is_object($input))
+		elseif (\is_object($input))
 		{
 			$input = (array) $input;
 		}
 
-		if (is_array($input))
+		if (\is_array($input))
 		{
 			// Top level keys represent the actions.
 			foreach ($input as $action => $identities)
@@ -83,7 +83,7 @@ class Rules
 	public function mergeCollection($input)
 	{
 		// Check if the input is an array.
-		if (is_array($input))
+		if (\is_array($input))
 		{
 			foreach ($input as $actions)
 			{
@@ -103,12 +103,12 @@ class Rules
 	 */
 	public function merge($actions)
 	{
-		if (is_string($actions))
+		if (\is_string($actions))
 		{
 			$actions = json_decode($actions, true);
 		}
 
-		if (is_array($actions))
+		if (\is_array($actions))
 		{
 			foreach ($actions as $action => $identities)
 			{

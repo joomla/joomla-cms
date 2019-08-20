@@ -78,7 +78,7 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 					foreach ($this->items as $i => $item) :
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="center">
+						<td class="text-center tbody-icon">
 							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
 						</td>
 						<th scope="row" class="has-context">

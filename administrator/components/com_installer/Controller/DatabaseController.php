@@ -11,8 +11,10 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Installer\Administrator\Model\DatabaseModel;
 
@@ -65,5 +67,33 @@ class DatabaseController extends BaseController
 		}
 
 		$this->setRedirect(Route::_('index.php?option=com_installer&view=database', false));
+	}
+
+	/**
+	 * Provide the data for a badge in a menu item via JSON
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function getMenuBadgeData()
+	{
+		if (!Factory::getUser()->authorise('core.manage', 'com_installer'))
+		{
+			throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
+		}
+
+		$model = $this->getModel('Database');
+
+		$changeSet = $model->getItems();
+
+		$changeSetCount = 0;
+
+		foreach ($changeSet as $item)
+		{
+			$changeSetCount += $item['errorsCount'];
+		}
+
+		echo new JsonResponse($changeSetCount);
 	}
 }
