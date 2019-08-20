@@ -51,21 +51,22 @@ abstract class JHtmlTag
 			$config = (array) $config;
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select('a.id, a.title, a.level')
-				->from('#__tags AS a')
-				->where('a.parent_id > 0');
+				->select($db->quoteName(['a.id', 'a.title', 'a.level']))
+				->from($db->quoteName('#__tags', 'a'))
+				->where($db->quoteName('a.parent_id') . ' > 0');
 
 			// Filter on the published state
 			if (isset($config['filter.published']))
 			{
 				if (is_numeric($config['filter.published']))
 				{
-					$query->where('a.published = ' . (int) $config['filter.published']);
+					$query->where('a.published = :published')
+						->bind(':published', $config['filter.published'], ParameterType::INTEGER);
 				}
 				elseif (is_array($config['filter.published']))
 				{
 					$config['filter.published'] = ArrayHelper::toInteger($config['filter.published']);
-					$query->where('a.published IN (' . implode(',', $config['filter.published']) . ')');
+					$query->whereIn($db->quoteName('a.published'), $config['filter.published']);
 				}
 			}
 
@@ -74,20 +75,16 @@ abstract class JHtmlTag
 			{
 				if (is_string($config['filter.language']))
 				{
-					$query->where('a.language = ' . $db->quote($config['filter.language']));
+					$query->where($db->quoteName('a.language') . ' = :language')
+						->bind(':language', $config['filter.language']);
 				}
 				elseif (is_array($config['filter.language']))
 				{
-					foreach ($config['filter.language'] as &$language)
-					{
-						$language = $db->quote($language);
-					}
-
-					$query->where('a.language IN (' . implode(',', $config['filter.language']) . ')');
+					$query->whereIn($db->quoteName('a.language'), $config['filter.language'], ParameterType::STRING);
 				}
 			}
 
-			$query->order('a.lft');
+			$query->order($db->quoteName('a.lft'));
 
 			$db->setQuery($query);
 			$items = $db->loadObjectList();
