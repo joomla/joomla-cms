@@ -34,7 +34,7 @@ class DisplayController extends BaseController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getMenuBadgeData()
 	{
