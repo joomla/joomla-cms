@@ -91,14 +91,10 @@ class JsonapiView extends BaseApiView
 	 */
 	public function displayList(array $items = null)
 	{
-		$fields = [];
-
 		foreach (FieldsHelper::getFields('com_content.article') as $field)
 		{
-			$fields[] = $field->name;
+			$this->fieldsToRenderList[] = $field->name;
 		}
-
-		$this->fieldsToRenderList = array_merge($this->fieldsToRenderList, $fields);
 
 		return parent::displayList();
 	}
@@ -114,14 +110,10 @@ class JsonapiView extends BaseApiView
 	 */
 	public function displayItem($item = null)
 	{
-		$fields = [];
-
 		foreach (FieldsHelper::getFields('com_content.article') as $field)
 		{
-			$fields[] = $field->name;
+			$this->fieldsToRenderItem[] = $field->name;
 		}
-
-		$this->fieldsToRenderItem = array_merge($this->fieldsToRenderItem, $fields);
 
 		if (\Joomla\CMS\Language\Multilanguage::isEnabled())
 		{

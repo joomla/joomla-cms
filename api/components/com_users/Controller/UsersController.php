@@ -12,6 +12,7 @@ namespace Joomla\Component\Users\Api\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
  * The users controller
@@ -35,4 +36,33 @@ class UsersController extends ApiController
 	 * @since  3.0
 	 */
 	protected $default_view = 'users';
+
+	/**
+	 * Method to save a record.
+	 *
+	 * @param   integer  $recordKey  The primary key of the item (if exists)
+	 *
+	 * @return  integer  The record ID on success, false on failure
+	 *
+	 * @since   4.0.0
+	 */
+	protected function save($recordKey = null)
+	{
+		$data = (array) json_decode($this->input->json->getRaw(), true);
+
+		foreach (FieldsHelper::getFields('com_users.user') as $field)
+		{
+			if (isset($data[$field->name]))
+			{
+				!isset($data['com_fields']) && $data['com_fields'] = [];
+
+				$data['com_fields'][$field->name] = $data[$field->name];
+				unset($data[$field->name]);
+			}
+		}
+
+		$this->input->set('data', $data);
+
+		return parent::save($recordKey);
+	}
 }

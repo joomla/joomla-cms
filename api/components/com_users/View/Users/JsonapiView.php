@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
  * The users view
@@ -51,6 +52,44 @@ class JsonapiView extends BaseApiView
 	];
 
 	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   array|null  $items  Array of items
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	public function displayList(array $items = null)
+	{
+		foreach (FieldsHelper::getFields('com_users.user') as $field)
+		{
+			$this->fieldsToRenderList[] = $field->name;
+		}
+
+		return parent::displayList();
+	}
+
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   object  $item  Item
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	public function displayItem($item = null)
+	{
+		foreach (FieldsHelper::getFields('com_users.user') as $field)
+		{
+			$this->fieldsToRenderItem[] = $field->name;
+		}
+
+		return parent::displayItem();
+	}
+
+	/**
 	 * Prepare item before render.
 	 *
 	 * @param   object  $item  The model item
@@ -66,6 +105,11 @@ class JsonapiView extends BaseApiView
 			throw new RouteNotFoundException('Item does not exist');
 		}
 
-		return $item;
+		foreach (FieldsHelper::getFields('com_users.user', $item, true) as $field)
+		{
+			$item->{$field->name} = isset($field->apivalue) ? $field->apivalue : $field->rawvalue;
+		}
+
+		return parent::prepareItem($item);
 	}
 }
