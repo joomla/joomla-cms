@@ -6,57 +6,40 @@
   "license": "GPL-2.0+",
   "assets": [
     {
+      "name": "template.atum.base",
+      "dependencies": [
+        "core",
+        "bootstrap.js.bundle",
+        "css-vars-ponyfill",
+        "focus-visible"
+      ]
+    },
+    {
+      "name": "template.atum.ltr",
+      "dependencies": ["template.atum.base"],
+      "css": [
+        "template.min.css",
+        "user.css"
+      ]
+    },
+    {
+      "name": "template.atum.rtl",
+      "dependencies": ["template.atum.base"],
+      "css": [
+        "template-rtl.min.css",
+        "user.css"
+      ]
+    },
+    {
       "name": "bootstrap.css",
-      "type": "style",
-      "uri": "bootstrap.min.css"
+      "css": [
+        "bootstrap.min.css"
+      ]
     },
     {
       "name": "fontawesome",
-      "type": "style",
-      "uri": "fontawesome.min.css"
-    },
-    {
-      "name": "template.atum.ltr",
-      "type": "style",
-      "uri": "template.min.css",
-      "dependencies": ["bootstrap.css"]
-    },
-    {
-      "name": "template.atum.rtl",
-      "type": "style",
-      "uri": "template-rtl.min.css",
-      "dependencies": ["bootstrap.css"]
-    },
-    {
-      "name": "template.atum.user",
-      "type": "style",
-      "uri": "user.css"
-    },
-    {
-      "name": "template.atum.base",
-      "type": "preset",
-      "dependencies": [
-        "core#script",
-        "fontawesome#style",
-        "css-vars-ponyfill#script"
-      ]
-    },
-    {
-      "name": "template.atum.ltr",
-      "type": "preset",
-      "dependencies": [
-        "template.atum.base",
-        "template.atum.ltr#style",
-        "template.atum.user#style"
-      ]
-    },
-    {
-      "name": "template.atum.rtl",
-      "type": "preset",
-      "dependencies": [
-        "template.atum.base",
-        "template.atum.rtl#style",
-        "template.atum.user#style"
+      "css": [
+        "fontawesome.min.css"
       ]
     }
   ]
