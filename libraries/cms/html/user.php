@@ -13,6 +13,7 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Database\ParameterType;
 
 /**
  * Utility class working with users
@@ -71,10 +72,10 @@ abstract class JHtmlUser
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.name AS text')
-			->from('#__users AS a')
-			->where('a.block = 0')
-			->order('a.name');
+			->select($db->quoteName(['a.id', 'a.name'], ['value', 'text']))
+			->from($db->quoteName('#__users', 'a')
+			->where($db->quoteName('a.block') . ' = 0')
+			->order($db->quoteName('a.name'));
 		$db->setQuery($query);
 
 		return $db->loadObjectList();

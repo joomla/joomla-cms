@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\String\StringHelper;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * Utility class for creating different select lists
@@ -82,8 +83,8 @@ abstract class JHtmlList
 	/**
 	 * Returns an array of options
 	 *
-	 * @param   string   $query  SQL with 'ordering' AS value and 'name field' AS text
-	 * @param   integer  $chop   The length of the truncated headline
+	 * @param   DatabaseQuery|string   $query  SQL with 'ordering' AS value and 'name field' AS text
+	 * @param   integer                $chop   The length of the truncated headline
 	 *
 	 * @return  array  An array of objects formatted for JHtml list processing
 	 *

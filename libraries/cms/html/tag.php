@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -120,25 +121,26 @@ abstract class JHtmlTag
 		$config = (array) $config;
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id, a.title, a.level, a.parent_id')
-			->from('#__tags AS a')
-			->where('a.parent_id > 0');
+			->select($db->quoteName(['a.id', 'a.title', 'a.level', 'a.parent_id']))
+			->from($db->quoteName('#__tags', 'a'))
+			->where($db->quoteName('a.parent_id') . ' > 0');
 
 		// Filter on the published state
 		if (isset($config['filter.published']))
 		{
 			if (is_numeric($config['filter.published']))
 			{
-				$query->where('a.published = ' . (int) $config['filter.published']);
+				$query->where($db->quoteName('a.published') . ' = :published')
+					->bind(':published', $config['filter.published'], ParameterType::INTEGER);
 			}
 			elseif (is_array($config['filter.published']))
 			{
 				$config['filter.published'] = ArrayHelper::toInteger($config['filter.published']);
-				$query->where('a.published IN (' . implode(',', $config['filter.published']) . ')');
+				$query->whereIn($db->quoteName('a.published'), $config['filter.published']);
 			}
 		}
 
-		$query->order('a.lft');
+		$query->order($db->quoteName('a.lft'));
 
 		$db->setQuery($query);
 		$items = $db->loadObjectList();
