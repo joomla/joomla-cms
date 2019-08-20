@@ -160,7 +160,7 @@ abstract class Menu
 					continue;
 				}
 			}
-			elseif ($item->element === "com_menus")
+			elseif ($item->element === 'com_menus')
 			{
 				// Get badges for Menus containing a Home page.
 				$iconImage = $item->icon;
