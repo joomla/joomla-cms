@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "39c8799e419972e3e435d22eeeb0e6d6",
+    "content-hash": "d553659408e6a1e479a4fb22cbf671c1",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -5522,16 +5522,16 @@
         },
         {
             "name": "joomla-projects/selenium-server-standalone",
-            "version": "3.141.59",
+            "version": "v3.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/selenium-server-standalone.git",
-                "reference": "2a2310b540344169d52e3d517d3f1d1b4d0b9f4f"
+                "reference": "2939723f470918b6b72b0c05ba1978a41f0ef49d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/selenium-server-standalone/zipball/2a2310b540344169d52e3d517d3f1d1b4d0b9f4f",
-                "reference": "2a2310b540344169d52e3d517d3f1d1b4d0b9f4f",
+                "url": "https://api.github.com/repos/joomla-projects/selenium-server-standalone/zipball/2939723f470918b6b72b0c05ba1978a41f0ef49d",
+                "reference": "2939723f470918b6b72b0c05ba1978a41f0ef49d",
                 "shasum": ""
             },
             "bin": [
@@ -5549,15 +5549,15 @@
             ],
             "authors": [
                 {
-                    "name": "Puneet Kala",
-                    "email": "puneet.kala@community.joomla.org"
-                },
-                {
                     "name": "Sven Eisenschmidt",
                     "email": "sven.eisenschmidt@gmail.com"
                 },
                 {
-                    "name": "Javier Gómez",
+                    "name": "Puneet Kala",
+                    "email": "puneet.kala@community.joomla.org"
+                },
+                {
+                    "name": "Javier Gomez",
                     "email": "javier.gomez@community.joomla.org"
                 }
             ],
@@ -5567,7 +5567,7 @@
                 "selenium",
                 "testing"
             ],
-            "time": "2019-07-31T05:15:24+00:00"
+            "time": "2018-08-19T04:08:16+00:00"
         },
         {
             "name": "joomla/cms-coding-standards",
