@@ -108,7 +108,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 					</div>
 				<?php else : ?>
 					<a class="logo" href="<?php echo Route::_('index.php'); ?>"
-						aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
+						aria-label="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
 						<img src="<?php echo $siteLogo; ?>" alt="">
 						<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="">
 					</a>
