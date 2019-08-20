@@ -21,13 +21,22 @@
       "uri": "user.css"
     },
     {
+      "name": "template.atum",
+      "type": "script",
+      "uri": "templates/atum/template.min.js",
+      "dependencies": [
+        "core"
+      ]
+    },
+    {
       "name": "template.atum.base",
       "type": "preset",
       "dependencies": [
         "core#script",
         "bootstrap.js.bundle#script",
         "css-vars-ponyfill#script",
-        "focus-visible#script"
+        "focus-visible#script",
+        "template.atum#script"
       ]
     },
     {
