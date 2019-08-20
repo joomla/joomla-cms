@@ -49,7 +49,7 @@ abstract class JHtmlAccess
 	{
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName(['a.id', 'value'], ['a.title', 'text']))
+			->select($db->quoteName(['a.id', 'a.title'], ['value', 'text']))
 			->from($db->quoteName('#__viewlevels', 'a'))
 			->group($db->quoteName(['a.id', 'a.title', 'a.ordering']))
 			->order($db->quoteName('a.ordering') . ' ASC')

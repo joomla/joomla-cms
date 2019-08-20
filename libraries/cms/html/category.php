@@ -58,7 +58,7 @@ abstract class JHtmlCategory
 				->where($db->quoteName('a.parent_id') . ' > 0');
 
 			// Filter on extension.
-			$query->where($db->quoteName('extension') . ' = :extension')
+			$query->where($db->quoteName('a.extension') . ' = :extension')
 				->bind(':extension', $extension);
 
 			// Filter on user access level
@@ -89,7 +89,7 @@ abstract class JHtmlCategory
 				}
 				elseif (is_array($config['filter.language']))
 				{
-					$query->where($db->quoteName('a.language'), $config['filter.language'], ParameterType::STRING);
+					$query->whereIn($db->quoteName('a.language'), $config['filter.language'], ParameterType::STRING);
 				}
 			}
 

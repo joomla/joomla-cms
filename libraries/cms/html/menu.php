@@ -110,7 +110,7 @@ abstract class JHtmlMenu
 				if (is_numeric($config['published']))
 				{
 					$query->where($db->quoteName('a.published') . ' = :published')
-						->bind(':published', $config['published'], ParameterType:INTEGER);
+						->bind(':published', $config['published'], ParameterType::INTEGER);
 				}
 				elseif ($config['published'] === '')
 				{
@@ -242,9 +242,9 @@ abstract class JHtmlMenu
 				->where($db->quoteName('menutype') . ' = :menutype')
 				->where($db->quoteName('parent_id') . ' = :parent')
 				->where($db->quoteName('published') . ' != -2')
-				->order('ordering')
+				->order($db->quoteName('ordering'))
 				->bind(':menutype', $row->menutype)
-				->bind(':parent', $row->parent_id, ParameterType:INTEGER);
+				->bind(':parent', $row->parent_id, ParameterType::INTEGER);
 			$order = HTMLHelper::_('list.genericordering', $query);
 			$ordering = HTMLHelper::_(
 				'select.genericlist', $order, 'ordering',
