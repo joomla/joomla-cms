@@ -153,7 +153,14 @@ class CollectionAdapter extends UpdateAdapter
 					$values[strtolower($key)] = $attr;
 				}
 
-				$values['data'] = array('forcedeepextensionchecking' => $values['forcedeepextensionchecking']);
+				/**
+				 * The forcedeepextensionchecking option directs the collection update adapter to
+				 * check the extension.xml (from the detailsurl) to make sure the update can acutally be installed.
+				 */
+				if (isset($values['forcedeepextensionchecking']))
+				{
+					$values['data'] = array('forcedeepextensionchecking' => $values['forcedeepextensionchecking']);
+				}
 
 				// Only add the update if it is on the same platform and release as we are
 				$ver = new Version;
