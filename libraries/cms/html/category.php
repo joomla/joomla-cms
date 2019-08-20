@@ -103,6 +103,7 @@ abstract class JHtmlCategory
 				}
 				elseif (is_array($config['filter.access']))
 				{
+					$config['filter.access'] = ArrayHelper::toInteger($config['filter.access']);
 					$query->whereIn($db->quoteName('a.access'), $config['filter.access']);
 				}
 			}
