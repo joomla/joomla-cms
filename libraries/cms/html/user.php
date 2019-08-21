@@ -13,7 +13,6 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\Database\ParameterType;
 
 /**
  * Utility class working with users
