@@ -2,18 +2,19 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Cache\Storage;
 
-\defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheStorage;
-use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
+use Joomla\Database\Redis\RedisDriver;
+
 
 /**
  * Redis cache storage handler for PECL
@@ -65,88 +66,20 @@ class RedisStorage extends CacheStorage
 	 */
 	protected function getConnection()
 	{
-		if (static::isSupported() == false)
+		if (RedisDriver::isSupported() == false)
 		{
 			return false;
 		}
 
-		$app = Factory::getApplication();
-
-		$this->_persistent = $app->get('redis_persist', true);
-
-		$server = array(
-			'host' => $app->get('redis_server_host', 'localhost'),
-			'port' => $app->get('redis_server_port', 6379),
-			'auth' => $app->get('redis_server_auth', null),
-			'db'   => (int) $app->get('redis_server_db', null),
-		);
-
-		// If you are trying to connect to a socket file, ignore the supplied port
-		if ($server['host'][0] === '/')
-		{
-			$server['port'] = 0;
-		}
-
-		static::$_redis = new \Redis;
-
 		try
 		{
-			if ($this->_persistent)
-			{
-				$connection = static::$_redis->pconnect($server['host'], $server['port']);
-			}
-			else
-			{
-				$connection = static::$_redis->connect($server['host'], $server['port']);
-			}
-		}
-		catch (\RedisException $e)
-		{
-			Log::add($e->getMessage(), Log::DEBUG);
-		}
-
-		if ($connection == false)
-		{
-			static::$_redis = null;
-
-			throw new CacheConnectingException('Redis connection failed', 500);
-		}
-
-		try
-		{
-			$auth = $server['auth'] ? static::$_redis->auth($server['auth']) : true;
-		}
-		catch (\RedisException $e)
-		{
-			$auth = false;
-			Log::add($e->getMessage(), Log::DEBUG);
-		}
-
-		if ($auth === false)
-		{
-			static::$_redis = null;
-
-			throw new CacheConnectingException('Redis authentication failed', 500);
-		}
-
-		$select = static::$_redis->select($server['db']);
-
-		if ($select == false)
-		{
-			static::$_redis = null;
-
-			throw new CacheConnectingException('Redis failed to select database', 500);
-		}
-
-		try
-		{
-			static::$_redis->ping();
+			static::$_redis = RedisDriver::getInstance();
 		}
 		catch (\RedisException $e)
 		{
 			static::$_redis = null;
 
-			throw new CacheConnectingException('Redis ping failed', 500);
+			throw new \JCacheExceptionConnecting('Redis ping failed', 500);
 		}
 
 		return static::$_redis;
@@ -164,7 +97,7 @@ class RedisStorage extends CacheStorage
 	 */
 	public function contains($id, $group)
 	{
-		if (static::isConnected() == false)
+		if (RedisDriver::isConnected() == false)
 		{
 			return false;
 		}
@@ -186,7 +119,7 @@ class RedisStorage extends CacheStorage
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
-		if (static::isConnected() == false)
+		if (RedisDriver::isConnected() == false)
 		{
 			return false;
 		}
@@ -203,7 +136,7 @@ class RedisStorage extends CacheStorage
 	 */
 	public function getAll()
 	{
-		if (static::isConnected() == false)
+		if (RedisDriver::isConnected() == false)
 		{
 			return false;
 		}
@@ -231,7 +164,7 @@ class RedisStorage extends CacheStorage
 						$item = $data[$group];
 					}
 
-					$item->updateSize(\strlen($key)*8);
+					$item->updateSize(strlen($key)*8);
 					$data[$group] = $item;
 				}
 			}
@@ -253,7 +186,7 @@ class RedisStorage extends CacheStorage
 	 */
 	public function store($id, $group, $data)
 	{
-		if (static::isConnected() == false)
+		if (RedisDriver::isConnected() == false)
 		{
 			return false;
 		}
@@ -275,7 +208,7 @@ class RedisStorage extends CacheStorage
 	 */
 	public function remove($id, $group)
 	{
-		if (static::isConnected() == false)
+		if (RedisDriver::isConnected() == false)
 		{
 			return false;
 		}
@@ -298,7 +231,7 @@ class RedisStorage extends CacheStorage
 	 */
 	public function clean($group, $mode = null)
 	{
-		if (static::isConnected() == false)
+		if (RedisDriver::isConnected() == false)
 		{
 			return false;
 		}
@@ -347,7 +280,7 @@ class RedisStorage extends CacheStorage
 	 *
 	 * @since   3.4
 	 */
-	public static function isConnected()
+	public static function AisConnected()
 	{
 		return static::$_redis instanceof \Redis;
 	}
