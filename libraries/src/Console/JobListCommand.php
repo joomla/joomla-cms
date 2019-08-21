@@ -13,7 +13,6 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -66,7 +65,7 @@ class JobListCommand extends AbstractCommand
 		$symfonyStyle->title('Job list');
 
 		// Initialize the time value.
-		$this->time = microtime(true);	
+		$this->time = microtime(true);
 
 		$now  = time();
 		$list = $this->listJobs();
@@ -131,7 +130,7 @@ class JobListCommand extends AbstractCommand
 	{
 		$this->setDescription('List all jobs');
 		$this->setHelp(
-<<<EOF
+			<<<EOF
 The <info>%command.name%</info> command List schedule time for job task
 
 <info>php %command.full_name%</info>
