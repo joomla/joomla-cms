@@ -195,7 +195,7 @@ interface CMSApplicationInterface extends ExtensionManagerInterface
 	 *
 	 * @return  Document object
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getDocument();
 }
