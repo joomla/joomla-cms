@@ -84,10 +84,12 @@ class DefaultAssocLangHelper extends ContentHelper
 			$query = $db->getQuery(true)
 				->select($db->quoteName('parent_date'))
 				->from($db->quoteName('#__associations'))
-				->where([
-					$db->quoteName('id') . ' = :id',
-					$db->quoteName('context') . ' = :context'
-				])
+				->where(
+					[
+						$db->quoteName('id') . ' = :id',
+						$db->quoteName('context') . ' = :context'
+					]
+				)
 				->bind(':id', $id, ParameterType::INTEGER)
 				->bind(':context', $context);
 			$db->setQuery($query);

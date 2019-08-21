@@ -46,11 +46,13 @@ class DefaultAssocLangModel extends BaseModel
 		$subQuery = $db->getQuery(true)
 			->select($db->quoteName('parent_date'))
 			->from($db->quoteName('#__associations'))
-			->where([
-				$db->quoteName('id') . ' = :id',
-				$db->quoteName('parent_id') . ' = ' . $db->quote(0),
-				$db->quoteName('context') . ' = :context'
-			])
+			->where(
+				[
+					$db->quoteName('id') . ' = :id',
+					$db->quoteName('parent_id') . ' = ' . $db->quote(0),
+					$db->quoteName('context') . ' = :context'
+				]
+			)
 			->bind(':id', $parentId, ParameterType::INTEGER)
 			->bind(':context', $context);
 		$parentModified = $db->setQuery($subQuery)->loadResult();
@@ -58,11 +60,13 @@ class DefaultAssocLangModel extends BaseModel
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__associations'))
 			->set($db->quoteName('parent_date') . ' = :parent_date')
-			->where([
-				$db->quoteName('id') . ' = :id',
-				$db->quoteName('parent_id') . ' = :parent_id',
-				$db->quoteName('context') . ' = :context'
-			])
+			->where(
+				[
+					$db->quoteName('id') . ' = :id',
+					$db->quoteName('parent_id') . ' = :parent_id',
+					$db->quoteName('context') . ' = :context'
+				]
+			)
 			->bind(':parent_date', $parentModified = Factory::getDate($parentModified)->toSql())
 			->bind(':id', $childId, ParameterType::INTEGER)
 			->bind(':parent_id', $parentId, ParameterType::INTEGER)

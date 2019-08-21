@@ -68,7 +68,7 @@ class AdministratorService
 					->bind(':id', $catid, ParameterType::INTEGER);
 			}
 
-			$query->leftJoin($db->quoteName('#__languages', 'l'),  $db->quoteName('c.language') . ' = ' .  $db->quoteName('l.lang_code'));
+			$query->leftJoin($db->quoteName('#__languages', 'l'), $db->quoteName('c.language') . ' = ' . $db->quoteName('l.lang_code'));
 			$db->setQuery($query);
 
 			try

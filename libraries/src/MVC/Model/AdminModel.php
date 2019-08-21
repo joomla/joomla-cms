@@ -1379,16 +1379,18 @@ abstract class AdminModel extends FormModel
 
 				foreach ($associations as $id)
 				{
-					$parentIdAndDateValues = DefaultAssocLangHelper::getParentValues($id, $dataId, $parentId, $parentModified, $assocParentDates,
-						$old_key);
+					$parentIdAndDateValues = DefaultAssocLangHelper::getParentValues(
+						$id, $dataId, $parentId, $parentModified, $assocParentDates, $old_key
+					);
 					$parentIdValue         = $parentIdAndDateValues[0];
 					$parentDateValue       = $parentIdAndDateValues[1] === 'NULL' ? 'NULL' : Factory::getDate($parentIdAndDateValues[1])->toSql();
 
 					$query = $db->getQuery(true)
 						->insert($db->quoteName('#__associations'));
 
-					// save NULL for parent_date
-					if($parentDateValue === 'NULL'){
+					// Save NULL for parent_date
+					if ($parentDateValue === 'NULL')
+					{
 						$query->values((' :id, :context, :key, :parentId, NULL'));
 					}
 					else

@@ -1184,7 +1184,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 					->update($db->quoteName('#__associations'))
 					->set($db->quoteName('parent_id') . ' = ' . $db->quote(0));
 
-				if($modified){
+				if ($modified)
+				{
 					$query->set($db->quoteName('parent_date') . ' = :parentDate')
 						->bind(':parentDate', $parentModified = Factory::getDate($parentModified)->toSql());
 				}
@@ -1193,11 +1194,13 @@ class PlgSystemLanguageFilter extends CMSPlugin
 					$query->set($db->quoteName('parent_date') . ' = NULL');
 				}
 
-				$query->where([
+				$query->where(
+					[
 						$db->quoteName('id') . ' = :id',
 						$db->quoteName('key') . ' = :key',
 						$db->quoteName('context') . ' = :context'
-				])
+					]
+				)
 					->bind(':id', $parentId, ParameterType::INTEGER)
 					->bind(':key', $value)
 					->bind(':context', $assocContext);
@@ -1217,7 +1220,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 					->update($db->quoteName('#__associations'))
 					->set($db->quoteName('parent_id') . ' = :parentId');
 
-				if($modified){
+				if ($modified)
+				{
 					$query->set($db->quoteName('parent_date') . ' = :parentDate')
 						->bind(':parentDate', $parentModified = Factory::getDate($parentModified)->toSql());
 				}
@@ -1226,11 +1230,13 @@ class PlgSystemLanguageFilter extends CMSPlugin
 					$query->set($db->quoteName('parent_date') . ' = NULL');
 				}
 
-				$query->where([
-					$db->quoteName('id') . ' <> :id',
-					$db->quoteName('key') . ' = :key',
-					$db->quoteName('context') . ' = :context'
-				])
+				$query->where(
+					[
+						$db->quoteName('id') . ' <> :id',
+						$db->quoteName('key') . ' = :key',
+						$db->quoteName('context') . ' = :context'
+					]
+				)
 					->bind(':parentId', $parentId, ParameterType::INTEGER)
 					->bind(':id', $parentId, ParameterType::INTEGER)
 					->bind(':key', $value)

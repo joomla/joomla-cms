@@ -66,7 +66,7 @@ class Menus
 					->bind(':id', $itemid, ParameterType::INTEGER);
 			}
 
-			$query->leftJoin($db->quoteName('#__languages', 'l'),  $db->quoteName('m.language') . ' = ' .  $db->quoteName('l.lang_code'));
+			$query->leftJoin($db->quoteName('#__languages', 'l'), $db->quoteName('m.language') . ' = ' . $db->quoteName('l.lang_code'));
 			$db->setQuery($query);
 
 			try

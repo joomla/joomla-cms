@@ -62,10 +62,12 @@ class AssociationModel extends ListModel
 		$parentQuery = $db->getQuery(true)
 			->select($db->quoteName('parent_date'))
 			->from($db->quoteName('#__associations'))
-			->where([
-				$db->quoteName('id') . ' = :id',
-				$db->quoteName('context') . ' = :context'
-			])
+			->where(
+				[
+					$db->quoteName('id') . ' = :id',
+					$db->quoteName('context') . ' = :context'
+				]
+			)
 			->bind(':id', $parentId, ParameterType::INTEGER)
 			->bind(':context', $context);
 		$latestParentDate = $db->setQuery($parentQuery)->loadResult();
@@ -73,11 +75,13 @@ class AssociationModel extends ListModel
 		$latestVersionQuery = $db->getQuery(true)
 			->select($db->quoteName('version_id'))
 			->from($db->quoteName('#__ucm_history'))
-			->where([
-				$db->quoteName('ucm_item_id') . ' = :ucm_item_id',
-				$db->quoteName('ucm_type_id') . ' = :ucm_type_id',
-				$db->quoteName('save_date') . ' = :save_date'
-			])
+			->where(
+				[
+					$db->quoteName('ucm_item_id') . ' = :ucm_item_id',
+					$db->quoteName('ucm_type_id') . ' = :ucm_type_id',
+					$db->quoteName('save_date') . ' = :save_date'
+				]
+			)
 			->bind(':ucm_item_id', $parentId, ParameterType::INTEGER)
 			->bind(':ucm_type_id', $typeId, ParameterType::INTEGER)
 			->bind(':save_date', $latestParentDate);
@@ -86,11 +90,13 @@ class AssociationModel extends ListModel
 		$childQuery = $db->getQuery(true)
 			->select($db->quoteName('parent_date'))
 			->from($db->quoteName('#__associations'))
-			->where([
-				$db->quoteName('id') . ' = :id',
-				$db->quoteName('parent_id') . ' = :parent_id',
-				$db->quoteName('context') . ' = :context'
-			])
+			->where(
+				[
+					$db->quoteName('id') . ' = :id',
+					$db->quoteName('parent_id') . ' = :parent_id',
+					$db->quoteName('context') . ' = :context'
+				]
+			)
 			->bind(':id', $targetId, ParameterType::INTEGER)
 			->bind(':parent_id', $parentId, ParameterType::INTEGER)
 			->bind(':context', $context);
@@ -99,11 +105,13 @@ class AssociationModel extends ListModel
 		$olderVersionQuery = $db->getQuery(true)
 			->select($db->quoteName('version_id'))
 			->from($db->quoteName('#__ucm_history'))
-			->where([
-				$db->quoteName('ucm_item_id') . ' = :ucm_item_id',
-				$db->quoteName('ucm_type_id') . ' = :ucm_type_id',
-				$db->quoteName('save_date') . ' = :save_date'
-			])
+			->where(
+				[
+					$db->quoteName('ucm_item_id') . ' = :ucm_item_id',
+					$db->quoteName('ucm_type_id') . ' = :ucm_type_id',
+					$db->quoteName('save_date') . ' = :save_date'
+				]
+			)
 			->bind(':ucm_item_id', $parentId, ParameterType::INTEGER)
 			->bind(':ucm_type_id', $typeId, ParameterType::INTEGER)
 			->bind(':save_date', $childParentDate);

@@ -248,7 +248,7 @@ class AssociationsModel extends ListModel
 
 		// Join over the associations.
 		$query->select('COUNT(' . $db->quoteName('asso2.id') . ') > 1 AS ' . $db->quoteName('association'))
-			->leftJoin (
+			->leftJoin(
 				$db->quoteName('#__associations', 'asso') . ' ON ' . $db->quoteName('asso.id') . ' = ' . $db->quoteName($fields['id'])
 				. ' AND ' . $db->quoteName('asso.context') . ' = :context'
 			)

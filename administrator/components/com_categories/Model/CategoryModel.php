@@ -697,8 +697,9 @@ class CategoryModel extends AdminModel
 
 				foreach ($associations as $id)
 				{
-					$parentIdAndDateValues = DefaultAssocLangHelper::getParentValues($id, $dataId, $parentId, $parentModified, $assocParentDates,
-						$oldKey);
+					$parentIdAndDateValues = DefaultAssocLangHelper::getParentValues(
+						$id, $dataId, $parentId, $parentModified, $assocParentDates, $oldKey
+					);
 					$parentIdValue         = $parentIdAndDateValues[0];
 					$parentDateValue       = $parentIdAndDateValues[1] === 'NULL' ? 'NULL' : Factory::getDate($parentIdAndDateValues[1])->toSql();
 
