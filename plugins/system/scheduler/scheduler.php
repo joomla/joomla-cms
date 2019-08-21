@@ -44,6 +44,7 @@ class PlgSystemScheduler extends CMSPlugin
 	 *
 	 * @return  void
 	 *
+	 * @throws Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onAfterRespond()
@@ -78,8 +79,8 @@ class PlgSystemScheduler extends CMSPlugin
 		// Load language file.
 		$this->loadLanguage();
 		Log::add(
-			Text::_('PLG_SYSTEM_SCHEDULER_START'), 
-			Log::INFO, 
+			Text::_('PLG_SYSTEM_SCHEDULER_START'),
+			Log::INFO,
 			'scheduler'
 		);
 
@@ -106,6 +107,7 @@ class PlgSystemScheduler extends CMSPlugin
 	 *
 	 * @return  void
 	 *
+	 * @throws Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
 	private function triggerJobs()
