@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\Database\ParameterType;
 
 /**
  * Methods supporting a list of article records.
@@ -45,17 +46,27 @@ class DefaultAssocLangModel extends BaseModel
 		$subQuery = $db->getQuery(true)
 			->select($db->quoteName('parent_date'))
 			->from($db->quoteName('#__associations'))
-			->where($db->quoteName('id') . ' = ' . $db->quote($parentId))
-			->where($db->quoteName('parent_id') . ' = ' . $db->quote(0))
-			->where($db->quoteName('context') . ' = ' . $db->quote($context));
+			->where([
+				$db->quoteName('id') . ' = :id',
+				$db->quoteName('parent_id') . ' = ' . $db->quote(0),
+				$db->quoteName('context') . ' = :context'
+			])
+			->bind(':id', $parentId, ParameterType::INTEGER)
+			->bind(':context', $context);
 		$parentModified = $db->setQuery($subQuery)->loadResult();
 
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__associations'))
-			->set($db->quoteName('parent_date') . ' = ' . $db->quote($parentModified))
-			->where($db->quoteName('id') . ' = ' . $db->quote($childId))
-			->where($db->quoteName('parent_id') . ' = ' . $db->quote($parentId))
-			->where($db->quoteName('context') . ' = ' . $db->quote($context));
+			->set($db->quoteName('parent_date') . ' = :parent_date')
+			->where([
+				$db->quoteName('id') . ' = :id',
+				$db->quoteName('parent_id') . ' = :parent_id',
+				$db->quoteName('context') . ' = :context'
+			])
+			->bind(':parent_date', $parentModified = Factory::getDate($parentModified)->toSql())
+			->bind(':id', $childId, ParameterType::INTEGER)
+			->bind(':parent_id', $parentId, ParameterType::INTEGER)
+			->bind(':context', $context);
 		$db->setQuery($query);
 
 		try

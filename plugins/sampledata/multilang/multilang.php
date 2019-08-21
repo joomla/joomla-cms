@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
 
 /**
  * Sampledata - Multilang Plugin
@@ -903,24 +904,29 @@ class PlgSampledataMultilang extends CMSPlugin
 
 		foreach ($groupedAssociations as $context => $associations)
 		{
-			$key   = md5(json_encode($associations));
-			$query = $db->getQuery(true)
-				->insert('#__associations');
+			$key      = md5(json_encode($associations));
+			$parentId = -1;
 
 			foreach ($associations as $language => $id)
 			{
-				$query->values(((int) $id) . ',' . $db->quote($context) . ',' . $db->quote($key) . ',' . $db->quote('-1') . ', NULL');
-			}
+				$query = $db->getQuery(true)
+					->insert($db->quoteName('#__associations'))
+					->values((' :id, :context, :key, :parentId, NULL'))
+					->bind(':id', $id, ParameterType::INTEGER)
+					->bind(':context', $context)
+					->bind(':key', $key)
+					->bind(':parentId', $parentId, ParameterType::INTEGER);
 
-			$db->setQuery($query);
+				$db->setQuery($query);
 
-			try
-			{
-				$db->execute();
-			}
-			catch (\RuntimeException $e)
-			{
-				return false;
+				try
+				{
+					$db->execute();
+				}
+				catch (\RuntimeException $e)
+				{
+					return false;
+				}
 			}
 		}
 

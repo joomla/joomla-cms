@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\ParameterType;
 
 /**
  * Methods supporting a list of article records.
@@ -61,32 +62,51 @@ class AssociationModel extends ListModel
 		$parentQuery = $db->getQuery(true)
 			->select($db->quoteName('parent_date'))
 			->from($db->quoteName('#__associations'))
-			->where($db->quoteName('id') . ' = ' . $db->quote($parentId))
-			->where($db->quoteName('context') . ' = ' . $db->quote($context));
+			->where([
+				$db->quoteName('id') . ' = :id',
+				$db->quoteName('context') . ' = :context'
+			])
+			->bind(':id', $parentId, ParameterType::INTEGER)
+			->bind(':context', $context);
 		$latestParentDate = $db->setQuery($parentQuery)->loadResult();
 
 		$latestVersionQuery = $db->getQuery(true)
 			->select($db->quoteName('version_id'))
 			->from($db->quoteName('#__ucm_history'))
-			->where($db->quoteName('ucm_item_id') . ' = ' . $db->quote($parentId))
-			->where($db->quoteName('ucm_type_id') . ' = ' . $db->quote($typeId))
-			->where($db->quoteName('save_date') . ' = ' . $db->quote($latestParentDate));
+			->where([
+				$db->quoteName('ucm_item_id') . ' = :ucm_item_id',
+				$db->quoteName('ucm_type_id') . ' = :ucm_type_id',
+				$db->quoteName('save_date') . ' = :save_date'
+			])
+			->bind(':ucm_item_id', $parentId, ParameterType::INTEGER)
+			->bind(':ucm_type_id', $typeId, ParameterType::INTEGER)
+			->bind(':save_date', $latestParentDate);
 		$latestVersionId = $db->setQuery($latestVersionQuery)->loadResult();
 
 		$childQuery = $db->getQuery(true)
 			->select($db->quoteName('parent_date'))
 			->from($db->quoteName('#__associations'))
-			->where($db->quoteName('id') . ' = ' . $db->quote($targetId))
-			->where($db->quoteName('parent_id') . ' = ' . $db->quote($parentId))
-			->where($db->quoteName('context') . ' = ' . $db->quote($context));
+			->where([
+				$db->quoteName('id') . ' = :id',
+				$db->quoteName('parent_id') . ' = :parent_id',
+				$db->quoteName('context') . ' = :context'
+			])
+			->bind(':id', $targetId, ParameterType::INTEGER)
+			->bind(':parent_id', $parentId, ParameterType::INTEGER)
+			->bind(':context', $context);
 		$childParentDate = $db->setQuery($childQuery)->loadResult();
 
 		$olderVersionQuery = $db->getQuery(true)
 			->select($db->quoteName('version_id'))
 			->from($db->quoteName('#__ucm_history'))
-			->where($db->quoteName('ucm_item_id') . ' = ' . $db->quote($parentId))
-			->where($db->quoteName('ucm_type_id') . ' = ' . $db->quote($typeId))
-			->where($db->quoteName('save_date') . ' = ' . $db->quote($childParentDate));
+			->where([
+				$db->quoteName('ucm_item_id') . ' = :ucm_item_id',
+				$db->quoteName('ucm_type_id') . ' = :ucm_type_id',
+				$db->quoteName('save_date') . ' = :save_date'
+			])
+			->bind(':ucm_item_id', $parentId, ParameterType::INTEGER)
+			->bind(':ucm_type_id', $typeId, ParameterType::INTEGER)
+			->bind(':save_date', $childParentDate);
 		$olderVersionId = $db->setQuery($olderVersionQuery)->loadResult();
 
 		return [$latestVersionId, $olderVersionId];

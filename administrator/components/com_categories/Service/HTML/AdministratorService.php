@@ -18,6 +18,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Associations\Administrator\Helper\DefaultAssocLangHelper;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -55,21 +56,19 @@ class AdministratorService
 			// Get the associated categories
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select('c.id, c.title')
-				->select('l.sef as lang_sef')
-				->select('l.lang_code')
-				->from('#__categories as c')
-				->where('c.id IN (' . implode(',', array_values($associations)) . ')');
+				->select($db->quoteName(['c.id', 'c.title', 'l.lang_code', 'l.image']))
+				->select($db->quoteName(['l.sef', 'l.title'], ['lang_sef', 'language_title']))
+				->from($db->quoteName('#__categories', 'c'))
+				->whereIN($db->quoteName('c.id'), array_values($associations));
 
 			// Don't get the id of the item itself when there is no default association language used.
 			if (!$defaultAssocLang)
 			{
-				$query->where('c.id != ' . $catid);
+				$query->where($db->quoteName('c.id') . ' != :id')
+					->bind(':id', $catid, ParameterType::INTEGER);
 			}
 
-			$query->join('LEFT', '#__languages as l ON c.language=l.lang_code')
-				->select('l.image')
-				->select('l.title as language_title');
+			$query->leftJoin($db->quoteName('#__languages', 'l'),  $db->quoteName('c.language') . ' = ' .  $db->quoteName('l.lang_code'));
 			$db->setQuery($query);
 
 			try

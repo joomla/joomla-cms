@@ -29,6 +29,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\Component\Associations\Administrator\Helper\DefaultAssocLangHelper;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -683,7 +684,7 @@ class CategoryModel extends AdminModel
 			{
 				// If there is an association item with the default association language, then get its id
 				$defaultAssocLang = Associations::getDefaultAssocLang();
-				$parentId = $associations[$defaultAssocLang] ?? '';
+				$parentId         = $associations[$defaultAssocLang] ?? '';
 
 				// Id of the saved item
 				$dataId = (int) $table->id;
@@ -693,32 +694,44 @@ class CategoryModel extends AdminModel
 
 				// Adding new association for these items
 				$key = md5(json_encode($associations));
-				$query->clear()
-					->insert('#__associations');
 
 				foreach ($associations as $id)
 				{
-					$parentIdAndDateValues = DefaultAssocLangHelper::getParentValues($id, $dataId, $parentId, $parentModified, $assocParentDates, $oldKey);
+					$parentIdAndDateValues = DefaultAssocLangHelper::getParentValues($id, $dataId, $parentId, $parentModified, $assocParentDates,
+						$oldKey);
 					$parentIdValue         = $parentIdAndDateValues[0];
-					$parentDateValue       = $parentIdAndDateValues[1] === 'NULL' ? $parentIdAndDateValues[1] : $db->quote($parentIdAndDateValues[1]);
+					$parentDateValue       = $parentIdAndDateValues[1] === 'NULL' ? 'NULL' : Factory::getDate($parentIdAndDateValues[1])->toSql();
 
-					$query->values(
-						((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key) . ','
-						. $db->quote($parentIdValue) . ',' . $parentDateValue
-					);
-				}
+					$query->clear()
+						->insert($db->quoteName('#__associations'));
 
-				$db->setQuery($query);
+					if ($parentDateValue === 'NULL')
+					{
+						$query->values((' :id, :context, :key, :parentId, NULL'));
+					}
+					else
+					{
+						$query->values((' :id, :context, :key, :parentId, :parentDate'))
+							->bind(':parentDate', $parentDateValue);
+					}
 
-				try
-				{
-					$db->execute();
-				}
-				catch (\RuntimeException $e)
-				{
-					$this->setError($e->getMessage());
+					$query->bind(':id', $id, ParameterType::INTEGER)
+						->bind(':context', $this->associationsContext)
+						->bind(':key', $key)
+						->bind(':parentId', $parentIdValue, ParameterType::INTEGER);
 
-					return false;
+					$db->setQuery($query);
+
+					try
+					{
+						$db->execute();
+					}
+					catch (\RuntimeException $e)
+					{
+						$this->setError($e->getMessage());
+
+						return false;
+					}
 				}
 			}
 		}

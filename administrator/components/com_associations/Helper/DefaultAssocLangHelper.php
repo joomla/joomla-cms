@@ -16,6 +16,7 @@ use Joomla\CMS\Helper\ContentHistoryHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\ParameterType;
 
 defined('_JEXEC') or die;
 
@@ -39,9 +40,10 @@ class DefaultAssocLangHelper extends ContentHelper
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('title, sef')
-			->from('#__languages')
-			->where($db->quoteName('lang_code') . ' = ' . $db->quote($defaultAssocLang));
+			->select($db->quoteName(['title', 'sef']))
+			->from($db->quoteName('#__languages'))
+			->where($db->quoteName('lang_code') . ' = :lang_code')
+			->bind(':lang_code', $defaultAssocLang);
 		$db->setQuery($query);
 		$defaultAssocLangInfos = $db->loadAssoc();
 
@@ -82,8 +84,12 @@ class DefaultAssocLangHelper extends ContentHelper
 			$query = $db->getQuery(true)
 				->select($db->quoteName('parent_date'))
 				->from($db->quoteName('#__associations'))
-				->where($db->quoteName('id') . ' = ' . $db->quote($id))
-				->where($db->quoteName('context') . ' = ' . $db->quote($context));
+				->where([
+					$db->quoteName('id') . ' = :id',
+					$db->quoteName('context') . ' = :context'
+				])
+				->bind(':id', $id, ParameterType::INTEGER)
+				->bind(':context', $context);
 			$db->setQuery($query);
 			$parentDates[$id] = $db->loadResult();
 		}
@@ -165,7 +171,8 @@ class DefaultAssocLangHelper extends ContentHelper
 		$fieldMapsQuery = $db->getQuery(true)
 			->select($db->quoteName('field_mappings'))
 			->from($db->quoteName($contentTypeTblName))
-			->where($db->quoteName('type_id') . ' = ' . $db->quote($typeId));
+			->where($db->quoteName('type_id') . ' = :type_id')
+			->bind(':type_id', $typeId, ParameterType::INTEGER);
 		$db->setQuery($fieldMapsQuery);
 		$fieldMaps = $db->loadResult();
 
@@ -186,7 +193,8 @@ class DefaultAssocLangHelper extends ContentHelper
 				$parentDateQuery = $db->getQuery(true)
 					->select($db->quoteName($modifiedColumn))
 					->from($db->quoteName($tableName))
-					->where($db->quoteName('id') . ' = ' . $db->quote($parentId));
+					->where($db->quoteName('id') . ' = :id')
+					->bind(':id', $parentId, ParameterType::INTEGER);
 				$db->setQuery($parentDateQuery);
 				$parentModified = $db->loadResult();
 			}

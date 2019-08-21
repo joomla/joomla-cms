@@ -18,6 +18,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Associations\Administrator\Helper\DefaultAssocLangHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -52,22 +53,20 @@ class Menus
 			// Get the associated menu items
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select('m.id, m.title')
-				->select('l.sef as lang_sef, l.lang_code')
-				->select('mt.title as menu_title')
-				->from('#__menu as m')
-				->join('LEFT', '#__menu_types as mt ON mt.menutype=m.menutype')
-				->where('m.id IN (' . implode(',', array_values($associations)) . ')');
+				->select($db->quoteName(['m.id', 'm.title', 'l.lang_code', 'l.image']))
+				->select($db->quoteName(['l.sef', 'mt.title', 'l.title'], ['lang_sef', 'menu_title', 'language_title']))
+				->from($db->quoteName('#__menu', 'm'))
+				->leftJoin($db->quoteName('#__menu_types', 'mt'), $db->quoteName('mt.menutype') . ' = ' . $db->quoteName('m.menutype'))
+				->whereIN($db->quoteName('m.id'), array_values($associations));
 
 			// Don't get the id of the item itself when there is no default association language used
 			if (!$defaultAssocLang)
 			{
-				$query->where('m.id != ' . $itemid);
+				$query->where($db->quoteName('m.id') . ' != :id')
+					->bind(':id', $itemid, ParameterType::INTEGER);
 			}
 
-			$query->join('LEFT', '#__languages as l ON m.language=l.lang_code')
-				->select('l.image')
-				->select('l.title as language_title');
+			$query->leftJoin($db->quoteName('#__languages', 'l'),  $db->quoteName('m.language') . ' = ' .  $db->quoteName('l.lang_code'));
 			$db->setQuery($query);
 
 			try

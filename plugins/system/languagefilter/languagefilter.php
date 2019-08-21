@@ -30,8 +30,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Joomla! Language Filter Plugin.
@@ -1094,7 +1096,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				$contextQuery = $db->getQuery(true)
 					->select($db->quoteName('context'))
 					->from($db->quoteName('#__associations'))
-					->where($db->quoteName('key') . ' = ' . $db->quote($value));
+					->where($db->quoteName('key') . ' = :key')
+					->bind(':key', $value);
 				$assocContext = $db->setQuery($contextQuery)->loadResult();
 
 				// Get the right table to search for modified date or save_date from history
@@ -1123,14 +1126,17 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				$subQuery = $db->getQuery(true)
 					->select($db->quoteName('e.id'))
 					->from($fromTable)
-					->where($db->quoteName('e.language') . ' = ' . $db->quote($defaultAssocLang));
+					->where($db->quoteName('e.language') . ' = :lang')
+					->bind(':lang', $defaultAssocLang);
+				$idResults = $db->setQuery($subQuery)->loadColumn();
 
 				// Get parent id of an item that has the default association language
 				$parentQuery = $db->getQuery(true)
 					->select($db->quoteName('id'))
-					->from('#__associations')
-					->where($db->quoteName('id') . ' IN (' . $subQuery . ')')
-					->where($db->quoteName('key') . ' = ' . $db->quote($value));
+					->from($db->quoteName('#__associations'))
+					->whereIn($db->quoteName('id'), $idResults, ParameterType::INTEGER)
+					->where($db->quoteName('key') . ' = :key')
+					->bind(':key', $value);
 				$parentId = $db->setQuery($parentQuery)->loadResult();
 
 				// Get modified date of parent
@@ -1142,7 +1148,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 						$categoryQuery = $db->getQuery(true)
 							->select($checkCategoryComponent)
 							->from($fromTable)
-							->where($db->quoteName('id') . ' = ' . $db->quote($parentId));
+							->where($db->quoteName('id') . ' = :id')
+							->bind(':id', $parentId, ParameterType::INTEGER);
 						$categoryParentExtension = $db->setQuery($categoryQuery)->loadResult();
 						$typeAlias = $categoryParentExtension . '.category';
 					}
@@ -1164,22 +1171,36 @@ class PlgSystemLanguageFilter extends CMSPlugin
 						$parentModQuery = $db->getQuery(true)
 							->select($modified)
 							->from($fromTable)
-							->where($db->quoteName('id') . ' = ' . $db->quote($parentId));
+							->where($db->quoteName('id') . ' = :id')
+							->bind(':id', $parentId, ParameterType::INTEGER);
 						$parentModified = $db->setQuery($parentModQuery)->loadResult();
 					}
 				}
 
-				$parentModified = $modified ? $db->quote($parentModified) : 'NULL';
 				$parentId       = $parentId ?? -1;
 
 				// Set the id and the modified date of the parent item.
 				$query = $db->getQuery(true)
 					->update($db->quoteName('#__associations'))
-					->set($db->quoteName('parent_id') . ' = ' . $db->quote(0))
-					->set($db->quoteName('parent_date') . ' = ' . $parentModified)
-					->where($db->quoteName('id') . ' = ' . $db->quote($parentId))
-					->where($db->quoteName('key') . ' = ' . $db->quote($value))
-					->where($db->quoteName('context') . ' = ' . $db->quote($assocContext));
+					->set($db->quoteName('parent_id') . ' = ' . $db->quote(0));
+
+				if($modified){
+					$query->set($db->quoteName('parent_date') . ' = :parentDate')
+						->bind(':parentDate', $parentModified = Factory::getDate($parentModified)->toSql());
+				}
+				else
+				{
+					$query->set($db->quoteName('parent_date') . ' = NULL');
+				}
+
+				$query->where([
+						$db->quoteName('id') . ' = :id',
+						$db->quoteName('key') . ' = :key',
+						$db->quoteName('context') . ' = :context'
+				])
+					->bind(':id', $parentId, ParameterType::INTEGER)
+					->bind(':key', $value)
+					->bind(':context', $assocContext);
 				$db->setQuery($query);
 
 				try
@@ -1194,11 +1215,26 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				// Set the id and modified date of the parent item to the children
 				$query = $db->getQuery(true)
 					->update($db->quoteName('#__associations'))
-					->set($db->quoteName('parent_id') . ' = ' . $db->quote($parentId))
-					->set($db->quoteName('parent_date') . ' = ' . $parentModified)
-					->where($db->quoteName('id') . ' <> ' . $db->quote($parentId))
-					->where($db->quoteName('key') . ' = ' . $db->quote($value))
-					->where($db->quoteName('context') . ' = ' . $db->quote($assocContext));
+					->set($db->quoteName('parent_id') . ' = :parentId');
+
+				if($modified){
+					$query->set($db->quoteName('parent_date') . ' = :parentDate')
+						->bind(':parentDate', $parentModified = Factory::getDate($parentModified)->toSql());
+				}
+				else
+				{
+					$query->set($db->quoteName('parent_date') . ' = NULL');
+				}
+
+				$query->where([
+					$db->quoteName('id') . ' <> :id',
+					$db->quoteName('key') . ' = :key',
+					$db->quoteName('context') . ' = :context'
+				])
+					->bind(':parentId', $parentId, ParameterType::INTEGER)
+					->bind(':id', $parentId, ParameterType::INTEGER)
+					->bind(':key', $value)
+					->bind(':context', $assocContext);
 				$db->setQuery($query);
 
 				try

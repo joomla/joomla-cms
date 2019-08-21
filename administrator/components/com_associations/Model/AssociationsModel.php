@@ -20,6 +20,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
 
 /**
  * Methods supporting a list of article records.
@@ -247,12 +248,12 @@ class AssociationsModel extends ListModel
 
 		// Join over the associations.
 		$query->select('COUNT(' . $db->quoteName('asso2.id') . ') > 1 AS ' . $db->quoteName('association'))
-			->join(
-				'LEFT',
+			->leftJoin (
 				$db->quoteName('#__associations', 'asso') . ' ON ' . $db->quoteName('asso.id') . ' = ' . $db->quoteName($fields['id'])
-				. ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote($assocContextName)
+				. ' AND ' . $db->quoteName('asso.context') . ' = :context'
 			)
-			->join('LEFT', $db->quoteName('#__associations', 'asso2') . ' ON ' . $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key'));
+			->leftJoin($db->quoteName('#__associations', 'asso2') . ' ON ' . $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key'))
+			->bind(':context', $assocContextName);
 
 		// Prepare the group by clause.
 		$groupby = array(
@@ -452,7 +453,7 @@ class AssociationsModel extends ListModel
 			// Not associated
 			if ($assocStateField === 'not_associated')
 			{
-				$languageQuery    = $db->getQuery(true)
+				$languageQuery = $db->getQuery(true)
 					->select('COUNT(*)')
 					->from($db->quoteName('#__languages'));
 				$db->setQuery($languageQuery);
@@ -542,11 +543,14 @@ class AssociationsModel extends ListModel
 				$subQuery = $db->getQuery(true)
 					->select($db->quoteName('id'))
 					->from($db->quoteName('#__categories'))
-					->where($db->quoteName('extension') . ' = ' . $db->quote($extensionName));
+					->where($db->quoteName('extension') . ' = :extension')
+					->bind(':extension', $extensionName);
+				$idResults = $db->setQuery($subQuery)->loadColumn();
 
 				// Delete associations of categories with the given context by comparing id of both tables
-				$query->where($db->quoteName('id') . ' IN (' . $subQuery . ')')
-					->where($db->quoteName('context') . ' = ' . $db->quote('com_categories.item'));
+				$query->whereIn($db->quoteName('id'), $idResults, ParameterType::INTEGER)
+					->where($db->quoteName('context') . ' = :context')
+					->bind(':context', $context = 'com_categories.item');
 			}
 			else
 			{

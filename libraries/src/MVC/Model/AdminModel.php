@@ -24,6 +24,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\Component\Associations\Administrator\Helper\DefaultAssocLangHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -1375,22 +1376,35 @@ abstract class AdminModel extends FormModel
 
 				// Adding new association for these items
 				$key   = md5(json_encode($associations) . $context);
-				$query = $db->getQuery(true)->insert('#__associations');
 
 				foreach ($associations as $id)
 				{
-					$parentIdAndDateValues = DefaultAssocLangHelper::getParentValues($id, $dataId, $parentId, $parentModified, $assocParentDates, $old_key);
+					$parentIdAndDateValues = DefaultAssocLangHelper::getParentValues($id, $dataId, $parentId, $parentModified, $assocParentDates,
+						$old_key);
 					$parentIdValue         = $parentIdAndDateValues[0];
-					$parentDateValue       = $parentIdAndDateValues[1] === 'NULL' ? $parentIdAndDateValues[1] : $db->quote($parentIdAndDateValues[1]);
+					$parentDateValue       = $parentIdAndDateValues[1] === 'NULL' ? 'NULL' : Factory::getDate($parentIdAndDateValues[1])->toSql();
 
-					$query->values(
-						((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key)
-						. ',' . $db->quote($parentIdValue) . ',' . $parentDateValue
-					);
+					$query = $db->getQuery(true)
+						->insert($db->quoteName('#__associations'));
+
+					// save NULL for parent_date
+					if($parentDateValue === 'NULL'){
+						$query->values((' :id, :context, :key, :parentId, NULL'));
+					}
+					else
+					{
+						$query->values((' :id, :context, :key, :parentId, :parentDate'))
+							->bind(':parentDate', $parentDateValue);
+					}
+
+					$query->bind(':id', $id, ParameterType::INTEGER)
+						->bind(':context', $this->associationsContext)
+						->bind(':key', $key)
+						->bind(':parentId', $parentIdValue, ParameterType::INTEGER);
+
+					$db->setQuery($query);
+					$db->execute();
 				}
-
-				$db->setQuery($query);
-				$db->execute();
 			}
 		}
 

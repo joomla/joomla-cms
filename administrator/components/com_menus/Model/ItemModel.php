@@ -23,6 +23,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -1586,31 +1587,32 @@ class ItemModel extends AdminModel
 
 				// Adding new association for these items
 				$key = md5(json_encode($associations));
-				$query->clear()
-					->insert('#__associations');
 
 				foreach ($associations as $id)
 				{
 					// If there is no parent in this association, then reset the parent id.
 					// Otherwise, if the associated item is a parent, set its parent id to 0, otherwise to the parent Id.
 					$parentIdValue = $parentId ? ($parentId === $id ? 0 : $parentId) : -1;
-					$query->values(
-						((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key)
-						. ',' . $db->quote($parentIdValue) . ', NULL'
-					);
-				}
+					$query->clear()
+						->insert($db->quoteName('#__associations'))
+						->values((' :id, :context, :key, :parentId, NULL'))
+						->bind(':id', $id, ParameterType::INTEGER)
+						->bind(':context', $this->associationsContext)
+						->bind(':key', $key)
+						->bind(':parentId', $parentIdValue, ParameterType::INTEGER);
 
-				$db->setQuery($query);
+					$db->setQuery($query);
 
-				try
-				{
-					$db->execute();
-				}
-				catch (\RuntimeException $e)
-				{
-					$this->setError($e->getMessage());
+					try
+					{
+						$db->execute();
+					}
+					catch (\RuntimeException $e)
+					{
+						$this->setError($e->getMessage());
 
-					return false;
+						return false;
+					}
 				}
 			}
 		}

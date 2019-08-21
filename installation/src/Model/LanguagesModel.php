@@ -25,6 +25,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
 
 /**
  * Language Installer model for the Joomla Core Installer.
@@ -1413,26 +1414,31 @@ class LanguagesModel extends BaseInstallationModel
 			// If there is an association item with the default association language, get its id.
 			$parentId = $associations[$defaultAssocLang] ?? '';
 			$key      = md5(json_encode($associations));
-			$query    = $db->getQuery(true)
-				->insert('#__associations');
 
 			foreach ($associations as $language => $id)
 			{
 				// If there is no parent within this association, then reset the parent_id to -1
 				// Otherwise, if the associated item is a parent set the parent_id to 0, otherwise to the parentId.
 				$parentIdValue = $parentId ? ($parentId === $id ? 0 : $parentId) : -1;
-				$query->values(((int) $id) . ',' . $db->quote($context) . ',' . $db->quote($key) . ',' . $db->quote($parentIdValue) . ', NULL');
-			}
 
-			$db->setQuery($query);
+				$query = $db->getQuery(true)
+					->insert($db->quoteName('#__associations'))
+					->values((' :id, :context, :key, :parentId, NULL'))
+					->bind(':id', $id, ParameterType::INTEGER)
+					->bind(':context', $context)
+					->bind(':key', $key)
+					->bind(':parentId', $parentIdValue, ParameterType::INTEGER);
 
-			try
-			{
-				$db->execute();
-			}
-			catch (\RuntimeException $e)
-			{
-				return false;
+				$db->setQuery($query);
+
+				try
+				{
+					$db->execute();
+				}
+				catch (\RuntimeException $e)
+				{
+					return false;
+				}
 			}
 		}
 
