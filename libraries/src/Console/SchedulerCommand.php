@@ -10,13 +10,10 @@ namespace Joomla\CMS\Console;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -100,7 +97,7 @@ class SchedulerCommand extends AbstractCommand
 	/**
 	 * Trigger the jobs
 	 *
-	 * @return  void
+	 * @return  string
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -124,7 +121,7 @@ class SchedulerCommand extends AbstractCommand
 	{
 		$this->setDescription('Scheduler for job task');
 		$this->setHelp(
-<<<EOF
+			<<<EOF
 The <info>%command.name%</info> command Scheduler for job task
 
 <info>php %command.full_name%</info>
