@@ -50,19 +50,6 @@ class JobListCommand extends AbstractCommand
 	private $db;
 
 	/**
-	 * Instantiate the command.
-	 *
-	 * @param   DatabaseInterface  $db  Database connector
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function __construct(DatabaseInterface $db)
-	{
-		$this->db = $db;
-		parent::__construct();
-	}
-
-	/**
 	 * Internal function to execute the command.
 	 *
 	 * @param   InputInterface   $input   The input to inject into the command.
@@ -119,6 +106,7 @@ class JobListCommand extends AbstractCommand
 	 */
 	public function listJobs(string $folder = 'job', string $type = 'plugin')
 	{
+		$this->db = Factory::getDbo();
 		$query = $this->db->getQuery(true)
 			->select($this->db->quoteName('element'))
 			->select($this->db->quoteName('params'))
