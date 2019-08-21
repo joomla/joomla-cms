@@ -121,7 +121,8 @@ class PlgContentContact extends CMSPlugin
 		{
 			$query->where('(contact.language in '
 				. '(' . $this->db->quote(Factory::getLanguage()->getTag()) . ',' . $this->db->quote('*') . ') '
-				. ' OR contact.language IS NULL)');
+				. ' OR contact.language IS NULL)'
+			);
 		}
 
 		$this->db->setQuery($query);

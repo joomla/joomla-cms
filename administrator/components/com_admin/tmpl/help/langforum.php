@@ -21,6 +21,6 @@ if (empty($forumId))
 	$forumId = 511;
 }
 
-$forum_url = 'https://forum.joomla.org/viewforum.php?f=' . $forumId;
+$forumUrl = 'https://forum.joomla.org/viewforum.php?f=' . $forumId;
 
-Factory::getApplication()->redirect($forum_url);
+Factory::getApplication()->redirect($forumUrl);

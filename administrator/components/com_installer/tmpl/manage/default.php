@@ -93,9 +93,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php endif; ?>
 								</td>
 								<th scope="row">
-									<label for="cb<?php echo $i; ?>" tabindex="0">
-										<?php echo $item->name; ?>
-									</label>
+									<span tabindex="0"><?php echo $item->name; ?></span>
 									<div role="tooltip" id="tip<?php echo $i; ?>">
 										<?php echo $item->description; ?>
 									</div>
@@ -108,7 +106,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								</td>
 								<td class="d-none d-md-table-cell">
 									<?php if ($item->version !== '') : ?>
-										<?php if ($item->changelogurl !== null) : ?>
+										<?php if (!empty($item->changelogurl)) : ?>
 											<a href="#changelogModal<?php echo $item->extension_id; ?>" class="changelogModal" data-js-extensionid="<?php echo $item->extension_id; ?>" data-js-view="manage" data-toggle="modal">
 												<?php echo $item->version?>
 											</a>

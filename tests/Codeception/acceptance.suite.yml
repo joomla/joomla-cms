@@ -16,8 +16,9 @@ modules:
             browser: 'chrome'
             window_size: false
             capabilities:
-              chromeOptions:
-                args: ["--headless", "--disable-gpu", "--no-sandbox", "window-size=1920x1080"]
+              'goog:chromeOptions':
+                args: ["headless", "disable-gpu", "no-sandbox", "window-size=1920x1080"]
+            name: 'jane doe'                       # Name for the Administrator
             username: 'admin'                      # UserName for the Administrator
             password: 'admin'                      # Password for the Administrator
             database host: 'mysql'                 # place where the Application is Hosted #server Address
@@ -52,6 +53,10 @@ env:
                     database type: 'pgsql'
                 Helper\JoomlaDb:
                     dsn: 'pgsql:host=postgres;dbname=test_joomla'
-
+    mysql8:
+        modules:
+            config:
+                JoomlaBrowser:
+                    database host: 'mysql8'
     mysql:
     # Nothing to change

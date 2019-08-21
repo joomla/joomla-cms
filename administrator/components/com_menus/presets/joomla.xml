@@ -1,111 +1,129 @@
 <?xml version="1.0"?>
 <menu
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xmlns="urn:joomla.org"
-		xsi:schemaLocation="urn:joomla.org menu.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="urn:joomla.org"
+	xsi:schemaLocation="urn:joomla.org menu.xsd"
+	>
 	<menuitem
-			type="component"
-			title="MOD_MENU_CONTROL_PANEL"
-			link="index.php"
-			class="class:home"
-			element="com_cpanel"
+		type="component"
+		title="MOD_MENU_CONTROL_PANEL"
+		link="index.php"
+		class="class:home"
+		element="com_cpanel"
 	/>
 
 	<menuitem
-			title="MOD_MENU_COM_CONTENT"
-			type="heading"
-			class="class:file-alt"
-	>
+		title="MOD_MENU_COM_CONTENT"
+		type="heading"
+		icon="file-alt"
+		class="class:file-alt"
+		dashboard="content"
+		>
 		<menuitem
-				title="MOD_MENU_COM_CONTENT_ARTICLE_MANAGER"
-				type="component"
-				element="com_content"
-				link="index.php?option=com_content&amp;view=articles"
-				quicktask="index.php?option=com_content&amp;task=article.add"
-				quicktask-title="MOD_MENU_COM_CONTENT_ARTICLE_ADD"
-				>
-		</menuitem>
+			title="MOD_MENU_COM_CONTENT_ARTICLE_MANAGER"
+			quicktask-title="MOD_MENU_COM_CONTENT_NEW_ARTICLE"
+			type="component"
+			element="com_content"
+			link="index.php?option=com_content&amp;view=articles"
+			quicktask="index.php?option=com_content&amp;task=article.add"
+		/>
+
 		<menuitem
-				title="MOD_MENU_COM_CONTENT_CATEGORY_MANAGER"
-				type="component"
-				element="com_categories"
-				link="index.php?option=com_categories&amp;view=categories&amp;extension=com_content"
-				quicktask="index.php?option=com_categories&amp;extension=com_content&amp;task=category.add"
-				>
-		</menuitem>
+			title="MOD_MENU_COM_CONTENT_CATEGORY_MANAGER"
+			quicktask-title="MOD_MENU_COM_CONTENT_NEW_CATEGORY"
+			type="component"
+			element="com_categories"
+			link="index.php?option=com_categories&amp;view=categories&amp;extension=com_content"
+			quicktask="index.php?option=com_categories&amp;extension=com_content&amp;task=category.add"
+		/>
+
 		<menuitem
-				title="MOD_MENU_COM_CONTENT_FEATURED"
-				type="component"
-				element="com_content"
-				link="index.php?option=com_content&amp;view=featured"
-				class="class:featured" >
-		</menuitem>
+			title="MOD_MENU_COM_CONTENT_FEATURED"
+			type="component"
+			element="com_content"
+			link="index.php?option=com_content&amp;view=featured"
+			class="class:featured"
+		/>
+
 		<menuitem
 			title="MOD_MENU_COM_CONTENT_WORKFLOW"
 			type="component"
 			element="com_workflow"
-			link="index.php?option=com_workflow&amp;view=workflows&amp;extension=com_content">
-		</menuitem>
+			link="index.php?option=com_workflow&amp;view=workflows&amp;extension=com_content"
+		/>
+
+		<menuitem
+			type="separator"
+		/>
+
+		<menuitem
+			title="MOD_MENU_FIELDS"
+			type="component"
+			element="com_fields"
+			link="index.php?option=com_fields&amp;view=fields&amp;context=com_content.article"
+		/>
+
+		<menuitem
+			title="MOD_MENU_FIELDS_GROUP"
+			type="component"
+			element="com_fields"
+			link="index.php?option=com_fields&amp;view=groups&amp;context=com_content.article"
+		/>
+
 		<menuitem
 				type="separator"
 		/>
+
 		<menuitem
-				title="MOD_MENU_FIELDS"
-				type="component"
-				element="com_fields"
-				link="index.php?option=com_fields&amp;view=fields&amp;context=com_content.article"
+			title="MOD_MENU_MEDIA_MANAGER"
+			type="component"
+			element="com_media"
+			link="index.php?option=com_media"
+			class="class:image"
 		/>
+
 		<menuitem
-				title="MOD_MENU_FIELDS_GROUP"
-				type="component"
-				element="com_fields"
-				link="index.php?option=com_fields&amp;view=groups&amp;context=com_content.article"
+			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_SITE"
+			quicktask-title="MOD_MENU_COM_CONTENT_NEW_MODULE"
+			type="component"
+			element="com_modules"
+			link="index.php?option=com_modules&amp;view=modules&amp;client_id=0"
+			quicktask="index.php?option=com_modules&amp;view=select"
 		/>
+
 		<menuitem
-				type="separator"
-		/>
-		<menuitem
-				title="MOD_MENU_MEDIA_MANAGER"
-				type="component"
-				element="com_media"
-				link="index.php?option=com_media"
-				class="class:image"
-		/>
-		<menuitem
-				title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_SITE"
-				type="component"
-				element="com_modules"
-				link="index.php?option=com_modules&amp;view=modules&amp;client_id=0"
-		/>
-		<menuitem
-				title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_ADMINISTRATOR"
-				type="component"
-				element="com_modules"
-				link="index.php?option=com_modules&amp;view=modules&amp;client_id=1"
+			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_ADMINISTRATOR"
+			type="component"
+			element="com_modules"
+			link="index.php?option=com_modules&amp;view=modules&amp;client_id=1"
 		/>
 	</menuitem>
 
-
 	<menuitem
-			title="MOD_MENU_MENUS"
-			type="heading"
-			class="class:list"
-	>
+		title="MOD_MENU_MENUS"
+		type="heading"
+		icon="list"
+		class="class:list"
+		dashboard="menus"
+		>
 		<menuitem
-				title="MOD_MENU_MENU_MANAGER"
-				type="component"
-				element="com_menus"
-				link="index.php?option=com_menus&amp;view=menus">
-		</menuitem>
-		<menuitem
-				type="separator"
+			title="MOD_MENU_MENU_MANAGER"
+			type="component"
+			element="com_menus"
+			link="index.php?option=com_menus&amp;view=menus"
 		/>
+
 		<menuitem
-				title="MOD_MENU_MENUS_ALL_ITEMS"
-				type="component"
-				element="com_menus"
-				link="index.php?option=com_menus&amp;view=items&amp;menutype="
+			type="separator"
 		/>
+
+		<menuitem
+			title="MOD_MENU_MENUS_ALL_ITEMS"
+			type="component"
+			element="com_menus"
+			link="index.php?option=com_menus&amp;view=items&amp;menutype="
+		/>
+
 		<!--
 		Following is an example of repeatable group based on simple database query.
 		This requires sql_* attributes (sql_select and sql_from are required)
@@ -113,169 +131,190 @@
 		The repeated elements are place inside this xml node but they will be populated in the same level in the rendered menu
 		-->
 		<menuitem
-				type="separator"
-				title="JSITE"
-				hidden="false"
-				sql_select="a.title, a.menutype, CASE COALESCE(SUM(m.home), 0) WHEN 0 THEN '' WHEN 1 THEN CASE m.language WHEN '*' THEN 'class:icon-home' ELSE CONCAT('image:mod_languages/', l.image, '.gif') END ELSE 'image:mod_languages/icon-16-language.png' END AS icon"
-				sql_from="#__menu_types AS a"
-				sql_where="a.client_id = 0"
-				sql_leftjoin="#__menu AS m ON m.menutype = a.menutype AND m.home = 1 LEFT JOIN #__languages AS l ON l.lang_code = m.language"
-				sql_group="a.id, a.title, a.menutype, m.language, l.image"
-				sql_order="a.id DESC">
+			type="separator"
+			title="JSITE"
+			hidden="false"
+			sql_select="a.id, a.title, a.menutype, CASE COALESCE(SUM(m.home), 0) WHEN 0 THEN '' WHEN 1 THEN CASE m.language WHEN '*' THEN 'class:icon-home' ELSE CONCAT('image:', l.lang_code) END ELSE 'image:mod_languages/icon-16-language.png' END AS icon"
+			sql_from="#__menu_types AS a"
+			sql_where="a.client_id = 0"
+			sql_leftjoin="#__menu AS m ON m.menutype = a.menutype AND m.home = 1 LEFT JOIN #__languages AS l ON l.lang_code = m.language"
+			sql_group="a.id, a.title, a.menutype, m.language, l.lang_code"
+			sql_order="a.id DESC"
+			>
 			<menuitem
-					title="{sql:title} "
-					type="component"
-					element="com_menus"
-					link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}"
-					icon="{sql:icon}"
-					class="class:menu">
-			</menuitem>
+				title="{sql:title} "
+				quicktask-title="MOD_MENU_MENU_MANAGER_NEW_MENU_ITEM"
+				type="component"
+				element="com_menus"
+				link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}"
+				icon="{sql:icon}"
+				class="class:menu"
+				quicktask="index.php?option=com_menus&amp;task=item.add&amp;menutype={sql:menutype}"
+			/>
 		</menuitem>
+
 		<menuitem
-				type="separator"
-				title="JADMINISTRATOR"
-				hidden="false"
-				sql_select="title, menutype"
-				sql_from="#__menu_types"
-				sql_where="client_id = 1"
-				sql_order="id DESC">
+			type="separator"
+			title="JADMINISTRATOR"
+			hidden="false"
+			sql_select="title, menutype"
+			sql_from="#__menu_types"
+			sql_where="client_id = 1"
+			sql_order="id DESC"
+			>
 			<menuitem
-					title="{sql:title}"
-					type="component"
-					element="com_menus"
-					link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}"
-					icon="{sql:icon}"
-					class="class:menu">
-			</menuitem>
+				title="{sql:title}"
+				quicktask-title="MOD_MENU_MENU_MANAGER_NEW_MENU_ITEM"
+				type="component"
+				element="com_menus"
+				link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}"
+				icon="{sql:icon}"
+				class="class:menu"
+			/>
 		</menuitem>
 	</menuitem>
 
-
 	<menuitem
-			title="MOD_MENU_COMPONENTS"
-			type="container"
-			class="class:cube"
+		title="MOD_MENU_COMPONENTS"
+		type="container"
+		class="class:puzzle-piece"
+		dashboard="components"
 	/>
 
 	<menuitem
-			title="MOD_MENU_COM_USERS_USERS"
-			type="heading"
-			class="class:users"
-	>
+		title="MOD_MENU_COM_USERS_USERS"
+		type="heading"
+		icon="users"
+		class="class:users"
+		alias="users"
+		dashboard="users"
+		>
 		<menuitem
-				title="MOD_MENU_COM_USERS_USER_MANAGER"
-				type="component"
-				element="com_users"
-				link="index.php?option=com_users&amp;view=users">
-		</menuitem>
+			title="MOD_MENU_COM_USERS_USER_MANAGER"
+			quicktask-title="MOD_MENU_COM_USERS_ADD_USER"
+			type="component"
+			element="com_users"
+			link="index.php?option=com_users&amp;view=users"
+			quicktask="index.php?option=com_users&amp;task=user.add"
+		/>
+
 		<menuitem
-				title="MOD_MENU_COM_USERS_GROUPS"
-				type="component"
-				element="com_users"
-				link="index.php?option=com_users&amp;view=groups">
-		</menuitem>
+			title="MOD_MENU_COM_USERS_GROUPS"
+			type="component"
+			element="com_users"
+			link="index.php?option=com_users&amp;view=groups"
+		/>
+
 		<menuitem
-				title="MOD_MENU_COM_USERS_LEVELS"
-				type="component"
-				element="com_users"
-				link="index.php?option=com_users&amp;view=levels">
-		</menuitem>
+			title="MOD_MENU_COM_USERS_LEVELS"
+			type="component"
+			element="com_users"
+			link="index.php?option=com_users&amp;view=levels"
+		/>
+
 		<menuitem
 			type="separator"
 		/>
+
 		<menuitem
-				title="MOD_MENU_FIELDS"
-				type="component"
-				element="com_fields"
-				link="index.php?option=com_fields&amp;view=fields&amp;context=com_users.user"
+			title="MOD_MENU_FIELDS"
+			type="component"
+			element="com_fields"
+			link="index.php?option=com_fields&amp;view=fields&amp;context=com_users.user"
 		/>
+
 		<menuitem
-				title="MOD_MENU_FIELDS_GROUP"
-				type="component"
-				element="com_fields"
-				link="index.php?option=com_fields&amp;view=groups&amp;context=com_users.user"
+			title="MOD_MENU_FIELDS_GROUP"
+			type="component"
+			element="com_fields"
+			link="index.php?option=com_fields&amp;view=groups&amp;context=com_users.user"
 		/>
+
 		<menuitem
-				type="separator"
+			type="separator"
 		/>
+
 		<menuitem
-				title="MOD_MENU_COM_USERS_NOTES"
-				type="component"
-				element="com_users"
-				link="index.php?option=com_users&amp;view=notes">
-		</menuitem>
-		<menuitem
-				title="MOD_MENU_COM_USERS_NOTE_CATEGORIES"
-				type="component"
-				element="com_categories"
-				link="index.php?option=com_categories&amp;view=categories&amp;extension=com_users">
-		</menuitem>
-		<menuitem
-				type="separator"
+			title="MOD_MENU_COM_USERS_NOTES"
+			type="component"
+			element="com_users"
+			link="index.php?option=com_users&amp;view=notes"
 		/>
+
 		<menuitem
-				title="MOD_MENU_COM_PRIVACY"
+			title="MOD_MENU_COM_USERS_NOTE_CATEGORIES"
+			type="component"
+			element="com_categories"
+			link="index.php?option=com_categories&amp;view=categories&amp;extension=com_users"
+		/>
+
+		<menuitem
+			type="separator"
+		/>
+
+		<menuitem
+			title="MOD_MENU_COM_PRIVACY"
+			type="heading"
+			icon="user-secret"
+			class="class:privacy"
+			dashboard="privacy"
+			>
+			<menuitem
+				title="MOD_MENU_COM_PRIVACY_REQUESTS"
 				type="component"
 				element="com_privacy"
-				link="index.php?option=com_privacy"
-				class="class:privacy"
-		>
-			<menuitem
-					title="MOD_MENU_COM_PRIVACY_DASHBOARD"
-					type="component"
-					element="com_privacy"
-					link="index.php?option=com_privacy&amp;view=dashboard"
-			/>
-			<menuitem
-					title="MOD_MENU_COM_PRIVACY_REQUESTS"
-					type="component"
-					element="com_privacy"
-					link="index.php?option=com_privacy&amp;view=requests"
-			/>
-			<menuitem
-					title="MOD_MENU_COM_PRIVACY_CAPABILITIES"
-					type="component"
-					element="com_privacy"
-					link="index.php?option=com_privacy&amp;view=capabilities"
+				link="index.php?option=com_privacy&amp;view=requests"
 			/>
 
 			<menuitem
-					title="MOD_MENU_COM_PRIVACY_CONSENTS"
-					type="component"
-					element="com_privacy"
-					link="index.php?option=com_privacy&amp;view=consents"
+				title="MOD_MENU_COM_PRIVACY_CAPABILITIES"
+				type="component"
+				element="com_privacy"
+				link="index.php?option=com_privacy&amp;view=capabilities"
+			/>
+
+			<menuitem
+				title="MOD_MENU_COM_PRIVACY_CONSENTS"
+				type="component"
+				element="com_privacy"
+				link="index.php?option=com_privacy&amp;view=consents"
 			/>
 		</menuitem>
+
 		<menuitem
-				title="MOD_MENU_COM_ACTIONLOGS"
-				type="component"
-				element="com_actionlogs"
-				link="index.php?option=com_actionlogs&amp;view=actionlogs"
-				class="class:userlogs"
+			title="MOD_MENU_COM_ACTIONLOGS"
+			type="component"
+			element="com_actionlogs"
+			link="index.php?option=com_actionlogs&amp;view=actionlogs"
+			class="class:userlogs"
 		/>
+
 		<menuitem
-				type="separator"
+			type="separator"
 		/>
+
 		<menuitem
-				title="MOD_MENU_MASS_MAIL_USERS"
-				type="component"
-				element="com_users"
-				link="index.php?option=com_users&amp;view=mail"
-				scope="massmail"
+			title="MOD_MENU_MASS_MAIL_USERS"
+			type="component"
+			element="com_users"
+			link="index.php?option=com_users&amp;view=mail"
+			scope="massmail"
 		/>
 	</menuitem>
+
 	<menuitem
-			title="MOD_MENU_SYSTEM"
-			type="component"
-			element="com_cpanel"
-			class="class:cog"
-			link="index.php?option=com_cpanel&amp;view=system"
+		title="MOD_MENU_SYSTEM"
+		type="component"
+		element="com_cpanel"
+		class="class:wrench"
+		link="index.php?option=com_cpanel&amp;view=cpanel&amp;dashboard=system"
 	/>
+
 	<menuitem
-			title="MOD_MENU_HELP"
-			type="component"
-			element="com_cpanel"
-			class="class:info-circle"
-			link="index.php?option=com_cpanel&amp;view=help"
+		title="MOD_MENU_HELP"
+		type="component"
+		element="com_cpanel"
+		class="class:info-circle"
+		link="index.php?option=com_cpanel&amp;view=cpanel&amp;dashboard=help"
 	/>
 </menu>

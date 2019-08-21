@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Installer\Manifest;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Installer\Manifest;
 
@@ -98,7 +98,7 @@ class LibraryManifest extends Manifest
 		$this->packagerurl  = (string) $xml->packagerurl;
 		$this->update       = (string) $xml->update;
 
-		if (isset($xml->files) && isset($xml->files->file) && count($xml->files->file))
+		if (isset($xml->files) && isset($xml->files->file) && \count($xml->files->file))
 		{
 			foreach ($xml->files->file as $file)
 			{

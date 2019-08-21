@@ -55,6 +55,9 @@ $saveOrder = $listOrder == 'a.id';
 						)
 					); ?>
 				<?php endif; ?>
+				<?php if (isset($this->trashWarningMessage)) : ?>
+					<?php Factory::getApplication()->enqueueMessage($this->trashWarningMessage, 'warning'); ?>
+				<?php endif; ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
 						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
@@ -101,9 +104,7 @@ $saveOrder = $listOrder == 'a.id';
 										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 									</td>
 									<td class="text-center">
-										<div class="btn-group">
-											<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'reports.', $canChange, 'cb'); ?>
-										</div>
+										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'reports.', $canChange, 'cb'); ?>
 									</td>
 									<th scope="row" class="small d-none d-md-table-cell text-break">
 										<?php echo $item->document_uri; ?>

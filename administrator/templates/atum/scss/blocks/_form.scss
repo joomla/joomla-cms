@@ -31,6 +31,12 @@
   }
 }
 
+.control-group {
+  .switcher__legend {
+    font-size: $label-font-size;
+  }
+}
+
 .form-no-margin {
 
   .control-group {
@@ -39,6 +45,7 @@
       margin-left: 0;
       .switcher__legend {
         float:none;
+		margin-left: 0;
       }
     }
 
@@ -46,10 +53,6 @@
       float: none;
     }
   }
-}
-
-.custom-select {
-  max-width: $input-max-width;
 }
 
 .spacer {
@@ -106,6 +109,10 @@ legend {
   box-shadow: 0 0 2px 1px theme-color("primary");
 }
 
+.sortable-handler.inactive {
+  opacity: 0.3;
+}
+
 // Search Input Tooltip
 /* make the containers relative */
 .control-group > .controls {
@@ -132,4 +139,14 @@ legend {
 
 [id="filter[search]-desc"] {
   bottom: 100%;
+}
+
+.switcher__legend {
+    font-size: $label-font-size;
+    color: var(--atum-special-color);
+    margin-bottom: 0;
+}
+[class^="icon-"]:not(.input-group-text),
+[class*=" icon-"]:not(.input-group-text) {
+  margin-right: 0.5em;
 }

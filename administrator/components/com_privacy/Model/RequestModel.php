@@ -17,12 +17,12 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 use Joomla\Database\Exception\ExecutionFailureException;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
@@ -409,7 +409,7 @@ class RequestModel extends AdminModel
 	 *
 	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
 	 *
-	 * @see     JFormRule
+	 * @see     \Joomla\CMS\Form\FormRule
 	 * @see     JFilterInput
 	 * @since   3.9.0
 	 */
@@ -456,14 +456,13 @@ class RequestModel extends AdminModel
 	/**
 	 * Method to fetch an instance of the action log model.
 	 *
-	 * @return  void
+	 * @return  ActionlogModel
 	 *
 	 * @since   4.0.0
 	 */
-	private function getActionlogModel(): \ActionlogsModelActionlog
+	private function getActionlogModel(): ActionlogModel
 	{
-		BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
-
-		return BaseDatabaseModel::getInstance('Actionlog', 'ActionlogsModel');
+		return Factory::getApplication()->bootComponent('Actionlogs')
+			->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
 	}
 }
