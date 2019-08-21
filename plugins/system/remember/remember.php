@@ -32,6 +32,14 @@ class PlgSystemRemember extends CMSPlugin
 	protected $app;
 
 	/**
+	 * Database object
+	 *
+	 * @var    \Joomla\Database\DatabaseInterface
+	 * @since  4.0
+	 */
+	protected $db;
+
+	/**
 	 * Remember me method to run onAfterInitialise
 	 * Only purpose is to initialise the login authentication process if a cookie is present
 	 *
@@ -56,7 +64,7 @@ class PlgSystemRemember extends CMSPlugin
 			// Check for the cookie
 			if ($this->app->input->cookie->get($cookieName))
 			{
-				$this->app->login(array('username' => ''), array('silent' => true));
+				$this->app->login(['username' => ''], ['silent' => true]);
 			}
 		}
 	}
@@ -119,10 +127,11 @@ class PlgSystemRemember extends CMSPlugin
 		 * But now, we need to do something
 		 * Delete all tokens for this user!
 		 */
-		$db = Factory::getDbo();
+		$db    = $this->db;
 		$query = $db->getQuery(true)
-			->delete('#__user_keys')
-			->where($db->quoteName('user_id') . ' = ' . $db->quote($user['username']));
+			->delete($db->quoteName('#__user_keys'))
+			->where($db->quoteName('user_id') . ' = :userid')
+			->bind(':userid', $user['username']);
 
 		try
 		{
