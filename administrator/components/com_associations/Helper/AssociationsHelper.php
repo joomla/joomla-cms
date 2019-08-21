@@ -360,8 +360,8 @@ class AssociationsHelper extends ContentHelper
 
 						if (array_key_exists($items[$langCode]['id'], $assocParentDates) && array_key_exists($parentId, $assocParentDates))
 						{
-							$associatedModifiedParent = $assocParentDates[$items[$langCode]['id']];
-							$lastModifiedParent       = $assocParentDates[$parentId];
+							$associatedModifiedParent = $assocParentDates[$items[$langCode]['id']][0];
+							$lastModifiedParent       = $assocParentDates[$parentId][0];
 
 							if ($associatedModifiedParent < $lastModifiedParent)
 							{

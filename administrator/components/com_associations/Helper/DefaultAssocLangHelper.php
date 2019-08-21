@@ -82,7 +82,7 @@ class DefaultAssocLangHelper extends ContentHelper
 			}
 
 			$query = $db->getQuery(true)
-				->select($db->quoteName('parent_date'))
+				->select($db->quoteName(['parent_date', 'key']))
 				->from($db->quoteName('#__associations'))
 				->where(
 					[
@@ -93,7 +93,7 @@ class DefaultAssocLangHelper extends ContentHelper
 				->bind(':id', $id, ParameterType::INTEGER)
 				->bind(':context', $context);
 			$db->setQuery($query);
-			$parentDates[$id] = $db->loadResult();
+			$parentDates[$id] = $db->loadRow();
 		}
 
 		return $parentDates;
@@ -129,12 +129,16 @@ class DefaultAssocLangHelper extends ContentHelper
 			{
 				$parentIdValue = $parentId;
 
-				// If modified date isn't set to the child item, set current modified date from parent.
-				$parentDateValue = empty($assocParentDates[$id])
+				// If modified date isn't set to the child item, set current modified date from parent OR if child is added from another association
+				$parentDateValue = (
+					empty($assocParentDates[$id][0])
+					|| ($assocParentDates[$id][1] !== $old_key)
+					|| ($assocParentDates[$parentId][1] !== $assocParentDates[$id][1])
+				)
 					? $parentModified
-					: $assocParentDates[$id];
+					: $assocParentDates[$id][0];
 
-				if (!$old_key && ($dataId === $id))
+				if (!$old_key && ($dataId !== $id))
 				{
 					// Add modified date from parent to new associated item
 					$parentDateValue = $parentModified ?? 'NULL';
@@ -243,8 +247,8 @@ class DefaultAssocLangHelper extends ContentHelper
 			// Get association state of child when a parent item exists
 			if ($parentId && (array_key_exists($key, $assocParentDates)) && (array_key_exists($parentId, $assocParentDates)))
 			{
-				$associatedModifiedParent = $assocParentDates[$key];
-				$lastModifiedParent       = $assocParentDates[$parentId];
+				$associatedModifiedParent = $assocParentDates[$key][0];
+				$lastModifiedParent       = $assocParentDates[$parentId][0];
 
 				if ($associatedModifiedParent < $lastModifiedParent)
 				{
