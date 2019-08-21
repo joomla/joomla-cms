@@ -49,11 +49,9 @@ JHtml::_('behavior.caption');
 	<?php endif; ?>
 	<?php if ($params->get('show_title')) : ?>
 	<div class="page-header">
-		<?php if ($params->get('show_title')) : ?>
-			<h2 itemprop="headline">
-				<?php echo $this->escape($this->item->title); ?>
-			</h2>
-		<?php endif; ?>
+		<h2 itemprop="headline">
+			<?php echo $this->escape($this->item->title); ?>
+		</h2>
 		<?php if ($this->item->state == 0) : ?>
 			<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
