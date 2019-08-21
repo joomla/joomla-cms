@@ -8,6 +8,7 @@
 
 namespace Joomla\CMS\Application;
 
+use Joomla\CMS\Document\Document;
 use Joomla\CMS\Extension\ExtensionManagerInterface;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\User\User;
@@ -186,4 +187,15 @@ interface CMSApplicationInterface extends ExtensionManagerInterface
 	 * @since   4.0.0
 	 */
 	public function loadIdentity(User $identity = null);
+
+	/**
+	 * Get a document object.
+	 *
+	 * Returns the global {@link \Joomla\CMS\Document\Document} object, only creating it if it doesn't already exist.
+	 *
+	 * @return  Document object
+	 *
+	 * @since   4.0.0
+	 */
+	public function getDocument();
 }
