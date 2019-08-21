@@ -47,7 +47,7 @@ JHtml::_('behavior.caption');
 		</div>
 		<div class="clearfix"> </div>
 	<?php endif; ?>
-	<?php if ($params->get('show_title') || $params->get('show_author')) : ?>
+	<?php if ($params->get('show_title')) : ?>
 	<div class="page-header">
 		<?php if ($params->get('show_title')) : ?>
 			<h2 itemprop="headline">
