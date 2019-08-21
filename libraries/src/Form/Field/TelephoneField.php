@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * Supports a text field telephone numbers.
  *
  * @link   http://www.w3.org/TR/html-markup/input.tel.html
- * @see    JFormRuleTel for telephone number validation
+ * @see    \Joomla\CMS\Form\Rule\TelRule for telephone number validation
  * @see    JHtmlTel for rendering of telephone numbers
  * @since  1.7.0
  */

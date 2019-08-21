@@ -386,7 +386,7 @@ class CategoryModel extends AdminModel
 	 *
 	 * @return  mixed
 	 *
-	 * @see     \JFormField
+	 * @see     \Joomla\CMS\Form\FormField
 	 * @since   1.6
 	 * @throws  \Exception if there is an error in the form event.
 	 */

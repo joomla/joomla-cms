@@ -56,7 +56,7 @@
 			type="accesslevel"
 			label="JOPTION_SELECT_ACCESS"
 			multiple="true"
-			layout="joomla.form.field.accesslevel-fancy-select"
+			layout="joomla.form.field.list-fancy-select"
 			hint="JOPTION_SELECT_ACCESS"
 			onchange="this.form.submit();"
 		/>
@@ -86,6 +86,7 @@
 			name="tag"
 			type="tag"
 			multiple="true"
+			label="JOPTION_SELECT_TAG"
 			hint="JOPTION_SELECT_TAG"
 			mode="nested"
 			custom="false"

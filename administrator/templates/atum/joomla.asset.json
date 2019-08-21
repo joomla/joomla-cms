@@ -9,9 +9,9 @@
       "name": "template.atum.base",
       "dependencies": [
         "core",
-        "fontawesome",
-        "bootstrap.css",
-        "css-vars-ponyfill"
+		"bootstrap.js.bundle",
+        "css-vars-ponyfill",
+		"focus-visible"
       ]
     },
     {
