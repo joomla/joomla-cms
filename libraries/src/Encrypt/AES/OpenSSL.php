@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * OpenSSL encryption class
  *
- * @since   __DEPLOY_VERSION__
+ * @since   4.0.0
  */
 class OpenSSL extends AbstractAES implements AesInterface
 {
