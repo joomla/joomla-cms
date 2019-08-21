@@ -425,7 +425,7 @@ abstract class PluginHelper
 
 		if ($unlock)
 		{
-			// Update last run and taskid 
+			// Update last run and taskid
 			$taskParams = json_decode($params[0], true);
 			$taskid = $taskParams['taskid'];
 
@@ -440,7 +440,7 @@ abstract class PluginHelper
 				->where($db->quoteName('element') . ' = :element')
 				->where($db->quoteName('folder') . ' = :folder')
 				->bind(':params', $jsonparam);
-		}  
+		}
 		else
 		{
 			$query->set($db->qn('checked_out_time') . ' = :checked_out_time')
