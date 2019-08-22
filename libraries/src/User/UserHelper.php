@@ -110,7 +110,7 @@ abstract class UserHelper
 	public static function addUserToGroup($userId, $groupId)
 	{
 		// Cast as integer until method is typehinted.
-		$userId = (int) $userId;
+		$userId  = (int) $userId;
 		$groupId = (int) $groupId;
 
 		// Get the user object.
