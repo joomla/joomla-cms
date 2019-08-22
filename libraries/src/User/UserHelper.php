@@ -371,8 +371,9 @@ abstract class UserHelper
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
 			->where($db->quoteName('username') . ' = :username')
-			->bind(':username', $username);
-		$db->setQuery($query, 0, 1);
+			->bind(':username', $username)
+			->setLimit(1);
+		$db->setQuery($query);
 
 		return $db->loadResult();
 	}
