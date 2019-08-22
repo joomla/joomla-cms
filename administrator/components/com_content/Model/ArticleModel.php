@@ -633,6 +633,8 @@ class ArticleModel extends AdminModel
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('featured', 'disabled', 'true');
+			$form->setFieldAttribute('featured_up', 'disabled', 'true');
+			$form->setFieldAttribute('featured_down', 'disabled', 'true');
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
 			$form->setFieldAttribute('publish_up', 'disabled', 'true');
 			$form->setFieldAttribute('publish_down', 'disabled', 'true');
@@ -641,6 +643,8 @@ class ArticleModel extends AdminModel
 			// Disable fields while saving.
 			// The controller has already verified this is an article you can edit.
 			$form->setFieldAttribute('featured', 'filter', 'unset');
+			$form->setFieldAttribute('featured_up', 'filter', 'unset');
+			$form->setFieldAttribute('featured_down', 'filter', 'unset');
 			$form->setFieldAttribute('ordering', 'filter', 'unset');
 			$form->setFieldAttribute('publish_up', 'filter', 'unset');
 			$form->setFieldAttribute('publish_down', 'filter', 'unset');

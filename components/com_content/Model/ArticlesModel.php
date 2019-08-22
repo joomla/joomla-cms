@@ -57,6 +57,8 @@ class ArticlesModel extends ListModel
 				'created_by', 'a.created_by',
 				'ordering', 'a.ordering',
 				'featured', 'a.featured',
+				'featured_up', 'a.featured_up',
+				'featured_down', 'a.featured_down',
 				'language', 'a.language',
 				'hits', 'a.hits',
 				'publish_up', 'a.publish_up',
@@ -213,7 +215,7 @@ class ArticlesModel extends ListModel
 				// Use created if publish_up is 0
 				'CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END as publish_up,' .
 				'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
-				'a.hits, a.featured, a.language, ' . $query->length('a.fulltext') . ' AS readmore, a.ordering'
+				'a.hits, a.featured, a.featured_up, a.featured_down, a.language, ' . $query->length('a.fulltext') . ' AS readmore, a.ordering'
 			)
 		);
 
@@ -234,6 +236,10 @@ class ArticlesModel extends ListModel
 			{
 				$query->where('a.featured = 1');
 			}
+			$now = Factory::getDate()->toSql();
+			Factory::getApplication()->enqueueMessage($now);
+			$query->where('(a.featured_up = ' . $db->quote($db->getNullDate()) . ' OR a.featured_up <= ' . $db->quote($now) . ')');
+			$query->where('(a.featured_down = ' . $db->quote($db->getNullDate()) . ' OR a.featured_down >= ' . $db->quote($now) . ')');
 		}
 		elseif ($orderby_sec === 'front' || $this->getState('list.ordering') === 'fp.ordering')
 		{
@@ -329,6 +335,9 @@ class ArticlesModel extends ListModel
 
 			case 'only':
 				$query->where('a.featured = 1');
+				$now = Factory::getDate()->toSql();
+				$query->where('(a.featured_up = ' . $db->quote($db->getNullDate()) . ' OR a.featured_up <= ' . $db->quote($now) . ')');
+				$query->where('(a.featured_down = ' . $db->quote($db->getNullDate()) . ' OR a.featured_down >= ' . $db->quote($now) . ')');
 				break;
 
 			case 'show':

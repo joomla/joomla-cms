@@ -55,6 +55,8 @@ class ArticlesModel extends ListModel
 				'created_by_alias', 'a.created_by_alias',
 				'ordering', 'a.ordering',
 				'featured', 'a.featured',
+				'featured_up', 'a.featured_up',
+				'featured_down', 'a.featured_down',
 				'language', 'a.language',
 				'hits', 'a.hits',
 				'publish_up', 'a.publish_up',
@@ -205,8 +207,8 @@ class ArticlesModel extends ListModel
 			$this->getState(
 				'list.select',
 				'DISTINCT a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
-				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, a.language, a.hits' .
-				', a.publish_up, a.publish_down, a.introtext, a.note'
+				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, a.featured_up, a.featured_down' .
+				', a.language, a.hits, a.publish_up, a.publish_down, a.introtext, a.note'
 			)
 		);
 		$query->from('#__content AS a');

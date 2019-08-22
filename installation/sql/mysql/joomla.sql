@@ -366,6 +366,8 @@ CREATE TABLE IF NOT EXISTS `#__content` (
   `hits` int(10) unsigned NOT NULL DEFAULT 0,
   `metadata` text NOT NULL,
   `featured` tinyint(3) unsigned NOT NULL DEFAULT 0 COMMENT 'Set if article is featured.',
+  `featured_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `featured_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `language` char(7) NOT NULL COMMENT 'The language code for the article.',
   `note` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),

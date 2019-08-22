@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Button\ActionButton;
+use Joomla\CMS\Button\FeaturedButton;
 use Joomla\CMS\Button\PublishedButton;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -65,10 +65,6 @@ JS;
 
 // @todo mode the script to a file
 Factory::getDocument()->addScriptDeclaration($js);
-
-$featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
-	->addState(0, 'articles.featured', 'unfeatured', 'COM_CONTENT_UNFEATURED')
-	->addState(1, 'articles.unfeatured', 'featured', 'COM_CONTENT_FEATURED');
 
 HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
 
@@ -211,7 +207,15 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 									<?php endif; ?>
 								</td>
 								<td class="text-center">
-									<?php echo $featuredButton->render($item->featured, $i, ['disabled' => !$canChange]); ?>
+									<?php
+
+										$options = [
+											'disabled' => !$canChange
+										];
+
+										echo (new FeaturedButton)
+											->render($item->featured, $i, $options, $item->featured_up, $item->featured_down);
+									?>
 								</td>
 								<td class="article-status">
 									<div class="d-flex">

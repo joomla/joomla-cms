@@ -265,6 +265,27 @@ class Content extends Table
 			$this->publish_down = $temp;
 		}
 
+		// Set featured_up to null date if not set
+		if (!$this->featured_up)
+		{
+			$this->featured_up = $this->_db->getNullDate();
+		}
+
+		// Set featured_down to null date if not set
+		if (!$this->featured_down)
+		{
+			$this->featured_down = $this->_db->getNullDate();
+		}
+
+		// Check the featured down date is not earlier than featured up.
+		if ($this->featured_down < $this->featured_up && $this->featured_down > $this->_db->getNullDate())
+		{
+			// Swap the dates.
+			$temp = $this->featured_up;
+			$this->featured_up = $this->featured_down;
+			$this->featured_down = $temp;
+		}
+
 		// Set modified to null date if not set
 		if (!$this->modified)
 		{
