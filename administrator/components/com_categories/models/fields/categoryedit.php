@@ -29,6 +29,14 @@ class JFormFieldCategoryEdit extends JFormFieldList
 	protected $allowAdd;
 
 	/**
+	 * Optional prefix for new categories.
+	 *
+	 * @var    string
+	 * @since  3.9.11
+	 */
+	protected $customPrefix;
+
+	/**
 	 * A flexible category list that respects access controls
 	 *
 	 * @var    string
@@ -57,6 +65,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		if ($return)
 		{
 			$this->allowAdd = isset($this->element['allowAdd']) ? $this->element['allowAdd'] : '';
+			$this->customPrefix = (string) $this->element['customPrefix'];
 		}
 
 		return $return;
@@ -76,6 +85,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		switch ($name)
 		{
 			case 'allowAdd':
+			case 'customPrefix':
 				return $this->$name;
 		}
 
@@ -101,6 +111,9 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			case 'allowAdd':
 				$value = (string) $value;
 				$this->$name = ($value === 'true' || $value === $name || $value === '1');
+				break;
+			case 'customPrefix':
+				$this->$name = (string) $value;
 				break;
 			default:
 				parent::__set($name, $value);
@@ -349,6 +362,11 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			$attr .= ' data-custom_group_text="' . $customGroupText . '" '
 					. 'data-no_results_text="' . JText::_('JGLOBAL_ADD_CUSTOM_CATEGORY') . '" '
 					. 'data-placeholder="' . JText::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY') . '" ';
+
+			if ($this->customPrefix !== '')
+			{
+				$attr .= 'data-custom_value_prefix="' . $this->customPrefix . '" ';
+			}
 		}
 
 		if ($class)

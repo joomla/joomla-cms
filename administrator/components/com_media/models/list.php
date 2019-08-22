@@ -114,7 +114,7 @@ class MediaModelList extends JModelLegacy
 		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
 
 		// Reset base path
-		if (strpos(realpath($basePath), JPath::clean(COM_MEDIA_BASE)) !== 0)
+		if (strpos(realpath($basePath), JPath::clean(realpath(COM_MEDIA_BASE))) !== 0)
 		{
 			$basePath = COM_MEDIA_BASE;
 		}

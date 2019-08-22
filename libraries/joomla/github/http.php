@@ -20,19 +20,25 @@ use Joomla\Registry\Registry;
 class JGithubHttp extends JHttp
 {
 	/**
-	 * @const  integer  Use no authentication for HTTP connections.
+	 * Use no authentication for HTTP connections.
+	 *
+	 * @var    integer
 	 * @since  1.7.3
 	 */
 	const AUTHENTICATION_NONE = 0;
 
 	/**
-	 * @const  integer  Use basic authentication for HTTP connections.
+	 * Use basic authentication for HTTP connections.
+	 *
+	 * @var    integer
 	 * @since  1.7.3
 	 */
 	const AUTHENTICATION_BASIC = 1;
 
 	/**
-	 * @const  integer  Use OAuth authentication for HTTP connections.
+	 * Use OAuth authentication for HTTP connections.
+	 *
+	 * @var    integer
 	 * @since  1.7.3
 	 */
 	const AUTHENTICATION_OAUTH = 2;
