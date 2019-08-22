@@ -469,7 +469,7 @@ class AssociationsModel extends ListModel
 				// Join over associations where id does not exist
 				$query->where('((' . $db->quoteName('asso.id') . ' IS NULL )'
 					// Or if we are on the child language and there is no parent
-					. ' OR ( ' . $db->quoteName('asso2.parent_id') . ' = ' . $db->quote('-1') . ')'
+					. ' OR ( ' . $db->quoteName('asso2.parent_id') . ' = -1)'
 					// Or a child of the parent does not exist.
 					. ' OR ( ' . $db->quoteName('asso.key') . '  IN (' . $assocQuery . ') 
 						AND ' . $db->quoteName('asso.parent_id') . ' = ' . $db->quote('0') . ')'
