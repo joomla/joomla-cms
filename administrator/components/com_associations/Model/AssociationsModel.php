@@ -472,7 +472,7 @@ class AssociationsModel extends ListModel
 					. ' OR ( ' . $db->quoteName('asso2.parent_id') . ' = -1)'
 					// Or a child of the parent does not exist.
 					. ' OR ( ' . $db->quoteName('asso.key') . '  IN (' . $assocQuery . ') 
-						AND ' . $db->quoteName('asso.parent_id') . ' = ' . $db->quote('0') . ')'
+						AND ' . $db->quoteName('asso.parent_id') . ' = 0)'
 					. ')'
 				);
 			}
