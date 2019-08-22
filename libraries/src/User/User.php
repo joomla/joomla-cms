@@ -404,7 +404,7 @@ class User extends CMSObject
 			->select($db->quoteName(['id', 'asset_id']))
 			->from($db->quoteName('#__categories'))
 			->where($db->quoteName('extension') . ' = :component')
-			->where($db->quoteName('published'));
+			->where($db->quoteName('published') . ' = 1');
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['c.id', 'a.name']))
