@@ -35,6 +35,14 @@ class JFormFieldText extends JFormField
 	protected $maxLength;
 
 	/**
+	 * The allow pattern of the field.
+	 *
+	 * @var    string
+	 * @since  3.11
+	 */
+	protected $pattern;
+
+	/**
 	 * The mode of input associated with the field.
 	 *
 	 * @var    mixed
@@ -156,6 +164,7 @@ class JFormFieldText extends JFormField
 			$this->dirname = $dirname ? $this->getName($this->fieldname . '_dir') : false;
 
 			$this->maxLength = (int) $this->element['maxlength'];
+			$this->pattern = $this->element['pattern'];
 		}
 
 		return $result;
