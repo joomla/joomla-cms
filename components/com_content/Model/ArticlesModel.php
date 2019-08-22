@@ -237,7 +237,6 @@ class ArticlesModel extends ListModel
 				$query->where('a.featured = 1');
 			}
 			$now = Factory::getDate()->toSql();
-			Factory::getApplication()->enqueueMessage($now);
 			$query->where('(a.featured_up = ' . $db->quote($db->getNullDate()) . ' OR a.featured_up <= ' . $db->quote($now) . ')');
 			$query->where('(a.featured_down = ' . $db->quote($db->getNullDate()) . ' OR a.featured_down >= ' . $db->quote($now) . ')');
 		}
