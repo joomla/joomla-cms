@@ -12,6 +12,7 @@ namespace Joomla\Component\Templates\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 
@@ -61,15 +62,19 @@ class StylesModel extends ListModel
 	 */
 	protected function populateState($ordering = 'a.template', $direction = 'asc')
 	{
-		// Load the filter state.
-		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-		$this->setState('filter.template', $this->getUserStateFromRequest($this->context . '.filter.template', 'filter_template', '', 'string'));
-		$this->setState('filter.menuitem', $this->getUserStateFromRequest($this->context . '.filter.menuitem', 'filter_menuitem', '', 'cmd'));
+		$app = Factory::getApplication();
+		if (!$app->isClient('api'))
+		{
+			// Load the filter state.
+			$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+			$this->setState('filter.template', $this->getUserStateFromRequest($this->context . '.filter.template', 'filter_template', '', 'string'));
+			$this->setState('filter.menuitem', $this->getUserStateFromRequest($this->context . '.filter.menuitem', 'filter_menuitem', '', 'cmd'));
 
-		// Special case for the client id.
-		$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-		$clientId = (!in_array($clientId, array (0, 1))) ? 0 : $clientId;
-		$this->setState('client_id', $clientId);
+			// Special case for the client id.
+			$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
+			$clientId = (!in_array($clientId, array (0, 1))) ? 0 : $clientId;
+			$this->setState('client_id', $clientId);
+		}
 
 		// Load the parameters.
 		$params = ComponentHelper::getParams('com_templates');
