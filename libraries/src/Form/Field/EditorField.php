@@ -295,10 +295,10 @@ class EditorField extends TextareaField
 						->from('#__extensions')
 						->where('element = ' . $db->quote($element))
 						->where('folder = ' . $db->quote('editors'))
-						->where('enabled = 1')
-						->setLimit(1);
+						->where('enabled = 1');
 
 					// Check of the editor exists.
+					$query->setLimit(1);
 					$db->setQuery($query);
 					$editor = $db->loadResult();
 

@@ -315,10 +315,10 @@ class Taxonomy
 			->where('t1.title LIKE ' . $db->quote($db->escape($title) . '%'))
 			->where('t2.access IN (' . $groups . ')')
 			->where('t2.state = 1')
-			->where('t2.title = ' . $db->quote($branch))
-			->setLimit(1);
+			->where('t2.title = ' . $db->quote($branch));
 
 		// Get the node.
+		$query->setLimit(1);
 		$db->setQuery($query);
 
 		return $db->loadObject();

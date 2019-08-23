@@ -419,8 +419,9 @@ class Nested extends Table
 				->select($this->_tbl_key . ', parent_id, level, lft, rgt')
 				->from($this->_tbl)
 				->where('parent_id = 0')
-				->order('lft DESC')
-				->setLimit(1);
+				->order('lft DESC');
+
+			$query->setLimit(1);
 			$this->_db->setQuery($query);
 			$reference = $this->_db->loadObject();
 
@@ -794,8 +795,9 @@ class Nested extends Table
 						->select($this->_tbl_key . ', parent_id, level, lft, rgt')
 						->from($this->_tbl)
 						->where('parent_id = 0')
-						->order('lft DESC')
-						->setLimit(1);
+						->order('lft DESC');
+
+					$query->setLimit(1);
 					$this->_db->setQuery($query);
 					$reference = $this->_db->loadObject();
 
@@ -1638,9 +1640,9 @@ class Nested extends Table
 		$query = $this->_db->getQuery(true)
 			->select($this->_tbl_key . ', parent_id, level, lft, rgt')
 			->from($this->_tbl)
-			->where($k . ' = ' . (int) $id)
-			->setLimit(1);
+			->where($k . ' = ' . (int) $id);
 
+		$query->setLimit(1);
 		$row = $this->_db->setQuery($query)->loadObject();
 
 		// Check for no $row returned

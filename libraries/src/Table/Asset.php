@@ -112,10 +112,12 @@ class Asset extends Nested
 			$query = $this->_db->getQuery(true)
 				->select('1')
 				->from($this->_db->quoteName($this->_tbl))
-				->where($this->_db->quoteName('id') . ' = ' . $this->parent_id)
-				->setLimit(1);
+				->where($this->_db->quoteName('id') . ' = ' . $this->parent_id);
 
-			if ($this->_db->setQuery($query)->loadResult())
+			$query->setLimit(1);
+			$this->_db->setQuery($query);
+
+			if ($this->_db->loadResult())
 			{
 				return true;
 			}
