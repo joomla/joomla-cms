@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -453,18 +454,14 @@ class AssociationsModel extends ListModel
 			// Not associated
 			if ($assocStateField === 'not_associated')
 			{
-				$languageQuery = $db->getQuery(true)
-					->select('COUNT(*)')
-					->from($db->quoteName('#__languages'));
-				$db->setQuery($languageQuery);
-				$countLanguages = $db->loadResult();
+				$countContentLanguages = count(LanguageHelper::getContentLanguages(array(0, 1)));
 
 				// Get all keys where not all languages are associated.
 				$assocQuery = $db->getQuery(true)
 					->select($db->quoteName('key'))
 					->from($db->quoteName('#__associations'))
 					->group($db->quoteName('key'))
-					->having('COUNT(*) < ' . $countLanguages);
+					->having('COUNT(*) < ' . $countContentLanguages);
 
 				// Join over associations where id does not exist
 				$query->where('((' . $db->quoteName('asso.id') . ' IS NULL )'
