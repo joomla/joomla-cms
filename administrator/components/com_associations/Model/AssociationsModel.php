@@ -461,7 +461,7 @@ class AssociationsModel extends ListModel
 					->select($db->quoteName('key'))
 					->from($db->quoteName('#__associations'))
 					->group($db->quoteName('key'))
-					->having('COUNT(*) < ' . $countContentLanguages);
+					->having('COUNT(*) < :count');
 
 				// Join over associations where id does not exist
 				$query->where('((' . $db->quoteName('asso.id') . ' IS NULL )'
@@ -471,7 +471,8 @@ class AssociationsModel extends ListModel
 					. ' OR ( ' . $db->quoteName('asso.key') . '  IN (' . $assocQuery . ') 
 						AND ' . $db->quoteName('asso.parent_id') . ' = 0)'
 					. ')'
-				);
+				)
+					->bind(':count', $countContentLanguages, ParameterType::INTEGER);
 			}
 
 			// Out-of-date
