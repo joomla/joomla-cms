@@ -115,9 +115,8 @@ class Asset extends Nested
 				->where($this->_db->quoteName('id') . ' = ' . $this->parent_id);
 
 			$query->setLimit(1);
-			$this->_db->setQuery($query);
 
-			if ($this->_db->loadResult())
+			if ($this->_db->setQuery($query)->loadResult())
 			{
 				return true;
 			}
