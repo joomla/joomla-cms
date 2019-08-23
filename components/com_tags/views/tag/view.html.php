@@ -259,7 +259,7 @@ class TagsViewTag extends JViewLegacy
 		$app              = JFactory::getApplication();
 		$menu             = $app->getMenu()->getActive();
 		$this->tags_title = $this->getTagsTitle();
-		$pathway	  = $app->getPathway();
+		$pathway          = $app->getPathway();
 		$title            = '';
 
 		// Highest priority for "Browser Page Title".
@@ -278,7 +278,7 @@ class TagsViewTag extends JViewLegacy
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 			$title = $title ?: $this->params->get('page_title', $menu->title);
 
-			if ($menu->query['option'] !== 'com_tags')
+			if (!isset($menu->query['option']) || $menu->query['option'] !== 'com_tags')
 			{
 				$this->params->set('page_subheading', $menu->title);
 			}
