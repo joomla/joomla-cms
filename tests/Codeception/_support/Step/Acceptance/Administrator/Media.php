@@ -219,6 +219,7 @@ class Media extends Admin
 		$I->moveMouseOver(MediaListPage::item($itemName));
 		$I->seeElement($toggler);
 		$I->click($toggler);
+		$I->wait(0.2);
 	}
 
 	/**
@@ -239,6 +240,7 @@ class Media extends Admin
 		$action = MediaListPage::itemAction($itemName, $actionName);
 		$I->openActionsMenuOf($itemName);
 		$I->waitForElementVisible($action);
+		$I->wait(0.2);
 		$I->click($action);
 	}
 
