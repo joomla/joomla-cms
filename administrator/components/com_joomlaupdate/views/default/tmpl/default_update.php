@@ -42,8 +42,10 @@ defined('_JEXEC') or die;
 				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PACKAGE'); ?>
 			</td>
 			<td>
-				<a href="<?php echo $this->updateInfo['object']->downloadurl->_data; ?>">
+				<a href="<?php echo $this->updateInfo['object']->downloadurl->_data; ?>" target="_blank" rel="noopener noreferrer">
 					<?php echo $this->updateInfo['object']->downloadurl->_data; ?>
+					<span class="icon-out-2" aria-hidden="true"></span>
+					<span class="element-invisible"><?php echo JText::_('JBROWSERTARGET_NEW'); ?></span>
 				</a>
 			</td>
 		</tr>
@@ -54,8 +56,10 @@ defined('_JEXEC') or die;
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL'); ?>
 				</td>
 				<td>
-					<a href="<?php echo $this->updateInfo['object']->get('infourl')->_data; ?>">
+					<a href="<?php echo $this->updateInfo['object']->get('infourl')->_data; ?>" target="_blank" rel="noopener noreferrer">
 						<?php echo $this->updateInfo['object']->get('infourl')->title; ?>
+						<span class="icon-out-2" aria-hidden="true"></span>
+						<span class="element-invisible"><?php echo JText::_('JBROWSERTARGET_NEW'); ?></span>
 					</a>
 				</td>
 			</tr>
