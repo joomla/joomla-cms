@@ -403,8 +403,12 @@ class User extends CMSObject
 		$subQuery = $db->getQuery(true)
 			->select($db->quoteName(['id', 'asset_id']))
 			->from($db->quoteName('#__categories'))
-			->where($db->quoteName('extension') . ' = :component')
-			->where($db->quoteName('published') . ' = 1');
+			->where(
+				[
+					$db->quoteName('extension') . ' = :component',
+					$db->quoteName('published') . ' = 1',
+				]
+			);
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['c.id', 'a.name']))
