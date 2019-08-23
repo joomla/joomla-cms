@@ -23,7 +23,7 @@
 
   const allMenus = document.querySelectorAll('ul.main-nav');
   allMenus.forEach((menu) => {
-    // eslint-disable-next-line no-new
+    // eslint-disable-next-line no-new, no-undef
     new MetisMenu(menu);
   });
 
