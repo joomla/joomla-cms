@@ -81,7 +81,7 @@ class TagsViewTags extends JViewLegacy
 		$active = JFactory::getApplication()->getMenu()->getActive();
 
 		// Load layout from active query (in case it is an alternative menu item)
-		if ($active && $active->query['option'] === 'com_tags' && $active->query['view'] === 'tags')
+		if ($active && isset($active->query['option']) && $active->query['option'] === 'com_tags' && $active->query['view'] === 'tags')
 		{
 			if (isset($active->query['layout']))
 			{
@@ -126,7 +126,7 @@ class TagsViewTags extends JViewLegacy
 			$this->params->def('page_heading', JText::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
 		}
 
-		if ($menu && $menu->query['option'] !== 'com_tags')
+		if ($menu && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_tags'))
 		{
 			$this->params->set('page_subheading', $menu->title);
 		}
