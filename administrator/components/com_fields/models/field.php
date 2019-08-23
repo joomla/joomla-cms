@@ -963,8 +963,8 @@ class FieldsModelField extends JModelAdmin
 			}
 		}
 
-		// Remove the privacy related param when not needed
-		if ($component !== 'com_users')
+		// Remove the privacy related param when not needed or not SuperUser
+		if (($component !== 'com_users') || (!JFactory::getUser()->get('isRoot')))
 		{
 			$form->removeField('privacy_related', 'params');
 		}
