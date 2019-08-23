@@ -167,11 +167,11 @@ abstract class Menu
 
 				if ($iconImage)
 				{
-					if (substr($iconImage, 0, 6) == 'class:' && substr($iconImage, 6) == 'icon-home')
+					if (substr($iconImage, 0, 6) === 'class:' && substr($iconImage, 6) === 'icon-home')
 					{
 						$iconImage = '<span class="home-image icon-featured"></span>';
 					}
-					elseif (substr($iconImage, 0, 6) == 'image:')
+					elseif (substr($iconImage, 0, 6) === 'image:')
 					{
 						$iconImage = '&nbsp;<span class="badge badge-secondary">' . substr($iconImage, 6) . '</span>';
 					}
