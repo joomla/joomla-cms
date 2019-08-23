@@ -16,7 +16,7 @@ $dispatcher = JEventDispatcher::getInstance();
 ?>
 
 <?php foreach ($this->images as $i => $img) : ?>
-	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$img, &$params)); ?>
+	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$img, &$params, 0)); ?>
 	<li class="imgOutline thumbnail center">
 
 		<?php if ($this->canDelete):?>
@@ -42,5 +42,5 @@ $dispatcher = JEventDispatcher::getInstance();
 			</a>
 		</div>
 	</li>
-	<?php $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$img, &$params)); ?>
+	<?php $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$img, &$params, 0)); ?>
 <?php endforeach; ?>
