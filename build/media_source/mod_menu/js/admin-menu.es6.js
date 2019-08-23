@@ -21,9 +21,9 @@
     }
   };
 
-  // eslint-disable-next-line no-new
   const allMenus = document.querySelectorAll('ul.main-nav');
   allMenus.forEach((menu) => {
+    // eslint-disable-next-line no-new
     new MetisMenu(menu);
   });
 
