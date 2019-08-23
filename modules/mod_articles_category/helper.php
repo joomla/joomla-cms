@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,10 +42,11 @@ abstract class ModArticlesCategoryHelper
 		$appParams = $app->getParams();
 		$articles->setState('params', $appParams);
 
-		// Set the filters based on the module params
 		$articles->setState('list.start', 0);
-		$articles->setState('list.limit', (int) $params->get('count', 0));
 		$articles->setState('filter.published', 1);
+
+		// Set the filters based on the module params
+		$articles->setState('list.limit', (int) $params->get('count', 0));
 		$articles->setState('load_tags', $params->get('show_tags', 0) || $params->get('article_grouping', 'none') === 'tags');
 
 		// Access filter

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ use Joomla\CMS\Client\FtpClient;
 /**
  * A File handling class
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class File
 {
@@ -33,7 +33,7 @@ class File
 	 *
 	 * @return  string  The file extension
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getExt($file)
 	{
@@ -54,7 +54,7 @@ class File
 	 *
 	 * @return  string  The file name without the extension
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function stripExt($file)
 	{
@@ -68,7 +68,7 @@ class File
 	 *
 	 * @return  string  The sanitised string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function makeSafe($file)
 	{
@@ -90,7 +90,7 @@ class File
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function copy($src, $dest, $path = null, $use_streams = false)
 	{
@@ -174,7 +174,7 @@ class File
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function delete($file)
 	{
@@ -249,7 +249,7 @@ class File
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function move($src, $dest, $path = '', $use_streams = false)
 	{
@@ -328,8 +328,8 @@ class File
 	 *
 	 * @return  mixed  Returns file contents or boolean False if failed
 	 *
-	 * @since   11.1
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use the native file_get_contents() instead.
+	 * @since   1.7.0
+	 * @deprecated  4.0 - Use the native file_get_contents() instead.
 	 */
 	public static function read($filename, $incpath = false, $amount = 0, $chunksize = 8192, $offset = 0)
 	{
@@ -397,7 +397,7 @@ class File
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function write($file, $buffer, $use_streams = false)
 	{
@@ -526,7 +526,7 @@ class File
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function upload($src, $dest, $use_streams = false, $allow_unsafe = false, $safeFileOptions = array())
 	{
@@ -631,7 +631,7 @@ class File
 	 *
 	 * @return  boolean  True if path is a file
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function exists($file)
 	{
@@ -647,8 +647,8 @@ class File
 	 *
 	 * @return  string  filename
 	 *
-	 * @since   11.1
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use basename() instead.
+	 * @since   1.7.0
+	 * @deprecated  4.0 - Use basename() instead.
 	 */
 	public static function getName($file)
 	{

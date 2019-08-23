@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -88,6 +88,7 @@ class PrivacyModelConfirm extends JModelAdmin
 		{
 			// Invalidate the request
 			$table->status = -1;
+			$table->confirm_token = '';
 
 			try
 			{
@@ -116,6 +117,7 @@ class PrivacyModelConfirm extends JModelAdmin
 			array(
 				'id'     => $table->id,
 				'status' => 1,
+				'confirm_token' => '',
 			)
 		);
 

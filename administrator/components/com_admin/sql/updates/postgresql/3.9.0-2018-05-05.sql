@@ -68,7 +68,7 @@ CREATE TABLE "#__action_log_config" (
 --
 -- Dumping data for table #__action_log_config
 --
-INSERT INTO "#__action_log_config" ("id", "type_title", "type_alias", "id_holder", "table_name", "text_prefix") VALUES
+INSERT INTO "#__action_log_config" ("id", "type_title", "type_alias", "id_holder", "title_holder", "table_name", "text_prefix") VALUES
 (1, 'article', 'com_content.article', 'id' ,'title' , '#__content', 'PLG_ACTIONLOG_JOOMLA'),
 (2, 'article', 'com_content.form', 'id', 'title' , '#__content', 'PLG_ACTIONLOG_JOOMLA'),
 (3, 'banner', 'com_banners.banner', 'id' ,'name' , '#__banners', 'PLG_ACTIONLOG_JOOMLA'),

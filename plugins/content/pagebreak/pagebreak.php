@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.pagebreak
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 use Joomla\String\StringHelper;
 
 jimport('joomla.utilities.utility');
+
+JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * Page break plugin
@@ -342,44 +344,31 @@ class PlgContentPagebreak extends JPlugin
 	 */
 	protected function _createNavigation(&$row, $page, $n)
 	{
-		$pnSpace = '';
-
-		if (JText::_('JGLOBAL_LT') || JText::_('JGLOBAL_LT'))
-		{
-			$pnSpace = ' ';
-		}
+		$links = array(
+			'next' => '',
+			'previous' => ''
+		);
 
 		if ($page < $n - 1)
 		{
-			$page_next = $page + 1;
-
-			$link_next = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . $page_next);
-
-			// Next >>
-			$next = '<a href="' . $link_next . '">' . JText::_('JNEXT') . $pnSpace . JText::_('JGLOBAL_GT') . JText::_('JGLOBAL_GT') . '</a>';
-		}
-		else
-		{
-			$next = JText::_('JNEXT');
+			$links['next'] = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($page + 1));
 		}
 
 		if ($page > 0)
 		{
-			$link_prev = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language);
+			$links['previous'] = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language);
 
 			if ($page > 1)
 			{
-				$link_prev .= '&limitstart=' . ($page - 1);
+				$links['previous'] .= '&limitstart=' . ($page - 1);
 			}
 
-			// << Prev
-			$prev = '<a href="' . JRoute::_($link_prev) . '">' . JText::_('JGLOBAL_LT') . JText::_('JGLOBAL_LT') . $pnSpace . JText::_('JPREV') . '</a>';
-		}
-		else
-		{
-			$prev = JText::_('JPREV');
+			$links['previous'] = JRoute::_($links['previous']);
 		}
 
-		$row->text .= '<ul><li>' . $prev . ' </li><li>' . $next . '</li></ul>';
+		$path = JPluginHelper::getLayoutPath('content', 'pagebreak', 'navigation');
+		ob_start();
+		include $path;
+		$row->text .= ob_get_clean();
 	}
 }

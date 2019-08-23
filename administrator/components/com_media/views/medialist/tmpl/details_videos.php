@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ jQuery(document).ready(function($){
 ?>
 
 <?php foreach ($this->videos as $i => $video) : ?>
-	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$video, &$params)); ?>
+	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$video, &$params, 0)); ?>
 	<tr>
 		<?php if ($this->canDelete) : ?>
 			<td>
@@ -63,5 +63,5 @@ jQuery(document).ready(function($){
 		<?php endif; ?>
 	</tr>
 
-	<?php $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$video, &$params)); ?>
+	<?php $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$video, &$params, 0)); ?>
 <?php endforeach; ?>

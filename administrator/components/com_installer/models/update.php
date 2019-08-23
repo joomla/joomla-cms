@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -255,9 +255,6 @@ class InstallerModelUpdate extends JModelList
 	 */
 	public function findUpdates($eid = 0, $cache_timeout = 0, $minimum_stability = JUpdater::STABILITY_STABLE)
 	{
-		// Purge the updates list
-		$this->purge();
-
 		JUpdater::getInstance()->findUpdates($eid, $cache_timeout, $minimum_stability);
 
 		return true;
@@ -406,7 +403,7 @@ class InstallerModelUpdate extends JModelList
 			return false;
 		}
 
-		$url     = $update->downloadurl->_data;
+		$url     = trim($update->downloadurl->_data);
 		$sources = $update->get('downloadSources', array());
 
 		if ($extra_query = $update->get('extra_query'))
@@ -420,7 +417,7 @@ class InstallerModelUpdate extends JModelList
 		while (!($p_file = InstallerHelper::downloadPackage($url)) && isset($sources[$mirror]))
 		{
 			$name = $sources[$mirror];
-			$url  = $name->url;
+			$url  = trim($name->url);
 
 			if ($extra_query)
 			{
@@ -463,21 +460,26 @@ class InstallerModelUpdate extends JModelList
 		if (!$installer->update($package['dir']))
 		{
 			// There was an error updating the package
-			$msg    = JText::sprintf('COM_INSTALLER_MSG_UPDATE_ERROR', JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$app->enqueueMessage(
+				JText::sprintf('COM_INSTALLER_MSG_UPDATE_ERROR',
+					JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))
+				), 'error'
+			);
 			$result = false;
 		}
 		else
 		{
 			// Package updated successfully
-			$msg    = JText::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS', JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$app->enqueueMessage(
+				JText::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS',
+					JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))
+				)
+			);
 			$result = true;
 		}
 
 		// Quick change
 		$this->type = $package['type'];
-
-		// Set some model state values
-		$app->enqueueMessage($msg);
 
 		// TODO: Reconfigure this code when you have more battery life left
 		$this->setState('name', $installer->get('name'));

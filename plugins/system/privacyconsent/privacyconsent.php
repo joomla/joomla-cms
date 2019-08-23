@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.privacyconsent
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -212,6 +213,24 @@ class PlgSystemPrivacyconsent extends JPlugin
 			{
 				// Do nothing if the save fails
 			}
+
+			$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
+
+			$message = array(
+				'action'      => 'consent',
+				'id'          => $userId,
+				'title'       => $data['name'],
+				'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $userId,
+				'userid'      => $userId,
+				'username'    => $data['username'],
+				'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
+			);
+
+			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+
+			/* @var ActionlogsModelActionlog $model */
+			$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
+			$model->addLog(array($message), 'PLG_SYSTEM_PRIVACYCONSENT_CONSENT', 'plg_system_privacyconsent', $userId);
 		}
 
 		return true;
@@ -300,7 +319,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 			 * If user is already on edit profile screen or view privacy article
 			 * or press update/apply button, or logout, do nothing to avoid infinite redirect
 			 */
-			if ($option == 'com_users' && in_array($task, array('profile.save', 'profile.apply', 'user.logout'))
+			if ($option == 'com_users' && in_array($task, array('profile.save', 'profile.apply', 'user.logout', 'user.menulogout'))
 				|| ($option == 'com_content' && $view == 'article' && $id == $privacyArticleId)
 				|| ($option == 'com_users' && $view == 'profile' && $layout == 'edit'))
 			{
@@ -317,7 +336,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	/**
 	 * Event to specify whether a privacy policy has been published.
 	 *
-	 * @param   array  &$policy  The privacy policy status data, passed by reference, with keys "published" and "editLink"
+	 * @param   array  &$policy  The privacy policy status data, passed by reference, with keys "published", "editLink" and "articlePublished".
 	 *
 	 * @return  void
 	 *
@@ -336,6 +355,27 @@ class PlgSystemPrivacyconsent extends JPlugin
 		if (!$articleId)
 		{
 			return;
+		}
+
+		// Check if the article exists in database and is published
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName(array('id', 'state')))
+			->from($this->db->quoteName('#__content'))
+			->where($this->db->quoteName('id') . ' = ' . (int) $articleId);
+		$this->db->setQuery($query);
+
+		$article = $this->db->loadObject();
+
+		// Check if the article exists
+		if (!$article)
+		{
+			return;
+		}
+
+		// Check if the article is published
+		if ($article->state == 1)
+		{
+			$policy['articlePublished'] = true;
 		}
 
 		$policy['published'] = true;
@@ -529,7 +569,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 		}
 
 		$app      = JFactory::getApplication();
-		$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
+		$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
 		foreach ($users as $user)
 		{
@@ -542,8 +582,8 @@ class PlgSystemPrivacyconsent extends JPlugin
 				$substitutions = array(
 					'[SITENAME]' => $app->get('sitename'),
 					'[URL]'      => JUri::root(),
-					'[TOKENURL]' => JRoute::link('site', 'index.php?option=com_privacy&view=remind&remind_token=' . $token, false, $linkMode),
-					'[FORMURL]'  => JRoute::link('site', 'index.php?option=com_privacy&view=remind', false, $linkMode),
+					'[TOKENURL]' => JRoute::link('site', 'index.php?option=com_privacy&view=remind&remind_token=' . $token, false, $linkMode, true),
+					'[FORMURL]'  => JRoute::link('site', 'index.php?option=com_privacy&view=remind', false, $linkMode, true),
 					'[TOKEN]'    => $token,
 					'\\n'        => "\n",
 				);

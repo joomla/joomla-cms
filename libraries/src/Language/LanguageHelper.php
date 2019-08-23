@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Language helper class
  *
- * @since  11.1
+ * @since  1.5
  */
 class LanguageHelper
 {
@@ -30,7 +30,7 @@ class LanguageHelper
 	 *
 	 * @return  array  List of system languages
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
 	{
@@ -57,7 +57,7 @@ class LanguageHelper
 	 *
 	 * @return  string  locale or null if not found
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function detectLanguage()
 	{
@@ -107,7 +107,7 @@ class LanguageHelper
 	 *
 	 * @return  array  An array of published languages
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public static function getLanguages($key = 'default')
 	{
@@ -428,13 +428,20 @@ class LanguageHelper
 		// @deprecated 3.9.0 Usage of "_QQ_" is deprecated. Use escaped double quotes (\") instead.
 		if (!defined('_QQ_'))
 		{
+			/**
+			 * Defines a placeholder for a double quote character (") in a language file
+			 *
+			 * @var    string
+			 * @since  1.6
+			 * @deprecated  4.0 Use escaped double quotes (\") instead.
+			 */
 			define('_QQ_', '"');
 		}
 
 		// Capture hidden PHP errors from the parsing.
 		if ($debug === true)
 		{
-			// See https://secure.php.net/manual/en/reserved.variables.phperrormsg.php
+			// See https://www.php.net/manual/en/reserved.variables.phperrormsg.php
 			$php_errormsg = null;
 
 			$trackErrors = ini_get('track_errors');

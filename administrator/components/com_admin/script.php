@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -530,7 +530,6 @@ class JoomlaInstallerScript
 			'/administrator/manifests/packages/pkg_joomla.xml',
 			'/administrator/modules/mod_submenu/helper.php',
 			'/administrator/templates/hathor/css/ie6.css',
-			'/administrator/templates/hathor/html/com_languages/installed/default_ftp.php',
 			'/administrator/templates/hathor/html/mod_submenu/index.html',
 			'/administrator/templates/hathor/html/mod_submenu/default.php',
 			'/components/com_media/controller.php',
@@ -1446,7 +1445,6 @@ class JoomlaInstallerScript
 			'/libraries/classloader.php',
 			'/libraries/ClassLoader.php',
 			'/libraries/composer_autoload.php',
-			'/libraries/fof/LICENSE.txt',
 			'/libraries/joomla/document/error/error.php',
 			'/libraries/joomla/document/feed/feed.php',
 			'/libraries/joomla/document/html/html.php',
@@ -1520,7 +1518,6 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/skins/lightgray/fonts/tinymce-small.dev.svg',
 			'/media/editors/tinymce/skins/lightgray/fonts/tinymce.dev.svg',
 			'/media/editors/tinymce/skins/lightgray/img/wline.gif',
-			'/media/jui/img/ajax-loader.gif',
 			'/media/mod_languages/images/km_kr.gif',
 			'/media/mod_languages/images/si_LK.gif',
 			'/plugins/editors/codemirror/styles.css',
@@ -1560,7 +1557,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_content/views/articles/tmpl/default_batch.php',
 			'/administrator/components/com_installer/controllers/languages.php',
 			'/administrator/components/com_languages/layouts/joomla/searchtools/default.php',
-			'/administrator/components/com_languages/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_media/views/medialist/tmpl/thumbs_doc.php',
 			'/administrator/components/com_media/views/medialist/tmpl/thumbs_folder.php',
 			'/administrator/components/com_media/views/medialist/tmpl/thumbs_img.php',
@@ -1972,7 +1968,10 @@ class JoomlaInstallerScript
 			/*
 			 * Joomla! 3.8.0 thru 3.9.0
 			 */
+			'/administrator/components/com_users/controllers/profile.json.php',
 			'/administrator/includes/toolbar.php',
+			'/components/com_users/controllers/profile_base_json.php',
+			'/components/com_users/controllers/profile.json.php',
 			'/libraries/joomla/filesystem/file.php',
 			'/libraries/joomla/filesystem/folder.php',
 			'/libraries/joomla/filesystem/helper.php',
@@ -1987,6 +1986,15 @@ class JoomlaInstallerScript
 			'/libraries/joomla/filesystem/wrapper/path.php',
 			'/libraries/src/Mail/language/phpmailer.lang-joomla.php',
 			'/plugins/captcha/recaptcha/recaptchalib.php',
+
+			/*
+			 * Joomla! 3.9.0 thru 3.10.0
+			 */
+			'/SECURITY.md',
+			'/administrator/components/com_users/controllers/profile.json.php',
+			'/components/com_users/controllers/profile.json.php',
+			'/components/com_users/controllers/profile_base_json.php',
+			'/tests/unit/suites/libraries/cms/form/field/JFormFieldHelpsiteTest.php',
 
 			/*
 			 * Legacy FOF
@@ -2014,6 +2022,11 @@ class JoomlaInstallerScript
 			'/libraries/fof/view.html.php',
 			'/libraries/fof/view.json.php',
 			'/libraries/fof/view.php',
+
+			/*
+			 * Joomla! 3.9.7
+			 */
+			'/administrator/components/com_joomlaupdate/access.xml',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -2132,10 +2145,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_cache/layouts/joomla/searchtools',
 			'/administrator/components/com_cache/layouts/joomla',
 			'/administrator/components/com_cache/layouts',
-			'/administrator/components/com_languages/layouts/joomla/searchtools/default',
-			'/administrator/components/com_languages/layouts/joomla/searchtools',
-			'/administrator/components/com_languages/layouts/joomla',
-			'/administrator/components/com_languages/layouts',
 			'/administrator/components/com_modules/layouts/joomla/searchtools/default',
 			'/administrator/components/com_modules/layouts/joomla/searchtools',
 			'/administrator/components/com_modules/layouts/joomla',

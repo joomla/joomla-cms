@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Filesystem
  * @since       3.4
+ * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
  */
 class FileWrapper
 {
@@ -28,8 +29,9 @@ class FileWrapper
 	 *
 	 * @return  string  The file extension.
 	 *
-	 * @see     File::getExt()
-	 * @since   3.4
+	 * @see         File::getExt()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function getExt($file)
 	{
@@ -43,8 +45,9 @@ class FileWrapper
 	 *
 	 * @return  string  The file name without the extension.
 	 *
-	 * @see     File::stripExt()
-	 * @since   3.4
+	 * @see         File::stripExt()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function stripExt($file)
 	{
@@ -58,8 +61,9 @@ class FileWrapper
 	 *
 	 * @return  string  The sanitised string.
 	 *
-	 * @see     File::makeSafe()
-	 * @since   3.4
+	 * @see         File::makeSafe()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function makeSafe($file)
 	{
@@ -76,8 +80,9 @@ class FileWrapper
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     File::copy()
-	 * @since   3.4
+	 * @see         File::copy()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function copy($src, $dest, $path = null, $use_streams = false)
 	{
@@ -91,8 +96,9 @@ class FileWrapper
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     File::delete()
-	 * @since   3.4
+	 * @see         File::delete()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function delete($file)
 	{
@@ -109,8 +115,9 @@ class FileWrapper
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     File::move()
-	 * @since   3.4
+	 * @see         File::move()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function move($src, $dest, $path = '', $use_streams = false)
 	{
@@ -128,8 +135,9 @@ class FileWrapper
 	 *
 	 * @return mixed  Returns file contents or boolean False if failed.
 	 *
-	 * @see     File::read()
-	 * @since   3.4
+	 * @see         File::read()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function read($filename, $incpath = false, $amount = 0, $chunksize = 8192, $offset = 0)
 	{
@@ -145,8 +153,9 @@ class FileWrapper
 	 *
 	 * @return boolean  True on success.
 	 *
-	 * @see     File::write()
-	 * @since   3.4
+	 * @see         File::write()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function write($file, &$buffer, $use_streams = false)
 	{
@@ -162,8 +171,9 @@ class FileWrapper
 	 *
 	 * @return boolean  True on success.
 	 *
-	 * @see     File::upload()
-	 * @since   3.4
+	 * @see         File::upload()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function upload($src, $dest, $use_streams = false)
 	{
@@ -177,8 +187,9 @@ class FileWrapper
 	 *
 	 * @return boolean  True if path is a file.
 	 *
-	 * @see     File::exists()
-	 * @since   3.4
+	 * @see         File::exists()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function exists($file)
 	{
@@ -192,8 +203,9 @@ class FileWrapper
 	 *
 	 * @return string  filename.
 	 *
-	 * @see     File::getName()
-	 * @since   3.4
+	 * @see         File::getName()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function getName($file)
 	{

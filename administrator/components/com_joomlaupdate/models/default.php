@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -214,16 +214,18 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	{
 		$db = $this->getDbo();
 
-		// Modify the database record
-		$update_site = new stdClass;
-		$update_site->last_check_timestamp = 0;
-		$update_site->enabled = 1;
-		$update_site->update_site_id = 1;
-		$db->updateObject('#__update_sites', $update_site, 'update_site_id');
+		// Reset the last update check timestamp
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__update_sites'))
+			->set($db->quoteName('last_check_timestamp') . ' = 0');
+		$db->setQuery($query);
+		$db->execute();
 
+		// We should delete all core updates here
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__updates'))
-			->where($db->quoteName('update_site_id') . ' = ' . $db->quote('1'));
+			->where($db->quoteName('element') . ' = ' . $db->quote('joomla'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('file'));
 		$db->setQuery($query);
 
 		if ($db->execute())
@@ -250,7 +252,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	public function download()
 	{
 		$updateInfo = $this->getUpdateInformation();
-		$packageURL = $updateInfo['object']->downloadurl->_data;
+		$packageURL = trim($updateInfo['object']->downloadurl->_data);
 		$sources    = $updateInfo['object']->get('downloadSources', array());
 		$headers    = get_headers($packageURL, 1);
 
@@ -286,7 +288,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
 			{
 				$name       = $sources[$mirror];
-				$packageURL = $name->url;
+				$packageURL = trim($name->url);
 				$mirror++;
 			}
 
@@ -304,7 +306,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 				while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
 				{
 					$name       = $sources[$mirror];
-					$packageURL = $name->url;
+					$packageURL = trim($name->url);
 					$mirror++;
 				}
 
@@ -327,7 +329,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	 * @param   JUpdate  $updateObject  The Update Object
 	 *
 	 * @return  boolean  False in case the validation did not work; true in any other case.
-	 * 
+	 *
 	 * @note    This method has been forked from (JInstallerHelper::isChecksumValid) so it
 	 *          does not depend on an up-to-date InstallerHelper at the update time
 	 *
@@ -998,7 +1000,7 @@ ENDDATA;
 			return false;
 		}
 
-		// Make sure the user we're authorising is a Super User
+		// Make sure the user is authorised
 		if (!$user->authorise('core.admin'))
 		{
 			return false;

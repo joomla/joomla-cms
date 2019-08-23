@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,19 +12,19 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Application
- * @since       12.3
+ * @since       3.1.4
  */
 class JApplicationWebRouterRestTest extends TestCase
 {
 	/**
 	 * @var    JApplicationWebRouterRest  The object to be tested.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	private $_instance;
 
 	/**
 	 * @var    string  The server REQUEST_METHOD cached to keep it clean.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	private $_method;
 
@@ -33,7 +33,7 @@ class JApplicationWebRouterRestTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetHttpMethodSuffix()
 	{
@@ -47,7 +47,7 @@ class JApplicationWebRouterRestTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testFetchControllerSuffixWithMissingSuffixMap()
 	{
@@ -118,7 +118,7 @@ class JApplicationWebRouterRestTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  seedFetchControllerSuffixData
-	 * @since         12.3
+	 * @since         3.1.4
 	 */
 	public function testFetchControllerSuffix($input, $expected, $method, $exception, $allowMethod=false)
 	{
@@ -148,7 +148,7 @@ class JApplicationWebRouterRestTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMethodInPostRequest()
 	{
@@ -169,7 +169,7 @@ class JApplicationWebRouterRestTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function setUp()
 	{
@@ -184,7 +184,7 @@ class JApplicationWebRouterRestTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function tearDown()
 	{
