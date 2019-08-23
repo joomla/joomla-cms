@@ -1702,7 +1702,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		$this->getDispatcher()->dispatch('onTableBeforeMove', $event);
 
 		// Select the first row with the criteria.
-		$this->_db->setQuery($query, 0, 1);
+		$query->setLimit(1);
+		$this->_db->setQuery($query);
 		$row = $this->_db->loadObject();
 
 		// If a row is found, move the item.
