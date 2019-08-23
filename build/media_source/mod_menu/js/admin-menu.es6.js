@@ -23,7 +23,7 @@
 
   // eslint-disable-next-line no-new
   const allMenus = document.querySelectorAll('ul.main-nav');
-  allMenus.forEach(menu => {
+  allMenus.forEach((menu) => {
     new MetisMenu(menu);
   });
 
