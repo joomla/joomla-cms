@@ -379,7 +379,6 @@ abstract class ModuleHelper
 					$db->quoteName('m.published') . ' = 1',
 					$db->quoteName('e.enabled') . ' = 1',
 					$db->quoteName('m.client_id') . ' = :clientId',
-
 				]
 			)
 			->bind(':clientId', $clientId, ParameterType::INTEGER)
