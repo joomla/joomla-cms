@@ -66,7 +66,7 @@ class FeaturedButton extends ActionButton
 			if ($value === '1')
 			{
 				// Create tip text, only we have featured up or down settings
-				$tips = array();
+				$tips = [];
 
 				if ($featuredUp)
 				{
