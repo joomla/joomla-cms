@@ -56,7 +56,7 @@ class DefaultAssocLangModel extends BaseModel
 			->bind(':id', $parentId, ParameterType::INTEGER)
 			->bind(':context', $context);
 		$parentModified = $db->setQuery($subQuery)->loadResult();
-		$parentModifiedSql = Factory::getDate($parentModified)->toSql()
+		$parentModifiedSql = Factory::getDate($parentModified)->toSql();
 
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__associations'))
