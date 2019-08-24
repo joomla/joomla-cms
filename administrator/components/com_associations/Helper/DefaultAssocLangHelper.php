@@ -72,7 +72,8 @@ class DefaultAssocLangHelper extends ContentHelper
 	 */
 	public static function getParentDates($associations, $context)
 	{
-		$db = Factory::getDbo();
+		$parentDates = [];
+		$db          = Factory::getDbo();
 
 		foreach ($associations as $langCode => $id)
 		{
