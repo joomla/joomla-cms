@@ -34,7 +34,7 @@ class DefaultAssocLangController extends BaseController
 		$parentId = $this->input->get('id', '', 'int');
 		$itemtype = $this->input->get('itemtype', '', 'string');
 
-		$this->getModel('defaultassoclang')->update($targetId, $parentId, $itemtype);
+		$this->getModel('defaultAssocLang')->update($targetId, $parentId, $itemtype);
 
 		$this->setRedirect(Route::_('index.php?option=com_associations&view=associations', false));
 	}
