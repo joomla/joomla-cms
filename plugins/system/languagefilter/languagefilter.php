@@ -982,14 +982,14 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 */
 	public function onExtensionBeforeSave($context, $table)
 	{
-		if ($context != 'com_plugins.plugin')
+		if ($context !== 'com_plugins.plugin')
 		{
 			return true;
 		}
 
-		$tableElement    = $table->element;
+		$tableElement = $table->element;
 
-		if ($tableElement != 'languagefilter')
+		if ($tableElement !== 'languagefilter')
 		{
 			return true;
 		}
@@ -1032,20 +1032,20 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 */
 	public function onExtensionAfterSave($context, $table)
 	{
-		if ($context != 'com_plugins.plugin')
+		if ($context !== 'com_plugins.plugin')
 		{
 			return true;
 		}
 
 		$tableElement = $table->element;
 
-		if ($tableElement != 'languagefilter')
+		if ($tableElement !== 'languagefilter')
 		{
 			return true;
 		}
 
 		// Get the parameters which have been saved
-		$params       = json_decode($table->params);
+		$params = json_decode($table->params);
 
 		// Only set association parent items if the default association language has changed.
 		if ($this->hasAssocLangChanged)
