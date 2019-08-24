@@ -245,7 +245,7 @@ class HtmlView extends BaseHtmlView
 			// And when saving the target this button gets activated via js to update the parent's date for the child
 			$toolbar->appendButton(
 				'Custom', '<button class="btn btn-sm btn-success hidden" id="updateChild" 
-					onclick="Joomla.submitbutton(\'defaultassoclang.update\')"></button>', 'target'
+					onclick="Joomla.submitbutton(\'defaultAssocLang.update\')"></button>', 'target'
 			);
 		}
 		else
