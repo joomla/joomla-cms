@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Frontpage View class
@@ -74,7 +75,7 @@ class FeedView extends AbstractView
 
 			if (isset($introImage) && ($introImage != ''))
 			{
-				$image = preg_match('/http/', $introImage) ? $introImage : JURI::root() . $introImage;
+				$image = preg_match('/http/', $introImage) ? $introImage : Uri::root() . $introImage;
 				$description = '<p><img src="' . $image . '"></p>';
 			}
 
