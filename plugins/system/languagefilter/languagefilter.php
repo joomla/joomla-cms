@@ -986,7 +986,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		$params          = json_decode($table->params);
 		$tableElement    = $table->element;
 		$pluginStatus    = $table->enabled;
-		$itemAssocStatus = $params->item_associations;
+		$itemAssocStatus = $params->item_associations ?? false;
 
 		if ($context != 'com_plugins.plugin' && $tableElement != 'languagefilter')
 		{
