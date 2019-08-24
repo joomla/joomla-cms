@@ -54,7 +54,7 @@ class FeaturedButton extends ActionButton
 			$default  = $this->getState($value) ? : $this->getState('_default');
 
 			$nullDate = Factory::getDbo()->getNullDate();
-			$nowDate = Factory::getDate()->toUnix();
+			$nowDate  = Factory::getDate()->toUnix();
 
 			$tz = Factory::getUser()->getTimezone();
 
