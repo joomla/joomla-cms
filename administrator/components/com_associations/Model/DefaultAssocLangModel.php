@@ -56,6 +56,7 @@ class DefaultAssocLangModel extends BaseModel
 			->bind(':id', $parentId, ParameterType::INTEGER)
 			->bind(':context', $context);
 		$parentModified = $db->setQuery($subQuery)->loadResult();
+		$parentModifiedSql = Factory::getDate($parentModified)->toSql();
 
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__associations'))
@@ -67,7 +68,7 @@ class DefaultAssocLangModel extends BaseModel
 					$db->quoteName('context') . ' = :context'
 				]
 			)
-			->bind(':parent_date', $parentModified = Factory::getDate($parentModified)->toSql())
+			->bind(':parent_date', $parentModifiedSql)
 			->bind(':id', $childId, ParameterType::INTEGER)
 			->bind(':parent_id', $parentId, ParameterType::INTEGER)
 			->bind(':context', $context);
