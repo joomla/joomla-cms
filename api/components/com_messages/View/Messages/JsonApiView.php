@@ -1,24 +1,24 @@
 <?php
 /**
  * @package     Joomla.API
- * @subpackage  com_banners
+ * @subpackage  com_messages
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Banners\Api\View\Clients;
+namespace Joomla\Component\Messages\Api\View\Messages;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 /**
- * The clients view
+ * The messages view
  *
  * @since  4.0.0
  */
-class JsonapiView extends BaseApiView
+class JsonApiView extends BaseApiView
 {
 	/**
 	 * The fields to render item in the documents
@@ -27,22 +27,15 @@ class JsonapiView extends BaseApiView
 	 * @since  4.0.0
 	 */
 	protected $fieldsToRenderItem = [
-		'typeAlias',
 		'id',
-		'checked_out_time',
-		'name',
-		'contact',
-		'email',
-		'checked_out',
-		'checked_out_time',
-		'extrainfo',
+		'user_id_from',
+		'user_id_to',
+		'date_time',
+		'priority',
+		'subject',
+		'message',
 		'state',
-		'metakey',
-		'own_prefix',
-		'metakey_prefix',
-		'purchase_type',
-		'track_clicks',
-		'track_impressions',
+		'user_from',
 	];
 
 	/**
@@ -53,18 +46,30 @@ class JsonapiView extends BaseApiView
 	 */
 	protected $fieldsToRenderList = [
 		'id',
-		'name',
-		'contact',
-		'checked_out',
-		'checked_out_time',
+		'user_id_from',
+		'user_id_to',
+		'date_time',
+		'priority',
+		'subject',
+		'message',
 		'state',
-		'metakey',
-		'purchase_type',
-		'nbanners',
-		'editor',
-		'count_published',
-		'count_unpublished',
-		'count_trashed',
-		'count_archived'
+		'user_from',
 	];
+
+	/**
+	 * Prepare item before render.
+	 *
+	 * @param   object  $item  The model item
+	 *
+	 * @return  object
+	 *
+	 * @since   4.0.0
+	 */
+	protected function prepareItem($item)
+	{
+		$item->id = $item->message_id;
+		unset($item->message_id);
+
+		return parent::prepareItem($item);
+	}
 }

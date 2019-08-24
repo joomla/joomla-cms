@@ -1,25 +1,24 @@
 <?php
 /**
  * @package     Joomla.API
- * @subpackage  com_templates
+ * @subpackage  com_content
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Templates\Api\View\Styles;
+namespace Joomla\Component\Languages\Api\View\Languages;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
-use Joomla\CMS\Router\Exception\RouteNotFoundException;
 
 /**
- * The styles view
+ * The languages view
  *
  * @since  4.0.0
  */
-class JsonapiView extends BaseApiView
+class JsonApiView extends BaseApiView
 {
 	/**
 	 * The fields to render item in the documents
@@ -29,12 +28,21 @@ class JsonapiView extends BaseApiView
 	 */
 	protected $fieldsToRenderItem = [
 		'id',
-		'template',
-		'client_id',
-		'home',
+		'asset_id',
+		'lang_code',
 		'title',
-		'params',
-		'xml',
+		'title_native',
+		'sef',
+		'image',
+		'description',
+		'metakey',
+		'metadesc',
+		'sitename',
+		'published',
+		'access',
+		'ordering',
+		'access_level',
+		'home',
 	];
 
 	/**
@@ -45,15 +53,21 @@ class JsonapiView extends BaseApiView
 	 */
 	protected $fieldsToRenderList = [
 		'id',
-		'template',
+		'asset_id',
+		'lang_code',
 		'title',
-		'home',
-		'client_id',
-		'language_title',
+		'title_native',
+		'sef',
 		'image',
-		'language_sef',
-		'assigned',
-		'e_id',
+		'description',
+		'metakey',
+		'metadesc',
+		'sitename',
+		'published',
+		'access',
+		'ordering',
+		'access_level',
+		'home',
 	];
 
 	/**
@@ -67,10 +81,8 @@ class JsonapiView extends BaseApiView
 	 */
 	protected function prepareItem($item)
 	{
-		if ($item->client_id != $this->getModel()->getState('client_id'))
-		{
-			throw new RouteNotFoundException('Item does not exist');
-		}
+		$item->id = $item->lang_id;
+		unset($item->lang->id);
 
 		return parent::prepareItem($item);
 	}

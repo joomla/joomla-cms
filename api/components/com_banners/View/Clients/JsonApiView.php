@@ -7,18 +7,18 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Banners\Api\View\Banners;
+namespace Joomla\Component\Banners\Api\View\Clients;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 /**
- * The banners view
+ * The clients view
  *
  * @since  4.0.0
  */
-class JsonapiView extends BaseApiView
+class JsonApiView extends BaseApiView
 {
 	/**
 	 * The fields to render item in the documents
@@ -29,40 +29,20 @@ class JsonapiView extends BaseApiView
 	protected $fieldsToRenderItem = [
 		'typeAlias',
 		'id',
-		'cid',
-		'type',
+		'checked_out_time',
 		'name',
-		'alias',
-		'imptotal',
-		'impmade',
-		'clicks',
-		'clickurl',
+		'contact',
+		'email',
+		'checked_out',
+		'checked_out_time',
+		'extrainfo',
 		'state',
-		'catid',
-		'description',
-		'custombannercode',
-		'sticky',
-		'ordering',
 		'metakey',
-		'params',
 		'own_prefix',
 		'metakey_prefix',
 		'purchase_type',
 		'track_clicks',
 		'track_impressions',
-		'checked_out',
-		'checked_out_time',
-		'publish_up',
-		'publish_down',
-		'reset',
-		'created',
-		'language',
-		'created_by',
-		'created_by_alias',
-		'modified',
-		'modified_by',
-		'version',
-		'contenthistoryHelper',
 	];
 
 	/**
@@ -74,25 +54,17 @@ class JsonapiView extends BaseApiView
 	protected $fieldsToRenderList = [
 		'id',
 		'name',
-		'alias',
+		'contact',
 		'checked_out',
 		'checked_out_time',
-		'catid',
-		'clicks',
-		'metakey',
-		'sticky',
-		'impmade',
-		'imptotal',
 		'state',
-		'ordering',
+		'metakey',
 		'purchase_type',
-		'language',
-		'publish_up',
-		'publish_down',
-		'language_image',
+		'nbanners',
 		'editor',
-		'category_title',
-		'client_name',
-		'client_purchase_type'
+		'count_published',
+		'count_unpublished',
+		'count_trashed',
+		'count_archived'
 	];
 }

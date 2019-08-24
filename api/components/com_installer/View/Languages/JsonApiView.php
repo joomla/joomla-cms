@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Languages\Api\View\Languages;
+namespace Joomla\Component\Installer\Api\View\Languages;
 
 defined('_JEXEC') or die;
 
@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
  *
  * @since  4.0.0
  */
-class JsonapiView extends BaseApiView
+class JsonApiView extends BaseApiView
 {
 	/**
 	 * The fields to render item in the documents
@@ -26,24 +26,7 @@ class JsonapiView extends BaseApiView
 	 * @var  array
 	 * @since  4.0.0
 	 */
-	protected $fieldsToRenderItem = [
-		'id',
-		'asset_id',
-		'lang_code',
-		'title',
-		'title_native',
-		'sef',
-		'image',
-		'description',
-		'metakey',
-		'metadesc',
-		'sitename',
-		'published',
-		'access',
-		'ordering',
-		'access_level',
-		'home',
-	];
+	protected $fieldsToRenderItem = [];
 
 	/**
 	 * The fields to render items in the documents
@@ -53,21 +36,11 @@ class JsonapiView extends BaseApiView
 	 */
 	protected $fieldsToRenderList = [
 		'id',
-		'asset_id',
-		'lang_code',
-		'title',
-		'title_native',
-		'sef',
-		'image',
-		'description',
-		'metakey',
-		'metadesc',
-		'sitename',
-		'published',
-		'access',
-		'ordering',
-		'access_level',
-		'home',
+		'name',
+		'type',
+		'version',
+		'version',
+		'detailsurl',
 	];
 
 	/**
@@ -81,8 +54,8 @@ class JsonapiView extends BaseApiView
 	 */
 	protected function prepareItem($item)
 	{
-		$item->id = $item->lang_id;
-		unset($item->lang->id);
+		$item->id = $item->element;
+		unset($item->element);
 
 		return parent::prepareItem($item);
 	}

@@ -1,24 +1,24 @@
 <?php
 /**
  * @package     Joomla.API
- * @subpackage  com_redirect
+ * @subpackage  com_menus
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Redirect\Api\View\Redirect;
+namespace Joomla\Component\Menus\Api\View\Menus;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 /**
- * The redirect view
+ * The menus view
  *
  * @since  4.0.0
  */
-class JsonapiView extends BaseApiView
+class JsonApiView extends BaseApiView
 {
 	/**
 	 * The fields to render item in the documents
@@ -28,15 +28,13 @@ class JsonapiView extends BaseApiView
 	 */
 	protected $fieldsToRenderItem = [
 		'id',
-		'old_url',
-		'new_url',
-		'referer',
-		'comment',
-		'hits',
-		'published',
-		'created_date',
-		'modified_date',
-		'header',
+		'menutype',
+		'title',
+		'description',
+		'client_id',
+		'count_published',
+		'count_unpublished',
+		'count_trashed',
 	];
 
 	/**
@@ -45,16 +43,12 @@ class JsonapiView extends BaseApiView
 	 * @var  array
 	 * @since  4.0.0
 	 */
-	protected $fieldsToRenderList = [
+	protected $fieldsToRenderList  = [
 		'id',
-		'old_url',
-		'new_url',
-		'referer',
-		'comment',
-		'hits',
-		'published',
-		'created_date',
-		'modified_date',
-		'header',
+		'asset_id',
+		'menutype',
+		'title',
+		'description',
+		'client_id',
 	];
 }
