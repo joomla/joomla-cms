@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Cache\Storage;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheStorage;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;
@@ -231,7 +231,7 @@ class RedisStorage extends CacheStorage
 						$item = $data[$group];
 					}
 
-					$item->updateSize(strlen($key)*8);
+					$item->updateSize(\strlen($key)*8);
 					$data[$group] = $item;
 				}
 			}

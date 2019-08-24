@@ -16,32 +16,24 @@ HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 ?>
 <form action="<?php echo Route::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="message-form" class="form-validate">
-	<fieldset class="adminform">
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('user_id_to'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('user_id_to'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('subject'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('subject'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('message'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('message'); ?>
+	<div class="adminform mt-2">
+		<div class="card bg-light">
+			<div class="card-body">
+				<div class="form-group">
+					<?php echo $this->form->getLabel('user_id_to'); ?>
+					<?php echo $this->form->getInput('user_id_to'); ?>
+				</div>
+				<div class="form-group">
+					<?php echo $this->form->getLabel('subject'); ?>
+					<?php echo $this->form->getInput('subject'); ?>
+				</div>
+				<div class="form-group">
+					<?php echo $this->form->getLabel('message'); ?>
+					<?php echo $this->form->getInput('message'); ?>
+				</div>
 			</div>
 		</div>
-	</fieldset>
+	</div>
 	<input type="hidden" name="task" value="">
 	<?php echo HTMLHelper::_('form.token'); ?>
 </form>

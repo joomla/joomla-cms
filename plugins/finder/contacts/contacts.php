@@ -284,6 +284,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		 * Add the metadata processing instructions based on the contact
 		 * configuration parameters.
 		 */
+
 		// Handle the contact position.
 		if ($item->params->get('show_position', true))
 		{

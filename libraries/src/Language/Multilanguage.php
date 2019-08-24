@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Language;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
@@ -22,11 +22,11 @@ use Joomla\Database\DatabaseInterface;
 class Multilanguage
 {
 	/**
-	* Flag indicating multilanguage functionality is enabled.
- 	*
- 	* @var    boolean
- 	* @since  4.0.0
- 	*/
+	 * Flag indicating multilanguage functionality is enabled.
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
 	public static $enabled = false;
 
 	/**

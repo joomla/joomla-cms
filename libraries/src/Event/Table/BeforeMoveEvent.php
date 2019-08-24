@@ -78,7 +78,7 @@ class BeforeMoveEvent extends AbstractEvent
 	 *
 	 * @param   int  $value  The value to set
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
 	 * @throws  BadMethodCallException  if the argument is not of the expected type
 	 */

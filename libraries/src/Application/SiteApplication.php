@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
@@ -328,7 +328,7 @@ final class SiteApplication extends CMSApplication
 			$temp = clone ComponentHelper::getParams('com_menus');
 
 			// Lets cascade the parameters if we have menu item parameters
-			if (is_object($menu))
+			if (\is_object($menu))
 			{
 				// Get show_page_heading from com_menu global settings
 				$params[$hash]->def('show_page_heading', $temp->get('show_page_heading'));
@@ -396,7 +396,7 @@ final class SiteApplication extends CMSApplication
 	 */
 	public function getTemplate($params = false)
 	{
-		if (is_object($this->template))
+		if (\is_object($this->template))
 		{
 			if (!file_exists(JPATH_THEMES . '/' . $this->template->template . '/index.php'))
 			{
@@ -422,7 +422,7 @@ final class SiteApplication extends CMSApplication
 
 		$id = 0;
 
-		if (is_object($item))
+		if (\is_object($item))
 		{
 			// Valid item retrieved
 			$id = $item->template_style_id;
@@ -458,11 +458,21 @@ final class SiteApplication extends CMSApplication
 			// Load styles
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select('id, home, template, s.params')
-				->from('#__template_styles as s')
-				->where('s.client_id = 0')
-				->where('e.enabled = 1')
-				->join('LEFT', '#__extensions as e ON e.element=s.template AND e.type=' . $db->quote('template') . ' AND e.client_id=s.client_id');
+				->select($db->quoteName(['id', 'home', 'template', 's.params']))
+				->from($db->quoteName('#__template_styles', 's'))
+				->where(
+					[
+						$db->quoteName('s.client_id') . ' = 0',
+						$db->quoteName('e.enabled') . ' = 1',
+					]
+				)
+				->join(
+					'LEFT',
+					$db->quoteName('#__extensions', 'e'),
+					$db->quoteName('e.element') . ' = ' . $db->quoteName('s.template')
+						. ' AND ' . $db->quoteName('e.type') . ' = ' . $db->quote('template')
+						. ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('s.client_id')
+				);
 
 			$db->setQuery($query);
 			$templates = $db->loadObjectList('id');
@@ -682,7 +692,7 @@ final class SiteApplication extends CMSApplication
 	public function login($credentials, $options = array())
 	{
 		// Set the application login entry point
-		if (!array_key_exists('entry_url', $options))
+		if (!\array_key_exists('entry_url', $options))
 		{
 			$options['entry_url'] = Uri::base() . 'index.php?option=com_users&task=user.login';
 		}

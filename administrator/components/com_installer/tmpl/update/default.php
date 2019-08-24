@@ -78,21 +78,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</thead>
 							<tbody>
 							<?php foreach ($this->items as $i => $item) : ?>
-								<?php
-								$client          = $item->client_id ? Text::_('JADMINISTRATOR') : Text::_('JSITE');
-								$manifest        = json_decode($item->manifest_cache);
-								$current_version = $manifest->version ?? Text::_('JLIB_UNKNOWN');
-								?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="text-center">
 										<?php echo HTMLHelper::_('grid.id', $i, $item->update_id); ?>
 									</td>
 									<th scope="row">
-										<label for="cb<?php echo $i; ?>">
-											<span class="editlinktip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', Text::_('JGLOBAL_DESCRIPTION'), $item->description ?: Text::_('COM_INSTALLER_MSG_UPDATE_NODESC'), 0); ?>">
-											<?php echo $this->escape($item->name); ?>
-											</span>
-										</label>
+										<span tabindex="0"><?php echo $this->escape($item->name); ?></span>
+										<div role="tooltip" id="tip<?php echo $i; ?>">
+											<?php echo $item->description; ?>
+										</div>
 									</th>
 									<td class="center">
 										<?php echo $item->client_translated; ?>
@@ -137,7 +131,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<td class="d-none d-md-table-cell">
 										<span class="break-word">
 										<?php echo $item->detailsurl; ?>
-											<?php if (isset($item->infourl)) : ?>
+											<?php if (!empty($item->infourl)) : ?>
 												<br>
 												<a href="<?php echo $item->infourl; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->infourl); ?></a>
 											<?php endif; ?>

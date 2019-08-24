@@ -384,7 +384,7 @@ class CategoryModel extends AdminModel
 	 *
 	 * @return  mixed
 	 *
-	 * @see     \JFormField
+	 * @see     \Joomla\CMS\Form\FormField
 	 * @since   1.6
 	 * @throws  \Exception if there is an error in the form event.
 	 */
@@ -648,7 +648,8 @@ class CategoryModel extends AdminModel
 			if ($associations)
 			{
 				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $associations) . ') OR '
-					. $db->quoteName('key') . ' = ' . $db->quote($oldKey) . ')');
+					. $db->quoteName('key') . ' = ' . $db->quote($oldKey) . ')'
+				);
 			}
 			else
 			{

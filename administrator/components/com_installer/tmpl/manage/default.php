@@ -93,9 +93,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php endif; ?>
 								</td>
 								<th scope="row">
-									<label for="cb<?php echo $i; ?>" tabindex="0">
-										<?php echo $item->name; ?>
-									</label>
+									<span tabindex="0"><?php echo $item->name; ?></span>
 									<div role="tooltip" id="tip<?php echo $i; ?>">
 										<?php echo $item->description; ?>
 									</div>

@@ -30,7 +30,7 @@ use Joomla\Event\DispatcherInterface;
  * @since  1.7.0
  * @tutorial  Joomla.Platform/jtable.cls
  */
-abstract class Table extends CMSObject implements \JTableInterface, DispatcherAwareInterface
+abstract class Table extends CMSObject implements TableInterface, DispatcherAwareInterface
 {
 	use DispatcherAwareTrait;
 
@@ -1987,7 +1987,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 	 */
 	protected function _unlock()
 	{
-		if ($this->_locked) 
+		if ($this->_locked)
 		{
 			$this->_db->unlockTables();
 			$this->_locked = false;

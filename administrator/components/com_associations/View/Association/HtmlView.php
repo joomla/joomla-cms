@@ -123,6 +123,7 @@ class HtmlView extends BaseHtmlView
 
 		// Check for special case category
 		$typeNameExploded = explode('.', $typeName);
+
 		if (array_pop($typeNameExploded) === 'category')
 		{
 			$this->typeName = 'category';
@@ -204,7 +205,7 @@ class HtmlView extends BaseHtmlView
 			$languageKey = strtoupper($this->extensionName) . '_CATEGORIES';
 		}
 
-		ToolbarHelper::title(Text::sprintf('COM_ASSOCIATIONS_TITLE_EDIT', Text::_($this->extensionName), Text::_($languageKey)), 'contract assoc');
+		ToolbarHelper::title(Text::sprintf('COM_ASSOCIATIONS_TITLE_EDIT', Text::_($this->extensionName), Text::_($languageKey)), 'language assoc');
 
 		$bar = Toolbar::getInstance('toolbar');
 
