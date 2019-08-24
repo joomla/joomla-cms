@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Profiler\Profiler;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -348,47 +349,79 @@ abstract class ModuleHelper
 	 */
 	public static function getModuleList()
 	{
-		$app = Factory::getApplication();
-		$Itemid = $app->input->getInt('Itemid', 0);
-		$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
-		$lang = Factory::getLanguage()->getTag();
+		$app      = Factory::getApplication();
+		$itemId   = $app->input->getInt('Itemid', 0);
+		$groups   = $app->getIdentity()->getAuthorisedViewLevels();
 		$clientId = (int) $app->getClientId();
 
 		// Build a cache ID for the resulting data object
-		$cacheId = $groups . '.' . $clientId . '.' . $Itemid;
+		$cacheId = implode(',', $groups) . '.' . $clientId . '.' . $itemId;
 
-		$db = Factory::getDbo();
-
-		$query = $db->getQuery(true)
-			->select('m.id, m.title, m.module, m.position, m.content, m.showtitle, m.params, mm.menuid')
-			->from('#__modules AS m')
-			->join('LEFT', '#__modules_menu AS mm ON mm.moduleid = m.id')
-			->where('m.published = 1')
-			->join('LEFT', '#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id')
-			->where('e.enabled = 1');
-
+		$db      = Factory::getDbo();
+		$query   = $db->getQuery(true);
 		$nowDate = Factory::getDate()->toSql();
 
-		$query->where('(' . $query->isNullDatetime('m.publish_up') . ' OR m.publish_up <= ' . $db->quote($nowDate) . ')')
-			->where('(' . $query->isNullDatetime('m.publish_down') . ' OR m.publish_down >= ' . $db->quote($nowDate) . ')')
-			->where('m.access IN (' . $groups . ')')
-			->where('m.client_id = ' . $clientId)
-			->where('(mm.menuid = ' . $Itemid . ' OR mm.menuid <= 0)');
+		$query->select($db->quoteName(['m.id', 'm.title', 'm.module', 'm.position', 'm.content', 'm.showtitle', 'm.params', 'mm.menuid']))
+			->from($db->quoteName('#__modules', 'm'))
+			->join(
+				'LEFT',
+				$db->quoteName('#__modules_menu', 'mm'),
+				$db->quoteName('mm.moduleid') . ' = ' . $db->quoteName('m.id')
+			)
+			->join(
+				'LEFT',
+				$db->quoteName('#__extensions', 'e'),
+				$db->quoteName('e.element') . ' = ' . $db->quoteName('m.module')
+				. ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('m.client_id')
+			)
+			->where(
+				[
+					$db->quoteName('m.published') . ' = 1',
+					$db->quoteName('e.enabled') . ' = 1',
+					$db->quoteName('m.client_id') . ' = :clientId',
+					
+				]
+			)
+			->bind(':clientId', $clientId, ParameterType::INTEGER)
+			->whereIn($db->quoteName('m.access'), $groups)
+			->extendWhere(
+				'AND',
+				[
+					$query->isNullDatetime($db->quoteName('m.publish_up')),
+					$db->quoteName('m.publish_up') . ' <= :publishUp',
+				],
+				'OR'
+			)
+			->bind(':publishUp', $nowDate)
+			->extendWhere(
+				'AND',
+				[
+					$query->isNullDatetime($db->quoteName('m.publish_down')),
+					$db->quoteName('m.publish_down') . ' >= :publishDown',
+				],
+				'OR'
+			)
+			->bind(':publishDown', $nowDate)
+			->extendWhere(
+				'AND',
+				[
+					$db->quoteName('mm.menuid') . ' = :itemId',
+					$db->quoteName('mm.menuid') . ' <= 0',
+				],
+				'OR'
+			)
+			->bind(':itemId', $itemId, ParameterType::INTEGER);
 
 		// Filter by language
-		if ($app->isClient('site') && $app->getLanguageFilter())
+		if ($app->isClient('site') && $app->getLanguageFilter() || $app->isClient('administrator') && static::isAdminMultilang())
 		{
-			$query->where('m.language IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
-			$cacheId .= $lang . '*';
+			$language = $app->getLanguage()->getTag();
+
+			$query->whereIn($db->quoteName('m.language'), [$language, '*'], ParameterType::STRING);
+			$cacheId .= $language . '*';
 		}
 
-		if ($app->isClient('administrator') && static::isAdminMultilang())
-		{
-			$query->where('m.language IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
-			$cacheId .= $lang . '*';
-		}
-
-		$query->order('m.position, m.ordering');
+		$query->order($db->quoteName(['m.position', 'm.ordering']));
 
 		// Set the query
 		$db->setQuery($query);
