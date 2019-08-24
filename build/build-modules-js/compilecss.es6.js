@@ -46,7 +46,7 @@ module.exports.compile = (options, path) => {
           `${RootPath}/administrator/templates/atum/scss/template.scss`,
           `${RootPath}/administrator/templates/atum/scss/template-rtl.scss`,
           `${RootPath}/administrator/templates/atum/scss/vendor/joomla-custom-elements/joomla-alert.scss`,
-					`${RootPath}/administrator/templates/atum/scss/vendor/joomla-custom-elements/joomla-tab.scss`,
+          `${RootPath}/administrator/templates/atum/scss/vendor/joomla-custom-elements/joomla-tab.scss`,
           `${RootPath}/installation/template/scss/template.scss`,
           `${RootPath}/installation/template/scss/template-rtl.scss`,
         ];
