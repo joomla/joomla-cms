@@ -1187,6 +1187,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 							->bind(':id', $parentId, ParameterType::INTEGER);
 						$parentModified = $db->setQuery($parentModQuery)->loadResult();
 					}
+
+					$parentModifiedSql = Factory::getDate($parentModified)->toSql();
 				}
 
 				$parentId       = $parentId ?? -1;
@@ -1199,7 +1201,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				if ($modified)
 				{
 					$query->set($db->quoteName('parent_date') . ' = :parentDate')
-						->bind(':parentDate', $parentModified = Factory::getDate($parentModified)->toSql());
+						->bind(':parentDate', $parentModifiedSql);
 				}
 				else
 				{
@@ -1235,7 +1237,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				if ($modified)
 				{
 					$query->set($db->quoteName('parent_date') . ' = :parentDate')
-						->bind(':parentDate', $parentModified = Factory::getDate($parentModified)->toSql());
+						->bind(':parentDate', $parentModifiedSql);
 				}
 				else
 				{
