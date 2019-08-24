@@ -758,12 +758,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "b90d2c2ea4a4768fb6647431b304c3e58ea2fe5f"
+                "reference": "493ee1d08f28ff1f6a39369ce1099a504c0f5900"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/b90d2c2ea4a4768fb6647431b304c3e58ea2fe5f",
-                "reference": "b90d2c2ea4a4768fb6647431b304c3e58ea2fe5f",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/493ee1d08f28ff1f6a39369ce1099a504c0f5900",
+                "reference": "493ee1d08f28ff1f6a39369ce1099a504c0f5900",
                 "shasum": ""
             },
             "require": {
@@ -815,7 +815,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-08-19T18:53:33+00:00"
+            "time": "2019-08-21T16:21:26+00:00"
         },
         {
             "name": "joomla/di",
@@ -4182,9 +4182,9 @@
             "authors": [
                 {
                     "name": "Franck Nijhof",
+                    "role": "Developer / IT Manager",
                     "email": "franck.nijhof@dealerdirect.com",
-                    "homepage": "http://www.frenck.nl",
-                    "role": "Developer / IT Manager"
+                    "homepage": "http://www.frenck.nl"
                 }
             ],
             "description": "PHP_CodeSniffer Standards Composer Installer Plugin",
@@ -7842,16 +7842,16 @@
         },
         {
             "name": "webmozart/assert",
-            "version": "1.4.0",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozart/assert.git",
-                "reference": "83e253c8e0be5b0257b881e1827274667c5c17a9"
+                "reference": "88e6d84706d09a236046d686bbea96f07b3a34f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/83e253c8e0be5b0257b881e1827274667c5c17a9",
-                "reference": "83e253c8e0be5b0257b881e1827274667c5c17a9",
+                "url": "https://api.github.com/repos/webmozart/assert/zipball/88e6d84706d09a236046d686bbea96f07b3a34f4",
+                "reference": "88e6d84706d09a236046d686bbea96f07b3a34f4",
                 "shasum": ""
             },
             "require": {
@@ -7859,8 +7859,7 @@
                 "symfony/polyfill-ctype": "^1.8"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.6",
-                "sebastian/version": "^1.0.1"
+                "phpunit/phpunit": "^4.8.36 || ^7.5.13"
             },
             "type": "library",
             "extra": {
@@ -7889,7 +7888,7 @@
                 "check",
                 "validate"
             ],
-            "time": "2018-12-25T11:19:39+00:00"
+            "time": "2019-08-24T08:43:50+00:00"
         }
     ],
     "aliases": [],
