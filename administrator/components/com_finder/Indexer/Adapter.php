@@ -581,7 +581,7 @@ abstract class Adapter extends CMSPlugin
 		$items = array();
 
 		// Get the content items to index.
-		$this->db->setQuery($this->getListQuery($query), $offset, $limit);
+		$this->db->setQuery($this->getListQuery($query)->setLimit($limit, $offset));
 		$rows = $this->db->loadAssocList();
 
 		// Convert the items to result objects.
