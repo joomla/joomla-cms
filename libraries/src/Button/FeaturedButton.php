@@ -36,9 +36,9 @@ class FeaturedButton extends ActionButton
 	/**
 	 * Render action button by item value.
 	 *
-	 * @param   mixed        $value        Current value of this item.
-	 * @param   string       $row          The row number of this item.
-	 * @param   array        $options      The options to override group options.
+	 * @param   mixed        $value         Current value of this item.
+	 * @param   string       $row           The row number of this item.
+	 * @param   array        $options       The options to override group options.
 	 * @param   string|Date  $featuredUp    The date which item featured up.
 	 * @param   string|Date  $featuredDown  The date which item featured down.
 	 *
