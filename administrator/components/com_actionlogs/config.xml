@@ -14,12 +14,13 @@
 		</field>
 		<field
 			name="csv_delimiter"
-			type="list"
+			type="radio"
 			label="COM_ACTIONLOGS_CSV_DELIMITER_LABEL"
+			class="switcher"
 			default=","
 			>
-			<option value=",">COM_ACTIONLOGS_COMMA</option>
 			<option value=";">COM_ACTIONLOGS_SEMICOLON</option>
+			<option value=",">COM_ACTIONLOGS_COMMA</option>
 		</field>
 		<field
 			name="loggable_extensions"
