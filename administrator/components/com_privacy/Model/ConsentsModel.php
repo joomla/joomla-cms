@@ -96,7 +96,7 @@ class ConsentsModel extends ListModel
 			else
 			{
 				$search = '%' . $search . '%';
-				$query->where('(' . $db->quoteName('u.username') . ' LIKE :search )')
+				$query->where('(' . $db->quoteName('u.username') . ' LIKE :search)')
 					->bind(':search', $search);
 			}
 		}
