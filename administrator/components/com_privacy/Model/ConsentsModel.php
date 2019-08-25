@@ -77,13 +77,13 @@ class ConsentsModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$ids = (int)substr($search, 3);
+				$ids = (int) substr($search, 3);
 				$query->where($db->quoteName('a.id') . ' = :id')
 					->bind(':id', $ids, ParameterType::INTEGER);
 			}
 			elseif (stripos($search, 'uid:') === 0)
 			{
-				$uid = (int)substr($search, 4);
+				$uid = (int) substr($search, 4);
 				$query->where($db->quoteName('a.user_id') . ' = :uid')
 					->bind(':uid', $uid, ParameterType::INTEGER);
 			}
@@ -105,7 +105,7 @@ class ConsentsModel extends ListModel
 
 		if ($state != '')
 		{
-			$state = (int)$state;
+			$state = (int) $state;
 			$query->where($db->quoteName('a.state') . ' = :state')
 				->bind(':state', $state, ParameterType::INTEGER);
 		}
