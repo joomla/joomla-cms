@@ -58,6 +58,8 @@ class PlgWebservicesContact extends CMSPlugin
 		);
 
 		$this->createFieldsRoutes($router);
+
+		$this->createContentHistoryRoutes($router);
 	}
 
 	/**
@@ -106,5 +108,32 @@ class PlgWebservicesContact extends CMSPlugin
 			'groups',
 			['component' => 'com_fields', 'context' => 'com_contact.categories']
 		);
+	}
+
+	/**
+	 * Create contenthistory routes
+	 *
+	 * @param   ApiRouter  &$router  The API Routing object
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	private function createContentHistoryRoutes(&$router)
+	{
+		$defaults    = [
+			'component'  => 'com_contenthistory',
+			'type_alias' => 'com_contact.contact',
+			'type_id'    => 2
+		];
+		$getDefaults = array_merge(['public' => false], $defaults);
+
+		$routes = [
+			new Route(['GET'], 'v1/contact/contenthistory/:id', 'history.displayList', ['id' => '(\d+)'], $getDefaults),
+			new Route(['PUT'], 'v1/contact/contenthistory/keep/:id', 'history.keep', ['id' => '(\d+)'], $defaults),
+			new Route(['DELETE'], 'v1/contact/contenthistory/:id', 'history.delete', ['id' => '(\d+)'], $defaults),
+		];
+
+		$router->addRoutes($routes);
 	}
 }

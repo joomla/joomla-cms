@@ -1,43 +1,25 @@
 <?php
 /**
  * @package     Joomla.API
- * @subpackage  com_messages
+ * @subpackage  com_contenthistory
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Messages\Api\View\Messages;
+namespace Joomla\Component\Contenthistory\Api\View\History;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 /**
- * The messages view
+ * The history view
  *
  * @since  4.0.0
  */
-class JsonapiView extends BaseApiView
+class JsonApiView extends BaseApiView
 {
-	/**
-	 * The fields to render item in the documents
-	 *
-	 * @var  array
-	 * @since  4.0.0
-	 */
-	protected $fieldsToRenderItem = [
-		'id',
-		'user_id_from',
-		'user_id_to',
-		'date_time',
-		'priority',
-		'subject',
-		'message',
-		'state',
-		'user_from',
-	];
-
 	/**
 	 * The fields to render items in the documents
 	 *
@@ -46,14 +28,16 @@ class JsonapiView extends BaseApiView
 	 */
 	protected $fieldsToRenderList = [
 		'id',
-		'user_id_from',
-		'user_id_to',
-		'date_time',
-		'priority',
-		'subject',
-		'message',
-		'state',
-		'user_from',
+		'ucm_item_id',
+		'ucm_type_id',
+		'version_note',
+		'save_date',
+		'editor_user_id',
+		'character_count',
+		'sha1_hash',
+		'version_data',
+		'keep_forever',
+		'editor',
 	];
 
 	/**
@@ -67,8 +51,10 @@ class JsonapiView extends BaseApiView
 	 */
 	protected function prepareItem($item)
 	{
-		$item->id = $item->message_id;
-		unset($item->message_id);
+		$item->id = $item->version_id;
+		unset($item->version_id);
+
+		$item->version_data = (array) json_decode($item->version_data, true);
 
 		return parent::prepareItem($item);
 	}

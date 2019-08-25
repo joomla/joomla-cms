@@ -19,7 +19,7 @@ use Joomla\CMS\Router\Exception\RouteNotFoundException;
  *
  * @since  4.0.0
  */
-class JsonapiView extends BaseApiView
+class JsonApiView extends BaseApiView
 {
 	/**
 	 * The fields to render item in the documents

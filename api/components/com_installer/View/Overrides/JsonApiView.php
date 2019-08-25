@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.API
- * @subpackage  com_content
+ * @subpackage  com_installer
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
  *
  * @since  4.0.0
  */
-class JsonapiView extends BaseApiView
+class JsonApiView extends BaseApiView
 {
 	/**
 	 * The fields to render item in the documents

@@ -1,24 +1,24 @@
 <?php
 /**
  * @package     Joomla.API
- * @subpackage  com_content
+ * @subpackage  com_plugins
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Installer\Api\View\Languages;
+namespace Joomla\Component\Plugins\Api\View\Plugins;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 /**
- * The languages view
+ * The plugins view
  *
  * @since  4.0.0
  */
-class JsonapiView extends BaseApiView
+class JsonApiView extends BaseApiView
 {
 	/**
 	 * The fields to render item in the documents
@@ -26,7 +26,22 @@ class JsonapiView extends BaseApiView
 	 * @var  array
 	 * @since  4.0.0
 	 */
-	protected $fieldsToRenderItem = [];
+	protected $fieldsToRenderItem = [
+		'id',
+		'name',
+		'type',
+		'element',
+		'changelogurl',
+		'folder',
+		'client_id',
+		'enabled',
+		'access',
+		'protected',
+		'checked_out',
+		'checked_out_time',
+		'ordering',
+		'state'
+	];
 
 	/**
 	 * The fields to render items in the documents
@@ -37,10 +52,15 @@ class JsonapiView extends BaseApiView
 	protected $fieldsToRenderList = [
 		'id',
 		'name',
-		'type',
-		'version',
-		'version',
-		'detailsurl',
+		'element',
+		'folder',
+		'checked_out',
+		'checked_out_time',
+		'enabled',
+		'access',
+		'ordering',
+		'editor',
+		'access_level'
 	];
 
 	/**
@@ -54,9 +74,9 @@ class JsonapiView extends BaseApiView
 	 */
 	protected function prepareItem($item)
 	{
-		$item->id = $item->element;
-		unset($item->element);
+		$item->id = $item->extension_id;
+		unset($item->extension_id);
 
-		return parent::prepareItem($item);
+		return $item;
 	}
 }

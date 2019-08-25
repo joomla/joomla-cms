@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\ApiRouter;
+use Joomla\Router\Route;
 
 /**
  * Web Services adapter for com_banners.
@@ -47,5 +48,34 @@ class PlgWebservicesBanners extends CMSPlugin
 			'categories',
 			['component' => 'com_categories', 'extension' => 'com_banners']
 		);
+
+		$this->createContentHistoryRoutes($router);
+	}
+
+	/**
+	 * Create contenthistory routes
+	 *
+	 * @param   ApiRouter  &$router  The API Routing object
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	private function createContentHistoryRoutes(&$router)
+	{
+		$defaults    = [
+			'component'  => 'com_contenthistory',
+			'type_alias' => 'com_banners.banner',
+			'type_id'    => 9
+		];
+		$getDefaults = array_merge(['public' => false], $defaults);
+
+		$routes = [
+			new Route(['GET'], 'v1/banners/contenthistory/:id', 'history.displayList', ['id' => '(\d+)'], $getDefaults),
+			new Route(['PUT'], 'v1/banners/contenthistory/keep/:id', 'history.keep', ['id' => '(\d+)'], $defaults),
+			new Route(['DELETE'], 'v1/banners/contenthistory/:id', 'history.delete', ['id' => '(\d+)'], $defaults),
+		];
+
+		$router->addRoutes($routes);
 	}
 }

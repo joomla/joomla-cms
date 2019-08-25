@@ -1,24 +1,24 @@
 <?php
 /**
  * @package     Joomla.API
- * @subpackage  com_redirect
+ * @subpackage  com_installer
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Redirect\Api\View\Redirect;
+namespace Joomla\Component\Installer\Api\View\Languages;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 /**
- * The redirect view
+ * The languages view
  *
  * @since  4.0.0
  */
-class JsonapiView extends BaseApiView
+class JsonApiView extends BaseApiView
 {
 	/**
 	 * The fields to render item in the documents
@@ -26,18 +26,7 @@ class JsonapiView extends BaseApiView
 	 * @var  array
 	 * @since  4.0.0
 	 */
-	protected $fieldsToRenderItem = [
-		'id',
-		'old_url',
-		'new_url',
-		'referer',
-		'comment',
-		'hits',
-		'published',
-		'created_date',
-		'modified_date',
-		'header',
-	];
+	protected $fieldsToRenderItem = [];
 
 	/**
 	 * The fields to render items in the documents
@@ -47,14 +36,27 @@ class JsonapiView extends BaseApiView
 	 */
 	protected $fieldsToRenderList = [
 		'id',
-		'old_url',
-		'new_url',
-		'referer',
-		'comment',
-		'hits',
-		'published',
-		'created_date',
-		'modified_date',
-		'header',
+		'name',
+		'type',
+		'version',
+		'version',
+		'detailsurl',
 	];
+
+	/**
+	 * Prepare item before render.
+	 *
+	 * @param   object  $item  The model item
+	 *
+	 * @return  object
+	 *
+	 * @since   4.0.0
+	 */
+	protected function prepareItem($item)
+	{
+		$item->id = $item->element;
+		unset($item->element);
+
+		return parent::prepareItem($item);
+	}
 }

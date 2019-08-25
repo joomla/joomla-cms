@@ -1,24 +1,24 @@
 <?php
 /**
  * @package     Joomla.API
- * @subpackage  com_content
+ * @subpackage  com_messages
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Languages\Api\View\Languages;
+namespace Joomla\Component\Messages\Api\View\Messages;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 /**
- * The languages view
+ * The messages view
  *
  * @since  4.0.0
  */
-class JsonapiView extends BaseApiView
+class JsonApiView extends BaseApiView
 {
 	/**
 	 * The fields to render item in the documents
@@ -28,21 +28,14 @@ class JsonapiView extends BaseApiView
 	 */
 	protected $fieldsToRenderItem = [
 		'id',
-		'asset_id',
-		'lang_code',
-		'title',
-		'title_native',
-		'sef',
-		'image',
-		'description',
-		'metakey',
-		'metadesc',
-		'sitename',
-		'published',
-		'access',
-		'ordering',
-		'access_level',
-		'home',
+		'user_id_from',
+		'user_id_to',
+		'date_time',
+		'priority',
+		'subject',
+		'message',
+		'state',
+		'user_from',
 	];
 
 	/**
@@ -53,21 +46,14 @@ class JsonapiView extends BaseApiView
 	 */
 	protected $fieldsToRenderList = [
 		'id',
-		'asset_id',
-		'lang_code',
-		'title',
-		'title_native',
-		'sef',
-		'image',
-		'description',
-		'metakey',
-		'metadesc',
-		'sitename',
-		'published',
-		'access',
-		'ordering',
-		'access_level',
-		'home',
+		'user_id_from',
+		'user_id_to',
+		'date_time',
+		'priority',
+		'subject',
+		'message',
+		'state',
+		'user_from',
 	];
 
 	/**
@@ -81,8 +67,8 @@ class JsonapiView extends BaseApiView
 	 */
 	protected function prepareItem($item)
 	{
-		$item->id = $item->lang_id;
-		unset($item->lang->id);
+		$item->id = $item->message_id;
+		unset($item->message_id);
 
 		return parent::prepareItem($item);
 	}

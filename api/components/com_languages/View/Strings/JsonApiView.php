@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.API
- * @subpackage  com_content
+ * @subpackage  com_languages
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -21,7 +21,7 @@ use Tobscure\JsonApi\Collection;
  *
  * @since  4.0.0
  */
-class JsonapiView extends BaseApiView
+class JsonApiView extends BaseApiView
 {
 	/**
 	 * The fields to render items in the documents

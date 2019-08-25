@@ -1,24 +1,24 @@
 <?php
 /**
  * @package     Joomla.API
- * @subpackage  com_plugins
+ * @subpackage  com_languages
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Plugins\Api\View\Plugins;
+namespace Joomla\Component\Languages\Api\View\Languages;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 /**
- * The plugins view
+ * The languages view
  *
  * @since  4.0.0
  */
-class JsonapiView extends BaseApiView
+class JsonApiView extends BaseApiView
 {
 	/**
 	 * The fields to render item in the documents
@@ -28,19 +28,21 @@ class JsonapiView extends BaseApiView
 	 */
 	protected $fieldsToRenderItem = [
 		'id',
-		'name',
-		'type',
-		'element',
-		'changelogurl',
-		'folder',
-		'client_id',
-		'enabled',
+		'asset_id',
+		'lang_code',
+		'title',
+		'title_native',
+		'sef',
+		'image',
+		'description',
+		'metakey',
+		'metadesc',
+		'sitename',
+		'published',
 		'access',
-		'protected',
-		'checked_out',
-		'checked_out_time',
 		'ordering',
-		'state'
+		'access_level',
+		'home',
 	];
 
 	/**
@@ -51,16 +53,21 @@ class JsonapiView extends BaseApiView
 	 */
 	protected $fieldsToRenderList = [
 		'id',
-		'name',
-		'element',
-		'folder',
-		'checked_out',
-		'checked_out_time',
-		'enabled',
+		'asset_id',
+		'lang_code',
+		'title',
+		'title_native',
+		'sef',
+		'image',
+		'description',
+		'metakey',
+		'metadesc',
+		'sitename',
+		'published',
 		'access',
 		'ordering',
-		'editor',
-		'access_level'
+		'access_level',
+		'home',
 	];
 
 	/**
@@ -74,9 +81,9 @@ class JsonapiView extends BaseApiView
 	 */
 	protected function prepareItem($item)
 	{
-		$item->id = $item->extension_id;
-		unset($item->extension_id);
+		$item->id = $item->lang_id;
+		unset($item->lang->id);
 
-		return $item;
+		return parent::prepareItem($item);
 	}
 }

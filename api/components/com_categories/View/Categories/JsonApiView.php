@@ -1,13 +1,13 @@
 <?php
 /**
  * @package     Joomla.API
- * @subpackage  com_redirect
+ * @subpackage  com_categories
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Users\Api\View\Users;
+namespace Joomla\Component\Categories\Api\View\Categories;
 
 defined('_JEXEC') or die;
 
@@ -16,11 +16,11 @@ use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
- * The users view
+ * The categories view
  *
  * @since  4.0.0
  */
-class JsonapiView extends BaseApiView
+class JsonApiView extends BaseApiView
 {
 	/**
 	 * The fields to render item in the documents
@@ -30,10 +30,29 @@ class JsonapiView extends BaseApiView
 	 */
 	protected $fieldsToRenderItem = [
 		'id',
-		'groups',
-		'name',
-		'username',
-		'email',
+		'title',
+		'alias',
+		'note',
+		'published',
+		'access',
+		'checked_out',
+		'checked_out_time',
+		'created_user_id',
+		'parent_id',
+		'level',
+		'extension',
+		'lft',
+		'rgt',
+		'language',
+		'language_title',
+		'language_image',
+		'editor',
+		'access_level',
+		'author_name',
+		'count_trashed',
+		'count_unpublished',
+		'count_published',
+		'count_archived'
 	];
 
 	/**
@@ -44,11 +63,28 @@ class JsonapiView extends BaseApiView
 	 */
 	protected $fieldsToRenderList = [
 		'id',
-		'name',
-		'username',
-		'email',
-		'group_count',
-		'group_names',
+		'title',
+		'alias',
+		'note',
+		'published',
+		'access',
+		'checked_out',
+		'checked_out_time',
+		'created_user_id',
+		'parent_id',
+		'level',
+		'lft',
+		'rgt',
+		'language',
+		'language_title',
+		'language_image',
+		'editor',
+		'access_level',
+		'author_name',
+		'count_trashed',
+		'count_unpublished',
+		'count_published',
+		'count_archived'
 	];
 
 	/**
@@ -62,7 +98,7 @@ class JsonapiView extends BaseApiView
 	 */
 	public function displayList(array $items = null)
 	{
-		foreach (FieldsHelper::getFields('com_users.user') as $field)
+		foreach (FieldsHelper::getFields('com_content.categories') as $field)
 		{
 			$this->fieldsToRenderList[] = $field->name;
 		}
@@ -81,12 +117,29 @@ class JsonapiView extends BaseApiView
 	 */
 	public function displayItem($item = null)
 	{
-		foreach (FieldsHelper::getFields('com_users.user') as $field)
+		foreach (FieldsHelper::getFields('com_content.categories') as $field)
 		{
 			$this->fieldsToRenderItem[] = $field->name;
 		}
 
-		return parent::displayItem();
+		if ($item === null)
+		{
+			/** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+			$model = $this->getModel();
+			$item  = $this->prepareItem($model->getItem());
+		}
+
+		if ($item->id === null)
+		{
+			throw new RouteNotFoundException('Item does not exist');
+		}
+
+		if ($item->extension != $this->getModel()->getState('filter.extension'))
+		{
+			throw new RouteNotFoundException('Item does not exist');
+		}
+
+		return parent::displayItem($item);
 	}
 
 	/**
@@ -100,12 +153,7 @@ class JsonapiView extends BaseApiView
 	 */
 	protected function prepareItem($item)
 	{
-		if (empty($item->username))
-		{
-			throw new RouteNotFoundException('Item does not exist');
-		}
-
-		foreach (FieldsHelper::getFields('com_users.user', $item, true) as $field)
+		foreach (FieldsHelper::getFields('com_content.categories', $item, true) as $field)
 		{
 			$item->{$field->name} = isset($field->apivalue) ? $field->apivalue : $field->rawvalue;
 		}

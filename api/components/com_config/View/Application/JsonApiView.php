@@ -23,7 +23,7 @@ USE Joomla\Component\Config\Administrator\Model\ApplicationModel;
  *
  * @since  4.0.0
  */
-class JsonapiView extends BaseApiView
+class JsonApiView extends BaseApiView
 {
 	/**
 	 * Execute and display a template script.

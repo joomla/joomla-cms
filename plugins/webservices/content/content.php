@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\ApiRouter;
+use Joomla\Router\Route;
 
 /**
  * Web Services adapter for com_content.
@@ -47,6 +48,8 @@ class PlgWebservicesContent extends CMSPlugin
 		);
 
 		$this->createFieldsRoutes($router);
+
+		$this->createContentHistoryRoutes($router);
 	}
 
 	/**
@@ -83,5 +86,32 @@ class PlgWebservicesContent extends CMSPlugin
 			'groups',
 			['component' => 'com_fields', 'context' => 'com_content.categories']
 		);
+	}
+
+	/**
+	 * Create contenthistory routes
+	 *
+	 * @param   ApiRouter  &$router  The API Routing object
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	private function createContentHistoryRoutes(&$router)
+	{
+		$defaults    = [
+			'component'  => 'com_contenthistory',
+			'type_alias' => 'com_content.article',
+			'type_id'    => 1
+		];
+		$getDefaults = array_merge(['public' => false], $defaults);
+
+		$routes = [
+			new Route(['GET'], 'v1/content/article/contenthistory/:id', 'history.displayList', ['id' => '(\d+)'], $getDefaults),
+			new Route(['PUT'], 'v1/content/article/contenthistory/keep/:id', 'history.keep', ['id' => '(\d+)'], $defaults),
+			new Route(['DELETE'], 'v1/content/article/contenthistory/:id', 'history.delete', ['id' => '(\d+)'], $defaults),
+		];
+
+		$router->addRoutes($routes);
 	}
 }

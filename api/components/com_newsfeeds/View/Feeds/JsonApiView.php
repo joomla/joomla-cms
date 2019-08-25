@@ -1,24 +1,24 @@
 <?php
 /**
  * @package     Joomla.API
- * @subpackage  com_tags
+ * @subpackage  com_newsfeeds
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Tags\Api\View\Tags;
+namespace Joomla\Component\Newsfeeds\Api\View\Feeds;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 /**
- * The tags view
+ * The feeds view
  *
  * @since  4.0.0
  */
-class JsonapiView extends BaseApiView
+class JsonApiView extends BaseApiView
 {
 	/**
 	 * The fields to render item in the documents
@@ -28,36 +28,35 @@ class JsonapiView extends BaseApiView
 	 */
 	protected $fieldsToRenderItem = [
 		'id',
-		'parent_id',
-		'level',
-		'lft',
-		'rgt',
+		'catid',
+		'name',
 		'alias',
-		'typeAlias',
-		'path',
-		'title',
-		'note',
-		'description',
+		'link',
 		'published',
+		'numarticles',
+		'cache_time',
 		'checked_out',
 		'checked_out_time',
+		'ordering',
+		'rtl',
 		'access',
-		'params',
-		'metadesc',
-		'metakey',
-		'metadata',
-		'created_user_id',
-		'created_time',
-		'created_by_alias',
-		'modified_user_id',
-		'modified_time',
-		'images',
-		'urls',
-		'hits',
 		'language',
-		'version',
+		'params',
+		'created',
+		'created_by',
+		'created_by_alias',
+		'modified',
+		'modified_by',
+		'metakey',
+		'metadesc',
+		'metadata',
 		'publish_up',
 		'publish_down',
+		'description',
+		'version',
+		'hits',
+		'images',
+		'tags',
 	];
 
 	/**
@@ -68,25 +67,24 @@ class JsonapiView extends BaseApiView
 	 */
 	protected $fieldsToRenderList = [
 		'id',
-		'title',
+		'name',
 		'alias',
-		'note',
-		'published',
-		'access',
-		'description',
 		'checked_out',
 		'checked_out_time',
-		'created_user_id',
-		'path',
-		'parent_id',
-		'level',
-		'lft',
-		'rgt',
+		'catid',
+		'numarticles',
+		'cache_time',
+		'created_by',
+		'published',
+		'access',
+		'ordering',
 		'language',
+		'publish_up',
+		'publish_down',
 		'language_title',
 		'language_image',
 		'editor',
-		'author_name',
-		'access_title'
+		'access_level',
+		'category_title',
 	];
 }
