@@ -58,17 +58,17 @@ class ApiRouter extends Router
 	 *
 	 * @since   4.0.0
 	 */
-	public function createCRUDRoutes($baseName, $controller, $defaults = array(), $publicGets = false)
+	public function createCRUDRoutes($baseName, $controller, $defaults = [], $publicGets = false)
 	{
-		$getDefaults = array_merge(array('public' => $publicGets), $defaults);
+		$getDefaults = array_merge(['public' => $publicGets], $defaults);
 
-		$routes = array(
+		$routes = [
 			new Route(['GET'], $baseName, $controller . '.displayList', [], $getDefaults),
 			new Route(['GET'], $baseName . '/:id', $controller . '.displayItem', ['id' => '(\d+)'], $getDefaults),
 			new Route(['POST'], $baseName, $controller . '.add', [], $defaults),
 			new Route(['PUT'], $baseName . '/:id', $controller . '.edit', ['id' => '(\d+)'], $defaults),
 			new Route(['DELETE'], $baseName . '/:id', $controller . '.delete', ['id' => '(\d+)'], $defaults),
-		);
+		];
 
 		$this->addRoutes($routes);
 	}
