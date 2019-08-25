@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -76,21 +77,27 @@ class ConsentsModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where($db->quoteName('a.id') . ' = ' . (int) substr($search, 3));
+				$ids = (int)substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :id')
+					->bind(':id', $ids, ParameterType::INTEGER);
 			}
 			elseif (stripos($search, 'uid:') === 0)
 			{
-				$query->where($db->quoteName('a.user_id') . ' = ' . (int) substr($search, 4));
+				$uid = (int)substr($search, 4);
+				$query->where($db->quoteName('a.user_id') . ' = :uid')
+					->bind(':uid', $uid, ParameterType::INTEGER);
 			}
 			elseif (stripos($search, 'name:') === 0)
 			{
-				$search = $db->quote('%' . $db->escape(substr($search, 5), true) . '%');
-				$query->where($db->quoteName('u.name') . ' LIKE ' . $search);
+				$search = '%' . substr($search, 5) . '%';
+				$query->where($db->quoteName('u.name') . ' LIKE :search')
+					->bind(':search', $search);
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
-				$query->where('(' . $db->quoteName('u.username') . ' LIKE ' . $search . ')');
+				$search = '%' . $search . '%';
+				$query->where('(' . $db->quoteName('u.username') . ' LIKE :search )')
+					->bind(':search', $search);
 			}
 		}
 
@@ -98,7 +105,9 @@ class ConsentsModel extends ListModel
 
 		if ($state != '')
 		{
-			$query->where($db->quoteName('a.state') . ' = ' . (int) $state);
+			$state = (int)$state;
+			$query->where($db->quoteName('a.state') . ' = :state')
+				->bind(':state', $state, ParameterType::INTEGER);
 		}
 
 		// Handle the list ordering.
@@ -190,7 +199,7 @@ class ConsentsModel extends ListModel
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__privacy_consents'))
 				->set($db->quoteName('state') . ' = -1')
-				->where($db->quoteName('id') . ' IN (' . implode(',', $pks) . ')')
+				->whereIn($db->quoteName('id'), $pks)
 				->where($db->quoteName('state') . ' = 1');
 			$db->setQuery($query);
 			$db->execute();
