@@ -229,8 +229,9 @@ class ConsentsModel extends ListModel
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__privacy_consents'))
 				->set($db->quoteName('state') . ' = -1')
-				->where($db->quoteName('subject') . ' = ' . $db->quote($subject))
-				->where($db->quoteName('state') . ' = 1');
+				->where($db->quoteName('subject') . ' = :subject')
+				->where($db->quoteName('state') . ' = 1')
+				->bind(':subject', $subject);
 			$db->setQuery($query);
 			$db->execute();
 		}
