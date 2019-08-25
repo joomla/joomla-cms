@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\DatabaseQuery;
+use Joomla\Database\ParameterType;
 
 /**
  * Requests management model class.
@@ -68,7 +69,9 @@ class RequestsModel extends ListModel
 
 		if (is_numeric($status))
 		{
-			$query->where('a.status = ' . (int) $status);
+			$status = (int)$status;
+			$query->where($db->quoteName('a.status') . ' = :status')
+				->bind(':status', $status, ParameterType::INTEGER);
 		}
 
 		// Filter by request type
@@ -76,7 +79,8 @@ class RequestsModel extends ListModel
 
 		if ($requestType)
 		{
-			$query->where('a.request_type = ' . $db->quote($db->escape($requestType, true)));
+			$query->where($db->quoteName('a.request_type') . ' = :requesttype')
+				->bind(':requesttype', $requestType);
 		}
 
 		// Filter by search in email
@@ -86,12 +90,15 @@ class RequestsModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where($db->quoteName('a.id') . ' = ' . (int) substr($search, 3));
+				$ids = (int)substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :id')
+					->bind(':id', $ids, ParameterType::INTEGER);
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
-				$query->where('(' . $db->quoteName('a.email') . ' LIKE ' . $search . ')');
+				$search = '%' . $search . '%';
+				$query->where('(' . $db->quoteName('a.email') . ' LIKE :search)')
+					->bind(':search', $search);
 			}
 		}
 
