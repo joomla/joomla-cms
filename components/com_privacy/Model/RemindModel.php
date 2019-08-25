@@ -11,6 +11,7 @@ namespace Joomla\Component\Privacy\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -44,7 +45,7 @@ class RemindModel extends AdminModel
 		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
 		// Check for an error.
-		if ($form instanceof \Exception)
+		if ($form instanceof Exception)
 		{
 			return $form;
 		}
@@ -54,7 +55,7 @@ class RemindModel extends AdminModel
 		$return = $form->validate($data);
 
 		// Check for an error.
-		if ($return instanceof \Exception)
+		if ($return instanceof Exception)
 		{
 			return $return;
 		}
@@ -76,10 +77,13 @@ class RemindModel extends AdminModel
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('r.id', 'r.user_id', 'r.token')));
+			->select($db->quoteName(['r.id', 'r.user_id', 'r.token']));
 		$query->from($db->quoteName('#__privacy_consents', 'r'));
-		$query->join('LEFT', $db->quoteName('#__users', 'u') . ' ON u.id = r.user_id');
-		$query->where($db->quoteName('u.email') . ' = ' . $db->quote($data['email']));
+		$query->join('LEFT', $db->quoteName('#__users', 'u'),
+			$db->quoteName('u.id') . ' = ' . $db->quoteName('r.user_id')
+		);
+		$query->where($db->quoteName('u.email') . ' = :email')
+			->bind(':email', $data['email']);
 		$query->where($db->quoteName('r.remind') . ' = 1');
 		$db->setQuery($query);
 
@@ -167,8 +171,8 @@ class RemindModel extends AdminModel
 	 *
 	 * @return  Table  A JTable object
 	 *
+	 * @throws  Exception
 	 * @since   3.9.0
-	 * @throws  \Exception
 	 */
 	public function getTable($name = 'Consent', $prefix = 'Administrator', $options = [])
 	{

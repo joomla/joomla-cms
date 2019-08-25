@@ -11,6 +11,7 @@ namespace Joomla\Component\Privacy\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -58,7 +59,7 @@ class RequestModel extends AdminModel
 		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
 		// Check for an error.
-		if ($form instanceof \Exception)
+		if ($form instanceof Exception)
 		{
 			return $form;
 		}
@@ -68,7 +69,7 @@ class RequestModel extends AdminModel
 		$return = $form->validate($data);
 
 		// Check for an error.
-		if ($return instanceof \Exception)
+		if ($return instanceof Exception)
 		{
 			return $return;
 		}
@@ -89,10 +90,12 @@ class RequestModel extends AdminModel
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(id)')
-			->from('#__privacy_requests')
-			->where('email = ' . $db->quote($data['email']))
-			->where('request_type = ' . $db->quote($data['request_type']))
-			->where('status IN (0, 1)');
+			->from($db->quoteName('#__privacy_requests'))
+			->where($db->quoteName('email') . ' = :email')
+			->where($db->quoteName('request_type') . ' = :requesttype')
+			->whereIn($db->quoteName('status'), [0, 1])
+			->bind(':email', $data['email'])
+			->bind(':requesttype', $data['request_type']);
 
 		try
 		{
@@ -247,8 +250,8 @@ class RequestModel extends AdminModel
 	 *
 	 * @return  Table  A JTable object
 	 *
+	 * @throws  Exception
 	 * @since   3.9.0
-	 * @throws  \Exception
 	 */
 	public function getTable($name = 'Request', $prefix = 'Administrator', $options = [])
 	{
