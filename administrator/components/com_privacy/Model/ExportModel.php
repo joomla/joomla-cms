@@ -11,6 +11,7 @@ namespace Joomla\Component\Privacy\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
@@ -82,9 +83,10 @@ class ExportModel extends BaseDatabaseModel
 
 		$userId = (int) $db->setQuery(
 			$db->getQuery(true)
-				->select('id')
+				->select($db->quoteName('id'))
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('email') . ' = ' . $db->quote($table->email)),
+				->where($db->quoteName('email') . ' = :email')
+				->bind(':email' . $table->email),
 			0,
 			1
 		)->loadResult();
@@ -177,9 +179,10 @@ class ExportModel extends BaseDatabaseModel
 
 		$userId = (int) $db->setQuery(
 			$db->getQuery(true)
-				->select('id')
+				->select($db->quoteName('id'))
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('email') . ' = ' . $db->quote($table->email)),
+				->where($db->quoteName('email') . ' = :email')
+				->bind(':email', $table->email),
 			0,
 			1
 		)->loadResult();
@@ -264,8 +267,8 @@ class ExportModel extends BaseDatabaseModel
 	 *
 	 * @return  Table  A Table object
 	 *
+	 * @throws  Exception
 	 * @since   3.9.0
-	 * @throws  \Exception
 	 */
 	public function getTable($name = 'Request', $prefix = 'Administrator', $options = [])
 	{
