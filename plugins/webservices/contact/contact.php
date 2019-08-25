@@ -129,9 +129,9 @@ class PlgWebservicesContact extends CMSPlugin
 		$getDefaults = array_merge(['public' => false], $defaults);
 
 		$routes = [
-			new Route(['GET'], 'v1/banners/contenthistory/:id', 'history.displayList', ['id' => '(\d+)'], $getDefaults),
-			new Route(['PUT'], 'v1/banners/contenthistory/keep/:id', 'history.keep', ['id' => '(\d+)'], $defaults),
-			new Route(['DELETE'], 'v1/banners/contenthistory/:id', 'history.delete', ['id' => '(\d+)'], $defaults),
+			new Route(['GET'], 'v1/contact/contenthistory/:id', 'history.displayList', ['id' => '(\d+)'], $getDefaults),
+			new Route(['PUT'], 'v1/contact/contenthistory/keep/:id', 'history.keep', ['id' => '(\d+)'], $defaults),
+			new Route(['DELETE'], 'v1/contact/contenthistory/:id', 'history.delete', ['id' => '(\d+)'], $defaults),
 		];
 
 		$router->addRoutes($routes);
