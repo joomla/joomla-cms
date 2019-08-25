@@ -69,7 +69,7 @@ class RequestsModel extends ListModel
 
 		if (is_numeric($status))
 		{
-			$status = (int)$status;
+			$status = (int) $status;
 			$query->where($db->quoteName('a.status') . ' = :status')
 				->bind(':status', $status, ParameterType::INTEGER);
 		}
@@ -90,7 +90,7 @@ class RequestsModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$ids = (int)substr($search, 3);
+				$ids = (int) substr($search, 3);
 				$query->where($db->quoteName('a.id') . ' = :id')
 					->bind(':id', $ids, ParameterType::INTEGER);
 			}
