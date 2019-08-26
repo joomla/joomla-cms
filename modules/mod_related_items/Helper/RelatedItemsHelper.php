@@ -130,9 +130,9 @@ abstract class RelatedItemsHelper
 					$wheres[] = $db->quoteName('a.metakey') . ' LIKE ' . $keyword;
 				}
 
-				$query->where('(' . implode(' OR ', $wheres) . ')')
-					->where('(' . $db->quoteName('a.publish_up') . ' = :nullDate1 OR ' . $db->quoteName('a.publish_up') . ' <= :nowDate1)')
-					->where('(' . $db->quoteName('a.publish_down') . ' = :nullDate2 OR ' . $db->quoteName('a.publish_down') . ' >= :nowDate2)')
+				$query->extendWhere('AND', $wheres, 'OR')
+					->extendWhere('AND', [ $db->quoteName('a.publish_up') . ' = :nullDate1', $db->quoteName('a.publish_up') . ' <= :nowDate1'], 'OR')
+					->extendWhere('AND', [ $db->quoteName('a.publish_down') . ' = :nullDate2', $db->quoteName('a.publish_down') . ' >= :nowDate2'], 'OR')
 					->bind([':nullDate1', ':nullDate2'], $nullDate)
 					->bind([':nowDate1', ':nowDate2'], $now);
 
