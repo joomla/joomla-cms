@@ -11,9 +11,11 @@ namespace Joomla\Component\Actionlogs\Administrator\Plugin;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Abstract Action Log Plugin
@@ -25,7 +27,7 @@ abstract class ActionLogPlugin extends CMSPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    JApplicationCms
+	 * @var    CMSApplicationInterface
 	 * @since  3.9.0
 	 */
 	protected $app;
@@ -33,7 +35,7 @@ abstract class ActionLogPlugin extends CMSPlugin
 	/**
 	 * Database object.
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    DatabaseDriver
 	 * @since  3.9.0
 	 */
 	protected $db;
@@ -59,8 +61,10 @@ abstract class ActionLogPlugin extends CMSPlugin
 	 * @return  void
 	 *
 	 * @since   3.9.0
+	 *
+	 * @throws  \Exception
 	 */
-	protected function addLog($messages, $messageLanguageKey, $context, $userId = null)
+	protected function addLog($messages, $messageLanguageKey, $context, $userId = null): void
 	{
 		$user = Factory::getUser();
 

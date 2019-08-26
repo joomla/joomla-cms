@@ -11,13 +11,18 @@ namespace Joomla\Component\Actionlogs\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Generator;
+use InvalidArgumentException;
+use JLoader;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\String\StringHelper;
+use RuntimeException;
+use stdClass;
 
 /**
  * Actionlogs component helper.
@@ -34,17 +39,19 @@ class ActionlogsHelper
 	 * @return  Generator
 	 *
 	 * @since   3.9.0
-	 * @throws  \InvalidArgumentException
+	 *
+	 * @throws  InvalidArgumentException
+	 * @throws  Exception
 	 */
 	public static function getCsvData($data): Generator
 	{
 		if (!is_iterable($data))
 		{
-			throw new \InvalidArgumentException(
+			throw new InvalidArgumentException(
 				sprintf(
 					'%s() requires an array or object implementing the Traversable interface, a %s was given.',
 					__METHOD__,
-					gettype($data) === 'object' ? get_class($data) : gettype($data)
+					is_object($data) ? get_class($data) : gettype($data)
 				)
 			);
 		}
@@ -78,9 +85,9 @@ class ActionlogsHelper
 	 *
 	 * @since   3.9.0
 	 */
-	public static function loadTranslationFiles($extension)
+	public static function loadTranslationFiles($extension): void
 	{
-		static $cache = array();
+		static $cache = [];
 		$extension = strtolower($extension);
 
 		if (isset($cache[$extension]))
@@ -126,38 +133,15 @@ class ActionlogsHelper
 		}
 
 		$lang->load($extension, JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load($extension, $source, null, false, true);
+		|| $lang->load($extension, $source, null, false, true);
 
 		if (!$lang->hasKey(strtoupper($extension)))
 		{
 			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-				|| $lang->load($extension . '.sys', $source, null, false, true);
+			|| $lang->load($extension . '.sys', $source, null, false, true);
 		}
 
 		$cache[$extension] = true;
-	}
-
-	/**
-	 * Get parameters to be
-	 *
-	 * @param   string  $context  The context of the content
-	 *
-	 * @return  mixed  An object contains content type parameters, or null if not found
-	 *
-	 * @since   3.9.0
-	 */
-	public static function getLogContentTypeParams($context)
-	{
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select('a.*')
-			->from($db->quoteName('#__action_log_config', 'a'))
-			->where($db->quoteName('a.type_alias') . ' = :context')
-			->bind(':context', $context);
-
-		$db->setQuery($query);
-
-		return $db->loadObject();
 	}
 
 	/**
@@ -169,10 +153,12 @@ class ActionlogsHelper
 	 * @return  string
 	 *
 	 * @since   3.9.0
+	 *
+	 * @throws  Exception
 	 */
-	public static function getHumanReadableLogMessage($log, $generateLinks = true)
+	public static function getHumanReadableLogMessage($log, $generateLinks = true): string
 	{
-		static $links = array();
+		static $links = [];
 
 		$message     = Text::_($log->message_language_key);
 		$messageData = json_decode($log->message, true);
@@ -218,18 +204,41 @@ class ActionlogsHelper
 	}
 
 	/**
+	 * Get parameters to be
+	 *
+	 * @param   string  $context  The context of the content
+	 *
+	 * @return  mixed  An object contains content type parameters, or null if not found
+	 *
+	 * @since   3.9.0
+	 */
+	public static function getLogContentTypeParams($context)
+	{
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select('a.*')
+			->from($db->quoteName('#__action_log_config', 'a'))
+			->where($db->quoteName('a.type_alias') . ' = :context')
+			->bind(':context', $context);
+
+		$db->setQuery($query);
+
+		return $db->loadObject();
+	}
+
+	/**
 	 * Get link to an item of given content type
 	 *
-	 * @param   string   $component
-	 * @param   string   $contentType
-	 * @param   integer  $id
-	 * @param   string   $urlVar
+	 * @param   string   $component    The component name
+	 * @param   string   $contentType  The content type
+	 * @param   integer  $id           The ID of the content item
+	 * @param   string   $urlVar       The URL variable to add
 	 *
 	 * @return  string  Link to the content item
 	 *
 	 * @since   3.9.0
 	 */
-	public static function getContentTypeLink($component, $contentType, $id, $urlVar = 'id')
+	public static function getContentTypeLink($component, $contentType, $id, $urlVar = 'id'): string
 	{
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
@@ -240,9 +249,9 @@ class ActionlogsHelper
 			$prefix = ucfirst(str_replace('com_', '', $component));
 			$cName  = $prefix . 'Helper';
 
-			\JLoader::register($cName, $file);
+			JLoader::register($cName, $file);
 
-			if (class_exists($cName) && is_callable(array($cName, 'getContentTypeLink')))
+			if (class_exists($cName) && is_callable([$cName, 'getContentTypeLink']))
 			{
 				return $cName::getContentTypeLink($contentType, $id);
 			}
@@ -266,7 +275,7 @@ class ActionlogsHelper
 	 *
 	 * @since   3.9.0
 	 */
-	public static function loadActionLogPluginsLanguage()
+	public static function loadActionLogPluginsLanguage(): void
 	{
 		$lang = Factory::getLanguage();
 		$db   = Factory::getDbo();
@@ -275,18 +284,18 @@ class ActionlogsHelper
 		$query = $db->getQuery(true)
 			->select(
 				$db->quoteName(
-					array(
+					[
 						'folder',
 						'element',
 						'params',
 						'extension_id'
-					),
-					array(
+					],
+					[
 						'type',
 						'name',
 						'params',
 						'id'
-					)
+					]
 				)
 			)
 			->from('#__extensions')
@@ -300,9 +309,9 @@ class ActionlogsHelper
 		{
 			$rows = $db->loadObjectList();
 		}
-		catch (\RuntimeException $e)
+		catch (RuntimeException $e)
 		{
-			$rows = array();
+			$rows = [];
 		}
 
 		if (empty($rows))
@@ -323,11 +332,11 @@ class ActionlogsHelper
 				continue;
 			}
 
-			$lang->load($extension, JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load($extension, JPATH_PLUGINS . '/' . $type . '/' . $name, null, false, true);
+			$lang->load($extension, JPATH_ADMINISTRATOR)
+			|| $lang->load($extension, JPATH_PLUGINS . '/' . $type . '/' . $name);
 		}
 
 		// Load com_privacy too.
-		$lang->load('com_privacy', JPATH_ADMINISTRATOR, null, false, true);
+		$lang->load('com_privacy', JPATH_ADMINISTRATOR);
 	}
 }

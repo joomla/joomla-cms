@@ -22,6 +22,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\DatabaseIterator;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
 use RuntimeException;
 
@@ -41,11 +42,11 @@ class ActionlogsModel extends ListModel
 	 *
 	 * @throws  Exception
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		if (empty($config['filter_fields']))
 		{
-			$config['filter_fields'] = array(
+			$config['filter_fields'] = [
 				'a.id', 'id',
 				'a.extension', 'extension',
 				'a.user_id', 'user',
@@ -53,7 +54,7 @@ class ActionlogsModel extends ListModel
 				'a.log_date', 'log_date',
 				'a.ip_address', 'ip_address',
 				'dateRange',
-			);
+			];
 		}
 
 		parent::__construct($config);
@@ -71,8 +72,18 @@ class ActionlogsModel extends ListModel
 	 *
 	 * @throws  Exception
 	 */
-	protected function populateState($ordering = 'a.id', $direction = 'desc')
+	protected function populateState($ordering = null, $direction = null): void
 	{
+		if ($ordering === null)
+		{
+			$ordering = 'a.id';
+		}
+
+		if ($direction === null)
+		{
+			$direction = 'desc';
+		}
+
 		$app = Factory::getApplication();
 
 		$search = $app->getUserStateFromRequest($this->context . 'filter.search', 'filter_search', '', 'string');
@@ -102,7 +113,7 @@ class ActionlogsModel extends ListModel
 	 *
 	 * @throws  Exception
 	 */
-	protected function getListQuery()
+	protected function getListQuery(): QueryInterface
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
@@ -137,7 +148,7 @@ class ActionlogsModel extends ListModel
 		// Apply filter by extension
 		if (!empty($extension))
 		{
-			$extension = $extension . '%';
+			$extension .= '%';
 			$query->where($db->quoteName('a.extension') . ' LIKE :extension')
 				->bind(':extension', $extension);
 		}
@@ -151,7 +162,7 @@ class ActionlogsModel extends ListModel
 			$date = $this->buildDateRange($dateRange);
 
 			// If the chosen range is not more than a year ago
-			if ($date['dNow'] != false)
+			if ($date['dNow'] !== false)
 			{
 				$dStart = $date['dStart']->format('Y-m-d H:i:s');
 				$dNow   = $date['dNow']->format('Y-m-d H:i:s');
@@ -202,7 +213,7 @@ class ActionlogsModel extends ListModel
 	 *
 	 * @throws  Exception
 	 */
-	private function buildDateRange($range)
+	private function buildDateRange($range): array
 	{
 		// Get UTC for now.
 		$dNow   = new Date;
@@ -244,7 +255,7 @@ class ActionlogsModel extends ListModel
 				break;
 		}
 
-		return array('dNow' => $dNow, 'dStart' => $dStart);
+		return ['dNow' => $dNow, 'dStart' => $dStart];
 	}
 
 	/**
@@ -253,13 +264,12 @@ class ActionlogsModel extends ListModel
 	 * @param   string   $extension  The extension the item belongs to
 	 * @param   integer  $itemId     The item ID
 	 *
-	 * @return  array
+	 * @return  array List of log entries for an item
 	 *
 	 * @since   3.9.0
 	 */
-	public function getLogsForItem($extension, $itemId)
+	public function getLogsForItem(string $extension, int $itemId): array
 	{
-		$itemId = (int) $itemId;
 		$db     = $this->getDbo();
 		$query  = $db->getQuery(true)
 			->select('a.*')
@@ -294,7 +304,7 @@ class ActionlogsModel extends ListModel
 	 *
 	 * @since   3.9.0
 	 */
-	public function getLogsData($pks = null)
+	public function getLogsData($pks = null): array
 	{
 		$db    = $this->getDbo();
 		$query = $this->getLogDataQuery($pks);
@@ -313,7 +323,7 @@ class ActionlogsModel extends ListModel
 	 *
 	 * @since   3.9.0
 	 */
-	public function getLogDataAsIterator($pks = null)
+	public function getLogDataAsIterator($pks = null): DatabaseIterator
 	{
 		$db    = $this->getDbo();
 		$query = $this->getLogDataQuery($pks);
@@ -332,14 +342,14 @@ class ActionlogsModel extends ListModel
 	 *
 	 * @since   3.9.0
 	 */
-	private function getLogDataQuery($pks = null)
+	private function getLogDataQuery($pks = null): QueryInterface
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('a.*')
 			->select($db->quoteName('u.name'))
 			->from($db->quoteName('#__action_logs', 'a'))
-			->join('INNER', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'));
+			->innerJoin($db->quoteName('#__users', 'u'), $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'));
 
 		if (is_array($pks) && count($pks) > 0)
 		{
@@ -358,8 +368,10 @@ class ActionlogsModel extends ListModel
 	 * @return  boolean
 	 *
 	 * @since   3.9.0
+	 *
+	 * @throws  Exception
 	 */
-	public function delete(&$pks)
+	public function delete(array &$pks): bool
 	{
 		$keys  = ArrayHelper::toInteger($pks);
 		$db    = $this->getDbo();
@@ -372,14 +384,14 @@ class ActionlogsModel extends ListModel
 		{
 			$db->execute();
 		}
-		catch (RuntimeException $e)
+		catch (RuntimeException $exception)
 		{
-			$this->setError($e->getMessage());
+			$this->setError($exception->getMessage());
 
 			return false;
 		}
 
-		Factory::getApplication()->triggerEvent('onAfterLogPurge', array());
+		Factory::getApplication()->triggerEvent('onAfterLogPurge', []);
 
 		return true;
 	}
@@ -390,19 +402,21 @@ class ActionlogsModel extends ListModel
 	 * @return  boolean result of operation
 	 *
 	 * @since   3.9.0
+	 *
+	 * @throws  Exception
 	 */
-	public function purge()
+	public function purge(): bool
 	{
 		try
 		{
 			$this->getDbo()->truncateTable('#__action_logs');
 		}
-		catch (Exception $e)
+		catch (Exception $exception)
 		{
 			return false;
 		}
 
-		Factory::getApplication()->triggerEvent('onAfterLogPurge', array());
+		Factory::getApplication()->triggerEvent('onAfterLogPurge', []);
 
 		return true;
 	}
@@ -417,7 +431,7 @@ class ActionlogsModel extends ListModel
 	 *
 	 * @since   3.9.0
 	 */
-	public function getFilterForm($data = array(), $loadData = true)
+	public function getFilterForm($data = [], $loadData = true)
 	{
 		$form      = parent::getFilterForm($data, $loadData);
 		$params    = ComponentHelper::getParams('com_actionlogs');
@@ -428,8 +442,8 @@ class ActionlogsModel extends ListModel
 		{
 			/* @var \Joomla\CMS\Form\Field\ListField $field */
 			$field = $form->getField('fullordering', 'list');
-			$field->addOption(Text::_('COM_ACTIONLOGS_IP_ADDRESS_ASC'), array('value' => 'a.ip_address ASC'));
-			$field->addOption(Text::_('COM_ACTIONLOGS_IP_ADDRESS_DESC'), array('value' => 'a.ip_address DESC'));
+			$field->addOption(Text::_('COM_ACTIONLOGS_IP_ADDRESS_ASC'), ['value' => 'a.ip_address ASC']);
+			$field->addOption(Text::_('COM_ACTIONLOGS_IP_ADDRESS_DESC'), ['value' => 'a.ip_address DESC']);
 		}
 
 		return $form;

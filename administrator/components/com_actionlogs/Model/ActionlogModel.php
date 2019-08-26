@@ -43,12 +43,13 @@ class ActionlogModel extends BaseDatabaseModel
 	 *
 	 * @throws  Exception
 	 */
-	public function addLog($messages, $messageLanguageKey, $context, $userId = null)
+	public function addLog($messages, $messageLanguageKey, $context, $userId = null): void
 	{
 		$user   = Factory::getUser($userId);
 		$db     = $this->getDbo();
 		$date   = Factory::getDate();
 		$params = ComponentHelper::getComponent('com_actionlogs')->getParams();
+		$ip     = 'COM_ACTIONLOGS_DISABLED';
 
 		if ($params->get('ip_logging', 0))
 		{
@@ -59,12 +60,8 @@ class ActionlogModel extends BaseDatabaseModel
 				$ip = 'COM_ACTIONLOGS_IP_INVALID';
 			}
 		}
-		else
-		{
-			$ip = 'COM_ACTIONLOGS_DISABLED';
-		}
 
-		$loggedMessages = array();
+		$loggedMessages = [];
 
 		foreach ($messages as $message)
 		{
@@ -105,7 +102,7 @@ class ActionlogModel extends BaseDatabaseModel
 	 *
 	 * @throws  Exception
 	 */
-	protected function sendNotificationEmails($messages, $username, $context)
+	protected function sendNotificationEmails($messages, $username, $context): void
 	{
 		$db           = $this->getDbo();
 		$query        = $db->getQuery(true);
@@ -113,7 +110,7 @@ class ActionlogModel extends BaseDatabaseModel
 		$showIpColumn = (bool) $params->get('ip_logging', 0);
 
 		$query
-			->select($db->quoteName(array('u.email', 'l.extensions')))
+			->select($db->quoteName(['u.email', 'l.extensions']))
 			->from($db->quoteName('#__users', 'u'))
 			->join(
 				'INNER',
@@ -125,13 +122,13 @@ class ActionlogModel extends BaseDatabaseModel
 
 		$users = $db->loadObjectList();
 
-		$recipients = array();
+		$recipients = [];
 
 		foreach ($users as $user)
 		{
 			$extensions = json_decode($user->extensions, true);
 
-			if ($extensions && in_array(strtok($context, '.'), $extensions))
+			if ($extensions && in_array(strtok($context, '.'), $extensions, true))
 			{
 				$recipients[] = $user->email;
 			}
@@ -152,17 +149,17 @@ class ActionlogModel extends BaseDatabaseModel
 			$message->message   = ActionlogsHelper::getHumanReadableLogMessage($message);
 		}
 
-		$displayData = array(
+		$displayData = [
 			'messages'     => $messages,
 			'username'     => $username,
 			'showIpColumn' => $showIpColumn,
-		);
+		];
 
 		$body   = $layout->render($displayData);
 		$mailer = Factory::getMailer();
 		$mailer->addRecipient($recipients);
 		$mailer->setSubject(Text::_('COM_ACTIONLOGS_EMAIL_SUBJECT'));
-		$mailer->isHTML(true);
+		$mailer->isHTML();
 		$mailer->Encoding = 'base64';
 		$mailer->setBody($body);
 

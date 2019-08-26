@@ -17,6 +17,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -31,30 +32,6 @@ use Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * An array of items.
-	 *
-	 * @var    array
-	 * @since  3.9.0
-	 */
-	protected $items;
-
-	/**
-	 * The model state
-	 *
-	 * @var    array
-	 * @since  3.9.0
-	 */
-	protected $state;
-
-	/**
-	 * The pagination object
-	 *
-	 * @var    Pagination
-	 * @since  3.9.0
-	 */
-	protected $pagination;
-
-	/**
 	 * Form object for search filters
 	 *
 	 * @var    Form
@@ -68,7 +45,31 @@ class HtmlView extends BaseHtmlView
 	 * @var    array
 	 * @since  3.9.0
 	 */
-	public $activeFilters;
+	public $activeFilters = [];
+
+	/**
+	 * An array of items.
+	 *
+	 * @var    array
+	 * @since  3.9.0
+	 */
+	protected $items = [];
+
+	/**
+	 * The model state
+	 *
+	 * @var    CMSObject
+	 * @since  3.9.0
+	 */
+	protected $state;
+
+	/**
+	 * The pagination object
+	 *
+	 * @var    Pagination
+	 * @since  3.9.0
+	 */
+	protected $pagination;
 
 	/**
 	 * Setting if the IP column should be shown
@@ -101,7 +102,7 @@ class HtmlView extends BaseHtmlView
 		$params              = ComponentHelper::getParams('com_actionlogs');
 		$this->showIpColumn  = (bool) $params->get('ip_logging', 0);
 
-		if (count($errors = $this->get('Errors')))
+		if (count($errors = $model->getErrors()))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -121,7 +122,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @since   3.9.0
 	 */
-	protected function addToolbar()
+	protected function addToolbar(): void
 	{
 		ToolbarHelper::title(Text::_('COM_ACTIONLOGS_MANAGER_USERLOGS'), 'list-2');
 
