@@ -119,11 +119,19 @@ class ContentHelper
 
 		if ($usesWorkflows)
 		{
-			$query->from($db->quoteName('#__workflow_stages', 's'))
-				->from($db->quoteName('#__workflow_associations', 'a'))
-				->where($db->quoteName('s.id') . ' = ' . $db->quoteName('a.stage_id'))
-				->where($db->quoteName('a.extension') . ' = :component')
-				->where($db->quoteName('a.item_id') . ' = ' . $db->quoteName('c.id'))
+			$query->from(
+				[
+					$db->quoteName('#__workflow_stages', 's'),
+					$db->quoteName('#__workflow_associations', 'a'),
+				]
+			)
+				->where(
+					[
+						$db->quoteName('s.id') . ' = ' . $db->quoteName('a.stage_id'),
+						$db->quoteName('a.extension') . ' = :component',
+						$db->quoteName('a.item_id') . ' = ' . $db->quoteName('c.id'),
+					]
+				)
 				->bind(':component', $config->workflows_component);
 		}
 
@@ -132,9 +140,13 @@ class ContentHelper
 		 * NOTE: 'state IN', allows counting specific states / conditions only, also prevents warnings with custom states / conditions, do not remove
 		 */
 		$query
-			->select($db->quoteName($recid_col, 'catid'))
-			->select($db->quoteName($state_col, 'state'))
-			->select('COUNT(*) AS ' . $db->quoteName('count'))
+			->select(
+				[
+					$db->quoteName($recid_col, 'catid'),
+					$db->quoteName($state_col, 'state'),
+					'COUNT(*) AS ' . $db->quoteName('count'),
+				]
+			)
 			->whereIn($db->quoteName($recid_col), array_keys($records))
 			->whereIn($db->quoteName($state_col), array_keys($counter_names))
 			->group($db->quoteName([$recid_col, $state_col]));
