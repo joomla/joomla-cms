@@ -96,8 +96,12 @@ class ContentHistoryHelper extends CMSHelper
 			->select($db->quoteName(['h.version_note', 'h.save_date', 'u.name']))
 			->from($db->quoteName('#__ucm_history', 'h'))
 			->join('LEFT', $db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('h.editor_user_id'))
-			->where($db->quoteName('h.ucm_item_id') . ' = :id')
-			->where($db->quoteName('h.ucm_type_id') . ' = :typeId')
+			->where(
+				[
+					$db->quoteName('h.ucm_item_id') . ' = :id',
+					$db->quoteName('h.ucm_type_id') . ' = :typeId',
+				]
+			)
 			->bind(':id', $id, ParameterType::INTEGER)
 			->bind(':typeId', $typeId, ParameterType::INTEGER)
 			->order($db->quoteName('h.save_date') . ' DESC');
