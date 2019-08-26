@@ -73,7 +73,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								|| $item->checked_out === 0;
 							$canEdit    = $user->authorise('core.edit', 'com_installer');
 							?>
-							<tr class="row<?php echo $i % 2; if ($item->enabled == 2) echo ' protected'; ?>">
+							<tr class="row<?php echo $i % 2; if ((int) $item->enabled === 2) echo ' protected'; ?>">
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->update_site_id); ?>
 								</td>
@@ -136,7 +136,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</tbody>
 					</table>
 
-					<?php // load the pagination. ?>
+					<?php // Load the pagination. ?>
 					<?php echo $this->pagination->getListFooter(); ?>
 
 					<?php endif; ?>

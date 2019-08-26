@@ -22,9 +22,7 @@ use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as Installe
 /**
  * Extension Manager Update Sites View
  *
- * @since       3.4
- * @subpackage  com_installer
- * @package     Joomla.Administrator
+ * @since  3.4
  */
 class HtmlView extends InstallerViewDefault
 {
