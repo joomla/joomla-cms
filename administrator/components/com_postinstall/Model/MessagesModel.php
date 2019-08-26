@@ -156,7 +156,8 @@ class MessagesModel extends BaseDatabaseModel
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('extension_id') . ' = ' . (int) $eid);
 
-		$db->setQuery($query, 0, 1);
+		$query->setLimit(1);
+		$db->setQuery($query);
 
 		$extension = $db->loadObject();
 
