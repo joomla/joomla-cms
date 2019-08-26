@@ -152,11 +152,11 @@ class PlgContentPagenavigation extends CMSPlugin
 
 			$case_when = ' CASE WHEN ' . $query->charLength($db->quoteName('a.alias'), '!=', '0')
 				. ' THEN ' . $query->concatenate([$query->castAsChar($db->quoteName('a.id')), $db->quoteName('a.alias')], ':')
-				. ' ELSE ' . $db->quoteName('a.id') . ' END AS ' . $db->quoteName('slug');
+				. ' ELSE ' . $query->castAsChar('a.id') . ' END AS ' . $db->quoteName('slug');
 
 			$case_when1 = ' CASE WHEN ' . $query->charLength($db->quoteName('cc.alias'), '!=', '0')
 				. ' THEN ' . $query->concatenate([$query->castAsChar($db->quoteName('cc.id')), $db->quoteName('cc.alias')], ':')
-				. ' ELSE ' . $db->quoteName('cc.id') . ' END AS ' . $db->quoteName('catslug');
+				. ' ELSE ' . $db->castAsChar('cc.id') . ' END AS ' . $db->quoteName('catslug');
 
 			$query->select($db->quoteName(['a.id', 'a.title', 'a.catid', 'a.language']))
 				->select([$case_when, $case_when1])
