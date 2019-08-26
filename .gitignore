@@ -74,7 +74,6 @@ Desktop.ini
 /libraries/vendor/brumann/polyfill-unserialize/.gitignore
 /libraries/vendor/brumann/polyfill-unserialize/.travis.yml
 /libraries/vendor/brumann/polyfill-unserialize/composer.json
-/libraries/vendor/brumann/polyfill-unserialize/composer.lock
 /libraries/vendor/brumann/polyfill-unserialize/LICENSE
 /libraries/vendor/brumann/polyfill-unserialize/phpunit.xml.dist
 /libraries/vendor/brumann/polyfill-unserialize/README.md
