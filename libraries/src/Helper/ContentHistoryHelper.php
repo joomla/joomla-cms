@@ -59,10 +59,16 @@ class ContentHistoryHelper extends CMSHelper
 		$typeTable = Table::getInstance('Contenttype', 'JTable');
 		$typeId = $typeTable->getTypeId($this->typeAlias);
 		$db = Factory::getDbo();
-		$query = $db->getQuery(true);
-		$query->delete($db->quoteName('#__ucm_history'))
-			->where($db->quoteName('ucm_item_id') . ' = ' . (int) $id)
-			->where($db->quoteName('ucm_type_id') . ' = ' . (int) $typeId);
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__ucm_history'))
+			->where(
+				[
+					$db->quoteName('ucm_item_id') . ' = :id',
+					$db->quoteName('ucm_type_id') . ' = :typeId',
+				]
+			)
+			->bind(':id', $id, ParameterType::INTEGER)
+			->bind(':typeId', $typeId, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		return $db->execute();
@@ -80,14 +86,20 @@ class ContentHistoryHelper extends CMSHelper
 	 */
 	public function getHistory($typeId, $id)
 	{
+		// Cast as integer until method is typehinted.
+		$typeId = (int) $typeId;
+		$id     = (int) $id;
+
 		$db = Factory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('h.version_note') . ',' . $db->quoteName('h.save_date') . ',' . $db->quoteName('u.name'))
-			->from($db->quoteName('#__ucm_history') . ' AS h ')
-			->leftJoin($db->quoteName('#__users') . ' AS u ON ' . $db->quoteName('u.id') . ' = ' . $db->quoteName('h.editor_user_id'))
-			->where($db->quoteName('ucm_item_id') . ' = ' . $db->quote($id))
-			->where($db->quoteName('ucm_type_id') . ' = ' . (int) $typeId)
-			->order($db->quoteName('save_date') . ' DESC ');
+		$query = $db->getQuery(true)
+			->select($db->quoteName(['h.version_note', 'h.save_date', 'u.name']))
+			->from($db->quoteName('#__ucm_history', 'h'))
+			->join('LEFT', $db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('h.editor_user_id'))
+			->where($db->quoteName('h.ucm_item_id') . ' = :id')
+			->where($db->quoteName('h.ucm_type_id') . ' = :typeId')
+			->bind(':id', $id, ParameterType::INTEGER)
+			->bind(':typeId', $typeId, ParameterType::INTEGER)
+			->order($db->quoteName('h.save_date') . ' DESC');
 		$db->setQuery($query);
 
 		return $db->loadObjectList();
