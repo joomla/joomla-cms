@@ -912,7 +912,9 @@ class PlgSampledataMultilang extends CMSPlugin
 
 			foreach ($associations as $language => $id)
 			{
-				$query->values(implode(',', $query->bindArray(
+				$query->values(
+					implode(',',
+						$query->bindArray(
 							[
 								$id,
 								$context,
