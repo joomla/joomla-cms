@@ -913,18 +913,19 @@ class PlgSampledataMultilang extends CMSPlugin
 			foreach ($associations as $language => $id)
 			{
 				$query->values(implode(',', $query->bindArray(
-					[
-						$id,
-						$context,
-						$key,
-					],
-					[
-						ParameterType::INTEGER,
-						ParameterType::STRING,
-						ParameterType::STRING,
-					]
-				)
-				));
+							[
+								$id,
+								$context,
+								$key,
+							],
+							[
+								ParameterType::INTEGER,
+								ParameterType::STRING,
+								ParameterType::STRING,
+							]
+						)
+					)
+				);
 			}
 
 			$db->setQuery($query);
