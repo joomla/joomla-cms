@@ -10,6 +10,7 @@ namespace Joomla\CMS;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Helper\LibraryHelper;
 
 /**
@@ -60,7 +61,7 @@ final class Version
 	 * @var    string
 	 * @since  3.8.0
 	 */
-	const EXTRA_VERSION = 'alpha11-dev';
+	const EXTRA_VERSION = 'alpha12-dev';
 
 	/**
 	 * Development status.
@@ -84,7 +85,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '29-June-2019';
+	const RELDATE = '19-August-2019';
 
 	/**
 	 * Release time.
@@ -92,7 +93,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '11:27';
+	const RELTIME = '13:40';
 
 	/**
 	 * Release timezone.
@@ -227,7 +228,7 @@ final class Version
 	 */
 	public function generateMediaVersion(): string
 	{
-		return md5($this->getLongVersion() . Factory::getApplication()->get('secret') . (new \JDate)->toSql());
+		return md5($this->getLongVersion() . Factory::getApplication()->get('secret') . (new Date)->toSql());
 	}
 
 	/**

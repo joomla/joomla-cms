@@ -14,4 +14,6 @@ defined('_JEXEC') or die;
 
 $this->name = Text::_('COM_CONFIG_DEBUG_SETTINGS');
 $this->fieldsname = 'debug';
+$this->formclass = 'options-grid-form options-grid-form-half';
+
 echo LayoutHelper::render('joomla.content.options_default', $this);

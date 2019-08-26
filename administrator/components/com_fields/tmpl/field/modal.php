@@ -56,11 +56,11 @@ Factory::getDocument()->addScriptDeclaration("
 
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_FIELDS', true)); ?>
 			<div class="row">
-				<div class="col-md-9">
+				<div class="col-lg-9">
 					<?php echo $this->form->getLabel('description'); ?>
 					<?php echo $this->form->getInput('description'); ?>
 				</div>
-				<div class="col-md-3">
+				<div class="col-lg-3">
 					<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 				</div>
 			</div>

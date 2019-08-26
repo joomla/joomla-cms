@@ -60,6 +60,7 @@ class Zh extends Language
 			for ($j = 0; $j < $charCount; $j++)
 			{
 				$tSplit = StringHelper::str_ireplace($charMatches[0][$j], '', $terms[$i], false);
+
 				if (!empty($tSplit))
 				{
 					$terms[$i] = $tSplit;
@@ -68,6 +69,7 @@ class Zh extends Language
 				{
 					unset($terms[$i]);
 				}
+
 				$terms[] = $charMatches[0][$j];
 			}
 		}

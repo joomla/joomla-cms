@@ -53,7 +53,9 @@ class UsersLatestHelper
 				->whereIn($db->quoteName('ug.id'), $groups)
 				->where($db->quoteName('ug.id') . ' <> 1');
 		}
-		$db->setQuery($query, 0, $params->get('shownumber', 5));
+
+		$query->setLimit((int) $params->get('shownumber', 5));
+		$db->setQuery($query);
 
 		try
 		{
