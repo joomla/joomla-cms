@@ -143,7 +143,6 @@ abstract class RelatedItemsHelper
 				}
 
 				$query->setLimit($maximum);
-
 				$db->setQuery($query);
 
 				try
