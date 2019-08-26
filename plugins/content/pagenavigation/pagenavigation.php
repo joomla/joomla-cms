@@ -90,14 +90,14 @@ class PlgContentPagenavigation extends CMSPlugin
 			{
 				// Use created if modified is not set
 				case 'modified' :
-					$queryDate = ' CASE WHEN ' . $db->quoteName('a.modified') . ' = :modifiedDate THEN ' .
+					$queryDate = 'CASE WHEN ' . $db->quoteName('a.modified') . ' = :modifiedDate THEN ' .
 						$db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.modified') . ' END';
 					$query->bind(':modifiedDate', $nullDate);
 					break;
 
 				// Use created if publish_up is not set
 				case 'published' :
-					$queryDate = ' CASE WHEN ' . $db->quoteName('a.publish_up') . ' = :publishup THEN ' .
+					$queryDate = 'CASE WHEN ' . $db->quoteName('a.publish_up') . ' = :publishup THEN ' .
 						$db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.publish_up') . ' END';
 					$query->bind(':publishup', $nullDate);
 					break;
