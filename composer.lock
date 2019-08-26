@@ -4182,9 +4182,9 @@
             "authors": [
                 {
                     "name": "Franck Nijhof",
+                    "role": "Developer / IT Manager",
                     "email": "franck.nijhof@dealerdirect.com",
-                    "homepage": "http://www.frenck.nl",
-                    "role": "Developer / IT Manager"
+                    "homepage": "http://www.frenck.nl"
                 }
             ],
             "description": "PHP_CodeSniffer Standards Composer Installer Plugin",
@@ -5438,12 +5438,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "c3098ca8c942a85a27ec044679a4bf4b19adf839"
+                "reference": "37538d099e74134b7daa6c6c9ea1571f4837407c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/c3098ca8c942a85a27ec044679a4bf4b19adf839",
-                "reference": "c3098ca8c942a85a27ec044679a4bf4b19adf839",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/37538d099e74134b7daa6c6c9ea1571f4837407c",
+                "reference": "37538d099e74134b7daa6c6c9ea1571f4837407c",
                 "shasum": ""
             },
             "require": {
@@ -5481,7 +5481,7 @@
                 "acceptance testing",
                 "joomla"
             ],
-            "time": "2019-08-04T11:01:36+00:00"
+            "time": "2019-08-25T06:37:27+00:00"
         },
         {
             "name": "joomla-projects/robo-joomla",
