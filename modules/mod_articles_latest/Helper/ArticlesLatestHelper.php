@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_latest
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,13 +11,13 @@ namespace Joomla\Module\ArticlesLatest\Site\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Access\Access;
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Model\ArticlesModel;
-
-\JLoader::register('\ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Helper for mod_articles_latest
@@ -29,30 +29,29 @@ abstract class ArticlesLatestHelper
 	/**
 	 * Retrieve a list of article
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  module parameters
+	 * @param   Registry       $params  The module parameters.
+	 * @param   ArticlesModel  $model   The model.
 	 *
 	 * @return  mixed
 	 *
 	 * @since   1.6
 	 */
-	public static function getList(&$params)
+	public static function getList(Registry $params, ArticlesModel $model)
 	{
 		// Get the Dbo and User object
 		$db   = Factory::getDbo();
 		$user = Factory::getUser();
-
-		// Get an instance of the generic articles model
-		$model = new ArticlesModel(array('ignore_request' => true));
 
 		// Set application parameters in model
 		$app       = Factory::getApplication();
 		$appParams = $app->getParams();
 		$model->setState('params', $appParams);
 
-		// Set the filters based on the module params
 		$model->setState('list.start', 0);
-		$model->setState('list.limit', (int) $params->get('count', 5));
 		$model->setState('filter.published', 1);
+
+		// Set the filters based on the module params
+		$model->setState('list.limit', (int) $params->get('count', 5));
 
 		// This module does not use tags data
 		$model->setState('load_tags', false);
@@ -78,6 +77,10 @@ abstract class ArticlesLatestHelper
 				$model->setState('filter.author_id.include', false);
 				break;
 
+			case 'created_by' :
+				$model->setState('filter.author_id', $params->get('author', array()));
+				break;
+
 			case '0' :
 				break;
 
@@ -89,27 +92,29 @@ abstract class ArticlesLatestHelper
 		// Filter by language
 		$model->setState('filter.language', $app->getLanguageFilter());
 
-		//  Featured switch
-		switch ($params->get('show_featured'))
+		// Featured switch
+		$featured = $params->get('show_featured', '');
+
+		if ($featured === '')
 		{
-			case '1' :
-				$model->setState('filter.featured', 'only');
-				break;
-			case '0' :
-				$model->setState('filter.featured', 'hide');
-				break;
-			default :
-				$model->setState('filter.featured', 'show');
-				break;
+			$model->setState('filter.featured', 'show');
+		}
+		elseif ($featured)
+		{
+			$model->setState('filter.featured', 'only');
+		}
+		else
+		{
+			$model->setState('filter.featured', 'hide');
 		}
 
 		// Set ordering
 		$order_map = array(
-			'm_dsc' => 'a.modified DESC, a.created',
+			'm_dsc'  => 'a.modified DESC, a.created',
 			'mc_dsc' => 'CASE WHEN (a.modified = ' . $db->quote($db->getNullDate()) . ') THEN a.created ELSE a.modified END',
-			'c_dsc' => 'a.created',
-			'p_dsc' => 'a.publish_up',
-			'random' => $db->getQuery(true)->Rand(),
+			'c_dsc'  => 'a.created',
+			'p_dsc'  => 'a.publish_up',
+			'random' => $db->getQuery(true)->rand(),
 		);
 
 		$ordering = ArrayHelper::getValue($order_map, $params->get('ordering'), 'a.publish_up');
@@ -127,11 +132,11 @@ abstract class ArticlesLatestHelper
 			if ($access || in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
-				$item->link = \JRoute::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+				$item->link = Route::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 			}
 			else
 			{
-				$item->link = \JRoute::_('index.php?option=com_users&view=login');
+				$item->link = Route::_('index.php?option=com_users&view=login');
 			}
 		}
 

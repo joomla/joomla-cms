@@ -3,17 +3,23 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Contact\Site\View\Contact;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
 use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
 
 /**
@@ -59,19 +65,10 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Should we show a captcha form for the submission of the contact request?
 	 *
-	 * @var   bool
+	 * @var   boolean
 	 * @since 3.6.3
 	 */
 	protected $captchaEnabled = false;
-
-	/**
-	 * The item object details (a duplicate of $item)
-	 *
-	 * @var         \JObject
-	 * @since       4.0.0
-	 * @deprecated  4.0
-	 */
-	protected $contact;
 
 	/**
 	 * The page parameters
@@ -114,17 +111,24 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app        = \JFactory::getApplication();
-		$user       = \JFactory::getUser();
+		$app        = Factory::getApplication();
+		$user       = Factory::getUser();
 		$state      = $this->get('State');
 		$item       = $this->get('Item');
 		$this->form = $this->get('Form');
- 		$params     = $state->get('params');
+		$params     = $state->get('params');
 
 		$temp = clone $params;
 
 		$active = $app->getMenu()->getActive();
-		$app->setUserState('com_contact.contact.data', array('catid' => $item->catid));
+
+		// Get submitted values
+		$data = $app->getUserState('com_contact.contact.data', array());
+
+		// Add catid for selecting custom fields
+		$data['catid'] = $item->catid;
+
+		$app->setUserState('com_contact.contact.data', $data);
 
 		if ($active)
 		{
@@ -166,7 +170,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Check if access is not public
@@ -174,7 +178,7 @@ class HtmlView extends BaseHtmlView
 
 		if ((!in_array($item->access, $groups)) || (!in_array($item->category_access, $groups)))
 		{
-			$app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$app->setHeader('status', 403, true);
 
 			return false;
@@ -193,13 +197,13 @@ class HtmlView extends BaseHtmlView
 
 		if ($item->email_to && $item->params->get('show_email'))
 		{
-			$item->email_to = \JHtml::_('email.cloak', $item->email_to, (bool) $item->params->get('add_mailto_link', true));
+			$item->email_to = HTMLHelper::_('email.cloak', $item->email_to, (bool) $item->params->get('add_mailto_link', true));
 		}
 
 		if ($item->params->get('show_street_address') || $item->params->get('show_suburb') || $item->params->get('show_state')
 			|| $item->params->get('show_postcode') || $item->params->get('show_country'))
 		{
-			if (!empty ($item->address) || !empty ($item->suburb) || !empty ($item->state) || !empty ($item->country) || !empty ($item->postcode))
+			if (!empty($item->address) || !empty($item->suburb) || !empty($item->state) || !empty($item->country) || !empty($item->postcode))
 			{
 				$item->params->set('address_check', 1);
 			}
@@ -214,12 +218,12 @@ class HtmlView extends BaseHtmlView
 		{
 			case 1 :
 				// Text
-				$item->params->set('marker_address',   \JText::_('COM_CONTACT_ADDRESS') . ': ');
-				$item->params->set('marker_email',     \JText::_('JGLOBAL_EMAIL') . ': ');
-				$item->params->set('marker_telephone', \JText::_('COM_CONTACT_TELEPHONE') . ': ');
-				$item->params->set('marker_fax',       \JText::_('COM_CONTACT_FAX') . ': ');
-				$item->params->set('marker_mobile',    \JText::_('COM_CONTACT_MOBILE') . ': ');
-				$item->params->set('marker_misc',      \JText::_('COM_CONTACT_OTHER_INFORMATION') . ': ');
+				$item->params->set('marker_address',   Text::_('COM_CONTACT_ADDRESS') . ': ');
+				$item->params->set('marker_email',     Text::_('JGLOBAL_EMAIL') . ': ');
+				$item->params->set('marker_telephone', Text::_('COM_CONTACT_TELEPHONE') . ': ');
+				$item->params->set('marker_fax',       Text::_('COM_CONTACT_FAX') . ': ');
+				$item->params->set('marker_mobile',    Text::_('COM_CONTACT_MOBILE') . ': ');
+				$item->params->set('marker_misc',      Text::_('COM_CONTACT_OTHER_INFORMATION') . ': ');
 				$item->params->set('marker_class',     'jicons-text');
 				break;
 
@@ -237,13 +241,19 @@ class HtmlView extends BaseHtmlView
 			default :
 				if ($item->params->get('icon_address'))
 				{
-					$image1 = \JHtml::_('image', $item->params->get('icon_address', 'con_address.png'), \JText::_('COM_CONTACT_ADDRESS') . ': ', null, false);
+					$image1 = HTMLHelper::_(
+						'image',
+						$item->params->get('icon_address', 'con_address.png'),
+						Text::_('COM_CONTACT_ADDRESS'),
+						null,
+						false
+					);
 				}
 				else
 				{
-					$image1 = \JHtml::_(
+					$image1 = HTMLHelper::_(
 						'image', 'contacts/' . $item->params->get('icon_address', 'con_address.png'),
-						\JText::_('COM_CONTACT_ADDRESS') . ': ',
+						Text::_('COM_CONTACT_ADDRESS'),
 						null,
 						true
 					);
@@ -251,23 +261,41 @@ class HtmlView extends BaseHtmlView
 
 				if ($item->params->get('icon_email'))
 				{
-					$image2 = \JHtml::_('image', $item->params->get('icon_email', 'emailButton.png'), \JText::_('JGLOBAL_EMAIL') . ': ', null, false);
+					$image2 = HTMLHelper::_(
+						'image',
+						$item->params->get('icon_email', 'emailButton.png'),
+						Text::_('JGLOBAL_EMAIL'),
+						null,
+						false
+					);
 				}
 				else
 				{
-					$image2 = \JHtml::_('image', 'contacts/' . $item->params->get('icon_email', 'emailButton.png'), \JText::_('JGLOBAL_EMAIL') . ': ', null, true);
+					$image2 = HTMLHelper::_(
+						'image',
+						'contacts/' . $item->params->get('icon_email', 'emailButton.png'),
+						Text::_('JGLOBAL_EMAIL'),
+						null,
+						true
+					);
 				}
 
 				if ($item->params->get('icon_telephone'))
 				{
-					$image3 = \JHtml::_('image', $item->params->get('icon_telephone', 'con_tel.png'), \JText::_('COM_CONTACT_TELEPHONE') . ': ', null, false);
+					$image3 = HTMLHelper::_(
+						'image',
+						$item->params->get('icon_telephone', 'con_tel.png'),
+						Text::_('COM_CONTACT_TELEPHONE'),
+						null,
+						false
+					);
 				}
 				else
 				{
-					$image3 = \JHtml::_(
+					$image3 = HTMLHelper::_(
 						'image',
 						'contacts/' . $item->params->get('icon_telephone', 'con_tel.png'),
-						\JText::_('COM_CONTACT_TELEPHONE') . ': ',
+						Text::_('COM_CONTACT_TELEPHONE'),
 						null,
 						true
 					);
@@ -275,36 +303,48 @@ class HtmlView extends BaseHtmlView
 
 				if ($item->params->get('icon_fax'))
 				{
-					$image4 = \JHtml::_('image', $item->params->get('icon_fax', 'con_fax.png'), \JText::_('COM_CONTACT_FAX') . ': ', null, false);
+					$image4 = HTMLHelper::_('image', $item->params->get('icon_fax', 'con_fax.png'), Text::_('COM_CONTACT_FAX'), null, false);
 				}
 				else
 				{
-					$image4 = \JHtml::_('image', 'contacts/' . $item->params->get('icon_fax', 'con_fax.png'), \JText::_('COM_CONTACT_FAX') . ': ', null, true);
+					$image4 = HTMLHelper::_(
+						'image',
+						'contacts/' . $item->params->get('icon_fax', 'con_fax.png'),
+						Text::_('COM_CONTACT_FAX'),
+						null,
+						true
+					);
 				}
 
 				if ($item->params->get('icon_misc'))
 				{
-					$image5 = \JHtml::_('image', $item->params->get('icon_misc', 'con_info.png'), \JText::_('COM_CONTACT_OTHER_INFORMATION') . ': ', null, false);
+					$image5 = HTMLHelper::_(
+						'image',
+						$item->params->get('icon_misc', 'con_info.png'),
+						Text::_('COM_CONTACT_OTHER_INFORMATION'),
+						null,
+						false
+					);
 				}
 				else
 				{
-					$image5 = \JHtml::_(
+					$image5 = HTMLHelper::_(
 						'image',
 						'contacts/' . $item->params->get('icon_misc', 'con_info.png'),
-						\JText::_('COM_CONTACT_OTHER_INFORMATION') . ': ', null, true
+						Text::_('COM_CONTACT_OTHER_INFORMATION'), null, true
 					);
 				}
 
 				if ($item->params->get('icon_mobile'))
 				{
-					$image6 = \JHtml::_('image', $item->params->get('icon_mobile', 'con_mobile.png'), \JText::_('COM_CONTACT_MOBILE') . ': ', null, false);
+					$image6 = HTMLHelper::_('image', $item->params->get('icon_mobile', 'con_mobile.png'), Text::_('COM_CONTACT_MOBILE'), null, false);
 				}
 				else
 				{
-					$image6 = \JHtml::_(
+					$image6 = HTMLHelper::_(
 						'image',
 						'contacts/' . $item->params->get('icon_mobile', 'con_mobile.png'),
-						\JText::_('COM_CONTACT_MOBILE') . ': ',
+						Text::_('COM_CONTACT_MOBILE'),
 						null,
 						true
 					);
@@ -325,10 +365,10 @@ class HtmlView extends BaseHtmlView
 		{
 			foreach ($contacts as &$contact)
 			{
-				$contact->link = \JRoute::_(ContactHelperRoute::getContactRoute($contact->slug, $contact->catid));
+				$contact->link = Route::_(ContactHelperRoute::getContactRoute($contact->slug, $contact->catid, $contact->language));
 			}
 
-			$item->link = \JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid), false);
+			$item->link = Route::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid, $item->language), false);
 		}
 
 		// Process the content plugins.
@@ -343,17 +383,17 @@ class HtmlView extends BaseHtmlView
 			$item->text = $item->misc;
 		}
 
-		\JFactory::getApplication()->triggerEvent('onContentPrepare', array ('com_contact.contact', &$item, &$this->params, $offset));
+		$app->triggerEvent('onContentPrepare', array ('com_contact.contact', &$item, &$this->params, $offset));
 
 		// Store the events for later
 		$item->event = new \stdClass;
-		$results = \JFactory::getApplication()->triggerEvent('onContentAfterTitle', array('com_contact.contact', &$item, &$item->params, $offset));
+		$results = $app->triggerEvent('onContentAfterTitle', array('com_contact.contact', &$item, &$item->params, $offset));
 		$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-		$results = \JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_contact.contact', &$item, &$item->params, $offset));
+		$results = $app->triggerEvent('onContentBeforeDisplay', array('com_contact.contact', &$item, &$item->params, $offset));
 		$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-		$results = \JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_contact.contact', &$item, &$item->params, $offset));
+		$results = $app->triggerEvent('onContentAfterDisplay', array('com_contact.contact', &$item, &$item->params, $offset));
 		$item->event->afterDisplayContent = trim(implode("\n", $results));
 
 		if (!empty($item->text))
@@ -363,10 +403,10 @@ class HtmlView extends BaseHtmlView
 
 		$contactUser = null;
 
-		if ($item->params->get('show_user_custom_fields') && $item->user_id && $contactUser = \JFactory::getUser($item->user_id))
+		if ($item->params->get('show_user_custom_fields') && $item->user_id && $contactUser = Factory::getUser($item->user_id))
 		{
 			$contactUser->text = '';
-			\JFactory::getApplication()->triggerEvent('onContentPrepare', array ('com_users.user', &$contactUser, &$item->params, 0));
+			$app->triggerEvent('onContentPrepare', array ('com_users.user', &$contactUser, &$item->params, 0));
 
 			if (!isset($contactUser->jcfields))
 			{
@@ -377,7 +417,6 @@ class HtmlView extends BaseHtmlView
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($item->params->get('pageclass_sfx'));
 
-		$this->contact     = &$item;
 		$this->params      = &$item->params;
 		$this->state       = &$state;
 		$this->item        = &$item;
@@ -406,7 +445,7 @@ class HtmlView extends BaseHtmlView
 		$model = $this->getModel();
 		$model->hit();
 
-		$captchaSet = $item->params->get('captcha', \JFactory::getApplication()->get('captcha', '0'));
+		$captchaSet = $item->params->get('captcha', $app->get('captcha', '0'));
 
 		foreach (PluginHelper::getPlugin('captcha') as $plugin)
 		{
@@ -418,6 +457,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$this->_prepareDocument();
+
 		return parent::display($tpl);
 	}
 
@@ -430,7 +470,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function _prepareDocument()
 	{
-		$app     = \JFactory::getApplication();
+		$app     = Factory::getApplication();
 		$menus   = $app->getMenu();
 		$pathway = $app->getPathway();
 		$title   = null;
@@ -445,7 +485,7 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', \JText::_('COM_CONTACT_DEFAULT_PAGE_TITLE'));
+			$this->params->def('page_heading', Text::_('COM_CONTACT_DEFAULT_PAGE_TITLE'));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -461,12 +501,15 @@ class HtmlView extends BaseHtmlView
 				$title = $this->item->name;
 			}
 
-			$path = array(array('title' => $this->contact->name, 'link' => ''));
-			$category = \JCategories::getInstance('Contact')->get($this->contact->catid);
+			$path = array(array('title' => $this->item->name, 'link' => ''));
+			$category = Categories::getInstance('Contact')->get($this->item->catid);
 
-			while ($category && ($menu->query['option'] !== 'com_contact' || $menu->query['view'] === 'contact' || $id != $category->id) && $category->id > 1)
+			while ($category && ($menu->query['option'] !== 'com_contact'
+				|| $menu->query['view'] === 'contact'
+				|| $id != $category->id) && $category->id > 1
+			)
 			{
-				$path[] = array('title' => $category->title, 'link' => ContactHelperRoute::getCategoryRoute($this->contact->catid));
+				$path[] = array('title' => $category->title, 'link' => ContactHelperRoute::getCategoryRoute($category->id, $category->language));
 				$category = $category->getParent();
 			}
 
@@ -484,11 +527,11 @@ class HtmlView extends BaseHtmlView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		if (empty($title))
@@ -509,16 +552,16 @@ class HtmlView extends BaseHtmlView
 
 		if ($this->item->metakey)
 		{
-			$this->document->setMetadata('keywords', $this->item->metakey);
+			$this->document->setMetaData('keywords', $this->item->metakey);
 		}
 		elseif ($this->params->get('menu-meta_keywords'))
 		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 
 		$mdata = $this->item->metadata->toArray();
@@ -527,7 +570,7 @@ class HtmlView extends BaseHtmlView
 		{
 			if ($v)
 			{
-				$this->document->setMetadata($k, $v);
+				$this->document->setMetaData($k, $v);
 			}
 		}
 	}

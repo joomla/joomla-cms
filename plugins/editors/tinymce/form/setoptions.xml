@@ -6,7 +6,8 @@
         label="PLG_TINY_FIELD_SETACCESS_LABEL"
         multiple="true"
         class="access-select"
-        labelclass="label label-success"
+        labelclass="badge badge-success"
+        layout="joomla.form.field.list-fancy-select"
     />
 
     <field
@@ -54,7 +55,6 @@
         name="path"
         type="uploaddirs"
         label="PLG_TINY_FIELD_CUSTOM_PATH_LABEL"
-        class="input-xxlarge"
         showon="drag_drop:1"
     />
 
@@ -90,7 +90,7 @@
         hide_none="1"
         default="en"
         hide_default="1"
-        filter="\.js$"
+        fileFilter="\.js$"
         showon="lang_mode:0"
     />
 
@@ -121,7 +121,6 @@
         type="text"
         label="PLG_TINY_FIELD_CUSTOM_CSS_LABEL"
         description="PLG_TINY_FIELD_CUSTOM_CSS_DESC"
-        class="input-xxlarge"
     />
 
     <field
@@ -161,7 +160,6 @@
         label="PLG_TINY_FIELD_PROHIBITED_LABEL"
         showon="use_config_textfilters:0"
         default="script,applet,iframe"
-        class="input-xxlarge"
     />
 
     <field
@@ -170,7 +168,6 @@
         label="PLG_TINY_FIELD_VALIDELEMENTS_LABEL"
         description="PLG_TINY_FIELD_VALIDELEMENTS_DESC"
         showon="use_config_textfilters:0"
-        class="input-xxlarge"
     />
 
     <field
@@ -178,7 +175,6 @@
         type="text"
         label="PLG_TINY_FIELD_ELEMENTS_LABEL"
         showon="use_config_textfilters:0"
-        class="input-xxlarge"
     />
 
     <!-- Extra plugins -->
@@ -201,8 +197,8 @@
         default="1"
         showon="resizing:1"
         >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -212,8 +208,8 @@
         class="switcher"
         default="0"
         >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -223,8 +219,8 @@
         class="switcher"
         default="1"
         >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -234,8 +230,8 @@
         class="switcher"
         default="1"
         >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -245,8 +241,8 @@
         class="switcher"
         default="1"
         >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -256,21 +252,49 @@
         class="switcher"
         default="1"
         >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
         name="custom_plugin"
         type="text"
         label="PLG_TINY_FIELD_CUSTOMPLUGIN_LABEL"
-        class="input-xxlarge"
     />
 
     <field
         name="custom_button"
         type="text"
         label="PLG_TINY_FIELD_CUSTOMBUTTON_LABEL"
-        class="input-xxlarge"
     />
+
+	<form>
+		<fieldset name="external" label="PLG_TINY_FIELD_LABEL_EXTERNAL">
+			<field
+				name="external_plugins"
+				type="subform"
+				label="PLG_TINY_FIELD_EXTERNALPLUGINS_LABEL"
+				description="PLG_TINY_FIELD_EXTERNALPLUGINS_DESC"
+				layout="joomla.form.field.subform.repeatable-table"
+				icon="list"
+				multiple="true"
+			>
+				<form hidden="true" name="list_templates_modal" repeat="true">
+					<field
+						name="name"
+						type="text"
+						label="PLG_TINY_FIELD_EXTERNALPLUGINS_NAME_LABEL"
+						size="15"
+					/>
+
+					<field
+						name="path"
+						type="text"
+						label="PLG_TINY_FIELD_EXTERNALPLUGINS_PATH_LABEL"
+						size="30"
+					/>
+				</form>
+			</field>
+		</fieldset>
+	</form>
 </form>

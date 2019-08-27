@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,27 +10,24 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for the Joomla Platform.
  * Supports a list of installed application languages
  *
- * @see    JFormFieldContentLanguage for a select list of content languages.
- * @since  11.1
+ * @see    \Joomla\CMS\Form\Field\ContentlanguageField for a select list of content languages.
+ * @since  1.7.0
  */
-class LanguageField extends \JFormFieldList
+class LanguageField extends ListField
 {
 	/**
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Language';
 
@@ -39,7 +36,7 @@ class LanguageField extends \JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getOptions()
 	{
@@ -53,6 +50,7 @@ class LanguageField extends \JFormFieldList
 
 		// Make sure the languages are sorted base on locale instead of random sorting
 		$languages = LanguageHelper::createLanguageList($this->value, constant('JPATH_' . strtoupper($client)), true, true);
+
 		if (count($languages) > 1)
 		{
 			usort(

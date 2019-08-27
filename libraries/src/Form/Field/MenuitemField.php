@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,9 +11,8 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('groupedlist');
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 // Import the com_menus helper.
 require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
@@ -23,7 +22,7 @@ require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus
  *
  * @since  1.6
  */
-class MenuitemField extends \JFormFieldGroupedList
+class MenuitemField extends GroupedlistField
 {
 	/**
 	 * The form field type.
@@ -76,7 +75,7 @@ class MenuitemField extends \JFormFieldGroupedList
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -100,7 +99,7 @@ class MenuitemField extends \JFormFieldGroupedList
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -175,7 +174,7 @@ class MenuitemField extends \JFormFieldGroupedList
 		$menuType = $this->menuType;
 
 		// Get the menu items.
-		$items = \MenusHelper::getMenuLinks($menuType, 0, 0, $this->published, $this->language, $this->clientId);
+		$items = MenusHelper::getMenuLinks($menuType, 0, 0, $this->published, $this->language, $this->clientId);
 
 		// Build group for a specific menu type.
 		if ($menuType)
@@ -215,12 +214,12 @@ class MenuitemField extends \JFormFieldGroupedList
 					$lang = '';
 				}
 
-				$groups[$menuTitle][] = \JHtml::_('select.option',
-								$link->value, $levelPrefix . $link->text . $lang,
-								'value',
-								'text',
-								in_array($link->type, $this->disable)
-							);
+				$groups[$menuTitle][] = HTMLHelper::_('select.option',
+					$link->value, $levelPrefix . $link->text . $lang,
+					'value',
+					'text',
+					in_array($link->type, $this->disable)
+				);
 			}
 		}
 		// Build groups for all menu types.
@@ -247,12 +246,12 @@ class MenuitemField extends \JFormFieldGroupedList
 						$lang = '';
 					}
 
-					$groups[$menu->title][] = \JHtml::_('select.option',
-										$link->value, $levelPrefix . $link->text . $lang,
-										'value',
-										'text',
-										in_array($link->type, $this->disable)
-									);
+					$groups[$menu->title][] = HTMLHelper::_('select.option',
+						$link->value, $levelPrefix . $link->text . $lang,
+						'value',
+						'text',
+						in_array($link->type, $this->disable)
+					);
 				}
 			}
 		}

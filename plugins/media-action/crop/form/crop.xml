@@ -3,11 +3,11 @@
 	<fieldset name="crop" label="PLG_MEDIA-ACTION_CROP_LABEL">
 		<field
 			name="crop_quality"
-			type="integer"
+			type="number"
 			label="PLG_MEDIA-ACTION_CROP_QUALITY"
 			addonBefore="PLG_MEDIA-ACTION_CROP_QUALITY"
-			first="1"
-			last="100"
+			min="1"
+			max="100"
 			step="1"
 			default="80"
 		/>
@@ -57,16 +57,28 @@
 			pattern="\d*\.?\d*"
 		/>
 
-		<field 
+		<field
 			name="aspectRatio"
-			type="radio"
+			type="groupedlist"
 			hiddenLabel="true"
-			class="btn-group btn-group-ratio"
-			default=""
+			class="crop-aspect-ratio-options"
+			default="1.111"
 			>
-			<option value="1.7777777777777777">16 / 9</option>
-			<option value="1.3333333333333333">4 / 3</option>
-			<option value="0.6666666666666666">2 / 3</option>
+			<option class="crop-aspect-ratio-option" value="1.111">PLG_MEDIA-ACTION_CROP_PARAM_DEFAULT_RATIO</option>
+			<option class="crop-aspect-ratio-option" value="">PLG_MEDIA-ACTION_CROP_PARAM_NO_RATIO</option>
+			<option class="crop-aspect-ratio-option" value="1">1:1</option>
+			<group label="PLG_MEDIA-ACTION_CROP_PARAM_LANDSCAPE">
+				<option class="crop-aspect-ratio-option" value="1.25">5:4</option>
+				<option class="crop-aspect-ratio-option" value="1.3333333333333333">4:3</option>
+				<option class="crop-aspect-ratio-option" value="1.5">3:2</option>
+				<option class="crop-aspect-ratio-option" value="1.7777777777777777">16:9</option>
+			</group>
+			<group label="PLG_MEDIA-ACTION_CROP_PARAM_PORTRAIT">
+				<option class="crop-aspect-ratio-option" value="0.8">4:5</option>
+				<option class="crop-aspect-ratio-option" value="0.75">3:4</option>
+				<option class="crop-aspect-ratio-option" value="0.6666666666666667">2:3</option>
+				<option class="crop-aspect-ratio-option" value="0.5625">9:16</option>
+			</group>
 		</field>
 	</fieldset>
 </form>

@@ -15,7 +15,6 @@
 			name="title"
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_TITLE_LABEL"
-			class="input-xxlarge input-large-text"
 			size="40"
 			required="true"
 		/>
@@ -42,7 +41,6 @@
 			type="link"
 			label="COM_MENUS_ITEM_FIELD_LINK_LABEL"
 			readonly="true"
-			class="input-xxlarge"
 			size="50"
 		/>
 
@@ -61,7 +59,6 @@
 			name="type"
 			type="menutype"
 			label="COM_MENUS_ITEM_FIELD_TYPE_LABEL"
-			class="input-medium"
 			required="true"
 			size="40"
 		/>
@@ -70,7 +67,7 @@
 			name="published"
 			type="list"
 			label="JSTATUS"
-			class="chzn-color-state"
+			class="custom-select-color-state"
 			id="published"
 			size="1"
 			default="1"
@@ -83,7 +80,7 @@
 
 		<field
 			name="parent_id"
-			type="menuparent"
+			type="MenuParent"
 			label="COM_MENUS_ITEM_FIELD_PARENT_LABEL"
 			default="1"
 			filter="int"
@@ -95,7 +92,7 @@
 
 		<field
 			name="menuordering"
-			type="menuordering"
+			type="MenuOrdering"
 			label="COM_MENUS_ITEM_FIELD_ORDERING_LABEL"
 			filter="int"
 			size="1"

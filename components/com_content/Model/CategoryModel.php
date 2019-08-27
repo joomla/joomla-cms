@@ -3,17 +3,21 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Categories\CategoryNode;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Table\Table;
+use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -32,12 +36,32 @@ class CategoryModel extends ListModel
 	 */
 	protected $_item = null;
 
+	/**
+	 * Array of articles in the category
+	 *
+	 * @var    \stdClass[]
+	 */
 	protected $_articles = null;
 
+	/**
+	 * Category left and right of this one
+	 *
+	 * @var    CategoryNode[]|null
+	 */
 	protected $_siblings = null;
 
+	/**
+	 * Array of child-categories
+	 *
+	 * @var    CategoryNode[]|null
+	 */
 	protected $_children = null;
 
+	/**
+	 * Parent category of the current one
+	 *
+	 * @var    CategoryNode|null
+	 */
 	protected $_parent = null;
 
 	/**
@@ -50,16 +74,14 @@ class CategoryModel extends ListModel
 	/**
 	 * The category that applies.
 	 *
-	 * @access	protected
-	 * @var		object
+	 * @var	   object
 	 */
 	protected $_category = null;
 
 	/**
-	 * The list of other newfeed categories.
+	 * The list of categories.
 	 *
-	 * @access	protected
-	 * @var		array
+	 * @var	   array
 	 */
 	protected $_categories = null;
 
@@ -114,7 +136,7 @@ class CategoryModel extends ListModel
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = \JFactory::getApplication('site');
+		$app = Factory::getApplication();
 		$pk  = $app->input->getInt('id');
 
 		$this->setState('category.id', $pk);
@@ -132,7 +154,7 @@ class CategoryModel extends ListModel
 		$mergedParams->merge($params);
 
 		$this->setState('params', $mergedParams);
-		$user  = \JFactory::getUser();
+		$user  = Factory::getUser();
 
 		$asset = 'com_content';
 
@@ -144,11 +166,11 @@ class CategoryModel extends ListModel
 		if ((!$user->authorise('core.edit.state', $asset)) &&  (!$user->authorise('core.edit', $asset)))
 		{
 			// Limit to published for people who can't edit or edit.state.
-			$this->setState('filter.published', 1);
+			$this->setState('filter.condition', 1);
 		}
 		else
 		{
-			$this->setState('filter.published', array(0, 1, 2));
+			$this->setState('filter.condition', array(0, 1));
 		}
 
 		// Process show_noauth parameter
@@ -163,7 +185,7 @@ class CategoryModel extends ListModel
 
 		$itemid = $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
 
-		$value = $this->getUserStateFromRequest('com_content.category.filter.' . $itemid . '.tag', 'filter_tag', 0, 'int');
+		$value = $this->getUserStateFromRequest('com_content.category.filter.' . $itemid . '.tag', 'filter_tag', 0, 'int', false);
 		$this->setState('filter.tag', $value);
 
 		// Optional filter text
@@ -234,10 +256,11 @@ class CategoryModel extends ListModel
 
 		if ($this->_articles === null && $category = $this->getCategory())
 		{
-			$model = new ArticlesModel(array('ignore_request' => true));
-			$model->setState('params', \JFactory::getApplication()->getParams());
+			$model = $this->bootComponent('com_content')->getMVCFactory()
+				->createModel('Articles', 'Site', ['ignore_request' => true]);
+			$model->setState('params', Factory::getApplication()->getParams());
 			$model->setState('filter.category_id', $category->id);
-			$model->setState('filter.published', $this->getState('filter.published'));
+			$model->setState('filter.condition', $this->getState('filter.condition'));
 			$model->setState('filter.access', $this->getState('filter.access'));
 			$model->setState('filter.language', $this->getState('filter.language'));
 			$model->setState('filter.featured', $this->getState('filter.featured'));
@@ -282,7 +305,7 @@ class CategoryModel extends ListModel
 	 */
 	protected function _buildContentOrderBy()
 	{
-		$app       = \JFactory::getApplication('site');
+		$app       = Factory::getApplication();
 		$db        = $this->getDbo();
 		$params    = $this->state->params;
 		$itemid    = $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
@@ -308,8 +331,8 @@ class CategoryModel extends ListModel
 		$articleOrderby   = $params->get('orderby_sec', 'rdate');
 		$articleOrderDate = $params->get('order_date');
 		$categoryOrderby  = $params->def('orderby_pri', '');
-		$secondary        = \ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate) . ', ';
-		$primary          = \ContentHelperQuery::orderbyPrimary($categoryOrderby);
+		$secondary        = QueryHelper::orderbySecondary($articleOrderby, $articleOrderDate, $this->getDbo()) . ', ';
+		$primary          = QueryHelper::orderbyPrimary($categoryOrderby);
 
 		$orderby .= $primary . ' ' . $secondary . ' a.created ';
 
@@ -321,7 +344,7 @@ class CategoryModel extends ListModel
 	 *
 	 * @return  \JPagination  A JPagination object for the data set.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getPagination()
 	{
@@ -344,7 +367,7 @@ class CategoryModel extends ListModel
 	{
 		if (!is_object($this->_item))
 		{
-			if (isset( $this->state->params))
+			if (isset($this->state->params))
 			{
 				$params = $this->state->params;
 				$options = array();
@@ -356,13 +379,13 @@ class CategoryModel extends ListModel
 				$options['countItems'] = 0;
 			}
 
-			$categories = \JCategories::getInstance('Content', $options);
+			$categories = Categories::getInstance('Content', $options);
 			$this->_item = $categories->get($this->getState('category.id', 'root'));
 
 			// Compute selected asset permissions.
 			if (is_object($this->_item))
 			{
-				$user  = \JFactory::getUser();
+				$user  = Factory::getUser();
 				$asset = 'com_content.category.' . $this->_item->id;
 
 				// Check general create permission.
@@ -459,7 +482,7 @@ class CategoryModel extends ListModel
 		}
 
 		// Order subcategories
-		if (count($this->_children))
+		if ($this->_children)
 		{
 			$params = $this->getState()->get('params');
 
@@ -483,7 +506,7 @@ class CategoryModel extends ListModel
 	 */
 	public function hit($pk = 0)
 	{
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 		$hitcount = $input->getInt('hitcount', 1);
 
 		if ($hitcount)

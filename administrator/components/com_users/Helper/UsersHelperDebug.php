@@ -3,14 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -30,7 +34,7 @@ class UsersHelperDebug
 	public static function getComponents()
 	{
 		// Initialise variable.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('name AS text, element AS value')
 			->from('#__extensions')
@@ -41,7 +45,7 @@ class UsersHelperDebug
 
 		if (count($items))
 		{
-			$lang = \JFactory::getLanguage();
+			$lang = Factory::getLanguage();
 
 			foreach ($items as &$item)
 			{
@@ -52,7 +56,7 @@ class UsersHelperDebug
 					|| $lang->load("$extension.sys", $source, null, false, true);
 
 				// Translate component name
-				$item->text = \JText::_($item->text);
+				$item->text = Text::_($item->text);
 			}
 
 			// Sort by component name
@@ -84,7 +88,14 @@ class UsersHelperDebug
 			{
 				foreach ($component_actions as &$action)
 				{
-					$actions[$action->title] = array($action->name, $action->description);
+					$descr = (string) $action->title;
+
+					if (!empty($action->description))
+					{
+						$descr = (string) $action->description;
+					}
+
+					$actions[$action->title] = array($action->name, $descr);
 				}
 			}
 		}
@@ -92,7 +103,7 @@ class UsersHelperDebug
 		// Use default actions from configuration if no component selected or component doesn't have actions
 		if (empty($actions))
 		{
-			$filename = JPATH_ADMINISTRATOR . '/components/com_config/model/form/application.xml';
+			$filename = JPATH_ADMINISTRATOR . '/components/com_config/forms/application.xml';
 
 			if (is_file($filename))
 			{
@@ -108,9 +119,16 @@ class UsersHelperDebug
 							{
 								foreach ($field->children() as $action)
 								{
+									$descr = (string) $action['title'];
+
+									if (isset($action['description']) && !empty($action['description']))
+									{
+										$descr = (string) $action['description'];
+									}
+
 									$actions[(string) $action['title']] = array(
 										(string) $action['name'],
-										(string) $action['description']
+										$descr
 									);
 								}
 
@@ -121,7 +139,7 @@ class UsersHelperDebug
 				}
 
 				// Load language
-				$lang = \JFactory::getLanguage();
+				$lang = Factory::getLanguage();
 				$extension = 'com_config';
 				$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
 
@@ -144,12 +162,12 @@ class UsersHelperDebug
 	{
 		// Build the filter options.
 		$options = array();
-		$options[] = \JHtml::_('select.option', '1', \JText::sprintf('COM_USERS_OPTION_LEVEL_COMPONENT', 1));
-		$options[] = \JHtml::_('select.option', '2', \JText::sprintf('COM_USERS_OPTION_LEVEL_CATEGORY', 2));
-		$options[] = \JHtml::_('select.option', '3', \JText::sprintf('COM_USERS_OPTION_LEVEL_DEEPER', 3));
-		$options[] = \JHtml::_('select.option', '4', '4');
-		$options[] = \JHtml::_('select.option', '5', '5');
-		$options[] = \JHtml::_('select.option', '6', '6');
+		$options[] = HTMLHelper::_('select.option', '1', Text::sprintf('COM_USERS_OPTION_LEVEL_COMPONENT', 1));
+		$options[] = HTMLHelper::_('select.option', '2', Text::sprintf('COM_USERS_OPTION_LEVEL_CATEGORY', 2));
+		$options[] = HTMLHelper::_('select.option', '3', Text::sprintf('COM_USERS_OPTION_LEVEL_DEEPER', 3));
+		$options[] = HTMLHelper::_('select.option', '4', '4');
+		$options[] = HTMLHelper::_('select.option', '5', '5');
+		$options[] = HTMLHelper::_('select.option', '6', '6');
 
 		return $options;
 	}

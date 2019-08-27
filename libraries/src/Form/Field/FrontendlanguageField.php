@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,17 +11,14 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Provides a list of published content languages with home pages
  *
- * @see    JFormFieldLanguage for a select list of application languages.
+ * @see    \Joomla\CMS\Form\Field\LanguageField for a select list of application languages.
  * @since  3.5
  */
-class FrontendlanguageField extends \JFormFieldList
+class FrontendlanguageField extends ListField
 {
 	/**
 	 * The form field type.
@@ -45,9 +42,9 @@ class FrontendlanguageField extends \JFormFieldList
 		$query = $db->getQuery(true);
 
 		$query->select('a.lang_code AS value, a.title AS text')
-				->from($db->quoteName('#__languages') . ' AS a')
-				->where('a.published = 1')
-				->order('a.title');
+			->from($db->quoteName('#__languages') . ' AS a')
+			->where('a.published = 1')
+			->order('a.title');
 
 		// Select the language home pages.
 		$query->select('l.home, l.language')

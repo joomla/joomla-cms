@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Log\Logger;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
@@ -22,7 +22,7 @@ use Joomla\CMS\Log\Logger;
  * the Windows based implementations this can be found in the Event Log. For Windows,
  * permissions may prevent PHP from properly outputting messages.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class SyslogLogger extends Logger
 {
@@ -30,7 +30,7 @@ class SyslogLogger extends Logger
 	 * Translation array for LogEntry priorities to SysLog priority names.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $priorities = array(
 		Log::EMERGENCY => 'EMERG',
@@ -48,7 +48,7 @@ class SyslogLogger extends Logger
 	 *
 	 * @param   array  &$options  Log object options.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct(array &$options)
 	{
@@ -110,7 +110,7 @@ class SyslogLogger extends Logger
 	/**
 	 * Destructor.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __destruct()
 	{
@@ -124,12 +124,12 @@ class SyslogLogger extends Logger
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function addEntry(LogEntry $entry)
 	{
 		// Generate the value for the priority based on predefined constants.
-		$priority = constant(strtoupper('LOG_' . $this->priorities[$entry->priority]));
+		$priority = \constant(strtoupper('LOG_' . $this->priorities[$entry->priority]));
 
 		// Send the entry to Syslog.
 		syslog($priority, '[' . $entry->category . '] ' . $entry->message);

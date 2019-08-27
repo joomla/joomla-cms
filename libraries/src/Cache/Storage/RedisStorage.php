@@ -2,15 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Cache\Storage;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheStorage;
+use Joomla\CMS\Cache\Exception\CacheConnectingException;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 
 /**
@@ -68,7 +70,7 @@ class RedisStorage extends CacheStorage
 			return false;
 		}
 
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$this->_persistent = $app->get('redis_persist', true);
 
@@ -79,45 +81,52 @@ class RedisStorage extends CacheStorage
 			'db'   => (int) $app->get('redis_server_db', null),
 		);
 
+		// If you are trying to connect to a socket file, ignore the supplied port
+		if ($server['host'][0] === '/')
+		{
+			$server['port'] = 0;
+		}
+
 		static::$_redis = new \Redis;
 
-		if ($this->_persistent)
+		try
 		{
-			try
+			if ($this->_persistent)
 			{
 				$connection = static::$_redis->pconnect($server['host'], $server['port']);
-				$auth       = (!empty($server['auth'])) ? static::$_redis->auth($server['auth']) : true;
 			}
-			catch (\RedisException $e)
-			{
-				Log::add($e->getMessage(), Log::DEBUG);
-			}
-		}
-		else
-		{
-			try
+			else
 			{
 				$connection = static::$_redis->connect($server['host'], $server['port']);
-				$auth       = (!empty($server['auth'])) ? static::$_redis->auth($server['auth']) : true;
 			}
-			catch (\RedisException $e)
-			{
-				Log::add($e->getMessage(), Log::DEBUG);
-			}
+		}
+		catch (\RedisException $e)
+		{
+			Log::add($e->getMessage(), Log::DEBUG);
 		}
 
 		if ($connection == false)
 		{
 			static::$_redis = null;
 
-			throw new \JCacheExceptionConnecting('Redis connection failed', 500);
+			throw new CacheConnectingException('Redis connection failed', 500);
 		}
 
-		if ($auth == false)
+		try
+		{
+			$auth = $server['auth'] ? static::$_redis->auth($server['auth']) : true;
+		}
+		catch (\RedisException $e)
+		{
+			$auth = false;
+			Log::add($e->getMessage(), Log::DEBUG);
+		}
+
+		if ($auth === false)
 		{
 			static::$_redis = null;
 
-			throw new \JCacheExceptionConnecting('Redis authentication failed', 500);
+			throw new CacheConnectingException('Redis authentication failed', 500);
 		}
 
 		$select = static::$_redis->select($server['db']);
@@ -126,7 +135,7 @@ class RedisStorage extends CacheStorage
 		{
 			static::$_redis = null;
 
-			throw new \JCacheExceptionConnecting('Redis failed to select database', 500);
+			throw new CacheConnectingException('Redis failed to select database', 500);
 		}
 
 		try
@@ -137,7 +146,7 @@ class RedisStorage extends CacheStorage
 		{
 			static::$_redis = null;
 
-			throw new \JCacheExceptionConnecting('Redis ping failed', 500);
+			throw new CacheConnectingException('Redis ping failed', 500);
 		}
 
 		return static::$_redis;
@@ -222,7 +231,7 @@ class RedisStorage extends CacheStorage
 						$item = $data[$group];
 					}
 
-					$item->updateSize(strlen($key)*8);
+					$item->updateSize(\strlen($key)*8);
 					$data[$group] = $item;
 				}
 			}

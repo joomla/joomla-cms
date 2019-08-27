@@ -3,11 +3,15 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Utility class working with content language select lists
@@ -32,7 +36,7 @@ abstract class JHtmlContentLanguage
 	 *
 	 * @return  string
 	 *
-	 * @see     JFormFieldContentLanguage
+	 * @see     \Joomla\CMS\Form\Field\ContentlanguageField
 	 * @since   1.6
 	 */
 	public static function existing($all = false, $translate = false)
@@ -40,7 +44,7 @@ abstract class JHtmlContentLanguage
 		if (empty(static::$items))
 		{
 			// Get the database object and a new query object.
-			$db    = JFactory::getDbo();
+			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
 
 			// Build the query.
@@ -56,7 +60,7 @@ abstract class JHtmlContentLanguage
 
 		if ($all)
 		{
-			$all_option = array(new JObject(array('value' => '*', 'text' => $translate ? JText::alt('JALL', 'language') : 'JALL_LANGUAGE')));
+			$all_option = array(new CMSObject(array('value' => '*', 'text' => $translate ? Text::alt('JALL', 'language') : 'JALL_LANGUAGE')));
 
 			return array_merge($all_option, static::$items);
 		}

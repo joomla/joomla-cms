@@ -2,15 +2,18 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Helper;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 
 /**
@@ -71,8 +74,8 @@ class RouteHelper
 		}
 		else
 		{
-			$this->view = \JFactory::getApplication()->input->getString('view');
-			$this->extension = \JFactory::getApplication()->input->getCmd('option');
+			$this->view = Factory::getApplication()->input->getString('view');
+			$this->extension = Factory::getApplication()->input->getCmd('option');
 		}
 
 		$name = ucfirst(substr_replace($this->extension, '', 0, 4));
@@ -92,7 +95,7 @@ class RouteHelper
 
 		if ($catid > 1)
 		{
-			$categories = \JCategories::getInstance($name);
+			$categories = Categories::getInstance($name);
 
 			if ($categories)
 			{
@@ -133,7 +136,7 @@ class RouteHelper
 	 */
 	protected function findItem($needles = array())
 	{
-		$app      = \JFactory::getApplication();
+		$app      = Factory::getApplication();
 		$menus    = $app->getMenu('site');
 		$language = $needles['language'] ?? '*';
 
@@ -174,7 +177,7 @@ class RouteHelper
 
 					if (isset($item->query['id']))
 					{
-						if (is_array($item->query['id']))
+						if (\is_array($item->query['id']))
 						{
 							$item->query['id'] = $item->query['id'][0];
 						}
@@ -226,7 +229,7 @@ class RouteHelper
 	/**
 	 * Fetches the category route
 	 *
-	 * @param   mixed   $catid      Category ID or \JCategoryNode instance
+	 * @param   mixed   $catid      Category ID or CategoryNode instance
 	 * @param   mixed   $language   Language code
 	 * @param   string  $extension  Extension to lookup
 	 *
@@ -241,10 +244,10 @@ class RouteHelper
 		// Note: $extension is required but has to be an optional argument in the function call due to argument order
 		if (empty($extension))
 		{
-			throw new \InvalidArgumentException('$extension is a required argument in RouteHelper::getCategoryRoute');
+			throw new \InvalidArgumentException(sprintf('$extension is a required argument in %s()', __METHOD__));
 		}
 
-		if ($catid instanceof \JCategoryNode)
+		if ($catid instanceof CategoryNode)
 		{
 			$id       = $catid->id;
 			$category = $catid;
@@ -253,7 +256,7 @@ class RouteHelper
 		{
 			$extensionName = ucfirst(substr($extension, 4));
 			$id            = (int) $catid;
-			$category      = \JCategories::getInstance($extensionName)->get($id);
+			$category      = Categories::getInstance($extensionName)->get($id);
 		}
 
 		if ($id < 1)
@@ -280,7 +283,6 @@ class RouteHelper
 				$catids                = array_reverse($category->getPath());
 				$needles['category']   = $catids;
 				$needles['categories'] = $catids;
-
 			}
 
 			if ($item = static::lookupItem($needles))

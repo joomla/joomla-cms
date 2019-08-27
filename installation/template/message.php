@@ -3,11 +3,15 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Log\Log;
 
 // @TODO Remove when webcomponents get merged into the core
 
@@ -39,7 +43,7 @@ class JDocumentRendererHtmlMessage extends JDocumentRenderer
 			'content' => $content,
 		);
 
-		$app        = JFactory::getApplication();
+		$app        = Factory::getApplication();
 		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/message.php';
 
 		if (file_exists($chromePath))
@@ -49,12 +53,12 @@ class JDocumentRendererHtmlMessage extends JDocumentRenderer
 
 		if (function_exists('renderMessage'))
 		{
-			JLog::add('renderMessage() is deprecated. Override system message rendering with layouts instead.', JLog::WARNING, 'deprecated');
+			Log::add('renderMessage() is deprecated. Override system message rendering with layouts instead.', Log::WARNING, 'deprecated');
 
 			return renderMessage($msgList);
 		}
 
-		return JLayoutHelper::render('installation.template.html.system.message', $displayData);
+		return LayoutHelper::render('installation.template.html.system.message', $displayData);
 	}
 
 	/**
@@ -70,7 +74,7 @@ class JDocumentRendererHtmlMessage extends JDocumentRenderer
 		$lists = array();
 
 		// Get the message queue
-		$messages = JFactory::getApplication()->getMessageQueue();
+		$messages = Factory::getApplication()->getMessageQueue();
 
 		// Build the sorted message list
 		if (is_array($messages) && !empty($messages))

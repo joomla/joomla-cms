@@ -3,15 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cpanel
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Cpanel\Administrator\View\Cpanel;
 
-use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * HTML View class for the Cpanel component
@@ -28,6 +33,20 @@ class HtmlView extends BaseHtmlView
 	protected $modules = null;
 
 	/**
+	 * Array of cpanel modules
+	 *
+	 * @var  array
+	 */
+	protected $quickicons = null;
+
+	/**
+	 * Moduleposition to load
+	 *
+	 * @var  string
+	 */
+	protected $position = null;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -36,12 +55,63 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
+		$app = Factory::getApplication();
+		$extension = ApplicationHelper::stringURLSafe($app->input->getCmd('dashboard'));
+
+		$title = Text::_('COM_CPANEL_DASHBOARD_BASE_TITLE');
+		$icon = Text::_('COM_CPANEL_DASHBOARD_BASE_ICON');
+
+		$position = ApplicationHelper::stringURLSafe($extension);
+
+		// Generate a title for the view cpanel
+		if (!empty($extension))
+		{
+			$parts = explode('.', $extension);
+
+			$prefix = 'COM_CPANEL_DASHBOARD_';
+			$lang = Factory::getLanguage();
+
+			if (strpos($parts[0], 'com_') === false)
+			{
+				$prefix .= strtoupper($parts[0]);
+			}
+			else
+			{
+				$prefix = strtoupper($parts[0]) . '_DASHBOARD';
+
+				// Need to load the language file
+				$lang->load($parts[0], JPATH_BASE, null, false, true)
+				|| $lang->load($parts[0], JPATH_ADMINISTRATOR . '/components/' . $parts[0], null, false, true);
+				$lang->load($parts[0]);
+			}
+
+			$sectionkey = !empty($parts[1]) ? '_' . strtoupper($parts[1]) : '';
+			$key = $prefix . $sectionkey . '_TITLE';
+			$keyIcon = $prefix . $sectionkey . '_ICON';
+
+			// Search for a component title
+			if ($lang->hasKey($key))
+			{
+				$title = Text::_($key);
+			}
+
+			// Search for Icon
+			if ($lang->hasKey($keyIcon))
+			{
+				$icon = Text::_($keyIcon);
+			}
+		}
+
 		// Set toolbar items for the page
-		\JToolbarHelper::title(\JText::_('COM_CPANEL'), 'home-2 cpanel');
-		\JToolbarHelper::help('screen.cpanel');
+		ToolbarHelper::title($title, $icon . ' cpanel');
+		ToolbarHelper::help('screen.cpanel');
 
 		// Display the cpanel modules
-		$this->modules = ModuleHelper::getModules('cpanel');
+		$this->position = $position ? 'cpanel-' . $position : 'cpanel';
+		$this->modules = ModuleHelper::getModules($this->position);
+
+		$quickicons = $position ? 'icon-' . $position : 'icon';
+		$this->quickicons = ModuleHelper::getModules($quickicons);
 
 		parent::display($tpl);
 	}

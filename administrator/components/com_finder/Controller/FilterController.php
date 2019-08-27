@@ -3,14 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Finder\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\Router\Route;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -33,16 +36,13 @@ class FilterController extends FormController
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		$app = \JFactory::getApplication();
-		$input = $app->input;
-
-		/* @var \Joomla\Component\Finder\Administrator\Model\FilterModel $model */
+		/** @var \Joomla\Component\Finder\Administrator\Model\FilterModel $model */
 		$model = $this->getModel();
 		$table = $model->getTable();
-		$data = $input->post->get('jform', array(), 'array');
-		$checkin = property_exists($table, 'checked_out');
+		$data = $this->input->post->get('jform', array(), 'array');
+		$checkin = $table->hasField('checked_out');
 		$context = "$this->option.edit.$this->context";
 		$task = $this->getTask();
 
@@ -58,13 +58,13 @@ class FilterController extends FormController
 			$urlVar = $key;
 		}
 
-		$recordId = $input->get($urlVar, '', 'int');
+		$recordId = $this->input->get($urlVar, '', 'int');
 
 		if (!$this->checkEditId($context, $recordId))
 		{
 			// Somehow the person just went to the form and tried to save it. We don't allow that.
-			$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId), 'error');
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId), 'error');
+			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
 
 			return false;
 		}
@@ -79,7 +79,7 @@ class FilterController extends FormController
 			if ($checkin && $model->checkin($data[$key]) === false)
 			{
 				// Check-in failed. Go back to the item and display a notice.
-				$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
+				$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
 				$this->setRedirect('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $urlVar));
 
 				return false;
@@ -93,8 +93,8 @@ class FilterController extends FormController
 		// Access check.
 		if (!$this->allowSave($data, $key))
 		{
-			$this->setMessage(\JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
+			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
 
 			return false;
 		}
@@ -105,7 +105,7 @@ class FilterController extends FormController
 
 		if (!$form)
 		{
-			$app->enqueueMessage($model->getError(), 'error');
+			$this->app->enqueueMessage($model->getError(), 'error');
 
 			return false;
 		}
@@ -124,27 +124,27 @@ class FilterController extends FormController
 			{
 				if ($errors[$i] instanceof \Exception)
 				{
-					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+					$this->app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
 				else
 				{
-					$app->enqueueMessage($errors[$i], 'warning');
+					$this->app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
 
 			// Save the data in the session.
-			$app->setUserState($context . '.data', $data);
+			$this->app->setUserState($context . '.data', $data);
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(
-				\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key), false)
+				Route::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key), false)
 			);
 
 			return false;
 		}
 
 		// Get and sanitize the filter data.
-		$validData['data'] = $input->post->get('t', array(), 'array');
+		$validData['data'] = $this->input->post->get('t', array(), 'array');
 		$validData['data'] = array_unique($validData['data']);
 		$validData['data'] = ArrayHelper::toInteger($validData['data']);
 
@@ -158,12 +158,12 @@ class FilterController extends FormController
 		if (!$model->save($validData))
 		{
 			// Save the data in the session.
-			$app->setUserState($context . '.data', $validData);
+			$this->app->setUserState($context . '.data', $validData);
 
 			// Redirect back to the edit screen.
-			$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
 			$this->setRedirect(
-				\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key), false)
+				Route::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key), false)
 			);
 
 			return false;
@@ -173,19 +173,19 @@ class FilterController extends FormController
 		if ($checkin && $model->checkin($validData[$key]) === false)
 		{
 			// Save the data in the session.
-			$app->setUserState($context . '.data', $validData);
+			$this->app->setUserState($context . '.data', $validData);
 
 			// Check-in failed, so go back to the record and display a notice.
-			$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
 			$this->setRedirect('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key));
 
 			return false;
 		}
 
 		$this->setMessage(
-			\JText::_(
-				(\JFactory::getLanguage()->hasKey($this->text_prefix . ($recordId === 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS')
-				? $this->text_prefix : 'JLIB_APPLICATION') . ($recordId === 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'
+			Text::_(
+				($this->app->getLanguage()->hasKey($this->text_prefix . ($recordId === 0 && $this->app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS')
+				? $this->text_prefix : 'JLIB_APPLICATION') . ($recordId === 0 && $this->app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'
 			)
 		);
 
@@ -196,12 +196,12 @@ class FilterController extends FormController
 				// Set the record data in the session.
 				$recordId = $model->getState($this->context . '.id');
 				$this->holdEditId($context, $recordId);
-				$app->setUserState($context . '.data', null);
+				$this->app->setUserState($context . '.data', null);
 				$model->checkout($recordId);
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(
-					\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key), false)
+					Route::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key), false)
 				);
 
 				break;
@@ -209,11 +209,11 @@ class FilterController extends FormController
 			case 'save2new':
 				// Clear the record id and data from the session.
 				$this->releaseEditId($context, $recordId);
-				$app->setUserState($context . '.data', null);
+				$this->app->setUserState($context . '.data', null);
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(
-					\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend(null, $key), false)
+					Route::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend(null, $key), false)
 				);
 
 				break;
@@ -221,11 +221,11 @@ class FilterController extends FormController
 			default:
 				// Clear the record id and data from the session.
 				$this->releaseEditId($context, $recordId);
-				$app->setUserState($context . '.data', null);
+				$this->app->setUserState($context . '.data', null);
 
 				// Redirect to the list screen.
 				$this->setRedirect(
-					\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false)
+					Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false)
 				);
 
 				break;

@@ -37,9 +37,10 @@
 		<exec executable="phpcs">
 			<arg value="--report=checkstyle" />
 			<arg value="--extensions=php" />
+			<arg value="--encoding=utf-8" />
 			<arg value="-p" />
 			<arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
-			<arg value="--standard=${basedir}/build/phpcs/Joomla" />
+			<arg value="--standard=${basedir}/libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS" />
 			<arg path="${source}" />
 		</exec>
 	</target>

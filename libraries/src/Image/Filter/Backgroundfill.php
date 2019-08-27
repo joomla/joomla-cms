@@ -3,17 +3,18 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Image\Filter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Image\ImageFilter;
+use Joomla\CMS\Log\Log;
 
-\JLog::add('JImageFilterBackgroundfill is deprecated, use Joomla\Image\Filter\Backgroundfill instead.', \JLog::WARNING, 'deprecated');
+Log::add('JImageFilterBackgroundfill is deprecated, use Joomla\Image\Filter\Backgroundfill instead.', Log::WARNING, 'deprecated');
 
 /**
  * Image Filter class fill background with color;
@@ -104,12 +105,12 @@ class Backgroundfill extends ImageFilter
 		$colors = array('red' => 0, 'green' => 0, 'blue' => 0, 'alpha' => 0);
 
 		// Make sure all values are in
-		if (is_array($input))
+		if (\is_array($input))
 		{
 			$colors = array_merge($colors, $input);
 		}
 		// Convert RGBA 6-9 char string
-		elseif (is_string($input))
+		elseif (\is_string($input))
 		{
 			$hex = ltrim($input, '#');
 
@@ -123,7 +124,7 @@ class Backgroundfill extends ImageFilter
 			$colors = array_map('hexdec', $hexValues);
 
 			// Convert Alpha to 0..127 when provided
-			if (strlen($hex) > 6)
+			if (\strlen($hex) > 6)
 			{
 				$colors['alpha'] = floor((255 - $colors['alpha']) / 2);
 			}

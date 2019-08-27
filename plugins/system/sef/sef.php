@@ -3,18 +3,22 @@
  * @package     Joomla.Plugin
  * @subpackage  System.sef
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Joomla! SEF Plugin.
  *
  * @since  1.5
  */
-class PlgSystemSef extends JPlugin
+class PlgSystemSef extends CMSPlugin
 {
 	/**
 	 * Application object.
@@ -40,7 +44,7 @@ class PlgSystemSef extends JPlugin
 			return;
 		}
 
-		$sefDomain = $this->params->get('domain', '');
+		$sefDomain = $this->params->get('domain', false);
 
 		// Don't add a canonical html tag if no alternative domain has added in SEF plugin domain field.
 		if (empty($sefDomain))
@@ -67,12 +71,12 @@ class PlgSystemSef extends JPlugin
 			unset($doc->_links[$canonical]);
 
 			// Set the current canonical link but use the SEF system plugin domain field.
-			$canonical = $sefDomain . JUri::getInstance($canonical)->toString(array('path', 'query', 'fragment'));
+			$canonical = $sefDomain . Uri::getInstance($canonical)->toString(array('path', 'query', 'fragment'));
 		}
 		// If a canonical html doesn't exists already add a canonical html tag using the SEF plugin domain field.
 		else
 		{
-			$canonical = $sefDomain . JUri::getInstance()->toString(array('path', 'query', 'fragment'));
+			$canonical = $sefDomain . Uri::getInstance()->toString(array('path', 'query', 'fragment'));
 		}
 
 		// Add the canonical link.
@@ -92,11 +96,11 @@ class PlgSystemSef extends JPlugin
 		}
 
 		// Replace src links.
-		$base   = JUri::base(true) . '/';
+		$base   = Uri::base(true) . '/';
 		$buffer = $this->app->getBody();
 
 		// For feeds we need to search for the URL with domain.
-		$prefix = $this->app->getDocument()->getType() === 'feed' ? JUri::root() : '';
+		$prefix = $this->app->getDocument()->getType() === 'feed' ? Uri::root() : '';
 
 		// Replace index.php URI by SEF URI.
 		if (strpos($buffer, 'href="' . $prefix . 'index.php?') !== false)
@@ -107,7 +111,7 @@ class PlgSystemSef extends JPlugin
 			{
 				$buffer = str_replace(
 					'href="' . $prefix . 'index.php?' . $urlQueryString . '"',
-					'href="' . trim($prefix, '/') . JRoute::_('index.php?' . $urlQueryString) . '"',
+					'href="' . trim($prefix, '/') . Route::_('index.php?' . $urlQueryString) . '"',
 					$buffer
 				);
 			}
@@ -115,7 +119,7 @@ class PlgSystemSef extends JPlugin
 			$this->checkBuffer($buffer);
 		}
 
-		// Check for all unknown protocals (a protocol must contain at least one alpahnumeric character followed by a ":").
+		// Check for all unknown protocols (a protocol must contain at least one alpahnumeric character followed by a ":").
 		$protocols  = '[a-zA-Z0-9\-]+:';
 		$attributes = array('href=', 'src=', 'poster=');
 
@@ -128,29 +132,31 @@ class PlgSystemSef extends JPlugin
 				$this->checkBuffer($buffer);
 			}
 		}
-		
-		if (strpos($buffer, 'srcset=') !== false) 
+
+		if (strpos($buffer, 'srcset=') !== false)
 		{
 			$regex = '#\s+srcset="([^"]+)"#m';
-			
+
 			$buffer = preg_replace_callback(
 				$regex,
 				function ($match) use ($base, $protocols)
 				{
-					$data = array();
-					foreach (explode(",", $match[1]) as $url)
+					preg_match_all('#(?:[^\s]+)\s*(?:[\d\.]+[wx])?(?:\,\s*)?#i', $match[1], $matches);
+
+					foreach ($matches[0] as &$src)
 					{
-						$data[] = preg_replace('#^(?!/|' . $protocols . '|\#|\')(.+)#', $base . '$1', trim($url));
+						$src = preg_replace('#^(?!/|' . $protocols . '|\#|\')(.+)#', $base . '$1', $src);
 					}
-					return ' srcset="' . implode(",", $data) . '"';
+
+					return ' srcset="' . implode($matches[0]) . '"';
 				},
 				$buffer
-			);	
+			);
 
 			$this->checkBuffer($buffer);
 		}
 
-		// Replace all unknown protocals in javascript window open events.
+		// Replace all unknown protocols in javascript window open events.
 		if (strpos($buffer, 'window.open(') !== false)
 		{
 			$regex  = '#onclick="window.open\(\'(?!/|' . $protocols . '|\#)([^/]+[^\']*?\')#m';

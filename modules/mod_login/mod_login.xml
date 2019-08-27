@@ -3,12 +3,13 @@
 	<name>mod_login</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_LOGIN_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Login</namespace>
 	<files>
 		<filename module="mod_login">mod_login.php</filename>
 		<folder>tmpl</folder>
@@ -21,7 +22,7 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LOGIN" />
 	<config>
 		<fields name="params">
-			<fieldset name="basic" addfieldpath="/administrator/components/com_menus/models/fields">
+			<fieldset name="basic" addfieldprefix="Joomla\Component\Menus\Administrator\Field">
 				<field
 					name="pretext"
 					type="textarea"
@@ -72,9 +73,10 @@
 					class="switcher"
 					label="MOD_LOGIN_FIELD_GREETING_LABEL"
 					default="1"
+					filter="integer"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -83,21 +85,23 @@
 					class="switcher"
 					label="MOD_LOGIN_FIELD_NAME_LABEL"
 					default="0"
+					filter="integer"
 					showon="greeting:1"
 					>
 					<option value="0">MOD_LOGIN_VALUE_NAME</option>
 					<option value="1">MOD_LOGIN_VALUE_USERNAME</option>
 				</field>
-				
+
 				<field
 					name="profilelink"
 					type="radio"
 					label="MOD_LOGIN_FIELD_PROFILE_LABEL"
 					class="switcher"
 					default="0"
+					filter="integer"
 					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -106,6 +110,7 @@
 					class="switcher"
 					label="MOD_LOGIN_FIELD_USETEXT_LABEL"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">MOD_LOGIN_VALUE_ICONS</option>
 					<option value="1">MOD_LOGIN_VALUE_TEXT</option>
@@ -117,6 +122,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
+					class="custom-select"
 				/>
 
 				<field
@@ -125,15 +131,6 @@
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
 				/>
-
-				<field
-					name="cache"
-					type="list"
-					label="COM_MODULES_FIELD_CACHING_LABEL"
-					default="0"
-					>
-					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
-				</field>
 			</fieldset>
 		</fields>
 	</config>

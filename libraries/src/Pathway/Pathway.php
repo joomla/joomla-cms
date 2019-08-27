@@ -2,13 +2,16 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Pathway;
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Class to maintain a pathway.
@@ -46,35 +49,27 @@ class Pathway
 	/**
 	 * Returns a Pathway object
 	 *
-	 * @param   string  $client   The name of the client
-	 * @param   array   $options  An associative array of options
+	 * @param   string  $client  The name of the client
 	 *
 	 * @return  Pathway  A Pathway object.
 	 *
-	 * @since   1.5
-	 * @throws  \RuntimeException
+	 * @since       1.5
+	 * @throws      \RuntimeException
+	 * @deprecated  5.0 Get the instance from the application, eg. $application->getPathway()
 	 */
-	public static function getInstance($client, $options = array())
+	public static function getInstance($client)
 	{
 		if (empty(self::$instances[$client]))
 		{
 			// Create a Pathway object
-			$classname = 'JPathway' . ucfirst($client);
+			$name = ucfirst($client) . 'Pathway';
 
-			if (!class_exists($classname))
+			if (!Factory::getContainer()->has($name))
 			{
-				throw new \RuntimeException(\JText::sprintf('JLIB_APPLICATION_ERROR_PATHWAY_LOAD', $client), 500);
+				throw new \RuntimeException(Text::sprintf('JLIB_APPLICATION_ERROR_PATHWAY_LOAD', $client), 500);
 			}
 
-			// Check for a possible service from the container otherwise manually instantiate the class
-			if (\JFactory::getContainer()->has($classname))
-			{
-				self::$instances[$client] = \JFactory::getContainer()->get($classname);
-			}
-			else
-			{
-				self::$instances[$client] = new $classname($options);
-			}
+			self::$instances[$client] = Factory::getContainer()->get($name);
 		}
 
 		return self::$instances[$client];

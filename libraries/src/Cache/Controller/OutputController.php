@@ -2,21 +2,20 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Cache\Controller;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheController;
-use Joomla\CMS\Log\Log;
 
 /**
  * Joomla Cache output type object
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class OutputController extends CacheController
 {
@@ -24,7 +23,7 @@ class OutputController extends CacheController
 	 * Cache data ID
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_id;
 
@@ -32,7 +31,7 @@ class OutputController extends CacheController
 	 * Cache data group
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_group;
 
@@ -44,7 +43,7 @@ class OutputController extends CacheController
 	 *
 	 * @return  mixed  Boolean false on no result, cached object otherwise
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function get($id, $group = null)
 	{
@@ -86,7 +85,7 @@ class OutputController extends CacheController
 	 *
 	 * @return  boolean  True if cache stored
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function store($data, $id, $group = null, $wrkarounds = true)
 	{

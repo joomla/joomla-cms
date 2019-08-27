@@ -2,23 +2,24 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Cache\Storage;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheStorage;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;
+use Joomla\CMS\Factory;
 
 /**
  * Memcached cache storage handler
  *
- * @link   https://secure.php.net/manual/en/book.memcached.php
- * @since  12.1
+ * @link   https://www.php.net/manual/en/book.memcached.php
+ * @since  3.0.0
  */
 class MemcachedStorage extends CacheStorage
 {
@@ -26,7 +27,7 @@ class MemcachedStorage extends CacheStorage
 	 * Memcached connection object
 	 *
 	 * @var    \Memcached
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected static $_db = null;
 
@@ -34,7 +35,7 @@ class MemcachedStorage extends CacheStorage
 	 * Payload compression level
 	 *
 	 * @var    integer
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $_compress = 0;
 
@@ -43,13 +44,13 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @param   array  $options  Optional parameters.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function __construct($options = array())
 	{
 		parent::__construct($options);
 
-		$this->_compress = \JFactory::getConfig()->get('memcached_compress', false) ? \Memcached::OPT_COMPRESSION : 0;
+		$this->_compress = Factory::getApplication()->get('memcached_compress', false) ? \Memcached::OPT_COMPRESSION : 0;
 
 		if (static::$_db === null)
 		{
@@ -62,7 +63,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  \RuntimeException
 	 */
 	protected function getConnection()
@@ -72,14 +73,14 @@ class MemcachedStorage extends CacheStorage
 			throw new \RuntimeException('Memcached Extension is not available');
 		}
 
-		$config = \JFactory::getConfig();
+		$app = Factory::getApplication();
 
-		$host = $config->get('memcached_server_host', 'localhost');
-		$port = $config->get('memcached_server_port', 11211);
+		$host = $app->get('memcached_server_host', 'localhost');
+		$port = $app->get('memcached_server_port', 11211);
 
 
 		// Create the memcached connection
-		if ($config->get('memcached_persist', true))
+		if ($app->get('memcached_persist', true))
 		{
 			static::$_db = new \Memcached($this->_hash);
 			$servers = static::$_db->getServerList();
@@ -123,12 +124,12 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  string   The cache_id string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getCacheId($id, $group)
 	{
 		$prefix   = Cache::getPlatformPrefix();
-		$length   = strlen($prefix);
+		$length   = \strlen($prefix);
 		$cache_id = parent::_getCacheId($id, $group);
 
 		if ($length)
@@ -166,7 +167,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
@@ -178,7 +179,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getAll()
 	{
@@ -187,7 +188,7 @@ class MemcachedStorage extends CacheStorage
 
 		$data = array();
 
-		if (is_array($keys))
+		if (\is_array($keys))
 		{
 			foreach ($keys as $key)
 			{
@@ -230,7 +231,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function store($id, $group, $data)
 	{
@@ -243,14 +244,14 @@ class MemcachedStorage extends CacheStorage
 
 		$index = static::$_db->get($this->_hash . '-index');
 
-		if (!is_array($index))
+		if (!\is_array($index))
 		{
 			$index = array();
 		}
 
 		$tmparr       = new \stdClass;
 		$tmparr->name = $cache_id;
-		$tmparr->size = strlen($data);
+		$tmparr->size = \strlen($data);
 
 		$index[] = $tmparr;
 		static::$_db->set($this->_hash . '-index', $index, 0);
@@ -269,7 +270,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function remove($id, $group)
 	{
@@ -282,7 +283,7 @@ class MemcachedStorage extends CacheStorage
 
 		$index = static::$_db->get($this->_hash . '-index');
 
-		if (is_array($index))
+		if (\is_array($index))
 		{
 			foreach ($index as $key => $value)
 			{
@@ -311,7 +312,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function clean($group, $mode = null)
 	{
@@ -322,7 +323,7 @@ class MemcachedStorage extends CacheStorage
 
 		$index = static::$_db->get($this->_hash . '-index');
 
-		if (is_array($index))
+		if (\is_array($index))
 		{
 			$prefix = $this->_hash . '-cache-' . $group . '-';
 
@@ -365,7 +366,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported()
 	{
@@ -385,7 +386,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  mixed  Boolean false if locking failed or an object containing properties lock and locklooped
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function lock($id, $group, $locktime)
 	{
@@ -432,7 +433,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function unlock($id, $group = null)
 	{
@@ -445,7 +446,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function lockindex()
 	{
@@ -478,7 +479,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function unlockindex()
 	{

@@ -3,16 +3,22 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Modules\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 /**
  * Module controller class.
@@ -24,7 +30,7 @@ class ModuleController extends FormController
 	/**
 	 * Override parent add method.
 	 *
-	 * @return  mixed  True if the record can be added, a \JError object if not.
+	 * @return  mixed  True if the record can be added, a \Exception object if not.
 	 *
 	 * @since   1.6
 	 */
@@ -41,22 +47,22 @@ class ModuleController extends FormController
 		}
 
 		// Look for the Extension ID.
-		$extensionId = $app->input->get('eid', 0, 'int');
+		$extensionId = $this->input->get('eid', 0, 'int');
 
 		if (empty($extensionId))
 		{
 			$redirectUrl = 'index.php?option=' . $this->option . '&view=' . $this->view_item . '&layout=edit';
 
-			$this->setRedirect(\JRoute::_($redirectUrl, false));
+			$this->setRedirect(Route::_($redirectUrl, false));
 
-			$app->enqueueMessage(\JText::_('COM_MODULES_ERROR_INVALID_EXTENSION'), 'warning');
+			$app->enqueueMessage(Text::_('COM_MODULES_ERROR_INVALID_EXTENSION'), 'warning');
 		}
 
 		$app->setUserState('com_modules.add.module.extension_id', $extensionId);
 		$app->setUserState('com_modules.add.module.params', null);
 
 		// Parameters could be coming in for a new item, so let's set them.
-		$params = $app->input->get('params', array(), 'array');
+		$params = $this->input->get('params', array(), 'array');
 		$app->setUserState('com_modules.add.module.params', $params);
 	}
 
@@ -75,6 +81,11 @@ class ModuleController extends FormController
 
 		$this->app->setUserState('com_modules.add.module.extension_id', null);
 		$this->app->setUserState('com_modules.add.module.params', null);
+
+		if ($return = $this->input->get('return', '', 'BASE64'))
+		{
+			$this->app->redirect(base64_decode($return));
+		}
 
 		return $result;
 	}
@@ -127,7 +138,7 @@ class ModuleController extends FormController
 		}
 
 		// Check edit on the record asset (explicit or inherited)
-		if (\JFactory::getUser()->authorise('core.edit', 'com_modules.module.' . $recordId))
+		if ($this->app->getIdentity()->authorise('core.edit', 'com_modules.module.' . $recordId))
 		{
 			return true;
 		}
@@ -146,7 +157,7 @@ class ModuleController extends FormController
 	 */
 	public function batch($model = null)
 	{
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Set the model
 		$model = $this->getModel('Module', 'Administrator', array());
@@ -154,7 +165,7 @@ class ModuleController extends FormController
 		// Preset the redirect
 		$redirectUrl = 'index.php?option=com_modules&view=modules' . $this->getRedirectToListAppend();
 
-		$this->setRedirect(\JRoute::_($redirectUrl, false));
+		$this->setRedirect(Route::_($redirectUrl, false));
 
 		return parent::batch($model);
 	}
@@ -171,21 +182,20 @@ class ModuleController extends FormController
 	 */
 	protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
 	{
-		$app = \JFactory::getApplication();
 		$task = $this->getTask();
 
 		switch ($task)
 		{
 			case 'save2new':
-				$app->setUserState('com_modules.add.module.extension_id', $model->getState('module.extension_id'));
+				$this->app->setUserState('com_modules.add.module.extension_id', $model->getState('module.extension_id'));
 				break;
 
 			default:
-				$app->setUserState('com_modules.add.module.extension_id', null);
+				$this->app->setUserState('com_modules.add.module.extension_id', null);
 				break;
 		}
 
-		$app->setUserState('com_modules.add.module.params', null);
+		$this->app->setUserState('com_modules.add.module.params', null);
 	}
 
 	/**
@@ -198,12 +208,9 @@ class ModuleController extends FormController
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		if (!\JSession::checkToken())
-		{
-			\JFactory::getApplication()->redirect('index.php', \JText::_('JINVALID_TOKEN'));
-		}
+		$this->checkToken();
 
-		if (\JFactory::getDocument()->getType() == 'json')
+		if ($this->app->getDocument()->getType() == 'json')
 		{
 			$model = $this->getModel();
 			$data  = $this->input->post->get('jform', array(), 'array');
@@ -227,11 +234,10 @@ class ModuleController extends FormController
 			$this->input->post->set('jform', $data);
 
 			// Add path of forms directory
-			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
-
+			Form::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
 		}
 
-		parent::save($key, $urlVar);
+		return parent::save($key, $urlVar);
 
 	}
 
@@ -244,7 +250,7 @@ class ModuleController extends FormController
 	 */
 	public function orderPosition()
 	{
-		$app = \JFactory::getApplication();
+		$app = $this->app;
 
 		// Send json mime type.
 		$app->mimeType = 'application/json';
@@ -252,22 +258,21 @@ class ModuleController extends FormController
 		$app->sendHeaders();
 
 		// Check if user token is valid.
-		if (!\JSession::checkToken('get'))
+		if (!Session::checkToken('get'))
 		{
-			$app->enqueueMessage(\JText::_('JINVALID_TOKEN'), 'error');
-			echo new  JsonResponse;
+			$app->enqueueMessage(Text::_('JINVALID_TOKEN_NOTICE'), 'error');
+			echo new JsonResponse;
 			$app->close();
 		}
 
-		$jinput   = $app->input;
-		$clientId = $jinput->getValue('client_id');
-		$position = $jinput->getValue('position');
+		$clientId = $this->input->getValue('client_id');
+		$position = $this->input->getValue('position');
 
-		$db    = \JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('position, ordering, title')
 			->from('#__modules')
-			->where('client_id = ' . (int) $clientId . ' AND position = ' . $db->q($position))
+			->where('client_id = ' . (int) $clientId . ' AND position = ' . $db->quote($position))
 			->order('ordering');
 
 		$db->setQuery($query);
@@ -278,7 +283,7 @@ class ModuleController extends FormController
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			$app->enqueueMessage($e->getMessage(), 'error');
 
 			return '';
 		}
@@ -297,17 +302,50 @@ class ModuleController extends FormController
 
 				$orders2[$orders[$i]->position]++;
 				$ord = $orders2[$orders[$i]->position];
-				$title = \JText::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, htmlspecialchars($orders[$i]->title, ENT_QUOTES, 'UTF-8'));
+				$title = Text::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, htmlspecialchars($orders[$i]->title, ENT_QUOTES, 'UTF-8'));
 
 				$html[] = $orders[$i]->position . ',' . $ord . ',' . $title;
 			}
 		}
 		else
 		{
-			$html[] = $position . ',' . 1 . ',' . \JText::_('JNONE');
+			$html[] = $position . ',' . 1 . ',' . Text::_('JNONE');
 		}
 
 		echo new JsonResponse($html);
 		$app->close();
+	}
+
+	/**
+	 * Gets the URL arguments to append to an item redirect.
+	 *
+	 * @param   integer  $recordId  The primary key id for the item.
+	 * @param   string   $urlVar    The name of the URL variable for the id.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since  4.0.0
+	 */
+	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
+	{
+		$append = parent::getRedirectToItemAppend($recordId);
+		$append .= '&client_id=' . $this->input->getInt('client_id');
+
+		return $append;
+	}
+
+	/**
+	 * Gets the URL arguments to append to a list redirect.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since  4.0.0
+	 */
+	protected function getRedirectToListAppend()
+	{
+		$append = parent::getRedirectToListAppend();
+		$append .= '&client_id=' . $this->input->getInt('client_id');
+
+		return $append;
 	}
 }

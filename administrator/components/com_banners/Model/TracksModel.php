@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Banners\Administrator\Model;
@@ -12,8 +12,11 @@ defined('_JEXEC') or die;
 
 use Joomla\Archive\Archive;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 
 /**
  * Methods supporting a list of tracks.
@@ -177,7 +180,7 @@ class TracksModel extends ListModel
 	 */
 	public function delete()
 	{
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$categoryId = $this->getState('category_id');
 
 		// Access checks.
@@ -221,7 +224,7 @@ class TracksModel extends ListModel
 				$query->where('track_date <= ' . $db->quote($end));
 			}
 
-			$where = '1';
+			$where = '1 = 1';
 
 			// Filter by client
 			$clientId = $this->getState('filter.client_id');
@@ -255,7 +258,7 @@ class TracksModel extends ListModel
 		}
 		else
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
 		}
 
 		return true;
@@ -272,7 +275,7 @@ class TracksModel extends ListModel
 	{
 		if (!isset($this->basename))
 		{
-			$basename   = str_replace('__SITE__', \JFactory::getApplication()->get('sitename'), $this->getState('basename'));
+			$basename   = str_replace('__SITE__', Factory::getApplication()->get('sitename'), $this->getState('basename'));
 			$categoryId = $this->getState('filter.category_id');
 
 			if (is_numeric($categoryId))
@@ -320,7 +323,7 @@ class TracksModel extends ListModel
 			if ($type > 0)
 			{
 				$basename = str_replace('__TYPE__', $type, $basename);
-				$typeName = \JText::_('COM_BANNERS_TYPE' . $type);
+				$typeName = Text::_('COM_BANNERS_TYPE' . $type);
 				$basename = str_replace('__TYPENAME__', $typeName, $basename);
 			}
 			else
@@ -390,7 +393,7 @@ class TracksModel extends ListModel
 			return $name;
 		}
 
-		return \JText::_('COM_BANNERS_NOCATEGORYNAME');
+		return Text::_('COM_BANNERS_NOCATEGORYNAME');
 	}
 
 	/**
@@ -427,7 +430,7 @@ class TracksModel extends ListModel
 			return $name;
 		}
 
-		return \JText::_('COM_BANNERS_NOCLIENTNAME');
+		return Text::_('COM_BANNERS_NOCLIENTNAME');
 	}
 
 	/**
@@ -465,26 +468,26 @@ class TracksModel extends ListModel
 	{
 		if (!isset($this->content))
 		{
-			$this->content = '"' . str_replace('"', '""', \JText::_('COM_BANNERS_HEADING_NAME')) . '","'
-				. str_replace('"', '""', \JText::_('COM_BANNERS_HEADING_CLIENT')) . '","'
-				. str_replace('"', '""', \JText::_('JCATEGORY')) . '","'
-				. str_replace('"', '""', \JText::_('COM_BANNERS_HEADING_TYPE')) . '","'
-				. str_replace('"', '""', \JText::_('COM_BANNERS_HEADING_COUNT')) . '","'
-				. str_replace('"', '""', \JText::_('JDATE')) . '"' . "\n";
+			$this->content = '"' . str_replace('"', '""', Text::_('COM_BANNERS_HEADING_NAME')) . '","'
+				. str_replace('"', '""', Text::_('COM_BANNERS_HEADING_CLIENT')) . '","'
+				. str_replace('"', '""', Text::_('JCATEGORY')) . '","'
+				. str_replace('"', '""', Text::_('COM_BANNERS_HEADING_TYPE')) . '","'
+				. str_replace('"', '""', Text::_('COM_BANNERS_HEADING_COUNT')) . '","'
+				. str_replace('"', '""', Text::_('JDATE')) . '"' . "\n";
 
 			foreach ($this->getItems() as $item)
 			{
 				$this->content .= '"' . str_replace('"', '""', $item->banner_name) . '","'
 					. str_replace('"', '""', $item->client_name) . '","'
 					. str_replace('"', '""', $item->category_title) . '","'
-					. str_replace('"', '""', ($item->track_type == 1 ? \JText::_('COM_BANNERS_IMPRESSION') : \JText::_('COM_BANNERS_CLICK'))) . '","'
+					. str_replace('"', '""', ($item->track_type == 1 ? Text::_('COM_BANNERS_IMPRESSION') : Text::_('COM_BANNERS_CLICK'))) . '","'
 					. str_replace('"', '""', $item->count) . '","'
 					. str_replace('"', '""', $item->track_date) . '"' . "\n";
 			}
 
 			if ($this->getState('compressed'))
 			{
-				$app = \JFactory::getApplication('administrator');
+				$app = Factory::getApplication();
 
 				$files = array(
 					'track' => array(
@@ -496,16 +499,14 @@ class TracksModel extends ListModel
 				$ziproot = $app->get('tmp_path') . '/' . uniqid('banners_tracks_') . '.zip';
 
 				// Run the packager
-				jimport('joomla.filesystem.folder');
-				jimport('joomla.filesystem.file');
-				$delete = \JFolder::files($app->get('tmp_path') . '/', uniqid('banners_tracks_'), false, true);
+				$delete = Folder::files($app->get('tmp_path') . '/', uniqid('banners_tracks_'), false, true);
 
 				if (!empty($delete))
 				{
-					if (!\JFile::delete($delete))
+					if (!File::delete($delete))
 					{
-						// \JFile::delete throws an error
-						$this->setError(\JText::_('COM_BANNERS_ERR_ZIP_DELETE_FAILURE'));
+						// File::delete throws an error
+						$this->setError(Text::_('COM_BANNERS_ERR_ZIP_DELETE_FAILURE'));
 
 						return false;
 					}
@@ -515,13 +516,13 @@ class TracksModel extends ListModel
 
 				if (!$packager = $archive->getAdapter('zip'))
 				{
-					$this->setError(\JText::_('COM_BANNERS_ERR_ZIP_ADAPTER_FAILURE'));
+					$this->setError(Text::_('COM_BANNERS_ERR_ZIP_ADAPTER_FAILURE'));
 
 					return false;
 				}
 				elseif (!$packager->create($ziproot, $files))
 				{
-					$this->setError(\JText::_('COM_BANNERS_ERR_ZIP_CREATE_FAILURE'));
+					$this->setError(Text::_('COM_BANNERS_ERR_ZIP_CREATE_FAILURE'));
 
 					return false;
 				}

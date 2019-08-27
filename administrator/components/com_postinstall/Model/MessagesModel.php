@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,11 @@ namespace Joomla\Component\Postinstall\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Extension\ExtensionHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Postinstall\Administrator\Helper\PostinstallHelper;
 
@@ -53,7 +58,7 @@ class MessagesModel extends BaseDatabaseModel
 					'version_introduced',
 					'enabled')
 			)
-		)->from($db->quoteName('#__postinstall_messages'))->where($db->qn('postinstall_message_id') . ' = ' . $db->q($id));
+		)->from($db->quoteName('#__postinstall_messages'))->where($db->quoteName('postinstall_message_id') . ' = ' . $db->quote($id));
 
 		$db->setQuery($query);
 
@@ -75,7 +80,7 @@ class MessagesModel extends BaseDatabaseModel
 
 		$query = $db->getQuery(true);
 		$query->update($db->quoteName('#__postinstall_messages'))
-			->set($db->qn('enabled') . ' = ' . $db->q(0))->where($db->qn('postinstall_message_id') . ' = ' . $db->q($id));
+			->set($db->quoteName('enabled') . ' = ' . $db->quote(0))->where($db->quoteName('postinstall_message_id') . ' = ' . $db->quote($id));
 		$db->setQuery($query);
 		$db->execute();
 	}
@@ -83,7 +88,7 @@ class MessagesModel extends BaseDatabaseModel
 	/**
 	 * Returns a list of messages from the #__postinstall_messages table
 	 *
-	 * @return  Object
+	 * @return  array
 	 *
 	 * @since   3.2
 	 */
@@ -96,7 +101,7 @@ class MessagesModel extends BaseDatabaseModel
 		$query->select(
 			$db->quoteName(
 				array
-			('postinstall_message_id',
+				('postinstall_message_id',
 											'extension_id',
 											'title_key',
 											'description_key',
@@ -110,16 +115,16 @@ class MessagesModel extends BaseDatabaseModel
 											'condition_method',
 											'version_introduced',
 											'enabled')
-									)
+			)
 		);
 
 		// Add a forced extension filtering to the list
-		$eid = $this->getState('eid', 700);
-		$query->where($db->qn('extension_id') . ' = ' . $db->q($eid));
+		$eid = $this->getState('eid', $this->getJoomlaFilesExtensionId());
+		$query->where($db->quoteName('extension_id') . ' = ' . $db->quote($eid));
 
 		// Force filter only enabled messages
 		$published = $this->getState('published', 1);
-		$query->where($db->qn('enabled') . ' = ' . $db->q($published));
+		$query->where($db->quoteName('enabled') . ' = ' . (int) $published);
 
 		$query->from($db->quoteName('#__postinstall_messages'));
 
@@ -148,10 +153,11 @@ class MessagesModel extends BaseDatabaseModel
 
 		$query = $db->getQuery(true)
 			->select(array('name', 'element', 'client_id'))
-			->from($db->qn('#__extensions'))
-			->where($db->qn('extension_id') . ' = ' . $db->q((int) $eid));
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('extension_id') . ' = ' . (int) $eid);
 
-		$db->setQuery($query, 0, 1);
+		$query->setLimit(1);
+		$db->setQuery($query);
 
 		$extension = $db->loadObject();
 
@@ -168,11 +174,11 @@ class MessagesModel extends BaseDatabaseModel
 			$basePath = JPATH_SITE;
 		}
 
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getApplication()->getLanguage();
 		$lang->load($extension->element, $basePath);
 
 		// Return the localised name
-		return \JText::_(strtoupper($extension->name));
+		return Text::_(strtoupper($extension->name));
 	}
 
 	/**
@@ -189,9 +195,31 @@ class MessagesModel extends BaseDatabaseModel
 		$db = $this->getDbo();
 
 		$query = $db->getQuery(true)
-			->update($db->qn('#__postinstall_messages'))
-			->set($db->qn('enabled') . ' = ' . $db->q(1))
-			->where($db->qn('extension_id') . ' = ' . $db->q($eid));
+			->update($db->quoteName('#__postinstall_messages'))
+			->set($db->quoteName('enabled') . ' = 1')
+			->where($db->quoteName('extension_id') . ' = ' . (int) $eid);
+		$db->setQuery($query);
+
+		return $db->execute();
+	}
+
+	/**
+	 * Hides all messages for an extension
+	 *
+	 * @param   integer  $eid  The extension ID whose messages we'll hide
+	 *
+	 * @return  mixed  False if we fail, a db cursor otherwise
+	 *
+	 * @since   3.8.7
+	 */
+	public function hideMessages($eid)
+	{
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__postinstall_messages'))
+			->set($db->quoteName('enabled') . ' = 0')
+			->where($db->quoteName('extension_id') . ' = ' . (int) $eid);
 		$db->setQuery($query);
 
 		return $db->execute();
@@ -224,12 +252,10 @@ class MessagesModel extends BaseDatabaseModel
 			// Filter out messages based on dynamically loaded programmatic conditions.
 			if (!empty($item->condition_file) && !empty($item->condition_method))
 			{
-				jimport('joomla.filesystem.file');
-
 				$helper = new PostinstallHelper;
 				$file = $helper->parsePath($item->condition_file);
 
-				if (\JFile::exists($file))
+				if (File::exists($file))
 				{
 					require_once $file;
 
@@ -250,7 +276,7 @@ class MessagesModel extends BaseDatabaseModel
 				if (!in_array($hash, $language_extensions))
 				{
 					$language_extensions[] = $hash;
-					\JFactory::getLanguage()->load($item->language_extension, $item->language_client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR);
+					Factory::getApplication()->getLanguage()->load($item->language_extension, $item->language_client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR);
 				}
 			}
 		}
@@ -277,18 +303,18 @@ class MessagesModel extends BaseDatabaseModel
 
 		$query = $db->getQuery(true)
 			->select('extension_id')
-			->from($db->qn('#__postinstall_messages'))
-			->group(array($db->qn('extension_id')));
+			->from($db->quoteName('#__postinstall_messages'))
+			->group(array($db->quoteName('extension_id')));
 		$db->setQuery($query);
 		$extension_ids = $db->loadColumn();
 
 		$options = array();
 
-		\JFactory::getLanguage()->load('files_joomla.sys', JPATH_SITE, null, false, false);
+		Factory::getApplication()->getLanguage()->load('files_joomla.sys', JPATH_SITE, null, false, false);
 
 		foreach ($extension_ids as $eid)
 		{
-			$options[] = \JHtml::_('select.option', $eid, $this->getExtensionName($eid));
+			$options[] = HTMLHelper::_('select.option', $eid, $this->getExtensionName($eid));
 		}
 
 		return $options;
@@ -310,13 +336,13 @@ class MessagesModel extends BaseDatabaseModel
 	 *                         action   A PHP action takes place when the action button is clicked. You need to specify the action_file
 	 *                                  (RAD path to the PHP file) and action (PHP function name) keys. See below for more information.
 	 *
-	 * title_key           The JText language key for the title of this PIM.
+	 * title_key           The Text language key for the title of this PIM.
 	 *                     Example: COM_FOOBAR_POSTINSTALL_MESSAGEONE_TITLE
 	 *
-	 * description_key     The JText language key for the main body (description) of this PIM
+	 * description_key     The Text language key for the main body (description) of this PIM
 	 *                     Example: COM_FOOBAR_POSTINSTALL_MESSAGEONE_DESCRIPTION
 	 *
-	 * action_key          The JText language key for the action button. Ignored and not required when type=message
+	 * action_key          The Text language key for the action button. Ignored and not required when type=message
 	 *                     Example: COM_FOOBAR_POSTINSTALL_MESSAGEONE_ACTION
 	 *
 	 * language_extension  The extension name which holds the language keys used above.
@@ -512,10 +538,10 @@ class MessagesModel extends BaseDatabaseModel
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
-			->from($db->qn($tableName))
-			->where($db->qn('extension_id') . ' = ' . $db->q($options['extension_id']))
-			->where($db->qn('type') . ' = ' . $db->q($options['type']))
-			->where($db->qn('title_key') . ' = ' . $db->q($options['title_key']));
+			->from($db->quoteName($tableName))
+			->where($db->quoteName('extension_id') . ' = ' . (int) $options['extension_id'])
+			->where($db->quoteName('type') . ' = ' . $db->quote($options['type']))
+			->where($db->quoteName('title_key') . ' = ' . $db->quote($options['title_key']));
 
 		$existingRow = $db->setQuery($query)->loadAssoc();
 
@@ -541,10 +567,10 @@ class MessagesModel extends BaseDatabaseModel
 
 			// Otherwise it's not the same row. Remove the old row before insert a new one.
 			$query = $db->getQuery(true)
-				->delete($db->qn($tableName))
-				->where($db->q('extension_id') . ' = ' . $db->q($options['extension_id']))
-				->where($db->q('type') . ' = ' . $db->q($options['type']))
-				->where($db->q('title_key') . ' = ' . $db->q($options['title_key']));
+				->delete($db->quoteName($tableName))
+				->where($db->quote('extension_id') . ' = ' . (int) $options['extension_id'])
+				->where($db->quote('type') . ' = ' . $db->quote($options['type']))
+				->where($db->quote('title_key') . ' = ' . $db->quote($options['title_key']));
 
 			$db->setQuery($query)->execute();
 		}
@@ -554,5 +580,17 @@ class MessagesModel extends BaseDatabaseModel
 		$db->insertObject($tableName, $options);
 
 		return $this;
+	}
+
+	/**
+	 * Returns the library extension ID.
+	 *
+	 * @return  integer
+	 *
+	 * @since   4.0.0
+	 */
+	public function getJoomlaFilesExtensionId()
+	{
+		return ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
 	}
 }

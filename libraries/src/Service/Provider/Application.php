@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Service
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,16 +11,25 @@ namespace Joomla\CMS\Service\Provider;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Console\Application as BaseConsoleApplication;
 use Joomla\CMS\Application\AdministratorApplication;
+use Joomla\CMS\Application\ApiApplication;
 use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Console\Loader\WritableContainerLoader;
+use Joomla\CMS\Console\Loader\WritableLoaderInterface;
+use Joomla\CMS\Console\SessionGcCommand;
+use Joomla\CMS\Console\SessionMetadataGcCommand;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Session\Session;
+use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\Console\Application as BaseConsoleApplication;
+use Joomla\Console\Loader\LoaderInterface;
+use Joomla\Database\Command\ExportCommand;
+use Joomla\Database\Command\ImportCommand;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Session\Storage\RuntimeStorage;
+use Joomla\Event\DispatcherInterface;
+use Joomla\Session\SessionInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Application service provider
@@ -45,7 +54,7 @@ class Application implements ServiceProviderInterface
 				'JApplicationAdministrator',
 				function (Container $container)
 				{
-					$app = new AdministratorApplication(null, null, null, $container);
+					$app = new AdministratorApplication(null, $container->get('config'), null, $container);
 
 					// The session service provider needs Factory::$application, set it if still null
 					if (Factory::$application === null)
@@ -53,9 +62,10 @@ class Application implements ServiceProviderInterface
 						Factory::$application = $app;
 					}
 
-					$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
-					$app->setLogger(Log::createDelegatedLogger());
-					$app->setSession($container->get('Joomla\Session\SessionInterface'));
+					$app->setDispatcher($container->get(DispatcherInterface::class));
+					$app->setLogger($container->get(LoggerInterface::class));
+					$app->setSession($container->get(SessionInterface::class));
+					$app->setUserFactory($container->get(UserFactoryInterface::class));
 
 					return $app;
 				},
@@ -67,7 +77,7 @@ class Application implements ServiceProviderInterface
 				'JApplicationSite',
 				function (Container $container)
 				{
-					$app = new SiteApplication(null, null, null, $container);
+					$app = new SiteApplication(null, $container->get('config'), null, $container);
 
 					// The session service provider needs Factory::$application, set it if still null
 					if (Factory::$application === null)
@@ -75,9 +85,10 @@ class Application implements ServiceProviderInterface
 						Factory::$application = $app;
 					}
 
-					$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
-					$app->setLogger(Log::createDelegatedLogger());
-					$app->setSession($container->get('Joomla\Session\SessionInterface'));
+					$app->setDispatcher($container->get(DispatcherInterface::class));
+					$app->setLogger($container->get(LoggerInterface::class));
+					$app->setSession($container->get(SessionInterface::class));
+					$app->setUserFactory($container->get(UserFactoryInterface::class));
 
 					return $app;
 				},
@@ -89,17 +100,59 @@ class Application implements ServiceProviderInterface
 				BaseConsoleApplication::class,
 				function (Container $container)
 				{
-					$app = new ConsoleApplication;
+					$dispatcher = $container->get(DispatcherInterface::class);
 
-					$dispatcher = $container->get('Joomla\Event\DispatcherInterface');
+					$app = new ConsoleApplication(null, null, $container->get('config'), $dispatcher, $container);
 
-					$session = new Session(new RuntimeStorage);
-					$session->setDispatcher($dispatcher);
+					// The session service provider needs Factory::$application, set it if still null
+					if (Factory::$application === null)
+					{
+						Factory::$application = $app;
+					}
 
-					$app->setContainer($container);
-					$app->setDispatcher($dispatcher);
-					$app->setLogger(Log::createDelegatedLogger());
-					$app->setSession($session);
+					$app->setCommandLoader($container->get(LoaderInterface::class));
+					$app->setLogger($container->get(LoggerInterface::class));
+					$app->setSession($container->get(SessionInterface::class));
+					$app->setUserFactory($container->get(UserFactoryInterface::class));
+
+					return $app;
+				},
+				true
+			);
+
+		$container->alias(WritableContainerLoader::class, LoaderInterface::class)
+			->alias(WritableLoaderInterface::class, LoaderInterface::class)
+			->share(
+				LoaderInterface::class,
+				function (Container $container)
+				{
+					$mapping = [
+						SessionGcCommand::getDefaultName()         => SessionGcCommand::class,
+						SessionMetadataGcCommand::getDefaultName() => SessionMetadataGcCommand::class,
+						ExportCommand::getDefaultName()            => ExportCommand::class,
+						ImportCommand::getDefaultName()            => ImportCommand::class,
+					];
+
+					return new WritableContainerLoader($container, $mapping);
+				},
+				true
+			);
+
+		$container->alias(ApiApplication::class, 'JApplicationApi')
+			->share(
+				'JApplicationApi',
+				function (Container $container) {
+					$app = new ApiApplication(null, null, null, $container);
+
+					// The session service provider needs Factory::$application, set it if still null
+					if (Factory::$application === null)
+					{
+						Factory::$application = $app;
+					}
+
+					$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
+					$app->setLogger($container->get(LoggerInterface::class));
+					$app->setSession($container->get('Joomla\Session\SessionInterface'));
 
 					return $app;
 				},

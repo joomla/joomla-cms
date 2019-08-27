@@ -4,122 +4,71 @@
 // Atum Variables
 @import "variables";
 
-// Flying Focus
-@import "../../../../media/vendor/flying-focus-a11y/scss/flying-focus";
+// Mixins
+@import "mixin";
 
 // Bootstrap other
-@import "../../../../media/vendor/bootstrap/scss/mixins";
-@import "../../../../media/vendor/bootstrap/scss/variables";
-@import "../../../../media/vendor/bootstrap/scss/custom-forms";
+@import "vendor/bootstrap";
+
+// Fonts
+@import "../../../../media/vendor/roboto-fontface/scss/roboto/sass/roboto-fontface";
+@import "fonts/fontawesome";
 
 // Alert
-@import "../../../../media/system/scss/jalert";
+@import "../../../../build/media_source/system/scss/jalert";
 
-// Switcher
-@import "../../../../media/system/scss/switcher";
+// jQuery Minicolors
+@import "../../../../build/media_source/system/scss/jquery-minicolors";
 
 // Blocks
 @import "blocks/global"; // Leave this first
 @import "blocks/alerts";
-@import "blocks/form";
+@import "blocks/edit";
 @import "blocks/header";
+@import "blocks/form";
 @import "blocks/icons";
 @import "blocks/iframe";
+@import "blocks/layout";
 @import "blocks/login";
 @import "blocks/modals";
 @import "blocks/quickicons";
 @import "blocks/searchtools";
+@import "blocks/lists";
 @import "blocks/sidebar";
 @import "blocks/sidebar-nav";
-@import "blocks/status";
+@import "blocks/system-message";
 @import "blocks/toolbar";
 @import "blocks/treeselect";
 @import "blocks/utilities";
+@import "blocks/tabs";
 
 // Vendor overrides
 @import "vendor/awesomplete";
-//@import "vendor/bootstrap/alert";
+@import "vendor/bootstrap/badge";
 @import "vendor/bootstrap/buttons";
 @import "vendor/bootstrap/card";
 @import "vendor/bootstrap/custom-forms";
 @import "vendor/bootstrap/collapse";
 @import "vendor/bootstrap/dropdown";
+@import "vendor/bootstrap/form";
 @import "vendor/bootstrap/lists";
 @import "vendor/bootstrap/modal";
 @import "vendor/bootstrap/nav";
 @import "vendor/bootstrap/pagination";
 @import "vendor/bootstrap/table";
+@import "vendor/codemirror";
 @import "vendor/chosen";
+@import "vendor/choicesjs";
 @import "vendor/dragula";
 @import "vendor/minicolors";
 @import "vendor/tinymce";
 
 // Page specifics
+@import "pages/com_admin";
 @import "pages/com_config";
+@import "pages/com_content";
 @import "pages/com_cpanel";
-@import "pages/com_modules";
+@import "pages/com_tags";
+@import "pages/com_privacy";
 @import "pages/com_templates";
 @import "pages/com_users";
-
-.container-main,
-.system-debug {
-  padding-bottom: 50px;
-}
-
-.container-main {
-  position: relative;
-  min-height: calc(100vh - 50px);
-  padding-top: 15px;
-  background-color: $atum-container-main-bg;
-
-  @include media-breakpoint-down(md) {
-    padding-left: 50px;
-    // 50px - 3px which is the header bottom border
-    margin-top: 47px;
-  }
-}
-
-.list-view-main {
-
-  .container-main {
-    background-color: $atum-container-main-bg;
-  }
-
-}
-
-.content {
-  margin-top: 45px;
-  border-radius: $border-radius;
-
-  > .row {
-    margin-right: 0;
-    margin-left: 0;
-  }
-
-}
-
-.j-main-container {
-  background-color: $white-offset;
-  border: 1px solid rgba(0,0,0,.17);
-  border-radius: $border-radius;
-  box-shadow: 0 0 3px rgba(0,0,0,.075);
-}
-
-.row-selected {
-  background-color: $table-row-selected;
-}
-
-// Chosen (TEMPORARY)
-.chzn-container-single {
-  width: auto !important;
-}
-
-// Multilingual associations specific
-.item-associations {
-  padding: 0;
-}
-
-.item-associations li {
-  display: inline-block;
-  list-style: none;
-}

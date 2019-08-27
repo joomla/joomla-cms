@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\String\PunycodeHelper;
 
 extract($displayData);
 
@@ -46,11 +48,12 @@ extract($displayData);
  */
 
 $autocomplete = !$autocomplete ? 'autocomplete="off"' : 'autocomplete="' . $autocomplete . '"';
-$autocomplete = $autocomplete == 'autocomplete="on"' ? '' : $autocomplete;
+$autocomplete = $autocomplete === 'autocomplete="on"' ? '' : $autocomplete;
 
 $attributes = array(
 	$spellcheck ? '' : 'spellcheck="false"',
 	!empty($size) ? 'size="' . $size . '"' : '',
+	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	$onchange ? 'onchange="' . $onchange . '"' : '',
@@ -58,14 +61,15 @@ $attributes = array(
 	$multiple ? 'multiple' : '',
 	!empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '',
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
-	$required ? 'required aria-required="true"' : '',
+	$required ? 'required' : '',
 	$autofocus ? 'autofocus' : '',
 );
 ?>
 <input
 	type="email"
+	inputmode="email"
 	name="<?php echo $name; ?>"
 	<?php echo !empty($class) ? ' class="form-control validate-email ' . $class . '"' : ' class="form-control validate-email"'; ?>
 	id="<?php echo $id; ?>"
-	value="<?php echo htmlspecialchars(JStringPunycode::emailToUTF8($value), ENT_COMPAT, 'UTF-8'); ?>"
+	value="<?php echo htmlspecialchars(PunycodeHelper::emailToUTF8($value), ENT_COMPAT, 'UTF-8'); ?>"
 	<?php echo implode(' ', $attributes); ?>>

@@ -3,14 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_logged
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Module\Logged\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Registry\Registry;
 
 /**
  * Helper for mod_logged
@@ -22,22 +28,25 @@ abstract class LoggedHelper
 	/**
 	 * Get a list of logged users.
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  The module parameters.
+	 * @param   Registry           $params  The module parameters
+	 * @param   CMSApplication     $app     The application
+	 * @param   DatabaseInterface  $db      The database
 	 *
 	 * @return  mixed  An array of users, or false on error.
 	 *
 	 * @throws  \RuntimeException
 	 */
-	public static function getList(&$params)
+	public static function getList(Registry $params, CMSApplication $app, DatabaseInterface $db)
 	{
-		$db    = Factory::getDbo();
-		$user  = Factory::getUser();
+		$user  = $app->getIdentity();
 		$query = $db->getQuery(true)
 			->select('s.time, s.client_id, u.id, u.name, u.username')
 			->from('#__session AS s')
 			->join('LEFT', '#__users AS u ON s.userid = u.id')
-			->where('s.guest = 0');
-		$db->setQuery($query, 0, $params->get('count', 5));
+			->where('s.guest = 0')
+			->setLimit($params->get('count', 5), 0);
+
+		$db->setQuery($query);
 
 		try
 		{
@@ -54,8 +63,10 @@ abstract class LoggedHelper
 
 			if ($user->authorise('core.manage', 'com_users'))
 			{
-				$results[$k]->editLink   = \JRoute::_('index.php?option=com_users&task=user.edit&id=' . $result->id);
-				$results[$k]->logoutLink = \JRoute::_('index.php?option=com_login&task=logout&uid=' . $result->id . '&' . \JSession::getFormToken() . '=1');
+				$results[$k]->editLink   = Route::_('index.php?option=com_users&task=user.edit&id=' . $result->id);
+				$results[$k]->logoutLink = Route::_(
+					'index.php?option=com_login&task=logout&uid=' . $result->id . '&' . Session::getFormToken() . '=1'
+				);
 			}
 
 			if ($params->get('name', 1) == 0)
@@ -76,6 +87,6 @@ abstract class LoggedHelper
 	 */
 	public static function getTitle($params)
 	{
-		return \JText::plural('MOD_LOGGED_TITLE', $params->get('count'));
+		return Text::plural('MOD_LOGGED_TITLE', $params->get('count', 5));
 	}
 }

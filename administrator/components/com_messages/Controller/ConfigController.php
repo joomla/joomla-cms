@@ -3,14 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Messages\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
 
 /**
  * Messages Component Message Model
@@ -29,9 +32,8 @@ class ConfigController extends BaseController
 	public function save()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		$app   = \JFactory::getApplication();
 		$model = $this->getModel('Config', 'MessagesModel');
 		$data  = $this->input->post->get('jform', array(), 'array');
 
@@ -41,8 +43,6 @@ class ConfigController extends BaseController
 		if (!$form)
 		{
 			throw new \Exception($model->getError(), 500);
-
-			return false;
 		}
 
 		$data = $model->validate($form, $data);
@@ -58,16 +58,16 @@ class ConfigController extends BaseController
 			{
 				if ($errors[$i] instanceof \Exception)
 				{
-					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+					$this->app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
 				else
 				{
-					$app->enqueueMessage($errors[$i], 'warning');
+					$this->app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
 
 			// Redirect back to the main list.
-			$this->setRedirect(\JRoute::_('index.php?option=com_messages&view=messages', false));
+			$this->setRedirect(Route::_('index.php?option=com_messages&view=messages', false));
 
 			return false;
 		}
@@ -76,15 +76,15 @@ class ConfigController extends BaseController
 		if (!$model->save($data))
 		{
 			// Redirect back to the main list.
-			$this->setMessage(\JText::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'warning');
-			$this->setRedirect(\JRoute::_('index.php?option=com_messages&view=messages', false));
+			$this->setMessage(Text::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'warning');
+			$this->setRedirect(Route::_('index.php?option=com_messages&view=messages', false));
 
 			return false;
 		}
 
 		// Redirect to the list screen.
-		$this->setMessage(\JText::_('COM_MESSAGES_CONFIG_SAVED'));
-		$this->setRedirect(\JRoute::_('index.php?option=com_messages&view=messages', false));
+		$this->setMessage(Text::_('COM_MESSAGES_CONFIG_SAVED'));
+		$this->setRedirect(Route::_('index.php?option=com_messages&view=messages', false));
 
 		return true;
 	}

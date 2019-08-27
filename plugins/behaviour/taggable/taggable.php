@@ -3,14 +3,17 @@
  * @package     Joomla.Plugin
  * @subpackage  Taggable
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\Event\DispatcherInterface;
 use Joomla\CMS\Event as CmsEvent;
+use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Table\TableInterface;
+use Joomla\Event\DispatcherInterface;
 
 /**
  * Implements the Taggable behaviour which allows extensions to automatically support tags for their content items.
@@ -19,7 +22,7 @@ use Joomla\CMS\Event as CmsEvent;
  *
  * @since  4.0.0
  */
-class PlgBehaviourTaggable extends JPlugin
+class PlgBehaviourTaggable extends CMSPlugin
 {
 	/**
 	 * Constructor
@@ -68,7 +71,7 @@ class PlgBehaviourTaggable extends JPlugin
 			return;
 		}
 
-		$table->tagsHelper = new JHelperTags;
+		$table->tagsHelper = new TagsHelper;
 		$table->tagsHelper->typeAlias = $table->typeAlias;
 
 		// This is required because getTagIds overrides the tags property of the Tags Helper.
@@ -148,7 +151,7 @@ class PlgBehaviourTaggable extends JPlugin
 			return;
 		}
 
-		if (!is_object($table) || !($table instanceof JTableInterface))
+		if (!is_object($table) || !($table instanceof TableInterface))
 		{
 			return;
 		}
@@ -280,7 +283,7 @@ class PlgBehaviourTaggable extends JPlugin
 	 * @param   CmsEvent\Table\AfterResetEvent  $event  The event to handle
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0.0
 	 */
 	public function onTableAfterReset(CmsEvent\Table\AfterResetEvent $event)
@@ -298,7 +301,7 @@ class PlgBehaviourTaggable extends JPlugin
 			return;
 		}
 
-		$table->tagsHelper = new JHelperTags;
+		$table->tagsHelper = new TagsHelper;
 		$table->tagsHelper->typeAlias = $table->typeAlias;
 	}
 
@@ -308,7 +311,7 @@ class PlgBehaviourTaggable extends JPlugin
 	 * @param   CmsEvent\Table\AfterLoadEvent  $event  The event to handle
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0.0
 	 */
 	public function onTableAfterLoad(CmsEvent\Table\AfterLoadEvent $event)
@@ -354,7 +357,7 @@ class PlgBehaviourTaggable extends JPlugin
 	 *
 	 * @internal
 	 */
-	protected function parseTypeAlias(JTableInterface &$table)
+	protected function parseTypeAlias(TableInterface &$table)
 	{
 		if (!isset($table->typeAlias))
 		{
@@ -367,7 +370,7 @@ class PlgBehaviourTaggable extends JPlugin
 		}
 
 		return preg_replace_callback('/{([^}]+)}/',
-			function($matches) use ($table)
+			function ($matches) use ($table)
 			{
 				return $table->{$matches[1]};
 			},

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,13 +11,14 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Language\Text;
 
 /**
  * Form Field class for the Joomla Platform.
  * Supports a one line text field.
  *
  * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
- * @since  11.1
+ * @since  1.7.0
  */
 class NoteField extends FormField
 {
@@ -25,7 +26,7 @@ class NoteField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Note';
 
@@ -34,7 +35,7 @@ class NoteField extends FormField
 	 *
 	 * @return  string  The field label markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getLabel()
 	{
@@ -57,8 +58,8 @@ class NoteField extends FormField
 			$html[] = '<button type="button" class="close" data-dismiss="' . $close . '">&times;</button>';
 		}
 
-		$html[] = !empty($title) ? '<' . $heading . '>' . \JText::_($title) . '</' . $heading . '>' : '';
-		$html[] = !empty($description) ? \JText::_($description) : '';
+		$html[] = !empty($title) ? '<' . $heading . '>' . Text::_($title) . '</' . $heading . '>' : '';
+		$html[] = !empty($description) ? Text::_($description) : '';
 
 		return '</div><div ' . $class . '>' . implode('', $html);
 	}
@@ -68,7 +69,7 @@ class NoteField extends FormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{

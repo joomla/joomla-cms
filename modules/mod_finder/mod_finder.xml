@@ -3,12 +3,13 @@
 	<name>mod_finder</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2011</creationDate>
-	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_FINDER_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Finder</namespace>
 	<files>
 		<filename module="mod_finder">mod_finder.php</filename>
 		<folder>tmpl</folder>
@@ -20,7 +21,7 @@
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_SMART_SEARCH" />
 	<config>
-		<fields name="params" addfieldpath="/administrator/components/com_finder/models/fields">
+		<fields name="params" addfieldprefix="Joomla\Component\Finder\Administrator\Field">
 			<fieldset name="basic">
 				<field
 					name="searchfilter"
@@ -35,6 +36,7 @@
 					class="switcher"
 					label="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_LABEL"
 					default="1"
+					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -45,6 +47,7 @@
 					type="list"
 					label="MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_LABEL"
 					default="0"
+					filter="integer"
 					>
 					<option value="2">MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_OPTION_LINK</option>
 					<option value="1">JSHOW</option>
@@ -57,6 +60,7 @@
 					class="switcher"
 					label="MOD_FINDER_FIELDSET_ADVANCED_SHOW_LABEL_LABEL"
 					default="1"
+					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -74,6 +78,7 @@
 					class="switcher"
 					label="MOD_FINDER_FIELDSET_ADVANCED_SHOW_BUTTON_LABEL"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -85,22 +90,25 @@
 					class="switcher"
 					label="MOD_FINDER_FIELD_OPENSEARCH_LABEL"
 					default="1"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-
+ 
 				<field
-					name="opensearch_title"
+					name="opensearch_name"
 					type="text"
 					label="MOD_FINDER_FIELD_OPENSEARCH_TEXT_LABEL"
+					showon="opensearch:1"
 				/>
-
+ 
 				<field
 					name="set_itemid"
 					type="menuitem"
 					label="MOD_FINDER_FIELDSET_ADVANCED_SETITEMID_LABEL"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">MOD_FINDER_SELECT_MENU_ITEMID</option>
 				</field>
@@ -110,6 +118,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
+					class="custom-select"
 				/>
 
 				<field

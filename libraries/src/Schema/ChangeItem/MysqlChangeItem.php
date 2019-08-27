@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,9 @@ class MysqlChangeItem extends ChangeItem
 	protected function buildCheckQuery()
 	{
 		// Initialize fields in case we can't create a check query
-		$this->checkStatus = -1; // change status to skipped
+
+		// Change status to skipped
+		$this->checkStatus = -1;
 		$result = null;
 
 		// Remove any newlines
@@ -50,7 +52,7 @@ class MysqlChangeItem extends ChangeItem
 		$find = array('#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#');
 		$replace = array('($3)', '$1');
 		$updateQuery = preg_replace($find, $replace, $this->updateQuery);
-		$wordArray = explode(' ', $updateQuery);
+		$wordArray = preg_split("~'[^']*'(*SKIP)(*F)|\s+~u", trim($updateQuery, "; \t\n\r\0\x0B"));
 
 		// First, make sure we have an array of at least 6 elements
 		// if not, we can't make a check query for this one
@@ -154,6 +156,11 @@ class MysqlChangeItem extends ChangeItem
 					$type = $this->fixInteger($wordArray[5], $wordArray[6]);
 				}
 
+				// Detect changes in NULL and in DEFAULT column attributes
+				$changesArray = array_slice($wordArray, 6);
+				$defaultCheck = $this->checkDefault($changesArray, $type);
+				$nullCheck = $this->checkNull($changesArray);
+
 				/**
 				 * When we made the UTF8MB4 conversion then text becomes medium text - so loosen the checks to these two types
 				 * otherwise (for example) the profile fields profile_value check fails - see https://github.com/joomla/joomla-cms/issues/9258
@@ -161,7 +168,9 @@ class MysqlChangeItem extends ChangeItem
 				$typeCheck = $this->fixUtf8mb4TypeChecks($type);
 
 				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[4])
-					. ' AND ' . $typeCheck;
+					. ' AND ' . $typeCheck
+					. ($defaultCheck ? ' AND ' . $defaultCheck : '')
+					. ($nullCheck ? ' AND ' . $nullCheck : '');
 				$this->queryType = 'CHANGE_COLUMN_TYPE';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4]), $type);
 			}
@@ -175,6 +184,11 @@ class MysqlChangeItem extends ChangeItem
 					$type = $this->fixInteger($wordArray[6], $wordArray[7]);
 				}
 
+				// Detect changes in NULL and in DEFAULT column attributes
+				$changesArray = array_slice($wordArray, 6);
+				$defaultCheck = $this->checkDefault($changesArray, $type);
+				$nullCheck = $this->checkNull($changesArray);
+
 				/**
 				 * When we made the UTF8MB4 conversion then text becomes medium text - so loosen the checks to these two types
 				 * otherwise (for example) the profile fields profile_value check fails - see https://github.com/joomla/joomla-cms/issues/9258
@@ -182,7 +196,9 @@ class MysqlChangeItem extends ChangeItem
 				$typeCheck = $this->fixUtf8mb4TypeChecks($type);
 
 				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[5])
-					. ' AND ' . $typeCheck;
+					. ' AND ' . $typeCheck
+					. ($defaultCheck ? ' AND ' . $defaultCheck : '')
+					. ($nullCheck ? ' AND ' . $nullCheck : '');
 				$this->queryType = 'CHANGE_COLUMN_TYPE';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $type);
 			}
@@ -307,5 +323,74 @@ class MysqlChangeItem extends ChangeItem
 		}
 
 		return $typeCheck;
+	}
+
+	/**
+	 * Create query clause for column changes/modifications for NULL attribute
+	 *
+	 * @param   array  $changesArray  The array of words after COLUMN name
+	 *
+	 * @return  string  The query clause for NULL check in the check query
+	 *
+	 * @since   3.8.6
+	 */
+	private function checkNull($changesArray)
+	{
+		// Find NULL keyword
+		$index = array_search('null', array_map('strtolower', $changesArray));
+
+		// Create the check
+		if ($index !== false)
+		{
+			if ($index == 0 || strtolower($changesArray[$index - 1]) !== 'not')
+			{
+				return ' `null` = ' . $this->db->quote('YES');
+			}
+			else
+			{
+				return ' `null` = ' . $this->db->quote('NO');
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Create query clause for column changes/modifications for DEFAULT attribute
+	 *
+	 * @param   array   $changesArray  The array of words after COLUMN name
+	 * @param   string  $type          The type of the COLUMN
+	 *
+	 * @return  string  The query clause for DEFAULT check in the check query
+	 *
+	 * @since   3.8.6
+	 */
+	private function checkDefault($changesArray, $type)
+	{
+		// Skip types that do not support default values
+		$type = strtolower($type);
+
+		if (substr($type, -4) === 'text' || substr($type, -4) === 'blob')
+		{
+			return false;
+		}
+
+		// Find DEFAULT keyword
+		$index = array_search('default', array_map('strtolower', $changesArray));
+
+		// Create the check
+		if ($index !== false)
+		{
+			if (strtolower($changesArray[$index + 1]) === 'null')
+			{
+				return ' `default` IS NULL';
+			}
+			else
+			{
+				return ' `default` = ' . $changesArray[$index + 1];
+			}
+		}
+
+		return false;
 	}
 }

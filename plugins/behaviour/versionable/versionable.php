@@ -3,14 +3,18 @@
  * @package     Joomla.Plugin
  * @subpackage  Taggable
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\Event\DispatcherInterface;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event as CmsEvent;
+use Joomla\CMS\Helper\ContentHistoryHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Table\TableInterface;
+use Joomla\Event\DispatcherInterface;
 
 /**
  * Implements the Taggable behaviour which allows extensions to automatically support tags for their content items.
@@ -19,7 +23,7 @@ use Joomla\CMS\Event as CmsEvent;
  *
  * @since  4.0.0
  */
-class PlgBehaviourVersionable extends JPlugin
+class PlgBehaviourVersionable extends CMSPlugin
 {
 	/**
 	 * Constructor
@@ -68,7 +72,7 @@ class PlgBehaviourVersionable extends JPlugin
 			return;
 		}
 
-		$table->contenthistoryHelper = new JHelperContenthistory($typeAlias);
+		$table->contenthistoryHelper = new ContentHistoryHelper($typeAlias);
 		$table->contenthistoryHelper->typeAlias = $table->typeAlias;
 	}
 
@@ -93,7 +97,7 @@ class PlgBehaviourVersionable extends JPlugin
 			return;
 		}
 
-		if (!is_object($table) || !($table instanceof JTableInterface))
+		if (!is_object($table) || !($table instanceof TableInterface))
 		{
 			return;
 		}
@@ -118,7 +122,7 @@ class PlgBehaviourVersionable extends JPlugin
 
 		$aliasParts = explode('.', $table->contenthistoryHelper->typeAlias);
 
-		if ($aliasParts[0] && JComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
+		if ($aliasParts[0] && ComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
 		{
 			$table->contenthistoryHelper->store($table);
 		}
@@ -157,7 +161,7 @@ class PlgBehaviourVersionable extends JPlugin
 		$table->contenthistoryHelper->typeAlias = $typeAlias;
 		$aliasParts = explode('.', $table->contenthistoryHelper->typeAlias);
 
-		if ($aliasParts[0] && JComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
+		if ($aliasParts[0] && ComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
 		{
 			$table->contenthistoryHelper->deleteHistory($table);
 		}
@@ -175,7 +179,7 @@ class PlgBehaviourVersionable extends JPlugin
 	 *
 	 * @internal
 	 */
-	protected function parseTypeAlias(JTableInterface &$table)
+	protected function parseTypeAlias(TableInterface &$table)
 	{
 		if (!isset($table->typeAlias))
 		{
@@ -188,7 +192,7 @@ class PlgBehaviourVersionable extends JPlugin
 		}
 
 		return preg_replace_callback('/{([^}]+)}/',
-			function($matches) use ($table)
+			function ($matches) use ($table)
 			{
 				return $table->{$matches[1]};
 			},

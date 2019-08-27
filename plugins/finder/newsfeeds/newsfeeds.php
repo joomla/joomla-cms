@@ -3,12 +3,16 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Registry\Registry;
 
 JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
@@ -241,18 +245,17 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 	/**
 	 * Method to index an item. The item must be a FinderIndexerResult object.
 	 *
-	 * @param   FinderIndexerResult  $item    The item to index as a FinderIndexerResult object.
-	 * @param   string               $format  The item format.  Not used.
+	 * @param   FinderIndexerResult  $item  The item to index as a FinderIndexerResult object.
 	 *
 	 * @return  void
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	protected function index(FinderIndexerResult $item, $format = 'html')
+	protected function index(FinderIndexerResult $item)
 	{
 		// Check if the extension is enabled.
-		if (JComponentHelper::isEnabled($this->extension) === false)
+		if (ComponentHelper::isEnabled($this->extension) === false)
 		{
 			return;
 		}
@@ -264,15 +267,17 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 
 		$item->metadata = new Registry($item->metadata);
 
-		// Build the necessary route and path information.
+		// Create a URL as identifier to recognise items again.
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
+
+		// Build the necessary route and path information.
 		$item->route = NewsfeedsHelperRoute::getNewsfeedRoute($item->slug, $item->catslug, $item->language);
-		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		/*
 		 * Add the metadata processing instructions based on the newsfeeds
 		 * configuration parameters.
 		 */
+
 		// Add the meta author.
 		$item->metaauthor = $item->metadata->get('author');
 
@@ -289,7 +294,9 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 		$item->addTaxonomy('Type', 'News Feed');
 
 		// Add the category taxonomy data.
-		$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
+		$categories = Categories::getInstance('com_newsfeeds');
+		$category = $categories->get($item->catid);
+		$item->addNestedTaxonomy('Category', $category, $category->published, $category->access, $category->language);
 
 		// Add the language taxonomy data.
 		$item->addTaxonomy('Language', $item->language);
@@ -327,10 +334,10 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 	 */
 	protected function getListQuery($query = null)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Check if we can use the supplied SQL query.
-		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
+		$query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
 			->select('a.id, a.catid, a.name AS title, a.alias, a.link AS link')
 			->select('a.published AS state, a.ordering, a.created AS start_date, a.params, a.access')
 			->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date')

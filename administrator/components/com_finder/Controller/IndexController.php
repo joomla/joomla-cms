@@ -3,13 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Finder\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 
 /**
@@ -44,12 +46,12 @@ class IndexController extends AdminController
 	 */
 	public function purge()
 	{
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Remove the script time limit.
 		@set_time_limit(0);
 
-		/* @var \Joomla\Component\Finder\Administrator\Model\IndexModel $model */
+		/** @var \Joomla\Component\Finder\Administrator\Model\IndexModel $model */
 		$model = $this->getModel('Index', 'Administrator');
 
 		// Attempt to purge the index.
@@ -57,14 +59,14 @@ class IndexController extends AdminController
 
 		if (!$return)
 		{
-			$message = \JText::_('COM_FINDER_INDEX_PURGE_FAILED', $model->getError());
+			$message = Text::_('COM_FINDER_INDEX_PURGE_FAILED', $model->getError());
 			$this->setRedirect('index.php?option=com_finder&view=index', $message);
 
 			return false;
 		}
 		else
 		{
-			$message = \JText::_('COM_FINDER_INDEX_PURGE_SUCCESS');
+			$message = Text::_('COM_FINDER_INDEX_PURGE_SUCCESS');
 			$this->setRedirect('index.php?option=com_finder&view=index', $message);
 
 			return true;

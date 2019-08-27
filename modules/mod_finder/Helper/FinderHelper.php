@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,9 @@ namespace Joomla\Module\Finder\Site\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -40,7 +41,7 @@ class FinderHelper
 		$needId = !Uri::getInstance($route)->getVar('Itemid');
 
 		$fields = array();
-		$uri = Uri::getInstance(\JRoute::_($route));
+		$uri = Uri::getInstance(Route::_($route));
 		$uri->delVar('q');
 
 		// Create hidden input elements for each part of the URI.

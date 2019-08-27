@@ -3,14 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Admin\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
@@ -20,7 +24,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class SysInfoModel extends BaseDatabaseModel
+class SysinfoModel extends BaseDatabaseModel
 {
 	/**
 	 * Some PHP settings
@@ -115,7 +119,6 @@ class SysInfoModel extends BaseDatabaseModel
 			'live_site',
 			'log_path',
 			'mailfrom',
-			'memcache_server_host',
 			'memcached_server_host',
 			'open_basedir',
 			'Origin',
@@ -127,7 +130,6 @@ class SysInfoModel extends BaseDatabaseModel
 			'secret',
 			'sendmail',
 			'session.save_path',
-			'session_memcache_server_host',
 			'session_memcached_server_host',
 			'session_redis_server_host',
 			'session_redis_server_auth',
@@ -166,7 +168,7 @@ class SysInfoModel extends BaseDatabaseModel
 	/**
 	 * Remove sections of data marked as private in the privateSettings
 	 *
-	 * @param   array   $dataArray  Array with data tha may contain private informati
+	 * @param   array   $dataArray  Array with data that may contain private information
 	 * @param   string  $dataType   Type of data to search for a specific section in the privateSettings array
 	 *
 	 * @return  array
@@ -244,11 +246,10 @@ class SysInfoModel extends BaseDatabaseModel
 		}
 
 		$this->php_settings = array(
-			'safe_mode'          => ini_get('safe_mode') == '1',
 			'display_errors'     => ini_get('display_errors') == '1',
 			'short_open_tag'     => ini_get('short_open_tag') == '1',
 			'file_uploads'       => ini_get('file_uploads') == '1',
-			'output_buffering'   => (bool) ini_get('output_buffering'),
+			'output_buffering'   => (int) ini_get('output_buffering') !== 0,
 			'open_basedir'       => ini_get('open_basedir'),
 			'session.save_path'  => ini_get('session.save_path'),
 			'session.auto_start' => ini_get('session.auto_start'),
@@ -308,12 +309,13 @@ class SysInfoModel extends BaseDatabaseModel
 
 		$this->info = array(
 			'php'                   => php_uname(),
+			'dbserver'              => $db->getServerType(),
 			'dbversion'             => $db->getVersion(),
 			'dbcollation'           => $db->getCollation(),
 			'dbconnectioncollation' => $db->getConnectionCollation(),
-			'phpversion'            => phpversion(),
+			'phpversion'            => PHP_VERSION,
 			'server'                => $_SERVER['SERVER_SOFTWARE'] ?? getenv('SERVER_SOFTWARE'),
-			'sapi_name'             => php_sapi_name(),
+			'sapi_name'             => PHP_SAPI,
 			'version'               => (new Version)->getLongVersion(),
 			'useragent'             => $_SERVER['HTTP_USER_AGENT'] ?? '',
 		);
@@ -375,7 +377,7 @@ class SysInfoModel extends BaseDatabaseModel
 	{
 		if (!$this->phpinfoEnabled())
 		{
-			$this->php_info = \JText::_('COM_ADMIN_PHPINFO_DISABLED');
+			$this->php_info = Text::_('COM_ADMIN_PHPINFO_DISABLED');
 
 			return $this->php_info;
 		}
@@ -391,7 +393,7 @@ class SysInfoModel extends BaseDatabaseModel
 		$phpInfo = ob_get_contents();
 		ob_end_clean();
 		preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpInfo, $output);
-		$output = preg_replace('#<table[^>]*>#', '<table class="table table-striped adminlist">', $output[1][0]);
+		$output = preg_replace('#<table[^>]*>#', '<table class="table adminlist">', $output[1][0]);
 		$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
 		$output = preg_replace('#<hr />#', '', $output);
 		$output = str_replace('<div class="text-center">', '', $output);
@@ -435,10 +437,10 @@ class SysInfoModel extends BaseDatabaseModel
 	public function getExtensions()
 	{
 		$installed = array();
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
-			->from($db->qn('#__extensions'));
+			->from($db->quoteName('#__extensions'));
 		$db->setQuery($query);
 
 		try
@@ -449,12 +451,12 @@ class SysInfoModel extends BaseDatabaseModel
 		{
 			try
 			{
-				\JLog::add(\JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), \JLog::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), Log::WARNING, 'jerror');
 			}
 			catch (\RuntimeException $exception)
 			{
-				\JFactory::getApplication()->enqueueMessage(
-					\JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()),
+				Factory::getApplication()->enqueueMessage(
+					Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()),
 					'warning'
 				);
 			}
@@ -477,7 +479,7 @@ class SysInfoModel extends BaseDatabaseModel
 			$installed[$extension->name] = array(
 				'name'         => $extension->name,
 				'type'         => $extension->type,
-				'state'        => $extension->enabled ? \JText::_('JENABLED') : \JText::_('JDISABLED'),
+				'state'        => $extension->enabled ? Text::_('JENABLED') : Text::_('JDISABLED'),
 				'author'       => 'unknown',
 				'version'      => 'unknown',
 				'creationDate' => 'unknown',
@@ -517,7 +519,7 @@ class SysInfoModel extends BaseDatabaseModel
 
 		$this->directories = array();
 
-		$registry = \JFactory::getApplication()->getConfig();
+		$registry = Factory::getApplication()->getConfig();
 		$cparams  = ComponentHelper::getParams('com_media');
 
 		$this->addDirectory('administrator/components', JPATH_ADMINISTRATOR . '/components');
@@ -622,9 +624,10 @@ class SysInfoModel extends BaseDatabaseModel
 		}
 		else
 		{
-			$this->addDirectory('cache', JPATH_SITE . '/cache', 'COM_ADMIN_CACHE_DIRECTORY');
 			$this->addDirectory('administrator/cache', JPATH_CACHE, 'COM_ADMIN_CACHE_DIRECTORY');
 		}
+
+		$this->addDirectory('media/cache', JPATH_ROOT . '/media/cache', 'COM_ADMIN_MEDIA_CACHE_DIRECTORY');
 
 		if ($public)
 		{
@@ -687,7 +690,7 @@ class SysInfoModel extends BaseDatabaseModel
 			return $this->editor;
 		}
 
-		$this->editor = \JFactory::getApplication()->get('editor');
+		$this->editor = Factory::getApplication()->get('editor');
 
 		return $this->editor;
 	}

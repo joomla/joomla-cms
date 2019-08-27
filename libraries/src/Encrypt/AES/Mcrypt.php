@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,12 +12,35 @@ use Joomla\CMS\Encrypt\Randval;
 
 defined('JPATH_PLATFORM') or die;
 
+/**
+ * Mcrypt implementation
+ *
+ * @since    4.0.0
+ */
 class Mcrypt extends AbstractAES implements AesInterface
 {
+	/**
+	 * Cypher Type
+	 *
+	 * @var    string
+	 */
 	protected $cipherType = MCRYPT_RIJNDAEL_128;
 
+	/**
+	 * Cypher Mode
+	 *
+	 * @var    string
+	 */
 	protected $cipherMode = MCRYPT_MODE_CBC;
 
+	/**
+	 * Set the encryption mode
+	 *
+	 * @param   string   $mode      Encryption Mode
+	 * @param   integer  $strength  Encryption Strength
+	 *
+	 * @return   void
+	 */
 	public function setEncryptionMode($mode = 'cbc', $strength = 128)
 	{
 		switch ((int) $strength)
@@ -50,6 +73,15 @@ class Mcrypt extends AbstractAES implements AesInterface
 
 	}
 
+	/**
+	 * Encrypt the data
+	 *
+	 * @param   string  $plainText  Plaintext data
+	 * @param   string  $key        Encryption key
+	 * @param   string  $iv         IV for the encryption
+	 *
+	 * @return   string  Encrypted data
+	 */
 	public function encrypt($plainText, $key, $iv = null)
 	{
 		$iv_size = $this->getBlockSize();
@@ -68,6 +100,14 @@ class Mcrypt extends AbstractAES implements AesInterface
 		return $cipherText;
 	}
 
+	/**
+	 * Decrypt encrypted data
+	 *
+	 * @param   string  $cipherText  Encrypted data
+	 * @param   string  $key         Encryptionkey
+	 *
+	 * @return   string  Plaintext data
+	 */
 	public function decrypt($cipherText, $key)
 	{
 		$iv_size    = $this->getBlockSize();
@@ -79,6 +119,11 @@ class Mcrypt extends AbstractAES implements AesInterface
 		return $plainText;
 	}
 
+	/**
+	 * Is this adapter supported?
+	 *
+	 * @return  boolean
+	 */
 	public function isSupported()
 	{
 		if (!function_exists('mcrypt_get_key_size'))
@@ -121,26 +166,26 @@ class Mcrypt extends AbstractAES implements AesInterface
 			return false;
 		}
 
-		$algorightms = mcrypt_list_algorithms();
+		$algorigthms = mcrypt_list_algorithms();
 
-		if (!in_array('rijndael-128', $algorightms))
+		if (!in_array('rijndael-128', $algorigthms))
 		{
 			return false;
 		}
 
-		if (!in_array('rijndael-192', $algorightms))
+		if (!in_array('rijndael-192', $algorigthms))
 		{
 			return false;
 		}
 
-		if (!in_array('rijndael-256', $algorightms))
+		if (!in_array('rijndael-256', $algorigthms))
 		{
 			return false;
 		}
 
-		$algorightms = hash_algos();
+		$algorigthms = hash_algos();
 
-		if (!in_array('sha256', $algorightms))
+		if (!in_array('sha256', $algorigthms))
 		{
 			return false;
 		}
@@ -148,6 +193,11 @@ class Mcrypt extends AbstractAES implements AesInterface
 		return true;
 	}
 
+	/**
+	 * Get the block size
+	 *
+	 * @return   integer
+	 */
 	public function getBlockSize()
 	{
 		return mcrypt_get_iv_size($this->cipherType, $this->cipherMode);

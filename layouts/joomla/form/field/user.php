@@ -3,12 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Utilities\ArrayHelper;
 
 extract($displayData);
@@ -47,12 +50,10 @@ extract($displayData);
 
 if (!$readonly)
 {
-	// @TODO remove jQuery dependency once modal moves to webcomponents
-	JHtml::_('jquery.framework');
+	HTMLHelper::_('webcomponent', 'system/fields/joomla-field-user.min.js', ['version' => 'auto', 'relative' => true]);
+}
 
-	JHtml::_('webcomponent', ['joomla-field-user' =>'system/webcomponents/joomla-field-user.min.js'], ['version' => 'auto', 'relative' => true]);}
-
-$uri = new JUri('index.php?option=com_users&view=users&layout=modal&tmpl=component&required=0');
+$uri = new Uri('index.php?option=com_users&view=users&layout=modal&tmpl=component&required=0');
 
 $uri->setVar('field', $this->escape($id));
 
@@ -72,7 +73,7 @@ if (!empty($excluded))
 }
 
 // Invalidate the input value if no user selected
-if ($this->escape($userName) === JText::_('JLIB_FORM_SELECT_USER'))
+if ($this->escape($userName) === Text::_('JLIB_FORM_SELECT_USER'))
 {
 	$userName = '';
 }
@@ -94,7 +95,7 @@ if ($required)
 }
 if (!$readonly)
 {
-	$inputAttributes['placeholder'] = JText::_('JLIB_FORM_SELECT_USER');
+	$inputAttributes['placeholder'] = Text::_('JLIB_FORM_SELECT_USER');
 }
 ?>
 <?php // Create a dummy text field with the user name. ?>
@@ -109,23 +110,26 @@ if (!$readonly)
 	<div class="input-group">
 		<input <?php echo ArrayHelper::toString($inputAttributes); ?> readonly>
 		<?php if (!$readonly) : ?>
-			<span class="input-group-btn">
-					<a class="btn btn-primary button-select" title="<?php echo JText::_('JLIB_FORM_CHANGE_USER') ?>"><span class="icon-user icon-white"></span></a>
-				<?php echo JHtml::_(
-					'bootstrap.renderModal',
-					'userModal_' . $id,
-					array(
-						'url'         => $uri,
-						'title'       => JText::_('JLIB_FORM_CHANGE_USER'),
-						'closeButton' => true,
-						'height'      => '100%',
-						'width'       => '100%',
-						'modalWidth'  => 80,
-						'bodyHeight'  => 60,
-						'footer'      => '<a type="button" class="btn btn-secondary" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>'
-					)
-				); ?>
-				</span>
+			<span class="input-group-append">
+				<button type="button" class="btn btn-primary button-select" title="<?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?>">
+					<span class="fa fa-user icon-white" aria-hidden="true"></span>
+					<span class="sr-only"><?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?></span>
+				</button>
+			</span>
+			<?php echo HTMLHelper::_(
+				'bootstrap.renderModal',
+				'userModal_' . $id,
+				array(
+					'url'         => $uri,
+					'title'       => Text::_('JLIB_FORM_CHANGE_USER'),
+					'closeButton' => true,
+					'height'      => '100%',
+					'width'       => '100%',
+					'modalWidth'  => 80,
+					'bodyHeight'  => 60,
+					'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal">' . Text::_('JCANCEL') . '</button>'
+				)
+			); ?>
 		<?php endif; ?>
 	</div>
 	<?php // Create the real field, hidden, that stored the user id. ?>

@@ -2,12 +2,14 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Application;
 
+use Joomla\CMS\Extension\ExtensionManagerInterface;
+use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\User\User;
 use Joomla\Session\SessionInterface;
 
@@ -16,7 +18,7 @@ use Joomla\Session\SessionInterface;
  *
  * @since  4.0.0
  */
-interface CMSApplicationInterface
+interface CMSApplicationInterface extends ExtensionManagerInterface
 {
 	/**
 	 * Constant defining an enqueued emergency message
@@ -152,6 +154,27 @@ interface CMSApplicationInterface
 	 * @since   4.0.0
 	 */
 	public function getIdentity();
+
+	/**
+	 * Gets the name of the current running application.
+	 *
+	 * @return  string  The name of the application.
+	 *
+	 * @since   4.0.0
+	 */
+	public function getName();
+
+	/**
+	 * Get the menu object.
+	 *
+	 * @param   string  $name     The application name for the menu
+	 * @param   array   $options  An array of options to initialise the menu with
+	 *
+	 * @return  AbstractMenu|null  A AbstractMenu object or null if not set.
+	 *
+	 * @since   4.0.0
+	 */
+	public function getMenu($name = null, $options = array());
 
 	/**
 	 * Allows the application to load a custom or default identity.

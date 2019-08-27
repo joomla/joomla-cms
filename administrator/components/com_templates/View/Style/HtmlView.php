@@ -3,15 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Templates\Administrator\View\Style;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View to edit a template style.
@@ -68,7 +74,13 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
+		}
+
+		if ((!Multilanguage::isEnabled()) && ($this->item->client_id == 0))
+		{
+			$this->form->setFieldAttribute('home', 'type', 'radio');
+			$this->form->setFieldAttribute('home', 'class', 'switcher');
 		}
 
 		$this->addToolbar();
@@ -85,14 +97,14 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
 		$isNew = ($this->item->id == 0);
 		$canDo = $this->canDo;
 
-		\JToolbarHelper::title(
-			$isNew ? \JText::_('COM_TEMPLATES_MANAGER_ADD_STYLE')
-			: \JText::_('COM_TEMPLATES_MANAGER_EDIT_STYLE'), 'eye thememanager'
+		ToolbarHelper::title(
+			$isNew ? Text::_('COM_TEMPLATES_MANAGER_ADD_STYLE')
+			: Text::_('COM_TEMPLATES_MANAGER_EDIT_STYLE'), 'paint-brush thememanager'
 		);
 
 		$toolbarButtons = [];
@@ -100,7 +112,7 @@ class HtmlView extends BaseHtmlView
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit'))
 		{
-			$toolbarButtons[] = ['apply', 'style.apply'];
+			ToolbarHelper::apply('style.apply');
 			$toolbarButtons[] = ['save', 'style.save'];
 		}
 
@@ -110,30 +122,30 @@ class HtmlView extends BaseHtmlView
 			$toolbarButtons[] = ['save2copy', 'style.save2copy'];
 		}
 
-		\JToolbarHelper::saveGroup(
+		ToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
 		if (empty($this->item->id))
 		{
-			\JToolbarHelper::cancel('style.cancel');
+			ToolbarHelper::cancel('style.cancel');
 		}
 		else
 		{
-			\JToolbarHelper::cancel('style.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('style.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		\JToolbarHelper::divider();
+		ToolbarHelper::divider();
 
 		// Get the help information for the template item.
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$help = $this->get('Help');
 
 		if ($lang->hasKey($help->url))
 		{
 			$debug = $lang->setDebug(false);
-			$url = \JText::_($help->url);
+			$url = Text::_($help->url);
 			$lang->setDebug($debug);
 		}
 		else
@@ -141,6 +153,6 @@ class HtmlView extends BaseHtmlView
 			$url = null;
 		}
 
-		\JToolbarHelper::help($help->key, false, $url);
+		ToolbarHelper::help($help->key, false, $url);
 	}
 }

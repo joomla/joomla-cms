@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,12 +10,16 @@ namespace Joomla\CMS\Date;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
+
 /**
- * JDate is a class that stores a date and provides logic to manipulate
+ * Date is a class that stores a date and provides logic to manipulate
  * and render that date in a variety of formats.
  *
- * @method  Date|bool  add(\DateInterval $interval)  Adds an amount of days, months, years, hours, minutes and seconds to a JDate object.
- * @method  Date|bool  sub(\DateInterval $interval)  Subtracts an amount of days, months, years, hours, minutes and seconds from a JDate object.
+ * @method  Date|bool  add(\DateInterval $interval)  Adds an amount of days, months, years, hours, minutes and seconds to a Date object.
+ * @method  Date|bool  sub(\DateInterval $interval)  Subtracts an amount of days, months, years, hours, minutes and seconds from a Date object.
  * @method  Date|bool  modify(string $modify)       Alter the timestamp of this object by incre/decre-menting in a format accepted by strtotime().
  *
  * @property-read  string   $daysinmonth   t - Number of days in the given month.
@@ -32,7 +36,7 @@ defined('JPATH_PLATFORM') or die;
  * @property-read  string   $week          W - ISO-8601 week number of year, weeks starting on Monday.
  * @property-read  string   $year          Y - A full numeric representation of a year, 4 digits.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Date extends \DateTime
 {
@@ -45,7 +49,7 @@ class Date extends \DateTime
 	 * The format string to be applied when using the __toString() magic method.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public static $format = 'Y-m-d H:i:s';
 
@@ -53,7 +57,7 @@ class Date extends \DateTime
 	 * Placeholder for a \DateTimeZone object with GMT as the time zone.
 	 *
 	 * @var    object
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $gmt;
 
@@ -62,7 +66,7 @@ class Date extends \DateTime
 	 * time zone as the time zone.
 	 *
 	 * @var    object
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $stz;
 
@@ -70,7 +74,7 @@ class Date extends \DateTime
 	 * The \DateTimeZone object for usage in rending dates as strings.
 	 *
 	 * @var    \DateTimeZone
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $tz;
 
@@ -80,7 +84,7 @@ class Date extends \DateTime
 	 * @param   string  $date  String in a format accepted by strtotime(), defaults to "now".
 	 * @param   mixed   $tz    Time zone to be used for the date. Might be a string or a DateTimeZone object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($date = 'now', $tz = null)
 	{
@@ -111,7 +115,7 @@ class Date extends \DateTime
 		// Call the DateTime constructor.
 		parent::__construct($date, $tz);
 
-		// Reset the timezone for 3rd party libraries/extension that does not use JDate
+		// Reset the timezone for 3rd party libraries/extension that does not use Date
 		date_default_timezone_set(self::$stz->getName());
 
 		// Set the timezone object for access later.
@@ -125,7 +129,7 @@ class Date extends \DateTime
 	 *
 	 * @return  mixed   A value if the property name is valid, null otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __get($name)
 	{
@@ -198,7 +202,7 @@ class Date extends \DateTime
 	 *
 	 * @return  string  The date as a formatted string.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __toString()
 	{
@@ -206,14 +210,14 @@ class Date extends \DateTime
 	}
 
 	/**
-	 * Proxy for new JDate().
+	 * Proxy for new Date().
 	 *
 	 * @param   string  $date  String in a format accepted by strtotime(), defaults to "now".
 	 * @param   mixed   $tz    Time zone to be used for the date.
 	 *
 	 * @return  Date
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function getInstance($date = 'now', $tz = null)
 	{
@@ -228,26 +232,26 @@ class Date extends \DateTime
 	 *
 	 * @return  string  The day of the week.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function dayToString($day, $abbr = false)
 	{
 		switch ($day)
 		{
 			case 0:
-				return $abbr ? \JText::_('SUN') : \JText::_('SUNDAY');
+				return $abbr ? Text::_('SUN') : Text::_('SUNDAY');
 			case 1:
-				return $abbr ? \JText::_('MON') : \JText::_('MONDAY');
+				return $abbr ? Text::_('MON') : Text::_('MONDAY');
 			case 2:
-				return $abbr ? \JText::_('TUE') : \JText::_('TUESDAY');
+				return $abbr ? Text::_('TUE') : Text::_('TUESDAY');
 			case 3:
-				return $abbr ? \JText::_('WED') : \JText::_('WEDNESDAY');
+				return $abbr ? Text::_('WED') : Text::_('WEDNESDAY');
 			case 4:
-				return $abbr ? \JText::_('THU') : \JText::_('THURSDAY');
+				return $abbr ? Text::_('THU') : Text::_('THURSDAY');
 			case 5:
-				return $abbr ? \JText::_('FRI') : \JText::_('FRIDAY');
+				return $abbr ? Text::_('FRI') : Text::_('FRIDAY');
 			case 6:
-				return $abbr ? \JText::_('SAT') : \JText::_('SATURDAY');
+				return $abbr ? Text::_('SAT') : Text::_('SATURDAY');
 		}
 	}
 
@@ -260,7 +264,7 @@ class Date extends \DateTime
 	 *
 	 * @return  string   The date string in the specified format format.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function calendar($format, $local = false, $translate = true)
 	{
@@ -276,7 +280,7 @@ class Date extends \DateTime
 	 *
 	 * @return  string   The date string in the specified format format.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function format($format, $local = false, $translate = true)
 	{
@@ -337,7 +341,7 @@ class Date extends \DateTime
 	 *
 	 * @return  float  The time offset from GMT either in hours or in seconds.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getOffsetFromGmt($hours = false)
 	{
@@ -352,36 +356,36 @@ class Date extends \DateTime
 	 *
 	 * @return  string  The month of the year.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function monthToString($month, $abbr = false)
 	{
 		switch ($month)
 		{
 			case 1:
-				return $abbr ? \JText::_('JANUARY_SHORT') : \JText::_('JANUARY');
+				return $abbr ? Text::_('JANUARY_SHORT') : Text::_('JANUARY');
 			case 2:
-				return $abbr ? \JText::_('FEBRUARY_SHORT') : \JText::_('FEBRUARY');
+				return $abbr ? Text::_('FEBRUARY_SHORT') : Text::_('FEBRUARY');
 			case 3:
-				return $abbr ? \JText::_('MARCH_SHORT') : \JText::_('MARCH');
+				return $abbr ? Text::_('MARCH_SHORT') : Text::_('MARCH');
 			case 4:
-				return $abbr ? \JText::_('APRIL_SHORT') : \JText::_('APRIL');
+				return $abbr ? Text::_('APRIL_SHORT') : Text::_('APRIL');
 			case 5:
-				return $abbr ? \JText::_('MAY_SHORT') : \JText::_('MAY');
+				return $abbr ? Text::_('MAY_SHORT') : Text::_('MAY');
 			case 6:
-				return $abbr ? \JText::_('JUNE_SHORT') : \JText::_('JUNE');
+				return $abbr ? Text::_('JUNE_SHORT') : Text::_('JUNE');
 			case 7:
-				return $abbr ? \JText::_('JULY_SHORT') : \JText::_('JULY');
+				return $abbr ? Text::_('JULY_SHORT') : Text::_('JULY');
 			case 8:
-				return $abbr ? \JText::_('AUGUST_SHORT') : \JText::_('AUGUST');
+				return $abbr ? Text::_('AUGUST_SHORT') : Text::_('AUGUST');
 			case 9:
-				return $abbr ? \JText::_('SEPTEMBER_SHORT') : \JText::_('SEPTEMBER');
+				return $abbr ? Text::_('SEPTEMBER_SHORT') : Text::_('SEPTEMBER');
 			case 10:
-				return $abbr ? \JText::_('OCTOBER_SHORT') : \JText::_('OCTOBER');
+				return $abbr ? Text::_('OCTOBER_SHORT') : Text::_('OCTOBER');
 			case 11:
-				return $abbr ? \JText::_('NOVEMBER_SHORT') : \JText::_('NOVEMBER');
+				return $abbr ? Text::_('NOVEMBER_SHORT') : Text::_('NOVEMBER');
 			case 12:
-				return $abbr ? \JText::_('DECEMBER_SHORT') : \JText::_('DECEMBER');
+				return $abbr ? Text::_('DECEMBER_SHORT') : Text::_('DECEMBER');
 		}
 	}
 
@@ -392,7 +396,7 @@ class Date extends \DateTime
 	 *
 	 * @return  Date
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @note    This method can't be type hinted due to a PHP bug: https://bugs.php.net/bug.php?id=61483
 	 */
 	public function setTimezone($tz)
@@ -411,7 +415,7 @@ class Date extends \DateTime
 	 * @return  string  The date string in ISO 8601 format.
 	 *
 	 * @link    http://www.ietf.org/rfc/rfc3339.txt
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function toISO8601($local = false)
 	{
@@ -421,19 +425,19 @@ class Date extends \DateTime
 	/**
 	 * Gets the date as an SQL datetime string.
 	 *
-	 * @param   boolean           $local  True to return the date string in the local time zone, false to return it in GMT.
-	 * @param   \JDatabaseDriver  $db     The database driver or null to use \JFactory::getDbo()
+	 * @param   boolean         $local  True to return the date string in the local time zone, false to return it in GMT.
+	 * @param   DatabaseDriver  $db     The database driver or null to use Factory::getDbo()
 	 *
 	 * @return  string     The date string in SQL datetime format.
 	 *
 	 * @link    http://dev.mysql.com/doc/refman/5.0/en/datetime.html
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
-	public function toSql($local = false, \JDatabaseDriver $db = null)
+	public function toSql($local = false, DatabaseDriver $db = null)
 	{
 		if ($db === null)
 		{
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 		}
 
 		return $this->format($db->getDateFormat(), $local, false);
@@ -448,7 +452,7 @@ class Date extends \DateTime
 	 * @return  string   The date string in RFC 822 format.
 	 *
 	 * @link    http://www.ietf.org/rfc/rfc2822.txt
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function toRFC822($local = false)
 	{
@@ -460,7 +464,7 @@ class Date extends \DateTime
 	 *
 	 * @return  integer  The date as a UNIX timestamp.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function toUnix()
 	{

@@ -3,18 +3,25 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Extensionupdate
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Extension\ExtensionHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Joomla! update notification plugin
  *
  * @since  2.5
  */
-class PlgQuickiconExtensionupdate extends JPlugin
+class PlgQuickiconExtensionupdate extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -23,6 +30,14 @@ class PlgQuickiconExtensionupdate extends JPlugin
 	 * @since  3.1
 	 */
 	protected $autoloadLanguage = true;
+
+	/**
+	 * Application object.
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  3.7.0
+	 */
+	protected $app;
 
 	/**
 	 * Returns an icon definition for an icon which looks for extensions updates
@@ -37,34 +52,37 @@ class PlgQuickiconExtensionupdate extends JPlugin
 	 */
 	public function onGetIcons($context)
 	{
-		if ($context !== $this->params->get('context', 'mod_quickicon') || !JFactory::getUser()->authorise('core.manage', 'com_installer'))
+		if ($context !== $this->params->get('context', 'update_quickicon') || !$this->app->getIdentity()->authorise('core.manage', 'com_installer'))
 		{
 			return array();
 		}
 
-		$token    = JSession::getFormToken() . '=1';
+		$token    = Session::getFormToken() . '=1';
 		$options  = array(
-			'url' => JUri::base() . 'index.php?option=com_installer&view=update&task=update.find&' . $token,
-			'ajaxUrl' => JUri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . $token,
+			'url' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.find&' . $token,
+			'ajaxUrl' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . $token
+				. '&cache_timeout=3600&eid=0&skip=' . ExtensionHelper::getExtensionRecord('files_joomla')->extension_id,
 		);
 
-		JFactory::getDocument()->addScriptOptions('js-extensions-update', $options);
+		$this->app->getDocument()->addScriptOptions('js-extensions-update', $options);
 
-		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE', true);
-		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND', true);
-		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE', true);
-		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON', true);
-		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_ERROR', true);
+		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE');
+		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND');
+		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_ERROR');
+		Text::script('MESSAGE');
+		Text::script('ERROR');
+		Text::script('INFO');
+		Text::script('WARNING');
 
-		JHtml::_('behavior.core');
-		JHtml::_('script', 'plg_quickicon_extensionupdate/extensionupdatecheck.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('behavior.core');
+		HTMLHelper::_('script', 'plg_quickicon_extensionupdate/extensionupdatecheck.min.js', array('version' => 'auto', 'relative' => true));
 
 		return array(
 			array(
 				'link'  => 'index.php?option=com_installer&view=update&task=update.find&' . $token,
-				'image' => 'fa fa-star-o',
+				'image' => 'fa fa-star',
 				'icon'  => '',
-				'text'  => JText::_('PLG_QUICKICON_EXTENSIONUPDATE_CHECKING'),
+				'text'  => Text::_('PLG_QUICKICON_EXTENSIONUPDATE_CHECKING'),
 				'id'    => 'plg_quickicon_extensionupdate',
 				'group' => 'MOD_QUICKICON_MAINTENANCE'
 			)

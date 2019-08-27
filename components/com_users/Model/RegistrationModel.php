@@ -3,19 +3,31 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Site\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserHelper;
 
 /**
  * Registration model class for Users.
@@ -33,13 +45,14 @@ class RegistrationModel extends FormModel
 	/**
 	 * Constructor.
 	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MVCFactoryInterface  $factory  The factory.
+	 * @param   array                 $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   MVCFactoryInterface   $factory      The factory.
+	 * @param   FormFactoryInterface  $formFactory  The form factory.
 	 *
 	 * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
 	 * @since   3.2
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
 	{
 		$config = array_merge(
 			array(
@@ -47,22 +60,20 @@ class RegistrationModel extends FormModel
 			), $config
 		);
 
-		parent::__construct($config, $factory);
+		parent::__construct($config, $factory, $formFactory);
 	}
 
 	/**
-	 * Method to activate a user account.
+	 * Method to get the user ID from the given token
 	 *
 	 * @param   string  $token  The activation token.
 	 *
-	 * @return  mixed    False on failure, user object on success.
+	 * @return  mixed   False on failure, id of the user on success
 	 *
-	 * @since   1.6
+	 * @since   3.8.13
 	 */
-	public function activate($token)
+	public function getUserIdFromToken($token)
 	{
-		$config = \JFactory::getConfig();
-		$userParams = ComponentHelper::getParams('com_users');
 		$db = $this->getDbo();
 
 		// Get the user id based on the token.
@@ -76,19 +87,35 @@ class RegistrationModel extends FormModel
 
 		try
 		{
-			$userId = (int) $db->loadResult();
+			return (int) $db->loadResult();
 		}
 		catch (\RuntimeException $e)
 		{
-			$this->setError(\JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+			$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
 
 			return false;
 		}
+	}
+
+	/**
+	 * Method to activate a user account.
+	 *
+	 * @param   string  $token  The activation token.
+	 *
+	 * @return  mixed    False on failure, user object on success.
+	 *
+	 * @since   1.6
+	 */
+	public function activate($token)
+	{
+		$app        = Factory::getApplication();
+		$userParams = ComponentHelper::getParams('com_users');
+		$userId     = $this->getUserIdFromToken($token);
 
 		// Check for a valid user id.
 		if (!$userId)
 		{
-			$this->setError(\JText::_('COM_USERS_ACTIVATION_TOKEN_NOT_FOUND'));
+			$this->setError(Text::_('COM_USERS_ACTIVATION_TOKEN_NOT_FOUND'));
 
 			return false;
 		}
@@ -97,39 +124,35 @@ class RegistrationModel extends FormModel
 		PluginHelper::importPlugin('user');
 
 		// Activate the user.
-		$user = \JFactory::getUser($userId);
+		$user = Factory::getUser($userId);
 
 		// Admin activation is on and user is verifying their email
 		if (($userParams->get('useractivation') == 2) && !$user->getParam('activate', 0))
 		{
-			$uri = \JUri::getInstance();
+			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
 
 			// Compile the admin notification mail values.
 			$data = $user->getProperties();
-			$data['activation'] = ApplicationHelper::getHash(\JUserHelper::genRandomPassword());
+			$data['activation'] = ApplicationHelper::getHash(UserHelper::genRandomPassword());
 			$user->set('activation', $data['activation']);
-			$data['siteurl'] = \JUri::base();
-			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-			$data['activate'] = $base . \JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
+			$data['siteurl'] = Uri::base();
+			$data['activate'] = Route::link('site',
+				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
+				false,
+				$linkMode
+			);
 
-			// Remove administrator/ from activate URL in case this method is called from admin
-			if (\JFactory::getApplication()->isClient('administrator'))
-			{
-				$adminPos         = strrpos($data['activate'], 'administrator/');
-				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
-			}
-
-			$data['fromname'] = $config->get('fromname');
-			$data['mailfrom'] = $config->get('mailfrom');
-			$data['sitename'] = $config->get('sitename');
+			$data['fromname'] = $app->get('fromname');
+			$data['mailfrom'] = $app->get('mailfrom');
+			$data['sitename'] = $app->get('sitename');
 			$user->setParam('activate', 1);
-			$emailSubject = \JText::sprintf(
+			$emailSubject = Text::sprintf(
 				'COM_USERS_EMAIL_ACTIVATE_WITH_ADMIN_ACTIVATION_SUBJECT',
 				$data['name'],
 				$data['sitename']
 			);
 
-			$emailBody = \JText::sprintf(
+			$emailBody = Text::sprintf(
 				'COM_USERS_EMAIL_ACTIVATE_WITH_ADMIN_ACTIVATION_BODY',
 				$data['sitename'],
 				$data['name'],
@@ -139,7 +162,8 @@ class RegistrationModel extends FormModel
 			);
 
 			// Get all admin users
-			$query->clear()
+			$db = $this->getDbo();
+			$query = $db->getQuery(true)
 				->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
 				->from($db->quoteName('#__users'))
 				->where($db->quoteName('sendEmail') . ' = 1')
@@ -153,7 +177,7 @@ class RegistrationModel extends FormModel
 			}
 			catch (\RuntimeException $e)
 			{
-				$this->setError(\JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+				$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
 
 				return false;
 			}
@@ -161,16 +185,34 @@ class RegistrationModel extends FormModel
 			// Send mail to all users with users creating permissions and receiving system emails
 			foreach ($rows as $row)
 			{
-				$usercreator = \JFactory::getUser($row->id);
+				$usercreator = Factory::getUser($row->id);
 
 				if ($usercreator->authorise('core.create', 'com_users'))
 				{
-					$return = \JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBody);
+					try
+					{
+						$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBody);
+					}
+					catch (\Exception $exception)
+					{
+						try
+						{
+							Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+							$return = false;
+						}
+						catch (\RuntimeException $exception)
+						{
+							Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+							$return = false;
+						}
+					}
 
 					// Check for an error.
 					if ($return !== true)
 					{
-						$this->setError(\JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
+						$this->setError(Text::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
 
 						return false;
 					}
@@ -186,29 +228,47 @@ class RegistrationModel extends FormModel
 			// Compile the user activated notification mail values.
 			$data = $user->getProperties();
 			$user->setParam('activate', 0);
-			$data['fromname'] = $config->get('fromname');
-			$data['mailfrom'] = $config->get('mailfrom');
-			$data['sitename'] = $config->get('sitename');
-			$data['siteurl'] = \JUri::base();
-			$emailSubject = \JText::sprintf(
+			$data['fromname'] = $app->get('fromname');
+			$data['mailfrom'] = $app->get('mailfrom');
+			$data['sitename'] = $app->get('sitename');
+			$data['siteurl'] = Uri::base();
+			$emailSubject = Text::sprintf(
 				'COM_USERS_EMAIL_ACTIVATED_BY_ADMIN_ACTIVATION_SUBJECT',
 				$data['name'],
 				$data['sitename']
 			);
 
-			$emailBody = \JText::sprintf(
+			$emailBody = Text::sprintf(
 				'COM_USERS_EMAIL_ACTIVATED_BY_ADMIN_ACTIVATION_BODY',
 				$data['name'],
 				$data['siteurl'],
 				$data['username']
 			);
 
-			$return = \JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+			try
+			{
+				$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+			}
+			catch (\Exception $exception)
+			{
+				try
+				{
+					Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+					$return = false;
+				}
+				catch (\RuntimeException $exception)
+				{
+					Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+					$return = false;
+				}
+			}
 
 			// Check for an error.
 			if ($return !== true)
 			{
-				$this->setError(\JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
+				$this->setError(Text::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
 
 				return false;
 			}
@@ -222,7 +282,7 @@ class RegistrationModel extends FormModel
 		// Store the user object.
 		if (!$user->save())
 		{
-			$this->setError(\JText::sprintf('COM_USERS_REGISTRATION_ACTIVATION_SAVE_FAILED', $user->getError()));
+			$this->setError(Text::sprintf('COM_USERS_REGISTRATION_ACTIVATION_SAVE_FAILED', $user->getError()));
 
 			return false;
 		}
@@ -239,13 +299,14 @@ class RegistrationModel extends FormModel
 	 * @return  mixed  Data object on success, false on failure.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function getData()
 	{
 		if ($this->data === null)
 		{
 			$this->data = new \stdClass;
-			$app = \JFactory::getApplication();
+			$app = Factory::getApplication();
 			$params = ComponentHelper::getParams('com_users');
 
 			// Override the base user data with any data in the session.
@@ -279,8 +340,8 @@ class RegistrationModel extends FormModel
 			// Get the groups the user should be added to after registration.
 			$this->data->groups = array();
 
-			// Get the default new user group, Registered if not specified.
-			$system = $params->get('new_usertype', 2);
+			// Get the default new user group, guest or public group if not specified.
+			$system = $params->get('new_usertype', $params->get('guest_usergroup', 1));
 
 			$this->data->groups[] = $system;
 
@@ -291,7 +352,7 @@ class RegistrationModel extends FormModel
 			PluginHelper::importPlugin('user');
 
 			// Trigger the data preparation event.
-			\JFactory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.registration', $this->data));
+			Factory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.registration', $this->data));
 		}
 
 		return $this->data;
@@ -303,10 +364,10 @@ class RegistrationModel extends FormModel
 	 * The base form is loaded from XML and then an event is fired
 	 * for users plugins to extend the form with extra fields.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm  A \JForm object on success, false on failure
+	 * @return  Form  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -342,7 +403,7 @@ class RegistrationModel extends FormModel
 
 		if (Multilanguage::isEnabled() && empty($data->language))
 		{
-			$data->language = \JFactory::getLanguage()->getTag();
+			$data->language = Factory::getLanguage()->getTag();
 		}
 
 		$this->preprocessData('com_users.registration', $data);
@@ -353,7 +414,7 @@ class RegistrationModel extends FormModel
 	/**
 	 * Override preprocessForm to load the user plugin group instead of content.
 	 *
-	 * @param   \JForm  $form   A \JForm object.
+	 * @param   Form    $form   A Form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -362,7 +423,7 @@ class RegistrationModel extends FormModel
 	 * @since   1.6
 	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'user')
+	protected function preprocessForm(Form $form, $data, $group = 'user')
 	{
 		$userParams = ComponentHelper::getParams('com_users');
 
@@ -383,11 +444,12 @@ class RegistrationModel extends FormModel
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function populateState()
 	{
 		// Get the application object.
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$params = $app->getParams('com_users');
 
 		// Load the parameters.
@@ -402,13 +464,14 @@ class RegistrationModel extends FormModel
 	 * @return  mixed  The user id on success, false on failure.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function register($temp)
 	{
 		$params = ComponentHelper::getParams('com_users');
 
-		// Initialise the table with \JUser.
-		$user = new \JUser;
+		// Initialise the table with Joomla\CMS\User\User.
+		$user = new User;
 		$data = (array) $this->getData();
 
 		// Merge in the registration data.
@@ -418,7 +481,7 @@ class RegistrationModel extends FormModel
 		}
 
 		// Prepare the data for the user object.
-		$data['email'] = \JStringPunycode::emailToPunycode($data['email1']);
+		$data['email'] = PunycodeHelper::emailToPunycode($data['email1']);
 		$data['password'] = $data['password1'];
 		$useractivation = $params->get('useractivation');
 		$sendpassword = $params->get('sendpassword', 1);
@@ -426,14 +489,14 @@ class RegistrationModel extends FormModel
 		// Check if the user needs to activate their account.
 		if (($useractivation == 1) || ($useractivation == 2))
 		{
-			$data['activation'] = ApplicationHelper::getHash(\JUserHelper::genRandomPassword());
+			$data['activation'] = ApplicationHelper::getHash(UserHelper::genRandomPassword());
 			$data['block'] = 1;
 		}
 
 		// Bind the data.
 		if (!$user->bind($data))
 		{
-			$this->setError(\JText::sprintf('COM_USERS_REGISTRATION_BIND_FAILED', $user->getError()));
+			$this->setError(Text::sprintf('COM_USERS_REGISTRATION_BIND_FAILED', $user->getError()));
 
 			return false;
 		}
@@ -444,38 +507,35 @@ class RegistrationModel extends FormModel
 		// Store the data.
 		if (!$user->save())
 		{
-			$this->setError(\JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $user->getError()));
+			$this->setError(Text::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $user->getError()));
 
 			return false;
 		}
 
-		$config = \JFactory::getConfig();
+		$app = Factory::getApplication();
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Compile the notification mail values.
 		$data = $user->getProperties();
-		$data['fromname'] = $config->get('fromname');
-		$data['mailfrom'] = $config->get('mailfrom');
-		$data['sitename'] = $config->get('sitename');
-		$data['siteurl'] = \JUri::root();
+		$data['fromname'] = $app->get('fromname');
+		$data['mailfrom'] = $app->get('mailfrom');
+		$data['sitename'] = $app->get('sitename');
+		$data['siteurl'] = Uri::root();
 
 		// Handle account activation/confirmation emails.
 		if ($useractivation == 2)
 		{
 			// Set the link to confirm the user email.
-			$uri = \JUri::getInstance();
-			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-			$data['activate'] = $base . \JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
+			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
 
-			// Remove administrator/ from activate URL in case this method is called from admin
-			if (\JFactory::getApplication()->isClient('administrator'))
-			{
-				$adminPos         = strrpos($data['activate'], 'administrator/');
-				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
-			}
+			$data['activate'] = Route::link('site',
+				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
+				false,
+				$linkMode
+			);
 
-			$emailSubject = \JText::sprintf(
+			$emailSubject = Text::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
 				$data['name'],
 				$data['sitename']
@@ -483,7 +543,7 @@ class RegistrationModel extends FormModel
 
 			if ($sendpassword)
 			{
-				$emailBody = \JText::sprintf(
+				$emailBody = Text::sprintf(
 					'COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_BODY',
 					$data['name'],
 					$data['sitename'],
@@ -495,7 +555,7 @@ class RegistrationModel extends FormModel
 			}
 			else
 			{
-				$emailBody = \JText::sprintf(
+				$emailBody = Text::sprintf(
 					'COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_BODY_NOPW',
 					$data['name'],
 					$data['sitename'],
@@ -508,18 +568,15 @@ class RegistrationModel extends FormModel
 		elseif ($useractivation == 1)
 		{
 			// Set the link to activate the user account.
-			$uri = \JUri::getInstance();
-			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-			$data['activate'] = $base . \JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
+			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
 
-			// Remove administrator/ from activate URL in case this method is called from admin
-			if (\JFactory::getApplication()->isClient('administrator'))
-			{
-				$adminPos         = strrpos($data['activate'], 'administrator/');
-				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
-			}
+			$data['activate'] = Route::link('site',
+				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
+				false,
+				$linkMode
+			);
 
-			$emailSubject = \JText::sprintf(
+			$emailSubject = Text::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
 				$data['name'],
 				$data['sitename']
@@ -527,7 +584,7 @@ class RegistrationModel extends FormModel
 
 			if ($sendpassword)
 			{
-				$emailBody = \JText::sprintf(
+				$emailBody = Text::sprintf(
 					'COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_BODY',
 					$data['name'],
 					$data['sitename'],
@@ -539,7 +596,7 @@ class RegistrationModel extends FormModel
 			}
 			else
 			{
-				$emailBody = \JText::sprintf(
+				$emailBody = Text::sprintf(
 					'COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_BODY_NOPW',
 					$data['name'],
 					$data['sitename'],
@@ -551,7 +608,7 @@ class RegistrationModel extends FormModel
 		}
 		else
 		{
-			$emailSubject = \JText::sprintf(
+			$emailSubject = Text::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
 				$data['name'],
 				$data['sitename']
@@ -559,7 +616,7 @@ class RegistrationModel extends FormModel
 
 			if ($sendpassword)
 			{
-				$emailBody = \JText::sprintf(
+				$emailBody = Text::sprintf(
 					'COM_USERS_EMAIL_REGISTERED_BODY',
 					$data['name'],
 					$data['sitename'],
@@ -570,7 +627,7 @@ class RegistrationModel extends FormModel
 			}
 			else
 			{
-				$emailBody = \JText::sprintf(
+				$emailBody = Text::sprintf(
 					'COM_USERS_EMAIL_REGISTERED_BODY_NOPW',
 					$data['name'],
 					$data['sitename'],
@@ -579,19 +636,39 @@ class RegistrationModel extends FormModel
 			}
 		}
 
-		// Send the registration email.
-		$return = \JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+		// Try to send the registration email.
+		try
+		{
+			$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+		}
+		catch (\Exception $exception)
+		{
+			try
+			{
+				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+				$return = false;
+			}
+			catch (\RuntimeException $exception)
+			{
+				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+				$this->setError(Text::_('COM_MESSAGES_ERROR_MAIL_FAILED'), 500);
+
+				$return = false;
+			}
+		}
 
 		// Send Notification mail to administrators
 		if (($params->get('useractivation') < 2) && ($params->get('mail_to_admin') == 1))
 		{
-			$emailSubject = \JText::sprintf(
+			$emailSubject = Text::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
 				$data['name'],
 				$data['sitename']
 			);
 
-			$emailBodyAdmin = \JText::sprintf(
+			$emailBodyAdmin = Text::sprintf(
 				'COM_USERS_EMAIL_REGISTERED_NOTIFICATION_TO_ADMIN_BODY',
 				$data['name'],
 				$data['username'],
@@ -613,7 +690,7 @@ class RegistrationModel extends FormModel
 			}
 			catch (\RuntimeException $e)
 			{
-				$this->setError(\JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+				$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
 
 				return false;
 			}
@@ -621,12 +698,30 @@ class RegistrationModel extends FormModel
 			// Send mail to all superadministrators id
 			foreach ($rows as $row)
 			{
-				$return = \JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
+				try
+				{
+					$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
+				}
+				catch (\Exception $exception)
+				{
+					try
+					{
+						Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+						$return = false;
+					}
+					catch (\RuntimeException $exception)
+					{
+						Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+						$return = false;
+					}
+				}
 
 				// Check for an error.
 				if ($return !== true)
 				{
-					$this->setError(\JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
+					$this->setError(Text::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
 
 					return false;
 				}
@@ -636,7 +731,7 @@ class RegistrationModel extends FormModel
 		// Check for an error.
 		if ($return !== true)
 		{
-			$this->setError(\JText::_('COM_USERS_REGISTRATION_SEND_MAIL_FAILED'));
+			$this->setError(Text::_('COM_USERS_REGISTRATION_SEND_MAIL_FAILED'));
 
 			// Send a system message to administrators receiving system mails
 			$db = $this->getDbo();
@@ -653,14 +748,14 @@ class RegistrationModel extends FormModel
 			}
 			catch (\RuntimeException $e)
 			{
-				$this->setError(\JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+				$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
 
 				return false;
 			}
 
 			if (count($userids) > 0)
 			{
-				$jdate = new \JDate;
+				$jdate = new Date;
 
 				// Build the query to add the messages
 				foreach ($userids as $userid)
@@ -669,8 +764,8 @@ class RegistrationModel extends FormModel
 						$db->quote($userid),
 						$db->quote($userid),
 						$db->quote($jdate->toSql()),
-						$db->quote(\JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')),
-						$db->quote(\JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username']))
+						$db->quote(Text::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')),
+						$db->quote(Text::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username']))
 					);
 					$query->clear()
 						->insert($db->quoteName('#__messages'))
@@ -684,7 +779,7 @@ class RegistrationModel extends FormModel
 					}
 					catch (\RuntimeException $e)
 					{
-						$this->setError(\JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+						$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
 
 						return false;
 					}

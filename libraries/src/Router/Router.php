@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,7 +10,10 @@ namespace Joomla\CMS\Router;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class to create and parse routes
@@ -83,7 +86,7 @@ class Router
 	protected static $instances = array();
 
 	/**
-	 * Returns the global JRouter object, only creating it if it
+	 * Returns the global Router object, only creating it if it
 	 * doesn't already exist.
 	 *
 	 * @param   string  $client   The name of the client
@@ -103,13 +106,13 @@ class Router
 
 			if (!class_exists($classname))
 			{
-				throw new \RuntimeException(\JText::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
+				throw new \RuntimeException(Text::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
 			}
 
 			// Check for a possible service from the container otherwise manually instantiate the class
-			if (\JFactory::getContainer()->exists($classname))
+			if (Factory::getContainer()->has($classname))
 			{
-				self::$instances[$client] = \JFactory::getContainer()->get($classname);
+				self::$instances[$client] = Factory::getContainer()->get($classname);
 			}
 			else
 			{
@@ -123,9 +126,9 @@ class Router
 	/**
 	 * Function to convert a route to an internal URI
 	 *
-	 * @param   \JUri  &$uri     The uri.
-	 * @param   bool   $setVars  Set the parsed data in the internal
-	 *                           storage for current-request-URLs
+	 * @param   Uri   &$uri     The uri.
+	 * @param   bool  $setVars  Set the parsed data in the internal
+	 *                          storage for current-request-URLs
 	 *
 	 * @return  array
 	 *
@@ -147,7 +150,7 @@ class Router
 		// Otherwise we have an invalid URL
 		if (strlen($uri->getPath()) > 0)
 		{
-			throw new RouteNotFoundException('URL invalid');
+			throw new RouteNotFoundException(Text::_('JERROR_PAGE_NOT_FOUND'));
 		}
 
 		if ($setVars)
@@ -165,7 +168,7 @@ class Router
 	 *
 	 * @param   string  $url  The internal URL or an associative array
 	 *
-	 * @return  \JUri  The absolute search engine friendly URL object
+	 * @return  Uri  The absolute search engine friendly URL object
 	 *
 	 * @since   1.5
 	 */
@@ -422,7 +425,7 @@ class Router
 	 *
 	 * @param   string  $url  The URI or an associative array
 	 *
-	 * @return  \JUri
+	 * @return  Uri
 	 *
 	 * @since   3.2
 	 */
@@ -430,10 +433,10 @@ class Router
 	{
 		if (!is_array($url) && substr($url, 0, 1) !== '&')
 		{
-			return new \JUri($url);
+			return new Uri($url);
 		}
 
-		$uri = new \JUri('index.php');
+		$uri = new Uri('index.php');
 
 		if (is_string($url))
 		{

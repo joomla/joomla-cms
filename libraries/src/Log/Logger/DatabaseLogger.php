@@ -2,16 +2,18 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Log\Logger;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Joomla! MySQL Database Log class
@@ -20,7 +22,7 @@ use Joomla\CMS\Log\Logger;
  * table are based on the Syslog style of log output. This is designed to allow quick and
  * easy searching.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class DatabaseLogger extends Logger
 {
@@ -28,7 +30,7 @@ class DatabaseLogger extends Logger
 	 * The name of the database driver to use for connecting to the database.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $driver = 'mysqli';
 
@@ -36,7 +38,7 @@ class DatabaseLogger extends Logger
 	 * The host name (or IP) of the server with which to connect for the logger.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $host = '127.0.0.1';
 
@@ -44,7 +46,7 @@ class DatabaseLogger extends Logger
 	 * The database server user to connect as for the logger.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $user = 'root';
 
@@ -52,7 +54,7 @@ class DatabaseLogger extends Logger
 	 * The password to use for connecting to the database server.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $password = '';
 
@@ -60,7 +62,7 @@ class DatabaseLogger extends Logger
 	 * The name of the database table to use for the logger.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $database = 'logging';
 
@@ -68,15 +70,15 @@ class DatabaseLogger extends Logger
 	 * The database table to use for logging entries.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $table = 'jos_';
 
 	/**
 	 * The database driver object for the logger.
 	 *
-	 * @var    \JDatabaseDriver
-	 * @since  11.1
+	 * @var    DatabaseDriver
+	 * @since  1.7.0
 	 */
 	protected $db;
 
@@ -85,7 +87,7 @@ class DatabaseLogger extends Logger
 	 *
 	 * @param   array  &$options  Log object options.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct(array &$options)
 	{
@@ -95,7 +97,7 @@ class DatabaseLogger extends Logger
 		// If both the database object and driver options are empty we want to use the system database connection.
 		if (empty($this->options['db_driver']))
 		{
-			$this->db = \JFactory::getDbo();
+			$this->db = Factory::getDbo();
 			$this->driver = null;
 			$this->host = null;
 			$this->user = null;
@@ -125,7 +127,7 @@ class DatabaseLogger extends Logger
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	public function addEntry(LogEntry $entry)
@@ -147,12 +149,12 @@ class DatabaseLogger extends Logger
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	protected function connect()
 	{
-		// Build the configuration object to use for JDatabaseDriver.
+		// Build the configuration object to use for DatabaseDriver.
 		$options = array(
 			'driver' => $this->driver,
 			'host' => $this->host,
@@ -162,6 +164,6 @@ class DatabaseLogger extends Logger
 			'prefix' => $this->prefix,
 		);
 
-		$this->db = \JDatabaseDriver::getInstance($options);
+		$this->db = DatabaseDriver::getInstance($options);
 	}
 }

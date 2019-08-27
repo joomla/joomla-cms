@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@ use Joomla\Input\Input;
 /**
  * Joomla Platform Controller Interface
  *
- * @since       12.1
+ * @since       3.0.0
  * @deprecated  5.0  Implement Joomla\CMS\MVC\Controller\ControllerInterface instead
  */
 interface JController extends ControllerInterface
@@ -26,7 +26,7 @@ interface JController extends ControllerInterface
 	 *
 	 * @return  AbstractApplication  The application object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getApplication();
 
@@ -35,7 +35,7 @@ interface JController extends ControllerInterface
 	 *
 	 * @return  Input  The input object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getInput();
 }

@@ -3,45 +3,59 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_popular
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
+HTMLHelper::_('bootstrap.framework');
 ?>
-<ul class="list-group list-group-flush">
+<table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
+	<caption class="sr-only"><?php echo $module->title; ?></caption>
+	<thead>
+		<tr>
+			<th scope="col" style="width:2%"><?php echo Text::_('JGLOBAL_HITS'); ?></th>
+			<th scope="col" style="width:80%"><?php echo Text::_('JGLOBAL_TITLE'); ?></th>
+			<th scope="col" style="width:18%"><?php echo Text::_('JDATE'); ?></th>
+		</tr>
+	</thead>
+	<tbody>
 	<?php if (count($list)) : ?>
 		<?php foreach ($list as $i => $item) : ?>
 			<?php // Calculate popular items ?>
 			<?php $hits = (int) $item->hits; ?>
 			<?php $hits_class = ($hits >= 10000 ? 'danger' : ($hits >= 1000 ? 'warning' : ($hits >= 100 ? 'info' : 'secondary'))); ?>
-			<li class="d-flex justify-content-start list-group-item">
-				<div class="fg-1">
-					<span class="mr-2 badge badge-<?php echo $hits_class; ?> hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JGLOBAL_HITS'); ?>"><?php echo $item->hits; ?></span>
+			<tr>
+				<td>
+					<span class="badge badge-<?php echo $hits_class; ?>"><?php echo $item->hits; ?></span>
+				</td>
+				<th scope="row">
 					<?php if ($item->checked_out) : ?>
-						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
+						<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
 					<?php endif; ?>
-					<strong class="row-title break-word">
-						<?php if ($item->link) : ?>
-							<a href="<?php echo $item->link; ?>">
-								<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?></a>
-						<?php else : ?>
+					<?php if ($item->link) : ?>
+						<a href="<?php echo $item->link; ?>">
 							<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
-						<?php endif; ?>
-					</strong>
-				</div>
-				<span class="badge badge-secondary badge-pill">
-					<span class="small">
-						<span class="icon-calendar" aria-hidden="true"></span>
-						<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC5')); ?>
-					</span>
-				</span>
-			</li>
+						</a>
+					<?php else : ?>
+						<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
+					<?php endif; ?>
+				</th>
+				<td>
+					<?php echo HTMLHelper::_('date', $item->publish_up, Text::_('DATE_FORMAT_LC4')); ?>
+				</td>
+			</tr>
 		<?php endforeach; ?>
 	<?php else : ?>
-		<li class="d-flex justify-content-start list-group-item">
-			<div class="alert alert-info w-100 mb-0"><?php echo JText::_('MOD_POPULAR_NO_MATCHING_RESULTS'); ?></div>
-		</li>
+		<tr>
+			<td colspan="3">
+				<?php echo Text::_('MOD_POPULAR_NO_MATCHING_RESULTS'); ?>
+			</td>
+		</tr>
 	<?php endif; ?>
-</ul>
+	</tbody>
+</table>

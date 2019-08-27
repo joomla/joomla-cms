@@ -24,7 +24,7 @@
   padding-left: ($col-gutter-width / 2);
 }
 
-@media (min-width: 768px) {
+@media (min-width: var(--breakpoint-md)) {
   [class^='media-col'], [class*=' media-col'] {
     flex: 0 0 100%;
     max-width: 100%;
@@ -34,12 +34,11 @@
 .media-main {
   position: relative;
   height: calc(100vh - 160px);
-  min-height: 400px;
   overflow: hidden;
   background-color: #fff;
   border: 1px solid $border-color;
   border-radius: $border-radius;
-  box-shadow: 0 0 3px rgba(0, 0, 0, .075);
+  box-shadow: $col-box-shadow;
 }
 
 .media-sidebar {

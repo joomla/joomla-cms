@@ -3,15 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Plugins\Administrator\View\Plugin;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View to edit a plugin.
@@ -57,7 +62,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -73,36 +78,32 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
 		$canDo = ContentHelper::getActions('com_plugins');
 
-		\JToolbarHelper::title(\JText::sprintf('COM_PLUGINS_MANAGER_PLUGIN', \JText::_($this->item->name)), 'power-cord plugin');
+		ToolbarHelper::title(Text::sprintf('COM_PLUGINS_MANAGER_PLUGIN', Text::_($this->item->name)), 'power-cord plugin');
 
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit'))
 		{
-			\JToolbarHelper::saveGroup(
-				[
-					['apply', 'plugin.apply'],
-					['save', 'plugin.save']
-				],
-				'btn-success'
-			);
+			ToolbarHelper::apply('plugin.apply');
+
+			ToolbarHelper::save('plugin.save');
 		}
 
-		\JToolbarHelper::cancel('plugin.cancel', 'JTOOLBAR_CLOSE');
-		\JToolbarHelper::divider();
+		ToolbarHelper::cancel('plugin.cancel', 'JTOOLBAR_CLOSE');
+		ToolbarHelper::divider();
 
 		// Get the help information for the plugin item.
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		$help = $this->get('Help');
 
 		if ($lang->hasKey($help->url))
 		{
 			$debug = $lang->setDebug(false);
-			$url = \JText::_($help->url);
+			$url = Text::_($help->url);
 			$lang->setDebug($debug);
 		}
 		else
@@ -110,6 +111,6 @@ class HtmlView extends BaseHtmlView
 			$url = null;
 		}
 
-		\JToolbarHelper::help($help->key, false, $url);
+		ToolbarHelper::help($help->key, false, $url);
 	}
 }

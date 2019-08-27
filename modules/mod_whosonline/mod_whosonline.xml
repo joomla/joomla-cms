@@ -3,12 +3,13 @@
 	<name>mod_whosonline</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_WHOSONLINE_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Whosonline</namespace>
 	<files>
 		<filename module="mod_whosonline">mod_whosonline.php</filename>
 		<folder>tmpl</folder>
@@ -27,6 +28,7 @@
 					type="list"
 					label="MOD_WHOSONLINE_SHOWMODE_LABEL"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">MOD_WHOSONLINE_FIELD_VALUE_NUMBER</option>
 					<option value="1">MOD_WHOSONLINE_FIELD_VALUE_NAMES</option>
@@ -40,6 +42,7 @@
 					label="MOD_WHOSONLINE_FIELD_FILTER_GROUPS_LABEL"
 					description="MOD_WHOSONLINE_FIELD_FILTER_GROUPS_DESC"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -50,6 +53,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
+					class="custom-select"
 				/>
 
 				<field
@@ -64,6 +68,7 @@
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
@@ -73,6 +78,7 @@
 					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
+					filter="integer"
 				/>
 			</fieldset>
 		</fields>

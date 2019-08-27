@@ -3,14 +3,16 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Users\Site\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
 
 /**
  * Reset controller class for Users.
@@ -32,7 +34,8 @@ class ResetController extends BaseController
 		$this->checkToken('post');
 
 		$app   = $this->app;
-		/* @var \Joomla\Component\Users\Site\Model\ResetModel $model */
+
+		/** @var \Joomla\Component\Users\Site\Model\ResetModel $model */
 		$model = $this->getModel('Reset', 'Site');
 		$data  = $this->input->post->get('jform', array(), 'array');
 
@@ -49,11 +52,11 @@ class ResetController extends BaseController
 			}
 			else
 			{
-				$message = \JText::_('COM_USERS_RESET_REQUEST_ERROR');
+				$message = Text::_('COM_USERS_RESET_REQUEST_ERROR');
 			}
 
 			// Go back to the request form.
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=reset', false), $message, 'error');
+			$this->setRedirect(Route::_('index.php?option=com_users&view=reset', false), $message, 'error');
 
 			return false;
 		}
@@ -61,8 +64,8 @@ class ResetController extends BaseController
 		{
 			// The request failed.
 			// Go back to the request form.
-			$message = \JText::sprintf('COM_USERS_RESET_REQUEST_FAILED', $model->getError());
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=reset', false), $message, 'notice');
+			$message = Text::sprintf('COM_USERS_RESET_REQUEST_FAILED', $model->getError());
+			$this->setRedirect(Route::_('index.php?option=com_users&view=reset', false), $message, 'notice');
 
 			return false;
 		}
@@ -70,7 +73,7 @@ class ResetController extends BaseController
 		{
 			// The request succeeded.
 			// Proceed to step two.
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=reset&layout=confirm', false));
+			$this->setRedirect(Route::_('index.php?option=com_users&view=reset&layout=confirm', false));
 
 			return true;
 		}
@@ -90,7 +93,8 @@ class ResetController extends BaseController
 		$this->checkToken('request');
 
 		$app   = $this->app;
-		/* @var \Joomla\Component\Users\Site\Model\Reset $model */
+
+		/** @var \Joomla\Component\Users\Site\Model\Reset $model */
 		$model = $this->getModel('Reset', 'Site');
 		$data  = $this->input->get('jform', array(), 'array');
 
@@ -107,11 +111,11 @@ class ResetController extends BaseController
 			}
 			else
 			{
-				$message = \JText::_('COM_USERS_RESET_CONFIRM_ERROR');
+				$message = Text::_('COM_USERS_RESET_CONFIRM_ERROR');
 			}
 
 			// Go back to the confirm form.
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=reset&layout=confirm', false), $message, 'error');
+			$this->setRedirect(Route::_('index.php?option=com_users&view=reset&layout=confirm', false), $message, 'error');
 
 			return false;
 		}
@@ -119,8 +123,8 @@ class ResetController extends BaseController
 		{
 			// Confirm failed.
 			// Go back to the confirm form.
-			$message = \JText::sprintf('COM_USERS_RESET_CONFIRM_FAILED', $model->getError());
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=reset&layout=confirm', false), $message, 'notice');
+			$message = Text::sprintf('COM_USERS_RESET_CONFIRM_FAILED', $model->getError());
+			$this->setRedirect(Route::_('index.php?option=com_users&view=reset&layout=confirm', false), $message, 'notice');
 
 			return false;
 		}
@@ -128,7 +132,7 @@ class ResetController extends BaseController
 		{
 			// Confirm succeeded.
 			// Proceed to step three.
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=reset&layout=complete', false));
+			$this->setRedirect(Route::_('index.php?option=com_users&view=reset&layout=complete', false));
 
 			return true;
 		}
@@ -147,7 +151,8 @@ class ResetController extends BaseController
 		$this->checkToken('post');
 
 		$app   = $this->app;
-		/* @var \Joomla\Component\Users\Site\Model\ResetModel $model */
+
+		/** @var \Joomla\Component\Users\Site\Model\ResetModel $model */
 		$model = $this->getModel('Reset', 'Site');
 		$data  = $this->input->post->get('jform', array(), 'array');
 
@@ -164,11 +169,11 @@ class ResetController extends BaseController
 			}
 			else
 			{
-				$message = \JText::_('COM_USERS_RESET_COMPLETE_ERROR');
+				$message = Text::_('COM_USERS_RESET_COMPLETE_ERROR');
 			}
 
 			// Go back to the complete form.
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=reset&layout=complete', false), $message, 'error');
+			$this->setRedirect(Route::_('index.php?option=com_users&view=reset&layout=complete', false), $message, 'error');
 
 			return false;
 		}
@@ -176,8 +181,8 @@ class ResetController extends BaseController
 		{
 			// Complete failed.
 			// Go back to the complete form.
-			$message = \JText::sprintf('COM_USERS_RESET_COMPLETE_FAILED', $model->getError());
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=reset&layout=complete', false), $message, 'notice');
+			$message = Text::sprintf('COM_USERS_RESET_COMPLETE_FAILED', $model->getError());
+			$this->setRedirect(Route::_('index.php?option=com_users&view=reset&layout=complete', false), $message, 'notice');
 
 			return false;
 		}
@@ -185,8 +190,8 @@ class ResetController extends BaseController
 		{
 			// Complete succeeded.
 			// Proceed to the login form.
-			$message = \JText::_('COM_USERS_RESET_COMPLETE_SUCCESS');
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=login', false), $message);
+			$message = Text::_('COM_USERS_RESET_COMPLETE_SUCCESS');
+			$this->setRedirect(Route::_('index.php?option=com_users&view=login', false), $message);
 
 			return true;
 		}

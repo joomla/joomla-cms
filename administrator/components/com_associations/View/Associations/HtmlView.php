@@ -3,16 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Associations\Administrator\View\Associations;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 /**
@@ -75,12 +79,12 @@ class HtmlView extends BaseHtmlView
 
 		if (!Associations::isEnabled())
 		{
-			$link = \JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . AssociationsHelper::getLanguagefilterPluginId());
-			\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_ASSOCIATIONS_ERROR_NO_ASSOC', $link), 'warning');
+			$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . AssociationsHelper::getLanguagefilterPluginId());
+			Factory::getApplication()->enqueueMessage(Text::sprintf('COM_ASSOCIATIONS_ERROR_NO_ASSOC', $link), 'warning');
 		}
 		elseif ($this->state->get('itemtype') == '' || $this->state->get('language') == '')
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_ASSOCIATIONS_NOTICE_NO_SELECTORS'), 'notice');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_ASSOCIATIONS_NOTICE_NO_SELECTORS'), 'notice');
 		}
 		else
 		{
@@ -101,7 +105,7 @@ class HtmlView extends BaseHtmlView
 
 			if (is_null($type))
 			{
-				\JFactory::getApplication()->enqueueMessage(\JText::_('COM_ASSOCIATIONS_ERROR_NO_TYPE'), 'warning');
+				Factory::getApplication()->enqueueMessage(Text::_('COM_ASSOCIATIONS_ERROR_NO_TYPE'), 'warning');
 			}
 			else
 			{
@@ -135,21 +139,25 @@ class HtmlView extends BaseHtmlView
 					unset($this->activeFilters['state']);
 					$this->filterForm->removeField('state', 'filter');
 				}
+
 				if (empty($support['category']))
 				{
 					unset($this->activeFilters['category_id']);
 					$this->filterForm->removeField('category_id', 'filter');
 				}
+
 				if ($extensionName !== 'com_menus')
 				{
 					unset($this->activeFilters['menutype']);
 					$this->filterForm->removeField('menutype', 'filter');
 				}
+
 				if (empty($support['level']))
 				{
 					unset($this->activeFilters['level']);
 					$this->filterForm->removeField('level', 'filter');
 				}
+
 				if (empty($support['acl']))
 				{
 					unset($this->activeFilters['access']);
@@ -160,6 +168,15 @@ class HtmlView extends BaseHtmlView
 				if (empty($support['catid']))
 				{
 					$this->filterForm->setFieldAttribute('category_id', 'extension', $extensionName, 'filter');
+
+					if ($this->getLayout() == 'modal')
+					{
+						// We need to change the category filter to only show categories tagged to All or to the forced language.
+						if ($forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
+						{
+							$this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
+						}
+					}
 				}
 
 				$this->items      = $this->get('Items');
@@ -183,7 +200,6 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		// Will add sidebar if needed $this->sidebar = \JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
@@ -196,7 +212,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if (isset($this->typeName) && isset($this->extensionName))
 		{
@@ -211,14 +227,14 @@ class HtmlView extends BaseHtmlView
 			}
 
 			ToolbarHelper::title(
-				\JText::sprintf(
-					'COM_ASSOCIATIONS_TITLE_LIST', \JText::_($this->extensionName), \JText::_($languageKey)
-				), 'contract assoc'
+				Text::sprintf(
+					'COM_ASSOCIATIONS_TITLE_LIST', Text::_($this->extensionName), Text::_($languageKey)
+				), 'language assoc'
 			);
 		}
 		else
 		{
-			ToolbarHelper::title(\JText::_('COM_ASSOCIATIONS_TITLE_LIST_SELECT'), 'contract assoc');
+			ToolbarHelper::title(Text::_('COM_ASSOCIATIONS_TITLE_LIST_SELECT'), 'language assoc');
 		}
 
 		if ($user->authorise('core.admin', 'com_associations') || $user->authorise('core.options', 'com_associations'))
@@ -228,6 +244,7 @@ class HtmlView extends BaseHtmlView
 				ToolbarHelper::custom('associations.purge', 'purge', 'purge', 'COM_ASSOCIATIONS_PURGE', false, false);
 				ToolbarHelper::custom('associations.clean', 'refresh', 'refresh', 'COM_ASSOCIATIONS_DELETE_ORPHANS', false, false);
 			}
+
 			ToolbarHelper::preferences('com_associations');
 		}
 

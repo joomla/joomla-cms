@@ -3,16 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Languages\Administrator\View\Installed;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * Displays a list of the installed languages.
@@ -24,7 +28,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * True, if FTP settings should be shown, or an exception.
 	 *
-	 * @var boolean|\JException
+	 * @var boolean|\Exception
 	 */
 	protected $ftp = null;
 
@@ -74,14 +78,6 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
-	 * The sidebar markup
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $sidebar;
-
-	/**
 	 * Display the view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse.
@@ -99,12 +95,10 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		LanguagesHelper::addSubmenu('installed');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -125,40 +119,38 @@ class HtmlView extends BaseHtmlView
 
 		if ((int) $this->state->get('client_id') === 1)
 		{
-			\JToolbarHelper::title(\JText::_('COM_LANGUAGES_VIEW_INSTALLED_ADMIN_TITLE'), 'comments-2 langmanager');
+			ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_INSTALLED_ADMIN_TITLE'), 'comments-2 langmanager');
 		}
 		else
 		{
-			\JToolbarHelper::title(\JText::_('COM_LANGUAGES_VIEW_INSTALLED_SITE_TITLE'), 'comments-2 langmanager');
+			ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_INSTALLED_SITE_TITLE'), 'comments-2 langmanager');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::makeDefault('installed.setDefault');
-			\JToolbarHelper::divider();
+			ToolbarHelper::makeDefault('installed.setDefault');
+			ToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin'))
 		{
 			// Add install languages link to the lang installer component.
-			$bar = \JToolbar::getInstance('toolbar');
+			$bar = Toolbar::getInstance('toolbar');
 
 			// Switch administrator language
 			if ($this->state->get('client_id', 0) == 1)
 			{
-				\JToolbarHelper::custom('installed.switchadminlanguage', 'refresh', 'refresh', 'COM_LANGUAGES_SWITCH_ADMIN', false);
-				\JToolbarHelper::divider();
+				ToolbarHelper::custom('installed.switchadminlanguage', 'refresh', 'refresh', 'COM_LANGUAGES_SWITCH_ADMIN', true);
+				ToolbarHelper::divider();
 			}
 
 			$bar->appendButton('Link', 'upload', 'COM_LANGUAGES_INSTALL', 'index.php?option=com_installer&view=languages');
-			\JToolbarHelper::divider();
+			ToolbarHelper::divider();
 
-			\JToolbarHelper::preferences('com_languages');
-			\JToolbarHelper::divider();
+			ToolbarHelper::preferences('com_languages');
+			ToolbarHelper::divider();
 		}
 
-		\JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_INSTALLED');
-
-		$this->sidebar = \JHtmlSidebar::render();
+		ToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_INSTALLED');
 	}
 }

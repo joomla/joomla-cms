@@ -3,14 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Installer\Administrator\View\Updatesites;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
@@ -23,10 +27,25 @@ use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as Installe
  */
 class HtmlView extends InstallerViewDefault
 {
+	/**
+	 * List of updatesites
+	 *
+	 * @var    \stdClass[]
+	 */
 	protected $items;
 
+	/**
+	 * Pagination object
+	 *
+	 * @var    Pagination
+	 */
 	protected $pagination;
 
+	/**
+	 * Form object
+	 *
+	 * @var    Form
+	 */
 	protected $form;
 
 	/**
@@ -51,11 +70,8 @@ class HtmlView extends InstallerViewDefault
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
-
-		// Include the component HTML helpers.
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		// Display the view
 		parent::display($tpl);
@@ -89,8 +105,6 @@ class HtmlView extends InstallerViewDefault
 		{
 			ToolbarHelper::custom('updatesites.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
 		}
-
-		\JHtmlSidebar::setAction('index.php?option=com_installer&view=updatesites');
 
 		parent::addToolbar();
 		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_UPDATESITES');

@@ -3,18 +3,22 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Tags\Administrator\Table;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Nested;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
-use Joomla\CMS\Table\Nested;
 
 /**
  * Tags table
@@ -26,9 +30,9 @@ class TagTable extends Nested
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  A database connector object
+	 * @param   DatabaseDriver  $db  A database connector object
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		$this->typeAlias = 'com_tags.tag';
 
@@ -112,7 +116,7 @@ class TagTable extends Nested
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		// Check the publish down date is not earlier than publish up.
@@ -156,8 +160,9 @@ class TagTable extends Nested
 			$bad_characters = array("\"", '<', '>');
 			$this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
 		}
+
 		// Not Null sanity check
-		$date = \JFactory::getDate();
+		$date = Factory::getDate();
 
 		if (empty($this->params))
 		{
@@ -199,11 +204,6 @@ class TagTable extends Nested
 			$this->modified_time = $date->toSql();
 		}
 
-		if (!(int) $this->modified_time)
-		{
-			$this->modified_time = $date->toSql();
-		}
-
 		if (!(int) $this->publish_up)
 		{
 			$this->publish_up = $date->toSql();
@@ -218,7 +218,7 @@ class TagTable extends Nested
 	}
 
 	/**
-	 * Overriden \JTable::store to set modified data and user id.
+	 * Overridden \JTable::store to set modified data and user id.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
@@ -228,8 +228,8 @@ class TagTable extends Nested
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = \JFactory::getDate();
-		$user = \JFactory::getUser();
+		$date = Factory::getDate();
+		$user = Factory::getUser();
 
 		$this->modified_time = $date->toSql();
 
@@ -258,7 +258,7 @@ class TagTable extends Nested
 
 		if ($table->load(array('alias' => $this->alias)) && ($table->id != $this->id || $this->id == 0))
 		{
-			$this->setError(\JText::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
+			$this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
 
 			return false;
 		}

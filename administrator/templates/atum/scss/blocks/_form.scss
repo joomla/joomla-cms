@@ -1,21 +1,8 @@
 // Form
 
 .form-control {
-  max-width: 240px;
-  background-color: $white-offset;
-
-  &.input-xlarge {
-    max-width: 350px;
-  }
-
-  &.input-xxlarge {
-    max-width: 550px;
-  }
-
-  &.input-full {
-    max-width: 100%;
-  }
-
+  max-width: $input-max-width;
+  background-color: var(--white-offset);
 }
 
 .control-group {
@@ -42,7 +29,12 @@
   .controls {
     margin-left: 220px;
   }
+}
 
+.control-group {
+  .switcher__legend {
+    font-size: $label-font-size;
+  }
 }
 
 .form-no-margin {
@@ -51,26 +43,25 @@
 
     .controls {
       margin-left: 0;
+      .switcher__legend {
+        float:none;
+		margin-left: 0;
+      }
     }
 
     .control-label {
       float: none;
     }
-
   }
-
 }
 
-.custom-select {
-  min-width: 240px;
-}
-
-.spacer hr {
-  width: 380px;
-}
-
-.card .custom-select {
-  width: 100%;
+.spacer {
+  hr {
+    width: 380px;
+  }
+  label {
+    width: 440px;
+  }
 }
 
 td .form-control {
@@ -89,7 +80,6 @@ legend {
     position: static;
     margin-left: 0;
   }
-
 }
 
 .form-check {
@@ -106,10 +96,62 @@ legend {
   color: theme-color("danger");
   border-color: theme-color("danger");
 }
+
 .valid {
   border-color: theme-color("success");
 }
 
 .form-control-feedback {
   display: block;
+}
+
+[aria-grabbed='true'] {
+  box-shadow: 0 0 2px 1px theme-color("primary");
+}
+
+.sortable-handler.inactive {
+  opacity: 0.3;
+}
+
+// Search Input Tooltip
+/* make the containers relative */
+.control-group > .controls {
+  position: relative;
+}
+
+ /* set up hidden tooltip */
+[role="tooltip"]:not(.show) {
+  display: none;
+  padding: 0.25em;
+  margin: 0.25em;
+  color: $white;
+  background: $black;
+  max-width: 100%;
+  z-index: $zindex-tooltip;
+}
+
+ /* reveal associated tooltip on focus */
+:focus + [role="tooltip"],
+:hover + [role="tooltip"] {
+  display: block;
+  position: absolute;
+}
+
+[id="filter[search]-desc"] {
+  bottom: 100%;
+}
+
+.switcher__legend {
+    font-size: $label-font-size;
+    color: var(--atum-special-color);
+    margin-bottom: 0;
+}
+
+[class^="icon-"]:not(.input-group-text),
+[class*=" icon-"]:not(.input-group-text) {
+  margin-right: 0.5em;
+}
+
+joomla-field-user [class*=" icon-"]:not(.input-group-text) {
+  margin-right: 0;
 }

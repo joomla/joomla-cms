@@ -3,14 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Installer\Administrator\View\Install;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
@@ -38,11 +38,7 @@ class HtmlView extends InstallerViewDefault
 
 		$this->paths  = &$paths;
 
-		$this->showJedAndWebInstaller = ComponentHelper::getParams('com_installer')->get('show_jed_info', 1);
-
 		PluginHelper::importPlugin('installer');
-
-		\JFactory::getApplication()->triggerEvent('onInstallerBeforeDisplay', array(&$this->showJedAndWebInstaller, $this));
 
 		parent::display($tpl);
 	}

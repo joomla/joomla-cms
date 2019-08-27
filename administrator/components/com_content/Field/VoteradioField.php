@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,16 +11,15 @@ namespace Joomla\Component\Content\Administrator\Field;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\Field\RadioField;
 use Joomla\CMS\Plugin\PluginHelper;
-
-\JFormHelper::loadFieldClass('radio');
 
 /**
  * Voteradio Field class.
  *
  * @since  3.8.0
  */
-class VoteradioField extends \JFormFieldRadio
+class VoteradioField extends RadioField
 {
 	/**
 	 * The form field type.
@@ -42,7 +41,7 @@ class VoteradioField extends \JFormFieldRadio
 	public function getLabel()
 	{
 		// Requires vote plugin enabled
-		return \JPluginHelper::isEnabled('content', 'vote') ? parent::getLabel() : null;
+		return PluginHelper::isEnabled('content', 'vote') ? parent::getLabel() : null;
 	}
 
 	/**

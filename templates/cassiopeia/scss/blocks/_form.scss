@@ -1,7 +1,7 @@
 // Form
 
 .form-control {
-  max-width: 240px;
+  max-width: $input-max-width;
   background-color: $white-offset;
 
   &.input-xlarge {
@@ -45,37 +45,37 @@ form:not(.form-no-margin) {
 
 }
 
-form .form-no-margin {
+.form-no-margin {
 
   .control-group {
 
     .controls {
       margin-left: 0;
+      .switcher__legend {
+        float:none;
+      }
     }
 
     .control-label {
       float: none;
     }
-
   }
-
 }
 
 .spacer hr {
   width: 380px;
 }
 
-.card .custom-select {
-  width: 100%;
+.custom-select {
+  max-width: $input-max-width;
+}
+.form-inline .custom-select {
+  width: auto;
 }
 
 td .form-control {
   display: inline-block;
   width: auto;
-}
-
-legend {
-  margin-bottom: 1.1rem;
 }
 
 .checkboxes {
@@ -88,23 +88,18 @@ legend {
 
 }
 
-.form-check {
-  padding-top: 5px;
-  margin-bottom: 0;
-}
-
 .modal label {
   width: 100%;
 }
 
 // Validation
 .invalid {
-  color: $switcher-color-danger;
-  border-color: $switcher-color-danger;
+  color: theme-color("danger");
+  border-color: theme-color("danger");
 }
 
 .valid {
-  border-color: $switcher-color-success;
+  border-color: theme-color("success");
 }
 
 .form-control-feedback {

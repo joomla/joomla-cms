@@ -3,13 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Templates\Administrator\View\Style;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
@@ -57,7 +59,7 @@ class JsonView extends BaseHtmlView
 		}
 		catch (\Exception $e)
 		{
-			$app = \JFactory::getApplication();
+			$app = Factory::getApplication();
 			$app->enqueueMessage($e->getMessage(), 'error');
 
 			return false;

@@ -3,15 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Cache\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\Component\Cache\Administrator\Helper\CacheHelper;
+use Joomla\CMS\Response\JsonResponse;
 
 /**
  * Cache Controller
@@ -21,50 +24,49 @@ use Joomla\Component\Cache\Administrator\Helper\CacheHelper;
 class DisplayController extends BaseController
 {
 	/**
-	 * Display a view.
+	 * The default view for the display method.
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
-	 *
-	 * @return  static  This object to support chaining.
-	 *
-	 * @since   1.5
+	 * @var    string
+	 * @since  4.0.0
 	 */
-	public function display($cachable = false, $urlparams = false)
+	protected $default_view = 'cache';
+
+	/**
+	 * Method to get The Cache Size
+	 *
+	 * @since   4.0
+	 */
+	public function getQuickiconContent()
 	{
-		// Get the document object.
-		$document = \JFactory::getDocument();
+		$model = $this->getModel('Cache');
 
-		// Set the default view name and format from the Request.
-		$vName   = $this->input->get('view', 'cache');
-		$vFormat = $document->getType();
-		$lName   = $this->input->get('layout', 'default', 'string');
+		$data = $model->getData();
 
-		// Get and render the view.
-		if ($view = $this->getView($vName, $vFormat))
+		$size = 0;
+
+		if (!empty($data))
 		{
-			switch ($vName)
+			foreach ($data as $d)
 			{
-				case 'purge':
-					$this->app->enqueueMessage(\JText::_('COM_CACHE_RESOURCE_INTENSIVE_WARNING'), 'warning');
-					break;
-				case 'cache':
-				default:
-					$model = $this->getModel($vName);
-					$view->setModel($model, true);
-					break;
+				$size += $d->size;
 			}
-
-			$view->setLayout($lName);
-
-			// Push document object into the view.
-			$view->document = $document;
-
-			// Load the submenu.
-			CacheHelper::addSubmenu($this->input->get('view', 'cache'));
-
-			$view->display();
 		}
+
+		// Number bytes are returned in format xxx.xx MB
+		$bytes = HTMLHelper::_('number.bytes', $size, 'MB', 1);
+		
+		if (!empty($bytes))
+		{
+			$result['amount'] = $bytes;
+			$result['sronly'] = Text::sprintf('COM_CACHE_QUICKICON_SRONLY', $bytes);
+		}
+		else
+		{
+			$result['amount'] = 0;
+			$result['sronly'] = Text::sprintf('COM_CACHE_QUICKICON_SRONLY_NOCACHE');
+		}
+
+		echo new JsonResponse($result);
 	}
 
 	/**
@@ -75,13 +77,13 @@ class DisplayController extends BaseController
 	public function delete()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$cid = $this->input->post->get('cid', array(), 'array');
 
 		if (empty($cid))
 		{
-			$this->app->enqueueMessage(\JText::_('JERROR_NO_ITEMS_SELECTED'), 'warning');
+			$this->app->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -89,11 +91,11 @@ class DisplayController extends BaseController
 
 			if ($result !== array())
 			{
-				$this->app->enqueueMessage(\JText::sprintf('COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', implode(', ', $result)), 'error');
+				$this->app->enqueueMessage(Text::sprintf('COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', implode(', ', $result)), 'error');
 			}
 			else
 			{
-				$this->app->enqueueMessage(\JText::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_DELETED'), 'message');
+				$this->app->enqueueMessage(Text::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_DELETED'), 'message');
 			}
 		}
 
@@ -110,37 +112,37 @@ class DisplayController extends BaseController
 	public function deleteAll()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app        = $this->app;
 		$model      = $this->getModel('cache');
 		$allCleared = true;
-		$clients    = array(1, 0);
 
-		foreach ($clients as $client)
+		$mCache = $model->getCache();
+
+		foreach ($mCache->getAll() as $cache)
 		{
-			$mCache    = $model->getCache($client);
-			$clientStr = \JText::_($client ? 'JADMINISTRATOR' : 'JSITE') .' > ';
-
-			foreach ($mCache->getAll() as $cache)
+			if ($mCache->clean($cache->group) === false)
 			{
-				if ($mCache->clean($cache->group) === false)
-				{
-					$app->enqueueMessage(\JText::sprintf('COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', $clientStr . $cache->group), 'error');
-					$allCleared = false;
-				}
+				$app->enqueueMessage(
+					Text::sprintf(
+						'COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', Text::_('JADMINISTRATOR') . ' > ' . $cache->group
+					), 'error'
+				);
+				$allCleared = false;
 			}
 		}
 
 		if ($allCleared)
 		{
-			$app->enqueueMessage(\JText::_('COM_CACHE_MSG_ALL_CACHE_GROUPS_CLEARED'), 'message');
+			$app->enqueueMessage(Text::_('COM_CACHE_MSG_ALL_CACHE_GROUPS_CLEARED'), 'message');
 		}
 		else
 		{
-			$app->enqueueMessage(\JText::_('COM_CACHE_MSG_SOME_CACHE_GROUPS_CLEARED'), 'warning');
+			$app->enqueueMessage(Text::_('COM_CACHE_MSG_SOME_CACHE_GROUPS_CLEARED'), 'warning');
 		}
 
+		$app->triggerEvent('onAfterPurge', array());
 		$this->setRedirect('index.php?option=com_cache&view=cache');
 	}
 
@@ -152,17 +154,17 @@ class DisplayController extends BaseController
 	public function purge()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		if (!$this->getModel('cache')->purge())
 		{
-			$this->app->enqueueMessage(\JText::_('COM_CACHE_EXPIRED_ITEMS_PURGING_ERROR'), 'error');
+			$this->app->enqueueMessage(Text::_('COM_CACHE_EXPIRED_ITEMS_PURGING_ERROR'), 'error');
 		}
 		else
 		{
-			$this->app->enqueueMessage(\JText::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_PURGED'), 'message');
+			$this->app->enqueueMessage(Text::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_PURGED'), 'message');
 		}
 
-		$this->setRedirect('index.php?option=com_cache&view=purge');
+		$this->setRedirect('index.php?option=com_cache&view=cache');
 	}
 }

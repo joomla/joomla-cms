@@ -11,6 +11,7 @@
 			name="newsfeed_layout"
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
+			class="custom-select"
 			menuitems="true"
 			extension="com_newsfeeds"
 			view="newsfeed"
@@ -79,7 +80,6 @@
 			description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
 			id="feed_character_count"
 			default="0"
-			size="6"
 		/>
 
 		<field 
@@ -135,6 +135,7 @@
 			name="category_layout"
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
+			class="custom-select"
 			menuitems="true"
 			extension="com_newsfeeds"
 			view="category"
@@ -397,18 +398,21 @@
 		label="JGLOBAL_INTEGRATION_LABEL"
 		description="COM_NEWSFEEDS_CONFIG_INTEGRATION_SETTINGS_DESC"
 	>
-
-		<field
-			name="sef_ids"
-			type="radio"
-			class="switcher"
-			default="0"
-			label="JGLOBAL_SEF_NOIDS_LABEL"
-			filter="integer">
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
+		<fieldset
+			name="integration_sef"
+			label="JGLOBAL_SEF_TITLE"
+		>
+			<field
+				name="sef_ids"
+				type="radio"
+				class="switcher"
+				default="0"
+				label="JGLOBAL_SEF_NOIDS_LABEL"
+				filter="integer">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+		</fieldset>
 	</fieldset>
 
 	<fieldset

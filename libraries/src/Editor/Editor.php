@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,11 +10,15 @@ namespace Joomla\CMS\Editor;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Event\AbstractEvent;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Event\Event;
-use Joomla\Event\AbstractEvent;
 use Joomla\Registry\Registry;
 
 /**
@@ -79,7 +83,7 @@ class Editor implements DispatcherAwareInterface
 		// Set the dispatcher
 		if (!is_object($dispatcher))
 		{
-			$dispatcher = \JFactory::getContainer()->get('dispatcher');
+			$dispatcher = Factory::getContainer()->get('dispatcher');
 		}
 
 		$this->setDispatcher($dispatcher);
@@ -87,7 +91,7 @@ class Editor implements DispatcherAwareInterface
 		// Register the getButtons event
 		$this->getDispatcher()->addListener(
 			'getButtons',
-			function(AbstractEvent $event) {
+			function (AbstractEvent $event) {
 				$editor = $event->getArgument('editor', null);
 				$buttons = $event->getArgument('buttons', null);
 				$result = $event->getArgument('result', []);
@@ -126,8 +130,6 @@ class Editor implements DispatcherAwareInterface
 	 * @return  void
 	 *
 	 * @since   1.5
-	 *
-	 * @deprecated 4.0 This function will not load any custom tag from 4.0 forward, use JHtml::script
 	 */
 	public function initialise()
 	{
@@ -137,9 +139,10 @@ class Editor implements DispatcherAwareInterface
 			return;
 		}
 
-		$event = new Event('onInit');
-
-		$this->getDispatcher()->dispatch('onInit', $event);
+		if (method_exists($this->_editor, 'onInit'))
+		{
+			call_user_func(array($this->_editor, 'onInit'));
+		}
 	}
 
 	/**
@@ -170,7 +173,7 @@ class Editor implements DispatcherAwareInterface
 		// Check whether editor is already loaded
 		if ($this->_editor === null)
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'danger');
+			Factory::getApplication()->enqueueMessage(Text::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'danger');
 
 			return;
 		}
@@ -194,19 +197,7 @@ class Editor implements DispatcherAwareInterface
 		$args['author'] = $author;
 		$args['params'] = $params;
 
-		$event = new Event('onDisplay', $args);
-
-		$results = $this->getDispatcher()->dispatch('onDisplay', $event);
-
-		foreach ($results['result'] as $result)
-		{
-			if (trim($result))
-			{
-				$return .= $result;
-			}
-		}
-
-		return $return;
+		return call_user_func_array(array($this->_editor, 'onDisplay'), $args);
 	}
 
 	/**
@@ -230,7 +221,7 @@ class Editor implements DispatcherAwareInterface
 		}
 
 		// Get plugins
-		$plugins = \JPluginHelper::getPlugin('editors-xtd');
+		$plugins = PluginHelper::getPlugin('editors-xtd');
 
 		foreach ($plugins as $plugin)
 		{
@@ -239,7 +230,7 @@ class Editor implements DispatcherAwareInterface
 				continue;
 			}
 
-			\JPluginHelper::importPlugin('editors-xtd', $plugin->name, false);
+			PluginHelper::importPlugin('editors-xtd', $plugin->name, false);
 			$className = 'PlgEditorsXtd' . $plugin->name;
 
 			if (!class_exists($className))
@@ -296,12 +287,12 @@ class Editor implements DispatcherAwareInterface
 		}
 
 		// Build the path to the needed editor plugin
-		$name = \JFilterInput::getInstance()->clean($this->_name, 'cmd');
+		$name = InputFilter::getInstance()->clean($this->_name, 'cmd');
 		$path = JPATH_PLUGINS . '/editors/' . $name . '/' . $name . '.php';
 
 		if (!is_file($path))
 		{
-			\JLog::add(\JText::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -310,7 +301,7 @@ class Editor implements DispatcherAwareInterface
 		require_once $path;
 
 		// Get the plugin
-		$plugin = \JPluginHelper::getPlugin('editors', $this->_name);
+		$plugin = PluginHelper::getPlugin('editors', $this->_name);
 
 		// If no plugin is published we get an empty array and there not so much to do with it
 		if (empty($plugin))
@@ -331,7 +322,7 @@ class Editor implements DispatcherAwareInterface
 		{
 			// Load plugin parameters
 			$this->initialise();
-			\JPluginHelper::importPlugin('editors-xtd');
+			PluginHelper::importPlugin('editors-xtd');
 		}
 	}
 }

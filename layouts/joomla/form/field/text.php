@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\Language\Text;
 
 extract($displayData);
 
@@ -57,26 +59,26 @@ $autocomplete = $autocomplete === ' autocomplete="on"' ? '' : $autocomplete;
 $attributes = array(
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	!empty($size) ? 'size="' . $size . '"' : '',
-	!empty($description) ? 'title="' . $description . '"' : '',
+	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	$list,
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	$onchange ? ' onchange="' . $onchange . '"' : '',
 	!empty($maxLength) ? $maxLength : '',
-	$required ? 'required aria-required="true"' : '',
+	$required ? 'required' : '',
 	$autocomplete,
 	$autofocus ? ' autofocus' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
-	!empty($inputmode) ? 'inputmode="' . $inputmode . '"' : '',
+	!empty($inputmode) ? $inputmode : '',
 	!empty($pattern) ? 'pattern="' . $pattern . '"' : '',
 
 	// @TODO add a proper string here!!!
 	!empty($validationtext) ? 'data-validation-text="' . $validationtext . '"' : '',
 );
 
-$addonBeforeHtml = '<span class="input-group-addon">' . JText::_($addonBefore) . '</span>';
-$addonAfterHtml  = '<span class="input-group-addon">' . JText::_($addonAfter) . '</span>';
+$addonBeforeHtml = '<span class="input-group-prepend"><span class="input-group-text">' . Text::_($addonBefore) . '</span></span>';
+$addonAfterHtml  = '<span class="input-group-append"><span class="input-group-text">' . Text::_($addonAfter) . '</span></span>';
 ?>
 
 <?php if (!empty($addonBefore) || !empty($addonAfter)) : ?>

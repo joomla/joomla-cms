@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,7 @@ class InstallationRouter extends Router
 	/**
 	 * Function to convert a route to an internal URI
 	 *
-	 * @param   Uri   &$uri     The uri.
+	 * @param   Uri   $uri      The uri.
 	 * @param   bool  $setVars  Set the parsed data in the internal
 	 *                             storage for current-request-URLs
 	 *

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,8 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
 
 /**
@@ -39,13 +41,13 @@ class SubformField extends FormField
 
 	/**
 	 * Minimum items in repeat mode
-	 * @var int
+	 * @var integer
 	 */
 	protected $min = 0;
 
 	/**
 	 * Maximum items in repeat mode
-	 * @var int
+	 * @var integer
 	 */
 	protected $max = 1000;
 
@@ -70,7 +72,7 @@ class SubformField extends FormField
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -95,7 +97,7 @@ class SubformField extends FormField
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -112,7 +114,7 @@ class SubformField extends FormField
 				// Add root path if we have a path to XML file
 				if (strrpos($this->formsource, '.xml') === strlen($this->formsource) - 4)
 				{
-					$this->formsource = \JPath::clean(JPATH_ROOT . '/' . $this->formsource);
+					$this->formsource = Path::clean(JPATH_ROOT . '/' . $this->formsource);
 				}
 
 				break;
@@ -233,19 +235,20 @@ class SubformField extends FormField
 		try
 		{
 			// Prepare the form template
-			$formname = 'subform' . ($this->group ? $this->group . '.' : '.') . $this->fieldname;
+			$formname    = 'subform.' . str_replace(array('jform[', '[', ']'), array('', '.', ''), $control);
 			$tmplcontrol = !$this->multiple ? $control : $control . '[' . $this->fieldname . 'X]';
-			$tmpl = \JForm::getInstance($formname, $this->formsource, array('control' => $tmplcontrol));
+			$tmpl = Form::getInstance($formname, $this->formsource, array('control' => $tmplcontrol));
 
 			// Prepare the forms for exiting values
 			if ($this->multiple)
 			{
 				$value = array_values($value);
 				$c = max($this->min, min(count($value), $this->max));
+
 				for ($i = 0; $i < $c; $i++)
 				{
 					$itemcontrol = $control . '[' . $this->fieldname . $i . ']';
-					$itemform    = \JForm::getInstance($formname . $i, $this->formsource, array('control' => $itemcontrol));
+					$itemform    = Form::getInstance($formname . $i, $this->formsource, array('control' => $itemcontrol));
 
 					if (!empty($value[$i]))
 					{
@@ -275,10 +278,18 @@ class SubformField extends FormField
 		$data['fieldname'] = $this->fieldname;
 		$data['groupByFieldset'] = $this->groupByFieldset;
 
+		/**
+		 * For each rendering process of a subform element, we want to have a
+		 * separate unique subform id present to could distinguish the eventhandlers
+		 * regarding adding/moving/removing rows from nested subforms from their parents.
+		 */
+		static $unique_subform_id = 0;
+		$data['unique_subform_id'] = ('sr-' . ($unique_subform_id++));
+
 		// Prepare renderer
 		$renderer = $this->getRenderer($this->layout);
 
-		// Allow to define some JLayout options as attribute of the element
+		// Allow to define some Layout options as attribute of the element
 		if ($this->element['component'])
 		{
 			$renderer->setComponent((string) $this->element['component']);

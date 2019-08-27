@@ -3,17 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Finder\Administrator\Model;
 
 defined('_JEXEC') or die();
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
 /**
  * Maps model for the Finder package.
@@ -58,7 +61,7 @@ class MapsModel extends ListModel
 	 */
 	protected function canDelete($record)
 	{
-		return \JFactory::getUser()->authorise('core.delete', $this->option);
+		return Factory::getUser()->authorise('core.delete', $this->option);
 	}
 
 	/**
@@ -72,13 +75,13 @@ class MapsModel extends ListModel
 	 */
 	protected function canEditState($record)
 	{
-		return \JFactory::getUser()->authorise('core.edit.state', $this->option);
+		return Factory::getUser()->authorise('core.edit.state', $this->option);
 	}
 
 	/**
 	 * Method to delete one or more records.
 	 *
-	 * @param   array  &$pks  An array of record primary keys.
+	 * @param   array  $pks  An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
@@ -102,7 +105,7 @@ class MapsModel extends ListModel
 					$context = $this->option . '.' . $this->name;
 
 					// Trigger the onContentBeforeDelete event.
-					$result = \JFactory::getApplication()->triggerEvent('onContentBeforeDelete', array($context, $table));
+					$result = Factory::getApplication()->triggerEvent('onContentBeforeDelete', array($context, $table));
 
 					if (in_array(false, $result, true))
 					{
@@ -119,7 +122,7 @@ class MapsModel extends ListModel
 					}
 
 					// Trigger the onContentAfterDelete event.
-					\JFactory::getApplication()->triggerEvent('onContentAfterDelete', array($context, $table));
+					Factory::getApplication()->triggerEvent('onContentAfterDelete', array($context, $table));
 				}
 				else
 				{
@@ -133,7 +136,7 @@ class MapsModel extends ListModel
 					}
 					else
 					{
-						$this->setError(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+						$this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 					}
 				}
 			}
@@ -164,24 +167,13 @@ class MapsModel extends ListModel
 
 		// Select all fields from the table.
 		$query = $db->getQuery(true)
-			->select('a.id, a.parent_id, a.title, a.state, a.access, a.ordering')
-			->select('CASE WHEN a.parent_id = 1 THEN 1 ELSE 2 END AS level')
-			->select('p.title AS parent_title')
+			->select('a.id, a.parent_id, a.lft, a.rgt, a.level, a.path, a.title, a.alias, a.state, a.access, a.language')
 			->from($db->quoteName('#__finder_taxonomy', 'a'))
-			->leftJoin($db->quoteName('#__finder_taxonomy', 'p') . ' ON p.id = a.parent_id')
 			->where('a.parent_id != 0');
 
-		$childQuery = $db->getQuery(true)
-			->select('parent_id')
-			->select('COUNT(*) AS num_children')
-			->from($db->quoteName('#__finder_taxonomy'))
-			->where('parent_id != 0')
-			->group('parent_id');
-
-		// Join to get children.
-		$query->select('b.num_children');
-		$query->select('CASE WHEN a.parent_id = 1 THEN a.title ELSE p.title END AS branch_title');
-		$query->leftJoin('(' . $childQuery . ') AS b ON b.parent_id = a.id');
+		// Join to get the branch title
+		$query->select([$query->qn('b.id', 'branch_id'), $query->qn('b.title', 'branch_title')])
+			->leftJoin($query->qn('#__finder_taxonomy', 'b') . ' ON b.level = 1 AND b.lft <= a.lft AND a.rgt <= b.rgt');
 
 		// Join to get the map links.
 		$stateQuery = $db->getQuery(true)
@@ -228,16 +220,16 @@ class MapsModel extends ListModel
 		}
 
 		// Handle the list ordering.
-		$listOrdering = $this->getState('list.ordering', 'd.branch_title');
+		$listOrdering = $this->getState('list.ordering', 'a.lft');
 		$listDirn     = $this->getState('list.direction', 'ASC');
 
-		if ($listOrdering === 'd.branch_title')
+		if ($listOrdering === 'a.state')
 		{
-			$query->order("branch_title $listDirn, level ASC, a.title $listDirn");
+			$query->order("a.state $listDirn, a.lft $listDirn, level ASC");
 		}
-		elseif ($listOrdering === 'a.state')
+		else
 		{
-			$query->order("a.state $listDirn, branch_title $listDirn, level ASC");
+			$query->order($listOrdering . ' ' . $listDirn);
 		}
 
 		return $query;
@@ -310,7 +302,7 @@ class MapsModel extends ListModel
 	 *
 	 * @since   2.5
 	 */
-	protected function populateState($ordering = 'd.branch_title', $direction = 'ASC')
+	protected function populateState($ordering = 'a.lft', $direction = 'ASC')
 	{
 		// Load the filter state.
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
@@ -329,7 +321,7 @@ class MapsModel extends ListModel
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   array    $pks    A list of the primary keys to change.
 	 * @param   integer  $value  The value of the published state. [optional]
 	 *
 	 * @return  boolean  True on success.
@@ -338,7 +330,7 @@ class MapsModel extends ListModel
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;
 
@@ -354,7 +346,7 @@ class MapsModel extends ListModel
 			{
 				// Prune items that you can't change.
 				unset($pks[$i]);
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 
 				return false;
 			}
@@ -371,7 +363,7 @@ class MapsModel extends ListModel
 		$context = $this->option . '.' . $this->name;
 
 		// Trigger the onContentChangeState event.
-		$result = \JFactory::getApplication()->triggerEvent('onContentChangeState', array($context, $pks, $value));
+		$result = Factory::getApplication()->triggerEvent('onContentChangeState', array($context, $pks, $value));
 
 		if (in_array(false, $result, true))
 		{
@@ -403,8 +395,7 @@ class MapsModel extends ListModel
 		$db->execute();
 
 		$query->clear()
-			->delete($db->quoteName('#__finder_taxonomy_map'))
-			->where('1');
+			->delete($db->quoteName('#__finder_taxonomy_map'));
 		$db->setQuery($query);
 		$db->execute();
 

@@ -3,17 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Categories\Administrator\Helper;
 
-use Joomla\CMS\Helper\ContentHelper;
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Table\Table;
-use Joomla\Component\Categories\Administrator\Model\CategoryModel;
-
-defined('_JEXEC') or die;
 
 /**
  * Categories helper.
@@ -22,90 +22,6 @@ defined('_JEXEC') or die;
  */
 class CategoriesHelper
 {
-	/**
-	 * Configure the Submenu links.
-	 *
-	 * @param   string  $extension  The extension being used for the categories.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public static function addSubmenu($extension)
-	{
-		// Avoid nonsense situation.
-		if ($extension == 'com_categories')
-		{
-			return;
-		}
-
-		$parts = explode('.', $extension);
-		$component = $parts[0];
-
-		if (count($parts) > 1)
-		{
-			$section = $parts[1];
-		}
-
-		// Try to find the component helper.
-		$eName = str_replace('com_', '', $component);
-		$file = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
-
-		if (file_exists($file))
-		{
-			$prefix = ucfirst(str_replace('com_', '', $component));
-			$cName = $prefix . 'Helper';
-
-			\JLoader::register($cName, $file);
-
-			if (class_exists($cName))
-			{
-				if (is_callable(array($cName, 'addSubmenu')))
-				{
-					$lang = \JFactory::getLanguage();
-
-					// Loading language file from the administrator/language directory then
-					// loading language file from the administrator/components/*extension*/language directory
-					$lang->load($component, JPATH_BASE, null, false, true)
-					|| $lang->load($component, \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
-
-					call_user_func(array($cName, 'addSubmenu'), 'categories' . (isset($section) ? '.' . $section : ''));
-				}
-			}
-		}
-	}
-
-	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @param   string   $extension   The extension.
-	 * @param   integer  $categoryId  The category ID.
-	 *
-	 * @return  \JObject
-	 *
-	 * @since   1.6
-	 * @deprecated  3.2  Use \JHelperContent::getActions() instead
-	 */
-	public static function getActions($extension, $categoryId = 0)
-	{
-		// Log usage of deprecated function
-		try
-		{
-			\JLog::add(
-				sprintf('%s() is deprecated, use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
-				\JLog::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		// Get list of actions
-		return ContentHelper::getActions($extension, 'category', $categoryId);
-	}
-
 	/**
 	 * Gets a list of associations for a given item.
 	 *
@@ -117,11 +33,29 @@ class CategoriesHelper
 	public static function getAssociations($pk, $extension = 'com_content')
 	{
 		$langAssociations = Associations::getAssociations($extension, '#__categories', 'com_categories.item', $pk, 'id', 'alias', '');
-		$associations = array();
+		$associations     = array();
+		$user             = Factory::getUser();
+		$groups           = implode(',', $user->getAuthorisedViewLevels());
 
 		foreach ($langAssociations as $langAssociation)
 		{
-			$associations[$langAssociation->language] = $langAssociation->id;
+			// Include only published categories with user access
+			$arrId    = explode(':', $langAssociation->id);
+			$assocId  = $arrId[0];
+			$db       = Factory::getDbo();
+
+			$query = $db->getQuery(true)
+				->select($db->quoteName('published'))
+				->from($db->quoteName('#__categories'))
+				->where('access IN (' . $groups . ')')
+				->where($db->quoteName('id') . ' = ' . (int) $assocId);
+
+			$result = (int) $db->setQuery($query)->loadResult();
+
+			if ($result === 1)
+			{
+				$associations[$langAssociation->language] = $langAssociation->id;
+			}
 		}
 
 		return $associations;
@@ -133,7 +67,7 @@ class CategoriesHelper
 	 * @param   mixed   $catid      Name or ID of category.
 	 * @param   string  $extension  Extension that triggers this function
 	 *
-	 * @return int $catid  Category ID.
+	 * @return  integer  $catid  Category ID.
 	 */
 	public static function validateCategoryId($catid, $extension)
 	{
@@ -160,7 +94,8 @@ class CategoriesHelper
 	 */
 	public static function createCategory($data)
 	{
-		$categoryModel = new CategoryModel(array('ignore_request' => true));
+		$categoryModel = Factory::getApplication()->bootComponent('com_categories')
+			->getMVCFactory()->createModel('Category', 'Administrator', ['ignore_request' => true]);
 		$categoryModel->save($data);
 
 		$catid = $categoryModel->getState('category.id');

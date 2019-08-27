@@ -3,22 +3,27 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Site\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\Component\Users\Administrator\Model\UserModel;
+use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 
 /**
@@ -37,13 +42,14 @@ class ProfileModel extends FormModel
 	/**
 	 * Constructor.
 	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MVCFactoryInterface  $factory  The factory.
+	 * @param   array                 $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   MVCFactoryInterface   $factory      The factory.
+	 * @param   FormFactoryInterface  $formFactory  The form factory.
 	 *
 	 * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
 	 * @since   3.2
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
 	{
 		$config = array_merge(
 			array(
@@ -51,7 +57,7 @@ class ProfileModel extends FormModel
 			), $config
 		);
 
-		parent::__construct($config, $factory);
+		parent::__construct($config, $factory, $formFactory);
 	}
 
 	/**
@@ -70,7 +76,7 @@ class ProfileModel extends FormModel
 
 		if ($userId)
 		{
-			// Initialise the table with \JUser.
+			// Initialise the table with Joomla\CMS\User\User.
 			$table = Table::getInstance('User', 'Joomla\\CMS\Table\\');
 
 			// Attempt to check the row in.
@@ -101,11 +107,11 @@ class ProfileModel extends FormModel
 
 		if ($userId)
 		{
-			// Initialise the table with \JUser.
+			// Initialise the table with Joomla\CMS\User\User.
 			$table = Table::getInstance('User', 'Joomla\\CMS\Table\\');
 
 			// Get the current user object.
-			$user = \JFactory::getUser();
+			$user = Factory::getUser();
 
 			// Attempt to check the row out.
 			if (!$table->checkout($user->get('id'), $userId))
@@ -125,9 +131,10 @@ class ProfileModel extends FormModel
 	 * The base form data is loaded and then an event is fired
 	 * for users plugins to extend the data.
 	 *
-	 * @return  \JUser
+	 * @return  User
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function getData()
 	{
@@ -135,14 +142,14 @@ class ProfileModel extends FormModel
 		{
 			$userId = $this->getState('user.id');
 
-			// Initialise the table with \JUser.
-			$this->data = new \JUser($userId);
+			// Initialise the table with Joomla\CMS\User\User.
+			$this->data = new User($userId);
 
 			// Set the base user data.
 			$this->data->email1 = $this->data->get('email');
 
 			// Override the base user data with any data in the session.
-			$temp = (array) \JFactory::getApplication()->getUserState('com_users.edit.profile.data', array());
+			$temp = (array) Factory::getApplication()->getUserState('com_users.edit.profile.data', array());
 
 			foreach ($temp as $k => $v)
 			{
@@ -165,10 +172,10 @@ class ProfileModel extends FormModel
 	 * The base form is loaded from XML and then an event is fired
 	 * for users plugins to extend the form with extra fields.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm  A \JForm object on success, false on failure
+	 * @return  Form|bool  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -181,10 +188,6 @@ class ProfileModel extends FormModel
 		{
 			return false;
 		}
-
-		// For com_fields the context is com_users.user
-		\JLoader::import('components.com_fields.helpers.fields', JPATH_ADMINISTRATOR);
-		\FieldsHelper::prepareForm('com_users.user', $form, $data);
 
 		// Check for username compliance and parameter set
 		$isUsernameCompliant = true;
@@ -216,7 +219,7 @@ class ProfileModel extends FormModel
 		}
 
 		// If the user needs to change their password, mark the password fields as required
-		if (\JFactory::getUser()->requireReset)
+		if (Factory::getUser()->requireReset)
 		{
 			$form->setFieldAttribute('password1', 'required', 'true');
 			$form->setFieldAttribute('password2', 'required', 'true');
@@ -244,7 +247,7 @@ class ProfileModel extends FormModel
 	/**
 	 * Override preprocessForm to load the user plugin group instead of content.
 	 *
-	 * @param   \JForm  $form   A \JForm object.
+	 * @param   Form    $form   A Form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -254,13 +257,13 @@ class ProfileModel extends FormModel
 	 *
 	 * @since   1.6
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'user')
+	protected function preprocessForm(Form $form, $data, $group = 'user')
 	{
 		if (ComponentHelper::getParams('com_users')->get('frontend_userparams'))
 		{
 			$form->loadFile('frontend', false);
 
-			if (\JFactory::getUser()->authorise('core.login.admin'))
+			if (Factory::getUser()->authorise('core.login.admin'))
 			{
 				$form->loadFile('frontend_admin', false);
 			}
@@ -277,15 +280,16 @@ class ProfileModel extends FormModel
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function populateState()
 	{
 		// Get the application object.
-		$params = \JFactory::getApplication()->getParams('com_users');
+		$params = Factory::getApplication()->getParams('com_users');
 
 		// Get the user id.
-		$userId = \JFactory::getApplication()->getUserState('com_users.edit.profile.id');
-		$userId = !empty($userId) ? $userId : (int) \JFactory::getUser()->get('id');
+		$userId = Factory::getApplication()->getUserState('com_users.edit.profile.id');
+		$userId = !empty($userId) ? $userId : (int) Factory::getUser()->get('id');
 
 		// Set the user id.
 		$this->setState('user.id', $userId);
@@ -302,15 +306,16 @@ class ProfileModel extends FormModel
 	 * @return  mixed  The user id on success, false on failure.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function save($data)
 	{
 		$userId = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
 
-		$user = new \JUser($userId);
+		$user = new User($userId);
 
 		// Prepare the data for the user object.
-		$data['email']    = \JStringPunycode::emailToPunycode($data['email1']);
+		$data['email']    = PunycodeHelper::emailToPunycode($data['email1']);
 		$data['password'] = $data['password1'];
 
 		// Unset the username if it should not be overwritten
@@ -327,7 +332,8 @@ class ProfileModel extends FormModel
 		// Handle the two factor authentication setup
 		if (array_key_exists('twofactor', $data))
 		{
-			$model = new UserModel;
+			$model = $this->bootComponent('com_users')->getMVCFactory()
+				->createModel('User', 'Administrator');
 
 			$twoFactorMethod = $data['twofactor']['method'];
 
@@ -338,7 +344,7 @@ class ProfileModel extends FormModel
 			{
 				// Run the plugins
 				PluginHelper::importPlugin('twofactorauth');
-				$otpConfigReplies = \JFactory::getApplication()->triggerEvent('onUserTwofactorApplyConfiguration', array($twoFactorMethod));
+				$otpConfigReplies = Factory::getApplication()->triggerEvent('onUserTwofactorApplyConfiguration', array($twoFactorMethod));
 
 				// Look for a valid reply
 				foreach ($otpConfigReplies as $reply)
@@ -380,7 +386,7 @@ class ProfileModel extends FormModel
 		// Bind the data.
 		if (!$user->bind($data))
 		{
-			$this->setError(\JText::sprintf('COM_USERS_PROFILE_BIND_FAILED', $user->getError()));
+			$this->setError(Text::sprintf('COM_USERS_PROFILE_BIND_FAILED', $user->getError()));
 
 			return false;
 		}
@@ -389,7 +395,7 @@ class ProfileModel extends FormModel
 		PluginHelper::importPlugin('user');
 
 		// Retrieve the user groups so they don't get overwritten
-		unset ($user->groups);
+		unset($user->groups);
 		$user->groups = Access::getGroupsByUser($user->id, false);
 
 		// Store the data.
@@ -398,13 +404,6 @@ class ProfileModel extends FormModel
 			$this->setError($user->getError());
 
 			return false;
-		}
-
-		// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
-		if ($this->getState('load_tags', true))
-		{
-			$user->tags = new TagsHelper;
-			$user->tags->getTagIds($user->id, 'com_users.user');
 		}
 
 		return $user->id;
@@ -424,13 +423,14 @@ class ProfileModel extends FormModel
 	{
 		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
 
-		$model = new UserModel;
+		$model = $this->bootComponent('com_users')->getMVCFactory()
+			->createModel('User', 'Administrator');
 
 		$otpConfig = $model->getOtpConfig($user_id);
 
 		PluginHelper::importPlugin('twofactorauth');
 
-		return \JFactory::getApplication()->triggerEvent('onUserTwofactorShowConfiguration', array($otpConfig, $user_id));
+		return Factory::getApplication()->triggerEvent('onUserTwofactorShowConfiguration', array($otpConfig, $user_id));
 	}
 
 	/**
@@ -447,7 +447,8 @@ class ProfileModel extends FormModel
 	{
 		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
 
-		$model = new UserModel;
+		$model = $this->bootComponent('com_users')
+			->getMVCFactory()->createModel('User', 'Administrator');
 
 		return $model->getOtpConfig($user_id);
 	}

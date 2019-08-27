@@ -3,130 +3,114 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.core');
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
-JHtml::_('script', 'system/fields/passwordview.min.js', array('version' => 'auto', 'relative' => true));
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
-JText::script('JSHOW');
-JText::script('JHIDE');
+HTMLHelper::_('behavior.core');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('script', 'system/fields/passwordview.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'mod_login/admin-login.min.js', ['version' => 'auto', 'relative' => true]);
 
-$spacing = 0;
-
-// Load chosen if we have language selector, ie, more than one administrator language installed and enabled.
-if ($langs)
-{
-	$spacing += 33;
-}
-
-if (count($twofactormethods) > 1)
-{
-	$spacing += 33;
-}
-
-if ($spacing > 0)
-{
-	$marginTop = 240 + $spacing;
-
-	JFactory::getDocument()->addStyleDeclaration('
-		.view-login .container {
-			margin-top: -' . $marginTop . 'px;
-		}
-	');
-}
+Text::script('JSHOW');
+Text::script('JHIDE');
+// Load JS message titles
+Text::script('ERROR');
+Text::script('WARNING');
+Text::script('NOTICE');
+Text::script('MESSAGE');
 ?>
-<form class="login-initial form-validate" action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login">
+<form class="login-initial form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post"
+	id="form-login">
 	<fieldset>
-
 		<div class="form-group">
-			<label for="mod-login-username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
-			<input
-				name="username"
-				id="mod-login-username"
-				type="text"
-				class="form-control input-full"
-				required="required"
-				autofocus
-                tabindex="1"
-            >
-		</div>
-
-		<div class="form-group">
-			<label for="mod-login-password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
+			<label for="mod-login-username">
+				<?php echo Text::_('JGLOBAL_USERNAME'); ?>
+			</label>
 			<div class="input-group">
+
 				<input
-					name="passwd"
-					id="mod-login-password"
-					type="password"
-					class="form-control input-full"
-					required="required"
-                    tabindex="2"
-                >
-				<span class="input-group-addon">
-					<span class="fa fa-eye" aria-hidden="true"></span>
-					<span class="sr-only"><?php echo JText::_('JSHOW'); ?></span>
+						name="username"
+						id="mod-login-username"
+						type="text"
+						class="form-control input-full"
+						required="required"
+						autofocus
+				>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="mod-login-password">
+				<?php echo Text::_('JGLOBAL_PASSWORD'); ?>
+			</label>
+			<div class="input-group">
+
+				<input
+						name="passwd"
+						id="mod-login-password"
+						type="password"
+						class="form-control input-full"
+						required="required"
+				>
+				<span class="input-group-append ml-2">
+					<button type="button" class="input-group-text icon-eye input-password-toggle">
+						<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
+					</button>
 				</span>
+
 			</div>
 		</div>
 
 		<?php if (count($twofactormethods) > 1): ?>
-			<label for="mod-login-secretkey"><?php echo JText::_('JGLOBAL_SECRETKEY'); ?></label>
 			<div class="form-group">
-				<input
-					name="secretkey"
-					autocomplete="off"
-					id="mod-login-secretkey"
-					type="text"
-					class="form-control input-full"
-                    tabindex="3"
-				>
+				<label for="mod-login-secretkey">
+					<span class="label"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></span>
+					<span class="text-right">
+						<?php echo Text::_('COM_LOGIN_TWOFACTOR'); ?>
+					</span>
+				</label>
+				<div class="input-group">
+
+					<input
+							name="secretkey"
+							autocomplete="off"
+							id="mod-login-secretkey"
+							type="text"
+							class="form-control input-full"
+					>
+				</div>
 			</div>
 		<?php endif; ?>
-
 		<?php if (!empty($langs)) : ?>
 			<div class="form-group">
-				<label for="lang" class="sr-only"><?php echo JText::_('JDEFAULTLANGUAGE'); ?></label>
+				<label for="lang">
+					<?php echo Text::_('MOD_LOGIN_LANGUAGE'); ?>
+				</label>
 				<?php echo $langs; ?>
 			</div>
 		<?php endif; ?>
-
 		<div class="form-group">
-			<button tabindex="5" class="btn btn-success btn-block btn-lg" id="btn-login-submit">
-				<span class="fa fa-lock icon-white"></span> <?php echo JText::_('JLOGIN'); ?>
-			</button>
+			<button class="btn btn-primary btn-block btn-lg mt-4"
+				id="btn-login-submit"><?php echo Text::_('JLOGIN'); ?></button>
 		</div>
-
-		<div class="forgot">
-			<div><a href="<?php echo JUri::root(); ?>index.php?option=com_users&view=remind"><?php echo JText::_('MOD_LOGIN_REMIND'); ?></a></div>
-			<div><a href="<?php echo JUri::root(); ?>index.php?option=com_users&view=reset"><?php echo JText::_('MOD_LOGIN_RESET'); ?></a></div>
-		</div>
-
 		<input type="hidden" name="option" value="com_login">
 		<input type="hidden" name="task" value="login">
 		<input type="hidden" name="return" value="<?php echo $return; ?>">
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</fieldset>
 </form>
-<script>
-	(function(){
-		document.addEventListener('DOMContentLoadded', function() {
-			var btn = document.getElementById('btn-login-submit');
-
-			if(btn) {
-				btn.addEventListener('click', function(e) {
-					e.preventDefault();
-					var form = document.getElementById('form-login');
-					if (form && document.formvalidator.isValid(form)) {
-						Joomla.submitbutton('login')
-					}
-				});
-			}
-		});
-	})();
-</script>
+<div class="text-center">
+	<div>
+		<a href="<?php echo Text::_('MOD_LOGIN_CREDENTIALS_LINK'); ?>" target="_blank" rel="nofollow">
+			<?php echo Text::_('MOD_LOGIN_CREDENTIALS'); ?>
+		</a>
+	</div>
+</div>

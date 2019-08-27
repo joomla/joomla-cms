@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\HTML\HTMLHelper;
 
 /** @var $displayData array */
 $backtraceList = $displayData['backtrace'];
@@ -56,7 +58,7 @@ $class = $displayData['class'] ?? 'table table-striped table-bordered';
 
 		<?php if (isset($backtrace['file'])): ?>
 		<td class="TD">
-			<?php echo JHtml::_('debug.xdebuglink', $backtrace['file'], $backtrace['line']); ?>
+			<?php echo HTMLHelper::_('debug.xdebuglink', $backtrace['file'], $backtrace['line']); ?>
 		</td>
 		<?php else: ?>
 		<td class="TD">

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,15 +10,15 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\Event\Dispatcher;
 use Joomla\Event\Event;
-use Joomla\CMS\Event\AbstractEvent;
 use Joomla\Utilities\ArrayHelper;
 
 /**
  * Table class supporting modified pre-order tree traversal behavior.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Nested extends Table
 {
@@ -26,7 +26,7 @@ class Nested extends Table
 	 * Object property holding the primary key of the parent node.  Provides adjacency list data for nodes.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $parent_id;
 
@@ -34,7 +34,7 @@ class Nested extends Table
 	 * Object property holding the depth level of the node in the tree.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $level;
 
@@ -42,7 +42,7 @@ class Nested extends Table
 	 * Object property holding the left value of the node for managing its placement in the nested sets tree.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $lft;
 
@@ -50,7 +50,7 @@ class Nested extends Table
 	 * Object property holding the right value of the node for managing its placement in the nested sets tree.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $rgt;
 
@@ -58,7 +58,7 @@ class Nested extends Table
 	 * Object property holding the alias of this node used to constuct the full text path, forward-slash delimited.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $alias;
 
@@ -66,7 +66,7 @@ class Nested extends Table
 	 * Object property to hold the location type to use when storing the row.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 * @see    Nested::$_validLocations
 	 */
 	protected $_location;
@@ -77,7 +77,7 @@ class Nested extends Table
 	 * A combination of location type and reference node describes where to store the current node in the tree.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_location_id;
 
@@ -85,7 +85,7 @@ class Nested extends Table
 	 * An array to cache values in recursive processes.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_cache = array();
 
@@ -93,7 +93,7 @@ class Nested extends Table
 	 * Debug level
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_debug = 0;
 
@@ -120,7 +120,7 @@ class Nested extends Table
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function debug($level)
 	{
@@ -135,7 +135,7 @@ class Nested extends Table
 	 *
 	 * @return  mixed    An array of node objects including the start node.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException on database error
 	 */
 	public function getPath($pk = null, $diagnostic = false)
@@ -165,7 +165,7 @@ class Nested extends Table
 	 *
 	 * @return  mixed    Boolean false on failure or array of node objects on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException on database error.
 	 */
 	public function getTree($pk = null, $diagnostic = false)
@@ -192,8 +192,8 @@ class Nested extends Table
 	 *
 	 * @return  boolean  True if a leaf node, false if not or null if the node does not exist.
 	 *
-	 * @note    Since 12.1 this method returns null if the node does not exist.
-	 * @since   11.1
+	 * @note    Since 3.0.0 this method returns null if the node does not exist.
+	 * @since   1.7.0
 	 * @throws  \RuntimeException on database error.
 	 */
 	public function isLeaf($pk = null)
@@ -223,9 +223,9 @@ class Nested extends Table
 	 *
 	 * @return  void
 	 *
-	 * @note    Since 12.1 this method returns void and throws an \InvalidArgumentException when an invalid position is passed.
+	 * @note    Since 3.0.0 this method returns void and throws an \InvalidArgumentException when an invalid position is passed.
 	 * @see     Nested::$_validLocations
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \InvalidArgumentException
 	 */
 	public function setLocation($referenceId, $position = 'after')
@@ -253,7 +253,7 @@ class Nested extends Table
 	 *
 	 * @return  mixed    Boolean true on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function move($delta, $where = '')
 	{
@@ -306,17 +306,15 @@ class Nested extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException on database error.
 	 */
 	public function moveByReference($referenceId, $position = 'after', $pk = null, $recursiveUpdate = true)
 	{
-		// @codeCoverageIgnoreStart
 		if ($this->_debug)
 		{
 			echo "\nMoving ReferenceId:$referenceId, Position:$position, PK:$pk";
 		}
-		// @codeCoverageIgnoreEnd
 
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
@@ -336,12 +334,10 @@ class Nested extends Table
 
 		$children = $this->_db->setQuery($query)->loadColumn();
 
-		// @codeCoverageIgnoreStart
 		if ($this->_debug)
 		{
 			$this->_logtable(false);
 		}
-		// @codeCoverageIgnoreEnd
 
 		// Cannot move the node to be a child of itself.
 		if (in_array($referenceId, $children))
@@ -375,6 +371,7 @@ class Nested extends Table
 		/*
 		 * Close the hole in the tree that was opened by removing the sub-tree from the nested sets.
 		 */
+
 		// Compress the left values.
 		$query->clear()
 			->update($this->_tbl)
@@ -423,15 +420,15 @@ class Nested extends Table
 				->from($this->_tbl)
 				->where('parent_id = 0')
 				->order('lft DESC');
-			$this->_db->setQuery($query, 0, 1);
+
+			$query->setLimit(1);
+			$this->_db->setQuery($query);
 			$reference = $this->_db->loadObject();
 
-			// @codeCoverageIgnoreStart
 			if ($this->_debug)
 			{
 				$this->_logtable(false);
 			}
-			// @codeCoverageIgnoreEnd
 
 			// Get the reposition data for re-inserting the node after the found root.
 			if (!$repositionData = $this->_getTreeRepositionData($reference, $node->width, 'last-child'))
@@ -492,7 +489,7 @@ class Nested extends Table
 			// Update the title and alias fields if they exist for the table.
 			$fields = $this->getFields();
 
-			if (property_exists($this, 'title') && $this->title !== null)
+			if ($this->hasField('title') && $this->title !== null)
 			{
 				$query->set('title = ' . $this->_db->quote($this->title));
 			}
@@ -512,7 +509,7 @@ class Nested extends Table
 		// Unlock the table for writing.
 		$this->_unlock();
 
-		if (property_exists($this, 'published') && $recursiveUpdate)
+		if ($this->hasField('published') && $recursiveUpdate)
 		{
 			$this->recursiveUpdatePublishedColumn($node->$k);
 		}
@@ -534,7 +531,7 @@ class Nested extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function delete($pk = null, $children = true)
 	{
@@ -693,7 +690,7 @@ class Nested extends Table
 	 *
 	 * @return  boolean  True if all checks pass.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function check()
 	{
@@ -747,7 +744,7 @@ class Nested extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function store($updateNulls = false)
 	{
@@ -764,13 +761,11 @@ class Nested extends Table
 		);
 		$this->getDispatcher()->dispatch('onTableBeforeStore', $event);
 
-		// @codeCoverageIgnoreStart
 		if ($this->_debug)
 		{
 			echo "\n" . get_class($this) . "::store\n";
 			$this->_logtable(true, false);
 		}
-		// @codeCoverageIgnoreEnd
 
 		/*
 		 * If the primary key is empty, then we assume we are inserting a new node into the
@@ -801,15 +796,15 @@ class Nested extends Table
 						->from($this->_tbl)
 						->where('parent_id = 0')
 						->order('lft DESC');
-					$this->_db->setQuery($query, 0, 1);
+
+					$query->setLimit(1);
+					$this->_db->setQuery($query);
 					$reference = $this->_db->loadObject();
 
-					// @codeCoverageIgnoreStart
 					if ($this->_debug)
 					{
 						$this->_logtable(false);
 					}
-					// @codeCoverageIgnoreEnd
 				}
 				// We have a real node set as a location reference.
 				else
@@ -902,18 +897,16 @@ class Nested extends Table
 
 		if ($result)
 		{
-			// @codeCoverageIgnoreStart
 			if ($this->_debug)
 			{
 				$this->_logtable();
 			}
-			// @codeCoverageIgnoreEnd
 		}
 
 		// Unlock the table for writing.
 		$this->_unlock();
 
-		if (property_exists($this, 'published'))
+		if ($result && $this->hasField('published'))
 		{
 			$this->recursiveUpdatePublishedColumn($this->$k);
 		}
@@ -945,7 +938,7 @@ class Nested extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
@@ -984,7 +977,7 @@ class Nested extends Table
 		}
 
 		// Determine if there is checkout support for the table.
-		$checkoutSupport = (property_exists($this, 'checked_out') || property_exists($this, 'checked_out_time'));
+		$checkoutSupport = ($this->hasField('checked_out') || $this->hasField('checked_out_time'));
 
 		// Iterate over the primary keys to execute the publish action if possible.
 		foreach ($pks as $pk)
@@ -1032,7 +1025,8 @@ class Nested extends Table
 					->where($published . ' < ' . (int) $compareState);
 
 				// Just fetch one row (one is one too many).
-				$this->_db->setQuery($query, 0, 1);
+				$query->setLimit(1);
+				$this->_db->setQuery($query);
 
 				if ($this->_db->loadResult())
 				{
@@ -1072,7 +1066,7 @@ class Nested extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException on database error.
 	 */
 	public function orderUp($pk)
@@ -1155,7 +1149,7 @@ class Nested extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException on database error.
 	 */
 	public function orderDown($pk)
@@ -1238,7 +1232,7 @@ class Nested extends Table
 	 *
 	 * @return  mixed  The primary id of the root row, or false if not found and the internal error is set.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getRootId()
 	{
@@ -1317,7 +1311,7 @@ class Nested extends Table
 	 *
 	 * @return  integer  1 + value of root rgt on success, false on failure
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException on database error.
 	 */
 	public function rebuild($parentId = null, $leftId = 0, $level = 0, $path = '')
@@ -1345,11 +1339,9 @@ class Nested extends Table
 				->where('parent_id = %d');
 
 			// If the table has an ordering field, use that for ordering.
-			$orderingField = $this->getColumnAlias('ordering');
-
-			if (property_exists($this, $orderingField))
+			if ($this->hasField('ordering'))
 			{
-				$query->order('parent_id, ' . $this->_db->quoteName($orderingField) . ', lft');
+				$query->order('parent_id, ' . $this->_db->quoteName($this->getColumnAlias('ordering')) . ', lft');
 			}
 			else
 			{
@@ -1408,7 +1400,7 @@ class Nested extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function rebuildPath($pk = null)
 	{
@@ -1482,7 +1474,7 @@ class Nested extends Table
 	 *
 	 * @return  integer  1 + value of root rgt on success, false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \Exception on database error.
 	 */
 	public function saveorder($idArray = null, $lft_array = null)
@@ -1504,12 +1496,10 @@ class Nested extends Table
 
 					$this->_db->setQuery($query)->execute();
 
-					// @codeCoverageIgnoreStart
 					if ($this->_debug)
 					{
 						$this->_logtable();
 					}
-					// @codeCoverageIgnoreEnd
 				}
 
 				return $this->rebuild();
@@ -1601,10 +1591,11 @@ class Nested extends Table
 
 		// Update and cascade the publishing state.
 		$query->clear()
-			->update("$table AS c")
-			->innerJoin("($subquery) AS c2 ON c2.newId = c.$key")
-			->set("$published = c2.newPublished")
-			->where("c.$key IN (" . implode(',', $pks) . ")");
+			->update($table)
+			->innerJoin("($subquery) AS c2")
+			->set("$published = " . $this->_db->quoteName("c2.newpublished"))
+			->where("$key = c2.newId")
+			->where("$key IN (" . implode(',', $pks) . ")");
 
 		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_STORE_FAILED');
 
@@ -1620,7 +1611,7 @@ class Nested extends Table
 	 *
 	 * @return  mixed    Boolean false on failure or node object on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException on database error.
 	 */
 	protected function _getNode($id, $key = null)
@@ -1651,7 +1642,8 @@ class Nested extends Table
 			->from($this->_tbl)
 			->where($k . ' = ' . (int) $id);
 
-		$row = $this->_db->setQuery($query, 0, 1)->loadObject();
+		$query->setLimit(1);
+		$row = $this->_db->setQuery($query)->loadObject();
 
 		// Check for no $row returned
 		if (empty($row))
@@ -1683,7 +1675,7 @@ class Nested extends Table
 	 *
 	 * @return  mixed    Boolean false on failure or data object on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getTreeRepositionData($referenceNode, $nodeWidth, $position = 'before')
 	{
@@ -1747,14 +1739,12 @@ class Nested extends Table
 				break;
 		}
 
-		// @codeCoverageIgnoreStart
 		if ($this->_debug)
 		{
 			echo "\nRepositioning Data for $position" . "\n-----------------------------------" . "\nLeft Where:    $data->left_where"
 				. "\nRight Where:   $data->right_where" . "\nNew Lft:       $data->new_lft" . "\nNew Rgt:       $data->new_rgt"
 				. "\nNew Parent ID: $data->new_parent_id" . "\nNew Level:     $data->new_level" . "\n";
 		}
-		// @codeCoverageIgnoreEnd
 
 		return $data;
 	}
@@ -1768,7 +1758,7 @@ class Nested extends Table
 	 * @return  void
 	 *
 	 * @codeCoverageIgnore
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _logtable($showData = true, $showQuery = true)
 	{
@@ -1777,7 +1767,7 @@ class Nested extends Table
 
 		if ($showQuery)
 		{
-			$buffer .= "\n" . $this->_db->getQuery() . $sep;
+			$buffer .= "\n" . htmlspecialchars($this->_db->getQuery(), ENT_QUOTES, 'UTF-8') . $sep;
 		}
 
 		if ($showData)
@@ -1806,13 +1796,13 @@ class Nested extends Table
 	/**
 	 * Runs a query and unlocks the database on an error.
 	 *
-	 * @param   mixed   $query         A string or \JDatabaseQuery object.
+	 * @param   mixed   $query         A string or DatabaseQuery object.
 	 * @param   string  $errorMessage  Unused.
 	 *
 	 * @return  boolean  void
 	 *
-	 * @note    Since 12.1 this method returns void and will rethrow the database exception.
-	 * @since   11.1
+	 * @note    Since 3.0.0 this method returns void and will rethrow the database exception.
+	 * @since   1.7.0
 	 * @throws  \Exception on database error.
 	 */
 	protected function _runQuery($query, $errorMessage)
@@ -1822,12 +1812,10 @@ class Nested extends Table
 		{
 			$this->_db->setQuery($query)->execute();
 
-			// @codeCoverageIgnoreStart
 			if ($this->_debug)
 			{
 				$this->_logtable();
 			}
-			// @codeCoverageIgnoreEnd
 		}
 		catch (\Exception $e)
 		{

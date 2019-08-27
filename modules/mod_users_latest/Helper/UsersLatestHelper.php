@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_users_latest
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ namespace Joomla\Module\UsersLatest\Site\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Helper for mod_users_latest
@@ -33,9 +34,9 @@ class UsersLatestHelper
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('a.id', 'a.name', 'a.username', 'a.registerDate')))
+			->select($db->quoteName(['a.id', 'a.name', 'a.username', 'a.registerDate']))
 			->order($db->quoteName('a.registerDate') . ' DESC')
-			->from('#__users AS a');
+			->from($db->quoteName('#__users', 'a'));
 		$user = Factory::getUser();
 
 		if (!$user->authorise('core.admin') && $params->get('filter_groups', 0) == 1)
@@ -47,13 +48,14 @@ class UsersLatestHelper
 				return array();
 			}
 
-			$query->join('LEFT', '#__user_usergroup_map AS m ON m.user_id = a.id')
-				->join('LEFT', '#__usergroups AS ug ON ug.id = m.group_id')
-				->where('ug.id in (' . implode(',', $groups) . ')')
-				->where('ug.id <> 1');
+			$query->leftJoin($db->quoteName('#__user_usergroup_map', 'm'), $db->quoteName('m.user_id') . ' = ' . $db->quoteName('a.id'))
+				->leftJoin($db->quoteName('#__usergroups', 'ug'), $db->quoteName('ug.id') . ' = ' . $db->quoteName('m.group_id'))
+				->whereIn($db->quoteName('ug.id'), $groups)
+				->where($db->quoteName('ug.id') . ' <> 1');
 		}
 
-		$db->setQuery($query, 0, $params->get('shownumber'));
+		$query->setLimit((int) $params->get('shownumber', 5));
+		$db->setQuery($query);
 
 		try
 		{
@@ -61,7 +63,7 @@ class UsersLatestHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
 			return array();
 		}

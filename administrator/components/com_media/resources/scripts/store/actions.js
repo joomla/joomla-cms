@@ -1,6 +1,8 @@
 import {api} from "../app/Api";
 import * as types from "./mutation-types";
+import translate from "../plugins/translate";
 import {notifications} from "../app/Notifications";
+import * as FileSaver from './../../../node_modules/file-saver/FileSaver';
 
 // Actions are similar to mutations, the difference being that:
 // - Instead of mutating the state, actions commit mutations.
@@ -23,7 +25,7 @@ function updateUrlPath(path) {
 
 /**
  * Get contents of a directory from the api
- * @param commit
+ * @param context
  * @param payload
  */
 export const getContents = (context, payload) => {
@@ -66,8 +68,43 @@ export const getFullContents = (context, payload) => {
 }
 
 /**
+ * Download a file
+ * @param context
+ * @param payload
+ */
+export const download = (context, payload) => {
+    api.getContents(payload.path, 0, 1)
+        .then(contents => {
+            var file = contents.files[0];
+
+            // Converte the base 64 encoded string to a blob
+	        var byteCharacters = atob(file.content);
+	        var byteArrays = [];
+
+	        for (var offset = 0; offset < byteCharacters.length; offset += 512) {
+		        var slice = byteCharacters.slice(offset, offset + 512);
+
+		        var byteNumbers = new Array(slice.length);
+		        for (var i = 0; i < slice.length; i++) {
+			        byteNumbers[i] = slice.charCodeAt(i);
+		        }
+
+		        var byteArray = new Uint8Array(byteNumbers);
+
+		        byteArrays.push(byteArray);
+	        }
+
+	        // Open the save as file dialog
+	        FileSaver.saveAs(new Blob(byteArrays, {type: file.mime_type}), file.name);
+        })
+        .catch(error => {
+            console.log("error", error);
+        });
+}
+
+/**
  * Toggle the selection state of an item
- * @param commit
+ * @param context
  * @param payload
  */
 export const toggleBrowserItemSelect = (context, payload) => {
@@ -78,11 +115,11 @@ export const toggleBrowserItemSelect = (context, payload) => {
     } else {
         context.commit(types.UNSELECT_BROWSER_ITEM, item);
     }
-}
+};
 
 /**
  * Create a new folder
- * @param commit
+ * @param context
  * @param payload object with the new folder name and its parent directory
  */
 export const createDirectory = (context, payload) => {
@@ -102,7 +139,7 @@ export const createDirectory = (context, payload) => {
 
 /**
  * Create a new folder
- * @param commit
+ * @param context
  * @param payload object with the new folder name and its parent directory
  */
 export const uploadFile = (context, payload) => {
@@ -117,32 +154,11 @@ export const uploadFile = (context, payload) => {
 
             // Handle file exists
             if (error.status === 409) {
-                if (notifications.ask('"' + payload.name + '" does already exist. Do you want to override it?', {})) {
+                if (notifications.ask(translate.sprintf('COM_MEDIA_FILE_EXISTS_AND_OVERRIDE', payload.name), {})) {
                     payload.override = true;
                     uploadFile(context, payload);
                 }
             }
-        })
-}
-
-/**
- * Delete a single item
- * @param context
- * @param payload object: the item to delete
- */
-export const deleteItem = (context, payload) => {
-    context.commit(types.SET_IS_LOADING, true);
-    const item = payload;
-    api.delete(item.path)
-        .then(() => {
-            context.commit(types.DELETE_SUCCESS, item);
-            context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-            context.commit(types.SET_IS_LOADING, false);
-        })
-        .catch(error => {
-            // TODO error handling
-            context.commit(types.SET_IS_LOADING, false);
-            console.log("error", error);
         })
 }
 
@@ -158,6 +174,7 @@ export const renameItem = (context, payload) => {
             context.commit(types.RENAME_SUCCESS, {
                 item: item,
                 oldPath: payload.path,
+                newName: payload.newName,
             });
             context.commit(types.HIDE_RENAME_MODAL);
             context.commit(types.SET_IS_LOADING, false);
@@ -172,9 +189,8 @@ export const renameItem = (context, payload) => {
 /**
  * Delete the selected items
  * @param context
- * @param payload object
  */
-export const deleteSelectedItems = (context, payload) => {
+export const deleteSelectedItems = (context) => {
     context.commit(types.SET_IS_LOADING, true);
     // Get the selected items from the store
     const selectedItems = context.state.selectedItems;
@@ -195,5 +211,4 @@ export const deleteSelectedItems = (context, payload) => {
     } else {
         // TODO notify the user that he has to select at least one item
     }
-}
-
+};

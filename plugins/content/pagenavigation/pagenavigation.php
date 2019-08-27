@@ -3,18 +3,27 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.pagenavigation
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
+
+\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * Pagenavigation plugin class.
  *
  * @since  1.5
  */
-class PlgContentPagenavigation extends JPlugin
+class PlgContentPagenavigation extends CMSPlugin
 {
 	/**
 	 * If in the article view and the parameter is enabled shows the page navigation
@@ -30,7 +39,7 @@ class PlgContentPagenavigation extends JPlugin
 	 */
 	public function onContentBeforeDisplay($context, &$row, &$params, $page = 0)
 	{
-		$app   = JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$view  = $app->input->get('view');
 		$print = $app->input->getBool('print');
 
@@ -41,12 +50,12 @@ class PlgContentPagenavigation extends JPlugin
 
 		if ($context === 'com_content.article' && $view === 'article' && $params->get('show_item_navigation'))
 		{
-			$db       = JFactory::getDbo();
-			$user     = JFactory::getUser();
-			$lang     = JFactory::getLanguage();
+			$db       = Factory::getDbo();
+			$user     = Factory::getUser();
+			$lang     = Factory::getLanguage();
 			$nullDate = $db->getNullDate();
 
-			$date = JFactory::getDate();
+			$date = Factory::getDate();
 			$now  = $date->toSql();
 
 			$uid        = $row->id;
@@ -57,7 +66,7 @@ class PlgContentPagenavigation extends JPlugin
 			 * The following is needed as different menu items types utilise a different param to control ordering.
 			 * For Blogs the `orderby_sec` param is the order controlling param.
 			 * For Table and List views it is the `orderby` param.
-			**/
+			 */
 			$params_list = $params->toArray();
 
 			if (array_key_exists('orderby_sec', $params_list))
@@ -117,7 +126,7 @@ class PlgContentPagenavigation extends JPlugin
 					break;
 			}
 
-			$xwhere = ' AND (a.state = 1 OR a.state = -1)'
+			$xwhere = ' AND (ws.condition = 1 OR ws.condition = -2)'
 				. ' AND (publish_up = ' . $db->quote($nullDate) . ' OR publish_up <= ' . $db->quote($now) . ')'
 				. ' AND (publish_down = ' . $db->quote($nullDate) . ' OR publish_down >= ' . $db->quote($now) . ')';
 
@@ -126,17 +135,18 @@ class PlgContentPagenavigation extends JPlugin
 
 			$case_when = ' CASE WHEN ' . $query->charLength('a.alias', '!=', '0')
 				. ' THEN ' . $query->concatenate(array($query->castAsChar('a.id'), 'a.alias'), ':')
-				. ' ELSE a.id END AS slug';
+				. ' ELSE ' . $query->castAsChar('a.id') . ' END AS slug';
 
 			$case_when1 = ' CASE WHEN ' . $query->charLength('cc.alias', '!=', '0')
 				. ' THEN ' . $query->concatenate(array($query->castAsChar('cc.id'), 'cc.alias'), ':')
-				. ' ELSE cc.id END AS catslug';
+				. ' ELSE ' . $query->castAsChar('cc.id') . ' END AS catslug';
 
 			$query->select('a.id, a.title, a.catid, a.language')
 				->select($case_when)
 				->select($case_when1)
 				->from('#__content AS a')
-				->join('LEFT', '#__categories AS cc ON cc.id = a.catid');
+				->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
+				->join('LEFT', '#__workflow_stages AS ws ON ws.id = a.state');
 
 			if ($order_method === 'author' || $order_method === 'rauthor')
 			{
@@ -145,9 +155,9 @@ class PlgContentPagenavigation extends JPlugin
 			}
 
 			$query->where(
-					'a.catid = ' . (int) $row->catid . ' AND a.state = ' . (int) $row->state
-						. ($canPublish ? '' : ' AND a.access IN (' . implode(',', JAccess::getAuthorisedViewLevels($user->id)) . ') ') . $xwhere
-				);
+				'a.catid = ' . (int) $row->catid . ' AND a.state = ' . (int) $row->state
+				. ($canPublish ? '' : ' AND a.access IN (' . implode(',', Access::getAuthorisedViewLevels($user->id)) . ') ') . $xwhere
+			);
 			$query->order($orderby);
 
 			if ($app->isClient('site') && $app->getLanguageFilter())
@@ -181,14 +191,14 @@ class PlgContentPagenavigation extends JPlugin
 
 			if (($location + 1) < count($rows))
 			{
-				// The next content item cannot be in an array position greater than the number of array postions.
+				// The next content item cannot be in an array position greater than the number of array positions.
 				$row->next = $rows[$location + 1];
 			}
 
 			if ($row->prev)
 			{
-				$row->prev_label = ($this->params->get('display', 0) == 0) ? JText::_('JPREV') : $row->prev->title;
-				$row->prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->prev->slug, $row->prev->catid, $row->prev->language));
+				$row->prev_label = ($this->params->get('display', 0) == 0) ? Text::_('JPREV') : $row->prev->title;
+				$row->prev = Route::_(ContentHelperRoute::getArticleRoute($row->prev->slug, $row->prev->catid, $row->prev->language));
 			}
 			else
 			{
@@ -198,8 +208,8 @@ class PlgContentPagenavigation extends JPlugin
 
 			if ($row->next)
 			{
-				$row->next_label = ($this->params->get('display', 0) == 0) ? JText::_('JNEXT') : $row->next->title;
-				$row->next = JRoute::_(ContentHelperRoute::getArticleRoute($row->next->slug, $row->next->catid, $row->next->language));
+				$row->next_label = ($this->params->get('display', 0) == 0) ? Text::_('JNEXT') : $row->next->title;
+				$row->next = Route::_(ContentHelperRoute::getArticleRoute($row->next->slug, $row->next->catid, $row->next->language));
 			}
 			else
 			{
@@ -211,7 +221,7 @@ class PlgContentPagenavigation extends JPlugin
 			if ($row->prev || $row->next)
 			{
 				// Get the path for the layout file
-				$path = JPluginHelper::getLayoutPath('content', 'pagenavigation');
+				$path = PluginHelper::getLayoutPath('content', 'pagenavigation');
 
 				// Render the pagenav
 				ob_start();
@@ -237,7 +247,7 @@ class PlgContentPagenavigation extends JPlugin
 	 */
 	private static function getQueryDate($orderDate)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		switch ($orderDate)
 		{

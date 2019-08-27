@@ -3,7 +3,7 @@
  * @package     Joomla.Cms
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,6 +12,11 @@ namespace Joomla\CMS\MVC\View;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+
 /**
  * Base class for a Joomla Form View
  *
@@ -45,7 +50,7 @@ class FormView extends HtmlView
 	/**
 	 * The actions the user is authorised to perform
 	 *
-	 * @var  \JObject
+	 * @var  CMSObject
 	 */
 	protected $canDo;
 
@@ -101,7 +106,7 @@ class FormView extends HtmlView
 		}
 
 		// Set default value for $canDo to avoid fatal error if child class doesn't set value for this property
-		$this->canDo = new \JObject;
+		$this->canDo = new CMSObject;
 	}
 
 	/**
@@ -109,7 +114,9 @@ class FormView extends HtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return   mixed
+	 * @return  void
+	 *
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
@@ -119,14 +126,13 @@ class FormView extends HtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Build toolbar
 		$this->addToolbar();
 
-		// Render the view
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -143,11 +149,11 @@ class FormView extends HtmlView
 		// Set default toolbar title
 		if ($this->item->id)
 		{
-			$this->toolbarTitle = \JText::_(strtoupper($this->option . '_MANAGER_' . $this->getName() . '_EDIT'));
+			$this->toolbarTitle = Text::_(strtoupper($this->option . '_MANAGER_' . $this->getName() . '_EDIT'));
 		}
 		else
 		{
-			$this->toolbarTitle = \JText::_(strtoupper($this->option . '_MANAGER_' . $this->getName() . '_NEW'));
+			$this->toolbarTitle = Text::_(strtoupper($this->option . '_MANAGER_' . $this->getName() . '_NEW'));
 		}
 	}
 
@@ -160,16 +166,16 @@ class FormView extends HtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$userId     = $user->id;
 		$isNew      = ($this->item->id == 0);
 		$viewName   = $this->getName();
 		$checkedOut = $this->getModel()->isCheckedOut($this->item);
 		$canDo      = $this->canDo;
 
-		\JToolbarHelper::title(
+		ToolbarHelper::title(
 			$this->toolbarTitle,
 			$this->toolbarIcon
 		);
@@ -177,7 +183,7 @@ class FormView extends HtmlView
 		// For new records, check the create permission.
 		if ($isNew && $canDo->get('core.create'))
 		{
-			\JToolbarHelper::saveGroup(
+			ToolbarHelper::saveGroup(
 				[
 					['apply', $viewName . '.apply'],
 					['save', $viewName . '.save'],
@@ -186,7 +192,7 @@ class FormView extends HtmlView
 				'btn-success'
 			);
 
-			\JToolbarHelper::cancel($viewName . '.cancel');
+			ToolbarHelper::cancel($viewName . '.cancel');
 		}
 		else
 		{
@@ -221,29 +227,29 @@ class FormView extends HtmlView
 				$toolbarButtons[] = ['save2copy', $viewName . '.save2copy'];
 			}
 
-			\JToolbarHelper::saveGroup(
+			ToolbarHelper::saveGroup(
 				$toolbarButtons,
 				'btn-success'
 			);
 
 			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
 			{
-				\JToolbarHelper::versions($this->option . '.' . $viewName, $this->item->id);
+				ToolbarHelper::versions($this->option . '.' . $viewName, $this->item->id);
 			}
 
 			if (!$isNew && $this->previewLink)
 			{
-				\JToolbarHelper::preview($this->previewLink, \JText::_('JGLOBAL_PREVIEW'), 'eye', 80, 90);
+				ToolbarHelper::preview($this->previewLink, Text::_('JGLOBAL_PREVIEW'), 'eye', 80, 90);
 			}
 
-			\JToolbarHelper::cancel($viewName . '.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel($viewName . '.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		\JToolbarHelper::divider();
+		ToolbarHelper::divider();
 
 		if ($this->helpLink)
 		{
-			\JToolbarHelper::help($this->helpLink);
+			ToolbarHelper::help($this->helpLink);
 		}
 	}
 }

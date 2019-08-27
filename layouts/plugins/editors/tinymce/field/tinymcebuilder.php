@@ -3,11 +3,15 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 extract($displayData);
 
@@ -42,7 +46,7 @@ extract($displayData);
  * @var   array   $menubarSource   Menu items for builder
  * @var   array   $buttons         List of the buttons
  * @var   array   $buttonsSource   Buttons by group, for the builder
- * @var   array   $toolbarPreset   Toolbar presset (default values)
+ * @var   array   $toolbarPreset   Toolbar preset (default values)
  * @var   int     $setsAmount      Amount of sets
  * @var   array   $setsNames       List of Sets names
  * @var   JForm[] $setsForms       Form with extra options for an each set
@@ -51,18 +55,20 @@ extract($displayData);
  * @var   JLayoutFile  $this       Context
  */
 
-JHtml::_('behavior.core');
-JHtml::_('jquery.ui', array('core', 'sortable'));
-JHtml::_('stylesheet', 'media/vendor/tinymce/skins/lightgray/skin.min.css', array('version' => 'auto', 'relative' => false));
-JHtml::_('stylesheet', 'editors/tinymce/tinymce-builder.css', array('version' => 'auto', 'relative' => true));
-JHtml::_('script', 'editors/tinymce/tinymce-builder.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('behavior.core');
+HTMLHelper::_('stylesheet', 'media/vendor/tinymce/skins/ui/oxide/skin.min.css', array('version' => 'auto', 'relative' => false));
+HTMLHelper::_('stylesheet', 'plg_editors_tinymce/tinymce-builder.css', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('stylesheet', 'vendor/dragula/dragula.css', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'vendor/dragula/dragula.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'plg_editors_tinymce/tinymce-builder.js', array('version' => 'auto', 'relative' => true));
 
 if ($languageFile)
 {
-	JHtml::_('script', $languageFile, array('version' => 'auto', 'relative' => false));
+	HTMLHelper::_('script', $languageFile, array('version' => 'auto', 'relative' => false));
 }
 
-JFactory::getDocument()->addScriptOptions('plg_editors_tinymce_builder', array(
+Factory::getDocument()->addScriptOptions('plg_editors_tinymce_builder',
+	array(
 		'menus'         => $menus,
 		'buttons'       => $buttons,
 		'toolbarPreset' => $toolbarPreset,
@@ -73,35 +79,32 @@ JFactory::getDocument()->addScriptOptions('plg_editors_tinymce_builder', array(
 ?>
 <div id="joomla-tinymce-builder">
 
-	<p><?php echo JText::_('PLG_TINY_SET_SOURCE_PANEL_DESCRIPTION'); ?></p>
+	<p><?php echo Text::_('PLG_TINY_SET_SOURCE_PANEL_DESCRIPTION'); ?></p>
 
-	<div class="mce-tinymce mce-container mce-panel">
-		<div class="mce-container-body mce-stack-layout">
+	<div class="tox tox-tinymce">
+		<div class="tox-editor-container">
 
-			<div class="mce-container mce-menubar mce-toolbar mce-stack-layout-item">
-				<div class="mce-container-body mce-flow-layout timymce-builder-menu source" data-group="menu"
-					data-value="<?php echo $this->escape(json_encode($menubarSource)); ?>">
-				</div>
+			<div class="tox-menubar timymce-builder-menu source" data-group="menu"
+				data-value="<?php echo $this->escape(json_encode($menubarSource)); ?>">
 			</div>
 
-			<div class="mce-toolbar-grp mce-container mce-panel mce-stack-layout-item">
-				<div class="mce-container-body mce-flow-layout timymce-builder-toolbar source" data-group="toolbar"
-					data-value="<?php echo $this->escape(json_encode($buttonsSource)); ?>">
-				</div>
+			<div class="tox-toolbar timymce-builder-toolbar source" data-group="toolbar"
+				data-value="<?php echo $this->escape(json_encode($buttonsSource)); ?>">
 			</div>
+
 		</div>
 	</div>
 
 	<hr>
-	<p><?php echo JText::_('PLG_TINY_SET_TARGET_PANEL_DESCRIPTION'); ?></p>
+	<p><?php echo Text::_('PLG_TINY_SET_TARGET_PANEL_DESCRIPTION'); ?></p>
 
 	<?php // Render tabs for each set ?>
 	<ul class="nav nav-tabs" id="set-tabs">
-		<?php foreach ( $setsNames as $num => $title ) :
+		<?php foreach ($setsNames as $num => $title) :
 			$isActive = $num === $setsAmount - 1;
 		?>
 		<li class="nav-item">
-			<a href="#set-<?php echo $num; ?>" class="nav-link <?php echo $isActive ? 'active' : ''; ?>">
+			<a href="#set-<?php echo $num; ?>" class="nav-link <?php echo $isActive ? 'active' : ''; ?>" data-toggle="tab">
 				<?php echo $title; ?></a>
 		</li>
 		<?php endforeach; ?>
@@ -115,7 +118,7 @@ JFactory::getDocument()->addScriptOptions('plg_editors_tinymce_builder', array(
 			'medium'   => 'btn-info',
 			'advanced' => 'btn-warning',
 		);
-		foreach ( $setsNames as $num => $title ) :
+		foreach ($setsNames as $num => $title) :
 
 			// Check whether the values exists, and if empty then use from preset
 			if (empty($value['toolbars'][$num]['menu'])
@@ -151,27 +154,29 @@ JFactory::getDocument()->addScriptOptions('plg_editors_tinymce_builder', array(
 						?>
 						<button type="button" class="btn <?php echo $btnClass; ?> button-action"
 							data-action="setPreset" data-preset="<?php echo $presetName; ?>" data-set="<?php echo $num; ?>">
-							<?php echo JText::_('PLG_TINY_SET_PRESET_BUTTON_' . $presetName); ?>
+							<?php echo Text::_('PLG_TINY_SET_PRESET_BUTTON_' . $presetName); ?>
 						</button>
 					<?php endforeach; ?>
 
 						<button type="button" class="btn btn-danger button-action"
 							 data-action="clearPane" data-set="<?php echo $num; ?>">
-							<?php echo JText::_('JCLEAR'); ?></button>
+							<?php echo Text::_('JCLEAR'); ?></button>
 					</div>
 				</div>
 
-				<div class="mce-tinymce mce-container mce-panel">
-					<div class="mce-container-body mce-stack-layout">
-						<div class="mce-container mce-menubar mce-toolbar timymce-builder-menu target"
+				<div class="clearfix mb-1"></div>
+
+				<div class="tox tox-tinymce mb-3">
+					<div class="tox-editor-container">
+						<div class="tox-menubar timymce-builder-menu target"
 							data-group="menu" data-set="<?php echo $num; ?>"
 							data-value="<?php echo $this->escape(json_encode($valMenu)); ?>">
 						</div>
-						<div class="mce-toolbar-grp mce-container mce-panel timymce-builder-toolbar target"
+						<div class="tox-toolbar timymce-builder-toolbar target"
 						    data-group="toolbar1" data-set="<?php echo $num; ?>"
 						    data-value="<?php echo $this->escape(json_encode($valBar1)); ?>">
 						</div>
-						<div class="mce-toolbar-grp mce-container mce-panel timymce-builder-toolbar target"
+						<div class="tox-toolbar timymce-builder-toolbar target"
 						    data-group="toolbar2" data-set="<?php echo $num; ?>"
 						    data-value="<?php echo $this->escape(json_encode($valBar2)); ?>">
 						</div>

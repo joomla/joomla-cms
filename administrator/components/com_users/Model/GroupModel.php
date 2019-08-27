@@ -3,16 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\String\StringHelper;
@@ -70,7 +75,7 @@ class GroupModel extends AdminModel
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  \JForm	A \JForm object on success, false on failure
@@ -96,11 +101,12 @@ class GroupModel extends AdminModel
 	 * @return  mixed  The data for the form.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState('com_users.edit.group.data', array());
+		$data = Factory::getApplication()->getUserState('com_users.edit.group.data', array());
 
 		if (empty($data))
 		{
@@ -124,9 +130,9 @@ class GroupModel extends AdminModel
 	 * @since   1.6
 	 * @throws  \Exception if there is an error loading the form.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = '')
+	protected function preprocessForm(Form $form, $data, $group = '')
 	{
-		$obj = is_array($data) ? ArrayHelper::toObject($data, 'JObject') : $data;
+		$obj = is_array($data) ? ArrayHelper::toObject($data, CMSObject::class) : $data;
 
 		if (isset($obj->parent_id) && $obj->parent_id == 0 && $obj->id > 0)
 		{
@@ -177,11 +183,11 @@ class GroupModel extends AdminModel
 		}
 
 		// Check for non-super admin trying to save with super admin group
-		$iAmSuperAdmin = \JFactory::getUser()->authorise('core.admin');
+		$iAmSuperAdmin = Factory::getUser()->authorise('core.admin');
 
 		if (!$iAmSuperAdmin && $groupSuperAdmin)
 		{
-			$this->setError(\JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
+			$this->setError(Text::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
 
 			return false;
 		}
@@ -193,7 +199,7 @@ class GroupModel extends AdminModel
 		if ($iAmSuperAdmin)
 		{
 			// Next, are we a member of the current group?
-			$myGroups = Access::getGroupsByUser(\JFactory::getUser()->get('id'), false);
+			$myGroups = Access::getGroupsByUser(Factory::getUser()->get('id'), false);
 
 			if (in_array($data['id'], $myGroups))
 			{
@@ -212,14 +218,14 @@ class GroupModel extends AdminModel
 				 */
 				if ((!$otherSuperAdmin) && (!$groupSuperAdmin))
 				{
-					$this->setError(\JText::_('JLIB_USER_ERROR_CANNOT_DEMOTE_SELF'));
+					$this->setError(Text::_('JLIB_USER_ERROR_CANNOT_DEMOTE_SELF'));
 
 					return false;
 				}
 			}
 		}
 
-		if (\JFactory::getApplication()->input->get('task') == 'save2copy')
+		if (Factory::getApplication()->input->get('task') == 'save2copy')
 		{
 			$data['title'] = $this->generateGroupTitle($data['parent_id'], $data['title']);
 		}
@@ -242,7 +248,7 @@ class GroupModel extends AdminModel
 	{
 		// Typecast variable.
 		$pks    = (array) $pks;
-		$user   = \JFactory::getUser();
+		$user   = Factory::getUser();
 		$groups = Access::getGroupsByUser($user->get('id'));
 
 		// Get a row instance.
@@ -259,11 +265,12 @@ class GroupModel extends AdminModel
 		{
 			if (in_array($pk, $groups))
 			{
-				\JFactory::getApplication()->enqueueMessage(\JText::_('COM_USERS_DELETE_ERROR_INVALID_GROUP'), 'error');
+				Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_DELETE_ERROR_INVALID_GROUP'), 'error');
 
 				return false;
 			}
 		}
+
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)
 		{
@@ -278,7 +285,7 @@ class GroupModel extends AdminModel
 				if ($allow)
 				{
 					// Fire the before delete event.
-					\JFactory::getApplication()->triggerEvent($this->event_before_delete, array($table->getProperties()));
+					Factory::getApplication()->triggerEvent($this->event_before_delete, array($table->getProperties()));
 
 					if (!$table->delete($pk))
 					{
@@ -289,14 +296,14 @@ class GroupModel extends AdminModel
 					else
 					{
 						// Trigger the after delete event.
-						\JFactory::getApplication()->triggerEvent($this->event_after_delete, array($table->getProperties(), true, $this->getError()));
+						Factory::getApplication()->triggerEvent($this->event_after_delete, array($table->getProperties(), true, $this->getError()));
 					}
 				}
 				else
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					\JFactory::getApplication()->enqueueMessage(\JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
+					Factory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
 				}
 			}
 			else

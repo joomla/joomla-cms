@@ -3,12 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Languages\Administrator\Helper;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\LanguageHelper;
 
 /**
  * Languages component helper.
@@ -18,60 +21,18 @@ defined('_JEXEC') or die;
 class LanguagesHelper
 {
 	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName   The name of the active view.
-	 * @param   int     $client  The client id of the active view. Maybe be 0 or 1.
-	 *
-	 * @return  void
-	 *
-	 * @deprecated  4.0 $client parameter is not needed anymore.
-	 */
-	public static function addSubmenu($vName, $client = 0)
-	{
-		\JHtmlSidebar::addEntry(
-			\JText::_('COM_LANGUAGES_SUBMENU_INSTALLED'),
-			'index.php?option=com_languages&view=installed',
-			$vName == 'installed'
-		);
-		\JHtmlSidebar::addEntry(
-			\JText::_('COM_LANGUAGES_SUBMENU_CONTENT'),
-			'index.php?option=com_languages&view=languages',
-			$vName == 'languages'
-		);
-		\JHtmlSidebar::addEntry(
-			\JText::_('COM_LANGUAGES_SUBMENU_OVERRIDES'),
-			'index.php?option=com_languages&view=overrides',
-			$vName == 'overrides'
-		);
-	}
-
-	/**
 	 * Method for parsing ini files.
 	 *
-	 * @param   string  $filename  Path and name of the ini file to parse.
+	 * @param   string  $fileName  Path and name of the ini file to parse.
 	 *
 	 * @return  array   Array of strings found in the file, the array indices will be the keys. On failure an empty array will be returned.
 	 *
 	 * @since   2.5
+	 * @deprecated   3.9.0 Use \Joomla\CMS\Language\LanguageHelper::parseIniFile() instead.
 	 */
-	public static function parseFile($filename)
+	public static function parseFile($fileName)
 	{
-		if (!is_file($filename))
-		{
-			return array();
-		}
-
-		$contents = file_get_contents($filename);
-		$contents = str_replace('_QQ_', '"\""', $contents);
-		$strings  = @parse_ini_string($contents);
-
-		if ($strings === false)
-		{
-			return array();
-		}
-
-		return $strings;
+		return LanguageHelper::parseIniFile($fileName);
 	}
 
 	/**

@@ -3,152 +3,146 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
+/** @var \Joomla\Component\Admin\Administrator\View\Sysinfo\HtmlView $this */
+
 ?>
-<fieldset class="adminform">
-	<legend><?php echo JText::_('COM_ADMIN_RELEVANT_PHP_SETTINGS'); ?></legend>
-	<table class="table table-striped">
+<div class="sysinfo">
+	<table class="table">
+		<caption class="sr-only">
+			<?php echo Text::_('COM_ADMIN_PHP_SETTINGS'); ?>
+		</caption>
 		<thead>
 			<tr>
-				<th style="width:250px">
-					<?php echo JText::_('COM_ADMIN_SETTING'); ?>
+				<th scope="col" style="width:250px">
+					<?php echo Text::_('COM_ADMIN_SETTING'); ?>
 				</th>
-				<th>
-					<?php echo JText::_('COM_ADMIN_VALUE'); ?>
+				<th scope="col">
+					<?php echo Text::_('COM_ADMIN_VALUE'); ?>
 				</th>
 			</tr>
 		</thead>
-		<tfoot>
-			<tr>
-				<td colspan="2">&#160;
-				</td>
-			</tr>
-		</tfoot>
 		<tbody>
 			<tr>
+				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_OPEN_BASEDIR'); ?>
+				</th>
 				<td>
-					<?php echo JText::_('COM_ADMIN_SAFE_MODE'); ?>
-				</td>
-				<td>
-					<?php echo JHtml::_('phpsetting.boolean', $this->php_settings['safe_mode']); ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php echo JText::_('COM_ADMIN_OPEN_BASEDIR'); ?>
-				</td>
-				<td>
-					<?php echo JHtml::_('phpsetting.string', $this->php_settings['open_basedir']); ?>
+					<?php echo HTMLHelper::_('phpsetting.string', $this->phpSettings['open_basedir']); ?>
 				</td>
 			</tr>
 			<tr>
+				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_DISPLAY_ERRORS'); ?>
+				</th>
 				<td>
-					<?php echo JText::_('COM_ADMIN_DISPLAY_ERRORS'); ?>
-				</td>
-				<td>
-					<?php echo JHtml::_('phpsetting.boolean', $this->php_settings['display_errors']); ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php echo JText::_('COM_ADMIN_SHORT_OPEN_TAGS'); ?>
-				</td>
-				<td>
-					<?php echo JHtml::_('phpsetting.boolean', $this->php_settings['short_open_tag']); ?>
+					<?php echo HTMLHelper::_('phpsetting.boolean', $this->phpSettings['display_errors']); ?>
 				</td>
 			</tr>
 			<tr>
+				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_SHORT_OPEN_TAGS'); ?>
+				</th>
 				<td>
-					<?php echo JText::_('COM_ADMIN_FILE_UPLOADS'); ?>
-				</td>
-				<td>
-					<?php echo JHtml::_('phpsetting.boolean', $this->php_settings['file_uploads']); ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php echo JText::_('COM_ADMIN_OUTPUT_BUFFERING'); ?>
-				</td>
-				<td>
-					<?php echo JHtml::_('phpsetting.boolean', $this->php_settings['output_buffering']); ?>
+					<?php echo HTMLHelper::_('phpsetting.boolean', $this->phpSettings['short_open_tag']); ?>
 				</td>
 			</tr>
 			<tr>
+				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_FILE_UPLOADS'); ?>
+				</th>
 				<td>
-					<?php echo JText::_('COM_ADMIN_SESSION_SAVE_PATH'); ?>
-				</td>
-				<td>
-					<?php echo JHtml::_('phpsetting.string', $this->php_settings['session.save_path']); ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php echo JText::_('COM_ADMIN_SESSION_AUTO_START'); ?>
-				</td>
-				<td>
-					<?php echo JHtml::_('phpsetting.integer', $this->php_settings['session.auto_start']); ?>
+					<?php echo HTMLHelper::_('phpsetting.boolean', $this->phpSettings['file_uploads']); ?>
 				</td>
 			</tr>
 			<tr>
+				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_OUTPUT_BUFFERING'); ?>
+				</th>
 				<td>
-					<?php echo JText::_('COM_ADMIN_XML_ENABLED'); ?>
-				</td>
-				<td>
-					<?php echo JHtml::_('phpsetting.set', $this->php_settings['xml']); ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php echo JText::_('COM_ADMIN_ZLIB_ENABLED'); ?>
-				</td>
-				<td>
-					<?php echo JHtml::_('phpsetting.set', $this->php_settings['zlib']); ?>
+					<?php echo HTMLHelper::_('phpsetting.boolean', $this->phpSettings['output_buffering']); ?>
 				</td>
 			</tr>
 			<tr>
+				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_SESSION_SAVE_PATH'); ?>
+				</th>
 				<td>
-					<?php echo JText::_('COM_ADMIN_ZIP_ENABLED'); ?>
-				</td>
-				<td>
-					<?php echo JHtml::_('phpsetting.set', $this->php_settings['zip']); ?>
+					<?php echo HTMLHelper::_('phpsetting.string', $this->phpSettings['session.save_path']); ?>
 				</td>
 			</tr>
 			<tr>
+				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_SESSION_AUTO_START'); ?>
+				</th>
 				<td>
-					<?php echo JText::_('COM_ADMIN_DISABLED_FUNCTIONS'); ?>
+					<?php echo (int) $this->phpSettings['session.auto_start']; ?>
 				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_XML_ENABLED'); ?>
+				</th>
+				<td>
+					<?php echo HTMLHelper::_('phpsetting.set', $this->phpSettings['xml']); ?>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_ZLIB_ENABLED'); ?>
+				</th>
+				<td>
+					<?php echo HTMLHelper::_('phpsetting.set', $this->phpSettings['zlib']); ?>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_ZIP_ENABLED'); ?>
+				</th>
+				<td>
+					<?php echo HTMLHelper::_('phpsetting.set', $this->phpSettings['zip']); ?>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_DISABLED_FUNCTIONS'); ?>
+				</th>
 				<td class="break-word">
-					<?php echo JHtml::_('phpsetting.string', $this->php_settings['disable_functions']); ?>
+					<?php echo HTMLHelper::_('phpsetting.string', $this->phpSettings['disable_functions']); ?>
 				</td>
 			</tr>
 			<tr>
+				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_MBSTRING_ENABLED'); ?>
+				</th>
 				<td>
-					<?php echo JText::_('COM_ADMIN_MBSTRING_ENABLED'); ?>
-				</td>
-				<td>
-					<?php echo JHtml::_('phpsetting.set', $this->php_settings['mbstring']); ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php echo JText::_('COM_ADMIN_ICONV_AVAILABLE'); ?>
-				</td>
-				<td>
-					<?php echo JHtml::_('phpsetting.set', $this->php_settings['iconv']); ?>
+					<?php echo HTMLHelper::_('phpsetting.set', $this->phpSettings['mbstring']); ?>
 				</td>
 			</tr>
 			<tr>
+				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_ICONV_AVAILABLE'); ?>
+				</th>
 				<td>
-					<?php echo JText::_('COM_ADMIN_MAX_INPUT_VARS'); ?>
+					<?php echo HTMLHelper::_('phpsetting.set', $this->phpSettings['iconv']); ?>
 				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_MAX_INPUT_VARS'); ?>
+				</th>
 				<td>
-					<?php echo JHtml::_('phpsetting.integer', $this->php_settings['max_input_vars']); ?>
+					<?php echo (int) $this->phpSettings['max_input_vars']; ?>
 				</td>
 			</tr>
 		</tbody>
 	</table>
-</fieldset>
+</div>

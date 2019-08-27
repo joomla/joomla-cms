@@ -3,15 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Redirect\Administrator\View\Link;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View to edit a redirect link.
@@ -59,7 +64,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -75,19 +80,19 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
 		$isNew = ($this->item->id == 0);
 		$canDo = ContentHelper::getActions('com_redirect');
 
-		\JToolbarHelper::title($isNew ? \JText::_('COM_REDIRECT_MANAGER_LINK_NEW') : \JText::_('COM_REDIRECT_MANAGER_LINK_EDIT'), 'refresh redirect');
+		ToolbarHelper::title($isNew ? Text::_('COM_REDIRECT_MANAGER_LINK_NEW') : Text::_('COM_REDIRECT_MANAGER_LINK_EDIT'), 'map-signs redirect');
 
 		$toolbarButtons = [];
 
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit'))
 		{
-			$toolbarButtons[] = ['apply', 'link.apply'];
+			ToolbarHelper::apply('link.apply');
 			$toolbarButtons[] = ['save', 'link.save'];
 		}
 
@@ -101,20 +106,20 @@ class HtmlView extends BaseHtmlView
 			$toolbarButtons[] = ['save2new', 'link.save2new'];
 		}
 
-		\JToolbarHelper::saveGroup(
+		ToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
 		if (empty($this->item->id))
 		{
-			\JToolbarHelper::cancel('link.cancel');
+			ToolbarHelper::cancel('link.cancel');
 		}
 		else
 		{
-			\JToolbarHelper::cancel('link.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('link.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		\JToolbarHelper::help('JHELP_COMPONENTS_REDIRECT_MANAGER_EDIT');
+		ToolbarHelper::help('JHELP_COMPONENTS_REDIRECT_MANAGER_EDIT');
 	}
 }

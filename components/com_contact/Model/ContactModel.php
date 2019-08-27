@@ -3,22 +3,26 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Contact\Site\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\FormModel;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
-use Joomla\Component\Users\Administrator\Model\UserModel;
 
 /**
  * Single item model for a contact
@@ -32,14 +36,16 @@ class ContactModel extends FormModel
 	/**
 	 * The name of the view for a single item
 	 *
-	 * @since   1.6
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $view_item = 'contact';
 
 	/**
 	 * A loaded item
 	 *
-	 * @since   1.6
+	 * @var    \stdClass
+	 * @since  1.6
 	 */
 	protected $_item = null;
 
@@ -62,12 +68,12 @@ class ContactModel extends FormModel
 	protected function populateState()
 	{
 		/** @var SiteApplication $app */
-		$app = \JFactory::getApplication('site');
+		$app = Factory::getApplication();
 
 		$this->setState('contact.id', $app->input->getInt('id'));
 		$this->setState('params', $app->getParams());
 
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_contact')) &&  (!$user->authorise('core.edit', 'com_contact')))
 		{
@@ -83,7 +89,7 @@ class ContactModel extends FormModel
 	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm  A \JForm object on success, false on failure
+	 * @return  Form  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -97,10 +103,8 @@ class ContactModel extends FormModel
 		}
 
 		$temp = clone $this->getState('params');
-
 		$contact = $this->_item[$this->getState('contact.id')];
-
-		$active = \JFactory::getApplication()->getMenu()->getActive();
+		$active = Factory::getApplication()->getMenu()->getActive();
 
 		if ($active)
 		{
@@ -143,11 +147,17 @@ class ContactModel extends FormModel
 	 */
 	protected function loadFormData()
 	{
-		$data = (array) \JFactory::getApplication()->getUserState('com_contact.contact.data', array());
+		$data = (array) Factory::getApplication()->getUserState('com_contact.contact.data', array());
 
 		if (empty($data['language']) && Multilanguage::isEnabled())
 		{
-			$data['language'] = \JFactory::getLanguage()->getTag();
+			$data['language'] = Factory::getLanguage()->getTag();
+		}
+
+		// Add contact id to contact form data, so fields plugin can work properly
+		if (empty($data['catid']))
+		{
+			$data['catid'] = $this->getItem()->catid;
 		}
 
 		$this->preprocessData('com_contact.contact', $data);
@@ -187,27 +197,37 @@ class ContactModel extends FormModel
 
 					// Join on category table.
 					->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access')
-					->leftJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
-
+					->leftJoin($db->quoteName('#__categories', 'c'), 'c.id = a.catid')
 
 					// Join over the categories to get parent category titles
 					->select('parent.title AS parent_title, parent.id AS parent_id, parent.path AS parent_route, parent.alias AS parent_alias')
-					->leftJoin($db->quoteName('#__categories', 'parent') . ' ON parent.id = c.parent_id')
-
-					->where('a.id = ' . (int) $pk);
+					->leftJoin($db->quoteName('#__categories', 'parent'), 'parent.id = c.parent_id')
+					->where($db->quoteName('a.id') . ' = :id')
+					->bind(':id', $pk, ParameterType::INTEGER);
 
 				// Filter by start and end dates.
-				$nullDate = $db->quote($db->getNullDate());
-				$nowDate = $db->quote(\JFactory::getDate()->toSql());
+				$nowDate = Factory::getDate()->toSql();
 
 				// Filter by published state.
 				$published = $this->getState('filter.published');
 				$archived = $this->getState('filter.archived');
+
 				if (is_numeric($published))
 				{
-					$query->where('(a.published = ' . (int) $published . ' OR a.published =' . (int) $archived . ')')
-						->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-						->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+					$queryString = $db->quoteName('a.published') . ' = :published';
+
+					if ($archived !== null)
+					{
+						$queryString = '(' . $queryString . ' OR ' . $db->quoteName('a.published') . ' = :archived)';
+						$query->bind(':archived', $archived, ParameterType::INTEGER);
+					}
+
+					$query->where($queryString)
+						->where('(' . $query->isNullDatetime('a.publish_up') . ' OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)')
+						->where('(' . $query->isNullDatetime('a.publish_down') . ' OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)')
+						->bind(':published', $published, ParameterType::INTEGER)
+						->bind(':publish_up', $nowDate)
+						->bind(':publish_down', $nowDate);
 				}
 
 				$db->setQuery($query);
@@ -215,13 +235,13 @@ class ContactModel extends FormModel
 
 				if (empty($data))
 				{
-					throw new \Exception(\JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
+					throw new \Exception(Text::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
 				}
 
 				// Check for published state if filter set.
 				if ((is_numeric($published) || is_numeric($archived)) && (($data->published != $published) && ($data->published != $archived)))
 				{
-					throw new \Exception(\JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
+					throw new \Exception(Text::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
 				}
 
 				/**
@@ -247,14 +267,13 @@ class ContactModel extends FormModel
 				// Compute access permissions.
 				if (($access = $this->getState('filter.access')))
 				{
-
 					// If the access filter has been set, we already know this user can view.
 					$data->params->set('access-view', true);
 				}
 				else
 				{
 					// If no access filter is set, the layout takes some responsibility for display of limited information.
-					$user = \JFactory::getUser();
+					$user = Factory::getUser();
 					$groups = $user->getAuthorisedViewLevels();
 
 					if ($data->catid == 0 || $data->category_access === null)
@@ -295,9 +314,9 @@ class ContactModel extends FormModel
 	{
 		$db        = $this->getDbo();
 		$nullDate  = $db->quote($db->getNullDate());
-		$nowDate   = $db->quote(\JFactory::getDate()->toSql());
-		$user      = \JFactory::getUser();
-		$groups    = implode(',', $user->getAuthorisedViewLevels());
+		$nowDate   = $db->quote(Factory::getDate()->toSql());
+		$user      = Factory::getUser();
+		$groups = $user->getAuthorisedViewLevels();
 		$published = $this->getState('filter.published');
 		$query     = $db->getQuery(true);
 
@@ -311,7 +330,6 @@ class ContactModel extends FormModel
 		// Get the com_content articles by the linked user
 		if ((int) $contact->user_id && $this->getState('params')->get('show_articles'))
 		{
-
 			$query->select('a.id')
 				->select('a.title')
 				->select('a.state')
@@ -324,21 +342,29 @@ class ContactModel extends FormModel
 				->select($this->getSlugColumn($query, 'c.id', 'c.alias') . ' AS catslug')
 				->from($db->quoteName('#__content', 'a'))
 				->leftJoin($db->quoteName('#__categories', 'c') . ' ON a.catid = c.id')
-				->where('a.created_by = ' . (int) $contact->user_id)
-				->where('a.access IN (' . $groups . ')')
+				->where($db->quoteName('a.created_by') . ' = :created_by')
+				->whereIn($db->quoteName('a.access'), $groups)
+				->bind(':created_by', $contact->user_id, ParameterType::INTEGER)
 				->order('a.publish_up DESC');
 
 			// Filter per language if plugin published
 			if (Multilanguage::isEnabled())
 			{
-				$query->where('a.language IN (' . $db->quote(\JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+				$language = [Factory::getLanguage()->getTag(), $db->quote('*')];
+				$query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
 			}
 
 			if (is_numeric($published))
 			{
 				$query->where('a.state IN (1,2)')
-					->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-					->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+					->where('(' . $db->quoteName('a.publish_up') . ' = :null' .
+						' OR ' . $db->quoteName('a.publish_up') . ' <= :now)'
+					)
+					->where('(' . $db->quoteName('a.publish_down') . ' = :null' .
+						' OR ' . $db->quoteName('a.publish_down') . ' >= :now)'
+					)
+					->bind(':null', $nullDate)
+					->bind(':now', $nowDate);
 			}
 
 			// Number of articles to display from config/menu params
@@ -356,7 +382,8 @@ class ContactModel extends FormModel
 				}
 			}
 
-			$db->setQuery($query, 0, (int) $articles_display_num);
+			$query->setLimit((int) $articles_display_num);
+			$db->setQuery($query);
 			$contact->articles = $db->loadObjectList();
 		}
 		else
@@ -365,21 +392,22 @@ class ContactModel extends FormModel
 		}
 
 		// Get the profile information for the linked user
-		$userModel = new UserModel(array('ignore_request' => true));
+		$userModel = $this->bootComponent('com_users')->getMVCFactory()
+			->createModel('User', 'Administrator', ['ignore_request' => true]);
 		$data = $userModel->getItem((int) $contact->user_id);
 
 		PluginHelper::importPlugin('user');
 
 		// Get the form.
-		\JForm::addFormPath(JPATH_SITE . '/components/com_users/forms');
+		Form::addFormPath(JPATH_SITE . '/components/com_users/forms');
 
-		$form = \JForm::getInstance('com_users.profile', 'profile');
+		$form = Form::getInstance('com_users.profile', 'profile');
 
 		// Trigger the form preparation event.
-		\JFactory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
+		Factory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
 
 		// Trigger the data preparation event.
-		\JFactory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.profile', $data));
+		Factory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.profile', $data));
 
 		// Load the data into the form after the plugins have operated.
 		$form->bind($data);
@@ -387,16 +415,16 @@ class ContactModel extends FormModel
 	}
 
 	/**
-	* Generate column expression for slug or catslug.
-	*
-	* @param   \JDatabaseQuery  $query  Current query instance.
-	* @param   string           $id     Column id name.
-	* @param   string           $alias  Column alias name.
-	*
-	* @return  string
-	*
-	* @since   4.0.0
-	*/
+	 * Generate column expression for slug or catslug.
+	 *
+	 * @param   QueryInterface  $query  Current query instance.
+	 * @param   string          $id     Column id name.
+	 * @param   string          $alias  Column alias name.
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
 	private function getSlugColumn($query, $id, $alias)
 	{
 		return 'CASE WHEN '
@@ -405,156 +433,6 @@ class ContactModel extends FormModel
 			. $query->concatenate(array($query->castAsChar($id), $alias), ':')
 			. ' ELSE '
 			. $id . ' END';
-	}
-
-	/**
-	 * Gets the query to load a contact item
-	 *
-	 * @param   integer  $pk  The item to be loaded
-	 *
-	 * @return  mixed    The contact object on success, false on failure
-	 *
-	 * @throws  \Exception  On database failure
-	 */
-	protected function getContactQuery($pk = null)
-	{
-		// @todo Cache on the fingerprint of the arguments
-		$db       = $this->getDbo();
-		$nullDate = $db->quote($db->getNullDate());
-		$nowDate  = $db->quote(\JFactory::getDate()->toSql());
-		$user     = \JFactory::getUser();
-		$pk       = $pk ?: (int) $this->getState('contact.id');
-		$query    = $db->getQuery(true);
-
-		if ($pk)
-		{
-			$query->select('a.*')
-				->select('cc.access AS category_access, cc.title AS category_name')
-				->select($this->getSlugColumn($query, 'a.id', 'a.alias') . ' AS slug')
-				->select($this->getSlugColumn($query, 'cc.id', 'cc.alias') . ' AS catslug')
-				->from($db->quoteName('#__contact_details', 'a'))
-				->innerJoin($db->quoteName('#__categories', 'cc') . ' ON cc.id = a.catid')
-				->where('a.id = ' . (int) $pk);
-
-			$published = $this->getState('filter.published');
-
-			if (is_numeric($published))
-			{
-				$query->where('a.published IN (1,2)')
-					->where('cc.published IN (1,2)');
-			}
-
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN (' . $groups . ')');
-
-			try
-			{
-				$db->setQuery($query);
-				$result = $db->loadObject();
-
-				if (empty($result))
-				{
-					return false;
-				}
-			}
-			catch (\Exception $e)
-			{
-				$this->setError($e->getMessage());
-
-				return false;
-			}
-
-			if ($result)
-			{
-
-				$contactParams = new Registry($result->params);
-
-				// If we are showing a contact list, then the contact parameters take priority
-				// So merge the contact parameters with the merged parameters
-				if ($this->getState('params')->get('show_contact_list'))
-				{
-					$this->getState('params')->merge($contactParams);
-				}
-
-				// Get the com_content articles by the linked user
-				if ((int) $result->user_id && $this->getState('params')->get('show_articles'))
-				{
-					$query->clear()
-						->select('a.id')
-						->select('a.title')
-						->select('a.state')
-						->select('a.access')
-						->select('a.catid')
-						->select('a.created')
-						->select('a.language')
-						->select('a.publish_up')
-						->select($this->getSlugColumn($query, 'a.id', 'a.alias') . ' AS slug')
-						->select($this->getSlugColumn($query, 'c.id', 'c.alias') . ' AS catslug')
-						->from($db->quoteName('#__content', 'a'))
-						->leftJoin($db->quoteName('#__categories', 'c') . ' ON a.catid = c.id')
-						->where('a.created_by = ' . (int) $result->user_id)
-						->where('a.access IN (' . $groups . ')')
-						->order('a.publish_up DESC');
-
-					// Filter per language if plugin published
-					if (Multilanguage::isEnabled())
-					{
-						$query->where('a.language IN (' . $db->quote(\JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
-					}
-
-					if (is_numeric($published))
-					{
-						$query->where('a.state IN (1,2)')
-							->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-							->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
-					}
-
-					// Number of articles to display from config/menu params
-					$articles_display_num = $this->getState('params')->get('articles_display_num', 10);
-
-					// Use contact setting?
-					if ($articles_display_num === 'use_contact')
-					{
-						$articles_display_num = $contactParams->get('articles_display_num', 10);
-
-						// Use global?
-						if ((string) $articles_display_num === '')
-						{
-							$articles_display_num = ComponentHelper::getParams('com_contact')->get('articles_display_num', 10);
-						}
-					}
-
-					$db->setQuery($query, 0, (int) $articles_display_num);
-					$result->articles = $db->loadObjectList();
-				}
-				else
-				{
-					$result->articles = null;
-				}
-
-				// Get the profile information for the linked user
-				$userModel = new UserModel(array('ignore_request' => true));
-				$data = $userModel->getItem((int) $result->user_id);
-
-				PluginHelper::importPlugin('user');
-				$form = new \JForm('com_users.profile');
-
-				// Trigger the form preparation event.
-				\JFactory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
-
-				// Trigger the data preparation event.
-				\JFactory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.profile', $data));
-
-				// Load the data into the form after the plugins have operated.
-				$form->bind($data);
-				$result->profile = $form;
-				$this->contact = $result;
-
-				return $result;
-			}
-		}
-
-		return false;
 	}
 
 	/**
@@ -568,7 +446,7 @@ class ContactModel extends FormModel
 	 */
 	public function hit($pk = 0)
 	{
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 		$hitcount = $input->getInt('hitcount', 1);
 
 		if ($hitcount)

@@ -2,39 +2,30 @@
 
 .js-stools {
   position: relative;
-  width: 100%;
-  padding: 8px 10px 0;
-  background-color: $atum-card-title-bg;
-  border-bottom: 1px solid rgba(0,0,0,.125);
-  border-radius: $border-radius $border-radius 0 0;
-  box-shadow: 0 1px $white inset, 0 2px 3px -3px rgba(0,0,0,.15);
+  padding: 0.25rem 0 0;
+  margin-bottom: 0.5rem;
 
-  .btn-wrapper {
-    display: inline-block;
-    margin-right: 5px;
+  > div {
+      margin-bottom: 0.5rem;
   }
 
   .js-stools-container-filters {
-    position: absolute;
-    right: -1px;
-    z-index: 1;
     display: none;
-    flex-direction: column;
-    padding: 10px;
-    margin: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 1rem .5rem .5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
     background-color: $white;
-    border: 1px solid $atum-border-color;
+    border: solid var(--border);
+    border-width: 1px 0;
     border-radius: 0 0 0 $border-radius;
-    box-shadow: -1px 1px 4px rgba(0, 0, 0, .05);
+    box-shadow: $atum-box-shadow;
+    width: 100%;
 
-    .js-stools-field-list:last-of-type {
-      .custom-select {
-        min-width: auto;
-      }
-    }
-
+    joomla-field-fancy-select .choices,
     .custom-select {
-      width: 100%;
+      min-width: 15rem;
     }
 
     &.js-filters-show {
@@ -43,71 +34,103 @@
 
     .chzn-container-single {
       display: block;
+
       .chzn-single {
         display: block;
         font-size: 1rem;
       }
     }
-
   }
 
   .js-stools-field-filter {
-    .custom-select {
-      &.active {
-        color: #fff;
-        background: #fefefe url("data:image/svg+xml;charset=utf8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 4 5\'%3E%3Cpath fill=\'%23fff\' d=\'M2 0L0 2h4zm0 5L0 3h4z\'/%3E%3C/svg%3E") no-repeat scroll right .75rem center / 8px 10px;
-        background-color: theme-color("primary");
 
+      margin: 0 .5rem .5rem;
+
+      @include media-breakpoint-down(sm)
+      {
+          width: 100%;
+      }
+
+    .custom-select {
+
+      &.active {
+        color: var(--white);
+        background: $custom-select-bg $custom-select-indicator-active no-repeat right center;
+        background-size: $custom-select-bg-size;
       }
 
       option {
-        color: $gray-700;
-        background-color: #fff;
-
+        color: var(--atum-text-dark);
+        background-color: var(--white);
       }
-
     }
   }
 
-  .js-stools-container-selector {
-    float: left;
+  .js-stools-container-selector,
+  .js-stools-container-selector-first  {
+     @include media-breakpoint-down(md){
+        float:none;
+        width:100%;
+        margin-right:0.5rem;
+    }
+
+    .js-stools-field-selector{
+        @include media-breakpoint-down(sm) {
+            max-width:100%;
+            margin-right:0.5rem;
+        }
+    }
   }
 
   .js-stools-container-bar {
-    float: right;
 
     .btn-toolbar {
-      float: left;
-      margin-bottom: 8px;
 
-      .btn-group:first-child {
-        margin-left: 0;
+      .js-stools-btn-filter{
+        border:1px solid var(--border);
+      }
+      .js-stools-btn-clear {
+        background-color: var(--atum-bg-dark);
+        color: var(--atum-text-light);
+        border:1px solid var(--border);
+        border-left: 1px solid var(--atum-text-light);
+
+        &.disabled,
+        &:disabled{
+            background-color: rgba($gray-300, 0.8);
+            border-color: rgba($gray-500, 0.8);
+            opacity:1;
+            color:var(--atum-text-dark);
+            cursor: not-allowed;
+        }
+      }
+      .js-stools-btn-filter{
+        border-right:1px solid var(--border);
+        .fa {
+          margin-left: 0.25rem;
+        }
       }
 
-	}
+      .form-control{
+        height:auto;
+      }
+    }
+
+    .js-stools-field-list{
+      margin-bottom:0;
+      .custom-select{
+        box-shadow: none;
+      }
+    }
 
     .input-append {
       margin-bottom: 0;
     }
   }
-
-  .js-stools-container-list {
-    float: left;
-    text-align: left;
-
-    .js-stools-field-list:last-child {
-      margin-right: 0;
-    }
-
-  }
-
 }
 
-.js-stools-column-order {
-
-  [class*=" icon-"],
-  [class^="icon-"] {
-    text-align: center;
-  }
-
+.js-stools-button-sort {
+  cursor: pointer;
+  background: none;
+  border: 0;
 }

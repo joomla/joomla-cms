@@ -1,6 +1,6 @@
 /**
  * @package     Joomla.Installation
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 (function() {
@@ -15,7 +15,7 @@
 			var value = elements[i].value;
 			if(name) {
 				if ((elements[i].type === 'checkbox' && elements[i].checked === true) || (elements[i].type !== 'checkbox')) {
-					obj.push(name.replace('[', '%5B').replace(']', '%5D') + '=' + value);
+					obj.push(name.replace('[', '%5B').replace(']', '%5D') + '=' + encodeURIComponent(value));
 				}
 			}
 		}
@@ -182,22 +182,30 @@
 
 		Joomla.request({
 			method: "POST",
-			url : Joomla.baseUrl + '?task=installation.' + task,
+			url : Joomla.baseUrl + '?task=installation.' + task + '&format=json',
 			data: data,
 			perform: true,
 			onSuccess: function(response, xhr){
 				response = JSON.parse(response);
 				Joomla.replaceTokens(response.token);
 
-				if (response.messages) {
-					Joomla.renderMessages(response.messages);
-					Joomla.goToPage(response.data.view, true);
-				} else {
+				if (response.error === true)
+				{
 					Joomla.loadingLayer('hide');
-					Joomla.install(tasks, form);
+					Joomla.renderMessages({"error": [response.message]});
+					return false;
 				}
+
+				if (response.messages) {
+					Joomla.loadingLayer('hide');
+					Joomla.renderMessages(response.messages);
+					return false;
+				}
+
+				Joomla.loadingLayer('hide');
+				Joomla.install(tasks, form);
 			},
-			onError:   function(xhr){
+			onError: function(xhr){
 				Joomla.renderMessages([['', Joomla.JText._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
 				Joomla.goToPage('remove');
 

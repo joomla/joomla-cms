@@ -2,15 +2,19 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Help;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Version;
 
 /**
  * Help system class
@@ -34,7 +38,7 @@ class Help
 	public static function createUrl($ref, $useComponent = false, $override = null, $component = null)
 	{
 		$local = false;
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 
 		if ($component === null)
 		{
@@ -51,7 +55,7 @@ class Help
 		else
 		{
 			// Get the user help URL.
-			$user = \JFactory::getUser();
+			$user = Factory::getUser();
 			$url  = $user->getParam('helpsite');
 
 			// If user hasn't specified a help URL, then get the global one.
@@ -64,7 +68,7 @@ class Help
 			if ($useComponent)
 			{
 				// Look for help URL in component parameters.
-				$params = \JComponentHelper::getParams($component);
+				$params = ComponentHelper::getParams($component);
 				$url    = $params->get('helpURL');
 
 				if ($url == '')
@@ -94,13 +98,13 @@ class Help
 		/*
 		 *  Replace substitution codes in the URL.
 		 */
-		$lang    = \JFactory::getLanguage();
-		$version = new \JVersion;
+		$lang    = Factory::getLanguage();
+		$version = new Version;
 		$jver    = explode('.', $version->getShortVersion());
 		$jlang   = explode('-', $lang->getTag());
 
 		$debug  = $lang->setDebug(false);
-		$keyref = \JText::_($ref);
+		$keyref = Text::_($ref);
 		$lang->setDebug($debug);
 
 		// Replace substitution codes in help URL.
@@ -189,7 +193,7 @@ class Help
 			$option['text']  = 'English (GB) help.joomla.org';
 			$option['value'] = 'http://help.joomla.org';
 
-			$list[] = $option;
+			$list[] = (object) $option;
 		}
 		else
 		{
@@ -200,7 +204,7 @@ class Help
 				$option['text']  = (string) $site;
 				$option['value'] = (string) $site->attributes()->url;
 
-				$list[] = $option;
+				$list[] = (object) $option;
 			}
 		}
 

@@ -3,11 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  Fields.Editor
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Form\Form;
 
 /**
  * Fields Editor Plugin
@@ -21,13 +23,13 @@ class PlgFieldsEditor extends \Joomla\Component\Fields\Administrator\Plugin\Fiel
 	 *
 	 * @param   stdClass    $field   The field.
 	 * @param   DOMElement  $parent  The field node parent.
-	 * @param   JForm       $form    The form.
+	 * @param   Form        $form    The form.
 	 *
 	 * @return  DOMElement
 	 *
 	 * @since   3.7.0
 	 */
-	public function onCustomFieldsPrepareDom($field, DOMElement $parent, JForm $form)
+	public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
 	{
 		$fieldNode = parent::onCustomFieldsPrepareDom($field, $parent, $form);
 
@@ -36,7 +38,7 @@ class PlgFieldsEditor extends \Joomla\Component\Fields\Administrator\Plugin\Fiel
 			return $fieldNode;
 		}
 
-		$fieldNode->setAttribute('buttons', $field->fieldparams->get('buttons', 0) ? 'true' : 'false');
+		$fieldNode->setAttribute('buttons', $field->fieldparams->get('buttons', $this->params->get('buttons', 0)) ? 'true' : 'false');
 		$fieldNode->setAttribute('hide', implode(',', $field->fieldparams->get('hide', array())));
 
 		return $fieldNode;

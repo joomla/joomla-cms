@@ -3,19 +3,24 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-$input = JFactory::getApplication()->input;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+
+$input = Factory::getApplication()->input;
 ?>
-<form id="deleteFolder" method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.deleteFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
+<form id="deleteFolder" method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.deleteFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
 	<fieldset>
-		<a href="#" class="btn btn-secondary" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
+		<button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></button>
 		<input type="hidden" class="address" name="address">
-		<?php echo JHtml::_('form.token'); ?>
-		<button type="submit" class="btn btn-danger"><?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE'); ?></button>
+		<?php echo HTMLHelper::_('form.token'); ?>
+		<button type="submit" class="btn btn-danger"><?php echo Text::_('COM_TEMPLATES_BUTTON_DELETE'); ?></button>
 	</fieldset>
 </form>

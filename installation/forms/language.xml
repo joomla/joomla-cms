@@ -2,12 +2,12 @@
 <form addfieldprefix="Joomla\CMS\Installation\Form\Field" addruleprefix="Joomla\CMS\Installation\Form\Rule">
 	<fieldset name="site">
 		<field
-				name="language"
-				type="installation.language"
-				id="language"
-				class="custom-select required ml-2"
-				label="INSTL_SELECT_LANGUAGE_TITLE"
-				default="en-GB"
+			name="language"
+			type="installation.language"
+			label="INSTL_SELECT_LANGUAGE_TITLE"
+			id="language"
+			class="custom-select required ml-2"
+			default="en-GB"
 		/>
 	</fieldset>
 </form>

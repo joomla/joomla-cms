@@ -1,6 +1,5 @@
 // CSS Grid
 
-/* autoprefixer: off */
 @supports (display: grid) {
   .site-grid {
     display: grid;
@@ -9,7 +8,7 @@
       ". banner banner banner banner ."
       ". top-a top-a top-a top-a ."
       ". top-b top-b top-b top-b ."
-      ". main main main main ."
+      ". side-l comp comp side-r ."
       ". bot-a bot-a bot-a bot-a ."
       ". bot-b bot-b bot-b bot-b ."
       ". footer footer footer footer ."
@@ -17,24 +16,30 @@
     grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 270px)) [main-end] minmax(0, 1fr) [full-end];
     grid-gap: 0 $cassiopeia-grid-gutter;
 
-    > [class^='container-'], > [class*=' container-'] {
+    > [class^='container-'],
+    > [class*=' container-'] {
       width: auto;
       max-width: none;
       margin: 0 0 $cassiopeia-grid-gutter;
     }
 
-    .container-top-a,
-    .container-top-b,
-    .container-bottom-a,
-    .container-bottom-b {
-      display: grid;
-      > div {
-        margin: 0;
+    .container-component,
+    .container-sidebar-left,
+    .container-sidebar-right {
+      display: flex;
+      flex-direction: column;
+
+      > div + div {
+        margin-top: cassiopeia-grid-gutter;
       }
     }
 
-    .container-main {
-      margin: ($cassiopeia-grid-gutter / -2) ($cassiopeia-grid-gutter / -2) ($cassiopeia-grid-gutter / 2);
+    &:not(.has-sidebar-left) .container-component {
+      grid-column-start: main-start;
+    }
+
+    &:not(.has-sidebar-right) .container-component {
+      grid-column-end: main-end;
     }
 
     > .full-width {
@@ -45,7 +50,9 @@
       grid-template-areas:
         ". head head head head ."
         ". banner banner banner banner ."
-        ". main main main main ."
+        ". comp comp comp comp ."
+        ". side-l side-l side-l side-l ."
+        ". side-r side-r side-r side-r ."
         ". top-a top-a top-a top-a ."
         ". top-b top-b top-b top-b ."
         ". bot-a bot-a bot-a bot-a ."
@@ -62,6 +69,27 @@
         margin-top: $cassiopeia-grid-gutter;
       }
     }
+
+    &.wrapper-fluid {
+      .grid-child, .container-header header {
+        grid-column: full-start / full-end;
+        max-width: none;
+        margin-left: 0;
+        margin-right: 0;
+        padding-right: 0;
+        padding-left: 0;
+      }
+
+      > .grid-child {
+        padding-right: ($cassiopeia-grid-gutter * 2);
+        padding-left: ($cassiopeia-grid-gutter * 2);     
+      }
+
+      .container-main {
+        padding-right: ($cassiopeia-grid-gutter * 1.5);
+        padding-left: ($cassiopeia-grid-gutter * 1.5);
+      }
+    }
   }
 
   .container-banner {
@@ -76,9 +104,7 @@
     @include media-breakpoint-up(xl) {
       margin-top: -3rem;
     }
-
   }
-
 }
 
 .container-header         { grid-area: head; }
@@ -97,21 +123,22 @@
 .container-footer         { grid-area: footer; }
 .system-debug             { grid-area: debug; }
 
-.container-component {
-  grid-column: auto 2fr;
-}
-
 .container-top-a,
 .container-top-b,
 .container-bottom-a,
 .container-bottom-b {
   display: grid;
   grid-gap: $cassiopeia-grid-gutter;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(24%, 1fr));
+
+  > div {
+    margin: 0;
+  }
 
   @include media-breakpoint-down(md) {
     grid-template-columns: 1fr 1fr;
   }
+
   @include media-breakpoint-down(sm) {
     grid-template-columns: 1fr;
   }

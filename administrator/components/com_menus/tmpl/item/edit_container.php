@@ -3,19 +3,22 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Registry\Registry;
 
 // Initialise related data.
 $menuLinks = MenusHelper::getMenuLinks('main');
 
-JHtml::_('stylesheet', 'com_menus/admin-item-edit_container.css', array('version' => 'auto', 'relative' => true));
-JHtml::_('script', 'com_menus/admin-item-edit_container.min.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('script', 'system/treeselectmenu.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('stylesheet', 'com_menus/admin-item-edit_container.css', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_menus/admin-item-edit_container.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'legacy/treeselectmenu.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 
 <div id="menuselect-group" class="control-group">
@@ -26,15 +29,15 @@ JHtml::_('script', 'system/treeselectmenu.min.js', array('version' => 'auto', 'r
 		<?php $id = 'jform_params_hideitems'; ?>
 
 		<div class="form-inline">
-			<span class="small mr-2"><?php echo JText::_('COM_MENUS_ACTION_EXPAND'); ?>:
-				<a id="treeExpandAll" href="javascript://"><?php echo JText::_('JALL'); ?></a>,
-				<a id="treeCollapseAll" href="javascript://"><?php echo JText::_('JNONE'); ?></a> |
-				<?php echo JText::_('JSHOW'); ?>:
-				<a id="treeUncheckAll" href="javascript://"><?php echo JText::_('JALL'); ?></a>,
-				<a id="treeCheckAll" href="javascript://"><?php echo JText::_('JNONE'); ?></a>
+			<span class="small mr-2"><?php echo Text::_('COM_MENUS_ACTION_EXPAND'); ?>:
+				<a id="treeExpandAll" href="javascript://"><?php echo Text::_('JALL'); ?></a>,
+				<a id="treeCollapseAll" href="javascript://"><?php echo Text::_('JNONE'); ?></a> |
+				<?php echo Text::_('JSHOW'); ?>:
+				<a id="treeUncheckAll" href="javascript://"><?php echo Text::_('JALL'); ?></a>,
+				<a id="treeCheckAll" href="javascript://"><?php echo Text::_('JNONE'); ?></a>
 			</span>
 			<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query"
-				autocomplete="off" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" aria-invalid="false" tabindex="-1">
+				autocomplete="off" placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>" aria-invalid="false" tabindex="-1">
 		</div>
 
 		<hr>
@@ -42,7 +45,10 @@ JHtml::_('script', 'system/treeselectmenu.min.js', array('version' => 'auto', 'r
 		<ul class="treeselect">
 			<?php if (count($menuLinks)) : ?>
 				<?php $prevlevel = 0; ?>
-				<div class="alert alert-info"><?php echo JText::_('COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_HIDE_ITEMS_DESC')?></div>
+				<div class="alert alert-info">
+					<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+					<?php echo Text::_('COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_HIDE_ITEMS_DESC'); ?>
+				</div>
 				<li>
 				<?php
 				$params      = new Registry($this->item->params);
@@ -77,11 +83,11 @@ JHtml::_('script', 'system/treeselectmenu.min.js', array('version' => 'auto', 'r
 									<?php echo $selected ? ' checked="checked"' : ''; ?>>
 
 								<?php if ($link->value == 1): ?>
-									<label for="<?php echo $id . $link->value; ?>" class="btn btn-sm btn-info"><?php echo JText::_('JALL') ?></label>
+									<label for="<?php echo $id . $link->value; ?>" class="btn btn-sm btn-info"><?php echo Text::_('JALL') ?></label>
 								<?php else: ?>
-									<label for="<?php echo $id . $link->value; ?>" class="btn btn-sm btn-danger btn-hide"><?php echo JText::_('JHIDE') ?></label>
-									<label for="<?php echo $id . $link->value; ?>" class="btn btn-sm btn-success btn-show"><?php echo JText::_('JSHOW') ?></label>
-									<label for="<?php echo $id . $link->value; ?>"><?php echo JText::_($link->text); ?></label>
+									<label for="<?php echo $id . $link->value; ?>" class="btn btn-sm btn-danger btn-hide"><?php echo Text::_('JHIDE') ?></label>
+									<label for="<?php echo $id . $link->value; ?>" class="btn btn-sm btn-success btn-show"><?php echo Text::_('JSHOW') ?></label>
+									<label for="<?php echo $id . $link->value; ?>"><?php echo Text::_($link->text); ?></label>
 								<?php endif; ?>
 							</div>
 					<?php
@@ -96,9 +102,7 @@ JHtml::_('script', 'system/treeselectmenu.min.js', array('version' => 'auto', 'r
 				</li>
 				<?php endif; ?>
 		</ul>
-		<div id="noresultsfound" class="alert alert-no-items" style="display:none;">
-			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-		</div>
+		<joomla-alert id="noresultsfound" type="warning" style="display:none;"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		<?php endif; ?>
 	</div>
 </div>

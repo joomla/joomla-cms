@@ -35,7 +35,7 @@
 			filter="integer"
 			validate="number"
 			showon="caching:1,2"
-			size="6" />
+		 />
 
 		<field
 			name="cache_path"
@@ -44,55 +44,6 @@
 			showon="cache_handler:file"
 			filter="path"
 			size="50"
-		/>
-
-		<field
-			name="memcache_persist"
-			type="radio"
-			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
-			class="switcher"
-			default="1"
-			showon="cache_handler:memcache"
-			filter="boolean"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
-		<field
-			name="memcache_compress"
-			type="radio"
-			label="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_LABEL"
-			class="switcher"
-			default="0"
-			showon="cache_handler:memcache"
-			filter="boolean"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
-		<field
-			name="memcache_server_host"
-			type="text"
-			label="COM_CONFIG_FIELD_MEMCACHE_HOST_LABEL"
-			default="localhost"
-			showon="cache_handler:memcache"
-			filter="string"
-			size="25"
-		/>
-
-		<field
-			name="memcache_server_port"
-			type="number"
-			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
-			showon="cache_handler:memcache"
-			min="1"
-			max="65535"
-			default="11211"
-			filter="integer"
-			validate="number"
-			size="5"
 		/>
 
 		<field
@@ -141,7 +92,6 @@
 			default="11211"
 			filter="integer"
 			validate="number"
-			size="5"
 		/>
 
 		<field
@@ -177,7 +127,6 @@
 			default="6379"
 			filter="integer"
 			validate="number"
-			size="5"
 		/>
 
 		<field
@@ -197,7 +146,6 @@
 			default="0"
 			filter="integer"
 			showon="cache_handler:redis"
-			size="4"
 		/>
 
 		<field
@@ -206,10 +154,8 @@
 			label="COM_CONFIG_FIELD_CACHE_TIME_LABEL"
 			min="1"
 			default="15"
-			required="true"
 			filter="integer"
 			validate="number"
-			size="6"
 		/>
 
 		<field
@@ -236,11 +182,6 @@
 			<option value="2">COM_CONFIG_FIELD_VALUE_CACHE_PROGRESSIVE</option>
 		</field>
 
-	</fieldset>
-
-	<fieldset
-		name="memcache"
-		label="COM_CONFIG_MEMCACHE_SETTINGS_LABEL">
 	</fieldset>
 
 	<fieldset
@@ -320,6 +261,20 @@
 			<option value="1">JYES</option>
 		</field>
 
+		<field
+			name="debug_lang_const"
+			type="radio"
+			label="COM_CONFIG_FIELD_DEBUG_CONST_LANG_LABEL"
+			description="COM_CONFIG_FIELD_DEBUG_CONST_LANG_DESC"
+			class="switcher"
+			default="1"
+			filter="integer"
+			showon="debug_lang:1"
+			>
+			<option value="0">COM_CONFIG_FIELD_DEBUG_CONST</option>
+			<option value="1">COM_CONFIG_FIELD_DEBUG_VALUE</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset name="ftp" label="CONFIG_FTP_SETTINGS_LABEL">
@@ -355,7 +310,6 @@
 			hint="21"
 			validate="number"
 			filter="integer"
-			size="5"
 		/>
 
 		<field
@@ -424,7 +378,6 @@
 			hint="8080"
 			validate="number"
 			filter="integer"
-			size="5"
 		/>
 
 		<field
@@ -575,8 +528,6 @@
 			hint="25"
 			validate="number"
 			filter="integer"
-			required="true"
-			size="5"
 		/>
 
 		<field
@@ -678,8 +629,8 @@
 			default="1"
 			filter="boolean"
 			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -690,8 +641,8 @@
 			default="0"
 			filter="boolean"
 			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 	</fieldset>
@@ -823,18 +774,6 @@
 		label="CONFIG_SESSION_SETTINGS_LABEL">
 
 		<field
-			name="shared_session"
-			type="radio"
-			class="switcher"
-			default="0"
-			label="COM_CONFIG_FIELD_SHARED_SESSION_LABEL"
-			description="COM_CONFIG_FIELD_SHARED_SESSION_DESC"
-			filter="boolean">
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
-		<field
 			name="session_handler"
 			type="sessionhandler"
 			default="filesystem"
@@ -850,29 +789,6 @@
 			description="COM_CONFIG_FIELD_FILESYSTEM_PATH_DESC"
 			filter="path"
 			showon="session_handler:filesystem" />
-
-		<field
-			name="session_memcache_server_host"
-			type="text"
-			label="COM_CONFIG_FIELD_MEMCACHE_HOST_LABEL"
-			default="localhost"
-			filter="string"
-			showon="session_handler:memcache"
-			size="25"
-		/>
-
-		<field
-			name="session_memcache_server_port"
-			type="number"
-			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
-			showon="session_handler:memcache"
-			min="1"
-			max="65535"
-			default="11211"
-			validate="number"
-			filter="integer"
-			size="5"
-		/>
 
 		<field
 			name="session_memcached_server_host"
@@ -894,8 +810,21 @@
 			default="11211"
 			validate="number"
 			filter="integer"
-			size="5"
 		/>
+
+		<field
+			name="session_redis_persist"
+			type="radio"
+			label="COM_CONFIG_FIELD_REDIS_PERSISTENT_LABEL"
+			description="COM_CONFIG_FIELD_REDIS_PERSISTENT_DESC"
+			class="switcher"
+			default="1"
+			filter="integer"
+			showon="session_handler:redis"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
 
 		<field
 			name="session_redis_server_host"
@@ -919,7 +848,17 @@
 			default="6379"
 			validate="number"
 			filter="integer"
-			size="5"
+		/>
+
+		<field
+			name="session_redis_server_auth"
+			type="password"
+			label="COM_CONFIG_FIELD_REDIS_AUTH_LABEL"
+			description="COM_CONFIG_FIELD_REDIS_AUTH_DESC"
+			filter="raw"
+			showon="session_handler:redis"
+			autocomplete="off"
+			size="30"
 		/>
 
 		<field
@@ -930,7 +869,6 @@
 			default="0"
 			filter="integer"
 			showon="session_handler:redis"
-			size="4"
 		/>
 		<field
 			name="lifetime"
@@ -939,10 +877,8 @@
 			min="1"
 			max="16383"
 			default="15"
-			required="true"
 			filter="integer"
 			validate="number"
-			size="6"
 		/>
 
 		<field
@@ -954,6 +890,18 @@
 			default="0"
 			filter="boolean"
 			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="session_metadata"
+			type="radio"
+			class="switcher"
+			default="1"
+			label="COM_CONFIG_FIELD_SESSION_METADATA_LABEL"
+			description="COM_CONFIG_FIELD_SESSION_METADATA_DESC"
+			filter="boolean">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
@@ -1124,6 +1072,7 @@
 			type="helpsite"
 			label="COM_CONFIG_FIELD_HELP_SERVER_LABEL"
 			showDefault="false"
+			validate="options"
 		/>
 
 	</fieldset>
@@ -1166,62 +1115,54 @@
 			<action
 				name="core.login.site"
 				title="JACTION_LOGIN_SITE"
-				description="COM_CONFIG_ACTION_LOGIN_SITE_DESC"
 			/>
 			<action
 				name="core.login.admin"
 				title="JACTION_LOGIN_ADMIN"
-				description="COM_CONFIG_ACTION_LOGIN_ADMIN_DESC"
+			/>
+			<action
+				name="core.login.api"
+				title="JACTION_LOGIN_API"
 			/>
 			<action
 				name="core.login.offline"
 				title="JACTION_LOGIN_OFFLINE"
-				description="COM_CONFIG_ACTION_LOGIN_OFFLINE_DESC"
 			/>
 			<action
 				name="core.admin"
 				title="JACTION_ADMIN_GLOBAL"
-				description="COM_CONFIG_ACTION_ADMIN_DESC"
 			/>
 			<action
 				name="core.options"
 				title="JACTION_OPTIONS"
-				description="COM_CONFIG_ACTION_OPTIONS_DESC"
 			/>
 			<action
 				name="core.manage"
 				title="JACTION_MANAGE"
-				description="COM_CONFIG_ACTION_MANAGE_DESC"
 			/>
 			<action
 				name="core.create"
 				title="JACTION_CREATE"
-				description="COM_CONFIG_ACTION_CREATE_DESC"
 			/>
 			<action
 				name="core.delete"
 				title="JACTION_DELETE"
-				description="COM_CONFIG_ACTION_DELETE_DESC"
 			/>
 			<action
 				name="core.edit"
 				title="JACTION_EDIT"
-				description="COM_CONFIG_ACTION_EDIT_DESC"
 			/>
 			<action
 				name="core.edit.state"
 				title="JACTION_EDITSTATE"
-				description="COM_CONFIG_ACTION_EDITSTATE_DESC"
 			/>
 			<action
 				name="core.edit.own"
 				title="JACTION_EDITOWN"
-				description="COM_CONFIG_ACTION_EDITOWN_DESC"
 			/>
 			<action
 				name="core.edit.value"
 				title="JACTION_EDITVALUE"
-				description="COM_CONFIG_ACTION_EDITVALUE_DESC"
 			/>
 		</field>
 

@@ -3,15 +3,23 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Fields\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Registry\Registry;
 
 /**
  * Group Model
@@ -49,7 +57,7 @@ class GroupModel extends AdminModel
 	public function save($data)
 	{
 		// Alter the title for save as copy
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		// Save new group as unpublished
 		if ($input->get('task') == 'save2copy')
@@ -61,19 +69,40 @@ class GroupModel extends AdminModel
 	}
 
 	/**
+	 * Method to get a table object, load it if necessary.
+	 *
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
+	 *
+	 * @return  JTable  A JTable object
+	 *
+	 * @since   3.7.0
+	 * @throws  Exception
+	 */
+	public function getTable($name = 'Group', $prefix = 'Administrator', $options = array())
+	{
+		// Default to text type
+		$table       = parent::getTable($name, $prefix, $options);
+		$table->type = 'text';
+
+		return $table;
+	}
+
+	/**
 	 * Abstract method for getting the form from the model.
 	 *
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A JForm object on success, false on failure
+	 * @return  mixed  A Form object on success, false on failure
 	 *
 	 * @since   3.7.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		$context = $this->getState('filter.context');
-		$jinput = \JFactory::getApplication()->input;
+		$jinput = Factory::getApplication()->input;
 
 		if (empty($context) && isset($data['context']))
 		{
@@ -101,7 +130,7 @@ class GroupModel extends AdminModel
 			$data['context'] = $context;
 		}
 
-		if (!\JFactory::getUser()->authorise('core.edit.state', $context . '.fieldgroup.' . $jinput->get('id')))
+		if (!Factory::getUser()->authorise('core.edit.state', $context . '.fieldgroup.' . $jinput->get('id')))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -131,7 +160,7 @@ class GroupModel extends AdminModel
 			return false;
 		}
 
-		return \JFactory::getUser()->authorise('core.delete', $record->context . '.fieldgroup.' . (int) $record->id);
+		return Factory::getUser()->authorise('core.delete', $record->context . '.fieldgroup.' . (int) $record->id);
 	}
 
 	/**
@@ -146,7 +175,7 @@ class GroupModel extends AdminModel
 	 */
 	protected function canEditState($record)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Check for existing fieldgroup.
 		if (!empty($record->id))
@@ -171,7 +200,7 @@ class GroupModel extends AdminModel
 	{
 		parent::populateState();
 
-		$context = \JFactory::getApplication()->getUserStateFromRequest('com_fields.groups.context', 'context', 'com_fields', 'CMD');
+		$context = Factory::getApplication()->getUserStateFromRequest('com_fields.groups.context', 'context', 'com_fields', 'CMD');
 		$this->setState('filter.context', $context);
 	}
 
@@ -186,27 +215,29 @@ class GroupModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'context = ' . $this->_db->quote($table->context);
+		return [
+			$this->_db->quoteName('context') . ' = ' . $this->_db->quote($table->context),
+		];
 	}
 
 	/**
 	 * Method to preprocess the form.
 	 *
-	 * @param   \JForm  $form   A JForm object.
+	 * @param   Form    $form   A Form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
-	 * @see     \JFormField
+	 * @see     \Joomla\CMS\Form\FormField
 	 * @since   3.7.0
 	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		parent::preprocessForm($form, $data, $group);
 
-		$parts = \FieldsHelper::extract($this->state->get('filter.context'));
+		$parts = FieldsHelper::extract($this->state->get('filter.context'));
 
 		// Extract the component name
 		$component = $parts[0];
@@ -223,17 +254,17 @@ class GroupModel extends AdminModel
 		if ($section !== null)
 		{
 			// Looking first in the component models/forms folder
-			$path = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fieldgroup/' . $section . '.xml');
+			$path = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fieldgroup/' . $section . '.xml');
 
 			if (file_exists($path))
 			{
-				$lang = \JFactory::getLanguage();
+				$lang = Factory::getLanguage();
 				$lang->load($component, JPATH_BASE, null, false, true);
 				$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, true);
 
 				if (!$form->loadFile($path, false))
 				{
-					throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+					throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 				}
 			}
 		}
@@ -249,7 +280,7 @@ class GroupModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$data = $app->getUserState('com_fields.edit.group.data', array());
 
 		if (empty($data))
@@ -273,7 +304,7 @@ class GroupModel extends AdminModel
 				);
 				$data->set(
 					'access',
-					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : \JFactory::getConfig()->get('access')))
+					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
 				);
 			}
 		}
@@ -302,29 +333,9 @@ class GroupModel extends AdminModel
 				$item->context = $this->getState('filter.context');
 			}
 
-			// Convert the created and modified dates to local user time for display in the form.
-			$tz = new \DateTimeZone(\JFactory::getApplication()->get('offset'));
-
-			if ((int) $item->created)
+			if (property_exists($item, 'params'))
 			{
-				$date = new \JDate($item->created);
-				$date->setTimezone($tz);
-				$item->created = $date->toSql(true);
-			}
-			else
-			{
-				$item->created = null;
-			}
-
-			if ((int) $item->modified)
-			{
-				$date = new \JDate($item->modified);
-				$date->setTimezone($tz);
-				$item->modified = $date->toSql(true);
-			}
-			else
-			{
-				$item->modified = null;
+				$item->params = new Registry($item->params);
 			}
 		}
 
@@ -343,7 +354,7 @@ class GroupModel extends AdminModel
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
-		$context = \JFactory::getApplication()->input->get('context');
+		$context = Factory::getApplication()->input->get('context');
 
 		parent::cleanCache($context);
 	}

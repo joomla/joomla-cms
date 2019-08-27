@@ -15,7 +15,6 @@
 			name="title"
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_TITLE_LABEL"
-			class="input-xxlarge"
 			size="40"
 			required="true"
 		/>
@@ -41,7 +40,6 @@
 			type="link"
 			label="COM_MENUS_ITEM_FIELD_LINK_LABEL"
 			readonly="true"
-			class="input-xxlarge"
 			size="50"
 		/>
 
@@ -60,9 +58,8 @@
 			name="type"
 			type="menutype"
 			label="COM_MENUS_ITEM_FIELD_TYPE_LABEL"
-			class="input-medium"
 			required="true"
-			size="40" 
+			size="40"
 		/>
 
 		<field
@@ -81,8 +78,34 @@
 		</field>
 
 		<field
+			name="publish_up"
+			type="calendar"
+			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
+			id="publish_up"
+			class="inputbox"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+			showon="home:0"
+		/>
+
+		<field
+			name="publish_down"
+			type="calendar"
+			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
+			id="publish_down"
+			class="inputbox"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		   	showon="home:0"
+		/>
+
+		<field
 			name="parent_id"
-			type="menuparent"
+			type="MenuParent"
 			label="COM_MENUS_ITEM_FIELD_PARENT_LABEL"
 			default="1"
 			filter="int"
@@ -94,7 +117,7 @@
 
 		<field
 			name="menuordering"
-			type="menuordering"
+			type="MenuOrdering"
 			label="COM_MENUS_ITEM_FIELD_ORDERING_LABEL"
 			filter="int"
 			size="1">
@@ -131,6 +154,7 @@
 			label="COM_MENUS_ITEM_FIELD_TEMPLATE_LABEL"
 			client="site"
 			filter="int"
+			showon="type!:alias[OR]params.alias_redirect:0"
 			>
 			<option value="0">JOPTION_USE_DEFAULT</option>
 		</field>

@@ -3,15 +3,21 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
 
-$app       = JFactory::getApplication();
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+
+$app       = Factory::getApplication();
 $form      = $displayData->getForm();
 $fieldSets = $form->getFieldsets();
+$helper    = $displayData->get('useCoreUI', false) ? 'uitab' : 'bootstrap';
 
 if (empty($fieldSets))
 {
@@ -19,30 +25,23 @@ if (empty($fieldSets))
 }
 
 $ignoreFieldsets = $displayData->get('ignore_fieldsets') ?: array();
+$outputFieldsets = $displayData->get('output_fieldsets') ?: array();
+$ignoreFieldsetFields = $displayData->get('ignore_fieldset_fields') ?: array();
 $ignoreFields    = $displayData->get('ignore_fields') ?: array();
 $extraFields     = $displayData->get('extra_fields') ?: array();
 $tabName         = $displayData->get('tab_name') ?: 'myTab';
 
-if (!empty($displayData->hiddenFieldsets))
-{
-	// These are required to preserve data on save when fields are not displayed.
-	$hiddenFieldsets = $displayData->hiddenFieldsets ?: array();
-}
+// These are required to preserve data on save when fields are not displayed.
+$hiddenFieldsets = $displayData->get('hiddenFieldsets') ?: array();
 
-if (!empty($displayData->configFieldsets))
-{
-	// These are required to configure showing and hiding fields in the editor.
-	$configFieldsets = $displayData->configFieldsets ?: array();
-}
+// These are required to configure showing and hiding fields in the editor.
+$configFieldsets = $displayData->get('configFieldsets') ?: array();
 
 // Handle the hidden fieldsets when show_options is set false
 if (!$displayData->get('show_options', 1))
 {
 	// The HTML buffer
 	$html   = array();
-
-	// Hide the whole buffer
-	$html[] = '<div style="display:none;">';
 
 	// Loop over the fieldsets
 	foreach ($fieldSets as $name => $fieldSet)
@@ -75,12 +74,13 @@ if (!$displayData->get('show_options', 1))
 		}
 	}
 
-	// Close the container
-	$html[] = '</div>';
-
 	// Echo the hidden fieldsets
 	echo implode('', $html);
 }
+
+$opentab = false;
+
+$xml = $form->getXml();
 
 // Loop again over the fieldsets
 foreach ($fieldSets as $name => $fieldSet)
@@ -98,36 +98,93 @@ foreach ($fieldSets as $name => $fieldSet)
 	// Determine the label
 	if (!empty($fieldSet->label))
 	{
-		$label = JText::_($fieldSet->label);
+		$label = Text::_($fieldSet->label);
 	}
 	else
 	{
 		$label = strtoupper('JGLOBAL_FIELDSET_' . $name);
-		if (JText::_($label) === $label)
+		if (Text::_($label) === $label)
 		{
 			$label = strtoupper($app->input->get('option') . '_' . $name . '_FIELDSET_LABEL');
 		}
-		$label = JText::_($label);
+		$label = Text::_($label);
 	}
 
-	// Start the tab
-	echo JHtml::_('bootstrap.addTab', $tabName, 'attrib-' . $name, $label);
+	$hasChildren = $xml->xpath('//fieldset[@name="' . $name . '"]//fieldset');
+	$hasParent = $xml->xpath('//fieldset//fieldset[@name="' . $name . '"]');
+	$isGrandchild = $xml->xpath('//fieldset//fieldset//fieldset[@name="' . $name . '"]');
+
+	if (!$isGrandchild && $hasParent)
+	{
+		echo '<fieldset id="fieldset-' . $name . '" class="form-no-margin options-grid-form ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
+		echo '<legend>' . $label . '</legend>';
+		echo '<div>';
+	}
+	// Tabs
+	elseif (!$hasParent)
+	{
+		if ($opentab)
+		{
+			if ($opentab > 1)
+			{
+				echo '</fieldset>';
+			}
+
+			// End previous tab
+			echo HTMLHelper::_($helper . '.endTab');
+		}
+
+		// Start the tab
+		echo HTMLHelper::_($helper . '.addTab', $tabName, 'attrib-' . $name, $label);
+
+		$opentab = 1;
+
+		// Directly add a fieldset if we have no children
+		if (!$hasChildren)
+		{
+			echo '<fieldset id="fieldset-' . $name . '" class="form-no-margin options-grid-form ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
+			echo '<legend>' . $label . '</legend>';
+			echo '<div>';
+
+			$opentab = 2;
+		}
+	}
 
 	// Include the description when available
 	if (isset($fieldSet->description) && trim($fieldSet->description))
 	{
-		echo '<p class="alert alert-info">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
+		echo '<div class="alert alert-info">' . $this->escape(Text::_($fieldSet->description)) . '</div>';
 	}
 
-	// The name of the fieldset to render
-	$displayData->fieldset = $name;
+	// We're on the deepest level => output fields
+	if (!$hasChildren)
+	{
+		// The name of the fieldset to render
+		$displayData->fieldset = $name;
 
-	// Force to show the options
-	$displayData->showOptions = true;
+		// Force to show the options
+		$displayData->showOptions = true;
 
-	// Render the fieldset
-	echo JLayoutHelper::render('joomla.edit.fieldset', $displayData);
+		// Render the fieldset
+		echo LayoutHelper::render('joomla.edit.fieldset', $displayData);
+	}
 
-	// End the tab
-	echo JHtml::_('bootstrap.endTab');
+	// Close open fieldset
+	if (!$isGrandchild && $hasParent)
+	{
+		echo '</div>';
+		echo '</fieldset>';
+	}
+}
+
+if ($opentab)
+{
+	if ($opentab > 1)
+	{
+		echo '</div>';
+		echo '</fieldset>';
+	}
+
+	// End previous tab
+	echo HTMLHelper::_($helper . '.endTab');
 }

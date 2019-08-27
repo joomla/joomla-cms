@@ -3,15 +3,19 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Banners\Site\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseQuery;
+use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -48,9 +52,9 @@ class BannersModel extends ListModel
 	}
 
 	/**
-	 * Method to get a \JDatabaseQuery object for retrieving the data set from a database.
+	 * Method to get a DatabaseQuery object for retrieving the data set from a database.
 	 *
-	 * @return  \JDatabaseQuery   A \JDatabaseQuery object to retrieve the data set.
+	 * @return  DatabaseQuery   A DatabaseQuery object to retrieve the data set.
 	 *
 	 * @since   1.6
 	 */
@@ -64,8 +68,7 @@ class BannersModel extends ListModel
 		$categoryId = $this->getState('filter.category_id');
 		$keywords   = $this->getState('filter.keywords');
 		$randomise  = ($ordering === 'random');
-		$nullDate   = $db->quote($db->getNullDate());
-		$nowDate    = $db->quote(\JFactory::getDate()->toSql());
+		$nowDate    = $db->quote(Factory::getDate()->toSql());
 
 		$query->select(
 			'a.id as id,'
@@ -82,8 +85,8 @@ class BannersModel extends ListModel
 			->from('#__banners as a')
 			->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid')
 			->where('a.state=1')
-			->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-			->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')')
+			->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= ' . $db->quote($nowDate) . ')')
+			->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= ' . $db->quote($nowDate) . ')')
 			->where('(a.imptotal = 0 OR a.impmade <= a.imptotal)');
 
 		if ($cid)
@@ -184,10 +187,10 @@ class BannersModel extends ListModel
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->quote(\JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
-		$query->order('a.sticky DESC,' . ($randomise ? $query->Rand() : 'a.ordering'));
+		$query->order('a.sticky DESC,' . ($randomise ? $query->rand() : 'a.ordering'));
 
 		return $query;
 	}
@@ -220,10 +223,11 @@ class BannersModel extends ListModel
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function impress()
 	{
-		$trackDate = \JFactory::getDate()->format('Y-m-d H');
+		$trackDate = Factory::getDate()->toSql();
 		$items     = $this->getItems();
 		$db        = $this->getDbo();
 		$query     = $db->getQuery(true);
@@ -249,7 +253,7 @@ class BannersModel extends ListModel
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			throw new \Exception($e->getMessage(), 500);
 		}
@@ -287,7 +291,7 @@ class BannersModel extends ListModel
 				{
 					$db->execute();
 				}
-				catch (\JDatabaseExceptionExecuting $e)
+				catch (ExecutionFailureException $e)
 				{
 					throw new \Exception($e->getMessage(), 500);
 				}
@@ -312,7 +316,7 @@ class BannersModel extends ListModel
 					{
 						$db->execute();
 					}
-					catch (\JDatabaseExceptionExecuting $e)
+					catch (ExecutionFailureException $e)
 					{
 						throw new \Exception($e->getMessage(), 500);
 					}

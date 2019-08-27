@@ -2,20 +2,20 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Input;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Joomla! Input Cookie Class
  *
- * @since       11.1
+ * @since       1.7.0
  * @deprecated  5.0  Use Joomla\Input\Cookie instead
  */
 class Cookie extends Input
@@ -26,7 +26,7 @@ class Cookie extends Input
 	 * @param   array  $source   Ignored.
 	 * @param   array  $options  Array of configuration parameters (Optional)
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  5.0  Use Joomla\Input\Cookie instead
 	 */
 	public function __construct(array $source = null, array $options = array())
@@ -83,12 +83,12 @@ class Cookie extends Input
 	 *
 	 * @link    http://www.ietf.org/rfc/rfc2109.txt
 	 * @see     setcookie()
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  5.0  Use Joomla\Input\Cookie instead
 	 */
 	public function set($name, $value, $expire = 0, $path = '', $domain = '', $secure = false, $httpOnly = false)
 	{
-		if (is_array($value))
+		if (\is_array($value))
 		{
 			foreach ($value as $key => $val)
 			{

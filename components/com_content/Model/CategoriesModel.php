@@ -3,13 +3,17 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Categories\CategoryNode;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Registry\Registry;
 
@@ -34,6 +38,11 @@ class CategoriesModel extends ListModel
 	 */
 	protected $_extension = 'com_content';
 
+	/**
+	 * Parent category of the current one
+	 *
+	 * @var    CategoryNode|null
+	 */
 	private $_parent = null;
 
 	/**
@@ -50,7 +59,7 @@ class CategoriesModel extends ListModel
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$this->setState('filter.extension', $this->_extension);
 
 		// Get the parent id if defined.
@@ -60,7 +69,7 @@ class CategoriesModel extends ListModel
 		$params = $app->getParams();
 		$this->setState('params', $params);
 
-		$this->setState('filter.published',	1);
+		$this->setState('filter.condition',	1);
 		$this->setState('filter.access',	true);
 	}
 
@@ -79,7 +88,7 @@ class CategoriesModel extends ListModel
 	{
 		// Compile the store id.
 		$id	.= ':' . $this->getState('filter.extension');
-		$id	.= ':' . $this->getState('filter.published');
+		$id	.= ':' . $this->getState('filter.condition');
 		$id	.= ':' . $this->getState('filter.access');
 		$id	.= ':' . $this->getState('filter.parentId');
 
@@ -101,7 +110,7 @@ class CategoriesModel extends ListModel
 
 		if (!isset($this->cache[$store]))
 		{
-			$app = \JFactory::getApplication();
+			$app = Factory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$params = new Registry;
@@ -113,7 +122,7 @@ class CategoriesModel extends ListModel
 
 			$options = array();
 			$options['countItems'] = $params->get('show_cat_num_articles_cat', 1) || !$params->get('show_empty_categories_cat', 0);
-			$categories = \JCategories::getInstance('Content', $options);
+			$categories = Categories::getInstance('Content', $options);
 			$this->_parent = $categories->get($this->getState('filter.parentId', 'root'));
 
 			if (is_object($this->_parent))

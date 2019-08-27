@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
  * Static class to handle loading of libraries.
  *
  * @package  Joomla.Platform
- * @since    11.1
+ * @since    1.7.0
  */
 abstract class JLoader
 {
@@ -20,7 +20,7 @@ abstract class JLoader
 	 * Container for already imported library paths.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $classes = array();
 
@@ -28,7 +28,7 @@ abstract class JLoader
 	 * Container for already imported library paths.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $imported = array();
 
@@ -36,7 +36,7 @@ abstract class JLoader
 	 * Container for registered library class prefixes and path lookups.
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected static $prefixes = array();
 
@@ -60,7 +60,7 @@ abstract class JLoader
 	 * Container for namespace => path map.
 	 *
 	 * @var    array
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected static $namespaces = array('psr0' => array(), 'psr4' => array());
 
@@ -90,7 +90,9 @@ abstract class JLoader
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since       1.7.0
+	 * @deprecated  5.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
+	 *                    your files.
 	 */
 	public static function discover($classPrefix, $parentPath, $force = true, $recurse = false)
 	{
@@ -108,7 +110,7 @@ abstract class JLoader
 				$iterator = new DirectoryIterator($parentPath);
 			}
 
-			/* @type  $file  DirectoryIterator */
+			/** @type  $file  DirectoryIterator */
 			foreach ($iterator as $file)
 			{
 				$fileName = $file->getFilename();
@@ -138,7 +140,7 @@ abstract class JLoader
 	 *
 	 * @return  array  The array of class => path values for the autoloader.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getClassList()
 	{
@@ -164,7 +166,7 @@ abstract class JLoader
 	 *
 	 * @return  array  The array of namespace => path values for the autoloader.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function getNamespaces($type = 'psr0')
 	{
@@ -184,7 +186,9 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since       1.7.0
+	 * @deprecated  5.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
+	 *                    your files.
 	 */
 	public static function import($key, $base = null)
 	{
@@ -249,7 +253,7 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function load($class)
 	{
@@ -300,7 +304,9 @@ abstract class JLoader
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since       1.7.0
+	 * @deprecated  5.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
+	 *                    your files.
 	 */
 	public static function register($class, $path, $force = true)
 	{
@@ -340,7 +346,7 @@ abstract class JLoader
 	 *
 	 * @throws  RuntimeException
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function registerPrefix($prefix, $path, $reset = false, $prepend = false)
 	{
@@ -386,21 +392,21 @@ abstract class JLoader
 	public static function registerAlias($alias, $original, $version = false)
 	{
 		// PHP is case insensitive so support all kind of alias combination
-		$alias = strtolower($alias);
+		$lowercasedAlias = strtolower($alias);
 
-		if (!isset(self::$classAliases[$alias]))
+		if (!isset(self::$classAliases[$lowercasedAlias]))
 		{
-			self::$classAliases[$alias] = $original;
+			self::$classAliases[$lowercasedAlias] = $original;
 
 			$original = self::stripFirstBackslash($original);
 
 			if (!isset(self::$classAliasesInverse[$original]))
 			{
-				self::$classAliasesInverse[$original] = array($alias);
+				self::$classAliasesInverse[$original] = array($lowercasedAlias);
 			}
 			else
 			{
-				self::$classAliasesInverse[$original][] = $alias;
+				self::$classAliasesInverse[$original][] = $lowercasedAlias;
 			}
 
 			// If given a version, log this alias as deprecated
@@ -429,7 +435,7 @@ abstract class JLoader
 	 * @throws  RuntimeException
 	 *
 	 * @note    The default argument of $type will be changed in J4 to be 'psr4'
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function registerNamespace($namespace, $path, $reset = false, $prepend = false, $type = 'psr0')
 	{
@@ -445,6 +451,9 @@ abstract class JLoader
 
 			throw new RuntimeException('Library path ' . $path . ' cannot be found.', 500);
 		}
+
+		// Trim leading and trailing backslashes from namespace, allowing "\Parent\Child", "Parent\Child\" and "\Parent\Child\" to be treated the same way.
+		$namespace = trim($namespace, '\\');
 
 		// If the namespace is not yet registered or we have an explicit reset flag then set the path.
 		if ($reset || !isset(self::$namespaces[$type][$namespace]))
@@ -467,23 +476,6 @@ abstract class JLoader
 	}
 
 	/**
-	 * Root folders where extensions can be found. For example:
-	 * JLoader::registerExtensionRootFolder(JPATH_SITE, 'Site');
-	 * JLoader::registerExtensionRootFolder(JPATH_ADMINISTRATOR, 'Administrator');
-	 *
-	 * @param   string  $key   The key.
-	 * @param   string  $path  A absolute file path to the root where extensions can be found.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public static function registerExtensionRootFolder($key, $path)
-	{
-		self::$extensionRootFolders[$key] = $path;
-	}
-
-	/**
 	 * Method to setup the autoloaders for the Joomla Platform.
 	 * Since the SPL autoloaders are called in a queue we will add our explicit
 	 * class-registration based loader first, then fall back on the autoloader based on conventions.
@@ -496,7 +488,7 @@ abstract class JLoader
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function setup($enablePsr = true, $enablePrefixes = true, $enableClasses = true)
 	{
@@ -518,106 +510,9 @@ abstract class JLoader
 		if ($enablePsr)
 		{
 			// Register the PSR based autoloader.
-			spl_autoload_register(array('JLoader', 'loadByPsr0'));
 			spl_autoload_register(array('JLoader', 'loadByPsr4'));
-			spl_autoload_register(array('JLoader', 'loadByExtension'));
 			spl_autoload_register(array('JLoader', 'loadByAlias'));
 		}
-	}
-
-	/**
-	 * Method to autoload classes that are namespaced and do belong to an extension. The
-	 * extension must have the following pattern to be autoloaded:
-	 * - Component: Joomla\Component\Content\Site
-	 * - Module:    Joomla\Module\ArticlesLatest\Administrator
-	 * - Plugin:    Joomla\Plugin\System\Cache
-	 *
-	 * @param   string  $class  The fully qualified class name to autoload.
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   4.0.0
-	 */
-	public static function loadByExtension($class)
-	{
-		// Check if it is a namespaced class
-		if (strrpos($class, '\\') === false)
-		{
-			return false;
-		}
-
-		// Splice into segments
-		$segments = explode('\\', $class);
-
-		// Check if there are enough segments
-		if (count($segments) < 5)
-		{
-			return false;
-		}
-
-		// Check if it is an extension class
-		if (!in_array($segments[1], array('Component', 'Module', 'Plugin')))
-		{
-			return false;
-		}
-
-		// Normally Administrator or Site
-		$key = $segments[3];
-
-		// If it is a plugin, then the key is empty
-		if ($segments[1] == 'Plugin')
-		{
-			$key = '';
-		}
-
-		// Check if it is an extension class
-		if (!array_key_exists($key, self::$extensionRootFolders))
-		{
-			return false;
-		}
-
-		// Define the root of the path
-		$path = self::$extensionRootFolders[$key];
-
-		// Add the extension specific folder to the path
-		switch ($segments[1])
-		{
-			case 'Component':
-				$name = strtolower($segments[2]);
-				$path .= '/components/com_' . $name;
-				break;
-			case 'Module':
-				// Convert the name of the extension from camelcase to underscore for module
-				$name = strtolower(implode('_', self::fromCamelCase($segments[2], true)));
-				$path .= '/modules/mod_' . $name;
-				break;
-			case 'Plugin':
-				$group = strtolower($segments[2]);
-				$name  = strtolower($segments[3]);
-				$path .= '/plugins/' . $group . '/' . $name;
-				break;
-		}
-
-		// Check if the extension supports a nice and clean folder structure
-		if (file_exists($path . '/src'))
-		{
-			$path .= '/src';
-		}
-
-		// Extension can't be autoloaded
-		if (!file_exists($path))
-		{
-			return false;
-		}
-
-		// Compile the namespace
-		$ns = implode('\\', array_slice($segments, 0, 4));
-
-		// Register the namespace
-		self::registerNamespace($ns, $path, false, false, 'psr4');
-
-		// Load the class by default PSR-4 routine
-		return self::loadByPsr4($class);
 	}
 
 	/**
@@ -654,76 +549,20 @@ abstract class JLoader
 		// Loop through registered namespaces until we find a match.
 		foreach (self::$namespaces['psr4'] as $ns => $paths)
 		{
-			$nsPath = trim(str_replace('\\', DIRECTORY_SEPARATOR, $ns), DIRECTORY_SEPARATOR);
-
-			if (strpos($class, $ns) === 0)
+			if (strpos($class, "{$ns}\\") === 0)
 			{
+				$nsPath = trim(str_replace('\\', DIRECTORY_SEPARATOR, $ns), DIRECTORY_SEPARATOR);
+
 				// Loop through paths registered to this namespace until we find a match.
 				foreach ($paths as $path)
 				{
-					$classFilePath = $path . DIRECTORY_SEPARATOR . substr_replace($classPath, '', 0, strlen($nsPath) + 1);
+					$classFilePath = realpath($path . DIRECTORY_SEPARATOR . substr_replace($classPath, '', 0, strlen($nsPath) + 1));
 
-					// We check for class_exists to handle case-sensitive file systems
-					if (file_exists($classFilePath) && !class_exists($class, false))
+					// We do not allow files outside the namespace root to be loaded
+					if (strpos($classFilePath, realpath($path)) !== 0)
 					{
-						$found = (bool) include_once $classFilePath;
-
-						if ($found)
-						{
-							self::loadAliasFor($class);
-						}
-
-						return $found;
+						continue;
 					}
-				}
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Method to autoload classes that are namespaced to the PSR-0 standard.
-	 *
-	 * @param   string  $class  The fully qualified class name to autoload.
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   13.1
-	 *
-	 * @deprecated 4.0 this method will be removed
-	 */
-	public static function loadByPsr0($class)
-	{
-		$class = self::stripFirstBackslash($class);
-
-		// Find the location of the last NS separator.
-		$pos = strrpos($class, '\\');
-
-		// If one is found, we're dealing with a NS'd class.
-		if ($pos !== false)
-		{
-			$classPath = str_replace('\\', DIRECTORY_SEPARATOR, substr($class, 0, $pos)) . DIRECTORY_SEPARATOR;
-			$className = substr($class, $pos + 1);
-		}
-		// If not, no need to parse path.
-		else
-		{
-			$classPath = null;
-			$className = $class;
-		}
-
-		$classPath .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-
-		// Loop through registered namespaces until we find a match.
-		foreach (self::$namespaces['psr0'] as $ns => $paths)
-		{
-			if (strpos($class, $ns) === 0)
-			{
-				// Loop through paths registered to this namespace until we find a match.
-				foreach ($paths as $path)
-				{
-					$classFilePath = $path . DIRECTORY_SEPARATOR . $classPath;
 
 					// We check for class_exists to handle case-sensitive file systems
 					if (file_exists($classFilePath) && !class_exists($class, false))
@@ -800,7 +639,7 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True if the class was loaded, false otherwise.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function _autoload($class)
 	{
@@ -825,7 +664,7 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True if the class was loaded, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	private static function _load($class, $lookup)
 	{
@@ -836,10 +675,10 @@ abstract class JLoader
 		foreach ($lookup as $base)
 		{
 			// Generate the path based on the class name parts.
-			$path = $base . '/' . implode('/', array_map('strtolower', $parts)) . '.php';
+			$path = realpath($base . '/' . implode('/', array_map('strtolower', $parts)) . '.php');
 
-			// Load the file if it exists.
-			if (file_exists($path))
+			// Load the file if it exists and is in the lookup path.
+			if (strpos($path, realpath($base)) === 0 && file_exists($path))
 			{
 				$found = (bool) include_once $path;
 
@@ -857,10 +696,10 @@ abstract class JLoader
 			if ($partsCount === 1)
 			{
 				// Generate the path based on the class name parts.
-				$path = $base . '/' . implode('/', array_map('strtolower', array($parts[0], $parts[0]))) . '.php';
+				$path = realpath($base . '/' . implode('/', array_map('strtolower', array($parts[0], $parts[0]))) . '.php');
 
-				// Load the file if it exists.
-				if (file_exists($path))
+				// Load the file if it exists and is in the lookup path.
+				if (strpos($path, realpath($base)) === 0 && file_exists($path))
 				{
 					$found = (bool) include_once $path;
 
@@ -913,23 +752,6 @@ abstract class JLoader
 	{
 		return $class && $class[0] === '\\' ? substr($class, 1) : $class;
 	}
-
-	/**
-	 * Copied form Normalise class, JLoader should not have an external dependency.
-	 *
-	 * @param   string   $input    The string input (ASCII only).
-	 * @param   boolean  $grouped  Optionally allows splitting on groups of uppercase characters.
-	 *
-	 * @return  string  The space separated string.
-	 *
-	 * @since   4.0.0
-	 */
-	private static function fromCamelCase($input, $grouped = false)
-	{
-		return $grouped
-			? preg_split('/(?<=[^A-Z_])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][^A-Z_])/x', $input)
-			: trim(preg_replace('#([A-Z])#', ' $1', $input));
-	}
 }
 
 // Check if jexit is defined first (our unit tests mock this)
@@ -945,7 +767,7 @@ if (!function_exists('jexit'))
 	 * @return  void
 	 *
 	 * @codeCoverageIgnore
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	function jexit($message = 0)
 	{
@@ -961,7 +783,9 @@ if (!function_exists('jexit'))
  *
  * @return  boolean  True on success.
  *
- * @since   11.1
+ * @since       1.7.0
+ * @deprecated  5.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
+ *                    your files.
  */
 function jimport($path, $base = null)
 {

@@ -3,34 +3,26 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
 
-JHtml::_('jquery.framework');
-JHtmlBehavior::core();
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Filter\OutputFilter;
 
-JFactory::getDocument()->addScriptDeclaration('
-	jQuery(document).ready(function($)
-	{
-		if (window.toggleSidebar)
-		{
-			toggleSidebar(true);
-		}
-		else
-		{
-			$("#j-toggle-sidebar-header").css("display", "none");
-			$("#j-toggle-button-wrapper").css("display", "none");
-		}
-	});
-');
+HTMLHelper::_('behavior.core');
 ?>
 <?php if ($displayData->displayMenu || $displayData->displayFilters) : ?>
 <div id="j-toggle-sidebar-wrapper">
 	<div id="sidebar" class="sidebar">
-		<div class="sidebar-nav">
+		<button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-toggle="collapse" data-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOGGLE_SIDEBAR'); ?>">
+			<span class="fas fa-align-justify" aria-hidden="true"></span>
+			<?php echo Text::_('TPL_ATUM_TOGGLE_SIDEBAR'); ?>
+		</button>
+		<div class="sidebar-nav bg-light p-2 my-2">
 			<?php if ($displayData->displayMenu) : ?>
 			<ul class="nav flex-column">
 				<?php foreach ($displayData->list as $item) :
@@ -43,7 +35,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					<a class="nolink"><?php echo $item[0]; ?></a>
 				<?php else :
 					if ($item[1] !== '') : ?>
-						<a href="<?php echo JFilterOutput::ampReplace($item[1]); ?>"><?php echo $item[0]; ?></a>
+						<a href="<?php echo OutputFilter::ampReplace($item[1]); ?>"><?php echo $item[0]; ?></a>
 					<?php else : ?>
 						<?php echo $item[0]; ?>
 					<?php endif;
@@ -57,7 +49,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			<?php endif; ?>
 			<?php if ($displayData->displayFilters) : ?>
 			<div class="filter-select hidden-sm-down">
-				<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></h4>
+				<h4 class="page-header"><?php echo Text::_('JSEARCH_FILTER_LABEL'); ?></h4>
 				<?php foreach ($displayData->filters as $filter) : ?>
 					<label for="<?php echo $filter['name']; ?>" class="sr-only"><?php echo $filter['label']; ?></label>
 					<select name="<?php echo $filter['name']; ?>" id="<?php echo $filter['name']; ?>" class="custom-select" onchange="this.form.submit()">

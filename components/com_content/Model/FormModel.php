@@ -3,15 +3,20 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -40,7 +45,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load state from the request.
 		$pk = $app->input->getInt('a_id');
@@ -84,13 +89,13 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 		}
 
 		$properties = $table->getProperties(1);
-		$value = ArrayHelper::toObject($properties, 'JObject');
+		$value = ArrayHelper::toObject($properties, CMSObject::class);
 
 		// Convert attrib field to Registry.
 		$value->params = new Registry($value->attribs);
 
 		// Compute selected asset permissions.
-		$user   = \JFactory::getUser();
+		$user   = Factory::getUser();
 		$userId = $user->get('id');
 		$asset  = 'com_content.article.' . $value->id;
 
@@ -188,13 +193,18 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 			$data['associations'] = $associations;
 		}
 
+		if (!Multilanguage::isEnabled())
+		{
+			$data['language'] = '*';
+		}
+
 		return parent::save($data);
 	}
 
 	/**
 	 * Allows preprocessing of the JForm object.
 	 *
-	 * @param   \JForm  $form   The form object
+	 * @param   Form    $form   The form object
 	 * @param   array   $data   The data to be merged into the form object
 	 * @param   string  $group  The plugin group to be executed
 	 *
@@ -202,7 +212,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 	 *
 	 * @since   3.7.0
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		$params = $this->getState()->get('params');
 
@@ -210,6 +220,12 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 		{
 			$form->setFieldAttribute('catid', 'default', $params->get('catid', 1));
 			$form->setFieldAttribute('catid', 'readonly', 'true');
+		}
+
+		if (!Multilanguage::isEnabled())
+		{
+			$form->setFieldAttribute('language', 'type', 'hidden');
+			$form->setFieldAttribute('language', 'default', '*');
 		}
 
 		return parent::preprocessForm($form, $data, $group);

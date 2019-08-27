@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,10 +11,14 @@ namespace Joomla\Component\Config\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Access\Access as JAccess;
-use Joomla\CMS\Access\Rules as JAccessRules;
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Component\ComponentHelper;
-use \Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 
@@ -36,7 +40,7 @@ class ComponentModel extends FormModel
 	 */
 	protected function populateState()
 	{
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		// Set the component (option) we are dealing with.
 		$component = $input->get('component');
@@ -46,8 +50,8 @@ class ComponentModel extends FormModel
 		// Set an alternative path for the configuration file.
 		if ($path = $input->getString('path'))
 		{
-			$path = \JPath::clean(JPATH_SITE . '/' . $path);
-			\JPath::check($path);
+			$path = Path::clean(JPATH_SITE . '/' . $path);
+			Path::check($path);
 			$this->state->set('component.path', $path);
 		}
 	}
@@ -70,12 +74,12 @@ class ComponentModel extends FormModel
 		if ($path = $state->get('component.path'))
 		{
 			// Add the search path for the admin component config.xml file.
-			\JForm::addFormPath($path);
+			Form::addFormPath($path);
 		}
 		else
 		{
 			// Add the search path for the admin component config.xml file.
-			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $option);
+			Form::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $option);
 		}
 
 		// Get the form.
@@ -92,7 +96,7 @@ class ComponentModel extends FormModel
 			return false;
 		}
 
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load($option, JPATH_BASE, null, false, true)
 		|| $lang->load($option, JPATH_BASE . "/components/$option", null, false, true);
 
@@ -112,7 +116,7 @@ class ComponentModel extends FormModel
 		$option = $state->get('component.option');
 
 		// Load common and local language files.
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load($option, JPATH_BASE, null, false, true)
 		|| $lang->load($option, JPATH_BASE . "/components/$option", null, false, true);
 
@@ -138,7 +142,7 @@ class ComponentModel extends FormModel
 		PluginHelper::importPlugin('extension');
 
 		// Check super user group.
-		if (isset($data['params']) && !\JFactory::getUser()->authorise('core.admin'))
+		if (isset($data['params']) && !Factory::getUser()->authorise('core.admin'))
 		{
 			$form = $this->getForm(array(), false);
 
@@ -148,9 +152,9 @@ class ComponentModel extends FormModel
 				{
 					if ($field->type === 'UserGroupList' && isset($data['params'][$field->fieldname])
 						&& (int) $field->getAttribute('checksuperusergroup', 0) === 1
-						&& JAccess::checkGroup($data['params'][$field->fieldname], 'core.admin'))
+						&& Access::checkGroup($data['params'][$field->fieldname], 'core.admin'))
 					{
-						throw new \RuntimeException(\JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+						throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
 					}
 				}
 			}
@@ -159,7 +163,7 @@ class ComponentModel extends FormModel
 		// Save the rules.
 		if (isset($data['params']) && isset($data['params']['rules']))
 		{
-			$rules = new JAccessRules($data['params']['rules']);
+			$rules = new Rules($data['params']['rules']);
 			$asset = Table::getInstance('asset');
 
 			if (!$asset->loadByName($data['option']))
@@ -203,7 +207,7 @@ class ComponentModel extends FormModel
 			throw new \RuntimeException($table->getError());
 		}
 
-		$result = \JFactory::getApplication()->triggerEvent('onExtensionBeforeSave', array($context, $table, false));
+		$result = Factory::getApplication()->triggerEvent('onExtensionBeforeSave', array($context, $table, false));
 
 		// Store the data.
 		if (in_array(false, $result, true) || !$table->store())
@@ -211,7 +215,7 @@ class ComponentModel extends FormModel
 			throw new \RuntimeException($table->getError());
 		}
 
-		\JFactory::getApplication()->triggerEvent('onExtensionAfterSave', array($context, $table, false));
+		Factory::getApplication()->triggerEvent('onExtensionAfterSave', array($context, $table, false));
 
 		// Clean the component cache.
 		$this->cleanCache('_system', 0);

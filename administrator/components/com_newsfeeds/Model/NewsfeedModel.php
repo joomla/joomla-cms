@@ -3,19 +3,22 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Newsfeeds\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Table\Table;
+use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -49,98 +52,6 @@ class NewsfeedModel extends AdminModel
 	protected $text_prefix = 'COM_NEWSFEEDS';
 
 	/**
-	 * Batch copy items to a new category or current.
-	 *
-	 * @param   integer  $value     The new category.
-	 * @param   array    $pks       An array of row IDs.
-	 * @param   array    $contexts  An array of item contexts.
-	 *
-	 * @return  mixed  An array of new IDs on success, boolean false on failure.
-	 *
-	 * @since   11.1
-	 */
-	protected function batchCopy($value, $pks, $contexts)
-	{
-		$categoryId = (int) $value;
-
-		$newIds = array();
-
-		if (!parent::checkCategoryId($categoryId))
-		{
-			return false;
-		}
-
-		// Parent exists so we let's proceed
-		while (!empty($pks))
-		{
-			// Pop the first ID off the stack
-			$pk = array_shift($pks);
-
-			$this->table->reset();
-
-			// Check that the row actually exists
-			if (!$this->table->load($pk))
-			{
-				if ($error = $this->table->getError())
-				{
-					// Fatal error
-					$this->setError($error);
-
-					return false;
-				}
-				else
-				{
-					// Not fatal error
-					$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-					continue;
-				}
-			}
-
-			// Alter the title & alias
-			$data = $this->generateNewTitle($categoryId, $this->table->alias, $this->table->name);
-			$this->table->name = $data['0'];
-			$this->table->alias = $data['1'];
-
-			// Reset the ID because we are making a copy
-			$this->table->id = 0;
-
-			// Unpublish because we are making a copy
-			$this->table->published = 0;
-
-			// New category ID
-			$this->table->catid = $categoryId;
-
-			// TODO: Deal with ordering?
-			// $this->table->ordering = 1;
-
-			// Check the row.
-			if (!$this->table->check())
-			{
-				$this->setError($this->table->getError());
-				return false;
-			}
-
-			// Store the row.
-			if (!$this->table->store())
-			{
-				$this->setError($this->table->getError());
-				return false;
-			}
-
-			// Get the new item ID
-			$newId = $this->table->get('id');
-
-			// Add the new ID to the array
-			$newIds[$pk] = $newId;
-		}
-
-		// Clean the cache
-		$this->cleanCache();
-
-		return $newIds;
-	}
-
-	/**
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param   object  $record  A record object.
@@ -158,7 +69,7 @@ class NewsfeedModel extends AdminModel
 				return false;
 			}
 
-			$user = \JFactory::getUser();
+			$user = Factory::getUser();
 
 			if (!empty($record->catid))
 			{
@@ -184,7 +95,7 @@ class NewsfeedModel extends AdminModel
 	 */
 	protected function canEditState($record)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if (!empty($record->catid))
 		{
@@ -256,7 +167,7 @@ class NewsfeedModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState('com_newsfeeds.edit.newsfeed.data', array());
+		$data = Factory::getApplication()->getUserState('com_newsfeeds.edit.newsfeed.data', array());
 
 		if (empty($data))
 		{
@@ -265,7 +176,7 @@ class NewsfeedModel extends AdminModel
 			// Prime some default values.
 			if ($this->getState('newsfeed.id') == 0)
 			{
-				$app = \JFactory::getApplication();
+				$app = Factory::getApplication();
 				$data->set('catid', $app->input->get('catid', $app->getUserState('com_newsfeeds.newsfeeds.filter.category_id'), 'int'));
 			}
 		}
@@ -286,9 +197,7 @@ class NewsfeedModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$input = \JFactory::getApplication()->input;
-
-		 \JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
+		$input = Factory::getApplication()->input;
 
 		// Cast catid to integer for comparison
 		$catid = (int) $data['catid'];
@@ -296,7 +205,7 @@ class NewsfeedModel extends AdminModel
 		// Check if New Category exists
 		if ($catid > 0)
 		{
-			$catid = \CategoriesHelper::validateCategoryId($data['catid'], 'com_newsfeeds');
+			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_newsfeeds');
 		}
 
 		// Save New Category
@@ -310,7 +219,7 @@ class NewsfeedModel extends AdminModel
 			$table['published'] = 1;
 
 			// Create new category and get catid back
-			$data['catid'] = \CategoriesHelper::createCategory($table);
+			$data['catid'] = CategoriesHelper::createCategory($table);
 		}
 
 		// Alter the name for save as copy
@@ -332,6 +241,7 @@ class NewsfeedModel extends AdminModel
 					$data['alias'] = '';
 				}
 			}
+
 			$data['published'] = 0;
 		}
 
@@ -361,7 +271,7 @@ class NewsfeedModel extends AdminModel
 		}
 
 		// Load associated newsfeeds items
-		$assoc =  Associations::isEnabled();
+		$assoc = Associations::isEnabled();
 
 		if ($assoc)
 		{
@@ -369,7 +279,7 @@ class NewsfeedModel extends AdminModel
 
 			if ($item->id != null)
 			{
-				$associations =  Associations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $item->id);
+				$associations = Associations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $item->id);
 
 				foreach ($associations as $tag => $association)
 				{
@@ -397,15 +307,15 @@ class NewsfeedModel extends AdminModel
 	 */
 	protected function prepareTable($table)
 	{
-		$date = \JFactory::getDate();
-		$user = \JFactory::getUser();
+		$date = Factory::getDate();
+		$user = Factory::getUser();
 
 		$table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
-		$table->alias =  ApplicationHelper::stringURLSafe($table->alias, $table->language);
+		$table->alias = ApplicationHelper::stringURLSafe($table->alias, $table->language);
 
 		if (empty($table->alias))
 		{
-			$table->alias =  ApplicationHelper::stringURLSafe($table->name, $table->language);
+			$table->alias = ApplicationHelper::stringURLSafe($table->name, $table->language);
 		}
 
 		if (empty($table->id))
@@ -462,15 +372,15 @@ class NewsfeedModel extends AdminModel
 	 *
 	 * @param   object  $table  A record object.
 	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
 	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
 	{
-		$condition = array();
-		$condition[] = 'catid = ' . (int) $table->catid;
-		return $condition;
+		return [
+			$this->_db->quoteName('catid') . ' = ' . (int) $table->catid,
+		];
 	}
 
 	/**
@@ -484,7 +394,7 @@ class NewsfeedModel extends AdminModel
 	 *
 	 * @since   1.6
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		if ($this->canCreateCategory())
 		{
@@ -494,7 +404,7 @@ class NewsfeedModel extends AdminModel
 		// Association newsfeeds items
 		if (Associations::isEnabled())
 		{
-			$languages =  LanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
+			$languages = LanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
 
 			if (count($languages) > 1)
 			{
@@ -516,6 +426,7 @@ class NewsfeedModel extends AdminModel
 					$field->addAttribute('new', 'true');
 					$field->addAttribute('edit', 'true');
 					$field->addAttribute('clear', 'true');
+					$field->addAttribute('propagate', 'true');
 				}
 
 				$form->load($addform, false);
@@ -540,12 +451,14 @@ class NewsfeedModel extends AdminModel
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
+
 		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
 		{
 			if ($name == $table->name)
 			{
 				$name = StringHelper::increment($name);
 			}
+
 			$alias = StringHelper::increment($alias, 'dash');
 		}
 
@@ -555,12 +468,12 @@ class NewsfeedModel extends AdminModel
 	/**
 	 * Is the user allowed to create an on the fly category?
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.6.1
 	 */
 	private function canCreateCategory()
 	{
-		return \JFactory::getUser()->authorise('core.create', 'com_newsfeeds');
+		return Factory::getUser()->authorise('core.create', 'com_newsfeeds');
 	}
 }

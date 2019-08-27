@@ -3,22 +3,27 @@
  * @package     Joomla.Plugin
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Utilities\IpHelper;
 use ReCaptcha\ReCaptcha;
 
 /**
- * Recaptcha Plugin.
- * Based on the official recaptcha library( https://developers.google.com/recaptcha/docs/php )
+ * Recaptcha Plugin
+ * Based on the official recaptcha library( https://packagist.org/packages/google/recaptcha )
  *
  * @since  2.5
  */
-class PlgCaptchaRecaptcha extends JPlugin
+class PlgCaptchaRecaptcha extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -29,15 +34,32 @@ class PlgCaptchaRecaptcha extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Reports the privacy related capabilities for this plugin to site administrators.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.9.0
+	 */
+	public function onPrivacyCollectAdminCapabilities()
+	{
+		$this->loadLanguage();
+
+		return array(
+			Text::_('PLG_CAPTCHA_RECAPTCHA') => array(
+				Text::_('PLG_RECAPTCHA_PRIVACY_CAPABILITY_IP_ADDRESS'),
+			)
+		);
+	}
+
+	/**
 	 * Initialise the captcha
 	 *
 	 * @param   string  $id  The id of the field.
 	 *
 	 * @return  Boolean	True on success, false otherwise
 	 *
-	 * @throws  Exception
-	 *
-	 * @since  2.5
+	 * @since   2.5
+	 * @throws  \RuntimeException
 	 */
 	public function onInit($id = 'dynamic_recaptcha_1')
 	{
@@ -45,15 +67,15 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 		if ($pubkey === '')
 		{
-			throw new Exception(JText::_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
+			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
 		}
 
 		// Load callback first for browser compatibility
-		JHtml::_('script', 'plg_captcha_recaptcha/recaptcha.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('script', 'plg_captcha_recaptcha/recaptcha.min.js', array('version' => 'auto', 'relative' => true));
 
-		JHtml::_(
+		HTMLHelper::_(
 			'script',
-			'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&render=explicit&hl=' . JFactory::getLanguage()->getTag()
+			'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&render=explicit&hl=' . Factory::getLanguage()->getTag()
 		);
 
 		return true;
@@ -64,8 +86,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 *
 	 * @param   string  $name   The name of the field. Not Used.
 	 * @param   string  $id     The id of the field.
-	 * @param   string  $class  The class of the field. This should be passed as
-	 *                          e.g. 'class="required"'.
+	 * @param   string  $class  The class of the field.
 	 *
 	 * @return  string  The HTML to be embedded in the form.
 	 *
@@ -73,11 +94,21 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 */
 	public function onDisplay($name = null, $id = 'dynamic_recaptcha_1', $class = '')
 	{
-		return '<div id="' . $id . '" ' . str_replace('class="', 'class="g-recaptcha ', $class)
-				. ' data-sitekey="' . $this->params->get('public_key', '')
-				. '" data-theme="' . $this->params->get('theme2', 'light')
-				. '" data-size="' . $this->params->get('size', 'normal')
-				. '"></div>';
+		$dom = new \DOMDocument('1.0', 'UTF-8');
+		$ele = $dom->createElement('div');
+		$ele->setAttribute('id', $id);
+
+		$ele->setAttribute('class', ((trim($class) == '') ? 'g-recaptcha' : ($class . ' g-recaptcha')));
+		$ele->setAttribute('data-sitekey', $this->params->get('public_key', ''));
+		$ele->setAttribute('data-theme', $this->params->get('theme2', 'light'));
+		$ele->setAttribute('data-size', $this->params->get('size', 'normal'));
+		$ele->setAttribute('data-tabindex', $this->params->get('tabindex', '0'));
+		$ele->setAttribute('data-callback', $this->params->get('callback', ''));
+		$ele->setAttribute('data-expired-callback', $this->params->get('expired_callback', ''));
+		$ele->setAttribute('data-error-callback', $this->params->get('error_callback', ''));
+
+		$dom->appendChild($ele);
+		return $dom->saveHTML($ele);
 	}
 
 	/**
@@ -87,23 +118,21 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 *
 	 * @return  True if the answer is correct, false otherwise
 	 *
-	 * @since  2.5
+	 * @since   2.5
+	 * @throws  \RuntimeException
 	 */
 	public function onCheckAnswer($code = null)
 	{
-		$input      = JFactory::getApplication()->input;
+		$input      = Factory::getApplication()->input;
 		$privatekey = $this->params->get('private_key');
 		$version    = $this->params->get('version', '2.0');
-		$remoteip   = $input->server->get('REMOTE_ADDR', '', 'string');
-		$challenge  = null;
+		$remoteip   = IpHelper::getIp();
 		$response   = null;
 		$spam       = false;
 
 		switch ($version)
 		{
 			case '2.0':
-				// Challenge Not needed in 2.0 but needed for getResponse call
-				$challenge = null;
 				$response  = $input->get('g-recaptcha-response', '', 'string');
 				$spam      = ($response === '');
 				break;
@@ -112,22 +141,22 @@ class PlgCaptchaRecaptcha extends JPlugin
 		// Check for Private Key
 		if (empty($privatekey))
 		{
-			throw new RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_NO_PRIVATE_KEY'), 500);
+			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_NO_PRIVATE_KEY'), 500);
 		}
 
 		// Check for IP
 		if (empty($remoteip))
 		{
-			throw new RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_NO_IP'), 500);
+			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_NO_IP'), 500);
 		}
 
 		// Discard spam submissions
 		if ($spam)
 		{
-			throw new RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_EMPTY_SOLUTION'), 500);
+			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_EMPTY_SOLUTION'), 500);
 		}
 
-		return $this->getResponse($privatekey, $remoteip, $response, $challenge);
+		return $this->getResponse($privatekey, $remoteip, $response);
 	}
 
 	/**
@@ -140,6 +169,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 * @return  bool True if response is good | False if response is bad.
 	 *
 	 * @since   3.4
+	 * @throws  \RuntimeException
 	 */
 	private function getResponse(string $privatekey, string $remoteip, string $response)
 	{
@@ -154,7 +184,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 				{
 					foreach ($apiResponse->getErrorCodes() as $error)
 					{
-						throw new RuntimeException($error, 403);
+						throw new \RuntimeException($error, 403);
 					}
 
 					return false;

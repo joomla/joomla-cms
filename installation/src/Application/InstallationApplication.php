@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,12 +12,17 @@ namespace Joomla\CMS\Installation\Application;
 defined('_JEXEC') or die;
 
 use Joomla\Application\Web\WebClient;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\Document\FactoryInterface;
+use Joomla\CMS\Document\HtmlDocument;
+use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Document\Document;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseInterface;
@@ -32,6 +37,8 @@ use Joomla\Session\SessionEvent;
  */
 final class InstallationApplication extends CMSApplication
 {
+	use \Joomla\CMS\Application\ExtensionNamespaceMapper;
+
 	/**
 	 * Class constructor.
 	 *
@@ -99,8 +106,13 @@ final class InstallationApplication extends CMSApplication
 	 */
 	public function debugLanguage()
 	{
+		if ($this->getDocument()->getType() != 'html')
+		{
+			return '';
+		}
+
 		$lang   = Factory::getLanguage();
-		$output = '<h4>' . \JText::_('JDEBUG_LANGUAGE_FILES_IN_ERROR') . '</h4>';
+		$output = '<h4>' . Text::_('JDEBUG_LANGUAGE_FILES_IN_ERROR') . '</h4>';
 
 		$errorfiles = $lang->getErrorFiles();
 
@@ -117,10 +129,10 @@ final class InstallationApplication extends CMSApplication
 		}
 		else
 		{
-			$output .= '<pre>' . \JText::_('JNONE') . '</pre>';
+			$output .= '<pre>' . Text::_('JNONE') . '</pre>';
 		}
 
-		$output .= '<h4>' . \JText::_('JDEBUG_LANGUAGE_UNTRANSLATED_STRING') . '</h4>';
+		$output .= '<h4>' . Text::_('JDEBUG_LANGUAGE_UNTRANSLATED_STRING') . '</h4>';
 		$output .= '<pre>';
 		$orphans = $lang->getOrphans();
 
@@ -156,7 +168,7 @@ final class InstallationApplication extends CMSApplication
 		}
 		else
 		{
-			$output .= '<pre>' . \JText::_('JNONE') . '</pre>';
+			$output .= '<pre>' . Text::_('JNONE') . '</pre>';
 		}
 
 		$output .= '</pre>';
@@ -202,7 +214,7 @@ final class InstallationApplication extends CMSApplication
 		$this->getDocument()->setBuffer($contents, 'component');
 
 		// Set the document title
-		$document->setTitle(\JText::_('INSTL_PAGE_TITLE'));
+		$document->setTitle(Text::_('INSTL_PAGE_TITLE'));
 	}
 
 	/**
@@ -214,6 +226,9 @@ final class InstallationApplication extends CMSApplication
 	 */
 	protected function doExecute()
 	{
+		// Ensure we load the namespace loader
+		$this->createExtensionNamespaceMap();
+
 		// Initialise the application.
 		$this->initialiseApp();
 
@@ -230,20 +245,27 @@ final class InstallationApplication extends CMSApplication
 	 */
 	public function execute()
 	{
-		// Perform application routines.
-		$this->doExecute();
-
-		// If we have an application document object, render it.
-		if ($this->document instanceof Document)
+		try
 		{
-			// Render the application output.
-			$this->render();
+			// Perform application routines.
+			$this->doExecute();
+
+			// If we have an application document object, render it.
+			if ($this->document instanceof Document)
+			{
+				// Render the application output.
+				$this->render();
+			}
+
+			// If gzip compression is enabled in configuration and the server is compliant, compress the output.
+			if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler'))
+			{
+				$this->compress();
+			}
 		}
-
-		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
-		if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler'))
+		catch (\Throwable $throwable)
 		{
-			$this->compress();
+			ExceptionHandler::render($throwable);
 		}
 
 		// Send the application response.
@@ -261,7 +283,7 @@ final class InstallationApplication extends CMSApplication
 	 *
 	 * @return  mixed   Either an array or object to be loaded into the configuration object.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	protected function fetchConfigurationData($file = '', $class = 'JConfig')
@@ -361,8 +383,8 @@ final class InstallationApplication extends CMSApplication
 		// Read the folder names in the site and admin area.
 		else
 		{
-			$langfiles['site']  = \JFolder::folders(LanguageHelper::getLanguagePath(JPATH_SITE));
-			$langfiles['admin'] = \JFolder::folders(LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
+			$langfiles['site']  = Folder::folders(LanguageHelper::getLanguagePath(JPATH_SITE));
+			$langfiles['admin'] = Folder::folders(LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
 		}
 
 		return $langfiles;
@@ -501,7 +523,7 @@ final class InstallationApplication extends CMSApplication
 				'mediaversion' => md5($date->format('YmdHi')),
 			);
 
-			$document = Document::getInstance($type, $attributes);
+			$document = $this->getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
 
 			// Register the instance to Factory.
 			Factory::$document = $document;
@@ -523,14 +545,19 @@ final class InstallationApplication extends CMSApplication
 	 */
 	public function render()
 	{
-		$file = $this->input->getCmd('tmpl', 'index');
+		$options = [];
 
-		$options = array(
-			'template' => 'template',
-			'file' => $file . '.php',
-			'directory' => JPATH_THEMES,
-			'params' => '{}',
-		);
+		if ($this->document instanceof HtmlDocument)
+		{
+			$file = $this->input->getCmd('tmpl', 'index');
+
+			$options = [
+				'template'  => 'template',
+				'file'      => $file . '.php',
+				'directory' => JPATH_THEMES,
+				'params'    => '{}',
+			];
+		}
 
 		// Parse the document.
 		$this->document->parse($options);

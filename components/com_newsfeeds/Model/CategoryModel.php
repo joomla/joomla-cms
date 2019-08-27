@@ -3,18 +3,22 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Newsfeeds\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 
@@ -32,27 +36,45 @@ class CategoryModel extends ListModel
 	 */
 	protected $_item = null;
 
+	/**
+	 * Array of newsfeeds in the category
+	 *
+	 * @var    \stdClass[]
+	 */
 	protected $_articles = null;
 
+	/**
+	 * Category left and right of this one
+	 *
+	 * @var    CategoryNode[]|null
+	 */
 	protected $_siblings = null;
 
+	/**
+	 * Array of child-categories
+	 *
+	 * @var    CategoryNode[]|null
+	 */
 	protected $_children = null;
 
+	/**
+	 * Parent category of the current one
+	 *
+	 * @var    CategoryNode|null
+	 */
 	protected $_parent = null;
 
 	/**
 	 * The category that applies.
 	 *
-	 * @access    protected
-	 * @var        object
+	 * @var    object
 	 */
 	protected $_category = null;
 
 	/**
-	 * The list of other newfeed categories.
+	 * The list of other newsfeed categories.
 	 *
-	 * @access    protected
-	 * @var        array
+	 * @var    array
 	 */
 	protected $_categories = null;
 
@@ -121,7 +143,7 @@ class CategoryModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Create a new query object.
@@ -154,14 +176,13 @@ class CategoryModel extends ListModel
 		}
 
 		// Filter by start and end dates.
-		$nullDate = $db->quote($db->getNullDate());
-		$date = \JFactory::getDate();
+		$date = Factory::getDate();
 		$nowDate = $db->quote($date->format($db->getDateFormat()));
 
 		if ($this->getState('filter.publish_date'))
 		{
-			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+			$query->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= ' . $db->quote($nowDate) . ')')
+				->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= ' . $db->quote($nowDate) . ')');
 		}
 
 		// Filter by search in title
@@ -176,7 +197,7 @@ class CategoryModel extends ListModel
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->quote(\JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
 		// Add the list ordering clause.
@@ -201,7 +222,7 @@ class CategoryModel extends ListModel
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$params = ComponentHelper::getParams('com_newsfeeds');
 
 		// List state information
@@ -235,7 +256,7 @@ class CategoryModel extends ListModel
 		$id = $app->input->get('id', 0, 'int');
 		$this->setState('category.id', $id);
 
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_newsfeeds')) && (!$user->authorise('core.edit', 'com_newsfeeds')))
 		{
@@ -263,7 +284,7 @@ class CategoryModel extends ListModel
 	{
 		if (!is_object($this->_item))
 		{
-			$app = \JFactory::getApplication();
+			$app = Factory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$params = new Registry;
@@ -275,7 +296,7 @@ class CategoryModel extends ListModel
 
 			$options = array();
 			$options['countItems'] = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
-			$categories = \JCategories::getInstance('Newsfeeds', $options);
+			$categories = Categories::getInstance('Newsfeeds', $options);
 			$this->_item = $categories->get($this->getState('category.id', 'root'));
 
 			if (is_object($this->_item))
@@ -370,7 +391,7 @@ class CategoryModel extends ListModel
 	 */
 	public function hit($pk = 0)
 	{
-		$input    = \JFactory::getApplication()->input;
+		$input    = Factory::getApplication()->input;
 		$hitcount = $input->getInt('hitcount', 1);
 
 		if ($hitcount)

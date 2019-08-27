@@ -3,14 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Installer\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Router\Route;
 
 /**
  * Discover Installation Controller
@@ -28,10 +32,12 @@ class DiscoverController extends BaseController
 	 */
 	public function refresh()
 	{
-		/* @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
+		$this->checkToken();
+
+		/** @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
 		$model = $this->getModel('discover');
 		$model->discover();
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=discover', false));
+		$this->setRedirect(Route::_('index.php?option=com_installer&view=discover', false));
 	}
 
 	/**
@@ -43,10 +49,12 @@ class DiscoverController extends BaseController
 	 */
 	public function install()
 	{
-		/* @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
+		$this->checkToken();
+
+		/** @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
 		$model = $this->getModel('discover');
 		$model->discover_install();
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=discover', false));
+		$this->setRedirect(Route::_('index.php?option=com_installer&view=discover', false));
 	}
 
 	/**
@@ -58,9 +66,30 @@ class DiscoverController extends BaseController
 	 */
 	public function purge()
 	{
-		/* @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
+		$this->checkToken();
+
+		/** @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
 		$model = $this->getModel('discover');
 		$model->purge();
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=discover', false), $model->_message);
+		$this->setRedirect(Route::_('index.php?option=com_installer&view=discover', false), $model->_message);
+	}
+
+	/**
+	 * Provide the data for a badge in a menu item via JSON
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function getMenuBadgeData()
+	{
+		if (!Factory::getUser()->authorise('core.manage', 'com_installer'))
+		{
+			throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
+		}
+
+		$model = $this->getModel('Discover');
+
+		echo new JsonResponse(count($model->getItems()));
 	}
 }

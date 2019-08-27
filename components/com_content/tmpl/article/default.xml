@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="com_content_article_view_default_title" option="com_content_article_view_default_option">
+	<layout title="COM_CONTENT_ARTICLE_VIEW_DEFAULT_TITLE" option="COM_CONTENT_ARTICLE_VIEW_DEFAULT_OPTION">
 		<help
 			key = "JHELP_MENUS_MENU_ITEM_ARTICLE_SINGLE_ARTICLE"
 		/>
 		<message>
-			<![CDATA[com_content_article_view_default_desc]]>
+			<![CDATA[COM_CONTENT_ARTICLE_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
 
@@ -14,8 +14,8 @@
 		<fieldset name="request"
 			addfieldprefix="Joomla\Component\Content\Administrator\Field" >
 
-			<field 
-				name="id" 
+			<field
+				name="id"
 				type="modal_article"
 				label="COM_CONTENT_FIELD_SELECT_ARTICLE_LABEL"
 				required="true"
@@ -32,7 +32,9 @@
 
 		<!-- Basic options. -->
 		<fieldset name="basic"
-			label="COM_CONTENT_ATTRIBS_ARTICLE_SETTINGS_LABEL">
+			label="COM_CONTENT_ATTRIBS_ARTICLE_SETTINGS_LABEL"
+			addfieldprefix="Joomla\Component\Content\Administrator\Field"
+		>
 
 		<field
 			name="show_title"
@@ -135,7 +137,7 @@
 
 		<field
 			name="show_associations"
-			type="list"
+			type="assoc"
 			label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
 			useglobal="true"
 			class="chzn-color"
@@ -214,42 +216,6 @@
 			name="show_vote"
 			type="list"
 			label="JGLOBAL_SHOW_VOTE_LABEL"
-			useglobal="true"
-			class="chzn-color"
-			>
-			<option value="1">JSHOW</option>
-			<option value="0">JHIDE</option>
-		</field>
-
-		<field
-			name="show_icons"
-			type="list"
-			label="JGLOBAL_SHOW_ICONS_LABEL"
-			description="JGLOBAL_SHOW_ICONS_DESC"
-			useglobal="true"
-			class="chzn-color"
-			>
-			<option value="1">JSHOW</option>
-			<option value="0">JHIDE</option>
-		</field>
-
-		<field
-			name="show_print_icon"
-			type="list"
-			label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
-			description="JGLOBAL_SHOW_PRINT_ICON_DESC"
-			useglobal="true"
-			class="chzn-color"
-			>
-			<option value="1">JSHOW</option>
-			<option value="0">JHIDE</option>
-		</field>
-
-		<field
-			name="show_email_icon"
-			type="list"
-			label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
-			description="JGLOBAL_SHOW_EMAIL_ICON_DESC"
 			useglobal="true"
 			class="chzn-color"
 			>

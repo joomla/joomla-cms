@@ -3,14 +3,20 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Finder\Site\View\Search;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Document\Feed\FeedItem;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
 
 /**
  * Search feed view class for the Finder package.
@@ -24,14 +30,14 @@ class FeedView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  \JError object on failure, void on success.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 */
 	public function display($tpl = null)
 	{
 		// Get the application
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Adjust the list limit to the feed limit.
 		$app->input->set('limit', $app->get('feed_limit'));
@@ -40,11 +46,12 @@ class FeedView extends BaseHtmlView
 		$state = $this->get('State');
 		$params = $state->get('params');
 		$query = $this->get('Query');
-		$results = $this->get('Results');
+		$results = $this->get('Items');
+		$total = $this->get('Total');
 
 		// Push out the query data.
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-		$explained = \JHtml::_('query.explained', $query);
+		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		$explained = HTMLHelper::_('query.explained', $query);
 
 		// Set the document title.
 		$title = $params->get('page_title', '');
@@ -55,11 +62,11 @@ class FeedView extends BaseHtmlView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);
@@ -71,7 +78,7 @@ class FeedView extends BaseHtmlView
 		}
 
 		// Set the document link.
-		$this->document->link = \JRoute::_($query->toUri());
+		$this->document->link = Route::_($query->toUri());
 
 		// If we don't have any results, we are done.
 		if (empty($results))
@@ -83,21 +90,13 @@ class FeedView extends BaseHtmlView
 		foreach ($results as $result)
 		{
 			// Convert the result to a feed entry.
-			$item              = new \JFeedItem;
+			$item              = new FeedItem;
 			$item->title       = $result->title;
-			$item->link        = \JRoute::_($result->route);
+			$item->link        = Route::_($result->route);
 			$item->description = $result->description;
-			$item->date        = (int) $result->start_date ? \JHtml::_('date', $result->start_date, 'l d F Y') : $result->indexdate;
 
-			// Get the taxonomy data.
-			$taxonomy = $result->getTaxonomy();
-
-			// Add the category to the feed if available.
-			if (isset($taxonomy['Category']))
-			{
-				$node           = array_pop($taxonomy['Category']);
-				$item->category = $node->title;
-			}
+			// Use Unix date to cope for non-english languages
+			$item->date        = (int) $result->start_date ? HTMLHelper::_('date', $result->start_date, 'U') : $result->indexdate;
 
 			// Loads item info into RSS array
 			$this->document->addItem($item);

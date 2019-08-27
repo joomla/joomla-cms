@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Layout;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 
@@ -61,7 +61,7 @@ class BaseLayout implements LayoutInterface
 			$this->options = $options;
 		}
 		// Received array
-		elseif (is_array($options))
+		elseif (\is_array($options))
 		{
 			$this->options = new Registry($options);
 		}
@@ -110,11 +110,13 @@ class BaseLayout implements LayoutInterface
 	 *
 	 * @return  string  The escaped output.
 	 *
+	 * @note the ENT_COMPAT flag will be replaced by ENT_QUOTES in Joomla 4.0 to also escape single quotes
+	 *
 	 * @since   3.0
 	 */
 	public function escape($output)
 	{
-		return htmlspecialchars($output, ENT_COMPAT, 'UTF-8');
+		return htmlspecialchars($output, ENT_QUOTES, 'UTF-8');
 	}
 
 	/**
@@ -141,7 +143,7 @@ class BaseLayout implements LayoutInterface
 	public function render($displayData)
 	{
 		// Automatically merge any previously data set if $displayData is an array
-		if (is_array($displayData))
+		if (\is_array($displayData))
 		{
 			$displayData = array_merge($this->data, $displayData);
 		}
@@ -158,7 +160,7 @@ class BaseLayout implements LayoutInterface
 	 */
 	public function renderDebugMessages()
 	{
-		return implode($this->debugMessages, "\n");
+		return implode("\n", $this->debugMessages);
 	}
 
 	/**

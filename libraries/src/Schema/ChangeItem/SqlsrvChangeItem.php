@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,9 @@ class SqlsrvChangeItem extends ChangeItem
 	protected function buildCheckQuery()
 	{
 		// Initialize fields in case we can't create a check query
-		$this->checkStatus = -1; // change status to skipped
+
+		// Change status to skipped
+		$this->checkStatus = -1;
 		$result = null;
 
 		// Remove any newlines
@@ -147,7 +149,7 @@ class SqlsrvChangeItem extends ChangeItem
 	{
 		$string = str_replace('[', '', $string);
 		$string = str_replace(']', '', $string);
-		$string = str_replace('`', '', $string);
+		$string = str_replace('"', '', $string);
 		$string = str_replace(';', '', $string);
 		$string = str_replace('#__', $this->db->getPrefix(), $string);
 

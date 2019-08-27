@@ -3,24 +3,30 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Fields\Administrator\Field;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('list');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Fields\FieldsServiceInterface;
+use Joomla\CMS\Form\Field\ListField;
 
 /**
  * Fields Contexts
  *
  * @since  3.7.0
  */
-class FieldcontextsField extends \JFormFieldList
+class FieldcontextsField extends ListField
 {
+	/**
+	 * Type of the field
+	 *
+	 * @var    string
+	 */
 	public $type = 'Fieldcontexts';
 
 	/**
@@ -46,30 +52,14 @@ class FieldcontextsField extends \JFormFieldList
 	protected function getOptions()
 	{
 		$parts = explode('.', $this->value);
-		$eName = str_replace('com_', '', $parts[0]);
-		$file = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $parts[0] . '/helpers/' . $eName . '.php');
-		$contexts = array();
 
-		if (!file_exists($file))
+		$component = Factory::getApplication()->bootComponent($parts[0]);
+
+		if ($component instanceof FieldsServiceInterface)
 		{
-			return array();
+			return $component->getContexts();
 		}
 
-		$prefix = ucfirst($eName);
-		$cName = $prefix . 'Helper';
-
-		\JLoader::register($cName, $file);
-
-		if (class_exists($cName) && is_callable(array($cName, 'getContexts')))
-		{
-			$contexts = $cName::getContexts();
-		}
-
-		if (!$contexts || !is_array($contexts) || count($contexts) == 1)
-		{
-			return array();
-		}
-
-		return $contexts;
+		return [];
 	}
 }

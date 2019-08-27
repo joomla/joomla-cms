@@ -7,7 +7,7 @@
 			label="COM_LANGUAGES_OVERRIDE_FIELD_KEY_LABEL"
 			size="60"
 			required="true"
-			filter="LanguagesHelper::filterKey" 
+			filter="\Joomla\Component\Languages\Administrator\Helper\LanguagesHelper::filterKey" 
 		/>
 
 		<field
@@ -16,7 +16,7 @@
 			label="COM_LANGUAGES_OVERRIDE_FIELD_OVERRIDE_LABEL"
 			cols="50"
 			rows="5"
-			filter="LanguagesHelper::filterText" 
+			filter="\Joomla\Component\Languages\Administrator\Helper\LanguagesHelper::filterText" 
 		/>
 
 		<field
@@ -31,7 +31,6 @@
 			name="searchstring"
 			type="text"
 			label="COM_LANGUAGES_OVERRIDE_FIELD_SEARCHSTRING_LABEL"
-			description="COM_LANGUAGES_OVERRIDE_FIELD_SEARCHSTRING_DESC"
 			size="50"
 		/>
 

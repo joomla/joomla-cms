@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
@@ -90,7 +90,7 @@ trait EventAware
 		}
 		catch (\UnexpectedValueException $exception)
 		{
-			$this->getLogger()->error(sprintf('Dispatcher not set in %s, cannot trigger events.', get_class($this)));
+			$this->getLogger()->error(sprintf('Dispatcher not set in %s, cannot trigger events.', \get_class($this)));
 
 			return [];
 		}
@@ -99,7 +99,7 @@ trait EventAware
 		{
 			$event = $args;
 		}
-		elseif (is_array($args))
+		elseif (\is_array($args))
 		{
 			$event = new Event($eventName, $args);
 		}
@@ -111,6 +111,6 @@ trait EventAware
 		$result = $dispatcher->dispatch($eventName, $event);
 
 		// TODO - There are still test cases where the result isn't defined, temporarily leave the isset check in place
-		return !isset($result['result']) || is_null($result['result']) ? [] : $result['result'];
+		return !isset($result['result']) || \is_null($result['result']) ? [] : $result['result'];
 	}
 }

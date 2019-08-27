@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,16 +10,19 @@ namespace Joomla\CMS\Menu;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Tree\NodeInterface;
+use Joomla\CMS\Tree\NodeTrait;
 use Joomla\Registry\Registry;
 
 /**
  * Object representing a menu item
  *
  * @since  3.7.0
- * @note   This class will no longer extend stdClass in Joomla 4
  */
-class MenuItem extends \stdClass
+class MenuItem implements NodeInterface
 {
+	use NodeTrait;
+
 	/**
 	 * Primary key
 	 *
@@ -207,7 +210,7 @@ class MenuItem extends \stdClass
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -227,7 +230,7 @@ class MenuItem extends \stdClass
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void

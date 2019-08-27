@@ -2,14 +2,16 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Language;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -29,31 +31,35 @@ class Associations
 	 * @param   string   $pk          The name of the primary key in the given $table.
 	 * @param   string   $aliasField  If the table has an alias field set it here. Null to not use it
 	 * @param   string   $catField    If the table has a catid field set it here. Null to not use it
+	 * @param   array    $advClause   Additional advanced 'where' clause; use c as parent column key, c2 as associations column key
 	 *
-	 * @return  array                The associated items
+	 * @return  array  The associated items
 	 *
 	 * @since   3.1
 	 *
 	 * @throws  \Exception
 	 */
-	public static function getAssociations($extension, $tablename, $context, $id, $pk = 'id', $aliasField = 'alias', $catField = 'catid')
+	public static function getAssociations($extension, $tablename, $context, $id, $pk = 'id', $aliasField = 'alias', $catField = 'catid',
+		$advClause = array()
+	)
 	{
 		// To avoid doing duplicate database queries.
 		static $multilanguageAssociations = array();
 
 		// Multilanguage association array key. If the key is already in the array we don't need to run the query again, just return it.
-		$queryKey = implode('|', func_get_args());
+		$queryKey = md5(serialize(array_merge(array($extension, $tablename, $context, $id), $advClause)));
+
 		if (!isset($multilanguageAssociations[$queryKey]))
 		{
 			$multilanguageAssociations[$queryKey] = array();
 
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$categoriesExtraSql = (($tablename === '#__categories') ? ' AND c2.extension = ' . $db->quote($extension) : '');
 			$query = $db->getQuery(true)
 				->select($db->quoteName('c2.language'))
 				->from($db->quoteName($tablename, 'c'))
 				->join('INNER', $db->quoteName('#__associations', 'a') . ' ON a.id = c.' . $db->quoteName($pk) . ' AND a.context=' . $db->quote($context))
-				->join('INNER', $db->quoteName('#__associations', 'a2') . ' ON a.key = a2.key')
+				->join('INNER', $db->quoteName('#__associations', 'a2') . ' ON ' . $db->quoteName('a.key') . ' = ' . $db->quoteName('a2.key'))
 				->join('INNER', $db->quoteName($tablename, 'c2') . ' ON a2.id = c2.' . $db->quoteName($pk) . $categoriesExtraSql);
 
 			// Use alias field ?
@@ -78,9 +84,9 @@ class Associations
 			if (!empty($catField))
 			{
 				$query->join(
-						'INNER',
-						$db->quoteName('#__categories', 'ca') . ' ON ' . $db->quoteName('c2.' . $catField) . ' = ca.id AND ca.extension = ' . $db->quote($extension)
-					)
+					'INNER',
+					$db->quoteName('#__categories', 'ca') . ' ON ' . $db->quoteName('c2.' . $catField) . ' = ca.id AND ca.extension = ' . $db->quote($extension)
+				)
 					->select(
 						$query->concatenate(
 							array('ca.id', 'ca.alias'),
@@ -90,9 +96,19 @@ class Associations
 			}
 
 			$query->where('c.' . $pk . ' = ' . (int) $id);
+
 			if ($tablename === '#__categories')
 			{
 				$query->where('c.extension = ' . $db->quote($extension));
+			}
+
+			// Advanced where clause
+			if (!empty($advClause))
+			{
+				foreach ($advClause as $clause)
+				{
+					$query->where($clause);
+				}
 			}
 
 			$db->setQuery($query);
@@ -143,7 +159,7 @@ class Associations
 			// If already tested, don't test again.
 			if (!$tested)
 			{
-				$plugin = \JPluginHelper::getPlugin('system', 'languagefilter');
+				$plugin = PluginHelper::getPlugin('system', 'languagefilter');
 
 				if (!empty($plugin))
 				{

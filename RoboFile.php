@@ -3,15 +3,17 @@
  * @package     Joomla.Site
  * @subpackage  RoboFile
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+use Robo\Tasks;
 
 /**
  * This is joomla project's console command file for Robo.li task runner.
  *
- * Or do: $ composer install, and afterwards you will be able to execute robo like
- * $ ./libraries/vendor/bin/robo
+ * Do a `$ composer install` afterwards you will be able to execute robo like
+ * `$ ./libraries/vendor/bin/robo` to see a list of commands
  *
  * @see         http://robo.li/
  */
@@ -29,8 +31,18 @@ if (!defined('JPATH_BASE'))
  *
  * @since    3.7.3
  */
-class RoboFile extends \Robo\Tasks
+class RoboFile extends Tasks
 {
+	use JoomlaRobo\Tasks;
+
+	/**
+	 * Path to the Selenium folder#
+	 *
+	 * @var   string
+	 * @since  3.7.3
+	 */
+	const SELENIUM_FOLDER = __DIR__ . '/libraries/vendor/joomla-projects/selenium-server-standalone';
+
 	/**
 	 * Path to the vendor folder
 	 *
@@ -45,15 +57,7 @@ class RoboFile extends \Robo\Tasks
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	private $testsPath = 'libraries/vendor/joomla/test-system/src/';
-
-	/**
-	 * Local configuration parameters
-	 *
-	 * @var    array
-	 * @since  3.7.3
-	 */
-	private $configuration = array();
+	private $testsPath = 'tests/Codeception/';
 
 	/**
 	 * @var array | null
@@ -62,123 +66,103 @@ class RoboFile extends \Robo\Tasks
 	private $suiteConfig;
 
 	/**
-	 * Path to the local CMS test folder
-	 *
-	 * @var    string
-	 * @since  3.7.3
-	 */
-	protected $cmsPath = null;
-
-	/**
 	 * RoboFile constructor.
 	 *
 	 * @since   3.7.3
 	 */
 	public function __construct()
 	{
-		$this->configuration = $this->getConfiguration();
-		$this->cmsPath       = $this->getTestingPath();
-
 		// Set default timezone (so no warnings are generated if it is not set)
 		date_default_timezone_set('UTC');
 	}
 
 	/**
-	 * Get (optional) configuration from an external file
-	 *
-	 * @since   3.7.3
-	 *
-	 * @return  \stdClass|null
-	 */
-	public function getConfiguration()
-	{
-		$configurationFile = __DIR__ . '/RoboFile.ini';
-
-		if (!file_exists($configurationFile))
-		{
-			$this->say('No local configuration file');
-
-			return null;
-		}
-
-		$configuration = parse_ini_file($configurationFile);
-
-		if ($configuration === false)
-		{
-			$this->say('Local configuration file is empty or wrong (check is it in correct .ini format');
-
-			return null;
-		}
-
-		return json_decode(json_encode($configuration));
-	}
-
-	/**
-	 * Get the correct CMS root path
-	 *
-	 * @since   3.7.3
-	 *
-	 * @return  string
-	 */
-	private function getTestingPath()
-	{
-		if (empty($this->configuration->cmsPath))
-		{
-			return 'test-install';
-		}
-
-		if (!file_exists(dirname($this->configuration->cmsPath)))
-		{
-			$this->say('CMS path written in local configuration does not exists or is not readable');
-
-			return 'test-install';
-		}
-
-		return $this->configuration->cmsPath;
-	}
-
-	/**
 	 * Creates a testing Joomla site for running the tests (use it before run:test)
 	 *
-	 * @param   bool $useHtaccess (1/0) Rename and enable embedded Joomla .htaccess file
-	 *
-	 * @since   3.7.3
+	 * @param   bool  $useHtaccess  (1/0) Rename and enable embedded Joomla .htaccess file
 	 *
 	 * @return  void
+	 * @since   3.7.3
+	 *
+	 * @throws  Exception
 	 */
 	public function createTestingSite($useHtaccess = false)
 	{
+		$cmsPath   = $this->getSuiteConfig()['modules']['config']['Helper\\Acceptance']['cmsPath'];
+		$localUser = $this->getSuiteConfig()['modules']['config']['Helper\\Acceptance']['localUser'];
+
 		// Clean old testing site
-		if (is_dir($this->cmsPath))
+		if (is_dir($cmsPath))
 		{
 			try
 			{
-				$this->taskDeleteDir($this->cmsPath)->run();
+				$this->taskDeleteDir($cmsPath)->run();
 			}
 			catch (Exception $e)
 			{
 				// Sorry, we tried :(
-				$this->say('Sorry, you will have to delete ' . $this->cmsPath . ' manually.');
+				$this->say('Sorry, you will have to delete ' . $cmsPath . ' manually.');
 
 				exit(1);
 			}
 		}
 
-		$exclude = ['tests', 'tests-phpunit', '.run', '.github', '.git', 'test-install', 'libraries/vendor/codeception', 'libraries/vendor/behat', 'libraries/vendor/joomla-projects'];
+		$exclude = [
+			'.drone',
+			'.github',
+			'.git',
+			'.run',
+			'.idea',
+			'build',
+			'dev',
+			'node_modules',
+			'tests',
+			'test-install',
+			'.appveyor.yml',
+			'.babelrc',
+			'.drone.yml',
+			'.editorconfig',
+			'.eslintignore',
+			'.eslintrc',
+			'.gitignore',
+			'.hound.yml',
+			'.php_cs',
+			'.travis.yml',
+			'appveyor-phpunit.xml',
+			'build.js',
+			'build.xml',
+			'codeception.yml',
+			'composer.json',
+			'composer.lock',
+			'configuration.php',
+			'drone-package.json',
+			'Gemfile',
+			'htaccess.txt',
+			'karma.conf.js',
+			'package.json',
+			'package-lock.json',
+			'phpunit.xml.dist',
+			'RoboFile.dist.ini',
+			'RoboFile.php',
+			'robots.txt.dist',
+			'scss-lint.yml',
+			'selenium.log',
+			'travisci-phpunit.xml',
+		];
 
-		$this->copyJoomla($this->cmsPath, $exclude);
+		$this->copyJoomla($cmsPath, $exclude);
 
 		// Optionally change owner to fix permissions issues
-		if (!empty($this->configuration->localUser))
+		if (!empty($localUser))
 		{
-			$this->_exec('chown -R ' . $this->configuration->localUser . ' ' . $this->cmsPath);
+			$this->_exec('chown -R ' . $localUser . ' ' . $cmsPath);
 		}
 
 		// Optionally uses Joomla default htaccess file. Used by TravisCI
 		if ($useHtaccess == true)
 		{
 			$this->say('Renaming htaccess.txt to .htaccess');
-			$this->_copy('./htaccess.txt', $this->cmsPath . '/.htaccess');
+			$this->_copy('./htaccess.txt', $cmsPath . '/.htaccess');
 			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /test-install/joomla-cms,g" -in-place test-install/joomla-cms/.htaccess');
 		}
 	}
@@ -236,60 +220,87 @@ class RoboFile extends \Robo\Tasks
 	}
 
 	/**
-	 * Downloads Composer
-	 *
-	 * @since   3.7.3
-	 *
-	 * @return  void
-	 */
-	private function getComposer()
-	{
-		// Make sure we have Composer
-		if (!file_exists($this->vendorPath . 'composer.phar'))
-		{
-			$this->_exec('curl -o ' . $this->vendorPath . 'composer.phar  --retry 3 --retry-delay 5 -sS https://getcomposer.org/installer | php');
-		}
-	}
-
-	/**
-	 * Runs Selenium Standalone Server.
-	 *
-	 * @since   3.7.3
-	 *
-	 * @return  void
-	 */
-	public function runSelenium()
-	{
-		if (!$this->isWindows())
-		{
-			$this->_exec($this->vendorPath . "bin/selenium-server-standalone " . $this->getWebDriver() . ' >> selenium.log 2>&1 &');
-		}
-		else
-		{
-			$this->_exec("START java.exe -jar " . $this->getWebDriver()  . ' ' . $this->vendorPath . 'joomla-projects\selenium-server-standalone\bin\selenium-server-standalone.jar ');
-		}
-
-		sleep(3);
-	}
-
-	/**
 	 * Executes all the Selenium System Tests in a suite on your machine
 	 *
-	 * @param   array $opts   Array of configuration options:
+	 * @param   array  $opts  Array of configuration options:
 	 *                        - 'use-htaccess': renames and enable embedded Joomla .htaccess file
 	 *                        - 'env': set a specific environment to get configuration from
 	 *
+	 * @return  void
 	 * @since   3.7.3
 	 *
-	 * @return  mixed
+	 * @throws  Exception
 	 */
 	public function runTests($opts = ['use-htaccess' => false, 'env' => 'desktop'])
 	{
 		$this->say("Running tests");
 
+		$pathToCodeception = $this->prepareRun($opts);
+
+		$suites = [
+			'acceptance/install/',
+			'acceptance/administrator/components/com_content',
+			'acceptance/administrator/components/com_media',
+			'acceptance/administrator/components/com_menu',
+			'acceptance/administrator/components/com_users',
+		];
+
+		foreach ($suites as $suite) {
+			$this->taskCodecept($pathToCodeception)
+				->arg('--fail-fast')
+				->arg('--steps')
+				->arg('--debug')
+				->env($opts['env'])
+				->arg($this->testsPath . $suite)
+				->run()
+				->stopOnFail();
+		}
+	}
+
+	/**
+	 * Install only Joomla
+	 *
+	 * @param   array  $opts  Additional options
+	 *
+	 * @return  void
+	 * @since   4.0.0
+	 *
+	 * @throws  Exception
+	 */
+	public function runInstall($opts = ['use-htaccess' => false, 'env' => 'desktop'])
+	{
+		$this->say("Running Installation");
+
+		$pathToCodeception = $this->prepareRun($opts);
+
+		$this->taskCodecept($pathToCodeception)
+			->arg('--fail-fast')
+			->arg('--steps')
+			->arg('--debug')
+			->env($opts['env'])
+			->arg($this->testsPath . 'acceptance/install/')
+			->run()
+			->stopOnFail();
+	}
+
+	/**
+	 * Prepare the installation
+	 *
+	 * @param   array  $opts  Optional Options
+	 *
+	 * @return  string  Path to codeception
+	 *
+	 * @since   4.0.0
+	 * @throws  Exception
+	 */
+	protected function prepareRun($opts = ['use-htaccess' => false, 'env' => 'desktop'])
+	{
 		$this->createTestingSite($opts['use-htaccess']);
 
-		$this->runSelenium();
+		$this->taskRunSelenium(self::SELENIUM_FOLDER, $this->getWebdriver())->run();
+
+		// Wait until the server started
+		sleep(3);
 
 		// Make sure to run the build command to generate AcceptanceTester
 		if ($this->isWindows())
@@ -304,23 +315,7 @@ class RoboFile extends \Robo\Tasks
 			$pathToCodeception = $this->vendorPath . 'bin/codecept';
 		}
 
-		$this->taskCodecept($pathToCodeception)
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--fail-fast')
-			->env($opts['env'])
-			->arg($this->testsPath . 'acceptance/install/')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--fail-fast')
-			->env($opts['env'])
-			->arg($this->testsPath . '/acceptance/administrator/components/com_users')
-			->run()
-			->stopOnFail();
+		return $pathToCodeception;
 	}
 
 	/**
@@ -331,11 +326,13 @@ class RoboFile extends \Robo\Tasks
 	 *
 	 * @since   3.7.3
 	 *
+	 * @throws  Exception  if test not found
+	 *
 	 * @return  void
 	 */
 	public function runTest($pathToTestFile = null, $suite = 'acceptance')
 	{
-		$this->runSelenium();
+		$this->taskRunSelenium(self::SELENIUM_FOLDER, $this->getWebdriver());
 
 		// Make sure to run the build command to generate AcceptanceTester
 		$path = $this->vendorPath . 'bin/codecept';
@@ -347,7 +344,7 @@ class RoboFile extends \Robo\Tasks
 
 			$iterator = new RecursiveIteratorIterator(
 				new RecursiveDirectoryIterator(
-					$this->vendorPath . $suite,
+					$this->testsPath . '/' . $suite,
 					RecursiveDirectoryIterator::SKIP_DOTS
 				),
 				RecursiveIteratorIterator::SELF_FIRST
@@ -379,7 +376,7 @@ class RoboFile extends \Robo\Tasks
 			$test       = $tests[$testNumber];
 		}
 
-		$pathToTestFile = $this->vendorPath . 'joomla/test-system/' . $suite . '/' . $test;
+		$pathToTestFile = $this->testsPath . '/' . $suite . '/' . $test;
 
 		// Loading the class to display the methods in the class
 
@@ -391,7 +388,7 @@ class RoboFile extends \Robo\Tasks
 
 		if (isset($fileName[1]) && strripos($fileName[1], 'cest'))
 		{
-			require $this->vendorPath . $suite . '/' . $test;
+			require $this->testsPath . '/' . $suite . '/' . $test;
 
 			$className     = explode(".", $fileName[1]);
 			$class_methods = get_class_methods($className[0]);
@@ -470,73 +467,10 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function getWebdriver()
 	{
-		$suiteConfig        = $this->getSuiteConfig();
-		$codeceptMainConfig = \Codeception\Configuration::config();
-		$browser            = $suiteConfig['modules']['config']['JoomlaBrowser']['browser'];
+		$suiteConfig = $this->getSuiteConfig();
+		$driver      = $suiteConfig['modules']['config']['JoomlaBrowser']['browser'];
 
-		if ($browser == 'chrome')
-		{
-			$driver['type'] = 'webdriver.chrome.driver';
-		}
-		elseif ($browser == 'firefox')
-		{
-			$driver['type'] = 'webdriver.gecko.driver';
-		}
-		elseif ($browser == 'MicrosoftEdge')
-		{
-			$driver['type'] = 'webdriver.edge.driver';
-
-			// Check if we are using Windows Insider builds
-			if ($suiteConfig['modules']['config']['AcceptanceHelper']['MicrosoftEdgeInsiders'])
-			{
-				$browser = 'MicrosoftEdgeInsiders';
-			}
-		}
-		elseif ($browser == 'internet explorer')
-		{
-			$driver['type'] = 'webdriver.ie.driver';
-		}
-
-		// Check if we have a path for this browser and OS in the codeception settings
-		if (isset($codeceptMainConfig['webdrivers'][$browser][$this->getOs()]))
-		{
-			$driverPath = $codeceptMainConfig['webdrivers'][$browser][$this->getOs()];
-		}
-		else
-		{
-			$this->yell('No driver for your browser. Check your browser in acceptance.suite.yml and the webDrivers in codeception.yml');
-
-			// We can't do anything without a driver, exit
-			exit(1);
-		}
-
-		$driver['path'] = $driverPath;
-
-		return '-D' . implode('=', $driver);
-	}
-
-	/**
-	 * Return the os name
-	 *
-	 * @return string
-	 *
-	 * @since   3.7.3
-	 */
-	private function getOs()
-	{
-		$os = php_uname('s');
-
-		if (strpos(strtolower($os), 'windows') !== false)
-		{
-			return  'windows';
-		}
-
-		if (strpos(strtolower($os), 'darwin') !== false)
-		{
-			return 'mac';
-		}
-
-		return 'linux';
+		return $driver;
 	}
 
 	/**
@@ -552,7 +486,7 @@ class RoboFile extends \Robo\Tasks
 	{
 		if (!$this->suiteConfig)
 		{
-			$this->suiteConfig = Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . '/' . $suite . '.suite.yml'));
+			$this->suiteConfig = Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . '/tests/Codeception/' . $suite . '.suite.yml'));
 		}
 
 		return $this->suiteConfig;

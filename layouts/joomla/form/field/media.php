@@ -3,13 +3,16 @@
  * @package     Joomla.Admin
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Layout variables
@@ -38,7 +41,7 @@ extract($displayData);
 $attr = '';
 
 // Initialize some field attributes.
-$attr .= !empty($class) ? ' class="form-control hasTooltip field-media-input ' . $class . '"' : ' class="form-control hasTooltip field-media-input"';
+$attr .= !empty($class) ? ' class="form-control field-media-input ' . $class . '"' : ' class="form-control field-media-input"';
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 
 // Initialize JavaScript field attributes.
@@ -65,7 +68,7 @@ if ($showPreview)
 {
 	if ($value && file_exists(JPATH_ROOT . '/' . $value))
 	{
-		$src = JUri::root() . $value;
+		$src = Uri::root() . $value;
 	}
 	else
 	{
@@ -83,11 +86,11 @@ if ($showPreview)
 		'style' => $style,
 	);
 
-	$img = JHtml::_('image', $src, JText::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
+	$img = HTMLHelper::_('image', $src, Text::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
 
 	$previewImg = '<div id="' . $id . '_preview_img"' . '>' . $img . '</div>';
 	$previewImgEmpty = '<div id="' . $id . '_preview_empty"' . ($src ? ' style="display:none"' : '') . '>'
-		. JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
+		. Text::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
 
 	$showPreview = 'static';
 }
@@ -101,7 +104,7 @@ $url    = ($readonly ? ''
 ?>
 <joomla-field-media class="field-media-wrapper"
 		type="image" <?php // @TODO add this attribute to the field in order to use it for all media types ?>
-		base-path="<?php echo JUri::root(); ?>"
+		base-path="<?php echo Uri::root(); ?>"
 		root-folder="<?php echo ComponentHelper::getParams('com_media')->get('file_path', 'images'); ?>"
 		url="<?php echo $url; ?>"
 		modal-container=".modal"
@@ -118,25 +121,26 @@ $url    = ($readonly ? ''
 >
 	<?php
 	// Render the modal
-	echo JHtml::_('bootstrap.renderModal',
+	echo HTMLHelper::_('bootstrap.renderModal',
 		'imageModal_'. $id,
 		array(
 			'url'         => $url,
-			'title'       => JText::_('JLIB_FORM_CHANGE_IMAGE'),
+			'title'       => Text::_('JLIB_FORM_CHANGE_IMAGE'),
 			'closeButton' => true,
 			'height' => '100%',
 			'width'  => '100%',
 			'modalWidth'  => '80',
 			'bodyHeight'  => '60',
-			'footer'      => '<button class="btn btn-secondary button-save-selected">' . JText::_('JSELECT') . '</button><button class="btn btn-secondary" data-dismiss="modal">' . JText::_('JCANCEL') . '</button>'
+			'footer'      => '<button type="button" class="btn btn-secondary button-save-selected">' . Text::_('JSELECT') . '</button>'
+				. '<button type="button" class="btn btn-secondary" data-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
 		)
 	);
 
-	JHtml::_('webcomponent', ['joomla-field-media' => 'system/webcomponents/joomla-field-media.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
-	JText::script('JLIB_FORM_MEDIA_PREVIEW_EMPTY', true);
+	HTMLHelper::_('webcomponent', 'system/fields/joomla-field-media.min.js', ['version' => 'auto', 'relative' => true]);
+	Text::script('JLIB_FORM_MEDIA_PREVIEW_EMPTY', true);
 	?>
 	<?php if ($showPreview) : ?>
-		<div class="field-media-preview" style="height:auto">
+		<div class="field-media-preview">
 			<?php echo ' ' . $previewImgEmpty; ?>
 			<?php echo ' ' . $previewImg; ?>
 		</div>
@@ -144,9 +148,9 @@ $url    = ($readonly ? ''
 	<div class="input-group">
 		<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" readonly="readonly"<?php echo $attr; ?>>
 		<?php if ($disabled != true) : ?>
-			<div class="input-group-btn">
-				<a class="btn btn-secondary button-select"><?php echo JText::_("JLIB_FORM_BUTTON_SELECT"); ?></a>
-				<a class="btn btn-secondary hasTooltip button-clear" title="<?php echo JText::_("JLIB_FORM_BUTTON_CLEAR"); ?>"><span class="icon-remove" aria-hidden="true"></span></a>
+			<div class="input-group-append">
+				<button type="button" class="btn btn-secondary button-select"><?php echo Text::_("JLIB_FORM_BUTTON_SELECT"); ?></button>
+				<button type="button" class="btn btn-secondary button-clear"><span class="fa fa-times" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_("JLIB_FORM_BUTTON_CLEAR"); ?></span></button>
 			</div>
 		<?php endif; ?>
 	</div>

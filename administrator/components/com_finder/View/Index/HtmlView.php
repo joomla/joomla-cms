@@ -3,19 +3,26 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Finder\Administrator\View\Index;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 
 /**
  * Index view class for Finder.
@@ -99,7 +106,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  A string if successful, otherwise a \JError object.
+	 * @return  mixed  A string if successful, otherwise an \Exception object.
 	 *
 	 * @since   2.5
 	 */
@@ -118,23 +125,37 @@ class HtmlView extends BaseHtmlView
 
 		FinderHelper::addSubmenu('index');
 
+		// We do not need to filter by language when multilingual is disabled
+		if (!Multilanguage::isEnabled())
+		{
+			unset($this->activeFilters['language']);
+			$this->filterForm->removeField('language', 'filter');
+		}
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		if (!$this->pluginState['plg_content_finder']->enabled)
 		{
-			$link = \JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . FinderHelper::getFinderPluginId());
-			\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED', $link), 'warning');
+			if (Factory::getUser()->authorise('core.manage', 'com_plugin'))
+			{
+				$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . FinderHelper::getFinderPluginId());
+				Factory::getApplication()->enqueueMessage(Text::sprintf('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED_LINK', $link), 'warning');
+			}
+			else
+			{
+				Factory::getApplication()->enqueueMessage(Text::_('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED'), 'warning');
+			}
 		}
 		elseif ($this->get('TotalIndexed') === 0)
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_FINDER_INDEX_NO_DATA') . '  ' . \JText::_('COM_FINDER_INDEX_TIP'), 'notice');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_FINDER_INDEX_NO_DATA') . '  ' . Text::_('COM_FINDER_INDEX_TIP'), 'notice');
 		}
 
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		// Configure the toolbar.
 		$this->addToolbar();
@@ -154,9 +175,11 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_finder');
 
-		ToolbarHelper::title(\JText::_('COM_FINDER_INDEX_TOOLBAR_TITLE'), 'zoom-in finder');
-
+		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
+
+		ToolbarHelper::title(Text::_('COM_FINDER_INDEX_TOOLBAR_TITLE'), 'zoom-in finder');
+
 		$toolbar->appendButton(
 			'Popup', 'archive', 'COM_FINDER_INDEX', 'index.php?option=com_finder&view=indexer&tmpl=component', 500, 210, 0, 0,
 			'window.parent.location.reload()', 'COM_FINDER_HEADING_INDEXER'
@@ -164,8 +187,17 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::publishList('index.publish');
-			ToolbarHelper::unpublishList('index.unpublish');
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-globe')
+				->buttonClass('btn btn-info')
+				->listCheck(true);
+
+			$childBar = $dropdown->getChildToolbar();
+
+			$childBar->publish('index.publish')->listCheck(true);
+			$childBar->unpublish('index.unpublish')->listCheck(true);
 		}
 
 		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
@@ -173,6 +205,7 @@ class HtmlView extends BaseHtmlView
 		if ($canDo->get('core.delete'))
 		{
 			ToolbarHelper::deleteList('', 'index.delete');
+			ToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.edit.state'))

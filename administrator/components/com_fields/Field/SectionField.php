@@ -3,25 +3,29 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Fields\Administrator\Field;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\Field\ListField;
 
 /**
  * Fields Section
  *
  * @since  3.7.0
  */
-class SectionField extends \JFormFieldList
+class SectionField extends ListField
 {
+	/**
+	 * Type of the field
+	 *
+	 * @var    string
+	 */
 	public $type = 'Section';
 
 	/**
@@ -42,7 +46,7 @@ class SectionField extends \JFormFieldList
 		$return = parent::setup($element, $value, $group);
 
 		// Onchange must always be the change context function
-		$this->onchange = 'fieldsChangeContext(jQuery(this).val());';
+		$this->onchange = 'fieldsChangeContext(this.value);';
 
 		return $return;
 	}

@@ -9,7 +9,7 @@
 		</message>
 	</layout>
 
-	<fields name="request" addfieldpath="/administrator/components/com_finder/models/fields">
+	<fields name="request" addfieldprefix="Joomla\Component\Finder\Administrator\Field" >
 		<fieldset name="request">
 			<field
 				name="q"
@@ -25,7 +25,7 @@
 			/>
 		</fieldset>
 	</fields>
-	<fields name="params" addfieldpath="/administrator/components/com_finder/models/fields">
+	<fields name="params">
 		<fieldset name="basic">
 			<field
 				name="show_date_filters"
@@ -57,10 +57,21 @@
 				useglobal="true"
 				class="chzn-color"
 				>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field type="spacer" />
+			<field
+				name="show_taxonomy"
+				type="list"
+				label="COM_FINDER_CONFIG_SHOW_TAXONOMY_LABEL"
+				default=""
+				useglobal="true"
+				class="chzn-color"
+				>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
-			<field type="spacer" />
 			<field
 				name="show_description"
 				type="list"
@@ -80,6 +91,17 @@
 				size="5"
 				useglobal="true"
 			/>
+			<field
+				name="show_date"
+				type="list"
+				label="COM_FINDER_CONFIG_SHOW_DATE_LABEL"
+				default=""
+				useglobal="true"
+				class="chzn-color"
+				>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+			</field>
 			<field
 				name="show_url"
 				type="list"
@@ -182,29 +204,6 @@
 				>
 				<option value="desc">COM_FINDER_CONFIG_SORT_OPTION_DESCENDING</option>
 				<option value="asc">COM_FINDER_CONFIG_SORT_OPTION_ASCENDING</option>
-			</field>
-			<field type="spacer" />
-			<field
-				name="show_feed"
-				type="radio"
-				class="switcher"
-				label="COM_FINDER_CONFIG_SHOW_FEED_LABEL"
-				default="0"
-				validate="options"
-				>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-			<field
-				name="show_feed_text"
-				type="radio"
-				class="switcher"
-				label="COM_FINDER_CONFIG_SHOW_FEED_TEXT_LABEL"
-				default="0"
-				validate="options"
-				>
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
 			</field>
 		</fieldset>
 		<fieldset name="integration">

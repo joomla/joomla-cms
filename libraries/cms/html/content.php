@@ -3,11 +3,18 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Utility class to fire onContentPrepare for non-article based content.
@@ -31,14 +38,49 @@ abstract class JHtmlContent
 	{
 		if ($params === null)
 		{
-			$params = new JObject;
+			$params = new CMSObject;
 		}
 
 		$article = new stdClass;
 		$article->text = $text;
-		JPluginHelper::importPlugin('content');
-		JFactory::getApplication()->triggerEvent('onContentPrepare', array($context, &$article, &$params, 0));
+		PluginHelper::importPlugin('content');
+		Factory::getApplication()->triggerEvent('onContentPrepare', array($context, &$article, &$params, 0));
 
 		return $article->text;
+	}
+
+	/**
+	 * Returns an array of months.
+	 *
+	 * @param   Registry  $state  The state object.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.9.0
+	 */
+	public static function months($state)
+	{
+		$model = BaseDatabaseModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+
+		foreach ($state as $key => $value)
+		{
+			$model->setState($key, $value);
+		}
+
+		$model->setState('filter.category_id', $state->get('category.id'));
+		$model->setState('list.start', 0);
+		$model->setState('list.limit', -1);
+		$model->setState('list.direction', 'asc');
+		$model->setState('list.filter', '');
+
+		$items = array();
+
+		foreach ($model->countItemsByMonth() as $item)
+		{
+			$date    = new Date($item->d);
+			$items[] = HTMLHelper::_('select.option', $item->d, $date->format('F Y') . ' [' . $item->c . ']');
+		}
+
+		return $items;
 	}
 }

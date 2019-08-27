@@ -3,7 +3,7 @@
 	<name>plg_system_redirect</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2009</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -26,15 +26,26 @@
 					class="switcher"
 					label="PLG_SYSTEM_REDIRECT_FIELD_COLLECT_URLS_LABEL"
 					default="1"
+					filter="integer"
 					>
 					<option value="0">JDISABLED</option>
 					<option value="1">JENABLED</option>
 				</field>
 				<field
+					name="includeUrl"
+					type="radio"
+					class="switcher"
+					label="PLG_SYSTEM_REDIRECT_FIELD_STORE_FULL_URL_LABEL"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
 					name="exclude_urls"
 					type="subform"
 					label="PLG_SYSTEM_REDIRECT_FIELD_EXCLUDE_URLS_LABEL"
-					description="PLG_SYSTEM_REDIRECT_FIELD_EXCLUDE_URLS_DESC"
 					multiple="true"
 					formsource="plugins/system/redirect/form/excludes.xml"
 				/>

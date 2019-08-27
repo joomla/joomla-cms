@@ -3,15 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Modules\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 
@@ -94,7 +97,7 @@ class PositionsModel extends ListModel
 	{
 		if (!isset($this->items))
 		{
-			$lang            = \JFactory::getLanguage();
+			$lang            = Factory::getLanguage();
 			$search          = $this->getState('filter.search');
 			$state           = $this->getState('filter.state');
 			$clientId        = $this->getState('client_id');
@@ -146,7 +149,7 @@ class PositionsModel extends ListModel
 			// Load the positions from the installed templates.
 			foreach (ModulesHelper::getTemplates($clientId) as $template)
 			{
-				$path = \JPath::clean($client->path . '/templates/' . $template->element . '/templateDetails.xml');
+				$path = Path::clean($client->path . '/templates/' . $template->element . '/templateDetails.xml');
 
 				if (file_exists($path))
 				{
@@ -232,7 +235,7 @@ class PositionsModel extends ListModel
 	/**
 	 * Method to get the total number of items.
 	 *
-	 * @return  int	The total number of items.
+	 * @return  integer  The total number of items.
 	 *
 	 * @since   1.6
 	 */

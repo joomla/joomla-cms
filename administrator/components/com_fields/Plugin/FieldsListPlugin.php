@@ -3,12 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Fields\Administrator\Plugin;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 
 /**
  * Base plugin for all list based plugins
@@ -22,13 +26,13 @@ class FieldsListPlugin extends FieldsPlugin
 	 *
 	 * @param   \stdClass    $field   The field.
 	 * @param   \DOMElement  $parent  The field node parent.
-	 * @param   \JForm       $form    The form.
+	 * @param   Form         $form    The form.
 	 *
 	 * @return  \DOMElement
 	 *
 	 * @since   3.7.0
 	 */
-	public function onCustomFieldsPrepareDom($field, \DOMElement $parent, \JForm $form)
+	public function onCustomFieldsPrepareDom($field, \DOMElement $parent, Form $form)
 	{
 		$fieldNode = parent::onCustomFieldsPrepareDom($field, $parent, $form);
 
@@ -42,7 +46,7 @@ class FieldsListPlugin extends FieldsPlugin
 		foreach ($this->getOptionsFromField($field) as $value => $name)
 		{
 			$option = new \DOMElement('option', htmlspecialchars($value, ENT_COMPAT, 'UTF-8'));
-			$option->nodeValue = htmlspecialchars(\JText::_($name), ENT_COMPAT, 'UTF-8');
+			$option->textContent = htmlspecialchars(Text::_($name), ENT_COMPAT, 'UTF-8');
 
 			$element = $fieldNode->appendChild($option);
 			$element->setAttribute('value', $value);
@@ -65,7 +69,7 @@ class FieldsListPlugin extends FieldsPlugin
 		$data = array();
 
 		// Fetch the options from the plugin
-		$params = clone($this->params);
+		$params = clone $this->params;
 		$params->merge($field->fieldparams);
 
 		foreach ($params->get('options', array()) as $option)

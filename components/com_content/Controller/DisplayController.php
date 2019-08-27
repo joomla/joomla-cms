@@ -3,14 +3,19 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Content\Site\Controller;
 
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
 /**
  * Content Component Controller
@@ -29,11 +34,11 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
-		$this->input = \JFactory::getApplication()->input;
+		$this->input = Factory::getApplication()->input;
 
 		// Article frontpage Editor pagebreak proxying:
 		if ($this->input->get('view') === 'article' && $this->input->get('layout') === 'pagebreak')
@@ -43,7 +48,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 		// Article frontpage Editor article proxying:
 		elseif ($this->input->get('view') === 'articles' && $this->input->get('layout') === 'modal')
 		{
-			\JHtml::_('stylesheet', 'system/adminlist.css', array('version' => 'auto', 'relative' => true));
+			HTMLHelper::_('stylesheet', 'system/adminlist.css', array('version' => 'auto', 'relative' => true));
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 		}
 
@@ -73,7 +78,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 		$vName = $this->input->getCmd('view', 'categories');
 		$this->input->set('view', $vName);
 
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ($user->get('id')
 			|| ($this->input->getMethod() === 'POST'
@@ -104,7 +109,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 		if ($vName === 'form' && !$this->checkEditId('com_content.edit.article', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 403);
+			throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 403);
 		}
 
 		if ($vName === 'article')
@@ -112,7 +117,10 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 			// Get/Create the model
 			if ($model = $this->getModel($vName))
 			{
-				$model->hit();
+				if (ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1)
+				{
+					$model->hit();
+				}
 			}
 		}
 

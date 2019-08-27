@@ -3,16 +3,20 @@
  * @package     Joomla.Site
  * @subpackage  mod_feed
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
 // Check if feed URL has been set
 if (empty ($rssurl))
 {
-	echo '<div>' . \JText::_('MOD_FEED_ERR_NO_URL') . '</div>';
+	echo '<div>' . Text::_('MOD_FEED_ERR_NO_URL') . '</div>';
 
 	return;
 }
@@ -23,8 +27,8 @@ if (!empty($feed) && is_string($feed))
 }
 else
 {
-	$lang      = JFactory::getLanguage();
-	$myrtl     = $params->get('rssrtl');
+	$lang      = $app->getLanguage();
+	$myrtl     = $params->get('rssrtl', 0);
 	$direction = ' ';
 
 	$isRtl = $lang->isRtl();
@@ -64,18 +68,24 @@ else
 		$iUrl   = $feed->image ?? null;
 		$iTitle = $feed->imagetitle ?? null;
 		?>
-		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> !important"  class="feed">
+		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>;" class="text-<?php echo $rssrtl ? 'right' : 'left'; ?> feed">
 		<?php
 		// Feed description
 		if ($feed->title !== null && $params->get('rsstitle', 1))
 		{
 			?>
-					<h2 class="<?php echo $direction; ?>">
-						<a href="<?php echo htmlspecialchars($rssurl, ENT_COMPAT, 'UTF-8'); ?>" target="_blank">
-						<?php echo $feed->title; ?></a>
-					</h2>
+				<h2 class="<?php echo $direction; ?>">
+					<a href="<?php echo htmlspecialchars($rssurl, ENT_COMPAT, 'UTF-8'); ?>" target="_blank">
+					<?php echo $feed->title; ?></a>
+				</h2>
 			<?php
 		}
+		// Feed date
+		if ($params->get('rssdate', 1)) : ?>
+			<h3>
+			<?php echo HtmlHelper::_('date', $feed->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
+			</h3>
+		<?php endif;
 		// Feed description
 		if ($params->get('rssdesc', 1))
 		{
@@ -94,29 +104,33 @@ else
 	<?php if (!empty($feed))
 	{ ?>
 		<ul class="newsfeed">
-		<?php for ($i = 0, $max = min(count($feed), $params->get('rssitems', 5)); $i < $max; $i++) { ?>
+		<?php for ($i = 0, $max = min(count($feed), $params->get('rssitems', 3)); $i < $max; $i++) { ?>
 			<?php
-				$uri   = (!empty($feed[$i]->uri) || $feed[$i]->uri !== null) ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
-				$uri   = strpos($uri, 'http') !== 0 ? $params->get('rsslink') : $uri;
-				$text  = !empty($feed[$i]->content) || $feed[$i]->content !== null ? trim($feed[$i]->content) : trim($feed[$i]->description);
-				$title = trim($feed[$i]->title);
+				$uri  = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
+				$uri  = !$uri || stripos($uri, 'http') !== 0 ? $rssurl : $uri;
+				$text = $feed[$i]->content !== '' ? trim($feed[$i]->content) : '';
 			?>
 				<li>
 					<?php if (!empty($uri)) : ?>
 						<span class="feed-link">
 						<a href="<?php echo htmlspecialchars($uri, ENT_COMPAT, 'UTF-8'); ?>" target="_blank">
-						<?php echo $feed[$i]->title; ?></a></span>
+						<?php echo trim($feed[$i]->title); ?></a></span>
 					<?php else : ?>
-						<span class="feed-link"><?php echo $title; ?></span>
+						<span class="feed-link"><?php echo trim($feed[$i]->title); ?></span>
 					<?php endif; ?>
 
-					<?php if (!empty($text) && $params->get('rssitemdesc')) : ?>
+					<?php if ($params->get('rssitemdate', 0)) : ?>
+						<div class="feed-item-date">
+							<?php echo HtmlHelper::_('date', $feed[$i]->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
+						</div>
+					<?php endif; ?>
+
+					<?php if ($params->get('rssitemdesc', 1) && $text !== '') : ?>
 						<div class="feed-item-description">
 						<?php
 							// Strip the images.
-							$text = JFilterOutput::stripImages($text);
-
-							$text = JHtml::_('string.truncate', $text, $params->get('word_count'));
+							$text = OutputFilter::stripImages($text);
+							$text = HTMLHelper::_('string.truncate', $text, $params->get('word_count', 0));
 							echo str_replace('&apos;', "'", $text);
 						?>
 						</div>

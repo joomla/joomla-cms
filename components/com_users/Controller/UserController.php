@@ -3,16 +3,22 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Site\Controller;
 
-use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\MVC\Controller\BaseController;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Registration controller class for Users.
@@ -32,24 +38,22 @@ class UserController extends BaseController
 	{
 		$this->checkToken('post');
 
-		$app    = $this->app;
-		$input  = $this->input;
-		$method = $input->getMethod();
+		$input = $this->input->getInputForRequestMethod();
 
 		// Populate the data array:
 		$data = array();
 
-		$data['return']    = base64_decode($this->input->post->get('return', '', 'BASE64'));
-		$data['username']  = $input->$method->get('username', '', 'USERNAME');
-		$data['password']  = $input->$method->get('password', '', 'RAW');
-		$data['secretkey'] = $input->$method->get('secretkey', '', 'RAW');
+		$data['return']    = base64_decode($input->get('return', '', 'BASE64'));
+		$data['username']  = $input->get('username', '', 'USERNAME');
+		$data['password']  = $input->get('password', '', 'RAW');
+		$data['secretkey'] = $input->get('secretkey', '', 'RAW');
 
 		// Check for a simple menu item id
 		if (is_numeric($data['return']))
 		{
 			if (Multilanguage::isEnabled())
 			{
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 				$query = $db->getQuery(true)
 					->select('language')
 					->from($db->quoteName('#__menu'))
@@ -86,7 +90,7 @@ class UserController extends BaseController
 		else
 		{
 			// Don't redirect to an external URL.
-			if (!\JUri::isInternal($data['return']))
+			if (!Uri::isInternal($data['return']))
 			{
 				$data['return'] = '';
 			}
@@ -99,7 +103,7 @@ class UserController extends BaseController
 		}
 
 		// Set the return URL in the user state to allow modification by plugins
-		$app->setUserState('users.login.form.return', $data['return']);
+		$this->app->setUserState('users.login.form.return', $data['return']);
 
 		// Get the log in options.
 		$options = array();
@@ -113,7 +117,7 @@ class UserController extends BaseController
 		$credentials['secretkey'] = $data['secretkey'];
 
 		// Perform the log in.
-		if (true !== $app->login($credentials, $options))
+		if (true !== $this->app->login($credentials, $options))
 		{
 			// Login failed !
 			// Clear user name, password and secret key before sending the login form back to the user.
@@ -121,18 +125,18 @@ class UserController extends BaseController
 			$data['username'] = '';
 			$data['password'] = '';
 			$data['secretkey'] = '';
-			$app->setUserState('users.login.form.data', $data);
-			$app->redirect(\JRoute::_('index.php?option=com_users&view=login', false));
+			$this->app->setUserState('users.login.form.data', $data);
+			$this->app->redirect(Route::_('index.php?option=com_users&view=login', false));
 		}
 
 		// Success
 		if ($options['remember'] == true)
 		{
-			$app->setUserState('rememberLogin', true);
+			$this->app->setUserState('rememberLogin', true);
 		}
 
-		$app->setUserState('users.login.form.data', array());
-		$app->redirect(\JRoute::_($app->getUserState('users.login.form.return'), false));
+		$this->app->setUserState('users.login.form.data', array());
+		$this->app->redirect(Route::_($this->app->getUserState('users.login.form.return'), false));
 	}
 
 	/**
@@ -154,18 +158,17 @@ class UserController extends BaseController
 		);
 
 		// Perform the log out.
-		$error  = $app->logout(null, $options);
-		$input  = $app->input;
-		$method = $input->getMethod();
+		$error = $app->logout(null, $options);
+		$input = $app->input->getInputForRequestMethod();
 
 		// Check if the log out succeeded.
 		if ($error instanceof \Exception)
 		{
-			$app->redirect(\JRoute::_('index.php?option=com_users&view=login', false));
+			$app->redirect(Route::_('index.php?option=com_users&view=login', false));
 		}
 
 		// Get the return URL from the request and validate that it is internal.
-		$return = $input->$method->get('return', '', 'BASE64');
+		$return = $input->get('return', '', 'BASE64');
 		$return = base64_decode($return);
 
 		// Check for a simple menu item id
@@ -173,7 +176,7 @@ class UserController extends BaseController
 		{
 			if (Multilanguage::isEnabled())
 			{
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 				$query = $db->getQuery(true)
 					->select('language')
 					->from($db->quoteName('#__menu'))
@@ -210,7 +213,7 @@ class UserController extends BaseController
 		else
 		{
 			// Don't redirect to an external URL.
-			if (!\JUri::isInternal($return))
+			if (!Uri::isInternal($return))
 			{
 				$return = '';
 			}
@@ -219,11 +222,11 @@ class UserController extends BaseController
 		// In case redirect url is not set, redirect user to homepage
 		if (empty($return))
 		{
-			$return = \JUri::root();
+			$return = Uri::root();
 		}
 
 		// Redirect the user.
-		$app->redirect(\JRoute::_($return, false));
+		$app->redirect(Route::_($return, false));
 	}
 
 	/**
@@ -244,7 +247,7 @@ class UserController extends BaseController
 		{
 			if ($itemid)
 			{
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 				$query = $db->getQuery(true)
 					->select('language')
 					->from($db->quoteName('#__menu'))
@@ -288,11 +291,11 @@ class UserController extends BaseController
 		else
 		{
 			// URL to redirect after logout, default page if no ItemID is set
-			$url = $itemid ? 'index.php?Itemid=' . $itemid : \JUri::root();
+			$url = $itemid ? 'index.php?Itemid=' . $itemid : Uri::root();
 		}
 
 		// Logout and redirect
-		$this->setRedirect('index.php?option=com_users&task=user.logout&' . \JSession::getFormToken() . '=1&return=' . base64_encode($url));
+		$this->setRedirect('index.php?option=com_users&task=user.logout&' . Session::getFormToken() . '=1&return=' . base64_encode($url));
 	}
 
 	/**
@@ -308,7 +311,8 @@ class UserController extends BaseController
 		$this->checkToken('post');
 
 		$app   = $this->app;
-		/* @var \Joomla\Component\Users\Site\Model\RemindModel $model */
+
+		/** @var \Joomla\Component\Users\Site\Model\RemindModel $model */
 		$model = $this->getModel('Remind', 'Site');
 		$data  = $this->input->post->get('jform', array(), 'array');
 
@@ -321,10 +325,10 @@ class UserController extends BaseController
 			// Get the error message to display.
 			$message = $app->get('error_reporting')
 				? $return->getMessage()
-				: \JText::_('COM_USERS_REMIND_REQUEST_ERROR');
+				: Text::_('COM_USERS_REMIND_REQUEST_ERROR');
 
 			// Go back to the complete form.
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=remind', false), $message, 'error');
+			$this->setRedirect(Route::_('index.php?option=com_users&view=remind', false), $message, 'error');
 
 			return false;
 		}
@@ -332,15 +336,15 @@ class UserController extends BaseController
 		if ($return === false)
 		{
 			// Go back to the complete form.
-			$message = \JText::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $model->getError());
-			$this->setRedirect(\JRoute::_('index.php?option=com_users&view=remind', false), $message, 'notice');
+			$message = Text::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $model->getError());
+			$this->setRedirect(Route::_('index.php?option=com_users&view=remind', false), $message, 'notice');
 
 			return false;
 		}
 
 		// Proceed to the login form.
-		$message = \JText::_('COM_USERS_REMIND_REQUEST_SUCCESS');
-		$this->setRedirect(\JRoute::_('index.php?option=com_users&view=login', false), $message);
+		$message = Text::_('COM_USERS_REMIND_REQUEST_SUCCESS');
+		$this->setRedirect(Route::_('index.php?option=com_users&view=login', false), $message);
 
 		return true;
 	}

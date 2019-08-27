@@ -3,15 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.form.helper');
-
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Generates the list of options for available skins.
@@ -20,7 +19,7 @@ JFormHelper::loadFieldClass('list');
  * @subpackage  Editors.tinymce
  * @since       3.4
  */
-class JFormFieldSkins extends JFormFieldList
+class JFormFieldSkins extends ListField
 {
 	protected $type = 'skins';
 
@@ -35,12 +34,12 @@ class JFormFieldSkins extends JFormFieldList
 	{
 		$options = array();
 
-		$directories = glob(JPATH_ROOT . '/media/vendor/tinymce/skins' . '/*', GLOB_ONLYDIR);
+		$directories = glob(JPATH_ROOT . '/media/vendor/tinymce/skins/ui' . '/*', GLOB_ONLYDIR);
 
 		for ($i = 0, $iMax = count($directories); $i < $iMax; ++$i)
 		{
 			$dir = basename($directories[$i]);
-			$options[] = JHtml::_('select.option', $i, $dir);
+			$options[] = HTMLHelper::_('select.option', $i, $dir);
 		}
 
 		$options = array_merge(parent::getOptions(), $options);
@@ -66,7 +65,7 @@ class JFormFieldSkins extends JFormFieldList
 		);
 
 		// Create a regular list.
-		$html[] = JHtml::_('select.genericlist', $options, $this->name, $attrbs, 'value', 'text', $this->value, $this->id);
+		$html[] = HTMLHelper::_('select.genericlist', $options, $this->name, $attrbs, 'value', 'text', $this->value, $this->id);
 
 		return implode($html);
 	}

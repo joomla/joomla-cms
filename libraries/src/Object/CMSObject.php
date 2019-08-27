@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * This class allows for simple but smart objects with get and set methods
  * and an internal error handler.
  *
- * @since       11.1
+ * @since       1.7.0
  * @deprecated  4.0
  */
 class CMSObject
@@ -25,9 +25,8 @@ class CMSObject
 	 * An array of error messages or Exception objects.
 	 *
 	 * @var    array
-	 * @since  11.1
-	 * @see    JError
-	 * @deprecated  12.3  JError has been deprecated
+	 * @since  1.7.0
+	 * @deprecated  3.1.4  JError has been deprecated
 	 */
 	protected $_errors = array();
 
@@ -37,7 +36,7 @@ class CMSObject
 	 * @param   mixed  $properties  Either and associative array or another
 	 *                              object to set the initial properties of the object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($properties = null)
 	{
@@ -52,8 +51,8 @@ class CMSObject
 	 *
 	 * @return  string  The classname.
 	 *
-	 * @since   11.1
-	 * @deprecated 12.3  Classes should provide their own __toString() implementation.
+	 * @since   1.7.0
+	 * @deprecated 3.1.4  Classes should provide their own __toString() implementation.
 	 */
 	public function __toString()
 	{
@@ -68,7 +67,7 @@ class CMSObject
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function def($property, $default = null)
 	{
@@ -85,7 +84,7 @@ class CMSObject
 	 *
 	 * @return  mixed    The value of the property.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 *
 	 * @see     CMSObject::getProperties()
 	 */
@@ -106,7 +105,7 @@ class CMSObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 *
 	 * @see     CMSObject::get()
 	 */
@@ -132,13 +131,12 @@ class CMSObject
 	 * Get the most recent error message.
 	 *
 	 * @param   integer  $i         Option error index.
-	 * @param   boolean  $toString  Indicates if JError objects should return their error message.
+	 * @param   boolean  $toString  Indicates if Exception objects should return their error message.
 	 *
 	 * @return  string   Error message
 	 *
-	 * @since   11.1
-	 * @see     JError
-	 * @deprecated 12.3  JError has been deprecated
+	 * @since   1.7.0
+	 * @deprecated 3.1.4  JError has been deprecated
 	 */
 	public function getError($i = null, $toString = true)
 	{
@@ -170,11 +168,10 @@ class CMSObject
 	/**
 	 * Return all errors, if any.
 	 *
-	 * @return  array  Array of error messages or JErrors.
+	 * @return  array  Array of error messages.
 	 *
-	 * @since   11.1
-	 * @see     JError
-	 * @deprecated 12.3  JError has been deprecated
+	 * @since   1.7.0
+	 * @deprecated 3.1.4  JError has been deprecated
 	 */
 	public function getErrors()
 	{
@@ -189,7 +186,7 @@ class CMSObject
 	 *
 	 * @return  mixed  Previous value of the property.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function set($property, $value = null)
 	{
@@ -206,7 +203,7 @@ class CMSObject
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 *
 	 * @see     CMSObject::set()
 	 */
@@ -233,9 +230,8 @@ class CMSObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
-	 * @see     JError
-	 * @deprecated 12.3  JError has been deprecated
+	 * @since   1.7.0
+	 * @deprecated 3.1.4  JError has been deprecated
 	 */
 	public function setError($error)
 	{

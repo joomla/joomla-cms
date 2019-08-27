@@ -3,20 +3,24 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Contenthistory\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\CMSHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
 /**
  * Methods supporting a list of contenthistory records.
@@ -69,7 +73,7 @@ class HistoryModel extends ListModel
 		if (!empty($record->ucm_type_id))
 		{
 			// Check that the type id matches the type alias
-			$typeAlias = \JFactory::getApplication()->input->get('type_alias');
+			$typeAlias = Factory::getApplication()->input->get('type_alias');
 
 			/** @var ContentType $contentTypeTable */
 			$contentTypeTable = $this->getTable('ContentType');
@@ -80,7 +84,7 @@ class HistoryModel extends ListModel
 				 * Make sure user has edit privileges for this content item. Note that we use edit permissions
 				 * for the content item, not delete permissions for the content history row.
 				 */
-				$user   = \JFactory::getUser();
+				$user   = Factory::getUser();
 				$result = $user->authorise('core.edit', $typeAlias . '.' . (int) $record->ucm_item_id);
 			}
 
@@ -88,7 +92,7 @@ class HistoryModel extends ListModel
 			if (!$result)
 			{
 				$contentTypeTable->load($record->ucm_type_id);
-				$typeEditables = (array) \JFactory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
+				$typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
 				$result = in_array((int) $record->ucm_item_id, $typeEditables);
 			}
 		}
@@ -114,7 +118,7 @@ class HistoryModel extends ListModel
 	/**
 	 * Method to delete one or more records from content history table.
 	 *
-	 * @param   array  &$pks  An array of record primary keys.
+	 * @param   array  $pks  An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
@@ -130,6 +134,12 @@ class HistoryModel extends ListModel
 		{
 			if ($table->load($pk))
 			{
+				if ($table->keep_forever === "1")
+				{
+					unset($pks[$i]);
+					continue;
+				}
+
 				if ($this->canEdit($table))
 				{
 					if (!$table->delete($pk))
@@ -149,11 +159,11 @@ class HistoryModel extends ListModel
 					{
 						try
 						{
-							\JLog::add($error, \JLog::WARNING, 'jerror');
+							Log::add($error, Log::WARNING, 'jerror');
 						}
 						catch (\RuntimeException $exception)
 						{
-							\JFactory::getApplication()->enqueueMessage($error, 'warning');
+							Factory::getApplication()->enqueueMessage($error, 'warning');
 						}
 
 						return false;
@@ -162,11 +172,11 @@ class HistoryModel extends ListModel
 					{
 						try
 						{
-							\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
+							Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
 						}
 						catch (\RuntimeException $exception)
 						{
-							\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
+							Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
 						}
 
 						return false;
@@ -197,7 +207,7 @@ class HistoryModel extends ListModel
 	public function getItems()
 	{
 		$items = parent::getItems();
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ($items === false)
 		{
@@ -228,7 +238,7 @@ class HistoryModel extends ListModel
 		}
 		else
 		{
-			$this->setError(\JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
 
 			return false;
 		}
@@ -245,14 +255,14 @@ class HistoryModel extends ListModel
 	 *
 	 * @since   3.2
 	 */
-	public function getTable($type = 'Contenthistory', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
+	public function getTable($type = 'ContentHistory', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
 	{
 		return Table::getInstance($type, $prefix, $config);
 	}
 	/**
 	 * Method to toggle on and off the keep forever value for one or more records from content history table.
 	 *
-	 * @param   array  &$pks  An array of record primary keys.
+	 * @param   array  $pks  An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
@@ -289,11 +299,11 @@ class HistoryModel extends ListModel
 					{
 						try
 						{
-							\JLog::add($error, \JLog::WARNING, 'jerror');
+							Log::add($error, Log::WARNING, 'jerror');
 						}
 						catch (\RuntimeException $exception)
 						{
-							\JFactory::getApplication()->enqueueMessage($error, 'warning');
+							Factory::getApplication()->enqueueMessage($error, 'warning');
 						}
 
 						return false;
@@ -302,11 +312,11 @@ class HistoryModel extends ListModel
 					{
 						try
 						{
-							\JLog::add(\JText::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
+							Log::add(Text::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), Log::WARNING, 'jerror');
 						}
 						catch (\RuntimeException $exception)
 						{
-							\JFactory::getApplication()->enqueueMessage(\JText::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), 'warning');
+							Factory::getApplication()->enqueueMessage(Text::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), 'warning');
 						}
 
 						return false;
@@ -341,7 +351,7 @@ class HistoryModel extends ListModel
 	 */
 	protected function populateState($ordering = 'h.save_date', $direction = 'DESC')
 	{
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 		$itemId = $input->get('item_id', 0, 'integer');
 		$typeId = $input->get('type_id', 0, 'integer');
 		$typeAlias = $input->get('type_alias', '', 'string');
@@ -407,19 +417,19 @@ class HistoryModel extends ListModel
 	{
 		$result = false;
 		$typeTable = $this->getTable('ContentType');
-		$typeId = \JFactory::getApplication()->input->getInteger('type_id', 0);
+		$typeId = Factory::getApplication()->input->getInteger('type_id', 0);
 		$typeTable->load($typeId);
 		$typeAliasArray = explode('.', $typeTable->type_alias);
 		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $typeAliasArray[0] . '/tables');
 		$contentTable = $typeTable->getContentTable();
-		$keyValue = \JFactory::getApplication()->input->getInteger('item_id', 0);
+		$keyValue = Factory::getApplication()->input->getInteger('item_id', 0);
 
 		if ($contentTable && $contentTable->load($keyValue))
 		{
 			$helper = new CMSHelper;
 
 			$dataObject = $helper->getDataObject($contentTable);
-			$result = $this->getTable('Contenthistory')->getSha1(json_encode($dataObject), $typeTable);
+			$result = $this->getTable('ContentHistory')->getSha1(json_encode($dataObject), $typeTable);
 		}
 
 		return $result;

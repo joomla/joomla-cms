@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,8 @@ namespace Joomla\Component\Config\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use  \Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\Component\Config\Site\Model\ConfigModel;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Requests from the frontend
@@ -30,9 +30,6 @@ class RequestController extends BaseController
 	 */
 	public function getJson()
 	{
-		// Get the document object.
-		$document = \JFactory::getDocument();
-
 		$componentFolder = $this->input->getWord('option', 'com_config');
 
 		if ($this->app->isClient('administrator'))
@@ -63,7 +60,7 @@ class RequestController extends BaseController
 		if (!$this->app->getIdentity()->authorise('core.admin', $component)
 			&& !$this->app->getIdentity()->authorise('core.options', $component))
 		{
-			$this->app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 
 			return;
 		}

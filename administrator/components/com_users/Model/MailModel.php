@@ -3,15 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
 
 /**
@@ -24,7 +30,7 @@ class MailModel extends AdminModel
 	/**
 	 * Method to get the row form.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  \JForm	A \JForm object on success, false on failure
@@ -50,11 +56,12 @@ class MailModel extends AdminModel
 	 * @return  mixed  The data for the form.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState('com_users.display.mail.data', array());
+		$data = Factory::getApplication()->getUserState('com_users.display.mail.data', array());
 
 		$this->preprocessData('com_users.mail', $data);
 
@@ -73,7 +80,7 @@ class MailModel extends AdminModel
 	 * @since   1.6
 	 * @throws  \Exception if there is an error loading the form.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'user')
+	protected function preprocessForm(Form $form, $data, $group = 'user')
 	{
 		parent::preprocessForm($form, $data, $group);
 	}
@@ -82,12 +89,14 @@ class MailModel extends AdminModel
 	 * Send the email
 	 *
 	 * @return  boolean
+	 *
+	 * @throws  \Exception
 	 */
 	public function send()
 	{
-		$app    = \JFactory::getApplication();
+		$app    = Factory::getApplication();
 		$data   = $app->input->post->get('jform', array(), 'array');
-		$user   = \JFactory::getUser();
+		$user   = Factory::getUser();
 		$access = new Access;
 		$db     = $this->getDbo();
 
@@ -102,14 +111,14 @@ class MailModel extends AdminModel
 		// Automatically removes html formatting
 		if (!$mode)
 		{
-			$message_body = \JFilterInput::getInstance()->clean($message_body, 'string');
+			$message_body = InputFilter::getInstance()->clean($message_body, 'string');
 		}
 
 		// Check for a message body and subject
 		if (!$message_body || !$subject)
 		{
 			$app->setUserState('com_users.display.mail.data', $data);
-			$this->setError(\JText::_('COM_USERS_MAIL_PLEASE_FILL_IN_THE_FORM_CORRECTLY'));
+			$this->setError(Text::_('COM_USERS_MAIL_PLEASE_FILL_IN_THE_FORM_CORRECTLY'));
 
 			return false;
 		}
@@ -150,42 +159,60 @@ class MailModel extends AdminModel
 
 			if (in_array($user->id, $to))
 			{
-				$this->setError(\JText::_('COM_USERS_MAIL_ONLY_YOU_COULD_BE_FOUND_IN_THIS_GROUP'));
+				$this->setError(Text::_('COM_USERS_MAIL_ONLY_YOU_COULD_BE_FOUND_IN_THIS_GROUP'));
 			}
 			else
 			{
-				$this->setError(\JText::_('COM_USERS_MAIL_NO_USERS_COULD_BE_FOUND_IN_THIS_GROUP'));
+				$this->setError(Text::_('COM_USERS_MAIL_NO_USERS_COULD_BE_FOUND_IN_THIS_GROUP'));
 			}
 
 			return false;
 		}
 
 		// Get the Mailer
-		$mailer = \JFactory::getMailer();
+		$mailer = Factory::getMailer();
 		$params = ComponentHelper::getParams('com_users');
 
-		// Build email message format.
-		$mailer->setSender(array($app->get('mailfrom'), $app->get('fromname')));
-		$mailer->setSubject($params->get('mailSubjectPrefix') . stripslashes($subject));
-		$mailer->setBody($message_body . $params->get('mailBodySuffix'));
-		$mailer->IsHtml($mode);
-
-		// Add recipients
-		if ($bcc)
+		try
 		{
-			$mailer->addBcc($rows);
-			$mailer->addRecipient($app->get('mailfrom'));
-		}
-		else
-		{
-			$mailer->addRecipient($rows);
-		}
+			// Build email message format.
+			$mailer->setSender(array($app->get('mailfrom'), $app->get('fromname')));
+			$mailer->setSubject($params->get('mailSubjectPrefix') . stripslashes($subject));
+			$mailer->setBody($message_body . $params->get('mailBodySuffix'));
+			$mailer->IsHtml($mode);
 
-		// Send the Mail
-		$rs = $mailer->Send();
+			// Add recipients
+			if ($bcc)
+			{
+				$mailer->addBcc($rows);
+				$mailer->addRecipient($app->get('mailfrom'));
+			}
+			else
+			{
+				$mailer->addRecipient($rows);
+			}
+
+			// Send the Mail
+			$rs = $mailer->Send();
+		}
+		catch (\Exception $exception)
+		{
+			try
+			{
+				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+				$rs = false;
+			}
+			catch (\RuntimeException $exception)
+			{
+				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+				$rs = false;
+			}
+		}
 
 		// Check for an error
-		if ($rs instanceof \Exception)
+		if ($rs !== true)
 		{
 			$app->setUserState('com_users.display.mail.data', $data);
 			$this->setError($rs->getError());
@@ -195,7 +222,7 @@ class MailModel extends AdminModel
 		elseif (empty($rs))
 		{
 			$app->setUserState('com_users.display.mail.data', $data);
-			$this->setError(\JText::_('COM_USERS_MAIL_THE_MAIL_COULD_NOT_BE_SENT'));
+			$this->setError(Text::_('COM_USERS_MAIL_THE_MAIL_COULD_NOT_BE_SENT'));
 
 			return false;
 		}
@@ -213,7 +240,7 @@ class MailModel extends AdminModel
 			$data['bcc']     = $bcc;
 			$data['message'] = $message_body;
 			$app->setUserState('com_users.display.mail.data', array());
-			$app->enqueueMessage(\JText::plural('COM_USERS_MAIL_EMAIL_SENT_TO_N_USERS', count($rows)), 'message');
+			$app->enqueueMessage(Text::plural('COM_USERS_MAIL_EMAIL_SENT_TO_N_USERS', count($rows)), 'message');
 
 			return true;
 		}

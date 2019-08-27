@@ -1,33 +1,63 @@
 // Dropdown
 
-.dropdown-menu {
-  padding: .2rem 0;
-  margin-top: .5rem;
-  background-color: $white-offset;
-  border-color: $atum-border-color;
+.btn-group .dropdown-menu {
+  background: $white;
+  box-shadow: $dropdown-box-shadow;
+  min-width: 100%;
 
-  &::after {
-    position: absolute;
-    top: -1.5rem;
-    left: .9rem;
-    font-family: FontAwesome;
-    font-size: 1.6rem;
-    color: $white-offset;
-    text-shadow: 0 -1px 0 rgba(0,0,0,.2);
-    content: "\f0d8";
+  [class^='icon-'],
+  [class*=' icon-'],
+  [class^='fa '],
+  [class*='fa'] {
+    width: 26px;
   }
 
+  joomla-toolbar-button {
+    border: none;
+  }
+}
+
+.dropdown-menu {
+  box-shadow: $atum-box-shadow;
 }
 
 .dropdown-item {
-  padding: 3px .75rem;
-}
+  cursor: pointer;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
-.dropdown-menu-right {
+  &:hover,
+  &:focus {
+    .btn-primary + .dropdown-menu & {
+      background-color: var(--atum-bg-dark);
+    }
 
-  &::after {
-    right: .9rem;
-    left: auto;
+    .btn-secondary + .dropdown-menu & {
+      background-color: theme-color("secondary");
+    }
+
+    .btn-danger + .dropdown-menu & {
+      background-color: theme-color("danger");
+    }
+
+    .btn-info + .dropdown-menu & {
+      background-color: theme-color("info");
+    }
+
+    .btn-group.show .dropdown-menu &:not(.disabled) {
+      background-color: var(--atum-bg-dark);
+      color: var(--atum-text-light);
+    }
   }
 
+  & + .dropdown-item {
+    border-top: 1px solid rgba(0, 0, 0, .1);
+  }
+
+  .dropdown-status-group .dropdown-menu &:not(.disabled) {
+    color: theme-color("action");
+  }
+
+  .dropdown-save-group .dropdown-menu &:not(.disabled) {
+    color: theme-color("success");
+  }
 }

@@ -3,15 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Installer\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Installer controller for Joomla! installer class.
@@ -30,9 +33,9 @@ class InstallController extends BaseController
 	public function install()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		/* @var \Joomla\Component\Installer\Administrator\Model\InstallModel $model */
+		/** @var \Joomla\Component\Installer\Administrator\Model\InstallModel $model */
 		$model = $this->getModel('install');
 
 		// TODO: Reset the users acl here as well to kill off any missing bits.
@@ -47,14 +50,14 @@ class InstallController extends BaseController
 		}
 
 		// Don't redirect to an external URL.
-		if (!\JUri::isInternal($redirect_url))
+		if (!Uri::isInternal($redirect_url))
 		{
 			$redirect_url = '';
 		}
 
 		if (empty($redirect_url))
 		{
-			$redirect_url = \JRoute::_('index.php?option=com_installer&view=install', false);
+			$redirect_url = Route::_('index.php?option=com_installer&view=install', false);
 		}
 		else
 		{

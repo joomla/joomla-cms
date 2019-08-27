@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_popular
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,11 @@ namespace Joomla\Module\ArticlesPopular\Site\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\Component\Content\Site\Model\ArticlesModel;
-
-\JLoader::register('\ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
 /**
  * Helper for mod_articles_popular
@@ -30,22 +29,25 @@ abstract class ArticlesPopularHelper
 	 *
 	 * @param   \Joomla\Registry\Registry  &$params  object holding the models parameters
 	 *
-	 * @return mixed
+	 * @return  mixed
 	 */
 	public static function getList(&$params)
 	{
+		$app = Factory::getApplication();
+
 		// Get an instance of the generic articles model
-		$model = new ArticlesModel(array('ignore_request' => true));
+		$model = $app->bootComponent('com_content')
+			->getMVCFactory()->createModel('Articles', 'Site', ['ignore_request' => true]);
 
 		// Set application parameters in model
-		$app = Factory::getApplication();
 		$appParams = $app->getParams();
 		$model->setState('params', $appParams);
 
-		// Set the filters based on the module params
 		$model->setState('list.start', 0);
+		$model->setState('filter.condition', ContentComponent::CONDITION_PUBLISHED);
+
+		// Set the filters based on the module params
 		$model->setState('list.limit', (int) $params->get('count', 5));
-		$model->setState('filter.published', 1);
 		$model->setState('filter.featured', $params->get('show_front', 1) == 1 ? 'show' : 'hide');
 
 		// This module does not use tags data
@@ -87,11 +89,11 @@ abstract class ArticlesPopularHelper
 			if ($access || in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
-				$item->link = \JRoute::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+				$item->link = Route::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 			}
 			else
 			{
-				$item->link = \JRoute::_('index.php?option=com_users&view=login');
+				$item->link = Route::_('index.php?option=com_users&view=login');
 			}
 		}
 

@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Captcha\Google;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\Http\Exception\InvalidResponseCodeException;
@@ -19,15 +19,15 @@ use ReCaptcha\RequestParameters;
 /**
  * Bridges the Joomla! HTTP API to the Google Recaptcha RequestMethod interface for a POST request.
  *
- * @since  4.0.0
+ * @since  3.9.0
  */
 final class HttpBridgePostRequestMethod implements RequestMethod
 {
 	/**
 	 * URL to which requests are sent.
 	 *
-	 * @const  string
-	 * @since  4.0.0
+	 * @var    string
+	 * @since  3.9.0
 	 */
 	const SITE_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
 
@@ -35,7 +35,7 @@ final class HttpBridgePostRequestMethod implements RequestMethod
 	 * The HTTP adapter
 	 *
 	 * @var    Http
-	 * @since  4.0.0
+	 * @since  3.9.0
 	 */
 	private $http;
 
@@ -44,7 +44,7 @@ final class HttpBridgePostRequestMethod implements RequestMethod
 	 *
 	 * @param   Http|null  $http  The HTTP adapter
 	 *
-	 * @since   4.0.0
+	 * @since   3.9.0
 	 */
 	public function __construct(Http $http = null)
 	{
@@ -58,7 +58,7 @@ final class HttpBridgePostRequestMethod implements RequestMethod
 	 *
 	 * @return  string  Body of the reCAPTCHA response
 	 *
-	 * @since   4.0.0
+	 * @since   3.9.0
 	 */
 	public function submit(RequestParameters $params)
 	{

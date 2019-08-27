@@ -3,13 +3,16 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Newsfeeds\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\Registry\Registry;
 
@@ -39,7 +42,7 @@ class NewsfeedModel extends ItemModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication('site');
+		$app = Factory::getApplication();
 
 		// Load state from the request.
 		$pk = $app->input->getInt('id');
@@ -52,7 +55,7 @@ class NewsfeedModel extends ItemModel
 		$params = $app->getParams();
 		$this->setState('params', $params);
 
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_newsfeeds')) && (!$user->authorise('core.edit', 'com_newsfeeds')))
 		{
@@ -103,8 +106,7 @@ class NewsfeedModel extends ItemModel
 					->where('a.id = ' . (int) $pk);
 
 				// Filter by start and end dates.
-				$nullDate = $db->quote($db->getNullDate());
-				$nowDate = $db->quote(\JFactory::getDate()->toSql());
+				$nowDate = $db->quote(Factory::getDate()->toSql());
 
 				// Filter by published state.
 				$published = $this->getState('filter.published');
@@ -113,8 +115,8 @@ class NewsfeedModel extends ItemModel
 				if (is_numeric($published))
 				{
 					$query->where('(a.published = ' . (int) $published . ' OR a.published =' . (int) $archived . ')')
-						->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-						->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')')
+						->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= ' . $db->quote($nowDate) . ')')
+						->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= ' . $db->quote($nowDate) . ')')
 						->where('(c.published = ' . (int) $published . ' OR c.published =' . (int) $archived . ')');
 				}
 
@@ -124,14 +126,14 @@ class NewsfeedModel extends ItemModel
 
 				if (empty($data))
 				{
-					throw new \Exception(\JText::_('COM_NEWSFEEDS_ERROR_FEED_NOT_FOUND'), 404);
+					throw new \Exception(Text::_('COM_NEWSFEEDS_ERROR_FEED_NOT_FOUND'), 404);
 				}
 
 				// Check for published state if filter set.
 
 				if ((is_numeric($published) || is_numeric($archived)) && $data->published != $published && $data->published != $archived)
 				{
-					throw new \Exception(\JText::_('COM_NEWSFEEDS_ERROR_FEED_NOT_FOUND'), 404);
+					throw new \Exception(Text::_('COM_NEWSFEEDS_ERROR_FEED_NOT_FOUND'), 404);
 				}
 
 				// Convert parameter fields to objects.
@@ -151,7 +153,7 @@ class NewsfeedModel extends ItemModel
 				else
 				{
 					// If no access filter is set, the layout takes some responsibility for display of limited information.
-					$user   = \JFactory::getUser();
+					$user   = Factory::getUser();
 					$groups = $user->getAuthorisedViewLevels();
 					$data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
 				}
@@ -179,7 +181,7 @@ class NewsfeedModel extends ItemModel
 	 */
 	public function hit($pk = 0)
 	{
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 		$hitcount = $input->getInt('hitcount', 1);
 
 		if ($hitcount)

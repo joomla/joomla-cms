@@ -3,7 +3,7 @@
 	<name>plg_authentication_ldap</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -45,6 +45,7 @@
 					class="switcher"
 					label="PLG_LDAP_FIELD_V3_LABEL"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -55,6 +56,7 @@
 					type="radio"
 					label="PLG_LDAP_FIELD_NEGOCIATE_LABEL"
 					default="0"
+					filter="integer"
 					class="switcher"
 					>
 					<option value="0">JNO</option>
@@ -62,10 +64,24 @@
 				</field>
 
 				<field
+					name="ignore_reqcert_tls"
+					type="radio"
+					label="PLG_LDAP_FIELD_IGNORE_REQCERT_TLS_LABEL"
+					description="PLG_LDAP_FIELD_IGNORE_REQCERT_TLS_DESC"
+					default="0"
+					filter="integer"
+					class="btn-group btn-group-yesno"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
 					name="no_referrals"
 					type="radio"
 					label="PLG_LDAP_FIELD_REFERRALS_LABEL"
 					default="0"
+					filter="integer"
 					class="switcher"
 					>
 					<option value="0">JNO</option>
@@ -147,6 +163,18 @@
 					default="uid"
 					size="20"
 				/>
+				<field
+					name="ldap_debug"
+					type="radio"
+					label="PLG_LDAP_FIELD_LDAPDEBUG_LABEL"
+					description="PLG_LDAP_FIELD_LDAPDEBUG_DESC"
+					default="0"
+					filter="integer"
+					class="btn-group btn-group-yesno"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>

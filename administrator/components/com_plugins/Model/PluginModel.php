@@ -3,15 +3,22 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Plugins\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -91,7 +98,7 @@ class PluginModel extends AdminModel
 		}
 
 		// Add the default fields directory
-		\JForm::addFieldPath(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/field');
+		Form::addFieldPath(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/field');
 
 		// These variables are used to add data from the plugin XML files.
 		$this->setState('item.folder', $folder);
@@ -131,7 +138,7 @@ class PluginModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState('com_plugins.edit.plugin.data', array());
+		$data = Factory::getApplication()->getUserState('com_plugins.edit.plugin.data', array());
 
 		if (empty($data))
 		{
@@ -172,14 +179,14 @@ class PluginModel extends AdminModel
 
 			// Convert to the \JObject before adding other data.
 			$properties = $table->getProperties(1);
-			$this->_cache[$pk] = ArrayHelper::toObject($properties, 'JObject');
+			$this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
 
 			// Convert the params field to an array.
 			$registry = new Registry($table->params);
 			$this->_cache[$pk]->params = $registry->toArray();
 
 			// Get the plugin XML.
-			$path = \JPath::clean(JPATH_PLUGINS . '/' . $table->folder . '/' . $table->element . '/' . $table->element . '.xml');
+			$path = Path::clean(JPATH_PLUGINS . '/' . $table->folder . '/' . $table->element . '/' . $table->element . '.xml');
 
 			if (file_exists($path))
 			{
@@ -222,7 +229,7 @@ class PluginModel extends AdminModel
 		// Execute the parent method.
 		parent::populateState();
 
-		$app = \JFactory::getApplication('administrator');
+		$app = Factory::getApplication();
 
 		// Load the User state.
 		$pk = $app->input->getInt('extension_id');
@@ -241,13 +248,11 @@ class PluginModel extends AdminModel
 	 * @throws	\Exception if there is an error in the form event.
 	 * @since   1.6
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
-		jimport('joomla.filesystem.path');
-
 		$folder  = $this->getState('item.folder');
 		$element = $this->getState('item.element');
-		$lang    = \JFactory::getLanguage();
+		$lang    = Factory::getLanguage();
 
 		// Load the core and/or local language sys file(s) for the ordering field.
 		$db    = $this->getDbo();
@@ -255,7 +260,8 @@ class PluginModel extends AdminModel
 			->select($db->quoteName('element'))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-			->where($db->quoteName('folder') . ' = ' . $db->quote($folder));
+			->where($db->quoteName('folder') . ' = :folder')
+			->bind(':folder', $folder);
 		$db->setQuery($query);
 		$elements = $db->loadColumn();
 
@@ -267,15 +273,15 @@ class PluginModel extends AdminModel
 
 		if (empty($folder) || empty($element))
 		{
-			$app = \JFactory::getApplication();
-			$app->redirect(\JRoute::_('index.php?option=com_plugins&view=plugins', false));
+			$app = Factory::getApplication();
+			$app->redirect(Route::_('index.php?option=com_plugins&view=plugins', false));
 		}
 
-		$formFile = \JPath::clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/' . $element . '.xml');
+		$formFile = Path::clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/' . $element . '.xml');
 
 		if (!file_exists($formFile))
 		{
-			throw new \Exception(\JText::sprintf('COM_PLUGINS_ERROR_FILE_NOT_FOUND', $element . '.xml'));
+			throw new \Exception(Text::sprintf('COM_PLUGINS_ERROR_FILE_NOT_FOUND', $element . '.xml'));
 		}
 
 		// Load the core and/or local language file(s).
@@ -287,14 +293,14 @@ class PluginModel extends AdminModel
 			// Get the plugin form.
 			if (!$form->loadFile($formFile, false, '//config'))
 			{
-				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 			}
 		}
 
 		// Attempt to load the xml file.
 		if (!$xml = simplexml_load_file($formFile))
 		{
-			throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+			throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		// Get the help data from the XML file if present.
@@ -318,17 +324,16 @@ class PluginModel extends AdminModel
 	 *
 	 * @param   object  $table  A record object.
 	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
 	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
 	{
-		$condition = array();
-		$condition[] = 'type = ' . $this->_db->quote($table->type);
-		$condition[] = 'folder = ' . $this->_db->quote($table->folder);
-
-		return $condition;
+		return [
+			$this->_db->quoteName('type') . ' = ' . $this->_db->quote($table->type),
+			$this->_db->quoteName('folder') . ' = ' . $this->_db->quote($table->folder),
+		];
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_latest
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,10 @@ namespace Joomla\Module\Latest\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Model\ArticlesModel;
 use Joomla\Registry\Registry;
 
@@ -31,14 +35,15 @@ abstract class ModLatestHelper
 	 */
 	public static function getList(Registry &$params, ArticlesModel $model)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Set List SELECT
 		$model->setState('list.select', 'a.id, a.title, a.checked_out, a.checked_out_time, ' .
-			' a.access, a.created, a.created_by, a.created_by_alias, a.featured, a.state, a.publish_up, a.publish_down');
+			' a.access, a.created, a.created_by, a.created_by_alias, a.featured, a.state, a.publish_up, a.publish_down'
+		);
 
 		// Set Ordering filter
-		switch ($params->get('ordering'))
+		switch ($params->get('ordering', 'c_dsc'))
 		{
 			case 'm_dsc':
 				$model->setState('list.ordering', 'modified DESC, created');
@@ -53,7 +58,7 @@ abstract class ModLatestHelper
 		}
 
 		// Set Category Filter
-		$categoryId = $params->get('catid');
+		$categoryId = $params->get('catid', null);
 
 		if (is_numeric($categoryId))
 		{
@@ -63,7 +68,7 @@ abstract class ModLatestHelper
 		// Set User Filter.
 		$userId = $user->get('id');
 
-		switch ($params->get('user_id'))
+		switch ($params->get('user_id', '0'))
 		{
 			case 'by_me':
 				$model->setState('filter.author_id', $userId);
@@ -84,20 +89,16 @@ abstract class ModLatestHelper
 		if ($error = $model->getError())
 		{
 			throw new \Exception($error, 500);
-
-			return false;
 		}
 
 		// Set the links
 		foreach ($items as &$item)
 		{
+			$item->link = '';
+
 			if ($user->authorise('core.edit', 'com_content.article.' . $item->id))
 			{
-				$item->link = \JRoute::_('index.php?option=com_content&task=article.edit&id=' . $item->id);
-			}
-			else
-			{
-				$item->link = '';
+				$item->link = Route::_('index.php?option=com_content&task=article.edit&id=' . $item->id);
 			}
 		}
 
@@ -113,28 +114,26 @@ abstract class ModLatestHelper
 	 */
 	public static function getTitle($params)
 	{
-		$who   = $params->get('user_id');
-		$catid = (int) $params->get('catid');
-		$type  = $params->get('ordering') == 'c_dsc' ? '_CREATED' : '_MODIFIED';
+		$who   = $params->get('user_id', 0);
+		$catid = (int) $params->get('catid', null);
+		$type  = $params->get('ordering') === 'c_dsc' ? '_CREATED' : '_MODIFIED';
+		$title = '';
 
 		if ($catid)
 		{
-			$category = \JCategories::getInstance('Content')->get($catid);
+			$category = Categories::getInstance('Content')->get($catid);
+			$title    = Text::_('MOD_POPULAR_UNEXISTING');
 
 			if ($category)
 			{
 				$title = $category->title;
 			}
-			else
-			{
-				$title = \JText::_('MOD_POPULAR_UNEXISTING');
-			}
-		}
-		else
-		{
-			$title = '';
 		}
 
-		return \JText::plural('MOD_LATEST_TITLE' . $type . ($catid ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count'), $title);
+		return Text::plural(
+			'MOD_LATEST_TITLE' . $type . ($catid ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''),
+			(int) $params->get('count', 5),
+			$title
+		);
 	}
 }

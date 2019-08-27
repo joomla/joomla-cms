@@ -3,15 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Plugins\Administrator\View\Plugins;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View class for a list of plugins.
@@ -75,7 +80,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -94,21 +99,33 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_plugins');
 
-		\JToolbarHelper::title(\JText::_('COM_PLUGINS_MANAGER_PLUGINS'), 'power-cord plugin');
+		ToolbarHelper::title(Text::_('COM_PLUGINS_MANAGER_PLUGINS'), 'power-cord plugin');
+
+		// Get the toolbar object instance
+		$toolbar = Toolbar::getInstance('toolbar');
+
+		$dropdown = $toolbar->dropdownButton('status-group')
+			->text('JTOOLBAR_CHANGE_STATUS')
+			->toggleSplit(false)
+			->icon('fa fa-ellipsis-h')
+			->buttonClass('btn btn-action')
+			->listCheck(true);
+
+		$childBar = $dropdown->getChildToolbar();
 
 		if ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::publish('plugins.publish', 'JTOOLBAR_ENABLE', true);
-			\JToolbarHelper::unpublish('plugins.unpublish', 'JTOOLBAR_DISABLE', true);
-			\JToolbarHelper::checkin('plugins.checkin');
+			$childBar->publish('plugins.publish', 'JTOOLBAR_ENABLE')->listCheck(true);
+			$childBar->unpublish('plugins.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
+			$childBar->checkin('plugins.checkin');
 		}
 
 		if ($canDo->get('core.admin'))
 		{
-			\JToolbarHelper::preferences('com_plugins');
+			$toolbar->preferences('com_plugins');
 		}
 
-		\JToolbarHelper::help('JHELP_EXTENSIONS_PLUGIN_MANAGER');
+		$toolbar->help('JHELP_EXTENSIONS_PLUGIN_MANAGER');
 
 	}
 
@@ -122,13 +139,13 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'ordering'     => \JText::_('JGRID_HEADING_ORDERING'),
-			'enabled'      => \JText::_('JSTATUS'),
-			'name'         => \JText::_('JGLOBAL_TITLE'),
-			'folder'       => \JText::_('COM_PLUGINS_FOLDER_HEADING'),
-			'element'      => \JText::_('COM_PLUGINS_ELEMENT_HEADING'),
-			'access'       => \JText::_('JGRID_HEADING_ACCESS'),
-			'extension_id' => \JText::_('JGRID_HEADING_ID'),
+			'ordering'     => Text::_('JGRID_HEADING_ORDERING'),
+			'enabled'      => Text::_('JSTATUS'),
+			'name'         => Text::_('JGLOBAL_TITLE'),
+			'folder'       => Text::_('COM_PLUGINS_FOLDER_HEADING'),
+			'element'      => Text::_('COM_PLUGINS_ELEMENT_HEADING'),
+			'access'       => Text::_('JGRID_HEADING_ACCESS'),
+			'extension_id' => Text::_('JGRID_HEADING_ID'),
 		);
 	}
 }

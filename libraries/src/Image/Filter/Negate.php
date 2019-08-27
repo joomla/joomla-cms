@@ -3,22 +3,23 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Image\Filter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Image\ImageFilter;
+use Joomla\CMS\Log\Log;
 
-\JLog::add('JImageFilterNegate is deprecated, use Joomla\Image\Filter\Negate instead.', \JLog::WARNING, 'deprecated');
+Log::add('JImageFilterNegate is deprecated, use Joomla\Image\Filter\Negate instead.', Log::WARNING, 'deprecated');
 
 /**
  * Image Filter class to negate the colors of an image.
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  5.0  Use Joomla\Image\Filter\Negate instead
  */
 class Negate extends ImageFilter
@@ -30,7 +31,7 @@ class Negate extends ImageFilter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @deprecated  5.0  Use Joomla\Image\Filter\Negate::execute() instead
 	 */
 	public function execute(array $options = array())

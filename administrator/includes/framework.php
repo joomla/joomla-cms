@@ -2,24 +2,21 @@
 /**
  * @package    Joomla.Administrator
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Version;
+
 // System includes
 require_once JPATH_LIBRARIES . '/bootstrap.php';
-
-// Set system error handling
-JError::setErrorHandling(E_NOTICE, 'message');
-JError::setErrorHandling(E_WARNING, 'message');
-JError::setErrorHandling(E_ERROR, 'message', array('JError', 'customErrorPage'));
 
 // Installation check, and check on removal of the install directory.
 if (!file_exists(JPATH_CONFIGURATION . '/configuration.php')
 	|| (filesize(JPATH_CONFIGURATION . '/configuration.php') < 10)
-	|| (file_exists(JPATH_INSTALLATION . '/index.php') && (false === (new JVersion)->isInDevelopmentState())))
+	|| (file_exists(JPATH_INSTALLATION . '/index.php') && (false === (new Version)->isInDevelopmentState())))
 {
 	if (file_exists(JPATH_INSTALLATION . '/index.php'))
 	{
@@ -84,10 +81,3 @@ switch ($config->error_reporting)
 define('JDEBUG', $config->debug);
 
 unset($config);
-
-// System profiler
-if (JDEBUG)
-{
-	// @deprecated 4.0 - The $_PROFILER global will be removed
-	$_PROFILER = JProfiler::getInstance('Application');
-}

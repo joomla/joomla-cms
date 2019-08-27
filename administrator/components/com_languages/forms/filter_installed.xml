@@ -3,7 +3,8 @@
 	<field
 		name="client_id"
 		type="list"
-		onchange="jQuery('#filter_search, select[id^=filter_], #list_fullordering').val('');this.form.submit();"
+		label="COM_LANGUAGES_INSTALLED_SELECT_CLIENT"
+		onchange="Joomla.resetFilters(this)"
 		filtermode="selector"
 		>
 		<option value="0">JSITE</option>
@@ -23,6 +24,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="name ASC"
 			>
@@ -31,8 +33,8 @@
 			<option value="name DESC">COM_LANGUAGES_HEADING_LANGUAGE_DESC</option>
 			<option value="nativeName ASC">COM_LANGUAGES_HEADING_TITLE_NATIVE_ASC</option>
 			<option value="nativeName DESC">COM_LANGUAGES_HEADING_TITLE_NATIVE_DESC</option>
-			<option value="language ASC">COM_LANGUAGES_HEADING_LANG_TAG_ASC</option>
-			<option value="language DESC">COM_LANGUAGES_HEADING_LANG_TAG_DESC</option>
+			<option value="language ASC" requires="multilanguage">COM_LANGUAGES_HEADING_LANG_TAG_ASC</option>
+			<option value="language DESC" requires="multilanguage">COM_LANGUAGES_HEADING_LANG_TAG_DESC</option>
 			<option value="published ASC">COM_LANGUAGES_HEADING_DEFAULT_ASC</option>
 			<option value="published DESC">COM_LANGUAGES_HEADING_DEFAULT_DESC</option>
 			<option value="version ASC">COM_LANGUAGES_HEADING_VERSION_ASC</option>
@@ -49,6 +51,7 @@
 		<field
 			name="limit"
 			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>

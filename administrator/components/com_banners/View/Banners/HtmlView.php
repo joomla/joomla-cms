@@ -3,15 +3,27 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Banners\Administrator\View\Banners;
 
 defined('_JEXEC') or die;
 
+use Exception;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Banners\Administrator\Model\BannersModel;
+use Joomla\Registry\Registry;
 
 /**
  * View class for a list of banners.
@@ -21,30 +33,50 @@ use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
+	 * The search tools form
+	 *
+	 * @var    Form
+	 * @since  1.6
+	 */
+	public $filterForm;
+
+	/**
+	 * The active search filters
+	 *
+	 * @var    array
+	 * @since  1.6
+	 */
+	public $activeFilters = [];
+
+	/**
 	 * Category data
 	 *
-	 * @var  array
+	 * @var    array
+	 * @since  1.6
 	 */
-	protected $categories;
+	protected $categories = [];
 
 	/**
 	 * An array of items
 	 *
-	 * @var  array
+	 * @var    array
+	 * @since  1.6
 	 */
-	protected $items;
+	protected $items = [];
 
 	/**
 	 * The pagination object
 	 *
-	 * @var  \JPagination
+	 * @var    Pagination
+	 * @since  1.6
 	 */
 	protected $pagination;
 
 	/**
 	 * The model state
 	 *
-	 * @var  object
+	 * @var    Registry
+	 * @since  1.6
 	 */
 	protected $state;
 
@@ -53,35 +85,38 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  A string if successful, otherwise a \JError object.
+	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  Exception
 	 */
-	public function display($tpl = null)
+	public function display($tpl = null): void
 	{
-		$this->categories    = $this->get('CategoryOrders');
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->state         = $this->get('State');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
+		/** @var BannersModel $model */
+		$model               = $this->getModel();
+		$this->categories    = $model->getCategoryOrders();
+		$this->items         = $model->getItems();
+		$this->pagination    = $model->getPagination();
+		$this->state         = $model->getState();
+		$this->filterForm    = $model->getFilterForm();
+		$this->activeFilters = $model->getActiveFilters();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
-
-		BannersHelper::addSubmenu('banners');
 
 		$this->addToolbar();
 
-		// Include the component HTML helpers.
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		// We do not need to filter by language when multilingual is disabled
+		if (!Multilanguage::isEnabled())
+		{
+			unset($this->activeFilters['language']);
+			$this->filterForm->removeField('language', 'filter');
+		}
 
-		$this->sidebar = \JHtmlSidebar::render();
-
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -91,75 +126,87 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @since   1.6
 	 */
-	protected function addToolbar()
+	protected function addToolbar(): void
 	{
-		\JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
+		$canDo = ContentHelper::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
+		$user  = Factory::getUser();
 
-		$canDo = \JHelperContent::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
-		$user  = \JFactory::getUser();
+		// Get the toolbar object instance
+		$toolbar = Toolbar::getInstance('toolbar');
 
-		\JToolbarHelper::title(\JText::_('COM_BANNERS_MANAGER_BANNERS'), 'bookmark banners');
+		ToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_BANNERS'), 'bookmark banners');
 
 		if (count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)
 		{
-			\JToolbarHelper::addNew('banner.add');
+			$toolbar->addNew('banner.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') || ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')))
 		{
-			if ($this->state->get('filter.published') != 2)
-			{
-				\JToolbarHelper::publish('banners.publish', 'JTOOLBAR_PUBLISH', true);
-				\JToolbarHelper::unpublish('banners.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			}
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
+				->listCheck(true);
 
-			if ($this->state->get('filter.published') != -1)
+			$childBar = $dropdown->getChildToolbar();
+
+			if ($canDo->get('core.edit.state'))
 			{
 				if ($this->state->get('filter.published') != 2)
 				{
-					\JToolbarHelper::archiveList('banners.archive');
+					$childBar->publish('banners.publish')->listCheck(true);
+
+					$childBar->unpublish('banners.unpublish')->listCheck(true);
 				}
-				elseif ($this->state->get('filter.published') == 2)
+
+				if ($this->state->get('filter.published') != -1)
 				{
-					\JToolbarHelper::unarchiveList('banners.publish');
+					if ($this->state->get('filter.published') != 2)
+					{
+						$childBar->archive('banners.archive')->listCheck(true);
+					}
+					elseif ($this->state->get('filter.published') == 2)
+					{
+						$childBar->publish('publish')->task('banners.publish')->listCheck(true);
+					}
+				}
+
+				$childBar->checkin('banners.checkin')->listCheck(true);
+
+				if ($this->state->get('filter.published') != -2)
+				{
+					$childBar->trash('banners.trash')->listCheck(true);
 				}
 			}
-		}
 
-		if ($canDo->get('core.edit.state'))
-		{
-			\JToolbarHelper::checkin('banners.checkin');
-		}
+			if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+			{
+				$toolbar->delete('banners.delete')
+					->text('JTOOLBAR_EMPTY_TRASH')
+					->message('JGLOBAL_CONFIRM_DELETE')
+					->listCheck(true);
+			}
 
-		// Add a batch button
-		if ($user->authorise('core.create', 'com_banners')
-			&& $user->authorise('core.edit', 'com_banners')
-			&& $user->authorise('core.edit.state', 'com_banners'))
-		{
-			$title = \JText::_('JTOOLBAR_BATCH');
-
-			// Instantiate a new \JLayoutFile instance and render the batch button
-			$layout = new \JLayoutFile('joomla.toolbar.batch');
-
-			$dhtml = $layout->render(array('title' => $title));
-			\JToolbar::getInstance('toolbar')->appendButton('Custom', $dhtml, 'batch');
-		}
-
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
-		{
-			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'banners.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			\JToolbarHelper::trash('banners.trash');
+			// Add a batch button
+			if ($user->authorise('core.create', 'com_banners')
+				&& $user->authorise('core.edit', 'com_banners')
+				&& $user->authorise('core.edit.state', 'com_banners'))
+			{
+				$childBar->popupButton('batch')
+					->text('JTOOLBAR_BATCH')
+					->selector('collapseModal')
+					->listCheck(true);
+			}
 		}
 
 		if ($user->authorise('core.admin', 'com_banners') || $user->authorise('core.options', 'com_banners'))
 		{
-			\JToolbarHelper::preferences('com_banners');
+			$toolbar->preferences('com_banners');
 		}
 
-		\JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_BANNERS');
+		$toolbar->help('JHELP_COMPONENTS_BANNERS_BANNERS');
 	}
 
 	/**
@@ -169,18 +216,18 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @since   3.0
 	 */
-	protected function getSortFields()
+	protected function getSortFields(): array
 	{
-		return array(
-			'ordering'    => \JText::_('JGRID_HEADING_ORDERING'),
-			'a.state'     => \JText::_('JSTATUS'),
-			'a.name'      => \JText::_('COM_BANNERS_HEADING_NAME'),
-			'a.sticky'    => \JText::_('COM_BANNERS_HEADING_STICKY'),
-			'client_name' => \JText::_('COM_BANNERS_HEADING_CLIENT'),
-			'impmade'     => \JText::_('COM_BANNERS_HEADING_IMPRESSIONS'),
-			'clicks'      => \JText::_('COM_BANNERS_HEADING_CLICKS'),
-			'a.language'  => \JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id'        => \JText::_('JGRID_HEADING_ID'),
-		);
+		return [
+			'ordering'    => Text::_('JGRID_HEADING_ORDERING'),
+			'a.state'     => Text::_('JSTATUS'),
+			'a.name'      => Text::_('COM_BANNERS_HEADING_NAME'),
+			'a.sticky'    => Text::_('COM_BANNERS_HEADING_STICKY'),
+			'client_name' => Text::_('COM_BANNERS_HEADING_CLIENT'),
+			'impmade'     => Text::_('COM_BANNERS_HEADING_IMPRESSIONS'),
+			'clicks'      => Text::_('COM_BANNERS_HEADING_CLICKS'),
+			'a.language'  => Text::_('JGRID_HEADING_LANGUAGE'),
+			'a.id'        => Text::_('JGRID_HEADING_ID'),
+		];
 	}
 }

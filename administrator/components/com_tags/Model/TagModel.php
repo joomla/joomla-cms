@@ -3,15 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Tags\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
@@ -94,7 +97,7 @@ class TagModel extends AdminModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication('administrator');
+		$app = Factory::getApplication();
 
 		$parentId = $app->input->getInt('parent_id');
 		$this->setState('tag.parent_id', $parentId);
@@ -140,11 +143,11 @@ class TagModel extends AdminModel
 			$result->urls = $registry->toArray();
 
 			// Convert the created and modified dates to local user time for display in the form.
-			$tz = new \DateTimeZone(\JFactory::getApplication()->get('offset'));
+			$tz = new \DateTimeZone(Factory::getApplication()->get('offset'));
 
 			if ((int) $result->created_time)
 			{
-				$date = new \JDate($result->created_time);
+				$date = new Date($result->created_time);
 				$date->setTimezone($tz);
 				$result->created_time = $date->toSql(true);
 			}
@@ -155,7 +158,7 @@ class TagModel extends AdminModel
 
 			if ((int) $result->modified_time)
 			{
-				$date = new \JDate($result->modified_time);
+				$date = new Date($result->modified_time);
 				$date->setTimezone($tz);
 				$result->modified_time = $date->toSql(true);
 			}
@@ -180,7 +183,7 @@ class TagModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$jinput = \JFactory::getApplication()->input;
+		$jinput = Factory::getApplication()->input;
 
 		// Get the form.
 		$form = $this->loadForm('com_tags.tag', 'tag', array('control' => 'jform', 'load_data' => $loadData));
@@ -190,7 +193,7 @@ class TagModel extends AdminModel
 			return false;
 		}
 
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if (!$user->authorise('core.edit.state', 'com_tags' . $jinput->get('id')))
 		{
@@ -217,7 +220,7 @@ class TagModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState('com_tags.edit.tag.data', array());
+		$data = Factory::getApplication()->getUserState('com_tags.edit.tag.data', array());
 
 		if (empty($data))
 		{
@@ -240,9 +243,10 @@ class TagModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		/* @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+		/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+
 		$table      = $this->getTable();
-		$input      = \JFactory::getApplication()->input;
+		$input      = Factory::getApplication()->input;
 		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
 		$isNew      = true;
 		$context    = $this->option . '.' . $this->name;
@@ -307,7 +311,7 @@ class TagModel extends AdminModel
 		}
 
 		// Trigger the before save event.
-		$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
+		$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew, $data));
 
 		if (in_array(false, $result, true))
 		{
@@ -325,7 +329,7 @@ class TagModel extends AdminModel
 		}
 
 		// Trigger the after save event.
-		\JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew));
+		Factory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew));
 
 		// Rebuild the path for the tag:
 		if (!$table->rebuildPath($table->id))
@@ -361,7 +365,8 @@ class TagModel extends AdminModel
 	public function rebuild()
 	{
 		// Get an instance of the table object.
-		/* @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+		/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+
 		$table = $this->getTable();
 
 		if (!$table->rebuild())
@@ -392,7 +397,8 @@ class TagModel extends AdminModel
 	public function saveorder($idArray = null, $lft_array = null)
 	{
 		// Get an instance of the table object.
-		/* @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+		/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+
 		$table = $this->getTable();
 
 		if (!$table->saveorder($idArray, $lft_array))
@@ -422,7 +428,8 @@ class TagModel extends AdminModel
 	protected function generateNewTitle($parent_id, $alias, $title)
 	{
 		// Alter the title & alias
-		/* @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+		/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+
 		$table = $this->getTable();
 
 		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))

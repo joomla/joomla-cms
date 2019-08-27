@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldprefix="Joomla\Component\Content\Administrator\Field">
+<form addfieldprefix="Joomla\Component\Plugins\Administrator\Field">
 	<fieldset>
 		<field
 			name="extension_id"
@@ -37,7 +37,7 @@
 
 		<field
 			name="ordering"
-			type="Pluginordering"
+			type="pluginordering"
 			label="JFIELD_ORDERING_LABEL"
 		/>
 
@@ -58,5 +58,15 @@
 			size="20"
 			readonly="true" 
 		/>
+
+		<field
+			name="note"
+			type="textarea"
+			label="JFIELD_NOTE_LABEL"
+			class="span12"
+			size="40"
+			maxlength="255"
+		/>
+
 	</fieldset>
 </form>

@@ -3,13 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Templates\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 
 /**
@@ -39,24 +41,17 @@ class StyleController extends FormController
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		if (!\JSession::checkToken())
+		$this->checkToken();
+
+		if ($this->app->getDocument()->getType() === 'json')
 		{
-			\JFactory::getApplication()->redirect('index.php', \JText::_('JINVALID_TOKEN'));
-		}
-
-		$document = \JFactory::getDocument();
-
-		if ($document->getType() == 'json')
-		{
-
-			$app   = \JFactory::getApplication();
-			$model = $this->getModel();
+			$model = $this->getModel('Style', 'Administrator');
 			$table = $model->getTable();
 			$data  = $this->input->post->get('params', array(), 'array');
-			$checkin = property_exists($table, 'checked_out');
+			$checkin = $table->hasField('checked_out');
 			$context = $this->option . '.edit.' . $this->context;
 
-			$item = $model->getItem($app->getTemplate('template')->id);
+			$item = $model->getItem($this->app->getTemplate(true)->id);
 
 			// Setting received params
 			$item->set('params', $data);
@@ -69,13 +64,12 @@ class StyleController extends FormController
 			// Access check.
 			if (!$this->allowSave($data, $key))
 			{
-
-				$app->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+				$this->app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
 				return false;
 			}
 
-			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_templates/models/forms');
+			Form::addFormPath(JPATH_ADMINISTRATOR . '/components/com_templates/forms');
 
 			// Validate the posted data.
 			// Sometimes the form needs some posted data, such as for plugins and modules.
@@ -83,7 +77,7 @@ class StyleController extends FormController
 
 			if (!$form)
 			{
-				$app->enqueueMessage($model->getError(), 'error');
+				$this->app->enqueueMessage($model->getError(), 'error');
 
 				return false;
 			}
@@ -101,16 +95,16 @@ class StyleController extends FormController
 				{
 					if ($errors[$i] instanceof \Exception)
 					{
-						$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+						$this->app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 					}
 					else
 					{
-						$app->enqueueMessage($errors[$i], 'warning');
+						$this->app->enqueueMessage($errors[$i], 'warning');
 					}
 				}
 
 				// Save the data in the session.
-				$app->setUserState($context . '.data', $data);
+				$this->app->setUserState($context . '.data', $data);
 
 				return false;
 			}
@@ -124,9 +118,9 @@ class StyleController extends FormController
 			if (!$model->save($validData))
 			{
 				// Save the data in the session.
-				$app->setUserState($context . '.data', $validData);
+				$this->app->setUserState($context . '.data', $validData);
 
-				$app->enqueueMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
+				$this->app->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
 
 				return false;
 			}
@@ -135,10 +129,10 @@ class StyleController extends FormController
 			if ($checkin && $model->checkin($validData[$key]) === false)
 			{
 				// Save the data in the session.
-				$app->setUserState($context . '.data', $validData);
+				$this->app->setUserState($context . '.data', $validData);
 
 				// Check-in failed, so go back to the record and display a notice.
-				$app->enqueueMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
+				$this->app->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
 
 				return false;
 			}
@@ -147,18 +141,15 @@ class StyleController extends FormController
 			// Set the record data in the session.
 			$recordId = $model->getState($this->context . '.id');
 			$this->holdEditId($context, $recordId);
-			$app->setUserState($context . '.data', null);
+			$this->app->setUserState($context . '.data', null);
 			$model->checkout($recordId);
 
 			// Invoke the postSave method to allow for the child class to access the model.
 			$this->postSaveHook($model, $validData);
 
 			return true;
+		}
 
-		}
-		else
-		{
-			parent::save($key, $urlVar);
-		}
+		return parent::save($key, $urlVar);
 	}
 }

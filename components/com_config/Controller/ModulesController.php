@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_content
+ * @package     Joomla.Site
+ * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,11 +11,17 @@ namespace Joomla\Component\Config\Site\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Component\Modules\Administrator\Controller\Module;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Modules\Administrator\Controller\ModuleController;
 
 /**
  * Component Controller
@@ -46,44 +52,40 @@ class ModulesController extends BaseController
 	/**
 	 * Method to handle cancel
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */
 	public function cancel()
 	{
 		// Redirect back to home(base) page
-		$this->setRedirect(\JUri::base());
+		$this->setRedirect(Uri::base());
 	}
 
 	/**
 	 * Method to save module editing.
 	 *
-	 * @return  bool	True on success.
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */
 	public function save()
 	{
 		// Check for request forgeries.
-		if (!\JSession::checkToken())
-		{
-			$this->app->enqueueMessage(\JText::_('JINVALID_TOKEN'));
-			$this->app->redirect('index.php');
-		}
+		$this->checkToken();
 
 		// Check if the user is authorized to do this.
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if (!$user->authorise('module.edit.frontend', 'com_modules.module.' . $this->input->get('id'))
 			&& !$user->authorise('module.edit.frontend', 'com_modules'))
 		{
-			$this->app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'));
 			$this->app->redirect('index.php');
 		}
 
 		// Set FTP credentials, if given.
-		\JClientHelper::setCredentialsFromRequest('ftp');
+		ClientHelper::setCredentialsFromRequest('ftp');
 
 		// Get sumitted module id
 		$moduleId = '&id=' . $this->input->getInt('id');
@@ -97,17 +99,18 @@ class ModulesController extends BaseController
 			$redirect = '&return=' . $returnUri;
 		}
 
-		\JLoader::register('ModulesDispatcher', JPATH_ADMINISTRATOR . '/components/com_modules/dispatcher.php');
-
-		$app = \Joomla\CMS\Application\CmsApplication::getInstance('administrator');
+		/** @var AdministratorApplication $app */
+		$app = Factory::getContainer()->get(AdministratorApplication::class);
 		$app->loadLanguage($this->app->getLanguage());
-		$dispatcher      = new \ModulesDispatcher($app, $this->input);
 
-		/** @var Module $controllerClass */
+		/** @var \Joomla\CMS\Dispatcher\ComponentDispatcher $dispatcher */
+		$dispatcher = $app->bootComponent('com_modules')->getDispatcher($app);
+
+		/** @var ModuleController $controllerClass */
 		$controllerClass = $dispatcher->getController('Module');
 
 		// Get a document object
-		$document = \JFactory::getDocument();
+		$document = Factory::getDocument();
 
 		// Set backend required params
 		$document->setType('json');
@@ -123,21 +126,23 @@ class ModulesController extends BaseController
 		if ($return === false)
 		{
 			// Save the data in the session.
-			$app->setUserState('com_config.modules.global.data', $data);
+			$data = $this->input->post->get('jform', array(), 'array');
+
+			$this->app->setUserState('com_config.modules.global.data', $data);
 
 			// Save failed, go back to the screen and display a notice.
-			$this->app->enqueueMessage(\JText::_('JERROR_SAVE_FAILED'));
-			$this->app->redirect(\JRoute::_('index.php?option=com_config&view=modules' . $moduleId . $redirect, false));
+			$this->app->enqueueMessage(Text::_('JERROR_SAVE_FAILED'));
+			$this->app->redirect(Route::_('index.php?option=com_config&view=modules' . $moduleId . $redirect, false));
 		}
 
 		// Redirect back to com_config display
-		$this->app->enqueueMessage(\JText::_('COM_CONFIG_MODULES_SAVE_SUCCESS'));
+		$this->app->enqueueMessage(Text::_('COM_CONFIG_MODULES_SAVE_SUCCESS'));
 
 		// Set the redirect based on the task.
 		switch ($this->input->getCmd('task'))
 		{
 			case 'apply':
-				$this->app->redirect(\JRoute::_('index.php?option=com_config&view=modules' . $moduleId . $redirect, false));
+				$this->app->redirect(Route::_('index.php?option=com_config&view=modules' . $moduleId . $redirect, false));
 				break;
 
 			case 'save':
@@ -148,14 +153,14 @@ class ModulesController extends BaseController
 					$redirect = base64_decode(urldecode($returnUri));
 
 					// Don't redirect to an external URL.
-					if (!\JUri::isInternal($redirect))
+					if (!Uri::isInternal($redirect))
 					{
-						$redirect = \JUri::base();
+						$redirect = Uri::base();
 					}
 				}
 				else
 				{
-					$redirect = \JUri::base();
+					$redirect = Uri::base();
 				}
 
 				$this->setRedirect($redirect);

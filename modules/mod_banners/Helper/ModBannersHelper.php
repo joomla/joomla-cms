@@ -3,14 +3,19 @@
  * @package     Joomla.Site
  * @subpackage  mod_banners
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Module\Banners\Site\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Environment\Browser;
 use Joomla\Component\Banners\Site\Model\BannersModel;
+use Joomla\Registry\Registry;
 
 /**
  * Helper for mod_banners
@@ -22,17 +27,17 @@ class ModBannersHelper
 	/**
 	 * Retrieve list of banners
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  module parameters
+	 * @param   Registry        $params  The module parameters
+	 * @param   BannersModel    $model   The model
+	 * @param   CMSApplication  $app     The application
 	 *
 	 * @return  mixed
 	 */
-	public static function &getList(&$params)
+	public static function getList(Registry $params, BannersModel $model, CMSApplication $app)
 	{
-		$document = \JFactory::getDocument();
-		$app      = \JFactory::getApplication();
-		$keywords = explode(',', $document->getMetaData('keywords'));
+		$keywords = explode(',', $app->getDocument()->getMetaData('keywords'));
+		$config   = ComponentHelper::getParams('com_banners');
 
-		$model = new BannersModel(array('ignore_request' => true));
 		$model->setState('filter.client_id', (int) $params->get('cid'));
 		$model->setState('filter.category_id', $params->get('catid', array()));
 		$model->setState('list.limit', (int) $params->get('count', 1));
@@ -46,7 +51,10 @@ class ModBannersHelper
 
 		if ($banners)
 		{
-			$model->impress();
+			if ($config->get('track_robots_impressions', 1) == 1 || !Browser::getInstance()->isRobot())
+			{
+				$model->impress();
+			}
 		}
 
 		return $banners;

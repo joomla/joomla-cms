@@ -14,8 +14,22 @@
 
 .icon-publish {
   color: theme-color("success");
+
+  .dropdown-status-group & {
+    color: inherit;
+  }
 }
 
 .icon-unpublish {
   color: theme-color("danger");
+
+  .dropdown-status-group & {
+    color: inherit;
+  }
+}
+
+.input-group-text {
+  &::before {
+    min-width: 16px;
+  }
 }

@@ -2,19 +2,25 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Database\ParameterType;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 
@@ -53,7 +59,7 @@ class AdministratorApplication extends CMSApplication
 		parent::__construct($input, $config, $client, $container);
 
 		// Set the root in the URI based on the application name
-		\JUri::root(null, rtrim(dirname(\JUri::base(true)), '/\\'));
+		Uri::root(null, rtrim(\dirname(Uri::base(true)), '/\\'));
 	}
 
 	/**
@@ -76,10 +82,10 @@ class AdministratorApplication extends CMSApplication
 		$this->loadDocument();
 
 		// Set up the params
-		$document = \JFactory::getDocument();
+		$document = Factory::getDocument();
 
-		// Register the document object with \JFactory
-		\JFactory::$document = $document;
+		// Register the document object with Factory
+		Factory::$document = $document;
 
 		switch ($document->getType())
 		{
@@ -93,13 +99,18 @@ class AdministratorApplication extends CMSApplication
 				$this->set('theme', $template->template);
 				$this->set('themeParams', $template->params);
 
+				// Add Asset registry files
+				$document->getWebAssetManager()->getRegistry()
+					->addRegistryFile('media/' . $component . '/joomla.asset.json')
+					->addRegistryFile('administrator/templates/' . $template->template . '/joomla.asset.json');
+
 				break;
 
 			default:
 				break;
 		}
 
-		$document->setTitle($this->get('sitename') . ' - ' . \JText::_('JADMINISTRATION'));
+		$document->setTitle($this->get('sitename') . ' - ' . Text::_('JADMINISTRATION'));
 		$document->setDescription($this->get('MetaDesc'));
 		$document->setGenerator('Joomla! - Open Source Content Management');
 
@@ -153,12 +164,12 @@ class AdministratorApplication extends CMSApplication
 	}
 
 	/**
-	 * Return a reference to the \JRouter object.
+	 * Return a reference to the Router object.
 	 *
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  \JRouter
+	 * @return  Router
 	 *
 	 * @since	3.2
 	 */
@@ -179,7 +190,7 @@ class AdministratorApplication extends CMSApplication
 	 */
 	public function getTemplate($params = false)
 	{
-		if (is_object($this->template))
+		if (\is_object($this->template))
 		{
 			if ($params)
 			{
@@ -189,31 +200,50 @@ class AdministratorApplication extends CMSApplication
 			return $this->template->template;
 		}
 
-		$admin_style = \JFactory::getUser()->getParam('admin_style');
+		$admin_style = (int) Factory::getUser()->getParam('admin_style');
 
 		// Load the template name from the database
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('template, s.params')
-			->from('#__template_styles as s')
-			->join('LEFT', '#__extensions as e ON e.type=' . $db->quote('template') . ' AND e.element=s.template AND e.client_id=s.client_id');
+			->select($db->quoteName(['s.template', 's.params']))
+			->from($db->quoteName('#__template_styles', 's'))
+			->join(
+				'LEFT',
+				$db->quoteName('#__extensions', 'e'),
+				$db->quoteName('e.type') . ' = ' . $db->quote('template')
+					. ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('s.template')
+					. ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('s.client_id')
+			)
+			->where(
+				[
+					$db->quoteName('s.client_id') . ' = 1',
+					$db->quoteName('s.home') . ' = ' . $db->quote('1'),
+				]
+			);
 
 		if ($admin_style)
 		{
-			$query->where('s.client_id = 1 AND id = ' . (int) $admin_style . ' AND e.enabled = 1', 'OR');
+			$query->extendWhere(
+				'OR',
+				[
+					$db->quoteName('s.client_id') . ' = 1',
+					$db->quoteName('s.id') . ' = :style',
+					$db->quoteName('e.enabled') . ' = 1',
+				]
+			)
+				->bind(':style', $admin_style, ParameterType::INTEGER);
 		}
 
-		$query->where('s.client_id = 1 AND home = ' . $db->quote('1'), 'OR')
-			->order('home');
+		$query->order($db->quoteName('s.home'));
 		$db->setQuery($query);
 		$template = $db->loadObject();
 
-		$template->template = \JFilterInput::getInstance()->clean($template->template, 'cmd');
+		$template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
 		$template->params = new Registry($template->params);
 
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
-			$this->enqueueMessage(\JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
+			$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
 			$template->params = new Registry;
 			$template->template = 'atum';
 		}
@@ -223,7 +253,7 @@ class AdministratorApplication extends CMSApplication
 
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
-			throw new \InvalidArgumentException(\JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
+			throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
 		}
 
 		if ($params)
@@ -245,7 +275,7 @@ class AdministratorApplication extends CMSApplication
 	 */
 	protected function initialiseApp($options = array())
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// If the user is a guest we populate it with the guest user group.
 		if ($user->guest)
@@ -310,9 +340,9 @@ class AdministratorApplication extends CMSApplication
 		$options['autoregister'] = false;
 
 		// Set the application login entry point
-		if (!array_key_exists('entry_url', $options))
+		if (!\array_key_exists('entry_url', $options))
 		{
-			$options['entry_url'] = \JUri::base() . 'index.php?option=com_users&task=login';
+			$options['entry_url'] = Uri::base() . 'index.php?option=com_users&task=login';
 		}
 
 		// Set the access control action to check.
@@ -345,20 +375,25 @@ class AdministratorApplication extends CMSApplication
 	 */
 	public static function purgeMessages()
 	{
-		$user = \JFactory::getUser();
-		$userid = $user->get('id');
+		$userId = Factory::getUser()->id;
 
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('*')
+			->select($db->quoteName(['cfg_name', 'cfg_value']))
 			->from($db->quoteName('#__messages_cfg'))
-			->where($db->quoteName('user_id') . ' = ' . (int) $userid, 'AND')
-			->where($db->quoteName('cfg_name') . ' = ' . $db->quote('auto_purge'), 'AND');
+			->where(
+				[
+					$db->quoteName('user_id') . ' = :userId',
+					$db->quoteName('cfg_name') . ' = ' . $db->quote('auto_purge'),
+				]
+			)
+			->bind(':userId', $userId, ParameterType::INTEGER);
+
 		$db->setQuery($query);
 		$config = $db->loadObject();
 
 		// Check if auto_purge value set
-		if (is_object($config) && $config->cfg_name === 'auto_purge')
+		if (\is_object($config) && $config->cfg_name === 'auto_purge')
 		{
 			$purge = $config->cfg_value;
 		}
@@ -372,13 +407,19 @@ class AdministratorApplication extends CMSApplication
 		if ($purge > 0)
 		{
 			// Purge old messages at day set in message configuration
-			$past = \JFactory::getDate(time() - $purge * 86400);
-			$pastStamp = $past->toSql();
+			$past = Factory::getDate(time() - $purge * 86400)->toSql();
 
-			$query->clear()
+			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__messages'))
-				->where($db->quoteName('date_time') . ' < ' . $db->quote($pastStamp), 'AND')
-				->where($db->quoteName('user_id_to') . ' = ' . (int) $userid, 'AND');
+				->where(
+					[
+						$db->quoteName('date_time') . ' < :past',
+						$db->quoteName('user_id_to') . ' = :userId',
+					]
+				)
+				->bind(':past', $past)
+				->bind(':userId', $userId, ParameterType::INTEGER);
+
 			$db->setQuery($query);
 			$db->execute();
 		}
@@ -413,24 +454,24 @@ class AdministratorApplication extends CMSApplication
 
 		if (property_exists('\JConfig', 'root_user'))
 		{
-			if (\JFactory::getUser()->get('username') === $rootUser || \JFactory::getUser()->id === (string) $rootUser)
+			if (Factory::getUser()->get('username') === $rootUser || Factory::getUser()->id === (string) $rootUser)
 			{
 				$this->enqueueMessage(
-					\JText::sprintf(
+					Text::sprintf(
 						'JWARNING_REMOVE_ROOT_USER',
-						'index.php?option=com_config&task=config.removeroot&' . \JSession::getFormToken() . '=1'
+						'index.php?option=com_config&task=config.removeroot&' . Session::getFormToken() . '=1'
 					),
 					'error'
 				);
 			}
 			// Show this message to superusers too
-			elseif (\JFactory::getUser()->authorise('core.admin'))
+			elseif (Factory::getUser()->authorise('core.admin'))
 			{
 				$this->enqueueMessage(
-					\JText::sprintf(
+					Text::sprintf(
 						'JWARNING_REMOVE_ROOT_USER_ADMIN',
 						$rootUser,
-						'index.php?option=com_config&task=config.removeroot&' . \JSession::getFormToken() . '=1'
+						'index.php?option=com_config&task=config.removeroot&' . Session::getFormToken() . '=1'
 					),
 					'error'
 				);
@@ -454,7 +495,7 @@ class AdministratorApplication extends CMSApplication
 	 */
 	protected function route()
 	{
-		$uri = \JUri::getInstance();
+		$uri = Uri::getInstance();
 
 		if ($this->get('force_ssl') >= 1 && strtolower($uri->getScheme()) !== 'https')
 		{
@@ -475,17 +516,11 @@ class AdministratorApplication extends CMSApplication
 	 *
 	 * @since   4.0.0
 	 */
-	public function findOption()
+	public function findOption(): string
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$option = strtolower($app->input->get('option'));
 		$user = $app->getIdentity();
-
-		if (!$user)
-		{
-			$app->loadIdentity(\JFactory::getUser());
-			$user = $app->getIdentity();
-		}
 
 		if ($user->get('guest') || !$user->authorise('core.login.admin'))
 		{

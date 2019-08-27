@@ -3,9 +3,10 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Banners\Site\Controller;
 
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -32,6 +33,7 @@ class DisplayController extends BaseController
 
 		if ($id)
 		{
+			/** @var \Joomla\Component\Banners\Site\Model\BannerModel $model */
 			$model = $this->getModel('Banner', 'Site', array('ignore_request' => true));
 			$model->setState('banner.id', $id);
 			$model->click();

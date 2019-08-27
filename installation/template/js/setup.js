@@ -1,6 +1,6 @@
 /**
  * @package     Joomla.Installation
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -78,21 +78,22 @@ Joomla.checkDbCredentials = function() {
 
 	Joomla.request({
 		method: "POST",
-		url : Joomla.installationBaseUrl + '?task=installation.dbcheck',
+		url : Joomla.installationBaseUrl + '?task=installation.dbcheck&format=json',
 		data: data,
 		perform: true,
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 		onSuccess: function(response, xhr){
 			response = JSON.parse(response);
-			Joomla.loadingLayer('hide');
-			Joomla.replaceTokens(response.token);
 			if (response.messages) {
-				Joomla.loadingLayer('hide');
 				Joomla.renderMessages(response.messages);
-				// You shall not pass, DB credentials error!!!!
-			} else {
-				Joomla.loadingLayer('hide');
+			}
 
+			Joomla.replaceTokens(response.token);
+			Joomla.loadingLayer("hide");
+
+			if (response.error) {
+				Joomla.renderMessages({'error': [response.message]});
+			} else if (response.data && response.data.validated === true) {
 				// Run the installer - we let this handle the redirect for now
 				// TODO: Convert to promises
 				Joomla.install(['config'], form);

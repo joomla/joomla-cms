@@ -14,6 +14,7 @@
 		<field
 			name="published"
 			type="status"
+			label="JOPTION_SELECT_PUBLISHED"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -22,6 +23,7 @@
 		<field
 			name="access"
 			type="accesslevel"
+			label="JOPTION_SELECT_ACCESS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -30,6 +32,7 @@
 		<field
 			name="language"
 			type="contentlanguage"
+			label="JOPTION_SELECT_LANGUAGE"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -39,15 +42,18 @@
 		<field
 			name="tag"
 			type="tag"
+			label="JOPTION_SELECT_TAG"
+			hint="JOPTION_SELECT_TAG"
+			multiple="true"
 			mode="nested"
+			custom="false"
 			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_TAG</option>
-		</field>
+		/>
 
 		<field
 			name="level"
 			type="integer"
+			label="JOPTION_SELECT_MAX_LEVELS"
 			first="1"
 			last="10"
 			step="1"
@@ -63,6 +69,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			label="JGLOBAL_SORT_BY"
 			default="a.lft ASC"
 			statuses="*,0,1,2,-2"
 			onchange="this.form.submit();"
@@ -76,8 +83,10 @@
 			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
 			<option value="access_level ASC">JGRID_HEADING_ACCESS_ASC</option>
 			<option value="access_level DESC">JGRID_HEADING_ACCESS_DESC</option>
-			<option value="language_title ASC">JGRID_HEADING_LANGUAGE_ASC</option>
-			<option value="language_title DESC">JGRID_HEADING_LANGUAGE_DESC</option>
+			<option value="association ASC" requires="associations">JASSOCIATIONS_ASC</option>
+			<option value="association DESC" requires="associations">JASSOCIATIONS_DESC</option>
+			<option value="language_title ASC" requires="multilanguage">JGRID_HEADING_LANGUAGE_ASC</option>
+			<option value="language_title DESC" requires="multilanguage">JGRID_HEADING_LANGUAGE_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>
@@ -85,6 +94,7 @@
 		<field
 			name="limit"
 			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>
