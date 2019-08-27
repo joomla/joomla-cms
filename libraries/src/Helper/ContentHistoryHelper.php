@@ -55,12 +55,10 @@ class ContentHistoryHelper extends CMSHelper
 	 */
 	public function deleteHistory($table)
 	{
-		$key = $table->getKeyName();
-		$id = (int) $table->$key;
-		$typeTable = Table::getInstance('Contenttype', 'JTable');
-		$typeId = $typeTable->getTypeId($this->typeAlias);
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
+		$id     = (int) $table->{$table->getKeyName()};
+		$typeId = Table::getInstance('Contenttype', 'JTable')->getTypeId($this->typeAlias);
+		$db     = Factory::getDbo();
+		$query  = $db->getQuery(true)
 			->delete($db->quoteName('#__ucm_history'))
 			->where(
 				[
