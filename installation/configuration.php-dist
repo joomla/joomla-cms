@@ -36,6 +36,7 @@ class JConfig
 	public $list_limit = '20';
 	public $access = '1';
 	public $frontediting = '1';
+    public $hiddenmenu = '1';
 
 	/* Database Settings */
 	public $dbtype = 'mysqli';               // Normally mysqli

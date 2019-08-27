@@ -56,8 +56,6 @@ class RedirectViewLink extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JFactory::getApplication()->input->set('hidemainmenu', true);
-
 		$isNew = ($this->item->id == 0);
 		$canDo = JHelperContent::getActions('com_redirect');
 

@@ -73,9 +73,6 @@ class MenusViewMenu extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$input = JFactory::getApplication()->input;
-		$input->set('hidemainmenu', true);
-
 		$isNew = ($this->item->id == 0);
 
 		JToolbarHelper::title(JText::_($isNew ? 'COM_MENUS_VIEW_NEW_MENU_TITLE' : 'COM_MENUS_VIEW_EDIT_MENU_TITLE'), 'list menu');

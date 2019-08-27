@@ -16,7 +16,7 @@ $action  = JSubMenuHelper::getAction();
 $displayMenu    = count($list);
 $displayFilters = count($filters);
 
-$hide = JFactory::getApplication()->input->getBool('hidemainmenu');
+$hide = JFactory::getApplication()->get('hidemainmenu');
 
 if ($displayMenu || $displayFilters)
 {

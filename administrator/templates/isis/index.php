@@ -57,7 +57,7 @@ $itemid   = $input->get('Itemid', 0, 'int');
 $sitename = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 $cpanel   = $option === 'com_cpanel';
 
-$hidden = $app->input->get('hidemainmenu');
+$hidden = $app->get('hidemainmenu');
 
 $showSubmenu          = false;
 $this->submenumodules = JModuleHelper::getModules('submenu');

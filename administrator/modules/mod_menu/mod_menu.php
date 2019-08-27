@@ -20,7 +20,7 @@ JLoader::register('JAdminCssMenu', __DIR__ . '/menu.php');
 $lang    = JFactory::getLanguage();
 $user    = JFactory::getUser();
 $input   = JFactory::getApplication()->input;
-$enabled = !$input->getBool('hidemainmenu');
+$enabled = !JFactory::getApplication()->get('hidemainmenu');
 
 $menu = new JAdminCssMenu($user);
 $menu->load($params, $enabled);

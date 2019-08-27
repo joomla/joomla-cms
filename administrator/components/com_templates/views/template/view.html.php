@@ -170,7 +170,6 @@ class TemplatesViewTemplate extends JViewLegacy
 	{
 		$app   = JFactory::getApplication();
 		$user  = JFactory::getUser();
-		$app->input->set('hidemainmenu', true);
 
 		// User is global SuperUser
 		$isSuperUser = $user->authorise('core.admin');

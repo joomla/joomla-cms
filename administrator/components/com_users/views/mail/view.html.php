@@ -52,8 +52,6 @@ class UsersViewMail extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JFactory::getApplication()->input->set('hidemainmenu', true);
-
 		JToolbarHelper::title(JText::_('COM_USERS_MASS_MAIL'), 'users massmail');
 		JToolbarHelper::custom('mail.send', 'envelope.png', 'send_f2.png', 'COM_USERS_TOOLBAR_MAIL_SEND_MAIL', false);
 		JToolbarHelper::cancel('mail.cancel');

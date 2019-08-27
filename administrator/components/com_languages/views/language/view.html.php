@@ -57,7 +57,6 @@ class LanguagesViewLanguage extends JViewLegacy
 	{
 		JLoader::register('LanguagesHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/languages.php');
 
-		JFactory::getApplication()->input->set('hidemainmenu', 1);
 		$isNew = empty($this->item->lang_id);
 		$canDo = $this->canDo;
 

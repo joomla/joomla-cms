@@ -161,9 +161,6 @@ class AssociationsViewAssociation extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		// Hide main menu.
-		JFactory::getApplication()->input->set('hidemainmenu', 1);
-
 		$helper = AssociationsHelper::getExtensionHelper($this->extensionName);
 		$title  = $helper->getTypeTitle($this->typeName);
 

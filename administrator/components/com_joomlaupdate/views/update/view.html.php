@@ -25,8 +25,6 @@ class JoomlaupdateViewUpdate extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		JFactory::getApplication()->input->set('hidemainmenu', true);
-
 		// Set the toolbar information.
 		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
 

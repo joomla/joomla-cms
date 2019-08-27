@@ -99,7 +99,6 @@ class ContentViewArticle extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JFactory::getApplication()->input->set('hidemainmenu', true);
 		$user       = JFactory::getUser();
 		$userId     = $user->id;
 		$isNew      = ($this->item->id == 0);

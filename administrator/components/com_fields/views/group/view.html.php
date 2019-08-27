@@ -78,8 +78,6 @@ class FieldsViewGroup extends JViewLegacy
 			throw new Exception(implode("\n", $errors), 500);
 		}
 
-		JFactory::getApplication()->input->set('hidemainmenu', true);
-
 		$this->addToolbar();
 
 		return parent::display($tpl);

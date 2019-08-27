@@ -39,15 +39,12 @@ class TagsViewTag extends JViewLegacy
 		$this->canDo = JHelperContent::getActions('com_tags');
 		$this->assoc = $this->get('Assoc');
 
-		$input = JFactory::getApplication()->input;
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new Exception(implode("\n", $errors), 500);
 		}
 
-		$input->set('hidemainmenu', true);
 		$this->addToolbar();
 		parent::display($tpl);
 	}

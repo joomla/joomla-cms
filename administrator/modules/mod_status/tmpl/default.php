@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$hideLinks = $input->getBool('hidemainmenu');
+$hideLinks = JFactory::getApplication()->get('hidemainmenu');
 $task      = $input->getCmd('task');
 $output    = array();
 
@@ -89,7 +89,7 @@ if ($params->get('show_messages', 1))
 }
 
 // Print the logout link.
-if ($task == 'edit' || $task == 'editA' || $input->getInt('hidemainmenu'))
+if ($task == 'edit' || $task == 'editA' || $hideLinks)
 {
 	$logoutLink = '';
 }

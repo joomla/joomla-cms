@@ -13,7 +13,7 @@ $config = JFactory::getConfig();
 $user   = JFactory::getUser();
 $db     = JFactory::getDbo();
 $lang   = JFactory::getLanguage();
-$input  = JFactory::getApplication()->input;
+$app  = JFactory::getApplication();
 
 // Get the number of unread messages in your inbox.
 $query = $db->getQuery(true)
@@ -39,7 +39,7 @@ if (!$config->get('shared_session', '0'))
 }
 
 // Set the inbox link.
-if ($input->getBool('hidemainmenu'))
+if ($app->get('hidemainmenu'))
 {
 	$inboxLink = '';
 }

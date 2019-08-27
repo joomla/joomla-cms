@@ -74,8 +74,6 @@ class UsersViewUser extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JFactory::getApplication()->input->set('hidemainmenu', true);
-
 		$user      = JFactory::getUser();
 		$canDo     = JHelperContent::getActions('com_users');
 		$isNew     = ($this->item->id == 0);

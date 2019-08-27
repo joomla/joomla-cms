@@ -74,6 +74,7 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('captcha', '0');
 		$registry->set('list_limit', 20);
 		$registry->set('access', 1);
+		$registry->set('hidemainmenu', 1);
 
 		// Debug settings.
 		$registry->set('debug', 0);

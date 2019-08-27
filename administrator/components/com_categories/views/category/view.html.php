@@ -76,8 +76,6 @@ class CategoriesViewCategory extends JViewLegacy
 		// Check for tag type
 		$this->checkTags = JHelperTags::getTypes('objectList', array($this->state->get('category.extension') . '.category'), true);
 
-		JFactory::getApplication()->input->set('hidemainmenu', true);
-
 		// If we are forcing a language in modal (used for associations).
 		if ($this->getLayout() === 'modal' && $forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
 		{

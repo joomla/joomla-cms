@@ -105,8 +105,6 @@ class PrivacyViewRequest extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JFactory::getApplication('administrator')->set('hidemainmenu', true);
-
 		// Set the title and toolbar based on the layout
 		if ($this->getLayout() === 'edit')
 		{
