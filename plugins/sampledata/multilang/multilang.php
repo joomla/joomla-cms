@@ -957,13 +957,16 @@ class PlgSampledataMultilang extends CMSPlugin
 	private function addModuleInModuleMenu($moduleId)
 	{
 		// Create a new db object.
-		$db    = $this->db;
-		$query = $db->getQuery(true);
+		$db       = $this->db;
+		$query    = $db->getQuery(true);
+		$moduleId = (int) $moduleId;
 
 		// Add Module in Module menus.
 		$query->insert($db->quoteName('#__modules_menu'))
 			->columns($db->quoteName(['moduleid', 'menuid']))
-			->values($moduleId . ', 0');
+			->values(':moduleId, 0')
+			->bind(':moduleId', $moduleId, ParameterType::INTEGER);
+
 		$db->setQuery($query);
 
 		try
