@@ -197,7 +197,7 @@ class ArticlesModel extends ListModel
 		$query = $db->getQuery(true);
 
 		$now   = Factory::getDate()->toSql();
-		
+
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
@@ -226,6 +226,7 @@ class ArticlesModel extends ListModel
 
 		// Join over the frontpage articles if required.
 		$frontpageJoin = 'LEFT';
+
 		if ($this->getState('filter.frontpage'))
 		{
 			if ($orderby_sec === 'front')
@@ -237,6 +238,7 @@ class ArticlesModel extends ListModel
 			{
 				$query->where('a.featured = 1');
 			}
+
 			$query->where('(' . $query->isNullDatetime('fp.featured_up') . ' OR fp.featured_up <= ' . $db->quote($now) . ')');
 			$query->where('(' . $query->isNullDatetime('fp.featured_down') . ' OR fp.featured_down >= ' . $db->quote($now) . ')');
 		}
@@ -244,8 +246,9 @@ class ArticlesModel extends ListModel
 		{
 			$query->select('fp.ordering');
 		}
+
 		$query->join($frontpageJoin, '#__content_frontpage AS fp ON fp.content_id = a.id');
-		
+
 		// Join over the states.
 		$query->select('wa.stage_id AS stage_id')
 			->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id');
