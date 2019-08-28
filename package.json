@@ -34,6 +34,7 @@
     "choices.js": "^7.0.0",
     "chosen-js": "1.6.2",
     "codemirror": "5.40.0",
+    "cookieconsent": "^3.1.1",
     "cropperjs": "1.2.2",
     "css-vars-ponyfill": "^1.17.2",
     "diff": "3.4.0",

@@ -405,7 +405,17 @@
             ]
           }
         ]
-      }
+      },
+      "cookieconsent" : {
+          "name": "cookieconsent",
+          "licenseFilename": "license",
+          "js" : {
+            "src/cookieconsent.js": "js/cookieconsent.js"
+          },
+          "css": {
+            "build/cookieconsent.min.css": "css/cookieconsent.min.css"
+          }
+        }
     },
     "errorPages": {
       "incomplete": {
