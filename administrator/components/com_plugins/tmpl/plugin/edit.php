@@ -37,78 +37,81 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_PLUGINS_PLUGIN')); ?>
 
-		<div class="row">
-			<div class="col-md-9">
-				<?php if ($this->item->xml) : ?>
-					<?php if ($this->item->xml->description) : ?>
-						<h2>
-							<?php
-							if ($this->item->xml)
-							{
-								echo ($text = (string) $this->item->xml->name) ? Text::_($text) : $this->item->name;
-							}
-							else
-							{
-								echo Text::_('COM_PLUGINS_XML_ERR');
-							}
-							?>
-						</h2>
-						<div class="info-labels mb-1">
-							<span class="badge badge-secondary">
-								<?php echo $this->form->getValue('folder'); ?>
-							</span> /
-							<span class="badge badge-secondary">
-								<?php echo $this->form->getValue('element'); ?>
-							</span>
-						</div>
-						<div>
-							<?php
-							$this->fieldset    = 'description';
-							$short_description = Text::_($this->item->xml->description);
-							$this->fieldset    = 'description';
-							$long_description  = LayoutHelper::render('joomla.edit.fieldset', $this);
-
-							if (!$long_description)
-							{
-								$truncated = JHtmlString::truncate($short_description, 550, true, false);
-
-								if (strlen($truncated) > 500)
-								{
-									$long_description  = $short_description;
-									$short_description = JHtmlString::truncate($truncated, 250);
-
-									if ($short_description == $long_description)
+		<div class="row mt-2">
+			<div class="col-lg-9">
+				<div class="card">
+					<div class="card-body">
+						<?php if ($this->item->xml) : ?>
+							<?php if ($this->item->xml->description) : ?>
+								<h2>
+								<?php
+									if ($this->item->xml)
 									{
-										$long_description = '';
+										echo ($text = (string) $this->item->xml->name) ? Text::_($text) : $this->item->name;
 									}
-								}
-							}
-							?>
-							<p><?php echo $short_description; ?></p>
-							<?php if ($long_description) : ?>
-								<p class="readmore">
-									<a href="#" onclick="document.querySelector('#tab-description').click();">
-										<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
-									</a>
-								</p>
-							<?php endif; ?>
-						</div>
-					<?php endif; ?>
-				<?php else : ?>
-					<div class="alert alert-danger">
-						<span class="fa fa-exclamation-triangle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
-						<?php echo Text::_('COM_PLUGINS_XML_ERR'); ?>
-					</div>
-				<?php endif; ?>
+									else
+									{
+										echo Text::_('COM_PLUGINS_XML_ERR');
+									}
+								?>
+								</h2>
+								<div class="info-labels mb-1">
+									<span class="badge badge-secondary">
+										<?php echo $this->form->getValue('folder'); ?>
+									</span> /
+									<span class="badge badge-secondary">
+										<?php echo $this->form->getValue('element'); ?>
+									</span>
+								</div>
+								<div>
+									<?php
+									$this->fieldset    = 'description';
+									$short_description = Text::_($this->item->xml->description);
+									$this->fieldset    = 'description';
+									$long_description  = LayoutHelper::render('joomla.edit.fieldset', $this);
 
-				<?php
-				$this->fieldset = 'basic';
-				$html = LayoutHelper::render('joomla.edit.fieldset', $this);
-				echo $html ? '<hr>' . $html : '';
-				?>
+									if (!$long_description)
+									{
+										$truncated = JHtmlString::truncate($short_description, 550, true, false);
+
+										if (strlen($truncated) > 500)
+										{
+											$long_description  = $short_description;
+											$short_description = JHtmlString::truncate($truncated, 250);
+
+											if ($short_description == $long_description)
+											{
+												$long_description = '';
+											}
+										}
+									}
+									?>
+									<p><?php echo $short_description; ?></p>
+									<?php if ($long_description) : ?>
+										<p class="readmore">
+											<a href="#" onclick="document.querySelector('#tab-description').click();">
+												<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
+											</a>
+										</p>
+									<?php endif; ?>
+								</div>
+							<?php endif; ?>
+							<?php else : ?>
+								<div class="alert alert-danger">
+								<span class="fa fa-exclamation-triangle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
+									<?php echo Text::_('COM_PLUGINS_XML_ERR'); ?>
+								</div>
+							<?php endif; ?>
+						<?php
+						$this->fieldset = 'basic';
+						$html = LayoutHelper::render('joomla.edit.fieldset', $this);
+						echo $html ? '<hr>' . $html : '';
+						?>
+					</div>
+				</div>
 			</div>
-			<div class="col-md-3">
-				<div class="card card-light">
+			<div class="col-lg-3">
+				<div class="card">
 					<div class="card-body">
 						<?php
 						// Set main fields.

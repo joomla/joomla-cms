@@ -3,38 +3,68 @@
 .table {
 
   thead {
+
+    th {
+      font-size: $label-font-size;
+    }
+
     th,
     td {
-      font-weight: $normal-weight;
-      color: $gray-800;
+      font-weight: $font-weight-normal;
+      color: var(--atum-text-dark);
       white-space: nowrap;
       border-bottom: 2px solid $gray-300;
+      @include media-breakpoint-down(xs) {
+        white-space: normal;
+      }
     }
-    td {
-      padding: 0;
-    }
+
     a {
-      font-weight: $normal-weight;
-      color: $gray-800;
+      font-weight: $font-weight-normal;
+      color: var(--atum-link-colors);
+      &#sorted {
+        color: $gray-800;
+        font-weight: 500;
+      }
+    }
+
+    .actions, .actions-th1{
+      @include media-breakpoint-down(xs) {
+        width:28%;
+      }
+
     }
   }
 
   tbody {
-    background-color: var(--white);
+    tr {
+      @include hover-focus-active {
+        background-color: $table-hover-bg;
+      }
+    }
+
+    a:not(.badge) {
+      text-decoration: underline;
+    }
+
+    .itemnumber a.btn {
+      text-decoration: none;
+      padding: 0.1rem .5rem;
+    }
+
+    th {
+      font-weight: 500;
+    }
   }
 
   th,
   td {
-    vertical-align: middle;
-
     label {
       margin-bottom: 0;
     }
+    .inactive .fa, .inactive [class^=icon-] {
+      color: $gray-400;
+    }
 
   }
-
-  td {
-    padding: 18px 12px;
-  }
-
 }
