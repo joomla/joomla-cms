@@ -575,7 +575,7 @@ abstract class Adapter extends CMSPlugin
 	protected function getItems($offset, $limit, $query = null)
 	{
 		// Get the content items to index.
-		$this->db->setQuery($this->getListQuery($query), $offset, $limit);
+		$this->db->setQuery($this->getListQuery($query)->setLimit($limit, $offset));
 		$items = $this->db->loadObjectList(null, Result::class);
 
 		foreach ($items as $item)
