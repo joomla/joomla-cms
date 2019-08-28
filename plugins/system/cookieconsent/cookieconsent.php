@@ -9,81 +9,52 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
- * Skipto plugin to add accessible keyboard navigation to the site and administrator templates.
+ * Cookie consent plugin to add simple cookie information.
  *
  * @since  4.0.0
  */
-class PlgSystemSkipto extends CMSPlugin
+class PlgSystemCookieconsent extends CMSPlugin
 {
 	/**
+	 * If true, language files will be loaded automatically.
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $autoloadLanguage = true;
+ 	/**
 	 * Application object.
 	 *
-	 * @var    CMSApplicationInterface
+	 * @var    JApplicationCms
 	 * @since  4.0.0
 	 */
 	protected $app;
-
-	/**
-	 * Add the CSS and JavaScript for the skipto navigation menu.
+ 	/**
+	 * Add the javascript and css for the cookie consent
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onAfterDispatch()
+	public function onBeforeCompileHead()
 	{
-		$section = $this->params->get('section', 'administrator');
-
-		if ($section !== 'both' && $this->app->isClient($section) !== true)
-		{
-			return;
-		}
-
 		// Get the document object.
-		$document = $this->app->getDocument();
-
+		$document = Factory::getDocument();
 		if ($document->getType() !== 'html')
+
 		{
 			return;
 		}
+	
+		HTMLHelper::_('script', 'vendor/cookieconsent/cookieconsent.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
+		HTMLHelper::_('stylesheet', 'vendor/cookieconsent/cookieconsent.min.css', ['version' => 'auto', 'relative' => true]);
 
-		// Load language file.
-		$this->loadLanguage();
-
-		// Add strings for translations in JavaScript.
-		$document->addScriptOptions(
-			'skipto-settings',
-			[
-				'settings' => [
-					'skipTo' => [
-						'buttonDivRole'  => 'navigation',
-						'buttonDivLabel' => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_KEYBOARD'),
-						'buttonLabel'    => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
-						'buttonDivTitle' => '',
-						'menuLabel'      => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_AND_PAGE_OUTLINE'),
-						'landmarksLabel' => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
-						'headingsLabel'	 => Text::_('PLG_SYSTEM_SKIPTO_PAGE_OUTLINE'),
-						// The following string begins with a space
-						'contentLabel'   => ' ' . Text::_('PLG_SYSTEM_SKIPTO_CONTENT'),
-					]
-				]
-			]
-		);
-
-		HTMLHelper::_('script', 'vendor/skipto/dropMenu.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
-		HTMLHelper::_('script', 'vendor/skipto/skipTo.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
-		HTMLHelper::_('stylesheet', 'vendor/skipto/SkipTo.css', ['version' => 'auto', 'relative' => true]);
-
-		$document->addScriptDeclaration("document.addEventListener('DOMContentLoaded', function() {
-			window.SkipToConfig = Joomla.getOptions('skipto-settings');
-			window.skipToMenuInit();
-		});"
-		);
+		$document->addScriptDeclaration("window.addEventListener('load', function() { new Accessibility(); }, false);");
 	}
 }
