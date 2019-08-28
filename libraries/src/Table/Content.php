@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
@@ -265,20 +266,8 @@ class Content extends Table
 			$this->publish_down = $temp;
 		}
 
-		// Set featured_up to null date if not set
-		if (!$this->featured_up)
-		{
-			$this->featured_up = $this->_db->getNullDate();
-		}
-
-		// Set featured_down to null date if not set
-		if (!$this->featured_down)
-		{
-			$this->featured_down = $this->_db->getNullDate();
-		}
-
 		// Check the featured down date is not earlier than featured up.
-		if ($this->featured_down < $this->featured_up && $this->featured_down > $this->_db->getNullDate())
+		if ($this->featured_down && ($this->featured_down < $this->featured_up))
 		{
 			// Swap the dates.
 			$temp = $this->featured_up;
@@ -371,5 +360,43 @@ class Content extends Table
 		}
 
 		return parent::store($updateNulls);
+	}
+
+	/**
+	 * Overrides Table::store to load a row from the database.
+	 *
+	 * @param   mixed    $keys   An optional primary key value to load the row by, or an array of fields to match.
+	 *                           If not set the instance property value is used.
+	 * @param   boolean  $reset  True to reset the default values before loading the new row.
+	 *
+	 * @return  boolean  True if successful. False if row not found.
+	 *
+	 * @since   1.7.0
+	 * @throws  \InvalidArgumentException
+	 * @throws  \RuntimeException
+	 * @throws  \UnexpectedValueException
+	 */
+	public function load($keys = null, $reset = true)
+	{
+		if ($ret = parent::load($keys, $reset, false))
+		{
+			// Load featuerd dates
+			$query = $this->_db->getQuery(true)
+				->select('featured_up, featured_down')
+				->from('#__content_frontpage')
+				->where('content_id = ' . (int) $this->id);
+			$this->_db->setQuery($query);
+
+			$row = $this->_db->loadAssoc();
+
+			// Check that we have a result.
+			if (!empty($row))
+			{
+				$this->featured_up = $row['featured_up'];
+				$this->featured_down = $row['featured_down'];
+			}
+		}
+
+		return $ret;
 	}
 }

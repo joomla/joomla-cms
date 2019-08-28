@@ -104,7 +104,7 @@ class ArticleModel extends ItemModel
 							'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
 							'a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
 							'a.images, a.urls, a.attribs, a.version, a.ordering, ' .
-							'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, a.featured_up, a.featured_down, a.language'
+							'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, fp.featured_up, fp.featured_down, a.language'
 						)
 					);
 				$query->from('#__content AS a')
@@ -129,6 +129,10 @@ class ArticleModel extends ItemModel
 				)
 					->innerJoin('#__categories AS c on c.id = a.catid')
 					->where('c.published > 0');
+
+				// Join over the front page table.
+				$query->select('fp.ordering')
+					->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
 
 				// Join on user table.
 				$query->select('u.name AS author')

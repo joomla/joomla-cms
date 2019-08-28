@@ -945,7 +945,7 @@ class ArticleModel extends AdminModel
 		{
 			if (isset($data['featured']))
 			{
-				$this->featured($this->getState($this->getName() . '.id'), $data['featured']);
+				$this->featured($this->getState($this->getName() . '.id'), $data['featured'], $data['featured_up'], $data['featured_down']);
 			}
 
 			// Let's check if we have workflow association (perhaps something went wrong before)
@@ -1004,7 +1004,7 @@ class ArticleModel extends AdminModel
 	 *
 	 * @return  boolean  True on success.
 	 */
-	public function featured($pks, $value = 0)
+	public function featured($pks, $value = 0, $featuredUp = null, $featuredDown = null)
 	{
 		// Sanitize the ids.
 		$pks = (array) $pks;
@@ -1050,6 +1050,18 @@ class ArticleModel extends AdminModel
 
 				$oldFeatured = $db->loadColumn();
 
+				// Update old featured articles
+				if (count($oldFeatured))
+				{
+					$query = $db->getQuery(true)
+						->update($db->quoteName('#__content_frontpage'))
+						->set('featured_up = ' . (empty($featuredUp) ? 'NULL' : $db->quote($featuredUp)))
+						->set('featured_down = ' . (empty($featuredDown) ? 'NULL' : $db->quote($featuredDown)))
+						->where('content_id IN (' . implode(',', $oldFeatured) . ')');
+					$db->setQuery($query);
+					$db->execute();
+				}
+
 				// We diff the arrays to get a list of the articles that are newly featured
 				$newFeatured = array_diff($pks, $oldFeatured);
 
@@ -1058,12 +1070,12 @@ class ArticleModel extends AdminModel
 
 				foreach ($newFeatured as $pk)
 				{
-					$tuples[] = $pk . ', 0';
+					$tuples[] = implode(',', [$pk, 0, (empty($featuredUp) ? 'NULL' : $db->quote($featuredUp)), (empty($featuredDown) ? 'NULL' : $db->quote($featuredDown))]);
 				}
 
 				if (count($tuples))
 				{
-					$columns = array('content_id', 'ordering');
+					$columns = array('content_id', 'ordering', 'featured_up', 'featured_down');
 					$query = $db->getQuery(true)
 						->insert($db->quoteName('#__content_frontpage'))
 						->columns($db->quoteName($columns))

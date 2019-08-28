@@ -57,8 +57,6 @@ class ArticlesModel extends ListModel
 				'created_by', 'a.created_by',
 				'ordering', 'a.ordering',
 				'featured', 'a.featured',
-				'featured_up', 'a.featured_up',
-				'featured_down', 'a.featured_down',
 				'language', 'a.language',
 				'hits', 'a.hits',
 				'publish_up', 'a.publish_up',
@@ -198,6 +196,8 @@ class ArticlesModel extends ListModel
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
+		$now   = Factory::getDate()->toSql();
+		
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
@@ -215,7 +215,7 @@ class ArticlesModel extends ListModel
 				// Use created if publish_up is 0
 				'CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END as publish_up,' .
 				'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
-				'a.hits, a.featured, a.featured_up, a.featured_down, a.language, ' . $query->length('a.fulltext') . ' AS readmore, a.ordering'
+				'a.hits, a.featured, fp.featured_up, fp.featured_down, a.language, ' . $query->length('a.fulltext') . ' AS readmore, a.ordering'
 			)
 		);
 
@@ -225,29 +225,27 @@ class ArticlesModel extends ListModel
 		$orderby_sec = $params->get('orderby_sec');
 
 		// Join over the frontpage articles if required.
+		$frontpageJoin = 'LEFT';
 		if ($this->getState('filter.frontpage'))
 		{
 			if ($orderby_sec === 'front')
 			{
 				$query->select('fp.ordering');
-				$query->join('INNER', '#__content_frontpage AS fp ON fp.content_id = a.id');
+				$frontpageJoin = 'INNER';
 			}
 			else
 			{
 				$query->where('a.featured = 1');
 			}
-
-
-			$now = Factory::getDate()->toSql();
-			$query->where('(a.featured_up = ' . $db->quote($db->getNullDate()) . ' OR a.featured_up <= ' . $db->quote($now) . ')');
-			$query->where('(a.featured_down = ' . $db->quote($db->getNullDate()) . ' OR a.featured_down >= ' . $db->quote($now) . ')');
+			$query->where('(' . $query->isNullDatetime('fp.featured_up') . ' OR fp.featured_up <= ' . $db->quote($now) . ')');
+			$query->where('(' . $query->isNullDatetime('fp.featured_down') . ' OR fp.featured_down >= ' . $db->quote($now) . ')');
 		}
 		elseif ($orderby_sec === 'front' || $this->getState('list.ordering') === 'fp.ordering')
 		{
 			$query->select('fp.ordering');
-			$query->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
 		}
-
+		$query->join($frontpageJoin, '#__content_frontpage AS fp ON fp.content_id = a.id');
+		
 		// Join over the states.
 		$query->select('wa.stage_id AS stage_id')
 			->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id');
@@ -336,9 +334,8 @@ class ArticlesModel extends ListModel
 
 			case 'only':
 				$query->where('a.featured = 1');
-				$now = Factory::getDate()->toSql();
-				$query->where('(a.featured_up = ' . $db->quote($db->getNullDate()) . ' OR a.featured_up <= ' . $db->quote($now) . ')');
-				$query->where('(a.featured_down = ' . $db->quote($db->getNullDate()) . ' OR a.featured_down >= ' . $db->quote($now) . ')');
+				$query->where('(' . $query->isNullDatetime('fp.featured_up') . ' OR fp.featured_up <= ' . $db->quote($now) . ')');
+				$query->where('(' . $query->isNullDatetime('fp.featured_down') . ' OR fp.featured_down >= ' . $db->quote($now) . ')');
 				break;
 
 			case 'show':

@@ -55,8 +55,8 @@ class ArticlesModel extends ListModel
 				'created_by_alias', 'a.created_by_alias',
 				'ordering', 'a.ordering',
 				'featured', 'a.featured',
-				'featured_up', 'a.featured_up',
-				'featured_down', 'a.featured_down',
+				'featured_up', 'fp.featured_up',
+				'featured_down', 'fp.featured_down',
 				'language', 'a.language',
 				'hits', 'a.hits',
 				'publish_up', 'a.publish_up',
@@ -207,7 +207,7 @@ class ArticlesModel extends ListModel
 			$this->getState(
 				'list.select',
 				'DISTINCT a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
-				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, a.featured_up, a.featured_down' .
+				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, fp.featured_up, fp.featured_down' .
 				', a.language, a.hits, a.publish_up, a.publish_down, a.introtext, a.note'
 			)
 		);
@@ -216,6 +216,10 @@ class ArticlesModel extends ListModel
 		// Join over the language
 		$query->select('l.title AS language_title, l.image AS language_image')
 			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
+
+		// Join over the front page table.
+		$query->select('fp.ordering')
+			->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor')

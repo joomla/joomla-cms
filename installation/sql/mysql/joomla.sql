@@ -366,8 +366,6 @@ CREATE TABLE IF NOT EXISTS `#__content` (
   `hits` int(10) unsigned NOT NULL DEFAULT 0,
   `metadata` text NOT NULL,
   `featured` tinyint(3) unsigned NOT NULL DEFAULT 0 COMMENT 'Set if article is featured.',
-  `featured_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `featured_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `language` char(7) NOT NULL COMMENT 'The language code for the article.',
   `note` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
@@ -390,6 +388,8 @@ CREATE TABLE IF NOT EXISTS `#__content` (
 CREATE TABLE IF NOT EXISTS `#__content_frontpage` (
   `content_id` int(11) NOT NULL DEFAULT 0,
   `ordering` int(11) NOT NULL DEFAULT 0,
+  `featured_up` datetime,
+  `featured_down` datetime,
   PRIMARY KEY (`content_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 

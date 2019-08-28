@@ -53,13 +53,19 @@ class FeaturedButton extends ActionButton
 			$bakState = $this->getState($value);
 			$default  = $this->getState($value) ?: $this->getState('_default');
 
-			$nullDate = Factory::getDbo()->getNullDate();
 			$nowDate  = Factory::getDate()->toUnix();
 
-			$tz = Factory::getUser()->getTimezone();
+			$tz       = Factory::getUser()->getTimezone();
 
-			$featuredUp   = ($featuredUp !== $nullDate) ? Factory::getDate($featuredUp, 'UTC')->setTimeZone($tz) : null;
-			$featuredDown = ($featuredDown !== $nullDate) ? Factory::getDate($featuredDown, 'UTC')->setTimeZone($tz) : null;
+			if (!is_null($featuredUp))
+			{
+				$featuredUp = Factory::getDate($featuredUp, 'UTC')->setTimeZone($tz);
+			}
+
+			if (!is_null($featuredDown))
+			{
+				$featuredDown = Factory::getDate($featuredDown, 'UTC')->setTimeZone($tz);
+			}
 
 			// Add tips and special titles
 			// Create special titles for featured items
@@ -84,13 +90,13 @@ class FeaturedButton extends ActionButton
 
 				$options['tip_title'] = 'JLIB_HTML_FEATURED_ITEM';
 
-				if ($featuredUp > $nullDate && $nowDate < $featuredUp->toUnix())
+				if ($featuredUp && $nowDate < $featuredUp->toUnix())
 				{
 					$options['tip_title'] = 'JLIB_HTML_FEATURED_PENDING_ITEM';
 					$default['icon'] = 'pending';
 				}
 
-				if ($featuredDown > $nullDate && $nowDate > $featuredDown->toUnix())
+				if ($featuredDown && $nowDate > $featuredDown->toUnix())
 				{
 					$options['tip_title'] = 'JLIB_HTML_FEATURED_EXPIRED_ITEM';
 					$default['icon'] = 'expired';
