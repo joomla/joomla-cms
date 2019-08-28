@@ -758,7 +758,7 @@ class FieldModel extends AdminModel
 		$query = $this->getDbo()->getQuery(true);
 
 		$query->delete($query->quoteName('#__fields_values'))
-			->whereIn($query->quoteName('field_id'), $fieldsQuery, ParameterType::STRING)
+			->where($query->quoteName('field_id') . ' IN (' . $fieldsQuery . ')')
 			->where($query->quoteName('item_id') . ' = :itemid')
 			->bind(':itemid', $itemId)
 			->bind(':context', $context);
