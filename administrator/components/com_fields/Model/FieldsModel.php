@@ -332,11 +332,6 @@ class FieldsModel extends ListModel
 		{
 			$language = (array) $language;
 
-			foreach ($language as $key => $l)
-			{
-				$language[$key] = $l;
-			}
-
 			$query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
 		}
 
@@ -416,9 +411,9 @@ class FieldsModel extends ListModel
 
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
-		$query->select('title AS text, id AS value, state');
-		$query->from('#__fields_groups');
-		$query->where('state IN (0,1)');
+		$query->select($db->quoteName(['title', 'id'], ['text', 'value']), $db->quoteName('state'));
+		$query->from($db->quoteName('#__fields_groups'));
+		$query->whereIn($db->quoteName('state'), [0, 1]);
 		$query->where($db->quoteName('context') . ' = :context');
 		$query->whereIn($db->quoteName('access'), $viewlevels);
 		$query->bind(':context', $context);
