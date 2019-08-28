@@ -435,3 +435,5 @@ JLoader::registerAlias('JStringController',                 '\\Joomla\\CMS\\File
 JLoader::registerAlias('JFilesystemWrapperFile',            '\\Joomla\\CMS\\Filesystem\\Wrapper\\FileWrapper', '5.0');
 JLoader::registerAlias('JFilesystemWrapperFolder',          '\\Joomla\\CMS\\Filesystem\\Wrapper\\FolderWrapper', '5.0');
 JLoader::registerAlias('JFilesystemWrapperPath',            '\\Joomla\\CMS\\Filesystem\\Wrapper\\PathWrapper', '5.0');
+
+JLoader::registerAlias('JArchive',                          '\\Joomla\\Archive\\Archive', '4.0');
