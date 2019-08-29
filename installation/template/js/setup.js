@@ -83,7 +83,15 @@ Joomla.checkDbCredentials = function() {
 		perform: true,
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 		onSuccess: function(response, xhr){
-			response = JSON.parse(response);
+			try {
+				response = JSON.parse(response);
+			} catch (e) {
+				Joomla.loadingLayer("hide");
+				Joomla.renderMessages({'error': [Joomla.JText._('INSTL_DATABASE_RESPONSE_ERROR'), response]});
+
+				return false;
+			}
+
 			if (response.messages) {
 				Joomla.renderMessages(response.messages);
 			}

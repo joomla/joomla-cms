@@ -48,6 +48,7 @@ Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 Text::script('INSTL_PROCESS_BUSY');
 Text::script('INSTL_FTP_SETTINGS_CORRECT');
 
+Text::script('INSTL_DATABASE_RESPONSE_ERROR');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">

@@ -186,7 +186,15 @@
 			data: data,
 			perform: true,
 			onSuccess: function(response, xhr){
-				response = JSON.parse(response);
+				try {
+					response = JSON.parse(response);
+				} catch (e) {
+					Joomla.loadingLayer("hide");
+					Joomla.renderMessages({'error': [Joomla.JText._('INSTL_DATABASE_RESPONSE_ERROR'), response]});
+
+					return false;
+				}
+
 				Joomla.replaceTokens(response.token);
 
 				if (response.error === true)
