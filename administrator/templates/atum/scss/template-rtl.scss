@@ -346,10 +346,16 @@ body {
   &.btn-sm {
     padding: 0rem 2.5rem 0rem 0.3rem;
 
-    span[class*=" icon-"]:not(.input-group-text), span[class^="icon-"]:not(.input-group-text),
-    span[class^="fa-"]:not(.input-group-text) {
-      right: 0.6rem;
+    span[class*="icon-"]:not(.input-group-text), span[class^="icon-"]:not(.input-group-text),
+    span[class*="fa-"]:not(.input-group-text), span[class^="fa-"]:not(.input-group-text) {
+      color: var(--atum-text-light);
+      opacity: .93;
+      position: absolute;
+      right: 2.2rem;
+      left: initial;
+      bottom: .65rem;
     }
+
 
     &.btn-success {
       background: var(--success);
@@ -407,7 +413,7 @@ body {
         border: none;
         position: absolute;
         bottom: 0;
-        right: 0.5rem;
+        right: 2.4rem;
       }
 
       &:hover {
@@ -424,9 +430,14 @@ body {
   }
 
 
-  span[class*=" icon-"]:not(.input-group-text), span[class^="icon-"]:not(.input-group-text),
-  span[class^="fa-"]:not(.input-group-text) {
-    right: 1.8rem;
+  span[class*="icon-"]:not(.input-group-text), span[class^="icon-"]:not(.input-group-text),
+  span[class*="fa-"]:not(.input-group-text), span[class^="fa-"]:not(.input-group-text) {
+    color: var(--atum-text-light);
+    opacity: .93;
+    position: absolute;
+    right: 2.4rem;
+    bottom: .85rem;
+    left: initial;
   }
 
   &.btn-success {
