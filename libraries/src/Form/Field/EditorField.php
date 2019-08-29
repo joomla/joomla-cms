@@ -285,7 +285,7 @@ class EditorField extends TextareaField
 
 				// Get the database object.
 				$db = Factory::getDbo();
-				
+
 				// Build the query.
 				$query = $db->getQuery(true)
 					->select($db->quoteName('element'))

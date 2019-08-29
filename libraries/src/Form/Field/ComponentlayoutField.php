@@ -118,8 +118,8 @@ class ComponentlayoutField extends FormField
 
 			if ($template_style_id)
 			{
-				$query->join('LEFT', $db->quoteName('#__template_styles', 's'), $db->quoteName('s.template') .  ' = ' . $db->quoteName('e.element'))
-					->where($db->quoteName('s.id'). ' = :style')
+				$query->join('LEFT', $db->quoteName('#__template_styles', 's'), $db->quoteName('s.template') . ' = ' . $db->quoteName('e.element'))
+					->where($db->quoteName('s.id') . ' = :style')
 					->bind(':style', $template_style_id, ParameterType::INTEGER);
 			}
 
