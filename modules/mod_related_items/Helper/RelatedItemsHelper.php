@@ -37,7 +37,6 @@ abstract class RelatedItemsHelper
 		$app     = Factory::getApplication();
 		$input   = $app->input;
 		$groups  = implode(',', Factory::getUser()->getAuthorisedViewLevels());
-		$maximum = (int) $params->get('maximum', 5);
 		$factory = $app->bootComponent('com_content')->getMVCFactory();
 
 		// Get an instance of the generic articles model
@@ -125,7 +124,8 @@ abstract class RelatedItemsHelper
 					$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 				}
 
-				$db->setQuery($query, 0, $maximum);
+				$query->setLimit((int) $params->get('maximum', 5));
+				$db->setQuery($query);
 
 				try
 				{
