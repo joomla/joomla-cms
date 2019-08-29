@@ -15,10 +15,7 @@
 @import "fonts/fontawesome";
 
 // Alert
-@import "../../../../build/media_source/system/scss/jalert";
-
-// jQuery Minicolors
-@import "../../../../build/media_source/system/scss/jquery-minicolors";
+//@import "../../../../build/media_source/system/scss/jalert"; NOT USED...
 
 // Blocks
 @import "blocks/global"; // Leave this first
@@ -36,14 +33,11 @@
 @import "blocks/lists";
 @import "blocks/sidebar";
 @import "blocks/sidebar-nav";
-@import "blocks/system-message";
 @import "blocks/toolbar";
 @import "blocks/treeselect";
 @import "blocks/utilities";
-@import "blocks/tabs";
 
 // Vendor overrides
-@import "vendor/awesomplete";
 @import "vendor/bootstrap/badge";
 @import "vendor/bootstrap/buttons";
 @import "vendor/bootstrap/card";
@@ -56,13 +50,13 @@
 @import "vendor/bootstrap/nav";
 @import "vendor/bootstrap/pagination";
 @import "vendor/bootstrap/table";
+
+// These DO NOT BELONG HERE!!!
 @import "vendor/codemirror";
-@import "vendor/chosen";
-@import "vendor/choicesjs";
 @import "vendor/dragula";
-@import "vendor/minicolors";
 @import "vendor/tinymce";
 
+// Also these DO NOT BELONG HERE!!!
 // Page specifics
 @import "pages/com_admin";
 @import "pages/com_config";

@@ -97,7 +97,7 @@ body .container-main {
     left: 0;
     z-index: -1;
     // Note IDE's will consider this file import to fail in SCSS but this is correct for the final compiled CSS file
-    background: var(--atum-bg-light) url("../images/joomla-pattern.svg");
+    background: var(--atum-bg-light) url("../../images/joomla-pattern.svg");
     background-size: 15rem;
   }
 

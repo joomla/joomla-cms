@@ -1,5 +1,16 @@
 // choices.js
+@import '../../../../../../node_modules/choices.js/src/styles/choices';
 
+@import "../../../../../../media/vendor/bootstrap/scss/functions";
+
+// Atum Variables
+@import "../../variables";
+
+// Mixins
+@import "../../mixin";
+
+@import "../../../../../../media/vendor/bootstrap/scss/variables";
+@import "../../../../../../media/vendor/bootstrap/scss/mixins";
 .choices {
 	border: 0;
 }

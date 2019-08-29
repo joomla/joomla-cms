@@ -1,6 +1,15 @@
+@import "../../../../../../media/vendor/bootstrap/scss/functions";
+
+// Atum Variables
+@import "../../variables";
+
+// Mixins
+@import "../../mixin";
+
+@import "../../../../../../media/vendor/bootstrap/scss/variables";
+@import "../../../../../../media/vendor/bootstrap/scss/mixins";
+
 #system-message-container {
-  background: var(--atum-bg-light);
-  box-shadow: 3px 3px 11px 0px rgba(0, 0, 0, 0.3);
 
   joomla-alert {
     display: block;
@@ -13,6 +22,7 @@
     transition: opacity 0.15s linear;
     color: var(--atum-text-dark);
     background-color: var(--white);
+    box-shadow: 3px 3px 11px 0px rgba(0, 0, 0, 0.3);
 
     .alert-heading {
       display: block;
