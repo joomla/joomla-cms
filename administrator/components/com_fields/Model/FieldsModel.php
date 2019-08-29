@@ -237,8 +237,14 @@ class FieldsModel extends ListModel
 
 			if (in_array('0', $categories))
 			{
-				$query->where($db->quoteName('fc.category_id') . ' IS NULL')
-					->orWhere($query->whereIn($db->quoteName('fc.category_id'), $categories));
+				$query->extendWhere(
+					'AND', 
+					[
+						$db->quoteName('fc.category_id') . ' IS NULL',
+						$db->quoteName('fc.category_id') . ' IN (' . implode(',', $query->bindArray($categories, ParameterType::INTEGER)) . ')'
+					],
+					'OR'
+				);
 			}
 			else
 			{
@@ -250,9 +256,14 @@ class FieldsModel extends ListModel
 		if (!$app->isClient('administrator') || !$user->authorise('core.admin'))
 		{
 			$groups = $user->getAuthorisedViewLevels();
-			$query->whereIn($db->quoteName('a.access'), $groups)
-				->where($db->quoteName('a.group_id') . ' = 0')
-				->orWhere($query->whereIn($db->quoteName('g.access'), $groups));
+			$query->extendWhere(
+				'AND', 
+				[
+					$db->quoteName('a.group_id') . ' = 0',
+					$db->quoteName('g.access') . ' IN (' . implode(',', $query->bindArray($groups, ParameterType::INTEGER)) . ')'
+				],
+				'OR'
+			);
 		}
 
 		// Filter by state
@@ -282,8 +293,14 @@ class FieldsModel extends ListModel
 
 			if ($includeGroupState)
 			{
-				$query->where($db->quoteName('a.group_id') . ' = 0')
-					->orWhere($query->whereIn($db->quoteName('g.state'), [0, 1]));
+				$query->extendWhere(
+					'AND', 
+					[
+						$db->quoteName('a.group_id') . ' = 0',
+						$db->quoteName('g.state') . ' IN (' . implode(',', $query->bindArray([0, 1], ParameterType::INTEGER)) . ')'
+					],
+					'OR'
+				);
 			}
 		}
 
