@@ -7,12 +7,12 @@
 var url = Joomla.getOptions('system.installation').url ? Joomla.getOptions('system.installation').url.replace(/&amp;/g, '&') : 'index.php';
 
 if (document.getElementById('installAddFeatures')) {
-	document.getElementById('installAddFeatures').addEventListener('click', function(e) {
-		e.preventDefault();
-		document.getElementById('installLanguages').classList.add('active');
-		document.getElementById('installCongrat').classList.remove('active');
-		document.getElementById('installRecommended').classList.remove('active');
-	})
+  document.getElementById('installAddFeatures').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('installLanguages').classList.add('active');
+    document.getElementById('installCongrat').classList.remove('active');
+    document.getElementById('installRecommended').classList.remove('active');
+  })
 }
 
 if (document.getElementById('skipLanguages')) {
