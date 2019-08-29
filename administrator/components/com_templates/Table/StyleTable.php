@@ -141,8 +141,8 @@ class StyleTable extends Table
 		{
 			$clientId = (int) $this->client_id;
 			$query = $this->_db->getQuery(true)
-				->from($this->_db->quoteName('#__template_styles'))
 				->select($this->_db->quoteName('id'))
+				->from($this->_db->quoteName('#__template_styles'))
 				->where($this->_db->quoteName('client_id') . ' = :clientid')
 				->where($this->_db->quoteName('template') . ' = :template')
 				->bind(':template', $this->template)
