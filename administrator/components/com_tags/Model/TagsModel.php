@@ -192,7 +192,7 @@ class TagsModel extends ListModel
 
 		if (is_numeric($published))
 		{
-			$published = (int)$published;
+			$published = (int) $published;
 			$query->where($db->quoteName('a.published') . ' = :published')
 				->bind(':published', $published, ParameterType::INTEGER);
 		}
