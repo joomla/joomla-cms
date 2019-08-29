@@ -26,7 +26,7 @@
       folder.addEventListener('click', (event) => {
         event.preventDefault();
 
-        const list = event.target.parentNode.querySelector('ul');
+        const list = folder.parentNode.querySelector('ul');
 
         if (list.style.display !== 'none') {
           list.style.display = 'none';

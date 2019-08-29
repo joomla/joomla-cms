@@ -45,26 +45,21 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
-				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-info">
-						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
-						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-					</div>
-				<?php else : ?>
+				<?php if (!empty($this->items)) : ?>
 					<table class="table" id="itemList">
 						<caption id="captionTable" class="sr-only">
 							<?php echo Text::_('COM_MENUS_ITEMS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
 						</caption>
 						<thead>
 						<tr>
+							<td style="width:1%" class="text-center">
+								<?php echo HTMLHelper::_('grid.checkall'); ?>
+							</td>
 							<?php if ($menuType) : ?>
 								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
 							<?php endif; ?>
-							<td style="width:1%" class="text-center">
-								<?php echo HTMLHelper::_('grid.checkall'); ?>
-							</td>
 							<th scope="col" style="width:1%" class="text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 							</th>
@@ -139,6 +134,9 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->parent_id; ?>"
 								item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>"
 								level="<?php echo $item->level; ?>">
+								<td class="text-center">
+									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+								</td>
 								<?php if ($menuType) : ?>
 									<td class="order text-center d-none d-md-table-cell">
 										<?php
@@ -150,11 +148,11 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 										}
 										elseif (!$saveOrder)
 										{
-											$iconClass = ' inactive tip-top hasTooltip" title="' . HTMLHelper::_('tooltipText', 'JORDERINGDISABLED');
+											$iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
 										}
 										?>
 										<span class="sortable-handler<?php echo $iconClass ?>">
-											<span class="icon-menu" aria-hidden="true"></span>
+											<span class="fa fa-ellipsis-v" aria-hidden="true"></span>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
 											<input type="text" style="display:none" name="order[]" size="5"
@@ -162,9 +160,6 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 										<?php endif; ?>
 									</td>
 								<?php endif; ?>
-								<td class="text-center">
-									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
-								</td>
 								<td class="text-center">
 									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'items.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 								</td>
@@ -175,11 +170,9 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 										<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'items.', $canCheckin); ?>
 									<?php endif; ?>
 									<?php if ($canEdit && !$item->protected) : ?>
-										<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pen-square mr-2" aria-hidden="true"></span>'; ?>
-										<a class="hasTooltip"
-										   href="<?php echo Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id); ?>"
+										<a href="<?php echo Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id); ?>"
 										   title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
-											<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
+											<?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>

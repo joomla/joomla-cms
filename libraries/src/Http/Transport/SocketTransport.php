@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Http\Transport;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\Response;
@@ -52,7 +52,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 		$connection = $this->connect($uri, $timeout);
 
 		// Make sure the connection is alive and valid.
-		if (is_resource($connection))
+		if (\is_resource($connection))
 		{
 			// Make sure the connection has not timed out.
 			$meta = stream_get_meta_data($connection);
@@ -85,7 +85,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 			}
 
 			// Add the relevant headers.
-			$headers['Content-Length'] = strlen($data);
+			$headers['Content-Length'] = \strlen($data);
 		}
 
 		// Build the request payload.
@@ -100,7 +100,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 		}
 
 		// If there are custom headers to send add them to the request payload.
-		if (is_array($headers))
+		if (\is_array($headers))
 		{
 			foreach ($headers as $k => $v)
 			{
@@ -229,7 +229,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 		$key = md5($host . $port);
 
 		// If the connection already exists, use it.
-		if (!empty($this->connections[$key]) && is_resource($this->connections[$key]))
+		if (!empty($this->connections[$key]) && \is_resource($this->connections[$key]))
 		{
 			// Connection reached EOF, cannot be used anymore
 			$meta = stream_get_meta_data($this->connections[$key]);
@@ -301,6 +301,6 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 	 */
 	public static function isSupported()
 	{
-		return function_exists('fsockopen') && is_callable('fsockopen') && !Factory::getApplication()->get('proxy_enable');
+		return \function_exists('fsockopen') && \is_callable('fsockopen') && !Factory::getApplication()->get('proxy_enable');
 	}
 }
