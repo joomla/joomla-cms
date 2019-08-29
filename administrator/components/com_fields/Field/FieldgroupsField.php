@@ -46,7 +46,13 @@ class FieldgroupsField extends ListField
 
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
-		$query->select('title AS text, id AS value, state');
+		$query->select(
+			[
+				$db->quoteName('title', 'text'),
+				$db->quoteName('id', 'value'),
+				$db->quoteName('state'),
+			]
+		);
 		$query->from($db->quoteName('#__fields_groups'));
 		$query->whereIn($db->quoteName('state'), $states);
 		$query->where($db->quoteName('context') . ' = :context');
