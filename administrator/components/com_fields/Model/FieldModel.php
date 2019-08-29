@@ -695,7 +695,7 @@ class FieldModel extends AdminModel
 			// Create the query
 			$query = $this->getDbo()->getQuery(true);
 
-			$query->select(array($query->quoteName('field_id'), $query->quoteName('value')))
+			$query->select($query->quoteName(['field_id', 'value']))
 				->from($query->quoteName('#__fields_values'))
 				->whereIn($query->quoteName('field_id'), ArrayHelper::toInteger($fieldIds))
 				->where($query->quoteName('item_id') . ' = :itemid')
