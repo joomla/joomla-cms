@@ -47,7 +47,8 @@
       text-decoration: underline;
     }
 
-    .itemnumber a.btn {
+    .itemnumber a.btn,
+    .itemnumber span.btn {
       text-decoration: none;
       padding: 0.1rem .5rem;
     }
