@@ -238,7 +238,7 @@ class FieldsModel extends ListModel
 			if (in_array('0', $categories))
 			{
 				$query->extendWhere(
-					'AND', 
+					'AND',
 					[
 						$db->quoteName('fc.category_id') . ' IS NULL',
 						$db->quoteName('fc.category_id') . ' IN (' . implode(',', $query->bindArray($categories, ParameterType::INTEGER)) . ')'
@@ -257,7 +257,7 @@ class FieldsModel extends ListModel
 		{
 			$groups = $user->getAuthorisedViewLevels();
 			$query->extendWhere(
-				'AND', 
+				'AND',
 				[
 					$db->quoteName('a.group_id') . ' = 0',
 					$db->quoteName('g.access') . ' IN (' . implode(',', $query->bindArray($groups, ParameterType::INTEGER)) . ')'
@@ -294,7 +294,7 @@ class FieldsModel extends ListModel
 			if ($includeGroupState)
 			{
 				$query->extendWhere(
-					'AND', 
+					'AND',
 					[
 						$db->quoteName('a.group_id') . ' = 0',
 						$db->quoteName('g.state') . ' IN (' . implode(',', $query->bindArray([0, 1], ParameterType::INTEGER)) . ')'
