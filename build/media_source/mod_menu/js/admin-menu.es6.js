@@ -21,8 +21,11 @@
     }
   };
 
-  // eslint-disable-next-line no-new
-  new window.MetisMenu('#menu');
+  const allMenus = document.querySelectorAll('ul.main-nav');
+  allMenus.forEach((menu) => {
+    // eslint-disable-next-line no-new, no-undef
+    new MetisMenu(menu);
+  });
 
   const closest = (element, selector) => {
     let matchesFn;
@@ -134,7 +137,7 @@
      */
     const allLinks = wrapper.querySelectorAll('a.no-dropdown, a.collapse-arrow, .menu-dashboard > a');
     const currentUrl = window.location.href.toLowerCase();
-    const mainNav = document.getElementById('menu');
+    const mainNav = document.querySelector('ul.main-nav');
     const menuParents = [].slice.call(mainNav.querySelectorAll('li.parent > a'));
     const subMenusClose = [].slice.call(mainNav.querySelectorAll('li.parent .close'));
 
