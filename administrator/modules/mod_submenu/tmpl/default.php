@@ -35,7 +35,7 @@ $canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $id) &
 	<?php endif; ?>
 	<?php foreach ($root->getChildren() as $child) : ?>
 		<?php if ($child->hasChildren()) : ?>
-				<div class="card">
+				<div class="card module-wrapper">
 					<?php if ($canEdit || $canChange) : ?>
 						<?php $dropdownPosition = Factory::getLanguage()->isRTL() ? 'left' : 'right'; ?>
 						<div class="module-actions dropdown">
