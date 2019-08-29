@@ -175,7 +175,7 @@ class OrderingField extends FormField
 
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
-		$query->select(array($db->quoteName($ordering, 'value'), $db->quoteName($title, 'text')))
+		$query->select([$db->quoteName($ordering, 'value'), $db->quoteName($title, 'text')])
 			->from($db->quoteName(json_decode($ucmRow->table)->special->dbtable))
 			->where($db->quoteName('catid') . ' = :categoryId')
 			->order($db->quoteName('ordering'))
