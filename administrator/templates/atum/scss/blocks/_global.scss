@@ -70,6 +70,11 @@ caption {
   font-size: $label-font-size;
 }
 
+.btn-primary:hover {
+  background-color: var(--atum-bg-dark-70);
+  border-color: var(--atum-bg-dark-70);
+}
+
 .logo {
 
   img path {

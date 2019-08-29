@@ -1,27 +1,460 @@
 // Buttons
 
-.btn-primary {
-  background-color: var(--atum-bg-dark);
-  color: var(--atum-text-light);
-  border-color: var(--atum-bg-dark-80);
+.btn {
 
-  @include hover-focus-active {
-    background-color: var(--atum-bg-dark-70);
-    border-color: var(--atum-bg-dark-90);
+  background: var(--atum-bg-light);
+  border: 1px solid $gray-500;
+  color: var(--atum-text-dark);
+  padding: 0.1rem 0.6rem 0.1rem 3rem;
+  font-size: 1rem;
+  line-height: $atum-toolbar-line-height;
+  position: relative;
+
+  span[class*="icon-"]:not(.input-group-text), span[class^="icon-"]:not(.input-group-text),
+  span[class*="fa-"]:not(.input-group-text), span[class^="fa-"]:not(.input-group-text) {
+    color: var(--atum-text-light);
+    opacity: .93;
+    position: absolute;
+    left: .7rem;
+    bottom: .85rem;
   }
 
-  &:not(:disabled):not(.disabled):active,
-  &:not(:disabled):not(.disabled).active,
-  .show > &.dropdown-toggle {
-    background-color: var(--atum-bg-dark);
-    border-color: var(--atum-bg-dark);
+  &.btn-lg {
+    padding: 0.3rem 0.9rem 0.3rem 3.3rem;
+    font-size: 1.3rem;
+  }
+
+  &.btn-sm {
+    padding: 0rem 0.3rem 0rem 2.5rem;
+    font-size: 0.8rem;
+    height: 2.2rem;
+    line-height: 2.2rem;
+
+    span[class*="icon-"]:not(.input-group-text), span[class^="icon-"]:not(.input-group-text),
+    span[class*="fa-"]:not(.input-group-text), span[class^="fa-"]:not(.input-group-text) {
+      color: var(--atum-text-light);
+      opacity: .93;
+      position: absolute;
+      left: .5rem;
+      bottom: .6rem;
+    }
+
+    &.btn-success {
+      background: var(--success);
+      background: -moz-linear-gradient(left, var(--success) 0, var(--success) 2rem, #ffffff 2.01rem, #ffffff 100%);
+      background: -webkit-linear-gradient(left, var(--success) 0, var(--success) 2rem, #ffffff 2.01rem, #ffffff 100%);
+      background: linear-gradient(to right, var(--success) 0, var(--success) 2rem, #ffffff 2.01rem, #ffffff 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='var(--primary)', endColorstr='#ffffff', GradientType=1);
+      text-align: center;
+      &:hover {
+        background: var(--success);
+        background: -moz-linear-gradient(left, var(--success) 0, var(--success) 2rem, #ffffff 2.01rem, #ffffff 100%);
+        background: -webkit-linear-gradient(left, var(--success) 0, var(--success) 2rem, #ffffff 2.01rem, #ffffff 100%);
+        background: linear-gradient(to right, var(--success) 0, var(--success) 2rem, #ffffff 2.01rem, #ffffff 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='var(--success)', endColorstr='#ffffff', GradientType=1);
+        color: var(--success);
+      }
+      &.disabled, &:disabled {
+        color: var(--atum-text-dark);
+      }
+
+    }
+    &.btn-danger {
+      background: var(--danger);
+      background: -moz-linear-gradient(left, var(--danger) 0, var(--danger) 2rem, #ffffff 2.01rem, #ffffff 100%);
+      background: -webkit-linear-gradient(left, var(--danger) 0, var(--danger) 2rem, #ffffff 2.01rem, #ffffff 100%);
+      background: linear-gradient(to right, var(--danger) 0, var(--danger) 2rem, #ffffff 2.01rem, #ffffff 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='var(--danger)', endColorstr='#ffffff', GradientType=1);
+      text-align: center;
+      &:hover {
+        background: var(--danger);
+        background: -moz-linear-gradient(left, var(--danger) 0, var(--danger) 2rem, #ffffff 2.01rem, #ffffff 100%);
+        background: -webkit-linear-gradient(left, var(--danger) 0, var(--danger) 2rem, #ffffff 2.01rem, #ffffff 100%);
+        background: linear-gradient(to right, var(--danger) 0, var(--danger) 2rem, #ffffff 2.01rem, #ffffff 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='var(--danger)', endColorstr='#ffffff', GradientType=1);
+        color: var(--danger);
+      }
+      &.disabled, &:disabled {
+        color: var(--atum-text-dark);
+      }
+
+    }
+    &.btn-actions, &.btn-primary {
+      background: var(--primary);
+      background: -moz-linear-gradient(left, var(--primary) 0, var(--primary) 2rem, #ffffff 2.01rem, #ffffff 100%);
+      background: -webkit-linear-gradient(left, var(--primary) 0, var(--primary) 2rem, #ffffff 2.01rem, #ffffff 100%);
+      background: linear-gradient(to right, var(--primary) 0, var(--primary) 2rem, #ffffff 2.01rem, #ffffff 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='var(--danger)', endColorstr='#ffffff', GradientType=1);
+      text-align: center;
+      &:hover {
+        background: var(--primary);
+        background: -moz-linear-gradient(left, var(--primary) 0, var(--primary) 2rem, #ffffff 2.01rem, #ffffff 100%);
+        background: -webkit-linear-gradient(left, var(--primary) 0, var(--primary) 2rem, #ffffff 2.01rem, #ffffff 100%);
+        background: linear-gradient(to right, var(--primary) 0, var(--primary) 2rem, #ffffff 2.01rem, #ffffff 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='var(--danger)', endColorstr='#ffffff', GradientType=1);
+        color: var(--primary);
+      }
+      &.disabled, &:disabled {
+        color: var(--atum-text-dark);
+      }
+
+    }
+    &.btn-secondary {
+      background: var(--atum-link-color);
+      background: -moz-linear-gradient(left, var(--atum-link-color) 0, var(--atum-link-color) 2rem, #ffffff 2.01rem, #ffffff 100%);
+      background: -webkit-linear-gradient(left, var(--atum-link-color) 0, var(--atum-link-color) 2rem, #ffffff 2.01rem, #ffffff 100%);
+      background: linear-gradient(to right, var(--atum-link-color) 0, var(--atum-link-color) 2rem, #ffffff 2.01rem, #ffffff 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='var(--atum-link-color)', endColorstr='#ffffff', GradientType=1);
+      text-align: center;
+      &:hover {
+        background: var(--atum-link-color);
+        background: -moz-linear-gradient(left, var(--atum-link-color) 0, var(--atum-link-color) 2rem, #ffffff 2.01rem, #ffffff 100%);
+        background: -webkit-linear-gradient(left, var(--atum-link-color) 0, var(--atum-link-color) 2rem, #ffffff 2.01rem, #ffffff 100%);
+        background: linear-gradient(to right, var(--atum-link-color) 0, var(--atum-link-color) 2rem, #ffffff 2.01rem, #ffffff 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='var(--atum-link-color)', endColorstr='#ffffff', GradientType=1);
+        color: var(--atum-link-color);
+      }
+      &.disabled, &:disabled {
+        color: var(--atum-text-dark);
+      }
+
+    }
+
+    //Todo mixins for other colors
+
+    &.dropdown-toggle {
+      width: 1rem;
+      background: var(--atum-bg-dark-5);
+      padding: 0rem 0.8rem;
+
+      &:after {
+        content: "\f078";
+        font-family: "Font Awesome 5 Free";
+        color: var(--atum-text-dark);
+        opacity: 0.95;
+        border: none;
+        position: absolute;
+        bottom: 0;
+        right: 0.5rem;
+      }
+
+      &:hover {
+        background: var(--atum-bg-dark-10);
+      }
+    }
+
+    &.show {
+      &.dropdown-toggle:after {
+        color: var(--atum-text-light);
+      }
+    }
+
+  }
+
+  &.btn-success {
+    background: var(--success);
+    background: -moz-linear-gradient(left, var(--success) 0, var(--success) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+    background: -webkit-linear-gradient(left, var(--success) 0, var(--success) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+    background: linear-gradient(to right, var(--success) 0, var(--success) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='var(--success)', endColorstr='#ffffff', GradientType=1);
+    text-align: center;
+    &:hover {
+      background: var(--success);
+      background: -moz-linear-gradient(left, var(--success) 0, var(--success) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+      background: -webkit-linear-gradient(left, var(--success) 0, var(--success) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+      background: linear-gradient(to right, var(--success) 0, var(--success) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='var(--success)', endColorstr='#ffffff', GradientType=1);
+      color: var(--success);
+      text-decoration: none;
+    }
+    &.disabled, &:disabled {
+      color: var(--atum-text-dark);
+    }
+
+  }
+
+  //Repeating - Need a mixin here
+
+  &.btn-danger {
+    background: var(--danger);
+    background: -moz-linear-gradient(left, var(--danger) 0, var(--danger) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+    background: -webkit-linear-gradient(left, var(--danger) 0, var(--danger) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+    background: linear-gradient(to right, var(--danger) 0, var(--danger) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='var(--success)', endColorstr='#ffffff', GradientType=1);
+    text-align: center;
+    &:hover {
+      background: var(--danger);
+      background: -moz-linear-gradient(left, var(--danger) 0, var(--danger) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+      background: -webkit-linear-gradient(left, var(--danger) 0, var(--danger) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+      background: linear-gradient(to right, var(--danger) 0, var(--danger) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='var(--danger)', endColorstr='#ffffff', GradientType=1);
+      color: var(--danger);
+    }
+    &.disabled, &:disabled {
+      color: var(--atum-text-dark);
+    }
+  }
+
+  &.btn-primary {
+    background: var(--primary);
+    background: -moz-linear-gradient(left, var(--primary) 0, var(--primary) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+    background: -webkit-linear-gradient(left, var(--primary) 0, var(--primary) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+    background: linear-gradient(to right, var(--primary) 0, var(--primary) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='var(--primary)', endColorstr='#ffffff', GradientType=1);
+    text-align: center;
+    &:hover {
+      background: var(--primary);
+      background: -moz-linear-gradient(left, var(--primary) 0, var(--primary) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+      background: -webkit-linear-gradient(left, var(--primary) 0, var(--primary) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+      background: linear-gradient(to right, var(--primary) 0, var(--primary) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='var(--primary)', endColorstr='#ffffff', GradientType=1);
+      color: var(--primary);
+    }
+    &.disabled, &:disabled {
+      color: var(--atum-text-dark);
+    }
+
+  }
+
+  &.btn-action {
+    background: var(--primary);
+    background: -moz-linear-gradient(left, var(--primary) 0, var(--primary) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+    background: -webkit-linear-gradient(left, var(--primary) 0, var(--primary) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+    background: linear-gradient(to right, var(--primary) 0, var(--primary) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='var(--primary)', endColorstr='#ffffff', GradientType=1);
+    text-align: center;
+    &:hover {
+      background: var(--primary);
+      background: -moz-linear-gradient(left, var(--primary) 0, var(--primary) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+      background: -webkit-linear-gradient(left, var(--primary) 0, var(--primary) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+      background: linear-gradient(to right, var(--primary) 0, var(--primary) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='var(--primary)', endColorstr='#ffffff', GradientType=1);
+      color: var(--primary);
+    }
+    &.disabled, &:disabled {
+      color: var(--atum-text-dark);
+    }
+
+  }
+
+  &.btn-secondary {
+    background: var(--atum-link-color);
+    background: -moz-linear-gradient(left, var(--atum-link-color) 0, var(--atum-link-color) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+    background: -webkit-linear-gradient(left, var(--atum-link-color) 0, var(--atum-link-color) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+    background: linear-gradient(to right, var(--atum-link-color) 0, var(--atum-link-color) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='var(--atum-link-color)', endColorstr='#ffffff', GradientType=1);
+    text-align: center;
+    &:hover {
+      background: var(--atum-link-color);
+      background: -moz-linear-gradient(left, var(--atum-link-color) 0, var(--atum-link-color) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+      background: -webkit-linear-gradient(left, var(--atum-link-color) 0, var(--atum-link-color) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+      background: linear-gradient(to right, var(--atum-link-color) 0, var(--atum-link-color) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='var(--atum-link-color)', endColorstr='#ffffff', GradientType=1);
+      color: var(--atum-link-color);
+      text-decoration: none;
+    }
+    &.disabled, &:disabled {
+      color: var(--atum-text-dark);
+    }
+  }
+
+  &.btn-info {
+    background: var(--atum-bg-dark-30);
+    background: -moz-linear-gradient(left, var(--atum-bg-dark-30) 0, var(--atum-bg-dark-30) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+    background: -webkit-linear-gradient(left, var(--atum-bg-dark-30) 0, var(--atum-bg-dark-30) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+    background: linear-gradient(to right, var(--atum-bg-dark-30) 0, var(--atum-bg-dark-30) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='var(--atum-bg-dark-30)', endColorstr='#ffffff', GradientType=1);
+    text-align: center;
+    &:hover {
+      background: var(--atum-bg-dark-30);
+      background: -moz-linear-gradient(left, var(--atum-bg-dark-30) 0, var(--atum-bg-dark-30) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+      background: -webkit-linear-gradient(left, var(--atum-bg-dark-30) 0, var(--atum-bg-dark-30) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+      background: linear-gradient(to right, var(--atum-bg-dark-30) 0, var(--atum-bg-dark-30) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='var(--atum-bg-dark-30)', endColorstr='#ffffff', GradientType=1);
+      color: var(--atum-bg-dark-30);
+    }
+    &.disabled, &:disabled {
+      color: var(--atum-text-dark);
+    }
+
+  }
+
+  &.btn-warning {
+    background: var(--warning);
+    background: -moz-linear-gradient(left, var(--warning) 0, var(--warning) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+    background: -webkit-linear-gradient(left, var(--warning) 0, var(--warning) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+    background: linear-gradient(to right, var(--warning) 0, var(--warning) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='var(--info)', endColorstr='#ffffff', GradientType=1);
+    text-align: center;
+    &:hover {
+      background: var(--warning);
+      background: -moz-linear-gradient(left, var(--warning) 0, var(--warning) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+      background: -webkit-linear-gradient(left, var(--warning) 0, var(--warning) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+      background: linear-gradient(to right, var(--warning) 0, var(--warning) 2.4rem, #ffffff 2.401rem, #ffffff 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='var(--warning)', endColorstr='#ffffff', GradientType=1);
+      color: var(--warning);
+    }
+    &.disabled, &:disabled {
+      color: var(--atum-text-dark);
+    }
+
+  }
+
+  &.btn-link {
+    background: transparent;
+    text-align: center;
+    border: none;
+    box-shadow: none;
+    padding: 0.5rem 1rem;
+
+    &:hover {
+      background: transparent;
+      color: var(--atum-link-color);
+      text-decoration: none;
+    }
+    &.disabled, &:disabled {
+      color: var(--atum-text-dark);
+    }
+
+    span[class*="icon-"]:not(.input-group-text), span[class^="icon-"]:not(.input-group-text),
+    span[class*="fa-"]:not(.input-group-text), span[class^="fa-"]:not(.input-group-text) {
+      color: var(--atum-link-color);
+      opacity: .93;
+      position: relative;
+      padding: 0.8rem 0.5rem;
+    }
+
+  }
+
+  //New
+  &.btn-outline-primary {
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    padding: 0.1rem 0.5rem;
+    &:hover {
+      color: var(--atum-text-light);
+      background: var(--primary);
+    }
+  }
+
+  //Repeating Mixins
+
+  &.btn-outline-secondary {
+    border: 2px solid var(--secondary);
+    color: var(--secondary);
+    padding: 0.1rem 0.5rem;
+    &:hover {
+      color: var(--atum-text-light);
+      background: var(--secondary);
+    }
+  }
+
+  &.btn-outline-success {
+    border: 2px solid var(--success);
+    color: var(--success);
+    padding: 0.1rem 0.5rem;
+    &:hover {
+      color: var(--atum-text-light);
+      background: var(--success);
+    }
+  }
+
+  &.btn-outline-warning {
+    border: 2px solid var(--warning);
+    color: var(--warning);
+    padding: 0.1rem 0.5rem;
+    &:hover {
+      color: var(--atum-text-light);
+      background: var(--warning);
+    }
+  }
+
+  &.btn-outline-danger {
+    border: 2px solid var(--danger);
+    color: var(--danger);
+    padding: 0.1rem 0.5rem;
+    &:hover {
+      color: var(--atum-text-light);
+      background: var(--danger);
+    }
+  }
+
+  &.btn-outline-info {
+    border: 2px solid var(--info);
+    color: var(--info);
+    padding: 0.1rem 0.5rem;
+    &:hover {
+      color: var(--atum-text-light);
+      background: var(--info);
+    }
+  }
+
+  &.btn-outline-link {
+    border: 2px solid var(--link);
+    color: var(--link);
+    padding: 0.1rem 0.5rem;
+    &:hover {
+      color: var(--atum-text-light);
+      background: var(--link);
+    }
+  }
+
+  // NEW
+
+  &.dropdown-toggle {
+    width: 1.3rem;
+    background: var(--atum-bg-dark-5);
+    padding: 0.2rem 1.1rem;
+
+    &:after {
+      content: "\f078";
+      font-family: "Font Awesome 5 Free";
+      color: var(--atum-text-dark);
+      opacity: 0.95;
+      border: none;
+      position: absolute;
+      bottom: 0;
+      right: 0.63rem;
+    }
+
+    &:hover {
+      background: var(--atum-bg-dark-10);
+    }
+  }
+
+  &.show {
+    &.dropdown-toggle:after {
+      color: var(--atum-text-light);
+    }
+  }
+
+  &:hover {
+    box-shadow: $atum-box-shadow;
   }
 }
-.btn-secondary {
-	background-color: var(--atum-bg-dark-50);
-}
 
-.input-group-text {
-  background-color: var(--atum-bg-dark);
-  border-color: var(--atum-bg-dark);
+.input-group-append {
+
+  .btn {
+    padding: .1rem .7rem .1rem .7rem;
+    span[class*="icon-"]:not(.input-group-text), span[class^="icon-"]:not(.input-group-text),
+    span[class*="fa-"]:not(.input-group-text), span[class^="fa-"]:not(.input-group-text) {
+      position: relative;
+      left:inherit;
+      bottom:inherit;
+    }
+  }
+
+  .btn-primary {
+    background: var(--atum-bg-dark);
+    &:hover {
+      background: var(--atum-bg-dark);
+    }
+  }
+  .btn-secondary {
+    background: var(--atum-link-color);
+    &:hover {
+      background: var(--atum-link-color);
+    }
+  }
 }
