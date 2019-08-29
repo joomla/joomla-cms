@@ -41,8 +41,13 @@ class AliastagField extends ListField
 		// Get list of tag type alias
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('Distinct type_alias AS value, type_alias AS text')
-			->from('#__contentitem_tag_map');
+			->select(
+				[
+					'DISTINCT ' . $db->quoteName('type_alias', 'value'),
+					$db->quoteName('type_alias', 'text'),
+				]
+			)
+			->from($db->quoteName('#__contentitem_tag_map'));
 		$db->setQuery($query);
 
 		$options = $db->loadObjectList();

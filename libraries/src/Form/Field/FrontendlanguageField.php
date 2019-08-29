@@ -41,18 +41,31 @@ class FrontendlanguageField extends ListField
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('a.lang_code AS value, a.title AS text')
-			->from($db->quoteName('#__languages') . ' AS a')
-			->where('a.published = 1')
-			->order('a.title');
+		$query->select(
+			[
+				$db->quoteName('a.lang_code', 'value'),
+				$db->quoteName('a.title', 'text'),
+			]
+		)
+			->from($db->quoteName('#__languages', 'a'))
+			->where(
+				[
+					$db->quoteName('a.published') . ' = 1',
+					$db->quoteName('e.client_id') . ' = 0',
+					$db->quoteName('e.enabled') . ' = 1',
+					$db->quoteName('e.state') . ' = 0',
+				]
+			)
+			->order($db->quoteName('a.title'));
 
 		// Select the language home pages.
-		$query->select('l.home, l.language')
-			->innerJoin($db->quoteName('#__menu') . ' AS l ON l.language=a.lang_code AND l.home=1 AND l.published=1 AND l.language <> ' . $db->quote('*'))
-			->innerJoin($db->quoteName('#__extensions') . ' AS e ON e.element = a.lang_code')
-			->where('e.client_id = 0')
-			->where('e.enabled = 1')
-			->where('e.state = 0');
+		$query->join(
+				'INNER',
+				$db->quoteName('#__menu', 'l'),
+				$db->quoteName('l.language') . ' = ' . $db->quoteName('a.lang_code'). ' AND ' . $db->quoteName('l.home') . ' = ' . $db->quote('1')
+				. ' AND ' . $db->quoteName('l.published') . ' = 1 AND ' . $db->quotename('l.language') . ' <> ' . $db->quote('*')
+			)
+			->join('INNER', $db->quoteName('#__extensions', 'e'), $db->quoteName('e.element') . ' = ' . $db->quoteName('a.lang_code'));
 
 		$db->setQuery($query);
 

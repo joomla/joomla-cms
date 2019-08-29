@@ -40,10 +40,19 @@ class ComponentsField extends ListField
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('name AS text, element AS value')
-			->from('#__extensions')
-			->where('enabled >= 1')
-			->where('type =' . $db->quote('component'));
+			->select(
+				[
+					$db->quoteName('name', 'text'),
+					$db->quoteName('element', 'value'),
+				]
+			)
+			->from($db->quoteName('#__extensions'))
+			->where(
+				[
+					$db->quoteName('enabled') . ' >= 1',
+					$db->quoteName('type') . ' = ' . $db->quote('component'),
+				]
+			);
 
 		$items = $db->setQuery($query)->loadObjectList();
 
