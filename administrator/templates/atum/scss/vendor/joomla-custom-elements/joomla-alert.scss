@@ -9,7 +9,11 @@
 @import "../../../../../../media/vendor/bootstrap/scss/variables";
 @import "../../../../../../media/vendor/bootstrap/scss/mixins";
 
+@import "../../../../../../node_modules/joomla-ui-custom-elements/dist/css/joomla-alert";
+
 #system-message-container {
+  background: var(--atum-bg-light);
+  box-shadow: 3px 3px 11px 0px rgba(0, 0, 0, 0.3);
 
   joomla-alert {
     display: block;
@@ -22,7 +26,6 @@
     transition: opacity 0.15s linear;
     color: var(--atum-text-dark);
     background-color: var(--white);
-    box-shadow: 3px 3px 11px 0px rgba(0, 0, 0, 0.3);
 
     .alert-heading {
       display: block;
@@ -35,7 +38,7 @@
 
     &[type="success"] {
       border-color: var(--success);
-     .alert-heading {
+      .alert-heading {
         background: var(--success);
       }
       hr {
