@@ -100,7 +100,7 @@ class WorkflowstageField extends GroupedlistField
 			->select(
 				[
 					'DISTINCT ' . $db->quoteName('ws.id', 'workflow_stage_id'),
-					$db->quoteName('ws.title', 'workflow_stage_title'), 
+					$db->quoteName('ws.title', 'workflow_stage_title'),
 					$db->quoteName('w.title', 'workflow_title'),
 					$db->quoteName('w.id', 'workflow_id'),
 					$db->quoteName('w.ordering', 'ordering'),
