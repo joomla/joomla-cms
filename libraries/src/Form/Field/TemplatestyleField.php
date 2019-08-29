@@ -154,7 +154,7 @@ class TemplatestyleField extends GroupedlistField
 		)
 			->from($db->quoteName('#__template_styles', 's'))
 			->where($db->quoteName('s.client_id') . ' = :clientId')
-			->bind(':clientId', $client->id);
+			->bind(':clientId', $client->id)
 			->order(
 				[
 					$db->quoteName('template'),
