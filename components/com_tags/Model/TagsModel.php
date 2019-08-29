@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\ParameterType;
 
 /**
  * This models supports retrieving a list of tags.
@@ -90,8 +91,8 @@ class TagsModel extends ListModel
 	{
 		$app            = Factory::getApplication();
 		$user           = Factory::getUser();
-		$groups         = implode(',', $user->getAuthorisedViewLevels());
-		$pid            = $this->getState('tag.parent_id');
+		$groups         = $user->getAuthorisedViewLevels();
+		$pid            = (int) $this->getState('tag.parent_id');
 		$orderby        = $this->state->params->get('all_tags_orderby', 'title');
 		$published      = $this->state->params->get('published', 1);
 		$orderDirection = $this->state->params->get('all_tags_orderby_direction', 'ASC');
@@ -103,13 +104,14 @@ class TagsModel extends ListModel
 
 		// Select required fields from the tags.
 		$query->select('a.*, u.name as created_by_user_name, u.email')
-			->from($db->quoteName('#__tags') . ' AS a')
-			->join('LEFT', '#__users AS u ON a.created_user_id = u.id')
-			->where($db->quoteName('a.access') . ' IN (' . $groups . ')');
+			->from($db->quoteName('#__tags', 'a'))
+			->join('LEFT', $db->quoteName('#__users', 'u'), $db->quoteName('a.created_user_id') . ' = ' . $db->quoteName('u.id'))
+			->whereIn($db->quoteName('a.access'), $groups);
 
 		if (!empty($pid))
 		{
-			$query->where($db->quoteName('a.parent_id') . ' = ' . $pid);
+			$query->where($db->quoteName('a.parent_id') . ' = :pid')
+				->bind(':pid', $pid, ParameterType::INTEGER);
 		}
 
 		// Exclude the root.
@@ -128,7 +130,7 @@ class TagsModel extends ListModel
 				$language = ContentHelper::getCurrentLanguage();
 			}
 
-			$query->where($db->quoteName('language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
+			$query->whereIn($db->quoteName('language'), [$language, '*'], ParameterType::STRING);
 		}
 
 		// List state information
@@ -158,10 +160,13 @@ class TagsModel extends ListModel
 		// Optionally filter on entered value
 		if ($this->state->get('list.filter'))
 		{
-			$query->where($db->quoteName('a.title') . ' LIKE ' . $db->quote('%' . $this->state->get('list.filter') . '%'));
+			$title = '%' . $this->state->get('list.filter') . '%';
+			$query->where($db->quoteName('a.title') . ' LIKE :title')
+				->bind(':title', $title);
 		}
 
-		$query->where($db->quoteName('a.published') . ' = ' . $published);
+		$query->where($db->quoteName('a.published') . ' = :published')
+			->bind(':published', $published, ParameterType::INTEGER);
 
 		$query->order($db->quoteName($orderby) . ' ' . $orderDirection . ', a.title ASC');
 
