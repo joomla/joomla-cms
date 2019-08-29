@@ -14,6 +14,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\ParameterType;
 
 /**
  * Supports a select grouped list of template styles
