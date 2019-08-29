@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\ParameterType;
 
 // Import the com_menus helper.
 require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
@@ -47,13 +48,27 @@ class MenuField extends GroupedlistField
 
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('id', 'menutype', 'title', 'client_id'), array('id', 'value', 'text', 'client_id')))
+			->select(
+				[
+					$db->quoteName('id'),
+					$db->quoteName('menutype', 'value'),
+					$db->quoteName('title', 'text'),
+					$db->quoteName('client_id'),
+				]
+			)
 			->from($db->quoteName('#__menu_types'))
-			->order('client_id, title');
+			->order(
+				[
+					$db->quoteName('client_id'),
+					$db->quoteName('title'),
+				]
+			);
 
 		if (strlen($clientId))
 		{
-			$query->where('client_id = ' . (int) $clientId);
+			$client = (int) $clientId;
+			$query->where('client_id = :client')
+				->bind(':client', $client, ParameterType::INTEGER);
 		}
 
 		$menus = $db->setQuery($query)->loadObjectList();

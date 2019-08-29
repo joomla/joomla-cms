@@ -144,11 +144,23 @@ class TemplatestyleField extends GroupedlistField
 		$query = $db->getQuery(true);
 
 		// Build the query.
-		$query->select('s.id, s.title, e.name as name, s.template')
-			->from('#__template_styles as s')
-			->where('s.client_id = ' . (int) $client->id)
-			->order('template')
-			->order('title');
+		$query->select(
+			[
+				$db->quoteName('s.id'),
+				$db->quoteName('s.title'),
+				$db->quoteName('e.name'),
+				$db->quoteName('s.template'),
+			]
+		)
+			->from($db->quoteName('#__template_styles', 's'))
+			->where($db->quoteName('s.client_id') . ' = :clientId')
+			->bind(':clientId', $client->id);
+			->order(
+				[
+					$db->quoteName('template'),
+					$db->quoteName('title'),
+				]
+			);
 
 		if ($template)
 		{

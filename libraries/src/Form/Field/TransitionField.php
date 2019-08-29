@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Workflow\Workflow;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -104,20 +105,36 @@ class TransitionField extends ListField
 		// Initialise variable.
 		$db = Factory::getDbo();
 		$extension = $this->extension;
-		$workflowStage = $this->workflowStage;
+		$workflowStage = (int) $this->workflowStage;
 
 		$query = $db->getQuery(true)
-			->select($db->quoteName(['t.id', 't.title', 's.condition'], ['value', 'text', 'condition']))
-			->from($db->quoteName('#__workflow_transitions', 't'))
-			->from($db->quoteName('#__workflow_stages', 's'))
-			->from($db->quoteName('#__workflow_stages', 's2'))
-			->where($db->quoteName('t.from_stage_id') . ' IN(-1, ' . (int) $workflowStage . ')')
-			->where($db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'))
-			->where($db->quoteName('t.to_stage_id') . ' != ' . (int) $workflowStage)
-			->where($db->quoteName('s.workflow_id') . ' = ' . $db->quoteName('s2.workflow_id'))
-			->where($db->quoteName('s2.id') . ' = ' . (int) $workflowStage)
-			->where($db->quoteName('t.published') . '= 1')
-			->where($db->quoteName('s.published') . '= 1')
+			->select(
+				[
+					$db->quoteName('t.id', 'value'),
+					$db->quoteName('t.title', 'text'),
+					$db->quoteName('s.condition'),
+				]
+			)
+			->from(
+				[
+					$db->quoteName('#__workflow_transitions', 't'),
+					$db->quoteName('#__workflow_stages', 's'),
+					$db->quoteName('#__workflow_stages', 's2'),
+				]
+			)
+			->whereIn($db->quoteName('t.from_stage_id'), [-1, $workflowStage])
+			->where(
+				[
+					$db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'),
+					$db->quoteName('t.to_stage_id') . ' != :stage1',
+					$db->quoteName('s.workflow_id') . ' = ' . $db->quoteName('s2.workflow_id'),
+					$db->quoteName('s2.id') . ' = :stage2',
+					$db->quoteName('t.published') . '= 1',
+					$db->quoteName('s.published') . '= 1',
+				]
+			)
+			->bind(':stage1', $workflowStage, ParameterType::INTEGER)
+			->bind(':stage2', $workflowStage, ParameterType::INTEGER)
 			->order($db->quoteName('t.ordering'));
 
 		$items = $db->setQuery($query)->loadObjectList();
@@ -150,8 +167,7 @@ class TransitionField extends ListField
 		}
 
 		// Get workflow stage title
-		$query
-			->clear()
+		$query = $db->getQuery(true)
 			->select($db->quoteName('title'))
 			->from($db->quoteName('#__workflow_stages'))
 			->where($db->quoteName('id') . ' = ' . (int) $workflowStage);

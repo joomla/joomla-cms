@@ -18,6 +18,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\ParameterType;
 
 /**
  * Form Field to display a list of the layouts for module display from the module or template overrides.
@@ -70,12 +71,12 @@ class ModulelayoutField extends FormField
 		$template = preg_replace('#\W#', '', $template);
 
 		// Get the style.
-		$template_style_id = '';
+		$template_style_id = 0;
 
 		if ($this->form instanceof Form)
 		{
 			$template_style_id = $this->form->getValue('template_style_id');
-			$template_style_id = preg_replace('#\W#', '', $template_style_id);
+			$template_style_id = (int) preg_replace('#\W#', '', $template_style_id);
 		}
 
 		// If an extension and view are present build the options.
@@ -91,21 +92,33 @@ class ModulelayoutField extends FormField
 			$query = $db->getQuery(true);
 
 			// Build the query.
-			$query->select('element, name')
-				->from('#__extensions as e')
-				->where('e.client_id = ' . (int) $clientId)
-				->where('e.type = ' . $db->quote('template'))
-				->where('e.enabled = 1');
+			$query->select(
+				[
+					$db->quoteName('element'),
+					$db->quoteName('name'),
+				]
+			)
+				->from($db->quoteName('#__extensions', 'e'))
+				->where(
+					[
+						$db->quoteName('e.client_id') . ' = :clientId',
+						$db->quoteName('e.type') . ' = ' . $db->quote('template'),
+						$db->quoteName('e.enabled') . ' = 1',
+					]
+				)
+				->bind(':clientId', $clientId, ParameterType::INTEGER);
 
 			if ($template)
 			{
-				$query->where('e.element = ' . $db->quote($template));
+				$query->where($db->quoteName('e.element') . ' = :template')
+					->bind(':template', $template);
 			}
 
 			if ($template_style_id)
 			{
-				$query->join('LEFT', '#__template_styles as s on s.template=e.element')
-					->where('s.id=' . (int) $template_style_id);
+				$query->join('LEFT', $db->quoteName('#__template_styles', 's'), $db->quoteName('s.template') . ' = ' . $db->quoteName('e.element'))
+					->where($db->quoteName('s.id') . ' = :style')
+					->bind(':style', $template_style_id, ParameterType::INTEGER);
 			}
 
 			// Set the query and load the templates.
