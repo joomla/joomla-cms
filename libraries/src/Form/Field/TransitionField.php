@@ -171,7 +171,7 @@ class TransitionField extends ListField
 			->select($db->quoteName('title'))
 			->from($db->quoteName('#__workflow_stages'))
 			->where($db->quoteName('id') . ' = :stage')
-			->bind(':stage', $workflowStage);
+			->bind(':stage', $workflowStage, ParameterType::INTEGER);
 
 		$workflowName = $db->setQuery($query)->loadResult();
 
