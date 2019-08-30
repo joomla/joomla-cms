@@ -57,12 +57,13 @@ class InstallerHelper
 	 */
 	public static function getExtensionGroupes()
 	{
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
+		$nofolder = '';
+		$db       = Factory::getDbo();
+		$query    = $db->getQuery(true)
 			->select('DISTINCT ' . $db->quoteName('folder'))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('folder') . ' != :folder')
-			->bind(':folder', '')
+			->bind(':folder', $nofolder)
 			->order($db->quoteName('folder'));
 		$db->setQuery($query);
 		$folders = $db->loadColumn();
