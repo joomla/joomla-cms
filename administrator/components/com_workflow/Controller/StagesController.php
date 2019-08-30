@@ -118,7 +118,7 @@ class StagesController extends AdminController
 
 		if (!$value)
 		{
-			$this->setMessage(Text::_('COM_WORKFLOW_STAGE_DISABLE_DEFAULT'), 'warning');
+			$this->setMessage(Text::_('COM_WORKFLOW_DISABLE_DEFAULT'), 'warning');
 			$this->setRedirect(
 				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
