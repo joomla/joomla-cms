@@ -33,7 +33,7 @@ class InstallerHelper
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('DISTINCT '. $db->quoteName('type'))
+			->select('DISTINCT ' . $db->quoteName('type'))
 			->from($db->quoteName('#__extensions'));
 		$db->setQuery($query);
 		$types = $db->loadColumn();
