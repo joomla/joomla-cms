@@ -180,8 +180,8 @@ class RulesField extends FormField
 
 		// Get the asset id.
 		// Note that for global configuration, com_config injects asset_id = 1 into the form.
-		$this->assetId       = (int) $this->form->getValue($assetField);
-		$this->newItem       = empty($this->assetId) && $this->isGlobalConfig === false && $section !== 'component';
+		$this->assetId = (int) $this->form->getValue($assetField);
+		$this->newItem = empty($this->assetId) && $this->isGlobalConfig === false && $section !== 'component';
 		$parentAssetId = null;
 
 		// If the asset id is empty (component or new item).
