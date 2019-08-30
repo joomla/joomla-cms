@@ -23,6 +23,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -101,8 +102,12 @@ class UpdateModel extends ListModel
 			->select('u.*')
 			->select($db->quoteName('e.manifest_cache'))
 			->from($db->quoteName('#__updates', 'u'))
-			->join('LEFT', $db->quoteName('#__extensions', 'e') . ' ON ' . $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('u.extension_id'))
-			->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(0));
+			->join(
+				'LEFT', 
+				$db->quoteName('#__extensions', 'e'),
+				$db->quoteName('e.extension_id') . ' = ' . $db->quoteName('u.extension_id')
+			)
+			->where($db->quoteName('u.extension_id') . ' != 0');
 
 		// Process select filters.
 		$clientId    = $this->getState('filter.client_id');
@@ -112,27 +117,36 @@ class UpdateModel extends ListModel
 
 		if ($type)
 		{
-			$query->where($db->quoteName('u.type') . ' = ' . $db->quote($type));
+			$query->where($db->quoteName('u.type') . ' = :type')
+				->bind(':type', $type);
 		}
 
 		if ($clientId != '')
 		{
-			$query->where($db->quoteName('u.client_id') . ' = ' . (int) $clientId);
+			$clientId = (int) $clientId;
+			$query->where($db->quoteName('u.client_id') . ' = :clientid')
+				->bind(':clientid', $clientId, ParameterType::INTEGER);
 		}
 
 		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
 		{
-			$query->where($db->quoteName('u.folder') . ' = ' . $db->quote($folder == '*' ? '' : $folder));
+			$folder == '*' ? '' : $folder;
+			$query->where($db->quoteName('u.folder') . ' = :folder')
+				->bind(':folder', $folder);
 		}
 
 		if ($extensionId)
 		{
-			$query->where($db->quoteName('u.extension_id') . ' = ' . $db->quote((int) $extensionId));
+			$extensionId = (int) $extensionId;
+			$query->where($db->quoteName('u.extension_id') . ' = :extensionid')
+				->bind(':extensionid', $extensionId, ParameterType::INTEGER);
 		}
 		else
 		{
-			$query->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(0))
-				->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id));
+			$eid = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
+			$query->where($db->quoteName('u.extension_id') . ' != 0')
+				->where($db->quoteName('u.extension_id') . ' != :eid')
+				->bind(':eid', $eid, ParameterType::INTEGER);
 		}
 
 		// Process search filter.
@@ -142,21 +156,29 @@ class UpdateModel extends ListModel
 		{
 			if (stripos($search, 'eid:') !== false)
 			{
-				$query->where($db->quoteName('u.extension_id') . ' = ' . (int) substr($search, 4));
+				$sid = (int) substr($search, 4);
+				$query->where($db->quoteName('u.extension_id') . ' = :sid')
+					->bind(':sid', $sid, ParameterType::INTEGER);
 			}
 			else
 			{
 				if (stripos($search, 'uid:') !== false)
 				{
-					$query->where($db->quoteName('u.update_site_id') . ' = ' . (int) substr($search, 4));
+					$suid = (int) substr($search, 4);
+					$query->where($db->quoteName('u.update_site_id') . ' = :suid')
+						->bind(':suid', $suid, ParameterType::INTEGER);
 				}
 				elseif (stripos($search, 'id:') !== false)
 				{
-					$query->where($db->quoteName('u.update_id') . ' = ' . (int) substr($search, 3));
+					$uid = (int) substr($search, 3);
+					$query->where($db->quoteName('u.update_id') . ' = :uid')
+						->bind(':uid', $suid, ParameterType::INTEGER);
 				}
 				else
 				{
-					$query->where($db->quoteName('u.name') . ' LIKE ' . $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true)) . '%'));
+					$search = '%' . str_replace(' ', '%', trim($search)) . '%';
+					$query->where($db->quoteName('u.name') . ' LIKE :search')
+						->bind(':search', $name);
 				}
 			}
 		}
