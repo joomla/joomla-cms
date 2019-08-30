@@ -194,7 +194,7 @@ class TagField extends ListField
 		if (is_numeric($published))
 		{
 			$published = (int) $published;
-			$query->where('a.published = :published')
+			$query->where($db->quoteName('a.published') . ' = :published')
 				->bind(':published', $published, ParameterType::INTEGER);
 		}
 		elseif (is_array($published))
