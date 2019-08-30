@@ -132,7 +132,7 @@ class CssMenu
 				$heading = new MenuItem(['title' => 'MOD_MENU_RECOVERY_MENU_ROOT', 'type' => 'heading']);
 				$this->root->addChild($heading);
 
-				MenusHelper::loadPreset('defaulta', true, $heading);
+				MenusHelper::loadPreset('default', true, $heading);
 
 				$this->preprocess($this->root);
 
