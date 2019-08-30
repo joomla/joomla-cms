@@ -22,6 +22,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
 use Joomla\Component\Templates\Administrator\Table\StyleTable;
 use Joomla\Database\DatabaseQuery;
+use Joomla\Database\ParameterType;
 
 /**
  * Installer Manage Model
@@ -311,7 +312,8 @@ class ManageModel extends InstallerModel
 	 */
 	protected function getListQuery()
 	{
-		$query = $this->getDbo()->getQuery(true)
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
 			->select('*')
 			->select('2*protected+(1-protected)*enabled AS status')
 			->from('#__extensions')
@@ -336,24 +338,31 @@ class ManageModel extends InstallerModel
 			}
 			else
 			{
-				$query->where('protected = 0')
-					->where('enabled = ' . (int) $status);
+				$status = (int) $status;
+				$query->where($db->quoteName('protected') .' = 0')
+					->where($db->quoteName('enabled') . ' = :status')
+					->bind(':status', $status, ParameterType::INTEGER);
 			}
 		}
 
 		if ($type)
 		{
-			$query->where('type = ' . $this->_db->quote($type));
+			$query->where($db->quoteName('type') . ' = :type')
+				->bind(':type', $type);
 		}
 
 		if ($clientId !== '')
 		{
-			$query->where('client_id = ' . (int) $clientId);
+			$clientId = (int) $clientId;
+			$query->where($db->quoteName('client_id') . ' = :clientid')
+				->bind(':clientid', $clientId, ParameterType::INTEGER);
 		}
 
 		if ($folder !== '')
 		{
-			$query->where('folder = ' . $this->_db->quote($folder == '*' ? '' : $folder));
+			$folder == '*' ? '' : $folder;
+			$query->where($db->quoteName('folder') . ' = :folder')
+				->bind(':folder', $folder);
 		}
 
 		if ($core !== '')
@@ -363,18 +372,18 @@ class ManageModel extends InstallerModel
 
 			foreach ($coreExtensions as $extension)
 			{
-				$elements[] = $this->getDbo()->quote($extension[1]);
+				$elements[] = $extension[1];
 			}
 
 			if ($elements)
 			{
 				if ($core === '1')
 				{
-					$query->where($this->getDbo()->quoteName('element') . ' IN (' . implode(',', $elements) . ')');
+					$query->whereIn($db->quoteName('element'), $elements);
 				}
 				elseif ($core === '0')
 				{
-					$query->where($this->getDbo()->quoteName('element') . ' NOT IN (' . implode(',', $elements) . ')');
+					$query->whereNotIn($db->quoteName('element'), $elements);
 				}
 			}
 		}
@@ -384,7 +393,9 @@ class ManageModel extends InstallerModel
 
 		if (!empty($search) && stripos($search, 'id:') === 0)
 		{
-			$query->where('extension_id = ' . (int) substr($search, 3));
+			$ids = (int) substr($search, 3);
+			$query->where($db->quoteName('extension_id') . ' = :eid')
+				->bind(':eid', $ids, ParameterType::INTEGER);
 		}
 
 		// Note: The search for name, ordering and pagination are processed by the parent InstallerModel class (in extension.php).
@@ -405,27 +416,30 @@ class ManageModel extends InstallerModel
 	public function loadChangelog($eid, $source)
 	{
 		// Get the changelog URL
+		$eid = (int) $eid;
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select(
 				$db->quoteName(
-					array(
+					[
 						'extensions.element',
 						'extensions.type',
 						'extensions.folder',
 						'extensions.changelogurl',
 						'extensions.manifest_cache',
 						'extensions.client_id'
-					)
+					]
 				)
 			)
 			->select($db->quoteName('updates.version', 'updateVersion'))
 			->from($db->quoteName('#__extensions', 'extensions'))
-			->leftJoin(
-				$db->quoteName('#__updates', 'updates')
-				. ' ON ' . $db->quoteName('updates.extension_id') . ' = ' . $db->quoteName('extensions.extension_id')
+			->join(
+				'LEFT',
+				$db->quoteName('#__updates', 'updates'),
+				$db->quoteName('updates.extension_id') . ' = ' . $db->quoteName('extensions.extension_id')
 			)
-			->where($db->quoteName('extensions.extension_id') . ' = ' . (int) $eid);
+			->where($db->quoteName('extensions.extension_id') . ' = :eid')
+			->bind(':eid', $eid, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		$extensions = $db->loadObjectList();
