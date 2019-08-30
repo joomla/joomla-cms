@@ -339,7 +339,7 @@ class ManageModel extends InstallerModel
 			else
 			{
 				$status = (int) $status;
-				$query->where($db->quoteName('protected') .' = 0')
+				$query->where($db->quoteName('protected') . ' = 0')
 					->where($db->quoteName('enabled') . ' = :status')
 					->bind(':status', $status, ParameterType::INTEGER);
 			}
