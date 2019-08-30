@@ -335,11 +335,8 @@ class DatabaseModel extends InstallerModel
 				)
 			)->join(
 				'INNER',
-				$db->quoteName(
-					'#__extensions', 'extensions'), 
-				$db->quoteName('schemas.extension_id')
-				. ' = ' . 
-				$db->quoteName('extensions.extension_id')
+				$db->quoteName('#__extensions', 'extensions'),
+				$db->quoteName('schemas.extension_id') . ' = ' . $db->quoteName('extensions.extension_id')
 			);
 
 		$type        = $this->getState('filter.type');
