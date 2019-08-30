@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/JArchiveTestCase.php';
@@ -15,7 +15,7 @@ require_once __DIR__ . '/JArchiveTestCase.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Archive
- * @since       11.1
+ * @since       1.7.0
  */
 class JArchiveTarTest extends JArchiveTestCase
 {

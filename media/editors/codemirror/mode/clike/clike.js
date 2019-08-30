@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -33,7 +33,7 @@ function popContext(state) {
 }
 
 function typeBefore(stream, state, pos) {
-  if (state.prevToken == "variable" || state.prevToken == "variable-3") return true;
+  if (state.prevToken == "variable" || state.prevToken == "type") return true;
   if (/\S(?:[^- ]>|[*\]])\s*$|\*$/.test(stream.string.slice(0, pos))) return true;
   if (state.typeAtEndOfLine && stream.column() == stream.indentation()) return true;
 }
@@ -112,7 +112,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
       if (contains(defKeywords, cur)) isDefKeyword = true;
       return "keyword";
     }
-    if (contains(types, cur)) return "variable-3";
+    if (contains(types, cur)) return "type";
     if (contains(builtin, cur)) {
       if (contains(blockKeywords, cur)) curPunc = "newstatement";
       return "builtin";
@@ -216,15 +216,15 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
     indent: function(state, textAfter) {
       if (state.tokenize != tokenBase && state.tokenize != null || state.typeAtEndOfLine) return CodeMirror.Pass;
       var ctx = state.context, firstChar = textAfter && textAfter.charAt(0);
+      var closing = firstChar == ctx.type;
       if (ctx.type == "statement" && firstChar == "}") ctx = ctx.prev;
       if (parserConfig.dontIndentStatements)
         while (ctx.type == "statement" && parserConfig.dontIndentStatements.test(ctx.info))
           ctx = ctx.prev
       if (hooks.indent) {
-        var hook = hooks.indent(state, ctx, textAfter);
+        var hook = hooks.indent(state, ctx, textAfter, indentUnit);
         if (typeof hook == "number") return hook
       }
-      var closing = firstChar == ctx.type;
       var switchBlock = ctx.prev && ctx.prev.info == "switch";
       if (parserConfig.allmanIndentation && /[{(]/.test(firstChar)) {
         while (ctx.type != "top" && ctx.type != "}") ctx = ctx.prev
@@ -244,6 +244,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
     electricInput: indentSwitch ? /^\s*(?:case .*?:|default:|\{\}?|\})$/ : /^\s*[{}]$/,
     blockCommentStart: "/*",
     blockCommentEnd: "*/",
+    blockCommentContinue: " * ",
     lineComment: "//",
     fold: "brace"
   };
@@ -281,7 +282,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
   }
 
   function pointerHook(_stream, state) {
-    if (state.prevToken == "variable-3") return "variable-3";
+    if (state.prevToken == "type") return "type";
     return false;
   }
 
@@ -373,7 +374,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
     blockKeywords: words("case do else for if switch while struct"),
     defKeywords: words("struct"),
     typeFirstDefinitions: true,
-    atoms: words("null true false"),
+    atoms: words("NULL true false"),
     hooks: {"#": cppHook, "*": pointerHook},
     modeProps: {fold: ["brace", "include"]}
   });
@@ -389,7 +390,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
     blockKeywords: words("catch class do else finally for if struct switch try while"),
     defKeywords: words("class namespace struct enum union"),
     typeFirstDefinitions: true,
-    atoms: words("true false null"),
+    atoms: words("true false NULL"),
     dontIndentStatements: /^template$/,
     isIdentifierChar: /[\w\$_~\xa1-\uffff]/,
     hooks: {
@@ -431,7 +432,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
     types: words("byte short int long float double boolean char void Boolean Byte Character Double Float " +
                  "Integer Long Number Object Short String StringBuffer StringBuilder Void"),
     blockKeywords: words("catch class do else finally for if switch try while"),
-    defKeywords: words("class interface package enum @interface"),
+    defKeywords: words("class interface enum @interface"),
     typeFirstDefinitions: true,
     atoms: words("true false null"),
     number: /^(?:0x[a-f\d_]+|0b[01_]+|(?:[\d_]+\.?\d*|\.\d+)(?:e[-+]?[\d_]+)?)(u|ll?|l|f)?/i,
@@ -488,6 +489,27 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
     return "string";
   }
 
+  function tokenNestedComment(depth) {
+    return function (stream, state) {
+      var ch
+      while (ch = stream.next()) {
+        if (ch == "*" && stream.eat("/")) {
+          if (depth == 1) {
+            state.tokenize = null
+            break
+          } else {
+            state.tokenize = tokenNestedComment(depth - 1)
+            return state.tokenize(stream, state)
+          }
+        } else if (ch == "/" && stream.eat("*")) {
+          state.tokenize = tokenNestedComment(depth + 1)
+          return state.tokenize(stream, state)
+        }
+      }
+      return "comment"
+    }
+  }
+
   def("text/x-scala", {
     name: "clike",
     keywords: words(
@@ -515,8 +537,8 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
       "StringBuffer System Thread ThreadGroup ThreadLocal Throwable Triple Void"
     ),
     multiLineStrings: true,
-    blockKeywords: words("catch class do else finally for forSome if match switch try while"),
-    defKeywords: words("class def object package trait type val var"),
+    blockKeywords: words("catch class enum do else finally for forSome if match switch try while"),
+    defKeywords: words("class enum def object package trait type val var"),
     atoms: words("true false null"),
     indentStatements: false,
     indentSwitch: false,
@@ -543,6 +565,12 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
         } else {
           return false
         }
+      },
+
+      "/": function(stream, state) {
+        if (!stream.eat("*")) return false
+        state.tokenize = tokenNestedComment(1)
+        return state.tokenize(stream, state)
       }
     },
     modeProps: {closeBrackets: {triples: '"'}}
@@ -569,34 +597,51 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
     name: "clike",
     keywords: words(
       /*keywords*/
-      "package as typealias class interface this super val " +
-      "var fun for is in This throw return " +
+      "package as typealias class interface this super val operator " +
+      "var fun for is in This throw return annotation " +
       "break continue object if else while do try when !in !is as? " +
 
       /*soft keywords*/
       "file import where by get set abstract enum open inner override private public internal " +
       "protected catch finally out final vararg reified dynamic companion constructor init " +
       "sealed field property receiver param sparam lateinit data inline noinline tailrec " +
-      "external annotation crossinline const operator infix suspend"
+      "external annotation crossinline const operator infix suspend actual expect setparam"
     ),
     types: words(
       /* package java.lang */
       "Boolean Byte Character CharSequence Class ClassLoader Cloneable Comparable " +
       "Compiler Double Exception Float Integer Long Math Number Object Package Pair Process " +
       "Runtime Runnable SecurityManager Short StackTraceElement StrictMath String " +
-      "StringBuffer System Thread ThreadGroup ThreadLocal Throwable Triple Void"
+      "StringBuffer System Thread ThreadGroup ThreadLocal Throwable Triple Void Annotation Any BooleanArray " +
+      "ByteArray Char CharArray DeprecationLevel DoubleArray Enum FloatArray Function Int IntArray Lazy " +
+      "LazyThreadSafetyMode LongArray Nothing ShortArray Unit"
     ),
     intendSwitch: false,
     indentStatements: false,
     multiLineStrings: true,
-    number: /^(?:0x[a-f\d_]+|0b[01_]+|(?:[\d_]+\.?\d*|\.\d+)(?:e[-+]?[\d_]+)?)(u|ll?|l|f)?/i,
+    number: /^(?:0x[a-f\d_]+|0b[01_]+|(?:[\d_]+(\.\d+)?|\.\d+)(?:e[-+]?[\d_]+)?)(u|ll?|l|f)?/i,
     blockKeywords: words("catch class do else finally for if where try while enum"),
-    defKeywords: words("class val var object package interface fun"),
+    defKeywords: words("class val var object interface fun"),
     atoms: words("true false null this"),
     hooks: {
+      "@": function(stream) {
+        stream.eatWhile(/[\w\$_]/);
+        return "meta";
+      },
       '"': function(stream, state) {
         state.tokenize = tokenKotlinString(stream.match('""'));
         return state.tokenize(stream, state);
+      },
+      indent: function(state, ctx, textAfter, indentUnit) {
+        var firstChar = textAfter && textAfter.charAt(0);
+        if ((state.prevToken == "}" || state.prevToken == ")") && textAfter == "")
+          return state.indented;
+        if (state.prevToken == "operator" && textAfter != "}" ||
+          state.prevToken == "variable" && firstChar == "." ||
+          (state.prevToken == "}" || state.prevToken == ")") && firstChar == ".")
+          return indentUnit * 2 + ctx.indented;
+        if (ctx.align && ctx.type == "}")
+          return ctx.indented + (state.context.type == (textAfter || "").charAt(0) ? 0 : indentUnit);
       }
     },
     modeProps: {closeBrackets: {triples: '"'}}
@@ -774,7 +819,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
         return "atom";
       },
       token: function(_stream, state, style) {
-          if ((style == "variable" || style == "variable-3") &&
+          if ((style == "variable" || style == "type") &&
               state.prevToken == ".") {
             return "variable-2";
           }

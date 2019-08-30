@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -26,6 +26,14 @@ abstract class FieldsPlugin extends JPlugin
 	 */
 	public function onCustomFieldsGetTypes()
 	{
+		// Cache filesystem access / checks
+		static $types_cache = array();
+
+		if (isset($types_cache[$this->_type . $this->_name]))
+		{
+			return $types_cache[$this->_type . $this->_name];
+		}
+
 		$types = array();
 
 		// The root of the plugin
@@ -84,7 +92,9 @@ abstract class FieldsPlugin extends JPlugin
 			$types[] = $data;
 		}
 
-		// Return the data
+		// Add to cache and return the data
+		$types_cache[$this->_type . $this->_name] = $types;
+
 		return $types;
 	}
 
@@ -142,14 +152,8 @@ abstract class FieldsPlugin extends JPlugin
 			return null;
 		}
 
-		$app = JFactory::getApplication();
-
-		// Detect if the field should be shown at all
-		if ($field->params->get('show_on') == 1 && $app->isClient('administrator'))
-		{
-			return;
-		}
-		elseif ($field->params->get('show_on') == 2 && $app->isClient('site'))
+		// Detect if the field is configured to be displayed on the form
+		if (!FieldsHelper::displayFieldOnForm($field))
 		{
 			return null;
 		}
@@ -160,12 +164,18 @@ abstract class FieldsPlugin extends JPlugin
 		// Set the attributes
 		$node->setAttribute('name', $field->name);
 		$node->setAttribute('type', $field->type);
-		$node->setAttribute('default', $field->default_value);
 		$node->setAttribute('label', $field->label);
+		$node->setAttribute('labelclass', $field->params->get('label_class'));
 		$node->setAttribute('description', $field->description);
 		$node->setAttribute('class', $field->params->get('class'));
 		$node->setAttribute('hint', $field->params->get('hint'));
 		$node->setAttribute('required', $field->required ? 'true' : 'false');
+
+		if ($field->default_value !== '')
+		{
+			$defaultNode = $node->appendChild(new DOMElement('default'));
+			$defaultNode->appendChild(new DOMCdataSection($field->default_value));
+		}
 
 		// Combine the two params
 		$params = clone $this->params;

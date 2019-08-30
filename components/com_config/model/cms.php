@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -256,32 +256,25 @@ abstract class ConfigModelCms extends JModelDatabase
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id))
+		if (empty($record->id) || $record->published != -2)
 		{
-			if ($record->published != -2)
-			{
-				return false;
-			}
-
-			$user = JFactory::getUser();
-
-			return $user->authorise('core.delete', $this->option);
+			return false;
 		}
+
+		return JFactory::getUser()->authorise('core.delete', $this->option);
 	}
 
-	/**
-	 * Method to test whether a record can have its state changed.
-	 *
-	 * @param   object  $record  A record object.
-	 *
-	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
-	 *
-	 * @since   3.2
-	 */
-	protected function canEditState($record)
-	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.edit.state', $this->option);
+	/**	
+	 * Method to test whether a record can have its state changed.	
+	 *	
+	 * @param   object  $record  A record object.	
+	 *	
+	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.	
+	 *	
+	 * @since   3.2	
+	 */	
+	protected function canEditState($record)	
+	{	
+		return JFactory::getUser()->authorise('core.edit.state', $this->option);	
 	}
 }

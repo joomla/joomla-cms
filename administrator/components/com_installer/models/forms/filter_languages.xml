@@ -24,6 +24,7 @@
 			<option value="element ASC">COM_INSTALLER_HEADING_LANGUAGE_TAG_ASC</option>
 			<option value="element DESC">COM_INSTALLER_HEADING_LANGUAGE_TAG_DESC</option>
 		</field>
+
 		<field
 			name="limit"
 			type="limitbox"

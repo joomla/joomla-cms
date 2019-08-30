@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,6 +57,9 @@ class CategoriesModelCategory extends JModelAdmin
 		parent::__construct($config);
 		$extension = JFactory::getApplication()->input->get('extension', 'com_content');
 		$this->typeAlias = $extension . '.category';
+
+		// Add a new batch command
+		$this->batch_commands['flip_ordering'] = 'batchFlipordering';
 	}
 
 	/**
@@ -356,7 +359,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import.
 	 *
-	 * @return  void
+	 * @return  mixed
 	 *
 	 * @see     JFormField
 	 * @since   1.6
@@ -452,6 +455,7 @@ class CategoriesModelCategory extends JModelAdmin
 					$field->addAttribute('new', 'true');
 					$field->addAttribute('edit', 'true');
 					$field->addAttribute('clear', 'true');
+					$field->addAttribute('propagate', 'true');
 				}
 
 				$form->load($addform, false);
@@ -480,7 +484,7 @@ class CategoriesModelCategory extends JModelAdmin
 		$isNew      = true;
 		$context    = $this->option . '.' . $this->name;
 
-		if ((!empty($data['tags']) && $data['tags'][0] != ''))
+		if (!empty($data['tags']) && $data['tags'][0] != '')
 		{
 			$table->newTags = $data['tags'];
 		}
@@ -692,7 +696,7 @@ class CategoriesModelCategory extends JModelAdmin
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   array    $pks    A list of the primary keys to change.
 	 * @param   integer  $value  The value of the published state.
 	 *
 	 * @return  boolean  True on success.
@@ -817,6 +821,56 @@ class CategoriesModelCategory extends JModelAdmin
 		$this->cleanCache();
 
 		return true;
+	}
+
+	/**
+	 * Batch flip category ordering.
+	 *
+	 * @param   integer  $value     The new category.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
+	 *
+	 * @return  mixed    An array of new IDs on success, boolean false on failure.
+	 *
+	 * @since   3.6.3
+	 */
+	protected function batchFlipordering($value, $pks, $contexts)
+	{
+		$successful = array();
+
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		/**
+		 * For each category get the max ordering value
+		 * Re-order with max - ordering
+		 */
+		foreach ($pks as $id)
+		{
+			$query->select('MAX(ordering)')
+				->from('#__content')
+				->where($db->qn('catid') . ' = ' . $db->q($id));
+
+			$db->setQuery($query);
+
+			$max = (int) $db->loadresult();
+			$max++;
+
+			$query->clear();
+
+			$query->update('#__content')
+				->set($db->qn('ordering') . ' = ' . $max . ' - ' . $db->qn('ordering'))
+				->where($db->qn('catid') . ' = ' . $db->q($id));
+
+			$db->setQuery($query);
+
+			if ($db->execute())
+			{
+				$successful[] = $id;
+			}
+		}
+
+		return empty($successful) ? false : $successful;
 	}
 
 	/**
@@ -964,9 +1018,10 @@ class CategoriesModelCategory extends JModelAdmin
 				}
 			}
 
-			// Make a copy of the old ID and Parent ID
-			$oldId = $this->table->id;
+			// Make a copy of the old ID, Parent ID and Asset ID
+			$oldId       = $this->table->id;
 			$oldParentId = $this->table->parent_id;
+			$oldAssetId  = $this->table->asset_id;
 
 			// Reset the id because we are making a copy.
 			$this->table->id = 0;
@@ -1008,6 +1063,16 @@ class CategoriesModelCategory extends JModelAdmin
 
 			// Add the new ID to the array
 			$newIds[$pk] = $newId;
+
+			// Copy rules
+			$query->clear()
+				->update($db->quoteName('#__assets', 't'))
+				->join('INNER', $db->quoteName('#__assets', 's') .
+					' ON ' . $db->quoteName('s.id') . ' = ' . $oldAssetId
+				)
+				->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
+				->where($db->quoteName('t.id') . ' = ' . $this->table->asset_id);
+			$db->setQuery($query)->execute();
 
 			// Now we log the old 'parent' to the new 'parent'
 			$parents[$oldId] = $this->table->id;

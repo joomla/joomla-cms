@@ -76,15 +76,15 @@
 			<arg value="-i" />
 			<arg path="${basedir}/libraries/vendor/joomla/*/Tests/,${basedir}/libraries/vendor/joomla/string/src/phputf8/,${basedir}/libraries/vendor/composer/,${basedir}/libraries/vendor/joomla/event/vendor/,${basedir}/libraries/vendor/joomla/session/Joomla/Session/_Tests/,${basedir}/libraries/vendor/joomla/session/Joomla/Session/Tests/,${basedir}/libraries/idna_convert/" />
 			<arg value="-d" />
-			<arg path="${basedir}/libraries/cms/,${basedir}/libraries/joomla/,${basedir}/libraries/legacy/,${basedir}/libraries/vendor/joomla/" />
+			<arg path="${basedir}/libraries/cms/,${basedir}/libraries/joomla/,${basedir}/libraries/legacy/,${basedir}/libraries/src/,${basedir}/libraries/vendor/joomla/" />
 			<arg value="-f" />
-			<arg path="${basedir}/libraries/loader.php,${basedir}/libraries/platform.php" />
+			<arg path="${basedir}/libraries/loader.php" />
 			<arg value="-t" />
 			<arg path="${basedir}/build/api/" />
 			<arg value="--template" />
 			<arg value="joomla" />
 			<arg value="--title" />
-			<arg value="Joomla! CMS 3.7 API" />
+			<arg value="Joomla! CMS 3.9 API" />
 		</exec>
 	</target>
 

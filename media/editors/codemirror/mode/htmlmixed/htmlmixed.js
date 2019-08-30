@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -133,11 +133,11 @@
         return state.token(stream, state);
       },
 
-      indent: function (state, textAfter) {
+      indent: function (state, textAfter, line) {
         if (!state.localMode || /^\s*<\//.test(textAfter))
           return htmlMode.indent(state.htmlState, textAfter);
         else if (state.localMode.indent)
-          return state.localMode.indent(state.localState, textAfter);
+          return state.localMode.indent(state.localState, textAfter, line);
         else
           return CodeMirror.Pass;
       },

@@ -3,8 +3,8 @@
  * @package     Joomla.Legacy
  * @subpackage  Response
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -17,7 +17,7 @@ JLog::add('JResponse is deprecated.', JLog::WARNING, 'deprecated');
  * This class serves to provide the Joomla Platform with a common interface to access
  * response variables.  This includes header and body.
  *
- * @since       11.1
+ * @since       1.7.0
  * @deprecated  1.5  Use JApplicationWeb instead
  */
 class JResponse
@@ -256,7 +256,7 @@ class JResponse
 		self::setHeader('Content-Encoding', $encoding);
 
 		// Header will be removed at 4.0
-		if (JFactory::getConfig()->get('MetaVersion', 0) && defined('JVERSION'))
+		if (defined('JVERSION') && JFactory::getConfig()->get('MetaVersion', 0))
 		{
 			self::setHeader('X-Content-Encoded-By', 'Joomla! ' . JVERSION);
 		}

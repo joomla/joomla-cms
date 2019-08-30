@@ -2,23 +2,25 @@
 <config>
 	<fieldset
 		name="permissions"
-		label="JConfig_Permissions_Label"
-		description="JConfig_Permissions_Desc"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC"
 		>
 
 		<field
 			name="rules"
 			type="rules"
-			label="JConfig_Permissions_Label"
+			label="JCONFIG_PERMISSIONS_LABEL"
 			filter="rules"
 			validate="rules"
 			component="com_languages"
-			section="component" />
+			section="component" 
+		/>
 
 		<field
 			type="hidden"
 			name="site"
 		/>
+
 		<field
 			type="hidden"
 			name="administrator"

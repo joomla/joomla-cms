@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,22 +50,13 @@ class ContentViewFeatured extends JViewLegacy
 			// URL link to article
 			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
 
-			// Get row fulltext
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select($db->quoteName('fulltext'))
-				->from($db->quoteName('#__content'))
-				->where($db->quoteName('id') . ' = ' . $row->id);
-			$db->setQuery($query);
-			$row->fulltext = $db->loadResult();
-
 			$description = '';
 			$obj = json_decode($row->images);
 			$introImage = isset($obj->{'image_intro'}) ? $obj->{'image_intro'} : '';
 
 			if (isset($introImage) && ($introImage != ''))
 			{
-				$image = preg_match('/http/', $introImage)? $introImage : JURI::root() . $introImage;
+				$image = preg_match('/http/', $introImage) ? $introImage : JURI::root() . $introImage;
 				$description = '<p><img src="' . $image . '" /></p>';
 			}
 

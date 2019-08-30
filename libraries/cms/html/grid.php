@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -27,6 +27,8 @@ abstract class JHtmlGrid
 	 * @return  string   The boolean setting widget.
 	 *
 	 * @since   1.6
+	 *
+	 * @deprecated  4.0 This is only used in hathor and will be removed without replacement
 	 */
 	public static function boolean($i, $value, $taskOn = null, $taskOff = null)
 	{
@@ -77,7 +79,7 @@ abstract class JHtmlGrid
 
 		$direction = strtolower($direction);
 		$icon = array('arrow-up-3', 'arrow-down-3');
-		$index = (int) ($direction == 'desc');
+		$index = (int) ($direction === 'desc');
 
 		if ($order != $selected)
 		{
@@ -85,7 +87,7 @@ abstract class JHtmlGrid
 		}
 		else
 		{
-			$direction = ($direction == 'desc') ? 'asc' : 'desc';
+			$direction = $direction === 'desc' ? 'asc' : 'desc';
 		}
 
 		if ($form)
@@ -97,7 +99,7 @@ abstract class JHtmlGrid
 			. ' class="hasPopover" title="' . htmlspecialchars(JText::_($tip ?: $title)) . '"'
 			. ' data-content="' . htmlspecialchars(JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '" data-placement="top">';
 
-		if (isset($title['0']) && $title['0'] == '<')
+		if (isset($title['0']) && $title['0'] === '<')
 		{
 			$html .= $title;
 		}
@@ -186,7 +188,7 @@ abstract class JHtmlGrid
 		}
 		else
 		{
-			if ($identifier == 'id')
+			if ($identifier === 'id')
 			{
 				return JHtml::_('grid.id', $i, $row->$identifier);
 			}
@@ -318,6 +320,8 @@ abstract class JHtmlGrid
 	 * @return  void
 	 *
 	 * @since   1.6
+	 *
+	 * @deprecated  4.0 This is only used in hathor and will be removed without replacement
 	 */
 	public static function behavior()
 	{

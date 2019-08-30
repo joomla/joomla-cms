@@ -470,10 +470,6 @@ select:focus:invalid {
     vertical-align: top;
     .border-radius(0);
   }
-  .active {
-    background-color: lighten(@green, 30);
-    border-color: @green;
-  }
 }
 
 .input-prepend {
@@ -567,7 +563,12 @@ input.search-query {
   .border-radius(14px 0 0 14px);
 }
 
-
+.js-stools-field-filter {
+    .input-prepend,
+    .input-append {
+        margin-bottom: 0;
+    }
+}
 
 
 // HORIZONTAL & VERTICAL FORMS
@@ -709,4 +710,19 @@ legend + .control-group {
 	tr.ui-sortable-helper{
 		display: table;
 	}
+}
+
+/*Fix for floating 3 columns without overlapping */
+@media (min-width: 980px) and (max-width: 1215px) {
+
+  .float-cols {
+
+    .control-label {
+      float: none;
+    }
+
+    .controls {
+      margin-left: 0;
+    }
+  }
 }

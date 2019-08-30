@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Http
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -61,8 +61,7 @@ class JHttpTransportTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->options);
-		unset($this->stubUrl);
+		unset($this->options, $this->stubUrl);
 		parent::tearDown();
 	}
 

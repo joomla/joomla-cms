@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.updater.update');
 
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Installer\InstallerHelper;
 
 /**
  * Installer Update Model
@@ -154,7 +155,7 @@ class InstallerModelUpdate extends JModelList
 	/**
 	 * Translate a list of objects
 	 *
-	 * @param   array  &$items  The array of objects
+	 * @param   array  $items  The array of objects
 	 *
 	 * @return  array The array of translated objects
 	 *
@@ -168,7 +169,7 @@ class InstallerModelUpdate extends JModelList
 			$manifest                 = json_decode($item->manifest_cache);
 			$item->current_version    = isset($manifest->version) ? $manifest->version : JText::_('JLIB_UNKNOWN');
 			$item->type_translated    = JText::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));
-			$item->folder_translated  = $item->folder ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
+			$item->folder_translated  = $item->folder ?: JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
 			$item->install_type       = $item->extension_id ? JText::_('COM_INSTALLER_MSG_UPDATE_UPDATE') : JText::_('COM_INSTALLER_NEW_INSTALL');
 		}
 
@@ -207,7 +208,7 @@ class InstallerModelUpdate extends JModelList
 				$this->setState('list.start', 0);
 			}
 
-			return array_slice($result, $limitstart, $limit ? $limit : null);
+			return array_slice($result, $limitstart, $limit ?: null);
 		}
 		else
 		{
@@ -254,9 +255,6 @@ class InstallerModelUpdate extends JModelList
 	 */
 	public function findUpdates($eid = 0, $cache_timeout = 0, $minimum_stability = JUpdater::STABILITY_STABLE)
 	{
-		// Purge the updates list
-		$this->purge();
-
 		JUpdater::getInstance()->findUpdates($eid, $cache_timeout, $minimum_stability);
 
 		return true;
@@ -405,7 +403,8 @@ class InstallerModelUpdate extends JModelList
 			return false;
 		}
 
-		$url = $update->downloadurl->_data;
+		$url     = trim($update->downloadurl->_data);
+		$sources = $update->get('downloadSources', array());
 
 		if ($extra_query = $update->get('extra_query'))
 		{
@@ -413,7 +412,21 @@ class InstallerModelUpdate extends JModelList
 			$url .= $extra_query;
 		}
 
-		$p_file = JInstallerHelper::downloadPackage($url);
+		$mirror = 0;
+
+		while (!($p_file = InstallerHelper::downloadPackage($url)) && isset($sources[$mirror]))
+		{
+			$name = $sources[$mirror];
+			$url  = trim($name->url);
+
+			if ($extra_query)
+			{
+				$url .= (strpos($url, '?') === false) ? '?' : '&amp;';
+				$url .= $extra_query;
+			}
+
+			$mirror++;
+		}
 
 		// Was the package downloaded?
 		if (!$p_file)
@@ -427,31 +440,46 @@ class InstallerModelUpdate extends JModelList
 		$tmp_dest = $config->get('tmp_path');
 
 		// Unpack the downloaded package file
-		$package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
+		$package = InstallerHelper::unpack($tmp_dest . '/' . $p_file);
 
 		// Get an installer instance
 		$installer = JInstaller::getInstance();
 		$update->set('type', $package['type']);
 
+		// Check the package
+		$check = InstallerHelper::isChecksumValid($package['packagefile'], $update);
+
+		// The validation was not successful. Just a warning for now.
+		// TODO: In Joomla 4 this will abort the installation
+		if ($check === InstallerHelper::HASH_NOT_VALIDATED)
+		{
+			$app->enqueueMessage(JText::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'error');
+		}
+
 		// Install the package
 		if (!$installer->update($package['dir']))
 		{
 			// There was an error updating the package
-			$msg    = JText::sprintf('COM_INSTALLER_MSG_UPDATE_ERROR', JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$app->enqueueMessage(
+				JText::sprintf('COM_INSTALLER_MSG_UPDATE_ERROR',
+					JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))
+				), 'error'
+			);
 			$result = false;
 		}
 		else
 		{
 			// Package updated successfully
-			$msg    = JText::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS', JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$app->enqueueMessage(
+				JText::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS',
+					JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))
+				)
+			);
 			$result = true;
 		}
 
 		// Quick change
 		$this->type = $package['type'];
-
-		// Set some model state values
-		$app->enqueueMessage($msg);
 
 		// TODO: Reconfigure this code when you have more battery life left
 		$this->setState('name', $installer->get('name'));
@@ -466,7 +494,7 @@ class InstallerModelUpdate extends JModelList
 			$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
 		}
 
-		JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
+		InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 
 		return $result;
 	}
@@ -495,6 +523,7 @@ class InstallerModelUpdate extends JModelList
 
 			return false;
 		}
+
 		// Check the session for previously entered form data.
 		$data = $this->loadFormData();
 

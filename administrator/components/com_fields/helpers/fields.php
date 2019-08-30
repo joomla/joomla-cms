@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -79,7 +79,7 @@ class FieldsHelper
 	 *
 	 * @param   string    $context           The context of the content passed to the helper
 	 * @param   stdClass  $item              item
-	 * @param   boolean   $prepareValue      prepareValue
+	 * @param   int|bool  $prepareValue      (if int is display event): 1 - AfterTitle, 2 - BeforeDisplay, 3 - AfterDisplay, 0 - OFF
 	 * @param   array     $valuesToOverride  The values to override
 	 *
 	 * @return  array
@@ -90,8 +90,7 @@ class FieldsHelper
 	{
 		if (self::$fieldsCache === null)
 		{
-			// Load the model
-			JLoader::import('joomla.application.component.model');
+			// Load the model			
 			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/models', 'FieldsModel');
 
 			self::$fieldsCache = JModelLegacy::getInstance('Fields', 'FieldsModel', array(
@@ -106,10 +105,12 @@ class FieldsHelper
 		{
 			$item = (object) $item;
 		}
-		if (JLanguageMultilang::isEnabled() && isset($item->language) && $item->language !='*')
+
+		if (JLanguageMultilang::isEnabled() && isset($item->language) && $item->language != '*')
 		{
 			self::$fieldsCache->setState('filter.language', array('*', $item->language));
 		}
+
 		self::$fieldsCache->setState('filter.context', $context);
 
 		/*
@@ -146,7 +147,7 @@ class FieldsHelper
 			}
 
 			$fieldIds = array_map(
-				function($f)
+				function ($f)
 				{
 					return $f->id;
 				},
@@ -185,13 +186,14 @@ class FieldsHelper
 
 				$field->rawvalue = $field->value;
 
-				if ($prepareValue)
+				// If boolean prepare, if int, it is the event type: 1 - After Title, 2 - Before Display, 3 - After Display, 0 - Do not prepare
+				if ($prepareValue && (is_bool($prepareValue) || $prepareValue === (int) $field->params->get('display', '2')))
 				{
 					JPluginHelper::importPlugin('fields');
 
 					$dispatcher = JEventDispatcher::getInstance();
 
-					// Event allow plugins to modfify the output of the field before it is prepared
+					// Event allow plugins to modify the output of the field before it is prepared
 					$dispatcher->trigger('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
 
 					// Gathering the value for the field
@@ -199,10 +201,10 @@ class FieldsHelper
 
 					if (is_array($value))
 					{
-						$value = implode($value, ' ');
+						$value = implode(' ', $value);
 					}
 
-					// Event allow plugins to modfify the output of the prepared field
+					// Event allow plugins to modify the output of the prepared field
 					$dispatcher->trigger('onCustomFieldsAfterPrepareField', array($context, $item, $field, &$value));
 
 					// Assign the value
@@ -277,6 +279,8 @@ class FieldsHelper
 			return true;
 		}
 
+		$context = $parts[0] . '.' . $parts[1];
+
 		// When no fields available return here
 		$fields = self::getFields($parts[0] . '.' . $parts[1], new JObject);
 
@@ -289,6 +293,11 @@ class FieldsHelper
 		$section   = $parts[1];
 
 		$assignedCatids = isset($data->catid) ? $data->catid : (isset($data->fieldscatid) ? $data->fieldscatid : $form->getValue('catid'));
+
+		// Account for case that a submitted form has a multi-value category id field (e.g. a filtering form), just use the first category
+		$assignedCatids = is_array($assignedCatids)
+			? (int) reset($assignedCatids)
+			: (int) $assignedCatids;
 
 		if (!$assignedCatids && $formField = $form->getField('catid'))
 		{
@@ -303,6 +312,7 @@ class FieldsHelper
 			{
 				$assignedCatids = $firstChoice->getAttribute('value');
 			}
+
 			$data->fieldscatid = $assignedCatids;
 		}
 
@@ -312,25 +322,6 @@ class FieldsHelper
 		 */
 		if ($form->getField('catid') && $parts[0] != 'com_fields')
 		{
-			// The uri to submit to
-			$uri = clone JUri::getInstance('index.php');
-
-			/*
-			 * Removing the catid parameter from the actual URL and set it as
-			 * return
-			*/
-			$returnUri = clone JUri::getInstance();
-			$returnUri->setVar('catid', null);
-			$uri->setVar('return', base64_encode($returnUri->toString()));
-
-			// Setting the options
-			$uri->setVar('option', 'com_fields');
-			$uri->setVar('task', 'field.storeform');
-			$uri->setVar('context', $parts[0] . '.' . $parts[1]);
-			$uri->setVar('formcontrol', $form->getFormControl());
-			$uri->setVar('view', null);
-			$uri->setVar('layout', null);
-
 			/*
 			 * Setting the onchange event to reload the page when the category
 			 * has changed
@@ -340,18 +331,18 @@ class FieldsHelper
 			// Preload spindle-wheel when we need to submit form due to category selector changed
 			JFactory::getDocument()->addScriptDeclaration("
 			function categoryHasChanged(element) {
-				Joomla.loadingLayer('show');
 				var cat = jQuery(element);
 				if (cat.val() == '" . $assignedCatids . "')return;
-				jQuery('input[name=task]').val('field.storeform');
-				element.form.action='" . $uri . "';
+				Joomla.loadingLayer('show');
+				jQuery('input[name=task]').val('" . $section . ".reload');
 				element.form.submit();
 			}
 			jQuery( document ).ready(function() {
 				Joomla.loadingLayer('load');
 				var formControl = '#" . $form->getFormControl() . "_catid';
 				if (!jQuery(formControl).val() != '" . $assignedCatids . "'){jQuery(formControl).val('" . $assignedCatids . "');}
-			});");
+			});"
+			);
 		}
 
 		// Getting the fields
@@ -403,10 +394,24 @@ class FieldsHelper
 		// On the front, sometimes the admin fields path is not included
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
 
+		$model = JModelLegacy::getInstance('Groups', 'FieldsModel', array('ignore_request' => true));
+		$model->setState('filter.context', $context);
+
+		/**
+		 * $model->getItems() would only return existing groups, but we also
+		 * have the 'default' group with id 0 which is not in the database,
+		 * so we create it virtually here.
+		 */
+		$defaultGroup = new \stdClass;
+		$defaultGroup->id = 0;
+		$defaultGroup->title = '';
+		$defaultGroup->description = '';
+		$iterateGroups = array_merge(array($defaultGroup), $model->getItems());
+
 		// Looping through the groups
-		foreach ($fieldsPerGroup as $group_id => $groupFields)
+		foreach ($iterateGroups as $group)
 		{
-			if (!$groupFields)
+			if (empty($fieldsPerGroup[$group->id]))
 			{
 				continue;
 			}
@@ -414,49 +419,32 @@ class FieldsHelper
 			// Defining the field set
 			/** @var DOMElement $fieldset */
 			$fieldset = $fieldsNode->appendChild(new DOMElement('fieldset'));
-			$fieldset->setAttribute('name', 'fields-' . $group_id);
+			$fieldset->setAttribute('name', 'fields-' . $group->id);
 			$fieldset->setAttribute('addfieldpath', '/administrator/components/' . $component . '/models/fields');
 			$fieldset->setAttribute('addrulepath', '/administrator/components/' . $component . '/models/rules');
 
-			$label       = '';
-			$description = '';
+			$label       = $group->title;
+			$description = $group->description;
 
-			if ($group_id)
+			if (!$label)
 			{
-				$group = JTable::getInstance('Group', 'FieldsTable');
-				$group->load($group_id);
+				$key = strtoupper($component . '_FIELDS_' . $section . '_LABEL');
 
-				if ($group->id)
+				if (!JFactory::getLanguage()->hasKey($key))
 				{
-					$label       = $group->title;
-					$description = $group->description;
+					$key = 'JGLOBAL_FIELDS';
 				}
+
+				$label = $key;
 			}
 
-			if (!$label || !$description)
+			if (!$description)
 			{
-				$lang = JFactory::getLanguage();
+				$key = strtoupper($component . '_FIELDS_' . $section . '_DESC');
 
-				if (!$label)
+				if (JFactory::getLanguage()->hasKey($key))
 				{
-					$key = strtoupper($component . '_FIELDS_' . $section . '_LABEL');
-
-					if (!$lang->hasKey($key))
-					{
-						$key = 'JGLOBAL_FIELDS';
-					}
-
-					$label = $key;
-				}
-
-				if (!$description)
-				{
-					$key = strtoupper($component . '_FIELDS_' . $section . '_DESC');
-
-					if ($lang->hasKey($key))
-					{
-						$description = $key;
-					}
+					$description = $key;
 				}
 			}
 
@@ -464,11 +452,11 @@ class FieldsHelper
 			$fieldset->setAttribute('description', strip_tags($description));
 
 			// Looping through the fields for that context
-			foreach ($groupFields as $field)
+			foreach ($fieldsPerGroup[$group->id] as $field)
 			{
 				try
 				{
-					JEventDispatcher::getInstance()->trigger('onCustomFieldsPrepareDom', array($field, $fieldset, $form));
+					JFactory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($field, $fieldset, $form));
 
 					/*
 					 * If the field belongs to an assigned_cat_id but the assigned_cat_ids in the data
@@ -554,9 +542,55 @@ class FieldsHelper
 	}
 
 	/**
+	 * Return a boolean based on field (and field group) display / show_on settings
+	 *
+	 * @param   stdClass  $field  The field
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.8.7
+	 */
+	public static function displayFieldOnForm($field)
+	{
+		$app = JFactory::getApplication();
+
+		// Detect if the field should be shown at all
+		if ($field->params->get('show_on') == 1 && $app->isClient('administrator'))
+		{
+			return false;
+		}
+		elseif ($field->params->get('show_on') == 2 && $app->isClient('site'))
+		{
+			return false;
+		}
+
+		if (!self::canEditFieldValue($field))
+		{
+			$fieldDisplayReadOnly = $field->params->get('display_readonly', '2');
+
+			if ($fieldDisplayReadOnly == '2')
+			{
+				// Inherit from field group display read-only setting
+				$groupModel = JModelLegacy::getInstance('Group', 'FieldsModel', array('ignore_request' => true));
+				$groupDisplayReadOnly = $groupModel->getItem($field->group_id)->params->get('display_readonly', '1');
+				$fieldDisplayReadOnly = $groupDisplayReadOnly;
+			}
+
+			if ($fieldDisplayReadOnly == '0')
+			{
+				// Do not display field on form when field is read-only
+				return false;
+			}
+		}
+
+		// Display field on form
+		return true;
+	}
+
+	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   stdClass[]  &$items  The field category objects
+	 * @param   stdClass[]  &$items  The fieldgroup objects
 	 *
 	 * @return  stdClass[]
 	 *
@@ -564,39 +598,14 @@ class FieldsHelper
 	 */
 	public static function countItems(&$items)
 	{
-		$db = JFactory::getDbo();
+		$config = (object) array(
+			'related_tbl'   => 'fields',
+			'state_col'     => 'state',
+			'group_col'     => 'group_id',
+			'relation_type' => 'category_or_group',
+		);
 
-		foreach ($items as $item)
-		{
-			$item->count_trashed     = 0;
-			$item->count_archived    = 0;
-			$item->count_unpublished = 0;
-			$item->count_published   = 0;
-
-			$query = $db->getQuery(true);
-			$query->select('state, count(1) AS count')
-				->from($db->quoteName('#__fields'))
-				->where('group_id = ' . (int) $item->id)
-				->group('state');
-			$db->setQuery($query);
-
-			$fields = $db->loadObjectList();
-
-			$states = array(
-				'-2' => 'count_trashed',
-				'0'  => 'count_unpublished',
-				'1'  => 'count_published',
-				'2'  => 'count_archived',
-			);
-
-			foreach ($fields as $field)
-			{
-				$property = $states[$field->state];
-				$item->$property = $field->count;
-			}
-		}
-
-		return $items;
+		return parent::countRelations($items, $config);
 	}
 
 	/**
@@ -621,9 +630,9 @@ class FieldsHelper
 		$query = $db->getQuery(true);
 
 		$query->select($db->quoteName('c.title'))
-				->from($db->quoteName('#__fields_categories', 'a'))
-				->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
-				->where('field_id = ' . $fieldId);
+			->from($db->quoteName('#__fields_categories', 'a'))
+			->join('INNER', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
+			->where('field_id = ' . $fieldId);
 
 		$db->setQuery($query);
 
@@ -633,7 +642,7 @@ class FieldsHelper
 	/**
 	 * Gets the fields system plugin extension id.
 	 *
-	 * @return  int  The fields system plugin extension id.
+	 * @return  integer  The fields system plugin extension id.
 	 *
 	 * @since   3.7.0
 	 */
@@ -641,10 +650,10 @@ class FieldsHelper
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-		->select($db->quoteName('extension_id'))
-		->from($db->quoteName('#__extensions'))
-		->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
-		->where($db->quoteName('element') . ' = ' . $db->quote('fields'));
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('fields'));
 		$db->setQuery($query);
 
 		try
@@ -748,5 +757,18 @@ class FieldsHelper
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Clears the internal cache for the custom fields.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.0
+	 */
+	public static function clearFieldsCache()
+	{
+		self::$fieldCache  = null;
+		self::$fieldsCache = null;
 	}
 }

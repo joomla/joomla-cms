@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,6 +20,8 @@ class ContentViewFeatured extends JViewLegacy
 	 * The item authors
 	 *
 	 * @var  stdClass
+	 *
+	 * @deprecated  4.0  To be removed with Hathor
 	 */
 	protected $authors;
 
@@ -91,6 +93,7 @@ class ContentViewFeatured extends JViewLegacy
 		}
 
 		// Levels filter - Used in Hathor.
+		// @deprecated  4.0 To be removed with Hathor
 		$this->f_levels = array(
 			JHtml::_('select.option', '1', JText::_('J1')),
 			JHtml::_('select.option', '2', JText::_('J2')),
@@ -170,15 +173,15 @@ class ContentViewFeatured extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-			'fp.ordering' => JText::_('JGRID_HEADING_ORDERING'),
-			'a.state' => JText::_('JSTATUS'),
-			'a.title' => JText::_('JGLOBAL_TITLE'),
+			'fp.ordering'    => JText::_('JGRID_HEADING_ORDERING'),
+			'a.state'        => JText::_('JSTATUS'),
+			'a.title'        => JText::_('JGLOBAL_TITLE'),
 			'category_title' => JText::_('JCATEGORY'),
-			'access_level' => JText::_('JGRID_HEADING_ACCESS'),
-			'a.created_by' => JText::_('JAUTHOR'),
-			'language' => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.created' => JText::_('JDATE'),
-			'a.id' => JText::_('JGRID_HEADING_ID')
+			'access_level'   => JText::_('JGRID_HEADING_ACCESS'),
+			'a.created_by'   => JText::_('JAUTHOR'),
+			'language'       => JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.created'      => JText::_('JDATE'),
+			'a.id'           => JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,9 +45,7 @@ class MenusModelMenu extends JModelForm
 	 */
 	protected function canDelete($record)
 	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.delete', 'com_menus.menu.' . (int) $record->id);
+		return JFactory::getUser()->authorise('core.delete', 'com_menus.menu.' . (int) $record->id);
 	}
 
 	/**
@@ -69,11 +67,11 @@ class MenusModelMenu extends JModelForm
 	/**
 	 * Returns a Table object, always creating it
 	 *
-	 * @param   type    $type    The table type to instantiate
+	 * @param   string  $type    The table type to instantiate
 	 * @param   string  $prefix  A prefix for the table class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JTable    A database object
+	 * @return  JTable  A database object
 	 *
 	 * @since   1.6
 	 */
@@ -175,6 +173,10 @@ class MenusModelMenu extends JModelForm
 		if (empty($data))
 		{
 			$data = $this->getItem();
+		}
+		else
+		{
+			unset($data['preset']);
 		}
 
 		$this->preprocessData('com_menus.menu', $data);
