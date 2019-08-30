@@ -158,10 +158,10 @@ class LoginModel extends BaseDatabaseModel
 					)
 				)
 				->from($db->quoteName('#__modules', 'm'))
-				->where($db->quoteName('m.module') . ' = :module') 
+				->where($db->quoteName('m.module') . ' = :module')
 				->where($db->quoteName('m.client_id') . ' = 1')
 				->join(
-					'LEFT', 
+					'LEFT',
 					$db->quoteName('#__extensions', 'e'),
 					$db->quoteName('e.element') . ' = ' . $db->quoteName('m.module') .
 					' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('m.client_id')
