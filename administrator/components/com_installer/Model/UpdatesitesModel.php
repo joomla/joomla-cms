@@ -178,6 +178,7 @@ class UpdatesitesModel extends InstallerModel
 
 			// Delete the update site from all tables.
 			$id = (int) $id;
+
 			try
 			{
 				$query = $db->getQuery(true)
