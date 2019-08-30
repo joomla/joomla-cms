@@ -109,7 +109,7 @@
         "squizlabs/php_codesniffer": "~3.0",
         "joomla-projects/joomla-browser": "~4.0@dev",
         "joomla-projects/robo-joomla": "dev-develop",
-        "joomla-projects/selenium-server-standalone": "~v3",
+        "joomla-projects/selenium-server-standalone": "3.14.0",
         "codeception/codeception": "~3.0",
         "consolidation/robo": "^1.0.0",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0"
