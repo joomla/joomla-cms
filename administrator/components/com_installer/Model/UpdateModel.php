@@ -103,7 +103,7 @@ class UpdateModel extends ListModel
 			->select($db->quoteName('e.manifest_cache'))
 			->from($db->quoteName('#__updates', 'u'))
 			->join(
-				'LEFT', 
+				'LEFT',
 				$db->quoteName('#__extensions', 'e'),
 				$db->quoteName('e.extension_id') . ' = ' . $db->quoteName('u.extension_id')
 			)
