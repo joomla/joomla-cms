@@ -16,6 +16,7 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -104,17 +105,22 @@ class DiscoverModel extends InstallerModel
 
 		if ($type)
 		{
-			$query->where($db->quoteName('type') . ' = ' . $db->quote($type));
+			$query->where($db->quoteName('type') . ' = :type')
+				->bind(':type', $type);
 		}
 
 		if ($clientId != '')
 		{
-			$query->where($db->quoteName('client_id') . ' = ' . (int) $clientId);
+			$clientId = (int) $clientId;
+			$query->where($db->quoteName('client_id') . ' = :clientid')
+				->bind(':clientid', $clientId, ParameterType::INTEGER);
 		}
 
 		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
 		{
-			$query->where($db->quoteName('folder') . ' = ' . $db->quote($folder == '*' ? '' : $folder));
+			$folder == '*' ? '' : $folder;
+			$query->where($db->quoteName('folder') . ' = :folder')
+				->bind(':folder', $folder);
 		}
 
 		// Process search filter.
@@ -124,7 +130,9 @@ class DiscoverModel extends InstallerModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where($db->quoteName('extension_id') . ' = ' . (int) substr($search, 3));
+				$ids = (int) substr($search, 3);
+				$query->where($db->quoteName('extension_id') . ' = :eid')
+					->bind(':eid', $ids, ParameterType::INTEGER);
 			}
 		}
 
@@ -151,7 +159,7 @@ class DiscoverModel extends InstallerModel
 		// Get all templates, including discovered ones
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('extension_id', 'element', 'folder', 'client_id', 'type')))
+			->select($db->quoteName(['extension_id', 'element', 'folder', 'client_id', 'type']))
 			->from($db->quoteName('#__extensions'));
 		$db->setQuery($query);
 		$installedtmp = $db->loadObjectList();
