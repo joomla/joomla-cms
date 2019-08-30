@@ -170,7 +170,8 @@ class TransitionField extends ListField
 		$query = $db->getQuery(true)
 			->select($db->quoteName('title'))
 			->from($db->quoteName('#__workflow_stages'))
-			->where($db->quoteName('id') . ' = ' . (int) $workflowStage);
+			->where($db->quoteName('id') . ' = :stage')
+			->bind(':stage', $workflowStage);
 
 		$workflowName = $db->setQuery($query)->loadResult();
 
