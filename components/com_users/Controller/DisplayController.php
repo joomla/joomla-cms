@@ -132,6 +132,12 @@ class DisplayController extends BaseController
 					break;
 			}
 
+			// Make sure we don't send a referer
+			if (in_array($vName, array('remind', 'reset')))
+			{
+				$this->app->setHeader('Referrer-Policy', 'no-referrer', true);
+			}
+
 			// Push the model into the view (as default).
 			$view->setModel($model, true);
 			$view->setLayout($lName);

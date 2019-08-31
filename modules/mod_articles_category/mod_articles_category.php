@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\ArticlesCategory\Site\Helper\ArticlesCategoryHelper;
 
-$input = Factory::getApplication()->input;
+$input = $app->input;
 
 // Prep for Normal or Dynamic Modes
 $mode   = $params->get('mode', 'normal');
@@ -59,32 +58,33 @@ $cacheparams->method       = 'getList';
 $cacheparams->methodparams = $params;
 $cacheparams->modeparams   = $cacheid;
 
-$list = ModuleHelper::moduleCache($module, $params, $cacheparams);
+$list                       = ModuleHelper::moduleCache($module, $params, $cacheparams);
+$article_grouping           = $params->get('article_grouping', 'none');
+$article_grouping_direction = $params->get('article_grouping_direction', 'ksort');
+$grouped                    = $article_grouping === 'none' ? false : true;
 
-if (!empty($list))
+if ($list && $grouped)
 {
-	$grouped                    = false;
-	$article_grouping           = $params->get('article_grouping', 'none');
-	$article_grouping_direction = $params->get('article_grouping_direction', 'ksort');
-
-	if ($article_grouping !== 'none')
+	switch ($article_grouping)
 	{
-		$grouped = true;
-
-		switch ($article_grouping)
-		{
-			case 'year' :
-			case 'month_year' :
-				$list = ArticlesCategoryHelper::groupByDate($list, $article_grouping_direction, $article_grouping, $params->get('month_year_format', 'F Y'));
-				break;
-			case 'author' :
-			case 'category_title' :
-				$list = ArticlesCategoryHelper::groupBy($list, $article_grouping, $article_grouping_direction);
-				break;
-			default:
-				break;
-		}
+		case 'year' :
+		case 'month_year' :
+			$list = ArticlesCategoryHelper::groupByDate(
+				$list,
+				$article_grouping_direction,
+				$article_grouping,
+				$params->get('month_year_format', 'F Y'),
+				$params->get('date_grouping_field', 'created')
+			);
+			break;
+		case 'author' :
+		case 'category_title' :
+			$list = ArticlesCategoryHelper::groupBy($list, $article_grouping, $article_grouping_direction);
+			break;
+		case 'tags' :
+			$list = ArticlesCategoryHelper::groupByTags($list, $article_grouping_direction);
+			break;
 	}
-
-	require ModuleHelper::getLayoutPath('mod_articles_category', $params->get('layout', 'default'));
 }
+
+require ModuleHelper::getLayoutPath('mod_articles_category', $params->get('layout', 'default'));

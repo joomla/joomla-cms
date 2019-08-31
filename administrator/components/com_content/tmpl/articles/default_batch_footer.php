@@ -13,9 +13,9 @@ use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('script', 'com_content/admin-articles-default-batch-footer.js', ['version' => 'auto', 'relative' => true]);
 ?>
-<button class="btn btn-secondary" type="button" data-dismiss="modal">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">
 	<?php echo Text::_('JCANCEL'); ?>
 </button>
-<button id='batch-submit-button-id' class="btn btn-success" type="submit" data-submit-task='article.batch'>
+<button type="submit" id='batch-submit-button-id' class="btn btn-success" data-submit-task='article.batch'>
 	<?php echo Text::_('JGLOBAL_BATCH_PROCESS'); ?>
 </button>

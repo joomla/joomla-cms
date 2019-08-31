@@ -16,7 +16,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Encrypt\Aes;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -104,15 +104,7 @@ class UserModel extends AdminModel
 
 		if (!isset($this->_item[$pk]))
 		{
-			$result = parent::getItem($pk);
-
-			if ($result)
-			{
-				$result->tags = new TagsHelper;
-				$result->tags->getTagIds($result->id, 'com_users.user');
-			}
-
-			$this->_item[$pk] = $result;
+			$this->_item[$pk] = parent::getItem($pk);
 		}
 
 		return $this->_item[$pk];
@@ -212,7 +204,7 @@ class UserModel extends AdminModel
 	 * @since   1.6
 	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'user')
+	protected function preprocessForm(Form $form, $data, $group = 'user')
 	{
 		parent::preprocessForm($form, $data, $group);
 	}
@@ -967,9 +959,9 @@ class UserModel extends AdminModel
 			}
 			else
 			{
-				$config = ComponentHelper::getParams('com_users');
+				$params = ComponentHelper::getParams('com_users');
 
-				if ($groupId = $config->get('new_usertype'))
+				if ($groupId = $params->get('new_usertype', $params->get('guest_usergroup', 1)))
 				{
 					$result[] = $groupId;
 				}

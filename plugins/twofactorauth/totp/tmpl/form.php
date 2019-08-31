@@ -9,8 +9,26 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
+Factory::getDocument()->getWebAssetManager()->enableAsset('qrcode');
+
+$js = "
+(function(document)
+{
+	document.addEventListener('DOMContentLoaded', function()
+	{
+		var qr = qrcode(0, 'H');
+		qr.addData('" . $url . "');
+		qr.make();
+
+		document.getElementById('totp-qrcode').innerHTML = qr.createImgTag(4);
+	});
+})(document);
+";
+
+Factory::getDocument()->addScriptDeclaration($js);
 ?>
 <input type="hidden" name="jform[twofactor][totp][key]" value="<?php echo $secret ?>">
 
@@ -40,6 +58,7 @@ use Joomla\CMS\Language\Text;
 		</li>
 	</ul>
 	<div class="alert alert-warning">
+		<span class="fa fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP1_WARN'); ?>
 	</div>
 </fieldset>
@@ -77,11 +96,12 @@ use Joomla\CMS\Language\Text;
 		<p>
 			<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP2_ALTTEXT') ?>
 			<br>
-			<img src="<?php echo $url ?>" style="float: none;">
+			<div id="totp-qrcode"></div>
 		</p>
 	</div>
 
 	<div class="alert alert-info">
+		<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>	
 		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP2_RESET'); ?>
 	</div>
 </fieldset>

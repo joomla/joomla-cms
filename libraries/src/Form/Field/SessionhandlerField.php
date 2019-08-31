@@ -10,12 +10,9 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Session\Session;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for the Joomla Platform.
@@ -23,7 +20,7 @@ FormHelper::loadFieldClass('list');
  *
  * @since  1.7.0
  */
-class SessionhandlerField extends \JFormFieldList
+class SessionhandlerField extends ListField
 {
 	/**
 	 * The form field type.

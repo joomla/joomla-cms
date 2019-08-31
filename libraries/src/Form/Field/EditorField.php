@@ -12,9 +12,6 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Editor\Editor;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('textarea');
 
 /**
  * A textarea field for content creation
@@ -22,7 +19,7 @@ FormHelper::loadFieldClass('textarea');
  * @see    JEditor
  * @since  1.6
  */
-class EditorField extends \JFormFieldTextarea
+class EditorField extends TextareaField
 {
 	/**
 	 * The form field type.
@@ -268,7 +265,7 @@ class EditorField extends \JFormFieldTextarea
 	}
 
 	/**
-	 * Method to get a Editor object based on the form field.
+	 * Method to get an Editor object based on the form field.
 	 *
 	 * @return  Editor  The Editor object.
 	 *
@@ -301,7 +298,8 @@ class EditorField extends \JFormFieldTextarea
 						->where('enabled = 1');
 
 					// Check of the editor exists.
-					$db->setQuery($query, 0, 1);
+					$query->setLimit(1);
+					$db->setQuery($query);
 					$editor = $db->loadResult();
 
 					// If an editor was found stop looking.
@@ -322,24 +320,5 @@ class EditorField extends \JFormFieldTextarea
 		}
 
 		return $this->editor;
-	}
-
-	/**
-	 * Method to get the JEditor output for an onSave event.
-	 *
-	 * @return  string  The JEditor object output.
-	 *
-	 * @since   1.6
-	 */
-	public function save()
-	{
-		$editor = $this->getEditor();
-
-		if (!method_exists($editor, 'save'))
-		{
-			return '';
-		}
-
-		return $editor->save($this->id);
 	}
 }

@@ -51,7 +51,7 @@ class InstalledModel extends ListModel
 	protected $data = null;
 
 	/**
-	 * @var int total number pf languages
+	 * @var integer total number of languages
 	 */
 	protected $total = null;
 

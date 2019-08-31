@@ -15,6 +15,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
+HTMLHelper::_('script', 'com_installer/changelog.js', ['version' => 'auto', 'relative' => true]);
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -27,14 +28,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php if ($this->showMessage) : ?>
 						<?php echo $this->loadTemplate('message'); ?>
 					<?php endif; ?>
-
 					<?php if ($this->ftp) : ?>
 						<?php echo $this->loadTemplate('ftp'); ?>
 					<?php endif; ?>
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
 						<div class="alert alert-info">
-							<?php echo JText::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'); ?>
+							<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+							<?php echo Text::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'); ?>
 						</div>
 					<?php else : ?>
 						<table class="table">
@@ -43,9 +44,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</caption>
 							<thead>
 							<tr>
-								<td style="width:1%" class="text-center">
+								<th style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
-								</td>
+								</th>
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'u.name', $listDirn, $listOrder); ?>
 								</th>
@@ -61,7 +62,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col">
 									<?php echo Text::_('COM_INSTALLER_NEW_VERSION'); ?>
 								</th>
-								<th scope="col" class="d-none d-md-table-cell">
+								<th scope="col">
+									<?php echo Text::_('COM_INSTALLER_CHANGELOG'); ?>
+								</th>
+								<th class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="d-none d-md-table-cell">
@@ -74,21 +78,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</thead>
 							<tbody>
 							<?php foreach ($this->items as $i => $item) : ?>
-								<?php
-								$client          = $item->client_id ? Text::_('JADMINISTRATOR') : Text::_('JSITE');
-								$manifest        = json_decode($item->manifest_cache);
-								$current_version = $manifest->version ?? Text::_('JLIB_UNKNOWN');
-								?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="text-center">
 										<?php echo HTMLHelper::_('grid.id', $i, $item->update_id); ?>
 									</td>
 									<th scope="row">
-										<label for="cb<?php echo $i; ?>">
-											<span class="editlinktip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', Text::_('JGLOBAL_DESCRIPTION'), $item->description ?: Text::_('COM_INSTALLER_MSG_UPDATE_NODESC'), 0); ?>">
-											<?php echo $this->escape($item->name); ?>
-											</span>
-										</label>
+										<span tabindex="0"><?php echo $this->escape($item->name); ?></span>
+										<div role="tooltip" id="tip<?php echo $i; ?>">
+											<?php echo $item->description; ?>
+										</div>
 									</th>
 									<td class="center">
 										<?php echo $item->client_translated; ?>
@@ -102,6 +100,28 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<td>
 										<span class="badge badge-success"><?php echo $item->version; ?></span>
 									</td>
+									<td class="hidden-sm-down text-center">
+										<?php if (!empty($item->changelogurl)) : ?>
+										<a href="#changelogModal<?php echo $item->extension_id; ?>" class="btn btn-info btn-xs changelogModal" data-js-extensionid="<?php echo $item->extension_id; ?>" data-js-view="update" data-toggle="modal">
+											<?php echo Text::_('COM_INSTALLER_CHANGELOG'); ?>
+										</a>
+										<?php
+										echo HTMLHelper::_(
+											'bootstrap.renderModal',
+											'changelogModal' . $item->extension_id,
+											array(
+												'title' => Text::sprintf('COM_INSTALLER_CHANGELOG_TITLE', $item->name, $item->version),
+											),
+											''
+										);
+										?>
+										<?php else:?>
+										<span>
+											<?php echo Text::_('COM_INSTALLER_TYPE_NONAPPLICABLE')?>
+										</span>
+
+										<?php endif; ?>
+									</td>
 									<td class="d-none d-md-table-cell">
 										<?php echo $item->folder_translated; ?>
 									</td>
@@ -111,7 +131,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<td class="d-none d-md-table-cell">
 										<span class="break-word">
 										<?php echo $item->detailsurl; ?>
-											<?php if (isset($item->infourl)) : ?>
+											<?php if (!empty($item->infourl)) : ?>
 												<br>
 												<a href="<?php echo $item->infourl; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->infourl); ?></a>
 											<?php endif; ?>

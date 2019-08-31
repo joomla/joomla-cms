@@ -12,19 +12,16 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\LanguageHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for the Joomla Platform.
  * Supports a list of installed application languages
  *
- * @see    JFormFieldContentLanguage for a select list of content languages.
+ * @see    \Joomla\CMS\Form\Field\ContentlanguageField for a select list of content languages.
  * @since  1.7.0
  */
-class LanguageField extends \JFormFieldList
+class LanguageField extends ListField
 {
 	/**
 	 * The form field type.

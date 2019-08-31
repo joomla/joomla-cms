@@ -10,17 +10,14 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Field to load a list of posible item count limits
  *
  * @since  3.2
  */
-class LimitboxField extends \JFormFieldList
+class LimitboxField extends ListField
 {
 	/**
 	 * The form field type.

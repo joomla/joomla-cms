@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Http\Transport;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\Response;
@@ -66,7 +66,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 			}
 
 			// Add the relevant headers.
-			$headers['Content-Length'] = strlen($options['content']);
+			$headers['Content-Length'] = \strlen($options['content']);
 		}
 
 		// If an explicit timeout is given user it.
@@ -241,6 +241,6 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 	 */
 	public static function isSupported()
 	{
-		return function_exists('fopen') && is_callable('fopen') && ini_get('allow_url_fopen');
+		return \function_exists('fopen') && \is_callable('fopen') && ini_get('allow_url_fopen');
 	}
 }

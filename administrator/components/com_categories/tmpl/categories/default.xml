@@ -9,7 +9,7 @@
 		<fields name="request">
 			<field
 				name="extension"
-				type="componentscategory"
+				type="ComponentsCategory"
 				label="COM_CATEGORIES_CHOOSE_COMPONENT_LABEL"
 				required="true"
 			>
@@ -17,4 +17,11 @@
 			</field>
 		</fields>
 	</fieldset>
+	<field name="params">
+		<field
+			name="menu-quicktask"
+			type="hidden"
+			value="index.php?option=com_categories&amp;extension=com_content&amp;task=category.add"
+		/>
+	</field>
 </metadata>

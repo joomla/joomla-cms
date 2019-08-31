@@ -11,13 +11,10 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Utilities\ArrayHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Components Category field.
@@ -78,6 +75,7 @@ class TransitionField extends ListField
 			{
 				$this->extension = $input->getCmd('extension');
 			}
+
 			if (strlen($element['workflow_stage']))
 			{
 				$this->workflowStage = (int) $element['workflow_stage'];

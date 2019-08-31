@@ -119,11 +119,12 @@ const concatFiles = (files, output) => {
 const copyFiles = (options) => {
   const mediaVendorPath = Path.join(RootPath, 'media/vendor');
   const registry = {
+    $schema: 'https://developer.joomla.org/schemas/json-schema/web_assets.json',
     name: options.name,
     version: options.version,
     description: options.description,
     license: options.license,
-    assets: {},
+    assets: [],
   };
 
   if (!FsExtra.existsSync(mediaVendorPath)) {
@@ -226,9 +227,9 @@ const copyFiles = (options) => {
       Fs.writeFileSync(`${RootPath}/plugins/editors/tinymce/tinymce.xml`, tinyXml, { encoding: 'UTF-8' });
 
       // Remove that sourcemap...
-      let tinyWrongMap = Fs.readFileSync(`${RootPath}/media/vendor/tinymce/skins/lightgray/skin.min.css`, { encoding: 'UTF-8' });
+      let tinyWrongMap = Fs.readFileSync(`${RootPath}/media/vendor/tinymce/skins/ui/oxide/skin.min.css`, { encoding: 'UTF-8' });
       tinyWrongMap = tinyWrongMap.replace('/*# sourceMappingURL=skin.min.css.map */', '');
-      Fs.writeFileSync(`${RootPath}/media/vendor/tinymce/skins/lightgray/skin.min.css`, tinyWrongMap, { encoding: 'UTF-8' });
+      Fs.writeFileSync(`${RootPath}/media/vendor/tinymce/skins/ui/oxide/skin.min.css`, tinyWrongMap, { encoding: 'UTF-8' });
     } else {
       ['js', 'css', 'filesExtra'].forEach((type) => {
         if (!vendor[type]) return;
@@ -265,14 +266,16 @@ const copyFiles = (options) => {
           package: packageName,
           name: assetInfo.name || vendorName,
           version: moduleOptions.version,
-          dependencies: assetInfo.dependencies || [],
-          js: [],
-          css: [],
-          attribute: {},
         };
+
+        if (assetInfo.dependencies && assetInfo.dependencies.length) {
+          registryItem.dependencies = assetInfo.dependencies;
+        }
 
         // Update path for JS and CSS files
         if (assetInfo.js && assetInfo.js.length) {
+          registryItem.js = [];
+
           assetInfo.js.forEach((assetJS) => {
             let itemPath = assetJS;
 
@@ -290,6 +293,8 @@ const copyFiles = (options) => {
         }
 
         if (assetInfo.css && assetInfo.css.length) {
+          registryItem.css = [];
+
           assetInfo.css.forEach((assetCSS) => {
             let itemPath = assetCSS;
 
@@ -306,7 +311,7 @@ const copyFiles = (options) => {
           });
         }
 
-        registry.assets[registryItem.name] = registryItem;
+        registry.assets.push(registryItem);
       });
     }
 

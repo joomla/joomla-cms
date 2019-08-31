@@ -1,6 +1,6 @@
 <?php
 /**
- * @package    Joomla.Administrator
+ * @package    Joomla.Libraries
  *
  * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
@@ -705,8 +705,8 @@ abstract class ToolbarHelper
 	{
 		$title = Text::_($alt);
 
-		$dhtml = '<button data-toggle="modal" data-target="#' . $targetModalId . '" class="btn btn-primary">
-			<span class="' . $icon . '" title="' . $title . '"></span> ' . $title . '</button>';
+		$dhtml = '<joomla-toolbar-button><button data-toggle="modal" data-target="#' . $targetModalId . '" class="btn btn-primary">
+			<span class="' . $icon . '" title="' . $title . '"></span> ' . $title . '</button></joomla-toolbar-button>';
 
 		$bar = Toolbar::getInstance('toolbar');
 		$bar->appendButton('Custom', $dhtml, $alt);

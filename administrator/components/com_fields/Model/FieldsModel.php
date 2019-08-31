@@ -142,7 +142,7 @@ class FieldsModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.name, a.checked_out, a.checked_out_time, a.note' .
+				'DISTINCT a.id, a.title, a.name, a.checked_out, a.checked_out_time, a.note' .
 				', a.state, a.access, a.created_time, a.created_user_id, a.ordering, a.language' .
 				', a.fieldparams, a.params, a.type, a.default_value, a.context, a.group_id' .
 				', a.label, a.description, a.required'
@@ -196,7 +196,13 @@ class FieldsModel extends ListModel
 			if ($parts)
 			{
 				// Get the category
-				$cat = Categories::getInstance(str_replace('com_', '', $parts[0]));
+				$cat = Categories::getInstance(str_replace('com_', '', $parts[0]) . '.' . $parts[1]);
+
+				// If there is no category for the component and section, so check the component only
+				if (!$cat)
+				{
+					$cat = Categories::getInstance(str_replace('com_', '', $parts[0]));
+				}
 
 				if ($cat)
 				{

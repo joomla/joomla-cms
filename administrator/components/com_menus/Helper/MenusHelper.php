@@ -32,6 +32,8 @@ class MenusHelper extends ContentHelper
 {
 	/**
 	 * Defines the valid request variables for the reverse lookup.
+	 *
+	 * @var     array
 	 */
 	protected static $_filter = array('option', 'view', 'layout');
 
@@ -371,6 +373,9 @@ class MenusHelper extends ContentHelper
 					$menuitem->browserNav = $menuitem->browserNav ? '_blank' : '';
 				}
 
+				$menuitem->ajaxbadge  = $menuitem->getParams()->get('ajax-badge');
+				$menuitem->dashboard  = $menuitem->getParams()->get('dashboard');
+
 				if ($menuitem->parent_id > 1)
 				{
 					if (isset($menuItems[$menuitem->parent_id]))
@@ -611,6 +616,12 @@ class MenusHelper extends ContentHelper
 
 			static::addPreset('joomla', 'JLIB_MENUS_PRESET_JOOMLA', JPATH_ADMINISTRATOR . '/components/com_menus/presets/joomla.xml');
 			static::addPreset('modern', 'JLIB_MENUS_PRESET_MODERN', JPATH_ADMINISTRATOR . '/components/com_menus/presets/modern.xml');
+			static::addPreset('system', 'JLIB_MENUS_PRESET_SYSTEM', JPATH_ADMINISTRATOR . '/components/com_menus/presets/system.xml');
+			static::addPreset('content', 'JLIB_MENUS_PRESET_CONTENT', JPATH_ADMINISTRATOR . '/components/com_menus/presets/content.xml');
+			static::addPreset('help', 'JLIB_MENUS_PRESET_HELP', JPATH_ADMINISTRATOR . '/components/com_menus/presets/help.xml');
+			static::addPreset('menus', 'JLIB_MENUS_PRESET_MENUS', JPATH_ADMINISTRATOR . '/components/com_menus/presets/menus.xml');
+			static::addPreset('components', 'JLIB_MENUS_PRESET_COMPONENTS', JPATH_ADMINISTRATOR . '/components/com_menus/presets/components.xml');
+			static::addPreset('users', 'JLIB_MENUS_PRESET_USERS', JPATH_ADMINISTRATOR . '/components/com_menus/presets/users.xml');
 
 			// Load from template folder automatically
 			$app = Factory::getApplication();
@@ -737,7 +748,6 @@ class MenusHelper extends ContentHelper
 
 		if ($item->link = in_array($item->type, array('separator', 'heading', 'container')) ? '#' : trim($item->link))
 		{
-			$item->submenu    = array();
 			$item->class      = $item->img ?? '';
 			$item->scope      = $item->scope ?? null;
 			$item->browserNav = $item->browserNav ? '_blank' : '';
@@ -823,9 +833,19 @@ class MenusHelper extends ContentHelper
 					}
 
 					// Iterate over the matching records, items goes in the same level (not $item->submenu) as this node.
-					foreach ($results as $result)
+					if ('self' == (string) $element['sql_target'])
 					{
-						static::loadXml($element->menuitem, $parent, $result);
+						foreach ($results as $result)
+						{
+							static::loadXml($element->menuitem, $child, $result);
+						}
+					}
+					else
+					{
+						foreach ($results as $result)
+						{
+							static::loadXml($element->menuitem, $parent, $result);
+						}
 					}
 				}
 			}
@@ -858,13 +878,19 @@ class MenusHelper extends ContentHelper
 		$item->id         = null;
 		$item->type       = (string) $node['type'];
 		$item->title      = (string) $node['title'];
+		$item->target     = (string) $node['target'];
+		$item->alias      = (string) $node['alias'];
 		$item->link       = (string) $node['link'];
+		$item->target     = (string) $node['target'];
 		$item->element    = (string) $node['element'];
 		$item->class      = (string) $node['class'];
 		$item->icon       = (string) $node['icon'];
 		$item->browserNav = (string) $node['target'];
 		$item->access     = (int) $node['access'];
 		$item->scope      = (string) $node['scope'] ?: 'default';
+		$item->permission = (string) $node['permission'];
+		$item->ajaxbadge  = (string) $node['ajax-badge'];
+		$item->dashboard  = (string) $node['dashboard'];
 		$item->setParams(new Registry(trim($node->params)));
 		$item->getParams()->set('menu-permission', (string) $node['permission']);
 
@@ -880,7 +906,8 @@ class MenusHelper extends ContentHelper
 
 		if ((string) $node['quicktask'])
 		{
-			$item->getParams()->set('menu-quicktask', (string) $node['quicktask']);
+			$item->getParams()->set('menu-quicktask', true);
+			$item->getParams()->set('menu-quicktask-link', (string) $node['quicktask']);
 			$item->getParams()->set('menu-quicktask-title', (string) $node['quicktask-title']);
 			$item->getParams()->set('menu-quicktask-icon', (string) $node['quicktask-icon']);
 			$item->getParams()->set('menu-quicktask-permission', (string) $node['quicktask-permission']);
@@ -894,6 +921,8 @@ class MenusHelper extends ContentHelper
 			$item->link    = str_replace("{sql:$var}", $val, $item->link);
 			$item->class   = str_replace("{sql:$var}", $val, $item->class);
 			$item->icon    = str_replace("{sql:$var}", $val, $item->icon);
+			$params = $item->getParams();
+			$params->set('menu-quicktask-link', str_replace("{sql:$var}", $val, $params->get('menu-quicktask-link')));
 		}
 
 		return $item;

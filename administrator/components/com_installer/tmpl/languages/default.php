@@ -13,6 +13,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Version;
 
 HTMLHelper::_('behavior.multiselect');
 
@@ -26,7 +27,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<div id="j-main-container" class="j-main-container">
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 					<?php if (empty($this->items)) : ?>
-						<div class="alert alert-warning">
+						<div class="alert alert-info">
+							<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 							<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 						</div>
 					<?php else : ?>
@@ -53,7 +55,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</thead>
 						<tbody>
 						<?php
-						$version = new JVersion;
+						$version = new Version;
 						$currentShortVersion = preg_replace('#^([0-9\.]+)(|.*)$#', '$1', $version->getShortVersion());
 						$i = 0;
 						foreach ($this->items as $language) :
@@ -76,7 +78,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
 										<?php // Display a Note if language pack version is not equal to Joomla version ?>
 										<?php if (strpos($language->version, $minorVersion) !== 0 || strpos($language->version, $currentShortVersion) !== 0) : ?>
-											<span class="badge badge-warning hasTooltip" title="<?php echo Text::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
+											<span class="badge badge-warning"><?php echo $language->version; ?></span>
+											<span class="fa fa-info-circle" aria-hidden="true" tabindex="0"></span>
+											<div role="tooltip" class="text-left" id="tip<?php echo $language->code; ?>">
+											<?php echo Text::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>
+											</div>
 										<?php else : ?>
 											<span class="badge badge-success"><?php echo $language->version; ?></span>
 										<?php endif; ?>

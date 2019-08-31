@@ -11,9 +11,10 @@ namespace Joomla\Component\Checkin\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\Session\Session;
+use Joomla\CMS\Response\JsonResponse;
 
 /**
  * Checkin Controller
@@ -40,9 +41,6 @@ class DisplayController extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		// Load the submenu.
-		$this->addSubmenu($this->input->getWord('option', 'com_checkin'));
-
 		return parent::display();
 	}
 
@@ -54,7 +52,7 @@ class DisplayController extends BaseController
 	public function checkin()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids = $this->input->get('cid', array(), 'array');
 
@@ -76,31 +74,49 @@ class DisplayController extends BaseController
 	}
 
 	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName  The name of the active view.
+	 * Provide the data for a badge in a menu item via JSON
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   4.0.0
 	 */
-	protected function addSubmenu($vName)
+	public function getMenuBadgeData()
 	{
-		\JHtmlSidebar::addEntry(
-			Text::_('JGLOBAL_SUBMENU_CHECKIN'),
-			'index.php?option=com_checkin',
-			$vName == 'com_checkin'
-		);
+		if (!Factory::getUser()->authorise('core.manage', 'com_checkin'))
+		{
+			throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
+		}
 
-		\JHtmlSidebar::addEntry(
-			Text::_('JGLOBAL_SUBMENU_CLEAR_CACHE'),
-			'index.php?option=com_cache',
-			$vName == 'cache'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('JGLOBAL_SUBMENU_PURGE_EXPIRED_CACHE'),
-			'index.php?option=com_cache&view=purge',
-			$vName == 'purge'
-		);
+		$model = $this->getModel('Checkin');
+
+		$amount = (int) count($model->getItems());
+
+		echo new JsonResponse($amount);
+	}
+
+	/**
+	 * Method to get the number of locked icons
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
+	public function getQuickiconContent()
+	{
+		if (!Factory::getUser()->authorise('core.manage', 'com_checkin'))
+		{
+			throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
+		}
+
+		$model = $this->getModel('Checkin');
+
+		$amount = (int) count($model->getItems());
+
+		$result = [];
+
+		$result['amount'] = $amount;
+		$result['sronly'] = Text::plural('COM_CHECKIN_N_QUICKICON_SRONLY', $amount);
+
+		echo new JsonResponse($result);
 	}
 }

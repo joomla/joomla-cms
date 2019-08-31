@@ -57,6 +57,7 @@ jQuery(document).ready(function ($){
 ";
 
 $assoc = Associations::isEnabled();
+$hasAssoc = ($this->form->getValue('language', null, '*') !== '*');
 $input = Factory::getApplication()->input;
 
 // In case of modal
@@ -96,43 +97,52 @@ if ($clientId === 1)
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_MENUS_ITEM_DETAILS')); ?>
 		<div class="row">
-			<div class="col-md-9">
-				<?php
-				echo $this->form->renderField('type');
-
-				if ($this->item->type == 'alias')
-				{
-					echo $this->form->renderFieldset('aliasoptions');
-				}
-
-				if ($this->item->type == 'separator')
-				{
-					echo $this->form->renderField('text_separator', 'params');
-				}
-
-				echo $this->form->renderFieldset('request');
-
-				if ($this->item->type == 'url')
-				{
-					$this->form->setFieldAttribute('link', 'readonly', 'false');
-					$this->form->setFieldAttribute('link', 'required', 'true');
-				}
-
-				echo $this->form->renderField('link');
-
-				echo $this->form->renderField('browserNav');
-				echo $this->form->renderField('template_style_id');
-
-				if (!$isModal && $this->item->type == 'container')
-				{
-					echo $this->loadTemplate('container');
-				}
-				?>
-			</div>
-			<div class="col-md-3">
-				<div class="card card-light">
+			<div class="col-lg-9">
+				<div class="card">
 					<div class="card-body">
-						<?php
+					<?php
+					echo $this->form->renderField('type');
+
+					if ($this->item->type == 'alias')
+					{
+						echo $this->form->renderField('aliasoptions', 'params');
+					}
+
+					if ($this->item->type == 'separator')
+					{
+						echo $this->form->renderField('text_separator', 'params');
+					}
+
+					echo $this->form->renderFieldset('request');
+
+					if ($this->item->type == 'url')
+					{
+						$this->form->setFieldAttribute('link', 'readonly', 'false');
+						$this->form->setFieldAttribute('link', 'required', 'true');
+					}
+
+					echo $this->form->renderField('link');
+
+					if ($this->item->type == 'alias')
+					{
+						echo $this->form->renderField('alias_redirect', 'params');
+					}
+
+					echo $this->form->renderField('browserNav');
+					echo $this->form->renderField('template_style_id');
+
+					if (!$isModal && $this->item->type == 'container')
+					{
+						echo $this->loadTemplate('container');
+					}
+					?>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3">
+				<div class="card">
+					<div class="card-body">
+					<?php
 						// Set main fields.
 						$this->fields = array(
 							'id',
@@ -141,6 +151,8 @@ if ($clientId === 1)
 							'parent_id',
 							'menuordering',
 							'published',
+							'publish_up',
+							'publish_down',
 							'home',
 							'access',
 							'language',
@@ -150,6 +162,8 @@ if ($clientId === 1)
 						if ($this->item->type != 'component')
 						{
 							$this->fields = array_diff($this->fields, array('home'));
+							$this->form->setFieldAttribute('publish_up', 'showon', '');
+							$this->form->setFieldAttribute('publish_down', 'showon', '');
 						}
 
 						echo LayoutHelper::render('joomla.edit.global', $this); ?>
@@ -166,19 +180,28 @@ if ($clientId === 1)
 		?>
 
 		<?php if (!$isModal && $assoc && $this->state->get('item.client_id') != 1) : ?>
-			<?php if ($this->item->type !== 'alias' && $this->item->type !== 'url'
-				&& $this->item->type !== 'separator' && $this->item->type !== 'heading') : ?>
-				<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
-				<?php echo $this->loadTemplate('associations'); ?>
-				<?php echo HTMLHelper::_('uitab.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
+			<?php if ($hasAssoc) : ?>
+				<fieldset id="fieldset-associations" class="options-grid-form options-grid-form-full">
+				<legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
+				<div>
+				<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
+				</div>
+				</fieldset>
 			<?php endif; ?>
-		<?php elseif ($isModal && $assoc && $this->state->get('item.client_id') != 1) : ?>
-			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
+		<?php elseif ($isModal && $assoc) : ?>
+			<div class="hidden"><?php echo LayoutHelper::render('joomla.edit.associations', $this); ?></div>
 		<?php endif; ?>
 
 		<?php if (!empty($this->modules)) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'modules', Text::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT')); ?>
-			<?php echo $this->loadTemplate('modules'); ?>
+			<fieldset id="fieldset-modules" class="options-grid-form options-grid-form-full">
+				<legend><?php echo Text::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT'); ?></legend>
+				<div>
+				<?php echo $this->loadTemplate('modules'); ?>
+				</div>
+			</fieldset>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
@@ -187,6 +210,7 @@ if ($clientId === 1)
 
 	<input type="hidden" name="task" value="">
 	<input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>">
+	<input type="hidden" name="menutype" value="<?php echo $input->get('menutype', '', 'cmd'); ?>">
 	<?php echo $this->form->getInput('component_id'); ?>
 	<?php echo HTMLHelper::_('form.token'); ?>
 	<input type="hidden" id="fieldtype" name="fieldtype" value="">

@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\BeforeExecuteEvent;
@@ -20,6 +21,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\Router;
@@ -86,7 +88,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    JApplicationCms
+	 * @var    CMSApplicationInterface
 	 * @since  3.3
 	 */
 	protected $app;
@@ -103,8 +105,6 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	{
 		parent::__construct($subject, $config);
 
-		$this->app = Factory::getApplication();
-
 		// Setup language data.
 		$this->mode_sef     = $this->app->get('sef', 0);
 		$this->sefs         = LanguageHelper::getLanguages('sef');
@@ -114,7 +114,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		// If language filter plugin is executed in a site page.
 		if ($this->app->isClient('site'))
 		{
-			$levels = Factory::getUser()->getAuthorisedViewLevels();
+			$levels = $this->app->getIdentity()->getAuthorisedViewLevels();
 
 			foreach ($this->sefs as $sef => $language)
 			{
@@ -127,7 +127,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				}
 			}
 		}
-		// If language filter plugin is executed in a admin page (ex: JRoute site).
+		// If language filter plugin is executed in an admin page (ex: Route site).
 		else
 		{
 			// Set current language to default site language, fallback to en-GB if there is no content language for the default site language.
@@ -135,7 +135,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
 			foreach ($this->sefs as $sef => $language)
 			{
-				if (!array_key_exists($language->lang_code, JLanguageHelper::getInstalledLanguages(0)))
+				if (!array_key_exists($language->lang_code, LanguageHelper::getInstalledLanguages(0)))
 				{
 					unset($this->lang_codes[$language->lang_code]);
 					unset($this->sefs[$language->sef]);
@@ -171,8 +171,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			$router->attachBuildRule(array($this, 'postprocessNonSEFBuildRule'), Router::PROCESS_AFTER);
 		}
 
-		// Attach parse rules for language SEF.
-		$router->attachParseRule(array($this, 'parseRule'), Router::PROCESS_DURING);
+		// Attach parse rule.
+		$router->attachParseRule(array($this, 'parseRule'), Router::PROCESS_BEFORE);
 	}
 
 	/**
@@ -218,8 +218,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	/**
 	 * Add build preprocess rule to router.
 	 *
-	 * @param   JRouter  &$router  JRouter object.
-	 * @param   JUri     &$uri     JUri object.
+	 * @param   Router  &$router  Router object.
+	 * @param   Uri     &$uri     Uri object.
 	 *
 	 * @return  void
 	 *
@@ -240,8 +240,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	/**
 	 * Add build rule to router.
 	 *
-	 * @param   JRouter  &$router  JRouter object.
-	 * @param   JUri     &$uri     JUri object.
+	 * @param   Router  &$router  Router object.
+	 * @param   Uri     &$uri     Uri object.
 	 *
 	 * @return  void
 	 *
@@ -272,8 +272,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	/**
 	 * postprocess build rule for SEF URLs
 	 *
-	 * @param   JRouter  &$router  JRouter object.
-	 * @param   JUri     &$uri     JUri object.
+	 * @param   Router  &$router  Router object.
+	 * @param   Uri     &$uri     Uri object.
 	 *
 	 * @return  void
 	 *
@@ -287,8 +287,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	/**
 	 * postprocess build rule for non-SEF URLs
 	 *
-	 * @param   JRouter  &$router  JRouter object.
-	 * @param   JUri     &$uri     JUri object.
+	 * @param   Router  &$router  Router object.
+	 * @param   Uri     &$uri     Uri object.
 	 *
 	 * @return  void
 	 *
@@ -307,8 +307,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	/**
 	 * Add parse rule to router.
 	 *
-	 * @param   JRouter  &$router  JRouter object.
-	 * @param   JUri     &$uri     JUri object.
+	 * @param   Router  &$router  Router object.
+	 * @param   Uri     &$uri     Uri object.
 	 *
 	 * @return  void
 	 *
@@ -423,9 +423,10 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			$lang_code = $this->sefs[$lang]->lang_code;
 		}
 
-		// We are called via POST. We don't care about the language
+		// We are called via POST or the nolangfilter url parameter was set. We don't care about the language
 		// and simply set the default language as our current language.
 		if ($this->app->input->getMethod() === 'POST'
+			|| $this->app->input->get('nolangfilter', 0) == 1
 			|| count($this->app->input->post) > 0
 			|| count($this->app->input->files) > 0)
 		{
@@ -522,7 +523,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		// Set the request var.
 		$this->app->input->set('language', $lang_code);
 		$this->app->set('language', $lang_code);
-		$language = Factory::getLanguage();
+		$language = $this->app->getLanguage();
 
 		if ($language->getTag() !== $lang_code)
 		{
@@ -554,6 +555,24 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		}
 
 		return $array;
+	}
+
+	/**
+	 * Reports the privacy related capabilities for this plugin to site administrators.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.9.0
+	 */
+	public function onPrivacyCollectAdminCapabilities()
+	{
+		$this->loadLanguage();
+
+		return array(
+			Text::_('PLG_SYSTEM_LANGUAGEFILTER') => array(
+				Text::_('PLG_SYSTEM_LANGUAGEFILTER_PRIVACY_CAPABILITY_LANGUAGE_COOKIE'),
+			)
+		);
 	}
 
 	/**
@@ -760,7 +779,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 */
 	public function onAfterDispatch()
 	{
-		$doc = Factory::getDocument();
+		$doc = $this->app->getDocument();
 
 		if ($this->app->isClient('site') && $this->params->get('alternate_meta', 1) && $doc->getType() === 'html')
 		{
@@ -768,7 +787,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			$homes                 = Multilanguage::getSiteHomePages();
 			$menu                  = $this->app->getMenu();
 			$active                = $menu->getActive();
-			$levels                = Factory::getUser()->getAuthorisedViewLevels();
+			$levels                = $this->app->getIdentity()->getAuthorisedViewLevels();
 			$remove_default_prefix = $this->params->get('remove_default_prefix', 0);
 			$server                = Uri::getInstance()->toString(array('scheme', 'host', 'port'));
 			$is_home               = false;

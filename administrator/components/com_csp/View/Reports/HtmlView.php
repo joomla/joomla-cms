@@ -11,8 +11,10 @@ namespace Joomla\Component\Csp\Administrator\View\Reports;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -93,12 +95,19 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		if (!(PluginHelper::isEnabled('system', 'httpheaders')))
 		{
 			$this->httpHeadersId = ReporterHelper::getHttpHeadersPluginId();
+		}
+
+		if (ComponentHelper::getParams('com_csp')->get('contentsecuritypolicy_mode', 'custom') === 'detect'
+			&& ComponentHelper::getParams('com_csp')->get('contentsecuritypolicy', 0)
+			&& ReporterHelper::getCspTrashStatus())
+		{
+			$this->trashWarningMessage = Text::_('COM_CSP_COLLECTING_TRASH_WARNING');
 		}
 
 		$this->addToolbar();
@@ -117,7 +126,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_csp');
 
-		ToolbarHelper::title(Text::_('COM_CSP_REPORTS'), 'generic');
+		ToolbarHelper::title(Text::_('COM_CSP_REPORTS'), 'shield-alt');
 
 		if ($canDo->get('core.edit.state'))
 		{
