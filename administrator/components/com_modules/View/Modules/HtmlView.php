@@ -16,7 +16,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
@@ -65,14 +64,6 @@ class HtmlView extends BaseHtmlView
 	 * @since  4.0.0
 	 */
 	public $activeFilters;
-
-	/**
-	 * The sidebar markup
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $sidebar;
 
 	/**
 	 * Display the view
@@ -163,7 +154,7 @@ class HtmlView extends BaseHtmlView
 		if ($canDo->get('core.create'))
 		{
 			$toolbar->standardButton('new', 'JTOOLBAR_NEW')
-				->onclick("location.href='index.php?option=com_modules&amp;view=select'");
+				->onclick("location.href='index.php?option=com_modules&amp;view=select&amp;client_id=" . $this->state->get('client_id', 0) . "'");
 		}
 
 		if ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin'))
@@ -171,8 +162,8 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-globe')
-				->buttonClass('btn btn-info')
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
 				->listCheck(true);
 
 			$childBar = $dropdown->getChildToolbar();
@@ -193,24 +184,24 @@ class HtmlView extends BaseHtmlView
 			{
 				$childBar->trash('modules.trash')->listCheck(true);
 			}
-		}
 
-		// Add a batch button
-		if ($user->authorise('core.create', 'com_modules') && $user->authorise('core.edit', 'com_modules')
-			&& $user->authorise('core.edit.state', 'com_modules'))
-		{
-			$toolbar->popupButton('batch')
-				->text('JTOOLBAR_BATCH')
-				->selector('collapseModal')
-				->listCheck(true);
-		}
+			// Add a batch button
+			if ($user->authorise('core.create', 'com_modules') && $user->authorise('core.edit', 'com_modules')
+				&& $user->authorise('core.edit.state', 'com_modules'))
+			{
+				$childBar->popupButton('batch')
+					->text('JTOOLBAR_BATCH')
+					->selector('collapseModal')
+					->listCheck(true);
+			}
 
-		if ($canDo->get('core.create'))
-		{
-			$toolbar->standardButton('copy')
-				->text('JTOOLBAR_DUPLICATE')
-				->task('modules.duplicate')
-				->listCheck(true);
+			if ($canDo->get('core.create'))
+			{
+				$childBar->standardButton('copy')
+					->text('JTOOLBAR_DUPLICATE')
+					->task('modules.duplicate')
+					->listCheck(true);
+			}
 		}
 
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
@@ -227,11 +218,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$toolbar->help('JHELP_EXTENSIONS_MODULE_MANAGER');
-
-		if (\JHtmlSidebar::getEntries())
-		{
-			$this->sidebar = \JHtmlSidebar::render();
-		}
 	}
 
 	/**

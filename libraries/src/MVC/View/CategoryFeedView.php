@@ -10,9 +10,12 @@ namespace Joomla\CMS\MVC\View;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\RouteHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\UCM\UCMType;
 
 /**
  * Base feed View class for a category
@@ -39,7 +42,7 @@ class CategoryFeedView extends HtmlView
 		$extension      = $app->input->getString('option');
 		$contentType = $extension . '.' . $this->viewName;
 
-		$ucmType = new \JUcmType;
+		$ucmType = new UCMType;
 		$ucmRow = $ucmType->getTypeByAlias($contentType);
 		$ucmMapCommon = json_decode($ucmRow->field_mappings)->common;
 		$createdField = null;
@@ -56,7 +59,7 @@ class CategoryFeedView extends HtmlView
 			$titleField = $ucmMapCommon[0]->core_title;
 		}
 
-		$document->link = Route::_(\JHelperRoute::getCategoryRoute($app->input->getInt('id'), $language = 0, $extension));
+		$document->link = Route::_(RouteHelper::getCategoryRoute($app->input->getInt('id'), $language = 0, $extension));
 
 		$app->input->set('limit', $app->get('feed_limit'));
 		$siteEmail        = $app->get('mailfrom');
@@ -95,12 +98,13 @@ class CategoryFeedView extends HtmlView
 			}
 
 			// URL link to article
-			$router = new \JHelperRoute;
+			$router = new RouteHelper;
 			$link   = Route::_($router->getRoute($item->id, $contentType, null, null, $item->catid));
 
 			// Strip HTML from feed item description text.
-			$description = $item->description;
-			$author      = $item->created_by_alias ?: $item->author;
+			$description   = $item->description;
+			$author        = $item->created_by_alias ?: $item->author;
+			$categoryTitle = isset($item->category_title) ? $item->category_title : $category->title;
 
 			if ($createdField)
 			{
@@ -112,12 +116,12 @@ class CategoryFeedView extends HtmlView
 			}
 
 			// Load individual item creator class.
-			$feeditem              = new \JFeedItem;
+			$feeditem              = new FeedItem;
 			$feeditem->title       = $title;
 			$feeditem->link        = $link;
 			$feeditem->description = $description;
 			$feeditem->date        = $date;
-			$feeditem->category    = $category->title;
+			$feeditem->category    = $categoryTitle;
 			$feeditem->author      = $author;
 
 			// We don't have the author email so we have to use site in both cases.

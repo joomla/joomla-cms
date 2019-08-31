@@ -26,7 +26,7 @@ class ExtensionHelper
 	 *
 	 * @var array
 	 */
-	public static $extensions = [ModuleInterface::class => [], ComponentInterface::class => []];
+	public static $extensions = [ModuleInterface::class => [], ComponentInterface::class => [], PluginInterface::class => []];
 
 	/**
 	 * The loaded extensions.
@@ -77,7 +77,6 @@ class ExtensionHelper
 		array('component', 'com_postinstall', '', 1),
 		array('component', 'com_privacy', '', 1),
 		array('component', 'com_redirect', '', 1),
-		array('component', 'com_search', '', 1),
 		array('component', 'com_tags', '', 1),
 		array('component', 'com_templates', '', 1),
 		array('component', 'com_users', '', 1),
@@ -100,20 +99,26 @@ class ExtensionHelper
 		// Core module extensions - administrator
 		array('module', 'mod_custom', '', 1),
 		array('module', 'mod_feed', '', 1),
+		array('module', 'mod_frontend', '', 1),
 		array('module', 'mod_latest', '', 1),
 		array('module', 'mod_latestactions', '', 1),
 		array('module', 'mod_logged', '', 1),
 		array('module', 'mod_login', '', 1),
+		array('module', 'mod_loginsupport', '', 1),
 		array('module', 'mod_menu', '', 1),
+		array('module', 'mod_messages', '', 1),
 		array('module', 'mod_multilangstatus', '', 1),
 		array('module', 'mod_popular', '', 1),
+		array('module', 'mod_post_installation_messages', '', 1),
 		array('module', 'mod_privacy_dashboard', '', 1),
+		array('module', 'mod_privacy_status', '', 1),
 		array('module', 'mod_quickicon', '', 1),
 		array('module', 'mod_sampledata', '', 1),
 		array('module', 'mod_stats_admin', '', 1),
-		array('module', 'mod_status', '', 1),
+		array('module', 'mod_submenu', '', 1),
 		array('module', 'mod_title', '', 1),
 		array('module', 'mod_toolbar', '', 1),
+		array('module', 'mod_user', '', 1),
 		array('module', 'mod_version', '', 1),
 
 		// Core module extensions - site
@@ -134,7 +139,6 @@ class ExtensionHelper
 		array('module', 'mod_menu', '', 0),
 		array('module', 'mod_random_image', '', 0),
 		array('module', 'mod_related_items', '', 0),
-		array('module', 'mod_search', '', 0),
 		array('module', 'mod_stats', '', 0),
 		array('module', 'mod_syndicate', '', 0),
 		array('module', 'mod_tags_popular', '', 0),
@@ -256,13 +260,6 @@ class ExtensionHelper
 		array('plugin', 'blog', 'sampledata', 0),
 		array('plugin', 'multilang', 'sampledata', 0),
 
-		// Core plugin extensions - search
-		array('plugin', 'categories', 'search', 0),
-		array('plugin', 'contacts', 'search', 0),
-		array('plugin', 'content', 'search', 0),
-		array('plugin', 'newsfeeds', 'search', 0),
-		array('plugin', 'tags', 'search', 0),
-
 		// Core plugin extensions - system
 		array('plugin', 'actionlogs', 'system', 0),
 		array('plugin', 'cache', 'system', 0),
@@ -282,7 +279,6 @@ class ExtensionHelper
 		array('plugin', 'sessiongc', 'system', 0),
 		array('plugin', 'skipto', 'system', 0),
 		array('plugin', 'stats', 'system', 0),
-		array('plugin', 'sessiongc', 'system', 0),
 		array('plugin', 'updatenotification', 'system', 0),
 
 		// Core plugin extensions - two factor authentication
@@ -353,7 +349,8 @@ class ExtensionHelper
 			$query = $db->getQuery(true)
 				->select('*')
 				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('name') . ' = ' . $db->quote($name));
+				->where($db->quoteName('name') . ' = :name')
+				->bind(':name', $name);
 			$db->setQuery($query);
 
 			self::$loadedextensions[$name] = $db->loadObject();

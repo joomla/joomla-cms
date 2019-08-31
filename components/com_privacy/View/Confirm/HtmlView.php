@@ -112,7 +112,7 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', JText::_('COM_PRIVACY_VIEW_CONFIRM_PAGE_TITLE'));
+			$this->params->def('page_heading', Text::_('COM_PRIVACY_VIEW_CONFIRM_PAGE_TITLE'));
 		}
 
 		$title = $this->params->get('page_title', '');

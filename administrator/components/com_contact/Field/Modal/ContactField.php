@@ -17,6 +17,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+use Joomla\Database\ParameterType;
 
 /**
  * Supports a modal contact picker.
@@ -77,8 +78,8 @@ class ContactField extends FormField
 				Factory::getDocument()->addScriptDeclaration("
 				function jSelectContact_" . $this->id . "(id, title, object) {
 					window.processModalSelect('Contact', '" . $this->id . "', id, title, '', object);
-				}
-				");
+				}"
+				);
 
 				Text::script('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED');
 
@@ -89,7 +90,7 @@ class ContactField extends FormField
 		// Setup variables for display.
 		$linkContacts = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
 		$linkContact  = 'index.php?option=com_contact&amp;view=contact&amp;layout=modal&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
-		$modalTitle   = Text::_('COM_CONTACT_CHANGE_CONTACT');
+		$modalTitle   = Text::_('COM_CONTACT_SELECT_A_CONTACT');
 
 		if (isset($this->element['language']))
 		{
@@ -108,7 +109,8 @@ class ContactField extends FormField
 			$query = $db->getQuery(true)
 				->select($db->quoteName('name'))
 				->from($db->quoteName('#__contact_details'))
-				->where($db->quoteName('id') . ' = ' . (int) $value);
+				->where($db->quoteName('id') . ' = :id')
+				->bind(':id', $value, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			try
@@ -125,6 +127,7 @@ class ContactField extends FormField
 
 		// The current contact display field.
 		$html  = '';
+
 		if ($allowSelect || $allowNew || $allowEdit || $allowClear)
 		{
 			$html .= '<span class="input-group">';
@@ -141,12 +144,11 @@ class ContactField extends FormField
 		if ($allowSelect)
 		{
 			$html .= '<button'
-				. ' class="btn btn-primary hasTooltip' . ($value ? ' hidden' : '') . '"'
+				. ' class="btn btn-primary' . ($value ? ' hidden' : '') . '"'
 				. ' id="' . $this->id . '_select"'
 				. ' data-toggle="modal"'
 				. ' type="button"'
-				. ' data-target="#ModalSelect' . $modalId . '"'
-				. ' title="' . HTMLHelper::tooltipText('COM_CONTACT_CHANGE_CONTACT') . '">'
+				. ' data-target="#ModalSelect' . $modalId . '">'
 				. '<span class="icon-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
 				. '</button>';
 		}
@@ -155,12 +157,11 @@ class ContactField extends FormField
 		if ($allowNew)
 		{
 			$html .= '<button'
-				. ' class="btn btn-secondary hasTooltip' . ($value ? ' hidden' : '') . '"'
+				. ' class="btn btn-secondary' . ($value ? ' hidden' : '') . '"'
 				. ' id="' . $this->id . '_new"'
 				. ' data-toggle="modal"'
 				. ' type="button"'
-				. ' data-target="#ModalNew' . $modalId . '"'
-				. ' title="' . HTMLHelper::tooltipText('COM_CONTACT_NEW_CONTACT') . '">'
+				. ' data-target="#ModalNew' . $modalId . '">'
 				. '<span class="icon-new" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
 				. '</button>';
 		}
@@ -169,12 +170,11 @@ class ContactField extends FormField
 		if ($allowEdit)
 		{
 			$html .= '<button'
-				. ' class="btn btn-secondary hasTooltip' . ($value ? '' : ' hidden') . '"'
+				. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
 				. ' id="' . $this->id . '_edit"'
 				. ' data-toggle="modal"'
 				. ' type="button"'
-				. ' data-target="#ModalEdit' . $modalId . '"'
-				. ' title="' . HTMLHelper::tooltipText('COM_CONTACT_EDIT_CONTACT') . '">'
+				. ' data-target="#ModalEdit' . $modalId . '">'
 				. '<span class="icon-edit" aria-hidden="true"></span> ' . Text::_('JACTION_EDIT')
 				. '</button>';
 		}
@@ -187,7 +187,7 @@ class ContactField extends FormField
 				. ' id="' . $this->id . '_clear"'
 				. ' type="button"'
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
-				. '<span class="icon-remove" aria-hidden="true"></span>' . Text::_('JCLEAR')
+				. '<span class="icon-remove" aria-hidden="true"></span> ' . Text::_('JCLEAR')
 				. '</button>';
 		}
 
@@ -198,14 +198,14 @@ class ContactField extends FormField
 			$tagLength = (int) strlen($this->element['language']);
 			$callbackFunctionStem = substr("jSelectContact_" . $this->id, 0, -$tagLength);
 
-			$html .= '<a'
-			. ' class="btn hasTooltip' . ($value ? '' : ' hidden') . '"'
+			$html .= '<button'
+			. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
+			. ' type="button"'
 			. ' id="' . $this->id . '_propagate"'
-			. ' href="#"'
-			. ' title="' . HtmlHelper::tooltipText('JGLOBAL_ASSOCIATIONS_PROPAGATE_TIP') . '"'
+			. ' title="' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_TIP') . '"'
 			. ' onclick="Joomla.propagateAssociation(\'' . $this->id . '\', \'' . $callbackFunctionStem . '\');">'
-			. '<span class="icon-refresh" aria-hidden="true"></span>' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_BUTTON')
-			. '</a>';
+			. '<span class="icon-refresh" aria-hidden="true"></span> ' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_BUTTON')
+			. '</button>';
 		}
 
 		if ($allowSelect || $allowNew || $allowEdit || $allowClear)

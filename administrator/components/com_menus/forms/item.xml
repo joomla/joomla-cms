@@ -117,7 +117,7 @@
 
 		<field
 			name="menuordering"
-			type="menuordering"
+			type="MenuOrdering"
 			label="COM_MENUS_ITEM_FIELD_ORDERING_LABEL"
 			filter="int"
 			size="1">
@@ -154,7 +154,7 @@
 			label="COM_MENUS_ITEM_FIELD_TEMPLATE_LABEL"
 			client="site"
 			filter="int"
-			showon="params.alias_redirect:0"
+			showon="type!:alias[OR]params.alias_redirect:0"
 			>
 			<option value="0">JOPTION_USE_DEFAULT</option>
 		</field>

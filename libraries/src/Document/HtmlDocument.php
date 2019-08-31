@@ -17,6 +17,8 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Utility\Utility;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -316,7 +318,7 @@ class HtmlDocument extends Document
 		{
 			foreach ($data['style'] as $type => $stdata)
 			{
-				if (!isset($this->_style[strtolower($type)]) || !stristr($this->_style[strtolower($type)], $stdata))
+				if (!isset($this->_style[strtolower($type)]) || !stristr($stdata, $this->_style[strtolower($type)]))
 				{
 					$this->addStyleDeclaration($stdata, $type);
 				}
@@ -331,7 +333,7 @@ class HtmlDocument extends Document
 		{
 			foreach ($data['script'] as $type => $sdata)
 			{
-				if (!isset($this->_script[strtolower($type)]) || !stristr($this->_script[strtolower($type)], $sdata))
+				if (!isset($this->_script[strtolower($type)]) || !stristr($sdata, $this->_script[strtolower($type)]))
 				{
 					$this->addScriptDeclaration($sdata, $type);
 				}
@@ -639,9 +641,14 @@ class HtmlDocument extends Document
 			{
 				$query = $db->getQuery(true)
 					->select('COUNT(*)')
-					->from('#__menu')
-					->where('parent_id = ' . $active->id)
-					->where('published = 1');
+					->from($db->quoteName('#__menu'))
+					->where(
+						[
+							$db->quoteName('parent_id') . ' = :id',
+							$db->quoteName('published') . ' = 1',
+						]
+					)
+					->bind(':id', $active->id, ParameterType::INTEGER);
 				$db->setQuery($query);
 				$children = $db->loadResult();
 			}
@@ -680,7 +687,7 @@ class HtmlDocument extends Document
 		// Try to find a favicon by checking the template and root folder
 		$icon = '/favicon.ico';
 
-		foreach (array($directory, JPATH_BASE) as $dir)
+		foreach (array(JPATH_BASE, $directory) as $dir)
 		{
 			if (file_exists($dir . $icon))
 			{
@@ -760,7 +767,7 @@ class HtmlDocument extends Document
 			for ($i = count($matches[0]) - 1; $i >= 0; $i--)
 			{
 				$type = $matches[1][$i];
-				$attribs = empty($matches[2][$i]) ? array() : \JUtility::parseAttributes($matches[2][$i]);
+				$attribs = empty($matches[2][$i]) ? array() : Utility::parseAttributes($matches[2][$i]);
 				$name = $attribs['name'] ?? null;
 
 				// Separate buffers to be executed first and last

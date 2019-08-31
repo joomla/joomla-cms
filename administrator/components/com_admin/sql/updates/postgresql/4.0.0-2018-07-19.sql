@@ -13,6 +13,6 @@ CREATE TABLE IF NOT EXISTS "#__template_overrides" (
 CREATE INDEX "#__template_overrides_idx_template" ON "#__template_overrides" ("template");
 CREATE INDEX "#__template_overrides_idx_extension_id" ON "#__template_overrides" ("extension_id");
 
-INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "checked_out", "checked_out_time", "ordering", "state", "namespace") VALUES
-(0, 'plg_installer_override', 'plugin', 'override', 'installer', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 4, 0, ''),
-(0, 'plg_quickicon_overridecheck', 'plugin', 'overridecheck', 'quickicon', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, '');
+INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "checked_out", "checked_out_time", "ordering", "state") VALUES
+(0, 'plg_installer_override', 'plugin', 'override', 'installer', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 4, 0),
+(0, 'plg_quickicon_overridecheck', 'plugin', 'overridecheck', 'quickicon', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0);

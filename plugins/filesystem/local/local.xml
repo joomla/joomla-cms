@@ -38,7 +38,7 @@
 							type="folderlist"
 							default="images"
 							label="PLG_FILESYSTEM_LOCAL_DIRECTORIES_DIRECTORY_LABEL"
-							filter=""
+							folderFilter=""
 							exclude=""
 							stripext=""
 						/>

@@ -70,7 +70,7 @@ class ArchiveModel extends ArticlesModel
 		$articleOrderDate = $params->get('order_date');
 
 		// No category ordering
-		$secondary = QueryHelper::orderbySecondary($articleOrderby, $articleOrderDate);
+		$secondary = QueryHelper::orderbySecondary($articleOrderby, $articleOrderDate, $this->getDbo());
 
 		$this->setState('list.ordering', $secondary . ', a.created DESC');
 		$this->setState('list.direction', '');
@@ -102,7 +102,7 @@ class ArchiveModel extends ArticlesModel
 
 		// Filter on month, year
 		// First, get the date field
-		$queryDate = QueryHelper::getQueryDate($articleOrderDate);
+		$queryDate = QueryHelper::getQueryDate($articleOrderDate, $this->getDbo());
 
 		if ($month = $this->getState('filter.month'))
 		{
@@ -209,16 +209,16 @@ class ArchiveModel extends ArticlesModel
 	}
 
 	/**
-	* Generate column expression for slug or catslug.
-	*
-	* @param   \JDatabaseQuery  $query  Current query instance.
-	* @param   string           $id     Column id name.
-	* @param   string           $alias  Column alias name.
-	*
-	* @return  string
-	*
-	* @since   4.0.0
-	*/
+	 * Generate column expression for slug or catslug.
+	 *
+	 * @param   \JDatabaseQuery  $query  Current query instance.
+	 * @param   string           $id     Column id name.
+	 * @param   string           $alias  Column alias name.
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
 	private function getSlugColumn($query, $id, $alias)
 	{
 		return 'CASE WHEN '

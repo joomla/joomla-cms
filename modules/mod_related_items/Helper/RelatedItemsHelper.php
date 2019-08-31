@@ -17,8 +17,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
-\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-
 /**
  * Helper for mod_related_items
  *
@@ -39,7 +37,6 @@ abstract class RelatedItemsHelper
 		$app     = Factory::getApplication();
 		$input   = $app->input;
 		$groups  = implode(',', Factory::getUser()->getAuthorisedViewLevels());
-		$maximum = (int) $params->get('maximum', 5);
 		$factory = $app->bootComponent('com_content')->getMVCFactory();
 
 		// Get an instance of the generic articles model
@@ -127,7 +124,8 @@ abstract class RelatedItemsHelper
 					$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 				}
 
-				$db->setQuery($query, 0, $maximum);
+				$query->setLimit((int) $params->get('maximum', 5));
+				$db->setQuery($query);
 
 				try
 				{

@@ -12,6 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 /**
  * Abstract AES encryption class
+ *
+ * @since    4.0.0
  */
 abstract class AbstractAES
 {
