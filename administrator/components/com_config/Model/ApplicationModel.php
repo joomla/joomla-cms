@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,24 +13,26 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Rules;
+use Joomla\CMS\Cache\Exception\CacheConnectingException;
+use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
+use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Http\HttpFactory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\UserHelper;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\User\UserHelper;
-use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Cache\Exception\CacheConnectingException;
-use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Factory;
-use Joomla\Database\DatabaseDriver;
-use Joomla\CMS\Http\HttpFactory;
 
 /**
  * Model for the global configuration
@@ -79,6 +81,9 @@ class ApplicationModel extends FormModel
 		$config = new \JConfig;
 		$data   = ArrayHelper::fromObject($config);
 
+		// Get the correct driver at runtime
+		$data['dbtype'] = Factory::getDbo()->getName();
+
 		// Prime the asset_id for the rules.
 		$data['asset_id'] = 1;
 
@@ -123,7 +128,7 @@ class ApplicationModel extends FormModel
 			'driver'   => $data['dbtype'],
 			'host'     => $data['host'],
 			'user'     => $data['user'],
-			'password' => Factory::getConfig()->get('password'),
+			'password' => $app->get('password'),
 			'database' => $data['db'],
 			'prefix'   => $data['dbprefix']
 		);
@@ -141,7 +146,7 @@ class ApplicationModel extends FormModel
 		}
 
 		// Check if we can set the Force SSL option
-		if ((int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) Factory::getConfig()->get('force_ssl', '0'))
+		if ((int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) $app->get('force_ssl', '0'))
 		{
 			try
 			{
@@ -304,7 +309,7 @@ class ApplicationModel extends FormModel
 					$revisedDbo->truncateTable('#__session');
 				}
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				/*
 				 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
@@ -312,6 +317,49 @@ class ApplicationModel extends FormModel
 				 * through normal garbage collection anyway or if not using the database handler someone can purge the
 				 * table on their own.  Either way, carry on Soldier!
 				 */
+			}
+		}
+
+		// Ensure custom session file path exists or try to create it if changed
+		if (!empty($data['session_filesystem_path']))
+		{
+			$currentPath = $prev['session_filesystem_path'] ?? null;
+
+			if ($currentPath)
+			{
+				$currentPath = Path::clean($currentPath);
+			}
+
+			$data['session_filesystem_path'] = Path::clean($data['session_filesystem_path']);
+
+			if ($currentPath !== $data['session_filesystem_path'])
+			{
+				if (!Folder::exists($data['session_filesystem_path']) && !Folder::create($data['session_filesystem_path']))
+				{
+					try
+					{
+						Log::add(
+							Text::sprintf(
+								'COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT',
+								$data['session_filesystem_path']
+							),
+							Log::WARNING,
+							'jerror'
+						);
+					}
+					catch (\RuntimeException $logException)
+					{
+						$app->enqueueMessage(
+							Text::sprintf(
+								'COM_CONFIG_ERROR_CUSTOM_SESSION_FILESYSTEM_PATH_NOTWRITABLE_USING_DEFAULT',
+								$data['session_filesystem_path']
+							),
+							'warning'
+						);
+					}
+
+					$data['session_filesystem_path'] = $currentPath;
+				}
 			}
 		}
 
@@ -475,8 +523,21 @@ class ApplicationModel extends FormModel
 		$this->cleanCache('_system', 0);
 		$this->cleanCache('_system', 1);
 
+		$result = $app->triggerEvent('onApplicationBeforeSave', array($config));
+
+		// Store the data.
+		if (in_array(false, $result, true))
+		{
+			throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_UNKNOWN_BEFORE_SAVING'));
+		}
+
 		// Write the configuration file.
-		return $this->writeConfigFile($config);
+		$result = $this->writeConfigFile($config);
+
+		// Trigger the after save event.
+		$app->triggerEvent('onApplicationAfterSave', array($config));
+
+		return $result;
 	}
 
 	/**
@@ -491,6 +552,8 @@ class ApplicationModel extends FormModel
 	 */
 	public function removeroot()
 	{
+		$app = Factory::getApplication();
+
 		// Get the previous configuration.
 		$prev = new \JConfig;
 		$prev = ArrayHelper::fromObject($prev);
@@ -499,8 +562,21 @@ class ApplicationModel extends FormModel
 		unset($prev['root_user']);
 		$config = new Registry($prev);
 
+		$result = $app->triggerEvent('onApplicationBeforeSave', array($config));
+
+		// Store the data.
+		if (in_array(false, $result, true))
+		{
+			throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_UNKNOWN_BEFORE_SAVING'));
+		}
+
 		// Write the configuration file.
-		return $this->writeConfigFile($config);
+		$result = $this->writeConfigFile($config);
+
+		// Trigger the after save event.
+		$app->triggerEvent('onApplicationAfterSave', array($config));
+
+		return $result;
 	}
 
 	/**
@@ -515,9 +591,6 @@ class ApplicationModel extends FormModel
 	 */
 	private function writeConfigFile(Registry $config)
 	{
-		jimport('joomla.filesystem.path');
-		jimport('joomla.filesystem.file');
-
 		// Set the configuration file path.
 		$file = JPATH_CONFIGURATION . '/configuration.php';
 
@@ -538,6 +611,12 @@ class ApplicationModel extends FormModel
 		if (!File::write($file, $configuration))
 		{
 			throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'));
+		}
+
+		// Invalidates the cached configuration file
+		if (function_exists('opcache_invalidate'))
+		{
+			opcache_invalidate($file);
 		}
 
 		// Attempt to make the file unwriteable if using FTP.
@@ -754,10 +833,11 @@ class ApplicationModel extends FormModel
 		try
 		{
 			// Get the asset id by the name of the component.
-			$query = $this->getDbo()->getQuery(true)
-				->select($this->getDbo()->quoteName('id'))
-				->from($this->getDbo()->quoteName('#__assets'))
-				->where($this->getDbo()->quoteName('name') . ' = ' . $this->getDbo()->quote($permission['component']));
+			$query = $this->_db->getQuery(true)
+				->select($this->_db->quoteName('id'))
+				->from($this->_db->quoteName('#__assets'))
+				->where($this->_db->quoteName('name') . ' = :component')
+				->bind(':component', $permission['component']);
 
 			$this->_db->setQuery($query);
 
@@ -780,7 +860,8 @@ class ApplicationModel extends FormModel
 				$query->clear()
 					->select($this->_db->quoteName('parent_id'))
 					->from($this->_db->quoteName('#__assets'))
-					->where($this->_db->quoteName('id') . ' = ' . $assetId);
+					->where($this->_db->quoteName('id') . ' = :assetid')
+					->bind(':assetid', $assetId, ParameterType::INTEGER);
 
 				$this->_db->setQuery($query);
 
@@ -788,10 +869,12 @@ class ApplicationModel extends FormModel
 			}
 
 			// Get the group parent id of the current group.
+			$rule = (int) $permission['rule'];
 			$query->clear()
 				->select($this->_db->quoteName('parent_id'))
 				->from($this->_db->quoteName('#__usergroups'))
-				->where($this->_db->quoteName('id') . ' = ' . (int) $permission['rule']);
+				->where($this->_db->quoteName('id') . ' = :rule')
+				->bind(':rule', $rule, ParameterType::INTEGER);
 
 			$this->_db->setQuery($query);
 
@@ -801,7 +884,8 @@ class ApplicationModel extends FormModel
 			$query->clear()
 				->select('COUNT(' . $this->_db->quoteName('id') . ')')
 				->from($this->_db->quoteName('#__usergroups'))
-				->where($this->_db->quoteName('parent_id') . ' = ' . (int) $permission['rule']);
+				->where($this->_db->quoteName('parent_id') . ' = :rule')
+				->bind(':rule', $rule, ParameterType::INTEGER);
 
 			$this->_db->setQuery($query);
 

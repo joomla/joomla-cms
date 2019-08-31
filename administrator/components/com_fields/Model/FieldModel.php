@@ -3,26 +3,31 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Fields\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Categories\CategoriesServiceInterface;
+use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Table;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Date\Date;
-use Joomla\CMS\Filesystem\Path;
 
 /**
  * Field Model
@@ -200,7 +205,7 @@ class FieldModel extends AdminModel
 
 				foreach ($newParams as $param)
 				{
-					$names[] = $db->q($param['value']);
+					$names[] = $db->quote($param['value']);
 				}
 
 				$query = $db->getQuery(true);
@@ -211,7 +216,7 @@ class FieldModel extends AdminModel
 			}
 		}
 
-		\FieldsHelper::clearFieldsCache();
+		FieldsHelper::clearFieldsCache();
 
 		return true;
 	}
@@ -235,7 +240,7 @@ class FieldModel extends AdminModel
 			return true;
 		}
 
-		$types = \FieldsHelper::getFieldTypes();
+		$types = FieldsHelper::getFieldTypes();
 
 		// Check if type exists
 		if (!array_key_exists($data['type'], $types))
@@ -249,7 +254,7 @@ class FieldModel extends AdminModel
 		if ($path)
 		{
 			// Add the lookup path for the rule
-			\JFormHelper::addRulePath($path);
+			FormHelper::addRulePath($path);
 		}
 
 		// Create the fields object
@@ -262,7 +267,7 @@ class FieldModel extends AdminModel
 		$node = $dom->appendChild(new \DOMElement('form'));
 
 		// Trigger the event to create the field dom node
-		Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($obj, $node, new \JForm($data['context'])));
+		Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($obj, $node, new Form($data['context'])));
 
 		// Check if a node is created
 		if (!$node->firstChild)
@@ -274,7 +279,7 @@ class FieldModel extends AdminModel
 		$type = $node->firstChild->getAttribute('validate') ? : $data['type'];
 
 		// Load the rule
-		$rule = \JFormHelper::loadRuleType($type);
+		$rule = FormHelper::loadRuleType($type);
 
 		// When no rule exists, we allow the default value
 		if (!$rule)
@@ -341,7 +346,7 @@ class FieldModel extends AdminModel
 				$result->context = Factory::getApplication()->input->getCmd('context', $this->getState('field.context'));
 			}
 
-			if (property_exists($result, 'fieldparams'))
+			if (property_exists($result, 'fieldparams') && $result->fieldparams !== null)
 			{
 				$registry = new Registry;
 
@@ -361,34 +366,6 @@ class FieldModel extends AdminModel
 
 			$db->setQuery($query);
 			$result->assigned_cat_ids = $db->loadColumn() ?: array(0);
-
-			// Convert the created and modified dates to local user time for
-			// display in the form.
-			$tz = new \DateTimeZone(Factory::getApplication()->get('offset'));
-
-			if ((int) $result->created_time)
-			{
-				$date = new Date($result->created_time);
-				$date->setTimezone($tz);
-
-				$result->created_time = $date->toSql(true);
-			}
-			else
-			{
-				$result->created_time = null;
-			}
-
-			if ((int) $result->modified_time)
-			{
-				$date = new Date($result->modified_time);
-				$date->setTimezone($tz);
-
-				$result->modified_time = $date->toSql(true);
-			}
-			else
-			{
-				$result->modified_time = null;
-			}
 		}
 
 		return $result;
@@ -446,7 +423,7 @@ class FieldModel extends AdminModel
 	/**
 	 * Method to delete one or more records.
 	 *
-	 * @param   array  &$pks  An array of record primary keys.
+	 * @param   array  $pks  An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
@@ -467,16 +444,16 @@ class FieldModel extends AdminModel
 				// Delete Values
 				$query = $this->getDbo()->getQuery(true);
 
-				$query->delete($query->qn('#__fields_values'))
-					->where($query->qn('field_id') . ' IN(' . implode(',', $pks) . ')');
+				$query->delete($query->quoteName('#__fields_values'))
+					->where($query->quoteName('field_id') . ' IN(' . implode(',', $pks) . ')');
 
 				$this->getDbo()->setQuery($query)->execute();
 
 				// Delete Assigned Categories
 				$query = $this->getDbo()->getQuery(true);
 
-				$query->delete($query->qn('#__fields_categories'))
-					->where($query->qn('field_id') . ' IN(' . implode(',', $pks) . ')');
+				$query->delete($query->quoteName('#__fields_categories'))
+					->where($query->quoteName('field_id') . ' IN(' . implode(',', $pks) . ')');
 
 				$this->getDbo()->setQuery($query)->execute();
 			}
@@ -504,7 +481,7 @@ class FieldModel extends AdminModel
 		if (empty($context) && isset($data['context']))
 		{
 			$context = $data['context'];
-			$parts   = \FieldsHelper::extract($context);
+			$parts   = FieldsHelper::extract($context);
 
 			$this->setState('field.context', $context);
 
@@ -526,7 +503,7 @@ class FieldModel extends AdminModel
 
 		// Get the form.
 		$form = $this->loadForm(
-			'com_fields.field' . $context, 'field',
+			'com_fields.field.' . $context, 'field',
 			array(
 				'control'   => 'jform',
 				'load_data' => true,
@@ -583,7 +560,7 @@ class FieldModel extends AdminModel
 		}
 
 		// Don't save the value when the user is not authorized to change it
-		if (!$field || !\FieldsHelper::canEditFieldValue($field))
+		if (!$field || !FieldsHelper::canEditFieldValue($field))
 		{
 			return false;
 		}
@@ -602,8 +579,9 @@ class FieldModel extends AdminModel
 		}
 		elseif (count($value) == 1 && count((array) $oldValue) == 1)
 		{
-			// Only a single row value update can be done
-			$needsUpdate = true;
+			// Only a single row value update can be done when not empty
+			$needsUpdate = is_array($value[0]) ? count($value[0]) : strlen($value[0]);
+			$needsDelete = !$needsUpdate;
 		}
 		else
 		{
@@ -618,9 +596,9 @@ class FieldModel extends AdminModel
 			// Deleting the existing record as it is a reset
 			$query = $this->getDbo()->getQuery(true);
 
-			$query->delete($query->qn('#__fields_values'))
-				->where($query->qn('field_id') . ' = ' . (int) $fieldId)
-				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
+			$query->delete($query->quoteName('#__fields_values'))
+				->where($query->quoteName('field_id') . ' = ' . (int) $fieldId)
+				->where($query->quoteName('item_id') . ' = ' . $query->quote($itemId));
 
 			$this->getDbo()->setQuery($query)->execute();
 		}
@@ -652,7 +630,7 @@ class FieldModel extends AdminModel
 		}
 
 		$this->valueCache = array();
-		\FieldsHelper::clearFieldsCache();
+		FieldsHelper::clearFieldsCache();
 
 		return true;
 	}
@@ -705,10 +683,10 @@ class FieldModel extends AdminModel
 			// Create the query
 			$query = $this->getDbo()->getQuery(true);
 
-			$query->select(array($query->qn('field_id'), $query->qn('value')))
-				->from($query->qn('#__fields_values'))
-				->where($query->qn('field_id') . ' IN (' . implode(',', ArrayHelper::toInteger($fieldIds)) . ')')
-				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
+			$query->select(array($query->quoteName('field_id'), $query->quoteName('value')))
+				->from($query->quoteName('#__fields_values'))
+				->where($query->quoteName('field_id') . ' IN (' . implode(',', ArrayHelper::toInteger($fieldIds)) . ')')
+				->where($query->quoteName('item_id') . ' = ' . $query->quote($itemId));
 
 			// Fetch the row from the database
 			$rows = $this->getDbo()->setQuery($query)->loadObjectList();
@@ -760,15 +738,15 @@ class FieldModel extends AdminModel
 	{
 		// Delete with inner join is not possible so we need to do a subquery
 		$fieldsQuery = $this->getDbo()->getQuery(true);
-		$fieldsQuery->select($fieldsQuery->qn('id'))
-			->from($fieldsQuery->qn('#__fields'))
-			->where($fieldsQuery->qn('context') . ' = ' . $fieldsQuery->q($context));
+		$fieldsQuery->select($fieldsQuery->quoteName('id'))
+			->from($fieldsQuery->quoteName('#__fields'))
+			->where($fieldsQuery->quoteName('context') . ' = ' . $fieldsQuery->quote($context));
 
 		$query = $this->getDbo()->getQuery(true);
 
-		$query->delete($query->qn('#__fields_values'))
-			->where($query->qn('field_id') . ' IN (' . $fieldsQuery . ')')
-			->where($query->qn('item_id') . ' = ' . $query->q($itemId));
+		$query->delete($query->quoteName('#__fields_values'))
+			->where($query->quoteName('field_id') . ' IN (' . $fieldsQuery . ')')
+			->where($query->quoteName('item_id') . ' = ' . $query->quote($itemId));
 
 		$this->getDbo()->setQuery($query)->execute();
 	}
@@ -791,7 +769,7 @@ class FieldModel extends AdminModel
 				return false;
 			}
 
-			$parts = \FieldsHelper::extract($record->context);
+			$parts = FieldsHelper::extract($record->context);
 
 			return Factory::getUser()->authorise('core.delete', $parts[0] . '.field.' . (int) $record->id);
 		}
@@ -812,7 +790,7 @@ class FieldModel extends AdminModel
 	protected function canEditState($record)
 	{
 		$user  = Factory::getUser();
-		$parts = \FieldsHelper::extract($record->context);
+		$parts = FieldsHelper::extract($record->context);
 
 		// Check for existing field.
 		if (!empty($record->id))
@@ -840,7 +818,7 @@ class FieldModel extends AdminModel
 
 		$context = $app->input->get('context', 'com_content.article');
 		$this->setState('field.context', $context);
-		$parts = \FieldsHelper::extract($context);
+		$parts = FieldsHelper::extract($context);
 
 		// Extract the component name
 		$this->setState('field.component', $parts[0]);
@@ -864,7 +842,9 @@ class FieldModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'context = ' . $this->_db->quote($table->context);
+		return [
+			$this->_db->quoteName('context') . ' = ' . $this->_db->quote($table->context),
+		];
 	}
 
 	/**
@@ -897,7 +877,7 @@ class FieldModel extends AdminModel
 				$data->set('group_id', $app->input->getString('group_id', (!empty($filters['group_id']) ? $filters['group_id'] : null)));
 				$data->set(
 					'access',
-					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : Factory::getConfig()->get('access')))
+					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
 				);
 
 				// Set the type if available from the request
@@ -924,11 +904,11 @@ class FieldModel extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @see     \JFormField
+	 * @see     \Joomla\CMS\Form\FormField
 	 * @since   3.7.0
 	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		$component  = $this->state->get('field.component');
 		$section    = $this->state->get('field.section');
@@ -976,12 +956,12 @@ class FieldModel extends AdminModel
 			// Setting the context for the category field
 			$componentObject = $this->bootComponent($component);
 
-			if (!$componentObject instanceof CategoriesServiceInterface)
+			if (!$componentObject instanceof CategoryServiceInterface)
 			{
 				throw new SectionNotFoundException;
 			}
 
-			$cat = $componentObject->getCategories();
+			$cat = $componentObject->getCategory([], $section ?: '');
 
 			if ($cat->get('root')->hasChildren())
 			{

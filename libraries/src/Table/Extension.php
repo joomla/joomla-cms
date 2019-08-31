@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,15 +10,15 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Extension table
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Extension extends Table
 {
@@ -27,11 +27,14 @@ class Extension extends Table
 	 *
 	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__extensions', 'extension_id', $db);
+
+		// Set the alias since the column is called enabled
+		$this->setColumnAlias('published', 'enabled');
 	}
 
 	/**
@@ -40,7 +43,7 @@ class Extension extends Table
 	 * @return  boolean  True if the object is ok
 	 *
 	 * @see     Table::check()
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function check()
 	{
@@ -76,7 +79,7 @@ class Extension extends Table
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
 	 * @see     Table::bind()
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -102,7 +105,7 @@ class Extension extends Table
 	 *
 	 * @return  string  The database query result
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function find($options = array())
 	{
@@ -133,7 +136,7 @@ class Extension extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
@@ -164,7 +167,7 @@ class Extension extends Table
 		$where = $k . '=' . implode(' OR ' . $k . '=', $pks);
 
 		// Determine if there is checkin support for the table.
-		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
+		if (!$this->hasField('checked_out') || !$this->hasField('checked_out_time'))
 		{
 			$checkin = '';
 		}

@@ -3,18 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Templates\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Templates component helper.
@@ -23,27 +25,6 @@ use Joomla\CMS\Installer\Installer;
  */
 class TemplatesHelper
 {
-	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
-	 */
-	public static function addSubmenu($vName)
-	{
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_TEMPLATES_SUBMENU_STYLES'),
-			'index.php?option=com_templates&view=styles',
-			$vName == 'styles'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_TEMPLATES_SUBMENU_TEMPLATES'),
-			'index.php?option=com_templates&view=templates',
-			$vName == 'templates'
-		);
-	}
-
 	/**
 	 * Get a list of filter options for the application clients.
 	 *
@@ -102,7 +83,7 @@ class TemplatesHelper
 	 */
 	public static function parseXMLTemplateFile($templateBaseDir, $templateDir)
 	{
-		$data = new \JObject;
+		$data = new CMSObject;
 
 		// Check of the xml file exists
 		$filePath = Path::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');

@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -104,12 +105,14 @@ class ConfigurationModel extends BaseInstallationModel
 	 */
 	public function createConfiguration($options)
 	{
+		$saveFtp = isset($options->ftp_save) && $options->ftp_save;
+
 		// Create a new registry to build the configuration options.
 		$registry = new Registry;
 
 		// Site settings.
 		$registry->set('offline', false);
-		$registry->set('offline_message', \JText::_('INSTL_STD_OFFLINE_MSG'));
+		$registry->set('offline_message', Text::_('INSTL_STD_OFFLINE_MSG'));
 		$registry->set('display_offline_message', 1);
 		$registry->set('offline_image', '');
 		$registry->set('sitename', $options->site_name);
@@ -121,12 +124,13 @@ class ConfigurationModel extends BaseInstallationModel
 		// Debug settings.
 		$registry->set('debug', false);
 		$registry->set('debug_lang', false);
+		$registry->set('debug_lang_const', true);
 
 		// Database settings.
 		$registry->set('dbtype', $options->db_type);
 		$registry->set('host', $options->db_host);
 		$registry->set('user', $options->db_user);
-		$registry->set('password', $options->db_pass);
+		$registry->set('password', $options->db_pass_plain);
 		$registry->set('db', $options->db_name);
 		$registry->set('dbprefix', $options->db_prefix);
 
@@ -138,9 +142,9 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('helpurl', $options->helpurl);
 		$registry->set('ftp_host', $options->ftp_host ?? '');
 		$registry->set('ftp_port', isset($options->ftp_host) ? $options->ftp_port : '');
-		$registry->set('ftp_user', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_user)) ? $options->ftp_user : '');
-		$registry->set('ftp_pass', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_pass)) ? $options->ftp_pass : '');
-		$registry->set('ftp_root', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_root)) ? $options->ftp_root : '');
+		$registry->set('ftp_user', ($saveFtp && isset($options->ftp_user)) ? $options->ftp_user : '');
+		$registry->set('ftp_pass', ($saveFtp && isset($options->ftp_pass)) ? $options->ftp_pass : '');
+		$registry->set('ftp_root', ($saveFtp && isset($options->ftp_root)) ? $options->ftp_root : '');
 		$registry->set('ftp_enable', (isset($options->ftp_host) && null === $options->ftp_host) ? $options->ftp_enable : 0);
 
 		// Locale settings.
@@ -262,19 +266,19 @@ class ConfigurationModel extends BaseInstallationModel
 				$options->db_type,
 				$options->db_host,
 				$options->db_user,
-				$options->db_pass,
+				$options->db_pass_plain,
 				$options->db_name,
 				$options->db_prefix
 			);
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'error');
+			Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'error');
 
 			return false;
 		}
 
-		$cryptpass = UserHelper::hashPassword($options->admin_password);
+		$cryptpass = UserHelper::hashPassword($options->admin_password_plain);
 
 		// Take the admin user id - we'll need to leave this in the session for sample data install later on.
 		$userId = DatabaseModel::getUserId();
@@ -291,12 +295,23 @@ class ConfigurationModel extends BaseInstallationModel
 
 		$db->setQuery($query);
 
-		if ($db->loadResult())
+		try
+		{
+			$result = $db->loadResult();
+		}
+		catch (\RuntimeException $e)
+		{
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
+		}
+
+		if ($result)
 		{
 			$query->clear()
 				->update($db->quoteName('#__users'))
-				->set($db->quoteName('name') . ' = ' . $db->quote('Super User'))
-				->set($db->quoteName('username') . ' = ' . $db->quote(trim($options->admin_user)))
+				->set($db->quoteName('name') . ' = ' . $db->quote(trim($options->admin_user)))
+				->set($db->quoteName('username') . ' = ' . $db->quote(trim($options->admin_username)))
 				->set($db->quoteName('email') . ' = ' . $db->quote($options->admin_email))
 				->set($db->quoteName('password') . ' = ' . $db->quote($cryptpass))
 				->set($db->quoteName('block') . ' = 0')
@@ -310,7 +325,8 @@ class ConfigurationModel extends BaseInstallationModel
 		else
 		{
 			$columns = array(
-				$db->quoteName('id'), $db->quoteName('name'),
+				$db->quoteName('id'),
+				$db->quoteName('name'),
 				$db->quoteName('username'),
 				$db->quoteName('email'),
 				$db->quoteName('password'),
@@ -325,7 +341,7 @@ class ConfigurationModel extends BaseInstallationModel
 				->insert('#__users', true)
 				->columns($columns)
 				->values(
-					$db->quote($userId) . ', ' . $db->quote('Super User') . ', ' . $db->quote(trim($options->admin_user)) . ', ' .
+					$db->quote($userId) . ', ' . $db->quote(trim($options->admin_user)) . ', ' . $db->quote(trim($options->admin_username)) . ', ' .
 					$db->quote($options->admin_email) . ', ' . $db->quote($cryptpass) . ', ' .
 					$db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', ' . $db->quote($nullDate) . ', ' .
 					$db->quote('0') . ', ' . $db->quote('')
@@ -345,7 +361,7 @@ class ConfigurationModel extends BaseInstallationModel
 			return false;
 		}
 
-		// Map the super admin to the Super Admin Group
+		// Map the super user to the Super Users group
 		$query->clear()
 			->select($db->quoteName('user_id'))
 			->from($db->quoteName('#__user_usergroup_map'))

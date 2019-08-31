@@ -3,15 +3,15 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Utility class for creating HTML select lists
@@ -55,7 +55,7 @@ abstract class JHtmlSelect
 	 * @return  string  HTML for the radio list
 	 *
 	 * @since   1.5
-	 * @see     JFormFieldRadio
+	 * @see     \Joomla\CMS\Form\Field\RadioField
 	 */
 	public static function booleanlist($name, $attribs = array(), $selected = null, $yes = 'JYES', $no = 'JNO', $id = false)
 	{
@@ -92,7 +92,8 @@ abstract class JHtmlSelect
 	 * @since   1.5
 	 */
 	public static function genericlist($data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false,
-		$translate = false)
+		$translate = false
+	)
 	{
 		// Set default options
 		$options = array_merge(HTMLHelper::$formatOptions, array('format.depth' => 0, 'id' => false));
@@ -682,7 +683,8 @@ abstract class JHtmlSelect
 	 * @since   1.5
 	 */
 	public static function radiolist($data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false,
-		$translate = false)
+		$translate = false
+	)
 	{
 
 		if (is_array($attribs))

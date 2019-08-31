@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,21 +10,19 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-
-FormHelper::loadFieldClass('groupedlist');
 
 /**
  * Chrome Styles field.
  *
  * @since  3.0
  */
-class ChromestyleField extends \JFormFieldGroupedList
+class ChromestyleField extends GroupedlistField
 {
 	/**
 	 * The form field type.
@@ -178,8 +176,17 @@ class ChromestyleField extends \JFormFieldGroupedList
 	{
 		$moduleStyles = array();
 
-		$templates = array($this->getSystemTemplate());
-		$templates = array_merge($templates, $this->getTemplates());
+		// Global Layouts
+		$layouts = Folder::files(JPATH_SITE . '/layouts/chromes', '.*\.php');
+
+		foreach ($layouts as &$layout)
+		{
+			$layout = basename($layout, '.php');
+		}
+
+		$moduleStyles['system'] = $layouts;
+
+		$templates = $this->getTemplates();
 		$path      = JPATH_ADMINISTRATOR;
 
 		if ($this->clientId === 0)
@@ -189,42 +196,27 @@ class ChromestyleField extends \JFormFieldGroupedList
 
 		foreach ($templates as $template)
 		{
-			$modulesFilePath = $path . '/templates/' . $template->element . '/html/modules.php';
+			$chromeLayoutPath = $path . '/templates/' . $template->element . '/html/layouts/chromes';
 
-			// Is there modules.php for that template?
-			if (file_exists($modulesFilePath))
+			if (!Folder::exists($chromeLayoutPath))
 			{
-				$modulesFileData = file_get_contents($modulesFilePath);
+				continue;
+			}
 
-				preg_match_all('/function[\s\t]*modChrome\_([a-z0-9\-\_]*)[\s\t]*\(/i', $modulesFileData, $styles);
+			$layouts = Folder::files($chromeLayoutPath, '.*\.php');
 
-				if (!array_key_exists($template->element, $moduleStyles))
+			if ($layouts)
+			{
+				foreach ($layouts as &$layout)
 				{
-					$moduleStyles[$template->element] = array();
+					$layout = basename($layout, '.php');
 				}
 
-				$moduleStyles[$template->element] = $styles[1];
+				$moduleStyles[$template->element] = $layouts;
 			}
 		}
 
 		return $moduleStyles;
-	}
-
-	/**
-	 * Method to get the system template as an object.
-	 *
-	 * @return  \stdClass  The object of system template.
-	 *
-	 * @since   3.0
-	 */
-	protected function getSystemTemplate()
-	{
-		$template = new \stdClass;
-		$template->element = 'system';
-		$template->name    = 'system';
-		$template->enabled = 1;
-
-		return $template;
 	}
 
 	/**
@@ -242,10 +234,11 @@ class ChromestyleField extends \JFormFieldGroupedList
 		$query = $db->getQuery(true);
 
 		// Build the query.
-		$query->select('element, name, enabled')
+		$query->select('element, name')
 			->from('#__extensions')
 			->where('client_id = ' . $this->clientId)
-			->where('type = ' . $db->quote('template'));
+			->where('type = ' . $db->quote('template'))
+			->where('enabled = 1');
 
 		// Set the query and load the templates.
 		$db->setQuery($query);

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 ?>
 <div class="unotes">
 	<h1><?php echo Text::sprintf('COM_USERS_NOTES_FOR_USER', $this->user->name, $this->user->id); ?></h1>
@@ -31,7 +30,7 @@ HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 			</div>
 
 			<div class="fltlft utitle">
-				<?php echo HTMLHelper::_('date', $item->created_time, 'D d M Y H:i'); ?>
+				<?php echo HTMLHelper::_('date', $item->created_time, Text::_('DATE_FORMAT_LC2')); ?>
 			</div>
 
 			<?php $category_image = $item->cparams->get('image'); ?>

@@ -2,19 +2,20 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\Database\ParameterType;
 
 /**
  * Base install script for use by extensions providing helper methods for common behaviours.
@@ -126,8 +127,9 @@ class InstallerScript
 		}
 
 		// Extension manifest file version
-		$this->release = $parent->getManifest()->version;
-		$extensionType = substr($this->extension, 0, 3);
+		$this->extension = $parent->getName();
+		$this->release   = $parent->getManifest()->version;
+		$extensionType   = substr($this->extension, 0, 3);
 
 		// Modules parameters are located in the module table - else in the extension table
 		if ($extensionType === 'mod')
@@ -142,7 +144,7 @@ class InstallerScript
 		// Abort if the extension being installed is not newer than the currently installed version
 		if (!$this->allowDowngrades && strtolower($type) === 'update')
 		{
-			$manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', Factory::getDbo()->quote($this->extension));
+			$manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', $this->extension);
 			$oldRelease = $manifest['version'];
 
 			if (version_compare($this->release, $oldRelease, '<'))
@@ -167,6 +169,8 @@ class InstallerScript
 	 */
 	public function getInstances($isModule)
 	{
+		$extension = $this->extension;
+
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 
@@ -176,13 +180,15 @@ class InstallerScript
 		if ($isModule)
 		{
 			$query->from($db->quoteName('#__modules'))
-				->where($db->quoteName('module') . ' = ' . $db->quote($this->extension));
+				->where($db->quoteName('module') . ' = :extension');
 		}
 		else
 		{
 			$query->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('element') . ' = ' . $db->quote($this->extension));
+				->where($db->quoteName('element') . ' = :extension');
 		}
+
+		$query->bind(':extension', $extension);
 
 		// Set the query and obtain an array of id's
 		return $db->setQuery($query)->loadColumn();
@@ -200,7 +206,7 @@ class InstallerScript
 	 */
 	public function getParam($name, $id = 0)
 	{
-		if (!is_int($id) || $id == 0)
+		if (!\is_int($id) || $id == 0)
 		{
 			// Return false if there is no item given
 			return false;
@@ -226,7 +232,7 @@ class InstallerScript
 	 */
 	public function setParams($param_array = null, $type = 'edit', $id = 0)
 	{
-		if (!is_int($id) || $id == 0)
+		if (!\is_int($id) || $id == 0)
 		{
 			// Return false if there is no valid item given
 			return false;
@@ -241,7 +247,7 @@ class InstallerScript
 				if ($type === 'edit')
 				{
 					// Add or edit the new variable(s) to the existing params
-					if (is_array($value))
+					if (\is_array($value))
 					{
 						// Convert an array into a json encoded string
 						$params[(string) $name] = array_values($value);
@@ -265,8 +271,10 @@ class InstallerScript
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->update($db->quoteName($this->paramTable))
-			->set('params = ' . $db->quote($paramsString))
-			->where('id = ' . $id);
+			->set('params = :params')
+			->where('id = :id')
+			->bind(':params', $paramsString)
+			->bind(':id', $id, ParameterType::INTEGER);
 
 		// Update table
 		$db->setQuery($query)->execute();
@@ -282,7 +290,7 @@ class InstallerScript
 	 * @param   string  $element     The element to get from the query
 	 * @param   string  $table       The table to search for the data in
 	 * @param   string  $column      The column of the database to search from
-	 * @param   mixed   $identifier  The integer id or the already quoted string
+	 * @param   mixed   $identifier  The integer id or the string
 	 *
 	 * @return  array  Associated array containing data from the cell
 	 *
@@ -293,11 +301,14 @@ class InstallerScript
 		// Get the DB and query objects
 		$db = Factory::getDbo();
 
+		$paramType = is_numeric($identifier) ? ParameterType::INTEGER : ParameterType::STRING;
+
 		// Build the query
 		$query = $db->getQuery(true)
 			->select($db->quoteName($element))
 			->from($db->quoteName($table))
-			->where($db->quoteName($column) . ' = ' . $identifier);
+			->where($db->quoteName($column) . ' = :id')
+			->bind(':id', $identifier, $paramType);
 		$db->setQuery($query);
 
 		// Load the single cell and json_decode data

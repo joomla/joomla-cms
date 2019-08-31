@@ -3,17 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_wrapper
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Wrapper\Site\View\Wrapper;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Wrapper view class.
@@ -99,7 +100,7 @@ class HtmlView extends BaseHtmlView
 		// Auto height control
 		if ($params->def('height_auto'))
 		{
-			$wrapper->load = 'onload="iFrameHeight()"';
+			$wrapper->load = 'onload="iFrameHeight(this)"';
 		}
 		else
 		{

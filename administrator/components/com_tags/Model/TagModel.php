@@ -3,21 +3,22 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Tags\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
-use Joomla\CMS\Date\Date;
-use Joomla\CMS\Factory;
 
 /**
  * Tags Component Tag Model
@@ -242,7 +243,8 @@ class TagModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		/* @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+		/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+
 		$table      = $this->getTable();
 		$input      = Factory::getApplication()->input;
 		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
@@ -309,7 +311,7 @@ class TagModel extends AdminModel
 		}
 
 		// Trigger the before save event.
-		$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
+		$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew, $data));
 
 		if (in_array(false, $result, true))
 		{
@@ -363,7 +365,8 @@ class TagModel extends AdminModel
 	public function rebuild()
 	{
 		// Get an instance of the table object.
-		/* @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+		/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+
 		$table = $this->getTable();
 
 		if (!$table->rebuild())
@@ -394,7 +397,8 @@ class TagModel extends AdminModel
 	public function saveorder($idArray = null, $lft_array = null)
 	{
 		// Get an instance of the table object.
-		/* @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+		/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+
 		$table = $this->getTable();
 
 		if (!$table->saveorder($idArray, $lft_array))
@@ -424,7 +428,8 @@ class TagModel extends AdminModel
 	protected function generateNewTitle($parent_id, $alias, $title)
 	{
 		// Alter the title & alias
-		/* @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+		/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+
 		$table = $this->getTable();
 
 		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))

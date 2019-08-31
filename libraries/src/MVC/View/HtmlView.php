@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,10 +12,10 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Base class for a Joomla Html View
@@ -181,19 +181,15 @@ class HtmlView extends AbstractView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
+	 * @throws  \Exception
 	 * @see     \JViewLegacy::loadTemplate()
 	 * @since   3.0
 	 */
 	public function display($tpl = null)
 	{
 		$result = $this->loadTemplate($tpl);
-
-		if ($result instanceof \Exception)
-		{
-			return $result;
-		}
 
 		echo $result;
 	}
@@ -207,6 +203,8 @@ class HtmlView extends AbstractView
 	 * @param   mixed  $var  The output to escape.
 	 *
 	 * @return  mixed  The escaped value.
+	 *
+	 * @note the ENT_COMPAT flag will be replaced by ENT_QUOTES in Joomla 4.0 to also escape single quotes
 	 *
 	 * @since   3.0
 	 */
@@ -356,7 +354,6 @@ class HtmlView extends AbstractView
 		}
 
 		// Load the template script
-		jimport('joomla.filesystem.path');
 		$filetofind = $this->_createFileName('template', array('name' => $file));
 		$this->_template = Path::find($this->_path['template'], $filetofind);
 
@@ -411,7 +408,6 @@ class HtmlView extends AbstractView
 		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $hlp);
 
 		// Load the template script
-		jimport('joomla.filesystem.path');
 		$helper = Path::find($this->_path['helper'], $this->_createFileName('helper', array('name' => $file)));
 
 		if ($helper != false)
@@ -477,8 +473,6 @@ class HtmlView extends AbstractView
 	 */
 	protected function _addPath($type, $path)
 	{
-		jimport('joomla.filesystem.path');
-
 		// Loop through the path directories
 		foreach ((array) $path as $dir)
 		{

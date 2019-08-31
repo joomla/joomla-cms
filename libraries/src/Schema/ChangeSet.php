@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,10 +10,10 @@ namespace Joomla\CMS\Schema;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\CMS\Factory;
-use Joomla\Database\DatabaseDriver;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Database\UTF8MB4SupportInterface;
 
 /**
  * Contains a set of JSchemaChange objects for a particular instance of Joomla.
@@ -104,7 +104,8 @@ class ChangeSet
 				$db,
 				'database.php',
 				'UPDATE ' . $this->db->quoteName('#__utf8_conversion')
-				. ' SET ' . $this->db->quoteName('converted') . ' = 0;');
+				. ' SET ' . $this->db->quoteName('converted') . ' = 0;'
+			);
 
 			// Set to not skipped
 			$tmpSchemaChangeItem->checkStatus = 0;

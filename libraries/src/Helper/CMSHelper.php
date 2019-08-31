@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Helper;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
@@ -85,9 +85,10 @@ class CMSHelper
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('lang_id')
-			->from('#__languages')
-			->where($db->quoteName('lang_code') . ' = ' . $db->quote($langCode));
+			->select($db->quoteName('lang_id'))
+			->from($db->quoteName('#__languages'))
+			->where($db->quoteName('lang_code') . ' = :language')
+			->bind(':language', $langCode);
 		$db->setQuery($query);
 
 		return $db->loadResult();

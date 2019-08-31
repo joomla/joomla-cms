@@ -3,9 +3,10 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Installer\Administrator\Helper;
 
 defined('_JEXEC') or die;
@@ -22,59 +23,6 @@ use Joomla\CMS\Language\Text;
 class InstallerHelper
 {
 	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public static function addSubmenu($vName = 'install')
-	{
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_INSTALLER_SUBMENU_INSTALL'),
-			'index.php?option=com_installer',
-			$vName == 'install'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_INSTALLER_SUBMENU_UPDATE'),
-			'index.php?option=com_installer&view=update',
-			$vName == 'update'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_INSTALLER_SUBMENU_MANAGE'),
-			'index.php?option=com_installer&view=manage',
-			$vName == 'manage'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_INSTALLER_SUBMENU_DISCOVER'),
-			'index.php?option=com_installer&view=discover',
-			$vName == 'discover'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_INSTALLER_SUBMENU_DATABASE'),
-			'index.php?option=com_installer&view=database',
-			$vName == 'database'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_INSTALLER_SUBMENU_WARNINGS'),
-			'index.php?option=com_installer&view=warnings',
-			$vName == 'warnings'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_INSTALLER_SUBMENU_LANGUAGES'),
-			'index.php?option=com_installer&view=languages',
-			$vName == 'languages'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_INSTALLER_SUBMENU_UPDATESITES'),
-			'index.php?option=com_installer&view=updatesites',
-			$vName == 'updatesites'
-		);
-	}
-
-	/**
 	 * Get a list of filter options for the extension types.
 	 *
 	 * @return  array  An array of \stdClass objects.
@@ -83,7 +31,7 @@ class InstallerHelper
 	 */
 	public static function getExtensionTypes()
 	{
-		$db    = \JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT type')
 			->from('#__extensions');

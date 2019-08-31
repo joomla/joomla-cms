@@ -3,17 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Redirect\Administrator\Table;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Table\Table;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 
 /**
@@ -103,17 +104,21 @@ class LinkTable extends Table
 		// Check for existing name
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
-			->from('#__redirect_links')
-			->where($db->quoteName('old_url') . ' = ' . $db->quote(rawurlencode($this->old_url)));
+			->select($db->quoteName('old_url'))
+			->from($db->quoteName('#__redirect_links'))
+			->where($db->quoteName('old_url') . ' = :url')
+			->bind(':url', $this->old_url);
 		$db->setQuery($query);
+		$urls = $db->loadAssocList();
 
-		$xid = (int) $db->loadResult();
-
-		if ($xid && $xid != (int) $this->id)
+		foreach ($urls as $url)
 		{
-			$this->setError(Text::_('COM_REDIRECT_ERROR_DUPLICATE_OLD_URL'));
+			if ($url['old_url'] === $this->old_url && (int) $url['id'] != (int) $this->id)
+			{
+				$this->setError(Text::_('COM_REDIRECT_ERROR_DUPLICATE_OLD_URL'));
 
-			return false;
+				return false;
+			}
 		}
 
 		if (empty($this->modified_date))
@@ -125,7 +130,7 @@ class LinkTable extends Table
 	}
 
 	/**
-	 * Overriden store method to set dates.
+	 * Overridden store method to set dates.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *

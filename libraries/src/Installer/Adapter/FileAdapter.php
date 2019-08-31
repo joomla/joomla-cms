@@ -2,22 +2,23 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Installer\Installer;
-use Joomla\CMS\Installer\InstallerAdapter;
-use Joomla\CMS\Table\Table;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Installer\InstallerAdapter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Table\Table;
+use Joomla\Database\ParameterType;
 
 /**
  * File installer
@@ -158,12 +159,15 @@ class FileAdapter extends InstallerAdapter
 	{
 		File::delete(JPATH_MANIFESTS . '/files/' . $this->extension->element . '.xml');
 
+		$extensionId = $this->extension->extension_id;
+
 		$db = $this->parent->getDbo();
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
 			->delete('#__schemas')
-			->where('extension_id = ' . $this->extension->extension_id);
+			->where('extension_id = :extension_id')
+			->bind(':extension_id', $extensionId, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
 
@@ -263,7 +267,7 @@ class FileAdapter extends InstallerAdapter
 			$folderList = [];
 
 			// Check if all children exists
-			if (count($eFiles->children()) > 0)
+			if (\count($eFiles->children()) > 0)
 			{
 				// Loop through all filenames elements
 				foreach ($eFiles->children() as $eFileName)
@@ -285,7 +289,7 @@ class FileAdapter extends InstallerAdapter
 			{
 				$files = Folder::files($folder);
 
-				if (!count($files))
+				if ($files !== false && !\count($files))
 				{
 					Folder::delete($folder);
 				}
@@ -406,9 +410,10 @@ class FileAdapter extends InstallerAdapter
 		else
 		{
 			// Add an entry to the extension table with a whole heap of defaults
-			$this->extension->name = $this->name;
-			$this->extension->type = 'file';
-			$this->extension->element = $this->element;
+			$this->extension->name         = $this->name;
+			$this->extension->type         = 'file';
+			$this->extension->element      = $this->element;
+			$this->extension->changelogurl = $this->changelogurl;
 
 			// There is no folder for files so leave it blank
 			$this->extension->folder    = '';
@@ -457,7 +462,8 @@ class FileAdapter extends InstallerAdapter
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('file'))
-			->where($db->quoteName('element') . ' = ' . $db->quote($extension));
+			->where($db->quoteName('element') . ' = :extension')
+			->bind(':extension', $extension);
 		$db->setQuery($query);
 
 		try
@@ -541,7 +547,7 @@ class FileAdapter extends InstallerAdapter
 			}
 
 			// Check if all children exists
-			if (count($eFiles->children()))
+			if (\count($eFiles->children()))
 			{
 				// Loop through all filenames elements
 				foreach ($eFiles->children() as $eFileName)

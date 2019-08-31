@@ -2,11 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Toolbar;
+
+defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
@@ -21,12 +23,20 @@ use Joomla\Utilities\ArrayHelper;
  * @method self buttonClass(string $value)
  * @method self attributes(array $value)
  * @method self onclick(array $value)
+ * @method self listCheck(bool $value)
+ * @method self listCheckMessage(string $value)
+ * @method self form(string $value)
+ * @method self formValidation(bool $value)
  * @method string  getText()
  * @method string  getTask()
  * @method string  getIcon()
  * @method string  getButtonClass()
  * @method array   getAttributes()
  * @method string  getOnclick()
+ * @method bool    getListCheck()
+ * @method string  getListCheckMessage()
+ * @method string  getForm()
+ * @method bool    getFormValidation()
  *
  * @since  4.0.0
  */
@@ -114,9 +124,9 @@ abstract class ToolbarButton
 
 		if (!empty($options['is_child']))
 		{
-			$options['tagName'] = 'a';
+			$options['tagName'] = 'button';
 			$options['btnClass'] = ($options['button_class'] ?? '') . ' dropdown-item';
-			$options['attributes']['href'] = '#';
+			$options['attributes']['type'] = 'button';
 		}
 		else
 		{
@@ -502,7 +512,11 @@ abstract class ToolbarButton
 			'icon',
 			'attributes',
 			'onclick',
-			'buttonClass' => 'button_class'
+			'buttonClass' => 'button_class',
+			'listCheck',
+			'listCheckMessage',
+			'form',
+			'formValidation',
 		];
 	}
 }

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,17 +11,19 @@ namespace Joomla\CMS\MVC\Controller;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\MVC\View\AbstractView;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\View\ViewInterface;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Filesystem\Path;
 
 /**
  * Base class for a Joomla Controller
@@ -156,7 +158,7 @@ class BaseController implements ControllerInterface
 	/**
 	 * Instance container containing the views.
 	 *
-	 * @var    AbstractView[]
+	 * @var    ViewInterface[]
 	 * @since  3.4
 	 */
 	protected static $views;
@@ -164,7 +166,7 @@ class BaseController implements ControllerInterface
 	/**
 	 * The Application
 	 *
-	 * @var    \JApplicationCms|null
+	 * @var    CMSApplication|null
 	 * @since  4.0.0
 	 */
 	protected $app;
@@ -181,7 +183,7 @@ class BaseController implements ControllerInterface
 	 */
 	public static function addModelPath($path, $prefix = '')
 	{
-		BaseDatabaseModel::addIncludePath($path, $prefix);
+		BaseModel::addIncludePath($path, $prefix);
 	}
 
 	/**
@@ -245,10 +247,9 @@ class BaseController implements ControllerInterface
 	 *
 	 * @return  static
 	 *
-	 * @since   3.0
-	 *
-	 * @deprecated 4.0
-	 * @throws  \Exception if the controller cannot be loaded.
+	 * @since       3.0
+	 * @deprecated  5.0 Get the controller through the MVCFactory instead
+	 * @throws      \Exception if the controller cannot be loaded.
 	 */
 	public static function getInstance($prefix, $config = array())
 	{
@@ -256,6 +257,14 @@ class BaseController implements ControllerInterface
 		{
 			return self::$instance;
 		}
+
+		@trigger_error(
+			sprintf(
+				'%1$s::getInstance() is deprecated. Load it through the MVC factory.',
+				self::class
+			),
+			E_USER_DEPRECATED
+		);
 
 		$app   = Factory::getApplication();
 		$input = $app->input;
@@ -331,7 +340,7 @@ class BaseController implements ControllerInterface
 		}
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (Factory::getContainer()->exists($class))
+		if (Factory::getContainer()->has($class))
 		{
 			self::$instance = Factory::getContainer()->get($class);
 		}
@@ -373,7 +382,7 @@ class BaseController implements ControllerInterface
 		}
 
 		// Determine the methods to exclude from the base class.
-		$xMethods = get_class_methods('\JControllerLegacy');
+		$xMethods = get_class_methods('\\Joomla\\CMS\\MVC\\Controller\\BaseController');
 
 		// Get the public methods in this class using reflection.
 		$r = new \ReflectionClass($this);
@@ -565,7 +574,7 @@ class BaseController implements ControllerInterface
 	 * @param   string  $prefix  Optional model prefix.
 	 * @param   array   $config  Configuration array for the model. Optional.
 	 *
-	 * @return  Model|boolean   Model object on success; otherwise false on failure.
+	 * @return  BaseDatabaseModel|boolean   Model object on success; otherwise false on failure.
 	 *
 	 * @since   3.0
 	 */
@@ -594,7 +603,7 @@ class BaseController implements ControllerInterface
 	 * @param   string  $type    The type of view.
 	 * @param   array   $config  Configuration array for the view. Optional.
 	 *
-	 * @return  AbstractView|null  View object on success; null or error result on failure.
+	 * @return  ViewInterface|null  View object on success; null or error result on failure.
 	 *
 	 * @since   3.0
 	 * @throws  \Exception
@@ -602,6 +611,7 @@ class BaseController implements ControllerInterface
 	protected function createView($name, $prefix = '', $type = '', $config = array())
 	{
 		$config['paths'] = $this->paths['view'];
+
 		return $this->factory->createView($name, $prefix, $type, $config);
 	}
 
@@ -617,10 +627,11 @@ class BaseController implements ControllerInterface
 	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   3.0
+	 * @throws  \Exception
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		$document = Factory::getDocument();
+		$document = $this->app->getDocument();
 		$viewType = $document->getType();
 		$viewName = $this->input->get('view', $this->default_view);
 		$viewLayout = $this->input->get('layout', 'default', 'string');
@@ -637,7 +648,7 @@ class BaseController implements ControllerInterface
 		$view->document = $document;
 
 		// Display the view
-		if ($cachable && $viewType !== 'feed' && Factory::getConfig()->get('caching') >= 1)
+		if ($cachable && $viewType !== 'feed' && Factory::getApplication()->get('caching') >= 1)
 		{
 			$option = $this->input->get('option');
 
@@ -669,7 +680,7 @@ class BaseController implements ControllerInterface
 				$cache = Factory::getCache($option, 'view');
 				$cache->get($view, 'display');
 			}
-			catch (\JCacheException $exception)
+			catch (CacheExceptionInterface $exception)
 			{
 				$view->display();
 			}
@@ -735,15 +746,34 @@ class BaseController implements ControllerInterface
 			$name = $this->getName();
 		}
 
-		if (empty($prefix) && $this->factory instanceof LegacyFactory)
+		if (!$prefix)
 		{
-			$prefix = $this->model_prefix;
+			if ($this->factory instanceof LegacyFactory)
+			{
+				$prefix = $this->model_prefix;
+			}
+			// When the frontend uses an administrator model
+			elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), JPATH_ADMINISTRATOR) === 0)
+			{
+				$prefix = 'Administrator';
+			}
+			else
+			{
+				$prefix = $this->app->getName();
+			}
 		}
 
 		if ($model = $this->createModel($name, $prefix, $config))
 		{
 			// Task is a reserved state
 			$model->setState('task', $this->task);
+
+			// We don't have the concept on a menu tree in the api app, so skip setting it's information and
+			// return early
+			if ($this->app->isClient('api'))
+			{
+				return $model;
+			}
 
 			// Let's get the application object and set menu information if it's available
 			$menu = Factory::getApplication()->getMenu();
@@ -820,7 +850,7 @@ class BaseController implements ControllerInterface
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for view. Optional.
 	 *
-	 * @return  AbstractView  Reference to the view or an error.
+	 * @return  ViewInterface  Reference to the view or an error.
 	 *
 	 * @since   3.0
 	 * @throws  \Exception
@@ -838,9 +868,21 @@ class BaseController implements ControllerInterface
 			$name = $this->getName();
 		}
 
-		if (empty($prefix) && $this->factory instanceof LegacyFactory)
+		if (!$prefix)
 		{
-			$prefix = $this->getName() . 'View';
+			if ($this->factory instanceof LegacyFactory)
+			{
+				$prefix = $this->getName() . 'View';
+			}
+			// When the front uses an administrator view
+			elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), JPATH_ADMINISTRATOR) === 0)
+			{
+				$prefix = 'Administrator';
+			}
+			else
+			{
+				$prefix = $this->app->getName();
+			}
 		}
 
 		if (empty(self::$views[$name][$type][$prefix]))

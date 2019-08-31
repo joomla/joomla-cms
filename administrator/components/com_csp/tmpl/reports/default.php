@@ -3,17 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_csp
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
 HTMLHelper::_('behavior.tabstate');
@@ -46,25 +46,34 @@ $saveOrder = $listOrder == 'a.id';
 							'backdrop'    => 'static',
 							'keyboard'    => false,
 							'footer'      => '<button type="button" class="btn" data-dismiss="modal"'
-								. ' onclick="jQuery(\'#plugin' . $this->httpHeadersId . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
+								. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->httpHeadersId . 'Modal\', buttonSelector: \'#closeBtn\'})">'
 								. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-								. '<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="jQuery(\'#plugin' . $this->httpHeadersId . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
+								. '<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->httpHeadersId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
 								. Text::_("JSAVE") . '</button>'
-								. '<button type="button" class="btn btn-success" onclick="jQuery(\'#plugin' . $this->httpHeadersId . 'Modal iframe\').contents().find(\'#applyBtn\').click(); return false;">'
+								. '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->httpHeadersId . 'Modal\', buttonSelector: \'#applyBtn\'})">'
 								. Text::_("JAPPLY") . '</button>'
 						)
 					); ?>
 				<?php endif; ?>
+				<?php if (isset($this->trashWarningMessage)) : ?>
+					<?php Factory::getApplication()->enqueueMessage($this->trashWarningMessage, 'warning'); ?>
+				<?php endif; ?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<div class="alert alert-info">
+						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+					</div>
 				<?php else : ?>
-					<table class="table table-striped" id="articleList">
+					<table class="table" id="articleList">
+						<caption id="captionTable" class="sr-only">
+							<?php echo Text::_('COM_CSP_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						</caption>
 						<thead>
 							<tr>
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" class="nowrap text-center">
+								<th scope="col" class="text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col">
@@ -82,7 +91,7 @@ $saveOrder = $listOrder == 'a.id';
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CSP_HEADING_CREATED', 'a.created', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -95,11 +104,9 @@ $saveOrder = $listOrder == 'a.id';
 										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 									</td>
 									<td class="text-center">
-										<div class="btn-group">
-											<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'reports.', $canChange, 'cb'); ?>
-										</div>
+										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'reports.', $canChange, 'cb'); ?>
 									</td>
-									<th scope="row" class="small d-none d-md-table-cell">
+									<th scope="row" class="small d-none d-md-table-cell text-break">
 										<?php echo $item->document_uri; ?>
 									</th>
 									<td class="small d-none d-md-table-cell">
@@ -109,12 +116,12 @@ $saveOrder = $listOrder == 'a.id';
 										<?php echo $item->directive; ?>
 									</td>
 									<td class="d-none d-md-table-cell">
-										<?php echo JText::_('J' . strtoupper($item->client)); ?>
+										<?php echo Text::_('J' . strtoupper($item->client)); ?>
 									</td>
 									<td class="d-none d-md-table-cell">
-										<?php echo $item->created > 0 ? HTMLHelper::_('date', $item->created, JText::_('DATE_FORMAT_LC4')) : '-'; ?>
+										<?php echo $item->created > 0 ? HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC4')) : '-'; ?>
 									</td>
-									<td class="text-center d-none d-md-table-cell text-center">
+									<td class="text-center d-none d-md-table-cell">
 										<?php echo $item->id; ?>
 									</td>
 								</tr>

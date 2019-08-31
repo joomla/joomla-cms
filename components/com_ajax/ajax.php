@@ -3,19 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_ajax
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Response\JsonResponse;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Table\Table;
-use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Table\Table;
 
 /*
  * References
@@ -54,14 +53,11 @@ if (!$format)
  */
 elseif ($input->get('module'))
 {
-	$module       = $input->get('module');
-	$moduleObject = ModuleHelper::getModule('mod_' . $module, null);
+	$module   = $input->get('module');
+	$table    = Table::getInstance('extension');
+	$moduleId = $table->find(array('type' => 'module', 'element' => 'mod_' . $module));
 
-	/*
-	 * As ModuleHelper::isEnabled always returns true, we check
-	 * for an id other than 0 to see if it is published.
-	 */
-	if ($moduleObject->id != 0)
+	if ($moduleId && $table->load($moduleId) && $table->enabled)
 	{
 		$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
 

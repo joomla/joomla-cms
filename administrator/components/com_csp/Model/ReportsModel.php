@@ -3,17 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_csp
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Csp\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\ParameterType;
 
 /**
  * CSP Component Reports Model
@@ -103,18 +103,20 @@ class ReportsModel extends ListModel
 		// Select the required fields from the table.
 		$query
 			->select('*')
-			->from('#__csp AS a');
+			->from($db->quoteName('#__csp', 'a'));
 
 		// Filter by published state
 		$published = (string) $this->getState('filter.published');
 
 		if (is_numeric($published))
 		{
-			$query->where('a.published = ' . (int) $published);
+			$published = (int) $published;
+			$query->where($db->quoteName('a.published') . ' = :published')
+				->bind(':published', $published, ParameterType::INTEGER);
 		}
 		elseif ($published === '')
 		{
-			$query->where('(a.published IN (0, 1))');
+			$query->whereIn($db->quoteName('a.published'), [0, 1]);
 		}
 
 		// Filter by search in title
@@ -124,12 +126,19 @@ class ReportsModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.id = ' . (int) substr($search, 3));
+				$ids = (int) substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :id');
+				$query->bind(':id', $ids, ParameterType::INTEGER);
 			}
 			else
 			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.document_uri LIKE ' . $search . ' OR a.blocked_uri LIKE ' . $search . ' OR a.directive LIKE ' . $search . ')');
+				$search = '%' . trim($search) . '%';
+				$query->where($db->quoteName('a.document_uri') . ' LIKE :documenturi')
+					->orWhere($db->quoteName('a.blocked_uri') . ' LIKE :blockeduri')
+					->orWhere($db->quoteName('a.directive') . ' LIKE :directive')
+					->bind(':documenturi', $search)
+					->bind(':blockeduri', $search)
+					->bind(':directive', $search);
 			}
 		}
 

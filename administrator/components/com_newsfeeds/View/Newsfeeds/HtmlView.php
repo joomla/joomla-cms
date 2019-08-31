@@ -3,22 +3,23 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Newsfeeds\Administrator\View\Newsfeeds;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Newsfeeds\Administrator\Helper\NewsfeedsHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Newsfeeds\Administrator\Helper\NewsfeedsHelper;
 
 /**
  * View class for a list of newsfeeds.
@@ -77,14 +78,13 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// We don't need toolbar in the modal layout.
 		if ($this->getLayout() !== 'modal')
 		{
 			$this->addToolbar();
-			$this->sidebar = \JHtmlSidebar::render();
 
 			// We do not need to filter by language when multilingual is disabled
 			if (!Multilanguage::isEnabled())
@@ -128,55 +128,66 @@ class HtmlView extends BaseHtmlView
 		$user  = Factory::getUser();
 
 		// Get the toolbar object instance
-		$bar = Toolbar::getInstance('toolbar');
-		ToolbarHelper::title(Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'feed newsfeeds');
+		$toolbar = Toolbar::getInstance('toolbar');
+
+		ToolbarHelper::title(Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'rss newsfeeds');
 
 		if (count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
 		{
-			ToolbarHelper::addNew('newsfeed.add');
+			$toolbar->addNew('newsfeed.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') || $user->authorise('core.admin'))
 		{
-			ToolbarHelper::publish('newsfeeds.publish', 'JTOOLBAR_PUBLISH', true);
-			ToolbarHelper::unpublish('newsfeeds.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			ToolbarHelper::archiveList('newsfeeds.archive');
-		}
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
+				->listCheck(true);
 
-		if ($canDo->get('core.admin'))
-		{
-			ToolbarHelper::checkin('newsfeeds.checkin');
-		}
+			$childBar = $dropdown->getChildToolbar();
 
-		// Add a batch button
-		if ($user->authorise('core.create', 'com_newsfeeds')
-			&& $user->authorise('core.edit', 'com_newsfeeds')
-			&& $user->authorise('core.edit.state', 'com_newsfeeds'))
-		{
-			$title = Text::_('JTOOLBAR_BATCH');
+			$childBar->publish('newsfeeds.publish')->listCheck(true);
+			$childBar->unpublish('newsfeeds.unpublish')->listCheck(true);
+			$childBar->archive('newsfeeds.archive')->listCheck(true);
 
-			// Instantiate a new FileLayout instance and render the batch button
-			$layout = new FileLayout('joomla.toolbar.batch');
+			if ($user->authorise('core.admin'))
+			{
+				$childBar->checkin('newsfeeds.checkin')->listCheck(true);
+			}
 
-			$dhtml = $layout->render(array('title' => $title));
-			$bar->appendButton('Custom', $dhtml, 'batch');
-		}
+			if (!$this->state->get('filter.published') == -2)
+			{
+				$childBar->trash('newsfeeds.trash')->listCheck(true);
+			}
 
-		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
-		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'newsfeeds.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::trash('newsfeeds.trash');
+			// Add a batch button
+			if ($user->authorise('core.create', 'com_newsfeeds')
+				&& $user->authorise('core.edit', 'com_newsfeeds')
+				&& $user->authorise('core.edit.state', 'com_newsfeeds'))
+			{
+				$childBar->popupButton('batch')
+					->text('JTOOLBAR_BATCH')
+					->selector('collapseModal')
+					->listCheck(true);
+			}
+
+			if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
+			{
+				$childBar->delete('newsfeeds.delete')
+					->text('JTOOLBAR_EMPTY_TRASH')
+					->message('JGLOBAL_CONFIRM_DELETE')
+					->listCheck(true);
+			}
 		}
 
 		if ($user->authorise('core.admin', 'com_newsfeeds') || $user->authorise('core.options', 'com_newsfeeds'))
 		{
-			ToolbarHelper::preferences('com_newsfeeds');
+			$toolbar->preferences('com_newsfeeds');
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS');
+		$toolbar->help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS');
 	}
 
 	/**

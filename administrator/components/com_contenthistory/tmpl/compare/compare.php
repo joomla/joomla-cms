@@ -3,15 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\HTML\HTMLHelper;
 
 Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 
@@ -25,15 +25,18 @@ HTMLHelper::_('script', 'com_contenthistory/admin-compare-compare.min.js', array
 ?>
 <fieldset>
 
-	<h2 class="mb-3"><?php echo Text::sprintf('COM_CONTENTHISTORY_COMPARE_TITLE'); ?></h2>
+	<h2 class="mb-3"><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_TITLE'); ?></h2>
 
-	<table id="diff" class="table table-sm">
+	<table id="diff" class="table">
+		<caption id="captionTable" class="sr-only">
+			<?php echo Text::_('COM_CONTENTHISTORY_COMPARE_CAPTION'); ?>
+		</caption>
 		<thead>
 			<tr>
-				<th style="width:25%"><?php echo Text::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
-				<th><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_OLD'); ?></th>
-				<th><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_NEW'); ?></th>
-				<th><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_DIFF'); ?></th>
+				<th scope="col" style="width:25%"><?php echo Text::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
+				<th scope="col"><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_OLD'); ?></th>
+				<th scope="col"><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_NEW'); ?></th>
+				<th scope="col"><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_DIFF'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -61,9 +64,9 @@ HTMLHelper::_('script', 'com_contenthistory/admin-compare-compare.min.js', array
 						<?php endif; ?>
 					<?php endforeach; ?>
 				<?php else : ?>
-					<td>
-						<strong><?php echo $value->label; ?></strong>
-					</td>
+					<th scope="row">
+						<?php echo $value->label; ?>
+					</th>
 					<td class="original"><?php echo htmlspecialchars($value->value); ?></td>
 					<?php $object2->$name->value = is_object($object2->$name->value) ? json_encode($object2->$name->value) : $object2->$name->value; ?>
 					<td class="changed"><?php echo htmlspecialchars($object2->$name->value, ENT_COMPAT, 'UTF-8'); ?></td>

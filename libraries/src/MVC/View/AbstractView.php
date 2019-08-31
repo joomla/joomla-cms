@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,8 @@ namespace Joomla\CMS\MVC\View;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Object\CMSObject;
 
 /**
@@ -22,7 +22,7 @@ use Joomla\CMS\Object\CMSObject;
  *
  * @since  2.5.5
  */
-abstract class AbstractView extends CMSObject
+abstract class AbstractView extends CMSObject implements ViewInterface
 {
 	/**
 	 * The active document object
@@ -105,7 +105,7 @@ abstract class AbstractView extends CMSObject
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   3.0
 	 */
@@ -213,6 +213,7 @@ abstract class AbstractView extends CMSObject
 		if (empty($this->_name))
 		{
 			$reflection = new \ReflectionClass($this);
+
 			if ($viewNamespace = $reflection->getNamespaceName())
 			{
 				$pos = strrpos($viewNamespace, '\\');

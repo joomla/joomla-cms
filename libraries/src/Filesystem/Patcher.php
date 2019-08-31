@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,14 +10,13 @@ namespace Joomla\CMS\Filesystem;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Language\Text;
 
 /**
  * A Unified Diff Format Patcher class
  *
  * @link   http://sourceforge.net/projects/phppatcher/ This has been derived from the PhpPatcher version 0.1.1 written by Giuseppe Mazzotta
- * @since  12.1
+ * @since  3.0.0
  */
 class Patcher
 {
@@ -43,31 +42,31 @@ class Patcher
 
 	/**
 	 * @var    array  sources files
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $sources = array();
 
 	/**
 	 * @var    array  destination files
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $destinations = array();
 
 	/**
 	 * @var    array  removal files
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $removals = array();
 
 	/**
 	 * @var    array  patches
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $patches = array();
 
 	/**
 	 * @var    array  instance of this class
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected static $instance;
 
@@ -76,7 +75,7 @@ class Patcher
 	 *
 	 * The constructor is protected to force the use of FilesystemPatcher::getInstance()
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function __construct()
 	{
@@ -87,7 +86,7 @@ class Patcher
 	 *
 	 * @return  FilesystemPatcher  an instance of the patcher
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function getInstance()
 	{
@@ -104,7 +103,7 @@ class Patcher
 	 *
 	 * @return  FilesystemPatcher  This object for chaining
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function reset()
 	{
@@ -121,7 +120,7 @@ class Patcher
 	 *
 	 * @return  integer  The number of files patched
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  \RuntimeException
 	 */
 	public function apply()
@@ -137,6 +136,7 @@ class Patcher
 				$done = false;
 
 				$regex = '#^([^/]*/)*#';
+
 				if ($patch['strip'] !== null)
 				{
 					$regex = '#^([^/]*/){' . (int) $patch['strip'] . '}#';
@@ -216,7 +216,7 @@ class Patcher
 	 *
 	 * @return	FilesystemPatcher  $this for chaining
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function addFile($filename, $root = JPATH_BASE, $strip = 0)
 	{
@@ -232,7 +232,7 @@ class Patcher
 	 *
 	 * @return	FilesystemPatcher  $this for chaining
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function add($udiff, $root = JPATH_BASE, $strip = 0)
 	{
@@ -252,7 +252,7 @@ class Patcher
 	 *
 	 * @return  array  The lines of the inputdestination file
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected static function splitLines($data)
 	{
@@ -264,13 +264,13 @@ class Patcher
 	 *
 	 * The internal array pointer of $lines is on the next line after the finding
 	 *
-	 * @param   array   &$lines  The udiff array of lines
-	 * @param   string  &$src    The source file
-	 * @param   string  &$dst    The destination file
+	 * @param   array   $lines  The udiff array of lines
+	 * @param   string  $src    The source file
+	 * @param   string  $dst    The destination file
 	 *
 	 * @return  boolean  TRUE in case of success, FALSE in case of failure
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  \RuntimeException
 	 */
 	protected static function findHeader(&$lines, &$src, &$dst)
@@ -324,15 +324,15 @@ class Patcher
 	 *
 	 * The internal array pointer of $lines is on the next line after the finding
 	 *
-	 * @param   array   &$lines     The udiff array of lines
-	 * @param   string  &$src_line  The beginning of the patch for the source file
-	 * @param   string  &$src_size  The size of the patch for the source file
-	 * @param   string  &$dst_line  The beginning of the patch for the destination file
-	 * @param   string  &$dst_size  The size of the patch for the destination file
+	 * @param   array   $lines     The udiff array of lines
+	 * @param   string  $src_line  The beginning of the patch for the source file
+	 * @param   string  $src_size  The size of the patch for the source file
+	 * @param   string  $dst_line  The beginning of the patch for the destination file
+	 * @param   string  $dst_size  The size of the patch for the destination file
 	 *
 	 * @return  boolean  TRUE in case of success, false in case of failure
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  \RuntimeException
 	 */
 	protected static function findHunk(&$lines, &$src_line, &$src_size, &$dst_line, &$dst_size)
@@ -344,6 +344,7 @@ class Patcher
 			$src_line = (int) $m[1];
 
 			$src_size = 1;
+
 			if ($m[3] !== '')
 			{
 				$src_size = (int) $m[3];
@@ -352,6 +353,7 @@ class Patcher
 			$dst_line = (int) $m[4];
 
 			$dst_size = 1;
+
 			if ($m[6] !== '')
 			{
 				$dst_size = (int) $m[6];
@@ -371,7 +373,7 @@ class Patcher
 	/**
 	 * Apply the patch
 	 *
-	 * @param   array   &$lines    The udiff array of lines
+	 * @param   array   $lines     The udiff array of lines
 	 * @param   string  $src       The source file
 	 * @param   string  $dst       The destination file
 	 * @param   string  $src_line  The beginning of the patch for the source file
@@ -381,7 +383,7 @@ class Patcher
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  \RuntimeException
 	 */
 	protected function applyHunk(&$lines, $src, $dst, $src_line, $src_size, $dst_line, $dst_size)
@@ -495,13 +497,14 @@ class Patcher
 	 *
 	 * @return  array  The lines of the source file
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function &getSource($src)
 	{
 		if (!isset($this->sources[$src]))
 		{
 			$this->sources[$src] = null;
+
 			if (is_readable($src))
 			{
 				$this->sources[$src] = self::splitLines(file_get_contents($src));
@@ -519,7 +522,7 @@ class Patcher
 	 *
 	 * @return  array  The lines of the destination file
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function &getDestination($dst, $src)
 	{

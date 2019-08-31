@@ -3,20 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Component\Users\Administrator\Helper\UsersHelperDebug;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\Component\Users\Administrator\Helper\UsersHelperDebug;
 use Joomla\Database\DatabaseQuery;
 
 /**
@@ -87,19 +88,7 @@ class DebuggroupModel extends ListModel
 				foreach ($actions as $action)
 				{
 					$name = $action[0];
-					$level = $action[1];
-
-					// Check that we check this action for the level of the asset.
-					if ($level === null || $level >= $asset->level)
-					{
-						// We need to test this action.
-						$asset->checks[$name] = Access::checkGroup($groupId, $name, $asset->name);
-					}
-					else
-					{
-						// We ignore this action.
-						$asset->checks[$name] = 'skip';
-					}
+					$asset->checks[$name] = Access::checkGroup($groupId, $name, $asset->name);
 				}
 			}
 		}

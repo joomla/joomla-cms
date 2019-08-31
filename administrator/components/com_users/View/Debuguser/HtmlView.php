@@ -3,20 +3,22 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\View\Debuguser;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\Notallowed;
-use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\User;
 
 /**
@@ -93,8 +95,6 @@ class HtmlView extends BaseHtmlView
 			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		\JLoader::register('UsersHelperDebug', JPATH_ADMINISTRATOR . '/components/com_users/helpers/debug.php');
-
 		$this->actions       = $this->get('DebugActions');
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
@@ -106,7 +106,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -125,7 +125,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_users');
 
-		ToolbarHelper::title(Text::sprintf('COM_USERS_VIEW_DEBUG_USER_TITLE', $this->user->id, $this->user->name), 'users user');
+		ToolbarHelper::title(Text::sprintf('COM_USERS_VIEW_DEBUG_USER_TITLE', $this->user->id, $this->escape($this->user->name)), 'users user');
 		ToolbarHelper::cancel('user.cancel', 'JTOOLBAR_CLOSE');
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))

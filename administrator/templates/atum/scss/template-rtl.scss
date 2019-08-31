@@ -38,8 +38,6 @@ body {
 }
 
 .dropdown-menu-right {
-  right: auto;
-  left: 0;
 
   &::after {
     right: auto;
@@ -51,10 +49,19 @@ body {
   right: 0;
   left: auto;
 }
-
+.subhead {
+	.dropdown-toggle.btn-action::after {
+		margin: 0 16px 0 -22px;
+	}
+}
+.switcher {
+    float: right;
+}
+.form-no-margin .control-group .controls  .switcher__legend {
+    text-align: right;
+}
 // Alerts
 .notify-alerts {
-  margin-right: 125px;
   margin-left: 0;
 
   .closed & {
@@ -63,9 +70,15 @@ body {
 }
 
 // Header
-.header .page-title [class^='icon-'] {
-  margin-right: 0;
-  margin-left: 15px;
+.header {
+  .page-title [class^='icon-'] {
+    margin-right: 0;
+    margin-left: 15px;
+  }
+  .logo img {
+    margin-right: .8rem;
+    margin-left: auto;
+  }
 }
 
 .menu-collapse {
@@ -83,24 +96,6 @@ body {
   }
 }
 
-// Quickicons
-.quick-icons {
-
-  a {
-
-    &::before {
-      right: auto;
-      left: -40px;
-    }
-
-    [class*=' icon-'],
-    [class^='icon-'] {
-      border-right: 0;
-      border-left: 1px solid rgba($white,.15);
-    }
-  }
-}
-
 // Sidebar
 .main-nav {
 
@@ -112,14 +107,17 @@ body {
     }
   }
 
+  li {
+    > a.btn-dashboard {
+      left: 30px;
+      right: auto;
+    }
+  }
+
   .collapse-level-2 {
     right: 100%;
     left: auto;
     border-radius: $border-radius 0 0 $border-radius;
-  }
-
-  .close {
-    float: left;
   }
 
   .parent .collapse-arrow::after {
@@ -128,8 +126,31 @@ body {
     content: "\f0d9";
   }
 
-  li a span {
-    float: right;
+  .has-arrow::after {
+    left: 1rem;
+    right: inherit;
+    transform: rotate(180deg) translate(0, -180%);
+  }
+
+  ul a {
+    padding: 0 1.4rem 0 0;
+  }
+
+  .active .no-dropdown .sidebar-item-title {
+    margin-right: 1rem;
+  }
+
+  .dropdown-submenu .sidebar-item-title {
+    margin-right: 1rem;
+  }
+
+  .dropdown-submenu .no-dropdown .sidebar-item-title {
+    margin-right: 44px;
+  }
+
+  ul ul a::before {
+    right: 34px;
+    left: 0;
   }
 }
 
@@ -156,14 +177,15 @@ body {
 // Toolbar
 .subhead {
 
-  .btn, .btn-sm {
+  .btn,
+  .btn-sm {
     [class*=' fa-'],
     [class^='fa-'],
     [class^='icon-'],
     [class*=' icon-'],
     [class^='#{$fa-css-prefix}-'],
     [class*=' #{$fa-css-prefix}-'] {
-      margin: 0 -22px 0 22px;
+      margin: 0 -27px 0 27px;
     }
   }
 
@@ -180,7 +202,6 @@ body {
     }
   }
 }
-
 
 // com_cpanel
 .com_cpanel {
@@ -205,12 +226,17 @@ body {
       left: 0;
 
       > a {
-        border-right: 1px solid #ccc;
+        border-right: 1px solid var(--border);
         border-left: 0;
         border-top-left-radius: $border-radius;
         border-top-right-radius: 0;
       }
     }
+  }
+
+  .module-actions {
+    right: auto;
+    left: 0;
   }
 }
 
@@ -236,8 +262,8 @@ body {
 
 #helpsite-refresh {
   float: right;
-  margin-right: 4px;
   margin-top: 1px;
+  margin-right: 4px;
 }
 
 .field-calendar {
@@ -252,7 +278,58 @@ body {
   float: right;
 }
 
-
 .field-media-input {
   margin-right: 220px;
+}
+
+// Quickicon specific
+.message-alert {
+  text-align: left !important;
+}
+.quickicon-linkadd {
+  a {
+   padding-right: 2.4rem;
+   .fa {
+     right: 0;
+   }
+ }
+}
+
+// Bootstrap overrides
+.text-left {
+  text-align: right !important;
+}
+
+.text-right {
+  text-align: left !important;
+}
+
+// System panel
+.menu-quicktask, .menu-badge {
+    float: left;
+}
+
+// Modal header override
+.modal-header .close {
+  margin-left: -15px;
+  margin-right: 0 !important;
+  border-left: 0 !important;
+  border-right: 1px solid var(--border);
+}
+
+// Changelog modal override
+.changelog {
+  text-align: right !important;
+
+  &__tag {
+    text-align: left;
+  }
+
+  &__list {
+
+    ul {
+      padding-right: 15px;
+      padding-left: auto;
+    }
+  }
 }

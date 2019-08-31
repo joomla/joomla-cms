@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,8 +10,8 @@ namespace Joomla\CMS\User;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Authentication\Password\Argon2iHandler;
 use Joomla\Authentication\Password\Argon2idHandler;
+use Joomla\Authentication\Password\Argon2iHandler;
 use Joomla\Authentication\Password\BCryptHandler;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Authentication\Password\ChainedHandler;
@@ -19,13 +19,15 @@ use Joomla\CMS\Authentication\Password\CheckIfRehashNeededHandlerInterface;
 use Joomla\CMS\Authentication\Password\MD5Handler;
 use Joomla\CMS\Authentication\Password\PHPassHandler;
 use Joomla\CMS\Authentication\Password\SHA256Handler;
+use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Database\ParameterType;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Authorisation helper class, provides static methods to perform various tasks relevant
@@ -33,7 +35,7 @@ use Joomla\CMS\Log\Log;
  *
  * This class has influences and some method logic from the Horde Auth package
  *
- * @since  11.1
+ * @since  1.7.0
  */
 abstract class UserHelper
 {
@@ -102,41 +104,45 @@ abstract class UserHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	public static function addUserToGroup($userId, $groupId)
 	{
+		// Cast as integer until method is typehinted.
+		$userId  = (int) $userId;
+		$groupId = (int) $groupId;
+
 		// Get the user object.
-		$user = new User((int) $userId);
+		$user = new User($userId);
 
 		// Add the user to the group if necessary.
 		if (!in_array($groupId, $user->groups))
 		{
-			// Get the title of the group.
+			// Check whether the group exists.
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName('title'))
+				->select($db->quoteName('id'))
 				->from($db->quoteName('#__usergroups'))
-				->where($db->quoteName('id') . ' = ' . (int) $groupId);
+				->where($db->quoteName('id') . ' = :groupId')
+				->bind(':groupId', $groupId, ParameterType::INTEGER);
 			$db->setQuery($query);
-			$title = $db->loadResult();
 
 			// If the group does not exist, return an exception.
-			if (!$title)
+			if ($db->loadResult() === null)
 			{
 				throw new \RuntimeException('Access Usergroup Invalid');
 			}
 
 			// Add the group data to the user object.
-			$user->groups[$title] = $groupId;
+			$user->groups[$groupId] = $groupId;
 
 			// Store the user object.
 			$user->save();
 		}
 
 		// Set the group data for any preloaded user objects.
-		$temp         = User::getInstance((int) $userId);
+		$temp         = User::getInstance($userId);
 		$temp->groups = $user->groups;
 
 		if (Factory::getSession()->getId())
@@ -160,7 +166,7 @@ abstract class UserHelper
 	 *
 	 * @return  array    List of groups
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getUserGroups($userId)
 	{
@@ -178,7 +184,7 @@ abstract class UserHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function removeUserFromGroup($userId, $groupId)
 	{
@@ -220,7 +226,7 @@ abstract class UserHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function setUserGroups($userId, $groups)
 	{
@@ -234,9 +240,9 @@ abstract class UserHelper
 		// Get the titles for the user groups.
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName('id') . ', ' . $db->quoteName('title'))
+			->select($db->quoteName(['id', 'title']))
 			->from($db->quoteName('#__usergroups'))
-			->where($db->quoteName('id') . ' = ' . implode(' OR ' . $db->quoteName('id') . ' = ', $user->groups));
+			->whereIn($db->quoteName('id'), $user->groups);
 		$db->setQuery($query);
 		$results = $db->loadObjectList();
 
@@ -274,7 +280,7 @@ abstract class UserHelper
 	 *
 	 * @return  object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getProfile($userId = 0)
 	{
@@ -303,26 +309,29 @@ abstract class UserHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function activateUser($activation)
 	{
-		$db = Factory::getDbo();
+		$db       = Factory::getDbo();
+		$nullDate = $db->getNullDate();
 
 		// Let's get the id of the user we want to activate
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('activation') . ' = ' . $db->quote($activation))
+			->where($db->quoteName('activation') . ' = :activation')
 			->where($db->quoteName('block') . ' = 1')
-			->where($db->quoteName('lastvisitDate') . ' = ' . $db->quote($db->getNullDate()));
+			->where($db->quoteName('lastvisitDate') . ' = :nullDate')
+			->bind(':activation', $activation)
+			->bind(':nullDate', $nullDate);
 		$db->setQuery($query);
 		$id = (int) $db->loadResult();
 
 		// Is it a valid user to activate?
 		if ($id)
 		{
-			$user = User::getInstance((int) $id);
+			$user = User::getInstance($id);
 
 			$user->set('block', '0');
 			$user->set('activation', '');
@@ -352,7 +361,7 @@ abstract class UserHelper
 	 *
 	 * @return  integer  The user id or 0 if not found.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getUserId($username)
 	{
@@ -361,8 +370,10 @@ abstract class UserHelper
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('username') . ' = ' . $db->quote($username));
-		$db->setQuery($query, 0, 1);
+			->where($db->quoteName('username') . ' = :username')
+			->bind(':username', $username)
+			->setLimit(1);
+		$db->setQuery($query);
 
 		return $db->loadResult();
 	}
@@ -439,6 +450,7 @@ abstract class UserHelper
 			/** @var PHPassHandler $handler */
 			$handler = $container->get(PHPassHandler::class);
 		}
+		// Check for Argon2id hashes
 		elseif (strpos($hash, '$argon2id') === 0)
 		{
 			/** @var Argon2idHandler $handler */
@@ -446,6 +458,7 @@ abstract class UserHelper
 
 			$passwordAlgorithm = PASSWORD_ARGON2ID;
 		}
+		// Check for Argon2i hashes
 		elseif (strpos($hash, '$argon2i') === 0)
 		{
 			/** @var Argon2iHandler $handler */
@@ -491,7 +504,7 @@ abstract class UserHelper
 	 *
 	 * @return  string  Random Password
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function genRandomPassword($length = 8)
 	{
@@ -506,7 +519,7 @@ abstract class UserHelper
 		 * distribution is even, and randomize the start shift so it's not
 		 * predictable.
 		 */
-		$random = \JCrypt::genRandomBytes($length + 1);
+		$random = Crypt::genRandomBytes($length + 1);
 		$shift = ord($random[0]);
 
 		for ($i = 1; $i <= $length; ++$i)

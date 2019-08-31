@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,7 +35,7 @@ class DropdownButton extends AbstractGroupButton
 	/**
 	 * Prepare options for this button.
 	 *
-	 * @param   array  &$options  The options about this button.
+	 * @param   array  $options  The options about this button.
 	 *
 	 * @return  void
 	 *
@@ -75,6 +75,7 @@ class DropdownButton extends AbstractGroupButton
 					->attributes(
 						[
 							'data-toggle' => 'dropdown',
+							'data-target' => '#' . $this->fetchId(),
 							'aria-haspopup' => 'true',
 							'aria-expanded' => 'false',
 						]
@@ -87,7 +88,7 @@ class DropdownButton extends AbstractGroupButton
 	/**
 	 * Render button HTML.
 	 *
-	 * @param   array  &$options  The button options.
+	 * @param   array  $options  The button options.
 	 *
 	 * @return  string  The button HTML.
 	 *

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,14 +10,13 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\Registry\Registry;
-use Joomla\String\StringHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * Content table
@@ -240,6 +239,9 @@ class Content extends Table
 			{
 				$this->metadata = '{}';
 			}
+
+			// Hits must be zero on a new item
+			$this->hits = 0;
 		}
 
 		// Set publish_up to null date if not set
@@ -300,30 +302,6 @@ class Content extends Table
 		}
 
 		return true;
-	}
-
-	/**
-	 * Gets the default asset values for a component.
-	 *
-	 * @param   string  $component  The component asset name to search for
-	 *
-	 * @return  Rules  The Rules object for the asset
-	 *
-	 * @since   3.4
-	 * @deprecated  3.4 Class will be removed upon completion of transition to UCM
-	 */
-	protected function getDefaultAssetValues($component)
-	{
-		// Need to find the asset id by the name of the component.
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('id'))
-			->from($db->quoteName('#__assets'))
-			->where($db->quoteName('name') . ' = ' . $db->quote($component));
-		$db->setQuery($query);
-		$assetId = (int) $db->loadResult();
-
-		return Access::getAssetRules($assetId);
 	}
 
 	/**

@@ -2,28 +2,29 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Router\Route;
 
 /**
  * Joomla! Site Application class
@@ -101,7 +102,7 @@ final class SiteApplication extends CMSApplication
 
 				$url = Route::_('index.php?option=com_users&view=login', false);
 
-				$this->enqueueMessage(Text::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'));
+				$this->enqueueMessage(Text::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'), 'error');
 				$this->redirect($url);
 			}
 			else
@@ -169,17 +170,17 @@ final class SiteApplication extends CMSApplication
 
 				$document->setMetaData('rights', $this->get('MetaRights'));
 
-				if ($this->get('sef'))
-				{
-					$document->setBase(htmlspecialchars(Uri::current()));
-				}
-
 				// Get the template
 				$template = $this->getTemplate(true);
 
 				// Store the template and its params to the config
 				$this->set('theme', $template->template);
 				$this->set('themeParams', $template->params);
+
+				// Add Asset registry files
+				$document->getWebAssetManager()->getRegistry()
+					->addRegistryFile('media/' . $component . '/joomla.asset.json')
+					->addRegistryFile('templates/' . $template->template . '/joomla.asset.json');
 
 				break;
 
@@ -271,21 +272,6 @@ final class SiteApplication extends CMSApplication
 	}
 
 	/**
-	 * Return a reference to the AbstractMenu object.
-	 *
-	 * @param   string  $name     The name of the application/client.
-	 * @param   array   $options  An optional associative array of configuration settings.
-	 *
-	 * @return  AbstractMenu  AbstractMenu object.
-	 *
-	 * @since   3.2
-	 */
-	public function getMenu($name = 'site', $options = array())
-	{
-		return parent::getMenu($name, $options);
-	}
-
-	/**
 	 * Get the application parameters
 	 *
 	 * @param   string  $option  The component option
@@ -342,7 +328,7 @@ final class SiteApplication extends CMSApplication
 			$temp = clone ComponentHelper::getParams('com_menus');
 
 			// Lets cascade the parameters if we have menu item parameters
-			if (is_object($menu))
+			if (\is_object($menu))
 			{
 				// Get show_page_heading from com_menu global settings
 				$params[$hash]->def('show_page_heading', $temp->get('show_page_heading'));
@@ -389,14 +375,12 @@ final class SiteApplication extends CMSApplication
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return	Router
+	 * @return	\Joomla\CMS\Router\Router
 	 *
 	 * @since	3.2
 	 */
 	public static function getRouter($name = 'site', array $options = array())
 	{
-		$options['mode'] = Factory::getConfig()->get('sef');
-
 		return parent::getRouter($name, $options);
 	}
 
@@ -412,7 +396,7 @@ final class SiteApplication extends CMSApplication
 	 */
 	public function getTemplate($params = false)
 	{
-		if (is_object($this->template))
+		if (\is_object($this->template))
 		{
 			if (!file_exists(JPATH_THEMES . '/' . $this->template->template . '/index.php'))
 			{
@@ -438,7 +422,7 @@ final class SiteApplication extends CMSApplication
 
 		$id = 0;
 
-		if (is_object($item))
+		if (\is_object($item))
 		{
 			// Valid item retrieved
 			$id = $item->template_style_id;
@@ -451,7 +435,8 @@ final class SiteApplication extends CMSApplication
 			$id = (int) $tid;
 		}
 
-		$cache = Factory::getCache('com_templates', '');
+		/** @var OutputController $cache */
+		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('output', ['defaultgroup' => 'com_templates']);
 
 		if ($this->getLanguageFilter())
 		{
@@ -473,11 +458,21 @@ final class SiteApplication extends CMSApplication
 			// Load styles
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select('id, home, template, s.params')
-				->from('#__template_styles as s')
-				->where('s.client_id = 0')
-				->where('e.enabled = 1')
-				->join('LEFT', '#__extensions as e ON e.element=s.template AND e.type=' . $db->quote('template') . ' AND e.client_id=s.client_id');
+				->select($db->quoteName(['id', 'home', 'template', 's.params']))
+				->from($db->quoteName('#__template_styles', 's'))
+				->where(
+					[
+						$db->quoteName('s.client_id') . ' = 0',
+						$db->quoteName('e.enabled') . ' = 1',
+					]
+				)
+				->join(
+					'LEFT',
+					$db->quoteName('#__extensions', 'e'),
+					$db->quoteName('e.element') . ' = ' . $db->quoteName('s.template')
+						. ' AND ' . $db->quoteName('e.type') . ' = ' . $db->quote('template')
+						. ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('s.client_id')
+				);
 
 			$db->setQuery($query);
 			$templates = $db->loadObjectList('id');
@@ -697,7 +692,7 @@ final class SiteApplication extends CMSApplication
 	public function login($credentials, $options = array())
 	{
 		// Set the application login entry point
-		if (!array_key_exists('entry_url', $options))
+		if (!\array_key_exists('entry_url', $options))
 		{
 			$options['entry_url'] = Uri::base() . 'index.php?option=com_users&task=user.login';
 		}

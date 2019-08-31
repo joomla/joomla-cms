@@ -3,18 +3,18 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.totp
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Encrypt\Totp;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Joomla! Two Factor Authentication using Google Authenticator TOTP Plugin
@@ -114,7 +114,7 @@ class PlgTwofactorauthTotp extends CMSPlugin
 		$hostname = Uri::getInstance()->getHost();
 
 		// This is the URL to the QR code for Google Authenticator
-		$url = $totp->getUrl($username, $hostname, $secret);
+		$url = sprintf("otpauth://totp/%s@%s?secret=%s", $username, $hostname, $secret);
 
 		// Is this a new TOTP setup? If so, we'll have to show the code validation field.
 		$new_totp = $otpConfig->method !== 'totp';

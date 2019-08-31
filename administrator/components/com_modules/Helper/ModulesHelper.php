@@ -3,17 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Modules\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Modules component helper.
@@ -22,18 +23,6 @@ use Joomla\CMS\HTML\HTMLHelper;
  */
 abstract class ModulesHelper
 {
-	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
-	 */
-	public static function addSubmenu($vName)
-	{
-		// Not used in this component.
-	}
-
 	/**
 	 * Get a list of filter options for the state of a module.
 	 *
@@ -105,6 +94,10 @@ abstract class ModulesHelper
 			if (!$position && !$editPositions)
 			{
 				$options[] = HTMLHelper::_('select.option', 'none', Text::_('COM_MODULES_NONE'));
+			}
+			elseif (!$position)
+			{
+				$options[] = HTMLHelper::_('select.option', '', Text::_('COM_MODULES_NONE'));
 			}
 			else
 			{

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,9 +10,8 @@ namespace Joomla\CMS\Filesystem;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Filesystem\FilesystemHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Joomla! Stream Interface
@@ -22,12 +21,12 @@ use Joomla\CMS\Language\Text;
  * atomic manner.
  *
  * @note   This class adheres to the stream wrapper operations:
- * @link   https://secure.php.net/manual/en/function.stream-get-wrappers.php
- * @link   https://secure.php.net/manual/en/intro.stream.php PHP Stream Manual
- * @link   https://secure.php.net/manual/en/wrappers.php Stream Wrappers
- * @link   https://secure.php.net/manual/en/filters.php Stream Filters
- * @link   https://secure.php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
- * @since  11.1
+ * @link   https://www.php.net/manual/en/function.stream-get-wrappers.php
+ * @link   https://www.php.net/manual/en/intro.stream.php PHP Stream Manual
+ * @link   https://www.php.net/manual/en/wrappers.php Stream Wrappers
+ * @link   https://www.php.net/manual/en/filters.php Stream Filters
+ * @link   https://www.php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
+ * @since  1.7.0
  */
 class Stream extends CMSObject
 {
@@ -35,7 +34,7 @@ class Stream extends CMSObject
 	 * File Mode
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $filemode = 0644;
 
@@ -43,7 +42,7 @@ class Stream extends CMSObject
 	 * Directory Mode
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $dirmode = 0755;
 
@@ -51,7 +50,7 @@ class Stream extends CMSObject
 	 * Default Chunk Size
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $chunksize = 8192;
 
@@ -59,7 +58,7 @@ class Stream extends CMSObject
 	 * Filename
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $filename;
 
@@ -67,7 +66,7 @@ class Stream extends CMSObject
 	 * Prefix of the connection for writing
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $writeprefix;
 
@@ -75,7 +74,7 @@ class Stream extends CMSObject
 	 * Prefix of the connection for reading
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $readprefix;
 
@@ -84,7 +83,7 @@ class Stream extends CMSObject
 	 * @var    string  gz, bz, f
 	 * If a scheme is detected, fopen will be defaulted
 	 * To use compression with a network stream use a filter
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $processingmethod = 'f';
 
@@ -92,7 +91,7 @@ class Stream extends CMSObject
 	 * Filters applied to the current stream
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $filters = array();
 
@@ -100,7 +99,7 @@ class Stream extends CMSObject
 	 * File Handle
 	 *
 	 * @var    resource
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $fh;
 
@@ -108,7 +107,7 @@ class Stream extends CMSObject
 	 * File size
 	 *
 	 * @var    integer
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $filesize;
 
@@ -116,7 +115,7 @@ class Stream extends CMSObject
 	 * Context to use when opening the connection
 	 *
 	 * @var    resource
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $context = null;
 
@@ -124,7 +123,7 @@ class Stream extends CMSObject
 	 * Context options; used to rebuild the context
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $contextOptions;
 
@@ -132,7 +131,7 @@ class Stream extends CMSObject
 	 * The mode under which the file was opened
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $openmode;
 
@@ -143,7 +142,7 @@ class Stream extends CMSObject
 	 * @param   string  $readprefix   The read prefix (optional).
 	 * @param   array   $context      The context options (optional).
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($writeprefix = '', $readprefix = '', $context = array())
 	{
@@ -156,7 +155,7 @@ class Stream extends CMSObject
 	/**
 	 * Destructor
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __destruct()
 	{
@@ -183,10 +182,11 @@ class Stream extends CMSObject
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function open($filename, $mode = 'r', $use_include_path = false, $context = null,
-		$use_prefix = false, $relative = false, $detectprocessingmode = false)
+		$use_prefix = false, $relative = false, $detectprocessingmode = false
+	)
 	{
 		$filename = $this->_getFilename($filename, $mode, $use_prefix, $relative);
 
@@ -302,7 +302,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function close()
 	{
@@ -365,7 +365,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function eof()
 	{
@@ -411,7 +411,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function filesize()
 	{
@@ -482,7 +482,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function gets($length = 0)
 	{
@@ -538,8 +538,8 @@ class Stream extends CMSObject
 	 *
 	 * @return  mixed
 	 *
-	 * @link    https://secure.php.net/manual/en/function.fread.php
-	 * @since   11.1
+	 * @link    https://www.php.net/manual/en/function.fread.php
+	 * @since   1.7.0
 	 */
 	public function read($length = 0)
 	{
@@ -641,8 +641,8 @@ class Stream extends CMSObject
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @link    https://secure.php.net/manual/en/function.fseek.php
-	 * @since   11.1
+	 * @link    https://www.php.net/manual/en/function.fseek.php
+	 * @since   1.7.0
 	 */
 	public function seek($offset, $whence = SEEK_SET)
 	{
@@ -695,7 +695,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function tell()
 	{
@@ -748,14 +748,14 @@ class Stream extends CMSObject
 	 * JStream::set('chunksize', newsize);)
 	 * Note: This doesn't support gzip/bzip2 writing like reading does
 	 *
-	 * @param   string   &$string  Reference to the string to write.
-	 * @param   integer  $length   Length of the string to write.
-	 * @param   integer  $chunk    Size of chunks to write in.
+	 * @param   string   $string  Reference to the string to write.
+	 * @param   integer  $length  Length of the string to write.
+	 * @param   integer  $chunk   Size of chunks to write in.
 	 *
 	 * @return  boolean
 	 *
-	 * @link    https://secure.php.net/manual/en/function.fwrite.php
-	 * @since   11.1
+	 * @link    https://www.php.net/manual/en/function.fwrite.php
+	 * @since   1.7.0
 	 */
 	public function write(&$string, $length = 0, $chunk = 0)
 	{
@@ -831,7 +831,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function chmod($filename = '', $mode = 0)
 	{
@@ -896,8 +896,8 @@ class Stream extends CMSObject
 	 *
 	 * @return  array  header/metadata
 	 *
-	 * @link    https://secure.php.net/manual/en/function.stream-get-meta-data.php
-	 * @since   11.1
+	 * @link    https://www.php.net/manual/en/function.stream-get-meta-data.php
+	 * @since   1.7.0
 	 */
 	public function get_meta_data()
 	{
@@ -917,7 +917,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function _buildContext()
 	{
@@ -941,8 +941,8 @@ class Stream extends CMSObject
 	 *
 	 * @return  void
 	 *
-	 * @link    https://secure.php.net/stream_context_create
-	 * @since   11.1
+	 * @link    https://www.php.net/stream_context_create
+	 * @since   1.7.0
 	 */
 	public function setContextOptions($context)
 	{
@@ -959,9 +959,9 @@ class Stream extends CMSObject
 	 *
 	 * @return  void
 	 *
-	 * @link    https://secure.php.net/stream_context_create Stream Context Creation
-	 * @link    https://secure.php.net/manual/en/context.php Context Options for various streams
-	 * @since   11.1
+	 * @link    https://www.php.net/stream_context_create Stream Context Creation
+	 * @link    https://www.php.net/manual/en/context.php Context Options for various streams
+	 * @since   1.7.0
 	 */
 	public function addContextEntry($wrapper, $name, $value)
 	{
@@ -977,8 +977,8 @@ class Stream extends CMSObject
 	 *
 	 * @return  void
 	 *
-	 * @link    https://secure.php.net/stream_context_create
-	 * @since   11.1
+	 * @link    https://www.php.net/stream_context_create
+	 * @since   1.7.0
 	 */
 	public function deleteContextEntry($wrapper, $name)
 	{
@@ -1011,7 +1011,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function applyContextToStream()
 	{
@@ -1047,8 +1047,8 @@ class Stream extends CMSObject
 	 *
 	 * @return  mixed
 	 *
-	 * @link    https://secure.php.net/manual/en/function.stream-filter-append.php
-	 * @since   11.1
+	 * @link    https://www.php.net/manual/en/function.stream-filter-append.php
+	 * @since   1.7.0
 	 */
 	public function appendFilter($filtername, $read_write = STREAM_FILTER_READ, $params = array())
 	{
@@ -1088,8 +1088,8 @@ class Stream extends CMSObject
 	 *
 	 * @return  mixed
 	 *
-	 * @link    https://secure.php.net/manual/en/function.stream-filter-prepend.php
-	 * @since   11.1
+	 * @link    https://www.php.net/manual/en/function.stream-filter-prepend.php
+	 * @since   1.7.0
 	 */
 	public function prependFilter($filtername, $read_write = STREAM_FILTER_READ, $params = array())
 	{
@@ -1125,12 +1125,12 @@ class Stream extends CMSObject
 	 * Remove a filter, either by resource (handed out from the append or prepend function)
 	 * or via getting the filter list)
 	 *
-	 * @param   resource  &$resource  The resource.
-	 * @param   boolean   $byindex    The index of the filter.
+	 * @param   resource  $resource  The resource.
+	 * @param   boolean   $byindex   The index of the filter.
 	 *
 	 * @return  boolean   Result of operation
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function removeFilter(&$resource, $byindex = false)
 	{
@@ -1170,7 +1170,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function copy($src, $dest, $context = null, $use_prefix = true, $relative = false)
 	{
@@ -1228,7 +1228,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function move($src, $dest, $context = null, $use_prefix = true, $relative = false)
 	{
@@ -1279,7 +1279,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function delete($filename, $context = null, $use_prefix = true, $relative = false)
 	{
@@ -1328,7 +1328,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function upload($src, $dest, $context = null, $use_prefix = true, $relative = false)
 	{
@@ -1349,11 +1349,11 @@ class Stream extends CMSObject
 	 * Writes a chunk of data to a file.
 	 *
 	 * @param   string  $filename  The file name.
-	 * @param   string  &$buffer   The data to write to the file.
+	 * @param   string  $buffer    The data to write to the file.
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function writeFile($filename, &$buffer)
 	{
@@ -1379,7 +1379,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function _getFilename($filename, $mode, $use_prefix, $relative)
 	{
@@ -1418,7 +1418,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  resource  File handler
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getFileHandle()
 	{

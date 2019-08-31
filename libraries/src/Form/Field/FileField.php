@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Form\FormField;
  * Provides an input field for files
  *
  * @link   http://www.w3.org/TR/html-markup/input.file.html#input.file
- * @since  11.1
+ * @since  1.7.0
  */
 class FileField extends FormField
 {
@@ -25,7 +25,7 @@ class FileField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'File';
 
@@ -122,8 +122,8 @@ class FileField extends FormField
 	 * @return  string  The field input markup.
 	 *
 	 * @note    The field does not include an upload mechanism.
-	 * @see     JFormFieldMedia
-	 * @since   11.1
+	 * @see     \Joomla\CMS\Form\Field\MediaField
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{

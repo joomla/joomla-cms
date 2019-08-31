@@ -2,13 +2,12 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Event;
 
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\DI\Container;
 
 defined('JPATH_PLATFORM') or die;
@@ -42,7 +41,7 @@ class BeforeExtensionBootEvent extends AbstractImmutableEvent
 	 */
 	public function getExtensionName(): string
 	{
-		return $this->getArgument('extensionName');
+		return $this->arguments['extensionName'];
 	}
 
 	/**
@@ -54,6 +53,6 @@ class BeforeExtensionBootEvent extends AbstractImmutableEvent
 	 */
 	public function getContainer(): Container
 	{
-		return $this->getArgument('container');
+		return $this->arguments['container'];
 	}
 }

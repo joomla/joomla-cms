@@ -2,17 +2,18 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Cache\Storage;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheStorage;
-use Joomla\CMS\Log\Log;
+use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
 
 /**
  * Redis cache storage handler for PECL
@@ -108,7 +109,7 @@ class RedisStorage extends CacheStorage
 		{
 			static::$_redis = null;
 
-			throw new \JCacheExceptionConnecting('Redis connection failed', 500);
+			throw new CacheConnectingException('Redis connection failed', 500);
 		}
 
 		try
@@ -125,7 +126,7 @@ class RedisStorage extends CacheStorage
 		{
 			static::$_redis = null;
 
-			throw new \JCacheExceptionConnecting('Redis authentication failed', 500);
+			throw new CacheConnectingException('Redis authentication failed', 500);
 		}
 
 		$select = static::$_redis->select($server['db']);
@@ -134,7 +135,7 @@ class RedisStorage extends CacheStorage
 		{
 			static::$_redis = null;
 
-			throw new \JCacheExceptionConnecting('Redis failed to select database', 500);
+			throw new CacheConnectingException('Redis failed to select database', 500);
 		}
 
 		try
@@ -145,7 +146,7 @@ class RedisStorage extends CacheStorage
 		{
 			static::$_redis = null;
 
-			throw new \JCacheExceptionConnecting('Redis ping failed', 500);
+			throw new CacheConnectingException('Redis ping failed', 500);
 		}
 
 		return static::$_redis;
@@ -230,7 +231,7 @@ class RedisStorage extends CacheStorage
 						$item = $data[$group];
 					}
 
-					$item->updateSize(strlen($key)*8);
+					$item->updateSize(\strlen($key)*8);
 					$data[$group] = $item;
 				}
 			}

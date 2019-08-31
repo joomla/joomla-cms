@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ abstract class JHtmlContentLanguage
 	 *
 	 * @return  string
 	 *
-	 * @see     JFormFieldContentLanguage
+	 * @see     \Joomla\CMS\Form\Field\ContentlanguageField
 	 * @since   1.6
 	 */
 	public static function existing($all = false, $translate = false)

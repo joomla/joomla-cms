@@ -3,21 +3,23 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Templates\Administrator\View\Template;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Toolbar\Toolbar;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * View to edit a template style.
@@ -70,6 +72,8 @@ class HtmlView extends BaseHtmlView
 
 	/**
 	 * List of available overrides
+	 *
+	 * @var   array
 	 */
 	protected $overridesList;
 
@@ -123,6 +127,15 @@ class HtmlView extends BaseHtmlView
 	protected $archive;
 
 	/**
+	 * The state of installer override plugin.
+	 *
+	 * @var  array
+	 *
+	 * @since  4.0.0
+	 */
+	protected $pluginState;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -140,6 +153,8 @@ class HtmlView extends BaseHtmlView
 		$this->state    = $this->get('State');
 		$this->template = $this->get('Template');
 		$this->preview  = $this->get('Preview');
+		$this->pluginState = PluginHelper::isEnabled('installer', 'override');
+		$this->updatedList = $this->get('UpdatedList');
 
 		$params       = ComponentHelper::getParams('com_templates');
 		$imageTypes   = explode(',', $params->get('image_formats'));
@@ -216,7 +231,7 @@ class HtmlView extends BaseHtmlView
 		$explodeArray = explode('.', $this->fileName);
 		$ext = end($explodeArray);
 
-		ToolbarHelper::title(Text::sprintf('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE', ucfirst($this->template->name)), 'eye thememanager');
+		ToolbarHelper::title(Text::sprintf('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE', ucfirst($this->template->name)), 'paint-brush thememanager');
 
 		// Only show file edit buttons for global SuperUser
 		if ($isSuperUser)
@@ -224,13 +239,8 @@ class HtmlView extends BaseHtmlView
 			// Add an Apply and save button
 			if ($this->type == 'file')
 			{
-				ToolbarHelper::saveGroup(
-					[
-						['apply', 'template.apply'],
-						['save', 'template.save']
-					],
-					'btn-success'
-				);
+				ToolbarHelper::apply('template.apply');
+				ToolbarHelper::save('template.save');
 			}
 			// Add a Crop and Resize button
 			elseif ($this->type == 'image')
@@ -274,6 +284,11 @@ class HtmlView extends BaseHtmlView
 			{
 				ToolbarHelper::modal('deleteModal', 'icon-remove', 'COM_TEMPLATES_BUTTON_DELETE_FILE');
 			}
+		}
+
+		if (count($this->updatedList) !== 0 && $this->pluginState)
+		{
+			ToolbarHelper::custom('template.deleteOverrideHistory', 'delete', 'move', 'COM_TEMPLATES_BUTTON_DELETE_LIST_ENTRY', true, 'updateForm');
 		}
 
 		if ($this->type == 'home')

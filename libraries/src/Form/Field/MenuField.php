@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,20 +11,17 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
 
 // Import the com_menus helper.
 require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
-
-FormHelper::loadFieldClass('GroupedList');
 
 /**
  * Supports an HTML select list of menus
  *
  * @since  1.6
  */
-class MenuField extends \JFormFieldGroupedList
+class MenuField extends GroupedlistField
 {
 	/**
 	 * The form field type.
@@ -39,7 +36,7 @@ class MenuField extends \JFormFieldGroupedList
 	 *
 	 * @return  array  The field option objects as a nested array in groups.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
 	 */
 	protected function getGroups()
@@ -50,7 +47,7 @@ class MenuField extends \JFormFieldGroupedList
 
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn(array('id', 'menutype', 'title', 'client_id'), array('id', 'value', 'text', 'client_id')))
+			->select($db->quoteName(array('id', 'menutype', 'title', 'client_id'), array('id', 'value', 'text', 'client_id')))
 			->from($db->quoteName('#__menu_types'))
 			->order('client_id, title');
 

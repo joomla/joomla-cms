@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,18 +10,24 @@ namespace Joomla\CMS\MVC\Model;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormFactoryAwareTrait;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * Model class for handling lists of items.
  *
  * @since  1.6
  */
-class ListModel extends BaseDatabaseModel
+class ListModel extends BaseDatabaseModel implements ListModelInterface
 {
+	use FormBehaviorTrait;
+	use FormFactoryAwareTrait;
+
 	/**
 	 * Internal memory based cache array of data.
 	 *
@@ -215,7 +221,7 @@ class ListModel extends BaseDatabaseModel
 	/**
 	 * Method to get a \JPagination object for the data set.
 	 *
-	 * @return  \JPagination  A \JPagination object for the data set.
+	 * @return  Pagination  A Pagination object for the data set.
 	 *
 	 * @since   1.6
 	 */
@@ -233,7 +239,7 @@ class ListModel extends BaseDatabaseModel
 		$limit = (int) $this->getState('list.limit') - (int) $this->getState('list.links');
 
 		// Create the pagination object and add the object to the internal cache.
-		$this->cache[$store] = new \JPagination($this->getTotal(), $this->getStart(), $limit);
+		$this->cache[$store] = new Pagination($this->getTotal(), $this->getStart(), $limit);
 
 		return $this->cache[$store];
 	}
@@ -337,7 +343,7 @@ class ListModel extends BaseDatabaseModel
 	 * @param   array    $data      data
 	 * @param   boolean  $loadData  load current data
 	 *
-	 * @return  \JForm|boolean  The \JForm object or false on error
+	 * @return  Form|null  The \JForm object or null if the form can't be found
 	 *
 	 * @since   3.2
 	 */
@@ -361,73 +367,6 @@ class ListModel extends BaseDatabaseModel
 			// Get the form.
 			$form = $this->loadForm($this->context . '.filter', $this->filterFormName, array('control' => '', 'load_data' => $loadData));
 		}
-
-		return $form;
-	}
-
-	/**
-	 * Method to get a form object.
-	 *
-	 * @param   string          $name     The name of the form.
-	 * @param   string          $source   The form source. Can be XML string if file flag is set to false.
-	 * @param   array           $options  Optional array of options for the form creation.
-	 * @param   boolean         $clear    Optional argument to force load a new form.
-	 * @param   string|boolean  $xpath    An optional xpath to search for the fields.
-	 *
-	 * @return  \JForm|boolean  \JForm object on success, False on error.
-	 *
-	 * @see     \JForm
-	 * @since   3.2
-	 */
-	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
-	{
-		// Handle the optional arguments.
-		$options['control'] = ArrayHelper::getValue((array) $options, 'control', false);
-
-		// Create a signature hash.
-		$hash = md5($source . serialize($options));
-
-		// Check if we can use a previously loaded form.
-		if (!$clear && isset($this->_forms[$hash]))
-		{
-			return $this->_forms[$hash];
-		}
-
-		// Get the form.
-		\JForm::addFormPath(JPATH_COMPONENT . '/forms');
-		\JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
-		\JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
-
-		try
-		{
-			$form = \JForm::getInstance($name, $source, $options, false, $xpath);
-
-			if (isset($options['load_data']) && $options['load_data'])
-			{
-				// Get the data for the form.
-				$data = $this->loadFormData();
-			}
-			else
-			{
-				$data = array();
-			}
-
-			// Allow for additional modification of the form, and events to be triggered.
-			// We pass the data because plugins may require it.
-			$this->preprocessForm($form, $data);
-
-			// Load the data into the form after the plugins have operated.
-			$form->bind($data);
-		}
-		catch (\Exception $e)
-		{
-			$this->setError($e->getMessage());
-
-			return false;
-		}
-
-		// Store the form for later.
-		$this->_forms[$hash] = $form;
 
 		return $form;
 	}
@@ -645,27 +584,6 @@ class ListModel extends BaseDatabaseModel
 			$this->setState('list.start', 0);
 			$this->setState('list.limit', 0);
 		}
-	}
-
-	/**
-	 * Method to allow derived classes to preprocess the form.
-	 *
-	 * @param   \JForm  $form   A \JForm object.
-	 * @param   mixed   $data   The data expected for the form.
-	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 * @throws  \Exception if there is an error in the form event.
-	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
-	{
-		// Import the appropriate plugin group.
-		\JPluginHelper::importPlugin($group);
-
-		// Trigger the form preparation event.
-		Factory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
 	}
 
 	/**

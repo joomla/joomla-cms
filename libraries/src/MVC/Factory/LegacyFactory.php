@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,12 +11,13 @@ namespace Joomla\CMS\MVC\Factory;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\MVC\Model\ModelInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\Input\Input;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\Path;
 
 /**
  * Factory to create MVC objects in legacy mode.
@@ -30,18 +31,18 @@ class LegacyFactory implements MVCFactoryInterface
 	/**
 	 * Method to load and return a controller object.
 	 *
-	 * @param   string                   $name    The name of the view.
-	 * @param   string                   $prefix  Optional view prefix.
-	 * @param   array                    $config  Optional configuration array for the view.
+	 * @param   string                   $name    The name of the controller
+	 * @param   string                   $prefix  The controller prefix
+	 * @param   array                    $config  The configuration array for the controller
 	 * @param   CMSApplicationInterface  $app     The app
 	 * @param   Input                    $input   The input
 	 *
 	 * @return  \Joomla\CMS\MVC\Controller\ControllerInterface
 	 *
 	 * @since   4.0.0
-	 * @throws  \BadFunctionCallException
+	 * @throws  \Exception
 	 */
-	public function createController($name, $prefix = '', array $config = [], CMSApplicationInterface $app = null, Input $input = null)
+	public function createController($name, $prefix, array $config, CMSApplicationInterface $app, Input $input)
 	{
 		throw new \BadFunctionCallException('Legacy controller creation not supported.');
 	}
@@ -53,7 +54,7 @@ class LegacyFactory implements MVCFactoryInterface
 	 * @param   string  $prefix  Optional model prefix.
 	 * @param   array   $config  Optional configuration array for the model.
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model object
+	 * @return  ModelInterface  The model object
 	 *
 	 * @since   4.0.0
 	 * @throws  \Exception
@@ -75,7 +76,7 @@ class LegacyFactory implements MVCFactoryInterface
 	 * @param   string  $type    Optional type of view.
 	 * @param   array   $config  Optional configuration array for the view.
 	 *
-	 * @return  \Joomla\CMS\MVC\View\AbstractView  The view object
+	 * @return  \Joomla\CMS\MVC\View\ViewInterface  The view object
 	 *
 	 * @since   4.0.0
 	 * @throws  \Exception
@@ -92,7 +93,6 @@ class LegacyFactory implements MVCFactoryInterface
 
 		if (!class_exists($viewClass))
 		{
-			jimport('joomla.filesystem.path');
 			$path = Path::find($config['paths'], BaseController::createFileName('view', array('name' => $viewName, 'type' => $viewType)));
 
 			if (!$path)

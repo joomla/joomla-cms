@@ -2,17 +2,19 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Helper;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
 
 /**
  * Route Helper
@@ -93,7 +95,7 @@ class RouteHelper
 
 		if ($catid > 1)
 		{
-			$categories = \JCategories::getInstance($name);
+			$categories = Categories::getInstance($name);
 
 			if ($categories)
 			{
@@ -175,7 +177,7 @@ class RouteHelper
 
 					if (isset($item->query['id']))
 					{
-						if (is_array($item->query['id']))
+						if (\is_array($item->query['id']))
 						{
 							$item->query['id'] = $item->query['id'][0];
 						}
@@ -227,7 +229,7 @@ class RouteHelper
 	/**
 	 * Fetches the category route
 	 *
-	 * @param   mixed   $catid      Category ID or \JCategoryNode instance
+	 * @param   mixed   $catid      Category ID or CategoryNode instance
 	 * @param   mixed   $language   Language code
 	 * @param   string  $extension  Extension to lookup
 	 *
@@ -245,7 +247,7 @@ class RouteHelper
 			throw new \InvalidArgumentException(sprintf('$extension is a required argument in %s()', __METHOD__));
 		}
 
-		if ($catid instanceof \JCategoryNode)
+		if ($catid instanceof CategoryNode)
 		{
 			$id       = $catid->id;
 			$category = $catid;
@@ -254,7 +256,7 @@ class RouteHelper
 		{
 			$extensionName = ucfirst(substr($extension, 4));
 			$id            = (int) $catid;
-			$category      = \JCategories::getInstance($extensionName)->get($id);
+			$category      = Categories::getInstance($extensionName)->get($id);
 		}
 
 		if ($id < 1)

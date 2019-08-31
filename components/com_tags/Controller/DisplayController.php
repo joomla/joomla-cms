@@ -3,15 +3,16 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Tags\Site\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Tags Component Controller
@@ -24,7 +25,8 @@ class DisplayController extends BaseController
 	 * Method to display a view.
 	 *
 	 * @param   boolean        $cachable   If true, the view output will be cached
-	 * @param   mixed|boolean  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+	 * @param   mixed|boolean  $urlparams  An array of safe URL parameters and their
+	 *                                     variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
 	 * @return  static  This object to support chaining.
 	 *

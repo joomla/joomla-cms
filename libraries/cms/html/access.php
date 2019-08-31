@@ -3,17 +3,17 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Access\Access;
-use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 
 /**
@@ -42,7 +42,7 @@ abstract class JHtmlAccess
 	 *
 	 * @return  string  The required HTML for the SELECT tag.
 	 *
-	 * @see    JFormFieldAccessLevel
+	 * @see    \Joomla\CMS\Form\Field\AccesslevelField
 	 * @since  1.6
 	 */
 	public static function level($name, $selected, $attribs = '', $params = true, $id = false)
@@ -94,7 +94,7 @@ abstract class JHtmlAccess
 	 *
 	 * @return  string   The required HTML for the SELECT tag.
 	 *
-	 * @see     JFormFieldUsergroup
+	 * @see     \Joomla\CMS\Form\Field\UsergrouplistField
 	 * @since   1.6
 	 */
 	public static function usergroup($name, $selected, $attribs = '', $allowAll = true, $id = false)

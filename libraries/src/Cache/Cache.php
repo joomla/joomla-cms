@@ -2,25 +2,25 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Cache;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
-use Joomla\String\StringHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Session\Session;
+use Joomla\String\StringHelper;
 
 /**
  * Joomla! Cache base object
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Cache
 {
@@ -28,7 +28,7 @@ class Cache
 	 * Storage handler
 	 *
 	 * @var    CacheStorage[]
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public static $_handler = array();
 
@@ -36,7 +36,7 @@ class Cache
 	 * Cache options
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $_options;
 
@@ -45,22 +45,22 @@ class Cache
 	 *
 	 * @param   array  $options  Cache options
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($options)
 	{
-		$conf = Factory::getConfig();
+		$app = Factory::getApplication();
 
 		$this->_options = array(
-			'cachebase'    => $conf->get('cache_path', JPATH_CACHE),
-			'lifetime'     => (int) $conf->get('cachetime'),
-			'language'     => $conf->get('language', 'en-GB'),
-			'storage'      => $conf->get('cache_handler', ''),
+			'cachebase'    => $app->get('cache_path', JPATH_CACHE),
+			'lifetime'     => (int) $app->get('cachetime'),
+			'language'     => $app->get('language', 'en-GB'),
+			'storage'      => $app->get('cache_handler', ''),
 			'defaultgroup' => 'default',
 			'locking'      => true,
 			'locktime'     => 15,
 			'checkTime'    => true,
-			'caching'      => ($conf->get('caching') >= 1) ? true : false,
+			'caching'      => ($app->get('caching') >= 1) ? true : false,
 		);
 
 		// Overwrite default options with given options
@@ -86,11 +86,20 @@ class Cache
 	 *
 	 * @return  CacheController
 	 *
-	 * @since   11.1
+	 * @since       1.7.0
+	 * @deprecated  5.0 Use the cache controller factory instead
 	 */
 	public static function getInstance($type = 'output', $options = array())
 	{
-		return CacheController::getInstance($type, $options);
+		@trigger_error(
+			sprintf(
+				'%s() is deprecated. The cache controller should be fetched from the factory.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
+		return Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($type, $options);
 	}
 
 	/**
@@ -98,7 +107,7 @@ class Cache
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getStores()
 	{
@@ -147,7 +156,7 @@ class Cache
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setCaching($enabled)
 	{
@@ -159,7 +168,7 @@ class Cache
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getCaching()
 	{
@@ -173,7 +182,7 @@ class Cache
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setLifeTime($lt)
 	{
@@ -211,7 +220,7 @@ class Cache
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function get($id, $group = null)
 	{
@@ -231,7 +240,7 @@ class Cache
 	 *
 	 * @return  mixed  Boolean false on failure or an object with a list of cache groups and data
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getAll()
 	{
@@ -252,7 +261,7 @@ class Cache
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function store($data, $id, $group = null)
 	{
@@ -276,7 +285,7 @@ class Cache
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function remove($id, $group = null)
 	{
@@ -309,7 +318,7 @@ class Cache
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function clean($group = null, $mode = 'group')
 	{
@@ -336,7 +345,7 @@ class Cache
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function gc()
 	{
@@ -364,7 +373,7 @@ class Cache
 	 *
 	 * @return  \stdClass  Object with properties of lock and locklooped
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function lock($id, $group = null, $locktime = null)
 	{
@@ -458,7 +467,7 @@ class Cache
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function unlock($id, $group = null)
 	{
@@ -489,7 +498,7 @@ class Cache
 	 *
 	 * @return  CacheStorage
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function &_getStorage()
 	{
@@ -513,7 +522,7 @@ class Cache
 	 *
 	 * @return  string  Body of cached data
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getWorkarounds($data, $options = array())
 	{
@@ -539,7 +548,7 @@ class Cache
 		}
 
 		// If the pathway buffer is set in the cache data, get it.
-		if (isset($data['pathway']) && is_array($data['pathway']))
+		if (isset($data['pathway']) && \is_array($data['pathway']))
 		{
 			// Push the pathway data into the pathway object.
 			$app->getPathway()->setPathway($data['pathway']);
@@ -547,7 +556,7 @@ class Cache
 
 		// @todo check if the following is needed, seems like it should be in page cache
 		// If a module buffer is set in the cache data, get it.
-		if (isset($data['module']) && is_array($data['module']))
+		if (isset($data['module']) && \is_array($data['module']))
 		{
 			// Iterate through the module positions and push them into the document buffer.
 			foreach ($data['module'] as $name => $contents)
@@ -588,7 +597,7 @@ class Cache
 	 *
 	 * @return  string  Data to be cached
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function setWorkarounds($data, $options = array())
 	{
@@ -627,13 +636,13 @@ class Cache
 			// Get the modules buffer before component execution.
 			$buffer1 = $document->getBuffer();
 
-			if (!is_array($buffer1))
+			if (!\is_array($buffer1))
 			{
 				$buffer1 = array();
 			}
 
 			// Make sure the module buffer is an array.
-			if (!isset($buffer1['module']) || !is_array($buffer1['module']))
+			if (!isset($buffer1['module']) || !\is_array($buffer1['module']))
 			{
 				$buffer1['module'] = array();
 			}
@@ -671,7 +680,7 @@ class Cache
 						$newvalue = array_map('unserialize', $newvalue);
 
 						// Special treatment for script and style declarations.
-						if (($now == 'script' || $now == 'style') && is_array($newvalue) && is_array($options['headerbefore'][$now]))
+						if (($now == 'script' || $now == 'style') && \is_array($newvalue) && \is_array($options['headerbefore'][$now]))
 						{
 							foreach ($newvalue as $type => $currentScriptStr)
 							{
@@ -711,7 +720,7 @@ class Cache
 		// Pathway data
 		if ($app->isClient('site') && $loptions['nopathway'] != 1)
 		{
-			$cached['pathway'] = is_array($data) && isset($data['pathway']) ? $data['pathway'] : $app->getPathway()->getPathway();
+			$cached['pathway'] = \is_array($data) && isset($data['pathway']) ? $data['pathway'] : $app->getPathway()->getPathway();
 		}
 
 		if ($loptions['nomodules'] != 1)
@@ -720,13 +729,13 @@ class Cache
 			// Get the module buffer after component execution.
 			$buffer2 = $document->getBuffer();
 
-			if (!is_array($buffer2))
+			if (!\is_array($buffer2))
 			{
 				$buffer2 = array();
 			}
 
 			// Make sure the module buffer is an array.
-			if (!isset($buffer2['module']) || !is_array($buffer2['module']))
+			if (!isset($buffer2['module']) || !\is_array($buffer2['module']))
 			{
 				$buffer2['module'] = array();
 			}
@@ -749,7 +758,7 @@ class Cache
 	 *
 	 * @return  string  MD5 encoded cache ID
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function makeId()
 	{
@@ -802,7 +811,7 @@ class Cache
 	public static function getPlatformPrefix()
 	{
 		// No prefix when Global Config is set to no platfom specific prefix
-		if (!Factory::getConfig()->get('cache_platformprefix', '0'))
+		if (!Factory::getApplication()->get('cache_platformprefix', '0'))
 		{
 			return '';
 		}
@@ -824,7 +833,7 @@ class Cache
 	 *
 	 * @return  array   An array with directory elements
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function addIncludePath($path = '')
 	{
@@ -835,7 +844,7 @@ class Cache
 			$paths = array();
 		}
 
-		if (!empty($path) && !in_array($path, $paths))
+		if (!empty($path) && !\in_array($path, $paths))
 		{
 			array_unshift($paths, Path::clean($path));
 		}

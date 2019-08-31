@@ -3,18 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Modules\Administrator\View\Module;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View to edit a module.
@@ -69,7 +71,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -97,9 +99,10 @@ class HtmlView extends BaseHtmlView
 		// For new records, check the create permission.
 		if ($isNew && $canDo->get('core.create'))
 		{
+			ToolbarHelper::apply('module.apply');
+
 			ToolbarHelper::saveGroup(
 				[
-					['apply', 'module.apply'],
 					['save', 'module.save'],
 					['save2new', 'module.save2new']
 				],
@@ -118,7 +121,8 @@ class HtmlView extends BaseHtmlView
 				// Since it's an existing record, check the edit permission.
 				if ($canDo->get('core.edit'))
 				{
-					$toolbarButtons[] = ['apply', 'module.apply'];
+					ToolbarHelper::apply('module.apply');
+
 					$toolbarButtons[] = ['save', 'module.save'];
 
 					// We can save this record, but check the create permission to see if we can return to make a new one.

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,13 @@ namespace Joomla\CMS\Table;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseDriver;
 
 /**
  * Core content table
@@ -300,7 +301,7 @@ class CoreContent extends Table
 		// Store the ucm_base row
 		$db         = $this->getDbo();
 		$query      = $db->getQuery(true);
-		$languageId = \JHelperContent::getLanguageId($this->core_language);
+		$languageId = ContentHelper::getLanguageId($this->core_language);
 
 		// Selecting "all languages" doesn't give a language id - we can't store a blank string in non mysql databases, so save 0 (the default value)
 		if (!$languageId)
@@ -317,7 +318,7 @@ class CoreContent extends Table
 					. $db->quote($this->core_content_item_id) . ', '
 					. $db->quote($this->core_type_id) . ', '
 					. $db->quote($languageId)
-			);
+				);
 		}
 		else
 		{
@@ -384,7 +385,7 @@ class CoreContent extends Table
 		// Determine if there is checkin support for the table.
 		$checkin = false;
 
-		if (property_exists($this, 'core_checked_out_user_id') && property_exists($this, 'core_checked_out_time'))
+		if ($this->hasField('core_checked_out_user_id') && $this->hasField('core_checked_out_time'))
 		{
 			$checkin = true;
 			$query->where(

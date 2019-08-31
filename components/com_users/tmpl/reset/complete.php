@@ -3,15 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.formvalidator');
@@ -28,17 +28,10 @@ HTMLHelper::_('behavior.formvalidator');
 	<form action="<?php echo Route::_('index.php?option=com_users&task=reset.complete'); ?>" method="post" class="com-users-reset-complete__form form-validate form-horizontal well">
 		<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 			<fieldset>
-				<p><?php echo Text::_($fieldset->label); ?></p>
-				<?php foreach ($this->form->getFieldset($fieldset->name) as $name => $field) : ?>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $field->label; ?>
-						</div>
-						<div class="controls">
-							<?php echo $field->input; ?>
-						</div>
-					</div>
-				<?php endforeach; ?>
+				<?php if (isset($fieldset->label)) : ?>
+					<p><?php echo Text::_($fieldset->label); ?></p>
+				<?php endif; ?>
+				<?php echo $this->form->renderFieldset($fieldset->name); ?>
 			</fieldset>
 		<?php endforeach; ?>
 		<div class="com-users-reset-complete__submit control-group">

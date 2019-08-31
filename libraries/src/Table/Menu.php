@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,12 @@ namespace Joomla\CMS\Table;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
-use Joomla\CMS\Filesystem\Folder;
+use Joomla\Registry\Registry;
 
 /**
  * Menu table
@@ -37,7 +37,7 @@ class Menu extends Nested
 		parent::__construct('#__menu', 'id', $db);
 
 		// Set the default access level.
-		$this->access = (int) Factory::getConfig()->get('access');
+		$this->access = (int) Factory::getApplication()->get('access');
 	}
 
 	/**
@@ -159,10 +159,10 @@ class Menu extends Nested
 	 */
 	public function store($updateNulls = false)
 	{
-		$db = Factory::getDbo();
+		$db = $this->getDbo();
 
 		// Verify that the alias is unique
-		$table = Table::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
+		$table = Table::getInstance('Menu', 'JTable', array('dbo' => $db));
 
 		$originalAlias = trim($this->alias);
 		$this->alias   = !$originalAlias ? $this->title : $originalAlias;
@@ -179,8 +179,6 @@ class Menu extends Nested
 			}
 
 			// Verify that a first level menu item alias is not the name of a folder.
-			jimport('joomla.filesystem.folder');
-
 			if (in_array($this->alias, Folder::folders(JPATH_ROOT)))
 			{
 				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_FOLDER', $this->alias, $this->alias));
@@ -242,7 +240,7 @@ class Menu extends Nested
 			// The alias already exists. Enqueue an error message.
 			if ($error)
 			{
-				$menuTypeTable = Table::getInstance('MenuType', 'JTable', array('dbo' => $this->getDbo()));
+				$menuTypeTable = Table::getInstance('MenuType', 'JTable', array('dbo' => $db));
 				$menuTypeTable->load(array('menutype' => $table->menutype));
 				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $this->alias, $table->title, $menuTypeTable->title));
 
@@ -254,12 +252,12 @@ class Menu extends Nested
 		{
 			// Verify that the home page for this menu is unique.
 			if ($table->load(
-					array(
+				array(
 					'menutype' => $this->menutype,
 					'client_id' => (int) $this->client_id,
 					'home' => '1',
-					)
 				)
+			)
 				&& ($table->language != $this->language))
 			{
 				$this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_UNIQUE_IN_MENU'));

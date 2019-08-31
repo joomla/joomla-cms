@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.HttpHeaders
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,20 +37,20 @@ function httpheaders_postinstall_action()
 	$db = Factory::getDbo();
 
 	$query = $db->getQuery(true)
-		->update($db->qn('#__extensions'))
-		->set($db->qn('enabled') . ' = 1')
-		->where($db->qn('type') . ' = ' . $db->q('plugin'))
-		->where($db->qn('folder') . ' = ' . $db->q('system'))
-		->where($db->qn('element') . ' = ' . $db->q('httpheaders'));
+		->update($db->quoteName('#__extensions'))
+		->set($db->quoteName('enabled') . ' = 1')
+		->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+		->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+		->where($db->quoteName('element') . ' = ' . $db->quote('httpheaders'));
 	$db->setQuery($query);
 	$db->execute();
 
 	$query = $db->getQuery(true)
 		->select('extension_id')
-		->from($db->qn('#__extensions'))
-		->where($db->qn('type') . ' = ' . $db->q('plugin'))
-		->where($db->qn('folder') . ' = ' . $db->q('system'))
-		->where($db->qn('element') . ' = ' . $db->q('httpheaders'));
+		->from($db->quoteName('#__extensions'))
+		->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+		->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+		->where($db->quoteName('element') . ' = ' . $db->quote('httpheaders'));
 	$db->setQuery($query);
 	$extensionId = $db->loadResult();
 

@@ -5,7 +5,7 @@
 	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/4.0-dev
 
 2- What is Joomla?
-	* Joomla! is a Content Management System (CMS) which enables you to build Web sites and powerful online applications.
+	* Joomla! is a Content Management System (CMS) which enables you to build websites and powerful online applications.
 	* It's a free and Open Source software, distributed under the GNU General Public License version 2 or later.
 	* This is a simple and powerful web server application and it requires a server with PHP and either MySQL, PostgreSQL or SQL Server to run.
 	You can find full technical requirements here: https://downloads.joomla.org/technical-requirements.
@@ -13,7 +13,7 @@
 3- Is Joomla! for you?
 	* Joomla! is the right solution for most content web projects: https://docs.joomla.org/Special:MyLanguage/Portal:Learn_More
 	* See Joomla's core features - https://www.joomla.org/core-features.html
-	* Try out our online demo: https://demo.joomla.org
+	* Try out our free hosting service: https://launch.joomla.org
 
 4- How to find a Joomla! translation?
 	* Repository of accredited language packs: https://community.joomla.org/translations.html
@@ -67,7 +67,6 @@
 	* Documentation for Web designers: https://docs.joomla.org/Special:MyLanguage/Web_designers
 
 Copyright:
-	* Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.
-	* Special Thanks: https://docs.joomla.org/Special:MyLanguage/Joomla!_Credits_and_Thanks
+	* Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
 	* Distributed under the GNU General Public License version 2 or later
-	* See Licenses details at https://docs.joomla.org/Special:MyLanguage/Joomla_Licenses
+	* See License details at https://docs.joomla.org/Special:MyLanguage/Joomla_Licenses

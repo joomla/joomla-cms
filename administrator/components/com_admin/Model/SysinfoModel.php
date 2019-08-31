@@ -3,27 +3,28 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Admin\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Factory;
 
 /**
  * Model for the display of system information.
  *
  * @since  1.6
  */
-class SysInfoModel extends BaseDatabaseModel
+class SysinfoModel extends BaseDatabaseModel
 {
 	/**
 	 * Some PHP settings
@@ -167,7 +168,7 @@ class SysInfoModel extends BaseDatabaseModel
 	/**
 	 * Remove sections of data marked as private in the privateSettings
 	 *
-	 * @param   array   $dataArray  Array with data tha may contain private informati
+	 * @param   array   $dataArray  Array with data that may contain private information
 	 * @param   string  $dataType   Type of data to search for a specific section in the privateSettings array
 	 *
 	 * @return  array
@@ -308,13 +309,13 @@ class SysInfoModel extends BaseDatabaseModel
 
 		$this->info = array(
 			'php'                   => php_uname(),
-			'dbserver'		=> $db->getServerType(),
+			'dbserver'              => $db->getServerType(),
 			'dbversion'             => $db->getVersion(),
 			'dbcollation'           => $db->getCollation(),
 			'dbconnectioncollation' => $db->getConnectionCollation(),
-			'phpversion'            => phpversion(),
+			'phpversion'            => PHP_VERSION,
 			'server'                => $_SERVER['SERVER_SOFTWARE'] ?? getenv('SERVER_SOFTWARE'),
-			'sapi_name'             => php_sapi_name(),
+			'sapi_name'             => PHP_SAPI,
 			'version'               => (new Version)->getLongVersion(),
 			'useragent'             => $_SERVER['HTTP_USER_AGENT'] ?? '',
 		);
@@ -439,7 +440,7 @@ class SysInfoModel extends BaseDatabaseModel
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
-			->from($db->qn('#__extensions'));
+			->from($db->quoteName('#__extensions'));
 		$db->setQuery($query);
 
 		try

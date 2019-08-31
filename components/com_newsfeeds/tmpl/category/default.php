@@ -3,20 +3,17 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
+use Joomla\CMS\Layout\FileLayout;
 
 $pageClass = $this->params->get('pageclass_sfx');
-
 ?>
 <div class="com-newsfeeds-category newsfeed-category">
 	<?php if ($this->params->get('show_page_heading')) : ?>

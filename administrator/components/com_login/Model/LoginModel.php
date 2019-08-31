@@ -3,19 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_login
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Login\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Cache\CacheExceptionInterface;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\Exception\ExecutionFailureException;
-use Joomla\CMS\Factory;
 
 /**
  * Login Model
@@ -35,20 +36,18 @@ class LoginModel extends BaseDatabaseModel
 	 */
 	protected function populateState()
 	{
-		$app = Factory::getApplication();
-
-		$input = $app->input;
-		$method = $input->getMethod();
+		$input = Factory::getApplication()->input->getInputForRequestMethod();
 
 		$credentials = array(
-			'username'  => $input->$method->get('username', '', 'USERNAME'),
-			'password'  => $input->$method->get('passwd', '', 'RAW'),
-			'secretkey' => $input->$method->get('secretkey', '', 'RAW'),
+			'username'  => $input->get('username', '', 'USERNAME'),
+			'password'  => $input->get('passwd', '', 'RAW'),
+			'secretkey' => $input->get('secretkey', '', 'RAW'),
 		);
+
 		$this->setState('credentials', $credentials);
 
 		// Check for return URL from the request first.
-		if ($return = $input->$method->get('return', '', 'BASE64'))
+		if ($return = $input->get('return', '', 'BASE64'))
 		{
 			$return = base64_decode($return);
 
@@ -75,7 +74,7 @@ class LoginModel extends BaseDatabaseModel
 	 *
 	 * @return  object  The Module object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getLoginModule($name = 'mod_login', $title = null)
 	{
@@ -124,7 +123,7 @@ class LoginModel extends BaseDatabaseModel
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function _load($module)
 	{
@@ -178,7 +177,10 @@ class LoginModel extends BaseDatabaseModel
 			}
 			catch (ExecutionFailureException $databaseException)
 			{
-				Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()), 'error');
+				Factory::getApplication()->enqueueMessage(
+					Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()),
+					'error'
+				);
 
 				return array();
 			}

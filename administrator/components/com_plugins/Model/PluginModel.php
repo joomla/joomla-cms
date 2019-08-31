@@ -3,22 +3,25 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Plugins\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Factory;
 
 /**
  * Plugin model.
@@ -95,7 +98,7 @@ class PluginModel extends AdminModel
 		}
 
 		// Add the default fields directory
-		\JForm::addFieldPath(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/field');
+		Form::addFieldPath(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/field');
 
 		// These variables are used to add data from the plugin XML files.
 		$this->setState('item.folder', $folder);
@@ -176,7 +179,7 @@ class PluginModel extends AdminModel
 
 			// Convert to the \JObject before adding other data.
 			$properties = $table->getProperties(1);
-			$this->_cache[$pk] = ArrayHelper::toObject($properties, 'JObject');
+			$this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
 
 			// Convert the params field to an array.
 			$registry = new Registry($table->params);
@@ -245,10 +248,8 @@ class PluginModel extends AdminModel
 	 * @throws	\Exception if there is an error in the form event.
 	 * @since   1.6
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
-		jimport('joomla.filesystem.path');
-
 		$folder  = $this->getState('item.folder');
 		$element = $this->getState('item.element');
 		$lang    = Factory::getLanguage();
@@ -259,7 +260,8 @@ class PluginModel extends AdminModel
 			->select($db->quoteName('element'))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-			->where($db->quoteName('folder') . ' = ' . $db->quote($folder));
+			->where($db->quoteName('folder') . ' = :folder')
+			->bind(':folder', $folder);
 		$db->setQuery($query);
 		$elements = $db->loadColumn();
 
@@ -322,17 +324,16 @@ class PluginModel extends AdminModel
 	 *
 	 * @param   object  $table  A record object.
 	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
 	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
 	{
-		$condition = array();
-		$condition[] = 'type = ' . $this->_db->quote($table->type);
-		$condition[] = 'folder = ' . $this->_db->quote($table->folder);
-
-		return $condition;
+		return [
+			$this->_db->quoteName('type') . ' = ' . $this->_db->quote($table->type),
+			$this->_db->quoteName('folder') . ' = ' . $this->_db->quote($table->folder),
+		];
 	}
 
 	/**

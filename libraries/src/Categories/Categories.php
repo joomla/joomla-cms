@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Categories;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
@@ -18,7 +18,7 @@ use Joomla\CMS\Language\Multilanguage;
  *
  * @since  1.6
  */
-class Categories
+class Categories implements CategoryInterface
 {
 	/**
 	 * Array to hold the object instances
@@ -101,20 +101,18 @@ class Categories
 	 */
 	public function __construct($options)
 	{
-		// Required options
 		$this->_extension  = $options['extension'];
 		$this->_table      = $options['table'];
 		$this->_field      = isset($options['field']) && $options['field'] ? $options['field'] : 'catid';
 		$this->_key        = isset($options['key']) && $options['key'] ? $options['key'] : 'id';
-		$this->_statefield = $options['statefield'] ?? 'state';
+		$this->_statefield = isset($options['statefield']) ? $options['statefield'] : 'state';
 
-		// Default some optional options
-		$this->_options['access']      = 'true';
-		$this->_options['published']   = 1;
-		$this->_options['countItems']  = 0;
-		$this->_options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
+		$options['access']      = isset($options['access']) ? $options['access'] : 'true';
+		$options['published']   = isset($options['published']) ? $options['published'] : 1;
+		$options['countItems']  = isset($options['countItems']) ? $options['countItems'] : 0;
+		$options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
 
-		$this->setOptions($options);
+		$this->_options = $options;
 	}
 
 	/**
@@ -138,15 +136,16 @@ class Categories
 		}
 
 		$categories = null;
+
 		try
 		{
 			$parts = explode('.', $extension, 2);
 
 			$component = Factory::getApplication()->bootComponent($parts[0]);
 
-			if ($component instanceof CategoriesServiceInterface)
+			if ($component instanceof CategoryServiceInterface)
 			{
-				$categories = $component->getCategories($options, count($parts) > 1 ? $parts[1] : '');
+				$categories = $component->getCategory($options, \count($parts) > 1 ? $parts[1] : '');
 			}
 		}
 		catch (SectionNotFoundException $e)
@@ -160,12 +159,12 @@ class Categories
 	}
 
 	/**
-	 * Loads a specific category and all its children in a CategoryNode object
+	 * Loads a specific category and all its children in a CategoryNode object.
 	 *
 	 * @param   mixed    $id         an optional id integer or equal to 'root'
 	 * @param   boolean  $forceload  True to force  the _load method to execute
 	 *
-	 * @return  CategoryNode|null|boolean  CategoryNode object or null if $id is not valid
+	 * @return  CategoryNode|null  CategoryNode object or null if $id is not valid
 	 *
 	 * @since   1.6
 	 */
@@ -192,13 +191,20 @@ class Categories
 		{
 			return $this->_nodes[$id];
 		}
-		// If we processed this $id already and it was not valid, then return null.
-		elseif (isset($this->_checkedCategories[$id]))
-		{
-			return;
-		}
 
-		return false;
+		return null;
+	}
+
+	/**
+	 * Returns the extension of the category.
+	 *
+	 * @return   string  The extension
+	 *
+	 * @since   3.9.0
+	 */
+	public function getExtension()
+	{
+		return $this->_extension;
 	}
 
 	/**
@@ -315,7 +321,7 @@ class Categories
 		$results = $db->loadObjectList('id');
 		$childrenLoaded = false;
 
-		if (count($results))
+		if (\count($results))
 		{
 			// Foreach categories
 			foreach ($results as $result)
@@ -390,37 +396,5 @@ class Categories
 		{
 			$this->_nodes[$id] = null;
 		}
-	}
-
-	/**
-	 * Allows to set some optional options, eg. if the access level should be considered.
-	 * Also clears the internal children cache.
-	 *
-	 * @param   array  $options  The new options
-	 *
-	 * @return  void
-	 *
-	 * @since  4.0.0
-	 */
-	public function setOptions(array $options)
-	{
-		if (isset($options['access']))
-		{
-			$this->_options['access'] = $options['access'];
-		}
-
-		if (isset($options['published']))
-		{
-			$this->_options['published'] = $options['published'];
-		}
-
-		if (isset($options['countItems']))
-		{
-			$this->_options['countItems'] = $options['countItems'];
-		}
-
-		// Reset the cache
-		$this->_nodes             = [];
-		$this->_checkedCategories = [];
 	}
 }

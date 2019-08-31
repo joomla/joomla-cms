@@ -3,15 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.formvalidator');
@@ -34,36 +34,15 @@ HTMLHelper::_('behavior.formvalidator');
 					<?php if (isset($fieldset->label)) : ?>
 						<legend><?php echo Text::_($fieldset->label); ?></legend>
 					<?php endif; ?>
-					<?php // Iterate through the fields in the set and display them. ?>
-					<?php foreach ($fields as $field) : ?>
-						<?php // If the field is hidden, just display the input. ?>
-						<?php if ($field->hidden) : ?>
-							<?php echo $field->input; ?>
-						<?php else : ?>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $field->label; ?>
-									<?php if (!$field->required && $field->type !== 'Spacer') : ?>
-										<span class="optional"><?php echo Text::_('COM_USERS_OPTIONAL'); ?></span>
-									<?php endif; ?>
-								</div>
-								<div class="controls">
-									<?php echo $field->input; ?>
-								</div>
-							</div>
-						<?php endif; ?>
-					<?php endforeach; ?>
+					<?php echo $this->form->renderFieldset($fieldset->name); ?>
 				</fieldset>
 			<?php endif; ?>
 		<?php endforeach; ?>
 		<div class="com-users-registration__submit control-group">
 			<div class="controls">
 				<button type="submit" class="com-users-registration__register btn btn-primary validate">
-                    <?php echo Text::_('JREGISTER'); ?>
-                </button>
-				<a class="com-users-registration__cancel btn btn-danger" href="<?php echo Route::_(''); ?>" title="<?php echo Text::_('JCANCEL'); ?>">
-                    <?php echo Text::_('JCANCEL'); ?>
-                </a>
+					<?php echo Text::_('JREGISTER'); ?>
+				</button>
 				<input type="hidden" name="option" value="com_users">
 				<input type="hidden" name="task" value="registration.register">
 			</div>

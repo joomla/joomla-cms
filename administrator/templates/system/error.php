@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.system
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,7 @@ $this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error-
 	<jdoc:include type="scripts" />
 </head>
 <body>
-	<table class="outline" style="margin: 0 auto; width: 550px;">
+	<table class="outline">
 		<tr>
 			<td style="text-align: center;">
 				<h1><?php echo $this->error->getCode() ?> - <?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>

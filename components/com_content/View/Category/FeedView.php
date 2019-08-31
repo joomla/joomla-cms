@@ -3,17 +3,19 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Content\Site\View\Category;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\CategoryFeedView;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * HTML View class for the Content component
@@ -30,7 +32,7 @@ class FeedView extends CategoryFeedView
 
 	/**
 	 * Method to reconcile non standard names from components to usage in this class.
-	 * Typically overriden in the component feed view class.
+	 * Typically overridden in the component feed view class.
 	 *
 	 * @param   object  $item  The item for a feed, an element of the $items array.
 	 *
@@ -49,7 +51,7 @@ class FeedView extends CategoryFeedView
 
 		if (isset($introImage) && ($introImage != ''))
 		{
-			$image = preg_match('/http/', $introImage) ? $introImage : \JURI::root() . $introImage;
+			$image = preg_match('/http/', $introImage) ? $introImage : Uri::root() . $introImage;
 			$item->description = '<p><img src="' . $image . '"></p>';
 		}
 
@@ -64,7 +66,8 @@ class FeedView extends CategoryFeedView
 			// URL link to article
 			$link = Route::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 
-			$item->description .= '<p class="feed-readmore"><a target="_blank" href ="' . $link . '">' . Text::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
+			$item->description .= '<p class="feed-readmore"><a target="_blank" href ="' . $link . '">'
+				. Text::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
 		}
 
 		$item->author = $item->created_by_alias ?: $item->author;

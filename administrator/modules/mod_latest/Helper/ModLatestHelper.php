@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_latest
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,12 @@ namespace Joomla\Module\Latest\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Content\Administrator\Model\ArticlesModel;
-use Joomla\Registry\Registry;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Administrator\Model\ArticlesModel;
+use Joomla\Registry\Registry;
 
 /**
  * Helper for mod_latest
@@ -39,10 +39,11 @@ abstract class ModLatestHelper
 
 		// Set List SELECT
 		$model->setState('list.select', 'a.id, a.title, a.checked_out, a.checked_out_time, ' .
-			' a.access, a.created, a.created_by, a.created_by_alias, a.featured, a.state, a.publish_up, a.publish_down');
+			' a.access, a.created, a.created_by, a.created_by_alias, a.featured, a.state, a.publish_up, a.publish_down'
+		);
 
 		// Set Ordering filter
-		switch ($params->get('ordering'))
+		switch ($params->get('ordering', 'c_dsc'))
 		{
 			case 'm_dsc':
 				$model->setState('list.ordering', 'modified DESC, created');
@@ -57,7 +58,7 @@ abstract class ModLatestHelper
 		}
 
 		// Set Category Filter
-		$categoryId = $params->get('catid');
+		$categoryId = $params->get('catid', null);
 
 		if (is_numeric($categoryId))
 		{
@@ -67,7 +68,7 @@ abstract class ModLatestHelper
 		// Set User Filter.
 		$userId = $user->get('id');
 
-		switch ($params->get('user_id'))
+		switch ($params->get('user_id', '0'))
 		{
 			case 'by_me':
 				$model->setState('filter.author_id', $userId);
@@ -88,8 +89,6 @@ abstract class ModLatestHelper
 		if ($error = $model->getError())
 		{
 			throw new \Exception($error, 500);
-
-			return false;
 		}
 
 		// Set the links
@@ -115,8 +114,8 @@ abstract class ModLatestHelper
 	 */
 	public static function getTitle($params)
 	{
-		$who   = $params->get('user_id');
-		$catid = (int) $params->get('catid');
+		$who   = $params->get('user_id', 0);
+		$catid = (int) $params->get('catid', null);
 		$type  = $params->get('ordering') === 'c_dsc' ? '_CREATED' : '_MODIFIED';
 		$title = '';
 

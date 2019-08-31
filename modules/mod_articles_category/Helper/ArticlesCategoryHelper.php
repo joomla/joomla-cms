@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,19 +11,15 @@ namespace Joomla\Module\ArticlesCategory\Site\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\String\StringHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Content\Site\Model\ArticlesModel;
-use Joomla\Component\Content\Site\Model\ArticleModel;
-use Joomla\Component\Content\Site\Model\CategoriesModel;
-
-\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\String\StringHelper;
 
 /**
  * Helper for mod_articles_category
@@ -43,22 +39,23 @@ abstract class ArticlesCategoryHelper
 	 */
 	public static function getList(&$params)
 	{
+		$app     = Factory::getApplication();
+		$factory = $app->bootComponent('com_content')->getMVCFactory();
+
 		// Get an instance of the generic articles model
-		$articles = new ArticlesModel(array('ignore_request' => true));
+		$articles = $factory->createModel('Articles', 'Site', ['ignore_request' => true]);
 
 		// Set application parameters in model
-		$app       = Factory::getApplication();
 		$input     = $app->input;
 		$appParams = $app->getParams();
 		$articles->setState('params', $appParams);
 
-		// Set the filters based on the module params
 		$articles->setState('list.start', 0);
-		$articles->setState('list.limit', (int) $params->get('count', 0));
-		$articles->setState('filter.published', 1);
+		$articles->setState('filter.condition', ContentComponent::CONDITION_PUBLISHED);
 
-		// This module does not use tags data
-		$articles->setState('load_tags', $params->get('filter_tag', '') !== '' ? true : false);
+		// Set the filters based on the module params
+		$articles->setState('list.limit', (int) $params->get('count', 0));
+		$articles->setState('load_tags', $params->get('show_tags', 0) || $params->get('article_grouping', 'none') === 'tags');
 
 		// Access filter
 		$access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
@@ -79,8 +76,6 @@ abstract class ArticlesCategoryHelper
 					switch ($view)
 					{
 						case 'category' :
-							$catids = array($input->getInt('id'));
-							break;
 						case 'categories' :
 							$catids = array($input->getInt('id'));
 							break;
@@ -93,7 +88,7 @@ abstract class ArticlesCategoryHelper
 								if (!$catid)
 								{
 									// Get an instance of the generic article model
-									$article = new ArticleModel(array('ignore_request' => true));
+									$article = $factory->createModel('Article', 'Site', ['ignore_request' => true]);
 
 									$article->setState('params', $appParams);
 									$article->setState('filter.published', 1);
@@ -140,7 +135,7 @@ abstract class ArticlesCategoryHelper
 			if ($params->get('show_child_category_articles', 0) && (int) $params->get('levels', 0) > 0)
 			{
 				// Get an instance of the generic categories model
-				$categories = new CategoriesModel(array('ignore_request' => true));
+				$categories = $factory->createModel('Categories', 'Site', ['ignore_request' => true]);
 				$categories->setState('params', $appParams);
 				$levels = $params->get('levels', 1) ?: 9999;
 				$categories->setState('filter.get_children', $levels);
@@ -180,7 +175,7 @@ abstract class ArticlesCategoryHelper
 		switch ($ordering)
 		{
 			case 'random':
-				$articles->setState('list.ordering', Factory::getDbo()->getQuery(true)->Rand());
+				$articles->setState('list.ordering', Factory::getDbo()->getQuery(true)->rand());
 				break;
 
 			case 'rating_count':
@@ -201,16 +196,13 @@ abstract class ArticlesCategoryHelper
 				break;
 		}
 
-		// New Parameters
-		if ($params->get('filter_tag', ''))
-		{
-			$articles->setState('filter.tag', $params->get('filter_tag', ''));
-		}
+		// Filter by multiple tags
+		$articles->setState('filter.tag', $params->get('filter_tag', array()));
 
 		$articles->setState('filter.featured', $params->get('show_front', 'show'));
-		$articles->setState('filter.author_id', $params->get('created_by', ''));
+		$articles->setState('filter.author_id', $params->get('created_by', array()));
 		$articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));
-		$articles->setState('filter.author_alias', $params->get('created_by_alias', ''));
+		$articles->setState('filter.author_alias', $params->get('created_by_alias', array()));
 		$articles->setState('filter.author_alias.include', $params->get('author_alias_filtering_type', 1));
 		$excluded_articles = $params->get('excluded_articles', '');
 
@@ -265,7 +257,7 @@ abstract class ArticlesCategoryHelper
 		// Prepare data for display using display options
 		foreach ($items as &$item)
 		{
-			$item->slug    = $item->id . ':' . $item->alias;
+			$item->slug = $item->id . ':' . $item->alias;
 
 			if ($access || in_array($item->access, $authorised))
 			{
@@ -301,7 +293,7 @@ abstract class ArticlesCategoryHelper
 
 			if ($item->catid)
 			{
-				$item->displayCategoryLink  = Route::_(\ContentHelperRoute::getCategoryRoute($item->catid));
+				$item->displayCategoryLink  = Route::_(\ContentHelperRoute::getCategoryRoute($item->catid, $item->category_language));
 				$item->displayCategoryTitle = $show_category ? '<a href="' . $item->displayCategoryLink . '">' . $item->category_title . '</a>' : '';
 			}
 			else
@@ -336,7 +328,7 @@ abstract class ArticlesCategoryHelper
 	 */
 	public static function _cleanIntrotext($introtext)
 	{
-		$introtext = str_replace(array('<p>','</p>'), ' ', $introtext);
+		$introtext = str_replace(array('<p>', '</p>'), ' ', $introtext);
 		$introtext = strip_tags($introtext, '<a><em><strong>');
 		$introtext = trim($introtext);
 
@@ -449,12 +441,13 @@ abstract class ArticlesCategoryHelper
 	 * @param   string  $article_grouping_direction  ordering direction
 	 * @param   string  $type                        type of grouping
 	 * @param   string  $month_year_format           date format to use
+	 * @param   string  $field                       date field to group by
 	 *
 	 * @return  array
 	 *
 	 * @since   1.6
 	 */
-	public static function groupByDate($list, $article_grouping_direction, $type = 'year', $month_year_format = 'F Y')
+	public static function groupByDate($list, $article_grouping_direction = 'ksort', $type = 'year', $month_year_format = 'F Y', $field = 'created')
 	{
 		$grouped = array();
 
@@ -473,7 +466,7 @@ abstract class ArticlesCategoryHelper
 			switch ($type)
 			{
 				case 'month_year' :
-					$month_year = StringHelper::substr($item->created, 0, 7);
+					$month_year = StringHelper::substr($item->$field, 0, 7);
 
 					if (!isset($grouped[$month_year]))
 					{
@@ -485,7 +478,7 @@ abstract class ArticlesCategoryHelper
 
 				case 'year' :
 				default:
-					$year = StringHelper::substr($item->created, 0, 4);
+					$year = StringHelper::substr($item->$field, 0, 4);
 
 					if (!isset($grouped[$year]))
 					{
@@ -511,6 +504,51 @@ abstract class ArticlesCategoryHelper
 
 				unset($grouped[$group]);
 			}
+		}
+
+		return $grouped;
+	}
+
+	/**
+	 * Groups items by tags
+	 *
+	 * @param   array   $list       list of items
+	 * @param   string  $direction  ordering direction
+	 *
+	 * @return  array
+	 *
+	 * @since   3.9.0
+	 */
+	public static function groupByTags($list, $direction = 'ksort')
+	{
+		$grouped  = array();
+		$untagged = array();
+
+		if (!$list)
+		{
+			return $grouped;
+		}
+
+		foreach ($list as $item)
+		{
+			if ($item->tags->itemTags)
+			{
+				foreach ($item->tags->itemTags as $tag)
+				{
+					$grouped[$tag->title][] = $item;
+				}
+			}
+			else
+			{
+				$untagged[] = $item;
+			}
+		}
+
+		$direction($grouped);
+
+		if ($untagged)
+		{
+			$grouped['MOD_ARTICLES_CATEGORY_UNTAGGED'] = $untagged;
 		}
 
 		return $grouped;

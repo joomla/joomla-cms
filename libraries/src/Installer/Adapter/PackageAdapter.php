@@ -2,28 +2,30 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\CMS\Installer\Manifest\PackageManifest;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
+use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
 use Joomla\Event\Event;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Log\Log;
 
 /**
  * Package installer
@@ -122,7 +124,7 @@ class PackageAdapter extends InstallerAdapter
 		}
 
 		// Install all necessary files
-		if (!count($this->getManifest()->files->children()))
+		if (!\count($this->getManifest()->files->children()))
 		{
 			throw new \RuntimeException(
 				Text::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES',
@@ -231,7 +233,7 @@ class PackageAdapter extends InstallerAdapter
 			{
 				$db->setQuery($query)->execute();
 			}
-			catch (\JDatabaseExceptionExecuting $e)
+			catch (ExecutionFailureException $e)
 			{
 				Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_SETTING_PACKAGE_ID'), Log::WARNING, 'jerror');
 			}
@@ -308,12 +310,15 @@ class PackageAdapter extends InstallerAdapter
 	 */
 	protected function finaliseUninstall(): bool
 	{
+		$extensionId = $this->extension->extension_id;
+
 		$db = $this->parent->getDbo();
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
 			->delete('#__schemas')
-			->where('extension_id = ' . $this->extension->extension_id);
+			->where('extension_id = :extension_id')
+			->bind(':extension_id', $extensionId, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
 
@@ -552,9 +557,10 @@ class PackageAdapter extends InstallerAdapter
 		}
 		else
 		{
-			$this->extension->name    = $this->name;
-			$this->extension->type    = 'package';
-			$this->extension->element = $this->element;
+			$this->extension->name         = $this->name;
+			$this->extension->type         = 'package';
+			$this->extension->element      = $this->element;
+			$this->extension->changelogurl = $this->changelogurl;
 
 			// There is no folder for packages
 			$this->extension->folder    = '';
@@ -676,14 +682,18 @@ class PackageAdapter extends InstallerAdapter
 		$query = $db->getQuery(true)
 			->select('extension_id')
 			->from('#__extensions')
-			->where('type = ' . $db->quote($type))
-			->where('element = ' . $db->quote($id));
+			->where('type = :type')
+			->where('element = :element')
+			->bind(':type', $type)
+			->bind(':element', $id);
 
 		switch ($type)
 		{
 			case 'plugin':
 				// Plugins have a folder but not a client
-				$query->where('folder = ' . $db->quote($group));
+				$query->where('folder = :folder')
+					->bind(':folder', $group);
+
 				break;
 
 			case 'library':
@@ -697,8 +707,11 @@ class PackageAdapter extends InstallerAdapter
 			case 'module':
 			case 'template':
 				// Languages, modules and templates have a client but not a folder
-				$client = ApplicationHelper::getClientInfo($client, true);
-				$query->where('client_id = ' . (int) $client->id);
+				$clientId = ApplicationHelper::getClientInfo($client, true)->id;
+
+				$query->where('client_id = :client_id')
+					->bind(':client_id', $clientId, ParameterType::INTEGER);
+
 				break;
 		}
 

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,17 +11,16 @@ namespace Joomla\CMS\MVC\Controller;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\Form\FormFactoryInterface;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Controller tailored to suit most form-based admin operations.
@@ -87,7 +86,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 * @since   3.0
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null,
-		FormFactoryInterface $formFactory = null)
+		FormFactoryInterface $formFactory = null
+	)
 	{
 		parent::__construct($config, $factory, $app, $input);
 
@@ -97,7 +97,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$this->option = ComponentHelper::getComponentName($this, $this->getName());
 		}
 
-		// Guess the \JText message prefix. Defaults to the option.
+		// Guess the \Text message prefix. Defaults to the option.
 		if (empty($this->text_prefix))
 		{
 			$this->text_prefix = strtoupper($this->option);
@@ -298,7 +298,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 */
 	public function cancel($key = null)
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$model = $this->getModel();
 		$table = $model->getTable();
@@ -312,7 +312,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		$recordId = $this->input->getInt($key);
 
 		// Attempt to check-in the current record.
-		if ($recordId && property_exists($table, 'checked_out') && $model->checkin($recordId) === false)
+		if ($recordId && $table->hasField('checked_out') && $model->checkin($recordId) === false)
 		{
 			// Check-in failed, go back to the record and display a notice.
 			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
@@ -331,12 +331,19 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		$this->releaseEditId($context, $recordId);
 		Factory::getApplication()->setUserState($context . '.data', null);
 
-		$this->setRedirect(
-			Route::_(
-				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. $this->getRedirectToListAppend(), false
-			)
-		);
+		$url = 'index.php?option=' . $this->option . '&view=' . $this->view_list
+			. $this->getRedirectToListAppend();
+
+		// Check if there is a return value
+		$return = $this->input->get('return', null, 'base64');
+
+		if (!is_null($return) && Uri::isInternal(base64_decode($return)))
+		{
+			$url = base64_decode($return);
+		}
+
+		// Redirect to the list screen.
+		$this->setRedirect(Route::_($url, false));
 
 		return true;
 	}
@@ -376,7 +383,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
 		// Get the previous record id (if any) and the current record id.
 		$recordId = (int) (count($cid) ? $cid[0] : $this->input->getInt($urlVar));
-		$checkin = property_exists($table, $table->getColumnAlias('checked_out'));
+		$checkin = $table->hasField('checked_out');
 
 		// Access check.
 		if (!$this->allowEdit(array($key => $recordId), $key))
@@ -618,13 +625,13 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app   = Factory::getApplication();
 		$model = $this->getModel();
 		$table = $model->getTable();
 		$data  = $this->input->post->get('jform', array(), 'array');
-		$checkin = property_exists($table, $table->getColumnAlias('checked_out'));
+		$checkin = $table->hasField('checked_out');
 		$context = "$this->option.edit.$this->context";
 		$task = $this->getTask();
 
@@ -695,6 +702,14 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
 			return false;
 		}
+
+		// Send an object which can be modified through the plugin event
+		$objData = (object) $data;
+		$app->triggerEvent(
+			'onContentNormaliseRequestData',
+			array($this->option . '.' . $this->context, $objData, $form)
+		);
+		$data = (array) $objData;
 
 		// Test whether the data is valid.
 		$validData = $model->validate($form, $data);
@@ -853,7 +868,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	public function reload($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app     = Factory::getApplication();
 		$model   = $this->getModel();
@@ -912,5 +927,23 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
 		$this->setRedirect($redirectUrl);
 		$this->redirect();
+	}
+
+	/**
+	 * Load item to edit associations in com_associations
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.0
+	 */
+	public function editAssociations()
+	{
+		// Initialise variables.
+		$app   = Factory::getApplication();
+		$input = $app->input;
+		$model = $this->getModel();
+
+		$data = $input->get('jform', array(), 'array');
+		$model->editAssociations($data);
 	}
 }

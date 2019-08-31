@@ -1,0 +1,58 @@
+table.phpdebugbar-widgets-languageStrings {
+    margin-left: 5px;
+    margin-top: 5px;
+    width: 100%;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    line-height: 1.3em;
+}
+
+table.phpdebugbar-widgets-languageStrings th {
+    border-bottom: 1px solid black;
+}
+
+table.phpdebugbar-widgets-languageStrings table.phpdebugbar-widgets-callstack {
+    display: none;
+    width: 100%;
+    margin: 10px;
+    border: 1px solid #ddd;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    border-collapse: collapse;
+}
+
+table.phpdebugbar-widgets-languageStrings table.phpdebugbar-widgets-callstack tr.caller {
+    background-color: #fff9b6;
+}
+
+table.phpdebugbar-widgets-languageStrings table.phpdebugbar-widgets-callstack tbody tr:hover {
+    background-color: #eee;
+}
+
+table.phpdebugbar-widgets-languageStrings table.phpdebugbar-widgets-callstack th {
+    font-weight: bold;
+}
+
+table.phpdebugbar-widgets-languageStrings span.phpdebugbar-widgets-eye,
+table.phpdebugbar-widgets-languageStrings span.phpdebugbar-widgets-eye-dash {
+    margin-left: 8px;
+    color: #888;
+}
+
+table.phpdebugbar-widgets-languageStrings span.phpdebugbar-widgets-eye-dash {
+    color: #000;
+    background-color: #eee;
+}
+
+table.phpdebugbar-widgets-languageStrings span.phpdebugbar-widgets-eye:before,
+table.phpdebugbar-widgets-languageStrings span.phpdebugbar-widgets-eye-dash:before {
+    font-family:"Font Awesome 5 Free";
+    margin-right: 4px;
+    /*font-size: 12px;*/
+}
+
+table.phpdebugbar-widgets-languageStrings span.phpdebugbar-widgets-eye:before {
+    content: "\f06e"
+}
+
+table.phpdebugbar-widgets-languageStrings span.phpdebugbar-widgets-eye-dash:before {
+    content: "\f070"
+}

@@ -3,22 +3,25 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Contact\Site\Controller;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\User\User;
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\CMS\User\User;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
  * Controller for single contact view
@@ -62,10 +65,44 @@ class ContactController extends FormController
 		$id     = (int) $stub;
 
 		// Get the data from POST
-		$data    = $this->input->post->get('jform', array(), 'array');
+		$data = $this->input->post->get('jform', array(), 'array');
+
+		// Get item
+		$model->setState('filter.published', 1);
 		$contact = $model->getItem($id);
 
-		$params->merge($contact->params);
+		if ($contact === false)
+		{
+			$this->setMessage($model->getError(), 'error');
+
+			return false;
+		}
+
+		// Get item params, take menu parameters into account if necessary
+		$active = $app->getMenu()->getActive();
+		$stateParams = clone $model->getState()->get('params');
+
+		// If the current view is the active item and a contact view for this contact, then the menu item params take priority
+		if ($active && strpos($active->link, 'view=contact') && strpos($active->link, '&id=' . (int) $contact->id))
+		{
+			// $item->params are the contact params, $temp are the menu item params
+			// Merge so that the menu item params take priority
+			$contact->params->merge($stateParams);
+		}
+		else
+		{
+			// Current view is not a single contact, so the contact params take priority here
+			$stateParams->merge($contact->params);
+			$contact->params = $stateParams;
+		}
+
+		// Check if the contact form is enabled
+		if (!$contact->params->get('show_email_form'))
+		{
+			$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
+
+			return false;
+		}
 
 		// Check for a valid session cookie
 		if ($params->get('validate_session', 0))
@@ -203,9 +240,9 @@ class ContactController extends FormController
 		$body   = $prefix . "\n" . $name . ' <' . $email . '>' . "\r\n\r\n" . stripslashes($body);
 
 		// Load the custom fields
-		if (!empty($data['com_fields']) && $fields = \FieldsHelper::getFields('com_contact.mail', $contact, true, $data['com_fields']))
+		if (!empty($data['com_fields']) && $fields = FieldsHelper::getFields('com_contact.mail', $contact, true, $data['com_fields']))
 		{
-			$output = \FieldsHelper::render(
+			$output = FieldsHelper::render(
 				'com_contact.mail',
 				'fields.render',
 				array(
@@ -221,30 +258,48 @@ class ContactController extends FormController
 			}
 		}
 
-		$mail = Factory::getMailer();
-		$mail->addRecipient($contact->email_to);
-		$mail->addReplyTo($email, $name);
-		$mail->setSender(array($mailfrom, $fromname));
-		$mail->setSubject($sitename . ': ' . $subject);
-		$mail->setBody($body);
-		$sent = $mail->Send();
-
-		// If we are supposed to copy the sender, do so.
-
-		// Check whether email copy function activated
-		if ($copy_email_activated == true && !empty($data['contact_email_copy']))
+		try
 		{
-			$copytext    = Text::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);
-			$copytext    .= "\r\n\r\n" . $body;
-			$copysubject = Text::sprintf('COM_CONTACT_COPYSUBJECT_OF', $subject);
-
 			$mail = Factory::getMailer();
-			$mail->addRecipient($email);
+			$mail->addRecipient($contact->email_to);
 			$mail->addReplyTo($email, $name);
 			$mail->setSender(array($mailfrom, $fromname));
-			$mail->setSubject($copysubject);
-			$mail->setBody($copytext);
+			$mail->setSubject($sitename . ': ' . $subject);
+			$mail->setBody($body);
 			$sent = $mail->Send();
+
+			// If we are supposed to copy the sender, do so.
+
+			// Check whether email copy function activated
+			if ($copy_email_activated == true && !empty($data['contact_email_copy']))
+			{
+				$copytext = Text::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);
+				$copytext .= "\r\n\r\n" . $body;
+				$copysubject = Text::sprintf('COM_CONTACT_COPYSUBJECT_OF', $subject);
+
+				$mail = Factory::getMailer();
+				$mail->addRecipient($email);
+				$mail->addReplyTo($email, $name);
+				$mail->setSender(array($mailfrom, $fromname));
+				$mail->setSubject($copysubject);
+				$mail->setBody($copytext);
+				$sent = $mail->Send();
+			}
+		}
+		catch (\Exception $exception)
+		{
+			try
+			{
+				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+				$sent = false;
+			}
+			catch (\RuntimeException $exception)
+			{
+				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+				$sent = false;
+			}
 		}
 
 		return $sent;

@@ -3,19 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Categories\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Factory;
+use Joomla\Input\Input;
 
 /**
  * Categories view class for the Category package.
@@ -46,7 +47,7 @@ class DisplayController extends BaseController
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   Input                $input    Input
 	 *
 	 * @since   3.0
 	 */
@@ -74,7 +75,7 @@ class DisplayController extends BaseController
 	public function display($cachable = false, $urlparams = array())
 	{
 		// Get the document object.
-		$document = Factory::getDocument();
+		$document = $this->app->getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', 'categories');
@@ -104,9 +105,6 @@ class DisplayController extends BaseController
 
 			// Push document object into the view.
 			$view->document = $document;
-
-			// Load the submenu.
-			CategoriesHelper::addSubmenu($model->getState('filter.extension'));
 			$view->display();
 		}
 

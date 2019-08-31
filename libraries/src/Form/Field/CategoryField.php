@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,9 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-
-FormHelper::loadFieldClass('list');
+use Joomla\CMS\Log\Log;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -24,7 +21,7 @@ FormHelper::loadFieldClass('list');
  *
  * @since  1.6
  */
-class CategoryField extends \JFormFieldList
+class CategoryField extends ListField
 {
 	/**
 	 * The form field type.

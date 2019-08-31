@@ -218,28 +218,11 @@
 			/>
 
 			<field 
-				name="num_columns" 
-				type="number"
-				label="JGLOBAL_NUM_COLUMNS_LABEL"
-				useglobal="true"
-			/>
-
-			<field 
 				name="num_links" 
 				type="number"
 				label="JGLOBAL_NUM_LINKS_LABEL"
 				useglobal="true"
 			/>
-
-			<field 
-				name="multi_column_order" 
-				type="list"
-				label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
-				useglobal="true"
-				>
-				<option value="0">JGLOBAL_DOWN</option>
-				<option value="1">JGLOBAL_ACROSS</option>
-			</field>
 
 			<field 
 				name="show_subcategory_content" 
@@ -446,6 +429,7 @@
 				type="componentlayout"
 				label="JGLOBAL_FIELD_LAYOUT_LABEL"
 				description="JGLOBAL_FIELD_LAYOUT_DESC"
+				class="custom-select"
 				menuitems="true"
 				extension="com_content"
 				view="article"
@@ -621,42 +605,6 @@
 				name="show_readmore_title"
 				type="list"
 				label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
-				useglobal="true"
-				class="chzn-color"
-				>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field 
-				name="show_icons" 
-				type="list"
-				label="JGLOBAL_SHOW_ICONS_LABEL"
-				description="JGLOBAL_SHOW_ICONS_DESC"
-				useglobal="true"
-				class="chzn-color"
-				>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field 
-				name="show_print_icon" 
-				type="list"
-				label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
-				description="JGLOBAL_SHOW_PRINT_ICON_DESC"
-				useglobal="true"
-				class="chzn-color"
-				>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field 
-				name="show_email_icon" 
-				type="list"
-				label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
-				description="JGLOBAL_SHOW_EMAIL_ICON_DESC"
 				useglobal="true"
 				class="chzn-color"
 				>

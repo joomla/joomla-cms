@@ -3,16 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 defined('_JEXEC') or die;
 
 $this->name = Text::_('COM_CONFIG_TEXT_FILTER_SETTINGS');
 $this->fieldsname = 'filters';
-$this->description = Text::_('COM_CONFIG_TEXT_FILTERS_DESC');
+$this->formclass = 'options-grid-form options-grid-form-full';
+
 echo LayoutHelper::render('joomla.content.text_filters', $this);

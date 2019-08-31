@@ -3,19 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Contenthistory\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Methods supporting a list of contenthistory records.
@@ -27,11 +28,13 @@ class PreviewModel extends ItemModel
 	/**
 	 * Method to get a version history row.
 	 *
+	 * @param   integer  $pk  The id of the item
+	 *
 	 * @return  \stdClass|boolean    On success, standard object with row data. False on failure.
 	 *
 	 * @since   3.2
 	 */
-	public function getItem()
+	public function getItem($pk = null)
 	{
 		/** @var \Joomla\CMS\Table\ContentHistory $table */
 		$table = $this->getTable('ContentHistory');
@@ -74,7 +77,7 @@ class PreviewModel extends ItemModel
 			$result->data = ContenthistoryHelper::prepareData($table);
 
 			// Let's use custom calendars when present
-			$result->save_date = HTMLHelper::_('date', $table->save_date, 'Y-m-d H:i:s');
+			$result->save_date = HTMLHelper::_('date', $table->save_date, Text::_('DATE_FORMAT_LC6'));
 
 			$dateProperties = array (
 				'modified_time',
@@ -92,7 +95,7 @@ class PreviewModel extends ItemModel
 			{
 				if (array_key_exists($dateProperty, $result->data) && $result->data->$dateProperty->value != $nullDate)
 				{
-					$result->data->$dateProperty->value = HTMLHelper::_('date', $result->data->$dateProperty->value, 'Y-m-d H:i:s');
+					$result->data->$dateProperty->value = HTMLHelper::_('date', $result->data->$dateProperty->value, Text::_('DATE_FORMAT_LC6'));
 				}
 			}
 

@@ -3,24 +3,17 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Users\Site\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Help\Help;
-use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Response\JsonResponse;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
 
@@ -72,8 +65,7 @@ class ProfileController extends BaseController
 		// Set the user id for the user to edit in the session.
 		$app->setUserState('com_users.edit.profile.id', $userId);
 
-		// Get the model.
-		/* @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
+		/** @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
 		$model = $this->getModel('Profile', 'Site');
 
 		// Check out the user.
@@ -109,7 +101,7 @@ class ProfileController extends BaseController
 
 		$app    = $this->app;
 
-		/* @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
+		/** @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
 		$model  = $this->getModel('Profile', 'Site');
 		$user   = Factory::getUser();
 		$userId = (int) $user->get('id');
@@ -127,6 +119,14 @@ class ProfileController extends BaseController
 		{
 			throw new \Exception($model->getError(), 500);
 		}
+
+		// Send an object which can be modified through the plugin event
+		$objData = (object) $requestData;
+		$app->triggerEvent(
+			'onContentNormaliseRequestData',
+			array('com_users.user', $objData, $form)
+		);
+		$requestData = (array) $objData;
 
 		// Validate the posted data.
 		$data = $model->validate($form, $requestData);
@@ -243,60 +243,21 @@ class ProfileController extends BaseController
 	}
 
 	/**
-	 * Function that allows child controller access to model data after the data has been saved.
-	 *
-	 * @param   BaseDatabaseModel  $model      The data model object.
-	 * @param   array              $validData  The validated data.
+	 * Method to cancel an edit.
 	 *
 	 * @return  void
 	 *
-	 * @since   3.1
+	 * @since   4.0.0
 	 */
-	protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
+	public function cancel()
 	{
-		$item = $model->getData();
-		$tags = $validData['tags'];
+		// Check for request forgeries.
+		$this->checkToken();
 
-		if ($tags)
-		{
-			$item->tags = new TagsHelper;
-			$item->tags->getTagIds($item->id, 'com_users.user');
-			$item->metadata['tags'] = $item->tags;
-		}
-	}
+		// Flush the data from the session.
+		$this->app->setUserState('com_users.edit.profile', null);
 
-	/**
-	 * Returns the updated options for help site selector
-	 *
-	 * @return  void
-	 *
-	 * @since   3.5
-	 * @throws  \Exception
-	 */
-	public function gethelpsites()
-	{
-		jimport('joomla.filesystem.file');
-
-		// Set FTP credentials, if given
-		ClientHelper::setCredentialsFromRequest('ftp');
-
-		if (($data = file_get_contents('https://update.joomla.org/helpsites/helpsites.xml')) === false)
-		{
-			throw new \Exception(Text::_('COM_CONFIG_ERROR_HELPREFRESH_FETCH'), 500);
-		}
-		elseif (!File::write(JPATH_ADMINISTRATOR . '/help/helpsites.xml', $data))
-		{
-			throw new \Exception(Text::_('COM_CONFIG_ERROR_HELPREFRESH_ERROR_STORE'), 500);
-		}
-
-		$options = array_merge(
-			array(
-				HTMLHelper::_('select.option', '', Text::_('JOPTION_USE_DEFAULT'))
-			),
-			Help::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml')
-		);
-
-		echo new JsonResponse($options);
-		Factory::getApplication()->close();
+		// Redirect to user profile.
+		$this->setRedirect(Route::_('index.php?option=com_users&view=profile', false));
 	}
 }

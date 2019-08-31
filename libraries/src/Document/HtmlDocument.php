@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,20 +11,20 @@ namespace Joomla\CMS\Document;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Factory as CmsFactory;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Utility\Utility;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filter\InputFilter;
-
-jimport('joomla.utilities.utility');
 
 /**
  * HtmlDocument class, provides an easy interface to parse and display a HTML document
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class HtmlDocument extends Document
 {
@@ -32,7 +32,7 @@ class HtmlDocument extends Document
 	 * Array of Header `<link>` tags
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $_links = array();
 
@@ -40,7 +40,7 @@ class HtmlDocument extends Document
 	 * Array of custom tags
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $_custom = array();
 
@@ -48,7 +48,7 @@ class HtmlDocument extends Document
 	 * Name of the template
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $template = null;
 
@@ -56,7 +56,7 @@ class HtmlDocument extends Document
 	 * Base url
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $baseurl = null;
 
@@ -64,7 +64,7 @@ class HtmlDocument extends Document
 	 * Array of template parameters
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $params = null;
 
@@ -72,7 +72,7 @@ class HtmlDocument extends Document
 	 * File name
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $_file = null;
 
@@ -88,7 +88,7 @@ class HtmlDocument extends Document
 	 * String holding parsed template
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_template = '';
 
@@ -96,7 +96,7 @@ class HtmlDocument extends Document
 	 * Array of parsed template JDoc tags
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_template_tags = array();
 
@@ -104,7 +104,7 @@ class HtmlDocument extends Document
 	 * Integer with caching setting
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_caching = null;
 
@@ -121,7 +121,7 @@ class HtmlDocument extends Document
 	 *
 	 * @param   array  $options  Associative array of options
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($options = array())
 	{
@@ -139,7 +139,7 @@ class HtmlDocument extends Document
 	 *
 	 * @return  array  The document head data in array form
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getHeadData()
 	{
@@ -239,7 +239,7 @@ class HtmlDocument extends Document
 	 *
 	 * @return  HtmlDocument|null instance of $this to allow chaining or null for empty input data
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setHeadData($data)
 	{
@@ -277,7 +277,7 @@ class HtmlDocument extends Document
 	 *
 	 * @return  HtmlDocument|null instance of $this to allow chaining or null for empty input data
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function mergeHeadData($data)
 	{
@@ -318,7 +318,7 @@ class HtmlDocument extends Document
 		{
 			foreach ($data['style'] as $type => $stdata)
 			{
-				if (!isset($this->_style[strtolower($type)]) || !stristr($this->_style[strtolower($type)], $stdata))
+				if (!isset($this->_style[strtolower($type)]) || !stristr($stdata, $this->_style[strtolower($type)]))
 				{
 					$this->addStyleDeclaration($stdata, $type);
 				}
@@ -333,7 +333,7 @@ class HtmlDocument extends Document
 		{
 			foreach ($data['script'] as $type => $sdata)
 			{
-				if (!isset($this->_script[strtolower($type)]) || !stristr($this->_script[strtolower($type)], $sdata))
+				if (!isset($this->_script[strtolower($type)]) || !stristr($sdata, $this->_script[strtolower($type)]))
 				{
 					$this->addScriptDeclaration($sdata, $type);
 				}
@@ -361,7 +361,7 @@ class HtmlDocument extends Document
 	 *
 	 * @return  HtmlDocument instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function addHeadLink($href, $relation, $relType = 'rel', $attribs = array())
 	{
@@ -385,7 +385,7 @@ class HtmlDocument extends Document
 	 *
 	 * @return  HtmlDocument instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function addFavicon($href, $type = 'image/vnd.microsoft.icon', $relation = 'shortcut icon')
 	{
@@ -402,7 +402,7 @@ class HtmlDocument extends Document
 	 *
 	 * @return  HtmlDocument instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function addCustomTag($html)
 	{
@@ -416,7 +416,7 @@ class HtmlDocument extends Document
 	 *
 	 * @return  boolean true when HTML5 is used
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function isHtml5()
 	{
@@ -430,7 +430,7 @@ class HtmlDocument extends Document
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setHtml5($state)
 	{
@@ -449,7 +449,7 @@ class HtmlDocument extends Document
 	 *
 	 * @return  mixed|string The output of the renderer
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getBuffer($type = null, $name = null, $attribs = array())
 	{
@@ -470,7 +470,7 @@ class HtmlDocument extends Document
 
 		if ($this->_caching == true && $type == 'modules')
 		{
-			$cache = Factory::getCache('com_modules', '');
+			$cache = CmsFactory::getCache('com_modules', '');
 			$hash = md5(serialize(array($name, $attribs, null, $renderer)));
 			$cbuffer = $cache->get('cbuffer_' . $type);
 
@@ -511,7 +511,7 @@ class HtmlDocument extends Document
 	 *
 	 * @return  HtmlDocument instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setBuffer($content, $options = array())
 	{
@@ -537,7 +537,7 @@ class HtmlDocument extends Document
 	 *
 	 * @return  HtmlDocument instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function parse($params = array())
 	{
@@ -552,7 +552,7 @@ class HtmlDocument extends Document
 	 *
 	 * @return  string The rendered data
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function render($caching = false, $params = array())
 	{
@@ -581,7 +581,7 @@ class HtmlDocument extends Document
 	 *
 	 * @return  integer  Number of modules found
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function countModules($condition)
 	{
@@ -618,7 +618,7 @@ class HtmlDocument extends Document
 	 *
 	 * @return  integer  Number of child menu items
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function countMenuChildren()
 	{
@@ -626,8 +626,8 @@ class HtmlDocument extends Document
 
 		if (!isset($children))
 		{
-			$db = Factory::getDbo();
-			$app = Factory::getApplication();
+			$db = CmsFactory::getDbo();
+			$app = CmsFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$children = 0;
@@ -636,9 +636,14 @@ class HtmlDocument extends Document
 			{
 				$query = $db->getQuery(true)
 					->select('COUNT(*)')
-					->from('#__menu')
-					->where('parent_id = ' . $active->id)
-					->where('published = 1');
+					->from($db->quoteName('#__menu'))
+					->where(
+						[
+							$db->quoteName('parent_id') . ' = :id',
+							$db->quoteName('published') . ' = 1',
+						]
+					)
+					->bind(':id', $active->id, ParameterType::INTEGER);
 				$db->setQuery($query);
 				$children = $db->loadResult();
 			}
@@ -655,7 +660,7 @@ class HtmlDocument extends Document
 	 *
 	 * @return  string  The contents of the template
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _loadTemplate($directory, $filename)
 	{
@@ -677,7 +682,7 @@ class HtmlDocument extends Document
 		// Try to find a favicon by checking the template and root folder
 		$icon = '/favicon.ico';
 
-		foreach (array($directory, JPATH_BASE) as $dir)
+		foreach (array(JPATH_BASE, $directory) as $dir)
 		{
 			if (file_exists($dir . $icon))
 			{
@@ -698,7 +703,7 @@ class HtmlDocument extends Document
 	 *
 	 * @return  HtmlDocument instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _fetchTemplate($params = array())
 	{
@@ -719,7 +724,7 @@ class HtmlDocument extends Document
 		}
 
 		// Load the language file for the template
-		$lang = Factory::getLanguage();
+		$lang = CmsFactory::getLanguage();
 
 		// 1.5 or core then 1.6
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
@@ -741,7 +746,7 @@ class HtmlDocument extends Document
 	 *
 	 * @return  HtmlDocument  instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _parseTemplate()
 	{
@@ -749,31 +754,33 @@ class HtmlDocument extends Document
 
 		if (preg_match_all('#<jdoc:include\ type="([^"]+)"(.*)\/>#iU', $this->_template, $matches))
 		{
-			$template_tags_first = array();
-			$template_tags_last = array();
+			$messages = [];
+			$template_tags_first = [];
+			$template_tags_last = [];
 
 			// Step through the jdocs in reverse order.
 			for ($i = count($matches[0]) - 1; $i >= 0; $i--)
 			{
 				$type = $matches[1][$i];
-				$attribs = empty($matches[2][$i]) ? array() : \JUtility::parseAttributes($matches[2][$i]);
+				$attribs = empty($matches[2][$i]) ? array() : Utility::parseAttributes($matches[2][$i]);
 				$name = $attribs['name'] ?? null;
 
 				// Separate buffers to be executed first and last
-				if ($type == 'module' || $type == 'modules')
+				if ($type === 'module' || $type === 'modules')
 				{
-					$template_tags_first[$matches[0][$i]] = array('type' => $type, 'name' => $name, 'attribs' => $attribs);
+					$template_tags_first[$matches[0][$i]] = ['type' => $type, 'name' => $name, 'attribs' => $attribs];
+				}
+				elseif ($type === 'message')
+				{
+					$messages = [$matches[0][$i] => ['type' => $type, 'name' => $name, 'attribs' => $attribs]];
 				}
 				else
 				{
-					$template_tags_last[$matches[0][$i]] = array('type' => $type, 'name' => $name, 'attribs' => $attribs);
+					$template_tags_last[$matches[0][$i]] = ['type' => $type, 'name' => $name, 'attribs' => $attribs];
 				}
 			}
 
-			// Reverse the last array so the jdocs are in forward order.
-			$template_tags_last = array_reverse($template_tags_last);
-
-			$this->_template_tags = $template_tags_first + $template_tags_last;
+			$this->_template_tags = $template_tags_first + $messages + array_reverse($template_tags_last);
 		}
 
 		return $this;
@@ -784,12 +791,12 @@ class HtmlDocument extends Document
 	 *
 	 * @return string rendered template
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _renderTemplate()
 	{
-		$replace = array();
-		$with = array();
+		$replace = [];
+		$with = [];
 
 		foreach ($this->_template_tags as $jdoc => $args)
 		{
