@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,21 +38,21 @@ abstract class JHtmlWorkflowstage
 
 		// Build the query.
 		$query->select(
-					$db->quoteName(
-						[
-							'ws.id',
-							'ws.title',
-							'w.id',
-							'w.title'
-						],
-						[
-							'workflow_stage_id',
-							'workflow_stage_title',
-							'workflow_id',
-							'workflow_title'
-						]
-					)
-				)
+			$db->quoteName(
+				[
+					'ws.id',
+					'ws.title',
+					'w.id',
+					'w.title'
+				],
+				[
+					'workflow_stage_id',
+					'workflow_stage_title',
+					'workflow_id',
+					'workflow_title'
+				]
+			)
+		)
 			->from($db->quoteName('#__workflow_stages', 'ws'))
 			->leftJoin($db->quoteName('#__workflows', 'w') . ' ON w.id = ws.workflow_id')
 			->where('w.published = 1')

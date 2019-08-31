@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
-use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -405,13 +404,6 @@ class ProfileModel extends FormModel
 			$this->setError($user->getError());
 
 			return false;
-		}
-
-		// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
-		if ($this->getState('load_tags', true))
-		{
-			$user->tags = new TagsHelper;
-			$user->tags->getTagIds($user->id, 'com_users.user');
 		}
 
 		return $user->id;

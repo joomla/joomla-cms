@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -176,7 +176,7 @@ class Profiler
 	 *
 	 * @since   3.0.0
 	 */
-	public function setStart($startTime = 0, $startMem = 0)
+	public function setStart($startTime = 0.0, $startMem = 0)
 	{
 		$this->start       = (double) $startTime;
 		$this->previousMem = (int) $startMem / 1048576;

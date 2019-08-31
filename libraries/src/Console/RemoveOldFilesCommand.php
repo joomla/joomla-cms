@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Console;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,7 +26,7 @@ class RemoveOldFilesCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected static $defaultName = 'update:joomla:remove-old-files';
 
@@ -63,11 +63,11 @@ class RemoveOldFilesCommand extends AbstractCommand
 	 *
 	 * @since   4.0.0
 	 */
-	protected function configure()
+	protected function configure(): void
 	{
-		$this->setDescription('Removes old system files');
+		$this->setDescription('Remove old system files');
 		$this->setHelp(
-<<<EOF
+			<<<EOF
 The <info>%command.name%</info> command removes old files which should have been deleted during a Joomla update
 
 <info>php %command.full_name%</info>

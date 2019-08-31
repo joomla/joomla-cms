@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_tags_similar
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,7 +51,6 @@ abstract class TagsSimilarHelper
 		$user       = Factory::getUser();
 		$groups     = implode(',', $user->getAuthorisedViewLevels());
 		$matchtype  = $params->get('matchtype', 'all');
-		$maximum    = $params->get('maximum', 5);
 		$ordering   = $params->get('ordering', 'count');
 		$tagsHelper = new TagsHelper;
 		$prefix     = $option . '.' . $view;
@@ -145,10 +144,11 @@ abstract class TagsSimilarHelper
 
 		if ($ordering === 'random' || $ordering === 'countrandom')
 		{
-			$query->order($query->Rand());
+			$query->order($query->rand());
 		}
 
-		$db->setQuery($query, 0, $maximum);
+		$query->setLimit((int) $params->get('maximum', 5));
+		$db->setQuery($query);
 
 		try
 		{

@@ -1,73 +1,161 @@
-pipeline:
-  clone:
-    image: plugins/git
-    depth: 1
+---
+kind: pipeline
+name: default
 
-  phpcs:
-    image: joomlaprojects/docker-phpcs
-    commands:
-      - echo $(date)
-      - /root/.composer/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
-      - echo $(date)
+clone:
+  depth: 42
 
-  restore-cache:
-      image: drillster/drone-volume-cache
+steps:
+  - name: restore-cache
+    image: drillster/drone-volume-cache
+    settings:
       restore: true
       mount:
         - ./node_modules
         - ./libraries/vendor
-      volumes:
-        - /tmp/cache:/cache
+        - ./administrator/components/com_media/node_modules
+      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
+    volumes:
+      - name: cache
+        path: /cache
 
-  prepare:
+  - name: composer
     image: joomlaprojects/docker-tools:develop
+    depends_on: [ restore-cache ]
     commands:
+      - composer validate --no-check-all --strict
       - composer install --no-progress --no-suggest
-      # needed for unit testing
-      - composer update joomla/test-unit --no-progress --no-suggest
-      # needed for system testing
-      - composer update joomla/test-system --no-progress --no-suggest
-      - composer update joomla-projects/selenium-server-standalone --no-progress --no-suggest
-      - composer update joomla-projects/joomla-browser --no-progress --no-suggest
-      - npm install --unsafe-perm
 
-  rebuild-cache:
-      image: drillster/drone-volume-cache
+  - name: phpcs
+    image: joomlaprojects/docker-images:php7.2
+    depends_on: [ composer ]
+    commands:
+      - echo $(date)
+      - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
+      - echo $(date)
+
+  - name: npm
+    image: joomlaprojects/docker-tools:develop
+    depends_on: [ phpcs ]
+    commands:
+      - npm ci --unsafe-perm
+
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    depends_on: [ npm ]
+    settings:
       rebuild: true
       mount:
         - ./node_modules
         - ./libraries/vendor
-      volumes:
-        - /tmp/cache:/cache
+        - ./administrator/components/com_media/node_modules
+      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
+    volumes:
+      - name: cache
+        path: /cache
 
-  php70-unit:
-    group: unit
-    image: joomlaprojects/docker-php70:develop
+  - name: php72-unit
+    depends_on: [ phpcs ]
+    image: joomlaprojects/docker-images:php7.2
     commands:
-      - ./libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
 
-  php71-unit:
-    group: unit
-    image: joomlaprojects/docker-php71:develop
+  - name: php73-unit
+    depends_on: [ phpcs ]
+    image: joomlaprojects/docker-images:php7.3
     commands:
-      - ./libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
 
-  php72-unit:
-    group: unit
-    image: joomlaprojects/docker-php72:develop
+  - name: php74-unit
+    depends_on: [ phpcs ]
+    image: joomlaprojects/docker-images:php7.4
+    failure: ignore
     commands:
-      - ./libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
 
-  javascript-cs:
+  - name: php80-unit
+    depends_on: [ phpcs ]
+    image: joomlaprojects/docker-images:php8.0
+    failure: ignore
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
+
+  - name: php72-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php7.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php73-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php7.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php74-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php7.4
+    failure: ignore
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php80-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.0
+    failure: ignore
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php72-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php7.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+#  - name: php73-integration-pgsql
+#    depends_on: [ npm ]
+#    image: joomlaprojects/docker-images:php7.3
+#    commands:
+#      - php -v
+#      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+#  - name: php74-integration-pgsql
+#    depends_on: [ npm ]
+#    image: joomlaprojects/docker-images:php7.4
+#    failure: ignore
+#    commands:
+#      - php -v
+#      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+#  - name: php80-integration-pgsql
+#    depends_on: [ npm ]
+#    image: joomlaprojects/docker-images:php8.0
+#    failure: ignore
+#    commands:
+#      - php -v
+#      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+  - name: javascript-cs
+    depends_on: [ npm ]
     image: joomlaprojects/docker-systemtests:develop
     commands:
       - export DISPLAY=:0
       - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
       - sleep 3
       - fluxbox  > /dev/null 2>&1 &
-      - cd /drone/src/github.com/joomla/joomla-cms && npm run lint:js
+      - npm run lint:js
 
-  javascript-tests:
+  - name: javascript-tests
+    depends_on: [ npm ]
     image: joomlaprojects/docker-systemtests:develop
     commands:
       - export DISPLAY=:0
@@ -76,40 +164,79 @@ pipeline:
       - fluxbox  > /dev/null 2>&1 &
       - npm run test
 
-  system-tests:
-      image: joomlaprojects/docker-systemtests:develop
-      commands:
-        - bash libraries/vendor/joomla/test-system/src/drone-run.sh "$(pwd)"
+  - name: system-tests-mysql
+    depends_on: [ javascript-tests ]
+    image: joomlaprojects/docker-systemtests:latest
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql
 
-  analysis3x:
-      image: rips/rips-cli
-      secrets:  [rips_username, rips_password]
-      when:
-        branch: staging
-      commands:
-        - export RIPS_BASE_URI='https://api.rips.joomla.org'
-        - export RIPS_USERNAME=$RIPS_USERNAME
-        - export RIPS_PASSWORD=$RIPS_PASSWORD
-        - if [ $DRONE_REPO_OWNER != 'joomla' ]; then echo "The analysis check only run on the main repos"; exit 0; fi
-        - rips-cli rips:scan:start -a 1 -t 1 -p $(pwd) -t 1 -T $DRONE_REPO_OWNER-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
+  - name: system-tests-mysql8
+    depends_on: [ system-tests-mysql ]
+    image: joomlaprojects/docker-systemtests:latest
+    failure: ignore
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8
 
-  analysis4x:
-    image: rips/rips-cli
-    secrets:  [rips_username, rips_password]
+  - name: system-tests-postgres
+    depends_on: [ system-tests-mysql8 ]
+    image: joomlaprojects/docker-systemtests:latest
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
+
+  - name: artifacts-system-tests
+    image: cschlosser/drone-ftps
+    depends_on: [ system-tests-postgres ]
+    environment:
+      FTP_USERNAME:
+        from_secret: ftpusername
+      FTP_PASSWORD:
+        from_secret: ftppassword
+      PLUGIN_HOSTNAME: ci.joomla.org:21
+      PLUGIN_SRC_DIR: /tests/Codeception/_output/
+      PLUGIN_DEST_DIR: /artifacts
+      PLUGIN_SECURE: false
+      PLUGIN_EXCLUDE: ^\.git/$
+    commands:
+      - export PLUGIN_DEST_DIR=$PLUGIN_DEST_DIR/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST_$DRONE_BUILD_NUMBER/system-tests
+      - echo https://ci.joomla.org:444$PLUGIN_DEST_DIR
+      - /bin/upload.sh
     when:
-      branch: 4.0-dev
+      status:
+      - failure
+
+  - name: api-tests
+    depends_on: [ system-tests-postgres ]
+    image: joomlaprojects/docker-systemtests:latest
+    commands:
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)"
+
+  - name: analysis4x
+    image: rips/rips-cli:1.2.1
+    depends_on: [ api-tests ]
+    when:
+      repo:
+        - joomla/joomla-cms
+      branch:
+        - 4.0-dev
     commands:
       - export RIPS_BASE_URI='https://api.rips.joomla.org'
-      - export RIPS_USERNAME=$RIPS_USERNAME
-      - export RIPS_PASSWORD=$RIPS_PASSWORD
-      - if [ $DRONE_REPO_OWNER != 'joomla' ]; then echo "The analysis check only run on the main repos"; exit 0; fi
-      - rips-cli rips:scan:start -a 3 -t 1 -p $(pwd) -t 1 -T $DRONE_REPO_OWNER-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
+      - rips-cli rips:scan:start -a 3 -t 1 -R -k -p $(pwd) -t 1 -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
+    environment:
+      RIPS_USERNAME:
+        from_secret: RIPS_USERNAME
+      RIPS_PASSWORD:
+        from_secret: RIPS_PASSWORD
 
 branches:
   exclude: [ l10n_* ]
 
+volumes:
+- name: cache
+  host:
+    path: /tmp/cache
+
 services:
-  mysql:
+  - name: mysql
     image: mysql:5.7
     environment:
       MYSQL_USER: joomla_ut
@@ -117,11 +244,32 @@ services:
       MYSQL_ROOT_PASSWORD: joomla_ut
       MYSQL_DATABASE: test_joomla
 
-  memcached:
+  - name: mysql8
+    image: mysql:8
+    command: ["--default-authentication-plugin=mysql_native_password"]
+    environment:
+      MYSQL_USER: joomla_ut
+      MYSQL_PASSWORD: joomla_ut
+      MYSQL_ROOT_PASSWORD: joomla_ut
+      MYSQL_DATABASE: test_joomla
+
+  - name: memcached
     image: memcached:alpine
 
-  redis:
+  - name: redis
     image: redis:alpine
 
-  postgres:
-    image: postgres
+  - name: postgres
+    image: postgres:9-alpine
+    ports:
+      - 5432
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: joomla_ut
+      POSTGRES_DB: test_joomla
+
+---
+kind: signature
+hmac: 9462caf361ab517c63d66d10ba0c934ead624ecf116828ab71ddc889f1b0a137
+
+...

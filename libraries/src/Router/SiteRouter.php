@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,6 @@ use Joomla\CMS\Component\Router\RouterServiceInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Uri\Uri;
-use Joomla\String\StringHelper;
 
 /**
  * Class to create and parse routes for the site application
@@ -236,8 +235,8 @@ class SiteRouter extends Router
 				foreach ($items as $item)
 				{
 					if ($item->alias == $segment
-						&& (!$this->app->getLanguageFilter() 
-						|| ($item->language === '*' 
+						&& (!$this->app->getLanguageFilter()
+						|| ($item->language === '*'
 						|| $item->language === $lang_tag)))
 					{
 						$found = $item;
@@ -588,8 +587,8 @@ class SiteRouter extends Router
 	 */
 	public function buildBase(&$router, &$uri)
 	{
-		// Add basepath to the uri
-		$uri->setPath(Uri::base(true) . '/' . $uri->getPath());
+		// Add frontend basepath to the uri
+		$uri->setPath(Uri::root(true) . '/' . $uri->getPath());
 	}
 
 	/**

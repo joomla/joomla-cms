@@ -3,13 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * =========================================================================================================
@@ -50,13 +53,15 @@ if ($current->type == 'separator')
 }
 else
 {
-	echo '<li' . $class . ' role="menuitem">';
+	echo '<li' . $class . '>';
 }
 
 // Print a link if it exists
 $linkClass  = [];
 $dataToggle = '';
 $iconClass  = '';
+$itemIconClass = '';
+$itemImage  = '';
 
 if ($current->hasChildren())
 {
@@ -76,33 +81,98 @@ else
 $linkClass = ' class="' . implode(' ', $linkClass) . '" ';
 
 // Get the menu link
-$link      = $current->get('link');
+$link = $current->get('link');
+
+// Get the menu image class
+$itemIconClass = $current->get('params')['menu_icon'];
+
+// Get the menu image
+$itemImage = $current->get('params')['menu_image'];
 
 // Get the menu icon
 $icon      = $this->getIconClass($current);
 $iconClass = ($icon != '' && $current->level == 1) ? '<span class="' . $icon . '" aria-hidden="true"></span>' : '';
+$ajax      = $current->ajaxbadge ? '<span class="menu-badge"><span class="fa fa-spin fa-spinner mt-1 system-counter" data-url="' . $current->ajaxbadge . '"></span></span>' : '';
+$iconImage = $current->get('icon');
+$homeImage = '';
+
+if ($iconClass === '' && $itemIconClass)
+{
+	$iconClass = '<span class="' . $itemIconClass . '" aria-hidden="true"></span>';
+}
+
+if ($iconImage)
+{
+	if (substr($iconImage, 0, 6) == 'class:' && substr($iconImage, 6) == 'icon-home')
+	{
+		$iconImage = '<span class="home-image icon-featured"></span>';
+	}
+	elseif (substr($iconImage, 0, 6) == 'image:')
+	{
+		$iconImage = '&nbsp;<span class="badge badge-secondary">' . substr($iconImage, 6) . '</span>';
+	}
+	else
+	{
+		$iconImage = '<span>' . HTMLHelper::_('image', $iconImage, null) . '</span>';
+	}
+}
+
+$itemImage = (empty($itemIconClass) && $itemImage) ? '&nbsp;<img src="' . Uri::root() . $itemImage . '" alt="">&nbsp;' : '';
 
 if ($link != '' && $current->target != '')
 {
 	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\" target=\"" . $current->target . "\">"
 		. $iconClass
-		. '<span class="sidebar-item-title">' . Text::_($current->title) . "</span></a>";
+		. '<span class="sidebar-item-title">' . $itemImage . Text::_($current->title) . '</span>' . $ajax . '</a>';
 }
-elseif ($link != '')
+elseif ($link != '' && $current->type !== 'separator')
 {
 	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\">"
 		. $iconClass
-		. '<span class="sidebar-item-title">' . Text::_($current->get('title')) . "</span></a>";
+		. '<span class="sidebar-item-title">' . $itemImage . Text::_($current->title) . '</span>' . $iconImage . '</a>';
 }
-elseif ($current->title != '' && $current->get('class') !== 'separator')
+elseif ($current->title != '' && $current->type !== 'separator')
 {
 	echo "<a" . $linkClass . $dataToggle . ">"
 		. $iconClass
-		. '<span class="sidebar-item-title">' . Text::_($current->get('title')) . "</span></a>";
+		. '<span class="sidebar-item-title">'. $itemImage . Text::_($current->title) . '</span>' . $ajax . '</a>';
+}
+elseif ($current->title != '' && $current->type === 'separator')
+{
+	echo '<span class="sidebar-item-title">' . Text::_($current->title) . '</span>' . $ajax;
 }
 else
 {
-	echo '<span>' . Text::_($current->get('title')) . '</span>';
+	echo '<span>' . Text::_($current->title) . '</span>' . $ajax;
+}
+
+if ($current->getParams()->get('menu-quicktask', false))
+{
+	$params = $current->getParams();
+	$user = $this->application->getIdentity();
+	$link = $params->get('menu-quicktask-link');
+	$icon = $params->get('menu-quicktask-icon', 'plus');
+	$title = $params->get('menu-quicktask-title', 'MOD_MENU_QUICKTASK_NEW');
+	$permission = $params->get('menu-quicktask-permission');
+	$scope = $current->scope !== 'default' ? $current->scope : null;
+
+	if (!$permission || $user->authorise($permission, $scope))
+	{
+		echo '<span class="menu-quicktask"><a href="' . $link . '">';
+		echo '<span class="fa fa-' . $icon . '" title="' . htmlentities(Text::_($title)) . '" aria-hidden="true"></span>';
+		echo '<span class="sr-only">' . Text::_($title) . '</span>';
+		echo '</a></span>';
+	}
+}
+
+if ($current->dashboard)
+{
+	$titleDashboard = Text::sprintf('MOD_MENU_DASHBOARD_LINK', Text::_($current->title));
+	echo '<span class="menu-dashboard"><a href="'
+		. Route::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $current->dashboard) . '">'
+		. '<span class="fa fa-th-large" title="' . $titleDashboard . '" aria-hidden="true"></span>'
+		. '<span class="sr-only">' . $titleDashboard . '</span>'
+		. '</a></span>';
 }
 
 // Recurse through children if they exist
@@ -116,7 +186,7 @@ if ($this->enabled && $current->hasChildren())
 	}
 	else
 	{
-		echo '<ul id="collapse' . $this->getCounter() . '" class="collapse-level-1 collapse" role="menu" aria-haspopup="true">' . "\n";
+		echo '<ul id="collapse' . $this->getCounter() . '" class="collapse-level-1 collapse">' . "\n";
 	}
 
 	// WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call

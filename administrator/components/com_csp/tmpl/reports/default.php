@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_csp
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,8 +55,12 @@ $saveOrder = $listOrder == 'a.id';
 						)
 					); ?>
 				<?php endif; ?>
+				<?php if (isset($this->trashWarningMessage)) : ?>
+					<?php Factory::getApplication()->enqueueMessage($this->trashWarningMessage, 'warning'); ?>
+				<?php endif; ?>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning">
+					<div class="alert alert-info">
+						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -100,11 +104,9 @@ $saveOrder = $listOrder == 'a.id';
 										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 									</td>
 									<td class="text-center">
-										<div class="btn-group">
-											<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'reports.', $canChange, 'cb'); ?>
-										</div>
+										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'reports.', $canChange, 'cb'); ?>
 									</td>
-									<th scope="row" class="small d-none d-md-table-cell">
+									<th scope="row" class="small d-none d-md-table-cell text-break">
 										<?php echo $item->document_uri; ?>
 									</th>
 									<td class="small d-none d-md-table-cell">
@@ -114,10 +116,10 @@ $saveOrder = $listOrder == 'a.id';
 										<?php echo $item->directive; ?>
 									</td>
 									<td class="d-none d-md-table-cell">
-										<?php echo JText::_('J' . strtoupper($item->client)); ?>
+										<?php echo Text::_('J' . strtoupper($item->client)); ?>
 									</td>
 									<td class="d-none d-md-table-cell">
-										<?php echo $item->created > 0 ? HTMLHelper::_('date', $item->created, JText::_('DATE_FORMAT_LC4')) : '-'; ?>
+										<?php echo $item->created > 0 ? HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC4')) : '-'; ?>
 									</td>
 									<td class="text-center d-none d-md-table-cell">
 										<?php echo $item->id; ?>

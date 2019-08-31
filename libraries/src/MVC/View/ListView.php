@@ -3,7 +3,7 @@
  * @package     Joomla.Cms
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,6 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * Base class for a Joomla List View
@@ -91,7 +93,7 @@ class ListView extends HtmlView
 	/**
 	 * The flag which determine whether we want to show batch button
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	protected $supportsBatch = true;
 
@@ -150,7 +152,7 @@ class ListView extends HtmlView
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  void
-     *
+	 *
 	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
@@ -161,7 +163,7 @@ class ListView extends HtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Build toolbar
@@ -213,36 +215,36 @@ class ListView extends HtmlView
 		$user  = Factory::getUser();
 
 		// Get the toolbar object instance
-		$bar = \JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		$viewName = $this->getName();
 		$singularViewName = \Joomla\String\Inflector::getInstance()->toSingular($viewName);
 
-		\JToolbarHelper::title(Text::_($this->toolbarTitle), $this->toolbarIcon);
+		ToolbarHelper::title(Text::_($this->toolbarTitle), $this->toolbarIcon);
 
 		if ($canDo->get('core.create'))
 		{
-			\JToolbarHelper::addNew($singularViewName . '.add');
+			ToolbarHelper::addNew($singularViewName . '.add');
 		}
 
 		if (($canDo->get('core.edit')) || ($canDo->get('core.edit.own')))
 		{
-			\JToolbarHelper::editList($singularViewName . '.edit');
+			ToolbarHelper::editList($singularViewName . '.edit');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::publish($viewName . '.publish', 'JTOOLBAR_PUBLISH', true);
-			\JToolbarHelper::unpublish($viewName . '.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			ToolbarHelper::publish($viewName . '.publish', 'JTOOLBAR_PUBLISH', true);
+			ToolbarHelper::unpublish($viewName . '.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 
 			if (isset($this->items[0]->featured))
 			{
-				\JToolbarHelper::custom($viewName . '.featured', 'featured.png', 'featured_f2.png', 'JFEATURE', true);
-				\JToolbarHelper::custom($viewName . '.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
+				ToolbarHelper::custom($viewName . '.featured', 'featured.png', 'featured_f2.png', 'JFEATURE', true);
+				ToolbarHelper::custom($viewName . '.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
 			}
 
-			\JToolbarHelper::archiveList($viewName . '.archive');
-			\JToolbarHelper::checkin($viewName . '.checkin');
+			ToolbarHelper::archiveList($viewName . '.archive');
+			ToolbarHelper::checkin($viewName . '.checkin');
 		}
 
 		// Add a batch button
@@ -252,8 +254,8 @@ class ListView extends HtmlView
 		{
 			$title = Text::_('JTOOLBAR_BATCH');
 
-			// Instantiate a new LayoutFile instance and render the batch button
-			$layout = new FileLayout('joomla.toolbar.batch');
+			// Instantiate a new LayoutFile instance and render the popup button
+			$layout = new FileLayout('joomla.toolbar.popup');
 
 			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
@@ -261,21 +263,21 @@ class ListView extends HtmlView
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', $viewName . '.delete', 'JTOOLBAR_EMPTY_TRASH');
+			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', $viewName . '.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::trash($viewName . '.trash');
+			ToolbarHelper::trash($viewName . '.trash');
 		}
 
 		if ($user->authorise('core.admin', $this->option) || $user->authorise('core.options', $this->option))
 		{
-			\JToolbarHelper::preferences($this->option);
+			ToolbarHelper::preferences($this->option);
 		}
 
 		if ($this->helpLink)
 		{
-			\JToolbarHelper::help($this->helpLink);
+			ToolbarHelper::help($this->helpLink);
 		}
 	}
 }

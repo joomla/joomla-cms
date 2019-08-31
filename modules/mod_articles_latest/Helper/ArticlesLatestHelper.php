@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_latest
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,8 +18,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-
-\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * Helper for mod_articles_latest
@@ -49,10 +47,11 @@ abstract class ArticlesLatestHelper
 		$appParams = $app->getParams();
 		$model->setState('params', $appParams);
 
-		// Set the filters based on the module params
 		$model->setState('list.start', 0);
-		$model->setState('list.limit', (int) $params->get('count', 5));
 		$model->setState('filter.published', 1);
+
+		// Set the filters based on the module params
+		$model->setState('list.limit', (int) $params->get('count', 5));
 
 		// This module does not use tags data
 		$model->setState('load_tags', false);
@@ -78,6 +77,10 @@ abstract class ArticlesLatestHelper
 				$model->setState('filter.author_id.include', false);
 				break;
 
+			case 'created_by' :
+				$model->setState('filter.author_id', $params->get('author', array()));
+				break;
+
 			case '0' :
 				break;
 
@@ -89,18 +92,20 @@ abstract class ArticlesLatestHelper
 		// Filter by language
 		$model->setState('filter.language', $app->getLanguageFilter());
 
-		//  Featured switch
-		switch ($params->get('show_featured'))
+		// Featured switch
+		$featured = $params->get('show_featured', '');
+
+		if ($featured === '')
 		{
-			case 1 :
-				$model->setState('filter.featured', 'only');
-				break;
-			case 0 :
-				$model->setState('filter.featured', 'hide');
-				break;
-			default :
-				$model->setState('filter.featured', 'show');
-				break;
+			$model->setState('filter.featured', 'show');
+		}
+		elseif ($featured)
+		{
+			$model->setState('filter.featured', 'only');
+		}
+		else
+		{
+			$model->setState('filter.featured', 'hide');
 		}
 
 		// Set ordering
@@ -109,7 +114,7 @@ abstract class ArticlesLatestHelper
 			'mc_dsc' => 'CASE WHEN (a.modified = ' . $db->quote($db->getNullDate()) . ') THEN a.created ELSE a.modified END',
 			'c_dsc'  => 'a.created',
 			'p_dsc'  => 'a.publish_up',
-			'random' => $db->getQuery(true)->Rand(),
+			'random' => $db->getQuery(true)->rand(),
 		);
 
 		$ordering = ArrayHelper::getValue($order_map, $params->get('ordering'), 'a.publish_up');

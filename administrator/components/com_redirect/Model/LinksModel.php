@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\ParameterType;
 
 /**
  * Methods supporting a list of redirect links.
@@ -152,17 +153,21 @@ class LinksModel extends ListModel
 
 		if (is_numeric($state))
 		{
-			$query->where($db->quoteName('a.published') . ' = ' . (int) $state);
+			$state = (int) $state;
+			$query->where($db->quoteName('a.published') . ' = :state')
+				->bind(':state', $state, ParameterType::INTEGER);
 		}
 		elseif ($state === '')
 		{
-			$query->where($db->quoteName('a.published') . ' IN (0,1)');
+			$query->whereIn($db->quoteName('a.published'), [0,1]);
 		}
 
 		// Filter the items over the HTTP status code header.
 		if ($httpStatusCode = $this->getState('filter.http_status'))
 		{
-			$query->where($db->quoteName('a.header') . ' = ' . (int) $httpStatusCode);
+			$httpStatusCode = (int) $httpStatusCode;
+			$query->where($db->quoteName('a.header') . ' = :header')
+				->bind(':header', $httpStatusCode, ParameterType::INTEGER);
 		}
 
 		// Filter the items over the search string if set.
@@ -172,17 +177,21 @@ class LinksModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where($db->quoteName('a.id') . ' = ' . (int) substr($search, 3));
+				$ids = (int) substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :id');
+				$query->bind(':id', $ids, ParameterType::INTEGER);
 			}
 			else
 			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where(
-					'(' . $db->quoteName('old_url') . ' LIKE ' . $search .
-					' OR ' . $db->quoteName('new_url') . ' LIKE ' . $search .
-					' OR ' . $db->quoteName('comment') . ' LIKE ' . $search .
-					' OR ' . $db->quoteName('referer') . ' LIKE ' . $search . ')'
-				);
+				$search = '%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%');
+				$query->where($db->quoteName('old_url') . ' LIKE :oldurl')
+					->orWhere($db->quoteName('new_url') . ' LIKE :newurl')
+					->orWhere($db->quoteName('comment') . ' LIKE :comment')
+					->orWhere($db->quoteName('referer') . ' LIKE :referer')
+					->bind(':oldurl', $search)
+					->bind(':newurl', $search)
+					->bind(':comment', $search)
+					->bind(':referer', $search);
 			}
 		}
 
@@ -204,22 +213,21 @@ class LinksModel extends ListModel
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$params = ComponentHelper::getParams('com_redirect');
-		$state  = (int) $params->get('defaultImportState', 0);
+		$params  = ComponentHelper::getParams('com_redirect');
+		$state   = (int) $params->get('defaultImportState', 0);
+		$created = Factory::getDate()->toSql();
 
-		$columns = array(
-			$db->quoteName('old_url'),
-			$db->quoteName('new_url'),
-			$db->quoteName('referer'),
-			$db->quoteName('comment'),
-			$db->quoteName('hits'),
-			$db->quoteName('published'),
-			$db->quoteName('created_date')
-		);
+		$columns = [
+			'old_url',
+			'new_url',
+			'referer',
+			'comment',
+			'hits',
+			'published',
+			'created_date',
+		];
 
-		$query->columns($columns);
-
-		foreach ($batch_urls as $batch_url)
+		foreach ($batch_urls as $i => $batch_url)
 		{
 			$old_url = $batch_url[0];
 
@@ -233,15 +241,28 @@ class LinksModel extends ListModel
 				$new_url = '';
 			}
 
-			$query->insert($db->quoteName('#__redirect_links'), false)
-				->values(
-					$db->quote($old_url) . ', ' . $db->quote($new_url) . ' ,' . $db->quote('') . ', ' . $db->quote('') . ', 0, ' . $state . ', ' .
-					$db->quote(Factory::getDate()->toSql())
-				);
-		}
+			$values = [
+				':oldurl' . $i,
+				':newurl' . $i,
+				$db->quote(''),
+				$db->quote(''),
+				0,
+				':state' . $i,
+				':created' . $i,
+			];
 
-		$db->setQuery($query);
-		$db->execute();
+			$query->clear()
+				->insert($db->quoteName('#__redirect_links'), false)
+				->columns($db->quoteName($columns))
+				->values(implode(', ', $values))
+				->bind(':oldurl' . $i, $old_url)
+				->bind(':newurl' . $i, $new_url)
+				->bind(':state' . $i, $state, ParameterType::INTEGER)
+				->bind(':created' . $i, $created);
+
+			$db->setQuery($query);
+			$db->execute();
+		}
 
 		return true;
 	}

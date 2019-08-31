@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Site
+ * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -244,6 +244,6 @@ class Icon
 	{
 		$text = LayoutHelper::render('joomla.content.icons.print_screen', array('params' => $params, 'legacy' => $legacy));
 
-		return '<a href="#" onclick="window.print();return false;">' . $text . '</a>';
+		return '<button type="button" onclick="window.print();return false;">' . $text . '</button>';
 	}
 }

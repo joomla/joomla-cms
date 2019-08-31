@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,6 +35,6 @@ if(!isset($displayData['field']->skipLabelFor) || $displayData['field']->skipLab
 	$forAttr = 'for="' . $for . '"';
 }
 ?>
-<label id="<?php echo $id; ?>" <?php echo $forAttr; ?><?php if (!empty($classes)) echo ' class="' . implode(' ', $classes) . '"'; ?>>
+<label id="<?php echo $id; ?>" <?php echo $forAttr; ?><?php if (!empty($classes)) { echo ' class="' . implode(' ', $classes) . '"';} ?>>
 	<?php echo $text; ?><?php if ($required) : ?><span class="star" aria-hidden="true">&#160;*</span><?php endif; ?>
 </label>

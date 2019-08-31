@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,11 +11,14 @@ namespace Joomla\CMS\WebAsset;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\WebAsset\Exception\InvalidActionException;
+use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
+use Joomla\CMS\WebAsset\Exception\UnsatisfiedDependencyException;
 
 /**
  * Web Asset Manager Interface
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface WebAssetManagerInterface
 {
@@ -26,7 +29,10 @@ interface WebAssetManagerInterface
 	 *
 	 * @return self
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 * @throws  InvalidActionException When the Manager already attached to a Document
+	 *
+	 * @since  4.0.0
 	 */
 	public function enableAsset(string $name): self;
 
@@ -37,7 +43,10 @@ interface WebAssetManagerInterface
 	 *
 	 * @return self
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 * @throws  InvalidActionException When the Manager already attached to a Document
+	 *
+	 * @since  4.0.0
 	 */
 	public function disableAsset(string $name): self;
 
@@ -46,9 +55,11 @@ interface WebAssetManagerInterface
 	 *
 	 * @param   string  $name  The asset name
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 *
+	 * @since  4.0.0
 	 */
 	public function isAssetActive(string $name): bool;
 
@@ -59,7 +70,10 @@ interface WebAssetManagerInterface
 	 *
 	 * @return  WebAssetItemInterface[]
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 * @throws  UnsatisfiedDependencyException When Dependency cannot be found
+	 *
+	 * @since  4.0.0
 	 */
 	public function getAssets(bool $sort = false): array;
 
@@ -70,7 +84,9 @@ interface WebAssetManagerInterface
 	 *
 	 * @return  self
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @throws InvalidActionException When the Manager already attached to a Document
+	 *
+	 * @since  4.0.0
 	 */
 	public function attachActiveAssetsToDocument(Document $doc): self;
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,6 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 
 /**
  * Languages Override Model
@@ -98,10 +97,10 @@ class OverrideModel extends AdminModel
 	public function getItem($pk = null)
 	{
 		$input    = Factory::getApplication()->input;
-		$pk       = (!empty($pk)) ? $pk : $input->get('id');
-		$filename = constant('JPATH_' . strtoupper($this->getState('filter.client')))
+		$pk       = !empty($pk) ? $pk : $input->get('id');
+		$fileName = constant('JPATH_' . strtoupper($this->getState('filter.client')))
 			. '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
-		$strings = LanguagesHelper::parseFile($filename);
+		$strings  = LanguageHelper::parseIniFile($fileName);
 
 		$result = new \stdClass;
 		$result->key      = '';
@@ -113,10 +112,10 @@ class OverrideModel extends AdminModel
 			$result->override = $strings[$pk];
 		}
 
-		$opposite_filename = constant('JPATH_' . strtoupper($this->getState('filter.client') == 'site' ? 'administrator' : 'site'))
+		$oppositeFileName = constant('JPATH_' . strtoupper($this->getState('filter.client') == 'site' ? 'administrator' : 'site'))
 			. '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
-		$opposite_strings = LanguagesHelper::parseFile($opposite_filename);
-		$result->both = isset($opposite_strings[$pk]) && ($opposite_strings[$pk] == $strings[$pk]);
+		$oppositeStrings  = LanguageHelper::parseIniFile($oppositeFileName);
+		$result->both = isset($oppositeStrings[$pk]) && ($oppositeStrings[$pk] == $strings[$pk]);
 
 		return $result;
 	}
@@ -157,8 +156,8 @@ class OverrideModel extends AdminModel
 		$client = $client ? 'administrator' : 'site';
 
 		// Parse the override.ini file in oder to get the keys and strings.
-		$filename = constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $language . '.override.ini';
-		$strings  = LanguagesHelper::parseFile($filename);
+		$fileName = constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $language . '.override.ini';
+		$strings  = LanguageHelper::parseIniFile($fileName);
 
 		if (isset($strings[$data['id']]))
 		{
@@ -183,7 +182,7 @@ class OverrideModel extends AdminModel
 		}
 
 		// Write override.ini file with the strings.
-		if (LanguageHelper::saveToIniFile($filename, $strings) === false)
+		if (LanguageHelper::saveToIniFile($fileName, $strings) === false)
 		{
 			return false;
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,30 +31,22 @@ $app = Factory::getApplication();
 
 	<form enctype="multipart/form-data" action="<?php echo Route::_('index.php?option=com_installer&view=install'); ?>" method="post" name="adminForm" id="adminForm">
 		<div class="row">
-			<div id="j-sidebar-container" class="col-md-2">
-				<?php echo $this->sidebar; ?>
-			</div>
-			<div class="col-md-10">
+			<div class="col-md-12">
 				<div id="j-main-container" class="j-main-container">
 					<?php // Render messages set by extension install scripts here ?>
 					<?php if ($this->showMessage) : ?>
 						<?php echo $this->loadTemplate('message'); ?>
 					<?php endif; ?>
-					<?php // Show installation tabs at the start ?>
-					<?php $firstTab = $app->triggerEvent('onInstallerViewBeforeFirstTab', array()); ?>
-					<?php $tabs = $app->triggerEvent('onInstallerAddInstallationTab', array()); ?>
-					<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => $tabs[0]['name'])); ?>
+					<?php $tabs = $app->triggerEvent('onInstallerAddInstallationTab', []); ?>
+					<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => $tabs[0]['name'] ?? '']); ?>
 					<?php // Show installation tabs ?>
 					<?php foreach ($tabs as $tab) : ?>
 						<?php echo HTMLHelper::_('uitab.addTab', 'myTab', $tab['name'], $tab['label']); ?>
-						<fieldset class="uploadform">
+						<fieldset class="uploadform option-fieldset options-grid-form-full">
 							<?php echo $tab['content']; ?>
 						</fieldset>
 						<?php echo HTMLHelper::_('uitab.endTab'); ?>
 					<?php endforeach; ?>
-					<?php // Show installation tabs at the end ?>
-					<?php $lastTab = $app->triggerEvent('onInstallerViewAfterLastTab', array()); ?>
-					<?php $tabs = array_merge($firstTab, $tabs, $lastTab); ?>
 					<?php if (!$tabs) : ?>
 						<?php $app->enqueueMessage(Text::_('COM_INSTALLER_NO_INSTALLATION_PLUGINS_FOUND'), 'warning'); ?>
 					<?php endif; ?>

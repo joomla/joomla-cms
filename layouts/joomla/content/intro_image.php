@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ use Joomla\CMS\Router\Route;
 $params  = $displayData->params;
 $images  = json_decode($displayData->images);
 ?>
-<?php if (isset($images->image_intro) && !empty($images->image_intro)) : ?>
+<?php if (!empty($images->image_intro)) : ?>
 	<?php $imgfloat = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro; ?>
 	<figure class="pull-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
 		<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>

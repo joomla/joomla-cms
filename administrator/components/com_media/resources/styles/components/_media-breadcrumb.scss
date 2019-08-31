@@ -4,11 +4,18 @@
   margin: 0 auto 0 0;
   font-size: .9rem;
   line-height: $toolbar-height;
-  list-style: outside none none;
   background: transparent;
   border-left: 1px solid $border-color;
-  & > li > a {
-    cursor: pointer;
+
+  ol {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: outside none none;
+
+    & > li > a {
+      cursor: pointer;
+    }
   }
 }
 
@@ -56,4 +63,33 @@
 
 .breadcrumb-item + .breadcrumb-item::before {
   display: none;
+}
+
+/* RTL override */
+
+html[dir=rtl] .media-breadcrumb {
+  margin: 0 0 0 auto;
+}
+
+html[dir=rtl] .media-breadcrumb-item::after, .media-breadcrumb-item::before {
+  right: 100%;
+  border-right: 10px solid transparent;
+  border-left: 0;
+}
+
+html[dir=rtl] .media-breadcrumb-item {
+  padding: 0 22px 0 8px;
+}
+
+html[dir=rtl] .media-breadcrumb-item::before {
+  border-right-color: #fafafa;
+}
+
+html[dir=rtl] .media-breadcrumb-item:first-of-type {
+  padding-right: 16px;
+  padding-left: 0;
+}
+
+html[dir=rtl] .media-breadcrumb-item:last-of-type::after {
+  border-right: 10px solid #fff;
 }

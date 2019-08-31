@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 
 /**
@@ -113,12 +114,14 @@ class Asset extends Nested
 				->from($this->_db->quoteName($this->_tbl))
 				->where($this->_db->quoteName('id') . ' = ' . $this->parent_id);
 
-			if ($this->_db->setQuery($query, 0, 1)->loadResult())
+			$query->setLimit(1);
+
+			if ($this->_db->setQuery($query)->loadResult())
 			{
 				return true;
 			}
 
-			$this->setError('Invalid Parent ID');
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_INVALID_PARENT_ID'));
 
 			return false;
 		}

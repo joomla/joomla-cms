@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,10 +17,13 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -251,7 +254,7 @@ class FieldModel extends AdminModel
 		if ($path)
 		{
 			// Add the lookup path for the rule
-			\JFormHelper::addRulePath($path);
+			FormHelper::addRulePath($path);
 		}
 
 		// Create the fields object
@@ -264,7 +267,7 @@ class FieldModel extends AdminModel
 		$node = $dom->appendChild(new \DOMElement('form'));
 
 		// Trigger the event to create the field dom node
-		Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($obj, $node, new \JForm($data['context'])));
+		Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($obj, $node, new Form($data['context'])));
 
 		// Check if a node is created
 		if (!$node->firstChild)
@@ -276,7 +279,7 @@ class FieldModel extends AdminModel
 		$type = $node->firstChild->getAttribute('validate') ? : $data['type'];
 
 		// Load the rule
-		$rule = \JFormHelper::loadRuleType($type);
+		$rule = FormHelper::loadRuleType($type);
 
 		// When no rule exists, we allow the default value
 		if (!$rule)
@@ -363,34 +366,6 @@ class FieldModel extends AdminModel
 
 			$db->setQuery($query);
 			$result->assigned_cat_ids = $db->loadColumn() ?: array(0);
-
-			// Convert the created and modified dates to local user time for
-			// display in the form.
-			$tz = new \DateTimeZone(Factory::getApplication()->get('offset'));
-
-			if ((int) $result->created_time)
-			{
-				$date = new Date($result->created_time);
-				$date->setTimezone($tz);
-
-				$result->created_time = $date->toSql(true);
-			}
-			else
-			{
-				$result->created_time = null;
-			}
-
-			if ((int) $result->modified_time)
-			{
-				$date = new Date($result->modified_time);
-				$date->setTimezone($tz);
-
-				$result->modified_time = $date->toSql(true);
-			}
-			else
-			{
-				$result->modified_time = null;
-			}
 		}
 
 		return $result;
@@ -528,7 +503,7 @@ class FieldModel extends AdminModel
 
 		// Get the form.
 		$form = $this->loadForm(
-			'com_fields.field' . $context, 'field',
+			'com_fields.field.' . $context, 'field',
 			array(
 				'control'   => 'jform',
 				'load_data' => true,
@@ -929,11 +904,11 @@ class FieldModel extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @see     \JFormField
+	 * @see     \Joomla\CMS\Form\FormField
 	 * @since   3.7.0
 	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		$component  = $this->state->get('field.component');
 		$section    = $this->state->get('field.section');
@@ -986,7 +961,7 @@ class FieldModel extends AdminModel
 				throw new SectionNotFoundException;
 			}
 
-			$cat = $componentObject->getCategory();
+			$cat = $componentObject->getCategory([], $section ?: '');
 
 			if ($cat->get('root')->hasChildren())
 			{

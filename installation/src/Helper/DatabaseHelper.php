@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,6 +51,17 @@ abstract class DatabaseHelper
 				'prefix'   => $prefix,
 				'select'   => $select,
 			];
+
+			// Enable utf8mb4 connections for mysql adapters
+			if (strtolower($driver) === 'mysqli')
+			{
+				$options['utf8mb4'] = true;
+			}
+
+			if (strtolower($driver) === 'mysql')
+			{
+				$options['charset'] = 'utf8mb4';
+			}
 
 			// Get a database object.
 			$db = DatabaseDriver::getInstance($options);

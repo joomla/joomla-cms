@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -107,7 +107,7 @@ abstract class ChangeItem
 	/**
 	 * Rerun status
 	 *
-	 * @var    int   0=not rerun, -1=skipped, -2=failed, 1=succeeded
+	 * @var    integer   0=not rerun, -1=skipped, -2=failed, 1=succeeded
 	 * @since  2.5
 	 */
 	public $rerunStatus = 0;

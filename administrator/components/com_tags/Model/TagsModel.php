@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -135,7 +135,7 @@ class TagsModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.note, a.published, a.access' .
+				'a.id, a.title, a.alias, a.note, a.published, a.access, a.description' .
 					', a.checked_out, a.checked_out_time, a.created_user_id' .
 					', a.path, a.parent_id, a.level, a.lft, a.rgt' .
 					', a.language'

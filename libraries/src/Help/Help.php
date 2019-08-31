@@ -2,18 +2,19 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Help;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Version;
 
 /**
  * Help system class
@@ -53,15 +54,8 @@ class Help
 		}
 		else
 		{
-			// Get the user help URL.
-			$user = Factory::getUser();
-			$url  = $user->getParam('helpsite');
-
-			// If user hasn't specified a help URL, then get the global one.
-			if ($url == '')
-			{
-				$url = $app->get('helpurl');
-			}
+			// Get the global help URL.
+			$url = $app->get('helpurl');
 
 			// Component help URL overrides user and global.
 			if ($useComponent)
@@ -98,7 +92,7 @@ class Help
 		 *  Replace substitution codes in the URL.
 		 */
 		$lang    = Factory::getLanguage();
-		$version = new \JVersion;
+		$version = new Version;
 		$jver    = explode('.', $version->getShortVersion());
 		$jlang   = explode('-', $lang->getTag());
 
@@ -192,7 +186,7 @@ class Help
 			$option['text']  = 'English (GB) help.joomla.org';
 			$option['value'] = 'http://help.joomla.org';
 
-			$list[] = $option;
+			$list[] = (object) $option;
 		}
 		else
 		{
@@ -203,7 +197,7 @@ class Help
 				$option['text']  = (string) $site;
 				$option['value'] = (string) $site->attributes()->url;
 
-				$list[] = $option;
+				$list[] = (object) $option;
 			}
 		}
 

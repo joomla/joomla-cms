@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension type="plugin" version="3.8.0" group="fields" method="upgrade">
+	<name>plg_fields_repeatable</name>
+	<author>Joomla! Project</author>
+	<creationDate>April 2018</creationDate>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.9.0</version>
+	<description>PLG_FIELDS_REPEATABLE_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="repeatable">repeatable.php</filename>
+		<folder>params</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_fields_repeatable.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_fields_repeatable.sys.ini</language>
+	</languages>
+</extension>

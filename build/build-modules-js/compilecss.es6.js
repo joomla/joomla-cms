@@ -43,8 +43,6 @@ module.exports.compile = (options, path) => {
           `${RootPath}/templates/cassiopeia/scss/offline.scss`,
           `${RootPath}/templates/cassiopeia/scss/template.scss`,
           `${RootPath}/templates/cassiopeia/scss/template-rtl.scss`,
-          `${RootPath}/administrator/templates/atum/scss/bootstrap.scss`,
-          `${RootPath}/administrator/templates/atum/scss/font-awesome.scss`,
           `${RootPath}/administrator/templates/atum/scss/template.scss`,
           `${RootPath}/administrator/templates/atum/scss/template-rtl.scss`,
           `${RootPath}/installation/template/scss/template.scss`,
@@ -58,11 +56,12 @@ module.exports.compile = (options, path) => {
 
       // Loop to get the files that should be compiled via parameter
       folders.forEach((folder) => {
-        Recurs(folder, ['*.js', '*.map', '*.svg', '*.png', '*.swf', '*.json']).then(
+        Recurs(folder, ['*.js', '*.map', '*.svg', '*.png', '*.gif', '*.swf', '*.html', '*.json']).then(
           (filesRc) => {
             filesRc.forEach(
               (file) => {
-                if (file.match(/\.scss/) && file.charAt(0) !== '_') {
+                // Don't take files with "_" but "file" has the full path, so check via match
+                if (file.match(/\.scss$/) && !file.match(/(\/|\\)_[^/\\]+$/)) {
                   files.push(file);
                 }
                 if (file.match(/\.css/)) {
@@ -82,15 +81,21 @@ module.exports.compile = (options, path) => {
               },
               (error) => {
                 // eslint-disable-next-line no-console
-                console.error(`something exploded ${error}`);
+                console.error(error.formatted);
+              },
+            );
+
+            return files;
+          },
+        ).then(
+          (scssFiles) => {
+            scssFiles.forEach(
+              (inputFile) => {
+                CompileScss.compile(inputFile);
               },
             );
           },
         );
-
-        files.forEach((inputFile) => {
-          CompileScss.compile(inputFile, options);
-        });
       });
     })
 

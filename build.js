@@ -23,7 +23,7 @@ const init = require('./build/build-modules-js/init.es6.js');
 const compileCSS = require('./build/build-modules-js/compilecss.es6.js');
 const compileJS = require('./build/build-modules-js/compilejs.es6.js');
 const minifyVendor = require('./build/build-modules-js/javascript/minify-vendor.es6.js');
-const watch = require('./build/build-modules-js/watch.es6.js')
+const watch = require('./build/build-modules-js/watch.es6.js');
 
 // The settings
 const options = require('./package.json');

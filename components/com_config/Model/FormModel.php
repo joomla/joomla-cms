@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,8 +22,8 @@ use Joomla\Utilities\ArrayHelper;
  * Prototype form model.
  *
  * @see    JForm
- * @see    JFormField
- * @see    JFormRule
+ * @see    \Joomla\CMS\Form\FormField
+ * @see    \Joomla\CMS\Form\FormRule
  * @since  3.2
  */
 abstract class FormModel extends BaseForm
@@ -239,7 +239,7 @@ abstract class FormModel extends BaseForm
 	 *
 	 * @return  void
 	 *
-	 * @see     JFormField
+	 * @see     \Joomla\CMS\Form\FormField
 	 * @since   3.2
 	 * @throws  \Exception if there is an error in the form event.
 	 */
@@ -261,7 +261,7 @@ abstract class FormModel extends BaseForm
 	 *
 	 * @return  mixed  Array of filtered data if valid, false otherwise.
 	 *
-	 * @see     JFormRule
+	 * @see     \Joomla\CMS\Form\FormRule
 	 * @see     JFilterInput
 	 * @since   3.2
 	 */

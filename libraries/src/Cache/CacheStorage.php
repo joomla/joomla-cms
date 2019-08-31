@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Cache;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Factory;
@@ -135,7 +135,7 @@ class CacheStorage
 			}
 		}
 
-		if (is_null($now))
+		if (\is_null($now))
 		{
 			$now = time();
 		}
@@ -376,7 +376,7 @@ class CacheStorage
 			$paths = array();
 		}
 
-		if (!empty($path) && !in_array($path, $paths))
+		if (!empty($path) && !\in_array($path, $paths))
 		{
 			array_unshift($paths, Path::clean($path));
 		}

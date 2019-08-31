@@ -1,4 +1,4 @@
-((customElements, Joomla) => {
+((Joomla) => {
   if (!Joomla) {
     throw new Error('Joomla API is not properly initiated');
   }
@@ -13,9 +13,10 @@
     if (resp.success === true) {
       if (resp.data[0].url) {
         if (/local-/.test(resp.data[0].adapter)) {
-          const server = Joomla.getOptions('system.paths').rootFull;
+          const { rootFull } = Joomla.getOptions('system.paths');
 
-          Joomla.selectedFile.url = resp.data[0].url.split(server)[1];
+          // eslint-disable-next-line prefer-destructuring
+          Joomla.selectedFile.url = resp.data[0].url.split(rootFull)[1];
           if (resp.data[0].thumb_path) {
             Joomla.selectedFile.thumb = resp.data[0].thumb_path;
           } else {
@@ -70,8 +71,19 @@
       },
     });
   });
+})(Joomla);
 
+
+((customElements, Joomla) => {
   class JoomlaFieldMedia extends HTMLElement {
+    constructor() {
+      super();
+
+      this.onSelected = this.onSelected.bind(this);
+      this.show = this.show.bind(this);
+      this.clearValue = this.clearValue.bind(this);
+    }
+
     static get observedAttributes() {
       return ['type', 'base-path', 'root-folder', 'url', 'modal-container', 'modal-width', 'modal-height', 'input', 'button-select', 'button-clear', 'button-save-selected', 'preview', 'preview-width', 'preview-height'];
     }
@@ -137,44 +149,45 @@
     // attributeChangedCallback(attr, oldValue, newValue) {}
 
     connectedCallback() {
-      const button = this.querySelector(this.buttonSelect);
-      const buttonClear = this.querySelector(this.buttonClear);
+      this.button = this.querySelector(this.buttonSelect);
+      this.buttonClearEl = this.querySelector(this.buttonClear);
       this.show = this.show.bind(this);
       this.modalClose = this.modalClose.bind(this);
       this.clearValue = this.clearValue.bind(this);
       this.setValue = this.setValue.bind(this);
       this.updatePreview = this.updatePreview.bind(this);
 
-      button.addEventListener('click', this.show);
+      this.button.addEventListener('click', this.show);
 
-      if (buttonClear) {
-        buttonClear.addEventListener('click', this.clearValue);
+      if (this.buttonClearEl) {
+        this.buttonClearEl.addEventListener('click', this.clearValue);
       }
 
       this.updatePreview();
     }
 
     disconnectedCallback() {
-      const button = this.querySelector(this.buttonClear);
-      button.removeEventListener('click', this);
+      if (this.button) {
+        this.button.removeEventListener('click', this.show);
+      }
+      if (this.buttonClearEl) {
+        this.buttonClearEl.removeEventListener('click', this.clearValue);
+      }
+    }
+
+    onSelected(event) {
+      // event.target.removeEventListener('click', this.onSelected);
+      event.preventDefault();
+      event.stopPropagation();
+
+      this.modalClose();
+      return false;
     }
 
     show() {
-      const self = this;
-
       this.querySelector('[role="dialog"]').open();
 
-      this.querySelector(this.buttonSaveSelected).addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        if (this.selectedPath) {
-          self.setValue(this.selectedPath);
-        }
-
-        self.modalClose();
-        return false;
-      });
+      this.querySelector(this.buttonSaveSelected).addEventListener('click', this.onSelected);
     }
 
     modalClose() {
@@ -201,18 +214,19 @@
       // Reset preview
       if (this.preview) {
         const input = this.querySelector(this.input);
-        const value = input.value;
+        const { value } = input;
         const div = this.querySelector('.field-media-preview');
 
         if (!value) {
-          div.innerHTML = '<span class="field-media-preview-icon fa fa-picture-o"></span>';
+          div.innerHTML = '<span class="field-media-preview-icon"></span>';
         } else {
           div.innerHTML = '';
           const imgPreview = new Image();
 
           switch (this.type) {
             case 'image':
-              imgPreview.src = imgPreview.src = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
+              imgPreview.src = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
+              imgPreview.setAttribute('alt', '');
               break;
             default:
               // imgPreview.src = dummy image path;

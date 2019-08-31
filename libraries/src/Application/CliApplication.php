@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Application\CLI\CliInput;
@@ -81,10 +81,11 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 * @since   1.7.0
 	 */
 	public function __construct(Input $input = null, Registry $config = null, CliOutput $output = null, CliInput $cliInput = null,
-		DispatcherInterface $dispatcher = null, Container $container = null)
+		DispatcherInterface $dispatcher = null, Container $container = null
+	)
 	{
 		// Close the application if we are not executed from the command line.
-		if (!defined('STDOUT') || !defined('STDIN') || !isset($_SERVER['argv']))
+		if (!\defined('STDOUT') || !\defined('STDIN') || !isset($_SERVER['argv']))
 		{
 			$this->close();
 		}
@@ -242,7 +243,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 */
 	public function enqueueMessage($msg, $type = self::MSG_INFO)
 	{
-		if (!array_key_exists($type, $this->messages))
+		if (!\array_key_exists($type, $this->messages))
 		{
 			$this->messages[$type] = [];
 		}

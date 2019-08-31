@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -71,7 +71,7 @@ class DelegatingPsrLogger extends AbstractLogger
 	public function log($level, $message, array $context = array())
 	{
 		// Make sure the log level is valid
-		if (!array_key_exists($level, $this->priorityMap))
+		if (!\array_key_exists($level, $this->priorityMap))
 		{
 			throw new \InvalidArgumentException('An invalid log level has been given.');
 		}
@@ -95,9 +95,9 @@ class DelegatingPsrLogger extends AbstractLogger
 		}
 
 		// Joomla's logging API will only process a string or a LogEntry object, if $message is an object without __toString() we can't use it
-		if (!is_string($message) && !($message instanceof LogEntry))
+		if (!\is_string($message) && !($message instanceof LogEntry))
 		{
-			if (!is_object($message) || !method_exists($message, '__toString'))
+			if (!\is_object($message) || !method_exists($message, '__toString'))
 			{
 				throw new \InvalidArgumentException(
 					'The message must be a string, a LogEntry object, or an object implementing the __toString() method.'

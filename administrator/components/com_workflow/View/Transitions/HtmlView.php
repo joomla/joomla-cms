@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\View\Transitions;
@@ -13,7 +13,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 
@@ -110,7 +113,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->state            = $this->get('State');
@@ -143,6 +146,8 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions($this->extension, 'workflow', $this->workflowID);
 
+		$toolbar = Toolbar::getInstance('toolbar');
+
 		$workflow = !empty($this->state->get('active_workflow', '')) ? Text::_($this->state->get('active_workflow', '')) . ': ' : '';
 
 		ToolbarHelper::title(Text::sprintf('COM_WORKFLOW_TRANSITIONS_LIST', $this->escape($workflow)), 'address contact');
@@ -150,30 +155,54 @@ class HtmlView extends BaseHtmlView
 		$isCore = $this->workflow->core;
 		$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
-		ToolbarHelper::link('index.php?option=com_workflow&view=workflows&extension=' . $this->escape($this->workflow->extension),
-			'JTOOLBAR_BACK', $arrow
+		ToolbarHelper::link(
+			Route::_('index.php?option=com_workflow&view=workflows&extension=' . $this->escape($this->workflow->extension)),
+			'JTOOLBAR_BACK',
+			$arrow
 		);
 
-		if ($canDo->get('core.create') && !$isCore)
+		if (!$isCore)
 		{
-			ToolbarHelper::addNew('transition.add');
+			if ($canDo->get('core.create'))
+			{
+				$toolbar->addNew('transition.add');
+			}
+
+			if ($canDo->get('core.edit.state') || $user->authorise('core.admin'))
+			{
+				$dropdown = $toolbar->dropdownButton('status-group')
+					->text('JTOOLBAR_CHANGE_STATUS')
+					->toggleSplit(false)
+					->icon('fa fa-globe')
+					->buttonClass('btn btn-info')
+					->listCheck(true);
+
+				$childBar = $dropdown->getChildToolbar();
+
+				$childBar->publish('transitions.publish');
+				$childBar->unpublish('transitions.unpublish');
+
+				if ($canDo->get('core.admin'))
+				{
+					// @ToDo Imlement the checked_out for workflows
+					// $childBar->checkin('transitions.checkin', 'JTOOLBAR_CHECKIN', true);
+				}
+
+				if ($this->state->get('filter.published') !== '-2')
+				{
+					$childBar->trash('transitions.trash');
+				}
+			}
+
+			if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete'))
+			{
+				$toolbar->delete('transitions.delete')
+					->text('JTOOLBAR_EMPTY_TRASH')
+					->message('JGLOBAL_CONFIRM_DELETE')
+					->listCheck(true);
+			}
 		}
 
-		if ($canDo->get('core.edit.state') && !$isCore)
-		{
-			ToolbarHelper::publishList('transitions.publish');
-			ToolbarHelper::unpublishList('transitions.unpublish');
-		}
-
-		if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete') && !$isCore)
-		{
-			ToolbarHelper::deleteList(Text::_('COM_WORKFLOW_ARE_YOU_SURE'), 'transitions.delete');
-		}
-		elseif ($canDo->get('core.edit.state') && !$isCore)
-		{
-			ToolbarHelper::trash('transitions.trash');
-		}
-
-		ToolbarHelper::help('JHELP_WORKFLOW_TRANSITIONS_LIST');
+		$toolbar->help('JHELP_WORKFLOW_TRANSITIONS_LIST');
 	}
 }

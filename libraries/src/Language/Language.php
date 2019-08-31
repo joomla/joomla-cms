@@ -2,21 +2,16 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Language;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\String\StringHelper;
-
-/**
- * Allows for quoting in language .ini files.
- */
-define('_QQ_', '"');
 
 /**
  * Languages/translation handler class
@@ -198,32 +193,20 @@ class Language
 		$this->metadata = LanguageHelper::getMetadata($this->lang);
 		$this->setDebug($debug);
 
-		$filename = JPATH_BASE . "/language/overrides/$lang.override.ini";
-
-		if (file_exists($filename) && $contents = $this->parse($filename))
-		{
-			if (is_array($contents))
-			{
-				// Sort the underlying heap by key values to optimize merging
-				ksort($contents, SORT_STRING);
-				$this->override = $contents;
-			}
-
-			unset($contents);
-		}
+		$this->override = $this->parse(JPATH_BASE . '/language/overrides/' . $lang . '.override.ini');
 
 		// Look for a language specific localise class
 		$class = str_replace('-', '_', $lang . 'Localise');
 		$paths = array();
 
-		if (defined('JPATH_SITE'))
+		if (\defined('JPATH_SITE'))
 		{
 			// Note: Manual indexing to enforce load order.
 			$paths[0] = JPATH_SITE . "/language/overrides/$lang.localise.php";
 			$paths[2] = JPATH_SITE . "/language/$lang/$lang.localise.php";
 		}
 
-		if (defined('JPATH_ADMINISTRATOR'))
+		if (\defined('JPATH_ADMINISTRATOR'))
 		{
 			// Note: Manual indexing to enforce load order.
 			$paths[1] = JPATH_ADMINISTRATOR . "/language/overrides/$lang.localise.php";
@@ -334,14 +317,17 @@ class Language
 
 		if (isset($this->strings[$key]))
 		{
-			$string = $this->debug ? '**' . $this->strings[$key] . '**' : $this->strings[$key];
+			$string = $this->strings[$key];
 
 			// Store debug information
 			if ($this->debug)
 			{
+				$value = Factory::getApplication()->get('debug_lang_const') == 0 ? $key : $string;
+				$string = '**' . $value . '**';
+
 				$caller = $this->getCallerInfo();
 
-				if (!array_key_exists($key, $this->used))
+				if (!\array_key_exists($key, $this->used))
 				{
 					$this->used[$key] = array();
 				}
@@ -358,7 +344,7 @@ class Language
 				$info['key'] = $key;
 				$info['string'] = $string;
 
-				if (!array_key_exists($key, $this->orphans))
+				if (!\array_key_exists($key, $this->orphans))
 				{
 					$this->orphans[$key] = array();
 				}
@@ -402,7 +388,7 @@ class Language
 	{
 		if ($this->transliterator !== null)
 		{
-			return call_user_func($this->transliterator, $string);
+			return \call_user_func($this->transliterator, $string);
 		}
 
 		$string = Transliterate::utf8_latin_to_ascii($string);
@@ -453,7 +439,7 @@ class Language
 	{
 		if ($this->pluralSuffixesCallback !== null)
 		{
-			return call_user_func($this->pluralSuffixesCallback, $count);
+			return \call_user_func($this->pluralSuffixesCallback, $count);
 		}
 		else
 		{
@@ -501,7 +487,7 @@ class Language
 	{
 		if ($this->ignoredSearchWordsCallback !== null)
 		{
-			return call_user_func($this->ignoredSearchWordsCallback);
+			return \call_user_func($this->ignoredSearchWordsCallback);
 		}
 		else
 		{
@@ -549,7 +535,7 @@ class Language
 	{
 		if ($this->lowerLimitSearchWordCallback !== null)
 		{
-			return call_user_func($this->lowerLimitSearchWordCallback);
+			return \call_user_func($this->lowerLimitSearchWordCallback);
 		}
 		else
 		{
@@ -595,9 +581,9 @@ class Language
 	 */
 	public function getUpperLimitSearchWord()
 	{
-		if ($this->upperLimitSearchWordCallback !== null && call_user_func($this->upperLimitSearchWordCallback) > 200)
+		if ($this->upperLimitSearchWordCallback !== null && \call_user_func($this->upperLimitSearchWordCallback) > 200)
 		{
-			return call_user_func($this->upperLimitSearchWordCallback);
+			return \call_user_func($this->upperLimitSearchWordCallback);
 		}
 
 		return 200;
@@ -643,7 +629,7 @@ class Language
 	{
 		if ($this->searchDisplayedCharactersNumberCallback !== null)
 		{
-			return call_user_func($this->searchDisplayedCharactersNumberCallback);
+			return \call_user_func($this->searchDisplayedCharactersNumberCallback);
 		}
 		else
 		{
@@ -755,7 +741,7 @@ class Language
 	 *
 	 * This method will not note the successful loading of a file - use load() instead.
 	 *
-	 * @param   string  $filename   The name of the file.
+	 * @param   string  $fileName   The name of the file.
 	 * @param   string  $extension  The name of the extension.
 	 *
 	 * @return  boolean  True if new strings have been added to the language
@@ -763,19 +749,14 @@ class Language
 	 * @see     Language::load()
 	 * @since   1.7.0
 	 */
-	protected function loadLanguage($filename, $extension = 'unknown')
+	protected function loadLanguage($fileName, $extension = 'unknown')
 	{
 		$this->counter++;
 
-		$result = false;
-		$strings = false;
+		$result  = false;
+		$strings = $this->parse($fileName);
 
-		if (file_exists($filename))
-		{
-			$strings = $this->parse($filename);
-		}
-
-		if (is_array($strings) && count($strings))
+		if ($strings !== array())
 		{
 			$this->strings = array_replace($this->strings, $strings, $this->override);
 			$result = true;
@@ -787,7 +768,7 @@ class Language
 			$this->paths[$extension] = array();
 		}
 
-		$this->paths[$extension][$filename] = $result;
+		$this->paths[$extension][$fileName] = $result;
 
 		return $result;
 	}
@@ -795,51 +776,20 @@ class Language
 	/**
 	 * Parses a language file.
 	 *
-	 * @param   string  $filename  The name of the file.
+	 * @param   string  $fileName  The name of the file.
 	 *
 	 * @return  array  The array of parsed strings.
 	 *
 	 * @since   1.7.0
 	 */
-	protected function parse($filename)
+	protected function parse($fileName)
 	{
-		// Capture hidden PHP errors from the parsing.
-		if ($this->debug)
+		$strings = LanguageHelper::parseIniFile($fileName, $this->debug);
+
+		// Debug the ini file if needed.
+		if ($this->debug === true && file_exists($fileName))
 		{
-			// See https://secure.php.net/manual/en/reserved.variables.phperrormsg.php
-			$php_errormsg = null;
-
-			$trackErrors = ini_get('track_errors');
-			ini_set('track_errors', true);
-		}
-
-		// This was required for https://github.com/joomla/joomla-cms/issues/17198 but not sure what server setup
-		// issue it is solving
-		$disabledFunctions = explode(',', ini_get('disable_functions'));
-		$isParseIniFileDisabled = in_array('parse_ini_file', array_map('trim', $disabledFunctions));
-
-		if (!function_exists('parse_ini_file') || $isParseIniFileDisabled)
-		{
-			$contents = file_get_contents($filename);
-			$contents = str_replace('"_QQ_"', '\\"', $contents);
-			$strings  = @parse_ini_string($contents, INI_SCANNER_RAW);
-		}
-		else
-		{
-			$strings = @parse_ini_file($filename);
-		}
-
-		if (!is_array($strings))
-		{
-			$strings = array();
-		}
-
-		// Restore error tracking to what it was before.
-		if ($this->debug)
-		{
-			ini_set('track_errors', $trackErrors);
-
-			$this->debugFile($filename);
+			$this->debugFile($fileName);
 		}
 
 		return $strings;
@@ -886,7 +836,7 @@ class Language
 			$line = trim($line);
 
 			// Ignore comment lines.
-			if (!strlen($line) || $line['0'] == ';')
+			if (!\strlen($line) || $line['0'] == ';')
 			{
 				continue;
 			}
@@ -897,16 +847,10 @@ class Language
 				continue;
 			}
 
-			// Remove the "_QQ_" from the equation
-			$line = str_replace('"_QQ_"', '', $line);
-			$realNumber = $lineNumber + 1;
+			// Remove any escaped double quotes \" from the equation
+			$line = str_replace('\"', '', $line);
 
-			// Check for any incorrect uses of _QQ_.
-			if (strpos($line, '_QQ_') !== false)
-			{
-				$errors[] = $realNumber;
-				continue;
-			}
+			$realNumber = $lineNumber + 1;
 
 			// Check for odd number of double quotes.
 			if (substr_count($line, '"') % 2 != 0)
@@ -925,14 +869,14 @@ class Language
 			// Check that the key is not in the blacklist.
 			$key = strtoupper(trim(substr($line, 0, strpos($line, '='))));
 
-			if (in_array($key, $blacklist))
+			if (\in_array($key, $blacklist))
 			{
 				$errors[] = $realNumber;
 			}
 		}
 
 		// Check if we encountered any errors.
-		if (count($errors))
+		if (\count($errors))
 		{
 			$this->errorfiles[$filename] = $errors;
 		}
@@ -944,7 +888,7 @@ class Language
 
 		$this->debug = $debug;
 
-		return count($errors);
+		return \count($errors);
 	}
 
 	/**
@@ -976,11 +920,11 @@ class Language
 	 */
 	protected function getTrace()
 	{
-		return \function_exists('debug_backtrace') ?  debug_backtrace() : [];
+		return \function_exists('debug_backtrace') ? debug_backtrace() : [];
 	}
 
 	/**
-	 * Determine who called Language or JText.
+	 * Determine who called Language or Text.
 	 *
 	 * @return  array  Caller information.
 	 *
@@ -989,7 +933,7 @@ class Language
 	protected function getCallerInfo()
 	{
 		// Try to determine the source if none was provided
-		if (!function_exists('debug_backtrace'))
+		if (!\function_exists('debug_backtrace'))
 		{
 			return;
 		}
@@ -1006,7 +950,7 @@ class Language
 			$class = @ $step['class'];
 
 			// We're looking for something outside of language.php
-			if ($class != '\\Joomla\\CMS\\Language\\Language' && $class != 'JText')
+			if ($class != self::class && $class != Text::class)
 			{
 				$info['function'] = @ $step['function'];
 				$info['class'] = $class;

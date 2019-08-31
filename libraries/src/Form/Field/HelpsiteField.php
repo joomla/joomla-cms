@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,20 +10,18 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Help\Help;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for the Joomla Platform.
  * Provides a select list of help sites.
  *
- * @since  1.6
+ * @since       1.6
+ * @deprecated  4.0 To be removed
  */
-class HelpsiteField extends \JFormFieldList
+class HelpsiteField extends ListField
 {
 	/**
 	 * The form field type.

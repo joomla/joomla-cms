@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Defines the trait for an Immutable Node Class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 trait ImmutableNodeTrait
 {
@@ -56,7 +56,7 @@ trait ImmutableNodeTrait
 	 *
 	 * @return  NodeInterface[]  The children
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function &getChildren($recursive = false)
 	{
@@ -81,7 +81,7 @@ trait ImmutableNodeTrait
 	 *
 	 * @return  NodeInterface|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getParent()
 	{
@@ -90,10 +90,10 @@ trait ImmutableNodeTrait
 
 	/**
 	 * Get the root of the tree
-	 * 
+	 *
 	 * @return  ImmutableNodeInterface
-	 * 
-	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @since   4.0.0
 	 */
 	public function getRoot()
 	{
@@ -117,7 +117,7 @@ trait ImmutableNodeTrait
 	 *
 	 * @return  boolean  True if there is a child
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function hasChildren()
 	{
@@ -129,7 +129,7 @@ trait ImmutableNodeTrait
 	 *
 	 * @return  boolean  True if there is a parent
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function hasParent()
 	{
@@ -143,7 +143,7 @@ trait ImmutableNodeTrait
 	 *
 	 * @return  NodeInterface|null  NodeInterface object of the sibling.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getSibling($right = true)
 	{

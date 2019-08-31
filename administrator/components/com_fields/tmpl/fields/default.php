@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -25,13 +25,20 @@ $user      = Factory::getUser();
 $userId    = $user->get('id');
 $context   = $this->escape($this->state->get('filter.context'));
 $component = $this->state->get('filter.component');
+$section   = $this->state->get('filter.section');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.ordering');
 $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
 
 // The category object of the component
-$category = Categories::getInstance(str_replace('com_', '', $component));
+$category = Categories::getInstance(str_replace('com_', '', $component) . '.' . $section);
+
+// If there is no category for the component and section, then check the component only
+if (!$category)
+{
+	$category = Categories::getInstance(str_replace('com_', '', $component));
+}
 
 if ($saveOrder && !empty($this->items))
 {
@@ -40,18 +47,14 @@ if ($saveOrder && !empty($this->items))
 }
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_fields&view=fields'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_fields&view=fields&context=' . $this->state->get('filter.context')); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
-		<?php if (!empty($this->sidebar)) { ?>
-		<div id="j-sidebar-container" class="col-md-2">
-			<?php echo $this->sidebar; ?>
-		</div>
-		<?php } ?>
-		<div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
+		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'context'))); ?>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning">
+					<div class="alert alert-info">
+						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -61,12 +64,12 @@ if ($saveOrder && !empty($this->items))
 						</caption>
 						<thead>
 							<tr>
-								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
-								</th>
 								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
+								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+								</th>
 								<th scope="col" style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 								</th>
@@ -100,27 +103,25 @@ if ($saveOrder && !empty($this->items))
 								<?php $canEditOwn = $user->authorise('core.edit.own', $component . '.field.' . $item->id) && $item->created_user_id == $userId; ?>
 								<?php $canChange  = $user->authorise('core.edit.state', $component . '.field.' . $item->id) && $canCheckin; ?>
 								<tr class="row<?php echo $i % 2; ?>" item-id="<?php echo $item->id ?>">
+									<td class="text-center">
+										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+									</td>
 									<td class="order text-center d-none d-md-table-cell">
 										<?php $iconClass = ''; ?>
 										<?php if (!$canChange) : ?>
 											<?php $iconClass = ' inactive'; ?>
 										<?php elseif (!$saveOrder) : ?>
-											<?php $iconClass = ' inactive tip-top hasTooltip" title="' . HTMLHelper::tooltipText('JORDERINGDISABLED'); ?>
+											<?php $iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED'); ?>
 										<?php endif; ?>
 										<span class="sortable-handler<?php echo $iconClass; ?>">
-											<span class="icon-menu" aria-hidden="true"></span>
+											<span class="fa fa-ellipsis-v" aria-hidden="true"></span>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
 											<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>">
 										<?php endif; ?>
 									</td>
 									<td class="text-center">
-										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
-									</td>
-									<td class="text-center">
-										<div class="btn-group">
-											<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'fields.', $canChange, 'cb'); ?>
-										</div>
+										<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'fields.', $canChange, 'cb'); ?>
 									</td>
 									<th scope="row">
 										<div class="break-word">
@@ -128,9 +129,8 @@ if ($saveOrder && !empty($this->items))
 												<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'fields.', $canCheckin); ?>
 											<?php endif; ?>
 											<?php if ($canEdit || $canEditOwn) : ?>
-												<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
 												<a href="<?php echo Route::_('index.php?option=com_fields&task=field.edit&id=' . $item->id . '&context=' . $context); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
-													<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
+													<?php echo $this->escape($item->title); ?></a>
 											<?php else : ?>
 												<?php echo $this->escape($item->title); ?>
 											<?php endif; ?>
@@ -141,17 +141,17 @@ if ($saveOrder && !empty($this->items))
 													<?php echo Text::sprintf('JGLOBAL_LIST_NAME_NOTE', $this->escape($item->name), $this->escape($item->note)); ?>
 												<?php endif; ?>
 											</span>
-                                            <?php if ($category) : ?>
-                                                <div class="small">
-                                                    <?php echo Text::_('JCATEGORY') . ': '; ?>
-                                                    <?php $categories = FieldsHelper::getAssignedCategoriesTitles($item->id); ?>
-                                                    <?php if ($categories) : ?>
-                                                        <?php echo implode(', ', $categories); ?>
-                                                    <?php else: ?>
-                                                        <?php echo Text::_('JALL'); ?>
-                                                    <?php endif; ?>
-                                                </div>
-                                            <?php endif; ?>
+											<?php if ($category) : ?>
+												<div class="small">
+													<?php echo Text::_('JCATEGORY') . ': '; ?>
+													<?php $categories = FieldsHelper::getAssignedCategoriesTitles($item->id); ?>
+													<?php if ($categories) : ?>
+														<?php echo implode(', ', $categories); ?>
+													<?php else: ?>
+														<?php echo Text::_('JALL'); ?>
+													<?php endif; ?>
+												</div>
+											<?php endif; ?>
 										</div>
 									</th>
 									<td class="small">

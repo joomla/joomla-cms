@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Input;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filter\InputFilter;
 
@@ -132,7 +132,7 @@ class Cli extends Input
 
 		$out = array();
 
-		for ($i = 0, $j = count($argv); $i < $j; $i++)
+		for ($i = 0, $j = \count($argv); $i < $j; $i++)
 		{
 			$arg = $argv[$i];
 
@@ -191,7 +191,7 @@ class Cli extends Input
 					}
 
 					// -a a-value
-					if ((count($chars) === 1) && ($i + 1 < $j) && ($argv[$i + 1][0] !== '-'))
+					if ((\count($chars) === 1) && ($i + 1 < $j) && ($argv[$i + 1][0] !== '-'))
 					{
 						$out[$key] = $argv[$i + 1];
 						$i++;
