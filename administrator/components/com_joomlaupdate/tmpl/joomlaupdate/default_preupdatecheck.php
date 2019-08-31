@@ -19,19 +19,32 @@ use Joomla\CMS\Language\Text;
 </h2>
 
 <div class="row">
-	<div class="col-12 col-lg-6">
+	<div class="col-md-6">
 		<fieldset class="options-grid-form options-grid-form-full">
 			<legend>
-				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK'); ?>
+				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS'); ?>
 			</legend>
 			<div>
-				<table class="table">
+				<table class="table" id="preupdatecheck">
+					<caption id="captionPreupdatecheck" class="sr-only">
+						<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_CAPTION'); ?>
+					</caption>
+					<thead>
+						<tr>
+							<th scope="col">
+								<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_HEADING_REQUIREMENT'); ?>
+							</th>
+							<th scope="col">
+								<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_HEADING_CHECKED'); ?>
+							</th>
+						</tr>
+					</thead>
 					<tbody>
 					<?php foreach ($this->phpOptions as $option) : ?>
 						<tr>
-							<td>
+							<th scope="row">
 								<?php echo $option->label; ?>
-							</td>
+							</th>
 							<td>
 									<span class="badge badge-<?php echo $option->state ? 'success' : 'danger'; ?>">
 										<?php echo Text::_($option->state ? 'JYES' : 'JNO'); ?>
@@ -48,7 +61,7 @@ use Joomla\CMS\Language\Text;
 		</fieldset>
 	</div>
 
-	<div class="col-12 col-lg-6">
+	<div class="col-md-6">
 		<fieldset class="options-grid-form  options-grid-form-full">
 			<legend>
 				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS'); ?>
