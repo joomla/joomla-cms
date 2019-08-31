@@ -66,7 +66,7 @@ class LocalAdapter implements AdapterInterface
 			throw new \InvalidArgumentException;
 		}
 
-		$this->rootPath = Path::clean($rootPath, '/');
+		$this->rootPath = Path::clean(realpath($rootPath), '/');
 		$this->filePath = $filePath;
 	}
 
