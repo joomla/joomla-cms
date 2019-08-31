@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -364,7 +363,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	 */
 	protected function getListQuery($query = null)
 	{
-		$db = Factory::getDbo();
+		$db = $this->db;
 
 		// Check if we can use the supplied SQL query.
 		$query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true);
@@ -396,7 +395,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 						'a.modified_time',
 						'a.modified_user_id',
 						'a.created_time',
-						'a.published'
+						'a.published',
 					],
 					[
 						'summary',
@@ -404,7 +403,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 						'modified',
 						'modified_by',
 						'start_date',
-						'state'
+						'state',
 					]
 				)
 			);
@@ -442,7 +441,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 				[
 					'a.id',
 					'a.parent_id',
-					'a.access'
+					'a.access',
 				]
 			)
 		)
@@ -451,12 +450,12 @@ class PlgFinderCategories extends FinderIndexerAdapter
 					[
 						'a.' . $this->state_field,
 						'c.published',
-						'c.access'
+						'c.access',
 					],
 					[
 						'state',
 						'cat_state',
-						'cat_access'
+						'cat_access',
 					]
 				)
 			)

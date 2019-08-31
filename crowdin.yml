@@ -1204,6 +1204,12 @@ files:
     update_option: update_as_unapproved
     content_segmentation: 0
 
+    # Testing Sampledata Plugin
+  - source: /plugins/sampledata/testing/language/en-GB/*.ini
+    ignore:
+    - /plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.ini
+    - /plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.sys.ini
+
     # Media
   - source: /build/media_source/system/js/fields/calendar-locales/en.es5.js
     translation: /build/media_source/system/js/fields/calendar-locales/%locale%.es5.js

@@ -150,9 +150,6 @@ class PlgSystemDebug extends CMSPlugin
 		ob_start();
 		ob_implicit_flush(false);
 
-		// @todo Remove when a standard autoloader is available.
-		JLoader::registerNamespace('Joomla\\Plugin\\System\\Debug', __DIR__, false, false, 'psr4');
-
 		/** @var \Joomla\Database\Monitor\DebugMonitor */
 		$this->queryMonitor = $this->db->getMonitor();
 

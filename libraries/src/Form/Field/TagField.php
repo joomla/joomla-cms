@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -128,7 +129,7 @@ class TagField extends ListField
 	{
 		$published = $this->element['published'] ?: array(0, 1);
 		$app       = Factory::getApplication();
-		$tag       = $app->getLanguage()->getTag();
+		$language  = null;
 
 		// Return only basic options, everything else will be searched via AJAX
 		if ($this->isRemoteSearch() && !$this->value)
@@ -138,18 +139,29 @@ class TagField extends ListField
 
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('DISTINCT a.id AS value, a.path, a.title AS text, a.level, a.published, a.lft')
-			->from('#__tags AS a')
-			->join('LEFT', $db->quoteName('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+			->select(
+				[
+					'DISTINCT ' . $db->quoteName('a.id', 'value'),
+					$db->quoteName('a.path'),
+					$db->quoteName('a.title', 'text'),
+					$db->quoteName('a.level'),
+					$db->quoteName('a.published'),
+					$db->quoteName('a.lft'),
+				]
+			)
+			->from($db->quoteName('#__tags', 'a'))
+			->join(
+				'LEFT',
+				$db->quoteName('#__tags', 'b'),
+				$db->quoteName('a.lft') . ' > ' . $db->quoteName('b.lft') . ' AND ' . $db->quoteName('a.rgt') . ' < ' . $db->quoteName('b.rgt')
+			);
 
 		// Limit Options in multilanguage
 		if ($app->isClient('site') && Multilanguage::isEnabled())
 		{
-			$lang = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter');
-
-			if ($lang == 'current_language')
+			if (ComponentHelper::getParams('com_tags')->get('tag_list_language_filter') === 'current_language')
 			{
-				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
+				$language = [$app->getLanguage()->getTag(), '*'];
 			}
 		}
 		// Filter language
@@ -157,14 +169,17 @@ class TagField extends ListField
 		{
 			if (strpos($this->element['language'], ',') !== false)
 			{
-				$language = implode(',', $db->quote(explode(',', $this->element['language'])));
+				$language = explode(',', $this->element['language']);
 			}
 			else
 			{
-				$language = $db->quote($this->element['language']);
+				$language = [$this->element['language']];
 			}
+		}
 
-			$query->where($db->quoteName('a.language') . ' IN (' . $language . ')');
+		if ($language)
+		{
+			$query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
 		}
 
 		$query->where($db->quoteName('a.lft') . ' > 0');
@@ -172,21 +187,23 @@ class TagField extends ListField
 		// Preload only active values, everything else will be searched via AJAX
 		if ($this->isRemoteSearch() && $this->value)
 		{
-			$query->where('a.id IN (' . implode(',', $this->value) . ')');
+			$query->whereIn($db->quoteName('a.id'), $this->value);
 		}
 
 		// Filter on the published state
 		if (is_numeric($published))
 		{
-			$query->where('a.published = ' . (int) $published);
+			$published = (int) $published;
+			$query->where($db->quoteName('a.published') . ' = :published')
+				->bind(':published', $published, ParameterType::INTEGER);
 		}
 		elseif (is_array($published))
 		{
 			$published = ArrayHelper::toInteger($published);
-			$query->where('a.published IN (' . implode(',', $published) . ')');
+			$query->whereIn($db->quoteName('a.published'), $published);
 		}
 
-		$query->order('a.lft ASC');
+		$query->order($db->quoteName('a.lft') . ' ASC');
 
 		// Get the options.
 		$db->setQuery($query);
