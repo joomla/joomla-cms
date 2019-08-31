@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Language;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -40,7 +40,8 @@ class Associations
 	 * @throws  \Exception
 	 */
 	public static function getAssociations($extension, $tablename, $context, $id, $pk = 'id', $aliasField = 'alias', $catField = 'catid',
-		$advClause = array())
+		$advClause = array()
+	)
 	{
 		// To avoid doing duplicate database queries.
 		static $multilanguageAssociations = array();
@@ -58,7 +59,7 @@ class Associations
 				->select($db->quoteName('c2.language'))
 				->from($db->quoteName($tablename, 'c'))
 				->join('INNER', $db->quoteName('#__associations', 'a') . ' ON a.id = c.' . $db->quoteName($pk) . ' AND a.context=' . $db->quote($context))
-				->join('INNER', $db->quoteName('#__associations', 'a2') . ' ON a.key = a2.key')
+				->join('INNER', $db->quoteName('#__associations', 'a2') . ' ON ' . $db->quoteName('a.key') . ' = ' . $db->quoteName('a2.key'))
 				->join('INNER', $db->quoteName($tablename, 'c2') . ' ON a2.id = c2.' . $db->quoteName($pk) . $categoriesExtraSql);
 
 			// Use alias field ?
@@ -83,9 +84,9 @@ class Associations
 			if (!empty($catField))
 			{
 				$query->join(
-						'INNER',
-						$db->quoteName('#__categories', 'ca') . ' ON ' . $db->quoteName('c2.' . $catField) . ' = ca.id AND ca.extension = ' . $db->quote($extension)
-					)
+					'INNER',
+					$db->quoteName('#__categories', 'ca') . ' ON ' . $db->quoteName('c2.' . $catField) . ' = ca.id AND ca.extension = ' . $db->quote($extension)
+				)
 					->select(
 						$query->concatenate(
 							array('ca.id', 'ca.alias'),

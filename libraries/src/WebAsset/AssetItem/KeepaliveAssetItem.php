@@ -19,7 +19,7 @@ use Joomla\CMS\WebAsset\WebAssetItem;
 /**
  * Web Asset Item class for Keepalive asset
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class KeepaliveAssetItem extends WebAssetItem implements WebAssetAttachBehaviorInterface
 {
@@ -31,9 +31,9 @@ class KeepaliveAssetItem extends WebAssetItem implements WebAssetAttachBehaviorI
 	 *
 	 * @return void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function onAttachCallback(Document $doc): void
+	public function onAttachCallback(Document $doc)
 	{
 		$app            = Factory::getApplication();
 		$sessionHandler = $app->get('session_handler', 'database');

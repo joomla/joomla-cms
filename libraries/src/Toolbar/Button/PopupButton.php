@@ -20,6 +20,7 @@ use Joomla\CMS\Uri\Uri;
  * Renders a modal window button
  *
  * @method self    url(string $value)
+ * @method self    icon(string $value)
  * @method self    iframeWidth(int $value)
  * @method self    iframeHeight(int $value)
  * @method self    bodyHeight(int $value)
@@ -56,7 +57,7 @@ class PopupButton extends ToolbarButton
 	/**
 	 * Prepare options for this button.
 	 *
-	 * @param   array  &$options  The options about this button.
+	 * @param   array  $options  The options about this button.
 	 *
 	 * @return  void
 	 *
@@ -93,12 +94,14 @@ class PopupButton extends ToolbarButton
 	 * @since   3.0
 	 */
 	public function fetchButton($type = 'Modal', $name = '', $text = '', $url = '', $iframeWidth = 640,
-		$iframeHeight = 480, $bodyHeight = null, $modalWidth = null, $onClose = '', $title = '', $footer = null)
+		$iframeHeight = 480, $bodyHeight = null, $modalWidth = null, $onClose = '', $title = '', $footer = null
+	)
 	{
 		$this->name($name)
-			->text(Text::_($text))
+			->text($text)
 			->task($this->_getCommand($url))
 			->url($url)
+			->icon('icon-' . $name)
 			->iframeWidth($iframeWidth)
 			->iframeHeight($iframeHeight)
 			->bodyHeight($bodyHeight)
@@ -113,7 +116,7 @@ class PopupButton extends ToolbarButton
 	/**
 	 * Render button HTML.
 	 *
-	 * @param   array  &$options  The button options.
+	 * @param   array  $options  The button options.
 	 *
 	 * @return  string  The button HTML.
 	 *
@@ -161,7 +164,6 @@ window.addEventListener('DOMContentLoaded', function() {
 });
 JS
 			);
-
 		}
 
 		// If an $onClose event is passed, add it to the modal JS object

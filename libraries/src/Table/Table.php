@@ -30,7 +30,7 @@ use Joomla\Event\DispatcherInterface;
  * @since  1.7.0
  * @tutorial  Joomla.Platform/jtable.cls
  */
-abstract class Table extends CMSObject implements \JTableInterface, DispatcherAwareInterface
+abstract class Table extends CMSObject implements TableInterface, DispatcherAwareInterface
 {
 	use DispatcherAwareTrait;
 
@@ -634,28 +634,6 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 	 */
 	public function bind($src, $ignore = array())
 	{
-		$event = AbstractEvent::create(
-			'onTableBeforeBind',
-			[
-				'subject'	=> $this,
-				'src'		=> $src,
-				'ignore'	=> $ignore
-			]
-		);
-		$this->getDispatcher()->dispatch('onTableBeforeBind', $event);
-
-		// JSON encode any fields required
-		if (!empty($this->_jsonEncode))
-		{
-			foreach ($this->_jsonEncode as $field)
-			{
-				if (isset($src[$field]) && is_array($src[$field]))
-				{
-					$src[$field] = json_encode($src[$field]);
-				}
-			}
-		}
-
 		// Check if the source value is an array or object
 		if (!is_object($src) && !is_array($src))
 		{
@@ -668,16 +646,38 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 			);
 		}
 
+		// If the ignore value is a string, explode it over spaces.
+		if (!is_array($ignore))
+		{
+			$ignore = explode(' ', $ignore);
+		}
+
+		$event = AbstractEvent::create(
+			'onTableBeforeBind',
+			[
+				'subject'	=> $this,
+				'src'		=> $src,
+				'ignore'	=> $ignore
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableBeforeBind', $event);
+
 		// If the source value is an object, get its accessible properties.
 		if (is_object($src))
 		{
 			$src = get_object_vars($src);
 		}
 
-		// If the ignore value is a string, explode it over spaces.
-		if (!is_array($ignore))
+		// JSON encode any fields required
+		if (!empty($this->_jsonEncode))
 		{
-			$ignore = explode(' ', $ignore);
+			foreach ($this->_jsonEncode as $field)
+			{
+				if (isset($src[$field]) && is_array($src[$field]))
+				{
+					$src[$field] = json_encode($src[$field]);
+				}
+			}
 		}
 
 		// Bind the source value, excluding the ignored fields.
@@ -1320,6 +1320,8 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		);
 		$this->getDispatcher()->dispatch('onTableAfterCheckin', $event);
 
+		Factory::getApplication()->triggerEvent('onAfterCheckin', array($this->_tbl));
+
 		return true;
 	}
 
@@ -1597,8 +1599,12 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 
 		$subquery->where($quotedOrderingField . ' >= 0');
 		$query->where($quotedOrderingField . ' >= 0');
+		$query->innerJoin('(' . (string) $subquery . ') AS sq ');
 
-		$query->innerJoin('(' . (string) $subquery . ') AS sq ON ' . implode(' AND ', $innerOn));
+		foreach ($innerOn as $key)
+		{
+			$query->where($key);
+		}
 
 		// Pre-processing by observers
 		$event = AbstractEvent::create(
@@ -1696,7 +1702,8 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		$this->getDispatcher()->dispatch('onTableBeforeMove', $event);
 
 		// Select the first row with the criteria.
-		$this->_db->setQuery($query, 0, 1);
+		$query->setLimit(1);
+		$this->_db->setQuery($query);
 		$row = $this->_db->loadObject();
 
 		// If a row is found, move the item.
@@ -1981,7 +1988,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 	 */
 	protected function _unlock()
 	{
-		if ($this->_locked) 
+		if ($this->_locked)
 		{
 			$this->_db->unlockTables();
 			$this->_locked = false;

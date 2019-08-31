@@ -23,6 +23,7 @@ HTMLHelper::_('script', 'com_content/form-edit.js', ['version' => 'auto', 'relat
 
 $this->tab_name = 'com-content-form';
 $this->ignore_fieldsets = array('image-intro', 'image-full', 'jmetadata', 'item_associations');
+$this->useCoreUI = true;
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');

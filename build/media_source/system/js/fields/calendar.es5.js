@@ -256,23 +256,6 @@
 
 	/** Method to show the calendar. */
 	JoomlaCalendar.prototype.show = function () {
-		/** This is needed for IE8 */
-		if (navigator.appName.indexOf("Internet Explorer")!==-1) {
-			var badBrowser = (
-				navigator.appVersion.indexOf("MSIE 9")===-1 &&
-				navigator.appVersion.indexOf("MSIE 1")===-1
-			);
-
-			if (badBrowser) {
-				if (window.jQuery && jQuery().chosen) {
-					var selItems = this.element.getElementsByTagName('select');
-					for (var i = 0; i < selItems.length; i++) {
-						jQuery(selItems[i]).chosen('destroy');
-					}
-				}
-			}
-		}
-
 		this.checkInputs();
 		this.inputField.focus();
 		this.dropdownElement.style.display = "block";
@@ -285,7 +268,7 @@
 		/** Move the calendar to top position if it doesn't fit below. */
 		var containerTmp = this.element.querySelector('.js-calendar');
 
-		if ((window.innerHeight + window.scrollY) < containerTmp.getBoundingClientRect().bottom + 20) {
+		if (window.innerHeight < containerTmp.getBoundingClientRect().bottom + 20) {
 			containerTmp.style.marginTop = - (containerTmp.getBoundingClientRect().height + this.inputField.getBoundingClientRect().height) + "px";
 		}
 

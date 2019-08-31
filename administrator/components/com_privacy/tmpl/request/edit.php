@@ -9,36 +9,33 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
+
 /** @var PrivacyViewRequest $this */
 
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
-JHtml::_('formbehavior.chosen', 'select');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
 
-$js = <<< JS
-Joomla.submitbutton = function(task) {
-	if (task === 'request.cancel' || document.formvalidator.isValid(document.getElementById('item-form'))) {
-		Joomla.submitform(task, document.getElementById('item-form'));
-	}
-};
-JS;
-
-JFactory::getDocument()->addScriptDeclaration($js);
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_privacy&view=request&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_privacy&view=request&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 	<div class="form-horizontal">
 		<div class="row-fluid">
 			<div class="span9">
-				<fieldset class="adminform">
-					<?php echo $this->form->renderField('email'); ?>
-					<?php echo $this->form->renderField('status'); ?>
-					<?php echo $this->form->renderField('request_type'); ?>
-				</fieldset>
+				<div class="card mt-3">
+					<div class="card-body">
+						<fieldset class="adminform">
+							<?php echo $this->form->renderField('email'); ?>
+							<?php echo $this->form->renderField('status'); ?>
+							<?php echo $this->form->renderField('request_type'); ?>
+						</fieldset>
+					</div>
+				</div>
 			</div>
 		</div>
 
 		<input type="hidden" name="task" value="" />
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</div>
 </form>

@@ -14,11 +14,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
-
-\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * Helper for mod_related_items
@@ -40,10 +37,10 @@ abstract class RelatedItemsHelper
 		$app     = Factory::getApplication();
 		$input   = $app->input;
 		$groups  = implode(',', Factory::getUser()->getAuthorisedViewLevels());
-		$maximum = (int) $params->get('maximum', 5);
 		$factory = $app->bootComponent('com_content')->getMVCFactory();
 
 		// Get an instance of the generic articles model
+		/** @var \Joomla\Component\Content\Site\Model\ArticlesModel $articles */
 		$articles = $factory->createModel('Articles', 'Site', ['ignore_request' => true]);
 
 		// Set application parameters in model
@@ -51,6 +48,11 @@ abstract class RelatedItemsHelper
 
 		$option = $input->get('option');
 		$view   = $input->get('view');
+
+		if (!($option === 'com_content' && $view === 'article'))
+		{
+			return array();
+		}
 
 		$temp = $input->getString('id');
 		$temp = explode(':', $temp);
@@ -61,7 +63,7 @@ abstract class RelatedItemsHelper
 		$related  = [];
 		$query    = $db->getQuery(true);
 
-		if ($option === 'com_content' && $view === 'article' && $id)
+		if ($id)
 		{
 			// Select the meta keywords from the item
 			$query->select('metakey')
@@ -100,27 +102,7 @@ abstract class RelatedItemsHelper
 				// Select other items based on the metakey field 'like' the keys found
 				$query->clear()
 					->select('a.id')
-					->select('a.title')
-					->select('CAST(a.created AS DATE) as created')
-					->select('a.catid')
-					->select('a.language')
-					->select('cc.access AS cat_access')
-					->select('cc.published AS cat_state');
-
-				$case_when = ' CASE WHEN ';
-				$case_when .= $query->charLength('a.alias', '!=', '0');
-				$case_when .= ' THEN ';
-				$a_id      = $query->castAsChar('a.id');
-				$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
-				$case_when .= ' ELSE ';
-				$case_when .= $a_id . ' END as slug';
-
-				$query->select($case_when)
 					->from('#__content AS a')
-					->join('LEFT', '#__content_frontpage AS f ON f.content_id = a.id')
-					->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
-					->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id')
-					->join('LEFT', '#__workflow_stages AS ws ON ws.id = wa.stage_id')
 					->where('a.id != ' . (int) $id)
 					->where('ws.condition = ' . ContentComponent::CONDITION_PUBLISHED)
 					->where('a.access IN (' . $groups . ')');
@@ -142,11 +124,12 @@ abstract class RelatedItemsHelper
 					$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 				}
 
-				$db->setQuery($query, 0, $maximum);
+				$query->setLimit((int) $params->get('maximum', 5));
+				$db->setQuery($query);
 
 				try
 				{
-					$temp = $db->loadObjectList();
+					$articleIds = $db->loadColumn();
 				}
 				catch (\RuntimeException $e)
 				{
@@ -155,20 +138,14 @@ abstract class RelatedItemsHelper
 					return array();
 				}
 
-				if (count($temp))
+				if (count($articleIds))
 				{
-					$articles_ids = [];
-
-					foreach ($temp as $row)
-					{
-						$articles_ids[] = $row->id;
-					}
-
-					$articles->setState('filter.article_id', $articles_ids);
+					$articles->setState('filter.article_id', $articleIds);
+					$articles->setState('filter.published', 1);
 					$related = $articles->getItems();
 				}
 
-				unset($temp);
+				unset($articleIds);
 			}
 		}
 

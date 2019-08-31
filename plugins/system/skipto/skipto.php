@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -23,7 +24,7 @@ class PlgSystemSkipto extends CMSPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @var    CMSApplicationInterface
 	 * @since  4.0.0
 	 */
 	protected $app;
@@ -37,9 +38,9 @@ class PlgSystemSkipto extends CMSPlugin
 	 */
 	public function onAfterDispatch()
 	{
-		$section = $this->params->get('section_skipto', 2);
+		$section = $this->params->get('section', 'administrator');
 
-		if ($section !== 3 && ($this->app->isClient('administrator') && $section !== 2 || $this->app->isClient('site') && $section !== 1))
+		if ($section !== 'both' && $this->app->isClient($section) !== true)
 		{
 			return;
 		}
@@ -68,7 +69,8 @@ class PlgSystemSkipto extends CMSPlugin
 						'menuLabel'      => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_AND_PAGE_OUTLINE'),
 						'landmarksLabel' => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
 						'headingsLabel'	 => Text::_('PLG_SYSTEM_SKIPTO_PAGE_OUTLINE'),
-						'contentLabel'   => Text::_('PLG_SYSTEM_SKIPTO_CONTENT'),
+						// The following string begins with a space
+						'contentLabel'   => ' ' . Text::_('PLG_SYSTEM_SKIPTO_CONTENT'),
 					]
 				]
 			]

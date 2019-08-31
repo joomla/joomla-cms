@@ -65,6 +65,6 @@ class MailController extends BaseController
 	{
 		// Check for request forgeries.
 		$this->checkToken('request');
-		$this->setRedirect('index.php');
+		$this->setRedirect('index.php?option=com_users&view=users');
 	}
 }

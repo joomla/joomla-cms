@@ -19,7 +19,7 @@ use Joomla\CMS\WebAsset\WebAssetItem;
 /**
  * Web Asset Item class for Core asset
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class CoreAssetItem extends WebAssetItem implements WebAssetAttachBehaviorInterface
 {
@@ -31,9 +31,9 @@ class CoreAssetItem extends WebAssetItem implements WebAssetAttachBehaviorInterf
 	 *
 	 * @return void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function onAttachCallback(Document $doc): void
+	public function onAttachCallback(Document $doc)
 	{
 		// Add core and base uri paths so javascript scripts can use them.
 		$doc->addScriptOptions(

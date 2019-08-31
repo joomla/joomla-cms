@@ -97,8 +97,7 @@
             editor.ui.registry.addIcon(icon, icons[icon]);
           });
 
-          editor.ui.registry.addSplitButton('jxtdbuttons', {
-            type: 'menubutton',
+          editor.ui.registry.addMenuButton('jxtdbuttons', {
             text: Joomla.JText._('PLG_TINY_CORE_BUTTONS'),
             icon: 'joomla',
             fetch: callback => callback(buttonValues),
@@ -116,6 +115,7 @@
         // Required by Joomla's API for the XTD-Buttons
         getValue: () => Joomla.editors.instances[element.id].instance.getContent(),
         setValue: text => Joomla.editors.instances[element.id].instance.setContent(text),
+        getSelection: () => Joomla.editors.instances[element.id].instance.selection.getContent({ format: 'text' }),
         replaceSelection: text => Joomla.editors.instances[element.id].instance.execCommand('mceInsertContent', false, text),
         // Some extra instance dependent
         id: element.id,

@@ -13,10 +13,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Registry\Registry;
@@ -271,7 +271,7 @@ class NewsfeedModel extends AdminModel
 		}
 
 		// Load associated newsfeeds items
-		$assoc =  Associations::isEnabled();
+		$assoc = Associations::isEnabled();
 
 		if ($assoc)
 		{
@@ -279,7 +279,7 @@ class NewsfeedModel extends AdminModel
 
 			if ($item->id != null)
 			{
-				$associations =  Associations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $item->id);
+				$associations = Associations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $item->id);
 
 				foreach ($associations as $tag => $association)
 				{
@@ -311,11 +311,11 @@ class NewsfeedModel extends AdminModel
 		$user = Factory::getUser();
 
 		$table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
-		$table->alias =  ApplicationHelper::stringURLSafe($table->alias, $table->language);
+		$table->alias = ApplicationHelper::stringURLSafe($table->alias, $table->language);
 
 		if (empty($table->alias))
 		{
-			$table->alias =  ApplicationHelper::stringURLSafe($table->name, $table->language);
+			$table->alias = ApplicationHelper::stringURLSafe($table->name, $table->language);
 		}
 
 		if (empty($table->id))
@@ -394,7 +394,7 @@ class NewsfeedModel extends AdminModel
 	 *
 	 * @since   1.6
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		if ($this->canCreateCategory())
 		{
@@ -404,7 +404,7 @@ class NewsfeedModel extends AdminModel
 		// Association newsfeeds items
 		if (Associations::isEnabled())
 		{
-			$languages =  LanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
+			$languages = LanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
 
 			if (count($languages) > 1)
 			{

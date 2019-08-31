@@ -9,6 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
+use Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel;
+use Joomla\Registry\Registry;
+
 /**
  * Helper for mod_latestactions
  *
@@ -19,17 +24,18 @@ abstract class ModLatestActionsHelper
 	/**
 	 * Get a list of articles.
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  The module parameters.
+	 * @param   Registry  &$params  The module parameters.
 	 *
 	 * @return  mixed  An array of action logs, or false on error.
+	 *
+	 * @since   3.9.1
+	 *
+	 * @throws  Exception
 	 */
 	public static function getList(&$params)
 	{
-		JLoader::register('ActionlogsModelActionlogs', JPATH_ADMINISTRATOR . '/components/com_actionlogs/models/actionlogs.php');
-		JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
-
-		/* @var ActionlogsModelActionlogs $model */
-		$model = JModelLegacy::getInstance('Actionlogs', 'ActionlogsModel', array('ignore_request' => true));
+		/** @var ActionlogsModel $model */
+		$model = new ActionlogsModel(['ignore_request' => true]);
 
 		// Set the Start and Limit
 		$model->setState('list.start', 0);
@@ -53,7 +59,7 @@ abstract class ModLatestActionsHelper
 	/**
 	 * Get the alternate title for the module
 	 *
-	 * @param   \Joomla\Registry\Registry  $params  The module parameters.
+	 * @param   Registry  $params  The module parameters.
 	 *
 	 * @return  string    The alternate title for the module.
 	 *
@@ -61,6 +67,6 @@ abstract class ModLatestActionsHelper
 	 */
 	public static function getTitle($params)
 	{
-		return JText::plural('MOD_LATESTACTIONS_TITLE', $params->get('count', 5));
+		return Text::plural('MOD_LATESTACTIONS_TITLE', $params->get('count', 5));
 	}
 }
