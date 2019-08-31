@@ -64,7 +64,7 @@ foreach ($fields as $field)
 	$content = FieldsHelper::render($context, 'field.' . $layout, array('field' => $field));
 
 	// If the content is empty do nothing
-	if (trim($content) === '') 
+	if (trim($content) === '')
 	{
 		continue;
 	}
