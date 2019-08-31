@@ -811,7 +811,7 @@ abstract class AdminModel extends FormModel
 	 */
 	public function delete(&$pks)
 	{
-		$pks = (array) $pks;
+		$pks   = ArrayHelper::toInteger((array) $pks);
 		$table = $this->getTable();
 
 		// Include the plugins for the delete events.
@@ -841,11 +841,22 @@ abstract class AdminModel extends FormModel
 					{
 						$db = $this->getDbo();
 						$query = $db->getQuery(true)
-							->select('COUNT(*) as count, ' . $db->quoteName('as1.key'))
-							->from($db->quoteName('#__associations') . ' AS as1')
-							->join('LEFT', $db->quoteName('#__associations') . ' AS as2 ON ' . $db->quoteName('as1.key') . ' =  ' . $db->quoteName('as2.key'))
-							->where($db->quoteName('as1.context') . ' = ' . $db->quote($this->associationsContext))
-							->where($db->quoteName('as1.id') . ' = ' . (int) $pk)
+							->select(
+								[
+									'COUNT(*) AS ' . $db->quoteName('count'),
+									$db->quoteName('as1.key'),
+								]
+							)
+							->from($db->quoteName('#__associations', 'as1'))
+							->join('LEFT', $db->quoteName('#__associations', 'as2'), $db->quoteName('as1.key') . ' = ' . $db->quoteName('as2.key'))
+							->where(
+								[
+									$db->quoteName('as1.context') . ' = :context',
+									$db->quoteName('as1.id') . ' = :pk',
+								]
+							)
+							->bind(':context', $this->associationsContext)
+							->bind(':pk', $pk, ParameterType::INTEGER)
 							->group($db->quoteName('as1.key'));
 
 						$db->setQuery($query);
@@ -855,12 +866,19 @@ abstract class AdminModel extends FormModel
 						{
 							$query = $db->getQuery(true)
 								->delete($db->quoteName('#__associations'))
-								->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext))
-								->where($db->quoteName('key') . ' = ' . $db->quote($row['key']));
+								->where(
+									[
+										$db->quoteName('context') . ' = :context',
+										$db->quoteName('key') . ' = :key',
+									]
+								)
+								->bind(':context', $this->associationsContext)
+								->bind(':key', $row['key']);
 
 							if ($row['count'] > 2)
 							{
-								$query->where($db->quoteName('id') . ' = ' . (int) $pk);
+								$query->where($db->quoteName('id') . ' = :pk')
+									->bind(':pk', $pk, ParameterType::INTEGER);
 							}
 
 							$db->setQuery($query);
