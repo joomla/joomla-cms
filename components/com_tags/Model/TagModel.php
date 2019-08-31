@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -279,7 +279,7 @@ class TagModel extends ListModel
 			}
 
 			// Get a level row instance.
-			/* @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+			/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
 			$table = $this->getTable();
 
 			$idsArray = explode(',', $pk);
@@ -344,7 +344,7 @@ class TagModel extends ListModel
 		{
 			$pk    = (!empty($pk)) ? $pk : (int) $this->getState('tag.id');
 
-			/* @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+			/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
 			$table = $this->getTable();
 			$table->load($pk);
 			$table->hit($pk);

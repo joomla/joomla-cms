@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((document) => {
@@ -214,7 +214,7 @@
           return isValid;
         }
 
-        if (element.hasAttributte('required') || element.classList.contains('required')) {
+        if (element.hasAttribute('required') || element.classList.contains('required')) {
           this.handleResponse(false, element, 'empty');
           return false;
         }

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,16 +28,17 @@ class TagsController extends BaseController
 	 */
 	public function searchAjax()
 	{
+		$user = $this->app->getIdentity();
+
 		// Receive request data
 		$filters = array(
 			'like'      => trim($this->input->get('like', null, 'string')),
 			'title'     => trim($this->input->get('title', null, 'string')),
 			'flanguage' => $this->input->get('flanguage', null, 'word'),
 			'published' => $this->input->get('published', 1, 'int'),
-			'parent_id' => $this->input->get('parent_id', 0, 'int')
+			'parent_id' => $this->input->get('parent_id', 0, 'int'),
+			'access'    => $user->getAuthorisedViewLevels(),
 		);
-
-		$user = $this->app->getIdentity();
 
 		if ((!$user->authorise('core.edit.state', 'com_tags')) && (!$user->authorise('core.edit', 'com_tags')))
 		{

@@ -1,9 +1,9 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  Layout
+ * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ HTMLHelper::_('behavior.core');
 $title = $displayData['title'];
 
 ?>
-<button data-toggle="modal" onclick="{document.getElementById('collapseModal').open(); return true;}" class="btn btn-sm btn-primary">
+<button type="button" data-toggle="modal" onclick="{document.getElementById('collapseModal').open(); return true;}" class="btn btn-sm btn-primary">
 	<span class="icon-checkbox-partial" aria-hidden="true"></span>
 	<?php echo $title; ?>
 </button>

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -67,7 +67,8 @@ foreach ($fields as $field)
 		continue;
 	}
 
-	echo FieldsHelper::render($context, 'field.render', array('field' => $field));
+	$layout = $field->params->get('layout', 'render');
+	echo FieldsHelper::render($context, 'field.' . $layout, array('field' => $field));
 }
 
 if (!$isMail)

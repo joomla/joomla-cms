@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ namespace Joomla\Component\Newsfeeds\Site\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -35,27 +36,45 @@ class CategoryModel extends ListModel
 	 */
 	protected $_item = null;
 
+	/**
+	 * Array of newsfeeds in the category
+	 *
+	 * @var    \stdClass[]
+	 */
 	protected $_articles = null;
 
+	/**
+	 * Category left and right of this one
+	 *
+	 * @var    CategoryNode[]|null
+	 */
 	protected $_siblings = null;
 
+	/**
+	 * Array of child-categories
+	 *
+	 * @var    CategoryNode[]|null
+	 */
 	protected $_children = null;
 
+	/**
+	 * Parent category of the current one
+	 *
+	 * @var    CategoryNode|null
+	 */
 	protected $_parent = null;
 
 	/**
 	 * The category that applies.
 	 *
-	 * @access    protected
-	 * @var        object
+	 * @var    object
 	 */
 	protected $_category = null;
 
 	/**
 	 * The list of other newsfeed categories.
 	 *
-	 * @access    protected
-	 * @var        array
+	 * @var    array
 	 */
 	protected $_categories = null;
 
@@ -157,14 +176,13 @@ class CategoryModel extends ListModel
 		}
 
 		// Filter by start and end dates.
-		$nullDate = $db->quote($db->getNullDate());
 		$date = Factory::getDate();
 		$nowDate = $db->quote($date->format($db->getDateFormat()));
 
 		if ($this->getState('filter.publish_date'))
 		{
-			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+			$query->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= ' . $db->quote($nowDate) . ')')
+				->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= ' . $db->quote($nowDate) . ')');
 		}
 
 		// Filter by search in title

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -87,9 +87,17 @@ if ($readonly)
 	}
 }
 else
-// Create a regular list.
+// Create a regular list passing the arguments in an array.
 {
-	$html[] = HTMLHelper::_('select.genericlist', $options, $name, trim($attr), 'value', 'text', $value, $id);
+	$listoptions = array();
+	$listoptions['option.key'] = 'value';
+	$listoptions['option.text'] = 'text';
+	$listoptions['list.select'] = $value;
+	$listoptions['id'] = $id;
+	$listoptions['list.translate'] = false;
+	$listoptions['option.attr'] = 'optionattr';
+	$listoptions['list.attr'] = trim($attr);
+	$html[] = HTMLHelper::_('select.genericlist', $options, $name, $listoptions);
 }
 
 echo implode($html);

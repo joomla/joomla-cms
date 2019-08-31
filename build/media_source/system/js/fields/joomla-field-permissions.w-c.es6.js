@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 window.customElements.define('joomla-field-permissions', class extends HTMLElement {
@@ -24,7 +24,6 @@ window.customElements.define('joomla-field-permissions', class extends HTMLEleme
     this.extension = this.getUrlParam('extension');
     this.option = this.getUrlParam('option');
     this.view = this.getUrlParam('view');
-    this.title = this.component;
     this.asset = 'not';
     this.context = '';
   }

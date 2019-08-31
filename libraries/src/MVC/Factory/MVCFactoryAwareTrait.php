@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ namespace Joomla\CMS\MVC\Factory;
 /**
  * MVCFactory aware trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 trait MVCFactoryAwareTrait
 {
@@ -19,7 +19,7 @@ trait MVCFactoryAwareTrait
 	 * The mvc factory.
 	 *
 	 * @var    MVCFactoryInterfaceCF
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $mvcFactory;
 
@@ -28,7 +28,7 @@ trait MVCFactoryAwareTrait
 	 *
 	 * @return  MVCFactoryInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \UnexpectedValueException
 	 */
 	protected function getMVCFactory(): MVCFactoryInterface
@@ -48,7 +48,7 @@ trait MVCFactoryAwareTrait
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setMVCFactory(MVCFactoryInterface $mvcFactory)
 	{

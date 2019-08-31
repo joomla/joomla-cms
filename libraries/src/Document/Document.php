@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -543,14 +543,14 @@ class Document
 	 */
 	public function addScriptDeclaration($content, $type = 'text/javascript')
 	{
-		if (!isset($this->_script[strtolower($type)]))
+		$type = strtolower($type);
+
+		if (empty($this->_script[$type]))
 		{
-			$this->_script[strtolower($type)] = $content;
+			$this->_script[$type] = array();
 		}
-		else
-		{
-			$this->_script[strtolower($type)] .= chr(13) . $content;
-		}
+
+		$this->_script[$type][md5($content)] = $content;
 
 		return $this;
 	}
@@ -575,7 +575,7 @@ class Document
 
 		if ($merge && is_array($options))
 		{
-			$this->scriptOptions[$key] = array_merge($this->scriptOptions[$key], $options);
+			$this->scriptOptions[$key] = array_replace_recursive($this->scriptOptions[$key], $options);
 		}
 		else
 		{
@@ -651,14 +651,14 @@ class Document
 	 */
 	public function addStyleDeclaration($content, $type = 'text/css')
 	{
-		if (!isset($this->_style[strtolower($type)]))
+		$type = strtolower($type);
+
+		if (empty($this->_style[$type]))
 		{
-			$this->_style[strtolower($type)] = $content;
+			$this->_style[$type] = array();
 		}
-		else
-		{
-			$this->_style[strtolower($type)] .= chr(13) . $content;
-		}
+
+		$this->_style[$type][md5($content)] = $content;
 
 		return $this;
 	}

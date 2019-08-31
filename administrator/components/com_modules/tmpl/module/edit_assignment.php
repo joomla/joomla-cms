@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -121,7 +121,7 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 				<div style="display:none" id="treeselectmenu">
 					<div class="nav-hover treeselect-menu">
 						<div class="dropdown">
-							<button type="button" data-toggle="dropdown" class="dropdown-toggle btn btn-sm btn-secondary">
+							<button type="button" data-toggle="dropdown" class="dropdown-toggle btn btn-sm btn-light">
 								<span class="caret"></span>
 								<span class="sr-only"><?php echo Text::sprintf('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
 							</button>

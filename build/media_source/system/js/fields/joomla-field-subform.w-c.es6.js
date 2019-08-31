@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,9 +66,6 @@
           }
         }
       }
-
-      // Last row number, help to avoid the name duplications
-      this.lastRowNum = this.getRows().length;
 
       // Template for the repeating group
       this.template = '';
@@ -249,21 +246,15 @@
          * @param {Number} count
          */
     fixUniqueAttributes(row, count) {
-      this.lastRowNum++;
       count = count || 0;
 
       const group = row.getAttribute('data-group');
       // current group name
 
       const basename = row.getAttribute('data-base-name');
-      // group base name, without count
 
-      const countnew = Math.max(this.lastRowNum, count);
+      const groupnew = basename + count; // new group name
 
-
-      const groupnew = basename + countnew; // new group name
-
-      this.lastRowNum = countnew + 1;
       row.setAttribute('data-group', groupnew);
 
       // Fix inputs that have a "name" attribute

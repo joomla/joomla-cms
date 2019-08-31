@@ -1,11 +1,11 @@
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 /**
  * Ajax call to get the update status of Joomla
  */
-((window, document, Joomla) => {
+((document, Joomla) => {
   'use strict';
 
   const checkForJoomlaUpdates = () => {
@@ -27,7 +27,7 @@
       };
 
       Joomla.request({
-        url: `${options.ajaxUrl}&eid=700&cache_timeout=3600`,
+        url: options.ajaxUrl,
         method: 'GET',
         data: '',
         perform: true,
@@ -42,24 +42,7 @@
               const updateInfo = updateInfoList.shift();
 
               if (updateInfo.version !== options.version) {
-                const messages = {
-                  warning: [
-                    `<div class="message-alert">
-  ${Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE').replace('%s', `<span class="badge badge-danger"> \u200E ${updateInfo.version}</span>`)}
-  <button type="button" class="btn btn-sm btn-primary" onclick="document.location='${options.url}'">
-    ${Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_BUTTON')}
-  </button>
-</div>`,
-                  ],
-                };
-
-                // Render the message
-                Joomla.renderMessages(messages);
-
-                // Scroll to page top
-                window.scrollTo(0, 0);
-
-                update('warning', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND').replace('%s', `<span class="badge badge-light"> \u200E ${updateInfo.version}</span>`));
+                update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND').replace('%s', `<span class="badge badge-light"> \u200E ${updateInfo.version}</span>`));
               } else {
                 update('success', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE'));
               }
@@ -92,4 +75,4 @@
 
   // Initialize
   document.addEventListener('DOMContentLoaded', onBoot);
-})(window, document, Joomla);
+})(document, Joomla);

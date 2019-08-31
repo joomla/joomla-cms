@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -183,6 +183,18 @@ class Modules
 		$customGroupText = Text::_('COM_MODULES_CUSTOM_POSITION');
 		$editPositions   = true;
 		$customPositions = ModulesHelper::getPositions($clientId, $editPositions);
+
+		$app = Factory::getApplication();
+
+		$position = $app->getUserState('com_modules.modules.filter.position');
+
+		if ($position)
+		{
+			$customPositions[] = HTMLHelper::_('select.option', $position);
+
+			$customPositions = array_unique($customPositions, SORT_REGULAR);
+		}
+
 		$templateGroups[$customGroupText] = ModulesHelper::createOptionGroup($customGroupText, $customPositions);
 
 		return $templateGroups;

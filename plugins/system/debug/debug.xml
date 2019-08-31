@@ -3,12 +3,13 @@
 	<name>plg_system_debug</name>
 	<author>Joomla! Project</author>
 	<creationDate>December 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_DEBUG_XML_DESCRIPTION</description>
+	<namespace>Joomla\Plugin\System\Debug</namespace>
 	<files>
 		<filename plugin="debug">debug.php</filename>
 		<filename>debugmonitor.php</filename>

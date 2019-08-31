@@ -3,7 +3,7 @@
 	<field
 		name="client_id"
 		type="list"
-		label=""
+		label="COM_MENUS_SELECT_CLIENT_FILTER"
 		filtermode="selector"
 		onchange="this.form.submit();"
 		>
@@ -13,7 +13,7 @@
 	<field
 		name="menutype"
 		type="menu"
-		label="COM_MENUS_SELECT_MENU"
+		label="COM_MENUS_SELECT_MENU_FILTER"
 		accesstype="manage"
 		clientid=""
 		showAll="false"

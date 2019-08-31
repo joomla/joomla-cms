@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,9 +13,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Toolbar;
@@ -102,8 +101,8 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  mixed  False if unsuccessful, otherwise void.
 	 *
+	 * @throws  GenericDataException
 	 * @since   1.6
-	 * @throws  \JViewGenericdataexception
 	 */
 	public function display($tpl = null)
 	{
@@ -118,7 +117,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		if (!(PluginHelper::isEnabled('system', 'redirect') && RedirectHelper::collectUrlsEnabled()))
@@ -145,7 +144,7 @@ class HtmlView extends BaseHtmlView
 
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		ToolbarHelper::title(Text::_('COM_REDIRECT_MANAGER_LINKS'), 'refresh redirect');
+		ToolbarHelper::title(Text::_('COM_REDIRECT_MANAGER_LINKS'), 'map-signs redirect');
 
 		if ($canDo->get('core.create'))
 		{
@@ -157,8 +156,8 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-globe')
-				->buttonClass('btn btn-info')
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
 				->listCheck(true);
 
 			$childBar = $dropdown->getChildToolbar();
@@ -185,14 +184,14 @@ class HtmlView extends BaseHtmlView
 			{
 				$childBar->trash('links.trash')->listCheck(true);
 			}
-		}
 
-		if ($canDo->get('core.delete'))
-		{ 
-			$toolbar->delete('links.delete')
-				->text('JTOOLBAR_EMPTY_TRASH')
-				->message('JGLOBAL_CONFIRM_DELETE')
-				->listCheck(true);
+			if ($canDo->get('core.delete'))
+			{
+				$childBar->delete('links.delete')
+					->text('JTOOLBAR_EMPTY_TRASH')
+					->message('JGLOBAL_CONFIRM_DELETE')
+					->listCheck(true);
+			}
 		}
 
 		if (!$state->get('filter.state') == -2 && $canDo->get('core.delete'))

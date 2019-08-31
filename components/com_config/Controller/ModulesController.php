@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Administrator
+ * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Modules\Administrator\Controller\ModuleController;
 
@@ -73,11 +72,7 @@ class ModulesController extends BaseController
 	public function save()
 	{
 		// Check for request forgeries.
-		if (!Session::checkToken())
-		{
-			$this->app->enqueueMessage(Text::_('JINVALID_TOKEN'));
-			$this->app->redirect('index.php');
-		}
+		$this->checkToken();
 
 		// Check if the user is authorized to do this.
 		$user = Factory::getUser();

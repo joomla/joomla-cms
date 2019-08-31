@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -117,7 +117,7 @@ class Form
 	 */
 	public function bind($data)
 	{
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
 			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', get_class($this), __METHOD__));
@@ -197,7 +197,7 @@ class Form
 	}
 
 	/**
-	 * Method to get a form field represented as a JFormField object.
+	 * Method to get a form field represented as a FormField object.
 	 *
 	 * @param   string  $name   The name of the form field.
 	 * @param   string  $group  The optional dot-separated form group path on which to find the field.
@@ -209,7 +209,7 @@ class Form
 	 */
 	public function getField($name, $group = null, $value = null)
 	{
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
 			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', get_class($this), __METHOD__));
@@ -243,7 +243,7 @@ class Form
 	 */
 	public function getFieldAttribute($name, $attribute, $default = null, $group = null)
 	{
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
 			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', get_class($this), __METHOD__));
@@ -266,12 +266,12 @@ class Form
 	}
 
 	/**
-	 * Method to get an array of JFormField objects in a given fieldset by name.  If no name is
+	 * Method to get an array of FormField objects in a given fieldset by name.  If no name is
 	 * given then all fields are returned.
 	 *
 	 * @param   string  $set  The optional name of the fieldset.
 	 *
-	 * @return  array  The array of JFormField objects in the fieldset.
+	 * @return  FormField[]  The array of FormField objects in the fieldset.
 	 *
 	 * @since   1.7.0
 	 */
@@ -329,7 +329,7 @@ class Form
 		$fieldsets = array();
 		$sets = array();
 
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
 			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', get_class($this), __METHOD__));
@@ -440,13 +440,13 @@ class Form
 	}
 
 	/**
-	 * Method to get an array of JFormField objects in a given field group by name.
+	 * Method to get an array of FormField objects in a given field group by name.
 	 *
 	 * @param   string   $group   The dot-separated form group path for which to get the form fields.
 	 * @param   boolean  $nested  True to also include fields in nested groups that are inside of the
 	 *                            group for which to find fields.
 	 *
-	 * @return  array    The array of JFormField objects in the field group.
+	 * @return  FormField[]  The array of FormField objects in the field group.
 	 *
 	 * @since   1.7.0
 	 */
@@ -779,7 +779,7 @@ class Form
 	 */
 	public function removeField($name, $group = null)
 	{
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
 			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', get_class($this), __METHOD__));
@@ -812,7 +812,7 @@ class Form
 	 */
 	public function removeGroup($group)
 	{
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
 			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', get_class($this), __METHOD__));
@@ -870,7 +870,7 @@ class Form
 	 */
 	public function setField(\SimpleXMLElement $element, $group = null, $replace = true, $fieldset = 'default')
 	{
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
 			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', get_class($this), __METHOD__));
@@ -963,7 +963,7 @@ class Form
 	 */
 	public function setFieldAttribute($name, $attribute, $value, $group = null)
 	{
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
 			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', get_class($this), __METHOD__));
@@ -1007,7 +1007,7 @@ class Form
 	 */
 	public function setFields(&$elements, $group = null, $replace = true, $fieldset = 'default')
 	{
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
 			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', get_class($this), __METHOD__));
@@ -1080,7 +1080,7 @@ class Form
 	 *
 	 * @return  mixed  Array or false.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function process($data, $group = null)
 	{
@@ -1104,11 +1104,11 @@ class Form
 	 *
 	 * @return  mixed  Array or false.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function filter($data, $group = null)
 	{
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
 			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', get_class($this), __METHOD__));
@@ -1170,7 +1170,7 @@ class Form
 	 */
 	public function validate($data, $group = null)
 	{
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
 			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', get_class($this), __METHOD__));
@@ -1193,7 +1193,16 @@ class Form
 		// Validate the fields.
 		foreach ($fields as $field)
 		{
-			$name = (string) $field['name'];
+			$name     = (string) $field['name'];
+			$disabled = ((string) $field['disabled'] == 'true' || (string) $field['disabled'] == 'disabled');
+
+			$fieldExistsInRequestData = $input->exists($name) || $input->exists($group . '.' . $name);
+
+			// If the field is disabled but it is passed in the request this is invalid as disabled fields are not added to the request
+			if ($disabled && $fieldExistsInRequestData)
+			{
+				throw new \RuntimeException(Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $name));
+			}
 
 			// Get the field groups for the element.
 			$attrs = $field->xpath('ancestor::fields[@name]/@name');
@@ -1202,11 +1211,11 @@ class Form
 
 			$key = $attrGroup ? $attrGroup . '.' . $name : $name;
 
-			$fieldObj = $this->loadField($field, $group);
+			$fieldObj = $this->loadField($field, $attrGroup);
 
 			if ($fieldObj)
 			{
-				$valid = $fieldObj->validate($input->get($key), $group, $input);
+				$valid = $fieldObj->validate($input->get($key), $attrGroup, $input);
 
 				// Check for an error.
 				if ($valid instanceof \Exception)
@@ -1295,7 +1304,7 @@ class Form
 		$element = false;
 		$fields = array();
 
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
 			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', get_class($this), __METHOD__));
@@ -1385,7 +1394,7 @@ class Form
 	{
 		$false = false;
 
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
 			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', get_class($this), __METHOD__));
@@ -1419,7 +1428,7 @@ class Form
 		$false = false;
 		$fields = array();
 
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
 			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', get_class($this), __METHOD__));
@@ -1493,7 +1502,7 @@ class Form
 		$groups = array();
 		$tmp = array();
 
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
 			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', get_class($this), __METHOD__));
@@ -1561,7 +1570,7 @@ class Form
 	}
 
 	/**
-	 * Method to load, setup and return a JFormField object based on field data.
+	 * Method to load, setup and return a FormField object based on field data.
 	 *
 	 * @param   string  $element  The XML element object representation of the form field.
 	 * @param   string  $group    The optional dot-separated form group path on which to find the field.
@@ -1582,7 +1591,7 @@ class Form
 		// Get the field type.
 		$type = $element['type'] ? (string) $element['type'] : 'text';
 
-		// Load the JFormField object for the field.
+		// Load the FormField object for the field.
 		$field = FormHelper::loadFieldType($type);
 
 		// If the object could not be loaded, get a text field object.
@@ -1620,7 +1629,7 @@ class Form
 			$value = $this->getValue((string) $element['name'], $group, $default);
 		}
 
-		// Setup the JFormField object.
+		// Setup the FormField object.
 		$field->setForm($this);
 
 		if ($field->setup($element, $value, $group))
@@ -1643,7 +1652,7 @@ class Form
 	 */
 	protected function syncPaths()
 	{
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
 			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', get_class($this), __METHOD__));
@@ -1788,7 +1797,7 @@ class Form
 	 * @return  array  The list of paths that have been added.
 	 *
 	 * @see     FormHelper::addFilterPath()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function addFilterPath($new = null)
 	{

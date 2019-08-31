@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Console;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\DI\ContainerAwareInterface;
@@ -32,7 +32,7 @@ class SessionGcCommand extends AbstractCommand implements ContainerAwareInterfac
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected static $defaultName = 'session:gc';
 
@@ -61,7 +61,7 @@ class SessionGcCommand extends AbstractCommand implements ContainerAwareInterfac
 
 		if ($gcResult === false)
 		{
-			$symfonyStyle->error('Garbage collection was not completed. Either the operation failed or is not supported on your platform.');
+			$symfonyStyle->error('Garbage collection was not completed. Either the operation failed or it is not supported on your platform.');
 
 			return 1;
 		}
@@ -78,12 +78,12 @@ class SessionGcCommand extends AbstractCommand implements ContainerAwareInterfac
 	 *
 	 * @since   4.0.0
 	 */
-	protected function configure()
+	protected function configure(): void
 	{
-		$this->setDescription('Performs session garbage collection');
+		$this->setDescription('Perform session garbage collection');
 		$this->addOption('application', 'app', InputOption::VALUE_OPTIONAL, 'The application to perform garbage collection for.', 'site');
 		$this->setHelp(
-<<<EOF
+			<<<EOF
 The <info>%command.name%</info> command runs PHP's garbage collection operation for session data
 
 <info>php %command.full_name%</info>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -179,7 +179,7 @@ class MenusModel extends ListModel
 		if ($search = trim($this->getState('filter.search')))
 		{
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where('(' . 'a.title LIKE ' . $search . ' OR a.menutype LIKE ' . $search . ')');
+			$query->where('(a.title LIKE ' . $search . ' OR a.menutype LIKE ' . $search . ')');
 		}
 
 		// Add the list ordering clause.

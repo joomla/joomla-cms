@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -371,6 +371,7 @@ class Nested extends Table
 		/*
 		 * Close the hole in the tree that was opened by removing the sub-tree from the nested sets.
 		 */
+
 		// Compress the left values.
 		$query->clear()
 			->update($this->_tbl)
@@ -419,7 +420,9 @@ class Nested extends Table
 				->from($this->_tbl)
 				->where('parent_id = 0')
 				->order('lft DESC');
-			$this->_db->setQuery($query, 0, 1);
+
+			$query->setLimit(1);
+			$this->_db->setQuery($query);
 			$reference = $this->_db->loadObject();
 
 			if ($this->_debug)
@@ -793,7 +796,9 @@ class Nested extends Table
 						->from($this->_tbl)
 						->where('parent_id = 0')
 						->order('lft DESC');
-					$this->_db->setQuery($query, 0, 1);
+
+					$query->setLimit(1);
+					$this->_db->setQuery($query);
 					$reference = $this->_db->loadObject();
 
 					if ($this->_debug)
@@ -1020,7 +1025,8 @@ class Nested extends Table
 					->where($published . ' < ' . (int) $compareState);
 
 				// Just fetch one row (one is one too many).
-				$this->_db->setQuery($query, 0, 1);
+				$query->setLimit(1);
+				$this->_db->setQuery($query);
 
 				if ($this->_db->loadResult())
 				{
@@ -1585,10 +1591,11 @@ class Nested extends Table
 
 		// Update and cascade the publishing state.
 		$query->clear()
-			->update("$table AS c")
-			->innerJoin("($subquery) AS c2 ON c2.newId = c.$key")
-			->set("$published = c2.newPublished")
-			->where("c.$key IN (" . implode(',', $pks) . ")");
+			->update($table)
+			->innerJoin("($subquery) AS c2")
+			->set("$published = " . $this->_db->quoteName("c2.newpublished"))
+			->where("$key = c2.newId")
+			->where("$key IN (" . implode(',', $pks) . ")");
 
 		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_STORE_FAILED');
 
@@ -1635,7 +1642,8 @@ class Nested extends Table
 			->from($this->_tbl)
 			->where($k . ' = ' . (int) $id);
 
-		$row = $this->_db->setQuery($query, 0, 1)->loadObject();
+		$query->setLimit(1);
+		$row = $this->_db->setQuery($query)->loadObject();
 
 		// Check for no $row returned
 		if (empty($row))

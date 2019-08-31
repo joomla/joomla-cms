@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -142,7 +142,7 @@ class FieldsModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.name, a.checked_out, a.checked_out_time, a.note' .
+				'DISTINCT a.id, a.title, a.name, a.checked_out, a.checked_out_time, a.note' .
 				', a.state, a.access, a.created_time, a.created_user_id, a.ordering, a.language' .
 				', a.fieldparams, a.params, a.type, a.default_value, a.context, a.group_id' .
 				', a.label, a.description, a.required'
@@ -164,7 +164,7 @@ class FieldsModel extends ListModel
 		$query->select('ua.name AS author_name')->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
 
 		// Join over the field groups.
-		$query->select('g.title AS group_title, g.access as group_access, g.state AS group_state');
+		$query->select('g.title AS group_title, g.access as group_access, g.state AS group_state, g.note as group_note');
 		$query->join('LEFT', '#__fields_groups AS g ON g.id = a.group_id');
 
 		// Filter by context
@@ -196,7 +196,13 @@ class FieldsModel extends ListModel
 			if ($parts)
 			{
 				// Get the category
-				$cat = Categories::getInstance(str_replace('com_', '', $parts[0]));
+				$cat = Categories::getInstance(str_replace('com_', '', $parts[0]) . '.' . $parts[1]);
+
+				// If there is no category for the component and section, so check the component only
+				if (!$cat)
+				{
+					$cat = Categories::getInstance(str_replace('com_', '', $parts[0]));
+				}
 
 				if ($cat)
 				{

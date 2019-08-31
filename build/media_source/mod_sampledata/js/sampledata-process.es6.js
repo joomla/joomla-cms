@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((window, document, Joomla) => {
@@ -12,7 +12,7 @@
 
   Joomla.sampledataAjax = (type, steps, step) => {
     // Get variables
-    const baseUrl = 'index.php?option=com_ajax&format=json&group=sampledata';
+    const baseUrl = `index.php?option=com_ajax&format=json&group=sampledata&${Joomla.getOptions('csrf.token')}=1`;
     const options = Joomla.getOptions('sample-data');
 
     // Create list

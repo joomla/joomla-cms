@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Input;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filter\InputFilter;
 
@@ -88,7 +88,7 @@ class Cookie extends Input
 	 */
 	public function set($name, $value, $expire = 0, $path = '', $domain = '', $secure = false, $httpOnly = false)
 	{
-		if (is_array($value))
+		if (\is_array($value))
 		{
 			foreach ($value as $key => $val)
 			{

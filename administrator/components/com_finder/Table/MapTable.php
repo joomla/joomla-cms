@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Nested;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Utilities\ArrayHelper;
@@ -43,7 +44,7 @@ class MapTable extends Nested
 	 * @return  boolean
 	 *
 	 * @see     Table::check()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function check()
 	{
@@ -108,7 +109,7 @@ class MapTable extends Nested
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+				$this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 				return false;
 			}

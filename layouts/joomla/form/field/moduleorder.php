@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,7 +48,7 @@ extract($displayData);
  */
 
 // Initialize some field attributes.
-$attributes['id'] = 'id="' . $id . '"';
+$attributes['dataid'] = 'data-id="' . $id . '"';
 $attributes['data-url'] = 'data-url="index.php?option=com_modules&task=module.orderPosition&' . $token . '"';
 $attributes['data-element'] = 'data-element="parent_' . $id . '"';
 $attributes['data-ordering'] = 'data-ordering="' . $ordering . '"';

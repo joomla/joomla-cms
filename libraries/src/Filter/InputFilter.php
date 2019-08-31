@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\Filter;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Filter\InputFilter as BaseInputFilter;
 
 /**
@@ -134,7 +135,7 @@ class InputFilter extends BaseInputFilter
 			foreach ($matches[0] as $match)
 			{
 				$match  = (string) str_replace(array('?', '"'), '', $match);
-				$text   = (string) str_replace($match, \JStringPunycode::emailToPunycode($match), $text);
+				$text   = (string) str_replace($match, PunycodeHelper::emailToPunycode($match), $text);
 			}
 		}
 
@@ -148,6 +149,7 @@ class InputFilter extends BaseInputFilter
 	 * null_byte                   Prevent files with a null byte in their name (buffer overflow attack)
 	 * forbidden_extensions        Do not allow these strings anywhere in the file's extension
 	 * php_tag_in_content          Do not allow `<?php` tag in content
+	 * phar_stub_in_content        Do not allow the `__HALT_COMPILER()` phar stub in content
 	 * shorttag_in_content         Do not allow short tag `<?` in content
 	 * shorttag_extensions         Which file extensions to scan for short tags in content
 	 * fobidden_ext_in_content     Do not allow forbidden_extensions anywhere in content
@@ -180,6 +182,9 @@ class InputFilter extends BaseInputFilter
 
 			// <? tag in file contents
 			'shorttag_in_content'        => true,
+
+			// __HALT_COMPILER()
+			'phar_stub_in_content'        => true,
 
 			// Which file extensions to scan for short tags
 			'shorttag_extensions'        => array(
@@ -283,7 +288,7 @@ class InputFilter extends BaseInputFilter
 
 				// 3. File contents scanner (PHP tag in file contents)
 				if ($options['php_tag_in_content']
-					|| $options['shorttag_in_content']
+					|| $options['shorttag_in_content'] || $options['phar_stub_in_content']
 					|| ($options['fobidden_ext_in_content'] && !empty($options['forbidden_extensions'])))
 				{
 					$fp = @fopen($tempName, 'r');
@@ -296,7 +301,12 @@ class InputFilter extends BaseInputFilter
 						{
 							$data .= @fread($fp, 131072);
 
-							if ($options['php_tag_in_content'] && stristr($data, '<?php'))
+							if ($options['php_tag_in_content'] && stripos($data, '<?php') !== false)
+							{
+								return false;
+							}
+
+							if ($options['phar_stub_in_content'] && stripos($data, '__HALT_COMPILER()') !== false)
 							{
 								return false;
 							}
@@ -450,17 +460,21 @@ class InputFilter extends BaseInputFilter
 		$source = strtr($source, $ttr);
 
 		// Convert decimal
-		$source = preg_replace_callback('/&#(\d+);/m', function($m)
-		{
-			return utf8_encode(chr($m[1]));
-		}, $source
+		$source = preg_replace_callback(
+			'/&#(\d+);/m',
+			function ($m) {
+				return utf8_encode(chr($m[1]));
+			},
+			$source
 		);
 
 		// Convert hex
-		$source = preg_replace_callback('/&#x([a-f0-9]+);/mi', function($m)
-		{
-			return utf8_encode(chr('0x' . $m[1]));
-		}, $source
+		$source = preg_replace_callback(
+			'/&#x([a-f0-9]+);/mi',
+			function ($m) {
+				return utf8_encode(chr('0x' . $m[1]));
+			},
+			$source
 		);
 
 		return $source;

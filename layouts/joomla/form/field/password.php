@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -96,7 +96,7 @@ $attributes = array(
 			<?php echo implode(' ', $attributes); ?>>
 		<span class="input-group-append">
 			<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-			<span class="input-group-text icon-eye" aria-hidden="true"></span>
+			<span class="input-group-text icon-eye input-password-toggle" aria-hidden="true"></span>
 		</span>
 	</div>
 </div>

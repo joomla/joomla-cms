@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,11 +40,12 @@ class HtmlView extends BaseHtmlView
 
 		$this->items = $model->getItems();
 
-		$this->eid = (int) $model->getState('eid', '700', 'int');
+		$this->joomlaFilesExtensionId = $model->getJoomlaFilesExtensionId();
+		$this->eid                    = (int) $model->getState('eid', $this->joomlaFilesExtensionId, 'int');
 
 		if (empty($this->eid))
 		{
-			$this->eid = 700;
+			$this->eid = $this->joomlaFilesExtensionId;
 		}
 
 		$this->toolbar();

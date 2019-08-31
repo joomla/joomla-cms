@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Http;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Http\Http as FrameworkHttp;
 use Joomla\Http\TransportInterface as FrameworkTransportInterface;
@@ -32,7 +32,7 @@ class Http extends FrameworkHttp
 	 */
 	public function __construct($options = [], FrameworkTransportInterface $transport = null)
 	{
-		if (!is_array($options) && !($options instanceof \ArrayAccess))
+		if (!\is_array($options) && !($options instanceof \ArrayAccess))
 		{
 			throw new \InvalidArgumentException(
 				'The options param must be an array or implement the ArrayAccess interface.'

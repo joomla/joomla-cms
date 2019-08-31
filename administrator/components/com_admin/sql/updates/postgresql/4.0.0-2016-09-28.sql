@@ -1,1 +1,1 @@
-DELETE FROM "#__extensions" WHERE "extension_id" = 423;
+DELETE FROM "#__extensions" WHERE "type" = 'plugin' AND "element" = 'p3p' AND "folder" = 'system';

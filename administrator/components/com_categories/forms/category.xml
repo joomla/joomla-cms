@@ -120,12 +120,6 @@
 	</field>
 
 	<field
-		name="buttonspacer"
-		type="spacer"
-		label="JGLOBAL_ACTION_PERMISSIONS_LABEL"
-	/>
-
-	<field
 		name="checked_out"
 		type="hidden"
 		filter="unset"
@@ -167,11 +161,12 @@
 
 	<field
 		name="created_time"
-		type="text"
+		type="calendar"
 		label="JGLOBAL_CREATED_DATE"
-		class="readonly"
-		filter="unset"
-		readonly="true"
+		translateformat="true"
+		showtime="true"
+		size="22"
+		filter="user_utc"
 	/>
 
 	<field
@@ -185,11 +180,14 @@
 
 	<field
 		name="modified_time"
-		type="text"
+		type="calendar"
 		label="JGLOBAL_FIELD_MODIFIED_LABEL"
 		class="readonly"
-		filter="unset"
+		translateformat="true"
+		showtime="true"
+		size="22"
 		readonly="true"
+		filter="user_utc"
 	/>
 
 	<field
@@ -219,31 +217,34 @@
 		section="category"
 	/>
 
-	<fields name="params" label="COM_CATEGORIES_FIELD_BASIC_LABEL">
+	<fields name="params">
 
-		<fieldset name="basic">
+		<fieldset name="options">
 
-			<field
-				name="category_layout"
-				type="componentlayout"
-				label="JFIELD_ALT_LAYOUT_LABEL"
-				class="custom-select"
-				view="category"
-				useglobal="true"
-			/>
+			<fieldset name="basic" label="COM_CATEGORIES_FIELD_BASIC_LABEL">
 
-			<field
-				name="image"
-				type="media"
-				label="COM_CATEGORIES_FIELD_IMAGE_LABEL"
-			/>
+				<field
+					name="category_layout"
+					type="componentlayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					class="custom-select"
+					view="category"
+					useglobal="true"
+				/>
 
-			<field
-				name="image_alt"
-				type="text"
-				label="COM_CATEGORIES_FIELD_IMAGE_ALT_LABEL"
-				size="20"
-			/>
+				<field
+					name="image"
+					type="media"
+					label="COM_CATEGORIES_FIELD_IMAGE_LABEL"
+				/>
+
+				<field
+					name="image_alt"
+					type="text"
+					label="COM_CATEGORIES_FIELD_IMAGE_ALT_LABEL"
+					size="20"
+				/>
+			</fieldset>
 		</fieldset>
 	</fields>
 

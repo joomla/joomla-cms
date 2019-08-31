@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_news
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,8 +18,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-
-\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
 /**
  * Helper for mod_articles_news
@@ -41,7 +40,7 @@ abstract class ArticlesNewsHelper
 	{
 		$app = Factory::getApplication();
 
-		// Get an instance of the generic articles model
+		/** @var \Joomla\Component\Content\Site\Model\ArticlesModel $model */
 		$model = $app->bootComponent('com_content')
 			->getMVCFactory()->createModel('Articles', 'Site', ['ignore_request' => true]);
 
@@ -49,10 +48,11 @@ abstract class ArticlesNewsHelper
 		$appParams = $app->getParams();
 		$model->setState('params', $appParams);
 
-		// Set the filters based on the module params
 		$model->setState('list.start', 0);
+		$model->setState('filter.condition', ContentComponent::CONDITION_PUBLISHED);
+
+		// Set the filters based on the module params
 		$model->setState('list.limit', (int) $params->get('count', 5));
-		$model->setState('filter.published', 1);
 
 		// This module does not use tags data
 		$model->setState('load_tags', false);
@@ -71,18 +71,30 @@ abstract class ArticlesNewsHelper
 		// Filer by tag
 		$model->setState('filter.tag', $params->get('tag', array()));
 
-		//  Featured switch
-		switch ($params->get('show_featured'))
+		// Featured switch
+		$featured = $params->get('show_featured', '');
+
+		if ($featured === '')
 		{
-			case 1 :
-				$model->setState('filter.featured', 'only');
-				break;
-			case 0 :
-				$model->setState('filter.featured', 'hide');
-				break;
-			default :
-				$model->setState('filter.featured', 'show');
-				break;
+			$model->setState('filter.featured', 'show');
+		}
+		elseif ($featured)
+		{
+			$model->setState('filter.featured', 'only');
+		}
+		else
+		{
+			$model->setState('filter.featured', 'hide');
+		}
+
+		// Filter by id in case it should be excluded
+		if ($params->get('exclude_current', true)
+			&& $app->input->get('option') === 'com_content'
+			&& $app->input->get('view') === 'article')
+		{
+			// Exclude the current article from displaying in this module
+			$model->setState('filter.article_id', $app->input->get('id', 0, 'UINT'));
+			$model->setState('filter.article_id.include', false);
 		}
 
 		// Set ordering
@@ -91,7 +103,7 @@ abstract class ArticlesNewsHelper
 
 		if (trim($ordering) === 'rand()')
 		{
-			$model->setState('list.ordering', Factory::getDbo()->getQuery(true)->Rand());
+			$model->setState('list.ordering', Factory::getDbo()->getQuery(true)->rand());
 		}
 		else
 		{
@@ -126,9 +138,40 @@ abstract class ArticlesNewsHelper
 
 			$item->introtext = HTMLHelper::_('content.prepare', $item->introtext, '', 'mod_articles_news.content');
 
+			// Remove any images belongs to the text
 			if (!$params->get('image'))
 			{
 				$item->introtext = preg_replace('/<img[^>]*>/', '', $item->introtext);
+			}
+
+			// Show the Intro/Full image field of the article
+			if ($params->get('img_intro_full') !== 'none')
+			{
+				$images = json_decode($item->images);
+				$item->imageSrc = '';
+				$item->imageAlt = '';
+				$item->imageCaption = '';
+
+				if ($params->get('img_intro_full') === 'intro' && !empty($images->image_intro))
+				{
+					$item->imageSrc = htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8');
+					$item->imageAlt = htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8');
+
+					if ($images->image_intro_caption)
+					{
+						$item->imageCaption = htmlspecialchars($images->image_intro_caption, ENT_COMPAT, 'UTF-8');
+					}
+				}
+				elseif ($params->get('img_intro_full') === 'full' && !empty($images->image_fulltext))
+				{
+					$item->imageSrc = htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8');
+					$item->imageAlt = htmlspecialchars($images->image_fulltext_alt, ENT_COMPAT, 'UTF-8');
+
+					if ($images->image_intro_caption)
+					{
+						$item->imageCaption = htmlspecialchars($images->image_fulltext_caption, ENT_COMPAT, 'UTF-8');
+					}
+				}
 			}
 
 			if ($triggerEvents)

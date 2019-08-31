@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Interface for an immutable node class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface ImmutableNodeInterface
 {
@@ -24,7 +24,7 @@ interface ImmutableNodeInterface
 	 *
 	 * @return  NodeInterface[]  The children
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function &getChildren($recursive = false);
 
@@ -33,16 +33,16 @@ interface ImmutableNodeInterface
 	 *
 	 * @return  NodeInterface|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getParent();
 
 	/**
 	 * Get the root of the tree
-	 * 
+	 *
 	 * @return  ImmutableNodeInterface
-	 * 
-	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @since   4.0.0
 	 */
 	public function getRoot();
 
@@ -51,7 +51,7 @@ interface ImmutableNodeInterface
 	 *
 	 * @return  boolean  True if there is a child
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function hasChildren();
 
@@ -60,7 +60,7 @@ interface ImmutableNodeInterface
 	 *
 	 * @return  boolean  True if there is a parent
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function hasParent();
 
@@ -71,7 +71,7 @@ interface ImmutableNodeInterface
 	 *
 	 * @return  NodeInterface|null  NodeInterface object of the sibling.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getSibling($right = true);
 }

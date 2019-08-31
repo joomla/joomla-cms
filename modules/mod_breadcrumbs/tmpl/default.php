@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_breadcrumbs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,7 +58,7 @@ use Joomla\CMS\Language\Text;
 			<?php elseif ($show_last) :
 				$breadcrumbItem = '<span itemprop="name">' . $item->name . '</span>';
 				// Render last item if reqd. ?>
-				<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="mod-breadcrumbs__item breadcrumb-item active"><?php echo $breadcrumbItem; ?>
+				<li aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="mod-breadcrumbs__item breadcrumb-item active"><?php echo $breadcrumbItem; ?>
 					<meta itemprop="position" content="<?php echo $key + 1; ?>">
 				</li>
 			<?php endif;

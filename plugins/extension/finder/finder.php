@@ -3,23 +3,32 @@
  * @package     Joomla.Plugin
  * @subpackage  Extension.Finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
 
 /**
  * Finder extension plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PlgExtensionFinder extends CMSPlugin
 {
+	/**
+	 * Database object
+	 *
+	 * @var    DatabaseDriver
+	 * @since  4.0.0
+	 */
+	protected $db;
+
 	/**
 	 * Add common words to finder after language got installed
 	 *
@@ -28,7 +37,7 @@ class PlgExtensionFinder extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onExtensionAfterInstall($installer, $eid)
 	{
@@ -54,7 +63,7 @@ class PlgExtensionFinder extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onExtensionAfterUpdate($installer, $eid)
 	{
@@ -70,35 +79,42 @@ class PlgExtensionFinder extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function onExtensionBeforeUninstall($installer, $eid, $removed)
+	public function onExtensionAfterUninstall($installer, $eid, $removed)
 	{
-		$extension = $this->getLanguage($eid);
-
-		if ($extension)
+		// Check that the language was successfully uninstalled.
+		if ($eid && $removed && $installer->extension->type === 'language')
 		{
-			$this->removeCommonWords($extension);
+			$this->removeCommonWords($installer->extension);
 		}
 	}
 
 	/**
 	 * Get an object of information if the handled extension is a language
-	 * 
+	 *
 	 * @param   integer  $eid  Extensuon id
-	 * 
+	 *
 	 * @return  object
-	 * 
-	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @since   4.0.0
 	 */
 	protected function getLanguage($eid)
 	{
-		$db = Factory::getDbo();
+		$db  = $this->db;
+		$eid = (int) $eid;
+
 		$query = $db->getQuery(true)
-			->select('element, client_id')
-			->from('#__extensions')
-			->where('extension_id = ' . (int) $eid)
-			->where('type = ' . $db->quote('language'));
+			->select($db->quoteName(['element', 'client_id']))
+			->from($db->quoteName('#__extensions'))
+			->where(
+				[
+					$db->quoteName('extension_id') . ' = :eid',
+					$db->quoteName('type') . ' = ' . $db->quote('language'),
+				]
+			)
+			->bind(':eid', $eid, ParameterType::INTEGER);
+
 		$db->setQuery($query);
 		$extension = $db->loadObject();
 
@@ -107,12 +123,12 @@ class PlgExtensionFinder extends CMSPlugin
 
 	/**
 	 * Add common words from a txt file to com_finder
-	 * 
+	 *
 	 * @param   object  $extension  Extension object
-	 * 
+	 *
 	 * @return  void
-	 * 
-	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @since   4.0.0
 	 */
 	protected function addCommonWords($extension)
 	{
@@ -146,17 +162,21 @@ class PlgExtensionFinder extends CMSPlugin
 		);
 
 		$words = array_filter(array_map('trim', $words));
-		$db = Factory::getDbo();
+		$db    = $this->db;
 		$query = $db->getQuery(true);
+
 		require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/helper.php';
+
 		$lang = \FinderIndexerHelper::getPrimaryLanguage($extension->element);
-		$query->insert('#__finder_terms_common')
-			->columns(array($db->qn('term'), $db->qn('language'), $db->qn('custom')));
-		$template = ',' . $db->q($lang) . ',0';
+
+		$query->insert($db->quoteName('#__finder_terms_common'))
+			->columns($db->quoteName(['term', 'language', 'custom']));
 
 		foreach ($words as $word)
 		{
-			$query->values($db->q($word) . $template);
+			$bindNames = $query->bindArray([$word, $lang], ParameterType::STRING);
+
+			$query->values(implode(',', $bindNames) . ', 0');
 		}
 
 		try
@@ -172,22 +192,31 @@ class PlgExtensionFinder extends CMSPlugin
 
 	/**
 	 * Remove common words of a language from com_finder
-	 * 
+	 *
 	 * @param   object  $extension  Extension object
-	 * 
+	 *
 	 * @return  void
-	 * 
-	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @since   4.0.0
 	 */
 	protected function removeCommonWords($extension)
 	{
-		$db = Factory::getDbo();
+		$db = $this->db;
+
 		require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/helper.php';
+
 		$lang = \FinderIndexerHelper::getPrimaryLanguage($extension->element);
-		$query = $db->getQuery(true)
-			->delete('#__finder_terms_common')
-			->where('language = ' . $db->quote($lang))
-			->where('custom = 0');
+
+		$query = $db->getQuery(true);
+		$query->delete($db->quoteName('#__finder_terms_common'))
+			->where(
+				[
+					$db->quoteName('language') . ' = :lang',
+					$db->quoteName('custom') . ' = 0',
+				]
+			)
+			->bind(':lang', $lang);
+
 		$db->setQuery($query);
 		$db->execute();
 	}

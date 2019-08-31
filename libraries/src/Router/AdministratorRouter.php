@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@ class AdministratorRouter extends Router
 	 *
 	 * @param   string  $url  The internal URL
 	 *
-	 * @return  string  The absolute search engine friendly URL
+	 * @return  Uri  The absolute search engine friendly URL
 	 *
 	 * @since   1.5
 	 */
@@ -53,7 +53,7 @@ class AdministratorRouter extends Router
 		$route = $uri->getPath();
 
 		// Add basepath to the uri
-		$uri->setPath(Uri::base(true) . '/' . $route);
+		$uri->setPath(Uri::root(true) . '/' . basename(JPATH_ADMINISTRATOR) . '/' . $route);
 
 		return $uri;
 	}

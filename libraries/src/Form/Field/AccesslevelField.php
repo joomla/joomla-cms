@@ -2,13 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -29,10 +31,14 @@ class AccesslevelField extends ListField
 	protected $type = 'Accesslevel';
 
 	/**
-	 * Name of the layout being used to render the field
+	 * Method to get the field options.
 	 *
-	 * @var    string
-	 * @since  4.0.0
+	 * @return  array  The field option objects.
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected $layout = 'joomla.form.field.accesslevel';
+	protected function getOptions()
+	{
+		return array_merge(parent::getOptions(), HTMLHelper::_('access.assetgroups'));
+	}
 }
