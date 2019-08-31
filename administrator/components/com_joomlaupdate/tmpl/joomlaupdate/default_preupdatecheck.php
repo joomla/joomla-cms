@@ -46,12 +46,12 @@ use Joomla\CMS\Language\Text;
 								<?php echo $option->label; ?>
 							</th>
 							<td>
-									<span class="badge badge-<?php echo $option->state ? 'success' : 'danger'; ?>">
-										<?php echo Text::_($option->state ? 'JYES' : 'JNO'); ?>
-										<?php if ($option->notice) : ?>
-											<span class="icon-info icon-white" title="<?php echo $option->notice; ?>"></span>
-										<?php endif; ?>
-									</span>
+								<span class="badge badge-<?php echo $option->state ? 'success' : 'danger'; ?>">
+									<?php echo Text::_($option->state ? 'JYES' : 'JNO'); ?>
+									<?php if ($option->notice) : ?>
+										<span class="icon-info icon-white" title="<?php echo $option->notice; ?>"></span>
+									<?php endif; ?>
+								</span>
 							</td>
 						</tr>
 					<?php endforeach; ?>
@@ -62,34 +62,34 @@ use Joomla\CMS\Language\Text;
 	</div>
 
 	<div class="col-md-6">
-		<fieldset class="options-grid-form  options-grid-form-full">
+		<fieldset class="options-grid-form options-grid-form-full">
 			<legend>
 				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS'); ?>
 			</legend>
+			<div>
+			<table class="table" id="preupdatecheckphp">
 			<p>
 				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_DESC'); ?>
 			</p>
-			<div>
-			<table class="table">
-				<thead>
+			<thead>
 				<tr>
-					<td>
+					<th scoope="col">
 						<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DIRECTIVE'); ?>
-					</td>
-					<td>
+					</th>
+					<th scope="col">
 						<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED'); ?>
-					</td>
-					<td>
+					</th>>
+					<th scope="col">
 						<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_ACTUAL'); ?>
-					</td>
+					</th>
 				</tr>
 				</thead>
 				<tbody>
 				<?php foreach ($this->phpSettings as $setting) : ?>
 					<tr>
-						<td>
+						<th scope="col">
 							<?php echo $setting->label; ?>
-						</td>
+						</th>
 						<td>
 							<?php echo Text::_($setting->recommended ? 'JON' : 'JOFF'); ?>
 						</td>
