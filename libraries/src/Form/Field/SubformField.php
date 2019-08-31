@@ -382,6 +382,7 @@ class SubformField extends FormField
 		if (!$this->multiple)
 		{
 			$subForm->bind($value);
+
 			return array($subForm);
 		}
 

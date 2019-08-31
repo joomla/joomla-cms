@@ -173,7 +173,7 @@ class ModuleModel extends AdminModel
 
 				$table->position = $position;
 
-				// Copy of the Asset ID 
+				// Copy of the Asset ID
 				$oldAssetId = $table->asset_id;
 
 				// Alter the title if necessary

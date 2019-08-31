@@ -1048,7 +1048,7 @@ class CategoryModel extends AdminModel
 
 			// Add the new ID to the array
 			$newIds[$pk] = $newId;
-			
+
 			// Copy rules
 			$query->clear()
 				->update($db->quoteName('#__assets', 't'))
