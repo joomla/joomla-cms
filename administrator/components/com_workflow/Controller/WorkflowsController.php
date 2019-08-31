@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\Controller;
@@ -11,35 +11,55 @@ namespace Joomla\Component\Workflow\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Input\Input;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Workflows controller
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class WorkflowsController extends AdminController
 {
 	/**
+	 * The extension for which the categories apply.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $extension;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
-	 *                                         Recognized key values include 'name', 'default_task', 'model_path', and
-	 *                                         'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CmsApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   Input                $input    Input
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   4.0.0
+	 * @throws  \InvalidArgumentException when no extension is set
 	 */
-	public function __construct(array $config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
+
+		// If extension is not set try to get it from input or throw an exception
+		if (empty($this->extension))
+		{
+			$this->extension = $this->input->getCmd('extension');
+
+			if (empty($this->extension))
+			{
+				throw new \InvalidArgumentException(Text::_('COM_WORKFLOW_ERROR_EXTENSION_NOT_SET'));
+			}
+		}
+
 		$this->registerTask('unsetDefault',	'setDefault');
 	}
 
@@ -52,7 +72,7 @@ class WorkflowsController extends AdminController
 	 *
 	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getModel($name = 'Workflow', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
@@ -64,7 +84,7 @@ class WorkflowsController extends AdminController
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function setDefault()
 	{
@@ -83,7 +103,7 @@ class WorkflowsController extends AdminController
 			$this->setRedirect(
 				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. '&extension=' . $this->input->getCmd("extension"), false
+					. '&extension=' . $this->extension, false
 				)
 			);
 
@@ -129,7 +149,7 @@ class WorkflowsController extends AdminController
 		$this->setRedirect(
 			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extension=' . $this->input->getCmd("extension"), false
+				. '&extension=' . $this->extension, false
 			)
 		);
 	}
@@ -139,7 +159,7 @@ class WorkflowsController extends AdminController
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function delete()
 	{
@@ -147,7 +167,7 @@ class WorkflowsController extends AdminController
 		$this->setRedirect(
 			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extension=' . $this->input->getCmd("extension"), false
+				. '&extension=' . $this->extension, false
 			)
 		);
 	}

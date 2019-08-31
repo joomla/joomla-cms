@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -127,8 +127,9 @@ class InstallerScript
 		}
 
 		// Extension manifest file version
-		$this->release = $parent->getManifest()->version;
-		$extensionType = substr($this->extension, 0, 3);
+		$this->extension = $parent->getName();
+		$this->release   = $parent->getManifest()->version;
+		$extensionType   = substr($this->extension, 0, 3);
 
 		// Modules parameters are located in the module table - else in the extension table
 		if ($extensionType === 'mod')
@@ -205,7 +206,7 @@ class InstallerScript
 	 */
 	public function getParam($name, $id = 0)
 	{
-		if (!is_int($id) || $id == 0)
+		if (!\is_int($id) || $id == 0)
 		{
 			// Return false if there is no item given
 			return false;
@@ -231,7 +232,7 @@ class InstallerScript
 	 */
 	public function setParams($param_array = null, $type = 'edit', $id = 0)
 	{
-		if (!is_int($id) || $id == 0)
+		if (!\is_int($id) || $id == 0)
 		{
 			// Return false if there is no valid item given
 			return false;
@@ -246,7 +247,7 @@ class InstallerScript
 				if ($type === 'edit')
 				{
 					// Add or edit the new variable(s) to the existing params
-					if (is_array($value))
+					if (\is_array($value))
 					{
 						// Convert an array into a json encoded string
 						$params[(string) $name] = array_values($value);

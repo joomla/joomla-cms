@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * User class.  Handles all application interaction with a user
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class User extends CMSObject
 {
@@ -31,7 +31,7 @@ class User extends CMSObject
 	 * A cached switch for if this user has root access rights.
 	 *
 	 * @var    boolean
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $isRoot = null;
 
@@ -39,7 +39,7 @@ class User extends CMSObject
 	 * Unique id
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $id = null;
 
@@ -47,7 +47,7 @@ class User extends CMSObject
 	 * The user's real name (or nickname)
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $name = null;
 
@@ -55,7 +55,7 @@ class User extends CMSObject
 	 * The login name
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $username = null;
 
@@ -63,7 +63,7 @@ class User extends CMSObject
 	 * The email
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $email = null;
 
@@ -71,7 +71,7 @@ class User extends CMSObject
 	 * MD5 encrypted password
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $password = null;
 
@@ -79,7 +79,7 @@ class User extends CMSObject
 	 * Clear password, only available when a new password is set for a user
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $password_clear = '';
 
@@ -87,7 +87,7 @@ class User extends CMSObject
 	 * Block status
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $block = null;
 
@@ -95,7 +95,7 @@ class User extends CMSObject
 	 * Should this user receive system email
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $sendEmail = null;
 
@@ -103,7 +103,7 @@ class User extends CMSObject
 	 * Date the user was registered
 	 *
 	 * @var    \DateTime
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $registerDate = null;
 
@@ -111,7 +111,7 @@ class User extends CMSObject
 	 * Date of last visit
 	 *
 	 * @var    \DateTime
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $lastvisitDate = null;
 
@@ -119,7 +119,7 @@ class User extends CMSObject
 	 * Activation hash
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $activation = null;
 
@@ -127,7 +127,7 @@ class User extends CMSObject
 	 * User parameters
 	 *
 	 * @var    Registry
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $params = null;
 
@@ -135,15 +135,15 @@ class User extends CMSObject
 	 * Associative array of user names => group ids
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $groups = array();
 
 	/**
 	 * Guest status
 	 *
-	 * @var    boolean
-	 * @since  11.1
+	 * @var    integer
+	 * @since  1.7.0
 	 */
 	public $guest = null;
 
@@ -151,7 +151,7 @@ class User extends CMSObject
 	 * Last Reset Time
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	public $lastResetTime = null;
 
@@ -159,7 +159,7 @@ class User extends CMSObject
 	 * Count since last Reset Time
 	 *
 	 * @var    int
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	public $resetCount = null;
 
@@ -175,7 +175,7 @@ class User extends CMSObject
 	 * User parameters
 	 *
 	 * @var    Registry
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_params = null;
 
@@ -183,7 +183,7 @@ class User extends CMSObject
 	 * Authorised access groups
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_authGroups = null;
 
@@ -191,7 +191,7 @@ class User extends CMSObject
 	 * Authorised access levels
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_authLevels = null;
 
@@ -199,7 +199,7 @@ class User extends CMSObject
 	 * Authorised access actions
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_authActions = null;
 
@@ -207,42 +207,25 @@ class User extends CMSObject
 	 * Error message
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_errorMsg = null;
 
 	/**
-	 * UserWrapper object
-	 *
-	 * @var    UserWrapper
-	 * @since  3.4
-	 * @deprecated  4.0  Use `Joomla\CMS\User\UserHelper` directly
-	 */
-	protected $userHelper = null;
-
-	/**
 	 * @var    array  User instances container.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $instances = array();
 
 	/**
 	 * Constructor activating the default information of the language
 	 *
-	 * @param   integer      $identifier  The primary key of the user to load (optional).
-	 * @param   UserWrapper  $userHelper  The UserWrapper for the static methods. [@deprecated 4.0]
+	 * @param   integer  $identifier  The primary key of the user to load (optional).
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
-	public function __construct($identifier = 0, UserWrapper $userHelper = null)
+	public function __construct($identifier = 0)
 	{
-		if (null === $userHelper)
-		{
-			$userHelper = new UserWrapper;
-		}
-
-		$this->userHelper = $userHelper;
-
 		// Create the user parameters object
 		$this->_params = new Registry;
 
@@ -264,28 +247,28 @@ class User extends CMSObject
 	/**
 	 * Returns the global User object, only creating it if it doesn't already exist.
 	 *
-	 * @param   integer      $identifier  The primary key of the user to load (optional).
-	 * @param   UserWrapper  $userHelper  The UserWrapper for the static methods. [@deprecated 4.0]
+	 * @param   integer  $identifier  The primary key of the user to load (optional).
 	 *
 	 * @return  User  The User object.
 	 *
-	 * @since   11.1
+	 * @since       1.7.0
+	 * @deprecated  5.0  Load the user service from the dependency injection container or via $app->getIdentity()
 	 */
-	public static function getInstance($identifier = 0, UserWrapper $userHelper = null)
+	public static function getInstance($identifier = 0)
 	{
-		if (null === $userHelper)
-		{
-			$userHelper = new UserWrapper;
-		}
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated. Load the user from the dependency injection container or via %2$s::getApplication()->getIdentity().',
+				__METHOD__,
+				__CLASS__
+			),
+			E_USER_DEPRECATED
+		);
 
 		// Find the user id
 		if (!is_numeric($identifier))
 		{
-			if (!$id = $userHelper->getUserId($identifier))
-			{
-				// If the $identifier doesn't match with any id, just return an empty User.
-				return new static;
-			}
+			return Factory::getContainer()->get(UserFactoryInterface::class)->loadUserByUsername($identifier);
 		}
 		else
 		{
@@ -296,13 +279,13 @@ class User extends CMSObject
 		// Note: don't cache this user because it'll have a new ID on save!
 		if ($id === 0)
 		{
-			return new static;
+			return Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($id);
 		}
 
 		// Check if the user ID is already cached.
 		if (empty(self::$instances[$id]))
 		{
-			self::$instances[$id] = new static($id, $userHelper);
+			self::$instances[$id] = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($id);
 		}
 
 		return self::$instances[$id];
@@ -316,7 +299,7 @@ class User extends CMSObject
 	 *
 	 * @return  mixed  The value or the default if it did not exist
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getParam($key, $default = null)
 	{
@@ -331,7 +314,7 @@ class User extends CMSObject
 	 *
 	 * @return  mixed  Set parameter value
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setParam($key, $value)
 	{
@@ -346,7 +329,7 @@ class User extends CMSObject
 	 *
 	 * @return  mixed  Set parameter value
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function defParam($key, $value)
 	{
@@ -362,7 +345,7 @@ class User extends CMSObject
 	 *
 	 * @return  boolean  True if authorised
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function authorise($action, $assetname = null)
 	{
@@ -372,7 +355,7 @@ class User extends CMSObject
 			$this->isRoot = false;
 
 			// Check for the configuration file failsafe.
-			$rootUser = Factory::getConfig()->get('root_user');
+			$rootUser = Factory::getApplication()->get('root_user');
 
 			// The root_user variable can be a numeric user ID or a username.
 			if (is_numeric($rootUser) && $this->id > 0 && $this->id == $rootUser)
@@ -409,7 +392,7 @@ class User extends CMSObject
 	 *
 	 * @return  array  List of categories that this group can do this action to (empty array if none). Categories must be published.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getAuthorisedCategories($component, $action)
 	{
@@ -418,22 +401,27 @@ class User extends CMSObject
 		$db = Factory::getDbo();
 
 		$subQuery = $db->getQuery(true)
-			->select('id,asset_id')
-			->from('#__categories')
-			->where('extension = ' . $db->quote($component))
-			->where('published = 1');
+			->select($db->quoteName(['id', 'asset_id']))
+			->from($db->quoteName('#__categories'))
+			->where(
+				[
+					$db->quoteName('extension') . ' = :component',
+					$db->quoteName('published') . ' = 1',
+				]
+			);
 
 		$query = $db->getQuery(true)
-			->select('c.id AS id, a.name AS asset_name')
-			->from('(' . (string) $subQuery . ') AS c')
-			->join('INNER', '#__assets AS a ON c.asset_id = a.id');
+			->select($db->quoteName(['c.id', 'a.name']))
+			->from('(' . $subQuery . ') AS ' . $db->quoteName('c'))
+			->join('INNER', $db->quoteName('#__assets', 'a'), $db->quoteName('c.asset_id') . ' = ' . $db->quoteName('a.id'))
+			->bind(':component', $component);
 		$db->setQuery($query);
 		$allCategories = $db->loadObjectList('id');
 		$allowedCategories = array();
 
 		foreach ($allCategories as $category)
 		{
-			if ($this->authorise($action, $category->asset_name))
+			if ($this->authorise($action, $category->name))
 			{
 				$allowedCategories[] = (int) $category->id;
 			}
@@ -447,7 +435,7 @@ class User extends CMSObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getAuthorisedViewLevels()
 	{
@@ -469,7 +457,7 @@ class User extends CMSObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getAuthorisedGroups()
 	{
@@ -508,7 +496,7 @@ class User extends CMSObject
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setLastVisit($timestamp = null)
 	{
@@ -543,7 +531,7 @@ class User extends CMSObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setParameters($params)
 	{
@@ -563,7 +551,7 @@ class User extends CMSObject
 	 * @return  Table  The user table object
 	 *
 	 * @note    At 4.0 this method will no longer be static
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getTable($type = null, $prefix = 'JTable')
 	{
@@ -594,7 +582,7 @@ class User extends CMSObject
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function bind(&$array)
 	{
@@ -604,7 +592,7 @@ class User extends CMSObject
 			// Check the password and create the crypted password
 			if (empty($array['password']))
 			{
-				$array['password'] = $this->userHelper->genRandomPassword();
+				$array['password']  = UserHelper::genRandomPassword();
 				$array['password2'] = $array['password'];
 			}
 
@@ -619,7 +607,7 @@ class User extends CMSObject
 
 			$this->password_clear = ArrayHelper::getValue($array, 'password', '', 'string');
 
-			$array['password'] = $this->userHelper->hashPassword($array['password']);
+			$array['password'] = UserHelper::hashPassword($array['password']);
 
 			// Set the registration timestamp
 			$this->set('registerDate', Factory::getDate()->toSql());
@@ -648,14 +636,14 @@ class User extends CMSObject
 				$this->password_clear = ArrayHelper::getValue($array, 'password', '', 'string');
 
 				// Check if the user is reusing the current password if required to reset their password
-				if ($this->requireReset == 1 && $this->userHelper->verifyPassword($this->password_clear, $this->password))
+				if ($this->requireReset == 1 && UserHelper::verifyPassword($this->password_clear, $this->password))
 				{
 					$this->setError(Text::_('JLIB_USER_ERROR_CANNOT_REUSE_PASSWORD'));
 
 					return false;
 				}
 
-				$array['password'] = $this->userHelper->hashPassword($array['password']);
+				$array['password'] = UserHelper::hashPassword($array['password']);
 
 				// Reset the change password flag
 				$array['requireReset'] = 0;
@@ -704,7 +692,7 @@ class User extends CMSObject
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	public function save($updateOnly = false)
@@ -758,8 +746,16 @@ class User extends CMSObject
 				$iAmRehashingSuperadmin = true;
 			}
 
+			// Check if we are using a CLI application
+			$isCli = false;
+
+			if (Factory::getApplication()->isCli())
+			{
+				$isCli = true;
+			}
+
 			// We are only worried about edits to this account if I am not a Super Admin.
-			if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true)
+			if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true && $isCli != true)
 			{
 				// I am not a Super Admin, and this one is, so fail.
 				if (!$isNew && Access::check($this->id, 'core.admin'))
@@ -824,7 +820,7 @@ class User extends CMSObject
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function delete()
 	{
@@ -854,7 +850,7 @@ class User extends CMSObject
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function load($id)
 	{
@@ -921,8 +917,7 @@ class User extends CMSObject
 	public function __wakeup()
 	{
 		// Initialise some variables
-		$this->userHelper = new UserWrapper;
-		$this->_params    = new Registry;
+		$this->_params = new Registry;
 
 		// Load the user if it exists
 		if (!empty($this->id) && $this->load($this->id))

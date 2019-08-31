@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,14 +12,15 @@ namespace Joomla\Component\Categories\Administrator\View\Category;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * HTML View class for the Categories component
@@ -90,7 +91,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Check if we have a content type for this alias
@@ -165,8 +166,8 @@ class HtmlView extends BaseHtmlView
 		elseif ($lang->hasKey($component_section_key = $component . ($section ? "_$section" : '')))
 		{
 			$title = Text::sprintf('COM_CATEGORIES_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT')
-					. '_TITLE', $this->escape(Text::_($component_section_key))
-					);
+				. '_TITLE', $this->escape(Text::_($component_section_key))
+			);
 		}
 		// Else use the base title
 		else
@@ -187,9 +188,9 @@ class HtmlView extends BaseHtmlView
 		// For new records, check the create permission.
 		if ($isNew && (count($user->getAuthorisedCategories($component, 'core.create')) > 0))
 		{
+			ToolbarHelper::apply('category.apply');
 			ToolbarHelper::saveGroup(
 				[
-					['apply', 'category.apply'],
 					['save', 'category.save'],
 					['save2new', 'category.save2new']
 				],
@@ -210,7 +211,8 @@ class HtmlView extends BaseHtmlView
 			// Can't save the record if it's checked out and editable
 			if (!$checkedOut && $itemEditable)
 			{
-				$toolbarButtons[] = ['apply', 'category.apply'];
+				ToolbarHelper::apply('category.apply');
+
 				$toolbarButtons[] = ['save', 'category.save'];
 
 				if ($canDo->get('core.create'))
@@ -234,6 +236,11 @@ class HtmlView extends BaseHtmlView
 			{
 				$typeAlias = $extension . '.category';
 				ToolbarHelper::versions($typeAlias, $this->item->id);
+			}
+
+			if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
+			{
+				ToolbarHelper::custom('category.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
 			}
 
 			ToolbarHelper::cancel('category.cancel', 'JTOOLBAR_CLOSE');

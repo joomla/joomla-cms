@@ -3,15 +3,15 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Field\FolderlistField;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Generates the list of directories  available for drag and drop upload.
@@ -35,7 +35,7 @@ class JFormFieldUploaddirs extends FolderlistField
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     JFormField::setup()
+	 * @see     \Joomla\CMS\Form\FormField::setup()
 	 * @since   3.7.0
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)

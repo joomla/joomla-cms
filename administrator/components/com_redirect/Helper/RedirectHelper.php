@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,10 +11,10 @@ namespace Joomla\Component\Redirect\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Registry\Registry;
 
 /**
  * Redirect component helper.
@@ -23,6 +23,11 @@ use Joomla\CMS\HTML\HTMLHelper;
  */
 class RedirectHelper
 {
+	/**
+	 * Extension
+	 *
+	 * @var    string
+	 */
 	public static $extension = 'com_redirect';
 
 	/**

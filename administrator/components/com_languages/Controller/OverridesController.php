@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,10 +11,9 @@ namespace Joomla\Component\Languages\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 
 /**
  * Languages Overrides Controller.
@@ -41,7 +40,7 @@ class OverridesController extends AdminController
 	public function delete()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or die(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get items to dlete from the request.
 		$cid = $this->input->get('cid', array(), 'array');
@@ -78,6 +77,7 @@ class OverridesController extends AdminController
 	 */
 	public function purge()
 	{
+		/** @var \Joomla\Component\Languages\Administrator\Model\OverridesModel $model */
 		$model = $this->getModel('overrides');
 		$model->purge();
 		$this->setRedirect(Route::_('index.php?option=com_languages&view=overrides', false));

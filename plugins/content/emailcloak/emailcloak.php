@@ -3,15 +3,15 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.emailcloak
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\String\StringHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\String\StringHelper;
 
 /**
  * Email cloack plugin class.
@@ -54,7 +54,7 @@ class PlgContentEmailcloak extends CMSPlugin
 	 *
 	 * @return  string	A regular expression that matches a link containing the parameters.
 	 */
-	protected function _getPattern ($link, $text)
+	protected function _getPattern($link, $text)
 	{
 		$pattern = '~(?:<a ([^>]*)href\s*=\s*"mailto:' . $link . '"([^>]*))>' . $text . '</a>~i';
 
@@ -90,7 +90,7 @@ class PlgContentEmailcloak extends CMSPlugin
 		}
 
 		$mode = (int) $this->params->def('mode', 1);
-		$mode =  $mode === 1 ? true : false;
+		$mode = $mode === 1 ? true : false;
 
 		// Example: any@example.org
 		$searchEmail = '([\w\.\'\-\+]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-zA-Z0-9\-]{2,10}))';
@@ -413,9 +413,9 @@ class PlgContentEmailcloak extends CMSPlugin
 		/*
 		 * Search for plain text email addresses, such as email@example.org but not within HTML tags:
 		 * <img src="..." title="email@example.org"> or <input type="text" placeholder="email@example.org">
-		 * The negative lookahead '(?![^<]*>)' is used to exclude this kind of occurrences
+		 * The '<[^<]*>(*SKIP)(*F)|' trick is used to exclude this kind of occurrences
 		 */
-		$pattern = '~(?![^<>]*>)' . $searchEmail . '~i';
+		$pattern = '~<[^<]*>(*SKIP)(*F)|' . $searchEmail . '~i';
 
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{

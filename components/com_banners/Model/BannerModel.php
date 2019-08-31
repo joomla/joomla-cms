@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,10 +11,11 @@ namespace Joomla\Component\Banners\Site\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 /**
  * Banner model for the Joomla Banners component.
@@ -37,9 +38,17 @@ class BannerModel extends BaseDatabaseModel
 	 * @return  void
 	 *
 	 * @since   1.5
+	 * @throws  \Exception
 	 */
 	public function click()
 	{
+		$item = $this->getItem();
+
+		if (empty($item))
+		{
+			throw new \Exception(Text::_('JERROR_PAGE_NOT_FOUND'), 404);
+		}
+
 		$id = $this->getState('banner.id');
 
 		// Update click count
@@ -60,8 +69,6 @@ class BannerModel extends BaseDatabaseModel
 			throw new \Exception($e->getMessage(), 500);
 		}
 
-		$item = $this->getItem();
-
 		// Track clicks
 		$trackClicks = $item->track_clicks;
 
@@ -78,7 +85,7 @@ class BannerModel extends BaseDatabaseModel
 
 		if ($trackClicks > 0)
 		{
-			$trackDate = Factory::getDate()->format('Y-m-d H');
+			$trackDate = Factory::getDate()->toSql();
 
 			$query->clear()
 				->select($db->quoteName('count'))
@@ -148,7 +155,7 @@ class BannerModel extends BaseDatabaseModel
 	{
 		if (!isset($this->_item))
 		{
-			/** @var \JCacheControllerCallback $cache */
+			/** @var \Joomla\CMS\Cache\Controller\CallbackController $cache */
 			$cache = Factory::getCache('com_banners', 'callback');
 
 			$id = $this->getState('banner.id');

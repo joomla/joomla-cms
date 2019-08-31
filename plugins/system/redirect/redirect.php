@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.redirect
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,11 +11,13 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\ErrorEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Database\ParameterType;
 use Joomla\Event\SubscriberInterface;
 use Joomla\String\StringHelper;
 
@@ -141,32 +143,23 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 
 		$query->select('*')
 			->from($this->db->quoteName('#__redirect_links'))
-			->where(
-				'('
-				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($url)
-				. ' OR '
-				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($urlRel)
-				. ' OR '
-				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($urlRootRel)
-				. ' OR '
-				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($urlRootRelSlash)
-				. ' OR '
-				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($urlWithoutQuery)
-				. ' OR '
-				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($urlRelWithoutQuery)
-				. ' OR '
-				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($orgurl)
-				. ' OR '
-				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($orgurlRel)
-				. ' OR '
-				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($orgurlRootRel)
-				. ' OR '
-				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($orgurlRootRelSlash)
-				. ' OR '
-				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($orgurlWithoutQuery)
-				. ' OR '
-				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($orgurlRelWithoutQuery)
-				. ')'
+			->whereIn(
+				$this->db->quoteName('old_url'),
+				[
+					$url,
+					$urlRel,
+					$urlRootRel,
+					$urlRootRelSlash,
+					$urlWithoutQuery,
+					$urlRelWithoutQuery,
+					$orgurl,
+					$orgurlRel,
+					$orgurlRootRel,
+					$orgurlRootRelSlash,
+					$orgurlWithoutQuery,
+					$orgurlRelWithoutQuery,
+				],
+				ParameterType::STRING
 			);
 
 		$this->db->setQuery($query);
@@ -249,9 +242,9 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 		// No redirect object was found so we create an entry in the redirect table
 		elseif ($redirect === null)
 		{
-			if ((bool) $this->params->get('collect_urls', true))
+			if ((bool) $this->params->get('collect_urls', 1))
 			{
-				if (!$params->get('includeUrl', 1))
+				if (!$this->params->get('includeUrl', 1))
 				{
 					$url = $urlRel;
 				}
@@ -262,7 +255,7 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 					'referer' => $app->input->server->getString('HTTP_REFERER', ''),
 					'hits' => 1,
 					'published' => 0,
-					'created_date' => JFactory::getDate()->toSql()
+					'created_date' => Factory::getDate()->toSql()
 				);
 
 				try
@@ -284,7 +277,7 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 
 			try
 			{
-				$this->db->updateObject('#__redirect_links', $redirect, 'id');
+				$this->db->updateObject('#__redirect_links', $redirect, ['id']);
 			}
 			catch (Exception $e)
 			{

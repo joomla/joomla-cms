@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,12 +13,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-use Joomla\Database\DatabaseDriver;
 
 /**
  * Banner table
@@ -27,6 +27,14 @@ use Joomla\Database\DatabaseDriver;
  */
 class BannerTable extends Table
 {
+	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
 	/**
 	 * Constructor
 	 *
@@ -116,19 +124,20 @@ class BannerTable extends Table
 			$this->ordering = self::getNextOrder($this->_db->quoteName('catid') . '=' . $this->_db->quote($this->catid) . ' AND state>=0');
 		}
 
-		if (empty($this->publish_up))
+		// Set publish_up, publish_down to null if not set
+		if (!$this->publish_up)
 		{
-			$this->publish_up = $this->getDbo()->getNullDate();
+			$this->publish_up = null;
 		}
 
-		if (empty($this->publish_down))
+		if (!$this->publish_down)
 		{
-			$this->publish_down = $this->getDbo()->getNullDate();
+			$this->publish_down = null;
 		}
 
-		if (empty($this->modified))
+		if (!$this->modified)
 		{
-			$this->modified = $this->getDbo()->getNullDate();
+			$this->modified = $this->created;
 		}
 
 		return true;
@@ -190,7 +199,7 @@ class BannerTable extends Table
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		$db = $this->getDbo();
 
@@ -200,8 +209,7 @@ class BannerTable extends Table
 
 			if ($purchaseType < 0 && $this->cid)
 			{
-				/** @var ClientTable $client */
-				$client = Table::getInstance('Client', __NAMESPACE__ . '\\', array('dbo' => $db));
+				$client = new ClientTable($db);
 				$client->load($this->cid);
 				$purchaseType = $client->purchase_type;
 			}

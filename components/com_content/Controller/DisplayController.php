@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,10 +11,11 @@ namespace Joomla\Component\Content\Site\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
 /**
  * Content Component Controller
@@ -33,7 +34,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
@@ -116,7 +117,10 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 			// Get/Create the model
 			if ($model = $this->getModel($vName))
 			{
-				$model->hit();
+				if (ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1)
+				{
+					$model->hit();
+				}
 			}
 		}
 

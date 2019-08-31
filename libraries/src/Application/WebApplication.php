@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\AbstractWebApplication;
 use Joomla\Application\Web\WebClient;
@@ -30,7 +30,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Base class for a Joomla! Web application.
  *
- * @since  11.4
+ * @since  2.5.0
  */
 abstract class WebApplication extends AbstractWebApplication implements DispatcherAwareInterface
 {
@@ -40,7 +40,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 * The application document object.
 	 *
 	 * @var    Document
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $document;
 
@@ -48,7 +48,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 * The application language object.
 	 *
 	 * @var    Language
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $language;
 
@@ -56,7 +56,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 * The application instance.
 	 *
 	 * @var    static
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $instance;
 
@@ -77,7 +77,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *                                        will become the application's response object, otherwise a default response
 	 *                                        object is created.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, ResponseInterface $response = null)
 	{
@@ -103,7 +103,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  WebApplication
 	 *
-	 * @since       11.3
+	 * @since       1.7.3
 	 * @throws      \RuntimeException
 	 * @deprecated  5.0 Use \Joomla\CMS\Factory::getContainer()->get($name) instead
 	 */
@@ -128,7 +128,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function execute()
 	{
@@ -180,7 +180,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function render()
 	{
@@ -198,7 +198,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 		// Fall back to constants.
 		else
 		{
-			$options['directory'] = defined('JPATH_THEMES') ? JPATH_THEMES : (defined('JPATH_BASE') ? JPATH_BASE : __DIR__) . '/themes';
+			$options['directory'] = \defined('JPATH_THEMES') ? JPATH_THEMES : (\defined('JPATH_BASE') ? JPATH_BASE : __DIR__) . '/themes';
 		}
 
 		// Parse the document.
@@ -216,7 +216,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  Document  The document object
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getDocument()
 	{
@@ -228,7 +228,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  Language  The language object
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getLanguage()
 	{
@@ -258,7 +258,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  WebApplication This method is chainable.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function loadDocument(Document $document = null)
 	{
@@ -278,7 +278,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  WebApplication This method is chainable.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function loadLanguage(Language $language = null)
 	{
@@ -298,7 +298,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  WebApplication This method is chainable.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @deprecated  5.0  The session should be injected as a service.
 	 */
 	public function loadSession(Session $session = null)
@@ -315,7 +315,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function afterSessionStart(SessionEvent $event)
 	{
@@ -342,7 +342,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function loadSystemUris($requestUri = null)
 	{
@@ -374,12 +374,12 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 			if (strpos(PHP_SAPI, 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
 			{
 				// We aren't expecting PATH_INFO within PHP_SELF so this should work.
-				$path = dirname($_SERVER['PHP_SELF']);
+				$path = \dirname($_SERVER['PHP_SELF']);
 			}
 			// Pretty much everything else should be handled with SCRIPT_NAME.
 			else
 			{
-				$path = dirname($_SERVER['SCRIPT_NAME']);
+				$path = \dirname($_SERVER['SCRIPT_NAME']);
 			}
 		}
 
@@ -402,7 +402,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 		// Set the extended (non-base) part of the request URI as the route.
 		if (stripos($this->get('uri.request'), $this->get('uri.base.full')) === 0)
 		{
-			$this->set('uri.route', substr_replace($this->get('uri.request'), '', 0, strlen($this->get('uri.base.full'))));
+			$this->set('uri.route', substr_replace($this->get('uri.request'), '', 0, \strlen($this->get('uri.base.full'))));
 		}
 
 		// Get an explicitly set media URI is present.

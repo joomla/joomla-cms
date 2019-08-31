@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ use Joomla\CMS\Form\FormField;
  *
  * @link   http://www.w3.org/TR/html-markup/input.checkbox.html#input.checkbox
  * @see    CheckboxField
- * @since  11.1
+ * @since  1.7.0
  */
 class CheckboxField extends FormField
 {
@@ -27,7 +27,7 @@ class CheckboxField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Checkbox';
 
@@ -128,7 +128,7 @@ class CheckboxField extends FormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{
@@ -144,7 +144,7 @@ class CheckboxField extends FormField
 		$onclick  = !empty($this->onclick) ? ' onclick="' . $this->onclick . '"' : '';
 		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
 
-		$html = '<div class="form-check">';
+		$html = '<div class="form-check form-check-inline">';
 		$html .= '<input type="checkbox" name="' . $this->name . '" id="' . $this->id . '" value="'
 				. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . $onchange
 				. $required . $autofocus . '>';

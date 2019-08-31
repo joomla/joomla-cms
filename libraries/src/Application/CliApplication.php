@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Application\CLI\CliInput;
@@ -30,7 +30,7 @@ use Joomla\Session\SessionInterface;
 /**
  * Base class for a Joomla! command line application.
  *
- * @since       11.4
+ * @since       2.5.0
  * @deprecated  5.0  Use the ConsoleApplication instead
  */
 abstract class CliApplication extends AbstractApplication implements DispatcherAwareInterface, CMSApplicationInterface
@@ -57,7 +57,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 * The application instance.
 	 *
 	 * @var    CliApplication
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $instance;
 
@@ -78,13 +78,14 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 *                                            will be created based on the application's loadDispatcher() method.
 	 * @param   Container            $container   Dependency injection container.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct(Input $input = null, Registry $config = null, CliOutput $output = null, CliInput $cliInput = null,
-		DispatcherInterface $dispatcher = null, Container $container = null)
+		DispatcherInterface $dispatcher = null, Container $container = null
+	)
 	{
 		// Close the application if we are not executed from the command line.
-		if (!defined('STDOUT') || !defined('STDIN') || !isset($_SERVER['argv']))
+		if (!\defined('STDOUT') || !\defined('STDIN') || !isset($_SERVER['argv']))
 		{
 			$this->close();
 		}
@@ -118,7 +119,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 *
 	 * @return  CliApplication
 	 *
-	 * @since       11.1
+	 * @since       1.7.0
 	 * @deprecated  5.0 Load the app through the container
 	 * @throws  \RuntimeException
 	 */
@@ -143,7 +144,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function execute()
 	{
@@ -242,7 +243,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 */
 	public function enqueueMessage($msg, $type = self::MSG_INFO)
 	{
-		if (!array_key_exists($type, $this->messages))
+		if (!\array_key_exists($type, $this->messages))
 		{
 			$this->messages[$type] = [];
 		}

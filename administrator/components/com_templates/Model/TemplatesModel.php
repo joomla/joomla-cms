@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,8 +13,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 
 /**
@@ -68,9 +69,49 @@ class TemplatesModel extends ListModel
 		{
 			$client = ApplicationHelper::getClientInfo($item->client_id);
 			$item->xmldata = TemplatesHelper::parseXMLTemplateFile($client->path, $item->element);
+			$num = $this->updated($item->extension_id);
+
+			if ($num)
+			{
+				$item->updated = $num;
+			}
 		}
 
 		return $items;
+	}
+
+	/**
+	 * Check if template extension have any updated override.
+	 *
+	 * @param   integer  $exid  Extension id of template.
+	 *
+	 * @return   boolean  False if records not found/else integer.
+	 *
+	 * @since   4.0.0
+	 */
+	public function updated($exid)
+	{
+		$db = Factory::getDbo();
+
+		// Select the required fields from the table
+		$query = $db->getQuery(true)
+			->select('a.template')
+			->from($db->quoteName('#__template_overrides', 'a'))
+			->where('extension_id = ' . $db->quote($exid))
+			->where('state = 0');
+
+		// Reset the query.
+		$db->setQuery($query);
+
+		// Load the results as a list of stdClass objects.
+		$num = count($db->loadObjectList());
+
+		if ($num > 0)
+		{
+			return $num;
+		}
+
+		return false;
 	}
 
 	/**

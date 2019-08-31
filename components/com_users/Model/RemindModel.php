@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,14 +11,14 @@ namespace Joomla\Component\Users\Site\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\FormModel;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Remind model class for Users.
@@ -30,10 +30,10 @@ class RemindModel extends FormModel
 	/**
 	 * Method to get the username remind request form.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JFor     A Form object on success, false on failure
+	 * @return  \JForm     A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -167,17 +167,17 @@ class RemindModel extends FormModel
 			return false;
 		}
 
-		$config = Factory::getConfig();
+		$app = Factory::getApplication();
 
 		// Assemble the login link.
 		$link = 'index.php?option=com_users&view=login';
-		$mode = $config->get('force_ssl', 0) == 2 ? 1 : (-1);
+		$mode = $app->get('force_ssl', 0) == 2 ? 1 : (-1);
 
 		// Put together the email template data.
 		$data = ArrayHelper::fromObject($user);
-		$data['fromname'] = $config->get('fromname');
-		$data['mailfrom'] = $config->get('mailfrom');
-		$data['sitename'] = $config->get('sitename');
+		$data['fromname'] = $app->get('fromname');
+		$data['mailfrom'] = $app->get('mailfrom');
+		$data['sitename'] = $app->get('sitename');
 		$data['link_text'] = Route::_($link, false, $mode);
 		$data['link_html'] = Route::_($link, true, $mode);
 
@@ -220,9 +220,9 @@ class RemindModel extends FormModel
 
 			return false;
 		}
-		else
-		{
-			return true;
-		}
+
+		Factory::getApplication()->triggerEvent('onUserAfterRemind', array($user));
+
+		return true;
 	}
 }

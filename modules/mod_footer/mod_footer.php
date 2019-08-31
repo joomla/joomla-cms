@@ -3,19 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  mod_footer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\String\StringHelper;
 
-$app        = Factory::getApplication();
 $date       = Factory::getDate();
 $cur_year   = HTMLHelper::_('date', $date, 'Y');
 $csite_name = $app->get('sitename');

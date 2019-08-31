@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,18 +10,18 @@ namespace Joomla\CMS\MVC\Model;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\CallbackController;
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
+use Joomla\CMS\MVC\Factory\MVCFactoryAwareTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
-use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Utilities\ArrayHelper;
 
@@ -32,31 +32,10 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  2.5.5
  */
-abstract class BaseDatabaseModel extends CMSObject
+abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInterface
 {
-	/**
-	 * Indicates if the internal state has been set
-	 *
-	 * @var    boolean
-	 * @since  3.0
-	 */
-	protected $__state_set = null;
-
-	/**
-	 * Database Connector
-	 *
-	 * @var    DatabaseDriver
-	 * @since  3.0
-	 */
-	protected $_db;
-
-	/**
-	 * The model (base) name
-	 *
-	 * @var    string
-	 * @since  3.0
-	 */
-	protected $name;
+	use DatabaseAwareTrait;
+	use MVCFactoryAwareTrait;
 
 	/**
 	 * The URL option for the component.
@@ -67,164 +46,12 @@ abstract class BaseDatabaseModel extends CMSObject
 	protected $option = null;
 
 	/**
-	 * A state object
-	 *
-	 * @var    CMSObject
-	 * @since  3.0
-	 */
-	protected $state;
-
-	/**
 	 * The event to trigger when cleaning cache.
 	 *
 	 * @var    string
 	 * @since  3.0
 	 */
 	protected $event_clean_cache = null;
-
-	/**
-	 * The factory.
-	 *
-	 * @var    MVCFactoryInterface
-	 * @since  4.0.0
-	 */
-	protected $factory;
-
-	/**
-	 * Add a directory where \JModelLegacy should search for models. You may
-	 * either pass a string or an array of directories.
-	 *
-	 * @param   mixed   $path    A path or array[sting] of paths to search.
-	 * @param   string  $prefix  A prefix for models.
-	 *
-	 * @return  array  An array with directory elements. If prefix is equal to '', all directories are returned.
-	 *
-	 * @since   3.0
-	 */
-	public static function addIncludePath($path = '', $prefix = '')
-	{
-		static $paths;
-
-		if (!isset($paths))
-		{
-			$paths = array();
-		}
-
-		if (!isset($paths[$prefix]))
-		{
-			$paths[$prefix] = array();
-		}
-
-		if (!isset($paths['']))
-		{
-			$paths[''] = array();
-		}
-
-		if (!empty($path))
-		{
-			foreach ((array) $path as $includePath)
-			{
-				if (!in_array($includePath, $paths[$prefix]))
-				{
-					array_unshift($paths[$prefix], Path::clean($includePath));
-				}
-
-				if (!in_array($includePath, $paths['']))
-				{
-					array_unshift($paths[''], Path::clean($includePath));
-				}
-			}
-		}
-
-		return $paths[$prefix];
-	}
-
-	/**
-	 * Adds to the stack of model table paths in LIFO order.
-	 *
-	 * @param   mixed  $path  The directory as a string or directories as an array to add.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public static function addTablePath($path)
-	{
-		Table::addIncludePath($path);
-	}
-
-	/**
-	 * Create the filename for a resource
-	 *
-	 * @param   string  $type   The resource type to create the filename for.
-	 * @param   array   $parts  An associative array of filename information.
-	 *
-	 * @return  string  The filename
-	 *
-	 * @since   3.0
-	 */
-	protected static function _createFileName($type, $parts = array())
-	{
-		$filename = '';
-
-		switch ($type)
-		{
-			case 'model':
-				$filename = strtolower($parts['name']) . '.php';
-				break;
-		}
-
-		return $filename;
-	}
-
-	/**
-	 * Returns a Model object, always creating it
-	 *
-	 * @param   string  $type    The model type to instantiate
-	 * @param   string  $prefix  Prefix for the model class name. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  self|boolean   A \JModelLegacy instance or false on failure
-	 *
-	 * @since   3.0
-	 */
-	public static function getInstance($type, $prefix = '', $config = array())
-	{
-		$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
-		$modelClass = $prefix . ucfirst($type);
-
-		if (!class_exists($modelClass))
-		{
-			$path = Path::find(self::addIncludePath(null, $prefix), self::_createFileName('model', array('name' => $type)));
-
-			if (!$path)
-			{
-				$path = Path::find(self::addIncludePath(null, ''), self::_createFileName('model', array('name' => $type)));
-			}
-
-			if (!$path)
-			{
-				return false;
-			}
-
-			require_once $path;
-
-			if (!class_exists($modelClass))
-			{
-				Log::add(Text::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass), Log::WARNING, 'jerror');
-
-				return false;
-			}
-		}
-
-		// Check for a possible service from the container otherwise manually instantiate the class
-		if (Factory::getContainer()->exists($modelClass))
-		{
-			return Factory::getContainer()->get($modelClass);
-		}
-
-		return new $modelClass($config);
-	}
 
 	/**
 	 * Constructor
@@ -237,6 +64,8 @@ abstract class BaseDatabaseModel extends CMSObject
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
+		parent::__construct($config);
+
 		// Guess the option from the class name (Option)Model(View).
 		if (empty($this->option))
 		{
@@ -250,38 +79,7 @@ abstract class BaseDatabaseModel extends CMSObject
 			$this->option = ComponentHelper::getComponentName($this, $r[1]);
 		}
 
-		// Set the view name
-		if (empty($this->name))
-		{
-			if (array_key_exists('name', $config))
-			{
-				$this->name = $config['name'];
-			}
-			else
-			{
-				$this->name = $this->getName();
-			}
-		}
-
-		// Set the model state
-		if (array_key_exists('state', $config))
-		{
-			$this->state = $config['state'];
-		}
-		else
-		{
-			$this->state = new CMSObject;
-		}
-
-		// Set the model dbo
-		if (array_key_exists('dbo', $config))
-		{
-			$this->_db = $config['dbo'];
-		}
-		else
-		{
-			$this->_db = Factory::getDbo();
-		}
+		$this->setDbo(array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo());
 
 		// Set the default view search path
 		if (array_key_exists('table_path', $config))
@@ -297,12 +95,6 @@ abstract class BaseDatabaseModel extends CMSObject
 
 		// @codeCoverageIgnoreEnd
 
-		// Set the internal state marker - used to ignore setting state from the request
-		if (!empty($config['ignore_request']))
-		{
-			$this->__state_set = true;
-		}
-
 		// Set the clean cache event
 		if (isset($config['event_clean_cache']))
 		{
@@ -315,7 +107,8 @@ abstract class BaseDatabaseModel extends CMSObject
 
 		if ($factory)
 		{
-			$this->factory = $factory;
+			$this->setMVCFactory($factory);
+
 			return;
 		}
 
@@ -323,7 +116,7 @@ abstract class BaseDatabaseModel extends CMSObject
 
 		if ($component instanceof MVCFactoryServiceInterface)
 		{
-			$this->factory = $component->createMVCFactory(Factory::getApplication());
+			$this->setMVCFactory($component->getMVCFactory());
 		}
 	}
 
@@ -341,13 +134,24 @@ abstract class BaseDatabaseModel extends CMSObject
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
-		$this->getDbo()->setQuery($query, $limitstart, $limit);
+		if (is_string($query))
+		{
+			$query = $this->getDbo()->getQuery(true)->setQuery($query);
+		}
+
+		$query->setLimit($limit, $limitstart);
+		$this->getDbo()->setQuery($query);
 
 		return $this->getDbo()->loadObjectList();
 	}
 
 	/**
 	 * Returns a record count for the query.
+	 *
+	 * Note: Current implementation of this method assumes that getListQuery() returns a set of unique rows,
+	 * thus it uses SELECT COUNT(*) to count the rows. In cases that getListQuery() uses DISTINCT
+	 * then either this method must be overriden by a custom implementation at the derived Model Class
+	 * or a GROUP BY clause should be used to make the set unique.
 	 *
 	 * @param   DatabaseQuery|string  $query  The query.
 	 *
@@ -389,7 +193,7 @@ abstract class BaseDatabaseModel extends CMSObject
 	}
 
 	/**
-	 * Method to load and return a model object.
+	 * Method to load and return a table object.
 	 *
 	 * @param   string  $name    The name of the view
 	 * @param   string  $prefix  The class prefix. Optional.
@@ -398,7 +202,7 @@ abstract class BaseDatabaseModel extends CMSObject
 	 * @return  Table|boolean  Table object or boolean false if failed
 	 *
 	 * @since   3.0
-	 * @see     Table::getInstance()
+	 * @see     \JTable::getInstance()
 	 */
 	protected function _createTable($name, $prefix = 'Table', $config = array())
 	{
@@ -408,71 +212,7 @@ abstract class BaseDatabaseModel extends CMSObject
 			$config['dbo'] = $this->getDbo();
 		}
 
-		return $this->factory->createTable($name, $prefix, $config);
-	}
-
-	/**
-	 * Method to get the database driver object
-	 *
-	 * @return  DatabaseDriver
-	 *
-	 * @since   3.0
-	 */
-	public function getDbo()
-	{
-		return $this->_db;
-	}
-
-	/**
-	 * Method to get the model name
-	 *
-	 * The model name. By default parsed using the classname or it can be set
-	 * by passing a $config['name'] in the class constructor
-	 *
-	 * @return  string  The name of the model
-	 *
-	 * @since   3.0
-	 * @throws  \Exception
-	 */
-	public function getName()
-	{
-		if (empty($this->name))
-		{
-			$r = null;
-
-			if (!preg_match('/Model(.*)/i', get_class($this), $r))
-			{
-				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
-			}
-
-			$this->name = str_replace(['\\', 'model'], '', strtolower($r[1]));
-		}
-
-		return $this->name;
-	}
-
-	/**
-	 * Method to get model state variables
-	 *
-	 * @param   string  $property  Optional parameter name
-	 * @param   mixed   $default   Optional default value
-	 *
-	 * @return  mixed  The property where specified, the state object where omitted
-	 *
-	 * @since   3.0
-	 */
-	public function getState($property = null, $default = null)
-	{
-		if (!$this->__state_set)
-		{
-			// Protected method to auto-populate the model state.
-			$this->populateState();
-
-			// Set the model state set flag to true.
-			$this->__state_set = true;
-		}
-
-		return $property === null ? $this->state : $this->state->get($property, $default);
+		return $this->getMVCFactory()->createTable($name, $prefix, $config);
 	}
 
 	/**
@@ -495,7 +235,7 @@ abstract class BaseDatabaseModel extends CMSObject
 		}
 
 		// We need this ugly code to deal with non-namespaced MVC code
-		if (empty($prefix) && $this->factory instanceof LegacyFactory)
+		if (empty($prefix) && $this->getMVCFactory() instanceof LegacyFactory)
 		{
 			$prefix = 'Table';
 		}
@@ -580,51 +320,6 @@ abstract class BaseDatabaseModel extends CMSObject
 	}
 
 	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * This method should only be called once per instantiation and is designed
-	 * to be called on the first call to the getState() method unless the model
-	 * configuration flag to ignore the request is set.
-	 *
-	 * @return  void
-	 *
-	 * @note    Calling getState in this method will result in recursion.
-	 * @since   3.0
-	 */
-	protected function populateState()
-	{
-	}
-
-	/**
-	 * Method to set the database driver object
-	 *
-	 * @param   DatabaseDriver  $db  A DatabaseDriver based object
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public function setDbo($db)
-	{
-		$this->_db = $db;
-	}
-
-	/**
-	 * Method to set model state variables
-	 *
-	 * @param   string  $property  The name of the property.
-	 * @param   mixed   $value     The value of the property to set or null.
-	 *
-	 * @return  mixed  The previous value of the property or null if not set.
-	 *
-	 * @since   3.0
-	 */
-	public function setState($property, $value = null)
-	{
-		return $this->state->set($property, $value);
-	}
-
-	/**
 	 * Clean the cache
 	 *
 	 * @param   string  $group  The cache group
@@ -635,27 +330,27 @@ abstract class BaseDatabaseModel extends CMSObject
 	 */
 	protected function cleanCache($group = null)
 	{
-		$conf = Factory::getConfig();
+		$app = Factory::getApplication();
 
 		$options = [
-			'defaultgroup' => $group ?: ($this->option ?? Factory::getApplication()->input->get('option')),
-			'cachebase'    => $conf->get('cache_path', JPATH_CACHE),
+			'defaultgroup' => $group ?: ($this->option ?? $app->input->get('option')),
+			'cachebase'    => $app->get('cache_path', JPATH_CACHE),
 			'result'       => true,
 		];
 
 		try
 		{
-			/** @var \JCacheControllerCallback $cache */
-			$cache = \JCache::getInstance('callback', $options);
+			/** @var CallbackController $cache */
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', $options);
 			$cache->clean();
 		}
-		catch (\JCacheException $exception)
+		catch (CacheExceptionInterface $exception)
 		{
 			$options['result'] = false;
 		}
 
 		// Trigger the onContentCleanCache event.
-		Factory::getApplication()->triggerEvent($this->event_clean_cache, $options);
+		$app->triggerEvent($this->event_clean_cache, $options);
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,36 +39,25 @@ abstract class JHtmlJquery
 	 * @return  void
 	 *
 	 * @since   3.0
+	 *
+	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::enableAsset();
 	 */
 	public static function framework($noConflict = true, $debug = null, $migrate = false)
 	{
-		// Only load once
-		if (!empty(static::$loaded[__METHOD__]))
-		{
-			return;
-		}
-
-		// If no debugging value is set, use the configuration setting
-		if ($debug === null)
-		{
-			$debug = (boolean) Factory::getConfig()->get('debug');
-		}
-
-		HTMLHelper::_('script', 'vendor/jquery/jquery.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+		$wa->enableAsset('jquery');
 
 		// Check if we are loading in noConflict
 		if ($noConflict)
 		{
-			HTMLHelper::_('script', 'legacy/jquery-noconflict.min.js', array('version' => 'auto', 'relative' => true));
+			$wa->enableAsset('jquery-noconflict');
 		}
 
 		// Check if we are loading Migrate
 		if ($migrate)
 		{
-			HTMLHelper::_('script', 'vendor/jquery-migrate/jquery-migrate.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+			$wa->enableAsset('jquery-migrate');
 		}
-
-		static::$loaded[__METHOD__] = true;
 
 		return;
 	}
@@ -84,38 +73,21 @@ abstract class JHtmlJquery
 	 * @return  void
 	 *
 	 * @since   3.0
+	 *
+	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::enableAsset();
 	 */
 	public static function ui(array $components = array('core'), $debug = null)
 	{
 		// Set an array containing the supported jQuery UI components handled by this method
 		$supported = array('core', 'sortable');
 
-		// Include jQuery
-		static::framework();
+		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
-		// If no debugging value is set, use the configuration setting
-		if ($debug === null)
-		{
-			$debug = JDEBUG;
-		}
-
-		// Load each of the requested components
 		foreach ($components as $component)
 		{
-			// Only attempt to load the component if it's supported in core and hasn't already been loaded
-			if (in_array($component, $supported) && empty(static::$loaded[__METHOD__][$component]))
+			if (in_array($component, $supported))
 			{
-				HTMLHelper::_(
-					'script',
-					'vendor/jquery-ui/jquery.ui.' . $component . '.min.js',
-					array(
-						'version' => 'auto',
-						'relative' => true,
-						'detectDebug' => $debug,
-					)
-				);
-
-				static::$loaded[__METHOD__][$component] = true;
+				$wa->enableAsset('jquery.ui.' . $component);
 			}
 		}
 
@@ -147,7 +119,7 @@ abstract class JHtmlJquery
 		$doc = Factory::getDocument();
 
 		$doc->addScriptDeclaration(
-<<<JS
+			<<<JS
 ;(function ($) {
 	$.ajaxSetup({
 		headers: {

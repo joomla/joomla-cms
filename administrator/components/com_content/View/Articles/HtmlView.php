@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,16 +11,16 @@ namespace Joomla\Component\Content\Administrator\View\Articles;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Content\Administrator\Extension\ContentComponent;
-use Joomla\Component\Content\Administrator\Helper\ContentHelper;
-use Joomla\CMS\Workflow\Workflow;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Factory;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 
 /**
  * View class for a list of articles.
@@ -29,14 +29,6 @@ use Joomla\CMS\Factory;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * List of authors. Each stdClass has two properties - value and text, containing the user id and user's name
-	 * respectively
-	 *
-	 * @var  \stdClass
-	 */
-	protected $authors;
-
 	/**
 	 * An array of items
 	 *
@@ -73,21 +65,6 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
-	 * The sidebar markup
-	 *
-	 * @var  string
-	 */
-	protected $sidebar;
-
-	/**
-	 * Array used for displaying the levels filter
-	 *
-	 * @return  \stdClass[]
-	 * @since  4.0.0
-	 */
-	protected $f_levels;
-
-	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -96,31 +73,24 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		if ($this->getLayout() !== 'modal')
-		{
-			ContentHelper::addSubmenu('articles');
-		}
-
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->state         = $this->get('State');
-		$this->authors       = $this->get('Authors');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->transitions   = $this->get('Transitions');
 		$this->vote          = PluginHelper::isEnabled('content', 'vote');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if ((count($errors = $this->get('Errors'))) || $this->transitions === false)
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// We don't need toolbar in the modal window.
 		if ($this->getLayout() !== 'modal')
 		{
 			$this->addToolbar();
-			$this->sidebar = \JHtmlSidebar::render();
 
 			// We do not need to filter by language when multilingual is disabled
 			if (!Multilanguage::isEnabled())
@@ -147,6 +117,51 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
+		$transitions = [
+			'publish' => [],
+			'unpublish' => [],
+			'archive' => [],
+			'trash' => []
+		];
+
+		foreach ($this->transitions as $transition)
+		{
+			switch ($transition['stage_condition'])
+			{
+				case ContentComponent::CONDITION_PUBLISHED:
+					$transitions['publish'][$transition['workflow_id']][$transition['from_stage_id']][] = $transition;
+					break;
+
+				case ContentComponent::CONDITION_UNPUBLISHED:
+					$transitions['unpublish'][$transition['workflow_id']][$transition['from_stage_id']][] = $transition;
+					break;
+
+				case ContentComponent::CONDITION_ARCHIVED:
+					$transitions['archive'][$transition['workflow_id']][$transition['from_stage_id']][] = $transition;
+					break;
+
+				case ContentComponent::CONDITION_TRASHED:
+					$transitions['trash'][$transition['workflow_id']][$transition['from_stage_id']][] = $transition;
+					break;
+			}
+		}
+
+		Factory::getDocument()->addScriptOptions('articles.transitions', $transitions);
+
+		$articles = [];
+
+		foreach ($this->items as $item)
+		{
+			$articles['article-' . (int) $item->id] = Text::sprintf('COM_CONTENT_STAGE_ARTICLE_TITLE', $this->escape($item->title), (int) $item->id);
+		}
+
+		Factory::getDocument()->addScriptOptions('articles.items', $articles);
+
+		Text::script('COM_CONTENT_ERROR_CANNOT_PUBLISH');
+		Text::script('COM_CONTENT_ERROR_CANNOT_UNPUBLISH');
+		Text::script('COM_CONTENT_ERROR_CANNOT_TRASH');
+		Text::script('COM_CONTENT_ERROR_CANNOT_ARCHIVE');
+
 		return parent::display($tpl);
 	}
 
@@ -172,30 +187,62 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('article.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') || $canDo->get('core.execute.transition'))
 		{
-			$toolbar->standardButton('featured')
-				->text('JFEATURE')
-				->task('articles.featured')
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
 				->listCheck(true);
 
-			$toolbar->standardButton('unfeatured')
-				->text('JUNFEATURE')
-				->task('articles.unfeatured')
-				->listCheck(true);
+			$childBar = $dropdown->getChildToolbar();
 
-			$toolbar->checkin('articles.checkin')->listCheck(true);
-		}
+			if ($canDo->get('core.execute.transition'))
+			{
+				$childBar->publish('articles.publish')->listCheck(true);
 
-		// Add a batch button
-		if ($user->authorise('core.create', 'com_content')
-			&& $user->authorise('core.edit', 'com_content')
-			&& $user->authorise('core.execute.transition', 'com_content'))
-		{
-			$toolbar->popupButton('batch')
-				->text('JTOOLBAR_BATCH')
-				->selector('collapseModal')
-				->listCheck(true);
+				$childBar->unpublish('articles.unpublish')->listCheck(true);
+			}
+
+			if ($canDo->get('core.edit.state'))
+			{
+				$childBar->standardButton('featured')
+					->text('JFEATURE')
+					->task('articles.featured')
+					->listCheck(true);
+
+				$childBar->standardButton('unfeatured')
+					->text('JUNFEATURE')
+					->task('articles.unfeatured')
+					->listCheck(true);
+			}
+
+			if ($canDo->get('core.execute.transition'))
+			{
+				$childBar->archive('articles.archive')->listCheck(true);
+			}
+
+			if ($canDo->get('core.edit.state'))
+			{
+				$childBar->checkin('articles.checkin')->listCheck(true);
+			}
+
+			if ($canDo->get('core.execute.transition'))
+			{
+				$childBar->trash('articles.trash')->listCheck(true);
+			}
+
+			// Add a batch button
+			if ($user->authorise('core.create', 'com_content')
+				&& $user->authorise('core.edit', 'com_content')
+				&& $user->authorise('core.execute.transition', 'com_content'))
+			{
+				$childBar->popupButton('batch')
+					->text('JTOOLBAR_BATCH')
+					->selector('collapseModal')
+					->listCheck(true);
+			}
 		}
 
 		if ($this->state->get('filter.condition') == ContentComponent::CONDITION_TRASHED && $canDo->get('core.delete'))
@@ -204,10 +251,6 @@ class HtmlView extends BaseHtmlView
 				->text('JTOOLBAR_EMPTY_TRASH')
 				->message('JGLOBAL_CONFIRM_DELETE')
 				->listCheck(true);
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			$toolbar->trash('articles.trash')->listCheck(true);
 		}
 
 		if ($user->authorise('core.admin', 'com_content') || $user->authorise('core.options', 'com_content'))

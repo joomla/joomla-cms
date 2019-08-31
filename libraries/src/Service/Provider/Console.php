@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Service
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,6 +13,9 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
+use Joomla\CMS\Session\MetadataManager;
+use Joomla\Database\Command\ExportCommand;
+use Joomla\Database\Command\ImportCommand;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -54,7 +57,25 @@ class Console implements ServiceProviderInterface
 			SessionMetadataGcCommand::class,
 			function (Container $container)
 			{
-				return new SessionMetadataGcCommand($container->get('session'), $container->get('db'));
+				return new SessionMetadataGcCommand($container->get('session'), $container->get(MetadataManager::class));
+			},
+			true
+		);
+
+		$container->share(
+			ExportCommand::class,
+			function (Container $container)
+			{
+				return new ExportCommand($container->get('db'));
+			},
+			true
+		);
+
+		$container->share(
+			ImportCommand::class,
+			function (Container $container)
+			{
+				return new ImportCommand($container->get('db'));
 			},
 			true
 		);

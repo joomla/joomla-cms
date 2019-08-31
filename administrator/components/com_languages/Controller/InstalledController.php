@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,12 @@ namespace Joomla\Component\Languages\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Language\Language;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Languages Controller.
@@ -33,7 +33,7 @@ class InstalledController extends BaseController
 	public function setDefault()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$cid = $this->input->get('cid', '');
 		$model = $this->getModel('installed');
@@ -50,8 +50,16 @@ class InstalledController extends BaseController
 				$newLang->load('com_languages', JPATH_ADMINISTRATOR);
 			}
 
-			$msg = Text::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
-			$type = 'message';
+			if (Multilanguage::isEnabled() && $model->getState('client_id') == 0)
+			{
+				$msg = Text::_('COM_LANGUAGES_MSG_DEFAULT_MULTILANG_SAVED');
+				$type = 'message';
+			}
+			else
+			{
+				$msg = Text::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
+				$type = 'message';
+			}
 		}
 		else
 		{
@@ -71,7 +79,7 @@ class InstalledController extends BaseController
 	public function switchAdminLanguage()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$cid   = $this->input->get('cid', '');
 		$model = $this->getModel('installed');

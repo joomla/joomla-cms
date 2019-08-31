@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -97,10 +97,10 @@ if (is_array($attributes))
 $cssFileExt = ($direction === 'rtl') ? '-rtl.css' : '.css';
 
 // The static assets for the calendar
-HTMLHelper::_('script', $localesPath, false, true, false, false, true);
-HTMLHelper::_('script', $helperPath, false, true, false, false, true);
-HTMLHelper::_('script', 'system/fields/calendar.min.js', false, true, false, false, true);
-HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array(), true);
+HTMLHelper::_('script', $localesPath, ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', $helperPath, ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'system/fields/calendar.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, ['version' => 'auto', 'relative' => true]);
 ?>
 <div class="field-calendar">
 	<?php if (!$readonly && !$disabled) : ?>
@@ -108,9 +108,10 @@ HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array(), tru
 		<?php endif; ?>
 		<input
 			type="text"
-            id="<?php echo $id; ?>"
-            name="<?php echo $name; ?>"
+			id="<?php echo $id; ?>"
+			name="<?php echo $name; ?>"
 			value="<?php echo htmlspecialchars(($value !== '0000-00-00 00:00:00') ? $value : '', ENT_COMPAT, 'UTF-8'); ?>"
+			<?php echo !empty($description) ? ' aria-describedby="' . $name . '-desc"' : ''; ?>
 			<?php echo $attributes; ?>
 			<?php echo !empty($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : ''; ?>
 			data-alt-value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" autocomplete="off">
@@ -130,7 +131,7 @@ HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array(), tru
 				data-only-months-nav="<?php echo $singleheader; ?>"
 				<?php echo isset($minYear) && strlen($minYear) ? 'data-min-year="' . $minYear . '"' : ''; ?>
 				<?php echo isset($maxYear) && strlen($maxYear) ? 'data-max-year="' . $maxYear . '"' : ''; ?>
-				title="<?php echo JText::_('JLIB_HTML_BEHAVIOR_OPEN_CALENDAR'); ?>"
+				title="<?php echo Text::_('JLIB_HTML_BEHAVIOR_OPEN_CALENDAR'); ?>"
 			><span class="fa fa-calendar" aria-hidden="true"></span></button>
 		</span>
 		<?php if (!$readonly && !$disabled) : ?>

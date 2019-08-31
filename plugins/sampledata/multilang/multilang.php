@@ -3,23 +3,24 @@
  * @package     Joomla.Plugin
  * @subpackage  Sampledata.Multilang
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Installer\Installer;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Language\Language;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Extension\ExtensionHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
 
 /**
  * Sampledata - Multilang Plugin
@@ -100,7 +101,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * First step to enable the Language filter plugin.
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since   4.0.0
 	 */
@@ -146,7 +147,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Second step to add a language switcher module
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since   4.0.0
 	 */
@@ -190,7 +191,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Third step to make sure all content languages are published
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since   4.0.0
 	 */
@@ -229,7 +230,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Fourth step to create Menus and list all categories menu items
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since   4.0.0
 	 */
@@ -293,7 +294,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Fifth step to add menu modules
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since   4.0.0
 	 */
@@ -335,9 +336,9 @@ class PlgSampledataMultilang extends CMSPlugin
 	}
 
 	/**
-	 * Sixth step to add categories, articles and blog menu items
+	 * Sixth step to add workflow, categories, articles and blog menu items
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since   4.0.0
 	 */
@@ -424,7 +425,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Seventh step to disable the mainmenu module whose home page is set to All languages.
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since   4.0.0
 	 */
@@ -487,15 +488,15 @@ class PlgSampledataMultilang extends CMSPlugin
 	private function enablePlugin($pluginName)
 	{
 		// Create a new db object.
-		$db    = Factory::getDbo();
+		$db    = $this->db;
 		$query = $db->getQuery(true);
 
 		$query
-			->clear()
-			->update($db->qn('#__extensions'))
-			->set($db->qn('enabled') . ' = 1')
-			->where($db->qn('name') . ' = ' . $db->q($pluginName))
-			->where($db->qn('type') . ' = ' . $db->q('plugin'));
+			->update($db->quoteName('#__extensions'))
+			->set($db->quoteName('enabled') . ' = 1')
+			->where($db->quoteName('name') . ' = :pluginname')
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+			->bind(':pluginname', $pluginName);
 
 		$db->setQuery($query);
 
@@ -503,7 +504,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			$db->execute();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -512,19 +513,20 @@ class PlgSampledataMultilang extends CMSPlugin
 		if ($pluginName == 'plg_system_languagefilter')
 		{
 			$params = '{'
-					. '"detect_browser":"0",'
-					. '"automatic_change":"1",'
-					. '"item_associations":"1",'
-					. '"remove_default_prefix":"0",'
-					. '"lang_cookie":"0",'
-					. '"alternate_meta":"1"'
+				. '"detect_browser":"0",'
+				. '"automatic_change":"1",'
+				. '"item_associations":"1",'
+				. '"remove_default_prefix":"0",'
+				. '"lang_cookie":"0",'
+				. '"alternate_meta":"1"'
 				. '}';
 			$query
 				->clear()
-				->update($db->qn('#__extensions'))
-				->set($db->qn('params') . ' = ' . $db->q($params))
-				->where($db->qn('name') . ' = ' . $db->q('plg_system_languagefilter'))
-				->where($db->qn('type') . ' = ' . $db->q('plugin'));
+				->update($db->quoteName('#__extensions'))
+				->set($db->quoteName('params') . ' = :params')
+				->where($db->quoteName('name') . ' = ' . $db->quote('plg_system_languagefilter'))
+				->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+				->bind(':params', $params);
 
 			$db->setQuery($query);
 
@@ -532,7 +534,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			{
 				$db->execute();
 			}
-			catch (\JDatabaseExceptionExecuting $e)
+			catch (ExecutionFailureException $e)
 			{
 				return false;
 			}
@@ -552,25 +554,28 @@ class PlgSampledataMultilang extends CMSPlugin
 	private function disableModuleMainMenu()
 	{
 		// Create a new db object.
-		$db    = Factory::getDbo();
+		$db    = $this->db;
 		$query = $db->getQuery(true);
 
 		// Disable main menu module with Home set to ALL languages.
 		$query
-			->clear()
-			->update($db->qn('#__modules'))
-			->set($db->qn('published') . ' = 0')
-			->where($db->qn('module') . ' = ' . $db->q('mod_menu'))
-			->where($db->qn('language') . ' = ' . $db->q('*'))
-			->where($db->qn('client_id') . ' = ' . $db->q('0'))
-			->where($db->qn('position') . ' = ' . $db->q('sidebar-right'));
+			->update($db->quoteName('#__modules'))
+			->set($db->quoteName('published') . ' = 0')
+			->where(
+				[
+					$db->quoteName('client_id') . ' = 0',
+					$db->quoteName('module') . ' = ' . $db->quote('mod_menu'),
+					$db->quoteName('language') . ' = ' . $db->quote('*'),
+					$db->quoteName('position') . ' = ' . $db->quote('sidebar-right'),
+				]
+			);
 		$db->setQuery($query);
 
 		try
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -578,7 +583,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		return true;
 	}
 
-		/**
+	/**
 	 * Enable the Language Switcher Module.
 	 *
 	 * @return  boolean
@@ -654,7 +659,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'showtitle' => 1,
 			'params'    => '{"menutype":"mainmenu-' . strtolower($itemLanguage->language)
 				. '","startLevel":"0","endLevel":"0","showAllChildren":"0","tag_id":"","class_sfx":"","window_open":"",'
-				. '"layout":"","moduleclass_sfx":"_menu","cache":"1","cache_time":"900","cachemode":"itemid"}',
+				. '"layout":"","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid"}',
 			'client_id' => 0,
 			'language'  => $itemLanguage->language,
 			'published' => 1,
@@ -754,7 +759,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'menutype'     => 'mainmenu-' . strtolower($itemLanguage->language),
 			'type'         => 'component',
 			'link'         => 'index.php?option=com_content&view=categories&id=0',
-			'component_id' => 22,
+			'component_id' => ExtensionHelper::getExtensionRecord('com_content')->extension_id,
 			'published'    => 1,
 			'parent_id'    => 1,
 			'level'        => 1,
@@ -763,19 +768,18 @@ class PlgSampledataMultilang extends CMSPlugin
 				. '"show_empty_categories_cat":"","show_subcat_desc_cat":"","show_cat_num_articles_cat":"",'
 				. '"show_category_title":"","show_description":"","show_description_image":"","maxLevel":"",'
 				. '"show_empty_categories":"","show_no_articles":"","show_subcat_desc":"","show_cat_num_articles":"",'
-				. '"num_leading_articles":"","num_intro_articles":"","num_columns":"","num_links":"",'
-				. '"multi_column_order":"","show_subcategory_content":"","orderby_pri":"","orderby_sec":"",'
+				. '"num_leading_articles":"","num_intro_articles":"","num_links":"",'
+				. '"show_subcategory_content":"","orderby_pri":"","orderby_sec":"",'
 				. '"order_date":"","show_pagination_limit":"","filter_field":"","show_headings":"",'
 				. '"list_show_date":"","date_format":"","list_show_hits":"","list_show_author":"","display_num":"10",'
-				. '"show_pagination":"","show_pagination_results":"","show_title":"","link_titles":"",'
-				. '"show_intro":"","show_category":"","link_category":"","show_parent_category":"",'
+				. '"show_pagination":"","show_pagination_results":"","article_layout":"_:default","show_title":"",'
+				. '"link_titles":"","show_intro":"","show_category":"","link_category":"","show_parent_category":"",'
 				. '"link_parent_category":"","show_author":"","link_author":"","show_create_date":"",'
 				. '"show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"",'
-				. '"show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"",'
-				. '"show_email_icon":"","show_hits":"","show_noauth":"","show_feed_link":"","feed_summary":"",'
-				. '"menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_image_css":"","menu_text":1,'
-				. '"menu_show":0,"page_title":"","show_page_heading":"","page_heading":"","pageclass_sfx":"",'
-				. '"menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',
+				. '"show_readmore":"","show_readmore_title":"","show_hits":"","show_noauth":"","show_feed_link":"",'
+				. '"feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_image_css":"",'
+				. '"menu_text":1,"menu_show":0,"page_title":"","show_page_heading":"","page_heading":"",'
+				. '"pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":""}',
 			'language'     => $itemLanguage->language,
 		);
 
@@ -836,7 +840,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'menutype'     => 'mainmenu-' . strtolower($itemLanguage->language),
 			'type'         => 'component',
 			'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $categoryId,
-			'component_id' => 22,
+			'component_id' => ExtensionHelper::getExtensionRecord('com_content')->extension_id,
 			'published'    => 1,
 			'parent_id'    => 1,
 			'level'        => 1,
@@ -844,17 +848,16 @@ class PlgSampledataMultilang extends CMSPlugin
 			'params'       => '{"layout_type":"blog","show_category_heading_title_text":"","show_category_title":"",'
 				. '"show_description":"","show_description_image":"","maxLevel":"","show_empty_categories":"",'
 				. '"show_no_articles":"","show_subcat_desc":"","show_cat_num_articles":"","show_cat_tags":"",'
-				. '"page_subheading":"","num_leading_articles":"1","num_intro_articles":"3","num_columns":"3",'
-				. '"num_links":"0","multi_column_order":"1","show_subcategory_content":"","orderby_pri":"",'
+				. '"page_subheading":"","num_leading_articles":"1","num_intro_articles":"3",'
+				. '"num_links":"0","show_subcategory_content":"","orderby_pri":"",'
 				. '"orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1",'
 				. '"show_featured":"","show_title":"","link_titles":"","show_intro":"","info_block_position":"",'
 				. '"info_block_show_title":"","show_category":"","link_category":"","show_parent_category":"",'
 				. '"link_parent_category":"","show_associations":"","show_author":"","link_author":"",'
 				. '"show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"",'
-				. '"show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"",'
-				. '"show_email_icon":"","show_hits":"","show_tags":"","show_noauth":"","show_feed_link":"1",'
-				. '"feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"",'
-				. '"menu_image_css":"","menu_text":1,"menu_show":1,"page_title":"","show_page_heading":"1",'
+				. '"show_vote":"","show_readmore":"","show_readmore_title":"","show_hits":"","show_tags":"",'
+				. '"show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"",'
+				. '"menu_image":"","menu_image_css":"","menu_text":1,"menu_show":1,"page_title":"","show_page_heading":"1",'
 				. '"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":""}',
 			'language'     => $itemLanguage->language,
 		);
@@ -899,17 +902,32 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	private function addAssociations($groupedAssociations)
 	{
-		$db = Factory::getDbo();
+		$db = $this->db;
 
 		foreach ($groupedAssociations as $context => $associations)
 		{
 			$key   = md5(json_encode($associations));
 			$query = $db->getQuery(true)
-				->insert('#__associations');
+				->insert($db->quoteName('#__associations'));
 
 			foreach ($associations as $language => $id)
 			{
-				$query->values(((int) $id) . ',' . $db->quote($context) . ',' . $db->quote($key));
+				$query->values(
+					implode(',',
+						$query->bindArray(
+							[
+								$id,
+								$context,
+								$key,
+							],
+							[
+								ParameterType::INTEGER,
+								ParameterType::STRING,
+								ParameterType::STRING,
+							]
+						)
+					)
+				);
 			}
 
 			$db->setQuery($query);
@@ -939,14 +957,16 @@ class PlgSampledataMultilang extends CMSPlugin
 	private function addModuleInModuleMenu($moduleId)
 	{
 		// Create a new db object.
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true);
+		$db       = $this->db;
+		$query    = $db->getQuery(true);
+		$moduleId = (int) $moduleId;
 
 		// Add Module in Module menus.
-		$query->clear()
-			->insert($db->qn('#__modules_menu'))
-			->columns(array($db->qn('moduleid'), $db->qn('menuid')))
-			->values($moduleId . ', 0');
+		$query->insert($db->quoteName('#__modules_menu'))
+			->columns($db->quoteName(['moduleid', 'menuid']))
+			->values(':moduleId, 0')
+			->bind(':moduleId', $moduleId, ParameterType::INTEGER);
+
 		$db->setQuery($query);
 
 		try
@@ -985,7 +1005,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'description'     => '',
 			'published'       => 1,
 			'access'          => 1,
-			'params'          => '{"target":"","image":""}',
+			'params'          => '{"target":"","image":"", "workflow_id":"1"}',
 			'metadesc'        => '',
 			'metakey'         => '',
 			'metadata'        => '{"page_title":"","author":"","robots":""}',
@@ -1035,7 +1055,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	private function addArticle($itemLanguage, $categoryId)
 	{
-		$db = Factory::getDbo();
+		$db = $this->db;
 
 		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('com_content.sys', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
@@ -1048,16 +1068,15 @@ class PlgSampledataMultilang extends CMSPlugin
 		$data = array(
 			'title'            => $title . ' (' . strtolower($itemLanguage->language) . ')',
 			'introtext'        => '<p>Lorem ipsum ad his scripta blandit partiendo, eum fastidii accumsan euripidis'
-										. ' in, eum liber hendrerit an. Qui ut wisi vocibus suscipiantur, quo dicit'
-										. ' ridens inciderint id. Quo mundi lobortis reformidans eu, legimus senserit'
-										. 'definiebas an eos. Eu sit tincidunt incorrupte definitionem, vis mutat'
-										. ' affert percipit cu, eirmod consectetuer signiferumque eu per. In usu latine'
-										. 'equidem dolores. Quo no falli viris intellegam, ut fugit veritus placerat'
-										. 'per. Ius id vidit volumus mandamus, vide veritus democritum te nec, ei eos'
-										. 'debet libris consulatu.</p>',
+				. ' in, eum liber hendrerit an. Qui ut wisi vocibus suscipiantur, quo dicit'
+				. ' ridens inciderint id. Quo mundi lobortis reformidans eu, legimus senserit'
+				. 'definiebas an eos. Eu sit tincidunt incorrupte definitionem, vis mutat'
+				. ' affert percipit cu, eirmod consectetuer signiferumque eu per. In usu latine'
+				. 'equidem dolores. Quo no falli viris intellegam, ut fugit veritus placerat'
+				. 'per. Ius id vidit volumus mandamus, vide veritus democritum te nec, ei eos'
+				. 'debet libris consulatu.</p>',
 			'images'           => json_encode(array()),
 			'urls'             => json_encode(array()),
-			'state'            => 1,
 			'created'          => $currentDate,
 			'created_by'       => (int) $this->getAdminId(),
 			'created_by_alias' => 'Joomla',
@@ -1065,10 +1084,11 @@ class PlgSampledataMultilang extends CMSPlugin
 			'publish_down'     => $db->getNullDate(),
 			'version'          => 1,
 			'catid'            => $categoryId,
-			'metadata'         => '{"robots":"","author":"","rights":"","xreference":"","tags":null}',
+			'metadata'         => '{"robots":"","author":"","rights":"","tags":null}',
 			'metakey'          => '',
 			'metadesc'         => '',
 			'language'         => $itemLanguage->language,
+			'state'            => 1,
 			'featured'         => 1,
 			'attribs'          => array(),
 			'rules'            => array(),
@@ -1096,7 +1116,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		$newId = $article->get('id');
 
 		$query = $db->getQuery(true)
-			->insert($db->qn('#__content_frontpage'))
+			->insert($db->quoteName('#__content_frontpage'))
 			->values($newId . ', 0');
 
 		$db->setQuery($query);
@@ -1105,7 +1125,22 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			$db->execute();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
+		{
+			return false;
+		}
+
+		$assoc = new stdClass;
+
+		$assoc->item_id   = $newId;
+		$assoc->stage_id  = 2;
+		$assoc->extension = 'com_content';
+
+		try
+		{
+			$db->insertObject('#__workflow_associations', $assoc);
+		}
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -1134,7 +1169,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)) && !$tableLanguage->publish())
 			{
-				$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
+				$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
 
 				continue;
 			}
@@ -1224,7 +1259,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		return $data;
 	}
 
-		/**
+	/**
 	 * Get installed languages data.
 	 *
 	 * @param   integer  $client_id  The client ID to retrieve data for.
@@ -1236,16 +1271,21 @@ class PlgSampledataMultilang extends CMSPlugin
 	protected function getLanguageList($client_id = 1)
 	{
 		// Create a new db object.
-		$db    = Factory::getDbo();
+		$db    = $this->db;
 		$query = $db->getQuery(true);
 
 		// Select field element from the extensions table.
-		$query->select($db->qn(array('element', 'name')))
-			->from($db->qn('#__extensions'))
-			->where($db->qn('type') . ' = ' . $db->q('language'))
-			->where($db->qn('state') . ' = 0')
-			->where($db->qn('enabled') . ' = 1')
-			->where($db->qn('client_id') . ' = ' . (int) $client_id);
+		$query->select($db->quoteName(['element', 'name']))
+			->from($db->quoteName('#__extensions'))
+			->where(
+				[
+					$db->quoteName('type') . ' = ' . $db->quote('language'),
+					$db->quoteName('state') . ' = 0',
+					$db->quoteName('enabled') . ' = 1',
+					$db->quoteName('client_id') . ' = :clientid',
+				]
+			)
+			->bind(':clientid', $client_id, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 
@@ -1318,29 +1358,25 @@ class PlgSampledataMultilang extends CMSPlugin
 			return $this->adminId;
 		}
 
-		$db    = Factory::getDbo();
+		$db    = $this->db;
 		$query = $db->getQuery(true);
 
 		// Select the admin user ID
 		$query
-			->clear()
-			->select($db->qn('u') . '.' . $db->qn('id'))
-			->from($db->qn('#__users', 'u'))
+			->select($db->quoteName('u.id'))
+			->from($db->quoteName('#__users', 'u'))
 			->join(
 				'LEFT',
-				$db->qn('#__user_usergroup_map', 'map')
-				. ' ON ' . $db->qn('map') . '.' . $db->qn('user_id')
-				. ' = ' . $db->qn('u') . '.' . $db->qn('id')
+				$db->quoteName('#__user_usergroup_map', 'map'),
+				$db->quoteName('map.user_id') . ' = ' . $db->quoteName('u.id')
 			)
 			->join(
 				'LEFT',
-				$db->qn('#__usergroups', 'g')
-				. ' ON ' . $db->qn('map') . '.' . $db->qn('group_id')
-				. ' = ' . $db->qn('g') . '.' . $db->qn('id')
+				$db->quoteName('#__usergroups', 'g'),
+				$db->quoteName('map.group_id') . ' = ' . $db->quoteName('g.id')
 			)
 			->where(
-				$db->qn('g') . '.' . $db->qn('title')
-				. ' = ' . $db->q('Super Users')
+				$db->quoteName('g.title') . ' = ' . $db->quote('Super Users')
 			);
 
 		$db->setQuery($query);

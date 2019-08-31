@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,11 +12,11 @@ namespace Joomla\Component\Banners\Administrator\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Table\Table;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Table;
 
 /**
  * Banners component helper.
@@ -25,42 +25,6 @@ use Joomla\CMS\HTML\HTMLHelper;
  */
 class BannersHelper extends ContentHelper
 {
-	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public static function addSubmenu($vName)
-	{
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_BANNERS_SUBMENU_BANNERS'),
-			'index.php?option=com_banners&view=banners',
-			$vName == 'banners'
-		);
-
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_BANNERS_SUBMENU_CATEGORIES'),
-			'index.php?option=com_categories&extension=com_banners',
-			$vName == 'categories'
-		);
-
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_BANNERS_SUBMENU_CLIENTS'),
-			'index.php?option=com_banners&view=clients',
-			$vName == 'clients'
-		);
-
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_BANNERS_SUBMENU_TRACKS'),
-			'index.php?option=com_banners&view=tracks',
-			$vName == 'tracks'
-		);
-	}
-
 	/**
 	 * Update / reset the banners
 	 *
@@ -100,7 +64,7 @@ class BannersHelper extends ContentHelper
 
 			if ($purchaseType < 0 && $row->cid)
 			{
-				/** @var \Joomla\Component\Banners\Administrator\Table\Client $client */
+				/** @var \Joomla\Component\Banners\Administrator\Table\ClientTable $client */
 				$client = Table::getInstance('Client', '\\Joomla\\Component\\Banners\\Administrator\\Table\\');
 				$client->load($row->cid);
 				$purchaseType = $client->purchase_type;

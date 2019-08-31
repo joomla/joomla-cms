@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,11 @@ namespace Joomla\Component\Languages\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\Registry\Registry;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Factory;
+use Joomla\Registry\Registry;
 
 /**
  * Multilang status helper.
@@ -81,56 +80,6 @@ abstract class MultilangstatusHelper
 		$db->setQuery($query);
 
 		return $db->loadObjectList();
-	}
-
-	/**
-	 * Method to return a list of published site languages.
-	 *
-	 * @return  array of language extension objects.
-	 *
-	 * @deprecated  4.0  Use LanguageHelper::getInstalledLanguages(0) instead.
-	 */
-	public static function getSitelangs()
-	{
-		try
-		{
-			Log::add(
-				sprintf('%s() is deprecated, use LanguageHelper::getInstalledLanguages(0) instead.', __METHOD__),
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		return LanguageHelper::getInstalledLanguages(0);
-	}
-
-	/**
-	 * Method to return a list of language home page menu items.
-	 *
-	 * @return  array of menu objects.
-	 *
-	 * @deprecated  4.0  Use Multilanguage::getSiteHomePages() instead.
-	 */
-	public static function getHomepages()
-	{
-		try
-		{
-			Log::add(
-				sprintf('%s() is deprecated, use LanguageHelper::getSiteHomePages() instead.', __METHOD__),
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		return Multilanguage::getSiteHomePages();
 	}
 
 	/**
@@ -248,12 +197,12 @@ abstract class MultilangstatusHelper
 		// Find Default Home menutype.
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('menutype'))
-			->from($db->qn('#__menu'))
-			->where($db->qn('home') . ' = ' . $db->q('1'))
-			->where($db->qn('published') . ' = ' . $db->q('1'))
-			->where($db->qn('client_id') . ' = ' . $db->q('0'))
-			->where($db->qn('language') . ' = ' . $db->q('*'));
+			->select($db->quoteName('menutype'))
+			->from($db->quoteName('#__menu'))
+			->where($db->quoteName('home') . ' = ' . $db->quote('1'))
+			->where($db->quoteName('published') . ' = ' . $db->quote('1'))
+			->where($db->quoteName('client_id') . ' = ' . $db->quote('0'))
+			->where($db->quoteName('language') . ' = ' . $db->quote('*'));
 
 		$db->setQuery($query);
 
@@ -261,11 +210,11 @@ abstract class MultilangstatusHelper
 
 		// Get published site menu modules titles.
 		$query->clear()
-			->select($db->qn('title'))
-			->from($db->qn('#__modules'))
-			->where($db->qn('module') . ' = ' . $db->q('mod_menu'))
-			->where($db->qn('published') . ' = ' . $db->q('1'))
-			->where($db->qn('client_id') . ' = ' . $db->q('0'));
+			->select($db->quoteName('title'))
+			->from($db->quoteName('#__modules'))
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_menu'))
+			->where($db->quoteName('published') . ' = ' . $db->quote('1'))
+			->where($db->quoteName('client_id') . ' = ' . $db->quote('0'));
 
 		$db->setQuery($query);
 
@@ -303,14 +252,14 @@ abstract class MultilangstatusHelper
 
 		$query = $db->getQuery(true)
 			->select('id, title, module, position, content, showtitle, params')
-			->from($db->qn('#__modules'))
-			->where($db->qn('module') . ' = ' . $db->q($moduleName))
-			->where($db->qn('published') . ' = ' . $db->q('1'))
-			->where($db->qn('client_id') . ' = ' . $db->q('0'));
+			->from($db->quoteName('#__modules'))
+			->where($db->quoteName('module') . ' = ' . $db->quote($moduleName))
+			->where($db->quoteName('published') . ' = ' . $db->quote('1'))
+			->where($db->quoteName('client_id') . ' = ' . $db->quote('0'));
 
 		if ($instanceTitle)
 		{
-			$query->where($db->qn('title') . ' = ' . $db->q($instanceTitle));
+			$query->where($db->quoteName('title') . ' = ' . $db->quote($instanceTitle));
 		}
 
 		$db->setQuery($query);

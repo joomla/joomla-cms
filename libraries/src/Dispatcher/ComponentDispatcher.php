@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,18 +15,18 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Input\Input;
 
 /**
- * Base class for a Joomla ComponentDispatcher
+ * Base class for a Joomla Component Dispatcher
  *
  * Dispatchers are responsible for checking ACL of a component if appropriate and
  * choosing an appropriate controller (and if necessary, a task) and executing it.
  *
  * @since  4.0.0
  */
-class ComponentDispatcher implements DispatcherInterface
+class ComponentDispatcher extends Dispatcher
 {
 	/**
 	 * The URL option for the component.
@@ -37,44 +37,28 @@ class ComponentDispatcher implements DispatcherInterface
 	protected $option;
 
 	/**
-	 * The application instance
-	 *
-	 * @var    CMSApplication
-	 * @since  4.0.0
-	 */
-	protected $app;
-
-	/**
-	 * The input instance
-	 *
-	 * @var    Input
-	 * @since  4.0.0
-	 */
-	protected $input;
-
-	/**
 	 * The MVC factory
 	 *
-	 * @var  MVCFactoryFactoryInterface
+	 * @var  MVCFactoryInterface
 	 *
 	 * @since   4.0.0
 	 */
-	private $mvcFactoryFactory;
+	private $mvcFactory;
 
 	/**
 	 * Constructor for ComponentDispatcher
 	 *
-	 * @param   CMSApplication              $app                The application instance
-	 * @param   Input                       $input              The input instance
-	 * @param   MVCFactoryFactoryInterface  $mvcFactoryFactory  The MVC factory instance
+	 * @param   CMSApplication       $app         The application instance
+	 * @param   Input                $input       The input instance
+	 * @param   MVCFactoryInterface  $mvcFactory  The MVC factory instance
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(CMSApplication $app, Input $input, MVCFactoryFactoryInterface $mvcFactoryFactory)
+	public function __construct(CMSApplication $app, Input $input, MVCFactoryInterface $mvcFactory)
 	{
-		$this->app               = $app;
-		$this->input             = $input;
-		$this->mvcFactoryFactory = $mvcFactoryFactory;
+		parent::__construct($app, $input);
+
+		$this->mvcFactory = $mvcFactory;
 
 		// If option is not provided, detect it from dispatcher class name, ie ContentDispatcher
 		if (empty($this->option))
@@ -164,18 +148,6 @@ class ComponentDispatcher implements DispatcherInterface
 	}
 
 	/**
-	 * The application the dispatcher is working with.
-	 *
-	 * @return  CMSApplication
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getApplication(): CMSApplication
-	{
-		return $this->app;
-	}
-
-	/**
 	 * Get a controller from the component
 	 *
 	 * @param   string  $name    Controller name
@@ -192,7 +164,7 @@ class ComponentDispatcher implements DispatcherInterface
 		$client = $client ?: ucfirst($this->app->getName());
 
 		// Get the controller instance
-		$controller = $this->mvcFactoryFactory->createFactory($this->app)->createController(
+		$controller = $this->mvcFactory->createController(
 			$name,
 			$client,
 			$config,

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * The workflow service.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface WorkflowServiceInterface
 {
@@ -21,11 +21,11 @@ interface WorkflowServiceInterface
 	 * Method to filter transitions by given id of state.
 	 *
 	 * @param   array  $transitions  Array of transitions to filter for
-	 * @param   int    $pk           Id of the state on which the tranistions are performecd
+	 * @param   int    $pk           Id of the state on which the transitions are performed
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function filterTransitions($transitions, $pk): array;
 
@@ -37,7 +37,7 @@ interface WorkflowServiceInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function updateContentState($pks, $condition): bool;
 
@@ -48,7 +48,18 @@ interface WorkflowServiceInterface
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getConditions($extension): array;
+
+	/**
+	 * Returns a table name for the state association
+	 *
+	 * @param   string  $section  An optional section to differ different areas in the component
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	public function getWorkflowTableBySection(string $section = null) : string;
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,9 +11,9 @@ namespace Joomla\Component\Menus\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
 /**
  * Menu List Model for Menus.
@@ -67,7 +67,7 @@ class MenusModel extends ListModel
 		// Load the list items.
 		$items = parent::getItems();
 
-		// If emtpy or an error, just return.
+		// If empty or an error, just return.
 		if (empty($items))
 		{
 			return array();
@@ -179,7 +179,7 @@ class MenusModel extends ListModel
 		if ($search = trim($this->getState('filter.search')))
 		{
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where('(' . 'a.title LIKE ' . $search . ' OR a.menutype LIKE ' . $search . ')');
+			$query->where('(a.title LIKE ' . $search . ' OR a.menutype LIKE ' . $search . ')');
 		}
 
 		// Add the list ordering clause.
@@ -242,7 +242,8 @@ class MenusModel extends ListModel
 	 */
 	public function &getModules()
 	{
-		$model = new MenuModel(array('ignore_request' => true));
+		$model = $this->bootComponent('com_menus')
+			->getMVCFactory()->createModel('Menu', 'Administrator', ['ignore_request' => true]);
 		$result = $model->getModules();
 
 		return $result;

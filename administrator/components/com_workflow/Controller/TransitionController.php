@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\Controller;
@@ -11,30 +11,31 @@ namespace Joomla\Component\Workflow\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\Input\Input;
 
 /**
  * Transition controller
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class TransitionController extends FormController
 {
 	/**
 	 * The workflow where the transition takes place
 	 *
-	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @var    integer
+	 * @since  4.0.0
 	 */
-	protected $workflowID;
+	protected $workflowId;
 
 	/**
-	 * The extension 
+	 * The extension
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $extension;
 
@@ -44,23 +45,35 @@ class TransitionController extends FormController
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   Input                $input    Input
 	 *
-	 * @since  __DEPLOY_VERSION__
-	 * @see    \JControllerLegacy
+	 * @since   4.0.0
+	 * @throws  \InvalidArgumentException when no extension or workflow id is set
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
 
-		if (empty($this->workflowID))
+		// If workflow id is not set try to get it from input or throw an exception
+		if (empty($this->workflowId))
 		{
-			$this->workflowID = $this->input->get('workflow_id');
+			$this->workflowId = $this->input->getInt('workflow_id');
+
+			if (empty($this->workflowId))
+			{
+				throw new \InvalidArgumentException(Text::_('COM_WORKFLOW_ERROR_WORKFLOW_ID_NOT_SET'));
+			}
 		}
 
+		// If extension is not set try to get it from input or throw an exception
 		if (empty($this->extension))
 		{
-			$this->extension = $this->input->get('extension');
+			$this->extension = $this->input->getCmd('extension');
+
+			if (empty($this->extension))
+			{
+				throw new \InvalidArgumentException(Text::_('COM_WORKFLOW_ERROR_EXTENSION_NOT_SET'));
+			}
 		}
 	}
 
@@ -71,11 +84,20 @@ class TransitionController extends FormController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
+
+		$model = $this->getModel('Workflow');
+
+		$workflow = $model->getItem($this->workflowId);
+
+		if ($workflow->core)
+		{
+			return false;
+		}
 
 		return $user->authorise('core.create', $this->extension);
 	}
@@ -88,12 +110,25 @@ class TransitionController extends FormController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		$recordId = isset($data[$key]) ? (int) $data[$key] : 0;
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
+
+		$model = $this->getModel();
+
+		$item = $model->getItem($recordId);
+
+		$model = $this->getModel('Workflow');
+
+		$workflow = $model->getItem($item->workflow_id);
+
+		if ($workflow->core)
+		{
+			return false;
+		}
 
 		// Check "edit" permission on record asset (explicit or inherited)
 		if ($user->authorise('core.edit', $this->extension . '.transition.' . $recordId))
@@ -121,12 +156,12 @@ class TransitionController extends FormController
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
 		$append = parent::getRedirectToItemAppend($recordId);
-		$append .= '&workflow_id=' . $this->workflowID . '&extension=' . $this->extension;
+		$append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension;
 
 		return $append;
 	}
@@ -136,12 +171,12 @@ class TransitionController extends FormController
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function getRedirectToListAppend()
 	{
 		$append = parent::getRedirectToListAppend();
-		$append .= '&workflow_id=' . $this->workflowID . '&extension=' . $this->extension;
+		$append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension;
 
 		return $append;
 	}

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,13 +12,13 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Feed\FeedImage;
 use Joomla\CMS\Document\Feed\FeedItem;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Language\Text;
 
 /**
  * FeedDocument class, provides an easy interface to parse and display any feed document
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class FeedDocument extends Document
 {
@@ -28,7 +28,7 @@ class FeedDocument extends Document
 	 * optional
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $syndicationURL = '';
 
@@ -38,7 +38,7 @@ class FeedDocument extends Document
 	 * optional
 	 *
 	 * @var    FeedImage
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $image = null;
 
@@ -48,7 +48,7 @@ class FeedDocument extends Document
 	 * optional
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $copyright = '';
 
@@ -58,17 +58,17 @@ class FeedDocument extends Document
 	 * optional
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $pubDate = '';
 
 	/**
 	 * Lastbuild date feed element
 	 *
-	 * @var    \JDate
-	 * @since  11.1
+	 * @var    \Joomla\CMS\Date\Date
+	 * @since  1.7.0
 	 */
-	public $lastBuildDate = '';
+	public $lastBuildDate;
 
 	/**
 	 * Editor feed element
@@ -76,7 +76,7 @@ class FeedDocument extends Document
 	 * optional
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $editor = '';
 
@@ -84,7 +84,7 @@ class FeedDocument extends Document
 	 * Docs feed element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $docs = '';
 
@@ -94,7 +94,7 @@ class FeedDocument extends Document
 	 * optional
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $editorEmail = '';
 
@@ -104,7 +104,7 @@ class FeedDocument extends Document
 	 * optional
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $webmaster = '';
 
@@ -114,7 +114,7 @@ class FeedDocument extends Document
 	 * optional
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $category = '';
 
@@ -124,7 +124,7 @@ class FeedDocument extends Document
 	 * optional
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $ttl = '';
 
@@ -134,7 +134,7 @@ class FeedDocument extends Document
 	 * optional
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $rating = '';
 
@@ -144,7 +144,7 @@ class FeedDocument extends Document
 	 * optional
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $skipHours = '';
 
@@ -154,7 +154,7 @@ class FeedDocument extends Document
 	 * optional
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $skipDays = '';
 
@@ -162,7 +162,7 @@ class FeedDocument extends Document
 	 * The feed items collection
 	 *
 	 * @var    FeedItem[]
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $items = array();
 
@@ -171,7 +171,7 @@ class FeedDocument extends Document
 	 *
 	 * @param   array  $options  Associative array of options
 	 *
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public function __construct($options = array())
 	{
@@ -181,8 +181,8 @@ class FeedDocument extends Document
 		$this->_type = 'feed';
 
 		// Gets and sets timezone offset from site configuration
-		$this->lastBuildDate = Factory::getDate();
-		$this->lastBuildDate->setTimeZone(new \DateTimeZone(Factory::getApplication()->get('offset', 'UTC')));
+		$this->lastBuildDate = CmsFactory::getDate();
+		$this->lastBuildDate->setTimeZone(new \DateTimeZone(CmsFactory::getApplication()->get('offset', 'UTC')));
 	}
 
 	/**
@@ -193,14 +193,14 @@ class FeedDocument extends Document
 	 *
 	 * @return  string The rendered data
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \Exception
 	 * @todo    Make this cacheable
 	 */
 	public function render($cache = false, $params = array())
 	{
 		// Get the feed type
-		$type = Factory::getApplication()->input->get('type', 'rss');
+		$type = CmsFactory::getApplication()->input->get('type', 'rss');
 
 		// Instantiate feed renderer and set the mime encoding
 		$renderer = $this->loadRenderer(($type) ? $type : 'rss');
@@ -238,7 +238,7 @@ class FeedDocument extends Document
 	 *
 	 * @return  FeedDocument  instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function addItem(FeedItem $item)
 	{

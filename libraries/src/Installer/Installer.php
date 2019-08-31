@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -62,7 +62,7 @@ class Installer extends \JAdapter
 	 * True if existing files can be overwritten
 	 *
 	 * @var    boolean
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $overwrite = false;
 
@@ -303,7 +303,7 @@ class Installer extends \JAdapter
 	 */
 	public function getManifest()
 	{
-		if (!is_object($this->manifest))
+		if (!\is_object($this->manifest))
 		{
 			$this->findManifest();
 		}
@@ -413,7 +413,7 @@ class Installer extends \JAdapter
 
 						$stepval = true;
 					}
-					catch (\JDatabaseExceptionExecuting $e)
+					catch (ExecutionFailureException $e)
 					{
 						// The database API will have already logged the error it caught, we just need to alert the user to the issue
 						Log::add(Text::_('JLIB_INSTALLER_ABORT_ERROR_DELETING_EXTENSIONS_RECORD'), Log::WARNING, 'jerror');
@@ -424,7 +424,7 @@ class Installer extends \JAdapter
 					break;
 
 				default:
-					if ($type && is_object($this->_adapters[$type]))
+					if ($type && \is_object($this->_adapters[$type]))
 					{
 						// Build the name of the custom rollback method for the type
 						$method = '_rollback_' . $step['type'];
@@ -487,7 +487,7 @@ class Installer extends \JAdapter
 			return false;
 		}
 
-		if (!is_object($adapter))
+		if (!\is_object($adapter))
 		{
 			return false;
 		}
@@ -568,7 +568,7 @@ class Installer extends \JAdapter
 
 		$adapter = $this->loadAdapter($type, $params);
 
-		if (!is_object($adapter))
+		if (!\is_object($adapter))
 		{
 			return false;
 		}
@@ -656,7 +656,7 @@ class Installer extends \JAdapter
 				$tmp = $instance->discover();
 
 				// If its an array and has entries
-				if (is_array($tmp) && count($tmp))
+				if (\is_array($tmp) && \count($tmp))
 				{
 					// Merge it into the system
 					$results = array_merge($results, $tmp);
@@ -696,7 +696,7 @@ class Installer extends \JAdapter
 			return false;
 		}
 
-		if (!is_object($adapter))
+		if (!\is_object($adapter))
 		{
 			return false;
 		}
@@ -747,7 +747,7 @@ class Installer extends \JAdapter
 
 		$adapter = $this->loadAdapter($type, $params);
 
-		if (!is_object($adapter))
+		if (!\is_object($adapter))
 		{
 			return false;
 		}
@@ -797,7 +797,7 @@ class Installer extends \JAdapter
 
 			if ($this->extension->state == -1)
 			{
-				$this->abort(Text::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE'));
+				$this->abort(Text::sprintf('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE', $this->extension->name));
 
 				return false;
 			}
@@ -805,7 +805,7 @@ class Installer extends \JAdapter
 			// Fetch the adapter
 			$adapter = $this->loadAdapter($this->extension->type);
 
-			if (!is_object($adapter))
+			if (!\is_object($adapter))
 			{
 				return false;
 			}
@@ -885,7 +885,7 @@ class Installer extends \JAdapter
 		// Get the database connector object
 		$db = & $this->_db;
 
-		if (!$element || !count($element->children()))
+		if (!$element || !\count($element->children()))
 		{
 			// Either the tag does not exist or has no children therefore we return zero files processed.
 			return 0;
@@ -894,7 +894,7 @@ class Installer extends \JAdapter
 		// Get the array of query nodes to process
 		$queries = $element->children();
 
-		if (count($queries) === 0)
+		if (\count($queries) === 0)
 		{
 			// No queries to process
 			return 0;
@@ -916,7 +916,7 @@ class Installer extends \JAdapter
 
 				$db->setQuery($query)->execute();
 			}
-			catch (\JDatabaseExceptionExecuting $e)
+			catch (ExecutionFailureException $e)
 			{
 				Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), Log::WARNING, 'jerror');
 
@@ -940,7 +940,7 @@ class Installer extends \JAdapter
 	 */
 	public function parseSQLFiles($element)
 	{
-		if (!$element || !count($element->children()))
+		if (!$element || !\count($element->children()))
 		{
 			// The tag does not exist.
 			return 0;
@@ -992,10 +992,10 @@ class Installer extends \JAdapter
 				// Create an array of queries from the sql file
 				$queries = DatabaseDriver::splitSql($buffer);
 
-				if (count($queries) === 0)
+				if (\count($queries) === 0)
 				{
 					// No queries to process
-					return 0;
+					continue;
 				}
 
 				$isUtf8mb4Db = $db instanceof UTF8MB4SupportInterface;
@@ -1012,7 +1012,7 @@ class Installer extends \JAdapter
 
 						$db->setQuery($query)->execute();
 					}
-					catch (\JDatabaseExceptionExecuting $e)
+					catch (ExecutionFailureException $e)
 					{
 						Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), Log::WARNING, 'jerror');
 
@@ -1049,7 +1049,7 @@ class Installer extends \JAdapter
 				return;
 			}
 
-			if (count($schemapaths))
+			if (\count($schemapaths))
 			{
 				$dbDriver = $db->getServerType();
 
@@ -1116,7 +1116,7 @@ class Installer extends \JAdapter
 			$db = Factory::getDbo();
 			$schemapaths = $schema->children();
 
-			if (count($schemapaths))
+			if (\count($schemapaths))
 			{
 				$dbDriver = $db->getServerType();
 
@@ -1147,13 +1147,15 @@ class Installer extends \JAdapter
 
 				if ($schemapath !== '')
 				{
-					$files = str_replace('.sql', '', Folder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$'));
-					usort($files, 'version_compare');
+					$files = Folder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$');
 
-					if (!count($files))
+					if (empty($files))
 					{
 						return $update_count;
 					}
+
+					$files = str_replace('.sql', '', $files);
+					usort($files, 'version_compare');
 
 					$query = $db->getQuery(true)
 						->select('version_id')
@@ -1194,7 +1196,7 @@ class Installer extends \JAdapter
 							// Create an array of queries from the sql file
 							$queries = DatabaseDriver::splitSql($buffer);
 
-							if (count($queries) === 0)
+							if (\count($queries) === 0)
 							{
 								// No queries to process
 								continue;
@@ -1214,7 +1216,7 @@ class Installer extends \JAdapter
 
 									$db->setQuery($query)->execute();
 								}
-								catch (\JDatabaseExceptionExecuting $e)
+								catch (ExecutionFailureException $e)
 								{
 									Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), Log::WARNING, 'jerror');
 
@@ -1281,7 +1283,7 @@ class Installer extends \JAdapter
 	public function parseFiles(\SimpleXMLElement $element, $cid = 0, $oldFiles = null, $oldMD5 = null)
 	{
 		// Get the array of file nodes to process; we checked whether this had children above.
-		if (!$element || !count($element->children()))
+		if (!$element || !\count($element->children()))
 		{
 			// Either the tag does not exist or has no children (hence no files to process) therefore we return zero files processed.
 			return 0;
@@ -1332,7 +1334,7 @@ class Installer extends \JAdapter
 		{
 			$oldEntries = $oldFiles->children();
 
-			if (count($oldEntries))
+			if (\count($oldEntries))
 			{
 				$deletions = $this->findDeletedFiles($oldEntries, $element->children());
 
@@ -1376,7 +1378,7 @@ class Installer extends \JAdapter
 
 			if (basename($path['dest']) !== $path['dest'])
 			{
-				$newdir = dirname($path['dest']);
+				$newdir = \dirname($path['dest']);
 
 				if (!Folder::create($newdir))
 				{
@@ -1407,7 +1409,7 @@ class Installer extends \JAdapter
 	public function parseLanguages(\SimpleXMLElement $element, $cid = 0)
 	{
 		// TODO: work out why the below line triggers 'node no longer exists' errors with files
-		if (!$element || !count($element->children()))
+		if (!$element || !\count($element->children()))
 		{
 			// Either the tag does not exist or has no children therefore we return zero files processed.
 			return 0;
@@ -1473,7 +1475,7 @@ class Installer extends \JAdapter
 				}
 
 				// If the language folder is not present, then the core pack hasn't been installed... ignore
-				if (!Folder::exists(dirname($path['dest'])))
+				if (!Folder::exists(\dirname($path['dest'])))
 				{
 					continue;
 				}
@@ -1492,7 +1494,7 @@ class Installer extends \JAdapter
 
 			if (basename($path['dest']) !== $path['dest'])
 			{
-				$newdir = dirname($path['dest']);
+				$newdir = \dirname($path['dest']);
 
 				if (!Folder::create($newdir))
 				{
@@ -1522,7 +1524,7 @@ class Installer extends \JAdapter
 	 */
 	public function parseMedia(\SimpleXMLElement $element, $cid = 0)
 	{
-		if (!$element || !count($element->children()))
+		if (!$element || !\count($element->children()))
 		{
 			// Either the tag does not exist or has no children therefore we return zero files processed.
 			return 0;
@@ -1573,7 +1575,7 @@ class Installer extends \JAdapter
 
 			if (basename($path['dest']) !== $path['dest'])
 			{
-				$newdir = dirname($path['dest']);
+				$newdir = \dirname($path['dest']);
 
 				if (!Folder::create($newdir))
 				{
@@ -1615,7 +1617,7 @@ class Installer extends \JAdapter
 		// Iterating through the fieldsets:
 		foreach ($fieldsets as $fieldset)
 		{
-			if (!count($fieldset->children()))
+			if (!\count($fieldset->children()))
 			{
 				// Either the tag does not exist or has no children therefore we return zero files processed.
 				return '{}';
@@ -1664,7 +1666,7 @@ class Installer extends \JAdapter
 		 * allowOverwrite flag.
 		 */
 
-		if ($overwrite === null || !is_bool($overwrite))
+		if ($overwrite === null || !\is_bool($overwrite))
 		{
 			$overwrite = $this->overwrite;
 		}
@@ -1673,14 +1675,14 @@ class Installer extends \JAdapter
 		 * $files must be an array of filenames.  Verify that it is an array with
 		 * at least one file to copy.
 		 */
-		if (is_array($files) && count($files) > 0)
+		if (\is_array($files) && \count($files) > 0)
 		{
 			foreach ($files as $file)
 			{
 				// Get the source and destination paths
 				$filesource = Path::clean($file['src']);
 				$filedest = Path::clean($file['dest']);
-				$filetype = array_key_exists('type', $file) ? $file['type'] : 'file';
+				$filetype = \array_key_exists('type', $file) ? $file['type'] : 'file';
 
 				if (!file_exists($filesource))
 				{
@@ -1755,7 +1757,7 @@ class Installer extends \JAdapter
 			return false;
 		}
 
-		return count($files);
+		return \count($files);
 	}
 
 	/**
@@ -1771,7 +1773,7 @@ class Installer extends \JAdapter
 	 */
 	public function removeFiles($element, $cid = 0)
 	{
-		if (!$element || !count($element->children()))
+		if (!$element || !\count($element->children()))
 		{
 			// Either the tag does not exist or has no children therefore we return zero files processed.
 			return true;
@@ -1792,7 +1794,7 @@ class Installer extends \JAdapter
 		// Get the array of file nodes to process
 		$files = $element->children();
 
-		if (count($files) === 0)
+		if (\count($files) === 0)
 		{
 			// No files to process
 			return true;
@@ -1880,7 +1882,7 @@ class Installer extends \JAdapter
 				}
 
 				// If the language folder is not present, then the core pack hasn't been installed... ignore
-				if (!Folder::exists(dirname($path)))
+				if (!Folder::exists(\dirname($path)))
 				{
 					continue;
 				}
@@ -1998,7 +2000,7 @@ class Installer extends \JAdapter
 					$this->setPath('manifest', $file);
 
 					// Set the installation source path to that of the manifest file
-					$this->setPath('source', dirname($file));
+					$this->setPath('source', \dirname($file));
 
 					return true;
 				}
@@ -2124,7 +2126,7 @@ class Installer extends \JAdapter
 			{
 				case 'folder':
 					// Add any folders to the list
-					$folders[] = (string) $file; // add any folders to the list
+					$folders[] = (string) $file;
 					break;
 
 				case 'file':
@@ -2134,7 +2136,7 @@ class Installer extends \JAdapter
 
 					// Now handle the folder part of the file to ensure we get any containers
 					// Break up the parts of the directory
-					$container_parts = explode('/', dirname((string) $file));
+					$container_parts = explode('/', \dirname((string) $file));
 
 					// Make sure this is clean and empty
 					$container = '';
@@ -2151,7 +2153,7 @@ class Installer extends \JAdapter
 						// Aappend the folder part
 						$container .= $part;
 
-						if (!in_array($container, $containers))
+						if (!\in_array($container, $containers))
 						{
 							// Add the container if it doesn't already exist
 							$containers[] = $container;
@@ -2166,10 +2168,10 @@ class Installer extends \JAdapter
 			switch ($file->getName())
 			{
 				case 'folder':
-					if (!in_array((string) $file, $folders))
+					if (!\in_array((string) $file, $folders))
 					{
 						// See whether the folder exists in the new list
-						if (!in_array((string) $file, $containers))
+						if (!\in_array((string) $file, $containers))
 						{
 							// Check if the folder exists as a container in the new list
 							// If it's not in the new list or a container then delete it
@@ -2180,13 +2182,13 @@ class Installer extends \JAdapter
 
 				case 'file':
 				default:
-					if (!in_array((string) $file, $files))
+					if (!\in_array((string) $file, $files))
 					{
 						// Look if the file exists in the new list
-						if (!in_array(dirname((string) $file), $folders))
+						if (!\in_array(\dirname((string) $file), $folders))
 						{
 							// Look if the file is now potentially in a folder
-							$files_deleted[] = (string) $file; // not in a folder, doesn't exist, wipe it out!
+							$files_deleted[] = (string) $file;
 						}
 					}
 					break;
@@ -2240,7 +2242,7 @@ class Installer extends \JAdapter
 	 *
 	 * @return  array  XML metadata.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function parseXMLInstallFile($path)
 	{
@@ -2287,11 +2289,10 @@ class Installer extends \JAdapter
 		$data['version'] = (string) $xml->version;
 		$data['description'] = (string) $xml->description;
 		$data['group'] = (string) $xml->group;
-		$data['namespace'] = (string) $xml->namespace;
 
-		if ($xml->files && count($xml->files->children()))
+		if ($xml->files && \count($xml->files->children()))
 		{
-			$filename = File::getName($path);
+			$filename = basename($path);
 			$data['filename'] = File::stripExt($filename);
 
 			foreach ($xml->files->children() as $oneFile)
@@ -2360,7 +2361,7 @@ class Installer extends \JAdapter
 		}
 
 		// Add any custom adapters if specified
-		if (count($custom) >= 1)
+		if (\count($custom) >= 1)
 		{
 			foreach ($custom as $adapter)
 			{
@@ -2411,7 +2412,7 @@ class Installer extends \JAdapter
 		$options['type'] = $adapter;
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (Factory::getContainer()->exists($class))
+		if (Factory::getContainer()->has($class))
 		{
 			return Factory::getContainer()->get($class);
 		}

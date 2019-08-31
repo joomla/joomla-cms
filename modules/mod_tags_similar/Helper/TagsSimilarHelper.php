@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_tags_similar
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,14 @@ namespace Joomla\Module\TagsSimilar\Site\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Registry\Registry;
+
+\JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php');
 
 /**
  * Helper for mod_tags_similar
@@ -49,7 +51,6 @@ abstract class TagsSimilarHelper
 		$user       = Factory::getUser();
 		$groups     = implode(',', $user->getAuthorisedViewLevels());
 		$matchtype  = $params->get('matchtype', 'all');
-		$maximum    = $params->get('maximum', 5);
 		$ordering   = $params->get('ordering', 'count');
 		$tagsHelper = new TagsHelper;
 		$prefix     = $option . '.' . $view;
@@ -68,19 +69,19 @@ abstract class TagsSimilarHelper
 
 		$query = $db->getQuery(true)
 			->select(
-			array(
-				$db->quoteName('m.core_content_id'),
-				$db->quoteName('m.content_item_id'),
-				$db->quoteName('m.type_alias'),
+				array(
+					$db->quoteName('m.core_content_id'),
+					$db->quoteName('m.content_item_id'),
+					$db->quoteName('m.type_alias'),
 					'COUNT( ' . $db->quoteName('tag_id') . ') AS ' . $db->quoteName('count'),
-				$db->quoteName('ct.router'),
-				$db->quoteName('cc.core_title'),
-				$db->quoteName('cc.core_alias'),
-				$db->quoteName('cc.core_catid'),
-				$db->quoteName('cc.core_language'),
-				$db->quoteName('cc.core_params')
+					$db->quoteName('ct.router'),
+					$db->quoteName('cc.core_title'),
+					$db->quoteName('cc.core_alias'),
+					$db->quoteName('cc.core_catid'),
+					$db->quoteName('cc.core_language'),
+					$db->quoteName('cc.core_params'),
 				)
-		);
+			);
 
 		$query->from($db->quoteName('#__contentitem_tag_map', 'm'));
 
@@ -94,14 +95,17 @@ abstract class TagsSimilarHelper
 
 		// Don't show current item
 		$query->where('(' . $db->quoteName('m.content_item_id') . ' <> ' . $id
-			. ' OR ' . $db->quoteName('m.type_alias') . ' <> ' . $db->quote($prefix) . ')');
+			. ' OR ' . $db->quoteName('m.type_alias') . ' <> ' . $db->quote($prefix) . ')'
+		);
 
 		// Only return published tags
 		$query->where($db->quoteName('cc.core_state') . ' = 1 ')
 			->where('(' . $db->quoteName('cc.core_publish_up') . '=' . $db->quote($nullDate) . ' OR '
-				. $db->quoteName('cc.core_publish_up') . '<=' . $db->quote($now) . ')')
+				. $db->quoteName('cc.core_publish_up') . '<=' . $db->quote($now) . ')'
+			)
 			->where('(' . $db->quoteName('cc.core_publish_down') . '=' . $db->quote($nullDate) . ' OR '
-				. $db->quoteName('cc.core_publish_down') . '>=' . $db->quote($now) . ')');
+				. $db->quoteName('cc.core_publish_down') . '>=' . $db->quote($now) . ')'
+			);
 
 		// Optionally filter on language
 		$language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
@@ -140,10 +144,11 @@ abstract class TagsSimilarHelper
 
 		if ($ordering === 'random' || $ordering === 'countrandom')
 		{
-			$query->order($query->Rand());
+			$query->order($query->rand());
 		}
 
-		$db->setQuery($query, 0, $maximum);
+		$query->setLimit((int) $params->get('maximum', 5));
+		$db->setQuery($query);
 
 		try
 		{
@@ -157,9 +162,14 @@ abstract class TagsSimilarHelper
 
 		foreach ($results as $result)
 		{
-			$explodedAlias = explode('.', $result->type_alias);
-			$result->link = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1]
-				. '&id=' . $result->content_item_id . '-' . $result->core_alias;
+			$result->link = \TagsHelperRoute::getItemRoute(
+				$result->content_item_id,
+				$result->core_alias,
+				$result->core_catid,
+				$result->core_language,
+				$result->type_alias,
+				$result->router
+			);
 
 			$result->core_params = new Registry($result->core_params);
 		}

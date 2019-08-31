@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,9 +19,8 @@ use Joomla\CMS\Language\Text;
  */
 
 ?>
-<label id="batch-tag-lbl" for="batch-tag-id" class="modalTooltip" title="<?php
-echo HTMLHelper::_('tooltipText', 'JLIB_HTML_BATCH_TAG_LABEL', 'JLIB_HTML_BATCH_TAG_LABEL_DESC'); ?>">
-<?php echo Text::_('JLIB_HTML_BATCH_TAG_LABEL'); ?>
+<label id="batch-tag-lbl" for="batch-tag-id">
+	<?php echo Text::_('JLIB_HTML_BATCH_TAG_LABEL'); ?>
 </label>
 <select name="batch[tag]" class="custom-select" id="batch-tag-id">
 	<option value=""><?php echo Text::_('JLIB_HTML_BATCH_TAG_NOCHANGE'); ?></option>

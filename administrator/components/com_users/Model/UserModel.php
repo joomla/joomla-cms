@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,20 +13,20 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Encrypt\Aes;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
-use Joomla\CMS\Crypt\Crypt;
+use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * User model.
@@ -104,15 +104,7 @@ class UserModel extends AdminModel
 
 		if (!isset($this->_item[$pk]))
 		{
-			$result = parent::getItem($pk);
-
-			if ($result)
-			{
-				$result->tags = new TagsHelper;
-				$result->tags->getTagIds($result->id, 'com_users.user');
-			}
-
-			$this->_item[$pk] = $result;
+			$this->_item[$pk] = parent::getItem($pk);
 		}
 
 		return $this->_item[$pk];
@@ -121,7 +113,7 @@ class UserModel extends AdminModel
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  mixed  A \JForm object on success, false on failure
@@ -146,9 +138,9 @@ class UserModel extends AdminModel
 			return false;
 		}
 
-		// Passwords fields are required when mail to user is set to No in joomla user plugin
 		$userId = $form->getValue('id');
 
+		// Passwords fields are required when mail to user is set to No in the joomla user plugin
 		if ($userId === 0 && $pluginParams->get('mail_to_user', '1') === '0')
 		{
 			$form->setFieldAttribute('password', 'required', 'true');
@@ -212,7 +204,7 @@ class UserModel extends AdminModel
 	 * @since   1.6
 	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'user')
+	protected function preprocessForm(Form $form, $data, $group = 'user')
 	{
 		parent::preprocessForm($form, $data, $group);
 	}
@@ -927,7 +919,8 @@ class UserModel extends AdminModel
 
 		if ($user->authorise('core.edit', 'com_users') && $user->authorise('core.manage', 'com_users'))
 		{
-			$model = new GroupsModel(array('ignore_request' => true));
+			$model = $this->bootComponent('com_users')
+				->getMVCFactory()->createModel('Groups', 'Administrator', ['ignore_request' => true]);
 
 			return $model->getItems();
 		}
@@ -966,9 +959,9 @@ class UserModel extends AdminModel
 			}
 			else
 			{
-				$config = ComponentHelper::getParams('com_users');
+				$params = ComponentHelper::getParams('com_users');
 
-				if ($groupId = $config->get('new_usertype'))
+				if ($groupId = $params->get('new_usertype', $params->get('guest_usergroup', 1)))
 				{
 					$result[] = $groupId;
 				}
@@ -1010,8 +1003,8 @@ class UserModel extends AdminModel
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
-			->from($db->qn('#__users'))
-			->where($db->qn('id') . ' = ' . (int) $user_id);
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('id') . ' = ' . (int) $user_id);
 		$db->setQuery($query);
 		$item = $db->loadObject();
 
@@ -1050,10 +1043,10 @@ class UserModel extends AdminModel
 			$otpKey = $method . ':' . $decryptedConfig;
 
 			$query = $db->getQuery(true)
-				->update($db->qn('#__users'))
-				->set($db->qn('otep') . '=' . $db->q($encryptedOtep))
-				->set($db->qn('otpKey') . '=' . $db->q($otpKey))
-				->where($db->qn('id') . ' = ' . $db->q($user_id));
+				->update($db->quoteName('#__users'))
+				->set($db->quoteName('otep') . '=' . $db->quote($encryptedOtep))
+				->set($db->quoteName('otpKey') . '=' . $db->quote($otpKey))
+				->where($db->quoteName('id') . ' = ' . $db->quote($user_id));
 			$db->setQuery($query);
 			$db->execute();
 		}
@@ -1157,7 +1150,7 @@ class UserModel extends AdminModel
 	 */
 	public function getOtpConfigEncryptionKey()
 	{
-		return Factory::getConfig()->get('secret');
+		return Factory::getApplication()->get('secret');
 	}
 
 	/**

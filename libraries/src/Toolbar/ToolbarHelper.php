@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    Joomla.Administrator
+ * @package    Joomla.Libraries
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -86,12 +86,13 @@ abstract class ToolbarHelper
 	 * @param   string  $iconOver    The image to display when moused over.
 	 * @param   string  $alt         The alt text for the icon image.
 	 * @param   bool    $listSelect  True if required to check that a standard list item is checked.
+	 * @param   string  $formId      The id of action form.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.5
 	 */
-	public static function custom($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true)
+	public static function custom($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true, $formId = null)
 	{
 		$bar = Toolbar::getInstance('toolbar');
 
@@ -99,7 +100,7 @@ abstract class ToolbarHelper
 		$icon = preg_replace('#\.[^.]*$#', '', $icon);
 
 		// Add a standard button.
-		$bar->appendButton('Standard', $icon, $alt, $task, $listSelect);
+		$bar->appendButton('Standard', $icon, $alt, $task, $listSelect, $formId);
 	}
 
 	/**
@@ -124,7 +125,7 @@ abstract class ToolbarHelper
 	}
 
 	/**
-	 * Writes a preview button for a given option (opens a popup window).
+	 * Writes a help button for a given option (opens a popup window).
 	 *
 	 * @param   string  $ref        The name of the popup file (excluding the file extension for an xml file).
 	 * @param   bool    $com        Use the help file in the component directory.
@@ -704,8 +705,8 @@ abstract class ToolbarHelper
 	{
 		$title = Text::_($alt);
 
-		$dhtml = '<button data-toggle="modal" data-target="#' . $targetModalId . '" class="btn btn-primary">
-			<span class="' . $icon . '" title="' . $title . '"></span> ' . $title . '</button>';
+		$dhtml = '<joomla-toolbar-button><button data-toggle="modal" data-target="#' . $targetModalId . '" class="btn btn-primary">
+			<span class="' . $icon . '" title="' . $title . '"></span> ' . $title . '</button></joomla-toolbar-button>';
 
 		$bar = Toolbar::getInstance('toolbar');
 		$bar->appendButton('Custom', $dhtml, $alt);

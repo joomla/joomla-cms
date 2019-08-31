@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -18,7 +19,7 @@ use Joomla\CMS\Language\Text;
  * Form Field class for the Joomla Platform.
  * Provides spacer markup to be used in form layouts.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class SpacerField extends FormField
 {
@@ -26,7 +27,7 @@ class SpacerField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Spacer';
 
@@ -36,7 +37,7 @@ class SpacerField extends FormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{
@@ -50,7 +51,7 @@ class SpacerField extends FormField
 	 *
 	 * @return  string  The field label markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getLabel()
 	{
@@ -73,7 +74,7 @@ class SpacerField extends FormField
 			$text = $this->translateLabel ? Text::_($text) : $text;
 
 			// Build the class for the label.
-			$class = !empty($this->description) ? 'hasTooltip' : '';
+			$class = !empty($this->description) ? 'hasPopover' : '';
 			$class = $this->required == true ? $class . ' required' : $class;
 
 			// Add the opening label tag and main attributes attributes.
@@ -82,7 +83,18 @@ class SpacerField extends FormField
 			// If a description is specified, use it to build a tooltip.
 			if (!empty($this->description))
 			{
-				$label .= ' title="' . HTMLHelper::_('tooltipText', trim($text, ':'), Text::_($this->description), 0) . '"';
+				HTMLHelper::_('bootstrap.popover');
+				$label .= ' title="' . htmlspecialchars(trim($text, ':'), ENT_COMPAT, 'UTF-8') . '"';
+				$label .= ' data-content="' . htmlspecialchars(
+					$this->translateDescription ? Text::_($this->description) : $this->description,
+					ENT_COMPAT,
+					'UTF-8'
+				) . '"';
+
+				if (Factory::getLanguage()->isRtl())
+				{
+					$label .= ' data-placement="left"';
+				}
 			}
 
 			// Add the label text and closing tag.
@@ -102,7 +114,7 @@ class SpacerField extends FormField
 	 *
 	 * @return  string  The field title.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getTitle()
 	{

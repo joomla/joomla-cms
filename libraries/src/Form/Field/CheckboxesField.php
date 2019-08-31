@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,25 +10,21 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('list');
-
 /**
  * Form Field class for the Joomla Platform.
  * Displays options as a list of checkboxes.
  * Multiselect may be forced to be true.
  *
  * @see    CheckboxesField
- * @since  11.1
+ * @since  1.7.0
  */
-class CheckboxesField extends \JFormFieldList
+class CheckboxesField extends ListField
 {
 	/**
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Checkboxes';
 
@@ -44,12 +40,12 @@ class CheckboxesField extends \JFormFieldList
 	 * Flag to tell the field to always be in multiple values mode.
 	 *
 	 * @var    boolean
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $forceMultiple = true;
 
 	/**
-	 * The comma seprated list of checked checkboxes value.
+	 * The comma separated list of checked checkboxes value.
 	 *
 	 * @var    mixed
 	 * @since  3.2
@@ -105,7 +101,7 @@ class CheckboxesField extends \JFormFieldList
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{

@@ -3,23 +3,22 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
+use Joomla\Component\Tags\Site\Helper\TagsHelperRoute;
 
 HTMLHelper::_('behavior.core');
 
-HTMLHelper::_('script', 'com_tags/tags-default.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_tags/tags-default.js', ['version' => 'auto', 'relative' => true]);
 
 // Get the user object.
 $user = Factory::getUser();
@@ -46,7 +45,6 @@ if ($bsspans < 1)
 
 $bscolumns = min($columns, floor(12 / $bsspans));
 $n         = count($this->items);
-
 ?>
 
 <div class="com-tags__items">
@@ -121,9 +119,9 @@ $n         = count($this->items);
 					</span>
 				<?php endif; ?>
 
-				<?php if ($this->params->get('all_tags_show_tag_description') || $this->params->get('all_tags_show_tag_hits')) : ?>
+				<?php if (($this->params->get('all_tags_show_tag_description', 1) && !empty($item->description)) || $this->params->get('all_tags_show_tag_hits')) : ?>
 					<div class="caption">
-						<?php if ($this->params->get('all_tags_show_tag_description')) : ?>
+						<?php if ($this->params->get('all_tags_show_tag_description', 1) && !empty($item->description)) : ?>
 							<span class="tag-body">
 								<?php echo HTMLHelper::_('string.truncate', $item->description, $this->params->get('all_tags_tag_maximum_characters')); ?>
 							</span>

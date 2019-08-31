@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,13 @@ namespace Joomla\CMS\Workflow;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
  * Workflow Class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class Workflow
 {
@@ -31,7 +32,7 @@ class Workflow
 	 * Name of the extension the workflow belong to
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $extension = null;
 
@@ -50,7 +51,7 @@ class Workflow
 	/**
 	 * Condition to names mapping
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	const CONDITION_NAMES = [
 		self::CONDITION_PUBLISHED   => 'JPUBLISHED',
@@ -84,7 +85,7 @@ class Workflow
 	 *
 	 * @param   array  $options  Array of options
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct($options)
 	{
@@ -106,7 +107,7 @@ class Workflow
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getConditionName($value)
 	{
@@ -129,7 +130,7 @@ class Workflow
 	 *
 	 * @return \Joomla\CMS\Extension\ComponentInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getComponent()
 	{
@@ -208,7 +209,44 @@ class Workflow
 			$component->updateContentState($pks, $transition->condition);
 		}
 
-		return $this->updateAssociations($pks, $transition->to_stage_id);
+		$success = $this->updateAssociations($pks, $transition->to_stage_id);
+
+		if ($success)
+		{
+			$app = Factory::getApplication();
+			$app->triggerEvent(
+				'onWorkflowAfterTransition',
+				[
+					'pks' => $pks,
+					'extension' => $this->extension,
+					'user' => $app->getIdentity(),
+					'transition' => $transition,
+				]
+			);
+		}
+
+		return $success;
+	}
+
+	/**
+	 * Gets the condition (i.e. state value) for a transition
+	 *
+	 * @param   integer  $transition_id  The transition id to get the condition of
+	 *
+	 * @return  null|integer  Integer if transition exists. Otherwise null
+	 */
+	public function getConditionForTransition($transition_id)
+	{
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('s.condition'))
+			->from($db->quoteName('#__workflow_transitions', 't'))
+			->join('LEFT', $db->quoteName('#__workflow_stages', 's'), $db->quoteName('s.id') . ' = ' . $db->quoteName('t.to_stage_id'))
+			->where($db->quoteName('t.id') . ' = :transition_id')
+			->bind(':transition_id', $transition_id, ParameterType::INTEGER);
+		$db->setQuery($query);
+
+		return $db->loadResult();
 	}
 
 	/**
@@ -219,7 +257,7 @@ class Workflow
 	 *
 	 * @return  boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function createAssociation($pk, $state)
 	{
@@ -250,7 +288,7 @@ class Workflow
 	 *
 	 * @return  boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function updateAssociations($pks, $state)
 	{
@@ -288,7 +326,7 @@ class Workflow
 	 *
 	 * @return  boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function deleteAssociation($pks)
 	{
@@ -321,7 +359,7 @@ class Workflow
 	 *
 	 * @return  object
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getAssociation($item_id)
 	{
@@ -351,7 +389,7 @@ class Workflow
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function setOptions(array $options)
 	{

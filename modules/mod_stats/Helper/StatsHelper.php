@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_stats
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,8 @@ namespace Joomla\Module\Stats\Site\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 
 /**
@@ -36,10 +36,10 @@ class StatsHelper
 		$db         = Factory::getDbo();
 		$rows       = array();
 		$query      = $db->getQuery(true);
-		$serverinfo = $params->get('serverinfo');
-		$siteinfo   = $params->get('siteinfo');
-		$counter    = $params->get('counter');
-		$increase   = $params->get('increase');
+		$serverinfo = $params->get('serverinfo', 0);
+		$siteinfo   = $params->get('siteinfo', 0);
+		$counter    = $params->get('counter', 0);
+		$increase   = $params->get('increase', 0);
 
 		$i = 0;
 
@@ -130,7 +130,7 @@ class StatsHelper
 		if ($counter)
 		{
 			$query->clear()
-				->select('SUM(' . $db->quotename('hits') . ') AS count_hits')
+				->select('SUM(' . $db->quoteName('hits') . ') AS count_hits')
 				->from($db->quoteName('#__content'))
 				->leftJoin(
 					$db->quoteName('#__workflow_stages', 'ws')

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,10 +11,10 @@ namespace Joomla\Component\Contact\Site\View\Category;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\MVC\View\CategoryView;
 use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
-use Joomla\CMS\Mail\MailHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * HTML View class for the Contacts component
@@ -44,7 +44,7 @@ class HtmlView extends CategoryView
 	/**
 	 * Run the standard Joomla plugins
 	 *
-	 * @var    bool
+	 * @var    boolean
 	 * @since  3.5
 	 */
 	protected $runPlugins = true;
@@ -59,6 +59,9 @@ class HtmlView extends CategoryView
 	public function display($tpl = null)
 	{
 		parent::commonCategoryDisplay();
+
+		// Flag indicates to not add limitstart=0 to URL
+		$this->pagination->hideEmptyLimitstart = true;
 
 		// Prepare the data.
 		// Compute the contact slug.

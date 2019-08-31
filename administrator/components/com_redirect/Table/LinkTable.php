@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,9 @@ namespace Joomla\Component\Redirect\Administrator\Table;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Table\Table;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 
 /**
@@ -105,8 +105,9 @@ class LinkTable extends Table
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->select($db->quoteName('old_url'))
-			->from('#__redirect_links')
-			->where($db->quoteName('old_url') . ' = ' . $db->quote($this->old_url));
+			->from($db->quoteName('#__redirect_links'))
+			->where($db->quoteName('old_url') . ' = :url')
+			->bind(':url', $this->old_url);
 		$db->setQuery($query);
 		$urls = $db->loadAssocList();
 
@@ -129,7 +130,7 @@ class LinkTable extends Table
 	}
 
 	/**
-	 * Overriden store method to set dates.
+	 * Overridden store method to set dates.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *

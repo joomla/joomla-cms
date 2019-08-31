@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_stats_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,9 +11,12 @@ namespace Joomla\Module\StatsAdmin\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Registry\Registry;
 
 /**
  * Helper class for admin stats module
@@ -25,21 +28,21 @@ class StatsAdminHelper
 	/**
 	 * Method to retrieve information about the site
 	 *
-	 * @param   JObject  &$params  Params object
+	 * @param   Registry           $params  The module parameters
+	 * @param   CMSApplication     $app     The application
+	 * @param   DatabaseInterface  $db      The database
 	 *
 	 * @return  array  Array containing site information
 	 *
 	 * @since   3.0
 	 */
-	public static function getStats(&$params)
+	public static function getStats(Registry $params, CMSApplication $app, DatabaseInterface $db)
 	{
-		$app   = Factory::getApplication();
-		$db    = Factory::getDbo();
 		$rows  = array();
 		$query = $db->getQuery(true);
 
-		$serverinfo = $params->get('serverinfo');
-		$siteinfo   = $params->get('siteinfo');
+		$serverinfo = $params->get('serverinfo', 0);
+		$siteinfo   = $params->get('siteinfo', 0);
 
 		$i = 0;
 
@@ -59,7 +62,7 @@ class StatsAdminHelper
 
 			$rows[$i]        = new \stdClass;
 			$rows[$i]->title = Text::_('MOD_STATS_CACHING');
-			$rows[$i]->icon  = 'dashboard';
+			$rows[$i]->icon  = 'tachometer-alt';
 			$rows[$i]->data  = $app->get('caching') ? Text::_('JENABLED') : Text::_('JDISABLED');
 			$i++;
 
@@ -106,6 +109,7 @@ class StatsAdminHelper
 				$rows[$i]->title = Text::_('MOD_STATS_USERS');
 				$rows[$i]->icon  = 'users';
 				$rows[$i]->data  = $users;
+				$rows[$i]->link  = Route::_('index.php?option=com_users');
 				$i++;
 			}
 
@@ -115,6 +119,7 @@ class StatsAdminHelper
 				$rows[$i]->title = Text::_('MOD_STATS_ARTICLES');
 				$rows[$i]->icon  = 'file';
 				$rows[$i]->data  = $items;
+				$rows[$i]->link  = Route::_('index.php?option=com_content&view=articles&filter[published]=1');
 				$i++;
 			}
 		}
@@ -135,6 +140,7 @@ class StatsAdminHelper
 					$rows[$i]->title = $row['title'];
 					$rows[$i]->icon  = $row['icon'] ?? 'info';
 					$rows[$i]->data  = $row['data'];
+					$rows[$i]->link  = isset($row['link']) ? $row['link'] : null;
 					$i++;
 				}
 			}

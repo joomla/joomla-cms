@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,17 +11,15 @@ namespace Joomla\Component\Users\Administrator\View\Users;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Users\Administrator\Helper\UsersHelper;
-use Joomla\CMS\Object\CMSObject;
-use Joomla\Database\DatabaseDriver;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * View class for a list of users.
@@ -87,14 +85,6 @@ class HtmlView extends BaseHtmlView
 	protected $db;
 
 	/**
-	 * The sidebar markup
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $sidebar;
-
-	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -111,20 +101,13 @@ class HtmlView extends BaseHtmlView
 		$this->canDo         = ContentHelper::getActions('com_users');
 		$this->db            = Factory::getDbo();
 
-		UsersHelper::addSubmenu('users');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		// Include the component HTML helpers.
-		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 		$this->addToolbar();
-		$this->sidebar = HTMLHelper::_('sidebar.render');
-
 		parent::display($tpl);
 	}
 
@@ -141,51 +124,59 @@ class HtmlView extends BaseHtmlView
 		$user  = Factory::getUser();
 
 		// Get the toolbar object instance
-		$bar = Toolbar::getInstance('toolbar');
+		$toolbar = Toolbar::getInstance('toolbar');
 
 		ToolbarHelper::title(Text::_('COM_USERS_VIEW_USERS_TITLE'), 'users user');
 
 		if ($canDo->get('core.create'))
 		{
-			ToolbarHelper::addNew('user.add');
+			$toolbar->addNew('user.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') || $canDo->get('core.admin'))
 		{
-			ToolbarHelper::divider();
-			ToolbarHelper::publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
-			ToolbarHelper::unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
-			ToolbarHelper::custom('users.unblock', 'unblock.png', 'unblock_f2.png', 'COM_USERS_TOOLBAR_UNBLOCK', true);
-			ToolbarHelper::divider();
-		}
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
+				->listCheck(true);
 
-		if ($canDo->get('core.delete'))
-		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'users.delete', 'JTOOLBAR_DELETE');
-			ToolbarHelper::divider();
-		}
+			$childBar = $dropdown->getChildToolbar();
 
-		// Add a batch button
-		if ($user->authorise('core.create', 'com_users')
-			&& $user->authorise('core.edit', 'com_users')
-			&& $user->authorise('core.edit.state', 'com_users'))
-		{
-			$title = Text::_('JTOOLBAR_BATCH');
+			$childBar->publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
+			$childBar->unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
+			$childBar->standardButton('unblock')
+				->text('COM_USERS_TOOLBAR_UNBLOCK')
+				->task('users.unblock')
+				->listCheck(true);
 
-			// Instantiate a new LayoutFile instance and render the batch button
-			$layout = new FileLayout('joomla.toolbar.batch');
+			// Add a batch button
+			if ($user->authorise('core.create', 'com_users')
+				&& $user->authorise('core.edit', 'com_users')
+				&& $user->authorise('core.edit.state', 'com_users'))
+			{
+				$childBar->popupButton('batch')
+					->text('JTOOLBAR_BATCH')
+					->selector('collapseModal')
+					->listCheck(true);
+			}
 
-			$dhtml = $layout->render(array('title' => $title));
-			$bar->appendButton('Custom', $dhtml, 'batch');
+			if ($canDo->get('core.delete'))
+			{
+				$childBar->delete('users.delete')
+					->text('JTOOLBAR_DELETE')
+					->message('JGLOBAL_CONFIRM_DELETE')
+					->listCheck(true);
+			}
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			ToolbarHelper::preferences('com_users');
-			ToolbarHelper::divider();
+			$toolbar->preferences('com_users');
 		}
 
-		ToolbarHelper::help('JHELP_USERS_USER_MANAGER');
+		$toolbar->help('JHELP_USERS_USER_MANAGER');
 	}
 
 	/**

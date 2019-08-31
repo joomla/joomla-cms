@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,11 +11,13 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Exception\Notallowed;
-use Joomla\CMS\MVC\Controller\FormController;
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\Session;
+use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\Router\Route;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * User view level controller class.
@@ -48,6 +50,51 @@ class LevelController extends FormController
 	}
 
 	/**
+	 * Overrides JControllerForm::allowEdit
+	 *
+	 * Checks that non-Super Admins are not editing Super Admins.
+	 *
+	 * @param   array   $data  An array of input data.
+	 * @param   string  $key   The name of the key for the primary key.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.8.8
+	 */
+	protected function allowEdit($data = array(), $key = 'id')
+	{
+		// Check for if Super Admin can edit
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->quoteName('#__viewlevels'))
+			->where($db->quoteName('id') . ' = ' . (int) $data['id']);
+		$db->setQuery($query);
+
+		$viewlevel = $db->loadAssoc();
+
+		// Decode level groups
+		$groups = json_decode($viewlevel['rules']);
+
+		// If this group is super admin and this user is not super admin, canEdit is false
+		if (!$this->app->getIdentity()->authorise('core.admin') && Access::checkGroup($groups[0], 'core.admin'))
+		{
+			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
+
+			$this->setRedirect(
+				Route::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list
+					. $this->getRedirectToListAppend(), false
+				)
+			);
+
+			return false;
+		}
+
+		return parent::allowEdit($data, $key);
+	}
+
+	/**
 	 * Removes an item.
 	 *
 	 * Overrides Joomla\CMS\MVC\Controller\FormController::delete to check the core.admin permission.
@@ -59,7 +106,7 @@ class LevelController extends FormController
 	public function delete()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids = $this->input->get('cid', array(), 'array');
 
@@ -79,11 +126,7 @@ class LevelController extends FormController
 			$ids = ArrayHelper::toInteger($ids);
 
 			// Remove the items.
-			if (!$model->delete($ids))
-			{
-				$this->setMessage($model->getError(), 'error');
-			}
-			else
+			if ($model->delete($ids))
 			{
 				$this->setMessage(Text::plural('COM_USERS_N_LEVELS_DELETED', count($ids)));
 			}

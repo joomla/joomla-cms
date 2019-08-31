@@ -3,14 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $options = array(
 	HTMLHelper::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
@@ -20,7 +21,7 @@ $published = $this->state->get('filter.published');
 $clientId  = $this->state->get('filter.client_id');
 $menuType  = Factory::getApplication()->getUserState('com_menus.items.menutype');
 if ($clientId == 1) :
-	HTMLHelper::_('script', 'com_menus/default-batch-body.min.js', ['relative' => true, 'version' => 'auto']);
+	HTMLHelper::_('script', 'com_menus/default-batch-body.min.js', ['version' => 'auto', 'relative' => true]);
 endif;
 
 ?>
@@ -30,12 +31,12 @@ endif;
 	<div class="row">
 		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo HTMLHelper::_('batch.language'); ?>
+				<?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
 			</div>
 		</div>
 		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo HTMLHelper::_('batch.access'); ?>
+				<?php echo LayoutHelper::render('joomla.html.batch.access', []); ?>
 			</div>
 		</div>
 	</div>

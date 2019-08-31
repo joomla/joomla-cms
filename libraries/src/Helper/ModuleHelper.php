@@ -2,20 +2,25 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Helper;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Profiler\Profiler;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -39,7 +44,7 @@ abstract class ModuleHelper
 	{
 		$result = null;
 		$modules =& static::load();
-		$total = count($modules);
+		$total = \count($modules);
 
 		for ($i = 0; $i < $total; $i++)
 		{
@@ -90,7 +95,7 @@ abstract class ModuleHelper
 
 		$modules =& static::load();
 
-		$total = count($modules);
+		$total = \count($modules);
 
 		for ($i = 0; $i < $total; $i++)
 		{
@@ -100,13 +105,12 @@ abstract class ModuleHelper
 			}
 		}
 
-		if (count($result) === 0)
+		if (\count($result) === 0)
 		{
 			if ($input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display'))
 			{
 				$result[0] = static::getModule('mod_' . $position);
 				$result[0]->title = $position;
-				$result[0]->content = $position;
 				$result[0]->position = $position;
 			}
 		}
@@ -145,12 +149,10 @@ abstract class ModuleHelper
 	 */
 	public static function renderModule($module, $attribs = array())
 	{
-		static $chrome;
-
 		$app = Factory::getApplication();
 
 		// Check that $module is a valid module object
-		if (!is_object($module) || !isset($module->module) || !isset($module->params))
+		if (!\is_object($module) || !isset($module->module) || !isset($module->params))
 		{
 			if (JDEBUG)
 			{
@@ -166,7 +168,7 @@ abstract class ModuleHelper
 
 		if (JDEBUG)
 		{
-			\JProfiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
+			Profiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
 
 		// Record the scope.
@@ -183,58 +185,32 @@ abstract class ModuleHelper
 
 		// Get module path
 		$module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', $module->module);
-		$path = JPATH_BASE . '/modules/' . $module->module . '/' . $module->module . '.php';
 
-		// Load the module
-		if (file_exists($path))
+		$dispatcher = $app->bootModule($module->module, $app->getName())->getDispatcher($module, $app);
+
+		// Check if we have a dispatcher
+		if ($dispatcher)
 		{
-			$lang = Factory::getLanguage();
-
-			$coreLanguageDirectory      = JPATH_BASE;
-			$extensionLanguageDirectory = dirname($path);
-
-			$langPaths = $lang->getPaths();
-
-			// Only load the module's language file if it hasn't been already
-			if (!$langPaths || (!isset($langPaths[$coreLanguageDirectory]) && !isset($langPaths[$extensionLanguageDirectory])))
-			{
-				// 1.5 or Core then 1.6 3PD
-				$lang->load($module->module, $coreLanguageDirectory, null, false, true) ||
-					$lang->load($module->module, $extensionLanguageDirectory, null, false, true);
-			}
-
-			$content = '';
 			ob_start();
-			include $path;
-			$module->content = ob_get_contents() . $content;
-			ob_end_clean();
-		}
-
-		// Load the module chrome functions
-		if (!$chrome)
-		{
-			$chrome = array();
-		}
-
-		include_once JPATH_THEMES . '/system/html/modules.php';
-		$chromePath = JPATH_THEMES . '/' . $template . '/html/modules.php';
-
-		if (!isset($chrome[$chromePath]))
-		{
-			if (file_exists($chromePath))
-			{
-				include_once $chromePath;
-			}
-
-			$chrome[$chromePath] = true;
+			$dispatcher->dispatch();
+			$module->content = ob_get_clean();
 		}
 
 		// Check if the current module has a style param to override template module style
 		$paramsChromeStyle = $params->get('style');
+		$basePath          = '';
 
 		if ($paramsChromeStyle)
 		{
-			$attribs['style'] = preg_replace('/^(system|' . $template . ')\-/i', '', $paramsChromeStyle);
+			$paramsChromeStyle   = explode('-', $paramsChromeStyle, 2);
+			$ChromeStyleTemplate = strtolower($paramsChromeStyle[0]);
+			$attribs['style']    = $paramsChromeStyle[1];
+
+			// Only set $basePath if the specified template isn't the current or system one.
+			if ($ChromeStyleTemplate !== $template && $ChromeStyleTemplate !== 'system')
+			{
+				$basePath = JPATH_THEMES . '/' . $ChromeStyleTemplate . '/html/layouts';
+			}
 		}
 
 		// Make sure a style is set
@@ -249,6 +225,8 @@ abstract class ModuleHelper
 			$attribs['style'] .= ' outline';
 		}
 
+		$module->style = $attribs['style'];
+
 		// If the $module is nulled it will return an empty content, otherwise it will render the module normally.
 		$app->triggerEvent('onRenderModule', array(&$module, &$attribs));
 
@@ -257,19 +235,17 @@ abstract class ModuleHelper
 			return '';
 		}
 
+		$displayData = array(
+			'module'  => $module,
+			'params'  => $params,
+			'attribs' => $attribs,
+		);
+
 		foreach (explode(' ', $attribs['style']) as $style)
 		{
-			$chromeMethod = 'modChrome_' . $style;
-
-			// Apply chrome and render module
-			if (function_exists($chromeMethod))
+			if ($moduleContent = LayoutHelper::render('chromes.' . $style, $displayData, $basePath))
 			{
-				$module->style = $attribs['style'];
-
-				ob_start();
-				$chromeMethod($module, $params, $attribs);
-				$module->content = ob_get_contents();
-				ob_end_clean();
+				$module->content = $moduleContent;
 			}
 		}
 
@@ -280,7 +256,7 @@ abstract class ModuleHelper
 
 		if (JDEBUG)
 		{
-			\JProfiler::getInstance('Application')->mark('afterRenderModule ' . $module->module . ' (' . $module->title . ')');
+			Profiler::getInstance('Application')->mark('afterRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
 
 		return $module->content;
@@ -352,7 +328,7 @@ abstract class ModuleHelper
 		$app->triggerEvent('onPrepareModuleList', array(&$modules));
 
 		// If the onPrepareModuleList event returns an array of modules, then ignore the default module list creation
-		if (!is_array($modules))
+		if (!\is_array($modules))
 		{
 			$modules = static::getModuleList();
 		}
@@ -373,56 +349,87 @@ abstract class ModuleHelper
 	 */
 	public static function getModuleList()
 	{
-		$app = Factory::getApplication();
-		$Itemid = $app->input->getInt('Itemid', 0);
-		$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
-		$lang = Factory::getLanguage()->getTag();
+		$app      = Factory::getApplication();
+		$itemId   = $app->input->getInt('Itemid', 0);
+		$groups   = $app->getIdentity()->getAuthorisedViewLevels();
 		$clientId = (int) $app->getClientId();
 
 		// Build a cache ID for the resulting data object
-		$cacheId = $groups . $clientId . $Itemid;
+		$cacheId = implode(',', $groups) . '.' . $clientId . '.' . $itemId;
 
-		$db = Factory::getDbo();
+		$db      = Factory::getDbo();
+		$query   = $db->getQuery(true);
+		$nowDate = Factory::getDate()->toSql();
 
-		$query = $db->getQuery(true)
-			->select('m.id, m.title, m.module, m.position, m.content, m.showtitle, m.params, mm.menuid')
-			->from('#__modules AS m')
-			->join('LEFT', '#__modules_menu AS mm ON mm.moduleid = m.id')
-			->where('m.published = 1')
-			->join('LEFT', '#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id')
-			->where('e.enabled = 1');
-
-		$date = Factory::getDate();
-		$now = $date->toSql();
-		$nullDate = $db->getNullDate();
-		$query->where('(m.publish_up = ' . $db->quote($nullDate) . ' OR m.publish_up <= ' . $db->quote($now) . ')')
-			->where('(m.publish_down = ' . $db->quote($nullDate) . ' OR m.publish_down >= ' . $db->quote($now) . ')')
-			->where('m.access IN (' . $groups . ')')
-			->where('m.client_id = ' . $clientId)
-			->where('(mm.menuid = ' . $Itemid . ' OR mm.menuid <= 0)');
+		$query->select($db->quoteName(['m.id', 'm.title', 'm.module', 'm.position', 'm.content', 'm.showtitle', 'm.params', 'mm.menuid']))
+			->from($db->quoteName('#__modules', 'm'))
+			->join(
+				'LEFT',
+				$db->quoteName('#__modules_menu', 'mm'),
+				$db->quoteName('mm.moduleid') . ' = ' . $db->quoteName('m.id')
+			)
+			->join(
+				'LEFT',
+				$db->quoteName('#__extensions', 'e'),
+				$db->quoteName('e.element') . ' = ' . $db->quoteName('m.module')
+				. ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('m.client_id')
+			)
+			->where(
+				[
+					$db->quoteName('m.published') . ' = 1',
+					$db->quoteName('e.enabled') . ' = 1',
+					$db->quoteName('m.client_id') . ' = :clientId',
+				]
+			)
+			->bind(':clientId', $clientId, ParameterType::INTEGER)
+			->whereIn($db->quoteName('m.access'), $groups)
+			->extendWhere(
+				'AND',
+				[
+					$query->isNullDatetime($db->quoteName('m.publish_up')),
+					$db->quoteName('m.publish_up') . ' <= :publishUp',
+				],
+				'OR'
+			)
+			->bind(':publishUp', $nowDate)
+			->extendWhere(
+				'AND',
+				[
+					$query->isNullDatetime($db->quoteName('m.publish_down')),
+					$db->quoteName('m.publish_down') . ' >= :publishDown',
+				],
+				'OR'
+			)
+			->bind(':publishDown', $nowDate)
+			->extendWhere(
+				'AND',
+				[
+					$db->quoteName('mm.menuid') . ' = :itemId',
+					$db->quoteName('mm.menuid') . ' <= 0',
+				],
+				'OR'
+			)
+			->bind(':itemId', $itemId, ParameterType::INTEGER);
 
 		// Filter by language
-		if ($app->isClient('site') && $app->getLanguageFilter())
+		if ($app->isClient('site') && $app->getLanguageFilter() || $app->isClient('administrator') && static::isAdminMultilang())
 		{
-			$query->where('m.language IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
-			$cacheId .= $lang . '*';
+			$language = $app->getLanguage()->getTag();
+
+			$query->whereIn($db->quoteName('m.language'), [$language, '*'], ParameterType::STRING);
+			$cacheId .= $language . '*';
 		}
 
-		if ($app->isClient('administrator') && static::isAdminMultilang())
-		{
-			$query->where('m.language IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
-			$cacheId .= $lang . '*';
-		}
-
-		$query->order('m.position, m.ordering');
+		$query->order($db->quoteName(['m.position', 'm.ordering']));
 
 		// Set the query
 		$db->setQuery($query);
 
 		try
 		{
-			/** @var \JCacheControllerCallback $cache */
-			$cache = Factory::getCache('com_modules', 'callback');
+			/** @var CallbackController $cache */
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+				->createCacheController('callback', ['defaultgroup' => 'com_modules']);
 
 			$modules = $cache->get(array($db, 'loadObjectList'), array(), md5($cacheId), false);
 		}
@@ -498,8 +505,6 @@ abstract class ModuleHelper
 	 * Caching modes:
 	 * To be set in XML:
 	 * 'static'      One cache file for all pages with the same module parameters
-	 * 'oldstatic'   1.5 definition of module caching, one cache file for all pages
-	 *               with the same module id and user aid,
 	 * 'itemid'      Changes on itemid change, to be called from inside the module:
 	 * 'safeuri'     Id created from $cacheparams->modeparams array,
 	 * 'id'          Module sets own cache id's
@@ -526,19 +531,20 @@ abstract class ModuleHelper
 		}
 
 		$user = Factory::getUser();
-		$conf = Factory::getConfig();
+		$app  = Factory::getApplication();
 
-		/** @var \JCacheControllerCallback $cache */
-		$cache = Factory::getCache($cacheparams->cachegroup, 'callback');
+		/** @var CallbackController $cache */
+		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+			->createCacheController('callback', ['defaultgroup' => $cacheparams->cachegroup]);
 
 		// Turn cache off for internal callers if parameters are set to off and for all logged in users
-		if ($moduleparams->get('owncache', null) === '0' || $conf->get('caching') == 0 || $user->get('id'))
+		if ($moduleparams->get('owncache') === 0 || $moduleparams->get('owncache') === '0' || $app->get('caching') == 0 || $user->get('id'))
 		{
 			$cache->setCaching(false);
 		}
 
 		// Module cache is set in seconds, global cache in minutes, setLifeTime works in minutes
-		$cache->setLifeTime($moduleparams->get('cache_time', $conf->get('cachetime') * 60) / 60);
+		$cache->setLifeTime($moduleparams->get('cache_time', $app->get('cachetime') * 60) / 60);
 
 		$wrkaroundoptions = array('nopathway' => 1, 'nohead' => 0, 'nomodules' => 1, 'modulemode' => 1, 'mergehead' => 1);
 
@@ -560,9 +566,9 @@ abstract class ModuleHelper
 			case 'safeuri':
 				$secureid = null;
 
-				if (is_array($cacheparams->modeparams))
+				if (\is_array($cacheparams->modeparams))
 				{
-					$input   = Factory::getApplication()->input;
+					$input   = $app->input;
 					$uri     = $input->getArray();
 					$safeuri = new \stdClass;
 					$noHtmlFilter = InputFilter::getInstance();
@@ -597,23 +603,12 @@ abstract class ModuleHelper
 				);
 				break;
 
-			// Provided for backward compatibility, not really useful.
-			case 'oldstatic':
-				$ret = $cache->get(
-					array($cacheparams->class, $cacheparams->method),
-					$cacheparams->methodparams,
-					$module->id . $view_levels,
-					$wrkarounds,
-					$wrkaroundoptions
-				);
-				break;
-
 			case 'itemid':
 			default:
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$module->id . $view_levels . Factory::getApplication()->input->getInt('Itemid', null),
+					$module->id . $view_levels . $app->input->getInt('Itemid', null),
 					$wrkarounds,
 					$wrkaroundoptions
 				);
@@ -634,11 +629,50 @@ abstract class ModuleHelper
 	{
 		static $enabled = false;
 
-		if (count(LanguageHelper::getInstalledLanguages(1)) > 1)
+		if (\count(LanguageHelper::getInstalledLanguages(1)) > 1)
 		{
 			$enabled = (bool) ComponentHelper::getParams('com_modules')->get('adminlangfilter', 0);
 		}
 
 		return $enabled;
+	}
+
+	/**
+	 * Get module by id
+	 *
+	 * @param   string  $id  The id of the module
+	 *
+	 * @return  \stdClass  The Module object
+	 *
+	 * @since   3.9.0
+	 */
+	public static function &getModuleById($id)
+	{
+		$modules =& static::load();
+
+		$total = \count($modules);
+
+		for ($i = 0; $i < $total; $i++)
+		{
+			// Match the id of the module
+			if ($modules[$i]->id === $id)
+			{
+				// Found it
+				return $modules[$i];
+			}
+		}
+
+		// If we didn't find it, create a dummy object
+		$result            = new \stdClass;
+		$result->id        = 0;
+		$result->title     = '';
+		$result->module    = '';
+		$result->position  = '';
+		$result->content   = '';
+		$result->showtitle = 0;
+		$result->control   = '';
+		$result->params    = '';
+
+		return $result;
 	}
 }

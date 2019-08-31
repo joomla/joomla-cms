@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -79,15 +79,15 @@ class ModuleRenderer extends DocumentRenderer
 			$module->params = (string) $params;
 		}
 
-		// Default for compatibility purposes. Set cachemode parameter or use JModuleHelper::moduleCache from within the module instead
-		$cachemode = $params->get('cachemode', 'oldstatic');
+		// Set cachemode parameter or use JModuleHelper::moduleCache from within the module instead
+		$cachemode = $params->get('cachemode', 'static');
 
-		if ($params->get('cache', 0) == 1 && Factory::getConfig()->get('caching') >= 1 && $cachemode != 'id' && $cachemode != 'safeuri')
+		if ($params->get('cache', 0) == 1 && Factory::getApplication()->get('caching') >= 1 && $cachemode != 'id' && $cachemode != 'safeuri')
 		{
 			// Default to itemid creating method and workarounds on
 			$cacheparams = new \stdClass;
 			$cacheparams->cachemode = $cachemode;
-			$cacheparams->class = 'JModuleHelper';
+			$cacheparams->class = ModuleHelper::class;
 			$cacheparams->method = 'renderModule';
 			$cacheparams->methodparams = array($module, $attribs);
 

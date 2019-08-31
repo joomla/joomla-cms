@@ -16,7 +16,7 @@
  * 4. Check the archives in the tmp directory.
  *
  * @package    Joomla.Build
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,6 +68,7 @@ function clean_checkout(string $dir)
 	system('find . -name phpunit.*.xml | xargs rm -rf -');
 	system('find . -name phpunit.xml.dist | xargs rm -rf -');
 	system('find . -name README.md | xargs rm -rf -');
+	system('find . -name SECURITY.md | xargs rm -rf -');
 
 	echo "Cleaning vendors.\n";
 
@@ -86,6 +87,9 @@ function clean_checkout(string $dir)
 	system('rm -rf libraries/vendor/joomla/*/tests');
 	system('rm -rf libraries/vendor/joomla/*/Tests');
 	system('rm -rf libraries/vendor/joomla/*/ruleset.xml');
+
+	// testing sampledata
+	system('rm -rf plugins/sampledata/testing');
 
 	// paragonie/random_compat
 	system('rm -rf libraries/vendor/paragonie/random_compat/other');
@@ -171,7 +175,7 @@ $showHelp     = isset($options['help']);
 if ($showHelp)
 {
 	usage($argv[0]);
-	die;
+	exit;
 }
 
 // If not given a remote, assume we are looking for the latest local tag
@@ -195,8 +199,30 @@ system($systemGit . ' archive ' . $remote . ' | tar -x -C ' . $fullpath);
 
 // Install PHP and NPM dependencies and compile required media assets, skip Composer autoloader until post-cleanup
 chdir($fullpath);
-system('composer install --no-dev --no-autoloader --ignore-platform-reqs');
-system('npm install --unsafe-perm');
+system('composer install --no-dev --no-autoloader --ignore-platform-reqs', $composerReturnCode);
+
+if ($composerReturnCode !== 0)
+{
+	echo "`composer install` did not complete as expected.\n";
+	exit(1);
+}
+
+system('npm install --unsafe-perm', $npmReturnCode);
+
+if ($npmReturnCode !== 0)
+{
+	echo "`npm install` did not complete as expected.\n";
+	exit(1);
+}
+
+// Create gzipped version of the static assets
+system('npm run gzip', $gzipReturnCode);
+
+if ($gzipReturnCode !== 0)
+{
+	echo "`npm run gzip` did not complete as expected.\n";
+	exit(1);
+}
 
 // Clean the checkout of extra resources
 clean_checkout($fullpath);
@@ -271,6 +297,7 @@ $doNotPackage = array(
 	'.drone.yml',
 	'.eslintignore',
 	'.eslintrc',
+	'.editorconfig',
 	'.github',
 	'.gitignore',
 	'.hound.yml',
@@ -284,6 +311,7 @@ $doNotPackage = array(
 	'codeception.yml',
 	'composer.json',
 	'composer.lock',
+	'crowdin.yml',
 	'drone-package.json',
 	'Gemfile',
 	'Gemfile.lock',
@@ -295,6 +323,10 @@ $doNotPackage = array(
 	'scss-lint.yml',
 	'tests',
 	'travisci-phpunit.xml',
+	'codeception.yml',
+	'RoboFile.php',
+	'CODE_OF_CONDUCT.md',
+	'phpunit-pgsql.xml.dist',
 	// Remove the testing sample data from all packages
 	'installation/sql/mysql/sample_testing.sql',
 	'installation/sql/postgresql/sample_testing.sql',
@@ -499,7 +531,7 @@ foreach (array_keys($checksums) as $packageName)
 {
 	echo "Generating checksums for $packageName\n";
 
-	foreach (array('md5', 'sha1') as $hash)
+	foreach (array('md5', 'sha1', 'sha256', 'sha384', 'sha512') as $hash)
 	{
 		if (file_exists('packages/' . $packageName))
 		{

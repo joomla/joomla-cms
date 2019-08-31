@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -119,7 +119,8 @@ class Session extends BaseSession
 			if (!empty($args[2]))
 			{
 				Log::add(
-					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. The namespace should be prepended to the name instead.',
+					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
+					. 'The namespace should be prepended to the name instead.',
 					Log::WARNING,
 					'deprecated'
 				);
@@ -151,7 +152,8 @@ class Session extends BaseSession
 			if (!empty($args[2]))
 			{
 				Log::add(
-					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. The namespace should be prepended to the name instead.',
+					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
+					. 'The namespace should be prepended to the name instead.',
 					Log::WARNING,
 					'deprecated'
 				);
@@ -182,7 +184,8 @@ class Session extends BaseSession
 			if (!empty($args[1]))
 			{
 				Log::add(
-					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. The namespace should be prepended to the name instead.',
+					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
+					. 'The namespace should be prepended to the name instead.',
 					Log::WARNING,
 					'deprecated'
 				);
@@ -222,7 +225,8 @@ class Session extends BaseSession
 				if (func_num_args() > 1 && !empty($args[1]))
 				{
 					Log::add(
-						'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. The namespace should be prepended to the name instead.',
+						'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
+						 . 'The namespace should be prepended to the name instead.',
 						Log::WARNING,
 						'deprecated'
 					);

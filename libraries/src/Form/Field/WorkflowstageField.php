@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,11 +12,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Workflow Stages field.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class WorkflowstageField extends GroupedlistField
 {
@@ -24,7 +25,7 @@ class WorkflowstageField extends GroupedlistField
 	 * The form field type.
 	 *
 	 * @var     string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $type = 'Workflowstage';
 
@@ -32,15 +33,15 @@ class WorkflowstageField extends GroupedlistField
 	 * The component and section separated by ".".
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
-	protected $extension = 'com_content';
+	protected $extension = '';
 
 	/**
 	 * Show only the stages which has an item attached
 	 *
 	 * @var     boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $activeonly = false;
 
@@ -55,26 +56,30 @@ class WorkflowstageField extends GroupedlistField
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
-		$success = parent::setup($element, $value, $group);
+		$result = parent::setup($element, $value, $group);
 
-		if ($success)
+		if ($result)
 		{
 			if (strlen($element['extension']))
 			{
-				$this->extension =  (string) $element['extension'];
+				$this->extension = (string) $element['extension'];
+			}
+			else
+			{
+				$this->extension = Factory::getApplication()->input->getCmd('extension');
 			}
 
 			if ((string) $element['activeonly'] == '1' || (string) $element['activeonly'] == 'true')
 			{
-				$this->activeonly =  true;
+				$this->activeonly = true;
 			}
 		}
 
-		return $success;
+		return $result;
 	}
 
 	/**
@@ -82,7 +87,7 @@ class WorkflowstageField extends GroupedlistField
 	 *
 	 * @return  array  The field option objects as a nested array in groups.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @throws  \UnexpectedValueException
 	 */
 	protected function getGroups()
@@ -92,21 +97,26 @@ class WorkflowstageField extends GroupedlistField
 
 		// Select distinct stages for existing articles
 		$query
-				->select('DISTINCT ' . $db->quoteName('ws.id', 'workflow_stage_id'))
-				->select($db->quoteName(['ws.title', 'w.title', 'w.id', 'w.ordering'], ['workflow_stage_title', 'workflow_title', 'workflow_id', 'ordering']))
-				->from($db->quoteName('#__workflow_stages', 'ws'))
-				->from($db->quoteName('#__workflows', 'w'))
-				->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
-				->where($db->quoteName('w.extension') . ' = ' . $db->quote($this->extension))
-				->order($db->quoteName('w.ordering'));
+			->select('DISTINCT ' . $db->quoteName('ws.id', 'workflow_stage_id'))
+			->select(
+				$db->quoteName(
+					['ws.title', 'w.title', 'w.id', 'w.ordering', 'ws.ordering'],
+					['workflow_stage_title', 'workflow_title', 'workflow_id', 'ordering', 'workflow_stage_ordering']
+				)
+			)
+			->from($db->quoteName('#__workflow_stages', 'ws'))
+			->from($db->quoteName('#__workflows', 'w'))
+			->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
+			->where($db->quoteName('w.extension') . ' = ' . $db->quote($this->extension))
+			->order($db->quoteName('w.ordering'))
+			->order($db->quoteName('ws.ordering'));
 
 		if ($this->activeonly)
 		{
 			$query
-					->from($db->quoteName('#__workflow_associations', 'wa'))
-					->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'))
-					->where($db->quoteName('wa.extension') . ' = ' . $db->quote($this->extension));
-
+				->from($db->quoteName('#__workflow_associations', 'wa'))
+				->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'))
+				->where($db->quoteName('wa.extension') . ' = ' . $db->quote($this->extension));
 		}
 
 		$stages = $db->setQuery($query)->loadObjectList();
@@ -117,14 +127,14 @@ class WorkflowstageField extends GroupedlistField
 		foreach ($stages as $stage)
 		{
 			// Using workflow ID to differentiate workflows having same title
-			$workflowStageKey = $stage->workflow_title . ' (' . $stage->workflow_id . ')';
+			$workflowStageKey = Text::_($stage->workflow_title) . ' (' . $stage->workflow_id . ')';
 
 			if (!array_key_exists($workflowStageKey, $workflowStages))
 			{
 				$workflowStages[$workflowStageKey] = array();
 			}
 
-			$workflowStages[$workflowStageKey][] = HTMLHelper::_('select.option', $stage->workflow_stage_id, $stage->workflow_stage_title);
+			$workflowStages[$workflowStageKey][] = HTMLHelper::_('select.option', $stage->workflow_stage_id, Text::_($stage->workflow_stage_title));
 		}
 
 		// Merge any additional options in the XML definition.

@@ -3,16 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  System.logout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
  * Plugin class for logout redirect handling.

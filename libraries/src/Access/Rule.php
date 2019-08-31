@@ -2,18 +2,18 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Access;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Rule class.
  *
- * @since  11.4
+ * @since  2.5.0
  */
 class Rule
 {
@@ -21,7 +21,7 @@ class Rule
 	 * A named array
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $data = array();
 
@@ -33,12 +33,12 @@ class Rule
 	 *
 	 * @param   mixed  $identities  A JSON format string (probably from the database) or a named array.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($identities)
 	{
 		// Convert string input to an array.
-		if (is_string($identities))
+		if (\is_string($identities))
 		{
 			$identities = json_decode($identities, true);
 		}
@@ -51,7 +51,7 @@ class Rule
 	 *
 	 * @return  array  A named array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getData()
 	{
@@ -65,7 +65,7 @@ class Rule
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function mergeIdentities($identities)
 	{
@@ -74,7 +74,7 @@ class Rule
 			$identities = $identities->getData();
 		}
 
-		if (is_array($identities))
+		if (\is_array($identities))
 		{
 			foreach ($identities as $identity => $allow)
 			{
@@ -91,7 +91,7 @@ class Rule
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function mergeIdentity($identity, $allow)
 	{
@@ -123,7 +123,7 @@ class Rule
 	 *
 	 * @return  mixed  True if allowed, false for an explicit deny, null for an implicit deny.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function allow($identities)
 	{
@@ -133,7 +133,7 @@ class Rule
 		// Check that the inputs are valid.
 		if (!empty($identities))
 		{
-			if (!is_array($identities))
+			if (!\is_array($identities))
 			{
 				$identities = array($identities);
 			}
@@ -165,7 +165,7 @@ class Rule
 	 *
 	 * @return  string  JSON encoded string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __toString()
 	{

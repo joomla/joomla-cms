@@ -3,14 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\HTML\HTMLHelper;
 
 ?>
 <div id="template-manager-resize" class="container-fluid">
@@ -18,7 +17,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 		<div class="col-md-12">
 			<div class="control-group">
 				<div class="control-label">
-					<label for="height" class="modalTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_TEMPLATES_IMAGE_HEIGHT'); ?>">
+					<label for="height">
 						<?php echo Text::_('COM_TEMPLATES_IMAGE_HEIGHT')?>
 					</label>
 				</div>
@@ -28,7 +27,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 			</div>
 			<div class="control-group">
 				<div class="control-label">
-					<label for="width" class="modalTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_TEMPLATES_IMAGE_WIDTH'); ?>">
+					<label for="width">
 						<?php echo Text::_('COM_TEMPLATES_IMAGE_WIDTH')?>
 					</label>
 				</div>

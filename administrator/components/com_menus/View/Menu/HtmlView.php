@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,11 +11,12 @@ namespace Joomla\Component\Menus\Administrator\View\Menu;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * The HTML Menus Menu Item View.
@@ -72,7 +73,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		parent::display($tpl);
@@ -102,7 +103,7 @@ class HtmlView extends BaseHtmlView
 		{
 			if ($this->canDo->get('core.edit'))
 			{
-				$toolbarButtons[] = ['apply', 'menu.apply'];
+				ToolbarHelper::apply('menu.apply');
 			}
 
 			$toolbarButtons[] = ['save', 'menu.save'];
@@ -111,7 +112,8 @@ class HtmlView extends BaseHtmlView
 		// If user can edit, can save the item.
 		if (!$isNew && $this->canDo->get('core.edit'))
 		{
-			$toolbarButtons[] = ['apply', 'menu.apply'];
+			ToolbarHelper::apply('menu.apply');
+
 			$toolbarButtons[] = ['save', 'menu.save'];
 		}
 

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Workflow\WorkflowServiceInterface;
 /**
  * Workflow States field.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class WorkflowconditionField extends ListField
 {
@@ -25,7 +25,7 @@ class WorkflowconditionField extends ListField
 	 * The form field type.
 	 *
 	 * @var     string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $type = 'Workflowcondition';
 
@@ -33,9 +33,17 @@ class WorkflowconditionField extends ListField
 	 * The component and section separated by ".".
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $extension = '';
+
+	/**
+	 * Determinate if the "All" value should be added
+	 *
+	 * @var boolean
+	 * @since  4.0.0
+	 */
+	protected $hideAll = false;
 
 	/**
 	 * Method to attach a Form object to the field.
@@ -48,7 +56,7 @@ class WorkflowconditionField extends ListField
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
@@ -64,6 +72,11 @@ class WorkflowconditionField extends ListField
 			{
 				$this->extension = Factory::getApplication()->input->getCmd('extension');
 			}
+
+			if (strlen($element['hide_all']))
+			{
+				$this->hideAll = (string) $element['hide_all'] === 'true' || (string) $element['hide_all'] === 'yes';
+			}
 		}
 
 		return $success;
@@ -74,7 +87,7 @@ class WorkflowconditionField extends ListField
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getOptions()
 	{
@@ -108,12 +121,15 @@ class WorkflowconditionField extends ListField
 			$options[] = (object) $tmp;
 		}
 
-		$options[] = (object) array(
-			'value'    => '*',
-			'text'     => Text::_('JALL'),
-			'selected' => $this->value === '*',
-			'checked'  => $this->value === '*',
-		);
+		if (!$this->hideAll)
+		{
+			$options[] = (object) array(
+				'value'    => '*',
+				'text'     => Text::_('JALL'),
+				'selected' => $this->value === '*',
+				'checked'  => $this->value === '*',
+			);
+		}
 
 		// Merge any additional options in the XML definition.
 		return array_merge(parent::getOptions(), $options);

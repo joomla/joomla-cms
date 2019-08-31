@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -165,6 +165,8 @@ abstract class JHtmlTag
 	 * @return  void
 	 *
 	 * @since   3.1
+	 *
+	 * @deprecated  5.0  Without replacement
 	 */
 	public static function ajaxfield($selector = '#jform_tags', $allowCustom = true)
 	{
@@ -179,7 +181,7 @@ abstract class JHtmlTag
 		HTMLHelper::_('behavior.core');
 		HTMLHelper::_('jquery.framework');
 		HTMLHelper::_('formbehavior.chosen');
-		HTMLHelper::_('script', 'legacy/ajax-chosen.min.js', false, true, false, false, JDEBUG);
+		HTMLHelper::_('script', 'legacy/ajax-chosen.min.js', array('version' => 'auto', 'relative' => true));
 
 		Factory::getDocument()->addScriptOptions(
 			'ajax-chosen',
@@ -198,7 +200,7 @@ abstract class JHtmlTag
 		// Allow custom values ?
 		if ($allowCustom)
 		{
-			HTMLHelper::_('script', 'system/fields/tag.min.js', false, true, false, false, JDEBUG);
+			HTMLHelper::_('script', 'system/fields/tag.min.js', array('version' => 'auto', 'relative' => true));
 			Factory::getDocument()->addScriptOptions(
 				'field-tag-custom',
 				array(

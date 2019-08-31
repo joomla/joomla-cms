@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,18 +11,19 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Extension\ExtensionHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Installer\InstallerHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Updater\Update;
+use Joomla\CMS\Updater\Updater;
 use Joomla\Database\Exception\ExecutionFailureException;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Installer\InstallerHelper;
-use Joomla\CMS\Installer\Installer;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Installer Update Model
@@ -131,7 +132,7 @@ class UpdateModel extends ListModel
 		else
 		{
 			$query->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(0))
-				->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(700));
+				->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id));
 		}
 
 		// Process search filter.
@@ -166,7 +167,7 @@ class UpdateModel extends ListModel
 	/**
 	 * Translate a list of objects
 	 *
-	 * @param   array  &$items  The array of objects
+	 * @param   array  $items  The array of objects
 	 *
 	 * @return  array The array of translated objects
 	 *
@@ -179,6 +180,7 @@ class UpdateModel extends ListModel
 			$item->client_translated  = $item->client_id ? Text::_('JADMINISTRATOR') : Text::_('JSITE');
 			$manifest                 = json_decode($item->manifest_cache);
 			$item->current_version    = $manifest->version ?? Text::_('JLIB_UNKNOWN');
+			$item->description        = $manifest->description ?? Text::_('COM_INSTALLER_MSG_UPDATE_NODESC');
 			$item->type_translated    = Text::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));
 			$item->folder_translated  = $item->folder ?: Text::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
 			$item->install_type       = $item->extension_id ? Text::_('COM_INSTALLER_MSG_UPDATE_UPDATE') : Text::_('COM_INSTALLER_NEW_INSTALL');
@@ -266,9 +268,6 @@ class UpdateModel extends ListModel
 	 */
 	public function findUpdates($eid = 0, $cache_timeout = 0, $minimum_stability = Updater::STABILITY_STABLE)
 	{
-		// Purge the updates list
-		$this->purge();
-
 		Updater::getInstance()->findUpdates($eid, $cache_timeout, $minimum_stability);
 
 		return true;
@@ -404,6 +403,9 @@ class UpdateModel extends ListModel
 	 */
 	private function install($update)
 	{
+		// Load overrides plugin.
+		PluginHelper::importPlugin('installer');
+
 		$app = Factory::getApplication();
 
 		if (!isset($update->get('downloadurl')->_data))
@@ -413,7 +415,7 @@ class UpdateModel extends ListModel
 			return false;
 		}
 
-		$url     = $update->downloadurl->_data;
+		$url     = trim($update->downloadurl->_data);
 		$sources = $update->get('downloadSources', array());
 
 		if ($extra_query = $update->get('extra_query'))
@@ -427,7 +429,7 @@ class UpdateModel extends ListModel
 		while (!($p_file = InstallerHelper::downloadPackage($url)) && isset($sources[$mirror]))
 		{
 			$name = $sources[$mirror];
-			$url  = $name->url;
+			$url  = trim($name->url);
 
 			if ($extra_query)
 			{
@@ -456,25 +458,40 @@ class UpdateModel extends ListModel
 		$installer = Installer::getInstance();
 		$update->set('type', $package['type']);
 
+		// Check the package
+		$check = InstallerHelper::isChecksumValid($package['packagefile'], $update);
+
+		// The validation was not successful. Just a warning for now.
+		// TODO: In Joomla 4 this will abort the installation
+		if ($check === InstallerHelper::HASH_NOT_VALIDATED)
+		{
+			$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'error');
+		}
+
 		// Install the package
 		if (!$installer->update($package['dir']))
 		{
 			// There was an error updating the package
-			$msg    = Text::sprintf('COM_INSTALLER_MSG_UPDATE_ERROR', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$app->enqueueMessage(
+				Text::sprintf('COM_INSTALLER_MSG_UPDATE_ERROR',
+					Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))
+				), 'error'
+			);
 			$result = false;
 		}
 		else
 		{
 			// Package updated successfully
-			$msg    = Text::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$app->enqueueMessage(
+				Text::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS',
+					Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))
+				)
+			);
 			$result = true;
 		}
 
 		// Quick change
 		$this->type = $package['type'];
-
-		// Set some model state values
-		$app->enqueueMessage($msg);
 
 		// TODO: Reconfigure this code when you have more battery life left
 		$this->setState('name', $installer->get('name'));

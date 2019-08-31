@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,10 +11,11 @@ namespace Joomla\Component\Contact\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Factory;
 
 /**
  * Methods supporting a list of contact records.
@@ -152,11 +153,13 @@ class ContactsModel extends ListModel
 		// Select the required fields from the table.
 		$query->select(
 			$db->quoteName(
-				explode(', ', $this->getState(
-					'list.select',
-					'a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.catid, a.user_id' .
-					', a.published, a.access, a.created, a.created_by, a.ordering, a.featured, a.language' .
-					', a.publish_up, a.publish_down'
+				explode(
+					', ',
+					$this->getState(
+						'list.select',
+						'a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.catid, a.user_id' .
+						', a.published, a.access, a.created, a.created_by, a.ordering, a.featured, a.language' .
+						', a.publish_up, a.publish_down'
 					)
 				)
 			)
@@ -165,11 +168,11 @@ class ContactsModel extends ListModel
 
 		// Join over the users for the linked user.
 		$query->select(
-				array(
-					$db->quoteName('ul.name', 'linked_user'),
-					$db->quoteName('ul.email')
-				)
+			array(
+				$db->quoteName('ul.name', 'linked_user'),
+				$db->quoteName('ul.email')
 			)
+		)
 			->join(
 				'LEFT',
 				$db->quoteName('#__users', 'ul') . ' ON ' . $db->quoteName('ul.id') . ' = ' . $db->quoteName('a.user_id')
@@ -254,14 +257,14 @@ class ContactsModel extends ListModel
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
 		{
-			$query->where($db->quoteName('a.access') . ' = ' . (int) $access);
+			$query->where($db->quoteName('a.access') . ' = :access');
+			$query->bind(':access', $access, ParameterType::INTEGER);
 		}
 
 		// Implement View Level Access
 		if (!$user->authorise('core.admin'))
 		{
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where($db->quoteName('a.access') . ' IN (' . $groups . ')');
+			$query->whereIn($db->quoteName('a.access'), $user->getAuthorisedViewLevels());
 		}
 
 		// Filter by published state
@@ -269,7 +272,8 @@ class ContactsModel extends ListModel
 
 		if (is_numeric($published))
 		{
-			$query->where($db->quoteName('a.published') . ' = ' . (int) $published);
+			$query->where($db->quoteName('a.published') . ' = :published');
+			$query->bind(':published', $published, ParameterType::INTEGER);
 		}
 		elseif ($published === '')
 		{
@@ -281,11 +285,12 @@ class ContactsModel extends ListModel
 
 		if (is_numeric($categoryId))
 		{
-			$query->where($db->quoteName('a.catid') . ' = ' . (int) $categoryId);
+			$query->where($db->quoteName('a.catid') . ' = :catid');
+			$query->bind(':catid', $categoryId, ParameterType::INTEGER);
 		}
 		elseif (is_array($categoryId))
 		{
-			$query->where($db->quoteName('a.catid') . ' IN (' . implode(',', ArrayHelper::toInteger($categoryId)) . ')');
+			$query->whereIn($db->quoteName('a.catid'), ArrayHelper::toInteger($categoryId));
 		}
 
 		// Filter by search in name.
@@ -295,21 +300,26 @@ class ContactsModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.id = ' . (int) substr($search, 3));
+				$search = substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :id');
+				$query->bind(':id', $search, ParameterType::INTEGER);
 			}
 			else
 			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+				$search = '%' . trim($search) . '%';
 				$query->where(
-					'(' . $db->quoteName('a.name') . ' LIKE ' . $search . ' OR ' . $db->quoteName('a.alias') . ' LIKE ' . $search . ')'
+					'(' . $db->quoteName('a.name') . ' LIKE :name OR ' . $db->quoteName('a.alias') . ' LIKE :alias)'
 				);
+				$query->bind(':name', $search);
+				$query->bind(':alias', $search);
 			}
 		}
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where($db->quoteName('a.language') . ' = ' . $db->quote($language));
+			$query->where($db->quoteName('a.language') . ' = :language');
+			$query->bind(':language', $language);
 		}
 
 		// Filter by a single tag.
@@ -317,19 +327,20 @@ class ContactsModel extends ListModel
 
 		if (is_numeric($tagId))
 		{
-			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
-				->join(
-					'LEFT',
+			$query->where($db->quoteName('tagmap.tag_id') . ' = :tag_id')
+				->leftJoin(
 					$db->quoteName('#__contentitem_tag_map', 'tagmap')
 					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
 					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_contact.contact')
 				);
+			$query->bind(':tag_id', $tagId, ParameterType::INTEGER);
 		}
 
 		// Filter on the level.
 		if ($level = $this->getState('filter.level'))
 		{
-			$query->where('c.level <= ' . (int) $level);
+			$query->where($db->quoteName('c.level') . ' <= :level');
+			$query->bind(':level', $level, ParameterType::INTEGER);
 		}
 
 		// Add the list ordering clause.

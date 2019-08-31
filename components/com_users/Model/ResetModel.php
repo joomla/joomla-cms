@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,15 +12,15 @@ namespace Joomla\Component\Users\Site\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\MVC\Model\FormModel;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
-use Joomla\CMS\User\User;
-use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserHelper;
 
 /**
  * Rest model class for Users.
@@ -35,7 +35,7 @@ class ResetModel extends FormModel
 	 * The base form is loaded from XML and then an event is fired
 	 * for users plugins to extend the form with extra fields.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  Form  A Form object on success, false on failure
@@ -157,7 +157,6 @@ class ResetModel extends FormModel
 	{
 		// Get the form.
 		$form = $this->getResetCompleteForm();
-		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
 		// Check for an error.
 		if ($form instanceof \Exception)
@@ -257,7 +256,6 @@ class ResetModel extends FormModel
 	{
 		// Get the form.
 		$form = $this->getResetConfirmForm();
-		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
 		// Check for an error.
 		if ($form instanceof \Exception)
@@ -359,7 +357,7 @@ class ResetModel extends FormModel
 	 */
 	public function processResetRequest($data)
 	{
-		$config = Factory::getConfig();
+		$app = Factory::getApplication();
 
 		// Get the form.
 		$form = $this->getForm();
@@ -464,14 +462,14 @@ class ResetModel extends FormModel
 		}
 
 		// Assemble the password reset confirmation link.
-		$mode = $config->get('force_ssl', 0) == 2 ? 1 : (-1);
+		$mode = $app->get('force_ssl', 0) == 2 ? 1 : (-1);
 		$link = 'index.php?option=com_users&view=reset&layout=confirm&token=' . $token;
 
 		// Put together the email template data.
 		$data = $user->getProperties();
-		$data['fromname'] = $config->get('fromname');
-		$data['mailfrom'] = $config->get('mailfrom');
-		$data['sitename'] = $config->get('sitename');
+		$data['fromname'] = $app->get('fromname');
+		$data['mailfrom'] = $app->get('mailfrom');
+		$data['sitename'] = $app->get('sitename');
 		$data['link_text'] = Route::_($link, false, $mode);
 		$data['link_html'] = Route::_($link, true, $mode);
 		$data['token'] = $token;

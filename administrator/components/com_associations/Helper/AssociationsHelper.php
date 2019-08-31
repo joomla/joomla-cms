@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,12 +15,11 @@ use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\Registry\Registry;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Registry\Registry;
 
 /**
  * Associations component helper.
@@ -32,8 +31,7 @@ class AssociationsHelper extends ContentHelper
 	/**
 	 * Array of Registry objects of extensions
 	 *
-	 * var      array   $extensionsSupport
-	 *
+	 * @var    array
 	 * @since  3.7.0
 	 */
 	public static $extensionsSupport = null;
@@ -41,8 +39,7 @@ class AssociationsHelper extends ContentHelper
 	/**
 	 * List of extensions name with support
 	 *
-	 * var      array   $supportedExtensionsList
-	 *
+	 * @var    array
 	 * @since  3.7.0
 	 */
 	public static $supportedExtensionsList = array();
@@ -323,15 +320,13 @@ class AssociationsHelper extends ContentHelper
 			$url     = $allow && $addLink ? $url : '';
 			$text    = strtoupper($language->sef);
 
-			$tooltip = htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;
-			$classes = 'hasPopover badge ' . $labelClass;
+			$tooltip = '<strong>' . htmlspecialchars($language->title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
+				. htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;
+			$classes = 'badge ' . $labelClass;
 
-			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $language->title . '" class="' . $classes
-						. '" data-content="' . $tooltip . '" data-placement="top">'
-						. $text . '</a>';
+			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $language->title . '" class="' . $classes . '">' . $text . '</a>'
+				. '<div role="tooltip">' . $tooltip . '</div>';
 		}
-
-		HTMLHelper::_('bootstrap.popover');
 
 		return LayoutHelper::render('joomla.content.associations', $items);
 	}
@@ -425,6 +420,7 @@ class AssociationsHelper extends ContentHelper
 			$languageKey = $typeName;
 
 			$typeNameExploded = explode('.', $typeName);
+
 			if (array_pop($typeNameExploded) === 'category')
 			{
 				$languageKey = strtoupper($extensionName) . '_CATEGORIES';

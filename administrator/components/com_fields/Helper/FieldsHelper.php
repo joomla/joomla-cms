@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,15 +11,17 @@ namespace Joomla\Component\Fields\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Filesystem\Path;
+use Joomla\Component\Fields\Administrator\Model\FieldsModel;
 
 /**
  * FieldsHelper
@@ -28,8 +30,14 @@ use Joomla\CMS\Filesystem\Path;
  */
 class FieldsHelper
 {
+	/**
+	 * @var    FieldsModel
+	 */
 	private static $fieldsCache = null;
 
+	/**
+	 * @var    FieldsModel
+	 */
 	private static $fieldCache = null;
 
 	/**
@@ -95,8 +103,7 @@ class FieldsHelper
 		{
 			// Load the model
 			self::$fieldsCache = Factory::getApplication()->bootComponent('com_fields')
-				->createMVCFactory(Factory::getApplication())
-				->createModel('Fields', 'Administrator', ['ignore_request' => true]);
+				->getMVCFactory()->createModel('Fields', 'Administrator', ['ignore_request' => true]);
 
 			self::$fieldsCache->setState('filter.state', 1);
 			self::$fieldsCache->setState('list.limit', 0);
@@ -145,8 +152,7 @@ class FieldsHelper
 			if (self::$fieldCache === null)
 			{
 				self::$fieldCache = Factory::getApplication()->bootComponent('com_fields')
-					->createMVCFactory(Factory::getApplication())
-					->createModel('Field', 'Administrator', ['ignore_request' => true]);
+					->getMVCFactory()->createModel('Field', 'Administrator', ['ignore_request' => true]);
 			}
 
 			$fieldIds = array_map(
@@ -196,7 +202,7 @@ class FieldsHelper
 
 					/*
 					 * On before field prepare
-					 * Event allow plugins to modfify the output of the field before it is prepared
+					 * Event allow plugins to modify the output of the field before it is prepared
 					 */
 					Factory::getApplication()->triggerEvent('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
 
@@ -312,7 +318,10 @@ class FieldsHelper
 
 			// Choose the first category available
 			$xml = new \DOMDocument;
+			libxml_use_internal_errors(true);
 			$xml->loadHTML($formField->__get('input'));
+			libxml_clear_errors();
+			libxml_use_internal_errors(false);
 			$options = $xml->getElementsByTagName('option');
 
 			if (!$assignedCatids && $firstChoice = $options->item(0))
@@ -330,26 +339,11 @@ class FieldsHelper
 		if ($form->getField('catid') && $parts[0] != 'com_fields')
 		{
 			/*
-			 * Setting the onchange event to reload the page when the category
-			 * has changed
-			*/
-			$form->setFieldAttribute('catid', 'onchange', 'categoryHasChanged(this);');
-
-			// Preload spindle-wheel when we need to submit form due to category selector changed
-			Factory::getDocument()->addScriptDeclaration("
-			function categoryHasChanged(element) {
-				var cat = jQuery(element);
-				if (cat.val() == '" . $assignedCatids . "')return;
-				Joomla.loadingLayer('show');
-				jQuery('input[name=task]').val('" . $section . ".reload');
-				element.form.submit();
-			}
-			jQuery( document ).ready(function() {
-				Joomla.loadingLayer('load');
-				var formControl = '#" . $form->getFormControl() . "_catid';
-				if (!jQuery(formControl).val() != '" . $assignedCatids . "'){jQuery(formControl).val('" . $assignedCatids . "');}
-			});"
-			);
+			 * Setting some parameters for the category field
+			 */
+			$form->setFieldAttribute('catid', 'refresh-enabled', true);
+			$form->setFieldAttribute('catid', 'refresh-cat-id', $assignedCatids);
+			$form->setFieldAttribute('catid', 'refresh-section', $section);
 		}
 
 		// Getting the fields
@@ -399,8 +393,7 @@ class FieldsHelper
 		}
 
 		$model = Factory::getApplication()->bootComponent('com_fields')
-			->createMVCFactory(Factory::getApplication())
-			->createModel('Groups', 'Administrator', ['ignore_request' => true]);
+			->getMVCFactory()->createModel('Groups', 'Administrator', ['ignore_request' => true]);
 		$model->setState('filter.context', $context);
 
 		/**
@@ -423,7 +416,7 @@ class FieldsHelper
 			}
 
 			// Defining the field set
-			/** @var DOMElement $fieldset */
+			/** @var \DOMElement $fieldset */
 			$fieldset = $fieldsNode->appendChild(new \DOMElement('fieldset'));
 			$fieldset->setAttribute('name', 'fields-' . $group->id);
 			$fieldset->setAttribute('addfieldpath', '/administrator/components/' . $component . '/models/fields');
@@ -490,8 +483,7 @@ class FieldsHelper
 		$form->load($xml->saveXML());
 
 		$model = Factory::getApplication()->bootComponent('com_fields')
-			->createMVCFactory(Factory::getApplication())
-			->createModel('Field', 'Administrator', ['ignore_request' => true]);
+			->getMVCFactory()->createModel('Field', 'Administrator', ['ignore_request' => true]);
 
 		if ((!isset($data->id) || !$data->id) && Factory::getApplication()->input->getCmd('controller') == 'modules'
 			&& Factory::getApplication()->isClient('site'))
@@ -550,6 +542,53 @@ class FieldsHelper
 	}
 
 	/**
+	 * Return a boolean based on field (and field group) display / show_on settings
+	 *
+	 * @param   \stdClass  $field  The field
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.8.7
+	 */
+	public static function displayFieldOnForm($field)
+	{
+		$app = Factory::getApplication();
+
+		// Detect if the field should be shown at all
+		if ($field->params->get('show_on') == 1 && $app->isClient('administrator'))
+		{
+			return false;
+		}
+		elseif ($field->params->get('show_on') == 2 && $app->isClient('site'))
+		{
+			return false;
+		}
+
+		if (!self::canEditFieldValue($field))
+		{
+			$fieldDisplayReadOnly = $field->params->get('display_readonly', '2');
+
+			if ($fieldDisplayReadOnly == '2')
+			{
+				// Inherit from field group display read-only setting
+				$groupModel = $app->bootComponent('com_fields')
+					->getMVCFactory()->createModel('Group', 'Administrator', ['ignore_request' => true]);
+				$groupDisplayReadOnly = $groupModel->getItem($field->group_id)->params->get('display_readonly', '1');
+				$fieldDisplayReadOnly = $groupDisplayReadOnly;
+			}
+
+			if ($fieldDisplayReadOnly == '0')
+			{
+				// Do not display field on form when field is read-only
+				return false;
+			}
+		}
+
+		// Display field on form
+		return true;
+	}
+
+	/**
 	 * Gets assigned categories titles for a field
 	 *
 	 * @param   \stdClass[]  $fieldId  The field ID
@@ -572,7 +611,7 @@ class FieldsHelper
 
 		$query->select($db->quoteName('c.title'))
 			->from($db->quoteName('#__fields_categories', 'a'))
-			->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
+			->join('INNER', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
 			->where('field_id = ' . $fieldId);
 
 		$db->setQuery($query);

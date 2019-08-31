@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\Document\Renderer\Feed;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -53,8 +54,8 @@ class RssRenderer extends DocumentRenderer
 
 		$data = $this->_doc;
 
-		// If the last build date from the document isn't a JDate object, create one
-		if (!($data->lastBuildDate instanceof \JDate))
+		// If the last build date from the document isn't a Date object, create one
+		if (!($data->lastBuildDate instanceof Date))
 		{
 			// Gets and sets timezone offset from site configuration
 			$data->lastBuildDate = Factory::getDate();

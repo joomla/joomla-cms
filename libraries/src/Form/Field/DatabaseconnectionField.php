@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,11 +10,8 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for the Joomla Platform.
@@ -22,15 +19,15 @@ FormHelper::loadFieldClass('list');
  * a given list.
  *
  * @see    DatabaseDriver
- * @since  11.3
+ * @since  1.7.3
  */
-class DatabaseconnectionField extends \JFormFieldList
+class DatabaseconnectionField extends ListField
 {
 	/**
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $type = 'Databaseconnection';
 
@@ -42,7 +39,7 @@ class DatabaseconnectionField extends \JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @see     DatabaseDriver::getConnectors()
 	 */
 	protected function getOptions()

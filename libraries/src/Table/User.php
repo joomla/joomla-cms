@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,8 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Mail\MailHelper;
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -20,7 +22,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Users table
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class User extends Table
 {
@@ -28,7 +30,7 @@ class User extends Table
 	 * Associative array of group ids => group ids for the user
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $groups;
 
@@ -37,7 +39,7 @@ class User extends Table
 	 *
 	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
@@ -58,7 +60,7 @@ class User extends Table
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function load($userId = null, $reset = true)
 	{
@@ -95,7 +97,7 @@ class User extends Table
 		}
 
 		// Convert email from punycode
-		$data['email'] = \JStringPunycode::emailToUTF8($data['email']);
+		$data['email'] = PunycodeHelper::emailToUTF8($data['email']);
 
 		// Bind the data to the table.
 		$return = $this->bind($data);
@@ -126,7 +128,7 @@ class User extends Table
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -165,7 +167,7 @@ class User extends Table
 	 *
 	 * @return  boolean  True if satisfactory
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function check()
 	{
@@ -211,7 +213,7 @@ class User extends Table
 			return false;
 		}
 
-		if (($filterInput->clean($this->email, 'TRIM') == '') || !\JMailHelper::isEmailAddress($this->email))
+		if (($filterInput->clean($this->email, 'TRIM') == '') || !MailHelper::isEmailAddress($this->email))
 		{
 			$this->setError(Text::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
 
@@ -219,7 +221,7 @@ class User extends Table
 		}
 
 		// Convert email to punycode for storage
-		$this->email = \JStringPunycode::emailToPunycode($this->email);
+		$this->email = PunycodeHelper::emailToPunycode($this->email);
 
 		// Set the registration timestamp
 		if (empty($this->registerDate) || $this->registerDate == $this->_db->getNullDate())
@@ -273,8 +275,7 @@ class User extends Table
 		}
 
 		// Check for root_user != username
-		$config = Factory::getConfig();
-		$rootUser = $config->get('root_user');
+		$rootUser = Factory::getApplication()->get('root_user');
 
 		if (!is_numeric($rootUser))
 		{
@@ -307,7 +308,7 @@ class User extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function store($updateNulls = false)
 	{
@@ -414,7 +415,7 @@ class User extends Table
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function delete($userId = null)
 	{
@@ -473,7 +474,7 @@ class User extends Table
 	 *
 	 * @return  boolean  False if an error occurs
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setLastVisit($timeStamp = null, $userId = null)
 	{

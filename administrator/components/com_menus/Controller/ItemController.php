@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,13 +12,11 @@ namespace Joomla\Component\Menus\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Factory;
 
 /**
  * The Menu ItemModel  Controller
@@ -40,9 +38,9 @@ class ItemController extends FormController
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
-		$menuType = Factory::getApplication()->input->getCmd('menutype', $data['menutype'] ?? '');
+		$menuType = $this->input->getCmd('menutype', $data['menutype'] ?? '');
 
 		$menutypeID = 0;
 
@@ -69,7 +67,7 @@ class ItemController extends FormController
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
 		$menutypeID = 0;
 
@@ -145,9 +143,9 @@ class ItemController extends FormController
 	 */
 	public function batch($model = null)
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		/* @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
+		/** @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
 		$model = $this->getModel('Item', 'Administrator', array());
 
 		// Preset the redirect
@@ -167,7 +165,7 @@ class ItemController extends FormController
 	 */
 	public function cancel($key = null)
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$result = parent::cancel();
 
@@ -223,7 +221,7 @@ class ItemController extends FormController
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
@@ -231,7 +229,7 @@ class ItemController extends FormController
 
 		if ($recordId)
 		{
-			/* @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
+			/** @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
 			$model    = $this->getModel();
 			$item     = $model->getItem($recordId);
 			$clientId = $item->client_id;
@@ -260,21 +258,20 @@ class ItemController extends FormController
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		$app      = $this->app;
-
-		/* @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
+		/** @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
 		$model    = $this->getModel('Item', 'Administrator', array());
 		$table    = $model->getTable();
 		$data     = $this->input->post->get('jform', array(), 'array');
 		$task     = $this->getTask();
 		$context  = 'com_menus.edit.item';
+		$app      = $this->app;
 
 		// Set the menutype should we need it.
 		if ($data['menutype'] !== '')
 		{
-			$app->input->set('menutype', $data['menutype']);
+			$this->input->set('menutype', $data['menutype']);
 		}
 
 		// Determine the name of the primary key for the data.
@@ -519,7 +516,7 @@ class ItemController extends FormController
 	 */
 	public function setType()
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app = $this->app;
 
@@ -600,7 +597,7 @@ class ItemController extends FormController
 
 		if ($menutype)
 		{
-			/* @var \Joomla\Component\Menus\Administrator\Model\ItemsModel $model */
+			/** @var \Joomla\Component\Menus\Administrator\Model\ItemsModel $model */
 			$model = $this->getModel('Items', 'Administrator', array());
 			$model->getState();
 			$model->setState('filter.menutype', $menutype);

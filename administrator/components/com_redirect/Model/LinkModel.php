@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,11 +12,11 @@ namespace Joomla\Component\Redirect\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Redirect link model.
@@ -168,10 +168,12 @@ class LinkModel extends AdminModel
 			// Update the link rows.
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__redirect_links'))
-				->set($db->quoteName('new_url') . ' = ' . $db->quote($url))
-				->set($db->quoteName('published') . ' = ' . (int) 1)
-				->set($db->quoteName('comment') . ' = ' . $db->quote($comment))
-				->where($db->quoteName('id') . ' IN (' . implode(',', $pks) . ')');
+				->set($db->quoteName('new_url') . ' = :url')
+				->set($db->quoteName('published') . ' = 1')
+				->set($db->quoteName('comment') . ' = :comment')
+				->whereIn($db->quoteName('id'), $pks)
+				->bind(':url', $url)
+				->bind(':comment', $comment);
 			$db->setQuery($query);
 
 			try
@@ -225,10 +227,12 @@ class LinkModel extends AdminModel
 			// Update the link rows.
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__redirect_links'))
-				->set($db->quoteName('new_url') . ' = ' . $db->quote($url))
-				->set($db->quoteName('modified_date') . ' = ' . $db->quote($date))
-				->set($db->quoteName('published') . ' = ' . 1)
-				->where($db->quoteName('id') . ' IN (' . implode(',', $pks) . ')');
+				->set($db->quoteName('new_url') . ' = :url')
+				->set($db->quoteName('modified_date') . ' = :date')
+				->set($db->quoteName('published') . ' = 1')
+				->whereIn($db->quoteName('id'), $pks)
+				->bind(':url', $url)
+				->bind(':date', $date);
 
 			if (!empty($comment))
 			{

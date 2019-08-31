@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,13 +12,15 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Installer Update Controller
@@ -37,9 +39,9 @@ class UpdateController extends BaseController
 	public function update()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('update');
 
 		$uid = $this->input->get('cid', array(), 'array');
@@ -47,7 +49,7 @@ class UpdateController extends BaseController
 
 		// Get the minimum stability.
 		$params        = ComponentHelper::getComponent('com_installer')->getParams();
-		$minimum_stability = $params->get('minimum_stability', Updater::STABILITY_STABLE, 'int');
+		$minimum_stability = (int) $params->get('minimum_stability', Updater::STABILITY_STABLE);
 
 		$model->update($uid, $minimum_stability);
 
@@ -84,18 +86,18 @@ class UpdateController extends BaseController
 	 */
 	public function find()
 	{
-		(Session::checkToken() or Session::checkToken('get')) or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		// Get the caching duration.
 		$params        = ComponentHelper::getComponent('com_installer')->getParams();
-		$cache_timeout = $params->get('cachetimeout', 6, 'int');
+		$cache_timeout = (int) $params->get('cachetimeout', 6);
 		$cache_timeout = 3600 * $cache_timeout;
 
 		// Get the minimum stability.
-		$minimum_stability = $params->get('minimum_stability', Updater::STABILITY_STABLE, 'int');
+		$minimum_stability = (int) $params->get('minimum_stability', Updater::STABILITY_STABLE);
 
 		// Find updates.
-		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('update');
 
 		$disabledUpdateSites = $model->getDisabledUpdateSites();
@@ -120,9 +122,9 @@ class UpdateController extends BaseController
 	public function purge()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('update');
 		$model->purge();
 
@@ -150,7 +152,7 @@ class UpdateController extends BaseController
 		{
 			$app->setHeader('status', 403, true);
 			$app->sendHeaders();
-			echo Text::_('JINVALID_TOKEN');
+			echo Text::_('JINVALID_TOKEN_NOTICE');
 			$app->close();
 		}
 
@@ -163,16 +165,16 @@ class UpdateController extends BaseController
 
 		if ($cache_timeout == 0)
 		{
-			$cache_timeout = $params->get('cachetimeout', 6, 'int');
+			$cache_timeout = (int) $params->get('cachetimeout', 6);
 			$cache_timeout = 3600 * $cache_timeout;
 		}
 
 		if ($minimum_stability < 0)
 		{
-			$minimum_stability = $params->get('minimum_stability', Updater::STABILITY_STABLE, 'int');
+			$minimum_stability = (int) $params->get('minimum_stability', Updater::STABILITY_STABLE);
 		}
 
-		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('update');
 		$model->findUpdates($eid, $cache_timeout, $minimum_stability);
 
@@ -203,5 +205,24 @@ class UpdateController extends BaseController
 		echo json_encode($updates);
 
 		$app->close();
+	}
+
+	/**
+	 * Provide the data for a badge in a menu item via JSON
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function getMenuBadgeData()
+	{
+		if (!Factory::getUser()->authorise('core.manage', 'com_installer'))
+		{
+			throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
+		}
+
+		$model = $this->getModel('Update');
+
+		echo new JsonResponse(count($model->getItems()));
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,7 +54,7 @@ abstract class JHtmlMenu
 			$db = Factory::getDbo();
 
 			$query = $db->getQuery(true)
-				->select($db->qn(array('id', 'menutype', 'title', 'client_id'), array('id', 'value', 'text', 'client_id')))
+				->select($db->quoteName(array('id', 'menutype', 'title', 'client_id'), array('id', 'value', 'text', 'client_id')))
 				->from($db->quoteName('#__menu_types'))
 				->order('client_id, title');
 
@@ -129,6 +129,12 @@ abstract class JHtmlMenu
 				}
 
 				$lookup[$item->menutype][] = &$item;
+
+				// Translate the menu item title when client is administrator
+				if ($clientId === 1)
+				{
+					$item->text = Text::_($item->text);
+				}
 
 				$item->text = str_repeat('- ', $item->level) . $item->text;
 			}

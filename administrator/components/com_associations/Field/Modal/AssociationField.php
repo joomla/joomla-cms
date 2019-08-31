@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,9 +13,9 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Supports a modal item picker.
@@ -46,7 +46,7 @@ class AssociationField extends FormField
 		$value = (int) $this->value > 0 ? (int) $this->value : '';
 
 		Factory::getDocument()->addScriptOptions('modal-associations', ['itemId' => $value]);
-		HTMLHelper::_('script', 'com_associations/modal-associations.min.js', false, true);
+		HTMLHelper::_('script', 'com_associations/modal-associations.min.js', ['version' => 'auto', 'relative' => true]);
 
 		// Setup variables for display.
 		$html = array();
@@ -59,20 +59,21 @@ class AssociationField extends FormField
 		$urlSelect = $linkAssociations . '&amp;' . Session::getFormToken() . '=1';
 
 		// Select custom association button
-		$html[] = '<a'
+		$html[] = '<button'
+			. ' type="button"'
 			. ' id="select-change"'
 			. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
 			. ' data-toggle="modal"'
 			. ' data-select="' . Text::_('COM_ASSOCIATIONS_SELECT_TARGET') . '"'
 			. ' data-change="' . Text::_('COM_ASSOCIATIONS_CHANGE_TARGET') . '"'
-			. ' role="button"'
-			. ' href="#associationSelect' . $this->id . 'Modal">'
+			. ' data-target="#associationSelect' . $this->id . 'Modal">'
 			. '<span class="icon-file" aria-hidden="true"></span> '
 			. '<span id="select-change-text"></span>'
-			. '</a>';
+			. '</button>';
 
 		// Clear association button
 		$html[] = '<button'
+			. ' type="button"'
 			. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
 			. ' onclick="return Joomla.submitbutton(\'undo-association\');"'
 			. ' id="remove-assoc">'
@@ -93,7 +94,7 @@ class AssociationField extends FormField
 				'width'       => '800px',
 				'bodyHeight'  => 70,
 				'modalWidth'  => 80,
-				'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+				'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal">'
 						. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
 			)
 		);

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,10 @@ $fieldSets = $form->getFieldsets('metadata');
 
 <?php foreach ($fieldSets as $name => $fieldSet) : ?>
 	<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
-		<joomla-alert type="info"><?php echo $this->escape(Text::_($fieldSet->description)); ?></joomla-alert>
+		<div class="alert alert-info">
+			<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+			<?php echo $this->escape(Text::_($fieldSet->description)); ?>
+		</div>
 	<?php endif; ?>
 
 	<?php
@@ -28,7 +31,6 @@ $fieldSets = $form->getFieldsets('metadata');
 	{
 		echo $form->renderField('metadesc');
 		echo $form->renderField('metakey');
-		echo $form->renderField('xreference');
 	}
 
 	foreach ($form->getFieldset($name) as $field)

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,12 +13,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-use Joomla\Database\DatabaseDriver;
 
 /**
  * Fields Table
@@ -132,6 +132,11 @@ class FieldTable extends Table
 			$this->type = 'text';
 		}
 
+		if (empty($this->fieldparams))
+		{
+			$this->fieldparams = '{}';
+		}
+
 		$date = Factory::getDate();
 		$user = Factory::getUser();
 
@@ -143,6 +148,9 @@ class FieldTable extends Table
 		}
 		else
 		{
+			$this->modified_time = $this->getDbo()->getNullDate();
+			$this->modified_by = 0;
+
 			if (!(int) $this->created_time)
 			{
 				$this->created_time = $date->toSql();

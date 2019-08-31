@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ use Joomla\Registry\Registry;
 /**
  * UpdateAdapter class.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 abstract class UpdateAdapter extends \JAdapterInstance
 {
@@ -30,7 +30,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 * Resource handle for the XML Parser
 	 *
 	 * @var    resource
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $xmlParser;
 
@@ -38,7 +38,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 * Element call stack
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $stack = array('base');
 
@@ -46,7 +46,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 * ID of update site
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $updateSiteId = 0;
 
@@ -54,9 +54,9 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 * Columns in the extensions table to be updated
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
-	protected $updatecols = array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION', 'INFOURL', 'EXTRA_QUERY');
+	protected $updatecols = array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION', 'INFOURL', 'CHANGELOGURL', 'EXTRA_QUERY');
 
 	/**
 	 * Should we try appending a .xml extension to the update site's URL?
@@ -99,7 +99,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 *
 	 * @return  object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getStackLocation()
 	{
@@ -111,7 +111,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 *
 	 * @return  object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getLastTag()
 	{
@@ -125,7 +125,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 *
 	 * @return  array  Update_sites and updates discovered
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	abstract public function findUpdate($options);
 
@@ -151,9 +151,9 @@ abstract class UpdateAdapter extends \JAdapterInstance
 
 		$db = $this->parent->getDbo();
 		$query = $db->getQuery(true)
-			->update($db->qn('#__update_sites'))
-			->set($db->qn('enabled') . ' = ' . $db->q($enabled ? 1 : 0))
-			->where($db->qn('update_site_id') . ' = ' . $db->q($update_site_id));
+			->update($db->quoteName('#__update_sites'))
+			->set($db->quoteName('enabled') . ' = ' . $db->quote($enabled ? 1 : 0))
+			->where($db->quoteName('update_site_id') . ' = ' . $db->quote($update_site_id));
 		$db->setQuery($query);
 
 		try
@@ -184,9 +184,9 @@ abstract class UpdateAdapter extends \JAdapterInstance
 
 		$db = $this->parent->getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('name'))
-			->from($db->qn('#__update_sites'))
-			->where($db->qn('update_site_id') . ' = ' . $db->q($updateSiteId));
+			->select($db->quoteName('name'))
+			->from($db->quoteName('#__update_sites'))
+			->where($db->quoteName('update_site_id') . ' = ' . $db->quote($updateSiteId));
 		$db->setQuery($query);
 
 		$name = '';

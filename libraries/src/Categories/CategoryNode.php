@@ -2,16 +2,18 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Categories;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Tree\NodeInterface;
+use Joomla\CMS\Tree\NodeTrait;
 use Joomla\Registry\Registry;
 
 /**
@@ -19,8 +21,10 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class CategoryNode extends CMSObject
+class CategoryNode extends CMSObject implements NodeInterface
 {
+	use NodeTrait;
+
 	/**
 	 * Primary key
 	 *
@@ -198,7 +202,7 @@ class CategoryNode extends CMSObject
 	public $modified_time = null;
 
 	/**
-	 * Nmber of times the category has been viewed
+	 * Number of times the category has been viewed
 	 *
 	 * @var    integer
 	 * @since  1.6
@@ -246,44 +250,12 @@ class CategoryNode extends CMSObject
 	public $assets = null;
 
 	/**
-	 * Parent Category object
-	 *
-	 * @var    CategoryNode
-	 * @since  1.6
-	 */
-	protected $_parent = null;
-
-	/**
-	 * Array of Children
-	 *
-	 * @var    CategoryNode[]
-	 * @since  1.6
-	 */
-	protected $_children = array();
-
-	/**
 	 * Path from root to this category
 	 *
 	 * @var    array
 	 * @since  1.6
 	 */
 	protected $_path = array();
-
-	/**
-	 * Category left of this one
-	 *
-	 * @var    CategoryNode
-	 * @since  1.6
-	 */
-	protected $_leftSibling = null;
-
-	/**
-	 * Category right of this one
-	 *
-	 * @var    CategoryNode
-	 * @since  1.6
-	 */
-	protected $_rightSibling = null;
 
 	/**
 	 * Flag if all children have been loaded
@@ -296,7 +268,7 @@ class CategoryNode extends CMSObject
 	/**
 	 * Constructor of this tree
 	 *
-	 * @var    CategoryNode
+	 * @var    Categories
 	 * @since  1.6
 	 */
 	protected $_constructor = null;
@@ -304,8 +276,8 @@ class CategoryNode extends CMSObject
 	/**
 	 * Class constructor
 	 *
-	 * @param   array         $category     The category data.
-	 * @param   CategoryNode  $constructor  The tree constructor.
+	 * @param   array       $category     The category data.
+	 * @param   Categories  $constructor  The tree constructor.
 	 *
 	 * @since   1.6
 	 */
@@ -337,74 +309,31 @@ class CategoryNode extends CMSObject
 	 *
 	 * @since   1.6
 	 */
-	public function setParent($parent)
+	public function setParent(NodeInterface $parent)
 	{
-		if ($parent instanceof CategoryNode || is_null($parent))
+		if (!\is_null($this->_parent))
 		{
-			if (!is_null($this->_parent))
-			{
-				$key = array_search($this, $this->_parent->_children);
-				unset($this->_parent->_children[$key]);
-			}
-
-			if (!is_null($parent))
-			{
-				$parent->_children[] = & $this;
-			}
-
-			$this->_parent = $parent;
-
-			if ($this->id != 'root')
-			{
-				if ($this->parent_id != 1)
-				{
-					$this->_path = $parent->getPath();
-				}
-
-				$this->_path[$this->id] = $this->id . ':' . $this->alias;
-			}
-
-			if (count($parent->_children) > 1)
-			{
-				end($parent->_children);
-				$this->_leftSibling = prev($parent->_children);
-				$this->_leftSibling->_rightsibling = & $this;
-			}
+			$key = array_search($this, $this->_parent->_children);
+			unset($this->_parent->_children[$key]);
 		}
-	}
 
-	/**
-	 * Add child to this node
-	 *
-	 * If the child already has a parent, the link is unset
-	 *
-	 * @param   CategoryNode  $child  The child to be added.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public function addChild($child)
-	{
-		if ($child instanceof CategoryNode)
+		$this->_parent = $parent;
+
+		$this->_parent->_children[] = & $this;
+
+		if (\count($this->_parent->_children) > 1)
 		{
-			$child->setParent($this);
+			end($this->_parent->_children);
+			$this->_leftSibling = prev($this->_parent->_children);
+			$this->_leftSibling->_rightsibling = & $this;
 		}
-	}
 
-	/**
-	 * Remove a specific child
-	 *
-	 * @param   integer  $id  ID of a category
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public function removeChild($id)
-	{
-		$key = array_search($this, $this->_parent->_children);
-		unset($this->_parent->_children[$key]);
+		if ($this->parent_id != 1)
+		{
+			$this->_path = $parent->getPath();
+		}
+
+		$this->_path[$this->id] = $this->id . ':' . $this->alias;
 	}
 
 	/**
@@ -445,64 +374,6 @@ class CategoryNode extends CMSObject
 		}
 
 		return $this->_children;
-	}
-
-	/**
-	 * Get the parent of this node
-	 *
-	 * @return  CategoryNode
-	 *
-	 * @since   1.6
-	 */
-	public function getParent()
-	{
-		return $this->_parent;
-	}
-
-	/**
-	 * Test if this node has children
-	 *
-	 * @return  boolean  True if there is a child
-	 *
-	 * @since   1.6
-	 */
-	public function hasChildren()
-	{
-		return count($this->_children);
-	}
-
-	/**
-	 * Test if this node has a parent
-	 *
-	 * @return  boolean  True if there is a parent
-	 *
-	 * @since   1.6
-	 */
-	public function hasParent()
-	{
-		return $this->getParent() != null;
-	}
-
-	/**
-	 * Function to set the left or right sibling of a category
-	 *
-	 * @param   CategoryNode  $sibling  CategoryNode object for the sibling
-	 * @param   boolean       $right    If set to false, the sibling is the left one
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public function setSibling($sibling, $right = true)
-	{
-		if ($right)
-		{
-			$this->_rightSibling = $sibling;
-		}
-		else
-		{
-			$this->_leftSibling = $sibling;
-		}
 	}
 
 	/**

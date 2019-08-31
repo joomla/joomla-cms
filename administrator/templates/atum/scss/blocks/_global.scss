@@ -1,14 +1,19 @@
 // Global
 
-html,
+html {
+   height: 100%;
+}
+
 body {
-  height: 100%;
-  font-size: $font-size-root;
+   min-height: 100%;
 }
 
 body {
   padding: 0;
   margin: 0;
+  &.monochrome {
+    filter: grayscale(1);
+  }
 }
 
 h1,
@@ -17,11 +22,11 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: bold;
+  font-weight: $font-weight-bold;
 }
 
 h1 {
-  font-weight: normal;
+  font-weight: $font-weight-normal;
 }
 
 small,
@@ -31,10 +36,10 @@ small,
 
 legend {
   font-size: 1.2rem;
-  font-weight: 700;
+  font-weight: $font-weight-bold;
 }
 
-// focus-visible polyfil rule
+// focus-visible polyfill rule
 .js-focus-visible :focus:not(.focus-visible) {
   outline: none;
 }
@@ -45,13 +50,162 @@ button,
 input,
 textarea {
 
-  &:focus,
-  &:-moz-focusring {
-    outline: auto 2px $focus-highlight-color;
+  &.focus-visible {
+  outline: auto 2px var(--focus);
   }
 }
+
 // Break up text in cells to prevent overflow
 .break-word {
   word-break: break-all;
   word-wrap: break-word;
+}
+
+.content {
+  font-size: $content-font-size;
+}
+
+label,
+caption {
+  font-size: $label-font-size;
+}
+
+.logo {
+
+  img path {
+    fill: var(--atum-text-dark);
+  }
+}
+
+.container-main,
+.system-debug {
+  padding-bottom: 50px;
+}
+
+body .container-main {
+  position: relative;
+  min-height: calc(100vh - #{$header-height} - 3px);
+  padding-left: 0;
+  padding-right: 0;
+
+  &::before, &::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    // Note IDE's will consider this file import to fail in SCSS but this is correct for the final compiled CSS file
+    background: var(--atum-bg-light) url("../images/joomla-pattern.svg");
+    background-size: 15rem;
+  }
+
+  &::after {
+    background: linear-gradient(135deg, var(--atum-bg-light) 0%, var(--atum-bg-light) 20%, rgba(225, 229, 231, 0) 100%);
+  }
+}
+
+.content {
+  padding-top: 15px;
+  border-radius: $border-radius;
+
+  > .row {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .subhead + & {
+    padding-top: 0;
+  }
+}
+
+.row-selected {
+  background-color: var(--toolbar-bg);
+}
+
+// Chosen (TEMPORARY)
+.chzn-container-single {
+  width: auto !important;
+}
+
+// Multilingual associations specific
+.item-associations {
+  padding: 0;
+}
+
+.item-associations li {
+  display: inline-block;
+  list-style: none;
+}
+
+// Quickicon specific
+.message-alert {
+  text-align: right !important;
+}
+
+// Fadeeffect for login page
+.load-fadein {
+  @include fadein-page;
+}
+
+.load-fadeout {
+  @include fadeout-page;
+}
+
+// Fix blinking of fade effect
+.container-main.fade-done > * {
+  opacity: 1;
+}
+
+.sidebar-wrapper.fade-done > * {
+  opacity: 1;
+}
+
+// dashboard items
+.menu-quicktask,
+.menu-badge {
+  float: right;
+  min-width: 1rem;
+}
+
+// extern links with icons
+a[target="_blank"]::before {
+  font: normal normal normal 14px/1 'Font Awesome 5 Free';
+  content: "\f35d  ";
+}
+
+#wrapper{
+  &.d-flex{
+    @include media-breakpoint-down(xs){
+      display:block !important;
+    }
+  }
+}
+.text-muted{
+  color: var(--atum-text-dark);
+}
+
+// dashboard items
+.menu-quicktask,
+.menu-badge {
+  float: right;
+  min-width: 1rem;
+}
+
+.cpanel-help .card-columns,
+.cpanel-system .card-columns {
+  @include media-breakpoint-up(md) {
+    column-count: 3;
+  }
+}
+.card-columns {
+  @include media-breakpoint-up(md) {
+    column-count: 2;
+  }
+}
+
+.tiny {
+  font-size: $font-size-vsm;
+  line-height: 1.4rem;
 }

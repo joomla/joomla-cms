@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,13 +11,13 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\Help\Help;
-use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Help\Help;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Response\JsonResponse;
 
 /**
  * Profile controller class for Users.
@@ -36,6 +36,11 @@ class ProfileController extends BaseController
 	 */
 	public function gethelpsites()
 	{
+		if ($this->app->getIdentity()->guest)
+		{
+			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 500);
+		}
+
 		// Set FTP credentials, if given
 		ClientHelper::setCredentialsFromRequest('ftp');
 

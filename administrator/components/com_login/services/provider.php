@@ -3,18 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_login
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
+use Joomla\CMS\Dispatcher\ComponentDispatcherFactoryInterface;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Extension\MVCComponent;
-use Joomla\CMS\Extension\Service\Provider\DispatcherFactory;
-use Joomla\CMS\Extension\Service\Provider\MVCFactoryFactory;
-use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
+use Joomla\CMS\Extension\Service\Provider\ComponentDispatcherFactory;
+use Joomla\CMS\Extension\Service\Provider\MVCFactory;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -36,14 +36,14 @@ return new class implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Login'));
-		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Component\\Login'));
+		$container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Login'));
+		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Login'));
 		$container->set(
 			ComponentInterface::class,
 			function (Container $container)
 			{
-				$component = new MVCComponent($container->get(DispatcherFactoryInterface::class));
-				$component->setMvcFactoryFactory($container->get(MVCFactoryFactoryInterface::class));
+				$component = new MVCComponent($container->get(ComponentDispatcherFactoryInterface::class));
+				$component->setMVCFactory($container->get(MVCFactoryInterface::class));
 
 				return $component;
 			}

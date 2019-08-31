@@ -23,20 +23,26 @@
 		/>
 		<field
 			name="description"
-			type="text"
+			type="textarea"
 			label="COM_WORKFLOW_WORKFLOW_NOTE"
+			rows="3"
+			cols="60"
 		/>
 	</fieldset>
 
 	<fieldset name="params" label="COM_WORKFLOW_PARAMS_LABEL">
 		<field
 			name="published"
-			type="status"
+			type="list"
 			label="COM_WORKFLOW_PUBLISHED_LABEL"
 			required="true"
+			class="custom-select-color-state"
 			default="1"
-			filter="-2,0,1"
-		/>
+			>
+			<option value="1">JENABLED</option>
+			<option value="0">JDISABLED</option>
+			<option value="-2">JTRASHED</option>
+		</field>
 		<field
 			name="default"
 			type="radio"

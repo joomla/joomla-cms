@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,13 +11,13 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Installer\Installer;
 
 /**
  * Installer Update Sites Model
@@ -82,7 +82,7 @@ class UpdatesitesModel extends InstallerModel
 	/**
 	 * Enable/Disable an extension.
 	 *
-	 * @param   array  &$eid   Extension ids to un/publish
+	 * @param   array  $eid    Extension ids to un/publish
 	 * @param   int    $value  Publish value
 	 *
 	 * @return  boolean  True on success
@@ -156,9 +156,9 @@ class UpdatesitesModel extends InstallerModel
 
 		// Gets the update site names.
 		$query = $db->getQuery(true)
-			->select($db->qn(array('update_site_id', 'name')))
-			->from($db->qn('#__update_sites'))
-			->where($db->qn('update_site_id') . ' IN (' . implode(', ', $ids) . ')');
+			->select($db->quoteName(array('update_site_id', 'name')))
+			->from($db->quoteName('#__update_sites'))
+			->where($db->quoteName('update_site_id') . ' IN (' . implode(', ', $ids) . ')');
 		$db->setQuery($query);
 		$updateSitesNames = $db->loadObjectList('update_site_id');
 
@@ -179,20 +179,20 @@ class UpdatesitesModel extends InstallerModel
 			try
 			{
 				$query = $db->getQuery(true)
-					->delete($db->qn('#__update_sites'))
-					->where($db->qn('update_site_id') . ' = ' . (int) $id);
+					->delete($db->quoteName('#__update_sites'))
+					->where($db->quoteName('update_site_id') . ' = ' . (int) $id);
 				$db->setQuery($query);
 				$db->execute();
 
 				$query = $db->getQuery(true)
-					->delete($db->qn('#__update_sites_extensions'))
-					->where($db->qn('update_site_id') . ' = ' . (int) $id);
+					->delete($db->quoteName('#__update_sites_extensions'))
+					->where($db->quoteName('update_site_id') . ' = ' . (int) $id);
 				$db->setQuery($query);
 				$db->execute();
 
 				$query = $db->getQuery(true)
-					->delete($db->qn('#__updates'))
-					->where($db->qn('update_site_id') . ' = ' . (int) $id);
+					->delete($db->quoteName('#__updates'))
+					->where($db->quoteName('update_site_id') . ' = ' . (int) $id);
 				$db->setQuery($query);
 				$db->execute();
 
@@ -337,7 +337,10 @@ class UpdatesitesModel extends InstallerModel
 						$query = $db->getQuery(true)
 							->select($db->quoteName('extension_id'))
 							->from($db->quoteName('#__extensions'))
-							->where($db->quoteName('name') . ' = ' . $db->quote($manifest->name))
+							->where(
+								'(' . $db->quoteName('name') . ' = ' . $db->quote($manifest->name)
+								. ' OR ' . $db->quoteName('name') . ' = ' . $db->quote($manifest->packagename) . ')'
+							)
 							->where($db->quoteName('type') . ' = ' . $db->quote($manifest['type']))
 							->where($db->quoteName('extension_id') . ' NOT IN (' . $joomlaCoreExtensionIds . ')')
 							->where($db->quoteName('state') . ' != -1');
@@ -391,12 +394,19 @@ class UpdatesitesModel extends InstallerModel
 		$query = $db->getQuery(true)
 			->select($db->quoteName(array('use.update_site_id', 'e.extension_id')))
 			->from($db->quoteName('#__update_sites_extensions', 'use'))
-			->join('LEFT', $db->quoteName('#__update_sites', 'us') . ' ON ' . $db->qn('us.update_site_id') . ' = ' . $db->qn('use.update_site_id'))
-			->join('LEFT', $db->quoteName('#__extensions', 'e') . ' ON ' . $db->qn('e.extension_id') . ' = ' . $db->qn('use.extension_id'))
+			->join(
+				'LEFT', $db->quoteName('#__update_sites', 'us')
+				. ' ON ' . $db->quoteName('us.update_site_id') . ' = ' . $db->quoteName('use.update_site_id')
+			)
+			->join(
+				'LEFT', $db->quoteName('#__extensions', 'e')
+				. ' ON ' . $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('use.extension_id')
+			)
 			->where('('
-				. '(' . $db->qn('e.type') . ' = ' . $db->quote('file') . ' AND ' . $db->qn('e.element') . ' = ' . $db->quote('joomla') . ')'
-				. ' OR (' . $db->qn('e.type') . ' = ' . $db->quote('package') . ' AND ' . $db->qn('e.element') . ' = ' . $db->quote('pkg_en-GB') . ')'
-				. ' OR (' . $db->qn('e.type') . ' = ' . $db->quote('component') . ' AND ' . $db->qn('e.element') . ' = ' . $db->quote('com_joomlaupdate') . ')'
+				. '(' . $db->quoteName('e.type') . ' = ' . $db->quote('file') . ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quote('joomla') . ')'
+				. ' OR (' . $db->quoteName('e.type') . ' = ' . $db->quote('package') . ' AND ' . $db->quoteName('e.element')
+				. ' = ' . $db->quote('pkg_en-GB') . ') OR (' . $db->quoteName('e.type') . ' = ' . $db->quote('component')
+				. ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quote('com_joomlaupdate') . ')'
 				. ')'
 			);
 
