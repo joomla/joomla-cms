@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Generates cryptographically-secure random values.
  *
- * @since    __DEPLOY_VERSION__
+ * @since    4.0.0
  */
 class Randval implements RandValInterface
 {

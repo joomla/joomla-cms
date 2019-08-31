@@ -173,6 +173,9 @@ class ModuleModel extends AdminModel
 
 				$table->position = $position;
 
+				// Copy of the Asset ID
+				$oldAssetId = $table->asset_id;
+
 				// Alter the title if necessary
 				$data = $this->generateNewTitle(0, $table->title, $table->position);
 				$table->title = $data['0'];
@@ -215,6 +218,17 @@ class ModuleModel extends AdminModel
 					$db->setQuery($query);
 					$db->execute();
 				}
+
+				// Copy rules
+				$query->clear()
+					->update($db->quoteName('#__assets', 't'))
+					->join('INNER', $db->quoteName('#__assets', 's') .
+						' ON ' . $db->quoteName('s.id') . ' = ' . $oldAssetId
+					)
+					->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
+					->where($db->quoteName('t.id') . ' = ' . $table->asset_id);
+
+				$db->setQuery($query)->execute();
 			}
 			else
 			{
