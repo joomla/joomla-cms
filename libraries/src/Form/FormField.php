@@ -1009,7 +1009,7 @@ abstract class FormField
 			{
 				$subForm = $this->loadSubForm();
 
-				if ($this->multiple)
+				if ($this->multiple && !empty($value))
 				{
 					$return = array();
 
@@ -1114,6 +1114,39 @@ abstract class FormField
 			catch (\Exception $e)
 			{
 				return $e;
+			}
+		}
+
+		if ($valid !== false && $this instanceof SubformField)
+		{
+			$subForm = $this->loadSubForm();
+
+			if ($this->multiple)
+			{
+				foreach ($value as $key => $val)
+				{
+					$val = (array) $val;
+					$valid = $subForm->validate($val);
+
+					if ($valid === false)
+					{
+						break;
+					}
+				}
+			}
+			else
+			{
+				$valid = $subForm->validate($value);
+			}
+
+			if ($valid === false)
+			{
+				$errors = $subForm->getErrors();
+
+				foreach ($errors as $error)
+				{
+					return $error;
+				}
 			}
 		}
 
