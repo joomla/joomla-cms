@@ -67,7 +67,7 @@ class MenuField extends GroupedlistField
 		if (strlen($clientId))
 		{
 			$client = (int) $clientId;
-			$query->where('client_id = :client')
+			$query->where($db->quoteName('client_id') . ' = :client')
 				->bind(':client', $client, ParameterType::INTEGER);
 		}
 
