@@ -60,7 +60,7 @@ class Associations
 			$db                 = Factory::getDbo();
 			$query              = $db->getQuery(true);
 			$categoriesExtraSql = '';
-			
+
 			if ($tablename === '#__categories')
 			{
 				$categoriesExtraSql = (' AND c2.extension = :extension1');
