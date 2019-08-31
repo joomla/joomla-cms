@@ -157,7 +157,7 @@ class UpdatesitesModel extends InstallerModel
 
 		// Gets the update site names.
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('update_site_id', 'name')))
+			->select($db->quoteName(['update_site_id', 'name']))
 			->from($db->quoteName('#__update_sites'))
 			->whereIn($db->quoteName('update_site_id'), $ids);
 		$db->setQuery($query);
