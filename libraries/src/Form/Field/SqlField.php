@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,26 +11,23 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 
-FormHelper::loadFieldClass('list');
-
 /**
  * Supports a custom SQL select list
  *
- * @since  11.1
+ * @since  1.7.0
  */
-class SQLField extends \JFormFieldList
+class SqlField extends ListField
 {
 	/**
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $type = 'SQL';
 
@@ -268,7 +265,7 @@ class SQLField extends \JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getOptions()
 	{

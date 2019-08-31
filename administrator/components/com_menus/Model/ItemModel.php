@@ -3,29 +3,29 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Menus\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Factory;
-
-jimport('joomla.filesystem.path');
 
 /**
  * Menu Item Model for Menus.
@@ -37,40 +37,40 @@ class ItemModel extends AdminModel
 	/**
 	 * The type alias for this content type.
 	 *
-	 * @var      string
-	 * @since    3.4
+	 * @var    string
+	 * @since  3.4
 	 */
 	public $typeAlias = 'com_menus.item';
 
 	/**
 	 * The context used for the associations table
 	 *
-	 * @var      string
-	 * @since    3.4.4
+	 * @var    string
+	 * @since  3.4.4
 	 */
 	protected $associationsContext = 'com_menus.item';
 
 	/**
-	 * @var        string    The prefix to use with controller messages.
-	 * @since   1.6
+	 * @var    string  The prefix to use with controller messages.
+	 * @since  1.6
 	 */
 	protected $text_prefix = 'COM_MENUS_ITEM';
 
 	/**
-	 * @var        string    The help screen key for the menu item.
-	 * @since   1.6
+	 * @var    string  The help screen key for the menu item.
+	 * @since  1.6
 	 */
 	protected $helpKey = 'JHELP_MENUS_MENU_ITEM_MANAGER_EDIT';
 
 	/**
-	 * @var        string    The help screen base URL for the menu item.
-	 * @since   1.6
+	 * @var    string  The help screen base URL for the menu item.
+	 * @since  1.6
 	 */
 	protected $helpURL;
 
 	/**
-	 * @var        boolean    True to use local lookup for the help screen.
-	 * @since   1.6
+	 * @var    boolean  True to use local lookup for the help screen.
+	 * @since  1.6
 	 */
 	protected $helpLocal = false;
 
@@ -78,14 +78,14 @@ class ItemModel extends AdminModel
 	 * Batch copy/move command. If set to false,
 	 * the batch copy/move command is not supported
 	 *
-	 * @var string
+	 * @var   string
 	 */
 	protected $batch_copymove = 'menu_id';
 
 	/**
 	 * Allowed batch commands
 	 *
-	 * @var array
+	 * @var   array
 	 */
 	protected $batch_commands = array(
 		'assetgroup_id' => 'batchAccess',
@@ -531,7 +531,7 @@ class ItemModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A \JForm object on success, false on failure
+	 * @return  mixed  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -627,7 +627,7 @@ class ItemModel extends AdminModel
 			$data['parent_id'] = (isset($filters['parent_id']) ? $filters['parent_id'] : null);
 			$data['published'] = (isset($filters['published']) ? $filters['published'] : null);
 			$data['language'] = (isset($filters['language']) ? $filters['language'] : null);
-			$data['access'] = (!empty($filters['access']) ? $filters['access'] : Factory::getConfig()->get('access'));
+			$data['access'] = (!empty($filters['access']) ? $filters['access'] : Factory::getApplication()->get('access'));
 		}
 
 		if (isset($data['menutype']) && !$this->getState('item.menutypeid'))
@@ -636,6 +636,8 @@ class ItemModel extends AdminModel
 
 			$this->setState('item.menutypeid', $menuTypeId);
 		}
+
+		$data = (object) $data;
 
 		$this->preprocessData('com_menus.item', $data);
 
@@ -874,7 +876,7 @@ class ItemModel extends AdminModel
 	/**
 	 * Get the list of all view levels
 	 *
-	 * @return  \stdClass[]|bool  An array of all view levels (id, title).
+	 * @return  \stdClass[]|boolean  An array of all view levels (id, title).
 	 *
 	 * @since   3.4
 	 */
@@ -912,7 +914,7 @@ class ItemModel extends AdminModel
 	 * @param   string  $prefix  A prefix for the table class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JTable|JTableNested  A database object.
+	 * @return  \Joomla\Cms\Table\Table|\Joomla\Cms\Table\Nested  A database object.
 	 *
 	 * @since   1.6
 	 */
@@ -933,7 +935,9 @@ class ItemModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
-		return array('menutype = ' . $this->_db->quote($table->get('menutype')));
+		return [
+			$this->_db->quoteName('menutype') . ' = ' . $this->_db->quote($table->menutype),
+		];
 	}
 
 	/**
@@ -981,6 +985,10 @@ class ItemModel extends AdminModel
 		// Forced client id will override/clear menuType if conflicted
 		$forcedClientId = $app->input->get('client_id', null, 'string');
 
+		// Set the menu type and client id on the list view state, so we return to this menu after saving.
+		$app->setUserState('com_menus.items.menutype', $menuType);
+		$app->setUserState('com_menus.items.client_id', $clientId);
+
 		// Current item if not new, we don't allow changing client id at all
 		if ($pk)
 		{
@@ -995,10 +1003,6 @@ class ItemModel extends AdminModel
 			$menuType   = '';
 			$menuTypeId = 0;
 		}
-
-		// Set the menu type and client id on the list view state, so we return to this menu after saving.
-		$app->setUserState('com_menus.items.menutype', $menuType);
-		$app->setUserState('com_menus.items.client_id', $clientId);
 
 		$this->setState('item.menutype', $menuType);
 		$this->setState('item.client_id', $clientId);
@@ -1063,7 +1067,7 @@ class ItemModel extends AdminModel
 	/**
 	 * Method to preprocess the form.
 	 *
-	 * @param   \JForm  $form   A \JForm object.
+	 * @param   Form    $form   A Form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import.
 	 *
@@ -1072,7 +1076,7 @@ class ItemModel extends AdminModel
 	 * @since   1.6
 	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		$link     = $this->getState('item.link');
 		$type     = $this->getState('item.type');
@@ -1252,6 +1256,7 @@ class ItemModel extends AdminModel
 					$field->addAttribute('new', 'true');
 					$field->addAttribute('edit', 'true');
 					$field->addAttribute('clear', 'true');
+					$field->addAttribute('propagate', 'true');
 					$option = $field->addChild('option', 'COM_MENUS_ITEM_FIELD_ASSOCIATION_NO_VALUE');
 					$option->addAttribute('value', '');
 				}
@@ -1356,6 +1361,8 @@ class ItemModel extends AdminModel
 	{
 		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('item.id');
 		$isNew      = true;
+		$db      = $this->getDbo();
+		$query   = $db->getQuery(true);
 		$table   = $this->getTable();
 		$context = $this->option . '.' . $this->name;
 
@@ -1400,6 +1407,18 @@ class ItemModel extends AdminModel
 			{
 				$table->setLocation($data['parent_id'], 'last-child');
 			}
+
+			// Check if we are moving to a different menu
+			if ($data['menutype'] != $table->menutype)
+			{
+				// Add the child node ids to the children array.
+				$query->clear()
+					->select($db->quoteName('id'))
+					->from($db->quoteName('#__menu'))
+					->where($db->quoteName('lft') . ' BETWEEN ' . (int) $table->lft . ' AND ' . (int) $table->rgt);
+				$db->setQuery($query);
+				$children = (array) $db->loadColumn();
+			}
 		}
 		// We have a new item, so it is not a change.
 		else
@@ -1439,7 +1458,7 @@ class ItemModel extends AdminModel
 		}
 
 		// Trigger the before save event.
-		$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
+		$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew, $data));
 
 		// Store the data.
 		if (in_array(false, $result, true)|| !$table->store())
@@ -1458,6 +1477,32 @@ class ItemModel extends AdminModel
 			$this->setError($table->getError());
 
 			return false;
+		}
+
+		// Process the child rows
+		if (!empty($children))
+		{
+			// Remove any duplicates and sanitize ids.
+			$children = array_unique($children);
+			$children = ArrayHelper::toInteger($children);
+
+			// Update the menutype field in all nodes where necessary.
+			$query->clear()
+				->update($db->quoteName('#__menu'))
+				->set($db->quoteName('menutype') . ' = ' . $db->quote($data['menutype']))
+				->where($db->quoteName('id') . ' IN (' . implode(',', $children) . ')');
+			$db->setQuery($query);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (\RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
+
+				return false;
+			}
 		}
 
 		$this->setState('item.id', $table->id);
@@ -1609,7 +1654,7 @@ class ItemModel extends AdminModel
 	/**
 	 * Method to change the home state of one or more items.
 	 *
-	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   array    $pks    A list of the primary keys to change.
 	 * @param   integer  $value  The value of the home state.
 	 *
 	 * @return  boolean  True on success.
@@ -1696,7 +1741,7 @@ class ItemModel extends AdminModel
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   array    $pks    A list of the primary keys to change.
 	 * @param   integer  $value  The value of the published state.
 	 *
 	 * @return  boolean  True on success.

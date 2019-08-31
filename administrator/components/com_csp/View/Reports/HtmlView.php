@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_csp
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,10 @@ namespace Joomla\Component\Csp\Administrator\View\Reports;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -21,7 +23,7 @@ use Joomla\Component\Csp\Administrator\Helper\ReporterHelper;
 /**
  * Reports view class for the Csp package.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class HtmlView extends BaseHtmlView
 {
@@ -29,7 +31,7 @@ class HtmlView extends BaseHtmlView
 	 * An array of items
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $items;
 
@@ -37,7 +39,7 @@ class HtmlView extends BaseHtmlView
 	 * The pagination object
 	 *
 	 * @var    \Joomla\CMS\Pagination\Pagination
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $pagination;
 
@@ -45,7 +47,7 @@ class HtmlView extends BaseHtmlView
 	 * The model state
 	 *
 	 * @var    \JObject
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $state;
 
@@ -53,7 +55,7 @@ class HtmlView extends BaseHtmlView
 	 * Form object for search filters
 	 *
 	 * @var    \JForm
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $filterForm;
 
@@ -61,7 +63,7 @@ class HtmlView extends BaseHtmlView
 	 * The active search filters
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $activeFilters;
 
@@ -69,7 +71,7 @@ class HtmlView extends BaseHtmlView
 	 * The id of the httpheaders plugin in mysql
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $httpHeadersId = 0;
 
@@ -80,7 +82,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  mixed   A string if successful, otherwise an Error object.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function display($tpl = null)
 	{
@@ -93,7 +95,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		if (!(PluginHelper::isEnabled('system', 'httpheaders')))
@@ -101,9 +103,16 @@ class HtmlView extends BaseHtmlView
 			$this->httpHeadersId = ReporterHelper::getHttpHeadersPluginId();
 		}
 
+		if (ComponentHelper::getParams('com_csp')->get('contentsecuritypolicy_mode', 'custom') === 'detect'
+			&& ComponentHelper::getParams('com_csp')->get('contentsecuritypolicy', 0)
+			&& ReporterHelper::getCspTrashStatus())
+		{
+			$this->trashWarningMessage = Text::_('COM_CSP_COLLECTING_TRASH_WARNING');
+		}
+
 		$this->addToolbar();
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
@@ -111,13 +120,13 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function addToolbar()
 	{
 		$canDo = ContentHelper::getActions('com_csp');
 
-		ToolbarHelper::title(Text::_('COM_CSP_REPORTS'), 'generic');
+		ToolbarHelper::title(Text::_('COM_CSP_REPORTS'), 'shield-alt');
 
 		if ($canDo->get('core.edit.state'))
 		{
@@ -147,7 +156,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  array  Array containing the field name to sort by as the key and display text as value
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getSortFields()
 	{

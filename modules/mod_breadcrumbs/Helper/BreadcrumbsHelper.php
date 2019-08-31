@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_breadcrumbs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,11 +11,13 @@ namespace Joomla\Module\Breadcrumbs\Site\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\Registry\Registry;
 
 /**
  * Helper for mod_breadcrumbs
@@ -27,17 +29,17 @@ class BreadcrumbsHelper
 	/**
 	 * Retrieve breadcrumb items
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  module parameters
+	 * @param   Registry        $params  The module parameters
+	 * @param   CMSApplication  $app     The application
 	 *
 	 * @return  array
 	 */
-	public static function getList(&$params)
+	public static function getList(Registry $params, CMSApplication $app)
 	{
 		// Get the PathWay object from the application
-		$app     = Factory::getApplication();
 		$pathway = $app->getPathway();
 		$items   = $pathway->getPathWay();
-		$lang    = Factory::getLanguage();
+		$lang    = $app->getLanguage();
 		$menu    = $app->getMenu();
 
 		// Look for the home menu
@@ -76,8 +78,7 @@ class BreadcrumbsHelper
 	/**
 	 * Set the breadcrumbs separator for the breadcrumbs display.
 	 *
-	 * @param   string  $custom  Custom xhtml complient string to separate the
-	 * items of the breadcrumbs
+	 * @param   string  $custom  Custom xhtml compliant string to separate the items of the breadcrumbs
 	 *
 	 * @return  string	Separator string
 	 *
@@ -85,7 +86,7 @@ class BreadcrumbsHelper
 	 */
 	public static function setSeparator($custom = null)
 	{
-		$lang = Factory::getLanguage();
+		$lang = Factory::getApplication()->getLanguage();
 
 		// If a custom separator has not been provided we try to load a template
 		// specific one first, and if that is not present we load the default separator

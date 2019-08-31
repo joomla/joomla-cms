@@ -3,22 +3,24 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * Utility class for the Joomla core UI Tab element.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 abstract class JHtmlUiTab
 {
 	/**
 	 * @var    array  Array containing information for loaded files
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected static $loaded = array();
 
@@ -30,7 +32,7 @@ abstract class JHtmlUiTab
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function startTabSet($selector = 'myTab', $params = array())
 	{
@@ -39,7 +41,7 @@ abstract class JHtmlUiTab
 		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include the custom element
-			JHtml::_('webcomponent', 'system/webcomponents/joomla-tab.min.js', ['relative' => true, 'version' => 'auto']);
+			HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-tab.min.js', ['version' => 'auto', 'relative' => true]);
 
 			// Setup options object
 			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
@@ -51,6 +53,7 @@ abstract class JHtmlUiTab
 
 		// @TODO echo the recall attribute correctly, now it's hardcoded!!!
 		$recall = !isset($params['recall']) ? '' : 'recall';
+
 		return '<joomla-tab id="' . $selector . '" recall>';
 	}
 
@@ -59,7 +62,7 @@ abstract class JHtmlUiTab
 	 *
 	 * @return  string  HTML to close the pane
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function endTabSet()
 	{
@@ -75,13 +78,13 @@ abstract class JHtmlUiTab
 	 *
 	 * @return  string  HTML to start a new panel
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function addTab($selector, $id, $title)
 	{
 		$active = (static::$loaded['JHtmlUiTab::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
-		return '<section id="' . $id . '" class="' . $active . '" name="' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '">';
+		return '<section id="' . $id . '"' . $active . ' name="' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '">';
 
 	}
 
@@ -90,7 +93,7 @@ abstract class JHtmlUiTab
 	 *
 	 * @return  string  HTML to close the pane
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function endTab()
 	{

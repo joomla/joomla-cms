@@ -3,18 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Tags\Site\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Registry\Registry;
-use Joomla\CMS\Factory;
 
 /**
  * This models supports retrieving a list of tags.
@@ -77,34 +77,6 @@ class TagsModel extends ListModel
 		$itemid = $pid . ':' . $app->input->getInt('Itemid', 0);
 		$filterSearch = $app->getUserStateFromRequest('com_tags.tags.list.' . $itemid . '.filter_search', 'filter-search', '', 'string');
 		$this->setState('list.filter', $filterSearch);
-	}
-
-	/**
-	 * Redefine the function and add some properties to make the styling more easy
-	 *
-	 * @return  mixed  An array of data items on success, false on failure.
-	 *
-	 * @since   3.1
-	 */
-	public function getItems()
-	{
-		// Invoke the parent getItems method to get the main list
-		$items = parent::getItems();
-
-		if (!count($items))
-		{
-			$app = Factory::getApplication();
-			$menu = $app->getMenu();
-			$active = $menu->getActive();
-			$params = new Registry;
-
-			if ($active)
-			{
-				$params->loadString($active->params);
-			}
-		}
-
-		return $items;
 	}
 
 	/**

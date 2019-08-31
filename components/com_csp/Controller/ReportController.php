@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_csp
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,14 +13,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Csp\Administrator\Table\ReportTable;
-use Joomla\Registry\Registry;
 
 /**
  * Csp Controller
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ReportController extends BaseController
 {
@@ -29,20 +26,12 @@ class ReportController extends BaseController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function log()
 	{
-		$pluginParams = new Registry;
-
-		// Get the httpheaders plugin params
-		if (PluginHelper::isEnabled('system', 'httpheaders'))
-		{
-			$pluginParams->loadString(PluginHelper::getPlugin('system', 'httpheaders')->params);
-		}
-
 		// When we are not in detect mode do nothing here
-		if ($pluginParams->get('contentsecuritypolicy_mode', 'custom') != 'detect')
+		if (Factory::getApplication()->getParams()->get('contentsecuritypolicy_mode', 'custom') != 'detect')
 		{
 			$this->app->close();
 		}
@@ -94,7 +83,7 @@ class ReportController extends BaseController
 			$this->app->close();
 		}
 
-		$table = new ReportTable(Factory::getDbo());
+		$table = $this->app->bootComponent('com_csp')->getMVCFactory()->createTable('Report', 'Administrator');
 
 		$table->bind($report);
 		$table->store();
@@ -109,7 +98,7 @@ class ReportController extends BaseController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function isEntryExisting($report)
 	{
@@ -118,11 +107,14 @@ class ReportController extends BaseController
 		$query = $db->getQuery(true);
 
 		$query
-			->select('count(*)')
-			->from('#__csp')
-			->where($db->quoteName('blocked_uri') . '=' . $db->quote($report->blocked_uri))
-			->where($db->quoteName('directive') . '=' . $db->quote($report->directive))
-			->where($db->quoteName('client') . '=' . $db->quote($report->client));
+			->select('COUNT(*)')
+			->from($db->quoteName('#__csp'))
+			->where($db->quoteName('blocked_uri') . ' = :blocked_uri')
+			->where($db->quoteName('directive') . ' = :directive')
+			->where($db->quoteName('client') . ' = :client')
+			->bind(':blocked_uri', $report->blocked_uri)
+			->bind(':directive', $report->directive)
+			->bind(':client', $report->client);
 
 		$db->setQuery($query);
 

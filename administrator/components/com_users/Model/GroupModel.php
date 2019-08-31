@@ -3,22 +3,25 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 
 /**
  * User group model.
@@ -72,7 +75,7 @@ class GroupModel extends AdminModel
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  \JForm	A \JForm object on success, false on failure
@@ -127,9 +130,9 @@ class GroupModel extends AdminModel
 	 * @since   1.6
 	 * @throws  \Exception if there is an error loading the form.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = '')
+	protected function preprocessForm(Form $form, $data, $group = '')
 	{
-		$obj = is_array($data) ? ArrayHelper::toObject($data, 'JObject') : $data;
+		$obj = is_array($data) ? ArrayHelper::toObject($data, CMSObject::class) : $data;
 
 		if (isset($obj->parent_id) && $obj->parent_id == 0 && $obj->id > 0)
 		{

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,9 @@ namespace Joomla\CMS\Menu;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 
 /**
@@ -54,7 +57,7 @@ abstract class AbstractMenu
 	/**
 	 * User object to check access levels for
 	 *
-	 * @var    \JUser
+	 * @var    User
 	 * @since  3.5
 	 */
 	protected $user;
@@ -79,7 +82,7 @@ abstract class AbstractMenu
 			}
 		}
 
-		$this->user = isset($options['user']) && $options['user'] instanceof \JUser ? $options['user'] : \JFactory::getUser();
+		$this->user = isset($options['user']) && $options['user'] instanceof User ? $options['user'] : Factory::getUser();
 	}
 
 	/**
@@ -98,12 +101,12 @@ abstract class AbstractMenu
 	{
 		if (!$client)
 		{
-			throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
+			throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
 		}
 
 		if (empty(self::$instances[$client]))
 		{
-			self::$instances[$client] = \JFactory::getContainer()->get(MenuFactoryInterface::class)->createMenu($client, $options);
+			self::$instances[$client] = Factory::getContainer()->get(MenuFactoryInterface::class)->createMenu($client, $options);
 		}
 
 		return self::$instances[$client];
@@ -316,7 +319,15 @@ abstract class AbstractMenu
 
 		if ($menu)
 		{
-			return in_array((int) $menu->access, $this->user->getAuthorisedViewLevels());
+			$access = (int) $menu->access;
+
+			// If the accesss level is public we don't need to load the user session
+			if ($access === 1)
+			{
+				return true;
+			}
+
+			return in_array($access, $this->user->getAuthorisedViewLevels(), true);
 		}
 
 		return true;

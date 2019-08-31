@@ -3,18 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Menus\Administrator\Field\Modal;
 
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Supports a modal menu item picker.
@@ -64,6 +66,14 @@ class MenuField extends FormField
 	protected $allowEdit = false;
 
 	/**
+	 * Determinate, if the propagate button is shown
+	 *
+	 * @var     boolean
+	 * @since   3.9.0
+	 */
+	protected $allowPropagate = false;
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to get the value.
@@ -80,6 +90,7 @@ class MenuField extends FormField
 			case 'allowClear':
 			case 'allowNew':
 			case 'allowEdit':
+			case 'allowPropagate':
 				return $this->$name;
 		}
 
@@ -104,6 +115,7 @@ class MenuField extends FormField
 			case 'allowClear':
 			case 'allowNew':
 			case 'allowEdit':
+			case 'allowPropagate':
 				$value = (string) $value;
 				$this->$name = !($value === 'false' || $value === 'off' || $value === '0');
 				break;
@@ -137,6 +149,7 @@ class MenuField extends FormField
 			$this->allowClear = ((string) $this->element['clear']) !== 'false';
 			$this->allowNew = ((string) $this->element['new']) === 'true';
 			$this->allowEdit = ((string) $this->element['edit']) === 'true';
+			$this->allowPropagate = ((string) $this->element['propagate']) === 'true';
 		}
 
 		return $return;
@@ -152,6 +165,7 @@ class MenuField extends FormField
 	protected function getInput()
 	{
 		$clientId    = (int) $this->element['clientid'];
+		$languages   = LanguageHelper::getContentLanguages(array(0, 1));
 
 		// Load language
 		Factory::getLanguage()->load('com_menus', JPATH_ADMINISTRATOR);
@@ -163,7 +177,6 @@ class MenuField extends FormField
 		$modalId = 'Item_' . $this->id;
 
 		// Add the modal field script to the document head.
-		HTMLHelper::_('jquery.framework');
 		HTMLHelper::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Script to proxy the select modal function to the modal-fields.js file.
@@ -185,6 +198,8 @@ class MenuField extends FormField
 				"
 				);
 
+				Text::script('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED');
+
 				$scriptSelect[$this->id] = true;
 			}
 		}
@@ -193,7 +208,7 @@ class MenuField extends FormField
 		$linkSuffix = '&amp;layout=modal&amp;client_id=' . $clientId . '&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
 		$linkItems  = 'index.php?option=com_menus&amp;view=items' . $linkSuffix;
 		$linkItem   = 'index.php?option=com_menus&amp;view=item' . $linkSuffix;
-		$modalTitle = Text::_('COM_MENUS_CHANGE_MENUITEM');
+		$modalTitle = Text::_('COM_MENUS_SELECT_A_MENUITEM');
 
 		if (isset($this->element['language']))
 		{
@@ -231,11 +246,11 @@ class MenuField extends FormField
 		{
 			if ($this->element->option && (string) $this->element->option['value'] == '')
 			{
-				$title_holder = Text::_($this->element->option, true);
+				$title_holder = Text::_($this->element->option);
 			}
 			else
 			{
-				$title_holder = Text::_('COM_MENUS_SELECT_A_MENUITEM', true);
+				$title_holder = Text::_('COM_MENUS_SELECT_A_MENUITEM');
 			}
 		}
 
@@ -243,6 +258,7 @@ class MenuField extends FormField
 
 		// The current menu item display field.
 		$html  = '';
+
 		if ($this->allowSelect || $this->allowNew || $this->allowEdit || $this->allowClear)
 		{
 			$html .= '<span class="input-group">';
@@ -258,55 +274,69 @@ class MenuField extends FormField
 		// Select menu item button
 		if ($this->allowSelect)
 		{
-			$html .= '<a'
-				. ' class="btn btn-primary hasTooltip' . ($value ? ' sr-only' : '') . '"'
+			$html .= '<button'
+				. ' class="btn btn-primary' . ($value ? ' hidden' : '') . '"'
 				. ' id="' . $this->id . '_select"'
 				. ' data-toggle="modal"'
-				. ' role="button"'
-				. ' href="#ModalSelect' . $modalId . '"'
-				. ' title="' . HTMLHelper::tooltipText('COM_MENUS_CHANGE_MENUITEM') . '">'
+				. ' type="button"'
+				. ' data-target="#ModalSelect' . $modalId . '">'
 				. '<span class="icon-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
-				. '</a>';
+				. '</button>';
 		}
 
 		// New menu item button
 		if ($this->allowNew)
 		{
-			$html .= '<a'
-				. ' class="btn btn-secondary hasTooltip' . ($value ? ' sr-only' : '') . '"'
+			$html .= '<button'
+				. ' class="btn btn-secondary' . ($value ? ' hidden' : '') . '"'
 				. ' id="' . $this->id . '_new"'
 				. ' data-toggle="modal"'
-				. ' role="button"'
-				. ' href="#ModalNew' . $modalId . '"'
-				. ' title="' . HTMLHelper::tooltipText('COM_MENUS_NEW_MENUITEM') . '">'
+				. ' type="button"'
+				. ' data-target="#ModalNew' . $modalId . '">'
 				. '<span class="icon-new" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
-				. '</a>';
+				. '</button>';
 		}
 
 		// Edit menu item button
 		if ($this->allowEdit)
 		{
-			$html .= '<a'
-				. ' class="btn btn-secondary hasTooltip' . ($value ? '' : ' sr-only') . '"'
+			$html .= '<button'
+				. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
 				. ' id="' . $this->id . '_edit"'
 				. ' data-toggle="modal"'
-				. ' role="button"'
-				. ' href="#ModalEdit' . $modalId . '"'
-				. ' title="' . HTMLHelper::tooltipText('COM_MENUS_EDIT_MENUITEM') . '">'
+				. ' type="button"'
+				. ' data-target="#ModalEdit' . $modalId . '">'
 				. '<span class="icon-edit" aria-hidden="true"></span> ' . Text::_('JACTION_EDIT')
-				. '</a>';
+				. '</button>';
 		}
 
 		// Clear menu item button
 		if ($this->allowClear)
 		{
-			$html .= '<a'
-				. ' class="btn btn-secondary' . ($value ? '' : ' sr-only') . '"'
+			$html .= '<button'
+				. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
 				. ' id="' . $this->id . '_clear"'
-				. ' href="#"'
+				. ' type="button"'
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
-				. '<span class="icon-remove" aria-hidden="true"></span>' . Text::_('JCLEAR')
-				. '</a>';
+				. '<span class="icon-remove" aria-hidden="true"></span> ' . Text::_('JCLEAR')
+				. '</button>';
+		}
+
+		// Propagate menu item button
+		if ($this->allowPropagate && count($languages) > 2)
+		{
+			// Strip off language tag at the end
+			$tagLength = (int) strlen($this->element['language']);
+			$callbackFunctionStem = substr("jSelectMenu_" . $this->id, 0, -$tagLength);
+
+			$html .= '<button'
+			. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
+			. ' type="button"'
+			. ' id="' . $this->id . '_propagate"'
+			. ' title="' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_TIP') . '"'
+			. ' onclick="Joomla.propagateAssociation(\'' . $this->id . '\', \'' . $callbackFunctionStem . '\');">'
+			. '<span class="icon-refresh" aria-hidden="true"></span> ' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_BUTTON')
+			. '</button>';
 		}
 
 		if ($this->allowSelect || $this->allowNew || $this->allowEdit || $this->allowClear)
@@ -327,8 +357,8 @@ class MenuField extends FormField
 					'width'       => '800px',
 					'bodyHeight'  => 70,
 					'modalWidth'  => 80,
-					'footer'      => '<a role="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-										. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>',
+					'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal">'
+										. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 				)
 			);
 		}
@@ -349,15 +379,15 @@ class MenuField extends FormField
 					'width'       => '800px',
 					'bodyHeight'  => 70,
 					'modalWidth'  => 80,
-					'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
+					'footer'      => '<button type="button" class="btn btn-secondary"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'cancel\', \'item-form\'); return false;">'
-							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
-							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
+							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+							. '<button type="button" class="btn btn-primary"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'save\', \'item-form\'); return false;">'
-							. Text::_('JSAVE') . '</a>'
-							. '<a role="button" class="btn btn-success" aria-hidden="true"'
+							. Text::_('JSAVE') . '</button>'
+							. '<button type="button" class="btn btn-success"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'apply\', \'item-form\'); return false;">'
-							. Text::_('JAPPLY') . '</a>',
+							. Text::_('JAPPLY') . '</button>',
 				)
 			);
 		}
@@ -378,15 +408,15 @@ class MenuField extends FormField
 					'width'       => '800px',
 					'bodyHeight'  => 70,
 					'modalWidth'  => 80,
-					'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
+					'footer'      => '<button type="button" class="btn btn-secondary"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'item\', \'cancel\', \'item-form\'); return false;">'
-							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
-							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
+							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+							. '<button type="button" class="btn btn-primary"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'item\', \'save\', \'item-form\'); return false;">'
-							. Text::_('JSAVE') . '</a>'
-							. '<a role="button" class="btn btn-success" aria-hidden="true"'
+							. Text::_('JSAVE') . '</button>'
+							. '<button type="button" class="btn btn-success"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'item\', \'apply\', \'item-form\'); return false;">'
-							. Text::_('JAPPLY') . '</a>',
+							. Text::_('JAPPLY') . '</button>',
 				)
 			);
 		}
@@ -397,11 +427,11 @@ class MenuField extends FormField
 		// Placeholder if option is present or not when clearing field
 		if ($this->element->option && (string) $this->element->option['value'] == '')
 		{
-			$title_holder = Text::_($this->element->option, true);
+			$title_holder = Text::_($this->element->option);
 		}
 		else
 		{
-			$title_holder = Text::_('COM_MENUS_SELECT_A_MENUITEM', true);
+			$title_holder = Text::_('COM_MENUS_SELECT_A_MENUITEM');
 		}
 
 		$html .= '<input type="hidden" id="' . $this->id . '_id" ' . $class . ' data-required="' . (int) $this->required . '" name="' . $this->name
@@ -419,6 +449,6 @@ class MenuField extends FormField
 	 */
 	protected function getLabel()
 	{
-		return str_replace($this->id, $this->id . '_id', parent::getLabel());
+		return str_replace($this->id, $this->id . '_name', parent::getLabel());
 	}
 }

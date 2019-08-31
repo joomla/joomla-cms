@@ -3,9 +3,10 @@
  * @package     Joomla.Administrator
  * @subpackage  com_csp
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Csp\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -15,7 +16,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 /**
  * Report Model
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ReportModel extends AdminModel
 {
@@ -23,7 +24,7 @@ class ReportModel extends AdminModel
 	 * The prefix to use with controller messages.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $text_prefix = 'COM_CSP';
 
@@ -35,7 +36,7 @@ class ReportModel extends AdminModel
 	 *
 	 * @return  \JForm|boolean  A JForm object on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{

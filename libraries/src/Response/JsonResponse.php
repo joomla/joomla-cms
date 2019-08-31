@@ -2,13 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Response;
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
 
 /**
  * JSON Response class.
@@ -67,7 +69,7 @@ class JsonResponse
 		$this->message = $message;
 
 		// Get the message queue if requested and available
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		if (!$ignoreMessages && $app !== null && is_callable(array($app, 'getMessageQueue')))
 		{

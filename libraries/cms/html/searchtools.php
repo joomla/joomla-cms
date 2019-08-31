@@ -3,12 +3,15 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -23,28 +26,6 @@ abstract class JHtmlSearchtools
 	 * @since  3.2
 	 */
 	protected static $loaded = array();
-
-	/**
-	 * Load the main Searchtools libraries
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 *
-	 * @deprecated 4.0
-	 */
-	public static function main()
-	{
-		// Only load once
-		if (empty(static::$loaded[__METHOD__]))
-		{
-			// Load the script && css files
-			JHtml::_('script', 'system/searchtools.min.js', array('version' => 'auto', 'relative' => true));
-			JHtml::_('stylesheet', 'system/searchtools.css', array('version' => 'auto', 'relative' => true));
-
-			static::$loaded[__METHOD__] = true;
-		}
-	}
 
 	/**
 	 * Load searchtools for a specific form
@@ -70,11 +51,9 @@ abstract class JHtmlSearchtools
 			$options = static::optionsToRegistry($options);
 
 			// Load the script && css files
-			JHtml::_('behavior.core');
-			JHtml::_('script', 'system/searchtools.min.js', array('version' => 'auto', 'relative' => true));
-			JHtml::_('stylesheet', 'system/searchtools.css', array('version' => 'auto', 'relative' => true));
+			Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('searchtools');
 
-			JFactory::getDocument()->addScriptOptions('searchtools', $options);
+			Factory::getDocument()->addScriptOptions('searchtools', $options);
 
 			static::$loaded[__METHOD__][$sig] = true;
 		}
@@ -119,7 +98,8 @@ abstract class JHtmlSearchtools
 	 * @return  string
 	 */
 	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task = null, $new_direction = 'asc', $tip = '', $icon = null,
-		$formName = 'adminForm')
+		$formName = 'adminForm'
+	)
 	{
 		$direction = strtolower($direction);
 		$orderIcons = array('icon-arrow-up-3', 'icon-arrow-down-3');
@@ -146,6 +126,6 @@ abstract class JHtmlSearchtools
 		$data->icon      = $icon;
 		$data->formName  = $formName;
 
-		return JLayoutHelper::render('joomla.searchtools.grid.sort', $data);
+		return LayoutHelper::render('joomla.searchtools.grid.sort', $data);
 	}
 }

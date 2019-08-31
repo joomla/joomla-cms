@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * String Controller
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class StringController
 {
@@ -22,7 +22,7 @@ class StringController
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function _getArray()
 	{
@@ -35,11 +35,11 @@ class StringController
 	 * Create a reference
 	 *
 	 * @param   string  $reference  The key
-	 * @param   string  &$string    The value
+	 * @param   string  $string     The value
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function createRef($reference, &$string)
 	{
@@ -54,7 +54,7 @@ class StringController
 	 *
 	 * @return  mixed  False if not set, reference if it exists
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getRef($reference)
 	{

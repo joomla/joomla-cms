@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,11 @@ namespace Joomla\CMS\MVC\View;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Base class for a Joomla Html View
@@ -106,7 +111,7 @@ class HtmlView extends AbstractView
 		// Set the charset (used by the variable escaping functions)
 		if (array_key_exists('charset', $config))
 		{
-			\JLog::add('Setting a custom charset for escaping is deprecated. Override \JViewLegacy::escape() instead.', \JLog::WARNING, 'deprecated');
+			Log::add('Setting a custom charset for escaping is deprecated. Override \JViewLegacy::escape() instead.', Log::WARNING, 'deprecated');
 			$this->_charset = $config['charset'];
 		}
 
@@ -168,7 +173,7 @@ class HtmlView extends AbstractView
 			$this->setLayout('default');
 		}
 
-		$this->baseurl = \JUri::base(true);
+		$this->baseurl = Uri::base(true);
 	}
 
 	/**
@@ -176,19 +181,15 @@ class HtmlView extends AbstractView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
+	 * @throws  \Exception
 	 * @see     \JViewLegacy::loadTemplate()
 	 * @since   3.0
 	 */
 	public function display($tpl = null)
 	{
 		$result = $this->loadTemplate($tpl);
-
-		if ($result instanceof \Exception)
-		{
-			return $result;
-		}
 
 		echo $result;
 	}
@@ -202,6 +203,8 @@ class HtmlView extends AbstractView
 	 * @param   mixed  $var  The output to escape.
 	 *
 	 * @return  mixed  The escaped value.
+	 *
+	 * @note the ENT_COMPAT flag will be replaced by ENT_QUOTES in Joomla 4.0 to also escape single quotes
 	 *
 	 * @since   3.0
 	 */
@@ -328,7 +331,7 @@ class HtmlView extends AbstractView
 		// Clear prior output
 		$this->_output = null;
 
-		$template = \JFactory::getApplication()->getTemplate();
+		$template = Factory::getApplication()->getTemplate();
 		$layout = $this->getLayout();
 		$layoutTemplate = $this->getLayoutTemplate();
 
@@ -340,7 +343,7 @@ class HtmlView extends AbstractView
 		$tpl = isset($tpl) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
 
 		// Load the language file for the template
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
 		|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
 
@@ -351,15 +354,14 @@ class HtmlView extends AbstractView
 		}
 
 		// Load the template script
-		jimport('joomla.filesystem.path');
 		$filetofind = $this->_createFileName('template', array('name' => $file));
-		$this->_template = \JPath::find($this->_path['template'], $filetofind);
+		$this->_template = Path::find($this->_path['template'], $filetofind);
 
 		// If alternate layout can't be found, fall back to default layout
 		if ($this->_template == false)
 		{
 			$filetofind = $this->_createFileName('', array('name' => 'default' . (isset($tpl) ? '_' . $tpl : $tpl)));
-			$this->_template = \JPath::find($this->_path['template'], $filetofind);
+			$this->_template = Path::find($this->_path['template'], $filetofind);
 		}
 
 		if ($this->_template != false)
@@ -388,7 +390,7 @@ class HtmlView extends AbstractView
 			return $this->_output;
 		}
 
-		throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_LAYOUTFILE_NOT_FOUND', $file), 500);
+		throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_LAYOUTFILE_NOT_FOUND', $file), 500);
 	}
 
 	/**
@@ -406,8 +408,7 @@ class HtmlView extends AbstractView
 		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $hlp);
 
 		// Load the template script
-		jimport('joomla.filesystem.path');
-		$helper = \JPath::find($this->_path['helper'], $this->_createFileName('helper', array('name' => $file)));
+		$helper = Path::find($this->_path['helper'], $this->_createFileName('helper', array('name' => $file)));
 
 		if ($helper != false)
 		{
@@ -437,7 +438,7 @@ class HtmlView extends AbstractView
 			$component = ApplicationHelper::getComponentName();
 		}
 
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Clear out the prior search dirs
 		$this->_path[$type] = array();
@@ -472,13 +473,11 @@ class HtmlView extends AbstractView
 	 */
 	protected function _addPath($type, $path)
 	{
-		jimport('joomla.filesystem.path');
-
 		// Loop through the path directories
 		foreach ((array) $path as $dir)
 		{
 			// Clean up the path
-			$dir = \JPath::clean($dir);
+			$dir = Path::clean($dir);
 
 			// Add trailing separators as needed
 			if (substr($dir, -1) != DIRECTORY_SEPARATOR)
@@ -546,7 +545,7 @@ class HtmlView extends AbstractView
 	 */
 	public function setDocumentTitle($title)
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Check for empty title and add site name if param is set
 		if (empty($title))
@@ -555,11 +554,11 @@ class HtmlView extends AbstractView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);

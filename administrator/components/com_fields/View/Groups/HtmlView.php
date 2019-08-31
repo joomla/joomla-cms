@@ -3,24 +3,26 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Fields\Administrator\View\Groups;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Factory;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
  * Groups View
@@ -65,13 +67,6 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
-	 * @var  string
-	 *
-	 * @since  3.7.0
-	 */
-	protected $sidebar;
-
-	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -92,13 +87,13 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Display a warning if the fields system plugin is disabled
 		if (!PluginHelper::isEnabled('system', 'fields'))
 		{
-			$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . \FieldsHelper::getFieldsPluginId());
+			$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . FieldsHelper::getFieldsPluginId());
 			Factory::getApplication()->enqueueMessage(Text::sprintf('COM_FIELDS_SYSTEM_PLUGIN_NOT_ENABLED', $link), 'warning');
 		}
 
@@ -110,9 +105,6 @@ class HtmlView extends BaseHtmlView
 			unset($this->activeFilters['language']);
 			$this->filterForm->removeField('language', 'filter');
 		}
-
-		\FieldsHelper::addSubmenu($this->state->get('filter.context'), 'groups');
-		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}
@@ -128,7 +120,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$groupId   = $this->state->get('filter.group_id');
 		$component = '';
-		$parts     = \FieldsHelper::extract($this->state->get('filter.context'));
+		$parts     = FieldsHelper::extract($this->state->get('filter.context'));
 
 		if ($parts)
 		{
@@ -138,7 +130,7 @@ class HtmlView extends BaseHtmlView
 		$canDo     = ContentHelper::getActions($component, 'fieldgroup', $groupId);
 
 		// Get the toolbar object instance
-		$bar = Toolbar::getInstance('toolbar');
+		$toolbar = Toolbar::getInstance('toolbar');
 
 		// Avoid nonsense situation.
 		if ($component == 'com_fields')
@@ -158,53 +150,63 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.create'))
 		{
-			ToolbarHelper::addNew('group.add');
+			$toolbar->addNew('group.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin'))
 		{
-			ToolbarHelper::publish('groups.publish', 'JTOOLBAR_PUBLISH', true);
-			ToolbarHelper::unpublish('groups.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			ToolbarHelper::archiveList('groups.archive');
-		}
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
+				->listCheck(true);
 
-		if (Factory::getUser()->authorise('core.admin'))
-		{
-			ToolbarHelper::checkin('groups.checkin');
-		}
+			$childBar = $dropdown->getChildToolbar();
 
-		// Add a batch button
-		if ($canDo->get('core.create') && $canDo->get('core.edit') && $canDo->get('core.edit.state'))
-		{
-			$title = Text::_('JTOOLBAR_BATCH');
+			if ($canDo->get('core.edit.state'))
+			{
+				$childBar->publish('groups.publish')->listCheck(true);
 
-			// Instantiate a new FileLayout instance and render the batch button
-			$layout = new FileLayout('joomla.toolbar.batch');
+				$childBar->unpublish('groups.unpublish')->listCheck(true);
 
-			$dhtml = $layout->render(
-				array(
-					'title' => $title,
-				)
-			);
+				$childBar->archive('groups.archive')->listCheck(true);
+			}
 
-			$bar->appendButton('Custom', $dhtml, 'batch');
+			if (Factory::getUser()->authorise('core.admin'))
+			{
+				$childBar->checkin('groups.checkin')->listCheck(true);
+			}
+
+			if ($canDo->get('core.edit.state'))
+			{
+				$childBar->trash('groups.trash')->listCheck(true);
+			}
+
+			// Add a batch button
+			if ($canDo->get('core.create') && $canDo->get('core.edit') && $canDo->get('core.edit.state'))
+			{
+				$childBar->popupButton('batch')
+					->text('JTOOLBAR_BATCH')
+					->selector('collapseModal')
+					->listCheck(true);
+			}
 		}
 
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete', $component))
 		{
-			ToolbarHelper::deleteList('', 'groups.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::trash('groups.trash');
+			$toolbar->delete('groups.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			ToolbarHelper::preferences($component);
+			$toolbar->preferences($component);
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_FIELDS_FIELD_GROUPS');
+		$toolbar->help('JHELP_COMPONENTS_FIELDS_FIELD_GROUPS');
 	}
 
 	/**

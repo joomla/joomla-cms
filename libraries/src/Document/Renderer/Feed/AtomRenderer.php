@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,11 @@ namespace Joomla\CMS\Document\Renderer\Feed;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Version;
 
 /**
  * AtomRenderer is a feed that implements the atom specification
@@ -49,27 +53,27 @@ class AtomRenderer extends DocumentRenderer
 	 */
 	public function render($name = '', $params = null, $content = null)
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Gets and sets timezone offset from site configuration
 		$tz  = new \DateTimeZone($app->get('offset'));
-		$now = \JFactory::getDate();
+		$now = Factory::getDate();
 		$now->setTimeZone($tz);
 
 		$data = $this->_doc;
 
 		$url = Uri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-		$syndicationURL = \JRoute::_('&format=feed&type=atom');
+		$syndicationURL = Route::_('&format=feed&type=atom');
 
 		$title = $data->getTitle();
 
 		if ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $data->getTitle());
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $data->getTitle());
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $data->getTitle(), $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $data->getTitle(), $app->get('sitename'));
 		}
 
 		$feed_title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
@@ -121,7 +125,7 @@ class AtomRenderer extends DocumentRenderer
 
 		if ($app->get('MetaVersion', 0))
 		{
-			$minorVersion       = \JVersion::MAJOR_VERSION . '.' . \JVersion::MINOR_VERSION;
+			$minorVersion       = Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION;
 			$versionHtmlEscaped = ' version="' . htmlspecialchars($minorVersion, ENT_COMPAT, 'UTF-8') . '"';
 		}
 
@@ -146,7 +150,7 @@ class AtomRenderer extends DocumentRenderer
 				$data->items[$i]->date = $now->toUnix();
 			}
 
-			$itemDate = \JFactory::getDate($data->items[$i]->date);
+			$itemDate = Factory::getDate($data->items[$i]->date);
 			$itemDate->setTimeZone($tz);
 			$feed .= "		<published>" . htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</published>\n";
 			$feed .= "		<updated>" . htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</updated>\n";

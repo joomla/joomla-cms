@@ -1,16 +1,19 @@
-// Toolbar
-
+joomla-toolbar-button {
+  border: 1px solid var(--border);
+}
+.toggle-toolbar {
+  display:block;
+}
 .subhead {
   position: sticky;
   top: 0;
   right: 0;
   left: 0;
-  z-index: 1040;
+  z-index: $zindex-toolbar;
   width: auto;
   min-height: 43px;
   padding: 13px 0;
-  color: #0c192e;
-  background: $atum-container-main-bg;
+  color: var(--atum-text-dark); //#0c192e;
 
   .row {
     margin-right: 0;
@@ -20,63 +23,271 @@
   .btn-toolbar {
     margin-bottom: 0;
 
-    > * {
+    > joomla-toolbar-button,
+    > .btn-group {
       margin-left: .75rem;
-      box-shadow: $atum-box-shadow;
 
-      &:first-of-type {
+      &:first-child {
         margin-left: 0;
       }
     }
   }
 
   .btn {
-    padding: 0 22px;
+    background: $white;
+    border-color: $gray-500;
+    color: var(--atum-text-dark);
+    padding: $input-btn-padding-y-sm-submenu $input-btn-padding-x-sm-submenu;
     font-size: 1rem;
     line-height: $atum-toolbar-line-height;
-    color: #fff;
+    box-shadow: $atum-box-shadow;
+    border: 0;
 
     [class^='icon-'],
     [class*=' icon-'],
     [class^='#{$fa-css-prefix}-'],
     [class*=' #{$fa-css-prefix}-'] {
-      z-index: -1;
+      z-index: $zindex-negative;
       display: inline-block;
-      width: 40px;
-      height: auto;
-      margin: 0 16px 0 -22px;
+      width: 2.438rem;
+      height: 100%;
+      margin: $input-btn-padding-y-sm-submenu $input-btn-submenu-icon-distance $input-btn-padding-y-sm-submenu -#{$input-btn-padding-x-sm-submenu};
       line-height: $atum-toolbar-line-height;
-      color: #fff;
-      background-color: rgba(0, 0, 0, .2);
-    }
-  }
-
-  .btn-group {
-    margin-right: .75rem;
-
-    [class^='icon-'],
-    [class*=' icon-'],
-    [class^='#{$fa-css-prefix}-'],
-    [class*=' #{$fa-css-prefix}-'] {
-      margin-right: 0;
-      background-color: transparent;
-    }
-  }
-
-
-  .dropdown-toggle {
-    padding: 0 16px;
-
-    &.btn {
-      background-color: rgba(0, 0, 0, .2);
-    }
-
-    &.btn-primary {
-      background-color: darken(theme-color("primary"), 8%);
+      color: var(--white);
     }
 
     &.btn-success {
-      background-color: darken(theme-color("success"), 8%);
+
+      background-color: $white;
+
+      [class^='icon-'],
+      [class*=' icon-'],
+      [class^='#{$fa-css-prefix}-'],
+      [class*=' #{$fa-css-prefix}-'],
+      span {
+        background-color: darken(theme-color("success"), 5%);
+        color:rgba(255,255,255,0.90);
+      }
+
+      &:hover, &:active, &:focus {
+        [class^='icon-'],
+        [class*=' icon-'],
+        [class^='#{$fa-css-prefix}-'],
+        [class*=' #{$fa-css-prefix}-'],
+        span {
+          background-color: darken(theme-color("success"), 10%);
+          color:rgba(255,255,255,0.90);
+        }
+
+        color:rgba(255,255,255,0.90);
+        background-color: theme-color("success");
+      }
+    }
+
+    &.btn-danger {
+
+    background-color: $white;
+
+    [class^='icon-'],
+    [class*=' icon-'],
+    [class^='#{$fa-css-prefix}-'],
+    [class*=' #{$fa-css-prefix}-'],
+    span {
+      background-color: darken(theme-color("danger"), 5%);
+      color:rgba(255,255,255,0.90);
+    }
+
+    &:hover, &:active, &:focus {
+      [class^='icon-'],
+      [class*=' icon-'],
+      [class^='#{$fa-css-prefix}-'],
+      [class*=' #{$fa-css-prefix}-'],
+      span {
+        background-color: darken(theme-color("danger"), 10%);
+        color:rgba(255,255,255,0.90);
+      }
+
+      color:rgba(255,255,255,0.90);
+      background-color: theme-color("danger");
+    }
+  }
+    
+    &.btn-primary {
+
+      background-color: $white;
+
+      [class^='icon-'],
+      [class*=' icon-'],
+      [class^='#{$fa-css-prefix}-'],
+      [class*=' #{$fa-css-prefix}-'],
+      span {
+        background-color: var(--atum-bg-dark-70);
+        color:rgba(255,255,255,0.90);
+      }
+
+      &:hover, &:active, &:focus {
+        [class^='icon-'],
+        [class*=' icon-'],
+        [class^='#{$fa-css-prefix}-'],
+        [class*=' #{$fa-css-prefix}-'],
+        span {
+          background-color: var(--atum-bg-dark-80);
+          color:rgba(255,255,255,0.90);
+        }
+
+        color:rgba(255,255,255,0.90);
+        background-color: var(--atum-bg-dark);
+      }
+    }
+    
+    &.btn-secondary {
+    
+        [class^='icon-download'] {
+             background-color: var(--atum-bg-dark-70);
+            color:rgba(255,255,255,0.90);
+        }
+        
+         &:hover, &:active, &:focus {
+            [class^='icon-download'] {
+                background-color: var(--atum-bg-dark-80);
+                color:rgba(255,255,255,0.90);
+            }
+         }
+    }
+
+    &.btn-info {
+
+      background-color: $white;
+
+      [class^='icon-'],
+      [class*=' icon-'],
+      [class^='#{$fa-css-prefix}-'],
+      [class*=' #{$fa-css-prefix}-'],
+      span {
+        background-color: var(--atum-bg-dark-70);
+        color:rgba(255,255,255,0.90);
+      }
+
+      &:hover, &:active, &:focus {
+        [class^='icon-'],
+        [class*=' icon-'],
+        [class^='#{$fa-css-prefix}-'],
+        [class*=' #{$fa-css-prefix}-'],
+        span {
+          background-color: var(--atum-bg-dark-80);
+          color:rgba(255,255,255,0.90);
+        }
+
+        color:rgba(255,255,255,0.90);
+        background-color: var(--atum-bg-dark);
+      }
+    }
+
+    &.btn-action {
+
+      background-color: $white;
+
+      [class^='icon-'],
+      [class*=' icon-'],
+      [class^='#{$fa-css-prefix}-'],
+      [class*=' #{$fa-css-prefix}-'],
+      span {
+        background-color: var(--atum-bg-dark-70);
+        color:rgba(255,255,255,0.90);
+      }
+
+      &:hover,  &:active, &:focus {
+        [class^='icon-'],
+        [class*=' icon-'],
+        [class^='#{$fa-css-prefix}-'],
+        [class*=' #{$fa-css-prefix}-'],
+        span {
+          background-color: var(--atum-bg-dark-80);
+          color:rgba(255,255,255,0.90);
+        }
+
+        color:rgba(255,255,255,0.90);
+        background-color: var(--atum-bg-dark);
+      }
+    }
+
+    &[disabled],
+    &.dropdown-toggle[disabled] {
+      background-color: rgba($gray-300, 0.8);
+      border-color: rgba($gray-500, 0.8);
+
+      [class^='icon-'],
+      [class*=' icon-'],
+      [class^='#{$fa-css-prefix}-'],
+      [class*=' #{$fa-css-prefix}-'],
+      span {
+        color: var(--atum-text-dark);
+        background-color: rgba($gray-500, 0.8);
+      }
+
+      &:hover,  &:active, &:focus {
+        [class^='icon-'],
+        [class*=' icon-'],
+        [class^='#{$fa-css-prefix}-'],
+        [class*=' #{$fa-css-prefix}-'],
+        span {
+          color: var(--atum-text-dark);
+          background-color: rgba($gray-500, 0.8);
+        }
+        background-color: rgba($gray-300, 0.8);
+        cursor: not-allowed;
+        color: var(--atum-text-dark);
+      }
+
+    }
+
+    &.disabled,
+    &:disabled{
+        opacity:1;
+    }
+  }
+
+  .dropdown-item {
+
+    &:hover:not(.disabled) {
+      color: #212529;
+      cursor: pointer;
+    }
+  }
+
+  .dropdown-toggle {
+
+    &.btn {
+      color: var(--atum-text-dark);
+      span {
+        background-color: var(--atum-bg-dark);
+        color:rgba(255,255,255,0.90);
+      }
+    }
+
+    &.btn-primary {
+      span {
+        background-color: var(--atum-bg-dark);
+        color:rgba(255,255,255,0.90);
+      }
+    }
+
+    &.btn-success {
+      background-color: $white;
+      padding: 0;
+
+      span {
+        background-color: theme-color("success");
+        color:rgba(255,255,255,0.90);
+      }
+
+      &::after {
+        border: 1px solid var(--border);
+        content: '\f078';
+        font-family: 'Font Awesome 5 Free';
+        vertical-align: middle;
+        width: 2.375rem;
+      }
     }
 
     &.btn-info {
@@ -86,5 +297,94 @@
     &.btn-danger {
       background-color: darken(theme-color("danger"), 8%);
     }
+
+    &.btn-action {
+      background-color: $white;
+
+      [class^='icon-'],
+      [class*=' icon-'],
+      [class^='#{$fa-css-prefix}-'],
+      [class*=' #{$fa-css-prefix}-'] {
+        background-color: var(--atum-bg-dark);
+        color:rgba(255,255,255,0.90);
+      }
+
+      &:hover:not([disabled]) {
+        background-color: var(--atum-bg-dark-80);
+      }
+
+      &::after {
+        border: none;
+        content: '\f078';
+        font-family: 'Font Awesome 5 Free';
+        height: 100%;
+        margin: $input-btn-padding-y-sm-submenu -#{$input-btn-padding-x-sm-submenu} $input-btn-padding-y-sm-submenu $input-btn-submenu-icon-distance;
+        vertical-align: 0;
+        width: 2.375rem;
+        line-height: 2.375rem;
+      }
+    }
+    &::after{
+        line-height:2.4rem;
+    }
+  }
+}
+
+.btn-toolbar{
+  > joomla-toolbar-button,
+  > .btn-group {
+    @include media-breakpoint-down(lg) {
+      margin-left:0 !important;
+      margin-right:0.75rem;
+      margin-bottom:0.75rem;
+    }    
+  }
+
+
+}
+
+.js-stools{
+  @include media-breakpoint-down(lg) {
+    justify-content:flex-start;
+    .js-stools-container-bar{
+        .btn-toolbar{
+             justify-content:flex-start;
+        }
+    }
+  }
+  @include media-breakpoint-down(xs) {
+    display:block;
+      .joomla-toolbar-button,
+      .btn-group,
+      .input-group,
+      .ordering-select,
+      .js-stools-field-list,
+      .js-stools-container-selector      {
+        @include media-breakpoint-down(sm) {
+            width:100%;
+        }
+     }
+     .ordering-select,
+     .js-stools-container-selector{
+        margin-right:.5rem;
+     }
+     .btn-group{
+        @include media-breakpoint-down(sm) {
+            margin-right:0;
+        }
+     }
+     .js-stools-container-bar{
+        .js-stools-field-list{
+            @include media-breakpoint-down(sm) {
+                margin-bottom: .75rem;
+            }
+         }    
+    }         
+     
+     .js-stools-btn-filter    {
+        @include media-breakpoint-down(sm) {
+            width:75%;
+        }
+     }
   }
 }

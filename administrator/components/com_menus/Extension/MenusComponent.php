@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,8 @@ namespace Joomla\Component\Menus\Administrator\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Association\AssociationServiceInterface;
+use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
@@ -22,7 +22,7 @@ use Psr\Container\ContainerInterface;
 /**
  * Component class for com_menus
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class MenusComponent extends MVCComponent implements
 	BootableExtensionInterface, AssociationServiceInterface
@@ -41,7 +41,7 @@ class MenusComponent extends MVCComponent implements
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function boot(ContainerInterface $container)
 	{

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,7 +11,7 @@ namespace Joomla\CMS\Event\Table;
 defined('JPATH_PLATFORM') or die;
 
 use BadMethodCallException;
-use JDatabaseQuery;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * Event class for JTable's onBeforeMove event
@@ -25,7 +25,7 @@ class BeforeMoveEvent extends AbstractEvent
 	 *
 	 * Mandatory arguments:
 	 * subject		JTableInterface	The table we are operating on
-	 * query		JDatabaseQuery	The query to get the primary keys and ordering values for the selection.
+	 * query		DatabaseQuery	The query to get the primary keys and ordering values for the selection.
 	 * delta		int				The direction and magnitude to move the row in the ordering sequence.
 	 * where		string			WHERE clause to use for limiting the selection of rows to compact the ordering values.
 	 *
@@ -57,7 +57,7 @@ class BeforeMoveEvent extends AbstractEvent
 	/**
 	 * Setter for the query argument
 	 *
-	 * @param   JDatabaseQuery  $value  The value to set
+	 * @param   DatabaseQuery  $value  The value to set
 	 *
 	 * @return  mixed
 	 *
@@ -65,9 +65,9 @@ class BeforeMoveEvent extends AbstractEvent
 	 */
 	protected function setQuery($value)
 	{
-		if (!($value instanceof JDatabaseQuery))
+		if (!($value instanceof DatabaseQuery))
 		{
-			throw new BadMethodCallException("Argument 'query' of event {$this->name} must be of JDatabaseQuery type");
+			throw new BadMethodCallException("Argument 'query' of event {$this->name} must be of DatabaseQuery type");
 		}
 
 		return $value;
@@ -78,7 +78,7 @@ class BeforeMoveEvent extends AbstractEvent
 	 *
 	 * @param   int  $value  The value to set
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
 	 * @throws  BadMethodCallException  if the argument is not of the expected type
 	 */

@@ -3,19 +3,19 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.cookie
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\User\User;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\User\UserHelper;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Authentication\Authentication;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserHelper;
 
 /**
  * Joomla Authentication plugin
@@ -29,7 +29,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 	/**
 	 * Application object
 	 *
-	 * @var    JApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  3.2
 	 */
 	protected $app;
@@ -37,10 +37,28 @@ class PlgAuthenticationCookie extends CMSPlugin
 	/**
 	 * Database object
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseDriver
 	 * @since  3.2
 	 */
 	protected $db;
+
+	/**
+	 * Reports the privacy related capabilities for this plugin to site administrators.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.9.0
+	 */
+	public function onPrivacyCollectAdminCapabilities()
+	{
+		$this->loadLanguage();
+
+		return array(
+			Text::_('PLG_AUTHENTICATION_COOKIE') => array(
+				Text::_('PLG_AUTH_COOKIE_PRIVACY_CAPABILITY_COOKIE'),
+			)
+		);
+	}
 
 	/**
 	 * This method should handle any authentication and report back to the subject
@@ -94,11 +112,13 @@ class PlgAuthenticationCookie extends CMSPlugin
 		// Filter series since we're going to use it in the query
 		$filter = new InputFilter;
 		$series = $filter->clean($cookieArray[1], 'ALNUM');
+		$now    = time();
 
 		// Remove expired tokens
 		$query = $this->db->getQuery(true)
-			->delete('#__user_keys')
-			->where($this->db->quoteName('time') . ' < ' . $this->db->quote(time()));
+			->delete($this->db->quoteName('#__user_keys'))
+			->where($this->db->quoteName('time') . ' < :now')
+			->bind(':now', $now);
 
 		try
 		{
@@ -111,11 +131,13 @@ class PlgAuthenticationCookie extends CMSPlugin
 
 		// Find the matching record if it exists.
 		$query = $this->db->getQuery(true)
-			->select($this->db->quoteName(array('user_id', 'token', 'series', 'time')))
+			->select($this->db->quoteName(['user_id', 'token', 'series', 'time']))
 			->from($this->db->quoteName('#__user_keys'))
-			->where($this->db->quoteName('series') . ' = ' . $this->db->quote($series))
-			->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName))
-			->order($this->db->quoteName('time') . ' DESC');
+			->where($this->db->quoteName('series') . ' = :series')
+			->where($this->db->quoteName('uastring') . ' = :uastring')
+			->order($this->db->quoteName('time') . ' DESC')
+			->bind(':series', $series)
+			->bind(':uastring', $cookieName);
 
 		try
 		{
@@ -141,12 +163,14 @@ class PlgAuthenticationCookie extends CMSPlugin
 		if (!UserHelper::verifyPassword($cookieArray[0], $results[0]->token))
 		{
 			/*
-			 * This is a real attack! Either the series was guessed correctly or a cookie was stolen and used twice (once by attacker and once by victim).
+			 * This is a real attack!
+			 * Either the series was guessed correctly or a cookie was stolen and used twice (once by attacker and once by victim).
 			 * Delete all tokens for this user!
 			 */
 			$query = $this->db->getQuery(true)
-				->delete('#__user_keys')
-				->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($results[0]->user_id));
+				->delete($this->db->quoteName('#__user_keys'))
+				->where($this->db->quoteName('user_id') . ' = :userid')
+				->bind(':userid', $results[0]->user_id);
 
 			try
 			{
@@ -174,10 +198,11 @@ class PlgAuthenticationCookie extends CMSPlugin
 
 		// Make sure there really is a user with this name and get the data for the session.
 		$query = $this->db->getQuery(true)
-			->select($this->db->quoteName(array('id', 'username', 'password')))
+			->select($this->db->quoteName(['id', 'username', 'password']))
 			->from($this->db->quoteName('#__users'))
-			->where($this->db->quoteName('username') . ' = ' . $this->db->quote($results[0]->user_id))
-			->where($this->db->quoteName('requireReset') . ' = 0');
+			->where($this->db->quoteName('username') . ' = :userid')
+			->where($this->db->quoteName('requireReset') . ' = 0')
+			->bind(':userid', $results[0]->user_id);
 
 		try
 		{
@@ -271,7 +296,8 @@ class PlgAuthenticationCookie extends CMSPlugin
 				$query  = $this->db->getQuery(true)
 					->select($this->db->quoteName('series'))
 					->from($this->db->quoteName('#__user_keys'))
-					->where($this->db->quoteName('series') . ' = ' . $this->db->quote($series));
+					->where($this->db->quoteName('series') . ' = :series')
+					->bind(':series', $series);
 
 				try
 				{
@@ -302,8 +328,8 @@ class PlgAuthenticationCookie extends CMSPlugin
 		}
 
 		// Get the parameter values
-		$lifetime = $this->params->get('cookie_lifetime', '60') * 24 * 60 * 60;
-		$length   = $this->params->get('key_length', '16');
+		$lifetime = $this->params->get('cookie_lifetime', 60) * 24 * 60 * 60;
+		$length   = $this->params->get('key_length', 16);
 
 		// Generate new cookie
 		$token       = UserHelper::genRandomPassword($length);
@@ -324,27 +350,37 @@ class PlgAuthenticationCookie extends CMSPlugin
 
 		if (!empty($options['remember']))
 		{
+			$future = (time() + $lifetime);
+
 			// Create new record
 			$query
 				->insert($this->db->quoteName('#__user_keys'))
-				->set($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username))
-				->set($this->db->quoteName('series') . ' = ' . $this->db->quote($series))
-				->set($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName))
-				->set($this->db->quoteName('time') . ' = ' . (time() + $lifetime));
+				->set($this->db->quoteName('user_id') . ' = :userid')
+				->set($this->db->quoteName('series') . ' = :series')
+				->set($this->db->quoteName('uastring') . ' = :uastring')
+				->set($this->db->quoteName('time') . ' = :time')
+				->bind(':userid', $options['user']->username)
+				->bind(':series', $series)
+				->bind(':uastring', $cookieName)
+				->bind(':time', $future);
 		}
 		else
 		{
 			// Update existing record with new token
 			$query
 				->update($this->db->quoteName('#__user_keys'))
-				->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username))
-				->where($this->db->quoteName('series') . ' = ' . $this->db->quote($series))
-				->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName));
+				->where($this->db->quoteName('user_id') . ' = :userid')
+				->where($this->db->quoteName('series') . ' = :series')
+				->where($this->db->quoteName('uastring') . ' = :uastring')
+				->bind(':userid', $options['user']->username)
+				->bind(':series', $series)
+				->bind(':uastring', $cookieName);
 		}
 
-		$hashed_token = UserHelper::hashPassword($token);
+		$hashedToken = UserHelper::hashPassword($token);
 
-		$query->set($this->db->quoteName('token') . ' = ' . $this->db->quote($hashed_token));
+		$query->set($this->db->quoteName('token') . ' = :token')
+			->bind(':token', $hashedToken);
 
 		try
 		{
@@ -392,8 +428,9 @@ class PlgAuthenticationCookie extends CMSPlugin
 
 		// Remove the record from the database
 		$query = $this->db->getQuery(true)
-			->delete('#__user_keys')
-			->where($this->db->quoteName('series') . ' = ' . $this->db->quote($series));
+			->delete($this->db->quoteName('#__user_keys'))
+			->where($this->db->quoteName('series') . ' = :series')
+			->bind(':series', $series);
 
 		try
 		{

@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,11 +60,17 @@ class InstallationController extends JSONController
 		// Check the form
 		/** @var \Joomla\CMS\Installation\Model\SetupModel $model */
 		$model = $this->getModel('Setup');
-		if ($model->checkForm('setup') === false || $model->validateDbConnection() === false)
+
+		if ($model->checkForm('setup') === false)
 		{
-			$r->messages = Text::_('INSTL_DATABASE_VALIDATION_ERROR');
-			$r->view = 'setup';
+			$this->app->enqueueMessage(Text::_('INSTL_DATABASE_VALIDATION_ERROR'), 'error');
+			$r->validated = false;
+			$this->sendJsonResponse($r);
+
+			return;
 		}
+
+		$r->validated = $model->validateDbConnection();
 
 		$this->sendJsonResponse($r);
 	}
@@ -168,7 +174,7 @@ class InstallationController extends JSONController
 		if (!$lids)
 		{
 			// No languages have been selected
-			$this->app->enqueueMessage(\JText::_('INSTL_LANGUAGES_NO_LANGUAGE_SELECTED'), 'warning');
+			$this->app->enqueueMessage(Text::_('INSTL_LANGUAGES_NO_LANGUAGE_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -199,32 +205,6 @@ class InstallationController extends JSONController
 	}
 
 	/**
-	 * Languages task.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function sample()
-	{
-		$this->checkValidToken();
-
-		$r = new \stdClass;
-		$r->view = 'remove';
-
-		/** @var \Joomla\CMS\Installation\Model\DatabaseModel $model */
-		$model = $this->getModel('Database');
-
-		// Check if the database was initialised
-		if (!$model->installSampleData())
-		{
-			$r->view = 'remove';
-		}
-
-		$this->sendJsonResponse($r);
-	}
-
-	/**
 	 * Delete installation folder task.
 	 *
 	 * @return  void
@@ -242,8 +222,10 @@ class InstallationController extends JSONController
 		// If an error was encountered return an error.
 		if (!$success)
 		{
-			$this->app->enqueueMessage(\JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_DELETE', 'installation'), 'warning');
+			$this->app->enqueueMessage(Text::sprintf('INSTL_COMPLETE_ERROR_FOLDER_DELETE', 'installation'), 'warning');
 		}
+
+		$this->app->getSession()->destroy();
 
 		$r = new \stdClass;
 		$r->view = 'remove';

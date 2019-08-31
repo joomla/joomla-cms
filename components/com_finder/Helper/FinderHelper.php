@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,11 +12,12 @@ namespace Joomla\Component\Finder\Site\Helper;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Helper class for Joomla! Finder components
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class FinderHelper
 {
@@ -28,7 +29,7 @@ class FinderHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function logSearch(\FinderIndexerQuery $searchquery, $resultCount = 0)
 	{
@@ -45,7 +46,7 @@ class FinderHelper
 		}
 
 		// Initialise our variables
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Sanitise the term for the database

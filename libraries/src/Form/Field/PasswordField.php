@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,8 +19,8 @@ use Joomla\CMS\Form\FormField;
  * Text field for passwords
  *
  * @link   http://www.w3.org/TR/html-markup/input.password.html#input.password
- * @note   Two password fields may be validated as matching using JFormRuleEquals
- * @since  11.1
+ * @note   Two password fields may be validated as matching using \Joomla\CMS\Form\Rule\EqualsRule
+ * @since  1.7.0
  */
 class PasswordField extends FormField
 {
@@ -28,7 +28,7 @@ class PasswordField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Password';
 
@@ -160,7 +160,7 @@ class PasswordField extends FormField
 			$this->minUppercase = 0;
 			$this->minLowercase = 0;
 
-			if (Factory::getConfig()->get('db') != '')
+			if (Factory::getApplication()->get('db') != '')
 			{
 				$this->minLength    = (int) ComponentHelper::getParams('com_users')->get('minimum_length', 4);
 				$this->minIntegers  = (int) ComponentHelper::getParams('com_users')->get('minimum_integers', 0);
@@ -178,7 +178,7 @@ class PasswordField extends FormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{

@@ -1,11 +1,12 @@
 /**
- * @copyright	Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 body {
 	margin: 0; padding: 0;
-	font-family: Arial, Helvetica, Sans Serif; font-size: 14px;
+	font-family: arial, helvetica, sans-serif; 
+	font-size: 14px;
 	color: #333333;
 	text-align: center;
 }

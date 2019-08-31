@@ -3,18 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Menus\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\FormController;
-use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
  * The Menu Type Controller
@@ -51,7 +51,7 @@ class MenuController extends FormController
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app      = $this->app;
 		$data     = $this->input->post->get('jform', array(), 'array');
@@ -74,8 +74,8 @@ class MenuController extends FormController
 		$data['id'] = $recordId;
 
 		// Get the model and attempt to validate the posted data.
-		/* @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
-		$model = $this->getModel('Menu');
+		/** @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
+		$model = $this->getModel('Menu', '', ['ignore_request' => false]);
 		$form  = $model->getForm();
 
 		if (!$form)

@@ -3,26 +3,28 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Templates\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
 
 /**
  * Template style model.
@@ -261,7 +263,7 @@ class StyleModel extends AdminModel
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  Form  A Form object on success, false on failure
@@ -364,7 +366,7 @@ class StyleModel extends AdminModel
 
 			// Convert to the \JObject before adding other data.
 			$properties        = $table->getProperties(1);
-			$this->_cache[$pk] = ArrayHelper::toObject($properties, 'JObject');
+			$this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
 
 			// Convert the params field to an array.
 			$registry = new Registry($table->params);
@@ -410,8 +412,6 @@ class StyleModel extends AdminModel
 		{
 			throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 		}
-
-		jimport('joomla.filesystem.path');
 
 		$formFile = Path::clean($client->path . '/templates/' . $template . '/templateDetails.xml');
 
@@ -624,20 +624,20 @@ class StyleModel extends AdminModel
 		}
 
 		// Reset the home fields for the client_id.
-		$db->setQuery(
-			'UPDATE #__template_styles' .
-			' SET home = \'0\'' .
-			' WHERE client_id = ' . (int) $style->client_id .
-			' AND home = \'1\''
-		);
+		$query = $db->getQuery(true)
+			->update('#__template_styles')
+			->set('home = ' .  $db->quote('0'))
+			->where('client_id = ' . (int) $style->client_id)
+			->where('home = ' . $db->quote('1'));
+		$db->setQuery($query);
 		$db->execute();
 
 		// Set the new home style.
-		$db->setQuery(
-			'UPDATE #__template_styles' .
-			' SET home = \'1\'' .
-			' WHERE id = ' . (int) $id
-		);
+		$query = $db->getQuery(true)
+			->update('#__template_styles')
+			->set('home = ' . $db->quote('1'))
+			->where('id = ' . (int) $id);
+		$db->setQuery($query);
 		$db->execute();
 
 		// Clean the cache.
@@ -667,11 +667,11 @@ class StyleModel extends AdminModel
 		}
 
 		// Lookup the client_id.
-		$db->setQuery(
-			'SELECT client_id, home' .
-			' FROM #__template_styles' .
-			' WHERE id = ' . (int) $id
-		);
+		$query = $db->getQuery(true)
+			->select('client_id, home')
+			->from('#__template_styles')
+			->where('id = ' . (int) $id);
+		$db->setQuery($query);
 		$style = $db->loadObject();
 
 		if (!is_numeric($style->client_id))
@@ -684,11 +684,11 @@ class StyleModel extends AdminModel
 		}
 
 		// Set the new home style.
-		$db->setQuery(
-			'UPDATE #__template_styles' .
-			' SET home = \'0\'' .
-			' WHERE id = ' . (int) $id
-		);
+		$query = $db->getQuery(true)
+			->update('#__template_styles')
+			->set('home = ' . $db->quote('0'))
+			->where('id = ' . (int) $id);
+		$db->setQuery($query);
 		$db->execute();
 
 		// Clean the cache.

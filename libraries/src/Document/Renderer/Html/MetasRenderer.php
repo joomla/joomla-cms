@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,8 +12,9 @@ namespace Joomla\CMS\Document\Renderer\Html;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
-use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -45,8 +46,12 @@ class MetasRenderer extends DocumentRenderer
 
 		if ($this->_doc->getScriptOptions())
 		{
-			\JHtml::_('behavior.core');
+			HTMLHelper::_('behavior.core');
 		}
+
+		// Attach Assets
+		$wa = $this->_doc->getWebAssetManager();
+		$wa->attachActiveAssetsToDocument($this->_doc);
 
 		// Trigger the onBeforeCompileHead event
 		$app = Factory::getApplication();
@@ -78,11 +83,13 @@ class MetasRenderer extends DocumentRenderer
 			{
 				if ($type == 'http-equiv' && !($this->_doc->isHtml5() && $name == 'content-type'))
 				{
-					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="' . htmlspecialchars($contents, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
+					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="'
+						. htmlspecialchars($contents, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
 				}
 				elseif ($type != 'http-equiv' && !empty($contents))
 				{
-					$buffer .= $tab . '<meta ' . $type . '="' . $name . '" content="' . htmlspecialchars($contents, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
+					$buffer .= $tab . '<meta ' . $type . '="' . $name . '" content="'
+						. htmlspecialchars($contents, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
 				}
 			}
 		}

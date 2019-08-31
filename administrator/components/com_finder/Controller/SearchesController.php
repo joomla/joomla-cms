@@ -3,19 +3,22 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Finder\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Session\Session;
 
 /**
  * Methods supporting a list of search terms.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class SearchesController extends BaseController
 {
@@ -27,7 +30,7 @@ class SearchesController extends BaseController
 	public function reset()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('Searches');
 

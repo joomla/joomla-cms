@@ -2,13 +2,16 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Content History table.
@@ -39,11 +42,11 @@ class ContentHistory extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  A database connector object
+	 * @param   DatabaseDriver  $db  A database connector object
 	 *
 	 * @since   3.1
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__ucm_history', 'version_id', $db);
 		$this->ignoreChanges = array(
@@ -83,8 +86,8 @@ class ContentHistory extends Table
 		// Modify author and date only when not toggling Keep Forever
 		if ($this->get('keep_forever') === null)
 		{
-			$this->set('editor_user_id', \JFactory::getUser()->id);
-			$this->set('save_date', \JFactory::getDate()->toSql());
+			$this->set('editor_user_id', Factory::getUser()->id);
+			$this->set('save_date', Factory::getDate()->toSql());
 		}
 
 		return parent::store($updateNulls);
@@ -171,7 +174,9 @@ class ContentHistory extends Table
 			->where($db->quoteName('ucm_item_id') . ' = ' . (int) $this->get('ucm_item_id'))
 			->where($db->quoteName('ucm_type_id') . ' = ' . (int) $this->get('ucm_type_id'))
 			->where($db->quoteName('sha1_hash') . ' = ' . $db->quote($this->get('sha1_hash')));
-		$db->setQuery($query, 0, 1);
+
+		$query->setLimit(1);
+		$db->setQuery($query);
 
 		return $db->loadObject();
 	}
@@ -198,7 +203,9 @@ class ContentHistory extends Table
 			->where($db->quoteName('ucm_type_id') . ' = ' . (int) $this->get('ucm_type_id'))
 			->where($db->quoteName('keep_forever') . ' != 1')
 			->order($db->quoteName('save_date') . ' DESC ');
-		$db->setQuery($query, 0, (int) $maxVersions);
+
+		$query->setLimit((int) $maxVersions);
+		$db->setQuery($query);
 		$idsToSave = $db->loadColumn(0);
 
 		// Don't process delete query unless we have at least the maximum allowed versions

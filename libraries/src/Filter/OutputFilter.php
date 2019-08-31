@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,14 +10,15 @@ namespace Joomla\CMS\Filter;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Language;
 use Joomla\Filter\OutputFilter as BaseOutputFilter;
 use Joomla\String\StringHelper;
-use Joomla\CMS\Language\Language;
 
 /**
  * OutputFilter
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class OutputFilter extends BaseOutputFilter
 {
@@ -28,7 +29,7 @@ class OutputFilter extends BaseOutputFilter
 	 *
 	 * @return  string  Processed string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function linkXHTMLSafe($input)
 	{
@@ -66,7 +67,7 @@ class OutputFilter extends BaseOutputFilter
 	 *
 	 * @return  string  Processed string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function stringURLSafe($string, $language = '')
 	{
@@ -74,7 +75,7 @@ class OutputFilter extends BaseOutputFilter
 		$str = str_replace('-', ' ', $string);
 
 		// Transliterate on the language requested (fallback to current language if not specified)
-		$lang = $language == '' || $language == '*' ? \JFactory::getLanguage() : Language::getInstance($language);
+		$lang = $language == '' || $language == '*' ? Factory::getLanguage() : Language::getInstance($language);
 		$str = $lang->transliterate($str);
 
 		// Trim white spaces at beginning and end of alias and make lowercase

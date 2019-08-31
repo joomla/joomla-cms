@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,15 +12,15 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
+use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Uri\UriHelper;
-use Joomla\CMS\Language\Text;
 
 /**
  * Form Rule class for the Joomla Platform.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class UrlRule extends FormRule
 {
@@ -37,7 +37,7 @@ class UrlRule extends FormRule
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @link    http://www.w3.org/Addressing/URL/url-spec.txt
 	 * @see	    JString
 	 */
@@ -69,7 +69,7 @@ class UrlRule extends FormRule
 		 * Note that parse_url() does not always parse accurately without a scheme,
 		 * but at least the path should be set always. Note also that parse_url()
 		 * returns False for seriously malformed URLs instead of an associative array.
-		 * @link https://secure.php.net/manual/en/function.parse-url.php
+		 * @link https://www.php.net/manual/en/function.parse-url.php
 		 */
 		if ($urlParts === false || !array_key_exists('scheme', $urlParts))
 		{

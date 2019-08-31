@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,7 +11,7 @@ namespace Joomla\CMS\Event\Table;
 defined('JPATH_PLATFORM') or die;
 
 use BadMethodCallException;
-use JDatabaseQuery;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * Event class for JTable's onBeforeReorder event
@@ -25,7 +25,7 @@ class BeforeReorderEvent extends AbstractEvent
 	 *
 	 * Mandatory arguments:
 	 * subject		JTableInterface	The table we are operating on
-	 * query		JDatabaseQuery	The query to get the primary keys and ordering values for the selection.
+	 * query		DatabaseQuery	The query to get the primary keys and ordering values for the selection.
 	 * where		string			WHERE clause to use for limiting the selection of rows to compact the ordering values.
 	 *
 	 * @param   string  $name       The event name.
@@ -51,7 +51,7 @@ class BeforeReorderEvent extends AbstractEvent
 	/**
 	 * Setter for the query argument
 	 *
-	 * @param   JDatabaseQuery  $value  The value to set
+	 * @param   DatabaseQuery  $value  The value to set
 	 *
 	 * @return  mixed
 	 *
@@ -59,9 +59,9 @@ class BeforeReorderEvent extends AbstractEvent
 	 */
 	protected function setQuery($value)
 	{
-		if (!($value instanceof JDatabaseQuery))
+		if (!($value instanceof DatabaseQuery))
 		{
-			throw new BadMethodCallException("Argument 'query' of event {$this->name} must be of JDatabaseQuery type");
+			throw new BadMethodCallException("Argument 'query' of event {$this->name} must be of DatabaseQuery type");
 		}
 
 		return $value;
@@ -70,7 +70,7 @@ class BeforeReorderEvent extends AbstractEvent
 	/**
 	 * Setter for the where argument
 	 *
-	 * @param   string|null  $value  The value to set
+	 * @param   array|string|null  $value  A string or array of where conditions.
 	 *
 	 * @return  mixed
 	 *
@@ -78,9 +78,9 @@ class BeforeReorderEvent extends AbstractEvent
 	 */
 	protected function setWhere($value)
 	{
-		if (!empty($value) && !is_string($value))
+		if (!empty($value) && !is_string($value) && !is_array($value))
 		{
-			throw new BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string");
+			throw new BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string or array of strings");
 		}
 
 		return $value;

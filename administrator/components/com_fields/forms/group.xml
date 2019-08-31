@@ -27,7 +27,6 @@
 			name="title"
 			type="text"
 			label="JGLOBAL_TITLE"
-			class="input-xxlarge input-large-text"
 			size="40"
 			required="true"
 		/>
@@ -36,7 +35,7 @@
 			name="state"
 			type="list"
 			label="JSTATUS"
-			class="chzn-color-state"
+			class="custom-select-color-state"
 			default="1"
 			>
 			<option value="1">JPUBLISHED</option>
@@ -139,4 +138,19 @@
 			class="inputbox"
 		/>
 	</fieldset>
+
+	<fields name="params" label="COM_FIELDS_FIELD_BASIC_LABEL">
+		<fieldset name="basic">
+			<field
+				name="display_readonly"
+				type="radio"
+				label="JFIELD_DISPLAY_READONLY_LABEL"
+				class="switcher"
+				default="1"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+		</fieldset>
+	</fields>
 </form>

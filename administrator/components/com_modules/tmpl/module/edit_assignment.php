@@ -3,26 +3,26 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 
 // Initialise related data.
-\JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
-\JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_modules/helpers/modules.php');
 $menuTypes = MenusHelper::getMenuLinks();
 
 HTMLHelper::_('script', 'legacy/treeselectmenu.min.js', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <div class="control-group">
-	<label id="jform_menus-lbl" class="control-label" for="jform_menus"><?php echo Text::_('COM_MODULES_MODULE_ASSIGN'); ?></label>
+	<label id="jform_menus-lbl" class="control-label" for="jform_assignment"><?php echo Text::_('COM_MODULES_MODULE_ASSIGN'); ?></label>
 	<div id="jform_menus" class="controls">
 		<select class="custom-select" name="jform[assignment]" id="jform_assignment">
 			<?php echo HTMLHelper::_('select.options', ModulesHelper::getAssignmentOptions($this->item->client_id), 'value', 'text', $this->item->assignment, true); ?>
@@ -121,9 +121,10 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 				<div style="display:none" id="treeselectmenu">
 					<div class="nav-hover treeselect-menu">
 						<div class="dropdown">
-							<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-xs btn-secondary">
+							<button type="button" data-toggle="dropdown" class="dropdown-toggle btn btn-sm btn-light">
 								<span class="caret"></span>
-							</a>
+								<span class="sr-only"><?php echo Text::sprintf('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
+							</button>
 							<div class="dropdown-menu">
 								<h5 class="dropdown-header"><?php echo Text::_('COM_MODULES_SUBITEMS'); ?></h5>
 								<div class="dropdown-divider"></div>

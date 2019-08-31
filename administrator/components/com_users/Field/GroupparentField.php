@@ -3,20 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
-use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\CMS\Form\Field\ListField;
-
-FormHelper::loadFieldClass('list');
+use Joomla\CMS\Helper\UserGroupsHelper;
 
 /**
  * User Group Parent field..
@@ -34,6 +32,31 @@ class GroupparentField extends ListField
 	protected $type = 'GroupParent';
 
 	/**
+	 * Method to clean the Usergroup Options from all children starting by a given father
+	 *
+	 * @param   array    $userGroupsOptions  The usergroup options to clean
+	 * @param   integer  $fatherId           The father ID to start with
+	 *
+	 * @return  array  The cleaned field options
+	 *
+	 * @since   3.9.4
+	 */
+	private function cleanOptionsChildrenByFather($userGroupsOptions, $fatherId)
+	{
+		foreach ($userGroupsOptions as $userGroupsOptionsId => $userGroupsOptionsData)
+		{
+			if ((int) $userGroupsOptionsData->parent_id === (int) $fatherId)
+			{
+				unset($userGroupsOptions[$userGroupsOptionsId]);
+
+				$userGroupsOptions = $this->cleanOptionsChildrenByFather($userGroupsOptions, $userGroupsOptionsId);
+			}
+		}
+
+		return $userGroupsOptions;
+	}
+
+	/**
 	 * Method to get the field options.
 	 *
 	 * @return  array  The field option objects
@@ -43,11 +66,19 @@ class GroupparentField extends ListField
 	protected function getOptions()
 	{
 		$options = UserGroupsHelper::getInstance()->getAll();
+		$currentGroupId = $this->form->getValue('id');
 
-		// Prevent parenting to children of this item.
-		if ($id = $this->form->getValue('id'))
+		// Prevent to set yourself as parent
+		if ($currentGroupId)
 		{
-			unset($options[$id]);
+			unset($options[$currentGroupId]);
+		}
+
+		// We should not remove any groups when we are creating a new group
+		if (!is_null($currentGroupId))
+		{
+			// Prevent parenting direct children and children of children of this item.
+			$options = $this->cleanOptionsChildrenByFather($options, $currentGroupId);
 		}
 
 		$options      = array_values($options);

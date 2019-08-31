@@ -1,14 +1,14 @@
 /**
- * @copyright	Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
  /**
- * Joomla! 1.5 Offline RTL css file
+ * Joomla! 4.0 Offline RTL css file
  *
- * @package				Joomla
- * @since				1.5
- * @version				1.0
+ * @package	Joomla
+ * @since	1.5
+ * @version	1.0
  */
 
 #frame form{ text-align: right; }

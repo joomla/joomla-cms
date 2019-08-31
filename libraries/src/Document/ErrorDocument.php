@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,12 +10,13 @@ namespace Joomla\CMS\Document;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Layout\LayoutHelper;
 
 /**
  * ErrorDocument class, provides an easy interface to parse and display an HTML based error page
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class ErrorDocument extends HtmlDocument
 {
@@ -23,7 +24,7 @@ class ErrorDocument extends HtmlDocument
 	 * Flag if debug mode has been enabled
 	 *
 	 * @var    boolean
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $debug = false;
 
@@ -31,7 +32,7 @@ class ErrorDocument extends HtmlDocument
 	 * Error Object
 	 *
 	 * @var    \Throwable
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $error;
 
@@ -39,7 +40,7 @@ class ErrorDocument extends HtmlDocument
 	 * Error Object
 	 *
 	 * @var    \Throwable
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_error;
 
@@ -48,7 +49,7 @@ class ErrorDocument extends HtmlDocument
 	 *
 	 * @param   array  $options  Associative array of attributes
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($options = array())
 	{
@@ -65,7 +66,7 @@ class ErrorDocument extends HtmlDocument
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setError($error)
 	{
@@ -86,7 +87,7 @@ class ErrorDocument extends HtmlDocument
 	 *
 	 * @return  RendererInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	public function loadRenderer($type)
@@ -103,7 +104,7 @@ class ErrorDocument extends HtmlDocument
 	 *
 	 * @return  string   The rendered data
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function render($cache = false, $params = array())
 	{
@@ -121,14 +122,14 @@ class ErrorDocument extends HtmlDocument
 			$status = 500;
 		}
 
-		$errorReporting = \JFactory::getConfig()->get('error_reporting');
+		$errorReporting = CmsFactory::getApplication()->get('error_reporting');
 
 		if ($errorReporting === "development" || $errorReporting === "maximum")
 		{
 			$status .= ' ' . str_replace("\n", ' ', $this->_error->getMessage());
 		}
 
-		\JFactory::getApplication()->setHeader('status', $status);
+		CmsFactory::getApplication()->setHeader('status', $status);
 
 		// Set variables
 		$this->debug = $params['debug'] ?? false;
@@ -144,7 +145,7 @@ class ErrorDocument extends HtmlDocument
 	 *
 	 * @return  string  The contents of the backtrace
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function renderBacktrace()
 	{

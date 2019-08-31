@@ -3,21 +3,22 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.core');
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
-JHtml::_('stylesheet', 'com_finder/finder.css', array('version' => 'auto', 'relative' => true));
-JHtml::_('stylesheet', 'vendor/awesomplete/awesomplete.css', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('behavior.core');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JText::script('MOD_FINDER_SEARCH_VALUE', true);
+Text::script('MOD_FINDER_SEARCH_VALUE', true);
 
-JHtml::_('script', 'com_finder/finder.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('stylesheet', 'com_finder/finder.css', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_finder/finder.js', array('version' => 'auto', 'relative' => true));
 
 ?>
 <div class="com-finder finder">

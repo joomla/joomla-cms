@@ -3,18 +3,23 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Table\Table;
-use Joomla\CMS\Language\Text;
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Helper\UserGroupsHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Table\Table;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * User view level model.
@@ -145,10 +150,10 @@ class LevelModel extends AdminModel
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm	A \JForm object on success, false on failure
+	 * @return  Form|bool	A \JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -191,7 +196,7 @@ class LevelModel extends AdminModel
 	/**
 	 * Method to preprocess the form
 	 *
-	 * @param   \JForm  $form   A form object.
+	 * @param   Form    $form   A form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -200,7 +205,7 @@ class LevelModel extends AdminModel
 	 * @since   1.6
 	 * @throws  \Exception if there is an error loading the form.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = '')
+	protected function preprocessForm(Form $form, $data, $group = '')
 	{
 		// TO DO warning!
 		parent::preprocessForm($form, $data, 'user');
@@ -225,5 +230,66 @@ class LevelModel extends AdminModel
 		$data['title'] = InputFilter::getInstance()->clean($data['title'], 'TRIM');
 
 		return parent::save($data);
+	}
+
+	/**
+	 * Method to validate the form data.
+	 *
+	 * @param   Form    $form   The form to validate against.
+	 * @param   array   $data   The data to validate.
+	 * @param   string  $group  The name of the field group to validate.
+	 *
+	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
+	 *
+	 * @see     \Joomla\CMS\Form\FormRule
+	 * @see     \JFilterInput
+	 * @since   3.8.8
+	 */
+	public function validate($form, $data, $group = null)
+	{
+		$isSuperAdmin = Factory::getUser()->authorise('core.admin');
+
+		// Non Super user should not be able to change the access levels of super user groups
+		if (!$isSuperAdmin)
+		{
+			if (!isset($data['rules']) || !is_array($data['rules']))
+			{
+				$data['rules'] = array();
+			}
+
+			$groups = array_values(UserGroupsHelper::getInstance()->getAll());
+
+			$rules = array();
+
+			if (!empty($data['id']))
+			{
+				$table = $this->getTable();
+
+				$table->load($data['id']);
+
+				$rules = json_decode($table->rules);
+			}
+
+			$rules = ArrayHelper::toInteger($rules);
+
+			for ($i = 0, $n = count($groups); $i < $n; ++$i)
+			{
+				if (Access::checkGroup((int) $groups[$i]->id, 'core.admin'))
+				{
+					if (in_array($groups[$i]->id, $rules) && !in_array($groups[$i]->id, $data['rules']))
+					{
+						$data['rules'][] = (int) $groups[$i]->id;
+					}
+					elseif (!in_array($groups[$i]->id, $rules) && in_array($groups[$i]->id, $data['rules']))
+					{
+						$this->setError(Text::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
+
+						return false;
+					}
+				}
+			}
+		}
+
+		return parent::validate($form, $data, $group);
 	}
 }

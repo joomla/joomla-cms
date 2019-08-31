@@ -3,19 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Toolbar\Toolbar;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Uri\Uri;
 
 // Add javascripts
 HTMLHelper::_('behavior.core');

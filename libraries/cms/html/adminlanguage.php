@@ -3,11 +3,15 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Utility class working with administrator language select lists
@@ -39,7 +43,7 @@ abstract class JHtmlAdminLanguage
 		if (empty(static::$items))
 		{
 			$languages       = array();
-			$admin_languages = JLanguageHelper::getKnownLanguages(JPATH_ADMINISTRATOR);
+			$admin_languages = LanguageHelper::getKnownLanguages(JPATH_ADMINISTRATOR);
 
 			foreach ($admin_languages as $tag => $language)
 			{
@@ -53,7 +57,7 @@ abstract class JHtmlAdminLanguage
 
 		if ($all)
 		{
-			$all_option = array(new JObject(array('value' => '*', 'text' => $translate ? JText::alt('JALL', 'language') : 'JALL_LANGUAGE')));
+			$all_option = array(new CMSObject(array('value' => '*', 'text' => $translate ? Text::alt('JALL', 'language') : 'JALL_LANGUAGE')));
 
 			return array_merge($all_option, static::$items);
 		}

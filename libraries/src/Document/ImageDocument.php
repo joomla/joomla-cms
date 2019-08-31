@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,10 +10,12 @@ namespace Joomla\CMS\Document;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * ImageDocument class, provides an easy interface to output image data
  *
- * @since  12.1
+ * @since  3.0.0
  */
 class ImageDocument extends Document
 {
@@ -22,7 +24,7 @@ class ImageDocument extends Document
 	 *
 	 * @param   array  $options  Associative array of options
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function __construct($options = array())
 	{
@@ -43,12 +45,12 @@ class ImageDocument extends Document
 	 *
 	 * @return  string  The rendered data
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function render($cache = false, $params = array())
 	{
 		// Get the image type
-		$type = \JFactory::getApplication()->input->get('type', 'png');
+		$type = Factory::getApplication()->input->get('type', 'png');
 
 		switch ($type)
 		{

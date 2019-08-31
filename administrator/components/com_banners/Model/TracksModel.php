@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Banners\Administrator\Model;
@@ -12,12 +12,11 @@ defined('_JEXEC') or die;
 
 use Joomla\Archive\Archive;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
-use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\ListModel;
 
 /**
  * Methods supporting a list of tracks.
@@ -225,7 +224,7 @@ class TracksModel extends ListModel
 				$query->where('track_date <= ' . $db->quote($end));
 			}
 
-			$where = '1';
+			$where = '1 = 1';
 
 			// Filter by client
 			$clientId = $this->getState('filter.client_id');
@@ -500,8 +499,6 @@ class TracksModel extends ListModel
 				$ziproot = $app->get('tmp_path') . '/' . uniqid('banners_tracks_') . '.zip';
 
 				// Run the packager
-				jimport('joomla.filesystem.folder');
-				jimport('joomla.filesystem.file');
 				$delete = Folder::files($app->get('tmp_path') . '/', uniqid('banners_tracks_'), false, true);
 
 				if (!empty($delete))

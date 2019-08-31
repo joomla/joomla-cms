@@ -3,16 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Languages\Administrator\Helper;
 
-use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\Registry\Registry;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\Registry\Registry;
 
 /**
  * Multilang status helper.
@@ -29,7 +32,7 @@ abstract class MultilangstatusHelper
 	public static function getHomes()
 	{
 		// Check for multiple Home pages.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from($db->quoteName('#__menu'))
@@ -49,7 +52,7 @@ abstract class MultilangstatusHelper
 	public static function getLangswitchers()
 	{
 		// Check if switcher is published.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from($db->quoteName('#__modules'))
@@ -69,7 +72,7 @@ abstract class MultilangstatusHelper
 	public static function getContentlangs()
 	{
 		// Check for published Content Languages.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.lang_code AS lang_code')
 			->select('a.published AS published')
@@ -80,56 +83,6 @@ abstract class MultilangstatusHelper
 	}
 
 	/**
-	 * Method to return a list of published site languages.
-	 *
-	 * @return  array of language extension objects.
-	 *
-	 * @deprecated  4.0  Use \JLanguageHelper::getInstalledLanguages(0) instead.
-	 */
-	public static function getSitelangs()
-	{
-		try
-		{
-			\JLog::add(
-				sprintf('%s() is deprecated, use \JLanguageHelper::getInstalledLanguages(0) instead.', __METHOD__),
-				\JLog::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		return LanguageHelper::getInstalledLanguages(0);
-	}
-
-	/**
-	 * Method to return a list of language home page menu items.
-	 *
-	 * @return  array of menu objects.
-	 *
-	 * @deprecated  4.0  Use \JLanguageMultilang::getSiteHomePages() instead.
-	 */
-	public static function getHomepages()
-	{
-		try
-		{
-			\JLog::add(
-				sprintf('%s() is deprecated, use \JLanguageHelper::getSiteHomePages() instead.', __METHOD__),
-				\JLog::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		return Multilanguage::getSiteHomePages();
-	}
-
-	/**
 	 * Method to return combined language status.
 	 *
 	 * @return  array of language objects.
@@ -137,7 +90,7 @@ abstract class MultilangstatusHelper
 	public static function getStatus()
 	{
 		// Check for combined status.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Select all fields from the languages table.
@@ -169,7 +122,7 @@ abstract class MultilangstatusHelper
 	 */
 	public static function getContacts()
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$languages = count(LanguageHelper::getLanguages());
 
 		// Get the number of contact with all as language
@@ -242,14 +195,14 @@ abstract class MultilangstatusHelper
 	public static function getDefaultHomeModule()
 	{
 		// Find Default Home menutype.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('menutype'))
-			->from($db->qn('#__menu'))
-			->where($db->qn('home') . ' = ' . $db->q('1'))
-			->where($db->qn('published') . ' = ' . $db->q('1'))
-			->where($db->qn('client_id') . ' = ' . $db->q('0'))
-			->where($db->qn('language') . ' = ' . $db->q('*'));
+			->select($db->quoteName('menutype'))
+			->from($db->quoteName('#__menu'))
+			->where($db->quoteName('home') . ' = ' . $db->quote('1'))
+			->where($db->quoteName('published') . ' = ' . $db->quote('1'))
+			->where($db->quoteName('client_id') . ' = ' . $db->quote('0'))
+			->where($db->quoteName('language') . ' = ' . $db->quote('*'));
 
 		$db->setQuery($query);
 
@@ -257,11 +210,11 @@ abstract class MultilangstatusHelper
 
 		// Get published site menu modules titles.
 		$query->clear()
-			->select($db->qn('title'))
-			->from($db->qn('#__modules'))
-			->where($db->qn('module') . ' = ' . $db->q('mod_menu'))
-			->where($db->qn('published') . ' = ' . $db->q('1'))
-			->where($db->qn('client_id') . ' = ' . $db->q('0'));
+			->select($db->quoteName('title'))
+			->from($db->quoteName('#__modules'))
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_menu'))
+			->where($db->quoteName('published') . ' = ' . $db->quote('1'))
+			->where($db->quoteName('client_id') . ' = ' . $db->quote('0'));
 
 		$db->setQuery($query);
 
@@ -295,18 +248,18 @@ abstract class MultilangstatusHelper
 	 */
 	public static function getModule($moduleName, $instanceTitle = null)
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select('id, title, module, position, content, showtitle, params')
-			->from($db->qn('#__modules'))
-			->where($db->qn('module') . ' = ' . $db->q($moduleName))
-			->where($db->qn('published') . ' = ' . $db->q('1'))
-			->where($db->qn('client_id') . ' = ' . $db->q('0'));
+			->from($db->quoteName('#__modules'))
+			->where($db->quoteName('module') . ' = ' . $db->quote($moduleName))
+			->where($db->quoteName('published') . ' = ' . $db->quote('1'))
+			->where($db->quoteName('client_id') . ' = ' . $db->quote('0'));
 
 		if ($instanceTitle)
 		{
-			$query->where($db->qn('title') . ' = ' . $db->q($instanceTitle));
+			$query->where($db->quoteName('title') . ' = ' . $db->quote($instanceTitle));
 		}
 
 		$db->setQuery($query);
@@ -317,7 +270,7 @@ abstract class MultilangstatusHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add(\JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()), JLog::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()), Log::WARNING, 'jerror');
 		}
 
 		return $modules;

@@ -3,22 +3,19 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Session\Session;
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Helper\UserGroupsHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 
 extract($displayData);
@@ -55,8 +52,8 @@ $document = Factory::getDocument();
 
 // Add Javascript for permission change
 HTMLHelper::_('form.csrf');
-HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-permissions.min.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-tab.min.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('webcomponent', 'system/fields/joomla-field-permissions.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-tab.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Load JavaScript message titles
 Text::script('ERROR');
@@ -76,7 +73,23 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 ?>
 
 <?php // Description ?>
-<p class="rule-desc"><?php echo Text::_('JLIB_RULES_SETTINGS_DESC'); ?></p>
+<details>
+	<summary class="rule-notes">
+		<?php echo Text::_('JLIB_RULES_SETTINGS_DESC'); ?>
+	</summary>
+	<div class="rule-notes">
+	<?php
+	if ($section === 'component' || !$section)
+	{
+		echo Text::_('JLIB_RULES_SETTING_NOTES');
+	}
+	else
+	{
+		echo Text::_('JLIB_RULES_SETTING_NOTES_ITEM');
+	}
+	?>
+	</div>
+</details>
 <?php // Begin tabs ?>
 <joomla-field-permissions class="row mb-2" data-uri="<?php echo $ajaxUri; ?>">
 	<joomla-tab orientation="vertical" id="permissions-sliders">
@@ -87,15 +100,15 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 				<table class="table">
 					<thead>
 						<tr>
-							<th class="actions" id="actions-th<?php echo $group->value; ?>">
+							<th style="width: 30%" class="actions" id="actions-th<?php echo $group->value; ?>">
 								<span class="acl-action"><?php echo Text::_('JLIB_RULES_ACTION'); ?></span>
 							</th>
 
-							<th class="settings" id="settings-th<?php echo $group->value; ?>">
+							<th style="width: 40%" class="settings" id="settings-th<?php echo $group->value; ?>">
 								<span class="acl-action"><?php echo Text::_('JLIB_RULES_SELECT_SETTING'); ?></span>
 							</th>
 
-							<th id="aclactionth<?php echo $group->value; ?>">
+							<th style="width: 30%" id="aclaction-th<?php echo $group->value; ?>">
 								<span class="acl-action"><?php echo Text::_('JLIB_RULES_CALCULATED_SETTING'); ?></span>
 							</th>
 						</tr>
@@ -107,13 +120,15 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 						<?php foreach ($actions as $action) : ?>
 							<tr>
 								<td headers="actions-th<?php echo $group->value; ?>">
-									<?php $description = (!empty($action->description)) ? ' class="hasTooltip" title="'
-										. HTMLHelper::_('tooltipText', $action->title, $action->description) . '"' : ''; ?>
-									<label for="<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>"<?php echo $description; ?>>
+									<label for="<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>">
 										<?php echo Text::_($action->title); ?>
 									</label>
+									<?php if (!empty($action->description)) : ?>
+										<div role="tooltip" id="tip-<?php echo $id; ?>">
+											<?php echo htmlspecialchars(Text::_($action->description)); ?>
+										</div>
+									<?php endif; ?>
 								</td>
-
 								<td headers="settings-th<?php echo $group->value; ?>">
 									<div class="d-flex align-items-center">
 										<select data-onchange-task="permissions.apply"
@@ -122,11 +137,11 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 												id="<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>" >
 											<?php
 											/**
-											* Possible values:
-											* null = not set means inherited
-											* false = denied
-											* true = allowed
-											*/
+											 * Possible values:
+											 * null = not set means inherited
+											 * false = denied
+											 * true = allowed
+											 */
 
 											// Get the actual setting for the action for this group. ?>
 											<?php $assetRule = $newItem === false ? $assetRules->allow($action->name, $group->value) : null;?>
@@ -145,7 +160,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 									</div>
 								</td>
 
-								<td headers="aclactionth<?php echo $group->value; ?>">
+								<td headers="aclaction-th<?php echo $group->value; ?>">
 									<?php $result = array(); ?>
 									<?php // Get the group, group parent id, and group global config recursive calculated permission for the chosen action. ?>
 									<?php $inheritedGroupRule 	= Access::checkGroup((int) $group->value, $action->name, $assetId);
@@ -217,7 +232,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 										}
 									}
 									?>
-									<span class="<?php echo $result['class']; ?>"><?php echo $result['text']; ?></span>
+									<output><span class="<?php echo $result['class']; ?>"><?php echo $result['text']; ?></span></output>
 								</td>
 							</tr>
 						<?php endforeach; ?>
@@ -228,15 +243,3 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 	</joomla-tab>
 </joomla-field-permissions>
 
-<joomla-alert type="warning">
-	<?php
-	if ($section === 'component' || !$section)
-	{
-		echo Text::_('JLIB_RULES_SETTING_NOTES');
-	}
-	else
-	{
-		echo Text::_('JLIB_RULES_SETTING_NOTES_ITEM');
-	}
-	?>
-</joomla-alert>

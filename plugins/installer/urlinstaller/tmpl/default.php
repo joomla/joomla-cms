@@ -3,13 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.urlinstaller
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+
 ?>
 
 <legend><?php echo Text::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?></legend>
@@ -19,7 +20,7 @@ use Joomla\CMS\Language\Text;
 		<?php echo Text::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?>
 	</label>
 	<div class="controls">
-		<input type="text" id="install_url" name="install_url" class="form-control input-xlarge" placeholder="https://">
+		<input type="text" id="install_url" name="install_url" class="form-control" placeholder="https://">
 	</div>
 </div>
 <hr>

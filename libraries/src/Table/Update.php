@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,24 +10,26 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 
 /**
  * Update table
  * Stores updates temporarily
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Update extends Table
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database driver object.
+	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__updates', 'update_id', $db);
 	}
@@ -38,7 +40,7 @@ class Update extends Table
 	 * @return  boolean  True if the object is ok
 	 *
 	 * @see     Table::check()
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function check()
 	{
@@ -56,7 +58,7 @@ class Update extends Table
 		// Check for valid name
 		if (trim($this->name) == '' || trim($this->element) == '')
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
 
 			return false;
 		}
@@ -79,7 +81,7 @@ class Update extends Table
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
 	 * @see     Table::bind()
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -105,7 +107,7 @@ class Update extends Table
 	 *
 	 * @return  string  Results of query
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function find($options = array())
 	{

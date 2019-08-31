@@ -3,17 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Templates\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Language\Text;
 
 /**
  * Template Helper class.
@@ -81,8 +82,6 @@ abstract class TemplateHelper
 				}
 			}
 		}
-
-		jimport('joomla.filesystem.file');
 
 		if ($file['name'] !== File::makeSafe($file['name']) || preg_match('/\s/', File::makeSafe($file['name'])))
 		{

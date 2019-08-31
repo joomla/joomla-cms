@@ -3,17 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\Component\Installer\Administrator\Model\WarningsModel;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Response\JsonResponse;
 
 /**
  * Joomla! Update Controller
@@ -35,7 +36,7 @@ class DisplayController extends BaseController
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Get the document object.
-		$document = Factory::getDocument();
+		$document = $this->app->getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', 'Joomlaupdate');
@@ -49,10 +50,11 @@ class DisplayController extends BaseController
 			$view->ftp = &$ftp;
 
 			// Get the model for the view.
-			/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+			/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 			$model = $this->getModel('Update');
 
-			$warningsModel = new WarningsModel;
+			$warningsModel = $this->app->bootComponent('com_installer')
+				->getMVCFactory()->createModel('Warnings', 'Administrator', ['ignore_request' => true]);
 
 			if (is_object($warningsModel))
 			{
@@ -73,5 +75,30 @@ class DisplayController extends BaseController
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Provide the data for a badge in a menu item via JSON
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function getMenuBadgeData()
+	{
+		if (!Factory::getUser()->authorise('core.manage', 'com_joomlaupdate'))
+		{
+			throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
+		}
+
+		$model = $this->getModel('Update');
+
+		$model->refreshUpdates();
+
+		$joomlaUpdate = $model->getUpdateInformation();
+
+		$hasUpdate = $joomlaUpdate['hasUpdate'] ? $joomlaUpdate['latest'] : '';
+
+		echo new JsonResponse($hasUpdate);
 	}
 }

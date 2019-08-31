@@ -2,18 +2,24 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer;
 
+\defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Manifest\PackageManifest;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
-
-defined('JPATH_PLATFORM') or die;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Abstract adapter for the installer.
@@ -22,6 +28,14 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class InstallerAdapter
 {
+	/**
+	 * Changelog URL of extensions
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 * */
+	protected $changelogurl = null;
+
 	/**
 	 * ID for the currently installed extension if present
 	 *
@@ -117,13 +131,13 @@ abstract class InstallerAdapter
 	/**
 	 * Constructor
 	 *
-	 * @param   Installer         $parent   Parent object
-	 * @param   \JDatabaseDriver  $db       Database object
-	 * @param   array             $options  Configuration Options
+	 * @param   Installer       $parent   Parent object
+	 * @param   DatabaseDriver  $db       Database object
+	 * @param   array           $options  Configuration Options
 	 *
 	 * @since   3.4
 	 */
-	public function __construct(Installer $parent, \JDatabaseDriver $db, array $options = array())
+	public function __construct(Installer $parent, DatabaseDriver $db, array $options = array())
 	{
 		$this->parent = $parent;
 		$this->db     = $db;
@@ -146,9 +160,12 @@ abstract class InstallerAdapter
 		if (!$this->type)
 		{
 			// This assumes the adapter short class name in its namespace is `<foo>Adapter`, replace this logic in subclasses if needed
-			$reflection = new \ReflectionClass(get_called_class());
-			$this->type = strtolower(str_replace('Adapter', '', $reflection->getShortName()));
+			$reflection = new \ReflectionClass(\get_called_class());
+			$this->type = str_replace('Adapter', '', $reflection->getShortName());
 		}
+
+		// Extension type is stored as lowercase in the database
+		$this->type = strtolower($this->type);
 	}
 
 	/**
@@ -196,9 +213,6 @@ abstract class InstallerAdapter
 	 */
 	protected function checkExistingExtension()
 	{
-		// Extension type is stored as lowercase on the #__extensions table field type
-		$this->type = strtolower($this->type);
-
 		try
 		{
 			$this->currentExtensionId = $this->extension->find(
@@ -215,9 +229,9 @@ abstract class InstallerAdapter
 		{
 			// Install failed, roll back changes
 			throw new \RuntimeException(
-				\JText::sprintf(
+				Text::sprintf(
 					'JLIB_INSTALLER_ABORT_ROLLBACK',
-					\JText::_('JLIB_INSTALLER_' . $this->route),
+					Text::_('JLIB_INSTALLER_' . $this->route),
 					$e->getMessage()
 				),
 				$e->getCode(),
@@ -259,9 +273,9 @@ abstract class InstallerAdapter
 			{
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
 				throw new \RuntimeException(
-					\JText::sprintf(
+					Text::sprintf(
 						'JLIB_INSTALLER_ABORT_DIRECTORY',
-						\JText::_('JLIB_INSTALLER_' . $this->route),
+						Text::_('JLIB_INSTALLER_' . $this->route),
 						$this->type,
 						$this->parent->getPath('extension_root')
 					)
@@ -295,12 +309,12 @@ abstract class InstallerAdapter
 
 		if (!file_exists($this->parent->getPath('extension_root')))
 		{
-			if (!$created = \JFolder::create($this->parent->getPath('extension_root')))
+			if (!$created = Folder::create($this->parent->getPath('extension_root')))
 			{
 				throw new \RuntimeException(
-					\JText::sprintf(
+					Text::sprintf(
 						'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
-						\JText::_('JLIB_INSTALLER_' . $this->route),
+						Text::_('JLIB_INSTALLER_' . $this->route),
 						$this->parent->getPath('extension_root')
 					)
 				);
@@ -338,7 +352,7 @@ abstract class InstallerAdapter
 
 		if ($description)
 		{
-			$this->parent->message = \JText::_($description);
+			$this->parent->message = Text::_($description);
 		}
 		else
 		{
@@ -487,13 +501,13 @@ abstract class InstallerAdapter
 				// Only rollback if installing
 				if ($route === 'install')
 				{
-					throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_INSTALL_ABORTED'));
+					throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_INSTALL_ABORTED'));
 				}
 
 				return false;
 			}
 
-			// If installing with success and there is an uninstall script, add a installer rollback step to rollback if needed
+			// If installing with success and there is an uninstall script, add an installer rollback step to rollback if needed
 			if ($route === 'install' && isset($this->getManifest()->uninstall->sql))
 			{
 				$this->parent->pushStep(array('type' => 'query', 'script' => $this->getManifest()->uninstall->sql));
@@ -516,7 +530,7 @@ abstract class InstallerAdapter
 	 */
 	protected function doLoadLanguage($extension, $source, $base = JPATH_ADMINISTRATOR)
 	{
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load($extension . '.sys', $source, null, false, true) || $lang->load($extension . '.sys', $base, null, false, true);
 	}
 
@@ -575,7 +589,7 @@ abstract class InstallerAdapter
 		}
 
 		// Filter the name for illegal characters
-		return strtolower(\JFilterInput::getInstance()->clean($element, 'cmd'));
+		return strtolower(InputFilter::getInstance()->clean($element, 'cmd'));
 	}
 
 	/**
@@ -603,7 +617,7 @@ abstract class InstallerAdapter
 		$name = (string) $this->getManifest()->name;
 
 		// Filter the name for illegal characters
-		$name = \JFilterInput::getInstance()->clean($name, 'string');
+		$name = InputFilter::getInstance()->clean($name, 'string');
 
 		return $name;
 	}
@@ -642,7 +656,7 @@ abstract class InstallerAdapter
 	protected function getScriptClassName()
 	{
 		// Support element names like 'en-GB'
-		$className = \JFilterInput::getInstance()->clean($this->element, 'cmd') . 'InstallerScript';
+		$className = InputFilter::getInstance()->clean($this->element, 'cmd') . 'InstallerScript';
 
 		// Cannot have - in class names
 		$className = str_replace('-', '', $className);
@@ -660,20 +674,18 @@ abstract class InstallerAdapter
 	public function install()
 	{
 		// Get the extension's description
-		$description = (string) $this->getManifest()->description;
+		$description           = (string) $this->getManifest()->description;
+		$this->parent->message = '';
 
 		if ($description)
 		{
-			$this->parent->message = \JText::_($description);
-		}
-		else
-		{
-			$this->parent->message = '';
+			$this->parent->message = Text::_($description);
 		}
 
 		// Set the extension's name and element
-		$this->name    = $this->getName();
-		$this->element = $this->getElement();
+		$this->name         = $this->getName();
+		$this->element      = $this->getElement();
+		$this->changelogurl = (string) $this->getManifest()->changelogurl;
 
 		/*
 		 * ---------------------------------------------------------------------------------------------
@@ -879,12 +891,12 @@ abstract class InstallerAdapter
 	protected function parseQueries()
 	{
 		// Let's run the queries for the extension
-		if (in_array($this->route, array('install', 'discover_install', 'uninstall')))
+		if (\in_array($this->route, array('install', 'discover_install', 'uninstall')))
 		{
 			// This method may throw an exception, but it is caught by the parent caller
 			if (!$this->doDatabaseTransactions())
 			{
-				throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_INSTALL_ABORTED'));
+				throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_INSTALL_ABORTED'));
 			}
 
 			// Set the schema version to be the latest update version
@@ -902,7 +914,7 @@ abstract class InstallerAdapter
 				if ($result === false)
 				{
 					// Install failed, rollback changes
-					throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_INSTALL_ABORTED'));
+					throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_INSTALL_ABORTED'));
 				}
 			}
 		}
@@ -1076,9 +1088,9 @@ abstract class InstallerAdapter
 
 							// The script failed, rollback changes
 							throw new \RuntimeException(
-								\JText::sprintf(
+								Text::sprintf(
 									'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
-									\JText::_('JLIB_INSTALLER_' . $this->route)
+									Text::_('JLIB_INSTALLER_' . $this->route)
 								)
 							);
 						}
@@ -1098,9 +1110,9 @@ abstract class InstallerAdapter
 
 							// The script failed, rollback changes
 							throw new \RuntimeException(
-								\JText::sprintf(
+								Text::sprintf(
 									'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
-									\JText::_('JLIB_INSTALLER_' . $this->route)
+									Text::_('JLIB_INSTALLER_' . $this->route)
 								)
 							);
 						}
@@ -1134,7 +1146,7 @@ abstract class InstallerAdapter
 	{
 		if (!$this->extension->load((int) $id))
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_UNKNOWN_EXTENSION'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_UNKNOWN_EXTENSION'), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -1142,7 +1154,7 @@ abstract class InstallerAdapter
 		// Protected extensions cannot be removed
 		if ($this->extension->protected)
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_UNINSTALL_PROTECTED_EXTENSION'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_UNINSTALL_PROTECTED_EXTENSION'), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -1153,9 +1165,9 @@ abstract class InstallerAdapter
 		 */
 		if ($this->extension->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($this->extension->package_id))
 		{
-			\JLog::add(
-				\JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $this->extension->name),
-				\JLog::WARNING,
+			Log::add(
+				Text::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $this->extension->name),
+				Log::WARNING,
 				'jerror'
 			);
 
@@ -1169,7 +1181,7 @@ abstract class InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add($e->getMessage(), \JLog::WARNING, 'jerror');
+			Log::add($e->getMessage(), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -1192,7 +1204,7 @@ abstract class InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add($e->getMessage(), \JLog::WARNING, 'jerror');
+			Log::add($e->getMessage(), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -1221,7 +1233,7 @@ abstract class InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add($e->getMessage(), \JLog::WARNING, 'jerror');
+			Log::add($e->getMessage(), Log::WARNING, 'jerror');
 
 			$retval = false;
 		}
@@ -1238,7 +1250,7 @@ abstract class InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add($e->getMessage(), \JLog::WARNING, 'jerror');
+			Log::add($e->getMessage(), Log::WARNING, 'jerror');
 
 			$retval = false;
 		}
@@ -1255,7 +1267,7 @@ abstract class InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add($e->getMessage(), \JLog::WARNING, 'jerror');
+			Log::add($e->getMessage(), Log::WARNING, 'jerror');
 
 			$retval = false;
 		}
@@ -1267,7 +1279,7 @@ abstract class InstallerAdapter
 		}
 		catch (\RuntimeException $e)
 		{
-			\JLog::add($e->getMessage(), \JLog::WARNING, 'jerror');
+			Log::add($e->getMessage(), Log::WARNING, 'jerror');
 
 			$retval = false;
 		}

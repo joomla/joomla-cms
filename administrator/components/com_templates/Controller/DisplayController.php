@@ -3,17 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Templates\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Factory;
 
 /**
  * Templates manager master display controller.
@@ -44,22 +44,9 @@ class DisplayController extends BaseController
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');
 
-		$document = Factory::getDocument();
-
 		// For JSON requests
-		if ($document->getType() == 'json')
+		if ($this->app->getDocument()->getType() == 'json')
 		{
-			/*$view = new \Joomla\Component\Templates\Administrator\View\Style\Json;
-
-			// Get/Create the model
-			$model = new Style;
-			$view->setModel($model, true);
-
-			$view->document = $document;
-
-			return $view->display();
-			*/
-
 			return parent::display();
 		}
 

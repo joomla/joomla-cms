@@ -3,18 +3,20 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.pagenavigation
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
+
+\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * Pagenavigation plugin class.
@@ -64,7 +66,7 @@ class PlgContentPagenavigation extends CMSPlugin
 			 * The following is needed as different menu items types utilise a different param to control ordering.
 			 * For Blogs the `orderby_sec` param is the order controlling param.
 			 * For Table and List views it is the `orderby` param.
-			**/
+			 */
 			$params_list = $params->toArray();
 
 			if (array_key_exists('orderby_sec', $params_list))
@@ -124,7 +126,7 @@ class PlgContentPagenavigation extends CMSPlugin
 					break;
 			}
 
-			$xwhere = ' AND (a.state = 1 OR a.state = -1)'
+			$xwhere = ' AND (ws.condition = 1 OR ws.condition = -2)'
 				. ' AND (publish_up = ' . $db->quote($nullDate) . ' OR publish_up <= ' . $db->quote($now) . ')'
 				. ' AND (publish_down = ' . $db->quote($nullDate) . ' OR publish_down >= ' . $db->quote($now) . ')';
 
@@ -133,17 +135,18 @@ class PlgContentPagenavigation extends CMSPlugin
 
 			$case_when = ' CASE WHEN ' . $query->charLength('a.alias', '!=', '0')
 				. ' THEN ' . $query->concatenate(array($query->castAsChar('a.id'), 'a.alias'), ':')
-				. ' ELSE a.id END AS slug';
+				. ' ELSE ' . $query->castAsChar('a.id') . ' END AS slug';
 
 			$case_when1 = ' CASE WHEN ' . $query->charLength('cc.alias', '!=', '0')
 				. ' THEN ' . $query->concatenate(array($query->castAsChar('cc.id'), 'cc.alias'), ':')
-				. ' ELSE cc.id END AS catslug';
+				. ' ELSE ' . $query->castAsChar('cc.id') . ' END AS catslug';
 
 			$query->select('a.id, a.title, a.catid, a.language')
 				->select($case_when)
 				->select($case_when1)
 				->from('#__content AS a')
-				->join('LEFT', '#__categories AS cc ON cc.id = a.catid');
+				->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
+				->join('LEFT', '#__workflow_stages AS ws ON ws.id = a.state');
 
 			if ($order_method === 'author' || $order_method === 'rauthor')
 			{
@@ -152,9 +155,9 @@ class PlgContentPagenavigation extends CMSPlugin
 			}
 
 			$query->where(
-					'a.catid = ' . (int) $row->catid . ' AND a.state = ' . (int) $row->state
-						. ($canPublish ? '' : ' AND a.access IN (' . implode(',', Access::getAuthorisedViewLevels($user->id)) . ') ') . $xwhere
-				);
+				'a.catid = ' . (int) $row->catid . ' AND a.state = ' . (int) $row->state
+				. ($canPublish ? '' : ' AND a.access IN (' . implode(',', Access::getAuthorisedViewLevels($user->id)) . ') ') . $xwhere
+			);
 			$query->order($orderby);
 
 			if ($app->isClient('site') && $app->getLanguageFilter())
@@ -188,7 +191,7 @@ class PlgContentPagenavigation extends CMSPlugin
 
 			if (($location + 1) < count($rows))
 			{
-				// The next content item cannot be in an array position greater than the number of array postions.
+				// The next content item cannot be in an array position greater than the number of array positions.
 				$row->next = $rows[$location + 1];
 			}
 

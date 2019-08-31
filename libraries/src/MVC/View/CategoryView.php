@@ -2,13 +2,19 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\View;
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
 
 /**
  * Base HTML View class for the a Category list
@@ -107,8 +113,8 @@ class CategoryView extends HtmlView
 	 */
 	public function commonCategoryDisplay()
 	{
-		$app    = \JFactory::getApplication();
-		$user   = \JFactory::getUser();
+		$app    = Factory::getApplication();
+		$user   = Factory::getUser();
 		$params = $app->getParams();
 
 		// Get some data from the models
@@ -125,12 +131,12 @@ class CategoryView extends HtmlView
 
 		if ($category == false)
 		{
-			throw new \InvalidArgumentException(\JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
+			throw new \InvalidArgumentException(Text::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
 		}
 
 		if ($parent == false)
 		{
-			throw new \InvalidArgumentException(\JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
+			throw new \InvalidArgumentException(Text::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
 		}
 
 		// Check whether category access level allows access.
@@ -138,7 +144,7 @@ class CategoryView extends HtmlView
 
 		if (!in_array($category->access, $groups))
 		{
-			throw new \Exception(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		// Check whether category access level allows access.
@@ -146,7 +152,7 @@ class CategoryView extends HtmlView
 
 		if (!in_array($category->access, $groups))
 		{
-			throw new \RuntimeException(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		$items      = $this->get('Items');
@@ -155,7 +161,7 @@ class CategoryView extends HtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Setup the category parameters.
@@ -170,7 +176,7 @@ class CategoryView extends HtmlView
 
 		if ($this->runPlugins)
 		{
-			\JPluginHelper::importPlugin('content');
+			PluginHelper::importPlugin('content');
 
 			foreach ($items as $itemElement)
 			{
@@ -180,21 +186,21 @@ class CategoryView extends HtmlView
 				// For some plugins.
 				!empty($itemElement->description) ? $itemElement->text = $itemElement->description : $itemElement->text = null;
 
-				\JFactory::getApplication()->triggerEvent('onContentPrepare', [$this->extension . '.category', &$itemElement, &$itemElement->params, 0]);
+				Factory::getApplication()->triggerEvent('onContentPrepare', [$this->extension . '.category', &$itemElement, &$itemElement->params, 0]);
 
-				$results = \JFactory::getApplication()->triggerEvent(
+				$results = Factory::getApplication()->triggerEvent(
 					'onContentAfterTitle',
 					[$this->extension . '.category', &$itemElement, &$itemElement->core_params, 0]
 				);
 				$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
 
-				$results = \JFactory::getApplication()->triggerEvent(
+				$results = Factory::getApplication()->triggerEvent(
 					'onContentBeforeDisplay',
 					[$this->extension . '.category', &$itemElement, &$itemElement->core_params, 0]
 				);
 				$itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
 
-				$results = \JFactory::getApplication()->triggerEvent(
+				$results = Factory::getApplication()->triggerEvent(
 					'onContentAfterDisplay',
 					[$this->extension . '.category', &$itemElement, &$itemElement->core_params, 0]
 				);
@@ -238,7 +244,7 @@ class CategoryView extends HtmlView
 			$this->setLayout($layout);
 		}
 
-		$this->category->tags = new \JHelperTags;
+		$this->category->tags = new TagsHelper;
 		$this->category->tags->getItemTags($this->extension . '.category', $this->category->id);
 	}
 
@@ -247,15 +253,16 @@ class CategoryView extends HtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   3.2
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
 		$this->prepareDocument();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -267,7 +274,7 @@ class CategoryView extends HtmlView
 	 */
 	protected function prepareDocument()
 	{
-		$app           = \JFactory::getApplication();
+		$app           = Factory::getApplication();
 		$menus         = $app->getMenu();
 		$this->pathway = $app->getPathway();
 		$title         = null;
@@ -281,7 +288,7 @@ class CategoryView extends HtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', \JText::_($this->defaultPageTitle));
+			$this->params->def('page_heading', Text::_($this->defaultPageTitle));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -292,11 +299,11 @@ class CategoryView extends HtmlView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);
@@ -330,9 +337,9 @@ class CategoryView extends HtmlView
 		{
 			$link    = '&format=feed&limitstart=';
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$this->document->addHeadLink(\JRoute::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(Route::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$this->document->addHeadLink(\JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(Route::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
 		}
 	}
 }

@@ -3,11 +3,15 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\FileLayout;
 
 /**
  * Utility class for icons.
@@ -31,33 +35,33 @@ abstract class JHtmlLinks
 
 		if (count($groupsOfLinks) > 0)
 		{
-			$layout = new JLayoutFile('joomla.links.groupsopen');
+			$layout = new FileLayout('joomla.links.groupsopen');
 			$html[] = $layout->render('');
 
 			foreach ($groupsOfLinks as $title => $links)
 			{
 				if (isset($links[0]['separategroup']))
 				{
-					$layout = new JLayoutFile('joomla.links.groupseparator');
+					$layout = new FileLayout('joomla.links.groupseparator');
 					$html[] = $layout->render($title);
 				}
 
-				$layout = new JLayoutFile('joomla.links.groupopen');
+				$layout = new FileLayout('joomla.links.groupopen');
 				$htmlHeader = $layout->render($title);
 
-				$htmlLinks  = JHtml::_('links.links', $links);
+				$htmlLinks  = HTMLHelper::_('links.links', $links);
 
 				if ($htmlLinks != '')
 				{
 					$html[] = $htmlHeader;
 					$html[] = $htmlLinks;
 
-					$layout = new JLayoutFile('joomla.links.groupclose');
+					$layout = new FileLayout('joomla.links.groupclose');
 					$html[] = $layout->render('');
 				}
 			}
 
-			$layout = new JLayoutFile('joomla.links.groupsclose');
+			$layout = new FileLayout('joomla.links.groupsclose');
 			$html[] = $layout->render('');
 		}
 
@@ -79,7 +83,7 @@ abstract class JHtmlLinks
 
 		foreach ($links as $link)
 		{
-			$html[] = JHtml::_('links.link', $link);
+			$html[] = HTMLHelper::_('links.link', $link);
 		}
 
 		return implode($html);
@@ -108,7 +112,7 @@ abstract class JHtmlLinks
 			else
 			{
 				// Get the user object to verify permissions
-				$user = JFactory::getUser();
+				$user = Factory::getUser();
 
 				// Take each pair of permission, context values.
 				for ($i = 0, $n = count($link['access']); $i < $n; $i += 2)
@@ -121,8 +125,8 @@ abstract class JHtmlLinks
 			}
 		}
 
-		// Instantiate a new JLayoutFile instance and render the layout
-		$layout = new JLayoutFile('joomla.links.link');
+		// Instantiate a new FileLayout instance and render the layout
+		$layout = new FileLayout('joomla.links.link');
 
 		return $layout->render($link);
 	}

@@ -3,29 +3,28 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Site\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
-use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Table\Table;
-use Joomla\Component\Users\Administrator\Model\UserModel;
-use Joomla\Registry\Registry;
-use Joomla\CMS\Factory;
-use Joomla\CMS\User\User;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\User;
+use Joomla\Registry\Registry;
 
 /**
  * Profile model class for Users.
@@ -173,7 +172,7 @@ class ProfileModel extends FormModel
 	 * The base form is loaded from XML and then an event is fired
 	 * for users plugins to extend the form with extra fields.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  Form|bool  A Form object on success, false on failure
@@ -333,7 +332,8 @@ class ProfileModel extends FormModel
 		// Handle the two factor authentication setup
 		if (array_key_exists('twofactor', $data))
 		{
-			$model = new UserModel;
+			$model = $this->bootComponent('com_users')->getMVCFactory()
+				->createModel('User', 'Administrator');
 
 			$twoFactorMethod = $data['twofactor']['method'];
 
@@ -406,13 +406,6 @@ class ProfileModel extends FormModel
 			return false;
 		}
 
-		// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
-		if ($this->getState('load_tags', true))
-		{
-			$user->tags = new TagsHelper;
-			$user->tags->getTagIds($user->id, 'com_users.user');
-		}
-
 		return $user->id;
 	}
 
@@ -430,7 +423,8 @@ class ProfileModel extends FormModel
 	{
 		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
 
-		$model = new UserModel;
+		$model = $this->bootComponent('com_users')->getMVCFactory()
+			->createModel('User', 'Administrator');
 
 		$otpConfig = $model->getOtpConfig($user_id);
 
@@ -453,7 +447,8 @@ class ProfileModel extends FormModel
 	{
 		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
 
-		$model = new UserModel;
+		$model = $this->bootComponent('com_users')
+			->getMVCFactory()->createModel('User', 'Administrator');
 
 		return $model->getOtpConfig($user_id);
 	}

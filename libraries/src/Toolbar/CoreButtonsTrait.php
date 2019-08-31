@@ -2,13 +2,14 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Toolbar;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Toolbar\Button\ConfirmButton;
@@ -478,7 +479,8 @@ trait CoreButtonsTrait
 	 * @since   4.0.0
 	 */
 	public function versions(string $typeAlias, int $itemId, int $height = 800, int $width = 500,
-		string $text = 'JTOOLBAR_VERSIONS'): CustomButton
+		string $text = 'JTOOLBAR_VERSIONS'
+	): CustomButton
 	{
 		$lang = Factory::getLanguage();
 		$lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
@@ -487,9 +489,9 @@ trait CoreButtonsTrait
 		$contentTypeTable = Table::getInstance('Contenttype');
 		$typeId           = $contentTypeTable->getTypeId($typeAlias);
 
-		// Options array for JLayout
+		// Options array for Layout
 		$options              = array();
-		$options['title']     = \JText::_($text);
+		$options['title']     = Text::_($text);
 		$options['height']    = $height;
 		$options['width']     = $width;
 		$options['itemId']    = $itemId;

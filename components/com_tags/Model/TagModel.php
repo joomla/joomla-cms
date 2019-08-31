@@ -3,21 +3,23 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Tags\Site\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\Component\Tags\Site\Helper\TagsHelperRoute;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Tags Component Tag Model
@@ -98,9 +100,14 @@ class TagModel extends ListModel
 		{
 			foreach ($items as $item)
 			{
-				$explodedTypeAlias = explode('.', $item->type_alias);
-				$item->link = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id='
-					. $item->content_item_id . ':' . $item->core_alias;
+				$item->link = TagsHelperRoute::getItemRoute(
+					$item->content_item_id,
+					$item->core_alias,
+					$item->core_catid,
+					$item->core_language,
+					$item->type_alias,
+					$item->router
+				);
 
 				// Get display date
 				switch ($this->state->params->get('tag_list_show_date'))
@@ -119,13 +126,9 @@ class TagModel extends ListModel
 						break;
 				}
 			}
+		}
 
-			return $items;
-		}
-		else
-		{
-			return false;
-		}
+		return $items;
 	}
 
 	/**
@@ -270,16 +273,16 @@ class TagModel extends ListModel
 		{
 			$this->item = false;
 
-			if (empty($id))
+			if (empty($pk))
 			{
-				$id = $this->getState('tag.id');
+				$pk = $this->getState('tag.id');
 			}
 
 			// Get a level row instance.
-			/* @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+			/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
 			$table = $this->getTable();
 
-			$idsArray = explode(',', $id);
+			$idsArray = explode(',', $pk);
 
 			// Attempt to load the rows into an array.
 			foreach ($idsArray as $id)
@@ -341,7 +344,7 @@ class TagModel extends ListModel
 		{
 			$pk    = (!empty($pk)) ? $pk : (int) $this->getState('tag.id');
 
-			/* @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+			/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
 			$table = $this->getTable();
 			$table->load($pk);
 			$table->hit($pk);

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,10 @@ namespace Joomla\Module\Menu\Site\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Router\Route;
 
 /**
@@ -40,7 +42,10 @@ class MenuHelper
 		$levels = Factory::getUser()->getAuthorisedViewLevels();
 		asort($levels);
 		$key    = 'menu_items' . $params . implode(',', $levels) . '.' . $base->id;
-		$cache  = Factory::getCache('mod_menu', '');
+
+		/** @var OutputController $cache */
+		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+			->createCacheController('output', ['defaultgroup' => 'mod_menu']);
 
 		if ($cache->contains($key))
 		{
@@ -49,9 +54,9 @@ class MenuHelper
 		else
 		{
 			$path           = $base->tree;
-			$start          = (int) $params->get('startLevel');
-			$end            = (int) $params->get('endLevel');
-			$showAll        = $params->get('showAllChildren');
+			$start          = (int) $params->get('startLevel', 1);
+			$end            = (int) $params->get('endLevel', 0);
+			$showAll        = $params->get('showAllChildren', 1);
 			$items          = $menu->getItems('menutype', $params->get('menutype'));
 			$hidden_parents = array();
 			$lastitem       = 0;
@@ -119,6 +124,18 @@ class MenuHelper
 
 						case 'alias':
 							$item->flink = 'index.php?Itemid=' . $item->params->get('aliasoptions');
+
+							// Get the language of the target menu item when site is multilingual
+							if (Multilanguage::isEnabled())
+							{
+								$newItem = Factory::getApplication()->getMenu()->getItem((int) $item->params->get('aliasoptions'));
+
+								// Use language code if not set to ALL
+								if ($newItem != null && $newItem->language && $newItem->language !== '*')
+								{
+									$item->flink .= '&lang=' . $newItem->language;
+								}
+							}
 							break;
 
 						default:

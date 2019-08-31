@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,10 @@ namespace Joomla\CMS\Session;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Router\Route;
 use Joomla\Session\Session as BaseSession;
 
 /**
@@ -23,7 +27,7 @@ class Session extends BaseSession
 	/**
 	 * Checks for a form token in the request.
 	 *
-	 * Use in conjunction with JHtml::_('form.token') or JSession::getFormToken.
+	 * Use in conjunction with HTMLHelper::_('form.token') or JSession::getFormToken.
 	 *
 	 * @param   string  $method  The request method in which to look for the token key.
 	 *
@@ -33,7 +37,7 @@ class Session extends BaseSession
 	 */
 	public static function checkToken($method = 'post')
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$token = static::getFormToken();
 
 		// Check from header first
@@ -48,8 +52,8 @@ class Session extends BaseSession
 			if ($app->getSession()->isNew())
 			{
 				// Redirect to login screen.
-				$app->enqueueMessage(\JText::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'), 'warning');
-				$app->redirect(\JRoute::_('index.php'));
+				$app->enqueueMessage(Text::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'), 'warning');
+				$app->redirect(Route::_('index.php'));
 
 				return true;
 			}
@@ -71,9 +75,9 @@ class Session extends BaseSession
 	 */
 	public static function getFormToken($forceNew = false)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
-		return ApplicationHelper::getHash($user->get('id', 0) . \JFactory::getApplication()->getSession()->getToken($forceNew));
+		return ApplicationHelper::getHash($user->get('id', 0) . Factory::getApplication()->getSession()->getToken($forceNew));
 	}
 
 	/**
@@ -86,13 +90,13 @@ class Session extends BaseSession
 	 */
 	public static function getInstance()
 	{
-		\JLog::add(
-			__METHOD__ . '() is deprecated. Load the session from the dependency injection container or via JFactory::getApplication()->getSession().',
-			\JLog::WARNING,
+		Log::add(
+			__METHOD__ . '() is deprecated. Load the session from the dependency injection container or via Factory::getApplication()->getSession().',
+			Log::WARNING,
 			'deprecated'
 		);
 
-		return \JFactory::getApplication()->getSession();
+		return Factory::getApplication()->getSession();
 	}
 
 	/**
@@ -114,9 +118,10 @@ class Session extends BaseSession
 
 			if (!empty($args[2]))
 			{
-				\JLog::add(
-					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. The namespace should be prepended to the name instead.',
-					\JLog::WARNING,
+				Log::add(
+					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
+					. 'The namespace should be prepended to the name instead.',
+					Log::WARNING,
 					'deprecated'
 				);
 
@@ -146,9 +151,10 @@ class Session extends BaseSession
 
 			if (!empty($args[2]))
 			{
-				\JLog::add(
-					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. The namespace should be prepended to the name instead.',
-					\JLog::WARNING,
+				Log::add(
+					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
+					. 'The namespace should be prepended to the name instead.',
+					Log::WARNING,
 					'deprecated'
 				);
 
@@ -177,9 +183,10 @@ class Session extends BaseSession
 
 			if (!empty($args[1]))
 			{
-				\JLog::add(
-					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. The namespace should be prepended to the name instead.',
-					\JLog::WARNING,
+				Log::add(
+					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
+					. 'The namespace should be prepended to the name instead.',
+					Log::WARNING,
 					'deprecated'
 				);
 
@@ -206,9 +213,9 @@ class Session extends BaseSession
 
 			if (!empty($args[0]))
 			{
-				\JLog::add(
+				Log::add(
 					'Using ' . __METHOD__ . '() to remove a single element from the session is deprecated.  Use ' . __CLASS__ . '::remove() instead.',
-					\JLog::WARNING,
+					Log::WARNING,
 					'deprecated'
 				);
 
@@ -217,9 +224,10 @@ class Session extends BaseSession
 				// Also check for a namespace
 				if (func_num_args() > 1 && !empty($args[1]))
 				{
-					\JLog::add(
-						'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. The namespace should be prepended to the name instead.',
-						\JLog::WARNING,
+					Log::add(
+						'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
+						 . 'The namespace should be prepended to the name instead.',
+						Log::WARNING,
 						'deprecated'
 					);
 

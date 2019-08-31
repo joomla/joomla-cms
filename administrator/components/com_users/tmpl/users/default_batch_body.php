@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -34,15 +34,15 @@ $resetOptions = array(
 				<?php echo Text::_('COM_USERS_BATCH_GROUP'); ?>
 			</label>
 			<div id="batch-choose-action" class="combo controls">
-                <select class="custom-select" name="batch[group_id]" id="batch-group-id">
-                    <option value=""><?php echo Text::_('JSELECT'); ?></option>
-                    <?php echo HTMLHelper::_('select.options', HTMLHelper::_('user.groups')); ?>
-                </select>
+				<select class="custom-select" name="batch[group_id]" id="batch-group-id">
+					<option value=""><?php echo Text::_('JSELECT'); ?></option>
+					<?php echo HTMLHelper::_('select.options', HTMLHelper::_('user.groups')); ?>
+				</select>
 			</div>
 		</div>
-        <div class="form-group">
-            <label><?php echo Text::_('COM_USERS_REQUIRE_PASSWORD_RESET'); ?></label>
-            <?php echo HTMLHelper::_('select.radiolist', $resetOptions, 'batch[reset_id]', '', 'value', 'text', ''); ?>
-        </div>
+		<div class="form-group">
+			<label><?php echo Text::_('COM_USERS_REQUIRE_PASSWORD_RESET'); ?></label>
+			<?php echo HTMLHelper::_('select.radiolist', $resetOptions, 'batch[reset_id]', '', 'value', 'text', ''); ?>
+		</div>
 	</form>
 </div>

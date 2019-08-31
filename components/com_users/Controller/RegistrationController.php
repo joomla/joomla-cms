@@ -3,18 +3,19 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Site\Controller;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * Registration controller class for Users.
@@ -53,7 +54,7 @@ class RegistrationController extends BaseController
 			return false;
 		}
 
-		/* @var \Joomla\Component\Users\Site\Model\RegistrationModel $model */
+		/** @var \Joomla\Component\Users\Site\Model\RegistrationModel $model */
 		$model = $this->getModel('Registration', 'Site');
 		$token = $input->getAlnum('token');
 
@@ -63,6 +64,44 @@ class RegistrationController extends BaseController
 			throw new \Exception(Text::_('JINVALID_TOKEN'), 403);
 
 			return false;
+		}
+
+		// Get the User ID
+		$userIdToActivate = $model->getUserIdFromToken($token);
+
+		if (!$userIdToActivate)
+		{
+			throw new \Exception(Text::_('COM_USERS_ACTIVATION_TOKEN_NOT_FOUND'), 403);
+
+			return false;
+		}
+
+		// Get the user we want to activate
+		$userToActivate = Factory::getUser($userIdToActivate);
+
+		// Admin activation is on and admin is activating the account
+		if (($uParams->get('useractivation') == 2) && $userToActivate->getParam('activate', 0))
+		{
+			// If a user admin is not logged in, redirect them to the login page with an error message
+			if (!$user->authorise('core.create', 'com_users'))
+			{
+				$activationUrl = 'index.php?option=com_users&task=registration.activate&token=' . $token;
+				$loginUrl      = 'index.php?option=com_users&view=login&return=' . base64_encode($activationUrl);
+
+				// In case we still run into this in the second step the user does not have the right permissions
+				$message = Text::_('COM_USERS_REGISTRATION_ACL_ADMIN_ACTIVATION_PERMISSIONS');
+
+				// When we are not logged in we should login
+				if ($user->guest)
+				{
+					$message = Text::_('COM_USERS_REGISTRATION_ACL_ADMIN_ACTIVATION');
+				}
+
+				$this->setMessage($message);
+				$this->setRedirect(Route::_($loginUrl, false));
+
+				return false;
+			}
 		}
 
 		// Attempt to activate the user.
@@ -127,7 +166,8 @@ class RegistrationController extends BaseController
 		}
 
 		$app   = $this->app;
-		/* @var \Joomla\Component\Users\Site\Model\RegistrationModel $model */
+
+		/** @var \Joomla\Component\Users\Site\Model\RegistrationModel $model */
 		$model = $this->getModel('Registration', 'Site');
 
 		// Get the user data.

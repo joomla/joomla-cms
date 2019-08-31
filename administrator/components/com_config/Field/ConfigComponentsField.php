@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,19 +11,18 @@ namespace Joomla\Component\Config\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Factory;
-
-\JFormHelper::loadFieldClass('List');
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\Language\Text;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Text Filters form field.
  *
  * @since  3.7.0
  */
-class ConfigComponentsField extends \JFormFieldList
+class ConfigComponentsField extends ListField
 {
 	/**
 	 * The form field type.

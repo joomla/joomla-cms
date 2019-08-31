@@ -3,16 +3,17 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Site\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Text;
 
 /**
  * Reset controller class for Users.
@@ -33,7 +34,7 @@ class RemindController extends BaseController
 		// Check the request token.
 		$this->checkToken('post');
 
-		/* @var \Joomla\Component\Users\Site\Model\RemindModel $model */
+		/** @var \Joomla\Component\Users\Site\Model\RemindModel $model */
 		$model = $this->getModel('Remind', 'Site');
 		$data  = $this->input->post->get('jform', array(), 'array');
 

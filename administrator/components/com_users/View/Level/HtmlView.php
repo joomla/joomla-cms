@@ -3,19 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\View\Level;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Language\Text;
 
 /**
  * View to edit a user view level.
@@ -63,7 +65,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -85,13 +87,13 @@ class HtmlView extends BaseHtmlView
 		$isNew = ($this->item->id == 0);
 		$canDo = ContentHelper::getActions('com_users');
 
-		ToolbarHelper::title(Text::_($isNew ? 'COM_USERS_VIEW_NEW_LEVEL_TITLE' : 'COM_USERS_VIEW_EDIT_LEVEL_TITLE'), 'users levels-add');
+		ToolbarHelper::title(Text::_($isNew ? 'COM_USERS_VIEW_NEW_LEVEL_TITLE' : 'COM_USERS_VIEW_EDIT_LEVEL_TITLE'), 'user-lock levels-add');
 
 		$toolbarButtons = [];
 
 		if ($canDo->get('core.edit') || $canDo->get('core.create'))
 		{
-			$toolbarButtons[] = ['apply', 'level.apply'];
+			ToolbarHelper::apply('level.apply');
 			$toolbarButtons[] = ['save', 'level.save'];
 		}
 

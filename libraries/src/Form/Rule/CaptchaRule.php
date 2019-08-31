@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,10 +11,10 @@ namespace Joomla\CMS\Form\Rule;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Captcha\Captcha;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Factory;
 
 /**
  * Form Rule class for the Joomla Framework.
@@ -55,26 +55,18 @@ class CaptchaRule extends FormRule
 		{
 			return true;
 		}
-		else
+
+		try
 		{
 			$captcha = Captcha::getInstance((string) $plugin, array('namespace' => (string) $namespace));
-		}
 
-		// Test the value.
-		if (!$captcha->checkAnswer($value))
+			return $captcha->checkAnswer($value);
+		}
+		catch (\RuntimeException $e)
 		{
-			$error = $captcha->getError();
-
-			if ($error instanceof \Exception)
-			{
-				return $error;
-			}
-			else
-			{
-				return new \Exception($error);
-			}
+			$app->enqueueMessage($e->getMessage(), 'error');
 		}
 
-		return true;
+		return false;
 	}
 }

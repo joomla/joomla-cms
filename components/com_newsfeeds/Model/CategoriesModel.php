@@ -3,17 +3,19 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Newsfeeds\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Categories\CategoryNode;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Categories\Categories;
-use Joomla\CMS\Factory;
 
 /**
  * This models supports retrieving lists of newsfeed categories.
@@ -36,8 +38,18 @@ class CategoriesModel extends ListModel
 	 */
 	protected $_extension = 'com_newsfeeds';
 
+	/**
+	 * Parent category of the current one
+	 *
+	 * @var    CategoryNode|null
+	 */
 	private $_parent = null;
 
+	/**
+	 * Array of child-categories
+	 *
+	 * @var    CategoryNode[]|null
+	 */
 	private $_items = null;
 
 	/**

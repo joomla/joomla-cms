@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Form\FormField;
  * Supports a multi line area for entry of plain text
  *
  * @link   http://www.w3.org/TR/html-markup/textarea.html#textarea
- * @since  11.1
+ * @since  1.7.0
  */
 class TextareaField extends FormField
 {
@@ -25,7 +25,7 @@ class TextareaField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Textarea';
 
@@ -142,7 +142,7 @@ class TextareaField extends FormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{

@@ -3,25 +3,25 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Categories\Administrator\View\Categories;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * Categories view class for the Category package.
@@ -73,13 +73,6 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
-	 * The sidebar markup
-	 *
-	 * @var  string
-	 */
-	protected $string;
-
-	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -98,7 +91,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Preprocess the list of items to find ordering divisions.
@@ -111,7 +104,6 @@ class HtmlView extends BaseHtmlView
 		if ($this->getLayout() !== 'modal')
 		{
 			$this->addToolbar();
-			$this->sidebar = \JHtmlSidebar::render();
 
 			// We do not need to filter by language when multilingual is disabled
 			if (!Multilanguage::isEnabled())
@@ -153,7 +145,7 @@ class HtmlView extends BaseHtmlView
 		$user       = Factory::getUser();
 
 		// Get the toolbar object instance
-		$bar = Toolbar::getInstance('toolbar');
+		$toolbar = Toolbar::getInstance('toolbar');
 
 		// Avoid nonsense situation.
 		if ($component == 'com_categories')
@@ -190,52 +182,69 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.create') || count($user->getAuthorisedCategories($component, 'core.create')) > 0)
 		{
-			ToolbarHelper::addNew('category.add');
+			$toolbar->addNew('category.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin'))
 		{
-			ToolbarHelper::publish('categories.publish', 'JTOOLBAR_PUBLISH', true);
-			ToolbarHelper::unpublish('categories.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			ToolbarHelper::archiveList('categories.archive');
-		}
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
+				->listCheck(true);
 
-		if (Factory::getUser()->authorise('core.admin'))
-		{
-			ToolbarHelper::checkin('categories.checkin');
-		}
+			$childBar = $dropdown->getChildToolbar();
 
-		// Add a batch button
-		if ($canDo->get('core.create')
-			&& $canDo->get('core.edit')
-			&& $canDo->get('core.edit.state'))
-		{
-			$title = Text::_('JTOOLBAR_BATCH');
+			if ($canDo->get('core.edit.state'))
+			{
+				$childBar->publish('categories.publish')->listCheck(true);
 
-			// Instantiate a new \ileLayout instance and render the batch button
-			$layout = new FileLayout('joomla.toolbar.batch');
+				$childBar->unpublish('categories.unpublish')->listCheck(true);
 
-			$dhtml = $layout->render(array('title' => $title));
-			$bar->appendButton('Custom', $dhtml, 'batch');
+				$childBar->archive('categories.archive')->listCheck(true);
+			}
+
+			if (Factory::getUser()->authorise('core.admin'))
+			{
+				$childBar->checkin('categories.checkin')->listCheck(true);
+			}
+
+			if ($canDo->get('core.edit.state') && $this->state->get('filter.published') != -2)
+			{
+				$childBar->trash('categories.trash')->listCheck(true);
+			}
+
+			// Add a batch button
+			if ($canDo->get('core.create')
+				&& $canDo->get('core.edit')
+				&& $canDo->get('core.edit.state'))
+			{
+				$childBar->popupButton('batch')
+					->text('JTOOLBAR_BATCH')
+					->selector('collapseModal')
+					->listCheck(true);
+			}
 		}
 
 		if ($canDo->get('core.admin'))
 		{
-			ToolbarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
+			$toolbar->standardButton('refresh')
+				->text('JTOOLBAR_REBUILD')
+				->task('categories.rebuild');
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete', $component))
 		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'categories.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::trash('categories.trash');
+			$toolbar->delete('categories.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			ToolbarHelper::preferences($component);
+			$toolbar->preferences($component);
 		}
 
 		// Compute the ref_key if it does exist in the component
@@ -261,7 +270,7 @@ class HtmlView extends BaseHtmlView
 			$url = null;
 		}
 
-		ToolbarHelper::help($ref_key, ComponentHelper::getParams($component)->exists('helpURL'), $url);
+		$toolbar->help($ref_key, ComponentHelper::getParams($component)->exists('helpURL'), $url);
 	}
 
 	/**

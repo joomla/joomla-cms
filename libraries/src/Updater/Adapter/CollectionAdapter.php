@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Version;
@@ -20,7 +21,7 @@ use Joomla\CMS\Version;
 /**
  * Collection Update Adapter Class
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class CollectionAdapter extends UpdateAdapter
 {
@@ -28,7 +29,7 @@ class CollectionAdapter extends UpdateAdapter
 	 * Root of the tree
 	 *
 	 * @var    object
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $base;
 
@@ -36,7 +37,7 @@ class CollectionAdapter extends UpdateAdapter
 	 * Tree of objects
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $parent = array(0);
 
@@ -44,7 +45,7 @@ class CollectionAdapter extends UpdateAdapter
 	 * Used to control if an item has a child or not
 	 *
 	 * @var    boolean
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $pop_parent = 0;
 
@@ -67,7 +68,7 @@ class CollectionAdapter extends UpdateAdapter
 	 *
 	 * @return  object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getStackLocation()
 	{
@@ -79,7 +80,7 @@ class CollectionAdapter extends UpdateAdapter
 	 *
 	 * @return  string   parent
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getParent()
 	{
@@ -95,7 +96,7 @@ class CollectionAdapter extends UpdateAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function _startElement($parser, $name, $attrs = array())
 	{
@@ -197,7 +198,7 @@ class CollectionAdapter extends UpdateAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _endElement($parser, $name)
 	{
@@ -224,7 +225,7 @@ class CollectionAdapter extends UpdateAdapter
 	 *
 	 * @return  array|boolean  Update_sites and updates discovered. False on failure
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function findUpdate($options)
 	{
@@ -251,7 +252,7 @@ class CollectionAdapter extends UpdateAdapter
 
 			$app = Factory::getApplication();
 			$app->getLogger()->warning("Error parsing url: {$this->_url}", array('category' => 'updater'));
-			$app->enqueueMessage(\JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $this->_url), 'warning');
+			$app->enqueueMessage(Text::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $this->_url), 'warning');
 
 			return false;
 		}

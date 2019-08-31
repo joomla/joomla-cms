@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Administrator
+ * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,16 +13,15 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\Form\Form;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Component\Modules\Administrator\Controller\ModuleController;
 use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Language\Text;
+use Joomla\Component\Modules\Administrator\Controller\ModuleController;
 
 /**
  * Component Controller
@@ -73,11 +72,7 @@ class ModulesController extends BaseController
 	public function save()
 	{
 		// Check for request forgeries.
-		if (!Session::checkToken())
-		{
-			$this->app->enqueueMessage(Text::_('JINVALID_TOKEN'));
-			$this->app->redirect('index.php');
-		}
+		$this->checkToken();
 
 		// Check if the user is authorized to do this.
 		$user = Factory::getUser();
@@ -104,13 +99,11 @@ class ModulesController extends BaseController
 			$redirect = '&return=' . $returnUri;
 		}
 
-		\JLoader::register('ModulesDispatcher', JPATH_ADMINISTRATOR . '/components/com_modules/dispatcher.php');
-
 		/** @var AdministratorApplication $app */
 		$app = Factory::getContainer()->get(AdministratorApplication::class);
 		$app->loadLanguage($this->app->getLanguage());
 
-		/** @var \Joomla\CMS\Dispatcher\Dispatcher $dispatcher */
+		/** @var \Joomla\CMS\Dispatcher\ComponentDispatcher $dispatcher */
 		$dispatcher = $app->bootComponent('com_modules')->getDispatcher($app);
 
 		/** @var ModuleController $controllerClass */

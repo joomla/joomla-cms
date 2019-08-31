@@ -3,24 +3,27 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Content\Site\View\Article;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\Component\Content\Site\Helper\AssociationHelper;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 /**
  * HTML Article View class for the Content component
@@ -98,7 +101,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Create a shortcut for $item.
@@ -106,18 +109,16 @@ class HtmlView extends BaseHtmlView
 		$item->tagLayout = new FileLayout('joomla.content.tags');
 
 		// Add router helpers.
-		$item->slug        = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-		$item->catslug     = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
-		$item->parent_slug = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+		$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
 		// No link for ROOT category
 		if ($item->parent_alias === 'root')
 		{
-			$item->parent_slug = null;
+			$item->parent_id = null;
 		}
 
 		// TODO: Change based on shownoauth
-		$item->readmore_link = Route::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+		$item->readmore_link = Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language));
 
 		// Merge article params. If this is single-article view, menu params override article params
 		// Otherwise, article params override menu item params
@@ -199,7 +200,7 @@ class HtmlView extends BaseHtmlView
 			if ($this->user->get('guest'))
 			{
 				$return = base64_encode(Uri::getInstance());
-				$login_url_with_return = Route::_('index.php?option=com_users&return=' . $return);
+				$login_url_with_return = Route::_('index.php?option=com_users&view=login&return=' . $return);
 				$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'notice');
 				$app->redirect($login_url_with_return, 403);
 			}
@@ -299,9 +300,10 @@ class HtmlView extends BaseHtmlView
 			$path     = array(array('title' => $this->item->title, 'link' => ''));
 			$category = Categories::getInstance('Content')->get($this->item->catid);
 
-			while ($category && ($menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article' || $id != $category->id) && $category->id > 1)
+			while ($category
+				&& ($menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article' || $id != $category->id) && $category->id > 1)
 			{
-				$path[]   = array('title' => $category->title, 'link' => \ContentHelperRoute::getCategoryRoute($category->id));
+				$path[]   = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language));
 				$category = $category->getParent();
 			}
 

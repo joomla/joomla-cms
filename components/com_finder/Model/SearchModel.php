@@ -3,17 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Finder\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\String\StringHelper;
-use Joomla\Utilities\ArrayHelper;
 
 // Register dependent classes.
 define('FINDER_PATH_INDEXER', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer');
@@ -129,7 +130,7 @@ class SearchModel extends ListModel
 	protected function getListQuery()
 	{
 		// Get the current user for authorisation checks
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Create a new query object.
@@ -152,7 +153,7 @@ class SearchModel extends ListModel
 
 		// Get the null date and the current date, minus seconds.
 		$nullDate = $db->quote($db->getNullDate());
-		$nowDate = $db->quote(substr_replace(\JFactory::getDate()->toSql(), '00', -2));
+		$nowDate = $db->quote(substr_replace(Factory::getDate()->toSql(), '00', -2));
 
 		// Add the publish up and publish down filters.
 		$query->where('(l.publish_start_date = ' . $nullDate . ' OR l.publish_start_date <= ' . $nowDate . ')')
@@ -171,13 +172,15 @@ class SearchModel extends ListModel
 		{
 			// Convert the associative array to a numerically indexed array.
 			$groups = array_values($this->searchquery->filters);
+			$taxonomies = call_user_func_array('array_merge', array_values($this->searchquery->filters));
 
-			// Iterate through each taxonomy group and add the join and where.
+			$query->join('INNER', $db->quoteName('#__finder_taxonomy_map') . ' AS t ON t.link_id = l.link_id')
+				->where('t.node_id IN (' . implode(',', array_unique($taxonomies)) . ')');
+
+			// Iterate through each taxonomy group.
 			for ($i = 0, $c = count($groups); $i < $c; $i++)
 			{
-				// We use the offset because each join needs a unique alias.
-				$query->join('INNER', $db->quoteName('#__finder_taxonomy_map') . ' AS t' . $i . ' ON t' . $i . '.link_id = l.link_id')
-					->where('t' . $i . '.node_id IN (' . implode(',', $groups[$i]) . ')');
+				$query->having('SUM(t.node_id IN (' . implode(',', $groups[$i]) . ')) > 0');
 			}
 		}
 
@@ -226,7 +229,7 @@ class SearchModel extends ListModel
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('l.language IN (' . $db->quote(\JFactory::getLanguage()->getTag()) . ', ' . $db->quote('*') . ')');
+			$query->where('l.language IN (' . $db->quote(Factory::getLanguage()->getTag()) . ', ' . $db->quote('*') . ')');
 		}
 
 		// Get the result ordering and direction.
@@ -283,6 +286,7 @@ class SearchModel extends ListModel
 			// Since we need to return a query, we simplify this one.
 			$query->clear('join')
 				->clear('where')
+				->clear('having')
 				->clear('group')
 				->where('false');
 
@@ -308,13 +312,17 @@ class SearchModel extends ListModel
 		 */
 		if (count($this->requiredTerms))
 		{
-			$i = 0;
-
 			foreach ($this->requiredTerms as $terms)
 			{
-				$query->join('INNER', $this->_db->quoteName('#__finder_links_terms') . ' AS r' . $i . ' ON r' . $i . '.link_id = l.link_id')
-					->where('r' . $i . '.term_id IN (' . implode(',', $terms) . ')');
-				$i++;
+				if (count($terms))
+				{
+					$query->having('SUM(m.term_id IN (' . implode(',', $terms) . ')) > 0');
+				}
+				else
+				{
+					$query->where('false');
+					break;
+				}
 			}
 		}
 
@@ -375,10 +383,11 @@ class SearchModel extends ListModel
 	protected function populateState($ordering = null, $direction = null)
 	{
 		// Get the configuration options.
-		$app    = \JFactory::getApplication();
-		$input  = $app->input;
-		$params = $app->getParams();
-		$user   = \JFactory::getUser();
+		$app      = Factory::getApplication();
+		$input    = $app->input;
+		$params   = $app->getParams();
+		$user     = Factory::getUser();
+		$language = Factory::getLanguage();
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
 
@@ -398,7 +407,7 @@ class SearchModel extends ListModel
 		$options['input'] = $request->getString('q', $params->get('q', ''));
 
 		// Get the query language.
-		$options['language'] = $request->getCmd('l', $params->get('l', ''));
+		$options['language'] = $request->getCmd('l', $params->get('l', $language->getTag()));
 
 		// Get the start date and start date modifier filters.
 		$options['date1'] = $request->getString('d1', $params->get('d1', ''));
@@ -420,7 +429,8 @@ class SearchModel extends ListModel
 		$this->setState('list.start', $input->get('limitstart', 0, 'uint'));
 		$this->setState('list.limit', $input->get('limit', $app->get('list_limit', 20), 'uint'));
 
-		/* Load the sort ordering.
+		/*
+		 * Load the sort ordering.
 		 * Currently this is 'hard' coded via menu item parameter but may not satisfy a users need.
 		 * More flexibility was way more user friendly. So we allow the user to pass a custom value
 		 * from the pool of fields that are indexed like the 'title' field.
@@ -428,6 +438,7 @@ class SearchModel extends ListModel
 		 */
 		$order = $input->getWord('filter_order', $params->get('sort_order', 'relevance'));
 		$order = StringHelper::strtolower($order);
+
 		switch ($order)
 		{
 			case 'date':
@@ -452,13 +463,15 @@ class SearchModel extends ListModel
 				break;
 		}
 
-		/* Load the sort direction.
+		/*
+		 * Load the sort direction.
 		 * Currently this is 'hard' coded via menu item parameter but may not satisfy a users need.
 		 * More flexibility was way more user friendly. So we allow to be inverted.
 		 * Also, we allow this parameter to be passed in either case (lower/upper).
 		 */
 		$dirn = $input->getWord('filter_order_Dir', $params->get('sort_direction', 'desc'));
 		$dirn = StringHelper::strtolower($dirn);
+
 		switch ($dirn)
 		{
 			case 'asc':
@@ -505,7 +518,7 @@ class SearchModel extends ListModel
 		// Use the external cache if data is persistent.
 		if ($persistent)
 		{
-			$data = \JFactory::getCache($this->context, 'output')->get($id);
+			$data = Factory::getCache($this->context, 'output')->get($id);
 			$data = $data ? unserialize($data) : null;
 		}
 
@@ -537,7 +550,7 @@ class SearchModel extends ListModel
 		// Store the data in external cache if data is persistent.
 		if ($persistent)
 		{
-			return \JFactory::getCache($this->context, 'output')->store(serialize($data), $id);
+			return Factory::getCache($this->context, 'output')->store(serialize($data), $id);
 		}
 
 		return true;

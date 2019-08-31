@@ -3,15 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Plugins\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Installer\Installer;
 
@@ -23,18 +24,6 @@ use Joomla\CMS\Installer\Installer;
 class PluginsHelper
 {
 	public static $extension = 'com_plugins';
-
-	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
-	 */
-	public static function addSubmenu($vName)
-	{
-		// No submenu for this component.
-	}
 
 	/**
 	 * Returns an array of standard published state filter options.
@@ -52,7 +41,7 @@ class PluginsHelper
 	}
 
 	/**
-	 * Returns an array of standard published state filter options.
+	 * Returns a list of folders filter options.
 	 *
 	 * @return  string    The HTML code for the select tag
 	 */
@@ -65,6 +54,33 @@ class PluginsHelper
 			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
 			->order('folder');
 
+		$db->setQuery($query);
+
+		try
+		{
+			$options = $db->loadObjectList();
+		}
+		catch (\RuntimeException $e)
+		{
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Returns a list of elements filter options.
+	 *
+	 * @return  string    The HTML code for the select tag
+	 */
+	public static function elementOptions()
+	{
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select('DISTINCT(element) AS value, element AS text')
+			->from('#__extensions')
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+			->order('element');
 		$db->setQuery($query);
 
 		try

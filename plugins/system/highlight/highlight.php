@@ -3,17 +3,16 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Highlight
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
  * System plugin to highlight terms.
@@ -22,6 +21,14 @@ use Joomla\CMS\Component\ComponentHelper;
  */
 class PlgSystemHighlight extends CMSPlugin
 {
+	/**
+	 * Application object.
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  3.7.0
+	 */
+	protected $app;
+
 	/**
 	 * Method to catch the onAfterDispatch event.
 	 *
@@ -36,13 +43,13 @@ class PlgSystemHighlight extends CMSPlugin
 	public function onAfterDispatch()
 	{
 		// Check that we are in the site application.
-		if (Factory::getApplication()->isClient('administrator'))
+		if ($this->app->isClient('administrator'))
 		{
 			return true;
 		}
 
 		// Set the variables.
-		$input = Factory::getApplication()->input;
+		$input     = $this->app->input;
 		$extension = $input->get('option', '', 'cmd');
 
 		// Check if the highlighter is enabled.
@@ -52,7 +59,7 @@ class PlgSystemHighlight extends CMSPlugin
 		}
 
 		// Check if the highlighter should be activated in this environment.
-		if ($input->get('tmpl', '', 'cmd') === 'component' || Factory::getDocument()->getType() !== 'html')
+		if ($input->get('tmpl', '', 'cmd') === 'component' || $this->app->getDocument()->getType() !== 'html')
 		{
 			return true;
 		}
@@ -81,7 +88,7 @@ class PlgSystemHighlight extends CMSPlugin
 		HTMLHelper::_('behavior.highlighter', $cleanTerms);
 
 		// Adjust the component buffer.
-		$doc = Factory::getDocument();
+		$doc = $this->app->getDocument();
 		$buf = $doc->getBuffer('component');
 		$buf = '<br id="highlighter-start" />' . $buf . '<br id="highlighter-end" />';
 		$doc->setBuffer($buf, 'component');
@@ -97,7 +104,7 @@ class PlgSystemHighlight extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onFinderResult($item, $query)
 	{

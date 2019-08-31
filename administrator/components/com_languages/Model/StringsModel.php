@@ -3,13 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Languages\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 
@@ -29,7 +34,7 @@ class StringsModel extends BaseDatabaseModel
 	 */
 	public function refresh()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$db  = $this->getDbo();
 
 		$app->setUserState('com_languages.overrides.cachedtime', null);
@@ -59,24 +64,22 @@ class StringsModel extends BaseDatabaseModel
 		$files = array();
 
 		// Parse common language directory.
-		jimport('joomla.filesystem.folder');
-
 		if (is_dir($path))
 		{
-			$files = \JFolder::files($path, $language . '.*ini$', false, true);
+			$files = Folder::files($path, $language . '.*ini$', false, true);
 		}
 
 		// Parse language directories of components.
-		$files = array_merge($files, \JFolder::files($base . '/components', $language . '.*ini$', 3, true));
+		$files = array_merge($files, Folder::files($base . '/components', $language . '.*ini$', 3, true));
 
 		// Parse language directories of modules.
-		$files = array_merge($files, \JFolder::files($base . '/modules', $language . '.*ini$', 3, true));
+		$files = array_merge($files, Folder::files($base . '/modules', $language . '.*ini$', 3, true));
 
 		// Parse language directories of templates.
-		$files = array_merge($files, \JFolder::files($base . '/templates', $language . '.*ini$', 3, true));
+		$files = array_merge($files, Folder::files($base . '/templates', $language . '.*ini$', 3, true));
 
 		// Parse language directories of plugins.
-		$files = array_merge($files, \JFolder::files(JPATH_PLUGINS, $language . '.*ini$', 4, true));
+		$files = array_merge($files, Folder::files(JPATH_PLUGINS, $language . '.*ini$', 4, true));
 
 		// Parse all found ini files and add the strings to the database cache.
 		foreach ($files as $file)
@@ -89,7 +92,7 @@ class StringsModel extends BaseDatabaseModel
 
 				foreach ($strings as $key => $string)
 				{
-					$query->values($db->quote($key) . ',' . $db->quote($string) . ',' . $db->quote(\JPath::clean($file)));
+					$query->values($db->quote($key) . ',' . $db->quote($string) . ',' . $db->quote(Path::clean($file)));
 				}
 
 				try
@@ -113,15 +116,15 @@ class StringsModel extends BaseDatabaseModel
 	/**
 	 * Method for searching language strings.
 	 *
-	 * @return  array|\Exception  Array of resuls on success, \Exception object otherwise.
+	 * @return  array|\Exception  Array of results on success, \Exception object otherwise.
 	 *
 	 * @since		2.5
 	 */
 	public function search()
 	{
 		$results = array();
-		$input   = \JFactory::getApplication()->input;
-		$filter  = \JFilterInput::getInstance();
+		$input   = Factory::getApplication()->input;
+		$filter  = InputFilter::getInstance();
 		$db      = $this->getDbo();
 		$searchTerm = $input->getString('searchstring');
 
@@ -146,7 +149,8 @@ class StringsModel extends BaseDatabaseModel
 			}
 
 			// Consider the limitstart according to the 'more' parameter and load the results.
-			$db->setQuery($query, $limitstart, 10);
+			$query->setLimit(10, $limitstart);
+			$db->setQuery($query);
 			$results['results'] = $db->loadObjectList();
 
 			// Check whether there are more results than already loaded.

@@ -2,13 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Language;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseInterface;
 
 /**
  * Utitlity class for multilang
@@ -18,22 +22,25 @@ defined('JPATH_PLATFORM') or die;
 class Multilanguage
 {
 	/**
-	* Flag indicating multilanguage functionality is enabled.
- 	*
- 	* @var    boolean
- 	* @since  4.0.0
- 	*/
+	 * Flag indicating multilanguage functionality is enabled.
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
 	public static $enabled = false;
 
 	/**
 	 * Method to determine if the language filter plugin is enabled.
 	 * This works for both site and administrator.
 	 *
+	 * @param   CMSApplication     $app  The application
+	 * @param   DatabaseInterface  $db   The database
+	 *
 	 * @return  boolean  True if site is supporting multiple languages; false otherwise.
 	 *
 	 * @since   2.5.4
 	 */
-	public static function isEnabled()
+	public static function isEnabled(CMSApplication $app = null, DatabaseInterface $db = null)
 	{
 		// Flag to avoid doing multiple database queries.
 		static $tested = false;
@@ -45,7 +52,7 @@ class Multilanguage
 		}
 
 		// Get application object.
-		$app = \JFactory::getApplication();
+		$app = $app ?: Factory::getApplication();
 
 		// If being called from the frontend, we can avoid the database query.
 		if ($app->isClient('site'))
@@ -59,7 +66,7 @@ class Multilanguage
 		if (!$tested)
 		{
 			// Determine status of language filter plugin.
-			$db = \JFactory::getDbo();
+			$db    = $db ?: Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('enabled')
 				->from($db->quoteName('#__extensions'))
@@ -76,28 +83,15 @@ class Multilanguage
 	}
 
 	/**
-	 * Method to return a list of published site languages.
-	 *
-	 * @return  array of language extension objects.
-	 *
-	 * @since   3.5
-	 * @deprecated   3.7.0  Use \JLanguageHelper::getInstalledLanguages(0) instead.
-	 */
-	public static function getSiteLangs()
-	{
-		\JLog::add(__METHOD__ . ' is deprecated. Use \JLanguageHelper::getInstalledLanguages(0) instead.', \JLog::WARNING, 'deprecated');
-
-		return \JLanguageHelper::getInstalledLanguages(0);
-	}
-
-	/**
 	 * Method to return a list of language home page menu items.
+	 *
+	 * @param   DatabaseInterface  $db  The database
 	 *
 	 * @return  array of menu objects.
 	 *
 	 * @since   3.5
 	 */
-	public static function getSiteHomePages()
+	public static function getSiteHomePages(DatabaseInterface $db = null)
 	{
 		// To avoid doing duplicate database queries.
 		static $multilangSiteHomePages = null;
@@ -105,7 +99,7 @@ class Multilanguage
 		if (!isset($multilangSiteHomePages))
 		{
 			// Check for Home pages languages.
-			$db = \JFactory::getDbo();
+			$db    = $db ?: Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('language')
 				->select('id')

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,7 +10,12 @@ namespace Joomla\CMS\MVC\Controller;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Router\Route;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -79,13 +84,16 @@ class AdminController extends BaseController
 		$this->registerTask('orderup', 'reorder');
 		$this->registerTask('orderdown', 'reorder');
 
+		// Transition
+		$this->registerTask('runTransition', 'runTransition');
+
 		// Guess the option as com_NameOfController.
 		if (empty($this->option))
 		{
-			$this->option = \JComponentHelper::getComponentName($this, $this->getName());
+			$this->option = ComponentHelper::getComponentName($this, $this->getName());
 		}
 
-		// Guess the \JText message prefix. Defaults to the option.
+		// Guess the \Text message prefix. Defaults to the option.
 		if (empty($this->text_prefix))
 		{
 			$this->text_prefix = strtoupper($this->option);
@@ -104,7 +112,7 @@ class AdminController extends BaseController
 			}
 			elseif (!preg_match('/(.*)Controller(.*)/i', $reflect->getShortName(), $r))
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
+				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
 
 			$this->view_list = strtolower($r[2]);
@@ -121,14 +129,14 @@ class AdminController extends BaseController
 	public function delete()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			$this->app->getLogger()->warning(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
+			$this->app->getLogger()->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
 		}
 		else
 		{
@@ -141,7 +149,7 @@ class AdminController extends BaseController
 			// Remove the items.
 			if ($model->delete($cid))
 			{
-				$this->setMessage(\JText::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
+				$this->setMessage(Text::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
 			}
 			else
 			{
@@ -152,37 +160,22 @@ class AdminController extends BaseController
 			$this->postDeleteHook($model, $cid);
 		}
 
-		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
 
 	/**
 	 * Function that allows child controller access to model data
 	 * after the item has been deleted.
 	 *
-	 * @param   \JModelLegacy  $model  The data model object.
-	 * @param   integer        $id     The validated data.
+	 * @param   BaseDatabaseModel  $model  The data model object.
+	 * @param   integer            $id     The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	protected function postDeleteHook(\JModelLegacy $model, $id = null)
+	protected function postDeleteHook(BaseDatabaseModel $model, $id = null)
 	{
-	}
-
-	/**
-	 * Display is not supported by this controller.
-	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
-	 *
-	 * @return  \JControllerLegacy  A \JControllerLegacy object to support chaining.
-	 *
-	 * @since   1.6
-	 */
-	public function display($cachable = false, $urlparams = array())
-	{
-		return $this;
 	}
 
 	/**
@@ -195,7 +188,7 @@ class AdminController extends BaseController
 	public function publish()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get items to publish from the request.
 		$cid   = $this->input->get('cid', array(), 'array');
@@ -205,7 +198,7 @@ class AdminController extends BaseController
 
 		if (empty($cid))
 		{
-			$this->app->getLogger()->warning(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
+			$this->app->getLogger()->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
 		}
 		else
 		{
@@ -226,7 +219,7 @@ class AdminController extends BaseController
 				{
 					if ($errors)
 					{
-						\JFactory::getApplication()->enqueueMessage(\JText::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', count($cid)), 'error');
+						Factory::getApplication()->enqueueMessage(Text::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', count($cid)), 'error');
 					}
 					else
 					{
@@ -246,9 +239,9 @@ class AdminController extends BaseController
 					$ntext = $this->text_prefix . '_N_ITEMS_TRASHED';
 				}
 
-				if ($ntext !== null)
+				if (count($cid))
 				{
-					$this->setMessage(\JText::plural($ntext, count($cid)));
+					$this->setMessage(Text::plural($ntext, count($cid)));
 				}
 			}
 			catch (\Exception $e)
@@ -259,7 +252,7 @@ class AdminController extends BaseController
 
 		$extension = $this->input->get('extension');
 		$extensionURL = $extension ? '&extension=' . $extension : '';
-		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
+		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
 	}
 
 	/**
@@ -272,7 +265,7 @@ class AdminController extends BaseController
 	public function reorder()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids = $this->input->post->get('cid', array(), 'array');
 		$inc = $this->getTask() === 'orderup' ? -1 : 1;
@@ -283,16 +276,16 @@ class AdminController extends BaseController
 		if ($return === false)
 		{
 			// Reorder failed.
-			$message = \JText::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+			$message = Text::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
+			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
 
 			return false;
 		}
 		else
 		{
 			// Reorder succeeded.
-			$message = \JText::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+			$message = Text::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
+			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
 
 			return true;
 		}
@@ -308,7 +301,7 @@ class AdminController extends BaseController
 	public function saveorder()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get the input
 		$pks = $this->input->post->get('cid', array(), 'array');
@@ -327,16 +320,16 @@ class AdminController extends BaseController
 		if ($return === false)
 		{
 			// Reorder failed
-			$message = \JText::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+			$message = Text::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
+			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
 
 			return false;
 		}
 		else
 		{
 			// Reorder succeeded.
-			$this->setMessage(\JText::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+			$this->setMessage(Text::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
+			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 
 			return true;
 		}
@@ -352,7 +345,7 @@ class AdminController extends BaseController
 	public function checkin()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids = $this->input->post->get('cid', array(), 'array');
 
@@ -362,16 +355,16 @@ class AdminController extends BaseController
 		if ($return === false)
 		{
 			// Checkin failed.
-			$message = \JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+			$message = Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
+			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
 
 			return false;
 		}
 		else
 		{
 			// Checkin succeeded.
-			$message = \JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+			$message = Text::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
+			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
 
 			return true;
 		}
@@ -407,5 +400,50 @@ class AdminController extends BaseController
 
 		// Close the application
 		$this->app->close();
+	}
+
+	/**
+	 * Method to run Transition by id of item.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function runTransition()
+	{
+		// Get the input
+		$pks = $this->input->post->get('cid', array(), 'array');
+
+		if (!count($pks))
+		{
+			return false;
+		}
+
+		$pk = (int) $pks[0];
+
+		$transitionId = $this->input->post->get('transition_' . $pk, -1, 'int');
+
+		// Get the model
+		$model = $this->getModel();
+		$return = $model->runTransition($pk, $transitionId);
+
+		if ($return === false)
+		{
+			// Transition change failed.
+			$message = Text::sprintf('JLIB_APPLICATION_ERROR_RUN_TRANSITION', $model->getError());
+			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+
+			return false;
+		}
+		else
+		{
+			// Transition change succeeded.
+			$message = Text::_('JLIB_APPLICATION_SUCCESS_RUN_TRANSITION');
+			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+
+			return true;
+		}
+
+		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
 	}
 }

@@ -3,16 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_checkin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Checkin\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
 
 /**
  * Checkin Model
@@ -27,14 +28,6 @@ class CheckinModel extends ListModel
 	 * @var  integer
 	 */
 	protected $total;
-
-	/**
-	 * Unused class variable
-	 *
-	 * @var  object
-	 * @deprecated  4.0
-	 */
-	protected $tables;
 
 	/**
 	 * Constructor.
@@ -98,10 +91,12 @@ class CheckinModel extends ListModel
 		// This int will hold the checked item count.
 		$results = 0;
 
+		$app = Factory::getApplication();
+
 		foreach ($ids as $tn)
 		{
 			// Make sure we get the right tables based on prefix.
-			if (stripos($tn, Factory::getApplication()->get('dbprefix')) !== 0)
+			if (stripos($tn, $app->get('dbprefix')) !== 0)
 			{
 				continue;
 			}
@@ -115,15 +110,17 @@ class CheckinModel extends ListModel
 
 			$query = $db->getQuery(true)
 				->update($db->quoteName($tn))
-				->set('checked_out = 0')
-				->set('checked_out_time = ' . $db->quote($nullDate))
-				->where('checked_out > 0');
+				->set($db->quoteName('checked_out') . ' = DEFAULT')
+				->set($db->quoteName('checked_out_time') . ' = :checkouttime')
+				->where($db->quoteName('checked_out') . ' > 0')
+				->bind(':checkouttime', $nullDate);
 
 			$db->setQuery($query);
 
 			if ($db->execute())
 			{
 				$results = $results + $db->getAffectedRows();
+				$app->triggerEvent('onAfterCheckin', array($tn));
 			}
 		}
 

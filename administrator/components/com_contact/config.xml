@@ -11,6 +11,7 @@
 			name="contact_layout"
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
+			class="custom-select"
 			menuitems="true"
 			extension="com_contact"
 			view="contact"
@@ -56,17 +57,6 @@
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="presentation_style"
-			type="list"
-			label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
-			default="sliders"
-			>
-			<option value="sliders">COM_CONTACT_FIELD_VALUE_SLIDERS</option>
-			<option value="tabs">COM_CONTACT_FIELD_VALUE_TABS</option>
-			<option value="plain">COM_CONTACT_FIELD_VALUE_PLAIN</option>
 		</field>
 
 		<field
@@ -487,6 +477,7 @@
 			name="category_layout"
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
+			class="custom-select"
 			menuitems="true"
 			extension="com_contact"
 			view="category"
@@ -826,6 +817,23 @@
 		</field>
 
 		<field
+ 			name="contacts_display_num"
+ 			type="list"
+ 			label="COM_CONTACT_NUMBER_CONTACTS_LIST_LABEL"
+ 			default="10"
+ 			>
+ 			<option value="5">J5</option>
+ 			<option value="10">J10</option>
+ 			<option value="15">J15</option>
+ 			<option value="20">J20</option>
+ 			<option value="25">J25</option>
+ 			<option value="30">J30</option>
+ 			<option value="50">J50</option>
+ 			<option value="100">J100</option>
+ 			<option value="0">JALL</option>
+ 		</field>
+
+		<field
 			name="initial_sort"
 			type="list"
 			label="COM_CONTACT_FIELD_INITIAL_SORT_LABEL"
@@ -835,6 +843,7 @@
 			<option value="name">COM_CONTACT_FIELD_VALUE_NAME</option>
 			<option value="sortname">COM_CONTACT_FIELD_VALUE_SORT_NAME</option>
 			<option value="ordering">COM_CONTACT_FIELD_VALUE_ORDERING</option>
+			<option value="featuredordering">COM_CONTACT_FIELD_VALUE_ORDERING_FEATURED</option>
 		</field>
 
 	</fieldset>
@@ -952,6 +961,11 @@
 		description="COM_CONTACT_CONFIG_INTEGRATION_SETTINGS_DESC"
 		>
 
+		<fieldset
+			name="integration_newsfeeds"
+			label="JGLOBAL_FEED_TITLE"
+		>
+
 		<field
 			name="show_feed_link"
 			type="radio"
@@ -962,6 +976,13 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
+
+		</fieldset>
+
+		<fieldset
+			name="integration_sef"
+			label="JGLOBAL_SEF_TITLE"
+		>
 
 		<field
 			name="sef_ids"
@@ -974,6 +995,13 @@
 			<option value="1">JYES</option>
 		</field>
 
+		</fieldset>
+
+		<fieldset
+			name="integration_customfields"
+			label="JGLOBAL_FIELDS_TITLE"
+		>
+
 		<field
 			name="custom_fields_enable"
 			type="radio"
@@ -981,9 +1009,11 @@
 			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
 			default="1"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
+
+		</fieldset>
 
 	</fieldset>
 
