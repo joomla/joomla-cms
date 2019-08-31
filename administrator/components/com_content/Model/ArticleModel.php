@@ -272,7 +272,7 @@ class ArticleModel extends AdminModel
 	{
 		if (!empty($record->id))
 		{
-			$stage = new StageTable($this->_db);
+			$stage = new StageTable($this->getDbo());
 
 			$workflow = new Workflow(['extension' => 'com_content']);
 
