@@ -354,7 +354,7 @@ class DatabaseModel extends InstallerModel
 		{
 			$clientId = (int) $clientId;
 			$query->where($db->quoteName('extensions.client_id') . ' = :clientid')
-				->bind(':clientid', $clientid, ParameterType::INTEGER);
+				->bind(':clientid', $clientId, ParameterType::INTEGER);
 		}
 
 		if ($extensionId != '')
