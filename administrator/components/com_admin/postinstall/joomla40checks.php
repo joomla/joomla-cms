@@ -20,6 +20,7 @@ defined('_JEXEC') or die;
  *
  * @link    https://developer.joomla.org/news/658-joomla4-manifesto.html
  * @link    https://developer.joomla.org/news/704-looking-forward-with-joomla-4.html
+ * @link    https://developer.joomla.org/news/788-joomla-4-on-the-move.html
  */
 function admin_postinstall_joomla40checks_condition()
 {
@@ -33,15 +34,24 @@ function admin_postinstall_joomla40checks_condition()
 		return true;
 	}
 
-	if ($serverType == 'postgresql' && version_compare($serverVersion, '9.2', 'lt'))
+	if ($serverType == 'postgresql' && version_compare($serverVersion, '11.0', 'lt'))
 	{
-		// PostgreSQL minimum version is 9.2
+		// PostgreSQL minimum version is 11.0
 		return true;
 	}
 
-	if ($serverType == 'mysql' && version_compare($serverVersion, '5.5.3', 'lt'))
+	// Check whether we have a MariaDB version string and extract the proper version from it
+	if ($serverType == 'mysql' && preg_match('/^(?:5\.5\.5-)?(mariadb-)?(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)/i', $serverVersion, $versionParts))
 	{
-		// MySQL minimum version is 5.5.3
+		$dbVersion = $versionParts['major'] . '.' . $versionParts['minor'] . '.' . $versionParts['patch'];
+
+		// MariaDB minimum version is 10.1
+		return version_compare($dbVersion, '10.1', 'lt');
+	}
+
+	if ($serverType == 'mysql' && version_compare($serverVersion, '5.6', 'lt'))
+	{
+		// MySQL minimum version is 5.6.0
 		return true;
 	}
 
@@ -58,5 +68,5 @@ function admin_postinstall_joomla40checks_condition()
 	}
 
 	// PHP minimum version is 7.0
-	return version_compare(PHP_VERSION, '7.0', 'lt');
+	return version_compare(PHP_VERSION, '7.2', 'lt');
 }
