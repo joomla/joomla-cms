@@ -129,9 +129,9 @@ class PlgEditorTinymce extends CMSPlugin
 		$textarea->readonly = !empty($params['readonly']);
 
 		// Render Editor markup
-		$editor = '<div class="js-editor-tinymce">';
+		$editor = $this->_toogleButton($id);
+		$editor .= '<div class="js-editor-tinymce">';
 		$editor .= LayoutHelper::render('joomla.tinymce.textarea', $textarea);
-		$editor .= $this->_toogleButton($id);
 		$editor .= '</div>';
 
 		// Prepare the instance specific options, actually the ext-buttons

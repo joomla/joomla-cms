@@ -155,3 +155,8 @@ legend {
 joomla-field-user [class*=" icon-"]:not(.input-group-text) {
   margin-right: 0;
 }
+
+html[dir=rtl] .toggle-tiny {
+  margin-right: 0;
+  padding-left: 1.5rem;
+}
