@@ -3,14 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_login
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Login\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Login Controller.
@@ -42,7 +46,7 @@ class DisplayController extends BaseController
 		// For non-html formats we do not have login view, so just display 403 instead
 		if ($this->input->get('format', 'html') !== 'html')
 		{
-			throw new \RuntimeException(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		/**
@@ -65,7 +69,7 @@ class DisplayController extends BaseController
 	public function login()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken('request') or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		$app = $this->app;
 
@@ -75,24 +79,55 @@ class DisplayController extends BaseController
 
 		$result = $app->login($credentials, array('action' => 'core.login.admin'));
 
-		if ($result && !($result instanceof \Exception))
+		if ($app->input->getCmd('format') == 'json')
 		{
-			// Only redirect to an internal URL.
-			if (\JUri::isInternal($return))
+			if ($result && !($result instanceof \Exception))
 			{
-				// If &tmpl=component - redirect to index.php
-				if (strpos($return, 'tmpl=component') === false)
+				// Only redirect to an internal URL.
+				if (!Uri::isInternal($return) || strpos($return, 'tmpl=component') !== false)
+				{
+					$return = 'index.php';
+				}
+
+				// We redirect via JS, so the session is not filled in the application
+				// So we do it manually
+				$messages = $app->getMessageQueue();
+
+				$app->getSession()->set('application.queue', $messages);
+
+				$response = new JsonResponse((object) ['return' => $return], null, false, true);
+			}
+			else
+			{
+				$message = null;
+
+				if ($result instanceof \Exception)
+				{
+					$message = $result->getMessage();
+				}
+
+				$response = new JsonResponse(null, $message, true);
+			}
+
+			echo $response;
+
+			return;
+		}
+		else
+		{
+			if ($result && !($result instanceof \Exception))
+			{
+				// Only redirect to an internal URL.
+				if (Uri::isInternal($return) && strpos($return, 'tmpl=component') === false)
 				{
 					$app->redirect($return);
 				}
-				else
-				{
-					$app->redirect('index.php');
-				}
-			}
-		}
 
-		$this->display();
+				$app->redirect('index.php');
+			}
+
+			$this->display();
+		}
 	}
 
 	/**
@@ -102,7 +137,7 @@ class DisplayController extends BaseController
 	 */
 	public function logout()
 	{
-		\JSession::checkToken('request') or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		$app = $this->app;
 
@@ -129,7 +164,7 @@ class DisplayController extends BaseController
 			$return = $model->getState('return');
 
 			// Only redirect to an internal URL.
-			if (\JUri::isInternal($return))
+			if (Uri::isInternal($return))
 			{
 				$app->redirect($return);
 			}

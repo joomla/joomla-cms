@@ -3,15 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Messages\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Message configuration model.
@@ -35,7 +38,7 @@ class ConfigModel extends FormModel
 	 */
 	protected function populateState()
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		$this->setState('user.id', $user->get('id'));
 
@@ -53,7 +56,7 @@ class ConfigModel extends FormModel
 	 */
 	public function &getItem()
 	{
-		$item = new \JObject;
+		$item = new CMSObject;
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)

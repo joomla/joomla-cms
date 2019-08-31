@@ -2,18 +2,18 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Cache\Storage;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Cache storage helper functions.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class CacheStorageHelper
 {
@@ -21,7 +21,7 @@ class CacheStorageHelper
 	 * Cache data group
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $group = '';
 
@@ -29,7 +29,7 @@ class CacheStorageHelper
 	 * Cached item size
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $size = 0;
 
@@ -37,7 +37,7 @@ class CacheStorageHelper
 	 * Counter
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $count = 0;
 
@@ -46,7 +46,7 @@ class CacheStorageHelper
 	 *
 	 * @param   string  $group  The cache data group
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($group)
 	{
@@ -60,7 +60,7 @@ class CacheStorageHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function updateSize($size)
 	{

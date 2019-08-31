@@ -3,36 +3,37 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
+/** @var \Joomla\Component\Admin\Administrator\View\Sysinfo\HtmlView $this */
 ?>
-<fieldset class="adminform">
-	<legend><?php echo JText::_('COM_ADMIN_CONFIGURATION_FILE'); ?></legend>
-	<table class="table table-striped">
+<div class="sysinfo">
+	<table class="table">
+		<caption class="sr-only">
+			<?php echo Text::_('COM_ADMIN_CONFIGURATION_FILE'); ?>
+		</caption>
 		<thead>
 			<tr>
-				<th style="width:300px">
-					<?php echo JText::_('COM_ADMIN_SETTING'); ?>
+				<th scope="col" style="width:300px">
+					<?php echo Text::_('COM_ADMIN_SETTING'); ?>
 				</th>
-				<th>
-					<?php echo JText::_('COM_ADMIN_VALUE'); ?>
+				<th scope="col">
+					<?php echo Text::_('COM_ADMIN_VALUE'); ?>
 				</th>
 			</tr>
 		</thead>
-		<tfoot>
-			<tr>
-				<td colspan="2">&#160;</td>
-			</tr>
-		</tfoot>
 		<tbody>
 			<?php foreach ($this->config as $key => $value) : ?>
 				<tr>
-					<td>
+					<th scope="row">
 						<?php echo $key; ?>
-					</td>
+					</th>
 					<td>
 						<?php echo htmlspecialchars($value, ENT_QUOTES); ?>
 					</td>
@@ -40,4 +41,4 @@ defined('_JEXEC') or die;
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-</fieldset>
+</div>

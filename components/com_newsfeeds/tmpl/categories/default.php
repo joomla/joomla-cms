@@ -3,25 +3,26 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
-JHtml::_('behavior.core');
+HTMLHelper::_('behavior.core');
 
 // Add strings for translations in Javascript.
-JText::script('JGLOBAL_EXPAND_CATEGORIES');
-JText::script('JGLOBAL_COLLAPSE_CATEGORIES');
+Text::script('JGLOBAL_EXPAND_CATEGORIES');
+Text::script('JGLOBAL_COLLAPSE_CATEGORIES');
 
-HTMLHelper::_('script', 'com_newsfeeds/categories-default.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_newsfeeds/categories-default.js', ['version' => 'auto', 'relative' => true]);
 
 ?>
-<div class="categories-list">
-	<?php echo JLayoutHelper::render('joomla.content.categories_default', $this); ?>
+<div class="com-newsfeeds-categories categories-list">
+	<?php echo LayoutHelper::render('joomla.content.categories_default', $this); ?>
 	<?php echo $this->loadTemplate('items'); ?>
 </div>

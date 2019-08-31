@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,8 @@ namespace Joomla\Component\Banners\Administrator\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Categories\CategoriesServiceInterface;
-use Joomla\CMS\Categories\CategoriesServiceTrait;
+use Joomla\CMS\Categories\CategoryServiceInterface;
+use Joomla\CMS\Categories\CategoryServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
@@ -22,11 +22,11 @@ use Psr\Container\ContainerInterface;
 /**
  * Component class for com_banners
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
-class BannersComponent extends MVCComponent implements BootableExtensionInterface, CategoriesServiceInterface
+class BannersComponent extends MVCComponent implements BootableExtensionInterface, CategoryServiceInterface
 {
-	use CategoriesServiceTrait;
+	use CategoryServiceTrait;
 	use HTMLRegistryAwareTrait;
 
 	/**
@@ -54,24 +54,10 @@ class BannersComponent extends MVCComponent implements BootableExtensionInterfac
 	 *
 	 * @return  string|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getTableNameForSection(string $section = null)
 	{
-		return '#__banners';
-	}
-
-	/**
-	 * Returns the state column for the count items functions for the given section.
-	 *
-	 * @param   string  $section  The section
-	 *
-	 * @return  string|null
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function getStateColumnForSection(string $section = null)
-	{
-		return 'published as state';
+		return 'banners';
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ namespace Joomla\Component\Media\Administrator\Event;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\Input\Input;
 
 /**
  * Event object to retrieve OAuthCallbacks.
@@ -65,7 +66,7 @@ class OAuthCallbackEvent extends AbstractEvent
 	/**
 	 * Get the event input.
 	 *
-	 * @return \JInput
+	 * @return  Input
 	 *
 	 * @since  4.0.0
 	 */
@@ -77,7 +78,7 @@ class OAuthCallbackEvent extends AbstractEvent
 	/**
 	 * Set the event input.
 	 *
-	 * @param   \JInput  $input  Event input
+	 * @param   Input  $input  Event input
 	 *
 	 * @return void
 	 *

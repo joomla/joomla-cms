@@ -3,15 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Modules\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 
@@ -36,10 +40,10 @@ class SelectModel extends ListModel
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load the filter state.
-		$clientId = $app->getUserState('com_modules.modules.client_id', 0);
+		$clientId = $app->getUserStateFromRequest('com_modules.modules.client_id', 'client_id', 0);
 		$this->setState('client_id', (int) $clientId);
 
 		// Load the parameters.
@@ -119,13 +123,13 @@ class SelectModel extends ListModel
 		$items = parent::getItems();
 
 		$client = ApplicationHelper::getClientInfo($this->getState('client_id', 0));
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		// Loop through the results to add the XML metadata,
 		// and load language support.
 		foreach ($items as &$item)
 		{
-			$path = \JPath::clean($client->path . '/modules/' . $item->module . '/' . $item->module . '.xml');
+			$path = Path::clean($client->path . '/modules/' . $item->module . '/' . $item->module . '.xml');
 
 			if (file_exists($path))
 			{
@@ -140,15 +144,15 @@ class SelectModel extends ListModel
 			// 1.6 3PD Extension Support
 			$lang->load($item->module . '.sys', $client->path, null, false, true)
 				|| $lang->load($item->module . '.sys', $client->path . '/modules/' . $item->module, null, false, true);
-			$item->name = \JText::_($item->name);
+			$item->name = Text::_($item->name);
 
 			if (isset($item->xml) && $text = trim($item->xml->description))
 			{
-				$item->desc = \JText::_($text);
+				$item->desc = Text::_($text);
 			}
 			else
 			{
-				$item->desc = \JText::_('COM_MODULES_NODESCRIPTION');
+				$item->desc = Text::_('COM_MODULES_NODESCRIPTION');
 			}
 		}
 

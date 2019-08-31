@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,24 +45,26 @@ extract($displayData);
  * @var   integer  $maxLength       The maximum length that the field shall accept.
  */
 
-$autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $autocomplete . '"';
-$autocomplete = $autocomplete === ' autocomplete="on"' ? '' : $autocomplete;
+$autocomplete = !$autocomplete ? 'autocomplete="off"' : 'autocomplete="' . $autocomplete . '"';
+$autocomplete = $autocomplete === 'autocomplete="on"' ? '' : $autocomplete;
 
 $attributes = array(
 	!empty($size) ? 'size="' . $size . '"' : '',
+	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	$autocomplete,
-	$autofocus ? ' autofocus' : '',
+	$autofocus ? 'autofocus' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
-	$onchange ? ' onchange="' . $onchange . '"' : '',
+	$onchange ? 'onchange="' . $onchange . '"' : '',
 	!empty($maxLength) ? $maxLength : '',
-	$required ? 'required aria-required="true"' : '',
+	$required ? 'required' : '',
 );
 ?>
 <input
 	type="tel"
+	inputmode="tel"
 	name="<?php echo $name; ?>"
 	<?php echo !empty($class) ? ' class="form-control ' . $class . '"' : 'class="form-control"'; ?>
 	id="<?php echo $id; ?>"

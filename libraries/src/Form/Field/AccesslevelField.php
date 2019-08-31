@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,10 +10,7 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for the Joomla Platform.
@@ -21,43 +18,27 @@ FormHelper::loadFieldClass('list');
  * groups can see.
  *
  * @see    JAccess
- * @since  11.1
+ * @since  1.7.0
  */
-class AccesslevelField extends \JFormFieldList
+class AccesslevelField extends ListField
 {
 	/**
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Accesslevel';
 
 	/**
-	 * Method to get the field input markup.
+	 * Method to get the field options.
 	 *
-	 * @return  string  The field input markup.
+	 * @return  array  The field option objects.
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getInput()
+	protected function getOptions()
 	{
-		$attr = '';
-
-		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class="custom-select ' . $this->class . '"' : ' class="custom-select"';
-		$attr .= $this->disabled ? ' disabled' : '';
-		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$attr .= $this->multiple ? ' multiple' : '';
-		$attr .= $this->required ? ' required aria-required="true"' : '';
-		$attr .= $this->autofocus ? ' autofocus' : '';
-
-		// Initialize JavaScript field attributes.
-		$attr .= $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
-
-		// Get the field options.
-		$options = $this->getOptions();
-
-		return HTMLHelper::_('access.level', $this->name, $this->value, $attr, $options, $this->id);
+		return array_merge(parent::getOptions(), HTMLHelper::_('access.assetgroups'));
 	}
 }

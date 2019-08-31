@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,14 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Workflow\Workflow;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -58,9 +65,11 @@ class ArticlesModel extends ListModel
 				'level',
 				'tag',
 				'rating_count', 'rating',
+				'condition',
+				'stage',
 			);
 
-			if (\JLanguageAssociations::isEnabled())
+			if (Associations::isEnabled())
 			{
 				$config['filter_fields'][] = 'association';
 			}
@@ -83,7 +92,7 @@ class ArticlesModel extends ListModel
 	 */
 	protected function populateState($ordering = 'a.id', $direction = 'desc')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 
@@ -102,8 +111,14 @@ class ArticlesModel extends ListModel
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
+		$featured = $this->getUserStateFromRequest($this->context . '.filter.featured', 'filter_featured', '');
+		$this->setState('filter.featured', $featured);
+
 		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
+
+		$condition = $this->getUserStateFromRequest($this->context . '.filter.condition', 'filter_condition', '');
+		$this->setState('filter.condition', $condition);
 
 		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
@@ -174,7 +189,7 @@ class ArticlesModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -183,7 +198,7 @@ class ArticlesModel extends ListModel
 		// Create a new query object.
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user  = \JFactory::getUser();
+		$user  = Factory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -191,7 +206,7 @@ class ArticlesModel extends ListModel
 				'list.select',
 				'DISTINCT a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
 				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, a.language, a.hits' .
-				', a.publish_up, a.publish_down'
+				', a.publish_up, a.publish_down, a.introtext, a.note'
 			)
 		);
 		$query->from('#__content AS a');
@@ -209,12 +224,46 @@ class ArticlesModel extends ListModel
 			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the categories.
-		$query->select('c.title AS category_title')
+		$query->select('c.title AS category_title, c.created_user_id AS category_uid, c.level AS category_level')
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
+
+		// Join over the parent categories.
+		$query->select(
+			'parent.title AS parent_category_title, parent.id AS parent_category_id,' .
+			'parent.created_user_id AS parent_category_uid, parent.level AS parent_category_level'
+		)
+			->join('LEFT', '#__categories AS parent ON parent.id = c.parent_id');
 
 		// Join over the users for the author.
 		$query->select('ua.name AS author_name')
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
+
+		// Join over the associations.
+		$query->select($query->quoteName('wa.stage_id', 'stage_id'))
+			->innerJoin(
+				$query->quoteName('#__workflow_associations', 'wa')
+				. ' ON ' . $query->quoteName('wa.item_id') . ' = ' . $query->quoteName('a.id')
+			);
+
+		// Join over the workflow stages.
+		$query->select(
+			$query->quoteName(
+				[
+					'ws.title',
+					'ws.condition',
+					'ws.workflow_id'
+				],
+				[
+					'stage_title',
+					'stage_condition',
+					'workflow_id'
+				]
+			)
+		)
+			->innerJoin(
+				$query->quoteName('#__workflow_stages', 'ws')
+				. ' ON ' . $query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id')
+			);
 
 		// Join on voting table
 		$associationsGroupBy = array(
@@ -241,24 +290,32 @@ class ArticlesModel extends ListModel
 			'uc.name',
 			'ag.title',
 			'c.title',
+			'c.created_user_id',
+			'c.level',
 			'ua.name',
+			'ws.title',
+			'ws.workflow_id',
+			'ws.condition',
+			'wa.stage_id',
+			'parent.id',
 		);
 
-		if (\JPluginHelper::isEnabled('content', 'vote'))
+		if (PluginHelper::isEnabled('content', 'vote'))
 		{
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
-					COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
+			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
+				COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count'
+			)
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 
 			array_push($associationsGroupBy, 'v.rating_sum', 'v.rating_count');
 		}
 
 		// Join over the associations.
-		if (\JLanguageAssociations::isEnabled())
+		if (Associations::isEnabled())
 		{
-			$query->select('COUNT(asso2.id)>1 as association')
+			$query->select('CASE WHEN COUNT(asso2.id)>1 THEN 1 ELSE 0 END as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_content.item'))
-				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
+				->join('LEFT', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key'))
 				->group($db->quoteName($associationsGroupBy));
 		}
 
@@ -276,6 +333,14 @@ class ArticlesModel extends ListModel
 			$query->where('a.access IN (' . $access . ')');
 		}
 
+		// Filter by featured.
+		$featured = (string) $this->getState('filter.featured');
+
+		if (in_array($featured, ['0','1']))
+		{
+			$query->where('a.featured =' . (int) $featured);
+		}
+
 		// Filter by access level on categories.
 		if (!$user->authorise('core.admin'))
 		{
@@ -285,16 +350,34 @@ class ArticlesModel extends ListModel
 		}
 
 		// Filter by published state
-		$published = (string) $this->getState('filter.published');
+		$workflowStage = (string) $this->getState('filter.stage');
 
-		if (is_numeric($published))
+		if (is_numeric($workflowStage))
 		{
-			$query->where('a.state = ' . (int) $published);
+			$query->where('wa.stage_id = ' . (int) $workflowStage);
 		}
-		elseif ($published === '')
+
+		$condition = (string) $this->getState('filter.condition');
+
+		if ($condition !== '*')
 		{
-			$query->where('(a.state = 0 OR a.state = 1)');
+			if (is_numeric($condition))
+			{
+				$query->where($db->quoteName('ws.condition') . ' = ' . (int) $condition);
+			}
+			elseif (!is_numeric($workflowStage))
+			{
+				$query->whereIn(
+					$db->quoteName('ws.condition'),
+					[
+						ContentComponent::CONDITION_PUBLISHED,
+						ContentComponent::CONDITION_UNPUBLISHED
+					]
+				);
+			}
 		}
+
+		$query->where($db->quoteName('wa.extension') . '=' . $db->quote('com_content'));
 
 		// Filter by categories and by level
 		$categoryId = $this->getState('filter.category_id', array());
@@ -309,7 +392,7 @@ class ArticlesModel extends ListModel
 		if (count($categoryId))
 		{
 			$categoryId = ArrayHelper::toInteger($categoryId);
-			$categoryTable = \JTable::getInstance('Category', 'JTable');
+			$categoryTable = Table::getInstance('Category', 'JTable');
 			$subCatItemsWhere = array();
 
 			foreach ($categoryId as $filter_catid)
@@ -321,7 +404,7 @@ class ArticlesModel extends ListModel
 					'c.rgt <= ' . (int) $categoryTable->rgt . ')';
 			}
 
-			$query->where(implode(' OR ', $subCatItemsWhere));
+			$query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
 		}
 
 		// Case: Using only the by level filter
@@ -359,10 +442,15 @@ class ArticlesModel extends ListModel
 				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
 				$query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
 			}
+			elseif (stripos($search, 'content:') === 0)
+			{
+				$search = $db->quote('%' . $db->escape(substr($search, 8), true) . '%');
+				$query->where('(a.introtext LIKE ' . $search . ' OR a.fulltext LIKE ' . $search . ')');
+			}
 			else
 			{
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ')');
+				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
 			}
 		}
 
@@ -413,30 +501,113 @@ class ArticlesModel extends ListModel
 	}
 
 	/**
-	 * Build a list of authors
+	 * Method to get all transitions at once for all articles
 	 *
-	 * @return  \stdClass[]
+	 * @return  array|boolean
 	 *
-	 * @since   1.6
+	 * @since   4.0.0
 	 */
-	public function getAuthors()
+	public function getTransitions()
 	{
-		// Create a new query object.
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true);
+		// Get a storage key.
+		$store = $this->getStoreId('getTransitions');
 
-		// Construct the query
-		$query->select('u.id AS value, u.name AS text')
-			->from('#__users AS u')
-			->join('INNER', '#__content AS c ON c.created_by = u.id')
-			->group('u.id, u.name')
-			->order('u.name');
+		// Try to load the data from internal storage.
+		if (isset($this->cache[$store]))
+		{
+			return $this->cache[$store];
+		}
 
-		// Setup the query
-		$db->setQuery($query);
+		$db   = $this->getDbo();
+		$user = Factory::getUser();
 
-		// Return the result
-		return $db->loadObjectList();
+		$items = $this->getItems();
+
+		if ($items === false)
+		{
+			return false;
+		}
+
+		$ids = ArrayHelper::getColumn($items, 'stage_id');
+		$ids = ArrayHelper::toInteger($ids);
+		$ids = array_unique(array_filter($ids));
+
+		$ids[] = -1;
+
+		$this->cache[$store] = array();
+
+		try
+		{
+			if (count($ids))
+			{
+				Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
+
+				$query = $db->getQuery(true);
+
+				$select = $db->quoteName(
+					array(
+						't.id',
+						't.title',
+						't.from_stage_id',
+						't.to_stage_id',
+						's.id',
+						's.title',
+						's.condition',
+						's.workflow_id'
+					),
+					array(
+						'value',
+						'text',
+						'from_stage_id',
+						'to_stage_id',
+						'stage_id',
+						'stage_title',
+						'stage_condition',
+						'workflow_id'
+					)
+				);
+
+				$query->select($select)
+					->from($db->quoteName('#__workflow_transitions', 't'))
+					->leftJoin(
+						$db->quoteName('#__workflow_stages', 's') . ' ON '
+						. $db->quoteName('t.from_stage_id') . ' IN (' . implode(',', $ids) . ')'
+					)
+					->where($db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'))
+					->where($db->quoteName('t.published') . ' = 1')
+					->where($db->quoteName('s.published') . ' = 1')
+					->order($db->quoteName('t.ordering'));
+
+				$transitions = $db->setQuery($query)->loadAssocList();
+
+				$workflow = new Workflow(['extension' => 'com_content']);
+
+				foreach ($transitions as $key => $transition)
+				{
+					if (!$user->authorise('core.execute.transition', 'com_content.transition.' . (int) $transition['value']))
+					{
+						unset($transitions[$key]);
+					}
+					else
+					{
+						// Update the transition text with final state value
+						$conditionName = $workflow->getConditionName($transition['stage_condition']);
+
+						$transitions[$key]['text'] .= ' [' . Text::_($conditionName) . ']';
+					}
+				}
+
+				$this->cache[$store] = $transitions;
+			}
+		}
+		catch (\RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		return $this->cache[$store];
 	}
 
 	/**
@@ -445,24 +616,22 @@ class ArticlesModel extends ListModel
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   1.6.1
+	 * @since   4.0.0
 	 */
 	public function getItems()
 	{
 		$items = parent::getItems();
 
-		if (\JFactory::getApplication()->isClient('site'))
-		{
-			$groups = \JFactory::getUser()->getAuthorisedViewLevels();
+		$asset = new \Joomla\CMS\Table\Asset($this->getDbo());
 
-			foreach (array_keys($items) as $x)
-			{
-				// Check the access level. Remove articles the user shouldn't see
-				if (!in_array($items[$x]->access, $groups))
-				{
-					unset($items[$x]);
-				}
-			}
+		foreach (array_keys($items) as $x)
+		{
+			$items[$x]->typeAlias = 'com_content.article';
+
+			$asset->loadByName('com_content.article.' . $items[$x]->id);
+
+			// Re-inject the asset id.
+			$items[$x]->asset_id = $asset->id;
 		}
 
 		return $items;

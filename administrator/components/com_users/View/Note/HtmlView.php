@@ -3,16 +3,22 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\View\Note;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * User note edit view
@@ -40,7 +46,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state.
 	 *
-	 * @var    \JObject
+	 * @var    CMSObject
 	 * @since  2.5
 	 */
 	protected $state;
@@ -53,6 +59,7 @@ class HtmlView extends BaseHtmlView
 	 * @return  void
 	 *
 	 * @since   2.5
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
@@ -64,11 +71,8 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
-
-		// Get the component HTML helpers
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		parent::display($tpl);
 		$this->addToolbar();
@@ -80,27 +84,28 @@ class HtmlView extends BaseHtmlView
 	 * @return  void
 	 *
 	 * @since   2.5
+	 * @throws  \Exception
 	 */
 	protected function addToolbar()
 	{
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 		$input->set('hidemainmenu', 1);
 
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 
 		// Since we don't track these assets at the item level, use the category id.
 		$canDo = ContentHelper::getActions('com_users', 'category', $this->item->catid);
 
-		\JToolbarHelper::title(\JText::_('COM_USERS_NOTES'), 'users user');
+		ToolbarHelper::title(Text::_('COM_USERS_NOTES'), 'users user');
 
 		$toolbarButtons = [];
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_users', 'core.create'))))
 		{
-			$toolbarButtons[] = ['apply', 'note.apply'];
+			ToolbarHelper::apply('note.apply');
 			$toolbarButtons[] = ['save', 'note.save'];
 		}
 
@@ -115,26 +120,26 @@ class HtmlView extends BaseHtmlView
 			$toolbarButtons[] = ['save2copy', 'note.save2copy'];
 		}
 
-		\JToolbarHelper::saveGroup(
+		ToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
 		if (empty($this->item->id))
 		{
-			\JToolbarHelper::cancel('note.cancel');
+			ToolbarHelper::cancel('note.cancel');
 		}
 		else
 		{
 			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
 			{
-				\JToolbarHelper::versions('com_users.note', $this->item->id);
+				ToolbarHelper::versions('com_users.note', $this->item->id);
 			}
 
-			\JToolbarHelper::cancel('note.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('note.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		\JToolbarHelper::divider();
-		\JToolbarHelper::help('JHELP_USERS_USER_NOTES_EDIT');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_USERS_USER_NOTES_EDIT');
 	}
 }

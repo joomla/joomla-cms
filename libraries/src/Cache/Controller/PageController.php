@@ -2,21 +2,22 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Cache\Controller;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheController;
+use Joomla\CMS\Factory;
 
 /**
  * Joomla! Cache page type object
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class PageController extends CacheController
 {
@@ -24,7 +25,7 @@ class PageController extends CacheController
 	 * ID property for the cache page object.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_id;
 
@@ -32,7 +33,7 @@ class PageController extends CacheController
 	 * Cache group
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_group;
 
@@ -40,7 +41,7 @@ class PageController extends CacheController
 	 * Cache lock test
 	 *
 	 * @var    \stdClass
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_locktest = null;
 
@@ -52,7 +53,7 @@ class PageController extends CacheController
 	 *
 	 * @return  mixed  Boolean false on no result, cached object otherwise
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function get($id = false, $group = 'page')
 	{
@@ -126,7 +127,7 @@ class PageController extends CacheController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function store($data, $id, $group = null, $wrkarounds = true)
 	{
@@ -139,7 +140,7 @@ class PageController extends CacheController
 		// Get page data from the application object
 		if (!$data)
 		{
-			$data = \JFactory::getApplication()->getBody();
+			$data = Factory::getApplication()->getBody();
 
 			// Only attempt to store if page data exists.
 			if (!$data)
@@ -187,7 +188,7 @@ class PageController extends CacheController
 	 *
 	 * @return  string  MD5 Hash
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @todo    Discuss whether this should be coupled to a data hash or a request hash ... perhaps hashed with a serialized request
 	 */
 	protected function _makeId()
@@ -200,14 +201,15 @@ class PageController extends CacheController
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _noChange()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Send not modified header and exit gracefully
-		header('HTTP/1.x 304 Not Modified', true);
+		$app->setHeader('Status', 304, true);
+		$app->sendHeaders();
 		$app->close();
 	}
 
@@ -218,10 +220,10 @@ class PageController extends CacheController
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _setEtag($etag)
 	{
-		\JFactory::getApplication()->setHeader('ETag', $etag, true);
+		Factory::getApplication()->setHeader('ETag', '"' . $etag . '"', true);
 	}
 }

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,7 +10,6 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 
 /**
@@ -18,7 +17,7 @@ use Joomla\CMS\Form\FormField;
  * Provides a hidden field
  *
  * @link   http://www.w3.org/TR/html-markup/input.hidden.html#input.hidden
- * @since  11.1
+ * @since  1.7.0
  */
 class HiddenField extends FormField
 {
@@ -26,7 +25,7 @@ class HiddenField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Hidden';
 
@@ -43,7 +42,7 @@ class HiddenField extends FormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{

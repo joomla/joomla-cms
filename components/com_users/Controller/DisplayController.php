@@ -3,15 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Site\Controller;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
 
 /**
  * Base controller class for Users.
@@ -23,17 +26,19 @@ class DisplayController extends BaseController
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+	 * @param   boolean        $cachable   If true, the view output will be cached
+	 * @param   array|boolean  $urlparams  An array of safe URL parameters and their variable types,
+	 *                                     for valid values see {@link Joomla\CMS\Filter\InputFilter::clean()}.
 	 *
 	 * @return  static  This object to support chaining.
 	 *
 	 * @since   1.5
+	 * @throws  \Exception
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Get the document object.
-		$document = \JFactory::getDocument();
+		$document = $this->app->getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->getCmd('view', 'login');
@@ -47,12 +52,12 @@ class DisplayController extends BaseController
 			{
 				case 'registration':
 					// If the user is already logged in, redirect to the profile page.
-					$user = \JFactory::getUser();
+					$user = Factory::getUser();
 
 					if ($user->get('guest') != 1)
 					{
 						// Redirect to profile page.
-						$this->setRedirect(\JRoute::_('index.php?option=com_users&view=profile', false));
+						$this->setRedirect(Route::_('index.php?option=com_users&view=profile', false));
 
 						return;
 					}
@@ -61,7 +66,7 @@ class DisplayController extends BaseController
 					if (ComponentHelper::getParams('com_users')->get('allowUserRegistration') == 0)
 					{
 						// Registration is disabled - Redirect to login page.
-						$this->setRedirect(\JRoute::_('index.php?option=com_users&view=login', false));
+						$this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
 
 						return;
 					}
@@ -74,12 +79,12 @@ class DisplayController extends BaseController
 				case 'profile':
 
 					// If the user is a guest, redirect to the login page.
-					$user = \JFactory::getUser();
+					$user = Factory::getUser();
 
 					if ($user->get('guest') == 1)
 					{
 						// Redirect to login page.
-						$this->setRedirect(\JRoute::_('index.php?option=com_users&view=login', false));
+						$this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
 
 						return;
 					}
@@ -94,12 +99,12 @@ class DisplayController extends BaseController
 
 				case 'reset':
 					// If the user is already logged in, redirect to the profile page.
-					$user = \JFactory::getUser();
+					$user = Factory::getUser();
 
 					if ($user->get('guest') != 1)
 					{
 						// Redirect to profile page.
-						$this->setRedirect(\JRoute::_('index.php?option=com_users&view=profile', false));
+						$this->setRedirect(Route::_('index.php?option=com_users&view=profile', false));
 
 						return;
 					}
@@ -109,12 +114,12 @@ class DisplayController extends BaseController
 
 				case 'remind':
 					// If the user is already logged in, redirect to the profile page.
-					$user = \JFactory::getUser();
+					$user = Factory::getUser();
 
 					if ($user->get('guest') != 1)
 					{
 						// Redirect to profile page.
-						$this->setRedirect(\JRoute::_('index.php?option=com_users&view=profile', false));
+						$this->setRedirect(Route::_('index.php?option=com_users&view=profile', false));
 
 						return;
 					}
@@ -125,6 +130,12 @@ class DisplayController extends BaseController
 				default:
 					$model = $this->getModel('Login');
 					break;
+			}
+
+			// Make sure we don't send a referer
+			if (in_array($vName, array('remind', 'reset')))
+			{
+				$this->app->setHeader('Referrer-Policy', 'no-referrer', true);
 			}
 
 			// Push the model into the view (as default).

@@ -3,16 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -67,10 +71,11 @@ class UsersModel extends ListModel
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function populateState($ordering = 'a.name', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Adjust the context to support modal layouts.
 		if ($layout = $app->input->get('layout', 'default', 'cmd'))
@@ -252,7 +257,7 @@ class UsersModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -377,14 +382,14 @@ class UsersModel extends ListModel
 			if ($dates['dNow'] === false)
 			{
 				$query->where(
-					$db->qn('a.registerDate') . ' < ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s'))
+					$db->quoteName('a.registerDate') . ' < ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s'))
 				);
 			}
 			else
 			{
 				$query->where(
-					$db->qn('a.registerDate') . ' >= ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s')) .
-					' AND ' . $db->qn('a.registerDate') . ' <= ' . $db->quote($dates['dNow']->format('Y-m-d H:i:s'))
+					$db->quoteName('a.registerDate') . ' >= ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s')) .
+					' AND ' . $db->quoteName('a.registerDate') . ' <= ' . $db->quote($dates['dNow']->format('Y-m-d H:i:s'))
 				);
 			}
 		}
@@ -400,20 +405,20 @@ class UsersModel extends ListModel
 			if (is_string($dates['dStart']))
 			{
 				$query->where(
-					$db->qn('a.lastvisitDate') . ' = ' . $db->quote($dates['dStart'])
+					$db->quoteName('a.lastvisitDate') . ' = ' . $db->quote($dates['dStart'])
 				);
 			}
 			elseif ($dates['dNow'] === false)
 			{
 				$query->where(
-					$db->qn('a.lastvisitDate') . ' < ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s'))
+					$db->quoteName('a.lastvisitDate') . ' < ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s'))
 				);
 			}
 			else
 			{
 				$query->where(
-					$db->qn('a.lastvisitDate') . ' >= ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s')) .
-					' AND ' . $db->qn('a.lastvisitDate') . ' <= ' . $db->quote($dates['dNow']->format('Y-m-d H:i:s'))
+					$db->quoteName('a.lastvisitDate') . ' >= ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s')) .
+					' AND ' . $db->quoteName('a.lastvisitDate') . ' <= ' . $db->quote($dates['dNow']->format('Y-m-d H:i:s'))
 				);
 			}
 		}
@@ -427,7 +432,9 @@ class UsersModel extends ListModel
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->qn($db->escape($this->getState('list.ordering', 'a.name'))) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+		$query->order(
+			$db->quoteName($db->escape($this->getState('list.ordering', 'a.name'))) . ' ' . $db->escape($this->getState('list.direction', 'ASC'))
+		);
 
 		return $query;
 	}
@@ -440,11 +447,12 @@ class UsersModel extends ListModel
 	 * @return  string  The date range to filter on.
 	 *
 	 * @since   3.6.0
+	 * @throws  \Exception
 	 */
 	private function buildDateRange($range)
 	{
 		// Get UTC for now.
-		$dNow   = new \JDate;
+		$dNow   = new Date;
 		$dStart = clone $dNow;
 
 		switch ($range)
@@ -463,6 +471,7 @@ class UsersModel extends ListModel
 
 			case 'past_6month':
 				$dStart->modify('-6 month');
+				$arr = [];
 				break;
 
 			case 'post_year':
@@ -473,11 +482,11 @@ class UsersModel extends ListModel
 
 			case 'today':
 				// Ranges that need to align with local 'days' need special treatment.
-				$app    = \JFactory::getApplication();
+				$app    = Factory::getApplication();
 				$offset = $app->get('offset');
 
 				// Reset the start time to be the beginning of today, local time.
-				$dStart = new \JDate('now', $offset);
+				$dStart = new Date('now', $offset);
 				$dStart->setTime(0, 0, 0);
 
 				// Now change the timezone back to UTC.
@@ -504,10 +513,10 @@ class UsersModel extends ListModel
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('title'))
-			->from($db->qn('#__usergroups', 'ug'))
-			->join('LEFT', $db->qn('#__user_usergroup_map', 'map') . ' ON (ug.id = map.group_id)')
-			->where($db->qn('map.user_id') . ' = ' . (int) $user_id);
+			->select($db->quoteName('title'))
+			->from($db->quoteName('#__usergroups', 'ug'))
+			->join('LEFT', $db->quoteName('#__user_usergroup_map', 'map') . ' ON (ug.id = map.group_id)')
+			->where($db->quoteName('map.user_id') . ' = ' . (int) $user_id);
 
 		try
 		{

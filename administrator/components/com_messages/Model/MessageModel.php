@@ -3,17 +3,26 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Messages\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Access\Rule;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Table\Asset;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\User;
 
 /**
  * Private Message model.
@@ -24,6 +33,8 @@ class MessageModel extends AdminModel
 {
 	/**
 	 * Message
+	 *
+	 * @var    \stdClass
 	 */
 	protected $item;
 
@@ -44,9 +55,9 @@ class MessageModel extends AdminModel
 	{
 		parent::populateState();
 
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
-		$user  = \JFactory::getUser();
+		$user  = Factory::getUser();
 		$this->setState('user.id', $user->get('id'));
 
 		$messageId = (int) $input->getInt('message_id');
@@ -69,7 +80,7 @@ class MessageModel extends AdminModel
 	{
 		$pks   = (array) $pks;
 		$table = $this->getTable();
-		$user  = \JFactory::getUser();
+		$user  = Factory::getUser();
 
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)
@@ -83,11 +94,11 @@ class MessageModel extends AdminModel
 
 					try
 					{
-						\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
+						Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
 					}
 					catch (\RuntimeException $exception)
 					{
-						\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
+						Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
 					}
 
 					return false;
@@ -144,7 +155,7 @@ class MessageModel extends AdminModel
 						}
 
 						$this->item->set('user_id_to', $message->user_id_from);
-						$re = \JText::_('COM_MESSAGES_RE');
+						$re = Text::_('COM_MESSAGES_RE');
 
 						if (stripos($message->subject, $re) !== 0)
 						{
@@ -152,9 +163,9 @@ class MessageModel extends AdminModel
 						}
 					}
 				}
-				elseif ($this->item->user_id_to != \JFactory::getUser()->id)
+				elseif ($this->item->user_id_to != Factory::getUser()->id)
 				{
-					$this->setError(\JText::_('JERROR_ALERTNOAUTHOR'));
+					$this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
 
 					return false;
 				}
@@ -171,7 +182,7 @@ class MessageModel extends AdminModel
 			}
 
 			// Get the user name for an existing messasge.
-			if ($this->item->user_id_from && $fromUser = new \JUser($this->item->user_id_from))
+			if ($this->item->user_id_from && $fromUser = new User($this->item->user_id_from))
 			{
 				$this->item->set('from_user_name', $fromUser->name);
 			}
@@ -213,7 +224,7 @@ class MessageModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState('com_messages.edit.message.data', array());
+		$data = Factory::getApplication()->getUserState('com_messages.edit.message.data', array());
 
 		if (empty($data))
 		{
@@ -237,7 +248,7 @@ class MessageModel extends AdminModel
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		$user  = \JFactory::getUser();
+		$user  = Factory::getUser();
 		$table = $this->getTable();
 		$pks   = (array) $pks;
 
@@ -255,11 +266,11 @@ class MessageModel extends AdminModel
 
 					try
 					{
-						\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
+						Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
 					}
 					catch (\RuntimeException $exception)
 					{
-						\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'warning');
+						Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'warning');
 					}
 
 					return false;
@@ -294,12 +305,12 @@ class MessageModel extends AdminModel
 		// Assign empty values.
 		if (empty($table->user_id_from))
 		{
-			$table->user_id_from = \JFactory::getUser()->get('id');
+			$table->user_id_from = Factory::getUser()->get('id');
 		}
 
 		if ((int) $table->date_time == 0)
 		{
-			$table->date_time = \JFactory::getDate()->toSql();
+			$table->date_time = Factory::getDate()->toSql();
 		}
 
 		// Check the data.
@@ -311,7 +322,8 @@ class MessageModel extends AdminModel
 		}
 
 		// Load the recipient user configuration.
-		$model  = new ConfigModel(array('ignore_request' => true));
+		$model  = $this->bootComponent('com_messages')
+			->getMVCFactory()->createModel('Config', 'Administrator', ['ignore_request' => true]);
 		$model->setState('user.id', $table->user_id_to);
 		$config = $model->getItem();
 
@@ -324,7 +336,7 @@ class MessageModel extends AdminModel
 
 		if ($config->get('locked', false))
 		{
-			$this->setError(\JText::_('COM_MESSAGES_ERR_SEND_FAILED'));
+			$this->setError(Text::_('COM_MESSAGES_ERR_SEND_FAILED'));
 
 			return false;
 		}
@@ -340,58 +352,183 @@ class MessageModel extends AdminModel
 		if ($config->get('mail_on_new', true))
 		{
 			// Load the user details (already valid from table check).
-			$fromUser         = \JUser::getInstance($table->user_id_from);
-			$toUser           = \JUser::getInstance($table->user_id_to);
-			$debug            = \JFactory::getConfig()->get('debug_lang');
+			$fromUser         = User::getInstance($table->user_id_from);
+			$toUser           = User::getInstance($table->user_id_to);
+			$debug            = Factory::getApplication()->get('debug_lang');
 			$default_language = ComponentHelper::getParams('com_languages')->get('administrator');
 			$lang             = Language::getInstance($toUser->getParam('admin_language', $default_language), $debug);
 			$lang->load('com_messages', JPATH_ADMINISTRATOR);
 
 			// Build the email subject and message
-			$sitename = \JFactory::getApplication()->get('sitename');
-			$siteURL  = \JUri::root() . 'administrator/index.php?option=com_messages&view=message&message_id=' . $table->message_id;
-			$subject  = sprintf($lang->_('COM_MESSAGES_NEW_MESSAGE_ARRIVED'), $sitename);
-			$msg      = sprintf($lang->_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
+			$app      = Factory::getApplication();
+			$linkMode = $app->get('force_ssl', 0) >= 1 ? Route::TLS_FORCE : Route::TLS_IGNORE;
+			$sitename = $app->get('sitename');
+			$fromName = $fromUser->get('name');
+			$siteURL  = Route::link(
+				'administrator',
+				'index.php?option=com_messages&view=message&message_id=' . $table->message_id,
+				false,
+				$linkMode,
+				true
+			);
+			$subject  = html_entity_decode($table->subject, ENT_COMPAT, 'UTF-8');
+			$message  = strip_tags(html_entity_decode($table->message, ENT_COMPAT, 'UTF-8'));
+
+			$subj	  = sprintf($lang->_('COM_MESSAGES_NEW_MESSAGE'), $fromName, $sitename);
+			$msg 	  = $subject . "\n\n" . $message . "\n\n" . sprintf($lang->_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
 
 			// Send the email
-			$mailer = \JFactory::getMailer();
+			$mailer = Factory::getMailer();
 
-			if (!$mailer->addReplyTo($fromUser->email, $fromUser->name))
+			try
+			{
+				if (!$mailer->addReplyTo($fromUser->email, $fromUser->name))
+				{
+					try
+					{
+						Log::add(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), Log::WARNING, 'jerror');
+					}
+					catch (\RuntimeException $exception)
+					{
+						Factory::getApplication()->enqueueMessage(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), 'warning');
+					}
+
+					// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
+					return true;
+				}
+
+				if (!$mailer->addRecipient($toUser->email, $toUser->name))
+				{
+					try
+					{
+						Log::add(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), Log::WARNING, 'jerror');
+					}
+					catch (\RuntimeException $exception)
+					{
+						Factory::getApplication()->enqueueMessage(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), 'warning');
+					}
+
+					// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
+					return true;
+				}
+
+				$mailer->setSubject($subj);
+				$mailer->setBody($msg);
+
+				$mailer->Send();
+			}
+			catch (\Exception $exception)
 			{
 				try
 				{
-					Log::add(\JText::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), Log::WARNING, 'jerror');
+					Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+					$this->setError(Text::_('COM_MESSAGES_ERROR_MAIL_FAILED'));
+
+					return false;
 				}
 				catch (\RuntimeException $exception)
 				{
-					\JFactory::getApplication()->enqueueMessage(\JText::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), 'warning');
-				}
+					Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
 
-				// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
-				return true;
+					$this->setError(Text::_('COM_MESSAGES_ERROR_MAIL_FAILED'));
+
+					return false;
+				}
 			}
-
-			if (!$mailer->addRecipient($toUser->email, $toUser->name))
-			{
-				try
-				{
-					Log::add(\JText::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), Log::WARNING, 'jerror');
-				}
-				catch (\RuntimeException $exception)
-				{
-					\JFactory::getApplication()->enqueueMessage(\JText::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), 'warning');
-				}
-
-				// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
-				return true;
-			}
-
-			$mailer->setSubject($subject);
-			$mailer->setBody($msg);
-
-			$mailer->Send();
 		}
 
 		return true;
+	}
+
+	/**
+	 * Sends a message to the site's super users
+	 *
+	 * @param   string  $subject  The message subject
+	 * @param   string  $message  The message
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.9.0
+	 */
+	public function notifySuperUsers($subject, $message, $fromUser = null)
+	{
+		$db = $this->getDbo();
+
+		try
+		{
+			/** @var Asset $table */
+			$table  = Table::getInstance('Asset');
+			$rootId = $table->getRootId();
+
+			/** @var Rule[] $rules */
+			$rules     = Access::getAssetRules($rootId)->getData();
+			$rawGroups = $rules['core.admin']->getData();
+
+			if (empty($rawGroups))
+			{
+				$this->setError(Text::_('COM_MESSAGES_ERROR_MISSING_ROOT_ASSET_GROUPS'));
+
+				return false;
+			}
+
+			$groups = array();
+
+			foreach ($rawGroups as $g => $enabled)
+			{
+				if ($enabled)
+				{
+					$groups[] = $db->quote($g);
+				}
+			}
+
+			if (empty($groups))
+			{
+				$this->setError(Text::_('COM_MESSAGES_ERROR_NO_GROUPS_SET_AS_SUPER_USER'));
+
+				return false;
+			}
+
+			$query = $db->getQuery(true)
+				->select($db->quoteName('user_id'))
+				->from($db->quoteName('#__user_usergroup_map'))
+				->where($db->quoteName('group_id') . ' IN(' . implode(',', $groups) . ')');
+
+			$userIDs = $db->setQuery($query)->loadColumn(0);
+
+			if (empty($userIDs))
+			{
+				$this->setError(Text::_('COM_MESSAGES_ERROR_NO_USERS_SET_AS_SUPER_USER'));
+
+				return false;
+			}
+
+			foreach ($userIDs as $id)
+			{
+				/*
+				 * All messages must have a valid from user, we have use cases where an unauthenticated user may trigger this
+				 * so we will set the from user as the to user
+				 */
+				$data = [
+					'user_id_from' => $id,
+					'user_id_to'   => $id,
+					'subject'      => $subject,
+					'message'      => $message,
+				];
+
+				if (!$this->save($data))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+		catch (\Exception $exception)
+		{
+			$this->setError($exception->getMessage());
+
+			return false;
+		}
 	}
 }

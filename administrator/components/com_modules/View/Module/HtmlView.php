@@ -3,15 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Modules\Administrator\View\Module;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View to edit a module.
@@ -66,7 +71,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -82,28 +87,29 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo      = $this->canDo;
 
-		\JToolbarHelper::title(\JText::sprintf('COM_MODULES_MANAGER_MODULE', \JText::_($this->item->module)), 'cube module');
+		ToolbarHelper::title(Text::sprintf('COM_MODULES_MANAGER_MODULE', Text::_($this->item->module)), 'cube module');
 
 		// For new records, check the create permission.
 		if ($isNew && $canDo->get('core.create'))
 		{
-			\JToolbarHelper::saveGroup(
+			ToolbarHelper::apply('module.apply');
+
+			ToolbarHelper::saveGroup(
 				[
-					['apply', 'module.apply'],
 					['save', 'module.save'],
 					['save2new', 'module.save2new']
 				],
 				'btn-success'
 			);
 
-			\JToolbarHelper::cancel('module.cancel');
+			ToolbarHelper::cancel('module.cancel');
 		}
 		else
 		{
@@ -115,7 +121,8 @@ class HtmlView extends BaseHtmlView
 				// Since it's an existing record, check the edit permission.
 				if ($canDo->get('core.edit'))
 				{
-					$toolbarButtons[] = ['apply', 'module.apply'];
+					ToolbarHelper::apply('module.apply');
+
 					$toolbarButtons[] = ['save', 'module.save'];
 
 					// We can save this record, but check the create permission to see if we can return to make a new one.
@@ -132,23 +139,23 @@ class HtmlView extends BaseHtmlView
 				$toolbarButtons[] = ['save2copy', 'module.save2copy'];
 			}
 
-			\JToolbarHelper::saveGroup(
+			ToolbarHelper::saveGroup(
 				$toolbarButtons,
 				'btn-success'
 			);
 
-			\JToolbarHelper::cancel('module.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('module.cancel', 'JTOOLBAR_CLOSE');
 		}
 
 		// Get the help information for the menu item.
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		$help = $this->get('Help');
 
 		if ($lang->hasKey($help->url))
 		{
 			$debug = $lang->setDebug(false);
-			$url = \JText::_($help->url);
+			$url = Text::_($help->url);
 			$lang->setDebug($debug);
 		}
 		else
@@ -156,6 +163,6 @@ class HtmlView extends BaseHtmlView
 			$url = null;
 		}
 
-		\JToolbarHelper::help($help->key, false, $url);
+		ToolbarHelper::help($help->key, false, $url);
 	}
 }

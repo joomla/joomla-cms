@@ -3,15 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Admin\Administrator\View\Sysinfo;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Access\Exception\Notallowed;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\AbstractView;
+use Joomla\Component\Admin\Administrator\Model\SysinfoModel;
 
 /**
  * Sysinfo View class for the Admin component
@@ -25,16 +30,18 @@ class JsonView extends AbstractView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   3.5
+	 *
+	 * @throws  Exception
 	 */
-	public function display($tpl = null)
+	public function display($tpl = null): void
 	{
 		// Access check.
-		if (!\JFactory::getUser()->authorise('core.admin'))
+		if (!Factory::getUser()->authorise('core.admin'))
 		{
-			throw new Notallowed(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		header('MIME-Version: 1.0');
@@ -45,7 +52,7 @@ class JsonView extends AbstractView
 
 		echo json_encode($data);
 
-		\JFactory::getApplication()->close();
+		Factory::getApplication()->close();
 	}
 
 	/**
@@ -55,18 +62,18 @@ class JsonView extends AbstractView
 	 *
 	 * @since   3.5
 	 */
-	protected function getLayoutData()
+	protected function getLayoutData(): array
 	{
-		/* @var \Joomla\Component\Admin\Administrator\Model\SysInfoModel $model */
+		/** @var SysinfoModel $model */
 		$model = $this->getModel();
 
-		return array(
+		return [
 			'info'        => $model->getSafeData('info'),
 			'phpSettings' => $model->getSafeData('phpSettings'),
 			'config'      => $model->getSafeData('config'),
 			'directories' => $model->getSafeData('directory', true),
 			'phpInfo'     => $model->getSafeData('phpInfoArray'),
 			'extensions'  => $model->getSafeData('extensions')
-		);
+		];
 	}
 }

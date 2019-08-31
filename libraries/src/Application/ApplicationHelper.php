@@ -2,15 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\OutputFilter;
 
 /**
  * Application helper functions
@@ -45,7 +47,7 @@ class ApplicationHelper
 			return $option;
 		}
 
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 		$option = strtolower($input->get('option'));
 
 		if (empty($option))
@@ -69,7 +71,7 @@ class ApplicationHelper
 	 */
 	public static function getHash($seed)
 	{
-		return md5(\JFactory::getConfig()->get('secret') . $seed);
+		return md5(Factory::getApplication()->get('secret') . $seed);
 	}
 
 	/**
@@ -86,9 +88,9 @@ class ApplicationHelper
 	 */
 	public static function stringURLSafe($string, $language = '')
 	{
-		if (\JFactory::getConfig()->get('unicodeslugs') == 1)
+		if (Factory::getApplication()->get('unicodeslugs') == 1)
 		{
-			$output = \JFilterOutput::stringURLUnicodeSlug($string);
+			$output = OutputFilter::stringURLUnicodeSlug($string);
 		}
 		else
 		{
@@ -98,7 +100,7 @@ class ApplicationHelper
 				$language = $languageParams->get('site');
 			}
 
-			$output = \JFilterOutput::stringURLSafe($string, $language);
+			$output = OutputFilter::stringURLSafe($string, $language);
 		}
 
 		return $output;
@@ -142,6 +144,18 @@ class ApplicationHelper
 			$obj->name = 'installation';
 			$obj->path = JPATH_INSTALLATION;
 			self::$_clients[2] = clone $obj;
+
+			// API Client
+			$obj->id = 3;
+			$obj->name = 'api';
+			$obj->path = JPATH_API;
+			self::$_clients[3] = clone $obj;
+
+			// CLI Client
+			$obj->id = 4;
+			$obj->name = 'cli';
+			$obj->path = JPATH_CLI;
+			self::$_clients[4] = clone $obj;
 		}
 
 		// If no client id has been passed return the whole array
@@ -183,12 +197,12 @@ class ApplicationHelper
 	 */
 	public static function addClientInfo($client)
 	{
-		if (is_array($client))
+		if (\is_array($client))
 		{
 			$client = (object) $client;
 		}
 
-		if (!is_object($client))
+		if (!\is_object($client))
 		{
 			return false;
 		}
@@ -197,7 +211,7 @@ class ApplicationHelper
 
 		if (!isset($client->id))
 		{
-			$client->id = count($info);
+			$client->id = \count($info);
 		}
 
 		self::$_clients[$client->id] = clone $client;

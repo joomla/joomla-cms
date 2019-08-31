@@ -3,7 +3,7 @@
  * @package     Joomla.Admin
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,7 +41,7 @@ extract($displayData);
 $attr = '';
 
 // Initialize some field attributes.
-$attr .= !empty($class) ? ' class="form-control hasTooltip field-media-input ' . $class . '"' : ' class="form-control hasTooltip field-media-input"';
+$attr .= !empty($class) ? ' class="form-control field-media-input ' . $class . '"' : ' class="form-control field-media-input"';
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 
 // Initialize JavaScript field attributes.
@@ -131,15 +131,16 @@ $url    = ($readonly ? ''
 			'width'  => '100%',
 			'modalWidth'  => '80',
 			'bodyHeight'  => '60',
-			'footer'      => '<button class="btn btn-secondary button-save-selected">' . Text::_('JSELECT') . '</button><button class="btn btn-secondary" data-dismiss="modal">' . Text::_('JCANCEL') . '</button>'
+			'footer'      => '<button type="button" class="btn btn-secondary button-save-selected">' . Text::_('JSELECT') . '</button>'
+				. '<button type="button" class="btn btn-secondary" data-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
 		)
 	);
 
-	HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-media.min.js', ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
+	HTMLHelper::_('webcomponent', 'system/fields/joomla-field-media.min.js', ['version' => 'auto', 'relative' => true]);
 	Text::script('JLIB_FORM_MEDIA_PREVIEW_EMPTY', true);
 	?>
 	<?php if ($showPreview) : ?>
-		<div class="field-media-preview" style="height:auto">
+		<div class="field-media-preview">
 			<?php echo ' ' . $previewImgEmpty; ?>
 			<?php echo ' ' . $previewImg; ?>
 		</div>
@@ -148,8 +149,8 @@ $url    = ($readonly ? ''
 		<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" readonly="readonly"<?php echo $attr; ?>>
 		<?php if ($disabled != true) : ?>
 			<div class="input-group-append">
-				<a class="btn btn-secondary button-select"><?php echo Text::_("JLIB_FORM_BUTTON_SELECT"); ?></a>
-				<a class="btn btn-secondary hasTooltip button-clear" title="<?php echo Text::_("JLIB_FORM_BUTTON_CLEAR"); ?>"><span class="fa fa-times" aria-hidden="true"></span></a>
+				<button type="button" class="btn btn-secondary button-select"><?php echo Text::_("JLIB_FORM_BUTTON_SELECT"); ?></button>
+				<button type="button" class="btn btn-secondary button-clear"><span class="fa fa-times" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_("JLIB_FORM_BUTTON_CLEAR"); ?></span></button>
 			</div>
 		<?php endif; ?>
 	</div>

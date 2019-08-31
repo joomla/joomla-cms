@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,7 +10,6 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 
 /**
@@ -20,7 +19,7 @@ use Joomla\CMS\Form\FormField;
  *
  * @link   http://www.w3.org/TR/html-markup/input.checkbox.html#input.checkbox
  * @see    CheckboxField
- * @since  11.1
+ * @since  1.7.0
  */
 class CheckboxField extends FormField
 {
@@ -28,7 +27,7 @@ class CheckboxField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Checkbox';
 
@@ -129,7 +128,7 @@ class CheckboxField extends FormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{
@@ -137,7 +136,7 @@ class CheckboxField extends FormField
 		$class     = !empty($this->class) ? ' class="form-check-input ' . $this->class . '"' : ' class="form-check-input"';
 		$disabled  = $this->disabled ? ' disabled' : '';
 		$value     = !empty($this->default) ? $this->default : '1';
-		$required  = $this->required ? ' required aria-required="true"' : '';
+		$required  = $this->required ? ' required' : '';
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 		$checked   = $this->checked || !empty($this->value) ? ' checked' : '';
 
@@ -145,12 +144,10 @@ class CheckboxField extends FormField
 		$onclick  = !empty($this->onclick) ? ' onclick="' . $this->onclick . '"' : '';
 		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
 
-		$html = '<div class="form-check">';
-		$html .= '<label class="form-check-label">';
+		$html = '<div class="form-check form-check-inline">';
 		$html .= '<input type="checkbox" name="' . $this->name . '" id="' . $this->id . '" value="'
 				. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . $onchange
 				. $required . $autofocus . '>';
-		$html .= '</label>';
 		$html .= '</div>';
 
 		return $html;

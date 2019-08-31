@@ -3,16 +3,19 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Contact\Site\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -80,8 +83,8 @@ class FeaturedModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		$user = \JFactory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
+		$user = Factory::getUser();
+		$groups = $user->getAuthorisedViewLevels();
 
 		// Create a new query object.
 		$db    = $this->getDbo();
@@ -90,15 +93,16 @@ class FeaturedModel extends ListModel
 		// Select required fields from the categories.
 		$query->select($this->getState('list.select', 'a.*'))
 			->from($db->quoteName('#__contact_details', 'a'))
-			->where('a.featured = 1')
-			->where('a.access IN (' . $groups . ')')
+			->where($db->quoteName('a.featured') . ' = 1')
+			->whereIn($db->quoteName('a.access'), $groups)
 			->innerJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
-			->where('c.access IN (' . $groups . ')');
+			->whereIn($db->quoteName('c.access'), $groups);
 
 		// Filter by category.
 		if ($categoryId = $this->getState('category.id'))
 		{
-			$query->where('a.catid = ' . (int) $categoryId);
+			$query->where($db->quoteName('a.catid') . ' = :catid');
+			$query->bind(':catid', $categoryId, ParameterType::INTEGER);
 		}
 
 		$query->select('c.published as cat_published, c.published AS parents_published')
@@ -109,21 +113,29 @@ class FeaturedModel extends ListModel
 
 		if (is_numeric($state))
 		{
-			$query->where('a.published = ' . (int) $state);
+			$query->where($db->quoteName('a.published') . ' = :published');
+			$query->bind(':published', $state, ParameterType::INTEGER);
 
 			// Filter by start and end dates.
 			$nullDate = $db->quote($db->getNullDate());
-			$date = \JFactory::getDate();
+			$date = Factory::getDate();
 			$nowDate = $db->quote($date->toSql());
 
-			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+			$query->where('(' . $query->isNullDatetime($db->quoteName('a.publish_up')) .
+				' OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)'
+			)
+				->where('(' . $query->isNullDatetime($db->quoteName('a.publish_down')) .
+					' OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)'
+				)
+				->bind(':publish_up', $nowDate)
+				->bind(':publish_down', $nowDate);
 		}
 
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->quote(\JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$language = [Factory::getLanguage()->getTag(), $db->quote('*')];
+			$query->whereIn($db->quoteName('a.language'), $language);
 		}
 
 		// Add the list ordering clause.
@@ -146,7 +158,7 @@ class FeaturedModel extends ListModel
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$params = ComponentHelper::getParams('com_contact');
 
 		// List state information
@@ -174,7 +186,7 @@ class FeaturedModel extends ListModel
 
 		$this->setState('list.direction', $listOrder);
 
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_contact')) && (!$user->authorise('core.edit', 'com_contact')))
 		{

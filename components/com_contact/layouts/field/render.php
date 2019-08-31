@@ -3,10 +3,12 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 if (!array_key_exists('field', $displayData))
 {
@@ -14,10 +16,11 @@ if (!array_key_exists('field', $displayData))
 }
 
 $field     = $displayData['field'];
-$label     = JText::_($field->label);
+$label     = Text::_($field->label);
 $value     = $field->value;
 $class     = $field->params->get('render_class');
 $showLabel = $field->params->get('showlabel');
+$labelClass = $field->params->get('label_render_class');
 
 if ($field->context == 'com_contact.mail')
 {
@@ -28,7 +31,7 @@ if ($field->context == 'com_contact.mail')
 	return;
 }
 
-if (!$value)
+if (!strlen($value))
 {
 	return;
 }
@@ -36,7 +39,7 @@ if (!$value)
 ?>
 <dt class="contact-field-entry <?php echo $class; ?>">
 	<?php if ($showLabel == 1) : ?>
-		<span class="field-label"><?php echo htmlentities($label, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?>: </span>
+		<span class="field-label <?php echo $labelClass; ?>"><?php echo htmlentities($label, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?>: </span>
 	<?php endif; ?>
 </dt>
 <dd class="contact-field-entry <?php echo $class; ?>">

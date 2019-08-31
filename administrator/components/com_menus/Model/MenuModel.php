@@ -3,16 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Menus\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -49,7 +53,7 @@ class MenuModel extends FormModel
 	 */
 	protected function canDelete($record)
 	{
-		return \JFactory::getUser()->authorise('core.delete', 'com_menus.menu.' . (int) $record->id);
+		return Factory::getUser()->authorise('core.delete', 'com_menus.menu.' . (int) $record->id);
 	}
 
 	/**
@@ -63,7 +67,7 @@ class MenuModel extends FormModel
 	 */
 	protected function canEditState($record)
 	{
-		return \JFactory::getUser()->authorise('core.edit.state', 'com_menus.menu.' . (int) $record->id);
+		return Factory::getUser()->authorise('core.edit.state', 'com_menus.menu.' . (int) $record->id);
 	}
 
 	/**
@@ -79,7 +83,7 @@ class MenuModel extends FormModel
 	 */
 	public function getTable($type = 'MenuType', $prefix = '\JTable', $config = array())
 	{
-		return \JTable::getInstance($type, $prefix, $config);
+		return Table::getInstance($type, $prefix, $config);
 	}
 
 	/**
@@ -93,7 +97,7 @@ class MenuModel extends FormModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load the User state.
 		$id = $app->input->getInt('id');
@@ -102,6 +106,10 @@ class MenuModel extends FormModel
 		// Load the parameters.
 		$params = ComponentHelper::getParams('com_menus');
 		$this->setState('params', $params);
+
+		// Load the clientId.
+		$clientId = $app->getUserStateFromRequest('com_menus.menus.client_id', 'client_id', 0, 'int');
+		$this->setState('client_id', $clientId);
 	}
 
 	/**
@@ -132,7 +140,7 @@ class MenuModel extends FormModel
 		}
 
 		$properties = $table->getProperties(1);
-		$value      = ArrayHelper::toObject($properties, 'JObject');
+		$value      = ArrayHelper::toObject($properties, CMSObject::class);
 
 		return $value;
 	}
@@ -157,6 +165,11 @@ class MenuModel extends FormModel
 			return false;
 		}
 
+		if (!$this->getState('client_id', 0))
+		{
+			$form->removeField('preset');
+		}
+
 		return $form;
 	}
 
@@ -170,11 +183,16 @@ class MenuModel extends FormModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState('com_menus.edit.menu.data', array());
+		$data = Factory::getApplication()->getUserState('com_menus.edit.menu.data', array());
 
 		if (empty($data))
 		{
 			$data = $this->getItem();
+
+			if (empty($data->id))
+			{
+				$data->client_id = $this->state->get('client_id', 0);
+			}
 		}
 		else
 		{
@@ -230,7 +248,7 @@ class MenuModel extends FormModel
 		}
 
 		// Trigger the before event.
-		$result = \JFactory::getApplication()->triggerEvent('onContentBeforeSave', array($this->_context, &$table, $isNew));
+		$result = Factory::getApplication()->triggerEvent('onContentBeforeSave', array($this->_context, &$table, $isNew, $data));
 
 		// Store the data.
 		if (in_array(false, $result, true) || !$table->store())
@@ -241,7 +259,7 @@ class MenuModel extends FormModel
 		}
 
 		// Trigger the after save event.
-		\JFactory::getApplication()->triggerEvent('onContentAfterSave', array($this->_context, &$table, $isNew));
+		Factory::getApplication()->triggerEvent('onContentAfterSave', array($this->_context, &$table, $isNew));
 
 		$this->setState('menu.id', $table->id);
 
@@ -277,7 +295,7 @@ class MenuModel extends FormModel
 			if ($table->load($itemId))
 			{
 				// Trigger the before delete event.
-				$result = \JFactory::getApplication()->triggerEvent('onContentBeforeDelete', array($this->_context, $table));
+				$result = Factory::getApplication()->triggerEvent('onContentBeforeDelete', array($this->_context, $table));
 
 				if (in_array(false, $result, true) || !$table->delete($itemId))
 				{
@@ -287,7 +305,7 @@ class MenuModel extends FormModel
 				}
 
 				// Trigger the after delete event.
-				\JFactory::getApplication()->triggerEvent('onContentAfterDelete', array($this->_context, $table));
+				Factory::getApplication()->triggerEvent('onContentAfterDelete', array($this->_context, $table));
 
 				// TODO: Delete the menu associations - Menu items and Modules
 			}

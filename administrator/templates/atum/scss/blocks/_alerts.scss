@@ -1,80 +1,48 @@
 // Alerts
 
-.j-main-container {
+.alert {
+  margin: 1rem 0;
+  border-radius: $border-radius-sm;
+  border-left: none;
+  border-right: none;
 
-  .alert {
-    margin: 10px;
+  &.alert-info {
+    color: var(--atum-bg-dark);
+    background-color: var(--atum-bg-dark-10);
+    border: 1px solid var(--atum-bg-dark-20);
   }
 
+  &.alert-warning {
+    color: $state-warning-text;
+    background-color: $state-warning-bg;
+    border: 1px solid $state-warning-border;
+  }
+
+  &.alert-success {
+    color: $state-success-text;
+    background-color: $state-success-bg;
+    border: 1px solid $state-success-border;
+  }
+
+  &.alert-error {
+    color: $state-error-text;
+    background-color: $state-error-bg;
+    border: 1px solid $state-error-border;
+  }
 }
 
+// Contains joomla-alert webcomponent with its own css
 .notify-alerts {
   position: fixed;
   top: 15px;
   left: 50%;
-  z-index: 1031;
-  margin-left: 125px;
+  z-index: $zindex-alerts;
   transition: all .5s ease;
   transform: translateX(-50%);
-
-  .alert {
-    width: 100%;
-    min-width: 280px;
-    max-width: 400px;
-    margin-bottom: .5rem;
-    opacity: 0;
-    animation: fadeIn ease-in 1;
-    animation-duration: .35s;
-    animation-delay: 0s;
-    animation-fill-mode: forwards;
-
-    &:first-of-type {
-      animation-delay: .3s;
-    }
-
-  }
-
-  &.fullWidth {
-    left: 265px;
-
-    .alert {
-      width: auto;
-      min-width: none;
-      max-width: none;
-      margin-left: 0;
-    }
-
-  }
-
-  .close {
-    position: relative;
-    right: -.5rem;
-    padding: .5rem;
-    line-height: 1rem;
-    color: $black;
-    opacity: 1;
-  }
-
 }
 
-.closed {
-
-  .notify-alerts {
-    margin-left: 0;
-  }
-
-  + .notify-alerts.fullWidth {
-    left: 70px;
-  }
-
-}
-
-.wrapper0 {
-
-  .notify-alerts {
-    margin-left: 0;
-  }
-
+.alert-heading {
+  font-size: $font-size-lg;
 }
 
 @keyframes fadeIn {
@@ -88,5 +56,6 @@
     opacity: 1;
     transform: translateY(0);
   }
-
 }
+
+

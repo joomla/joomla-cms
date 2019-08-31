@@ -3,16 +3,23 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Cache\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Cache\CacheController;
+use Joomla\CMS\Cache\Exception\CacheConnectingException;
+use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Pagination\Pagination;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Cache Model
@@ -57,6 +64,7 @@ class CacheModel extends ListModel
 				'group',
 				'count',
 				'size',
+				'client_id',
 			);
 		}
 
@@ -154,14 +162,14 @@ class CacheModel extends ListModel
 					$this->_data = array();
 				}
 			}
-			catch (\JCacheExceptionConnecting $exception)
+			catch (CacheConnectingException $exception)
 			{
-				$this->setError(\JText::_('COM_CACHE_ERROR_CACHE_CONNECTION_FAILED'));
+				$this->setError(Text::_('COM_CACHE_ERROR_CACHE_CONNECTION_FAILED'));
 				$this->_data = array();
 			}
-			catch (\JCacheExceptionUnsupported $exception)
+			catch (UnsupportedCacheException $exception)
 			{
-				$this->setError(\JText::_('COM_CACHE_ERROR_CACHE_DRIVER_UNSUPPORTED'));
+				$this->setError(Text::_('COM_CACHE_ERROR_CACHE_DRIVER_UNSUPPORTED'));
 				$this->_data = array();
 			}
 		}
@@ -172,20 +180,20 @@ class CacheModel extends ListModel
 	/**
 	 * Method to get cache instance.
 	 *
-	 * @return \JCacheController
+	 * @return CacheController
 	 */
 	public function getCache()
 	{
-		$conf = \JFactory::getConfig();
+		$app = Factory::getApplication();
 
 		$options = array(
 			'defaultgroup' => '',
-			'storage'      => $conf->get('cache_handler', ''),
+			'storage'      => $app->get('cache_handler', ''),
 			'caching'      => true,
-			'cachebase'    => $conf->get('cache_path', JPATH_CACHE)
+			'cachebase'    => $app->get('cache_path', JPATH_CACHE)
 		);
 
-		return \JCache::getInstance('', $options);
+		return Cache::getInstance('', $options);
 	}
 
 	/**
@@ -230,16 +238,20 @@ class CacheModel extends ListModel
 	{
 		try
 		{
-			return $this->getCache()->clean($group);
+			$this->getCache()->clean($group);
 		}
-		catch (\JCacheExceptionConnecting $exception)
+		catch (CacheConnectingException $exception)
 		{
 			return false;
 		}
-		catch (\JCacheExceptionUnsupported $exception)
+		catch (UnsupportedCacheException $exception)
 		{
 			return false;
 		}
+
+		Factory::getApplication()->triggerEvent('onAfterPurge', array($group));
+
+		return true;
 	}
 
 	/**
@@ -273,15 +285,19 @@ class CacheModel extends ListModel
 	{
 		try
 		{
-			return \JFactory::getCache('')->gc();
+			Factory::getCache('')->gc();
 		}
-		catch (\JCacheExceptionConnecting $exception)
+		catch (CacheConnectingException $exception)
 		{
 			return false;
 		}
-		catch (\JCacheExceptionUnsupported $exception)
+		catch (UnsupportedCacheException $exception)
 		{
 			return false;
 		}
+
+		Factory::getApplication()->triggerEvent('onAfterPurge', array());
+
+		return true;
 	}
 }

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +32,7 @@ class HelpButton extends BasicButton
 	/**
 	 * Prepare options for this button.
 	 *
-	 * @param   array  &$options  The options about this button.
+	 * @param   array  $options  The options about this button.
 	 *
 	 * @return  void
 	 *
@@ -40,9 +40,9 @@ class HelpButton extends BasicButton
 	 */
 	protected function prepareOptions(array &$options)
 	{
-		$options['text'] = $options['text'] ?: Text::_('JTOOLBAR_HELP');
+		$options['text'] = $options['text'] ?: 'JTOOLBAR_HELP';
 		$options['icon'] = $options['icon'] ?? 'fa fa-question';
-		$options['button_class'] = $options['button_class'] ?? 'btn btn-outline-info btn-sm';
+		$options['button_class'] = $options['button_class'] ?? 'btn btn-info';
 		$options['onclick'] = $options['onclick'] ?? $this->_getCommand();
 
 		parent::prepareOptions($options);
@@ -85,7 +85,8 @@ class HelpButton extends BasicButton
 	{
 		// Get Help URL
 		$url = Help::createUrl($this->getRef(), $this->getUseComponent(), $this->getUrl(), $this->getComponent());
-		$url = htmlspecialchars($url, ENT_QUOTES);
+		$url = json_encode(htmlspecialchars($url, ENT_QUOTES), JSON_HEX_APOS);
+		$url = substr($url, 1, -1);
 		$cmd = "Joomla.popupWindow('$url', '" . Text::_('JHELP', true) . "', 700, 500, 1)";
 
 		return $cmd;

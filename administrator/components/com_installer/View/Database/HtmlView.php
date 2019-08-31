@@ -3,9 +3,10 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Installer\Administrator\View\Database;
 
 defined('_JEXEC') or die;
@@ -29,7 +30,7 @@ class HtmlView extends InstallerViewDefault
 	 * List of change sets
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $changeSet = array();
 
@@ -37,7 +38,7 @@ class HtmlView extends InstallerViewDefault
 	 * The number of errors found
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $errorCount = 0;
 
@@ -45,7 +46,7 @@ class HtmlView extends InstallerViewDefault
 	 * List pagination.
 	 *
 	 * @var    Pagination
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $pagination;
 
@@ -53,7 +54,7 @@ class HtmlView extends InstallerViewDefault
 	 * The filter form
 	 *
 	 * @var    Form
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $filterForm;
 
@@ -61,7 +62,7 @@ class HtmlView extends InstallerViewDefault
 	 * A list of form filters
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $activeFilters = array();
 

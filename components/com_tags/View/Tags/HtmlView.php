@@ -3,14 +3,19 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Tags\Site\View\Tags;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
 use Joomla\Registry\Registry;
 
 /**
@@ -35,15 +40,6 @@ class HtmlView extends BaseHtmlView
 	 * @since  3.1
 	 */
 	protected $items;
-
-	/**
-	 * UNUSED PROPERTY
-	 *
-	 * @var         array|null
-	 * @since       3.1
-	 * @deprecated  4.0
-	 */
-	protected $item;
 
 	/**
 	 * The pagination object
@@ -86,28 +82,28 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app    = \JFactory::getApplication();
-		$params = $app->getParams();
-
 		// Get some data from the models
-		$state      = $this->get('State');
-		$items      = $this->get('Items');
-		$item       = $this->get('Item');
-		$pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->params     = $this->state->get('params');
+		$this->user       = Factory::getUser();
 
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
+
+		// Flag indicates to not add limitstart=0 to URL
+		$this->pagination->hideEmptyLimitstart = true;
 
 		// Check whether access level allows access.
 		// @todo: Should already be computed in $item->params->get('access-view')
-		$user   = \JFactory::getUser();
-		$groups = $user->getAuthorisedViewLevels();
+		$groups = $this->user->getAuthorisedViewLevels();
 
-		if (!empty($items))
+		if (!empty($this->items))
 		{
-			foreach ($items as $itemElement)
+			foreach ($this->items as $itemElement)
 			{
 				if (!in_array($itemElement->access, $groups))
 				{
@@ -116,68 +112,29 @@ class HtmlView extends BaseHtmlView
 
 				// Prepare the data.
 				$temp = new Registry($itemElement->params);
-				$itemElement->params = clone $params;
+				$itemElement->params = clone $this->params;
 				$itemElement->params->merge($temp);
 				$itemElement->params = (array) json_decode($itemElement->params);
 			}
 		}
 
-		$this->state      = &$state;
-		$this->items      = &$items;
-		$this->pagination = &$pagination;
-		$this->user       = &$user;
-		$this->item       = &$item;
-
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
 
-		// Merge tag params. If this is single-tag view, menu params override tag params
-		// Otherwise, article params override menu item params
-		$this->params = $this->state->get('params');
-		$active       = $app->getMenu()->getActive();
-		$temp         = clone $this->params;
+		$active = Factory::getApplication()->getMenu()->getActive();
 
-		// Check to see which parameters should take priority
-		if ($active)
+		// Load layout from active query (in case it is an alternative menu item)
+		if ($active && $active->query['option'] === 'com_tags' && $active->query['view'] === 'tags')
 		{
-			$currentLink = $active->link;
-
-			// If the current view is the active item and the tags view, then the menu item params take priority
-			if (strpos($currentLink, 'view=tags'))
+			if (isset($active->query['layout']))
 			{
-				$this->params = $active->params;
-				$this->params->merge($temp);
-
-				// Load layout from active query (in case it is an alternative menu item)
-				if (isset($active->query['layout']))
-				{
-					$this->setLayout($active->query['layout']);
-				}
-			}
-			else
-			{
-				// Current view is not a single tag, so the tag params take priority here
-				// Merge the menu item params with the tag params so that the tag params take priority
-				$temp->merge($item->params);
-				$item->params = $temp;
-
-				// Check for alternative layouts (since we are not in a single-article menu item)
-				// Single tag menu item layout takes priority over alt layout for a tag
-				if ($layout = $item->params->get('tag_layout'))
-				{
-					$this->setLayout($layout);
-				}
+				$this->setLayout($active->query['layout']);
 			}
 		}
-		elseif (!empty($items[0]))
+		else
 		{
-			// Merge so that tag params take priority
-			$temp->merge($items[0]->params);
-			$items[0]->params = $temp;
-
-			// Check for alternative layouts (since we are not in a single-tag menu item)
-			// Single-tag menu item layout takes priority over alt layout for a tag
-			if ($layout = $items[0]->params->get('tag_layout'))
+			// Load default All Tags layout from component
+			if ($layout = $this->params->get('tags_layout'))
 			{
 				$this->setLayout($layout);
 			}
@@ -195,7 +152,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 
@@ -209,7 +166,7 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', \JText::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
+			$this->params->def('page_heading', Text::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
 		}
 
 		if ($menu && $menu->query['option'] !== 'com_tags')
@@ -257,11 +214,11 @@ class HtmlView extends BaseHtmlView
 			}
 			elseif ($app->get('sitename_pagetitles', 0) == 1)
 			{
-				$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+				$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 			}
 			elseif ($app->get('sitename_pagetitles', 0) == 2)
 			{
-				$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+				$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 			}
 
 			$this->document->setTitle($title);
@@ -315,11 +272,11 @@ class HtmlView extends BaseHtmlView
 
 			if ($pos == 1)
 			{
-				$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+				$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 			}
 			else
 			{
-				$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+				$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 			}
 
 			$this->document->setTitle($title);
@@ -330,9 +287,9 @@ class HtmlView extends BaseHtmlView
 		{
 			$link    = '&format=feed&limitstart=';
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$this->document->addHeadLink(\JRoute::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(Route::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$this->document->addHeadLink(\JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(Route::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
 		}
 	}
 }

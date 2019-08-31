@@ -16,7 +16,6 @@
 			name="name"
 			type="text"
 			label="JGLOBAL_TITLE"
-			class="input-xxlarge input-large-text"
 			size="40"
 			required="true"
 		/>
@@ -72,7 +71,6 @@
 			name="version_note"
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-			labelclass="control-label"
 			size="45"
 			maxlength="255"
 		/>
@@ -93,6 +91,7 @@
 			size="60"
 			required="true"
 			filter="url"
+			validate="url"
 		/>
 
 		<field
@@ -100,7 +99,6 @@
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
 			default="5"
-			size="2"
 		/>
 
 		<field
@@ -108,7 +106,6 @@
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
 			default="3600"
-			size="4"
 		/>
 
 		<field
@@ -233,13 +230,6 @@
 			cols="30"
 		/>
 
-		<field
-			name="xreference"
-			type="text"
-			label="JFIELD_XREFERENCE_LABEL"
-			size="20"
-		/>
-
 		<fields name="images">
 
 			<fieldset name="images" label="JGLOBAL_FIELDSET_IMAGE_OPTIONS">
@@ -322,7 +312,6 @@
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
 			default="5"
-			size="2"
 		/>
 
 		<field
@@ -330,7 +319,6 @@
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
 			default="3600"
-			size="4"
 		/>
 
 		<field
@@ -381,7 +369,6 @@
 				type="number"
 				label="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_LABEL"
 				description="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_DESC"
-				size="6"
 				useglobal="true"
 			/>
 
@@ -389,6 +376,7 @@
 				name="newsfeed_layout"
 				type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
+				class="custom-select"
 				extension="com_newsfeeds"
 				view="newsfeed"
 				useglobal="true"
@@ -436,7 +424,6 @@
 				type="number"
 				label="JGLOBAL_HITS"
 				class="readonly"
-				size="6"
 				readonly="true"
 				filter="unset"
 			/>

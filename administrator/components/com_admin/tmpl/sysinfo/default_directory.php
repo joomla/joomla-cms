@@ -3,41 +3,44 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
+/** @var \Joomla\Component\Admin\Administrator\View\Sysinfo\HtmlView $this */
+
 ?>
-<fieldset class="adminform">
-	<legend><?php echo JText::_('COM_ADMIN_DIRECTORY_PERMISSIONS'); ?></legend>
-	<table class="table table-striped">
+<div class="sysinfo">
+	<table class="table">
+		<caption class="sr-only">
+			<?php echo Text::_('COM_ADMIN_DIRECTORY_PERMISSIONS'); ?>
+		</caption>
 		<thead>
 			<tr>
-				<th style="width:650px">
-					<?php echo JText::_('COM_ADMIN_DIRECTORY'); ?>
+				<th scope="col" style="width:850px">
+					<?php echo Text::_('COM_ADMIN_DIRECTORY'); ?>
 				</th>
-				<th>
-					<?php echo JText::_('COM_ADMIN_STATUS'); ?>
+				<th scope="col">
+					<?php echo Text::_('COM_ADMIN_STATUS'); ?>
 				</th>
 			</tr>
 		</thead>
-		<tfoot>
-			<tr>
-				<td colspan="2">&#160;</td>
-			</tr>
-		</tfoot>
 		<tbody>
 			<?php foreach ($this->directory as $dir => $info) : ?>
 				<tr>
+					<th scope="row">
+						<?php echo '&#x200E;' . HTMLHelper::_('directory.message', $dir, $info['message']); ?>
+					</th>
 					<td>
-						<?php echo JHtml::_('directory.message', $dir, $info['message']); ?>
-					</td>
-					<td>
-						<?php echo JHtml::_('directory.writable', $info['writable']); ?>
+						<?php echo HTMLHelper::_('directory.writable', $info['writable']); ?>
 					</td>
 				</tr>
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-</fieldset>
+</div>

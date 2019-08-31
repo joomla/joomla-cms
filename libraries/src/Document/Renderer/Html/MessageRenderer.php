@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,9 @@ namespace Joomla\CMS\Document\Renderer\Html;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
-use Joomla\CMS\Log\Log;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Log\Log;
 
 /**
  * HTML document renderer for the system message queue
@@ -42,7 +43,7 @@ class MessageRenderer extends DocumentRenderer
 			'content' => $content,
 		);
 
-		$app        = \JFactory::getApplication();
+		$app        = Factory::getApplication();
 		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/message.php';
 
 		if (file_exists($chromePath))
@@ -73,7 +74,7 @@ class MessageRenderer extends DocumentRenderer
 		$lists = array();
 
 		// Get the message queue
-		$messages = \JFactory::getApplication()->getMessageQueue();
+		$messages = Factory::getApplication()->getMessageQueue();
 
 		// Build the sorted message list
 		if (is_array($messages) && !empty($messages))

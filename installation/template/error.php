@@ -2,63 +2,76 @@
 /**
  * @package	Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license	GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+
 /** @var JDocumentError $this */
+
+// Add Stylesheets
+HTMLHelper::_('stylesheet', 'installation/template/css/template.css', ['version' => 'auto']);
+HTMLHelper::_('stylesheet', 'installation/template/css/joomla-alert.min.css', ['version' => 'auto']);
+
+// Add scripts
+HTMLHelper::_('script', 'installation/template/js/template.js', ['version' => 'auto']);
+HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['version' => 'auto', 'relative' => true]);
+
+// Add script options
+$this->addScriptOptions('system.installation', ['url' => Route::_('index.php')]);
+
+// Set page title
+$this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'));
+
+$this->setMetaData('viewport', 'width=device-width, initial-scale=1');
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 	<head>
-		<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!--		<link href="--><?php //echo JUri::root(true); ?><!--/media/jui/css/bootstrap.min.css" rel="stylesheet">-->
-		<?php if ($this->direction == 'rtl') : ?>
-<!--			<link href="--><?php //echo JUri::root(true); ?><!--/media/jui/css/bootstrap-rtl.css" rel="stylesheet">-->
-		<?php endif; ?>
-		<link href="<?php echo $this->baseurl; ?>/template/css/template.css" rel="stylesheet">
+		<jdoc:include type="metas" />
+		<jdoc:include type="styles" />
 	</head>
 	<body>
 		<div class="j-install">
 			<!-- Header -->
 			<header class="j-header" role="banner">
 				<div class="j-header-logo">
-					<img src="<?php echo $this->baseurl; ?>/template/images/logo.svg" alt="Joomla" class="logo"/>
+					<img src="<?php echo $this->baseurl; ?>/template/images/logo.svg" alt="" class="logo"/>
 				</div>
 				<div class="j-header-help">
-					<a href="#">
-						<span class="fa fa-lightbulb-o" aria-hidden="true"></span>
+					<a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla">
+						<span class="fa fa-lightbulb" aria-hidden="true"></span>
+						<span class="sr-only"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
 					</a>
 				</div>
 			</header>
 			<!-- Container -->
 			<section class="j-container">
-				<div id="system-message-container">
-					<jdoc:include type="message" />
-				</div>
+				<jdoc:include type="message" />
 				<div id="javascript-warning">
 					<noscript>
-						<joomla-alert type="danger" class="text-center">
-							<?php echo JText::_('INSTL_WARNJAVASCRIPT'); ?>
-						</joomla-alert>
+						<?php echo Text::_('INSTL_WARNJAVASCRIPT'); ?>
 					</noscript>
 				</div>
 				<div class="container-installation flex">
 					<div class="j-install-step active">
 						<div class="j-install-step-header">
-							<span class="fa fa-exclamation" aria-hidden="true"></span> <?php echo JText::_('INSTL_ERROR'); ?>
+							<span class="fa fa-exclamation" aria-hidden="true"></span> <?php echo Text::_('INSTL_ERROR'); ?>
 						</div>
 						<div class="j-install-step-form">
 							<div class="alert preinstall-alert">
 								<div class="alert-icon">
-									<span class="alert-icon fa fa-exclamation-triangle"></span>
+									<span class="alert-icon fa fa-exclamation-triangle" aria-hidden="true"></span>
 								</div>
 								<div class="alert-text">
-									<h2><?php echo JText::_('JERROR_LAYOUT_ERROR_HAS_OCCURRED_WHILE_PROCESSING_YOUR_REQUEST'); ?></h2>
-									<p class="form-text text-muted small"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
+									<h2><?php echo Text::_('JERROR_LAYOUT_ERROR_HAS_OCCURRED_WHILE_PROCESSING_YOUR_REQUEST'); ?></h2>
+									<p class="form-text text-muted small"><span class="badge badge-default"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
 								</div>
 							</div>
 							<?php if ($this->debug) : ?>
@@ -71,7 +84,7 @@ defined('_JEXEC') or die;
 										<?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions ?>
 										<?php $this->setError($this->_error->getPrevious()); ?>
 										<?php while ($loop === true) : ?>
-											<p><strong><?php echo JText::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
+											<p><strong><?php echo Text::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
 											<p><?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
 											<?php echo $this->renderBacktrace(); ?>
 											<?php $loop = $this->setError($this->_error->getPrevious()); ?>
@@ -85,6 +98,7 @@ defined('_JEXEC') or die;
 					</div>
 				</div>
 			</section>
+			<jdoc:include type="scripts" />
 			<footer class="j-footer">
 				<a href="https://www.joomla.org" target="_blank">Joomla!</a>
 				is free software released under the

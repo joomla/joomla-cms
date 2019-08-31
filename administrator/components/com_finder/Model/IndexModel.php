@@ -3,16 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Finder\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 
 /**
@@ -57,6 +60,7 @@ class IndexModel extends ListModel
 				'type', 'type_id', 'l.type_id',
 				't.title', 't_title',
 				'url', 'l.url',
+				'language', 'l.language',
 				'indexdate', 'l.indexdate',
 				'content_map',
 			);
@@ -76,7 +80,7 @@ class IndexModel extends ListModel
 	 */
 	protected function canDelete($record)
 	{
-		return \JFactory::getUser()->authorise('core.delete', $this->option);
+		return Factory::getUser()->authorise('core.delete', $this->option);
 	}
 
 	/**
@@ -90,13 +94,13 @@ class IndexModel extends ListModel
 	 */
 	protected function canEditState($record)
 	{
-		return \JFactory::getUser()->authorise('core.edit.state', $this->option);
+		return Factory::getUser()->authorise('core.edit.state', $this->option);
 	}
 
 	/**
 	 * Method to delete one or more records.
 	 *
-	 * @param   array  &$pks  An array of record primary keys.
+	 * @param   array  $pks  An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
@@ -120,7 +124,7 @@ class IndexModel extends ListModel
 					$context = $this->option . '.' . $this->name;
 
 					// Trigger the onContentBeforeDelete event.
-					$result = \JFactory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
+					$result = Factory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
 
 					if (in_array(false, $result, true))
 					{
@@ -137,7 +141,7 @@ class IndexModel extends ListModel
 					}
 
 					// Trigger the onContentAfterDelete event.
-					\JFactory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
+					Factory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
 				}
 				else
 				{
@@ -151,7 +155,7 @@ class IndexModel extends ListModel
 					}
 					else
 					{
-						$this->setError(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+						$this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 					}
 				}
 			}
@@ -188,6 +192,10 @@ class IndexModel extends ListModel
 		// Check the type filter.
 		$type = $this->getState('filter.type');
 
+		// Join over the language
+		$query->select('la.title AS language_title, la.image AS language_image')
+			->join('LEFT', $db->quoteName('#__languages') . ' AS la ON la.lang_code = l.language');
+
 		if (is_numeric($type))
 		{
 			$query->where($db->quoteName('l.type_id') . ' = ' . (int) $type);
@@ -208,6 +216,12 @@ class IndexModel extends ListModel
 		if (is_numeric($state))
 		{
 			$query->where($db->quoteName('l.published') . ' = ' . (int) $state);
+		}
+
+		// Filter on the language.
+		if ($language = $this->getState('filter.language'))
+		{
+			$query->where($db->quoteName('l.language') . ' = ' . $db->quote($language));
 		}
 
 		// Check the search phrase.
@@ -293,7 +307,7 @@ class IndexModel extends ListModel
 	/**
 	 * Gets the total of indexed items.
 	 *
-	 * @return  int  The total of indexed items.
+	 * @return  integer  The total of indexed items.
 	 *
 	 * @since   3.6.0
 	 */
@@ -350,12 +364,22 @@ class IndexModel extends ListModel
 		// Truncate the taxonomy map table.
 		$db->truncateTable('#__finder_taxonomy_map');
 
-		// Delete all the taxonomy nodes except the root.
-		$query = $db->getQuery(true)
-			->delete($db->quoteName('#__finder_taxonomy'))
-			->where($db->quoteName('id') . ' > 1');
-		$db->setQuery($query);
-		$db->execute();
+		// Truncate the taxonomy table and insert the root node.
+		$db->truncateTable('#__finder_taxonomy');
+		$root = (object) array(
+			'id' => 1,
+			'parent_id' => 0,
+			'lft' => 0,
+			'rgt' => 1,
+			'level' => 0,
+			'path' => '',
+			'title' => 'ROOT',
+			'alias' => 'root',
+			'state' => 1,
+			'access' => 1,
+			'language' => '*'
+		);
+		$db->insertObject('#__finder_taxonomy', $root);
 
 		// Truncate the tokens tables.
 		$db->truncateTable('#__finder_tokens');
@@ -383,6 +407,7 @@ class IndexModel extends ListModel
 		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
 		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'cmd'));
 		$this->setState('filter.content_map', $this->getUserStateFromRequest($this->context . '.filter.content_map', 'filter_content_map', '', 'cmd'));
+		$this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', ''));
 
 		// Load the parameters.
 		$params = ComponentHelper::getParams('com_finder');
@@ -395,7 +420,7 @@ class IndexModel extends ListModel
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   array    $pks    A list of the primary keys to change.
 	 * @param   integer  $value  The value of the published state. [optional]
 	 *
 	 * @return  boolean  True on success.
@@ -404,7 +429,7 @@ class IndexModel extends ListModel
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;
 
@@ -420,7 +445,7 @@ class IndexModel extends ListModel
 			{
 				// Prune items that you can't change.
 				unset($pks[$i]);
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 
 				return false;
 			}
@@ -437,7 +462,7 @@ class IndexModel extends ListModel
 		$context = $this->option . '.' . $this->name;
 
 		// Trigger the onContentChangeState event.
-		$result = \JFactory::getApplication()->triggerEvent('onContentChangeState', array($context, $pks, $value));
+		$result = Factory::getApplication()->triggerEvent('onContentChangeState', array($context, $pks, $value));
 
 		if (in_array(false, $result, true))
 		{

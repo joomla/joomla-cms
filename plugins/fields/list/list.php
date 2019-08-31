@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Fields.List
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,4 +16,31 @@ defined('_JEXEC') or die;
  */
 class PlgFieldsList extends \Joomla\Component\Fields\Administrator\Plugin\FieldsListPlugin
 {
+	/**
+	 * Prepares the field
+	 *
+	 * @param   string    $context  The context.
+	 * @param   stdclass  $item     The item.
+	 * @param   stdclass  $field    The field.
+	 *
+	 * @return  object
+	 *
+	 * @since   3.9.2
+	 */
+	public function onCustomFieldsPrepareField($context, $item, $field)
+	{
+		// Check if the field should be processed
+		if (!$this->isTypeSupported($field->type))
+		{
+			return;
+		}
+
+		// The field's rawvalue should be an array
+		if (!is_array($field->rawvalue))
+		{
+			$field->rawvalue = (array) $field->rawvalue;
+		}
+
+		return parent::onCustomFieldsPrepareField($context, $item, $field);
+	}
 }

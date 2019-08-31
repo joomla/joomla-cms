@@ -16,7 +16,7 @@
  * 4. Check the archives in the tmp directory.
  *
  * @package    Joomla.Build
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,7 @@ use Joomla\CMS\Version;
 
 const PHP_TAB = "\t";
 
-function usage($command)
+function usage(string $command)
 {
 	echo PHP_EOL;
 	echo 'Usage: php ' . $command . ' [options]' . PHP_EOL;
@@ -37,11 +37,112 @@ function usage($command)
 	echo PHP_EOL;
 }
 
-if (version_compare(PHP_VERSION, '5.4', '<'))
+function clean_checkout(string $dir)
 {
-	echo "The build script requires PHP 5.4.\n";
+	// Save the current working directory to restore when complete
+	$cwd = getcwd();
+	chdir($dir);
 
-	exit(1);
+	echo "Cleaning checkout in $dir.\n";
+
+	// Removes .DS_Store; .git sources; testing, CI, and IDE configuration files; Changelogs; GitHub Meta; and README files
+	system('find . -name .appveyor.yml | xargs rm -rf -');
+	system('find . -name .coveralls.yml | xargs rm -rf -');
+	system('find . -name .DS_Store | xargs rm -rf -');
+	system('find . -name .editorconfig | xargs rm -rf -');
+	system('find . -name .gitattributes | xargs rm -rf -');
+	system('find . -name .github | xargs rm -rf -');
+	system('find . -name .gitignore | xargs rm -rf -');
+	system('find . -name .gitmodules | xargs rm -rf -');
+	system('find . -name .php_cs | xargs rm -rf -');
+	system('find . -name .scrutinizer.yml | xargs rm -rf -');
+	system('find . -name .travis.yml | xargs rm -rf -');
+	system('find . -name appveyor.yml | xargs rm -rf -');
+	system('find . -name CHANGELOG.md | xargs rm -rf -');
+	system('find . -name CONTRIBUTING.md | xargs rm -rf -');
+	system('find . -name psalm.xml | xargs rm -rf -');
+	system('find . -name psalm.xml.dist | xargs rm -rf -');
+	system('find . -name phpcs.xml | xargs rm -rf -');
+	system('find . -name phpcs.xml.dist | xargs rm -rf -');
+	system('find . -name phpunit.xml | xargs rm -rf -');
+	system('find . -name phpunit.*.xml | xargs rm -rf -');
+	system('find . -name phpunit.xml.dist | xargs rm -rf -');
+	system('find . -name README.md | xargs rm -rf -');
+	system('find . -name SECURITY.md | xargs rm -rf -');
+
+	echo "Cleaning vendors.\n";
+
+	// defuse/php-encryption
+	system('rm -rf libraries/vendor/defuse/php-encryption/docs');
+
+	// fig/link-util
+	system('rm -rf libraries/vendor/fig/link-util/test');
+
+	// google/recaptcha
+	system('rm -rf libraries/vendor/google/recaptcha/examples');
+	system('rm -rf libraries/vendor/google/recaptcha/tests');
+
+	// joomla/*
+	system('rm -rf libraries/vendor/joomla/*/docs');
+	system('rm -rf libraries/vendor/joomla/*/tests');
+	system('rm -rf libraries/vendor/joomla/*/Tests');
+	system('rm -rf libraries/vendor/joomla/*/ruleset.xml');
+
+	// testing sampledata
+	system('rm -rf plugins/sampledata/testing');
+
+	// paragonie/random_compat
+	system('rm -rf libraries/vendor/paragonie/random_compat/other');
+	system('rm -rf libraries/vendor/paragonie/random_compat/build-phar.sh');
+	system('rm -rf libraries/vendor/paragonie/random_compat/psalm-autoload.php');
+
+	// paragonie/sodium_compat
+	system('rm -rf libraries/vendor/paragonie/sodium_compat/build-phar.sh');
+
+	// phpmailer/phpmailer
+	system('rm -rf libraries/vendor/phpmailer/phpmailer/language');
+	system('rm -rf libraries/vendor/phpmailer/phpmailer/get_oauth_token.php');
+	system('rm -rf libraries/vendor/phpmailer/phpmailer/SECURITY.md');
+
+	// psr/log
+	system('rm -rf libraries/vendor/psr/log/Psr/Log/Test');
+
+	// symfony/*
+	system('rm -rf libraries/vendor/symfony/*/Resources/doc');
+	system('rm -rf libraries/vendor/symfony/*/Tests');
+	system('rm -rf libraries/vendor/symfony/console/Resources');
+	system('rm -rf libraries/vendor/symfony/debug/Resources');
+	system('rm -rf libraries/vendor/symfony/polyfill-util/LegacyTestListener.php');
+	system('rm -rf libraries/vendor/symfony/polyfill-util/TestListener.php');
+	system('rm -rf libraries/vendor/symfony/polyfill-util/TestListenerTrait.php');
+
+	// wamania/php-stemmer
+	system('rm -rf libraries/vendor/wamania/php-stemmer/test');
+
+	// zendframework/zend-diactoros
+	system('rm -rf libraries/vendor/zendframework/zend-diactoros/CONDUCT.md');
+	system('rm -rf libraries/vendor/zendframework/zend-diactoros/mkdocs.yml');
+
+	echo "Cleanup complete.\n";
+
+	chdir($cwd);
+}
+
+function clean_composer(string $dir)
+{
+	// Save the current working directory to restore when complete
+	$cwd = getcwd();
+	chdir($dir);
+
+	echo "Cleaning Composer manifests in $dir.\n";
+
+	// Removes Composer manifests
+	system('find . -name composer.json | xargs rm -rf -');
+	system('find . -name composer.lock | xargs rm -rf -');
+
+	echo "Cleanup complete.\n";
+
+	chdir($cwd);
 }
 
 $time = time();
@@ -65,7 +166,7 @@ $fullpath = $tmp . '/' . $time;
 // Parse input options
 $options = getopt('', ['help', 'remote::', 'exclude-zip', 'exclude-gzip', 'exclude-bzip2']);
 
-$remote       = isset($options['remote']) ? $options['remote'] : false;
+$remote       = $options['remote'] ?? false;
 $excludeZip   = isset($options['exclude-zip']);
 $excludeGzip  = isset($options['exclude-gzip']);
 $excludeBzip2 = isset($options['exclude-bzip2']);
@@ -74,7 +175,7 @@ $showHelp     = isset($options['help']);
 if ($showHelp)
 {
 	usage($argv[0]);
-	die;
+	exit;
 }
 
 // If not given a remote, assume we are looking for the latest local tag
@@ -95,6 +196,50 @@ mkdir($fullpath);
 echo "Copy the files from the git repository.\n";
 chdir($repo);
 system($systemGit . ' archive ' . $remote . ' | tar -x -C ' . $fullpath);
+
+// Install PHP and NPM dependencies and compile required media assets, skip Composer autoloader until post-cleanup
+chdir($fullpath);
+system('composer install --no-dev --no-autoloader --ignore-platform-reqs', $composerReturnCode);
+
+if ($composerReturnCode !== 0)
+{
+	echo "`composer install` did not complete as expected.\n";
+	exit(1);
+}
+
+system('npm install --unsafe-perm', $npmReturnCode);
+
+if ($npmReturnCode !== 0)
+{
+	echo "`npm install` did not complete as expected.\n";
+	exit(1);
+}
+
+// Create gzipped version of the static assets
+system('npm run gzip', $gzipReturnCode);
+
+if ($gzipReturnCode !== 0)
+{
+	echo "`npm run gzip` did not complete as expected.\n";
+	exit(1);
+}
+
+// Clean the checkout of extra resources
+clean_checkout($fullpath);
+
+// Regenerate the Composer autoloader without deleted files
+system('composer dump-autoload --no-dev --optimize --no-scripts');
+
+// Clean the Composer manifests now
+clean_composer($fullpath);
+
+// And cleanup the Node installation
+system('rm -rf node_modules');
+
+// Also cleanup the Node installation of the media manager
+system('rm -rf administrator/components/com_media/node_modules');
+
+echo "Workspace built.\n";
 
 // Import the version class to set the version information
 define('JPATH_PLATFORM', 1);
@@ -144,44 +289,44 @@ $filesArray = array(
 /*
  * Here we set the files/folders which should not be packaged at any time
  * These paths are from the repository root without the leading slash
+ * Because this is a fresh copy from a git tag, local environment files may be ignored
  */
 $doNotPackage = array(
-	'dev',
 	'.appveyor.yml',
+	'.babelrc',
 	'.drone.yml',
 	'.eslintignore',
-	'.eslint',
+	'.eslintrc',
+	'.editorconfig',
 	'.github',
 	'.gitignore',
 	'.hound.yml',
-	'.php_cs',
+	'.php_cs.dist',
 	'.travis.yml',
-	'README.md',
 	'acceptance.suite.yml',
 	'appveyor-phpunit.xml',
 	'build',
-	'build.xml',
 	'build.js',
+	'build.xml',
+	'codeception.yml',
 	'composer.json',
 	'composer.lock',
+	'crowdin.yml',
+	'drone-package.json',
 	'Gemfile',
-	'grunt-settings.yaml',
-	'grunt-readme.md',
-	'Gruntfile.js',
-	'karma.conf.js',
+	'Gemfile.lock',
+	'package.json',
+	'package-lock.json',
 	'phpunit.xml.dist',
-	'scss-lint-report.xml',
+	'README.md',
+	'RoboFile.php',
 	'scss-lint.yml',
-	'stubs.php',
 	'tests',
 	'travisci-phpunit.xml',
-	'drone-package.json',
-	'package.json',
 	'codeception.yml',
-	'Jenkinsfile',
-	'jenkins-phpunit.xml',
 	'RoboFile.php',
-	'RoboFile.dist.ini',
+	'CODE_OF_CONDUCT.md',
+	'phpunit-pgsql.xml.dist',
 	// Remove the testing sample data from all packages
 	'installation/sql/mysql/sample_testing.sql',
 	'installation/sql/postgresql/sample_testing.sql',
@@ -212,6 +357,14 @@ $checksums = array();
 
 // For the packages, replace spaces in stability (RC) with underscores
 $packageStability = str_replace(' ', '_', Version::DEV_STATUS);
+
+// Delete the files and folders we exclude from the packages (tests, docs, build, etc.).
+echo "Delete folders not included in packages.\n";
+
+foreach ($doNotPackage as $removeFile)
+{
+	system('rm -rf ' . $time . '/' . $removeFile);
+}
 
 // Count down starting with the latest release and add diff files to this array
 for ($num = $release - 1; $num >= 0; $num--)
@@ -316,14 +469,6 @@ for ($num = $release - 1; $num >= 0; $num--)
 	}
 }
 
-// Delete the files and folders we exclude from the packages (tests, docs, build, etc.).
-echo "Delete folders not included in packages.\n";
-
-foreach ($doNotPackage as $removeFile)
-{
-	system('rm -rf ' . $time . '/' . $removeFile);
-}
-
 echo "Build full package files.\n";
 chdir($time);
 
@@ -386,7 +531,7 @@ foreach (array_keys($checksums) as $packageName)
 {
 	echo "Generating checksums for $packageName\n";
 
-	foreach (array('md5', 'sha1') as $hash)
+	foreach (array('md5', 'sha1', 'sha256', 'sha384', 'sha512') as $hash)
 	{
 		if (file_exists('packages/' . $packageName))
 		{

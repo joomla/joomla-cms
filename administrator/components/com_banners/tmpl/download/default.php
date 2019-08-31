@@ -3,11 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Router\Route;
+
+/** @var \Joomla\Component\Banners\Administrator\View\Download\HtmlView $this */
 
 ?>
 <div class="container-popup">
@@ -15,7 +19,7 @@ defined('_JEXEC') or die;
 		class="form-horizontal form-validate"
 		id="download-form"
 		name="adminForm"
-		action="<?php echo JRoute::_('index.php?option=com_banners&task=tracks.display&format=raw'); ?>"
+		action="<?php echo Route::_('index.php?option=com_banners&task=tracks.display&format=raw'); ?>"
 		method="post">
 
 		<?php foreach ($this->form->getFieldset() as $field) : ?>

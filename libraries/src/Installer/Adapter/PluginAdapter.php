@@ -2,21 +2,24 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
-
-\JLoader::import('joomla.filesystem.folder');
+use Joomla\Database\ParameterType;
 
 /**
  * Plugin installer
@@ -61,9 +64,9 @@ class PluginAdapter extends InstallerAdapter
 		{
 			// Install failed, roll back changes
 			throw new \RuntimeException(
-				\JText::sprintf(
+				Text::sprintf(
 					'JLIB_INSTALLER_ABORT_ROLLBACK',
-					\JText::_('JLIB_INSTALLER_' . $this->route),
+					Text::_('JLIB_INSTALLER_' . $this->route),
 					$e->getMessage()
 				),
 				$e->getCode(),
@@ -86,9 +89,9 @@ class PluginAdapter extends InstallerAdapter
 		if ($this->parent->parseFiles($this->getManifest()->files, -1, $this->oldFiles) === false)
 		{
 			throw new \RuntimeException(
-				\JText::sprintf(
+				Text::sprintf(
 					'JLIB_INSTALLER_ABORT_PLG_COPY_FILES',
-					\JText::_('JLIB_INSTALLER_' . $this->route)
+					Text::_('JLIB_INSTALLER_' . $this->route)
 				)
 			);
 		}
@@ -105,9 +108,9 @@ class PluginAdapter extends InstallerAdapter
 				{
 					// Install failed, rollback changes
 					throw new \RuntimeException(
-						\JText::sprintf(
+						Text::sprintf(
 							'JLIB_INSTALLER_ABORT_PLG_INSTALL_MANIFEST',
-							\JText::_('JLIB_INSTALLER_' . $this->route)
+							Text::_('JLIB_INSTALLER_' . $this->route)
 						)
 					);
 				}
@@ -178,9 +181,9 @@ class PluginAdapter extends InstallerAdapter
 			{
 				// Install failed, rollback changes
 				throw new \RuntimeException(
-					\JText::sprintf(
+					Text::sprintf(
 						'JLIB_INSTALLER_ABORT_PLG_INSTALL_COPY_SETUP',
-						\JText::_('JLIB_INSTALLER_' . $this->route)
+						Text::_('JLIB_INSTALLER_' . $this->route)
 					)
 				);
 			}
@@ -197,12 +200,15 @@ class PluginAdapter extends InstallerAdapter
 	 */
 	protected function finaliseUninstall(): bool
 	{
+		$extensionId = $this->extension->extension_id;
+
 		$db = $this->parent->getDbo();
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
 			->delete('#__schemas')
-			->where('extension_id = ' . $this->extension->extension_id);
+			->where('extension_id = :extension_id')
+			->bind(':extension_id', $extensionId, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
 
@@ -210,7 +216,7 @@ class PluginAdapter extends InstallerAdapter
 		$this->extension->delete($this->extension->extension_id);
 
 		// Remove the plugin's folder
-		\JFolder::delete($this->parent->getPath('extension_root'));
+		Folder::delete($this->parent->getPath('extension_root'));
 
 		return true;
 	}
@@ -230,7 +236,7 @@ class PluginAdapter extends InstallerAdapter
 		{
 			// Backward Compatibility
 			// @todo Deprecate in future version
-			if (count($this->getManifest()->files->children()))
+			if (\count($this->getManifest()->files->children()))
 			{
 				$type = (string) $this->getManifest()->attributes()->type;
 
@@ -289,7 +295,7 @@ class PluginAdapter extends InstallerAdapter
 			$group = strtolower((string) $this->getManifest()->attributes()->group);
 			$name = '';
 
-			if (count($element->children()))
+			if (\count($element->children()))
 			{
 				foreach ($element->children() as $file)
 				{
@@ -382,9 +388,9 @@ class PluginAdapter extends InstallerAdapter
 		if (empty($this->element) && empty($this->group))
 		{
 			throw new \RuntimeException(
-				\JText::sprintf(
+				Text::sprintf(
 					'JLIB_INSTALLER_ABORT_PLG_INSTALL_NO_FILE',
-					\JText::_('JLIB_INSTALLER_' . $this->route)
+					Text::_('JLIB_INSTALLER_' . $this->route)
 				)
 			);
 		}
@@ -404,7 +410,7 @@ class PluginAdapter extends InstallerAdapter
 		// Get the plugin folder so we can properly build the plugin path
 		if (trim($this->extension->folder) === '')
 		{
-			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_FOLDER_FIELD_EMPTY'));
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_FOLDER_FIELD_EMPTY'));
 		}
 
 		// Set the plugin root path
@@ -437,15 +443,15 @@ class PluginAdapter extends InstallerAdapter
 			$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 
 			$this->extension->manifest_cache = json_encode($manifest_details);
-			$this->extension->state = 0;
-			$this->extension->name = $manifest_details['name'];
-			$this->extension->enabled = 'editors' === $this->extension->folder ? 1 : 0;
-			$this->extension->params = $this->parent->getParams();
+			$this->extension->state          = 0;
+			$this->extension->name           = $manifest_details['name'];
+			$this->extension->enabled        = 'editors' === $this->extension->folder ? 1 : 0;
+			$this->extension->params         = $this->parent->getParams();
 
 			if (!$this->extension->store())
 			{
 				// Install failed, roll back changes
-				throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_PLG_DISCOVER_STORE_DETAILS'));
+				throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_PLG_DISCOVER_STORE_DETAILS'));
 			}
 
 			return;
@@ -458,9 +464,9 @@ class PluginAdapter extends InstallerAdapter
 			{
 				// Install failed, roll back changes
 				throw new \RuntimeException(
-					\JText::sprintf(
+					Text::sprintf(
 						'JLIB_INSTALLER_ABORT_PLG_INSTALL_ALLREADY_EXISTS',
-						\JText::_('JLIB_INSTALLER_' . $this->route),
+						Text::_('JLIB_INSTALLER_' . $this->route),
 						$this->name
 					)
 				);
@@ -476,16 +482,17 @@ class PluginAdapter extends InstallerAdapter
 		else
 		{
 			// Store in the extensions table (1.6)
-			$this->extension->name      = $this->name;
-			$this->extension->type      = 'plugin';
-			$this->extension->ordering  = 0;
-			$this->extension->element   = $this->element;
-			$this->extension->folder    = $this->group;
-			$this->extension->enabled   = 0;
-			$this->extension->protected = 0;
-			$this->extension->access    = 1;
-			$this->extension->client_id = 0;
-			$this->extension->params    = $this->parent->getParams();
+			$this->extension->name         = $this->name;
+			$this->extension->type         = 'plugin';
+			$this->extension->ordering     = 0;
+			$this->extension->element      = $this->element;
+			$this->extension->folder       = $this->group;
+			$this->extension->enabled      = 0;
+			$this->extension->protected    = 0;
+			$this->extension->access       = 1;
+			$this->extension->client_id    = 0;
+			$this->extension->params       = $this->parent->getParams();
+			$this->extension->changelogurl = $this->changelogurl;
 
 			// Update the manifest cache for the entry
 			$this->extension->manifest_cache = $this->parent->generateManifestCache();
@@ -500,9 +507,9 @@ class PluginAdapter extends InstallerAdapter
 			{
 				// Install failed, roll back changes
 				throw new \RuntimeException(
-					\JText::sprintf(
+					Text::sprintf(
 						'JLIB_INSTALLER_ABORT_PLG_INSTALL_ROLLBACK',
-						\JText::_('JLIB_INSTALLER_' . $this->route),
+						Text::_('JLIB_INSTALLER_' . $this->route),
 						$this->extension->getError()
 					)
 				);
@@ -524,16 +531,16 @@ class PluginAdapter extends InstallerAdapter
 	public function discover()
 	{
 		$results = array();
-		$folder_list = \JFolder::folders(JPATH_SITE . '/plugins');
+		$folder_list = Folder::folders(JPATH_SITE . '/plugins');
 
 		foreach ($folder_list as $folder)
 		{
-			$file_list = \JFolder::files(JPATH_SITE . '/plugins/' . $folder, '\.xml$');
+			$file_list = Folder::files(JPATH_SITE . '/plugins/' . $folder, '\.xml$');
 
 			foreach ($file_list as $file)
 			{
 				$manifest_details = Installer::parseXMLInstallFile(JPATH_SITE . '/plugins/' . $folder . '/' . $file);
-				$file = \JFile::stripExt($file);
+				$file = File::stripExt($file);
 
 				// Ignore example plugins
 				if ($file === 'example' || $manifest_details === false)
@@ -555,18 +562,18 @@ class PluginAdapter extends InstallerAdapter
 				$results[] = $extension;
 			}
 
-			$folder_list = \JFolder::folders(JPATH_SITE . '/plugins/' . $folder);
+			$folder_list = Folder::folders(JPATH_SITE . '/plugins/' . $folder);
 
 			foreach ($folder_list as $plugin_folder)
 			{
-				$file_list = \JFolder::files(JPATH_SITE . '/plugins/' . $folder . '/' . $plugin_folder, '\.xml$');
+				$file_list = Folder::files(JPATH_SITE . '/plugins/' . $folder . '/' . $plugin_folder, '\.xml$');
 
 				foreach ($file_list as $file)
 				{
 					$manifest_details = Installer::parseXMLInstallFile(
 						JPATH_SITE . '/plugins/' . $folder . '/' . $plugin_folder . '/' . $file
 					);
-					$file = \JFile::stripExt($file);
+					$file = File::stripExt($file);
 
 					if ($file === 'example' || $manifest_details === false)
 					{
@@ -623,7 +630,7 @@ class PluginAdapter extends InstallerAdapter
 		}
 		else
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_PLG_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_PLG_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
 			return false;
 		}

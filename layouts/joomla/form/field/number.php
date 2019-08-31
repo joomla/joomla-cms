@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,7 +33,6 @@ extract($displayData);
  * @var   boolean  $readonly        Is this field read only?
  * @var   boolean  $repeat          Allows extensions to duplicate elements.
  * @var   boolean  $required        Is this field required?
- * @var   integer  $size            Size attribute of the input.
  * @var   boolean  $spellcheck      Spellcheck state for the form field.
  * @var   string   $validate        Validation rules to apply.
  * @var   string   $value           Value attribute of the field.
@@ -50,7 +49,7 @@ $autocomplete = $autocomplete === ' autocomplete="on"' ? '' : $autocomplete;
 
 $attributes = array(
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
-	!empty($size) ? 'size="' . $size . '"' : '',
+	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
@@ -58,7 +57,7 @@ $attributes = array(
 	isset($max) ? 'max="' . $max . '"' : '',
 	!empty($step) ? 'step="' . $step . '"' : '',
 	isset($min) ? 'min="' . $min . '"' : '',
-	$required ? 'required aria-required="true"' : '',
+	$required ? 'required' : '',
 	$autocomplete,
 	$autofocus ? 'autofocus' : ''
 );
@@ -75,6 +74,7 @@ else
 ?>
 <input
 	type="number"
+	inputmode="numeric"
 	name="<?php echo $name; ?>"
 	id="<?php echo $id; ?>"
 	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"

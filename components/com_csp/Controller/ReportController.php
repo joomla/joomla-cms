@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_csp
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,12 +13,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\Component\Csp\Administrator\Table\ReportTable;
 
 /**
  * Csp Controller
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ReportController extends BaseController
 {
@@ -27,13 +26,12 @@ class ReportController extends BaseController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function log()
 	{
-		$params = $this->app->getParams();
-
-		if (!$params->get('enable_reporter'))
+		// When we are not in detect mode do nothing here
+		if (Factory::getApplication()->getParams()->get('contentsecuritypolicy_mode', 'custom') != 'detect')
 		{
 			$this->app->close();
 		}
@@ -51,7 +49,14 @@ class ReportController extends BaseController
 
 		if (filter_var($report->blocked_uri, FILTER_VALIDATE_URL) !== false)
 		{
-			$report->blocked_uri = parse_url($report->blocked_uri, PHP_URL_HOST);
+			$parsedUrl = parse_url($report->blocked_uri);
+			$report->blocked_uri = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
+		}
+
+		// Eval or inline lets make sure they get reported in the correct way
+		if (in_array($report->blocked_uri, ['eval', 'inline']))
+		{
+			$report->blocked_uri = "'unsafe-" . $report->blocked_uri . "'";
 		}
 
 		$report->directive = $data['violated-directive'];
@@ -71,13 +76,14 @@ class ReportController extends BaseController
 
 		$report->created  = $now;
 		$report->modified = $now;
+		$report->client   = (string) $this->app->input->get('client', 'site', 'string');
 
 		if ($this->isEntryExisting($report))
 		{
 			$this->app->close();
 		}
 
-		$table = new ReportTable(Factory::getDbo());
+		$table = $this->app->bootComponent('com_csp')->getMVCFactory()->createTable('Report', 'Administrator');
 
 		$table->bind($report);
 		$table->store();
@@ -92,7 +98,7 @@ class ReportController extends BaseController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function isEntryExisting($report)
 	{
@@ -101,13 +107,26 @@ class ReportController extends BaseController
 		$query = $db->getQuery(true);
 
 		$query
-			->select('count(*)')
-			->from('#__csp')
-			->where($db->quoteName('blocked_uri') . '=' . $db->quote($report->blocked_uri))
-			->where($db->quoteName('directive') . '=' . $db->quote($report->directive));
+			->select('COUNT(*)')
+			->from($db->quoteName('#__csp'))
+			->where($db->quoteName('blocked_uri') . ' = :blocked_uri')
+			->where($db->quoteName('directive') . ' = :directive')
+			->where($db->quoteName('client') . ' = :client')
+			->bind(':blocked_uri', $report->blocked_uri)
+			->bind(':directive', $report->directive)
+			->bind(':client', $report->client);
 
 		$db->setQuery($query);
 
-		return $db->loadResult() > 0;
+		try
+		{
+			$result = (int) $db->loadResult();
+		}
+		catch (\RuntimeException $e)
+		{
+			return false;
+		}
+
+		return $result > 0;
 	}
 }

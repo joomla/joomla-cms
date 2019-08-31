@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,10 +13,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-
-\JLoader::import('joomla.filesystem.file');
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View to edit an file.
@@ -67,7 +66,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		ToolbarHelper::title(\JText::_('COM_MEDIA_EDIT'), 'images mediamanager');
+		ToolbarHelper::title(Text::_('COM_MEDIA_EDIT'), 'images mediamanager');
 
 		ToolbarHelper::apply('apply');
 		ToolbarHelper::save('save');

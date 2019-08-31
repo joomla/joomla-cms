@@ -3,17 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\UsersHelperDebug;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * Methods supporting a list of User ACL permissions
@@ -71,7 +75,7 @@ class DebuguserModel extends ListModel
 	public function getItems()
 	{
 		$userId = $this->getState('user_id');
-		$user   = \JFactory::getUser($userId);
+		$user   = Factory::getUser($userId);
 
 		if (($assets = parent::getItems()) && $userId)
 		{
@@ -84,19 +88,7 @@ class DebuguserModel extends ListModel
 				foreach ($actions as $action)
 				{
 					$name = $action[0];
-					$level = $action[1];
-
-					// Check that we check this action for the level of the asset.
-					if ($level === null || $level >= $asset->level)
-					{
-						// We need to test this action.
-						$asset->checks[$name] = $user->authorise($name, $asset->name);
-					}
-					else
-					{
-						// We ignore this action.
-						$asset->checks[$name] = 'skip';
-					}
+					$asset->checks[$name] = $user->authorise($name, $asset->name);
 				}
 			}
 		}
@@ -115,10 +107,11 @@ class DebuguserModel extends ListModel
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Adjust the context to support modal layouts.
 		$layout = $app->input->get('layout', 'default');
@@ -180,7 +173,7 @@ class DebuguserModel extends ListModel
 	/**
 	 * Get the user being debugged.
 	 *
-	 * @return  \JUser
+	 * @return  User
 	 *
 	 * @since   1.6
 	 */
@@ -188,13 +181,13 @@ class DebuguserModel extends ListModel
 	{
 		$userId = $this->getState('user_id');
 
-		return \JFactory::getUser($userId);
+		return Factory::getUser($userId);
 	}
 
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  DatabaseQuery
 	 *
 	 * @since   1.6
 	 */

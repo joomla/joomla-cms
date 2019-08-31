@@ -35,7 +35,7 @@
 			filter="integer"
 			validate="number"
 			showon="caching:1,2"
-			size="6" />
+		 />
 
 		<field
 			name="cache_path"
@@ -92,7 +92,6 @@
 			default="11211"
 			filter="integer"
 			validate="number"
-			size="5"
 		/>
 
 		<field
@@ -128,7 +127,6 @@
 			default="6379"
 			filter="integer"
 			validate="number"
-			size="5"
 		/>
 
 		<field
@@ -148,7 +146,6 @@
 			default="0"
 			filter="integer"
 			showon="cache_handler:redis"
-			size="4"
 		/>
 
 		<field
@@ -159,7 +156,6 @@
 			default="15"
 			filter="integer"
 			validate="number"
-			size="6"
 		/>
 
 		<field
@@ -265,6 +261,20 @@
 			<option value="1">JYES</option>
 		</field>
 
+		<field
+			name="debug_lang_const"
+			type="radio"
+			label="COM_CONFIG_FIELD_DEBUG_CONST_LANG_LABEL"
+			description="COM_CONFIG_FIELD_DEBUG_CONST_LANG_DESC"
+			class="switcher"
+			default="1"
+			filter="integer"
+			showon="debug_lang:1"
+			>
+			<option value="0">COM_CONFIG_FIELD_DEBUG_CONST</option>
+			<option value="1">COM_CONFIG_FIELD_DEBUG_VALUE</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset name="ftp" label="CONFIG_FTP_SETTINGS_LABEL">
@@ -300,7 +310,6 @@
 			hint="21"
 			validate="number"
 			filter="integer"
-			size="5"
 		/>
 
 		<field
@@ -369,7 +378,6 @@
 			hint="8080"
 			validate="number"
 			filter="integer"
-			size="5"
 		/>
 
 		<field
@@ -520,7 +528,6 @@
 			hint="25"
 			validate="number"
 			filter="integer"
-			size="5"
 		/>
 
 		<field
@@ -803,7 +810,6 @@
 			default="11211"
 			validate="number"
 			filter="integer"
-			size="5"
 		/>
 
 		<field
@@ -811,13 +817,13 @@
 			type="radio"
 			label="COM_CONFIG_FIELD_REDIS_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_PERSISTENT_DESC"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			filter="integer"
 			showon="session_handler:redis"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -842,7 +848,6 @@
 			default="6379"
 			validate="number"
 			filter="integer"
-			size="5"
 		/>
 
 		<field
@@ -864,7 +869,6 @@
 			default="0"
 			filter="integer"
 			showon="session_handler:redis"
-			size="4"
 		/>
 		<field
 			name="lifetime"
@@ -875,7 +879,6 @@
 			default="15"
 			filter="integer"
 			validate="number"
-			size="6"
 		/>
 
 		<field
@@ -1064,13 +1067,6 @@
 			size="50"
 		/>
 
-		<field
-			name="helpurl"
-			type="helpsite"
-			label="COM_CONFIG_FIELD_HELP_SERVER_LABEL"
-			showDefault="false"
-		/>
-
 	</fieldset>
 
 	<fieldset
@@ -1115,6 +1111,10 @@
 			<action
 				name="core.login.admin"
 				title="JACTION_LOGIN_ADMIN"
+			/>
+			<action
+				name="core.login.api"
+				title="JACTION_LOGIN_API"
 			/>
 			<action
 				name="core.login.offline"

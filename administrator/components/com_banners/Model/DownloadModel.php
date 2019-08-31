@@ -3,14 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Banners\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\FormModel;
 
 /**
@@ -38,7 +40,7 @@ class DownloadModel extends FormModel
 	 */
 	protected function populateState()
 	{
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		$this->setState('basename', $input->cookie->getString(ApplicationHelper::getHash($this->_context . '.basename'), '__SITE__'));
 		$this->setState('compressed', $input->cookie->getInt(ApplicationHelper::getHash($this->_context . '.compressed'), 1));
@@ -76,7 +78,7 @@ class DownloadModel extends FormModel
 	 */
 	protected function loadFormData()
 	{
-		$data = array(
+		$data = (object) array(
 			'basename'   => $this->getState('basename'),
 			'compressed' => $this->getState('compressed'),
 		);

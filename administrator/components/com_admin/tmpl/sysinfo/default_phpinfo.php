@@ -3,13 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+/** @var \Joomla\Component\Admin\Administrator\View\Sysinfo\HtmlView $this */
+
 ?>
-<fieldset class="adminform">
-	<legend><?php echo JText::_('COM_ADMIN_PHP_INFORMATION'); ?></legend>
-	<?php echo $this->php_info; ?>
-</fieldset>
+<div class="sysinfo">
+	<?php echo $this->phpInfo; ?>
+</div>

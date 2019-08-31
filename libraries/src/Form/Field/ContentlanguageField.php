@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,18 +10,15 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Provides a list of content languages
  *
- * @see    JFormFieldLanguage for a select list of application languages.
+ * @see    \Joomla\CMS\Form\Field\LanguageField for a select list of application languages.
  * @since  1.6
  */
-class ContentlanguageField extends \JFormFieldList
+class ContentlanguageField extends ListField
 {
 	/**
 	 * The form field type.

@@ -3,62 +3,72 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
-JHtml::_('behavior.tabstate');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('behavior.tabstate');
 
-$user = JFactory::getUser();
+$this->useCoreUI = true;
+
+$user = Factory::getUser();
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_templates&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="style-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_templates&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="style-form" class="form-validate">
 
-	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
+	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div>
-		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('JDETAILS')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('JDETAILS')); ?>
 
 		<div class="row">
-			<div class="col-md-9">
-				<h3>
-					<?php echo JText::_($this->item->template); ?>
-				</h3>
-				<div class="info-labels">
-					<span class="badge badge-secondary hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_FIELD_CLIENT_LABEL'); ?>">
-						<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
-					</span>
+			<div class="col-lg-9">
+				<div class="card">
+					<h2 class="card-header">
+						<?php echo Text::_($this->item->template); ?>
+					</h2>
+					<div class="card-body">
+						<div class="info-labels">
+							<span class="badge badge-secondary">
+								<?php echo $this->item->client_id == 0 ? Text::_('JSITE') : Text::_('JADMINISTRATOR'); ?>
+							</span>
+						</div>
+						<div>
+							<p><?php echo Text::_($this->item->xml->description); ?></p>
+							<?php
+							$this->fieldset = 'description';
+							$description = LayoutHelper::render('joomla.edit.fieldset', $this);
+							?>
+							<?php if ($description) : ?>
+								<p class="readmore">
+									<a href="#" onclick="document.querySelector('#tab-description').click();">
+										<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
+									</a>
+								</p>
+							<?php endif; ?>
+						</div>
+						<?php
+						$this->fieldset = 'basic';
+						$html = LayoutHelper::render('joomla.edit.fieldset', $this);
+						echo $html ? '<hr>' . $html : '';
+						?>
+					</div>
 				</div>
-				<div>
-					<p><?php echo JText::_($this->item->xml->description); ?></p>
-					<?php
-					$this->fieldset = 'description';
-					$description = JLayoutHelper::render('joomla.edit.fieldset', $this);
-					?>
-					<?php if ($description) : ?>
-						<p class="readmore">
-							<a href="#" onclick="jQuery('.nav-tabs a[href=\'#description\']').tab('show');">
-								<?php echo JText::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
-							</a>
-						</p>
-					<?php endif; ?>
-				</div>
-				<?php
-				$this->fieldset = 'basic';
-				$html = JLayoutHelper::render('joomla.edit.fieldset', $this);
-				echo $html ? '<hr>' . $html : '';
-				?>
 			</div>
-			<div class="col-md-3">
-				<div class="card card-light">
+			<div class="col-lg-3">
+				<div class="card">
 					<div class="card-body">
 						<?php
 						// Set main fields.
@@ -68,34 +78,44 @@ $user = JFactory::getUser();
 							'template'
 						);
 						?>
-						<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 					</div>
 				</div>
 			</div>
 		</div>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php if ($description) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
-			<?php echo $description; ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
+			<fieldset id="fieldset-description" class="options-grid-form options-grid-form-full">
+				<legend><?php echo Text::_('JGLOBAL_FIELDSET_DESCRIPTION'); ?></legend>
+				<div>
+				<?php echo $description; ?>
+				</div>
+			</fieldset>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
 		<?php
 		$this->fieldsets = array();
 		$this->ignore_fieldsets = array('basic', 'description');
-		echo JLayoutHelper::render('joomla.edit.params', $this);
+		echo LayoutHelper::render('joomla.edit.params', $this);
 		?>
 
 		<?php if ($user->authorise('core.edit', 'com_menus') && $this->item->client_id == 0 && $this->canDo->get('core.edit.state')) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'assignment', JText::_('COM_TEMPLATES_MENUS_ASSIGNMENT')); ?>
-			<?php echo $this->loadTemplate('assignment'); ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'assignment', Text::_('COM_TEMPLATES_MENUS_ASSIGNMENT')); ?>
+			<fieldset id="fieldset-assignment" class="options-grid-form options-grid-form-full">
+				<legend><?php echo Text::_('COM_TEMPLATES_MENUS_ASSIGNMENT'); ?></legend>
+				<div>
+				<?php echo $this->loadTemplate('assignment'); ?>
+				</div>
+			</fieldset>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
-		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
 		<input type="hidden" name="task" value="">
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</div>
 </form>

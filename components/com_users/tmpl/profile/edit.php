@@ -3,20 +3,26 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.keepalive');
-JHtml::_('behavior.formvalidator');
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
+HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('bootstrap.tooltip');
 
 // Load user_profile plugin language
-$lang = JFactory::getLanguage();
+$lang = Factory::getLanguage();
 $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
+HTMLHelper::_('script', 'com_users/two-factor-switcher.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <div class="com-users-profile__edit profile-edit">
 	<?php if ($this->params->get('show_page_heading')) : ?>
@@ -27,26 +33,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 		</div>
 	<?php endif; ?>
 
-	<script type="text/javascript">
-		Joomla.twoFactorMethodChange = function(e)
-		{
-			var selectedPane = 'com_users_twofactor_' + jQuery('#jform_twofactor_method').val();
-
-			jQuery.each(jQuery('#com_users_twofactor_forms_container>div'), function(i, el)
-			{
-				if (el.id != selectedPane)
-				{
-					jQuery('#' + el.id).hide(0);
-				}
-				else
-				{
-					jQuery('#' + el.id).show(0);
-				}
-			});
-		}
-	</script>
-
-	<form id="member-profile" action="<?php echo JRoute::_('index.php?option=com_users&task=profile.save'); ?>" method="post" class="com-users-profile__edit-form form-validate form-horizontal well" enctype="multipart/form-data">
+	<form id="member-profile" action="<?php echo Route::_('index.php?option=com_users'); ?>" method="post" class="com-users-profile__edit-form form-validate form-horizontal well" enctype="multipart/form-data">
 		<?php // Iterate through the form fieldsets and display each one. ?>
 		<?php foreach ($this->form->getFieldsets() as $group => $fieldset) : ?>
 			<?php $fields = $this->form->getFieldset($group); ?>
@@ -55,12 +42,12 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 					<?php // If the fieldset has a label set, display it as the legend. ?>
 					<?php if (isset($fieldset->label)) : ?>
 						<legend>
-							<?php echo JText::_($fieldset->label); ?>
+							<?php echo Text::_($fieldset->label); ?>
 						</legend>
 					<?php endif; ?>
 					<?php if (isset($fieldset->description) && trim($fieldset->description)) : ?>
 						<p>
-							<?php echo $this->escape(JText::_($fieldset->description)); ?>
+							<?php echo $this->escape(Text::_($fieldset->description)); ?>
 						</p>
 					<?php endif; ?>
 					<?php // Iterate through the fields in the set and display them. ?>
@@ -74,7 +61,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 									<?php echo $field->label; ?>
 									<?php if (!$field->required && $field->type !== 'Spacer') : ?>
 										<span class="optional">
-											<?php echo JText::_('COM_USERS_OPTIONAL'); ?>
+											<?php echo Text::_('COM_USERS_OPTIONAL'); ?>
 										</span>
 									<?php endif; ?>
 								</div>
@@ -90,17 +77,17 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
 		<?php if (count($this->twofactormethods) > 1) : ?>
 			<fieldset class="com-users-profile__twofactor">
-				<legend><?php echo JText::_('COM_USERS_PROFILE_TWO_FACTOR_AUTH'); ?></legend>
+				<legend><?php echo Text::_('COM_USERS_PROFILE_TWO_FACTOR_AUTH'); ?></legend>
 
 				<div class="com-users-profile__twofactor-method control-group">
 					<div class="control-label">
 						<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasTooltip"
-							   title="<?php echo '<strong>' . JText::_('COM_USERS_PROFILE_TWOFACTOR_LABEL') . '</strong><br>' . JText::_('COM_USERS_PROFILE_TWOFACTOR_DESC'); ?>">
-							<?php echo JText::_('COM_USERS_PROFILE_TWOFACTOR_LABEL'); ?>
+							   title="<?php echo '<strong>' . Text::_('COM_USERS_PROFILE_TWOFACTOR_LABEL') . '</strong><br>' . Text::_('COM_USERS_PROFILE_TWOFACTOR_DESC'); ?>">
+							<?php echo Text::_('COM_USERS_PROFILE_TWOFACTOR_LABEL'); ?>
 						</label>
 					</div>
 					<div class="controls">
-						<?php echo JHtml::_('select.genericlist', $this->twofactormethods, 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange()'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
+						<?php echo HTMLHelper::_('select.genericlist', $this->twofactormethods, 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange()'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
 					</div>
 				</div>
 				<div id="com_users_twofactor_forms_container" class="com-users-profile__twofactor-form">
@@ -115,11 +102,17 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
 			<fieldset class="com-users-profile__oteps">
 				<legend>
-					<?php echo JText::_('COM_USERS_PROFILE_OTEPS'); ?>
+					<?php echo Text::_('COM_USERS_PROFILE_OTEPS'); ?>
 				</legend>
-				<joomla-alert type="info"><?php echo JText::_('COM_USERS_PROFILE_OTEPS_DESC'); ?></joomla-alert>
+				<div class="alert alert-info">
+					<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+					<?php echo Text::_('COM_USERS_PROFILE_OTEPS_DESC'); ?>
+				</div>
 				<?php if (empty($this->otpConfig->otep)) : ?>
-					<joomla-alert type="warning"><?php echo JText::_('COM_USERS_PROFILE_OTEPS_WAIT_DESC'); ?></joomla-alert>
+					<div class="alert alert-warning">
+						<span class="fa fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+						<?php echo Text::_('COM_USERS_PROFILE_OTEPS_WAIT_DESC'); ?>
+					</div>
 				<?php else : ?>
 					<?php foreach ($this->otpConfig->otep as $otep) : ?>
 						<span class="col-md-3">
@@ -133,16 +126,15 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
 		<div class="com-users-profile__edit-submit control-group">
 			<div class="controls">
-				<button type="submit" class="btn btn-primary validate">
-					<span>
-						<?php echo JText::_('JSUBMIT'); ?>
-					</span>
+				<button type="submit" class="btn btn-primary validate" name="task" value="profile.save">
+					<?php echo Text::_('JSUBMIT'); ?>
 				</button>
-				<a class="btn btn-danger" href="<?php echo JRoute::_('index.php?option=com_users&view=profile'); ?>" title="<?php echo JText::_('JCANCEL'); ?>"><?php echo JText::_('JCANCEL'); ?></a>
+				<button type="submit" class="btn btn-danger" name="task" value="profile.cancel" formnovalidate>
+					<?php echo Text::_('JCANCEL'); ?>
+				</button>
 				<input type="hidden" name="option" value="com_users">
-				<input type="hidden" name="task" value="profile.save">
 			</div>
 		</div>
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
 </div>

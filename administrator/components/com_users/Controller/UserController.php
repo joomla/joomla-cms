@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Users\Administrator\Controller;
@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Router\Route;
 
 /**
  * User controller class.
@@ -28,7 +29,7 @@ class UserController extends FormController
 	protected $text_prefix = 'COM_USERS_USER';
 
 	/**
-	 * Overrides \JControllerForm::allowEdit
+	 * Overrides Joomla\CMS\MVC\Controller\FormController::allowEdit
 	 *
 	 * Checks that non-Super Admins are not editing Super Admins.
 	 *
@@ -55,6 +56,27 @@ class UserController extends FormController
 	}
 
 	/**
+	 * Override parent cancel to redirect when using status edit account.
+	 *
+	 * @param   string  $key  The name of the primary key of the URL variable.
+	 *
+	 * @return  boolean  True if access level checks pass, false otherwise.
+	 *
+	 * @since  4.0.0
+	 */
+	public function cancel($key = null)
+	{
+		$result = parent::cancel();
+
+		if ($return = $this->input->get('return', '', 'BASE64'))
+		{
+			$this->app->redirect(base64_decode($return));
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Method to run batch operations.
 	 *
 	 * @param   object  $model  The model.
@@ -65,13 +87,13 @@ class UserController extends FormController
 	 */
 	public function batch($model = null)
 	{
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Set the model
 		$model = $this->getModel('User', 'Administrator', array());
 
 		// Preset the redirect
-		$this->setRedirect(\JRoute::_('index.php?option=com_users&view=users' . $this->getRedirectToListAppend(), false));
+		$this->setRedirect(Route::_('index.php?option=com_users&view=users' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
 	}
@@ -79,8 +101,8 @@ class UserController extends FormController
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param   Model  $model      The data model object.
-	 * @param   array  $validData  The validated data.
+	 * @param   BaseDatabaseModel  $model      The data model object.
+	 * @param   array              $validData  The validated data.
 	 *
 	 * @return  void
 	 *

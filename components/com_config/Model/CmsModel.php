@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,11 @@ namespace Joomla\Component\Config\Site\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
+use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Registry\Registry;
 
 /**
  * Prototype admin model.
@@ -70,7 +73,7 @@ abstract class CmsModel extends BaseDatabaseModel
 
 			if (!preg_match('/(.*)Model/i', get_class($this), $r))
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
 			$this->option = 'com_' . strtolower($r[1]);
@@ -148,7 +151,7 @@ abstract class CmsModel extends BaseDatabaseModel
 
 			if (!preg_match('/Model(.*)/i', get_class($this), $r))
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
 			$this->name = strtolower($r[1]);
@@ -216,18 +219,18 @@ abstract class CmsModel extends BaseDatabaseModel
 	 */
 	protected function cleanCache($group = null)
 	{
-		$conf = \JFactory::getConfig();
+		$app = Factory::getApplication();
 
 		$options = [
-			'defaultgroup' => $group ?: ($this->option ?? \JFactory::getApplication()->input->get('option')),
-			'cachebase'    => $conf->get('cache_path', JPATH_CACHE),
+			'defaultgroup' => $group ?: ($this->option ?? $app->input->get('option')),
+			'cachebase'    => $app->get('cache_path', JPATH_CACHE),
 		];
 
-		$cache = \JCache::getInstance('callback', $options);
+		$cache = Cache::getInstance('callback', $options);
 		$cache->clean();
 
 		// Trigger the onContentCleanCache event.
-		\JFactory::getApplication()->triggerEvent($this->event_clean_cache, $options);
+		$app->triggerEvent($this->event_clean_cache, $options);
 	}
 
 	/**
@@ -248,7 +251,7 @@ abstract class CmsModel extends BaseDatabaseModel
 				return false;
 			}
 
-			$user = \JFactory::getUser();
+			$user = Factory::getUser();
 
 			return $user->authorise('core.delete', $this->option);
 		}
@@ -265,7 +268,7 @@ abstract class CmsModel extends BaseDatabaseModel
 	 */
 	protected function canEditState($record)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		return $user->authorise('core.edit.state', $this->option);
 	}

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,14 +14,6 @@ use Joomla\CMS\Language\Text;
 
 /**
  * Renders a standard button
- *
- * @method self listCheck(bool $value)
- * @method self listCheckMessage(string $value)
- * @method self form(string $value)
- * @method self formValidation(bool $value)
- * @method bool getListCheck()
- * @method bool getListCheckMessage()
- * @method bool getFormValidation()
  *
  * @since  3.0
  */
@@ -39,7 +31,7 @@ class StandardButton extends BasicButton
 	/**
 	 * Prepare options for this button.
 	 *
-	 * @param   array  &$options  The options about this button.
+	 * @param   array  $options  The options about this button.
 	 *
 	 * @return  void
 	 *
@@ -62,11 +54,12 @@ class StandardButton extends BasicButton
 	/**
 	 * Fetch the HTML for the button
 	 *
-	 * @param   string   $type  Unused string.
-	 * @param   string   $name  The name of the button icon class.
-	 * @param   string   $text  Button text.
-	 * @param   string   $task  Task associated with the button.
-	 * @param   boolean  $list  True to allow lists
+	 * @param   string   $type    Unused string.
+	 * @param   string   $name    The name of the button icon class.
+	 * @param   string   $text    Button text.
+	 * @param   string   $task    Task associated with the button.
+	 * @param   boolean  $list    True to allow lists
+	 * @param   string   $formId  The id of action form.
 	 *
 	 * @return  string  HTML string for the button
 	 *
@@ -74,12 +67,17 @@ class StandardButton extends BasicButton
 	 *
 	 * @deprecated  5.0 Use render() instead.
 	 */
-	public function fetchButton($type = 'Standard', $name = '', $text = '', $task = '', $list = true)
+	public function fetchButton($type = 'Standard', $name = '', $text = '', $task = '', $list = true, $formId = null)
 	{
 		$this->name($name)
 			->text($text)
 			->task($task)
 			->listCheck($list);
+
+		if ($formId !== null)
+		{
+			$this->form($formId);
+		}
 
 		return $this->renderButton($this->options);
 	}
@@ -106,22 +104,23 @@ class StandardButton extends BasicButton
 			case 'save-copy':
 			case 'save-close':
 			case 'publish':
-				return ' btn btn-sm btn-outline-success';
+				return ' btn btn-sm btn-success';
 
 			case 'unpublish':
-				return ' btn btn-sm btn-outline-danger';
+				return ' btn btn-sm btn-danger';
 
 			case 'featured':
-				return ' btn btn-sm btn-outline-warning';
+				return ' btn btn-sm btn-warning';
 
 			case 'cancel':
-				return ' btn btn-sm btn-outline-danger';
+				return ' btn btn-sm btn-danger';
 
 			case 'trash':
-				return ' btn btn-sm btn-outline-danger';
+			case 'delete':
+				return ' btn btn-sm btn-danger';
 
 			default:
-				return ' btn btn-sm btn-outline-primary';
+				return ' btn btn-sm btn-primary';
 		}
 	}
 
@@ -147,25 +146,5 @@ class StandardButton extends BasicButton
 		}
 
 		return $cmd;
-	}
-
-	/**
-	 * Method to configure available option accessors.
-	 *
-	 * @return  array
-	 *
-	 * @since   4.0.0
-	 */
-	protected static function getAccessors(): array
-	{
-		return array_merge(
-			parent::getAccessors(),
-			[
-				'listCheck',
-				'listCheckMessage',
-				'form',
-				'formValidation'
-			]
-		);
 	}
 }

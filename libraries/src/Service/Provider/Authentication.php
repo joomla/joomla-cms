@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,8 +10,10 @@ namespace Joomla\CMS\Service\Provider;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Authentication\Password\Argon2idHandler as BaseArgon2idHandler;
 use Joomla\Authentication\Password\Argon2iHandler as BaseArgon2iHandler;
 use Joomla\Authentication\Password\BCryptHandler as BaseBCryptHandler;
+use Joomla\CMS\Authentication\Password\Argon2idHandler;
 use Joomla\CMS\Authentication\Password\Argon2iHandler;
 use Joomla\CMS\Authentication\Password\BCryptHandler;
 use Joomla\CMS\Authentication\Password\ChainedHandler;
@@ -50,6 +52,17 @@ class Authentication implements ServiceProviderInterface
 				true
 			);
 
+		$container->alias('password.handler.argon2id', Argon2idHandler::class)
+			->alias(BaseArgon2idHandler::class, Argon2idHandler::class)
+			->share(
+				Argon2idHandler::class,
+				function (Container $container)
+				{
+					return new Argon2idHandler;
+				},
+				true
+			);
+
 		$container->alias('password.handler.chained', ChainedHandler::class)
 			->share(
 				ChainedHandler::class,
@@ -63,6 +76,11 @@ class Authentication implements ServiceProviderInterface
 					if (Argon2iHandler::isSupported())
 					{
 						$handler->addHandler($container->get(Argon2iHandler::class));
+					}
+
+					if (Argon2idHandler::isSupported())
+					{
+						$handler->addHandler($container->get(Argon2idHandler::class));
 					}
 
 					$handler->addHandler($container->get(PHPassHandler::class));
@@ -92,6 +110,15 @@ class Authentication implements ServiceProviderInterface
 				MD5Handler::class,
 				function (Container $container)
 				{
+					@trigger_error(
+						sprintf(
+							'The "%1$s" class service is deprecated, use the "%2$s" service for the active password handler instead.',
+							MD5Handler::class,
+							'password.handler.default'
+						),
+						E_USER_DEPRECATED
+					);
+
 					return new MD5Handler;
 				},
 				true
@@ -102,6 +129,15 @@ class Authentication implements ServiceProviderInterface
 				PHPassHandler::class,
 				function (Container $container)
 				{
+					@trigger_error(
+						sprintf(
+							'The "%1$s" class service is deprecated, use the "%2$s" service for the active password handler instead.',
+							PHPassHandler::class,
+							'password.handler.default'
+						),
+						E_USER_DEPRECATED
+					);
+
 					return new PHPassHandler;
 				},
 				true
@@ -112,6 +148,15 @@ class Authentication implements ServiceProviderInterface
 				SHA256Handler::class,
 				function (Container $container)
 				{
+					@trigger_error(
+						sprintf(
+							'The "%1$s" class service is deprecated, use the "%2$s" service for the active password handler instead.',
+							SHA256Handler::class,
+							'password.handler.default'
+						),
+						E_USER_DEPRECATED
+					);
+
 					return new SHA256Handler;
 				},
 				true

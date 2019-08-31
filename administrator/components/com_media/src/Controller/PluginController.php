@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,9 +11,9 @@ namespace Joomla\Component\Media\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
 use Joomla\Component\Media\Administrator\Event\OAuthCallbackEvent;
 
 /**
@@ -103,7 +103,7 @@ class PluginController extends BaseController
 				 * Use this for close New Windows opened for OAuth Process
 				 */
 				case 'close':
-					$this->setRedirect(\JRoute::_('index.php?option=com_media&view=plugin&action=close', false));
+					$this->setRedirect(Route::_('index.php?option=com_media&view=plugin&action=close', false));
 					break;
 
 				// Redirect browser to any page specified by the user
@@ -112,25 +112,26 @@ class PluginController extends BaseController
 					{
 						throw new \Exception("Redirect URI must be set in the plugin");
 					}
+
 					$this->setRedirect($eventResults['redirect_uri']);
 					break;
 
 				// Redirect browser to Control Panel
 				case 'control-panel':
-					$this->setRedirect(\JRoute::_('index.php', false));
+					$this->setRedirect(Route::_('index.php', false));
 					break;
 
 				// Redirect browser to Media Manager
 				case 'media-manager':
 				default:
-					$this->setRedirect(\JRoute::_('index.php?option=com_media', false));
+					$this->setRedirect(Route::_('index.php?option=com_media', false));
 			}
 		}
 		catch (\Exception $e)
 		{
 			// Display any error
 			$this->app->enqueueMessage($e->getMessage(), 'error');
-			$this->setRedirect(\JRoute::_('index.php', false));
+			$this->setRedirect(Route::_('index.php', false));
 		}
 
 		// Redirect

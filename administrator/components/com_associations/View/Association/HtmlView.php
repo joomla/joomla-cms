@@ -3,18 +3,22 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Associations\Administrator\View\Association;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * View class for a list of articles.
@@ -77,7 +81,7 @@ class HtmlView extends BaseHtmlView
 			throw new \Exception(implode("\n", $errors), 500);
 		}
 
-		$this->app  = \JFactory::getApplication();
+		$this->app  = Factory::getApplication();
 		$this->form = $this->get('Form');
 		$input      = $this->app->input;
 		$this->referenceId = $input->get('id', 0, 'int');
@@ -115,9 +119,11 @@ class HtmlView extends BaseHtmlView
 		$reference     = ArrayHelper::fromObject(AssociationsHelper::getItem($extensionName, $typeName, $referenceId));
 
 		$this->referenceLanguage = $reference[$languageField];
+		$this->referenceTitle    = AssociationsHelper::getTypeFieldName($extensionName, $typeName, 'title');
 
 		// Check for special case category
 		$typeNameExploded = explode('.', $typeName);
+
 		if (array_pop($typeNameExploded) === 'category')
 		{
 			$this->typeName = 'category';
@@ -152,6 +158,7 @@ class HtmlView extends BaseHtmlView
 		$this->targetLanguage   = '';
 		$this->defaultTargetSrc = '';
 		$this->targetAction     = '';
+		$this->targetTitle      = '';
 
 		if ($target = $input->get('target', '', 'string'))
 		{
@@ -159,38 +166,19 @@ class HtmlView extends BaseHtmlView
 			$this->targetAction     = $matches[2];
 			$this->targetId         = $matches[1];
 			$this->targetLanguage   = $matches[0];
-			$task                   = $this->typeName . '.' . $this->targetAction;
-			$this->defaultTargetSrc = \JRoute::_($this->editUri . '&task=' . $task . '&id=' . (int) $this->targetId);
+			$this->targetTitle      = AssociationsHelper::getTypeFieldName($extensionName, $typeName, 'title');
+			$task                   = $typeName . '.' . $this->targetAction;
+
+			/*
+			 * Let's put the target src into a variable to use in the javascript code
+			 *  to avoid race conditions when the reference iframe loads.
+			 */
+			$document = Factory::getDocument();
+			$document->addScriptOptions('targetSrc', Route::_($this->editUri . '&task=' . $task . '&id=' . (int) $this->targetId));
 			$this->form->setValue('itemlanguage', '', $this->targetLanguage . ':' . $this->targetId . ':' . $this->targetAction);
 		}
 
-		/**
-		 * @todo Review later
-		 */
-
-		// We don't need toolbar in the modal window.
-		if ($this->getLayout() !== 'modal')
-		{
-			$this->addToolbar();
-			$this->sidebar = \JHtmlSidebar::render();
-		}
-		else
-		{
-			// In article associations modal we need to remove language filter if forcing a language.
-			// We also need to change the category filter to show show categories with All or the forced language.
-			if ($forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
-			{
-				// If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
-				$languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
-				$this->filterForm->setField($languageXml, 'filter', true);
-
-				// Also, unset the active language filter so the search tools is not open by default with this filter.
-				unset($this->activeFilters['language']);
-
-				// One last changes needed is to change the category filter to just show categories with All language or with the forced language.
-				$this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
-			}
-		}
+		$this->addToolbar();
 
 		parent::display($tpl);
 	}
@@ -205,7 +193,7 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		// Hide main menu.
-		\JFactory::getApplication()->input->set('hidemainmenu', 1);
+		Factory::getApplication()->input->set('hidemainmenu', 1);
 
 		$helper = AssociationsHelper::getExtensionHelper($this->extensionName);
 		$title  = $helper->getTypeTitle($this->typeName);
@@ -217,20 +205,20 @@ class HtmlView extends BaseHtmlView
 			$languageKey = strtoupper($this->extensionName) . '_CATEGORIES';
 		}
 
-		ToolbarHelper::title(\JText::sprintf('COM_ASSOCIATIONS_TITLE_EDIT', \JText::_($this->extensionName), \JText::_($languageKey)), 'contract assoc');
+		ToolbarHelper::title(Text::sprintf('COM_ASSOCIATIONS_TITLE_EDIT', Text::_($this->extensionName), Text::_($languageKey)), 'language assoc');
 
 		$bar = Toolbar::getInstance('toolbar');
 
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'reference\')" '
 			. 'class="btn btn-sm btn-success"><span class="icon-apply" aria-hidden="true"></span>'
-			. \JText::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>', 'reference'
+			. Text::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>', 'reference'
 		);
 
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'target\')" '
 			. 'class="btn btn-sm btn-success"><span class="icon-apply" aria-hidden="true"></span>'
-			. \JText::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
+			. Text::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
 		);
 
 		if ($this->typeName === 'category' || $this->extensionName === 'com_menus' || $this->save2copy === true)
@@ -240,7 +228,5 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::cancel('association.cancel', 'JTOOLBAR_CLOSE');
 		ToolbarHelper::help('JHELP_COMPONENTS_ASSOCIATIONS_EDIT');
-
-		\JHtmlSidebar::setAction('index.php?option=com_associations');
 	}
 }

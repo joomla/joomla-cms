@@ -3,14 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Banners\Administrator\Table;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -23,14 +26,16 @@ class ClientTable extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database connector object
+	 * @param   DatabaseDriver  $db  Database connector object
 	 *
 	 * @since   1.5
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		$this->typeAlias        = 'com_banners.client';
 		$this->checked_out_time = $db->getNullDate();
+
+		$this->setColumnAlias('published', 'state');
 
 		parent::__construct('#__banner_clients', 'id', $db);
 	}
@@ -67,7 +72,7 @@ class ClientTable extends Table
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+				$this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 				return false;
 			}
@@ -77,7 +82,7 @@ class ClientTable extends Table
 		$where = $k . '=' . implode(' OR ' . $k . '=', $pks);
 
 		// Determine if there is checkin support for the table.
-		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
+		if (!$this->hasField('checked_out') || !$this->hasField('checked_out_time'))
 		{
 			$checkin = '';
 		}

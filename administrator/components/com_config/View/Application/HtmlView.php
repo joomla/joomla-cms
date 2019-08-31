@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,9 +11,12 @@ namespace Joomla\Component\Config\Administrator\View\Application;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 
 /**
@@ -49,11 +52,11 @@ class HtmlView extends BaseHtmlView
 			// Load Form and Data
 			$form = $this->get('form');
 			$data = $this->get('data');
-			$user = \JFactory::getUser();
+			$user = Factory::getUser();
 		}
 		catch (\Exception $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -71,7 +74,7 @@ class HtmlView extends BaseHtmlView
 		$mediaParams = ComponentHelper::getParams('com_media');
 
 		// Load settings for the FTP layer.
-		$ftp = \JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = ClientHelper::setCredentialsFromRequest('ftp');
 
 		$this->form        = &$form;
 		$this->data        = &$data;
@@ -97,16 +100,12 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		ToolbarHelper::title(\JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'equalizer config');
-		ToolbarHelper::saveGroup(
-			[
-				['apply', 'application.apply'],
-				['save', 'application.save']
-			],
-			'btn-success'
-		);
+		ToolbarHelper::title(Text::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'equalizer config');
+		ToolbarHelper::apply('application.apply');
 		ToolbarHelper::divider();
-		ToolbarHelper::cancel('application.cancel');
+		ToolbarHelper::save('application.save');
+		ToolbarHelper::divider();
+		ToolbarHelper::cancel('application.cancel', 'JTOOLBAR_CLOSE');
 		ToolbarHelper::divider();
 		ToolbarHelper::help('JHELP_SITE_GLOBAL_CONFIGURATION');
 	}

@@ -3,16 +3,20 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Content\Site\View\Featured;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Content\Site\Helper\QueryHelper;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
 
 /**
  * Frontpage View class
@@ -64,13 +68,6 @@ class HtmlView extends BaseHtmlView
 	protected $link_items = array();
 
 	/**
-	 * The number of columns to show introduction articles in.
-	 *
-	 * @var  integer
-	 */
-	protected $columns = 1;
-
-	/**
 	 * An instance of JDatabaseDriver.
 	 *
 	 * @var    \JDatabaseDriver
@@ -110,16 +107,19 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		$state      = $this->get('State');
 		$items      = $this->get('Items');
 		$pagination = $this->get('Pagination');
 
+		// Flag indicates to not add limitstart=0 to URL
+		$pagination->hideEmptyLimitstart = true;
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		/** @var \Joomla\Registry\Registry $params */
@@ -136,14 +136,12 @@ class HtmlView extends BaseHtmlView
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		foreach ($items as &$item)
 		{
-			$item->slug        = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-			$item->catslug     = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
-			$item->parent_slug = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
 			// No link for ROOT category
 			if ($item->parent_alias === 'root')
 			{
-				$item->parent_slug = null;
+				$item->parent_id = null;
 			}
 
 			$item->event = new \stdClass;
@@ -154,18 +152,18 @@ class HtmlView extends BaseHtmlView
 				$item->text = $item->introtext;
 			}
 
-			\JFactory::getApplication()->triggerEvent('onContentPrepare', array('com_content.featured', &$item, &$item->params, 0));
+			Factory::getApplication()->triggerEvent('onContentPrepare', array('com_content.featured', &$item, &$item->params, 0));
 
 			// Old plugins: Use processed text as introtext
 			$item->introtext = $item->text;
 
-			$results = \JFactory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.featured', &$item, &$item->params, 0));
+			$results = Factory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.featured', &$item, &$item->params, 0));
 			$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-			$results = \JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.featured', &$item, &$item->params, 0));
+			$results = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.featured', &$item, &$item->params, 0));
 			$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-			$results = \JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.featured', &$item, &$item->params, 0));
+			$results = Factory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.featured', &$item, &$item->params, 0));
 			$item->event->afterDisplayContent = trim(implode("\n", $results));
 		}
 
@@ -190,15 +188,6 @@ class HtmlView extends BaseHtmlView
 			$this->intro_items[$i] = &$items[$i];
 		}
 
-		$this->columns = max(1, $params->def('num_columns', 1));
-		$order = $params->def('multi_column_order', 1);
-
-		if ($order == 0 && $this->columns > 1)
-		{
-			// Call order down helper
-			$this->intro_items = QueryHelper::orderDownColumns($this->intro_items, $this->columns);
-		}
-
 		// The remainder are the links.
 		for ($i = $numLeading + $numIntro; $i < $max; $i++)
 		{
@@ -212,7 +201,7 @@ class HtmlView extends BaseHtmlView
 		$this->items      = &$items;
 		$this->pagination = &$pagination;
 		$this->user       = &$user;
-		$this->db         = \JFactory::getDbo();
+		$this->db         = Factory::getDbo();
 
 		$this->_prepareDocument();
 
@@ -226,7 +215,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 
@@ -240,7 +229,7 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', \JText::_('JGLOBAL_ARTICLES'));
+			$this->params->def('page_heading', Text::_('JGLOBAL_ARTICLES'));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -251,11 +240,11 @@ class HtmlView extends BaseHtmlView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);
@@ -280,9 +269,9 @@ class HtmlView extends BaseHtmlView
 		{
 			$link    = '&format=feed&limitstart=';
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$this->document->addHeadLink(\JRoute::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(Route::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$this->document->addHeadLink(\JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(Route::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
 		}
 	}
 }

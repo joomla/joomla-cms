@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,6 +53,7 @@ $autocomplete = $autocomplete === 'autocomplete="on"' ? '' : $autocomplete;
 $attributes = array(
 	$spellcheck ? '' : 'spellcheck="false"',
 	!empty($size) ? 'size="' . $size . '"' : '',
+	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	$onchange ? 'onchange="' . $onchange . '"' : '',
@@ -60,12 +61,13 @@ $attributes = array(
 	$multiple ? 'multiple' : '',
 	!empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '',
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
-	$required ? 'required aria-required="true"' : '',
+	$required ? 'required' : '',
 	$autofocus ? 'autofocus' : '',
 );
 ?>
 <input
 	type="email"
+	inputmode="email"
 	name="<?php echo $name; ?>"
 	<?php echo !empty($class) ? ' class="form-control validate-email ' . $class . '"' : ' class="form-control validate-email"'; ?>
 	id="<?php echo $id; ?>"

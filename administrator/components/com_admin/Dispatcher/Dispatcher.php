@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,14 @@ namespace Joomla\Component\Admin\Administrator\Dispatcher;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
+
 /**
- * Dispatcher class for com_admin
+ * ComponentDispatcher class for com_admin
  *
  * @since  4.0.0
  */
-class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
+class Dispatcher extends ComponentDispatcher
 {
 	/**
 	 * com_admin does not require check permission, so we override checkAccess method and have it empty

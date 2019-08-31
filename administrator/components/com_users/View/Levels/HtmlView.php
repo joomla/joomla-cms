@@ -3,16 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\View\Levels;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Users\Administrator\Helper\UsersHelper;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View class for a list of view levels.
@@ -40,7 +44,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state.
 	 *
-	 * @var   \JObject
+	 * @var   CMSObject
 	 * @since 1.6
 	 */
 	protected $state;
@@ -62,14 +66,6 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
-	 * The sidebar markup
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $sidebar;
-
-	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -84,16 +80,13 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		UsersHelper::addSubmenu('levels');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
-		$this->sidebar = \JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
@@ -108,26 +101,26 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_users');
 
-		\JToolbarHelper::title(\JText::_('COM_USERS_VIEW_LEVELS_TITLE'), 'users levels');
+		ToolbarHelper::title(Text::_('COM_USERS_VIEW_LEVELS_TITLE'), 'user-lock levels');
 
 		if ($canDo->get('core.create'))
 		{
-			\JToolbarHelper::addNew('level.add');
+			ToolbarHelper::addNew('level.add');
 		}
 
 		if ($canDo->get('core.delete'))
 		{
-			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'level.delete', 'JTOOLBAR_DELETE');
-			\JToolbarHelper::divider();
+			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'level.delete', 'JTOOLBAR_DELETE');
+			ToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			\JToolbarHelper::preferences('com_users');
-			\JToolbarHelper::divider();
+			ToolbarHelper::preferences('com_users');
+			ToolbarHelper::divider();
 		}
 
-		\JToolbarHelper::help('JHELP_USERS_ACCESS_LEVELS');
+		ToolbarHelper::help('JHELP_USERS_ACCESS_LEVELS');
 	}
 
 	/**
@@ -140,9 +133,9 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'a.ordering' => \JText::_('JGRID_HEADING_ORDERING'),
-			'a.title'    => \JText::_('COM_USERS_HEADING_LEVEL_NAME'),
-			'a.id'       => \JText::_('JGRID_HEADING_ID'),
+			'a.ordering' => Text::_('JGRID_HEADING_ORDERING'),
+			'a.title'    => Text::_('COM_USERS_HEADING_LEVEL_NAME'),
+			'a.id'       => Text::_('JGRID_HEADING_ID'),
 		);
 	}
 }

@@ -3,13 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Templates\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Utilities\ArrayHelper;
@@ -29,7 +31,7 @@ class StylesController extends AdminController
 	public function duplicate()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$pks = $this->input->post->get('cid', array(), 'array');
 
@@ -37,18 +39,18 @@ class StylesController extends AdminController
 		{
 			if (empty($pks))
 			{
-				throw new \Exception(\JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
+				throw new \Exception(Text::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
 			}
 
 			$pks = ArrayHelper::toInteger($pks);
 
 			$model = $this->getModel();
 			$model->duplicate($pks);
-			$this->setMessage(\JText::_('COM_TEMPLATES_SUCCESS_DUPLICATED'));
+			$this->setMessage(Text::_('COM_TEMPLATES_SUCCESS_DUPLICATED'));
 		}
 		catch (\Exception $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			$this->app->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		$this->setRedirect('index.php?option=com_templates&view=styles');
@@ -61,7 +63,7 @@ class StylesController extends AdminController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  Model
+	 * @return  BaseDatabaseModel
 	 *
 	 * @since   1.6
 	 */
@@ -80,7 +82,7 @@ class StylesController extends AdminController
 	public function setDefault()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$pks = $this->input->post->get('cid', array(), 'array');
 
@@ -88,7 +90,7 @@ class StylesController extends AdminController
 		{
 			if (empty($pks))
 			{
-				throw new \Exception(\JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
+				throw new \Exception(Text::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
 			}
 
 			$pks = ArrayHelper::toInteger($pks);
@@ -99,7 +101,7 @@ class StylesController extends AdminController
 			/* @var \Joomla\Component\Templates\Administrator\Model\StyleModel $model */
 			$model = $this->getModel();
 			$model->setHome($id);
-			$this->setMessage(\JText::_('COM_TEMPLATES_SUCCESS_HOME_SET'));
+			$this->setMessage(Text::_('COM_TEMPLATES_SUCCESS_HOME_SET'));
 		}
 		catch (\Exception $e)
 		{
@@ -119,7 +121,7 @@ class StylesController extends AdminController
 	public function unsetDefault()
 	{
 		// Check for request forgeries
-		\JSession::checkToken('request') or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		$pks = $this->input->get->get('cid', array(), 'array');
 		$pks = ArrayHelper::toInteger($pks);
@@ -128,7 +130,7 @@ class StylesController extends AdminController
 		{
 			if (empty($pks))
 			{
-				throw new \Exception(\JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
+				throw new \Exception(Text::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
 			}
 
 			// Pop off the first element.
@@ -137,7 +139,7 @@ class StylesController extends AdminController
 			/* @var \Joomla\Component\Templates\Administrator\Model\StyleModel $model */
 			$model = $this->getModel();
 			$model->unsetHome($id);
-			$this->setMessage(\JText::_('COM_TEMPLATES_SUCCESS_HOME_UNSET'));
+			$this->setMessage(Text::_('COM_TEMPLATES_SUCCESS_HOME_UNSET'));
 		}
 		catch (\Exception $e)
 		{

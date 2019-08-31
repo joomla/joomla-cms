@@ -3,25 +3,24 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Messages\Administrator\Field;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('user');
+use Joomla\CMS\Form\Field\UserField;
 
 /**
  * Supports a modal select of users that have access to com_messages
  *
  * @since  1.6
  */
-class UserMessagesField extends \JFormFieldUser
+class UserMessagesField extends UserField
 {
 	/**
 	 * The form field type.
@@ -53,7 +52,7 @@ class UserMessagesField extends \JFormFieldUser
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'notice');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'notice');
 
 			return null;
 		}

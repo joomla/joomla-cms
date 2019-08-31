@@ -3,12 +3,13 @@
 	<name>mod_footer</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_FOOTER_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Footer</namespace>
 	<files>
 		<filename module="mod_footer">mod_footer.php</filename>
 		<folder>tmpl</folder>
@@ -25,6 +26,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
+					class="custom-select"
 				/>
 
 				<field
@@ -39,6 +41,7 @@
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -49,6 +52,7 @@
 					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
+					filter="integer"
 				/>
 
 				<field

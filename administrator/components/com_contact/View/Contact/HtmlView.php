@@ -3,16 +3,22 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Contact\Administrator\View\Contact;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View to edit a contact.
@@ -59,11 +65,11 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// If we are forcing a language in modal (used for associations).
-		if ($this->getLayout() === 'modal' && $forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
+		if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
 		{
 			// Set the language field to the forcedLanguage and disable changing it.
 			$this->form->setValue('language', null, $forcedLanguage);
@@ -90,9 +96,9 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$userId     = $user->id;
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
@@ -100,7 +106,7 @@ class HtmlView extends BaseHtmlView
 		// Since we don't track these assets at the item level, use the category id.
 		$canDo = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
 
-		\JToolbarHelper::title($isNew ? \JText::_('COM_CONTACT_MANAGER_CONTACT_NEW') : \JText::_('COM_CONTACT_MANAGER_CONTACT_EDIT'), 'address contact');
+		ToolbarHelper::title($isNew ? Text::_('COM_CONTACT_MANAGER_CONTACT_NEW') : Text::_('COM_CONTACT_MANAGER_CONTACT_EDIT'), 'address-book contact');
 
 		// Build the actions for new and existing records.
 		if ($isNew)
@@ -108,9 +114,10 @@ class HtmlView extends BaseHtmlView
 			// For new records, check the create permission.
 			if ($isNew && (count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0))
 			{
-				\JToolbarHelper::saveGroup(
+				ToolbarHelper::apply('contact.apply');
+
+				ToolbarHelper::saveGroup(
 					[
-						['apply', 'contact.apply'],
 						['save', 'contact.save'],
 						['save2new', 'contact.save2new']
 					],
@@ -118,7 +125,7 @@ class HtmlView extends BaseHtmlView
 				);
 			}
 
-			\JToolbarHelper::cancel('contact.cancel');
+			ToolbarHelper::cancel('contact.cancel');
 		}
 		else
 		{
@@ -130,7 +137,8 @@ class HtmlView extends BaseHtmlView
 			// Can't save the record if it's checked out and editable
 			if (!$checkedOut && $itemEditable)
 			{
-				$toolbarButtons[] = ['apply', 'contact.apply'];
+				ToolbarHelper::apply('contact.apply');
+
 				$toolbarButtons[] = ['save', 'contact.save'];
 
 				// We can save this record, but check the create permission to see if we can return to make a new one.
@@ -146,20 +154,25 @@ class HtmlView extends BaseHtmlView
 				$toolbarButtons[] = ['save2copy', 'contact.save2copy'];
 			}
 
-			\JToolbarHelper::saveGroup(
+			ToolbarHelper::saveGroup(
 				$toolbarButtons,
 				'btn-success'
 			);
 
 			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
 			{
-				\JToolbarHelper::versions('com_contact.contact', $this->item->id);
+				ToolbarHelper::versions('com_contact.contact', $this->item->id);
 			}
 
-			\JToolbarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');
+			if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
+			{
+				ToolbarHelper::custom('contact.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
+			}
+
+			ToolbarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		\JToolbarHelper::divider();
-		\JToolbarHelper::help('JHELP_COMPONENTS_CONTACTS_CONTACTS_EDIT');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_COMPONENTS_CONTACTS_CONTACTS_EDIT');
 	}
 }

@@ -3,17 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Languages\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 
 /**
  * Languages Override Model
@@ -53,9 +56,9 @@ class OverrideModel extends AdminModel
 			$langName = $language;
 		}
 
-		$form->setValue('client', null, \JText::_('COM_LANGUAGES_VIEW_OVERRIDE_CLIENT_' . strtoupper($client)));
-		$form->setValue('language', null, \JText::sprintf('COM_LANGUAGES_VIEW_OVERRIDE_LANGUAGE', $langName, $language));
-		$form->setValue('file', null, \JPath::clean(constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $language . '.override.ini'));
+		$form->setValue('client', null, Text::_('COM_LANGUAGES_VIEW_OVERRIDE_CLIENT_' . strtoupper($client)));
+		$form->setValue('language', null, Text::sprintf('COM_LANGUAGES_VIEW_OVERRIDE_LANGUAGE', $langName, $language));
+		$form->setValue('file', null, Path::clean(constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $language . '.override.ini'));
 
 		return $form;
 	}
@@ -70,7 +73,7 @@ class OverrideModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState('com_languages.edit.override.data', array());
+		$data = Factory::getApplication()->getUserState('com_languages.edit.override.data', array());
 
 		if (empty($data))
 		{
@@ -93,11 +96,11 @@ class OverrideModel extends AdminModel
 	 */
 	public function getItem($pk = null)
 	{
-		$input    = \JFactory::getApplication()->input;
-		$pk       = (!empty($pk)) ? $pk : $input->get('id');
-		$filename = constant('JPATH_' . strtoupper($this->getState('filter.client')))
+		$input    = Factory::getApplication()->input;
+		$pk       = !empty($pk) ? $pk : $input->get('id');
+		$fileName = constant('JPATH_' . strtoupper($this->getState('filter.client')))
 			. '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
-		$strings = LanguagesHelper::parseFile($filename);
+		$strings  = LanguageHelper::parseIniFile($fileName);
 
 		$result = new \stdClass;
 		$result->key      = '';
@@ -109,10 +112,10 @@ class OverrideModel extends AdminModel
 			$result->override = $strings[$pk];
 		}
 
-		$opposite_filename = constant('JPATH_' . strtoupper($this->getState('filter.client') == 'site' ? 'administrator' : 'site'))
+		$oppositeFileName = constant('JPATH_' . strtoupper($this->getState('filter.client') == 'site' ? 'administrator' : 'site'))
 			. '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
-		$opposite_strings = LanguagesHelper::parseFile($opposite_filename);
-		$result->both = isset($opposite_strings[$pk]) && ($opposite_strings[$pk] == $strings[$pk]);
+		$oppositeStrings  = LanguageHelper::parseIniFile($oppositeFileName);
+		$result->both = isset($oppositeStrings[$pk]) && ($oppositeStrings[$pk] == $strings[$pk]);
 
 		return $result;
 	}
@@ -129,9 +132,7 @@ class OverrideModel extends AdminModel
 	 */
 	public function save($data, $opposite_client = false)
 	{
-		jimport('joomla.filesystem.file');
-
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$client   = $app->getUserState('com_languages.overrides.filter.client', 0);
 		$language = $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
@@ -147,7 +148,7 @@ class OverrideModel extends AdminModel
 
 		if (in_array($data['key'], $blacklist))
 		{
-			$this->setError(\JText::_('COM_LANGUAGES_OVERRIDE_ERROR_RESERVED_WORDS'));
+			$this->setError(Text::_('COM_LANGUAGES_OVERRIDE_ERROR_RESERVED_WORDS'));
 
 			return false;
 		}
@@ -155,8 +156,8 @@ class OverrideModel extends AdminModel
 		$client = $client ? 'administrator' : 'site';
 
 		// Parse the override.ini file in oder to get the keys and strings.
-		$filename = constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $language . '.override.ini';
-		$strings  = LanguagesHelper::parseFile($filename);
+		$fileName = constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $language . '.override.ini';
+		$strings  = LanguageHelper::parseIniFile($fileName);
 
 		if (isset($strings[$data['id']]))
 		{
@@ -181,7 +182,7 @@ class OverrideModel extends AdminModel
 		}
 
 		// Write override.ini file with the strings.
-		if (LanguageHelper::saveToIniFile($filename, $strings) === false)
+		if (LanguageHelper::saveToIniFile($fileName, $strings) === false)
 		{
 			return false;
 		}
@@ -207,7 +208,7 @@ class OverrideModel extends AdminModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$client = $app->getUserStateFromRequest('com_languages.overrides.filter.client', 'filter_client', 0, 'int') ? 'administrator' : 'site';
 		$this->setState('filter.client', $client);

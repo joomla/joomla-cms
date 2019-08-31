@@ -1,95 +1,104 @@
 /**
  * Command line helper
  *
- * For maintainers, please run:
- * node build.js --installer
- * node build.js --update
- * node build.js --compilejs
- * node build.js --compilecss
- * Before making any PRs or building any package!
+ * To get the complete functional media folder please run
+ *
+ * npm install
+ *
+ * For dedicated tasks, please run:
+ * node build.js --build-pages  === will create the error pages (for incomplete repo build PHP+NPM)
+ * node build.js --copy-assets  === will clean the media/vendor folder and then will populate the folder from node_modules
+ * node build.js --compile-js   === will transpile ES6 files and also uglify the ES6,ES5 files
+ * node build.js --compile-css  === will compile all the scss defined files and also create a minified version of the css
  *
  */
+
+// eslint-disable-next-line import/no-extraneous-dependencies
 const Program = require('commander');
-const Chalk = require('chalk');
+// eslint-disable-next-line import/no-extraneous-dependencies
 
 // Joomla Build modules
-const installer = require('./build/build-modules-js/installation.js');
-const update = require('./build/build-modules-js/update.js');
-const css = require('./build/build-modules-js/compilescss.js');
-const Js = require('./build/build-modules-js/compilejs.js');
-const CEscss = require('./build/build-modules-js/compilecescss.js');
-const CEjs = require('./build/build-modules-js/compilecejs.js');
+const errorPages = require('./build/build-modules-js/error-pages.es6.js');
+const init = require('./build/build-modules-js/init.es6.js');
+const compileCSS = require('./build/build-modules-js/compilecss.es6.js');
+const compileJS = require('./build/build-modules-js/compilejs.es6.js');
+const minifyVendor = require('./build/build-modules-js/javascript/minify-vendor.es6.js');
+const watch = require('./build/build-modules-js/watch.es6.js');
 
 // The settings
 const options = require('./package.json');
+const settings = require('./build/build-modules-js/settings.json');
 
-// Initialize CLI
+// Merge Joomla's specific settings to the main package.json object
+if ('settings' in settings) {
+  options.settings = settings.settings;
+}
+
+// Initialize the CLI
 Program
-	.version(options.version)
-	.option('--update', 'Updates the vendor scripts')
-	.option('--compilejs, --compilejs path', 'Compiles ES6 to ES5 scripts')
-	.option('--compilecss, --compilecss path', 'Compiles all the scss files to css')
-	.option('--compilecejs, --compilecejs path', 'Compiles/traspiles all the custom elements files')
-	.option('--compilecescss, --compilecescss path', 'Compiles/traspiles all the custom elements files')
-	.option('--watch, --watch path', 'Watch file changes and re-compile (Only work for compilecss and compilejs now).')
-	.option('--installer', 'Creates the language file for installer error page')
-	.on('--help', () => {
-		console.log(Chalk.cyan('\n  Version %s\n'), options.version);
-		process.exit(0);
-	})
-	.parse(process.argv);
+  .version(options.version)
+  .option('--copy-assets', 'Moving files from node_modules to media folder')
+  .option('--build-pages', 'Creates the error pages for unsupported PHP version & incomplete environment')
+  .option('--compile-js, --compile-js path', 'Handles ES6, ES5 and web component scripts')
+  .option('--compile-css, --compile-css path', 'Compiles all the scss files to css')
+  .option('--watch', 'Watch file changes and re-compile (ATM only works for the js in the media_source).')
+  .on('--help', () => {
+    // eslint-disable-next-line no-console
+    console.log(`Version: ${options.version}`);
+    process.exit(0);
+  })
+  .parse(process.argv);
 
 
 // Show help by default
 if (!process.argv.slice(2).length) {
-	Program.outputHelp();
-	process.exit(1);
+  Program.outputHelp();
+  process.exit(1);
 }
 
 // Update the vendor folder
-if (Program.update) {
-	Promise.resolve()
-		.then(update.update(options))
+if (Program.copyAssets) {
+  Promise.resolve()
+    .then(init.copyAssets(options))
+    .then(minifyVendor.compile(options))
 
-		// Exit with success
-		.then(() => process.exit(0))
+    // Exit with success
+    .then(() => process.exit(0))
 
-		// Handle errors
-		.catch((err) => {
-			console.error(Chalk.red(err));
-			process.exit(-1);
-		});
+    // Handle errors
+    .catch((err) => {
+      // eslint-disable-next-line no-console
+      console.error(err);
+      process.exit(-1);
+    });
 }
 
-// Create the languages file for the error page on the installer
-if (Program.installer) {
-	installer.installation()
+
+// Creates the error pages for unsupported PHP version & incomplete environment
+if (Program.buildPages) {
+  Promise.resolve()
+    .then(() => {
+      errorPages.run(options);
+      })
+    // Handle errors
+    .catch((err) => {
+      // eslint-disable-next-line no-console
+      console.error(err);
+      process.exit(-1);
+    });
 }
 
 // Convert scss to css
-if (Program['compilecss']) {
-	if (Program['watch']) {
-		css.watch(options, null, true);
-	} else {
-		css.css(options, Program.args[0])
-	}
+if (Program.compileCss) {
+  compileCSS.compile(options, Program.args[0]);
 }
 
 // Compress/transpile the javascript files
-if (Program['compilejs']) {
-	if (Program['watch']) {
-		Js.watch(options, null, false);
-	} else {
-		Js.js(options, Program.args[0])
-	}
+if (Program.compileJs) {
+  compileJS.compileJS(options, Program.args[0]);
 }
 
-// Compress/transpile the Custom Elements files
-if (Program['compilecescss']) {
-	CEscss.compileCEscss(options, Program.args[0])
-}
-
-// Compress/transpile the Custom Elements files
-if (Program['compilecejs']) {
-	CEjs.compileCEjs(options, Program.args[0])
+// Compress/transpile the javascript files
+if (Program.watch) {
+  watch.run();
 }

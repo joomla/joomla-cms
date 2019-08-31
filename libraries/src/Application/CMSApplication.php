@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
@@ -17,6 +17,7 @@ use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Event\ErrorEvent;
 use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
@@ -24,12 +25,16 @@ use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Router\Router;
+use Joomla\CMS\Session\MetadataManager;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Registry\Registry;
-use Joomla\Session\SessionEvent;
+use Joomla\String\StringHelper;
 
 /**
  * Joomla! CMS Application class
@@ -113,6 +118,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	protected $pathway = null;
 
 	/**
+	 * The authentication plugin type
+	 *
+	 * @var   string
+	 * @since  4.0.0
+	 */
+	protected $authenticationPluginType = 'authentication';
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   Input      $input      An optional argument to provide dependency injection for the application's input
@@ -136,7 +149,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		parent::__construct($input, $config, $client);
 
 		// If JDEBUG is defined, load the profiler instance
-		if (defined('JDEBUG') && JDEBUG)
+		if (\defined('JDEBUG') && JDEBUG)
 		{
 			$this->profiler = Profiler::getInstance('Application');
 		}
@@ -155,75 +168,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	}
 
 	/**
-	 * After the session has been started we need to populate it with some default values.
-	 *
-	 * @param   SessionEvent  $event  Session event being triggered
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function afterSessionStart(SessionEvent $event)
-	{
-		parent::afterSessionStart($event);
-
-		$session = $event->getSession();
-		$time    = time();
-
-		// If tracking of optional session metadata is enabled, run the following operations (defaults to true for B/C since forever)
-		if ($this->get('session_metadata', true))
-		{
-			// Get the session handler from the configuration.
-			$handler = $this->get('session_handler', 'none');
-
-			/*
-			 * Check for extra session metadata when:
-			 *
-			 * 1) The database handler is in use and the session is new
-			 * 2) The database handler is not in use and the time is an even numbered second or the session is new
-			 */
-			if (($handler !== 'database' && ($time % 2 || $session->isNew())) || ($handler === 'database' && $session->isNew()))
-			{
-				$this->checkSession();
-			}
-		}
-
-		// Get the session handler from the configuration.
-		$handler = $this->get('session_handler', 'none');
-
-		// If the database session handler is not in use and the current time is a divisor of 5, purge session metadata after the response is sent
-		if ($handler !== 'database' && $time % 5 === 0)
-		{
-			$this->registerEvent(
-				'onAfterResponse',
-				function () use ($session, $time)
-				{
-					// TODO: At some point we need to get away from having session data always in the db.
-					$db = \JFactory::getDbo();
-
-					$query = $db->getQuery(true)
-						->delete($db->quoteName('#__session'))
-						->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
-
-					$db->setQuery($query);
-
-					try
-					{
-						$db->execute();
-					}
-					catch (\JDatabaseExceptionExecuting $exception)
-					{
-						/*
-						 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
-						 * Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
-						 */
-					}
-				}
-			);
-		}
-	}
-
-	/**
 	 * Checks the user session.
 	 *
 	 * If the session record doesn't exist, initialise it.
@@ -236,78 +180,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function checkSession()
 	{
-		$db = \JFactory::getDbo();
-		$session = \JFactory::getSession();
-		$user = \JFactory::getUser();
-
-		// If $user is still null at this point, we've hit an interesting chicken or egg problem getting the user loaded into the application
-		if (!$user)
-		{
-			$user = $session->get('user');
-			$this->loadIdentity($user);
-		}
-
-		$query = $db->getQuery(true)
-			->select($db->quoteName('session_id'))
-			->from($db->quoteName('#__session'))
-			->where($db->quoteName('session_id') . ' = ' . $db->quote($session->getId()));
-
-		$db->setQuery($query, 0, 1);
-		$exists = $db->loadResult();
-
-		// If the session record doesn't exist initialise it.
-		if (!$exists)
-		{
-			$handler = $this->get('session_handler', 'none');
-
-			// Default column/value set
-			$columns = array(
-				$db->quoteName('session_id'),
-				$db->quoteName('guest'),
-				$db->quoteName('userid'),
-				$db->quoteName('username')
-			);
-
-			$values = array(
-				$db->quote($session->getId()),
-				(int) $user->guest,
-				(int) $user->id,
-				$db->quote($user->username)
-			);
-
-			// If the database session handler is not in use, append the time to the row
-			if ($handler != 'database')
-			{
-				$columns[] = $db->quoteName('time');
-				$time = $session->isNew() ? time() : $session->get('session.timer.start');
-				$values[]  = (int) $time;
-			}
-
-			if (!$this->get('shared_session', '0'))
-			{
-				$columns[] = $db->quoteName('client_id');
-				$values[] = (int) $this->getClientId();
-			}
-
-			try
-			{
-				$db->setQuery(
-					$db->getQuery(true)
-						->insert($db->quoteName('#__session'))
-						->columns($columns)
-						->values(implode(', ', $values))
-				)->execute();
-			}
-			catch (\RuntimeException $e)
-			{
-				/*
-				 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
-				 * As this query only deals with session metadata, if the session handler is using the database then the handler will
-				 * try again to insert/update the important parts of the data otherwise in a worst case scenario the user's session does
-				 * not persist beyond this request.  When non-database session handlers are in use, this really doesn't matter.
-				 */
-			}
-		}
+		$this->getContainer()->get(MetadataManager::class)->createOrUpdateRecord($this->getSession(), $this->getIdentity());
 	}
 
 	/**
@@ -333,7 +206,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		$message = array('message' => $msg, 'type' => strtolower($type));
 
-		if (!in_array($message, $this->messageQueue))
+		if (!\in_array($message, $this->messageQueue))
 		{
 			// Enqueue the message.
 			$this->messageQueue[] = $message;
@@ -422,7 +295,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	protected function checkUserRequireReset($option, $view, $layout, $tasks)
 	{
-		if (\JFactory::getUser()->get('requireReset', 0))
+		if (Factory::getUser()->get('requireReset', 0))
 		{
 			$redirect = false;
 
@@ -474,7 +347,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			{
 				// Redirect to the profile edit page
 				$this->enqueueMessage(Text::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
-				$this->redirect(\JRoute::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false));
+				$this->redirect(Route::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false));
 			}
 		}
 	}
@@ -531,10 +404,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 			if (!$container)
 			{
-				$container = \JFactory::getContainer();
+				$container = Factory::getContainer();
 			}
 
-			if ($container->exists($classname))
+			if ($container->has($classname))
 			{
 				static::$instances[$name] = $container->get($classname);
 			}
@@ -548,7 +421,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 				throw new \RuntimeException(Text::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $name), 500);
 			}
 
-			static::$instances[$name]->loadIdentity(\JFactory::getUser());
+			static::$instances[$name]->loadIdentity(Factory::getUser());
 		}
 
 		return static::$instances[$name];
@@ -592,7 +465,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	public function getMessageQueue($clear = false)
 	{
 		// For empty queue, if messages exists in the session, enqueue them.
-		if (!count($this->messageQueue))
+		if (!\count($this->messageQueue))
 		{
 			$sessionQueue = $this->getSession()->get('application.queue', []);
 
@@ -653,12 +526,12 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	}
 
 	/**
-	 * Returns the application \JRouter object.
+	 * Returns the application Router object.
 	 *
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  \JRouter
+	 * @return  Router
 	 *
 	 * @since   3.2
 	 */
@@ -666,11 +539,13 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	{
 		if (!isset($name))
 		{
-			$app = \JFactory::getApplication();
+			$app = Factory::getApplication();
 			$name = $app->getName();
 		}
 
-		return \JRouter::getInstance($name, $options);
+		$options['mode'] = Factory::getConfig()->get('sef');
+
+		return Router::getInstance($name, $options);
 	}
 
 	/**
@@ -709,8 +584,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function getUserState($key, $default = null)
 	{
-		$session = \JFactory::getSession();
-		$registry = $session->get('registry');
+		$registry = $this->getSession()->get('registry');
 
 		if ($registry !== null)
 		{
@@ -726,7 +600,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * @param   string  $key      The key of the user state variable.
 	 * @param   string  $request  The name of the variable passed in a request.
 	 * @param   string  $default  The default value for the variable if not found. Optional.
-	 * @param   string  $type     Filter for the variable, for valid values see {@link \JFilterInput::clean()}. Optional.
+	 * @param   string  $type     Filter for the variable, for valid values see {@link InputFilter::clean()}. Optional.
 	 *
 	 * @return  mixed  The request user state.
 	 *
@@ -771,14 +645,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		// Load the language to the API
 		$this->loadLanguage($lang);
 
-		// Register the language object with \JFactory
-		\JFactory::$language = $this->getLanguage();
+		// Register the language object with Factory
+		Factory::$language = $this->getLanguage();
 
 		// Load the library language files
 		$this->loadLibraryLanguage();
 
 		// Set user specific editor.
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$editor = $user->getParam('editor', $this->get('editor'));
 
 		if (!PluginHelper::isEnabled('editors', $editor))
@@ -799,32 +673,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		// Trigger the onAfterInitialise event.
 		PluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterInitialise');
-	}
-
-	/**
-	 * Is admin interface?
-	 *
-	 * @return  boolean  True if this application is administrator.
-	 *
-	 * @since   3.2
-	 * @deprecated  Use isClient('administrator') instead.
-	 */
-	public function isAdmin()
-	{
-		return $this->isClient('administrator');
-	}
-
-	/**
-	 * Is site interface?
-	 *
-	 * @return  boolean  True if this application is site.
-	 *
-	 * @since   3.2
-	 * @deprecated  Use isClient('site') instead.
-	 */
-	public function isSite()
-	{
-		return $this->isClient('site');
 	}
 
 	/**
@@ -902,7 +750,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	public function login($credentials, $options = array())
 	{
 		// Get the global Authentication object.
-		$authenticate = Authentication::getInstance();
+		$authenticate = Authentication::getInstance($this->authenticationPluginType);
 		$response = $authenticate->authenticate($credentials, $options);
 
 		// Import the user plugin group.
@@ -934,17 +782,17 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 					switch ($authorisation->status)
 					{
 						case Authentication::STATUS_EXPIRED:
-							\JFactory::getApplication()->enqueueMessage(Text::_('JLIB_LOGIN_EXPIRED'), 'error');
+							Factory::getApplication()->enqueueMessage(Text::_('JLIB_LOGIN_EXPIRED'), 'error');
 
 							return false;
 
 						case Authentication::STATUS_DENIED:
-							\JFactory::getApplication()->enqueueMessage(Text::_('JLIB_LOGIN_DENIED'), 'error');
+							Factory::getApplication()->enqueueMessage(Text::_('JLIB_LOGIN_DENIED'), 'error');
 
 							return false;
 
 						default:
-							\JFactory::getApplication()->enqueueMessage(Text::_('JLIB_LOGIN_AUTHORISATION'), 'error');
+							Factory::getApplication()->enqueueMessage(Text::_('JLIB_LOGIN_AUTHORISATION'), 'error');
 
 							return false;
 					}
@@ -961,23 +809,23 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			 * Any errors raised should be done in the plugin as this provides the ability
 			 * to provide much more information about why the routine may have failed.
 			 */
-			$user = \JFactory::getUser();
+			$user = Factory::getUser();
 
 			if ($response->type === 'Cookie')
 			{
 				$user->set('cookieLogin', true);
 			}
 
-			if (in_array(false, $results, true) == false)
+			if (\in_array(false, $results, true) == false)
 			{
 				$options['user'] = $user;
 				$options['responseType'] = $response->type;
 
 				// The user is successfully logged in. Run the after login events
 				$this->triggerEvent('onUserAfterLogin', array($options));
-			}
 
-			return true;
+				return true;
+			}
 		}
 
 		// Trigger onUserLoginFailure Event.
@@ -1018,7 +866,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	public function logout($userid = null, $options = array())
 	{
 		// Get a user object from the \JApplication.
-		$user = \JFactory::getUser($userid);
+		$user = Factory::getUser($userid);
 
 		// Build the credentials array.
 		$parameters['username'] = $user->get('username');
@@ -1037,7 +885,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		$results = $this->triggerEvent('onUserLogout', array($parameters, $options));
 
 		// Check if any of the plugins failed. If none did, success.
-		if (!in_array(false, $results, true))
+		if (!\in_array(false, $results, true))
 		{
 			$options['username'] = $user->get('username');
 			$this->triggerEvent('onUserAfterLogout', array($options));
@@ -1045,7 +893,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			return true;
 		}
 
-		// Trigger onUserLoginFailure Event.
+		// Trigger onUserLogoutFailure Event.
 		$this->triggerEvent('onUserLogoutFailure', array($parameters));
 
 		return false;
@@ -1068,7 +916,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	public function redirect($url, $status = 303)
 	{
 		// Persist messages if they exist.
-		if (count($this->messageQueue))
+		if (\count($this->messageQueue))
 		{
 			$this->getSession()->set('application.queue', $this->messageQueue);
 		}
@@ -1089,10 +937,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	protected function render()
 	{
 		// Setup the document options.
-		$this->docOptions['template']     = $this->get('theme');
-		$this->docOptions['file']         = $this->get('themeFile', 'index.php');
-		$this->docOptions['params']       = $this->get('themeParams');
-		$this->docOptions['script_nonce'] = $this->get('script_nonce');
+		$this->docOptions['template']  = $this->get('theme');
+		$this->docOptions['file']      = $this->get('themeFile', 'index.php');
+		$this->docOptions['params']    = $this->get('themeParams');
+		$this->docOptions['csp_nonce'] = $this->get('csp_nonce');
 
 		if ($this->get('themes.base'))
 		{
@@ -1101,7 +949,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		// Fall back to constants.
 		else
 		{
-			$this->docOptions['directory'] = defined('JPATH_THEMES') ? JPATH_THEMES : (defined('JPATH_BASE') ? JPATH_BASE : __DIR__) . '/themes';
+			$this->docOptions['directory'] = \defined('JPATH_THEMES') ? JPATH_THEMES : (\defined('JPATH_BASE') ? JPATH_BASE : __DIR__) . '/themes';
 		}
 
 		// Parse the document.
@@ -1113,7 +961,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		$caching = false;
 
-		if ($this->isClient('site') && $this->get('caching') && $this->get('caching', 2) == 2 && !\JFactory::getUser()->get('id'))
+		if ($this->isClient('site') && $this->get('caching') && $this->get('caching', 2) == 2 && !Factory::getUser()->get('id'))
 		{
 			$caching = true;
 		}
@@ -1146,10 +994,49 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	protected function route()
 	{
 		// Get the full request URI.
-		$uri = clone \JUri::getInstance();
+		$uri = clone Uri::getInstance();
 
 		$router = static::getRouter();
 		$result = $router->parse($uri, true);
+
+		$active = $this->getMenu()->getActive();
+
+		if ($active !== null
+			&& $active->type === 'alias'
+			&& $active->params->get('alias_redirect')
+			&& \in_array($this->input->getMethod(), array('GET', 'HEAD'), true))
+		{
+			$item = $this->getMenu()->getItem($active->params->get('aliasoptions'));
+
+			if ($item !== null)
+			{
+				$oldUri = clone Uri::getInstance();
+
+				if ($oldUri->getVar('Itemid') == $active->id)
+				{
+					$oldUri->setVar('Itemid', $item->id);
+				}
+
+				$base = Uri::base(true);
+				$oldPath = StringHelper::strtolower(substr($oldUri->getPath(), \strlen($base) + 1));
+				$activePathPrefix = StringHelper::strtolower($active->route);
+
+				$position = strpos($oldPath, $activePathPrefix);
+
+				if ($position !== false)
+				{
+					$oldUri->setPath($base . '/' . substr_replace($oldPath, $item->route, $position, \strlen($activePathPrefix)));
+
+					$this->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
+					$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
+					$this->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
+					$this->setHeader('Pragma', 'no-cache');
+					$this->sendHeaders();
+
+					$this->redirect((string) $oldUri, 301);
+				}
+			}
+		}
 
 		foreach ($result as $key => $value)
 		{
@@ -1173,7 +1060,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function setUserState($key, $value)
 	{
-		$session = \JFactory::getSession();
+		$session = Factory::getSession();
 		$registry = $session->get('registry');
 
 		if ($registry !== null)

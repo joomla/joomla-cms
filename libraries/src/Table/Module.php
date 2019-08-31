@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,9 @@ namespace Joomla\CMS\Table;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Rules;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 
 /**
@@ -21,17 +24,25 @@ use Joomla\Registry\Registry;
 class Module extends Table
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param   \JDatabaseDriver  $db  Database driver object.
+	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   1.5
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__modules', 'id', $db);
 
-		$this->access = (int) \JFactory::getConfig()->get('access');
+		$this->access = (int) Factory::getApplication()->get('access');
 	}
 
 	/**
@@ -129,7 +140,26 @@ class Module extends Table
 		// Check for valid name
 		if (trim($this->title) === '')
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MODULE'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MODULE'));
+
+			return false;
+		}
+
+		// Set publish_up, publish_down to null if not set
+		if (!$this->publish_up)
+		{
+			$this->publish_up = null;
+		}
+
+		if (!$this->publish_down)
+		{
+			$this->publish_down = null;
+		}
+
+		// Prevent to save too large content > 65535
+		if ((strlen($this->content) > 65535) || (strlen($this->params) > 65535))
+		{
+			$this->setError(Text::_('COM_MODULES_FIELD_CONTENT_TOO_LARGE'));
 
 			return false;
 		}
@@ -184,17 +214,11 @@ class Module extends Table
 	 *
 	 * @since   3.7.0
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
-		// Set publish_up, publish_down and checked_out_time to null date if not set
-		if (!$this->publish_up)
+		if (!$this->ordering)
 		{
-			$this->publish_up = $this->_db->getNullDate();
-		}
-
-		if (!$this->publish_down)
-		{
-			$this->publish_down = $this->_db->getNullDate();
+			$this->ordering = $this->getNextOrder($this->_db->quoteName('position') . ' = ' . $this->_db->quote($this->position));
 		}
 
 		return parent::store($updateNulls);

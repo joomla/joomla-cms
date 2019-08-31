@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,15 @@ namespace Joomla\Component\Content\Site\Dispatcher;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
+use Joomla\CMS\Language\Text;
+
 /**
- * Dispatcher class for com_content
+ * ComponentDispatcher class for com_content
  *
  * @since  4.0.0
  */
-class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
+class Dispatcher extends ComponentDispatcher
 {
 	/**
 	 * Dispatch a controller task. Redirecting the user if appropriate.
@@ -43,13 +46,11 @@ class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
 
 			if (!$hasAccess)
 			{
-				$this->app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+				$this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 
 				return;
 			}
 		}
-
-		\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 		parent::dispatch();
 	}

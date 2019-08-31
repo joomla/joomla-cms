@@ -3,14 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Banners\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
@@ -54,7 +56,7 @@ class TracksController extends BaseController
 	public function delete()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get the model.
 		/** @var \Joomla\Component\Banners\Administrator\Model\TracksModel $model */
@@ -78,11 +80,11 @@ class TracksController extends BaseController
 		}
 		elseif ($count > 0)
 		{
-			$this->setMessage(\JText::plural('COM_BANNERS_TRACKS_N_ITEMS_DELETED', $count));
+			$this->setMessage(Text::plural('COM_BANNERS_TRACKS_N_ITEMS_DELETED', $count));
 		}
 		else
 		{
-			$this->setMessage(\JText::_('COM_BANNERS_TRACKS_NO_ITEMS_DELETED'));
+			$this->setMessage(Text::_('COM_BANNERS_TRACKS_NO_ITEMS_DELETED'));
 		}
 
 		$this->setRedirect('index.php?option=com_banners&view=tracks');
@@ -112,7 +114,7 @@ class TracksController extends BaseController
 			$model = $this->getModel($vName);
 
 			// Load the filter state.
-			$app = \JFactory::getApplication();
+			$app = $this->app;
 
 			$model->setState('filter.type', $app->getUserState($this->context . '.filter.type'));
 			$model->setState('filter.begin', $app->getUserState($this->context . '.filter.begin'));
@@ -133,7 +135,7 @@ class TracksController extends BaseController
 			$cookiePath     = $app->get('cookie_path', '/');
 			$isHttpsForced  = $app->isHttpsForced();
 
-			$app->input->cookie->set(
+			$this->input->cookie->set(
 				ApplicationHelper::getHash($this->context . '.basename'),
 				$form['basename'],
 				$cookieLifeTime,
@@ -143,7 +145,7 @@ class TracksController extends BaseController
 				true
 			);
 
-			$app->input->cookie->set(
+			$this->input->cookie->set(
 				ApplicationHelper::getHash($this->context . '.compressed'),
 				$form['compressed'],
 				$cookieLifeTime,
@@ -157,7 +159,7 @@ class TracksController extends BaseController
 			$view->setModel($model, true);
 
 			// Push document object into the view.
-			$view->document = \JFactory::getDocument();
+			$view->document = $this->app->getDocument();
 
 			$view->display();
 		}

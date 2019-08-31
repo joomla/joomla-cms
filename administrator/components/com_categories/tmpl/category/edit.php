@@ -3,29 +3,35 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-// Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
-JHtml::_('formbehavior.chosen', '.advancedSelect');
-JHtml::_('behavior.tabstate');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
 
-$app = JFactory::getApplication();
+HTMLHelper::_('script', 'com_contenthistory/admin-history-versions.js', ['version' => 'auto', 'relative' => true]);
+
+$app = Factory::getApplication();
 $input = $app->input;
 
-$assoc = JLanguageAssociations::isEnabled();
+$assoc = Associations::isEnabled();
 // Are associations implemented for this extension?
 $extensionassoc = array_key_exists('item_associations', $this->form->getFieldsets());
+$hasAssoc = ($this->form->getValue('language', null, '*') !== '*');
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
-$this->ignore_fieldsets = array('jmetadata', 'item_associations');
+$this->ignore_fieldsets = ['jmetadata', 'item_associations'];
+$this->useCoreUI = true;
 
 // In case of modal
 $isModal = $input->get('layout') == 'modal' ? true : false;
@@ -33,61 +39,89 @@ $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_categories&extension=' . $input->getCmd('extension', 'com_content') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_categories&extension=' . $input->getCmd('extension', 'com_content') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
-	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
+	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div>
-		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
-
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('JCATEGORY')); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('JCATEGORY')); ?>
 		<div class="row">
-			<div class="col-md-9">
-				<?php echo $this->form->getLabel('description'); ?>
-				<?php echo $this->form->getInput('description'); ?>
-			</div>
-			<div class="col-md-3">
-				<div class="card card-light">
+			<div class="col-lg-9">
+				<div class="card">
 					<div class="card-body">
-						<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+						<?php echo $this->form->getLabel('description'); ?>
+						<?php echo $this->form->getInput('description'); ?>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3">
+				<div class="card card-block">
+					<div class="card-body">
+					<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 					</div>
 				</div>
 			</div>
 		</div>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_CATEGORIES_FIELDSET_PUBLISHING')); ?>
+		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
+
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
 		<div class="row">
-			<div class="col-md-6">
-				<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+			<div class="col-12 col-lg-6">
+				<fieldset id="fieldset-publishingdata" class="options-grid-form options-grid-form-full">
+					<legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
+					<div>
+					<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+					</div>
+				</fieldset>
 			</div>
-			<div class="col-md-6">
-				<?php echo JLayoutHelper::render('joomla.edit.metadata', $this); ?>
+			<div class="col-12 col-lg-6">
+				<fieldset id="fieldset-metadata" class="options-grid-form options-grid-form-full">
+					<legend><?php echo Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
+					<div>
+					<?php echo LayoutHelper::render('joomla.edit.metadata', $this); ?>
+					</div>
+				</fieldset>
 			</div>
 		</div>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php if ( ! $isModal && $assoc && $extensionassoc) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
-			<?php echo $this->loadTemplate('associations'); ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
+
+		<?php if (!$isModal && $assoc && $extensionassoc) : ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
+			<?php if ($hasAssoc) : ?>
+				<fieldset id="fieldset-associations" class="options-grid-form options-grid-form-full">
+				<legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
+				<div>
+				<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
+				</div>
+				</fieldset>
+			<?php endif; ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php elseif ($isModal && $assoc && $extensionassoc) : ?>
-			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
+			<div class="hidden"><?php echo LayoutHelper::render('joomla.edit.associations', $this); ?></div>
 		<?php endif; ?>
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'rules', JText::_('COM_CATEGORIES_FIELDSET_RULES')); ?>
-			<?php echo $this->form->getInput('rules'); ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'rules', Text::_('COM_CATEGORIES_FIELDSET_RULES')); ?>
+			<fieldset id="fieldset-rules" class="options-grid-form options-grid-form-full">
+				<legend><?php echo Text::_('COM_CATEGORIES_FIELDSET_RULES'); ?></legend>
+				<div>
+				<?php echo $this->form->getInput('rules'); ?>
+				</div>
+			</fieldset>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
-		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
 		<?php echo $this->form->getInput('extension'); ?>
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>">
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</div>
 </form>

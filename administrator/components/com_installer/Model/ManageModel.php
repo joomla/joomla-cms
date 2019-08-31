@@ -3,14 +3,23 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Changelog\Changelog;
+use Joomla\CMS\Extension\ExtensionHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Extension;
 use Joomla\Component\Templates\Administrator\Table\StyleTable;
 use Joomla\Database\DatabaseQuery;
 
@@ -59,11 +68,13 @@ class ManageModel extends InstallerModel
 	 *
 	 * @return  void
 	 *
+	 * @throws  \Exception
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load the filter state.
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
@@ -84,18 +95,20 @@ class ManageModel extends InstallerModel
 	/**
 	 * Enable/Disable an extension.
 	 *
-	 * @param   array  &$eid   Extension ids to un/publish
+	 * @param   array  $eid    Extension ids to un/publish
 	 * @param   int    $value  Publish value
 	 *
 	 * @return  boolean  True on success
+	 *
+	 * @throws  \Exception
 	 *
 	 * @since   1.5
 	 */
 	public function publish(&$eid = array(), $value = 1)
 	{
-		if (!\JFactory::getUser()->authorise('core.edit.state', 'com_installer'))
+		if (!Factory::getUser()->authorise('core.edit.state', 'com_installer'))
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
 
 			return false;
 		}
@@ -112,7 +125,7 @@ class ManageModel extends InstallerModel
 		}
 
 		// Get a table object for the extension type
-		$table = new \Joomla\CMS\Table\Extension($this->getDbo());
+		$table = new Extension($this->getDbo());
 
 		// Enable the extension in the table and store it in the database
 		foreach ($eid as $i => $id)
@@ -125,7 +138,7 @@ class ManageModel extends InstallerModel
 
 				if ($style->load(array('template' => $table->element, 'client_id' => $table->client_id, 'home' => 1)))
 				{
-					\JFactory::getApplication()->enqueueMessage(\JText::_('COM_INSTALLER_ERROR_DISABLE_DEFAULT_TEMPLATE_NOT_PERMITTED'), 'notice');
+					Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_ERROR_DISABLE_DEFAULT_TEMPLATE_NOT_PERMITTED'), 'notice');
 					unset($eid[$i]);
 					continue;
 				}
@@ -134,12 +147,17 @@ class ManageModel extends InstallerModel
 			if ($table->protected == 1)
 			{
 				$result = false;
-				\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
+				Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
 			}
 			else
 			{
 				$table->enabled = $value;
 			}
+
+			$context = $this->option . '.' . $this->name;
+
+			PluginHelper::importPlugin('extension');
+			Factory::getApplication()->triggerEvent('onExtensionChangeState', array($context, $eid, $value));
 
 			if (!$table->store())
 			{
@@ -176,8 +194,8 @@ class ManageModel extends InstallerModel
 		}
 
 		// Get an installer object for the extension type
-		$installer = \JInstaller::getInstance();
-		$result = 0;
+		$installer = Installer::getInstance();
+		$result    = 0;
 
 		// Uninstall the chosen extensions
 		foreach ($eid as $id)
@@ -195,13 +213,15 @@ class ManageModel extends InstallerModel
 	 *
 	 * @return  boolean  True on success
 	 *
+	 * @throws  \Exception
+	 *
 	 * @since   1.5
 	 */
 	public function remove($eid = array())
 	{
-		if (!\JFactory::getUser()->authorise('core.delete', 'com_installer'))
+		if (!Factory::getUser()->authorise('core.delete', 'com_installer'))
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
 
 			return false;
 		}
@@ -216,11 +236,11 @@ class ManageModel extends InstallerModel
 		}
 
 		// Get an installer object for the extension type
-		$installer = \JInstaller::getInstance();
-		$row = new \Joomla\CMS\Table\Extension($this->getDbo());
+		$installer = Installer::getInstance();
+		$row       = new \Joomla\CMS\Table\Extension($this->getDbo());
 
 		// Uninstall the chosen extensions
-		$msgs = array();
+		$msgs   = array();
 		$result = false;
 
 		foreach ($eid as $id)
@@ -230,7 +250,7 @@ class ManageModel extends InstallerModel
 			$result = false;
 
 			$langstring = 'COM_INSTALLER_TYPE_TYPE_' . strtoupper($row->type);
-			$rowtype = \JText::_($langstring);
+			$rowtype    = Text::_($langstring);
 
 			if (strpos($rowtype, $langstring) !== false)
 			{
@@ -245,24 +265,24 @@ class ManageModel extends InstallerModel
 				if ($result === false)
 				{
 					// There was an error in uninstalling the package
-					$msgs[] = \JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
+					$msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
 
 					continue;
 				}
 
 				// Package uninstalled successfully
-				$msgs[] = \JText::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $rowtype);
+				$msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $rowtype);
 				$result = true;
 
 				continue;
 			}
 
 			// There was an error in uninstalling the package
-			$msgs[] = \JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
+			$msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
 		}
 
 		$msg = implode('<br>', $msgs);
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$app->enqueueMessage($msg);
 		$this->setState('action', 'remove');
 		$this->setState('name', $installer->get('name'));
@@ -338,7 +358,7 @@ class ManageModel extends InstallerModel
 
 		if ($core !== '')
 		{
-			$coreExtensions = \JExtensionHelper::getCoreExtensions();
+			$coreExtensions = ExtensionHelper::getCoreExtensions();
 			$elements       = array();
 
 			foreach ($coreExtensions as $extension)
@@ -370,5 +390,81 @@ class ManageModel extends InstallerModel
 		// Note: The search for name, ordering and pagination are processed by the parent InstallerModel class (in extension.php).
 
 		return $query;
+	}
+
+	/**
+	 * Load the changelog details for a given extension.
+	 *
+	 * @param   integer  $eid     The extension ID
+	 * @param   string   $source  The view the changelog is for, this is used to determine which version number to show
+	 *
+	 * @return  string  The output to show in the modal.
+	 *
+	 * @since   4.0.0
+	 */
+	public function loadChangelog($eid, $source)
+	{
+		// Get the changelog URL
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select(
+				$db->quoteName(
+					array(
+						'extensions.element',
+						'extensions.type',
+						'extensions.folder',
+						'extensions.changelogurl',
+						'extensions.manifest_cache',
+						'extensions.client_id'
+					)
+				)
+			)
+			->select($db->quoteName('updates.version', 'updateVersion'))
+			->from($db->quoteName('#__extensions', 'extensions'))
+			->leftJoin(
+				$db->quoteName('#__updates', 'updates')
+				. ' ON ' . $db->quoteName('updates.extension_id') . ' = ' . $db->quoteName('extensions.extension_id')
+			)
+			->where($db->quoteName('extensions.extension_id') . ' = ' . (int) $eid);
+		$db->setQuery($query);
+
+		$extensions = $db->loadObjectList();
+		$this->translate($extensions);
+		$extension = array_shift($extensions);
+
+		if (!$extension->changelogurl)
+		{
+			return '';
+		}
+
+		$changelog = new Changelog;
+		$changelog->setVersion($source === 'manage' ? $extension->version : $extension->updateVersion);
+		$changelog->loadFromXml($extension->changelogurl);
+
+		// Read all the entries
+		$entries = array(
+			'security' => array(),
+			'fix'      => array(),
+			'addition' => array(),
+			'change'   => array(),
+			'remove'   => array(),
+			'language' => array(),
+			'note'     => array()
+		);
+
+		array_walk(
+			$entries,
+			function (&$value, $name) use ($changelog) {
+				if ($field = $changelog->get($name))
+				{
+					$value = $changelog->get($name)->data;
+				}
+			}
+		);
+
+		$layout = new FileLayout('joomla.installer.changelog');
+		$output = $layout->render($entries);
+
+		return $output;
 	}
 }

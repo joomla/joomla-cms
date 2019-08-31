@@ -3,17 +3,23 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Contact\Administrator\View\Contacts;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Contact\Administrator\Helper\ContactHelper;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View class for a list of contacts.
@@ -58,13 +64,6 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
-	 * The sidebar markup
-	 *
-	 * @var  string
-	 */
-	protected $sidebar;
-
-	/**
 	 * Display the view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -73,11 +72,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		if ($this->getLayout() !== 'modal')
-		{
-			ContactHelper::addSubmenu('contacts');
-		}
-
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->state         = $this->get('State');
@@ -87,7 +81,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Preprocess the list of items to find ordering divisions.
@@ -102,10 +96,9 @@ class HtmlView extends BaseHtmlView
 		if ($this->getLayout() !== 'modal')
 		{
 			$this->addToolbar();
-			$this->sidebar = \JHtmlSidebar::render();
 
 			// We do not need to filter by language when multilingual is disabled
-			if (!\JLanguageMultilang::isEnabled())
+			if (!Multilanguage::isEnabled())
 			{
 				unset($this->activeFilters['language']);
 				$this->filterForm->removeField('language', 'filter');
@@ -115,7 +108,7 @@ class HtmlView extends BaseHtmlView
 		{
 			// In article associations modal we need to remove language filter if forcing a language.
 			// We also need to change the category filter to show show categories with All or the forced language.
-			if ($forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
+			if ($forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
 			{
 				// If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
 				$languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
@@ -142,56 +135,80 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		$canDo = ContentHelper::getActions('com_contact', 'category', $this->state->get('filter.category_id'));
-		$user  = \JFactory::getUser();
+		$user  = Factory::getUser();
 
-		\JToolbarHelper::title(\JText::_('COM_CONTACT_MANAGER_CONTACTS'), 'address contact');
+		// Get the toolbar object instance
+		$toolbar = Toolbar::getInstance('toolbar');
+
+		ToolbarHelper::title(Text::_('COM_CONTACT_MANAGER_CONTACTS'), 'address-book contact');
 
 		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0)
 		{
-			\JToolbarHelper::addNew('contact.add');
+			$toolbar->addNew('contact.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::publish('contacts.publish', 'JTOOLBAR_PUBLISH', true);
-			\JToolbarHelper::unpublish('contacts.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			\JToolbarHelper::custom('contacts.featured', 'featured.png', 'featured_f2.png', 'JFEATURE', true);
-			\JToolbarHelper::custom('contacts.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
-			\JToolbarHelper::archiveList('contacts.archive');
-			\JToolbarHelper::checkin('contacts.checkin');
-		}
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
+				->listCheck(true);
 
-		// Add a batch button
-		if ($user->authorise('core.create', 'com_contact')
-			&& $user->authorise('core.edit', 'com_contact')
-			&& $user->authorise('core.edit.state', 'com_contact'))
-		{
-			$title = \JText::_('JTOOLBAR_BATCH');
+			$childBar = $dropdown->getChildToolbar();
 
-			// Instantiate a new \JLayoutFile instance and render the batch button
-			$layout = new FileLayout('joomla.toolbar.batch');
+			$childBar->publish('contacts.publish')->listCheck(true);
 
-			$dhtml = $layout->render(array('title' => $title));
-			\JToolbar::getInstance('toolbar')->appendButton('Custom', $dhtml, 'batch');
-		}
+			$childBar->unpublish('contacts.unpublish')->listCheck(true);
 
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
-		{
-			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'contacts.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			\JToolbarHelper::trash('contacts.trash');
+			$childBar->standardButton('featured')
+				->text('JFEATURE')
+				->task('contacts.featured')
+				->listCheck(true);
+			$childBar->standardButton('unfeatured')
+				->text('JUNFEATURE')
+				->task('contacts.unfeatured')
+				->listCheck(true);
+
+			$childBar->archive('contacts.archive')->listCheck(true);
+
+			if ($user->authorise('core.admin'))
+			{
+				$childBar->checkin('contacts.checkin')->listCheck(true);
+			}
+
+			if ($this->state->get('filter.published') != -2)
+			{
+				$childBar->trash('contacts.trash')->listCheck(true);
+			}
+
+			// Add a batch button
+			if ($user->authorise('core.create', 'com_contact')
+				&& $user->authorise('core.edit', 'com_contact')
+				&& $user->authorise('core.edit.state', 'com_contact'))
+			{
+				$childBar->popupButton('batch')
+					->text('JTOOLBAR_BATCH')
+					->selector('collapseModal')
+					->listCheck(true);
+			}
+
+			if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+			{
+				$childBar->delete('contacts.delete')
+					->text('JTOOLBAR_EMPTY_TRASH')
+					->message('JGLOBAL_CONFIRM_DELETE')
+					->listCheck(true);
+			}
 		}
 
 		if ($user->authorise('core.admin', 'com_contact') || $user->authorise('core.options', 'com_contact'))
 		{
-			\JToolbarHelper::preferences('com_contact');
+			$toolbar->preferences('com_contact');
 		}
 
-		\JToolbarHelper::help('JHELP_COMPONENTS_CONTACTS_CONTACTS');
-
-		\JHtmlSidebar::setAction('index.php?option=com_contact');
+		$toolbar->help('JHELP_COMPONENTS_CONTACTS_CONTACTS');
 	}
 
 	/**
@@ -204,15 +221,15 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'a.ordering'     => \JText::_('JGRID_HEADING_ORDERING'),
-			'a.published'    => \JText::_('JSTATUS'),
-			'a.name'         => \JText::_('JGLOBAL_TITLE'),
-			'category_title' => \JText::_('JCATEGORY'),
-			'ul.name'        => \JText::_('COM_CONTACT_FIELD_LINKED_USER_LABEL'),
-			'a.featured'     => \JText::_('JFEATURED'),
-			'a.access'       => \JText::_('JGRID_HEADING_ACCESS'),
-			'a.language'     => \JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id'           => \JText::_('JGRID_HEADING_ID'),
+			'a.ordering'     => Text::_('JGRID_HEADING_ORDERING'),
+			'a.published'    => Text::_('JSTATUS'),
+			'a.name'         => Text::_('JGLOBAL_TITLE'),
+			'category_title' => Text::_('JCATEGORY'),
+			'ul.name'        => Text::_('COM_CONTACT_FIELD_LINKED_USER_LABEL'),
+			'a.featured'     => Text::_('JFEATURED'),
+			'a.access'       => Text::_('JGRID_HEADING_ACCESS'),
+			'a.language'     => Text::_('JGRID_HEADING_LANGUAGE'),
+			'a.id'           => Text::_('JGRID_HEADING_ID'),
 		);
 	}
 }

@@ -3,50 +3,61 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-// Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
-JHtml::_('behavior.core');
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.tabstate');
+HTMLHelper::_('behavior.core');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('behavior.tabstate');
 
-JText::script('ERROR');
+Text::script('ERROR');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
-	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
+	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div>
-		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_MENUS_MENU_DETAILS')); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_MENUS_MENU_DETAILS')); ?>
 
-			<?php
-			echo $this->form->renderField('menutype');
+			<fieldset id="fieldset-details" class="options-grid-form">
+				<legend><?php echo Text::_('COM_MENUS_MENU_DETAILS'); ?></legend>
 
-			echo $this->form->renderField('description');
+				<div>
+					<div>
+						<?php
+						echo $this->form->renderField('menutype');
 
-			echo $this->form->renderField('client_id');
+						echo $this->form->renderField('description');
 
-			echo $this->form->renderField('preset');
-			?>
+						echo $this->form->renderField('client_id');
 
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+						echo $this->form->renderField('preset');
+						?>
+					</div>
+				</div>
+			</fieldset>
+
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 			<?php if ($this->canDo->get('core.admin')) : ?>
-				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_MENUS_FIELDSET_RULES')); ?>
+				<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_MENUS_FIELDSET_RULES')); ?>
 					<?php echo $this->form->getInput('rules'); ?>
-				<?php echo JHtml::_('bootstrap.endTab'); ?>
+				<?php echo HTMLHelper::_('uitab.endTab'); ?>
 			<?php endif; ?>
 
-		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 		<input type="hidden" name="task" value="">
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</div>
 </form>

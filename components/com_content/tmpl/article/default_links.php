@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\HTML\HTMLHelper;
 
 // Create shortcut
 $urls = json_decode($this->item->urls);
@@ -16,7 +18,7 @@ $urls = json_decode($this->item->urls);
 $params = $this->item->params;
 if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))) :
 ?>
-<div class="content-links">
+<div class="com-content-article__links content-links">
 	<ul class="nav nav-tabs nav-stacked">
 		<?php
 			$urlarray = array(
@@ -40,7 +42,7 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 				// If no target is present, use the default
 				$target = $target ?: $params->get('target' . $id);
 				?>
-			<li class="content-links-<?php echo $id; ?>">
+			<li class="com-content-article__link content-links-<?php echo $id; ?>">
 				<?php
 					// Compute the correct link
 
@@ -59,10 +61,22 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 								htmlspecialchars($label, ENT_COMPAT, 'UTF-8') . '</a>';
 							break;
 						case 3:
-							// Open in a modal window
-							JHtml::_('behavior.modal', 'a.modal');
-							echo '<a class="modal" href="' . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . '"  rel="{handler: \'iframe\', size: {x:600, y:600}} noopener noreferrer">' .
+							echo '<a href="' . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . '" rel="noopener noreferrer" data-toggle="modal" data-target="#linkModal">' .
 								htmlspecialchars($label, ENT_COMPAT, 'UTF-8') . ' </a>';
+							echo HTMLHelper::_(
+								'bootstrap.renderModal',
+								'linkModal',
+								array(
+									'url'    => $link,
+									'title'  => $label,
+									'height' => '100%',
+									'width'  => '100%',
+									'modalWidth'  => '500',
+									'bodyHeight'  => '500',
+									'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+										. \Joomla\CMS\Language\Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+								)
+							);
 							break;
 
 						default:

@@ -2,21 +2,27 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 
@@ -85,18 +91,18 @@ final class SiteApplication extends CMSApplication
 	protected function authorise($itemid)
 	{
 		$menus = $this->getMenu();
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if (!$menus->authorise($itemid))
 		{
 			if ($user->get('id') == 0)
 			{
 				// Set the data
-				$this->setUserState('users.login.form.data', array('return' => \JUri::getInstance()->toString()));
+				$this->setUserState('users.login.form.data', array('return' => Uri::getInstance()->toString()));
 
-				$url = \JRoute::_('index.php?option=com_users&view=login', false);
+				$url = Route::_('index.php?option=com_users&view=login', false);
 
-				$this->enqueueMessage(\JText::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'));
+				$this->enqueueMessage(Text::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'), 'error');
 				$this->redirect($url);
 			}
 			else
@@ -107,12 +113,12 @@ final class SiteApplication extends CMSApplication
 				// If we are already in the homepage raise an exception
 				if ($menus->getActive()->id == $home_item->id)
 				{
-					throw new \Exception(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+					throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 				}
 
 				// Otherwise redirect to the homepage and show an error
-				$this->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-				$this->redirect(\JRoute::_('index.php?Itemid=' . $home_item->id, false));
+				$this->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
+				$this->redirect(Route::_('index.php?Itemid=' . $home_item->id, false));
 			}
 		}
 	}
@@ -142,8 +148,8 @@ final class SiteApplication extends CMSApplication
 		$router   = static::getRouter();
 		$params   = $this->getParams();
 
-		// Register the document object with \JFactory
-		\JFactory::$document = $document;
+		// Register the document object with Factory
+		Factory::$document = $document;
 
 		switch ($document->getType())
 		{
@@ -164,11 +170,6 @@ final class SiteApplication extends CMSApplication
 
 				$document->setMetaData('rights', $this->get('MetaRights'));
 
-				if ($this->get('sef'))
-				{
-					$document->setBase(htmlspecialchars(\JUri::current()));
-				}
-
 				// Get the template
 				$template = $this->getTemplate(true);
 
@@ -176,10 +177,15 @@ final class SiteApplication extends CMSApplication
 				$this->set('theme', $template->template);
 				$this->set('themeParams', $template->params);
 
+				// Add Asset registry files
+				$document->getWebAssetManager()->getRegistry()
+					->addRegistryFile('media/' . $component . '/joomla.asset.json')
+					->addRegistryFile('templates/' . $template->template . '/joomla.asset.json');
+
 				break;
 
 			case 'feed':
-				$document->setBase(htmlspecialchars(\JUri::current()));
+				$document->setBase(htmlspecialchars(Uri::current()));
 				break;
 		}
 
@@ -266,21 +272,6 @@ final class SiteApplication extends CMSApplication
 	}
 
 	/**
-	 * Return a reference to the AbstractMenu object.
-	 *
-	 * @param   string  $name     The name of the application/client.
-	 * @param   array   $options  An optional associative array of configuration settings.
-	 *
-	 * @return  AbstractMenu  AbstractMenu object.
-	 *
-	 * @since   3.2
-	 */
-	public function getMenu($name = 'site', $options = array())
-	{
-		return parent::getMenu($name, $options);
-	}
-
-	/**
 	 * Get the application parameters
 	 *
 	 * @param   string  $option  The component option
@@ -337,7 +328,7 @@ final class SiteApplication extends CMSApplication
 			$temp = clone ComponentHelper::getParams('com_menus');
 
 			// Lets cascade the parameters if we have menu item parameters
-			if (is_object($menu))
+			if (\is_object($menu))
 			{
 				// Get show_page_heading from com_menu global settings
 				$params[$hash]->def('show_page_heading', $temp->get('show_page_heading'));
@@ -379,19 +370,17 @@ final class SiteApplication extends CMSApplication
 	}
 
 	/**
-	 * Return a reference to the \JRouter object.
+	 * Return a reference to the Router object.
 	 *
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return	\JRouter
+	 * @return	\Joomla\CMS\Router\Router
 	 *
 	 * @since	3.2
 	 */
 	public static function getRouter($name = 'site', array $options = array())
 	{
-		$options['mode'] = \JFactory::getConfig()->get('sef');
-
 		return parent::getRouter($name, $options);
 	}
 
@@ -407,11 +396,11 @@ final class SiteApplication extends CMSApplication
 	 */
 	public function getTemplate($params = false)
 	{
-		if (is_object($this->template))
+		if (\is_object($this->template))
 		{
 			if (!file_exists(JPATH_THEMES . '/' . $this->template->template . '/index.php'))
 			{
-				throw new \InvalidArgumentException(\JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
+				throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
 			}
 
 			if ($params)
@@ -433,7 +422,7 @@ final class SiteApplication extends CMSApplication
 
 		$id = 0;
 
-		if (is_object($item))
+		if (\is_object($item))
 		{
 			// Valid item retrieved
 			$id = $item->template_style_id;
@@ -446,7 +435,8 @@ final class SiteApplication extends CMSApplication
 			$id = (int) $tid;
 		}
 
-		$cache = \JFactory::getCache('com_templates', '');
+		/** @var OutputController $cache */
+		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('output', ['defaultgroup' => 'com_templates']);
 
 		if ($this->getLanguageFilter())
 		{
@@ -466,13 +456,23 @@ final class SiteApplication extends CMSApplication
 		else
 		{
 			// Load styles
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select('id, home, template, s.params')
-				->from('#__template_styles as s')
-				->where('s.client_id = 0')
-				->where('e.enabled = 1')
-				->join('LEFT', '#__extensions as e ON e.element=s.template AND e.type=' . $db->quote('template') . ' AND e.client_id=s.client_id');
+				->select($db->quoteName(['id', 'home', 'template', 's.params']))
+				->from($db->quoteName('#__template_styles', 's'))
+				->where(
+					[
+						$db->quoteName('s.client_id') . ' = 0',
+						$db->quoteName('e.enabled') . ' = 1',
+					]
+				)
+				->join(
+					'LEFT',
+					$db->quoteName('#__extensions', 'e'),
+					$db->quoteName('e.element') . ' = ' . $db->quoteName('s.template')
+						. ' AND ' . $db->quoteName('e.type') . ' = ' . $db->quote('template')
+						. ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('s.client_id')
+				);
 
 			$db->setQuery($query);
 			$templates = $db->loadObjectList('id');
@@ -530,12 +530,12 @@ final class SiteApplication extends CMSApplication
 		}
 
 		// Need to filter the default value as well
-		$template->template = \JFilterInput::getInstance()->clean($template->template, 'cmd');
+		$template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
 
 		// Fallback template
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
-			$this->enqueueMessage(\JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
+			$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
 
 			// Try to find data for 'cassiopeia' template
 			$original_tmpl = $template->template;
@@ -552,7 +552,7 @@ final class SiteApplication extends CMSApplication
 			// Check, the data were found and if template really exists
 			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 			{
-				throw new \InvalidArgumentException(\JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $original_tmpl));
+				throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $original_tmpl));
 			}
 		}
 
@@ -578,7 +578,7 @@ final class SiteApplication extends CMSApplication
 	 */
 	protected function initialiseApp($options = array())
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// If the user is a guest we populate it with the guest user group.
 		if ($user->guest)
@@ -692,9 +692,9 @@ final class SiteApplication extends CMSApplication
 	public function login($credentials, $options = array())
 	{
 		// Set the application login entry point
-		if (!array_key_exists('entry_url', $options))
+		if (!\array_key_exists('entry_url', $options))
 		{
-			$options['entry_url'] = \JUri::base() . 'index.php?option=com_users&task=user.login';
+			$options['entry_url'] = Uri::base() . 'index.php?option=com_users&task=user.login';
 		}
 
 		// Set the access control action to check.
@@ -730,9 +730,9 @@ final class SiteApplication extends CMSApplication
 					$this->set('themeFile', 'index.php');
 				}
 
-				if ($this->get('offline') && !\JFactory::getUser()->authorise('core.login.offline'))
+				if ($this->get('offline') && !Factory::getUser()->authorise('core.login.offline'))
 				{
-					$this->setUserState('users.login.form.data', array('return' => \JUri::getInstance()->toString()));
+					$this->setUserState('users.login.form.data', array('return' => Uri::getInstance()->toString()));
 					$this->set('themeFile', 'offline.php');
 					$this->setHeader('Status', '503 Service Temporarily Unavailable', 'true');
 				}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,14 +12,23 @@ namespace Joomla\Component\Content\Administrator\Extension;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Association\AssociationServiceInterface;
-use Joomla\CMS\Categories\CategoriesServiceInterface;
-use Joomla\CMS\Categories\CategoriesServiceTrait;
+use Joomla\CMS\Association\AssociationServiceTrait;
+use Joomla\CMS\Categories\CategoryServiceInterface;
+use Joomla\CMS\Categories\CategoryServiceTrait;
+use Joomla\CMS\Component\Router\RouterServiceInterface;
+use Joomla\CMS\Component\Router\RouterServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Helper\ContentHelper as LibraryContentHelper;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Workflow\WorkflowServiceInterface;
+use Joomla\CMS\Workflow\WorkflowServiceTrait;
+use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Content\Administrator\Service\HTML\Icon;
 use Psr\Container\ContainerInterface;
@@ -30,11 +39,54 @@ use Psr\Container\ContainerInterface;
  * @since  4.0.0
  */
 class ContentComponent extends MVCComponent implements
-	BootableExtensionInterface, CategoriesServiceInterface, FieldsServiceInterface, AssociationServiceInterface
+	BootableExtensionInterface, CategoryServiceInterface, FieldsServiceInterface, AssociationServiceInterface,
+	WorkflowServiceInterface, RouterServiceInterface
 {
-	use CategoriesServiceTrait;
+	use CategoryServiceTrait;
 	use AssociationServiceTrait;
+	use RouterServiceTrait;
 	use HTMLRegistryAwareTrait;
+	use WorkflowServiceTrait;
+
+	/**
+	 * The trashed condition
+	 *
+	 * @since   4.0.0
+	 */
+	const CONDITION_NAMES = [
+		self::CONDITION_PUBLISHED   => 'JPUBLISHED',
+		self::CONDITION_UNPUBLISHED => 'JUNPUBLISHED',
+		self::CONDITION_ARCHIVED    => 'JARCHIVED',
+		self::CONDITION_TRASHED     => 'JTRASHED',
+	];
+
+	/**
+	 * The archived condition
+	 *
+	 * @since   4.0.0
+	 */
+	const CONDITION_ARCHIVED = 2;
+
+	/**
+	 * The published condition
+	 *
+	 * @since   4.0.0
+	 */
+	const CONDITION_PUBLISHED = 1;
+
+	/**
+	 * The unpublished condition
+	 *
+	 * @since   4.0.0
+	 */
+	const CONDITION_UNPUBLISHED = 0;
+
+	/**
+	 * The trashed condition
+	 *
+	 * @since   4.0.0
+	 */
+	const CONDITION_TRASHED = -2;
 
 	/**
 	 * Booting the extension. This is the function to set up the environment of the extension like
@@ -71,7 +123,7 @@ class ContentComponent extends MVCComponent implements
 	 */
 	public function validateSection($section, $item = null)
 	{
-		if (\JFactory::getApplication()->isClient('site'))
+		if (Factory::getApplication()->isClient('site'))
 		{
 			// On the front end we need to map some sections
 			switch ($section)
@@ -104,11 +156,11 @@ class ContentComponent extends MVCComponent implements
 	 */
 	public function getContexts(): array
 	{
-		\JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+		Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
 		$contexts = array(
-			'com_content.article'    => \JText::_('COM_CONTENT'),
-			'com_content.categories' => \JText::_('JCATEGORY')
+			'com_content.article'    => Text::_('COM_CONTENT'),
+			'com_content.categories' => Text::_('JCATEGORY')
 		);
 
 		return $contexts;
@@ -126,5 +178,113 @@ class ContentComponent extends MVCComponent implements
 	protected function getTableNameForSection(string $section = null)
 	{
 		return '#__content';
+	}
+
+	/**
+	 * Returns a table name for the state association
+	 *
+	 * @param   string  $section  An optional section to separate different areas in the component
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	public function getWorkflowTableBySection(string $section = null) : string
+	{
+		return '#__content';
+	}
+
+	/**
+	 * Method to filter transitions by given id of state.
+	 *
+	 * @param   array  $transitions  The Transitions to filter
+	 * @param   int    $pk           Id of the state
+	 *
+	 * @return  array
+	 *
+	 * @since  4.0.0
+	 */
+	public function filterTransitions($transitions, $pk): array
+	{
+		return ContentHelper::filterTransitions($transitions, $pk);
+	}
+
+	/**
+	 * Adds Count Items for Category Manager.
+	 *
+	 * @param   \stdClass[]  $items    The category objects
+	 * @param   string       $section  The section
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function countItems(array $items, string $section)
+	{
+		$config = (object) array(
+			'related_tbl'    => 'content',
+			'state_col'      => 'condition',
+			'group_col'      => 'catid',
+			'relation_type'  => 'category_or_group',
+			'uses_workflows' => true,
+			'workflows_component' => 'com_content'
+		);
+
+		LibraryContentHelper::countRelations($items, $config);
+	}
+
+	/**
+	 * Adds Count Items for Tag Manager.
+	 *
+	 * @param   \stdClass[]  $items      The content objects
+	 * @param   string       $extension  The name of the active view.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 * @throws  \Exception
+	 */
+	public function countTagItems(array $items, string $extension)
+	{
+		$parts   = explode('.', $extension);
+		$section = count($parts) > 1 ? $parts[1] : null;
+
+		$config = (object) array(
+			'related_tbl'   => ($section === 'category' ? 'categories' : 'content'),
+			'state_col'     => ($section === 'category' ? 'published' : 'state'),
+			'group_col'     => 'tag_id',
+			'extension'     => $extension,
+			'relation_type' => 'tag_assigments',
+		);
+
+		LibraryContentHelper::countRelations($items, $config);
+	}
+
+	/**
+	 * Prepares the category form
+	 *
+	 * @param   Form          $form  The form to prepare
+	 * @param   array|object  $data  The form data
+	 *
+	 * @return void
+	 */
+	public function prepareForm(Form $form, $data)
+	{
+		ContentHelper::onPrepareForm($form, $data);
+	}
+
+	/**
+	 * Method to change state of multiple ids
+	 *
+	 * @param   array  $pks        Array of IDs
+	 * @param   int    $condition  Condition of the workflow state
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 */
+	public static function updateContentState($pks, $condition): bool
+	{
+		return ContentHelper::updateContentState($pks, $condition);
 	}
 }

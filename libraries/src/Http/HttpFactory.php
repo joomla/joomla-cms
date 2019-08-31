@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Http;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Version;
 use Joomla\Http\TransportInterface;
@@ -16,7 +16,7 @@ use Joomla\Http\TransportInterface;
 /**
  * HTTP factory class.
  *
- * @since  12.1
+ * @since  3.0.0
  */
 class HttpFactory
 {
@@ -28,12 +28,12 @@ class HttpFactory
 	 *
 	 * @return  Http
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  \RuntimeException
 	 */
 	public static function getHttp($options = [], $adapters = null)
 	{
-		if (!is_array($options) && !($options instanceof \ArrayAccess))
+		if (!\is_array($options) && !($options instanceof \ArrayAccess))
 		{
 			throw new \InvalidArgumentException(
 				'The options param must be an array or implement the ArrayAccess interface.'
@@ -63,11 +63,11 @@ class HttpFactory
 	 *
 	 * @return  TransportInterface|boolean  Interface sub-class or boolean false if no adapters are available
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function getAvailableDriver($options = [], $default = null)
 	{
-		if (is_null($default))
+		if (\is_null($default))
 		{
 			$availableAdapters = static::getHttpTransports();
 		}
@@ -78,7 +78,7 @@ class HttpFactory
 		}
 
 		// Check if there is at least one available http transport adapter
-		if (!count($availableAdapters))
+		if (!\count($availableAdapters))
 		{
 			return false;
 		}
@@ -107,14 +107,14 @@ class HttpFactory
 	 *
 	 * @return  array  An array of available transport handlers
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function getHttpTransports()
 	{
 		$names = array();
 		$iterator = new \DirectoryIterator(__DIR__ . '/Transport');
 
-		/* @type  $file  \DirectoryIterator */
+		/** @type  $file  \DirectoryIterator */
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();

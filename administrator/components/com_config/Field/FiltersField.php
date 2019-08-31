@@ -3,15 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Config\Administrator\Field;
 
-use Joomla\CMS\Form\FormField;
-
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 /**
  * Text Filters form field.
@@ -39,6 +43,48 @@ class FiltersField extends FormField
 	 */
 	protected function getInput()
 	{
+		// Load Framework
+		HTMLHelper::_('jquery.framework');
+
+		// Add translation string for notification
+		Text::script('COM_CONFIG_TEXT_FILTERS_NOTE');
+
+		// Add Javascript
+		$doc = Factory::getDocument();
+		$doc->addScriptDeclaration('
+			jQuery( document ).ready(function( $ ) {
+				$("#filter-config select").change(function() {
+					var currentFilter = $(this).children("option:selected").val();
+
+					if($(this).children("option:selected").val() === "NONE") {
+						var child = $("#filter-config select[data-parent=" + $(this).attr("data-id") + "]");
+					
+						while(child.length !== 0) {
+							if(child.children("option:selected").val() !== "NONE") {
+								alert(Joomla.JText._("COM_CONFIG_TEXT_FILTERS_NOTE"));
+								break;
+							}
+							
+							child = $("#filter-config select[data-parent=" + child.attr("data-id") + "]");
+						}
+						
+						return;
+					}
+
+					var parent = $("#filter-config select[data-id=" + $(this).attr("data-parent") + "]");
+
+					while(parent.length !== 0) {
+						if(parent.children("option:selected").val() === "NONE") {
+							alert(Joomla.JText._("COM_CONFIG_TEXT_FILTERS_NOTE"));
+							break;
+						}
+						
+						parent = $("#filter-config select[data-id=" + parent.attr("data-parent") + "]")
+					}
+				});
+			});'
+		);
+
 		// Get the available user groups.
 		$groups = $this->getUserGroups();
 
@@ -46,22 +92,22 @@ class FiltersField extends FormField
 		$html = array();
 
 		// Open the table.
-		$html[] = '<table id="filter-config" class="table table-striped">';
+		$html[] = '<table id="filter-config" class="table">';
 
 		// The table heading.
 		$html[] = '	<thead>';
 		$html[] = '	<tr>';
 		$html[] = '		<th>';
-		$html[] = '			<span class="acl-action">' . \JText::_('JGLOBAL_FILTER_GROUPS_LABEL') . '</span>';
+		$html[] = '			<span class="acl-action">' . Text::_('JGLOBAL_FILTER_GROUPS_LABEL') . '</span>';
 		$html[] = '		</th>';
 		$html[] = '		<th>';
-		$html[] = '			<span class="acl-action">' . \JText::_('JGLOBAL_FILTER_TYPE_LABEL') . '</span>';
+		$html[] = '			<span class="acl-action">' . Text::_('JGLOBAL_FILTER_TYPE_LABEL') . '</span>';
 		$html[] = '		</th>';
 		$html[] = '		<th>';
-		$html[] = '			<span class="acl-action">' . \JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '</span>';
+		$html[] = '			<span class="acl-action">' . Text::_('JGLOBAL_FILTER_TAGS_LABEL') . '</span>';
 		$html[] = '		</th>';
 		$html[] = '		<th>';
-		$html[] = '			<span class="acl-action">' . \JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '</span>';
+		$html[] = '			<span class="acl-action">' . Text::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '</span>';
 		$html[] = '		</th>';
 		$html[] = '	</tr>';
 		$html[] = '	</thead>';
@@ -83,40 +129,48 @@ class FiltersField extends FormField
 
 			$html[] = '	<tr>';
 			$html[] = '		<td class="acl-groups left">';
-			$html[] = '			' . \JLayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text;
+			$html[] = '			' . LayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text;
 			$html[] = '		</td>';
 			$html[] = '		<td>';
+			$html[] = '			<label for="' . $this->id . $group->value . '_filter_type" class="sr-only">'
+				. Text::_('JGLOBAL_FILTER_TYPE_LABEL') . '</label>';
 			$html[] = '				<select'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_type]"'
 				. ' id="' . $this->id . $group->value . '_filter_type"'
+				. ' data-parent="' . ($group->parent) . '" '
+				. ' data-id="' . ($group->value) . '" '
 				. ' class="novalidate custom-select"'
 				. '>';
 			$html[] = '					<option value="BL"' . ($group_filter['filter_type'] == 'BL' ? ' selected="selected"' : '') . '>'
-				. \JText::_('COM_CONFIG_FIELD_FILTERS_DEFAULT_BLACK_LIST') . '</option>';
+				. Text::_('COM_CONFIG_FIELD_FILTERS_DEFAULT_BLACK_LIST') . '</option>';
 			$html[] = '					<option value="CBL"' . ($group_filter['filter_type'] == 'CBL' ? ' selected="selected"' : '') . '>'
-				. \JText::_('COM_CONFIG_FIELD_FILTERS_CUSTOM_BLACK_LIST') . '</option>';
+				. Text::_('COM_CONFIG_FIELD_FILTERS_CUSTOM_BLACK_LIST') . '</option>';
 			$html[] = '					<option value="WL"' . ($group_filter['filter_type'] == 'WL' ? ' selected="selected"' : '') . '>'
-				. \JText::_('COM_CONFIG_FIELD_FILTERS_WHITE_LIST') . '</option>';
+				. Text::_('COM_CONFIG_FIELD_FILTERS_WHITE_LIST') . '</option>';
 			$html[] = '					<option value="NH"' . ($group_filter['filter_type'] == 'NH' ? ' selected="selected"' : '') . '>'
-				. \JText::_('COM_CONFIG_FIELD_FILTERS_NO_HTML') . '</option>';
+				. Text::_('COM_CONFIG_FIELD_FILTERS_NO_HTML') . '</option>';
 			$html[] = '					<option value="NONE"' . ($group_filter['filter_type'] == 'NONE' ? ' selected="selected"' : '') . '>'
-				. \JText::_('COM_CONFIG_FIELD_FILTERS_NO_FILTER') . '</option>';
+				. Text::_('COM_CONFIG_FIELD_FILTERS_NO_FILTER') . '</option>';
 			$html[] = '				</select>';
 			$html[] = '		</td>';
 			$html[] = '		<td>';
+			$html[] = '			<label for="' . $this->id . $group->value . '_filter_tags" class="sr-only">'
+				. Text::_('JGLOBAL_FILTER_TAGS_LABEL') . '</label>';
 			$html[] = '				<input'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_tags]"'
 				. ' type="text"'
 				. ' id="' . $this->id . $group->value . '_filter_tags" class="novalidate form-control"'
-				. ' value="' . $group_filter['filter_tags'] . '"'
+				. ' value="' . htmlspecialchars($group_filter['filter_tags'], ENT_QUOTES) . '"'
 				. '>';
 			$html[] = '		</td>';
 			$html[] = '		<td>';
+			$html[] = '			<label for="' . $this->id . $group->value . '_filter_attributes"'
+				. ' class="sr-only">' . Text::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '</label>';
 			$html[] = '				<input'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_attributes]"'
 				. ' type="text"'
 				. ' id="' . $this->id . $group->value . '_filter_attributes" class="novalidate form-control"'
-				. ' value="' . $group_filter['filter_attributes'] . '"'
+				. ' value="' . htmlspecialchars($group_filter['filter_attributes'], ENT_QUOTES) . '"'
 				. '>';
 			$html[] = '		</td>';
 			$html[] = '	</tr>';
@@ -126,13 +180,6 @@ class FiltersField extends FormField
 
 		// Close the table.
 		$html[] = '</table>';
-
-		// Add notes
-		$html[] = '<joomla-alert type="warning">';
-		$html[] = '<p>' . \JText::_('JGLOBAL_FILTER_TYPE_DESC') . '</p>';
-		$html[] = '<p>' . \JText::_('JGLOBAL_FILTER_TAGS_DESC') . '</p>';
-		$html[] = '<p>' . \JText::_('JGLOBAL_FILTER_ATTRIBUTES_DESC') . '</p>';
-		$html[] = '</joomla-alert>';
 
 		return implode("\n", $html);
 	}
@@ -147,11 +194,11 @@ class FiltersField extends FormField
 	protected function getUserGroups()
 	{
 		// Get a database object.
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Get the user groups from the database.
 		$query = $db->getQuery(true);
-		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level');
+		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id as parent');
 		$query->from('#__usergroups AS a');
 		$query->join('LEFT', '#__usergroups AS b on a.lft > b.lft AND a.rgt < b.rgt');
 		$query->group('a.id, a.title, a.lft');

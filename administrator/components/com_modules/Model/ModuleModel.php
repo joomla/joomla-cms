@@ -3,18 +3,25 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Modules\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -105,7 +112,7 @@ class ModuleModel extends AdminModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load the User state.
 		$pk = $app->input->getInt('id');
@@ -139,7 +146,7 @@ class ModuleModel extends AdminModel
 	protected function batchCopy($value, $pks, $contexts)
 	{
 		// Set the variables
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$table = $this->getTable();
 		$newIds = array();
 
@@ -165,6 +172,9 @@ class ModuleModel extends AdminModel
 				}
 
 				$table->position = $position;
+
+				// Copy of the Asset ID
+				$oldAssetId = $table->asset_id;
 
 				// Alter the title if necessary
 				$data = $this->generateNewTitle(0, $table->title, $table->position);
@@ -208,10 +218,21 @@ class ModuleModel extends AdminModel
 					$db->setQuery($query);
 					$db->execute();
 				}
+
+				// Copy rules
+				$query->clear()
+					->update($db->quoteName('#__assets', 't'))
+					->join('INNER', $db->quoteName('#__assets', 's') .
+						' ON ' . $db->quoteName('s.id') . ' = ' . $oldAssetId
+					)
+					->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
+					->where($db->quoteName('t.id') . ' = ' . $table->asset_id);
+
+				$db->setQuery($query)->execute();
 			}
 			else
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 
 				return false;
 			}
@@ -237,7 +258,7 @@ class ModuleModel extends AdminModel
 	protected function batchMove($value, $pks, $contexts)
 	{
 		// Set the variables
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$table = $this->getTable();
 
 		foreach ($pks as $pk)
@@ -272,7 +293,7 @@ class ModuleModel extends AdminModel
 			}
 			else
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}
@@ -295,7 +316,7 @@ class ModuleModel extends AdminModel
 	 */
 	protected function canEditState($record)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Check for existing module.
 		if (!empty($record->id))
@@ -321,9 +342,9 @@ class ModuleModel extends AdminModel
 	 */
 	public function delete(&$pks)
 	{
-		$app        = \JFactory::getApplication();
+		$app        = Factory::getApplication();
 		$pks        = (array) $pks;
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$table      = $this->getTable();
 		$context    = $this->option . '.' . $this->name;
 
@@ -338,7 +359,7 @@ class ModuleModel extends AdminModel
 				// Access checks.
 				if (!$user->authorise('core.delete', 'com_modules.module.' . (int) $pk) || $table->published != -2)
 				{
-					\JFactory::getApplication()->enqueueMessage(\JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
+					Factory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
 
 					return;
 				}
@@ -391,13 +412,13 @@ class ModuleModel extends AdminModel
 	 */
 	public function duplicate(&$pks)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$db   = $this->getDbo();
 
 		// Access checks.
 		if (!$user->authorise('core.create', 'com_modules'))
 		{
-			throw new \Exception(\JText::_('JERROR_CORE_CREATE_NOT_PERMITTED'));
+			throw new \Exception(Text::_('JERROR_CORE_CREATE_NOT_PERMITTED'));
 		}
 
 		$table = $this->getTable();
@@ -463,7 +484,7 @@ class ModuleModel extends AdminModel
 			}
 			catch (\RuntimeException $e)
 			{
-				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				return false;
 			}
@@ -540,7 +561,7 @@ class ModuleModel extends AdminModel
 
 		// Add the default fields directory
 		$baseFolder = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
-		\JForm::addFieldPath($baseFolder . '/modules' . '/' . $module . '/field');
+		Form::addFieldPath($baseFolder . '/modules/' . $module . '/field');
 
 		// These variables are used to add data from the plugin XML files.
 		$this->setState('item.client_id', $clientId);
@@ -567,9 +588,7 @@ class ModuleModel extends AdminModel
 			return false;
 		}
 
-		$form->setFieldAttribute('position', 'client', $this->getState('item.client_id') == 0 ? 'site' : 'administrator');
-
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		/**
 		 * Check for existing module
@@ -604,7 +623,7 @@ class ModuleModel extends AdminModel
 	 */
 	protected function loadFormData()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Check the session for previously entered form data.
 		$data = $app->getUserState('com_modules.edit.module.data', array());
@@ -620,7 +639,7 @@ class ModuleModel extends AdminModel
 				$data->set('published', $app->input->getInt('published', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
 				$data->set('position', $app->input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null)));
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
-				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : \JFactory::getConfig()->get('access'))));
+				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access'))));
 			}
 
 			// Avoid to delete params of a second module opened in a new browser tab while new one is not saved yet.
@@ -707,7 +726,7 @@ class ModuleModel extends AdminModel
 				}
 				else
 				{
-					\JFactory::getApplication()->redirect(\JRoute::_('index.php?option=com_modules&view=modules', false));
+					Factory::getApplication()->redirect(Route::_('index.php?option=com_modules&view=modules', false));
 
 					return false;
 				}
@@ -715,7 +734,7 @@ class ModuleModel extends AdminModel
 
 			// Convert to the \JObject before adding other data.
 			$properties        = $table->getProperties(1);
-			$this->_cache[$pk] = ArrayHelper::toObject($properties, 'JObject');
+			$this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
 
 			// Convert the params field to an array.
 			$registry = new Registry($table->params);
@@ -760,7 +779,7 @@ class ModuleModel extends AdminModel
 
 			// Get the module XML.
 			$client = ApplicationHelper::getClientInfo($table->client_id);
-			$path   = \JPath::clean($client->path . '/modules/' . $table->module . '/' . $table->module . '.xml');
+			$path   = Path::clean($client->path . '/modules/' . $table->module . '/' . $table->module . '.xml');
 
 			if (file_exists($path))
 			{
@@ -830,16 +849,14 @@ class ModuleModel extends AdminModel
 	 * @since   1.6
 	 * @throws  \Exception if there is an error loading the form.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
-		jimport('joomla.filesystem.path');
-
-		$lang     = \JFactory::getLanguage();
+		$lang     = Factory::getLanguage();
 		$clientId = $this->getState('item.client_id');
 		$module   = $this->getState('item.module');
 
 		$client   = ApplicationHelper::getClientInfo($clientId);
-		$formFile = \JPath::clean($client->path . '/modules/' . $module . '/' . $module . '.xml');
+		$formFile = Path::clean($client->path . '/modules/' . $module . '/' . $module . '.xml');
 
 		// Load the core and/or local language file(s).
 		$lang->load($module, $client->path, null, false, true)
@@ -850,13 +867,13 @@ class ModuleModel extends AdminModel
 			// Get the module form.
 			if (!$form->loadFile($formFile, false, '//config'))
 			{
-				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 			}
 
 			// Attempt to load the xml file.
 			if (!$xml = simplexml_load_file($formFile))
 			{
-				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 			}
 
 			// Get the help data from the XML file if present.
@@ -873,7 +890,7 @@ class ModuleModel extends AdminModel
 		}
 
 		// Load the default advanced params
-		\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
+		Form::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
 		$form->loadFile('advanced', false);
 
 		// Trigger the default form events.
@@ -909,7 +926,7 @@ class ModuleModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$input      = \JFactory::getApplication()->input;
+		$input      = Factory::getApplication()->input;
 		$table      = $this->getTable();
 		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('module.id');
 		$isNew      = true;
@@ -934,7 +951,7 @@ class ModuleModel extends AdminModel
 
 			if ($data['title'] == $orig_table->title)
 			{
-				$data['title'] .= ' ' . \JText::_('JGLOBAL_COPY');
+				$data['title'] = StringHelper::increment($data['title']);
 			}
 		}
 
@@ -958,7 +975,7 @@ class ModuleModel extends AdminModel
 		}
 
 		// Trigger the before save event.
-		$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
+		$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
 
 		if (in_array(false, $result, true))
 		{
@@ -1060,14 +1077,18 @@ class ModuleModel extends AdminModel
 		}
 
 		// Trigger the after save event.
-		\JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew));
+		Factory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew));
 
 		// Compute the extension id of this module in case the controller wants it.
 		$query->clear()
-			->select('extension_id')
-			->from('#__extensions AS e')
-			->join('LEFT', '#__modules AS m ON e.element = m.module')
-			->where('m.id = ' . (int) $table->id);
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions', 'e'))
+			->join(
+				'LEFT',
+				$db->quoteName('#__modules', 'm') . ' ON ' . $db->quoteName('e.client_id') . ' = ' . (int) $table->client_id .
+				' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('m.module')
+			)
+			->where($db->quoteName('m.id') . ' = ' . (int) $table->id);
 		$db->setQuery($query);
 
 		try
@@ -1076,7 +1097,7 @@ class ModuleModel extends AdminModel
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -1098,17 +1119,16 @@ class ModuleModel extends AdminModel
 	 *
 	 * @param   object  $table  A record object.
 	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
 	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
 	{
-		$condition = array();
-		$condition[] = 'client_id = ' . (int) $table->client_id;
-		$condition[] = 'position = ' . $this->_db->quote($table->position);
-
-		return $condition;
+		return [
+			$this->_db->quoteName('client_id') . ' = ' . (int) $table->client_id,
+			$this->_db->quoteName('position') . ' = ' . $this->_db->quote($table->position),
+		];
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,9 +11,12 @@ namespace Joomla\Component\Content\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Router\Route;
+use Joomla\Input\Input;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * The article controller
@@ -29,8 +32,8 @@ class ArticleController extends FormController
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CmsApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   Input                $input    Input
 	 *
 	 * @since   3.0
 	 */
@@ -64,7 +67,7 @@ class ArticleController extends FormController
 		if ($categoryId)
 		{
 			// If the category has been passed in the data or URL check it.
-			$allow = \JFactory::getUser()->authorise('core.create', 'com_content.category.' . $categoryId);
+			$allow = $this->app->getIdentity()->authorise('core.create', 'com_content.category.' . $categoryId);
 		}
 
 		if ($allow === null)
@@ -89,7 +92,7 @@ class ArticleController extends FormController
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-		$user = \JFactory::getUser();
+		$user = $this->app->getIdentity();
 
 		// Zero record (id:0), return component edit permission by calling parent controller method
 		if (!$recordId)
@@ -132,14 +135,14 @@ class ArticleController extends FormController
 	 */
 	public function batch($model = null)
 	{
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Set the model
 		/** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
 		$model = $this->getModel('Article', 'Administrator', array());
 
 		// Preset the redirect
-		$this->setRedirect(\JRoute::_('index.php?option=com_content&view=articles' . $this->getRedirectToListAppend(), false));
+		$this->setRedirect(Route::_('index.php?option=com_content&view=articles' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
 	}

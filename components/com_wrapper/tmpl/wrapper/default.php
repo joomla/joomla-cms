@@ -3,13 +3,16 @@
  * @package     Joomla.Site
  * @subpackage  com_wrapper
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::_('script', 'com_wrapper/iframe-height.min.js', array('version' => 'auto', 'relative' => true));
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
+HTMLHelper::_('script', 'com_wrapper/iframe-height.min.js', array('version' => 'auto', 'relative' => true));
 
 ?>
 <div class="com-wrapper contentpane">
@@ -38,6 +41,6 @@ JHtml::_('script', 'com_wrapper/iframe-height.min.js', array('version' => 'auto'
 			title="<?php echo $this->escape($this->params->get('page_title')); ?>"
 		<?php endif; ?>
 		class="com-wrapper__iframe wrapper <?php echo $this->pageclass_sfx; ?>">
-		<?php echo JText::_('COM_WRAPPER_NO_IFRAMES'); ?>
+		<?php echo Text::_('COM_WRAPPER_NO_IFRAMES'); ?>
 	</iframe>
 </div>

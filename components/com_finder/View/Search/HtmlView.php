@@ -3,16 +3,26 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Finder\Site\View\Search;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\SearchHelper;
-use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Profiler\Profiler;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Finder\Site\Helper\FinderHelper;
 
 /**
  * Search HTML view class for the Finder package.
@@ -112,45 +122,40 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app    = \JFactory::getApplication();
-		$params = $app->getParams();
+		$app = Factory::getApplication();
+		$this->params = $app->getParams();
 
 		// Get view data.
-		$state = $this->get('State');
-		$query = $this->get('Query');
-		\JDEBUG ? \JProfiler::getInstance('Application')->mark('afterFinderQuery') : null;
-		$results = $this->get('Items');
-		\JDEBUG ? \JProfiler::getInstance('Application')->mark('afterFinderResults') : null;
-		$total = $this->get('Total');
-		\JDEBUG ? \JProfiler::getInstance('Application')->mark('afterFinderTotal') : null;
-		$pagination = $this->get('Pagination');
-		\JDEBUG ? \JProfiler::getInstance('Application')->mark('afterFinderPagination') : null;
+		$this->state = $this->get('State');
+		$this->query = $this->get('Query');
+		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderQuery') : null;
+		$this->results = $this->get('Items');
+		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderResults') : null;
+		$this->total = $this->get('Total');
+		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderTotal') : null;
+		$this->pagination = $this->get('Pagination');
+		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderPagination') : null;
+
+		// Flag indicates to not add limitstart=0 to URL
+		$this->pagination->hideEmptyLimitstart = true;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Configure the pathway.
-		if (!empty($query->input))
+		if (!empty($this->query->input))
 		{
-			$app->getPathway()->addItem($this->escape($query->input));
+			$app->getPathway()->addItem($this->escape($this->query->input));
 		}
-
-		// Push out the view data.
-		$this->state      = &$state;
-		$this->params     = &$params;
-		$this->query      = &$query;
-		$this->results    = &$results;
-		$this->total      = &$total;
-		$this->pagination = &$pagination;
 
 		// Check for a double quote in the query string.
 		if (strpos($this->query->input, '"'))
 		{
 			// Get the application router.
-			$router = &$app::getRouter();
+			$router = $app->getRouter();
 
 			// Fix the q variable in the URL.
 			if ($router->getVar('q') !== $this->query->input)
@@ -159,16 +164,28 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
+		// Run an event on each result item
+		if (is_array($this->results))
+		{
+			// Import Finder plugins
+			PluginHelper::importPlugin('finder');
+
+			foreach ($this->results as $result)
+			{
+				$app->triggerEvent('onFinderResult', array(&$result, &$this->query));
+			}
+		}
+
 		// Log the search
-		SearchHelper::logSearch($this->query->input, 'com_finder');
+		FinderHelper::logSearch($this->query, $this->total);
 
 		// Push out the query data.
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-		$this->suggested = \JHtml::_('query.suggested', $query);
-		$this->explained = \JHtml::_('query.explained', $query);
+		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		$this->suggested = HTMLHelper::_('query.suggested', $this->query);
+		$this->explained = HTMLHelper::_('query.explained', $this->query);
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
 
 		// Check for layout override only if this is not the active menu item
 		// If it is the active menu item, then the view and category id will match
@@ -180,13 +197,13 @@ class HtmlView extends BaseHtmlView
 			$this->setLayout($active->query['layout']);
 		}
 
-		$this->prepareDocument($query);
+		$this->prepareDocument($this->query);
 
-		\JDEBUG ? \JProfiler::getInstance('Application')->mark('beforeFinderLayout') : null;
+		\JDEBUG ? Profiler::getInstance('Application')->mark('beforeFinderLayout') : null;
 
 		parent::display($tpl);
 
-		\JDEBUG ? \JProfiler::getInstance('Application')->mark('afterFinderLayout') : null;
+		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderLayout') : null;
 	}
 
 	/**
@@ -202,7 +219,7 @@ class HtmlView extends BaseHtmlView
 		$fields = null;
 
 		// Get the URI.
-		$uri = \JUri::getInstance(\JRoute::_($this->query->toUri()));
+		$uri = Uri::getInstance(Route::_($this->query->toUri()));
 		$uri->delVar('q');
 		$uri->delVar('o');
 		$uri->delVar('t');
@@ -239,9 +256,8 @@ class HtmlView extends BaseHtmlView
 		$file = $this->_layout . '_' . preg_replace('/[^A-Z0-9_\.-]/i', '', $layout);
 
 		// Check if the file exists.
-		jimport('joomla.filesystem.path');
 		$filetofind = $this->_createFileName('template', array('name' => $file));
-		$exists     = \JPath::find($this->_path['template'], $filetofind);
+		$exists     = Path::find($this->_path['template'], $filetofind);
 
 		return ($exists ? $layout : 'result');
 	}
@@ -257,9 +273,8 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function prepareDocument($query)
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$menus = $app->getMenu();
-		$title = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
@@ -271,7 +286,7 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', \JText::_('COM_FINDER_DEFAULT_PAGE_TITLE'));
+			$this->params->def('page_heading', Text::_('COM_FINDER_DEFAULT_PAGE_TITLE'));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -282,11 +297,11 @@ class HtmlView extends BaseHtmlView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);
@@ -302,16 +317,36 @@ class HtmlView extends BaseHtmlView
 			$explained = $this->escape(html_entity_decode(strip_tags($this->explained), ENT_QUOTES, 'UTF-8'));
 			$this->document->setDescription($explained);
 		}
+		elseif ($this->params->get('menu-meta_description'))
+		{
+			$this->document->setDescription($this->params->get('menu-meta_description'));
+		}
 
 		// Configure the document meta-keywords.
 		if (!empty($query->highlight))
 		{
 			$this->document->setMetaData('keywords', implode(', ', $query->highlight));
 		}
+		elseif ($this->params->get('menu-meta_keywords'))
+		{
+			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+		}
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetaData('robots', $this->params->get('robots'));
+			$this->document->setMetadata('robots', $this->params->get('robots'));
+		}
+
+		// Check for OpenSearch
+		if ($this->params->get('opensearch', 1))
+		{
+			$ostitle = $this->params->get('opensearch_name',
+				Text::_('COM_FINDER_OPENSEARCH_NAME') . ' ' . Factory::getApplication()->get('sitename')
+			);
+			Factory::getDocument()->addHeadLink(
+				Uri::getInstance()->toString(array('scheme', 'host', 'port')) . Route::_('index.php?option=com_finder&view=search&format=opensearch'),
+				'search', 'rel', array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
+			);
 		}
 
 		// Add feed link to the document head.
@@ -319,12 +354,12 @@ class HtmlView extends BaseHtmlView
 		{
 			// Add the RSS link.
 			$props = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$route = \JRoute::_($this->query->toUri() . '&format=feed&type=rss');
+			$route = Route::_($this->query->toUri() . '&format=feed&type=rss');
 			$this->document->addHeadLink($route, 'alternate', 'rel', $props);
 
 			// Add the ATOM link.
 			$props = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$route = \JRoute::_($this->query->toUri() . '&format=feed&type=atom');
+			$route = Route::_($this->query->toUri() . '&format=feed&type=atom');
 			$this->document->addHeadLink($route, 'alternate', 'rel', $props);
 		}
 	}

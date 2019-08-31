@@ -2,20 +2,20 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Input;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Joomla! Input Files Class
  *
- * @since       11.1
+ * @since       1.7.0
  * @deprecated  5.0  Use Joomla\Input\Files instead
  */
 class Files extends Input
@@ -24,7 +24,7 @@ class Files extends Input
 	 * The pivoted data from a $_FILES or compatible array.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 * @deprecated  5.0  Use Joomla\Input\Files instead
 	 */
 	protected $decodedData = array();
@@ -34,9 +34,9 @@ class Files extends Input
 	 *
 	 * @param   array  $source   The source argument is ignored. $_FILES is always used.
 	 * @param   array  $options  An optional array of configuration options:
-	 *                           filter : a custom JFilterInput object.
+	 *                           filter : a custom InputFilter object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @deprecated  5.0  Use Joomla\Input\Files instead
 	 */
 	public function __construct(array $source = null, array $options = array())
@@ -66,8 +66,8 @@ class Files extends Input
 	 *
 	 * @return  mixed  The filtered input value.
 	 *
-	 * @see     JFilterInput::clean()
-	 * @since   11.1
+	 * @see     InputFilter::clean()
+	 * @since   1.7.0
 	 * @deprecated  5.0  Use Joomla\Input\Files instead
 	 */
 	public function get($name, $default = null, $filter = 'cmd')
@@ -108,14 +108,14 @@ class Files extends Input
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  5.0  Use Joomla\Input\Files instead
 	 */
 	protected function decodeData(array $data)
 	{
 		$result = array();
 
-		if (is_array($data[0]))
+		if (\is_array($data[0]))
 		{
 			foreach ($data[0] as $k => $v)
 			{
@@ -136,7 +136,7 @@ class Files extends Input
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  5.0  Use Joomla\Input\Files instead
 	 */
 	public function set($name, $value)

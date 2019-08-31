@@ -3,16 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Menus\Administrator\View\Menu;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * The HTML Menus Menu Item View.
@@ -69,7 +73,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		parent::display($tpl);
@@ -85,12 +89,12 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 		$input->set('hidemainmenu', true);
 
 		$isNew = ($this->item->id == 0);
 
-		ToolbarHelper::title(\JText::_($isNew ? 'COM_MENUS_VIEW_NEW_MENU_TITLE' : 'COM_MENUS_VIEW_EDIT_MENU_TITLE'), 'list menu');
+		ToolbarHelper::title(Text::_($isNew ? 'COM_MENUS_VIEW_NEW_MENU_TITLE' : 'COM_MENUS_VIEW_EDIT_MENU_TITLE'), 'list menu');
 
 		$toolbarButtons = [];
 
@@ -99,7 +103,7 @@ class HtmlView extends BaseHtmlView
 		{
 			if ($this->canDo->get('core.edit'))
 			{
-				$toolbarButtons[] = ['apply', 'menu.apply'];
+				ToolbarHelper::apply('menu.apply');
 			}
 
 			$toolbarButtons[] = ['save', 'menu.save'];
@@ -108,7 +112,8 @@ class HtmlView extends BaseHtmlView
 		// If user can edit, can save the item.
 		if (!$isNew && $this->canDo->get('core.edit'))
 		{
-			$toolbarButtons[] = ['apply', 'menu.apply'];
+			ToolbarHelper::apply('menu.apply');
+
 			$toolbarButtons[] = ['save', 'menu.save'];
 		}
 

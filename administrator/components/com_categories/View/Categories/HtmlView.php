@@ -3,19 +3,25 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Categories\Administrator\View\Categories;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * Categories view class for the Category package.
@@ -67,13 +73,6 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
-	 * The sidebar markup
-	 *
-	 * @var  string
-	 */
-	protected $string;
-
-	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -92,7 +91,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Preprocess the list of items to find ordering divisions.
@@ -105,10 +104,9 @@ class HtmlView extends BaseHtmlView
 		if ($this->getLayout() !== 'modal')
 		{
 			$this->addToolbar();
-			$this->sidebar = \JHtmlSidebar::render();
 
 			// We do not need to filter by language when multilingual is disabled
-			if (!\JLanguageMultilang::isEnabled())
+			if (!Multilanguage::isEnabled())
 			{
 				unset($this->activeFilters['language']);
 				$this->filterForm->removeField('language', 'filter');
@@ -117,7 +115,7 @@ class HtmlView extends BaseHtmlView
 		else
 		{
 			// In article associations modal we need to remove language filter if forcing a language.
-			if ($forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
+			if ($forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
 			{
 				// If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
 				$languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
@@ -144,10 +142,10 @@ class HtmlView extends BaseHtmlView
 		$component  = $this->state->get('filter.component');
 		$section    = $this->state->get('filter.section');
 		$canDo      = ContentHelper::getActions($component, 'category', $categoryId);
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 
 		// Get the toolbar object instance
-		$bar = \JToolbar::getInstance('toolbar');
+		$toolbar = Toolbar::getInstance('toolbar');
 
 		// Avoid nonsense situation.
 		if ($component == 'com_categories')
@@ -156,80 +154,97 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load($component, JPATH_BASE, null, false, true)
 		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
 
 		// If a component categories title string is present, let's use it.
 		if ($lang->hasKey($component_title_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORIES_TITLE'))
 		{
-			$title = \JText::_($component_title_key);
+			$title = Text::_($component_title_key);
 		}
 		elseif ($lang->hasKey($component_section_key = strtoupper($component . ($section ? "_$section" : ''))))
 		// Else if the component section string exits, let's use it
 		{
-			$title = \JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', $this->escape(\JText::_($component_section_key)));
+			$title = Text::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', $this->escape(Text::_($component_section_key)));
 		}
 		else
 		// Else use the base title
 		{
-			$title = \JText::_('COM_CATEGORIES_CATEGORIES_BASE_TITLE');
+			$title = Text::_('COM_CATEGORIES_CATEGORIES_BASE_TITLE');
 		}
 
 		// Load specific css component
-		\JHtml::_('stylesheet', $component . '/administrator/categories.css', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('stylesheet', $component . '/administrator/categories.css', array('version' => 'auto', 'relative' => true));
 
 		// Prepare the toolbar.
-		\JToolbarHelper::title($title, 'folder categories ' . substr($component, 4) . ($section ? "-$section" : '') . '-categories');
+		ToolbarHelper::title($title, 'folder categories ' . substr($component, 4) . ($section ? "-$section" : '') . '-categories');
 
 		if ($canDo->get('core.create') || count($user->getAuthorisedCategories($component, 'core.create')) > 0)
 		{
-			\JToolbarHelper::addNew('category.add');
+			$toolbar->addNew('category.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin'))
 		{
-			\JToolbarHelper::publish('categories.publish', 'JTOOLBAR_PUBLISH', true);
-			\JToolbarHelper::unpublish('categories.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			\JToolbarHelper::archiveList('categories.archive');
-		}
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
+				->listCheck(true);
 
-		if (\JFactory::getUser()->authorise('core.admin'))
-		{
-			\JToolbarHelper::checkin('categories.checkin');
-		}
+			$childBar = $dropdown->getChildToolbar();
 
-		// Add a batch button
-		if ($canDo->get('core.create')
-			&& $canDo->get('core.edit')
-			&& $canDo->get('core.edit.state'))
-		{
-			$title = \JText::_('JTOOLBAR_BATCH');
+			if ($canDo->get('core.edit.state'))
+			{
+				$childBar->publish('categories.publish')->listCheck(true);
 
-			// Instantiate a new \JLayoutFile instance and render the batch button
-			$layout = new FileLayout('joomla.toolbar.batch');
+				$childBar->unpublish('categories.unpublish')->listCheck(true);
 
-			$dhtml = $layout->render(array('title' => $title));
-			$bar->appendButton('Custom', $dhtml, 'batch');
+				$childBar->archive('categories.archive')->listCheck(true);
+			}
+
+			if (Factory::getUser()->authorise('core.admin'))
+			{
+				$childBar->checkin('categories.checkin')->listCheck(true);
+			}
+
+			if ($canDo->get('core.edit.state') && $this->state->get('filter.published') != -2)
+			{
+				$childBar->trash('categories.trash')->listCheck(true);
+			}
+
+			// Add a batch button
+			if ($canDo->get('core.create')
+				&& $canDo->get('core.edit')
+				&& $canDo->get('core.edit.state'))
+			{
+				$childBar->popupButton('batch')
+					->text('JTOOLBAR_BATCH')
+					->selector('collapseModal')
+					->listCheck(true);
+			}
 		}
 
 		if ($canDo->get('core.admin'))
 		{
-			\JToolbarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
+			$toolbar->standardButton('refresh')
+				->text('JTOOLBAR_REBUILD')
+				->task('categories.rebuild');
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete', $component))
 		{
-			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'categories.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			\JToolbarHelper::trash('categories.trash');
+			$toolbar->delete('categories.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			\JToolbarHelper::preferences($component);
+			$toolbar->preferences($component);
 		}
 
 		// Compute the ref_key if it does exist in the component
@@ -247,7 +262,7 @@ class HtmlView extends BaseHtmlView
 		if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL'))
 		{
 			$debug = $lang->setDebug(false);
-			$url = \JText::_($lang_help_url);
+			$url = Text::_($lang_help_url);
 			$lang->setDebug($debug);
 		}
 		else
@@ -255,7 +270,7 @@ class HtmlView extends BaseHtmlView
 			$url = null;
 		}
 
-		\JToolbarHelper::help($ref_key, ComponentHelper::getParams($component)->exists('helpURL'), $url);
+		$toolbar->help($ref_key, ComponentHelper::getParams($component)->exists('helpURL'), $url);
 	}
 
 	/**
@@ -268,12 +283,12 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'a.lft'       => \JText::_('JGRID_HEADING_ORDERING'),
-			'a.published' => \JText::_('JSTATUS'),
-			'a.title'     => \JText::_('JGLOBAL_TITLE'),
-			'a.access'    => \JText::_('JGRID_HEADING_ACCESS'),
-			'language'    => \JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id'        => \JText::_('JGRID_HEADING_ID'),
+			'a.lft'       => Text::_('JGRID_HEADING_ORDERING'),
+			'a.published' => Text::_('JSTATUS'),
+			'a.title'     => Text::_('JGLOBAL_TITLE'),
+			'a.access'    => Text::_('JGRID_HEADING_ACCESS'),
+			'language'    => Text::_('JGRID_HEADING_LANGUAGE'),
+			'a.id'        => Text::_('JGRID_HEADING_ID'),
 		);
 	}
 }

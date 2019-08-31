@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,10 +18,10 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
+use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
-use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 
 /**
@@ -87,7 +87,7 @@ class ApiModel extends BaseDatabaseModel
 	 * @throws  \Exception
 	 * @see     AdapterInterface::getFile()
 	 */
-	public function getFile($adapter, $path = '/', $options = array())
+	public function getFile($adapter, $path = '/', $options = [])
 	{
 		// Add adapter prefix to the file returned
 		$file = $this->getAdapter($adapter)->getFile($path);
@@ -140,7 +140,7 @@ class ApiModel extends BaseDatabaseModel
 	 * @throws  \Exception
 	 * @see     AdapterInterface::getFile()
 	 */
-	public function getFiles($adapter, $path = '/', $options = array())
+	public function getFiles($adapter, $path = '/', $options = [])
 	{
 		// Check whether user searching
 		if ($options['search'] != null)
@@ -203,7 +203,7 @@ class ApiModel extends BaseDatabaseModel
 	 * @param   string   $adapter   The adapter
 	 * @param   string   $name      The name
 	 * @param   string   $path      The folder
-	 * @param   boolean  $override  Should the folder being overriden when it exists
+	 * @param   boolean  $override  Should the folder being overridden when it exists
 	 *
 	 * @return  string
 	 *
@@ -250,7 +250,7 @@ class ApiModel extends BaseDatabaseModel
 	 * @param   string   $name      The name
 	 * @param   string   $path      The folder
 	 * @param   binary   $data      The data
-	 * @param   boolean  $override  Should the file being overriden when it exists
+	 * @param   boolean  $override  Should the file being overridden when it exists
 	 *
 	 * @return  string
 	 *
@@ -512,7 +512,7 @@ class ApiModel extends BaseDatabaseModel
 	 * @return  CMSObject
 	 *
 	 * @throws  \Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function triggerEvent(string $adapter, string $name, string $path, $data, callable $callback)
 	{
@@ -529,7 +529,7 @@ class ApiModel extends BaseDatabaseModel
 		// Also include the filesystem plugins, perhaps they support batch processing too
 		PluginHelper::importPlugin('media-action');
 
-		$result = $app->triggerEvent('onContentBeforeSave', array('com_media.' . $object->type, $object, true));
+		$result = $app->triggerEvent('onContentBeforeSave', ['com_media.' . $object->type, $object, true]);
 
 		if (in_array(false, $result, true))
 		{
@@ -538,7 +538,7 @@ class ApiModel extends BaseDatabaseModel
 
 		$callback($object);
 
-		$app->triggerEvent('onContentAfterSave', array('com_media.' . $object->type, $object, true));
+		$app->triggerEvent('onContentAfterSave', ['com_media.' . $object->type, $object, true]);
 
 		return $object;
 	}

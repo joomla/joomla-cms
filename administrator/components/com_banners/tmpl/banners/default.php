@@ -3,18 +3,26 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
-JHtml::_('behavior.multiselect');
-JHtml::_('behavior.tabstate');
+/** @var \Joomla\Component\Banners\Administrator\View\Banners\HtmlView $this */
 
-$user      = JFactory::getUser();
+HTMLHelper::_('behavior.multiselect');
+HTMLHelper::_('behavior.tabstate');
+
+$user      = Factory::getUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -22,79 +30,78 @@ $saveOrder = $listOrder == 'a.ordering';
 
 if ($saveOrder && !empty($this->items))
 {
-	$saveOrderingUrl = 'index.php?option=com_banners&task=banners.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
-	JHtml::_('draggablelist.draggable');
+	$saveOrderingUrl = 'index.php?option=com_banners&task=banners.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
+	HTMLHelper::_('draggablelist.draggable');
 }
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_banners&view=banners'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_banners&view=banners'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
-		<div id="j-sidebar-container" class="col-md-2">
-			<?php echo $this->sidebar; ?>
-		</div>
-		<div class="col-md-10">
+		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<?php
 				// Search tools bar
-				echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+				echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]);
 				?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<div class="alert alert-info">
+						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+					</div>
 				<?php else : ?>
-					<table class="table table-striped" id="articleList">
+					<table class="table" id="articleList">
+						<caption id="captionTable" class="sr-only">
+							<?php echo Text::_('COM_BANNERS_BANNERS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						</caption>
 						<thead>
 							<tr>
-								<th style="width:1%" class="nowrap text-center d-none d-md-table-cell">
-									<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+								<td style="width:1%" class="text-center">
+									<?php echo HTMLHelper::_('grid.checkall'); ?>
+								</td>
+								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th style="width:1%" class="text-center">
-									<?php echo JHtml::_('grid.checkall'); ?>
+								<th scope="col" style="width:1%" class="text-center">
+									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:1%" class="nowrap text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
+								<th scope="col">
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 								</th>
-								<th>
-									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
+								<th scope="col" style="width:10%" class="text-center d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_STICKY', 'a.sticky', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap text-center d-none d-md-table-cell">
-									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_STICKY', 'a.sticky', $listDirn, $listOrder); ?>
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_CLIENT', 'client_name', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
-									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_CLIENT', 'client_name', $listDirn, $listOrder); ?>
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_IMPRESSIONS', 'impmade', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
-									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_IMPRESSIONS', 'impmade', $listDirn, $listOrder); ?>
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_CLICKS', 'clicks', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
-									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_CLICKS', 'clicks', $listDirn, $listOrder); ?>
-								</th>
-								<?php if (JLanguageMultilang::isEnabled()) : ?>
-									<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
-										<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
+								<?php if (Multilanguage::isEnabled()) : ?>
+									<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="13">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 						<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
 							<?php foreach ($this->items as $i => $item) :
 								$ordering  = ($listOrder == 'ordering');
-								$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_banners&task=edit&type=other&cid[]=' . $item->catid);
+								$item->cat_link = Route::_('index.php?option=com_categories&extension=com_banners&task=edit&type=other&cid[]=' . $item->catid);
 								$canCreate  = $user->authorise('core.create',     'com_banners.category.' . $item->catid);
 								$canEdit    = $user->authorise('core.edit',       'com_banners.category.' . $item->catid);
 								$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 								$canChange  = $user->authorise('core.edit.state', 'com_banners.category.' . $item->catid) && $canCheckin;
 								?>
 								<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>">
-									<td class="order nowrap text-center d-none d-md-table-cell">
+									<td class="text-center">
+										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+									</td>
+									<td class="order text-center d-none d-md-table-cell">
 										<?php
 										$iconClass = '';
 
@@ -104,11 +111,11 @@ if ($saveOrder && !empty($this->items))
 										}
 										elseif (!$saveOrder)
 										{
-											$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::_('tooltipText', 'JORDERINGDISABLED');
+											$iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
 										}
 										?>
 										<span class="sortable-handler <?php echo $iconClass ?>">
-											<span class="icon-menu" aria-hidden="true"></span>
+											<span class="fa fa-ellipsis-v" aria-hidden="true"></span>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
 											<input type="text" style="display:none" name="order[]" size="5"
@@ -116,69 +123,67 @@ if ($saveOrder && !empty($this->items))
 										<?php endif; ?>
 									</td>
 									<td class="text-center">
-										<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+										<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'banners.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 									</td>
-									<td class="text-center">
-										<div class="btn-group">
-											<?php echo JHtml::_('jgrid.published', $item->state, $i, 'banners.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-										</div>
-									</td>
-									<td class="nowrap">
+									<th scope="row">
 										<div class="break-word">
 											<?php if ($item->checked_out) : ?>
-												<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'banners.', $canCheckin); ?>
+												<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'banners.', $canCheckin); ?>
 											<?php endif; ?>
 											<?php if ($canEdit) : ?>
-												<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
-												<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_banners&task=banner.edit&id=' . (int) $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
-													<?php echo $editIcon; ?><?php echo $this->escape($item->name); ?></a>
+												<a href="<?php echo Route::_('index.php?option=com_banners&task=banner.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
+													<?php echo $this->escape($item->name); ?></a>
 											<?php else : ?>
 												<?php echo $this->escape($item->name); ?>
 											<?php endif; ?>
 											<span class="small break-word">
-												<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 											</span>
 											<div class="small">
-												<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
+												<?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 											</div>
 										</div>
+									</th>
+									<td class="text-center d-none d-md-table-cell">
+										<?php echo HTMLHelper::_('banner.pinned', $item->sticky, $i, $canChange); ?>
 									</td>
-									<td class="text-center d-none d-md-table-cell text-center">
-										<?php echo JHtml::_('banner.pinned', $item->sticky, $i, $canChange); ?>
-									</td>
-									<td class="small d-none d-md-table-cell text-center">
+									<td class="small d-none d-md-table-cell">
 										<?php echo $item->client_name; ?>
 									</td>
-									<td class="small d-none d-md-table-cell text-center">
-										<?php echo JText::sprintf('COM_BANNERS_IMPRESSIONS', $item->impmade, $item->imptotal ?: JText::_('COM_BANNERS_UNLIMITED')); ?>
+									<td class="small d-none d-md-table-cell">
+										<?php echo Text::sprintf('COM_BANNERS_IMPRESSIONS', $item->impmade, $item->imptotal ?: Text::_('COM_BANNERS_UNLIMITED')); ?>
 									</td>
-									<td class="small d-none d-md-table-cell text-center">
+									<td class="small d-none d-md-table-cell">
 										<?php echo $item->clicks; ?> -
 										<?php echo sprintf('%.2f%%', $item->impmade ? 100 * $item->clicks / $item->impmade : 0); ?>
 									</td>
-									<?php if (JLanguageMultilang::isEnabled()) : ?>
-										<td class="small nowrap d-none d-md-table-cell text-center">
-											<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+									<?php if (Multilanguage::isEnabled()) : ?>
+										<td class="small d-none d-md-table-cell">
+											<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 										</td>
 									<?php endif; ?>
-									<td class="d-none d-md-table-cell text-center">
+									<td class="d-none d-md-table-cell">
 										<?php echo $item->id; ?>
 									</td>
 								</tr>
 							<?php endforeach; ?>
 						</tbody>
 					</table>
+
+					<?php // Load the pagination. ?>
+					<?php echo $this->pagination->getListFooter(); ?>
+
 					<?php // Load the batch processing form. ?>
 					<?php if ($user->authorise('core.create', 'com_banners')
 						&& $user->authorise('core.edit', 'com_banners')
 						&& $user->authorise('core.edit.state', 'com_banners')) : ?>
-						<?php echo JHtml::_(
+						<?php echo HTMLHelper::_(
 							'bootstrap.renderModal',
 							'collapseModal',
-							array(
-								'title' => JText::_('COM_BANNERS_BATCH_OPTIONS'),
+							[
+								'title' => Text::_('COM_BANNERS_BATCH_OPTIONS'),
 								'footer' => $this->loadTemplate('batch_footer')
-							),
+							],
 							$this->loadTemplate('batch_body')
 						); ?>
 					<?php endif; ?>
@@ -186,7 +191,7 @@ if ($saveOrder && !empty($this->items))
 
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>
 	</div>

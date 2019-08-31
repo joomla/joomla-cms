@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,14 +14,14 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Helper\UserGroupsHelper;
-use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\Database\ParameterType;
 
 /**
  * Form Field class for the Joomla Platform.
  * Field for assigning permissions to groups for a given asset
  *
  * @see    JAccess
- * @since  11.1
+ * @since  1.7.0
  */
 class RulesField extends FormField
 {
@@ -29,7 +29,7 @@ class RulesField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Rules';
 
@@ -146,7 +146,7 @@ class RulesField extends FormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @todo:   Add access check.
 	 */
 	protected function getInput()
@@ -160,7 +160,10 @@ class RulesField extends FormField
 		$this->isGlobalConfig = $component === 'root.1';
 
 		// Get the actions for the asset.
-		$this->actions = Access::getActions($component, $section);
+		$this->actions = Access::getActionsFromFile(
+			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
+			"/access/section[@name='" . $section . "']/"
+		);
 
 		// Iterate over the children and add to the actions.
 		foreach ($this->element->children() as $el)
@@ -177,23 +180,24 @@ class RulesField extends FormField
 
 		// Get the asset id.
 		// Note that for global configuration, com_config injects asset_id = 1 into the form.
-		$this->assetId       = $this->form->getValue($assetField);
-		$this->newItem       = empty($assetId) && $this->isGlobalConfig === false && $section !== 'component';
+		$this->assetId = (int) $this->form->getValue($assetField);
+		$this->newItem = empty($this->assetId) && $this->isGlobalConfig === false && $section !== 'component';
 		$parentAssetId = null;
 
 		// If the asset id is empty (component or new item).
-		if (empty($assetId))
+		if (empty($this->assetId))
 		{
 			// Get the component asset id as fallback.
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__assets'))
-				->where($db->quoteName('name') . ' = ' . $db->quote($component));
+				->where($db->quoteName('name') . ' = :component')
+				->bind(':component', $component);
 
 			$db->setQuery($query);
 
-			$assetId = (int) $db->loadResult();
+			$this->assetId = (int) $db->loadResult();
 
 			/**
 			 * @to do: incorrect info
@@ -212,7 +216,8 @@ class RulesField extends FormField
 			$query = $db->getQuery(true)
 				->select($db->quoteName('parent_id'))
 				->from($db->quoteName('#__assets'))
-				->where($db->quoteName('id') . ' = ' . $assetId);
+				->where($db->quoteName('id') . ' = :assetId')
+				->bind(':assetId', $this->assetId, ParameterType::INTEGER);
 
 			$db->setQuery($query);
 
@@ -220,7 +225,7 @@ class RulesField extends FormField
 		}
 
 		// Get the rules for just this asset (non-recursive).
-		$this->assetRules = Access::getAssetRules($assetId, false, false);
+		$this->assetRules = Access::getAssetRules($this->assetId, false, false);
 
 		// Get the available user groups.
 		$this->groups = $this->getUserGroups();
@@ -259,7 +264,7 @@ class RulesField extends FormField
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getUserGroups()
 	{

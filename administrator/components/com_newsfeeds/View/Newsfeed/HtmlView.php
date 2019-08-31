@@ -3,16 +3,22 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Newsfeeds\Administrator\View\Newsfeed;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View to edit a newsfeed.
@@ -63,11 +69,11 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// If we are forcing a language in modal (used for associations).
-		if ($this->getLayout() === 'modal' && $forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
+		if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
 		{
 			// Set the language field to the forcedLanguage and disable changing it.
 			$this->form->setValue('language', null, $forcedLanguage);
@@ -93,24 +99,25 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		 \JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 
 		// Since we don't track these assets at the item level, use the category id.
 		$canDo = ContentHelper::getActions('com_newsfeeds', 'category', $this->item->catid);
 
-		$title = $isNew ? \JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_NEW') : \JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_EDIT');
-		 \JToolbarHelper::title($title, 'feed newsfeeds');
+		$title = $isNew ? Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_NEW') : Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_EDIT');
+		ToolbarHelper::title($title, 'rss newsfeeds');
 
 		$toolbarButtons = [];
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0))
 		{
-			$toolbarButtons[] = ['apply', 'newsfeed.apply'];
+			ToolbarHelper::apply('newsfeed.apply');
+
 			$toolbarButtons[] = ['save', 'newsfeed.save'];
 		}
 
@@ -125,26 +132,31 @@ class HtmlView extends BaseHtmlView
 			$toolbarButtons[] = ['save2copy', 'newsfeed.save2copy'];
 		}
 
-		 \JToolbarHelper::saveGroup(
+		ToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
+		if (!$isNew && Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
+		{
+			ToolbarHelper::custom('newsfeed.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
+		}
+
 		if (empty($this->item->id))
 		{
-			 \JToolbarHelper::cancel('newsfeed.cancel');
+			ToolbarHelper::cancel('newsfeed.cancel');
 		}
 		else
 		{
 			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
 			{
-				 \JToolbarHelper::versions('com_newsfeeds.newsfeed', $this->item->id);
+				ToolbarHelper::versions('com_newsfeeds.newsfeed', $this->item->id);
 			}
 
-			 \JToolbarHelper::cancel('newsfeed.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('newsfeed.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		 \JToolbarHelper::divider();
-		 \JToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS_EDIT');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS_EDIT');
 	}
 }

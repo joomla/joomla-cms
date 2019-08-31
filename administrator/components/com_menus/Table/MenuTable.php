@@ -3,12 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Menus\Administrator\Table;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Menu table
@@ -34,12 +38,59 @@ class MenuTable extends \JTableMenu
 		if ($return)
 		{
 			// Delete key from the #__modules_menu table
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__modules_menu'))
 				->where($db->quoteName('menuid') . ' = ' . $pk);
 			$db->setQuery($query);
 			$db->execute();
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Overloaded check function
+	 *
+	 * @return  boolean  True on success, false on failure
+	 *
+	 * @see     JTable::check
+	 * @since   4.0.0
+	 */
+	public function check()
+	{
+		$return = parent::check();
+
+		if ($return)
+		{
+			$db = Factory::getDbo();
+
+			// Set publish_up to null date if not set
+			if (!$this->publish_up)
+			{
+				$this->publish_up = $db->getNullDate();
+			}
+
+			// Set publish_down to null date if not set
+			if (!$this->publish_down)
+			{
+				$this->publish_down = $db->getNullDate();
+			}
+
+			// Check the publish down date is not earlier than publish up.
+			if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up)
+			{
+				$this->setError(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
+
+				return false;
+			}
+
+			if ((int) $this->home)
+			{
+				// Set the publish down/up always for home.
+				$this->publish_up   = $db->getNullDate();
+				$this->publish_down = $db->getNullDate();
+			}
 		}
 
 		return $return;

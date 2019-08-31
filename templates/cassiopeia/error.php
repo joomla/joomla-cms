@@ -3,24 +3,21 @@
  * @package     Joomla.Site
  * @subpackage  Templates.cassiopeia
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 /** @var JDocumentError $this */
 
 $app  = Factory::getApplication();
 $lang = Factory::getLanguage();
-
-// Getting params from template
-$params = $this->params;
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
@@ -28,9 +25,9 @@ $view     = $app->input->getCmd('view', '');
 $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
-$sitename = $app->get('sitename');
+$sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $menu     = $app->getMenu()->getActive();
-$pageclass = $menu->params->get('pageclass_sfx');
+$pageclass = $menu !== null ? $menu->params->get('pageclass_sfx', '') : '';
 
 // Add JavaScript Frameworks
 HTMLHelper::_('bootstrap.framework');
@@ -46,9 +43,6 @@ HTMLHelper::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => 
 
 // Load custom CSS file
 HTMLHelper::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
-
-// Alerts progressive enhancement
-HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
 
 // Load specific language related CSS
 HTMLHelper::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));

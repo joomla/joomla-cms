@@ -3,14 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Redirect\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Utilities\ArrayHelper;
 
@@ -43,7 +47,7 @@ class LinkModel extends AdminModel
 			return false;
 		}
 
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		return $user->authorise('core.delete', 'com_redirect');
 	}
@@ -60,7 +64,7 @@ class LinkModel extends AdminModel
 	protected function canEditState($record)
 	{
 		// Check the component since there are no categories or other assets.
-		return \JFactory::getUser()->authorise('core.edit.state', 'com_redirect');
+		return Factory::getUser()->authorise('core.edit.state', 'com_redirect');
 	}
 
 	/**
@@ -115,7 +119,7 @@ class LinkModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState('com_redirect.edit.link.data', array());
+		$data = Factory::getApplication()->getUserState('com_redirect.edit.link.data', array());
 
 		if (empty($data))
 		{
@@ -140,7 +144,7 @@ class LinkModel extends AdminModel
 	 */
 	public function activate(&$pks, $url, $comment = null)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$db = $this->getDbo();
 
 		// Sanitize the ids.
@@ -148,13 +152,13 @@ class LinkModel extends AdminModel
 		$pks = ArrayHelper::toInteger($pks);
 
 		// Populate default comment if necessary.
-		$comment = (!empty($comment)) ? $comment : \JText::sprintf('COM_REDIRECT_REDIRECTED_ON', \JHtml::_('date', time()));
+		$comment = (!empty($comment)) ? $comment : Text::sprintf('COM_REDIRECT_REDIRECTED_ON', HTMLHelper::_('date', time()));
 
 		// Access checks.
 		if (!$user->authorise('core.edit', 'com_redirect'))
 		{
 			$pks = array();
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 
 			return false;
 		}
@@ -164,10 +168,12 @@ class LinkModel extends AdminModel
 			// Update the link rows.
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__redirect_links'))
-				->set($db->quoteName('new_url') . ' = ' . $db->quote($url))
-				->set($db->quoteName('published') . ' = ' . (int) 1)
-				->set($db->quoteName('comment') . ' = ' . $db->quote($comment))
-				->where($db->quoteName('id') . ' IN (' . implode(',', $pks) . ')');
+				->set($db->quoteName('new_url') . ' = :url')
+				->set($db->quoteName('published') . ' = 1')
+				->set($db->quoteName('comment') . ' = :comment')
+				->whereIn($db->quoteName('id'), $pks)
+				->bind(':url', $url)
+				->bind(':comment', $comment);
 			$db->setQuery($query);
 
 			try
@@ -198,7 +204,7 @@ class LinkModel extends AdminModel
 	 */
 	public function duplicateUrls(&$pks, $url, $comment = null)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$db = $this->getDbo();
 
 		// Sanitize the ids.
@@ -209,22 +215,24 @@ class LinkModel extends AdminModel
 		if (!$user->authorise('core.edit', 'com_redirect'))
 		{
 			$pks = array();
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 
 			return false;
 		}
 
 		if (!empty($pks))
 		{
-			$date = \JFactory::getDate()->toSql();
+			$date = Factory::getDate()->toSql();
 
 			// Update the link rows.
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__redirect_links'))
-				->set($db->quoteName('new_url') . ' = ' . $db->quote($url))
-				->set($db->quoteName('modified_date') . ' = ' . $db->quote($date))
-				->set($db->quoteName('published') . ' = ' . 1)
-				->where($db->quoteName('id') . ' IN (' . implode(',', $pks) . ')');
+				->set($db->quoteName('new_url') . ' = :url')
+				->set($db->quoteName('modified_date') . ' = :date')
+				->set($db->quoteName('published') . ' = 1')
+				->whereIn($db->quoteName('id'), $pks)
+				->bind(':url', $url)
+				->bind(':date', $date);
 
 			if (!empty($comment))
 			{

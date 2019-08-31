@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Log\Log;
 /**
  * Form Field class for the Joomla Framework.
  *
- * @since  11.4
+ * @since  2.5.0
  */
 class PluginsField extends ListField
 {
@@ -25,7 +25,7 @@ class PluginsField extends ListField
 	 * The field type.
 	 *
 	 * @var    string
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $type = 'Plugins';
 
@@ -111,7 +111,7 @@ class PluginsField extends ListField
 	 *
 	 * @return	array  An array of JHtml options.
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	protected function getOptions()
 	{
@@ -129,13 +129,19 @@ class PluginsField extends ListField
 				->where('enabled = 1')
 				->order('ordering, name');
 
+			if ((string) $this->element['useaccess'] === 'true')
+			{
+				$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
+				$query->where($db->quoteName('access') . ' IN (' . $groups . ')');
+			}
+
 			$options   = $db->setQuery($query)->loadObjectList();
 			$lang      = Factory::getLanguage();
 			$useGlobal = $this->element['useglobal'];
 
 			if ($useGlobal)
 			{
-				$globalValue = Factory::getConfig()->get($this->fieldname);
+				$globalValue = Factory::getApplication()->get($this->fieldname);
 			}
 
 			foreach ($options as $i => $item)

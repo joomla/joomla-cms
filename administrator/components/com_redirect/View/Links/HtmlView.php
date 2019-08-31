@@ -3,18 +3,22 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Redirect\Administrator\View\Links;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 
 /**
@@ -97,8 +101,8 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  mixed  False if unsuccessful, otherwise void.
 	 *
+	 * @throws  GenericDataException
 	 * @since   1.6
-	 * @throws  \JViewGenericdataexception
 	 */
 	public function display($tpl = null)
 	{
@@ -113,7 +117,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		if (!(PluginHelper::isEnabled('system', 'redirect') && RedirectHelper::collectUrlsEnabled()))
@@ -138,71 +142,79 @@ class HtmlView extends BaseHtmlView
 		$state = $this->get('State');
 		$canDo = ContentHelper::getActions('com_redirect');
 
-		\JToolbarHelper::title(\JText::_('COM_REDIRECT_MANAGER_LINKS'), 'refresh redirect');
+		$toolbar = Toolbar::getInstance('toolbar');
+
+		ToolbarHelper::title(Text::_('COM_REDIRECT_MANAGER_LINKS'), 'map-signs redirect');
 
 		if ($canDo->get('core.create'))
 		{
-			\JToolbarHelper::addNew('link.add');
+			$toolbar->addNew('link.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') || $canDo->get('core.admin'))
 		{
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
+				->listCheck(true);
+
+			$childBar = $dropdown->getChildToolbar();
+
 			if ($state->get('filter.state') != 2)
 			{
-				\JToolbarHelper::divider();
-				\JToolbarHelper::publish('links.publish', 'JTOOLBAR_ENABLE', true);
-				\JToolbarHelper::unpublish('links.unpublish', 'JTOOLBAR_DISABLE', true);
+				$childBar->publish('links.publish', 'JTOOLBAR_ENABLE')->listCheck(true);
+				$childBar->unpublish('links.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
 			}
 
 			if ($state->get('filter.state') != -1)
 			{
-				\JToolbarHelper::divider();
-
 				if ($state->get('filter.state') != 2)
 				{
-					\JToolbarHelper::archiveList('links.archive');
+					$childBar->archive('links.archive')->listCheck(true);
 				}
 				elseif ($state->get('filter.state') == 2)
 				{
-					\JToolbarHelper::unarchiveList('links.publish', 'JTOOLBAR_UNARCHIVE');
+					$childBar->unarchive('links.unarchive')->listCheck(true);
 				}
 			}
+
+			if (!$state->get('filter.state') == -2)
+			{
+				$childBar->trash('links.trash')->listCheck(true);
+			}
+
+			if ($canDo->get('core.delete'))
+			{
+				$childBar->delete('links.delete')
+					->text('JTOOLBAR_EMPTY_TRASH')
+					->message('JGLOBAL_CONFIRM_DELETE')
+					->listCheck(true);
+			}
+		}
+
+		if (!$state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		{
+			$toolbar->confirmButton('delete')
+				->text('COM_REDIRECT_TOOLBAR_PURGE')
+				->message('COM_REDIRECT_CONFIRM_PURGE')
+				->task('links.purge');
 		}
 
 		if ($canDo->get('core.create'))
 		{
-			// Get the toolbar object instance
-			$bar = \JToolbar::getInstance('toolbar');
-
-			$title = \JText::_('JTOOLBAR_BULK_IMPORT');
-
-			\JHtml::_('bootstrap.renderModal', 'collapseModal');
-
-			// Instantiate a new \JLayoutFile instance and render the batch button
-			$layout = new FileLayout('toolbar.batch');
-
-			$dhtml = $layout->render(array('title' => $title));
-			$bar->appendButton('Custom', $dhtml, 'batch');
-		}
-
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
-		{
-			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'links.delete', 'JTOOLBAR_EMPTY_TRASH');
-			\JToolbarHelper::divider();
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			\JToolbarHelper::custom('links.purge', 'delete', 'delete', 'COM_REDIRECT_TOOLBAR_PURGE', false);
-			\JToolbarHelper::trash('links.trash');
-			\JToolbarHelper::divider();
+			$toolbar->popupButton('batch')
+				->text('JTOOLBAR_BULK_IMPORT')
+				->selector('collapseModal')
+				->listCheck(false);
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			\JToolbarHelper::preferences('com_redirect');
-			\JToolbarHelper::divider();
+			$toolbar->preferences('com_redirect');
 		}
 
-		\JToolbarHelper::help('JHELP_COMPONENTS_REDIRECT_MANAGER');
+		$toolbar->help('JHELP_COMPONENTS_REDIRECT_MANAGER');
 	}
 }

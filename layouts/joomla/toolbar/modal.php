@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,8 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+
+HTMLHelper::_('webcomponent', 'system/joomla-toolbar-button.min.js', ['version' => 'auto', 'relative' => true]);
 
 /**
  * Generic toolbar button layout to open a modal
@@ -24,11 +26,19 @@ use Joomla\CMS\Language\Text;
 
 $selector = $displayData['selector'];
 $id       = isset($displayData['id']) ? $displayData['id'] : '';
-$class    = isset($displayData['class']) ? $displayData['class'] : 'btn btn-secondary btn-sm';
+$class    = isset($displayData['class']) ? $displayData['class'] : 'btn btn-secondary';
 $icon     = isset($displayData['icon']) ? $displayData['icon'] : 'fa fa-download';
 $text     = isset($displayData['text']) ? $displayData['text'] : '';
+?>
 
-// Render the modal
+<!-- Render the button -->
+<joomla-toolbar-button<?php echo $id; ?> onclick="document.getElementById('modal_<?php echo $selector; ?>').open()" class="<?php echo $class; ?>" data-toggle="modal">
+	<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
+	<?php echo $text; ?>
+</joomla-toolbar-button>
+
+<!-- Render the modal -->
+<?php
 echo HTMLHelper::_('bootstrap.renderModal',
 	'modal_' . $selector,
 	[
@@ -43,12 +53,8 @@ echo HTMLHelper::_('bootstrap.renderModal',
 						. ' onclick="window.parent.Joomla.Modal.getCurrent().close();">'
 						. Text::_('COM_BANNERS_CANCEL') . '</a>'
 						. '<button class="btn btn-success" type="button"'
-						. ' onclick="jQuery(\'#modal_downloadModal iframe\').contents().find(\'#exportBtn\').click();">'
+						. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#modal_downloadModal\', buttonSelector: \'#exportBtn\'})">'
 						. Text::_('COM_BANNERS_TRACKS_EXPORT') . '</button>',
 	]
 );
 ?>
-<button<?php echo $id; ?> onclick="document.getElementById('modal_<?php echo $selector; ?>').open()" class="<?php echo $class; ?>" data-toggle="modal" title="<?php echo $text; ?>">
-	<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
-	<?php echo $text; ?>
-</button>

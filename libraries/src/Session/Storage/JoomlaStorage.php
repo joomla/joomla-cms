@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\Session\Storage;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\Storage\NativeStorage;
@@ -62,7 +63,7 @@ class JoomlaStorage extends NativeStorage
 			'use_trans_sid' => 0,
 		];
 
-		if (!headers_sent())
+		if (!headers_sent() && !$this->isActive())
 		{
 			session_cache_limiter('none');
 		}
@@ -97,7 +98,7 @@ class JoomlaStorage extends NativeStorage
 	 *
 	 * @since   4.0
 	 */
-	public function clear()
+	public function clear(): void
 	{
 		$session_name = $this->getName();
 
@@ -108,10 +109,11 @@ class JoomlaStorage extends NativeStorage
 		 */
 		if (isset($_COOKIE[$session_name]))
 		{
-			$config        = \JFactory::getConfig();
+			$config        = Factory::getConfig();
 			$cookie_domain = $config->get('cookie_domain', '');
 			$cookie_path   = $config->get('cookie_path', '/');
-			setcookie($session_name, '', time() - 42000, $cookie_path, $cookie_domain);
+			$cookie = session_get_cookie_params();
+			setcookie($session_name, '', time() - 42000, $cookie_path, $cookie_domain, $cookie['secure'], true);
 		}
 
 		$this->data = new Registry;
@@ -125,7 +127,7 @@ class JoomlaStorage extends NativeStorage
 	 * @see     session_write_close()
 	 * @since   4.0
 	 */
-	public function close()
+	public function close(): void
 	{
 		// Before storing data to the session, we serialize and encode the Registry
 		$_SESSION['joomla'] = base64_encode(serialize(clone $this->data));
@@ -226,9 +228,9 @@ class JoomlaStorage extends NativeStorage
 	 *
 	 * @since   4.0
 	 */
-	protected function setCookieParams()
+	protected function setCookieParams(): void
 	{
-		if (headers_sent())
+		if (headers_sent() || $this->isActive())
 		{
 			return;
 		}
@@ -240,7 +242,7 @@ class JoomlaStorage extends NativeStorage
 			$cookie['secure'] = true;
 		}
 
-		$config = \JFactory::getConfig();
+		$config = Factory::getConfig();
 
 		if ($config->get('cookie_domain', '') != '')
 		{
@@ -265,7 +267,7 @@ class JoomlaStorage extends NativeStorage
 	 * @see     http://php.net/session.configuration
 	 * @since   4.0
 	 */
-	public function setOptions(array $options)
+	public function setOptions(array $options): NativeStorage
 	{
 		if (isset($options['force_ssl']))
 		{
@@ -282,7 +284,7 @@ class JoomlaStorage extends NativeStorage
 	 *
 	 * @since   4.0
 	 */
-	public function start()
+	public function start(): void
 	{
 		$session_name = $this->getName();
 

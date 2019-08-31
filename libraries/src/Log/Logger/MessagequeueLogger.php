@@ -2,14 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Log\Logger;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
@@ -21,7 +22,7 @@ use Joomla\CMS\Log\Logger;
  * table are based on the Syslog style of log output. This is designed to allow quick and
  * easy searching.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class MessagequeueLogger extends Logger
 {
@@ -32,7 +33,7 @@ class MessagequeueLogger extends Logger
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function addEntry(LogEntry $entry)
 	{
@@ -42,16 +43,16 @@ class MessagequeueLogger extends Logger
 			case Log::ALERT:
 			case Log::CRITICAL:
 			case Log::ERROR:
-				\JFactory::getApplication()->enqueueMessage($entry->message, 'error');
+				Factory::getApplication()->enqueueMessage($entry->message, 'error');
 				break;
 			case Log::WARNING:
-				\JFactory::getApplication()->enqueueMessage($entry->message, 'warning');
+				Factory::getApplication()->enqueueMessage($entry->message, 'warning');
 				break;
 			case Log::NOTICE:
-				\JFactory::getApplication()->enqueueMessage($entry->message, 'notice');
+				Factory::getApplication()->enqueueMessage($entry->message, 'notice');
 				break;
 			case Log::INFO:
-				\JFactory::getApplication()->enqueueMessage($entry->message, 'message');
+				Factory::getApplication()->enqueueMessage($entry->message, 'message');
 				break;
 			default:
 				// Ignore other priorities.

@@ -3,16 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Fields\Administrator\Table;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -26,7 +30,7 @@ class FieldTable extends Table
 	/**
 	 * Class constructor.
 	 *
-	 * @param   \JDatabaseDriver  $db  \JDatabaseDriver object.
+	 * @param   DatabaseDriver  $db  DatabaseDriver object.
 	 *
 	 * @since   3.7.0
 	 */
@@ -92,7 +96,7 @@ class FieldTable extends Table
 		// Check for valid name
 		if (trim($this->title) == '')
 		{
-			$this->setError(\JText::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_FIELD'));
+			$this->setError(Text::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_FIELD'));
 
 			return false;
 		}
@@ -116,7 +120,7 @@ class FieldTable extends Table
 
 		if ($table->load(array('name' => $this->name)) && ($table->id != $this->id || $this->id == 0))
 		{
-			$this->setError(\JText::_('COM_FIELDS_ERROR_UNIQUE_NAME'));
+			$this->setError(Text::_('COM_FIELDS_ERROR_UNIQUE_NAME'));
 
 			return false;
 		}
@@ -128,8 +132,13 @@ class FieldTable extends Table
 			$this->type = 'text';
 		}
 
-		$date = \JFactory::getDate();
-		$user = \JFactory::getUser();
+		if (empty($this->fieldparams))
+		{
+			$this->fieldparams = '{}';
+		}
+
+		$date = Factory::getDate();
+		$user = Factory::getUser();
 
 		if ($this->id)
 		{
@@ -139,6 +148,9 @@ class FieldTable extends Table
 		}
 		else
 		{
+			$this->modified_time = $this->getDbo()->getNullDate();
+			$this->modified_by = 0;
+
 			if (!(int) $this->created_time)
 			{
 				$this->created_time = $date->toSql();

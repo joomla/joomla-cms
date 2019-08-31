@@ -3,17 +3,24 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Site\View\Profile;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\UsersHelper;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Profile view class for Users.
@@ -25,7 +32,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Profile form data for the user
 	 *
-	 * @var  \JUser
+	 * @var  User
 	 */
 	protected $data;
 
@@ -46,14 +53,14 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  CMSObject
 	 */
 	protected $state;
 
 	/**
-	 * An instance of \JDatabaseDriver.
+	 * An instance of DatabaseDriver.
 	 *
-	 * @var    \JDatabaseDriver
+	 * @var    DatabaseDriver
 	 * @since  3.6.3
 	 */
 	protected $db;
@@ -98,25 +105,26 @@ class HtmlView extends BaseHtmlView
 	 * @return  mixed   A string if successful, otherwise an Error object.
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Get the view data.
 		$this->data	        = $this->get('Data');
-		$this->form	        = $this->getModel()->getForm(new \JObject(array('id' => $user->id)));
+		$this->form	        = $this->getModel()->getForm(new CMSObject(array('id' => $user->id)));
 		$this->state            = $this->get('State');
 		$this->params           = $this->state->get('params');
 		$this->twofactorform    = $this->get('Twofactorform');
 		$this->twofactormethods = UsersHelper::getTwoFactorMethods();
 		$this->otpConfig        = $this->get('OtpConfig');
-		$this->db               = \JFactory::getDbo();
+		$this->db               = Factory::getDbo();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// View also takes responsibility for checking if the user logged in with remember me.
@@ -126,9 +134,9 @@ class HtmlView extends BaseHtmlView
 		{
 			// If so, the user must login to edit the password and other data.
 			// What should happen here? Should we force a logout which destroys the cookies?
-			$app = \JFactory::getApplication();
-			$app->enqueueMessage(\JText::_('JGLOBAL_REMEMBER_MUST_LOGIN'), 'message');
-			$app->redirect(\JRoute::_('index.php?option=com_users&view=login', false));
+			$app = Factory::getApplication();
+			$app->enqueueMessage(Text::_('JGLOBAL_REMEMBER_MUST_LOGIN'), 'message');
+			$app->redirect(Route::_('index.php?option=com_users&view=login', false));
 
 			return false;
 		}
@@ -136,19 +144,16 @@ class HtmlView extends BaseHtmlView
 		// Check if a user was found.
 		if (!$this->data->id)
 		{
-			throw new \Exception(\JText::_('JERROR_USERS_PROFILE_NOT_FOUND'), 404);
+			throw new \Exception(Text::_('JERROR_USERS_PROFILE_NOT_FOUND'), 404);
 		}
-
-		$this->data->tags = new TagsHelper;
-		$this->data->tags->getItemTags('com_users.user', $this->data->id);
 
 		PluginHelper::importPlugin('content');
 		$this->data->text = '';
-		\JFactory::getApplication()->triggerEvent('onContentPrepare', array ('com_users.user', &$this->data, &$this->data->params, 0));
+		Factory::getApplication()->triggerEvent('onContentPrepare', array ('com_users.user', &$this->data, &$this->data->params, 0));
 		unset($this->data->text);
 
 		// Check for layout override
-		$active = \JFactory::getApplication()->getMenu()->getActive();
+		$active = Factory::getApplication()->getMenu()->getActive();
 
 		if (isset($active->query['layout']))
 		{
@@ -169,12 +174,13 @@ class HtmlView extends BaseHtmlView
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function prepareDocument()
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$menus = $app->getMenu();
-		$user  = \JFactory::getUser();
+		$user  = Factory::getUser();
 		$title = null;
 
 		// Because the application sets a default page title,
@@ -187,7 +193,7 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', \JText::_('COM_USERS_PROFILE'));
+			$this->params->def('page_heading', Text::_('COM_USERS_PROFILE'));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -198,11 +204,11 @@ class HtmlView extends BaseHtmlView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);

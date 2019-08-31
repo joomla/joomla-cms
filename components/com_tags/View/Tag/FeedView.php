@@ -3,13 +3,17 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Tags\Site\View\Tag;
 
+use Joomla\CMS\Document\Feed\FeedItem;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Tags\Site\Helper\TagsHelperRoute;
+use Joomla\CMS\Router\Route;
 
 defined('_JEXEC') or die;
 
@@ -29,9 +33,26 @@ class FeedView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app            = \JFactory::getApplication();
-		$document       = \JFactory::getDocument();
-		$document->link = \JRoute::_(TagsHelperRoute::getTagRoute($app->input->getInt('id')));
+		$app       = Factory::getApplication();
+		$document  = Factory::getDocument();
+		$ids       = $app->input->get('id', array(), 'array');
+		$i         = 0;
+		$tagIds    = '';
+		$filter    = new InputFilter;
+
+		foreach ($ids as $id)
+		{
+			if ($i !== 0)
+			{
+				$tagIds .= '&';
+			}
+
+			$tagIds .= 'id[' . $i . ']=' . $filter->clean($id, 'INT');
+
+			$i++;
+		}
+
+		$document->link = Route::_('index.php?option=com_tags&view=tag&' . $tagIds);
 
 		$app->input->set('limit', $app->get('feed_limit'));
 		$siteEmail        = $app->get('mailfrom');
@@ -55,19 +76,15 @@ class FeedView extends BaseHtmlView
 				$title = $this->escape($item->core_title);
 				$title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
 
-				// URL link to tagged item
-				// Change to new routing once it is merged
-				$link = \JRoute::_($item->link);
-
 				// Strip HTML from feed item description text
 				$description = $item->core_body;
 				$author      = $item->core_created_by_alias ?: $item->author;
 				$date        = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
 
 				// Load individual item creator class
-				$feeditem              = new \JFeedItem;
+				$feeditem              = new FeedItem;
 				$feeditem->title       = $title;
-				$feeditem->link        = $link;
+				$feeditem->link        = Route::_($item->link);
 				$feeditem->description = $description;
 				$feeditem->date        = $date;
 				$feeditem->category    = $title;

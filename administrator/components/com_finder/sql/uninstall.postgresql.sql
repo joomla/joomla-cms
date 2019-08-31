@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS "#__finder_filters";
 DROP TABLE IF EXISTS "#__finder_links";
 DROP TABLE IF EXISTS "#__finder_links_terms";
+DROP TABLE IF EXISTS "#__finder_logging";
 DROP TABLE IF EXISTS "#__finder_taxonomy";
 DROP TABLE IF EXISTS "#__finder_taxonomy_map";
 DROP TABLE IF EXISTS "#__finder_terms";

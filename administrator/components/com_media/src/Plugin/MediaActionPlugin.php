@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ namespace Joomla\Component\Media\Administrator\Plugin;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
@@ -71,10 +72,10 @@ class MediaActionPlugin extends CMSPlugin
 	 */
 	protected function loadJs()
 	{
-		\JHtml::_(
-		'script',
+		HTMLHelper::_(
+			'script',
 			'plg_media-action_' . $this->_name . '/' . $this->_name . '.js',
-			array('version' => 'auto', 'relative' => true)
+			['version' => 'auto', 'relative' => true]
 		);
 	}
 
@@ -87,10 +88,10 @@ class MediaActionPlugin extends CMSPlugin
 	 */
 	protected function loadCss()
 	{
-		\JHtml::_(
-		'stylesheet',
+		HTMLHelper::_(
+			'stylesheet',
 			'plg_media-action_' . $this->_name . '/' . $this->_name . '.css',
-			array('version' => 'auto', 'relative' => true)
+			['version' => 'auto', 'relative' => true]
 		);
 	}
 }

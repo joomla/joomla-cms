@@ -3,12 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  FileSystem.Local
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
@@ -65,7 +66,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 	 */
 	public function getDisplayName()
 	{
-		return $this->params->get('display_name', 'Local');
+		return Text::_('PLG_FILESYSTEM_LOCAL_DEFAULT_NAME');
 	}
 
 	/**

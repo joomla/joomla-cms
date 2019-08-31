@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Application\CLI\Output\Processor;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CLI\ColorStyle;
 
@@ -126,7 +126,7 @@ class ColorProcessor implements ProcessorInterface
 
 		foreach ($matches[0] as $i => $m)
 		{
-			if (array_key_exists($matches[1][$i], $this->styles))
+			if (\array_key_exists($matches[1][$i], $this->styles))
 			{
 				$string = $this->replaceColors($string, $matches[1][$i], $matches[2][$i], $this->styles[$matches[1][$i]]);
 			}
@@ -156,7 +156,7 @@ class ColorProcessor implements ProcessorInterface
 	{
 		$replace = $this->noColors
 			? $match
-			: "\033[" . $style . "m" . $match . "\033[0m";
+			: "\033[" . $style . 'm' . $match . "\033[0m";
 
 		return str_replace('<' . $tag . '>' . $match . '</' . $tag . '>', $replace, $text);
 	}

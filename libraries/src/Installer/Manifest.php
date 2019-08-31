@@ -2,15 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
-\JLoader::import('joomla.filesystem.file');
+use Joomla\CMS\Language\Text;
 
 /**
  * Joomla! Package Manifest File
@@ -115,7 +115,7 @@ abstract class Manifest
 
 		if (!$xml)
 		{
-			$this->_errors[] = \JText::sprintf('JLIB_INSTALLER_ERROR_LOAD_XML', $xmlfile);
+			$this->_errors[] = Text::sprintf('JLIB_INSTALLER_ERROR_LOAD_XML', $xmlfile);
 
 			return false;
 		}

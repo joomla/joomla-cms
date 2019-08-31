@@ -3,14 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Newsfeeds\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
 
 /**
  * Newsfeeds master display controller.
@@ -39,8 +42,6 @@ class DisplayController extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-
-
 		$view   = $this->input->get('view', 'newsfeeds');
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');
@@ -49,8 +50,8 @@ class DisplayController extends BaseController
 		if ($view == 'newsfeed' && $layout == 'edit' && !$this->checkEditId('com_newsfeeds.edit.newsfeed', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
-			$this->setRedirect(\JRoute::_('index.php?option=com_newsfeeds&view=newsfeeds', false));
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			$this->setRedirect(Route::_('index.php?option=com_newsfeeds&view=newsfeeds', false));
 
 			return false;
 		}

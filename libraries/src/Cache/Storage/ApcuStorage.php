@@ -2,20 +2,20 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Cache\Storage;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheStorage;
 
 /**
  * APCu cache storage handler
  *
- * @link   https://secure.php.net/manual/en/ref.apcu.php
+ * @link   https://www.php.net/manual/en/ref.apcu.php
  * @since  3.5
  */
 class ApcuStorage extends CacheStorage
@@ -242,10 +242,10 @@ class ApcuStorage extends CacheStorage
 	 */
 	public static function isSupported()
 	{
-		$supported = extension_loaded('apcu') && ini_get('apc.enabled');
+		$supported = \extension_loaded('apcu') && ini_get('apc.enabled');
 
 		// If on the CLI interface, the `apc.enable_cli` option must also be enabled
-		if ($supported && php_sapi_name() === 'cli')
+		if ($supported && PHP_SAPI === 'cli')
 		{
 			$supported = ini_get('apc.enable_cli');
 		}

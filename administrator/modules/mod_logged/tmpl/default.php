@@ -3,49 +3,62 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_logged
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
+HTMLHelper::_('bootstrap.framework');
 ?>
-<ul class="list-group list-group-flush">
-	<?php foreach ($users as $user) : ?>
-		<li class="d-flex justify-content-start list-group-item">
-			<div class="fg-1">
-				<?php if ($user->client_id == 0) : ?>
-					<a title="<?php echo HTMLHelper::_('tooltipText', 'MOD_LOGGED_LOGOUT'); ?>" href="<?php echo $user->logoutLink; ?>" class="mr-2 btn btn-danger btn-xs hasTooltip">
-						<span class="icon-remove icon-white" aria-hidden="true"><span class="sr-only"><?php echo Text::_('JLOGOUT'); ?></span></span>
-					</a>
+<table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
+	<caption class="sr-only"><?php echo $module->title; ?></caption>
+	<thead>
+		<tr>
+			<th scope="col" style="width:50%">
+				<?php if ($params->get('name', 1) == 0) : ?>
+					<?php echo Text::_('JGLOBAL_USERNAME'); ?>
+				<?php else : ?>
+					<?php echo Text::_('MOD_LOGGED_NAME'); ?>
 				<?php endif; ?>
-				<strong class="mr-2 row-title">
+			</th>
+			<th scope="col" style="width:30%"><?php echo Text::_('JCLIENT'); ?></th>
+			<th scope="col" style="width:20%"><?php echo Text::_('JDATE'); ?></th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php foreach ($users as $user) : ?>
+			<tr>
+				<th scope="row">
 					<?php if (isset($user->editLink)) : ?>
-						<a href="<?php echo $user->editLink; ?>" class="hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'JGRID_HEADING_ID'); ?> : <?php echo $user->id; ?>">
-							<?php echo $user->name; ?></a>
+						<a href="<?php echo $user->editLink; ?>">
+							<?php echo htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8'); ?>
+						</a>
 					<?php else : ?>
-						<?php echo $user->name; ?>
+						<?php echo htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8'); ?>
 					<?php endif; ?>
-				</strong>
-				<small class="mr-2 small hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'JCLIENT'); ?>">
+				</th>
+				<td>
 					<?php if ($user->client_id === null) : ?>
 						<?php // Don't display a client ?>
 					<?php elseif ($user->client_id) : ?>
 						<?php echo Text::_('JADMINISTRATION'); ?>
 					<?php else : ?>
-						<?php echo Text::_('JSITE'); ?>
+						<form action="<?php echo $user->logoutLink; ?>" method="post" name="adminForm">
+							<?php echo Text::_('JSITE'); ?>
+							<button type="submit" class="mr-2 btn btn-danger btn-sm">
+								<?php echo Text::_('JLOGOUT'); ?>
+							</button>
+						</form>
 					<?php endif; ?>
-				</small>
-			</div>
-			<span class="badge badge-secondary badge-pill ml-auto hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'MOD_LOGGED_LAST_ACTIVITY'); ?>">
-				<span class="small">
-					<span class="icon-calendar" aria-hidden="true"></span>
+				</td>
+				<td>
 					<?php echo HTMLHelper::_('date', $user->time, Text::_('DATE_FORMAT_LC5')); ?>
-				</span>
-			</span>
-		</li>
-	<?php endforeach; ?>
-</ul>
+				</td>
+			</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>

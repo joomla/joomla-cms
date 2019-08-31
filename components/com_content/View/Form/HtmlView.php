@@ -3,17 +3,21 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Content\Site\View\Form;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * HTML Article View class for the Content component
@@ -74,11 +78,11 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected $user = null;
 
-  /*
-   * Should we show a captcha form for the submission of the article?
+	/**
+	 * Should we show a captcha form for the submission of the article?
 	 *
-	 * @var   bool
-	 * @since 3.7.0
+	 * @var    boolean
+	 * @since  3.7.0
 	 */
 	protected $captchaEnabled = false;
 
@@ -91,8 +95,8 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$user = \JFactory::getUser();
-		$app  = \JFactory::getApplication();
+		$user = Factory::getUser();
+		$app  = Factory::getApplication();
 
 		// Get model data.
 		$this->state       = $this->get('State');
@@ -111,7 +115,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($authorised !== true)
 		{
-			$app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$app->setHeader('status', 403, true);
 
 			return false;
@@ -122,10 +126,7 @@ class HtmlView extends BaseHtmlView
 		if (!empty($this->item->id))
 		{
 			$this->item->tags->getItemTags('com_content.article', $this->item->id);
-		}
 
-		if (!empty($this->item) && isset($this->item->id))
-		{
 			$this->item->images = json_decode($this->item->images);
 			$this->item->urls = json_decode($this->item->urls);
 
@@ -138,7 +139,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Create a shortcut to the parameters.
@@ -156,11 +157,11 @@ class HtmlView extends BaseHtmlView
 		// Propose current language as default when creating new article
 		if (empty($this->item->id) && Multilanguage::isEnabled())
 		{
-			$lang = \JFactory::getLanguage()->getTag();
+			$lang = Factory::getLanguage()->getTag();
 			$this->form->setFieldAttribute('language', 'default', $lang);
 		}
 
-		$captchaSet = $params->get('captcha', \JFactory::getApplication()->get('captcha', '0'));
+		$captchaSet = $params->get('captcha', Factory::getApplication()->get('captcha', '0'));
 
 		foreach (PluginHelper::getPlugin('captcha') as $plugin)
 		{
@@ -182,7 +183,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 
@@ -196,18 +197,18 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', \JText::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
+			$this->params->def('page_heading', Text::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
 		}
 
-		$title = $this->params->def('page_title', \JText::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
+		$title = $this->params->def('page_title', Text::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
 
 		if ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);

@@ -3,15 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Fields\Administrator\Table;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Rules;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 
 /**
@@ -24,7 +28,7 @@ class GroupTable extends Table
 	/**
 	 * Class constructor.
 	 *
-	 * @param   \JDatabaseDriver  $db  \JDatabaseDriver object.
+	 * @param   DatabaseDriver  $db  DatabaseDriver object.
 	 *
 	 * @since   3.7.0
 	 */
@@ -83,13 +87,13 @@ class GroupTable extends Table
 		// Check for a title.
 		if (trim($this->title) == '')
 		{
-			$this->setError(JText::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_GROUP'));
+			$this->setError(Text::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_GROUP'));
 
 			return false;
 		}
 
-		$date = \JFactory::getDate();
-		$user = \JFactory::getUser();
+		$date = Factory::getDate();
+		$user = Factory::getUser();
 
 		if ($this->id)
 		{
@@ -98,6 +102,9 @@ class GroupTable extends Table
 		}
 		else
 		{
+			$this->modified = $this->getDbo()->getNullDate();
+			$this->modified_by = 0;
+
 			if (!(int) $this->created)
 			{
 				$this->created = $date->toSql();

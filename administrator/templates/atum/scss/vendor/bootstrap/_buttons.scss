@@ -1,39 +1,27 @@
 // Buttons
 
-.btn.btn-xs,
-.btn-group-xs > .btn {
-  padding: .09rem .4rem;
-  font-size: .7rem;
-  line-height: 1.2;
-  border-radius: .2rem;
-}
+.btn-primary {
+  background-color: var(--atum-bg-dark);
+  color: var(--atum-text-light);
+  border-color: var(--atum-bg-dark-80);
 
-.btn.btn-xs .caret {
-  font-size: 16px;
-  line-height: 13px;
-}
-
-.btn:focus,
-.btn.focus,
-.btn:active:focus,
-.btn.focus:active,
-.btn.active:focus,
-.btn.active.focus {
-  text-decoration: none;
-}
-
-.btn.group-move {
-  cursor: move;
-}
-
-.btn-secondary {
-  color: $gray-800;
-  background-color: $white-offset;
-  border-color: $gray-400;
-
-  &:hover,
-  &:focus {
-    color: $gray-800;
-    background-color: $gray-100;
+  @include hover-focus-active {
+    background-color: var(--atum-bg-dark-70);
+    border-color: var(--atum-bg-dark-90);
   }
+
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active,
+  .show > &.dropdown-toggle {
+    background-color: var(--atum-bg-dark);
+    border-color: var(--atum-bg-dark);
+  }
+}
+.btn-secondary {
+	background-color: var(--atum-bg-dark-50);
+}
+
+.input-group-text {
+  background-color: var(--atum-bg-dark);
+  border-color: var(--atum-bg-dark);
 }

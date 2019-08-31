@@ -3,15 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\Table;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
-use Joomla\Utilities\ArrayHelper;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * User notes table class
@@ -23,15 +25,16 @@ class NoteTable extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database object
+	 * @param   DatabaseDriver  $db  Database object
 	 *
 	 * @since  2.5
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		$this->typeAlias = 'com_users.note';
-
 		parent::__construct('#__user_notes', 'id', $db);
+
+		$this->setColumnAlias('published', 'state');
 	}
 
 	/**
@@ -45,13 +48,13 @@ class NoteTable extends Table
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = \JFactory::getDate()->toSql();
-		$userId = \JFactory::getUser()->get('id');
+		$date = Factory::getDate()->toSql();
+		$userId = Factory::getUser()->get('id');
 
 		if (!((int) $this->review_time))
 		{
 			// Null date.
-			$this->review_time = \JFactory::getDbo()->getNullDate();
+			$this->review_time = $this->getDbo()->getNullDate();
 		}
 
 		if ($this->id)
@@ -69,97 +72,6 @@ class NoteTable extends Table
 
 		// Attempt to store the data.
 		return parent::store($updateNulls);
-	}
-
-	/**
-	 * Method to set the publishing state for a row or list of rows in the database
-	 * table.  The method respects checked out rows by other users and will attempt
-	 * to check-in rows that it can after adjustments are made.
-	 *
-	 * @param   mixed    $pks     An optional array of primary key values to update.  If not set the instance property value is used.
-	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
-	 * @param   integer  $userId  The user id of the user performing the operation.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   2.5
-	 */
-	public function publish($pks = null, $state = 1, $userId = 0)
-	{
-		$k = $this->_tbl_key;
-
-		// Sanitize input.
-		$pks = ArrayHelper::toInteger($pks);
-		$userId = (int) $userId;
-		$state  = (int) $state;
-
-		// If there are no primary keys set check to see if the instance key is set.
-		if (empty($pks))
-		{
-			if ($this->$k)
-			{
-				$pks = array($this->$k);
-			}
-			// Nothing to set publishing state on, return false.
-			else
-			{
-				$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
-
-				return false;
-			}
-		}
-
-		$query = $this->_db->getQuery(true)
-			->update($this->_db->quoteName($this->_tbl))
-			->set($this->_db->quoteName('state') . ' = ' . (int) $state);
-
-		// Build the WHERE clause for the primary keys.
-		$query->where($k . '=' . implode(' OR ' . $k . '=', $pks));
-
-		// Determine if there is checkin support for the table.
-		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
-		{
-			$checkin = false;
-		}
-		else
-		{
-			$query->where('(checked_out = 0 OR checked_out = ' . (int) $userId . ')');
-			$checkin = true;
-		}
-
-		// Update the publishing state for rows with the given primary keys.
-		$this->_db->setQuery($query);
-
-		try
-		{
-			$this->_db->execute();
-		}
-		catch (\RuntimeException $e)
-		{
-			$this->setError($this->_db->getMessage());
-
-			return false;
-		}
-
-		// If checkin is supported and all rows were adjusted, check them in.
-		if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
-		{
-			// Checkin the rows.
-			foreach ($pks as $pk)
-			{
-				$this->checkin($pk);
-			}
-		}
-
-		// If the \JTable instance value is in the list of primary keys that were set, set the instance.
-		if (in_array($this->$k, $pks))
-		{
-			$this->state = $state;
-		}
-
-		$this->setError('');
-
-		return true;
 	}
 
 	/**
@@ -186,5 +98,7 @@ class NoteTable extends Table
 		{
 			$this->modified_time = $this->getDbo()->getNullDate();
 		}
+
+		return true;
 	}
 }

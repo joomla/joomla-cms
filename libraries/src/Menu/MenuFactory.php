@@ -2,13 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Menu;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 /**
  * Default factory for creating Menu objects
@@ -35,7 +37,7 @@ class MenuFactory implements MenuFactoryInterface
 
 		if (!class_exists($classname))
 		{
-			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
+			throw new \InvalidArgumentException(Text::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
 		}
 
 		return new $classname($options);

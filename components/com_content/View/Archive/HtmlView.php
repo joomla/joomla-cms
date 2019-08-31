@@ -3,15 +3,19 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Content\Site\View\Archive;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * HTML View class for the Content component
@@ -99,10 +103,13 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$state      = $this->get('State');
 		$items      = $this->get('Items');
 		$pagination = $this->get('Pagination');
+
+		// Flag indicates to not add limitstart=0 to URL
+		$pagination->hideEmptyLimitstart = true;
 
 		// Get the page/component configuration
 		$params = &$state->params;
@@ -111,13 +118,12 @@ class HtmlView extends BaseHtmlView
 
 		foreach ($items as $item)
 		{
-			$item->catslug     = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
-			$item->parent_slug = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
 			// No link for ROOT category
 			if ($item->parent_alias === 'root')
 			{
-				$item->parent_slug = null;
+				$item->parent_id = null;
 			}
 
 			$item->event = new \stdClass;
@@ -128,18 +134,18 @@ class HtmlView extends BaseHtmlView
 				$item->text = $item->introtext;
 			}
 
-			\JFactory::getApplication()->triggerEvent('onContentPrepare', array('com_content.archive', &$item, &$item->params, 0));
+			Factory::getApplication()->triggerEvent('onContentPrepare', array('com_content.archive', &$item, &$item->params, 0));
 
 			// Old plugins: Use processed text as introtext
 			$item->introtext = $item->text;
 
-			$results = \JFactory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.archive', &$item, &$item->params, 0));
+			$results = Factory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.archive', &$item, &$item->params, 0));
 			$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-			$results = \JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.archive', &$item, &$item->params, 0));
+			$results = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.archive', &$item, &$item->params, 0));
 			$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-			$results = \JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.archive', &$item, &$item->params, 0));
+			$results = Factory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.archive', &$item, &$item->params, 0));
 			$item->event->afterDisplayContent = trim(implode("\n", $results));
 		}
 
@@ -147,21 +153,21 @@ class HtmlView extends BaseHtmlView
 
 		// Month Field
 		$months = array(
-			''   => \JText::_('COM_CONTENT_MONTH'),
-			'1'  => \JText::_('JANUARY_SHORT'),
-			'2'  => \JText::_('FEBRUARY_SHORT'),
-			'3'  => \JText::_('MARCH_SHORT'),
-			'4'  => \JText::_('APRIL_SHORT'),
-			'5'  => \JText::_('MAY_SHORT'),
-			'6'  => \JText::_('JUNE_SHORT'),
-			'7'  => \JText::_('JULY_SHORT'),
-			'8'  => \JText::_('AUGUST_SHORT'),
-			'9'  => \JText::_('SEPTEMBER_SHORT'),
-			'10' => \JText::_('OCTOBER_SHORT'),
-			'11' => \JText::_('NOVEMBER_SHORT'),
-			'12' => \JText::_('DECEMBER_SHORT')
+			''   => Text::_('COM_CONTENT_MONTH'),
+			'1'  => Text::_('JANUARY_SHORT'),
+			'2'  => Text::_('FEBRUARY_SHORT'),
+			'3'  => Text::_('MARCH_SHORT'),
+			'4'  => Text::_('APRIL_SHORT'),
+			'5'  => Text::_('MAY_SHORT'),
+			'6'  => Text::_('JUNE_SHORT'),
+			'7'  => Text::_('JULY_SHORT'),
+			'8'  => Text::_('AUGUST_SHORT'),
+			'9'  => Text::_('SEPTEMBER_SHORT'),
+			'10' => Text::_('OCTOBER_SHORT'),
+			'11' => Text::_('NOVEMBER_SHORT'),
+			'12' => Text::_('DECEMBER_SHORT')
 		);
-		$form->monthField = \JHtml::_(
+		$form->monthField = HTMLHelper::_(
 			'select.genericlist',
 			$months,
 			'month',
@@ -175,14 +181,14 @@ class HtmlView extends BaseHtmlView
 		// Year Field
 		$this->years = $this->getModel()->getYears();
 		$years = array();
-		$years[] = \JHtml::_('select.option', null, \JText::_('JYEAR'));
+		$years[] = HTMLHelper::_('select.option', null, Text::_('JYEAR'));
 
 		for ($i = 0, $iMax = count($this->years); $i < $iMax; $i++)
 		{
-			$years[] = \JHtml::_('select.option', $this->years[$i], $this->years[$i]);
+			$years[] = HTMLHelper::_('select.option', $this->years[$i], $this->years[$i]);
 		}
 
-		$form->yearField = \JHtml::_(
+		$form->yearField = HTMLHelper::_(
 			'select.genericlist',
 			$years,
 			'year',
@@ -214,7 +220,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 
@@ -228,7 +234,7 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', \JText::_('JGLOBAL_ARTICLES'));
+			$this->params->def('page_heading', Text::_('JGLOBAL_ARTICLES'));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -239,11 +245,11 @@ class HtmlView extends BaseHtmlView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);

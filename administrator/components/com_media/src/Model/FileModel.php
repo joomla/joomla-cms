@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,12 +31,12 @@ class FileModel extends FormModel
 	 *
 	 * @since   4.0.0
 	 */
-	public function getForm($data = array(), $loadData = true)
+	public function getForm($data = [], $loadData = true)
 	{
 		PluginHelper::importPlugin('media-action');
 
 		// Get the form.
-		$form = $this->loadForm('com_media.file', 'file', array('control' => 'jform', 'load_data' => $loadData));
+		$form = $this->loadForm('com_media.file', 'file', ['control' => 'jform', 'load_data' => $loadData]);
 
 		if (empty($form))
 		{
@@ -61,6 +61,7 @@ class FileModel extends FormModel
 	{
 		list($adapter, $path) = explode(':', $path, 2);
 
-		return (new ApiModel)->getFile($adapter, $path, ['url' => true, 'content' => true]);
+		return $this->bootComponent('com_media')->getMVCFactory()->createModel('Api', 'Administrator')
+			->getFile($adapter, $path, ['url' => true, 'content' => true]);
 	}
 }

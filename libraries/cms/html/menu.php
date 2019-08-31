@@ -3,11 +3,15 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Utility class working with menu select lists
@@ -47,10 +51,10 @@ abstract class JHtmlMenu
 
 		if (!isset(static::$menus[$key]))
 		{
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 
 			$query = $db->getQuery(true)
-				->select($db->qn(array('id', 'menutype', 'title', 'client_id'), array('id', 'value', 'text', 'client_id')))
+				->select($db->quoteName(array('id', 'menutype', 'title', 'client_id'), array('id', 'value', 'text', 'client_id')))
 				->from($db->quoteName('#__menu_types'))
 				->order('client_id, title');
 
@@ -84,7 +88,7 @@ abstract class JHtmlMenu
 			$clientId = array_key_exists('clientid', $config) ? $config['clientid'] : 0;
 			$menus    = static::menus($clientId);
 
-			$db    = JFactory::getDbo();
+			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('a.id AS value, a.title AS text, a.level, a.menutype, a.client_id')
 				->from('#__menu AS a')
@@ -126,12 +130,18 @@ abstract class JHtmlMenu
 
 				$lookup[$item->menutype][] = &$item;
 
+				// Translate the menu item title when client is administrator
+				if ($clientId === 1)
+				{
+					$item->text = Text::_($item->text);
+				}
+
 				$item->text = str_repeat('- ', $item->level) . $item->text;
 			}
 
 			static::$items[$key] = array();
 
-			$user = JFactory::getUser();
+			$user = Factory::getUser();
 
 			$aclcheck = !empty($config['checkacl']) ? (int) $config['checkacl'] : 0;
 
@@ -154,14 +164,14 @@ abstract class JHtmlMenu
 				static::$items[$key][] = $optGroup;
 
 				// Special "Add to this Menu" option:
-				static::$items[$key][] = JHtml::_('select.option', $menu->value . '.1', JText::_('JLIB_HTML_ADD_TO_THIS_MENU'));
+				static::$items[$key][] = HTMLHelper::_('select.option', $menu->value . '.1', Text::_('JLIB_HTML_ADD_TO_THIS_MENU'));
 
 				// Menu items:
 				if (isset($lookup[$menu->value]))
 				{
 					foreach ($lookup[$menu->value] as &$item)
 					{
-						static::$items[$key][] = JHtml::_('select.option', $menu->value . '.' . $item->value, $item->text);
+						static::$items[$key][] = HTMLHelper::_('select.option', $menu->value . '.' . $item->value, $item->text);
 					}
 				}
 
@@ -195,7 +205,7 @@ abstract class JHtmlMenu
 
 		$options = static::menuItems($config);
 
-		return JHtml::_(
+		return HTMLHelper::_(
 			'select.genericlist', $options, $name,
 			array(
 				'id'             => $config['id'] ?? 'assetgroups_' . (++$count),
@@ -220,7 +230,7 @@ abstract class JHtmlMenu
 	{
 		if ($id)
 		{
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('ordering AS value, title AS text')
 				->from($db->quoteName('#__menu'))
@@ -228,15 +238,15 @@ abstract class JHtmlMenu
 				->where($db->quoteName('parent_id') . ' = ' . (int) $row->parent_id)
 				->where($db->quoteName('published') . ' != -2')
 				->order('ordering');
-			$order = JHtml::_('list.genericordering', $query);
-			$ordering = JHtml::_(
+			$order = HTMLHelper::_('list.genericordering', $query);
+			$ordering = HTMLHelper::_(
 				'select.genericlist', $order, 'ordering',
 				array('list.attr' => 'class="inputbox" size="1"', 'list.select' => (int) $row->ordering)
 			);
 		}
 		else
 		{
-			$ordering = '<input type="hidden" name="ordering" value="' . $row->ordering . '">' . JText::_('JGLOBAL_NEWITEMSLAST_DESC');
+			$ordering = '<input type="hidden" name="ordering" value="' . $row->ordering . '">' . Text::_('JGLOBAL_NEWITEMSLAST_DESC');
 		}
 
 		return $ordering;
@@ -255,7 +265,7 @@ abstract class JHtmlMenu
 	 */
 	public static function linkOptions($all = false, $unassigned = false, $clientId = 0)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Get a list of the menu items
 		$query = $db->getQuery(true)
@@ -298,19 +308,19 @@ abstract class JHtmlMenu
 
 		if ($all | $unassigned)
 		{
-			$mitems[] = JHtml::_('select.option', '<OPTGROUP>', JText::_('JOPTION_MENUS'));
+			$mitems[] = HTMLHelper::_('select.option', '<OPTGROUP>', Text::_('JOPTION_MENUS'));
 
 			if ($all)
 			{
-				$mitems[] = JHtml::_('select.option', 0, JText::_('JALL'));
+				$mitems[] = HTMLHelper::_('select.option', 0, Text::_('JALL'));
 			}
 
 			if ($unassigned)
 			{
-				$mitems[] = JHtml::_('select.option', -1, JText::_('JOPTION_UNASSIGNED'));
+				$mitems[] = HTMLHelper::_('select.option', -1, Text::_('JOPTION_UNASSIGNED'));
 			}
 
-			$mitems[] = JHtml::_('select.option', '</OPTGROUP>');
+			$mitems[] = HTMLHelper::_('select.option', '</OPTGROUP>');
 		}
 
 		$lastMenuType = null;
@@ -322,20 +332,20 @@ abstract class JHtmlMenu
 			{
 				if ($tmpMenuType)
 				{
-					$mitems[] = JHtml::_('select.option', '</OPTGROUP>');
+					$mitems[] = HTMLHelper::_('select.option', '</OPTGROUP>');
 				}
 
-				$mitems[]     = JHtml::_('select.option', '<OPTGROUP>', $list_a->menutype);
+				$mitems[]     = HTMLHelper::_('select.option', '<OPTGROUP>', $list_a->menutype);
 				$lastMenuType = $list_a->menutype;
 				$tmpMenuType  = $list_a->menutype;
 			}
 
-			$mitems[] = JHtml::_('select.option', $list_a->id, $list_a->title);
+			$mitems[] = HTMLHelper::_('select.option', $list_a->id, $list_a->title);
 		}
 
 		if ($lastMenuType !== null)
 		{
-			$mitems[] = JHtml::_('select.option', '</OPTGROUP>');
+			$mitems[] = HTMLHelper::_('select.option', '</OPTGROUP>');
 		}
 
 		return $mitems;

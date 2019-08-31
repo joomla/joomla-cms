@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,23 +20,23 @@ class DownloadSource
 	/**
 	 * Defines a BZIP2 download package
 	 *
-	 * @const  string
-	 * @since  4.0.0
+	 * @var    string
+	 * @since  3.8.4
 	 */
 	const FORMAT_TAR_BZIP = 'bz2';
 
 	/**
 	 * Defines a TGZ download package
 	 *
-	 * @const  string
-	 * @since  4.0.0
+	 * @var    string
+	 * @since  3.8.4
 	 */
 	const FORMAT_TAR_GZ = 'gz';
 
 	/**
 	 * Defines a ZIP download package
 	 *
-	 * @const  string
+	 * @var    string
 	 * @since  3.8.3
 	 */
 	const FORMAT_ZIP = 'zip';
@@ -44,7 +44,7 @@ class DownloadSource
 	/**
 	 * Defines a full package download type
 	 *
-	 * @const  string
+	 * @var    string
 	 * @since  3.8.3
 	 */
 	const TYPE_FULL = 'full';
@@ -52,16 +52,16 @@ class DownloadSource
 	/**
 	 * Defines a patch package download type
 	 *
-	 * @const  string
-	 * @since  4.0.0
+	 * @var    string
+	 * @since  3.8.4
 	 */
 	const TYPE_PATCH = 'patch';
 
 	/**
 	 * Defines an upgrade package download type
 	 *
-	 * @const  string
-	 * @since  4.0.0
+	 * @var    string
+	 * @since  3.8.4
 	 */
 	const TYPE_UPGRADE = 'upgrade';
 

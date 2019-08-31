@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\Component\Postinstall\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Postinstall\Administrator\Helper\PostinstallHelper;
 use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
@@ -31,14 +32,14 @@ class MessageController extends BaseController
 	 */
 	public function reset()
 	{
-		/** @var Messages $model */
+		/** @var MessagesModel $model */
 		$model = $this->getModel('Messages', '', array('ignore_request' => true));
 
-		$eid = (int) $model->getState('eid', '700');
+		$eid = (int) $model->getState('eid', $model->getJoomlaFilesExtensionId());
 
 		if (empty($eid))
 		{
-			$eid = 700;
+			$eid = $model->getJoomlaFilesExtensionId();
 		}
 
 		$model->resetMessages($eid);
@@ -59,11 +60,11 @@ class MessageController extends BaseController
 
 		$id = $this->input->get('id');
 
-		$eid = (int) $model->getState('eid', '700');
+		$eid = (int) $model->getState('eid', $model->getJoomlaFilesExtensionId());
 
 		if (empty($eid))
 		{
-			$eid = 700;
+			$eid = $model->getJoomlaFilesExtensionId();
 		}
 
 		$model->setState('published', 0);
@@ -97,12 +98,10 @@ class MessageController extends BaseController
 				break;
 
 			case 'action':
-				jimport('joomla.filesystem.file');
-
 				$helper = new PostinstallHelper;
 				$file = $helper->parsePath($item->action_file);
 
-				if (\JFile::exists($file))
+				if (File::exists($file))
 				{
 					require_once $file;
 
@@ -116,5 +115,27 @@ class MessageController extends BaseController
 		}
 
 		$this->setRedirect('index.php?option=com_postinstall');
+	}
+
+	/**
+	 * Hides all post-installation messages of the specified extension.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.7
+	 */
+	public function hideAll()
+	{
+		/** @var MessagesModel $model */
+		$model = $this->getModel('Messages', '', array('ignore_request' => true));
+		$eid = (int) $model->getState('eid', $model->getJoomlaFilesExtensionId(), 'int');
+
+		if (empty($eid))
+		{
+			$eid = $model->getJoomlaFilesExtensionId();
+		}
+
+		$model->hideMessages($eid);
+		$this->setRedirect('index.php?option=com_postinstall&eid=' . $eid);
 	}
 }

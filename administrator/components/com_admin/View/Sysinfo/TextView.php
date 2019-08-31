@@ -3,15 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Admin\Administrator\View\Sysinfo;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Access\Exception\Notallowed;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\AbstractView;
+use Joomla\Component\Admin\Administrator\Model\SysinfoModel;
 
 /**
  * Sysinfo View class for the Admin component
@@ -28,13 +33,15 @@ class TextView extends AbstractView
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   3.5
+	 *
+	 * @throws  Exception
 	 */
-	public function display($tpl = null)
+	public function display($tpl = null): void
 	{
 		// Access check.
-		if (!\JFactory::getUser()->authorise('core.admin'))
+		if (!Factory::getUser()->authorise('core.admin'))
 		{
-			throw new Notallowed(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		header('Content-Type: text/plain; charset=utf-8');
@@ -44,7 +51,7 @@ class TextView extends AbstractView
 
 		$data = $this->getLayoutData();
 
-		$lines = array();
+		$lines = [];
 
 		foreach ($data as $sectionName => $section)
 		{
@@ -62,7 +69,7 @@ class TextView extends AbstractView
 
 		echo str_replace(JPATH_ROOT, 'xxxxxx', implode("\n\n", $lines));
 
-		\JFactory::getApplication()->close();
+		Factory::getApplication()->close();
 	}
 
 	/**
@@ -72,37 +79,37 @@ class TextView extends AbstractView
 	 *
 	 * @since   3.5
 	 */
-	protected function getLayoutData()
+	protected function getLayoutData(): array
 	{
-		/* @var \Joomla\Component\Admin\Administrator\Model\SysInfoModel $model */
+		/** @var SysinfoModel $model */
 		$model = $this->getModel();
 
-		return array(
-			'info' => array(
-				'title' => \JText::_('COM_ADMIN_SYSTEM_INFORMATION', true),
+		return [
+			'info' => [
+				'title' => Text::_('COM_ADMIN_SYSTEM_INFORMATION', true),
 				'data'  => $model->getSafeData('info')
-			),
-			'phpSettings' => array(
-				'title' => \JText::_('COM_ADMIN_PHP_SETTINGS', true),
+			],
+			'phpSettings' => [
+				'title' => Text::_('COM_ADMIN_PHP_SETTINGS', true),
 				'data'  => $model->getSafeData('phpSettings')
-			),
-			'config' => array(
-				'title' => \JText::_('COM_ADMIN_CONFIGURATION_FILE', true),
+			],
+			'config' => [
+				'title' => Text::_('COM_ADMIN_CONFIGURATION_FILE', true),
 				'data'  => $model->getSafeData('config')
-			),
-			'directories' => array(
-				'title' => \JText::_('COM_ADMIN_DIRECTORY_PERMISSIONS', true),
+			],
+			'directories' => [
+				'title' => Text::_('COM_ADMIN_DIRECTORY_PERMISSIONS', true),
 				'data'  => $model->getSafeData('directory', true)
-			),
-			'phpInfo' => array(
-				'title' => \JText::_('COM_ADMIN_PHP_INFORMATION', true),
+			],
+			'phpInfo' => [
+				'title' => Text::_('COM_ADMIN_PHP_INFORMATION', true),
 				'data'  => $model->getSafeData('phpInfoArray')
-			),
-			'extensions' => array(
-				'title' => \JText::_('COM_ADMIN_EXTENSIONS', true),
+			],
+			'extensions' => [
+				'title' => Text::_('COM_ADMIN_EXTENSIONS', true),
 				'data'  => $model->getSafeData('extensions')
-			)
-		);
+			]
+		];
 	}
 
 	/**
@@ -116,9 +123,9 @@ class TextView extends AbstractView
 	 *
 	 * @since   3.5
 	 */
-	protected function renderSection($sectionName, $sectionData, $level = 0)
+	protected function renderSection(string $sectionName, array $sectionData, int $level = 0): string
 	{
-		$lines = array();
+		$lines = [];
 
 		$margin = ($level > 0) ? str_repeat("\t", $level) : null;
 
@@ -169,7 +176,7 @@ class TextView extends AbstractView
 	 *
 	 * @since   3.5
 	 */
-	protected function renderDirectories($sectionName, $sectionData, $level = -1)
+	protected function renderDirectories(string $sectionName, array $sectionData, int $level = -1): string
 	{
 		foreach ($sectionData as $directory => $data)
 		{

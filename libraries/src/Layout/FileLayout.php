@@ -2,16 +2,19 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Layout;
 
+\defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
-
-defined('JPATH_PLATFORM') or die;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Version;
 
 /**
  * Base class for rendering a display layout
@@ -102,7 +105,7 @@ class FileLayout extends BaseLayout
 		$layoutOutput = '';
 
 		// Automatically merge any previously data set if $displayData is an array
-		if (is_array($displayData))
+		if (\is_array($displayData))
 		{
 			$displayData = array_merge($this->data, $displayData);
 		}
@@ -138,8 +141,6 @@ class FileLayout extends BaseLayout
 	 */
 	protected function getPath()
 	{
-		\JLoader::import('joomla.filesystem.path');
-
 		$layoutId     = $this->getLayoutId();
 		$includePaths = $this->getIncludePaths();
 		$suffixes     = $this->getSuffixes();
@@ -188,7 +189,7 @@ class FileLayout extends BaseLayout
 				$rawPath  = str_replace('.', '/', $this->layoutId) . '.' . $suffix . '.php';
 				$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
 
-				if ($foundLayout = \JPath::find($this->includePaths, $rawPath))
+				if ($foundLayout = Path::find($this->includePaths, $rawPath))
 				{
 					$this->addDebugMessage('<strong>Found layout:</strong> ' . $this->fullPath);
 
@@ -203,7 +204,7 @@ class FileLayout extends BaseLayout
 		$rawPath  = str_replace('.', '/', $this->layoutId) . '.php';
 		$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
 
-		$foundLayout = \JPath::find($this->includePaths, $rawPath);
+		$foundLayout = Path::find($this->includePaths, $rawPath);
 
 		if (!$foundLayout)
 		{
@@ -253,7 +254,7 @@ class FileLayout extends BaseLayout
 
 		$includePaths = $this->getIncludePaths();
 
-		if (is_array($paths))
+		if (\is_array($paths))
 		{
 			$includePaths = array_unique(array_merge($paths, $includePaths));
 		}
@@ -332,7 +333,7 @@ class FileLayout extends BaseLayout
 	 */
 	public function loadLanguageSuffixes()
 	{
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		$langTag = $lang->getTag();
 		$langParts = explode('-', $langTag);
@@ -355,7 +356,7 @@ class FileLayout extends BaseLayout
 	 */
 	public function loadVersionSuffixes()
 	{
-		$cmsVersion = new \JVersion;
+		$cmsVersion = new Version;
 
 		// Example j311
 		$fullVersion = 'j' . str_replace('.', '', $cmsVersion->getShortVersion());
@@ -498,7 +499,7 @@ class FileLayout extends BaseLayout
 				break;
 
 			default:
-				$client = (int) \JFactory::getApplication()->isClient('administrator');
+				$client = (int) Factory::getApplication()->isClient('administrator');
 				break;
 		}
 
@@ -549,7 +550,7 @@ class FileLayout extends BaseLayout
 		if (!empty($component))
 		{
 			// (2) Component template overrides path
-			$paths[] = JPATH_THEMES . '/' . \JFactory::getApplication()->getTemplate() . '/html/layouts/' . $component;
+			$paths[] = JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/html/layouts/' . $component;
 
 			// (3) Component path
 			if ($this->options->get('client') == 0)
@@ -562,8 +563,8 @@ class FileLayout extends BaseLayout
 			}
 		}
 
-		// (4) Standard Joomla! layouts overriden
-		$paths[] = JPATH_THEMES . '/' . \JFactory::getApplication()->getTemplate() . '/html/layouts';
+		// (4) Standard Joomla! layouts overridden
+		$paths[] = JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/html/layouts';
 
 		// (5 - lower priority) Frontend base layouts
 		$paths[] = JPATH_ROOT . '/layouts';

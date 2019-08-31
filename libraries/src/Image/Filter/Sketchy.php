@@ -3,22 +3,23 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Filter\Image;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Image\ImageFilter;
+use Joomla\CMS\Log\Log;
 
-\JLog::add('JImageFilterSketchy is deprecated, use Joomla\Image\Filter\Sketchy instead.', \JLog::WARNING, 'deprecated');
+Log::add('JImageFilterSketchy is deprecated, use Joomla\Image\Filter\Sketchy instead.', Log::WARNING, 'deprecated');
 
 /**
  * Image Filter class to make an image appear "sketchy".
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  5.0  Use Joomla\Image\Filter\Sketchy instead
  */
 class Sketchy extends ImageFilter
@@ -30,7 +31,7 @@ class Sketchy extends ImageFilter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @deprecated  5.0  Use Joomla\Image\Filter\Sketchy::execute() instead
 	 */
 	public function execute(array $options = array())

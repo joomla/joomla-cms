@@ -3,18 +3,27 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Content\Site\View\Article;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 /**
  * HTML Article View class for the Content component
@@ -81,8 +90,8 @@ class HtmlView extends BaseHtmlView
 			return parent::display($tpl);
 		}
 
-		$app        = \JFactory::getApplication();
-		$user       = \JFactory::getUser();
+		$app        = Factory::getApplication();
+		$user       = Factory::getUser();
 
 		$this->item  = $this->get('Item');
 		$this->print = $app->input->getBool('print', false);
@@ -92,7 +101,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Create a shortcut for $item.
@@ -100,18 +109,16 @@ class HtmlView extends BaseHtmlView
 		$item->tagLayout = new FileLayout('joomla.content.tags');
 
 		// Add router helpers.
-		$item->slug        = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-		$item->catslug     = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
-		$item->parent_slug = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+		$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
 		// No link for ROOT category
 		if ($item->parent_alias === 'root')
 		{
-			$item->parent_slug = null;
+			$item->parent_id = null;
 		}
 
 		// TODO: Change based on shownoauth
-		$item->readmore_link = \JRoute::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+		$item->readmore_link = Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language));
 
 		// Merge article params. If this is single-article view, menu params override article params
 		// Otherwise, article params override menu item params
@@ -176,7 +183,7 @@ class HtmlView extends BaseHtmlView
 		// Check the view access to the article (the model has already computed the values).
 		if ($item->params->get('access-view') == false && ($item->params->get('show_noauth', '0') == '0'))
 		{
-			$app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$app->setHeader('status', 403, true);
 
 			return;
@@ -192,14 +199,14 @@ class HtmlView extends BaseHtmlView
 		{
 			if ($this->user->get('guest'))
 			{
-				$return = base64_encode(\JUri::getInstance());
-				$login_url_with_return = \JRoute::_('index.php?option=com_users&return=' . $return);
-				$app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'notice');
+				$return = base64_encode(Uri::getInstance());
+				$login_url_with_return = Route::_('index.php?option=com_users&view=login&return=' . $return);
+				$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'notice');
 				$app->redirect($login_url_with_return, 403);
 			}
 			else
 			{
-				$app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+				$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 				$app->setHeader('status', 403, true);
 
 				return;
@@ -226,23 +233,23 @@ class HtmlView extends BaseHtmlView
 		$item->tags = new TagsHelper;
 		$item->tags->getItemTags('com_content.article', $this->item->id);
 
-		if (\JLanguageAssociations::isEnabled() && $item->params->get('show_associations'))
+		if (Associations::isEnabled() && $item->params->get('show_associations'))
 		{
 			$item->associations = AssociationHelper::displayAssociations($item->id);
 		}
 
 		// Process the content plugins.
 		PluginHelper::importPlugin('content');
-		\JFactory::getApplication()->triggerEvent('onContentPrepare', array('com_content.article', &$item, &$item->params, $offset));
+		Factory::getApplication()->triggerEvent('onContentPrepare', array('com_content.article', &$item, &$item->params, $offset));
 
 		$item->event = new \stdClass;
-		$results = \JFactory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$item->params, $offset));
+		$results = Factory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$item->params, $offset));
 		$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-		$results = \JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$item->params, $offset));
+		$results = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$item->params, $offset));
 		$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-		$results = \JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$item->params, $offset));
+		$results = Factory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$item->params, $offset));
 		$item->event->afterDisplayContent = trim(implode("\n", $results));
 
 		// Escape strings for HTML output
@@ -260,7 +267,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function _prepareDocument()
 	{
-		$app     = \JFactory::getApplication();
+		$app     = Factory::getApplication();
 		$menus   = $app->getMenu();
 		$pathway = $app->getPathway();
 		$title   = null;
@@ -277,7 +284,7 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', \JText::_('JGLOBAL_ARTICLES'));
+			$this->params->def('page_heading', Text::_('JGLOBAL_ARTICLES'));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -291,11 +298,12 @@ class HtmlView extends BaseHtmlView
 			$title = $this->item->params->get('article_page_title', $this->item->title ?: $title);
 
 			$path     = array(array('title' => $this->item->title, 'link' => ''));
-			$category = \JCategories::getInstance('Content')->get($this->item->catid);
+			$category = Categories::getInstance('Content')->get($this->item->catid);
 
-			while ($category && ($menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article' || $id != $category->id) && $category->id > 1)
+			while ($category
+				&& ($menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article' || $id != $category->id) && $category->id > 1)
 			{
-				$path[]   = array('title' => $category->title, 'link' => \ContentHelperRoute::getCategoryRoute($category->id));
+				$path[]   = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language));
 				$category = $category->getParent();
 			}
 
@@ -314,11 +322,11 @@ class HtmlView extends BaseHtmlView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		if (empty($title))
@@ -372,7 +380,7 @@ class HtmlView extends BaseHtmlView
 		{
 			$this->item->title = $this->item->title . ' - ' . $this->item->page_title;
 			$this->document->setTitle(
-				$this->item->page_title . ' - ' . \JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $this->state->get('list.offset') + 1)
+				$this->item->page_title . ' - ' . Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $this->state->get('list.offset') + 1)
 			);
 		}
 

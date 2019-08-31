@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,14 +10,13 @@ namespace Joomla\CMS\Plugin;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory as JFactory;
+use Joomla\CMS\Extension\PluginInterface;
+use Joomla\CMS\Factory;
 use Joomla\Event\AbstractEvent;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
-use Joomla\Event\Priority;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
-use Joomla\Event\SubscriberManagerInterface;
 use Joomla\Registry\Registry;
 
 /**
@@ -25,7 +24,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-abstract class CMSPlugin implements DispatcherAwareInterface
+abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 {
 	use DispatcherAwareTrait;
 
@@ -125,7 +124,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 
 			if ($appProperty->isPrivate() === false && is_null($this->app))
 			{
-				$this->app = JFactory::getApplication();
+				$this->app = Factory::getApplication();
 			}
 		}
 
@@ -136,15 +135,12 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 
 			if ($dbProperty->isPrivate() === false && is_null($this->db))
 			{
-				$this->db = JFactory::getDbo();
+				$this->db = Factory::getDbo();
 			}
 		}
 
 		// Set the dispatcher we are to register our listeners with
 		$this->setDispatcher($subject);
-
-		// Register the event listeners with the dispatcher. Override the registerListeners method to customise.
-		$this->registerListeners();
 	}
 
 	/**
@@ -165,7 +161,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 		}
 
 		$extension = strtolower($extension);
-		$lang      = JFactory::getLanguage();
+		$lang      = Factory::getLanguage();
 
 		// If language already loaded, don't load it again.
 		if ($lang->getPaths($extension))
@@ -192,30 +188,12 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 	 *
 	 * @since   4.0
 	 */
-	protected function registerListeners()
+	public function registerListeners()
 	{
 		// Plugins which are SubscriberInterface implementations are handled without legacy layer support
 		if ($this instanceof SubscriberInterface)
 		{
-			// To avoid a hard dependency to dispatchers implementing the SubscriberManagerInterface, emulate its effect if the dispatcher doesn't
-			if ($this->getDispatcher() instanceof SubscriberManagerInterface)
-			{
-				$this->getDispatcher()->addSubscriber($this);
-			}
-			else
-			{
-				foreach ($this->getSubscribedEvents() as $eventName => $params)
-				{
-					if (is_array($params))
-					{
-						$this->getDispatcher()->addListener($eventName, [$this, $params[0]], $params[1] ?? Priority::NORMAL);
-					}
-					else
-					{
-						$this->getDispatcher()->addListener($eventName, [$this, $params]);
-					}
-				}
-			}
+			$this->getDispatcher()->addSubscriber($this);
 
 			return;
 		}
