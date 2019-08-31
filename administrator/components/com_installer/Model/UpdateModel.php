@@ -178,7 +178,7 @@ class UpdateModel extends ListModel
 				{
 					$search = '%' . str_replace(' ', '%', trim($search)) . '%';
 					$query->where($db->quoteName('u.name') . ' LIKE :search')
-						->bind(':search', $name);
+						->bind(':search', $search);
 				}
 			}
 		}
