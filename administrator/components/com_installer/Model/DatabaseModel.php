@@ -361,7 +361,7 @@ class DatabaseModel extends InstallerModel
 		{
 			$extensionId = (int) $extensionId;
 			$query->where($db->quoteName('extensions.extension_id') . ' = :extensionid')
-				->bind(':extensionid', $extensionid, ParameterType::INTEGER);
+				->bind(':extensionid', $extensionId, ParameterType::INTEGER);
 		}
 
 		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
