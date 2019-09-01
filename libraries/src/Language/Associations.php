@@ -63,7 +63,7 @@ class Associations
 
 			if ($tablename === '#__categories')
 			{
-				$categoriesExtraSql = (' AND c2.extension = :extension1');
+				$categoriesExtraSql = ' AND c2.extension = :extension1';
 				$query->bind(':extension1', $extension);
 			}
 
@@ -106,7 +106,7 @@ class Associations
 				$query->join(
 					'INNER',
 					$db->quoteName('#__categories', 'ca'),
-					$db->quoteName('c2.' . $catField) . ' = ' . $db->quoteName('ca.id') . ' AND ca.extension = :extension2'
+					$db->quoteName('c2.' . $catField) . ' = ' . $db->quoteName('ca.id') . ' AND ' . $db->quoteName('ca.extension') . ' = :extension2'
 				)
 					->bind(':extension2', $extension)
 					->select(
