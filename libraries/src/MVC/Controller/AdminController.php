@@ -160,7 +160,12 @@ class AdminController extends BaseController
 			$this->postDeleteHook($model, $cid);
 		}
 
-		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+		$this->setRedirect(
+			Route::_(
+				'index.php?option=' . $this->option . '&view=' . $this->view_list
+				. $this->getRedirectToListAppend(), false
+			)
+		);
 	}
 
 	/**
@@ -250,9 +255,12 @@ class AdminController extends BaseController
 			}
 		}
 
-		$extension = $this->input->get('extension');
-		$extensionURL = $extension ? '&extension=' . $extension : '';
-		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
+		$this->setRedirect(
+			Route::_(
+				'index.php?option=' . $this->option . '&view=' . $this->view_list
+				. $this->getRedirectToListAppend(), false
+			)
+		);
 	}
 
 	/**
@@ -356,7 +364,11 @@ class AdminController extends BaseController
 		{
 			// Checkin failed.
 			$message = Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
-			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+			$this->setRedirect(
+				Route::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false
+				), $message, 'error'
+			);
 
 			return false;
 		}
@@ -364,7 +376,11 @@ class AdminController extends BaseController
 		{
 			// Checkin succeeded.
 			$message = Text::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
-			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+			$this->setRedirect(
+				Route::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false
+				), $message
+			);
 
 			return true;
 		}
@@ -445,5 +461,17 @@ class AdminController extends BaseController
 		}
 
 		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
+	}
+
+	/**
+	 * Gets the URL arguments to append to a list redirect.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getRedirectToListAppend()
+	{
+		return '';
 	}
 }
