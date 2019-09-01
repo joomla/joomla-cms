@@ -1194,6 +1194,17 @@ class Form
 		foreach ($fields as $field)
 		{
 			$name     = (string) $field['name'];
+
+			// Define field name for messages
+			if ($field['label'])
+			{
+				$fieldLabel = \JText::_($field['label']);
+			}
+			else
+			{
+				$fieldLabel = \JText::_($name);
+			}
+
 			$disabled = ((string) $field['disabled'] == 'true' || (string) $field['disabled'] == 'disabled');
 
 			$fieldExistsInRequestData = $input->exists($name) || $input->exists($group . '.' . $name);
@@ -1201,7 +1212,7 @@ class Form
 			// If the field is disabled but it is passed in the request this is invalid as disabled fields are not added to the request
 			if ($disabled && $fieldExistsInRequestData)
 			{
-				throw new \RuntimeException(Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $name));
+				throw new \RuntimeException(Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $fieldLabel));
 			}
 
 			// Get the field groups for the element.

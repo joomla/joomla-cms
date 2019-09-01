@@ -762,19 +762,14 @@ class FieldModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id))
+		if (empty($record->id) || $record->state != -2)
 		{
-			if ($record->state != -2)
-			{
-				return false;
-			}
-
-			$parts = FieldsHelper::extract($record->context);
-
-			return Factory::getUser()->authorise('core.delete', $parts[0] . '.field.' . (int) $record->id);
+			return false;
 		}
 
-		return false;
+		$parts = FieldsHelper::extract($record->context);
+
+		return Factory::getUser()->authorise('core.delete', $parts[0] . '.field.' . (int) $record->id);
 	}
 
 	/**

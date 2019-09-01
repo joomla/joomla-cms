@@ -964,10 +964,10 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'action'      => 'actionlogs',
 			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
 			'id'          => $user->id,
-			'title'       => $user->name,
+			'title'       => $user->username,
 			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 			'userid'      => $user->id,
-			'username'    => $user->name,
+			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 		);
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_LOG', $context, $user->id);
@@ -992,10 +992,10 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'action'      => 'actionlogs',
 			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
 			'id'          => $user->id,
-			'title'       => $user->name,
+			'title'       => $user->username,
 			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 			'userid'      => $user->id,
-			'username'    => $user->name,
+			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 		);
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_LOGEXPORT', $context, $user->id);
@@ -1026,10 +1026,10 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'action'      => 'cache',
 			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
 			'id'          => $user->id,
-			'title'       => $user->name,
+			'title'       => $user->username,
 			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 			'userid'      => $user->id,
-			'username'    => $user->name,
+			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 			'group'       => $group,
 		);
