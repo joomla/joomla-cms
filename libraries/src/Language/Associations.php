@@ -87,10 +87,10 @@ class Associations
 			{
 				$query->select(
 					$query->concatenate(
-						array(
+						[
 							$db->quoteName('c2.' . $pk),
 							$db->quoteName('c2.' . $aliasField),
-						),
+						],
 						':'
 					) . ' AS ' . $db->quoteName($pk)
 				);
@@ -111,7 +111,10 @@ class Associations
 					->bind(':extension2', $extension)
 					->select(
 						$query->concatenate(
-							array('ca.id', 'ca.alias'),
+							[
+								$db->quoteName('ca.id'),
+								$db->quoteName('ca.alias'),
+							],
 							':'
 						) . ' AS ' . $db->quoteName($catField)
 					);
