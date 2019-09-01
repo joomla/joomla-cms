@@ -80,7 +80,7 @@
         "fig/link-util": "~1.0",
         "google/recaptcha": "~1.1",
         "ozdemirburak/iris": "1.2.*",
-        "paragonie/sodium_compat": "~1.6",
+        "paragonie/sodium_compat": "~1.9.1",
         "phpmailer/phpmailer": "~6.0",
         "psr/link": "~1.0",
         "psr/log": "~1.0",

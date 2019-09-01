@@ -66,7 +66,7 @@ class LocalAdapter implements AdapterInterface
 			throw new \InvalidArgumentException;
 		}
 
-		$this->rootPath = Path::clean($rootPath, '/');
+		$this->rootPath = Path::clean(realpath($rootPath), '/');
 		$this->filePath = $filePath;
 	}
 
@@ -336,7 +336,7 @@ class LocalAdapter implements AdapterInterface
 		$obj            = new \stdClass;
 		$obj->type      = $isDir ? 'dir' : 'file';
 		$obj->name      = $this->getFileName($path);
-		$obj->path      = str_replace($this->rootPath, '/', $path);
+		$obj->path      = str_replace($this->rootPath, '', $path);
 		$obj->extension = !$isDir ? File::getExt($obj->name) : '';
 		$obj->size      = !$isDir ? filesize($path) : '';
 		$obj->mime_type = MediaHelper::getMimeType($path, MediaHelper::isImage($obj->name));
