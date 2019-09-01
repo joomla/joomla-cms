@@ -11,6 +11,7 @@ namespace Joomla\CMS\Form;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Form\Field\SubformField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Log\Log;
@@ -1003,6 +1004,29 @@ abstract class FormField
 				return '';
 			}
 
+			// Dirty way of ensuring required fields in subforms are submitted and filtered the way other fields are
+			if ($this instanceof SubformField)
+			{
+				$subForm = $this->loadSubForm();
+
+				if ($this->multiple && !empty($value))
+				{
+					$return = array();
+
+					foreach ($value as $key => $val)
+					{
+						$return[$key] = $subForm->filter($val);
+					}
+				}
+				else
+				{
+					$return = $subForm->filter($value);
+				}
+
+				return $return;
+			}
+
+			// Check for a callback filter
 			if (strpos($filter, '::') !== false && \is_callable(explode('::', $filter)))
 			{
 				return \call_user_func(explode('::', $filter), $value);
@@ -1053,19 +1077,19 @@ abstract class FormField
 		// Check if the field is required.
 		$required = ((string) $this->element['required'] == 'true' || (string) $this->element['required'] == 'required');
 
+		if ($this->element['label'])
+		{
+			$fieldLabel = Text::_($this->element['label']);
+		}
+		else
+		{
+			$fieldLabel = Text::_($this->element['name']);
+		}
+
 		// If the field is required and the value is empty return an error message.
 		if ($required && (($value === '') || ($value === null)))
 		{
-			if ($this->element['label'])
-			{
-				$message = Text::_($this->element['label']);
-			}
-			else
-			{
-				$message = Text::_($this->element['name']);
-			}
-
-			$message = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $message);
+			$message = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $fieldLabel);
 
 			return new \RuntimeException($message);
 		}
@@ -1093,6 +1117,39 @@ abstract class FormField
 			}
 		}
 
+		if ($valid !== false && $this instanceof SubformField)
+		{
+			$subForm = $this->loadSubForm();
+
+			if ($this->multiple)
+			{
+				foreach ($value as $key => $val)
+				{
+					$val = (array) $val;
+					$valid = $subForm->validate($val);
+
+					if ($valid === false)
+					{
+						break;
+					}
+				}
+			}
+			else
+			{
+				$valid = $subForm->validate($value);
+			}
+
+			if ($valid === false)
+			{
+				$errors = $subForm->getErrors();
+
+				foreach ($errors as $error)
+				{
+					return $error;
+				}
+			}
+		}
+
 		// Check if the field is valid.
 		if ($valid === false)
 		{
@@ -1105,8 +1162,7 @@ abstract class FormField
 			}
 			else
 			{
-				$message = Text::_($this->element['label']);
-				$message = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $message);
+				$message = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $fieldLabel);
 			}
 
 			return new \UnexpectedValueException($message);

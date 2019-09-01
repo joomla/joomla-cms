@@ -18,7 +18,8 @@ use Joomla\CMS\Language\Text;
  * Form Field class for the Joomla Platform.
  * Provides a select list of help sites.
  *
- * @since  1.6
+ * @since       1.6
+ * @deprecated  4.0 To be removed
  */
 class HelpsiteField extends ListField
 {

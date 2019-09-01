@@ -279,7 +279,6 @@ class ExtensionHelper
 		array('plugin', 'sessiongc', 'system', 0),
 		array('plugin', 'skipto', 'system', 0),
 		array('plugin', 'stats', 'system', 0),
-		array('plugin', 'sessiongc', 'system', 0),
 		array('plugin', 'updatenotification', 'system', 0),
 
 		// Core plugin extensions - two factor authentication
@@ -350,7 +349,8 @@ class ExtensionHelper
 			$query = $db->getQuery(true)
 				->select('*')
 				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('name') . ' = ' . $db->quote($name));
+				->where($db->quoteName('name') . ' = :name')
+				->bind(':name', $name);
 			$db->setQuery($query);
 
 			self::$loadedextensions[$name] = $db->loadObject();
