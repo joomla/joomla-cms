@@ -22,6 +22,15 @@
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
+
+			<field 
+				name="helpsite"
+				type="helpsite"
+				label="COM_USERS_USER_FIELD_HELPSITE_LABEL"
+				>
+				<option value="">JOPTION_USE_DEFAULT</option>
+			</field>
+
 		</fieldset>
 	</fields>
 </form>

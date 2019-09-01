@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\CategoryFeedView;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
 
 /**
  * HTML View class for the Content component
@@ -51,7 +50,7 @@ class FeedView extends CategoryFeedView
 
 		if (isset($introImage) && ($introImage != ''))
 		{
-			$image = preg_match('/http/', $introImage) ? $introImage : Uri::root() . $introImage;
+			$image = preg_match('/http/', $introImage) ? $introImage : \JURI::root() . $introImage;
 			$item->description = '<p><img src="' . $image . '"></p>';
 		}
 

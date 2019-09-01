@@ -31,6 +31,7 @@ class Dispatcher extends ComponentDispatcher
 	 */
 	protected function loadLanguage()
 	{
+		$this->app->getLanguage()->load('joomla', JPATH_ADMINISTRATOR);
 		$this->app->getLanguage()->load('com_modules', JPATH_ADMINISTRATOR);
 	}
 

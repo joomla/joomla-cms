@@ -97,33 +97,6 @@ PHP;
 
 		$this->out('Stubs file written', true);
 	}
-
-	/**
-	 * Gets the name of the current running application.
-	 *
-	 * @return  string  The name of the application.
-	 *
-	 * @since   4.0.0
-	 */
-	public function getName()
-	{
-		return 'cli-stubgen';
-	}
-
-	/**
-	 * Get the menu object.
-	 *
-	 * @param string $name    The application name for the menu
-	 * @param array  $options An array of options to initialise the menu with
-	 *
-	 * @return  \Joomla\CMS\Menu\AbstractMenu|null  A AbstractMenu object or null if not set.
-	 *
-	 * @since   4.0.0
-	 */
-	public function getMenu($name = null, $options = array())
-	{
-		throw new \BadMethodCallException('CLI Application has no menu');
-	}
 }
 
 Factory::getContainer()->share(

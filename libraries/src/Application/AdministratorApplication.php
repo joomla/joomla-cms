@@ -20,7 +20,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Database\ParameterType;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 
@@ -200,41 +199,22 @@ class AdministratorApplication extends CMSApplication
 			return $this->template->template;
 		}
 
-		$admin_style = (int) Factory::getUser()->getParam('admin_style');
+		$admin_style = Factory::getUser()->getParam('admin_style');
 
 		// Load the template name from the database
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName(['s.template', 's.params']))
-			->from($db->quoteName('#__template_styles', 's'))
-			->join(
-				'LEFT',
-				$db->quoteName('#__extensions', 'e'),
-				$db->quoteName('e.type') . ' = ' . $db->quote('template')
-					. ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('s.template')
-					. ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('s.client_id')
-			)
-			->where(
-				[
-					$db->quoteName('s.client_id') . ' = 1',
-					$db->quoteName('s.home') . ' = ' . $db->quote('1'),
-				]
-			);
+			->select('template, s.params')
+			->from('#__template_styles as s')
+			->join('LEFT', '#__extensions as e ON e.type=' . $db->quote('template') . ' AND e.element=s.template AND e.client_id=s.client_id');
 
 		if ($admin_style)
 		{
-			$query->extendWhere(
-				'OR',
-				[
-					$db->quoteName('s.client_id') . ' = 1',
-					$db->quoteName('s.id') . ' = :style',
-					$db->quoteName('e.enabled') . ' = 1',
-				]
-			)
-				->bind(':style', $admin_style, ParameterType::INTEGER);
+			$query->where('s.client_id = 1 AND id = ' . (int) $admin_style . ' AND e.enabled = 1', 'OR');
 		}
 
-		$query->order($db->quoteName('s.home'));
+		$query->where('s.client_id = 1 AND home = ' . $db->quote('1'), 'OR')
+			->order('home');
 		$db->setQuery($query);
 		$template = $db->loadObject();
 
@@ -375,20 +355,15 @@ class AdministratorApplication extends CMSApplication
 	 */
 	public static function purgeMessages()
 	{
-		$userId = Factory::getUser()->id;
+		$user = Factory::getUser();
+		$userid = $user->get('id');
 
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName(['cfg_name', 'cfg_value']))
+			->select('*')
 			->from($db->quoteName('#__messages_cfg'))
-			->where(
-				[
-					$db->quoteName('user_id') . ' = :userId',
-					$db->quoteName('cfg_name') . ' = ' . $db->quote('auto_purge'),
-				]
-			)
-			->bind(':userId', $userId, ParameterType::INTEGER);
-
+			->where($db->quoteName('user_id') . ' = ' . (int) $userid, 'AND')
+			->where($db->quoteName('cfg_name') . ' = ' . $db->quote('auto_purge'), 'AND');
 		$db->setQuery($query);
 		$config = $db->loadObject();
 
@@ -407,19 +382,13 @@ class AdministratorApplication extends CMSApplication
 		if ($purge > 0)
 		{
 			// Purge old messages at day set in message configuration
-			$past = Factory::getDate(time() - $purge * 86400)->toSql();
+			$past = Factory::getDate(time() - $purge * 86400);
+			$pastStamp = $past->toSql();
 
-			$query = $db->getQuery(true)
+			$query->clear()
 				->delete($db->quoteName('#__messages'))
-				->where(
-					[
-						$db->quoteName('date_time') . ' < :past',
-						$db->quoteName('user_id_to') . ' = :userId',
-					]
-				)
-				->bind(':past', $past)
-				->bind(':userId', $userId, ParameterType::INTEGER);
-
+				->where($db->quoteName('date_time') . ' < ' . $db->quote($pastStamp), 'AND')
+				->where($db->quoteName('user_id_to') . ' = ' . (int) $userid, 'AND');
 			$db->setQuery($query);
 			$db->execute();
 		}

@@ -20,7 +20,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\Exception\ExecutionFailureException;
-use Joomla\Database\ParameterType;
 
 /**
  * Sampledata - Multilang Plugin
@@ -488,15 +487,15 @@ class PlgSampledataMultilang extends CMSPlugin
 	private function enablePlugin($pluginName)
 	{
 		// Create a new db object.
-		$db    = $this->db;
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query
+			->clear()
 			->update($db->quoteName('#__extensions'))
 			->set($db->quoteName('enabled') . ' = 1')
-			->where($db->quoteName('name') . ' = :pluginname')
-			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-			->bind(':pluginname', $pluginName);
+			->where($db->quoteName('name') . ' = ' . $db->quote($pluginName))
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'));
 
 		$db->setQuery($query);
 
@@ -513,20 +512,19 @@ class PlgSampledataMultilang extends CMSPlugin
 		if ($pluginName == 'plg_system_languagefilter')
 		{
 			$params = '{'
-				. '"detect_browser":"0",'
-				. '"automatic_change":"1",'
-				. '"item_associations":"1",'
-				. '"remove_default_prefix":"0",'
-				. '"lang_cookie":"0",'
-				. '"alternate_meta":"1"'
+					. '"detect_browser":"0",'
+					. '"automatic_change":"1",'
+					. '"item_associations":"1",'
+					. '"remove_default_prefix":"0",'
+					. '"lang_cookie":"0",'
+					. '"alternate_meta":"1"'
 				. '}';
 			$query
 				->clear()
 				->update($db->quoteName('#__extensions'))
-				->set($db->quoteName('params') . ' = :params')
+				->set($db->quoteName('params') . ' = ' . $db->quote($params))
 				->where($db->quoteName('name') . ' = ' . $db->quote('plg_system_languagefilter'))
-				->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-				->bind(':params', $params);
+				->where($db->quoteName('type') . ' = ' . $db->quote('plugin'));
 
 			$db->setQuery($query);
 
@@ -554,21 +552,18 @@ class PlgSampledataMultilang extends CMSPlugin
 	private function disableModuleMainMenu()
 	{
 		// Create a new db object.
-		$db    = $this->db;
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Disable main menu module with Home set to ALL languages.
 		$query
+			->clear()
 			->update($db->quoteName('#__modules'))
 			->set($db->quoteName('published') . ' = 0')
-			->where(
-				[
-					$db->quoteName('client_id') . ' = 0',
-					$db->quoteName('module') . ' = ' . $db->quote('mod_menu'),
-					$db->quoteName('language') . ' = ' . $db->quote('*'),
-					$db->quoteName('position') . ' = ' . $db->quote('sidebar-right'),
-				]
-			);
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_menu'))
+			->where($db->quoteName('language') . ' = ' . $db->quote('*'))
+			->where($db->quoteName('client_id') . ' = ' . $db->quote('0'))
+			->where($db->quoteName('position') . ' = ' . $db->quote('sidebar-right'));
 		$db->setQuery($query);
 
 		try
@@ -902,32 +897,17 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	private function addAssociations($groupedAssociations)
 	{
-		$db = $this->db;
+		$db = Factory::getDbo();
 
 		foreach ($groupedAssociations as $context => $associations)
 		{
 			$key   = md5(json_encode($associations));
 			$query = $db->getQuery(true)
-				->insert($db->quoteName('#__associations'));
+				->insert('#__associations');
 
 			foreach ($associations as $language => $id)
 			{
-				$query->values(
-					implode(',',
-						$query->bindArray(
-							[
-								$id,
-								$context,
-								$key,
-							],
-							[
-								ParameterType::INTEGER,
-								ParameterType::STRING,
-								ParameterType::STRING,
-							]
-						)
-					)
-				);
+				$query->values(((int) $id) . ',' . $db->quote($context) . ',' . $db->quote($key));
 			}
 
 			$db->setQuery($query);
@@ -957,16 +937,14 @@ class PlgSampledataMultilang extends CMSPlugin
 	private function addModuleInModuleMenu($moduleId)
 	{
 		// Create a new db object.
-		$db       = $this->db;
-		$query    = $db->getQuery(true);
-		$moduleId = (int) $moduleId;
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
 
 		// Add Module in Module menus.
-		$query->insert($db->quoteName('#__modules_menu'))
-			->columns($db->quoteName(['moduleid', 'menuid']))
-			->values(':moduleId, 0')
-			->bind(':moduleId', $moduleId, ParameterType::INTEGER);
-
+		$query->clear()
+			->insert($db->quoteName('#__modules_menu'))
+			->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')))
+			->values($moduleId . ', 0');
 		$db->setQuery($query);
 
 		try
@@ -1055,7 +1033,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	private function addArticle($itemLanguage, $categoryId)
 	{
-		$db = $this->db;
+		$db = Factory::getDbo();
 
 		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('com_content.sys', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
@@ -1068,13 +1046,13 @@ class PlgSampledataMultilang extends CMSPlugin
 		$data = array(
 			'title'            => $title . ' (' . strtolower($itemLanguage->language) . ')',
 			'introtext'        => '<p>Lorem ipsum ad his scripta blandit partiendo, eum fastidii accumsan euripidis'
-				. ' in, eum liber hendrerit an. Qui ut wisi vocibus suscipiantur, quo dicit'
-				. ' ridens inciderint id. Quo mundi lobortis reformidans eu, legimus senserit'
-				. 'definiebas an eos. Eu sit tincidunt incorrupte definitionem, vis mutat'
-				. ' affert percipit cu, eirmod consectetuer signiferumque eu per. In usu latine'
-				. 'equidem dolores. Quo no falli viris intellegam, ut fugit veritus placerat'
-				. 'per. Ius id vidit volumus mandamus, vide veritus democritum te nec, ei eos'
-				. 'debet libris consulatu.</p>',
+										. ' in, eum liber hendrerit an. Qui ut wisi vocibus suscipiantur, quo dicit'
+										. ' ridens inciderint id. Quo mundi lobortis reformidans eu, legimus senserit'
+										. 'definiebas an eos. Eu sit tincidunt incorrupte definitionem, vis mutat'
+										. ' affert percipit cu, eirmod consectetuer signiferumque eu per. In usu latine'
+										. 'equidem dolores. Quo no falli viris intellegam, ut fugit veritus placerat'
+										. 'per. Ius id vidit volumus mandamus, vide veritus democritum te nec, ei eos'
+										. 'debet libris consulatu.</p>',
 			'images'           => json_encode(array()),
 			'urls'             => json_encode(array()),
 			'created'          => $currentDate,
@@ -1271,21 +1249,16 @@ class PlgSampledataMultilang extends CMSPlugin
 	protected function getLanguageList($client_id = 1)
 	{
 		// Create a new db object.
-		$db    = $this->db;
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Select field element from the extensions table.
-		$query->select($db->quoteName(['element', 'name']))
+		$query->select($db->quoteName(array('element', 'name')))
 			->from($db->quoteName('#__extensions'))
-			->where(
-				[
-					$db->quoteName('type') . ' = ' . $db->quote('language'),
-					$db->quoteName('state') . ' = 0',
-					$db->quoteName('enabled') . ' = 1',
-					$db->quoteName('client_id') . ' = :clientid',
-				]
-			)
-			->bind(':clientid', $client_id, ParameterType::INTEGER);
+			->where($db->quoteName('type') . ' = ' . $db->quote('language'))
+			->where($db->quoteName('state') . ' = 0')
+			->where($db->quoteName('enabled') . ' = 1')
+			->where($db->quoteName('client_id') . ' = ' . (int) $client_id);
 
 		$db->setQuery($query);
 
@@ -1358,25 +1331,29 @@ class PlgSampledataMultilang extends CMSPlugin
 			return $this->adminId;
 		}
 
-		$db    = $this->db;
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Select the admin user ID
 		$query
-			->select($db->quoteName('u.id'))
+			->clear()
+			->select($db->quoteName('u') . '.' . $db->quoteName('id'))
 			->from($db->quoteName('#__users', 'u'))
 			->join(
 				'LEFT',
-				$db->quoteName('#__user_usergroup_map', 'map'),
-				$db->quoteName('map.user_id') . ' = ' . $db->quoteName('u.id')
+				$db->quoteName('#__user_usergroup_map', 'map')
+				. ' ON ' . $db->quoteName('map') . '.' . $db->quoteName('user_id')
+				. ' = ' . $db->quoteName('u') . '.' . $db->quoteName('id')
 			)
 			->join(
 				'LEFT',
-				$db->quoteName('#__usergroups', 'g'),
-				$db->quoteName('map.group_id') . ' = ' . $db->quoteName('g.id')
+				$db->quoteName('#__usergroups', 'g')
+				. ' ON ' . $db->quoteName('map') . '.' . $db->quoteName('group_id')
+				. ' = ' . $db->quoteName('g') . '.' . $db->quoteName('id')
 			)
 			->where(
-				$db->quoteName('g.title') . ' = ' . $db->quote('Super Users')
+				$db->quoteName('g') . '.' . $db->quoteName('title')
+				. ' = ' . $db->quote('Super Users')
 			);
 
 		$db->setQuery($query);

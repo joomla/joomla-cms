@@ -365,7 +365,7 @@ class ItemController extends FormController
 		$data = $model->validate($form, $data);
 
 		// Preprocess request fields to ensure that we remove not set or empty request params
-		$request = $form->getGroup('request', true);
+		$request = $form->getGroup('request');
 
 		// Check for the special 'request' entry.
 		if ($data['type'] == 'component' && !empty($request))

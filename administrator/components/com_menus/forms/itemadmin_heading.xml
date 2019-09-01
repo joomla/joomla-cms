@@ -15,10 +15,7 @@
 	</fieldset>
 
 	<fields name="params">
-		<fieldset name="menu-options"
-			label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
-			class="options-grid-form-half"
-		>
+		<fieldset name="menu-options" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL">
 			<field
 				name="menu-anchor_title"
 				type="text"
@@ -26,10 +23,9 @@
 			/>
 
 			<field
-				name="menu_icon"
+				name="menu-anchor_css"
 				type="text"
-				label="COM_MENUS_ITEM_FIELD_ICON_TITLE_LABEL"
-				description="COM_MENUS_ITEM_FIELD_ICON_TITLE_DESC"
+				label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
 			/>
 
 			<field

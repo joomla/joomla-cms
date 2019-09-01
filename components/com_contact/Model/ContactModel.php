@@ -382,8 +382,7 @@ class ContactModel extends FormModel
 				}
 			}
 
-			$query->setLimit((int) $articles_display_num);
-			$db->setQuery($query);
+			$db->setQuery($query, 0, (int) $articles_display_num);
 			$contact->articles = $db->loadObjectList();
 		}
 		else

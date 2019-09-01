@@ -530,7 +530,7 @@ class SysinfoModel extends BaseDatabaseModel
 
 		foreach ($admin_langs as $folder)
 		{
-			if ($folder->isDot() || !$folder->isDir())
+			if (!$folder->isDir() || $folder->isDot())
 			{
 				continue;
 			}
@@ -546,7 +546,7 @@ class SysinfoModel extends BaseDatabaseModel
 
 		foreach ($manifests as $folder)
 		{
-			if ($folder->isDot() || !$folder->isDir())
+			if (!$folder->isDir() || $folder->isDot())
 			{
 				continue;
 			}
@@ -569,7 +569,7 @@ class SysinfoModel extends BaseDatabaseModel
 
 		foreach ($image_folders as $folder)
 		{
-			if ($folder->isDot() || !$folder->isDir())
+			if (!$folder->isDir() || $folder->isDot())
 			{
 				continue;
 			}
@@ -587,7 +587,7 @@ class SysinfoModel extends BaseDatabaseModel
 
 		foreach ($site_langs as $folder)
 		{
-			if ($folder->isDot() || !$folder->isDir())
+			if (!$folder->isDir() || $folder->isDot())
 			{
 				continue;
 			}
@@ -605,7 +605,7 @@ class SysinfoModel extends BaseDatabaseModel
 
 		foreach ($plugin_groups as $folder)
 		{
-			if ($folder->isDot() || !$folder->isDir())
+			if (!$folder->isDir() || $folder->isDot())
 			{
 				continue;
 			}

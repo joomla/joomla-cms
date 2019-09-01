@@ -15,9 +15,7 @@
 
     const content = window.Joomla.editors.instances[editor].getValue();
 
-    if (!content) {
-      Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore">');
-    } else if (content && !content.match(/<hr\s+id=("|')system-readmore("|')\s*\/*>/i)) {
+    if (content && !content.match(/<hr\s+id=("|')system-readmore("|')\s*\/*>/i)) {
       Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore">');
     } else {
       // TODO replace with joomla-alert

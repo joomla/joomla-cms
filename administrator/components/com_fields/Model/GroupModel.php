@@ -75,14 +75,18 @@ class GroupModel extends AdminModel
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  Table  A JTable object
+	 * @return  JTable  A JTable object
 	 *
 	 * @since   3.7.0
-	 * @throws  \Exception
+	 * @throws  Exception
 	 */
 	public function getTable($name = 'Group', $prefix = 'Administrator', $options = array())
 	{
-		return parent::getTable($name, $prefix, $options);
+		// Default to text type
+		$table       = parent::getTable($name, $prefix, $options);
+		$table->type = 'text';
+
+		return $table;
 	}
 
 	/**

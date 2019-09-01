@@ -72,13 +72,6 @@ class ComponentController extends BaseController
 		$option = $this->input->get('component');
 		$user   = $this->app->getIdentity();
 
-		// Make sure com_joomlaupdate and com_privacy can only be accessed by SuperUser
-		if (in_array(strtolower($option), ['com_joomlaupdate', 'com_privacy'])
-			&& !$user->authorise('core.admin'))
-		{
-			$this->setRedirect(Route::_('index.php'), Text::_('JERROR_ALERTNOAUTHOR'), 'error');
-		}
-
 		// Check if the user is authorised to do this.
 		if (!$user->authorise('core.admin', $option) && !$user->authorise('core.options', $option))
 		{

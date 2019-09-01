@@ -36,7 +36,7 @@ abstract class JHtmlContentLanguage
 	 *
 	 * @return  string
 	 *
-	 * @see     \Joomla\CMS\Form\Field\ContentlanguageField
+	 * @see     JFormFieldContentLanguage
 	 * @since   1.6
 	 */
 	public static function existing($all = false, $translate = false)

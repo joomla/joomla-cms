@@ -571,7 +571,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 		}
 
 		$app      = Factory::getApplication();
-		$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
+		$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
 
 		foreach ($users as $user)
 		{
@@ -584,8 +584,8 @@ class PlgSystemPrivacyconsent extends JPlugin
 				$substitutions = array(
 					'[SITENAME]' => $app->get('sitename'),
 					'[URL]'      => Uri::root(),
-					'[TOKENURL]' => Route::link('site', 'index.php?option=com_privacy&view=remind&remind_token=' . $token, false, $linkMode, true),
-					'[FORMURL]'  => Route::link('site', 'index.php?option=com_privacy&view=remind', false, $linkMode, true),
+					'[TOKENURL]' => Route::link('site', 'index.php?option=com_privacy&view=remind&remind_token=' . $token, false, $linkMode),
+					'[FORMURL]'  => Route::link('site', 'index.php?option=com_privacy&view=remind', false, $linkMode),
 					'[TOKEN]'    => $token,
 					'\\n'        => "\n",
 				);

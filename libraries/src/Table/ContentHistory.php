@@ -174,9 +174,7 @@ class ContentHistory extends Table
 			->where($db->quoteName('ucm_item_id') . ' = ' . (int) $this->get('ucm_item_id'))
 			->where($db->quoteName('ucm_type_id') . ' = ' . (int) $this->get('ucm_type_id'))
 			->where($db->quoteName('sha1_hash') . ' = ' . $db->quote($this->get('sha1_hash')));
-
-		$query->setLimit(1);
-		$db->setQuery($query);
+		$db->setQuery($query, 0, 1);
 
 		return $db->loadObject();
 	}
@@ -203,9 +201,7 @@ class ContentHistory extends Table
 			->where($db->quoteName('ucm_type_id') . ' = ' . (int) $this->get('ucm_type_id'))
 			->where($db->quoteName('keep_forever') . ' != 1')
 			->order($db->quoteName('save_date') . ' DESC ');
-
-		$query->setLimit((int) $maxVersions);
-		$db->setQuery($query);
+		$db->setQuery($query, 0, (int) $maxVersions);
 		$idsToSave = $db->loadColumn(0);
 
 		// Don't process delete query unless we have at least the maximum allowed versions

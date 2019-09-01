@@ -187,6 +187,28 @@ use Joomla\CMS\Uri\Uri;
 			</div>
 		</fieldset>
 
+		<fieldset id="installSampleData" class="j-install-step">
+			<legend class="j-install-step-header">
+				<span class="fa fa-cog" aria-hidden="true"></span> <?php echo Text::_('INSTL_SITE_INSTALL_SAMPLE'); ?>
+			</legend>
+			<div class="j-install-step-form">
+				<h2><?php echo Text::_('INSTL_SITE_INSTALL_SAMPLE_LABEL'); ?></h2>
+				<p><?php echo Text::_('INSTL_SITE_INSTALL_SAMPLE_DESC'); ?></p>
+
+
+				<form action="index.php" method="post" id="sampleDataForm" class="form-validate">
+					<div class="form-group">
+						<input type="hidden" name="sample_file" value="sample_testing.sql">
+						<?php echo HTMLHelper::_('form.token'); ?>
+						<button id="installSampleDataButton" class="btn btn-primary btn-block"><?php echo Text::_('INSTL_SITE_INSTALL_SAMPLE'); ?> <span class="fa fa-chevron-right" aria-hidden="true"></span></button>
+						<button id="skipSampleData" class="btn btn-block btn-secondary">
+							<?php echo Text::_('JSKIP'); ?>
+						</button>
+					</div>
+				</form>
+			</div>
+		</fieldset>
+
 		<fieldset id="installFinal" class="j-install-step">
 			<legend class="j-install-step-header">
 				<span class="fab fa-joomla" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_FINAL'); ?>

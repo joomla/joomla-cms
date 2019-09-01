@@ -15,14 +15,12 @@ environment:
   matrix:
   - php_ver_target: 7.2
     DLLVersion: "5.3.0"
-    WINCACHE: "2.0.0.8"
   - php_ver_target: 7.3
-    WINCACHE: "2.0.0.8"
 
 init:
   - SET PATH=C:\Program Files\OpenSSL;C:\tools\php;%PATH%
   - SET COMPOSER_NO_INTERACTION=1
-  - SET PHP=1 # This var relates to caching the php install
+  - SET PHP=1 # This var relates to caching the php  install
   - SET ANSICON=121x90 (121x90)
 services:
   - mssql2014
@@ -54,11 +52,10 @@ install:
             $source = "https://windows.php.net/downloads/pecl/releases/pdo_sqlsrv/$($env:DLLVersion)/php_pdo_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
             $destination = "c:\tools\php\ext\php_pdo_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
             Invoke-WebRequest $source -OutFile $destination
-            #appveyor-retry appveyor DownloadFile https://windows.php.net/downloads/pecl/releases/pdo_sqlsrv/$($env:DLLVersion)/php_pdo_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip
+            #appveyor-retry appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/pdo_sqlsrv/$($env:DLLVersion)/php_pdo_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip
             7z x -y php_pdo_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip > $null
             Remove-Item c:\tools\php\ext* -include .zip
-            cd c:\tools\php
-        }
+            cd c:\tools\php}
     - IF %PHP%==1 copy php.ini-production php.ini /Y
     - IF %PHP%==1 echo date.timezone="UTC" >> php.ini
     - IF %PHP%==1 echo extension_dir=ext >> php.ini
@@ -83,19 +80,18 @@ install:
     - IF %PHP%==1 echo extension=php_curl.dll >> php.ini
     # Get the Wincache DLLs
     - ps: >-
-        If ($env:PHP -eq "1" -and $env:WINCACHE) {
+        If ($env:PHP -eq "1") {
+          $wincache = "2.0.0.8"
           cd c:\tools\php\ext
-          $source = "https://windows.php.net/downloads/pecl/releases/wincache/$($env:WINCACHE)/php_wincache-$($env:WINCACHE)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
-          $destination = "c:\tools\php\ext\php_wincache-$($env:WINCACHE)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
+          $source = "http://windows.php.net/downloads/pecl/releases/wincache/$($wincache)/php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
+          $destination = "c:\tools\php\ext\php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
           Invoke-WebRequest $source -OutFile $destination
-          #appveyor-retry appveyor DownloadFile https://windows.php.net/downloads/pecl/releases/wincache/$($env:WINCACHE)/php_wincache-$($env:WINCACHE)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip
-          7z x -y php_wincache-$($env:WINCACHE)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip > $null
+          #appveyor-retry appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/wincache/$($wincache)/php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip
+          7z x -y php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip > $null
           Remove-Item C:\tools\php\ext* -include .zip
-          cd c:\tools\php
-          Add-Content php.ini "`nextension=php_wincache.dll"
-          Add-Content php.ini "`wincache.enablecli = 1"
-          Add-Content php.ini "`n"
-        }
+          cd c:\tools\php}
+    - IF %PHP%==1 echo extension=php_wincache.dll >> php.ini
+    - IF %PHP%==1 echo wincache.enablecli = 1 >> php.ini
     - IF %PHP%==1 echo zend_extension=php_opcache.dll >> php.ini
     - IF %PHP%==1 echo opcache.enable_cli=1 >> php.ini
     - IF %PHP%==1 echo extension=php_ldap.dll >> php.ini

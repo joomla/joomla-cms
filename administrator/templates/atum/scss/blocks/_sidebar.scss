@@ -349,15 +349,7 @@
   .menuitem-group {
     margin-top: 0.65rem;
     font-size: .75rem;
-    padding-left: 2.4rem;
-    [dir=rtl] & {
-      padding-left: 0;
-      padding-right: 2.4rem;
-    }
-  }
-
-  .home-image {
-     padding: 0 0.4rem 0;
+    letter-spacing: 2px;
   }
 
   .collapse {

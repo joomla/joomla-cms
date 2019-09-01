@@ -357,7 +357,7 @@ class PlgSystemActionLogs extends CMSPlugin
 		}
 
 		// Clear access rights in case user groups were changed.
-		$userObject = new User($user['id']);
+		$userObject = Factory::getUser($user['id']);
 		$userObject->clearAccessRights();
 		$authorised = $userObject->authorise('core.admin');
 

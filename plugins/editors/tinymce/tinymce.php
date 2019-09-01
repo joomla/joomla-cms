@@ -526,10 +526,19 @@ class PlgEditorTinymce extends CMSPlugin
 				$isSubDir = Uri::root(true);
 			}
 
+			// Get specific path
+			$tempPath = $levelParams->get('path', '');
+
+			if (!empty($tempPath))
+			{
+				// Remove the root images path
+				$tempPath = str_replace(ComponentHelper::getParams('com_media')->get('image_path') . '/', '', $tempPath);
+			}
+
 			Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
 
 			$scriptOptions['setCustomDir']    = $isSubDir;
-			$scriptOptions['mediaUploadPath'] = $levelParams->get('path', '');
+			$scriptOptions['mediaUploadPath'] = $tempPath;
 			$scriptOptions['uploadUri']       = $uploadUrl;
 		}
 

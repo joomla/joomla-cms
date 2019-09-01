@@ -113,7 +113,7 @@ class CssMenu
 
 		if ($menutype === '*')
 		{
-			$name   = $this->params->get('preset', 'default');
+			$name   = $this->params->get('preset', 'joomla');
 			$this->root = MenusHelper::loadPreset($name);
 		}
 		else
@@ -132,7 +132,7 @@ class CssMenu
 				$heading = new MenuItem(['title' => 'MOD_MENU_RECOVERY_MENU_ROOT', 'type' => 'heading']);
 				$this->root->addChild($heading);
 
-				MenusHelper::loadPreset('default', true, $heading);
+				MenusHelper::loadPreset('joomla', true, $heading);
 
 				$this->preprocess($this->root);
 

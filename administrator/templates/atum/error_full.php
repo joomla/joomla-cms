@@ -13,7 +13,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
 
 /** @var JDocumentError $this */
 
@@ -36,10 +35,10 @@ require_once __DIR__ . '/Service/HTML/Atum.php';
 
 // Template params
 $siteLogo  = $this->params->get('siteLogo')
-	? Uri::root() . $this->params->get('siteLogo')
+	? JUri::root() . $this->params->get('siteLogo')
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
 $smallLogo = $this->params->get('smallLogo')
-	? Uri::root() . $this->params->get('smallLogo')
+	? JUri::root() . $this->params->get('smallLogo')
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
 $logoAlt = htmlspecialchars($this->params->get('altSiteLogo', ''), ENT_COMPAT, 'UTF-8');
@@ -102,7 +101,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 		<div class="header-title d-flex">
 			<div class="d-flex">
 				<a class="logo" href="<?php echo Route::_('index.php'); ?>"
-				   aria-label="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
+				   aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
 					<img src="<?php echo $siteLogo; ?>" alt="">
 					<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="">
 				</a>

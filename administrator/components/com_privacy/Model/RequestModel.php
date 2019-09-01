@@ -316,13 +316,13 @@ class RequestModel extends AdminModel
 		{
 			$app = Factory::getApplication();
 
-			$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
+			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
 
 			$substitutions = [
 				'[SITENAME]' => $app->get('sitename'),
 				'[URL]'      => Uri::root(),
-				'[TOKENURL]' => Route::link('site', 'index.php?option=com_privacy&view=confirm&confirm_token=' . $token, false, $linkMode, true),
-				'[FORMURL]'  => Route::link('site', 'index.php?option=com_privacy&view=confirm', false, $linkMode, true),
+				'[TOKENURL]' => Route::link('site', 'index.php?option=com_privacy&view=confirm&confirm_token=' . $token, false, $linkMode),
+				'[FORMURL]'  => Route::link('site', 'index.php?option=com_privacy&view=confirm', false, $linkMode),
 				'[TOKEN]'    => $token,
 				'\\n'        => "\n",
 			];
@@ -409,7 +409,7 @@ class RequestModel extends AdminModel
 	 *
 	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
 	 *
-	 * @see     \Joomla\CMS\Form\FormRule
+	 * @see     JFormRule
 	 * @see     JFilterInput
 	 * @since   3.9.0
 	 */

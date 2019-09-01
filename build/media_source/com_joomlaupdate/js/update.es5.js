@@ -244,6 +244,7 @@ stepExtract = function(data)
 		stat_percent = (stat_inbytes * 100) / joomlaupdate_totalsize;
 
 		// Update GUI
+		stat_inbytes += data.bytesIn;
 		stat_outbytes += data.bytesOut;
 		stat_files += data.files;
 
@@ -264,7 +265,7 @@ stepExtract = function(data)
 		jQuery('#extpercent').text(stat_percent.toFixed(1) + '%');
 		jQuery('#extbytesin').text(stat_inbytes);
 		jQuery('#extbytesout').text(stat_outbytes);
-		jQuery('#extfiles').text(stat_files);
+		jQuery('#extfiles').text(data.files);
 
 		// Do AJAX post
 		post = {

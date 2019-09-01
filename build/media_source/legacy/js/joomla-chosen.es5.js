@@ -33,7 +33,6 @@
             var return_value;
             return_value = JoomlaChosen.__super__.setup.apply(this, arguments);
             this.allow_custom_value = this.form_field_jq.hasClass("chosen-custom-value") || this.options.allow_custom_value;
-            this.custom_value_prefix = this.form_field_jq.attr("data-custom_value_prefix") || this.custom_value_prefix;
 
             return return_value;
         };
@@ -50,7 +49,7 @@
             if (!this.result_highlight && (!this.is_multiple) && this.allow_custom_value) {
                 value = this.search_field.val();
                 group = this.add_unique_custom_group();
-                option = $('<option value="' + this.custom_value_prefix + value + '">' + value + '</option>');
+                option = $('<option value="' + value + '">' + value + '</option>');
                 group.append(option);
                 this.form_field_jq.append(group);
                 this.form_field.options[this.form_field.options.length - 1].selected = true;

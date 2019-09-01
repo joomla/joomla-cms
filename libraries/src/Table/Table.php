@@ -30,7 +30,7 @@ use Joomla\Event\DispatcherInterface;
  * @since  1.7.0
  * @tutorial  Joomla.Platform/jtable.cls
  */
-abstract class Table extends CMSObject implements TableInterface, DispatcherAwareInterface
+abstract class Table extends CMSObject implements \JTableInterface, DispatcherAwareInterface
 {
 	use DispatcherAwareTrait;
 
@@ -634,6 +634,28 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 */
 	public function bind($src, $ignore = array())
 	{
+		$event = AbstractEvent::create(
+			'onTableBeforeBind',
+			[
+				'subject'	=> $this,
+				'src'		=> $src,
+				'ignore'	=> $ignore
+			]
+		);
+		$this->getDispatcher()->dispatch('onTableBeforeBind', $event);
+
+		// JSON encode any fields required
+		if (!empty($this->_jsonEncode))
+		{
+			foreach ($this->_jsonEncode as $field)
+			{
+				if (isset($src[$field]) && is_array($src[$field]))
+				{
+					$src[$field] = json_encode($src[$field]);
+				}
+			}
+		}
+
 		// Check if the source value is an array or object
 		if (!is_object($src) && !is_array($src))
 		{
@@ -646,38 +668,16 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 			);
 		}
 
-		// If the ignore value is a string, explode it over spaces.
-		if (!is_array($ignore))
-		{
-			$ignore = explode(' ', $ignore);
-		}
-
-		$event = AbstractEvent::create(
-			'onTableBeforeBind',
-			[
-				'subject'	=> $this,
-				'src'		=> $src,
-				'ignore'	=> $ignore
-			]
-		);
-		$this->getDispatcher()->dispatch('onTableBeforeBind', $event);
-
 		// If the source value is an object, get its accessible properties.
 		if (is_object($src))
 		{
 			$src = get_object_vars($src);
 		}
 
-		// JSON encode any fields required
-		if (!empty($this->_jsonEncode))
+		// If the ignore value is a string, explode it over spaces.
+		if (!is_array($ignore))
 		{
-			foreach ($this->_jsonEncode as $field)
-			{
-				if (isset($src[$field]) && is_array($src[$field]))
-				{
-					$src[$field] = json_encode($src[$field]);
-				}
-			}
+			$ignore = explode(' ', $ignore);
 		}
 
 		// Bind the source value, excluding the ignored fields.
@@ -1702,8 +1702,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		$this->getDispatcher()->dispatch('onTableBeforeMove', $event);
 
 		// Select the first row with the criteria.
-		$query->setLimit(1);
-		$this->_db->setQuery($query);
+		$this->_db->setQuery($query, 0, 1);
 		$row = $this->_db->loadObject();
 
 		// If a row is found, move the item.
@@ -2004,7 +2003,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 *
 	 * @return  boolean
 	 *
-	 * @since   3.9.11
+	 * @since   4.0.0
 	 */
 	public function hasField($key)
 	{

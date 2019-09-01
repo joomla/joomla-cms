@@ -1,9 +1,7 @@
 .com_tags {
 	#fieldset-image-intro,
 	#fieldset-image-fulltext {
-		> div {
-			grid-template-columns: 1fr;
-		}
+		grid-template-columns: 1fr;
 		@include media-breakpoint-up(md) {
 			width: calc(50% - 15px);
 			display: inline-block;

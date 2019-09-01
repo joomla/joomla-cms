@@ -125,7 +125,9 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::custom('update.purge', 'loop', 'loop', 'COM_JOOMLAUPDATE_TOOLBAR_CHECK', false);
 
 		// Add toolbar buttons.
-		if (Factory::getUser()->authorise('core.admin'))
+		$user = Factory::getUser();
+
+		if ($user->authorise('core.admin', 'com_joomlaupdate') || $user->authorise('core.options', 'com_joomlaupdate'))
 		{
 			ToolbarHelper::preferences('com_joomlaupdate');
 		}

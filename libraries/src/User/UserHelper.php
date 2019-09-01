@@ -26,7 +26,6 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -109,12 +108,8 @@ abstract class UserHelper
 	 */
 	public static function addUserToGroup($userId, $groupId)
 	{
-		// Cast as integer until method is typehinted.
-		$userId  = (int) $userId;
-		$groupId = (int) $groupId;
-
 		// Get the user object.
-		$user = new User($userId);
+		$user = new User((int) $userId);
 
 		// Add the user to the group if necessary.
 		if (!in_array($groupId, $user->groups))
@@ -124,8 +119,7 @@ abstract class UserHelper
 			$query = $db->getQuery(true)
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__usergroups'))
-				->where($db->quoteName('id') . ' = :groupId')
-				->bind(':groupId', $groupId, ParameterType::INTEGER);
+				->where($db->quoteName('id') . ' = ' . (int) $groupId);
 			$db->setQuery($query);
 
 			// If the group does not exist, return an exception.
@@ -142,7 +136,7 @@ abstract class UserHelper
 		}
 
 		// Set the group data for any preloaded user objects.
-		$temp         = User::getInstance($userId);
+		$temp         = User::getInstance((int) $userId);
 		$temp->groups = $user->groups;
 
 		if (Factory::getSession()->getId())
@@ -240,9 +234,9 @@ abstract class UserHelper
 		// Get the titles for the user groups.
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName(['id', 'title']))
+			->select($db->quoteName('id') . ', ' . $db->quoteName('title'))
 			->from($db->quoteName('#__usergroups'))
-			->whereIn($db->quoteName('id'), $user->groups);
+			->where($db->quoteName('id') . ' = ' . implode(' OR ' . $db->quoteName('id') . ' = ', $user->groups));
 		$db->setQuery($query);
 		$results = $db->loadObjectList();
 
@@ -313,25 +307,22 @@ abstract class UserHelper
 	 */
 	public static function activateUser($activation)
 	{
-		$db       = Factory::getDbo();
-		$nullDate = $db->getNullDate();
+		$db = Factory::getDbo();
 
 		// Let's get the id of the user we want to activate
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('activation') . ' = :activation')
+			->where($db->quoteName('activation') . ' = ' . $db->quote($activation))
 			->where($db->quoteName('block') . ' = 1')
-			->where($db->quoteName('lastvisitDate') . ' = :nullDate')
-			->bind(':activation', $activation)
-			->bind(':nullDate', $nullDate);
+			->where($db->quoteName('lastvisitDate') . ' = ' . $db->quote($db->getNullDate()));
 		$db->setQuery($query);
 		$id = (int) $db->loadResult();
 
 		// Is it a valid user to activate?
 		if ($id)
 		{
-			$user = User::getInstance($id);
+			$user = User::getInstance((int) $id);
 
 			$user->set('block', '0');
 			$user->set('activation', '');
@@ -370,10 +361,8 @@ abstract class UserHelper
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('username') . ' = :username')
-			->bind(':username', $username)
-			->setLimit(1);
-		$db->setQuery($query);
+			->where($db->quoteName('username') . ' = ' . $db->quote($username));
+		$db->setQuery($query, 0, 1);
 
 		return $db->loadResult();
 	}

@@ -298,8 +298,7 @@ class EditorField extends TextareaField
 						->where('enabled = 1');
 
 					// Check of the editor exists.
-					$query->setLimit(1);
-					$db->setQuery($query);
+					$db->setQuery($query, 0, 1);
 					$editor = $db->loadResult();
 
 					// If an editor was found stop looking.

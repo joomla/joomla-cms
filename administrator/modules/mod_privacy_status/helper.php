@@ -96,7 +96,7 @@ class ModPrivacyStatusHelper
 			}
 		}
 
-		$linkMode = Factory::getApplication()->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
+		$linkMode = Factory::getApplication()->get('force_ssl', 0) == 2 ? 1 : -1;
 
 		if (!$menuItem)
 		{

@@ -118,9 +118,8 @@ class HtmlView extends BaseHtmlView
 		$referenceId   = $input->get('id', 0, 'int');
 		$reference     = ArrayHelper::fromObject(AssociationsHelper::getItem($extensionName, $typeName, $referenceId));
 
-		$this->referenceLanguage   = $reference[$languageField];
-		$this->referenceTitle      = AssociationsHelper::getTypeFieldName($extensionName, $typeName, 'title');
-		$this->referenceTitleValue = $reference[$this->referenceTitle];
+		$this->referenceLanguage = $reference[$languageField];
+		$this->referenceTitle    = AssociationsHelper::getTypeFieldName($extensionName, $typeName, 'title');
 
 		// Check for special case category
 		$typeNameExploded = explode('.', $typeName);

@@ -87,12 +87,6 @@ $switcher-height: 28px;
 .col-md-9 .switcher__legend,
 .col-md-12 .switcher__legend {
   margin-left: -220px;
-
-  [dir=rtl] & {
-    margin-left: 0;
-    float: right;
-    text-align: right;
-  }
 }
 
 .col-md-3 .switcher__legend {

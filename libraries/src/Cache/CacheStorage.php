@@ -90,7 +90,7 @@ class CacheStorage
 		$app = Factory::getApplication();
 
 		$this->_hash        = md5($app->get('secret'));
-		$this->_application = $options['application'] ?? md5(JPATH_CONFIGURATION);
+		$this->_application = $options['application'] ?? null;
 		$this->_language    = $options['language'] ?? 'en-GB';
 		$this->_locking     = $options['locking'] ?? true;
 		$this->_lifetime    = ($options['lifetime'] ?? $app->get('cachetime')) * 60;

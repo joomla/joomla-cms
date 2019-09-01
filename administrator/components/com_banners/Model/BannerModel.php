@@ -115,17 +115,20 @@ class BannerModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
-		if (empty($record->id) || $record->state != -2)
+		if (!empty($record->id))
 		{
-			return false;
-		}
+			if ($record->state != -2)
+			{
+				return false;
+			}
 
-		if (!empty($record->catid))
-		{
-			return Factory::getUser()->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
-		}
+			if (!empty($record->catid))
+			{
+				return Factory::getUser()->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
+			}
 
-		return parent::canDelete($record);
+			return parent::canDelete($record);
+		}
 	}
 
 	/**
@@ -373,9 +376,6 @@ class BannerModel extends AdminModel
 		if ($this->canCreateCategory())
 		{
 			$form->setFieldAttribute('catid', 'allowAdd', 'true');
-
-			// Add a prefix for categories created on the fly.
-			$form->setFieldAttribute('catid', 'customPrefix', '#new#');
 		}
 
 		parent::preprocessForm($form, $data, $group);
@@ -394,22 +394,20 @@ class BannerModel extends AdminModel
 	{
 		$input = Factory::getApplication()->input;
 
-		// Create new category, if needed.
-		$createCategory = true;
+		// Cast catid to integer for comparison
+		$catid = (int) $data['catid'];
 
-		// If category ID is provided, check if it's valid.
-		if (is_numeric($data['catid']) && $data['catid'])
+		// Check if New Category exists
+		if ($catid > 0)
 		{
-			$createCategory = !CategoriesHelper::validateCategoryId($data['catid'], 'com_banners');
+			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_banners');
 		}
 
 		// Save New Category
-		if ($createCategory && $this->canCreateCategory())
+		if ($catid == 0 && $this->canCreateCategory())
 		{
 			$table              = array();
-
-			// Remove #new# prefix, if exists.
-			$table['title'] = strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'];
+			$table['title']     = $data['catid'];
 			$table['parent_id'] = 1;
 			$table['extension'] = 'com_banners';
 			$table['language']  = $data['language'];

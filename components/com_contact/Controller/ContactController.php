@@ -60,6 +60,7 @@ class ContactController extends FormController
 
 		$app    = Factory::getApplication();
 		$model  = $this->getModel('contact');
+		$params = ComponentHelper::getParams('com_contact');
 		$stub   = $this->input->getString('id');
 		$id     = (int) $stub;
 
@@ -104,7 +105,7 @@ class ContactController extends FormController
 		}
 
 		// Check for a valid session cookie
-		if ($contact->params->get('validate_session', 0))
+		if ($params->get('validate_session', 0))
 		{
 			if (Factory::getSession()->getState() !== 'active')
 			{
@@ -173,9 +174,9 @@ class ContactController extends FormController
 		// Send the email
 		$sent = false;
 
-		if (!$contact->params->get('custom_reply'))
+		if (!$params->get('custom_reply'))
 		{
-			$sent = $this->_sendEmail($data, $contact, $contact->params->get('show_email_copy', 0));
+			$sent = $this->_sendEmail($data, $contact, $params->get('show_email_copy', 0));
 		}
 
 		// Set the success message if it was a success

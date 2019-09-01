@@ -762,14 +762,19 @@ class FieldModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
-		if (empty($record->id) || $record->state != -2)
+		if (!empty($record->id))
 		{
-			return false;
+			if ($record->state != -2)
+			{
+				return false;
+			}
+
+			$parts = FieldsHelper::extract($record->context);
+
+			return Factory::getUser()->authorise('core.delete', $parts[0] . '.field.' . (int) $record->id);
 		}
 
-		$parts = FieldsHelper::extract($record->context);
-
-		return Factory::getUser()->authorise('core.delete', $parts[0] . '.field.' . (int) $record->id);
+		return false;
 	}
 
 	/**
@@ -899,7 +904,7 @@ class FieldModel extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @see     \Joomla\CMS\Form\FormField
+	 * @see     \JFormField
 	 * @since   3.7.0
 	 * @throws  \Exception if there is an error in the form event.
 	 */

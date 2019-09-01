@@ -44,7 +44,7 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 				<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 				<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_HOMES_MISSING'); ?>
 			</div>
-		<?php endif; ?>
+		<?php endif; ?>	
 		<?php if ($notice_disabled) : ?>
 			<div class="alert alert-warning">
 				<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
@@ -83,9 +83,9 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 			<?php endif; ?>
 		<?php endforeach; ?>
 		<?php if ($this->listUsersError) : ?>
-			<div class="alert alert-warning">
-				<span class="icon-pending" aria-hidden="true"></span>
-				<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+			<div class="alert alert-info">
+				<span class="fa fa-help" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::_('JHELP'); ?></span>
 				<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_CONTACTS_ERROR_TIP'); ?>
 				<ul>
 				<?php foreach ($this->listUsersError as $user) : ?>

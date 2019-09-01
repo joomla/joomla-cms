@@ -149,8 +149,7 @@ class StringsModel extends BaseDatabaseModel
 			}
 
 			// Consider the limitstart according to the 'more' parameter and load the results.
-			$query->setLimit(10, $limitstart);
-			$db->setQuery($query);
+			$db->setQuery($query, $limitstart, 10);
 			$results['results'] = $db->loadObjectList();
 
 			// Check whether there are more results than already loaded.

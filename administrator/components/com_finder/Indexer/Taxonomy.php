@@ -318,8 +318,7 @@ class Taxonomy
 			->where('t2.title = ' . $db->quote($branch));
 
 		// Get the node.
-		$query->setLimit(1);
-		$db->setQuery($query);
+		$db->setQuery($query, 0, 1);
 
 		return $db->loadObject();
 	}

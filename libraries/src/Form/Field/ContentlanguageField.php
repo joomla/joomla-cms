@@ -15,7 +15,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 /**
  * Provides a list of content languages
  *
- * @see    \Joomla\CMS\Form\Field\LanguageField for a select list of application languages.
+ * @see    JFormFieldLanguage for a select list of application languages.
  * @since  1.6
  */
 class ContentlanguageField extends ListField

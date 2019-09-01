@@ -173,9 +173,6 @@ class ModuleModel extends AdminModel
 
 				$table->position = $position;
 
-				// Copy of the Asset ID
-				$oldAssetId = $table->asset_id;
-
 				// Alter the title if necessary
 				$data = $this->generateNewTitle(0, $table->title, $table->position);
 				$table->title = $data['0'];
@@ -218,17 +215,6 @@ class ModuleModel extends AdminModel
 					$db->setQuery($query);
 					$db->execute();
 				}
-
-				// Copy rules
-				$query->clear()
-					->update($db->quoteName('#__assets', 't'))
-					->join('INNER', $db->quoteName('#__assets', 's') .
-						' ON ' . $db->quoteName('s.id') . ' = ' . $oldAssetId
-					)
-					->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
-					->where($db->quoteName('t.id') . ' = ' . $table->asset_id);
-
-				$db->setQuery($query)->execute();
 			}
 			else
 			{
@@ -316,14 +302,18 @@ class ModuleModel extends AdminModel
 	 */
 	protected function canEditState($record)
 	{
+		$user = Factory::getUser();
+
 		// Check for existing module.
 		if (!empty($record->id))
 		{
-			return Factory::getUser()->authorise('core.edit.state', 'com_modules.module.' . (int) $record->id);
+			return $user->authorise('core.edit.state', 'com_modules.module.' . (int) $record->id);
 		}
-
 		// Default to component settings if module not known.
-		return parent::canEditState($record);
+		else
+		{
+			return parent::canEditState('com_modules');
+		}
 	}
 
 	/**

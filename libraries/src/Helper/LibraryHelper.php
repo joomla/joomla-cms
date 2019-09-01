@@ -112,15 +112,12 @@ class LibraryHelper
 		if (static::isEnabled($element))
 		{
 			// Save params in DB
-			$db           = Factory::getDbo();
-			$paramsString = $params->toString();
-			$query        = $db->getQuery(true)
+			$db = Factory::getDbo();
+			$query = $db->getQuery(true)
 				->update($db->quoteName('#__extensions'))
-				->set($db->quoteName('params') . ' = :params')
+				->set($db->quoteName('params') . ' = ' . $db->quote($params->toString()))
 				->where($db->quoteName('type') . ' = ' . $db->quote('library'))
-				->where($db->quoteName('element') . ' = :element')
-				->bind(':params', $paramsString)
-				->bind(':element', $element);
+				->where($db->quoteName('element') . ' = ' . $db->quote($element));
 			$db->setQuery($query);
 
 			$result = $db->execute();
@@ -152,11 +149,10 @@ class LibraryHelper
 		{
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName(['extension_id', 'element', 'params', 'enabled'], ['id', 'option', null, null]))
+				->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
 				->from($db->quoteName('#__extensions'))
 				->where($db->quoteName('type') . ' = ' . $db->quote('library'))
-				->where($db->quoteName('element') . ' = :element')
-				->bind(':element', $element);
+				->where($db->quoteName('element') . ' = ' . $db->quote($element));
 			$db->setQuery($query);
 
 			return $db->loadObject();

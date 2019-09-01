@@ -219,7 +219,7 @@ class HtmlView extends BaseHtmlView
 			'a.title'    => Text::_('JGLOBAL_TITLE'),
 			'a.type'     => Text::_('COM_FIELDS_FIELD_TYPE_LABEL'),
 			'a.access'   => Text::_('JGRID_HEADING_ACCESS'),
-			'a.language' => Text::_('JGRID_HEADING_LANGUAGE'),
+			'language'   => Text::_('JGRID_HEADING_LANGUAGE'),
 			'a.id'       => Text::_('JGRID_HEADING_ID'),
 		);
 	}

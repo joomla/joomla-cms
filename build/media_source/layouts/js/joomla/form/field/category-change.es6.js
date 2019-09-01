@@ -3,6 +3,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((Joomla) => {
+  Joomla.loadingLayer('load');
   const id = Joomla.getOptions('category-change');
   const element = document.querySelector(`#${id}`);
 
@@ -22,6 +23,7 @@
       return;
     }
 
+    Joomla.loadingLayer('show');
     document.body.appendChild(document.createElement('joomla-core-loader'));
 
     // Custom Fields

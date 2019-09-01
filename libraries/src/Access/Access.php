@@ -17,7 +17,6 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Table\Asset;
 use Joomla\CMS\User\User;
-use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -287,23 +286,14 @@ class Access
 		!JDEBUG ?: Profiler::getInstance('Application')->mark('Before Access::preloadPermissions (' . $extensionName . ')');
 
 		// Get the database connection object.
-		$db       = Factory::getDbo();
-		$assetKey = $extensionName . '.%';
+		$db         = Factory::getDbo();
+		$extraQuery = $db->quoteName('name') . ' = ' . $db->quote($extensionName) . ' OR ' . $db->quoteName('parent_id') . ' = 0';
 
 		// Get a fresh query object.
 		$query = $db->getQuery(true)
 			->select($db->quoteName(array('id', 'name', 'rules', 'parent_id')))
 			->from($db->quoteName('#__assets'))
-			->where(
-				[
-					$db->quoteName('name') . ' LIKE :asset',
-					$db->quoteName('name') . ' = :extension',
-					$db->quoteName('parent_id') . ' = 0',
-				],
-				'OR'
-			)
-			->bind(':extension', $extensionName)
-			->bind(':asset', $assetKey);
+			->where($db->quoteName('name') . ' LIKE ' . $db->quote($extensionName . '.%') . ' OR ' . $extraQuery);
 
 		// Get the permission map for all assets in the asset extension.
 		$assets = $db->setQuery($query)->loadObjectList();
@@ -363,7 +353,7 @@ class Access
 		$query = $db->getQuery(true)
 			->select($db->quoteName(array('id', 'name', 'rules', 'parent_id')))
 			->from($db->quoteName('#__assets'))
-			->whereIn($db->quoteName('name'), $components, ParameterType::STRING);
+			->where($db->quoteName('name') . ' IN (' . implode(',', $db->quote($components)) . ')');
 
 		// Get the Name Permission Map List
 		$assets = $db->setQuery($query)->loadObjectList();
@@ -597,59 +587,56 @@ class Access
 
 		// Build the database query to get the rules for the asset.
 		$query = $db->getQuery(true)
-			->select($db->quoteName($recursive ? 'b.rules' : 'a.rules', 'rules'))
+			->select($db->quoteName(($recursive ? 'b.rules' : 'a.rules'), 'rules'))
+			->select($db->quoteName(($recursive ? array('b.id', 'b.name', 'b.parent_id') : array('a.id', 'a.name', 'a.parent_id'))))
 			->from($db->quoteName('#__assets', 'a'));
 
 		// If the asset identifier is numeric assume it is a primary key, else lookup by name.
-		if (is_numeric($assetKey))
-		{
-			$query->where($db->quoteName('a.id') . ' = :asset', 'OR')
-				->bind(':asset', $assetKey, ParameterType::INTEGER);
-		}
-		else
-		{
-			$query->where($db->quoteName('a.name') . ' = :asset', 'OR')
-				->bind(':asset', $assetKey);
-		}
+		$assetString     = is_numeric($assetKey) ? $db->quoteName('a.id') . ' = ' . $assetKey : $db->quoteName('a.name') . ' = ' . $db->quote($assetKey);
+		$extensionString = '';
 
 		if ($recursiveParentAsset && ($extensionName !== $assetKey || is_numeric($assetKey)))
 		{
-			$query->where($db->quoteName('a.name') . ' = :extension')
-				->bind(':extension', $extensionName);
+			$extensionString = ' OR ' . $db->quoteName('a.name') . ' = ' . $db->quote($extensionName);
 		}
+
+		$recursiveString = $recursive ? ' OR ' . $db->quoteName('a.parent_id') . ' = 0' : '';
+
+		$query->where('(' . $assetString . $extensionString . $recursiveString . ')');
 
 		// If we want the rules cascading up to the global asset node we need a self-join.
 		if ($recursive)
 		{
-			$query->where($db->quoteName('a.parent_id') . ' = 0')
-				->join(
-					'LEFT',
-					$db->quoteName('#__assets', 'b'),
-					$db->quoteName('b.lft') . ' <= ' . $db->quoteName('a.lft') . ' AND ' . $db->quoteName('b.rgt') . ' >= ' . $db->quoteName('a.rgt')
-				)
+			$query->join('LEFT', $db->quoteName('#__assets', 'b') . ' ON b.lft <= a.lft AND b.rgt >= a.rgt')
 				->order($db->quoteName('b.lft'));
 		}
 
 		// Execute the query and load the rules from the result.
-		$result = $db->setQuery($query)->loadColumn();
+		$result = $db->setQuery($query)->loadObjectList();
 
 		// Get the root even if the asset is not found and in recursive mode
 		if (empty($result))
 		{
-			$rootId = (new Asset($db))->getRootId();
+			$assets = new Asset($db);
 
 			$query->clear()
-				->select($db->quoteName('rules'))
+				->select($db->quoteName(array('id', 'name', 'parent_id', 'rules')))
 				->from($db->quoteName('#__assets'))
-				->where($db->quoteName('id') . ' = :rootId')
-				->bind(':rootId', $rootId, ParameterType::INTEGER);
+				->where($db->quoteName('id') . ' = ' . $db->quote($assets->getRootId()));
 
-			$result = $db->setQuery($query)->loadColumn();
+			$result = $db->setQuery($query)->loadObjectList();
+		}
+
+		$collected = array();
+
+		foreach ($result as $asset)
+		{
+			$collected[] = $asset->rules;
 		}
 
 		// Instantiate and return the Rules object for the asset rules.
 		$rules = new Rules;
-		$rules->mergeCollection($result);
+		$rules->mergeCollection($collected);
 
 		!JDEBUG ?: Profiler::getInstance('Application')->mark('Before Access::getAssetRules <strong>Slower</strong> (assetKey:' . $assetKey . ')');
 
@@ -846,16 +833,12 @@ class Access
 	 */
 	public static function getGroupTitle($groupId)
 	{
-		// Cast as integer until method is typehinted.
-		$groupId = (int) $groupId;
-
 		// Fetch the group title from the database
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
-		$query->select($db->quoteName('title'))
-			->from($db->quoteName('#__usergroups'))
-			->where($db->quoteName('id') . ' = :groupId')
-			->bind(':groupId', $groupId, ParameterType::INTEGER);
+		$query->select('title')
+			->from('#__usergroups')
+			->where('id = ' . $db->quote($groupId));
 		$db->setQuery($query);
 
 		return $db->loadResult();
@@ -875,16 +858,13 @@ class Access
 	 */
 	public static function getGroupsByUser($userId, $recursive = true)
 	{
-		// Cast as integer until method is typehinted.
-		$userId = (int) $userId;
-
 		// Creates a simple unique string for each parameter combination:
 		$storeId = $userId . ':' . (int) $recursive;
 
 		if (!isset(self::$groupsByUser[$storeId]))
 		{
 			// TODO: Uncouple this from ComponentHelper and allow for a configuration setting or value injection.
-			$guestUsergroup = (int) ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
+			$guestUsergroup = ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
 
 			// Guest user (if only the actually assigned group is requested)
 			if (empty($userId) && !$recursive)
@@ -898,30 +878,24 @@ class Access
 
 				// Build the database query to get the rules for the asset.
 				$query = $db->getQuery(true)
-					->select($db->quoteName($recursive ? 'b.id' : 'a.id'));
+					->select($recursive ? 'b.id' : 'a.id');
 
 				if (empty($userId))
 				{
-					$query->from($db->quoteName('#__usergroups', 'a'))
-						->where($db->quoteName('a.id') . ' = :guest')
-						->bind(':guest', $guestUsergroup, ParameterType::INTEGER);
+					$query->from('#__usergroups AS a')
+						->where('a.id = ' . (int) $guestUsergroup);
 				}
 				else
 				{
-					$query->from($db->quoteName('#__user_usergroup_map', 'map'))
-						->where($db->quoteName('map.user_id') . ' = :userId')
-						->join('LEFT', $db->quoteName('#__usergroups', 'a'), $db->quoteName('a.id') . ' = ' . $db->quoteName('map.group_id'))
-						->bind(':userId', $userId, ParameterType::INTEGER);
+					$query->from('#__user_usergroup_map AS map')
+						->where('map.user_id = ' . (int) $userId)
+						->join('LEFT', '#__usergroups AS a ON a.id = map.group_id');
 				}
 
 				// If we want the rules cascading up to the global asset node we need a self-join.
 				if ($recursive)
 				{
-					$query->join(
-						'LEFT',
-						$db->quoteName('#__usergroups', 'b'),
-						$db->quoteName('b.lft') . ' <= ' . $db->quoteName('a.lft') . ' AND ' . $db->quoteName('b.rgt') . ' >= ' . $db->quoteName('a.rgt')
-					);
+					$query->join('LEFT', '#__usergroups AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
 				}
 
 				// Execute the query and load the rules from the result.
@@ -933,7 +907,7 @@ class Access
 
 				if (empty($result))
 				{
-					$result = array(1);
+					$result = array('1');
 				}
 				else
 				{
@@ -960,26 +934,18 @@ class Access
 	 */
 	public static function getUsersByGroup($groupId, $recursive = false)
 	{
-		// Cast as integer until method is typehinted.
-		$groupId = (int) $groupId;
-
 		// Get a database object.
 		$db = Factory::getDbo();
 
-		$test = $recursive ? ' >= ' : ' = ';
+		$test = $recursive ? '>=' : '=';
 
 		// First find the users contained in the group
 		$query = $db->getQuery(true)
-			->select('DISTINCT(' . $db->quoteName('user_id') . ')')
-			->from($db->quoteName('#__usergroups', 'ug1'))
-			->join(
-				'INNER',
-				$db->quoteName('#__usergroups', 'ug2'),
-				$db->quoteName('ug2.lft') . $test . $db->quoteName('ug1.lft') . ' AND ' . $db->quoteName('ug1.rgt') . $test . $db->quoteName('ug2.rgt')
-			)
-			->join('INNER', $db->quoteName('#__user_usergroup_map', 'm'), $db->quoteName('ug2.id') . ' = ' . $db->quoteName('m.group_id'))
-			->where($db->quoteName('ug1.id') . ' = :groupId')
-			->bind(':groupId', $groupId, ParameterType::INTEGER);
+			->select('DISTINCT(user_id)')
+			->from('#__usergroups as ug1')
+			->join('INNER', '#__usergroups AS ug2 ON ug2.lft' . $test . 'ug1.lft AND ug1.rgt' . $test . 'ug2.rgt')
+			->join('INNER', '#__user_usergroup_map AS m ON ug2.id=m.group_id')
+			->where('ug1.id=' . $db->quote($groupId));
 
 		$db->setQuery($query);
 
@@ -1010,7 +976,7 @@ class Access
 
 			// Build the base query.
 			$query = $db->getQuery(true)
-				->select($db->quoteName(['id', 'rules']))
+				->select('id, rules')
 				->from($db->quoteName('#__viewlevels'));
 
 			// Set the query for execution.

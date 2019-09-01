@@ -62,17 +62,26 @@ class NewsfeedModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
-		if (empty($record->id) || $record->published != -2)
+		if (!empty($record->id))
 		{
-			return false;
+			if ($record->published != -2)
+			{
+				return false;
+			}
+
+			$user = Factory::getUser();
+
+			if (!empty($record->catid))
+			{
+				return $user->authorise('core.delete', 'com_newsfeed.category.' . (int) $record->catid);
+			}
+			else
+			{
+				return parent::canDelete($record);
+			}
 		}
 
-		if (!empty($record->catid))
-		{
-			return Factory::getUser()->authorise('core.delete', 'com_newsfeed.category.' . (int) $record->catid);
-		}
-
-		return parent::canDelete($record);
+		return false;
 	}
 
 	/**
@@ -86,9 +95,11 @@ class NewsfeedModel extends AdminModel
 	 */
 	protected function canEditState($record)
 	{
+		$user = Factory::getUser();
+
 		if (!empty($record->catid))
 		{
-			return Factory::getUser()->authorise('core.edit.state', 'com_newsfeeds.category.' . (int) $record->catid);
+			return $user->authorise('core.edit.state', 'com_newsfeeds.category.' . (int) $record->catid);
 		}
 
 		return parent::canEditState($record);
@@ -188,22 +199,20 @@ class NewsfeedModel extends AdminModel
 	{
 		$input = Factory::getApplication()->input;
 
-		// Create new category, if needed.
-		$createCategory = true;
+		// Cast catid to integer for comparison
+		$catid = (int) $data['catid'];
 
-		// If category ID is provided, check if it's valid.
-		if (is_numeric($data['catid']) && $data['catid'])
+		// Check if New Category exists
+		if ($catid > 0)
 		{
-			$createCategory = !CategoriesHelper::validateCategoryId($data['catid'], 'com_newsfeeds');
+			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_newsfeeds');
 		}
 
 		// Save New Category
-		if ($createCategory && $this->canCreateCategory())
+		if ($catid == 0 && $this->canCreateCategory())
 		{
 			$table = array();
-
-			// Remove #new# prefix, if exists.
-			$table['title'] = strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'];
+			$table['title'] = $data['catid'];
 			$table['parent_id'] = 1;
 			$table['extension'] = 'com_newsfeeds';
 			$table['language'] = $data['language'];
@@ -390,9 +399,6 @@ class NewsfeedModel extends AdminModel
 		if ($this->canCreateCategory())
 		{
 			$form->setFieldAttribute('catid', 'allowAdd', 'true');
-
-			// Add a prefix for categories created on the fly.
-			$form->setFieldAttribute('catid', 'customPrefix', '#new#');
 		}
 
 		// Association newsfeeds items
@@ -428,6 +434,35 @@ class NewsfeedModel extends AdminModel
 		}
 
 		parent::preprocessForm($form, $data, $group);
+	}
+
+	/**
+	 * Method to change the title & alias.
+	 *
+	 * @param   integer  $category_id  The id of the parent.
+	 * @param   string   $alias        The alias.
+	 * @param   string   $name         The title.
+	 *
+	 * @return  array  Contains the modified title and alias.
+	 *
+	 * @since   3.1
+	 */
+	protected function generateNewTitle($category_id, $alias, $name)
+	{
+		// Alter the title & alias
+		$table = $this->getTable();
+
+		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
+		{
+			if ($name == $table->name)
+			{
+				$name = StringHelper::increment($name);
+			}
+
+			$alias = StringHelper::increment($alias, 'dash');
+		}
+
+		return array($name, $alias);
 	}
 
 	/**

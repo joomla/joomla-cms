@@ -1023,7 +1023,7 @@ ENDDATA;
 			return false;
 		}
 
-		// Make sure the user is authorised
+		// Make sure the user we're authorising is a Super User
 		if (!$user->authorise('core.admin'))
 		{
 			return false;

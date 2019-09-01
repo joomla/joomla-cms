@@ -19,7 +19,6 @@ HTMLHelper::_('jquery.framework');
 
 HTMLHelper::_('script', 'com_associations/sidebyside.js', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'com_associations/sidebyside.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('webcomponent', 'system/joomla-core-loader.min.js', ['relative' => true, 'version' => 'auto']);
 
 $options = array(
 			'layout'   => $this->app->input->get('layout', '', 'string'),
@@ -44,7 +43,6 @@ $options = array(
 					data-item="<?php echo $this->typeName; ?>"
 					data-id="<?php echo $this->referenceId; ?>"
 					data-title="<?php echo $this->referenceTitle; ?>"
-					data-title-value="<?php echo $this->referenceTitleValue; ?>"
 					data-language="<?php echo $this->referenceLanguage; ?>"
 					data-editurl="<?php echo Route::_($this->editUri); ?>">
 				</iframe>

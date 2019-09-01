@@ -255,7 +255,7 @@ abstract class PluginHelper
 			return static::$plugins;
 		}
 
-		$levels = Factory::getUser()->getAuthorisedViewLevels();
+		$levels = implode(',', Factory::getUser()->getAuthorisedViewLevels());
 
 		/** @var \JCacheControllerCallback $cache */
 		$cache = Factory::getCache('com_plugins', 'callback');
@@ -266,30 +266,26 @@ abstract class PluginHelper
 			$query = $db->getQuery(true)
 				->select(
 					$db->quoteName(
-						[
+						array(
 							'folder',
 							'element',
 							'params',
-							'extension_id',
-						],
-						[
+							'extension_id'
+						),
+						array(
 							'type',
 							'name',
 							'params',
-							'id',
-						]
+							'id'
+						)
 					)
 				)
-				->from($db->quoteName('#__extensions'))
-				->where(
-					[
-						$db->quoteName('enabled') . ' = 1',
-						$db->quoteName('type') . ' = ' . $db->quote('plugin'),
-						$db->quoteName('state') . ' IN (0,1)',
-					]
-				)
-				->whereIn($db->quoteName('access'), $levels)
-				->order($db->quoteName('ordering'));
+				->from('#__extensions')
+				->where('enabled = 1')
+				->where('type = ' . $db->quote('plugin'))
+				->where('state IN (0,1)')
+				->where('access IN (' . $levels . ')')
+				->order('ordering');
 			$db->setQuery($query);
 
 			return $db->loadObjectList();
@@ -297,7 +293,7 @@ abstract class PluginHelper
 
 		try
 		{
-			static::$plugins = $cache->get($loader, [], md5(implode(',', $levels)), false);
+			static::$plugins = $cache->get($loader, array(), md5($levels), false);
 		}
 		catch (CacheExceptionInterface $cacheException)
 		{

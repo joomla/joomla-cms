@@ -65,9 +65,8 @@ class UserFactory implements UserFactoryInterface
 		$query = $this->db->getQuery(true)
 			->select($this->db->quoteName('id'))
 			->from($this->db->quoteName('#__users'))
-			->where($this->db->quoteName('username') . ' = :username')
-			->bind(':username', $username)
-			->setLimit(1);
+			->where($this->db->quoteName('username') . ' = ' . $this->db->quote($username));
+		$query->setLimit(1, 0);
 		$this->db->setQuery($query);
 
 		return $this->loadUserById((int) $this->db->loadResult());

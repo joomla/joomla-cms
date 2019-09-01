@@ -26,7 +26,7 @@
       folder.addEventListener('click', (event) => {
         event.preventDefault();
 
-        const list = folder.parentNode.querySelector('ul');
+        const list = event.target.parentNode.querySelector('ul');
 
         if (list.style.display !== 'none') {
           list.style.display = 'none';
@@ -84,6 +84,8 @@
         filePathTmp = filePathTmp.slice(1);
         filePathTmp = filePathTmp.split('/');
         filePathTmp = filePathTmp[filePathTmp.length - 1];
+        // eslint-disable-next-line no-new
+        const re = new RegExp(filePathTmp);
 
         listEls.forEach((element, index) => {
           element.querySelector('a').classList.add('active');
@@ -95,7 +97,7 @@
               const aEl = liElement.querySelector('a');
               const spanEl = aEl.querySelector('span');
 
-              if (spanEl && spanEl.innerText.trim()) {
+              if (spanEl && re.test(spanEl.innerText)) {
                 aEl.classList.add('active');
               }
             });

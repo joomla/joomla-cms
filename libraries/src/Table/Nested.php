@@ -420,9 +420,7 @@ class Nested extends Table
 				->from($this->_tbl)
 				->where('parent_id = 0')
 				->order('lft DESC');
-
-			$query->setLimit(1);
-			$this->_db->setQuery($query);
+			$this->_db->setQuery($query, 0, 1);
 			$reference = $this->_db->loadObject();
 
 			if ($this->_debug)
@@ -796,9 +794,7 @@ class Nested extends Table
 						->from($this->_tbl)
 						->where('parent_id = 0')
 						->order('lft DESC');
-
-					$query->setLimit(1);
-					$this->_db->setQuery($query);
+					$this->_db->setQuery($query, 0, 1);
 					$reference = $this->_db->loadObject();
 
 					if ($this->_debug)
@@ -1025,8 +1021,7 @@ class Nested extends Table
 					->where($published . ' < ' . (int) $compareState);
 
 				// Just fetch one row (one is one too many).
-				$query->setLimit(1);
-				$this->_db->setQuery($query);
+				$this->_db->setQuery($query, 0, 1);
 
 				if ($this->_db->loadResult())
 				{
@@ -1642,8 +1637,7 @@ class Nested extends Table
 			->from($this->_tbl)
 			->where($k . ' = ' . (int) $id);
 
-		$query->setLimit(1);
-		$row = $this->_db->setQuery($query)->loadObject();
+		$row = $this->_db->setQuery($query, 0, 1)->loadObject();
 
 		// Check for no $row returned
 		if (empty($row))

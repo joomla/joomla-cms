@@ -140,7 +140,7 @@ class MenuItemByTypeField extends GroupedlistField
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     \Joomla\CMS\Form\FormField::setup()
+	 * @see     JFormField::setup()
 	 * @since   3.8.0
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)

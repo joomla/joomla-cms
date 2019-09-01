@@ -18,7 +18,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Utility\Utility;
-use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -318,7 +317,7 @@ class HtmlDocument extends Document
 		{
 			foreach ($data['style'] as $type => $stdata)
 			{
-				if (!isset($this->_style[strtolower($type)]) || !stristr($stdata, $this->_style[strtolower($type)]))
+				if (!isset($this->_style[strtolower($type)]) || !stristr($this->_style[strtolower($type)], $stdata))
 				{
 					$this->addStyleDeclaration($stdata, $type);
 				}
@@ -333,7 +332,7 @@ class HtmlDocument extends Document
 		{
 			foreach ($data['script'] as $type => $sdata)
 			{
-				if (!isset($this->_script[strtolower($type)]) || !stristr($sdata, $this->_script[strtolower($type)]))
+				if (!isset($this->_script[strtolower($type)]) || !stristr($this->_script[strtolower($type)], $sdata))
 				{
 					$this->addScriptDeclaration($sdata, $type);
 				}
@@ -636,14 +635,9 @@ class HtmlDocument extends Document
 			{
 				$query = $db->getQuery(true)
 					->select('COUNT(*)')
-					->from($db->quoteName('#__menu'))
-					->where(
-						[
-							$db->quoteName('parent_id') . ' = :id',
-							$db->quoteName('published') . ' = 1',
-						]
-					)
-					->bind(':id', $active->id, ParameterType::INTEGER);
+					->from('#__menu')
+					->where('parent_id = ' . $active->id)
+					->where('published = 1');
 				$db->setQuery($query);
 				$children = $db->loadResult();
 			}

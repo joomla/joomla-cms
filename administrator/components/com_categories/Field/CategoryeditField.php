@@ -33,14 +33,6 @@ class CategoryeditField extends ListField
 	protected $allowAdd;
 
 	/**
-	 * Optional prefix for new categories.
-	 *
-	 * @var    string
-	 * @since  3.9.11
-	 */
-	protected $customPrefix;
-
-	/**
 	 * A flexible category list that respects access controls
 	 *
 	 * @var    string
@@ -77,7 +69,6 @@ class CategoryeditField extends ListField
 		if ($return)
 		{
 			$this->allowAdd = isset($this->element['allowAdd']) ? (boolean) $this->element['allowAdd'] : false;
-			$this->customPrefix = (string) $this->element['customPrefix'];
 		}
 
 		return $return;
@@ -98,8 +89,6 @@ class CategoryeditField extends ListField
 		{
 			case 'allowAdd':
 				return (bool) $this->$name;
-			case 'customPrefix':
-				return $this->$name;
 		}
 
 		return parent::__get($name);
@@ -124,9 +113,6 @@ class CategoryeditField extends ListField
 			case 'allowAdd':
 				$value = (string) $value;
 				$this->$name = ($value === 'true' || $value === $name || $value === '1');
-				break;
-			case 'customPrefix':
-				$this->$name = (string) $value;
 				break;
 			default:
 				parent::__set($name, $value);

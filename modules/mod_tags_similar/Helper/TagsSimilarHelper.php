@@ -51,6 +51,7 @@ abstract class TagsSimilarHelper
 		$user       = Factory::getUser();
 		$groups     = implode(',', $user->getAuthorisedViewLevels());
 		$matchtype  = $params->get('matchtype', 'all');
+		$maximum    = $params->get('maximum', 5);
 		$ordering   = $params->get('ordering', 'count');
 		$tagsHelper = new TagsHelper;
 		$prefix     = $option . '.' . $view;
@@ -147,8 +148,7 @@ abstract class TagsSimilarHelper
 			$query->order($query->rand());
 		}
 
-		$query->setLimit((int) $params->get('maximum', 5));
-		$db->setQuery($query);
+		$db->setQuery($query, 0, $maximum);
 
 		try
 		{

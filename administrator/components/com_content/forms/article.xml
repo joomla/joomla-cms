@@ -473,7 +473,9 @@
 					<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 					<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 				</field>
+			</fieldset>
 
+			<fieldset name="global" label="COM_CONTENT_GLOBAL_OPTIONS">
 				<field
 					name="alternative_readmore"
 					type="text"

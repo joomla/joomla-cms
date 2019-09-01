@@ -57,9 +57,6 @@ body {
 .switcher {
     float: right;
 }
-.form-no-margin .control-group .controls  .switcher__legend {
-    text-align: right;
-}
 // Alerts
 .notify-alerts {
   margin-left: 0;
@@ -132,16 +129,16 @@ body {
     transform: rotate(180deg) translate(0, -180%);
   }
 
-  ul a {
-    padding: 0 1.4rem 0 0;
+  ul a::before {
+    right: 18px;
   }
 
   .active .no-dropdown .sidebar-item-title {
-    margin-right: 1rem;
+    margin-right: 28px;
   }
 
   .dropdown-submenu .sidebar-item-title {
-    margin-right: 1rem;
+    margin-right: 28px;
   }
 
   .dropdown-submenu .no-dropdown .sidebar-item-title {
@@ -185,7 +182,7 @@ body {
     [class*=' icon-'],
     [class^='#{$fa-css-prefix}-'],
     [class*=' #{$fa-css-prefix}-'] {
-      margin: 0 -27px 0 27px;
+      margin: 0 -22px 0 22px;
     }
   }
 

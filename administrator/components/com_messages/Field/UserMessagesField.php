@@ -13,14 +13,16 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Field\UserField;
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('user');
 
 /**
  * Supports a modal select of users that have access to com_messages
  *
  * @since  1.6
  */
-class UserMessagesField extends UserField
+class UserMessagesField extends \JFormFieldUser
 {
 	/**
 	 * The form field type.

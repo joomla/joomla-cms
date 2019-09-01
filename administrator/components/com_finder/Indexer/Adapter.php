@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\QueryInterface;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Prototype adapter class for the Finder indexer package.
@@ -549,7 +550,10 @@ abstract class Adapter extends CMSPlugin
 
 		// Get the item to index.
 		$this->db->setQuery($query);
-		$item = $this->db->loadObject(Result::class);
+		$row = $this->db->loadAssoc();
+
+		// Convert the item to a result object.
+		$item = ArrayHelper::toObject((array) $row, Result::class);
 
 		// Set the item type.
 		$item->type_id = $this->type_id;
@@ -574,12 +578,18 @@ abstract class Adapter extends CMSPlugin
 	 */
 	protected function getItems($offset, $limit, $query = null)
 	{
-		// Get the content items to index.
-		$this->db->setQuery($this->getListQuery($query)->setLimit($limit, $offset));
-		$items = $this->db->loadObjectList(null, Result::class);
+		$items = array();
 
-		foreach ($items as $item)
+		// Get the content items to index.
+		$this->db->setQuery($this->getListQuery($query), $offset, $limit);
+		$rows = $this->db->loadAssocList();
+
+		// Convert the items to result objects.
+		foreach ($rows as $row)
 		{
+			// Convert the item to a result object.
+			$item = ArrayHelper::toObject((array) $row, Result::class);
+
 			// Set the item type.
 			$item->type_id = $this->type_id;
 
@@ -588,6 +598,15 @@ abstract class Adapter extends CMSPlugin
 
 			// Set the item layout.
 			$item->layout = $this->layout;
+
+			// Set the extension if present
+			if (isset($row->extension))
+			{
+				$item->extension = $row->extension;
+			}
+
+			// Add the item to the stack.
+			$items[] = $item;
 		}
 
 		return $items;

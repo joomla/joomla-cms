@@ -41,17 +41,22 @@ class ClientModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
-		if (empty($record->id) || $record->state != -2)
+		if (!empty($record->id))
 		{
-			return false;
-		}
+			if ($record->state != -2)
+			{
+				return false;
+			}
 
-		if (!empty($record->catid))
-		{
-			return Factory::getUser()->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
-		}
+			$user = Factory::getUser();
 
-		return parent::canDelete($record);
+			if (!empty($record->catid))
+			{
+				return $user->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
+			}
+
+			return $user->authorise('core.delete', 'com_banners');
+		}
 	}
 
 	/**

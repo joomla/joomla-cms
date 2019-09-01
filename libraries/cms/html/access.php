@@ -42,7 +42,7 @@ abstract class JHtmlAccess
 	 *
 	 * @return  string  The required HTML for the SELECT tag.
 	 *
-	 * @see    \Joomla\CMS\Form\Field\AccesslevelField
+	 * @see    JFormFieldAccessLevel
 	 * @since  1.6
 	 */
 	public static function level($name, $selected, $attribs = '', $params = true, $id = false)
@@ -94,7 +94,7 @@ abstract class JHtmlAccess
 	 *
 	 * @return  string   The required HTML for the SELECT tag.
 	 *
-	 * @see     \Joomla\CMS\Form\Field\UsergrouplistField
+	 * @see     JFormFieldUsergroup
 	 * @since   1.6
 	 */
 	public static function usergroup($name, $selected, $attribs = '', $allowAll = true, $id = false)
