@@ -11,6 +11,7 @@ namespace Joomla\CMS\Form;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Form\Field\SubformField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Log\Log;
@@ -1003,6 +1004,29 @@ abstract class FormField
 				return '';
 			}
 
+			// Dirty way of ensuring required fields in subforms are submitted and filtered the way other fields are
+			if ($this instanceof SubformField)
+			{
+				$subForm = $this->loadSubForm();
+
+				if ($this->multiple && !empty($value))
+				{
+					$return = array();
+
+					foreach ($value as $key => $val)
+					{
+						$return[$key] = $subForm->filter($val);
+					}
+				}
+				else
+				{
+					$return = $subForm->filter($value);
+				}
+
+				return $return;
+			}
+
+			// Check for a callback filter
 			if (strpos($filter, '::') !== false && is_callable(explode('::', $filter)))
 			{
 				return call_user_func(explode('::', $filter), $value);
@@ -1090,6 +1114,39 @@ abstract class FormField
 			catch (\Exception $e)
 			{
 				return $e;
+			}
+		}
+
+		if ($valid !== false && $this instanceof SubformField)
+		{
+			$subForm = $this->loadSubForm();
+
+			if ($this->multiple)
+			{
+				foreach ($value as $key => $val)
+				{
+					$val = (array) $val;
+					$valid = $subForm->validate($val);
+
+					if ($valid === false)
+					{
+						break;
+					}
+				}
+			}
+			else
+			{
+				$valid = $subForm->validate($value);
+			}
+
+			if ($valid === false)
+			{
+				$errors = $subForm->getErrors();
+
+				foreach ($errors as $error)
+				{
+					return $error;
+				}
 			}
 		}
 

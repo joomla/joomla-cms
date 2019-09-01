@@ -925,11 +925,18 @@ abstract class AdminModel extends FormModel
 	protected function generateNewTitle($category_id, $alias, $title)
 	{
 		// Alter the title & alias
-		$table = $this->getTable();
+		$table      = $this->getTable();
+		$aliasField = $table->getColumnAlias('alias');
+		$catidField = $table->getColumnAlias('catid');
+		$titleField = $table->getColumnAlias('title');
 
-		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
+		while ($table->load(array($aliasField => $alias, $catidField => $category_id)))
 		{
-			$title = StringHelper::increment($title);
+			if ($title === $table->$titleField)
+			{
+				$title = StringHelper::increment($title);
+			}
+
 			$alias = StringHelper::increment($alias, 'dash');
 		}
 
@@ -1526,9 +1533,11 @@ abstract class AdminModel extends FormModel
 	public function generateTitle($categoryId, $table)
 	{
 		// Alter the title & alias
-		$data = $this->generateNewTitle($categoryId, $table->alias, $table->title);
-		$table->title = $data['0'];
-		$table->alias = $data['1'];
+		$titleField         = $table->getColumnAlias('title');
+		$aliasField         = $table->getColumnAlias('alias');
+		$data               = $this->generateNewTitle($categoryId, $table->$aliasField, $table->$titleField);
+		$table->$titleField = $data['0'];
+		$table->$aliasField = $data['1'];
 	}
 
 	/**
