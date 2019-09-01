@@ -27,7 +27,7 @@ $purple:                           #6f42c1; //used in bootstrap
 $pink:                             #e83e8c; //used in bootstrap
 $red:                              #c52827; //used in bootstrap
 $red-dark:                         #3b0d0c; //used for alerts error
-$yellow:                           #d43900; //used in bootstrap
+$yellow:                           #ffb107; //used in bootstrap
 $green:                            #2f7d32; //used in bootstrap
 $green-dark:                       #0f2f21; //used for alert success
 $teal:                             #20c997; //used in bootstrap
@@ -169,7 +169,7 @@ $state-info-text:                  var(--white);
 $state-info-bg:                    var(--info);
 $state-info-border:                var(--info-border);
 
-$state-warning-text:               var(--white);
+$state-warning-text:               var(--atum-text-dark);
 $state-warning-bg:                 var(--warning);
 $state-warning-border:             var(--warning-border);
 
