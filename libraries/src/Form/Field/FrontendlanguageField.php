@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 /**
  * Provides a list of published content languages with home pages
  *
- * @see    JFormFieldLanguage for a select list of application languages.
+ * @see    \Joomla\CMS\Form\Field\LanguageField for a select list of application languages.
  * @since  3.5
  */
 class FrontendlanguageField extends ListField

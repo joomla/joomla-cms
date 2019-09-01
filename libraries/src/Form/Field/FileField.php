@@ -122,7 +122,7 @@ class FileField extends FormField
 	 * @return  string  The field input markup.
 	 *
 	 * @note    The field does not include an upload mechanism.
-	 * @see     JFormFieldMedia
+	 * @see     \Joomla\CMS\Form\Field\MediaField
 	 * @since   1.7.0
 	 */
 	protected function getInput()
