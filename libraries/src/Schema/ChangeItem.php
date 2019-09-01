@@ -107,7 +107,7 @@ abstract class ChangeItem
 	/**
 	 * Rerun status
 	 *
-	 * @var    int   0=not rerun, -1=skipped, -2=failed, 1=succeeded
+	 * @var    integer   0=not rerun, -1=skipped, -2=failed, 1=succeeded
 	 * @since  2.5
 	 */
 	public $rerunStatus = 0;

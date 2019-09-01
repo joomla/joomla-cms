@@ -34,6 +34,7 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 
 <form action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login" class="text-center">
 	<fieldset class="loginform">
+		<legend><?php echo Text::_('COM_JOOMLAUPDATE_LOGIN'); ?></legend>
 		<div class="control-group">
 			<div class="controls">
 				<div class="input-group">
@@ -70,7 +71,7 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 					<div class="input-group">
 						<input name="secretkey" autocomplete="off" tabindex="3" id="mod-login-secretkey" type="text" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>" size="15">
 						<span class="input-group-append">
-							<span class="input-group-text hasTooltip" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
+							<span class="input-group-text" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
 								<span class="fa fa-star" aria-hidden="true"></span>
 								<label for="mod-login-secretkey" class="sr-only">
 									<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>

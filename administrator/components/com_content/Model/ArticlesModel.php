@@ -65,6 +65,8 @@ class ArticlesModel extends ListModel
 				'level',
 				'tag',
 				'rating_count', 'rating',
+				'condition',
+				'stage',
 			);
 
 			if (Associations::isEnabled())
@@ -492,6 +494,11 @@ class ArticlesModel extends ListModel
 		// Add the list ordering clause.
 		$orderCol  = $this->state->get('list.ordering', 'a.id');
 		$orderDirn = $this->state->get('list.direction', 'DESC');
+
+		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
+		{
+			$orderCol = $db->quoteName('c.title') . ' ' . $orderDirn . ', ' . $db->quoteName('a.ordering');
+		}
 
 		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
 

@@ -14,4 +14,6 @@ defined('_JEXEC') or die;
 
 $this->name = Text::_('COM_CONFIG_SYSTEM_SETTINGS');
 $this->fieldsname = 'system';
+$this->formclass = 'options-grid-form options-grid-form-half';
+
 echo LayoutHelper::render('joomla.content.options_default', $this);

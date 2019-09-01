@@ -156,8 +156,8 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-globe')
-				->buttonClass('btn btn-info')
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
 				->listCheck(true);
 
 			$childBar = $dropdown->getChildToolbar();
@@ -219,7 +219,7 @@ class HtmlView extends BaseHtmlView
 			'a.title'    => Text::_('JGLOBAL_TITLE'),
 			'a.type'     => Text::_('COM_FIELDS_FIELD_TYPE_LABEL'),
 			'a.access'   => Text::_('JGRID_HEADING_ACCESS'),
-			'language'   => Text::_('JGRID_HEADING_LANGUAGE'),
+			'a.language' => Text::_('JGRID_HEADING_LANGUAGE'),
 			'a.id'       => Text::_('JGRID_HEADING_ID'),
 		);
 	}
