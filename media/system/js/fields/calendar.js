@@ -858,10 +858,10 @@
 
 		if (year < this.params.minYear) {                                                                   // Check min,max year
 			year = this.params.minYear;
-			date.getOtherFullYear(this.params.dateType, year);
+			date.setYear(year);
 		} else if (year > this.params.maxYear) {
 			year = this.params.maxYear;
-			date.getOtherFullYear(this.params.dateType, year);
+			date.setYear(year);
 		}
 
 		this.params.firstDayOfWeek = firstDayOfWeek;
