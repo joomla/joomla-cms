@@ -148,6 +148,8 @@ abstract class FormModel extends BaseForm
 		// Get the form.
 		// Register the paths for the form -- failing here
 		$paths = new \SplPriorityQueue;
+		$paths->insert(JPATH_COMPONENT_ADMINISTRATOR . '/model/form', 'normal');
+		$paths->insert(JPATH_COMPONENT_ADMINISTRATOR . '/model/field', 'normal');
 		$paths->insert(JPATH_COMPONENT . '/model/form', 'normal');
 		$paths->insert(JPATH_COMPONENT . '/model/field', 'normal');
 		$paths->insert(JPATH_COMPONENT . '/model/rule', 'normal');
@@ -159,8 +161,11 @@ abstract class FormModel extends BaseForm
 
 		// Solution until JForm supports splqueue
 		Form::addFormPath(JPATH_COMPONENT . '/forms');
+		Form::addFieldPath(JPATH_COMPONENT . '/Field');
 		Form::addFormPath(JPATH_COMPONENT . '/models/forms');
 		Form::addFieldPath(JPATH_COMPONENT . '/models/fields');
+		Form::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/model/form');
+		Form::addFieldPath(JPATH_COMPONENT_ADMINISTRATOR . '/model/field');
 		Form::addFormPath(JPATH_COMPONENT . '/model/form');
 		Form::addFieldPath(JPATH_COMPONENT . '/model/field');
 
