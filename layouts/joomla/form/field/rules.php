@@ -100,15 +100,15 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 				<table class="table">
 					<thead>
 						<tr>
-							<th class="actions" id="actions-th<?php echo $group->value; ?>">
+							<th style="width: 30%" class="actions" id="actions-th<?php echo $group->value; ?>">
 								<span class="acl-action"><?php echo Text::_('JLIB_RULES_ACTION'); ?></span>
 							</th>
 
-							<th class="settings" id="settings-th<?php echo $group->value; ?>">
+							<th style="width: 40%" class="settings" id="settings-th<?php echo $group->value; ?>">
 								<span class="acl-action"><?php echo Text::_('JLIB_RULES_SELECT_SETTING'); ?></span>
 							</th>
 
-							<th id="aclaction-th<?php echo $group->value; ?>">
+							<th style="width: 30%" id="aclaction-th<?php echo $group->value; ?>">
 								<span class="acl-action"><?php echo Text::_('JLIB_RULES_CALCULATED_SETTING'); ?></span>
 							</th>
 						</tr>
@@ -120,13 +120,15 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 						<?php foreach ($actions as $action) : ?>
 							<tr>
 								<td headers="actions-th<?php echo $group->value; ?>">
-									<?php $description = (!empty($action->description)) ? ' class="hasTooltip" title="'
-										. HTMLHelper::_('tooltipText', $action->title, $action->description) . '"' : ''; ?>
-									<label for="<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>"<?php echo $description; ?>>
+									<label for="<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>">
 										<?php echo Text::_($action->title); ?>
 									</label>
+									<?php if (!empty($action->description)) : ?>
+										<div role="tooltip" id="tip-<?php echo $id; ?>">
+											<?php echo htmlspecialchars(Text::_($action->description)); ?>
+										</div>
+									<?php endif; ?>
 								</td>
-
 								<td headers="settings-th<?php echo $group->value; ?>">
 									<div class="d-flex align-items-center">
 										<select data-onchange-task="permissions.apply"

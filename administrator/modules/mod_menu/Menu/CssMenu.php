@@ -113,7 +113,7 @@ class CssMenu
 
 		if ($menutype === '*')
 		{
-			$name   = $this->params->get('preset', 'joomla');
+			$name   = $this->params->get('preset', 'default');
 			$this->root = MenusHelper::loadPreset($name);
 		}
 		else
@@ -132,7 +132,7 @@ class CssMenu
 				$heading = new MenuItem(['title' => 'MOD_MENU_RECOVERY_MENU_ROOT', 'type' => 'heading']);
 				$this->root->addChild($heading);
 
-				MenusHelper::loadPreset('joomla', true, $heading);
+				MenusHelper::loadPreset('default', true, $heading);
 
 				$this->preprocess($this->root);
 
@@ -315,7 +315,7 @@ class CssMenu
 			}
 
 			// Exclude Mass Mail if disabled in global configuration
-			if ($item->scope === 'massmail' && ($this->application->get('massmailoff', 0) == 1))
+			if ($item->scope === 'massmail' && ($this->application->get('mailonline', 1) == 0 || $this->application->get('massmailoff', 0) == 1))
 			{
 				$parent->removeChild($item);
 				continue;

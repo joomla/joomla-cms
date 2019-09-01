@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Mcrypt implementation
  *
- * @since    __DEPLOY_VERSION__
+ * @since    4.0.0
  */
 class Mcrypt extends AbstractAES implements AesInterface
 {
