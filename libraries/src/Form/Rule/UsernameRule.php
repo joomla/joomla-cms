@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -43,14 +44,20 @@ class UsernameRule extends FormRule
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 
+		// Get the extra field check attribute.
+		$userId = ($form instanceof Form) ? (int) $form->getValue('id') : 0;
+
 		// Build the query.
 		$query->select('COUNT(*)')
-			->from('#__users')
-			->where('username = ' . $db->quote($value));
-
-		// Get the extra field check attribute.
-		$userId = ($form instanceof Form) ? $form->getValue('id') : '';
-		$query->where($db->quoteName('id') . ' <> ' . (int) $userId);
+			->from($db->quoteName('#__users'))
+			->where(
+				[
+					$db->quoteName('username') . ' = :username',
+					$db->quoteName('id') . ' <> :userId',
+				]
+			)
+			->bind(':username', $value)
+			->bind(':userId', $userId, ParameterType::INTEGER);
 
 		// Set and query the database.
 		$db->setQuery($query);
