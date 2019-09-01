@@ -34,7 +34,6 @@
 								name="fieldfilter"
 								type="list"
 								label="PLG_FIELDS_TEXT_PARAMS_FILTER_LABEL"
-								description="PLG_FIELDS_TEXT_PARAMS_FILTER_DESC"
 								class="btn-group"
 								validate="options"
 								showon="fieldtype!:media,number"
