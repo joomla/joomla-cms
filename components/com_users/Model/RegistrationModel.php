@@ -129,17 +129,19 @@ class RegistrationModel extends FormModel
 		// Admin activation is on and user is verifying their email
 		if (($userParams->get('useractivation') == 2) && !$user->getParam('activate', 0))
 		{
-			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
+			$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
 			// Compile the admin notification mail values.
 			$data = $user->getProperties();
 			$data['activation'] = ApplicationHelper::getHash(UserHelper::genRandomPassword());
 			$user->set('activation', $data['activation']);
 			$data['siteurl'] = Uri::base();
-			$data['activate'] = Route::link('site',
+			$data['activate'] = Route::link(
+				'site',
 				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
 				false,
-				$linkMode
+				$linkMode,
+				true
 			);
 
 			$data['fromname'] = $app->get('fromname');
@@ -527,12 +529,14 @@ class RegistrationModel extends FormModel
 		if ($useractivation == 2)
 		{
 			// Set the link to confirm the user email.
-			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
+			$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
-			$data['activate'] = Route::link('site',
+			$data['activate'] = Route::link(
+				'site',
 				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
 				false,
-				$linkMode
+				$linkMode,
+				true
 			);
 
 			$emailSubject = Text::sprintf(
@@ -568,12 +572,14 @@ class RegistrationModel extends FormModel
 		elseif ($useractivation == 1)
 		{
 			// Set the link to activate the user account.
-			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
+			$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
-			$data['activate'] = Route::link('site',
+			$data['activate'] = Route::link(
+				'site',
 				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
 				false,
-				$linkMode
+				$linkMode,
+				true
 			);
 
 			$emailSubject = Text::sprintf(
