@@ -135,7 +135,7 @@ class WorkflowsController extends AdminController
 			{
 				if ($value === 1)
 				{
-					$ntext = 'COM_WORKFLOW_ITEM_SET_DEFAULT';
+					$ntext = 'COM_WORKFLOW_SET_DEFAULT';
 				}
 				else
 				{
