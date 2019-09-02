@@ -421,7 +421,7 @@ class AdminController extends BaseController
 	/**
 	 * Method to run Transition by id of item.
 	 *
-	 * @return  void
+	 * @return  boolean  Indicates whether the transition was succesful.
 	 *
 	 * @since   4.0.0
 	 */
@@ -443,24 +443,22 @@ class AdminController extends BaseController
 		$model = $this->getModel();
 		$return = $model->runTransition($pk, $transitionId);
 
+		$redirect = Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false);
+
 		if ($return === false)
 		{
 			// Transition change failed.
 			$message = Text::sprintf('JLIB_APPLICATION_ERROR_RUN_TRANSITION', $model->getError());
-			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+			$this->setRedirect($redirect, $message, 'error');
 
 			return false;
 		}
-		else
-		{
-			// Transition change succeeded.
-			$message = Text::_('JLIB_APPLICATION_SUCCESS_RUN_TRANSITION');
-			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
 
-			return true;
-		}
+		// Transition change succeeded.
+		$message = Text::_('JLIB_APPLICATION_SUCCESS_RUN_TRANSITION');
+		$this->setRedirect($redirect, $message);
 
-		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
+		return true;
 	}
 
 	/**
