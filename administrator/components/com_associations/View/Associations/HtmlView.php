@@ -82,7 +82,7 @@ class HtmlView extends BaseHtmlView
 			$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . AssociationsHelper::getLanguagefilterPluginId());
 			Factory::getApplication()->enqueueMessage(Text::sprintf('COM_ASSOCIATIONS_ERROR_NO_ASSOC', $link), 'warning');
 		}
-		else
+		elseif ($this->state->get('itemtype') != '' && $this->state->get('language') != '')
 		{
 			$type = null;
 
