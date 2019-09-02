@@ -100,7 +100,7 @@ echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 					id="title-<?php echo $module->id; ?>"
 					data-module-id="<?php echo $module->id; ?>">
 					<?php echo $this->escape($module->title); ?></button>
-			</td>
+			</th>
 			<td>
 				<?php echo $this->escape($module->access_title); ?>
 			</td>
