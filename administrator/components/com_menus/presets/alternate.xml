@@ -444,7 +444,7 @@
 				title="MOD_MENU_COM_TEMPLATES_SUBMENU_STYLES"
 				type="component"
 				element="com_templates"
-				link="index.php?option=com_templates&amp;view=styles"
+				link="index.php?option=com_templates&amp;client_id=0"
 			/>
 
 			<menuitem
