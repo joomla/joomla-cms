@@ -35,12 +35,6 @@
       "css": [
         "bootstrap.min.css"
       ]
-    },
-    {
-      "name": "fontawesome",
-      "css": [
-        "fontawesome.min.css"
-      ]
     }
   ]
 }

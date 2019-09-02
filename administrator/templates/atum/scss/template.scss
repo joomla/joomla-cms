@@ -12,13 +12,25 @@
 
 // Fonts
 @import "../../../../media/vendor/roboto-fontface/scss/roboto/sass/roboto-fontface";
-@import "fonts/fontawesome";
 
-// Alert
-//@import "../../../../build/media_source/system/scss/jalert"; NOT USED...
+
+@import "blocks/global"; // Leave this first
+
+// Vendor overrides
+@import "vendor/bootstrap/badge";
+@import "vendor/bootstrap/buttons";
+@import "vendor/bootstrap/card";
+@import "vendor/bootstrap/custom-forms";
+@import "vendor/bootstrap/collapse";
+@import "vendor/bootstrap/dropdown";
+@import "vendor/bootstrap/form";
+@import "vendor/bootstrap/lists";
+@import "vendor/bootstrap/modal";
+@import "vendor/bootstrap/nav";
+@import "vendor/bootstrap/pagination";
+@import "vendor/bootstrap/table";
 
 // Blocks
-@import "blocks/global"; // Leave this first
 @import "blocks/alerts";
 @import "blocks/edit";
 @import "blocks/header";
@@ -36,20 +48,6 @@
 @import "blocks/toolbar";
 @import "blocks/treeselect";
 @import "blocks/utilities";
-
-// Vendor overrides
-@import "vendor/bootstrap/badge";
-@import "vendor/bootstrap/buttons";
-@import "vendor/bootstrap/card";
-@import "vendor/bootstrap/custom-forms";
-@import "vendor/bootstrap/collapse";
-@import "vendor/bootstrap/dropdown";
-@import "vendor/bootstrap/form";
-@import "vendor/bootstrap/lists";
-@import "vendor/bootstrap/modal";
-@import "vendor/bootstrap/nav";
-@import "vendor/bootstrap/pagination";
-@import "vendor/bootstrap/table";
 
 // These DO NOT BELONG HERE!!!
 @import "vendor/codemirror";
