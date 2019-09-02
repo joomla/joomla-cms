@@ -281,11 +281,13 @@ class AdminController extends BaseController
 		$model = $this->getModel();
 		$return = $model->reorder($ids, $inc);
 
+		$redirect = Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false);
+
 		if ($return === false)
 		{
 			// Reorder failed.
 			$message = Text::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
-			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+			$this->setRedirect($redirect, $message, 'error');
 
 			return false;
 		}
@@ -293,7 +295,7 @@ class AdminController extends BaseController
 		{
 			// Reorder succeeded.
 			$message = Text::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
-			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+			$this->setRedirect($redirect, $message);
 
 			return true;
 		}
@@ -325,11 +327,13 @@ class AdminController extends BaseController
 		// Save the ordering
 		$return = $model->saveorder($pks, $order);
 
+		$redirect = Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false);
+
 		if ($return === false)
 		{
 			// Reorder failed
 			$message = Text::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
-			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+			$this->setRedirect($redirect, $message, 'error');
 
 			return false;
 		}
@@ -337,7 +341,7 @@ class AdminController extends BaseController
 		{
 			// Reorder succeeded.
 			$this->setMessage(Text::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
-			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+			$this->setRedirect($redirect);
 
 			return true;
 		}
