@@ -152,7 +152,7 @@ class StagesController extends AdminController
 			}
 			else
 			{
-				$this->setMessage(Text::_('COM_WORKFLOW_ITEM_SET_DEFAULT'));
+				$this->setMessage(Text::_('COM_WORKFLOW_STAGE_SET_DEFAULT'));
 			}
 		}
 
