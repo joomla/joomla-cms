@@ -72,9 +72,9 @@ if ($allowCustom)
 {
 	$attr2 .= ' allow-custom';
 
-	if ($this->customPrefix !== '')
+	if ($customPrefix !== '')
 	{
-		$attr2 .= ' data-custom_value_prefix="' . $this->customPrefix . '" ';
+		$attr2 .= ' new-item-prefix="' . $customPrefix . '" ';
 	}
 }
 
