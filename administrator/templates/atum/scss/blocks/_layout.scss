@@ -17,7 +17,8 @@
   }
 
   &.disabled {
-    color: var(--atum-text-dark);
+	color: var(--atum-bg-dark-10);
+	cursor: not-allowed;
 
     &:hover {
       background: transparent;
