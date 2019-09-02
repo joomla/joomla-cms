@@ -429,6 +429,13 @@
 		/>
 
 		<menuitem
+			title="MOD_MENU_EXTENSIONS_PLUGIN_MANAGER"
+			type="component"
+			element="com_plugins"
+			link="index.php?option=com_plugins"
+		/>
+
+		<menuitem
 			title="MOD_MENU_EXTENSIONS_TEMPLATE_MANAGER"
 			type="component"
 			element="com_templates"
