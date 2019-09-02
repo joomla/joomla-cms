@@ -71,6 +71,11 @@ $attr2 .= ' search-placeholder="' . $this->escape(Text::_('JGLOBAL_TYPE_OR_SELEC
 if ($allowCustom)
 {
 	$attr2 .= ' allow-custom';
+
+	if ($this->customPrefix !== '')
+	{
+		$attr2 .= ' data-custom_value_prefix="' . $this->customPrefix . '" ';
+	}
 }
 
 if ($required)
