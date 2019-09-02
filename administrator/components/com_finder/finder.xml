@@ -40,6 +40,22 @@
 		<language tag="en-GB">language/en-GB.com_finder.ini</language>
 	</languages>
 	<administration>
+		<menu img="class:finder">COM_FINDER</menu>
+		<submenu>
+			<!--
+				Note that all & must be escaped to &amp; for the file to be valid
+				XML and be parsed by the installer
+			-->
+			<menu link="option=com_finder&amp;view=index" img="class:finder"
+			      alt="Smart Search/Index">COM_FINDER_INDEX</menu>
+			<menu link="option=com_finder&amp;view=maps" img="class:finder"
+			      alt="Smart Search/Index">COM_FINDER_MAPS</menu>
+			<menu link="option=com_finder&amp;view=filters" img="class:finder"
+			      alt="Smart Search/Index">COM_FINDER_FILTERS</menu>
+			<menu link="option=com_finder&amp;view=searches" img="class:finder"
+			      alt="Smart Search/Searches">COM_FINDER_SEARCHES</menu>
+		</submenu>
+	<administration>
 		<files folder="admin">
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
