@@ -46,6 +46,7 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   string   $customPrefix    Optional prefix for new categories.
  */
 
 $html    = array();
