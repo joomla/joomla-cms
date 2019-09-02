@@ -12,7 +12,7 @@
 				type="componentsfieldgroup"
 				label="COM_FIELDS_CHOOSE_CONTEXT_LABEL"
 				required="true"
-			>
+				>
 				<option value="">COM_MENUS_OPTION_SELECT_CONTEXT</option>
 			</field>
 		</fields>
