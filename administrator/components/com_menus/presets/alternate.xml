@@ -418,7 +418,7 @@
 			quicktask-title="MOD_MENU_COM_CONTENT_NEW_MODULE"
 			type="component"
 			element="com_modules"
-			link="index.php?option=com_modules&amp;view=modules&amp;client_id=0"
+			link="index.php?option=com_modules&amp;client_id=0"
 		/>
 
 		<menuitem
