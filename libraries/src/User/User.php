@@ -142,7 +142,7 @@ class User extends CMSObject
 	/**
 	 * Guest status
 	 *
-	 * @var    boolean
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	public $guest = null;
@@ -251,18 +251,24 @@ class User extends CMSObject
 	 *
 	 * @return  User  The User object.
 	 *
-	 * @since   1.7.0
+	 * @since       1.7.0
+	 * @deprecated  5.0  Load the user service from the dependency injection container or via $app->getIdentity()
 	 */
 	public static function getInstance($identifier = 0)
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated. Load the user from the dependency injection container or via %2$s::getApplication()->getIdentity().',
+				__METHOD__,
+				__CLASS__
+			),
+			E_USER_DEPRECATED
+		);
+
 		// Find the user id
 		if (!is_numeric($identifier))
 		{
-			if (!$id = UserHelper::getUserId($identifier))
-			{
-				// If the $identifier doesn't match with any id, just return an empty User.
-				return new static;
-			}
+			return Factory::getContainer()->get(UserFactoryInterface::class)->loadUserByUsername($identifier);
 		}
 		else
 		{
@@ -273,13 +279,13 @@ class User extends CMSObject
 		// Note: don't cache this user because it'll have a new ID on save!
 		if ($id === 0)
 		{
-			return new static;
+			return Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($id);
 		}
 
 		// Check if the user ID is already cached.
 		if (empty(self::$instances[$id]))
 		{
-			self::$instances[$id] = new static($id);
+			self::$instances[$id] = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($id);
 		}
 
 		return self::$instances[$id];
@@ -395,22 +401,27 @@ class User extends CMSObject
 		$db = Factory::getDbo();
 
 		$subQuery = $db->getQuery(true)
-			->select('id,asset_id')
-			->from('#__categories')
-			->where('extension = ' . $db->quote($component))
-			->where('published = 1');
+			->select($db->quoteName(['id', 'asset_id']))
+			->from($db->quoteName('#__categories'))
+			->where(
+				[
+					$db->quoteName('extension') . ' = :component',
+					$db->quoteName('published') . ' = 1',
+				]
+			);
 
 		$query = $db->getQuery(true)
-			->select('c.id AS id, a.name AS asset_name')
-			->from('(' . (string) $subQuery . ') AS c')
-			->join('INNER', '#__assets AS a ON c.asset_id = a.id');
+			->select($db->quoteName(['c.id', 'a.name']))
+			->from('(' . $subQuery . ') AS ' . $db->quoteName('c'))
+			->join('INNER', $db->quoteName('#__assets', 'a'), $db->quoteName('c.asset_id') . ' = ' . $db->quoteName('a.id'))
+			->bind(':component', $component);
 		$db->setQuery($query);
 		$allCategories = $db->loadObjectList('id');
 		$allowedCategories = array();
 
 		foreach ($allCategories as $category)
 		{
-			if ($this->authorise($action, $category->asset_name))
+			if ($this->authorise($action, $category->name))
 			{
 				$allowedCategories[] = (int) $category->id;
 			}
@@ -735,8 +746,16 @@ class User extends CMSObject
 				$iAmRehashingSuperadmin = true;
 			}
 
+			// Check if we are using a CLI application
+			$isCli = false;
+
+			if (Factory::getApplication()->isCli())
+			{
+				$isCli = true;
+			}
+
 			// We are only worried about edits to this account if I am not a Super Admin.
-			if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true)
+			if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true && $isCli != true)
 			{
 				// I am not a Super Admin, and this one is, so fail.
 				if (!$isNew && Access::check($this->id, 'core.admin'))

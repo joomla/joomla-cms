@@ -25,10 +25,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 <form action="<?php echo Route::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
-		<div id="j-sidebar-container" class="col-md-2">
-			<?php echo $this->sidebar; ?>
-		</div>
-		<div class="col-md-10">
+		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'client_id'))); ?>
 				<?php if ($this->total > 0) : ?>
@@ -71,14 +68,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $item->extension_id . '&file=' . $this->file); ?>">
 										<?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst($item->name)); ?></a>
 									<div>
-									<?php if ($this->preview && $item->client_id == '0') : ?>
-										<a href="<?php echo Route::_(Uri::root() . 'index.php?tp=1&template=' . $item->element); ?>" target="_blank">
-										<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
-										</a>
-									<?php elseif ($item->client_id == '1') : ?>
-										<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>
-									<?php else : ?>
-										<span class="hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW_DESC'); ?>"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
+									<?php if ($item->client_id === 0) : ?>
+										<?php if ($this->preview) : ?>
+											<a href="<?php echo Route::_(Uri::root() . 'index.php?tp=1&template=' . $item->element); ?>" target="_blank">
+											<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
+											</a>
+										<?php else : ?>
+											<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>
+										<?php endif; ?>
 									<?php endif; ?>
 									</div>
 								</th>

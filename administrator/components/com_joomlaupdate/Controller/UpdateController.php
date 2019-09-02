@@ -36,7 +36,7 @@ class UpdateController extends BaseController
 	 */
 	public function download()
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
@@ -54,7 +54,7 @@ class UpdateController extends BaseController
 
 		$this->_applyCredentials();
 
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model  = $this->getModel('Update');
 		$result = $model->download();
 		$file   = $result['basename'];
@@ -62,20 +62,21 @@ class UpdateController extends BaseController
 		$message = null;
 		$messageType = null;
 
-		switch ($result['check'])
+		// The validation was not successful for now just a warning.
+		// TODO: In Joomla 4 this will abort the installation
+		if ($result['check'] === false)
 		{
-			case 0:
-				$message = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
-				$messageType = 'warning';
-				break;
-			case 1:
-				$message = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_CORRECT');
-				$messageType = 'message';
-				break;
-			case 2:
-				$message = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_NOT_FOUND');
-				$messageType = 'notice';
-				break;
+			$message = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
+			$messageType = 'warning';
+
+			try
+			{
+				Log::add($message, Log::INFO, 'Update');
+			}
+			catch (\RuntimeException $exception)
+			{
+				// Informational log only
+			}
 		}
 
 		if ($file)
@@ -112,7 +113,7 @@ class UpdateController extends BaseController
 	 */
 	public function install()
 	{
-		Session::checkToken('get') or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken('get');
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
@@ -129,7 +130,7 @@ class UpdateController extends BaseController
 
 		$this->_applyCredentials();
 
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 
 		$file = Factory::getApplication()->getUserState('com_joomlaupdate.file', null);
@@ -173,7 +174,7 @@ class UpdateController extends BaseController
 
 		$this->_applyCredentials();
 
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 
 		$model->finaliseUpgrade();
@@ -217,7 +218,7 @@ class UpdateController extends BaseController
 
 		$this->_applyCredentials();
 
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 
 		$model->cleanUp();
@@ -245,10 +246,10 @@ class UpdateController extends BaseController
 	public function purge()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Purge updates
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 		$model->purge();
 
@@ -266,14 +267,14 @@ class UpdateController extends BaseController
 	public function upload()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
 		Factory::getUser()->authorise('core.admin') or jexit(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
 
 		$this->_applyCredentials();
 
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 
 		try
@@ -301,7 +302,7 @@ class UpdateController extends BaseController
 	public function captive()
 	{
 		// Check for request forgeries
-		Session::checkToken('get') or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken('get');
 
 		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
 		if (!Factory::getUser()->authorise('core.admin'))
@@ -333,7 +334,7 @@ class UpdateController extends BaseController
 	public function confirm()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
 		if (!$this->app->getIdentity()->authorise('core.admin'))
@@ -342,7 +343,7 @@ class UpdateController extends BaseController
 		}
 
 		// Get the model
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 
 		// Get the captive file before the session resets
@@ -411,7 +412,7 @@ class UpdateController extends BaseController
 		if ($view = $this->getView($vName, $vFormat))
 		{
 			// Get the model for the view.
-			/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+			/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 			$model = $this->getModel('Update');
 
 			// Push the model into the view (as default).
@@ -463,7 +464,7 @@ class UpdateController extends BaseController
 	public function finaliseconfirm()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Did a non Super User try do this?
 		if (!Factory::getUser()->authorise('core.admin'))
@@ -472,7 +473,7 @@ class UpdateController extends BaseController
 		}
 
 		// Get the model
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 
 		// Try to log in
@@ -525,7 +526,7 @@ class UpdateController extends BaseController
 		{
 			echo new JsonResponse($updateFileUrl);
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			echo $e;
 		}

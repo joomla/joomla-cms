@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -47,7 +48,7 @@ class StagesController extends AdminController
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   Input                $input    Input
 	 *
 	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException when no extension or workflow id is set
@@ -151,7 +152,7 @@ class StagesController extends AdminController
 			}
 			else
 			{
-				$this->setMessage(Text::_('COM_WORKFLOW_ITEM_SET_DEFAULT'));
+				$this->setMessage(Text::_('COM_WORKFLOW_STAGE_SET_DEFAULT'));
 			}
 		}
 

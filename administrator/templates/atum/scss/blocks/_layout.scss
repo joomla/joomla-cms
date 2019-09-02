@@ -1,20 +1,82 @@
 .page-link {
+
   &.active {
     padding: 0;
+
     &.current {
       padding: .5rem .75rem;
-      color: #999;
-      background-color: #dee2e6;
+      color: var(--atum-text-light);
+      background-color: var(--atum-bg-dark);
     }
+
     a {
-      padding: .5rem .75rem;
-      line-height: 2.25;
+      padding: .58rem .75rem;
+      line-height: 2.5;
+      text-decoration: none;
     }
   }
+
   &.disabled {
-    color: #999;
+    color: var(--atum-bg-dark-10);
+    cursor: not-allowed;
+
     &:hover {
       background: transparent;
     }
   }
+  a{
+    &:hover{
+      color: var(--atum-text-light);
+      background-color: var(--atum-bg-dark);
+    }
+  }
+}
+
+.options-grid-form {
+	background-color: var(--white);
+	color: var(--atum-text-dark);
+	padding: 1rem;
+	margin-bottom: 1rem;
+	box-shadow: $atum-box-shadow;
+	width: 100%;
+
+	> legend {
+		font-weight: bold;
+		padding: 0 .5rem;
+		background-color: var(--atum-bg-dark);
+		color: var(--atum-text-light);
+		width: auto;
+	}
+	> div {
+		display: grid;
+		grid-template-columns: 1fr;
+		grid-column-gap: 2rem;
+	}
+	@include media-breakpoint-up(md) {
+		> div {
+			grid-template-columns: 1fr 1fr;
+		}
+		&.options-grid-form-half,
+		&.options-grid-form-full {
+			> div {
+				grid-template-columns: 1fr;
+			}
+		}
+	}
+	@include media-breakpoint-up(lg) {
+		> div {
+			grid-template-columns: 1fr 1fr 1fr;
+		}
+
+		&.options-grid-form-full {
+			> div {
+				grid-template-columns: 1fr;
+			}
+		}
+		&.options-grid-form-half {
+			> div {
+				grid-template-columns: 1fr 1fr;
+			}
+		}
+	}
 }

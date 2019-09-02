@@ -112,6 +112,7 @@ class PluginController extends BaseController
 					{
 						throw new \Exception("Redirect URI must be set in the plugin");
 					}
+
 					$this->setRedirect($eventResults['redirect_uri']);
 					break;
 

@@ -49,6 +49,8 @@ window.Joomla.editors.instances = window.Joomla.editors.instances || {
    *                                  Example: () => { return this.element.value; }
    * setValue         Type  Function  Should replace the complete data of the editor
    *                                  Example: (text) => { return this.element.value = text; }
+   * getSelection     Type  Function  Should return the selected text from the editor
+   *                                  Example: function () { return this.selectedText; }
    * replaceSelection Type  Function  Should replace the selected text of the editor
    *                                  If nothing selected, will insert the data at the cursor
    *                                  Example:
@@ -479,7 +481,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
 
       // Skip titles with untranslated strings
       if (typeof title !== 'undefined') {
-        titleWrapper = document.createElement('h4');
+        titleWrapper = document.createElement('span');
         titleWrapper.className = 'alert-heading';
         titleWrapper.innerHTML = Joomla.Text._(type) ? Joomla.Text._(type) : type;
         messagesBox.appendChild(titleWrapper);
@@ -709,73 +711,6 @@ window.Joomla.Modal = window.Joomla.Modal || {
     Joomla.submitform(task, newForm);
 
     return false;
-  };
-
-  /**
-   * Add Joomla! loading image layer.
-   *
-   * Used in: /administrator/components/com_installer/views/languages/tmpl/default.php
-   *          /installation/template/js/installation.js
-   *
-   * @param   {String}       task           The task to do [load, show, hide] (defaults to show).
-   * @param   {HTMLElement}  parentElement  The HTML element where we are appending the layer
-   *          (defaults to body).
-   *
-   * @return  {HTMLElement}  The HTML loading layer element.
-   *
-   * @since  3.6.0
-   */
-  Joomla.loadingLayer = (task, parentElement) => {
-    // Set default values.
-    const newTask = task || 'show';
-    const newParentElement = parentElement || document.body;
-
-    // Create the loading layer (hidden by default).
-    if (newTask === 'load') {
-      // Prevent loading twice
-      if (document.getElementById('loading-logo')) {
-        return false;
-      }
-      // Gets the site base path
-      const systemPaths = Joomla.getOptions('system.paths') || {};
-      const basePath = systemPaths.root || '';
-
-      const loadingDiv = document.createElement('div');
-
-      loadingDiv.id = 'loading-logo';
-
-      // The loading layer CSS styles are JS hardcoded so they can be used without adding CSS.
-
-      // Loading layer style and positioning.
-      loadingDiv.style.position = 'fixed';
-      loadingDiv.style.top = '0';
-      loadingDiv.style.left = '0';
-      loadingDiv.style.width = '100%';
-      loadingDiv.style.height = '100%';
-      loadingDiv.style.opacity = '0.8';
-      loadingDiv.style.filter = 'alpha(opacity=80)';
-      loadingDiv.style.overflow = 'hidden';
-      loadingDiv.style['z-index'] = '10000';
-      loadingDiv.style.display = 'none';
-      loadingDiv.style['background-color'] = '#fff';
-
-      // Loading logo positioning.
-      loadingDiv.style['background-image'] = `url("${basePath}/media/system/images/ajax-loader.gif")`;
-      loadingDiv.style['background-position'] = 'center';
-      loadingDiv.style['background-repeat'] = 'no-repeat';
-      loadingDiv.style['background-attachment'] = 'fixed';
-
-      newParentElement.appendChild(loadingDiv);
-    } else {
-      // Show or hide the layer.
-      if (!document.getElementById('loading-logo')) {
-        Joomla.loadingLayer('load', newParentElement);
-      }
-
-      document.getElementById('loading-logo').style.display = (newTask === 'show') ? 'block' : 'none';
-    }
-
-    return document.getElementById('loading-logo');
   };
 
   /**
@@ -1091,14 +1026,14 @@ window.Joomla.Modal = window.Joomla.Modal || {
       // Load it from the right place.
       const replacement = `media/vendor/webcomponentsjs/js/webcomponents-${polyfills.join('-')}.min.js`;
 
-      const mediaVersion = script.src.match(/\?.*/)[0];
+      const mediaVersion = script.src.match(/\?.*/);
       const base = Joomla.getOptions('system.paths');
 
       if (!base) {
         throw new Error('core(.min).js is not registered correctly!');
       }
 
-      newScript.src = base.rootFull + replacement + (mediaVersion || '');
+      newScript.src = base.rootFull + replacement + (mediaVersion ? mediaVersion[0] : '');
 
       // if readyState is 'loading', this script is synchronous
       if (document.readyState === 'loading') {

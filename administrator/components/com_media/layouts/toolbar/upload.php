@@ -9,10 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+
+HTMLHelper::_('webcomponent', 'system/joomla-toolbar-button.min.js', ['version' => 'auto', 'relative' => true]);
 
 $title = Text::_('JTOOLBAR_UPLOAD');
 ?>
-<button class="btn btn-sm btn-success" onclick="MediaManager.Event.fire('onClickUpload');">
-	<span class="icon-upload" title="<?php echo $title; ?>"></span> <?php echo $title; ?>
-</button>
+<joomla-toolbar-button class="btn btn-sm btn-success" onclick="MediaManager.Event.fire('onClickUpload');">
+	<span class="icon-upload"></span> <?php echo $title; ?>
+</joomla-toolbar-button>

@@ -19,14 +19,6 @@ module.exports = function (config) {
       // Load web components polyfill
       { pattern: 'media/vendor/webcomponentsjs/js/webcomponents-sd-ce-pf.js', loaded: true, served: true, watch: false },
 
-      // Load the files to test against
-      { pattern: 'media/system/css/fields/joomla-field-switcher.css', loaded: true, served: true, watch: false },
-      { pattern: 'media/system/js/fields/joomla-field-switcher-es5.js', loaded: true, served: true, watch: false },
-
-
-      // Load the tests definitions files
-      'tests/javascript/joomla-switcher/*.spec.js',
-
     ],
 
     // preprocess matching files before serving them to the browser
@@ -68,6 +60,9 @@ module.exports = function (config) {
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: false,
+
+    // Currently we have no tests as we've moved switcher away. Once we add tests change this back to true
+    failOnEmptyTestSuite: false,
 
     // list of plugins
     plugins: [

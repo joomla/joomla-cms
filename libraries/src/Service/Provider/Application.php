@@ -20,8 +20,11 @@ use Joomla\CMS\Console\Loader\WritableLoaderInterface;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
 use Joomla\CMS\Factory;
+use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Console\Application as BaseConsoleApplication;
 use Joomla\Console\Loader\LoaderInterface;
+use Joomla\Database\Command\ExportCommand;
+use Joomla\Database\Command\ImportCommand;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
@@ -62,6 +65,7 @@ class Application implements ServiceProviderInterface
 					$app->setDispatcher($container->get(DispatcherInterface::class));
 					$app->setLogger($container->get(LoggerInterface::class));
 					$app->setSession($container->get(SessionInterface::class));
+					$app->setUserFactory($container->get(UserFactoryInterface::class));
 
 					return $app;
 				},
@@ -84,6 +88,7 @@ class Application implements ServiceProviderInterface
 					$app->setDispatcher($container->get(DispatcherInterface::class));
 					$app->setLogger($container->get(LoggerInterface::class));
 					$app->setSession($container->get(SessionInterface::class));
+					$app->setUserFactory($container->get(UserFactoryInterface::class));
 
 					return $app;
 				},
@@ -108,6 +113,7 @@ class Application implements ServiceProviderInterface
 					$app->setCommandLoader($container->get(LoaderInterface::class));
 					$app->setLogger($container->get(LoggerInterface::class));
 					$app->setSession($container->get(SessionInterface::class));
+					$app->setUserFactory($container->get(UserFactoryInterface::class));
 
 					return $app;
 				},
@@ -123,6 +129,8 @@ class Application implements ServiceProviderInterface
 					$mapping = [
 						SessionGcCommand::getDefaultName()         => SessionGcCommand::class,
 						SessionMetadataGcCommand::getDefaultName() => SessionMetadataGcCommand::class,
+						ExportCommand::getDefaultName()            => ExportCommand::class,
+						ImportCommand::getDefaultName()            => ImportCommand::class,
 					];
 
 					return new WritableContainerLoader($container, $mapping);
@@ -136,7 +144,7 @@ class Application implements ServiceProviderInterface
 				function (Container $container) {
 					$app = new ApiApplication(null, null, null, $container);
 
-					// The session service provider needs JFactory::$application, set it if still null
+					// The session service provider needs Factory::$application, set it if still null
 					if (Factory::$application === null)
 					{
 						Factory::$application = $app;

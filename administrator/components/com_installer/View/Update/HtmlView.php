@@ -61,7 +61,7 @@ class HtmlView extends InstallerViewDefault
 
 		if (count($this->items) > 0)
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNINGS_UPDATE_NOTICE'), 'notice');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNINGS_UPDATE_NOTICE'), 'warning');
 		}
 
 		parent::display($tpl);
@@ -80,8 +80,6 @@ class HtmlView extends InstallerViewDefault
 		ToolbarHelper::custom('update.find', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_FIND_UPDATES', false);
 		ToolbarHelper::custom('update.purge', 'purge', 'purge', 'COM_INSTALLER_TOOLBAR_PURGE', false);
 		ToolbarHelper::divider();
-
-		\JHtmlSidebar::setAction('index.php?option=com_installer&view=manage');
 
 		parent::addToolbar();
 		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_UPDATE');

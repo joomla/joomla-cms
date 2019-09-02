@@ -11,6 +11,7 @@ namespace Joomla\CMS\Installation\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
@@ -18,6 +19,8 @@ use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Version;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -147,14 +150,6 @@ class DatabaseModel extends BaseInstallationModel
 			return false;
 		}
 
-		// Ensure that a database name was input.
-		if (empty($options->db_name))
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_EMPTY_NAME'), 'warning');
-
-			return false;
-		}
-
 		// Validate database table prefix.
 		if (isset($options->db_prefix) && !preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix))
 		{
@@ -180,7 +175,7 @@ class DatabaseModel extends BaseInstallationModel
 		}
 
 		// Validate database name.
-		if (in_array($options->db_type, ['pgsql', 'postgresql']) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options->db_name))
+		if (in_array($options->db_type, ['pgsql', 'postgresql'], true) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options->db_name))
 		{
 			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_MSG_POSTGRESQL'), 'warning');
 
@@ -204,8 +199,8 @@ class DatabaseModel extends BaseInstallationModel
 				return false;
 			}
 
-		// @TODO implement the security check
-		/**
+			// @TODO implement the security check
+			/**
 		$shouldCheckLocalhost = getenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK') !== '1';
 
 		// Per Default allowed DB Hosts
@@ -246,7 +241,10 @@ class DatabaseModel extends BaseInstallationModel
 					if (!File::write($remoteDbPath, ''))
 					{
 						// Request to create the file manually
-						Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile), 'error');
+						Factory::getApplication()->enqueueMessage(
+							Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile),
+							'error'
+						);
 
 						Factory::getSession()->set('remoteDbFileUnwritable', true);
 
@@ -257,17 +255,24 @@ class DatabaseModel extends BaseInstallationModel
 					Factory::getSession()->set('remoteDbFileWrittenByJoomla', true);
 
 					// Request to delete that file
-					Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile), 'error');
+					Factory::getApplication()->enqueueMessage(
+						Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile),
+						'error'
+					);
 
 					return false;
 				}
 
-				if (Factory::getSession()->get('remoteDbFileWrittenByJoomla', false) === true && file_exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
+				if (Factory::getSession()->get('remoteDbFileWrittenByJoomla', false) === true
+					&& file_exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
 				{
 					// Add the general message
 					Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
 
-					Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile), 'error');
+					Factory::getApplication()->enqueueMessage(
+						Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile),
+						'error'
+					);
 
 					return false;
 				}
@@ -277,7 +282,10 @@ class DatabaseModel extends BaseInstallationModel
 					// Add the general message
 					Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
 
-					Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile), 'error');
+					Factory::getApplication()->enqueueMessage(
+						Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile),
+						'error'
+					);
 
 					return false;
 				}
@@ -374,7 +382,7 @@ class DatabaseModel extends BaseInstallationModel
 					'select'   => $options->db_select,
 				);
 
-				$altDB = \JDatabaseDriver::getInstance($altDBoptions);
+				$altDB = DatabaseDriver::getInstance($altDBoptions);
 
 				// Try to create the database now using the alternate driver
 				try
@@ -411,7 +419,16 @@ class DatabaseModel extends BaseInstallationModel
 
 		if (!$db->isMinimumVersion())
 		{
-			throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db_version));
+			if (in_array($type, ['mysql', 'mysqli']) && $db->isMariaDb())
+			{
+				throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_INVALID_MARIADB_VERSION', $db->getMinimum(), $db_version));
+			}
+			else
+			{
+				throw new \RuntimeException(
+					Text::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db->getMinimum(), $db_version)
+				);
+			}
 		}
 
 		// @internal Check for spaces in beginning or end of name.
@@ -619,6 +636,13 @@ class DatabaseModel extends BaseInstallationModel
 			}
 		}
 
+		$query = $db->getQuery(true)
+			->select('extension_id')
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('name') . ' = ' . $db->quote('files_joomla'));
+		$db->setQuery($query);
+		$eid = $db->loadResult();
+
 		$query->clear()
 			->insert($db->quoteName('#__schemas'))
 			->columns(
@@ -627,7 +651,7 @@ class DatabaseModel extends BaseInstallationModel
 					$db->quoteName('version_id')
 				)
 			)
-			->values('700, ' . $db->quote($version));
+			->values($eid . ', ' . $db->quote($version));
 		$db->setQuery($query);
 
 		try
@@ -666,7 +690,10 @@ class DatabaseModel extends BaseInstallationModel
 		{
 			if (!$installer->refreshManifestCache($extension->extension_id))
 			{
-				Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $extension->name), 'error');
+				Factory::getApplication()->enqueueMessage(
+					Text::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $extension->name),
+					'error'
+				);
 
 				return false;
 			}
@@ -678,6 +705,17 @@ class DatabaseModel extends BaseInstallationModel
 		if (is_file($dblocalise))
 		{
 			if (!$this->populateDatabase($db, $dblocalise))
+			{
+				return false;
+			}
+		}
+
+		// Load the custom.sql for customising the data in joomla.sql.
+		$dbcustom = 'sql/' . $serverType . '/custom.sql';
+
+		if (is_file($dbcustom))
+		{
+			if (!$this->populateDatabase($db, $dbcustom))
 			{
 				return false;
 			}
@@ -730,73 +768,6 @@ class DatabaseModel extends BaseInstallationModel
 	}
 
 	/**
-	 * Method to install the sample data.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 */
-	public function installSampleData()
-	{
-		$db = Factory::getDbo();
-
-		// Build the path to the sample data file.
-		$type = $db->getServerType();
-
-		if (Factory::getApplication()->input->get('sample_file', ''))
-		{
-			$sample_file = Factory::getApplication()->input->get('sample_file', '');
-		}
-		else
-		{
-			$sample_file = 'sample_testing.sql';
-		}
-
-		$data = JPATH_INSTALLATION . '/sql/' . $type . '/' . $sample_file;
-
-		// Attempt to import the database schema if one is chosen.
-		if ($sample_file != '')
-		{
-			if (!file_exists($data))
-			{
-				Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_FILE_DOES_NOT_EXIST', $data), 'error');
-
-				return false;
-			}
-			elseif (!$this->populateDatabase($db, $data))
-			{
-				return false;
-			}
-
-			$this->postInstallSampleData($db, $sample_file);
-		}
-
-		return true;
-	}
-
-	/**
-	 * Sample data tables and data post install process.
-	 *
-	 * @param   \JDatabaseDriver  $db              Database connector object $db*.
-	 * @param   string            $sampleFileName  The sample dats filename.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	protected function postInstallSampleData($db, $sampleFileName = '')
-	{
-		// Update the sample data user ids.
-		$this->updateUserIds($db);
-
-		// If not joomla sample data for testing, update the sample data dates.
-		if ($sampleFileName !== 'sample_testing.sql')
-		{
-			$this->updateDates($db);
-		}
-	}
-
-	/**
 	 * Method to install the cms data.
 	 *
 	 * @return  boolean  True on success.
@@ -832,6 +803,9 @@ class DatabaseModel extends BaseInstallationModel
 
 		// Update the cms data dates.
 		$this->updateDates($db);
+
+		// Check for testing sampledata plugin.
+		$this->checkTestingSampledata($db);
 	}
 
 	/**
@@ -839,7 +813,7 @@ class DatabaseModel extends BaseInstallationModel
 	 *
 	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   3.6.1
 	 */
@@ -892,7 +866,7 @@ class DatabaseModel extends BaseInstallationModel
 	 *
 	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
@@ -931,6 +905,7 @@ class DatabaseModel extends BaseInstallationModel
 				$query = $db->getQuery(true)
 					->update($db->quoteName($table))
 					->set($db->quoteName($field) . ' = ' . $db->quote($currentDate))
+					->where($db->quoteName($field) . ' IS NOT NULL')
 					->where($db->quoteName($field) . ' != ' . $db->quote($nullDate));
 
 				$db->setQuery($query);
@@ -944,6 +919,49 @@ class DatabaseModel extends BaseInstallationModel
 					Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 				}
 			}
+		}
+	}
+
+	/**
+	 * Method to check for the testing sampledata plugin.
+	 *
+	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function checkTestingSampledata($db)
+	{
+		$version = new Version;
+
+		if (!$version->isInDevelopmentState() || !is_file(JPATH_PLUGINS . '/sampledata/testing/testing.php'))
+		{
+			return;
+		}
+
+		$testingPlugin = new \stdClass;
+		$testingPlugin->extension_id = null;
+		$testingPlugin->name = 'plg_sampledata_testing';
+		$testingPlugin->type = 'plugin';
+		$testingPlugin->element = 'testing';
+		$testingPlugin->folder = 'sampledata';
+		$testingPlugin->client_id = 0;
+		$testingPlugin->enabled = 1;
+		$testingPlugin->access = 1;
+		$testingPlugin->manifest_cache = '';
+		$testingPlugin->params = '{}';
+
+		$db->insertObject('#__extensions', $testingPlugin, 'extension_id');
+
+		$installer = new Installer;
+
+		if (!$installer->refreshManifestCache($testingPlugin->extension_id))
+		{
+			Factory::getApplication()->enqueueMessage(
+				Text::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $testingPlugin->name),
+				'error'
+			);
 		}
 	}
 
@@ -1192,12 +1210,12 @@ class DatabaseModel extends BaseInstallationModel
 			{
 				$in_string = false;
 			}
-			elseif (!$in_string && ($query[$i] == '"' || $query[$i] == "'") && (!isset ($buffer[0]) || $buffer[0] != "\\"))
+			elseif (!$in_string && ($query[$i] == '"' || $query[$i] == "'") && (!isset($buffer[0]) || $buffer[0] != "\\"))
 			{
 				$in_string = $query[$i];
 			}
 
-			if (isset ($buffer[1]))
+			if (isset($buffer[1]))
 			{
 				$buffer[0] = $buffer[1];
 			}

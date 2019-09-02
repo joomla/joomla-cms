@@ -10,19 +10,15 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('text');
-
 /**
  * Form Field class for the Joomla Platform.
  * Supports a URL text field
  *
  * @link   http://www.w3.org/TR/html-markup/input.url.html#input.url
- * @see    JFormRuleUrl for validation of full urls
+ * @see    \Joomla\CMS\Form\Rule\UrlRule for validation of full urls
  * @since  1.7.0
  */
-class UrlField extends \JFormFieldText
+class UrlField extends TextField
 {
 	/**
 	 * The form field type.

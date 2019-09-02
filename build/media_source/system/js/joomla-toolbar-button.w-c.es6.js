@@ -25,16 +25,8 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
       throw new Error('Joomla API is not properly initiated');
     }
 
-    this.disabled = false;
-
-    // If list selection is required, set button to disabled by default
-    if (this.listSelection) {
-      this.setDisabled(true);
-    }
-
     this.onChange = this.onChange.bind(this);
-
-    this.addEventListener('click', event => this.executeTask(event));
+    this.executeTask = this.executeTask.bind(this);
   }
 
   /**
@@ -45,9 +37,17 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
     // because we cannot currently extend HTMLButtonElement
     this.buttonElement = this.querySelector('button, a');
 
+    this.addEventListener('click', this.executeTask);
+
     // Check whether we have a form
     const formSelector = this.form || 'adminForm';
     this.formElement = document.getElementById(formSelector);
+
+    this.disabled = false;
+    // If list selection is required, set button to disabled by default
+    if (this.listSelection) {
+      this.setDisabled(true);
+    }
 
     if (this.listSelection) {
       if (!this.formElement) {
@@ -67,7 +67,7 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
       this.formElement.boxchecked.removeEventListener('change', this.onChange);
     }
 
-    this.removeEventListener('click');
+    this.removeEventListener('click', this.executeTask);
   }
 
   onChange(event) {

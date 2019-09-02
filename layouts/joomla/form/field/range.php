@@ -58,8 +58,7 @@ $attributes = array(
 	$autofocus ? 'autofocus' : '',
 );
 
-$value = (float) $value;
-$value = empty($value) ? $min : $value;
+$value = is_numeric($value) ? (float) $value : $min;
 
 ?>
 <input

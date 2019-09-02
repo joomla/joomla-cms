@@ -17,7 +17,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -107,7 +106,7 @@ class LevelController extends FormController
 	public function delete()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids = $this->input->get('cid', array(), 'array');
 
@@ -127,11 +126,7 @@ class LevelController extends FormController
 			$ids = ArrayHelper::toInteger($ids);
 
 			// Remove the items.
-			if (!$model->delete($ids))
-			{
-				$this->setMessage($model->getError(), 'error');
-			}
-			else
+			if ($model->delete($ids))
 			{
 				$this->setMessage(Text::plural('COM_USERS_N_LEVELS_DELETED', count($ids)));
 			}

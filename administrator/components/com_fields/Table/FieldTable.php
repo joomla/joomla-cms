@@ -132,6 +132,11 @@ class FieldTable extends Table
 			$this->type = 'text';
 		}
 
+		if (empty($this->fieldparams))
+		{
+			$this->fieldparams = '{}';
+		}
+
 		$date = Factory::getDate();
 		$user = Factory::getUser();
 
@@ -143,14 +148,12 @@ class FieldTable extends Table
 		}
 		else
 		{
+			$this->modified_time = $this->getDbo()->getNullDate();
+			$this->modified_by = 0;
+
 			if (!(int) $this->created_time)
 			{
 				$this->created_time = $date->toSql();
-			}
-
-			if (!(int) $this->modified_time)
-			{
-				$this->modified_time = $date->toSql();
 			}
 
 			if (empty($this->created_user_id))

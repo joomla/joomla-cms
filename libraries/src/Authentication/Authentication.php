@@ -8,12 +8,11 @@
 
 namespace Joomla\CMS\Authentication;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
@@ -29,42 +28,48 @@ class Authentication
 
 	/**
 	 * This is the status code returned when the authentication is success (permit login)
-	 * @const  STATUS_SUCCESS successful response
+	 *
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	const STATUS_SUCCESS = 1;
 
 	/**
 	 * Status to indicate cancellation of authentication (unused)
-	 * @const  STATUS_CANCEL cancelled request (unused)
+	 *
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	const STATUS_CANCEL = 2;
 
 	/**
 	 * This is the status code returned when the authentication failed (prevent login if no success)
-	 * @const  STATUS_FAILURE failed request
+	 *
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	const STATUS_FAILURE = 4;
 
 	/**
 	 * This is the status code returned when the account has expired (prevent login)
-	 * @const  STATUS_EXPIRED an expired account (will prevent login)
+	 *
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	const STATUS_EXPIRED = 8;
 
 	/**
 	 * This is the status code returned when the account has been denied (prevent login)
-	 * @const  STATUS_DENIED denied request (will prevent login)
+	 *
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	const STATUS_DENIED = 16;
 
 	/**
 	 * This is the status code returned when the account doesn't exist (not an error)
-	 * @const  STATUS_UNKNOWN unknown account (won't permit or prevent login)
+	 *
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	const STATUS_UNKNOWN = 32;
@@ -78,7 +83,7 @@ class Authentication
 	/**
 	 * Plugin Type to run
 	 *
-	 * @type   string
+	 * @var   string
 	 * @since  4.0.0
 	 */
 	protected $pluginType;
@@ -94,7 +99,7 @@ class Authentication
 	public function __construct(string $pluginType = 'authentication', DispatcherInterface $dispatcher = null)
 	{
 		// Set the dispatcher
-		if (!is_object($dispatcher))
+		if (!\is_object($dispatcher))
 		{
 			$dispatcher = Factory::getContainer()->get('dispatcher');
 		}
@@ -150,9 +155,6 @@ class Authentication
 		// Create authentication response
 		$response = new AuthenticationResponse;
 
-		// Get the dispatcher
-		$dispatcher = $this->getDispatcher();
-
 		/*
 		 * Loop through the plugins and check if the credentials can be used to authenticate
 		 * the user
@@ -162,16 +164,12 @@ class Authentication
 		 */
 		foreach ($plugins as $plugin)
 		{
-			$className = 'plg' . str_replace('-', '', $plugin->type) . $plugin->name;
+			$plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
 
-			if (class_exists($className))
-			{
-				$plugin = new $className($dispatcher, (array) $plugin);
-			}
-			else
+			if (!method_exists($plugin, 'onUserAuthenticate'))
 			{
 				// Bail here if the plugin can't be created
-				Log::add(Text::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $className), Log::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $plugin->name), Log::WARNING, 'jerror');
 				continue;
 			}
 

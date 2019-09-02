@@ -33,7 +33,7 @@ HTMLHelper::_('script', 'com_users/two-factor-switcher.min.js', array('version' 
 		</div>
 	<?php endif; ?>
 
-	<form id="member-profile" action="<?php echo Route::_('index.php?option=com_users&task=profile.save'); ?>" method="post" class="com-users-profile__edit-form form-validate form-horizontal well" enctype="multipart/form-data">
+	<form id="member-profile" action="<?php echo Route::_('index.php?option=com_users'); ?>" method="post" class="com-users-profile__edit-form form-validate form-horizontal well" enctype="multipart/form-data">
 		<?php // Iterate through the form fieldsets and display each one. ?>
 		<?php foreach ($this->form->getFieldsets() as $group => $fieldset) : ?>
 			<?php $fields = $this->form->getFieldset($group); ?>
@@ -105,10 +105,12 @@ HTMLHelper::_('script', 'com_users/two-factor-switcher.min.js', array('version' 
 					<?php echo Text::_('COM_USERS_PROFILE_OTEPS'); ?>
 				</legend>
 				<div class="alert alert-info">
+					<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 					<?php echo Text::_('COM_USERS_PROFILE_OTEPS_DESC'); ?>
 				</div>
 				<?php if (empty($this->otpConfig->otep)) : ?>
 					<div class="alert alert-warning">
+						<span class="fa fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 						<?php echo Text::_('COM_USERS_PROFILE_OTEPS_WAIT_DESC'); ?>
 					</div>
 				<?php else : ?>
@@ -124,14 +126,13 @@ HTMLHelper::_('script', 'com_users/two-factor-switcher.min.js', array('version' 
 
 		<div class="com-users-profile__edit-submit control-group">
 			<div class="controls">
-				<button type="submit" class="btn btn-primary validate">
-					<span>
-						<?php echo Text::_('JSUBMIT'); ?>
-					</span>
+				<button type="submit" class="btn btn-primary validate" name="task" value="profile.save">
+					<?php echo Text::_('JSUBMIT'); ?>
 				</button>
-				<a class="btn btn-danger" href="<?php echo Route::_('index.php?option=com_users&view=profile'); ?>" title="<?php echo Text::_('JCANCEL'); ?>"><?php echo Text::_('JCANCEL'); ?></a>
+				<button type="submit" class="btn btn-danger" name="task" value="profile.cancel" formnovalidate>
+					<?php echo Text::_('JCANCEL'); ?>
+				</button>
 				<input type="hidden" name="option" value="com_users">
-				<input type="hidden" name="task" value="profile.save">
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('form.token'); ?>

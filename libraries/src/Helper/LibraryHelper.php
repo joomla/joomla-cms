@@ -8,10 +8,11 @@
 
 namespace Joomla\CMS\Helper;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -50,7 +51,7 @@ class LibraryHelper
 			$result = static::$libraries[$element];
 
 			// Convert the params to an object.
-			if (is_string($result->params))
+			if (\is_string($result->params))
 			{
 				$result->params = new Registry($result->params);
 			}
@@ -111,12 +112,15 @@ class LibraryHelper
 		if (static::isEnabled($element))
 		{
 			// Save params in DB
-			$db = Factory::getDbo();
-			$query = $db->getQuery(true)
+			$db           = Factory::getDbo();
+			$paramsString = $params->toString();
+			$query        = $db->getQuery(true)
 				->update($db->quoteName('#__extensions'))
-				->set($db->quoteName('params') . ' = ' . $db->quote($params->toString()))
+				->set($db->quoteName('params') . ' = :params')
 				->where($db->quoteName('type') . ' = ' . $db->quote('library'))
-				->where($db->quoteName('element') . ' = ' . $db->quote($element));
+				->where($db->quoteName('element') . ' = :element')
+				->bind(':params', $paramsString)
+				->bind(':element', $element);
 			$db->setQuery($query);
 
 			$result = $db->execute();
@@ -144,14 +148,15 @@ class LibraryHelper
 	 */
 	protected static function loadLibrary($element)
 	{
-		$loader = function($element)
+		$loader = function ($element)
 		{
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
+				->select($db->quoteName(['extension_id', 'element', 'params', 'enabled'], ['id', 'option', null, null]))
 				->from($db->quoteName('#__extensions'))
 				->where($db->quoteName('type') . ' = ' . $db->quote('library'))
-				->where($db->quoteName('element') . ' = ' . $db->quote($element));
+				->where($db->quoteName('element') . ' = :element')
+				->bind(':element', $element);
 			$db->setQuery($query);
 
 			return $db->loadObject();
@@ -164,7 +169,7 @@ class LibraryHelper
 		{
 			static::$libraries[$element] = $cache->get($loader, array($element), __METHOD__ . $element);
 		}
-		catch (\JCacheException $e)
+		catch (CacheExceptionInterface $e)
 		{
 			static::$libraries[$element] = $loader($element);
 		}

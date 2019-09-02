@@ -23,6 +23,7 @@ use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Templates\Administrator\Helper\TemplateHelper;
+use Joomla\Image\Image;
 
 /**
  * Template model class.
@@ -558,7 +559,7 @@ class TemplateModel extends FormModel
 	 */
 	private function getSafeName($name)
 	{
-		if (preg_match('/[0-9]/', $name))
+		if (strpos($name, '-') !== false && preg_match('/[0-9]/', $name))
 		{
 			// Get the extension
 			$extension = File::getExt($name);
@@ -782,8 +783,8 @@ class TemplateModel extends FormModel
 
 		foreach ($files as $file)
 		{
-			$newFile = str_replace($oldName, $newName, $file);
-			$result = File::move($file, $newFile) && $result;
+			$newFile = '/' . str_replace($oldName, $newName, basename($file));
+			$result  = File::move($file, dirname($file) . $newFile) && $result;
 		}
 
 		// Edit XML file
@@ -1021,6 +1022,7 @@ class TemplateModel extends FormModel
 			$client        = ApplicationHelper::getClientInfo($template->client_id);
 			$componentPath = Path::clean($client->path . '/components/');
 			$modulePath    = Path::clean($client->path . '/modules/');
+			$pluginPath    = Path::clean(JPATH_ROOT . '/plugins/');
 			$layoutPath    = Path::clean(JPATH_ROOT . '/layouts/');
 			$components    = Folder::folders($componentPath);
 
@@ -1058,6 +1060,18 @@ class TemplateModel extends FormModel
 						}
 
 						$result['components'][$component][] = $this->getOverridesFolder($view, Path::clean($folder . '/'));
+					}
+				}
+			}
+
+			foreach (Folder::folders($pluginPath) as $pluginGroup)
+			{
+				foreach (Folder::folders($pluginPath . '/' . $pluginGroup) as $plugin)
+				{
+					if (file_exists($pluginPath . '/' . $pluginGroup . '/' . $plugin . '/tmpl/'))
+					{
+						$pluginLayoutPath = Path::clean($pluginPath . '/' . $pluginGroup . '/');
+						$result['plugins'][$pluginGroup][] = $this->getOverridesFolder($plugin, $pluginLayoutPath);
 					}
 				}
 			}
@@ -1145,6 +1159,12 @@ class TemplateModel extends FormModel
 					$htmlPath = Path::clean($client->path . '/templates/' . $template->element . '/html/' . $url);
 				}
 			}
+			elseif (stripos($override, Path::clean(JPATH_ROOT . '/plugins/')) === 0)
+			{
+				$size       = count($explodeArray);
+				$layoutPath = Path::clean('plg_' . $explodeArray[$size - 2] . '_' . $explodeArray[$size - 1]);
+				$htmlPath   = Path::clean($client->path . '/templates/' . $template->element . '/html/' . $layoutPath);
+			}
 			else
 			{
 				$layoutPath = implode('/', array_slice($explodeArray, -2));
@@ -1177,6 +1197,10 @@ class TemplateModel extends FormModel
 				}
 
 				$return = $this->createTemplateOverride(Path::clean($path), $htmlPath);
+			}
+			elseif (stripos($override, Path::clean(JPATH_ROOT . '/plugins/')) === 0)
+			{
+				$return = $this->createTemplateOverride(Path::clean($override . '/tmpl'), $htmlPath);
 			}
 			else
 			{
@@ -1524,7 +1548,7 @@ class TemplateModel extends FormModel
 
 			if (file_exists(Path::clean($path . $fileName)))
 			{
-				$JImage = new \JImage(Path::clean($path . $fileName));
+				$JImage = new Image(Path::clean($path . $fileName));
 				$image['address'] = $uri . $fileName;
 				$image['path']    = $fileName;
 				$image['height']  = $JImage->getHeight();
@@ -1563,7 +1587,7 @@ class TemplateModel extends FormModel
 			$client   = ApplicationHelper::getClientInfo($template->client_id);
 			$relPath  = base64_decode($file);
 			$path     = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
-			$JImage   = new \JImage($path);
+			$JImage   = new Image($path);
 
 			try
 			{
@@ -1599,7 +1623,7 @@ class TemplateModel extends FormModel
 			$relPath = base64_decode($file);
 			$path    = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
 
-			$JImage = new \JImage($path);
+			$JImage = new Image($path);
 
 			try
 			{

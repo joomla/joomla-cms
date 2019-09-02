@@ -23,6 +23,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface
 	/**
 	 * Files with Asset info. File path should be relative.
 	 *
+	 * @var    array
 	 * @example of data file:
 	 *
 	 * {
@@ -61,8 +62,6 @@ class WebAssetRegistry implements WebAssetRegistryInterface
 	 *			},
 	 *		]
 	 *	}
-	 *
-	 * @var    array
 	 *
 	 * @since  4.0.0
 	 */
@@ -147,7 +146,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface
 	 *
 	 * @param   string  $name  Asset name
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
@@ -168,6 +167,16 @@ class WebAssetRegistry implements WebAssetRegistryInterface
 	 */
 	public function createAsset(string $name, array $data = []): WebAssetItem
 	{
+		$nameSpace = array_key_exists('namespace', $data) ? $data['namespace'] : __NAMESPACE__ . '\\AssetItem';
+		$className = array_key_exists('class', $data) ? $data['class'] : null;
+
+		if ($className && class_exists($nameSpace . '\\' . $className))
+		{
+			$className = $nameSpace . '\\' . $className;
+
+			return new $className($name, $data);
+		}
+
 		return new WebAssetItem($name, $data);
 	}
 
@@ -253,12 +262,20 @@ class WebAssetRegistry implements WebAssetRegistryInterface
 			'registryFile' => $path,
 		];
 
+		$namespace = array_key_exists('namespace', $data) ? $data['namespace'] : null;
+
 		// Prepare WebAssetItem instances
 		foreach ($data['assets'] as $item)
 		{
 			if (empty($item['name']))
 			{
-				throw new \RuntimeException('Asset data file "' . $path . '" contains incorrect asset defination');
+				throw new \RuntimeException('Asset data file "' . $path . '" contains incorrect asset definition');
+			}
+
+			// Inheriting the Namespace
+			if ($namespace && !array_key_exists('namespace', $item))
+			{
+				$item['namespace'] = $namespace;
 			}
 
 			$item['assetSource'] = $assetSource;

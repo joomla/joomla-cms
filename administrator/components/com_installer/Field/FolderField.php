@@ -11,17 +11,15 @@ namespace Joomla\Component\Installer\Administrator\Field;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Folder field.
  *
  * @since  3.5
  */
-class FolderField extends \JFormFieldList
+class FolderField extends ListField
 {
 	/**
 	 * The form field type.

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -28,7 +27,7 @@ if (!empty($feed) && is_string($feed))
 }
 else
 {
-	$lang      = Factory::getLanguage();
+	$lang      = $app->getLanguage();
 	$myrtl     = $params->get('rssrtl', 0);
 	$direction = ' ';
 
@@ -120,7 +119,7 @@ else
 						<span class="feed-link"><?php echo trim($feed[$i]->title); ?></span>
 					<?php endif; ?>
 
-					<?php if ($params->get('rssitemdate')) : ?>
+					<?php if ($params->get('rssitemdate', 0)) : ?>
 						<div class="feed-item-date">
 							<?php echo HtmlHelper::_('date', $feed[$i]->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
 						</div>

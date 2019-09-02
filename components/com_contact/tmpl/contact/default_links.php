@@ -9,20 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 ?>
-
-<?php if ($this->params->get('presentation_style') === 'sliders') : ?>
-	<?php echo HTMLHelper::_('bootstrap.addSlide', 'slide-contact', Text::_('COM_CONTACT_LINKS'), 'display-links'); ?>
-<?php endif; ?>
-<?php if ($this->params->get('presentation_style') === 'tabs') : ?>
-	<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'display-links', Text::_('COM_CONTACT_LINKS')); ?>
-<?php endif; ?>
-<?php if ($this->params->get('presentation_style') === 'plain') : ?>
-	<?php echo '<h3>' . Text::_('COM_CONTACT_LINKS') . '</h3>'; ?>
-<?php endif; ?>
+<?php echo '<h3>' . Text::_('COM_CONTACT_LINKS') . '</h3>'; ?>
 
 <div class="com-contact__links contact-links">
 	<ul class="nav flex-column">
@@ -50,10 +40,3 @@ use Joomla\CMS\Language\Text;
 		<?php endforeach; ?>
 	</ul>
 </div>
-
-<?php if ($this->params->get('presentation_style') === 'sliders') : ?>
-	<?php echo HTMLHelper::_('bootstrap.endSlide'); ?>
-<?php endif; ?>
-<?php if ($this->params->get('presentation_style') === 'tabs') : ?>
-	<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
-<?php endif; ?>

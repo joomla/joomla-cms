@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
@@ -54,54 +53,198 @@ abstract class QuickIconHelper
 			$application = Factory::getApplication();
 		}
 
-		$key = (string) $params;
+		$key     = (string) $params;
+		$context = (string) $params->get('context', 'mod_quickicon');
 
 		if (!isset(self::$buttons[$key]))
 		{
-			$context = $params->get('context', 'mod_quickicon');
+			// Load mod_quickicon language file in case this method is called before rendering the module
+			$application->getLanguage()->load('mod_quickicon');
 
-			if ($context === 'mod_quickicon')
-			{
-				// Load mod_quickicon language file in case this method is called before rendering the module
-				$application->getLanguage()->load('mod_quickicon');
+			self::$buttons[$key] = [];
 
-				self::$buttons[$key] = array(
-					array(
-						'link'   => Route::_('index.php?option=com_content&task=article.add'),
-						'image'  => 'fa fa-pencil-square',
-						'text'   => Text::_('MOD_QUICKICON_ADD_NEW_ARTICLE'),
-						'access' => array('core.manage', 'com_content', 'core.create', 'com_content'),
-						'group'  => 'MOD_QUICKICON_CONTENT',
-					),
-					array(
-						'link'   => Route::_('index.php?option=com_media'),
-						'image'  => 'fa fa-image',
-						'text'   => Text::_('MOD_QUICKICON_MEDIA_MANAGER'),
-						'access' => array('core.manage', 'com_media'),
-						'group'  => 'MOD_QUICKICON_CONTENT',
-					),
-					array(
-						'link'   => Route::_('index.php?option=com_config'),
-						'image'  => 'fa fa-cog',
-						'text'   => Text::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
-						'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
-						'group'  => 'MOD_QUICKICON_CONFIGURATION',
-					),
-					array(
-						'link'   => Route::_('index.php?option=com_modules'),
-						'image'  => 'fa fa-cubes',
-						'text'   => Text::_('MOD_QUICKICON_MODULE_MANAGER'),
-						'access' => array('core.manage', 'com_modules'),
-						'group'  => 'MOD_QUICKICON_STRUCTURE'
-					)
-				);
-			}
-			else
+			if ($params->get('show_users'))
 			{
-				self::$buttons[$key] = array();
+				$tmp = [
+					'image'   => 'fa fa-users',
+					'link'    => Route::_('index.php?option=com_users'),
+					'linkadd' => Route::_('index.php?option=com_users&task=users.add'),
+					'name'    => 'MOD_QUICKICON_USER_MANAGER',
+					'access'  => array('core.manage', 'com_users', 'core.create', 'com_users'),
+					'group'   => 'MOD_QUICKICON_SITE',
+				];
+
+				if ($params->get('show_users') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_users&amp;task=users.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
 			}
 
-			// Include buttons defined by published quickicon plugins
+			if ($params->get('show_menuitems'))
+			{
+				$tmp = [
+					'image'   => 'fa fa-list',
+					'link'    => Route::_('index.php?option=com_menus&client_id=0'),
+					'linkadd' => Route::_('index.php?option=com_menus&task=item.add'),
+					'name'    => 'MOD_QUICKICON_MENUITEMS_MANAGER',
+					'access'  => array('core.manage', 'com_menus', 'core.create', 'com_menus'),
+					'group'   => 'MOD_QUICKICON_STRUCTURE',
+				];
+
+				if ($params->get('show_menuitems') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_menus&amp;task=items.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
+			}
+
+			if ($params->get('show_articles'))
+			{
+				$tmp = [
+					'image'   => 'fa fa-file-alt',
+					'link'    => Route::_('index.php?option=com_content'),
+					'linkadd' => Route::_('index.php?option=com_content&task=article.add'),
+					'name'    => 'MOD_QUICKICON_ARTICLE_MANAGER',
+					'access'  => array('core.manage', 'com_content', 'core.create', 'com_content'),
+					'group'   => 'MOD_QUICKICON_SITE',
+				];
+
+				if ($params->get('show_articles') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_content&amp;task=articles.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
+			}
+
+			if ($params->get('show_categories'))
+			{
+				$tmp = [
+					'image'   => 'fa fa-folder-open',
+					'link'    => Route::_('index.php?option=com_categories'),
+					'linkadd' => Route::_('index.php?option=com_categories&task=category.add'),
+					'name'    => 'MOD_QUICKICON_CATEGORY_MANAGER',
+					'access'  => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
+					'group'   => 'MOD_QUICKICON_SITE',
+				];
+
+				if ($params->get('show_categories') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_categories&amp;task=categories.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
+			}
+
+			if ($params->get('show_media'))
+			{
+				self::$buttons[$key][] = [
+					'image'  => 'fa fa-images',
+					'link'   => Route::_('index.php?option=com_media'),
+					'name'   => 'MOD_QUICKICON_MEDIA_MANAGER',
+					'access' => array('core.manage', 'com_media'),
+					'group'  => 'MOD_QUICKICON_SITE',
+				];
+			}
+
+			if ($params->get('show_modules'))
+			{
+				$tmp = [
+					'image'   => 'fa fa-cube',
+					'link'    => Route::_('index.php?option=com_modules&client_id=0'),
+					'linkadd' => Route::_('index.php?option=com_modules&view=select&client_id=0'),
+					'name'    => 'MOD_QUICKICON_MODULE_MANAGER',
+					'access'  => array('core.manage', 'com_modules'),
+					'group'   => 'MOD_QUICKICON_SITE'
+				];
+
+				if ($params->get('show_modules') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_modules&amp;task=modules.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
+			}
+
+			if ($params->get('show_plugins'))
+			{
+				$tmp = [
+					'image'  => 'fa fa-plug',
+					'link'   => Route::_('index.php?option=com_plugins'),
+					'name'   => 'MOD_QUICKICON_PLUGIN_MANAGER',
+					'access' => array('core.manage', 'com_plugins'),
+					'group'  => 'MOD_QUICKICON_SITE'
+				];
+
+				if ($params->get('show_plugins') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_plugins&amp;task=plugins.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
+			}
+
+			if ($params->get('show_templates'))
+			{
+				self::$buttons[$key][] = [
+					'image'  => 'fa fa-paint-brush',
+					'link'   => Route::_('index.php?option=com_templates&client_id=0'),
+					'name'   => 'MOD_QUICKICON_TEMPLATES',
+					'access' => array('core.admin', 'com_templates'),
+					'group'  => 'MOD_QUICKICON_SITE'
+				];
+			}
+
+			if ($params->get('show_checkin'))
+			{
+				$tmp = [
+					'image'   => 'fa fa-unlock-alt',
+					'link'    => Route::_('index.php?option=com_checkin'),
+					'name'    => 'MOD_QUICKICON_CHECKINS',
+					'access'  => array('core.admin', 'com_checkin'),
+					'group'   => 'MOD_QUICKICON_SYSTEM'
+				];
+
+				if ($params->get('show_checkin') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_checkin&amp;task=getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
+			}
+
+			if ($params->get('show_cache'))
+			{
+				$tmp = [
+					'image'   => 'fa fa-cloud',
+					'link'    => Route::_('index.php?option=com_cache'),
+					'name'    => 'MOD_QUICKICON_CACHE',
+					'access'  => array('core.admin', 'com_cache'),
+					'group'   => 'MOD_QUICKICON_SYTEM'
+				];
+
+				if ($params->get('show_cache') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_cache&amp;task=display.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
+			}
+
+			if ($params->get('show_global'))
+			{
+				self::$buttons[$key][] = [
+					'image'  => 'fa fa-cog',
+					'link'   => Route::_('index.php?option=com_config'),
+					'name'   => 'MOD_QUICKICON_GLOBAL_CONFIGURATION',
+					'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
+					'group'  => 'MOD_QUICKICON_SYSTEM',
+				];
+			}
+
 			PluginHelper::importPlugin('quickicon');
 
 			$arrays = (array) $application->triggerEvent(
@@ -111,15 +254,24 @@ abstract class QuickIconHelper
 
 			foreach ($arrays as $response)
 			{
+				if (!is_array($response))
+				{
+					continue;
+				}
+
 				foreach ($response as $icon)
 				{
 					$default = array(
-						'link'   => null,
-						'image'  => 'fa fa-cog',
-						'text'   => null,
-						'access' => true,
-						'group'  => 'MOD_QUICKICON_EXTENSIONS',
+						'link'    => null,
+						'image'   => null,
+						'text'    => null,
+						'name'    => null,
+						'linkadd' => null,
+						'access'  => true,
+						'class'   => true,
+						'group'   => 'MOD_QUICKICON',
 					);
+
 					$icon = array_merge($default, $icon);
 
 					if (!is_null($icon['link']) && !is_null($icon['text']))

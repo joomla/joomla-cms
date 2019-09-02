@@ -95,7 +95,7 @@ class File
 		// Prepend a base path if it exists
 		if ($path)
 		{
-			$src =  Path::clean($path . '/' . $src);
+			$src = Path::clean($path . '/' . $src);
 			$dest = Path::clean($path . '/' . $dest);
 		}
 

@@ -10,21 +10,18 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 
-FormHelper::loadFieldClass('list');
-
 /**
  * Supports an HTML select list of files
  *
  * @since  1.7.0
  */
-class FilelistField extends \JFormFieldList
+class FilelistField extends ListField
 {
 	/**
 	 * The form field type.
@@ -35,12 +32,12 @@ class FilelistField extends \JFormFieldList
 	protected $type = 'Filelist';
 
 	/**
-	 * The filter.
+	 * The filename filter.
 	 *
 	 * @var    string
-	 * @since  3.2
+	 * @since  4.0.0
 	 */
-	protected $filter;
+	protected $fileFilter;
 
 	/**
 	 * The exclude.
@@ -95,7 +92,7 @@ class FilelistField extends \JFormFieldList
 	{
 		switch ($name)
 		{
-			case 'filter':
+			case 'fileFilter':
 			case 'exclude':
 			case 'hideNone':
 			case 'hideDefault':
@@ -121,7 +118,7 @@ class FilelistField extends \JFormFieldList
 	{
 		switch ($name)
 		{
-			case 'filter':
+			case 'fileFilter':
 			case 'directory':
 			case 'exclude':
 				$this->$name = (string) $value;
@@ -159,8 +156,8 @@ class FilelistField extends \JFormFieldList
 
 		if ($return)
 		{
-			$this->filter  = (string) $this->element['filter'];
-			$this->exclude = (string) $this->element['exclude'];
+			$this->fileFilter = (string) $this->element['fileFilter'];
+			$this->exclude    = (string) $this->element['exclude'];
 
 			$hideNone       = (string) $this->element['hide_none'];
 			$this->hideNone = ($hideNone == 'true' || $hideNone == 'hideNone' || $hideNone == '1');
@@ -213,7 +210,7 @@ class FilelistField extends \JFormFieldList
 		}
 
 		// Get a list of files in the search path with the given filter.
-		$files = Folder::files($path, $this->filter);
+		$files = Folder::files($path, $this->fileFilter);
 
 		// Build the options list from the list of files.
 		if (is_array($files))

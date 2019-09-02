@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Mail
- * @since       11.1
+ * @since       1.7.0
  */
 class MailHelperTest extends UnitTestCase
 {
@@ -26,7 +26,7 @@ class MailHelperTest extends UnitTestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function dataCleanLine(): array
 	{
@@ -45,7 +45,7 @@ class MailHelperTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @dataProvider  dataCleanLine
 	 */
@@ -59,7 +59,7 @@ class MailHelperTest extends UnitTestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function dataCleanText(): array
 	{
@@ -107,7 +107,7 @@ class MailHelperTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @dataProvider  dataCleanText
 	 */
@@ -121,7 +121,7 @@ class MailHelperTest extends UnitTestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function dataCleanBody(): array
 	{
@@ -150,7 +150,7 @@ class MailHelperTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @dataProvider  dataCleanBody
 	 */
@@ -164,7 +164,7 @@ class MailHelperTest extends UnitTestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function dataCleanSubject(): array
 	{
@@ -191,7 +191,7 @@ class MailHelperTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @dataProvider  dataCleanSubject
 	 */
@@ -205,7 +205,7 @@ class MailHelperTest extends UnitTestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function dataCleanAddress(): array
 	{
@@ -226,7 +226,7 @@ class MailHelperTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @dataProvider  dataCleanAddress
 	 */
@@ -240,7 +240,7 @@ class MailHelperTest extends UnitTestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function dataIsEmailAddress(): array
 	{
@@ -277,7 +277,7 @@ class MailHelperTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @dataProvider  dataIsEmailAddress
 	 */

@@ -11,7 +11,10 @@ namespace Joomla\Component\Installer\Administrator\View\Manage;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
@@ -22,10 +25,25 @@ use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as Installe
  */
 class HtmlView extends InstallerViewDefault
 {
+	/**
+	 * List of updatesites
+	 *
+	 * @var    \stdClass[]
+	 */
 	protected $items;
 
+	/**
+	 * Pagination object
+	 *
+	 * @var    Pagination
+	 */
 	protected $pagination;
 
+	/**
+	 * Form object
+	 *
+	 * @var    Form
+	 */
 	protected $form;
 
 	/**
@@ -48,7 +66,7 @@ class HtmlView extends InstallerViewDefault
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Display the view.
@@ -81,8 +99,6 @@ class HtmlView extends InstallerViewDefault
 			ToolbarHelper::deleteList('COM_INSTALLER_CONFIRM_UNINSTALL', 'manage.remove', 'JTOOLBAR_UNINSTALL');
 			ToolbarHelper::divider();
 		}
-
-		\JHtmlSidebar::setAction('index.php?option=com_installer&view=manage');
 
 		parent::addToolbar();
 		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_MANAGE');

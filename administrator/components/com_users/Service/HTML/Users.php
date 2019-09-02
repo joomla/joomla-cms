@@ -63,7 +63,7 @@ class Users
 		$title = Text::_('COM_USERS_ADD_NOTE');
 
 		return '<a href="' . Route::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId)
-			. '" class="hasTooltip btn btn-secondary btn-sm" title="' . $title . '"><span class="fa fa-plus" aria-hidden="true">'
+			. '" class="btn btn-secondary btn-sm"><span class="fa fa-plus" aria-hidden="true">'
 			. '</span> ' . $title . '</a>';
 	}
 
@@ -109,8 +109,8 @@ class Users
 
 		$title = Text::plural('COM_USERS_N_USER_NOTES', $count);
 
-		return '<a href="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId
-			. '" data-toggle="modal" class="dropdown-item"><span class="fa fa-eye" aria-hidden="true"></span> ' . $title . '</a>';
+		return '<button  type="button" data-target="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId
+			. '" data-toggle="modal" class="dropdown-item"><span class="fa fa-eye" aria-hidden="true"></span> ' . $title . '</button>';
 	}
 
 	/**
@@ -131,7 +131,7 @@ class Users
 		}
 
 		$title = Text::plural('COM_USERS_N_USER_NOTES', $count);
-		$footer = '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+		$footer = '<button type="button" class="btn btn-secondary" data-dismiss="modal">'
 			. Text::_('JTOOLBAR_CLOSE') . '</button>';
 
 		return HTMLHelper::_(

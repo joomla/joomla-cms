@@ -168,6 +168,15 @@ class HtmlView extends BaseHtmlView
 				if (empty($support['catid']))
 				{
 					$this->filterForm->setFieldAttribute('category_id', 'extension', $extensionName, 'filter');
+
+					if ($this->getLayout() == 'modal')
+					{
+						// We need to change the category filter to only show categories tagged to All or to the forced language.
+						if ($forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
+						{
+							$this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
+						}
+					}
 				}
 
 				$this->items      = $this->get('Items');
@@ -191,7 +200,6 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		// Will add sidebar if needed $this->sidebar = \JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
@@ -221,12 +229,12 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::title(
 				Text::sprintf(
 					'COM_ASSOCIATIONS_TITLE_LIST', Text::_($this->extensionName), Text::_($languageKey)
-				), 'contract assoc'
+				), 'language assoc'
 			);
 		}
 		else
 		{
-			ToolbarHelper::title(Text::_('COM_ASSOCIATIONS_TITLE_LIST_SELECT'), 'contract assoc');
+			ToolbarHelper::title(Text::_('COM_ASSOCIATIONS_TITLE_LIST_SELECT'), 'language assoc');
 		}
 
 		if ($user->authorise('core.admin', 'com_associations') || $user->authorise('core.options', 'com_associations'))
