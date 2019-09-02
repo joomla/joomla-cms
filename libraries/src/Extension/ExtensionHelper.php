@@ -349,7 +349,8 @@ class ExtensionHelper
 			$query = $db->getQuery(true)
 				->select('*')
 				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('name') . ' = ' . $db->quote($name));
+				->where($db->quoteName('name') . ' = :name')
+				->bind(':name', $name);
 			$db->setQuery($query);
 
 			self::$loadedextensions[$name] = $db->loadObject();
