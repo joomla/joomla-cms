@@ -65,7 +65,7 @@
 			quicktask-title="MOD_MENU_COM_USERS_ADD_USER"
 			type="component"
 			element="com_users"
-			link="index.php?option=com_users&amp;view=users"
+			link="index.php?option=com_users"
 			quicktask="index.php?option=com_users&amp;task=user.add"
 		/>
 
@@ -182,7 +182,7 @@
 			title="MOD_MENU_MENU_MANAGER"
 			type="component"
 			element="com_menus"
-			link="index.php?option=com_menus&amp;view=menus"
+			link="index.php?option=com_menus&amp;view=menus&amp;client_id=0"
 		/>
 
 		<menuitem
