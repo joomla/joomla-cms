@@ -171,4 +171,16 @@ class WorkflowsController extends AdminController
 			)
 		);
 	}
+
+	/**
+	 * Gets the URL arguments to append to a list redirect.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getRedirectToListAppend()
+	{
+		return '&extension=' . $this->extension;
+	}
 }

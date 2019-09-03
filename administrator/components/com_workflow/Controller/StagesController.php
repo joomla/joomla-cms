@@ -166,62 +166,14 @@ class StagesController extends AdminController
 	}
 
 	/**
-	 * Check in of one or more records.
+	 * Gets the URL arguments to append to a list redirect.
 	 *
-	 * @return  boolean  True on success
+	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function checkin()
+	protected function getRedirectToListAppend()
 	{
-		$result = parent::checkin();
-
-		$this->setRedirect(
-			Route::_(
-				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extension=' . $this->extension
-				. '&workflow_id=' . $this->workflowId, false
-			)
-		);
-
-		return $result;
-	}
-
-	/**
-	 * Deletes and returns correctly.
-	 *
-	 * @return  void
-	 *
-	 * @since  4.0.0
-	 */
-	public function delete()
-	{
-		parent::delete();
-		$this->setRedirect(
-			Route::_(
-				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extension=' . $this->extension
-				. '&workflow_id=' . $this->workflowId, false
-			)
-		);
-	}
-
-	/**
-	 * Method to publish a list of items
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function publish()
-	{
-		parent::publish();
-
-		$this->setRedirect(
-			Route::_(
-				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extension=' . $this->extension . '&workflow_id=' . $this->workflowId, false
-			)
-		);
+		return '&extension=' . $this->extension . '&workflow_id=' . $this->workflowId;
 	}
 }
