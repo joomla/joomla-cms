@@ -39,6 +39,8 @@
 
           if (element.hasAttribute('name') && element.nodeName === 'INPUT') {
             segments.push(`${encodeURIComponent(element.name)}=${encodeURIComponent(element.value)}`);
+          } else if (element.hasAttribute('name') && (element.nodeName === 'SELECT') && element.value.length > 0) {
+            segments.push(`${encodeURIComponent(element.name)}=${encodeURIComponent(element.value)}`);
           }
         }
 
