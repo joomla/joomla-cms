@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Test
+ * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Page
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ namespace Page\Acceptance\Administrator;
  *
  * @package  Page\Acceptance\Administrator
  *
- * @since    __DEPLOY_VERSION__
+ * @since    4.0.0
  */
 class MediaListPage extends AdminListPage
 {
@@ -22,7 +22,7 @@ class MediaListPage extends AdminListPage
 	 * Url to media manager listing page.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $url = "administrator/index.php?option=com_media&path=local-0:/";
 
@@ -30,7 +30,7 @@ class MediaListPage extends AdminListPage
 	 * Page title of the media manager listing page.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $pageTitleText = 'Media';
 
@@ -38,7 +38,7 @@ class MediaListPage extends AdminListPage
 	 * Page title of the media manager listing page.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $container = ['class' => 'media-container'];
 
@@ -46,306 +46,306 @@ class MediaListPage extends AdminListPage
 	 * Page title of the media manager listing page.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $infoBar = ['class' => 'media-infobar'];
 
 	/**
-	 * The media browser items
+	 * The media browser items.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $itemsContainer = ['class' => 'media-browser-items'];
 
 	/**
-	 * The media browser items extra small
+	 * The media browser items extra small.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $itemsContainerExtraSmall = ['class' => 'media-browser-items-xs'];
 
 	/**
-	 * The media browser items small
+	 * The media browser items small.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $itemsContainerSmall = ['class' => 'media-browser-items-sm'];
 
 	/**
-	 * The media browser items medium
+	 * The media browser items medium.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $itemsContainerMedium = ['class' => 'media-browser-items-md'];
 
 	/**
-	 * The media browser items large
+	 * The media browser items large.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $itemsContainerLarge = ['class' => 'media-browser-items-lg'];
 
 	/**
-	 * The media browser items extra large
+	 * The media browser items extra large.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $itemsContainerExtraLarge = ['class' => 'media-browser-items-xl'];
 
 	/**
-	 * The media browser items
+	 * The media browser items.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $items = ['class' => 'media-browser-item'];
 
 	/**
-	 * The media browser items selected locator
+	 * The media browser items selected locator.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $itemSelected = ['css' => '.media-browser-item.selected'];
 
 	/**
-	 * The media tree
+	 * The media tree.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $mediaTree = ['class' => 'media-tree'];
 
 	/**
-	 * The media tree
+	 * The media tree.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $mediaBreadcrumb = ['class' => 'media-breadcrumb'];
 
 	/**
-	 * Button that toggles the info bar
+	 * Button that toggles the info bar.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $toggleInfoBarButton = ['class' => 'media-toolbar-info'];
 
 	/**
-	 * The hidden file upload field
+	 * The hidden file upload field.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $fileInputField = 'input[name=\'file\']';
 
 	/**
-	 * The create folder button in the toolbar
+	 * The create folder button in the toolbar.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
-	public static $toolbarCreateFolderButton = '//button[contains(@onclick, \'onClickCreateFolder\')]';
+	public static $toolbarCreateFolderButton = '//joomla-toolbar-button[contains(@onclick, \'onClickCreateFolder\')]';
 
 	/**
-	 * The delete button in the toolbar
+	 * The delete button in the toolbar.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
-	public static $toolbarDeleteButton = '//button[contains(@onclick, \'onClickDelete\')]';
+	public static $toolbarDeleteButton = '//joomla-toolbar-button[contains(@onclick, \'onClickDelete\')]';
 
 	/**
-	 * The delete button in the toolbar
+	 * The delete button in the toolbar.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $toolbarModalDeleteButton = ['id' => 'media-delete-item'];
 
 	/**
-	 * The select all button
+	 * The select all button.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $selectAllButton = ['class' => 'media-toolbar-select-all'];
 
 	/**
-	 * The increase thumbnail size button
+	 * The increase thumbnail size button.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $increaseThumbnailSizeButton = ['class' => 'media-toolbar-increase-grid-size'];
 
 	/**
-	 * The disabled increase thumbnail size button disabled
+	 * The disabled increase thumbnail size button disabled.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $increaseThumbnailSizeButtonDisabled = ['css' => '.media-toolbar-increase-grid-size.disabled'];
 
 	/**
-	 * The decrease thumbnail size button
+	 * The decrease thumbnail size button.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $decreaseThumbnailSizeButton = ['class' => 'media-toolbar-decrease-grid-size'];
 
 	/**
-	 * The decrease thumbnail size button disabled
+	 * The decrease thumbnail size button disabled.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $decreaseThumbnailSizeButtonDisabled = ['css' => '.media-toolbar-decrease-grid-size.disabled'];
 
 	/**
-	 * The disabled increase thumbnail size button disabled
+	 * The disabled increase thumbnail size button disabled.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $toggleListViewButton = ['class' => 'media-toolbar-list-view'];
 
 	/**
-	 * The item actions
+	 * The item actions.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $itemActions = ['class' => 'media-browser-actions'];
 
 	/**
-	 * The rename action
+	 * The rename action.
 	 *
 	 * @var string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $renameAction = 'action-rename';
 
 	/**
-	 * The rename action
+	 * The rename action.
 	 *
 	 * @var string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $previewAction = 'action-preview';
 
 	/**
-	 * The rename action
+	 * The rename action.
 	 *
 	 * @var string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $editAction = 'action-edit';
 
 	/**
-	 * The name field of modal forms
+	 * The name field of modal forms.
 	 *
 	 * @var array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $renameInputField = ['id' => 'name'];
 
 	/**
-	 * The name field of modal forms
+	 * The name field of modal forms.
 	 *
 	 * @var array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $newFolderInputField = ['id' => 'folder'];
 
 	/**
-	 * The confirm button of modals
+	 * The confirm button of modals.
 	 *
 	 * @var array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $modalConfirmButton = ['css' => '.modal button.btn-success'];
 
 	/**
-	 * The confirm button of modals
+	 * The confirm button of modals.
 	 *
 	 * @var array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $modalConfirmButtonDisabled = ['css' => '.modal button:disabled.btn-success'];
 
 	/**
-	 * The preview modal
+	 * The preview modal.
 	 *
 	 * @var array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $previewModal = ['class' => 'media-preview-modal'];
 
 	/**
-	 * The preview modal image locator
+	 * The preview modal image locator.
 	 *
 	 * @var array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $previewModalImg = ['css' => '.media-preview-modal img'];
 
 	/**
-	 * The preview modal image locator
+	 * The preview modal image locator.
 	 *
 	 * @var array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $previewModalCloseButton = ['class' => 'media-preview-close'];
 
 	/**
-	 * The media browser grid
+	 * The media browser grid.
 	 *
 	 * @var array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $mediaBrowserGrid = ['class' => 'media-browser-grid'];
 
 	/**
-	 * The media browser table
+	 * The media browser table.
 	 *
 	 * @var array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $mediaBrowserTable = ['class' => 'media-browser-table'];
 
 	/**
-	 * The key for the app storage
+	 * The key for the app storage.
 	 *
 	 * @var string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $loader = ['class' => 'media-loader'];
 
 	/**
-	 * The key for the app storage
+	 * The key for the app storage.
 	 *
 	 * @var string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static $storageKey = 'joomla.mediamanager';
 
 	/**
-	 * Dynamic locator for media item files
+	 * Dynamic locator for media item files.
 	 *
-	 * @var    string $name
-	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @param   string  $name  Name
 	 *
 	 * @return string
+	 *
+	 * @since  4.0.0
 	 */
 	public static function item($name)
 	{
@@ -353,14 +353,13 @@ class MediaListPage extends AdminListPage
 	}
 
 	/**
-	 * Dynamic locator for media item action
+	 * Dynamic locator for media item action.
 	 *
-	 * @var    string $itemName
-	 * @var    string $actionName
-	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @param   string  $itemName  Item name
 	 *
 	 * @return string
+	 *
+	 * @since  4.0.0
 	 */
 	public static function itemActionMenuToggler($itemName)
 	{
@@ -368,14 +367,14 @@ class MediaListPage extends AdminListPage
 	}
 
 	/**
-	 * Dynamic locator for media item action
+	 * Dynamic locator for media item action.
 	 *
-	 * @var    string $itemName
-	 * @var    string $actionName
-	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @param   string  $itemName    Item name
+	 * @param   string  $actionName  Action name
 	 *
 	 * @return string
+	 *
+	 * @since  4.0.0
 	 */
 	public static function itemAction($itemName, $actionName)
 	{
@@ -383,12 +382,13 @@ class MediaListPage extends AdminListPage
 	}
 
 	/**
-	 * Get the xpath of a media item
+	 * Get the xpath of a media item.
 	 *
-	 * @var    string $name
-	 * @since  __DEPLOY_VERSION__
+	 * @param   string  $name  name
 	 *
 	 * @return string
+	 *
+	 * @since  4.0.0
 	 */
 	protected static function itemXpath($name)
 	{

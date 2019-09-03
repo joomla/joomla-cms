@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  Acceptance.tests
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@
 class InstallCest
 {
 	/**
-	 * Install Joomla, disable statistics and enable Error Reporting
+	 * Install Joomla, disable statistics and enable Error Reporting.
 	 *
 	 * @param   AcceptanceTester  $I  The AcceptanceTester Object
 	 *
@@ -23,22 +23,22 @@ class InstallCest
 	 *
 	 * @return  void
 	 */
-	public function installJoomla(\AcceptanceTester $I)
+	public function installJoomla(AcceptanceTester $I)
 	{
 		$I->am('Administrator');
 		$I->installJoomlaRemovingInstallationFolder();
 	}
 
 	/**
-	 * Disables the statistics and sets error reporting to development
+	 * Disables the statistics and sets error reporting to development.
 	 *
 	 * @param   AcceptanceTester  $I  The AcceptanceTester Object
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function configureJoomla(\AcceptanceTester $I)
+	public function configureJoomla(AcceptanceTester $I)
 	{
 		$I->am('Administrator');
 		$I->doAdministratorLogin();

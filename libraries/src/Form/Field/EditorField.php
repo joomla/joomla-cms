@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Editor\Editor;
 use Joomla\CMS\Factory;
@@ -256,7 +256,7 @@ class EditorField extends TextareaField
 			$this->height,
 			$this->columns,
 			$this->rows,
-			$this->buttons ? (is_array($this->buttons) ? array_merge($this->buttons, $this->hide) : $this->hide) : false,
+			$this->buttons ? (\is_array($this->buttons) ? array_merge($this->buttons, $this->hide) : $this->hide) : false,
 			$this->id,
 			$this->asset,
 			$this->form->getValue($this->authorField),
@@ -265,7 +265,7 @@ class EditorField extends TextareaField
 	}
 
 	/**
-	 * Method to get a Editor object based on the form field.
+	 * Method to get an Editor object based on the form field.
 	 *
 	 * @return  Editor  The Editor object.
 	 *
@@ -298,7 +298,8 @@ class EditorField extends TextareaField
 						->where('enabled = 1');
 
 					// Check of the editor exists.
-					$db->setQuery($query, 0, 1);
+					$query->setLimit(1);
+					$db->setQuery($query);
 					$editor = $db->loadResult();
 
 					// If an editor was found stop looking.

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Captcha\Google;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\Http\Exception\InvalidResponseCodeException;
@@ -26,7 +26,7 @@ final class HttpBridgePostRequestMethod implements RequestMethod
 	/**
 	 * URL to which requests are sent.
 	 *
-	 * @const  string
+	 * @var    string
 	 * @since  3.9.0
 	 */
 	const SITE_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';

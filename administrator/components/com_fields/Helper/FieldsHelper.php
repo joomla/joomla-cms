@@ -11,6 +11,7 @@ namespace Joomla\Component\Fields\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Filesystem\Path;
@@ -20,6 +21,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Fields\Administrator\Model\FieldsModel;
 
 /**
  * FieldsHelper
@@ -28,8 +30,14 @@ use Joomla\CMS\Plugin\PluginHelper;
  */
 class FieldsHelper
 {
+	/**
+	 * @var    FieldsModel
+	 */
 	private static $fieldsCache = null;
 
+	/**
+	 * @var    FieldsModel
+	 */
 	private static $fieldCache = null;
 
 	/**
@@ -408,7 +416,7 @@ class FieldsHelper
 			}
 
 			// Defining the field set
-			/** @var DOMElement $fieldset */
+			/** @var \DOMElement $fieldset */
 			$fieldset = $fieldsNode->appendChild(new \DOMElement('fieldset'));
 			$fieldset->setAttribute('name', 'fields-' . $group->id);
 			$fieldset->setAttribute('addfieldpath', '/administrator/components/' . $component . '/models/fields');

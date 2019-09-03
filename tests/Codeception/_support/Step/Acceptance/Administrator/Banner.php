@@ -1,14 +1,14 @@
 <?php
 /**
- * @package     Joomla.Test
+ * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Step
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Step\Acceptance\Administrator;
 
+use Exception;
 use Page\Acceptance\Administrator\BannerListPage;
 
 /**
@@ -16,11 +16,22 @@ use Page\Acceptance\Administrator\BannerListPage;
  *
  * @package  Step\Acceptance\Administrator
  *
- * @since    __DEPLOY_VERSION__
+ * @since    4.0.0
  */
 class Banner extends Admin
 {
-
+	/**
+	 * Method to create a banner.
+	 *
+	 * @param   string  $title    Title
+	 * @param   string  $message  Message
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
+	 */
 	public function createBanner($title, $message)
 	{
 		$I = $this;
@@ -31,6 +42,17 @@ class Banner extends Admin
 		$I->assertSuccessMessage($message);
 	}
 
+	/**
+	 * Method to see success message.
+	 *
+	 * @param   string   $message  Message
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
+	 */
 	public function assertSuccessMessage($message)
 	{
 		$I = $this;
@@ -38,6 +60,19 @@ class Banner extends Admin
 		$I->see($message, BannerListPage::$systemMessageContainer);
 	}
 
+	/**
+	 * Method to modify a banner.
+	 *
+	 * @param   string   $bannerTitle   Banner Title
+	 * @param   string   $updatedTitle  Update Title
+	 * @param   string   $message       Message
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
+	 */
 	public function modifyBanner($bannerTitle, $updatedTitle, $message)
 	{
 		$I = $this;
@@ -53,6 +88,18 @@ class Banner extends Admin
 		$I->assertSuccessMessage($message);
 	}
 
+	/**
+	 * Method to publish a banner.
+	 *
+	 * @param   string   $bannerTitle   Banner Title
+	 * @param   string   $message       Message
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
+	 */
 	public function publishBanner($bannerTitle, $message)
 	{
 		$I = $this;
@@ -65,6 +112,18 @@ class Banner extends Admin
 		$I->assertSuccessMessage($message);
 	}
 
+	/**
+	 * Method to unpublish a banner.
+	 *
+	 * @param   string   $bannerTitle   Banner Title
+	 * @param   string   $message       Message
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
+	 */
 	public function unpublishBanner($bannerTitle, $message)
 	{
 		$I = $this;
@@ -77,6 +136,18 @@ class Banner extends Admin
 		$I->assertSuccessMessage($message);
 	}
 
+	/**
+	 * Method to checkin a banner.
+	 *
+	 * @param   string   $bannerTitle   Banner Title
+	 * @param   string   $message       Message
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
+	 */
 	public function checkInBanner($bannerTitle, $message)
 	{
 		$I = $this;
@@ -89,6 +160,18 @@ class Banner extends Admin
 		$I->assertSuccessMessage($message);
 	}
 
+	/**
+	 * Method to trash a banner.
+	 *
+	 * @param   string   $bannerTitle   Banner Title
+	 * @param   string   $message       Message
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
+	 */
 	public function trashBanner($bannerTitle, $message)
 	{
 		$I = $this;
@@ -101,6 +184,18 @@ class Banner extends Admin
 		$I->assertSuccessMessage($message);
 	}
 
+	/**
+	 * Method to delete a banner.
+	 *
+	 * @param   string   $bannerTitle   Banner Title
+	 * @param   string   $message       Message
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
+	 */
 	public function deleteBanner($bannerTitle, $message)
 	{
 		$I = $this;

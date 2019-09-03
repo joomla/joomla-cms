@@ -1,20 +1,22 @@
 <?php
 /**
- * @package     Joomla.Test
+ * @package     Joomla.Tests
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Helper;
 
 use Codeception\Configuration;
+use Codeception\Exception\ConfigurationException;
 use Codeception\Module;
+use Exception;
 
 /**
  * Helper class for Acceptance.
- * Here you can define custom actions
- * All public methods declared in helper class will be available in $I
+ * Here you can define custom actions.
+ * All public methods declared in helper class will be available in $I.
  *
  * @package  Codeception\Module
  *
@@ -23,7 +25,7 @@ use Codeception\Module;
 class Acceptance extends Module
 {
 	/**
-	 * Array of the configuration settings
+	 * Array of the configuration settings.
 	 *
 	 * @var      array
 	 * @since    3.7.3
@@ -36,6 +38,9 @@ class Acceptance extends Module
 	 * @return  array
 	 *
 	 * @since   3.7.3
+	 *
+	 * @throws ConfigurationException
+	 * @throws Exception
 	 */
 	public function getSuiteConfiguration()
 	{

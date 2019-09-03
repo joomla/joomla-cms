@@ -1,13 +1,21 @@
-<?php namespace Page\Acceptance\Administrator;
+<?php
+/**
+ * @package     Joomla.Tests
+ * @subpackage  Page
+ *
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+namespace Page\Acceptance\Administrator;
 
 /**
  * Acceptance Page object class to define administrator form page objects.
  *
  * @package  Page\Acceptance\Administrator
  *
- * @since    __DEPLOY_VERSION__
+ * @since    4.0.0
  */
 class AdminFormPage extends AdminPage
 {
-	//
+	// Todo.
 }

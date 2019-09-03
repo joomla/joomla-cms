@@ -174,7 +174,7 @@ class LanguagesModel extends ListModel
 		// Sort the array by value of subarray
 		usort(
 			$languages,
-			function($a, $b) use ($that)
+			function ($a, $b) use ($that)
 			{
 				$ordering = $that->getState('list.ordering');
 

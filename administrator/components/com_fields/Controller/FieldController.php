@@ -12,7 +12,6 @@ namespace Joomla\Component\Fields\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -26,8 +25,14 @@ use Joomla\Registry\Registry;
  */
 class FieldController extends FormController
 {
+	/**
+	 * @var    string
+	 */
 	private $internalContext;
 
+	/**
+	 * @var    string
+	 */
 	private $component;
 
 	/**
@@ -55,7 +60,7 @@ class FieldController extends FormController
 	{
 		parent::__construct($config, $factory, $app, $input);
 
-		$this->internalContext = Factory::getApplication()->getUserStateFromRequest('com_fields.fields.context', 'context', 'com_content.article', 'CMD');
+		$this->internalContext = $this->app->getUserStateFromRequest('com_fields.fields.context', 'context', 'com_content.article', 'CMD');
 		$parts = FieldsHelper::extract($this->internalContext);
 		$this->component = $parts ? $parts[0] : null;
 	}
@@ -71,7 +76,7 @@ class FieldController extends FormController
 	 */
 	protected function allowAdd($data = array())
 	{
-		return Factory::getUser()->authorise('core.create', $this->component);
+		return $this->app->getIdentity()->authorise('core.create', $this->component);
 	}
 
 	/**
@@ -87,7 +92,7 @@ class FieldController extends FormController
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-		$user     = Factory::getUser();
+		$user     = $this->app->getIdentity();
 
 		// Zero record (id:0), return component edit permission by calling parent controller method
 		if (!$recordId)

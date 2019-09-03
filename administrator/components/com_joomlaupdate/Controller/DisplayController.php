@@ -12,7 +12,9 @@ namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Response\JsonResponse;
 
 /**
  * Joomla! Update Controller
@@ -48,7 +50,7 @@ class DisplayController extends BaseController
 			$view->ftp = &$ftp;
 
 			// Get the model for the view.
-			/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+			/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 			$model = $this->getModel('Update');
 
 			$warningsModel = $this->app->bootComponent('com_installer')
@@ -73,5 +75,30 @@ class DisplayController extends BaseController
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Provide the data for a badge in a menu item via JSON
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function getMenuBadgeData()
+	{
+		if (!Factory::getUser()->authorise('core.manage', 'com_joomlaupdate'))
+		{
+			throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
+		}
+
+		$model = $this->getModel('Update');
+
+		$model->refreshUpdates();
+
+		$joomlaUpdate = $model->getUpdateInformation();
+
+		$hasUpdate = $joomlaUpdate['hasUpdate'] ? $joomlaUpdate['latest'] : '';
+
+		echo new JsonResponse($hasUpdate);
 	}
 }

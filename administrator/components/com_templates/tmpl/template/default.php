@@ -62,23 +62,23 @@ if ($this->type == 'font')
 ?>
 <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'editor')); ?>
 <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'editor', Text::_('COM_TEMPLATES_TAB_EDITOR')); ?>
-<div class="row">
-	<div class="col-md-6" id="conditional-section">
-		<?php if($this->type == 'file') : ?>
-			<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
-			<p class="lead path hidden"><?php echo $this->source->filename; ?></p>
-		<?php endif; ?>
-		<?php if($this->type == 'image') : ?>
-			<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['path'], $this->template->element); ?></p>
-			<p class="lead path hidden"><?php echo $this->image['path']; ?></p>
-		<?php endif; ?>
-		<?php if($this->type == 'font') : ?>
-			<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['rel_path'], $this->template->element); ?></p>
-			<p class="lead path hidden"><?php echo $this->font['rel_path']; ?></p>
-		<?php endif; ?>
+<div class="row mt-2">
+	<div class="col-md-8" id="conditional-section">
+	<?php if($this->type == 'file') : ?>
+		<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
+		<p class="lead path hidden"><?php echo $this->source->filename; ?></p>
+	<?php endif; ?>
+	<?php if($this->type == 'image') : ?>
+		<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['path'], $this->template->element); ?></p>
+		<p class="lead path hidden"><?php echo $this->image['path']; ?></p>
+	<?php endif; ?>
+	<?php if($this->type == 'font') : ?>
+		<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['rel_path'], $this->template->element); ?></p>
+		<p class="lead path hidden"><?php echo $this->font['rel_path']; ?></p>
+	<?php endif; ?>
 	</div>
 	<?php if ($this->type == 'file' && !empty($this->source->coreFile)) : ?>
-		<div class="col-md-6 text-right">
+		<div class="col-md-4 text-right">
 			<div id="toggle-buttons">
 				<?php echo $this->form->getInput('show_core'); ?>
 				<?php echo $this->form->getInput('show_diff'); ?>
@@ -86,16 +86,21 @@ if ($this->type == 'font')
 		</div>
 	<?php endif; ?>
 </div>
-<div class="row">
+<div class="row mt-2">
 	<div id="treeholder" class="col-md-3 tree-holder">
-		<?php echo $this->loadTemplate('tree'); ?>
+		<div class="card">
+			<div class="card-body">
+				<?php echo $this->loadTemplate('tree'); ?>
+			</div>
+		</div>
 	</div>
 	<div class="col-md-9">
+		<fieldset class="options-grid-form options-grid-form-full">
 		<?php if ($this->type == 'home') : ?>
+			<legend><?php echo Text::_('COM_TEMPLATES_HOME_HEADING'); ?></legend>
 			<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 				<input type="hidden" name="task" value="">
 				<?php echo HTMLHelper::_('form.token'); ?>
-				<h2><?php echo Text::_('COM_TEMPLATES_HOME_HEADING'); ?></h2>
 				<p><?php echo Text::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
 				<p>
 					<a href="https://docs.joomla.org/Special:MyLanguage/J3.x:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-lg">
@@ -103,8 +108,7 @@ if ($this->type == 'font')
 					</a>
 				</p>
 			</form>
-		<?php endif; ?>
-		<?php if ($this->type == 'file') : ?>
+		<?php elseif ($this->type == 'file') : ?>
 			<div class="row">
 				<div class="col-md-12" id="override-pane">
 					<?php $overrideCheck = explode(DIRECTORY_SEPARATOR, $this->source->filename); ?>
@@ -140,8 +144,7 @@ if ($this->type == 'font')
 					</div>
 				<?php endif; ?>
 			</div>
-		<?php endif; ?>
-		<?php if ($this->type == 'archive') : ?>
+		<?php elseif ($this->type == 'archive') : ?>
 			<legend><?php echo Text::_('COM_TEMPLATES_FILE_CONTENT_PREVIEW'); ?></legend>
 			<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 				<ul class="nav flex-column well">
@@ -159,8 +162,8 @@ if ($this->type == 'font')
 				<input type="hidden" name="task" value="">
 				<?php echo HTMLHelper::_('form.token'); ?>
 			</form>
-		<?php endif; ?>
-		<?php if ($this->type == 'image') : ?>
+		<?php elseif ($this->type == 'image') : ?>
+			<legend><?php echo $this->escape(basename($this->image['address'])); ?></legend>
 			<img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>">
 			<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 				<fieldset class="adminform">
@@ -174,8 +177,7 @@ if ($this->type == 'font')
 					<?php echo HTMLHelper::_('form.token'); ?>
 				</fieldset>
 			</form>
-		<?php endif; ?>
-		<?php if ($this->type == 'font') : ?>
+		<?php elseif ($this->type == 'font') : ?>
 			<div class="font-preview">
 				<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 					<fieldset class="adminform">
@@ -185,8 +187,8 @@ if ($this->type == 'font')
 						<h4>H4. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h4>
 						<h5>H5. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h5>
 						<h6>H6. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h6>
-						<p><b>Bold. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</b></p>
-						<p><i>Italics. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</i></p>
+						<p><strong>Bold. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</strong></p>
+						<p><em>Italics. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</em></p>
 						<p>Unordered List</p>
 						<ul>
 							<li>Item</li>
@@ -229,113 +231,134 @@ if ($this->type == 'font')
 				</form>
 			</div>
 		<?php endif; ?>
+		</fieldset>
 	</div>
 </div>
 <?php echo HTMLHelper::_('uitab.endTab'); ?>
-
 <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'overrides', Text::_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
-<div class="row">
-	<div class="col-md-3">
-		<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_MODULES'); ?></legend>
-		<ul class="list-unstyled">
-			<?php $token = Session::getFormToken() . '=' . 1; ?>
-			<?php foreach ($this->overridesList['modules'] as $module) : ?>
-				<li>
-					<?php
-					$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $module->path
-							. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
-					?>
-					<a href="<?php echo Route::_($overrideLinkUrl); ?>">
-						<span class="fa fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $module->name; ?>
-					</a>
-				</li>
-			<?php endforeach; ?>
-		</ul>
-	</div>
-	<div class="col-md-3">
-		<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_COMPONENTS'); ?></legend>
-		<ul class="list-unstyled">
-			<?php $token = Session::getFormToken() . '=' . 1; ?>
-			<?php foreach ($this->overridesList['components'] as $key => $value) : ?>
-				<li class="component-folder">
-					<a href="#" class="component-folder-url">
-						<span class="fa fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
-					</a>
+<div class="row mt-2">
+	<div class="col-md-12">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-md-3">
+					<fieldset class="options-grid-form options-grid-form-full">
+					<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_MODULES'); ?></legend>
 					<ul class="list-unstyled">
-						<?php foreach ($value as $view) : ?>
+						<?php $token = Session::getFormToken() . '=' . 1; ?>
+						<?php foreach ($this->overridesList['modules'] as $module) : ?>
 							<li>
 								<?php
-								$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $view->path
+								$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $module->path
 										. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 								?>
-								<a class="component-file-url" href="<?php echo Route::_($overrideLinkUrl); ?>">
-									<span class="fa fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $view->name; ?>
+								<a href="<?php echo Route::_($overrideLinkUrl); ?>">
+									<span class="fa fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $module->name; ?>
 								</a>
 							</li>
 						<?php endforeach; ?>
 					</ul>
-				</li>
-			<?php endforeach; ?>
-		</ul>
-	</div>
-	<div class="col-md-3">
-		<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_PLUGINS'); ?></legend>
-		<ul class="list-unstyled">
-			<?php $token = Session::getFormToken() . '=' . 1; ?>
-			<?php foreach ($this->overridesList['plugins'] as $key => $group) : ?>
-				<li class="plugin-folder">
-					<a href="#" class="plugin-folder-url">
-						<span class="fa fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
-					</a>
+					</fieldset>
+				</div>
+				<div class="col-md-3">
+					<fieldset class="options-grid-form options-grid-form-full">
+					<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_COMPONENTS'); ?></legend>
 					<ul class="list-unstyled">
-						<?php foreach ($group as $plugin) : ?>
-							<li>
-								<?php
-								$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $plugin->path
-									. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
-								?>
-								<a class="plugin-file-url" href="<?php echo Route::_($overrideLinkUrl); ?>">
-									<span class="fa fa-copy" aria-hidden="true"></span> <?php echo $plugin->name; ?>
+						<?php $token = Session::getFormToken() . '=' . 1; ?>
+						<?php foreach ($this->overridesList['components'] as $key => $value) : ?>
+							<li class="component-folder">
+								<a href="#" class="component-folder-url">
+									<span class="fa fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
 								</a>
+								<ul class="list-unstyled">
+									<?php foreach ($value as $view) : ?>
+										<li>
+											<?php
+											$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $view->path
+													. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
+											?>
+											<a class="component-file-url" href="<?php echo Route::_($overrideLinkUrl); ?>">
+												<span class="fa fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $view->name; ?>
+											</a>
+										</li>
+									<?php endforeach; ?>
+								</ul>
 							</li>
 						<?php endforeach; ?>
 					</ul>
-				</li>
-			<?php endforeach; ?>
-		</ul>
-	</div>
-	<div class="col-md-3">
-		<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_LAYOUTS'); ?></legend>
-		<ul class="list-unstyled">
-			<?php $token = Session::getFormToken() . '=' . 1; ?>
-			<?php foreach ($this->overridesList['layouts'] as $key => $value) : ?>
-			<li class="layout-folder">
-				<a href="#" class="layout-folder-url">
-					<span class="fa fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
-				</a>
-				<ul class="list-unstyled">
-					<?php foreach ($value as $layout) : ?>
-						<li>
-							<?php
-							$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $layout->path
-									. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
-							?>
-							<a href="<?php echo Route::_($overrideLinkUrl); ?>">
-								<span class="fa fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $layout->name; ?>
+					</fieldset>
+				</div>
+				<div class="col-md-3">
+					<fieldset class="options-grid-form options-grid-form-full">
+					<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_PLUGINS'); ?></legend>
+					<ul class="list-unstyled">
+						<?php $token = Session::getFormToken() . '=' . 1; ?>
+						<?php foreach ($this->overridesList['plugins'] as $key => $group) : ?>
+							<li class="plugin-folder">
+								<a href="#" class="plugin-folder-url">
+									<span class="fa fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
+								</a>
+								<ul class="list-unstyled">
+									<?php foreach ($group as $plugin) : ?>
+										<li>
+											<?php
+											$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $plugin->path
+												. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
+											?>
+											<a class="plugin-file-url" href="<?php echo Route::_($overrideLinkUrl); ?>">
+												<span class="fa fa-copy" aria-hidden="true"></span> <?php echo $plugin->name; ?>
+											</a>
+										</li>
+									<?php endforeach; ?>
+								</ul>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+					</fieldset>
+				</div>
+				<div class="col-md-3">
+					<fieldset class="options-grid-form options-grid-form-full">
+					<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_LAYOUTS'); ?></legend>
+					<ul class="list-unstyled">
+						<?php $token = Session::getFormToken() . '=' . 1; ?>
+						<?php foreach ($this->overridesList['layouts'] as $key => $value) : ?>
+						<li class="layout-folder">
+							<a href="#" class="layout-folder-url">
+								<span class="fa fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
 							</a>
+							<ul class="list-unstyled">
+								<?php foreach ($value as $layout) : ?>
+									<li>
+										<?php
+										$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $layout->path
+												. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
+										?>
+										<a href="<?php echo Route::_($overrideLinkUrl); ?>">
+											<span class="fa fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $layout->name; ?>
+										</a>
+									</li>
+								<?php endforeach; ?>
+							</ul>
 						</li>
-					<?php endforeach; ?>
-				</ul>
-			</li>
-			<?php endforeach; ?>
-		</ul>
+						<?php endforeach; ?>
+					</ul>
+					</fieldset>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
-<?php echo $this->loadTemplate('description'); ?>
-
+<div class="row mt-3">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body">
+				<?php echo $this->loadTemplate('description'); ?>
+			</div>
+		</div>
+	</div>
+</div>
 <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 <?php if ($this->pluginState) : ?>

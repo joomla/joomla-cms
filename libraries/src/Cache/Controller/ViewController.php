@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Cache\Controller;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheController;
@@ -168,6 +168,6 @@ class ViewController extends CacheController
 	 */
 	protected function _makeId($view, $method)
 	{
-		return md5(serialize(array(Cache::makeId(), get_class($view), $method)));
+		return md5(serialize(array(Cache::makeId(), \get_class($view), $method)));
 	}
 }

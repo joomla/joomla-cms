@@ -44,7 +44,7 @@ class HtmlView extends CategoryView
 	/**
 	 * Run the standard Joomla plugins
 	 *
-	 * @var    bool
+	 * @var    boolean
 	 * @since  3.5
 	 */
 	protected $runPlugins = true;

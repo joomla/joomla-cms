@@ -65,21 +65,6 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
-	 * The sidebar markup
-	 *
-	 * @var  string
-	 */
-	protected $sidebar;
-
-	/**
-	 * Array used for displaying the levels filter
-	 *
-	 * @return  stdClass[]
-	 * @since  4.0.0
-	 */
-	protected $f_levels;
-
-	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -88,8 +73,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		\Joomla\Component\Content\Administrator\Helper\ContentHelper::addSubmenu('featured');
-
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->state         = $this->get('State');
@@ -105,7 +88,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$this->addToolbar();
-		$this->sidebar = \JHtmlSidebar::render();
 
 		// We do not need to filter by language when multilingual is disabled
 		if (!Multilanguage::isEnabled())
@@ -189,12 +171,11 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-globe')
-				->buttonClass('btn btn-info')
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
 				->listCheck(true);
 
 			$childBar = $dropdown->getChildToolbar();
-
 
 			if ($canDo->get('core.execute.transition'))
 			{

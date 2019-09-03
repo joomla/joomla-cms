@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -218,7 +218,7 @@ class MenuitemField extends GroupedlistField
 					$link->value, $levelPrefix . $link->text . $lang,
 					'value',
 					'text',
-					in_array($link->type, $this->disable)
+					\in_array($link->type, $this->disable)
 				);
 			}
 		}
@@ -250,7 +250,7 @@ class MenuitemField extends GroupedlistField
 						$link->value, $levelPrefix . $link->text . $lang,
 						'value',
 						'text',
-						in_array($link->type, $this->disable)
+						\in_array($link->type, $this->disable)
 					);
 				}
 			}
