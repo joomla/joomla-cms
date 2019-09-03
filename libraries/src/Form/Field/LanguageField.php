@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -49,9 +49,9 @@ class LanguageField extends ListField
 		}
 
 		// Make sure the languages are sorted base on locale instead of random sorting
-		$languages = LanguageHelper::createLanguageList($this->value, constant('JPATH_' . strtoupper($client)), true, true);
+		$languages = LanguageHelper::createLanguageList($this->value, \constant('JPATH_' . strtoupper($client)), true, true);
 
-		if (count($languages) > 1)
+		if (\count($languages) > 1)
 		{
 			usort(
 				$languages,
