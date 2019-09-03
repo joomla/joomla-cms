@@ -10,7 +10,7 @@ namespace Joomla\CMS\Encrypt\AES;
 
 use Joomla\CMS\Encrypt\Randval;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Mcrypt implementation
@@ -126,66 +126,66 @@ class Mcrypt extends AbstractAES implements AesInterface
 	 */
 	public function isSupported()
 	{
-		if (!function_exists('mcrypt_get_key_size'))
+		if (!\function_exists('mcrypt_get_key_size'))
 		{
 			return false;
 		}
 
-		if (!function_exists('mcrypt_get_iv_size'))
+		if (!\function_exists('mcrypt_get_iv_size'))
 		{
 			return false;
 		}
 
-		if (!function_exists('mcrypt_create_iv'))
+		if (!\function_exists('mcrypt_create_iv'))
 		{
 			return false;
 		}
 
-		if (!function_exists('mcrypt_encrypt'))
+		if (!\function_exists('mcrypt_encrypt'))
 		{
 			return false;
 		}
 
-		if (!function_exists('mcrypt_decrypt'))
+		if (!\function_exists('mcrypt_decrypt'))
 		{
 			return false;
 		}
 
-		if (!function_exists('mcrypt_list_algorithms'))
+		if (!\function_exists('mcrypt_list_algorithms'))
 		{
 			return false;
 		}
 
-		if (!function_exists('hash'))
+		if (!\function_exists('hash'))
 		{
 			return false;
 		}
 
-		if (!function_exists('hash_algos'))
+		if (!\function_exists('hash_algos'))
 		{
 			return false;
 		}
 
 		$algorigthms = mcrypt_list_algorithms();
 
-		if (!in_array('rijndael-128', $algorigthms))
+		if (!\in_array('rijndael-128', $algorigthms))
 		{
 			return false;
 		}
 
-		if (!in_array('rijndael-192', $algorigthms))
+		if (!\in_array('rijndael-192', $algorigthms))
 		{
 			return false;
 		}
 
-		if (!in_array('rijndael-256', $algorigthms))
+		if (!\in_array('rijndael-256', $algorigthms))
 		{
 			return false;
 		}
 
 		$algorigthms = hash_algos();
 
-		if (!in_array('sha256', $algorigthms))
+		if (!\in_array('sha256', $algorigthms))
 		{
 			return false;
 		}
