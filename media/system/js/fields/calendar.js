@@ -861,7 +861,7 @@
 			date.setOtherFullYear(this.params.dateType, year);
 		} else if (year > this.params.maxYear) {
 			year = this.params.maxYear;
-			date.setOtherFullYear(this.params.dateType, year);;
+			date.setOtherFullYear(this.params.dateType, year);
 		}
 
 		this.params.firstDayOfWeek = firstDayOfWeek;
