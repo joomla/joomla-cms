@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Extension;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 
@@ -329,7 +329,7 @@ class ExtensionHelper
 	 */
 	public static function checkIfCoreExtension($type, $element, $client_id = 0, $folder = '')
 	{
-		return in_array(array($type, $element, $folder, $client_id), self::$coreExtensions);
+		return \in_array(array($type, $element, $folder, $client_id), self::$coreExtensions);
 	}
 
 	/**
@@ -343,13 +343,14 @@ class ExtensionHelper
 	 */
 	public static function getExtensionRecord($name)
 	{
-		if (!array_key_exists($name, self::$loadedextensions))
+		if (!\array_key_exists($name, self::$loadedextensions))
 		{
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('*')
 				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('name') . ' = ' . $db->quote($name));
+				->where($db->quoteName('name') . ' = :name')
+				->bind(':name', $name);
 			$db->setQuery($query);
 
 			self::$loadedextensions[$name] = $db->loadObject();

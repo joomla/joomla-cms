@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Feed;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Date\Date;
 
@@ -83,8 +83,8 @@ class FeedEntry
 			throw new \InvalidArgumentException(
 				sprintf(
 					'%1$s "author" must be an instance of Joomla\\CMS\\Feed\\FeedPerson. %2$s given.',
-					get_class($this),
-					gettype($value) === 'object' ? get_class($value) : gettype($value)
+					\get_class($this),
+					\gettype($value) === 'object' ? \get_class($value) : \gettype($value)
 				)
 			);
 		}
@@ -95,19 +95,19 @@ class FeedEntry
 			throw new \InvalidArgumentException(
 				sprintf(
 					'%1$s "source" must be an instance of Joomla\\CMS\\Feed\\Feed. %2$s given.',
-					get_class($this),
-					gettype($value) === 'object' ? get_class($value) : gettype($value)
+					\get_class($this),
+					\gettype($value) === 'object' ? \get_class($value) : \gettype($value)
 				)
 			);
 		}
 
 		// Disallow setting categories, contributors, or links directly.
-		if (in_array($name, array('categories', 'contributors', 'links')))
+		if (\in_array($name, array('categories', 'contributors', 'links')))
 		{
 			throw new \InvalidArgumentException(
 				sprintf(
 					'Cannot directly set %1$s property "%2$s".',
-					get_class($this),
+					\get_class($this),
 					$name
 				)
 			);
