@@ -46,7 +46,10 @@ function admin_postinstall_joomla40checks_condition()
 		$dbVersion = $versionParts['major'] . '.' . $versionParts['minor'] . '.' . $versionParts['patch'];
 
 		// MariaDB minimum version is 10.1
-		return version_compare($dbVersion, '10.1', 'lt');
+		if (version_compare($dbVersion, '10.1', 'lt')
+		{
+			return true;
+		}
 	}
 
 	if ($serverType == 'mysql' && version_compare($serverVersion, '5.6', 'lt'))
