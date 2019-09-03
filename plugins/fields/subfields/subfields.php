@@ -8,6 +8,7 @@
  */
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 defined('_JEXEC') or die;
@@ -50,7 +51,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function onContentPrepareForm(JForm $form, $data)
+	public function onContentPrepareForm(Form $form, $data)
 	{
 		// Get the path to our own form definition (basically ./params/subfields.xml)
 		$path = $this->getFormPath($form, $data);
@@ -260,7 +261,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function onCustomFieldsPrepareDom($field, DOMElement $orig_parent, JForm $form)
+	public function onCustomFieldsPrepareDom($field, DOMElement $orig_parent, Form $form)
 	{
 		// Call the onCustomFieldsPrepareDom method on FieldsPlugin
 		$parent_field = parent::onCustomFieldsPrepareDom($field, $orig_parent, $form);
