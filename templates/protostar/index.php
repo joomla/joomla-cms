@@ -52,10 +52,15 @@ JHtml::_('stylesheet', 'template.css', array('version' => 'auto', 'relative' => 
 // Use of Google Font
 if ($this->params->get('googleFont'))
 {
-	JHtml::_('stylesheet', 'https://fonts.googleapis.com/css?family=' . $this->params->get('googleFontName'));
+	$font = $this->params->get('googleFontName');
+
+	// Handle fonts with selected weights and styles, e.g. Source+Sans+Condensed:400,400i
+	$fontStyle = str_replace('+', ' ', strstr($font, ':', true) ?: $font);
+
+	JHtml::_('stylesheet', 'https://fonts.googleapis.com/css?family=' . $font);
 	$this->addStyleDeclaration("
 	h1, h2, h3, h4, h5, h6, .site-title {
-		font-family: '" . str_replace('+', ' ', $this->params->get('googleFontName')) . "', sans-serif;
+		font-family: '" . $fontStyle . "', sans-serif;
 	}");
 }
 
