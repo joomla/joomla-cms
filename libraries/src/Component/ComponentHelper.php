@@ -407,14 +407,18 @@ class ComponentHelper
 		{
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
+				->select($db->quoteName(['extension_id', 'element', 'params', 'enabled'], ['id', 'option', null, null]))
 				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('type') . ' = ' . $db->quote('component'))
-				->where($db->quoteName('state') . ' = 0')
-				->where($db->quoteName('enabled') . ' = 1');
+				->where(
+					[
+						$db->quoteName('type') . ' = ' . $db->quote('component'),
+						$db->quoteName('state') . ' = 0',
+						$db->quoteName('enabled') . ' = 1',
+					]
+				);
 			$db->setQuery($query);
 
-			return $db->loadObjectList('option', '\JComponentRecord');
+			return $db->loadObjectList('option', ComponentRecord::class);
 		};
 
 		/** @var CallbackController $cache */

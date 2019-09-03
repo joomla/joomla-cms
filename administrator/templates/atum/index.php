@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /** @var JDocumentHtml $this */
 
@@ -35,10 +36,10 @@ require_once __DIR__ . '/Service/HTML/Atum.php';
 
 // Template params
 $siteLogo  = $this->params->get('siteLogo')
-	? JUri::root() . $this->params->get('siteLogo')
+	? Uri::root() . $this->params->get('siteLogo')
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
 $smallLogo = $this->params->get('smallLogo')
-	? JUri::root() . $this->params->get('smallLogo')
+	? Uri::root() . $this->params->get('smallLogo')
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
 $logoAlt = htmlspecialchars($this->params->get('altSiteLogo', ''), ENT_COMPAT, 'UTF-8');

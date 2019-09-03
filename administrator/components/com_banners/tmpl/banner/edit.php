@@ -63,7 +63,7 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-versions.js', ['versio
 			<fieldset id="fieldset-otherparams" class="form-no-margin options-grid-form">
 				<legend><?php echo Text::_('COM_BANNERS_GROUP_LABEL_BANNER_DETAILS'); ?></legend>
 				<div>
-				<?php echo $this->form->renderFieldset('otherparams'); ?>
+					<?php echo $this->form->renderFieldset('otherparams'); ?>
 				</div>
 			</fieldset>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
@@ -73,7 +73,9 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-versions.js', ['versio
 			<div class="col-md-6">
 				<fieldset id="fieldset-publishingdata" class="options-grid-form options-grid-form-full">
 					<legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
-					<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+					<div>
+						<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+					</div>
 				</fieldset>
 			</div>
 			<div class="col-md-6">

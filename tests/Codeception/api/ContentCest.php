@@ -63,7 +63,7 @@ class ContentCest
 
 		$testarticle = [
 			'title' => 'Just for you',
-			'catid' => 1,
+			'catid' => 2,
 			'articletext' => 'A dummy article to save to the database',
 			'metakey' => '',
 			'metadesc' => '',

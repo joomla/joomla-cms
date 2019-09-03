@@ -349,7 +349,6 @@
   .menuitem-group {
     margin-top: 0.65rem;
     font-size: .75rem;
-    letter-spacing: 2px;
     padding-left: 2.4rem;
     [dir=rtl] & {
       padding-left: 0;
@@ -485,7 +484,7 @@
     position: fixed;
     bottom: 20px;
     right: 10px;
-    z-index: $zindex-mobil-toggle;
+    z-index: $zindex-mobile-toggle;
 
     .navbar-toggler-icon {
       color: var(--toggle-color);
@@ -516,7 +515,7 @@
       bottom: 55px;
       position: fixed;
       width: 100%;
-      z-index: $zindex-mobil-menu;
+      z-index: $zindex-mobile-menu;
       display: flex;
       flex-direction: column;
 

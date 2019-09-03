@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Filesystem;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 
@@ -456,7 +456,7 @@ class Patcher
 					if ($src_size > 0)
 					{
 						$dst_lines = & $this->getDestination($dst, $src);
-						$src_bottom = $src_line + count($source);
+						$src_bottom = $src_line + \count($source);
 
 						for ($l = $src_line;$l < $src_bottom;$l++)
 						{
@@ -466,7 +466,7 @@ class Patcher
 							}
 						}
 
-						array_splice($dst_lines, $dst_line, count($source), $destin);
+						array_splice($dst_lines, $dst_line, \count($source), $destin);
 					}
 					else
 					{
