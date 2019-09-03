@@ -11,7 +11,7 @@ namespace Joomla\Component\Mails\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\BaseController as BaseController;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Mail templates Controller
