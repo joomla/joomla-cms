@@ -150,9 +150,9 @@ class LanguageHelper
 					$db = Factory::getDbo();
 					$query = $db->getQuery(true)
 						->select('*')
-						->from('#__languages')
-						->where('published=1')
-						->order('ordering ASC');
+						->from($db->quoteName('#__languages'))
+						->where($db->quoteName('published') . ' = 1')
+						->order($db->quoteName('ordering') . ' ASC');
 					$db->setQuery($query);
 
 					$languages['default'] = $db->loadObjectList();
@@ -211,11 +211,22 @@ class LanguageHelper
 				$db = Factory::getDbo();
 
 				$query = $db->getQuery(true)
-					->select($db->quoteName(array('element', 'name', 'client_id', 'extension_id')))
+					->select(
+						[
+							$db->quoteName('element'),
+							$db->quoteName('name'),
+							$db->quoteName('client_id'),
+							$db->quoteName('extension_id'),
+						]
+					)
 					->from($db->quoteName('#__extensions'))
-					->where($db->quoteName('type') . ' = ' . $db->quote('language'))
-					->where($db->quoteName('state') . ' = 0')
-					->where($db->quoteName('enabled') . ' = 1');
+					->where(
+						[
+							$db->quoteName('type') . ' = ' . $db->quote('language'),
+							$db->quoteName('state') . ' = 0',
+							$db->quoteName('enabled') . ' = 1',
+						]
+					);
 
 				$installedLanguages = $db->setQuery($query)->loadObjectList();
 

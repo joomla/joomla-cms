@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Console;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
@@ -25,7 +25,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command for deleting a user
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class DeleteUserCommand extends AbstractCommand
 {
@@ -33,21 +33,21 @@ class DeleteUserCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected static $defaultName = 'user:delete';
 
 	/**
 	 * SymfonyStyle Object
 	 * @var   object
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $ioStyle;
 
 	/**
 	 * Stores the Input Object
 	 * @var   object
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $cliInput;
 
@@ -56,7 +56,7 @@ class DeleteUserCommand extends AbstractCommand
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $username;
 
@@ -68,7 +68,7 @@ class DeleteUserCommand extends AbstractCommand
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
@@ -143,7 +143,7 @@ class DeleteUserCommand extends AbstractCommand
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getStringFromOption($option, $question): string
 	{
@@ -165,7 +165,7 @@ class DeleteUserCommand extends AbstractCommand
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output)
 	{
@@ -178,7 +178,7 @@ class DeleteUserCommand extends AbstractCommand
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function configure(): void
 	{

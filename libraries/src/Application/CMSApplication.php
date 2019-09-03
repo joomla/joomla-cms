@@ -823,9 +823,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 				// The user is successfully logged in. Run the after login events
 				$this->triggerEvent('onUserAfterLogin', array($options));
-			}
 
-			return true;
+				return true;
+			}
 		}
 
 		// Trigger onUserLoginFailure Event.
@@ -893,7 +893,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			return true;
 		}
 
-		// Trigger onUserLoginFailure Event.
+		// Trigger onUserLogoutFailure Event.
 		$this->triggerEvent('onUserLogoutFailure', array($parameters));
 
 		return false;
