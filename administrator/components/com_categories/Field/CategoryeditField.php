@@ -364,6 +364,7 @@ class CategoryeditField extends ListField
 
 		$data['options']        = $this->getOptions();
 		$data['allowCustom']    = $this->allowAdd;
+		$data['customPrefix']   = $this->customPrefix;
 		$data['refreshPage']    = (boolean) $this->element['refresh-enabled'];
 		$data['refreshCatId']   = (string) $this->element['refresh-cat-id'];
 		$data['refreshSection'] = (string) $this->element['refresh-section'];
