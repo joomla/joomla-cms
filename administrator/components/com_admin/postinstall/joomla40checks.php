@@ -41,7 +41,8 @@ function admin_postinstall_joomla40checks_condition()
 	}
 
 	// Check whether we have a MariaDB version string and extract the proper version from it
-	if ($serverType == 'mysql' && preg_match('/^(?:5\.5\.5-)?(mariadb-)?(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)/i', $serverVersion, $versionParts))
+	if ($serverType == 'mysql'
+	    && preg_match('/^(?:5\.5\.5-)?(mariadb-)?(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)/i', $serverVersion, $versionParts))
 	{
 		$dbVersion = $versionParts['major'] . '.' . $versionParts['minor'] . '.' . $versionParts['patch'];
 
