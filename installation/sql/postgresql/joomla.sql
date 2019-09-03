@@ -2348,6 +2348,7 @@ INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "
 (3, 0, 3, 1, 1, 'JTRASHED', '', -2, 0, '1970-01-01 00:00:00', 0),
 (4, 0, 4, 1, 1, 'JARCHIVED', '', 2, 0, '1970-01-01 00:00:00', 0);
 
+SELECT setval('#__workflow_stages_id_seq', 5, false);
 --
 -- Table structure for table "#__workflow_transitions"
 --
