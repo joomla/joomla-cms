@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
@@ -112,7 +112,7 @@ class SubformField extends FormField
 				$this->formsource = (string) $value;
 
 				// Add root path if we have a path to XML file
-				if (strrpos($this->formsource, '.xml') === strlen($this->formsource) - 4)
+				if (strrpos($this->formsource, '.xml') === \strlen($this->formsource) - 4)
 				{
 					$this->formsource = Path::clean(JPATH_ROOT . '/' . $this->formsource);
 				}
@@ -158,7 +158,7 @@ class SubformField extends FormField
 					break;
 				}
 
-				if ($value && !is_array($value))
+				if ($value && !\is_array($value))
 				{
 					$value = explode(',', (string) $value);
 					$value = array_fill_keys(array_filter($value), true);
@@ -200,7 +200,7 @@ class SubformField extends FormField
 			$this->__set($attributeName, $element[$attributeName]);
 		}
 
-		if ($this->value && is_string($this->value))
+		if ($this->value && \is_string($this->value))
 		{
 			// Guess here is the JSON string from 'default' attribute
 			$this->value = json_decode($this->value, true);
@@ -391,7 +391,7 @@ class SubformField extends FormField
 		$value = array_values($value);
 
 		// Show as many rows as we have values, but at least min and at most max.
-		$c = max($this->min, min(count($value), $this->max));
+		$c = max($this->min, min(\count($value), $this->max));
 
 		for ($i = 0; $i < $c; $i++)
 		{
