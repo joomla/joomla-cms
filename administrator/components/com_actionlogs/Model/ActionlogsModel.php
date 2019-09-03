@@ -213,7 +213,7 @@ class ActionlogsModel extends ListModel
 	 *
 	 * @throws  Exception
 	 */
-	private function buildDateRange($range): array
+	private function buildDateRange(string $range): array
 	{
 		// Get UTC for now.
 		$dNow   = new Date;
@@ -304,7 +304,7 @@ class ActionlogsModel extends ListModel
 	 *
 	 * @since   3.9.0
 	 */
-	public function getLogsData($pks = null): array
+	public function getLogsData(array $pks = null): array
 	{
 		$db    = $this->getDbo();
 		$query = $this->getLogDataQuery($pks);
@@ -323,7 +323,7 @@ class ActionlogsModel extends ListModel
 	 *
 	 * @since   3.9.0
 	 */
-	public function getLogDataAsIterator($pks = null): DatabaseIterator
+	public function getLogDataAsIterator(array $pks = null): DatabaseIterator
 	{
 		$db    = $this->getDbo();
 		$query = $this->getLogDataQuery($pks);
@@ -342,7 +342,7 @@ class ActionlogsModel extends ListModel
 	 *
 	 * @since   3.9.0
 	 */
-	private function getLogDataQuery($pks = null): QueryInterface
+	private function getLogDataQuery(array $pks = null): QueryInterface
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)

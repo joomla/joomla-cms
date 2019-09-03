@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 
 Factory::getLanguage()->load("com_actionlogs", JPATH_ADMINISTRATOR, null, false, true);
 
-$messages = $displayData['messages'];
+$messages     = $displayData['messages'];
 $showIpColumn = $displayData['showIpColumn'];
 ?>
 <h1>

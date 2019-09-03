@@ -44,7 +44,7 @@ class LogcreatorField extends ListField
 	 *
 	 * @since   3.9.0
 	 */
-	protected function getOptions()
+	protected function getOptions(): array
 	{
 		// Accepted modifiers
 		$hash = md5($this->element);

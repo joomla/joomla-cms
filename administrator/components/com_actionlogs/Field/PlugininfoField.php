@@ -39,7 +39,7 @@ class PlugininfoField extends FormField
 	 *
 	 * @since   3.9.2
 	 */
-	protected function getInput()
+	protected function getInput(): string
 	{
 		$db     = Factory::getDbo();
 		$query  = $db->getQuery(true)

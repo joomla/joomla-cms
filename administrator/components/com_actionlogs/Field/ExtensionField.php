@@ -39,7 +39,7 @@ class ExtensionField extends ListField
 	 *
 	 * @since   3.9.0
 	 */
-	public function getOptions()
+	public function getOptions(): array
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)

@@ -40,7 +40,7 @@ class LogtypeField extends CheckboxesField
 	 *
 	 * @since   3.9.0
 	 */
-	public function getOptions()
+	public function getOptions(): array
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
@@ -49,14 +49,15 @@ class LogtypeField extends CheckboxesField
 
 		$extensions = $db->setQuery($query)->loadColumn();
 
-		$options = array();
-		$tmp     = array('checked' => true);
+		$options = [];
+		$tmp     = ['checked' => true];
 
 		foreach ($extensions as $extension)
 		{
 			ActionlogsHelper::loadTranslationFiles($extension);
-			$option                                                                            = HTMLHelper::_('select.option', $extension, Text::_($extension));
-			$options[ApplicationHelper::stringURLSafe(Text::_($extension)) . '_' . $extension] = (object) array_merge($tmp, (array) $option);
+			$extensionName           = ApplicationHelper::stringURLSafe(Text::_($extension)) . '_' . $extension;
+			$option                  = HTMLHelper::_('select.option', $extension, Text::_($extension));
+			$options[$extensionName] = (object) array_merge($tmp, (array) $option);
 		}
 
 		ksort($options);

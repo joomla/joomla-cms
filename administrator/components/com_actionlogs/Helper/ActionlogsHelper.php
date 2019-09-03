@@ -156,7 +156,7 @@ class ActionlogsHelper
 	 *
 	 * @throws  Exception
 	 */
-	public static function getHumanReadableLogMessage($log, $generateLinks = true): string
+	public static function getHumanReadableLogMessage(stdClass $log, bool $generateLinks = true): string
 	{
 		static $links = [];
 
@@ -212,7 +212,7 @@ class ActionlogsHelper
 	 *
 	 * @since   3.9.0
 	 */
-	public static function getLogContentTypeParams($context)
+	public static function getLogContentTypeParams(string $context): ?stdClass
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
@@ -238,7 +238,7 @@ class ActionlogsHelper
 	 *
 	 * @since   3.9.0
 	 */
-	public static function getContentTypeLink($component, $contentType, $id, $urlVar = 'id'): string
+	public static function getContentTypeLink(string $component, string $contentType, int $id, string $urlVar = 'id'): string
 	{
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);

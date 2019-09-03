@@ -64,7 +64,7 @@ abstract class ActionLogPlugin extends CMSPlugin
 	 *
 	 * @throws  \Exception
 	 */
-	protected function addLog($messages, $messageLanguageKey, $context, $userId = null): void
+	protected function addLog(array $messages, string $messageLanguageKey, string $context, int $userId = null): void
 	{
 		$user = Factory::getUser();
 

@@ -19,8 +19,8 @@ use Joomla\Component\Actionlogs\Administrator\View\Actionlogs\HtmlView;
 
 /** @var HtmlView $this */
 
-$listOrder  = $this->escape($this->state->get('list.ordering'));
-$listDirn   = $this->escape($this->state->get('list.direction'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 
 Factory::getDocument()->addScriptDeclaration('
 	Joomla.submitbutton = function(task)

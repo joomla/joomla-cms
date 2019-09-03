@@ -43,7 +43,7 @@ class ActionlogModel extends BaseDatabaseModel
 	 *
 	 * @throws  Exception
 	 */
-	public function addLog($messages, $messageLanguageKey, $context, $userId = null): void
+	public function addLog(array $messages, string $messageLanguageKey, string $context, int $userId = null): void
 	{
 		$user   = Factory::getUser($userId);
 		$db     = $this->getDbo();
@@ -102,7 +102,7 @@ class ActionlogModel extends BaseDatabaseModel
 	 *
 	 * @throws  Exception
 	 */
-	protected function sendNotificationEmails($messages, $username, $context): void
+	protected function sendNotificationEmails(array $messages, string $username, string $context): void
 	{
 		$db           = $this->getDbo();
 		$query        = $db->getQuery(true);

@@ -63,7 +63,7 @@ class ActionlogsController extends AdminController
 	 *
 	 * @throws  Exception
 	 */
-	public function exportLogs()
+	public function exportLogs(): void
 	{
 		// Check for request forgeries.
 		$this->checkToken();
@@ -72,7 +72,7 @@ class ActionlogsController extends AdminController
 
 		$pks = array();
 
-		if ($task == 'exportSelectedLogs')
+		if ($task === 'exportSelectedLogs')
 		{
 			// Get selected logs
 			$pks = ArrayHelper::toInteger(explode(',', $this->input->post->getString('cids')));
@@ -84,49 +84,49 @@ class ActionlogsController extends AdminController
 		// Get the logs data
 		$data = $model->getLogDataAsIterator($pks);
 
-		if (count($data))
-		{
-			try
-			{
-				$rows = ActionlogsHelper::getCsvData($data);
-			}
-			catch (InvalidArgumentException $exception)
-			{
-				$this->setMessage(Text::_('COM_ACTIONLOGS_ERROR_COULD_NOT_EXPORT_DATA'), 'error');
-				$this->setRedirect(Route::_('index.php?option=com_actionlogs&view=actionlogs', false));
-
-				return;
-			}
-
-			// Destroy the iterator now
-			unset($data);
-
-			$date     = new Date('now', new DateTimeZone('UTC'));
-			$filename = 'logs_' . $date->format('Y-m-d_His_T');
-
-			$csvDelimiter = ComponentHelper::getComponent('com_actionlogs')->getParams()->get('csv_delimiter', ',');
-
-			$this->app->setHeader('Content-Type', 'application/csv', true)
-				->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '.csv"', true)
-				->setHeader('Cache-Control', 'must-revalidate', true)
-				->sendHeaders();
-
-			$output = fopen("php://output", "w");
-
-			foreach ($rows as $row)
-			{
-				fputcsv($output, $row, $csvDelimiter);
-			}
-
-			fclose($output);
-			$this->app->triggerEvent('onAfterLogExport', array());
-			$this->app->close();
-		}
-		else
+		if (!count($data))
 		{
 			$this->setMessage(Text::_('COM_ACTIONLOGS_NO_LOGS_TO_EXPORT'));
 			$this->setRedirect(Route::_('index.php?option=com_actionlogs&view=actionlogs', false));
+
+			return;
 		}
+
+		try
+		{
+			$rows = ActionlogsHelper::getCsvData($data);
+		}
+		catch (InvalidArgumentException $exception)
+		{
+			$this->setMessage(Text::_('COM_ACTIONLOGS_ERROR_COULD_NOT_EXPORT_DATA'), 'error');
+			$this->setRedirect(Route::_('index.php?option=com_actionlogs&view=actionlogs', false));
+
+			return;
+		}
+
+		// Destroy the iterator now
+		unset($data);
+
+		$date     = new Date('now', new DateTimeZone('UTC'));
+		$filename = 'logs_' . $date->format('Y-m-d_His_T');
+
+		$csvDelimiter = ComponentHelper::getComponent('com_actionlogs')->getParams()->get('csv_delimiter', ',');
+
+		$this->app->setHeader('Content-Type', 'application/csv', true)
+			->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '.csv"', true)
+			->setHeader('Cache-Control', 'must-revalidate', true)
+			->sendHeaders();
+
+		$output = fopen('php://output', 'wb');
+
+		foreach ($rows as $row)
+		{
+			fputcsv($output, $row, $csvDelimiter);
+		}
+
+		fclose($output);
+		$this->app->triggerEvent('onAfterLogExport', array());
+		$this->app->close();
 	}
 
 	/**
@@ -153,7 +153,7 @@ class ActionlogsController extends AdminController
 	 *
 	 * @since   3.9.0
 	 */
-	public function purge()
+	public function purge(): void
 	{
 		// Check for request forgeries.
 		$this->checkToken();

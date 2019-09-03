@@ -34,15 +34,14 @@ return new class implements ServiceProviderInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function register(Container $container)
+	public function register(Container $container): void
 	{
 		$container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Actionlogs'));
 		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Actionlogs'));
 
 		$container->set(
 			ComponentInterface::class,
-			function (Container $container)
-			{
+			static function (Container $container) {
 				$component = new MVCComponent($container->get(ComponentDispatcherFactoryInterface::class));
 
 				$component->setMVCFactory($container->get(MVCFactoryInterface::class));
