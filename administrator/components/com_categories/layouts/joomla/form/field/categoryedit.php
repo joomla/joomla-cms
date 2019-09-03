@@ -46,6 +46,7 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   string   $customPrefix    Optional prefix for new categories.
  */
 
 $html    = array();
@@ -71,6 +72,11 @@ $attr2 .= ' search-placeholder="' . $this->escape(Text::_('JGLOBAL_TYPE_OR_SELEC
 if ($allowCustom)
 {
 	$attr2 .= ' allow-custom';
+
+	if ($customPrefix !== '')
+	{
+		$attr2 .= ' new-item-prefix="' . $customPrefix . '" ';
+	}
 }
 
 if ($required)
