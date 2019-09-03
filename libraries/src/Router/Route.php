@@ -82,7 +82,7 @@ class Route
 			}
 
 			// @todo  Deprecate in 4.0 Before 3.9.7 this method accepted -1.
-			if ($tls == -1)
+			if ($tls === -1)
 			{
 				$tls = self::TLS_DISABLE;
 			}
