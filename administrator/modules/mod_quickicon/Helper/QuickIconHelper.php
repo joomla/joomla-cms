@@ -86,7 +86,7 @@ abstract class QuickIconHelper
 			{
 				$tmp = [
 					'image'   => 'fa fa-list',
-					'link'    => Route::_('index.php?option=com_menus&client_id=0'),
+					'link'    => Route::_('index.php?option=com_menus&view=items&menutype='),
 					'linkadd' => Route::_('index.php?option=com_menus&task=item.add'),
 					'name'    => 'MOD_QUICKICON_MENUITEMS_MANAGER',
 					'access'  => array('core.manage', 'com_menus', 'core.create', 'com_menus'),
@@ -124,7 +124,7 @@ abstract class QuickIconHelper
 			{
 				$tmp = [
 					'image'   => 'fa fa-folder-open',
-					'link'    => Route::_('index.php?option=com_categories'),
+					'link'    => Route::_('index.php?option=com_categories&view=categories&extension=com_content'),
 					'linkadd' => Route::_('index.php?option=com_categories&task=category.add'),
 					'name'    => 'MOD_QUICKICON_CATEGORY_MANAGER',
 					'access'  => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
