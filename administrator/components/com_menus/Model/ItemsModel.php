@@ -259,33 +259,42 @@ class ItemsModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				$db->quoteName(
-					array(
-						'a.id', 'a.menutype', 'a.title', 'a.alias', 'a.note', 'a.path', 'a.link', 'a.type', 'a.parent_id',
-						'a.level', 'a.published', 'a.component_id', 'a.checked_out', 'a.checked_out_time', 'a.browserNav',
-						'a.access', 'a.img', 'a.template_style_id', 'a.params', 'a.lft', 'a.rgt', 'a.home', 'a.language',
-						'a.client_id', 'e.enabled', 'a.publish_up', 'a.publish_down'
-					),
-					array(
-						null, null, null, null, null, null, null, null, null,
-						null, 'a.published', null, null, null, null,
-						null, null, null, null, null, null, null, null,
-						null, 'enabled', 'publish_up', 'publish_down'
-					)
-				)
+				[
+					$db->quoteName('a.id'),
+					$db->quoteName('a.menutype'),
+					$db->quoteName('a.title'),
+					$db->quoteName('a.alias'),
+					$db->quoteName('a.note'),
+					$db->quoteName('a.path'),
+					$db->quoteName('a.link'),
+					$db->quoteName('a.type'),
+					$db->quoteName('a.parent_id'),
+					$db->quoteName('a.level'),
+					$db->quoteName('a.component_id'),
+					$db->quoteName('a.checked_out'),
+					$db->quoteName('a.checked_out_time'),
+					$db->quoteName('a.browserNav'),
+					$db->quoteName('a.access'),
+					$db->quoteName('a.img'),
+					$db->quoteName('a.template_style_id'),
+					$db->quoteName('a.params'),
+					$db->quoteName('a.lft'),
+					$db->quoteName('a.rgt'),
+					$db->quoteName('a.home'),
+					$db->quoteName('a.language'),
+					$db->quoteName('a.client_id'),
+					$db->quoteName('e.enabled'),
+					$db->quoteName('a.publish_up'),
+					$db->quoteName('a.publish_down'),
+				]
 			)
-		);
-		$query->select(
-			'CASE ' .
-				' WHEN a.type = ' . $db->quote('component') . ' THEN a.published+2*(e.enabled-1) ' .
-				' WHEN a.type = ' . $db->quote('url') . ' THEN a.published ' .
-				' WHEN a.type = ' . $db->quote('alias') . ' THEN a.published ' .
-				' WHEN a.type = ' . $db->quote('separator') . ' THEN a.published ' .
-				' WHEN a.type = ' . $db->quote('heading') . ' THEN a.published ' .
-				' WHEN a.type = ' . $db->quote('container') . ' THEN a.published ' .
-			' END AS published '
-		);
-		$query->from($db->quoteName('#__menu') . ' AS a');
+		)
+		->select(
+			'CASE WHEN ' . $db->quoteName('a.type') . ' = ' . $db->quote('component')
+			. ' THEN ' . $db->quoteName('a.published') . ' +2 * (' . $db->quoteName('e.enabled') . ' -1)'
+			. ' ELSE ' . $db->quoteName('a.published') . ' END AS ' . $db->quoteName('published')
+		)
+		->from($db->quoteName('#__menu', 'a'));
 
 		// Join over the language
 		$query->select('l.title AS language_title, l.image AS language_image, l.sef AS language_sef')

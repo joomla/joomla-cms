@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -80,19 +81,18 @@ class MenusModel extends ListModel
 		$db = $this->getDbo();
 		$menuTypes = ArrayHelper::getColumn((array) $items, 'menutype');
 
-		// Quote the strings.
-		$menuTypes = implode(
-			',',
-			array_map(array($db, 'quote'), $menuTypes)
-		);
-
 		// Get the published menu counts.
 		$query = $db->getQuery(true)
-			->select('m.menutype, COUNT(DISTINCT m.id) AS count_published')
-			->from('#__menu AS m')
-			->where('m.published = 1')
-			->where('m.menutype IN (' . $menuTypes . ')')
-			->group('m.menutype');
+			->select(
+				[
+					$db->quoteName('m.menutype'),
+					'COUNT(DISTINCT ' . $db->quoteName('m.id') . ') AS ' . $db->quoteName('count_published'),
+				]
+			)
+			->from($db->quoteName('#__menu', 'm'))
+			->where($db->quoteName('m.published') . ' = 1')
+			->whereIn($db->quoteName('m.menutype'), $menuTypes, ParameterType::STRING)
+			->group($db->quoteName('m.menutype'));
 
 		$db->setQuery($query);
 
@@ -109,8 +109,9 @@ class MenusModel extends ListModel
 
 		// Get the unpublished menu counts.
 		$query->clear('where')
-			->where('m.published = 0')
-			->where('m.menutype IN (' . $menuTypes . ')');
+			->bind()
+			->where($db->quoteName('m.published') . ' = 0')
+			->whereIn($db->quoteName('m.menutype'), $menuTypes, ParameterType::STRING);
 		$db->setQuery($query);
 
 		try
@@ -126,8 +127,9 @@ class MenusModel extends ListModel
 
 		// Get the trashed menu counts.
 		$query->clear('where')
-			->where('m.published = -2')
-			->where('m.menutype IN (' . $menuTypes . ')');
+			->bind()
+			->where($db->quoteName('m.published') . ' = -2')
+			->whereIn($db->quoteName('m.menutype'), $menuTypes, ParameterType::STRING);
 		$db->setQuery($query);
 
 		try
@@ -165,21 +167,45 @@ class MenusModel extends ListModel
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
+		$db       = $this->getDbo();
+		$query    = $db->getQuery(true);
+		$clientId = (int) $this->getState('client_id');
 
 		// Select all fields from the table.
-		$query->select($this->getState('list.select', 'a.id, a.menutype, a.title, a.description, a.client_id'))
-			->from($db->quoteName('#__menu_types') . ' AS a')
-			->where('a.id > 0');
-
-		$query->where('a.client_id = ' . (int) $this->getState('client_id'));
+		$query->select(
+			$this->getState(
+				'list.select',
+				[
+					$db->quoteName('a.id'),
+					$db->quoteName('a.menutype'),
+					$db->quoteName('a.title'),
+					$db->quoteName('a.description'),
+					$db->quoteName('a.client_id'),
+				]
+			)
+		)
+			->from($db->quoteName('#__menu_types', 'a'))
+			->where(
+				[
+					$db->quoteName('a.id') . ' > 0',
+					$db->quoteName('a.client_id')  . ' = :clientId',
+				]
+			)
+			->bind(':clientId', $clientId, ParameterType::INTEGER);
 
 		// Filter by search in title or menutype
 		if ($search = trim($this->getState('filter.search')))
 		{
-			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where('(a.title LIKE ' . $search . ' OR a.menutype LIKE ' . $search . ')');
+			$search = '%' . str_replace(' ', '%', $search . '%');
+			$query->extendWhere(
+				'AND',
+				[
+					$db->quoteName('a.title') . ' LIKE :search1' ,
+					$db->quoteName('a.menutype') . ' LIKE :search2',
+				],
+				'OR'
+			)
+			->bind([':search1', ':search2'], $search);
 		}
 
 		// Add the list ordering clause.
@@ -221,13 +247,19 @@ class MenusModel extends ListModel
 	 */
 	public function getModMenuId()
 	{
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select('e.extension_id')
-			->from('#__extensions AS e')
-			->where('e.type = ' . $db->quote('module'))
-			->where('e.element = ' . $db->quote('mod_menu'))
-			->where('e.client_id = ' . (int) $this->getState('client_id'));
+		$clientId = (int) $this->getState('client_id');
+		$db       = $this->getDbo();
+		$query    = $db->getQuery(true)
+			->select($db->quoteName('e.extension_id'))
+			->from($db->quoteName('#__extensions', 'e'))
+			->where(
+				[
+					$db->quoteName('e.type') . ' = ' . $db->quote('module'),
+					$db->quoteName('e.element') . ' = ' . $db->quote('mod_menu'),
+					$db->quoteName('e.client_id') . ' = :clientId', 
+				]
+			)
+			->bind(':clientId', $clientId, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		return $db->loadResult();
