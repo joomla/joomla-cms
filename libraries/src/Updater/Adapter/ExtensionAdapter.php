@@ -169,9 +169,10 @@ class ExtensionAdapter extends UpdateAdapter
 						if ($dbType === 'mysql')
 						{
 							// Check whether we have a MariaDB version string and extract the proper version from it
-							if (preg_match('/^(?:5\.5\.5-)?(mariadb-)?(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)/i', $dbVersion, $versionParts))
+							if (stripos($dbVersion, 'mariadb') !== false)
 							{
-								$dbVersion = $versionParts['major'] . '.' . $versionParts['minor'] . '.' . $versionParts['patch'];
+								// MariaDB: Strip off any leading '5.5.5-', if present
+								$dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
 								$dbType    = 'mariadb';
 							}
 						}
