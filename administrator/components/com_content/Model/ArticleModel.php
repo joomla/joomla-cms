@@ -780,8 +780,6 @@ class ArticleModel extends AdminModel
 			$data['images'] = (string) $registry;
 		}
 
-		\JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
-
 		// Create new category, if needed.
 		$createCategory = true;
 

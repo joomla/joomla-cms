@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
@@ -257,7 +257,7 @@ class ColorField extends FormField
 		// Position of the panel can be: right (default), left, top or bottom (default RTL is left)
 		$position = ' data-position="' . (($lang->isRTL() && $this->position == 'default') ? 'left' : $this->position) . '"';
 
-		if ($color === '' || in_array($color, array('none', 'transparent')))
+		if ($color === '' || \in_array($color, array('none', 'transparent')))
 		{
 			$color = 'none';
 		}
@@ -326,7 +326,7 @@ class ColorField extends FormField
 
 		if (!$this->split)
 		{
-			$count = count($colors);
+			$count = \count($colors);
 
 			if ($count % 5 == 0)
 			{
