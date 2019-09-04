@@ -36,6 +36,7 @@
         "joomla/utilities": "^1.6",
         "ircmaxell/password-compat": "1.*",
         "leafo/lessphp": "0.5.0",
+		"scssphp/scssphp": "1.0.3",
         "paragonie/random_compat": "~1.4",
         "paragonie/sodium_compat": "1.9.1",
         "phpmailer/phpmailer": "^5.2.20",
