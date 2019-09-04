@@ -12,8 +12,8 @@ namespace Joomla\Component\Fields\Administrator\Field;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Field\ListField;
-use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
  * Fields Subfieldstype. Represents a list field with the options being all possible
