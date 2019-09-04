@@ -1933,6 +1933,8 @@ CREATE TABLE IF NOT EXISTS `#__updates` (
   `infourl` text NOT NULL,
   `changelogurl` text,
   `extra_query` varchar(1000) DEFAULT '',
+  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`update_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Available Updates';
 
