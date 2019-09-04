@@ -76,7 +76,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 			<?php foreach ($this->lead_items as &$item) : ?>
 				<div class="com-content-category-blog__item blog-item"
 					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-												<?php
+						<?php
 						$this->item = & $item;
 						echo $this->loadTemplate('item');
 						?>
