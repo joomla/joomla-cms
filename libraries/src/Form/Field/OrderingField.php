@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
@@ -161,12 +161,12 @@ class OrderingField extends FormField
 		$ucmRow       = $ucmType->getType($ucmType->getTypeId($this->contentType));
 		$ucmMapCommon = json_decode($ucmRow->field_mappings)->common;
 
-		if (is_object($ucmMapCommon))
+		if (\is_object($ucmMapCommon))
 		{
 			$ordering = $ucmMapCommon->core_ordering;
 			$title    = $ucmMapCommon->core_title;
 		}
-		elseif (is_array($ucmMapCommon))
+		elseif (\is_array($ucmMapCommon))
 		{
 			$ordering = $ucmMapCommon[0]->core_ordering;
 			$title    = $ucmMapCommon[0]->core_title;
