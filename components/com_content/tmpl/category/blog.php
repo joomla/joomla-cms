@@ -80,7 +80,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 						$this->item = & $item;
 						echo $this->loadTemplate('item');
 						?>
-					</div>
+				</div>
 				<?php $leadingcount++; ?>
 			<?php endforeach; ?>
 		</div>
