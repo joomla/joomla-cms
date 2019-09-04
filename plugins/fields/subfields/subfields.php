@@ -71,9 +71,12 @@ class PlgFieldsSubfields extends FieldsPlugin
 		// Prepare a DOMXPath object
 		$xmlxpath = new DOMXPath($xml);
 
-		// Get all fields of type "subfieldstype" in our own XML
+		/**
+		 * Get all fields of type "subfieldstype" in our own XML
+		 *
+		 * @var $valuefields \DOMNodeList
+		 */
 		$valuefields = $xmlxpath->evaluate('//field[@type="subfieldstype"]');
-		/* @var $valuefields \DOMNodeList */
 
 		// If we haven't found it, something is wrong
 		if (!$valuefields || $valuefields->length != 1)
@@ -364,7 +367,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 	 */
 	protected function getParamsFromField(\stdClass $field)
 	{
-		$params = clone($this->params);
+		$params = (clone $this->params);
 
 		if (isset($field->fieldparams) && is_object($field->fieldparams))
 		{

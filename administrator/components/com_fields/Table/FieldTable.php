@@ -76,6 +76,7 @@ class FieldTable extends Table
 
 				// Iterate through the old options
 				$i = 0;
+
 				foreach ($src['fieldparams']['options'] as $option)
 				{
 					// Check whether we have not yet seen this custom field id

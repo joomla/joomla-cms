@@ -23,6 +23,13 @@ use Joomla\CMS\HTML\HTMLHelper;
  */
 class SubfieldstypeField extends ListField
 {
+	/**
+	 * The name of this Field type.
+	 *
+	 * @var string
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
 	public $type = 'Subfieldstype';
 
 	/**
