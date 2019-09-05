@@ -40,7 +40,7 @@ class JsonApiView extends BaseApiView
 		'body',
 		'remind',
 		'token',
-		'username'
+		'username',
 	];
 
 	/**
@@ -58,7 +58,7 @@ class JsonApiView extends BaseApiView
 		'body',
 		'remind',
 		'token',
-		'username'
+		'username',
 	];
 
 	/**

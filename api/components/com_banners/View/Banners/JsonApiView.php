@@ -93,6 +93,6 @@ class JsonApiView extends BaseApiView
 		'editor',
 		'category_title',
 		'client_name',
-		'client_purchase_type'
+		'client_purchase_type',
 	];
 }

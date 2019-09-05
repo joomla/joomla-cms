@@ -52,7 +52,7 @@ class JsonApiView extends BaseApiView
 		'count_trashed',
 		'count_unpublished',
 		'count_published',
-		'count_archived'
+		'count_archived',
 	];
 
 	/**
@@ -84,7 +84,7 @@ class JsonApiView extends BaseApiView
 		'count_trashed',
 		'count_unpublished',
 		'count_published',
-		'count_archived'
+		'count_archived',
 	];
 
 	/**

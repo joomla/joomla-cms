@@ -65,6 +65,6 @@ class JsonApiView extends BaseApiView
 		'count_published',
 		'count_unpublished',
 		'count_trashed',
-		'count_archived'
+		'count_archived',
 	];
 }

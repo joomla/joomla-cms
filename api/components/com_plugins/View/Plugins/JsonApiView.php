@@ -40,7 +40,7 @@ class JsonApiView extends BaseApiView
 		'checked_out',
 		'checked_out_time',
 		'ordering',
-		'state'
+		'state',
 	];
 
 	/**
@@ -60,7 +60,7 @@ class JsonApiView extends BaseApiView
 		'access',
 		'ordering',
 		'editor',
-		'access_level'
+		'access_level',
 	];
 
 	/**
