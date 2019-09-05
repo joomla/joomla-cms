@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\MenuItem;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -107,12 +108,14 @@ class MenusHelper extends ContentHelper
 	{
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.menutype')
-			->from('#__menu_types AS a');
+			->select($db->quoteName('a.menutype'))
+			->from($db->quoteName('#__menu_types', 'a'));
 
 		if (isset($clientId))
 		{
-			$query->where('a.client_id = ' . (int) $clientId);
+			$clientId = (int) $clientId;
+			$query->where($db->quoteName('a.client_id') . ' = :clientId')
+				->bind(':clientId', $clientId, ParameterType::INTEGER);
 		}
 
 		$db->setQuery($query);
@@ -139,38 +142,47 @@ class MenusHelper extends ContentHelper
 	{
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('DISTINCT(a.id) AS value,
-					  a.title AS text,
-					  a.alias,
-					  a.level,
-					  a.menutype,
-					  a.client_id,
-					  a.type,
-					  a.published,
-					  a.template_style_id,
-					  a.checked_out,
-					  a.language,
-					  a.lft'
+			->select(
+				[
+					'DISTINCT(' . $db->quoteName('a.id') . ') AS ' . $db->quoteName('value'),
+					$db->quoteName('a.title', 'text'),
+					$db->quoteName('a.alias'),
+					$db->quoteName('a.level'),
+					$db->quoteName('a.menutype'),
+					$db->quoteName('a.client_id'),
+					$db->quoteName('a.type'),
+					$db->quoteName('a.published'),
+					$db->quoteName('a.template_style_id'),
+					$db->quoteName('a.checked_out'),
+					$db->quoteName('a.language'),
+					$db->quoteName('a.lft'),
+					$db->quoteName('e.name', 'componentname'),
+					$db->quoteName('e.element'),
+				]
 			)
-			->from('#__menu AS a');
-
-		$query->select('e.name as componentname, e.element')
-			->join('left', '#__extensions e ON e.extension_id = a.component_id');
+			->from($db->quoteName('#__menu', 'a'))
+			->join('LEFT', $db->quoteName('#__extensions', 'e'), $db->quoteName('e.extension_id')  .' = ' . $db->quoteName('a.component_id'));
 
 		if (Multilanguage::isEnabled())
 		{
-			$query->select('l.title AS language_title, l.image AS language_image, l.sef AS language_sef')
-				->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
+			$query->select(
+				[
+					$db->quoteName('l.title', 'language_title'),
+					$db->quoteName('l.image', 'language_image'),
+					$db->quoteName('l.sef', 'language_sef'),
+				]
+			)
+				->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'));
 		}
 
 		// Filter by the type if given, this is more specific than client id
 		if ($menuType)
 		{
-			$query->where('(a.menutype = ' . $db->quote($menuType) . ' OR a.parent_id = 0)');
+			$query->where('(' . $db->quoteName('a.menutype') . ' = :menuType OR ' . $db->quoteName('a.parent_id') . ' = 0)');
 		}
 		elseif (isset($clientId))
 		{
-			$query->where('a.client_id = ' . (int) $clientId);
+			$query->where($db->quoteName('a.client_id') . ' = ' . (int) $clientId);
 		}
 
 		// Prevent the parent and children from showing if requested.
