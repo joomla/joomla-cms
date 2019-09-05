@@ -6,6 +6,12 @@ clone:
   depth: 42
 
 steps:
+  - name: update-reference-cache
+    image: lum4x/update-git-repository
+    volumes:
+      - name: reference
+        path: /reference
+
   - name: restore-cache
     image: drillster/drone-volume-cache
     settings:
@@ -39,6 +45,13 @@ steps:
     depends_on: [ phpcs ]
     commands:
       - npm ci --unsafe-perm
+
+  - name: publish-diff
+    image: lum4x/drone-publish-diff
+    depends_on: [ npm ]
+    volumes:
+      - name: reference
+        path: /reference
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
@@ -234,6 +247,9 @@ volumes:
 - name: cache
   host:
     path: /tmp/cache
+- name: reference
+  host:
+    path: /tmp/reference
 
 services:
   - name: mysql
