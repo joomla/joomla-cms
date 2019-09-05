@@ -143,6 +143,8 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 			$this->query = $this->getListQuery();
 		}
 
+        Factory::getApplication()->triggerEvent('onAfterGetListQuery', array($this->context, &$this->query));
+
 		return $this->query;
 	}
 
