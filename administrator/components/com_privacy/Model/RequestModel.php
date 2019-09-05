@@ -11,7 +11,6 @@ namespace Joomla\Component\Privacy\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Exception;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -81,7 +80,7 @@ class RequestModel extends AdminModel
 	 *
 	 * @return  Table  A Table object
 	 *
-	 * @throws  Exception
+	 * @throws  \Exception
 	 * @since   3.9.0
 	 */
 	public function getTable($name = 'Request', $prefix = 'Administrator', $options = [])
