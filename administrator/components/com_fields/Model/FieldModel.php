@@ -967,18 +967,16 @@ class FieldModel extends AdminModel
 				}
 				catch (SectionNotFoundException $e)
 				{
-					// Not found for component and section -> do nothing yet...
-				}
-
-				// Now try once more without the section, so only component
-				try
-				{
-					$cat = $componentObject->getCategory();
-				}
-				catch (SectionNotFoundException $e)
-				{
-					// If we haven't found it now, return (no categories available for this component)
-					return null;
+					// Not found for component and section -> Now try once more without the section, so only component
+					try
+					{
+						$cat = $componentObject->getCategory();
+					}
+					catch (SectionNotFoundException $e)
+					{
+						// If we haven't found it now, return (no categories available for this component)
+						return null;
+					}
 				}
 
 				// So we found categories for at least the component, return them
