@@ -11,7 +11,6 @@ namespace Joomla\Component\Privacy\Site\Model;
 
 defined('_JEXEC') or die;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -34,7 +33,7 @@ class RemindModel extends AdminModel
 	 *
 	 * @param   array  $data  The data expected for the form.
 	 *
-	 * @return  mixed  Exception | JException | boolean
+	 * @return  mixed  \Exception | JException | boolean
 	 *
 	 * @since   3.9.0
 	 */
@@ -45,7 +44,7 @@ class RemindModel extends AdminModel
 		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
 		// Check for an error.
-		if ($form instanceof Exception)
+		if ($form instanceof \Exception)
 		{
 			return $form;
 		}
@@ -55,7 +54,7 @@ class RemindModel extends AdminModel
 		$return = $form->validate($data);
 
 		// Check for an error.
-		if ($return instanceof Exception)
+		if ($return instanceof \Exception)
 		{
 			return $return;
 		}
@@ -171,7 +170,7 @@ class RemindModel extends AdminModel
 	 *
 	 * @return  Table  A JTable object
 	 *
-	 * @throws  Exception
+	 * @throws  \Exception
 	 * @since   3.9.0
 	 */
 	public function getTable($name = 'Consent', $prefix = 'Administrator', $options = [])
