@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\ParameterType;
 
 /**
  * Menu Item List Model for Menus.
@@ -251,9 +252,10 @@ class ItemsModel extends ListModel
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$user = Factory::getUser();
+		$db       = $this->getDbo();
+		$query    = $db->getQuery(true);
+		$user     = Factory::getUser();
+		$clientId = (int) $this->getState('filter.client_id');
 
 		// Select all fields from the table.
 		$query->select(
@@ -297,93 +299,113 @@ class ItemsModel extends ListModel
 		->from($db->quoteName('#__menu', 'a'));
 
 		// Join over the language
-		$query->select('l.title AS language_title, l.image AS language_image, l.sef AS language_sef')
-			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
+		$query->select(
+			[
+				$db->quoteName('l.title', 'language_title'),
+				$db->quoteName('l.image', 'language_image'),
+				$db->quoteName('l.sef', 'language_sef'),
+			]
+		)
+			->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'));
 
 		// Join over the users.
-		$query->select('u.name AS editor')
-			->join('LEFT', $db->quoteName('#__users') . ' AS u ON u.id = a.checked_out');
+		$query->select($db->quoteName('u.name', 'editor'))
+			->join('LEFT', $db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('a.checked_out'));
 
 		// Join over components
-		$query->select('c.element AS componentname')
-			->join('LEFT', $db->quoteName('#__extensions') . ' AS c ON c.extension_id = a.component_id');
+		$query->select($db->quoteName('c.element', 'componentname'))
+			->join('LEFT', $db->quoteName('#__extensions', 'c'), $db->quoteName('c.extension_id') . ' = ' . $db->quoteName('a.component_id'));
 
 		// Join over the asset groups.
-		$query->select('ag.title AS access_level')
-			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+		$query->select($db->quoteName('ag.title', 'access_level'))
+			->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'));
 
 		// Join over the menu types.
-		$query->select($db->quoteName(array('mt.id', 'mt.title'), array('menutype_id', 'menutype_title')))
-			->join('LEFT', $db->quoteName('#__menu_types', 'mt') . ' ON ' . $db->quoteName('mt.menutype') . ' = ' . $db->quoteName('a.menutype'));
+		$query->select(
+			[
+				$db->quoteName('mt.id', 'menutype_id'),
+				$db->quoteName('mt.title', 'menutype_title'),
+			]
+		)
+			->join('LEFT', $db->quoteName('#__menu_types', 'mt'), $db->quoteName('mt.menutype') . ' = ' . $db->quoteName('a.menutype'));
 
 		// Join over the associations.
 		$assoc = Associations::isEnabled();
 
 		if ($assoc)
 		{
-			$query->select('COUNT(asso2.id)>1 as association')
-				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_menus.item'))
-				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
+			$query->select('COUNT(' . $db->quoteName('asso2.id') . ') > 1 AS ' . $db->quoteName('association'))
+				->join(
+					'LEFT',
+					$db->quoteName('#__associations', 'asso'),
+					$db->quoteName('asso.id') . ' = ' . $db->quoteName('a.id') . ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote('com_menus.item')
+				)
+				->join('LEFT', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key'))
 				->group(
-					$db->quoteName(
-						array(
-							'a.id',
-							'a.menutype',
-							'a.title',
-							'a.alias',
-							'a.note',
-							'a.path',
-							'a.link',
-							'a.type',
-							'a.parent_id',
-							'a.level',
-							'a.published',
-							'a.component_id',
-							'a.checked_out',
-							'a.checked_out_time',
-							'a.browserNav',
-							'a.access',
-							'a.img',
-							'a.template_style_id',
-							'a.params',
-							'a.lft',
-							'a.rgt',
-							'a.home',
-							'a.language',
-							'a.client_id',
-							'l.title',
-							'l.image',
-							'l.sef',
-							'u.name',
-							'c.element',
-							'ag.title',
-							'e.enabled',
-							'e.name',
-							'mt.id',
-							'mt.title',
-						)
-					)
+					[
+						$db->quoteName('a.id'),
+						$db->quoteName('a.menutype'),
+						$db->quoteName('a.title'),
+						$db->quoteName('a.alias'),
+						$db->quoteName('a.note'),
+						$db->quoteName('a.path'),
+						$db->quoteName('a.link'),
+						$db->quoteName('a.type'),
+						$db->quoteName('a.parent_id'),
+						$db->quoteName('a.level'),
+						$db->quoteName('a.published'),
+						$db->quoteName('a.component_id'),
+						$db->quoteName('a.checked_out'),
+						$db->quoteName('a.checked_out_time'),
+						$db->quoteName('a.browserNav'),
+						$db->quoteName('a.access'),
+						$db->quoteName('a.img'),
+						$db->quoteName('a.template_style_id'),
+						$db->quoteName('a.params'),
+						$db->quoteName('a.lft'),
+						$db->quoteName('a.rgt'),
+						$db->quoteName('a.home'),
+						$db->quoteName('a.language'),
+						$db->quoteName('a.client_id'),
+						$db->quoteName('l.title'),
+						$db->quoteName('l.image'),
+						$db->quoteName('l.sef'),
+						$db->quoteName('u.name'),
+						$db->quoteName('c.element'),
+						$db->quoteName('ag.title'),
+						$db->quoteName('e.enabled'),
+						$db->quoteName('e.name'),
+						$db->quoteName('mt.id'),
+						$db->quoteName('mt.title'),
+					]
 				);
 		}
 
 		// Join over the extensions
-		$query->select('e.name AS name')
-			->join('LEFT', '#__extensions AS e ON e.extension_id = a.component_id');
+		$query->select($db->quoteName('e.name', 'name'))
+			->join('LEFT', $db->quoteName('#__extensions', 'e'), $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('a.component_id'));
 
 		// Exclude the root category.
-		$query->where('a.id > 1')
-			->where('a.client_id = ' . (int) $this->getState('filter.client_id'));
+		$query->where(
+			[
+				$db->quoteName('a.id') . ' > 1',
+				$db->quoteName('a.client_id') . ' = :clientId',
+			]
+		)
+		->bind(':clientId', $clientId, ParameterType::INTEGER);
 
 		// Filter on the published state.
 		$published = $this->getState('filter.published');
 
 		if (is_numeric($published))
 		{
-			$query->where('a.published = ' . (int) $published);
+			$published = (int) $published;
+			$query->where($db->quoteName('a.published') . ' = :published')
+				->bind(':published', $published);
 		}
 		elseif ($published === '')
 		{
-			$query->where('a.published IN (0, 1)');
+			$query->where($db->quoteName('a.published') . ' IN (0, 1)');
 		}
 
 		// Filter by search in title, alias or id
@@ -391,50 +413,75 @@ class ItemsModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.id = ' . (int) substr($search, 3));
+				$search = (int) substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :search')
+					->bind(':search', $search, ParameterType::INTEGER);
 			}
 			elseif (stripos($search, 'link:') === 0)
 			{
-				if ($search = substr($search, 5))
+				if ($search = str_replace(' ', '%', trim(substr($search, 5))))
 				{
-					$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-					$query->where('a.link LIKE ' . $search);
+					$query->where($db->quoteName('a.link') . ' LIKE :search')
+						->bind(':search', $search);
 				}
 			}
 			else
 			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
+				$search = str_replace(' ', '%', trim($search));
+				$query->extendWhere(
+					'AND',
+					[
+						$db->quoteName('a.title') .' LIKE :search1',
+						$db->quoteName('a.alias') . ' LIKE :search2',
+						$db->quoteName('a.note') . ' LIKE :search3',
+					],
+					'OR'
+				)
+				->bind([':search1', ':search2', ':search3'], $search);
 			}
 		}
 
 		// Filter the items over the parent id if set.
-		$parentId = $this->getState('filter.parent_id');
+		$parentId = (int) $this->getState('filter.parent_id');
+		$level    = (int) $this->getState('filter.level');
 
-		if (!empty($parentId))
+		if ($parentId)
 		{
-			$level = $this->getState('filter.level');
-
 			// Create a subquery for the sub-items list
 			$subQuery = $db->getQuery(true)
-				->select('sub.id')
-				->from('#__menu as sub')
-				->join('INNER', '#__menu as this ON sub.lft > this.lft AND sub.rgt < this.rgt')
-				->where('this.id = ' . (int) $parentId);
+				->select($db->quoteName('sub.id'))
+				->from($db->quoteName('#__menu', 'sub'))
+				->join(
+					'INNER',
+					$db->quoteName('#__menu', 'this'),
+					$db->quoteName('sub.lft') . ' > ' . $db->quoteName('this.lft')
+					. ' AND ' . $db->quoteName('sub.rgt') . ' < ' . $db->quoteName('this.rgt')
+				)
+				->where($db->quoteName('this.id') . ' = :parentId1');
 
 			if ($level)
 			{
-				$subQuery->where('sub.level <= this.level + ' . (int) ($level - 1));
+				$subQuery->where($db->quoteName('sub.level') . ' <= ' . $db->quoteName('this.level') . ' + :level - 1');
+				$query->bind(':level', $level, ParameterType::INTEGER);
 			}
 
 			// Add the subquery to the main query
-			$query->where('(a.parent_id = ' . (int) $parentId . ' OR a.parent_id IN (' . (string) $subQuery . '))');
+			$query->extendWhere(
+				'AND',
+				[
+					$db->quoteName('a.parent_id') . ' = :parentId2',
+					$db->quoteName('a.parent_id') . ' IN (' . (string) $subQuery . ')',
+				],
+				'OR'
+			)
+			->bind([':parentId1', ':parentId2'], $parentId, ParameterType::INTEGER);
 		}
 
 		// Filter on the level.
-		elseif ($level = $this->getState('filter.level'))
+		elseif ($level)
 		{
-			$query->where('a.level <= ' . (int) $level);
+			$query->where($db->quoteName('a.level') . ' <= :level')
+				->bind(':level', $level, ParameterType::INTEGER);
 		}
 
 		// Filter the items over the menu id if set.
@@ -444,16 +491,22 @@ class ItemsModel extends ListModel
 		if ($menuType == '')
 		{
 			// Load all menu types we have manage access
-			$query2 = $this->getDbo()->getQuery(true)
-				->select($this->getDbo()->quoteName(array('id', 'menutype')))
-				->from('#__menu_types')
-				->where('client_id = ' . (int) $this->getState('filter.client_id'))
-				->order('title');
+			$query2 = $db->getQuery(true)
+				->select(
+					[
+						$db->quoteName('id'),
+						$db->quoteName('menutype'),
+					]
+				)
+				->from($db->quoteName('#__menu_types'))
+				->where($db->quoteName('client_id') .' = :clientId')
+				->bind(':clientId', $clientId, ParameterType::INTEGER)
+				->order($db->quoteName('title'));
 
 			// Show protected items on explicit filter only
-			$query->where('a.menutype != ' . $db->quote('main'));
+			$query->where($db->quoteName('a.menutype') . ' != ' . $db->quote('main'));
 
-			$menuTypes = $this->getDbo()->setQuery($query2)->loadObjectList();
+			$menuTypes = $db->setQuery($query2)->loadObjectList();
 
 			if ($menuTypes)
 			{
@@ -463,17 +516,25 @@ class ItemsModel extends ListModel
 				{
 					if ($user->authorise('core.manage', 'com_menus.menu.' . (int) $type->id))
 					{
-						$types[] = $query->quote($type->menutype);
+						$types[] = $type->menutype;
 					}
 				}
 
-				$query->where($types ? 'a.menutype IN(' . implode(',', $types) . ')' : 0);
+				if ($types)
+				{
+					$query->whereIn($db->quoteName('a.menutype'), $types);
+				}
+				else
+				{
+					$query->where(0);
+				}
 			}
 		}
 		// Default behavior => load all items from a specific menu
 		elseif (strlen($menuType))
 		{
-			$query->where('a.menutype = ' . $db->quote($menuType));
+			$query->where($db->quoteName('a.menutype') . ' = :menuType')
+				->bind(':menuType', $menuType);
 		}
 		// Empty menu type => error
 		else
@@ -482,26 +543,26 @@ class ItemsModel extends ListModel
 		}
 
 		// Filter on the access level.
-		if ($access = $this->getState('filter.access'))
+		if ($access = (int) $this->getState('filter.access'))
 		{
-			$query->where('a.access = ' . (int) $access);
+			$query->where($db->quoteName('a.access') . ' = :access')
+				->bind(':access', $access, ParameterType::INTEGER);
 		}
 
 		// Implement View Level Access
 		if (!$user->authorise('core.admin'))
 		{
-			$groups = $user->getAuthorisedViewLevels();
-
-			if (!empty($groups))
+			if ($groups = $user->getAuthorisedViewLevels())
 			{
-				$query->where('a.access IN (' . implode(',', $groups) . ')');
+				$query->whereIn($db->quoteName('a.access'), $groups);
 			}
 		}
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language = ' . $db->quote($language));
+			$query->where($db->quoteName('a.language') . ' = :language')
+				->bind(':language', $language);
 		}
 
 		// Add the list ordering clause.
@@ -554,9 +615,10 @@ class ItemsModel extends ListModel
 	{
 		$query = $this->_db->getQuery(true);
 
-		$query->select('a.*')
+		$query->select($this->_db->quoteName('a') . '.*')
 			->from($this->_db->quoteName('#__menu_types', 'a'))
-			->where('menutype = ' . $this->_db->quote($menuType));
+			->where($this->_db->quoteName('menutype') . ' = :menuType')
+			->bind(':menuType', $menuType);
 
 		$cMenu = $this->_db->setQuery($query)->loadObject();
 
