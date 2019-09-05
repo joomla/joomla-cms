@@ -149,11 +149,11 @@ class ComponentController extends ApiController
 		}
 
 		// Attempt to save the configuration.
-		$data = array(
+		$data = [
 			'params' => $validData,
 			'id'     => ExtensionHelper::getExtensionRecord($option)->extension_id,
 			'option' => $option
-		);
+		];
 
 		if (!$model->save($data))
 		{

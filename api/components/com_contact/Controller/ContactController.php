@@ -156,7 +156,7 @@ class ContactController extends ApiController
 		}
 
 		// Validation succeeded, continue with custom handlers
-		$results = $this->app->triggerEvent('onValidateContact', array(&$contact, &$data));
+		$results = $this->app->triggerEvent('onValidateContact', [&$contact, &$data]);
 
 		foreach ($results as $result)
 		{
@@ -167,7 +167,7 @@ class ContactController extends ApiController
 		}
 
 		// Passed Validation: Process the contact plugins to integrate with other applications
-		$this->app->triggerEvent('onSubmitContact', array(&$contact, &$data));
+		$this->app->triggerEvent('onSubmitContact', [&$contact, &$data]);
 
 		// Send the email
 		$sent = false;
@@ -226,12 +226,11 @@ class ContactController extends ApiController
 		{
 			$output = FieldsHelper::render(
 				'com_contact.mail',
-				'fields.render',
-				array(
+				'fields.render', [
 					'context' => 'com_contact.mail',
 					'item'    => $contact,
 					'fields'  => $fields,
-				)
+				]
 			);
 
 			if ($output)
@@ -245,7 +244,7 @@ class ContactController extends ApiController
 			$mail = Factory::getMailer();
 			$mail->addRecipient($contact->email_to);
 			$mail->addReplyTo($email, $name);
-			$mail->setSender(array($mailfrom, $fromname));
+			$mail->setSender([$mailfrom, $fromname]);
 			$mail->setSubject($sitename . ': ' . $subject);
 			$mail->setBody($body);
 			$sent = $mail->Send();
@@ -262,7 +261,7 @@ class ContactController extends ApiController
 				$mail = Factory::getMailer();
 				$mail->addRecipient($email);
 				$mail->addReplyTo($email, $name);
-				$mail->setSender(array($mailfrom, $fromname));
+				$mail->setSender([$mailfrom, $fromname]);
 				$mail->setSubject($copysubject);
 				$mail->setBody($copytext);
 				$sent = $mail->Send();
