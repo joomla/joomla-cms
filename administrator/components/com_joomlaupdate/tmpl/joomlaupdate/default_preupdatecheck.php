@@ -24,9 +24,8 @@ use Joomla\CMS\Language\Text;
 			<legend>
 				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS'); ?>
 			</legend>
-			<div>
 				<table class="table" id="preupdatecheck">
-					<caption id="captionPreupdatecheck" class="sr-only">
+					<caption class="sr-only">
 						<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_CAPTION'); ?>
 					</caption>
 					<thead>
@@ -57,7 +56,6 @@ use Joomla\CMS\Language\Text;
 					<?php endforeach; ?>
 					</tbody>
 				</table>
-			</div>
 		</fieldset>
 	</div>
 
@@ -66,51 +64,97 @@ use Joomla\CMS\Language\Text;
 			<legend>
 				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS'); ?>
 			</legend>
-			<div>
 			<table class="table" id="preupdatecheckphp">
-			<p>
-				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_DESC'); ?>
-			</p>
-			<thead>
-				<tr>
-					<th scoope="col">
-						<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DIRECTIVE'); ?>
-					</th>
-					<th scope="col">
-						<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED'); ?>
-					</th>>
-					<th scope="col">
-						<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_ACTUAL'); ?>
-					</th>
-				</tr>
-				</thead>
-				<tbody>
-				<?php foreach ($this->phpSettings as $setting) : ?>
+				<caption>
+					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_DESC'); ?>
+				</caption>
+				<thead>
 					<tr>
 						<th scope="col">
-							<?php echo $setting->label; ?>
+							<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DIRECTIVE'); ?>
 						</th>
-						<td>
-							<?php echo Text::_($setting->recommended ? 'JON' : 'JOFF'); ?>
-						</td>
-						<td>
+						<th scope="col">
+							<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED'); ?>
+						</th>
+						<th scope="col">
+							<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_ACTUAL'); ?>
+						</th>
+					</tr>
+					</thead>
+					<tbody>
+					<?php foreach ($this->phpSettings as $setting) : ?>
+						<tr>
+							<th scope="row">
+								<?php echo $setting->label; ?>
+							</th>
+							<td>
+								<?php echo Text::_($setting->recommended ? 'JON' : 'JOFF'); ?>
+							</td>
+							<td>
 								<span class="badge badge-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
 									<?php echo Text::_($setting->state ? 'JON' : 'JOFF'); ?>
 								</span>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+					</tbody>
+			</table>
+		</fieldset>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-6">
+		<fieldset class="options-grid-form options-grid-form-full">
+			<legend>
+				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
+			</legend>
+			<table class="table" id="preupdatecheckextensions">
+				<caption class="sr-only">
+					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_DESC'); ?>
+				</caption>
+				<thead>
+					<tr>
+						<th scope="col">
+							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NAME'); ?>
+						</th>
+						<th scope="col">
+							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE'); ?>
+						</th>
+						<th scope="col">
+							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+				<?php foreach ($this->nonCoreExtensions as $extension) : ?>
+					<tr>
+						<th scope="row">
+							<?php echo JText::_($extension->name); ?>
+						</td>
+						<td class="extension-check"
+							data-extension-id="<?php echo $extension->extension_id; ?>"
+							data-extension-current-version="<?php echo $extension->version; ?>">
+							<img src="../media/system/images/mootree_loader.gif" />
+						</td>
+						<td>
+							<?php echo $extension->version; ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>
 				</tbody>
 			</table>
-			</div>
+		</fieldset>
+	</div>
+	<div class="col-md-6">
+		<fieldset class="options-grid-form options-grid-form-full">
+			<legend>
+				<?php echo Text::_('NOTICE'); ?>
+			</legend>
+			<ul>
+				<li><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_BREAK'); ?></li>
+				<li><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_MISSING_TAG'); ?></li>
+				<li><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_UPDATE_REQUIRED'); ?></li>
+			</ul>
 		</fieldset>
 	</div>
 </div>
-<fieldset class="options-grid-form options-grid-form-full mt-3 mb-3">
-	<legend>
-		<?php echo Text::_('NOTICE'); ?>
-	</legend>
-	<p><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_BREAK'); ?></p>
-	<p><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_MISSING_TAG'); ?></p>
-	<p><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_UPDATE_REQUIRED'); ?></p>
-</fieldset>
