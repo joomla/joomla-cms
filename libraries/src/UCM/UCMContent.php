@@ -215,7 +215,7 @@ class UCMContent extends UCMBase
 	/**
 	 * Get the value of the primary key from #__ucm_base
 	 *
-	 * @param   string   $typeId         The ID for the type
+	 * @param   integer  $typeId         The ID for the type
 	 * @param   integer  $contentItemId  Value of the primary key in the legacy or secondary table
 	 *
 	 * @return  integer  The integer of the primary key
