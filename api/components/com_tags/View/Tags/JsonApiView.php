@@ -87,6 +87,6 @@ class JsonApiView extends BaseApiView
 		'language_image',
 		'editor',
 		'author_name',
-		'access_title'
+		'access_title',
 	];
 }

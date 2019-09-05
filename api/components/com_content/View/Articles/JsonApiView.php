@@ -139,7 +139,7 @@ class JsonApiView extends BaseApiView
 
 		// Process the content plugins.
 		PluginHelper::importPlugin('content');
-		Factory::getApplication()->triggerEvent('onContentPrepare', array('com_content.article', &$item, &$item->params));
+		Factory::getApplication()->triggerEvent('onContentPrepare', ['com_content.article', &$item, &$item->params]);
 
 		foreach (FieldsHelper::getFields('com_content.article', $item, true) as $field)
 		{

@@ -85,7 +85,7 @@ class JsonApiView extends BaseApiView
 		'group_title',
 		'group_access',
 		'group_state',
-		'group_note'
+		'group_note',
 	];
 
 	/**

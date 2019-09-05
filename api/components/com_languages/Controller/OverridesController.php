@@ -140,7 +140,7 @@ class OverridesController extends ApiController
 
 		if (!isset($validData['tags']))
 		{
-			$validData['tags'] = array();
+			$validData['tags'] = [];
 		}
 
 		if (!$model->save($validData))
