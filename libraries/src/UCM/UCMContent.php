@@ -106,7 +106,7 @@ class UCMContent extends UCMBase
 		$db   = Factory::getDbo();
 		$type = $type ?: $this->type;
 
-		if (\is_string($pk))
+		if (!\is_array($pk))
 		{
 			$pk = explode(',', $pk);
 		}
