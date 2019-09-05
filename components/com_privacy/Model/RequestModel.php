@@ -249,7 +249,7 @@ class RequestModel extends AdminModel
 	 *
 	 * @return  Table  A JTable object
 	 *
-	 * @throws  Exception
+	 * @throws  \Exception
 	 * @since   3.9.0
 	 */
 	public function getTable($name = 'Request', $prefix = 'Administrator', $options = [])
