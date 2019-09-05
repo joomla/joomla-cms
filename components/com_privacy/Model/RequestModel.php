@@ -11,7 +11,6 @@ namespace Joomla\Component\Privacy\Site\Model;
 
 defined('_JEXEC') or die;
 
-use Exception;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -59,7 +58,7 @@ class RequestModel extends AdminModel
 		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
 		// Check for an error.
-		if ($form instanceof Exception)
+		if ($form instanceof \Exception)
 		{
 			return $form;
 		}
@@ -69,7 +68,7 @@ class RequestModel extends AdminModel
 		$return = $form->validate($data);
 
 		// Check for an error.
-		if ($return instanceof Exception)
+		if ($return instanceof \Exception)
 		{
 			return $return;
 		}
