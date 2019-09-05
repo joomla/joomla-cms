@@ -14,6 +14,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\ParameterType;
 
 /**
  * Menu Parent field.
@@ -43,19 +44,27 @@ class MenuParentField extends ListField
 
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('DISTINCT(a.id) AS value, a.title AS text, a.level, a.lft')
-			->from('#__menu AS a');
+			->select(
+				[
+					'DISTINCT(' . $db->quoteName('a.id') . ') AS ' . $db->quoteName('value'),
+					$db->quoteName('a.title', 'text'),
+					$db->quoteName('a.level'),
+					$db->quoteName('a.lft'),
+				]
+			)
+			->from($db->quoteName('#__menu', 'a'));
 
 		// Filter by menu type.
 		if ($menuType = $this->form->getValue('menutype'))
 		{
-			$query->where('a.menutype = ' . $db->quote($menuType));
+			$query->where($db->quoteName('a.menutype') . ' = :menuType')
+				->bind(':menuType', $menuType);
 		}
 		else
 		{
 			// Skip special menu types
-			$query->where('a.menutype != ' . $db->quote(''));
-			$query->where('a.menutype != ' . $db->quote('main'));
+			$query->where($db->quoteName('a.menutype') . ' != ' . $db->quote(''));
+			$query->where($db->quoteName('a.menutype') . ' != ' . $db->quote('main'));
 		}
 
 		// Filter by client id.
@@ -63,18 +72,24 @@ class MenuParentField extends ListField
 
 		if (!is_null($clientId))
 		{
-			$query->where($db->quoteName('a.client_id') . ' = ' . (int) $clientId);
+			$clientId = (int) $clientId;
+			$query->where($db->quoteName('a.client_id') . ' = :clientId')
+				->bind(':clientId', $clientId, ParameterType::INTEGER);
 		}
 
 		// Prevent parenting to children of this item.
-		if ($id = $this->form->getValue('id'))
+		if ($id = (int) $this->form->getValue('id'))
 		{
-			$query->join('LEFT', $db->quoteName('#__menu') . ' AS p ON p.id = ' . (int) $id)
-				->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
+			$query->join('LEFT', $db->quoteName('#__menu', 'p'), $db->quoteName('p.id') . ' = :id')
+				->bind(':id', $id, ParameterType::INTEGER)
+				->where(
+					'NOT(' . $db->quoteName('a.lft') . ' >= ' . $db->quoteName('p.lft')
+					. ' AND ' . $db->quoteName('a.rgt') . ' <= ' . $db->quoteName('p.rgt') . ')'
+				);
 		}
 
-		$query->where('a.published != -2')
-			->order('a.lft ASC');
+		$query->where($db->quoteName('a.published') . ' != -2')
+			->order($db->quoteName('a.lft') . ' ASC');
 
 		// Get the options.
 		$db->setQuery($query);

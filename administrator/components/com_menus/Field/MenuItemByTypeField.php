@@ -192,7 +192,8 @@ class MenuItemByTypeField extends GroupedlistField
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__menu_types'))
-				->where($db->quoteName('menutype') . ' = ' . $db->quote($menuType));
+				->where($db->quoteName('menutype') . ' = :menuType')
+				->bind(':menuType', $menuType);
 			$db->setQuery($query);
 
 			try

@@ -43,11 +43,16 @@ class ComponentsCategoryField extends ListField
 		// Initialise variable.
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('DISTINCT a.name AS text, a.element AS value')
-			->from('#__extensions as a')
-			->where('a.enabled >= 1')
-			->where('a.type =' . $db->quote('component'))
-			->join('INNER', '#__categories as b ON a.element=b.extension');
+			->select(
+				[
+					'DISTINCT ' . $db->quoteName('a.name', 'text'),
+					$db->quoteName('a.element', 'value'),
+				]
+			)
+			->from($db->quoteName('#__extensions', 'a'))
+			->where($db->quoteName('a.enabled') . ' >= 1')
+			->where($db->quoteName('a.type') . ' = ' . $db->quote('component'))
+			->join('INNER', $db->quoteName('#__categories', 'b'), $db->quoteName('a.element') . ' = ' . $db->quoteName('b.extension'));
 
 		$items = $db->setQuery($query)->loadObjectList();
 
