@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
-use Joomla\Dtabase\ParameterType;
+use Joomla\Database\ParameterType;
 
 /**
  * Base class for implementing UCM
