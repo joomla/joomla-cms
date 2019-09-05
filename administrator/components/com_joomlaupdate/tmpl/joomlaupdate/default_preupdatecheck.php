@@ -130,7 +130,7 @@ use Joomla\CMS\Language\Text;
 					<tr>
 						<th scope="row">
 							<?php echo JText::_($extension->name); ?>
-						</td>
+						</th>
 						<td class="extension-check"
 							data-extension-id="<?php echo $extension->extension_id; ?>"
 							data-extension-current-version="<?php echo $extension->version; ?>">
