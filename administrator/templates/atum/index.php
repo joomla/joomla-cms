@@ -33,7 +33,7 @@ $hiddenMenu = $app->input->get('hidemainmenu');
 $joomlaLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 
 // Getting user accessibility settings
-$a11y_mono 		= (bool) $app->getIdentity()->getParam('a11y_mono', '');
+$a11y_mono      = (bool) $app->getIdentity()->getParam('a11y_mono', '');
 $a11y_contrast  = (bool) $app->getIdentity()->getParam('a11y_contrast', '');
 $a11y_highlight = (bool) $app->getIdentity()->getParam('a11y_highlight', '');
 $a11y_font 		= (bool) $app->getIdentity()->getParam('a11y_font', '');
