@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -80,25 +80,25 @@ class ListField extends FormField
 			if ($requires = explode(',', (string) $option['requires']))
 			{
 				// Requires multilanguage
-				if (in_array('multilanguage', $requires) && !Multilanguage::isEnabled())
+				if (\in_array('multilanguage', $requires) && !Multilanguage::isEnabled())
 				{
 					continue;
 				}
 
 				// Requires associations
-				if (in_array('associations', $requires) && !Associations::isEnabled())
+				if (\in_array('associations', $requires) && !Associations::isEnabled())
 				{
 					continue;
 				}
 
 				// Requires adminlanguage
-				if (in_array('adminlanguage', $requires) && !ModuleHelper::isAdminMultilang())
+				if (\in_array('adminlanguage', $requires) && !ModuleHelper::isAdminMultilang())
 				{
 					continue;
 				}
 
 				// Requires vote plugin
-				if (in_array('vote', $requires) && !PluginHelper::isEnabled('content', 'vote'))
+				if (\in_array('vote', $requires) && !PluginHelper::isEnabled('content', 'vote'))
 				{
 					continue;
 				}
@@ -162,18 +162,18 @@ class ListField extends FormField
 			$value  = $params->get($this->fieldname);
 
 			// Try with global configuration
-			if (is_null($value))
+			if (\is_null($value))
 			{
 				$value = Factory::getApplication()->get($this->fieldname);
 			}
 
 			// Try with menu configuration
-			if (is_null($value) && Factory::getApplication()->input->getCmd('option') == 'com_menus')
+			if (\is_null($value) && Factory::getApplication()->input->getCmd('option') == 'com_menus')
 			{
 				$value = ComponentHelper::getParams('com_menus')->get($this->fieldname);
 			}
 
-			if (!is_null($value))
+			if (!\is_null($value))
 			{
 				$value = (string) $value;
 
