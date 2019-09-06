@@ -135,7 +135,7 @@ class UpdatesitesModel extends InstallerModel
 
 		// Gets the update site names.
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('update_site_id', 'name')))
+			->select($db->quoteName(['update_site_id', 'name']))
 			->from($db->quoteName('#__update_sites'))
 			->whereIn($db->quoteName('update_site_id'), $ids);
 		$db->setQuery($query);
@@ -543,7 +543,6 @@ class UpdatesitesModel extends InstallerModel
 
 		if ($clientId !== null && $clientId !== '')
 		{
-
 			$clientId = (int) $clientId;
 			$query->where($db->quoteName('e.client_id') . ' = :clientId')
 				->bind(':clientId', $clientId, ParameterType::INTEGER);
@@ -554,7 +553,7 @@ class UpdatesitesModel extends InstallerModel
 			$folder === '*' ? '' : $folder;
 			$query->where($db->quoteName('e.folder') . ' = :folder')
 				->bind(':folder', $folder);
-    }
+    	}
 
 		// Process search filter (update site id).
 		$search = $this->getState('filter.search');
