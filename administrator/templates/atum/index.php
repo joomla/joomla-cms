@@ -36,7 +36,7 @@ $joomlaLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo.s
 $a11y_mono      = (bool) $app->getIdentity()->getParam('a11y_mono', '');
 $a11y_contrast  = (bool) $app->getIdentity()->getParam('a11y_contrast', '');
 $a11y_highlight = (bool) $app->getIdentity()->getParam('a11y_highlight', '');
-$a11y_font 		= (bool) $app->getIdentity()->getParam('a11y_font', '');
+$a11y_font         = (bool) $app->getIdentity()->getParam('a11y_font', '');
 
 require_once __DIR__ . '/Service/HTML/Atum.php';
 
