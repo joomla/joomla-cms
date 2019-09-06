@@ -113,11 +113,11 @@ class HtmlView extends BaseHtmlView
 		if ($canDo->get('core.edit.state'))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
-			->text('JTOOLBAR_CHANGE_STATUS')
-			->toggleSplit(false)
-			->icon('fa fa-ellipsis-h')
-			->buttonClass('btn btn-action')
-			->listCheck(true);
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
+				->listCheck(true);
 
 			$childBar = $dropdown->getChildToolbar();
 
@@ -135,7 +135,7 @@ class HtmlView extends BaseHtmlView
 			$toolbar->delete('languages.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')
 				->message('JGLOBAL_CONFIRM_DELETE')
-				->listCheck(true);	
+				->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin'))
