@@ -96,7 +96,6 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @since   1.6
 	 */
-
 	protected function addToolbar(): void
 	{
 		$canDo = ContentHelper::getActions('com_languages');
@@ -136,7 +135,7 @@ class HtmlView extends BaseHtmlView
 			$toolbar->delete('languages.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')
 				->message('JGLOBAL_CONFIRM_DELETE')
-				->listCheck(true);
+				->listCheck(true);	
 		}
 
 		if ($canDo->get('core.admin'))
