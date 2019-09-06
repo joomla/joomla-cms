@@ -553,7 +553,7 @@ class UpdatesitesModel extends InstallerModel
 			$folder === '*' ? '' : $folder;
 			$query->where($db->quoteName('e.folder') . ' = :folder')
 				->bind(':folder', $folder);
-    	}
+		}
 
 		// Process search filter (update site id).
 		$search = $this->getState('filter.search');
