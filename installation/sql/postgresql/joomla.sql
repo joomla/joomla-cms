@@ -1336,15 +1336,17 @@ SELECT 11, 'main', 'com_messages_add', 'New Private Message', '', 'Messaging/New
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id")
 SELECT 12, 'main', 'com_newsfeeds', 'News Feeds', '', 'News Feeds', 'index.php?option=com_newsfeeds', 'component', 1, 1, 1, "extension_id", 0, '1970-01-01 00:00:00', 0, 0, 'class:newsfeeds', 0, '', 21, 26, 0, '*', 1 FROM "#__extensions" WHERE "name" = 'com_newsfeeds';
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id")
-SELECT 13, 'main', 'com_newsfeeds_feeds', 'Feeds', '', 'News Feeds/Feeds', 'index.php?option=com_newsfeeds&view=newsfeeds', 'component', 1, 13, 2, "extension_id", 0, '1970-01-01 00:00:00', 0, 0, 'class:newsfeeds', 0, '', 22, 23, 0, '*', 1 FROM "#__extensions" WHERE "name" = 'com_newsfeeds';
+SELECT 13, 'main', 'com_newsfeeds_feeds', 'Feeds', '', 'News Feeds/Feeds', 'index.php?option=com_newsfeeds&view=newsfeeds', 'component', 1, 12, 2, "extension_id", 0, '1970-01-01 00:00:00', 0, 0, 'class:newsfeeds', 0, '', 22, 23, 0, '*', 1 FROM "#__extensions" WHERE "name" = 'com_newsfeeds';
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id")
-SELECT 14, 'main', 'com_newsfeeds_categories', 'Categories', '', 'News Feeds/Categories', 'index.php?option=com_categories&view=categories&extension=com_newsfeeds', 'component', 1, 13, 2, "extension_id", 0, '1970-01-01 00:00:00', 0, 0, 'class:newsfeeds-cat', 0, '', 24, 25, 0, '*', 1 FROM "#__extensions" WHERE "name" = 'com_categories';
+SELECT 14, 'main', 'com_newsfeeds_categories', 'Categories', '', 'News Feeds/Categories', 'index.php?option=com_categories&view=categories&extension=com_newsfeeds', 'component', 1, 12, 2, "extension_id", 0, '1970-01-01 00:00:00', 0, 0, 'class:newsfeeds-cat', 0, '', 24, 25, 0, '*', 1 FROM "#__extensions" WHERE "name" = 'com_categories';
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id")
 SELECT 15, 'main', 'com_finder', 'Smart Search', '', 'Smart Search', 'index.php?option=com_finder&view=index', 'component', 1, 1, 1, "extension_id", 0, '1970-01-01 00:00:00', 0, 0, 'class:finder', 0, '', 27, 28, 0, '*', 1 FROM "#__extensions" WHERE "name" = 'com_finder';
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id")
 SELECT 16, 'main', 'com_tags', 'Tags', '', 'Tags', 'index.php?option=com_tags&view=tags', 'component', 1, 1, 1, "extension_id", 0, '1970-01-01 00:00:00', 0, 1, 'class:tags', 0, '', 29, 30, 0, '', 1 FROM "#__extensions" WHERE "name" = 'com_tags';
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id")
 SELECT 17, 'main', 'com_associations', 'Multilingual Associations', '', 'Multilingual Associations', 'index.php?option=com_associations&view=associations', 'component', 1, 1, 1, "extension_id", 0, '1970-01-01 00:00:00', 0, 0, 'class:associations', 0, '', 31, 32, 0, '*', 1 FROM "#__extensions" WHERE "name" = 'com_associations';
+INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id")
+SELECT 18, 'main', 'com_messages_manage', 'Private Messages', '', 'Messaging/Private Messages', 'index.php?option=com_messages&view=messages', 'component', 1, 10, 2, "extension_id", 0, '1970-01-01 00:00:00', 0, 0, 'class:messages-add', 0, '', 18, 19, 0, '*', 1 FROM "#__extensions" WHERE "name" = 'com_messages';
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id")
 SELECT 101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, "extension_id", 0, '1970-01-01 00:00:00', 0, 1, '', 0, '{"featured_categories":[""],"layout_type":"blog","num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","multi_column_order":"1","orderby_pri":"","orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1","show_title":"","link_titles":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":","show_hits":"","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":1,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 35, 36, 1, '*', 0 FROM "#__extensions" WHERE "name" = 'com_content';
 
@@ -1802,7 +1804,8 @@ CREATE TABLE IF NOT EXISTS "#__template_styles" (
   PRIMARY KEY ("id")
 );
 CREATE INDEX "#__template_styles_idx_template" ON "#__template_styles" ("template");
-CREATE INDEX "#__template_styles_idx_home" ON "#__template_styles" ("home");
+CREATE INDEX "#__template_styles_idx_client_id" ON "#__template_styles" ("client_id");
+CREATE INDEX "#__template_styles_idx_client_id_home" ON "#__template_styles" ("client_id", "home");
 
 --
 -- Dumping data for table #__template_styles
@@ -1944,6 +1947,8 @@ CREATE TABLE IF NOT EXISTS "#__update_sites" (
   "enabled" bigint DEFAULT 0,
   "last_check_timestamp" bigint DEFAULT 0,
   "extra_query" varchar(1000) DEFAULT '',
+  "checked_out" bigint DEFAULT 0 NOT NULL,
+  "checked_out_time" timestamp without time zone DEFAULT NULL,
   PRIMARY KEY ("update_site_id")
 );
 
