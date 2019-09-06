@@ -543,6 +543,7 @@ class UpdatesitesModel extends InstallerModel
 
 		if ($clientId !== null && $clientId !== '')
 		{
+
 			$clientId = (int) $clientId;
 			$query->where($db->quoteName('e.client_id') . ' = :clientId')
 				->bind(':clientId', $clientId, ParameterType::INTEGER);
@@ -553,7 +554,7 @@ class UpdatesitesModel extends InstallerModel
 			$folder === '*' ? '' : $folder;
 			$query->where($db->quoteName('e.folder') . ' = :folder')
 				->bind(':folder', $folder);
-		}
+    }
 
 		// Process search filter (update site id).
 		$search = $this->getState('filter.search');
