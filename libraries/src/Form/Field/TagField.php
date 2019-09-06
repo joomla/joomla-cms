@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -80,7 +80,7 @@ class TagField extends ListField
 	{
 		$data = $this->getLayoutData();
 
-		if (!is_array($this->value) && !empty($this->value))
+		if (!\is_array($this->value) && !empty($this->value))
 		{
 			if ($this->value instanceof TagsHelper)
 			{
@@ -95,13 +95,13 @@ class TagField extends ListField
 			}
 
 			// String in format 2,5,4
-			if (is_string($this->value))
+			if (\is_string($this->value))
 			{
 				$this->value = explode(',', $this->value);
 			}
 
 			// Integer is given
-			if (is_int($this->value))
+			if (\is_int($this->value))
 			{
 				$this->value = array($this->value);
 			}
@@ -197,7 +197,7 @@ class TagField extends ListField
 			$query->where($db->quoteName('a.published') . ' = :published')
 				->bind(':published', $published, ParameterType::INTEGER);
 		}
-		elseif (is_array($published))
+		elseif (\is_array($published))
 		{
 			$published = ArrayHelper::toInteger($published);
 			$query->whereIn($db->quoteName('a.published'), $published);
@@ -299,7 +299,7 @@ class TagField extends ListField
 	 */
 	public function allowCustom()
 	{
-		if ($this->element['custom'] && in_array((string) $this->element['custom'], array('0', 'false', 'deny')))
+		if ($this->element['custom'] && \in_array((string) $this->element['custom'], array('0', 'false', 'deny')))
 		{
 			return false;
 		}
@@ -318,7 +318,7 @@ class TagField extends ListField
 	{
 		if ($this->element['remote-search'])
 		{
-			return !in_array((string) $this->element['remote-search'], array('0', 'false', ''));
+			return !\in_array((string) $this->element['remote-search'], array('0', 'false', ''));
 		}
 
 		return $this->comParams->get('tag_field_ajax_mode', 1) == 1;
