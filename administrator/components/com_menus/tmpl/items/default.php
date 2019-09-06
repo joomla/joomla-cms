@@ -183,7 +183,6 @@ $assoc = Associations::isEnabled() && $this->state->get('filter.client_id') == 0
 									}
 
 									echo implode(' / ', $allParents) . ' / ';
-
 									?>
 									<?php if ($canEdit && !$item->protected) : ?>
 										<a href="<?php echo Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id); ?>"
