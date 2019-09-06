@@ -35,13 +35,13 @@ if ($saveOrder && $menuType && !empty($this->items))
 	HTMLHelper::_('draggablelist.draggable');
 }
 
-$assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') == 0;
+$assoc = Associations::isEnabled() && $this->state->get('filter.client_id') == 0;
 
 ?>
 <?php // Set up the filter bar. ?>
 <form action="<?php echo Route::_('index.php?option=com_menus&view=items&menutype='); ?>" method="post" name="adminForm"
 	  id="adminForm">
-	<div class="row">
+    <div class="row">
 		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
@@ -169,6 +169,21 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 									<?php if ($item->checked_out) : ?>
 										<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'items.', $canCheckin); ?>
 									<?php endif; ?>
+									<?php
+
+									/**Breadcrumb relocated here
+								   */
+
+									$parent_item_id = $item->parent_id;
+									$allparent      = "";
+									while (!empty($parent_item_id) && $parent_item_id > 1)
+									{
+										$parent_item    = $this->getModel()->searchParentItem($parent_item_id);
+										$allparent      = $parent_item->title . "/" . $allparent;
+										$parent_item_id = $parent_item->parent_id;
+									}
+									echo $allparent;
+									?>
 									<?php if ($canEdit && !$item->protected) : ?>
 										<a href="<?php echo Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id); ?>"
 										   title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">

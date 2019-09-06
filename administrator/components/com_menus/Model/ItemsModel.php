@@ -612,4 +612,21 @@ class ItemsModel extends ListModel
 
 		return $this->cache[$store];
 	}
+	/** Search the parent item id to select the parent item name
+	* Breadcrumb
+	*
+	* @param   integer  $value  The parent item id
+	*
+	* @return  \stdClass
+	*/
+
+	public function searchParentItem($value)
+	{
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('*')
+			->from($db->quoteName('#__menu'))
+			->where($db->quoteName('id') . ' = ' . $value);
+		return $db->setQuery($query)->loadObject();
+	}
 }
