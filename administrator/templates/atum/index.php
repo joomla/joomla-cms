@@ -32,6 +32,12 @@ $cpanel     = $option === 'com_cpanel';
 $hiddenMenu = $app->input->get('hidemainmenu');
 $joomlaLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 
+// Getting user accessibility settings
+$a11y_mono 		= (bool) $app->getIdentity()->getParam('a11y_mono','');
+$a11y_contrast  = (bool) $app->getIdentity()->getParam('a11y_contrast','');
+$a11y_highlight = (bool) $app->getIdentity()->getParam('a11y_highlight','');
+$a11y_font 		= (bool) $app->getIdentity()->getParam('a11y_font','');
+
 require_once __DIR__ . '/Service/HTML/Atum.php';
 
 // Template params
@@ -80,16 +86,17 @@ $monochrome = (bool) $this->params->get('monochrome');
 
 HTMLHelper::getServiceRegistry()->register('atum', 'JHtmlAtum');
 HTMLHelper::_('atum.rootcolors', $this->params);
+
+
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" <?php echo ($a11y_font ? 'class="a11y_font"' : ''); ?>">
 <head>
 	<jdoc:include type="metas" />
 	<jdoc:include type="styles" />
 </head>
 
-<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome ? ' monochrome' : ''); ?>">
-
+<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome ? ' monochrome' : '') . ($a11y_mono ? ' monochrome' : '') . ($a11y_contrast ? ' a11y_contrast' : '') . ($a11y_highlight ? ' a11y_highlight' : '')?>">
 <noscript>
 	<div class="alert alert-danger" role="alert">
 		<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
@@ -125,7 +132,6 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 
 <?php // Wrapper ?>
 <div id="wrapper" class="d-flex wrapper<?php echo $hiddenMenu ? '0' : ''; ?>">
-
 	<?php // Sidebar ?>
 	<?php if (!$hiddenMenu) : ?>
 		<button class="navbar-toggler toggler-burger collapsed" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">

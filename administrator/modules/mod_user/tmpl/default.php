@@ -39,8 +39,8 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 			</a>
 		</div>
 		<div class="dropdown-item">
-			<?php // TODO: route to accessibility settings ?>
-			<a href="#">
+			<?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '&return=' . base64_encode($uri); ?>
+			<a href="<?php echo Route::_($route); ?>">
 				<span class="fa fa-universal-access"></span>
 				<?php echo Text::_('MOD_USER_ACCESSIBILITY_SETTINGS'); ?>
 			</a>
