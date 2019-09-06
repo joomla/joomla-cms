@@ -328,8 +328,8 @@ class Updater extends \JAdapter
 						&& (bool) $current_update->data['forcedeepextensionchecking'] === true)
 					{
 						/*
-						 * Using the forcedeepextensionchecking parameter this collection update server request
-						 * use to check the update with the extension adapter too. Let's do this
+						 * Using the forcedeepextensionchecking parameter this collection update server
+						 * request us to check the update with the extension adapter too. Let's do this
 						 */
 						$extensionUpdateSite = $updateSite;
 						$extensionUpdateSite['type'] = 'extension';
