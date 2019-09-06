@@ -98,7 +98,11 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 		<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
 	</div>
 </noscript>
-
+<script>
+if (!navigator.cookieEnabled) { 
+	alert ("<?php echo Text::_('JGLOBAL_WARNCOOKIES'); ?>");
+}
+</script>
 
 <header id="header" class="header">
 	<div class="d-flex">
