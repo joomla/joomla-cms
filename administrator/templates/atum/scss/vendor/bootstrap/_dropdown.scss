@@ -15,7 +15,6 @@
 }
 
 .dropdown-item {
-  cursor: pointer;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
   &:hover,
@@ -26,6 +25,7 @@
 
     .btn-secondary + .dropdown-menu & {
       background-color: theme-color("secondary");
+      color: var(--atum-text-light);
     }
 
     .btn-danger + .dropdown-menu & {
