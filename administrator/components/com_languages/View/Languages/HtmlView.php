@@ -96,35 +96,47 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @since   1.6
 	 */
-	protected function addToolbar()
+
+	protected function addToolbar(): void
 	{
 		$canDo = ContentHelper::getActions('com_languages');
 
 		ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_LANGUAGES_TITLE'), 'comments-2 langmanager');
 
+		// Get the toolbar object instance
+		$toolbar = Toolbar::getInstance('toolbar');
+
 		if ($canDo->get('core.create'))
 		{
-			ToolbarHelper::addNew('language.add');
+			$toolbar->addNew('language.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			if ($this->state->get('filter.published') != 2)
+			$dropdown = $toolbar->dropdownButton('status-group')
+			->text('JTOOLBAR_CHANGE_STATUS')
+			->toggleSplit(false)
+			->icon('fa fa-ellipsis-h')
+			->buttonClass('btn btn-action')
+			->listCheck(true);
+
+			$childBar = $dropdown->getChildToolbar();
+
+			$childBar->publish('languages.publish')->listCheck(true);
+			$childBar->unpublish('languages.unpublish')->listCheck(true);
+
+			if (!$this->state->get('filter.published') == -2)
 			{
-				ToolbarHelper::publishList('languages.publish');
-				ToolbarHelper::unpublishList('languages.unpublish');
+				$childBar->trash('languages.trash')->listCheck(true);
 			}
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'languages.delete', 'JTOOLBAR_EMPTY_TRASH');
-			ToolbarHelper::divider();
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::trash('languages.trash');
-			ToolbarHelper::divider();
+			$toolbar->delete('languages.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin'))
