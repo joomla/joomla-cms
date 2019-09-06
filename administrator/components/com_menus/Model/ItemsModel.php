@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\ParameterType;
 
 /**
  * Menu Item List Model for Menus.
@@ -612,21 +613,33 @@ class ItemsModel extends ListModel
 
 		return $this->cache[$store];
 	}
-	/** Search the parent item id to select the parent item name
-	* Breadcrumb
-	*
-	* @param   integer  $value  The parent item id
-	*
-	* @return  \stdClass
-	*/
 
-	public function searchParentItem($value)
+	/**
+	 * Search the parent item id to select the parent item name
+	 * Breadcrumb
+	 *
+	 * @param   integer  $value  The parent item id
+	 *
+	 * @return  \stdClass
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function searchParentItem(int $value): ?\stdClass
 	{
-		$db    = Factory::getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
-		$query->select('*')
+		$query->select(
+			$db->quoteName(
+				[
+					'title',
+					'parent_id'
+				]
+			)
+		)
 			->from($db->quoteName('#__menu'))
-			->where($db->quoteName('id') . ' = ' . $value);
+			->where($db->quoteName('id') . ' = :menuId')
+			->bind(':menuId', $value, ParameterType::INTEGER);
+
 		return $db->setQuery($query)->loadObject();
 	}
 }

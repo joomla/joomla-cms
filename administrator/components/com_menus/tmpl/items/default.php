@@ -41,7 +41,7 @@ $assoc = Associations::isEnabled() && $this->state->get('filter.client_id') == 0
 <?php // Set up the filter bar. ?>
 <form action="<?php echo Route::_('index.php?option=com_menus&view=items&menutype='); ?>" method="post" name="adminForm"
 	  id="adminForm">
-    <div class="row">
+	<div class="row">
 		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
@@ -171,18 +171,19 @@ $assoc = Associations::isEnabled() && $this->state->get('filter.client_id') == 0
 									<?php endif; ?>
 									<?php
 
-									/**Breadcrumb relocated here
-								   */
+									// Breadcrumb relocated here
+									$parentItemId = $item->parent_id;
+									$allParents   = [];
 
-									$parent_item_id = $item->parent_id;
-									$allparent      = "";
-									while (!empty($parent_item_id) && $parent_item_id > 1)
+									while (!empty($parentItemId) && $parentItemId > 1)
 									{
-										$parent_item    = $this->getModel()->searchParentItem($parent_item_id);
-										$allparent      = $parent_item->title . "/" . $allparent;
-										$parent_item_id = $parent_item->parent_id;
+										$parentItem   = $this->getModel()->searchParentItem($parentItemId);
+										$allParents[] = $parentItem->title;
+										$parentItemId = $parentItem->parent_id;
 									}
-									echo $allparent;
+
+									echo implode(' / ', $allParents) . ' / ';
+
 									?>
 									<?php if ($canEdit && !$item->protected) : ?>
 										<a href="<?php echo Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id); ?>"
