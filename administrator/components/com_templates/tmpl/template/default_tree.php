@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Router\Route;
 
-ksort($this->files, SORT_STRING);
+ksort($this->files, SORT_NATURAL);
 ?>
 
 <ul class="directory-tree treeselect">
