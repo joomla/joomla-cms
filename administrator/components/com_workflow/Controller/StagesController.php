@@ -50,7 +50,7 @@ class StagesController extends AdminController
 	 */
 	protected $text_prefix = 'COM_WORKFLOW_STAGES';
 
-		/**
+	/**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
