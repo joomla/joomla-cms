@@ -181,6 +181,7 @@ class HtmlView extends BaseHtmlView
 
 				$childBar->publish('transitions.publish', 'JTOOLBAR_ENABLE');
 				$childBar->unpublish('transitions.unpublish', 'JTOOLBAR_DISABLE');
+
 				if ($canDo->get('core.admin'))
 				{
 					// @ToDo Imlement the checked_out for workflows
