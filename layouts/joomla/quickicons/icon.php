@@ -54,7 +54,7 @@ $class = !empty($tmp) ? 'class="' . implode(' ', array_unique($tmp)) . '"' : '';
 <?php // If it is a button with two links: make it a list
 	if (isset($displayData['linkadd'])): ?>
 		<li class="quickicon-group col mb-3">
-		<ul>
+		<ul class="list-unstyled">
 			<li class="quickicon">
 	<?php else: ?>		
 		<li class="quickicon quickicon-single col mb-3">
