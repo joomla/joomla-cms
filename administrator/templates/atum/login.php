@@ -84,16 +84,8 @@ $monochrome = (bool) $this->params->get('monochrome');
 HTMLHelper::getServiceRegistry()->register('atum', 'JHtmlAtum');
 HTMLHelper::_('atum.rootcolors', $this->params);
 
-$cookieAlert = Text::_('JGLOBAL_WARNCOOKIES');
-
-// Add cookie message js
-Factory::getDocument()->addScriptDeclaration("
-	document.addEventListener('DOMContentLoaded', function(event) {
-		if (!navigator.cookieEnabled) {
-			alert('" . $cookieAlert . "');
-		}
-	});"
-);
+// Add cookie alert message
+$cookieAlert = Text::script('JGLOBAL_WARNCOOKIES');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
