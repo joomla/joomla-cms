@@ -153,7 +153,9 @@ class InstallerHelper
 				$path = JPATH_ADMINISTRATOR . '/manifests/packages/' . $element . '.xml';
 		}
 
-		return simplexml_load_file($path);
+		$content = file_exists($path) ? file_get_contents($path) : '';
+
+		return simplexml_load_string($content);
 	}
 
 	/**
