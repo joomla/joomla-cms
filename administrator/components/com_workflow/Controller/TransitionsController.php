@@ -41,6 +41,14 @@ class TransitionsController extends AdminController
 	protected $extension;
 
 	/**
+	 * The prefix to use with controller messages.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	 protected $text_prefix = 'COM_WORKFLOW_TRANSITIONS';
+
+	 /**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
