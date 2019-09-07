@@ -146,8 +146,8 @@ class HtmlView extends BaseHtmlView
 
 			$childBar = $dropdown->getChildToolbar();
 
-			$childBar->publish('workflows.publish');
-			$childBar->unpublish('workflows.unpublish');
+			$childBar->publish('workflows.publish', 'JTOOLBAR_ENABLE');
+			$childBar->unpublish('workflows.unpublish', 'JTOOLBAR_DISABLE');
 			$childBar->makeDefault('workflows.setDefault', 'COM_WORKFLOW_TOOLBAR_DEFAULT');
 
 			if ($canDo->get('core.admin'))
