@@ -149,10 +149,14 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	<?php endif; ?>
 
 	<div class="grid-child container-component">
+		
+		<?php if ($this->countModules('breadcrumbs')) : ?>
+		<jdoc:include type="modules" name="breadcrumbs" style="none" />
+		<?php endif; ?>
+		
 		<jdoc:include type="modules" name="main-top" style="cardGrey" />
 		<jdoc:include type="message" />
 		<jdoc:include type="component" />
-		<jdoc:include type="modules" name="breadcrumbs" style="none" />
 		<jdoc:include type="modules" name="main-bottom" style="cardGrey" />
 	</div>
 
