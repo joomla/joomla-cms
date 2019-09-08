@@ -2004,7 +2004,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 *
 	 * @return  boolean
 	 *
-	 * @since   4.0.0
+	 * @since   3.9.11
 	 */
 	public function hasField($key)
 	{

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Rule;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
@@ -60,7 +60,7 @@ class OptionsRule extends FormRule
 
 		// When the field exists, the real options are fetched.
 		// This is needed for fields which do have dynamic options like from a database.
-		if ($field && is_array($field->options))
+		if ($field && \is_array($field->options))
 		{
 			foreach ($field->options as $opt)
 			{
@@ -76,7 +76,7 @@ class OptionsRule extends FormRule
 		}
 
 		// There may be multiple values in the form of an array (if the element is checkboxes, for example).
-		if (is_array($value))
+		if (\is_array($value))
 		{
 			// If all values are in the $options array, $diff will be empty and the options valid.
 			$diff = array_diff($value, $options);
@@ -86,7 +86,7 @@ class OptionsRule extends FormRule
 		else
 		{
 			// In this case value must be a string
-			return in_array((string) $value, $options);
+			return \in_array((string) $value, $options);
 		}
 	}
 }
