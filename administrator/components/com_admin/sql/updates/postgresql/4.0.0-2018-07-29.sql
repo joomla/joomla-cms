@@ -8,7 +8,8 @@ ALTER TABLE "#__finder_filters" ALTER COLUMN "created_by_alias" SET DEFAULT '';
 TRUNCATE TABLE "#__finder_links";
 ALTER TABLE "#__finder_links" ALTER COLUMN "state" SET NOT NULL;
 ALTER TABLE "#__finder_links" ALTER COLUMN "access" SET NOT NULL;
-ALTER TABLE "#__finder_links" ALTER COLUMN "language" TYPE VARCHAR(7), ALTER COLUMN "language" SET DEFAULT '';
+ALTER TABLE "#__finder_links" ALTER COLUMN "language" TYPE character varying(7);
+ALTER TABLE "#__finder_links" ALTER COLUMN "language" SET DEFAULT '';
 CREATE INDEX "#__finder_links_idx_language" on "#__finder_links" ("language");
 
 CREATE TABLE "#__finder_links_terms" (
@@ -75,7 +76,7 @@ INSERT INTO "#__finder_taxonomy" ("id", "parent_id", "lft", "rgt", "level", "pat
 SELECT setval('#__finder_taxonomy_id_seq', 2, false);
 
 TRUNCATE TABLE "#__finder_terms";
-ALTER TABLE "#__finder_terms" ALTER COLUMN "language" TYPE CHAR(7);
+ALTER TABLE "#__finder_terms" ALTER COLUMN "language" TYPE character varying(7);
 ALTER TABLE "#__finder_terms" ALTER COLUMN "language" SET DEFAULT '';
 ALTER TABLE "#__finder_terms" ALTER COLUMN "stem" SET DEFAULT '';
 ALTER TABLE "#__finder_terms" ALTER COLUMN "soundex" SET DEFAULT '';
@@ -269,12 +270,13 @@ INSERT INTO "#__finder_terms_common" ("term", "language", "custom") VALUES
 	('too', 'en', 0),
 	('very', 'en', 0);
 
-ALTER TABLE "#__finder_tokens" ALTER COLUMN "language" TYPE VARCHAR(7), ALTER COLUMN "language" SET DEFAULT '';
+ALTER TABLE "#__finder_tokens" ALTER COLUMN "language" TYPE character varying(7);
+ALTER TABLE "#__finder_tokens" ALTER COLUMN "language" SET DEFAULT '';
 ALTER TABLE "#__finder_tokens" ALTER COLUMN "stem" SET DEFAULT '';
 CREATE INDEX "#__finder_tokens_idx_stem" on "#__finder_tokens" ("stem");
 CREATE INDEX "#__finder_tokens_idx_language" on "#__finder_tokens" ("language");
 
-ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "language" TYPE VARCHAR(7);
+ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "language" TYPE character varying(7);
 ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "language" SET DEFAULT '';
 ALTER TABLE "#__finder_tokens_aggregate" DROP COLUMN "map_suffix";
 ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "stem" SET DEFAULT '';
