@@ -65,7 +65,7 @@
       margin-top: 0;
       margin-bottom: 20px;
 
-      + div:not(.container-banner) {
+      + div:not(.container-banner):not(.container-sidebar-left) {
         margin-top: $cassiopeia-grid-gutter;
       }
     }
