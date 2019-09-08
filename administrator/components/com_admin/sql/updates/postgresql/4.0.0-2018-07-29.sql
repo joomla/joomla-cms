@@ -75,12 +75,14 @@ INSERT INTO "#__finder_taxonomy" ("id", "parent_id", "lft", "rgt", "level", "pat
 SELECT setval('#__finder_taxonomy_id_seq', 2, false);
 
 TRUNCATE TABLE "#__finder_terms";
-ALTER TABLE "#__finder_terms"	ALTER COLUMN "language" TYPE CHAR(7),	ALTER COLUMN "language" SET DEFAULT '';
+ALTER TABLE "#__finder_terms" ALTER COLUMN "language" TYPE CHAR(7);
+ALTER TABLE "#__finder_terms" ALTER COLUMN "language" SET DEFAULT '';
 ALTER TABLE "#__finder_terms" ALTER COLUMN "stem" SET DEFAULT '';
 ALTER TABLE "#__finder_terms" ALTER COLUMN "soundex" SET DEFAULT '';
 CREATE INDEX "#__finder_terms_idx_stem" on "#__finder_terms" ("stem");
 CREATE INDEX "#__finder_terms_idx_language" on "#__finder_terms" ("language");
-ALTER TABLE "#__finder_terms"	DROP CONSTRAINT "#__finder_terms_idx_term",	ADD CONSTRAINT "#__finder_terms_idx_term_language" UNIQUE ("term", "language");
+ALTER TABLE "#__finder_terms" DROP CONSTRAINT "#__finder_terms_idx_term";
+ALTER TABLE "#__finder_terms" ADD CONSTRAINT "#__finder_terms_idx_term_language" UNIQUE ("term", "language");
 
 DROP TABLE IF EXISTS "#__finder_terms_common";
 CREATE TABLE "#__finder_terms_common" (
@@ -272,7 +274,8 @@ ALTER TABLE "#__finder_tokens" ALTER COLUMN "stem" SET DEFAULT '';
 CREATE INDEX "#__finder_tokens_idx_stem" on "#__finder_tokens" ("stem");
 CREATE INDEX "#__finder_tokens_idx_language" on "#__finder_tokens" ("language");
 
-ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "language" TYPE VARCHAR(7), ALTER COLUMN "language" SET DEFAULT '';
+ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "language" TYPE VARCHAR(7);
+ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "language" SET DEFAULT '';
 ALTER TABLE "#__finder_tokens_aggregate" DROP COLUMN "map_suffix";
 ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "stem" SET DEFAULT '';
 ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "term_weight" SET DEFAULT 0;
