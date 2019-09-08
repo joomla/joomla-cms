@@ -59,7 +59,7 @@ Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('swi
  *     %3 - value
  *     %4 = any other attributes
  */
-$input    = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
+$input = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 
 ?>
 <fieldset>
