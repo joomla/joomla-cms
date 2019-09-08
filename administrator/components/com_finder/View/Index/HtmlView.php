@@ -21,6 +21,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Finder\Administrator\Helper\FinderHelper;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 
 /**
