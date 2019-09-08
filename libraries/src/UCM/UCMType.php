@@ -13,6 +13,7 @@ namespace Joomla\CMS\UCM;
 use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 
 /**
  * UCM Class for handling content types
@@ -113,11 +114,12 @@ class UCMType implements UCM
 			return $this->getTypeByAlias($this->alias);
 		}
 
-		$query = $this->db->getQuery(true);
-		$query->select('ct.*');
-		$query->from($this->db->quoteName('#__content_types', 'ct'));
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('ct') . '.*')
+			->from($this->db->quoteName('#__content_types', 'ct'))
+			->where($this->db->quoteName('ct.type_id') . ' = :pk')
+			->bind(':pk', $pk, ParameterType::INTEGER);
 
-		$query->where($this->db->quoteName('ct.type_id') . ' = ' . (int) $pk);
 		$this->db->setQuery($query);
 
 		return $this->db->loadObject();
@@ -134,10 +136,11 @@ class UCMType implements UCM
 	 */
 	public function getTypeByAlias($typeAlias = null)
 	{
-		$query = $this->db->getQuery(true);
-		$query->select('ct.*');
-		$query->from($this->db->quoteName('#__content_types', 'ct'));
-		$query->where($this->db->quoteName('ct.type_alias') . ' = ' . $this->db->quote($typeAlias));
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('ct') . '.*')
+			->from($this->db->quoteName('#__content_types', 'ct'))
+			->where($this->db->quoteName('ct.type_alias') . ' = :alias')
+			->bind(':alias', $typeAlias);
 
 		$this->db->setQuery($query);
 
@@ -155,13 +158,11 @@ class UCMType implements UCM
 	 */
 	public function getTypeByTable($tableName)
 	{
-		$query = $this->db->getQuery(true);
-		$query->select('ct.*');
-		$query->from($this->db->quoteName('#__content_types', 'ct'));
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('ct') . '.*')
+			->from($this->db->quoteName('#__content_types', 'ct'));
 
-		// $query->where($this->db->quoteName('ct.type_alias') . ' = ' . (int) $typeAlias);
 		$this->db->setQuery($query);
-
 		$types = $this->db->loadObjectList();
 
 		foreach ($types as $type)
@@ -194,10 +195,11 @@ class UCMType implements UCM
 			$alias = $this->alias;
 		}
 
-		$query = $this->db->getQuery(true);
-		$query->select('ct.type_id');
-		$query->from($this->db->quoteName('#__content_types', 'ct'));
-		$query->where($this->db->quoteName('ct.type_alias') . ' = ' . $this->db->quote($alias));
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('ct.type_id'))
+			->from($this->db->quoteName('#__content_types', 'ct'))
+			->where($this->db->quoteName('ct.type_alias') . ' = :alias')
+			->bind(':alias', $alias);
 
 		$this->db->setQuery($query);
 
