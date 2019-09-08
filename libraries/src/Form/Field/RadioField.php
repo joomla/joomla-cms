@@ -36,54 +36,6 @@ class RadioField extends ListField
 	protected $layout = 'joomla.form.field.radio.buttons';
 
 	/**
-	 * Method to attach a Form object to the field.
-	 *
-	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed              $value    The form field value to validate.
-	 * @param   string             $group    The field name group control value. This acts as as an array container for the field.
-	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                       full field name would end up being "bar[foo]".
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   1.7.0
-	 */
-	public function setup(\SimpleXMLElement $element, $value, $group = null)
-	{
-		if (!parent::setup($element, $value, $group))
-		{
-			return false;
-		}
-
-		// The layout for Switcher
-		if (!$element['layout'] && strpos(trim($this->class), 'switcher') === 0)
-		{
-			$this->skipLabelFor = true;
-			$this->layout = 'joomla.form.field.radio.switcher';
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to get the radio button field input markup.
-	 *
-	 * @return  string  The field input markup.
-	 *
-	 * @since   1.7.0
-	 */
-	protected function getInput()
-	{
-		if (empty($this->layout))
-		{
-			throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
-		}
-
-		// Trim the trailing line in the layout file
-		return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
-	}
-
-	/**
 	 * Method to get the data to be passed to the layout for rendering.
 	 *
 	 * @return  array
@@ -100,5 +52,24 @@ class RadioField extends ListField
 		);
 
 		return array_merge($data, $extraData);
+	}
+
+	/**
+	 * Method to render field with label and input.
+	 *
+	 * @param   array  $options  Options to be passed into the rendering of the field
+	 *
+	 * @return  string  A string containing the HTML of the field
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function renderField($options = [])
+	{
+		if ($this->layout === 'joomla.form.field.radio.switcher')
+		{
+			$options['hiddenLabel'] = true;
+		}
+
+		return parent::renderField($options);
 	}
 }
