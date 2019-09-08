@@ -83,6 +83,9 @@ $monochrome = (bool) $this->params->get('monochrome');
 
 HTMLHelper::getServiceRegistry()->register('atum', 'JHtmlAtum');
 HTMLHelper::_('atum.rootcolors', $this->params);
+
+// Add cookie alert message
+Text::script('JGLOBAL_WARNCOOKIES');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -98,7 +101,6 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 		<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
 	</div>
 </noscript>
-
 
 <header id="header" class="header">
 	<div class="d-flex">
