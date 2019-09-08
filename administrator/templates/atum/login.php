@@ -85,7 +85,7 @@ HTMLHelper::getServiceRegistry()->register('atum', 'JHtmlAtum');
 HTMLHelper::_('atum.rootcolors', $this->params);
 
 // Add cookie alert message
-$cookieAlert = Text::script('JGLOBAL_WARNCOOKIES');
+Text::script('JGLOBAL_WARNCOOKIES');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
