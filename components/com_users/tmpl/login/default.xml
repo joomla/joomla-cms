@@ -19,7 +19,7 @@
 			name="loginredirectchoice"
 			type="radio"
 			label="COM_USERS_FIELD_LOGIN_REDIRECT_CHOICE_LABEL"
-			class="switcher switcher-primary"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">COM_USERS_FIELD_LOGIN_URL</option>
@@ -90,7 +90,7 @@
 			name="logoutredirectchoice"
 			type="radio"
 			label="COM_USERS_FIELD_LOGOUT_REDIRECT_CHOICE_LABEL"
-			class="switcher switcher-primary"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">COM_USERS_FIELD_LOGIN_URL</option>

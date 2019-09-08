@@ -239,7 +239,7 @@
 				name="list_show_votes"
 				type="list"
 				label="JGLOBAL_LIST_VOTES_LABEL"
-				class="switcher"
+				layout="joomla.form.field.radio.switcher"
 				useglobal="true"
 				>
 				<option value="0" requires="vote">JHIDE</option>
@@ -250,7 +250,7 @@
 				name="list_show_ratings"
 				type="list"
 				label="JGLOBAL_LIST_RATINGS_LABEL"
-				class="switcher"
+				layout="joomla.form.field.radio.switcher"
 				useglobal="true"
 				>
 				<option value="0" requires="vote">JHIDE</option>

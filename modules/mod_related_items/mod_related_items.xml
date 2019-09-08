@@ -26,7 +26,7 @@
 				<field
 					name="showDate"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_RELATED_FIELD_SHOWDATE_LABEL"
 					default="0"
 					filter="integer"

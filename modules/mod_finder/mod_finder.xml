@@ -33,7 +33,7 @@
 				<field
 					name="show_autosuggest"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_LABEL"
 					default="1"
 					filter="integer"
@@ -57,7 +57,7 @@
 				<field
 					name="show_label"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_FINDER_FIELDSET_ADVANCED_SHOW_LABEL_LABEL"
 					default="1"
 					filter="integer"
@@ -75,7 +75,7 @@
 				<field
 					name="show_button"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_FINDER_FIELDSET_ADVANCED_SHOW_BUTTON_LABEL"
 					default="0"
 					filter="integer"
@@ -87,7 +87,7 @@
 				<field
 					name="opensearch"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_FINDER_FIELD_OPENSEARCH_LABEL"
 					default="1"
 					filter="integer"

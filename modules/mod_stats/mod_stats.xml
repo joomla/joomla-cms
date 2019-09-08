@@ -26,7 +26,7 @@
 				<field
 					name="serverinfo"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_STATS_FIELD_SERVERINFO_LABEL"
 					default="0"
 					filter="integer"
@@ -38,7 +38,7 @@
 				<field
 					name="siteinfo"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_STATS_FIELD_SITEINFO_LABEL"
 					default="0"
 					filter="integer"
@@ -50,7 +50,7 @@
 				<field
 					name="counter"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_STATS_FIELD_COUNTER_LABEL"
 					default="0"
 					filter="integer"

@@ -26,7 +26,7 @@
 					type="radio"
 					label="PLG_DEBUG_FIELD_REFRESH_ASSETS_LABEL"
 					description="PLG_DEBUG_FIELD_REFRESH_ASSETS_DESC"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
@@ -47,7 +47,7 @@
 					name="memory"
 					type="radio"
 					label="PLG_DEBUG_FIELD_MEMORY_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
@@ -59,7 +59,7 @@
 					name="request"
 					type="radio"
 					label="PLG_DEBUG_FIELD_REQUEST_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
@@ -71,7 +71,7 @@
 					name="session"
 					type="radio"
 					label="PLG_DEBUG_FIELD_SESSION_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
@@ -83,7 +83,7 @@
 					name="profile"
 					type="radio"
 					label="PLG_DEBUG_FIELD_PROFILING_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
@@ -95,7 +95,7 @@
 					name="queries"
 					type="radio"
 					label="PLG_DEBUG_FIELD_QUERIES_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
@@ -107,7 +107,7 @@
 					name="query_traces"
 					type="radio"
 					label="PLG_DEBUG_FIELD_QUERY_TRACES_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					showon="queries:1"
 					filter="integer"
@@ -120,7 +120,7 @@
 					name="query_profiles"
 					type="radio"
 					label="PLG_DEBUG_FIELD_QUERY_PROFILES_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					showon="queries:1"
 					filter="integer"
@@ -133,7 +133,7 @@
 					name="query_explains"
 					type="radio"
 					label="PLG_DEBUG_FIELD_QUERY_EXPLAINS_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					showon="queries:1"
 					filter="integer"
@@ -152,7 +152,7 @@
 					name="language_errorfiles"
 					type="radio"
 					label="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
@@ -164,7 +164,7 @@
 					name="language_files"
 					type="radio"
 					label="PLG_DEBUG_FIELD_LANGUAGE_FILES_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
@@ -176,7 +176,7 @@
 					name="language_strings"
 					type="radio"
 					label="PLG_DEBUG_FIELD_LANGUAGE_STRING_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
@@ -188,7 +188,7 @@
 					name="strip-first"
 					type="radio"
 					label="PLG_DEBUG_FIELD_STRIP_FIRST_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
@@ -223,7 +223,7 @@
 					name="logs"
 					type="radio"
 					label="PLG_DEBUG_FIELD_LOGS_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					>
 					<option value="0">JHIDE</option>
@@ -261,7 +261,7 @@
 					name="log_category_mode"
 					type="radio"
 					label="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_LABEL"
-					class="switcher switcher-danger"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					>
 					<option value="0">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
@@ -272,7 +272,7 @@
 					name="log-deprecated"
 					type="radio"
 					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="integer"
 					>
@@ -284,7 +284,7 @@
 					name="log-deprecated-core"
 					type="radio"
 					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_CORE_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="integer"
 					>
@@ -296,7 +296,7 @@
 					name="log-everything"
 					type="radio"
 					label="PLG_DEBUG_FIELD_LOG_EVERYTHING_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="integer"
 					>

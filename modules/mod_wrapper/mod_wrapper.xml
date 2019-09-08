@@ -34,7 +34,7 @@
 				<field
 					name="add"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_WRAPPER_FIELD_ADD_LABEL"
 					default="1"
 					filter="integer"
@@ -73,7 +73,7 @@
 				<field
 					name="height_auto"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_WRAPPER_FIELD_AUTOHEIGHT_LABEL"
 					default="1"
 					filter="integer"
@@ -85,7 +85,7 @@
 				<field
 					name="frameborder"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_WRAPPER_FIELD_FRAME_LABEL"
 					default="1"
 					filter="integer"

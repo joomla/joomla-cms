@@ -103,7 +103,7 @@
 			type="radio"
 			label="COM_USERS_USER_FIELD_SENDEMAIL_LABEL"
 			default="0"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -113,7 +113,7 @@
 			name="block"
 			type="radio"
 			label="COM_USERS_USER_FIELD_BLOCK_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="1">COM_USERS_USER_FIELD_BLOCK</option>
@@ -125,7 +125,7 @@
 			type="radio"
 			label="COM_USERS_USER_FIELD_REQUIRERESET_LABEL"
 			default="0"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>

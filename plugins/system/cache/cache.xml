@@ -22,7 +22,7 @@
 				<field
 					name="browsercache"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="PLG_CACHE_FIELD_BROWSERCACHE_LABEL"
 					default="0"
 					filter="integer"

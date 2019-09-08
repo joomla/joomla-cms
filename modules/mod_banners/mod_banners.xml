@@ -70,7 +70,7 @@
 				<field
 					name="tag_search"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_BANNERS_FIELD_TAG_LABEL"
 					default="0"
 					filter="integer"
