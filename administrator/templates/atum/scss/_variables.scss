@@ -27,7 +27,7 @@ $purple:                           #6f42c1; //used in bootstrap
 $pink:                             #e83e8c; //used in bootstrap
 $red:                              #c52827; //used in bootstrap
 $red-dark:                         #3b0d0c; //used for alerts error
-$yellow:                           #d43900; //used in bootstrap
+$yellow:                           #ffb107; //used in bootstrap
 $green:                            #2f7d32; //used in bootstrap
 $green-dark:                       #0f2f21; //used for alert success
 $teal:                             #20c997; //used in bootstrap
@@ -102,7 +102,7 @@ $header-height:                    3.5rem;
 $atum-toolbar-line-height:         2.45rem;
 
 // Sidebar
-$sidebar-width:                    15.625rem;
+$sidebar-width:                    18rem;
 $sidebar-width-login:              28.75rem;
 $sidebar-width-closed:             3rem;
 $main-brand-height:                3rem;
@@ -169,7 +169,7 @@ $state-info-text:                  var(--white);
 $state-info-bg:                    var(--info);
 $state-info-border:                var(--info-border);
 
-$state-warning-text:               var(--white);
+$state-warning-text:               var(--atum-text-dark);
 $state-warning-bg:                 var(--warning);
 $state-warning-border:             var(--warning-border);
 
@@ -258,6 +258,6 @@ $zindex-modal-backdrop:            1040;
 $zindex-modal:                     1050;
 $zindex-popover:                   1060;
 $zindex-tooltip:                   1070;
-$zindex-mobil-bottom:              8000;
-$zindex-mobil-toggle:              9999;
-$zindex-mobil-menu:                9000;
+$zindex-mobile-bottom:             8000;
+$zindex-mobile-toggle:             9999;
+$zindex-mobile-menu:               9000;
