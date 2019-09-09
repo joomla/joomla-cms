@@ -28,22 +28,24 @@ class PlgContentEmailcloak extends CMSPlugin
 	 * @param   mixed    &$params  Additional parameters. See {@see PlgContentEmailcloak()}.
 	 * @param   integer  $page     Optional page number. Unused. Defaults to zero.
 	 *
-	 * @return  boolean	True on success.
+	 * @return  void
 	 */
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
 	{
 		// Don't run this plugin when the content is being indexed
 		if ($context === 'com_finder.indexer')
 		{
-			return true;
+			return;
 		}
 
 		if (is_object($row))
 		{
-			return $this->_cloak($row->text, $params);
+			$this->_cloak($row->text, $params);
+
+			return;
 		}
 
-		return $this->_cloak($row, $params);
+		$this->_cloak($row, $params);
 	}
 
 	/**
@@ -68,7 +70,7 @@ class PlgContentEmailcloak extends CMSPlugin
 	 * @param   mixed   &$params  Additional parameters. Parameter "mode" (integer, default 1)
 	 *                             replaces addresses with "mailto:" links if nonzero.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 */
 	protected function _cloak(&$text, &$params)
 	{
@@ -80,13 +82,13 @@ class PlgContentEmailcloak extends CMSPlugin
 		{
 			$text = StringHelper::str_ireplace('{emailcloak=off}', '', $text);
 
-			return true;
+			return;
 		}
 
 		// Simple performance check to determine whether bot should process further.
 		if (StringHelper::strpos($text, '@') === false)
 		{
-			return true;
+			return;
 		}
 
 		$mode = (int) $this->params->def('mode', 1);
@@ -426,6 +428,6 @@ class PlgContentEmailcloak extends CMSPlugin
 			$text = substr_replace($text, $replacement, $regs[1][1], strlen($mail));
 		}
 
-		return true;
+		return;
 	}
 }
