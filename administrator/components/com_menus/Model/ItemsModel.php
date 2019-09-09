@@ -589,6 +589,7 @@ class ItemsModel extends ListModel
 			$items  = parent::getItems();
 			$lang   = Factory::getLanguage();
 			$client = $this->state->get('filter.client_id');
+			$menu = Factory::getApplication()->getMenu('site');
 
 			if ($items)
 			{
@@ -605,6 +606,19 @@ class ItemsModel extends ListModel
 					{
 						$item->title = Text::_($item->title);
 					}
+
+					// Breadcrumb relocated here
+					$parentItemId = $item->parent_id;
+					$allParents   = [];
+
+					while (!empty($parentItemId) && $parentItemId > 1)
+					{
+						$parentItem   = $menu->getItem($parentItemId);
+						$allParents[] = $parentItem->title;
+						$parentItemId = $parentItem->parent_id;
+					}
+
+					$item->menuPath = array_reverse($allParents);
 				}
 			}
 
@@ -612,34 +626,5 @@ class ItemsModel extends ListModel
 		}
 
 		return $this->cache[$store];
-	}
-
-	/**
-	 * Search the parent item id to select the parent item name
-	 * Breadcrumb
-	 *
-	 * @param   integer  $value  The parent item id
-	 *
-	 * @return  \stdClass
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function searchParentItem(int $value): ?\stdClass
-	{
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true);
-		$query->select(
-			$db->quoteName(
-				[
-					'title',
-					'parent_id'
-				]
-			)
-		)
-			->from($db->quoteName('#__menu'))
-			->where($db->quoteName('id') . ' = :menuId')
-			->bind(':menuId', $value, ParameterType::INTEGER);
-
-		return $db->setQuery($query)->loadObject();
 	}
 }

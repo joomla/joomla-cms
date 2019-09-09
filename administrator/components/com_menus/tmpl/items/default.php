@@ -169,21 +169,6 @@ $assoc = Associations::isEnabled() && $this->state->get('filter.client_id') == 0
 									<?php if ($item->checked_out) : ?>
 										<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'items.', $canCheckin); ?>
 									<?php endif; ?>
-									<?php
-
-									// Breadcrumb relocated here
-									$parentItemId = $item->parent_id;
-									$allParents   = [];
-
-									while (!empty($parentItemId) && $parentItemId > 1)
-									{
-										$parentItem   = $this->getModel()->searchParentItem($parentItemId);
-										$allParents[] = $parentItem->title;
-										$parentItemId = $parentItem->parent_id;
-									}
-
-									echo implode(' / ', $allParents) . ' / ';
-									?>
 									<?php if ($canEdit && !$item->protected) : ?>
 										<a href="<?php echo Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id); ?>"
 										   title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
@@ -191,7 +176,7 @@ $assoc = Associations::isEnabled() && $this->state->get('filter.client_id') == 0
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
-									<span class="small">
+                                    <span class="small">
 									<?php if ($item->type != 'url') : ?>
 										<?php if (empty($item->note)) : ?>
 											<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
@@ -202,13 +187,21 @@ $assoc = Associations::isEnabled() && $this->state->get('filter.client_id') == 0
 										<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
 									<?php endif; ?>
 									</span>
+                                    <br>
+                                    <?php echo $prefix; ?>
+                                    <span class="small">
+                                        <?php
+                                        echo implode(' / ', $item->menuPath);
+
+                                        ?>
+                                    </span>
 									<?php echo HTMLHelper::_('menus.visibility', $item->params); ?>
 									<div title="<?php echo $this->escape($item->path); ?>">
 										<?php echo $prefix; ?>
 										<span class="small"
 											  title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
 											<?php echo $this->escape($item->item_type); ?></span>
-									</div>
+                                    </div>
 									<?php if ($item->type === 'component' && !$item->enabled) : ?>
 										<div>
 											<span class="badge badge-secondary">
