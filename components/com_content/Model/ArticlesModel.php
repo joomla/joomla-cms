@@ -786,17 +786,17 @@ class ArticlesModel extends ListModel
 			->select('DATE(' .
 				$query->concatenate(
 					array(
-						$query->year($query->quoteName('publish_up')),
-						$query->quote('-'),
-						$query->month($query->quoteName('publish_up')),
-						$query->quote('-01')
+						$query->year($db->quoteName('publish_up')),
+						$db->quote('-'),
+						$query->month($db->quoteName('publish_up')),
+						$db->quote('-01')
 					)
 				) . ') as d'
 			)
 			->select('COUNT(*) as c')
 			->from('(' . $this->getListQuery() . ') as b')
-			->group($query->quoteName('d'))
-			->order($query->quoteName('d') . ' desc');
+			->group($db->quoteName('d'))
+			->order($db->quoteName('d') . ' desc');
 
 		return $db->setQuery($query)->loadObjectList();
 	}

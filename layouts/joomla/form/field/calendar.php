@@ -116,7 +116,7 @@ HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, ['version' =
 			<?php echo !empty($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : ''; ?>
 			data-alt-value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" autocomplete="off">
 		<span class="input-group-append">
-			<button type="button" class="<?php echo ($readonly || $disabled) ? 'hidden ' : ''; ?>btn btn-secondary"
+			<button type="button" class="<?php echo ($readonly || $disabled) ? 'hidden ' : ''; ?>btn btn-primary"
 				id="<?php echo $id; ?>_btn"
 				data-inputfield="<?php echo $id; ?>"
 				data-dayformat="<?php echo $format; ?>"
