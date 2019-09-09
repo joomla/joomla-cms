@@ -9,9 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.9.0</version>
 	<description>MOD_LATESTACTIONS_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\LatestActions</namespace>
 	<files>
 		<filename module="mod_latestactions">mod_latestactions.php</filename>
-		<filename>helper.php</filename>
+		<folder>Helper</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>

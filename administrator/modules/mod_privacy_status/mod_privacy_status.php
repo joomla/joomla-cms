@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  mod_privacy_dashboard
+ * @subpackage  mod_privacy_status
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Component\Privacy\Administrator\Helper\PrivacyHelper;
+use Joomla\Module\PrivacyStatus\Administrator\Helper\PrivacyStatusHelper;
 
 // Only super user can view this data
 if (!Factory::getUser()->authorise('core.admin'))
@@ -31,13 +32,11 @@ $lang->load('com_privacy', JPATH_ADMINISTRATOR, null, false, true)
 
 HTMLHelper::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/html');
 
-JLoader::register('ModPrivacyStatusHelper', __DIR__ . '/helper.php');
-
-$privacyPolicyInfo      = ModPrivacyStatusHelper::getPrivacyPolicyInfo();
-$requestFormPublished   = ModPrivacyStatusHelper::getRequestFormPublished();
+$privacyPolicyInfo      = PrivacyStatusHelper::getPrivacyPolicyInfo();
+$requestFormPublished   = PrivacyStatusHelper::getRequestFormPublished();
 $privacyConsentPluginId = PrivacyHelper::getPrivacyConsentPluginId();
 $sendMailEnabled        = (bool) Factory::getConfig()->get('mailonline', 1);
-$numberOfUrgentRequests = ModPrivacyStatusHelper::getNumberUrgentRequests();
+$numberOfUrgentRequests = PrivacyStatusHelper::getNumberUrgentRequests();
 $urgentRequestDays      = (int) ComponentHelper::getParams('com_privacy')->get('notify', 14);
 
 require ModuleHelper::getLayoutPath('mod_privacy_status', $params->get('layout', 'default'));

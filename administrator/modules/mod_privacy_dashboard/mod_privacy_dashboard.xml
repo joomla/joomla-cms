@@ -9,10 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.9.0</version>
 	<description>MOD_PRIVACY_DASHBOARD_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\PrivacyDashboard</namespace>
 	<files>
 		<filename module="mod_privacy_dashboard">mod_privacy_dashboard.php</filename>
+		<folder>Helper</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_privacy_dashboard.ini</language>

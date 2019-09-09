@@ -1,13 +1,15 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  mod_privacy_dashboard
+ * @subpackage  mod_privacy_status
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\Module\PrivacyStatus\Administrator\Helper;
+
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -20,7 +22,7 @@ use Joomla\CMS\Router\Route;
  *
  * @since  4.0.0
  */
-class ModPrivacyStatusHelper
+class PrivacyStatusHelper
 {
 	/**
 	 * Get the information about the published privacy policy
