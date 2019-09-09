@@ -1,59 +1,42 @@
 // Modifiers
 
 // com_modules
-[class^='container-'], [class*=' container-'] {
-  .span-col-2 {
-    flex: 0 0 50%;
-    max-width: calc(50% - #{$cassiopeia-grid-gutter});
-  }
-  .span-col-3 {
-    flex: 0 0 33.333%;
-    max-width: calc(33.333% - #{$cassiopeia-grid-gutter});
-  }
-  .span-col-4 {
-    flex: 0 0 25%;
-    max-width: calc(25% - #{$cassiopeia-grid-gutter});
+.span-col-2 {
+  grid-column-end: span 2;
+}
+.span-col-3 {
+  grid-column-end: span 3;
+}
+.span-col-4 {
+  grid-column-end: span 4;
+}
+.span-row-2 {
+  grid-row-end: span 2;
+}
+.span-row-3 {
+  grid-row-end: span 3;
+}
+.span-row-4 {
+  grid-row-end: span 4;
+}
+[class^='span-'], [class*=' span-'] {
+  @include media-breakpoint-down(md) {
+    grid-column-end: auto;
+    grid-row-end: auto;
   }
 }
-
-@supports (display: grid) {
-  .span-col-2 {
+[class^='span-col'], [class*=' span-col'] {
+  @include media-breakpoint-down(md) {
     grid-column-end: span 2;
   }
-  .span-col-3 {
-    grid-column-end: span 3;
+  @include media-breakpoint-down(sm) {
+    grid-column-end: auto;
   }
-  .span-col-4 {
-    grid-column-end: span 4;
-  }
-  .span-row-2 {
-    grid-row-end: span 2;
-  }
-  .span-row-3 {
-    grid-row-end: span 3;
-  }
-  .span-row-4 {
-    grid-row-end: span 4;
-  }
+}
+[class^='container-'], [class*=' container-'] {
   [class^='span-'], [class*=' span-'] {
-    @include media-breakpoint-down(md) {
-      grid-column-end: auto;
-      grid-row-end: auto;
-    }
-  }
-  [class^='span-col'], [class*=' span-col'] {
-    @include media-breakpoint-down(md) {
-      grid-column-end: span 2;
-    }
-    @include media-breakpoint-down(sm) {
-      grid-column-end: auto;
-    }
-  }
-  [class^='container-'], [class*=' container-'] {
-    [class^='span-'], [class*=' span-'] {
-      flex: 0 1 auto;
-      max-width: none;
-    }
+    flex: 0 1 auto;
+    max-width: none;
   }
 }
 
