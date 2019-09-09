@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\String;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Uri\UriHelper;
 use Algo26\IdnaConvert\ToIdn;
