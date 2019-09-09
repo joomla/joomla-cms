@@ -11,13 +11,21 @@ namespace Joomla\Component\Associations\Administrator\View\Association;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
+use Joomla\Component\Associations\Administrator\Model\AssociationModel;
+use Joomla\Input\Input;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -34,12 +42,12 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @since  3.7.0
 	 */
-	protected $items;
+	protected $items = [];
 
 	/**
 	 * The pagination object
 	 *
-	 * @var    \Joomla\CMS\Pagination\Pagination
+	 * @var    Pagination
 	 *
 	 * @since  3.7.0
 	 */
@@ -48,7 +56,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var    object
+	 * @var    CMSObject
 	 *
 	 * @since  3.7.0
 	 */
@@ -57,11 +65,147 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Selected item type properties.
 	 *
-	 * @var    \Joomla\Registry\Registry
+	 * @var    Registry
 	 *
 	 * @since  3.7.0
 	 */
-	public $itemType = null;
+	protected $itemType;
+
+	/**
+	 * The application
+	 *
+	 * @var    CMSApplicationInterface
+	 * @since  3.7.0
+	 */
+	protected $app;
+
+	/**
+	 * The ID of the reference language
+	 *
+	 * @var    integer
+	 * @since  3.7.0
+	 */
+	protected $referenceId = 0;
+
+	/**
+	 * The type name
+	 *
+	 * @var    string
+	 * @since  3.7.0
+	 */
+	protected $typeName = '';
+
+	/**
+	 * The reference language
+	 *
+	 * @var    string
+	 * @since  3.7.0
+	 */
+	protected $referenceLanguage = '';
+
+	/**
+	 * The title of the reference language
+	 *
+	 * @var    string
+	 * @since  3.7.0
+	 */
+	protected $referenceTitle = '';
+
+	/**
+	 * The value of the reference title
+	 *
+	 * @var    string
+	 * @since  3.7.0
+	 */
+	protected $referenceTitleValue = '';
+
+	/**
+	 * The URL to the edit screen
+	 *
+	 * @var    string
+	 * @since  3.7.0
+	 */
+	protected $editUri = '';
+
+	/**
+	 * The ID of the target field
+	 *
+	 * @var    string
+	 * @since  3.7.0
+	 */
+	protected $targetId = '';
+
+	/**
+	 * The target language
+	 *
+	 * @var    string
+	 * @since  3.7.0
+	 */
+	protected $targetLanguage = '';
+
+	/**
+	 * The source of the target field
+	 *
+	 * @var    string
+	 * @since  3.7.0
+	 */
+	protected $defaultTargetSrc = '';
+
+	/**
+	 * The action to perform for the target field
+	 *
+	 * @var    string
+	 * @since  3.7.0
+	 */
+	protected $targetAction = '';
+
+	/**
+	 * The title of the target field
+	 *
+	 * @var    string
+	 * @since  3.7.0
+	 */
+	protected $targetTitle = '';
+
+	/**
+	 * The edit form
+	 *
+	 * @var    Form
+	 * @since  3.7.0
+	 */
+	protected $form;
+
+	/**
+	 * Set if the option is set to save as copy
+	 *
+	 * @var    boolean
+	 * @since  3.7.0
+	 */
+	private $save2copy = false;
+
+	/**
+	 * The type of language
+	 *
+	 * @var    Registry
+	 * @since  3.7.0
+	 */
+	private $type;
+
+	/**
+	 * The supported types
+	 *
+	 * @var    array
+	 * @since  3.7.0
+	 */
+	private $typeSupports = [];
+
+	/**
+	 * The extension name
+	 *
+	 * @var    string
+	 * @since  3.7.0
+	 */
+	private $extensionName = '';
 
 	/**
 	 * Display the view
@@ -71,36 +215,42 @@ class HtmlView extends BaseHtmlView
 	 * @return  void
 	 *
 	 * @since   3.7.0
+	 *
 	 * @throws  \Exception
 	 */
-	public function display($tpl = null)
+	public function display($tpl = null): void
 	{
+		/** @var AssociationModel $model */
+		$model = $this->getModel();
+
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (count($errors = $model->getErrors()))
 		{
-			throw new \Exception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->app  = Factory::getApplication();
-		$this->form = $this->get('Form');
-		$input      = $this->app->input;
+		$this->form = $model->getForm();
+		/** @var Input $input */
+		$input             = $this->app->input;
 		$this->referenceId = $input->get('id', 0, 'int');
 
-		list($extensionName, $typeName) = explode('.', $input->get('itemtype', '', 'string'), 2);
+		[$extensionName, $typeName] = explode('.', $input->get('itemtype', '', 'string'), 2);
 
+		/** @var Registry $extension */
 		$extension = AssociationsHelper::getSupportedExtension($extensionName);
 		$types     = $extension->get('types');
 
 		if (array_key_exists($typeName, $types))
 		{
-			$this->type          = $types[$typeName];
-			$this->typeSupports  = array();
-			$details             = $this->type->get('details');
-			$this->save2copy     = false;
+			$this->type         = $types[$typeName];
+			$this->typeSupports = [];
+			$details            = $this->type->get('details');
+			$this->save2copy    = false;
 
 			if (array_key_exists('support', $details))
 			{
-				$support = $details['support'];
+				$support            = $details['support'];
 				$this->typeSupports = $support;
 			}
 
@@ -112,7 +262,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->extensionName = $extensionName;
 		$this->typeName      = $typeName;
-		$this->itemtype      = $extensionName . '.' . $typeName;
+		$this->itemType      = $extensionName . '.' . $typeName;
 
 		$languageField = AssociationsHelper::getTypeFieldName($extensionName, $typeName, 'language');
 		$referenceId   = $input->get('id', 0, 'int');
@@ -134,21 +284,21 @@ class HtmlView extends BaseHtmlView
 				$extensionName .= '.' . implode('.', $typeNameExploded);
 			}
 
-			$options = array(
+			$options = [
 				'option'    => 'com_categories',
 				'view'      => 'category',
 				'extension' => $extensionName,
 				'tmpl'      => 'component',
-			);
+			];
 		}
 		else
 		{
-			$options = array(
+			$options = [
 				'option'    => $extensionName,
 				'view'      => $typeName,
 				'extension' => $extensionName,
 				'tmpl'      => 'component',
-			);
+			];
 		}
 
 		// Reference and target edit links.
@@ -163,16 +313,16 @@ class HtmlView extends BaseHtmlView
 
 		if ($target = $input->get('target', '', 'string'))
 		{
-			$matches = preg_split("#[\:]+#", $target);
-			$this->targetAction     = $matches[2];
-			$this->targetId         = $matches[1];
-			$this->targetLanguage   = $matches[0];
-			$this->targetTitle      = AssociationsHelper::getTypeFieldName($extensionName, $typeName, 'title');
-			$task                   = $typeName . '.' . $this->targetAction;
+			$matches              = preg_split("#[\:]+#", $target);
+			$this->targetAction   = $matches[2];
+			$this->targetId       = $matches[1];
+			$this->targetLanguage = $matches[0];
+			$this->targetTitle    = AssociationsHelper::getTypeFieldName($extensionName, $typeName, 'title');
+			$task                 = $typeName . '.' . $this->targetAction;
 
-			/*
+			/**
 			 * Let's put the target src into a variable to use in the javascript code
-			 *  to avoid race conditions when the reference iframe loads.
+			 * to avoid race conditions when the reference iframe loads.
 			 */
 			$document = Factory::getDocument();
 			$document->addScriptOptions('targetSrc', Route::_($this->editUri . '&task=' . $task . '&id=' . (int) $this->targetId));
@@ -190,8 +340,10 @@ class HtmlView extends BaseHtmlView
 	 * @return  void
 	 *
 	 * @since  3.7.0
+	 *
+	 * @throws \Exception
 	 */
-	protected function addToolbar()
+	protected function addToolbar(): void
 	{
 		// Hide main menu.
 		Factory::getApplication()->input->set('hidemainmenu', 1);
@@ -206,7 +358,14 @@ class HtmlView extends BaseHtmlView
 			$languageKey = strtoupper($this->extensionName) . '_CATEGORIES';
 		}
 
-		ToolbarHelper::title(Text::sprintf('COM_ASSOCIATIONS_TITLE_EDIT', Text::_($this->extensionName), Text::_($languageKey)), 'language assoc');
+		ToolbarHelper::title(
+			Text::sprintf(
+				'COM_ASSOCIATIONS_TITLE_EDIT',
+				Text::_($this->extensionName),
+				Text::_($languageKey)
+			),
+			'language assoc'
+		);
 
 		$bar = Toolbar::getInstance('toolbar');
 
