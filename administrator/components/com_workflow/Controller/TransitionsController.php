@@ -46,7 +46,7 @@ class TransitionsController extends AdminController
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	 protected $text_prefix = 'COM_WORKFLOW_TRANSITIONS';
+	protected $text_prefix = 'COM_WORKFLOW_TRANSITIONS';
 
 	/**
 	 * Constructor.
