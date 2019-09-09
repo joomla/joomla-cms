@@ -191,7 +191,7 @@ $assoc = Associations::isEnabled() && $this->state->get('filter.client_id') == 0
                                     <?php echo $prefix; ?>
                                     <span class="small">
                                         <?php
-                                        echo implode(' / ', $item->menuPath);
+                                        echo implode(' › ', $item->menuPath);
 
                                         ?>
                                     </span>
