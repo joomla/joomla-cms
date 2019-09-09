@@ -103,27 +103,30 @@ class DatabaseController extends BaseController
 	public function import()
 	{
 		// Get file to import in the database.
-		$file = $this->input->get('zip_file');
+		$input = Factory::getApplication()->input;
+		$file = $input->files->get('zip_file', null, 'raw');
 
-		if (!isset($file))
+		if ($file['name'] == '')
 		{
 			$this->app->getLogger()->warning(
 				Text::_(
 					'COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'
-				) . $file, array('category' => 'jerror')
+				), array('category' => 'jerror')
 			);
-		}
-
-		/** @var DatabaseModel $model */
-		$model = $this->getModel('Database');
-
-		if ($model->import($file))
-		{
-			$this->setMessage(Text::_('COM_INSTALLER_MSG_DATABASE_IMPORT_OK'));
 		}
 		else
 		{
-			$this->setMessage(Text::_('COM_INSTALLER_MSG_DATABASE_IMPORT_ERROR'));
+			/** @var DatabaseModel $model */
+			$model = $this->getModel('Database');
+
+			if ($model->import($file))
+			{
+				$this->setMessage(Text::_('COM_INSTALLER_MSG_DATABASE_IMPORT_OK'));
+			}
+			else
+			{
+				$this->setMessage(Text::_('COM_INSTALLER_MSG_DATABASE_IMPORT_ERROR'));
+			}
 		}
 
 		$this->setRedirect(Route::_('index.php?option=com_installer&view=database', false));

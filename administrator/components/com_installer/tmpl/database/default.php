@@ -23,7 +23,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 
 ?>
 <div id="installer-database" class="clearfix">
-	<form action="<?php echo Route::_('index.php?option=com_installer&view=database'); ?>" method="post" name="adminForm" id="adminForm">
+	<form enctype="multipart/form-data" action="<?php echo Route::_('index.php?option=com_installer&view=database'); ?>" method="post" name="adminForm" id="adminForm">
 		<table class="table">
 			<tbody>
 				<tr>

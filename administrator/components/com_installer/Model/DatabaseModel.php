@@ -345,15 +345,20 @@ class DatabaseModel extends InstallerModel
             return false;
     }
 
-		$config = Factory::getApplication()->getConfig();
-		$tmpFile = $config->get('tmp_path') . '/' . $file;
-
-		//move_uploaded_file($file['tmp_name'], $tmpFile);
-		File::upload($file, $tmpFile, false, true);
-
-		$destDir = JPATH_ROOT . '/tmp/';
+		$tmpFile = Factory::getApplication()->get('tmp_path') . '/' . $file['name'];
+		File::upload($file['tmp_name'], $tmpFile, false, true);
+		$destDir = Path::clean(Factory::getApplication()->get('tmp_path') . '/');
 		$zipArchive = (new Archive)->getAdapter('zip');
-		$zipArchive->extract($file, $destDir);
+
+		try
+		{
+			$zipArchive->extract($tmpFile, $destDir);
+		}
+		catch (\RuntimeException $e)
+		{
+			Factory::getApplication()->enqueueMessage("Extract " . $tmpFile . " into " . $destDir, 'error');
+			return false;
+		}
 
 		try
 		{
@@ -366,11 +371,11 @@ class DatabaseModel extends InstallerModel
 			return false;
 		}
 
-		$tables = Folder::files($desDir, '\.xml$');
+		$tables = Folder::files($destDir, '\.xml$');
 
 		foreach ($tables as $table)
 		{
-			$percorso = $desDir . '/' . $table;
+			$percorso = $destDir . '/' . $table;
 			$tableName = str_replace('.xml', '', $table);
 			$importer->from(file_get_contents($percorso));
 
@@ -380,6 +385,7 @@ class DatabaseModel extends InstallerModel
 			}
 			catch (ExecutionFailureException $e)
 			{
+				Factory::getApplication()->enqueueMessage("Can't drop table " . $tableName, 'error');
 				return false;
 			}
 
@@ -389,6 +395,7 @@ class DatabaseModel extends InstallerModel
 			}
 			catch (\Exception $e)
 			{
+				Factory::getApplication()->enqueueMessage("Can't merge structure from table: " . $tableName, 'error');
 				return false;
 			}
 
@@ -398,6 +405,7 @@ class DatabaseModel extends InstallerModel
 			}
 			catch (\Exception $e)
 			{
+				Factory::getApplication()->enqueueMessage("Can't import data from table: " . $tableName, 'error');
 				return false;
 			}
 		}
