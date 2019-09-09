@@ -48,7 +48,7 @@ class TransitionsController extends AdminController
 	 */
 	 protected $text_prefix = 'COM_WORKFLOW_TRANSITIONS';
 
-	 /**
+	/**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
