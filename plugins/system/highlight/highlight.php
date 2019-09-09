@@ -36,7 +36,7 @@ class PlgSystemHighlight extends CMSPlugin
 	 * The highlighting is done with JavaScript so we just
 	 * need to check a few parameters and the JHtml behavior will do the rest.
 	 *
-	 * @return  boolean  True on success
+	 * @return  void
 	 *
 	 * @since   2.5
 	 */
@@ -45,7 +45,7 @@ class PlgSystemHighlight extends CMSPlugin
 		// Check that we are in the site application.
 		if ($this->app->isClient('administrator'))
 		{
-			return true;
+			return;
 		}
 
 		// Set the variables.
@@ -55,13 +55,13 @@ class PlgSystemHighlight extends CMSPlugin
 		// Check if the highlighter is enabled.
 		if (!ComponentHelper::getParams($extension)->get('highlight_terms', 1))
 		{
-			return true;
+			return;
 		}
 
 		// Check if the highlighter should be activated in this environment.
 		if ($input->get('tmpl', '', 'cmd') === 'component' || $this->app->getDocument()->getType() !== 'html')
 		{
-			return true;
+			return;
 		}
 
 		// Get the terms to highlight from the request.
@@ -71,7 +71,7 @@ class PlgSystemHighlight extends CMSPlugin
 		// Check the terms.
 		if (empty($terms))
 		{
-			return true;
+			return;
 		}
 
 		// Clean the terms array.
@@ -92,8 +92,6 @@ class PlgSystemHighlight extends CMSPlugin
 		$buf = $doc->getBuffer('component');
 		$buf = '<br id="highlighter-start" />' . $buf . '<br id="highlighter-end" />';
 		$doc->setBuffer($buf, 'component');
-
-		return true;
 	}
 
 	/**
