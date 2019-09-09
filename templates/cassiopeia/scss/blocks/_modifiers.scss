@@ -91,6 +91,47 @@
 
 .blog-item {
   padding: 0 ($cassiopeia-grid-gutter / 2) $cassiopeia-grid-gutter ($cassiopeia-grid-gutter / 2);
+  display: flex;
+  flex-direction: column;
+  .boxed & {
+    background-color: #fff;
+    box-shadow: 0 0 2px rgba(52, 58, 67, 0.1), 0 2px 5px rgba(52, 58, 67, 0.08), 0 5px 15px rgba(52, 58, 67, 0.08), inset 0 3px 0 $cassiopeia-template-color;
+    .item-content {
+      padding: 25px;
+    }
+  }
+  .image-left &, .image-right & {
+    flex-direction: row;
+  }
+  .item-image {
+    margin-top: 3px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    .boxed & {
+      margin-bottom: 0;
+    }
+    .image-right & {
+      order: 1;
+    }
+    .image-bottom & {
+      order: 1;
+      margin-top: -15px;
+    }
+  }
+  .item-content {
+    .image-left & {
+      padding-left: 25px;
+    }
+    .image-right & {
+      padding-right: 25px;
+    }
+  }
+  .image-left &, .image-right & {
+    flex-direction: row;
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+    }
+  }  
 }
 
 @supports (display: grid) {
@@ -149,50 +190,6 @@
   &[class^='masonry-'], &[class*=' masonry-'] {
     @include media-breakpoint-down(md) {
       column-count: 1;
-    }
-  }
-}
-
-.blog-item-content {
-  display: flex;
-  flex-direction: column;
-  .boxed & {
-    background-color: #fff;
-    box-shadow: 0 0 2px rgba(52, 58, 67, 0.1), 0 2px 5px rgba(52, 58, 67, 0.08), 0 5px 15px rgba(52, 58, 67, 0.08), inset 0 3px 0 $cassiopeia-template-color;
-    .item-content {
-      padding: 25px;
-    }
-  }
-  .image-left &, .image-right & {
-    flex-direction: row;
-  }
-  .item-image {
-    margin-top: 3px;
-    margin-bottom: 15px;
-    overflow: hidden;
-    .boxed & {
-      margin-bottom: 0;
-    }
-    .image-right & {
-      order: 1;
-    }
-    .image-bottom & {
-      order: 1;
-      margin-top: -15px;
-    }
-  }
-  .item-content {
-    .image-left & {
-      padding-left: 25px;
-    }
-    .image-right & {
-      padding-right: 25px;
-    }
-  }
-  .image-left &, .image-right & {
-    flex-direction: row;
-    @include media-breakpoint-down(sm) {
-      flex-direction: column;
     }
   }
 }
