@@ -121,7 +121,7 @@ class InstallerHelper
 	 * @param   integer  $client_id  client_id of an extension
 	 * @param   string   $folder     folder of an extension
 	 *
-	 * @return  \SimpleXMLElement
+	 * @return  \SimpleXMLElement|bool
 	 *
 	 * @since   4.0.0
 	 */
@@ -153,9 +153,7 @@ class InstallerHelper
 				$path = JPATH_ADMINISTRATOR . '/manifests/packages/' . $element . '.xml';
 		}
 
-		$content = file_exists($path) ? file_get_contents($path) : '';
-
-		return simplexml_load_string($content);
+		return file_exists($path) ? simplexml_load_file($path) : false;
 	}
 
 	/**
