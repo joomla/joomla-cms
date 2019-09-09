@@ -22,6 +22,12 @@
     grid-row-end: auto;
   }
 
+  [class^='span-col'], [class*=' span-col'] {
+    @include media-breakpoint-up(sm) {
+      grid-column-end: span 2;
+    }
+  }
+
   @include media-breakpoint-up(md) {
     .span-col-2 {
       grid-column-end: span 2;
@@ -43,12 +49,6 @@
     }
   }
 
-  [class^='span-col'], [class*=' span-col'] {
-    @include media-breakpoint-down(sm) {
-      grid-column-end: span 2;
-    }
-  }
-  
   [class^='container-'], [class*=' container-'] {
     [class^='span-'], [class*=' span-'] {
       flex: 0 1 auto;
