@@ -46,6 +46,7 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   string   $customPrefix    Optional prefix for new categories.
  */
 
 $html    = array();
@@ -72,9 +73,9 @@ if ($allowCustom)
 {
 	$attr2 .= ' allow-custom';
 
-	if ($this->customPrefix !== '')
+	if ($customPrefix !== '')
 	{
-		$attr2 .= ' data-custom_value_prefix="' . $this->customPrefix . '" ';
+		$attr2 .= ' new-item-prefix="' . $customPrefix . '" ';
 	}
 }
 

@@ -9,7 +9,7 @@
 
 namespace Joomla\Plugin\System\Stats\Field;
 
-defined('JPATH_BASE') or die;
+\defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
