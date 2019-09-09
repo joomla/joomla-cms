@@ -319,8 +319,8 @@
 		</field>
 
 		<field
-			name="language_default" 
-			type="language" 
+			name="language_default"
+			type="language"
 			label="COM_FINDER_CONFIG_LANGUAGE_DEFAULT_LABEL"
 			description="COM_FINDER_CONFIG_LANGUAGE_DEFAULT_DESC"
 			>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset 
+	<fieldset
 		name="component"
 		label="COM_MEDIA_FIELDSET_OPTIONS_LABEL">
 		<field
@@ -16,15 +16,15 @@
 			name="upload_maxsize"
 			type="number"
 			label="COM_MEDIA_FIELD_MAXIMUM_SIZE_LABEL"
-			description="COM_MEDIA_FIELD_MAXIMUM_SIZE_DESC" 
+			description="COM_MEDIA_FIELD_MAXIMUM_SIZE_DESC"
 			validate="number"
 			min="0"
 			default="10"
 		/>
 
 		<field
-			name="spacer1" 
-			type="spacer" 
+			name="spacer1"
+			type="spacer"
 			label="COM_MEDIA_FOLDERS_PATH_LABEL"
 			class="text"
 		/>
@@ -86,7 +86,7 @@
 			name="ignore_extensions"
 			type="text"
 			label="COM_MEDIA_FIELD_IGNORED_EXTENSIONS_LABEL"
-			description="COM_MEDIA_FIELD_IGNORED_EXTENSIONS_DESC" 
+			description="COM_MEDIA_FIELD_IGNORED_EXTENSIONS_DESC"
 			size="50"
 		/>
 

@@ -10,25 +10,23 @@
 	</layout>
 
 	<!-- Add fields to the parameters object for the layout. -->
-		<fields name="params">
+	<fields name="params">
 		<fieldset name="request" label="COM_MENUS_BASIC_FIELDSET_LABEL">
 
-			<field 
-				name="url" 
+			<field
+				name="url"
 				type="text"
 				label="COM_WRAPPER_FIELD_URL_LABEL"
 				size="30"
 				required="true"
 			/>
 		</fieldset>
-
 		<!-- Add fields to the parameters object for the layout. -->
 
 		<!-- Scroll. -->
 		<fieldset name="basic" label="COM_WRAPPER_FIELD_LABEL_SCROLLBARSPARAMS">
-
-			<field 
-				name="scrolling" 
+			<field
+				name="scrolling"
 				type="list"
 				label="COM_WRAPPER_FIELD_SCROLLBARS_LABEL"
 				default="auto"
@@ -38,28 +36,26 @@
 				<option value="auto">COM_WRAPPER_FIELD_VALUE_AUTO</option>
 			</field>
 
-			<field 
-				name="width" 
+			<field
+				name="width"
 				type="text"
 				label="JGLOBAL_WIDTH"
 				default="100%"
 				size="5"
 			/>
 
-			<field 
-				name="height" 
+			<field
+				name="height"
 				type="number"
 				label="COM_WRAPPER_FIELD_HEIGHT_LABEL"
 				default="500"
 			/>
-
 		</fieldset>
 
 		<!-- Advanced options. -->
 		<fieldset name="advanced">
-
 			<field
-				name="height_auto" 
+				name="height_auto"
 				type="radio"
 				label="COM_WRAPPER_FIELD_HEIGHTAUTO_LABEL"
 				default="0"
@@ -69,7 +65,7 @@
 				<option value="1">JYES</option>
 			</field>
 
-			<field 
+			<field
 				name="add_scheme"
 				type="radio"
 				label="COM_WRAPPER_FIELD_ADD_LABEL"
@@ -81,7 +77,7 @@
 				<option value="1">JYES</option>
 			</field>
 
-			<field 
+			<field
 				name="frameborder"
 				type="radio"
 				label="COM_WRAPPER_FIELD_FRAME_LABEL"
@@ -91,7 +87,6 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-
 		</fieldset>
 	</fields>
 </metadata>
