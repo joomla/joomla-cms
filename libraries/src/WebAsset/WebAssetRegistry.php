@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\WebAsset;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Filesystem\Path;
@@ -231,8 +231,8 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 		array $dependencies = []
 	): WebAssetItem
 	{
-		$nameSpace = array_key_exists('namespace', $options) ? $options['namespace'] : __NAMESPACE__ . '\\AssetItem';
-		$className = array_key_exists('class', $options) ? $options['class'] : null;
+		$nameSpace = \array_key_exists('namespace', $options) ? $options['namespace'] : __NAMESPACE__ . '\\AssetItem';
+		$className = \array_key_exists('class', $options) ? $options['class'] : null;
 
 		if ($className && class_exists($nameSpace . '\\' . $className))
 		{
@@ -326,7 +326,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 			'registryFile' => $path,
 		];
 
-		$namespace = array_key_exists('namespace', $data) ? $data['namespace'] : null;
+		$namespace = \array_key_exists('namespace', $data) ? $data['namespace'] : null;
 
 		// Prepare WebAssetItem instances
 		foreach ($data['assets'] as $i => $item)
@@ -355,7 +355,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 			unset($options['uri'], $options['name']);
 
 			// Inheriting the Namespace
-			if ($namespace && !array_key_exists('namespace', $options))
+			if ($namespace && !\array_key_exists('namespace', $options))
 			{
 				$options['namespace'] = $namespace;
 			}

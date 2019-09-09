@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Document\Renderer\Html;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\WebAsset\WebAssetItemInterface;
@@ -92,7 +92,7 @@ class StylesRenderer extends DocumentRenderer
 			$buffer .= $tab;
 
 			// This is for IE conditional statements support.
-			if (!is_null($conditional))
+			if (!\is_null($conditional))
 			{
 				$buffer .= '<!--[if ' . $conditional . ']>';
 			}
@@ -109,7 +109,7 @@ class StylesRenderer extends DocumentRenderer
 				}
 
 				// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
-				if (in_array($attrib, array('type', 'mime')) && $this->_doc->isHtml5() && in_array($value, $defaultCssMimes))
+				if (\in_array($attrib, array('type', 'mime')) && $this->_doc->isHtml5() && \in_array($value, $defaultCssMimes))
 				{
 					continue;
 				}
@@ -132,7 +132,7 @@ class StylesRenderer extends DocumentRenderer
 			$buffer .= $tagEnd;
 
 			// This is for IE conditional statements support.
-			if (!is_null($conditional))
+			if (!\is_null($conditional))
 			{
 				$buffer .= '<![endif]-->';
 			}
@@ -144,7 +144,7 @@ class StylesRenderer extends DocumentRenderer
 		foreach ($this->_doc->_style as $type => $contents)
 		{
 			// Test for B.C. in case someone still store stylesheet declarations as single string
-			if (is_string($contents))
+			if (\is_string($contents))
 			{
 				$contents = [$contents];
 			}
@@ -153,7 +153,7 @@ class StylesRenderer extends DocumentRenderer
 			{
 				$buffer .= $tab . '<style';
 
-				if (!is_null($type) && (!$this->_doc->isHtml5() || !in_array($type, $defaultCssMimes)))
+				if (!\is_null($type) && (!$this->_doc->isHtml5() || !\in_array($type, $defaultCssMimes)))
 				{
 					$buffer .= ' type="' . $type . '"';
 				}
@@ -197,7 +197,7 @@ class StylesRenderer extends DocumentRenderer
 
 			$buffer .= $tab . '<script type="application/json" class="joomla-script-options new"' . $nonce . '>';
 
-			$prettyPrint = (JDEBUG && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
+			$prettyPrint = (JDEBUG && \defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
 			$jsonOptions = json_encode($scriptOptions, $prettyPrint);
 			$jsonOptions = $jsonOptions ? $jsonOptions : '{}';
 

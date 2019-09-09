@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\WebAsset;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Event\WebAsset\WebAssetRegistryAssetChanged;
 use Joomla\CMS\WebAsset\Exception\InvalidActionException;
@@ -660,7 +660,7 @@ class WebAssetManager implements WebAssetManagerInterface
 			}
 
 			// Incoming nodes
-			if (!array_key_exists($name, $graphIncoming))
+			if (!\array_key_exists($name, $graphIncoming))
 			{
 				$graphIncoming[$name] = [];
 			}
