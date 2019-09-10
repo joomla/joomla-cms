@@ -59,7 +59,7 @@ class HtmlView extends BaseHtmlView
 		$extension = ApplicationHelper::stringURLSafe($app->input->getCmd('dashboard'));
 
 		$title = Text::_('COM_CPANEL_DASHBOARD_BASE_TITLE');
-		$icon = Text::_('COM_CPANEL_DASHBOARD_BASE_ICON');
+		$icon  = 'fa fa-home';
 
 		$position = ApplicationHelper::stringURLSafe($extension);
 
@@ -95,10 +95,49 @@ class HtmlView extends BaseHtmlView
 				$title = Text::_($key);
 			}
 
-			// Search for Icon
-			if ($lang->hasKey($keyIcon))
+			if (empty($parts[1]))
 			{
-				$icon = Text::_($keyIcon);
+				// Default core icons.
+				if ($parts[0] === 'content')
+				{
+					$icon = 'fa fa-file-alt';
+				}
+				elseif ($parts[0] === 'components')
+				{
+					$icon = 'fa fa-puzzle-piece';
+				}
+				elseif ($parts[0] === 'menus')
+				{
+					$icon = 'fa fa-list';
+				}
+				elseif ($parts[0] === 'system')
+				{
+					$icon = 'fa fa-wrench';
+				}
+				elseif ($parts[0] === 'users')
+				{
+					$icon = 'fa fa-users';
+				}
+				elseif ($parts[0] === 'privacy')
+				{
+					$icon = 'lock';
+				}
+				elseif ($lang->hasKey($keyIcon))
+				{
+					$icon = Text::_($keyIcon);
+				}
+				else
+				{
+					$icon = '';
+				}
+			}
+			else
+			{
+				// Search for Icon
+				if ($lang->hasKey($keyIcon))
+				{
+					$icon = Text::_($keyIcon);
+				}
 			}
 		}
 
