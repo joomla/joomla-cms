@@ -122,6 +122,10 @@ class HtmlView extends BaseHtmlView
 				{
 					$icon = 'lock';
 				}
+				elseif ($parts[0] === 'help')
+				{
+					$icon = 'fa fa-info-circle';
+				}
 				elseif ($lang->hasKey($keyIcon))
 				{
 					$icon = Text::_($keyIcon);
