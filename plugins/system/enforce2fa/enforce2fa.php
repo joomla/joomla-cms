@@ -22,7 +22,7 @@ use Joomla\Registry\Registry;
  *
  * @since  4.0.0
  */
-class plgSystemEnforce2fa extends CMSPlugin
+class PlgSystemEnforce2fa extends CMSPlugin
 {
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
