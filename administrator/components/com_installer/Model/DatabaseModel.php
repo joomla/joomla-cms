@@ -385,6 +385,7 @@ class DatabaseModel extends InstallerModel
 			}
 			catch (ExecutionFailureException $e)
 			{
+				unlink($percorso);
 				Factory::getApplication()->enqueueMessage("Can't drop table " . $tableName, 'error');
 				return false;
 			}
@@ -395,6 +396,7 @@ class DatabaseModel extends InstallerModel
 			}
 			catch (\Exception $e)
 			{
+				unlink($percorso);
 				Factory::getApplication()->enqueueMessage("Can't merge structure from table: " . $tableName, 'error');
 				return false;
 			}
@@ -405,11 +407,15 @@ class DatabaseModel extends InstallerModel
 			}
 			catch (\Exception $e)
 			{
+				unlink($percorso);
 				Factory::getApplication()->enqueueMessage("Can't import data from table: " . $tableName, 'error');
 				return false;
 			}
+
+			unlink($percorso);
 		}
 
+		unlink($tmpFile);
 		return true;
 	}
 

@@ -114,9 +114,9 @@ class HtmlView extends InstallerViewDefault
 		if (file_exists($zipFile))
 		{
 			header('Content-type: application/zip');
-	    header('Content-disposition: attachment; filename="joomla_db-' . date("Y-m-d\TH-i-s") . '.zip"');
+			header('Content-disposition: attachment; filename="joomla_db-' . date("Y-m-d\TH-i-s") . '.zip"');
 			ob_end_clean();
-	    readfile($zipFile);
+			readfile($zipFile);
 			unlink($zipFile);
 		}
 
