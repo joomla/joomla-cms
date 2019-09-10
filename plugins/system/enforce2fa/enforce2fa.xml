@@ -1,46 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="plugin" version="3.8" group="system" method="upgrade">
-	<name>PLG_ENFORCE2FA</name>
-	<author>Alex Kirndörfer</author>
+	<name>plg_system_enforce2fa</name>
+	<author>Joomla! Project</author>
 	<creationDate>September 2019</creationDate>
-	<authorEmail>a.kirndoerfer@gmail.com</authorEmail>
-	<authorUrl>https://github.com/AlexKirndoerfer</authorUrl>
-	<copyright>[COPYRIGHT]</copyright>
+	<copyright>(C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>0.1.0</version>
-	<description>PLG_ENFORCE2FA_XML_DESCRIPTION</description>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.0.0</version>
+	<description>PLG_SYSTEM_ENFORCE2FA_XML_DESCRIPTION</description>
 
-	<!-- Scripts to run on installation -->
-
-	<!-- Language files -->
-	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.plg_system_enforce2fa.ini</language>
-		<language tag="en-GB">en-GB/en-GB.plg_system_enforce2fa.sys.ini</language>
-	</languages>
-
-	<!-- Plugin files -->
 	<files>
 		<filename plugin="enforce2fa">enforce2fa.php</filename>
-		<folder>language</folder>
 	</files>
 
-	<!-- Config parameter -->
-	<config>
-		<fields name="params">
-			<fieldset name="basic">
-				<field
-					name="sample"
-					type="text"
-					default="42"
-					label="PLG_ENFORCE2FA_SAMPLE_LABEL"
-					description="PLG_ENFORCE2FA_SAMPLE_DESCRIPTION"
-				/>
-			</fieldset>
-		</fields>
-	</config>
-
-	<!-- Update servers -->
-	<updateservers>
-		<server type="extension" priority="1" name="[PROJECT_NAME]">https://www.example.com/plg_enforce2fa.xml</server>
-	</updateservers>
+	<languages>
+		<language tag="en-GB">en-GB.plg_system_enforce2fa.ini</language>
+		<language tag="en-GB">en-GB.plg_system_enforce2fa.sys.ini</language>
+	</languages>
 </extension>

@@ -1067,14 +1067,14 @@
 		<field
 			name="enforce_2fa_options"
 			type="list"
-			label="PLG_TWOFACTORAUTHACK_SECTION_LABEL"
+			label="COM_CONFIG_FIELD_SITE_ENFORCE_2FA_FIELD_LABEL"
 			default="3"
 			filter="integer"
 			showon="enforce_2fa:1"
 		>
-			<option value="1">PLG_TWOFACTORAUTHACK_SECTION_SITE</option>
-			<option value="2">PLG_TWOFACTORAUTHACK_SECTION_ADMIN</option>
-			<option value="3">PLG_TWOFACTORAUTHACK_SECTION_BOTH</option>
+			<option value="1">COM_CONFIG_FIELD_SITE_ENFORCE_2FA_FIELD_SITE</option>
+			<option value="2">COM_CONFIG_FIELD_SITE_ENFORCE_2FA_FIELD_ADMIN</option>
+			<option value="3">COM_CONFIG_FIELD_SITE_ENFORCE_2FA_FIELD_BOTH</option>
 		</field>
 
 	</fieldset>
