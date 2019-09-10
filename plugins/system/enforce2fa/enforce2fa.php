@@ -168,25 +168,28 @@ class plgSystemEnforce2fa extends CMSPlugin
 		$pluginOptions              = $this->getPluginParams();
 
 		/*
-		 * sets and checks pluginOptions for Site and Administrator view depending on if any 2fa plugin is enabled for that view
+		 * Sets and checks pluginOptions for Site and Administrator view depending on if any 2fa plugin is enabled for that view
 		 */
-		array_walk($pluginOptions, static function ($pluginOption) use (&$pluginsSiteEnable, &$pluginsAdministratorEnable) {
-			$option  = new Registry($pluginOption);
-			$section = $option->get('section');
-
-			switch ($section)
+		array_walk($pluginOptions,
+			static function ($pluginOption) use (&$pluginsSiteEnable, &$pluginsAdministratorEnable)
 			{
-				case 1:
-					$pluginsSiteEnable = true;
-					break;
-				case 2:
-					$pluginsAdministratorEnable = true;
-					break;
-				case 3:
-					$pluginsAdministratorEnable = true;
-					$pluginsSiteEnable          = true;
+				$option  = new Registry($pluginOption);
+				$section = $option->get('section');
+
+				switch ($section)
+				{
+					case 1:
+						$pluginsSiteEnable = true;
+						break;
+					case 2:
+						$pluginsAdministratorEnable = true;
+						break;
+					case 3:
+						$pluginsAdministratorEnable = true;
+						$pluginsSiteEnable          = true;
+				}
 			}
-		});
+		);
 
 		if ($pluginsSiteEnable && $this->app->isClient('site'))
 		{
