@@ -133,19 +133,6 @@
 		// tell everyone about the new row
 		this.$container.trigger('subform-row-add', $row);
 
-		// Fix toggle editor
-		if ($row.find('textarea.joomla-editor-tinymce').length && tinyMCE && Joomla.editors && Joomla.editors.instances) {
-			$row.find('textarea.joomla-editor-tinymce').each(function() {
-				var eid = this.id;
-				if (Joomla.editors.instances[eid]) {
-					$(this).siblings('.toggle-editor').find('a.btn').unbind('click').on('click', function () {
-						tinyMCE.execCommand('mceToggleEditor', false, eid);
-						return false;
-					});
-				}
-			});
-		}
-
 		return $row;
 	};
 

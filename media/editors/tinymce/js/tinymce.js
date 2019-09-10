@@ -110,6 +110,20 @@
 		if(window.jQuery) {
 			jQuery(document).on('subform-row-add', function (event, row) {
 				Joomla.JoomlaTinyMCE.setupEditors(row);
+
+				// Fix toggle editor
+				var $ = window.jQuery,
+					$row = $(row);
+
+				$row.find('textarea.joomla-editor-tinymce').each(function() {
+					var eid = this.id;
+					if (Joomla.editors.instances[eid]) {
+						$(this).siblings('.toggle-editor').find('a.btn').unbind('click').on('click', function () {
+							tinyMCE.execCommand('mceToggleEditor', false, eid);
+							return false;
+						});
+					}
+				});
 			});
 		}
 	});
