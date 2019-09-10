@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Event\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use BadMethodCallException;
 use stdClass;
@@ -36,17 +36,17 @@ class AfterMoveEvent extends AbstractEvent
 	 */
 	public function __construct($name, array $arguments = array())
 	{
-		if (!array_key_exists('row', $arguments))
+		if (!\array_key_exists('row', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'row' is required for event $name");
 		}
 
-		if (!array_key_exists('delta', $arguments))
+		if (!\array_key_exists('delta', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'delta' is required for event $name");
 		}
 
-		if (!array_key_exists('where', $arguments))
+		if (!\array_key_exists('where', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'ignore' is required for event $name");
 		}
@@ -103,7 +103,7 @@ class AfterMoveEvent extends AbstractEvent
 	 */
 	protected function setWhere($value)
 	{
-		if (!empty($value) && !is_string($value))
+		if (!empty($value) && !\is_string($value))
 		{
 			throw new BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string");
 		}

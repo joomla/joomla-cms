@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 

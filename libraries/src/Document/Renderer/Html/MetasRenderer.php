@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Document\Renderer\Html;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Factory;
@@ -117,7 +117,7 @@ class MetasRenderer extends DocumentRenderer
 		{
 			$buffer .= $tab . '<link href="' . $link . '" ' . $linkAtrr['relType'] . '="' . $linkAtrr['relation'] . '"';
 
-			if (is_array($linkAtrr['attribs']))
+			if (\is_array($linkAtrr['attribs']))
 			{
 				if ($temp = ArrayHelper::toString($linkAtrr['attribs']))
 				{
