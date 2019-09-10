@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -339,6 +339,9 @@
     } else {
       setDesktop();
 
+      if (!navigator.cookieEnabled) {
+        Joomla.renderMessages({ error: [Joomla.Text._('JGLOBAL_WARNCOOKIES')] }, undefined, false, 6000);
+      }
       window.addEventListener('joomla:menu-toggle', (event) => {
         changeLogo(event.detail);
       });

@@ -3,16 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_submenu
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Module\Submenu\Administrator\Menu;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\MenuItem;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
@@ -22,7 +23,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Helper class to handle permissions in mod_submenu
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 abstract class Menu
 {
@@ -33,7 +34,7 @@ abstract class Menu
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function preprocess($parent)
 	{
@@ -139,7 +140,7 @@ abstract class Menu
 				list($assetName) = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
 			}
 			// Special case for components which only allow super user access
-			elseif (in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin'))
+			elseif (\in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin'))
 			{
 				$parent->removeChild($item);
 				continue;
@@ -157,6 +158,29 @@ abstract class Menu
 				{
 					$parent->removeChild($item);
 					continue;
+				}
+			}
+			elseif ($item->element === 'com_menus')
+			{
+				// Get badges for Menus containing a Home page.
+				$iconImage = $item->icon;
+
+				if ($iconImage)
+				{
+					if (substr($iconImage, 0, 6) === 'class:' && substr($iconImage, 6) === 'icon-home')
+					{
+						$iconImage = '<span class="home-image icon-featured"></span>';
+					}
+					elseif (substr($iconImage, 0, 6) === 'image:')
+					{
+						$iconImage = '&nbsp;<span class="badge badge-secondary">' . substr($iconImage, 6) . '</span>';
+					}
+					else
+					{
+						$iconImage = '<span>' . HTMLHelper::_('image', $iconImage, null) . '</span>';
+					}
+
+					$item->title = $item->title . $iconImage;
 				}
 			}
 

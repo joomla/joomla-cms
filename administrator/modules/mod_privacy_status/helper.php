@@ -18,7 +18,7 @@ use Joomla\CMS\Router\Route;
 /**
  * Helper class for admin privacy status module
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ModPrivacyStatusHelper
 {
@@ -27,7 +27,7 @@ class ModPrivacyStatusHelper
 	 *
 	 * @return  array  Array containing a status of whether a privacy policy is set and a link to the policy document for editing
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getPrivacyPolicyInfo()
 	{
@@ -54,7 +54,7 @@ class ModPrivacyStatusHelper
 	 *
 	 * @return  array  Array containing a status of whether a menu is published for the request form and its current link
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getRequestFormPublished()
 	{
@@ -96,7 +96,7 @@ class ModPrivacyStatusHelper
 			}
 		}
 
-		$linkMode = Factory::getApplication()->get('force_ssl', 0) == 2 ? 1 : -1;
+		$linkMode = Factory::getApplication()->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
 		if (!$menuItem)
 		{
@@ -138,7 +138,7 @@ class ModPrivacyStatusHelper
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getNumberUrgentRequests()
 	{

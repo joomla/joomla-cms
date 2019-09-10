@@ -31,10 +31,9 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 						<?php echo Text::_('COM_INSTALLER_FILE_IMPORTER_TEXT'); ?>
 					</td>
 					<td>
-							<input class="form-control-file" id="zip_file" name="zip_file" type="file" size="57">
-							<!--button type="submit" class="btn btn-primary"><?php echo Text::_('COM_INSTALLER_EXTRACT_AND_IMPORT'); ?></button-->
-	            <?php $maxSize = HTMLHelper::_('number.bytes', Utility::getMaxUploadSize()); ?>
-	            <small class="form-text text-muted"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', '&#x200E;' . $maxSize); ?></small>
+						<input class="form-control-file" id="zip_file" name="zip_file" type="file" size="57">
+						<?php $maxSize = HTMLHelper::_('number.bytes', Utility::getMaxUploadSize()); ?>
+						<small class="form-text text-muted"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', '&#x200E;' . $maxSize); ?></small>
 					</td>
 				</tr>
 			</tbody>

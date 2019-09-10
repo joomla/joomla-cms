@@ -3,7 +3,7 @@
 	<name>mod_submenu</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2019</creationDate>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -36,7 +36,6 @@
 					name="preset"
 					type="menuPreset"
 					label="MOD_SUBMENU_FIELD_PRESET_LABEL"
-					description="MOD_SUBMENU_FIELD_PRESET_DESC"
 					addfieldpath="administrator/components/com_menus/models/fields"
 					showon="menutype:*"
 				/>

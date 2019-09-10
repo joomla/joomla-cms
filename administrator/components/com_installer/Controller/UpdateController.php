@@ -128,12 +128,6 @@ class UpdateController extends BaseController
 		$model = $this->getModel('update');
 		$model->purge();
 
-		/**
-		 * We no longer need to enable update sites in Joomla! 3.4 as we now allow the users to manage update sites
-		 * themselves.
-		 * $model->enableSites();
-		 */
-
 		$this->setRedirect(Route::_('index.php?option=com_installer&view=update', false), $model->_message);
 	}
 
@@ -212,7 +206,7 @@ class UpdateController extends BaseController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getMenuBadgeData()
 	{
