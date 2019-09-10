@@ -59,12 +59,6 @@ Joomla.checkInputs = function() {
     if (!item.valid) state = false;
   });
 
-  // Reveal everything
-  document.getElementById('installStep1').classList.add('active');
-  document.getElementById('installStep2').classList.add('active');
-  document.getElementById('installStep3').classList.add('active');
-
-
   if (Joomla.checkFormField(['#jform_site_name', '#jform_admin_user', '#jform_admin_email', '#jform_admin_password', '#jform_db_type', '#jform_db_host', '#jform_db_user', '#jform_db_name'])) {
     Joomla.checkDbCredentials();
   }
