@@ -9,22 +9,21 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Module\PrivacyDashboard\Administrator\Helper\PrivacyDashboardHelper;
 
 // Only super user can view this data
-if (!Factory::getUser()->authorise('core.admin'))
+if (!$app->getIdentity()->authorise('core.admin'))
 {
 	return;
 }
 
 // Boot component to ensure HTML helpers are loaded
-Factory::getApplication()->bootComponent('com_privacy');
+$app->bootComponent('com_privacy');
 
 // Load the privacy component language file.
-$lang = Factory::getLanguage();
+$lang = $app->getLanguage();
 $lang->load('com_privacy', JPATH_ADMINISTRATOR, null, false, true)
 	|| $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy', null, false, true);
 
