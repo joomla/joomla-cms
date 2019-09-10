@@ -94,7 +94,7 @@ class PlgSystemEnforce2fa extends CMSPlugin
 			return;
 		}
 
-		$this->loadLanguageEnforce2fa();
+		$this->loadLanguage('plg_system_enforce2fa', JPATH_ADMINISTRATOR);
 
 		// Redirect to com_users profile edit
 		$this->app->enqueueMessage(Text::_('PLG_SYSTEM_ENFORCE2FA_REDIRECT_MESSAGE'), 'notice');
@@ -111,22 +111,6 @@ class PlgSystemEnforce2fa extends CMSPlugin
 		}
 
 		$this->app->redirect(Route::_($link, false));
-	}
-
-	/**
-	 * Loads the language files for the plugin
-	 *
-	 * @return void
-	 *
-	 * @since  4.0.0
-	 */
-	private function loadLanguageEnforce2fa(): void
-	{
-		$lang      = Factory::getLanguage();
-		$extension = 'plg_system_enforce2fa';
-
-		$lang->load($extension, JPATH_ADMINISTRATOR, null, false, true)
-		|| $lang->load($extension, JPATH_PLUGINS . '/system/enforce2fa', null, false, true);
 	}
 
 	/**
