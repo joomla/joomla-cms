@@ -49,24 +49,6 @@ class plgSystemEnforce2fa extends CMSPlugin
 	protected $app;
 
 	/**
-	 * Gets called after the user successfully logged in
-	 * checks if user needs to be redirected and does so if required
-	 *
-	 * @return void
-	 *
-	 * @since  4.0.0
-	 *
-	 * @throws Exception
-	 */
-	public function onUserAfterLogin(): void
-	{
-		if ($this->enforce2FA())
-		{
-			$this->redirect();
-		}
-	}
-
-	/**
 	 * Gets called after the user wanted to direct to a different page
 	 * checks if user needs to be redirected and does so if required
 	 *
@@ -104,9 +86,10 @@ class plgSystemEnforce2fa extends CMSPlugin
 		* do nothing to avoid infinite redirect
 		*/
 		if ($option == 'com_users' && in_array($task, array('profile.save', 'profile.apply', 'user.logout', 'user.menulogout'))
-			|| ($option == 'com_users' && $view == 'profile' && $layout == 'edit')
-			|| ($option == 'com_users' && $view == 'user' && $layout == 'edit')
-			|| ($option == 'com_users' && in_array($task, array('user.save', 'user.edit', 'user.apply', 'user.logout', 'user.menulogout'))))
+			|| ($option === 'com_users' && $view === 'profile' && $layout === 'edit')
+			|| ($option === 'com_users' && $view === 'user' && $layout === 'edit')
+			|| ($option === 'com_users' && in_array($task, ['user.save', 'user.edit', 'user.apply', 'user.logout', 'user.menulogout']))
+			|| ($option === 'com_login' && in_array($task, ['save', 'edit', 'apply', 'logout', 'menulogout'])))
 		{
 			return;
 		}
