@@ -54,9 +54,11 @@ steps:
       FTP_PASSWORD:
         from_secret: ftppassword # TODO Change to CI server of Joomla!
       FTP_HOSTNAME: lukaskimpel.com:21 # TODO Change to CI server of Joomla!
+      FTP_DEST_DIR: /patchtester
       FTP_VERIFY: "false" # TODO Change to CI server of Joomla!
       FTP_SECURE: "false" # TODO Change to CI server of Joomla!
       BRANCH_NAME: "4.0-dev" # Current branch to check against (from repo joomla/joomla-cms)
+      DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
     volumes:
       - name: reference
         path: /reference
