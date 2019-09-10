@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Event\WebAsset;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use BadMethodCallException;
 use Joomla\CMS\Document\Document;
@@ -34,7 +34,7 @@ class WebAssetBeforeAttachEvent extends AbstractEvent
 	public function __construct($name, array $arguments = array())
 	{
 		// Check for required arguments
-		if (!array_key_exists('document', $arguments) || !($arguments['document'] instanceof Document))
+		if (!\array_key_exists('document', $arguments) || !($arguments['document'] instanceof Document))
 		{
 			throw new BadMethodCallException("Argument 'document' of event $name is not of the expected type");
 		}

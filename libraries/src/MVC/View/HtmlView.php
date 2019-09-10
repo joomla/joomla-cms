@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\MVC\View;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -109,14 +109,14 @@ class HtmlView extends AbstractView
 		parent::__construct($config);
 
 		// Set the charset (used by the variable escaping functions)
-		if (array_key_exists('charset', $config))
+		if (\array_key_exists('charset', $config))
 		{
 			Log::add('Setting a custom charset for escaping is deprecated. Override \JViewLegacy::escape() instead.', Log::WARNING, 'deprecated');
 			$this->_charset = $config['charset'];
 		}
 
 		// Set a base path for use by the view
-		if (array_key_exists('base_path', $config))
+		if (\array_key_exists('base_path', $config))
 		{
 			$this->_basePath = $config['base_path'];
 		}
@@ -126,7 +126,7 @@ class HtmlView extends AbstractView
 		}
 
 		// Set the default template search path
-		if (array_key_exists('template_path', $config))
+		if (\array_key_exists('template_path', $config))
 		{
 			// User-defined dirs
 			$this->_setPath('template', $config['template_path']);
@@ -153,7 +153,7 @@ class HtmlView extends AbstractView
 		}
 
 		// Set the default helper search path
-		if (array_key_exists('helper_path', $config))
+		if (\array_key_exists('helper_path', $config))
 		{
 			// User-defined dirs
 			$this->_setPath('helper', $config['helper_path']);
@@ -164,7 +164,7 @@ class HtmlView extends AbstractView
 		}
 
 		// Set the layout
-		if (array_key_exists('layout', $config))
+		if (\array_key_exists('layout', $config))
 		{
 			$this->setLayout($config['layout']);
 		}
@@ -526,7 +526,7 @@ class HtmlView extends AbstractView
 	 */
 	public function getForm()
 	{
-		if (!is_object($this->form))
+		if (!\is_object($this->form))
 		{
 			$this->form = $this->get('Form');
 		}
