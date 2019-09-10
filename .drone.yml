@@ -50,13 +50,13 @@ steps:
       CMP_MASTER_FOLDER: "/reference"
       CMP_SLAVE_FOLDER: "." # The directory the current repo is in
       FTP_USERNAME:
-        from_secret: ftpusername # TODO Change to CI server of Joomla!
+        from_secret: ftpusername
       FTP_PASSWORD:
-        from_secret: ftppassword # TODO Change to CI server of Joomla!
-      FTP_HOSTNAME: lukaskimpel.com:21 # TODO Change to CI server of Joomla!
+        from_secret: ftppassword
+      FTP_HOSTNAME: ci.joomla.org:21
       FTP_DEST_DIR: /patchtester
-      FTP_VERIFY: "false" # TODO Change to CI server of Joomla!
-      FTP_SECURE: "false" # TODO Change to CI server of Joomla!
+      FTP_VERIFY: "false"
+      FTP_SECURE: "false"
       BRANCH_NAME: "4.0-dev" # Current branch to check against (from repo joomla/joomla-cms)
       DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
     volumes:
