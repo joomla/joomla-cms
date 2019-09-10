@@ -41,7 +41,7 @@ steps:
       - npm ci --unsafe-perm
 
   - name: publish-diff
-    image: lum4x/drone-publish-diff
+    image: joomlaprojects/docker-images:patchtester
     depends_on: [ npm ]
     commands:
       - export PULL_ID=$DRONE_PULL_REQUEST
