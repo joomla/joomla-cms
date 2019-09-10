@@ -109,8 +109,9 @@ class HtmlView extends InstallerViewDefault
 			: $app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DATABASE_CORE_ERRORS'), 'warning');
 		}
 
-    // Send the exporter archive to the browser as a download
+		// Send the exporter archive to the browser as a download
 		$zipFile = JPATH_ROOT . '/tmp/joomla_db.zip';
+
 		if (file_exists($zipFile))
 		{
 			header('Content-type: application/zip');

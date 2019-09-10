@@ -337,13 +337,13 @@ class DatabaseModel extends InstallerModel
 	{
 		$db = $this->getDbo();
 
-    // Make sure that file uploads are enabled in php.
-    if (!(bool) ini_get('file_uploads'))
-    {
-            Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 'error');
+		// Make sure that file uploads are enabled in php.
+		if (!(bool) ini_get('file_uploads'))
+		{
+			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 'error');
 
-            return false;
-    }
+			return false;
+		}
 
 		$tmpFile = Factory::getApplication()->get('tmp_path') . '/' . $file['name'];
 		File::upload($file['tmp_name'], $tmpFile, false, true);
@@ -357,6 +357,7 @@ class DatabaseModel extends InstallerModel
 		catch (\RuntimeException $e)
 		{
 			Factory::getApplication()->enqueueMessage("Extract " . $tmpFile . " into " . $destDir, 'error');
+
 			return false;
 		}
 
@@ -387,6 +388,7 @@ class DatabaseModel extends InstallerModel
 			{
 				unlink($percorso);
 				Factory::getApplication()->enqueueMessage("Can't drop table " . $tableName, 'error');
+
 				return false;
 			}
 
@@ -398,6 +400,7 @@ class DatabaseModel extends InstallerModel
 			{
 				unlink($percorso);
 				Factory::getApplication()->enqueueMessage("Can't merge structure from table: " . $tableName, 'error');
+
 				return false;
 			}
 
@@ -409,6 +412,7 @@ class DatabaseModel extends InstallerModel
 			{
 				unlink($percorso);
 				Factory::getApplication()->enqueueMessage("Can't import data from table: " . $tableName, 'error');
+
 				return false;
 			}
 
@@ -416,6 +420,7 @@ class DatabaseModel extends InstallerModel
 		}
 
 		unlink($tmpFile);
+
 		return true;
 	}
 
