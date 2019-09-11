@@ -63,9 +63,11 @@ defined('_JEXEC') or die;
 			<?php elseif ($show_last) :
 				// Render last item if reqd. ?>
 				<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="active">
-					<span itemprop="name">
-						<?php echo $item->name; ?>
-					</span>
+					<a itemprop="item" href="<?php echo $item->link; ?>">
+						<span itemprop="name">
+							<?php echo $item->name; ?>
+						</span>
+					</a>
 					<meta itemprop="position" content="<?php echo $key + 1; ?>">
 				</li>
 			<?php endif;
