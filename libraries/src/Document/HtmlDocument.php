@@ -471,7 +471,7 @@ class HtmlDocument extends Document
 		if ($this->_caching == true && $type == 'modules')
 		{
 			$cache = CmsFactory::getCache('com_modules', '');
-			$hash = md5(serialize(array($name, $attribs, null, $renderer)));
+			$hash = md5(serialize(array($name, $attribs, null, json_encode($renderer))));
 			$cbuffer = $cache->get('cbuffer_' . $type);
 
 			if (isset($cbuffer[$hash]))
