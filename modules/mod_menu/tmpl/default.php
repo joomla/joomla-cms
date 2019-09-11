@@ -31,6 +31,7 @@ if ($tagId = $params->get('tag_id', ''))
 	if ($item->id == $active_id || ($item->type === 'alias' && $item->params->get('aliasoptions') == $active_id))
 	{
 		$class .= ' current';
+		$currnt = TRUE;
 	}
 
 	if (in_array($item->id, $path))
@@ -95,7 +96,7 @@ if ($tagId = $params->get('tag_id', ''))
 	// The next item is on the same level.
 	else
 	{
-		echo '</li>';
+		echo $current ? '<span class="sr-only">(current)</span></a></li>' : '</li>';
 	}
 }
 ?></ul>
