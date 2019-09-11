@@ -39,6 +39,18 @@
 			default=""
 		/>
 
+		<field
+				name="show_breadcrumbs"
+				type="radio"
+				class="switcher"
+				label="COM_MENUS_ITEM_FIELD_SHOW_BREADCRUMBS_LABEL"
+				default="0"
+				filter="integer"
+		>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset

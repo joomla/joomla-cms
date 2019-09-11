@@ -590,6 +590,7 @@ class ItemsModel extends ListModel
 			$lang   = Factory::getLanguage();
 			$client = $this->state->get('filter.client_id');
 			$menu = Factory::getApplication()->getMenu('site');
+			$showBreadcrumbs = ComponentHelper::getParams('com_menus')->get('show_breadcrumbs', 0);
 
 			if ($items)
 			{
@@ -608,17 +609,20 @@ class ItemsModel extends ListModel
 					}
 
 					// Breadcrumb relocated here
-					$parentItemId = $item->parent_id;
-					$allParents   = [];
-
-					while (!empty($parentItemId) && $parentItemId > 1)
+					if ($showBreadcrumbs)
 					{
-						$parentItem   = $menu->getItem($parentItemId);
-						$allParents[] = $parentItem->title;
-						$parentItemId = $parentItem->parent_id;
-					}
+						$parentItemId = $item->parent_id;
+						$allParents   = [];
 
-					$item->menuPath = array_reverse($allParents);
+						while (!empty($parentItemId) && $parentItemId > 1)
+						{
+							$parentItem   = $menu->getItem($parentItemId);
+							$allParents[] = $parentItem->title;
+							$parentItemId = $parentItem->parent_id;
+						}
+
+						$item->menuPath = array_reverse($allParents);
+					}
 				}
 			}
 

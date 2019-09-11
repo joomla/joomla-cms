@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
@@ -20,14 +21,15 @@ use Joomla\CMS\Session\Session;
 
 HTMLHelper::_('behavior.multiselect');
 
-$user      = Factory::getUser();
-$app       = Factory::getApplication();
-$userId    = $user->get('id');
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn  = $this->escape($this->state->get('list.direction'));
-$ordering  = ($listOrder == 'a.lft');
-$saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
-$menuType  = (string) $app->getUserState('com_menus.items.menutype', '', 'string');
+$user            = Factory::getUser();
+$app             = Factory::getApplication();
+$userId          = $user->get('id');
+$listOrder       = $this->escape($this->state->get('list.ordering'));
+$listDirn        = $this->escape($this->state->get('list.direction'));
+$ordering        = ($listOrder == 'a.lft');
+$saveOrder       = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$menuType        = (string) $app->getUserState('com_menus.items.menutype', '', 'string');
+$showBreadcrumbs = ComponentHelper::getParams('com_menus')->get('show_breadcrumbs', 0);
 
 if ($saveOrder && $menuType && !empty($this->items))
 {
@@ -187,14 +189,13 @@ $assoc = Associations::isEnabled() && $this->state->get('filter.client_id') == 0
 										<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
 									<?php endif; ?>
 									</span>
+                                    <?php if ($showBreadcrumbs) : ?>
                                     <br>
                                     <?php echo $prefix; ?>
                                     <span class="small">
-                                        <?php
-                                        echo implode(' › ', $item->menuPath);
-
-                                        ?>
+                                        <?php echo implode(' › ', $item->menuPath); ?>
                                     </span>
+                                    <?php endif; ?>
 									<?php echo HTMLHelper::_('menus.visibility', $item->params); ?>
 									<div title="<?php echo $this->escape($item->path); ?>">
 										<?php echo $prefix; ?>
