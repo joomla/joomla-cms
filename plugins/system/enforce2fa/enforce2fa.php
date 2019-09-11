@@ -106,7 +106,7 @@ class PlgSystemEnforce2fa extends CMSPlugin
 
 		if ($this->app->isClient('administrator'))
 		{
-			$userId = Factory::getUser()->id;
+			$userId = $this->app->getIdentity()->id;
 			$link   = 'index.php?option=com_users&task=user.edit&id=' . $userId;
 		}
 
