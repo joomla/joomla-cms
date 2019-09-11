@@ -58,12 +58,6 @@ class TimeField extends FormField
 	protected $step;
 
 	/**
-	 * Input addon before
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	/**
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
@@ -112,9 +106,9 @@ class TimeField extends FormField
 	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                       full field name would end up being "bar[foo]".
 	 *
+	 * @see     FormField::setup()
 	 * @return  boolean  True on success.
 	 *
-	 * @see     FormField::setup()
 	 * @since   4.0.0
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
