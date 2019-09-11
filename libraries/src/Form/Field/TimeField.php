@@ -75,7 +75,6 @@ class TimeField extends FormField
 	 *
 	 * @since   4.0.0
 	 */
-
 	public function __set($name, $value)
 	{
 		switch ($name)
