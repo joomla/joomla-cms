@@ -11,8 +11,6 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-define('JPATH_ROOT', JPATH_BASE);
-
 use Joomla\Archive\Archive;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
