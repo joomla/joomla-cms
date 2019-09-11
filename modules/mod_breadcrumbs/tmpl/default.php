@@ -47,7 +47,7 @@ defined('_JEXEC') or die;
 				<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
 					<?php if (!empty($item->link)) : ?>
 						<a itemprop="item" href="<?php echo $item->link; ?>" class="pathway">
-							<span itemprop="name">#
+							<span itemprop="name">
 								<?php echo $item->name; ?>
 							</span>
 						</a>
@@ -69,7 +69,7 @@ defined('_JEXEC') or die;
 				<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="active">
 					<?php if (!empty($item->link)) : ?>
 						<a itemprop="item" href="<?php echo $item->link; ?>">
-							<span itemprop="name">#
+							<span itemprop="name">
 								<?php echo $item->name; ?>
 							</span>
 						</a>
