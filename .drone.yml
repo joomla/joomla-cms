@@ -59,7 +59,7 @@ steps:
       DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
     commands:
       - export PULL_ID=$DRONE_PULL_REQUEST
-      - ./compare.sh
+      - /bin/compare.sh
     volumes:
       - name: reference
         path: /reference
