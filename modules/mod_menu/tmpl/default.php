@@ -95,7 +95,7 @@ if ($tagId = $params->get('tag_id', ''))
 	// The next item is on the same level.
 	else
 	{
-		echo '</li>';
+		echo $current ? '<span class="sr-only">(current)</span></a></li>' : '</li>';
 	}
 }
 ?></ul>
