@@ -43,8 +43,6 @@ steps:
   - name: publish-diff
     image: joomlaprojects/docker-images:patchtester
     depends_on: [ npm ]
-    commands:
-      - export PULL_ID=$DRONE_PULL_REQUEST
     environment:
       CMP_ARCHIVE_NAME: "build"
       CMP_MASTER_FOLDER: "/reference"
@@ -59,6 +57,9 @@ steps:
       FTP_SECURE: "false"
       BRANCH_NAME: "4.0-dev" # Current branch to check against (from repo joomla/joomla-cms)
       DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
+    commands:
+      - export PULL_ID=$DRONE_PULL_REQUEST
+      - ./compare.sh
     volumes:
       - name: reference
         path: /reference
