@@ -126,7 +126,7 @@ class PlgSystemEnforce2fa extends CMSPlugin
 	 */
 	private function enforce2FA(): bool
 	{
-		$id = Factory::getUser()->id;
+		$id = $this->app->getIdentity()->id;
 
 		if (!$id)
 		{
