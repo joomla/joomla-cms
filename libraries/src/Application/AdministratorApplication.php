@@ -23,7 +23,6 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
-use stdClass;
 
 /**
  * Joomla! Administrator Application class
