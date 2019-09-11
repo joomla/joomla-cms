@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,11 +27,11 @@ class FeedLinkTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
-	 * @since              3.1.4
+	 * @since   3.1.4
 	 */
 	public function testConstructWithInvalidLength()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		new FeedLink('URI', 'self', 'application/x-pdf', 'en-GB', 'My Link', 'foobar');
 	}
 }

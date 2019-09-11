@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,7 @@ class DisplayController extends BaseController
 	 * @var    string
 	 * @since  3.9.0
 	 */
-	protected $default_view = 'dashboard';
+	protected $default_view = 'requests';
 
 	/**
 	 * Method to display a view.
@@ -49,7 +49,7 @@ class DisplayController extends BaseController
 	public function display($cachable = false, $urlparams = [])
 	{
 		// Get the document object.
-		$document = Factory::getDocument();
+		$document = $this->app->getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', $this->default_view);
@@ -62,23 +62,13 @@ class DisplayController extends BaseController
 			$model = $this->getModel($vName);
 			$view->setModel($model, true);
 
-			// For the dashboard view, we need to also push the requests model into the view
-			if ($vName === 'dashboard')
-			{
-				$requestsModel = $this->getModel('Requests');
-
-				$view->setModel($requestsModel, false);
-			}
-
 			if ($vName === 'request')
 			{
 				// For the default layout, we need to also push the action logs model into the view
 				if ($lName === 'default')
 				{
-					\JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
-					BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
-
-					$logsModel = BaseDatabaseModel::getInstance('Actionlogs', 'ActionlogsModel');
+					$logsModel = Factory::getApplication()->bootComponent('Actionlogs')
+						->getMVCFactory()->createModel('Actionlogs', 'Administrator', ['ignore_request' => true]);
 
 					// Set default ordering for the context
 					$logsModel->setState('list.fullordering', 'a.log_date DESC');
@@ -88,7 +78,7 @@ class DisplayController extends BaseController
 				}
 
 				// For the edit layout, if mail sending is disabled then redirect back to the list view as the form is unusable in this state
-				if ($lName === 'edit' && !Factory::getConfig()->get('mailonline', 1))
+				if ($lName === 'edit' && !$this->app->get('mailonline', 1))
 				{
 					$this->setRedirect(
 						Route::_('index.php?option=com_privacy&view=requests', false),
@@ -123,15 +113,13 @@ class DisplayController extends BaseController
 	 */
 	public function getNumberUrgentRequests()
 	{
-		$app = Factory::getApplication();
-
 		// Check for a valid token. If invalid, send a 403 with the error message.
 		if (!Session::checkToken('get'))
 		{
-			$app->setHeader('status', 403, true);
-			$app->sendHeaders();
+			$this->app->setHeader('status', 403, true);
+			$this->app->sendHeaders();
 			echo new JsonResponse(new \Exception(Text::_('JINVALID_TOKEN'), 403));
-			$app->close();
+			$this->app->close();
 		}
 
 		/** @var RequestsModel $model */

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Document\Renderer\Html;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Factory;
@@ -35,15 +35,15 @@ class ModuleRenderer extends DocumentRenderer
 	 */
 	public function render($module, $attribs = array(), $content = null)
 	{
-		if (!is_object($module))
+		if (!\is_object($module))
 		{
 			$title = $attribs['title'] ?? null;
 
 			$module = ModuleHelper::getModule($module, $title);
 
-			if (!is_object($module))
+			if (!\is_object($module))
 			{
-				if (is_null($content))
+				if (\is_null($content))
 				{
 					return '';
 				}
@@ -62,7 +62,7 @@ class ModuleRenderer extends DocumentRenderer
 		}
 
 		// Set the module content
-		if (!is_null($content))
+		if (!\is_null($content))
 		{
 			$module->content = $content;
 		}
@@ -79,15 +79,15 @@ class ModuleRenderer extends DocumentRenderer
 			$module->params = (string) $params;
 		}
 
-		// Default for compatibility purposes. Set cachemode parameter or use JModuleHelper::moduleCache from within the module instead
-		$cachemode = $params->get('cachemode', 'oldstatic');
+		// Set cachemode parameter or use JModuleHelper::moduleCache from within the module instead
+		$cachemode = $params->get('cachemode', 'static');
 
 		if ($params->get('cache', 0) == 1 && Factory::getApplication()->get('caching') >= 1 && $cachemode != 'id' && $cachemode != 'safeuri')
 		{
 			// Default to itemid creating method and workarounds on
 			$cacheparams = new \stdClass;
 			$cacheparams->cachemode = $cachemode;
-			$cacheparams->class = 'JModuleHelper';
+			$cacheparams->class = ModuleHelper::class;
 			$cacheparams->method = 'renderModule';
 			$cacheparams->methodparams = array($module, $attribs);
 

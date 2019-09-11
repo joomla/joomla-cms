@@ -12,6 +12,8 @@ namespace Joomla\Component\Finder\Administrator\Model;
 defined('_JEXEC') or die();
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -59,7 +61,7 @@ class MapsModel extends ListModel
 	 */
 	protected function canDelete($record)
 	{
-		return \JFactory::getUser()->authorise('core.delete', $this->option);
+		return Factory::getUser()->authorise('core.delete', $this->option);
 	}
 
 	/**
@@ -73,7 +75,7 @@ class MapsModel extends ListModel
 	 */
 	protected function canEditState($record)
 	{
-		return \JFactory::getUser()->authorise('core.edit.state', $this->option);
+		return Factory::getUser()->authorise('core.edit.state', $this->option);
 	}
 
 	/**
@@ -103,7 +105,7 @@ class MapsModel extends ListModel
 					$context = $this->option . '.' . $this->name;
 
 					// Trigger the onContentBeforeDelete event.
-					$result = \JFactory::getApplication()->triggerEvent('onContentBeforeDelete', array($context, $table));
+					$result = Factory::getApplication()->triggerEvent('onContentBeforeDelete', array($context, $table));
 
 					if (in_array(false, $result, true))
 					{
@@ -120,7 +122,7 @@ class MapsModel extends ListModel
 					}
 
 					// Trigger the onContentAfterDelete event.
-					\JFactory::getApplication()->triggerEvent('onContentAfterDelete', array($context, $table));
+					Factory::getApplication()->triggerEvent('onContentAfterDelete', array($context, $table));
 				}
 				else
 				{
@@ -134,7 +136,7 @@ class MapsModel extends ListModel
 					}
 					else
 					{
-						$this->setError(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+						$this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 					}
 				}
 			}
@@ -170,8 +172,8 @@ class MapsModel extends ListModel
 			->where('a.parent_id != 0');
 
 		// Join to get the branch title
-		$query->select([$query->qn('b.id', 'branch_id'), $query->qn('b.title', 'branch_title')])
-			->leftJoin($query->qn('#__finder_taxonomy', 'b') . ' ON b.level = 1 AND b.lft <= a.lft AND a.rgt <= b.rgt');
+		$query->select([$db->quoteName('b.id', 'branch_id'), $db->quoteName('b.title', 'branch_title')])
+			->leftJoin($db->quoteName('#__finder_taxonomy', 'b') . ' ON b.level = 1 AND b.lft <= a.lft AND a.rgt <= b.rgt');
 
 		// Join to get the map links.
 		$stateQuery = $db->getQuery(true)
@@ -328,7 +330,7 @@ class MapsModel extends ListModel
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;
 
@@ -344,7 +346,7 @@ class MapsModel extends ListModel
 			{
 				// Prune items that you can't change.
 				unset($pks[$i]);
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 
 				return false;
 			}
@@ -361,7 +363,7 @@ class MapsModel extends ListModel
 		$context = $this->option . '.' . $this->name;
 
 		// Trigger the onContentChangeState event.
-		$result = \JFactory::getApplication()->triggerEvent('onContentChangeState', array($context, $pks, $value));
+		$result = Factory::getApplication()->triggerEvent('onContentChangeState', array($context, $pks, $value));
 
 		if (in_array(false, $result, true))
 		{
@@ -393,8 +395,7 @@ class MapsModel extends ListModel
 		$db->execute();
 
 		$query->clear()
-			->delete($db->quoteName('#__finder_taxonomy_map'))
-			->where('1');
+			->delete($db->quoteName('#__finder_taxonomy_map'));
 		$db->setQuery($query);
 		$db->execute();
 

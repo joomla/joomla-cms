@@ -6,7 +6,7 @@
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-    const folders = [].slice.call(document.querySelectorAll('.folder-url, .component-folder-url, .plugin-folder ul, .layout-folder-url'));
+    const folders = [].slice.call(document.querySelectorAll('.folder-url, .component-folder-url, .plugin-folder-url, .layout-folder-url'));
     const innerLists = [].slice.call(document.querySelectorAll('.folder ul, .component-folder ul, .plugin-folder ul, .layout-folder ul'));
     const openLists = [].slice.call(document.querySelectorAll('.show > ul'));
     const fileModalFolders = [].slice.call(document.querySelectorAll('#fileModal .folder-url'));
@@ -26,7 +26,7 @@
       folder.addEventListener('click', (event) => {
         event.preventDefault();
 
-        const list = event.target.parentNode.querySelector('ul');
+        const list = folder.parentNode.querySelector('ul');
 
         if (list.style.display !== 'none') {
           list.style.display = 'none';
@@ -84,8 +84,6 @@
         filePathTmp = filePathTmp.slice(1);
         filePathTmp = filePathTmp.split('/');
         filePathTmp = filePathTmp[filePathTmp.length - 1];
-        // eslint-disable-next-line no-new
-        const re = new RegExp(filePathTmp);
 
         listEls.forEach((element, index) => {
           element.querySelector('a').classList.add('active');
@@ -97,7 +95,7 @@
               const aEl = liElement.querySelector('a');
               const spanEl = aEl.querySelector('span');
 
-              if (spanEl && re.test(spanEl.innerText)) {
+              if (spanEl && spanEl.innerText.trim()) {
                 aEl.classList.add('active');
               }
             });

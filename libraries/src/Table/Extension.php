@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
@@ -32,6 +32,9 @@ class Extension extends Table
 	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__extensions', 'extension_id', $db);
+
+		// Set the alias since the column is called enabled
+		$this->setColumnAlias('published', 'enabled');
 	}
 
 	/**
@@ -80,13 +83,13 @@ class Extension extends Table
 	 */
 	public function bind($array, $ignore = '')
 	{
-		if (isset($array['params']) && is_array($array['params']))
+		if (isset($array['params']) && \is_array($array['params']))
 		{
 			$registry = new Registry($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
-		if (isset($array['control']) && is_array($array['control']))
+		if (isset($array['control']) && \is_array($array['control']))
 		{
 			$registry = new Registry($array['control']);
 			$array['control'] = (string) $registry;
@@ -182,7 +185,7 @@ class Extension extends Table
 		$this->_db->execute();
 
 		// If checkin is supported and all rows were adjusted, check them in.
-		if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
+		if ($checkin && (\count($pks) == $this->_db->getAffectedRows()))
 		{
 			// Checkin the rows.
 			foreach ($pks as $pk)
@@ -192,7 +195,7 @@ class Extension extends Table
 		}
 
 		// If the Table instance value is in the list of primary keys that were set, set the instance.
-		if (in_array($this->$k, $pks))
+		if (\in_array($this->$k, $pks))
 		{
 			$this->enabled = $state;
 		}

@@ -3,10 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  Access
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Tests\Unit\Libraries\Cms\Access;
 
 use Joomla\CMS\Access\Rule;
@@ -23,6 +22,11 @@ use Joomla\Tests\Unit\UnitTestCase;
  */
 class RulesTest extends UnitTestCase
 {
+	/**
+	 *
+	 * @return void
+	 * @since   4.0.0
+	 */
 	public function testIsConstructableWithInputString()
 	{
 		$ruleIdentities = [
@@ -30,6 +34,7 @@ class RulesTest extends UnitTestCase
 			2 => 1,
 			3 => 0
 		];
+
 		$input = [
 			'edit' => $ruleIdentities
 		];
@@ -42,6 +47,11 @@ class RulesTest extends UnitTestCase
 		$this->assertEquals($ruleIdentities, $editRule->getData());
 	}
 
+	/**
+	 *
+	 * @return void
+	 * @since   4.0.0
+	 */
 	public function testIsConstructableWithArray()
 	{
 		$ruleIdentities = [
@@ -49,6 +59,7 @@ class RulesTest extends UnitTestCase
 			2 => 1,
 			3 => 0
 		];
+
 		$input = [
 			'edit' => $ruleIdentities
 		];
@@ -74,11 +85,12 @@ class RulesTest extends UnitTestCase
 			2 => 1,
 			3 => 0
 		];
+
 		$input = [
 			'edit' => $ruleIdentities
 		];
 
-		$rules = new Rules(  (object) $input);
+		$rules = new Rules((object) $input);
 
 		$editRule = $rules->getData()['edit'];
 		$this->assertInstanceOf(Rule::class,  $editRule);
@@ -119,13 +131,15 @@ class RulesTest extends UnitTestCase
 		$rules->mergeAction('edit', $newRuleIdentities);
 
 		$editRule = $rules->getData()['edit'];
-		$this->assertEquals([
-			-42 => 0,
-			2 => 1,
-			3 => 0,
-			4 => 1
-		], $editRule->getData());
-
+		$this->assertEquals(
+			[
+				-42 => 0,
+				2 => 1,
+				3 => 0,
+				4 => 1
+			],
+			$editRule->getData()
+		);
 	}
 
 	/**
@@ -145,6 +159,7 @@ class RulesTest extends UnitTestCase
 				-42 => 0
 			]
 		];
+
 		$ruleData2 = [
 			'create' => [
 				2 => 1
@@ -331,6 +346,11 @@ class RulesTest extends UnitTestCase
 		$this->assertNull($allowed->get('delete'));
 	}
 
+	/**
+	 *
+	 * @return void
+	 * @since   4.0.0
+	 */
 	public function testToString()
 	{
 		$ruleData = [

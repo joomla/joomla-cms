@@ -61,10 +61,22 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 								htmlspecialchars($label, ENT_COMPAT, 'UTF-8') . '</a>';
 							break;
 						case 3:
-							// Open in a modal window
-							HTMLHelper::_('behavior.modal', 'a.modal');
-							echo '<a class="modal" href="' . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . '"  rel="{handler: \'iframe\', size: {x:600, y:600}} noopener noreferrer">' .
+							echo '<a href="' . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . '" rel="noopener noreferrer" data-toggle="modal" data-target="#linkModal">' .
 								htmlspecialchars($label, ENT_COMPAT, 'UTF-8') . ' </a>';
+							echo HTMLHelper::_(
+								'bootstrap.renderModal',
+								'linkModal',
+								array(
+									'url'    => $link,
+									'title'  => $label,
+									'height' => '100%',
+									'width'  => '100%',
+									'modalWidth'  => '500',
+									'bodyHeight'  => '500',
+									'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+										. \Joomla\CMS\Language\Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+								)
+							);
 							break;
 
 						default:

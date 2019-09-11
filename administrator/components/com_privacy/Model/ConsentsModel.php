@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,6 +39,7 @@ class ConsentsModel extends ListModel
 				'id', 'a.id', 'a.user_id',
 				'created', 'a.created',
 				'username', 'u.username',
+				'name', 'u.name',
 				'state', 'a.state',
 			];
 		}
@@ -63,8 +64,9 @@ class ConsentsModel extends ListModel
 		$query->select($this->getState('list.select', 'a.*'));
 		$query->from($db->quoteName('#__privacy_consents', 'a'));
 
-		// Join over the users for the username.
-		$query->select($db->quoteName('u.username', 'username'));
+		// Join over the users for the username and name.
+		$query->select($db->quoteName('u.username', 'username'))
+			->select($db->quoteName('u.name', 'name'));
 		$query->join('LEFT', $db->quoteName('#__users', 'u') . ' ON u.id = a.user_id');
 
 		// Filter by search in email
@@ -79,6 +81,11 @@ class ConsentsModel extends ListModel
 			elseif (stripos($search, 'uid:') === 0)
 			{
 				$query->where($db->quoteName('a.user_id') . ' = ' . (int) substr($search, 4));
+			}
+			elseif (stripos($search, 'name:') === 0)
+			{
+				$search = $db->quote('%' . $db->escape(substr($search, 5), true) . '%');
+				$query->where($db->quoteName('u.name') . ' LIKE ' . $search);
 			}
 			else
 			{

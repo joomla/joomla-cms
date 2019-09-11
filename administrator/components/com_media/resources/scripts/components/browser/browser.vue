@@ -11,19 +11,20 @@
                 <span class="fa fa-cloud-upload upload-icon" aria-hidden="true"></span>
                 <p>{{ translate('COM_MEDIA_DROP_FILE') }}</p>
             </div>
-            <div v-if="listView === 'table'" class="media-browser-table">
-                <div class="media-browser-table-head">
-                    <ul>
-                        <li class="type"></li>
-                        <li class="name">{{ translate('COM_MEDIA_MEDIA_NAME') }}</li>
-                        <li class="size">{{ translate('COM_MEDIA_MEDIA_SIZE') }}</li>
-                        <li class="dimension">{{ translate('COM_MEDIA_MEDIA_DIMENSION') }}</li>
-                        <li class="created">{{ translate('COM_MEDIA_MEDIA_DATE_CREATED') }}</li>
-                        <li class="modified">{{ translate('COM_MEDIA_MEDIA_DATE_MODIFIED') }}</li>
-                    </ul>
-                </div>
-                <media-browser-item v-for="item in items" :key="item.path" :item="item"></media-browser-item>
-            </div>
+            <table v-if="listView === 'table'" class="table media-browser-table">
+                <caption class="sr-only">{{ sprintf('COM_MEDIA_BROWSER_TABLE_CAPTION', currentDirectory) }}</caption>
+                <thead class="media-browser-table-head">
+                    <tr>
+                        <th class="type" scope="col"></th>
+                        <th class="name" scope="col">{{ translate('COM_MEDIA_MEDIA_NAME') }}</th>
+                        <th class="size" scope="col">{{ translate('COM_MEDIA_MEDIA_SIZE') }}</th>
+                        <th class="dimension" scope="col">{{ translate('COM_MEDIA_MEDIA_DIMENSION') }}</th>
+                        <th class="created" scope="col">{{ translate('COM_MEDIA_MEDIA_DATE_CREATED') }}</th>
+                        <th class="modified" scope="col">{{ translate('COM_MEDIA_MEDIA_DATE_MODIFIED') }}</th>
+                    </tr>
+                </thead>
+                <media-browser-item-row v-for="item in items" :key="item.path" :item="item"></media-browser-item-row>
+            </table>
             <div class="media-browser-grid" v-else-if="listView === 'grid'">
                 <div class="media-browser-items" :class="mediaBrowserGridItemsClass">
                     <media-browser-item v-for="item in items" :key="item.path" :item="item"></media-browser-item>
@@ -74,7 +75,28 @@
             },
             isModal() {
                 return Joomla.getOptions('com_media', {}).isModal;
-            }
+            },
+            currentDirectory() {
+                const parts = this.$store.state.selectedDirectory.split('/').filter(crumb => crumb.length !== 0);
+
+                // The first part is the name of the drive, so if we have a folder name display it. Else
+				// find the filename
+				if (parts.length !== 1) {
+					return parts[parts.length - 1];
+				}
+
+				let diskName = '';
+
+				this.$store.state.disks.forEach(disk => {
+					disk.drives.forEach(drive => {
+						if (drive.root === parts[0] + '/') {
+							diskName = drive.displayName;
+						}
+					});
+				});
+
+				return diskName;
+			}
         },
         methods: {
             /* Unselect all browser items */

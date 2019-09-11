@@ -113,11 +113,11 @@
 			name="block"
 			type="radio"
 			label="COM_USERS_USER_FIELD_BLOCK_LABEL"
-			class="switcher switcher-danger"
+			class="switcher"
 			default="0"
 			>
-			<option value="0">COM_USERS_USER_FIELD_ENABLE</option>
 			<option value="1">COM_USERS_USER_FIELD_BLOCK</option>
+			<option value="0">COM_USERS_USER_FIELD_ENABLE</option>
 		</field>
 
 		<field
@@ -182,14 +182,6 @@
 				type="plugins"
 				label="COM_USERS_USER_FIELD_EDITOR_LABEL"
 				folder="editors"
-				>
-				<option value="">JOPTION_USE_DEFAULT</option>
-			</field>
-
-			<field
-				name="helpsite"
-				type="helpsite"
-				label="COM_USERS_USER_FIELD_HELPSITE_LABEL"
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>

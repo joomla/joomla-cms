@@ -11,8 +11,12 @@ namespace Joomla\Component\Banners\Administrator\View\Tracks;
 
 defined('_JEXEC') or die;
 
+use Exception;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\Component\Banners\Administrator\Model\TracksModel;
 
 /**
  * View class for a list of tracks.
@@ -27,28 +31,36 @@ class RawView extends BaseHtmlView
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  void
+	 *
+	 * @since   1.6
+	 *
+	 * @throws  Exception
 	 */
-	public function display($tpl = null)
+	public function display($tpl = null): void
 	{
-		$basename = $this->get('BaseName');
-		$filetype = $this->get('FileType');
-		$mimetype = $this->get('MimeType');
-		$content  = $this->get('Content');
+		/** @var TracksModel $model */
+		$model    = $this->getModel();
+		$basename = $model->getBaseName();
+		$fileType = $model->getFileType();
+		$mimeType = $model->getMimeType();
+		$content  = $model->getContent();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$document = Factory::getDocument();
-		$document->setMimeEncoding($mimetype);
-		Factory::getApplication()
-			->setHeader(
-				'Content-disposition',
-				'attachment; filename="' . $basename . '.' . $filetype . '"; creation-date="' . Factory::getDate()->toRFC822() . '"',
-				true
-			);
+		$document->setMimeEncoding($mimeType);
+
+		/** @var CMSApplication $app */
+		$app = Factory::getApplication();
+		$app->setHeader(
+			'Content-disposition',
+			'attachment; filename="' . $basename . '.' . $fileType . '"; creation-date="' . Factory::getDate()->toRFC822() . '"',
+			true
+		);
 		echo $content;
 	}
 }

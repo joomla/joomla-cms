@@ -3,13 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  Privacy.actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
+use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
+use Joomla\Database\ParameterType;
 
 /**
  * Privacy plugin managing Joomla actionlogs data
@@ -36,16 +37,18 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 		}
 
 		$domain = $this->createDomain('user_action_logs', 'joomla_user_action_logs_data');
+		$db     = $this->db;
 
-		$query = $this->db->getQuery(true)
-			->select('a.*, u.name')
-			->from('#__action_logs AS a')
-			->innerJoin('#__users AS u ON a.user_id = u.id')
-			->where($this->db->quoteName('a.user_id') . ' = ' . $user->id);
+		$query = $db->getQuery(true)
+			->select(['a.*', $db->quoteName('u.name')])
+			->from($db->quoteName('#__action_logs', 'a'))
+			->join('INNER', $db->quoteName('#__users', 'u'), $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'))
+			->where($db->quoteName('a.user_id') . ' = :id')
+			->bind(':id', $user->id, ParameterType::INTEGER);
 
-		$this->db->setQuery($query);
+		$db->setQuery($query);
 
-		$data = $this->db->loadObjectList();
+		$data = $db->loadObjectList();
 
 		if (!count($data))
 		{

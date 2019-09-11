@@ -4,7 +4,7 @@
 		name="articles"
 		label="JGLOBAL_ARTICLES"
 		description="COM_CONTENT_CONFIG_ARTICLE_SETTINGS_DESC"
-	>
+		>
 
 		<field
 			name="article_layout"
@@ -281,42 +281,6 @@
 		/>
 
 		<field
-			name="show_icons"
-			type="radio"
-			label="JGLOBAL_SHOW_ICONS_LABEL"
-			description="JGLOBAL_SHOW_ICONS_DESC"
-			class="switcher"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="show_print_icon"
-			type="radio"
-			label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
-			description="JGLOBAL_SHOW_PRINT_ICON_DESC"
-			class="switcher"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="show_email_icon"
-			type="radio"
-			label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
-			description="JGLOBAL_SHOW_EMAIL_ICON_DESC"
-			class="switcher"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
 			name="show_hits"
 			type="radio"
 			label="JGLOBAL_SHOW_HITS_LABEL"
@@ -332,11 +296,11 @@
 			type="radio"
 			label="JGLOBAL_RECORD_HITS_LABEL"
 			description="JGLOBAL_RECORD_HITS_DESC"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -367,7 +331,7 @@
 		name="editinglayout"
 		label="COM_CONTENT_EDITING_LAYOUT"
 		description="COM_CONTENT_CONFIG_EDITOR_LAYOUT"
-	>
+		>
 
 		<field
 			name="captcha"
@@ -528,7 +492,7 @@
 		name="category"
 		label="JCATEGORY"
 		description="COM_CONTENT_CONFIG_CATEGORY_SETTINGS_DESC"
-	>
+		>
 
 		<field
 			name="category_layout"
@@ -660,7 +624,7 @@
 		name="categories"
 		label="JCATEGORIES"
 		description="COM_CONTENT_CONFIG_CATEGORIES_SETTINGS_DESC"
-	>
+		>
 		<field
 			name="show_base_description"
 			type="radio"
@@ -728,7 +692,7 @@
 		name="blog_default_parameters"
 		label="COM_CONTENT_CONFIG_BLOG_SETTINGS_LABEL"
 		description="COM_CONTENT_CONFIG_BLOG_SETTINGS_DESC"
-	>
+		>
 
 		<field
 			name="num_leading_articles"
@@ -778,7 +742,7 @@
 		label="JGLOBAL_LIST_LAYOUT_OPTIONS"
 		description="COM_CONTENT_CONFIG_LIST_SETTINGS_DESC"
 		addfieldprefix="Joomla\Component\Content\Administrator\Field"
-	>
+		>
 
 		<field
 			name="show_pagination_limit"
@@ -886,7 +850,7 @@
 		name="shared"
 		label="COM_CONTENT_SHARED_LABEL"
 		description="COM_CONTENT_SHARED_DESC"
-	>
+		>
 
 		<field
 			name="orderby_pri"
@@ -974,75 +938,94 @@
 		name="integration"
 		label="JGLOBAL_INTEGRATION_LABEL"
 		description="COM_CONTENT_CONFIG_INTEGRATION_SETTINGS_DESC"
-	>
-		<field
-			name="show_feed_link"
-			type="radio"
-			label="JGLOBAL_SHOW_FEED_LINK_LABEL"
-			class="switcher"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="feed_summary"
-			type="list"
-			label="JGLOBAL_FEED_SUMMARY_LABEL"
-			default="0"
-			showon="show_feed_link:1"
-			>
-			<option value="0">JGLOBAL_INTRO_TEXT</option>
-			<option value="1">JGLOBAL_FULL_TEXT</option>
-		</field>
-
-		<field
-			name="feed_show_readmore"
-			type="radio"
-			label="JGLOBAL_FEED_SHOW_READMORE_LABEL"
-			description="JGLOBAL_FEED_SHOW_READMORE_DESC"
-			class="switcher"
-			default="0"
-			showon="show_feed_link:1[AND]feed_summary:0"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="sef_ids"
-			type="radio"
-			class="switcher"
-			default="0"
-			label="JGLOBAL_SEF_NOIDS_LABEL"
-			filter="integer"
 		>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
-		<field
-			name="custom_fields_enable"
-			type="radio"
-			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
-			class="switcher"
-			default="1"
+		<fieldset
+			name="integration_newsfeed"
+			label="JGLOBAL_FEED_TITLE"
 			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
 
-		<field
-			name="workflows_enable"
-			type="radio"
-			label="JGLOBAL_WORKFLOWS_ENABLE_LABEL"
-			class="switcher"
-			default="1"
+			<field
+				name="show_feed_link"
+				type="radio"
+				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
+				class="switcher"
+				default="1"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="feed_summary"
+				type="list"
+				label="JGLOBAL_FEED_SUMMARY_LABEL"
+				default="0"
+				showon="show_feed_link:1"
+				>
+				<option value="0">JGLOBAL_INTRO_TEXT</option>
+				<option value="1">JGLOBAL_FULL_TEXT</option>
+			</field>
+
+			<field
+				name="feed_show_readmore"
+				type="radio"
+				label="JGLOBAL_FEED_SHOW_READMORE_LABEL"
+				description="JGLOBAL_FEED_SHOW_READMORE_DESC"
+				class="switcher"
+				default="0"
+				showon="show_feed_link:1[AND]feed_summary:0"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+		</fieldset>
+		<fieldset
+			name="integration_sef"
+			label="JGLOBAL_SEF_TITLE"
 			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
+
+			<field
+				name="sef_ids"
+				type="radio"
+				class="switcher"
+				default="0"
+				label="JGLOBAL_SEF_NOIDS_LABEL"
+				filter="integer"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+		</fieldset>
+
+		<fieldset
+			name="integration_customfields"
+			label="JGLOBAL_FIELDS_TITLE"
+			>
+
+			<field
+				name="custom_fields_enable"
+				type="radio"
+				label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
+				class="switcher"
+				default="1"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+				name="workflows_enable"
+				type="radio"
+				label="JGLOBAL_WORKFLOWS_ENABLE_LABEL"
+				class="switcher"
+				default="1"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+		</fieldset>
 
 	</fieldset>
 
@@ -1050,7 +1033,7 @@
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC"
-	>
+		>
 		<field
 			name="rules"
 			type="rules"

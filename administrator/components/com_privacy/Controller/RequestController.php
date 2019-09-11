@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@ namespace Joomla\Component\Privacy\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -69,8 +68,7 @@ class RequestController extends FormController
 		// Ensure this record can transition to the requested state
 		if (!$this->canTransition($item, '2'))
 		{
-			$this->setError(Text::_('COM_PRIVACY_ERROR_COMPLETE_TRANSITION_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(Text::_('COM_PRIVACY_ERROR_COMPLETE_TRANSITION_NOT_PERMITTED'), 'error');
 
 			$this->setRedirect(
 				Route::_(
@@ -90,8 +88,7 @@ class RequestController extends FormController
 		// Access check.
 		if (!$this->allowSave($data, $key))
 		{
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
 			$this->setRedirect(
 				Route::_(
@@ -106,8 +103,7 @@ class RequestController extends FormController
 		if (!$model->save($data))
 		{
 			// Redirect back to the edit screen.
-			$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
 
 			$this->setRedirect(
 				Route::_(
@@ -156,8 +152,7 @@ class RequestController extends FormController
 		if (!$model->emailDataExport($recordId))
 		{
 			// Redirect back to the edit screen.
-			$this->setError(Text::sprintf('COM_PRIVACY_ERROR_EXPORT_EMAIL_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(Text::sprintf('COM_PRIVACY_ERROR_EXPORT_EMAIL_FAILED', $model->getError()), 'error');
 		}
 		else
 		{
@@ -234,8 +229,7 @@ class RequestController extends FormController
 		// Ensure this record can transition to the requested state
 		if (!$this->canTransition($item, '-1'))
 		{
-			$this->setError(Text::_('COM_PRIVACY_ERROR_INVALID_TRANSITION_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(Text::_('COM_PRIVACY_ERROR_INVALID_TRANSITION_NOT_PERMITTED'), 'error');
 
 			$this->setRedirect(
 				Route::_(
@@ -255,8 +249,7 @@ class RequestController extends FormController
 		// Access check.
 		if (!$this->allowSave($data, $key))
 		{
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
 			$this->setRedirect(
 				Route::_(
@@ -271,8 +264,7 @@ class RequestController extends FormController
 		if (!$model->save($data))
 		{
 			// Redirect back to the edit screen.
-			$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
 
 			$this->setRedirect(
 				Route::_(
@@ -321,8 +313,7 @@ class RequestController extends FormController
 		if (!$model->removeDataForRequest($recordId))
 		{
 			// Redirect back to the edit screen.
-			$this->setError(Text::sprintf('COM_PRIVACY_ERROR_REMOVE_DATA_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(Text::sprintf('COM_PRIVACY_ERROR_REMOVE_DATA_FAILED', $model->getError()), 'error');
 
 			$this->setRedirect(
 				Route::_(
@@ -373,7 +364,7 @@ class RequestController extends FormController
 		{
 			if ($error = $model->getError())
 			{
-				Factory::getApplication()->enqueueMessage($error, 'warning');
+				$this->app->enqueueMessage($error, 'warning');
 			}
 		}
 
@@ -381,12 +372,12 @@ class RequestController extends FormController
 		{
 			if ($error = $model->getError())
 			{
-				Factory::getApplication()->enqueueMessage($error, 'warning');
+				$this->app->enqueueMessage($error, 'warning');
 			}
 		}
 		else
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_PRIVACY_MSG_CONFIRM_EMAIL_SENT_TO_USER'));
+			$this->app->enqueueMessage(Text::_('COM_PRIVACY_MSG_CONFIRM_EMAIL_SENT_TO_USER'));
 		}
 	}
 

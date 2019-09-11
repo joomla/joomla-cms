@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,6 +19,7 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Privacy\Administrator\Model\RequestsModel;
 
 /**
  * Request view class
@@ -64,17 +65,18 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @see     BaseHtmlView::loadTemplate()
 	 * @since   3.9.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
-		// Initialise variables.
-		$this->item  = $this->get('Item');
-		$this->state = $this->get('State');
+		/** @var RequestsModel $model */
+		$model       = $this->getModel();
+		$this->item  = $model->getItem();
+		$this->state = $model->getState();
 
 		// Variables only required for the default layout
 		if ($this->getLayout() === 'default')
@@ -104,7 +106,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -123,7 +125,7 @@ class HtmlView extends BaseHtmlView
 		{
 			ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_REQUEST_ADD_REQUEST'), 'lock');
 
-			ToolbarHelper::apply('request.save');
+			ToolbarHelper::save('request.save');
 			ToolbarHelper::cancel('request.cancel');
 			ToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_REQUEST_EDIT');
 		}

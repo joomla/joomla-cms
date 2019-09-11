@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Cache;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
@@ -71,7 +71,7 @@ class CacheController
 	 */
 	public function __call($name, $arguments)
 	{
-		return call_user_func_array(array($this->cache, $name), $arguments);
+		return \call_user_func_array(array($this->cache, $name), $arguments);
 	}
 
 	/**
@@ -102,29 +102,35 @@ class CacheController
 		}
 		catch (\RuntimeException $e)
 		{
-		}
+			$type  = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
+			$class = 'JCacheController' . ucfirst($type);
 
-		$type  = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
-		$class = 'JCacheController' . ucfirst($type);
-
-		if (!class_exists($class))
-		{
-			// Search for the class file in the Cache include paths.
-			$path = Path::find(self::addIncludePath(), strtolower($type) . '.php');
-
-			if ($path !== false)
-			{
-				\JLoader::register($class, $path);
-			}
-
-			// The class should now be loaded
 			if (!class_exists($class))
 			{
-				throw new \RuntimeException('Unable to load Cache Controller: ' . $type, 500);
-			}
-		}
+				// Search for the class file in the Cache include paths.
+				$path = Path::find(self::addIncludePath(), strtolower($type) . '.php');
 
-		return new $class($options);
+				if ($path !== false)
+				{
+					\JLoader::register($class, $path);
+				}
+
+				// The class should now be loaded
+				if (!class_exists($class))
+				{
+					throw new \RuntimeException('Unable to load Cache Controller: ' . $type, 500);
+				}
+
+				// Only trigger a deprecation notice if the file and class are found
+				@trigger_error(
+					'Support for including cache controllers using path lookup is deprecated and will be removed in 5.0.'
+					. ' Use a custom cache controller factory instead.',
+					E_USER_DEPRECATED
+				);
+			}
+
+			return new $class($options);
+		}
 	}
 
 	/**
@@ -146,8 +152,15 @@ class CacheController
 			$paths = array();
 		}
 
-		if (!empty($path) && !in_array($path, $paths))
+		if (!empty($path) && !\in_array($path, $paths))
 		{
+			// Only trigger a deprecation notice when adding a lookup path
+			@trigger_error(
+				'Support for including cache controllers using path lookup is deprecated and will be removed in 5.0.'
+				. ' Use a custom cache controller factory instead.',
+				E_USER_DEPRECATED
+			);
+
 			array_unshift($paths, Path::clean($path));
 		}
 

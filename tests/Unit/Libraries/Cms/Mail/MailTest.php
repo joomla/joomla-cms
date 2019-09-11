@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Mail
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,6 +25,8 @@ class MailTest extends UnitTestCase
 {
 	/**
 	 * @var Mail
+	 *
+	 * @since   4.0.0
 	 */
 	protected $mail;
 
@@ -32,8 +34,10 @@ class MailTest extends UnitTestCase
 	 * This method is called before a test is executed.
 	 *
 	 * @return void
+	 *
+	 * @since   4.0.0
 	 */
-	protected function setUp()
+	protected function setUp():void
 	{
 		parent::setUp();
 
@@ -44,8 +48,10 @@ class MailTest extends UnitTestCase
 	 * This method is called after a test is executed.
 	 *
 	 * @return void
+	 *
+	 * @since   4.0.0
 	 */
-	protected function tearDown()
+	protected function tearDown():void
 	{
 		unset($this->mail);
 
@@ -56,6 +62,8 @@ class MailTest extends UnitTestCase
 	 * Provides test data for request format detection.
 	 *
 	 * @return array
+	 *
+	 * @since   4.0.0
 	 */
 	public function seedTestAdd(): array
 	{
@@ -89,9 +97,17 @@ class MailTest extends UnitTestCase
 	/**
 	 * Tests the addRecipient method.
 	 *
-	 * @covers  Mail::addRecipient
+	 * @covers        Mail::addRecipient
 	 *
 	 * @dataProvider  seedTestAdd
+	 *
+	 * @param   string  $recipient  Recipient
+	 * @param   string  $name       Name
+	 * @param   string  $expected   Expected
+	 *
+	 * @return void
+	 * @since         4.0.0
+	 * @throws \PHPMailer\PHPMailer\Exception
 	 */
 	public function testAddRecipient($recipient, $name, $expected)
 	{
@@ -103,9 +119,17 @@ class MailTest extends UnitTestCase
 	/**
 	 * Tests the addCC method.
 	 *
-	 * @covers  Mail::addCc
+	 * @covers        Mail::addCc
 	 *
 	 * @dataProvider  seedTestAdd
+	 *
+	 * @param   string  $recipient  Recipient
+	 * @param   string  $name       Name
+	 * @param   string  $expected   Expected
+	 *
+	 * @return void
+	 * @since         4.0.0
+	 * @throws \PHPMailer\PHPMailer\Exception
 	 */
 	public function testAddCc($recipient, $name, $expected)
 	{
@@ -117,8 +141,15 @@ class MailTest extends UnitTestCase
 	/**
 	 * Tests the addBCC method.
 	 *
-	 * @covers  Mail::addBcc
+	 * @covers        Mail::addBcc
 	 *
+	 * @param   string  $recipient  Recipient
+	 * @param   string  $name       Name
+	 * @param   string  $expected   Expected
+	 *
+	 * @return void
+	 * @since         4.0.0
+	 * @throws \PHPMailer\PHPMailer\Exception
 	 * @dataProvider  seedTestAdd
 	 */
 	public function testAddBcc($recipient, $name, $expected)
@@ -132,6 +163,8 @@ class MailTest extends UnitTestCase
 	 * Provides test data for request format detection.
 	 *
 	 * @return array
+	 *
+	 * @since   4.0.0
 	 */
 	public function seedTestAddReplyTo(): array
 	{
@@ -164,9 +197,17 @@ class MailTest extends UnitTestCase
 	/**
 	 * Tests the addReplyTo method.
 	 *
-	 * @covers  JMail::addReplyTo
+	 * @covers        JMail::addReplyTo
 	 *
 	 * @dataProvider  seedTestAddReplyTo
+	 *
+	 * @param   string  $recipient  Recipient
+	 * @param   string  $name       Name
+	 * @param   string  $expected   Expected
+	 *
+	 * @return void
+	 * @since         4.0.0
+	 * @throws \PHPMailer\PHPMailer\Exception
 	 */
 	public function testAddReplyTo($recipient, $name, $expected)
 	{
@@ -179,6 +220,9 @@ class MailTest extends UnitTestCase
 	 * Test the addAttachment method
 	 *
 	 * @return void
+	 *
+	 * @since   4.0.0
+	 * @throws \PHPMailer\PHPMailer\Exception
 	 */
 	public function testAddAttachment()
 	{
@@ -200,6 +244,8 @@ class MailTest extends UnitTestCase
 	 * @covers  JMail::IsHTML
 	 *
 	 * @return void
+	 *
+	 * @since   4.0.0
 	 */
 	public function testIsHtmlTrue()
 	{
@@ -214,6 +260,8 @@ class MailTest extends UnitTestCase
 	 * @covers  JMail::IsHTML
 	 *
 	 * @return void
+	 *
+	 * @since   4.0.0
 	 */
 	public function testIsHtmlFalse()
 	{
@@ -268,8 +316,9 @@ class MailTest extends UnitTestCase
 	{
 		// Build an partial mock object.
 		$mailMock = $this->getMockBuilder(Mail::class)
-					->setMethods(['SetLanguage', 'IsSMTP', 'IsMail'])
-					->getMock();
+			->setMethods(['SetLanguage', 'IsSMTP', 'IsMail'])
+			->getMock();
+
 		$mailMock
 			->expects($this->once())
 			->method($expected['called']);

@@ -9,15 +9,14 @@
 
 namespace Joomla\Module\RelatedItems\Site\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
-
-\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Database\ParameterType;
 
 /**
  * Helper for mod_related_items
@@ -35,45 +34,45 @@ abstract class RelatedItemsHelper
 	 */
 	public static function getList(&$params)
 	{
-		$db      = Factory::getDbo();
-		$app     = Factory::getApplication();
-		$input   = $app->input;
-		$groups  = implode(',', Factory::getUser()->getAuthorisedViewLevels());
-		$maximum = (int) $params->get('maximum', 5);
+		$db        = Factory::getDbo();
+		$app       = Factory::getApplication();
+		$input     = $app->input;
+		$groups    = Factory::getUser()->getAuthorisedViewLevels();
+		$maximum   = (int) $params->get('maximum', 5);
+		$factory   = $app->bootComponent('com_content')->getMVCFactory();
+		$condition = ContentComponent::CONDITION_PUBLISHED;
 
 		// Get an instance of the generic articles model
-		BaseDatabaseModel::addIncludePath(JPATH_SITE . '/components/com_content/Model');
-		$articles = BaseDatabaseModel::getInstance('ArticlesModel', 'Joomla\\Component\\Content\\Site\\Model\\', array('ignore_request' => true));
-
-		if ($articles === false)
-		{
-			$app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
-
-			return array();
-		}
+		/** @var \Joomla\Component\Content\Site\Model\ArticlesModel $articles */
+		$articles = $factory->createModel('Articles', 'Site', ['ignore_request' => true]);
 
 		// Set application parameters in model
-		$appParams = $app->getParams();
-		$articles->setState('params', $appParams);
+		$articles->setState('params', $app->getParams());
 
 		$option = $input->get('option');
 		$view   = $input->get('view');
 
+		if (!($option === 'com_content' && $view === 'article'))
+		{
+			return [];
+		}
+
 		$temp = $input->getString('id');
 		$temp = explode(':', $temp);
-		$id   = $temp[0];
+		$id   = (int) $temp[0];
 
 		$nullDate = $db->getNullDate();
 		$now      = Factory::getDate()->toSql();
 		$related  = [];
 		$query    = $db->getQuery(true);
 
-		if ($option === 'com_content' && $view === 'article' && $id)
+		if ($id)
 		{
 			// Select the meta keywords from the item
-			$query->select('metakey')
-				->from('#__content')
-				->where('id = ' . (int) $id);
+			$query->select($db->quoteName('metakey'))
+				->from($db->quoteName('#__content'))
+				->where($db->quoteName('id') . ' = :id')
+				->bind(':id', $id, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			try
@@ -102,84 +101,80 @@ abstract class RelatedItemsHelper
 				}
 			}
 
-			if (count($likes))
+			if (\count($likes))
 			{
 				// Select other items based on the metakey field 'like' the keys found
 				$query->clear()
-					->select('a.id')
-					->select('a.title')
-					->select('CAST(a.created AS DATE) as created')
-					->select('a.catid')
-					->select('a.language')
-					->select('cc.access AS cat_access')
-					->select('cc.published AS cat_state');
+					->select($db->quoteName('a.id'))
+					->from($db->quoteName('#__content', 'a'))
+					->join('LEFT', $db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
+					->join('LEFT', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
+					->where($db->quoteName('a.id') . ' != :id')
+					->where($db->quoteName('ws.condition') . ' = :condition')
+					->whereIn($db->quoteName('a.access'), $groups)
+					->bind(':id', $id, ParameterType::INTEGER)
+					->bind(':condition', $condition, ParameterType::INTEGER);
 
-				$case_when = ' CASE WHEN ';
-				$case_when .= $query->charLength('a.alias', '!=', '0');
-				$case_when .= ' THEN ';
-				$a_id = $query->castAsChar('a.id');
-				$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
-				$case_when .= ' ELSE ';
-				$case_when .= $a_id . ' END as slug';
-
-				$query->select($case_when)
-					->from('#__content AS a')
-					->join('LEFT', '#__content_frontpage AS f ON f.content_id = a.id')
-					->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
-					->join('LEFT', '#__workflow_stages AS ws ON ws.id = a.state')
-					->where('a.id != ' . (int) $id)
-					->where('ws.condition = 1')
-					->where('a.access IN (' . $groups . ')');
-
-				$wheres = array();
+				$binds  = [];
+				$wheres = [];
 
 				foreach ($likes as $keyword)
 				{
-					$wheres[] = 'a.metakey LIKE ' . $db->quote('%' . $keyword . '%');
+					$binds[] = '%' . $keyword . '%';
 				}
 
-				$query->where('(' . implode(' OR ', $wheres) . ')')
-					->where('(a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ')')
-					->where('(a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')');
+				$bindNames = $query->bindArray($binds, ParameterType::STRING);
+
+				foreach ($bindNames as $keyword)
+				{
+					$wheres[] = $db->quoteName('a.metakey') . ' LIKE ' . $keyword;
+				}
+
+				$query->extendWhere('AND', $wheres, 'OR')
+					->extendWhere('AND', [ $db->quoteName('a.publish_up') . ' = :nullDate1', $db->quoteName('a.publish_up') . ' <= :nowDate1'], 'OR')
+					->extendWhere(
+						'AND',
+						[
+							$db->quoteName('a.publish_down') . ' = :nullDate2',
+							$db->quoteName('a.publish_down') . ' >= :nowDate2'
+						],
+						'OR'
+					)
+					->bind([':nullDate1', ':nullDate2'], $nullDate)
+					->bind([':nowDate1', ':nowDate2'], $now);
 
 				// Filter by language
 				if (Multilanguage::isEnabled())
 				{
-					$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+					$query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
 				}
 
-				$db->setQuery($query, 0, $maximum);
+				$query->setLimit($maximum);
+				$db->setQuery($query);
 
 				try
 				{
-					$temp = $db->loadObjectList();
+					$articleIds = $db->loadColumn();
 				}
 				catch (\RuntimeException $e)
 				{
 					$app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-					return array();
+					return [];
 				}
 
-				if (count($temp))
+				if (\count($articleIds))
 				{
-					$articles_ids = [];
-
-					foreach ($temp as $row)
-					{
-						$articles_ids[] = $row->id;
-					}
-
-					$articles->setState('filter.article_id', $articles_ids);
+					$articles->setState('filter.article_id', $articleIds);
 					$articles->setState('filter.published', 1);
 					$related = $articles->getItems();
 				}
 
-				unset($temp);
+				unset($articleIds);
 			}
 		}
 
-		if (count($related))
+		if (\count($related))
 		{
 			// Prepare data for display using display options
 			foreach ($related as &$item)

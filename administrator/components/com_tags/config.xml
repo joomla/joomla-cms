@@ -260,7 +260,7 @@
 		</field>
 
 		<field
-			name="all_tags_show_tag_descripion"
+			name="all_tags_show_tag_description"
 			type="radio"
 			label="COM_TAGS_SHOW_ITEM_DESCRIPTION_LABEL"
 			class="switcher"
@@ -275,7 +275,7 @@
 			type="number"
 			label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
 			filter="integer"
-			showon="all_tags_show_tag_descripion:1"
+			showon="all_tags_show_tag_description:1"
 		/>
 
 		<field
@@ -366,18 +366,21 @@
 		label="JGLOBAL_INTEGRATION_LABEL"
 		description="COM_TAGS_CONFIG_INTEGRATION_SETTINGS_DESC"
 	>
-
-		<field
-			name="show_feed_link"
-			type="radio"
-			label="JGLOBAL_SHOW_FEED_LINK_LABEL"
-			class="switcher"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
+		<fieldset
+			name="integration_newsfeeds"
+			label="JGLOBAL_FEED_TITLE"
+		>
+			<field
+				name="show_feed_link"
+				type="radio"
+				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
+				class="switcher"
+				default="1"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+		</fieldset>
 	</fieldset>
 
 	<fieldset

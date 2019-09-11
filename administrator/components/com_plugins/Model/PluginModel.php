@@ -13,9 +13,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
@@ -96,7 +98,7 @@ class PluginModel extends AdminModel
 		}
 
 		// Add the default fields directory
-		\JForm::addFieldPath(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/field');
+		Form::addFieldPath(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/field');
 
 		// These variables are used to add data from the plugin XML files.
 		$this->setState('item.folder', $folder);
@@ -177,7 +179,7 @@ class PluginModel extends AdminModel
 
 			// Convert to the \JObject before adding other data.
 			$properties = $table->getProperties(1);
-			$this->_cache[$pk] = ArrayHelper::toObject($properties, 'JObject');
+			$this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
 
 			// Convert the params field to an array.
 			$registry = new Registry($table->params);
@@ -246,7 +248,7 @@ class PluginModel extends AdminModel
 	 * @throws	\Exception if there is an error in the form event.
 	 * @since   1.6
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		$folder  = $this->getState('item.folder');
 		$element = $this->getState('item.element');
@@ -258,7 +260,8 @@ class PluginModel extends AdminModel
 			->select($db->quoteName('element'))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-			->where($db->quoteName('folder') . ' = ' . $db->quote($folder));
+			->where($db->quoteName('folder') . ' = :folder')
+			->bind(':folder', $folder);
 		$db->setQuery($query);
 		$elements = $db->loadColumn();
 

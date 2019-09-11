@@ -16,6 +16,7 @@ use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -151,7 +152,7 @@ class PlgUserProfile extends CMSPlugin
 		else
 		{
 			// Convert website URL to utf8 for display
-			$value = JStringPunycode::urlToUTF8(htmlspecialchars($value));
+			$value = PunycodeHelper::urlToUTF8(htmlspecialchars($value));
 
 			if (strpos($value, 'http') === 0)
 			{

@@ -4,7 +4,7 @@
  *
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  * @link       http://www.phpunit.de/manual/current/en/installation.html
  */
@@ -29,50 +29,62 @@ if (!defined('JPATH_BASE'))
 {
 	define('JPATH_BASE', $rootDirectory);
 }
+
 if (!defined('JPATH_ROOT'))
 {
 	define('JPATH_ROOT', JPATH_BASE);
 }
+
 if (!defined('JPATH_PLATFORM'))
 {
 	define('JPATH_PLATFORM', JPATH_BASE . '/libraries');
 }
+
 if (!defined('JPATH_LIBRARIES'))
 {
 	define('JPATH_LIBRARIES', JPATH_BASE . '/libraries');
 }
+
 if (!defined('JPATH_CACHE'))
 {
 	define('JPATH_CACHE', JPATH_BASE . '/cache');
 }
+
 if (!defined('JPATH_CONFIGURATION'))
 {
 	define('JPATH_CONFIGURATION', JPATH_BASE);
 }
+
 if (!defined('JPATH_SITE'))
 {
 	define('JPATH_SITE', JPATH_ROOT);
 }
+
 if (!defined('JPATH_ADMINISTRATOR'))
 {
 	define('JPATH_ADMINISTRATOR', JPATH_ROOT . '/administrator');
 }
+
 if (!defined('JPATH_INSTALLATION'))
 {
 	define('JPATH_INSTALLATION', JPATH_ROOT . '/installation');
 }
+
 if (!defined('JPATH_MANIFESTS'))
 {
 	define('JPATH_MANIFESTS', JPATH_ADMINISTRATOR . '/manifests');
 }
+
 if (!defined('JPATH_PLUGINS'))
 {
 	define('JPATH_PLUGINS', JPATH_BASE . '/plugins');
 }
+
 if (!defined('JPATH_THEMES'))
 {
 	define('JPATH_THEMES', JPATH_BASE . '/templates');
 }
+
 if (!defined('JDEBUG'))
 {
 	define('JDEBUG', false);
@@ -99,10 +111,14 @@ JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
 // Create the Composer autoloader
 /** @var \Composer\Autoload\ClassLoader $loader */
 $loader = require JPATH_LIBRARIES . '/vendor/autoload.php';
+
+// We need to pull our decorated class loader into memory before unregistering Composer's loader
+class_exists('\\Joomla\\CMS\\Autoload\\ClassLoader');
+
 $loader->unregister();
 
 // Decorate Composer autoloader
-spl_autoload_register([new JClassLoader($loader), 'loadClass'], true, true);
+spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
 
 // Register the class aliases for Framework classes that have replaced their Platform equivilents
 require_once JPATH_LIBRARIES . '/classmap.php';

@@ -8,8 +8,9 @@
 
 namespace Joomla\CMS\Plugin;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\Event\AbstractEvent;
 use Joomla\Event\DispatcherAwareInterface;
@@ -23,7 +24,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-abstract class CMSPlugin implements DispatcherAwareInterface
+abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 {
 	use DispatcherAwareTrait;
 
@@ -121,7 +122,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 			$reflection = new \ReflectionClass($this);
 			$appProperty = $reflection->getProperty('app');
 
-			if ($appProperty->isPrivate() === false && is_null($this->app))
+			if ($appProperty->isPrivate() === false && \is_null($this->app))
 			{
 				$this->app = Factory::getApplication();
 			}
@@ -132,7 +133,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 			$reflection = new \ReflectionClass($this);
 			$dbProperty = $reflection->getProperty('db');
 
-			if ($dbProperty->isPrivate() === false && is_null($this->db))
+			if ($dbProperty->isPrivate() === false && \is_null($this->db))
 			{
 				$this->db = Factory::getDbo();
 			}
@@ -140,9 +141,6 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 
 		// Set the dispatcher we are to register our listeners with
 		$this->setDispatcher($subject);
-
-		// Register the event listeners with the dispatcher. Override the registerListeners method to customise.
-		$this->registerListeners();
 	}
 
 	/**
@@ -190,7 +188,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 	 *
 	 * @since   4.0
 	 */
-	protected function registerListeners()
+	public function registerListeners()
 	{
 		// Plugins which are SubscriberInterface implementations are handled without legacy layer support
 		if ($this instanceof SubscriberInterface)
@@ -223,7 +221,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 			$parameters = $method->getParameters();
 
 			// If the parameter count is not 1 it is by definition a legacy listener
-			if (count($parameters) != 1)
+			if (\count($parameters) != 1)
 			{
 				$this->registerLegacyListener($method->name);
 

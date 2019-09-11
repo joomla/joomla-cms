@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -47,7 +48,7 @@ class StagesController extends AdminController
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   Input                $input    Input
 	 *
 	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException when no extension or workflow id is set
@@ -151,7 +152,7 @@ class StagesController extends AdminController
 			}
 			else
 			{
-				$this->setMessage(Text::_('COM_WORKFLOW_ITEM_SET_DEFAULT'));
+				$this->setMessage(Text::_('COM_WORKFLOW_STAGE_SET_DEFAULT'));
 			}
 		}
 
@@ -165,62 +166,14 @@ class StagesController extends AdminController
 	}
 
 	/**
-	 * Check in of one or more records.
+	 * Gets the URL arguments to append to a list redirect.
 	 *
-	 * @return  boolean  True on success
+	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function checkin()
+	protected function getRedirectToListAppend()
 	{
-		$result = parent::checkin();
-
-		$this->setRedirect(
-			Route::_(
-				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extension=' . $this->extension
-				. '&workflow_id=' . $this->workflowId, false
-			)
-		);
-
-		return $result;
-	}
-
-	/**
-	 * Deletes and returns correctly.
-	 *
-	 * @return  void
-	 *
-	 * @since  4.0.0
-	 */
-	public function delete()
-	{
-		parent::delete();
-		$this->setRedirect(
-			Route::_(
-				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extension=' . $this->extension
-				. '&workflow_id=' . $this->workflowId, false
-			)
-		);
-	}
-
-	/**
-	 * Method to publish a list of items
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function publish()
-	{
-		parent::publish();
-
-		$this->setRedirect(
-			Route::_(
-				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extension=' . $this->extension . '&workflow_id=' . $this->workflowId, false
-			)
-		);
+		return '&extension=' . $this->extension . '&workflow_id=' . $this->workflowId;
 	}
 }

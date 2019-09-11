@@ -29,6 +29,11 @@ use Joomla\Database\DatabaseInterface;
  */
 class Router extends RouterView
 {
+	/**
+	 * Flag to remove IDs
+	 *
+	 * @var    boolean
+	 */
 	protected $noIDs = false;
 
 	/**
@@ -138,9 +143,9 @@ class Router extends RouterView
 		if (!strpos($id, ':'))
 		{
 			$dbquery = $this->db->getQuery(true);
-			$dbquery->select($dbquery->quoteName('alias'))
-				->from($dbquery->quoteName('#__newsfeeds'))
-				->where('id = ' . $dbquery->quote((int) $id));
+			$dbquery->select($this->db->quoteName('alias'))
+				->from($this->db->quoteName('#__newsfeeds'))
+				->where('id = ' . $this->db->quote((int) $id));
 			$this->db->setQuery($dbquery);
 
 			$id .= ':' . $this->db->loadResult();
@@ -221,10 +226,10 @@ class Router extends RouterView
 		if ($this->noIDs)
 		{
 			$dbquery = $this->db->getQuery(true);
-			$dbquery->select($dbquery->quoteName('id'))
-				->from($dbquery->quoteName('#__newsfeeds'))
-				->where('alias = ' . $dbquery->quote($segment))
-				->where('catid = ' . $dbquery->quote($query['id']));
+			$dbquery->select($this->db->quoteName('id'))
+				->from($this->db->quoteName('#__newsfeeds'))
+				->where('alias = ' . $this->db->quote($segment))
+				->where('catid = ' . $this->db->quote($query['id']));
 			$this->db->setQuery($dbquery);
 
 			return (int) $this->db->loadResult();

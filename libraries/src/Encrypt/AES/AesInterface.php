@@ -8,10 +8,12 @@
 
 namespace Joomla\CMS\Encrypt\AES;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Interface for AES encryption adapters
+ *
+ * @since    4.0.0
  */
 interface AesInterface
 {
@@ -69,14 +71,14 @@ interface AesInterface
 	/**
 	 * Returns the encryption block size in bytes
 	 *
-	 * @return  int
+	 * @return  integer
 	 */
 	public function getBlockSize();
 
 	/**
 	 * Is this adapter supported?
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 */
 	public function isSupported();
 }

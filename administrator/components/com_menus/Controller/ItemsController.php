@@ -10,12 +10,14 @@ namespace Joomla\Component\Menus\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
+use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -31,7 +33,7 @@ class ItemsController extends AdminController
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   Input                $input    Input
 	 *
 	 * @since  1.6
 	 * @see    \JControllerLegacy
@@ -60,6 +62,31 @@ class ItemsController extends AdminController
 	}
 
 	/**
+	 * Method to get the number of published frontend menu items for quickicons
+	 *
+	 * @return  integer  The amount of items
+	 *
+	 * @since   4.0
+	 */
+	public function getQuickiconContent()
+	{
+		$model = $this->getModel('Items');
+
+		$model->setState('filter.published', 1);
+		$model->setState('filter.client_id', 0);
+
+		$amount = (int) $model->getTotal();
+
+		$result = [];
+
+		$result['amount'] = $amount;
+		$result['sronly'] = Text::plural('COM_MENUS_ITEMS_N_QUICKICON_SRONLY', $amount);
+		$result['name'] = Text::plural('COM_MENUS_ITEMS_N_QUICKICON', $amount);
+
+		echo new JsonResponse($result);
+	}
+
+	/**
 	 * Rebuild the nested set tree.
 	 *
 	 * @return  boolean  False on failure or error, true on success.
@@ -70,9 +97,9 @@ class ItemsController extends AdminController
 	{
 		$this->checkToken();
 
-		$this->setRedirect('index.php?option=com_menus&view=items');
+		$this->setRedirect('index.php?option=com_menus&view=items&menutype=' . $this->input->getCmd('menutype'));
 
-		/* @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
+		/** @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
 		$model = $this->getModel();
 
 		if ($model->rebuild())
@@ -227,59 +254,21 @@ class ItemsController extends AdminController
 		$this->setRedirect(
 			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list . '&menutype=' .
-				Factory::getApplication()->getUserState('com_menus.items.menutype'),
+				$this->app->getUserState('com_menus.items.menutype'),
 				false
 			)
 		);
 	}
 
 	/**
-	 * Check in of one or more records.
+	 * Gets the URL arguments to append to a list redirect.
 	 *
-	 * @return  boolean  True on success
+	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   3.6.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function checkin()
+	protected function getRedirectToListAppend()
 	{
-		// Check for request forgeries.
-		$this->checkToken();
-
-		$ids = $this->input->post->get('cid', array(), 'array');
-
-		$model = $this->getModel();
-		$return = $model->checkin($ids);
-
-		if ($return === false)
-		{
-			// Checkin failed.
-			$message = Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
-			$this->setRedirect(
-				Route::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. '&menutype=' . $this->app->getUserState('com_menus.items.menutype'),
-					false
-				),
-				$message,
-				'error'
-			);
-
-			return false;
-		}
-		else
-		{
-			// Checkin succeeded.
-			$message = Text::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
-			$this->setRedirect(
-				Route::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. '&menutype=' . $this->app->getUserState('com_menus.items.menutype'),
-					false
-				),
-				$message
-			);
-
-			return true;
-		}
+		return '&menutype=' . $this->app->getUserState('com_menus.items.menutype');
 	}
 }

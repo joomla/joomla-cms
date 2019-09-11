@@ -40,11 +40,12 @@ class HtmlView extends BaseHtmlView
 
 		$this->items = $model->getItems();
 
-		$this->eid = (int) $model->getState('eid', '700', 'int');
+		$this->joomlaFilesExtensionId = $model->getJoomlaFilesExtensionId();
+		$this->eid                    = (int) $model->getState('eid', $this->joomlaFilesExtensionId, 'int');
 
 		if (empty($this->eid))
 		{
-			$this->eid = 700;
+			$this->eid = $this->joomlaFilesExtensionId;
 		}
 
 		$this->toolbar();

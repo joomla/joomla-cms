@@ -9,7 +9,7 @@
 
 namespace Joomla\Plugin\System\Stats\Field;
 
-defined('JPATH_BASE') or die;
+\defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
@@ -34,7 +34,7 @@ abstract class AbstractStatsField extends FormField
 
 		return array(
 			JPATH_ADMINISTRATOR . '/templates/' . $template . '/html/layouts/plugins/system/stats',
-			dirname(__DIR__) . '/layouts',
+			\dirname(__DIR__) . '/layouts',
 			JPATH_SITE . '/layouts'
 		);
 	}

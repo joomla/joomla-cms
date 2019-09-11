@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -37,14 +37,14 @@ class ContenttypeField extends ListField
 	 */
 	protected function getInput()
 	{
-		if (!is_array($this->value))
+		if (!\is_array($this->value))
 		{
-			if (is_object($this->value))
+			if (\is_object($this->value))
 			{
 				$this->value = $this->value->tags;
 			}
 
-			if (is_string($this->value))
+			if (\is_string($this->value))
 			{
 				$this->value = explode(',', $this->value);
 			}
@@ -82,9 +82,6 @@ class ContenttypeField extends ListField
 			return array();
 		}
 
-		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
-
 		foreach ($options as $option)
 		{
 			// Make up the string from the component sys.ini file
@@ -103,6 +100,9 @@ class ContenttypeField extends ListField
 				$option->text = Text::_($option->string);
 			}
 		}
+
+		// Merge any additional options in the XML definition.
+		$options = array_merge(parent::getOptions(), $options);
 
 		return $options;
 	}

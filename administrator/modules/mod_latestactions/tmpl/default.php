@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_latestactions
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,12 +31,7 @@ HTMLHelper::_('bootstrap.framework');
 				<?php echo $item->message; ?>
 			</td>
 			<td>
-				<span class="badge badge-secondary badge-pill">
-					<span class="small">
-						<span class="icon-calendar" aria-hidden="true"></span>
-						<?php echo HTMLHelper::_('date', $item->log_date, Text::_('DATE_FORMAT_LC5')); ?>
-					</span>
-				</span>
+				<?php echo HTMLHelper::_('date', $item->log_date, Text::_('DATE_FORMAT_LC5')); ?>
 			</td>
 		</tr>
 		<?php endforeach; ?>

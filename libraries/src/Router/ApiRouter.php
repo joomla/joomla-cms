@@ -8,12 +8,13 @@
 
 namespace Joomla\CMS\Router;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
-use Joomla\Router\Router;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Router\Route;
+use Joomla\Router\Router;
 
 /**
  * Joomla! API Router class
@@ -25,7 +26,7 @@ class ApiRouter extends Router
 	/**
 	 * The application object
 	 *
-	 * @type   CMSApplicationInterface
+	 * @var    CMSApplicationInterface
 	 * @since  4.0.0
 	 */
 	protected $app;
@@ -88,13 +89,13 @@ class ApiRouter extends Router
 
 		$validMethods = ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS", "TRACE", "PATCH"];
 
-		if (!in_array($method, $validMethods))
+		if (!\in_array($method, $validMethods))
 		{
 			throw new \InvalidArgumentException(sprintf('%s is not a valid HTTP method.', $method));
 		}
 
 		// Get the path from the route and remove and leading or trailing slash.
-		$uri = \JUri::getInstance();
+		$uri = Uri::getInstance();
 		$path = urldecode($uri->getPath());
 
 		/**
@@ -104,7 +105,7 @@ class ApiRouter extends Router
 		 */
 		try
 		{
-			$baseUri = \JUri::base(true);
+			$baseUri = Uri::base(true);
 		}
 		catch (\RuntimeException $e)
 		{
@@ -112,7 +113,7 @@ class ApiRouter extends Router
 		}
 
 		// Remove the base URI path.
-		$path = substr_replace($path, '', 0, strlen($baseUri));
+		$path = substr_replace($path, '', 0, \strlen($baseUri));
 
 		if (!$this->app->get('sef_rewrite'))
 		{
@@ -127,12 +128,12 @@ class ApiRouter extends Router
 			}
 		}
 
-		$query = \JUri::getInstance()->getQuery(true);
+		$query = Uri::getInstance()->getQuery(true);
 
 		// Iterate through all of the known routes looking for a match.
 		foreach ($this->routes as $route)
 		{
-			if (in_array($method, $route->getMethods()))
+			if (\in_array($method, $route->getMethods()))
 			{
 				if (preg_match($route->getRegex(), ltrim($path, '/'), $matches))
 				{

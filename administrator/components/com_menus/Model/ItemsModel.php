@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -56,6 +57,8 @@ class ItemsModel extends ListModel
 				'client_id', 'a.client_id',
 				'home', 'a.home',
 				'parent_id', 'a.parent_id',
+				'publish_up', 'a.publish_up',
+				'publish_down', 'a.publish_down',
 				'a.ordering'
 			);
 
@@ -260,12 +263,14 @@ class ItemsModel extends ListModel
 					array(
 						'a.id', 'a.menutype', 'a.title', 'a.alias', 'a.note', 'a.path', 'a.link', 'a.type', 'a.parent_id',
 						'a.level', 'a.published', 'a.component_id', 'a.checked_out', 'a.checked_out_time', 'a.browserNav',
-						'a.access', 'a.img', 'a.template_style_id', 'a.params', 'a.lft', 'a.rgt', 'a.home', 'a.language', 'a.client_id'
+						'a.access', 'a.img', 'a.template_style_id', 'a.params', 'a.lft', 'a.rgt', 'a.home', 'a.language',
+						'a.client_id', 'e.enabled', 'a.publish_up', 'a.publish_down'
 					),
 					array(
 						null, null, null, null, null, null, null, null, null,
 						null, 'a.published', null, null, null, null,
-						null, null, null, null, null, null, null, null, null
+						null, null, null, null, null, null, null, null,
+						null, 'enabled', 'publish_up', 'publish_down'
 					)
 				)
 			)
@@ -273,16 +278,11 @@ class ItemsModel extends ListModel
 		$query->select(
 			'CASE ' .
 				' WHEN a.type = ' . $db->quote('component') . ' THEN a.published+2*(e.enabled-1) ' .
-				' WHEN a.type = ' . $db->quote('url') . ' AND a.published != -2 THEN a.published+2 ' .
-				' WHEN a.type = ' . $db->quote('url') . ' AND a.published = -2 THEN a.published-1 ' .
-				' WHEN a.type = ' . $db->quote('alias') . ' AND a.published != -2 THEN a.published+4 ' .
-				' WHEN a.type = ' . $db->quote('alias') . ' AND a.published = -2 THEN a.published-1 ' .
-				' WHEN a.type = ' . $db->quote('separator') . ' AND a.published != -2 THEN a.published+6 ' .
-				' WHEN a.type = ' . $db->quote('separator') . ' AND a.published = -2 THEN a.published-1 ' .
-				' WHEN a.type = ' . $db->quote('heading') . ' AND a.published != -2 THEN a.published+8 ' .
-				' WHEN a.type = ' . $db->quote('heading') . ' AND a.published = -2 THEN a.published-1 ' .
-				' WHEN a.type = ' . $db->quote('container') . ' AND a.published != -2 THEN a.published+8 ' .
-				' WHEN a.type = ' . $db->quote('container') . ' AND a.published = -2 THEN a.published-1 ' .
+				' WHEN a.type = ' . $db->quote('url') . ' THEN a.published ' .
+				' WHEN a.type = ' . $db->quote('alias') . ' THEN a.published ' .
+				' WHEN a.type = ' . $db->quote('separator') . ' THEN a.published ' .
+				' WHEN a.type = ' . $db->quote('heading') . ' THEN a.published ' .
+				' WHEN a.type = ' . $db->quote('container') . ' THEN a.published ' .
 			' END AS published '
 		);
 		$query->from($db->quoteName('#__menu') . ' AS a');
@@ -395,7 +395,7 @@ class ItemsModel extends ListModel
 			else
 			{
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(' . 'a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
+				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
 			}
 		}
 
@@ -435,8 +435,8 @@ class ItemsModel extends ListModel
 		if ($menuType == '')
 		{
 			// Load all menu types we have manage access
-			$query2 = $this->getDbo()->getQuery(true)
-				->select($this->getDbo()->quoteName(array('id', 'menutype')))
+			$query2 = $db->getQuery(true)
+				->select($db->quoteName(array('id', 'menutype')))
 				->from('#__menu_types')
 				->where('client_id = ' . (int) $this->getState('filter.client_id'))
 				->order('title');
@@ -444,7 +444,7 @@ class ItemsModel extends ListModel
 			// Show protected items on explicit filter only
 			$query->where('a.menutype != ' . $db->quote('main'));
 
-			$menuTypes = $this->getDbo()->setQuery($query2)->loadObjectList();
+			$menuTypes = $db->setQuery($query2)->loadObjectList();
 
 			if ($menuTypes)
 			{
@@ -454,7 +454,7 @@ class ItemsModel extends ListModel
 				{
 					if ($user->authorise('core.manage', 'com_menus.menu.' . (int) $type->id))
 					{
-						$types[] = $query->quote($type->menutype);
+						$types[] = $db->quote($type->menutype);
 					}
 				}
 
@@ -504,7 +504,7 @@ class ItemsModel extends ListModel
 	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   \JForm  $form   A \JForm object.
+	 * @param   Form    $form   A Form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -513,7 +513,7 @@ class ItemsModel extends ListModel
 	 * @since   3.2
 	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		$name = $form->getName();
 

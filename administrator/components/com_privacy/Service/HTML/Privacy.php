@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@ class Privacy
 				return '<span class="badge badge-info">' . Text::_('COM_PRIVACY_STATUS_CONFIRMED') . '</span>';
 
 			case -1:
-				return '<span class="badge badge-important">' . Text::_('COM_PRIVACY_STATUS_INVALID') . '</span>';
+				return '<span class="badge badge-danger">' . Text::_('COM_PRIVACY_STATUS_INVALID') . '</span>';
 
 			default:
 			case 0:

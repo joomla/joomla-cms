@@ -8,16 +8,18 @@
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Access\Exception\AuthenticationFailed;
-use Joomla\CMS\Router\Exception\RouteNotFoundException;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Input\Json as JInputJson;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\ApiRouter;
+use Joomla\CMS\Router\Exception\RouteNotFoundException;
+use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Container;
+use Joomla\Input\Json as JInputJson;
 use Joomla\Registry\Registry;
 use Negotiation\Accept;
 use Negotiation\Exception\InvalidArgument;
@@ -41,7 +43,7 @@ final class ApiApplication extends CMSApplication
 	/**
 	 * The authentication plugin type
 	 *
-	 * @type   string
+	 * @var    string
 	 * @since  4.0.0
 	 */
 	protected $authenticationPluginType = 'api-authentication';
@@ -77,7 +79,7 @@ final class ApiApplication extends CMSApplication
 		$this->addFormatMap('application/vnd.api+json', 'jsonapi');
 
 		// Set the root in the URI based on the application name
-		\JUri::root(null, str_ireplace('/' . $this->getName(), '', \JUri::base(true)));
+		Uri::root(null, str_ireplace('/' . $this->getName(), '', Uri::base(true)));
 	}
 
 
@@ -123,7 +125,7 @@ final class ApiApplication extends CMSApplication
 	 */
 	public function addFormatMap($contentHeader, $format)
 	{
-		if (!array_key_exists($contentHeader, $this->formatMapper))
+		if (!\array_key_exists($contentHeader, $this->formatMapper))
 		{
 			$this->formatMapper[$contentHeader] = $format;
 		}
@@ -160,7 +162,7 @@ final class ApiApplication extends CMSApplication
 		// Set the Joomla! API signature
 		$this->setHeader('X-Powered-By', 'JoomlaAPI/1.0', true);
 
-		if (array_key_exists('cors', $options))
+		if (\array_key_exists('cors', $options))
 		{
 			// Enable CORS (Cross-origin resource sharing)
 			$this->setHeader('Access-Control-Allow-Origin', '*', true);
@@ -223,7 +225,7 @@ final class ApiApplication extends CMSApplication
 		 */
 		$priorities = array('application/vnd.api+json');
 
-		if (!$caught404 && array_key_exists('format', $route['vars']))
+		if (!$caught404 && \array_key_exists('format', $route['vars']))
 		{
 			$priorities = $route['vars']['format'];
 		}
@@ -248,7 +250,7 @@ final class ApiApplication extends CMSApplication
 		/** @var $mediaType Accept */
 		$format = $mediaType->getValue();
 
-		if (array_key_exists($mediaType->getValue(), $this->formatMapper))
+		if (\array_key_exists($mediaType->getValue(), $this->formatMapper))
 		{
 			$format = $this->formatMapper[$mediaType->getValue()];
 		}
@@ -323,10 +325,10 @@ final class ApiApplication extends CMSApplication
 		$this->loadDocument();
 
 		// Set up the params
-		$document = \JFactory::getDocument();
+		$document = Factory::getDocument();
 
-		// Register the document object with \JFactory
-		\JFactory::$document = $document;
+		// Register the document object with Factory
+		Factory::$document = $document;
 
 		$contents = ComponentHelper::renderComponent($component);
 		$document->setBuffer($contents, 'component');

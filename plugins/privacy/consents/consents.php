@@ -3,11 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  Privacy.consents
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Database\ParameterType;
 
 /**
  * Privacy plugin managing Joomla user consent data
@@ -35,15 +37,17 @@ class PlgPrivacyConsents extends PrivacyPlugin
 			return array();
 		}
 
-		$domain    = $this->createDomain('consents', 'joomla_consent_data');
+		$domain = $this->createDomain('consents', 'joomla_consent_data');
+		$db     = $this->db;
 
-		$query = $this->db->getQuery(true)
+		$query = $db->getQuery(true)
 			->select('*')
-			->from($this->db->quoteName('#__privacy_consents'))
-			->where($this->db->quoteName('user_id') . ' = ' . (int) $user->id)
-			->order($this->db->quoteName('created') . ' ASC');
+			->from($db->quoteName('#__privacy_consents'))
+			->where($db->quoteName('user_id') . ' = :id')
+			->order($db->quoteName('created') . ' ASC')
+			->bind(':id', $user->id, ParameterType::INTEGER);
 
-		$items = $this->db->setQuery($query)->loadAssocList();
+		$items = $db->setQuery($query)->loadAssocList();
 
 		foreach ($items as $item)
 		{

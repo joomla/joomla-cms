@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
@@ -24,6 +23,9 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
  */
 class TypeField extends ListField
 {
+	/**
+	 * @var    string
+	 */
 	public $type = 'Type';
 
 	/**
@@ -75,17 +77,17 @@ class TypeField extends ListField
 			}
 		);
 
+		// Preload the Loading indication
+		HTMLHelper::_('webcomponent', 'system/joomla-core-loader.min.js', ['relative' => true, 'version' => 'auto']);
+
 		$js = <<<JS
 (function () {
   window.typeHasChanged = function(element) {
-    Joomla.loadingLayer('show');
+    // Display the loading indication
+    document.body.appendChild(document.createElement('joomla-core-loader'));
     document.querySelector('input[name=task]').value = 'field.reload';
     element.form.submit();
   };
-
-  document.addEventListener('DOMContentLaoded', function() {
-    Joomla.loadingLayer('load');
-  });
 })();
 JS;
 

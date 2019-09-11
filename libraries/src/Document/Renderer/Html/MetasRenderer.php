@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Document\Renderer\Html;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Factory;
@@ -83,11 +83,13 @@ class MetasRenderer extends DocumentRenderer
 			{
 				if ($type == 'http-equiv' && !($this->_doc->isHtml5() && $name == 'content-type'))
 				{
-					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="' . htmlspecialchars($contents, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
+					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="'
+						. htmlspecialchars($contents, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
 				}
 				elseif ($type != 'http-equiv' && !empty($contents))
 				{
-					$buffer .= $tab . '<meta ' . $type . '="' . $name . '" content="' . htmlspecialchars($contents, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
+					$buffer .= $tab . '<meta ' . $type . '="' . $name . '" content="'
+						. htmlspecialchars($contents, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
 				}
 			}
 		}
@@ -115,7 +117,7 @@ class MetasRenderer extends DocumentRenderer
 		{
 			$buffer .= $tab . '<link href="' . $link . '" ' . $linkAtrr['relType'] . '="' . $linkAtrr['relation'] . '"';
 
-			if (is_array($linkAtrr['attribs']))
+			if (\is_array($linkAtrr['attribs']))
 			{
 				if ($temp = ArrayHelper::toString($linkAtrr['attribs']))
 				{

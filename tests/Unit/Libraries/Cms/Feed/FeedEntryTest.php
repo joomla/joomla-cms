@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,6 +27,8 @@ class FeedEntryTest extends UnitTestCase
 {
 	/**
 	 * @var FeedEntry
+	 *
+	 * @since   4.0.0
 	 */
 	protected $feedEntry;
 
@@ -38,7 +40,7 @@ class FeedEntryTest extends UnitTestCase
 	 * @see     \PHPUnit\Framework\TestCase::setUp()
 	 * @since   3.1.4
 	 */
-	protected function setUp()
+	protected function setUp():void
 	{
 		parent::setUp();
 
@@ -53,7 +55,7 @@ class FeedEntryTest extends UnitTestCase
 	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.1.4
 	 */
-	protected function tearDown()
+	protected function tearDown():void
 	{
 		unset($this->feedEntry);
 
@@ -141,11 +143,11 @@ class FeedEntryTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
 	 * @since              3.1.4
 	 */
 	public function testSetAuthorWithInvalidAuthor()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$this->feedEntry->author = 'Jack Sprat';
 	}
 
@@ -154,11 +156,11 @@ class FeedEntryTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
 	 * @since              3.1.4
 	 */
 	public function testSetSourceWithInvalidSource()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$this->feedEntry->source = 'Outer Space';
 	}
 
@@ -167,11 +169,11 @@ class FeedEntryTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
 	 * @since              3.1.4
 	 */
 	public function testSetCategoriesWithInvalidProperty()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$this->feedEntry->categories = 'Can\'t touch this';
 	}
 
@@ -231,6 +233,7 @@ class FeedEntryTest extends UnitTestCase
 
 		$feedCategories = $this->feedEntry->categories;
 		$this->assertCount(3, $feedCategories);
+
 		foreach ($categories as $category)
 		{
 			$this->assertArrayHasKey($category['name'], $feedCategories);
@@ -301,6 +304,7 @@ class FeedEntryTest extends UnitTestCase
 
 		$feedContributors = $this->feedEntry->contributors;
 		$this->assertCount(3, $feedContributors);
+
 		foreach ($contributors as $index => $contributor)
 		{
 			$this->assertEquals($contributor['name'], $feedContributors[$index]->name);

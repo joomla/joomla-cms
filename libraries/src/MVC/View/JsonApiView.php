@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\MVC\View;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Document\JsonapiDocument;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
@@ -58,7 +58,7 @@ abstract class JsonApiView extends JsonView
 	 */
 	public function __construct($config = array())
 	{
-		if (array_key_exists('contentType', $config))
+		if (\array_key_exists('contentType', $config))
 		{
 			$this->type = $config['contentType'];
 		}
@@ -82,9 +82,9 @@ abstract class JsonApiView extends JsonView
 		$pagination = $model->getPagination();
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		if ($this->type === null)
@@ -154,9 +154,9 @@ abstract class JsonApiView extends JsonView
 		}
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		if ($this->type === null)
