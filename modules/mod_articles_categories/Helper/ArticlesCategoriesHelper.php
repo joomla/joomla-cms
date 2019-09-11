@@ -9,7 +9,7 @@
 
 namespace Joomla\Module\ArticlesCategories\Site\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\Categories;
 
@@ -43,9 +43,9 @@ abstract class ArticlesCategoriesHelper
 
 			$count = $params->get('count', 0);
 
-			if ($count > 0 && count($items) > $count)
+			if ($count > 0 && \count($items) > $count)
 			{
-				$items = array_slice($items, 0, $count);
+				$items = \array_slice($items, 0, $count);
 			}
 
 			return $items;

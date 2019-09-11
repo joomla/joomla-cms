@@ -5,17 +5,18 @@
 	xsi:schemaLocation="urn:joomla.org menu.xsd"
 	>
 	<menuitem
+		type="component"
+		title="MOD_MENU_CONTROL_PANEL"
+		link="index.php"
+		element="com_cpanel"
+		class="class:home"
+	/>
+	<menuitem
 		title="MOD_MENU_SYSTEM"
 		type="heading"
 		icon="wrench"
 		class="class:wrench"
 		>
-		<menuitem
-			type="component"
-			title="MOD_MENU_CONTROL_PANEL"
-			link="index.php"
-			element="com_cpanel"
-		/>
 
 		<menuitem
 			title="MOD_MENU_CONFIGURATION"
@@ -54,9 +55,11 @@
 		>
 		<menuitem
 			title="MOD_MENU_COM_USERS_USER_MANAGER"
+			quicktask-title="MOD_MENU_COM_USERS_ADD_USER"
 			type="component"
 			element="com_users"
 			link="index.php?option=com_users&amp;view=users"
+			quicktask="index.php?option=com_users&amp;task=user.add"
 		/>
 
 		<menuitem
@@ -115,11 +118,32 @@
 
 		<menuitem
 			title="MOD_MENU_COM_PRIVACY"
-			type="component"
-			element="com_privacy"
-			link="index.php?option=com_privacy"
+			type="heading"
+			icon="user-secret"
 			class="class:privacy"
-		/>
+			dashboard="privacy"
+			>
+			<menuitem
+				title="MOD_MENU_COM_PRIVACY_REQUESTS"
+				type="component"
+				element="com_privacy"
+				link="index.php?option=com_privacy&amp;view=requests"
+			/>
+
+			<menuitem
+				title="MOD_MENU_COM_PRIVACY_CAPABILITIES"
+				type="component"
+				element="com_privacy"
+				link="index.php?option=com_privacy&amp;view=capabilities"
+			/>
+
+			<menuitem
+				title="MOD_MENU_COM_PRIVACY_CONSENTS"
+				type="component"
+				element="com_privacy"
+				link="index.php?option=com_privacy&amp;view=consents"
+			/>
+		</menuitem>
 
 		<menuitem
 			title="MOD_MENU_COM_ACTIONLOGS"
@@ -153,15 +177,7 @@
 			type="component"
 			element="com_menus"
 			link="index.php?option=com_menus&amp;view=menus"
-			>
-			<menuitem
-				title="MOD_MENU_MENU_MANAGER_NEW_MENU"
-				type="component"
-				element="com_menus"
-				link="index.php?option=com_menus&amp;view=menu&amp;layout=edit"
-				scope="edit"
-			/>
-		</menuitem>
+		/>
 
 		<menuitem
 			type="separator"
@@ -189,22 +205,18 @@
 			sql_where="a.client_id = 0"
 			sql_leftjoin="#__menu AS m ON m.menutype = a.menutype AND m.home = 1 LEFT JOIN #__languages AS l ON l.lang_code = m.language"
 			sql_group="a.id, a.title, a.menutype, m.language, l.lang_code"
-			sql_order="a.id DESC">
+			sql_order="a.id DESC"
+			>
 			<menuitem
 				title="{sql:title} "
+				quicktask-title="MOD_MENU_MENU_MANAGER_NEW_MENU_ITEM"
 				type="component"
 				element="com_menus"
 				link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}"
 				icon="{sql:icon}"
-				class="class:menu">
-				<menuitem
-					title="MOD_MENU_MENU_MANAGER_NEW_MENU_ITEM"
-					type="component"
-					element="com_menus"
-					link="index.php?option=com_menus&amp;view=item&amp;layout=edit&amp;menutype={sql:menutype}"
-					scope="edit"
-				/>
-			</menuitem>
+				class="class:menu"
+				quicktask="index.php?option=com_menus&amp;task=item.add&amp;menutype={sql:menutype}"
+			/>
 		</menuitem>
 
 		<menuitem
@@ -214,30 +226,19 @@
 			sql_select="title, menutype"
 			sql_from="#__menu_types"
 			sql_where="client_id = 1"
-			sql_order="id DESC">
+			sql_order="id DESC"
+			>
 			<menuitem
 				title="{sql:title}"
+				quicktask-title="MOD_MENU_MENU_MANAGER_NEW_MENU_ITEM"
 				type="component"
 				element="com_menus"
-				link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}">
-				<menuitem
-					title="MOD_MENU_MENU_MANAGER_NEW_MENU_ITEM"
-					type="component"
-					element="com_menus"
-					link="index.php?option=com_menus&amp;view=item&amp;layout=edit&amp;menutype={sql:menutype}"
-					scope="edit"
-				/>
-			</menuitem>
+				link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}"
+				icon="{sql:icon}"
+				class="class:menu"
+			/>
 		</menuitem>
 	</menuitem>
-
-	<menuitem
-		title="MOD_MENU_MEDIA_MANAGER"
-		type="component"
-		element="com_media"
-		link="index.php?option=com_media"
-		class="class:image"
-	/>
 
 	<menuitem
 		title="MOD_MENU_COM_CONTENT"
@@ -247,16 +248,20 @@
 		>
 		<menuitem
 			title="MOD_MENU_COM_CONTENT_ARTICLE_MANAGER"
+			quicktask-title="MOD_MENU_COM_CONTENT_NEW_ARTICLE"
 			type="component"
 			element="com_content"
-			link="index.php?option=com_content"
+			link="index.php?option=com_content&amp;view=articles"
+			quicktask="index.php?option=com_content&amp;task=article.add"
 		/>
 
 		<menuitem
 			title="MOD_MENU_COM_CONTENT_CATEGORY_MANAGER"
+			quicktask-title="MOD_MENU_COM_CONTENT_NEW_CATEGORY"
 			type="component"
 			element="com_categories"
-			link="index.php?option=com_categories&amp;extension=com_content"
+			link="index.php?option=com_categories&amp;view=categories&amp;extension=com_content"
+			quicktask="index.php?option=com_categories&amp;extension=com_content&amp;task=category.add"
 		/>
 
 		<menuitem
@@ -267,13 +272,6 @@
 		/>
 
 		<menuitem
-			title="MOD_MENU_COM_CONTENT_WORKFLOW"
-			type="component"
-			element="com_workflow"
-			link="index.php?option=com_workflow&amp;extension=com_content"
-		/>
-
-		<menuitem
 			type="separator"
 		/>
 
@@ -281,7 +279,7 @@
 			title="MOD_MENU_COM_CONTENT_WORKFLOW"
 			type="component"
 			element="com_workflow"
-			link="index.php?option=com_workflow&amp;extension=com_content"
+			link="index.php?option=com_workflow&amp;view=workflows&amp;extension=com_content"
 		/>
 
 		<menuitem
@@ -304,10 +302,42 @@
 	</menuitem>
 
 	<menuitem
+		title="MOD_MENU_MEDIA_MANAGER"
+		type="component"
+		element="com_media"
+		link="index.php?option=com_media"
+		class="class:image"
+	/>
+
+	<menuitem
 		title="MOD_MENU_COMPONENTS"
 		type="container"
 		class="class:puzzle-piece"
-	/>
+		>
+		<menuitem
+			title="COM_JOOMLAUPDATE"
+			type="component"
+			element="com_joomlaupdate"
+			link="index.php?option=com_joomlaupdate"
+			class="class:component"
+			permission="core.manage;com_joomlaupdate"
+		/>
+		<menuitem
+			title="COM_POSTINSTALL"
+			type="component"
+			element="com_postinstall"
+			link="index.php?option=com_postinstall"
+			class="class:component"
+		/>
+
+		<menuitem
+			title="MOD_MENU_MANAGE_REDIRECTS"
+			type="component"
+			element="com_redirect"
+			link="index.php?option=com_redirect"
+			permission="core.manage;com_redirect"
+		/>
+	</menuitem>
 
 	<menuitem
 		title="MOD_MENU_EXTENSIONS_EXTENSIONS"
@@ -378,10 +408,18 @@
 		</menuitem>
 
 		<menuitem
-			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER"
+			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_SITE"
+			quicktask-title="MOD_MENU_COM_CONTENT_NEW_MODULE"
 			type="component"
 			element="com_modules"
-			link="index.php?option=com_modules"
+			link="index.php?option=com_modules&amp;view=modules&amp;client_id=0"
+		/>
+
+		<menuitem
+			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_ADMINISTRATOR"
+			type="component"
+			element="com_modules"
+			link="index.php?option=com_modules&amp;view=modules&amp;client_id=1"
 		/>
 
 		<menuitem
@@ -400,7 +438,7 @@
 				title="MOD_MENU_COM_TEMPLATES_SUBMENU_STYLES"
 				type="component"
 				element="com_templates"
-				link="index.php?option=com_templates&amp;view=styles"
+				link="index.php?option=com_templates&amp;view=styles&amp;client_id=0"
 			/>
 
 			<menuitem
@@ -437,6 +475,14 @@
 				link="index.php?option=com_languages&amp;view=overrides"
 			/>
 		</menuitem>
+
+		<menuitem
+			title="MOD_MENU_MANAGE_CSP"
+			type="component"
+			element="com_csp"
+			link="index.php?option=com_csp"
+			permission="core.manage;com_csp"
+		/>
 	</menuitem>
 
 	<menuitem

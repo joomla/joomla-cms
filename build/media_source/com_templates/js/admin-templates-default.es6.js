@@ -84,8 +84,6 @@
         filePathTmp = filePathTmp.slice(1);
         filePathTmp = filePathTmp.split('/');
         filePathTmp = filePathTmp[filePathTmp.length - 1];
-        // eslint-disable-next-line no-new
-        const re = new RegExp(filePathTmp);
 
         listEls.forEach((element, index) => {
           element.querySelector('a').classList.add('active');
@@ -97,7 +95,7 @@
               const aEl = liElement.querySelector('a');
               const spanEl = aEl.querySelector('span');
 
-              if (spanEl && re.test(spanEl.innerText)) {
+              if (spanEl && spanEl.innerText.trim()) {
                 aEl.classList.add('active');
               }
             });

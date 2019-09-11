@@ -92,7 +92,8 @@ header {
 .container-sidebar-left,
 .container-sidebar-right, {
   flex: 0 0 auto;
-  width: calc(25% - #{$cassiopeia-grid-gutter});
+  width: calc(100% - #{$cassiopeia-grid-gutter});
+  order: 1;
 
   > div {
     margin-bottom: $cassiopeia-grid-gutter;
@@ -102,9 +103,9 @@ header {
     }
   }
 
-  @include media-breakpoint-down(sm) {
-    width: calc(100% - #{$cassiopeia-grid-gutter});
-    order: 1;
+  @include media-breakpoint-up(sm) {
+    width: calc(25% - #{$cassiopeia-grid-gutter});
+    order: 0;
   }
 }
 

@@ -31,7 +31,12 @@ HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['version' => 'auto'
 					<?php echo Text::_('COM_CACHE_PURGE_INSTRUCTIONS'); ?>
 				</div>
 				<?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
-				<?php if (count($this->data) > 0) : ?>
+				<?php if (empty($this->items)) : ?>
+					<div class="alert alert-info">
+						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+					</div>
+				<?php else : ?>
 				<table class="table">
 					<caption id="captionTable" class="sr-only">
 						<?php echo Text::_('COM_CACHE_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
