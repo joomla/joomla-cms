@@ -1279,7 +1279,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			$userId = $this->getIdentity()->id;
 			$link   = 'index.php?option=com_users&task=user.edit&id=' . $userId;
 		}
-		echo 'redirecting <br>';
+
 		$this->redirect($link);
 	}
 
