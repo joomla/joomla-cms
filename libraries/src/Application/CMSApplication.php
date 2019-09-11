@@ -30,6 +30,7 @@ use Joomla\CMS\Router\Router;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\ParameterType;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
@@ -1043,6 +1044,11 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			$this->input->def($key, $value);
 		}
 
+		if ($this->enforce2FA())
+		{
+			$this->redirectEnforce2fa();
+		}
+
 		// Trigger the onAfterRoute event.
 		PluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterRoute');
@@ -1150,5 +1156,225 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	public function isCli()
 	{
 		return false;
+	}
+
+	/**
+	 * Checks if 2fa needs to be enforced
+	 * if so returns ture
+	 * else returns false
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
+	 */
+	protected function enforce2FA(): bool
+	{
+		$userId = $this->getIdentity()->id;
+
+		if (!$userId)
+		{
+			return false;
+		}
+
+		$enforce2faOptions = $this->getConfig()->get('enforce_2fa_options', 0);
+
+		if ($enforce2faOptions == 0 || !$enforce2faOptions)
+		{
+			return false;
+		}
+
+		if (!$this->checkEnabled2FAPlugins())
+		{
+			return false;
+		}
+
+		$pluginsSiteEnable          = false;
+		$pluginsAdministratorEnable = false;
+		$pluginOptions              = $this->getPluginParams();
+
+		/*
+		 * Sets and checks pluginOptions for Site and Administrator view depending on if any 2fa plugin is enabled for that view
+		 */
+		array_walk($pluginOptions,
+			static function ($pluginOption) use (&$pluginsSiteEnable, &$pluginsAdministratorEnable)
+			{
+				$option  = new Registry($pluginOption);
+				$section = $option->get('section');
+
+				switch ($section)
+				{
+					case 1:
+						$pluginsSiteEnable = true;
+						break;
+					case 2:
+						$pluginsAdministratorEnable = true;
+						break;
+					case 3:
+						$pluginsAdministratorEnable = true;
+						$pluginsSiteEnable          = true;
+				}
+			}
+		);
+
+		if ($pluginsSiteEnable && $this->isClient('site'))
+		{
+			if (in_array($enforce2faOptions, [1, 3]))
+			{
+				return !$this->checkUserSetup2FA($userId);
+			}
+		}
+
+		if ($pluginsAdministratorEnable && $this->isClient('administrator'))
+		{
+			if (in_array($enforce2faOptions, [2, 3]))
+			{
+				return !$this->checkUserSetup2FA($userId);
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Redirects user to his Two Factor Authentication setup page
+	 *
+	 * @return void
+	 *
+	 * @since  4.0.0
+	 */
+	protected function redirectEnforce2fa(): void
+	{
+		$option = $this->input->getCmd('option');
+		$task   = $this->input->get('task');
+		$view   = $this->input->getString('view', '');
+		$layout = $this->input->getString('layout', '');
+
+		/*
+		* If user is already on edit profile screen or press update/apply button,
+		* do nothing to avoid infinite redirect
+		*/
+		if ($option === 'com_users' && in_array($task, array('profile.save', 'profile.apply', 'user.logout', 'user.menulogout'))
+			|| ($option === 'com_users' && $view === 'profile' && $layout === 'edit')
+			|| ($option === 'com_users' && $view === 'user' && $layout === 'edit')
+			|| ($option === 'com_users' && in_array($task, ['user.save', 'user.edit', 'user.apply', 'user.logout', 'user.menulogout']))
+			|| ($option === 'com_login' && in_array($task, ['save', 'edit', 'apply', 'logout', 'menulogout'])))
+		{
+			return;
+		}
+
+		$this->loadLanguage();
+
+		// Redirect to com_users profile edit
+		$this->enqueueMessage(Text::_('JENFORCE_2FA_REDIRECT_MESSAGE'), 'notice');
+
+		if ($this->isClient('site'))
+		{
+			$link = 'index.php?option=com_users&view=profile&layout=edit';
+		}
+
+		if ($this->isClient('administrator'))
+		{
+			$userId = $this->getIdentity()->id;
+			$link   = 'index.php?option=com_users&task=user.edit&id=' . $userId;
+		}
+		echo 'redirecting <br>';
+		$this->redirect($link);
+	}
+
+	/**
+	 * Checks if otpKey and otep for a given user id are not empty
+	 * if any one is empty returns false
+	 * else returns true
+	 *
+	 * @param   int  $userId  Id of a user to check if user has setup 2fa
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 */
+	private function checkUserSetup2FA(int $userId): bool
+	{
+		$result = $this->get2FA($userId);
+
+		if (empty($result->otpKey) || empty($result->otep))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Gets the otpKey and otep parameters from the database for a specific user id
+	 *
+	 * @param   int  $userId
+	 *
+	 * @return  \stdClass|null
+	 *
+	 * @since   4.0.0
+	 */
+	private function get2FA(int $userId): ?\stdClass
+	{
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName(['otpKey', 'otep']))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('id') . ' = :userId')
+			->bind(':userId', $userId, ParameterType::INTEGER);
+		$db->setQuery($query);
+
+		return $db->loadObject();
+	}
+
+	/**
+	 * Checks if any plugins for 2fa are enabled
+	 * if so returns true
+	 * else false
+	 *
+	 * @return boolean
+	 *
+	 * @since  4.0.0
+	 */
+	private function checkEnabled2FAPlugins(): bool
+	{
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('enabled') . ' = 1')
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('twofactorauth'));
+		$db->setQuery($query);
+		$result = $db->loadColumn();
+
+		if (empty($result))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Gets the parameters extension_id and params out of the dater base for all enabled Two Factor Authentication plugins
+	 *
+	 * @return array
+	 *
+	 * @since  4.0.0
+	 */
+	private function getPluginParams(): ?array
+	{
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('params'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('enabled') . ' = 1')
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('twofactorauth'));
+		$db->setQuery($query);
+
+		return $db->loadColumn();
 	}
 }

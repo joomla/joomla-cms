@@ -23,6 +23,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
+use stdClass;
 
 /**
  * Joomla! Administrator Application class
@@ -502,6 +503,11 @@ class AdministratorApplication extends CMSApplication
 			// Forward to https
 			$uri->setScheme('https');
 			$this->redirect((string) $uri, 301);
+		}
+
+		if ($this->enforce2FA())
+		{
+			$this->redirectEnforce2fa();
 		}
 
 		// Trigger the onAfterRoute event.
