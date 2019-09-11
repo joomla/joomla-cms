@@ -135,13 +135,9 @@ class HtmlView extends BaseHtmlView
 					$icon = '';
 				}
 			}
-			else
+			elseif ($lang->hasKey($keyIcon))
 			{
-				// Search for Icon
-				if ($lang->hasKey($keyIcon))
-				{
-					$icon = Text::_($keyIcon);
-				}
+				$icon = Text::_($keyIcon);
 			}
 		}
 
