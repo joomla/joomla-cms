@@ -127,14 +127,24 @@ class PlgSystemDebug extends CMSPlugin
 	protected $isAjax = false;
 
 	/**
-	 * Initializes the plugin.
+	 * Registers legacy Listeners to the Dispatcher, emulating how plugins worked under Joomla! 3.x and below.
+	 *
+	 * By default, this method will look for all public methods whose name starts with "on". It will register
+	 * lambda functions (closures) which try to unwrap the arguments of the dispatched Event into method call
+	 * arguments and call your on<Something> method. The result will be passed back to the Event into its 'result'
+	 * argument.
+	 *
+	 * This method additionally supports Joomla\Event\SubscriberInterface and plugins implementing this will be
+	 * registered to the dispatcher as a subscriber.
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0
 	 */
-	public function onBeforeExecute()
+	public function registerListeners()
 	{
+		parent::registerListeners();
+
 		$this->debugLang = $this->app->get('debug_lang');
 
 		// Skip the plugin if debug is off
