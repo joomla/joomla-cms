@@ -10,6 +10,7 @@ namespace Joomla\CMS\Plugin;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\Event\AbstractEvent;
@@ -286,7 +287,11 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
 				// Restore the old results and add the new result from our method call
 				array_push($allResults, $result);
-				$event['result'] = $allResults;
+
+				if (!$event instanceof AbstractImmutableEvent)
+				{
+					$event['result'] = $allResults;
+				}
 			}
 		);
 	}

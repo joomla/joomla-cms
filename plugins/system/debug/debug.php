@@ -127,17 +127,14 @@ class PlgSystemDebug extends CMSPlugin
 	protected $isAjax = false;
 
 	/**
-	 * Constructor.
+	 * Initializes the plugin.
 	 *
-	 * @param   DispatcherInterface  &$subject  The object to observe.
-	 * @param   array                $config    An optional associative array of configuration settings.
+	 * @return  void
 	 *
-	 * @since   1.5
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(&$subject, $config)
+	public function onBeforeExecute()
 	{
-		parent::__construct($subject, $config);
-
 		$this->debugLang = $this->app->get('debug_lang');
 
 		// Skip the plugin if debug is off
