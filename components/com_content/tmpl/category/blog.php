@@ -76,12 +76,10 @@ $afterDisplayContent = trim(implode("\n", $results));
 			<?php foreach ($this->lead_items as &$item) : ?>
 				<div class="com-content-category-blog__item blog-item"
 					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-					<div class="blog-item-content"><!-- Double divs required for IE11 grid fallback -->
 						<?php
 						$this->item = & $item;
 						echo $this->loadTemplate('item');
 						?>
-					</div>
 				</div>
 				<?php $leadingcount++; ?>
 			<?php endforeach; ?>
@@ -98,12 +96,10 @@ $afterDisplayContent = trim(implode("\n", $results));
 		<?php foreach ($this->intro_items as $key => &$item) : ?>
 			<div class="com-content-category-blog__item blog-item"
 				itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-				<div class="blog-item-content"><!-- Double divs required for IE11 grid fallback -->
-					<?php
+				<?php
 					$this->item = & $item;
 					echo $this->loadTemplate('item');
 					?>
-				</div>
 			</div>
 		<?php endforeach; ?>
 		</div>
