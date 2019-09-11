@@ -46,7 +46,11 @@ defined('_JEXEC') or die;
 				// Render all but last item - along with separator ?>
 				<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
 					<?php if (!empty($item->link)) : ?>
-						<a itemprop="item" href="<?php echo $item->link; ?>" class="pathway"><span itemprop="name"><?php echo $item->name; ?></span></a>
+						<a itemprop="item" href="<?php echo $item->link; ?>" class="pathway">
+							<span itemprop="name">#
+								<?php echo $item->name; ?>
+							</span>
+						</a>
 					<?php else : ?>
 						<span itemprop="name">
 							<?php echo $item->name; ?>
@@ -63,14 +67,20 @@ defined('_JEXEC') or die;
 			<?php elseif ($show_last) :
 				// Render last item if reqd. ?>
 				<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="active">
-					<a itemprop="item" href="<?php echo $item->link; ?>">
+					<?php if (!empty($item->link)) : ?>
+						<a itemprop="item" href="<?php echo $item->link; ?>">
+							<span itemprop="name">#
+								<?php echo $item->name; ?>
+							</span>
+						</a>
+					<?php else : ?>
 						<span itemprop="name">
 							<?php echo $item->name; ?>
 						</span>
-					</a>
+					<?php endif; ?>
 					<meta itemprop="position" content="<?php echo $key + 1; ?>">
 				</li>
-			<?php endif;
-		endforeach; ?>
+			<?php endif; ?>
+		<?php endforeach; ?>
 	</ul>
 </div>
