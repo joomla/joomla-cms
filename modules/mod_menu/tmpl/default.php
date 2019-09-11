@@ -31,7 +31,7 @@ if ($tagId = $params->get('tag_id', ''))
 	if ($item->id == $active_id || ($item->type === 'alias' && $item->params->get('aliasoptions') == $active_id))
 	{
 		$class .= ' current';
-		$currnt = TRUE;
+		$current = true;
 	}
 
 	if (in_array($item->id, $path))
