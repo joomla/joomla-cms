@@ -54,7 +54,7 @@ steps:
       FTP_HOSTNAME: ci.joomla.org:21
       FTP_DEST_DIR: /patchtester
       FTP_VERIFY: "false"
-      FTP_SECURE: "false"
+      FTP_SECURE: "true"
       BRANCH_NAME: "4.0-dev" # Current branch to check against (from repo joomla/joomla-cms)
       DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
     commands:
