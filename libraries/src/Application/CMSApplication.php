@@ -1160,7 +1160,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 	/**
 	 * Checks if 2fa needs to be enforced
-	 * if so returns ture
+	 * if so returns true
 	 * else returns false
 	 *
 	 * @return  boolean
