@@ -25,14 +25,6 @@ use Joomla\Registry\Registry;
 class PlgSystemEnforce2fa extends CMSPlugin
 {
 	/**
-	 * Affects constructor behavior. If true, language files will be loaded automatically.
-	 *
-	 * @var    boolean
-	 * @since  4.0.0
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
 	 * Database driver
 	 *
 	 * @var   DatabaseDriver
@@ -58,7 +50,7 @@ class PlgSystemEnforce2fa extends CMSPlugin
 	 *
 	 * @throws Exception
 	 */
-	public function onAfterRoute(): void
+	public function onAfterRoute()
 	{
 
 		if ($this->enforce2FA())
@@ -94,7 +86,7 @@ class PlgSystemEnforce2fa extends CMSPlugin
 			return;
 		}
 
-		$this->loadLanguage('plg_system_enforce2fa', JPATH_ADMINISTRATOR);
+		$this->loadLanguage();
 
 		// Redirect to com_users profile edit
 		$this->app->enqueueMessage(Text::_('PLG_SYSTEM_ENFORCE2FA_REDIRECT_MESSAGE'), 'notice');
@@ -126,9 +118,9 @@ class PlgSystemEnforce2fa extends CMSPlugin
 	 */
 	private function enforce2FA(): bool
 	{
-		$id = $this->app->getIdentity()->id;
+		$userId = $this->app->getIdentity()->id;
 
-		if (!$id)
+		if (!$userId)
 		{
 			return false;
 		}
@@ -145,7 +137,6 @@ class PlgSystemEnforce2fa extends CMSPlugin
 			return false;
 		}
 
-		$userId                     = $this->app->getIdentity()->id;
 		$enforceOptions             = Factory::getConfig()->get('enforce_2fa_options', 3);
 		$pluginsSiteEnable          = false;
 		$pluginsAdministratorEnable = false;
