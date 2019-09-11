@@ -7,6 +7,7 @@
 			label="COM_USERS_USER_FIELD_NAME_LABEL"
 			required="true"
 			size="30"
+			validate="time"
 		/>
 
 		<field
