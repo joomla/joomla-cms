@@ -21,7 +21,7 @@ use Joomla\CMS\Uri\Uri;
  * Form Field class for the Joomla Platform.
  * Provides a select list of integers with specified first, last and step values.
  *
- * @since  1.7.0
+ * @since  4.0.0
  */
 class TimeField extends FormField
 {
@@ -29,7 +29,7 @@ class TimeField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  1.7.0
+	 * @since  4.0.0
 	 */
 	protected $type = 'Time';
 
@@ -37,7 +37,7 @@ class TimeField extends FormField
 	 * The allowable minimal value of the field.
 	 *
 	 * @var    integer
-	 * @since  3.2
+	 * @since  4.0.0
 	 */
 	protected $min;
 
@@ -45,7 +45,7 @@ class TimeField extends FormField
 	 * The allowable maximal value of the field.
 	 *
 	 * @var    integer
-	 * @since  3.2
+	 * @since  4.0.0
 	 */
 	protected $max;
 
@@ -53,7 +53,7 @@ class TimeField extends FormField
 	 * Steps between different values
 	 *
 	 * @var    integer
-	 * @since  3.2
+	 * @since  4.0.0
 	 */
 	protected $step;
 
@@ -67,7 +67,7 @@ class TimeField extends FormField
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
-	 * @since  3.7
+	 * @since  4.0.0
 	 */
 	protected $layout = 'joomla.form.field.time';
 
@@ -79,7 +79,7 @@ class TimeField extends FormField
 	 *
 	 * @return  void
 	 *
-	 * @since   3.2
+	 * @since   4.0.0
 	 */
 
 	public function __set($name, $value)
@@ -115,7 +115,7 @@ class TimeField extends FormField
 	 * @return  boolean  True on success.
 	 *
 	 * @see     FormField::setup()
-	 * @since   3.2
+	 * @since   4.0.0
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
@@ -139,7 +139,7 @@ class TimeField extends FormField
 	 *
 	 * @return  mixed  The property value or null.
 	 *
-	 * @since   3.2
+	 * @since   4.0.0
 	 */
 	public function __get($name)
 	{
@@ -159,7 +159,7 @@ class TimeField extends FormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   1.7.0
+	 * @since   4.0.0
 	 */
 	protected function getInput()
 	{
@@ -171,7 +171,7 @@ class TimeField extends FormField
 	 *
 	 * @return  array
 	 *
-	 * @since 3.7
+	 * @since 4.0.0
 	 */
 	protected function getLayoutData()
 	{
