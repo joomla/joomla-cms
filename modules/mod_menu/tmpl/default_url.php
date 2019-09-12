@@ -33,7 +33,7 @@ if ($item->menu_image)
 	if ($item->menu_image_css)
 	{
 		$image_attributes['class'] = $item->menu_image_css;
-		$linktype = JHtml::_('image', $item->menu_image, $item->title, $image_attributes);
+		$linktype                  = JHtml::_('image', $item->menu_image, $item->title, $image_attributes);
 	}
 	else
 	{
@@ -49,7 +49,7 @@ if ($item->menu_image)
 if ($item->browserNav == 1)
 {
 	$attributes['target'] = '_blank';
-	$attributes['rel'] = 'noopener noreferrer';
+	$attributes['rel']    = 'noopener noreferrer';
 
 	if ($item->anchor_rel == 'nofollow')
 	{
@@ -61,6 +61,11 @@ elseif ($item->browserNav == 2)
 	$options = 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,' . $params->get('window_open');
 
 	$attributes['onclick'] = "window.open(this.href, 'targetWindow', '" . $options . "'); return false;";
+}
+
+if ($active_id == $item->id)
+{
+	$attributes['aria-current'] = "page";
 }
 
 echo JHtml::_('link', JFilterOutput::ampReplace(htmlspecialchars($item->flink, ENT_COMPAT, 'UTF-8', false)), $linktype, $attributes);
