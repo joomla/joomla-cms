@@ -1199,7 +1199,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			static function ($pluginOption) use (&$pluginsSiteEnable, &$pluginsAdministratorEnable)
 			{
 				$option  = new Registry($pluginOption->params);
-				$section = $option->get('section',3);
+				$section = $option->get('section', 3);
 
 				switch ($section)
 				{
