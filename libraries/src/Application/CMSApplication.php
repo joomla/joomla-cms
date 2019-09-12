@@ -1160,8 +1160,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 	/**
 	 * Checks if 2fa needs to be enforced
-	 * if so returns true
-	 * else returns false
+	 * if so returns true, else returns false
 	 *
 	 * @return  boolean
 	 *
@@ -1282,8 +1281,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 	/**
 	 * Checks if otpKey and otep for the user are not empty
-	 * if any one is empty returns false
-	 * else returns true
+	 * if any one is empty returns false, else returns true
 	 *
 	 * @return  boolean
 	 *
