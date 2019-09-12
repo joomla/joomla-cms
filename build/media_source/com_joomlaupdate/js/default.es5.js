@@ -33,9 +33,9 @@ Joomla = window.Joomla || {};
 	document.addEventListener('DOMContentLoaded', function() {
 
 		var extractionMethod = document.getElementById('extraction_method'),
-		    uploadMethod     = document.getElementById('upload_method'),
-		    uploadButton     = document.getElementById('uploadButton'),
-		    downloadMsg      = document.getElementById('downloadMessage');
+			uploadMethod     = document.getElementById('upload_method'),
+			uploadButton     = document.getElementById('uploadButton'),
+			downloadMsg      = document.getElementById('downloadMessage');
 
 		if (extractionMethod) {
 			extractionMethod.addEventListener('change', function(event) {
@@ -61,83 +61,91 @@ Joomla = window.Joomla || {};
 
 })();
 
-(function($, document, window) {
-    /**
-     * PreUpdateChecker
-     *
-     * @type {Object}
-     */
-    var PreUpdateChecker = {};
+(function(document, Joomla) {
+	/**
+	 * PreUpdateChecker
+	 *
+	 * @type {Object}
+	 */
+	var PreUpdateChecker = {};
 
-    /**
-     * Config object
-     *
-     * @type {{serverUrl: string, selector: string}}
-     */
-    PreUpdateChecker.config = {
-        serverUrl: 'index.php?option=com_joomlaupdate&task=update.fetchextensioncompatibility',
-        selector: '.extension-check'
-    };
+	/**
+	 * Config object
+	 *
+	 * @type {{serverUrl: string, selector: string}}
+	 */
+	PreUpdateChecker.config = {
+		serverUrl: 'index.php?option=com_joomlaupdate&task=update.fetchextensioncompatibility',
+		selector: '.extension-check'
+	};
 
-    /**
-     * Extension compatibility states returned by the server.
-     *
-     * @type {{INCOMPATIBLE: number, COMPATIBLE: number, MISSING_COMPATIBILITY_TAG: number, SERVER_ERROR: number}}
-     */
-    PreUpdateChecker.STATE = {
-        INCOMPATIBLE: 0,
-        COMPATIBLE: 1,
-        MISSING_COMPATIBILITY_TAG: 2,
-        SERVER_ERROR: 3
-    };
+	/**
+	 * Extension compatibility states returned by the server.
+	 *
+	 * @type {{INCOMPATIBLE: number, COMPATIBLE: number, MISSING_COMPATIBILITY_TAG: number, SERVER_ERROR: number}}
+	 */
+	PreUpdateChecker.STATE = {
+		INCOMPATIBLE: 0,
+		COMPATIBLE: 1,
+		MISSING_COMPATIBILITY_TAG: 2,
+		SERVER_ERROR: 3
+	};
 
-    /**
-     * Run the PreUpdateChecker.
-     * Called by document ready, setup below.
-     */
-    PreUpdateChecker.run = function () {
-        // Get version of the available joomla update
-        PreUpdateChecker.joomlaTargetVersion = document.getElementById('joomlaupdate-wrapper').getAttribute('data-joomla-target-version');
+	/**
+	 * Run the PreUpdateChecker.
+	 * Called by document ready, setup below.
+	 */
+	PreUpdateChecker.run = function () {
+		// Get version of the available joomla update
+		PreUpdateChecker.joomlaTargetVersion = document.getElementById('joomlaupdate-wrapper').getAttribute('data-joomla-target-version');
 
-        // Grab all extensions based on the selector set in the config object
-        var $extensions = $(PreUpdateChecker.config.selector);
-        $extensions.each(function () {
-            // Check compatibility for each extension, pass jQuery object and a callback
-            // function after completing the request
-            PreUpdateChecker.checkCompatibility($(this), PreUpdateChecker.setResultView);
-        });
-    }
+		// Grab all extensions based on the selector set in the config object
+		[].slice.call(document.querySelectorAll(PreUpdateChecker.config.selector)).forEach(function (extension) {
+			// Check compatibility for each extension, pass an object and a callback
+			// function after completing the request
+			PreUpdateChecker.checkCompatibility(extension, PreUpdateChecker.setResultView);
+		});
+	}
 
-    /**
-     * Check the compatibility for a single extension.
-     * Requests the server checking the compatibility based on the data set in the element's data attributes.
-     *
-     * @param {Object} $extension
-     * @param {callable} callback
-     */
-    PreUpdateChecker.checkCompatibility = function ($extension, callback) {
-        // Result object passed to the callback
-        // Set to server error by default
-        var extension = {
-            $element: $extension,
-            state: PreUpdateChecker.STATE.SERVER_ERROR,
-            compatibleVersion: 0
-        };
+	/**
+	 * Check the compatibility for a single extension.
+	 * Requests the server checking the compatibility based on the data set in the element's data attributes.
+	 *
+	 * @param {Object} extension
+	 * @param {callable} callback
+	 */
+	PreUpdateChecker.checkCompatibility = function (node, callback) {
+		// Result object passed to the callback
+		// Set to server error by default
+		var extension = {
+			element: node,
+			state: PreUpdateChecker.STATE.SERVER_ERROR,
+			compatibleVersion: 0
+		};
 
-        // Request the server to check the compatiblity for the passed extension and joomla version
-        $.getJSON(PreUpdateChecker.config.serverUrl, {
-            'joomla-target-version': PreUpdateChecker.joomlaTargetVersion,
-            'extension-id': $extension.data('extensionId')
-        }).done(function(response) {
-            // Extract the data from the JResponseJson object
-            extension.state = response.data.state;
-            extension.compatibleVersion = response.data.compatibleVersion;
-            extension.currentVersion = $extension.data('extensionCurrentVersion')
-        }).always(function(e) {
-            // Pass the retrieved data to the callback
-            callback(extension);
-        });
-    }
+		// Request the server to check the compatiblity for the passed extension and joomla version
+		Joomla.request({
+			url: PreUpdateChecker.config.serverUrl,
+			data: {
+				'joomla-target-version': PreUpdateChecker.joomlaTargetVersion,
+				'extension-id': node.getAttribute('data-extensionId')
+			},
+			onSuccess(data) {
+				var response = JSON.parse(data);
+				// Extract the data from the JResponseJson object
+				extension.state = response.data.state;
+				extension.compatibleVersion = response.data.compatibleVersion;
+				extension.currentVersion = node.getAttribute('data-extensionCurrentVersion');
+
+				// Pass the retrieved data to the callback
+				callback(extension);
+			},
+			onError() {
+				// Pass the retrieved data to the callback
+				callback(extension);
+			}
+		});
+	}
 
     /**
      * Set the result for a passed extensionData object containing state, jQuery object and compatible version
@@ -178,8 +186,8 @@ Joomla = window.Joomla || {};
                 html = '<span class="badge badge-secondary">' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN') + '</span>';
         }
         // Insert the generated html
-        extensionData.$element.html(html);
+      extensionData.element.innerHTML = html;
     }
     // Run PreUpdateChecker on document ready
-    $(PreUpdateChecker.run);
-})(jQuery, document, window);
+  document.addEventListener('DOMContentLoaded', PreUpdateChecker.run, false);
+})(document, window, Joomla);
