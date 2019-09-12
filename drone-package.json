@@ -16,5 +16,5 @@
     "@webcomponents/webcomponentsjs": "2.0.3",
     "joomla-javascript-tests": "joomla/test-javascript#4.0-dev"
   },
-  "license": "GPL-2.0+"
+  "license": "GPL-2.0-or-later"
 }

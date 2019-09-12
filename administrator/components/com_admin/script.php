@@ -784,6 +784,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_contact/models/forms/fields/mail.xml',
 			'/administrator/components/com_contact/models/forms/filter_contacts.xml',
 			'/administrator/components/com_contact/tables/contact.php',
+			'/administrator/components/com_contact/tmpl/contacts/default_batch.php',
 			'/administrator/components/com_contact/views/contact/tmpl/edit.php',
 			'/administrator/components/com_contact/views/contact/tmpl/edit_associations.php',
 			'/administrator/components/com_contact/views/contact/tmpl/edit_metadata.php',
