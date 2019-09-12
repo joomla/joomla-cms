@@ -20,7 +20,7 @@ use Joomla\CMS\Uri\Uri;
 		<legend class="j-install-step-header">
 			<span class="fa fa-trophy" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_CONGRAT'); ?>
 		</legend>
-		<div class="j-install-step-form">
+		<div class="j-install-step-form" id="customInstallation">
 			<h2><?php echo Text::_('INSTL_COMPLETE_TITLE'); ?></h2>
 			<p><?php echo Text::_('INSTL_COMPLETE_DESC'); ?></p>
 			<div class="form-group">
@@ -84,7 +84,7 @@ use Joomla\CMS\Uri\Uri;
 
 				<?php endif; ?>
 				<?php if ($this->development) : ?>
-					<div class="alert flex-column">
+					<div class="alert flex-column" id="removeInstallationTab">
 						<strong><?php echo Text::_('INSTL_SITE_DEVMODE_LABEL'); ?></strong><br>
                         <button id="removeInstallationFolder" class="btn btn-danger">Remove installation folder</button><br>
 						<div class="form-check">

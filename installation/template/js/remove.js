@@ -35,7 +35,8 @@ if (document.getElementById('removeInstallationFolder')) {
 					token: true,
 					headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
 					onSuccess: function (response, xhr) {
-						console.log(response);
+							document.getElementById('customInstallation').remove();
+							document.getElementById('removeInstallationTab').remove();
 					},
 					onError: function (xhr) {
 						console.log(xhr);
