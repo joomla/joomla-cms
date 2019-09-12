@@ -31,7 +31,6 @@ use Joomla\CMS\Router\Router;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Database\ParameterType;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
@@ -1195,9 +1194,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		$pluginsAdministratorEnable = false;
 		$pluginOptions              = $this->getPluginParams();
 
-		/*
-		 * Sets and checks pluginOptions for Site and Administrator view depending on if any 2fa plugin is enabled for that view
-		 */
+		//Sets and checks pluginOptions for Site and Administrator view depending on if any 2fa plugin is enabled for that view
 		array_walk($pluginOptions,
 			static function ($pluginOption) use (&$pluginsSiteEnable, &$pluginsAdministratorEnable)
 			{
@@ -1252,7 +1249,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		$view   = $this->input->getString('view', '');
 		$layout = $this->input->getString('layout', '');
 
-		/*
+		/**
 		* If user is already on edit profile screen or press update/apply button,
 		* do nothing to avoid infinite redirect
 		*/
@@ -1285,7 +1282,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	}
 
 	/**
-	 * Checks if otpKey and otep for a given user id are not empty
+	 * Checks if otpKey and otep for the user are not empty
 	 * if any one is empty returns false
 	 * else returns true
 	 *
@@ -1308,7 +1305,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	}
 
 	/**
-	 * Checks if any plugins for 2fa are enabled
+	 * Checks if any plugins with the type twofactorauth are enabled
 	 * if so returns true
 	 * else false
 	 *
@@ -1318,22 +1315,11 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	private function checkEnabled2FAPlugins(): bool
 	{
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('extension_id'))
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('enabled') . ' = 1')
-			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-			->where($db->quoteName('folder') . ' = ' . $db->quote('twofactorauth'));
-		$db->setQuery($query);
-		$result = $db->loadColumn();
-
-		if (empty($result))
-		{
-			return false;
+		if (PluginHelper::isEnabled('twofactorauth')){
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 	/**
