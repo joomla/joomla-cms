@@ -30,7 +30,8 @@ if ($tagId = $params->get('tag_id', ''))
 
 		if ($item->id == $active_id || ($item->type === 'alias' && $item->params->get('aliasoptions') == $active_id))
 		{
-			$class .= ' current';
+			$class                      .= ' current';
+			$attributes['aria-current'] = "page";
 		}
 
 		if (in_array($item->id, $path))
