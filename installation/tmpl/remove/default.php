@@ -85,10 +85,10 @@ use Joomla\CMS\Uri\Uri;
 				<?php endif; ?>
 				<?php if ($this->development) : ?>
 					<div class="alert flex-column">
-						<strong><?php echo Text::_('INSTL_SITE_DEVMODE_LABEL'); ?></strong>
+						<strong><?php echo Text::_('INSTL_SITE_DEVMODE_LABEL'); ?></strong><br>
+                        <button id="removeInstallationFolder" class="btn btn-danger">Remove installation folder</button><br>
 						<div class="form-check">
 							<label class="form-check-label">
-								<input type="checkbox" class="form-check-input">
 								<?php echo Text::_('INSTL_SITE_DEVMODE_DESC'); ?>
 							</label>
 						</div>

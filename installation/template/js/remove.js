@@ -22,7 +22,30 @@ if (document.getElementById('skipLanguages')) {
 		document.getElementById('installLanguages').classList.remove('active');
 	})
 }
-
+if (document.getElementById('removeInstallationFolder')) {
+	document.getElementById('removeInstallationFolder')
+		.addEventListener('click', function (e) {
+			e.preventDefault();
+			let confirm = window.confirm(Joomla.Text._('INSTL_REMOVE_INST_FOLDER'));
+			if (confirm) {
+				Joomla.request({
+					method: "POST",
+					url: Joomla.installationBaseUrl + '?task=installation.removeFolder&format=json',
+					perform: true,
+					token: true,
+					headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+					onSuccess: function (response, xhr) {
+						console.log(response);
+					},
+					onError: function (xhr) {
+						console.log(xhr);
+					}
+					}
+				);
+			}
+		}
+		);
+}
 
 if (document.getElementById('installLanguagesButton')) {
 	document.getElementById('installLanguagesButton').addEventListener('click', function(e) {

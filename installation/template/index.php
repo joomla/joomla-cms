@@ -34,6 +34,7 @@ $this->addScriptOptions('system.installation', ['url' => Route::_('index.php')])
 
 // Load JavaScript message titles
 Text::script('ERROR');
+Text::script('INSTL_REMOVE_INST_FOLDER');
 Text::script('WARNING');
 Text::script('NOTICE');
 Text::script('MESSAGE');

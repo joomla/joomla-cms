@@ -40,6 +40,7 @@ class InstallationController extends JSONController
 		parent::__construct($config, $factory, $app, $input);
 
 		$this->registerTask('remove', 'backup');
+		$this->registerTask('removeFolder', 'delete');
 	}
 
 	/**
