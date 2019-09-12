@@ -354,6 +354,14 @@ class SetupModel extends BaseInstallationModel
 			}
 		}
 
+		// Check for PDO drivers
+		$pdo = false;
+
+		if (in_array($options->db_type, ['mysql', 'pgsql']))
+		{
+			$pdo = true;
+		}
+
 		// Get a database object.
 		try
 		{
@@ -362,7 +370,7 @@ class SetupModel extends BaseInstallationModel
 				$options->db_host,
 				$options->db_user,
 				$options->db_pass_plain,
-				$options->db_name,
+				$pdo ? '' : $options->db_name,
 				$options->db_prefix,
 				isset($options->db_select) ? $options->db_select : false
 			);
