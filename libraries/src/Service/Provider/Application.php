@@ -17,6 +17,8 @@ use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Console\Loader\WritableContainerLoader;
 use Joomla\CMS\Console\Loader\WritableLoaderInterface;
+use Joomla\CMS\Console\JobListCommand;
+use Joomla\CMS\Console\SchedulerCommand;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
 use Joomla\CMS\Factory;
@@ -131,6 +133,8 @@ class Application implements ServiceProviderInterface
 						SessionMetadataGcCommand::getDefaultName() => SessionMetadataGcCommand::class,
 						ExportCommand::getDefaultName()            => ExportCommand::class,
 						ImportCommand::getDefaultName()            => ImportCommand::class,
+						SchedulerCommand::getDefaultName()         => SchedulerCommand::class,
+						JobListCommand::getDefaultName()           => JobListCommand::class,
 					];
 
 					return new WritableContainerLoader($container, $mapping);
