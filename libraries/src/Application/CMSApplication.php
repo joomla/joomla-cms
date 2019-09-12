@@ -1315,11 +1315,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	private function checkEnabled2FAPlugins(): bool
 	{
-		if (PluginHelper::isEnabled('twofactorauth')){
-			return true;
-		}
-
-		return false;
+		return PluginHelper::isEnabled('twofactorauth');
 	}
 
 	/**
