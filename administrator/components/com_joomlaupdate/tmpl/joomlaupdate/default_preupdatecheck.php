@@ -19,85 +19,142 @@ use Joomla\CMS\Language\Text;
 </h2>
 
 <div class="row">
-	<div class="col-12 col-lg-6">
+	<div class="col-md-6">
 		<fieldset class="options-grid-form options-grid-form-full">
 			<legend>
-				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK'); ?>
+				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS'); ?>
 			</legend>
-			<div>
-				<table class="table">
+				<table class="table" id="preupdatecheck">
+					<caption class="sr-only">
+						<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_CAPTION'); ?>
+					</caption>
+					<thead>
+						<tr>
+							<th scope="col">
+								<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_HEADING_REQUIREMENT'); ?>
+							</th>
+							<th scope="col">
+								<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_HEADING_CHECKED'); ?>
+							</th>
+						</tr>
+					</thead>
 					<tbody>
 					<?php foreach ($this->phpOptions as $option) : ?>
 						<tr>
-							<td>
+							<th scope="row">
 								<?php echo $option->label; ?>
-							</td>
+							</th>
 							<td>
-									<span class="badge badge-<?php echo $option->state ? 'success' : 'danger'; ?>">
-										<?php echo Text::_($option->state ? 'JYES' : 'JNO'); ?>
-										<?php if ($option->notice) : ?>
-											<span class="icon-info icon-white" title="<?php echo $option->notice; ?>"></span>
-										<?php endif; ?>
-									</span>
+								<span class="badge badge-<?php echo $option->state ? 'success' : 'danger'; ?>">
+									<?php echo Text::_($option->state ? 'JYES' : 'JNO'); ?>
+									<?php if ($option->notice) : ?>
+										<span class="icon-info icon-white" title="<?php echo $option->notice; ?>"></span>
+									<?php endif; ?>
+								</span>
 							</td>
 						</tr>
 					<?php endforeach; ?>
 					</tbody>
 				</table>
-			</div>
 		</fieldset>
 	</div>
 
-	<div class="col-12 col-lg-6">
-		<fieldset class="options-grid-form  options-grid-form-full">
+	<div class="col-md-6">
+		<fieldset class="options-grid-form options-grid-form-full">
 			<legend>
 				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS'); ?>
 			</legend>
-			<p>
-				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_DESC'); ?>
-			</p>
-			<div>
-			<table class="table">
+			<table class="table" id="preupdatecheckphp">
+				<caption>
+					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_DESC'); ?>
+				</caption>
 				<thead>
-				<tr>
-					<td>
-						<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DIRECTIVE'); ?>
-					</td>
-					<td>
-						<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED'); ?>
-					</td>
-					<td>
-						<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_ACTUAL'); ?>
-					</td>
-				</tr>
-				</thead>
-				<tbody>
-				<?php foreach ($this->phpSettings as $setting) : ?>
 					<tr>
-						<td>
-							<?php echo $setting->label; ?>
-						</td>
-						<td>
-							<?php echo Text::_($setting->recommended ? 'JON' : 'JOFF'); ?>
-						</td>
-						<td>
+						<th scope="col">
+							<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DIRECTIVE'); ?>
+						</th>
+						<th scope="col">
+							<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED'); ?>
+						</th>
+						<th scope="col">
+							<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_ACTUAL'); ?>
+						</th>
+					</tr>
+					</thead>
+					<tbody>
+					<?php foreach ($this->phpSettings as $setting) : ?>
+						<tr>
+							<th scope="row">
+								<?php echo $setting->label; ?>
+							</th>
+							<td>
+								<?php echo Text::_($setting->recommended ? 'JON' : 'JOFF'); ?>
+							</td>
+							<td>
 								<span class="badge badge-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
 									<?php echo Text::_($setting->state ? 'JON' : 'JOFF'); ?>
 								</span>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+					</tbody>
+			</table>
+		</fieldset>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-6">
+		<fieldset class="options-grid-form options-grid-form-full">
+			<legend>
+				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
+			</legend>
+			<table class="table" id="preupdatecheckextensions">
+				<caption class="sr-only">
+					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_DESC'); ?>
+				</caption>
+				<thead>
+					<tr>
+						<th scope="col">
+							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NAME'); ?>
+						</th>
+						<th scope="col">
+							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE'); ?>
+						</th>
+						<th scope="col">
+							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+				<?php foreach ($this->nonCoreExtensions as $extension) : ?>
+					<tr>
+						<th scope="row">
+							<?php echo JText::_($extension->name); ?>
+						</th>
+						<td class="extension-check"
+							data-extension-id="<?php echo $extension->extension_id; ?>"
+							data-extension-current-version="<?php echo $extension->version; ?>">
+							<span class="fas fa-spinner fa-spin" aria-hidden="true"></span>
+						</td>
+						<td>
+							<?php echo $extension->version; ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>
 				</tbody>
 			</table>
-			</div>
+		</fieldset>
+	</div>
+	<div class="col-md-6">
+		<fieldset class="options-grid-form options-grid-form-full">
+			<legend>
+				<?php echo Text::_('NOTICE'); ?>
+			</legend>
+			<ul>
+				<li><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_BREAK'); ?></li>
+				<li><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_MISSING_TAG'); ?></li>
+				<li><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_UPDATE_REQUIRED'); ?></li>
+			</ul>
 		</fieldset>
 	</div>
 </div>
-<fieldset class="options-grid-form options-grid-form-full mt-3 mb-3">
-	<legend>
-		<?php echo Text::_('NOTICE'); ?>
-	</legend>
-	<p><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_BREAK'); ?></p>
-	<p><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_MISSING_TAG'); ?></p>
-	<p><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_UPDATE_REQUIRED'); ?></p>
-</fieldset>

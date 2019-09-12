@@ -7,7 +7,7 @@
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			readonly="true"
-			class="readonly" 
+			class="readonly"
 		/>
 
 		<field
@@ -32,7 +32,7 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
-			size="1" 
+			size="1"
 		/>
 
 		<field
@@ -47,7 +47,7 @@
 			label="COM_PLUGINS_FIELD_FOLDER_LABEL"
 			class="readonly"
 			size="20"
-			readonly="true" 
+			readonly="true"
 		/>
 
 		<field
@@ -56,7 +56,7 @@
 			label="COM_PLUGINS_FIELD_ELEMENT_LABEL"
 			class="readonly"
 			size="20"
-			readonly="true" 
+			readonly="true"
 		/>
 
 		<field
