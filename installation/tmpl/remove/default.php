@@ -85,8 +85,8 @@ use Joomla\CMS\Uri\Uri;
 				<?php endif; ?>
 				<?php if ($this->development) : ?>
 					<div class="alert flex-column" id="removeInstallationTab">
-						<strong><?php echo Text::_('INSTL_SITE_DEVMODE_LABEL'); ?></strong><br>
-                        <button id="removeInstallationFolder" class="btn btn-danger">Remove installation folder</button><br>
+						<span style="font-weight: bold; margin-bottom: 1em"><?php echo Text::_('INSTL_SITE_DEVMODE_LABEL'); ?></span>
+                        <button id="removeInstallationFolder" class="btn btn-danger" style="margin-bottom: 1em">Remove installation folder</button>
 						<div class="form-check">
 							<label class="form-check-label">
 								<?php echo Text::_('INSTL_SITE_DEVMODE_DESC'); ?>
