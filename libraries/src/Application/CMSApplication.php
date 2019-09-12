@@ -1185,7 +1185,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			return false;
 		}
 
-		if (!$this->checkEnabled2FAPlugins())
+		if (!PluginHelper::isEnabled('twofactorauth'))
 		{
 			return false;
 		}
@@ -1198,8 +1198,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		array_walk($pluginOptions,
 			static function ($pluginOption) use (&$pluginsSiteEnable, &$pluginsAdministratorEnable)
 			{
-				$option  = new Registry($pluginOption);
-				$section = $option->get('section');
+				$option  = new Registry($pluginOption->params);
+				$section = $option->get('section',3);
 
 				switch ($section)
 				{
@@ -1210,6 +1210,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 						$pluginsAdministratorEnable = true;
 						break;
 					case 3:
+					default:
 						$pluginsAdministratorEnable = true;
 						$pluginsSiteEnable          = true;
 				}
@@ -1302,40 +1303,5 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		}
 
 		return true;
-	}
-
-	/**
-	 * Checks if any plugins with the type twofactorauth are enabled
-	 * if so returns true
-	 * else false
-	 *
-	 * @return boolean
-	 *
-	 * @since  4.0.0
-	 */
-	private function checkEnabled2FAPlugins(): bool
-	{
-		return PluginHelper::isEnabled('twofactorauth');
-	}
-
-	/**
-	 * Gets the parameters extension_id and params out of the dater base for all enabled Two Factor Authentication plugins
-	 *
-	 * @return array
-	 *
-	 * @since  4.0.0
-	 */
-	private function getPluginParams(): ?array
-	{
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('params'))
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('enabled') . ' = 1')
-			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-			->where($db->quoteName('folder') . ' = ' . $db->quote('twofactorauth'));
-		$db->setQuery($query);
-
-		return $db->loadColumn();
 	}
 }
