@@ -51,8 +51,9 @@ steps:
         from_secret: ftpusername
       FTP_PASSWORD:
         from_secret: ftppassword
-      FTP_HOSTNAME: ci.joomla.org:21
-      FTP_DEST_DIR: /patchtester
+      FTP_HOSTNAME: ci.joomla.org
+      FTP_PORT: "21"
+      FTP_DEST_DIR: /artifacts
       FTP_VERIFY: "false"
       FTP_SECURE: "true"
       BRANCH_NAME: "4.0-dev" # Current branch to check against (from repo joomla/joomla-cms)
@@ -63,6 +64,9 @@ steps:
     volumes:
       - name: reference
         path: /reference
+    when:
+      branch:
+      - 4.0-dev
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
