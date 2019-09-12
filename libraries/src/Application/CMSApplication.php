@@ -1194,7 +1194,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		$pluginsAdministratorEnable = false;
 		$pluginOptions              = $this->getPluginParams();
 
-		//Sets and checks pluginOptions for Site and Administrator view depending on if any 2fa plugin is enabled for that view
+		// Sets and checks pluginOptions for Site and Administrator view depending on if any 2fa plugin is enabled for that view
 		array_walk($pluginOptions,
 			static function ($pluginOption) use (&$pluginsSiteEnable, &$pluginsAdministratorEnable)
 			{
