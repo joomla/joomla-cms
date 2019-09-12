@@ -114,7 +114,7 @@
 			label="COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_LABEL"
 			default="0"
 			filter="integer"
-		>
+			>
 			<option value="0">JNO</option>
 			<option value="1">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_SITE</option>
 			<option value="2">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_ADMIN</option>
