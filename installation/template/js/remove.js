@@ -34,9 +34,11 @@ if (document.getElementById('removeInstallationFolder')) {
 					perform: true,
 					token: true,
 					headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-					onSuccess: function (response, xhr) {
-							document.getElementById('customInstallation').remove();
-							document.getElementById('removeInstallationTab').remove();
+					onSuccess: function () {
+						const customInstallation = document.getElementById('customInstallation');
+						customInstallation.parentNode.removeChild(customInstallation);
+						const removeInstallationTab = document.getElementById('removeInstallationTab');
+						customInstallation.parentNode.removeChild(removeInstallationTab);
 					},
 					onError: function (xhr) {
 						console.log(xhr);
