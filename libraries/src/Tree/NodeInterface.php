@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Tree;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Interface for a node class
