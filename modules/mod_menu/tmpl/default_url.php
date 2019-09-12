@@ -63,7 +63,7 @@ elseif ($item->browserNav == 2)
 	$attributes['onclick'] = "window.open(this.href, 'targetWindow', '" . $options . "'); return false;";
 }
 
-if ($active_id == $item->id || $item->params['aliasoptions'])
+if ($active_id == $item->id || $active_id == $item->params['aliasoptions'])
 {
 	$attributes['aria-current'] = "page";
 }
