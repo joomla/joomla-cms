@@ -9,7 +9,7 @@
 
 namespace Joomla\Module\Menu\Administrator\Menu;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
@@ -113,7 +113,7 @@ class CssMenu
 
 		if ($menutype === '*')
 		{
-			$name   = $this->params->get('preset', 'joomla');
+			$name   = $this->params->get('preset', 'default');
 			$this->root = MenusHelper::loadPreset($name);
 		}
 		else
@@ -132,7 +132,7 @@ class CssMenu
 				$heading = new MenuItem(['title' => 'MOD_MENU_RECOVERY_MENU_ROOT', 'type' => 'heading']);
 				$this->root->addChild($heading);
 
-				MenusHelper::loadPreset('joomla', true, $heading);
+				MenusHelper::loadPreset('default', true, $heading);
 
 				$this->preprocess($this->root);
 
@@ -203,9 +203,9 @@ class CssMenu
 		$items      = $node->getChildren(true);
 		$types      = ArrayHelper::getColumn($items, 'type');
 		$elements   = ArrayHelper::getColumn($items, 'element');
-		$rMenu      = $authMenus && !in_array('com_menus', $elements);
-		$rModule    = $authModules && !in_array('com_modules', $elements);
-		$rContainer = !in_array('container', $types);
+		$rMenu      = $authMenus && !\in_array('com_menus', $elements);
+		$rModule    = $authModules && !\in_array('com_modules', $elements);
+		$rContainer = !\in_array('container', $types);
 
 		if ($rMenu || $rModule || $rContainer)
 		{
@@ -385,7 +385,7 @@ class CssMenu
 				list($assetName) = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
 			}
 			// Special case for components which only allow super user access
-			elseif (in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin'))
+			elseif (\in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin'))
 			{
 				$parent->removeChild($item);
 				continue;
@@ -413,7 +413,7 @@ class CssMenu
 			}
 
 			// Exclude if link is invalid
-			if (!in_array($item->type, array('separator', 'heading', 'container')) && trim($item->link) === '')
+			if (!\in_array($item->type, array('separator', 'heading', 'container')) && trim($item->link) === '')
 			{
 				$parent->removeChild($item);
 				continue;
@@ -447,7 +447,7 @@ class CssMenu
 			}
 
 			// Exclude if there are no child items under heading or container
-			if (in_array($item->type, array('heading', 'container')) && !$item->hasChildren() && empty($item->components))
+			if (\in_array($item->type, array('heading', 'container')) && !$item->hasChildren() && empty($item->components))
 			{
 				$parent->removeChild($item);
 				continue;
