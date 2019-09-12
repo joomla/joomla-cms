@@ -55,6 +55,8 @@ class ContactTable extends Table
 		$this->typeAlias = 'com_contact.contact';
 
 		parent::__construct('#__contact_details', 'id', $db);
+
+		$this->setColumnAlias('title', 'name');
 	}
 
 	/**

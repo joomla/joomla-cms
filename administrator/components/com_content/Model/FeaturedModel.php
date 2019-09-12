@@ -130,7 +130,7 @@ class FeaturedModel extends ArticlesModel
 
 		// Join over the workflow stages.
 		$query	->select(
-			$query->quoteName(
+			$db->quoteName(
 				[
 					'ws.title',
 					'ws.condition',
@@ -143,7 +143,7 @@ class FeaturedModel extends ArticlesModel
 				]
 			)
 		)
-			->join('INNER', '#__workflow_stages AS ws ON ' . $query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id'));
+			->join('INNER', '#__workflow_stages AS ws ON ' . $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'));
 
 		// Join on voting table
 		if (PluginHelper::isEnabled('content', 'vote'))
