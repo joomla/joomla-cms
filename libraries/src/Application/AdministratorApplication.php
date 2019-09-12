@@ -504,9 +504,9 @@ class AdministratorApplication extends CMSApplication
 			$this->redirect((string) $uri, 301);
 		}
 
-		if ($this->enforce2FA())
+		if ($this->isTwoFactorAuthenticationRequired())
 		{
-			$this->redirectEnforce2fa();
+			$this->redirectIfTwoFactorAuthenticationRequired();
 		}
 
 		// Trigger the onAfterRoute event.

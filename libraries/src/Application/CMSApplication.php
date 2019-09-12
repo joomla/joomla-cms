@@ -12,6 +12,7 @@ namespace Joomla\CMS\Application;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Event\ErrorEvent;
@@ -1044,9 +1045,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			$this->input->def($key, $value);
 		}
 
-		if ($this->enforce2FA())
+		if ($this->isTwoFactorAuthenticationRequired())
 		{
-			$this->redirectEnforce2fa();
+			$this->redirectIfTwoFactorAuthenticationRequired();
 		}
 
 		// Trigger the onAfterRoute event.
@@ -1167,9 +1168,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 *
 	 * @since   4.0.0
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 */
-	protected function enforce2FA(): bool
+	protected function isTwoFactorAuthenticationRequired(): bool
 	{
 		$userId = $this->getIdentity()->id;
 
@@ -1178,7 +1179,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			return false;
 		}
 
-		$enforce2faOptions = $this->getConfig()->get('enforce_2fa_options', 0);
+		$enforce2faOptions = ComponentHelper::getComponent('com_users')->getParams()->get('enforce_2fa_options', 0);
 
 		if ($enforce2faOptions == 0 || !$enforce2faOptions)
 		{
@@ -1222,7 +1223,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		{
 			if (in_array($enforce2faOptions, [1, 3]))
 			{
-				return !$this->checkUserSetup2FA($userId);
+				return !$this->hasUserConfiguredTwoFactorAuthentication();
 			}
 		}
 
@@ -1230,7 +1231,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		{
 			if (in_array($enforce2faOptions, [2, 3]))
 			{
-				return !$this->checkUserSetup2FA($userId);
+				return !$this->hasUserConfiguredTwoFactorAuthentication();
 			}
 		}
 
@@ -1244,7 +1245,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 *
 	 * @since  4.0.0
 	 */
-	protected function redirectEnforce2fa(): void
+	protected function redirectIfTwoFactorAuthenticationRequired(): void
 	{
 		$option = $this->input->getCmd('option');
 		$task   = $this->input->get('task');
@@ -1288,44 +1289,22 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * if any one is empty returns false
 	 * else returns true
 	 *
-	 * @param   int  $userId  Id of a user to check if user has setup 2fa
-	 *
 	 * @return  boolean
 	 *
 	 * @since   4.0.0
+	 *
+	 * @throws \Exception
 	 */
-	private function checkUserSetup2FA(int $userId): bool
+	private function hasUserConfiguredTwoFactorAuthentication(): bool
 	{
-		$result = $this->get2FA($userId);
+		$user = Factory::getApplication()->getIdentity();
 
-		if (empty($result->otpKey) || empty($result->otep))
+		if (empty($user->otpKey) || empty($user->otep))
 		{
 			return false;
 		}
 
 		return true;
-	}
-
-	/**
-	 * Gets the otpKey and otep parameters from the database for a specific user id
-	 *
-	 * @param   int  $userId
-	 *
-	 * @return  \stdClass|null
-	 *
-	 * @since   4.0.0
-	 */
-	private function get2FA(int $userId): ?\stdClass
-	{
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName(['otpKey', 'otep']))
-			->from($db->quoteName('#__users'))
-			->where($db->quoteName('id') . ' = :userId')
-			->bind(':userId', $userId, ParameterType::INTEGER);
-		$db->setQuery($query);
-
-		return $db->loadObject();
 	}
 
 	/**
