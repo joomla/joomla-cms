@@ -13,15 +13,25 @@ defined('_JEXEC') or die;
 ?>
 
 <h2>
-	<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_COMPATIBILITY_CHECK', $this->updateInfo['latest']); ?>
+	<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK', $this->updateInfo['latest']); ?>
 </h2>
 
 <div class="row-fluid">
 	<fieldset class="span6">
 		<legend>
-			<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK'); ?>
+			<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS'); ?>
 		</legend>
 		<table class="table">
+			<thead>
+				<tr>
+					<th>
+						<?php echo JText::_('COM_JOOMLAUPDATE_PREUPDATE_HEADING_REQUIREMENT'); ?>
+					</th>
+					<th>
+						<?php echo JText::_('COM_JOOMLAUPDATE_PREUPDATE_HEADING_CHECKED'); ?>
+					</th>
+				</tr>
+			</thead>
 			<tbody>
 			<?php foreach ($this->phpOptions as $option) : ?>
 				<tr>
@@ -85,6 +95,7 @@ defined('_JEXEC') or die;
 	</fieldset>
 </div>
 
+<?php if (!empty($this->nonCoreExtensions)) : ; ?>
 <div class="row-fluid">
 	<fieldset class="span6">
 		<legend>
@@ -125,7 +136,19 @@ defined('_JEXEC') or die;
 		</table>
 	</fieldset>
 </div>
+<?php endif; ?>
+<div class="row-fluid">
+	<div class="span6">
+		<fieldset class="options-grid-form options-grid-form-full">
+			<legend>
+				<?php echo JText::_('NOTICE'); ?>
+			</legend>
+			<ul>
+				<li><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_BREAK'); ?></li>
+				<li><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_MISSING_TAG'); ?></li>
+				<li><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_UPDATE_REQUIRED'); ?></li>
+			</ul>
+		</fieldset>
+	</div>
+</div>
 
-<p><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_BREAK'); ?></p>
-<p><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_MISSING_TAG'); ?></p>
-<p><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_UPDATE_REQUIRED'); ?></p>
