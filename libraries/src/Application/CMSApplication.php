@@ -1192,7 +1192,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		$pluginsSiteEnable          = false;
 		$pluginsAdministratorEnable = false;
-		$pluginOptions              = $this->getPluginParams();
+		$pluginOptions              = PluginHelper::getPlugin('twofactorauth');
 
 		// Sets and checks pluginOptions for Site and Administrator view depending on if any 2fa plugin is enabled for that view
 		array_walk($pluginOptions,
@@ -1262,8 +1262,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		{
 			return;
 		}
-
-		$this->loadLanguage();
 
 		// Redirect to com_users profile edit
 		$this->enqueueMessage(Text::_('JENFORCE_2FA_REDIRECT_MESSAGE'), 'notice');
