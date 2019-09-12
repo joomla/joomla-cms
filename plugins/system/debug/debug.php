@@ -127,57 +127,6 @@ class PlgSystemDebug extends CMSPlugin
 	protected $isAjax = false;
 
 	/**
-	 * Registers legacy Listeners to the Dispatcher, emulating how plugins worked under Joomla! 3.x and below.
-	 *
-	 * By default, this method will look for all public methods whose name starts with "on". It will register
-	 * lambda functions (closures) which try to unwrap the arguments of the dispatched Event into method call
-	 * arguments and call your on<Something> method. The result will be passed back to the Event into its 'result'
-	 * argument.
-	 *
-	 * This method additionally supports Joomla\Event\SubscriberInterface and plugins implementing this will be
-	 * registered to the dispatcher as a subscriber.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0
-	 */
-	public function registerListeners()
-	{
-		parent::registerListeners();
-
-		$this->debugLang = $this->app->get('debug_lang');
-
-		// Skip the plugin if debug is off
-		if (!$this->debugLang && !$this->app->get('debug'))
-		{
-			return;
-		}
-
-		$this->app->getConfig()->set('gzip', false);
-		ob_start();
-		ob_implicit_flush(false);
-
-		/** @var \Joomla\Database\Monitor\DebugMonitor */
-		$this->queryMonitor = $this->db->getMonitor();
-
-		if (!$this->params->get('queries', 1))
-		{
-			// Remove the database driver monitor
-			$this->db->setMonitor(null);
-		}
-
-		$storagePath = JPATH_CACHE . '/plg_system_debug_' . $this->app->getName();
-
-		$this->debugBar = new DebugBar;
-		$this->debugBar->setStorage(new FileStorage($storagePath));
-
-		$this->isAjax = $this->app->input->get('option') === 'com_ajax'
-			&& $this->app->input->get('plugin') === 'debug' && $this->app->input->get('group') === 'system';
-
-		$this->setupLogging();
-	}
-
-	/**
 	 * Add the CSS for debug.
 	 * We can't do this in the constructor because stuff breaks.
 	 *
@@ -187,6 +136,8 @@ class PlgSystemDebug extends CMSPlugin
 	 */
 	public function onAfterDispatch()
 	{
+		$this->setupPlugin();
+
 		// Only if debugging or language debug is enabled.
 		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug() && strtolower($this->app->getDocument()->getType()) === 'html')
 		{
@@ -215,6 +166,8 @@ class PlgSystemDebug extends CMSPlugin
 	 */
 	public function onAfterRespond()
 	{
+		$this->setupPlugin();
+
 		// Do not render if debugging or language debug is not enabled.
 		if (!JDEBUG && !$this->debugLang || $this->isAjax || strtolower($this->app->getDocument()->getType()) !== 'html')
 		{
@@ -331,6 +284,8 @@ class PlgSystemDebug extends CMSPlugin
 	 */
 	public function onAjaxDebug()
 	{
+		$this->setupPlugin();
+
 		// Do not render if debugging or language debug is not enabled.
 		if (!JDEBUG && !$this->debugLang)
 		{
@@ -352,6 +307,53 @@ class PlgSystemDebug extends CMSPlugin
 			default:
 				return '';
 		}
+	}
+
+	/**
+	 * Does the setup for the plugin.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function setupPlugin()
+	{
+		// Check if setup was done already
+		if ($this->queryMonitor)
+		{
+			return;
+		}
+
+		$this->debugLang = $this->app->get('debug_lang');
+
+		// Skip the plugin if debug is off
+		if (!$this->debugLang && !$this->app->get('debug'))
+		{
+			return;
+		}
+
+		$this->app->getConfig()->set('gzip', false);
+		ob_start();
+		ob_implicit_flush(false);
+
+		/** @var \Joomla\Database\Monitor\DebugMonitor */
+		$this->queryMonitor = $this->db->getMonitor();
+
+		if (!$this->params->get('queries', 1))
+		{
+			// Remove the database driver monitor
+			$this->db->setMonitor(null);
+		}
+
+		$storagePath = JPATH_CACHE . '/plg_system_debug_' . $this->app->getName();
+
+		$this->debugBar = new DebugBar;
+		$this->debugBar->setStorage(new FileStorage($storagePath));
+
+		$this->isAjax = $this->app->input->get('option') === 'com_ajax'
+			&& $this->app->input->get('plugin') === 'debug' && $this->app->input->get('group') === 'system';
+
+		$this->setupLogging();
 	}
 
 	/**
@@ -461,6 +463,8 @@ class PlgSystemDebug extends CMSPlugin
 	 */
 	public function onAfterDisconnect(ConnectionEvent $event)
 	{
+		$this->setupPlugin();
+
 		if (!JDEBUG)
 		{
 			return;
