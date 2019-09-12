@@ -144,14 +144,14 @@
     // Set active class
     allLinks.forEach((link) => {
       if (currentUrl === link.href) {
-        link.classList.add('active');
+        link.classList.add('mm-active');
         // Auto Expand Levels
         if (!link.parentNode.classList.contains('parent')) {
           const firstLevel = closest(link, '.collapse-level-1');
           const secondLevel = closest(link, '.collapse-level-2');
-          if (firstLevel) firstLevel.parentNode.classList.add('active');
+          if (firstLevel) firstLevel.parentNode.classList.add('mm-active');
           if (firstLevel) firstLevel.classList.add('in');
-          if (secondLevel) secondLevel.parentNode.classList.add('active');
+          if (secondLevel) secondLevel.parentNode.classList.add('mm-active');
           if (secondLevel) secondLevel.classList.add('in');
         }
       }

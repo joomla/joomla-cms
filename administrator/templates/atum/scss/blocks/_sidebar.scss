@@ -164,7 +164,7 @@
         }
 
         &:hover,
-        &.active {
+        &.mm-active {
           background-color: var(--atum-bg-dark-70);
 
           .fa {
@@ -182,7 +182,7 @@
     li {
       .menu-dashboard, .menu-quicktask {
         > a {
-          &.active {
+          &.mm-active {
             background-color: var(--atum-bg-dark-80);
             &::before {
               display: none;
@@ -247,7 +247,7 @@
       }
     }
 
-    &.active {
+    &.mm-active {
       box-shadow: 0 0 6px -6px rgba(0, 0, 0, .8)
     }
   }
@@ -262,7 +262,7 @@
       position: relative;
       display: flex;
 
-      &.active {
+      &.mm-active {
         box-shadow: 0 0 6px -6px rgba(0, 0, 0, .8)
       }
 
@@ -279,7 +279,7 @@
         background-color: rgba(0, 0, 0, .4);
       }
 
-      &.active {
+      &.mm-active {
         color: $white;
         background-color: var(--atum-bg-dark-80);
 
@@ -302,7 +302,7 @@
       a {
         padding-left: 3rem;
 
-        &.active {
+        &.mm-active {
           color: $white;
           background-color: var(--atum-bg-dark-90);
           box-shadow: 0 1px 4px -1px rgba(0, 0, 0, .5);
@@ -391,7 +391,7 @@
     transition: all .3s ease-out;
   }
 
-  .active {
+  .mm-active {
 
     > .has-arrow::after {
       filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
