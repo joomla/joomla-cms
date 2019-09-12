@@ -47,11 +47,11 @@
 			type="list"
 			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
-			default="d.branch_title ASC"
+			default="branch_title ASC"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
-			<option value="d.branch_title ASC">JGLOBAL_TITLE_ASC</option>
-			<option value="d.branch_title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="branch_title ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="branch_title DESC">JGLOBAL_TITLE_DESC</option>
 			<option value="a.state ASC">JSTATUS_ASC</option>
 			<option value="a.state DESC">JSTATUS_DESC</option>
 		</field>
