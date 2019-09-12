@@ -355,12 +355,7 @@ class SetupModel extends BaseInstallationModel
 		}
 
 		// Check for PDO drivers
-		$pdo = false;
-
-		if (in_array($options->db_type, ['mysql', 'pgsql']))
-		{
-			$pdo = true;
-		}
+		$pdo = \in_array($options->db_type, ['mysql', 'pgsql']);
 
 		// Get a database object.
 		try
