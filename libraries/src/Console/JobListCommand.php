@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\DatabaseInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -47,6 +48,19 @@ class JobListCommand extends AbstractCommand
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $db;
+
+	**
+	 * Instantiate the command.
+	 *
+	 * @param   DatabaseInterface  $db  Database connector
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(DatabaseInterface $db)
+	{
+		$this->db = $db;
+		parent::__construct();
+	}
 
 	/**
 	 * Internal function to execute the command.
@@ -105,7 +119,6 @@ class JobListCommand extends AbstractCommand
 	 */
 	public function listJobs(string $folder = 'job', string $type = 'plugin')
 	{
-		$this->db = Factory::getDbo();
 		$query = $this->db->getQuery(true)
 			->select($this->db->quoteName('element'))
 			->select($this->db->quoteName('params'))
