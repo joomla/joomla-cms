@@ -95,7 +95,7 @@ defined('_JEXEC') or die;
 	</fieldset>
 </div>
 
-<?php if (!empty($this->nonCoreExtensions)) : ; ?>
+<?php if (!empty($this->nonCoreExtensions)) : ?>
 <div class="row-fluid">
 	<fieldset class="span6">
 		<legend>
