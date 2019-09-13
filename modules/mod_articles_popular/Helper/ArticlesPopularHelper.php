@@ -9,7 +9,7 @@
 
 namespace Joomla\Module\ArticlesPopular\Site\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
@@ -86,7 +86,7 @@ abstract class ArticlesPopularHelper
 		{
 			$item->slug = $item->id . ':' . $item->alias;
 
-			if ($access || in_array($item->access, $authorised))
+			if ($access || \in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
 				$item->link = Route::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
