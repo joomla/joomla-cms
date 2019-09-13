@@ -121,7 +121,91 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	{
 		return [
 			'onAfterInitialise' => 'setHttpHeaders',
+			'onAfterRender'     => 'applyHashesToCspRule',
 		];
+	}
+
+	/**
+	 * The `applyHashesToCspRule` method makes sure the csp hashes are added to the csp header when enabled
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function applyHashesToCspRule(): void
+	{
+		// CSP is only relevant on html pages. Let's early exit here.
+		if ($this->app->getDocument()->getType() !== 'html')
+		{
+			return;
+		}
+
+		$scriptHashesEnabled = (int) $this->comCspParams->get('script_hashes_enabled', 0);
+		$styleHashesEnabled  = (int) $this->comCspParams->get('style_hashes_enabled', 0);
+
+		// Early exit when both options are disabled
+		if (!$scriptHashesEnabled && !$styleHashesEnabled)
+		{
+			return;
+		}
+
+		$headData     = $this->app->getDocument()->getHeadData();
+		$scriptHashes = [];
+		$styleHashes  = [];
+
+		if ($scriptHashesEnabled)
+		{
+			// Generate the hashes for the script-src
+			$inlineScripts = is_array($headData['script']) ? $headData['script'] : [];
+
+			foreach ($inlineScripts as $type => $scriptContent)
+			{
+				$scriptHashes[] = "'sha256-" . base64_encode(hash('sha256', $scriptContent, true)) . "'";
+			}
+		}
+
+		if ($styleHashesEnabled)
+		{
+			// Generate the hashes for the style-src
+			$inlineStyles = is_array($headData['style']) ? $headData['style'] : [];
+
+			foreach ($inlineStyles as $type => $styleContent)
+			{
+				$styleHashes[] = "'sha256-" . base64_encode(hash('sha256', $styleContent, true)) . "'";
+			}
+		}
+
+		// Replace the hashes in the csp header when set.
+		$headers = $this->app->getHeaders();
+
+		foreach ($headers as $id => $headerConfiguration)
+		{
+			if (strtolower($headerConfiguration['name']) === 'content-security-policy'
+				|| strtolower($headerConfiguration['name']) === 'content-security-policy-report-only')
+			{
+				$newHeaderValue = $headerConfiguration['value'];
+
+				if (!empty($scriptHashes))
+				{
+					$newHeaderValue = str_replace('{script-hashes}', implode(' ', $scriptHashes), $newHeaderValue);
+				}
+				else
+				{
+					$newHeaderValue = str_replace('{script-hashes}', '', $newHeaderValue);
+				}
+
+				if (!empty($styleHashes))
+				{
+					$newHeaderValue = str_replace('{style-hashes}', implode(' ', $styleHashes), $newHeaderValue);
+				}
+				else
+				{
+					$newHeaderValue = str_replace('{style-hashes}', '', $newHeaderValue);
+				}
+
+				$this->app->setHeader($headerConfiguration['name'], $newHeaderValue, true);
+			}
+		}
 	}
 
 	/**
@@ -135,6 +219,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	{
 		// Set the default header when they are enabled
 		$this->setStaticHeaders();
+
+		// CSP is only relevant on html pages. Let's early exit here.
+		if ($this->app->getDocument()->getType() !== 'html')
+		{
+			return;
+		}
 
 		// Handle CSP Header configuration
 		$cspOptions = (int) $this->comCspParams->get('contentsecuritypolicy', 0);
@@ -190,8 +280,10 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		}
 
 		// In custom mode we compile the header from the values configured
-		$cspValues    = $this->comCspParams->get('contentsecuritypolicy_values', array());
-		$nonceEnabled = (int) $this->comCspParams->get('nonce_enabled', 0);
+		$cspValues           = $this->comCspParams->get('contentsecuritypolicy_values', []);
+		$nonceEnabled        = (int) $this->comCspParams->get('nonce_enabled', 0);
+		$scriptHashesEnabled = (int) $this->comCspParams->get('script_hashes_enabled', 0);
+		$styleHashesEnabled  = (int) $this->comCspParams->get('style_hashes_enabled', 0);
 
 		foreach ($cspValues as $cspValue)
 		{
@@ -206,7 +298,20 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			{
 				if (in_array($cspValue->directive, $this->nonceDirectives) && $nonceEnabled)
 				{
+					// Append the nonce
 					$cspValue->value = str_replace('{nonce}', "'nonce-" . $this->cspNonce . "'", $cspValue->value);
+				}
+
+				// Append the script hashes placeholder
+				if ($scriptHashesEnabled && strpos($cspValue->directive, 'script-src') === 0)
+				{
+					$cspValue->value = '{script-hashes} ' . $cspValue->value;
+				}
+
+				// Append the style hashes placeholder
+				if ($styleHashesEnabled && strpos($cspValue->directive, 'style-src') === 0)
+				{
+					$cspValue->value = '{style-hashes} ' . $cspValue->value;
 				}
 
 				$newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);
@@ -252,6 +357,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$automaticCspHeader  = [];
 		$cspHeaderCollection = [];
 		$nonceEnabled        = (int) $this->comCspParams->get('nonce_enabled', 0);
+		$scriptHashesEnabled = (int) $this->comCspParams->get('script_hashes_enabled', 0);
+		$styleHashesEnabled  = (int) $this->comCspParams->get('style_hashes_enabled', 0);
 
 		foreach ($rows as $row)
 		{
@@ -301,7 +408,20 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			// Append the random $nonce for the script and style tags if enabled
 			if (in_array($cspHeaderkey, $this->nonceDirectives) && $nonceEnabled)
 			{
+				// Append nonce
 				$cspHeaderValue = "'nonce-" . $this->cspNonce . "'" . $cspHeaderValue;
+			}
+
+			// Append the script hashes placeholder
+			if ($scriptHashesEnabled && strpos($cspValue->directive, 'script-src') === 0)
+			{
+				$cspHeaderValue = '{script-hashes} ' . $cspHeaderValue;
+			}
+
+			// Append the style hashes placeholder
+			if ($styleHashesEnabled && strpos($cspValue->directive, 'style-src') === 0)
+			{
+				$cspHeaderValue = '{style-hashes} ' . $cspHeaderValue;
 			}
 
 			// By default we should whitelist 'self' on any directive
