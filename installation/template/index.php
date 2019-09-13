@@ -79,7 +79,7 @@ Text::script('INSTL_FTP_SETTINGS_CORRECT');
 						</span>
 					</div>
 					<div class="m-2 d-flex align-items-center">
-						<a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla"; target="_blank">
+						<a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla" target="_blank">
 							<span class="fa fa-question" aria-hidden="true"></span>
 							<span class="sr-only"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
 						</a>
