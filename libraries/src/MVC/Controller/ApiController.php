@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSApplication;
@@ -106,7 +106,7 @@ class ApiController extends BaseController
 		{
 			$r = null;
 
-			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
+			if (!preg_match('/(.*)Controller(.*)/i', \get_class($this), $r))
 			{
 				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
@@ -202,12 +202,12 @@ class ApiController extends BaseController
 		$paginationInfo = $this->input->get('page', [], 'array');
 		$internalPaginationMapping = [];
 
-		if (array_key_exists('offset', $paginationInfo))
+		if (\array_key_exists('offset', $paginationInfo))
 		{
 			$this->input->set('limitstart', $paginationInfo['offset']);
 		}
 
-		if (array_key_exists('limit', $paginationInfo))
+		if (\array_key_exists('limit', $paginationInfo))
 		{
 			$internalPaginationMapping['limit'] = $paginationInfo['limit'];
 		}
@@ -459,7 +459,8 @@ class ApiController extends BaseController
 			$errors   = $model->getErrors();
 			$messages = [];
 
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			// Push up to three validation messages out to the user.
+			for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++)
 			{
 				if ($errors[$i] instanceof \Exception)
 				{
@@ -543,6 +544,6 @@ class ApiController extends BaseController
 	{
 		$user = $this->app->getIdentity();
 
-		return $user->authorise('core.create', $this->option) || count($user->getAuthorisedCategories($this->option, 'core.create'));
+		return $user->authorise('core.create', $this->option) || \count($user->getAuthorisedCategories($this->option, 'core.create'));
 	}
 }

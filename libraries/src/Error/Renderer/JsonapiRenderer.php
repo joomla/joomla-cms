@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Error\Renderer;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Error\JsonApi\AuthenticationFailedExceptionHandler;
 use Joomla\CMS\Error\JsonApi\InstallLanguageExceptionHandler;

@@ -103,27 +103,19 @@ class ItemModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
-		$user = Factory::getUser();
-
-		if (!empty($record->id))
+		if (empty($record->id) || $record->published != -2)
 		{
-			// Only delete trashed items
-			if ($record->published != -2)
-			{
-				return false;
-			}
-
-			$menuTypeId = 0;
-
-			if (!empty($record->menutype))
-			{
-				$menuTypeId = $this->getMenuTypeId($record->menutype);
-			}
-
-			return $user->authorise('core.delete', 'com_menus.menu.' . (int) $menuTypeId);
+			return false;
 		}
 
-		return false;
+		$menuTypeId = 0;
+
+		if (!empty($record->menutype))
+		{
+			$menuTypeId = $this->getMenuTypeId($record->menutype);
+		}
+
+		return Factory::getUser()->authorise('core.delete', 'com_menus.menu.' . (int) $menuTypeId);
 	}
 
 	/**
