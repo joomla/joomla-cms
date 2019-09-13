@@ -5,7 +5,7 @@
 
 Joomla = window.Joomla || {};
 
-(function() {
+(function(document, Joomla) {
 	'use strict';
 
 	Joomla.extractionMethodHandler = function(element, prefix) {
@@ -59,9 +59,9 @@ Joomla = window.Joomla || {};
 
 	});
 
-})();
+})(document, Joomla);
 
-(function(document, Joomla) {
+(function(document, window, Joomla) {
 	/**
 	 * PreUpdateChecker
 	 *
