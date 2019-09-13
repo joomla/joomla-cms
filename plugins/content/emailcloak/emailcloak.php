@@ -21,6 +21,14 @@ use Joomla\String\StringHelper;
 class PlgContentEmailcloak extends CMSPlugin
 {
 	/**
+	 * The Application object
+	 *
+	 * @var    JApplicationSite
+	 * @since  3.9.0
+	 */
+	protected $app;
+
+	/**
 	 * Plugin that cloaks all emails in content from spambots via Javascript.
 	 *
 	 * @param   string   $context  The context of the content being passed to the plugin.
@@ -32,6 +40,11 @@ class PlgContentEmailcloak extends CMSPlugin
 	 */
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
 	{
+		if ($this->app->isClient('api'))
+		{
+			return true;
+		}
+
 		// Don't run this plugin when the content is being indexed
 		if ($context === 'com_finder.indexer')
 		{

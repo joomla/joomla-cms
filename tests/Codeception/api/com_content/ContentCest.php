@@ -10,7 +10,7 @@
 use Codeception\Util\HttpCode;
 
 /**
- * Class contentCest.
+ * Class ContentCest.
  *
  * Basic com_content (article) tests.
  *
@@ -71,24 +71,24 @@ class ContentCest
 			'alias' => 'tobias'
 		];
 
-		$I->sendPOST('/article', $testarticle);
+		$I->sendPOST('/content/article', $testarticle);
 
 		$I->seeResponseCodeIs(HttpCode::OK);
 
 		$I->amHttpAuthenticated('admin', 'admin');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendGET('/article/1');
+		$I->sendGET('/content/article/1');
 		$I->seeResponseCodeIs(HttpCode::OK);
 
 		$I->amHttpAuthenticated('admin', 'admin');
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendGET('/article/1', ['title' => 'Another Title']);
+		$I->sendGET('/content/article/1', ['title' => 'Another Title']);
 		$I->seeResponseCodeIs(HttpCode::OK);
 
 		$I->amHttpAuthenticated('admin', 'admin');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendDELETE('/article/1');
+		$I->sendDELETE('/content/article/1');
 		$I->seeResponseCodeIs(HttpCode::NO_CONTENT);
 	}
 }
