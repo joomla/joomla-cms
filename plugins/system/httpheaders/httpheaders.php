@@ -169,7 +169,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	public function applyHashesToCspRule(): void
 	{
 		// CSP is only relevant on html pages. Let's early exit here.
-		if (Factory::getDocument()->getType() != 'html')
+		if (Factory::getDocument()->getType() !== 'html')
 		{
 			return;
 		}
