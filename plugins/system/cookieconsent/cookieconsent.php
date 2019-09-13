@@ -17,7 +17,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 /**
  * Cookie consent plugin to add simple cookie information.
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class PlgSystemCookieconsent extends CMSPlugin
 {
@@ -25,17 +25,96 @@ class PlgSystemCookieconsent extends CMSPlugin
 	 * If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
  	/**
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
- 	/**
+
+	/**
+	 * Database object.
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $db;
+
+	/**
+	 * Event to specify whether a privacy policy has been published.
+	 *
+	 * @param   array  &$policy  The privacy policy status data, passed by reference, with keys "published", "editLink" and "articlePublished".
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.0
+	 */
+	public function onPrivacyCheckPrivacyPolicyPublished(&$policy)
+	{
+		$articleId = $this->params->get('privacy_article');
+
+		if (!$articleId)
+		{
+			return;
+		}
+
+		// Check if the article exists in database and is published
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName(array('id', 'state')))
+			->from($this->db->quoteName('#__content'))
+			->where($this->db->quoteName('id') . ' = ' . (int) $articleId);
+		$this->db->setQuery($query);
+
+		$article = $this->db->loadObject();
+
+		// Check if the article exists
+		if (!$article)
+		{
+			return;
+		}
+
+		// Check if the article is published
+		if ($article->state == 1)
+		{
+			$policy['articlePublished'] = true;
+		}
+
+		$policy['published'] = true;
+		$policy['editLink']  = Route::_('index.php?option=com_content&task=article.edit&id=' . $articleId);
+	}
+
+	/**
+	 * Get policylink article ID. If the site is a multilingual website and there is an associated article for the
+	 * current language, ID of the associlated article will be returned.
+	 *
+	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getPolicylinkArticleId()
+	{
+		$policylinkArticleId = $this->params->get('policylink');
+
+		if ($policylinkArticleId > 0 && Associations::isEnabled())
+		{
+			$policylinkAssociated = Associations::getAssociations('com_content', '#__content', 'com_content.item', $policylinkArticleId);
+			$currentLang = Factory::getLanguage()->getTag();
+
+			if (isset($policylinkAssociated[$currentLang]))
+			{
+				$policylinkArticleId = $policylinkAssociated[$currentLang]->id;
+			}
+		}
+
+		return $policylinkArticleId;
+	}
+
+
+	/**
 	 * Add the javascript and css for the cookie consent
 	 *
 	 * @return  void
@@ -59,6 +138,8 @@ class PlgSystemCookieconsent extends CMSPlugin
 			return;
 		}
 
+		// Load language file.
+		$this->loadLanguage();
 
 		HTMLHelper::_('script', 'vendor/cookieconsent/cookieconsent.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 		HTMLHelper::_('stylesheet', 'vendor/cookieconsent/cookieconsent.min.css', ['version' => 'auto', 'relative' => true]);
