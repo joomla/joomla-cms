@@ -1291,7 +1291,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	private function hasUserConfiguredTwoFactorAuthentication(): bool
 	{
-		$user = Factory::getApplication()->getIdentity();
+		$user = $this->getIdentity();
 
 		if (empty($user->otpKey) || empty($user->otep))
 		{
