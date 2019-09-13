@@ -169,7 +169,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	public function applyHashesToCspRule(): void
 	{
 		// CSP is only relevant on html pages. Let's early exit here.
-		if (Factory::getDocument()->getType() !== 'html')
+		if ($this->app->getDocument()->getType() !== 'html')
 		{
 			return;
 		}
@@ -183,13 +183,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
-		// Make sure the getHeadData method exists
-		if (!method_exists(Factory::getDocument(), 'getHeadData'))
-		{
-			return;
-		}
-
-		$headData     = Factory::getDocument()->getHeadData();
+		$headData     = $this->app->getDocument()->getHeadData();
 		$scriptHashes = [];
 		$styleHashes  = [];
 
