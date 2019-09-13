@@ -11,7 +11,7 @@ namespace Joomla\Component\Associations\Administrator\View\Association;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -74,7 +74,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The application
 	 *
-	 * @var    CMSApplicationInterface
+	 * @var    AdministratorApplication
 	 * @since  3.7.0
 	 */
 	protected $app;
@@ -324,7 +324,7 @@ class HtmlView extends BaseHtmlView
 			 * Let's put the target src into a variable to use in the javascript code
 			 * to avoid race conditions when the reference iframe loads.
 			 */
-			$document = Factory::getDocument();
+			$document = $this->app->getDocument();
 			$document->addScriptOptions('targetSrc', Route::_($this->editUri . '&task=' . $task . '&id=' . (int) $this->targetId));
 			$this->form->setValue('itemlanguage', '', $this->targetLanguage . ':' . $this->targetId . ':' . $this->targetAction);
 		}
@@ -346,7 +346,7 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar(): void
 	{
 		// Hide main menu.
-		Factory::getApplication()->input->set('hidemainmenu', 1);
+		$this->app->input->set('hidemainmenu', 1);
 
 		$helper = AssociationsHelper::getExtensionHelper($this->extensionName);
 		$title  = $helper->getTypeTitle($this->typeName);
@@ -367,7 +367,7 @@ class HtmlView extends BaseHtmlView
 			'language assoc'
 		);
 
-		$bar = Toolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance();
 
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'reference\')" '
