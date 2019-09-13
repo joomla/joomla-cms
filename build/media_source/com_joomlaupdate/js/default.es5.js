@@ -61,7 +61,7 @@ Joomla = window.Joomla || {};
 
 })(document, Joomla);
 
-(function(document, window, Joomla) {
+(function(document, Joomla) {
 	/**
 	 * PreUpdateChecker
 	 *
@@ -190,4 +190,4 @@ Joomla = window.Joomla || {};
     }
     // Run PreUpdateChecker on document ready
   document.addEventListener('DOMContentLoaded', PreUpdateChecker.run, false);
-})(document, window, Joomla);
+})(document, Joomla);
