@@ -3,7 +3,7 @@
   "name": "cassiopeia",
   "version": "4.0.0",
   "description": "Cassiopeia is the Joomla 4 site template",
-  "license": "GPL-2.0+",
+  "license": "GPL-2.0-or-later",
   "assets": [
     {
       "name": "template.cassiopeia.ltr",

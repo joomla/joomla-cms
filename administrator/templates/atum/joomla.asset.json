@@ -3,7 +3,7 @@
   "name": "atum",
   "version": "4.0.0",
   "description": "Atum is the Joomla 4 administrator template",
-  "license": "GPL-2.0+",
+  "license": "GPL-2.0-or-later",
   "assets": [
     {
       "name": "template.atum.ltr",
