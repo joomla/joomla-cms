@@ -44,13 +44,21 @@ class PlgSystemCookieconsent extends CMSPlugin
 	 */
 	public function onBeforeCompileHead()
 	{
-		// Get the document object.
-		$document = Factory::getDocument();
-		if ($document->getType() !== 'html')
+		$section = $this->params->get('section', 'site');
 
+		if ($section !== 'both' && $this->app->isClient($section) !== true)
 		{
 			return;
 		}
+
+		// Get the document object.
+		$document = $this->app->getDocument();
+
+		if ($document->getType() !== 'html')
+		{
+			return;
+		}
+
 
 		HTMLHelper::_('script', 'vendor/cookieconsent/cookieconsent.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 		HTMLHelper::_('stylesheet', 'vendor/cookieconsent/cookieconsent.min.css', ['version' => 'auto', 'relative' => true]);
