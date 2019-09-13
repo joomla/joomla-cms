@@ -956,6 +956,7 @@ class ItemModel extends AdminModel
 		}
 		else
 		{
+			$parentId = null;
 			$menuType = $app->input->get('com_menus.items.menutype');
 		}
 
