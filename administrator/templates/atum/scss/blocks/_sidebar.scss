@@ -360,15 +360,16 @@
      padding: 0 0.4rem 0;
   }
 
-  .collapse {
+  .mm-collapse {
     display: none;
 
-    &.in {
+    &.mm-collapsed,
+    &.mm-show {
       display: block;
     }
   }
 
-  .collapsing {
+  .mm-collapsing {
     position: relative;
     height: 0;
     overflow: hidden;
@@ -497,7 +498,7 @@
       }
     }
 
-    &.collapsed {
+    &.mm-collapsed {
       .navbar-toggler-icon::before {
         content: "\f0c9";
       }
@@ -533,7 +534,7 @@
 
   #sidebar-wrapper {
     &:not(.show) {
-      &:not(.collapse) {
+      &:not(.mm-collapse) {
         display: none;
       }
     }
