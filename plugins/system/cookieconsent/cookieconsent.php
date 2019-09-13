@@ -51,10 +51,25 @@ class PlgSystemCookieconsent extends CMSPlugin
 		{
 			return;
 		}
-	
+
 		HTMLHelper::_('script', 'vendor/cookieconsent/cookieconsent.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 		HTMLHelper::_('stylesheet', 'vendor/cookieconsent/cookieconsent.min.css', ['version' => 'auto', 'relative' => true]);
 
-		$document->addScriptDeclaration("window.addEventListener('load', function() { new Accessibility(); }, false);");
+		// Initialise the script and apply configuration
+		$document->addScriptDeclaration("document.addEventListener('DOMContentLoaded', function() {
+			window.cookieconsent.initialise({
+				'palette': {
+					'popup': {
+					  'background': '#000'
+					},
+					'button': {
+					  'background': '#f1d600'
+					}
+				  }
+			  });
+			});
+		");
 	}
 }
+
+

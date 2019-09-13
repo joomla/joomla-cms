@@ -18,7 +18,7 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="basic" addfieldprefix="Joomla\Component\Content\Administrator\Field">
+			<fieldset name="basic">
 				<field
 					name="section"
 					type="list"
@@ -31,6 +31,19 @@
 					<option value="both">PLG_SYSTEM_COOKIECONSENT_SECTION_BOTH</option>
 				</field>
 
+				<field name="valid"
+					type="list"
+					default="365"
+					label="PLG_SYSTEM_COOKIECONSENT_COOKIE_VALID_LABEL"
+					>
+					<option value="7">PLG_SYSTEM_COOKIECONSENT_COOKIE_VALID_WEEK</option>
+					<option value="30">PLG_SYSTEM_COOKIECONSENT_COOKIE_VALID_MONTH</option>
+					<option value="90">PLG_SYSTEM_COOKIECONSENT_COOKIE_VALID_3MONTH</option>
+					<option value="365">PLG_SYSTEM_COOKIECONSENT_COOKIE_VALID_1YEAR</option>
+				</field>
+			</fieldset>
+
+			<fieldset name="config" addfieldprefix="Joomla\Component\Content\Administrator\Field">
 				<field
 					name="position"
 					type="list"
@@ -57,6 +70,7 @@
 					<option value="edgeless">PLG_SYSTEM_COOKIECONSENT_LAYOUT_EDGELESS</option>
 					<option value="wire">PLG_SYSTEM_COOKIECONSENT_LAYOUT_WIRE</option>
 				</field>
+
 				<field
 					name="theme"
 					type="list"
@@ -82,7 +96,6 @@
 					<option value="theme14">PLG_SYSTEM_COOKIECONSENT_THEME_14</option>
 					<option value="theme15">PLG_SYSTEM_COOKIECONSENT_THEME_15</option>
 					<option value="theme16">PLG_SYSTEM_COOKIECONSENT_THEME_16</option>
-
 				</field>
 
 				<field
