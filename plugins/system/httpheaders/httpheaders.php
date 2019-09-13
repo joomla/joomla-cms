@@ -221,7 +221,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$this->setStaticHeaders();
 
 		// CSP is only relevant on html pages. Let's early exit here.
-		if ($this->app->getDocument()->getType() !== 'html')
+		if (Factory::getDocument()->getType() !== 'html')
 		{
 			return;
 		}
