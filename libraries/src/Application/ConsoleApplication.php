@@ -101,9 +101,6 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 			$this->setDispatcher($dispatcher);
 		}
 
-		// Load extension namespaces
-		$this->createExtensionNamespaceMap();
-
 		// Set the execution datetime and timestamp;
 		$this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
 		$this->set('execution.timestamp', time());
@@ -162,6 +159,9 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 */
 	public function execute()
 	{
+		// Load extension namespaces
+		$this->createExtensionNamespaceMap();
+
 		// Import CMS plugin groups to be able to subscribe to events
 		PluginHelper::importPlugin('system');
 		PluginHelper::importPlugin('console');
