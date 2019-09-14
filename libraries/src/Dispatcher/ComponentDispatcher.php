@@ -43,7 +43,7 @@ class ComponentDispatcher extends Dispatcher
 	 *
 	 * @since   4.0.0
 	 */
-	private $mvcFactory;
+	protected $mvcFactory;
 
 	/**
 	 * Constructor for ComponentDispatcher
