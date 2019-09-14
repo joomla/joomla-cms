@@ -1253,7 +1253,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		* If user is already on edit profile screen or press update/apply button,
 		* do nothing to avoid infinite redirect
 		*/
-		if ($option === 'com_users' && in_array($task, array('profile.save', 'profile.apply', 'user.logout', 'user.menulogout'))
+		if ($option === 'com_users' && \in_array($task, ['profile.save', 'profile.apply', 'user.logout', 'user.menulogout'])
 			|| ($option === 'com_users' && $view === 'profile' && $layout === 'edit')
 			|| ($option === 'com_users' && $view === 'user' && $layout === 'edit')
 			|| ($option === 'com_users' && in_array($task, ['user.save', 'user.edit', 'user.apply', 'user.logout', 'user.menulogout']))
