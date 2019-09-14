@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Event\ContentPrepareJsonSchemaEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -408,6 +409,11 @@ class HtmlView extends BaseHtmlView
 	 */
 	private function addJsonSchema($app)
 	{
+		if (!$app->get('enable_seo_metadata', 0))
+		{
+			return;
+		}
+
 		$images          = json_decode($this->item->images);
 		$articleLanguage = ($this->item->language === '*') ? $app->get('language') : $this->item->language;
 		$authorised      = $app->getIdentity()->getAuthorisedViewLevels();
@@ -420,7 +426,6 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		// TODO: This requires a publisher to pass google structured data checker
 		$schema = Schema::article()
 			->articleBody($this->item->text)
 			->if($this->item->params->get('show_title'), function (Article $schema) {
@@ -440,6 +445,26 @@ class HtmlView extends BaseHtmlView
 				);
 			});
 
+		if ($app->get('sef_owner') === 0)
+		{
+			$schema->publisher(
+				Schema::Person()
+					->name($app->get('sef_individual'))
+					->url($app->get('sef_individual_url'))
+			);
+		}
+		else
+		{
+			$schema->publisher(
+				Schema::Organisation()
+					->name($app->get('sef_organisation'))
+					->image(
+						Schema::imageObject()
+							->url($app->get('sef_organisation_logo'))
+					)
+			);
+		}
+
 		if (!empty($keywords))
 		{
 			$schema->keywords($keywords);
@@ -453,6 +478,17 @@ class HtmlView extends BaseHtmlView
 			);
 		}
 
-		$this->document->addScriptDeclaration(json_encode($schema, JDEBUG ? JSON_PRETTY_PRINT : 0), 'application/ld+json');
+		$event = new ContentPrepareJsonSchemaEvent(
+			'onContentPrepareJsonSchema',
+			[
+				'subject' => $this->item,
+				'item'    => $this->item
+			]
+		);
+
+		/** @var ContentPrepareJsonSchemaEvent $result */
+		$result = $app->triggerEvent('onContentPrepareJsonSchema', $event);
+
+		$this->document->addScriptDeclaration(json_encode($result->getSchema(), JDEBUG ? JSON_PRETTY_PRINT : 0), 'application/ld+json');
 	}
 }

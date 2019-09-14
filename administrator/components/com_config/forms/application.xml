@@ -718,6 +718,75 @@
 	</fieldset>
 
 	<fieldset
+		name="seo_metadata"
+		label="COM_CONFIG_SEO_METADATA_SETTINGS"
+		description="COM_CONFIG_SEO_METADATA_SETTINGS_DESCRIPTION">
+
+		<field
+				name="enable_seo_metadata"
+				type="radio"
+				label="COM_CONFIG_SEO_METADATA_ENABLE_LABEL"
+				class="switcher"
+				default="0"
+				filter="integer"
+				validate="options"
+		>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="sef_owner"
+			type="radio"
+			label="COM_CONFIG_SEO_METADATA_CONTENT_OWNER_LABEL"
+			default="1"
+			filter="integer"
+			validate="options"
+			showon="enable_seo_metadata:1"
+		>
+			<option value="0">COM_CONFIG_SEO_METADATA_OWNER_ORGANISATION</option>
+			<option value="1">COM_CONFIG_SEO_METADATA_OWNER_INDIVIDUAL</option>
+		</field>
+
+		<!-- TODO: Make this a user field and just link to a Joomla user?? -->
+		<field
+			name="sef_individual"
+			type="text"
+			label="COM_CONFIG_SEO_METADATA_INDIVIDUAL_NAME"
+			showon="enable_seo_metadata:1[AND]sef_owner:1"
+			size="30"
+		>
+		</field>
+
+		<field
+			name="sef_individual_url"
+			type="text"
+			label="COM_CONFIG_SEO_METADATA_INDIVIDUAL_URL"
+			showon="enable_seo_metadata:1[AND]sef_owner:1"
+			size="30"
+		>
+		</field>
+
+		<field
+			name="sef_organisation"
+			type="text"
+			label="COM_CONFIG_SEO_METADATA_ORGANISATION_NAME"
+			showon="enable_seo_metadata:1[AND]sef_owner:0"
+			size="30"
+		>
+		</field>
+
+		<field
+			name="sef_organisation_logo"
+			type="media"
+			label="COM_CONFIG_SEO_METADATA_ORGANISATION_LOGO"
+			showon="enable_seo_metadata:1[AND]sef_owner:0"
+		>
+		</field>
+
+	</fieldset>
+
+	<fieldset
 		name="server"
 		label="CONFIG_SERVER_SETTINGS_LABEL">
 
