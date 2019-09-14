@@ -31,11 +31,13 @@
 					<option value="both">PLG_SYSTEM_COOKIECONSENT_SECTION_BOTH</option>
 				</field>
 
-				<field name="valid"
+				<field
+					name="valid"
 					type="list"
-					default="365"
+					default="-1"
 					label="PLG_SYSTEM_COOKIECONSENT_COOKIE_VALID_LABEL"
 					>
+					<option value="-1">PLG_SYSTEM_COOKIECONSENT_COOKIE_VALID_ALWAYS</option>
 					<option value="7">PLG_SYSTEM_COOKIECONSENT_COOKIE_VALID_WEEK</option>
 					<option value="30">PLG_SYSTEM_COOKIECONSENT_COOKIE_VALID_MONTH</option>
 					<option value="90">PLG_SYSTEM_COOKIECONSENT_COOKIE_VALID_3MONTH</option>

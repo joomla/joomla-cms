@@ -186,29 +186,29 @@ class PlgSystemCookieconsent extends CMSPlugin
 		$this->loadLanguage();
 
 		// Get the settings from the plugin
-		$position = $this->params->get('position', 'bottom');
-		$layout = $this->params->get('layout', 'block');
-		$backgroundcolour = $this->params->get('bannercolour', '#000000');
-		$buttoncolour = $this->params->get('buttoncolour', '#ffffff');
-		$buttontextcolour = $this->params->get('buttontextcolour', '#383b75');
-		$backgroundtextcolour = $this->params->get('bannertextcolour', '#f1d600');
-		$message = $this->params->get('message-text', Text::_('PLG_SYSTEM_COOKIECONSENT_MESSAGE_TEXT_DEFAULT'));
-		$link = $this->params->get('policylink-text', Text::_('PLG_SYSTEM_COOKIECONSENT_POLICY_TEXT_DEFAULT'));
-		$dismiss = $this->params->get('button-text', Text::_('PLG_SYSTEM_COOKIECONSENT_BUTTON_TEXT_DEFAULT'));
-		$href =	$this->getAssignedPolicylinkUrl();
+		$position 			= $this->params->get('position', 'bottom');
+		$layout 			= $this->params->get('layout', 'block');
+		$bannercolour 		= $this->params->get('bannercolour', '#000000');
+		$buttoncolour 		= $this->params->get('buttoncolour', '#ffffff');
+		$buttontextcolour 	= $this->params->get('buttontextcolour', '#383b75');
+		$bannertextcolour	= $this->params->get('bannertextcolour', '#f1d600');
+		$message 			= $this->params->get('message-text', Text::_('PLG_SYSTEM_COOKIECONSENT_MESSAGE_TEXT_DEFAULT'));
+		$link 				= $this->params->get('policylink-text', Text::_('PLG_SYSTEM_COOKIECONSENT_POLICY_TEXT_DEFAULT'));
+		$dismiss 			= $this->params->get('button-text', Text::_('PLG_SYSTEM_COOKIECONSENT_BUTTON_TEXT_DEFAULT'));
+		$valid				= $this->params->get('valid', '-1');
+		$href 				= $this->getAssignedPolicylinkUrl();
 
 		// Load the javascript and css
 		HTMLHelper::_('script', 'vendor/cookieconsent/cookieconsent.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 		HTMLHelper::_('stylesheet', 'vendor/cookieconsent/cookieconsent.min.css', ['version' => 'auto', 'relative' => true]);
-
 
 		// Initialise the script and apply configuration
 		$document->addScriptDeclaration("document.addEventListener('DOMContentLoaded', function() {
 			window.cookieconsent.initialise({
 				'palette': {
 					'popup': {
-						'background': '$backgroundcolour',
-						'text': '$backgroundtextcolour'
+						'background': '$bannercolour',
+						'text': '$bannertextcolour'
 					},
 					'button': {
 						'background': '$buttoncolour',
@@ -222,6 +222,10 @@ class PlgSystemCookieconsent extends CMSPlugin
 					'dismiss': '$dismiss',
 					'link': '$link',
 					'href': '$href',
+					'target': ''
+				},
+				'cookie': {
+					'expiryDays': '$valid'
 				}
 			})
 		});
