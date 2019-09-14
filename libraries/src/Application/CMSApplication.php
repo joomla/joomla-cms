@@ -1257,7 +1257,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			|| ($option === 'com_users' && $view === 'profile' && $layout === 'edit')
 			|| ($option === 'com_users' && $view === 'user' && $layout === 'edit')
 			|| ($option === 'com_users' && \in_array($task, ['user.save', 'user.edit', 'user.apply', 'user.logout', 'user.menulogout']))
-			|| ($option === 'com_login' && in_array($task, ['save', 'edit', 'apply', 'logout', 'menulogout'])))
+			|| ($option === 'com_login' && \in_array($task, ['save', 'edit', 'apply', 'logout', 'menulogout'])))
 		{
 			return;
 		}
