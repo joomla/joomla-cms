@@ -9,13 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
-
+use Joomla\Database\ParameterType;
 
 /**
  * Cookie consent plugin to add simple cookie information.
@@ -24,14 +23,6 @@ use Joomla\CMS\Router\Route;
  */
 class PlgSystemCookieconsent extends CMSPlugin
 {
-	/**
-	 * If true, language files will be loaded automatically.
-	 *
-	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $autoloadLanguage = true;
-
 	/**
 	 * Application object.
 	 *
@@ -57,18 +48,19 @@ class PlgSystemCookieconsent extends CMSPlugin
 	 */
 	private function getAssignedPolicylinkUrl()
 	{
-		$db = Factory::getDbo();
+		$db = $this->db;
 
 		$article = false;
-		$policyArticle = $this->params->get('policylink') > 0 ? (int) $this->params->get('policylink') : 0;
+		$policyArticle = (int) $this->params->get('policylink');
 
 		if ($policyArticle)
 		{
 			// Get the info from the article
 			$query = $db->getQuery(true)
-				->select($db->quoteName(array('id', 'catid', 'language')))
+				->select($db->quoteName(['id', 'catid', 'language']))
 				->from($db->quoteName('#__content'))
-				->where($db->quoteName('id') . ' = ' . (int) $this->params->get('policylink'));
+				->where($db->quoteName('id') . ' = :id')
+				->bind(':id', $policyArticle, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			try
@@ -84,9 +76,6 @@ class PlgSystemCookieconsent extends CMSPlugin
 				);
 			}
 
-			// Register ContentHelperRoute
-			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
-
 			if (!Associations::isEnabled())
 			{
 				return Route::_(
@@ -99,7 +88,7 @@ class PlgSystemCookieconsent extends CMSPlugin
 			}
 
 			$associatedArticles = Associations::getAssociations('com_content', '#__content', 'com_content.item', $article->id);
-			$currentLang        = Factory::getLanguage()->getTag();
+			$currentLang        = $this->app->getLanguage()->getTag();
 
 			if (isset($associatedArticles) && $currentLang !== $article->language && array_key_exists($currentLang, $associatedArticles))
 			{
@@ -149,17 +138,17 @@ class PlgSystemCookieconsent extends CMSPlugin
 		$this->loadLanguage();
 
 		// Get the settings from the plugin
-		$position 			= $this->params->get('position', 'bottom');
-		$layout 			= $this->params->get('layout', 'block');
-		$bannercolour 		= $this->params->get('bannercolour', '#000000');
-		$buttoncolour 		= $this->params->get('buttoncolour', '#ffffff');
-		$buttontextcolour 	= $this->params->get('buttontextcolour', '#383b75');
-		$bannertextcolour	= $this->params->get('bannertextcolour', '#f1d600');
-		$message 			= $this->params->get('message-text', Text::_('PLG_SYSTEM_COOKIECONSENT_MESSAGE_TEXT_DEFAULT'));
-		$link 				= $this->params->get('policylink-text', Text::_('PLG_SYSTEM_COOKIECONSENT_POLICY_TEXT_DEFAULT'));
-		$dismiss 			= $this->params->get('button-text', Text::_('PLG_SYSTEM_COOKIECONSENT_BUTTON_TEXT_DEFAULT'));
-		$valid				= $this->params->get('valid', '-1');
-		$href 				= $this->getAssignedPolicylinkUrl();
+		$position         = $this->params->get('position', 'bottom');
+		$layout           = $this->params->get('layout', 'block');
+		$bannercolour     = $this->params->get('bannercolour', '#000000');
+		$buttoncolour     = $this->params->get('buttoncolour', '#ffffff');
+		$buttontextcolour = $this->params->get('buttontextcolour', '#383b75');
+		$bannertextcolour = $this->params->get('bannertextcolour', '#f1d600');
+		$message          = $this->params->get('message-text', Text::_('PLG_SYSTEM_COOKIECONSENT_MESSAGE_TEXT_DEFAULT'));
+		$link             = $this->params->get('policylink-text', Text::_('PLG_SYSTEM_COOKIECONSENT_POLICY_TEXT_DEFAULT'));
+		$dismiss          = $this->params->get('button-text', Text::_('PLG_SYSTEM_COOKIECONSENT_BUTTON_TEXT_DEFAULT'));
+		$valid            = $this->params->get('valid', '-1');
+		$href             = $this->getAssignedPolicylinkUrl();
 
 		// Load the javascript and css
 		HTMLHelper::_('script', 'vendor/cookieconsent/cookieconsent.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
