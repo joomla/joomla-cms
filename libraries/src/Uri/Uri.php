@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Uri;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 
@@ -68,9 +68,9 @@ class Uri extends \Joomla\Uri\Uri
 				{
 					$https = 's://';
 				}
-				elseif ((isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
-					!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
-					(strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) !== 'http')))
+				elseif ((isset($_SERVER['HTTP_X_FORWARDED_PROTO'])
+					&& !empty($_SERVER['HTTP_X_FORWARDED_PROTO'])
+					&& (strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) !== 'http')))
 				{
 					$https = 's://';
 				}
@@ -148,7 +148,7 @@ class Uri extends \Joomla\Uri\Uri
 				static::$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 				static::$base['path'] = rtrim($uri->toString(array('path')), '/\\');
 
-				if (defined('JPATH_BASE') && defined('JPATH_ADMINISTRATOR'))
+				if (\defined('JPATH_BASE') && \defined('JPATH_ADMINISTRATOR'))
 				{
 					if (JPATH_BASE == JPATH_ADMINISTRATOR)
 					{
@@ -177,7 +177,7 @@ class Uri extends \Joomla\Uri\Uri
 				// Extra cleanup to remove invalid chars in the URL to prevent injections through broken server implementation
 				$script_name = str_replace(array("'", '"', '<', '>'), array('%27', '%22', '%3C', '%3E'), $script_name);
 
-				static::$base['path'] = rtrim(dirname($script_name), '/\\');
+				static::$base['path'] = rtrim(\dirname($script_name), '/\\');
 			}
 		}
 

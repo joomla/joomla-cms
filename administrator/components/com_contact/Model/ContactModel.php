@@ -120,15 +120,12 @@ class ContactModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id))
+		if (empty($record->id) || $record->published != -2)
 		{
-			if ($record->published != -2)
-			{
-				return false;
-			}
-
-			return Factory::getUser()->authorise('core.delete', 'com_contact.category.' . (int) $record->catid);
+			return false;
 		}
+
+		return Factory::getUser()->authorise('core.delete', 'com_contact.category.' . (int) $record->catid);
 	}
 
 	/**
@@ -158,7 +155,7 @@ class ContactModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm|boolean  A \JForm object on success, false on failure
+	 * @return  Form|boolean  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -281,20 +278,22 @@ class ContactModel extends AdminModel
 	{
 		$input = Factory::getApplication()->input;
 
-		// Cast catid to integer for comparison
-		$catid = (int) $data['catid'];
+		// Create new category, if needed.
+		$createCategory = true;
 
-		// Check if New Category exists
-		if ($catid > 0)
+		// If category ID is provided, check if it's valid.
+		if (is_numeric($data['catid']) && $data['catid'])
 		{
-			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_contact');
+			$createCategory = !CategoriesHelper::validateCategoryId($data['catid'], 'com_contact');
 		}
 
 		// Save New Category
-		if ($catid == 0 && $this->canCreateCategory())
+		if ($createCategory && $this->canCreateCategory())
 		{
 			$table = array();
-			$table['title'] = $data['catid'];
+
+			// Remove #new# prefix, if exists.
+			$table['title'] = strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'];
 			$table['parent_id'] = 1;
 			$table['extension'] = 'com_contact';
 			$table['language'] = $data['language'];
@@ -405,7 +404,7 @@ class ContactModel extends AdminModel
 	/**
 	 * Preprocess the form.
 	 *
-	 * @param   \JForm  $form   Form object.
+	 * @param   Form    $form   Form object.
 	 * @param   object  $data   Data object.
 	 * @param   string  $group  Group name.
 	 *
@@ -413,7 +412,7 @@ class ContactModel extends AdminModel
 	 *
 	 * @since   3.0.3
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		// Determine correct permissions to check.
 		if ($this->getState('contact.id'))
@@ -430,6 +429,9 @@ class ContactModel extends AdminModel
 		if ($this->canCreateCategory())
 		{
 			$form->setFieldAttribute('catid', 'allowAdd', 'true');
+
+			// Add a prefix for categories created on the fly.
+			$form->setFieldAttribute('catid', 'customPrefix', '#new#');
 		}
 
 		// Association contact items
@@ -500,7 +502,7 @@ class ContactModel extends AdminModel
 			$query->set($db->quoteName('featured') . ' = :featured');
 			$query->whereIn($db->quoteName('id'), $pks);
 			$query->bind(':featured', $value, ParameterType::INTEGER);
-			
+
 			$db->setQuery($query);
 
 			$db->execute();
@@ -518,35 +520,6 @@ class ContactModel extends AdminModel
 		$this->cleanCache();
 
 		return true;
-	}
-
-	/**
-	 * Method to change the title & alias.
-	 *
-	 * @param   integer  $category_id  The id of the parent.
-	 * @param   string   $alias        The alias.
-	 * @param   string   $name         The title.
-	 *
-	 * @return  array  Contains the modified title and alias.
-	 *
-	 * @since   3.1
-	 */
-	protected function generateNewTitle($category_id, $alias, $name)
-	{
-		// Alter the title & alias
-		$table = $this->getTable();
-
-		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
-		{
-			if ($name == $table->name)
-			{
-				$name = StringHelper::increment($name);
-			}
-
-			$alias = StringHelper::increment($alias, 'dash');
-		}
-
-		return array($name, $alias);
 	}
 
 	/**

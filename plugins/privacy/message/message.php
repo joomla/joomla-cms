@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Database\ParameterType;
+
 /**
  * Privacy plugin managing Joomla user messages
  *
@@ -36,15 +38,17 @@ class PlgPrivacyMessage extends PrivacyPlugin
 		}
 
 		$domain = $this->createDomain('user_messages', 'joomla_user_messages_data');
+		$db     = $this->db;
 
-		$query = $this->db->getQuery(true)
+		$query = $db->getQuery(true)
 			->select('*')
-			->from($this->db->quoteName('#__messages'))
-			->where($this->db->quoteName('user_id_from') . ' = ' . (int) $user->id)
-			->orWhere($this->db->quoteName('user_id_to') . ' = ' . (int) $user->id)
-			->order($this->db->quoteName('date_time') . ' ASC');
+			->from($db->quoteName('#__messages'))
+			->where($db->quoteName('user_id_from') . ' = :useridfrom')
+			->extendWhere('OR', $db->quoteName('user_id_to') . ' = :useridto')
+			->order($db->quoteName('date_time') . ' ASC')
+			->bind([':useridfrom', ':useridto'], $user->id, ParameterType::INTEGER);
 
-		$items = $this->db->setQuery($query)->loadAssocList();
+		$items = $db->setQuery($query)->loadAssocList();
 
 		foreach ($items as $item)
 		{

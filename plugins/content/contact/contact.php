@@ -38,7 +38,7 @@ class PlgContentContact extends CMSPlugin
 	 * @param   mixed    $params   Additional parameters. See {@see PlgContentContent()}.
 	 * @param   integer  $page     Optional page number. Unused. Defaults to zero.
 	 *
-	 * @return  boolean	True on success.
+	 * @return  void
 	 */
 	public function onContentPrepare($context, &$row, $params, $page = 0)
 	{
@@ -46,25 +46,25 @@ class PlgContentContact extends CMSPlugin
 
 		if (!in_array($context, $allowed_contexts))
 		{
-			return true;
+			return;
 		}
 
 		// Return if we don't have valid params or don't link the author
 		if (!($params instanceof Registry) || !$params->get('link_author'))
 		{
-			return true;
+			return;
 		}
 
 		// Return if an alias is used
 		if ((int) $this->params->get('link_to_alias', 0) === 0 && $row->created_by_alias != '')
 		{
-			return true;
+			return;
 		}
 
 		// Return if we don't have a valid article id
 		if (!isset($row->id) || !(int) $row->id)
 		{
-			return true;
+			return;
 		}
 
 		$contact        = $this->getContactData($row->created_by);
@@ -90,8 +90,6 @@ class PlgContentContact extends CMSPlugin
 		{
 			$row->contact_link = '';
 		}
-
-		return true;
 	}
 
 	/**
@@ -121,7 +119,8 @@ class PlgContentContact extends CMSPlugin
 		{
 			$query->where('(contact.language in '
 				. '(' . $this->db->quote(Factory::getLanguage()->getTag()) . ',' . $this->db->quote('*') . ') '
-				. ' OR contact.language IS NULL)');
+				. ' OR contact.language IS NULL)'
+			);
 		}
 
 		$this->db->setQuery($query);

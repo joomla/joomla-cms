@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Menu;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
@@ -80,20 +80,79 @@ class SiteMenu extends AbstractMenu
 	{
 		$loader = function ()
 		{
-			$nulldate    = $this->db->quote($this->db->getNullDate());
+			$nullDate    = $this->db->getNullDate();
 			$currentDate = Factory::getDate()->toSql();
+
 			$query = $this->db->getQuery(true)
-				->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language')
-				->select($this->db->quoteName('m.browserNav') . ', m.access, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id')
-				->select('e.element as component')
-				->from('#__menu AS m')
-				->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
-				->where('m.published = 1')
-				->where('m.parent_id > 0')
-				->where('m.client_id = 0')
-				->where('(m.publish_up = ' . $nulldate . ' OR m.publish_up <= ' . $this->db->quote($currentDate) . ')')
-				->where('(m.publish_down = ' . $nulldate . ' OR m.publish_down >= ' . $this->db->quote($currentDate) . ')')
-				->order('m.lft');
+				->select(
+					$this->db->quoteName(
+						[
+							'm.id',
+							'm.menutype',
+							'm.title',
+							'm.alias',
+							'm.note',
+							'm.link',
+							'm.type',
+							'm.level',
+							'm.language',
+							'm.browserNav',
+							'm.access',
+							'm.params',
+							'm.home',
+							'm.img',
+							'm.template_style_id',
+							'm.component_id',
+							'm.parent_id',
+						]
+					)
+				)
+				->select(
+					$this->db->quoteName(
+						[
+							'm.path',
+							'e.element',
+						],
+						[
+							'route',
+							'component',
+						]
+					)
+				)
+				->from($this->db->quoteName('#__menu', 'm'))
+				->join(
+					'LEFT',
+					$this->db->quoteName('#__extensions', 'e'),
+					$this->db->quoteName('m.component_id') . ' = ' . $this->db->quoteName('e.extension_id')
+				)
+				->where(
+					[
+						$this->db->quoteName('m.published') . ' = 1',
+						$this->db->quoteName('m.parent_id') . ' > 0',
+						$this->db->quoteName('m.client_id') . ' = 0',
+					]
+				)
+				->extendWhere(
+					'AND',
+					[
+						$this->db->quoteName('m.publish_up') . ' = :nullDate1',
+						$this->db->quoteName('m.publish_up') . ' <= :currentDate1',
+					],
+					'OR'
+				)
+				->bind(':nullDate1', $nullDate)
+				->bind(':currentDate1', $currentDate)
+				->extendWhere(
+					'AND',
+					[
+						$this->db->quoteName('m.publish_down') . ' = :nullDate2',
+						$this->db->quoteName('m.publish_down') . ' >= :currentDate2',
+					],
+					'OR'
+				)
+				->bind(':nullDate2', $nullDate)
+				->bind(':currentDate2', $currentDate)
+				->order($this->db->quoteName('m.lft'));
 
 			// Set the query
 			$this->db->setQuery($query);
@@ -104,9 +163,10 @@ class SiteMenu extends AbstractMenu
 		try
 		{
 			/** @var CallbackController $cache */
-			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', ['defaultgroup' => 'com_menus']);
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+				->createCacheController('callback', ['defaultgroup' => 'com_menus']);
 
-			$this->items = $cache->get($loader, array(), md5(get_class($this)), false);
+			$this->items = $cache->get($loader, array(), md5(\get_class($this)), false);
 		}
 		catch (CacheExceptionInterface $e)
 		{
@@ -215,12 +275,12 @@ class SiteMenu extends AbstractMenu
 	 */
 	public function getDefault($language = '*')
 	{
-		if (array_key_exists($language, $this->default) && $this->app->isClient('site') && $this->app->getLanguageFilter())
+		if (\array_key_exists($language, $this->default) && $this->app->isClient('site') && $this->app->getLanguageFilter())
 		{
 			return $this->getMenu()[$this->default[$language]];
 		}
 
-		if (array_key_exists('*', $this->default))
+		if (\array_key_exists('*', $this->default))
 		{
 			return $this->getMenu()[$this->default['*']];
 		}

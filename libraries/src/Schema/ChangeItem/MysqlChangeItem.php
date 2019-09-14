@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Schema\ChangeItem;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Schema\ChangeItem;
 use Joomla\Database\UTF8MB4SupportInterface;
@@ -40,7 +40,9 @@ class MysqlChangeItem extends ChangeItem
 	protected function buildCheckQuery()
 	{
 		// Initialize fields in case we can't create a check query
-		$this->checkStatus = -1; // change status to skipped
+
+		// Change status to skipped
+		$this->checkStatus = -1;
 		$result = null;
 
 		// Remove any newlines
@@ -54,7 +56,7 @@ class MysqlChangeItem extends ChangeItem
 
 		// First, make sure we have an array of at least 6 elements
 		// if not, we can't make a check query for this one
-		if (count($wordArray) < 6)
+		if (\count($wordArray) < 6)
 		{
 			// Done with method
 			return;
@@ -155,7 +157,7 @@ class MysqlChangeItem extends ChangeItem
 				}
 
 				// Detect changes in NULL and in DEFAULT column attributes
-				$changesArray = array_slice($wordArray, 6);
+				$changesArray = \array_slice($wordArray, 6);
 				$defaultCheck = $this->checkDefault($changesArray, $type);
 				$nullCheck = $this->checkNull($changesArray);
 
@@ -181,9 +183,9 @@ class MysqlChangeItem extends ChangeItem
 				{
 					$type = $this->fixInteger($wordArray[6], $wordArray[7]);
 				}
-				
+
 				// Detect changes in NULL and in DEFAULT column attributes
-				$changesArray = array_slice($wordArray, 6);
+				$changesArray = \array_slice($wordArray, 6);
 				$defaultCheck = $this->checkDefault($changesArray, $type);
 				$nullCheck = $this->checkNull($changesArray);
 
@@ -292,32 +294,30 @@ class MysqlChangeItem extends ChangeItem
 	 */
 	private function fixUtf8mb4TypeChecks($type)
 	{
-		$fixedType = str_replace(';', '', $type);
+		$uType = strtoupper(str_replace(';', '', $type));
 
 		if ($this->db instanceof UTF8MB4SupportInterface && $this->db->hasUTF8mb4Support())
 		{
-			$uType = strtoupper($fixedType);
-
 			if ($uType === 'TINYTEXT')
 			{
-				$typeCheck = 'type IN (' . $this->db->quote('TINYTEXT') . ',' . $this->db->quote('TEXT') . ')';
+				$typeCheck = 'UPPER(type) IN (' . $this->db->quote('TINYTEXT') . ',' . $this->db->quote('TEXT') . ')';
 			}
 			elseif ($uType === 'TEXT')
 			{
-				$typeCheck = 'type IN (' . $this->db->quote('TEXT') . ',' . $this->db->quote('MEDIUMTEXT') . ')';
+				$typeCheck = 'UPPER(type) IN (' . $this->db->quote('TEXT') . ',' . $this->db->quote('MEDIUMTEXT') . ')';
 			}
 			elseif ($uType === 'MEDIUMTEXT')
 			{
-				$typeCheck = 'type IN (' . $this->db->quote('MEDIUMTEXT') . ',' . $this->db->quote('LONGTEXT') . ')';
+				$typeCheck = 'UPPER(type) IN (' . $this->db->quote('MEDIUMTEXT') . ',' . $this->db->quote('LONGTEXT') . ')';
 			}
 			else
 			{
-				$typeCheck = 'type = ' . $this->db->quote($fixedType);
+				$typeCheck = 'UPPER(type) = ' . $this->db->quote($uType);
 			}
 		}
 		else
 		{
-			$typeCheck = 'type = ' . $this->db->quote($fixedType);
+			$typeCheck = 'UPPER(type) = ' . $this->db->quote($uType);
 		}
 
 		return $typeCheck;
@@ -367,6 +367,7 @@ class MysqlChangeItem extends ChangeItem
 	{
 		// Skip types that do not support default values
 		$type = strtolower($type);
+
 		if (substr($type, -4) === 'text' || substr($type, -4) === 'blob')
 		{
 			return false;
@@ -374,7 +375,7 @@ class MysqlChangeItem extends ChangeItem
 
 		// Find DEFAULT keyword
 		$index = array_search('default', array_map('strtolower', $changesArray));
-	
+
 		// Create the check
 		if ($index !== false)
 		{

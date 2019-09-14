@@ -8,9 +8,10 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;
@@ -252,7 +253,7 @@ class BaseController implements ControllerInterface
 	 */
 	public static function getInstance($prefix, $config = array())
 	{
-		if (is_object(self::$instance))
+		if (\is_object(self::$instance))
 		{
 			return self::$instance;
 		}
@@ -269,14 +270,14 @@ class BaseController implements ControllerInterface
 		$input = $app->input;
 
 		// Get the environment configuration.
-		$basePath = array_key_exists('base_path', $config) ? $config['base_path'] : JPATH_COMPONENT;
+		$basePath = \array_key_exists('base_path', $config) ? $config['base_path'] : JPATH_COMPONENT;
 		$format   = $input->getWord('format');
 		$command  = $input->get('task', 'display');
 
 		// Check for array format.
 		$filter = InputFilter::getInstance();
 
-		if (is_array($command))
+		if (\is_array($command))
 		{
 			$command = $filter->clean(array_pop(array_keys($command)), 'cmd');
 		}
@@ -375,13 +376,13 @@ class BaseController implements ControllerInterface
 		$this->app   = $app ? $app : Factory::getApplication();
 		$this->input = $input ? $input : $this->app->input;
 
-		if (defined('JDEBUG') && JDEBUG)
+		if (\defined('JDEBUG') && JDEBUG)
 		{
 			Log::addLogger(array('text_file' => 'jcontroller.log.php'), Log::ALL, array('controller'));
 		}
 
 		// Determine the methods to exclude from the base class.
-		$xMethods = get_class_methods('\JControllerLegacy');
+		$xMethods = get_class_methods('\\Joomla\\CMS\\MVC\\Controller\\BaseController');
 
 		// Get the public methods in this class using reflection.
 		$r = new \ReflectionClass($this);
@@ -392,7 +393,7 @@ class BaseController implements ControllerInterface
 			$mName = $rMethod->getName();
 
 			// Add default display method if not explicitly declared.
-			if ($mName === 'display' || !in_array($mName, $xMethods))
+			if ($mName === 'display' || !\in_array($mName, $xMethods))
 			{
 				$this->methods[] = strtolower($mName);
 
@@ -404,7 +405,7 @@ class BaseController implements ControllerInterface
 		// Set the view name
 		if (empty($this->name))
 		{
-			if (array_key_exists('name', $config))
+			if (\array_key_exists('name', $config))
 			{
 				$this->name = $config['name'];
 			}
@@ -415,7 +416,7 @@ class BaseController implements ControllerInterface
 		}
 
 		// Set a base path for use by the controller
-		if (array_key_exists('base_path', $config))
+		if (\array_key_exists('base_path', $config))
 		{
 			$this->basePath = $config['base_path'];
 		}
@@ -425,7 +426,7 @@ class BaseController implements ControllerInterface
 		}
 
 		// If the default task is set, register it as such
-		if (array_key_exists('default_task', $config))
+		if (\array_key_exists('default_task', $config))
 		{
 			$this->registerDefaultTask($config['default_task']);
 		}
@@ -437,7 +438,7 @@ class BaseController implements ControllerInterface
 		// Set the models prefix
 		if (empty($this->model_prefix))
 		{
-			if (array_key_exists('model_prefix', $config))
+			if (\array_key_exists('model_prefix', $config))
 			{
 				// User-defined prefix
 				$this->model_prefix = $config['model_prefix'];
@@ -449,7 +450,7 @@ class BaseController implements ControllerInterface
 		}
 
 		// Set the default model search path
-		if (array_key_exists('model_path', $config))
+		if (\array_key_exists('model_path', $config))
 		{
 			// User-defined dirs
 			$this->addModelPath($config['model_path'], $this->model_prefix);
@@ -460,7 +461,7 @@ class BaseController implements ControllerInterface
 		}
 
 		// Set the default view search path
-		if (array_key_exists('view_path', $config))
+		if (\array_key_exists('view_path', $config))
 		{
 			// User-defined dirs
 			$this->setPath('view', $config['view_path']);
@@ -471,7 +472,7 @@ class BaseController implements ControllerInterface
 		}
 
 		// Set the default view.
-		if (array_key_exists('default_view', $config))
+		if (\array_key_exists('default_view', $config))
 		{
 			$this->default_view = $config['default_view'];
 		}
@@ -543,9 +544,9 @@ class BaseController implements ControllerInterface
 		{
 			$values = (array) $this->app->getUserState($context . '.id');
 
-			$result = in_array((int) $id, $values);
+			$result = \in_array((int) $id, $values);
 
-			if (defined('JDEBUG') && JDEBUG)
+			if (\defined('JDEBUG') && JDEBUG)
 			{
 				$this->app->getLogger()->info(
 					sprintf(
@@ -579,11 +580,6 @@ class BaseController implements ControllerInterface
 	 */
 	protected function createModel($name, $prefix = '', $config = array())
 	{
-		if (!$prefix)
-		{
-			$prefix = $this->app->getName();
-		}
-
 		$model = $this->factory->createModel($name, $prefix, $config);
 
 		if ($model === null)
@@ -614,12 +610,8 @@ class BaseController implements ControllerInterface
 	 */
 	protected function createView($name, $prefix = '', $type = '', $config = array())
 	{
-		if (!$prefix)
-		{
-			$prefix = $this->app->getName();
-		}
-
 		$config['paths'] = $this->paths['view'];
+
 		return $this->factory->createView($name, $prefix, $type, $config);
 	}
 
@@ -660,7 +652,7 @@ class BaseController implements ControllerInterface
 		{
 			$option = $this->input->get('option');
 
-			if (is_array($urlparams))
+			if (\is_array($urlparams))
 			{
 				$this->app = Factory::getApplication();
 
@@ -688,7 +680,7 @@ class BaseController implements ControllerInterface
 				$cache = Factory::getCache($option, 'view');
 				$cache->get($view, 'display');
 			}
-			catch (\JCacheException $exception)
+			catch (CacheExceptionInterface $exception)
 			{
 				$view->display();
 			}
@@ -754,9 +746,21 @@ class BaseController implements ControllerInterface
 			$name = $this->getName();
 		}
 
-		if (empty($prefix) && $this->factory instanceof LegacyFactory)
+		if (!$prefix)
 		{
-			$prefix = $this->model_prefix;
+			if ($this->factory instanceof LegacyFactory)
+			{
+				$prefix = $this->model_prefix;
+			}
+			// When the frontend uses an administrator model
+			elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), JPATH_ADMINISTRATOR) === 0)
+			{
+				$prefix = 'Administrator';
+			}
+			else
+			{
+				$prefix = $this->app->getName();
+			}
 		}
 
 		if ($model = $this->createModel($name, $prefix, $config))
@@ -774,7 +778,7 @@ class BaseController implements ControllerInterface
 			// Let's get the application object and set menu information if it's available
 			$menu = Factory::getApplication()->getMenu();
 
-			if (is_object($menu) && $item = $menu->getActive())
+			if (\is_object($menu) && $item = $menu->getActive())
 			{
 				$params = $menu->getParams($item->id);
 
@@ -803,7 +807,7 @@ class BaseController implements ControllerInterface
 		{
 			$r = null;
 
-			if (!preg_match('/(.*)Controller/i', get_class($this), $r))
+			if (!preg_match('/(.*)Controller/i', \get_class($this), $r))
 			{
 				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
@@ -864,9 +868,21 @@ class BaseController implements ControllerInterface
 			$name = $this->getName();
 		}
 
-		if (empty($prefix) && $this->factory instanceof LegacyFactory)
+		if (!$prefix)
 		{
-			$prefix = $this->getName() . 'View';
+			if ($this->factory instanceof LegacyFactory)
+			{
+				$prefix = $this->getName() . 'View';
+			}
+			// When the front uses an administrator view
+			elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), JPATH_ADMINISTRATOR) === 0)
+			{
+				$prefix = 'Administrator';
+			}
+			else
+			{
+				$prefix = $this->app->getName();
+			}
 		}
 
 		if (empty(self::$views[$name][$type][$prefix]))
@@ -905,7 +921,7 @@ class BaseController implements ControllerInterface
 			$values   = array_unique($values);
 			$this->app->setUserState($context . '.id', $values);
 
-			if (defined('JDEBUG') && JDEBUG)
+			if (\defined('JDEBUG') && JDEBUG)
 			{
 				$this->app->getLogger()->info(
 					sprintf(
@@ -969,7 +985,7 @@ class BaseController implements ControllerInterface
 	 */
 	public function registerTask($task, $method)
 	{
-		if (in_array(strtolower($method), $this->methods))
+		if (\in_array(strtolower($method), $this->methods))
 		{
 			$this->taskMap[strtolower($task)] = $method;
 		}
@@ -1010,12 +1026,12 @@ class BaseController implements ControllerInterface
 		// Do a strict search of the edit list values.
 		$index = array_search((int) $id, $values, true);
 
-		if (is_int($index))
+		if (\is_int($index))
 		{
 			unset($values[$index]);
 			$this->app->setUserState($context . '.id', $values);
 
-			if (defined('JDEBUG') && JDEBUG)
+			if (\defined('JDEBUG') && JDEBUG)
 			{
 				$this->app->getLogger()->info(
 					sprintf(

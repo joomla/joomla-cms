@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Console;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\Console\Command\AbstractCommand;
@@ -96,11 +96,11 @@ class SessionMetadataGcCommand extends AbstractCommand
 	 *
 	 * @since   4.0.0
 	 */
-	protected function configure()
+	protected function configure(): void
 	{
-		$this->setDescription('Performs session metadata garbage collection');
+		$this->setDescription('Perform session metadata garbage collection');
 		$this->setHelp(
-<<<EOF
+			<<<EOF
 The <info>%command.name%</info> command runs the garbage collection operation for Joomla session metadata
 
 <info>php %command.full_name%</info>

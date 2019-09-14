@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseQuery;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
@@ -78,6 +78,18 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	 * @since  3.1
 	 */
 	protected $autoloadLanguage = true;
+
+	/**
+	 * Method to setup the indexer to be run.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   2.5
+	 */
+	protected function setup()
+	{
+		return true;
+	}
 
 	/**
 	 * Method to remove the link information for items that have been deleted.
@@ -202,8 +214,11 @@ class PlgFinderCategories extends FinderIndexerAdapter
 			 */
 			foreach ($pks as $pk)
 			{
+				$pk    = (int) $pk;
 				$query = clone $this->getStateQuery();
-				$query->where('a.id = ' . (int) $pk);
+
+				$query->where($this->db->quoteName('a.id') . ' = :plgFinderCategoriesId')
+					->bind(':plgFinderCategoriesId', $pk, ParameterType::INTEGER);
 
 				$this->db->setQuery($query);
 				$item = $this->db->loadObject();
@@ -274,6 +289,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		 * Add the metadata processing instructions based on the category's
 		 * configuration parameters.
 		 */
+
 		// Add the meta author.
 		$item->metaauthor = $item->metadata->get('author');
 
@@ -337,21 +353,6 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	}
 
 	/**
-	 * Method to setup the indexer to be run.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   2.5
-	 */
-	protected function setup()
-	{
-		// Load com_content route helper as it is the fallback for routing in the indexer in this instance.
-		JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-
-		return true;
-	}
-
-	/**
 	 * Method to get the SQL query used to retrieve the list of content items.
 	 *
 	 * @param   mixed  $query  A JDatabaseQuery object or null.
@@ -362,25 +363,62 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	 */
 	protected function getListQuery($query = null)
 	{
-		$db = Factory::getDbo();
+		$db = $this->db;
 
 		// Check if we can use the supplied SQL query.
-		$query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
-			->select('a.id, a.title, a.alias, a.description AS summary, a.extension')
-			->select('a.created_user_id AS created_by, a.modified_time AS modified, a.modified_user_id AS modified_by')
-			->select('a.metakey, a.metadesc, a.metadata, a.language, a.lft, a.parent_id, a.level')
-			->select('a.created_time AS start_date, a.published AS state, a.access, a.params');
+		$query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true);
+
+		$query->select(
+			$db->quoteName(
+				[
+					'a.id',
+					'a.title',
+					'a.alias',
+					'a.extension',
+					'a.metakey',
+					'a.metadesc',
+					'a.metadata',
+					'a.language',
+					'a.lft',
+					'a.parent_id',
+					'a.level',
+					'a.access',
+					'a.params',
+				]
+			)
+		)
+			->select(
+				$db->quoteName(
+					[
+						'a.description',
+						'a.created_user_id',
+						'a.modified_time',
+						'a.modified_user_id',
+						'a.created_time',
+						'a.published',
+					],
+					[
+						'summary',
+						'created_by',
+						'modified',
+						'modified_by',
+						'start_date',
+						'state',
+					]
+				)
+			);
 
 		// Handle the alias CASE WHEN portion of the query.
 		$case_when_item_alias = ' CASE WHEN ';
-		$case_when_item_alias .= $query->charLength('a.alias', '!=', '0');
+		$case_when_item_alias .= $query->charLength($db->quoteName('a.alias'), '!=', '0');
 		$case_when_item_alias .= ' THEN ';
-		$a_id = $query->castAsChar('a.id');
-		$case_when_item_alias .= $query->concatenate(array($a_id, 'a.alias'), ':');
+		$a_id = $query->castAsChar($db->quoteName('a.id'));
+		$case_when_item_alias .= $query->concatenate([$a_id, 'a.alias'], ':');
 		$case_when_item_alias .= ' ELSE ';
-		$case_when_item_alias .= $a_id . ' END as slug';
+		$case_when_item_alias .= $a_id . ' END AS slug';
+
 		$query->select($case_when_item_alias)
-			->from('#__categories AS a')
+			->from($db->quoteName('#__categories', 'a'))
 			->where($db->quoteName('a.id') . ' > 1');
 
 		return $query;
@@ -396,13 +434,37 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	 */
 	protected function getStateQuery()
 	{
-		$query = $this->db->getQuery(true)
-			->select($this->db->quoteName('a.id'))
-			->select($this->db->quoteName('a.parent_id'))
-			->select('a.' . $this->state_field . ' AS state, c.published AS cat_state')
-			->select('a.access, c.access AS cat_access')
-			->from($this->db->quoteName('#__categories') . ' AS a')
-			->join('LEFT', '#__categories AS c ON c.id = a.parent_id');
+		$query = $this->db->getQuery(true);
+
+		$query->select(
+			$this->db->quoteName(
+				[
+					'a.id',
+					'a.parent_id',
+					'a.access',
+				]
+			)
+		)
+			->select(
+				$this->db->quoteName(
+					[
+						'a.' . $this->state_field,
+						'c.published',
+						'c.access',
+					],
+					[
+						'state',
+						'cat_state',
+						'cat_access',
+					]
+				)
+			)
+			->from($this->db->quoteName('#__categories', 'a'))
+			->join(
+				'INNER',
+				$this->db->quoteName('#__categories', 'c'),
+				$this->db->quoteName('c.id') . ' = ' . $this->db->quoteName('a.parent_id')
+			);
 
 		return $query;
 	}

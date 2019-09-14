@@ -141,11 +141,22 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title(Text::_('COM_FINDER_MAPS_TOOLBAR_TITLE'), 'zoom-in finder');
 
+		// Get the toolbar object instance
+		$toolbar = Toolbar::getInstance('toolbar');
+
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::publishList('maps.publish');
-			ToolbarHelper::unpublishList('maps.unpublish');
-			ToolbarHelper::divider();
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
+				->listCheck(true);
+
+			$childBar = $dropdown->getChildToolbar();
+
+			$childBar->publish('maps.publish')->listCheck(true);
+			$childBar->unpublish('maps.unpublish')->listCheck(true);
 		}
 
 		ToolbarHelper::divider();

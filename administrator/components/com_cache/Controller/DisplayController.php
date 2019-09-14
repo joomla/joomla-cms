@@ -11,8 +11,10 @@ namespace Joomla\Component\Cache\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Response\JsonResponse;
 
 /**
  * Cache Controller
@@ -25,9 +27,47 @@ class DisplayController extends BaseController
 	 * The default view for the display method.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $default_view = 'cache';
+
+	/**
+	 * Method to get The Cache Size
+	 *
+	 * @since   4.0
+	 */
+	public function getQuickiconContent()
+	{
+		$model = $this->getModel('Cache');
+
+		$data = $model->getData();
+
+		$size = 0;
+
+		if (!empty($data))
+		{
+			foreach ($data as $d)
+			{
+				$size += $d->size;
+			}
+		}
+
+		// Number bytes are returned in format xxx.xx MB
+		$bytes = HTMLHelper::_('number.bytes', $size, 'MB', 1);
+		
+		if (!empty($bytes))
+		{
+			$result['amount'] = $bytes;
+			$result['sronly'] = Text::sprintf('COM_CACHE_QUICKICON_SRONLY', $bytes);
+		}
+		else
+		{
+			$result['amount'] = 0;
+			$result['sronly'] = Text::sprintf('COM_CACHE_QUICKICON_SRONLY_NOCACHE');
+		}
+
+		echo new JsonResponse($result);
+	}
 
 	/**
 	 * Method to delete a list of cache groups.
@@ -102,6 +142,7 @@ class DisplayController extends BaseController
 			$app->enqueueMessage(Text::_('COM_CACHE_MSG_SOME_CACHE_GROUPS_CLEARED'), 'warning');
 		}
 
+		$app->triggerEvent('onAfterPurge', array());
 		$this->setRedirect('index.php?option=com_cache&view=cache');
 	}
 

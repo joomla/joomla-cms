@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -77,7 +77,7 @@ class Menu extends Nested
 			return false;
 		}
 
-		if (isset($array['params']) && is_array($array['params']))
+		if (isset($array['params']) && \is_array($array['params']))
 		{
 			$registry = new Registry($array['params']);
 			$array['params'] = (string) $registry;
@@ -179,7 +179,7 @@ class Menu extends Nested
 			}
 
 			// Verify that a first level menu item alias is not the name of a folder.
-			if (in_array($this->alias, Folder::folders(JPATH_ROOT)))
+			if (\in_array($this->alias, Folder::folders(JPATH_ROOT)))
 			{
 				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_FOLDER', $this->alias, $this->alias));
 
@@ -252,12 +252,12 @@ class Menu extends Nested
 		{
 			// Verify that the home page for this menu is unique.
 			if ($table->load(
-					array(
+				array(
 					'menutype' => $this->menutype,
 					'client_id' => (int) $this->client_id,
 					'home' => '1',
-					)
 				)
+			)
 				&& ($table->language != $this->language))
 			{
 				$this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_UNIQUE_IN_MENU'));

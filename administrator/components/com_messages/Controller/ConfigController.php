@@ -11,7 +11,6 @@ namespace Joomla\Component\Messages\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
@@ -35,7 +34,6 @@ class ConfigController extends BaseController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$app   = Factory::getApplication();
 		$model = $this->getModel('Config', 'MessagesModel');
 		$data  = $this->input->post->get('jform', array(), 'array');
 
@@ -45,8 +43,6 @@ class ConfigController extends BaseController
 		if (!$form)
 		{
 			throw new \Exception($model->getError(), 500);
-
-			return false;
 		}
 
 		$data = $model->validate($form, $data);
@@ -62,11 +58,11 @@ class ConfigController extends BaseController
 			{
 				if ($errors[$i] instanceof \Exception)
 				{
-					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+					$this->app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
 				else
 				{
-					$app->enqueueMessage($errors[$i], 'warning');
+					$this->app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
 

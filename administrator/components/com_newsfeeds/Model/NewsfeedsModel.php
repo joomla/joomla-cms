@@ -102,7 +102,7 @@ class NewsfeedsModel extends ListModel
 		}
 
 		// Load the parameters.
-		$params =  ComponentHelper::getParams('com_newsfeeds');
+		$params = ComponentHelper::getParams('com_newsfeeds');
 		$this->setState('params', $params);
 
 		// List state information.
@@ -181,7 +181,7 @@ class NewsfeedsModel extends ListModel
 			->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'));
 
 		// Join over the associations.
-		$assoc =  Associations::isEnabled();
+		$assoc = Associations::isEnabled();
 
 		if ($assoc)
 		{

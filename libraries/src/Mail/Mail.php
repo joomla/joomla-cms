@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Mail;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -60,13 +60,24 @@ class Mail extends PHPMailer
 		};
 
 		// If debug mode is enabled then set SMTPDebug to the maximum level
-		if (defined('JDEBUG') && JDEBUG)
+		if (\defined('JDEBUG') && JDEBUG)
 		{
 			$this->SMTPDebug = 4;
 		}
 
 		// Don't disclose the PHPMailer version
 		$this->XMailer = ' ';
+
+		/*
+		 * PHPMailer 5.2 can't validate e-mail addresses with the new regex library used in PHP 7.3+
+		 * Setting $validator to "php" uses the native php function filter_var
+		 *
+		 * @see https://github.com/joomla/joomla-cms/issues/24707
+		 */
+		if (version_compare(PHP_VERSION, '7.3.0', '>='))
+		{
+			PHPMailer::$validator = 'php';
+		}
 	}
 
 	/**
@@ -106,7 +117,7 @@ class Mail extends PHPMailer
 	{
 		if (Factory::getApplication()->get('mailonline', 1))
 		{
-			if (($this->Mailer == 'mail') && !function_exists('mail'))
+			if (($this->Mailer == 'mail') && !\function_exists('mail'))
 			{
 				throw new \RuntimeException(Text::_('JLIB_MAIL_FUNCTION_DISABLED'), 500);
 			}
@@ -149,7 +160,7 @@ class Mail extends PHPMailer
 			return $result;
 		}
 
-		Factory::getApplication()->enqueueMessage(Text::_('JLIB_MAIL_FUNCTION_OFFLINE'));
+		Factory::getApplication()->enqueueMessage(Text::_('JLIB_MAIL_FUNCTION_OFFLINE'), 'warning');
 
 		return false;
 	}
@@ -170,7 +181,7 @@ class Mail extends PHPMailer
 	 */
 	public function setSender($from)
 	{
-		if (is_array($from))
+		if (\is_array($from))
 		{
 			// If $from is an array we assume it has an adress and a name
 			if (isset($from[2]))
@@ -183,7 +194,7 @@ class Mail extends PHPMailer
 				$result = $this->setFrom(MailHelper::cleanLine($from[0]), MailHelper::cleanLine($from[1]));
 			}
 		}
-		elseif (is_string($from))
+		elseif (\is_string($from))
 		{
 			// If it is a string we assume it is just the address
 			$result = $this->setFrom(MailHelper::cleanLine($from));
@@ -259,9 +270,9 @@ class Mail extends PHPMailer
 		$method = lcfirst($method);
 
 		// If the recipient is an array, add each recipient... otherwise just add the one
-		if (is_array($recipient))
+		if (\is_array($recipient))
 		{
-			if (is_array($name))
+			if (\is_array($name))
 			{
 				$combined = array_combine($recipient, $name);
 
@@ -276,7 +287,7 @@ class Mail extends PHPMailer
 					$recipientName = MailHelper::cleanLine($recipientName);
 
 					// Check for boolean false return if exception handling is disabled
-					if (call_user_func('parent::' . $method, $recipientEmail, $recipientName) === false)
+					if (\call_user_func('parent::' . $method, $recipientEmail, $recipientName) === false)
 					{
 						return false;
 					}
@@ -291,7 +302,7 @@ class Mail extends PHPMailer
 					$to = MailHelper::cleanLine($to);
 
 					// Check for boolean false return if exception handling is disabled
-					if (call_user_func('parent::' . $method, $to, $name) === false)
+					if (\call_user_func('parent::' . $method, $to, $name) === false)
 					{
 						return false;
 					}
@@ -303,7 +314,7 @@ class Mail extends PHPMailer
 			$recipient = MailHelper::cleanLine($recipient);
 
 			// Check for boolean false return if exception handling is disabled
-			if (call_user_func('parent::' . $method, $recipient, $name) === false)
+			if (\call_user_func('parent::' . $method, $recipient, $name) === false)
 			{
 				return false;
 			}
@@ -398,9 +409,9 @@ class Mail extends PHPMailer
 		{
 			$result = true;
 
-			if (is_array($path))
+			if (\is_array($path))
 			{
-				if (!empty($name) && count($path) != count($name))
+				if (!empty($name) && \count($path) != \count($name))
 				{
 					throw new \InvalidArgumentException('The number of attachments must be equal with the number of name');
 				}
@@ -626,7 +637,8 @@ class Mail extends PHPMailer
 	 * @throws  phpmailerException  if exception throwing is enabled
 	 */
 	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode = false, $cc = null, $bcc = null, $attachment = null,
-		$replyTo = null, $replyToName = null)
+		$replyTo = null, $replyToName = null
+	)
 	{
 		// Create config object
 		$app = Factory::getApplication();
@@ -662,9 +674,9 @@ class Mail extends PHPMailer
 		}
 
 		// Take care of reply email addresses
-		if (is_array($replyTo))
+		if (\is_array($replyTo))
 		{
-			$numReplyTo = count($replyTo);
+			$numReplyTo = \count($replyTo);
 
 			for ($i = 0; $i < $numReplyTo; $i++)
 			{

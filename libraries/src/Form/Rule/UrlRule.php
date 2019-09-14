@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Rule;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
@@ -69,9 +69,9 @@ class UrlRule extends FormRule
 		 * Note that parse_url() does not always parse accurately without a scheme,
 		 * but at least the path should be set always. Note also that parse_url()
 		 * returns False for seriously malformed URLs instead of an associative array.
-		 * @link https://secure.php.net/manual/en/function.parse-url.php
+		 * @link https://www.php.net/manual/en/function.parse-url.php
 		 */
-		if ($urlParts === false || !array_key_exists('scheme', $urlParts))
+		if ($urlParts === false || !\array_key_exists('scheme', $urlParts))
 		{
 			/*
 			 * The function parse_url() returned false (seriously malformed URL) or no scheme
@@ -85,7 +85,7 @@ class UrlRule extends FormRule
 			}
 
 			// The best we can do for the rest is make sure that the path exists and is valid UTF-8.
-			if (!array_key_exists('path', $urlParts) || !StringHelper::valid((string) $urlParts['path']))
+			if (!\array_key_exists('path', $urlParts) || !StringHelper::valid((string) $urlParts['path']))
 			{
 				return false;
 			}
@@ -98,7 +98,7 @@ class UrlRule extends FormRule
 		$urlScheme = (string) $urlParts['scheme'];
 		$urlScheme = strtolower($urlScheme);
 
-		if (in_array($urlScheme, $scheme) == false)
+		if (\in_array($urlScheme, $scheme) == false)
 		{
 			return false;
 		}
@@ -106,24 +106,24 @@ class UrlRule extends FormRule
 		// For some schemes here must be two slashes.
 		$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'wais', 'prospero', 'sftp', 'telnet', 'git');
 
-		if (in_array($urlScheme, $scheme) && substr($value, strlen($urlScheme), 3) !== '://')
+		if (\in_array($urlScheme, $scheme) && substr($value, \strlen($urlScheme), 3) !== '://')
 		{
 			return false;
 		}
 
 		// The best we can do for the rest is make sure that the strings are valid UTF-8
 		// and the port is an integer.
-		if (array_key_exists('host', $urlParts) && !StringHelper::valid((string) $urlParts['host']))
+		if (\array_key_exists('host', $urlParts) && !StringHelper::valid((string) $urlParts['host']))
 		{
 			return false;
 		}
 
-		if (array_key_exists('port', $urlParts) && !is_int((int) $urlParts['port']))
+		if (\array_key_exists('port', $urlParts) && !\is_int((int) $urlParts['port']))
 		{
 			return false;
 		}
 
-		if (array_key_exists('path', $urlParts) && !StringHelper::valid((string) $urlParts['path']))
+		if (\array_key_exists('path', $urlParts) && !StringHelper::valid((string) $urlParts['path']))
 		{
 			return false;
 		}

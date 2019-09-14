@@ -54,11 +54,12 @@
   }
 
   .mod-menu {
-    flex-direction: row !important;
+    flex-direction: column !important;
+    margin-top: 20px;
 
-    @include media-breakpoint-down(md) {
-      flex-direction: column !important;
-      margin-top: 20px;
+    @include media-breakpoint-up(md) {
+      flex-direction: row !important;
+      margin-top: 0;
 
     }
   }
@@ -79,20 +80,19 @@
     }
 
     &::after {
-      position: absolute;
-      right: 50%;
-      bottom: 0;
-      left: 50%;
-      display: block;
-      height: 2px;
-      margin: auto;
-      content: "";
-      background: transparent;
-      opacity: .2;
-      transition: all .2s ease, background-color .2s ease;
 
-      @include media-breakpoint-down(md) {
-        display: none;
+      @include media-breakpoint-up(md) {
+        position: absolute;
+        right: 50%;
+        bottom: 0;
+        left: 50%;
+        display: block;
+        height: 2px;
+        margin: auto;
+        content: "";
+        background: transparent;
+        opacity: .2;
+        transition: all .2s ease, background-color .2s ease;
       }
     }
 

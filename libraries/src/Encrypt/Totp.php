@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Encrypt;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * This class provides an RFC6238-compliant Time-based One Time Passwords,
@@ -18,14 +18,39 @@ defined('JPATH_PLATFORM') or die;
  */
 class Totp
 {
+	/**
+	 * Passcode length
+	 *
+	 * @var   integer
+	 */
 	private $_passCodeLength = 6;
 
+	/**
+	 * Pin modulo
+	 *
+	 * @var   integer
+	 */
 	private $_pinModulo;
 
+	/**
+	 * Secret length
+	 *
+	 * @var   integer
+	 */
 	private $_secretLength = 10;
 
+	/**
+	 * Timestep
+	 *
+	 * @var   integer
+	 */
 	private $_timeStep = 30;
 
+	/**
+	 * Base32
+	 *
+	 * @var   integer
+	 */
 	private $_base32 = null;
 
 	/**
@@ -46,7 +71,7 @@ class Totp
 		$this->_secretLength   = $secretLength;
 		$this->_pinModulo      = pow(10, $this->_passCodeLength);
 
-		if (is_null($base32))
+		if (\is_null($base32))
 		{
 			$this->_base32 = new Base32;
 		}
@@ -63,11 +88,11 @@ class Totp
 	 *
 	 * @param   int|null  $time  Timestamp
 	 *
-	 * @return  int  The time period since the UNIX Epoch
+	 * @return  integer  The time period since the UNIX Epoch
 	 */
 	public function getPeriod($time = null)
 	{
-		if (is_null($time))
+		if (\is_null($time))
 		{
 			$time = time();
 		}
@@ -116,10 +141,10 @@ class Totp
 		$secret = $this->_base32->decode($secret);
 
 		$time = pack("N", $period);
-		$time = str_pad($time, 8, chr(0), STR_PAD_LEFT);
+		$time = str_pad($time, 8, \chr(0), STR_PAD_LEFT);
 
 		$hash = hash_hmac('sha1', $time, $secret, true);
-		$offset = ord(substr($hash, -1));
+		$offset = \ord(substr($hash, -1));
 		$offset = $offset & 0xF;
 
 		$truncatedHash = $this->hashToInt($hash, $offset) & 0x7FFFFFFF;
@@ -138,7 +163,7 @@ class Totp
 	 */
 	protected function hashToInt($bytes, $start)
 	{
-		$input = substr($bytes, $start, strlen($bytes) - $start);
+		$input = substr($bytes, $start, \strlen($bytes) - $start);
 		$val2 = unpack("N", substr($input, 0, 4));
 
 		return $val2[1];
@@ -176,6 +201,7 @@ class Totp
 			$c = rand(0, 255);
 			$secret .= pack("c", $c);
 		}
+
 		$base32 = new Base32;
 
 		return $this->_base32->encode($secret);

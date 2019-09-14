@@ -9,10 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Database\ParameterType;
 
 /**
  * Override Plugin
@@ -24,6 +25,7 @@ class PlgInstallerOverride extends CMSPlugin
 	/**
 	 * Application object.
 	 *
+	 * @var    CMSApplicationInterface
 	 */
 	protected $app;
 
@@ -39,7 +41,7 @@ class PlgInstallerOverride extends CMSPlugin
 	/**
 	 * Database object
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseInterface
 	 * @since  4.0.0
 	 */
 	protected $db;
@@ -50,14 +52,19 @@ class PlgInstallerOverride extends CMSPlugin
 	 * @param   string  $name    The model name. Optional
 	 * @param   string  $prefix  The class prefix. Optional
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel The model.
+	 * @return  \Joomla\Component\Templates\Administrator\Model\TemplateModel
 	 *
 	 * @since   4.0.0
+	 *
+	 * @throws \Exception
 	 */
 	public function getModel($name = 'Template', $prefix = 'Administrator')
 	{
-		$app = Factory::getApplication();
-		$model = $app->bootComponent('com_templates')->getMVCFactory()->createModel($name, $prefix);
+		/** @var \Joomla\Component\Templates\Administrator\Extension\TemplatesComponent $templateProvider */
+		$templateProvider = $this->app->bootComponent('com_templates');
+
+		/** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+		$model = $templateProvider->getMVCFactory()->createModel($name, $prefix);
 
 		return $model;
 	}
@@ -72,9 +79,9 @@ class PlgInstallerOverride extends CMSPlugin
 	public function purge()
 	{
 		// Delete stored session value.
-		$session = Factory::getSession();
-		$session->clear('override.beforeEventFiles');
-		$session->clear('override.afterEventFiles');
+		$session = $this->app->getSession();
+		$session->remove('override.beforeEventFiles');
+		$session->remove('override.afterEventFiles');
 	}
 
 	/**
@@ -86,15 +93,12 @@ class PlgInstallerOverride extends CMSPlugin
 	 */
 	public function storeBeforeEventFiles()
 	{
-		// Get session instance.
-		$session = Factory::getSession();
-
 		// Delete stored session value.
 		$this->purge();
 
 		// Get list and store in session.
 		$list = $this->getOverrideCoreList();
-		$session->set('override.beforeEventFiles', $list);
+		$this->app->getSession()->set('override.beforeEventFiles', $list);
 	}
 
 	/**
@@ -106,12 +110,9 @@ class PlgInstallerOverride extends CMSPlugin
 	 */
 	public function storeAfterEventFiles()
 	{
-		// Get session instance
-		$session = Factory::getSession();
-
 		// Get list and store in session.
 		$list = $this->getOverrideCoreList();
-		$session->set('override.afterEventFiles', $list);
+		$this->app->getSession()->set('override.afterEventFiles', $list);
 	}
 
 	/**
@@ -125,8 +126,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 */
 	public function getUpdatedFiles($action)
 	{
-		// Get session instance
-		$session = Factory::getSession();
+		$session = $this->app->getSession();
 
 		$after  = $session->get('override.afterEventFiles');
 		$before = $session->get('override.beforeEventFiles');
@@ -159,11 +159,17 @@ class PlgInstallerOverride extends CMSPlugin
 	 */
 	public function getOverrideCoreList()
 	{
-		// Get template model
-		$templateModel = $this->getModel();
-		$result = $templateModel->getCoreList();
+		try
+		{
+			/** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $templateModel */
+			$templateModel = $this->getModel();
+		}
+		catch (\Exception $e)
+		{
+			return [];
+		}
 
-		return $result;
+		return $templateModel->getCoreList();
 	}
 
 	/**
@@ -171,7 +177,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 *
 	 * @param   array  $result  Result aray.
 	 *
-	 * @return   boolean  True/False
+	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
@@ -279,7 +285,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 */
 	public function load($id, $exid)
 	{
-		$db = Factory::getDbo();
+		$db = $this->db;
 
 		// Create a new query object.
 		$query = $db->getQuery(true);
@@ -287,8 +293,10 @@ class PlgInstallerOverride extends CMSPlugin
 		$query
 			->select($db->quoteName('hash_id'))
 			->from($db->quoteName('#__template_overrides'))
-			->where($db->quoteName('hash_id') . ' = ' . $db->quote($id))
-			->where($db->quoteName('extension_id') . ' = ' . $db->quote($exid));
+			->where($db->quoteName('hash_id') . ' = :id')
+			->where($db->quoteName('extension_id') . ' = :exid')
+			->bind(':id', $id)
+			->bind(':exid', $exid, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 		$results = $db->loadObjectList();
@@ -306,30 +314,29 @@ class PlgInstallerOverride extends CMSPlugin
 	 *
 	 * @param   array  $pks  Updated files.
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   4.0.0
+	 * @throws   \Joomla\Database\Exception\ExecutionFailureException|\Joomla\Database\Exception\ConnectionFailureException
 	 */
 	private function saveOverrides($pks)
 	{
-		$db = Factory::getDbo();
-
 		// Insert columns.
-		$columns = array(
+		$columns = [
 			'template',
 			'hash_id',
+			'action',
+			'created_date',
+			'modified_date',
 			'extension_id',
 			'state',
-			'action',
-			'client_id',
-			'created_date',
-			'modified_date'
-		);
+			'client_id'
+		];
 
 		// Create a insert query.
-		$insertQuery = $db->getQuery(true)
-			->insert($db->quoteName('#__template_overrides'))
-			->columns($db->quoteName($columns));
+		$insertQuery = $this->db->getQuery(true)
+			->insert($this->db->quoteName('#__template_overrides'))
+			->columns($this->db->quoteName($columns));
 
 		foreach ($pks as $pk)
 		{
@@ -340,7 +347,7 @@ class PlgInstallerOverride extends CMSPlugin
 
 			if (empty($pk->coreFile))
 			{
-				$modifiedDate = $db->getNullDate();
+				$modifiedDate = $this->db->getNullDate();
 			}
 			else
 			{
@@ -349,54 +356,55 @@ class PlgInstallerOverride extends CMSPlugin
 
 			if ($this->load($pk->id, $pk->extension_id))
 			{
-				$updateQuery = $db->getQuery(true)
-					->update($db->quoteName('#__template_overrides'))
+				$updateQuery = $this->db->getQuery(true)
+					->update($this->db->quoteName('#__template_overrides'))
 					->set(
-						array($db->quoteName('modified_date') . ' = ' . $db->quote($modifiedDate),
-						$db->quoteName('action') . ' = ' . $db->quote($pk->action),
-						$db->quoteName('state') . ' = ' . 0)
-						)
-					->where($db->quoteName('hash_id') . ' = ' . $db->quote($pk->id))
-					->where($db->quoteName('extension_id') . ' = ' . $db->quote($pk->extension_id));
+						[
+							$this->db->quoteName('modified_date') . ' = :modifiedDate',
+							$this->db->quoteName('action') . ' = :pkAction',
+							$this->db->quoteName('state') . ' = 0'
+						]
+					)
+					->where($this->db->quoteName('hash_id') . ' = :pkId')
+					->where($this->db->quoteName('extension_id') . ' = :exId')
+					->bind(':modifiedDate', $modifiedDate)
+					->bind(':pkAction', $pk->action)
+					->bind(':pkId', $pk->id)
+					->bind(':exId', $pk->extension_id, ParameterType::INTEGER);
 
-					try
-					{
-						// Set the query using our newly populated query object and execute it.
-						$db->setQuery($updateQuery);
-						$db->execute();
-					}
-					catch (\RuntimeException $e)
-					{
-						return $e;
-					}
+				// Set the query using our newly populated query object and execute it.
+				$this->db->setQuery($updateQuery);
+				$this->db->execute();
 
 				continue;
 			}
 
-			// Insert values.
-			$values = array(
-				$db->quote($pk->template),
-				$db->quote($pk->id),
-				$db->quote($pk->extension_id),
-				0,
-				$db->quote($pk->action),
-				(int) $pk->client,
-				$db->quote($createdDate),
-				$db->quote($modifiedDate)
+			// Insert values, preserve order
+			$bindArray = $insertQuery->bindArray(
+				[
+					$pk->template,
+					$pk->action,
+					$createdDate,
+					$modifiedDate,
+				],
+				ParameterType::STRING
+			);
+			$bindArray = \array_merge(
+				$bindArray,
+				$insertQuery->bindArray(
+					[
+						$pk->id,
+						$pk->extension_id,
+						0,
+						(int) $pk->client
+					]
+				)
 			);
 
-			$insertQuery->values(implode(',', $values));
+			$insertQuery->values(implode(',', $bindArray));
 
-			try
-			{
-				// Set the query using our newly populated query object and execute it.
-				$db->setQuery($insertQuery);
-				$db->execute();
-			}
-			catch (\RuntimeException $e)
-			{
-				return $e;
-			}
+			$this->db->setQuery($insertQuery);
+			$this->db->execute();
 		}
 	}
 }

@@ -2,34 +2,33 @@
 <form>
 	<fields name="params" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
 	>
-		<fieldset name="menu-options" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL">
+		<fieldset name="menu-options" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL" class="options-grid-form-half">
 
-			<field 
-				name="menu-anchor_title" 
+			<field
+				name="menu-anchor_title"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_LABEL"
 			/>
 
-			<field 
-				name="menu-anchor_css" 
+			<field
+				name="menu-anchor_css"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
 			/>
 
 			<field
-				name="menu_image" 
+				name="menu_image"
 				type="media"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_LABEL"
 			/>
 
 			<field
 				name="menu_image_css"
-				type="text" 
+				type="text"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_CSS_LABEL"
-				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_CSS_DESC" 
 			/>
 
-			<field 
+			<field
 				name="menu_text"
 				type="radio"
 				label="COM_MENUS_ITEM_FIELD_MENU_TEXT_LABEL"
@@ -66,7 +65,7 @@
 				name="show_page_heading"
 				type="list"
 				label="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_LABEL"
-				class="chzn-color"
+				class="custom-select-color"
 				default=""
 				useglobal="true"
 				>
@@ -88,24 +87,24 @@
 
 		</fieldset>
 
-		<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-			<field 
-				name="menu-meta_description" 
+		<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS" class="options-grid-form-half">
+			<field
+				name="menu-meta_description"
 				type="textarea"
-				label="JFIELD_META_DESCRIPTION_LABEL" 
-				rows="3" 
-				cols="40" 
+				label="JFIELD_META_DESCRIPTION_LABEL"
+				rows="3"
+				cols="40"
 			/>
 
-			<field 
-				name="menu-meta_keywords" 
+			<field
+				name="menu-meta_keywords"
 				type="textarea"
-				label="JFIELD_META_KEYWORDS_LABEL" 
-				rows="3" 
-				cols="40" 
+				label="JFIELD_META_KEYWORDS_LABEL"
+				rows="3"
+				cols="40"
 			/>
 
-			<field 
+			<field
 				name="robots"
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
