@@ -36,6 +36,7 @@
 					type="list"
 					default="-1"
 					label="PLG_SYSTEM_COOKIECONSENT_COOKIE_VALID_LABEL"
+					validate="options"
 					>
 					<option value="-1">PLG_SYSTEM_COOKIECONSENT_COOKIE_VALID_ALWAYS</option>
 					<option value="7">PLG_SYSTEM_COOKIECONSENT_COOKIE_VALID_WEEK</option>
@@ -90,8 +91,6 @@
 					default="#ffffff"
 				/>
 
-
-
 				<field
 					name="buttontextcolour"
 					type="color"
@@ -116,8 +115,6 @@
 					clear="true"
 					filter="integer"
 				/>
-
-
 
 				<field
 					name="policylink-text"
