@@ -49,16 +49,10 @@ if ($item->menu_image)
 if ($item->browserNav == 1)
 {
 	$attributes['target'] = '_blank';
-	$attributes['rel'] = 'noopener noreferrer';
-
-	if ($item->anchor_rel == 'nofollow')
-	{
-		$attributes['rel'] .= ' nofollow';
-	}
 }
 elseif ($item->browserNav == 2)
 {
-	$options = 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,' . $params->get('window_open');
+	$options = 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes';
 
 	$attributes['onclick'] = "window.open(this.href, 'targetWindow', '" . $options . "'); return false;";
 }
