@@ -220,12 +220,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		// Set the default header when they are enabled
 		$this->setStaticHeaders();
 
-		// CSP is only relevant on html pages. Let's early exit here.
-		if (Factory::getDocument()->getType() !== 'html')
-		{
-			return;
-		}
-
 		// Handle CSP Header configuration
 		$cspOptions = (int) $this->comCspParams->get('contentsecuritypolicy', 0);
 
