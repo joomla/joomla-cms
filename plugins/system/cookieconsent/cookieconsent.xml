@@ -18,7 +18,7 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="basic">
+			<fieldset name="basic" addfieldprefix="Joomla\Component\Content\Administrator\Field">>
 				<field
 					name="section"
 					type="list"
@@ -41,9 +41,7 @@
 					<option value="90">PLG_SYSTEM_COOKIECONSENT_COOKIE_VALID_3MONTH</option>
 					<option value="365">PLG_SYSTEM_COOKIECONSENT_COOKIE_VALID_1YEAR</option>
 				</field>
-			</fieldset>
 
-			<fieldset name="config" addfieldprefix="Joomla\Component\Content\Administrator\Field">
 				<field
 					name="position"
 					type="list"
@@ -53,7 +51,6 @@
 					>
 					<option value="bottom">PLG_SYSTEM_COOKIECONSENT_BANNER_BOTTOM</option>
 					<option value="top">PLG_SYSTEM_COOKIECONSENT_BANNER_TOP</option>
-					<option value="top_push">PLG_SYSTEM_COOKIECONSENT_BANNER_TOP_PUSH</option>
 					<option value="left">PLG_SYSTEM_COOKIECONSENT_FLOAT_LEFT</option>
 					<option value="right">PLG_SYSTEM_COOKIECONSENT_FLOAT_RIGHT</option>
 				</field>
@@ -68,68 +65,45 @@
 					<option value="block">PLG_SYSTEM_COOKIECONSENT_LAYOUT_BLOCK</option>
 					<option value="classic">PLG_SYSTEM_COOKIECONSENT_LAYOUT_CLASSIC</option>
 					<option value="edgeless">PLG_SYSTEM_COOKIECONSENT_LAYOUT_EDGELESS</option>
-					<option value="wire">PLG_SYSTEM_COOKIECONSENT_LAYOUT_WIRE</option>
 				</field>
 
 				<field
-					name="theme"
-					type="list"
-					label="PLG_SYSTEM_COOKIECONSENT_THEME_LABEL"
-					default=""
-					validate="options"
-					>
-					<option value="">PLG_SYSTEM_COOKIECONSENT_THEME_SELECT</option>
-					<option value="custom">PLG_SYSTEM_COOKIECONSENT_THEME_CUSTOM</option>
-					<option value="theme1">PLG_SYSTEM_COOKIECONSENT_THEME_1</option>
-					<option value="theme2">PLG_SYSTEM_COOKIECONSENT_THEME_2</option>
-					<option value="theme3">PLG_SYSTEM_COOKIECONSENT_THEME_3</option>
-					<option value="theme4">PLG_SYSTEM_COOKIECONSENT_THEME_4</option>
-					<option value="theme5">PLG_SYSTEM_COOKIECONSENT_THEME_5</option>
-					<option value="theme6">PLG_SYSTEM_COOKIECONSENT_THEME_6</option>
-					<option value="theme7">PLG_SYSTEM_COOKIECONSENT_THEME_7</option>
-					<option value="theme8">PLG_SYSTEM_COOKIECONSENT_THEME_8</option>
-					<option value="theme9">PLG_SYSTEM_COOKIECONSENT_THEME_9</option>
-					<option value="theme10">PLG_SYSTEM_COOKIECONSENT_THEME_10</option>
-					<option value="theme11">PLG_SYSTEM_COOKIECONSENT_THEME_11</option>
-					<option value="theme12">PLG_SYSTEM_COOKIECONSENT_THEME_12</option>
-					<option value="theme13">PLG_SYSTEM_COOKIECONSENT_THEME_13</option>
-					<option value="theme14">PLG_SYSTEM_COOKIECONSENT_THEME_14</option>
-					<option value="theme15">PLG_SYSTEM_COOKIECONSENT_THEME_15</option>
-					<option value="theme16">PLG_SYSTEM_COOKIECONSENT_THEME_16</option>
-				</field>
-
-				<field
-					name="background-color"
+					name="bannercolour"
 					type="color"
-					label="PLG_SYSTEM_COOKIECONSENT_THEME_CUSTOM_BG_COLOR"
+					label="PLG_SYSTEM_COOKIECONSENT_BANNER_COLOUR"
 					default="#000000"
-					showon="theme:custom"
 				/>
 
 				<field
-					name="button-color"
+					name="bannertextcolour"
 					type="color"
-					label="PLG_SYSTEM_COOKIECONSENT_THEME_CUSTOM_BUTTON_COLOR"
+					label="PLG_SYSTEM_COOKIECONSENT_BANNER_TEXT"
+					default="#f1d600"
+				/>
+
+				<field
+					name="buttoncolour"
+					type="color"
+					label="PLG_SYSTEM_COOKIECONSENT_BUTTON_COLOUR"
 					default="#ffffff"
-					showon="theme:custom"
 				/>
 
-				<field
-					name="background-text-color"
-					type="color"
-					label="PLG_SYSTEM_COOKIECONSENT_THEME_CUSTOM_BG_TEXT"
-					showon="theme:custom"
-					default="f1d600"
-				/>
+
 
 				<field
-					name="button-text-color"
+					name="buttontextcolour"
 					type="color"
-					label="PLG_SYSTEM_COOKIECONSENT_THEME_CUSTOM_BUTTON_TEXT"
+					label="PLG_SYSTEM_COOKIECONSENT_BUTTON_TEXT"
 					default="#383b75"
-					showon="theme:custom"
 				/>
-
+				<field
+					name="message-text"
+					type="textarea"
+					label="PLG_SYSTEM_COOKIECONSENT_MESSAGE_TEXT_LABEL"
+					hint="PLG_SYSTEM_COOKIECONSENT_MESSAGE_TEXT_DEFAULT"
+					rows="2"
+					filter="html"
+				/>
 				<field
 					name="policylink"
 					type="modal_article"
@@ -141,19 +115,13 @@
 					filter="integer"
 				/>
 
-				<field
-					name="message-text"
-					type="textarea"
-					label="PLG_SYSTEM_COOKIECONSENT_MESSAGE_TEXT_LABEL"
-					hint="PLG_SYSTEM_COOKIECONSENT_MESSAGE_TEXT_DEFAULT"
-					rows="2"
-					filter="html"
-				/>
+
 
 				<field
 					name="policylink-text"
 					type="text"
 					label="PLG_SYSTEM_COOKIECONSENT_POLICY_TEXT_LABEL"
+					hint="PLG_SYSTEM_COOKIECONSENT_POLICY_TEXT_DEFAULT"
 					size="40"
 				/>
 
@@ -161,6 +129,7 @@
 					name="button-text"
 					type="text"
 					label="PLG_SYSTEM_COOKIECONSENT_BUTTON_TEXT_LABEL"
+					hint="PLG_SYSTEM_COOKIECONSENT_BUTTON_TEXT_DEFAULT"
 					size="40"
 				/>
 			</fieldset>

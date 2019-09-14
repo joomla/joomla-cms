@@ -28,6 +28,7 @@ class PlgSystemCookieconsent extends CMSPlugin
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
+
  	/**
 	 * Application object.
 	 *
@@ -141,22 +142,41 @@ class PlgSystemCookieconsent extends CMSPlugin
 		// Load language file.
 		$this->loadLanguage();
 
+		// Get the settings from the plugin
+		$position = $this->params->get('position', 'bottom');
+		$layout = $this->params->get('layout', 'block');
+		$backgroundcolour = $this->params->get('bannercolour', '#000000');
+		$buttoncolour = $this->params->get('buttoncolour', '#ffffff');
+		$buttontextcolour = $this->params->get('buttontextcolour', '#383b75');
+		$backgroundtextcolour = $this->params->get('bannertextcolour', '#f1d600');
+		// 'policylink' => $this->params->get('policylink'),
+		// 'message-text' => $this->params->get('message-text', Text::_('PLG_SYSTEM_COOKIECONSENT_MESSAGE_TEXT_DEFAULT')),
+		// 'policylink-text' => $this->params->get('policylink-text', Text::_('PLG_SYSTEM_COOKIECONSENT_POLICY_TEXT_DEFAULT')),
+		// 'button-text' => $this->params->get('button-text', Text::_('PLG_SYSTEM_COOKIECONSENT_BUTTON_TEXT_DEFAULT'))
+
+
 		HTMLHelper::_('script', 'vendor/cookieconsent/cookieconsent.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 		HTMLHelper::_('stylesheet', 'vendor/cookieconsent/cookieconsent.min.css', ['version' => 'auto', 'relative' => true]);
+
 
 		// Initialise the script and apply configuration
 		$document->addScriptDeclaration("document.addEventListener('DOMContentLoaded', function() {
 			window.cookieconsent.initialise({
 				'palette': {
 					'popup': {
-					  'background': '#000'
+						'background': '$backgroundcolour',
+						'text': '$backgroundtextcolour'
 					},
 					'button': {
-					  'background': '#f1d600'
+						'background': '$buttoncolour',
+						'text': '$buttontextcolour'
 					}
-				  }
+				  },
+				'position': '$position',
+				'theme': '$layout'
+				})
+
 			  });
-			});
 		");
 	}
 }
