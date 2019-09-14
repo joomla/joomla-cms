@@ -11,8 +11,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Router\Route;
+
 
 /**
  * Cookie consent plugin to add simple cookie information.
@@ -89,31 +92,71 @@ class PlgSystemCookieconsent extends CMSPlugin
 	}
 
 	/**
-	 * Get policylink article ID. If the site is a multilingual website and there is an associated article for the
-	 * current language, ID of the associlated article will be returned.
+	 * Return the url of the assigned article based on the current user language
 	 *
-	 * @return  integer
+	 * @return  string  Returns the link to the article
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function getPolicylinkArticleId()
+	private function getAssignedPolicylinkUrl()
 	{
-		$policylinkArticleId = $this->params->get('policylink');
+		$db = Factory::getDbo();
 
-		if ($policylinkArticleId > 0 && Associations::isEnabled())
+		// Get the info from the article
+		$query = $db->getQuery(true)
+			->select($db->quoteName(array('id', 'catid', 'language')))
+			->from($db->quoteName('#__content'))
+			->where($db->quoteName('id') . ' = ' . (int) $this->params->get('policylink'));
+		$db->setQuery($query);
+
+		try
 		{
-			$policylinkAssociated = Associations::getAssociations('com_content', '#__content', 'com_content.item', $policylinkArticleId);
-			$currentLang = Factory::getLanguage()->getTag();
-
-			if (isset($policylinkAssociated[$currentLang]))
-			{
-				$policylinkArticleId = $policylinkAssociated[$currentLang]->id;
-			}
+			$article = $db->loadObject();
+		}
+		catch (ExecutionFailureException $e)
+		{
+			// Something at the database layer went wrong
+			return Route::_(
+				'index.php?option=com_content&view=article&id='
+				. $this->articleid
+			);
 		}
 
-		return $policylinkArticleId;
-	}
+		// Register ContentHelperRoute
+		JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
 
+		if (!Associations::isEnabled())
+		{
+			return Route::_(
+				ContentHelperRoute::getArticleRoute(
+					$article->id,
+					$article->catid,
+					$article->language
+				)
+			);
+		}
+
+		$associatedArticles = Associations::getAssociations('com_content', '#__content', 'com_content.item', $article->id);
+		$currentLang        = Factory::getLanguage()->getTag();
+
+		if (isset($associatedArticles) && $currentLang !== $article->language && array_key_exists($currentLang, $associatedArticles))
+		{
+			return Route::_(
+				ContentHelperRoute::getArticleRoute(
+					$associatedArticles[$currentLang]->id,
+					$associatedArticles[$currentLang]->catid,
+					$associatedArticles[$currentLang]->language
+				)
+			);
+		}
+
+		// Association is enabled but this article is not associated
+		return Route::_(
+			'index.php?option=com_content&view=article&id='
+				. $article->id . '&catid=' . $article->catid
+				. '&lang=' . $article->language
+		);
+	}
 
 	/**
 	 * Add the javascript and css for the cookie consent
@@ -149,12 +192,12 @@ class PlgSystemCookieconsent extends CMSPlugin
 		$buttoncolour = $this->params->get('buttoncolour', '#ffffff');
 		$buttontextcolour = $this->params->get('buttontextcolour', '#383b75');
 		$backgroundtextcolour = $this->params->get('bannertextcolour', '#f1d600');
-		// 'policylink' => $this->params->get('policylink'),
-		// 'message-text' => $this->params->get('message-text', Text::_('PLG_SYSTEM_COOKIECONSENT_MESSAGE_TEXT_DEFAULT')),
-		// 'policylink-text' => $this->params->get('policylink-text', Text::_('PLG_SYSTEM_COOKIECONSENT_POLICY_TEXT_DEFAULT')),
-		// 'button-text' => $this->params->get('button-text', Text::_('PLG_SYSTEM_COOKIECONSENT_BUTTON_TEXT_DEFAULT'))
+		$message = $this->params->get('message-text', Text::_('PLG_SYSTEM_COOKIECONSENT_MESSAGE_TEXT_DEFAULT'));
+		$link = $this->params->get('policylink-text', Text::_('PLG_SYSTEM_COOKIECONSENT_POLICY_TEXT_DEFAULT'));
+		$dismiss = $this->params->get('button-text', Text::_('PLG_SYSTEM_COOKIECONSENT_BUTTON_TEXT_DEFAULT'));
+		$href =	$this->getAssignedPolicylinkUrl();
 
-
+		// Load the javascript and css
 		HTMLHelper::_('script', 'vendor/cookieconsent/cookieconsent.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 		HTMLHelper::_('stylesheet', 'vendor/cookieconsent/cookieconsent.min.css', ['version' => 'auto', 'relative' => true]);
 
@@ -171,12 +214,17 @@ class PlgSystemCookieconsent extends CMSPlugin
 						'background': '$buttoncolour',
 						'text': '$buttontextcolour'
 					}
-				  },
+				},
 				'position': '$position',
-				'theme': '$layout'
-				})
-
-			  });
+				'theme': '$layout',
+				'content': {
+					'message': '$message',
+					'dismiss': '$dismiss',
+					'link': '$link',
+					'href': '$href',
+				}
+			})
+		});
 		");
 	}
 }
