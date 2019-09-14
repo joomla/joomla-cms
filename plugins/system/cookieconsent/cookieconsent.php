@@ -49,52 +49,9 @@ class PlgSystemCookieconsent extends CMSPlugin
 	protected $db;
 
 	/**
-	 * Event to specify whether a privacy policy has been published.
-	 *
-	 * @param   array  &$policy  The privacy policy status data, passed by reference, with keys "published", "editLink" and "articlePublished".
-	 *
-	 * @return  void
-	 *
-	 * @since   3.9.0
-	 */
-	public function onPrivacyCheckPrivacyPolicyPublished(&$policy)
-	{
-		$articleId = $this->params->get('privacy_article');
-
-		if (!$articleId)
-		{
-			return;
-		}
-
-		// Check if the article exists in database and is published
-		$query = $this->db->getQuery(true)
-			->select($this->db->quoteName(array('id', 'state')))
-			->from($this->db->quoteName('#__content'))
-			->where($this->db->quoteName('id') . ' = ' . (int) $articleId);
-		$this->db->setQuery($query);
-
-		$article = $this->db->loadObject();
-
-		// Check if the article exists
-		if (!$article)
-		{
-			return;
-		}
-
-		// Check if the article is published
-		if ($article->state == 1)
-		{
-			$policy['articlePublished'] = true;
-		}
-
-		$policy['published'] = true;
-		$policy['editLink']  = Route::_('index.php?option=com_content&task=article.edit&id=' . $articleId);
-	}
-
-	/**
 	 * Return the url of the assigned article based on the current user language
 	 *
-	 * @return  string  Returns the link to the article
+	 * @return  string  Returns the link to the cookie policy
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
