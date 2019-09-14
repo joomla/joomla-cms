@@ -469,7 +469,7 @@ class TemplateAdapter extends InstallerAdapter
 			->from($db->quoteName('#__template_styles'))
 			->where(
 				[
-					$db->quoteName('home') . ' = 1',
+					$db->quoteName('home') . ' = ' . $db->quote('1'),
 					$db->quoteName('template') . ' = :template',
 				]
 			)
