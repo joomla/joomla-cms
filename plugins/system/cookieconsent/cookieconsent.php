@@ -32,7 +32,7 @@ class PlgSystemCookieconsent extends CMSPlugin
 	 */
 	protected $autoloadLanguage = true;
 
- 	/**
+	/**
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
@@ -191,9 +191,7 @@ class PlgSystemCookieconsent extends CMSPlugin
 					'expiryDays': '$valid'
 				}
 			})
-		});
-		");
+		});"
+		);
 	}
 }
-
-
