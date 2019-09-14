@@ -1218,7 +1218,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		if ($pluginsSiteEnable && $this->isClient('site'))
 		{
-			if (in_array($enforce2faOptions, [1, 3]))
+			if (\in_array($enforce2faOptions, [1, 3]))
 			{
 				return !$this->hasUserConfiguredTwoFactorAuthentication();
 			}
