@@ -262,6 +262,7 @@ class ExtensionHelper
 
 		// Core plugin extensions - system
 		array('plugin', 'actionlogs', 'system', 0),
+		array('plugin', 'cookiecnsent', 'system', 0),
 		array('plugin', 'cache', 'system', 0),
 		array('plugin', 'debug', 'system', 0),
 		array('plugin', 'fields', 'system', 0),
