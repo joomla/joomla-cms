@@ -32,20 +32,20 @@ class CheckboxField extends FormField
 	protected $type = 'Checkbox';
 
 	/**
-	 * The checked state of checkbox field.
-	 *
-	 * @var    boolean
-	 * @since  3.2
-	 */
-	protected $checked = false;
-
-	/**
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $layout = 'joomla.form.field.checkbox';
+
+	/**
+	 * The checked state of checkbox field.
+	 *
+	 * @var    boolean
+	 * @since  3.2
+	 */
+	protected $checked = false;
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
