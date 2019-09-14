@@ -1177,6 +1177,12 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			return false;
 		}
 
+		// Check session if user has set up 2fa
+		if ($this->getSession()->has('has2fa'))
+		{
+			return false;
+		}
+
 		$enforce2faOptions = ComponentHelper::getComponent('com_users')->getParams()->get('enforce_2fa_options', 0);
 
 		if ($enforce2faOptions == 0 || !$enforce2faOptions)
@@ -1297,6 +1303,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		{
 			return false;
 		}
+
+		// Set session to user has configured 2fa
+		$this->getSession()->set('has2fa', 1);
 
 		return true;
 	}
