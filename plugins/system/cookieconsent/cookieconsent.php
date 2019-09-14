@@ -59,60 +59,66 @@ class PlgSystemCookieconsent extends CMSPlugin
 	{
 		$db = Factory::getDbo();
 
-		// Get the info from the article
-		$query = $db->getQuery(true)
-			->select($db->quoteName(array('id', 'catid', 'language')))
-			->from($db->quoteName('#__content'))
-			->where($db->quoteName('id') . ' = ' . (int) $this->params->get('policylink'));
-		$db->setQuery($query);
+		$article = false;
+		$policyArticle = $this->params->get('policylink') > 0 ? (int) $this->params->get('policylink') : 0;
 
-		try
+		if ($policyArticle)
 		{
-			$article = $db->loadObject();
-		}
-		catch (ExecutionFailureException $e)
-		{
-			// Something at the database layer went wrong
+			// Get the info from the article
+			$query = $db->getQuery(true)
+				->select($db->quoteName(array('id', 'catid', 'language')))
+				->from($db->quoteName('#__content'))
+				->where($db->quoteName('id') . ' = ' . (int) $this->params->get('policylink'));
+			$db->setQuery($query);
+
+			try
+			{
+				$article = $db->loadObject();
+			}
+			catch (ExecutionFailureException $e)
+			{
+				// Something at the database layer went wrong
+				return Route::_(
+					'index.php?option=com_content&view=article&id='
+					. $this->articleid
+				);
+			}
+
+			// Register ContentHelperRoute
+			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
+
+			if (!Associations::isEnabled())
+			{
+				return Route::_(
+					ContentHelperRoute::getArticleRoute(
+						$article->id,
+						$article->catid,
+						$article->language
+					)
+				);
+			}
+
+			$associatedArticles = Associations::getAssociations('com_content', '#__content', 'com_content.item', $article->id);
+			$currentLang        = Factory::getLanguage()->getTag();
+
+			if (isset($associatedArticles) && $currentLang !== $article->language && array_key_exists($currentLang, $associatedArticles))
+			{
+				return Route::_(
+					ContentHelperRoute::getArticleRoute(
+						$associatedArticles[$currentLang]->id,
+						$associatedArticles[$currentLang]->catid,
+						$associatedArticles[$currentLang]->language
+					)
+				);
+			}
+
+			// Association is enabled but this article is not associated
 			return Route::_(
 				'index.php?option=com_content&view=article&id='
-				. $this->articleid
+					. $article->id . '&catid=' . $article->catid
+					. '&lang=' . $article->language
 			);
 		}
-
-		// Register ContentHelperRoute
-		JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
-
-		if (!Associations::isEnabled())
-		{
-			return Route::_(
-				ContentHelperRoute::getArticleRoute(
-					$article->id,
-					$article->catid,
-					$article->language
-				)
-			);
-		}
-
-		$associatedArticles = Associations::getAssociations('com_content', '#__content', 'com_content.item', $article->id);
-		$currentLang        = Factory::getLanguage()->getTag();
-
-		if (isset($associatedArticles) && $currentLang !== $article->language && array_key_exists($currentLang, $associatedArticles))
-		{
-			return Route::_(
-				ContentHelperRoute::getArticleRoute(
-					$associatedArticles[$currentLang]->id,
-					$associatedArticles[$currentLang]->catid,
-					$associatedArticles[$currentLang]->language
-				)
-			);
-		}
-
-		// Association is enabled but this article is not associated
-		return Route::_(
-			'index.php?option=com_content&view=article&id='
-				. $article->id . '&catid=' . $article->catid
-				. '&lang=' . $article->language
-		);
 	}
 
 	/**
