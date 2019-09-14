@@ -178,14 +178,12 @@ class ContactController extends FormController
 			$sent = $this->_sendEmail($data, $contact, $contact->params->get('show_email_copy', 0));
 		}
 
+		$msg = '';
+
 		// Set the success message if it was a success
-		if (!($sent instanceof \Exception))
+		if ($sent)
 		{
 			$msg = Text::_('COM_CONTACT_EMAIL_THANKS');
-		}
-		else
-		{
-			$msg = '';
 		}
 
 		// Flush the data from the session
