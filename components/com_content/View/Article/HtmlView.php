@@ -439,18 +439,21 @@ class HtmlView extends BaseHtmlView
 			->dateCreated(HTMLHelper::_('date', $this->item->created, "Y-m-d"))
 			->dateModified(HTMLHelper::_('date', $this->item->modified, "Y-m-d"))
 			->datePublished(HTMLHelper::_('date', $this->item->publish_up, "Y-m-d"))
-			->if($this->item->params->get('show_author') === '1' && !empty($this->item->author), function (Article $schema) {
-				$schema->author(
-					Schema::Person()
-						->name($this->item->created_by_alias ?: $this->item->author)
-						->if(
-							$this->item->params->get('link_author'),
-							function(Person $schema) {
-								$schema->url($this->item->contact_link);
-							}
-						)
-				);
-			});
+			->if(
+				$this->item->params->get('show_author') === '1' && !empty($this->item->author),
+				function (Article $schema) {
+					$schema->author(
+						Schema::Person()
+							->name($this->item->created_by_alias ?: $this->item->author)
+							->if(
+								$this->item->params->get('link_author'),
+								function (Person $schema) {
+									$schema->url($this->item->contact_link);
+								}
+							)
+					);
+				}
+			);
 
 		if ($app->get('sef_owner') === 0)
 		{
