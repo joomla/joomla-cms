@@ -103,6 +103,7 @@ class InstallModel extends BaseDatabaseModel
 		}
 
 		$installType = $app->input->getWord('installtype');
+		$installLang = $app->input->getWord('package');
 
 		if ($package === null)
 		{
@@ -207,7 +208,7 @@ class InstallModel extends BaseDatabaseModel
 		else
 		{
 			// Package installed successfully.
-			$msg = Text::sprintf('COM_INSTALLER_INSTALL_SUCCESS', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$msg = Text::sprintf('COM_INSTALLER_INSTALL_SUCCESS', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($installLang) . strtoupper($package['type'])));
 			$result = true;
 			$msgType = 'message';
 		}
