@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e56e6ba4f8de466cf0ecca55bffb55f9",
+    "content-hash": "234e5fda6d064dbb71ccd86d94a639d7",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -2249,25 +2249,26 @@
         },
         {
             "name": "spatie/schema-org",
-            "version": "2.2.1",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/schema-org.git",
-                "reference": "f6158bb124c5c8c6903263ab4d0f976067a65e38"
+                "reference": "ad8d92d7f76efa589f4c01a4c2df420cd6942ee2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/schema-org/zipball/f6158bb124c5c8c6903263ab4d0f976067a65e38",
-                "reference": "f6158bb124c5c8c6903263ab4d0f976067a65e38",
+                "url": "https://api.github.com/repos/spatie/schema-org/zipball/ad8d92d7f76efa589f4c01a4c2df420cd6942ee2",
+                "reference": "ad8d92d7f76efa589f4c01a4c2df420cd6942ee2",
                 "shasum": ""
             },
             "require": {
+                "ext-json": "*",
                 "php": "^7.0"
             },
             "require-dev": {
                 "graham-campbell/analyzer": "^2.1.1",
                 "league/flysystem": "^1.0",
-                "phpunit/phpunit": "^6.0",
+                "phpunit/phpunit": "^6.0|^7.0|^8.0",
                 "scrutinizer/ocular": "^1.5",
                 "symfony/console": "^3.2",
                 "symfony/css-selector": "^3.2",
@@ -2304,7 +2305,7 @@
                 "schema-org",
                 "spatie"
             ],
-            "time": "2019-05-28T11:55:09+00:00"
+            "time": "2019-08-07T15:26:54+00:00"
         },
         {
             "name": "symfony/console",
