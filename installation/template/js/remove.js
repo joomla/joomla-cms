@@ -41,7 +41,7 @@ if (document.getElementById('removeInstallationFolder')) {
 						customInstallation.parentNode.removeChild(removeInstallationTab);
 					},
 					onError: function (xhr) {
-						console.log(xhr);
+					  Joomla.renderMessages(xhr);
 					}
 					}
 				);
