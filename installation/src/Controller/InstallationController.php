@@ -12,8 +12,11 @@ namespace Joomla\CMS\Installation\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Installation\Response\JsonResponse;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Session\Session;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -232,5 +235,40 @@ class InstallationController extends JSONController
 		$r->view = 'remove';
 
 		$this->sendJsonResponse($r);
+	}
+	/**
+	 * Method to send a JSON response. The data parameter
+	 * can be an Exception object for when an error has occurred or
+	 * a JsonResponse for a good response.
+	 *
+	 * @param   mixed  $response  JsonResponse on success, Exception on failure.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	protected function sendJsonResponse($response)
+	{
+		$this->app->mimeType = 'application/json';
+
+		// Very crude workaround to give an error message when JSON is disabled
+		if (!function_exists('json_encode') || !function_exists('json_decode'))
+		{
+			$this->app->setHeader('status', 500);
+			echo '{"token":"' . Session::getFormToken(true) . '","lang":"' . Factory::getLanguage()->getTag()
+				. '","error":true,"header":"' . Text::_('INSTL_HEADER_ERROR') . '","message":"' . Text::_('INSTL_WARNJSON') . '"}';
+
+			return;
+		}
+
+		// Check if we need to send an error code.
+		if ($response instanceof \Exception)
+		{
+			// Send the appropriate error code response.
+			$this->app->setHeader('status', $response->getCode(), true);
+		}
+
+		// Send the JSON response.
+		echo json_encode(new JsonResponse($response));
 	}
 }
