@@ -38,10 +38,10 @@ if (document.getElementById('removeInstallationFolder')) {
 						const customInstallation = document.getElementById('customInstallation');
 						customInstallation.parentNode.removeChild(customInstallation);
 						const removeInstallationTab = document.getElementById('removeInstallationTab');
-						customInstallation.parentNode.removeChild(removeInstallationTab);
+						removeInstallationTab.parentNode.removeChild(removeInstallationTab);
 					},
 					onError: function (xhr) {
-					  Joomla.renderMessages(xhr);
+            Joomla.renderMessages({ error: [xhr] }, '#system-message-container');
 					}
 					}
 				);
