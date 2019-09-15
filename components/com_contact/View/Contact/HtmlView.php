@@ -592,51 +592,93 @@ class HtmlView extends BaseHtmlView
 	{
 		// Note we don't display tags here as the keywords property isn't valid for a person
 		$schema = Schema::person()
-			->if($this->item->params->get('show_name'), function (Person $schema) {
-				$schema->name($this->item->name);
-			})
-			->if($this->item->image && $this->item->params->get('show_image'), function (Person $schema) {
-				$schema->image(Uri::root() . $this->item->image);
-			})
-			->if($this->item->params->get('show_position'), function (Person $schema) {
-				$schema->jobTitle($this->item->con_position);
-			})
-			->if($this->item->params->get('address_check') > 0, function (Person $schema) {
-				$schema->address(
-					Schema::postalAddress()
-						->if($this->item->address && $this->params->get('show_street_address'), function (PostalAddress $schema) {
-							$schema->streetAddress($this->item->address);
-						})
-						->if($this->item->suburb && $this->params->get('show_suburb'), function (PostalAddress $schema) {
-							$schema->addressLocality($this->item->suburb);
-						})
-						->if($this->item->state && $this->params->get('show_state'), function (PostalAddress $schema) {
-							$schema->addressRegion($this->item->state);
-						})
-						->if($this->item->postcode && $this->params->get('show_postcode'), function (PostalAddress $schema) {
-							$schema->postalCode($this->item->postcode);
-						})
-						->if($this->item->country && $this->params->get('show_country'), function (PostalAddress $schema) {
-							$schema->addressCountry($this->item->country);
-						})
-				);
-			})
+			->if(
+				$this->item->params->get('show_name'),
+				function (Person $schema) {
+					$schema->name($this->item->name);
+				}
+			)
+			->if(
+				$this->item->image && $this->item->params->get('show_image'),
+				function (Person $schema) {
+					$schema->image(Uri::root() . $this->item->image);
+				}
+			)
+			->if(
+				$this->item->params->get('show_position'),
+				function (Person $schema) {
+					$schema->jobTitle($this->item->con_position);
+				}
+			)
+			->if(
+				$this->item->params->get('address_check') > 0,
+				function (Person $schema) {
+					$schema->address(
+						Schema::postalAddress()
+							->if(
+								$this->item->address && $this->params->get('show_street_address'),
+								function (PostalAddress $schema) {
+									$schema->streetAddress($this->item->address);
+								}
+							)
+							->if(
+								$this->item->suburb && $this->params->get('show_suburb'),
+								function (PostalAddress $schema) {
+									$schema->addressLocality($this->item->suburb);
+								}
+							)
+							->if(
+								$this->item->state && $this->params->get('show_state'),
+								function (PostalAddress $schema) {
+									$schema->addressRegion($this->item->state);
+								}
+							)
+							->if(
+								$this->item->postcode && $this->params->get('show_postcode'),
+								function (PostalAddress $schema) {
+									$schema->postalCode($this->item->postcode);
+								}
+							)
+							->if(
+								$this->item->country && $this->params->get('show_country'),
+								function (PostalAddress $schema) {
+									$schema->addressCountry($this->item->country);
+								}
+							)
+					);
+				}
+			)
 			// TODO: Should we expose the raw email like this?
-			->if($this->item->params->get('show_email') === '1', function (Person $schema) {
-				$schema->email($this->item->email_raw);
-			})
-			->if($this->item->telephone && $this->params->get('show_telephone'), function (Person $schema) {
-				$schema->telephone($this->item->telephone);
-			})
-			->if($this->item->fax && $this->params->get('show_fax'), function (Person $schema) {
-				$schema->faxNumber($this->item->fax);
-			})
-			->if($this->item->mobile && $this->params->get('show_mobile'), function (Person $schema) {
-				$schema->telephone($this->item->mobile);
-			})
-			->if($this->item->webpage && $this->params->get('show_webpage'), function (Person $schema) {
-				$schema->url($this->item->webpage);
-			});
+			->if(
+				$this->item->params->get('show_email') === '1',
+				function (Person $schema) {
+					$schema->email($this->item->email_raw);
+				}
+			)
+			->if(
+				$this->item->telephone && $this->params->get('show_telephone'),
+				function (Person $schema) {
+					$schema->telephone($this->item->telephone);
+				}
+			)
+			->if(
+				$this->item->fax && $this->params->get('show_fax'),
+				function (Person $schema) {
+					$schema->faxNumber($this->item->fax);
+				}
+			)
+			->if(
+				$this->item->mobile && $this->params->get('show_mobile'),
+				function (Person $schema) {
+					$schema->telephone($this->item->mobile);
+				}
+			)
+			->if(
+				$this->item->webpage && $this->params->get('show_webpage'),
+				function (Person $schema) {
+					$schema->url($this->item->webpage);
+				}
+			);
 
 		$this->document->addScriptDeclaration(json_encode($schema, JDEBUG ? JSON_PRETTY_PRINT : 0), 'application/ld+json');
 	}

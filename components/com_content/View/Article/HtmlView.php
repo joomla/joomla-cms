@@ -421,16 +421,20 @@ class HtmlView extends BaseHtmlView
 
 		foreach ($this->item->tags->itemTags as $tag)
 		{
-			if (in_array($tag->access, $authorised)) {
+			if (in_array($tag->access, $authorised))
+			{
 				$keywords[] = $this->escape($tag->title);
 			}
 		}
 
 		$schema = Schema::article()
 			->articleBody($this->item->text)
-			->if($this->item->params->get('show_title'), function (Article $schema) {
-				$schema->headline($this->escape($this->item->title));
-			})
+			->if(
+				$this->item->params->get('show_title'),
+				function (Article $schema) {
+					$schema->headline($this->escape($this->item->title));
+				}
+			)
 			->inLanguage($articleLanguage)
 			->dateCreated(HTMLHelper::_('date', $this->item->created, "Y-m-d"))
 			->dateModified(HTMLHelper::_('date', $this->item->modified, "Y-m-d"))
@@ -439,9 +443,12 @@ class HtmlView extends BaseHtmlView
 				$schema->author(
 					Schema::Person()
 						->name($this->item->created_by_alias ?: $this->item->author)
-						->if($this->item->params->get('link_author'), function(Person $schema) {
-							$schema->url($this->item->contact_link);
-						})
+						->if(
+							$this->item->params->get('link_author'),
+							function(Person $schema) {
+								$schema->url($this->item->contact_link);
+							}
+						)
 				);
 			});
 

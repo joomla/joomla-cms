@@ -63,9 +63,9 @@ class ContentPrepareJsonSchemaEvent extends AbstractEvent
 	 * Set's a modified schema object to the event. Method just returns what is passed in however
 	 * adds type hinting to the object to be safe!
 	 *
-	 * @param   Schema  The schema object
+	 * @param   Schema  $schema  The schema object
 	 *
-	 * @return  $schema
+	 * @return  Schema
 	 *
 	 * @since  4.0.0
 	 */
