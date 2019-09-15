@@ -150,6 +150,11 @@ class PlgSystemCookieconsent extends CMSPlugin
 		$valid            = $this->params->get('valid', '-1');
 		$href             = $this->getAssignedPolicylinkUrl();
 
+		// Don't display the link if the href is not set
+		if (empty($href)) {
+			$link ='';
+		}
+
 		// Load the javascript and css
 		HTMLHelper::_('script', 'vendor/cookieconsent/cookieconsent.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 		HTMLHelper::_('stylesheet', 'vendor/cookieconsent/cookieconsent.min.css', ['version' => 'auto', 'relative' => true]);
