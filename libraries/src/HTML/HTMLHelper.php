@@ -332,7 +332,7 @@ abstract class HTMLHelper
 
 		// Strip any preceding / or \ from filename
 		$file = File::makeSafe($file);
-		
+
 		// Extract extension and strip the file
 		$strip = \JFile::stripExt($file);
 		$ext   = \JFile::getExt($file);
