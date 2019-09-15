@@ -38,7 +38,7 @@ class FolderField extends ListField
 	 */
 	public function getOptions()
 	{
-		$options = InstallerHelper::getExtensionGroupes();
+		$options = InstallerHelper::getExtensionGroups();
 
 		return array_merge(parent::getOptions(), $options);
 	}
