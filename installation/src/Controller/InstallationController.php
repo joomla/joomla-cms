@@ -222,6 +222,7 @@ class InstallationController extends JSONController
 		/** @var \Joomla\CMS\Installation\Model\CleanupModel $model */
 		$model = $this->getModel('Cleanup');
 		$success = $model->deleteInstallationFolder();
+
 		// If an error was encountered return an error.
 		if (!$success)
 		{
