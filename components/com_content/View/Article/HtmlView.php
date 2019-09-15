@@ -465,6 +465,7 @@ class HtmlView extends BaseHtmlView
 			);
 		}
 
+		// TODO: Decide whether tags are keywords or whether to use the existing meta-keywords
 		if (!empty($keywords))
 		{
 			$schema->keywords($keywords);
