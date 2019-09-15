@@ -111,7 +111,7 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (78, 18, 106, 107, 2, 'com_modules.module.100', 'Messages', '{}'),
 (79, 18, 108, 109, 2, 'com_modules.module.101', 'Post Install Messages', '{}'),
 (80, 18, 110, 111, 2, 'com_modules.module.102', 'User Status', '{}'),
-(82, 18, 114, 115, 2, 'com_modules.module.105', '3rd Party', '{}'),
+(82, 18, 114, 115, 2, 'com_modules.module.105', 'Non-core Extensions', '{}'),
 (83, 18, 116, 117, 2, 'com_modules.module.106', 'Help Dashboard', '{}');
 
 SELECT setval('#__assets_id_seq', 84, false);
@@ -1483,7 +1483,7 @@ INSERT INTO "#__modules" ("id", "asset_id", "title", "note", "content", "orderin
 (102, 80, 'User Status', '', '', 6, 'status', 0, NULL, NULL, NULL, 1, 'mod_user', 3, 1, '', 1, '*'),
 (103, 70, 'Site', '', '', 1, 'icon', 0, NULL, NULL, NULL, 1, 'mod_quickicon', 1, 1, '{"context":"site_quickicon","header_icon":"fa fa-desktop","show_users":"1","show_articles":"1","show_categories":"1","show_media":"1","show_menuItems":"1","show_modules":"1","show_plugins":"1","show_templates":"1","layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"style":"0","module_tag":"div","bootstrap_size":"6","header_tag":"h3","header_class":""}', 1, '*'),
 (104, 71, 'System', '', '', 2, 'icon', 0, NULL, NULL, NULL, 1, 'mod_quickicon', 1, 1, '{"context":"system_quickicon","header_icon":"fa fa-wrench","show_global":"1","show_checkin":"1","show_cache":"1","layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"style":"0","module_tag":"div","bootstrap_size":"6","header_tag":"h3","header_class":""}', 1, '*'),
-(105, 82, '3rd Party', '', '', 4, 'icon', 0, NULL, NULL, NULL, 1, 'mod_quickicon', 1, 1, '{"context":"mod_quickicon","header_icon":"fa fa-boxes","load_plugins":"1","layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"style":"0","module_tag":"div","bootstrap_size":"6","header_tag":"h3","header_class":""}', 1, '*'),
+(105, 82, 'Non-core Extensions', '', '', 4, 'icon', 0, NULL, NULL, NULL, 1, 'mod_quickicon', 1, 1, '{"context":"mod_quickicon","header_icon":"fa fa-boxes","load_plugins":"1","layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"style":"0","module_tag":"div","bootstrap_size":"6","header_tag":"h3","header_class":""}', 1, '*'),
 (106, 83, 'Help Dashboard', '', '', 1, 'cpanel-help', 0, NULL, NULL, NULL, 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"help","layout":"_:default","moduleclass_sfx":"","style":"System-none","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":""}', 1, '*'),
 (107, 84, 'Privacy Requests', '', '', 1, 'cpanel-privacy', 0, NULL, NULL, NULL, 1, 'mod_privacy_dashboard', 1, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"cachemode":"static","style":"0","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":""}', 1, '*'),
 (108, 85, 'Privacy Status', '', '', 1, 'cpanel-privacy', 0, NULL, NULL, NULL, 1, 'mod_privacy_status', 1, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"cachemode":"static","style":"0","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":""}', 1, '*');
