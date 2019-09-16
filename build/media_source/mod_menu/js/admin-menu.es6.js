@@ -144,7 +144,9 @@
     // Set active class
     allLinks.forEach((link) => {
       if (currentUrl === link.href) {
+        link.setAttribute('aria-current', 'page');
         link.classList.add('mm-active');
+
         // Auto Expand Levels
         if (!link.parentNode.classList.contains('parent')) {
           const firstLevel = closest(link, '.collapse-level-1');
