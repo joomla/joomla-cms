@@ -51,7 +51,7 @@ $config = [
 	'contents'                => $this->file->content,
 ];
 
-$this->document()->addScriptOptions('com_media', $config);
+$this->document->addScriptOptions('com_media', $config);
 
 $this->useCoreUI = true;
 ?>

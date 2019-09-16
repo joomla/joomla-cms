@@ -26,7 +26,7 @@ $this->useCoreUI = true;
 Text::script('ERROR');
 Text::script('JGLOBAL_VALIDATION_FORM_FAILED');
 
-$this->document()->addScriptOptions('menu-item', ['itemId' => (int) $this->item->id]);
+$this->document->addScriptOptions('menu-item', ['itemId' => (int) $this->item->id]);
 HTMLHelper::_('script', 'com_menus/admin-item-edit.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Ajax for parent items
