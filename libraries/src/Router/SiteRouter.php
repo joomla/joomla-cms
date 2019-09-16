@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Router;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\SiteApplication;
@@ -147,7 +147,7 @@ class SiteRouter extends Router
 		}
 
 		// Remove the base URI path.
-		$path = substr_replace($path, '', 0, strlen($baseUri));
+		$path = substr_replace($path, '', 0, \strlen($baseUri));
 
 		// Check to see if a request to a specific entry point has been made.
 		if (preg_match("#.*?\.php#u", $path, $matches))
@@ -215,11 +215,11 @@ class SiteRouter extends Router
 		// Parse the application route
 		$segments = explode('/', $route);
 
-		if (count($segments) > 1 && $segments[0] === 'component')
+		if (\count($segments) > 1 && $segments[0] === 'component')
 		{
 			$uri->setVar('option', 'com_' . $segments[1]);
 			$uri->setVar('Itemid', null);
-			$route = implode('/', array_slice($segments, 2));
+			$route = implode('/', \array_slice($segments, 2));
 		}
 		else
 		{
@@ -272,7 +272,7 @@ class SiteRouter extends Router
 			}
 			else
 			{
-				$route = trim(substr($route, strlen($found->route)), '/');
+				$route = trim(substr($route, \strlen($found->route)), '/');
 			}
 
 			if ($found)
@@ -304,7 +304,7 @@ class SiteRouter extends Router
 		{
 			$segments = explode('/', $route);
 
-			if (count($segments))
+			if (\count($segments))
 			{
 				// Handle component route
 				$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $uri->getVar('option'));
@@ -350,7 +350,7 @@ class SiteRouter extends Router
 			}
 		}
 
-		if (is_object($item))
+		if (\is_object($item))
 		{
 			// Set the active menu item
 			$this->menu->setActive($item->id);
@@ -438,7 +438,7 @@ class SiteRouter extends Router
 
 		// Make sure any menu vars are used if no others are specified
 		if (isset($query['Itemid'])
-			&& (count($query) === 2 || (count($query) === 3 && isset($query['lang']))))
+			&& (\count($query) === 2 || (\count($query) === 3 && isset($query['lang']))))
 		{
 			// Get the active menu item
 			$item = $this->menu->getItem($query['Itemid']);
@@ -634,7 +634,7 @@ class SiteRouter extends Router
 	{
 		$reflection = new \ReflectionClass($router);
 
-		if (in_array('Joomla\\CMS\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames()))
+		if (\in_array('Joomla\\CMS\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames()))
 		{
 			$this->componentRouters[$component] = $router;
 

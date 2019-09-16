@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -30,7 +29,7 @@ Joomla.submitbutton = function(task) {
 };
 JS;
 
-Factory::getDocument()->addScriptDeclaration($js);
+$this->document->addScriptDeclaration($js);
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_privacy&view=request&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">

@@ -9,7 +9,7 @@
 
 namespace Joomla\Module\RandomImage\Site\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Uri\Uri;
 use Joomla\String\StringHelper;
@@ -34,7 +34,7 @@ class RandomImageHelper
 		$width  = $params->get('width', 100);
 		$height = $params->get('height', null);
 
-		$i = count($images);
+		$i = \count($images);
 
 		if ($i === 0)
 		{

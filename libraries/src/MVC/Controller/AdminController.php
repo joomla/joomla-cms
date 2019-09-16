@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -134,7 +134,7 @@ class AdminController extends BaseController
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');
 
-		if (!is_array($cid) || count($cid) < 1)
+		if (!\is_array($cid) || \count($cid) < 1)
 		{
 			$this->app->getLogger()->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
 		}
@@ -149,7 +149,7 @@ class AdminController extends BaseController
 			// Remove the items.
 			if ($model->delete($cid))
 			{
-				$this->setMessage(Text::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
+				$this->setMessage(Text::plural($this->text_prefix . '_N_ITEMS_DELETED', \count($cid)));
 			}
 			else
 			{
@@ -224,7 +224,7 @@ class AdminController extends BaseController
 				{
 					if ($errors)
 					{
-						Factory::getApplication()->enqueueMessage(Text::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', count($cid)), 'error');
+						Factory::getApplication()->enqueueMessage(Text::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', \count($cid)), 'error');
 					}
 					else
 					{
@@ -244,9 +244,9 @@ class AdminController extends BaseController
 					$ntext = $this->text_prefix . '_N_ITEMS_TRASHED';
 				}
 
-				if (count($cid))
+				if (\count($cid))
 				{
-					$this->setMessage(Text::plural($ntext, count($cid)));
+					$this->setMessage(Text::plural($ntext, \count($cid)));
 				}
 			}
 			catch (\Exception $e)
@@ -379,7 +379,7 @@ class AdminController extends BaseController
 		else
 		{
 			// Checkin succeeded.
-			$message = Text::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
+			$message = Text::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', \count($ids));
 			$this->setRedirect(
 				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false
@@ -434,7 +434,7 @@ class AdminController extends BaseController
 		// Get the input
 		$pks = $this->input->post->get('cid', array(), 'array');
 
-		if (!count($pks))
+		if (!\count($pks))
 		{
 			return false;
 		}
