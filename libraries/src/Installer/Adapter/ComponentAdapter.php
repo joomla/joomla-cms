@@ -450,8 +450,8 @@ class ComponentAdapter extends InstallerAdapter
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
-			->delete('#__schemas')
-			->where('extension_id = :extension_id')
+			->delete($db->quoteName('#__schemas'))
+			->where($db->quoteName('extension_id') . ' = :extension_id')
 			->bind(':extension_id', $extensionId, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
@@ -468,10 +468,14 @@ class ComponentAdapter extends InstallerAdapter
 		$extensionNameWithWildcard = $extensionName . '.%';
 
 		// Remove categories for this component
-		$query->clear()
-			->delete('#__categories')
-			->where('extension = :extension')
-			->where('extension LIKE :wildcard')
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__categories'))
+			->where(
+				[
+					$db->quoteName('extension') . ' = :extension',
+					$db->quoteName('extension') . ' LIKE :wildcard',
+				]
+			)
 			->bind(':extension', $extensionName)
 			->bind(':wildcard', $extensionNameWithWildcard);
 		$db->setQuery($query);
@@ -722,9 +726,13 @@ class ComponentAdapter extends InstallerAdapter
 			$query = $db->getQuery(true)
 				->select($db->quoteName('extension_id'))
 				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('name') . ' = :name')
-				->where($db->quoteName('type') . ' = :type')
-				->where($db->quoteName('element') . ' = :element')
+				->where(
+					[
+						$db->quoteName('name') . ' = :name',
+						$db->quoteName('type') . ' = :type',
+						$db->quoteName('element') . ' = :element',
+					]
+				)
 				->bind(':name', $name)
 				->bind(':type', $type)
 				->bind(':element', $element);
@@ -921,9 +929,13 @@ class ComponentAdapter extends InstallerAdapter
 			$query = $db->getQuery(true)
 				->select($db->quoteName('extension_id'))
 				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('name') . ' = :name')
-				->where($db->quoteName('type') . ' = :type')
-				->where($db->quoteName('element') . ' = :element')
+				->where(
+					[
+						$db->quoteName('name') . ' = :name',
+						$db->quoteName('type') . ' = :type',
+						$db->quoteName('element') . ' = :element',
+					]
+				)
 				->bind(':name', $name)
 				->bind(':type', $type)
 				->bind(':element', $element);
@@ -1002,13 +1014,22 @@ class ComponentAdapter extends InstallerAdapter
 
 		// If a component exists with this option in the table within the protected menutype 'main' then we don't need to add menus
 		$query = $db->getQuery(true)
-			->select('m.id, e.extension_id')
-			->from('#__menu AS m')
-			->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
-			->where('m.parent_id = 1')
-			->where('m.client_id = 1')
-			->where('m.menutype = ' . $db->quote('main'))
-			->where('e.element = :element')
+			->select(
+				[
+					$db->quoteName('m.id'),
+					$db->quoteName('e.extension_id'),
+				]
+			)
+			->from($db->quoteName('#__menu', 'm'))
+			->join('LEFT', $db->quoteName('#__extensions', 'e'), $db->quoteName('m.component_id') . ' = ' . $db->quoteName('e.extension_id'))
+			->where(
+				[
+					$db->quoteName('m.parent_id') . ' = 1',
+					$db->quoteName('m.client_id') . ' = 1',
+					$db->quoteName('m.menutype') . ' = ' . $db->quote('main'),
+					$db->quoteName('e.element') . ' = :element',
+				]
+			)
 			->bind(':element', $option);
 
 		$db->setQuery($query);
@@ -1044,8 +1065,13 @@ class ComponentAdapter extends InstallerAdapter
 			$query->clear()
 				->select($db->quoteName('e.extension_id'))
 				->from($db->quoteName('#__extensions', 'e'))
-				->where($db->quoteName('e.type') . ' = ' . $db->quote('component'))
-				->where($db->quoteName('e.element') . ' = ' . $db->quote($option));
+				->where(
+					[
+						$db->quoteName('e.type') . ' = ' . $db->quote('component'),
+						$db->quoteName('e.element') . ' = :element',
+					]
+				)
+				->bind(':element', $option);
 
 			$db->setQuery($query);
 			$component_id = $db->loadResult();
@@ -1234,9 +1260,13 @@ class ComponentAdapter extends InstallerAdapter
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__menu'))
-			->where($db->quoteName('client_id') . ' = 1')
-			->where($db->quoteName('menutype') . ' = ' . $db->quote('main'))
-			->where($db->quoteName('component_id') . ' = :id')
+			->where(
+				[
+					$db->quoteName('client_id') . ' = 1',
+					$db->quoteName('menutype') . ' = ' . $db->quote('main'),
+					$db->quoteName('component_id') . ' = :id',
+				]
+			)
 			->bind(':id', $id, ParameterType::INTEGER);
 
 		$db->setQuery($query);
@@ -1292,30 +1322,38 @@ class ComponentAdapter extends InstallerAdapter
 	 */
 	protected function _updateMenus($component_id, $clientId = null)
 	{
-		$db     = $this->parent->getDbo();
-		$option = $this->element;
+		$db        = $this->parent->getDbo();
+		$option    = $this->element;
+		$link      = 'index.php?option=' . $option;
+		$linkMatch = 'index.php?option=' . $option . '&%';
 
 		// Update all menu items which contain 'index.php?option=com_extension' or 'index.php?option=com_extension&...'
 		// to use the new component id.
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__menu'))
-			->set($db->quoteName('component_id') . ' = ' . $db->quote($component_id))
+			->set($db->quoteName('component_id') . ' = :componentId')
 			->where($db->quoteName('type') . ' = ' . $db->quote('component'))
-			->where('('
-				. $db->quoteName('link') . ' LIKE ' . $db->quote('index.php?option=' . $option) . ' OR '
-				. $db->quoteName('link') . ' LIKE ' . $db->quote($db->escape('index.php?option=' . $option . '&') . '%', false)
-				. ')'
-			);
+			->extendWhere(
+				'AND',
+				[
+					$db->quoteName('link') . ' LIKE :link',
+					$db->quoteName('link') . ' LIKE :linkMatch',
+				],
+				'OR'
+			)
+			->bind(':componentId', $component_id)
+			->bind(':link', $link)
+			->bind(':linkMatch', $linkMatch);
 
 		if (isset($clientId))
 		{
-			$query->where('client_id = ' . (int) $clientId);
+			$query->where($db->quoteName('client_id') . ' = :clientId')
+				->bind(':clientId', $clientId, ParameterType::INTEGER);
 		}
-
-		$db->setQuery($query);
 
 		try
 		{
+			$db->setQuery($query);
 			$db->execute();
 		}
 		catch (\RuntimeException $e)
@@ -1499,14 +1537,18 @@ class ComponentAdapter extends InstallerAdapter
 
 			// The menu item already exists. Delete it and retry instead of throwing an error.
 			$query = $db->getQuery(true)
-				->select('id')
-				->from('#__menu')
-				->where('menutype = :menutype')
-				->where('client_id = 1')
-				->where('link = :link')
-				->where('type = :type')
-				->where('parent_id = :parent_id')
-				->where('home = :home')
+				->select($db->quoteName('id'))
+				->from($db->quoteName('#__menu'))
+				->where(
+					[
+						$db->quoteName('menutype') . ' = :menutype',
+						$db->quoteName('client_id') . ' = 1',
+						$db->quoteName('link') . ' = :link',
+						$db->quoteName('type') . ' = :type',
+						$db->quoteName('parent_id') . ' = :parent_id',
+						$db->quoteName('home') . ' = :home',
+					]
+				)
 				->bind(':menutype', $menutype)
 				->bind(':link', $link)
 				->bind(':type', $type)
