@@ -86,7 +86,7 @@ use Joomla\CMS\Uri\Uri;
 				<?php if ($this->development) : ?>
 					<div class="alert flex-column mb-1" id="removeInstallationTab">
 					<span class="mb-1 font-weight-bold"><?php echo Text::_('INSTL_SITE_DEVMODE_LABEL'); ?></span>
-                        <button class="btn btn-danger mb-1" id="removeInstallationFolder">Remove installation folder</button>
+					<button class="btn btn-danger mb-1" id="removeInstallationFolder">Remove installation folder</button>
 					</div>
 				<?php endif; ?>
 				<?php echo HTMLHelper::_('form.token'); ?>
