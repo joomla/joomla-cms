@@ -69,7 +69,7 @@ $js = <<<JS
 JS;
 
 // @todo move the script to a file
-Factory::getDocument()->addScriptDeclaration($js);
+$this->document->addScriptDeclaration($js);
 
 $collection = new \stdClass;
 
