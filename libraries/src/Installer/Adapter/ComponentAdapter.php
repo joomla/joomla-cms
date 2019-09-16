@@ -474,7 +474,8 @@ class ComponentAdapter extends InstallerAdapter
 				[
 					$db->quoteName('extension') . ' = :extension',
 					$db->quoteName('extension') . ' LIKE :wildcard',
-				]
+				],
+				'OR'
 			)
 			->bind(':extension', $extensionName)
 			->bind(':wildcard', $extensionNameWithWildcard);
