@@ -144,6 +144,7 @@
     // Set active class
     allLinks.forEach((link) => {
       if (currentUrl === link.href) {
+        link.setAttribute('aria-current', 'page');
         link.classList.add('active');
         // Auto Expand Levels
         if (!link.parentNode.classList.contains('parent')) {
