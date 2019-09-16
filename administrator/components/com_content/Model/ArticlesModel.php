@@ -239,15 +239,15 @@ class ArticlesModel extends ListModel
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
 		// Join over the associations.
-		$query->select($query->quoteName('wa.stage_id', 'stage_id'))
+		$query->select($db->quoteName('wa.stage_id', 'stage_id'))
 			->innerJoin(
-				$query->quoteName('#__workflow_associations', 'wa')
-				. ' ON ' . $query->quoteName('wa.item_id') . ' = ' . $query->quoteName('a.id')
+				$db->quoteName('#__workflow_associations', 'wa')
+				. ' ON ' . $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id')
 			);
 
 		// Join over the workflow stages.
 		$query->select(
-			$query->quoteName(
+			$db->quoteName(
 				[
 					'ws.title',
 					'ws.condition',
@@ -261,8 +261,8 @@ class ArticlesModel extends ListModel
 			)
 		)
 			->innerJoin(
-				$query->quoteName('#__workflow_stages', 'ws')
-				. ' ON ' . $query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id')
+				$db->quoteName('#__workflow_stages', 'ws')
+				. ' ON ' . $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id')
 			);
 
 		// Join on voting table

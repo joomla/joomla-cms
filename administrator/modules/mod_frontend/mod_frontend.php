@@ -9,10 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 
-$app      = Factory::getApplication();
 $sitename = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 
 require ModuleHelper::getLayoutPath('mod_frontend', $params->get('layout', 'default'));
