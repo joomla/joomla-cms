@@ -22,7 +22,7 @@ $input = $app->input;
 
 $this->useCoreUI = true;
 
-Factory::getDocument()->addScriptDeclaration("
+$this->document()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
 		if (task == 'field.cancel' || document.formvalidator.isValid(document.getElementById('item-form')))

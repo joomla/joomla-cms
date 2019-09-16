@@ -64,7 +64,7 @@ $js = <<<JS
 JS;
 
 // @todo mode the script to a file
-Factory::getDocument()->addScriptDeclaration($js);
+$this->document()->addScriptDeclaration($js);
 
 $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 	->addState(0, 'articles.featured', 'unfeatured', 'COM_CONTENT_UNFEATURED')

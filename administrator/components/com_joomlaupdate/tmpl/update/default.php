@@ -28,7 +28,7 @@ $returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise&' . Factory
 
 HTMLHelper::_('script', 'com_joomlaupdate/admin-update-default.js', ['version' => 'auto', 'relative' => true]);
 
-Factory::getDocument()->addScriptOptions(
+$this->document()->addScriptOptions(
 	'joomlaupdate',
 	[
 		'password' => $password,

@@ -51,7 +51,7 @@ $config = [
 	'contents'                => $this->file->content,
 ];
 
-Factory::getDocument()->addScriptOptions('com_media', $config);
+$this->document()->addScriptOptions('com_media', $config);
 
 $this->useCoreUI = true;
 ?>

@@ -49,7 +49,7 @@ HTMLHelper::_('stylesheet', 'com_templates/admin-templates-default.css', array('
 
 if ($this->type == 'font')
 {
-	Factory::getDocument()->addStyleDeclaration("
+	$this->document()->addStyleDeclaration("
 		@font-face {
 			font-family: previewFont;
 			src: url('" . $this->font['address'] . "')
