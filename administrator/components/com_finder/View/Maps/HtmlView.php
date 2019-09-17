@@ -160,14 +160,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::divider();
-		Toolbar::getInstance('toolbar')->appendButton(
-			'Popup',
-			'bars',
-			'COM_FINDER_STATISTICS',
-			'index.php?option=com_finder&view=statistics&tmpl=component',
-			550,
-			350
-		);
+		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', 'COM_FINDER_STATISTICS_TITLE');
 		ToolbarHelper::divider();
 
 		if ($canDo->get('core.delete'))
