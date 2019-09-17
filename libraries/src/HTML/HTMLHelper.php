@@ -330,14 +330,14 @@ abstract class HTMLHelper
 			return array($file);
 		}
 
-		// Strip any preceding / or \ from filename
-		$file = File::makeSafe($file);
-
 		// Extract extension and strip the file
 		$strip = \JFile::stripExt($file);
 		$ext   = \JFile::getExt($file);
-
-		// Prepare array of files
+		
+		// Strip any preceding / or \ from outside filename
+		$strip = preg_replace('/^\W+|\W+$/', '', $strip);
+		
+		// Prepare array of files		
 		$includes = array();
 
 		// Detect browser and compute potential files
