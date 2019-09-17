@@ -428,7 +428,7 @@ class DatabaseModel extends InstallerModel
 			->select($db->quoteName('version_id'))
 			->from($db->quoteName('#__schemas'))
 			->where($db->quoteName('extension_id') . ' = :extensionid')
-			->bind(':extensionid', $extensionid, ParameterType::INTEGER);
+			->bind(':extensionid', $extensionId, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		return $db->loadResult();
