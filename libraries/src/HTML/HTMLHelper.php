@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Environment\Browser;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
@@ -93,8 +94,8 @@ abstract class HTMLHelper
 	 *
 	 * @return  mixed  Result of HTMLHelper::call($function, $args)
 	 *
-	 * @since   1.5
 	 * @throws  \InvalidArgumentException
+	 * @since   1.5
 	 */
 	public static function _($key)
 	{
@@ -217,9 +218,9 @@ abstract class HTMLHelper
 	 *
 	 * @return  mixed   Function result or false on error.
 	 *
-	 * @link    https://www.php.net/manual/en/function.call-user-func-array.php
-	 * @since   1.6
 	 * @throws  \InvalidArgumentException
+	 * @since   1.6
+	 * @link    https://www.php.net/manual/en/function.call-user-func-array.php
 	 */
 	protected static function call($function, $args)
 	{
@@ -289,7 +290,7 @@ abstract class HTMLHelper
 	 *
 	 * @return  string  Query string to add.
 	 *
-	 * @since   3.7.0
+	 * @since        3.7.0
 	 *
 	 * @deprecated   4.0  Usage of MD5SUM files is deprecated, use version instead.
 	 */
@@ -330,11 +331,12 @@ abstract class HTMLHelper
 		}
 
 		// Extract extension and strip the file
-		$strip = \JFile::stripExt($file);
-		$ext   = \JFile::getExt($file);
+		$strip = File::stripExt($file);
 
 		// Strip any preceding / or \ from outside filename
-		$strip = preg_replace('/^\W+|\W+$/', '', $strip);
+		$strip = trim($strip, '\\/');
+
+		$ext = File::getExt($file);
 
 		// Prepare array of files
 		$includes = array();
@@ -581,7 +583,7 @@ abstract class HTMLHelper
 		if ($returnPath !== -1)
 		{
 			$includes = static::includeRelativeFiles('images', $file, $relative, false, false);
-			$file = count($includes) ? $includes[0] : null;
+			$file     = count($includes) ? $includes[0] : null;
 		}
 
 		// If only path is required
@@ -602,8 +604,8 @@ abstract class HTMLHelper
 	 *
 	 * @return  array|string|null  nothing if $returnPath is false, null, path or array of path if specific CSS browser files were detected
 	 *
-	 * @see     Browser
-	 * @since   1.5
+	 * @see        Browser
+	 * @since      1.5
 	 * @deprecated 4.0  The (file, attribs, relative, pathOnly, detectBrowser, detectDebug) method signature is deprecated,
 	 *                  use (file, options, attributes) instead.
 	 */
@@ -674,8 +676,8 @@ abstract class HTMLHelper
 	 *
 	 * @return  array|string|null  Nothing if $returnPath is false, null, path or array of path if specific JavaScript browser files were detected
 	 *
-	 * @see     HTMLHelper::stylesheet()
-	 * @since   1.5
+	 * @see        HTMLHelper::stylesheet()
+	 * @since      1.5
 	 * @deprecated 4.0  The (file, framework, relative, pathOnly, detectBrowser, detectDebug) method signature is deprecated,
 	 *                  use (file, options, attributes) instead.
 	 */
@@ -876,7 +878,7 @@ abstract class HTMLHelper
 
 		if (!$text)
 		{
-			$alt = htmlspecialchars($alt, ENT_COMPAT, 'UTF-8');
+			$alt  = htmlspecialchars($alt, ENT_COMPAT, 'UTF-8');
 			$text = static::image($image, $alt, null, true);
 		}
 
@@ -896,7 +898,7 @@ abstract class HTMLHelper
 
 			if ($title)
 			{
-				$title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
+				$title   = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
 				$tooltip = $title . '::' . $tooltip;
 			}
 		}
@@ -937,7 +939,7 @@ abstract class HTMLHelper
 			// Pass texts through JText if required.
 			if ($translate)
 			{
-				$title = \JText::_($title);
+				$title   = \JText::_($title);
 				$content = \JText::_($content);
 			}
 
@@ -1120,7 +1122,7 @@ abstract class HTMLHelper
 	 *
 	 * @return  string  JavaScript object notation representation of the array
 	 *
-	 * @since   3.0
+	 * @since       3.0
 	 * @deprecated  4.0 Use `json_encode()` or `Joomla\Registry\Registry::toString('json')` instead
 	 */
 	public static function getJSObject(array $array = array())
