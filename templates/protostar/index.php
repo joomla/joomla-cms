@@ -88,7 +88,7 @@ if ($this->params->get('templateColor'))
 }
 
 // Check for a custom CSS file
-JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'z.css', array('version' => 'auto', 'relative' => true));
 
 // Check for a custom js file
 JHtml::_('script', 'user.js', array('version' => 'auto', 'relative' => true));
