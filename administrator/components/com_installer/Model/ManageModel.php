@@ -360,7 +360,7 @@ class ManageModel extends InstallerModel
 
 		if ($folder !== '')
 		{
-			$folder == '*' ? '' : $folder;
+			$folder = $folder === '*' ? '' : $folder;
 			$query->where($db->quoteName('folder') . ' = :folder')
 				->bind(':folder', $folder);
 		}
