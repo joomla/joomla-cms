@@ -209,11 +209,11 @@ class ComponentAdapter extends InstallerAdapter
 		{
 			if ($this->route === 'update')
 			{
-				$result = $this->parent->parseFiles($this->getManifest()->api->files, 1, $this->oldApiFiles);
+				$result = $this->parent->parseFiles($this->getManifest()->api->files, 3, $this->oldApiFiles);
 			}
 			else
 			{
-				$result = $this->parent->parseFiles($this->getManifest()->api->files, 1);
+				$result = $this->parent->parseFiles($this->getManifest()->api->files, 3);
 			}
 
 			if ($result === false)

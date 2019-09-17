@@ -9,7 +9,7 @@
 
 namespace Joomla\Module\RelatedItems\Site\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
@@ -101,7 +101,7 @@ abstract class RelatedItemsHelper
 				}
 			}
 
-			if (count($likes))
+			if (\count($likes))
 			{
 				// Select other items based on the metakey field 'like' the keys found
 				$query->clear()
@@ -163,7 +163,7 @@ abstract class RelatedItemsHelper
 					return [];
 				}
 
-				if (count($articleIds))
+				if (\count($articleIds))
 				{
 					$articles->setState('filter.article_id', $articleIds);
 					$articles->setState('filter.published', 1);
@@ -174,7 +174,7 @@ abstract class RelatedItemsHelper
 			}
 		}
 
-		if (count($related))
+		if (\count($related))
 		{
 			// Prepare data for display using display options
 			foreach ($related as &$item)

@@ -40,13 +40,6 @@
 		/>
 
 		<menuitem
-			title="MOD_MENU_PURGE_EXPIRED_CACHE"
-			type="component"
-			element="com_cache"
-			link="index.php?option=com_cache&amp;view=purge"
-		/>
-
-		<menuitem
 			title="MOD_MENU_SYSTEM_INFORMATION"
 			type="component"
 			element="com_admin"
@@ -65,7 +58,7 @@
 			quicktask-title="MOD_MENU_COM_USERS_ADD_USER"
 			type="component"
 			element="com_users"
-			link="index.php?option=com_users"
+			link="index.php?option=com_users&amp;view=users"
 			quicktask="index.php?option=com_users&amp;task=user.add"
 		/>
 
@@ -128,6 +121,7 @@
 			type="heading"
 			icon="user-secret"
 			class="class:privacy"
+			dashboard="privacy"
 			>
 			<menuitem
 				title="MOD_MENU_COM_PRIVACY_REQUESTS"
@@ -182,7 +176,7 @@
 			title="MOD_MENU_MENU_MANAGER"
 			type="component"
 			element="com_menus"
-			link="index.php?option=com_menus&amp;view=menus&amp;client_id=0"
+			link="index.php?option=com_menus&amp;view=menus"
 		/>
 
 		<menuitem
@@ -285,7 +279,7 @@
 			title="MOD_MENU_COM_CONTENT_WORKFLOW"
 			type="component"
 			element="com_workflow"
-			link="index.php?option=com_workflow&amp;extension=com_content"
+			link="index.php?option=com_workflow&amp;view=workflows&amp;extension=com_content"
 		/>
 
 		<menuitem
@@ -418,7 +412,7 @@
 			quicktask-title="MOD_MENU_COM_CONTENT_NEW_MODULE"
 			type="component"
 			element="com_modules"
-			link="index.php?option=com_modules&amp;client_id=0"
+			link="index.php?option=com_modules&amp;view=modules&amp;client_id=0"
 		/>
 
 		<menuitem
@@ -444,7 +438,7 @@
 				title="MOD_MENU_COM_TEMPLATES_SUBMENU_STYLES"
 				type="component"
 				element="com_templates"
-				link="index.php?option=com_templates&amp;client_id=0"
+				link="index.php?option=com_templates&amp;view=styles&amp;client_id=0"
 			/>
 
 			<menuitem
