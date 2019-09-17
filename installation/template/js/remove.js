@@ -22,6 +22,7 @@ if (document.getElementById('skipLanguages')) {
 		document.getElementById('installLanguages').classList.remove('active');
 	})
 }
+
 if (document.getElementById('removeInstallationFolder')) {
 	document.getElementById('removeInstallationFolder')
 		.addEventListener('click', function (e) {
