@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 defined('_JEXEC') or die;
 ?>
 <div aria-label="<?php echo $module->name; ?>" role="navigation">
@@ -29,24 +30,23 @@ defined('_JEXEC') or die;
 				unset($list[$i]);
 			}
 		}
+
 		// Find last and penultimate items in breadcrumbs list
 		end($list);
 		$last_item_key   = key($list);
 		prev($list);
 		$penult_item_key = key($list);
+
 		// Make a link if not the last item in the breadcrumbs
 		$show_last = $params->get('showLast', 1);
+
 		// Generate the trail
 		foreach ($list as $key => $item) :
 			if ($key !== $last_item_key) :
 				// Render all but last item - along with separator ?>
 				<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
 					<?php if (!empty($item->link)) : ?>
-						<a itemprop="item" href="<?php echo $item->link; ?>" class="pathway">
-							<span itemprop="name">
-								<?php echo $item->name; ?>
-							</span>
-						</a>
+						<a itemprop="item" href="<?php echo $item->link; ?>" class="pathway"><span itemprop="name"><?php echo $item->name; ?></span></a>
 					<?php else : ?>
 						<span itemprop="name">
 							<?php echo $item->name; ?>
@@ -62,12 +62,13 @@ defined('_JEXEC') or die;
 				</li>
 			<?php elseif ($show_last) :
 				// Render last item if reqd. ?>
-				<li class="active">
-					<span>
+				<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="active">
+					<span itemprop="name">
 						<?php echo $item->name; ?>
 					</span>
+					<meta itemprop="position" content="<?php echo $key + 1; ?>">
 				</li>
-			<?php endif; ?>
-		<?php endforeach; ?>
+			<?php endif;
+		endforeach; ?>
 	</ul>
 </div>
