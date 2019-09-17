@@ -372,7 +372,7 @@ class RssParser extends FeedParser
 		$entry->updatedDate   = (string) $el->pubDate;
 		$entry->content       = (string) $el->description;
 		$entry->guid          = (string) $el->guid;
-		$entry->isPermaLink   = $entry->guid === '' || (string) $el->guid['isPermaLink'] === 'false' ? false : true;
+		$entry->isPermaLink   = $entry->guid !== '' && (string) $el->guid['isPermaLink'] === 'false';
 		$entry->comments      = (string) $el->comments;
 
 		// Add the feed entry author if available.
