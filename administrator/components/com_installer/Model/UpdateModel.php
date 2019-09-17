@@ -172,7 +172,7 @@ class UpdateModel extends ListModel
 				{
 					$uid = (int) substr($search, 3);
 					$query->where($db->quoteName('u.update_id') . ' = :uid')
-						->bind(':uid', $suid, ParameterType::INTEGER);
+						->bind(':uid', $uid, ParameterType::INTEGER);
 				}
 				else
 				{
