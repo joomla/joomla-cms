@@ -23,6 +23,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -206,7 +207,7 @@ class ItemModel extends AdminModel
 		$parents = array();
 
 		// Calculate the emergency stop count as a precaution against a runaway loop bug
-		$query->select('COUNT(id)')
+		$query->select('COUNT(' . $db->quoteName('id') . ')')
 			->from($db->quoteName('#__menu'));
 		$db->setQuery($query);
 
@@ -248,11 +249,17 @@ class ItemModel extends AdminModel
 			}
 
 			// Copy is a bit tricky, because we also need to copy the children
-			$query->clear()
-				->select('id')
+			$query = $db->getQuery(true)
+				->select($db->quoteName('id'))
 				->from($db->quoteName('#__menu'))
-				->where('lft > ' . (int) $table->lft)
-				->where('rgt < ' . (int) $table->rgt);
+				->where(
+					[
+						$db->quoteName('lft') . ' > :lft',
+						$db->quoteName('rgt') . ' < :rgt',
+					]
+				)
+				->bind(':lft', $table->lft, ParameterType::INTEGER)
+				->bind(':rgt', $table->rgt, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$childIds = $db->loadColumn();
 
@@ -361,7 +368,6 @@ class ItemModel extends AdminModel
 
 		$table = $this->getTable();
 		$db    = $this->getDbo();
-		$query = $db->getQuery(true);
 
 		// Check that the parent exists.
 		if ($parentId)
@@ -437,10 +443,12 @@ class ItemModel extends AdminModel
 			if ($menuType != $table->menutype)
 			{
 				// Add the child node ids to the children array.
-				$query->clear()
+				$query = $db->getQuery(true)
 					->select($db->quoteName('id'))
 					->from($db->quoteName('#__menu'))
-					->where($db->quoteName('lft') . ' BETWEEN ' . (int) $table->lft . ' AND ' . (int) $table->rgt);
+					->where($db->quoteName('lft') . ' BETWEEN :lft AND :rgt')
+					->bind(':lft', $table->lft, ParameterType::INTEGER)
+					->bind(':rgt', $table->rgt, ParameterType::INTEGER);
 				$db->setQuery($query);
 				$children = array_merge($children, (array) $db->loadColumn());
 			}
@@ -823,31 +831,51 @@ class ItemModel extends AdminModel
 	 */
 	public function getModules()
 	{
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
+		$clientId = $this->getState('item.client_id');
 
 		// Currently any setting that affects target page for a backend menu is not supported, hence load no modules.
-		if ($this->getState('item.client_id') == 1)
+		if ($clientId == 1)
 		{
 			return false;
 		}
+
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		/**
 		 * Join on the module-to-menu mapping table.
 		 * We are only interested if the module is displayed on ALL or THIS menu item (or the inverse ID number).
 		 * sqlsrv changes for modulelink to menu manager
 		 */
-		$query->select('a.id, a.title, a.position, a.published, map.menuid')
-			->from('#__modules AS a')
+		$query->select(
+			[
+				$db->quoteName('a.id'),
+				$db->quoteName('a.title'),
+				$db->quoteName('a.position'),
+				$db->quoteName('a.published'),
+				$db->quoteName('map.menuid'),
+			]
+		)
+			->from($db->quoteName('#__modules', 'a'))
 			->join('LEFT', sprintf('#__modules_menu AS map ON map.moduleid = a.id AND map.menuid IN (0, %1$d, -%1$d)', $this->getState('item.id')))
 			->select('(SELECT COUNT(*) FROM #__modules_menu WHERE moduleid = a.id AND menuid < 0) AS ' . $db->quoteName('except'));
 
 		// Join on the asset groups table.
-		$query->select('ag.title AS access_title')
-			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access')
-			->where('a.published >= 0')
-			->where('a.client_id = ' . (int) $this->getState('item.client_id'))
-			->order('a.position, a.ordering');
+		$query->select($db->quoteName('ag.title', 'access_title'))
+			->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'))
+			->where(
+				[
+					$db->quoteName('a.published') . ' >= 0',
+					$db->quoteName('a.client_id') . ' = :clientId',
+				]
+			)
+			->bind(':clientId', $clientId, ParameterType::INTEGER)
+			->order(
+				[
+					$db->quoteName('a.position'),
+					$db->quoteName('a.ordering'),
+				]
+			);
 
 		$db->setQuery($query);
 
