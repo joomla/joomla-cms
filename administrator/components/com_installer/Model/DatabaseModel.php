@@ -366,7 +366,7 @@ class DatabaseModel extends InstallerModel
 
 		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
 		{
-			$folder == '*' ? '' : $folder;
+			$folder = $folder === '*' ? '' : $folder;
 			$query->where($db->quoteName('extensions.folder') . ' = :folder')
 				->bind(':folder', $folder);
 		}
