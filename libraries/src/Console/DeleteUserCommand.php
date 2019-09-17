@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\ParameterType;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
