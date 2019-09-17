@@ -82,20 +82,15 @@ if (Factory::getLanguage()->isRtl())
 	$label .= ' data-placement="left"';
 }
 
-$attribs                = [];
-$attribs['data-toggle'] = 'modal';
-$attribs['data-target'] = '#tosModal';
-
 if ($article)
 {
-	$link = HTMLHelper::_('link', Route::_($article->link . '&tmpl=component'), $text, $attribs);
-}
-else
-{
-	$link = $text;
-}
+	$attribs                = [];
+	$attribs['data-toggle'] = 'modal';
+	$attribs['data-target'] = '#tosModal';
 
-echo HTMLHelper::_(
+	$link = HTMLHelper::_('link', Route::_($article->link . '&tmpl=component'), $text, $attribs);
+
+	echo HTMLHelper::_(
 	'bootstrap.renderModal',
 	'tosModal',
 	array(
@@ -109,6 +104,11 @@ echo HTMLHelper::_(
 			. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 	)
 );
+}
+else
+{
+	$link = $text;
+}
 
 // Add the label text and closing tag.
 $label .= '>' . $link . '<span class="star">&#160;*</span></label>';
