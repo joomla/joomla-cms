@@ -130,7 +130,7 @@ class UpdateModel extends ListModel
 
 		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
 		{
-			$folder == '*' ? '' : $folder;
+			$folder = $folder === '*' ? '' : $folder;
 			$query->where($db->quoteName('u.folder') . ' = :folder')
 				->bind(':folder', $folder);
 		}
