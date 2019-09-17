@@ -195,7 +195,7 @@ class MenusHelper extends ContentHelper
 			$query->join('LEFT', $db->quoteName('#__menu', 'p'), $db->quoteName('p.id') . ' = :parentId')
 				->where(
 					'(' . $db->quoteName('a.lft') . ' <= ' . $db->quoteName('p.lft')
-					. ' OR ' . $db->quoteName('a.rgt') . ' >= ' . $db->quoteName('p.rgt')')'
+					. ' OR ' . $db->quoteName('a.rgt') . ' >= ' . $db->quoteName('p.rgt') . ')'
 				)
 				->bind(':parentId', $parentId, ParameterType::INTEGER);
 		}
