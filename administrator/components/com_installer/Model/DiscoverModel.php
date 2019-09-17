@@ -118,7 +118,7 @@ class DiscoverModel extends InstallerModel
 
 		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
 		{
-			$folder == '*' ? '' : $folder;
+			$folder = $folder === '*' ? '' : $folder;
 			$query->where($db->quoteName('folder') . ' = :folder')
 				->bind(':folder', $folder);
 		}
