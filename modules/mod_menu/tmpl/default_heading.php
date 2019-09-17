@@ -12,14 +12,14 @@ defined('_JEXEC') or die;
 $title      = $item->anchor_title ? ' title="' . $item->anchor_title . '"' : '';
 $anchor_css = $item->anchor_css ?: '';
 
-$linktype = $item->title;
+$linktype   = $item->title;
 
 if ($item->menu_image)
 {
 	if ($item->menu_image_css)
 	{
 		$image_attributes['class'] = $item->menu_image_css;
-		$linktype                  = JHtml::_('image', $item->menu_image, $item->title, $image_attributes);
+		$linktype = JHtml::_('image', $item->menu_image, $item->title, $image_attributes);
 	}
 	else
 	{
@@ -30,11 +30,6 @@ if ($item->menu_image)
 	{
 		$linktype .= '<span class="image-title">' . $item->title . '</span>';
 	}
-}
-
-if ($active_id == $item->id || $active_id == $item->params['aliasoptions'])
-{
-	$anchor_css .= ' aria-current = "page"';
 }
 
 ?>
