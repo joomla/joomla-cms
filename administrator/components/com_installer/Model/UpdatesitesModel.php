@@ -550,7 +550,7 @@ class UpdatesitesModel extends InstallerModel
 
 		if ($folder !== '' && in_array($type, ['plugin', 'library', ''], true))
 		{
-			$folder === '*' ? '' : $folder;
+			$folder = $folder === '*' ? '' : $folder;
 			$query->where($db->quoteName('e.folder') . ' = :folder')
 				->bind(':folder', $folder);
 		}
