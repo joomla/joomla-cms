@@ -192,32 +192,26 @@ class MenusHelper extends ContentHelper
 		// Prevent the parent and children from showing if requested.
 		if ($parentId && $mode == 2)
 		{
-			$query->join('LEFT', '#__menu AS p ON p.id = ' . (int) $parentId)
-				->where('(a.lft <= p.lft OR a.rgt >= p.rgt)');
+			$query->join('LEFT', $db->quoteName('#__menu', 'p'), $db->quoteName('p.id') . ' = :parentId')
+				->where(
+					'(' . $db->quoteName('a.lft') . ' <= ' . $db->quoteName('p.lft')
+					. ' OR ' . $db->quoteName('a.rgt') . ' >= ' . $db->quoteName('p.rgt')')'
+				)
+				->bind(':parentId', $parentId, ParameterType::INTEGER);
 		}
 
 		if (!empty($languages))
 		{
-			if (is_array($languages))
-			{
-				$languages = '(' . implode(',', array_map(array($db, 'quote'), $languages)) . ')';
-			}
-
-			$query->where('a.language IN ' . $languages);
+			$query->whereIn($db->quoteName('a.language'), (array) $languages, ParameterType::STRING);
 		}
 
 		if (!empty($published))
 		{
-			if (is_array($published))
-			{
-				$published = '(' . implode(',', $published) . ')';
-			}
-
-			$query->where('a.published IN ' . $published);
+			$query->whereIn($db->quoteName('a.published'), (array) $published);
 		}
 
-		$query->where('a.published != -2');
-		$query->order('a.lft ASC');
+		$query->where($db->quoteName('a.published') . ' != -2');
+		$query->order($db->quoteName('a.lft') . ' ASC');
 
 		try
 		{
@@ -248,7 +242,7 @@ class MenusHelper extends ContentHelper
 
 			if ($hasClientId)
 			{
-				$query->where('client_id = :clientId')
+				$query->where($db->quoteName('client_id') . ' = :clientId')
 					->bind(':clientId', $clientId, ParameterType::INTEGER);
 			}
 
