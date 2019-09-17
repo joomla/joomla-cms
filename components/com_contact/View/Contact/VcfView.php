@@ -47,7 +47,7 @@ class VcfView extends AbstractView
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		Factory::getDocument()->setMimeEncoding('text/directory', true);
+		$this->document->setMimeEncoding('text/directory', true);
 
 		// Compute lastname, firstname and middlename
 		$item->name = trim($item->name);
