@@ -33,7 +33,7 @@ $this->loadTemplate('texts');
 $tmpl = Factory::getApplication()->input->getCmd('tmpl');
 
 // Load the toolbar when we are in an iframe
-if ($tmpl == 'component')
+if ($tmpl === 'component')
 {
 	echo Toolbar::getInstance('toolbar')->render();
 }
