@@ -1342,7 +1342,7 @@ class ComponentAdapter extends InstallerAdapter
 				],
 				'OR'
 			)
-			->bind(':componentId', $component_id)
+			->bind(':componentId', $component_id, ParameterType::INTEGER)
 			->bind(':link', $link)
 			->bind(':linkMatch', $linkMatch);
 
