@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Profiler\Profiler;
+use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
 
 /**
@@ -281,21 +282,24 @@ abstract class Indexer
 	 */
 	public function remove($linkId)
 	{
-		$db    = $this->db;
-		$query = $db->getQuery(true);
+		$db     = $this->db;
+		$query  = $db->getQuery(true);
+		$linkId = (int) $linkId;
 
 		// Update the link counts for the terms.
 		$query->clear()
 			->update($db->quoteName('#__finder_terms', 't'))
-			->join('INNER', $db->quoteName('#__finder_links_terms', 'm') . ' ON ' . $db->quoteName('m.term_id') . ' = ' . $db->quoteName('t.term_id'))
+			->join('INNER', $db->quoteName('#__finder_links_terms', 'm'), $db->quoteName('m.term_id') . ' = ' . $db->quoteName('t.term_id'))
 			->set($db->quoteName('links') . ' = ' . $db->quoteName('links') . ' - 1')
-			->where($db->quoteName('m.link_id') . ' = ' . (int) $linkId);
+			->where($db->quoteName('m.link_id') . ' = :linkid')
+			->bind(':linkid', $linkId, ParameterType::INTEGER);
 		$db->setQuery($query)->execute();
 
 		// Remove all records from the mapping tables.
 		$query->clear()
 			->delete($db->quoteName('#__finder_links_terms'))
-			->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
+			->where($db->quoteName('link_id') . ' = :linkid')
+			->bind(':linkid', $linkId, ParameterType::INTEGER);
 		$db->setQuery($query)->execute();
 
 		// Delete all orphaned terms.
@@ -307,7 +311,9 @@ abstract class Indexer
 		// Delete the link from the index.
 		$query->clear()
 			->delete($db->quoteName('#__finder_links'))
-			->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
+			->where($db->quoteName('link_id') . ' = :linkid')
+			->bind(':linkid', $linkId, ParameterType::INTEGER);
+		
 		$db->setQuery($query)->execute();
 
 		// Remove the taxonomy maps.
