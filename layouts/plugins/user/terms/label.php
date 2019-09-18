@@ -94,7 +94,7 @@ if ($article)
 	echo HTMLHelper::_(
 		'bootstrap.renderModal',
 		'tosModal',
-		array(
+		[
 			'url'    => Route::_($article->link . '&tmpl=component'),
 			'title'  => $text,
 			'height' => '100%',
@@ -103,7 +103,7 @@ if ($article)
 			'bodyHeight'  => '500',
 			'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
 				. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
-		)
+		]
 	);
 }
 else
