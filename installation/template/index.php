@@ -34,8 +34,6 @@ $this->addScriptOptions('system.installation', ['url' => Route::_('index.php')])
 
 // Load JavaScript message titles
 Text::script('ERROR');
-Text::script('INSTL_REMOVE_INST_FOLDER');
-Text::script('INSTL_SITE_REMOVE_BUTTON');
 Text::script('WARNING');
 Text::script('NOTICE');
 Text::script('MESSAGE');
@@ -51,6 +49,9 @@ Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 Text::script('INSTL_PROCESS_BUSY');
 Text::script('INSTL_FTP_SETTINGS_CORRECT');
 
+// Load strings for frontend translations
+Text::script('INSTL_REMOVE_INST_FOLDER');
+Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
