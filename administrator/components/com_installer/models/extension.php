@@ -117,10 +117,10 @@ class InstallerModel extends JModelList
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
 
-			if ($total < $limitstart)
+			if ($total <= $limitstart)
 			{
 				$limitstart = 0;
-				$this->setState('list.start', 0);
+				$this->setState('list.limitstart', 0);
 			}
 
 			return array_slice($result, $limitstart, $limit ?: null);

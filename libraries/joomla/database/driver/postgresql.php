@@ -1610,4 +1610,18 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	{
 		return 'CREATE DATABASE ' . $this->quoteName($options->db_name);
 	}
+
+	/**
+	 * Quotes a binary string to database requirements for use in database queries.
+	 *
+	 * @param   mixed  $data  A binary string to quote.
+	 *
+	 * @return  string  The binary quoted input string.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function quoteBinary($data)
+	{
+		return "decode('" . bin2hex($data) . "', 'hex')";
+	}
 }
