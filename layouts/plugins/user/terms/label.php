@@ -84,9 +84,10 @@ if (Factory::getLanguage()->isRtl())
 
 if ($article)
 {
-	$attribs                = [];
-	$attribs['data-toggle'] = 'modal';
-	$attribs['data-target'] = '#tosModal';
+	$attribs = [
+		'data-toggle' => 'modal',
+		'data-target' => '#tosModal',
+	];
 
 	$link = HTMLHelper::_('link', Route::_($article->link . '&tmpl=component'), $text, $attribs);
 
