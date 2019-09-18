@@ -991,7 +991,6 @@ CREATE TABLE IF NOT EXISTS "#__finder_terms_common" (
   "custom" integer DEFAULT 0 NOT NULL,
   CONSTRAINT "#__finder_terms_common_idx_term" UNIQUE ("term", "language")
 );
-CREATE INDEX "#__finder_terms_common_idx_word_lang" on "#__finder_terms_common" ("term", "language");
 CREATE INDEX "#__finder_terms_common_idx_lang" on "#__finder_terms_common" ("language");
 
 --
