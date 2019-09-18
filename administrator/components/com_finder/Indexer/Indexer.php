@@ -313,7 +313,6 @@ abstract class Indexer
 			->delete($db->quoteName('#__finder_links'))
 			->where($db->quoteName('link_id') . ' = :linkid')
 			->bind(':linkid', $linkId, ParameterType::INTEGER);
-		
 		$db->setQuery($query)->execute();
 
 		// Remove the taxonomy maps.
