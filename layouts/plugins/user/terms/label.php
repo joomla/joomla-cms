@@ -92,19 +92,19 @@ if ($article)
 	$link = HTMLHelper::_('link', Route::_($article->link . '&tmpl=component'), $text, $attribs);
 
 	echo HTMLHelper::_(
-	'bootstrap.renderModal',
-	'tosModal',
-	array(
-		'url'    => Route::_($article->link . '&tmpl=component'),
-		'title'  => $text,
-		'height' => '100%',
-		'width'  => '100%',
-		'modalWidth'  => '800',
-		'bodyHeight'  => '500',
-		'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-			. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-	)
-);
+		'bootstrap.renderModal',
+		'tosModal',
+		array(
+			'url'    => Route::_($article->link . '&tmpl=component'),
+			'title'  => $text,
+			'height' => '100%',
+			'width'  => '100%',
+			'modalWidth'  => '800',
+			'bodyHeight'  => '500',
+			'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+				. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
+		)
+	);
 }
 else
 {
