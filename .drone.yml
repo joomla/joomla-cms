@@ -40,6 +40,34 @@ steps:
     commands:
       - npm ci --unsafe-perm
 
+  - name: publish-diff
+    image: joomlaprojects/docker-images:patchtester
+    depends_on: [ npm ]
+    environment:
+      CMP_ARCHIVE_NAME: "build"
+      CMP_MASTER_FOLDER: "/reference"
+      CMP_SLAVE_FOLDER: "." # The directory the current repo is in
+      FTP_USERNAME:
+        from_secret: ftpusername
+      FTP_PASSWORD:
+        from_secret: ftppassword
+      FTP_HOSTNAME: ci.joomla.org
+      FTP_PORT: "21"
+      FTP_DEST_DIR: /artifacts
+      FTP_VERIFY: "false"
+      FTP_SECURE: "true"
+      BRANCH_NAME: "4.0-dev" # Current branch to check against (from repo joomla/joomla-cms)
+      DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
+    commands:
+      - export PULL_ID=$DRONE_PULL_REQUEST
+      - /bin/compare.sh
+    volumes:
+      - name: reference
+        path: /reference
+    when:
+      branch:
+      - 4.0-dev
+
   - name: rebuild-cache
     image: drillster/drone-volume-cache
     depends_on: [ npm ]
@@ -56,21 +84,21 @@ steps:
 
   - name: php72-unit
     depends_on: [ phpcs ]
-    image: php:7.2
+    image: joomlaprojects/docker-images:php7.2
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
 
   - name: php73-unit
     depends_on: [ phpcs ]
-    image: php:7.3
+    image: joomlaprojects/docker-images:php7.3
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
 
   - name: php74-unit
     depends_on: [ phpcs ]
-    image: phpdaily/php:7.4-dev
+    image: joomlaprojects/docker-images:php7.4
     failure: ignore
     commands:
       - php -v
@@ -78,7 +106,7 @@ steps:
 
   - name: php80-unit
     depends_on: [ phpcs ]
-    image: phpdaily/php:8.0-dev
+    image: joomlaprojects/docker-images:php8.0
     failure: ignore
     commands:
       - php -v
@@ -197,7 +225,7 @@ steps:
       PLUGIN_SECURE: false
       PLUGIN_EXCLUDE: ^\.git/$
     commands:
-      - export PLUGIN_DEST_DIR=$PLUGIN_DEST_DIR/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST_$DRONE_BUILD_NUMBER/system-tests
+      - export PLUGIN_DEST_DIR=$PLUGIN_DEST_DIR/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
       - echo https://ci.joomla.org:444$PLUGIN_DEST_DIR
       - /bin/upload.sh
     when:
@@ -234,6 +262,9 @@ volumes:
 - name: cache
   host:
     path: /tmp/cache
+- name: reference
+  host:
+    path: /tmp/reference
 
 services:
   - name: mysql
@@ -270,6 +301,6 @@ services:
 
 ---
 kind: signature
-hmac: af5f0783363fae3f8876585fff87e08dd470ee9a81599f20e4c0e8d2d0836801
+hmac: f17f253b02d7a16535d706a31f99d678dcdc595d5bc2ca1e8c2889c3eae2a51b
 
 ...

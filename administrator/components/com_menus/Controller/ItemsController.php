@@ -261,52 +261,14 @@ class ItemsController extends AdminController
 	}
 
 	/**
-	 * Check in of one or more records.
+	 * Gets the URL arguments to append to a list redirect.
 	 *
-	 * @return  boolean  True on success
+	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   3.6.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function checkin()
+	protected function getRedirectToListAppend()
 	{
-		// Check for request forgeries.
-		$this->checkToken();
-
-		$ids = $this->input->post->get('cid', array(), 'array');
-
-		$model = $this->getModel();
-		$return = $model->checkin($ids);
-
-		if ($return === false)
-		{
-			// Checkin failed.
-			$message = Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
-			$this->setRedirect(
-				Route::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. '&menutype=' . $this->app->getUserState('com_menus.items.menutype'),
-					false
-				),
-				$message,
-				'error'
-			);
-
-			return false;
-		}
-		else
-		{
-			// Checkin succeeded.
-			$message = Text::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
-			$this->setRedirect(
-				Route::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. '&menutype=' . $this->app->getUserState('com_menus.items.menutype'),
-					false
-				),
-				$message
-			);
-
-			return true;
-		}
+		return '&menutype=' . $this->app->getUserState('com_menus.items.menutype');
 	}
 }

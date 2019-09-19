@@ -331,13 +331,6 @@ joomla-toolbar-button {
 }
 
 .btn-toolbar{
-
-  .input-group-append {
-    .btn-primary {
-      background-color: var(--atum-bg-dark-70);
-      color:rgba(255,255,255,0.90);
-    }
-  }
   > joomla-toolbar-button,
   > .btn-group {
     @include media-breakpoint-down(lg) {

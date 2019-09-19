@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Installer helper.
@@ -55,7 +56,7 @@ class InstallerHelper
 	 *
 	 * @since   3.0
 	 */
-	public static function getExtensionGroupes()
+	public static function getExtensionGroups()
 	{
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
@@ -137,7 +138,7 @@ class InstallerHelper
 				$path .= '/plugins/' . $folder . '/' . $element . '/' . $element . '.xml';
 				break;
 			case 'module':
-				$path .= '/modules/' . $element . '/' . $element->element . '.xml';
+				$path .= '/modules/' . $element . '/' . $element . '.xml';
 				break;
 			case 'template':
 				$path .= '/templates/' . $element . '/templateDetails.xml';
@@ -153,5 +154,52 @@ class InstallerHelper
 		}
 
 		return simplexml_load_file($path);
+	}
+
+	/**
+	 * Get the download key of an extension going through their installation xml
+	 *
+	 * @param   CMSObject  $extension  element of an extension
+	 *
+	 * @return  array  An array with the prefix, suffix and value of the download key
+	 *
+	 * @since   4.0.0
+	 */
+	public static function getDownloadKey(CMSObject $extension): array
+	{
+		$installXmlFile = self::getInstallationXML(
+			$extension->get('element'),
+			$extension->get('type'),
+			$extension->get('client_id'),
+			$extension->get('folder')
+		);
+
+		if (!$installXmlFile)
+		{
+			return ['valid' => false];
+		}
+
+		if (!isset($installXmlFile->dlid))
+		{
+			return ['valid' => false];
+		}
+
+		$prefix = (string) $installXmlFile->dlid['prefix'];
+		$suffix = (string) $installXmlFile->dlid['suffix'];
+		$value  = substr($extension->get('extra_query'), strlen($prefix));
+
+		if ($suffix)
+		{
+			$value = substr($value, 0, -strlen($suffix));
+		}
+
+		$downloadKey = [
+			'valid'   => $value ? true : false,
+			'prefix'  => $prefix,
+			'suffix'  => $suffix,
+			'value'   => $value
+		];
+
+		return $downloadKey;
 	}
 }

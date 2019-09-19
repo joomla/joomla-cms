@@ -27,6 +27,7 @@ HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('script', 'installation/template/js/template.js', ['version' => 'auto']);
 HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('webcomponent', 'system/joomla-core-loader.min.js', ['relative' => true, 'version' => 'auto']);
 
 // Add script options
 $this->addScriptOptions('system.installation', ['url' => Route::_('index.php')]);
@@ -77,7 +78,7 @@ Text::script('INSTL_FTP_SETTINGS_CORRECT');
 						</span>
 					</div>
 					<div class="m-2 d-flex align-items-center">
-						<a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla"; target="_blank">
+						<a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla" target="_blank">
 							<span class="fa fa-question" aria-hidden="true"></span>
 							<span class="sr-only"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
 						</a>
