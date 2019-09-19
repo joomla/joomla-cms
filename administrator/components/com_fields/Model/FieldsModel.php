@@ -256,6 +256,7 @@ class FieldsModel extends ListModel
 		if (!$app->isClient('administrator') || !$user->authorise('core.admin'))
 		{
 			$groups = $user->getAuthorisedViewLevels();
+			$query->whereIn($db->quoteName('a.access'), $groups);
 			$query->extendWhere(
 				'AND',
 				[
