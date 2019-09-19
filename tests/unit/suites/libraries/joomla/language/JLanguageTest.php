@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ if (!class_exists('En_GBLocalise'))
  *
  * @package     Joomla.UnitTest
  * @subpackage  Language
- * @since       11.1
+ * @since       1.7.0
  */
 class JLanguageTest extends \PHPUnit\Framework\TestCase
 {
@@ -832,7 +832,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 
 		// Note: property = name, returns English (en-GB) (default language)
 		$this->assertEquals(
-			'English (en-GB)',
+			'English (United Kingdom)',
 			$this->object->get('name')
 		);
 	}
@@ -845,7 +845,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	public function testGetName()
 	{
 		$this->assertEquals(
-			'English (en-GB)',
+			'English (United Kingdom)',
 			$this->object->getName()
 		);
 	}
@@ -1031,7 +1031,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 		// In this case, returns array with default language
 		// - same operation of get method with metadata property
 		$options = array(
-			'name'       => 'English (en-GB)',
+			'name'       => 'English (United Kingdom)',
 			'nativeName' => 'English (United Kingdom)',
 			'tag'        => 'en-GB',
 			'rtl'        => '0',

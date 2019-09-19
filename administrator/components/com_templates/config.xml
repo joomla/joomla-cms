@@ -19,7 +19,7 @@
 
 		<field
 			name="upload_limit" 
-			type="text"
+			type="number"
 			label="COM_TEMPLATES_CONFIG_UPLOAD_LABEL"
 			description="COM_TEMPLATES_CONFIG_UPLOAD_DESC"
 			default="10"
@@ -31,8 +31,6 @@
 			type="note"
 			label="COM_TEMPLATES_CONFIG_SUPPORTED_LABEL"
 			description="COM_TEMPLATES_CONFIG_SUPPORTED_DESC"
-			default="zip"
-			extension="com_templates"
 		/>
 
 		<field
