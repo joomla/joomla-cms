@@ -7,10 +7,13 @@
  */
 
 namespace Joomla\CMS\Exception;
-use Joomla\CMS\Log\Log, Joomla\CMS\Factory, Joomla\CMS\Document\Document;
-use Joomla\CMS\Language\Text;
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\Language\Text;
 
 /**
  * Displays the custom error page when an uncaught exception occurs.
