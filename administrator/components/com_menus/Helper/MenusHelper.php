@@ -21,7 +21,6 @@ use Joomla\CMS\Menu\MenuItem;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Menus component helper.
@@ -445,7 +444,7 @@ class MenusHelper extends ContentHelper
 		{
 			$query->select('extension_id, element')->from('#__extensions')->where('type = ' . $db->quote('component'));
 			$components = $db->setQuery($query)->loadObjectList();
-			$components = ArrayHelper::getColumn((array) $components, 'element', 'extension_id');
+			$components = array_column((array) $components, 'element', 'extension_id');
 		}
 
 		Factory::getApplication()->triggerEvent('onPreprocessMenuItems', array('com_menus.administrator.import', &$items, null, true));
