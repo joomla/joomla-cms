@@ -301,6 +301,6 @@ services:
 
 ---
 kind: signature
-hmac: c88480e470d101c1cfad7145d0ca3b1d6045f4eabfe86f131d937f6955fa2cc5
+hmac: f17f253b02d7a16535d706a31f99d678dcdc595d5bc2ca1e8c2889c3eae2a51b
 
 ...
