@@ -321,7 +321,7 @@ class FieldsModel extends ListModel
 			if (stripos($search, 'id:') === 0)
 			{
 				$search = (int) substr($search, 3);
-				$query->where($db->quoteName('a.id') . ' = :search')
+				$query->where($db->quoteName('a.id') . ' = :id')
 					->bind(':id', $search, ParameterType::INTEGER);
 			}
 			elseif (stripos($search, 'author:') === 0)
