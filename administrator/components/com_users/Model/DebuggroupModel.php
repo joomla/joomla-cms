@@ -232,13 +232,9 @@ class DebuggroupModel extends ListModel
 			// Escape the search token.
 			$search = '%' . trim($this->getState('filter.search')) . '%';
 
-			// Compile the different search clauses.
-			$searches = [];
-			$searches[] = 'a.name LIKE :name';
-			$searches[] = 'a.title LIKE :title';
-
 			// Add the clauses to the query.
-			$query->where('(' . implode(' OR ', $searches) . ')')
+			$query->where($db->quoteName('a.name') . ' LIKE :name')
+				->orWhere($db->quoteName('a.title') . ' LIKE :title')
 				->bind(':name', $search)
 				->bind(':title', $search);
 		}
