@@ -1879,7 +1879,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  string  The binary quoted input string.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.12
 	 */
 	public function quoteBinary($data)
 	{
