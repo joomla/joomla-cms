@@ -65,7 +65,8 @@ class LevelController extends FormController
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		// Check for if Super Admin can edit
-		$db = Factory::getDbo();
+		$data['id'] = (int) $data['id'];
+		$db    = Factory::getDbo();		
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__viewlevels'))
