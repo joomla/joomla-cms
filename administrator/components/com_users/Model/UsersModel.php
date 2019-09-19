@@ -364,17 +364,12 @@ class UsersModel extends ListModel
 			}
 			else
 			{
-				// Escape the search token.
 				$search = '%' . trim($search) . '%';
 
-				// Compile the different search clauses.
-				$searches   = [];
-				$searches[] = 'a.name LIKE :name';
-				$searches[] = 'a.username LIKE :username';
-				$searches[] = 'a.email LIKE :email';
-
 				// Add the clauses to the query.
-				$query->where('(' . implode(' OR ', $searches) . ')')
+				$query->where($db->quoteName('a.name') . ' LIKE :name')
+					->orWhere($db->quoteName('a.username') . ' LIKE :username')
+					->orWhere($db->quoteName('a.email') . ' LIKE :email')
 					->bind(':name', $search)
 					->bind(':username', $search)
 					->bind(':email', $search);
