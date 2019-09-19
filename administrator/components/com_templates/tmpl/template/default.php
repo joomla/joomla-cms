@@ -128,7 +128,7 @@ if ($this->type == 'font')
 				<?php if (!empty($this->source->coreFile)) : ?>
 					<?php $coreFileContent = file_get_contents($this->source->coreFile); ?>
 					<?php $overrideFileContent = file_get_contents($this->source->filePath); ?>
-					<div class="col-md-6" id="core-pane">
+					<div class="col-md-12" id="core-pane">
 						<h2><?php echo Text::_('COM_TEMPLATES_FILE_CORE_PANE'); ?></h2>
 						<div class="editor-border">
 							<?php echo $this->form->getInput('core'); ?>
