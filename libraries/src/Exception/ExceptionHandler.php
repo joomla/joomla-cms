@@ -10,10 +10,10 @@ namespace Joomla\CMS\Exception;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 
 /**
  * Displays the custom error page when an uncaught exception occurs.
@@ -184,15 +184,8 @@ class ExceptionHandler
 	protected static function getCallerFunctionName()
 	{
 		$backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-
-		if (isset($backtrace[2]['function']))
-		{
-			return $backtrace[2]['function'];
-		}
-		else
-		{
-			return false;
-		}
+		
+		return isset($backtrace[2]['function']) ? $backtrace[2]['function'] : false;
 	}
 
 	/**
