@@ -64,32 +64,26 @@ $theme-colours: map-merge((
 
     &::before,
     &::after {
-      box-sizing: content-box;
-      border: 50px solid $value;
-    }
-
-    &::before {
       position: absolute;
       top: 0;
       left: 0;
       width: 50px;
+      box-sizing: content-box;
+      border: 50px solid $value;
+      background: transparent;
+      content: "";
+    }
+
+    &::before {
       height: 35px;
       margin: 60px 0 0 -30px;
-      content: "";
-      background: transparent;
       border-width: 50px 50px 0;
       border-radius: 75px 75px 0 0;
     }
 
     &::after {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 50px;
       height: 101px;
       margin: 145px 0 0 -30px;
-      content: "";
-      background: transparent;
       border-width: 0 0 0 50px;
     }
   }
