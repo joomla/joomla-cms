@@ -66,6 +66,7 @@ $switcher-height: 28px;
   width: ($switcher-width - 6) / 2;
   background: white;
   position: absolute;
+  left: 0;
   transition: 0.4s ease all;
 }
 
