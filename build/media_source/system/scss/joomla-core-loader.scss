@@ -19,6 +19,7 @@ $theme-colours: map-merge((
 }
 
 .box {
+  position: relative;
   width: 300px;
   height: 300px;
   margin: 0 auto;
@@ -53,6 +54,8 @@ $theme-colours: map-merge((
 
   .#{$key} {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 90px;
     height: 90px;
     content: "";
@@ -67,6 +70,8 @@ $theme-colours: map-merge((
 
     &::before {
       position: absolute;
+      top: 0;
+      left: 0;
       width: 50px;
       height: 35px;
       margin: 60px 0 0 -30px;
@@ -78,6 +83,8 @@ $theme-colours: map-merge((
 
     &::after {
       position: absolute;
+      top: 0;
+      left: 0;
       width: 50px;
       height: 101px;
       margin: 145px 0 0 -30px;
