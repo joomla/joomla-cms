@@ -831,7 +831,8 @@ class ItemModel extends AdminModel
 	 */
 	public function getModules()
 	{
-		$clientId = $this->getState('item.client_id');
+		$clientId = (int) $this->getState('item.client_id');
+		$id       = (int) $this->getState('item.id');
 
 		// Currently any setting that affects target page for a backend menu is not supported, hence load no modules.
 		if ($clientId == 1)
@@ -839,7 +840,7 @@ class ItemModel extends AdminModel
 			return false;
 		}
 
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		/**
@@ -857,8 +858,24 @@ class ItemModel extends AdminModel
 			]
 		)
 			->from($db->quoteName('#__modules', 'a'))
-			->join('LEFT', sprintf('#__modules_menu AS map ON map.moduleid = a.id AND map.menuid IN (0, %1$d, -%1$d)', $this->getState('item.id')))
-			->select('(SELECT COUNT(*) FROM #__modules_menu WHERE moduleid = a.id AND menuid < 0) AS ' . $db->quoteName('except'));
+			->join(
+				'LEFT',
+				$db->quoteName('#__modules_menu', 'map'),
+				$db->quoteName('map.moduleid') . ' = ' . $db->quoteName('a.id')
+					. ' AND ' . $db->quoteName('map.menuid') . ' IN (' . implode(',', $query->bindArray([0, $id, -$id])) .')'
+			);
+
+		$subQuery = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from($db->quoteName('#__modules_menu'))
+			->where(
+				[
+					$db->quoteName('moduleid') . ' = ' . $db->quoteName('a.id'),
+					$db->quoteName('menuid') . ' < 0',
+				]
+			);
+
+		$query->select('(' . $subQuery . ') AS ' . $db->quoteName('except'));
 
 		// Join on the asset groups table.
 		$query->select($db->quoteName('ag.title', 'access_title'))
