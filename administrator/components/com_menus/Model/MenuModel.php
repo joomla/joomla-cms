@@ -329,7 +329,6 @@ class MenuModel extends FormModel
 		$db = $this->getDbo();
 
 		$query = $db->getQuery(true)
-			->from($db->quoteName('#__modules', 'a'))
 			->select(
 				[
 					$db->quoteName('a.id'),
@@ -339,8 +338,9 @@ class MenuModel extends FormModel
 					$db->quoteName('ag.title', 'access_title'),
 				]
 			)
-			->where($db->quoteName('module') . ' = ' . $db->quote('mod_menu'))
-			->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'));
+			->from($db->quoteName('#__modules', 'a'))
+			->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'))
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_menu'));
 		$db->setQuery($query);
 
 		$modules = $db->loadObjectList();
