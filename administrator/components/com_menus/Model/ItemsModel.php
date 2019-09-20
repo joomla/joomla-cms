@@ -394,7 +394,7 @@ class ItemsModel extends ListModel
 		{
 			$published = (int) $published;
 			$query->where($db->quoteName('a.published') . ' = :published')
-				->bind(':published', $published);
+				->bind(':published', $published, ParameterType::INTEGER);
 		}
 		elseif ($published === '')
 		{
