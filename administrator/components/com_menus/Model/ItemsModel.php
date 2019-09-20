@@ -259,6 +259,7 @@ class ItemsModel extends ListModel
 
 		// Select all fields from the table.
 		$query->select(
+			// We can't quote state values because they could contain expressions.
 			$this->getState(
 				'list.select',
 				[
@@ -285,9 +286,18 @@ class ItemsModel extends ListModel
 					$db->quoteName('a.home'),
 					$db->quoteName('a.language'),
 					$db->quoteName('a.client_id'),
-					$db->quoteName('e.enabled'),
 					$db->quoteName('a.publish_up'),
 					$db->quoteName('a.publish_down'),
+					$db->quoteName('l.title', 'language_title'),
+					$db->quoteName('l.image', 'language_image'),
+					$db->quoteName('l.sef', 'language_sef'),
+					$db->quoteName('u.name', 'editor'),
+					$db->quoteName('c.element', 'componentname'),
+					$db->quoteName('ag.title', 'access_level'),
+					$db->quoteName('mt.id', 'menutype_id'),
+					$db->quoteName('mt.title', 'menutype_title'),
+					$db->quoteName('e.enabled'),
+					$db->quoteName('e.name'),
 				]
 			)
 		)
@@ -299,35 +309,22 @@ class ItemsModel extends ListModel
 		->from($db->quoteName('#__menu', 'a'));
 
 		// Join over the language
-		$query->select(
-			[
-				$db->quoteName('l.title', 'language_title'),
-				$db->quoteName('l.image', 'language_image'),
-				$db->quoteName('l.sef', 'language_sef'),
-			]
-		)
-			->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'));
+		$query->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'));
 
 		// Join over the users.
-		$query->select($db->quoteName('u.name', 'editor'))
-			->join('LEFT', $db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('a.checked_out'));
+		$query->join('LEFT', $db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('a.checked_out'));
 
 		// Join over components
-		$query->select($db->quoteName('c.element', 'componentname'))
-			->join('LEFT', $db->quoteName('#__extensions', 'c'), $db->quoteName('c.extension_id') . ' = ' . $db->quoteName('a.component_id'));
+		$query->join('LEFT', $db->quoteName('#__extensions', 'c'), $db->quoteName('c.extension_id') . ' = ' . $db->quoteName('a.component_id'));
 
 		// Join over the asset groups.
-		$query->select($db->quoteName('ag.title', 'access_level'))
-			->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'));
+		$query->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'));
 
 		// Join over the menu types.
-		$query->select(
-			[
-				$db->quoteName('mt.id', 'menutype_id'),
-				$db->quoteName('mt.title', 'menutype_title'),
-			]
-		)
-			->join('LEFT', $db->quoteName('#__menu_types', 'mt'), $db->quoteName('mt.menutype') . ' = ' . $db->quoteName('a.menutype'));
+		$query->join('LEFT', $db->quoteName('#__menu_types', 'mt'), $db->quoteName('mt.menutype') . ' = ' . $db->quoteName('a.menutype'));
+
+		// Join over the extensions
+		$query->join('LEFT', $db->quoteName('#__extensions', 'e'), $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('a.component_id'));
 
 		// Join over the associations.
 		$assoc = Associations::isEnabled();
@@ -380,10 +377,6 @@ class ItemsModel extends ListModel
 					]
 				);
 		}
-
-		// Join over the extensions
-		$query->select($db->quoteName('e.name', 'name'))
-			->join('LEFT', $db->quoteName('#__extensions', 'e'), $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('a.component_id'));
 
 		// Exclude the root category.
 		$query->where(
