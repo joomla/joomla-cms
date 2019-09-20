@@ -340,7 +340,7 @@ class MenuModel extends FormModel
 			)
 			->from($db->quoteName('#__modules', 'a'))
 			->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'))
-			->where($db->quoteName('module') . ' = ' . $db->quote('mod_menu'));
+			->where($db->quoteName('a.module') . ' = ' . $db->quote('mod_menu'));
 		$db->setQuery($query);
 
 		$modules = $db->loadObjectList();
