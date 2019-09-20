@@ -486,14 +486,15 @@ class ItemModel extends AdminModel
 			$children = ArrayHelper::toInteger($children);
 
 			// Update the menutype field in all nodes where necessary.
-			$query->clear()
+			$query = $db->getQuery(true)
 				->update($db->quoteName('#__menu'))
-				->set($db->quoteName('menutype') . ' = ' . $db->quote($menuType))
-				->where($db->quoteName('id') . ' IN (' . implode(',', $children) . ')');
-			$db->setQuery($query);
+				->set($db->quoteName('menutype') . ' = :menuType')
+				->whereIn($db->quoteName('id'), $children)
+				->bind(':menuType', $menuType);
 
 			try
 			{
+				$db->setQuery($query);
 				$db->execute();
 			}
 			catch (\RuntimeException $e)
@@ -1354,10 +1355,19 @@ class ItemModel extends AdminModel
 			return false;
 		}
 
-		$query->select('id, params')
-			->from('#__menu')
-			->where('params NOT LIKE ' . $db->quote('{%'))
-			->where('params <> ' . $db->quote(''));
+		$query->select(
+			[
+				$db->quoteName('id'),
+				$db->quoteName('params'),
+			]
+		)
+			->from($db->quoteName('#__menu'))
+			->where(
+				[
+					$db->quoteName('params') . ' NOT LIKE ' . $db->quote('{%'),
+					$db->quoteName('params') . ' <> ' . $db->quote(''),
+				]
+			);
 		$db->setQuery($query);
 
 		try
@@ -1371,19 +1381,27 @@ class ItemModel extends AdminModel
 			return false;
 		}
 
+		// Declare paramaters before binding.
+		$id     = 0;
+		$params = '';
+
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__menu'))
+			->set($db->quoteName('params') . ' = :params')
+			->where($db->quoteName('id') . ' = :id')
+			->bind(':params', $params)
+			->bind(':id', $id, ParameterType::INTEGER);
+		$db->setQuery($query);
+
 		foreach ($items as &$item)
 		{
-			$registry = new Registry($item->params);
-			$params = (string) $registry;
-
-			$query->clear();
-			$query->update('#__menu')
-				->set('params = ' . $db->quote($params))
-				->where('id = ' . $item->id);
+			// Update query parameters.
+			$id     = $item->id;
+			$params = new Registry($item->params);
 
 			try
 			{
-				$db->setQuery($query)->execute();
+				$db->execute();
 			}
 			catch (\RuntimeException $e)
 			{
@@ -1391,8 +1409,6 @@ class ItemModel extends AdminModel
 
 				return false;
 			}
-
-			unset($registry);
 		}
 
 		// Clean the cache
@@ -1540,14 +1556,15 @@ class ItemModel extends AdminModel
 			$children = ArrayHelper::toInteger($children);
 
 			// Update the menutype field in all nodes where necessary.
-			$query->clear()
+			$query = $db->getQuery(true)
 				->update($db->quoteName('#__menu'))
-				->set($db->quoteName('menutype') . ' = ' . $db->quote($data['menutype']))
-				->where($db->quoteName('id') . ' IN (' . implode(',', $children) . ')');
-			$db->setQuery($query);
+				->set($db->quoteName('menutype') . ' = :menutype')
+				->whereIn($db->quoteName('id'), $children)
+				->bind(':menutype', $data['menutype']);
 
 			try
 			{
+				$db->setQuery($query);
 				$db->execute();
 			}
 			catch (\RuntimeException $e)
@@ -1591,38 +1608,50 @@ class ItemModel extends AdminModel
 			$query = $db->getQuery(true)
 				->select($db->quoteName('key'))
 				->from($db->quoteName('#__associations'))
-				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext))
-				->where($db->quoteName('id') . ' = ' . (int) $table->id);
+				->where(
+					[
+						$db->quoteName('context') . ' = :context',
+						$db->quoteName('id') . ' = :id',
+					]
+				)
+				->bind(':context', $this->associationsContext)
+				->bind(':id', $table->id);
 			$db->setQuery($query);
-			$old_key = $db->loadResult();
+			$oldKey = $db->loadResult();
 
-			// Deleting old associations for the associated items
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__associations'))
-				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext));
-
-			if ($associations)
+			if ($associations || $oldKey !== null)
 			{
-				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $associations) . ') OR '
-					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')'
-				);
-			}
-			else
-			{
-				$query->where($db->quoteName('key') . ' = ' . $db->quote($old_key));
-			}
+				// Deleting old associations for the associated items
+				$where = [];
+				$query = $db->getQuery(true)
+					->delete($db->quoteName('#__associations'))
+					->where($db->quoteName('context') . ' = :context')
+					->bind(':context', $this->associationsContext);
 
-			$db->setQuery($query);
+				if ($associations)
+				{
+					$where[] = $db->quoteName('id') . ' IN (' . implode(',', $query->bindArray(array_values($associations))) . ')';
+				}
 
-			try
-			{
-				$db->execute();
-			}
-			catch (\RuntimeException $e)
-			{
-				$this->setError($e->getMessage());
+				if ($oldKey !== null)
+				{
+					$where[] = $db->quoteName('key') . ' = :oldKey';
+					$query->bind(':oldKey', $oldKey);
+				}
 
-				return false;
+				$query->extendWhere('AND', $where, 'OR');
+
+				try
+				{
+					$db->setQuery($query);
+					$db->execute();
+				}
+				catch (\RuntimeException $e)
+				{
+					$this->setError($e->getMessage());
+
+					return false;
+				}
 			}
 
 			// Adding self to the association
@@ -1634,19 +1663,33 @@ class ItemModel extends AdminModel
 			if (count($associations) > 1)
 			{
 				// Adding new association for these items
-				$key = md5(json_encode($associations));
-				$query->clear()
-					->insert('#__associations');
+				$key   = md5(json_encode($associations));
+				$query = $db->getQuery(true)
+					->insert($db->quoteName('#__associations'))
+					->columns(
+						[
+							$db->quoteName('id'),
+							$db->quoteName('context'),
+							$db->quoteName('key'),
+						]
+					);
 
 				foreach ($associations as $id)
 				{
-					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
+					$query->values(
+						implode(
+							',',
+							$query->bindArray(
+								[$id, $this->associationsContext, $key],
+								[ParameterType::INTEGER, ParameterType::STRING, ParameterType::STRING]
+							)
+						)
+					);
 				}
-
-				$db->setQuery($query);
 
 				try
 				{
+					$db->setQuery($query);
 					$db->execute();
 				}
 				catch (\RuntimeException $e)
