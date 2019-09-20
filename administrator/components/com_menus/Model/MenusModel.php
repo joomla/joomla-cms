@@ -195,7 +195,7 @@ class MenusModel extends ListModel
 		// Filter by search in title or menutype
 		if ($search = trim($this->getState('filter.search')))
 		{
-			$search = '%' . str_replace(' ', '%', $search . '%');
+			$search = '%' . str_replace(' ', '%', $search) . '%';
 			$query->extendWhere(
 				'AND',
 				[
