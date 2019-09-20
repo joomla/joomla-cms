@@ -163,7 +163,7 @@ class MenusHelper extends ContentHelper
 				]
 			)
 			->from($db->quoteName('#__menu', 'a'))
-			->join('LEFT', $db->quoteName('#__extensions', 'e'), $db->quoteName('e.extension_id')  . ' = ' . $db->quoteName('a.component_id'));
+			->join('LEFT', $db->quoteName('#__extensions', 'e'), $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('a.component_id'));
 
 		if (Multilanguage::isEnabled())
 		{

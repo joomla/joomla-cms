@@ -424,7 +424,7 @@ class ItemsModel extends ListModel
 				$query->extendWhere(
 					'AND',
 					[
-						$db->quoteName('a.title') .' LIKE :search1',
+						$db->quoteName('a.title') . ' LIKE :search1',
 						$db->quoteName('a.alias') . ' LIKE :search2',
 						$db->quoteName('a.note') . ' LIKE :search3',
 					],
