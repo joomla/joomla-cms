@@ -420,7 +420,7 @@ class ItemsModel extends ListModel
 			}
 			else
 			{
-				$search = str_replace(' ', '%', trim($search));
+				$search = '%' . str_replace(' ', '%', trim($search)) . '%';
 				$query->extendWhere(
 					'AND',
 					[
