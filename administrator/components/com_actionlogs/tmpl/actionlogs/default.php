@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -22,13 +21,13 @@ use Joomla\Component\Actionlogs\Administrator\View\Actionlogs\HtmlView;
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 
-Factory::getDocument()->addScriptDeclaration('
+$this->document->addScriptDeclaration('
 	Joomla.submitbutton = function(task)
 	{
 		if (task == "actionlogs.exportLogs")
 		{
 			Joomla.submitform(task, document.getElementById("exportForm"));
-			
+
 			return;
 		}
 

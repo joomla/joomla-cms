@@ -349,6 +349,13 @@ class MessageModel extends AdminModel
 			return false;
 		}
 
+		$key = $table->getKeyName();
+
+		if (isset($table->$key))
+		{
+			$this->setState($this->getName() . '.id', $table->$key);
+		}
+
 		if ($config->get('mail_on_new', true))
 		{
 			// Load the user details (already valid from table check).
