@@ -55,6 +55,9 @@ $switcher-height: 28px;
   [dir=rtl] & {
     left: auto;
     right: 0;
+    margin-left: auto;
+    margin-right: 70px;
+    text-align: right;
   }
 }
 
@@ -100,6 +103,11 @@ $switcher-height: 28px;
   padding-top: 5px;
   padding-right: 5px;
   text-align: left;
+
+  [dir=rtl] & {
+    float: right;
+    text-align: right;
+  }
 }
 
 .col-md-9 .control-group .switcher__legend,
