@@ -187,7 +187,7 @@ class MenusModel extends ListModel
 			->where(
 				[
 					$db->quoteName('a.id') . ' > 0',
-					$db->quoteName('a.client_id')  . ' = :clientId',
+					$db->quoteName('a.client_id') . ' = :clientId',
 				]
 			)
 			->bind(':clientId', $clientId, ParameterType::INTEGER);
@@ -204,7 +204,7 @@ class MenusModel extends ListModel
 				],
 				'OR'
 			)
-			->bind([':search1', ':search2'], $search);
+				->bind([':search1', ':search2'], $search);
 		}
 
 		// Add the list ordering clause.
@@ -255,7 +255,7 @@ class MenusModel extends ListModel
 				[
 					$db->quoteName('e.type') . ' = ' . $db->quote('module'),
 					$db->quoteName('e.element') . ' = ' . $db->quote('mod_menu'),
-					$db->quoteName('e.client_id') . ' = :clientId', 
+					$db->quoteName('e.client_id') . ' = :clientId',
 				]
 			)
 			->bind(':clientId', $clientId, ParameterType::INTEGER);

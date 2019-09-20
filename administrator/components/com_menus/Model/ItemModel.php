@@ -863,7 +863,7 @@ class ItemModel extends AdminModel
 				'LEFT',
 				$db->quoteName('#__modules_menu', 'map'),
 				$db->quoteName('map.moduleid') . ' = ' . $db->quoteName('a.id')
-					. ' AND ' . $db->quoteName('map.menuid') . ' IN (' . implode(',', $query->bindArray([0, $id, -$id])) .')'
+					. ' AND ' . $db->quoteName('map.menuid') . ' IN (' . implode(',', $query->bindArray([0, $id, -$id])) . ')'
 			);
 
 		$subQuery = $db->getQuery(true)

@@ -301,12 +301,12 @@ class ItemsModel extends ListModel
 				]
 			)
 		)
-		->select(
-			'CASE WHEN ' . $db->quoteName('a.type') . ' = ' . $db->quote('component')
-			. ' THEN ' . $db->quoteName('a.published') . ' +2 * (' . $db->quoteName('e.enabled') . ' -1)'
-			. ' ELSE ' . $db->quoteName('a.published') . ' END AS ' . $db->quoteName('published')
-		)
-		->from($db->quoteName('#__menu', 'a'));
+			->select(
+				'CASE WHEN ' . $db->quoteName('a.type') . ' = ' . $db->quote('component')
+				. ' THEN ' . $db->quoteName('a.published') . ' +2 * (' . $db->quoteName('e.enabled') . ' -1)'
+				. ' ELSE ' . $db->quoteName('a.published') . ' END AS ' . $db->quoteName('published')
+			)
+			->from($db->quoteName('#__menu', 'a'));
 
 		// Join over the language
 		$query->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'));
@@ -385,7 +385,7 @@ class ItemsModel extends ListModel
 				$db->quoteName('a.client_id') . ' = :clientId',
 			]
 		)
-		->bind(':clientId', $clientId, ParameterType::INTEGER);
+			->bind(':clientId', $clientId, ParameterType::INTEGER);
 
 		// Filter on the published state.
 		$published = $this->getState('filter.published');
@@ -430,7 +430,7 @@ class ItemsModel extends ListModel
 					],
 					'OR'
 				)
-				->bind([':search1', ':search2', ':search3'], $search);
+					->bind([':search1', ':search2', ':search3'], $search);
 			}
 		}
 
@@ -467,7 +467,7 @@ class ItemsModel extends ListModel
 				],
 				'OR'
 			)
-			->bind([':parentId1', ':parentId2'], $parentId, ParameterType::INTEGER);
+				->bind([':parentId1', ':parentId2'], $parentId, ParameterType::INTEGER);
 		}
 
 		// Filter on the level.
@@ -492,7 +492,7 @@ class ItemsModel extends ListModel
 					]
 				)
 				->from($db->quoteName('#__menu_types'))
-				->where($db->quoteName('client_id') .' = :clientId')
+				->where($db->quoteName('client_id') . ' = :clientId')
 				->bind(':clientId', $clientId, ParameterType::INTEGER)
 				->order($db->quoteName('title'));
 

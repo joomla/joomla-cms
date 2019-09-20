@@ -163,7 +163,7 @@ class MenusHelper extends ContentHelper
 				]
 			)
 			->from($db->quoteName('#__menu', 'a'))
-			->join('LEFT', $db->quoteName('#__extensions', 'e'), $db->quoteName('e.extension_id')  .' = ' . $db->quoteName('a.component_id'));
+			->join('LEFT', $db->quoteName('#__extensions', 'e'), $db->quoteName('e.extension_id')  . ' = ' . $db->quoteName('a.component_id'));
 
 		if (Multilanguage::isEnabled())
 		{
@@ -474,8 +474,8 @@ class MenusHelper extends ContentHelper
 					$db->quoteName('element'),
 				]
 			)
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('type') . ' = ' . $db->quote('component'));
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('type') . ' = ' . $db->quote('component'));
 			$components = $db->setQuery($query)->loadObjectList();
 			$components = array_column((array) $components, 'element', 'extension_id');
 		}
