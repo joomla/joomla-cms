@@ -45,8 +45,8 @@
 			class="switcher switcher-primary"
 			default="0"
 			>
-			<option value="0">COM_TEMPLATES_LAYOUTS_DIFFVIEW_HIDE_CORE</option>
-			<option value="1">COM_TEMPLATES_LAYOUTS_DIFFVIEW_SHOW_CORE</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -56,8 +56,8 @@
 			class="switcher switcher-primary"
 			default="0"
 			>
-			<option value="0">COM_TEMPLATES_LAYOUTS_DIFFVIEW_HIDE_DIFF</option>
-			<option value="1">COM_TEMPLATES_LAYOUTS_DIFFVIEW_SHOW_DIFF</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 	</fieldset>
 </form>

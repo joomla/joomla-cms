@@ -16,11 +16,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
-Text::script('COM_TEMPLATES_LAYOUTS_DIFFVIEW_SHOW_CORE');
-Text::script('COM_TEMPLATES_LAYOUTS_DIFFVIEW_HIDE_CORE');
-Text::script('COM_TEMPLATES_LAYOUTS_DIFFVIEW_SHOW_DIFF');
-Text::script('COM_TEMPLATES_LAYOUTS_DIFFVIEW_HIDE_DIFF');
-
 HTMLHelper::_('script', 'vendor/diff/diff.min.js', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('script', 'com_templates/admin-template-compare.min.js', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('script', 'com_templates/admin-template-toggle-switch.min.js', array('version' => 'auto', 'relative' => true));

@@ -19,6 +19,12 @@ $switcher-height: 28px;
   height: $switcher-height;
   width: $switcher-width;
   margin: 0;
+  left: 0;
+
+  [dir=rtl] & {
+    left: auto;
+    right: 0;
+  }
 }
 
 .switcher input:checked {
@@ -44,6 +50,12 @@ $switcher-height: 28px;
   position: absolute;
   transition: opacity 0.25s ease;
   margin-bottom: 0;
+  left: 0;
+
+  [dir=rtl] & {
+    left: auto;
+    right: 0;
+  }
 }
 
 .switcher .toggle-outside {
@@ -55,6 +67,12 @@ $switcher-height: 28px;
   width: 58px;
   box-sizing: border-box;
   border: 1px solid rgba(0,0,0,.18);
+  left: 0;
+
+  [dir=rtl] & {
+    left: auto;
+    right: 0;
+  }
 }
 
 .switcher input ~ input:checked ~ .toggle-outside{
@@ -84,8 +102,8 @@ $switcher-height: 28px;
   text-align: left;
 }
 
-.col-md-9 .switcher__legend,
-.col-md-12 .switcher__legend {
+.col-md-9 .control-group .switcher__legend,
+.col-md-12 .control-group .switcher__legend {
   margin-left: -220px;
 
   [dir=rtl] & {
