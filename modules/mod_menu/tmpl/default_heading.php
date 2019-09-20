@@ -31,6 +31,11 @@ if ($item->menu_image)
 		$linktype .= '<span class="image-title">' . $item->title . '</span>';
 	}
 }
+// Allow icon instead of image.
+elseif ($item->menu_image_css)
+{
+	$linktype = '<i class="' . $item->menu_image_css . '"></i>' . $linktype;
+}
 
 ?>
 <span class="nav-header <?php echo $anchor_css; ?>"<?php echo $title; ?>><?php echo $linktype; ?></span>
