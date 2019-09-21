@@ -50,13 +50,13 @@ class ComponentsCategoryField extends ListField
 				]
 			)
 			->from($db->quoteName('#__extensions', 'a'))
+			->join('INNER', $db->quoteName('#__categories', 'b'), $db->quoteName('a.element') . ' = ' . $db->quoteName('b.extension'))
 			->where(
 				[
 					$db->quoteName('a.enabled') . ' >= 1',
 					$db->quoteName('a.type') . ' = ' . $db->quote('component'),
 				]
-			)
-			->join('INNER', $db->quoteName('#__categories', 'b'), $db->quoteName('a.element') . ' = ' . $db->quoteName('b.extension'));
+			);
 
 		$items = $db->setQuery($query)->loadObjectList();
 

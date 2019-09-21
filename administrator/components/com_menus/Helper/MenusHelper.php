@@ -743,9 +743,9 @@ class MenusHelper extends ContentHelper
 				]
 			)
 				->from($db->quoteName('#__menu', 'a'))
+				->join('LEFT', $db->quoteName('#__extensions', 'e'), $db->quoteName('e.id') . ' = ' . $db->quoteName('a.component_id'))
 				->where($db->quoteName('a.id') . ' = :aliasTo')
-				->bind(':aliasTo', $aliasTo, ParameterType::INTEGER)
-				->join('LEFT', $db->quoteName('#__extensions', 'e'), $db->quoteName('e.id') . ' = ' . $db->quoteName('a.component_id'));
+				->bind(':aliasTo', $aliasTo, ParameterType::INTEGER);
 
 			try
 			{
