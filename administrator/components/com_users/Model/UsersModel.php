@@ -413,7 +413,7 @@ class UsersModel extends ListModel
 		// Apply the range filter.
 		if ($lastvisitrange)
 		{
-			$dates  = $this->buildDateRange($lastvisitrange);
+			$dates = $this->buildDateRange($lastvisitrange);
 
 			if (is_string($dates['dStart']))
 			{
