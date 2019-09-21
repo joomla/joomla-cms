@@ -105,7 +105,7 @@ class BannerTable extends Table
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up)
+		if (!is_null($this->publish_down) && $this->publish_down < $this->publish_up)
 		{
 			$this->setError(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 
@@ -222,7 +222,7 @@ class BannerTable extends Table
 			switch ($purchaseType)
 			{
 				case 1:
-					$this->reset = $this->_db->getNullDate();
+					$this->reset = null;
 					break;
 				case 2:
 					$date = Factory::getDate('+1 year ' . date('Y-m-d'));
@@ -338,7 +338,7 @@ class BannerTable extends Table
 				// Change the state
 				$table->sticky = $state;
 				$table->checked_out = 0;
-				$table->checked_out_time = $this->_db->getNullDate();
+				$table->checked_out_time = null;
 
 				// Check the row
 				$table->check();
