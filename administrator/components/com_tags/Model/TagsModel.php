@@ -165,17 +165,15 @@ class TagsModel extends ListModel
 			->join('LEFT', $db->quoteName('#__viewlevels', 'ug'), $db->quoteName('ug.id') . ' = ' . $db->quoteName('a.access'));
 
 		// Filter on the level.
-		if ($level = $this->getState('filter.level'))
+		if ($level = (int) $this->getState('filter.level'))
 		{
-			$level = (int) $level;
 			$query->where($db->quoteName('a.level') . ' <= :level')
 				->bind(':level', $level, ParameterType::INTEGER);
 		}
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access'))
+		if ($access = (int) $this->getState('filter.access'))
 		{
-			$access = (int) $access;
 			$query->where($db->quoteName('a.access') . ' = :access')
 				->bind(':access', $access, ParameterType::INTEGER);
 		}
