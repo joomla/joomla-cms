@@ -157,7 +157,7 @@ CREATE TABLE IF NOT EXISTS `#__banners` (
   `checked_out_time` datetime,
   `publish_up` datetime,
   `publish_down` datetime,
-  `reset` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `reset` datetime,
   `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `language` char(7) NOT NULL DEFAULT '',
   `created_by` int(10) unsigned NOT NULL DEFAULT 0,

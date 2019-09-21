@@ -163,7 +163,7 @@ CREATE TABLE IF NOT EXISTS "#__banners" (
   "checked_out_time" timestamp without time zone,
   "publish_up" timestamp without time zone,
   "publish_down" timestamp without time zone,
-  "reset" timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  "reset" timestamp without time zone,
   "created" timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
   "language" varchar(7) DEFAULT '' NOT NULL,
   "created_by" bigint DEFAULT 0 NOT NULL,
