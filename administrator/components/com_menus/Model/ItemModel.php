@@ -1615,7 +1615,7 @@ class ItemModel extends AdminModel
 					]
 				)
 				->bind(':context', $this->associationsContext)
-				->bind(':id', $table->id);
+				->bind(':id', $table->id, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$oldKey = $db->loadResult();
 
