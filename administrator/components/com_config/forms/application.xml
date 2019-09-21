@@ -231,6 +231,83 @@
 			size="10"
 		/>
 
+		<field
+			name="dbencryption"
+			type="list"
+			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_ENABLE_LABEL"
+			desc="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_ENABLE_DESC"
+			default="0"
+			filter="integer"
+			>
+			<option value="0">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_ENABLE_VALUE_NONE</option>
+			<option value="1">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_ENABLE_VALUE_ONE_WAY</option>
+			<option value="2">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_ENABLE_VALUE_TWO_WAY</option>
+		</field>
+
+		<field
+			name="dbsslverifyservercert"
+			type="radio"
+			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_VERIFY_SERVER_CERT_LABEL"
+			desc="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_VERIFY_SERVER_CERT_DESC"
+			class="switcher"
+			default="0"
+			filter="boolean"
+			showon="dbencryption:1,2"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="dbsslkey"
+			type="text"
+			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_KEY_LABEL"
+			desc="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_KEY_DESC"
+			filter="string"
+			size="100"
+			showon="dbencryption:2"
+		/>
+
+		<field
+			name="dbsslcert"
+			type="text"
+			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CERT_LABEL"
+			desc="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CERT_DESC"
+			filter="string"
+			size="100"
+			showon="dbencryption:2"
+		/>
+
+		<field
+			name="dbsslca"
+			type="text"
+			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CA_LABEL"
+			desc="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CA_DESC"
+			filter="string"
+			size="100"
+			showon="dbencryption:2"
+		/>
+
+		<field
+			name="dbsslcapath"
+			type="text"
+			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CAPATH_LABEL"
+			desc="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CAPATH_DESC"
+			filter="string"
+			size="100"
+			showon="dbencryption:2"
+		/>
+
+		<field
+			name="dbsslcipher"
+			type="text"
+			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CIPHER_LABEL"
+			desc="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CIPHER_DESC"
+			filter="string"
+			size="100"
+			showon="dbencryption:2"
+		/>
+
 	</fieldset>
 
 	<fieldset

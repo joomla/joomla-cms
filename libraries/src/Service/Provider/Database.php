@@ -90,6 +90,24 @@ class Database implements ServiceProviderInterface
 						'prefix'   => $conf->get('dbprefix'),
 					];
 
+					if ((int) $conf->get('dbencryption') !== 0)
+					{
+						$options['ssl'] = [
+							'enable'             => true,
+							'verify_server_cert' => (bool) $conf->get('dbsslverifyservercert'),
+						];
+
+						foreach (['cipher', 'ca', 'capath', 'key', 'cert'] as $key => $value)
+						{
+							$confVal = trim($conf->get('dbssl' . $value, ''));
+
+							if ($confVal !== '')
+							{
+								$options['ssl'][$value] = $confVal;
+							}
+						}
+					}
+
 					// Enable utf8mb4 connections for mysql adapters
 					if (strtolower($dbtype) === 'mysqli')
 					{
