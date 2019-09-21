@@ -127,8 +127,8 @@ class PlgContentPagenavigation extends CMSPlugin
 			}
 
 			$xwhere = ' AND (ws.condition = 1 OR ws.condition = -2)'
-				. ' AND (publish_up = ' . $db->quote($nullDate) . ' OR publish_up <= ' . $db->quote($now) . ')'
-				. ' AND (publish_down = ' . $db->quote($nullDate) . ' OR publish_down >= ' . $db->quote($now) . ')';
+				. ' AND (publish_up = IS NULL OR publish_up <= ' . $db->quote($now) . ')'
+				. ' AND (publish_down = IS NULL OR publish_down >= ' . $db->quote($now) . ')';
 
 			// Array of articles in same category correctly ordered.
 			$query = $db->getQuery(true);
@@ -258,7 +258,7 @@ class PlgContentPagenavigation extends CMSPlugin
 
 			// Use created if publish_up is not set
 			case 'published' :
-				$queryDate = ' CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END ';
+				$queryDate = ' CASE WHEN a.publish_up = IS NULL THEN a.created ELSE a.publish_up END ';
 				break;
 
 			// Use created as default
