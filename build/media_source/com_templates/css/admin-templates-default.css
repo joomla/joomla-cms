@@ -84,3 +84,18 @@
 .switcher-label-0, .switcher-label-1 {
 	white-space: nowrap;
 }
+
+/* RTL overrides for templates editing*/
+[dir=rtl] .diff-pane {
+	text-align:left;
+}
+
+[dir=rtl] #core-pane textarea,
+#override-pane textarea {
+	text-align:left;
+}
+
+[dir=rtl] #core-pane joomla-editor-codemirror,
+#override-pane joomla-editor-codemirror {
+	text-align:left;
+}
