@@ -211,7 +211,7 @@ class ArticlesModel extends ListModel
 				'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
 				'a.modified_by, uam.name as modified_by_name,' .
 				// Use created if publish_up is 0
-				'CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END as publish_up,' .
+				'CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END as publish_up,' .
 				'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
 				'a.hits, a.featured, a.language, ' . $query->length('a.fulltext') . ' AS readmore, a.ordering'
 			)
@@ -473,8 +473,8 @@ class ArticlesModel extends ListModel
 		// Filter by start and end dates.
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
-			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+			$query->where('(a.publish_up IS NULL OR a.publish_up <= ' . $nowDate . ')')
+				->where('(a.publish_down IS NULL OR a.publish_down >= ' . $nowDate . ')');
 		}
 
 		// Filter by Date Range or Relative Date
@@ -530,13 +530,13 @@ class ArticlesModel extends ListModel
 					if ($monthFilter != '')
 					{
 						$query->where(
-							$db->quote(date("Y-m-d", strtotime($monthFilter)) . ' 00:00:00') . ' <= CASE WHEN a.publish_up = ' .
-							$db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END'
+							$db->quote(date("Y-m-d", strtotime($monthFilter)) . ' 00:00:00')
+							. ' <= CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END'
 						);
 
 						$query->where(
-							$db->quote(date("Y-m-t", strtotime($monthFilter)) . ' 23:59:59') . ' >= CASE WHEN a.publish_up = ' .
-							$db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END'
+							$db->quote(date("Y-m-t", strtotime($monthFilter)) . ' 23:59:59')
+							. ' >= CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END'
 						);
 					}
 					break;
