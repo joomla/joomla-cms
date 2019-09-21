@@ -94,7 +94,7 @@ class TagsModel extends ListModel
 		$groups         = $user->getAuthorisedViewLevels();
 		$pid            = (int) $this->getState('tag.parent_id');
 		$orderby        = $this->state->params->get('all_tags_orderby', 'title');
-		$published      = $this->state->params->get('published', 1);
+		$published      = (int) $this->state->params->get('published', 1);
 		$orderDirection = $this->state->params->get('all_tags_orderby_direction', 'ASC');
 		$language       = $this->getState('tag.language');
 
