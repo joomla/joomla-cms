@@ -118,8 +118,9 @@ class HtmlView extends BaseHtmlView
 		$referenceId   = $input->get('id', 0, 'int');
 		$reference     = ArrayHelper::fromObject(AssociationsHelper::getItem($extensionName, $typeName, $referenceId));
 
-		$this->referenceLanguage = $reference[$languageField];
-		$this->referenceTitle    = AssociationsHelper::getTypeFieldName($extensionName, $typeName, 'title');
+		$this->referenceLanguage   = $reference[$languageField];
+		$this->referenceTitle      = AssociationsHelper::getTypeFieldName($extensionName, $typeName, 'title');
+		$this->referenceTitleValue = $reference[$this->referenceTitle];
 
 		// Check for special case category
 		$typeNameExploded = explode('.', $typeName);
@@ -173,8 +174,7 @@ class HtmlView extends BaseHtmlView
 			 * Let's put the target src into a variable to use in the javascript code
 			 *  to avoid race conditions when the reference iframe loads.
 			 */
-			$document = Factory::getDocument();
-			$document->addScriptOptions('targetSrc', Route::_($this->editUri . '&task=' . $task . '&id=' . (int) $this->targetId));
+			$this->document->addScriptOptions('targetSrc', Route::_($this->editUri . '&task=' . $task . '&id=' . (int) $this->targetId));
 			$this->form->setValue('itemlanguage', '', $this->targetLanguage . ':' . $this->targetId . ':' . $this->targetAction);
 		}
 

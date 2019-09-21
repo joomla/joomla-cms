@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Date;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -102,7 +102,7 @@ class Date extends \DateTime
 			{
 				$tz = self::$gmt;
 			}
-			elseif (is_string($tz))
+			elseif (\is_string($tz))
 			{
 				$tz = new \DateTimeZone($tz);
 			}
