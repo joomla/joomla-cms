@@ -187,7 +187,7 @@ CREATE TABLE IF NOT EXISTS `#__banner_clients` (
   `extrainfo` text NOT NULL,
   `state` tinyint(3) NOT NULL DEFAULT 0,
   `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
-  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `checked_out_time` datetime,
   `metakey` text NOT NULL,
   `own_prefix` tinyint(4) NOT NULL DEFAULT 0,
   `metakey_prefix` varchar(400) NOT NULL DEFAULT '',
