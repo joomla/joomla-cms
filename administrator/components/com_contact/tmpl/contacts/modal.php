@@ -38,7 +38,7 @@ $onclick   = $this->escape($function);
 if (!empty($editor))
 {
 	// This view is used also in com_menus. Load the xtd script only if the editor is set!
-	Factory::getDocument()->addScriptOptions('xtd-contacts', array('editor' => $editor));
+	$this->document->addScriptOptions('xtd-contacts', array('editor' => $editor));
 	$onclick = "jSelectContact";
 }
 ?>
