@@ -208,7 +208,7 @@ CREATE INDEX "#__banner_clients_idx_metakey_prefix" ON "#__banner_clients" ("met
 --
 
 CREATE TABLE IF NOT EXISTS "#__banner_tracks" (
-  "track_date" timestamp without time zone NOT NULL,
+  "track_date" timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
   "track_type" bigint NOT NULL,
   "banner_id" bigint NOT NULL,
   "count" bigint DEFAULT 0 NOT NULL,

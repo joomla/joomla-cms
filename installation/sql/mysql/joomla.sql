@@ -206,7 +206,7 @@ CREATE TABLE IF NOT EXISTS `#__banner_clients` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__banner_tracks` (
-  `track_date` datetime NOT NULL,
+  `track_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `track_type` int(10) unsigned NOT NULL,
   `banner_id` int(10) unsigned NOT NULL,
   `count` int(10) unsigned NOT NULL DEFAULT 0,
