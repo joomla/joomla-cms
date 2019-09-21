@@ -382,7 +382,7 @@ class UsersModel extends ListModel
 		// Apply the range filter.
 		if ($range)
 		{
-			$dates  = $this->buildDateRange($range);
+			$dates = $this->buildDateRange($range);
 
 			if ($dates['dNow'] === false)
 			{
