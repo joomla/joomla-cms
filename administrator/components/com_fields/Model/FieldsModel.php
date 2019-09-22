@@ -57,6 +57,7 @@ class FieldsModel extends ListModel
 				'category_title',
 				'category_id', 'a.category_id',
 				'group_id', 'a.group_id',
+				'group_title', 'g.title',
 				'assigned_cat_ids'
 			);
 		}
