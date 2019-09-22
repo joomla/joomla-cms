@@ -2144,7 +2144,7 @@ CREATE TABLE IF NOT EXISTS `#__action_logs` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `message_language_key` varchar(255) NOT NULL DEFAULT '',
   `message` text NOT NULL,
-  `log_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `log_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `extension` varchar(50) NOT NULL DEFAULT '',
   `user_id` int(11) NOT NULL DEFAULT 0,
   `item_id` int(11) NOT NULL DEFAULT 0,
