@@ -65,15 +65,15 @@ if ($this->type == 'font')
 <div class="row mt-2">
 	<div class="col-md-8" id="conditional-section">
 	<?php if($this->type == 'file') : ?>
-		<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
+		<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', '&#x200E;' . $this->source->filename, $this->template->element); ?></p>
 		<p class="lead path hidden"><?php echo $this->source->filename; ?></p>
 	<?php endif; ?>
 	<?php if($this->type == 'image') : ?>
-		<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['path'], $this->template->element); ?></p>
+		<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', '&#x200E;' . $this->image['path'], $this->template->element); ?></p>
 		<p class="lead path hidden"><?php echo $this->image['path']; ?></p>
 	<?php endif; ?>
 	<?php if($this->type == 'font') : ?>
-		<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['rel_path'], $this->template->element); ?></p>
+		<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', '&#x200E;' . $this->font['rel_path'], $this->template->element); ?></p>
 		<p class="lead path hidden"><?php echo $this->font['rel_path']; ?></p>
 	<?php endif; ?>
 	</div>
