@@ -426,8 +426,7 @@ class UpdateModel extends ListModel
 		// Check the package
 		$check = InstallerHelper::isChecksumValid($package['packagefile'], $update);
 
-		// The validation was not successful. Just a warning for now.
-		// TODO: In Joomla 4 this will abort the installation
+		// The validation was not successful.
 		if ($check === InstallerHelper::HASH_NOT_VALIDATED)
 		{
 			$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'error');

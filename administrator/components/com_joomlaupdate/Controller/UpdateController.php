@@ -62,12 +62,11 @@ class UpdateController extends BaseController
 		$message = null;
 		$messageType = null;
 
-		// The validation was not successful for now just a warning.
-		// TODO: In Joomla 4 this will abort the installation
+		// The validation was not successful
 		if ($result['check'] === false)
 		{
 			$message = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
-			$messageType = 'warning';
+			$messageType = 'error';
 
 			try
 			{
