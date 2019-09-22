@@ -117,7 +117,7 @@
       });
 
       const htmlBodySwitcherChangeHandler = (event) => {
-        const tagsContainer = this.form.querySelector('.tags-container-body');
+        const tagsContainer = this.form.querySelector('.tags-container-htmlbody');
 
         if (event.target.value === '0') {
           this.setHtmlBodyValue(this.templateData.htmlbody ? this.templateData.htmlbody.master : '');
