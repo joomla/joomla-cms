@@ -117,6 +117,8 @@
         setValue: text => Joomla.editors.instances[element.id].instance.setContent(text),
         getSelection: () => Joomla.editors.instances[element.id].instance.selection.getContent({ format: 'text' }),
         replaceSelection: text => Joomla.editors.instances[element.id].instance.execCommand('mceInsertContent', false, text),
+        // Required by Joomla's API for Mail Component Integration
+        disable: disabled => Joomla.editors.instances[element.id].instance.setMode(disabled ? 'readonly' : 'design'),
         // Some extra instance dependent
         id: element.id,
         instance: ed,

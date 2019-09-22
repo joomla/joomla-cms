@@ -38,6 +38,16 @@ window.customElements.define('joomla-editor-none', class extends HTMLElement {
   }
 
   /**
+   * Sets if the editor should be disabled
+   *
+   * @param  {bool}  disabled  Whether the element should be disabled or enabled
+   */
+  disableEditor(disabled) {
+    this.editor.disabled = disabled;
+    this.editor.readOnly = disabled;
+  }
+
+  /**
    * Get the selected text
    */
   getSelection() {
@@ -71,6 +81,8 @@ window.customElements.define('joomla-editor-none', class extends HTMLElement {
       setValue: text => this.editor.value = text,
       // eslint-disable-next-line no-return-assign
       getSelection: () => this.getSelection(),
+      // eslint-disable-next-line no-return-assign
+      disable: disabled => this.disableEditor(disabled),
       // eslint-disable-next-line no-return-assign
       replaceSelection: (text) => {
         if (this.editor.selectionStart || this.editor.selectionStart === 0) {
