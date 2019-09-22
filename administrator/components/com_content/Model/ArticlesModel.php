@@ -278,18 +278,13 @@ class ArticlesModel extends ListModel
 		{
 			$subQuery = $db->getQuery(true)
 				->select('CASE WHEN COUNT(' . $db->quoteName('asso1.id') . ') > 1 THEN 1 ELSE 0 END')
-				->from(
-					[
-						$db->quoteName('#__associations', 'asso1'),
-						$db->quoteName('#__associations', 'asso2'),
-					]
-				)
-				->where(
-					[
-						$db->quoteName('asso1.id') . ' = ' . $db->quoteName('a.id'),
-						$db->quoteName('asso1.context') . ' = ' . $db->quote('com_content.item'),
-						$db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'),
-					]
+				->from($db->quoteName('#__associations', 'asso1'))
+				->join(
+					'INNER',
+					$db->quoteName('#__associations', 'asso2'),
+					$db->quoteName('asso1.context') . ' = ' . $db->quote('com_content.item')
+					. ' AND ' . $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key')
+					. ' AND ' . $db->quoteName('asso1.id') . ' = ' . $db->quoteName('a.id')
 				);
 
 			$query->select('(' . $subQuery . ') AS ' . $db->quoteName('association'));
