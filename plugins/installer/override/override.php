@@ -342,17 +342,9 @@ class PlgInstallerOverride extends CMSPlugin
 		{
 			$insertQuery->clear('values');
 
-			$date = new Date('now');
-			$createdDate = $date->toSql();
-
-			if (empty($pk->coreFile))
-			{
-				$modifiedDate = $this->db->getNullDate();
-			}
-			else
-			{
-				$modifiedDate = $createdDate;
-			}
+			$date         = new Date('now');
+			$createdDate  = $date->toSql();
+			$modifiedDate = $createdDate;
 
 			if ($this->load($pk->id, $pk->extension_id))
 			{
