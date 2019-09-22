@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\QueryInterface;
 
@@ -383,7 +384,7 @@ abstract class Adapter extends CMSPlugin
 	/**
 	 * Method to update index data on category access level changes
 	 *
-	 * @param   JTable  $row  A JTable object
+	 * @param   Table  $row  A JTable object
 	 *
 	 * @return  void
 	 *
@@ -456,7 +457,7 @@ abstract class Adapter extends CMSPlugin
 	/**
 	 * Method to check the existing access level for categories
 	 *
-	 * @param   JTable  $row  A JTable object
+	 * @param   Table  $row  A JTable object
 	 *
 	 * @return  void
 	 *
@@ -477,7 +478,7 @@ abstract class Adapter extends CMSPlugin
 	/**
 	 * Method to check the existing access level for items
 	 *
-	 * @param   JTable  $row  A JTable object
+	 * @param   Table  $row  A JTable object
 	 *
 	 * @return  void
 	 *
@@ -780,7 +781,7 @@ abstract class Adapter extends CMSPlugin
 	/**
 	 * Method to update index data on access level changes
 	 *
-	 * @param   JTable  $row  A JTable object
+	 * @param   Table  $row  A JTable object
 	 *
 	 * @return  void
 	 *
