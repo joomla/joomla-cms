@@ -369,7 +369,7 @@ class ContactModel extends FormModel
 					->where('(' . $db->quoteName('a.publish_up') . ' IS NULL' .
 						' OR ' . $db->quoteName('a.publish_up') . ' <= :now)'
 					)
-					->where('(' . $db->quoteName('a.publish_down') . 'IS NULL' .
+					->where('(' . $db->quoteName('a.publish_down') . ' IS NULL' .
 						' OR ' . $db->quoteName('a.publish_down') . ' >= :now)'
 					)
 					->bind(':now', $nowDate);
