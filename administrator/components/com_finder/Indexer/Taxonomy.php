@@ -211,9 +211,18 @@ class Taxonomy
 			$nodeTable->setLocation($result->parent_id, 'last-child');
 		}
 
-		// Store the branch.
-		$nodeTable->check();
-		$nodeTable->store();
+		// Check the data.
+		if (!$nodeTable->check())
+		{
+			throw new \RuntimeException($nodeTable->getError());
+		}
+
+		// Store the data.
+		if (!$nodeTable->store())
+		{
+			throw new \RuntimeException($nodeTable->getError());
+		}
+
 		$nodeTable->rebuildPath($nodeTable->id);
 
 		// Add the node to the cache.
