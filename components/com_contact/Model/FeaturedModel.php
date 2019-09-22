@@ -117,15 +117,14 @@ class FeaturedModel extends ListModel
 			$query->bind(':published', $state, ParameterType::INTEGER);
 
 			// Filter by start and end dates.
-			$nullDate = $db->quote($db->getNullDate());
 			$date = Factory::getDate();
 			$nowDate = $db->quote($date->toSql());
 
-			$query->where('(' . $query->isNullDatetime($db->quoteName('a.publish_up')) .
-				' OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)'
+			$query->where('(' . $db->quoteName('a.publish_up') .
+				' IS NULL OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)'
 			)
-				->where('(' . $query->isNullDatetime($db->quoteName('a.publish_down')) .
-					' OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)'
+				->where('(' . $db->quoteName('a.publish_down') .
+					' IS NUL OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)'
 				)
 				->bind(':publish_up', $nowDate)
 				->bind(':publish_down', $nowDate);

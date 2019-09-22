@@ -233,8 +233,8 @@ class ContactModel extends FormModel
 					}
 
 					$query->where($queryString)
-						->where('(' . $query->isNullDatetime('a.publish_up') . ' OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)')
-						->where('(' . $query->isNullDatetime('a.publish_down') . ' OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)')
+						->where('(' . $db->quoteName('a.publish_up') . ' IS NULL OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)')
+						->where('(' . $db->quoteName('a.publish_down') . ' IS NULL OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)')
 						->bind(':published', $published, ParameterType::INTEGER)
 						->bind(':publish_up', $nowDate)
 						->bind(':publish_down', $nowDate);
@@ -323,7 +323,6 @@ class ContactModel extends FormModel
 	protected function buildContactExtendedData($contact)
 	{
 		$db        = $this->getDbo();
-		$nullDate  = $db->quote($db->getNullDate());
 		$nowDate   = $db->quote(Factory::getDate()->toSql());
 		$user      = Factory::getUser();
 		$groups = $user->getAuthorisedViewLevels();
@@ -367,13 +366,12 @@ class ContactModel extends FormModel
 			if (is_numeric($published))
 			{
 				$query->where('a.state IN (1,2)')
-					->where('(' . $db->quoteName('a.publish_up') . ' = :null' .
+					->where('(' . $db->quoteName('a.publish_up') . ' IS NULL' .
 						' OR ' . $db->quoteName('a.publish_up') . ' <= :now)'
 					)
-					->where('(' . $db->quoteName('a.publish_down') . ' = :null' .
+					->where('(' . $db->quoteName('a.publish_down') . 'IS NULL' .
 						' OR ' . $db->quoteName('a.publish_down') . ' >= :now)'
 					)
-					->bind(':null', $nullDate)
 					->bind(':now', $nowDate);
 			}
 
