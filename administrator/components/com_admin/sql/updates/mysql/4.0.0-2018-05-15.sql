@@ -12,9 +12,9 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   `default` tinyint(1) NOT NULL  DEFAULT 0,
   `core` tinyint(1) NOT NULL  DEFAULT 0,
   `ordering` int(11) NOT NULL DEFAULT 0,
-  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(10) NOT NULL DEFAULT 0,
-  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified_by` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `idx_asset_id` (`asset_id`),
@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
 -- Dumping data for table `#__workflows`
 --
 
-INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `core`, `ordering`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 0, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0);
+INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `core`, `ordering`, `created_by`, `modified_by`) VALUES
+(1, 0, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, 1, 0, 0);
 
 --
 -- Table structure for table `#__workflow_associations`

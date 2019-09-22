@@ -2291,9 +2291,9 @@ CREATE TABLE IF NOT EXISTS "#__workflows" (
   "default" smallint NOT NULL  DEFAULT 0,
   "core" smallint NOT NULL  DEFAULT 0,
   "ordering" bigint NOT NULL DEFAULT 0,
-  "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "created" timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
   "created_by" bigint DEFAULT 0 NOT NULL,
-  "modified" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "modified" timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
   "modified_by" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("id")
  );
