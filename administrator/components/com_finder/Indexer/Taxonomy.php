@@ -151,6 +151,7 @@ class Taxonomy
 	 * @return  integer  The id of the inserted node.
 	 *
 	 * @since   4.0.0
+	 * @throws  \RuntimeException
 	 */
 	protected static function storeNode($node, $parent_id)
 	{
@@ -214,13 +215,41 @@ class Taxonomy
 		// Check the data.
 		if (!$nodeTable->check())
 		{
-			throw new \RuntimeException($nodeTable->getError());
+			$error = $nodeTable->getError();
+
+			if ($error instanceof \Exception)
+			{
+				// \Joomla\CMS\Table\NestedTable set's errors of exceptions, so in this case we can pass on more
+				// information
+				throw new \RuntimeException(
+					$error->getMessage(),
+					$error->getCode(),
+					$error
+				);
+			}
+
+			// Standard string returned. Probably from the \Joomla\CMS\Table\Table class
+			throw new \RuntimeException($error, 500);
 		}
 
 		// Store the data.
 		if (!$nodeTable->store())
 		{
-			throw new \RuntimeException($nodeTable->getError());
+			$error = $nodeTable->getError();
+
+			if ($error instanceof \Exception)
+			{
+				// \Joomla\CMS\Table\NestedTable set's errors of exceptions, so in this case we can pass on more
+				// information
+				throw new \RuntimeException(
+					$error->getMessage(),
+					$error->getCode(),
+					$error
+				);
+			}
+
+			// Standard string returned. Probably from the \Joomla\CMS\Table\Table class
+			throw new \RuntimeException($error, 500);
 		}
 
 		$nodeTable->rebuildPath($nodeTable->id);
