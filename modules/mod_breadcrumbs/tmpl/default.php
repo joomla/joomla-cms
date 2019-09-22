@@ -64,12 +64,15 @@ defined('_JEXEC') or die;
 					<?php endif; ?>
 					<meta itemprop="position" content="<?php echo $key + 1; ?>">
 				</li>
-			<?php elseif ($show_last) :
-				// Render last item if reqd. ?>
-				<li class="active">
-					<span>
-						<?php echo $item->name; ?>
+			<?php elseif ($show_last) : ?>
+			<?php // Render last item if reqd. ?>
+				<li class="active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+					<span itemscope itemtype="https://schema.org/Thing" itemprop="item" itemid="<?php echo $item->link; ?>">
+						<span itemprop="name">
+							<?php echo $item->name; ?>
+						</span>
 					</span>
+					<meta itemprop="position" content="<?php echo $key + 1; ?>">
 				</li>
 			<?php endif; ?>
 		<?php endforeach; ?>
