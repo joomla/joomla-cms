@@ -182,7 +182,7 @@ class CategoryModel extends ListModel
 		if ($this->getState('filter.publish_date'))
 		{
 			$query->where('(a.publish_up IS NULL OR a.publish_up <= ' . $db->quote($nowDate) . ')')
-				->where('(a.publish_down IS NULL  OR a.publish_down >= ' . $db->quote($nowDate) . ')');
+				->where('(a.publish_down IS NULL OR a.publish_down >= ' . $db->quote($nowDate) . ')');
 		}
 
 		// Filter by search in title

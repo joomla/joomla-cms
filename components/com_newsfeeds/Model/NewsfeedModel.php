@@ -116,7 +116,7 @@ class NewsfeedModel extends ItemModel
 				{
 					$query->where('(a.published = ' . (int) $published . ' OR a.published =' . (int) $archived . ')')
 						->where('(a.publish_up IS NULL OR a.publish_up <= ' . $db->quote($nowDate) . ')')
-						->where('(a.publish_down IS NULL  OR a.publish_down >= ' . $db->quote($nowDate) . ')')
+						->where('(a.publish_down IS NULL OR a.publish_down >= ' . $db->quote($nowDate) . ')')
 						->where('(c.published = ' . (int) $published . ' OR c.published =' . (int) $archived . ')');
 				}
 
