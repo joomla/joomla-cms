@@ -61,15 +61,12 @@ class TemplateModel extends AdminModel
 	 * @param   array    $data      An optional array of data for the form to interogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  JForm  A JForm object on success, false on failure
+	 * @return  \Joomla\CMS\Form\Form|bool  A JForm object on success, false on failure
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Initialise variables.
-		$app = Factory::getApplication();
-
 		// Get the form.
 		$form = $this->loadForm('com_mails.template', 'template', array('control' => 'jform', 'load_data' => $loadData));
 
