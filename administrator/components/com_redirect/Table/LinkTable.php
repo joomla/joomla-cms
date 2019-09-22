@@ -123,7 +123,7 @@ class LinkTable extends Table
 
 		if (empty($this->modified_date))
 		{
-			$this->modified_date = $this->getDbo()->getNullDate();
+			$this->modified_date = $this->created_date;
 		}
 
 		return true;
