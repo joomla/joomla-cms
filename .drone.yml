@@ -40,34 +40,6 @@ steps:
     commands:
       - npm ci --unsafe-perm
 
-  - name: publish-diff
-    image: joomlaprojects/docker-images:patchtester
-    depends_on: [ npm ]
-    environment:
-      CMP_ARCHIVE_NAME: "build"
-      CMP_MASTER_FOLDER: "/reference"
-      CMP_SLAVE_FOLDER: "." # The directory the current repo is in
-      FTP_USERNAME:
-        from_secret: ftpusername
-      FTP_PASSWORD:
-        from_secret: ftppassword
-      FTP_HOSTNAME: ci.joomla.org
-      FTP_PORT: "21"
-      FTP_DEST_DIR: /artifacts
-      FTP_VERIFY: "false"
-      FTP_SECURE: "true"
-      BRANCH_NAME: "4.0-dev" # Current branch to check against (from repo joomla/joomla-cms)
-      DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
-    commands:
-      - export PULL_ID=$DRONE_PULL_REQUEST
-      - /bin/compare.sh
-    volumes:
-      - name: reference
-        path: /reference
-    when:
-      branch:
-      - 4.0-dev
-
   - name: rebuild-cache
     image: drillster/drone-volume-cache
     depends_on: [ npm ]
@@ -88,22 +60,26 @@ steps:
     commands:
       - bash tests/Codeception/drone-api-run.sh "$(pwd)"
 
-  - name: analysis4x
-    image: rips/rips-cli:1.2.1
-    depends_on: [ api-tests ]
-    when:
-      repo:
-        - joomla/joomla-cms
-      branch:
-        - 4.0-dev
-    commands:
-      - export RIPS_BASE_URI='https://api.rips.joomla.org'
-      - rips-cli rips:scan:start -a 3 -t 1 -R -k -p $(pwd) -t 1 -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
-    environment:
-      RIPS_USERNAME:
-        from_secret: RIPS_USERNAME
-      RIPS_PASSWORD:
-        from_secret: RIPS_PASSWORD
+  - name: artifacts-system-tests	
+    image: cschlosser/drone-ftps	
+    depends_on: [ api-tests ]	
+    environment:	
+      FTP_USERNAME:	
+        from_secret: ftpusername	
+      FTP_PASSWORD:	
+        from_secret: ftppassword	
+      PLUGIN_HOSTNAME: ci.joomla.org:21	
+      PLUGIN_SRC_DIR: /tests/Codeception/_output/	
+      PLUGIN_DEST_DIR: /artifacts	
+      PLUGIN_SECURE: false	
+      PLUGIN_EXCLUDE: ^\.git/$	
+    commands:	
+      - export PLUGIN_DEST_DIR=$PLUGIN_DEST_DIR/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER	
+      - echo https://ci.joomla.org:444$PLUGIN_DEST_DIR	
+      - /bin/upload.sh	
+    when:	
+      status:	
+      - failure	
 
 branches:
   exclude: [ l10n_* ]
@@ -125,32 +101,11 @@ services:
       MYSQL_ROOT_PASSWORD: joomla_ut
       MYSQL_DATABASE: test_joomla
 
-  - name: mysql8
-    image: mysql:8
-    command: ["--default-authentication-plugin=mysql_native_password"]
-    environment:
-      MYSQL_USER: joomla_ut
-      MYSQL_PASSWORD: joomla_ut
-      MYSQL_ROOT_PASSWORD: joomla_ut
-      MYSQL_DATABASE: test_joomla
-
   - name: memcached
     image: memcached:alpine
 
-  - name: redis
-    image: redis:alpine
-
-  - name: postgres
-    image: postgres:9-alpine
-    ports:
-      - 5432
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: joomla_ut
-      POSTGRES_DB: test_joomla
-
 ---
 kind: signature
-hmac: 8e2e4fae4094ddc1bcfc6ca602e5c9a3bfb9134ee3d44743f459bcee6d6e1fe5
+hmac: eccb15c09f54a3b58a9564f1cc53a5fe06e7d90f90e5118971f2913f84fec7e6
 
 ...
