@@ -107,7 +107,7 @@ class JsonApiView extends BaseApiView
 
 		if ($this->type === null)
 		{
-		throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_CONTENT_TYPE_MISSING'));
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_CONTENT_TYPE_MISSING'));
 		}
 
 		$serializer = new JoomlaSerializer($this->type);
