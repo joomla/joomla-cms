@@ -40,6 +40,14 @@ class InstallCest
 	 */
 	public function configureJoomla(AcceptanceTester $I)
 	{
+		$I->am('Administrator');
+		$I->doAdministratorLogin();
+		$I->disableStatistics();
+		$I->setErrorReportingToDevelopment();
+
+
+
+
 		// Debug mode enabled
 		$I->amOnPage('/administrator/index.php?option=com_config');
 		$I->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
@@ -49,13 +57,5 @@ class InstallCest
 		$I->clickToolbarButton('save');
 		$I->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
 		$I->see('Configuration saved.', ['id' => 'system-message-container']);
-
-
-
-
-		$I->am('Administrator');
-		$I->doAdministratorLogin();
-		$I->disableStatistics();
-		$I->setErrorReportingToDevelopment();
 	}
 }
