@@ -70,14 +70,11 @@ class InstallCest
 		$I->click('//a[@href="#page-system"]');
 		$this->debug('I wait for debug switcher element');
 		$I->click(['id' => 'jform_debug1']);
-		$I->fail('force fail to see screen now');
-
-
-		//		$this->debug('I click on save');
-//		$this->clickToolbarButton('save');
-//		$this->debug('I wait for global configuration being saved');
-//		$this->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
-//		$this->see('Configuration saved.', ['id' => 'system-message-container']);
+		$this->debug('I click on save');
+		$I->clickToolbarButton('save');
+		$this->debug('I wait for global configuration being saved');
+		$I->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
+		$I->see('Configuration saved.', ['id' => 'system-message-container']);
 	}
 
 	/**
