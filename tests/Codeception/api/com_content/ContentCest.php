@@ -67,6 +67,7 @@ class ContentCest
 		$I->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
 		$I->see('Configuration saved.', ['id' => 'system-message-container']);
 
+
 		
 		
 		
