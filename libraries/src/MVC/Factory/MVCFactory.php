@@ -161,6 +161,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 
 		if (!$className)
 		{
+			throw new \RuntimeException(sprintf('Class could not be found: %s', $className));
 			return null;
 		}
 
@@ -242,7 +243,6 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 
 		if (!class_exists($className))
 		{
-			throw new \RuntimeException(sprintf('Class could not be found: %s', $className));
 			return null;
 		}
 
