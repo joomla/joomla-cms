@@ -57,6 +57,25 @@ class ContentCest
 	 */
 	public function testCrudOnArticle(ApiTester $I)
 	{
+		// Debug mode enabled
+		$I->debug('I open Joomla Global Configuration Page');
+		$I->amOnPage('/administrator/index.php?option=com_config');
+		$I->debug('I wait for Global Configuration title');
+		$I->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
+		$I->debug('I open the System Tab');
+		$I->wait(2);
+		$I->click(['link' => 'System']);
+		$I->debug('I wait for debug switcher');
+		$I->selectOptionInRadioField('Debug System', 'Yes');
+		$I->debug('I click on save');
+		$I->clickToolbarButton('save');
+		$I->debug('I wait for global configuration being saved');
+		$I->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
+		$I->see('Configuration saved.', ['id' => 'system-message-container']);
+
+		
+		
+		
 		$I->amHttpAuthenticated('admin', 'admin');
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
