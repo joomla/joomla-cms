@@ -40,6 +40,7 @@ class InstallationController extends JSONController
 		parent::__construct($config, $factory, $app, $input);
 
 		$this->registerTask('remove', 'backup');
+		$this->registerTask('removeFolder', 'delete');
 	}
 
 	/**
@@ -229,7 +230,6 @@ class InstallationController extends JSONController
 
 		$r = new \stdClass;
 		$r->view = 'remove';
-
-		$this->sendJsonResponse($r);
+		new \Joomla\CMS\Response\JsonResponse($r);
 	}
 }

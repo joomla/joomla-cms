@@ -322,7 +322,7 @@ class RegistrationModel extends FormModel
 				// Here we could have a grouped field, let's check it
 				if (is_array($v))
 				{
-					$this->data->$k = new stdClass;
+					$this->data->$k = new \stdClass;
 
 					foreach ($v as $key => $val)
 					{
