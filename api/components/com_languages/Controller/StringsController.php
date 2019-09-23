@@ -89,7 +89,7 @@ class StringsController extends ApiController
 
 		if (!$model)
 		{
-			throw new \RuntimeException('Unable to create the model');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
 		}
 
 		// Push the model into the view (as default)
@@ -116,7 +116,7 @@ class StringsController extends ApiController
 
 		if (!$model)
 		{
-			throw new \RuntimeException('Unable to create the model');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
 		}
 
 		$result = $model->refresh();
