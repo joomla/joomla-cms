@@ -15,7 +15,6 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
 
-$doc    = Factory::getDocument();
 $params = ComponentHelper::getParams('com_media');
 
 // Make sure core.js is loaded before media scripts
@@ -53,6 +52,6 @@ $config = array(
 	'currentPath'             => $this->currentPath,
 	'isModal'                 => Factory::getApplication()->input->getCmd('tmpl', '') === 'component' ? true : false,
 );
-$doc->addScriptOptions('com_media', $config);
+$this->document->addScriptOptions('com_media', $config);
 ?>
 <div id="com-media"></div>
