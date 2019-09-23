@@ -54,8 +54,9 @@ class InstallCest
 		$I->wait(2);
 		$I->click(['link' => 'System']);
 		$I->click(['id' => 'jform_debug1']);
-		$I->clickToolbarButton('save');
-		$I->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
-		$I->see('Configuration saved.', ['id' => 'system-message-container']);
+		$I->fail('force fail to see screen now');
+//		$I->clickToolbarButton('save');
+//		$I->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
+//		$I->see('Configuration saved.', ['id' => 'system-message-container']);
 	}
 }
