@@ -33,6 +33,11 @@ $switcher-height: 28px;
   opacity: 0;
 }
 
+.switcher input:focus ~ .toggle-outside {
+  border-color: var(--focus);
+  box-shadow: 0 0 0 .2rem rgba(26,70,107,.25);
+}
+
 .switcher label {
   line-height: $switcher-height;
   display: inline-block;
