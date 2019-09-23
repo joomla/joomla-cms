@@ -44,19 +44,39 @@ class InstallCest
 		$I->doAdministratorLogin();
 		$I->disableStatistics();
 		$I->setErrorReportingToDevelopment();
+	}
 
+	/**
+	 * Sets Joomla System Debug Mode On.
+	 *
+	 * @param   AcceptanceTester  $I  The AcceptanceTester Object
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function turnOnDebugMode(AcceptanceTester $I)
+	{
+		$I->am('Administrator');
+		$I->doAdministratorLogin();
 
-
-
-		// Debug mode enabled
-		$I->amOnPage('/administrator/index.php?option=com_config');
-		$I->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
-		$I->wait(2);
-		$I->click(['link' => 'System']);
+		$this->debug('I open Joomla Global Configuration Page');
+		$this->amOnPage('/administrator/index.php?option=com_config');
+		$this->debug('I wait for Global Configuration title');
+		$this->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
+		$this->debug('I open the Server Tab');
+		// TODO improve
+		$this->wait(2);
+		$this->click(['link' => 'System']);
+		$this->debug('I wait for debug switcher element');
 		$I->click(['id' => 'jform_debug1']);
 		$I->fail('force fail to see screen now');
-//		$I->clickToolbarButton('save');
-//		$I->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
-//		$I->see('Configuration saved.', ['id' => 'system-message-container']);
+
+
+		//		$this->debug('I click on save');
+//		$this->clickToolbarButton('save');
+//		$this->debug('I wait for global configuration being saved');
+//		$this->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
+//		$this->see('Configuration saved.', ['id' => 'system-message-container']);
 	}
 }
