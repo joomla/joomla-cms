@@ -76,7 +76,7 @@ class JsonApiView extends BaseApiView
 
 		if ($id === null)
 		{
-			throw new \RuntimeException('Item id missing');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ITEMID_MISSING'));
 		}
 
 		/** @var \Joomla\CMS\MVC\Model\ListModel $model */
@@ -107,7 +107,7 @@ class JsonApiView extends BaseApiView
 
 		if ($this->type === null)
 		{
-			throw new \RuntimeException('Content type missing');
+		throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_CONTENT_TYPE_MISSING'));
 		}
 
 		$serializer = new JoomlaSerializer($this->type);
