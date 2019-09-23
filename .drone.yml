@@ -26,17 +26,9 @@ steps:
       - composer validate --no-check-all --strict
       - composer install --no-progress --no-suggest
 
-  - name: phpcs
-    image: joomlaprojects/docker-images:php7.2
-    depends_on: [ composer ]
-    commands:
-      - echo $(date)
-      - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
-      - echo $(date)
-
   - name: npm
     image: joomlaprojects/docker-tools:develop
-    depends_on: [ phpcs ]
+    depends_on: [ composer ]
     commands:
       - npm ci --unsafe-perm
 
@@ -106,6 +98,6 @@ services:
 
 ---
 kind: signature
-hmac: eccb15c09f54a3b58a9564f1cc53a5fe06e7d90f90e5118971f2913f84fec7e6
+hmac: 06521752c2a8ebf49a59ac6ee99fe202e65f2a9baa8d9cb5967a129d73fb568c
 
 ...
