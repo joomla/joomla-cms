@@ -161,7 +161,8 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 
 		if (!$className)
 		{
-			throw new \RuntimeException(sprintf('Class could not be found: %s', $className));
+			$namespacedThing = trim($this->namespace, '\\') . '\\' . ucfirst($prefix) . '\\' . 'View\\' . ucfirst($name) . '\\' . ucfirst($type) . 'View';
+			throw new \RuntimeException(sprintf('Class could not be found: %s', $namespacedThing));
 			return null;
 		}
 
