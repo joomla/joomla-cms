@@ -1,24 +1,24 @@
 <?php
 /**
  * @package     Joomla.API
- * @subpackage  com_messages
+ * @subpackage  com_plugins
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Messages\Api\View\Messages;
+namespace Joomla\Component\Plugins\Api\View\Plugins;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 /**
- * The messages view
+ * The plugins view
  *
  * @since  4.0.0
  */
-class JsonApiView extends BaseApiView
+class JsonapiView extends BaseApiView
 {
 	/**
 	 * The fields to render item in the documents
@@ -28,14 +28,19 @@ class JsonApiView extends BaseApiView
 	 */
 	protected $fieldsToRenderItem = [
 		'id',
-		'user_id_from',
-		'user_id_to',
-		'date_time',
-		'priority',
-		'subject',
-		'message',
+		'name',
+		'type',
+		'element',
+		'changelogurl',
+		'folder',
+		'client_id',
+		'enabled',
+		'access',
+		'protected',
+		'checked_out',
+		'checked_out_time',
+		'ordering',
 		'state',
-		'user_from',
 	];
 
 	/**
@@ -46,14 +51,16 @@ class JsonApiView extends BaseApiView
 	 */
 	protected $fieldsToRenderList = [
 		'id',
-		'user_id_from',
-		'user_id_to',
-		'date_time',
-		'priority',
-		'subject',
-		'message',
-		'state',
-		'user_from',
+		'name',
+		'element',
+		'folder',
+		'checked_out',
+		'checked_out_time',
+		'enabled',
+		'access',
+		'ordering',
+		'editor',
+		'access_level',
 	];
 
 	/**
@@ -67,9 +74,9 @@ class JsonApiView extends BaseApiView
 	 */
 	protected function prepareItem($item)
 	{
-		$item->id = $item->message_id;
-		unset($item->message_id);
+		$item->id = $item->extension_id;
+		unset($item->extension_id);
 
-		return parent::prepareItem($item);
+		return $item;
 	}
 }
