@@ -358,27 +358,33 @@ class Taxonomy
 	public static function removeOrphanNodes()
 	{
 		// Delete all orphaned nodes.
-		$db = Factory::getDbo();
-		$query     = $db->getQuery(true);
-		$subquery  = $db->getQuery(true);
-		$subquery1 = $db->getQuery(true);
+		$affectedRows = 0;
+		$db           = Factory::getDbo();
+		$nodeTable    = new MapTable($db);
+		$query        = $db->getQuery(true);
 
-		$subquery1->select($db->quoteName('t.id'))
+		$query->select($db->quoteName('t.id'))
 			->from($db->quoteName('#__finder_taxonomy', 't'))
 			->join('LEFT', $db->quoteName('#__finder_taxonomy_map', 'm') . ' ON ' . $db->quoteName('m.node_id') . '=' . $db->quoteName('t.id'))
 			->where($db->quoteName('t.parent_id') . ' > 1 ')
+			->where('t.lft + 1 = t.rgt')
 			->where($db->quoteName('m.link_id') . ' IS NULL');
 
-		$subquery->select($db->quoteName('id'))
-			->from('(' . $subquery1 . ') temp');
-
-		$query->delete($db->quoteName('#__finder_taxonomy'))
-			->where($db->quoteName('id') . ' IN (' . $subquery . ')');
-
 		$db->setQuery($query);
-		$db->execute();
 
-		return $db->getAffectedRows();
+		do
+		{
+			$nodes = $db->loadColumn();
+
+			foreach ($nodes as $node)
+			{
+				$nodeTable->delete($node);
+				$affectedRows++;
+			}
+		}
+		while ($nodes);
+
+		return $affectedRows;
 	}
 
 	/**
