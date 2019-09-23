@@ -57,19 +57,6 @@ class ContentCest
 	 */
 	public function testCrudOnArticle(ApiTester $I)
 	{
-		// Debug mode enabled
-		$I->amOnPage('/administrator/index.php?option=com_config');
-		$I->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
-		$I->wait(2);
-		$I->click(['link' => 'System']);
-		$I->selectOptionInRadioField('Debug System', 'Yes');
-		$I->clickToolbarButton('save');
-		$I->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
-		$I->see('Configuration saved.', ['id' => 'system-message-container']);
-
-
-
-		
 		$I->amHttpAuthenticated('admin', 'admin');
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
