@@ -22,7 +22,7 @@ use Tobscure\JsonApi\Collection;
  *
  * @since  4.0.0
  */
-class JsonApiView extends BaseApiView
+class JsonapiView extends BaseApiView
 {
 	/**
 	 * The fields to render item in the documents

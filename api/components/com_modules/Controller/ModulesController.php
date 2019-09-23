@@ -83,7 +83,7 @@ class ModulesController extends ApiController
 
 		try
 		{
-			/** @var JsonApiView $view */
+			/** @var JsonapiView $view */
 			$view = $this->getView(
 				$viewName,
 				$viewType,
