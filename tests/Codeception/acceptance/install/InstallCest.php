@@ -67,7 +67,7 @@ class InstallCest
 		$this->debug('I open the Server Tab');
 		// TODO improve
 		$I->wait(2);
-		$I->click('System','//a[@href="#page-system"]');
+		$I->click('System','//*[@id="application-form"]/div/div[2]/ul/li[2]/a');
 		$this->debug('I wait for debug switcher element');
 		$I->click(['id' => 'jform_debug1']);
 		$I->fail('force fail to see screen now');
