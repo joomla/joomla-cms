@@ -61,13 +61,13 @@ class InstallCest
 		$I->doAdministratorLogin();
 
 		$this->debug('I open Joomla Global Configuration Page');
-		$this->amOnPage('/administrator/index.php?option=com_config');
+		$I->amOnPage('/administrator/index.php?option=com_config');
 		$this->debug('I wait for Global Configuration title');
-		$this->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
+		$I->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
 		$this->debug('I open the Server Tab');
 		// TODO improve
-		$this->wait(2);
-		$this->click(['link' => 'System']);
+		$I->wait(2);
+		$I->click(['link' => 'System']);
 		$this->debug('I wait for debug switcher element');
 		$I->click(['id' => 'jform_debug1']);
 		$I->fail('force fail to see screen now');
@@ -78,5 +78,15 @@ class InstallCest
 //		$this->debug('I wait for global configuration being saved');
 //		$this->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
 //		$this->see('Configuration saved.', ['id' => 'system-message-container']);
+	}
+
+	/**
+	 * Print debug message to the screen.
+	 *
+	 * @param $message
+	 */
+	protected function debug($message)
+	{
+		\codecept_debug($message);
 	}
 }
