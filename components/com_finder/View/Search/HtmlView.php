@@ -343,7 +343,7 @@ class HtmlView extends BaseHtmlView
 			$ostitle = $this->params->get('opensearch_name',
 				Text::_('COM_FINDER_OPENSEARCH_NAME') . ' ' . Factory::getApplication()->get('sitename')
 			);
-			Factory::getDocument()->addHeadLink(
+			$this->document->addHeadLink(
 				Uri::getInstance()->toString(array('scheme', 'host', 'port')) . Route::_('index.php?option=com_finder&view=search&format=opensearch'),
 				'search', 'rel', array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
 			);

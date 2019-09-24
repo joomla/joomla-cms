@@ -16,6 +16,7 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Indexer\Taxonomy;
+use Joomla\Database\ParameterType;
 
 /**
  * Indexer class supporting PostgreSQL for the Finder indexer package.
@@ -132,7 +133,7 @@ class Postgresql extends Indexer
 		{
 			// Update the link.
 			$entry->link_id = $linkId;
-			$db->updateObject('#__finder_links', $entry, 'link_id');
+			$db->updateObject('#__finder_links', pg_escape_bytea($entry), 'link_id');
 		}
 
 		// Set up the variables we will need during processing.
@@ -376,11 +377,15 @@ class Postgresql extends Indexer
 		static::$profiler ? static::$profiler->mark('afterMapping') : null;
 
 		// Update the signature.
+		$object = pg_escape_bytea(serialize($item));
 		$query->clear()
 			->update($db->quoteName('#__finder_links'))
-			->set($db->quoteName('md5sum') . ' = ' . $db->quote($curSig))
-			->set($db->quoteName('object') . ' = ' . $db->quote(serialize($item)))
-			->where($db->quoteName('link_id') . ' = ' . $db->quote($linkId));
+			->set($db->quoteName('md5sum') . ' = :md5sum')
+			->set($db->quoteName('object') . ' = :object')
+			->where($db->quoteName('link_id') . ' = :linkid')
+			->bind(':md5sum', $curSig)
+			->bind(':object', $object, ParameterType::LARGE_OBJECT)
+			->bind(':linkid', $linkId, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
 
